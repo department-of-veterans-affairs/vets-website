@@ -5,7 +5,10 @@ import { VaCheckbox } from '@department-of-veterans-affairs/component-library/di
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { scrollToFirstError, focusElement } from 'platform/utilities/ui';
+import {
+  scrollToFirstError,
+  waitForRenderThenFocus,
+} from 'platform/utilities/ui';
 
 import { Notice5103Description, content } from '../content/notice5103';
 
@@ -27,7 +30,7 @@ const Notice5103 = ({
       if (!data.form5103Acknowledged) {
         setHasError(true);
         scrollToFirstError($('va-checkbox'));
-        focusElement('input', {}, $('va-checkbox').shadowRoot);
+        waitForRenderThenFocus('input', $('va-checkbox').shadowRoot);
       } else if (onReviewPage) {
         setHasError(false);
         updatePage();
@@ -42,7 +45,7 @@ const Notice5103 = ({
       setHasError(!checked);
       if (!checked) {
         scrollToFirstError($('va-checkbox'));
-        focusElement('input', {}, $('va-checkbox').shadowRoot);
+        waitForRenderThenFocus('input', $('va-checkbox').shadowRoot);
       }
     },
   };

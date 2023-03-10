@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { scrollToFirstError, focusElement } from 'platform/utilities/ui';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { content } from '../content/optIn';
@@ -30,8 +28,6 @@ const OptIn = ({
     onChange: event => {
       const { checked } = event.detail;
       setFormData({ ...data, socOptIn: checked });
-      scrollToFirstError($('va-checkbox'));
-      focusElement('input', {}, $('va-checkbox').shadowRoot);
     },
   };
 

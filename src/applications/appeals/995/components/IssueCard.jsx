@@ -1,12 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router';
 
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { scrollToFirstError, focusElement } from 'platform/utilities/ui';
-
-import { SELECTED, FORMAT_READABLE, LAST_SC_ITEM } from '../constants';
+import { SELECTED, FORMAT_READABLE } from '../constants';
 import { replaceDescriptionContent } from '../utils/replace';
 
 /** Copied from HLR v2 card */
@@ -102,21 +99,6 @@ export const IssueCard = ({
   // ui:options
   const appendId = options.appendId ? `_${options.appendId}` : '';
   const elementId = `${id}_${index}${appendId}`;
-  const scrollId = `issue-${window.sessionStorage.getItem(LAST_SC_ITEM)}`;
-
-  const wrapRef = useRef(null);
-
-  useEffect(
-    () => {
-      if (scrollId === wrapRef?.current.id) {
-        scrollToFirstError(wrapRef.current);
-        focusElement('input', {}, $('va-checkbox').shadowRoot);
-        window.sessionStorage.removeItem(LAST_SC_ITEM);
-      }
-    },
-    [scrollId, wrapRef, index],
-  );
-
   const itemIsSelected = item[SELECTED];
   const isEditable = !!item.issue;
   const issueName = item.issue || item.ratingIssueSubjectText;
@@ -178,12 +160,7 @@ export const IssueCard = ({
   const Header = onReviewPage ? 'h5' : 'h4';
 
   return (
-    <div
-      id={`issue-${index}`}
-      className={wrapperClass}
-      key={index}
-      ref={wrapRef}
-    >
+    <div id={`issue-${index}`} className={wrapperClass} key={index}>
       <dt className="widget-checkbox-wrap">
         {showCheckbox ? (
           <>

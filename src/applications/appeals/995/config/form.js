@@ -75,7 +75,7 @@ import submitForm from './submitForm';
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
 
-import { focusRadioH3, focusAlertH3 } from '../utils/focus';
+import { focusRadioH3, focusAlertH3, focusIssue } from '../utils/focus';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
@@ -189,6 +189,7 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
+          scrollAndFocusTarget: focusIssue,
         },
         addIssue: {
           title: 'Add issues for review',
