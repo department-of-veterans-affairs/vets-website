@@ -41,7 +41,7 @@ const renderStickyBot = () => {
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
       <div className="jumplink unhide vads-l-col--12 vads-u-display--block medium-screen:vads-u-display--none">
-        <a href="#chatbot">Go to Chatbot</a>
+        <a href="#chatbot">Scroll to Chatbot</a>
       </div>
       <div className="vads-l-row vads-u-margin-x--neg2p5 vads-u-margin-y--4 medium-screen:vads-u-display-none">
         <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--7">
