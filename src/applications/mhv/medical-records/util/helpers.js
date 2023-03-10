@@ -24,20 +24,3 @@ export const typeAndDose = (type, dosage) => {
 
   return type || dosage || 'There is no type or dosage reported at this time.';
 };
-
-/**
- * @param {String} elementId id of element to be printed
- * @returns {undefined} prints contents of element with id of elementId
- */
-export const printContent = elementId => {
-  const content = document.getElementById(elementId);
-  const pri = document.getElementById('contentsToPrint').contentWindow;
-  pri.document.open();
-  pri.document.write(content.innerHTML);
-  pri.document.write(
-    '<style type="text/css" media="print">.no-print { display: none; }</style>',
-  );
-  pri.document.close();
-  pri.focus();
-  pri.print();
-};

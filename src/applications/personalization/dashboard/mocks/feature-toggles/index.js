@@ -1,5 +1,9 @@
 const generateFeatureToggles = (toggles = {}) => {
-  const { profileUseVaosV2Api = true, showMyVADashboardV2 = true } = toggles;
+  const {
+    profileUseVaosV2Api = true,
+    showMyVADashboardV2 = true,
+    showPaymentAndDebtSection = true,
+  } = toggles;
 
   return {
     data: {
@@ -12,6 +16,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'show_myva_dashboard_2_0',
           value: showMyVADashboardV2,
+        },
+        {
+          name: 'show_payment_and_debt_section',
+          value: showPaymentAndDebtSection,
         },
       ],
     },
