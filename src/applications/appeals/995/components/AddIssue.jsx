@@ -149,6 +149,7 @@ const AddIssue = props => {
         >
           <h3 className="vads-u-margin--0">{content.title[addOrEdit]}</h3>
         </legend>
+        {content.description}
         <VaTextInput
           id="add-sc-issue"
           name="add-sc-issue"
