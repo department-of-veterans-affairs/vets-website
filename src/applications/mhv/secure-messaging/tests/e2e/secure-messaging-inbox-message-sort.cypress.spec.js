@@ -6,7 +6,7 @@ describe('Secure Messaging Inbox Message Sort', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
     cy.get('.sidebar-navigation-messages-list-header > a');
   });
   it('Sort Inbox Messages from Newest to Oldest', () => {

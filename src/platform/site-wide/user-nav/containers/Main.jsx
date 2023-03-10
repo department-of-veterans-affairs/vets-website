@@ -104,21 +104,13 @@ export class Main extends Component {
     return null;
   }
 
-  appendOrRemoveParameter({
-    url = 'loginModal',
-    pageTitle = '',
-    useSiS = true,
-  } = {}) {
+  appendOrRemoveParameter({ url = 'loginModal', pageTitle = '' } = {}) {
     if (url === 'loginModal' && this.getNextParameter()) {
       return null;
     }
     const location = window.location.toString();
-    const nextQuery = {
-      next: url,
-      ...(useSiS && this.props.useSignInService && { oauth: true }),
-    };
-    const path = useSiS ? location : location.replace('&oauth=true', '');
-    const nextPath = appendQuery(path, nextQuery);
+    const nextQuery = { next: url };
+    const nextPath = appendQuery(location, nextQuery);
     history.pushState({}, pageTitle, nextPath);
 
     return nextQuery;
@@ -166,7 +158,7 @@ export class Main extends Component {
           e.preventDefault();
           const linkHref = el.getAttribute('href');
           const pageTitle = el.textContent;
-          this.appendOrRemoveParameter({ linkHref, pageTitle });
+          this.appendOrRemoveParameter({ url: linkHref, pageTitle });
           this.openLoginModal();
         }
       });
@@ -185,7 +177,6 @@ export class Main extends Component {
 
   closeLoginModal = () => {
     this.props.toggleLoginModal(false);
-    this.appendOrRemoveParameter({ useSiS: false });
   };
 
   closeAccountTransitionModal = () => {
@@ -204,7 +195,6 @@ export class Main extends Component {
 
   openLoginModal = () => {
     this.props.toggleLoginModal(true);
-    this.appendOrRemoveParameter({});
   };
 
   signInSignUp = () => {

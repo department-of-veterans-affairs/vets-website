@@ -10,14 +10,27 @@ const NavCard = ({ icon = null, title, links }) => {
       </a>
     </li>
   ));
+  const slug = `mhv-c-card-${title.replaceAll(/[^\w]+/g, '-').toLowerCase()}`;
   return (
-    <div className="vads-u-height--full vads-u-padding-x--5 vads-u-padding-y--3 vads-u-background-color--gray-lightest">
-      <h2 className="vads-u-margin-top--1">
-        {icon && <i className={`fas fa-${icon} vads-u-margin-right--1`} />}{' '}
-        {title}
-      </h2>
+    <div className="vads-u-height--full vads-u-padding-x--5 vads-u-padding-top--4 vads-u-padding-bottom--2 vads-u-background-color--gray-lightest">
+      <div className="vads-u-display--flex vads-u-align-items--start">
+        {icon && (
+          <div className="vads-u-flex--auto vads-u-margin-right--1p5 small-screen:vads-u-margin-top--0p5">
+            <div
+              role="img"
+              aria-labelledby={slug}
+              className={`fas fa-${icon} vads-u-font-size--h2`}
+            />
+          </div>
+        )}
+        <div className="vads-u-flex--fill">
+          <h2 className="vads-u-margin--0" id={slug}>
+            {title}
+          </h2>
+        </div>
+      </div>
       <nav>
-        <ul className="mhv-u-list-style--none vads-u-padding-left--0">
+        <ul className="mhv-u-list-style--none vads-u-padding-left--0 vads-u-margin-top--2 vads-u-margin-bottom--0">
           {listItems}
         </ul>
       </nav>

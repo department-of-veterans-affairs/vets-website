@@ -1,19 +1,23 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
+import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
+import mockMessages from './fixtures/messages-response.json';
+import defaultMockThread from './fixtures/thread-response.json';
 
 describe('Secure Messaging Reply to Expired Mesage', () => {
   it('reply expired messages', () => {
     const landingPage = new PatientInboxPage();
+    const messageDetailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage();
-    landingPage.loadMessageDetails(
-      landingPage.getExpired46DayOldMessage().attributes.messageId,
-      landingPage.getExpired46DayOldMessage().attributes.subject,
-      landingPage.getExpired46DayOldMessage().attributes.body,
-      landingPage.getExpired46DayOldMessage().attributes.category,
-      landingPage.getExpired46DayOldMessage().attributes.sentDate,
-      landingPage.getExpired46DayOldMessage().attributes.recipientId,
+    landingPage.loadInboxMessages(
+      mockMessages,
+      landingPage.getExpired46DayOldMessageDetails(),
+    );
+    messageDetailsPage.loadMessageDetails(
+      landingPage.getExpired46DayOldMessageDetails(),
+      defaultMockThread,
+      0,
     );
     /*
     cy.get('[data-testid=expired-alert-message]').should(

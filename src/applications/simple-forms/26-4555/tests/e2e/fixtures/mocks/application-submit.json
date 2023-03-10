@@ -1,0 +1,9 @@
+{
+  "data": {
+    "id": "123456789",
+    "type": "mockData",
+    "attributes": {
+      "status": "processed"
+    }
+  }
+}
