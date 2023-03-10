@@ -1,0 +1,80 @@
+import dateUI from 'platform/forms-system/src/js/definitions/date';
+import * as address from 'platform/forms-system/src/js/definitions/address';
+import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
+import { providerFacilityFields } from '../definitions/constants';
+
+export default {
+  uiSchema: {
+    'ui:title': 'Where did you receive treatment?',
+    'ui:description':
+      "Let us know where and when you received treatment. We'll request your private medical records for you.",
+    [providerFacilityFields.parentObject]: {
+      'ui:options': {
+        itemName: 'provider facility',
+        viewField: () => null,
+      },
+      items: {
+        'ui:order': [
+          providerFacilityFields.providerFacilityName,
+          providerFacilityFields.providerFacilityAddress,
+          providerFacilityFields.conditionsTreated,
+          providerFacilityFields.treatmentDateRange,
+        ],
+        [providerFacilityFields.providerFacilityName]: {
+          'ui:title': 'Name of private provider or hospital',
+        },
+        [providerFacilityFields.providerFacilityAddress]: address.uiSchema(
+          null,
+          false,
+          () => true,
+        ),
+        [providerFacilityFields.conditionsTreated]: {
+          'ui:title':
+            'List the conditions you received treatments for at this facility',
+          'ui:widget': 'textarea',
+        },
+        [providerFacilityFields.treatmentDateRange]: {
+          from: dateUI('First treatment date (you can estimate)'),
+          to: dateUI('Last treatment date (you can estimate)'),
+        },
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      [providerFacilityFields.parentObject]: {
+        type: 'array',
+        items: {
+          ...fullSchema.properties[providerFacilityFields.parentObject].items,
+          properties: {
+            ...fullSchema.properties[providerFacilityFields.parentObject].items
+              .properties,
+            [providerFacilityFields.providerFacilityAddress]: address.schema(
+              fullSchema,
+              () => true,
+            ),
+          },
+        },
+        default: [
+          {
+            providerFacilityName: '',
+            conditionsTreated: '',
+            treatmentDateRange: {
+              from: '',
+              to: '',
+            },
+            providerFacilityAddress: {
+              street: '',
+              street2: '',
+              city: '',
+              state: '',
+              country: 'USA',
+              postalCode: '',
+            },
+          },
+        ],
+      },
+    },
+  },
+};
