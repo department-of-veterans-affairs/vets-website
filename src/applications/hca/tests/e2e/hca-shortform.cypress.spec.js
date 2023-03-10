@@ -161,8 +161,11 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
     aiqHelpers.goToNextPage('review-and-submit');
 
     cy.get('[name="privacyAgreementAccepted"]')
+      .find('[type="checkbox"]')
       .scrollIntoView()
-      .check();
+      .check({
+        force: true,
+      });
     cy.findByText(/submit/i, { selector: 'button' }).click();
     cy.wait('@mockSubmit');
     cy.location('pathname').should('include', '/confirmation');

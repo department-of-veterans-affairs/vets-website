@@ -1,7 +1,7 @@
 import React from 'react';
 
 export function ConsentLabel() {
-  return <span>I understand the above information and agree to join.</span>;
+  return 'I understand the above information and agree to join.';
 }
 export function ConsentError() {
   return <span>You must accept the consent policy before continuing</span>;

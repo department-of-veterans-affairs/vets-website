@@ -3,7 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaCheckbox,
+  VaPrivacyAgreement,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // platform - forms - selectors
 import { preSubmitSelector } from 'platform/forms/selectors/review';
@@ -61,27 +64,41 @@ export function PreSubmitSection(props) {
       ) : (
         <div>
           {preSubmit.notice}
-          {preSubmit.required && (
-            <VaCheckbox
-              required
-              checked={checked}
-              name={preSubmit.field}
-              error={
-                showPreSubmitError && !checked
-                  ? preSubmit.error || 'Please accept'
-                  : undefined
-              }
-              label={preSubmit.label}
-              description={null}
-              onVaChange={event =>
-                setPreSubmit(preSubmit?.field, event.target.checked)
-              }
-            >
-              {preSubmit.description && (
-                <p slot="description">{preSubmit.description}</p>
-              )}
-            </VaCheckbox>
-          )}
+          {preSubmit.required &&
+            (preSubmit.field.includes('privacyAgreement') ? (
+              <VaPrivacyAgreement
+                checked={checked}
+                name={preSubmit.field}
+                showError={
+                  showPreSubmitError && !checked
+                    ? preSubmit.error || 'Please accept'
+                    : undefined
+                }
+                onVaChange={event =>
+                  setPreSubmit(preSubmit?.field, event.target.checked)
+                }
+              />
+            ) : (
+              <VaCheckbox
+                required
+                checked={checked}
+                name={preSubmit.field}
+                error={
+                  showPreSubmitError && !checked
+                    ? preSubmit.error || 'Please accept'
+                    : undefined
+                }
+                label={preSubmit.label}
+                description={null}
+                onVaChange={event =>
+                  setPreSubmit(preSubmit?.field, event.target.checked)
+                }
+              >
+                {preSubmit.description && (
+                  <p slot="description">{preSubmit.description}</p>
+                )}
+              </VaCheckbox>
+            ))}
         </div>
       )}
       <SaveFormLink

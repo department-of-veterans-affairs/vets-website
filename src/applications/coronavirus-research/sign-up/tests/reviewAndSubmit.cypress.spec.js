@@ -89,7 +89,11 @@ describe('COVID-19 Research Form', () => {
         });
       });
 
-      cy.get('[name="consentAgreementAccepted"]').check();
+      cy.get('[name="consentAgreementAccepted"]')
+        .find('[type="checkbox"]')
+        .check({
+          force: true,
+        });
 
       cy.intercept('POST', '**/covid-research/volunteer/create', {
         status: 200,

@@ -223,7 +223,7 @@ describe('Burials keyboard only navigation', () => {
     cy.tabToSubmitForm();
 
     // *** Review & Submit ***
-    cy.setCheckboxFromData('[name="privacyAgreementAccepted"]', true);
+    cy.setCheckboxFromData('input[type="checkbox"]', true);
     cy.tabToSubmitForm();
 
     // *** Confirmation ***
