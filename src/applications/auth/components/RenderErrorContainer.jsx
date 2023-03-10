@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   AUTH_ERRORS,
   AUTH_LEVEL,
-} from '@department-of-veterans-affairs/platform-user/authentication/errors';
+} from '@department-of-veterans-affairs/platform-user/exports';
 import Helpdesk from './HelpdeskContact';
 
 export default function RenderErrorContainer({
