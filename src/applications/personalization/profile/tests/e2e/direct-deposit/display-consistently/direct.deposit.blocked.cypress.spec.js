@@ -1,8 +1,8 @@
 import DirectDeposit from '../DirectDeposit';
-import { paymentHistory } from '../../../../mocks/payment-history';
-import { anAccount } from '../../../../mocks/bank-accounts';
-import { loa3User72 } from '../../../../mocks/user';
-import { data } from '../../../../mocks/mhvAccount';
+import { paymentHistory } from '../../../../mocks/endpoints/payment-history';
+import { anAccount } from '../../../../mocks/endpoints/bank-accounts';
+import { loa3User72 } from '../../../../mocks/endpoints/user';
+import { data } from '../../../../mocks/endpoints/mhvAccount';
 
 describe('Direct Deposit Consistently', () => {
   beforeEach(() => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -7,7 +7,7 @@ import { getContactInfoDeepLinkURL } from '@@profile/helpers';
 import { FIELD_NAMES, MISSING_CONTACT_INFO } from '@@vap-svc/constants';
 
 const MissingContactInfoAlertLink = ({ missingInfo }) => {
-  const linkInfo = React.useMemo(
+  const linkInfo = useMemo(
     () => {
       const linkMap = {
         [MISSING_CONTACT_INFO.ALL]: {

@@ -39,7 +39,7 @@ const ClaimsAndAppealsError = () => {
     <div className="vads-u-margin-bottom--2p5">
       <va-alert status="error">
         <h2 slot="headline">
-          We can’t access any claims or appeals information right now.
+          We can’t access your claims or appeals information
         </h2>
         <div>
           <p>
