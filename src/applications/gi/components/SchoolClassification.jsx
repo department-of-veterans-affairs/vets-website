@@ -9,6 +9,12 @@ export default function SchoolClassification({
   womenonly = institution.womenonly,
   hbcu = institution.hbcu,
   relaffil = institution.relaffil,
+  hsi = institution.hsi,
+  nanti = institution.nanti,
+  annhi = institution.annhi,
+  aanapii = institution.aanapii,
+  pbi = institution.pbi,
+  tribal = institution.tribal,
   locationResultCard = false,
 }) {
   const {
@@ -24,6 +30,13 @@ export default function SchoolClassification({
         womenonly === 1 && 'Women-only',
         hbcu && 'Historically Black College or University',
         relaffil && religiousAffiliations[relaffil],
+        hsi === 1 && 'Hispanic-serving institutions',
+        nanti === 1 && 'Native American-serving institutions',
+        annhi === 1 && 'Alaska Native-serving institutions',
+        aanapii === 1 &&
+          'Asian American Native American Pacific Islander-serving institutions',
+        pbi === 1 && 'Predominantly Black institutions',
+        tribal === 1 && 'Tribal college and university',
       ].filter(Boolean)
     : [];
 

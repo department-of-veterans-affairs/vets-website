@@ -1,31 +1,31 @@
 const _ = require('lodash');
 const delay = require('mocker-api/lib/delay');
-
 const { set } = require('lodash');
-const user = require('./user');
-const mhvAcccount = require('./mhvAccount');
-const address = require('./address');
-const phoneNumber = require('./phone-number');
-const status = require('./status');
-const ratingInfo = require('./rating-info');
+
+// endpoint data or generator functions
+const user = require('./endpoints/user');
+const mhvAcccount = require('./endpoints/mhvAccount');
+const address = require('./endpoints/address');
+const phoneNumber = require('./endpoints/phone-number');
+const status = require('./endpoints/status');
+const ratingInfo = require('./endpoints/rating-info');
 const {
   handlePutGenderIdentitiesRoute,
   handleGetPersonalInformationRoute,
   handlePutPreferredNameRoute,
-} = require('./personal-information');
-const { createNotificationSuccess } = require('./notifications');
+} = require('./endpoints/personal-information');
+const { createNotificationSuccess } = require('./endpoints/notifications');
+const { generateFeatureToggles } = require('./endpoints/feature-toggles');
+const payments = require('./endpoints/payment-history');
+const bankAccounts = require('./endpoints/bank-accounts');
+const serviceHistory = require('./endpoints/service-history');
+const fullName = require('./endpoints/full-name');
 
-const { generateFeatureToggles } = require('./feature-toggles');
+// seed data for VAMC drupal source of truth json file
+const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
-const payments = require('./payment-history');
-
-const bankAccounts = require('./bank-accounts');
-
-const serviceHistory = require('./service-history');
-const fullName = require('./full-name');
-
-// set DELAY=1000 to add 1 sec delay to all responses
-const responseDelay = process?.env?.DELAY || 0;
+// some node script utils
+const { debug } = require('./script/utils');
 
 // uncomment if using status retries
 // let retries = 0;
@@ -148,5 +148,37 @@ const responses = {
   },
 };
 
-module.exports =
-  responseDelay > 0 ? delay(responses, responseDelay) : responses;
+function terminationHandler(signal) {
+  debug(`\nReceived ${signal}`);
+  process.env.HAS_RUN_AE_MOCKSERVER = false;
+  process.exit();
+}
+
+const boot = cb => {
+  // this runs once when the mock server starts up
+  // uses a environment variable to prevent this from running more than once
+  if (!process.env.HAS_RUN_AE_MOCKSERVER) {
+    debug('BOOT');
+    process.env.HAS_RUN_AE_MOCKSERVER = true;
+    cb();
+
+    process.on('SIGINT', terminationHandler);
+    process.on('SIGTERM', terminationHandler);
+    process.on('SIGQUIT', terminationHandler);
+  }
+};
+
+// here we can run anything that needs to happen before the mock server starts up
+// this runs every time a file is mocked
+// but the single boot function will only run once
+const generateMockResponses = () => {
+  boot(mockLocalDSOT);
+
+  // set DELAY=1000 when running mock server script
+  // to add 1 sec delay to all responses
+  const responseDelay = process?.env?.DELAY || 0;
+
+  return responseDelay > 0 ? delay(responses, responseDelay) : responses;
+};
+
+module.exports = generateMockResponses();

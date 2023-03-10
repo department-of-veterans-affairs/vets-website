@@ -1,4 +1,4 @@
-const error401Data = require('../../tests/fixtures/401.json');
+const error401Data = require('../../../tests/fixtures/401.json');
 
 const success = {
   data: {

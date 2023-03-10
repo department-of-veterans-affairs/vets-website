@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -12,7 +12,7 @@ const MissingContactInfoAlertLink = ({ missingInfo }) => {
   const useEditingPage = useToggleValue(
     TOGGLE_NAMES.profileUseFieldEditingPage,
   );
-  const linkInfo = React.useMemo(
+  const linkInfo = useMemo(
     () => {
       const linkMap = {
         [MISSING_CONTACT_INFO.ALL]: {

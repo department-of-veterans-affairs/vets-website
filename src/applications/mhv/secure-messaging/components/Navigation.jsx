@@ -123,7 +123,7 @@ const Navigation = () => {
   };
 
   return (
-    <div className="secure-messaging-navigation vads-u-padding-bottom--7 vads-u-flex--auto">
+    <div className="secure-messaging-navigation vads-u-flex--auto vads-u-padding-bottom--7 medium-screen:vads-u-padding-bottom--0">
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div className="sidebar-navigation">

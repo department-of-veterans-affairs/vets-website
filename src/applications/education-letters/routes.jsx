@@ -4,7 +4,7 @@ import InboxPage from './containers/InboxPage';
 
 const routes = (
   <Switch>
-    <Route exact path="/letters" key="/preview">
+    <Route exact path="/" key="/preview">
       <InboxPage />
     </Route>
     ,

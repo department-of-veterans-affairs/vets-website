@@ -1,9 +1,9 @@
-import { loa3User72, nonVeteranUser } from '../../../mocks/user';
+import { handleGetPersonalInformationRoute } from 'applications/personalization/profile/mocks/endpoints/personal-information';
+import serviceHistory from 'applications/personalization/profile/mocks/endpoints/service-history';
+import { loa3User72, nonVeteranUser } from '../../../mocks/endpoints/user';
 
-import { generateFeatureToggles } from '../../../mocks/feature-toggles';
-import fullName from '../../../mocks/full-name';
-import { handleGetPersonalInformationRoute } from '../../../mocks/personal-information';
-import serviceHistory from '../../../mocks/service-history';
+import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
+import fullName from '../../../mocks/endpoints/full-name';
 
 import MilitaryInformation from './MilitaryInformation';
 

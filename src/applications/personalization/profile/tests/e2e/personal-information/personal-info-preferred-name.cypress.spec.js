@@ -4,7 +4,7 @@ import {
   putBadRequestFailure,
   createPutPreferredNameSuccess,
   unsetUserPersonalInfo,
-} from '@@profile/mocks/personal-information';
+} from '@@profile/mocks/endpoints/personal-information';
 import set from 'lodash/set';
 
 describe('Preferred name field tests on the personal information page', () => {

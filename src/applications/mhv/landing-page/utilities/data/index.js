@@ -31,7 +31,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
     },
     {
       href: '/health-care/schedule-view-va-appointments/appointments',
-      text: 'Your VA appointments',
+      text: 'Upcoming VA appointments',
       toggle: null,
     },
     {
@@ -82,7 +82,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, '/my-complete-medications-list'),
-        text: 'My medications and allergies',
+        text: 'Medications and allergies',
         toggle: null,
       },
     ],
@@ -94,7 +94,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, '/download-my-data'),
-        text: 'Download my medical record (Blue Button)',
+        text: 'Download medical record (Blue Button)',
         toggle: null,
       },
       {
@@ -123,7 +123,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
     {
       href: 'https://pay.gov/public/form/start/25987221',
       oldHref: null,
-      text: 'Pay your copay bill',
+      text: 'Pay copay bills',
       toggle: null,
     },
   ];
@@ -163,12 +163,12 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       },
       {
         href: '/health-care/update-health-information/',
-        text: 'Update my health benefits info (10-10EZR)',
+        text: 'Update health benefits info (10-10EZR)',
       },
       {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, 'health-information-card'),
-        text: 'My health information card',
+        text: 'Veteran health information card',
         toggle: null,
       },
       // {
@@ -238,7 +238,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
 
   const cards = [
     {
-      title: 'Appoinments',
+      title: 'Appointments',
       icon: 'calendar',
       links: appointmentLinks,
     },
