@@ -7,7 +7,10 @@ import {
   validateMonthYear,
   validateFutureDateIfExpectedGrad,
 } from 'platform/forms-system/src/js/validation';
-import * as address from 'platform/forms/definitions/address';
+import {
+  schema as addressSchema,
+  uiSchema as addressUI,
+} from 'platform/forms/definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
@@ -126,6 +129,7 @@ const formConfig = {
     fullName,
     ssn,
     vaFileNumber,
+    phone,
   },
   chapters: {
     applicantInformation: {
@@ -782,7 +786,7 @@ const formConfig = {
               sameAddress: {
                 'ui:title': 'Address for secondary contact is the same as mine',
               },
-              address: merge({}, address.uiSchema(), {
+              address: merge({}, addressUI(), {
                 'ui:options': {
                   hideIf: formData =>
                     get('secondaryContact.sameAddress', formData) === true,
@@ -799,7 +803,7 @@ const formConfig = {
                   fullName: secondaryContact.properties.fullName,
                   phone,
                   sameAddress: secondaryContact.properties.sameAddress,
-                  address: address.schema(fullSchema5490),
+                  address: addressSchema(fullSchema5490),
                 },
               },
             },
