@@ -206,35 +206,40 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
         text: "VA's Whole Health living",
       },
       {
-        href: 'https://www.myhealth.va.gov/ss20200320-va-video-connect',
+        href: mhvUrl(false, 'ss20200320-va-video-connect'),
         text: 'How to use VA Video Connect',
       },
     ],
     featureToggles,
   );
 
-  // const spotlightLinks = [
-  //   {
-  //     href: '#FIXME-need-link',
-  //     text: 'Five Exercises for Balance',
-  //   },
-  //   {
-  //     href: '#FIXME-need-link',
-  //     text: 'Recognizing a Heart Attack',
-  //   },
-  //   {
-  //     href: '#FIXME-need-link',
-  //     text: 'Get the New Toxic Exposure Screening',
-  //   },
-  //   {
-  //     href: '#FIXME-need-link',
-  //     text: 'Need Internet or a Tablet for Appointments?',
-  //   },
-  //   {
-  //     href: '#FIXME-need-link',
-  //     text: 'Top Five Health Threats to Men',
-  //   },
-  // ];
+  // Spotlight links are non-authed, so we always pass `false` to mhvUrl
+  const spotlightLinks = resolveLinkCollection(
+    [
+      {
+        text: 'Track Your Cholesterol in My HealtheVet',
+        href: null,
+        oldHref: mhvUrl(false, 'ss20220106-track-cholesterol-in-myhealthevet'),
+        toggle: null,
+      },
+      {
+        text: 'Get the New Toxic Exposure Screening',
+        href: null,
+        oldHref: mhvUrl(
+          false,
+          'ss20221110-get-the-new-toxic-exposure-screening',
+        ),
+        toggle: null,
+      },
+      {
+        text: 'Five Exercises for People Over 50',
+        href: null,
+        oldHref: mhvUrl(false, 'ss20161101-five-exercises-for-people-over-50'),
+        toggle: null,
+      },
+    ],
+    featureToggles,
+  );
 
   const cards = [
     {
@@ -277,10 +282,10 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       title: 'More resources and support',
       links: moreResourcesLinks,
     },
-    // {
-    //   title: 'In the Spotlight',
-    //   links: spotlightLinks,
-    // },
+    {
+      title: 'In the Spotlight',
+      links: spotlightLinks,
+    },
   ];
 
   return { cards, hubs };
