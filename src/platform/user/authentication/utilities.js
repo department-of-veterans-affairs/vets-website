@@ -182,8 +182,6 @@ export function sessionTypeUrl({
     clientId,
   } = getQueryParams();
 
-  const clientID = mock ? 'vamock' : clientId;
-
   const externalRedirect = isExternalRedirect();
   const isSignup = Object.values(SIGNUP_TYPES).includes(type);
   const isLogin = Object.values(CSP_IDS).includes(type);
@@ -218,24 +216,6 @@ export function sessionTypeUrl({
           }),
         }
       : {};
-
-  if (useOAuth && mock) {
-    return createOAuthRequest({
-      acr,
-      application,
-      clientId: clientID,
-      type,
-      config,
-      passedQueryParams: {
-        codeChallenge,
-        codeChallengeMethod,
-        ...(gaClientId && { gaClientId }),
-      },
-      passedOptions: {
-        isSignup,
-      },
-    });
-  }
 
   if (useOAuth && (isLogin || isSignup)) {
     return createOAuthRequest({
@@ -305,16 +285,23 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
   window.location = redirectUrl;
 }
 
-export async function mockLogin({
-  isOAuth,
-  clickedEvent = AUTH_EVENTS.MOCK_LOGIN,
-}) {
-  const url = await sessionTypeUrl({
-    type: '',
-    version: 'v0',
-    queryParams: {},
-    useOauth: isOAuth,
-    mock: true,
+export async function mockLogin({ clickedEvent = AUTH_EVENTS.MOCK_LOGIN }) {
+  const { application, codeChallenge, codeChallengeMethod } = getQueryParams();
+  const gaClientId = '';
+  const config =
+    externalApplicationsConfig[application] ||
+    externalApplicationsConfig.default;
+
+  const url = await createOAuthRequest({
+    acr: null,
+    application,
+    clientId: 'vamock',
+    config,
+    passedQueryParams: {
+      codeChallenge,
+      codeChallengeMethod,
+      ...(gaClientId && { gaClientId }),
+    },
   });
 
   if (!isExternalRedirect()) {

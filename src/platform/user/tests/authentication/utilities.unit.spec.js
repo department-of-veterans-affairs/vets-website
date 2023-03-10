@@ -16,7 +16,6 @@ import {
   EXTERNAL_REDIRECTS,
   API_VERSION,
   API_SESSION_URL,
-  MOCK_LOGIN_URL,
   SIGNUP_TYPES,
   GA,
   EBENEFITS_DEFAULT_PATH,
@@ -437,11 +436,14 @@ describe('Authentication Utilities', () => {
   });
 
   describe('mockLogin', () => {
-    it('should redirect to  on USiP authenticating externally', async () => {
-      setup({ path: usipPath });
-      await authUtilities.mockLogin({});
-      expect(global.window.location).to.equal(MOCK_LOGIN_URL);
-
+    it('should redirect to proper mockLogin url', async () => {
+      setup({
+        path: usipPath,
+      });
+      await authUtilities.mockLogin({ isOAuth: true });
+      expect(global.window.location).to.include(
+        'v0/sign_in/authorize?client_id=vamock',
+      );
       setup({});
     });
   });
