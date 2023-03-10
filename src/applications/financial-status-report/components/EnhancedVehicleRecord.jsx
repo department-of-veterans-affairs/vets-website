@@ -41,10 +41,16 @@ const EnhancedVehicleRecord = props => {
   const [vehicleRecordIsDirty, setVehicleRecordIsDirty] = useState(false);
   const [makeIsDirty, setVehicleMakeIsDirty] = useState(false);
   const [modelIsDirty, setVehicleModelIsDirty] = useState(false);
+  const [yearIsDirty, setVehicleYearIsDirty] = useState(false);
+  const [resaleValueIsDirty, setEstValueIsDirty] = useState(false);
 
   const makeError = !vehicleRecord.make ? 'Please enter a vehicle make' : null;
   const modelError = !vehicleRecord.model
     ? 'Please enter a vehicle model'
+    : null;
+  const yearError = !vehicleRecord.year ? 'Please enter a valid year' : null;
+  const resaleValueError = !vehicleRecord.resaleValue
+    ? 'Please enter the estimated value'
     : null;
 
   const handleChange = (key, value) => {
@@ -67,12 +73,12 @@ const EnhancedVehicleRecord = props => {
 
   const handleVehicleYearChange = event => {
     handleChange('year', event.target.value);
-    setVehicleModelIsDirty(true);
+    setVehicleYearIsDirty(true);
   };
 
   const handleVehicleEstValueChange = event => {
     handleChange('resaleValue', event.target.value);
-    setVehicleModelIsDirty(true);
+    setEstValueIsDirty(true);
   };
 
   const updateFormData = e => {
@@ -129,6 +135,7 @@ const EnhancedVehicleRecord = props => {
 
       <div className="input-size-1">
         <va-number-input
+          error={(vehicleRecordIsDirty && yearIsDirty && yearError) || null}
           hint={null}
           inputmode="numeric"
           label="Vehicle year"
@@ -140,6 +147,10 @@ const EnhancedVehicleRecord = props => {
 
       <div className="input-size-5">
         <va-number-input
+          error={
+            (vehicleRecordIsDirty && resaleValueIsDirty && resaleValueError) ||
+            null
+          }
           hint={null}
           inputmode="numeric"
           label="Estimated value"
