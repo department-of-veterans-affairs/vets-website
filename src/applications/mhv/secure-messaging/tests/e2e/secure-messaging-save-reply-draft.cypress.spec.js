@@ -12,6 +12,7 @@ describe('Secure Messaging Reply', () => {
     const site = new SecureMessagingSite();
     site.login();
     const messageDetails = landingPage.getNewMessageDetails();
+    // const messageDetails = landingPage.setMessageDateToYesterday();
     landingPage.loadInboxMessages(mockMessages, messageDetails);
     messageDetailsPage.loadMessageDetails(messageDetails);
     messageDetailsPage.loadReplyPageDetails(messageDetails);
@@ -30,6 +31,13 @@ describe('Secure Messaging Reply', () => {
       testMessageBody,
     );
 
+    replyPage.ReplyDraftData(
+      landingPage.getNewMessage().attributes.messageId,
+      landingPage.getNewMessage().attributes.senderId,
+      landingPage.getNewMessage().attributes.category,
+      // landingPage.getNewMessageReplyDraftData().defaultMochThread,
+      testMessageBody,
+    );
     replyPage.sendReplyDraft(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.senderId,

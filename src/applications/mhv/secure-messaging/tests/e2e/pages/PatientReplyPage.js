@@ -101,6 +101,42 @@ class PatientReplyPage {
       });
   };
 
+  ReplyDraftData = (
+    messageId,
+    testRecipientId,
+    testCategory,
+    testSubject,
+    testBody,
+  ) => {
+    mockMessage.data.attributes.recipientId = testRecipientId;
+    mockMessage.data.attributes.category = testCategory;
+    mockMessage.data.attributes.subject = testSubject;
+    mockMessage.data.attributes.body = testBody;
+    cy.log(`messageId = ${messageId}`);
+    cy.log(`messageSubjectParameter = ${testSubject}`);
+    cy.log(
+      `messageSubjectMockMessage = ${mockMessage.data.attributes.subject}`,
+    );
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/7179970/reply`,
+      mockMessage,
+    ).as('replyDraftData');
+
+    cy.wait('@replyDraftData').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
+    cy.get('@replyDraftData')
+      .its('request.body')
+      .then(message => {
+        cy.log(JSON.stringify(message));
+        expect(message.category).to.eq(testCategory);
+        expect(message.body).to.eq(testBody);
+        expect(message.subject).to.eq(testSubject);
+        expect(message.recipient_id).to.eq(testRecipientId);
+      });
+  };
+
   verifyReplyPageBodyField = () => {
     cy.get('[data-testid="message-body-field"]')
       .shadow()
@@ -108,4 +144,5 @@ class PatientReplyPage {
       .should('be.visible');
   };
 }
+
 export default PatientReplyPage;
