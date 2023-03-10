@@ -8,7 +8,7 @@ const generateFeatureToggles = (toggles = {}) => {
     profileHideDirectDepositCompAndPen = false,
     profileShowPaymentsNotificationSetting = false,
     profileUseInfoCard = true,
-    profileShowMhvNotificationSettings = false,
+    profileShowMhvNotificationSettings = true,
   } = toggles;
 
   return {

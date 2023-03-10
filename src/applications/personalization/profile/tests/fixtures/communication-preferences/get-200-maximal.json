@@ -48,15 +48,15 @@
           "description": null,
           "communicationItems": [
             {
-              "id": 2,
-              "name": "COVID-19 Updates",
+              "id": 11,
+              "name": "Biweekly MHV newsletter",
               "communicationChannels": [
                 {
                   "id": 2,
                   "name": "Email",
                   "description": "Email Notification",
                   "communicationPermission": {
-                    "id": 4281,
+                    "id": 8362,
                     "allowed": true
                   }
                 }

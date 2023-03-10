@@ -185,7 +185,7 @@ const createNotificationSuccess = () => {
             ],
           },
           {
-            id: 5,
+            id: 2,
             name: 'General VA Updates and Information',
             description: null,
             communicationItems: [
