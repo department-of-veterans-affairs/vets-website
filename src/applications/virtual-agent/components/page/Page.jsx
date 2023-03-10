@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -87,14 +87,34 @@ const renderStickyBot = () => {
   );
 };
 
-function Page({ virtualAgentShowFloatingChatbot = false }) {
-  let chosenBot = '';
-  if (virtualAgentShowFloatingChatbot) {
-    chosenBot = renderStickyBot();
+function Page({ virtualAgentShowFloatingChatbot = null }) {
+  const [chosenBot, setChosenBot] = useState(null);
+  let bot = '';
+
+  useEffect(
+    () => {
+      if (virtualAgentShowFloatingChatbot !== null) {
+        if (virtualAgentShowFloatingChatbot) {
+          setChosenBot('sticky');
+        } else {
+          setChosenBot('default');
+        }
+      } else {
+        setChosenBot('');
+      }
+    },
+    [virtualAgentShowFloatingChatbot],
+  );
+
+  if (chosenBot === 'sticky') {
+    bot = renderStickyBot();
+  } else if (chosenBot === 'default') {
+    bot = renderChatBox();
   } else {
-    chosenBot = renderChatBox();
+    bot = '';
   }
-  return chosenBot;
+
+  return bot;
 }
 
 Page.propTypes = {
