@@ -14,27 +14,34 @@ const RecordListItem = props => {
       data-testid="record-list-item"
     >
       <h4>{record.name}</h4>
-      <div>Date received: {formattedDate}</div>
-      <div className="print-only">Type and dosage: {typeAndDose()}</div>
-      <div className="print-only">
-        Series: {record.series || 'There is no series reported at this time'}
-      </div>
-      <div className="location-collapsed vads-u-line-height--3">
-        Location: {record.facility}
-      </div>
-      <div className="print-only">
-        Reactions recorded by provider:{' '}
-        <ItemList list={record.reactions} emptyMessage="None reported" />
-      </div>
-      <div className="print-only">
-        Provider comments:{' '}
-        <ItemList
-          list={record.comments}
-          emptyMessage="No comments at this time"
-        />
+      <div className="fields">
+        <div>
+          <span className="field-label">Date received:</span> {formattedDate}
+        </div>
+        <div className="print-only">
+          <span className="field-label">Type and dosage:</span> {typeAndDose()}
+        </div>
+        <div className="print-only">
+          <span className="field-label">Series:</span>{' '}
+          {record.series || 'There is no series reported at this time'}
+        </div>
+        <div className="location-collapsed vads-u-line-height--3">
+          <span className="field-label">Location:</span> {record.facility}
+        </div>
+        <div className="print-only">
+          <span className="field-label">Reactions recorded by provider:</span>{' '}
+          <ItemList list={record.reactions} emptyMessage="None reported" />
+        </div>
+        <div className="print-only">
+          <span className="field-label">Provider comments:</span>{' '}
+          <ItemList
+            list={record.comments}
+            emptyMessage="No comments at this time"
+          />
+        </div>
       </div>
       <Link
-        to={`/vaccine/${record.id}`}
+        to={`/vaccine-details/${record.id}`}
         className="vads-u-margin-y--0p5 no-print"
       >
         Details

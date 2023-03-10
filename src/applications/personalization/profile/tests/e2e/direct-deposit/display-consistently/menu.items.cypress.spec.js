@@ -1,8 +1,8 @@
 import DirectDeposit from '../DirectDeposit';
-import { paymentHistory } from '../../../../mocks/payment-history';
-import { loa3User72, loa1User } from '../../../../mocks/user';
+import { paymentHistory } from '../../../../mocks/endpoints/payment-history';
+import { loa3User72, loa1User } from '../../../../mocks/endpoints/user';
 
-import { generateFeatureToggles } from '../../../../mocks/feature-toggles';
+import { generateFeatureToggles } from '../../../../mocks/endpoints/feature-toggles';
 
 describe('Direct Deposit Consistently', () => {
   beforeEach(() => {
