@@ -2128,8 +2128,10 @@ const getAppealDate = appeal => {
  * @returns {string}
  */
 const getClaimDate = claim => {
-  const { phaseChangeDate } = claim.attributes;
-  return phaseChangeDate || '0';
+  // START lighthouse_migration
+  const { claimPhaseDates, phaseChangeDate } = claim.attributes;
+  return phaseChangeDate || claimPhaseDates?.phaseChangeDate || '0';
+  // END lighthouse_migration
 };
 
 /**
