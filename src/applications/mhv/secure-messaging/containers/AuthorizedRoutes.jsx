@@ -51,7 +51,6 @@ const AuthorizedRoutes = () => {
           <FolderListView />
         </Route>
       </Switch>
-      <va-back-to-top />
     </div>
   );
 };

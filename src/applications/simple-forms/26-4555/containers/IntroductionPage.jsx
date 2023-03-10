@@ -28,8 +28,7 @@ class IntroductionPage extends React.Component {
         </p>
         <SaveInProgressIntro
           headingLevel={2}
-          // TODO: set prefillEnabled value to {formConfig.prefillEnabled} once prefill's implemented
-          prefillEnabled
+          prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the Application"

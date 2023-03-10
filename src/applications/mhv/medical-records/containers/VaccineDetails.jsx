@@ -2,14 +2,22 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { dateFormat, printContent, typeAndDose } from '../util/helpers';
+import { dateFormat, typeAndDose } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getVaccineDetails } from '../actions/vaccine';
+import { setBreadcrumbs } from '../actions/breadcrumbs';
 
 const VaccineDetails = () => {
   const vaccineDetails = useSelector(state => state.mr.vaccines.vaccineDetails);
+  const user = useSelector(state => state.user.profile);
+  const { first, last, middle, suffix } = user.userFullName;
+  const name = user.first
+    ? `${last}, ${first} ${middle}, ${suffix}`
+    : 'Doe, John R., Jr.';
+  const dob = user.dob || '12/12/1980';
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
+
   useEffect(
     () => {
       if (vaccineId) dispatch(getVaccineDetails(vaccineId));
@@ -18,16 +26,47 @@ const VaccineDetails = () => {
   );
   const formattedDate = dateFormat(vaccineDetails?.date, 'MMMM D, YYYY');
 
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs(
+          [
+            { url: '/my-health/medical-records/', label: 'Dashboard' },
+            {
+              url: '/my-health/medical-records/health-history',
+              label: 'Health history',
+            },
+            {
+              url: '/my-health/medical-records/vaccines',
+              label: 'VA vaccines',
+            },
+          ],
+          {
+            url: `/my-health/medical-records/vaccine-details/${vaccineId}`,
+            label: vaccineDetails?.name,
+          },
+        ),
+      );
+    },
+    [vaccineDetails, dispatch],
+  );
+
   const content = () => {
     if (vaccineDetails) {
       return (
         <>
+          <div className="print-only print-header">
+            <span>
+              {name} - {dob}
+            </span>
+            <h4>CONFIDENTIAL</h4>
+          </div>
           <h1 className="vaccine-header">{vaccineDetails.name}</h1>
           <div className="vads-u-display--flex vads-u-margin-y--3 no-print">
             <button
               className="link-button vads-u-margin-right--3 no-print"
               type="button"
-              onClick={() => printContent('vaccine-details')}
+              onClick={window.print}
             >
               <i
                 aria-hidden="true"
