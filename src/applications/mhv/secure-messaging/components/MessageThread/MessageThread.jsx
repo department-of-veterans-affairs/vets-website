@@ -84,6 +84,7 @@ const MessageThread = props => {
               <div
                 // announce to screen readers that more messages have been loaded
                 aria-live="polite"
+                role="alert"
                 aria-label={`${messagesLoaded} more message${
                   messagesLoaded > 1 ? 's are' : ' is'
                 } loaded. Press Tab to navigate to the next message`}
