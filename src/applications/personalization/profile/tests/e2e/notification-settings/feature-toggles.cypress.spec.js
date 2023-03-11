@@ -74,7 +74,7 @@ describe('Notification Settings Feature Toggles', () => {
   });
 
   describe('Shows/Hides MHV settings via feature toggle', () => {
-    it('should SHOW the MHV settings when toggle profileShowPaymentsNotificationSetting is TRUE', () => {
+    it('should SHOW the MHV settings when profileShowMhvNotificationSettings toggle is TRUE', () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
@@ -109,7 +109,7 @@ describe('Notification Settings Feature Toggles', () => {
       cy.injectAxeThenAxeCheck();
     });
 
-    it('should NOT SHOW the payment notification setting when toggle is FALSE', () => {
+    it('should NOT SHOW the payment notification setting when profileShowMhvNotificationSettings toggle is FALSE', () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
