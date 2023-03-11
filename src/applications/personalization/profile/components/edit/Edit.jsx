@@ -28,16 +28,10 @@ export const Edit = () => {
         <div className="vads-u-display--block medium-screen:vads-u-display--block">
           <h2>Welcome to the new field editing page!</h2>
 
-          <pre>
-            {JSON.stringify(
-              {
-                fieldName,
-                returnPath,
-              },
-              null,
-              2,
-            )}
-          </pre>
+          <p>
+            Field name: <span>{fieldName}</span>
+          </p>
+          <p>Return Path: {returnPath}</p>
 
           <Link to={returnPath}>{`Return to ${returnPathName}`}</Link>
         </div>

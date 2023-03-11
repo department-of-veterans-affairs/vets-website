@@ -23,6 +23,8 @@ describe('<Edit> renders without crashing', () => {
 
     expect(view.queryByText(/Sorry, this page is unavailable/i)).to.not.exist;
 
+    expect(view.getByText('mobilePhone')).to.exist;
+
     // renders the link to return to previous page
     expect(view.getByText(/Return to Notification settings/i)).to.exist;
   });
