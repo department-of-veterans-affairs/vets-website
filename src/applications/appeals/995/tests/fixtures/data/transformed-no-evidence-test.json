@@ -22,7 +22,7 @@
         "email": "test@user.com"
       },
       "form5103Acknowledged": true,
-      "socOptIn": false,
+      "socOptIn": true,
       "evidenceSubmission": {
         "evidenceType": [
           "none"
