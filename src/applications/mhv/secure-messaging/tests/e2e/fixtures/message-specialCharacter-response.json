@@ -13,7 +13,8 @@
             "senderName": "ISLAM, MOHAMMAD  RAFIQ",
             "recipientId": 6820911,
             "recipientName": "ECSTEN, THOMAS ",
-            "readReceipt": "READ"
+            "readReceipt": "READ",
+            "triageGroupName": "The best Ones"
         },
         "relationships": {
             "attachments": {

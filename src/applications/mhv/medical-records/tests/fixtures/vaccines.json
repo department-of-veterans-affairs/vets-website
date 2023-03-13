@@ -19,7 +19,7 @@
     "id": 122,
     "date": "2022-04-13T17:42:46.000Z",
     "vaccineId": "000001",
-    "facility": "some super long name of a facility that will hopefully be several lines so I can test the ellipsis",
+    "facility": "some super long name of a facility that will hopefully be several lines so I can test the ellipsis some super long name of a facility that will hopefully be several lines so I can test the ellipsis",
     "reactions": ["Just this one"]
   },
   {
