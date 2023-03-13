@@ -62,12 +62,12 @@ export const MiniSummaryCard = ({
 };
 
 MiniSummaryCard.propTypes = {
-  body: Proptypes.string.isRequired,
   editDesination: Proptypes.shape({
     pathname: Proptypes.string.isRequired,
     search: Proptypes.string.isRequired,
   }).isRequired,
   heading: Proptypes.string.isRequired,
+  body: Proptypes.object,
   showDelete: Proptypes.bool,
   onDelete: Proptypes.func,
 };
