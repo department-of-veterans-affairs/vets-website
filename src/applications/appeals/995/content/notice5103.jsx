@@ -38,33 +38,24 @@ export const Notice5103Description = ({ onReviewPage }) => {
         <Header slot="headline">If you have a presumptive condition</Header>
         <p>
           If you’re filing a claim for a condition that we now consider
-          presumptive under a new law or regulation (like the PACT Act), you
-          don’t need to submit new evidence. But you do need to review and
-          acknowledge this notice of evidence needed.
+          presumptive under a new law or regulation (like the PACT Act), you can
+          submit this form for review.
         </p>
       </VaAlert>
-      <Header>Review and acknowledge this notice of evidence needed.</Header>
+      <Header>Review and acknowledge the notice of evidence needed.</Header>
       <p>
-        Unless you’re filing a claim for a presumptive condition, we encourage
-        you to submit new evidence. This evidence must be related to the issue
-        you’re claiming, and it must be evidence we haven’t reviewed before.
+        If you’re filing a Supplemental Claim more than 1 year after you got
+        your decision notice, you’ll need to review and acknowledge our notice
+        of evidence needed for your disability claim.
       </p>
-      <p>We’ll look for evidence that shows both of these are true:</p>
-      <ul>
-        <li>
-          You have a current physical or mental disability (damage to your body
-          or mind that makes you less able—or totally unable—to do everyday
-          tasks, including meaningful work), <strong>and</strong>
-        </li>
-        <li>
-          An event, injury, or illness that happened while you were serving in
-          the military caused this disability
-        </li>
-      </ul>
       <p>
-        You’ll need to submit or give us permission to gather medical evidence
-        from a VA medical center, other federal facility, or your private health
-        care provider.
+        <a
+          href="/disability/how-to-file-claim/evidence-needed/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Review the notice of evidence needed
+        </a>
       </p>
     </>
   );

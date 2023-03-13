@@ -100,5 +100,12 @@ class PatientReplyPage {
         expect(message.body).to.eq(testBody);
       });
   };
+
+  verifyReplyPageBodyField = () => {
+    cy.get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('[name="message-body"]')
+      .should('be.visible');
+  };
 }
 export default PatientReplyPage;

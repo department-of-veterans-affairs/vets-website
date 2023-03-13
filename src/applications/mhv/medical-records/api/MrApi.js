@@ -8,7 +8,7 @@ export const mockGetVaccineList = () => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(vaccines);
-    }, 1500);
+    }, 1000);
   });
 };
 
@@ -17,6 +17,6 @@ export const mockGetVaccine = id => {
     setTimeout(() => {
       const vaccine = vaccines.find(vac => +vac.id === +id);
       resolve(vaccine);
-    }, 1500);
+    }, 1000);
   });
 };
