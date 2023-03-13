@@ -1,3 +1,4 @@
+import React from 'react';
 import { intersection, pick } from 'lodash';
 
 import * as address from 'platform/forms-system/src/js/definitions/address';
@@ -15,7 +16,7 @@ const pageFields = [
 export default {
   uiSchema: {
     [livingSituationFields.parentObject]: {
-      'ui:title': 'Details about your current living situation',
+      'ui:description': <h3>Details about your current living situation</h3>,
       [livingSituationFields.careFacilityName]: {
         'ui:title':
           'What is the name of the nursing home or medical care facility?',

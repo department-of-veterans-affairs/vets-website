@@ -1,3 +1,4 @@
+import React from 'react';
 import { intersection, pick } from 'lodash';
 
 import dateUI from 'platform/forms-system/src/js/definitions/date';
@@ -16,8 +17,12 @@ const pageFields = [
 export default {
   uiSchema: {
     [previousSahApplicationFields.parentObject]: {
-      'ui:title':
-        'Details about your previous application for a specially adapted housing grant',
+      'ui:description': (
+        <h3>
+          Details about your previous application for a specially adapted
+          housing grant
+        </h3>
+      ),
       [previousSahApplicationFields.previousSahApplicationDate]: dateUI(
         'Date of previous application',
       ),
