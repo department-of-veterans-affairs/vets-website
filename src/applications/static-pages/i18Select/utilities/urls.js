@@ -46,4 +46,16 @@ export default {
     en: '/disability/after-you-file-claim/',
     es: '/disability/after-you-file-claim-esp/',
   },
+  healthCareEligibility: {
+    en: '/health-care/eligibility/',
+    es: '/health-care/eligibility-esp/',
+  },
+  healthCareHowToApply: {
+    en: '/health-care/how-to-apply/',
+    es: '/health-care/how-to-apply-esp/',
+  },
+  healthCareAfterAppy: {
+    en: '/health-care/after-you-apply/',
+    es: '/health-care/after-you-apply-esp/',
+  },
 };
