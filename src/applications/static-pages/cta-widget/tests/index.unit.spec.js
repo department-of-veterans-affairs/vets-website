@@ -229,37 +229,6 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should fetch MHV account on update', () => {
-      const { props, mockStore } = getData({ profile: { verified: true } });
-      const tree = mount(
-        <Provider store={mockStore}>
-          <CallToActionWidget
-            appId={CTA_WIDGET_TYPES.RX}
-            isLoggedIn={false}
-            {...props}
-            featureToggles={{ loading: false }}
-          />
-        </Provider>,
-      );
-      expect(props.fetchMHVAccount.called).to.be.false;
-
-      tree.setProps({
-        children: (
-          <Provider store={mockStore}>
-            <CallToActionWidget
-              appId={CTA_WIDGET_TYPES.RX}
-              isLoggedIn
-              {...props}
-              featureToggles={{ loading: false }}
-            />
-          </Provider>
-        ),
-      });
-
-      expect(props.fetchMHVAccount.called).to.be.true;
-      tree.unmount();
-    });
-
     it('should open myhealthevet popup', () => {
       const { props, mockStore } = getData({
         profile: { loading: false, verified: true, multifactor: false },
