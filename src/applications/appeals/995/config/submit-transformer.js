@@ -38,7 +38,9 @@ export function transform(formConfig, form) {
       },
       included: addIncludedIssues(formData),
       form4142: getForm4142(formData),
-      additionalDocuments: formData[EVIDENCE_OTHER] ? additionalDocuments : [],
+      additionalDocuments: formData[EVIDENCE_OTHER]
+        ? additionalDocuments
+        : null,
     };
   };
 
