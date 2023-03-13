@@ -81,7 +81,7 @@ const EvidencePrivateRecordsAuthorization = ({
   return (
     <>
       <form>
-        <va-alert status="warning" visible={hasError}>
+        <va-alert status="error" visible={hasError}>
           {hasError && authorizationAlertContent(handlers.onAnchorClick)}
         </va-alert>
         {authorizationInfo}

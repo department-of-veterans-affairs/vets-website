@@ -152,7 +152,7 @@ li.vaos-appts__listItem--clickable[data-status="pending"]:last-child {
   border-bottom: 1px solid !important;
 }
 
-#vaos-appts__column--1 {
+.vaos-appts__column--1 {
   @include media($xsmall-screen) {
     min-width: 25px;
   }
@@ -162,13 +162,13 @@ li.vaos-appts__listItem--clickable[data-status="pending"]:last-child {
   }
 }
 
-#vaos-appts__column--2 {
+.vaos-appts__column--2 {
   @media (min-width: $small-screen) {
     // margin-left: 95px !important;
   }
 }
 
-#vaos-appts__detail {
+div[id^="vaos-appts__detail-"] {
   @include media($medium-screen) {
     display: flex;
     justify-content: right;
