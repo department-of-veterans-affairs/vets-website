@@ -85,16 +85,18 @@ const EnhancedVehicleRecord = props => {
     const newVehicleArray = [...automobiles];
     newVehicleArray[index] = vehicleRecord;
 
-    // update form data
-    setFormData({
-      ...data,
-      assets: {
-        ...data.assets,
-        automobiles: newVehicleArray,
-      },
-    });
+    if (vehicleRecord.make && vehicleRecord.model) {
+      // update form data
+      setFormData({
+        ...data,
+        assets: {
+          ...data.assets,
+          automobiles: newVehicleArray,
+        },
+      });
 
-    goToPath('/vehicles-summary');
+      goToPath('/vehicles-summary');
+    }
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
