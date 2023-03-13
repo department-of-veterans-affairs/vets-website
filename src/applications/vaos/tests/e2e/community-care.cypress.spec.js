@@ -16,7 +16,6 @@ describe('VAOS community care flow using VAOS service', () => {
     vaosSetup();
 
     mockAppointmentRequestsApi({ apiVersion: 2 });
-    mockAppointmentsApi({ apiVersion: 0 });
     mockAppointmentsApi({ apiVersion: 2 });
     mockCCEligibilityApi();
     mockCCProvidersApi();
