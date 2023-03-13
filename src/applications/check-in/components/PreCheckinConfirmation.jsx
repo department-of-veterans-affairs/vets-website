@@ -14,11 +14,13 @@ import Wrapper from './layout/Wrapper';
 
 const PreCheckinConfirmation = props => {
   const { appointments, isLoading, formData, router } = props;
-  const {
-    demographicsUpToDate,
-    emergencyContactUpToDate,
-    nextOfKinUpToDate,
-  } = formData;
+
+  // If the demographics answers are not present in the data, we
+  // assume that the page was skipped, and default to "yes".
+  const demographicsUpToDate = formData.demographicsUpToDate ?? 'yes';
+  const emergencyContactUpToDate = formData.emergencyContactUpToDate ?? 'yes';
+  const nextOfKinUpToDate = formData.nextOfKinUpToDate ?? 'yes';
+
   const { t } = useTranslation();
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
 

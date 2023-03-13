@@ -16,26 +16,29 @@ const MessageThreadMeta = props => {
       </p>
       {props.expanded && (
         <>
-          <p>
+          <p data-testid="to">
             <strong>To: </strong>
             {message.recipientName}
           </p>
-          <p>
+          <p data-testid="message-id">
             <strong>Message ID: </strong>
             {message.messageId}
           </p>
         </>
       )}
-      <p className="message-date">
-        {message.attachment === true && (
+      <p className="message-date" data-testid="message-date">
+        {(message.attachment ||
+          message.hasAttachments ||
+          message.attachments?.length) && (
           <i
             className="fas fa-paperclip vads-u-padding-right--0p5"
             label="paperclip"
             aria-label="Has attachment"
             role="img"
+            data-testid="message-attachment-img"
           />
         )}
-        {dateFormat(message.sentDate, 'MMM D, YYYY [at] h:mm a z')}
+        {dateFormat(message.sentDate, 'MMMM D, YYYY [at] h:mm a z')}
       </p>
     </div>
   );

@@ -26,3 +26,12 @@ va-loading-indicator {
 .link-button:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
+
+@media print {
+  .no-print,
+  .no-print * {
+    visibility: hidden;
+    display: none;
+    margin: 0 !important;
+  }
+}

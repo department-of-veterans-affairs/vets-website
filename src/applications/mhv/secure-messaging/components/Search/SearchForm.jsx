@@ -107,6 +107,7 @@ const SearchForm = props => {
     return (
       <label
         htmlFor="search-message-folder-input"
+        data-testid="search-message-folder-input-label"
         className={
           resultsCount === undefined
             ? 'keyword-search-label'

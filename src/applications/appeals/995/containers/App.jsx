@@ -27,6 +27,7 @@ import {
   evidenceNeedsUpdating,
 } from '../utils/helpers';
 
+import ITFWrapper from './ITFWrapper';
 import { WIP } from '../components/WIP';
 
 export const App = ({
@@ -143,7 +144,14 @@ export const App = ({
 
   let content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
+      <ITFWrapper
+        loggedIn={loggedIn}
+        pathname={location.pathname}
+        title={formConfig.title}
+        benefitType={subTaskBenefitType}
+      >
+        {children}
+      </ITFWrapper>
     </RoutedSavableApp>
   );
 

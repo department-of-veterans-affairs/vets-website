@@ -256,11 +256,18 @@ const isInAllowList = appointment => {
   return stations.includes(stationNo) && passesClinic();
 };
 
+const phoneNumbers = {
+  textCheckIn: '53079',
+  mainInfo: '8006982411',
+  btsssCallCenter: '8555747292',
+};
+
 export {
   APP_NAMES,
   VISTA_CHECK_IN_STATUS_IENS,
   getLabelForEditField,
   addressFormFields,
   baseCities,
+  phoneNumbers,
   isInAllowList,
 };

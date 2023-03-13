@@ -9,7 +9,11 @@ import {
 import mockUser from './fixtures/mocks/user.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockV2Data from './fixtures/data/maximal-test.json';
-import { mockContestableIssues } from './995.cypress.helpers';
+import {
+  mockContestableIssues,
+  getPastItf,
+  fetchItf,
+} from './995.cypress.helpers';
 
 // Telephone specific responses
 import mockTelephoneUpdate from './fixtures/mocks/telephone-update.json';
@@ -34,6 +38,8 @@ describe('995 contact info loop', () => {
     cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockV2Data);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockV2Data);
 
+    cy.intercept('GET', '/v0/intent_to_file', fetchItf());
+
     // telephone
     cy.intercept('PUT', '/v0/profile/telephones', mockTelephoneUpdate);
     cy.intercept('GET', '/v0/profile/status/*', mockTelephoneUpdateSuccess);
@@ -52,6 +58,8 @@ describe('995 contact info loop', () => {
     cy.findAllByText(/start your claim/i, { selector: 'a' })
       .first()
       .click();
+
+    getPastItf(cy);
 
     // Veteran info (DOB, SSN, etc)
     cy.location('pathname').should('eq', `${BASE_URL}/veteran-information`);

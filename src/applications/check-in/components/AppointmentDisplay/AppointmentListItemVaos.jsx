@@ -21,6 +21,10 @@ const AppointmentListItemVaos = props => {
   const pagesToShowDetails = ['details', 'complete', 'confirmation'];
   const showDetailsLink = pagesToShowDetails.includes(page) && goToDetails;
 
+  const typeOfCare = appointment.clinicStopCodeName
+    ? appointment.clinicStopCodeName
+    : t('VA-appointment');
+
   const infoBlockMessage = () => {
     if (appointment?.kind === 'phone') {
       return (
@@ -52,9 +56,7 @@ const AppointmentListItemVaos = props => {
           data-testid="appointment-type-and-provider"
           className="vads-u-font-weight--bold"
         >
-          {appointment.clinicStopCodeName
-            ? appointment.clinicStopCodeName
-            : t('VA-appointment')}
+          {typeOfCare}
           {appointment.doctorName
             ? ` ${t('with')} ${appointment.doctorName}`
             : ''}
@@ -64,7 +66,7 @@ const AppointmentListItemVaos = props => {
             data-testid="appointment-kind-icon"
             className="vads-u-margin-right--1 check-in--label"
           >
-            {appointmentIcon(appointment, true)}
+            {appointmentIcon(appointment)}
           </div>
           <div
             data-testid="appointment-kind-and-location"
@@ -88,8 +90,9 @@ const AppointmentListItemVaos = props => {
                 router.location.basename
               }/appointment-details/${getAppointmentId(appointment)}`}
               onClick={e => goToDetails(e, appointment)}
-              aria-label={t('click-to-see-details-for-your-time-appointment', {
+              aria-label={t('details-for-appointment', {
                 time: appointmentDateTime,
+                type: typeOfCare,
               })}
             >
               Details
@@ -103,6 +106,7 @@ const AppointmentListItemVaos = props => {
               <AppointmentActionVaos
                 appointment={appointment}
                 router={router}
+                event="check-in-clicked-VAOS-design"
               />
             </>
           )}

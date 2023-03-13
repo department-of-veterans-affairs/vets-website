@@ -91,7 +91,7 @@ const MessageDetailBlock = props => {
         </section>
 
         <section className="message-body" aria-label="Message body.">
-          <MessageThreadBody text={body} />
+          <MessageThreadBody expanded text={body} />
         </section>
 
         {!!attachments &&

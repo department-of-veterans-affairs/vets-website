@@ -31,13 +31,22 @@ describe('Vaccines details container', () => {
     return renderWithStoreAndRouter(<VaccineDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/vaccine/123',
+      path: '/vaccine-details/123',
     });
   };
 
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
+  });
+
+  it('displays CONFIDENTIAL header for print view', () => {
+    const screen = setup();
+    const printHeading = screen.getByRole('heading', {
+      name: 'CONFIDENTIAL',
+      level: 4,
+    });
+    expect(printHeading).to.exist;
   });
 
   it('displays a print button', () => {
