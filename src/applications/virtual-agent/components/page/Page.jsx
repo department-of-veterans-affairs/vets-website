@@ -45,7 +45,7 @@ const renderStickyBot = () => {
       </div>
       <a
         className="show-on-focus"
-        href="#content"
+        href="#chatbot"
         onClick={() => {
           showBot('corner');
         }}
@@ -74,7 +74,7 @@ const renderStickyBot = () => {
           }}
           aria-hidden="true"
         >
-          <a href="#">
+          <a href="#chatbot-icon">
             <img src="/img/va-chat.png" alt="openchatbot" />
           </a>
         </div>
@@ -88,7 +88,7 @@ const renderStickyBot = () => {
             }}
             aria-hidden="true"
           >
-            <a href="#">
+            <a href="#corner-bot">
               <img src="/img/va-x.svg" alt="escape-chatbot" tabIndex="-1" />
             </a>
           </div>
