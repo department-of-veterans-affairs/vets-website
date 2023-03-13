@@ -133,7 +133,6 @@ export function uiSchema(
   useStreet3 = false,
   isRequired = null,
   ignoreRequired = false,
-  addressDescription = null,
 ) {
   let fieldOrder = [
     'country',
@@ -250,7 +249,6 @@ export function uiSchema(
 
   return {
     'ui:title': label,
-    'ui:description': addressDescription,
     'ui:validations': [validateAddress],
     'ui:options': {
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {

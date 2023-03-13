@@ -11,7 +11,8 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [
   previousHiApplicationFields.previousHiApplicationDate,
-  previousHiApplicationFields.previousHiApplicationAddress,
+  // previousHiApplicationFields.previousHiApplicationAddress,
+  // omitted because unused, will be restored when vets-json-schema is changed
 ];
 
 export default {
@@ -26,6 +27,9 @@ export default {
       [previousHiApplicationFields.previousHiApplicationDate]: dateUI(
         'Date of previous application',
       ),
+      'view:addressDescription': {
+        'ui:description': 'Address connected to your past application',
+      },
       [previousHiApplicationFields.previousHiApplicationAddress]: address.uiSchema(
         '',
         false,
@@ -33,8 +37,6 @@ export default {
           formData[previousHiApplicationFields.parentObject][
             previousHiApplicationFields.hasPreviousHiApplication
           ],
-        false,
-        'Address connected to your past application',
       ),
     },
   },
@@ -46,7 +48,10 @@ export default {
         required: intersection(required, pageFields),
         properties: {
           ...pick(properties, pageFields),
-          // address definitions appear to be implemented differently
+          'view:addressDescription': {
+            type: 'object',
+            properties: {},
+          },
           [previousHiApplicationFields.previousHiApplicationAddress]: address.schema(
             fullSchema,
             formData =>

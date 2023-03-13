@@ -11,7 +11,8 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [
   previousSahApplicationFields.previousSahApplicationDate,
-  previousSahApplicationFields.previousSahApplicationAddress,
+  // previousSahApplicationFields.previousSahApplicationAddress,
+  // omitted because unused, will be restored when vets-json-schema is changed
 ];
 
 export default {
@@ -26,6 +27,9 @@ export default {
       [previousSahApplicationFields.previousSahApplicationDate]: dateUI(
         'Date of previous application',
       ),
+      'view:addressDescription': {
+        'ui:description': 'Address connected to your past application',
+      },
       [previousSahApplicationFields.previousSahApplicationAddress]: address.uiSchema(
         '',
         false,
@@ -33,8 +37,6 @@ export default {
           formData[previousSahApplicationFields.parentObject][
             previousSahApplicationFields.hasPreviousSahApplication
           ],
-        false,
-        'Address connected to your past application',
       ),
     },
   },
@@ -46,7 +48,10 @@ export default {
         required: intersection(required, pageFields),
         properties: {
           ...pick(properties, pageFields),
-          // address definitions appear to be implemented differently
+          'view:addressDescription': {
+            type: 'object',
+            properties: {},
+          },
           [previousSahApplicationFields.previousSahApplicationAddress]: address.schema(
             fullSchema,
             formData =>

@@ -10,7 +10,8 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [
   livingSituationFields.careFacilityName,
-  livingSituationFields.careFacilityAddress,
+  // livingSituationFields.careFacilityAddress,
+  // omitted because unused, will be restored when vets-json-schema is changed
 ];
 
 export default {
@@ -21,6 +22,10 @@ export default {
         'ui:title':
           'What is the name of the nursing home or medical care facility?',
       },
+      'view:addressDescription': {
+        'ui:description':
+          'What is the address of the nursing home or medical care facility you are living in?',
+      },
       [livingSituationFields.careFacilityAddress]: address.uiSchema(
         '',
         false,
@@ -28,8 +33,6 @@ export default {
           formData[livingSituationFields.parentObject][
             livingSituationFields.isInCareFacility
           ],
-        false,
-        'What is the address of the nursing home or medical care facility you are living in?',
       ),
     },
   },
@@ -41,7 +44,10 @@ export default {
         required: intersection(required, pageFields),
         properties: {
           ...pick(properties, pageFields),
-          // address definitions appear to be implemented differently
+          'view:addressDescription': {
+            type: 'object',
+            properties: {},
+          },
           [livingSituationFields.careFacilityAddress]: address.schema(
             fullSchema,
             formData =>
