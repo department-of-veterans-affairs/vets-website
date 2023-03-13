@@ -6,7 +6,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Disclaimer from './Disclaimer';
 import ChatBox from '../chatbox/Chatbox';
-import FloatingChatBox from '../floating-chatbox/FloatingChatBox';
+// import FloatingChatBox from '../floating-chatbox/FloatingChatBox';
 
 const showBot = botPosition => {
   if (botPosition === 'corner') {
@@ -43,6 +43,15 @@ const renderStickyBot = () => {
       <div className="jumplink unhide vads-l-col--12 vads-u-display--block medium-screen:vads-u-display--none">
         <a href="#chatbot">Scroll to Chatbot</a>
       </div>
+      <a
+        className="show-on-focus"
+        href="#content"
+        onClick={() => {
+          showBot('corner');
+        }}
+      >
+        Go to Chatbot
+      </a>
       <div className="vads-l-row vads-u-margin-x--neg2p5 vads-u-margin-y--4 medium-screen:vads-u-display-none">
         <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--7">
           <Disclaimer />
@@ -57,6 +66,7 @@ const renderStickyBot = () => {
 
         <div
           id="chatbot-icon"
+          tabIndex="-1"
           role="button"
           className="chatbot-icon unhide vads-l-col--12 vads-u-display--none medium-screen:vads-u-display--block"
           onClick={() => {
@@ -72,13 +82,14 @@ const renderStickyBot = () => {
           <div
             className="close-chatbot-button"
             role="button"
+            tabIndex="-1"
             onClick={() => {
               showBot('bottom');
             }}
             aria-hidden="true"
           >
             <a href="#">
-              <img src="/img/va-x.svg" alt="escape-chatbot" />
+              <img src="/img/va-x.svg" alt="escape-chatbot" tabIndex="-1" />
             </a>
           </div>
           <ChatBox />
