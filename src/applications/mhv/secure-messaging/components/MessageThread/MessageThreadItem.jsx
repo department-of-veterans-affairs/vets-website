@@ -74,10 +74,7 @@ const MessageThreadItem = props => {
   return (
     message && (
       <>
-        <div
-          className="older-message vads-u-padding-top--0p5 vads-u-padding-bottom--2 vads-u-display--flex vads-u-flex-direction--row"
-          data-testid="expand-message-button-parent"
-        >
+        <div className="older-message vads-u-padding-top--0p5 vads-u-padding-bottom--2 vads-u-display--flex vads-u-flex-direction--row">
           <div
             className="vads-u-flex--auto"
             role="img"
@@ -90,29 +87,27 @@ const MessageThreadItem = props => {
             />
           </div>
 
-          <div className="vads-u-flex--fill " data-testid={message.messageId}>
-            <div
-              role="button"
-              tabIndex={0}
-              data-testid="expand-message-button"
-              aria-expanded={isExpanded}
-              aria-label={!isExpanded ? ariaLabel : ''}
-              onClickCapture={e => {
-                handleExpand(e);
-              }}
-              onKeyDown={e => {
-                handleExpand(e);
-              }}
-            >
-              <MessageThreadMeta
-                expanded={isExpanded}
-                message={message}
-                isRead={isRead}
-                hasAttachments={hasAttachments}
-              />
-              <MessageThreadBody expanded={isExpanded} text={message.body} />
-            </div>
-
+          <div
+            className="vads-u-flex--fill "
+            role="button"
+            tabIndex={0}
+            data-testid={`expand-message-button-${message.messageId}`}
+            aria-expanded={isExpanded}
+            aria-label={!isExpanded ? ariaLabel : ''}
+            onClickCapture={e => {
+              handleExpand(e);
+            }}
+            onKeyDown={e => {
+              handleExpand(e);
+            }}
+          >
+            <MessageThreadMeta
+              expanded={isExpanded}
+              message={message}
+              isRead={isRead}
+              hasAttachments={hasAttachments}
+            />
+            <MessageThreadBody expanded={isExpanded} text={message.body} />
             {isExpanded &&
               message.attachments?.length > 0 && (
                 <MessageThreadAttachments
