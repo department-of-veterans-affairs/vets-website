@@ -17,7 +17,13 @@ export const moveThread = (threadId, toFolderId) => async dispatch => {
       ),
     );
   } catch (e) {
-    dispatch(addAlert('', '', ''));
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Thread.MOVE_THREAD_ERROR,
+      ),
+    );
     throw e;
   }
 };
@@ -34,7 +40,13 @@ export const deleteThread = threadId => async dispatch => {
     );
   } catch (e) {
     // const error = e.errors[0].detail;
-    dispatch(addAlert('', '', ''));
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Thread.MOVE_THREAD_ERROR,
+      ),
+    );
     throw e;
   }
 };

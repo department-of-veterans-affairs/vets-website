@@ -327,6 +327,12 @@ export const moveMessage = (messageId, toFolderId) => {
   );
 };
 
+/**
+ * Move a message thread.
+ * @param {Long} messageId
+ * @param {Long} toFolderId
+ * @returns
+ */
 export const moveThread = (threadId, toFolderId) => {
   return apiRequest(
     `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${toFolderId}`,
@@ -339,8 +345,25 @@ export const moveThread = (threadId, toFolderId) => {
   );
 };
 
-export const deleteThread = () => {
-  return null;
+/**
+ * Deletes a message thread.
+ * @param {Long} messageId
+ * @param {Long} toFolderId
+ * @returns
+ *
+ * If Deleted, thread only goes to 'Trash' folder
+ */
+
+export const deleteThread = (threadId, toFolderId) => {
+  return apiRequest(
+    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${toFolderId}`,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
 };
 
 /**

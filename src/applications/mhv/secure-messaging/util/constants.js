@@ -58,8 +58,10 @@ export const Alerts = {
       'That folder name is already in use. Please use another name.',
   },
   Thread: {
-    DELETE_THREAD_SUCCESS: 'Thread was successfully deleted',
+    DELETE_THREAD_SUCCESS: 'Thread was moved to Trash',
     MOVE_THREAD_SUCCESS: 'Thread was successfully moved ',
+    MOVE_THREAD_ERROR:
+      'Thread could not be moved. Try again later. If this problem persists, contact the help desk.',
   },
 };
 
