@@ -27,7 +27,6 @@ import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
 import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
 import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
-import OptIn from '../components/OptIn';
 import Notice5103 from '../components/Notice5103';
 import submissionError from '../content/submissionError';
 
@@ -210,13 +209,8 @@ const formConfig = {
           title: 'Opt in',
           path: 'opt-in',
           depends: mayHaveLegacyAppeals,
-          CustomPage: OptIn,
-          CustomPageReview: null, // reviewField renders this!
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
-          initialData: {
-            socOptIn: false,
-          },
         },
       },
     },
