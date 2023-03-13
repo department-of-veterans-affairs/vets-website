@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
 const defaultRecord = [
@@ -103,6 +102,12 @@ const EnhancedVehicleRecord = props => {
 
   return (
     <form onSubmit={updateFormData}>
+      <legend className="schemaform-block-title">
+        Your car or other vehicle
+      </legend>
+      <p className="vads-u-padding-top--2">
+        Enter your vehicle’s information below.
+      </p>
       <div className="input-size-5">
         <VaTextInput
           className="no-wrap input-size-3"
