@@ -20,6 +20,7 @@ import {
   isEmptyObject,
   calculateIndexOffset,
 } from '../utils/helpers';
+import { focusIssue } from '../utils/focus';
 
 /**
  * ContestableIssuesWidget
@@ -116,11 +117,11 @@ const ContestableIssuesWidget = props => {
         (issue, indx) => adjustedIndex !== indx,
       );
 
-      // Focus management: target the previous issue if the last one was removed
-      // Done internally within the issue card component
-      const focusIndex =
-        index + (adjustedIndex >= updatedAdditionalIssues.length ? -1 : 0);
-      window.sessionStorage.setItem(LAST_SC_ITEM, focusIndex);
+      // Focus management: target add a new issue action link
+      window.sessionStorage.setItem(LAST_SC_ITEM, -1);
+      // focusIssue is called by form config scrollAndFocusTarget, but only on
+      // page change
+      focusIssue();
 
       setFormData({
         ...formData,
@@ -171,7 +172,10 @@ const ContestableIssuesWidget = props => {
         {onReviewPage && inReviewMode ? null : (
           <Link
             className="add-new-issue vads-c-action-link--green"
-            to={{ pathname: '/add-issue', search: `?index=${items.length}` }}
+            to={{
+              pathname: '/add-issue',
+              search: `?index=${items.length},new=true`,
+            }}
           >
             Add a new issue
           </Link>
