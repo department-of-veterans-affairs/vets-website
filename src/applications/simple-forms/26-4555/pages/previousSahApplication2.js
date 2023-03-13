@@ -27,12 +27,14 @@ export default {
         'Date of previous application',
       ),
       [previousSahApplicationFields.previousSahApplicationAddress]: address.uiSchema(
-        'Address connected to your past application',
+        '',
         false,
         formData =>
           formData[previousSahApplicationFields.parentObject][
             previousSahApplicationFields.hasPreviousSahApplication
           ],
+        false,
+        'Address connected to your past application',
       ),
     },
   },

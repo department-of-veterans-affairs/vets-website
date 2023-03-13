@@ -22,12 +22,14 @@ export default {
           'What is the name of the nursing home or medical care facility?',
       },
       [livingSituationFields.careFacilityAddress]: address.uiSchema(
-        'What is the address of the nursing home or medical care facility you are living in?',
+        '',
         false,
         formData =>
           formData[livingSituationFields.parentObject][
             livingSituationFields.isInCareFacility
           ],
+        false,
+        'What is the address of the nursing home or medical care facility you are living in?',
       ),
     },
   },

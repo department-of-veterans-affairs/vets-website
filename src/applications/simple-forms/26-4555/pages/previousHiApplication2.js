@@ -27,12 +27,14 @@ export default {
         'Date of previous application',
       ),
       [previousHiApplicationFields.previousHiApplicationAddress]: address.uiSchema(
-        'Address connected to your past application',
+        '',
         false,
         formData =>
           formData[previousHiApplicationFields.parentObject][
             previousHiApplicationFields.hasPreviousHiApplication
           ],
+        false,
+        'Address connected to your past application',
       ),
     },
   },
