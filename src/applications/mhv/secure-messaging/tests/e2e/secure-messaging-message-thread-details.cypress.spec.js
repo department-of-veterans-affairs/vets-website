@@ -13,7 +13,6 @@ describe('Secure Messaging Message Details AXE Check', () => {
     const site = new SecureMessagingSite();
     site.login();
     const messageDetails = mockMessageDetails;
-    // const messageDetails = landingPage.setMessageDateToYesterday(mockMessageDetails);
     const date = new Date();
     date.setDate(date.getDate() - 2);
     messageDetails.data.attributes.sentDate = date.toISOString();
@@ -25,18 +24,15 @@ describe('Secure Messaging Message Details AXE Check', () => {
       1,
       mockParentMessageDetails,
     );
-
-    detailsPage.expandThreadMessageDetails(defaultMockThread, 1);
+    const updatedMockThread = detailsPage.getCurrentThread();
+    detailsPage.expandThreadMessageDetails(updatedMockThread, 1);
+    cy.reload(true);
     detailsPage.verifyExpandedMessageToDisplay(mockParentMessageDetails);
     detailsPage.verifyExpandedMessageFromDisplay(mockParentMessageDetails);
     detailsPage.verifyExpandedMessageIDDisplay(mockParentMessageDetails);
     detailsPage.verifyExpandedMessageDateDisplay(mockParentMessageDetails);
 
     detailsPage.verifyUnexpandedMessageAttachment(1);
-
-    // verify To: Displayed
-    // verify Message Displayed
-    // Verify Body is complete
     cy.injectAxe();
     cy.axeCheck();
   });
