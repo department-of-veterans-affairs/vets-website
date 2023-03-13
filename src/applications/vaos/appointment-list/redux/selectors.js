@@ -508,6 +508,26 @@ export function selectApptDetailAriaText(appointment, isRequest = false) {
 
   return `${fillin1} ${modality} ${fillin2} ${fillin3}`;
 }
+export function selectApptDateAriaText(appointment) {
+  const appointmentDate = selectStartDate(appointment);
+  const isCanceled = selectIsCanceled(appointment);
+  const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
+  return `${
+    isCanceled ? 'canceled ' : ''
+  } appointment on ${appointmentDate.format(
+    `dddd, MMMM D h:mm a, [${timezoneName}]`,
+  )}`;
+}
+export function selectTypeOfCareAriaText(appointment) {
+  const TypeOfCareText = selectAppointmentLocality(appointment);
+  const isCanceled = selectIsCanceled(appointment);
+  return `${isCanceled ? 'canceled ' : ''}${TypeOfCareText}`;
+}
+export function selectModalityAriaText(appointment) {
+  const modalityText = selectModalityText(appointment);
+  const isCanceled = selectIsCanceled(appointment);
+  return `${isCanceled ? 'canceled ' : ''}${modalityText} appointment`;
+}
 
 export function selectModalityIcon(appointment) {
   const isCommunityCare = selectIsCommunityCare(appointment);

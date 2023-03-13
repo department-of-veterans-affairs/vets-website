@@ -12,6 +12,9 @@ import {
   selectStartDate,
   selectTimeZoneAbbr,
   selectApptDetailAriaText,
+  selectApptDateAriaText,
+  selectTypeOfCareAriaText,
+  selectModalityAriaText,
 } from '../../redux/selectors';
 
 export default function AppointmentColumnLayout({
@@ -30,6 +33,9 @@ export default function AppointmentColumnLayout({
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
 
   const detailAriaLabel = useSelector(() => selectApptDetailAriaText(data));
+  const dateAriaLabel = useSelector(() => selectApptDateAriaText(data));
+  const typeOfCareAriaLabel = useSelector(() => selectTypeOfCareAriaText(data));
+  const modalityAriaLabel = useSelector(() => selectModalityAriaText(data));
 
   return (
     <>
@@ -37,6 +43,7 @@ export default function AppointmentColumnLayout({
         id="vaos-appts__column--1"
         size="1"
         className="vads-u-flex--auto vads-u-padding-y--2"
+        aria-label={dateAriaLabel}
       >
         {first && (
           <AppointmentRow className="xsmall-screen:vads-u-text-align--center small-screen:vads-u-flex-direction--row">
@@ -55,7 +62,6 @@ export default function AppointmentColumnLayout({
               style={{ minWidth: '25px', maxWidth: '25px' }}
             >
               <span>{startDate.format('ddd')}</span>
-              <span className="sr-only"> {timezoneAbbr}</span>
             </AppointmentColumn>
           </AppointmentRow>
         )}
@@ -92,6 +98,7 @@ export default function AppointmentColumnLayout({
                 size="1"
                 className="vads-u-font-weight--bold vaos-appts__text--truncate"
                 canceled={isCanceled}
+                aria-label={typeOfCareAriaLabel}
               >
                 {appointmentLocality}
               </AppointmentColumn>
@@ -101,6 +108,7 @@ export default function AppointmentColumnLayout({
                 size="1"
                 className="vaos-appts__text--truncate small-desktop-screen:vads-u-margin-left--5"
                 canceled={isCanceled}
+                aria-label={modalityAriaLabel}
               >
                 <>
                   <i
