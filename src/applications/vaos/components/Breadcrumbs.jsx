@@ -40,7 +40,7 @@ export default function VAOSBreadcrumbs({ children }) {
       role="navigation"
       aria-label="Breadcrumbs"
       ref={breadcrumbsRef}
-      className="vaos-hide-for-print"
+      class="vaos-hide-for-print"
     >
       <a href="/" key="home">
         Home

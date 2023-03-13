@@ -96,7 +96,7 @@ const PreCheckInAccordionBlock = ({
         <strong>{title}</strong>
         {appointmentType === 'clinic' ? (
           <p>
-            t('a-staff-member-will-help-you-on-the-day-of-your-appointment')
+            {t('a-staff-member-will-help-you-on-the-day-of-your-appointment')}
           </p>
         ) : (
           <p data-testid="please-call">

@@ -8,11 +8,8 @@ import { connect } from 'react-redux';
 // Relative imports.
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
-import {
-  createAndUpgradeMHVAccount,
-  fetchMHVAccount,
-  upgradeMHVAccount,
-} from 'platform/user/profile/actions';
+import { fetchMHVAccount } from 'platform/user/profile/actions';
+import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
@@ -61,10 +58,8 @@ export class CallToActionWidget extends Component {
     mviStatus: PropTypes.string,
     profile: PropTypes.object,
     // From mapDispatchToProps.
-    createAndUpgradeMHVAccount: PropTypes.func.isRequired,
     fetchMHVAccount: PropTypes.func.isRequired,
     toggleLoginModal: PropTypes.func.isRequired,
-    upgradeMHVAccount: PropTypes.func.isRequired,
     ariaLabel: PropTypes.string,
     ariaDescribedby: PropTypes.string,
   };
@@ -117,7 +112,7 @@ export class CallToActionWidget extends Component {
       this._toolUrl = url;
       if (redirect && !this._popup) this.goToTool();
     } else if (this.isHealthTool()) {
-      const { accountLevel, accountState, loading } = this.props.mhvAccount;
+      const { accountState, loading } = this.props.mhvAccount;
 
       if (loading) return;
 
@@ -129,11 +124,7 @@ export class CallToActionWidget extends Component {
         // Since T&C is still required to support the existing account states,
         // check the existence of a query param that gets appended after
         // successful T&C acceptance to complete account creation or upgrade.
-        if (!accountLevel && accountState !== 'register_failed') {
-          this.props.createAndUpgradeMHVAccount();
-        } else if (accountLevel && accountState !== 'upgrade_failed') {
-          this.props.upgradeMHVAccount();
-        }
+        /* We are no longer creating or upgrading MHV accounts on VA.gov */
       }
     }
   }
@@ -292,6 +283,10 @@ export class CallToActionWidget extends Component {
     return null;
   };
 
+  sendToMHV = () => {
+    window.location = mhvUrl(this.props.authenticatedWithSSOe, 'home');
+  };
+
   getInaccessibleHealthToolContent = () => {
     const { accountState } = this.props.mhvAccount;
 
@@ -324,40 +319,11 @@ export class CallToActionWidget extends Component {
       case ACCOUNT_STATES.MULTIPLE_IDS:
         return <MultipleIds />;
 
-      /* Handling for these states to be re-introduced after brand consolidation
-       * when VA patient and T&C acceptance checks will no longer gate access, so
-       * access to these tools will be accurately reported by the services list.
-       * For now, MHV account level requirements will be validated client-side.
-       *
-       * case 'no_account':
-       *   return {
-       *     heading: `You’ll need to create a My HealtheVet account before you can ${this._serviceDescription`,
-       *     primaryButtonText: 'Create a My HealtheVet Account',
-       *     primaryButtonHandler: this.props.createAndUpgradeMHVAccount,
-       *     status: 'continue'
-       *   };
-
-       * case 'existing':
-       * case 'registered':
-       *   return {
-       *     heading: `You’ll need to upgrade your account before you can ${this._serviceDescription}`,
-       *     primaryButtonText: 'Upgrade Your Account',
-       *     primaryButtonHandler: this.props.upgradeMHVAccount,
-       *     status: 'continue'
-       *   };
-       */
-
       case ACCOUNT_STATES.REGISTER_FAILED:
-        return (
-          <RegisterFailed
-            createAndUpgradeMHVAccount={this.props.createAndUpgradeMHVAccount}
-          />
-        );
+        return <RegisterFailed />;
 
       case ACCOUNT_STATES.UPGRADE_FAILED:
-        return (
-          <UpgradeFailed upgradeMHVAccount={this.props.upgradeMHVAccount} />
-        );
+        return <UpgradeFailed />;
 
       default: // Handle other content outside of block.
     }
@@ -383,7 +349,7 @@ export class CallToActionWidget extends Component {
           primaryButtonHandler={
             accountState === 'needs_terms_acceptance'
               ? redirectToTermsAndConditions
-              : this.props.createAndUpgradeMHVAccount
+              : this.sendToMHV
           }
           secondaryButtonHandler={this.signOut}
         />
@@ -396,7 +362,7 @@ export class CallToActionWidget extends Component {
         primaryButtonHandler={
           accountState === 'needs_terms_acceptance'
             ? redirectToTermsAndConditions
-            : this.props.upgradeMHVAccount
+            : this.sendToMHV
         }
       />
     );
@@ -567,10 +533,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  createAndUpgradeMHVAccount,
   fetchMHVAccount,
   toggleLoginModal,
-  upgradeMHVAccount,
 };
 
 export default connect(

@@ -29,5 +29,13 @@ describe('Secure Messaging Reply', () => {
       landingPage.getNewMessage().attributes.subject,
       testMessageBody,
     );
+
+    replyPage.sendReplyDraft(
+      landingPage.getNewMessage().attributes.messageId,
+      landingPage.getNewMessage().attributes.senderId,
+      landingPage.getNewMessage().attributes.category,
+      landingPage.getNewMessage().attributes.subject,
+      testMessageBody,
+    );
   });
 });
