@@ -140,6 +140,7 @@ const EnhancedVehicleRecord = props => {
           inputmode="numeric"
           label="Vehicle year"
           name="year"
+          id="year"
           onInput={handleVehicleYearChange}
           value={vehicleRecord.year}
         />
@@ -155,6 +156,7 @@ const EnhancedVehicleRecord = props => {
           inputmode="numeric"
           label="Estimated value"
           name="estValue"
+          id="estValue"
           onInput={handleVehicleEstValueChange}
           value={vehicleRecord.resaleValue}
         />
