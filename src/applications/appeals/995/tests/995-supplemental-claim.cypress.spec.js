@@ -83,17 +83,6 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'opt-in': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(({ socOptIn }) => {
-            if (socOptIn) {
-              cy.get('va-checkbox').click();
-            }
-            cy.findByText('Continue', { selector: 'button' }).click();
-          });
-        });
-      },
       'notice-of-evidence-needed': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
