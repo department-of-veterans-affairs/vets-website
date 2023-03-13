@@ -446,6 +446,25 @@ const formConfig = {
           editModeOnReviewPage: true,
           CustomPage: SpouseEmploymentHistoryWidget,
         },
+        spouseAdditionalIncomeCheckList: {
+          path: 'spouse-additional-income-checklist',
+          title: 'Additional income options',
+          uiSchema: pages.spouseAdditionalIncomeCheckList.uiSchema,
+          schema: pages.spouseAdditionalIncomeCheckList.schema,
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        spouseAdditionalIncomeValues: {
+          path: 'spouse-additional-income-values',
+          title: 'Additional income values',
+          uiSchema: pages.spouseAdditionalIncomeValues.uiSchema,
+          schema: pages.spouseAdditionalIncomeValues.schema,
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData.additionalIncome?.spouse?.spAddlIncome?.length > 0 &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
         dependents: {
           path: 'dependents',
           title: 'Dependents',

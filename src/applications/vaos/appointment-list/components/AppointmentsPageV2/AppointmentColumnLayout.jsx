@@ -11,6 +11,7 @@ import {
   selectModalityIcon,
   selectStartDate,
   selectTimeZoneAbbr,
+  selectApptDetailAriaText,
 } from '../../redux/selectors';
 
 export default function AppointmentColumnLayout({
@@ -19,26 +20,22 @@ export default function AppointmentColumnLayout({
   grouped,
   link,
 }) {
-  const appointmentDate = useSelector(() => selectStartDate(data));
   const appointmentLocality = useSelector(() =>
     selectAppointmentLocality(data),
   );
   const isCanceled = useSelector(() => selectIsCanceled(data));
-  const modality = useSelector(() => selectModalityText(data));
+  const modalityText = useSelector(() => selectModalityText(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
   const startDate = useSelector(() => selectStartDate(data));
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
 
-  const detailAriaLabel = `Details for ${
-    isCanceled ? 'canceled ' : ''
-  }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`;
+  const detailAriaLabel = useSelector(() => selectApptDetailAriaText(data));
 
   return (
     <>
       <AppointmentColumn
-        id="vaos-appts__column--1"
         size="1"
-        className="vads-u-flex--auto vads-u-padding-y--2"
+        className="vaos-appts__column--1 vads-u-flex--auto vads-u-padding-y--2"
       >
         {first && (
           <AppointmentRow className="xsmall-screen:vads-u-text-align--center small-screen:vads-u-flex-direction--row">
@@ -64,8 +61,8 @@ export default function AppointmentColumnLayout({
       </AppointmentColumn>
 
       <AppointmentColumn
-        id="vaos-appts__column--2"
         className={classNames(
+          'vaos-appts__column--2',
           'vads-u-border-color--gray-lighter',
           'vads-u-margin-left--2',
           'vads-u-padding-y--2',
@@ -114,22 +111,23 @@ export default function AppointmentColumnLayout({
                     )}
                   />
 
-                  {`${modality}`}
+                  {`${modalityText}`}
                 </>
               </AppointmentColumn>
             </AppointmentRow>
           </AppointmentColumn>
 
           <AppointmentColumn
-            id="vaos-appts__detail"
+            id={`vaos-appts__detail-${data.id}`}
             className="vaos-hide-for-print"
             // className="vads-u-display--flex vads-u-flex--auto vads-u-justify-content--right vads-u-align-items--center vads-u-text-align--right vaos-hide-for-print"
             padding="0"
             size="1"
+            aria-label={detailAriaLabel}
           >
             <va-link
               className="vaos-appts__focus--hide-outline"
-              aria-label={detailAriaLabel}
+              aria-describedby={`vaos-appts__detail-${data.id}`}
               href={link}
               onClick={e => e.preventDefault()}
               text="Details"

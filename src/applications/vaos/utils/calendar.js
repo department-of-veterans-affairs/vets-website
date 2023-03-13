@@ -55,11 +55,42 @@ export function getICSTokens(buffer) {
   // Split tokens into key/value pairs using lookbehind since it is possible
   // for other text to contain the split character. The regex looks for a ':'
   // preceeded by on the keywords.
-  tokens = tokens.map(t =>
-    t.split(
-      /(?<=BEGIN):|(?<=VERSION):|(?<=PRODID):|(?<=UID):|(?<=SUMMARY):|(?<=DESCRIPTION):|(?<=LOCATION):|(?<=DTSTAMP):|(?<=DTSTART):|(?<=DTEND):|(?<=END):/g,
-    ),
-  );
+  //
+  // NOTE: Look behind is not support by Safari browser. Uncomment if the feature
+  // is supported in the future.
+  //
+  // tokens = tokens.map(t =>
+  //   t.split(
+  //     /(?<=BEGIN):|(?<=VERSION):|(?<=PRODID):|(?<=UID):|(?<=SUMMARY):|(?<=DESCRIPTION):|(?<=LOCATION):|(?<=DTSTAMP):|(?<=DTSTART):|(?<=DTEND):|(?<=END):/g,
+  //   ),
+  // );
+  tokens = tokens.reduce((acc, token) => {
+    const results = [
+      'BEGIN',
+      'VERSION',
+      'PRODID',
+      'UID',
+      'SUMMARY',
+      'DESCRIPTION',
+      'LOCATION',
+      'DTSTAMP',
+      'DTSTART',
+      'DTEND',
+      'END',
+      '\t',
+    ]
+      .map(key => {
+        if (key === '\t') {
+          const match = token.match(new RegExp(`(^\t)(.*)$`));
+          return match ? [match[0], match[0]] : null;
+        }
+        const match = token.match(new RegExp(`(^${key}:)(.*)$`));
+        return match ? [key, match[2]] : null;
+      })
+      .filter(Boolean);
+    return acc.concat(results);
+  }, []);
+
   tokens.forEach(token => {
     // Store duplicate keys values in an array...
     if (map.has(token[0])) {

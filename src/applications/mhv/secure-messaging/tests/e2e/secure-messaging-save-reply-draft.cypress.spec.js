@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientReplyPage from './pages/PatientReplyPage';
+import mockMessages from './fixtures/messages-response.json';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
@@ -10,31 +11,10 @@ describe('Secure Messaging Reply', () => {
     const replyPage = new PatientReplyPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.setDynamicMessage(
-      landingPage.getNewMessage().attributes.messageId,
-      landingPage.getNewMessage().attributes.subject,
-      landingPage.getNewMessage().attributes.body,
-      landingPage.getNewMessage().attributes.category,
-      landingPage.getNewMessage().attributes.sentDate,
-      landingPage.getNewMessage().recipientId,
-    );
-    landingPage.loadPage();
-    landingPage.loadMessageDetails(
-      landingPage.getNewMessage().attributes.messageId,
-      landingPage.getNewMessage().attributes.subject,
-      landingPage.getNewMessage().attributes.body,
-      landingPage.getNewMessage().attributes.category,
-      landingPage.getNewMessage().attributes.sentDate,
-      landingPage.getNewMessage().recipientId,
-    );
-    messageDetailsPage.loadReplyPage(
-      landingPage.getNewMessage().attributes.messageId,
-      landingPage.getNewMessage().attributes.subject,
-      landingPage.getNewMessage().attributes.body,
-      landingPage.getNewMessage().attributes.category,
-      landingPage.getNewMessage().attributes.sentDate,
-      landingPage.getNewMessage().attributes.recipientId,
-    );
+    const messageDetails = landingPage.getNewMessageDetails();
+    landingPage.loadInboxMessages(mockMessages, messageDetails);
+    messageDetailsPage.loadMessageDetails(messageDetails);
+    messageDetailsPage.loadReplyPageDetails(messageDetails);
     const testMessageBody = 'Test message body';
     cy.get('[data-testid="message-body-field"]')
       .shadow()
@@ -43,6 +23,14 @@ describe('Secure Messaging Reply', () => {
     cy.injectAxe();
     cy.axeCheck();
     replyPage.saveReplyDraft(
+      landingPage.getNewMessage().attributes.messageId,
+      landingPage.getNewMessage().attributes.senderId,
+      landingPage.getNewMessage().attributes.category,
+      landingPage.getNewMessage().attributes.subject,
+      testMessageBody,
+    );
+
+    replyPage.sendReplyDraft(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.senderId,
       landingPage.getNewMessage().attributes.category,
