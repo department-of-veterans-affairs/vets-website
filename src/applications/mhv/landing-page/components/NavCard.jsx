@@ -12,7 +12,7 @@ const NavCard = ({ icon = null, title, links }) => {
   ));
   const slug = `mhv-c-card-${title.replaceAll(/[^\w]+/g, '-').toLowerCase()}`;
   return (
-    <div className="vads-u-height--full vads-u-padding-x--5 vads-u-padding-top--3 vads-u-padding-bottom--2 vads-u-background-color--gray-lightest">
+    <div className="vads-u-height--full vads-u-padding-x--5 vads-u-padding-top--4 vads-u-padding-bottom--2 vads-u-background-color--gray-lightest">
       <div className="vads-u-display--flex vads-u-align-items--start">
         {icon && (
           <div className="vads-u-flex--auto vads-u-margin-right--1p5 small-screen:vads-u-margin-top--0p5">

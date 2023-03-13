@@ -34,9 +34,8 @@ export default function AppointmentColumnLayout({
   return (
     <>
       <AppointmentColumn
-        id="vaos-appts__column--1"
         size="1"
-        className="vads-u-flex--auto vads-u-padding-y--2"
+        className="vaos-appts__column--1 vads-u-flex--auto vads-u-padding-y--2"
       >
         {first && (
           <AppointmentRow className="xsmall-screen:vads-u-text-align--center small-screen:vads-u-flex-direction--row">
@@ -62,8 +61,8 @@ export default function AppointmentColumnLayout({
       </AppointmentColumn>
 
       <AppointmentColumn
-        id="vaos-appts__column--2"
         className={classNames(
+          'vaos-appts__column--2',
           'vads-u-border-color--gray-lighter',
           'vads-u-margin-left--2',
           'vads-u-padding-y--2',
@@ -119,7 +118,7 @@ export default function AppointmentColumnLayout({
           </AppointmentColumn>
 
           <AppointmentColumn
-            id="vaos-appts__detail"
+            id={`vaos-appts__detail-${data.id}`}
             className="vaos-hide-for-print"
             // className="vads-u-display--flex vads-u-flex--auto vads-u-justify-content--right vads-u-align-items--center vads-u-text-align--right vaos-hide-for-print"
             padding="0"
@@ -128,7 +127,7 @@ export default function AppointmentColumnLayout({
           >
             <va-link
               className="vaos-appts__focus--hide-outline"
-              aria-describedby="vaos-appts__detail"
+              aria-describedby={`vaos-appts__detail-${data.id}`}
               href={link}
               onClick={e => e.preventDefault()}
               text="Details"

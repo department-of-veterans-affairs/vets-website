@@ -15,10 +15,12 @@ const MessageThreadBody = props => {
     >
       <>
         <span className="vads-u-margin-y--0">
-          {words?.map(word => {
+          {words?.map((word, i) => {
             return (word.match(urlRegex) || word.match(httpRegex)) &&
               words.length >= 1 ? (
-              <a href={word} target="_blank" rel="noreferrer">{`${word} `}</a>
+              <a key={i} href={word} target="_blank" rel="noreferrer">
+                {`${word} `}
+              </a>
             ) : (
               `${word} `
             );
