@@ -814,7 +814,6 @@ const formConfig = {
                       country: { 'ui:required': isAuthorizedAgent },
                       street: { 'ui:required': isAuthorizedAgent },
                       city: { 'ui:required': isAuthorizedAgent },
-                      state: { 'ui:required': isAuthorizedAgent },
                       postalCode: { 'ui:required': isAuthorizedAgent },
                     },
                   ),
