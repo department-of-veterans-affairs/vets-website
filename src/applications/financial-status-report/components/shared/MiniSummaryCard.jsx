@@ -4,10 +4,10 @@ import { Link } from 'react-router';
 
 /**
  * MiniSummaryCard
- * @param {String} editDesination - Object for react-router Link component { pathname: '/path-desination', search: `?index=${index-value}`
+ * @param {Object} editDesination - Object for react-router Link component { pathname: '/path-desination', search: `?index=${index-value}` }
  * @param {String} heading - h4 styled as h3 heading for component
- * @param {String} body - paragraph styled as gray text for component
- * @param {String} onDelete - callback for delete button
+ * @param {Object} body - body content for component (can be a react component)
+ * @param {Function} onDelete - callback for delete button
  * @param {Boolean} showDelete - boolean to show delete button
  * @return {React Component}
  */
