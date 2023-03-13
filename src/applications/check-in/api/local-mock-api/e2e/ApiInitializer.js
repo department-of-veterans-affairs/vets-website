@@ -5,6 +5,8 @@ import btsss from '../mocks/v2/btsss';
 import sharedData from '../mocks/v2/shared';
 import featureToggles from '../mocks/v2/feature-toggles';
 
+const dateFns = require('date-fns');
+
 class ApiInitializer {
   initializeFeatureToggle = {
     withAppsDisabled: () => {
@@ -216,6 +218,22 @@ class ApiInitializer {
         emergencyContactNeedsUpdate,
         emergencyContactConfirmedAt,
       );
+    },
+    withAllDemographicsCurrent: () => {
+      const yesterday = dateFns.sub(new Date(), { days: -1 }).toISOString();
+      const data = preCheckInData.get.createMockSuccessResponse(
+        null,
+        false,
+        yesterday,
+        false,
+        yesterday,
+        false,
+        yesterday,
+      );
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
+        req.reply(data);
+      });
+      return data;
     },
     withAlreadyCompleted: () => {
       const data = preCheckInData.get.createMockSuccessResponse(
