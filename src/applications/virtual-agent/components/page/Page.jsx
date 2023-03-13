@@ -6,7 +6,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Disclaimer from './Disclaimer';
 import ChatBox from '../chatbox/Chatbox';
-// import FloatingChatBox from '../floating-chatbox/FloatingChatBox';
 
 const showBot = botPosition => {
   if (botPosition === 'corner') {
