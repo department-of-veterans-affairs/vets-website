@@ -8,7 +8,7 @@ const MessageThreadMeta = props => {
   const expandButton = () => {
     return (
       <div className="vads-u-flex--auto">
-        <div className="vads-u-font-weight--bold" tabIndex={-1}>
+        <div className="vads-u-font-weight--bold" role="button">
           {expanded ? (
             <>
               <span>close</span>
