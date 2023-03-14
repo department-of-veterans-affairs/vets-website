@@ -168,6 +168,48 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'your-vehicle-records': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-number-input')
+            .as('numberInputs')
+            .should('have.length', 2);
+          cy.get('#add-make-name')
+            .first()
+            .shadow()
+            .find('input')
+            .type('Make');
+          cy.get('#add-model-name')
+            .first()
+            .shadow()
+            .find('input')
+            .type('Model');
+          cy.get('#year')
+            .first()
+            .shadow()
+            .find('input')
+            .type('2000');
+          cy.get('#estValue')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1000');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'vehicles-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[data-testid="mini-summary-card"]')
+            .as('cards')
+            .should('have.length', 1);
+          cy.get('@cards')
+            .eq(0)
+            .should('contain', '$1,000.00')
+            .and('contain', 'Make')
+            .and('contain', 'Model')
+            .and('contain', '2000');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'cfsr-recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
           cy.findByLabelText(
