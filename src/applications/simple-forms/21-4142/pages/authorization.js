@@ -95,9 +95,6 @@ export default {
     acknowledgeToReleaseInformation: {
       'ui:title': 'I acknowledge and authorize this release of information',
       'ui:required': () => true,
-      'ui:errorMessages': {
-        required: 'Accept the agreement bro',
-      },
     },
   },
   schema: {
