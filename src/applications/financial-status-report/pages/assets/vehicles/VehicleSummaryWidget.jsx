@@ -7,7 +7,9 @@ import { clearJobIndex } from '../../../utils/session';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
-} from '../../../components/utils/MiniSummaryCard';
+} from '../../../components/shared/MiniSummaryCard';
+
+
 import { currency as currencyFormatter } from '../../../utils/helpers';
 
 const EmploymentHistoryWidget = props => {
@@ -77,6 +79,7 @@ const EmploymentHistoryWidget = props => {
               key={vehicle.make + vehicle.model + vehicle.year}
               onDelete={() => onDelete(index)}
               subheading={`Value: ${currencyFormatter(vehicle.resaleValue)}`}
+              showDelete
             />
           ))
         )}
