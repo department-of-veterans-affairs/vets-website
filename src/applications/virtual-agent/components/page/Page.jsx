@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Disclaimer from './Disclaimer';
 import ChatBox from '../chatbox/Chatbox';
 
@@ -44,7 +44,8 @@ const renderStickyBot = () => {
       </div>
       <a
         className="show-on-focus"
-        href="#chatbot"
+        href="#btnAcceptDisclaimer"
+        tabIndex={-1}
         onClick={() => {
           showBot('corner');
         }}
@@ -100,20 +101,20 @@ const renderStickyBot = () => {
 
 function Page({ virtualAgentShowFloatingChatbot = null }) {
   const [chosenBot, setChosenBot] = useState(null);
-  const [isLoading, setIsLoading] = useState(null);
+  // const [isLoading, setIsLoading] = useState(null);
   let bot = '';
 
   useEffect(
     () => {
       if (virtualAgentShowFloatingChatbot !== null) {
-        setIsLoading(false);
+        // setIsLoading(false);
         if (virtualAgentShowFloatingChatbot) {
           setChosenBot('sticky');
         } else {
           setChosenBot('default');
         }
       } else {
-        setIsLoading(true);
+        // setIsLoading(true);
       }
     },
     [virtualAgentShowFloatingChatbot],
@@ -121,15 +122,15 @@ function Page({ virtualAgentShowFloatingChatbot = null }) {
 
   if (chosenBot === 'sticky') {
     bot = renderStickyBot();
-  } else if (chosenBot === 'default') {
-    bot = renderChatBox();
+    // } else if (chosenBot === 'default') {
+    //   bot = renderChatBox();
   } else {
-    bot = '';
+    bot = renderChatBox();
   }
 
-  if (isLoading) {
-    return <LoadingIndicator />;
-  }
+  // if (isLoading) {
+  //   return <LoadingIndicator />;
+  // }
   return bot;
 }
 
