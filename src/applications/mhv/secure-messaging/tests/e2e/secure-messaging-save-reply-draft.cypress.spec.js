@@ -23,6 +23,7 @@ describe('Secure Messaging Reply', () => {
       .type(testMessageBody);
     cy.injectAxe();
     cy.axeCheck();
+
     replyPage.saveReplyDraft(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.senderId,
@@ -30,6 +31,22 @@ describe('Secure Messaging Reply', () => {
       landingPage.getNewMessage().attributes.subject,
       testMessageBody,
     );
+    // replyPage.verifyReplyDraftData();
+    cy.get('@replyDraftMessage')
+      .its('request.body')
+      .then(message => {
+        expect(message.recipientId).to.eq(20029);
+        expect(message.subject).to.eq('Medication-Inquiry');
+        expect(message.body).to.eq('Test message body');
+      });
+    cy.get('@replyDraftMessage')
+      .its('response.body')
+      .then(message => {
+        expect(message.data.attributes.messageId).to.eq(7179970);
+        expect(message.data.attributes.recipientName).to.eq('ECSTEN, THOMAS ');
+        expect(message.data.attributes.body).to.eq('Test message body');
+      });
+
     replyPage.sendReplyDraft(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.senderId,
