@@ -36,8 +36,8 @@ export default function RequestAppointmentLayout({ appointment }) {
     <ListItem appointment={appointment} borderTop status="pending">
       <AppointmentFlexGrid idClickable={idClickable} link={link}>
         <AppointmentColumn
-          id="vaos-appts__column--2"
           className={classNames(
+            'vaos-appts__column--2',
             'vads-u-border-color--gray-lighter',
             'vads-u-padding-y--2',
             {
@@ -83,7 +83,7 @@ export default function RequestAppointmentLayout({ appointment }) {
             </AppointmentColumn>
 
             <AppointmentColumn
-              id="vaos-appts__detail"
+              id={`vaos-appts__detail-${appointment.id}`}
               className="vaos-hide-for-print"
               padding="0"
               size="1"
@@ -91,7 +91,7 @@ export default function RequestAppointmentLayout({ appointment }) {
             >
               <va-link
                 className="vaos-appts__focus--hide-outline"
-                aria-describedby="vaos-appts__detail"
+                aria-describedby={`vaos-appts__detail-${appointment.id}`}
                 href={link}
                 onClick={e => e.preventDefault()}
                 text="Details"
