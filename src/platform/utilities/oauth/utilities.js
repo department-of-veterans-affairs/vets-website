@@ -101,10 +101,7 @@ export async function createOAuthRequest({
   const isMobileOAuth =
     [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE, EXTERNAL_APPS.VA_OCC_MOBILE].includes(
       application,
-    ) ||
-    [CLIENT_IDS.MOBILE, CLIENT_IDS.VAMOBILE, CLIENT_IDS.VAMOCK].includes(
-      clientId,
-    );
+    ) || [CLIENT_IDS.MOBILE, CLIENT_IDS.VAMOBILE].includes(clientId);
   const { oAuthOptions } =
     config ??
     (externalApplicationsConfig[application] ||
