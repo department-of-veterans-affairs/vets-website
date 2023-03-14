@@ -71,7 +71,8 @@ const Footer = ({ router, isPreCheckIn }) => {
           <va-telephone contact="988" /> {t('and-select-1')}
         </p>
       )}
-      {currentPage.includes('complete') &&
+      {currentPage &&
+        currentPage.includes('complete') &&
         !isPreCheckIn && (
           <div data-testid="day-of-travel-extra-message">
             <p>
