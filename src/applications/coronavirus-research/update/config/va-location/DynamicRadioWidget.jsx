@@ -68,9 +68,9 @@ export function DynamicRadioWidget(props) {
       <VaRadio
         label="Select your medical center"
         value={selected}
-        onVaValueChange={value => {
-          onChange(value.value);
-          setSelected(value);
+        onVaValueChange={event => {
+          onChange(event.detail.value);
+          setSelected(event.detail.value);
         }}
       >
         {locations.map((location, index) => (

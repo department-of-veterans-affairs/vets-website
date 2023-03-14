@@ -16,8 +16,6 @@ const responses = {
   'GET /v0/feature_toggles': featureToggles,
   'GET /covid_vaccine/v0/facilities/:zip': (req, res) => {
     return res.status(200).json({
-      status: 'ok',
-      code: 200,
       data: [
         {
           id: 'vha_516',
