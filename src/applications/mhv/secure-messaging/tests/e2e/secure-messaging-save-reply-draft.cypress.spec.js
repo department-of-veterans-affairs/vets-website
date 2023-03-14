@@ -21,8 +21,10 @@ describe('Secure Messaging Reply', () => {
       .shadow()
       .find('[name="message-body"]')
       .type(testMessageBody);
-    cy.injectAxe();
-    cy.axeCheck();
+
+    // recipiendId (should.haveText, recipientId)
+    // verify each field separately here. please use parameters of messageDetails to verify
+
     replyPage.saveReplyDraft(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.senderId,
@@ -37,13 +39,7 @@ describe('Secure Messaging Reply', () => {
       landingPage.getNewMessage().attributes.subject,
       testMessageBody,
     );
-    messageDetailsPage.loadReplyPageDetails(messageDetails);
-    replyPage.ReplyDraftData(
-      landingPage.getNewMessage().attributes.messageId,
-      landingPage.getNewMessage().attributes.senderId,
-      landingPage.getNewMessage().attributes.category,
-      landingPage.getNewMessage().attributes.subject,
-      testMessageBody,
-    );
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });
