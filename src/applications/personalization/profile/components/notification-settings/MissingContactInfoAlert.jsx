@@ -1,12 +1,8 @@
 import React from 'react';
-
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
-
-import MissingContactInfoAlertLink from './MissingContactInfoAlertLink';
+import PropTypes from 'prop-types';
 
 import { MISSING_CONTACT_INFO } from '@@vap-svc/constants';
+import MissingContactInfoAlertLink from './MissingContactInfoAlertLink';
 
 const missingEmailAddressContent = (
   <>
@@ -30,6 +26,30 @@ const missingMobilePhoneContent = (
     </p>
   </>
 );
+
+export const getAlertData = ({ missingEmailAddress, missingMobilePhone }) => {
+  if (missingEmailAddress && missingMobilePhone) {
+    return {
+      content: missingMobilePhoneContent,
+      title: 'We don’t have your mobile phone number',
+    };
+    // TODO: uncomment when email is a supported communication channel
+    // return missingAllContactInfoContent;
+  }
+  if (missingEmailAddress) {
+    return {
+      content: missingEmailAddressContent,
+      title: 'We don’t have your email address',
+    };
+  }
+  if (missingMobilePhone) {
+    return {
+      content: missingMobilePhoneContent,
+      title: 'We don’t have your mobile phone number',
+    };
+  }
+  return { content: null, title: null };
+};
 // TODO: uncomment when email is a supported communication channel
 // const missingAllContactInfoContent = (
 //   <>
@@ -47,51 +67,28 @@ const MissingContactInfoAlert = ({
   missingMobilePhone,
   missingEmailAddress,
 }) => {
-  const alertContents = React.useMemo(
-    () => {
-      if (missingEmailAddress && missingMobilePhone) {
-        return missingMobilePhoneContent;
-        // TODO: uncomment when email is a supported communication channel
-        // return missingAllContactInfoContent;
-      } else if (missingEmailAddress) {
-        return missingEmailAddressContent;
-      } else if (missingMobilePhone) {
-        return missingMobilePhoneContent;
-      } else {
-        return null;
-      }
-    },
-    [missingEmailAddress, missingMobilePhone],
-  );
+  const { content, title } = getAlertData({
+    missingEmailAddress,
+    missingMobilePhone,
+  });
 
-  const alertTitle = React.useMemo(
-    () => {
-      if (missingEmailAddress && missingMobilePhone) {
-        return 'We don’t have your mobile phone number';
-        // TODO: uncomment when email is a supported communication channel
-        // return 'We don’t have your contact information';
-      } else if (missingEmailAddress) {
-        return 'We don’t have your email address';
-      } else if (missingMobilePhone) {
-        return 'We don’t have your mobile phone number';
-      } else {
-        return null;
-      }
-    },
-    [missingEmailAddress, missingMobilePhone],
-  );
-
-  if (alertContents) {
+  if (content) {
     return (
       <div data-testid="missing-contact-info-alert">
-        <AlertBox status={ALERT_TYPE.WARNING} headline={alertTitle} level={2}>
-          {alertContents}
-        </AlertBox>
+        <va-alert status="warning">
+          <h2 slot="headline">{title}</h2>
+          {content}
+        </va-alert>
       </div>
     );
   }
 
   return null;
+};
+
+MissingContactInfoAlert.propTypes = {
+  missingEmailAddress: PropTypes.bool,
+  missingMobilePhone: PropTypes.bool,
 };
 
 export default MissingContactInfoAlert;

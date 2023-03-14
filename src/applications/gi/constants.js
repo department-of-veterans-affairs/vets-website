@@ -256,8 +256,8 @@ export const CTRatingsHeaderQuestions = [
       },
       {
         question: CTRatingsQuestions.q14,
-        q13Avg: '0',
-        q13Count: 0,
+        q14Avg: '0',
+        q14Count: 0,
       },
     ],
   },

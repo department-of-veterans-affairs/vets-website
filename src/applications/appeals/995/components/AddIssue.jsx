@@ -43,14 +43,16 @@ const AddIssue = props => {
   if (Number.isNaN(index) || index < contestedIssues.length) {
     index = allIssues.length;
   }
+  const setStorage = (type, value = '') => {
+    // set session storage of edited item. This enables focusing on the item
+    // upon return to the eligible issues page (a11y); when -1 is set, the add
+    // a new issue action link will be focused
+    window.sessionStorage.setItem(LAST_SC_ITEM, value || `${index},${type}`);
+  };
   const offsetIndex = calculateIndexOffset(index, contestedIssues.length);
   const currentData = allIssues[index] || {};
 
   const addOrEdit = currentData.issue ? 'edit' : 'add';
-
-  // set session storage of edited item. This enables focusing on the item
-  // upon return to the eligible issues page (a11y)
-  window.sessionStorage.setItem(LAST_SC_ITEM, index);
 
   const returnPath = onReviewPage ? REVIEW_AND_SUBMIT : ISSUES_PAGE;
 
@@ -125,6 +127,7 @@ const AddIssue = props => {
         'button-click-label': 'Cancel',
         'button-background-color': 'white',
       });
+      setStorage('cancel', addOrEdit === 'add' ? -1 : '');
       goToPath(returnPath);
     },
     onUpdate: event => {
@@ -135,6 +138,7 @@ const AddIssue = props => {
         'button-click-label': 'Add issue',
         'button-background-color': 'blue',
       });
+      setStorage('updated');
       addOrUpdateIssue();
     },
   };
@@ -149,6 +153,7 @@ const AddIssue = props => {
         >
           <h3 className="vads-u-margin--0">{content.title[addOrEdit]}</h3>
         </legend>
+        {content.description}
         <VaTextInput
           id="add-sc-issue"
           name="add-sc-issue"

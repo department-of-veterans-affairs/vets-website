@@ -8,7 +8,7 @@ import {
   EVIDENCE_OTHER,
 } from '../constants';
 import { hasHomeAndMobilePhone, hasMobilePhone } from './contactInfo';
-import { replaceSubmittedData } from './replace';
+import { replaceSubmittedData, fixDateFormat } from './replace';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -108,7 +108,7 @@ export const getContestedIssues = ({ contestedIssues = [] }) =>
       },
       {
         issue: createIssueName(issue),
-        decisionDate: attr.approxDecisionDate,
+        decisionDate: fixDateFormat(attr.approxDecisionDate),
       },
     );
 
@@ -152,7 +152,7 @@ export const addIncludedIssues = formData => {
           type: 'contestableIssue',
           attributes: {
             issue: replaceSubmittedData(issue.issue),
-            decisionDate: issue.decisionDate,
+            decisionDate: fixDateFormat(issue.decisionDate),
           },
         });
       }
@@ -333,8 +333,8 @@ export const getEvidence = formData => {
         // providing one
         evidenceDates: [
           {
-            startDate: location.evidenceDates.from,
-            endDate: location.evidenceDates.to,
+            startDate: fixDateFormat(location.evidenceDates.from),
+            endDate: fixDateFormat(location.evidenceDates.to),
           },
         ],
       },
@@ -365,7 +365,12 @@ export const getForm4142 = formData => {
   const providerFacility = (formData?.providerFacility || []).map(facility => ({
     ...facility,
     // 4142 is expecting an array
-    treatmentDateRange: [facility.treatmentDateRange],
+    treatmentDateRange: [
+      {
+        from: fixDateFormat(facility.treatmentDateRange?.from),
+        to: fixDateFormat(facility.treatmentDateRange?.to),
+      },
+    ],
   }));
   return formData[EVIDENCE_PRIVATE]
     ? {
@@ -373,5 +378,5 @@ export const getForm4142 = formData => {
         limitedConsent,
         providerFacility,
       }
-    : {};
+    : null;
 };

@@ -6,7 +6,7 @@ $anchor-font-size: 1.9rem;
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/54087
 @media screen and (-webkit-min-device-pixel-ratio: 2),
   screen and (min-resolution: 2dppx) {
-  body {
+  h1, h2, h3 {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
   }
@@ -33,6 +33,10 @@ $anchor-font-size: 1.9rem;
   &:not(:last-of-type) {
     margin-right: units(2);
   }
+}
+
+.mhv-logo {
+  max-width: 262px;
 }
 
 .mhv-c-link-list {

@@ -11,8 +11,8 @@ import {
   selectIsCanceled,
   selectModalityText,
   selectModalityIcon,
-  selectStartDate,
   selectTypeOfCareName,
+  selectApptDetailAriaText,
 } from '../../redux/selectors';
 
 export default function RequestAppointmentLayout({ appointment }) {
@@ -26,19 +26,18 @@ export default function RequestAppointmentLayout({ appointment }) {
   const link = `requests/${appointment.id}`;
   const modality = useSelector(() => selectModalityText(appointment));
   const modalityIcon = useSelector(() => selectModalityIcon(appointment));
-  const preferredDate = useSelector(() => selectStartDate(appointment));
   const typeOfCareName = useSelector(() => selectTypeOfCareName(appointment));
 
-  const detailAriaLabel = `Details for ${
-    isCanceled ? 'canceled ' : ''
-  }${typeOfCareName} request for ${preferredDate.format('MMMM D, YYYY')}`;
+  const detailAriaLabel = useSelector(() =>
+    selectApptDetailAriaText(appointment, true),
+  );
 
   return (
     <ListItem appointment={appointment} borderTop status="pending">
       <AppointmentFlexGrid idClickable={idClickable} link={link}>
         <AppointmentColumn
-          id="vaos-appts__column--2"
           className={classNames(
+            'vaos-appts__column--2',
             'vads-u-border-color--gray-lighter',
             'vads-u-padding-y--2',
             {
@@ -84,7 +83,7 @@ export default function RequestAppointmentLayout({ appointment }) {
             </AppointmentColumn>
 
             <AppointmentColumn
-              id="vaos-appts__detail"
+              id={`vaos-appts__detail-${appointment.id}`}
               className="vaos-hide-for-print"
               padding="0"
               size="1"
@@ -92,7 +91,7 @@ export default function RequestAppointmentLayout({ appointment }) {
             >
               <va-link
                 className="vaos-appts__focus--hide-outline"
-                aria-describedby="vaos-appts__detail"
+                aria-describedby={`vaos-appts__detail-${appointment.id}`}
                 href={link}
                 onClick={e => e.preventDefault()}
                 text="Details"

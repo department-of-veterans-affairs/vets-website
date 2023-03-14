@@ -34,3 +34,66 @@
     line-height: 2em !important;
   }
 }
+
+button.webchat__suggested-actions__button:hover {
+  background: rgb(0, 62, 115) !important;
+}
+
+button.webchat__suggested-actions__button:active {
+  background: rgb(17, 46, 81) !important;
+}
+
+.jumplink {
+    color: rgb(0, 62, 115);
+    margin: 20px 0px;
+    text-decoration: underline;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    //transition-property: color, background-color, border-color;
+}
+
+.fixed-header-chatbot {
+  // font-size: 50px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 400px;
+  margin: 1%;
+  // background-color: green;
+  // border: 2px solid #4caf50;
+  z-index: 1;
+}
+
+.chatbot-icon {
+  position: fixed;
+  width: 140px;
+  bottom: 0;
+  right: 0;
+  margin: 1%;
+  padding-bottom: 20px;
+  // background-color: #4caf50;
+  // border: 2px solid #4caf50;
+  // border-radius: 50%;
+  z-index: 1;
+}
+
+.hide {
+  display: none;
+}
+
+.unhide {
+  display: block;
+}
+
+.close-chatbot-button {
+  width: 30px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  margin: 3px;
+  background-color: rgb(255, 255, 255);
+}
+
+#corner-bot {
+  z-index: 999;
+}

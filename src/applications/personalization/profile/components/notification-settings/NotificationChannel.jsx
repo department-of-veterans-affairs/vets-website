@@ -15,7 +15,7 @@ import { selectCommunicationPreferences } from '@@profile/reducers';
 import { getContactInfoSelectorByChannelType } from '@@profile/util/notification-settings';
 
 import recordEvent from '~/platform/monitoring/record-event';
-import { selectPatientFacilities } from '~/platform/user/selectors';
+import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 
 import { LOADING_STATES } from '../../../common/constants';
 
