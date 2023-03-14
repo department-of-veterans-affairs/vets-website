@@ -6,6 +6,7 @@ import { getContactInfoDeepLinkURL } from '@@profile/helpers';
 
 import { FIELD_NAMES, MISSING_CONTACT_INFO } from '@@vap-svc/constants';
 import { useFeatureToggle } from 'applications/personalization/hooks/useFeatureToggle';
+import { PROFILE_PATHS } from '../../constants';
 
 const MissingContactInfoAlertLink = ({ missingInfo }) => {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -22,7 +23,9 @@ const MissingContactInfoAlertLink = ({ missingInfo }) => {
             false,
             useEditingPage,
           )}&returnPath=${
-            useEditingPage ? encodeURIComponent('/profile/notifications') : ''
+            useEditingPage
+              ? encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS)
+              : ''
           }`,
         },
         [MISSING_CONTACT_INFO.EMAIL]: {
@@ -32,7 +35,9 @@ const MissingContactInfoAlertLink = ({ missingInfo }) => {
             true,
             useEditingPage,
           )}&returnPath=${
-            useEditingPage ? encodeURIComponent('/profile/notifications') : ''
+            useEditingPage
+              ? encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS)
+              : ''
           }`,
         },
         [MISSING_CONTACT_INFO.MOBILE]: {
@@ -42,7 +47,9 @@ const MissingContactInfoAlertLink = ({ missingInfo }) => {
             true,
             useEditingPage,
           )}&returnPath=${
-            useEditingPage ? encodeURIComponent('/profile/notifications') : ''
+            useEditingPage
+              ? encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS)
+              : ''
           }`,
         },
       };

@@ -41,7 +41,7 @@ export const Edit = () => {
         <>
           <h2>Sorry, this page is unavailable</h2>
 
-          <Link to="/profile">Return to Profile</Link>
+          <Link to={PROFILE_PATHS.PROFILE_ROOT}>Return to your profile</Link>
         </>
       </Toggler.Disabled>
     </Toggler>

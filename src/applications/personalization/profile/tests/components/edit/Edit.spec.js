@@ -30,7 +30,7 @@ describe('<Edit> renders without crashing', () => {
   });
 
   // this should never happen, but just in case, we want to have some fallback behavior
-  it('<Edit> renders with toggle `profileUseFieldEditingPage` turned OFF', () => {
+  it('renders with toggle `profileUseFieldEditingPage` turned OFF', () => {
     const view = setup({ toggleEnabled: false });
 
     expect(view.queryByText(/Sorry, this page is unavailable/i)).to.exist;
