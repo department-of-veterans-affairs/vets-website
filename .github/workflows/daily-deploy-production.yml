@@ -11,7 +11,7 @@ on:
         description: Deploy specific commit
         required: false
   schedule:
-    - cron: 0 20 * * 1-5
+    - cron: 0 19 * * 1-5
 
 env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
