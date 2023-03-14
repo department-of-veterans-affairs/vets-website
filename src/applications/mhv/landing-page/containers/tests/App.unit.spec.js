@@ -122,7 +122,7 @@ describe('MHV landing page', () => {
         </Provider>,
       );
       expect(container.querySelector('h1')).to.exist;
-      expect(container.querySelector('h1')).to.have.text('My Health');
+      expect(container.querySelector('h1')).to.have.text('My HealtheVet');
     });
     it('user is authenticated with idme and feature enable -- should renders landing page', () => {
       const middleware = [];
@@ -139,7 +139,7 @@ describe('MHV landing page', () => {
         </Provider>,
       );
       expect(container.querySelector('h1')).to.exist;
-      expect(container.querySelector('h1')).to.have.text('My Health');
+      expect(container.querySelector('h1')).to.have.text('My HealtheVet');
     });
     it('user is authenticated withMHV and feature enabled -- should not show the landing page', () => {
       const middleware = [];

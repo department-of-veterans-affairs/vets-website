@@ -1,5 +1,5 @@
 {
-  "appName": "MyHealtheVet on VA.gov",
+  "appName": "My HealtheVet on VA.gov",
   "entryFile": "./app-entry.jsx",
   "entryName": "mhv-landing-page",
   "rootUrl": "/my-health",
