@@ -519,9 +519,9 @@ export function selectApptDateAriaText(appointment) {
   )}`;
 }
 export function selectTypeOfCareAriaText(appointment) {
-  const TypeOfCareText = selectAppointmentLocality(appointment);
+  const typeOfCareText = selectAppointmentLocality(appointment);
   const isCanceled = selectIsCanceled(appointment);
-  return `${isCanceled ? 'canceled ' : ''}${TypeOfCareText}`;
+  return `${isCanceled ? 'canceled ' : ''}${typeOfCareText}`;
 }
 export function selectModalityAriaText(appointment) {
   const modalityText = selectModalityText(appointment);

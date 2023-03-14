@@ -218,7 +218,7 @@
   "reason-for-visit": "Reason for visit",
   "appointment-day": "{{ date, day }}, {{ date, monthDay }} at {{ date, time }}",
   "back-to-appointments": "Back to appointments",
-  "click-to-see-details-for-your-time-appointment": "Click to see the details for your {{ time, time }} appointment",
+  "details-for-appointment": "Details for {{ type }} appointment at {{ time, time }}",
   "directions-to-location": "Directions to {{ location }}",
   "directions": "Directions",
   "were-sorry-this-link-has-expired": "We’re sorry. This link has expired.",

@@ -13,7 +13,6 @@ export default function UpcomingAppointmentLayout({
   const keys = Object.keys(hashTable);
 
   return keys.map((key, i) => {
-    const isFirstInMonth = i === 0;
     const isLastInMonth = i === keys.length - 1;
 
     if (hashTable[key].length > 1) {
@@ -27,9 +26,7 @@ export default function UpcomingAppointmentLayout({
             'small-desktop-screen:vads-u-padding-right--1p5',
             'vaos-appts__listItem',
             {
-              'xsmall-screen:vads-u-border-top--1px': isFirstInMonth,
               'vads-u-border-bottom--1px': !isLastInMonth,
-              // 'vads-u-border-bottom--1px': isLastInMonth,
             },
           )}
         >
@@ -52,7 +49,6 @@ export default function UpcomingAppointmentLayout({
                     <AppointmentColumnLayout
                       data={appt}
                       first={isFirstInDay}
-                      // first={isFirstInMonth || isFirstInDay}
                       grouped
                       link={link}
                     />
@@ -84,7 +80,6 @@ export default function UpcomingAppointmentLayout({
             'vaos-appts__listItem',
             'vaos-appts__listItem--clickable',
             {
-              'xsmall-screen:vads-u-border-top--1px': isFirstInMonth,
               'vads-u-border-bottom--1px': !isLastInMonth,
             },
           )}

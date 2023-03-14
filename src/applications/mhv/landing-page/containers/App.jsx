@@ -10,6 +10,8 @@ import { isLandingPageEnabledForUser } from '../utilities/feature-toggles';
 import { resolveLandingPageLinks } from '../utilities/data';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
+import { useDatadogRum } from '../hooks/useDatadogRum';
+
 const App = () => {
   const fullState = useSelector(state => state);
   const { featureToggles, user } = fullState;
@@ -25,6 +27,7 @@ const App = () => {
     [featureToggles, user?.profile?.session?.ssoe],
   );
 
+  useDatadogRum();
   if (featureToggles.loading || user.profile.loading)
     return <va-loading-indicator />;
   if (!appEnabled && user?.login?.currentlyLoggedIn) {
