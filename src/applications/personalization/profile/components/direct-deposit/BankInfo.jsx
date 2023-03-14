@@ -407,7 +407,7 @@ export const BankInfo = ({
             className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
             title={sectionTitle}
             data={directDepositData()}
-            namedAnchor="sectionTitleId"
+            namedAnchor={sectionTitleId}
             level={2}
           />
         </Toggler.Enabled>
