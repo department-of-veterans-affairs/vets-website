@@ -1,7 +1,16 @@
 const delay = require('mocker-api/lib/delay');
 const commonResponses = require('../../../../../../platform/testing/local-dev-mock-api/common');
-const featureToggles = require('../../../../sign-up/tests/fixtures/toggle-covid-feature.json');
+const signupFeatureToggles = require('../../../../sign-up/tests/fixtures/toggle-covid-feature.json');
+const updateFeatureToggles = require('../../../../update/tests/fixtures/toggle-covid-feature.json');
 
+const featureToggles = {
+  data: {
+    features: [
+      ...updateFeatureToggles.data.features,
+      ...signupFeatureToggles.data.features,
+    ],
+  },
+};
 const responses = {
   ...commonResponses,
   'GET /v0/feature_toggles': featureToggles,
