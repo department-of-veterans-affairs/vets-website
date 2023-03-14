@@ -51,7 +51,6 @@ const initialState = {
   appointmentDetailsStatus: FETCH_STATUS.notStarted,
   appointmentToCancel: null,
   facilityData: {},
-  requestMessages: {},
   systemClinicToFacilityMap: {},
   facilitySettingsStatus: FETCH_STATUS.notStarted,
   facilitySettings: null,

@@ -9,7 +9,6 @@ import {
   mockFacilitiesApi,
   mockSupportedSitesApi,
   mockCCEligibilityApi,
-  mockAppointmentRequestMessagesApi,
   mockFacilityApi,
   mockSchedulingConfigurationApi,
 } from './vaos-cypress-helpers';
@@ -18,7 +17,6 @@ describe('VAOS community care flow', () => {
   beforeEach(() => {
     vaosSetup();
 
-    mockAppointmentRequestMessagesApi();
     mockAppointmentRequestsApi();
     mockAppointmentsApi({ apiVersion: 0 });
     mockCCEligibilityApi();
