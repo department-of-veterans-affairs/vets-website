@@ -13,6 +13,7 @@ class PatientComposePage {
     cy.wait('@message');
   };
 
+  //* Refactor*  Need to get rid of this method and split out
   enterComposeMessageDetails = category => {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
@@ -38,6 +39,7 @@ class PatientComposePage {
       .type('Test message body');
   };
 
+  //* Refactor* Needs to have mockDraftMessage as parameter
   clickOnSendMessageButton = () => {
     cy.intercept(
       'POST',
@@ -49,6 +51,7 @@ class PatientComposePage {
       .click();
   };
 
+  //* Refactor*  make parameterize mockDraftMessage
   sendDraft = (testId, testCategory, testSubject, testBody) => {
     cy.intercept(
       'POST',
@@ -109,6 +112,7 @@ class PatientComposePage {
     });
   };
 
+  //* Refactor*Remove and consolidate
   selectSideBarMenuOption = menuOption => {
     if (menuOption === 'Inbox') {
       cy.get('[data-testid=inbox-sidebar]').click();
