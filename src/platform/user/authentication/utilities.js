@@ -285,22 +285,8 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
 }
 
 export async function mockLogin({ clickedEvent = AUTH_EVENTS.MOCK_LOGIN }) {
-  const { application, codeChallenge, codeChallengeMethod } = getQueryParams();
-  const gaClientId = '';
-  const config =
-    externalApplicationsConfig[application] ||
-    externalApplicationsConfig.default;
-
   const url = await createOAuthRequest({
-    acr: null,
-    application,
     clientId: 'vamock',
-    config,
-    passedQueryParams: {
-      codeChallenge,
-      codeChallengeMethod,
-      ...(gaClientId && { gaClientId }),
-    },
   });
 
   if (!isExternalRedirect()) {
