@@ -4,7 +4,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { payrollDeductionOptions } from '../constants/checkboxSelections';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
-import Checklist from './shared/CheckList';
+import Checklist from './utils/CheckList';
 
 const PayrollDeductionChecklist = props => {
   const { goToPath, goBack, onReviewPage, setFormData } = props;

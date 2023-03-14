@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
-} from '../shared/MiniSummaryCard';
+} from '../utils/MiniSummaryCard';
 import { currency as currencyFormatter } from '../../utils/helpers';
 
 const OtherAssetsSummary = () => {
@@ -28,20 +28,15 @@ const OtherAssetsSummary = () => {
       }),
     );
   };
-
-  const cardBody = text => (
-    <p className="vads-u-margin-y--2 vads-u-color--gray">{text}</p>
-  );
   const emptyPrompt = `Select the ‘add additional assets’ link to add another asset. Select the continue button to move on to the next question.`;
 
   return (
-    <div className="vads-l-grid-container--full">
+    <>
       {!otherAssets.length ? (
         <EmptyMiniSummaryCard content={emptyPrompt} />
       ) : (
         otherAssets.map((asset, index) => (
           <MiniSummaryCard
-            body={cardBody(`Value: ${currencyFormatter(asset.amount)}`)}
             editDesination={{
               pathname: '/add-other-asset',
               search: `?index=${index}`,
@@ -49,7 +44,7 @@ const OtherAssetsSummary = () => {
             heading={asset.name}
             key={asset.name + asset.amount}
             onDelete={() => onDelete(index)}
-            showDelete
+            subheading={`Value: ${currencyFormatter(asset.amount)}`}
           />
         ))
       )}
@@ -84,7 +79,7 @@ const OtherAssetsSummary = () => {
           </li>
         </ul>
       </va-additional-info>
-    </div>
+    </>
   );
 };
 

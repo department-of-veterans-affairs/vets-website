@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { householdExpensesOptions } from '../constants/checkboxSelections';
-import Checklist from './shared/CheckList';
+import Checklist from './utils/CheckList';
 
 const HouseholdExpensesChecklist = () => {
   const dispatch = useDispatch();
