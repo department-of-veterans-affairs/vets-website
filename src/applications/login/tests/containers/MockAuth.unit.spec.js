@@ -27,17 +27,25 @@ describe('MockAuthButton', () => {
     it('should take you to the right link when clicked', () => {
       process.env.BUILDTYPE = currentEnvironment;
       const { container } = render(<MockAuthButton />);
-      const correctLink = `${
-        ENVIRONMENT_CONFIGURATIONS[process.env.BUILDTYPE].API_URL
-      }/v0/sign_in/authorize?client_id=vamock`;
       const button = $('.mauth-button', container);
-      fireEvent.click(button);
-      expect(window.location).to.equal(correctLink);
+      if (
+        currentEnvironment === environments.LOCALHOST ||
+        currentEnvironment === environments.VAGOVDEV
+      ) {
+        const correctLink = `${
+          ENVIRONMENT_CONFIGURATIONS[process.env.BUILDTYPE].API_URL
+        }/v0/sign_in/authorize?client_id=vamock`;
+        fireEvent.click(button);
+        expect(window.location).to.equal(correctLink);
+      } else {
+        expect(button).to.not.exist;
+      }
     });
   });
 
   csps.forEach(csp => {
     it(`should be a different color than any other csp button`, () => {
+      process.env.BUILDTYPE = environments.LOCALHOST;
       const { container } = render(
         <>
           <MockAuthButton />
@@ -54,7 +62,20 @@ describe('MockAuthButton', () => {
   });
 
   it('should be rendered on the mocked auth page', () => {
+    process.env.BUILDTYPE = environments.LOCALHOST;
     const { container } = render(<MockAuth />);
     expect($('.mauth-button', container)).to.exist;
+  });
+
+  it('does not, cannot show up on staging or production stacks', () => {
+    [environments.VAGOVPROD, environments.VAGOVSTAGING].forEach(
+      currentEnvironment => {
+        process.env.BUILDTYPE = currentEnvironment;
+        const { container } = render(<MockAuthButton />);
+        expect($('.mauth-button', container)).to.not.exist;
+        const { container2 } = render(<MockAuth />);
+        expect($('.mauth-button', container2)).to.not.exist;
+      },
+    );
   });
 });
