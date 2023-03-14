@@ -1,7 +1,6 @@
 // Node modules.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import URLSearchParams from 'url-search-params';
 import appendQuery from 'append-query';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
@@ -111,22 +110,28 @@ export class CallToActionWidget extends Component {
 
       this._toolUrl = url;
       if (redirect && !this._popup) this.goToTool();
-    } else if (this.isHealthTool()) {
-      const { accountState, loading } = this.props.mhvAccount;
-
-      if (loading) return;
-
-      if (!accountState) {
-        this.props.fetchMHVAccount();
-      } else if (
-        new URLSearchParams(window.location.search).get('tc_accepted')
-      ) {
-        // Since T&C is still required to support the existing account states,
-        // check the existence of a query param that gets appended after
-        // successful T&C acceptance to complete account creation or upgrade.
-        /* We are no longer creating or upgrading MHV accounts on VA.gov */
-      }
     }
+    /*
+      This is causing an infinite loop in production because the `v0/mhv_accounts` get request
+      is returning a 404.
+
+      else if (this.isHealthTool()) {
+        const { accountState, loading } = this.props.mhvAccount;
+
+        if (loading) return;
+
+        if (!accountState) {
+          this.props.fetchMHVAccount();
+        } else if (
+          new URLSearchParams(window.location.search).get('tc_accepted')
+        ) {
+          // Since T&C is still required to support the existing account states,
+          // check the existence of a query param that gets appended after
+          // successful T&C acceptance to complete account creation or upgrade.
+          We are no longer creating or upgrading MHV accounts on VA.gov
+        }
+      }
+    */
   }
 
   getContent = () => {
