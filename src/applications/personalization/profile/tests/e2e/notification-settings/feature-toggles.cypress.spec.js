@@ -36,13 +36,8 @@ describe('Notification Settings Feature Toggles', () => {
 
       checkForLegacyLoadingIndicator();
 
-      // sanity check
-      // check that hearing notification is rendering first
-      cy.findByRole('radio', {
-        name: /^do not notify me of.*hearing reminder.*by email/i,
-      }).should('exist');
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
-      // check that payment options display
       NotificationSettingsFeature.confirmPaymentNotificationSetting({
         exists: true,
       });
@@ -87,13 +82,8 @@ describe('Notification Settings Feature Toggles', () => {
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
       checkForLegacyLoadingIndicator();
 
-      // sanity check
-      // check that hearing notification is rendering first
-      cy.findByRole('radio', {
-        name: /^do not notify me of.*hearing reminder.*by email/i,
-      }).should('exist');
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
-      // check that payment options display
       NotificationSettingsFeature.confirmPaymentNotificationSetting({
         exists: true,
       });
