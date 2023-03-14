@@ -36,7 +36,7 @@
           "ratingIssueSubjectText": "Headaches",
           "description": "Acute chronic head pain",
           "ratingIssuePercentNumber": "20",
-          "approxDecisionDate": "2021-06-10",
+          "approxDecisionDate": "2021-6-10",
           "decisionIssueId": 44,
           "ratingIssueReferenceId": "66",
           "ratingDecisionReferenceId": null
@@ -49,7 +49,7 @@
           "ratingIssueSubjectText": "Being green",
           "description": "Chronic greenness",
           "ratingIssuePercentNumber": "50",
-          "approxDecisionDate": "2021-06-01",
+          "approxDecisionDate": "2021-6-1",
           "decisionIssueId": 42,
           "ratingIssueReferenceId": "52",
           "ratingDecisionReferenceId": "999"
@@ -61,7 +61,7 @@
         "attributes": {
           "ratingIssueSubjectText": "Monocular vision",
           "ratingIssuePercentNumber": "5",
-          "approxDecisionDate": "2021-06-04",
+          "approxDecisionDate": "2021-6-4",
           "decisionIssueId": 1,
           "ratingIssueReferenceId": "2",
           "ratingDecisionReferenceId": ""
@@ -72,12 +72,12 @@
     "additionalIssues": [
       {
         "issue": "Test",
-        "decisionDate": "2022-01-01",
+        "decisionDate": "2022-1-1",
         "view:selected": true
       },
       {
         "issue": "Test 2",
-        "decisionDate": "2022-06-28",
+        "decisionDate": "2022-6-28",
         "view:selected": true
       }
     ],
@@ -92,8 +92,8 @@
           "Test"
         ],
         "evidenceDates": {
-          "from": "2001-01-01",
-          "to": "2011-01-01"
+          "from": "2001-1-1",
+          "to": "2011-1-1"
         }
       },
       {
@@ -102,8 +102,8 @@
           "Test 2"
         ],
         "evidenceDates": {
-          "from": "2002-02-02",
-          "to": "2012-02-02"
+          "from": "2002-2-2",
+          "to": "2012-2-2"
         }
       }
     ],
@@ -122,8 +122,8 @@
           "Test"
         ],
         "treatmentDateRange": {
-          "from": "2022-01-01",
-          "to": "2022-02-01"
+          "from": "2022-1-1",
+          "to": "2022-2-1"
         }
       },
       {
@@ -139,8 +139,8 @@
           "Test 2"
         ],
         "treatmentDateRange": {
-          "from": "2022-02-01",
-          "to": "2022-05-01"
+          "from": "2022-2-1",
+          "to": "2022-5-1"
         }
       }
     ],

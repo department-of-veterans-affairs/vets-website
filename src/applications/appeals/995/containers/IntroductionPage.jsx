@@ -14,7 +14,7 @@ import { clearReturnState } from '../utils/contactInfo';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('h1');
   }
 
   render() {
