@@ -437,10 +437,8 @@ describe('Authentication Utilities', () => {
 
   describe('mockLogin', () => {
     it('should redirect to proper mockLogin url', async () => {
-      setup({
-        path: usipPath,
-      });
-      await authUtilities.mockLogin({ isOAuth: true });
+      setup({});
+      await authUtilities.mockLogin({});
       expect(global.window.location).to.include(
         'v0/sign_in/authorize?client_id=vamock',
       );
