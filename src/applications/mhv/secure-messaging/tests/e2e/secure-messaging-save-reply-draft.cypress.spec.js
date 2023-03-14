@@ -30,15 +30,15 @@ describe('Secure Messaging Reply', () => {
       landingPage.getNewMessage().attributes.subject,
       testMessageBody,
     );
-
-    replyPage.ReplyDraftData(
+    replyPage.sendReplyDraft(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.senderId,
       landingPage.getNewMessage().attributes.category,
-      // landingPage.getNewMessageReplyDraftData().defaultMochThread,
+      landingPage.getNewMessage().attributes.subject,
       testMessageBody,
     );
-    replyPage.sendReplyDraft(
+    messageDetailsPage.loadReplyPageDetails(messageDetails);
+    replyPage.ReplyDraftData(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.senderId,
       landingPage.getNewMessage().attributes.category,
