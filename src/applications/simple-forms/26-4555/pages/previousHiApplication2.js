@@ -1,3 +1,4 @@
+import React from 'react';
 import { intersection, pick } from 'lodash';
 
 import dateUI from 'platform/forms-system/src/js/definitions/date';
@@ -10,19 +11,27 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [
   previousHiApplicationFields.previousHiApplicationDate,
-  previousHiApplicationFields.previousHiApplicationAddress,
+  // previousHiApplicationFields.previousHiApplicationAddress,
+  // omitted because unused, will be restored when vets-json-schema is changed
 ];
 
 export default {
   uiSchema: {
     [previousHiApplicationFields.parentObject]: {
-      'ui:title':
-        'Details about your past application for a special home adaptation grant',
+      'ui:description': (
+        <h3>
+          Details about your past application for a special home adaptation
+          grant
+        </h3>
+      ),
       [previousHiApplicationFields.previousHiApplicationDate]: dateUI(
         'Date of previous application',
       ),
+      'view:addressDescription': {
+        'ui:description': 'Address connected to your past application',
+      },
       [previousHiApplicationFields.previousHiApplicationAddress]: address.uiSchema(
-        'Address connected to your past application',
+        '',
         false,
         formData =>
           formData[previousHiApplicationFields.parentObject][
@@ -39,7 +48,10 @@ export default {
         required: intersection(required, pageFields),
         properties: {
           ...pick(properties, pageFields),
-          // address definitions appear to be implemented differently
+          'view:addressDescription': {
+            type: 'object',
+            properties: {},
+          },
           [previousHiApplicationFields.previousHiApplicationAddress]: address.schema(
             fullSchema,
             formData =>
