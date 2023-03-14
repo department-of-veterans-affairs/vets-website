@@ -167,9 +167,8 @@ export function sessionTypeUrl({
   allowVerification = false,
   useOauth = false,
   acr = null,
-  mock,
 }) {
-  if (!type && !mock) {
+  if (!type) {
     return null;
   }
 
