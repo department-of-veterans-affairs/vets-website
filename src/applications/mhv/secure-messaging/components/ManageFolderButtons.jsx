@@ -130,7 +130,12 @@ const ManageFolderButtons = () => {
             moved to another folder, such as Trash, Messages, or a different
             custom folder.
           </p>
-          <va-button text="Ok" onClick={closeDelModal} />
+          <va-button
+            text="Ok"
+            onClick={() => {
+              setIsEmptyWarning(false);
+            }}
+          />
         </VaModal>
       )}
       {!isEmptyWarning && (
