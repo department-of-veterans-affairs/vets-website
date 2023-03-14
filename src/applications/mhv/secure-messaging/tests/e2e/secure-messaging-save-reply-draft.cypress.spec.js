@@ -31,7 +31,7 @@ describe('Secure Messaging Reply', () => {
       landingPage.getNewMessage().attributes.subject,
       testMessageBody,
     );
-    // replyPage.verifyReplyDraftData();
+    // replyPage.ReplyDraftData();
     cy.get('@replyDraftMessage')
       .its('request.body')
       .then(message => {
