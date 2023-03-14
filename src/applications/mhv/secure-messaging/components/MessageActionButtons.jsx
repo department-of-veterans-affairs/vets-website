@@ -64,7 +64,7 @@ const MessageActionButtons = props => {
             isVisible={
               activeFolder?.folderId !== Constants.DefaultFolders.SENT.id
             }
-            messageId={id}
+            threadId={id}
             allFolders={folders}
           />,
         );

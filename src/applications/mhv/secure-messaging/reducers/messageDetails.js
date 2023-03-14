@@ -10,6 +10,12 @@ const initialState = {
    * @type {array}
    */
   messageHistory: undefined,
+  /**
+   * The thread currently displayed to the user
+   */
+  threads: [],
+  isLoading: false,
+  error: null,
 };
 
 export const messageDetailsReducer = (state = initialState, action) => {
@@ -60,6 +66,33 @@ export const messageDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         messageHistory: updatedThread,
+      };
+    }
+    case Actions.Message.MOVE_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case Actions.Message.MOVE_SUCCESS: {
+      const { threadId, folderId } = action.response;
+      const updatedThreads = state.threads.map(thread => {
+        if (thread.id === threadId) {
+          return { ...thread, location: folderId };
+        }
+        return thread;
+      });
+      return {
+        ...state,
+        threads: updatedThreads,
+        isLoading: false,
+      };
+    }
+    case Actions.Message.MOVE_FAILED: {
+      return {
+        ...state,
+        error: action.response,
+        isLoading: false,
       };
     }
     case Actions.Message.CLEAR:

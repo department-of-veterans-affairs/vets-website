@@ -5,6 +5,7 @@ import {
   getMessageHistory,
   deleteMessage as deleteMessageCall,
   moveMessage as moveMessageCall,
+  moveMessageThread as moveThreadCall,
   createMessage,
   createReplyToMessage,
   getMessageThread,
@@ -239,6 +240,32 @@ export const moveMessage = (messageId, folderId) => async dispatch => {
     );
     throw e;
   }
+};
+
+export const moveMessageThread = (folderId, threadId) => async dispatch => {
+  dispatch({ type: Actions.Message.MOVE_REQUEST });
+
+  moveThreadCall(threadId, folderId)
+    .then(response => {
+      dispatch({ type: Actions.Message.MOVE_SUCCESS, payload: response.data });
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_SUCCESS,
+          '',
+          Constants.Alerts.Message.MOVE_MESSAGE_THREAD_SUCCESS,
+        ),
+      );
+    })
+    .catch(error => {
+      dispatch({ type: Actions.Message.MOVE_FAILED, payload: error.message });
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Message.MOVE_MESSAGE_THREAD_ERROR,
+        ),
+      );
+    });
 };
 
 export const sendMessage = (message, attachments) => async dispatch => {
