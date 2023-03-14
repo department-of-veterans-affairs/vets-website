@@ -9,12 +9,6 @@ import {
   FETCHING_MHV_ACCOUNT,
   FETCH_MHV_ACCOUNT_FAILURE,
   FETCH_MHV_ACCOUNT_SUCCESS,
-  CREATING_MHV_ACCOUNT,
-  CREATE_MHV_ACCOUNT_FAILURE,
-  CREATE_MHV_ACCOUNT_SUCCESS,
-  UPGRADING_MHV_ACCOUNT,
-  UPGRADE_MHV_ACCOUNT_FAILURE,
-  UPGRADE_MHV_ACCOUNT_SUCCESS,
   REMOVING_SAVED_FORM_SUCCESS,
 } from '../actions';
 
@@ -76,8 +70,6 @@ function profileInformation(state = initialState, action) {
       return set('loading', false, state);
 
     case FETCHING_MHV_ACCOUNT:
-    case CREATING_MHV_ACCOUNT:
-    case UPGRADING_MHV_ACCOUNT:
       return set('mhvAccount.loading', true, state);
 
     case FETCH_MHV_ACCOUNT_FAILURE:
@@ -91,38 +83,9 @@ function profileInformation(state = initialState, action) {
         state,
       );
 
-    case CREATE_MHV_ACCOUNT_FAILURE:
-      return set(
-        'mhvAccount',
-        {
-          ...state.mhvAccount,
-          accountState: 'register_failed',
-          loading: false,
-        },
-        state,
-      );
-
-    case UPGRADE_MHV_ACCOUNT_FAILURE:
-      return set(
-        'mhvAccount',
-        {
-          ...state.mhvAccount,
-          accountState: 'upgrade_failed',
-          loading: false,
-        },
-        state,
-      );
-
+    // We are no longer creating or upgrading MHV accounts
     case FETCH_MHV_ACCOUNT_SUCCESS:
-    case CREATE_MHV_ACCOUNT_SUCCESS:
       return updateMhvAccountState(state, action.data.attributes);
-
-    case UPGRADE_MHV_ACCOUNT_SUCCESS: {
-      const newState = !action.userProfile
-        ? state
-        : { ...state, ...mapRawUserDataToState(action.userProfile) };
-      return updateMhvAccountState(newState, action.mhvAccount.data.attributes);
-    }
 
     case REMOVING_SAVED_FORM_SUCCESS: {
       const forms = state.savedForms.filter(el => el.form !== action.formId);

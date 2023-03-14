@@ -50,6 +50,14 @@ export const today = new Date();
  */
 
 export const dateFormat = (timestamp, format = null) => {
+  moment.updateLocale('en', {
+    meridiem: hour => {
+      if (hour < 12) {
+        return 'a.m.';
+      }
+      return 'p.m.';
+    },
+  });
   const timeZone = moment.tz.guess();
   return moment
     .tz(timestamp, timeZone)
