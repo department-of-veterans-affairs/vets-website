@@ -1,3 +1,4 @@
+import React from 'react';
 import { intersection, pick } from 'lodash';
 
 import * as address from 'platform/forms-system/src/js/definitions/address';
@@ -9,19 +10,24 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [
   livingSituationFields.careFacilityName,
-  livingSituationFields.careFacilityAddress,
+  // livingSituationFields.careFacilityAddress,
+  // omitted because unused, will be restored when vets-json-schema is changed
 ];
 
 export default {
   uiSchema: {
     [livingSituationFields.parentObject]: {
-      'ui:title': 'Details about your current living situation',
+      'ui:description': <h3>Details about your current living situation</h3>,
       [livingSituationFields.careFacilityName]: {
         'ui:title':
           'What is the name of the nursing home or medical care facility?',
       },
+      'view:addressDescription': {
+        'ui:description':
+          'What is the address of the nursing home or medical care facility you are living in?',
+      },
       [livingSituationFields.careFacilityAddress]: address.uiSchema(
-        'What is the address of the nursing home or medical care facility you are living in?',
+        '',
         false,
         formData =>
           formData[livingSituationFields.parentObject][
@@ -38,7 +44,10 @@ export default {
         required: intersection(required, pageFields),
         properties: {
           ...pick(properties, pageFields),
-          // address definitions appear to be implemented differently
+          'view:addressDescription': {
+            type: 'object',
+            properties: {},
+          },
           [livingSituationFields.careFacilityAddress]: address.schema(
             fullSchema,
             formData =>
