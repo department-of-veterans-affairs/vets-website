@@ -44,13 +44,22 @@ export const Alerts = {
     SEND_MESSAGE_SUCCESS: 'Message was successfully sent.',
     SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
   },
+
   Folder: {
     CREATE_FOLDER_SUCCESS: 'Folder was successfully created.',
     CREATE_FOLDER_ERROR:
       'Folder could not be created. Try again later. If this problem persists, contact the help desk.',
+    DELETE_FOLDER_CONFIRM_HEADER:
+      'Are you sure you want to remove this folder?',
+    DELETE_FOLDER_CONFIRM_BODY:
+      "If you remove a folder, you can't get it back. Conversations in the folder will go back to your inbox.",
     DELETE_FOLDER_SUCCESS: 'Folder was successfully removed.',
     DELETE_FOLDER_ERROR:
       'Folder could not be removed. Try again later. If this problem persists, contact the help desk.',
+    DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER:
+      'Empty this folder before removing it from the list.',
+    DELETE_FOLDER_ERROR_NOT_EMPTY_BODY:
+      'Before this folder can be removed, all of the messages in it must be moved to another folder, such as Trash, Inbox, or a different custom folder.',
     RENAME_FOLDER_SUCCESS: 'Folder was successfully renamed.',
     RENAME_FOLDER_ERROR:
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',

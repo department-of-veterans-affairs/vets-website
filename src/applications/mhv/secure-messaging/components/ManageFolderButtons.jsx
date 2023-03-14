@@ -12,6 +12,7 @@ import {
   renameFolder,
   retrieveFolder,
 } from '../actions/folders';
+import { Alerts } from '../util/constants';
 
 const ManageFolderButtons = () => {
   const dispatch = useDispatch();
@@ -119,17 +120,13 @@ const ManageFolderButtons = () => {
           className="modal"
           visible={isEmptyWarning}
           large="true"
-          modalTitle="Empty this folder before removing it from the list."
+          modalTitle={Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER}
           onCloseEvent={() => {
             setIsEmptyWarning(false);
           }}
           status="warning"
         >
-          <p>
-            Before this folder can be removed, all of the messages in it must be
-            moved to another folder, such as Trash, Messages, or a different
-            custom folder.
-          </p>
+          <p>{Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_BODY}</p>
           <va-button
             text="Ok"
             onClick={() => {
@@ -143,10 +140,11 @@ const ManageFolderButtons = () => {
           className="modal"
           visible={deleteModal}
           large="true"
-          modalTitle="Are you sure you want to remove this folder?"
+          modalTitle={Alerts.Folder.DELETE_FOLDER_CONFIRM_HEADER}
           onCloseEvent={closeDelModal}
+          status="warning"
         >
-          <p>This action cannot be undone</p>
+          <p>{Alerts.Folder.DELETE_FOLDER_CONFIRM_BODY}</p>
           <va-button text="Remove" onClick={confirmDelFolder} />
           <va-button secondary="true" text="Cancel" onClick={closeDelModal} />
         </VaModal>
