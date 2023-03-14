@@ -75,7 +75,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
           }).should('exist');
           // the claims/appeals error is not shown
           cy.findByRole('heading', {
-            name: /We can’t access any claims or appeals/i,
+            name: /We can’t access your claims or appeals/i,
           }).should('not.exist');
 
           // make the a11y check
@@ -110,7 +110,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
             'exist',
           );
           cy.findByRole('heading', {
-            name: /We can’t access any claims or appeals/i,
+            name: /We can’t access your claims or appeals/i,
           }).should('exist');
 
           // make the a11y check
@@ -149,7 +149,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
           );
           // and it doesn't show an error related to getting claims or appeals data
           cy.findByRole('heading', {
-            name: /We can’t access any claims or appeals/i,
+            name: /We can’t access your claims or appeals/i,
           }).should('not.exist');
 
           // make the a11y check
@@ -190,7 +190,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
 
           // the claims/appeals error is not shown
           cy.findByRole('heading', {
-            name: /We can’t access any claims or appeals/i,
+            name: /We can’t access your claims or appeals/i,
           }).should('not.exist');
 
           // make the a11y check

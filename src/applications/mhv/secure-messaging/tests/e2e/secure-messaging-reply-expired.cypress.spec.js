@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import mockMessages from './fixtures/messages-response.json';
+import defaultMockThread from './fixtures/thread-response.json';
 
 describe('Secure Messaging Reply to Expired Mesage', () => {
   it('reply expired messages', () => {
@@ -15,6 +16,8 @@ describe('Secure Messaging Reply to Expired Mesage', () => {
     );
     messageDetailsPage.loadMessageDetails(
       landingPage.getExpired46DayOldMessageDetails(),
+      defaultMockThread,
+      0,
     );
     /*
     cy.get('[data-testid=expired-alert-message]').should(
