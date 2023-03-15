@@ -12,6 +12,7 @@ import {
   renameFolder,
   retrieveFolder,
 } from '../actions/folders';
+import { closeAlert } from '../actions/alerts';
 import { Alerts } from '../util/constants';
 
 const ManageFolderButtons = () => {
@@ -40,6 +41,7 @@ const ManageFolderButtons = () => {
   );
 
   const openDelModal = () => {
+    dispatch(closeAlert());
     if (messages?.length > 0) {
       setIsEmptyWarning(true);
     } else {
@@ -60,6 +62,7 @@ const ManageFolderButtons = () => {
   };
 
   const openRenameModal = () => {
+    dispatch(closeAlert());
     setRenameModal(true);
   };
 
