@@ -12,6 +12,7 @@ import { SubmissionAlert } from '../components/Alerts';
 import { WIZARD_STATUS } from '../wizard/constants';
 import EnhancedEmploymentRecord from '../components/EnhancedEmploymentRecord';
 import EnhancedSpouseEmploymentRecord from '../components/EnhancedSpouseEmploymentRecord';
+import EnhancedVehicleRecord from '../components/EnhancedVehicleRecord';
 import GrossMonthlyIncomeInput from '../components/GrossMonthlyIncomeInput';
 import SpouseGrossMonthlyIncomeInput from '../components/SpouseGrossMonthlyIncomeInput';
 import SpousePayrollDeductionChecklist from '../components/SpousePayrollDeductionChecklist';
@@ -19,6 +20,7 @@ import SpousePayrollDeductionInputList from '../components/SpousePayrollDeductio
 import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
+import VehicleSummaryWidget from '../pages/assets/vehicles/VehicleSummaryWidget';
 import AddAsset from '../components/otherAssets/AddAsset';
 import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
@@ -573,8 +575,32 @@ const formConfig = {
           title: 'Vehicles',
           uiSchema: pages.vehicleRecords.uiSchema,
           schema: pages.vehicleRecords.schema,
-          depends: ({ questions }) => questions.hasVehicle,
+          depends: formData =>
+            formData.questions.hasVehicle &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        enhancedVehicleRecords: {
+          path: 'your-vehicle-records',
+          title: 'Vehicles',
+          uiSchema: pages.enhancedVehicleRecords.uiSchema,
+          schema: pages.enhancedVehicleRecords.schema,
+          depends: formData =>
+            formData.questions.hasVehicle &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: EnhancedVehicleRecord,
+        },
+        vehiclesSummary: {
+          path: 'vehicles-summary',
+          title: 'Your car or other vehicle',
+          uiSchema: pages.vehicleSummary.uiSchema,
+          schema: pages.vehicleSummary.schema,
+          depends: formData =>
+            formData.questions.hasVehicle &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: VehicleSummaryWidget,
         },
         recreationalVehicles: {
           path: 'recreational-vehicles',

@@ -59,7 +59,6 @@ class PatientMessageDetailsPage {
       previousMessageIndex,
     ).attributes.triageGroupName =
       mockPreviousMessageDetails.data.attributes.triageGroupName;
-    cy.log(JSON.stringify(this.currentThread.data.at(previousMessageIndex)));
     cy.log(
       `message thread  = ${JSON.stringify(
         mockParentMessageDetails.data.attributes.messageId,
@@ -82,9 +81,7 @@ class PatientMessageDetailsPage {
     ).as('full-thread');
 
     cy.contains(mockParentMessageDetails.data.attributes.subject).click();
-    cy.wait('@message1').then(xhr => {
-      cy.log(JSON.stringify(xhr.response.body));
-    });
+    cy.wait('@message1');
   };
 
   getCurrentThread() {
@@ -97,11 +94,6 @@ class PatientMessageDetailsPage {
     index = 0,
   ) => {
     cy.log(`mock Message Details--------${JSON.stringify(mockMessageDetails)}`);
-    cy.log(
-      `mock Message Details--------${JSON.stringify(
-        mockMessageDetails.data.attributes.messageId,
-      )}`,
-    );
     this.currentThread = mockThread;
     cy.log('loading message details.');
     this.currentThread.data.at(index).attributes.sentDate =
@@ -165,6 +157,9 @@ class PatientMessageDetailsPage {
     threadMessageDetails.data.attributes.category = mockThread.data.at(
       index,
     ).attributes.category;
+    threadMessageDetails.data.attributes.readReceipt = mockThread.data.at(
+      index,
+    ).attributes.readReceipt;
     threadMessageDetails.data.attributes.recipientId = mockThread.data.at(
       index,
     ).attributes.recipientId;
@@ -172,10 +167,12 @@ class PatientMessageDetailsPage {
       index,
     ).attributes.triageGroupName;
     cy.log(
-      `thread message detail id = ${
+      `thread message detail id expanding = ${
         threadMessageDetails.data.attributes.messageId
       }`,
     );
+
+    cy.log(`expanded message content${JSON.stringify(threadMessageDetails)}`);
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
@@ -185,7 +182,7 @@ class PatientMessageDetailsPage {
     ).as('messageDetails');
     cy.get('[aria-label="Expand message"]')
       .eq(index - 1)
-      .click();
+      .click({ waitforanimations: true });
   };
 
   verifyTrashButtonModal = () => {
