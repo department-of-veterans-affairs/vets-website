@@ -37,22 +37,24 @@ const TravelPayAlert = props => {
     <>
       {travelPayEligible &&
         travelPayClaimData && (
-          <va-alert background-only show-icon data-testid="travel-pay-message">
+          <va-alert
+            background-only
+            show-icon
+            data-testid="travel-pay-message"
+            status="success"
+          >
             <div>
               <p
                 className="vads-u-margin-top--0"
                 data-testid="travel-pay-eligible-success-message"
               >
-                {t('check-travel-claim-status')}
+                <Trans
+                  i18nKey="processing-travel-claim"
+                  components={[
+                    <span key="bold" className="vads-u-font-weight--bold" />,
+                  ]}
+                />
               </p>
-              <ExternalLink
-                href="/accessva-travel-claim/"
-                hrefLang="en"
-                eventId="clicked-go-to-accessva-from-success"
-                eventPrefix="nav"
-              >
-                {t('go-to-the-accessva-travel-claim-portal-now')}
-              </ExternalLink>
             </div>
           </va-alert>
         )}
