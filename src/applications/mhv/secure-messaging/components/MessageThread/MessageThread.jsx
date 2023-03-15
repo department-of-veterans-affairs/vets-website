@@ -52,9 +52,9 @@ const MessageThread = props => {
       {messageHistory?.length > 0 &&
         viewCount && (
           <div className="older-messages vads-u-margin-top--3 vads-u-padding-left--0p5">
-            <h3 className="vads-u-font-weight--bold">
+            <h2 className="vads-u-font-weight--bold">
               Messages in this conversation
-            </h3>
+            </h2>
             <HorizontalRule />
 
             {messageHistory.map((m, i) => {
