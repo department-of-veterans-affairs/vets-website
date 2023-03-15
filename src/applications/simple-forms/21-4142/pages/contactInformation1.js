@@ -11,17 +11,33 @@ const pageFields = [veteranFields.address];
 
 export default {
   uiSchema: {
-    'view:title': {
-      'ui:description': (
-        <>
-          <h3>Mailing Address</h3>
-          <p className="vads-u-margin-bottom--4">
-            We&rsquo;ll send any updates about your application to this address.
-          </p>
-        </>
-      ),
-    },
+    // 'ui:title': 'Mailing Address',
+    // 'ui:description': (
+    //   <p className="vads-u-margin-bottom--4">
+    //     We&rsquo;ll send any updates about your application to this address.
+    //   </p>
+    // ),
+    // 'view:title': {
+    //   'ui:description': (
+    //     <>
+    //       {/* <h3>Mailing Address</h3> */}
+    //       <p className="vads-u-margin-bottom--4">
+    //         We&rsquo;ll send any updates about your application to this address.
+    //       </p>
+    //     </>
+    //   ),
+    // },
     [veteranFields.parentObject]: {
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
+          Mailing Address
+        </h3>
+      ),
+      'ui:description': (
+        <div className="vads-u-margin-bottom--4">
+          We&rsquo;ll send any updates about your application to this address.
+        </div>
+      ),
       [veteranFields.address]: addressUiSchema(
         `${[veteranFields.parentObject]}.${[veteranFields.address]}`,
         undefined,
@@ -32,10 +48,10 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': {
-        type: 'object',
-        properties: {},
-      },
+      // 'view:title': {
+      //   type: 'object',
+      //   properties: {},
+      // },
       [veteranFields.parentObject]: {
         type: 'object',
         required: intersection(required, pageFields),

@@ -14,7 +14,7 @@ export default {
   uiSchema: {
     [veteranFields.parentObject]: {
       'ui:title': (
-        <h3 className="vads-u-font-size--h4 vads-u-color--gray-dark vads-u-margin-top--0">
+        <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
           Name and date of birth
         </h3>
       ),

@@ -22,10 +22,7 @@ export default {
           Enter at least 1 of these identification numbers.
         </div>
       ),
-      [veteranFields.ssn]: {
-        ...ssnUI,
-        'ui:title': 'Social Security number',
-      },
+      [veteranFields.ssn]: ssnUI,
       [veteranFields.vaFileNumber]: {
         'ui:title': 'VA file number',
         'ui:errorMessages': {
