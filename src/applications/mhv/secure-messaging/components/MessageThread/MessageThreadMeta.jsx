@@ -3,17 +3,51 @@ import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
 
 const MessageThreadMeta = props => {
-  const { message, isRead } = props;
+  const { message, isRead, expanded, hasAttachments } = props;
+
+  const expandButton = () => {
+    return (
+      <div className="vads-u-flex--auto">
+        <div className="vads-u-font-weight--bold" role="button">
+          {expanded ? (
+            <>
+              <span>close</span>
+              <i
+                className="fas fa-angle-up vads-u-margin--0p5"
+                aria-hidden="true"
+              />
+            </>
+          ) : (
+            <>
+              <span>expand</span>
+              <i
+                className="fas fa-angle-down vads-u-margin--0p5"
+                aria-hidden="true"
+              />
+            </>
+          )}
+        </div>
+      </div>
+    );
+  };
   return (
     <div className="message-thread-meta vads-u-padding-bottom--1">
-      <p data-testid="from" style={{ fontWeight: !isRead ? 'bold' : '' }}>
-        <strong>From: </strong>
-        {message.senderName}
-        {/* TODO no triage group name in response */}
-        {props.expanded && message.triageGroupName
-          ? ` (${message.triageGroupName})`
-          : ''}
-      </p>
+      <div className="vads-u-display--flex">
+        <p
+          className="vads-u-flex--1 vads-u-padding-right--2"
+          data-testid="from"
+          style={{ fontWeight: !isRead ? 'bold' : '' }}
+        >
+          <strong>From: </strong>
+          {message.senderName}
+          {/* TODO no triage group name in response */}
+          {props.expanded && message.triageGroupName
+            ? ` (${message.triageGroupName})`
+            : ''}
+        </p>
+        {expandButton()}
+      </div>
+
       {props.expanded && (
         <>
           <p data-testid="to">
@@ -27,9 +61,7 @@ const MessageThreadMeta = props => {
         </>
       )}
       <p className="message-date" data-testid="message-date">
-        {(message.attachment ||
-          message.hasAttachments ||
-          message.attachments?.length) && (
+        {hasAttachments && (
           <i
             className="fas fa-paperclip vads-u-padding-right--0p5"
             label="paperclip"
@@ -46,6 +78,7 @@ const MessageThreadMeta = props => {
 
 MessageThreadMeta.propTypes = {
   expanded: PropTypes.bool,
+  hasAttachments: PropTypes.bool,
   isRead: PropTypes.bool,
   message: PropTypes.object,
 };
