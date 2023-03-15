@@ -1,6 +1,5 @@
 import React from 'react';
 import FormFooter from 'platform/forms/components/FormFooter';
-import environment from 'platform/utilities/environment';
 
 const respondentBurden = () => (
   <p className="usa-width-two-thirds medium-8">
@@ -21,17 +20,11 @@ const respondentBurden = () => (
   </p>
 );
 
-const Footer = ({ formConfig, currentLocation }) =>
-  environment.isProduction() ? (
-    <div className="row">
-      {respondentBurden()}
-      <FormFooter formConfig={formConfig} currentLocation={currentLocation} />
-    </div>
-  ) : (
-    <div className="row">
-      {currentLocation.pathname === '/introduction' && respondentBurden()}
-      <FormFooter formConfig={formConfig} currentLocation={currentLocation} />
-    </div>
-  );
+const Footer = ({ formConfig, currentLocation }) => (
+  <div className="row">
+    {currentLocation.pathname === '/introduction' && respondentBurden()}
+    <FormFooter formConfig={formConfig} currentLocation={currentLocation} />
+  </div>
+);
 
 export default Footer;
