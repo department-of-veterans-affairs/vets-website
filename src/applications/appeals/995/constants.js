@@ -134,6 +134,9 @@ export const FORMAT_COMPACT = 'MMM DD, YYYY';
 
 export const LAST_SC_ITEM = 'lastScItem'; // focus management across pages
 export const CONTACT_EDIT = 'edit-contact-info'; // contact info focusing
+export const SUMMARY_EDIT = 'edit-evidence-summary'; // evidence summary focus
+export const REVIEW_CONTACT = 'onReviewPageContact';
+export const REVIEW_ISSUES = 'onReviewPageIssues';
 
 // Values from benefitTypes in Lighthouse 0995 schema
 // schema.definitions.scCreate.properties.data.properties.attributes.properties.benefitType.emum;

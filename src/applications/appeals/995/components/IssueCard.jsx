@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router';
 
-import { SELECTED, FORMAT_READABLE } from '../constants';
+import { SELECTED, FORMAT_READABLE, REVIEW_ISSUES } from '../constants';
 import { replaceDescriptionContent } from '../utils/replace';
 
 /** Modified from HLR v2 card */
@@ -131,10 +131,7 @@ export const IssueCard = ({
 
   const handlers = {
     onEdit: () => {
-      window.sessionStorage.setItem(
-        'onReviewPageIssues',
-        onReviewPage || false,
-      );
+      window.sessionStorage.setItem(REVIEW_ISSUES, onReviewPage || false);
     },
     onRemove: event => {
       event.preventDefault();
