@@ -148,14 +148,12 @@ article[data-location="issue-summary"] {
   font-weight: 400;
 }
 
-article[data-location="start"],
 article[data-location="review-and-submit"],
 article[data-location="primary-phone-number"],
 article[data-location$="request-va-medical-records"],
 article[data-location$="request-private-medical-records"],
 article[data-location$="upload-evidence"] {
-  legend,
-  va-radio::part(legend) {
+  va-radio::part(header) {
     font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
     line-height: 1.3;
     font-size: 2rem;
