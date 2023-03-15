@@ -56,13 +56,11 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
         });
       });
 
-    cy.get('[data-testid="message-subject-field"]')
-      .shadow()
-      .find('[name="message-subject"]')
+    composePage
+      .getMessageSubjectField()
       .type(' Draft Autosave with Attachments');
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[name="message-body"]')
+    composePage
+      .getMessageBodyField()
       .type('Testing Autosave Drafts with Attachments');
     composePage.attachMessageFromFile('sample_docx.docx');
 

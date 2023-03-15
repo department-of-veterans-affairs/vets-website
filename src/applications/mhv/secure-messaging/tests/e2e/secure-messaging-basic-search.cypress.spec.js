@@ -14,7 +14,7 @@ describe.skip('Secure Messaging Basic Search Tests', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
   });
   it('Basic Search Axe Check', () => {
     cy.intercept(
