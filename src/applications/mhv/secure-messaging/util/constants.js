@@ -46,9 +46,16 @@ export const Alerts = {
   },
 
   Folder: {
+    CREATE_FOLDER_MODAL_HEADER: 'Create a new folder',
+    CREATE_FOLDER_MODAL_LABEL: 'Folder name',
     CREATE_FOLDER_SUCCESS: 'Folder was successfully created.',
     CREATE_FOLDER_ERROR:
       'Folder could not be created. Try again later. If this problem persists, contact the help desk.',
+    CREATE_FOLDER_ERROR_NOT_BLANK: 'Folder name cannot be blank',
+    CREATE_FOLDER_ERROR_CHAR_TYPE:
+      'Folder name can only contain letters, numbers, and spaces.',
+    CREATE_FOLDER_ERROR_EXSISTING_NAME:
+      'Folder name already in use. Please use another name.',
     DELETE_FOLDER_CONFIRM_HEADER:
       'Are you sure you want to remove this folder?',
     DELETE_FOLDER_CONFIRM_BODY:
