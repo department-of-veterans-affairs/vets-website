@@ -820,6 +820,10 @@ const formConfig = {
                       country: { 'ui:required': isAuthorizedAgent },
                       street: { 'ui:required': isAuthorizedAgent },
                       city: { 'ui:required': isAuthorizedAgent },
+                      state: {
+                        'ui:required':
+                          isAuthorizedAgent && environment.isProduction(),
+                      },
                       postalCode: { 'ui:required': isAuthorizedAgent },
                     },
                   ),
