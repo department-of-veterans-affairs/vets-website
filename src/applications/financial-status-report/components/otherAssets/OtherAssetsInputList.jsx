@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
-import InputList from '../utils/InputList';
+import InputList from '../shared/InputList';
 
 const OtherAssetsInputList = props => {
   const { errorSchema, formContext } = props;
