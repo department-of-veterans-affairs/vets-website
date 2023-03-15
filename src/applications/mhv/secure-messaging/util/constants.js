@@ -59,7 +59,7 @@ export const Alerts = {
     DELETE_FOLDER_CONFIRM_HEADER:
       'Are you sure you want to remove this folder?',
     DELETE_FOLDER_CONFIRM_BODY:
-      "If you remove a folder, you can't get it back. Conversations in the folder will go back to your inbox.",
+      "If you remove a folder, you can't get it back.",
     DELETE_FOLDER_SUCCESS: 'Folder was successfully removed.',
     DELETE_FOLDER_ERROR:
       'Folder could not be removed. Try again later. If this problem persists, contact the help desk.',
