@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import recordEvent from 'platform/monitoring/record-event';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 // import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
 
 import { focusElement } from 'platform/utilities/ui';
@@ -11,11 +11,6 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 const alreadyReceivingCarePath =
   '/health-care/covid-19-vaccine/stay-informed/form';
 const newlyEligiblePath = `/eligibility`;
-const receivingCareLabelText = (
-  <strong>
-    Are you a Veteran who is enrolled in VA health care or receiving care at VA?
-  </strong>
-);
 
 class LocationPage extends React.Component {
   constructor(props) {
@@ -73,17 +68,23 @@ class LocationPage extends React.Component {
           }}
         >
           <p>
-            <RadioButtons
+            <VaRadio
+              className="vads-u-margin-y--5"
               id="introductionRadios"
-              errorMessage={this.state.errorMessage}
-              onKeyDown={function noRefCheck() {}}
-              onMouseDown={function noRefCheck() {}}
-              onValueChange={val => this.setSelected(val)}
-              options={['Yes', 'No', "I'm not sure"]}
+              error={this.state.errorMessage}
+              onVaValueChange={val => this.setSelected(val)}
+              label="Are you a Veteran who is enrolled in VA health care or receiving care at VA?"
               value={this.state.currentSelection}
-              label={receivingCareLabelText}
               required
-            />
+            >
+              <va-radio-option name="yes1" value="Yes" label="Yes" />
+              <va-radio-option name="no1" value="No" label="No" />
+              <va-radio-option
+                name="unsure1"
+                value="I'm not sure"
+                label="I'm not sure"
+              />
+            </VaRadio>
           </p>
           {/* <ProgressButton
             id="continueButton"
