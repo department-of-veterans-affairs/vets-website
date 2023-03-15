@@ -18,6 +18,11 @@ const isLandingPageEnabledForUser = (state = {}) => {
   }
   const { serviceName } = user?.profile?.signIn;
   const isCernerPatient = selectIsCernerPatient(state);
-  return ENABLED_LOGIN_PROVIDERS.includes(serviceName) && !isCernerPatient;
+  const hasFacilities = user.profile.facilities?.length > 0;
+  return (
+    ENABLED_LOGIN_PROVIDERS.includes(serviceName) &&
+    !isCernerPatient &&
+    hasFacilities
+  );
 };
 export { isLandingPageEnabledForUser };
