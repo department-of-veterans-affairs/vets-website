@@ -301,6 +301,10 @@ export const veteranUI = {
   militaryServiceNumber: {
     'ui:title':
       'Military Service number (if you have one that’s different than your Social Security number)',
+    'ui:errorMessages': {
+      pattern:
+        'Your Military Service number must be between 4 to 10 characters',
+    },
   },
   vaClaimNumber: {
     'ui:title': 'VA claim number (if known)',
@@ -353,24 +357,8 @@ export const veteranUI = {
     isWhite: {
       'ui:title': 'White',
     },
-    'ui:required': () => !environment.isProduction(),
     'ui:validations': [
-      (errors, fields) => {
-        if (
-          !environment.isProduction() &&
-          !(
-            fields.isSpanishHispanicLatino ||
-            fields.isAmericanIndianOrAlaskanNative ||
-            fields.isBlackOrAfricanAmerican ||
-            fields.isNativeHawaiianOrOtherPacificIslander ||
-            fields.notSpanishHispanicLatino ||
-            fields.isAsian ||
-            fields.isWhite
-          )
-        ) {
-          errors.addError('Choose at least one category');
-        }
-      },
+      /* (errors, fields) => {} */
     ],
     'ui:options': {
       showFieldLabel: true,

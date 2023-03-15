@@ -16,6 +16,9 @@ const expiredUUID = '354d5b3a-b7b7-4e5c-99e4-8d563f15c521';
 const past15MinuteUUID = 'f4167a0a-c74d-4e1e-9715-ca22ed7fab9e';
 const expiredPhoneUUID = '08ba56a7-68b7-4b9f-b779-53ba609140ef';
 
+const allDemographicsCurrentUUID = 'e544c217-6fe8-44c5-915f-6c3d9908a678';
+const onlyDemographicsCurrentUUID = '7397abc0-fb4d-4238-a3e2-32b0e47a1527';
+
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
 
 const createMockSuccessResponse = (
@@ -43,6 +46,26 @@ const createMockSuccessResponse = (
   let location = null;
   let checkInSteps = [];
   let status = '';
+
+  let demographicsNeedsUpdateValue = demographicsNeedsUpdate;
+  let demographicsConfirmedAtValue = demographicsConfirmedAt;
+  let nextOfKinNeedsUpdateValue = nextOfKinNeedsUpdate;
+  let nextOfKinConfirmedAtValue = nextOfKinConfirmedAt;
+  let emergencyContactNeedsUpdateValue = emergencyContactNeedsUpdate;
+  let emergencyContactConfirmedAtValue = emergencyContactConfirmedAt;
+
+  const yesterday = dateFns.sub(new Date(), { days: -1 }).toISOString();
+  if (token === allDemographicsCurrentUUID) {
+    demographicsNeedsUpdateValue = false;
+    demographicsConfirmedAtValue = yesterday;
+    nextOfKinNeedsUpdateValue = false;
+    nextOfKinConfirmedAtValue = yesterday;
+    emergencyContactNeedsUpdateValue = false;
+    emergencyContactConfirmedAtValue = yesterday;
+  } else if (token === onlyDemographicsCurrentUUID) {
+    demographicsNeedsUpdateValue = false;
+    demographicsConfirmedAtValue = yesterday;
+  }
 
   if (token === alreadyPreCheckedInUUID) {
     // 35 minutes ago.
@@ -106,12 +129,12 @@ const createMockSuccessResponse = (
         }),
       ],
       patientDemographicsStatus: {
-        demographicsNeedsUpdate,
-        demographicsConfirmedAt,
-        nextOfKinNeedsUpdate,
-        nextOfKinConfirmedAt,
-        emergencyContactNeedsUpdate,
-        emergencyContactConfirmedAt,
+        demographicsNeedsUpdate: demographicsNeedsUpdateValue,
+        demographicsConfirmedAt: demographicsConfirmedAtValue,
+        nextOfKinNeedsUpdate: nextOfKinNeedsUpdateValue,
+        nextOfKinConfirmedAt: nextOfKinConfirmedAtValue,
+        emergencyContactNeedsUpdate: emergencyContactNeedsUpdateValue,
+        emergencyContactConfirmedAt: emergencyContactConfirmedAtValue,
       },
     },
   };
