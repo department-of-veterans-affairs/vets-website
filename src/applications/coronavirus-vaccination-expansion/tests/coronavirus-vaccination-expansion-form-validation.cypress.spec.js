@@ -8,9 +8,7 @@ describe('COVID-19 SAVE LIVES Act sign up', () => {
     it('should throw a validation error', () => {
       cy.axeCheck();
 
-      cy.get('label')
-        .contains('No')
-        .click({ force: true });
+      cy.get('va-radio-option[label="No"]').click({ force: true });
 
       cy.get('button')
         .contains('Continue')

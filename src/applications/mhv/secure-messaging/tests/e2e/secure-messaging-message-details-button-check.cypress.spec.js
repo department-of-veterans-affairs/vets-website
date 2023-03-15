@@ -22,7 +22,7 @@ describe('Secure Messaging Message Details Buttons Check', () => {
     messageDetailsPage.verifyTrashButtonModal();
     messageDetailsPage.verifyMoveToButtonModal();
     messageDetailsPage.loadReplyPageDetails(messageDetails, defaultMockThread);
-    replyPage.verifyReplyPageBodyField();
+    replyPage.getMessageBodyField().should('be.visible');
     cy.injectAxe();
     cy.axeCheck();
   });

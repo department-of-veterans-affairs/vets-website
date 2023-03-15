@@ -32,6 +32,7 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     site.loadMessageDetailsWithData(mockSpeciaCharMessage);
     cy.injectAxe();
     cy.axeCheck();
+    // *Refactor* check only if it exists, do not visit
     cy.get('pre > a').click();
   });
 });

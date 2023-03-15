@@ -1,29 +1,22 @@
 import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import mockDraftMessage from '../fixtures/message-draft-response.json';
+import PatientComposePage from './pages/PatientComposePage';
 
 describe('Secure Messaging Compose with No Provider', () => {
   it('can send message', () => {
     const landingPage = new PatientInboxPage();
+    const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadPageForNoProvider();
     cy.get('[data-testid="compose-message-link"]').click();
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('[data-testid="compose-recipient-select"]')
-      .shadow()
-      .find('[id="select"]')
-      .select('');
+    composePage.selectRecipient('');
     cy.get('[name="COVID"]').click();
-    cy.get('[data-testid="message-subject-field"]')
-      .shadow()
-      .find('[name="message-subject"]')
-      .type('Test Subject');
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[name="message-body"]')
-      .type('Test message body');
+    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.getMessageBodyField().type('Test message body');
 
     cy.intercept(
       'POST',
