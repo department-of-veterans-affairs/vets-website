@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { otherIncome } from '../constants/checkboxSelections';
-import Checklist from './utils/CheckList';
+import Checklist from './shared/CheckList';
 
 const SpouseAdditionalIncomeCheckList = () => {
   const dispatch = useDispatch();

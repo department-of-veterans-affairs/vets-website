@@ -36,6 +36,9 @@ class ApiInitializer {
     withDefaultUser: () => {
       cy.intercept('GET', '/v0/user*', userData.defaultUser);
     },
+    withCernerPatient: () => {
+      cy.intercept('GET', '/v0/user*', userData.cernerPatient);
+    },
   };
 }
 
