@@ -9,7 +9,6 @@ import {
   MiniSummaryCard,
 } from '../../../components/shared/MiniSummaryCard';
 
-
 import { currency as currencyFormatter } from '../../../utils/helpers';
 
 const EmploymentHistoryWidget = props => {
