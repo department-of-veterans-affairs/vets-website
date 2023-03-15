@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router';
 
-import { SELECTED, FORMAT_READABLE, REVIEW_ISSUES } from '../constants';
+import { SELECTED, FORMAT_YMD, FORMAT_READABLE } from '../constants';
 import { replaceDescriptionContent } from '../utils/replace';
 
 /** Modified from HLR v2 card */
@@ -42,7 +42,8 @@ export const IssueCardContent = ({
       )}
       {date && (
         <p>
-          Decision date: <strong>{moment(date).format(FORMAT_READABLE)}</strong>
+          Decision date:{' '}
+          <strong>{moment(date, FORMAT_YMD).format(FORMAT_READABLE)}</strong>
         </p>
       )}
     </div>
@@ -130,9 +131,6 @@ export const IssueCard = ({
   ].join(' ');
 
   const handlers = {
-    onEdit: () => {
-      window.sessionStorage.setItem(REVIEW_ISSUES, onReviewPage || false);
-    },
     onRemove: event => {
       event.preventDefault();
       onRemove(index, item);
@@ -150,7 +148,6 @@ export const IssueCard = ({
           }}
           className="edit-issue-link"
           aria-label={`Edit ${issueName}`}
-          onClick={handlers.onEdit}
         >
           Edit
         </Link>
@@ -229,7 +226,6 @@ IssueCard.propTypes = {
   }),
   showCheckbox: PropTypes.bool,
   onChange: PropTypes.func,
-  onEdit: PropTypes.func,
   onRemove: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };
