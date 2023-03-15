@@ -77,8 +77,11 @@ export default class EducationWizard extends React.Component {
                 if (options) {
                   return (
                     <VaRadio
+                      class="wizard-fieldset"
                       label={label}
-                      value={{ value: this.state.choices[type] }}
+                      name={type}
+                      id={type}
+                      key={type}
                       onVaValueChange={event => {
                         this.answerQuestion(type, event.detail.value);
                       }}
