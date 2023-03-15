@@ -49,13 +49,6 @@ const getFormConfig = (options = {}) => ({
     required: true,
     field: 'privacyAgreementAccepted',
     notice: '<div>Notice</div>',
-    label: 'I accept the privacy agreement',
-    description: (
-      <a href="/" id="description-link">
-        Privacy policy
-      </a>
-    ),
-    error: 'You must accept the privacy agreement',
   },
   chapters: {
     chapter1: {
@@ -97,12 +90,7 @@ describe('Review PreSubmitSection component', () => {
       </Provider>,
     );
 
-    expect(
-      container.querySelector('va-checkbox').getAttribute('label'),
-    ).to.equal('I accept the privacy agreement');
-    expect(container.querySelector('#description-link').innerHTML).to.equal(
-      'Privacy policy',
-    );
+    expect(container.querySelector('va-privacy-agreement')).does.exist;
   });
 
   it('should render save link', () => {
@@ -171,8 +159,6 @@ describe('Review PreSubmitSection component', () => {
         required: true,
         field: 'privacyAgreementAccepted',
         notice: '<div>Notice</div>',
-        label: 'I accept the privacy agreement',
-        error: 'You must accept the privacy agreement',
         CustomComponent: () => (
           <div data-testid="12345">i am custom component</div>
         ),
@@ -213,14 +199,16 @@ describe('Review PreSubmitSection component', () => {
     const store = createStore();
     store.injectReducer('form', formReducer);
 
-    const { container } = render(
+    const tree = render(
       <Provider store={store}>
         <PreSubmitSection formConfig={formConfig} showPreSubmitError />
       </Provider>,
     );
 
     expect(
-      container.querySelector('va-checkbox').getAttribute('error'),
-    ).to.equal('You must accept the privacy agreement');
+      tree.container
+        .querySelector('va-privacy-agreement')
+        .getAttribute('show-error'),
+    ).to.equal('You must accept the agreement before submitting.');
   });
 });

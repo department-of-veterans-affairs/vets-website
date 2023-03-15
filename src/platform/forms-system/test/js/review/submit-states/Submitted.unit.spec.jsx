@@ -50,8 +50,6 @@ const getFormConfig = (options = {}) => ({
     required: true,
     field: 'privacyAgreementAccepted',
     notice: '<div>Notice</div>',
-    label: 'I accept the privacy agreement',
-    error: 'You must accept the privacy agreement',
   },
   chapters: {
     chapter1: {
@@ -100,9 +98,7 @@ describe('Schemaform review: <Submitted />', () => {
       </Provider>,
     );
 
-    expect(
-      tree.container.querySelector('va-checkbox').getAttribute('label'),
-    ).to.equal('I accept the privacy agreement');
+    expect(tree.container.querySelector('va-privacy-agreement')).does.exist;
 
     tree.unmount();
   });

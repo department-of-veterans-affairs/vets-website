@@ -137,9 +137,7 @@ describe('Schemaform review: <ValidationError />', () => {
       </Provider>,
     );
 
-    expect(
-      tree.container.querySelector('va-checkbox').getAttribute('label'),
-    ).to.equal('I accept the privacy agreement');
+    expect(tree.container.querySelector('va-privacy-agreement')).does.exist;
 
     tree.unmount();
   });

@@ -67,6 +67,7 @@ export function PreSubmitSection(props) {
           {preSubmit.required &&
             (preSubmit.field.includes('privacyAgreement') ? (
               <VaPrivacyAgreement
+                required={preSubmit.required}
                 checked={checked}
                 name={preSubmit.field}
                 showError={
@@ -80,7 +81,7 @@ export function PreSubmitSection(props) {
               />
             ) : (
               <VaCheckbox
-                required
+                required={preSubmit.required}
                 checked={checked}
                 name={preSubmit.field}
                 error={
