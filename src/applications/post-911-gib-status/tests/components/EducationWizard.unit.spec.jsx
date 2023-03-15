@@ -1,18 +1,12 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import ReactDOM from 'react-dom';
 
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
+
 import EducationWizard from '../../components/EducationWizard';
 import wizardConfig from '../../utils/wizardConfig';
-
-function getQuestion(tree, name) {
-  return tree.everySubTree('RadioButtons').find(i => i.props.name === name);
-}
-
-function answerQuestion(tree, name, value) {
-  getQuestion(tree, name).props.onValueChange({ value });
-}
 
 describe('<EducationWizard>', () => {
   it('should show button and no questions', () => {
@@ -46,36 +40,80 @@ describe('<EducationWizard>', () => {
     );
     expect(dom.querySelector('va-radio')).not.to.be.empty;
   });
-  it.skip('should show next relevant question', () => {
-    const tree = SkinDeep.shallowRender(
+  it('should show next relevant question', async () => {
+    const { container } = render(
       <EducationWizard
         config={wizardConfig}
         toggleText="Troubleshoot My GI Bill Benefits"
       />,
     );
 
-    tree.getMountedInstance().setState({ open: true });
-    expect(getQuestion(tree, 'recentApplication')).not.to.be.undefined;
-    answerQuestion(tree, 'recentApplication', 'false');
-    expect(getQuestion(tree, 'veteran')).not.to.be.undefined;
+    const firstQuestion = $('va-radio[name="recentApplication"]', container);
+    expect(firstQuestion).to.exist;
+
+    // Simulates selection of the second option.
+    const changeEvent = new MouseEvent('vaValueChange', {
+      detail: { value: false },
+    });
+
+    fireEvent(firstQuestion, changeEvent);
+
+    // Allow the state to update and render the next question.
+    await waitFor(() => {
+      const secondQuestion = $('va-radio[name="veteran"]', container);
+      expect(secondQuestion).to.exist;
+    });
   });
-  it.skip('should reset after earlier answer changed', () => {
-    const tree = SkinDeep.shallowRender(
+  it('should reset after earlier answer changed', async () => {
+    const { container } = render(
       <EducationWizard
         config={wizardConfig}
         toggleText="Troubleshoot My GI Bill Benefits"
       />,
     );
 
-    tree.getMountedInstance().setState({ open: true });
-    expect(getQuestion(tree, 'recentApplication')).not.to.be.undefined;
-    answerQuestion(tree, 'recentApplication', 'false');
-    expect(getQuestion(tree, 'veteran')).not.to.be.undefined;
-    answerQuestion(tree, 'veteran', 'true');
-    answerQuestion(tree, 'recentApplication', 'false');
-    expect(getQuestion(tree, 'veteran').props.value.value).to.be.null;
-    answerQuestion(tree, 'recentApplication', 'true');
-    // we now expect an error message instead of the next question
-    expect(getQuestion(tree, 'veteran')).to.be.undefined;
+    const changeEventFalse = new MouseEvent('vaValueChange', {
+      detail: { value: false },
+    });
+
+    const changeEventTrue = new MouseEvent('vaValueChange', {
+      detail: { value: true },
+    });
+
+    expect($('va-radio[name="recentApplication"]', container)).to.exist;
+
+    // Set name=recentApplication question to false.
+    fireEvent(
+      $('va-radio[name="recentApplication"]', container),
+      changeEventFalse,
+    );
+
+    // Check that the next question is shown.
+    await waitFor(() => {
+      expect($('va-radio[name="veteran"]', container)).to.exist;
+    });
+
+    // Set name=veteran question to true.
+    fireEvent($('va-radio[name="veteran"]', container), changeEventTrue);
+
+    // Check that the next question is shown.
+    await waitFor(() => {
+      expect($('va-radio[name="recentApplication"]', container)).to.exist;
+    });
+
+    // Set name=recentApplication question to false
+    fireEvent(
+      $('va-radio[name="recentApplication"]', container),
+      changeEventFalse,
+    );
+
+    // Expect name=veteran not to be selected anymore.
+    await waitFor(() => {
+      expect($('va-radio[name="veteran"]', container)).to.exist;
+    });
+
+    expect($('va-radio-option[label="More than 30 days ago"]', container)).to
+      .exist;
+    expect($('va-radio[value="false"]', container)).not.to.exist;
   });
 });
