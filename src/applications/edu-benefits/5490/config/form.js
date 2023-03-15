@@ -424,6 +424,11 @@ const formConfig = {
               marriageDate: {
                 ...dateUI('Date of marriage'),
                 'ui:title': 'Date of marriage',
+                'ui:options': {
+                  hideIf: formData =>
+                    get('relationship', formData) === 'spouse' &&
+                    environment.isProduction(),
+                },
                 'ui:required': formData =>
                   get('relationship', formData) === 'spouse',
               },
