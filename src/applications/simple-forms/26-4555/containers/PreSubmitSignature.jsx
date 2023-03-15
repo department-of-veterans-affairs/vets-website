@@ -79,7 +79,6 @@ const PreSubmitSignature = ({
         setSignatureError(false);
       };
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isDirty, certifyChecked, signatureMatches, setSignatureError],
   );
 
