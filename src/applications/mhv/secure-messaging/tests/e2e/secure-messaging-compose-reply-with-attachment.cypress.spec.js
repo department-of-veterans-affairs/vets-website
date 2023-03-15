@@ -23,11 +23,13 @@ describe('Compose message With Attacments and Errors', () => {
     composePage.verifyAttachmentErrorMessage(
       'The file you are attempting to attach is empty. Please select a non-empty file.',
     );
-    // composePage.closeAttachmentErrorPopup();
-    // composePage.attachMessageFromFile('test_ext.TXT');
-    // composePage.verifyAttachmentErrorMessage(
-    //   'The file you are attempting to attach is empty. Please select a non-empty file.',
-    // );
+
+    composePage.closeAttachmentErrorPopup();
+    composePage.attachMessageFromFile('sample_pdf.pdf');
+    composePage.attachMessageFromFile('sample_pdf.pdf');
+    composePage.verifyAttachmentErrorMessage(
+      'You have already attached this file.',
+    );
     composePage.closeAttachmentErrorPopup();
     composePage.attachMessageFromFile('test_image_10mb.jpg');
     composePage.verifyAttachmentErrorMessage(
