@@ -45,6 +45,7 @@ import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage5490 from '../content/directDeposit';
 import createDirectDepositPage from '../../pages/directDeposit';
 import applicantInformationUpdate from '../components/applicantInformationUpdate';
+import GuardianInformation from '../components/GuardianInformation';
 import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
@@ -812,6 +813,12 @@ const formConfig = {
         directDeposit: !environment.isProduction()
           ? createDirectDepositPage5490()
           : createDirectDepositPage(fullSchema5490),
+      },
+    },
+    GuardianInformation: {
+      title: 'Guardian information',
+      pages: {
+        guardianInformation: GuardianInformation(fullSchema5490, {}),
       },
     },
   },

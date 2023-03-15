@@ -1,19 +1,13 @@
-import { merge, pick } from 'lodash';
+import { pick } from 'lodash';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
-import { validateMatch } from 'platform/forms-system/src/js/validation';
-
+import dateUI from 'platform/forms-system/src/js/definitions/date';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fullNameUI from 'platform/forms/definitions/fullName';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import {
-  schema as addressSchema,
-  uiSchema as addressUI,
-} from 'platform/forms/definitions/address';
 import * as personId from 'platform/forms/definitions/personId';
 
 import { relationshipLabels, genderLabels } from 'platform/static-data/labels';
 
+import environment from 'platform/utilities/environment';
 import { ageWarning, eighteenOrOver } from '../helpers';
 
 const defaults = prefix => ({
@@ -23,16 +17,7 @@ const defaults = prefix => ({
     `${prefix}SocialSecurityNumber`,
     `${prefix}DateOfBirth`,
     'view:ageWarningNotification',
-    'minorHighSchoolQuestion',
-    'highSchoolGedGradDate',
-    'highSchoolGedExpectedGradDate',
-    'guardianName',
-    // 'guardianFirstName',
-    // 'guardianLastName',
-    'guardianAddress',
-    'guardianMobilePhone',
-    'guardianHomePhone',
-    'guardianEmail',
+    'view:minorHighSchoolQuestions',
     'gender',
     'relationship',
   ],
@@ -64,50 +49,19 @@ export default function applicantInformationUpdate(schema, options) {
       type: 'object',
       properties: {},
     },
-    minorHighSchoolQuestion: {
-      type: 'boolean',
-    },
-    highSchoolGedGradDate: {
-      type: 'object',
-      $ref: '#/definitions/date',
-    },
-    highSchoolGedExpectedGradDate: {
-      type: 'object',
-      $ref: '#/definitions/date',
-    },
-    guardianName: {
+    'view:minorHighSchoolQuestions': {
       type: 'object',
       properties: {
-        'First name of Parent, Guardian or Custodian': {
-          type: 'string',
+        minorHighSchoolQuestion: {
+          type: 'boolean',
         },
-        'Middle name of Parent, Guardian or Custodian': {
-          type: 'string',
+        highSchoolGedGradDate: {
+          type: 'object',
+          $ref: '#/definitions/date',
         },
-        'Last name of Parent, Guardian or Custodian': {
-          type: 'string',
-        },
-      },
-    },
-    guardianAddress: addressSchema(schema),
-    guardianMobilePhone: {
-      type: 'object',
-      $ref: '#/definitions/phone',
-    },
-    guardianHomePhone: {
-      type: 'object',
-      $ref: '#/definitions/phone',
-    },
-    guardianEmail: {
-      type: 'object',
-      properties: {
-        email: {
-          type: 'string',
-          format: 'email',
-        },
-        'view:confirmEmail': {
-          type: 'string',
-          format: 'email',
+        highSchoolGedExpectedGradDate: {
+          type: 'object',
+          $ref: '#/definitions/date',
         },
       },
     },
@@ -135,54 +89,61 @@ export default function applicantInformationUpdate(schema, options) {
           hideIf: formData => eighteenOrOver(formData.relativeDateOfBirth),
         },
       },
-      minorHighSchoolQuestion: {
-        'ui:title': 'Applicant has graduated high school or received GED?',
-        'ui:widget': 'yesNo',
+      'view:minorHighSchoolQuestions': {
         'ui:options': {
-          // hideIf: formData => eighteenOrOver(formData.relativeDateOfBirth),
-        },
-      },
-      highSchoolGedGradDate: {
-        ...currentOrPastDateUI('Date graduated'),
-        'ui:options': {
-          expandUnder: 'minorHighSchoolQuestion',
-          // hideIf: formData => eighteenOrOver(formData.relativeDateOfBirth),
-        },
-      },
-      highSchoolGedExpectedGradDate: {
-        ...currentOrPastDateUI('Date expected to graduate'),
-        'ui:options': {
-          expandUnder: 'minorHighSchoolQuestion',
-          expandUnderCondition: false,
-          // hideIf: formData => eighteenOrOver(formData.relativeDateOfBirth),
-        },
-      },
-      guardianName: {
-        'ui:options': {
-          // hideIf: formData => eighteenOrOver(formData.relativeDateOfBirth),
-        },
-      },
-      guardianAddress: merge(
-        {},
-        addressUI('Address of Parent, Guardian or Custodian'),
-        {
-          'ui:options': {
-            // hideIf: formData => eighteenOrOver(formData.relativeDateOfBirth),
+          expandUnder: 'view:ageWarningNotification',
+          hideIf: formData => {
+            let shouldNotShow = true;
+            const isNotProd = !environment.isProduction();
+            const overEighteen = eighteenOrOver(formData.relativeDateOfBirth);
+            if (!isNotProd && !overEighteen) {
+              shouldNotShow = true;
+            } else {
+              shouldNotShow = false;
+            }
+            return shouldNotShow;
           },
         },
-      ),
-      guardianMobilePhone: phoneUI('Mobile phone number'),
-      guardianHomePhone: phoneUI('Home phone number'),
-      guardianEmail: {
-        'ui:validations': [
-          validateMatch('email', 'view:confirmEmail', { ignoreCase: true }),
-        ],
-        email: emailUI(),
-        'view:confirmEmail': merge({}, emailUI('Re-enter email address'), {
-          'ui:options': {
-            hideOnReview: true,
+        minorHighSchoolQuestion: {
+          'ui:title': 'Applicant has graduated high school or received GED?',
+          'ui:widget': 'yesNo',
+          'ui:required': formData => {
+            const isRequired = eighteenOrOver(formData.relativeDateOfBirth);
+            return !isRequired;
           },
-        }),
+        },
+        highSchoolGedGradDate: {
+          ...currentOrPastDateUI('Date graduated'),
+          'ui:options': {
+            expandUnder: 'minorHighSchoolQuestion',
+          },
+          'ui:required': formData => {
+            let isRequired = false;
+            if (!eighteenOrOver(formData.relativeDateOfBirth)) {
+              const yesNoResults =
+                formData['view:minorHighSchoolQuestions']
+                  .minorHighSchoolQuestion;
+              if (yesNoResults) {
+                isRequired = true;
+              }
+              if (!yesNoResults) {
+                isRequired = false;
+              }
+            }
+            return isRequired;
+          },
+        },
+        highSchoolGedExpectedGradDate: {
+          ...dateUI('Date expected to graduate'),
+          'ui:options': {
+            expandUnder: 'minorHighSchoolQuestion',
+            expandUnderCondition: false,
+          },
+          'ui:errorMessages': {
+            pattern: 'Please enter a valid current or future date',
+            required: 'Please enter a date',
+          },
+        },
       },
       gender: {
         'ui:widget': 'radio',
