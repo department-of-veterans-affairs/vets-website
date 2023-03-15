@@ -24,7 +24,7 @@ const PrintMessageThread = props => {
     return (
       <>
         {messageThread?.length > 0 && (
-          <div className="message-thread-list">
+          <div data-testid="print-thread" className="message-thread-list">
             {messageThread.map((m, i) => {
               return (
                 <div key={i}>
