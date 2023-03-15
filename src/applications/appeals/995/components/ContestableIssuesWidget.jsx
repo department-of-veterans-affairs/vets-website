@@ -168,7 +168,9 @@ const ContestableIssuesWidget = props => {
           onReviewPage={onReviewPage}
           inReviewMode={inReviewMode}
         />
-        <dl className="review">{content}</dl>
+        <ul className="issues vads-u-border-top--1px vads-u-border-color--gray-light">
+          {content}
+        </ul>
         {onReviewPage && inReviewMode ? null : (
           <Link
             className="add-new-issue vads-c-action-link--green"
