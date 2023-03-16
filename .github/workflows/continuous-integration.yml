@@ -279,7 +279,7 @@ jobs:
   linting-changed:
     name: Linting (Files Changed)
     runs-on: ubuntu-latest
-    if: ${{ github.ref !== 'refs/heads/main' }}
+    if: ${{ github.ref != 'refs/heads/main' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
