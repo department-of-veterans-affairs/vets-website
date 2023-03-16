@@ -13,6 +13,7 @@ import {
   selectModalityIcon,
   selectTypeOfCareName,
   selectApptDetailAriaText,
+  selectIsCommunityCare,
 } from '../../redux/selectors';
 
 export default function RequestAppointmentLayout({ appointment }) {
@@ -23,6 +24,7 @@ export default function RequestAppointmentLayout({ appointment }) {
   const grouped = true;
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
   const isCanceled = useSelector(() => selectIsCanceled(appointment));
+  const isCommunityCare = useSelector(() => selectIsCommunityCare(appointment));
   const link = `requests/${appointment.id}`;
   const modality = useSelector(() => selectModalityText(appointment));
   const modalityIcon = useSelector(() => selectModalityIcon(appointment));
@@ -62,6 +64,10 @@ export default function RequestAppointmentLayout({ appointment }) {
                         'fas',
                         'vads-u-margin-right--1',
                         modalityIcon,
+                        {
+                          'vaos-appts__text--line-through':
+                            isCanceled && !isCommunityCare,
+                        },
                       )}
                     />
 
