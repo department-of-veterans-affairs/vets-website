@@ -276,6 +276,55 @@ jobs:
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
 
+  linting-changed:
+    name: Linting (Files Changed)
+    runs-on: ubuntu-latest
+    if: ${{ github.ref !== 'refs/heads/main' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get files changed
+        id: get-files-changed
+        uses: trilom/file-changes-action@v1.2.4
+        continue-on-error: true
+        with:
+          output: 'json'
+
+      - name: Filter files
+        id: get-lint-files
+        run: node ./script/github-actions/filter-files-changed.js ${{ steps.get-files-changed.outputs.files }}
+
+      - name: Annotate ESLint results
+        run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
+
+      - name: Run Stylelint
+        if: ${{ always() && steps.get-lint-files.outputs.SCSSFILES != '' }}
+        run: yarn run stylelint verbose --output-file stylelint-report.json --formatter json ${{ steps.get-lint-files.outputs.SCSSFILES }}
+
+      - name: Annotate Stylelint results
+        if: ${{ always() }}
+        run: node ./script/github-actions/stylelint-annotation-format.js
+
   testing-reports-prep:
     name: Testing Reports Prep
     runs-on: ubuntu-latest
