@@ -150,6 +150,7 @@ li.vaos-appts__listItem--clickable[data-status="upcoming"]:last-child
 
 li.vaos-appts__listItem--clickable[data-status="pending"]:last-child {
   border-bottom: 1px solid !important;
+  border-color: $color-gray-medium !important;
 }
 
 .vaos-appts__column--1 {
@@ -190,6 +191,20 @@ div[id^="vaos-appts__detail-"] {
   @include media($medium-screen) {
     max-width: 222px;
   }
+}
+
+.vaos-appts__text--line-through {
+  position: relative;
+}
+.vaos-appts__text--line-through::after {
+  content: "";
+  display: block;
+  width: 25px;
+  height: 1px;
+  background-color: $color-base;
+  position: absolute;
+  top: 49%;
+  left: 0;
 }
 
 .fa-blank {

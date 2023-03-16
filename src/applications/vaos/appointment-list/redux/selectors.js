@@ -495,7 +495,11 @@ export function selectModalityText(appointment) {
   //
   // TODO: What default should be displayed if the data is corrupt an there is
   // no facility name?
-  if (facilityName && isVideoAtlas) return `At ${facilityName}`;
+  if (facilityName) return `At ${facilityName}`;
+  if (isVideoAtlas) {
+    const { line, city, state } = appointment.videoData.atlasLocation.address;
+    return `At ${line} ${city}, ${state}`;
+  }
 
   if (isInPerson || isVideoClinic) {
     return facilityName ? `At ${facilityName}` : 'At VA facility';
