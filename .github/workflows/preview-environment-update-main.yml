@@ -1,4 +1,4 @@
-name: Preview Environment Deployment
+name: Preview Environment - Update main image
 
 on:
   push:
@@ -6,7 +6,8 @@ on:
       - 'main'
 
 jobs:
-  deploy-preview-environment:
+  update-preview-environment-main-image:
+    name: Update preview environment main image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -52,6 +53,6 @@ jobs:
       #     push: false
       #     # Update tags and ECR Repository
       #     tags: |
-      #       ${{ steps.login-ecr.outputs.registry }}/dsva/preview-environment/vets-website:main
+      #       ${{ steps.login-ecr.outputs.registry }}/dsva/preview-environment/vets-website:latest
       #     # cache-from: type=registry,ref=$ECR_REGISTRY/$ECR_REPOSITORY
       #     # cache-to: type=inline
