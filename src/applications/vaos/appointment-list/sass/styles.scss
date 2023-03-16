@@ -189,6 +189,20 @@ div[id^="vaos-appts__detail-"] {
   }
 }
 
+.vaos-appts__text--line-through {
+  position: relative;
+}
+.vaos-appts__text--line-through::after {
+  content: "";
+  display: block;
+  width: 25px;
+  height: 1px;
+  background-color: $color-base;
+  position: absolute;
+  top: 49%;
+  left: 0;
+}
+
 .fa-blank {
   margin-right: 0 !important;
 }
