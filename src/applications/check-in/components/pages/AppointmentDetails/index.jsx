@@ -55,10 +55,7 @@ const AppointmentDetails = props => {
 
   const handlePhoneNumberClick = () => {
     recordEvent({
-      event: createAnalyticsSlug(
-        'details-phone-link-clicked',
-        `nav${app === 'preCheckIn' ? '-pre' : ''}`,
-      ),
+      event: createAnalyticsSlug('details-phone-link-clicked', 'nav', app),
     });
   };
 
