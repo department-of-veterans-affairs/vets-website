@@ -1,3 +1,4 @@
+import React from 'react';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
@@ -5,9 +6,17 @@ import { providerFacilityFields } from '../definitions/constants';
 
 export default {
   uiSchema: {
-    'ui:title': 'Where did you receive treatment?',
-    'ui:description':
-      "Let us know where and when you received treatment. We'll request your private medical records for you.",
+    'ui:title': (
+      <h3 className="vads-u-color--gray-dark">
+        Where did you receive treatment?
+      </h3>
+    ),
+    'ui:description': (
+      <div className="vads-u-margin-bottom--4">
+        Let us know where and when you received treatment. We'll request your
+        private medical records for you.
+      </div>
+    ),
     [providerFacilityFields.parentObject]: {
       'ui:options': {
         itemName: 'provider facility',

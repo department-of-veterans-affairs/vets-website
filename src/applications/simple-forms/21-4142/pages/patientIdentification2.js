@@ -1,3 +1,4 @@
+import React from 'react';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
@@ -16,28 +17,18 @@ const pageFields = [
 export default {
   uiSchema: {
     [patientIdentificationFields.parentObject]: {
-      // 'ui:title': 'Whose records are you granting authorization to release?',
-      [patientIdentificationFields.patientFullName]: {
-        first: {
-          ...fullNameUI.first,
-          'ui:title': "Patient's first name",
-        },
-        middle: {
-          ...fullNameUI.middle,
-          'ui:title': "Patient's middle name",
-        },
-        last: {
-          ...fullNameUI.last,
-          'ui:title': "Patient's last name",
-        },
-      },
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
+          Whose records are you granting authorization to release?
+        </h3>
+      ),
+      [patientIdentificationFields.patientFullName]: fullNameUI,
       [patientIdentificationFields.patientSsn]: {
         ...ssnUI,
         'ui:required': () => true,
-        'ui:title': "Patient's social security number",
       },
       [patientIdentificationFields.patientVaFileNumber]: {
-        'ui:title': "Patient's VA file number",
+        'ui:title': 'VA file number (if applicable)',
         'ui:errorMessages': {
           pattern:
             'Please input a valid VA file number: 7 to 9 numeric digits, & may start with a letter "C" or "c".',
