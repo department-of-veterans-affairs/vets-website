@@ -13,8 +13,8 @@ const filteredSCSSFiles = files
   .filter(file => /.+\.s?css$/.test(file))
   .join(' ');
 
-core.setOutput('JSFILES', filteredJSFiles);
-core.setOutput('SCSSFILES', filteredSCSSFiles);
+core.exportVariable('JSFILES', filteredJSFiles);
+core.exportVariable('SCSSFILES', filteredSCSSFiles);
 
-console.log(`JSFILES=${filteredJSFiles} >> $GITHUB_OUTPUT`);
-console.log(`SCSSFILES=${filteredSCSSFiles} >> $GITHUB_OUTPUT`);
+console.log(filteredJSFiles);
+// console.log(`SCSSFILES=${filteredSCSSFiles} >> $GITHUB_OUTPUT`);
