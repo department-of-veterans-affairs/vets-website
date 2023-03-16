@@ -27,7 +27,6 @@ import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
 import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
 import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
-import OptIn from '../components/OptIn';
 import Notice5103 from '../components/Notice5103';
 import submissionError from '../content/submissionError';
 
@@ -75,7 +74,7 @@ import submitForm from './submitForm';
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
 
-import { focusRadioH3, focusAlertH3 } from '../utils/focus';
+import { focusRadioH3, focusAlertH3, focusIssue } from '../utils/focus';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
@@ -189,6 +188,7 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
+          scrollAndFocusTarget: focusIssue,
         },
         addIssue: {
           title: 'Add issues for review',
@@ -209,13 +209,8 @@ const formConfig = {
           title: 'Opt in',
           path: 'opt-in',
           depends: mayHaveLegacyAppeals,
-          CustomPage: OptIn,
-          CustomPageReview: null, // reviewField renders this!
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
-          initialData: {
-            socOptIn: false,
-          },
         },
       },
     },

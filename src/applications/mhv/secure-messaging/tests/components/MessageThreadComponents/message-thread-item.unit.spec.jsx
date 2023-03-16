@@ -24,7 +24,13 @@ describe('Meesage thread item', () => {
       },
     );
 
-    waitFor(fireEvent.click(screen.getByTestId('expand-message-button')));
+    waitFor(
+      fireEvent.click(
+        screen.getByTestId(
+          `expand-message-button-${messageResponse.messageId}`,
+        ),
+      ),
+    );
     expect(
       screen.getByTestId('message-body-attachments-label').textContent,
     ).to.equal('Attachments');
