@@ -34,6 +34,7 @@ const Folders = () => {
   );
 
   const openNewModal = () => {
+    dispatch(closeAlert());
     setIsModalVisible(true);
   };
 
