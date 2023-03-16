@@ -34,7 +34,7 @@ describe(manifest.appName, () => {
       const result = isLandingPageEnabledForUser(state);
       expect(result).to.be.false;
     });
-    it('app is disabled if the feature is enabled; the user is logged in as idme', () => {
+    it('app is enabled if the feature is enabled; the user is logged in as idme', () => {
       const state = {
         featureToggles: {
           mhv_landing_page_enabled: true,
@@ -44,6 +44,12 @@ describe(manifest.appName, () => {
             signIn: {
               serviceName: CSP_IDS.ID_ME,
             },
+            facilities: [
+              {
+                facilityId: '668',
+                isCerner: false,
+              },
+            ],
           },
           login: {
             currentlyLoggedIn: true,
@@ -63,6 +69,12 @@ describe(manifest.appName, () => {
             signIn: {
               serviceName: CSP_IDS.LOGIN_GOV,
             },
+            facilities: [
+              {
+                facilityId: '668',
+                isCerner: false,
+              },
+            ],
           },
           login: {
             currentlyLoggedIn: true,
@@ -164,6 +176,26 @@ describe(manifest.appName, () => {
       };
       const result = isLandingPageEnabledForUser(state);
       expect(result).to.be.true;
+    });
+    it('app is disabled if the feature is enabled AND the user is logged AND has no facilities', () => {
+      const state = {
+        featureToggles: {
+          mhv_landing_page_enabled: true,
+        },
+        user: {
+          profile: {
+            facilities: [],
+            signIn: {
+              serviceName: CSP_IDS.ID_ME,
+            },
+          },
+          login: {
+            currentlyLoggedIn: true,
+          },
+        },
+      };
+      const result = isLandingPageEnabledForUser(state);
+      expect(result).to.be.false;
     });
   });
 });
