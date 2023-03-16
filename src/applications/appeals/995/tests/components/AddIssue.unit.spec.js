@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import sinon from 'sinon';
 
-import { AddIssue } from '../../components/AddIssue';
+import AddIssue from '../../components/AddIssue';
 import {
   errorMessages,
   MAX_LENGTH,
