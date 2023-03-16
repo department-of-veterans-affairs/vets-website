@@ -38,7 +38,7 @@ export default function RequestAppointmentLayout({ appointment }) {
         <AppointmentColumn
           className={classNames(
             'vaos-appts__column--2',
-            'vads-u-border-color--gray-lighter',
+            'vads-u-border-color--gray-medium',
             'vads-u-padding-y--2',
             {
               'vads-u-border-top--1px': grouped && !first,
@@ -69,6 +69,7 @@ export default function RequestAppointmentLayout({ appointment }) {
                       className={classNames(
                         'fas',
                         'vads-u-margin-right--1',
+                        'vads-u-color--gray',
                         modalityIcon,
                       )}
                     />
