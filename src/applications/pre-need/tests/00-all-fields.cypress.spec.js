@@ -4,7 +4,7 @@ import cemeteries from './fixtures/mocks/cemeteries.json';
 
 describe('Pre-need test', () => {
   // Test skipped to match Nightwatch
-  it.skip('fills the form and navigates accordingly', () => {
+  it('fills the form and navigates accordingly', () => {
     cy.intercept('POST', '/v0/preneeds/burial_forms', {
       data: {
         attributes: {
@@ -328,10 +328,15 @@ describe('Pre-need test', () => {
       cy.get('.form-panel .usa-button-primary').click();
       cy.url().should('not.contain', '/preparer');
 
-      cy.get('label[name="privacyAgreementAccepted-label"]', {
-        timeout: Timeouts.slow,
-      });
-      cy.get('input[type="checkbox"]').click();
+      cy.get('[name="privacyAgreementAccepted"]')
+        .find('label[for="checkbox-element"]')
+        .should('be.visible');
+
+      cy.get('[name="privacyAgreementAccepted"]')
+        .find('[type="checkbox"]')
+        .check({
+          force: true,
+        });
 
       cy.axeCheck();
       cy.get('.form-progress-buttons .usa-button-primary').click();

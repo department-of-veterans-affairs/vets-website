@@ -1,6 +1,6 @@
+import Timeouts from 'platform/testing/e2e/timeouts';
 import mockFeedbackPost from './fixtures/mocks/feedback-post.json';
 import mockFeedbackGet from './fixtures/mocks/feedback-1234.json';
-import Timeouts from 'platform/testing/e2e/timeouts';
 import testData from './schema/maximal-test.json';
 
 describe('Feedback Tool Test', () => {
@@ -117,10 +117,15 @@ describe('Feedback Tool Test', () => {
     cy.url().should('not.contain', '/feedback-information');
 
     // Review and submit page
-    cy.get('label[name="privacyAgreementAccepted-label"]', {
-      timeout: Timeouts.slow,
-    }).should('be.visible');
-    cy.get('input[type="checkbox"]').click();
+    cy.get('[name="privacyAgreementAccepted"]')
+      .find('label[for="checkbox-element"]')
+      .should('be.visible');
+
+    cy.get('[name="privacyAgreementAccepted"]')
+      .find('[type="checkbox"]')
+      .check({
+        force: true,
+      });
     cy.axeCheck();
     cy.get('.form-progress-buttons .usa-button-primary').click();
 
