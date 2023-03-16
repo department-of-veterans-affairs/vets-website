@@ -23,7 +23,10 @@ describe('Compose message With Attacments and Errors', () => {
     composePage.verifyAttachmentErrorMessage(
       'The file you are attempting to attach is empty. Please select a non-empty file.',
     );
+    composePage.closeAttachmentErrorPopup();
 
+    composePage.attachMessageFromFile('test_ext.TXT');
+    composePage.verifyAttachmentErrorMessage('');
     composePage.closeAttachmentErrorPopup();
     composePage.attachMessageFromFile('sample_pdf.pdf');
     composePage.attachMessageFromFile('sample_pdf.pdf');
