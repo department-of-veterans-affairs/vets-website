@@ -23,12 +23,12 @@ export const getDate = ({
   date = new Date(),
   pattern = FORMAT_YMD,
 } = {}) => {
-  const dateObj = moment(date);
+  const dateObj = moment(date, FORMAT_YMD);
   return dateObj.isValid() ? dateObj.add(offset).format(pattern) : date;
 };
 
 export const formatDate = (date, format = FORMAT_READABLE) => {
-  const m = moment(date);
+  const m = moment(date, FORMAT_YMD);
   return date && m.isValid() ? m.format(format) : 'Unknown';
 };
 

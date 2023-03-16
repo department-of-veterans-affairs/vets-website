@@ -87,7 +87,7 @@ export const itfSuccess = (
     {hasPreviousItf && (
       <p className="vads-u-font-size--base">
         <strong>Note:</strong> We found in our records an Intent to File that
-        expired on ${displayDate(prevExpirationDate)}. There are 2 possible
+        expired on {displayDate(prevExpirationDate)}. There are 2 possible
         reasons you have an expired Intent to File. You may have started an
         application that you didn’t finish before the Intent to File expired.
         Or, you may have already submitted the claim connected to this Intent to
