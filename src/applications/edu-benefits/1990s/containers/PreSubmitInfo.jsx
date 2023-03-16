@@ -1,4 +1,3 @@
-/* eslint @department-of-veterans-affairs/migrate-radio-buttons: 0 */
 // added until testing of new radio buttons is completed
 
 import React from 'react';
