@@ -1,11 +1,12 @@
 import React, { useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 
 import { focusElement } from 'platform/utilities/ui';
-import { CONTACT_INFO_PATH } from '../constants';
+import { CONTACT_INFO_PATH, REVIEW_CONTACT } from '../constants';
 import { setReturnState } from '../utils/contactInfo';
 
 const BuildPage = ({ title, field, id, goToPath }) => {
@@ -20,7 +21,7 @@ const BuildPage = ({ title, field, id, goToPath }) => {
     [headerRef],
   );
 
-  const onReviewPage = window.sessionStorage.getItem('onReviewPage') === 'true';
+  const onReviewPage = window.sessionStorage.getItem(REVIEW_CONTACT) === 'true';
   const returnPath = onReviewPage
     ? '/review-and-submit'
     : `/${CONTACT_INFO_PATH}`;
@@ -55,6 +56,13 @@ const BuildPage = ({ title, field, id, goToPath }) => {
       </InitializeVAPServiceID>
     </div>
   );
+};
+
+BuildPage.propTypes = {
+  field: PropTypes.string,
+  goToPath: PropTypes.string,
+  id: PropTypes.string,
+  title: PropTypes.string,
 };
 
 export const EditHomePhone = props => (

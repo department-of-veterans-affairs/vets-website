@@ -71,7 +71,7 @@ export default function AppointmentColumnLayout({
       <AppointmentColumn
         className={classNames(
           'vaos-appts__column--2',
-          'vads-u-border-color--gray-lighter',
+          'vads-u-border-color--gray-medium',
           'vads-u-margin-left--2',
           'vads-u-padding-y--2',
           'small-screen:vads-u-margin-left--4',
@@ -117,6 +117,7 @@ export default function AppointmentColumnLayout({
                     className={classNames(
                       'fas',
                       'vads-u-margin-right--1',
+                      'vads-u-color--gray',
                       modalityIcon,
                       {
                         'vaos-appts__text--line-through':
