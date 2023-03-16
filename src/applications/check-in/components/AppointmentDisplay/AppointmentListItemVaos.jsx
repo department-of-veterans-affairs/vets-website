@@ -23,7 +23,7 @@ const AppointmentListItemVaos = props => {
 
   const typeOfCare = appointment.clinicStopCodeName
     ? appointment.clinicStopCodeName
-    : t('VA-appointment');
+    : '';
 
   const infoBlockMessage = () => {
     if (appointment?.kind === 'phone') {
@@ -95,7 +95,7 @@ const AppointmentListItemVaos = props => {
                 type: typeOfCare,
               })}
             >
-              Details
+              {t('details')}
             </a>
           </div>
         )}
