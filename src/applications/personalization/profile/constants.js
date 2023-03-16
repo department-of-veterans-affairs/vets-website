@@ -1,5 +1,3 @@
-// this comment is here to test the linting GHA workflow for PRs
-
 // The values of these constants map to the possible values that come back from
 // the GET profile/service_history API.
 export const USA_MILITARY_BRANCHES = Object.freeze({
