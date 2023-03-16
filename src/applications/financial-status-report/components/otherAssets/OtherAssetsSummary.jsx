@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import PropTypes from 'prop-types';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
@@ -112,6 +113,22 @@ const OtherAssetsSummary = ({
       </fieldset>
     </form>
   );
+};
+
+OtherAssetsSummary.propTypes = {
+  contentAfterButtons: PropTypes.object,
+  contentBeforeButtons: PropTypes.object,
+  data: PropTypes.shape({
+    assets: PropTypes.shape({
+      otherAssets: PropTypes.array,
+    }),
+  }),
+  goBack: PropTypes.func,
+  goToPath: PropTypes.func,
+  setFormData: PropTypes.func,
+  testingIndex: PropTypes.number,
+  updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
 
 export default OtherAssetsSummary;
