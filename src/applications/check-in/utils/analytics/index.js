@@ -12,7 +12,7 @@ const createAnalyticsSlug = (slug, eventType = '', app = '') => {
   }
   let context = '';
   if (app) {
-    context = app === 'preCheckIn' ? `pre-check-in-` : 'check-in-';
+    context = app === 'preCheckIn' ? `pre-` : '';
   }
 
   return `${prefix}${context}check-in-${slug}`;
