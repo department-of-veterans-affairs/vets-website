@@ -17,6 +17,7 @@ import {
   MAX_LENGTH,
   LAST_SC_ITEM,
   CONTESTABLE_ISSUES_PATH,
+  REVIEW_ISSUES,
 } from '../constants';
 
 import { checkValidations } from '../validations';
@@ -32,7 +33,7 @@ const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
 const REVIEW_AND_SUBMIT = '/review-and-submit';
 
 const AddIssue = props => {
-  const { data, goToPath, onReviewPage, setFormData, testingIndex } = props;
+  const { data, goToPath, setFormData, testingIndex } = props;
   const { contestedIssues = [], additionalIssues = [] } = data || {};
 
   const allIssues = contestedIssues.concat(additionalIssues);
@@ -43,15 +44,19 @@ const AddIssue = props => {
   if (Number.isNaN(index) || index < contestedIssues.length) {
     index = allIssues.length;
   }
+  const setStorage = (type, value = '') => {
+    // set session storage of edited item. This enables focusing on the item
+    // upon return to the eligible issues page (a11y); when -1 is set, the add
+    // a new issue action link will be focused
+    window.sessionStorage.setItem(LAST_SC_ITEM, value || `${index},${type}`);
+    window.sessionStorage.removeItem(REVIEW_ISSUES);
+  };
   const offsetIndex = calculateIndexOffset(index, contestedIssues.length);
   const currentData = allIssues[index] || {};
 
   const addOrEdit = currentData.issue ? 'edit' : 'add';
 
-  // set session storage of edited item. This enables focusing on the item
-  // upon return to the eligible issues page (a11y)
-  window.sessionStorage.setItem(LAST_SC_ITEM, index);
-
+  const onReviewPage = window.sessionStorage.getItem(REVIEW_ISSUES) === 'true';
   const returnPath = onReviewPage ? REVIEW_AND_SUBMIT : ISSUES_PAGE;
 
   const nameValidations = [missingIssueName, maxNameLength, uniqueIssue];
@@ -125,6 +130,7 @@ const AddIssue = props => {
         'button-click-label': 'Cancel',
         'button-background-color': 'white',
       });
+      setStorage('cancel', addOrEdit === 'add' ? -1 : '');
       goToPath(returnPath);
     },
     onUpdate: event => {
@@ -135,6 +141,7 @@ const AddIssue = props => {
         'button-click-label': 'Add issue',
         'button-background-color': 'blue',
       });
+      setStorage('updated');
       addOrUpdateIssue();
     },
   };
@@ -149,6 +156,7 @@ const AddIssue = props => {
         >
           <h3 className="vads-u-margin--0">{content.title[addOrEdit]}</h3>
         </legend>
+        {content.description}
         <VaTextInput
           id="add-sc-issue"
           name="add-sc-issue"
@@ -203,7 +211,6 @@ AddIssue.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
-  onReviewPage: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

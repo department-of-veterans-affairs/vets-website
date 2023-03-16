@@ -27,6 +27,8 @@ export const BENEFIT_OFFICES_URL = `${SC_INFO_URL}#find-addresses-for-other-bene
 export const CONTESTABLE_ISSUES_API =
   '/supplemental_claims/contestable_issues/';
 
+export const ITF_API = '/intent_to_file';
+
 // Evidence upload API - same endpoint as NOD
 export const EVIDENCE_UPLOAD_API = '/v0/decision_review_evidence';
 
@@ -132,6 +134,9 @@ export const FORMAT_COMPACT = 'MMM DD, YYYY';
 
 export const LAST_SC_ITEM = 'lastScItem'; // focus management across pages
 export const CONTACT_EDIT = 'edit-contact-info'; // contact info focusing
+export const SUMMARY_EDIT = 'edit-evidence-summary'; // evidence summary focus
+export const REVIEW_CONTACT = 'onReviewPageContact';
+export const REVIEW_ISSUES = 'onReviewPageIssues';
 
 // Values from benefitTypes in Lighthouse 0995 schema
 // schema.definitions.scCreate.properties.data.properties.attributes.properties.benefitType.emum;
@@ -154,6 +159,15 @@ export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   isSupported: supportedBenefitTypes.includes(type.value),
 }));
 
+// Once we include the 'pensionSurvivorsBenefits' type, we will need to know
+// from VBA is the ITF pension also includes survivors benefits. If not, then
+// the start page (subtask) benefit type question will need to split "pension"
+// and "survivors benefits"
+export const ITF_SUPPORTED_BENEFIT_TYPES = [
+  'compensation', // Phase 1
+  'pensionSurvivorsBenefits', // see comment above
+];
+
 // Copied from schmea
 // schema.definitions.scCreate.properties.data.properties.attributes.properties.claimantType.enum;
 export const CLAIMANT_TYPES = [
@@ -168,6 +182,15 @@ export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
 
 export const MAX_FILE_SIZE_MB = 100;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
+
+export const ITF_STATUSES = {
+  active: 'active',
+  expired: 'expired',
+  claimRecieved: 'claim_recieved',
+  duplicate: 'duplicate',
+  incomplete: 'incomplete',
+  canceled: 'canceled',
+};
 
 export const ATTACHMENTS_OTHER = {
   L015: 'Buddy/Lay Statement',

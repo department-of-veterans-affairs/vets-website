@@ -36,9 +36,9 @@ export default function RequestAppointmentLayout({ appointment }) {
     <ListItem appointment={appointment} borderTop status="pending">
       <AppointmentFlexGrid idClickable={idClickable} link={link}>
         <AppointmentColumn
-          id="vaos-appts__column--2"
           className={classNames(
-            'vads-u-border-color--gray-lighter',
+            'vaos-appts__column--2',
+            'vads-u-border-color--gray-medium',
             'vads-u-padding-y--2',
             {
               'vads-u-border-top--1px': grouped && !first,
@@ -48,7 +48,15 @@ export default function RequestAppointmentLayout({ appointment }) {
         >
           <AppointmentRow className="small-screen:vads-u-flex-direction--row">
             <AppointmentColumn size="1" className="vads-u-flex--4">
-              <AppointmentRow className="medium-screen:vads-u-flex-direction--column small-desktop-screen:vads-u-flex-direction--row">
+              <AppointmentRow className="xsmall-screen:vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+                <AppointmentColumn
+                  padding="0"
+                  size="1"
+                  canceled={isCanceled}
+                  className="vads-u-font-weight--bold"
+                >
+                  {typeOfCareName}
+                </AppointmentColumn>
                 <AppointmentColumn
                   padding="0"
                   size="1"
@@ -61,15 +69,13 @@ export default function RequestAppointmentLayout({ appointment }) {
                       className={classNames(
                         'fas',
                         'vads-u-margin-right--1',
+                        'vads-u-color--gray',
                         modalityIcon,
                       )}
                     />
 
                     {`${modality}`}
                   </>
-                </AppointmentColumn>
-                <AppointmentColumn padding="0" size="1" canceled={isCanceled}>
-                  {typeOfCareName}
                 </AppointmentColumn>
                 <AppointmentColumn
                   padding="0"
@@ -83,7 +89,7 @@ export default function RequestAppointmentLayout({ appointment }) {
             </AppointmentColumn>
 
             <AppointmentColumn
-              id="vaos-appts__detail"
+              id={`vaos-appts__detail-${appointment.id}`}
               className="vaos-hide-for-print"
               padding="0"
               size="1"
@@ -91,7 +97,7 @@ export default function RequestAppointmentLayout({ appointment }) {
             >
               <va-link
                 className="vaos-appts__focus--hide-outline"
-                aria-describedby="vaos-appts__detail"
+                aria-describedby={`vaos-appts__detail-${appointment.id}`}
                 href={link}
                 onClick={e => e.preventDefault()}
                 text="Details"

@@ -332,6 +332,9 @@
 .summary-card-delete-button {
   color: $color-secondary-dark;
   background-color: transparent;
+  width: 152px;
+  max-width: 152px;
+  font-weight: bold;
   &:hover {
     color: $color-secondary-dark;
     background-color: $color-secondary-lightest;
@@ -340,19 +343,4 @@
     color: $color-secondary-darkest;
     background-color: $color-secondary-lightest;
   }
-}
-
-.summary-card-button-container {
-  @include media($small-desktop-screen) {
-    margin-top: 0px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    width: auto;
-  }
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
 }

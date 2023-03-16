@@ -15,6 +15,7 @@ import {
   clearReturnState,
 } from '../utils/contactInfo';
 import { content } from '../content/contactInfo';
+import { REVIEW_CONTACT } from '../constants';
 
 // Used by form config to not focus on the H3 the contact info was edited
 export const customContactFocus = () => {
@@ -35,7 +36,7 @@ const ContactInfo = ({
   const [hadError, setHadError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const wrapRef = useRef(null);
-  window.sessionStorage.setItem('onReviewPage', onReviewPage || false);
+  window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
   const [editState] = useState(getReturnState());
 
   const { email = '', homePhone = {}, mobilePhone = {}, address = {} } =
@@ -125,6 +126,7 @@ const ContactInfo = ({
         class={`vads-u-margin-y--1 ${isHidden}`}
         status="success"
         background-only
+        role="alert"
       >
         {`${text} updated`}
       </va-alert>

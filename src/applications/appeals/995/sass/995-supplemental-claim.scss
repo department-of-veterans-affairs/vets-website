@@ -39,16 +39,21 @@
 /* Contested issue cards (contested issue page & review/submit page)
  * This could go in the schemaform css, it's used in form 526 & HLR
  */
-dl.review {
-  /* v2 cards */
-  .widget-wrapper-v2 {
+.issues {
+
+  .widget-wrapper {
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
 
-    dt.widget-checkbox-wrap {
+    .widget-checkbox-wrap {
       margin: 0;
       width: 5rem;
       min-width: 5rem;
+
+      label {
+        margin-top: 0;
+      }
 
       [type="checkbox"] {
         width: 1.8rem;
@@ -57,26 +62,13 @@ dl.review {
       }
     }
 
-    dt label {
-      margin-top: 0;
-    }
-
-    .widget-title {
-      margin: 0;
-      white-space: nowrap;
-      text-transform: capitalize;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      width: calc(100% - 7rem);
-    }
-
-    dd.widget-content {
+    .widget-content {
       width: 100%;
       margin-inline-start: 0; /* override user agent */
       text-align: left;
       margin: 0;
     }
-    dd.widget-content.widget-edit {
+    .widget-content.widget-edit {
       margin-top: 0;
       margin-right: 0;
       display: flex;
@@ -100,46 +92,15 @@ dl.review {
     }
   }
 
-  .widget-outline {
-    background: transparent;
-    border: solid 4px $color-primary-alt-light;
-    border-radius: 7px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    max-width: auto; /* IE11 */
-    max-width: unset;
-
-    &.selected {
-      border-color: $color-primary;
-    }
-
-    &::before {
-      position: absolute;
-      margin-left: 1.5rem;
-      margin-top: 1.5rem;
-    }
-  }
-
   .checkbox-hidden {
-    dt.widget-checkbox-wrap {
-      width: 0;
-      min-width: auto;
-    }
-
-    .widget-title {
-      margin-left: 0;
-      width: 100%;
-      overflow: visible;
-      white-space: normal;
-    }
-
     .widget-content {
       margin: 2rem 0 0 2rem;
     }
   }
+}
+
+.usa-accordion-content .issues .checkbox-hidden .widget-content {
+  margin-left: 0; /* remove card margin on review & submit page */
 }
 
 .usa-input-error #root_additionalIssues_0_decisionDate-label {
@@ -152,7 +113,9 @@ dl.review {
 
 ul.issues-summary,
 ul.evidence-summary,
-.usa-accordion-bordered ul li ul.evidence-summary {
+.usa-accordion-bordered ul li ul.evidence-summary,
+ul.issues,
+.usa-accordion-bordered ul li ul.issues {
   list-style: none;
   padding: 0;
 }
@@ -185,14 +148,12 @@ article[data-location="issue-summary"] {
   font-weight: 400;
 }
 
-article[data-location="start"],
 article[data-location="review-and-submit"],
 article[data-location="primary-phone-number"],
 article[data-location$="request-va-medical-records"],
 article[data-location$="request-private-medical-records"],
 article[data-location$="upload-evidence"] {
-  legend,
-  va-radio::part(legend) {
+  va-radio::part(header) {
     font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
     line-height: 1.3;
     font-size: 2rem;

@@ -112,6 +112,8 @@ class PatientInboxPage {
         mockMessage.data.attributes.category;
       mockThread.data.at(0).attributes.recipientId =
         mockMessage.data.attributes.recipientId;
+      mockThread.data.at(0).attributes.triageGroupName =
+        mockMessage.data.attributes.triageGroupName;
       this.mockDetailedMessage = mockMessage;
     }
   };
@@ -260,6 +262,16 @@ class PatientInboxPage {
       cy.axeCheck();
     }
   };
+
+  clickInboxSideBar = () => {};
+
+  clickSentSideBar = () => {};
+
+  clickTrashSideBar = () => {};
+
+  clickDraftsSideBar = () => {};
+
+  clickMyFoldersSideBar = () => {};
 
   getLoadedMessages = () => {
     return this.loadedMessagesData;
