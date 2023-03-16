@@ -4,7 +4,6 @@ import {
   getMessage,
   getMessageHistory,
   deleteMessage as deleteMessageCall,
-  moveMessage as moveMessageCall,
   moveMessageThread as moveThreadCall,
   createMessage,
   createReplyToMessage,
@@ -166,7 +165,6 @@ export const retrieveMessageThread = (
   if (!refresh) {
     dispatch(clearMessage());
   }
-
   const response = await getMessageThread(messageId);
   if (response.errors) {
     // TODO Add error handling
@@ -177,9 +175,16 @@ export const retrieveMessageThread = (
       dispatch(oldMessageAlert(sentDate, isDraft));
       dispatch({
         type: Actions.Message.GET,
-        response: msgResponse,
+        response: {
+          data: {
+            attributes: {
+              threadId: response.data[0].attributes.threadId,
+              ...msgResponse.data.attributes,
+            },
+          },
+          included: msgResponse.included,
+        },
       });
-
       dispatch({
         type: isDraft ? Actions.Draft.GET_HISTORY : Actions.Message.GET_HISTORY,
         response: { data: response.data.slice(1, response.data.length) },
@@ -216,56 +221,33 @@ export const deleteMessage = messageId => async dispatch => {
 };
 
 /**
- * @param {Long} messageId
+ * @param {Long} threadId
  * @param {Long} folderId
  * @returns
  */
-export const moveMessage = (messageId, folderId) => async dispatch => {
+export const moveMessageThread = (threadId, folderId) => async dispatch => {
+  dispatch({ type: Actions.Message.MOVE_REQUEST });
   try {
-    await moveMessageCall(messageId, folderId);
+    await moveThreadCall(threadId, folderId);
+    dispatch({ type: Actions.Message.MOVE_SUCCESS });
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
         '',
-        Constants.Alerts.Message.MOVE_MESSAGE_SUCCESS,
+        Constants.Alerts.Message.MOVE_MESSAGE_THREAD_SUCCESS,
       ),
     );
   } catch (e) {
+    dispatch({ type: Actions.Message.MOVE_FAILED });
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_ERROR,
         '',
-        Constants.Alerts.Message.MOVE_MESSAGE_ERROR,
+        Constants.Alerts.Message.MOVE_MESSAGE_THREAD_ERROR,
       ),
     );
     throw e;
   }
-};
-
-export const moveMessageThread = (folderId, threadId) => async dispatch => {
-  dispatch({ type: Actions.Message.MOVE_REQUEST });
-
-  moveThreadCall(threadId, folderId)
-    .then(response => {
-      dispatch({ type: Actions.Message.MOVE_SUCCESS, payload: response.data });
-      dispatch(
-        addAlert(
-          Constants.ALERT_TYPE_SUCCESS,
-          '',
-          Constants.Alerts.Message.MOVE_MESSAGE_THREAD_SUCCESS,
-        ),
-      );
-    })
-    .catch(error => {
-      dispatch({ type: Actions.Message.MOVE_FAILED, payload: error.message });
-      dispatch(
-        addAlert(
-          Constants.ALERT_TYPE_ERROR,
-          '',
-          Constants.Alerts.Message.MOVE_MESSAGE_THREAD_ERROR,
-        ),
-      );
-    });
 };
 
 export const sendMessage = (message, attachments) => async dispatch => {

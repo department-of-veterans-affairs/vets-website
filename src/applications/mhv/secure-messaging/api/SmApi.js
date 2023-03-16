@@ -310,28 +310,11 @@ export const getMessageThread = messageId => {
 };
 
 /**
- * Move a message.
- * @param {Long} messageId
+ * Move message thread.
+ * @param {Long} threadId
  * @param {Long} toFolderId
  * @returns
  */
-export const moveMessage = (messageId, toFolderId) => {
-  return apiRequest(
-    `${apiBasePath}/messaging/messages/${messageId}/move?folder_id=${toFolderId}`,
-    {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    },
-  );
-}; /**
-
-* Move a message thread.
-* @param {Long} messageId
-* @param {Long} toFolderId
-* @returns
-*/
 export const moveMessageThread = (threadId, toFolderId) => {
   return apiRequest(
     `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${toFolderId}

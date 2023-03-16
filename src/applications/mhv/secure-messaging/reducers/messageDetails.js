@@ -11,9 +11,8 @@ const initialState = {
    */
   messageHistory: undefined,
   /**
-   * The thread currently displayed to the user
+   * The message thread currently displayed to the user
    */
-  threads: [],
   isLoading: false,
   error: null,
 };
@@ -72,20 +71,6 @@ export const messageDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-      };
-    }
-    case Actions.Message.MOVE_SUCCESS: {
-      const { threadId, folderId } = action.response;
-      const updatedThreads = state.threads.map(thread => {
-        if (thread.id === threadId) {
-          return { ...thread, location: folderId };
-        }
-        return thread;
-      });
-      return {
-        ...state,
-        threads: updatedThreads,
-        isLoading: false,
       };
     }
     case Actions.Message.MOVE_FAILED: {
