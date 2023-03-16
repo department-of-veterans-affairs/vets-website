@@ -79,7 +79,7 @@ const formConfig = {
       },
     },
     patientIdentificationChapter: {
-      title: 'Patient identification',
+      title: 'Your records',
       pages: {
         patientIdentification1: {
           path: 'patient-identification-1',
@@ -118,7 +118,7 @@ const formConfig = {
       },
     },
     limitations: {
-      title: 'Do you want to limit the information we can request?',
+      title: 'Limitations',
       pages: {
         limitations: {
           path: 'limitations',

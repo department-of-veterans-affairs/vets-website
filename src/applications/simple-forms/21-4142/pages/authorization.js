@@ -5,12 +5,15 @@ export default {
   uiSchema: {
     'view:legalText': {
       'ui:title': (
-        <h3 className="vads-u-font-size--h4 vads-u-margin-top--0">
+        <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
           We need your authorization to request your private medical records
         </h3>
       ),
       'ui:description': (
         <>
+          <h4 className="vads-u-color--gray-dark vads-u-margin-top--0">
+            Authorization
+          </h4>
           <p>
             I voluntarily authorize and request disclosure (including paper,
             oral, and electronic interchange) of: All my medical records;
@@ -51,10 +54,12 @@ export default {
             no need to fill out this form. Doing so will lengthen your claim
             processing time.
           </p>
+          <h4 className="vads-u-color--gray-dark">Important</h4>
           <p>
             In accordance with 38 C.F.R. §3.159(c), "VA will not pay any fees
             charged by a custodian to provide records requested."
           </p>
+          <h4 className="vads-u-color--gray-dark">Acknowledgment</h4>
           <p>
             I hereby authorize the sources listed in Section IV, to release any
             information that may have been obtained in connection with a

@@ -4,6 +4,7 @@ export const veteranFields = {
   dateOfBirth: 'dateOfBirth',
   ssn: 'ssn',
   vaFileNumber: 'vaFileNumber',
+  veteranServiceNumber: 'veteranServiceNumber',
   address: 'address',
   homePhone: 'homePhone',
   internationalPhone: 'internationalPhone',
