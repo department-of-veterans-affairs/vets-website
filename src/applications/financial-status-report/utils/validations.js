@@ -151,6 +151,6 @@ export const validateCurrencyArray = (errors, fieldData) => {
 };
 
 export const validateIsNumber = value => {
-  const pattern = /^[0-9]+$/;
+  const pattern = /^\d*\.?\d*$/;
   return pattern.test(value);
 };
