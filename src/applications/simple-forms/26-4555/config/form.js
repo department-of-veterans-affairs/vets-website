@@ -1,8 +1,8 @@
 import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import footerContent from 'platform/forms/components/FormFooter';
+import preSubmitInfo from '../containers/PreSubmitSignature';
 import transformForSubmit from '../../shared/config/submit-transformer';
 import prefillTransformer from './prefill-transformer';
 import getHelp from '../containers/GetFormHelp';
