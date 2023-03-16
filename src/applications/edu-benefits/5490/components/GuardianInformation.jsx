@@ -79,7 +79,9 @@ export default function applicantInformationUpdate(schema, options) {
     path: 'personal-information/guardian-contact',
     title: 'Guardian Contact',
     initialData: {},
-    depends: formData => !eighteenOrOver(formData.relativeDateOfBirth),
+    depends: formData =>
+      !eighteenOrOver(formData.relativeDateOfBirth) &&
+      !environment.isProduction(),
     uiSchema: {
       'ui:order': fields,
       'ui:description': guardianDescription,
