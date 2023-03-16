@@ -97,7 +97,7 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
           name={benefitType}
           onInput={handleChange}
           value={inputValue}
-          className="no-wrap input-size-1"
+          className="no-wrap input-size-2"
           required
         />
       </fieldset>
@@ -112,7 +112,6 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
           {
             label: 'Update',
             onClick: onUpdate,
-            disabled: !!error,
             iconRight: '»',
           },
         ]}
