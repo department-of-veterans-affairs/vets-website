@@ -14,6 +14,7 @@ const filteredSCSSFiles = files
   .join(' ');
 
 core.setOutput('JSFILES', filteredJSFiles);
+core.setOutput('SCSSFILES', filteredSCSSFiles);
 
 console.log(`JSFILES=${filteredJSFiles} >> $GITHUB_OUTPUT`);
 console.log(`SCSSFILES=${filteredSCSSFiles} >> $GITHUB_OUTPUT`);
