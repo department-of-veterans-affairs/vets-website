@@ -14,9 +14,6 @@ import { selectEditedFormField } from '@@vap-svc/selectors';
 
 import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 
-// lint error
-import _ from 'lodash';
-
 // this is a linting warning
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { useProfileTransaction } from '../hooks';
