@@ -150,6 +150,7 @@ li.vaos-appts__listItem--clickable[data-status="upcoming"]:last-child
 
 li.vaos-appts__listItem--clickable[data-status="pending"]:last-child {
   border-bottom: 1px solid !important;
+  border-color: $color-gray-medium !important;
 }
 
 .vaos-appts__column--1 {
