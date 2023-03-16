@@ -14,7 +14,9 @@ const {
   handleGetPersonalInformationRoute,
   handlePutPreferredNameRoute,
 } = require('./endpoints/personal-information');
-const { createNotificationSuccess } = require('./endpoints/notifications');
+const {
+  maximalSetOfPreferences,
+} = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 const payments = require('./endpoints/payment-history');
 const bankAccounts = require('./endpoints/bank-accounts');
@@ -144,7 +146,7 @@ const responses = {
     );
   },
   'GET /v0/profile/communication_preferences': (_req, res) => {
-    return res.json(createNotificationSuccess());
+    return res.json(maximalSetOfPreferences);
   },
 };
 
