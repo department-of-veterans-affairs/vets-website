@@ -49,7 +49,6 @@ class IntroductionPage extends React.Component {
                   <a href={getAppUrl('facilities')}>
                     Find a VA national cemetery
                   </a>
-                  .
                 </li>
                 <li>
                   Service history or the service history of the service member
@@ -57,7 +56,7 @@ class IntroductionPage extends React.Component {
                   your or your sponsor’s:
                   <ul>
                     <li>
-                      Social Security number (and Military Service Number if
+                      Social Security number (and Military Service number if
                       it’s different than the Social Security number)
                     </li>
                     <li>VA claim number (if you know it)</li>
