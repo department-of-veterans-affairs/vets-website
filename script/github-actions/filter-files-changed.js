@@ -16,5 +16,5 @@ const filteredSCSSFiles = files
 core.exportVariable('JSFILES', filteredJSFiles);
 core.exportVariable('SCSSFILES', filteredSCSSFiles);
 
-console.log(filteredJSFiles);
+// console.log(filteredJSFiles);
 // console.log(`SCSSFILES=${filteredSCSSFiles} >> $GITHUB_OUTPUT`);
