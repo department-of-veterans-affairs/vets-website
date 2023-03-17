@@ -154,6 +154,9 @@ li.vaos-appts__listItem--clickable[data-status="pending"]:last-child {
 }
 
 .vaos-appts__column--1 {
+  min-width: 63px;
+  max-width: 63px;
+
   @include media($xsmall-screen) {
     min-width: 25px;
   }
