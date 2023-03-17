@@ -13,10 +13,9 @@ import BackToAppointments from '../../../components/BackToAppointments';
 import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
 import Wrapper from '../../../components/layout/Wrapper';
 import AppointmentConfirmationListItem from '../../../components/AppointmentDisplay/AppointmentConfirmationListItem';
-import useSendTravelPayClaim from '../../../hooks/useSendTravelPayClaim';
+import { useTravelPayFlags } from '../../../hooks/useTravelPayFlags';
 import ExternalLink from '../../../components/ExternalLink';
 import TravelPayAlert from './TravelPayAlert';
-import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import AppointmentListItemVaos from '../../../components/AppointmentDisplay/AppointmentListItemVaos';
 import { getAppointmentId } from '../../../utils/appointment';
@@ -47,14 +46,7 @@ const CheckInConfirmation = props => {
   const { jumpToPage } = useFormRouting(router);
   const appointment = selectedAppointment;
 
-  const {
-    travelPayEligible,
-    travelPayClaimError,
-    travelPayClaimErrorCode,
-    travelPayClaimData,
-    travelPayClaimRequested,
-    travelPayClaimSent,
-  } = useSendTravelPayClaim(appointment);
+  const { travelPayData, travelPayEligible } = useTravelPayFlags(appointment);
 
   useEffect(
     () => {
@@ -64,19 +56,8 @@ const CheckInConfirmation = props => {
     [triggerRefresh],
   );
 
-  const {
-    setShouldSendTravelPayClaim,
-    getShouldSendTravelPayClaim,
-  } = useSessionStorage(false);
-
-  useEffect(
-    () => {
-      if (travelPayClaimSent) setShouldSendTravelPayClaim(window, false);
-    },
-    [travelPayClaimSent, setShouldSendTravelPayClaim],
-  );
-
-  const doTravelPay = isTravelReimbursementEnabled && travelPayClaimRequested;
+  const doTravelPay =
+    isTravelReimbursementEnabled && travelPayData.travelQuestion;
 
   const handleDetailClick = e => {
     e.preventDefault();
@@ -159,12 +140,7 @@ const CheckInConfirmation = props => {
         </va-alert>
 
         {doTravelPay && (
-          <TravelPayAlert
-            travelPayEligible={travelPayEligible}
-            travelPayClaimData={travelPayClaimData}
-            travelPayClaimError={travelPayClaimError}
-            travelPayClaimErrorCode={travelPayClaimErrorCode}
-          />
+          <TravelPayAlert travelPayEligible={travelPayEligible} />
         )}
 
         {isTravelReimbursementEnabled ? (
@@ -195,13 +171,7 @@ const CheckInConfirmation = props => {
     );
   };
 
-  if (
-    !isCheckInDataLoading &&
-    (!isTravelReimbursementEnabled ||
-      !travelPayEligible ||
-      (travelPayClaimRequested === false || travelPayClaimSent) ||
-      !getShouldSendTravelPayClaim(window))
-  ) {
+  if (!isCheckInDataLoading) {
     return renderConfirmationMessage();
   }
 

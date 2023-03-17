@@ -1,10 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import { makeSelectCurrentContext, makeSelectForm } from '../selectors';
 
 const useTravelPayFlags = appointment => {
-  const [travelPayClaimSent, setTravelPayClaimSent] = useState();
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);
   const { token } = context;
@@ -59,8 +58,6 @@ const useTravelPayFlags = appointment => {
 
   return {
     travelPayData,
-    travelPayClaimSent,
-    setTravelPayClaimSent,
     travelPayEligible,
   };
 };
