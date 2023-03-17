@@ -19,11 +19,6 @@ export const threadsReducer = (state = initialState, action) => {
           return { ...thrdAttr };
         }),
       };
-    case Actions.Thread.GET_TOTAL_LIST_COUNT:
-      return {
-        ...state,
-        threadListTotalCount: action.totalNumberOfThreads,
-      };
     case Actions.Thread.CLEAR_LIST:
       return {
         ...state,

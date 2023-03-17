@@ -46,7 +46,6 @@ const ThreadsList = props => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOrder, setSortOrder] = useState(DESCENDING);
   const [sortBy, setSortBy] = useState(SORT_BY_SENDER);
-  // const [totalThreads, setTotalThreads] = useState()
 
   // const paginatedMessages = useRef([]);
 
@@ -131,34 +130,6 @@ const ThreadsList = props => {
     sortOrderSelection = e.detail.value;
     handleThreadSortSelection(e.detail.value);
   };
-
-  //   async function getTotalThreads() {
-  //     let threadListTotal = 0;
-  //     let fetchingThreads = true;
-  //     let pageNumber=1;
-
-  //     while (fetchingThreads) {
-  //       const result = await getThreadList(folderId, 100, pageNumber)
-  //       threadListTotal += result.data.length
-  //       if (result.data.length < 100) {
-  //         fetchingThreads = false;
-  //       }
-  //       pageNumber+=1;
-  //   }
-  //   // console.log("threadlisttotal: ", threadListTotal)
-  //   setTotalThreads(threadListTotal)
-  //   return threadListTotal
-  // }
-
-  // const totalNumberOfThreads = useMemo(
-  //   () => {
-  //     const threadListTotal = getTotalThreads().result
-  //     return threadListTotal
-  //   },
-  //   [],
-  // );
-
-  // getTotalThreads()
 
   const displayNums = fromToNums(currentPage, threadList?.length);
 

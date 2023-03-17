@@ -27,41 +27,6 @@ export const getListOfThreads = (folderId, pageSize, pageNumber, sortField, sort
   }
 };
 
-
-export const getTotalListOfThreads = (folderId, update = false) => async dispatch => {
-  if (!update) {
-    dispatch({ type: Actions.Thread.CLEAR_LIST });
-  }
-  try {
-    let totalNumberOfThreads=0;
-    let fetchingThreadlist = true;
-    let pageNumber = 1;
-    while (fetchingThreadlist) {
-      const response = await getThreadList(folderId, 100, pageNumber);
-      totalNumberOfThreads += response.data.length
-
-      if (response.data.length < 100) {
-        fetchingThreadlist = false
-      }
-      pageNumber += 1;
-    }
-    console.log("totalNumberOfThreads: ", totalNumberOfThreads)
-
-    dispatch({
-      type: Actions.Thread.GET_TOTAL_LIST_COUNT,
-      totalNumberOfThreads,
-    });
-  } catch (e) {
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_ERROR,
-        '',
-        Constants.Alerts.Thread.GET_THREAD_ERROR,
-      ),
-    );
-  }
-};
-
 export const clearListOfThreads = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_LIST });
 };

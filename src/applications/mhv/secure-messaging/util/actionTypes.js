@@ -50,7 +50,6 @@ export const Actions = {
   },
   Thread: {
     GET_LIST: 'SM_THREAD_GET_LIST',
-    GET_TOTAL_LIST_COUNT: 'SM_THREAD_GET_TOTAL_LIST_COUNT',
     CLEAR_LIST: 'SM_THREAD_CLEAR_LIST',
   },
   TriageTeam: {

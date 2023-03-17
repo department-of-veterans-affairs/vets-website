@@ -9,51 +9,23 @@ import { clearFolder, retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 import ThreadsList from '../components/ThreadList/ThreadsList';
-import {
-  getListOfThreads,
-  clearListOfThreads,
-  getTotalListOfThreads,
-} from '../actions/threads';
+import { getListOfThreads, clearListOfThreads } from '../actions/threads';
 
 const FolderThreadListView = props => {
   const { testing } = props;
   const dispatch = useDispatch();
   const [folderId, setFolderId] = useState(null);
-  const [totalThreadsCount, setTotalThreadsCount] = useState(null);
-
   const error = null;
   const threads = useSelector(state => state.sm.threads?.threadList);
-  const threadListTotalCount = useSelector(
-    state => state.sm.threas?.threadListTotalCount,
-  );
   const folder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
   const params = useParams();
-
-  // console.log("totalThreadsCount: ",totalThreadsCount)
 
   useEffect(
     () => {
       if (folderId !== null) {
         dispatch(retrieveFolder(folderId)).then(() => {
           dispatch(getListOfThreads(folderId, 10, 1, 'SENDER_NAME', 'ASC'));
-          dispatch(getTotalListOfThreads(folderId)).then(() => {
-            setTotalThreadsCount(threadListTotalCount);
-          });
-        });
-      }
-      // on component unmount, clear out threads reducer to prevent from
-      // previous threads results flashing when navigating between messages
-      return () => dispatch(clearListOfThreads());
-    },
-    [folderId, dispatch, threadListTotalCount],
-  );
-
-  useEffect(
-    () => {
-      if (folderId !== null) {
-        dispatch(retrieveFolder(folderId)).then(() => {
-          dispatch(getTotalListOfThreads(folderId));
         });
       }
       // on component unmount, clear out threads reducer to prevent from
@@ -62,13 +34,6 @@ const FolderThreadListView = props => {
     },
     [folderId, dispatch],
   );
-
-  // useEffect(() => {
-  //   if(threadListTotalCount !== undefined) {
-  //     console.log("inside threadlistTotalCount")
-  //     setTotalThreadsCount(threadListTotalCount)
-  //   }
-  // },[threadListTotalCount])
 
   useEffect(
     () => {
@@ -164,12 +129,7 @@ const FolderThreadListView = props => {
     if (threads.length > 0) {
       // console.log(threadListTotalCount)
       return (
-        <ThreadsList
-          threadList={threads}
-          folder={folder}
-          folderId={folderId}
-          totalThreadscount={totalThreadsCount}
-        />
+        <ThreadsList threadList={threads} folder={folder} folderId={folderId} />
       );
     }
     return '';
