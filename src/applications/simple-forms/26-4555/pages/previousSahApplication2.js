@@ -17,27 +17,35 @@ const pageFields = [
 
 export default {
   uiSchema: {
+    'ui:title': (
+      <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+        Past SAH grant application details
+      </h3>
+    ),
+    'ui:description': (
+      <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
+        Tell us about your last SAH application
+      </p>
+    ),
     [previousSahApplicationFields.parentObject]: {
-      'ui:description': (
-        <h3>
-          Details about your previous application for a specially adapted
-          housing grant
-        </h3>
-      ),
       [previousSahApplicationFields.previousSahApplicationDate]: dateUI(
-        'Date of previous application',
+        'Date you last applied',
       ),
-      'view:addressDescription': {
-        'ui:description': 'Address connected to your past application',
+      [previousSahApplicationFields.previousSahApplicationAddress]: {
+        'ui:description': (
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--4">
+            Address connected to your past application
+          </p>
+        ),
+        ...address.uiSchema(
+          '',
+          false,
+          formData =>
+            formData[previousSahApplicationFields.parentObject][
+              previousSahApplicationFields.hasPreviousSahApplication
+            ],
+        ),
       },
-      [previousSahApplicationFields.previousSahApplicationAddress]: address.uiSchema(
-        '',
-        false,
-        formData =>
-          formData[previousSahApplicationFields.parentObject][
-            previousSahApplicationFields.hasPreviousSahApplication
-          ],
-      ),
     },
   },
   schema: {
@@ -48,10 +56,6 @@ export default {
         required: intersection(required, pageFields),
         properties: {
           ...pick(properties, pageFields),
-          'view:addressDescription': {
-            type: 'object',
-            properties: {},
-          },
           [previousSahApplicationFields.previousSahApplicationAddress]: address.schema(
             fullSchema,
             formData =>
