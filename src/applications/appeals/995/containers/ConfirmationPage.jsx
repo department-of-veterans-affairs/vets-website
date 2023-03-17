@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { selectProfile } from 'platform/user/selectors';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { focusElement } from 'platform/utilities/ui';
+import { resetStoredSubTask } from 'platform/forms/sub-task';
 
 import { FORMAT_READABLE } from '../constants';
 import { getSelected, getIssueName } from '../utils/helpers';
@@ -27,6 +28,7 @@ export class ConfirmationPage extends React.Component {
     ));
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
     const submitDate = moment(submission?.timestamp);
+    resetStoredSubTask();
 
     return (
       <div>
