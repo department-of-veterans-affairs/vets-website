@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import AskVAToDecide from '../components/AskVAToDecide';
 import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
@@ -138,6 +140,11 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   clearNotification,
+};
+
+FilesPage.propTypes = {
+  clearNotification: PropTypes.func,
+  loading: PropTypes.bool,
 };
 
 export default connect(
