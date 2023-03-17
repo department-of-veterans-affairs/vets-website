@@ -22,7 +22,8 @@ import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
 import VehicleSummaryWidget from '../pages/assets/vehicles/VehicleSummaryWidget';
 import AddAsset from '../components/otherAssets/AddAsset';
-import OtherAssetsSummary from '../components/otherAssets/OtherAssetsSummary.jsx';
+import OtherAssetsSummary from '../components/otherAssets/OtherAssetsSummary';
+import OtherAssetsSummaryReview from '../components/otherAssets/OtherAssetsSummaryReview';
 import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
 
@@ -674,7 +675,7 @@ const formConfig = {
           path: 'other-assets-summary',
           title: 'Other assets summary',
           CustomPage: OtherAssetsSummary,
-          CustomPageReview: null,
+          CustomPageReview: OtherAssetsSummaryReview,
           editModeOnReviewPage: true,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
