@@ -1,0 +1,67 @@
+import { Actions } from '../util/actionTypes';
+import { addAlert } from './alerts';
+import * as Constants from '../util/constants';
+import { getThreadList } from '../api/SmApi';
+
+export const getListOfThreads = (folderId, pageSize, pageNumber, sortField, sortOrder, update = false) => async dispatch => {
+
+  console.log("getListOfThreads: ","folderId: ",folderId, "pageSize: ", pageSize,"pageNumber: ", pageNumber, "sortField: ",sortField, "sortOrder: ",sortOrder)
+
+  if (!update) {
+    dispatch({ type: Actions.Thread.CLEAR_LIST });
+  }
+  try {
+    const response = await getThreadList(folderId, pageSize, pageNumber, sortField, sortOrder);
+    dispatch({
+      type: Actions.Thread.GET_LIST,
+      response,
+    });
+  } catch (e) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Thread.GET_THREAD_ERROR,
+      ),
+    );
+  }
+};
+
+
+export const getTotalListOfThreads = (folderId, update = false) => async dispatch => {
+  if (!update) {
+    dispatch({ type: Actions.Thread.CLEAR_LIST });
+  }
+  try {
+    let totalNumberOfThreads=0;
+    let fetchingThreadlist = true;
+    let pageNumber = 1;
+    while (fetchingThreadlist) {
+      const response = await getThreadList(folderId, 100, pageNumber);
+      totalNumberOfThreads += response.data.length
+
+      if (response.data.length < 100) {
+        fetchingThreadlist = false
+      }
+      pageNumber += 1;
+    }
+    console.log("totalNumberOfThreads: ", totalNumberOfThreads)
+
+    dispatch({
+      type: Actions.Thread.GET_TOTAL_LIST_COUNT,
+      totalNumberOfThreads,
+    });
+  } catch (e) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Thread.GET_THREAD_ERROR,
+      ),
+    );
+  }
+};
+
+export const clearListOfThreads = () => async dispatch => {
+  dispatch({ type: Actions.Thread.CLEAR_LIST });
+};

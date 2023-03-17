@@ -76,6 +76,9 @@ export const Alerts = {
     FOLDER_NAME_TAKEN:
       'That folder name is already in use. Please use another name.',
   },
+  Thread: {
+    GET_THREAD_ERROR: 'We’re sorry. Something went wrong on our end.',
+  },
 };
 
 export const Errors = {

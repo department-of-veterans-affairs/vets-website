@@ -310,8 +310,32 @@ export const getMessageThread = messageId => {
 };
 
 /**
- * Move message thread.
- * @param {Long} threadId
+ * Gets a list of threads in a folder.
+ * @param {Long} folderId
+ * @returns
+ */
+export const getThreadList = (
+  folderId = 0,
+  pageSize = 10,
+  pageNumber = 1,
+  sortField = 'SENDER_NAME',
+  sortOrder = 'ASC',
+) => {
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}/threads?pageSize=${pageSize}&pageNumber=${pageNumber}&sortField=${sortField}&sortOrder=${sortOrder}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+      },
+    },
+  );
+};
+
+/**
+ * Move a message.
+ * @param {Long} messageId
  * @param {Long} toFolderId
  * @returns
  */
