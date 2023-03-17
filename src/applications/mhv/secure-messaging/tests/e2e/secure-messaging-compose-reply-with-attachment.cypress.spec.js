@@ -25,19 +25,24 @@ describe('Compose message With Attacments and Errors', () => {
     );
     composePage.closeAttachmentErrorPopup();
 
-    composePage.attachMessageFromFile('test_ext.TXT');
-    composePage.verifyAttachmentErrorMessage('');
+    composePage.attachMessageFromFile('test_ext.TEXT');
+    composePage.verifyAttachmentErrorMessage(
+      'File supported: doc, docx, gif, jpg, jpeg, pdf, png, rtf, txt, xls, xlsx',
+    );
     composePage.closeAttachmentErrorPopup();
+
     composePage.attachMessageFromFile('sample_pdf.pdf');
     composePage.attachMessageFromFile('sample_pdf.pdf');
     composePage.verifyAttachmentErrorMessage(
       'You have already attached this file.',
     );
+
     composePage.closeAttachmentErrorPopup();
     composePage.attachMessageFromFile('test_image_10mb.jpg');
     composePage.verifyAttachmentErrorMessage(
       'File size for a single attachment cannot exceed 6MB.',
     );
+
     composePage.closeAttachmentErrorPopup();
     composePage.attachMessageFromFile('sample_pdf.pdf');
     composePage.attachMessageFromFile('sample_docx.docx');
