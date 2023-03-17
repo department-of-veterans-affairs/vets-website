@@ -6,7 +6,6 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { setData } from 'platform/forms-system/src/js/actions';
 import Telephone, {
@@ -15,6 +14,7 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 import { deductionCodes } from '../constants/deduction-codes';
 import { currency } from '../utils/helpers';
+import ExpandedGroup from './shared/ExpandedGroup';
 
 const ExpandedContent = ({
   index,
@@ -172,7 +172,7 @@ const ResolutionDebtCards = ({
               <strong>Amount owed: </strong>
               {subTitle}
             </p>
-            <ExpandingGroup
+            <ExpandedGroup
               open={type && !compPenWaiver}
               additionalClass="form-expanding-group-active-radio"
             >
@@ -204,7 +204,7 @@ const ResolutionDebtCards = ({
                 submitted={submitted}
                 errorSchema={errorSchema}
               />
-            </ExpandingGroup>
+            </ExpandedGroup>
           </div>
         );
       })}

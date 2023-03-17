@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import { RESOLUTION_OPTION_TYPES } from '../constants';
+import ExpandedGroup from './shared/ExpandedGroup';
 
 const ResolutionOptions = ({ formContext }) => {
   const dispatch = useDispatch();
@@ -136,7 +136,7 @@ const ResolutionOptions = ({ formContext }) => {
       )}
       {!isEditing && <>{renderResolutionSelectionText()}</>}
       {isEditing && (
-        <ExpandingGroup
+        <ExpandedGroup
           open={currentDebt.resolutionOption === RESOLUTION_OPTION_TYPES.WAIVER}
         >
           <div>
@@ -219,7 +219,7 @@ const ResolutionOptions = ({ formContext }) => {
               </div>
             </label>
           </div>
-        </ExpandingGroup>
+        </ExpandedGroup>
       )}
     </div>
   );
