@@ -23,7 +23,7 @@ const listClassNames = [
   'vads-u-padding-x--0',
 ].join(' ');
 
-const removeButtonClass = [
+export const removeButtonClass = [
   'remove-item',
   'vads-u-width--auto',
   'vads-u-margin-left--2',
@@ -177,7 +177,7 @@ export const PrivateContent = ({
           <strong>
             {limitContent.review[limitedConsent.length ? 'y' : 'n']}
           </strong>
-          {!reviewMode && limitedConsent.length ? (
+          {!reviewMode && (
             <div>
               <Link
                 id="edit-limitation"
@@ -188,15 +188,17 @@ export const PrivateContent = ({
               >
                 {content.edit}
               </Link>
-              <va-button
-                onClick={handlers.removePrivateLimitation}
-                class={removeButtonClass}
-                label={`${content.remove} ${limitContent.name}`}
-                text={content.remove}
-                secondary
-              />
+              {limitedConsent.length ? (
+                <va-button
+                  onClick={handlers.removePrivateLimitation}
+                  class={removeButtonClass}
+                  label={`${content.remove} ${limitContent.name}`}
+                  text={content.remove}
+                  secondary
+                />
+              ) : null}
             </div>
-          ) : null}
+          )}
         </li>
       </ul>
     </>
