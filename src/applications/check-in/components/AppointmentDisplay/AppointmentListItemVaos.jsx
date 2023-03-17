@@ -21,10 +21,6 @@ const AppointmentListItemVaos = props => {
   const pagesToShowDetails = ['details', 'complete', 'confirmation'];
   const showDetailsLink = pagesToShowDetails.includes(page) && goToDetails;
 
-  const typeOfCare = appointment.clinicStopCodeName
-    ? appointment.clinicStopCodeName
-    : t('VA-appointment');
-
   const infoBlockMessage = () => {
     if (appointment?.kind === 'phone') {
       return (
@@ -56,7 +52,9 @@ const AppointmentListItemVaos = props => {
           data-testid="appointment-type-and-provider"
           className="vads-u-font-weight--bold"
         >
-          {typeOfCare}
+          {appointment.clinicStopCodeName
+            ? appointment.clinicStopCodeName
+            : t('VA-appointment')}
           {appointment.doctorName
             ? ` ${t('with')} ${appointment.doctorName}`
             : ''}
@@ -92,7 +90,9 @@ const AppointmentListItemVaos = props => {
               onClick={e => goToDetails(e, appointment)}
               aria-label={t('details-for-appointment', {
                 time: appointmentDateTime,
-                type: appointment.clinicStopCodeName ? typeOfCare : 'VA',
+                type: appointment.clinicStopCodeName
+                  ? appointment.clinicStopCodeName
+                  : 'VA',
               })}
             >
               {t('details')}
