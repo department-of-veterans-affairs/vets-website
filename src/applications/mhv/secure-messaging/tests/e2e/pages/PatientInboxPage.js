@@ -263,6 +263,16 @@ class PatientInboxPage {
     }
   };
 
+  clickInboxSideBar = () => {};
+
+  clickSentSideBar = () => {};
+
+  clickTrashSideBar = () => {};
+
+  clickDraftsSideBar = () => {};
+
+  clickMyFoldersSideBar = () => {};
+
   getLoadedMessages = () => {
     return this.loadedMessagesData;
   };

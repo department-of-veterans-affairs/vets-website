@@ -1,6 +1,15 @@
 {
   "data": {
-    "remarks": "total blindess",
+    "remarks": {
+      "respiratoryIllness": true,
+      "blindness": true,
+      "lossOfHands": true,
+      "lossOfLimbs": true,
+      "lossOfLegs": true,
+      "lossOfExtremity": true,
+      "burns": true,
+      "otherConditions": "This really weird fungus thing"
+    },
     "livingSituation": {
       "careFacilityName": "One Stone Facility Care",
       "careFacilityAddress": {

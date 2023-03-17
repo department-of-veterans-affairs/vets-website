@@ -180,7 +180,12 @@ class PatientMessageDetailsPage {
       }`,
       threadMessageDetails,
     ).as('messageDetails');
-    cy.get('[aria-label="Expand message"]')
+    cy.get('.older-messages')
+      .find(
+        `[data-testid="expand-message-button-${
+          threadMessageDetails.data.attributes.messageId
+        }"]`,
+      )
       .eq(index - 1)
       .click({ waitforanimations: true });
   };
