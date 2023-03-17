@@ -22,7 +22,7 @@ describe('Secure Messaging - Move Message with Attachment', () => {
     ).as('messagesFolder');
     cy.intercept(
       'PATCH',
-      '/my_health/v1/messaging/messages/7192838/move?folder_id=-3',
+      '/my_health/v1/messaging/threads/7192838/move?folder_id=-3',
       mockMessagewithAttachment,
     ).as('moveMessagewithAttachment');
 
