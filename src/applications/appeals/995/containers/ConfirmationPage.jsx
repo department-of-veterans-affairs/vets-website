@@ -67,7 +67,7 @@ export class ConfirmationPage extends React.Component {
               <span>{submitDate.format(FORMAT_READABLE)}</span>
             </p>
           ) : null}
-          <h4>Issue(s) for review</h4>
+          <h4>You’ve selected the following issues for review</h4>
           <ul className="vads-u-margin-top--0">{issues}</ul>
           <button
             type="button"
