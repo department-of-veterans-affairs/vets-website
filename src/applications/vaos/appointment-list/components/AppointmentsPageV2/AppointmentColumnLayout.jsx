@@ -12,6 +12,10 @@ import {
   selectStartDate,
   selectTimeZoneAbbr,
   selectApptDetailAriaText,
+  selectApptDateAriaText,
+  selectTypeOfCareAriaText,
+  selectModalityAriaText,
+  selectIsCommunityCare,
 } from '../../redux/selectors';
 
 export default function AppointmentColumnLayout({
@@ -24,18 +28,23 @@ export default function AppointmentColumnLayout({
     selectAppointmentLocality(data),
   );
   const isCanceled = useSelector(() => selectIsCanceled(data));
+  const isCommunityCare = useSelector(() => selectIsCommunityCare(data));
   const modalityText = useSelector(() => selectModalityText(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
   const startDate = useSelector(() => selectStartDate(data));
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
 
   const detailAriaLabel = useSelector(() => selectApptDetailAriaText(data));
+  const dateAriaLabel = useSelector(() => selectApptDateAriaText(data));
+  const typeOfCareAriaLabel = useSelector(() => selectTypeOfCareAriaText(data));
+  const modalityAriaLabel = useSelector(() => selectModalityAriaText(data));
 
   return (
     <>
       <AppointmentColumn
         size="1"
         className="vaos-appts__column--1 vads-u-flex--auto vads-u-padding-y--2"
+        aria-label={dateAriaLabel}
       >
         {first && (
           <AppointmentRow className="xsmall-screen:vads-u-text-align--center small-screen:vads-u-flex-direction--row">
@@ -54,7 +63,6 @@ export default function AppointmentColumnLayout({
               style={{ minWidth: '25px', maxWidth: '25px' }}
             >
               <span>{startDate.format('ddd')}</span>
-              <span className="sr-only"> {timezoneAbbr}</span>
             </AppointmentColumn>
           </AppointmentRow>
         )}
@@ -63,7 +71,7 @@ export default function AppointmentColumnLayout({
       <AppointmentColumn
         className={classNames(
           'vaos-appts__column--2',
-          'vads-u-border-color--gray-lighter',
+          'vads-u-border-color--gray-medium',
           'vads-u-margin-left--2',
           'vads-u-padding-y--2',
           'small-screen:vads-u-margin-left--4',
@@ -91,6 +99,7 @@ export default function AppointmentColumnLayout({
                 size="1"
                 className="vads-u-font-weight--bold vaos-appts__text--truncate"
                 canceled={isCanceled}
+                aria-label={typeOfCareAriaLabel}
               >
                 {appointmentLocality}
               </AppointmentColumn>
@@ -100,6 +109,7 @@ export default function AppointmentColumnLayout({
                 size="1"
                 className="vaos-appts__text--truncate small-desktop-screen:vads-u-margin-left--5"
                 canceled={isCanceled}
+                aria-label={modalityAriaLabel}
               >
                 <>
                   <i
@@ -107,7 +117,12 @@ export default function AppointmentColumnLayout({
                     className={classNames(
                       'fas',
                       'vads-u-margin-right--1',
+                      'vads-u-color--gray',
                       modalityIcon,
+                      {
+                        'vaos-appts__text--line-through':
+                          isCanceled && !isCommunityCare,
+                      },
                     )}
                   />
 

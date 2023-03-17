@@ -2,6 +2,10 @@
 
 .older-messages {
   width: inherit;
+
+  h2 {
+    font-size: 20px;
+  }
   a:visited {
     color: $color-link-default;
     text-decoration: underline;

@@ -9,6 +9,8 @@ import { selectProfile } from 'platform/user/selectors';
 
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
+import { FORMAT_YMD } from '../constants';
+
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
 // instead of "number ending with 1,234"
 const mask = value => {
@@ -24,7 +26,7 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
   const { dob, gender, userFullName = {} } = profile;
 
   const { first, middle, last, suffix } = userFullName;
-  const momentDob = moment(dob || null); // called with undefined = today's date
+  const momentDob = moment(dob || null, FORMAT_YMD); // called with undefined = today's date
 
   return (
     <>

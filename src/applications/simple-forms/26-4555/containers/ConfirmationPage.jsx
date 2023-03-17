@@ -19,7 +19,7 @@ export class ConfirmationPage extends React.Component {
     const { submission, formId, data } = form;
     const { fullName } = data.veteran;
     const submitDate = submission.timestamp;
-    const confirmationNumber = '---';
+    const confirmationNumber = submission.response?.confirmationNumber;
 
     return (
       <div>
