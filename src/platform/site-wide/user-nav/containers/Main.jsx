@@ -44,6 +44,7 @@ import * as authUtilities from 'platform/user/authentication/utilities';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import AutoSSO from './AutoSSO';
 import { selectUserGreeting } from '../selectors';
+import recordEvent from '../../../monitoring/record-event';
 
 const CreateLoginGovAccountModal = ({ visible = false, onClose }) => {
   let logingovSingUp;
@@ -54,7 +55,6 @@ const CreateLoginGovAccountModal = ({ visible = false, onClose }) => {
       allowVerification: false,
       useOAuth: true,
     });
-    // console.log(url)
     logingovSingUp = url;
   }
   generateURL();
@@ -66,12 +66,25 @@ const CreateLoginGovAccountModal = ({ visible = false, onClose }) => {
       large
       visible={visible}
       click-to-close
-      closeEvent={onClose}
-      onCloseEvent={onClose}
+      // closeEvent={onClose}
+      onCloseEvent={() => {
+        recordEvent({ event: 'organic-experiment-dismiss-modal' });
+        onClose();
+      }}
       onPrimaryButtonClick={() => {
+        recordEvent({
+          event: 'cta-button-click',
+          'button-type': 'primary-button',
+          'button-click-label': '(organic experiment) Get Login.gov now',
+        });
         location.href = logingovSingUp;
       }}
       onSecondaryButtonClick={() => {
+        recordEvent({
+          event: 'cta-button-click',
+          'button-type': 'secondary-button',
+          'button-click-label': '(organic experiment) Learn more',
+        });
         location.href =
           'https://www.va.gov/resources/signing-in-to-vagov/#should-i-create-a-logingov-or-';
       }}
