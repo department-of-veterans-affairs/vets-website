@@ -23,7 +23,7 @@ const listClassNames = [
   'vads-u-padding-x--0',
 ].join(' ');
 
-export const removeButtonClass = [
+const removeButtonClass = [
   'remove-item',
   'vads-u-width--auto',
   'vads-u-margin-left--2',
