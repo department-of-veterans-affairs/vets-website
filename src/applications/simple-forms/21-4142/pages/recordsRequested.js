@@ -65,24 +65,6 @@ export default {
             ),
           },
         },
-        default: [
-          {
-            providerFacilityName: '',
-            conditionsTreated: '',
-            treatmentDateRange: {
-              from: '',
-              to: '',
-            },
-            providerFacilityAddress: {
-              street: '',
-              street2: '',
-              city: '',
-              state: '',
-              country: 'USA',
-              postalCode: '',
-            },
-          },
-        ],
       },
     },
   },

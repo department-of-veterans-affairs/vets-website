@@ -1,5 +1,6 @@
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
+import { schemaFields } from '../definitions/constants';
 
 export default {
   uiSchema: {
@@ -97,21 +98,20 @@ export default {
         </>
       ),
     },
-    acknowledgeToReleaseInformation: {
+    [schemaFields.acknowledgeToReleaseInformation]: {
       'ui:title': 'I acknowledge and authorize this release of information',
-      'ui:required': () => true,
     },
   },
   schema: {
     type: 'object',
-    required: ['acknowledgeToReleaseInformation'],
+    required: [schemaFields.acknowledgeToReleaseInformation],
     properties: {
       'view:legalText': {
         type: 'object',
         properties: {},
       },
-      acknowledgeToReleaseInformation:
-        fullSchema.properties.acknowledgeToReleaseInformation,
+      [schemaFields.acknowledgeToReleaseInformation]:
+        fullSchema.properties[schemaFields.acknowledgeToReleaseInformation],
     },
   },
 };

@@ -30,6 +30,9 @@ export default {
             'Please input a valid VA file number: 7 to 9 numeric digits, & may start with a letter "C" or "c".',
         },
       },
+      [veteranFields.veteranServiceNumber]: {
+        'ui:title': 'Veteran Service Number',
+      },
     },
   },
   schema: {
