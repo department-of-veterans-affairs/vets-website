@@ -23,7 +23,7 @@ const AppointmentListItemVaos = props => {
 
   const typeOfCare = appointment.clinicStopCodeName
     ? appointment.clinicStopCodeName
-    : '';
+    : t('VA-appointment');
 
   const infoBlockMessage = () => {
     if (appointment?.kind === 'phone') {
@@ -92,7 +92,7 @@ const AppointmentListItemVaos = props => {
               onClick={e => goToDetails(e, appointment)}
               aria-label={t('details-for-appointment', {
                 time: appointmentDateTime,
-                type: typeOfCare,
+                type: appointment.clinicStopCodeName ? typeOfCare : 'VA',
               })}
             >
               {t('details')}
