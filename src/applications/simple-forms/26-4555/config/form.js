@@ -3,7 +3,7 @@ import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
 import preSubmitInfo from '../containers/PreSubmitSignature';
-import transformForSubmit from '../../shared/config/submit-transformer';
+import transformForSubmit from './submit-transformer';
 import prefillTransformer from './prefill-transformer';
 import getHelp from '../containers/GetFormHelp';
 

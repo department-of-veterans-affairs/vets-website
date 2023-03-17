@@ -23,7 +23,7 @@ describe('remarks page', () => {
 
     expect(
       container.querySelectorAll('input, select, textarea'),
-    ).to.have.lengthOf(1);
+    ).to.have.lengthOf(8);
   });
 
   it('should show the correct number of errors on submit', () => {
