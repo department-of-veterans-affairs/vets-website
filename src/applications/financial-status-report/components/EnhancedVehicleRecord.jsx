@@ -16,7 +16,7 @@ const defaultRecord = [
 const MAX_VEHICLE_MAKE_LENGTH = 32;
 
 const EnhancedVehicleRecord = props => {
-  const { data, goToPath, goBack, onReviewPage, setFormData } = props;
+  const { data, goToPath, onReviewPage, setFormData } = props;
 
   const { assets } = data;
   const { automobiles = [] } = assets;
@@ -80,6 +80,15 @@ const EnhancedVehicleRecord = props => {
     setEstValueIsDirty(true);
   };
 
+  const handleBack = event => {
+    event.preventDefault();
+    if (automobiles.length > 0) {
+      goToPath('/vehicles-summary');
+    } else {
+      goToPath('/vehicles');
+    }
+  };
+
   const updateFormData = e => {
     e.preventDefault();
     const newVehicleArray = [...automobiles];
@@ -99,7 +108,7 @@ const EnhancedVehicleRecord = props => {
     }
   };
 
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const navButtons = <FormNavButtons goBack={handleBack} submitToContinue />;
   const updateButton = <button type="submit">Review update button</button>;
 
   return (

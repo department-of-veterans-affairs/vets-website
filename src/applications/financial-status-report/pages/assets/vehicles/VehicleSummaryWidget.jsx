@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { Link } from 'react-router';
@@ -14,10 +14,7 @@ import { currency as currencyFormatter } from '../../../utils/helpers';
 const EmploymentHistoryWidget = props => {
   const dispatch = useDispatch();
 
-  const { goToPath, goBack, onReviewPage } = props;
-  const [hasAdditionalVehicleToAdd, setHasAdditionalVehicleoAdd] = useState(
-    'false',
-  );
+  const { goToPath, onReviewPage } = props;
 
   const formData = useSelector(state => state.form.data);
   const { assets } = formData;
@@ -30,17 +27,11 @@ const EmploymentHistoryWidget = props => {
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      if (hasAdditionalVehicleToAdd === 'true') {
-        goToPath(`/your-vehicle-records`);
-      } else {
-        goToPath(`/recreational-vehicles`);
-      }
+      goToPath(`/recreational-vehicles`);
     },
-    onSelection: event => {
-      const { value } = event?.detail || {};
-      if (value) {
-        setHasAdditionalVehicleoAdd(value);
-      }
+    onBack: event => {
+      event.preventDefault();
+      goToPath('/vehicles');
     },
   };
 
@@ -59,7 +50,9 @@ const EmploymentHistoryWidget = props => {
   };
   const emptyPrompt = `Select the 'add additional vehicle' link to add another vehicle. Select the continue button to move on to the next question.`;
 
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const navButtons = (
+    <FormNavButtons goBack={handlers.onBack} submitToContinue />
+  );
   const updateButton = <button type="submit">Review update button</button>;
 
   return (
