@@ -25,7 +25,7 @@ describe('Compose message With Attacments and Errors', () => {
     );
     composePage.closeAttachmentErrorPopup();
 
-    composePage.attachMessageFromFile('test_ext.TEXT');
+    composePage.attachMessageFromFile('TEST_EXT.TEXT');
     composePage.verifyAttachmentErrorMessage(
       'File supported: doc, docx, gif, jpg, jpeg, pdf, png, rtf, txt, xls, xlsx',
     );
