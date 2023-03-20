@@ -12,8 +12,6 @@ const OtherAssetsSummary = ({
   data,
   goBack,
   goToPath,
-  onReviewPage,
-  updatePage,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
@@ -34,8 +32,7 @@ const OtherAssetsSummary = ({
   };
 
   const goForward = () => {
-    // TODO: Update this for the review page BEFORE merging
-    return onReviewPage ? updatePage() : goToPath('/expenses-explainer');
+    return goToPath('/expenses-explainer');
   };
 
   const cardBody = text => (
