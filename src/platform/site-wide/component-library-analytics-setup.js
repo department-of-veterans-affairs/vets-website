@@ -77,16 +77,6 @@ const analyticsEvents = {
   TextInput: [
     { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
   ],
-  'va-checkbox': [
-    {
-      action: 'change',
-      event: 'int-checkbox-option-click',
-      prefix: 'checkbox',
-    },
-  ],
-  'va-text-input': [
-    { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
-  ],
   'va-accordion': [
     {
       action: 'expand',
@@ -184,6 +174,13 @@ const analyticsEvents = {
       prefix: 'button-pair',
     },
   ],
+  'va-checkbox': [
+    {
+      action: 'change',
+      event: 'int-checkbox-option-click',
+      prefix: 'checkbox',
+    },
+  ],
   'va-checkbox-group': [
     {
       action: 'change',
@@ -196,6 +193,13 @@ const analyticsEvents = {
       action: 'blur',
       event: 'int-date-blur',
       prefix: 'date',
+    },
+  ],
+  'va-file-input': [
+    {
+      action: 'change',
+      event: 'int-file-input-change',
+      prefix: 'file-input',
     },
   ],
   'va-link': [
@@ -243,6 +247,28 @@ const analyticsEvents = {
       action: 'collapse',
       event: 'int-official-gov-banner-collapse',
       prefix: 'official-gov-banner',
+    },
+  ],
+  'va-on-this-page': [
+    {
+      action: 'click',
+      event: 'nav-jumplink-click',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-on-this-page',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          version: 'component_version',
+        },
+      },
+    },
+  ],
+  'va-privacy-agreement': [
+    {
+      action: 'click',
+      event: 'nav-privacy-agreement-checkbox-click',
+      prefix: 'privacy-agreement',
     },
   ],
   'va-promo-banner': [
@@ -314,20 +340,18 @@ const analyticsEvents = {
       prefix: 'segmented-progress-bar',
     },
   ],
-  'va-on-this-page': [
+  'va-telephone': [
     {
       action: 'click',
-      event: 'nav-jumplink-click',
-      ga4: {
-        event: 'interaction',
-        component_name: 'va-on-this-page',
-        custom_string_1: 'component-library',
-        /* Component to GA4 parameters */
-        mapping: {
-          version: 'component_version',
-        },
-      },
+      event: 'int-telephone-link-click',
+      prefix: 'telephone',
     },
+  ],
+  'va-text-input': [
+    { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
+  ],
+  'va-textarea': [
+    { action: 'blur', event: 'int-textarea-blur', prefix: 'textarea' },
   ],
 };
 
