@@ -76,6 +76,10 @@ const connectionUnavailableResponse = {
   connectionAvailable: false,
 };
 
+const errorResponse = {
+  status: 401,
+};
+
 describe('Connect Devices Container When Connections Available', () => {
   it('should render DeviceConnectionSection and DeviceConnectionCards when devices are not connected', async () => {
     mockApiRequest(noDevicesConnectedResponse);
@@ -168,8 +172,22 @@ describe('Connect Devices Container When Connections Available', () => {
 });
 
 describe('Connect Devices Container When Connections Unavailable', () => {
-  it('should render DeviceConnectionSection and DeviceConnectionCards when devices are not connected', async () => {
+  it('should render connection unavailable alert when device connection is unavailable', async () => {
     mockApiRequest(connectionUnavailableResponse);
+
+    const connectionUnavailableContainer = renderInReduxProvider(
+      <ConnectedDevicesContainer />,
+    );
+
+    expect(
+      await connectionUnavailableContainer.findByTestId(
+        'connection-unavailable-alert',
+      ),
+    ).to.exist;
+  });
+
+  it('should render connection unavailable alert when error response is returned', async () => {
+    mockApiRequest(errorResponse);
 
     const connectionUnavailableContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
