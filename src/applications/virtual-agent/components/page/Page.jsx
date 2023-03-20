@@ -105,17 +105,12 @@ function Page({ virtualAgentShowFloatingChatbot = null }) {
 
   useEffect(
     () => {
-      // if (virtualAgentShowFloatingChatbot) {
       setIsLoading(false);
       if (virtualAgentShowFloatingChatbot) {
         setChosenBot('sticky');
       } else {
         setChosenBot('default');
       }
-      // }
-      // else {
-      //   setIsLoading(true);
-      // }
     },
     [virtualAgentShowFloatingChatbot],
   );
