@@ -200,9 +200,13 @@ export default ThreadsList;
 
 ThreadsList.propTypes = {
   folder: PropTypes.object,
+  handleThreadApiCall: PropTypes.func,
   isSearch: PropTypes.bool,
   keyword: PropTypes.string,
   pageNum: PropTypes.number,
+  setSortBy: PropTypes.func,
   setPageNum: PropTypes.func,
+  setSortOrder: PropTypes.func,
   threadList: PropTypes.array,
+  threadsPerPage: PropTypes.number,
 };

@@ -125,6 +125,7 @@ ThreadListItem.propTypes = {
   attachment: PropTypes.any,
   attributes: PropTypes.object,
   category: PropTypes.string,
+  draftDate: PropTypes.string,
   keyword: PropTypes.any,
   messageId: PropTypes.number,
   readReceipt: PropTypes.any,
@@ -132,4 +133,5 @@ ThreadListItem.propTypes = {
   senderName: PropTypes.string,
   sentDate: PropTypes.string,
   subject: PropTypes.string,
+  triageGroupName: PropTypes.string,
 };
