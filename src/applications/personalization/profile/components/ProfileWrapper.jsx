@@ -121,7 +121,10 @@ ProfileWrapper.propTypes = {
   isLOA3: PropTypes.bool,
   location: PropTypes.object,
   showNameTag: PropTypes.bool,
-  totalDisabilityRating: PropTypes.string,
+  totalDisabilityRating: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   totalDisabilityRatingServerError: PropTypes.bool,
 };
 
