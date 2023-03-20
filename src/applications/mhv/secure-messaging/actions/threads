@@ -5,8 +5,6 @@ import { getThreadList } from '../api/SmApi';
 
 export const getListOfThreads = (folderId, pageSize, pageNumber, sortField, sortOrder, update = false) => async dispatch => {
 
-  console.log("getListOfThreads: ","folderId: ",folderId, "pageSize: ", pageSize,"pageNumber: ", pageNumber, "sortField: ",sortField, "sortOrder: ",sortOrder)
-
   if (!update) {
     dispatch({ type: Actions.Thread.CLEAR_LIST });
   }

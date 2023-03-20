@@ -20,7 +20,7 @@ const FolderThreadListView = props => {
   const dispatch = useDispatch();
   const [folderId, setFolderId] = useState(null);
   const error = null;
-  const threadsPerPage = 3;
+  const threadsPerPage = 100;
   const threads = useSelector(state => state.sm.threads?.threadList);
   const folder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
