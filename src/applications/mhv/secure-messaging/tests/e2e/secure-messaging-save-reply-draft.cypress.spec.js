@@ -3,6 +3,7 @@ import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 import mockMessages from './fixtures/messages-response.json';
+import { dateFormat } from '../../util/helpers';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
@@ -48,13 +49,25 @@ describe('Secure Messaging Reply', () => {
         messageDetails.data.attributes.senderName,
       );
     });
-    // cy.get('[aria-label="message details."] > :nth-child(3)').should($date => {
-    //   expect($date.text()).to.contain(messageDetails.data.attributes.sentDate);
-    // });
+    cy.get('[data-testid="message-date"]')
+      .eq(0)
+      .should(
+        'have.text',
+        dateFormat(
+          messageDetails.data.attributes.sentDate,
+          'MMMM D, YYYY [at] h:mm a z',
+        ),
+      );
+
     cy.get('[aria-label="message details."] > :nth-child(4)').should($mID => {
       expect($mID.text()).to.contain(messageDetails.data.attributes.messageId);
     });
 
+    cy.get(
+      '.vads-u-margin-top--1 > .message-list-body-collapsed > .vads-u-margin-y--0',
+    ).should($mbody => {
+      expect($mbody.text()).to.contain(messageDetails.data.attributes.body);
+    });
     replyPage.sendReplyDraft(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.senderId,
