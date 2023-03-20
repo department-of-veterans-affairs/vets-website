@@ -11,16 +11,16 @@ const pageFields = [veteranFields.address];
 
 export default {
   uiSchema: {
-    'view:contactInformationDescription': {
-      'ui:description': (
-        <>
-          <h3>Mailing Address</h3>
-          <p>
-            We&rsquo;ll send any updates about your application to this address.
-          </p>
-        </>
-      ),
-    },
+    'ui:title': (
+      <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+        Mailing address
+      </h3>
+    ),
+    'ui:description': (
+      <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
+        We&rsquo;ll send any updates about your application to this address.
+      </p>
+    ),
     [veteranFields.parentObject]: {
       [veteranFields.address]: addressUiSchema(
         `${[veteranFields.parentObject]}.${[veteranFields.address]}`,
@@ -32,10 +32,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:contactInformationDescription': {
-        type: 'object',
-        properties: {},
-      },
       [veteranFields.parentObject]: {
         type: 'object',
         required: intersection(required, pageFields),
