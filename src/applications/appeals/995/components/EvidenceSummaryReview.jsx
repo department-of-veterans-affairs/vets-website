@@ -16,8 +16,7 @@ import {
   PrivateContent,
   UploadContent,
 } from './EvidenceSummaryLists';
-
-const editKey = 'evidence-summary-edit';
+import { SUMMARY_EDIT } from '../constants';
 
 const EvidenceSummaryReview = ({ data, editPage }) => {
   const { limitedConsent = '' } = data;
@@ -27,11 +26,11 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   useEffect(
     () => {
       if (
-        window.sessionStorage.getItem(editKey) === 'true' &&
+        window.sessionStorage.getItem(SUMMARY_EDIT) === 'true' &&
         editRef?.current
       ) {
         // focus on edit button _after_ editing and returning
-        window.sessionStorage.removeItem(editKey);
+        window.sessionStorage.removeItem(SUMMARY_EDIT);
         setTimeout(() => focusElement(editRef.current));
       }
     },
@@ -50,7 +49,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   const handlers = {
     onEditPage: () => {
       // maintain state using session storage
-      window.sessionStorage.setItem(editKey, 'true');
+      window.sessionStorage.setItem(SUMMARY_EDIT, 'true');
       editPage();
     },
   };
@@ -58,18 +57,20 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   return (
     <div className="form-review-panel-page">
       <div name="evidenceSummaryScrollElement" />
-      <button
-        type="button"
-        ref={editRef}
-        className="float-right edit-page usa-button-secondary"
-        onClick={handlers.onEditPage}
-        aria-label={content.editLabel}
-      >
-        {content.edit}
-      </button>
-      <h4 className="vads-u-font-size--h5 vads-u-display--inline-block">
-        {content.summaryTitle}
-      </h4>
+      <div className="form-review-panel-page-header-row">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+          {content.summaryTitle}
+        </h4>
+        <button
+          type="button"
+          ref={editRef}
+          className="edit-page usa-button-secondary"
+          onClick={handlers.onEditPage}
+          aria-label={content.editLabel}
+        >
+          {content.edit}
+        </button>
+      </div>
 
       {noEvidence ? (
         <dl className="review">

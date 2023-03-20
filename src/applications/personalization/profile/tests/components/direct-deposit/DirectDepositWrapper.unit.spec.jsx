@@ -10,7 +10,7 @@ import { CSP_IDS } from 'platform/user/authentication/constants';
 
 import DirectDepositWrapper from '../../../components/direct-deposit/DirectDepositWrapper';
 
-import { paymentHistory } from '../../../mocks/payment-history';
+import { paymentHistory } from '../../../mocks/endpoints/payment-history';
 
 describe('authenticated experience -- profile -- direct deposit', () => {
   describe('DirectDepositWrapper', () => {

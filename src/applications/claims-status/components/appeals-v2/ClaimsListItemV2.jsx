@@ -1,3 +1,4 @@
+// lighthouse_migration
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';

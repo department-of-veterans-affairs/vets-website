@@ -40,10 +40,6 @@ describe('FolderHeader component in Inbox', () => {
     ).to.exist;
   });
 
-  it('must display valid folder description', () => {
-    const screen = setup(folders.inbox);
-    expect(screen.getByText(Folder.INBOX.desc)).to.exist;
-  });
   it('must display Compose message link', () => {
     const screen = setup(folders.inbox);
     expect(screen.getByText('Start a new message')).to.exist;

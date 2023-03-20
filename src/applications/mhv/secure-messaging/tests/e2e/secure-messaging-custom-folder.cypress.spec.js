@@ -6,7 +6,7 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
     cy.get('[data-testid="my-folders-sidebar"]').click();
     cy.contains('TEST2').click();
     cy.injectAxe();

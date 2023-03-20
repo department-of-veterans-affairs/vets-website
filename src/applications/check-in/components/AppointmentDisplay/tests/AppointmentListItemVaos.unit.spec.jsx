@@ -62,6 +62,34 @@ describe('AppointmentListItemVaos', () => {
           'In person at LOMA LINDA VA CLINIC  Clinic: TEST CLINIC',
         );
       });
+      it('Displays appointment instructions for pre-check-in in-person appointment on confirmation page', () => {
+        const screen = render(
+          <I18nextProvider i18n={i18n}>
+            <AppointmentListItemVaos
+              app="preCheckIn"
+              appointment={appointments[0]}
+              router={mockRouter}
+              page="confirmation"
+            />
+          </I18nextProvider>,
+        );
+        expect(screen.queryByTestId('appointment-message')).to.exist;
+        expect(screen.queryByTestId('in-person-msg-confirmation')).to.exist;
+      });
+      it('Does not display appointment instructions for pre-check-in in-person appointment on intro page', () => {
+        const screen = render(
+          <I18nextProvider i18n={i18n}>
+            <AppointmentListItemVaos
+              app="preCheckIn"
+              appointment={appointments[0]}
+              router={mockRouter}
+              page="intro"
+            />
+          </I18nextProvider>,
+        );
+        expect(screen.queryByTestId('appointment-message')).to.not.exist;
+        expect(screen.queryByTestId('in-person-msg-confirmation')).to.not.exist;
+      });
     });
     describe('Phone appointment context', () => {
       it('Renders appointment details with no stopCodeName or provider', () => {
@@ -84,6 +112,20 @@ describe('AppointmentListItemVaos', () => {
         expect(
           screen.getByTestId('appointment-kind-and-location'),
         ).to.have.text('Phone');
+      });
+      it('Displays appointment instructions for pre-check-in phone appointment confirmation page', () => {
+        const screen = render(
+          <I18nextProvider i18n={i18n}>
+            <AppointmentListItemVaos
+              app="preCheckIn"
+              appointment={appointments[1]}
+              router={mockRouter}
+              page="confirmation"
+            />
+          </I18nextProvider>,
+        );
+        expect(screen.queryByTestId('appointment-message')).to.exist;
+        expect(screen.queryByTestId('phone-msg-confirmation')).to.exist;
       });
     });
     describe('Details link', () => {

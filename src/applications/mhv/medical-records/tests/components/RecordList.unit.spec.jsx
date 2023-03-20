@@ -3,7 +3,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
 import { waitFor } from '@testing-library/react';
-import RecordList from '../../components/RecordList';
+import RecordList from '../../components/RecordList/RecordList';
 import vaccines from '../fixtures/vaccines.json';
 import reducer from '../../reducers';
 
@@ -34,7 +34,8 @@ describe('Record list component', () => {
 
   it('displays a list of records when records are provided', async () => {
     await waitFor(() => {
-      expect(screen.getAllByTestId('record-list-item')).to.have.length(5);
+      // 15 because 5 (paginated) for regular view plus 10 (unpaginated) for print view
+      expect(screen.getAllByTestId('record-list-item')).to.have.length(15);
     });
   });
 });

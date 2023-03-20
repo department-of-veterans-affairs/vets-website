@@ -138,7 +138,7 @@ const EvidencePrivateRecords = ({
     () => {
       setCurrentData(providerFacility?.[currentIndex] || defaultData);
       setCurrentState(defaultState);
-      focusElement('#add-facility-name');
+      focusElement(hasErrors() ? '[error]' : 'h3');
       scrollTo('topPageElement');
       setForceReload(false);
     },
@@ -515,7 +515,8 @@ const EvidencePrivateRecords = ({
           autocomplete="section-provider postal-code"
         />
 
-        <br />
+        <br role="presentation" />
+
         <VaCheckboxGroup
           label={content.issuesLabel}
           name="issues"

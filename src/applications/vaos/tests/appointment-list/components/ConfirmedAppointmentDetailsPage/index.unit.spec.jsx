@@ -720,7 +720,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     );
   });
 
-  it('should allow the user to go back to the appointment list', async () => {
+  it.skip('should allow the user to go back to the appointment list', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',

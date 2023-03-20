@@ -1,19 +1,27 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
+import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
+import mockMessages from './fixtures/messages-response.json';
+import defaultMockThread from './fixtures/thread-response.json';
 
 describe('Secure Messaging - Print Functionality', () => {
-  it('print all messages', () => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
+  const landingPage = new PatientInboxPage();
+  const site = new SecureMessagingSite();
+  const messageDetailsPage = new PatientMessageDetailsPage();
+
+  beforeEach(() => {
     site.login();
-    landingPage.loadPage(false);
-    landingPage.loadMessageDetails(
-      landingPage.getNewMessage().attributes.messageId,
-      landingPage.getNewMessage().attributes.subject,
-      landingPage.getNewMessage().attributes.sentDate,
+    landingPage.loadInboxMessages(
+      mockMessages,
+      landingPage.getNewMessageDetails(),
     );
-    cy.injectAxe();
-    cy.axeCheck();
+    messageDetailsPage.loadMessageDetails(
+      landingPage.getNewMessageDetails(),
+      defaultMockThread,
+      0,
+    );
+  });
+  it('print all messages', () => {
     cy.get('[data-testid=print-button]').click();
     cy.get('[data-testid=radio-print-one-message]')
       .shadow()
@@ -38,13 +46,6 @@ describe('Secure Messaging - Print Functionality', () => {
       cy.axeCheck();
     });
     it('print single message', () => {
-      site.login();
-      landingPage.loadPage(false);
-      landingPage.loadMessageDetails(
-        landingPage.getNewMessage().attributes.messageId,
-        landingPage.getNewMessage().attributes.subject,
-        landingPage.getNewMessage().attributes.sentDate,
-      );
       cy.get('[data-testid=print-button]').click();
       cy.get('[data-testid=radio-print-one-message]').click();
       cy.window().then(win => {

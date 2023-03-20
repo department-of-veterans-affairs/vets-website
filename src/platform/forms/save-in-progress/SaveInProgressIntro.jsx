@@ -224,28 +224,25 @@ class SaveInProgressIntro extends React.Component {
         <div className="usa-alert usa-alert-info schemaform-sip-alert">
           <div className="usa-alert-body">
             <H className="usa-alert-heading">
-              Save time—and save your work in progress—by signing in before
-              starting your {appType}
+              Sign in now to save your work in progress
             </H>
             <div className="usa-alert-text">
-              <p>When you’re signed in to your VA.gov account:</p>
+              <p>Here&rsquo;s how signing in now helps you:</p>
               <ul>
                 <li>
-                  We can prefill part of your {appType} based on your account
-                  details.
+                  We can fill in some of your information for you to save you
+                  time.
                 </li>
                 <li>
-                  You can save your {appType} in progress, and come back later
-                  to finish filling it out. You’ll have {retentionPeriod} from
-                  the date you start or update your {appType} to submit it.
-                  After {retentionPeriod}, we’ll delete the {appType} and you’ll
-                  need to start over.
+                  You can save your work in progress. You&rsquo;ll have{' '}
+                  {retentionPeriod} from when you start or make updates to your{' '}
+                  {appType} to come back and finish it.
                 </li>
               </ul>
               <p>
-                <strong>Note:</strong> If you sign in after you’ve started your{' '}
-                {appType}, you won’t be able to save the information you’ve
-                already filled in.
+                <strong>Note:</strong> You can sign in after you start your{' '}
+                {appType}. But you&rsquo;ll lose any information you already
+                filled in.
               </p>
               {unauthStartButton}
               {!this.props.hideUnauthedStartLink && (

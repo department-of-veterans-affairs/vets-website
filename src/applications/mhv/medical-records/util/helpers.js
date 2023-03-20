@@ -11,3 +11,16 @@ export const dateFormat = (timestamp, format = null) => {
     .tz(timestamp, timeZone)
     .format(format || 'MMMM D, YYYY, h:mm a z');
 };
+
+/**
+ * @param {*} type
+ * @param {*} dosage
+ * @returns {String} type and dosage combined, type or dosage or neither message
+ */
+export const typeAndDose = (type, dosage) => {
+  if (type && dosage) {
+    return `${type}, ${dosage}`;
+  }
+
+  return type || dosage || 'There is no type or dosage reported at this time.';
+};

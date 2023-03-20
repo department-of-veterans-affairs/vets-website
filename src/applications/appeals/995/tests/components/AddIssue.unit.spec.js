@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import sinon from 'sinon';
 
-import { AddIssue } from '../../components/AddIssue';
+import AddIssue from '../../components/AddIssue';
 import {
   errorMessages,
   MAX_LENGTH,
@@ -102,10 +102,7 @@ describe('<AddIssue>', () => {
     $('button#submit', container).click();
 
     const date = $('va-memorable-date', container);
-    expect(date.error).to.contain(
-      // partial match
-      errorMessages.invalidDateRange('xxxx', '').split('xxxx')[0],
-    );
+    expect(date.error).to.eq(errorMessages.decisions.pastDate);
   });
   it('should show an error when the issue date is > 1 year in the future', () => {
     const decisionDate = getDate({ offset: { months: +13 } });

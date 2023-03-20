@@ -1,14 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { getSelected } from '../utils/helpers';
 import { getDate } from '../utils/dates';
-import {
-  SELECTED,
-  CONTESTABLE_ISSUES_PATH,
-  FORMAT_READABLE,
-} from '../constants';
+import { SELECTED, FORMAT_READABLE } from '../constants';
 
 const legendClassNames = [
   'vads-u-margin-top--0',
@@ -33,10 +28,10 @@ const IssueSummary = ({ formData }) => {
           Confirm the issues you’re asking to receive a Supplemental Claim for.
         </h3>
       </legend>
-      <ul className="issues-summary">
+      <ul className="issues-summary vads-u-margin-bottom--0">
         {issues.map((issue, index) => (
           <li key={index} className={listClassNames}>
-            <h4 className="capitalize vads-u-margin-top--0">
+            <h4 className="capitalize vads-u-margin-top--0 vads-u-padding-right--2">
               {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}
             </h4>
             <div>
@@ -49,7 +44,6 @@ const IssueSummary = ({ formData }) => {
                 pattern: FORMAT_READABLE,
               })}
             </div>
-            <Link to={CONTESTABLE_ISSUES_PATH}>Edit</Link>
           </li>
         ))}
       </ul>

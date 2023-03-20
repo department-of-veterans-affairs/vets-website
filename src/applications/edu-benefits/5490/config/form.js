@@ -83,6 +83,27 @@ const {
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
 
+const removeAdditionalBenefit = () => {
+  if (environment.isProduction()) {
+    return {
+      applicantInformation: applicantInformationUpdate(fullSchema5490, {
+        labels: { relationship: relationshipLabels },
+      }),
+      additionalBenefits: additionalBenefitsPage(fullSchema5490, {
+        fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource'],
+      }),
+      applicantService: applicantServicePage(fullSchema5490),
+    };
+  }
+
+  return {
+    applicantInformation: applicantInformationUpdate(fullSchema5490, {
+      labels: { relationship: relationshipLabels },
+    }),
+    applicantService: applicantServicePage(fullSchema5490),
+  };
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -130,15 +151,7 @@ const formConfig = {
   chapters: {
     applicantInformation: {
       title: 'Applicant information',
-      pages: {
-        applicantInformation: applicantInformationUpdate(fullSchema5490, {
-          labels: { relationship: relationshipLabels },
-        }),
-        additionalBenefits: additionalBenefitsPage(fullSchema5490, {
-          fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource'],
-        }),
-        applicantService: applicantServicePage(fullSchema5490),
-      },
+      pages: removeAdditionalBenefit(),
     },
     benefitSelection: {
       title: 'Benefits eligibility',

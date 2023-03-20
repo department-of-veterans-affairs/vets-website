@@ -351,7 +351,11 @@ export function createRelinquishedBenefit(submissionForm) {
     };
   }
 
-  return {};
+  return submissionForm?.showMebDgi42Features
+    ? {
+        relinquishedBenefit: 'CannotRelinquish',
+      }
+    : {};
 }
 
 function setAdditionalConsideration(consideration) {

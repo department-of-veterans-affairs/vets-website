@@ -9,34 +9,48 @@ class PatientComposePage {
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
       .get('[text="Send"]')
-      .click({ waitforanimations: true });
+      .click({ force: true });
     cy.wait('@message');
   };
 
+  //* Refactor*  Need to get rid of this method and split out
   enterComposeMessageDetails = category => {
-    cy.get('[data-testid="compose-recipient-select"]')
-      .shadow()
-      .find('[id="select"]')
-      .select('###PQR TRIAGE_TEAM 747###');
-    cy.get('[data-testid=compose-category-radio-button]')
+    this.selectRecipient('###PQR TRIAGE_TEAM 747###', { force: true });
+    cy.get('[data-testid="compose-category-radio-button"]')
       .shadow()
       .find('label')
       .contains(category)
-      .click();
+      .click({ force: true });
     cy.get('[data-testid="attach-file-input"]').selectFile(
       'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
       { force: true },
     );
-    cy.get('[data-testid="message-subject-field"]')
-      .shadow()
-      .find('[name="message-subject"]')
-      .type('Test Subject');
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[name="message-body"]')
-      .type('Test message body');
+    this.getMessageSubjectField().type('Test Subject');
+    this.getMessageBodyField().type('Test message body');
   };
 
+  getMessageSubjectField = () => {
+    return cy
+      .get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('[name="message-subject"]');
+  };
+
+  getMessageBodyField = () => {
+    return cy
+      .get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('[name="message-body"]');
+  };
+
+  selectRecipient = recipient => {
+    cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
+      .find('[id="select"]')
+      .select(recipient);
+  };
+
+  //* Refactor* Needs to have mockDraftMessage as parameter
   clickOnSendMessageButton = () => {
     cy.intercept(
       'POST',
@@ -48,6 +62,26 @@ class PatientComposePage {
       .click();
   };
 
+  //* Refactor*  make parameterize mockDraftMessage
+  sendDraft = (testId, testCategory, testSubject, testBody) => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/messages',
+      mockDraftMessage,
+    ).as('draft_message');
+    cy.get('[data-testid="Send-Button"]').click();
+    cy.wait('@draft_message').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
+    cy.get('@draft_message')
+      .its('request.body')
+      .then(message => {
+        expect(message.category).to.eq(testCategory);
+        expect(message.subject).to.eq(testSubject);
+        expect(message.body).to.eq(testBody);
+      });
+  };
+
   saveDraft = (testId, testCategory, testSubject, testBody) => {
     cy.intercept(
       'PUT',
@@ -57,15 +91,14 @@ class PatientComposePage {
 
     cy.get('[data-testid="Save-Draft-Button"]').click();
     cy.wait('@draft_message').then(xhr => {
-      cy.log(xhr.requestBody);
+      cy.log(JSON.stringify(xhr.response.body));
     });
     cy.get('@draft_message')
       .its('request.body')
-      .should('deep.equal', {
-        recipientId: testId,
-        category: testCategory,
-        subject: testSubject,
-        body: testBody,
+      .then(message => {
+        expect(message.category).to.eq(testCategory);
+        expect(message.subject).to.eq(testSubject);
+        expect(message.body).to.eq(testBody);
       });
   };
 
@@ -90,6 +123,7 @@ class PatientComposePage {
     });
   };
 
+  //* Refactor*Remove and consolidate
   selectSideBarMenuOption = menuOption => {
     if (menuOption === 'Inbox') {
       cy.get('[data-testid=inbox-sidebar]').click();

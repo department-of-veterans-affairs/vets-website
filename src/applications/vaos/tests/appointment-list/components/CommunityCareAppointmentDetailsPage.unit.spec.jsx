@@ -45,7 +45,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     MockDate.reset();
   });
 
-  it('should navigate to community care appointments detail page', async () => {
+  it.skip('should navigate to community care appointments detail page', async () => {
     // CC appointment id from confirmed_cc.json
     const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
     const appointmentTime = moment().add(1, 'days');

@@ -2,20 +2,17 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 
-describe('Compose Reply With Attacments and Errors', () => {
-  it('compose reply with attachment', () => {
+describe('Compose message With Attacments and Errors', () => {
+  it('compose message with attachment', () => {
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     cy.get('[data-testid="compose-message-link"]').click();
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('[data-testid="compose-recipient-select"]')
-      .shadow()
-      .find('[id="select"]')
-      .select('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     cy.get('[name="COVID"]').click();
     composePage.attachMessageFromFile('test_video.mp4');
     composePage.verifyAttachmentErrorMessage(
@@ -37,14 +34,8 @@ describe('Compose Reply With Attacments and Errors', () => {
     //   'You may only attach up to 4 files',
     // );
     // composePage.closeAttachmentErrorPopup();
-    cy.get('[data-testid="message-subject-field"]')
-      .shadow()
-      .find('[name="message-subject"]')
-      .type('Test Subject');
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[name="message-body"]')
-      .type('Test message body');
+    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.getMessageBodyField().type('Test message body');
     composePage.sendMessage();
   });
 });

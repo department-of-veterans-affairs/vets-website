@@ -31,9 +31,9 @@ export const navigateToFolderByFolderId = (folderId, history) => {
   history.push(folderPathByFolderId(folderId));
 };
 
-export const unreadCountAllFolders = folders => {
+export const unreadCountInbox = folders => {
   return folders
-    .filter(folder => folder.id !== Folders.DRAFTS.id)
+    .filter(folder => folder.id === Folders.INBOX.id)
     .reduce((a, b) => a + b.unreadCount, 0);
 };
 
@@ -50,6 +50,14 @@ export const today = new Date();
  */
 
 export const dateFormat = (timestamp, format = null) => {
+  moment.updateLocale('en', {
+    meridiem: hour => {
+      if (hour < 12) {
+        return 'a.m.';
+      }
+      return 'p.m.';
+    },
+  });
   const timeZone = moment.tz.guess();
   return moment
     .tz(timestamp, timeZone)
@@ -91,4 +99,13 @@ export const isOlderThan = (timestamp, days) => {
   const now = moment();
   const then = moment(timestamp);
   return now.diff(then, 'days') > days;
+};
+
+// Opens the veterans Crisis modal (the modal that appears when clicking the red banner in the header (or footer on mobile) to connect to the crisis line)
+export const openCrisisModal = () => {
+  const modal = document.querySelector('#modal-crisisline');
+  modal.setAttribute(
+    'class',
+    `${modal.getAttribute('class')} va-overlay--open`,
+  );
 };

@@ -25,7 +25,10 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.get('#introductionRadios-1').check();
+        // cy.get('#introductionRadios').check();
+        cy.get('#introductionRadios va-radio-option')
+          .first()
+          .click();
         cy.findByText(/continue/i, { selector: 'button' })
           .first()
           .click();
@@ -41,14 +44,14 @@ const testConfig = createTestConfig(
             cy.wait('@getFacilitiesError');
           } else if (testData.zipCode === '00921') {
             cy.wait('@getFacilitiesPuertoRico');
-            cy.get('.errorable-radio-button > input')
+            cy.get('va-radio-option')
               .first()
-              .check();
+              .click();
           } else {
             cy.wait('@getFacilities');
-            cy.get('.errorable-radio-button > input')
+            cy.get('va-radio-option')
               .first()
-              .check();
+              .click();
           }
         });
       },

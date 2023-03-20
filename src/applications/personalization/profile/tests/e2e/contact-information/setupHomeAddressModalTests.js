@@ -4,7 +4,6 @@ import mockUser from '@@profile/tests/fixtures/users/user-36.json';
 import receivedTransaction from '@@profile/tests/fixtures/transactions/received-transaction.json';
 import finishedTransaction from '@@profile/tests/fixtures/transactions/finished-transaction.json';
 import errorTransaction from '@@profile/tests/fixtures/transactions/error-transaction.json';
-import mockProfileShowAddressChangeModalToggle from '@@profile/tests/fixtures/contact-information-feature-toggles.json';
 import set from 'lodash/set';
 import { createAddressValidationResponse } from '../address-validation/addressValidation';
 import { createUserResponse } from '../address-validation/user';
@@ -20,11 +19,7 @@ export const setupHomeAddressModalBase = type => {
     body: createAddressValidationResponse(type),
   });
 
-  cy.intercept(
-    'GET',
-    'v0/feature_toggles*',
-    mockProfileShowAddressChangeModalToggle,
-  );
+  cy.intercept('GET', 'v0/feature_toggles*', {});
 
   // for when the mailing address is being checked from the home address modal prompt and should succeed saving
   cy.intercept('GET', '/v0/profile/status/willSucceedTest', req => {
