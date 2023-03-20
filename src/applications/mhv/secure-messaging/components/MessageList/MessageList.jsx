@@ -37,7 +37,7 @@ const MAX_PAGE_LIST_LENGTH = 5;
 let sortOrderSelection;
 const MessageList = props => {
   const location = useLocation();
-  const { folder, messages, keyword, isSearch } = props;
+  const { folder, messages, keyword, isSearch, handleHeader } = props;
   // const perPage = messages.meta.pagination.per_page;
   const perPage = 10;
   // const totalEntries = messages.meta.pagination.total_entries;
@@ -131,7 +131,14 @@ const MessageList = props => {
   const displayNums = fromToNums(currentPage, messages?.length);
 
   return (
-    <div className="message-list vads-l-row vads-u-flex-direction--column">
+    <div
+      className="message-list vads-l-row vads-u-flex-direction--column"
+      role="heading"
+      aria-level="2"
+      aria-label={`Conversations in your ${handleHeader()}, ${
+        displayNums[0]
+      } - ${displayNums[1]} of ${totalEntries} conversations`}
+    >
       <div className="message-list-sort">
         <VaSelect
           id="sort-order-dropdown"
@@ -224,6 +231,7 @@ export default MessageList;
 
 MessageList.propTypes = {
   folder: PropTypes.object,
+  handleHeader: PropTypes.func,
   isSearch: PropTypes.bool,
   keyword: PropTypes.string,
   messages: PropTypes.array,

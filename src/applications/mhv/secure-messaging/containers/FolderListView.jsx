@@ -21,6 +21,21 @@ const FolderListView = props => {
   const location = useLocation();
   const params = useParams();
 
+  const handleHeader = () => {
+    switch (folder.folderId) {
+      case Folders.INBOX.id: // Inbox
+        return Folders.INBOX.header;
+      case Folders.SENT.id: // Sent
+        return Folders.SENT.header;
+      case Folders.DRAFTS.id: // Drafts
+        return Folders.DRAFTS.header;
+      case Folders.DELETED.id: // Trash
+        return Folders.DELETED.header;
+      default:
+        return folder.name;
+    }
+  };
+
   useEffect(
     () => {
       // clear out folder reducer to prevent from previous folder data flashing
@@ -127,7 +142,13 @@ const FolderListView = props => {
       );
     }
     if (messages.length > 0) {
-      return <MessageList messages={messages} folder={folder} />;
+      return (
+        <MessageList
+          messages={messages}
+          folder={folder}
+          handleHeader={handleHeader}
+        />
+      );
     }
     return '';
   };
@@ -139,7 +160,7 @@ const FolderListView = props => {
         {folder?.folderId === undefined && loadingIndicator()}
         {folder?.folderId !== undefined && (
           <>
-            <FolderHeader folder={folder} />
+            <FolderHeader folder={folder} handleHeader={handleHeader} />
             {content()}
           </>
         )}

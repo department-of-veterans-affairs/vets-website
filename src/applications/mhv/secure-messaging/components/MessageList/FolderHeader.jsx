@@ -7,22 +7,7 @@ import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 
 const FolderHeader = props => {
-  const { folder } = props;
-
-  const handleHeader = () => {
-    switch (folder.folderId) {
-      case Folders.INBOX.id: // Inbox
-        return Folders.INBOX.header;
-      case Folders.SENT.id: // Sent
-        return Folders.SENT.header;
-      case Folders.DRAFTS.id: // Drafts
-        return Folders.DRAFTS.header;
-      case Folders.DELETED.id: // Trash
-        return Folders.DELETED.header;
-      default:
-        return folder.name;
-    }
-  };
+  const { folder, handleHeader } = props;
 
   const handleFolderDescription = () => {
     let text = '';
@@ -71,6 +56,7 @@ const FolderHeader = props => {
 
 FolderHeader.propTypes = {
   folder: PropTypes.object,
+  handleHeader: PropTypes.func,
 };
 
 export default FolderHeader;

@@ -70,7 +70,12 @@ const MessageDetailBlock = props => {
         onReply={handleReplyButton}
         hideReplyButton={hideReplyButton}
       />
-      <main className="message-detail-content">
+      <main
+        className="message-detail-content"
+        role="heading"
+        aria-level="2"
+        aria-label="Most recent message in this conversation"
+      >
         <section className="message-metadata" aria-label="message details.">
           <p>
             <strong>From: </strong>

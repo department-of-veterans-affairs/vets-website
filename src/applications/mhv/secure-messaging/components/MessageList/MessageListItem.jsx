@@ -89,6 +89,9 @@ const MessageListItem = props => {
         </div>
         <Link
           className="message-subject-link vads-u-margin-y--0p5"
+          aria-label={`${categoryLabel}: ${getHighlightedText(
+            subject,
+          )}, ${formattedDate}`}
           to={`/${
             activeFolder?.folderId === DefaultFolders.DRAFTS.id
               ? 'draft'
