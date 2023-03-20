@@ -159,7 +159,6 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
  */
 export const retrieveMessageThread = (
   messageId,
-  isDraft = false,
   refresh = false,
 ) => async dispatch => {
   if (!refresh) {
@@ -173,10 +172,19 @@ export const retrieveMessageThread = (
     const msgResponse = await getMessage(response.data[0].attributes.messageId);
     if (!msgResponse.errors) {
       const { sentDate } = msgResponse.data.attributes;
+      const isDraft =
+        response.data[0].attributes.draftDate !== (null || undefined);
+
       dispatch(oldMessageAlert(sentDate, isDraft));
       dispatch({
-        type: Actions.Message.GET,
-        response: msgResponse,
+        type: isDraft ? Actions.Draft.GET : Actions.Message.GET,
+        response: {
+          data: {
+            ...msgResponse.data,
+            ...response.data[0],
+          },
+          included: msgResponse.included,
+        },
       });
 
       dispatch({
