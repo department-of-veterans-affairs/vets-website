@@ -3,11 +3,11 @@ import StayInformedPage from './page-objects/StayInformedPage';
 
 describe('COVID-19 Vaccination Preparation Form', () => {
   describe('when entering valid contact information without signing in', () => {
-    before(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
-        'feature',
-      );
-    });
+    // before(() => {
+    //   cy.intercept('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
+    //     'feature',
+    //   );
+    // });
 
     it('should successfully submit the vaccine preparation form', () => {
       const stayInformedPage = new StayInformedPage();

@@ -1,5 +1,8 @@
 class StayInformedPage {
   loadPage() {
+    cy.intercept('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
+      'feature',
+    );
     cy.visit('health-care/covid-19-vaccine/stay-informed/');
     cy.wait('@feature');
     cy.get('.vads-l-row').contains('What you should know about signing up');
