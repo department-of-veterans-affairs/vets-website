@@ -4,6 +4,9 @@ const sourceEvent = process.env.SOURCE_EVENT;
 const sourceRepo = process.env.SOURCE_REPO;
 const sourceRef = process.env.SOURCE_BRANCH;
 const workflowRef = process.env.WORKFLOW_BRANCH;
+const deployment = process.env.DEPLOYMENT_ID;
+
+core.exportVariable('DEPLOYMENT_ID', deployment);
 
 if (
   sourceEvent === 'repository_dispatch' ||
