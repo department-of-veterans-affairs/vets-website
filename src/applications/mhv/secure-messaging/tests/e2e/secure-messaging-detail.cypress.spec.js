@@ -18,7 +18,7 @@ describe('Secure Messaging Message Details AXE Check', () => {
     messageDetails.data.attributes.sentDate = date.toISOString();
     cy.log(`New Message Details ==== ${JSON.stringify(messageDetails)}`);
     landingPage.loadInboxMessages(inboxMessages, messageDetails);
-    detailsPage.loadMessageDetails(messageDetails, defaultMockThread);
+    detailsPage.loadMessageDetails(messageDetails, defaultMockThread, 0);
     cy.injectAxe();
     cy.axeCheck();
   });

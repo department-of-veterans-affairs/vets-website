@@ -369,7 +369,9 @@ const EvidenceVaRecords = ({
           error={showError('name') || errors.unique || null}
           autocomplete="section-facility name"
         />
-        <br />
+
+        <br role="presentation" />
+
         <VaCheckboxGroup
           label={content.conditions}
           name="issues"

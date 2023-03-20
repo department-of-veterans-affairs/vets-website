@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import mockMessages from './fixtures/messages-response.json';
+import defaultMockThread from './fixtures/thread-response.json';
 
 describe('Secure Messaging - Print Functionality', () => {
   const landingPage = new PatientInboxPage();
@@ -14,7 +15,11 @@ describe('Secure Messaging - Print Functionality', () => {
       mockMessages,
       landingPage.getNewMessageDetails(),
     );
-    messageDetailsPage.loadMessageDetails(landingPage.getNewMessageDetails());
+    messageDetailsPage.loadMessageDetails(
+      landingPage.getNewMessageDetails(),
+      defaultMockThread,
+      0,
+    );
   });
   it('print all messages', () => {
     cy.get('[data-testid=print-button]').click();

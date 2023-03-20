@@ -2,7 +2,7 @@ import React from 'react';
 import PayrollDeductionCheckList from '../../../components/PayrollDeductionChecklist';
 
 export const uiSchema = {
-  spousePayrollDeductionCheckList: {
+  spousePayrollDeductionChecklist: {
     'ui:title': (
       <span className="vads-u-font-size--h4 vads-u-font-family--sans">
         Which of the following payroll deductions does your spouse pay?
@@ -18,7 +18,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    spousePayrollDeductionCheckList: {
+    spousePayrollDeductionChecklist: {
       type: 'boolean',
     },
   },

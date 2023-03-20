@@ -32,6 +32,7 @@ import {
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import { getTypeOfCareById } from '../../utils/appointment';
+import { getTimezoneNameFromAbbr } from '../../utils/timezone';
 
 export function getCancelInfo(state) {
   const {
@@ -365,8 +366,19 @@ export function selectIsInPerson(appointment) {
 
 export function selectPractitionerName(appointment) {
   if (selectIsCommunityCare(appointment)) {
-    const { providerName, name } = appointment.communityCareProvider || {};
-    return providerName || name || null;
+    // NOTE: appointment.communityCareProvider is populated for booked CC only
+    const { providerName, name } = appointment.communityCareProvider || {
+      providerName: null,
+      name: null,
+    };
+
+    // NOTE: appointment.preferredProviderName is populated for CC request only
+    const {
+      // rename since 'providerName' is defined above
+      providerName: preferredProviderName,
+    } = appointment.preferredProviderName || { providerName: null };
+
+    return providerName || name || preferredProviderName || '';
   }
 
   // TODO: Refactor!!! This logic is a rewrite of the function 'getPractitionerName'
@@ -376,15 +388,20 @@ export function selectPractitionerName(appointment) {
   // layer. See the following link for details.
   //
   // https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/health-care/appointments/va-online-scheduling/engineering/architecture/front_end_architecture.md
-  let { practitioners } = appointment || {};
-  if (practitioners === null || typeof practitioners === 'undefined')
-    practitioners = [];
+  let { practitioners } = appointment;
   practitioners = practitioners.map(practitioner => {
-    const { name } = practitioner;
+    const { name = { given: '', family: '' } } = practitioner;
     return `${name.given.toString().replaceAll(',', ' ')} ${name.family}`;
   });
 
-  return practitioners.length > 0 ? practitioners[0] : null;
+  return practitioners.length > 0 ? practitioners[0] : '';
+}
+
+export function selectIsPending(appointment) {
+  return (
+    appointment.status === APPOINTMENT_STATUS.proposed ||
+    appointment.status === APPOINTMENT_STATUS.pending
+  );
 }
 
 export function selectAppointmentLocality(appointment) {
@@ -394,6 +411,17 @@ export function selectAppointmentLocality(appointment) {
   const isPhone = selectIsPhone(appointment);
   const isVideo = selectIsVideo(appointment);
   const isInPerson = selectIsInPerson(appointment);
+
+  if (isPendingOrCancelledRequest(appointment)) {
+    const { name: facilityName } = appointment.vaos.facilityData || {
+      name: '',
+    };
+    if (isCommunityCare) {
+      return practitioner;
+    }
+
+    return facilityName;
+  }
 
   if (isInPerson || isVideo || isPhone || isCommunityCare) {
     if (typeOfCareName && practitioner) {
@@ -436,6 +464,11 @@ export function selectIsHomeVideo(appointment) {
   );
 }
 
+export function selectTimeZoneAbbr(appointment) {
+  const { abbreviation } = getAppointmentTimezone(appointment);
+  return abbreviation;
+}
+
 export function selectModalityText(appointment) {
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isInPerson = selectIsInPerson(appointment);
@@ -444,14 +477,29 @@ export function selectModalityText(appointment) {
   const isVideoClinic = selectIsClinicVideo(appointment);
   const isVideoHome = selectIsHomeVideo(appointment);
   const isVideoVADevice = selectIsGFEVideo(appointment);
-  const { name: facilityName } = appointment.vaos.facilityData || {};
+  const { name: facilityName } = appointment.vaos.facilityData || {
+    name: '',
+  };
+
+  if (isPendingOrCancelledRequest(appointment)) {
+    if (isInPerson) {
+      return 'In person';
+    }
+    if (isCommunityCare) {
+      return 'Community care';
+    }
+  }
 
   // NOTE: Did confirm that you can't create an Atlas appointment without a
   // facility but we will check anyway.
   //
   // TODO: What default should be displayed if the data is corrupt an there is
   // no facility name?
-  if (facilityName && isVideoAtlas) return `At ${facilityName}`;
+  if (facilityName) return `At ${facilityName}`;
+  if (isVideoAtlas) {
+    const { line, city, state } = appointment.videoData.atlasLocation.address;
+    return `At ${line} ${city}, ${state}`;
+  }
 
   if (isInPerson || isVideoClinic) {
     return facilityName ? `At ${facilityName}` : 'At VA facility';
@@ -462,6 +510,65 @@ export function selectModalityText(appointment) {
   if (isVideoHome || isVideoVADevice) return 'Video';
 
   return '';
+}
+
+export function selectApptDetailAriaText(appointment, isRequest = false) {
+  const appointmentDate = selectStartDate(appointment);
+  const isCanceled = selectIsCanceled(appointment);
+  const isCommunityCare = selectIsCommunityCare(appointment);
+  const isPhone = selectIsPhone(appointment);
+  const isVideo = selectIsVideo(appointment);
+  const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
+  const typeOfCareName = selectTypeOfCareName(appointment);
+  const modalityText = selectModalityText(appointment);
+  const fillin1 = isCanceled ? `Details for canceled` : 'Details for';
+  let fillin2 =
+    typeOfCareName && typeof typeOfCareName !== 'undefined'
+      ? `${typeOfCareName} appointment on`
+      : 'appointment on';
+  const fillin3 = appointmentDate.format(
+    `dddd, MMMM D h:mm a, [${timezoneName}]`,
+  );
+
+  // Override fillin2 text for canceled or pending appointments
+  if (isRequest && isPendingOrCancelledRequest(appointment)) {
+    fillin2 = '';
+    if (typeOfCareName && typeof typeOfCareName !== 'undefined') {
+      fillin2 = `${typeOfCareName}`;
+    }
+
+    return `${fillin1} request for a ${fillin2} ${modalityText.replace(
+      /^at /i,
+      '',
+    )} appointment`;
+  }
+
+  let modality = 'in-person';
+  if (isCommunityCare) modality = 'community care';
+  if (isPhone) modality = 'phone';
+  if (isVideo) modality = 'video';
+
+  return `${fillin1} ${modality} ${fillin2} ${fillin3}`;
+}
+export function selectApptDateAriaText(appointment) {
+  const appointmentDate = selectStartDate(appointment);
+  const isCanceled = selectIsCanceled(appointment);
+  const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
+  return `${
+    isCanceled ? 'canceled ' : ''
+  } appointment on ${appointmentDate.format(
+    `dddd, MMMM D h:mm a, [${timezoneName}]`,
+  )}`;
+}
+export function selectTypeOfCareAriaText(appointment) {
+  const typeOfCareText = selectAppointmentLocality(appointment);
+  const isCanceled = selectIsCanceled(appointment);
+  return `${isCanceled ? 'canceled ' : ''}${typeOfCareText}`;
+}
+export function selectModalityAriaText(appointment) {
+  const modalityText = selectModalityText(appointment);
+  const isCanceled = selectIsCanceled(appointment);
+  return `${isCanceled ? 'canceled ' : ''}${modalityText} appointment`;
 }
 
 export function selectModalityIcon(appointment) {
@@ -482,9 +589,4 @@ export function selectModalityIcon(appointment) {
   if (isCommunityCare) icon = 'fa-blank';
 
   return icon;
-}
-
-export function selectTimeZoneAbbr(appointment) {
-  const { abbreviation } = getAppointmentTimezone(appointment);
-  return abbreviation;
 }

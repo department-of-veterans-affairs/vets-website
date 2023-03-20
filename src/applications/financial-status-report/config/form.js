@@ -12,6 +12,7 @@ import { SubmissionAlert } from '../components/Alerts';
 import { WIZARD_STATUS } from '../wizard/constants';
 import EnhancedEmploymentRecord from '../components/EnhancedEmploymentRecord';
 import EnhancedSpouseEmploymentRecord from '../components/EnhancedSpouseEmploymentRecord';
+import EnhancedVehicleRecord from '../components/EnhancedVehicleRecord';
 import GrossMonthlyIncomeInput from '../components/GrossMonthlyIncomeInput';
 import SpouseGrossMonthlyIncomeInput from '../components/SpouseGrossMonthlyIncomeInput';
 import SpousePayrollDeductionChecklist from '../components/SpousePayrollDeductionChecklist';
@@ -19,6 +20,7 @@ import SpousePayrollDeductionInputList from '../components/SpousePayrollDeductio
 import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
+import VehicleSummaryWidget from '../pages/assets/vehicles/VehicleSummaryWidget';
 import AddAsset from '../components/otherAssets/AddAsset';
 import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
@@ -446,6 +448,25 @@ const formConfig = {
           editModeOnReviewPage: true,
           CustomPage: SpouseEmploymentHistoryWidget,
         },
+        spouseAdditionalIncomeCheckList: {
+          path: 'spouse-additional-income-checklist',
+          title: 'Additional income options',
+          uiSchema: pages.spouseAdditionalIncomeCheckList.uiSchema,
+          schema: pages.spouseAdditionalIncomeCheckList.schema,
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        spouseAdditionalIncomeValues: {
+          path: 'spouse-additional-income-values',
+          title: 'Additional income values',
+          uiSchema: pages.spouseAdditionalIncomeValues.uiSchema,
+          schema: pages.spouseAdditionalIncomeValues.schema,
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData.additionalIncome?.spouse?.spAddlIncome?.length > 0 &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
         dependents: {
           path: 'dependents',
           title: 'Dependents',
@@ -554,8 +575,34 @@ const formConfig = {
           title: 'Vehicles',
           uiSchema: pages.vehicleRecords.uiSchema,
           schema: pages.vehicleRecords.schema,
-          depends: ({ questions }) => questions.hasVehicle,
+          depends: formData =>
+            formData.questions.hasVehicle &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        enhancedVehicleRecords: {
+          path: 'your-vehicle-records',
+          title: 'Vehicles',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasVehicle &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: EnhancedVehicleRecord,
+          CustomPageReview: null,
+        },
+        vehiclesSummary: {
+          path: 'vehicles-summary',
+          title: 'Your car or other vehicle',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasVehicle &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: VehicleSummaryWidget,
+          CustomPageReview: null,
         },
         recreationalVehicles: {
           path: 'recreational-vehicles',

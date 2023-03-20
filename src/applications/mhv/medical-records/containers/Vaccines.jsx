@@ -2,20 +2,42 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import RecordList from '../components/RecordList/RecordList';
 import { getVaccineList } from '../actions/vaccine';
-import { printContent } from '../util/helpers';
+import { setBreadcrumbs } from '../actions/breadcrumbs';
 
 const Vaccines = () => {
   const vaccines = useSelector(state => state.mr.vaccines.vaccineList);
+  const user = useSelector(state => state.user.profile);
+  const { first, last, middle, suffix } = user.userFullName;
+  const name = user.first
+    ? `${last}, ${first} ${middle}, ${suffix}`
+    : 'Doe, John R., Jr.';
+  const dob = user.dob || '12/12/1980';
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getVaccineList());
   });
 
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs(
+          [
+            { url: '/my-health/medical-records/', label: 'Dashboard' },
+            {
+              url: '/my-health/medical-records/health-history',
+              label: 'Health history',
+            },
+          ],
+          { url: '/my-health/medical-records/vaccines', label: 'VA vaccines' },
+        ),
+      );
+    },
+    [dispatch],
+  );
+
   const content = () => {
     if (vaccines?.length) {
-      return (
-        <RecordList records={vaccines} type="vaccine" print={printContent} />
-      );
+      return <RecordList records={vaccines} type="vaccine" />;
     }
     return (
       <va-loading-indicator
@@ -28,6 +50,13 @@ const Vaccines = () => {
 
   return (
     <div className="vaccines" id="vaccines">
+      <div className="print-only print-header">
+        <span>
+          {name} - {dob}
+        </span>
+        <h4>CONFIDENTIAL</h4>
+      </div>
+
       <h1>Vaccines</h1>
       <p>
         This is a complete list of vaccines that the VA has on file for you.
@@ -42,7 +71,7 @@ const Vaccines = () => {
           className="link-button vads-u-margin-right--3"
           type="button"
           data-testid="print-records-button"
-          onClick={() => printContent('vaccines')}
+          onClick={window.print}
         >
           <i
             aria-hidden="true"

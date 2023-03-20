@@ -36,8 +36,8 @@ describe('check-in', () => {
           </I18nextProvider>
         </Provider>,
       );
-      expect(component.getByTestId('error-message')).to.exist;
-      expect(component.getByTestId('error-message')).to.have.text(
+      expect(component.getByTestId('error-message-0')).to.exist;
+      expect(component.getByTestId('error-message-0')).to.have.text(
         'We’re sorry. Something went wrong on our end. Check in with a staff member.',
       );
     });
@@ -64,8 +64,8 @@ describe('check-in', () => {
         </I18nextProvider>
       </Provider>,
     );
-    expect(component.getByTestId('error-message')).to.exist;
-    expect(component.getByTestId('error-message')).to.have.text(
+    expect(component.getByTestId('error-message-0')).to.exist;
+    expect(component.getByTestId('error-message-0')).to.have.text(
       'Trying to check in for an appointment? Text check in to .',
     );
     expect(component.getByTestId('error-message-sms')).to.exist;

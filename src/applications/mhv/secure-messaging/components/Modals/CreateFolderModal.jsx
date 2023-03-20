@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   VaModal,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { Alerts } from '../../util/constants';
 
 const CreateFolderModal = props => {
   const { isModalVisible, setIsModalVisible, onConfirm, folders } = props;
@@ -20,15 +22,13 @@ const CreateFolderModal = props => {
     folderMatch = null;
     folderMatch = folders.filter(folder => folder.name === folderName);
     if (folderName === '' || folderName.match(/^[\s]+$/)) {
-      setNameWarning('Folder name cannot be blank');
+      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_NOT_BLANK);
     } else if (folderMatch.length > 0) {
-      setNameWarning('Folder name alreeady in use. Please use another name.');
+      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_EXSISTING_NAME);
     } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
       onConfirm(folderName, closeNewModal);
     } else {
-      setNameWarning(
-        'Folder name can only contain letters, numbers, and spaces.',
-      );
+      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_CHAR_TYPE);
     }
   };
 
@@ -37,17 +37,14 @@ const CreateFolderModal = props => {
       className="modal"
       visible={isModalVisible}
       large="true"
-      modalTitle="Create new folder"
+      modalTitle={Alerts.Folder.CREATE_FOLDER_MODAL_HEADER}
       onCloseEvent={closeNewModal}
     >
       <p
         className="vads-u-margin--0"
         data-testid="folder-enter-name-message-text"
       >
-        Please enter your folder name
-      </p>
-      <p className="vads-u-color--gray-medium vads-u-margin--0">
-        (50 characters maximum)
+        {Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
       </p>
       <VaTextInput
         className="input vads-u-margin--0"
@@ -61,6 +58,13 @@ const CreateFolderModal = props => {
       <va-button secondary="true" text="Cancel" onClick={closeNewModal} />
     </VaModal>
   );
+};
+
+CreateFolderModal.propTypes = {
+  folders: PropTypes.array.isRequired,
+  isModalVisible: PropTypes.bool.isRequired,
+  setIsModalVisible: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
 };
 
 export default CreateFolderModal;

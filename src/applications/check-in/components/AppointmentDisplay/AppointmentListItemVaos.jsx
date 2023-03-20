@@ -64,7 +64,7 @@ const AppointmentListItemVaos = props => {
             data-testid="appointment-kind-icon"
             className="vads-u-margin-right--1 check-in--label"
           >
-            {appointmentIcon(appointment, true)}
+            {appointmentIcon(appointment)}
           </div>
           <div
             data-testid="appointment-kind-and-location"
@@ -88,11 +88,14 @@ const AppointmentListItemVaos = props => {
                 router.location.basename
               }/appointment-details/${getAppointmentId(appointment)}`}
               onClick={e => goToDetails(e, appointment)}
-              aria-label={t('click-to-see-details-for-your-time-appointment', {
+              aria-label={t('details-for-appointment', {
                 time: appointmentDateTime,
+                type: appointment.clinicStopCodeName
+                  ? appointment.clinicStopCodeName
+                  : 'VA',
               })}
             >
-              Details
+              {t('details')}
             </a>
           </div>
         )}

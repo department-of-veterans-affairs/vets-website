@@ -10,7 +10,7 @@ import ReplyButton from './MessageActionButtons/ReplyButton';
 import TrashButton from './MessageActionButtons/TrashButton';
 
 const MessageActionButtons = props => {
-  const { id, hideReplyButton } = props;
+  const { id, hideReplyButton, threadId } = props;
   const dispatch = useDispatch();
   const folders = useSelector(state => state.sm.folders.folderList);
   const activeFolder = useSelector(state => state.sm.folders.folder);
@@ -49,6 +49,7 @@ const MessageActionButtons = props => {
         <TrashButton
           key="trashButton"
           activeFolder={activeFolder}
+          threadId={threadId}
           messageId={id}
           visible={
             activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
@@ -64,6 +65,7 @@ const MessageActionButtons = props => {
             isVisible={
               activeFolder?.folderId !== Constants.DefaultFolders.SENT.id
             }
+            threadId={threadId}
             messageId={id}
             allFolders={folders}
           />,
@@ -78,7 +80,7 @@ const MessageActionButtons = props => {
       );
       return buttons;
     },
-    [activeFolder, folders, hideReplyButton, id, props],
+    [activeFolder, folders, hideReplyButton, id, props, threadId],
   );
 
   return <ActionButtons buttonsArray={buttonsArray} />;
