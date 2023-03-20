@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 
-describe('Compose message With Attacments and Errors', () => {
+describe('Compose REPLY message With Attacments and Errors', () => {
   it('compose message with attachment', () => {
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
