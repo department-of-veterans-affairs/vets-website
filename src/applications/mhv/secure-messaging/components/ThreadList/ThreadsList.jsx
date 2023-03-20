@@ -1,12 +1,13 @@
 /*
 Outstanding work:
+- Uncomment pagination code once pagination bug is fixed by backend. Currently the api doesnt return correct amount of results per page.
 - error handling when there are no threads in a folder
 */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  VaPagination,
+  // VaPagination,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
@@ -21,7 +22,7 @@ const RECEPIENT_ALPHA_DESCENDING = 'recepient-alpha-desc';
 
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
-const MAX_PAGE_LIST_LENGTH = 5;
+// const MAX_PAGE_LIST_LENGTH = 5;
 let sortOrderSelection;
 const ThreadsList = props => {
   const location = useLocation();
@@ -87,9 +88,9 @@ const ThreadsList = props => {
   };
 
   // update pagination values on...page change
-  const onPageChange = page => {
-    setPageNum(page);
-  };
+  // const onPageChange = page => {
+  //   setPageNum(page);
+  // };
 
   // handle message sorting on sort button click
   const handleMessageSort = () => {
@@ -104,7 +105,7 @@ const ThreadsList = props => {
   };
 
   const displayNums = fromToNums(pageNum, totalEntries);
-  const totalThreadPages = Math.floor(totalThreads / threadsPerPage);
+  // const totalThreadPages = Math.ceil(totalThreads / threadsPerPage);
 
   return (
     <div className="message-list vads-l-row vads-u-flex-direction--column">
@@ -183,7 +184,7 @@ const ThreadsList = props => {
             triageGroupName={thread.triageGroupName}
           />
         ))}
-      {totalThreads > 1 && (
+      {/* {totalThreads > 1 && (
         <VaPagination
           onPageSelect={e => onPageChange(e.detail.page)}
           page={pageNum}
@@ -191,7 +192,7 @@ const ThreadsList = props => {
           maxPageListLength={MAX_PAGE_LIST_LENGTH}
           showLastPage
         />
-      )}
+      )} */}
     </div>
   );
 };
