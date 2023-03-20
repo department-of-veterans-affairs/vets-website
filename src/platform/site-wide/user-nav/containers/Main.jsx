@@ -56,6 +56,8 @@ export class Main extends Component {
     if (!window.location.pathname.includes('auth/login/callback')) {
       window.addEventListener('load', this.checkLoggedInStatus);
     }
+
+    
   }
 
   componentDidUpdate() {
@@ -64,11 +66,11 @@ export class Main extends Component {
     const accountTransitionPreviouslyDismissed = localStorage.getItem(
       ACCOUNT_TRANSITION_DISMISSED,
     );
-
+    this.renderCreateAccountBlock();
     if (currentlyLoggedIn) {
       this.executeRedirect();
       this.closeModals();
-
+      this.renderCreateAccountBlock()
       if (
         this.props.signInServiceName === 'mhv' &&
         mhvTransitionEligible &&
@@ -195,6 +197,17 @@ export class Main extends Component {
 
   openLoginModal = () => {
     this.props.toggleLoginModal(true);
+  };
+
+  renderCreateAccountBlock = () => {
+    const createAccountBlock = document.getElementsByClassName(
+      'homepage-hero__create-account',
+    )[0];
+    const isLoading = this.props.isProfileLoading;
+    const shouldHideCreateAccountBlock = (!isLoading && this.props.currentlyLoggedIn);
+
+    createAccountBlock.classList.remove('vads-u-display--none');
+
   };
 
   signInSignUp = () => {

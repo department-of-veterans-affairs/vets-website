@@ -82,13 +82,36 @@ class SearchHelpSignIn extends Component {
     );
   };
 
+  // renderCreateAccountBlock = () => {
+  //   const createAccountBlock = document.getElementsByClassName(
+  //     'homepage-hero__create-account',
+  //   )[0];
+  //   const isLoading = this.props.isProfileLoading;
+  //   const shouldHideCreateAccountBlock = (!isLoading && this.props.isLoggedIn);
+
+  //   console.log(`should render:${shouldHideCreateAccountBlock}`)
+
+  //   if (!shouldHideCreateAccountBlock) {
+  //     createAccountBlock.classList.toggle('vads-u-display--none');
+  //   }
+  // };
+
   render() {
+    // Manages create account block for homepage
+    // const createAccountBlock = document.getElementsByClassName(
+    //   'homepage-hero__create-account',
+    // )[0];
+
+    // if (!this.props.isLoggedIn && createAccountBlock) {
+    //   createAccountBlock.classList.remove('vads-u-display--none');
+    // }
     return (
       <div
         className={`vads-u-display--flex vads-u-align-items--center${
           this.props.isHeaderV2 ? '' : ' vads-u-padding-top--1'
         }`}
       >
+        {/* {this.renderCreateAccountBlock()} */}
         {/* Search */}
         {!this.props.isHeaderV2 && (
           <SearchMenu
