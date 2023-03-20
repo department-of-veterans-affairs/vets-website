@@ -3,11 +3,11 @@ import StayInformedPage from './page-objects/StayInformedPage';
 
 describe('COVID-19 Vaccination Preparation Form', () => {
   describe('when entering app with auth turned off', () => {
-    before(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
-        'feature',
-      );
-    });
+    // before(() => {
+    //   cy.intercept('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
+    //     'feature',
+    //   );
+    // });
 
     it('should launch app from the continue button', () => {
       const stayInformedPage = new StayInformedPage();
