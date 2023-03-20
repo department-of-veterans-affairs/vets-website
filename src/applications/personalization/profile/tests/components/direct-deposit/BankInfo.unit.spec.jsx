@@ -130,10 +130,12 @@ describe('DirectDepositCNP', () => {
       },
     };
 
-    const { container } = renderWithProfileReducers(ui, {
+    const view = renderWithProfileReducers(ui, {
       initialState,
     });
-    expect(container).to.be.empty;
+
+    // nothing should be rendered
+    expect(view.container.innerHTML).to.be.empty;
   });
   describe('when bank info is not set up but payment address is', () => {
     let view;
@@ -145,6 +147,10 @@ describe('DirectDepositCNP', () => {
       // like I would `screen`
       view = renderWithProfileReducers(ui, {
         initialState,
+      });
+
+      it('should render', () => {
+        expect(view.container.innerHTML).not.to.be.empty;
       });
     });
     it('should not show the view payment history link', () => {
@@ -239,9 +245,8 @@ describe('DirectDepositCNP', () => {
       ).to.exist;
 
       // does not show save succeeded alert
-      expect(view.container).to.not.contain.text(
-        /We’ve updated your bank account information/i,
-      );
+      expect(view.queryByText(/We’ve updated your bank account information/i))
+        .to.not.exist;
     });
   });
 });

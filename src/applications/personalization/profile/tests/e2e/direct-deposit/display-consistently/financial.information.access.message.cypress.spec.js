@@ -1,10 +1,9 @@
 import { PROFILE_PATHS } from '@@profile/constants';
-import { paymentHistory } from '../../../../mocks/payment-history';
-import { loa3User72 } from '../../../../mocks/user';
-import { basicUserPersonalInfo } from '../../../../mocks/personal-information';
-
-import { generateFeatureToggles } from '../../../../mocks/feature-toggles';
-import { airForce } from '../../../../mocks/service-history';
+import { paymentHistory } from 'applications/personalization/profile/mocks/endpoints//payment-history';
+import { loa3User72 } from 'applications/personalization/profile/mocks/endpoints/user';
+import { basicUserPersonalInfo } from 'applications/personalization/profile/mocks/endpoints/personal-information';
+import { generateFeatureToggles } from 'applications/personalization/profile/mocks/endpoints/feature-toggles';
+import { airForce } from 'applications/personalization/profile/mocks/endpoints/service-history';
 
 describe('Direct Deposit Consistently', () => {
   describe('alert is hidden', () => {

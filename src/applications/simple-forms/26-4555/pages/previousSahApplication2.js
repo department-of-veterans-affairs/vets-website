@@ -1,3 +1,4 @@
+import React from 'react';
 import { intersection, pick } from 'lodash';
 
 import dateUI from 'platform/forms-system/src/js/definitions/date';
@@ -10,25 +11,41 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [
   previousSahApplicationFields.previousSahApplicationDate,
-  previousSahApplicationFields.previousSahApplicationAddress,
+  // previousSahApplicationFields.previousSahApplicationAddress,
+  // omitted because unused, will be restored when vets-json-schema is changed
 ];
 
 export default {
   uiSchema: {
+    'ui:title': (
+      <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+        Past SAH grant application details
+      </h3>
+    ),
+    'ui:description': (
+      <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
+        Tell us about your last SAH application
+      </p>
+    ),
     [previousSahApplicationFields.parentObject]: {
-      'ui:title':
-        'Details about your previous application for a specially adapted housing grant',
       [previousSahApplicationFields.previousSahApplicationDate]: dateUI(
-        'Date of previous application',
+        'Date you last applied',
       ),
-      [previousSahApplicationFields.previousSahApplicationAddress]: address.uiSchema(
-        'Address connected to your past application',
-        false,
-        formData =>
-          formData[previousSahApplicationFields.parentObject][
-            previousSahApplicationFields.hasPreviousSahApplication
-          ],
-      ),
+      [previousSahApplicationFields.previousSahApplicationAddress]: {
+        'ui:description': (
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--4">
+            Address connected to your past application
+          </p>
+        ),
+        ...address.uiSchema(
+          '',
+          false,
+          formData =>
+            formData[previousSahApplicationFields.parentObject][
+              previousSahApplicationFields.hasPreviousSahApplication
+            ],
+        ),
+      },
     },
   },
   schema: {
@@ -39,7 +56,6 @@ export default {
         required: intersection(required, pageFields),
         properties: {
           ...pick(properties, pageFields),
-          // address definitions appear to be implemented differently
           [previousSahApplicationFields.previousSahApplicationAddress]: address.schema(
             fullSchema,
             formData =>
