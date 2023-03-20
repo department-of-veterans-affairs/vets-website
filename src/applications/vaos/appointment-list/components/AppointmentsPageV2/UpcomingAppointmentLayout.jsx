@@ -22,8 +22,6 @@ export default function UpcomingAppointmentLayout({
           key={key}
           className={classNames(
             'small-screen:vads-u-border-top--0',
-            'small-desktop-screen:vads-u-padding-left--1p5',
-            'small-desktop-screen:vads-u-padding-right--1p5',
             'vaos-appts__listItem',
             {
               'vads-u-border-bottom--1px': !isLastInMonth,
@@ -76,8 +74,6 @@ export default function UpcomingAppointmentLayout({
           id={appt.id}
           className={classNames(
             'small-screen:vads-u-border-top--0',
-            'small-desktop-screen:vads-u-padding-left--1p5',
-            'small-desktop-screen:vads-u-padding-right--1p5',
             'vaos-appts__listItem',
             'vaos-appts__listItem--clickable',
             {
