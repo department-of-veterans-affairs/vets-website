@@ -17,8 +17,7 @@ const NavCard = ({ icon = null, title, links }) => {
         {icon && (
           <div className="vads-u-flex--auto vads-u-margin-right--1p5 small-screen:vads-u-margin-top--0p5">
             <div
-              role="img"
-              aria-labelledby={slug}
+              aria-hidden="true"
               className={`fas fa-${icon} vads-u-font-size--h2`}
             />
           </div>
@@ -29,11 +28,9 @@ const NavCard = ({ icon = null, title, links }) => {
           </h2>
         </div>
       </div>
-      <nav>
-        <ul className="mhv-u-list-style--none vads-u-padding-left--0 vads-u-margin-top--2 vads-u-margin-bottom--0">
-          {listItems}
-        </ul>
-      </nav>
+      <ul className="mhv-u-list-style--none vads-u-padding-left--0 vads-u-margin-top--2 vads-u-margin-bottom--0">
+        {listItems}
+      </ul>
     </div>
   );
 };
