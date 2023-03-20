@@ -52,7 +52,7 @@ const RecordList = props => {
       </div>
       {currentRecords?.length > 0 &&
         currentRecords.map((record, idx) => (
-          <RecordListItem key={idx} record={record} />
+          <RecordListItem key={idx} record={record} type={type} />
         ))}
       {currentRecords &&
         paginatedRecords.current.length > 1 && (
