@@ -39,8 +39,7 @@ const responses = {
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/feature_toggles': generateFeatureToggles({
-    profileShowPaymentsNotificationSetting: false,
-    profileShowMhvNotificationSettings: false,
+    profileUseFieldEditingPage: true,
   }),
   'GET /v0/ppiu/payment_information': (_req, res) => {
     // 47841 - Below are the three cases where all of Profile should be gated off

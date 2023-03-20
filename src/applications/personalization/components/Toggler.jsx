@@ -6,7 +6,7 @@ import { useFeatureToggle } from '../hooks/useFeatureToggle';
 const ToggleContext = createContext();
 ToggleContext.displayName = 'ToggleContext';
 
-const useToggle = () => {
+const useToggleContext = () => {
   return useContext(ToggleContext);
 };
 
@@ -27,8 +27,14 @@ Toggler.propTypes = {
   toggleName: PropTypes.string.isRequired,
 };
 
+const Hoc = ({ toggleName, children }) => {
+  const { useToggleValue } = useFeatureToggle();
+  const toggleValue = useToggleValue(toggleName);
+  return children(toggleValue === undefined ? false : toggleValue);
+};
+
 const Enabled = ({ children }) => {
-  const toggleValue = useToggle();
+  const toggleValue = useToggleContext();
   return toggleValue ? children : null;
 };
 
@@ -37,7 +43,7 @@ Enabled.propTypes = {
 };
 
 const Disabled = ({ children }) => {
-  const toggleValue = useToggle();
+  const toggleValue = useToggleContext();
   return toggleValue ? null : children;
 };
 
@@ -45,6 +51,7 @@ Disabled.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+Toggler.Hoc = Hoc;
 Toggler.Enabled = Enabled;
 Toggler.Disabled = Disabled;
 Toggler.TOGGLE_NAMES = TOGGLE_NAMES;

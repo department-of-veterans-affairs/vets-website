@@ -3,7 +3,7 @@ import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
 import preSubmitInfo from '../containers/PreSubmitSignature';
-import transformForSubmit from '../../shared/config/submit-transformer';
+import transformForSubmit from './submit-transformer';
 import prefillTransformer from './prefill-transformer';
 import getHelp from '../containers/GetFormHelp';
 
@@ -61,9 +61,9 @@ const formConfig = {
   migrations: [],
   prefillEnabled: true,
   prefillTransformer,
-  title: 'Apply for a Specially Adapted Housing Grant Grant',
+  title: 'Apply for an adapted housing grant',
   subTitle:
-    'Equal to Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555)',
+    'Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555)',
   defaultDefinitions: fullSchema.definitions,
   chapters: {
     personalInformationChapter: {
@@ -101,7 +101,7 @@ const formConfig = {
       },
     },
     previousApplicationsChapter: {
-      title: 'Your previous applications',
+      title: 'Your past applications',
       pages: {
         previousSahApplication1: {
           path: 'previous-sah-application-1',
@@ -141,7 +141,7 @@ const formConfig = {
       },
     },
     livingSituationChapter: {
-      title: 'Your current living situation',
+      title: 'Your current living arrangement',
       pages: {
         livingSituation1: {
           path: 'living-situation-1',
@@ -163,7 +163,7 @@ const formConfig = {
       },
     },
     additionalInformationChapter: {
-      title: 'Additional information',
+      title: 'Your conditions',
       pages: {
         remarks: {
           path: 'additional-information',
