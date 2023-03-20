@@ -9,8 +9,7 @@ export const useFeatureToggle = () => {
         `Invalid toggle name "${toggleName}". Did you add the toggle name to featureFlagNames.js?`,
       );
     }
-    const toggleValues = useSelector(state => toggleValuesSelector(state));
-    return toggleValues?.[toggleName];
+    return useSelector(state => toggleValuesSelector(state)?.[toggleName]);
   };
   return {
     TOGGLE_NAMES,

@@ -13,6 +13,7 @@ import {
   selectModalityIcon,
   selectTypeOfCareName,
   selectApptDetailAriaText,
+  selectIsCommunityCare,
 } from '../../redux/selectors';
 
 export default function RequestAppointmentLayout({ appointment }) {
@@ -23,6 +24,7 @@ export default function RequestAppointmentLayout({ appointment }) {
   const grouped = true;
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
   const isCanceled = useSelector(() => selectIsCanceled(appointment));
+  const isCommunityCare = useSelector(() => selectIsCommunityCare(appointment));
   const link = `requests/${appointment.id}`;
   const modality = useSelector(() => selectModalityText(appointment));
   const modalityIcon = useSelector(() => selectModalityIcon(appointment));
@@ -38,7 +40,7 @@ export default function RequestAppointmentLayout({ appointment }) {
         <AppointmentColumn
           className={classNames(
             'vaos-appts__column--2',
-            'vads-u-border-color--gray-lighter',
+            'vads-u-border-color--gray-medium',
             'vads-u-padding-y--2',
             {
               'vads-u-border-top--1px': grouped && !first,
@@ -48,7 +50,15 @@ export default function RequestAppointmentLayout({ appointment }) {
         >
           <AppointmentRow className="small-screen:vads-u-flex-direction--row">
             <AppointmentColumn size="1" className="vads-u-flex--4">
-              <AppointmentRow className="medium-screen:vads-u-flex-direction--column small-desktop-screen:vads-u-flex-direction--row">
+              <AppointmentRow className="xsmall-screen:vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+                <AppointmentColumn
+                  padding="0"
+                  size="1"
+                  canceled={isCanceled}
+                  className="vads-u-font-weight--bold"
+                >
+                  {typeOfCareName}
+                </AppointmentColumn>
                 <AppointmentColumn
                   padding="0"
                   size="1"
@@ -61,15 +71,17 @@ export default function RequestAppointmentLayout({ appointment }) {
                       className={classNames(
                         'fas',
                         'vads-u-margin-right--1',
+                        'vads-u-color--gray',
                         modalityIcon,
+                        {
+                          'vaos-appts__text--line-through':
+                            isCanceled && !isCommunityCare,
+                        },
                       )}
                     />
 
                     {`${modality}`}
                   </>
-                </AppointmentColumn>
-                <AppointmentColumn padding="0" size="1" canceled={isCanceled}>
-                  {typeOfCareName}
                 </AppointmentColumn>
                 <AppointmentColumn
                   padding="0"

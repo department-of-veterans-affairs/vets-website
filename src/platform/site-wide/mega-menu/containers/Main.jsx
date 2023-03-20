@@ -192,10 +192,7 @@ const mapStateToProps = (state, ownProps) => {
 
   defaultLinks.push(MY_VA_LINK);
 
-  const isLandingPageEnabled = isLandingPageEnabledForUser(
-    state.featureToggles,
-    state.user?.profile?.signIn?.serviceName,
-  );
+  const isLandingPageEnabled = isLandingPageEnabledForUser(state);
   const authenticatedLinks = isLandingPageEnabled
     ? [{ ...MY_HEALTH_LINK }]
     : undefined;

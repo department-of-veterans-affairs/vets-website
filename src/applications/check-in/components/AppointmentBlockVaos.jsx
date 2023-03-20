@@ -24,7 +24,7 @@ const AppointmentBlockVaos = props => {
   const handleDetailClick = (e, appointment) => {
     e.preventDefault();
     recordEvent({
-      event: createAnalyticsSlug('details-link-clicked', 'nav'),
+      event: createAnalyticsSlug('details-link-clicked', 'nav', app),
     });
     jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
   };
