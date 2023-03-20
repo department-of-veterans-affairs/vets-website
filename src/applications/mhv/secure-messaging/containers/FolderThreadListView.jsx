@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { DefaultFolders as Folders, Alerts } from '../util/constants';
+import {
+  DefaultFolders as Folders,
+  Alerts,
+  threadSortingOptions,
+} from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import FolderHeader from '../components/MessageList/FolderHeader';
 import { clearFolder, retrieveFolder } from '../actions/folders';
@@ -16,23 +20,42 @@ const FolderThreadListView = props => {
   const dispatch = useDispatch();
   const [folderId, setFolderId] = useState(null);
   const error = null;
+  const threadsPerPage = 3;
   const threads = useSelector(state => state.sm.threads?.threadList);
   const folder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
   const params = useParams();
+  const [pageNum, setPageNum] = useState(1);
+  const [sortOrder, setSortOrder] = useState(threadSortingOptions.DESCENDING);
+  const [sortBy, setSortBy] = useState(threadSortingOptions.SORT_BY_SENT_DATE);
+
+  const handleThreadApiCall = () => {
+    dispatch(
+      getListOfThreads(folderId, threadsPerPage, pageNum, sortBy, sortOrder),
+      true,
+    );
+  };
 
   useEffect(
     () => {
       if (folderId !== null) {
         dispatch(retrieveFolder(folderId)).then(() => {
-          dispatch(getListOfThreads(folderId, 10, 1, 'SENDER_NAME', 'ASC'));
+          dispatch(
+            getListOfThreads(
+              folderId,
+              threadsPerPage,
+              pageNum,
+              sortBy,
+              sortOrder,
+            ),
+          );
         });
       }
       // on component unmount, clear out threads reducer to prevent from
       // previous threads results flashing when navigating between messages
       return () => dispatch(clearListOfThreads());
     },
-    [folderId, dispatch],
+    [folderId, dispatch, pageNum],
   );
 
   useEffect(
@@ -78,7 +101,10 @@ const FolderThreadListView = props => {
 
   useInterval(() => {
     if (folderId) {
-      dispatch(getListOfThreads(), true);
+      dispatch(
+        getListOfThreads(folderId, threadsPerPage, pageNum, sortBy, sortOrder),
+        true,
+      );
     }
   }, 60000);
 
@@ -127,9 +153,18 @@ const FolderThreadListView = props => {
       );
     }
     if (threads.length > 0) {
-      // console.log(threadListTotalCount)
       return (
-        <ThreadsList threadList={threads} folder={folder} folderId={folderId} />
+        <ThreadsList
+          threadList={threads}
+          folder={folder}
+          folderId={folderId}
+          setPageNum={setPageNum}
+          pageNum={pageNum}
+          setSortOrder={setSortOrder}
+          setSortBy={setSortBy}
+          handleThreadApiCall={handleThreadApiCall}
+          threadsPerPage={threadsPerPage}
+        />
       );
     }
     return '';

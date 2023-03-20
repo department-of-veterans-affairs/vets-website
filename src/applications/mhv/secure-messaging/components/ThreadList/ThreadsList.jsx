@@ -1,32 +1,19 @@
 /*
-This component handles:
-- displaying a list of 10 threads per page
-- sorting messages
-
-Assumptions that may need to be addressed:
-- 
-
 Outstanding work:
-- individual message links go nowhere. Another component would need to be made 
-to display message details. Another react route would need to be set up to handle this view, 
-probably needing to accept a URL parameter
+- error handling when there are no threads in a folder
 */
-import React, { useState } from 'react';
+
+import React from 'react';
 import PropTypes from 'prop-types';
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaPagination,
+  VaSelect,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-import { useDispatch } from 'react-redux';
 import ThreadListItem from './ThreadListItem';
-import { getListOfThreads } from '../../actions/threads';
-// import { getThreadList } from '../../api/SmApi';
+import { threadSortingOptions } from '../../util/constants';
 
-const DESCENDING = 'DESC';
-const ASCENDING = 'ASC';
-const SORT_BY_SENDER = 'SENDER_NAME';
-const SORT_BY_RECEPIENT = 'RECIPIENT_NAME';
-const SORT_BY_SENT_DATE = 'SENT_DATE';
-const SORT_BY_DRAFT_DATE = 'DRAFT_DATE';
 const SENDER_ALPHA_ASCENDING = 'sender-alpha-asc';
 const SENDER_ALPHA_DESCENDING = 'sender-alpha-desc';
 const RECEPIENT_ALPHA_ASCENDING = 'recepient-alpha-asc';
@@ -34,96 +21,81 @@ const RECEPIENT_ALPHA_DESCENDING = 'recepient-alpha-desc';
 
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
-// const MAX_PAGE_LIST_LENGTH = 5;
+const MAX_PAGE_LIST_LENGTH = 5;
 let sortOrderSelection;
 const ThreadsList = props => {
   const location = useLocation();
-  const dispatch = useDispatch();
-  const { folder, threadList, keyword, folderId } = props;
-  const pageSize = 10;
+  const {
+    folder,
+    threadList,
+    keyword,
+    setPageNum,
+    pageNum,
+    setSortOrder,
+    setSortBy,
+    handleThreadApiCall,
+    threadsPerPage,
+  } = props;
   const totalEntries = threadList?.length;
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sortOrder, setSortOrder] = useState(DESCENDING);
-  const [sortBy, setSortBy] = useState(SORT_BY_SENDER);
-
-  // const paginatedMessages = useRef([]);
-
-  // split messages into pages
+  const totalThreads = threadList[0].threadPageSize;
 
   // get display numbers
   const fromToNums = (page, total) => {
-    const from = (page - 1) * pageSize + 1;
-    const to = Math.min(page * pageSize, total);
-
+    const from = (page - 1) * threadsPerPage + 1;
+    const to = Math.min(page * threadsPerPage, total);
     return [from, to];
   };
   // sort messages
   const handleThreadSortSelection = sortOption => {
     switch (sortOption) {
-      case ASCENDING:
-        setSortOrder(ASCENDING);
+      case threadSortingOptions.ASCENDING:
+        setSortOrder(threadSortingOptions.ASCENDING);
         if (location.pathname === '/drafts') {
-          setSortBy(SORT_BY_DRAFT_DATE);
+          setSortBy(threadSortingOptions.SORT_BY_DRAFT_DATE);
           break;
         }
-
-        setSortBy(SORT_BY_SENT_DATE);
+        setSortBy(threadSortingOptions.SORT_BY_SENT_DATE);
         break;
-      case DESCENDING:
-        setSortOrder(DESCENDING);
+      case threadSortingOptions.DESCENDING:
+        setSortOrder(threadSortingOptions.DESCENDING);
         if (location.pathname === '/drafts') {
-          setSortBy(SORT_BY_DRAFT_DATE);
+          setSortBy(threadSortingOptions.SORT_BY_DRAFT_DATE);
           break;
         }
-        setSortBy(SORT_BY_SENT_DATE);
+        setSortBy(threadSortingOptions.SORT_BY_SENT_DATE);
         break;
       case SENDER_ALPHA_ASCENDING:
-        setSortOrder(ASCENDING);
-        setSortBy(SORT_BY_SENDER);
+        setSortOrder(threadSortingOptions.ASCENDING);
+        setSortBy(threadSortingOptions.SORT_BY_SENDER);
         break;
       case SENDER_ALPHA_DESCENDING:
-        setSortOrder(DESCENDING);
-        setSortBy(SORT_BY_SENDER);
+        setSortOrder(threadSortingOptions.DESCENDING);
+        setSortBy(threadSortingOptions.SORT_BY_SENDER);
         break;
       case RECEPIENT_ALPHA_ASCENDING:
-        setSortOrder(ASCENDING);
-        setSortBy(SORT_BY_RECEPIENT);
+        setSortOrder(threadSortingOptions.ASCENDING);
+        setSortBy(threadSortingOptions.SORT_BY_RECEPIENT);
         break;
       case RECEPIENT_ALPHA_DESCENDING:
-        setSortOrder(DESCENDING);
-        setSortBy(SORT_BY_RECEPIENT);
+        setSortOrder(threadSortingOptions.DESCENDING);
+        setSortBy(threadSortingOptions.SORT_BY_RECEPIENT);
         break;
       default:
-        setSortOrder(ASCENDING);
-        setSortBy(SORT_BY_SENT_DATE);
+        setSortOrder(threadSortingOptions.ASCENDING);
+        setSortBy(threadSortingOptions.SORT_BY_SENT_DATE);
     }
   };
 
-  // run once on component mount to set initial message and page data
-  // useEffect(
-  //   () => {
-  //     if (threadlist?.length) {
-
-  //       setCurrentMessages(threadlist);
-  //     }
-  //   },
-  //   [currentPage, messages, paginateData, sortMessages],
-  // );
-
   // update pagination values on...page change
-  // const onPageChange = page => {
-  //   setCurrentMessages(paginatedMessages.current[page - 1]);
-  //   setCurrentPage(page);
-  // };
+  const onPageChange = page => {
+    setPageNum(page);
+  };
 
   // handle message sorting on sort button click
   const handleMessageSort = () => {
-    dispatch(getListOfThreads(folderId, pageSize, 1, sortBy, sortOrder));
-    // paginatedMessages.current = paginateData(sortMessages(messages));
-    // setCurrentMessages(paginatedMessages.current[0]);
-    setCurrentPage(1);
     setSortOrder(sortOrderSelection);
+    setPageNum(1);
+    handleThreadApiCall();
   };
 
   const handleOnSelect = e => {
@@ -131,7 +103,8 @@ const ThreadsList = props => {
     handleThreadSortSelection(e.detail.value);
   };
 
-  const displayNums = fromToNums(currentPage, threadList?.length);
+  const displayNums = fromToNums(pageNum, totalEntries);
+  const totalThreadPages = Math.floor(totalThreads / threadsPerPage);
 
   return (
     <div className="message-list vads-l-row vads-u-flex-direction--column">
@@ -145,8 +118,12 @@ const ThreadsList = props => {
             handleOnSelect(e);
           }}
         >
-          <option value={DESCENDING}>Newest to oldest</option>
-          <option value={ASCENDING}>Oldest to newest</option>
+          <option value={threadSortingOptions.DESCENDING}>
+            Newest to oldest
+          </option>
+          <option value={threadSortingOptions.ASCENDING}>
+            Oldest to newest
+          </option>
           {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
             <>
               <option value={SENDER_ALPHA_ASCENDING}>
@@ -186,7 +163,7 @@ const ThreadsList = props => {
       <div className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
         Displaying {displayNums[0]}
         &#8211;
-        {displayNums[1]} of {totalEntries} conversations
+        {displayNums[1]} of {totalThreads} conversations
       </div>
       {threadList?.length > 0 &&
         threadList.map((thread, idx) => (
@@ -194,6 +171,7 @@ const ThreadsList = props => {
             key={`${thread.messageId}+${idx}`}
             messageId={thread.messageId}
             senderName={thread.senderName}
+            draftDate={thread.draftDate}
             sentDate={thread.sentDate}
             subject={thread.subject}
             readReceipt={thread.readReceipt}
@@ -205,6 +183,15 @@ const ThreadsList = props => {
             triageGroupName={thread.triageGroupName}
           />
         ))}
+      {totalThreads > 1 && (
+        <VaPagination
+          onPageSelect={e => onPageChange(e.detail.page)}
+          page={pageNum}
+          pages={totalThreadPages}
+          maxPageListLength={MAX_PAGE_LIST_LENGTH}
+          showLastPage
+        />
+      )}
     </div>
   );
 };
@@ -215,5 +202,7 @@ ThreadsList.propTypes = {
   folder: PropTypes.object,
   isSearch: PropTypes.bool,
   keyword: PropTypes.string,
+  pageNum: PropTypes.number,
+  setPageNum: PropTypes.func,
   threadList: PropTypes.array,
 };

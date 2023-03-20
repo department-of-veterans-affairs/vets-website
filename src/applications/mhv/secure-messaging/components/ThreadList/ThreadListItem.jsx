@@ -14,6 +14,7 @@ const ThreadListItem = props => {
   const {
     senderName,
     sentDate,
+    draftDate,
     subject,
     readReceipt,
     recipientName,
@@ -35,7 +36,16 @@ const ThreadListItem = props => {
       : unreadMessageClassList;
   };
 
-  const formattedDate = dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z');
+  const formattedDate = () => {
+    let date;
+    if (draftDate) {
+      date = draftDate;
+    } else {
+      date = sentDate;
+    }
+
+    return dateFormat(date, 'MMMM D, YYYY [at] h:mm a z');
+  };
 
   const getHighlightedText = text => {
     if (!keyword) return text;
@@ -101,7 +111,7 @@ const ThreadListItem = props => {
         </Link>
         <p className="received-date vads-u-margin-y--0p5">
           {attachment && <i className={attachmentClasses} aria-hidden />}
-          <span>{formattedDate}</span>
+          <span>{formattedDate()}</span>
         </p>
       </div>
     </div>
