@@ -8,6 +8,8 @@ const generateFeatureToggles = (toggles = {}) => {
     profileHideDirectDepositCompAndPen = false,
     profileShowPaymentsNotificationSetting = false,
     profileUseInfoCard = true,
+    profileUseFieldEditingPage = true,
+    profileShowMhvNotificationSettings = true,
   } = toggles;
 
   return {
@@ -45,6 +47,14 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'profile_use_info_card',
           value: profileUseInfoCard,
+        },
+        {
+          name: 'profile_show_mhv_notification_settings',
+          value: profileShowMhvNotificationSettings,
+        },
+        {
+          name: 'profile_use_field_editing_page',
+          value: profileUseFieldEditingPage,
         },
       ],
     },

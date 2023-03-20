@@ -10,18 +10,20 @@ import { LAST_SC_ITEM } from '../constants';
 
 export const focusIssue = () => {
   const item = window.sessionStorage.getItem(LAST_SC_ITEM);
-  if (item) {
+  window.sessionStorage.removeItem(LAST_SC_ITEM);
+
+  if (item < 0) {
+    // focus on add new issue after removing or cancelling adding a new issue
+    scrollTo('.add-new-issue');
+    focusElement('.add-new-issue');
+  } else if (item) {
     const [id, type] = item.split(',');
     scrollTo(`#issue-${id}`);
     if (type === 'updated') {
-      waitForRenderThenFocus(`#root_contestedIssues_${id}`);
-      // id="root_contestedIssues_0" name="root_contestedIssues_0">
-      // input isn't working
+      waitForRenderThenFocus(`#issue-${id} input`);
     } else {
-      focusElement('.edit-issue-link');
+      focusElement(`#issue-${id} .edit-issue-link`);
     }
-
-    window.sessionStorage.removeItem(LAST_SC_ITEM);
   } else {
     scrollToTop();
     focusElement('h3');

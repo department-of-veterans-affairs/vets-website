@@ -48,32 +48,30 @@ export default function AppointmentListNavigation({ count, callback }) {
       >
         <ul>
           <li>
-            <va-link
+            <button
               id="pending"
-              className="vaos-appts__focus--hide-outline"
-              href="#"
+              type="button"
+              className="va-button-link"
               onClick={handleClick({
                 history,
                 callback,
               })}
-              text={`Pending (${count})`}
-              data-testid="pending-link"
-              role="link"
-            />
+            >
+              {`Pending (${count})`}
+            </button>
           </li>
           <li>
-            <va-link
+            <button
               id="past"
-              className="vaos-appts__focus--hide-outline"
-              href="#"
+              type="button"
+              className="va-button-link"
               onClick={handleClick({
                 history,
                 callback,
               })}
-              text="Past"
-              data-testid="past-link"
-              role="link"
-            />
+            >
+              Past
+            </button>
           </li>
         </ul>
       </nav>

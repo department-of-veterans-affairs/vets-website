@@ -1,3 +1,4 @@
+import React from 'react';
 import { intersection, pick } from 'lodash';
 
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
@@ -10,10 +11,14 @@ const pageFields = [livingSituationFields.isInCareFacility];
 
 export default {
   uiSchema: {
+    'ui:title': (
+      <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+        Current arrangement
+      </h3>
+    ),
     [livingSituationFields.parentObject]: {
       [livingSituationFields.isInCareFacility]: {
-        'ui:title':
-          'Are you currently living in a nursing home or medical care facility?',
+        'ui:title': 'Do you live in a nursing home or medical care facility?',
         'ui:widget': 'yesNo',
       },
     },

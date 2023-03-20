@@ -148,7 +148,7 @@ export default function UpcomingAppointmentsList() {
                 'usa-unstyled-list',
                 'vads-u-padding-left--0',
                 {
-                  'vads-u-border-bottom--1px': featureAppointmentList,
+                  'vads-u-border-bottom--1px vads-u-border-color--gray-medium': featureAppointmentList,
                 },
               )}
               data-cy="upcoming-appointment-list"
