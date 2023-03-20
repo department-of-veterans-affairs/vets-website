@@ -5,9 +5,9 @@ import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
-import Confirmation from '../pages/Confirmation';
 import Appointments from '../pages/Appointments';
 import TravelPages from '../../../../tests/e2e/pages/TravelPages';
+import Error from '../pages/Error';
 
 describe('Check In Experience', () => {
   describe('travel pay path', () => {
@@ -28,7 +28,7 @@ describe('Check In Experience', () => {
       initializeCheckInDataGet.withSuccess({
         appointments,
       });
-      initializeCheckInDataPost.withSuccess();
+      initializeCheckInDataPost.withFailure();
       cy.visitWithUUID();
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
@@ -47,8 +47,7 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('shows the correct error message for generic api error.', () => {
-      ApiInitializer.initializeBtsssPost.withFailure(400, 'CLM_011_LOL_DUNNO');
+    it('shows the ineligible BTSSS message.', () => {
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
@@ -60,19 +59,15 @@ describe('Check In Experience', () => {
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('mileage');
       cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
+      TravelPages.attemptToGoToNextPage('no');
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Appointments.attemptCheckIn(1);
-      Confirmation.validatePageLoadedWithBtsssGenericFailure();
+      Error.validatePageLoaded('check-in-failed-cant-file', 'en');
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--btsss-generic-error');
     });
-    it('shows the correct error message for travel claim exists api error.', () => {
-      ApiInitializer.initializeBtsssPost.withFailure(
-        400,
-        'CLM_002_CLAIM_EXISTS',
-      );
+    it('shows the did not send BTSSS message.', () => {
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
@@ -88,7 +83,20 @@ describe('Check In Experience', () => {
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Appointments.attemptCheckIn(1);
-      Confirmation.validatePageLoadedWithBtsssTravelClaimExistsFailure();
+      Error.validatePageLoaded('check-in-failed-file-later');
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots(
+        'Day-of-check-in--travel-pay--btsss-travel-claim-exists',
+      );
+    });
+    it('shows the default BTSSS message.', () => {
+      TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage('no');
+      Appointments.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Appointments.attemptCheckIn(1);
+      Error.validatePageLoaded('check-in-failed-find-out');
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots(
         'Day-of-check-in--travel-pay--btsss-travel-claim-exists',

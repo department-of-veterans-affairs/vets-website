@@ -19,14 +19,12 @@ describe('Check In Experience', () => {
         initializeSessionPost,
         initializeCheckInDataPost,
         initializeDemographicsPatch,
-        initializeBtsssPost,
       } = ApiInitializer;
       initializeFeatureToggle.withAllFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
-      initializeBtsssPost.withSuccess();
 
       const rv = sharedData.get.createAppointments();
       const appointment = sharedData.get.createAppointment();

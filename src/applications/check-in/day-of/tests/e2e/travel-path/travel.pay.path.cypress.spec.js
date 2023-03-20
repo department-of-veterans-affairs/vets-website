@@ -20,7 +20,6 @@ describe('Check In Experience', () => {
         initializeCheckInDataGet,
         initializeCheckInDataPost,
         initializeDemographicsPatch,
-        initializeBtsssPost,
       } = ApiInitializer;
       initializeFeatureToggle.withTravelPay();
       initializeSessionGet.withSuccessfulNewSession();
@@ -30,7 +29,6 @@ describe('Check In Experience', () => {
         appointments,
       });
       initializeCheckInDataPost.withSuccess();
-      initializeBtsssPost.withSuccess();
       cy.visitWithUUID();
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();

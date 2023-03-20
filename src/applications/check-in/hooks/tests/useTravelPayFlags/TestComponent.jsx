@@ -1,14 +1,9 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import propTypes from 'prop-types';
 import { useTravelPayFlags } from '../../useTravelPayFlags';
 
 export default function TestComponent() {
-  const {
-    travelPayData,
-    travelPayClaimSent,
-    setTravelPayClaimSent,
-    travelPayEligible,
-  } = useTravelPayFlags({
+  const { travelPayData, travelPayEligible } = useTravelPayFlags({
     startTime: '2022-08-12T15:15:00',
   });
   return (
@@ -25,30 +20,10 @@ export default function TestComponent() {
       <div data-testid="travelPayVehicle">
         {travelPayData.travelVehicle ? 'yes' : 'no'}
       </div>
-      <div data-testid="travelPayClaimSent">
-        {travelPayClaimSent ? 'yes' : 'no'}
-      </div>
+
       <div data-testid="travelPayEligible">
         {travelPayEligible ? 'yes' : 'no'}
       </div>
-      <button
-        type="button"
-        data-testid="setTravelPayClaimSentFalse"
-        onClick={useCallback(() => setTravelPayClaimSent(false), [
-          setTravelPayClaimSent,
-        ])}
-      >
-        setTravelPayClaimSentFalse
-      </button>
-      <button
-        type="button"
-        data-testid="setTravelPayClaimSentTrue"
-        onClick={useCallback(() => setTravelPayClaimSent(true), [
-          setTravelPayClaimSent,
-        ])}
-      >
-        setTravelPayClaimSentTrue
-      </button>
     </div>
   );
 }
