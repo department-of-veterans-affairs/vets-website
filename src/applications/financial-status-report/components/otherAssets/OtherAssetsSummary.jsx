@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
