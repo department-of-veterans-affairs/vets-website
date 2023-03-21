@@ -12,6 +12,7 @@ import {
   VaTextInput,
   VaCheckboxGroup,
   VaCheckbox,
+  VaMemorableDate,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V1V3Page() {
@@ -242,6 +243,39 @@ export default function V1V3Page() {
                 />
               </VaCheckboxGroup>
               <ValueDisplay label="V3 Checkbox Group" id="v3CheckboxValue" />
+            </div>
+          </div>
+        </div>
+
+        {/* Memorable Date Comparison */}
+        <div className="vads-l-row">
+          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <VaMemorableDate
+                name="v1MemorableDate"
+                label="V1 Memorable date"
+                hint="This is a hint"
+                onDateBlur={e => updateValue(e)}
+                onDateChange={e => updateValue(e)}
+              />
+              <ValueDisplay
+                label="V1 Memorable date"
+                id="v1MemorableDateValue"
+              />
+            </div>
+
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <VaMemorableDate
+                name="v3MemorableDate"
+                label="V3 Memorable date"
+                onDateBlur={e => updateValue(e)}
+                onDateChange={e => updateValue(e)}
+                uswds
+              />
+              <ValueDisplay
+                label="V3 Memorable date"
+                id="v3MemorableDateValue"
+              />
             </div>
           </div>
         </div>
