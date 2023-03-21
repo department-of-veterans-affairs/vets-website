@@ -6,6 +6,7 @@ import FolderListView from './FolderListView';
 import Folders from './Folders';
 import LandingPageAuth from './LandingPageAuth';
 import MessageDetails from './MessageDetails';
+import ThreadDetails from './ThreadDetails';
 import MessageReply from './MessageReply';
 import SearchResults from './SearchResults';
 
@@ -26,8 +27,8 @@ const AuthorizedRoutes = () => {
         <Route exact path="/message/:messageId" key="MessageDetails">
           <MessageDetails />
         </Route>
-        <Route exact path="/thread/:threadId" key="MessageDetails">
-          <MessageDetails />
+        <Route exact path="/thread/:threadId" key="ThreadDetails">
+          <ThreadDetails />
         </Route>
         <Route exact path="/reply/:replyId" key="MessageReply">
           <MessageReply />
