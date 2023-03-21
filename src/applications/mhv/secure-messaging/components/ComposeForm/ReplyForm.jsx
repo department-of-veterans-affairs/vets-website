@@ -366,7 +366,6 @@ const ReplyForm = props => {
             </div>
           </form>
         </div>
-
         <main className="vads-u-margin--0" data-testid="message-replied-to">
           <section aria-label="message details.">
             <p className="vads-u-margin--0">
