@@ -54,15 +54,15 @@ export default function AppointmentColumnLayout({
               style={{ minWidth: '25px', maxWidth: '25px' }}
             >
               <h3 className="vads-u-display--inline-block vads-u-text-align--center vads-u-margin-top--0 vads-u-margin-bottom--0">
-                {startDate.format('D')}
+                <span aria-hidden="true">{startDate.format('D')}</span>
               </h3>
             </AppointmentColumn>
             <AppointmentColumn
-              className="xsmall-screen:vads-u-order--first small-screen:vads-u-margin-left--1"
+              className="vads-u-text-align--left xsmall-screen:vads-u-order--first small-screen:vads-u-margin-left--1"
               size="1"
               style={{ minWidth: '25px', maxWidth: '25px' }}
             >
-              <span>{startDate.format('ddd')}</span>
+              <span aria-hidden="true">{startDate.format('ddd')}</span>
             </AppointmentColumn>
           </AppointmentRow>
         )}
@@ -87,9 +87,11 @@ export default function AppointmentColumnLayout({
             canceled={isCanceled}
             style={{ minWidth: '108px', maxWidth: '108px' }}
           >
-            {`${startDate.format('h:mm')} ${startDate.format(
-              'a',
-            )} ${timezoneAbbr}`}{' '}
+            <span aria-hidden="true">
+              {`${startDate.format('h:mm')} ${startDate.format(
+                'a',
+              )} ${timezoneAbbr}`}{' '}
+            </span>
           </AppointmentColumn>
 
           <AppointmentColumn size="1" className="vads-u-flex--4">
@@ -101,7 +103,7 @@ export default function AppointmentColumnLayout({
                 canceled={isCanceled}
                 aria-label={typeOfCareAriaLabel}
               >
-                {appointmentLocality}
+                <span aria-hidden="true">{appointmentLocality}</span>
               </AppointmentColumn>
 
               <AppointmentColumn
@@ -125,8 +127,7 @@ export default function AppointmentColumnLayout({
                       },
                     )}
                   />
-
-                  {`${modalityText}`}
+                  <span aria-hidden="true">{`${modalityText}`}</span>
                 </>
               </AppointmentColumn>
             </AppointmentRow>
@@ -138,11 +139,10 @@ export default function AppointmentColumnLayout({
             // className="vads-u-display--flex vads-u-flex--auto vads-u-justify-content--right vads-u-align-items--center vads-u-text-align--right vaos-hide-for-print"
             padding="0"
             size="1"
-            aria-label={detailAriaLabel}
           >
             <va-link
               className="vaos-appts__focus--hide-outline"
-              aria-describedby={`vaos-appts__detail-${data.id}`}
+              aria-label={detailAriaLabel}
               href={link}
               onClick={e => e.preventDefault()}
               text="Details"

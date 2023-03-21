@@ -1,3 +1,4 @@
+import React from 'react';
 import { intersection, pick } from 'lodash';
 
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
@@ -10,10 +11,15 @@ const pageFields = [previousSahApplicationFields.hasPreviousSahApplication];
 
 export default {
   uiSchema: {
+    'ui:title': (
+      <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+        Specially adapted housing grant applications
+      </h3>
+    ),
     [previousSahApplicationFields.parentObject]: {
       [previousSahApplicationFields.hasPreviousSahApplication]: {
         'ui:title':
-          'Have you previously applied for specially adapted housing (SAH) grant?',
+          'Have you applied for a specially adapted housing (SAH) grant before?',
         'ui:widget': 'yesNo',
       },
     },
