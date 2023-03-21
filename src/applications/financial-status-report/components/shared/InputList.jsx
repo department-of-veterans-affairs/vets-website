@@ -1,5 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import withCurrency from './CurrencyInput';
+
+const CurrencyInputList = withCurrency(VaNumberInput);
 
 const InputList = ({
   errorList,
@@ -8,6 +12,7 @@ const InputList = ({
   submitted,
   title = '',
   onChange,
+  currency = false,
 }) => {
   return (
     <div>
@@ -15,7 +20,7 @@ const InputList = ({
       <p>{prompt}</p>
       {inputs?.map((input, key) => (
         <div key={input.name + key} className="vads-u-margin-y--2">
-          <va-number-input
+          <CurrencyInputList
             className="no-wrap input-size-3"
             error={
               submitted && errorList.includes(input.name)
@@ -29,6 +34,7 @@ const InputList = ({
             onInput={onChange}
             required
             value={input.amount}
+            currency={currency}
           />
         </div>
       ))}
@@ -37,6 +43,7 @@ const InputList = ({
 };
 
 InputList.propTypes = {
+  currency: PropTypes.bool,
   errorList: PropTypes.arrayOf(PropTypes.string),
   inputs: PropTypes.arrayOf(
     PropTypes.shape({

@@ -47,6 +47,7 @@ const MonetaryInputList = props => {
       prompt={prompt}
       submitted={submitted}
       onChange={event => onChange(event)}
+      currency
     />
   );
 };
