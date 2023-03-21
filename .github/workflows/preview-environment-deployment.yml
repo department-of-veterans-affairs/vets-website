@@ -48,9 +48,6 @@ jobs:
           SOURCE_REPO: ${{ github.event.client_payload.source_repo }}
           WORKFLOW_BRANCH: ${{ github.ref_name }}
 
-      - name: Log Deployment
-        run: echo "hello world"
-
       # - name: Login to ECR # Update ECR credentials if necessary
       #   id: login-ecr
       #   uses: aws-actions/amazon-ecr-login@v1
