@@ -26,9 +26,9 @@ export const utilityBillChecklist = {
 export const utilityBillValues = {
   uiSchema: {
     'ui:title': '',
-    utilityBills: {
+    'ui:field': UtilityBillInputList,
+    utilityRecords: {
       'ui:title': 'utilityBillValues',
-      'ui:field': UtilityBillInputList,
       'ui:validations': [validateCurrencyArray],
       items: {
         name: {
@@ -43,7 +43,7 @@ export const utilityBillValues = {
   schema: {
     type: 'object',
     properties: {
-      utilityBills: {
+      utilityRecords: {
         type: 'array',
         items: {
           type: 'object',
