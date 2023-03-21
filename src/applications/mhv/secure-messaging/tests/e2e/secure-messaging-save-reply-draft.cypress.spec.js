@@ -53,7 +53,7 @@ describe('Secure Messaging Reply', () => {
         messageDetails.data.attributes.recipientName,
       );
     });
-    messageDetailsPage.verifyExpandedMessageDateDisplay(messageDetails);
+    messageDetailsPage.ReplyToMessageDate(messageDetails);
 
     cy.get('[aria-label="message details."] > :nth-child(4)').should($mID => {
       expect($mID.text()).to.contain(messageDetails.data.attributes.messageId);

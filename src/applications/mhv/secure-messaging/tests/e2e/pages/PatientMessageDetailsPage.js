@@ -302,5 +302,17 @@ class PatientMessageDetailsPage {
         ),
       );
   };
+
+  ReplyToMessageDate = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="message-date"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        dateFormat(
+          messageDetails.data.attributes.sentDate,
+          'MMMM D, YYYY [at] h:mm a z',
+        ),
+      );
+  };
 }
 export default PatientMessageDetailsPage;
