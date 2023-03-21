@@ -1,7 +1,7 @@
 import { pick } from 'lodash';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import * as personId from 'platform/forms/definitions/personId';
 
@@ -10,17 +10,33 @@ import { relationshipLabels, genderLabels } from 'platform/static-data/labels';
 import environment from 'platform/utilities/environment';
 import { ageWarning, eighteenOrOver } from '../helpers';
 
+const isNotProd = !environment.isProduction();
+
+const conditionalFields = prefix => {
+  return isNotProd
+    ? [
+        `${prefix}FullName`,
+        'view:noSSN',
+        `${prefix}SocialSecurityNumber`,
+        `${prefix}DateOfBirth`,
+        'view:ageWarningNotification',
+        'view:minorHighSchoolQuestions',
+        'gender',
+        'relationship',
+      ]
+    : [
+        `${prefix}FullName`,
+        'view:noSSN',
+        `${prefix}SocialSecurityNumber`,
+        `${prefix}DateOfBirth`,
+        'view:ageWarningNotification',
+        'gender',
+        'relationship',
+      ];
+};
+
 const defaults = prefix => ({
-  fields: [
-    `${prefix}FullName`,
-    'view:noSSN',
-    `${prefix}SocialSecurityNumber`,
-    `${prefix}DateOfBirth`,
-    'view:ageWarningNotification',
-    'view:minorHighSchoolQuestions',
-    'gender',
-    'relationship',
-  ],
+  fields: conditionalFields(prefix),
   required: [`${prefix}FullName`, `${prefix}DateOfBirth`, 'relationship'],
   labels: {},
   isVeteran: false,
@@ -86,7 +102,9 @@ export default function applicantInformationUpdate(schema, options) {
       'view:ageWarningNotification': {
         'ui:description': ageWarning,
         'ui:options': {
-          hideIf: formData => eighteenOrOver(formData.relativeDateOfBirth),
+          hideIf: formData => {
+            return eighteenOrOver(formData.relativeDateOfBirth);
+          },
         },
       },
       'view:minorHighSchoolQuestions': {
@@ -94,7 +112,6 @@ export default function applicantInformationUpdate(schema, options) {
           expandUnder: 'view:ageWarningNotification',
           hideIf: formData => {
             let shouldNotShow = true;
-            const isNotProd = !environment.isProduction();
             const overEighteen = eighteenOrOver(formData.relativeDateOfBirth);
             if (!isNotProd && !overEighteen) {
               shouldNotShow = true;
@@ -108,8 +125,11 @@ export default function applicantInformationUpdate(schema, options) {
           'ui:title': 'Applicant has graduated high school or received GED?',
           'ui:widget': 'yesNo',
           'ui:required': formData => {
-            const isRequired = eighteenOrOver(formData.relativeDateOfBirth);
-            return !isRequired;
+            const isNotRequired = eighteenOrOver(formData.relativeDateOfBirth);
+            if (isNotRequired && !isNotProd) {
+              return isNotRequired;
+            }
+            return !isNotRequired;
           },
         },
         highSchoolGedGradDate: {
@@ -134,11 +154,13 @@ export default function applicantInformationUpdate(schema, options) {
           },
         },
         highSchoolGedExpectedGradDate: {
-          ...dateUI('Date expected to graduate'),
+          'ui:title': 'Date expected to graduate',
+          'ui:widget': 'date',
           'ui:options': {
             expandUnder: 'minorHighSchoolQuestion',
             expandUnderCondition: false,
           },
+          'ui:validations': [validateCurrentOrFutureDate],
           'ui:errorMessages': {
             pattern: 'Please enter a valid current or future date',
             required: 'Please enter a date',

@@ -11,8 +11,12 @@ import {
 import environment from 'platform/utilities/environment';
 import { eighteenOrOver } from '../helpers';
 
+const isNotProd = !environment.isProduction();
+
+const conditionalFields = isNotProd ? ['view:minorQuestions'] : [];
+
 const defaults = () => ({
-  fields: ['view:minorQuestions'],
+  fields: conditionalFields,
   required: [],
   labels: {},
   isVeteran: false,
@@ -80,8 +84,7 @@ export default function applicantInformationUpdate(schema, options) {
     title: 'Guardian Contact',
     initialData: {},
     depends: formData =>
-      !eighteenOrOver(formData.relativeDateOfBirth) &&
-      !environment.isProduction(),
+      !eighteenOrOver(formData.relativeDateOfBirth) && isNotProd,
     uiSchema: {
       'ui:order': fields,
       'ui:description': guardianDescription,
@@ -92,7 +95,6 @@ export default function applicantInformationUpdate(schema, options) {
         'ui:options': {
           hideIf: formData => {
             let shouldNotShow = true;
-            const isNotProd = !environment.isProduction();
             const overEighteen = eighteenOrOver(formData.relativeDateOfBirth);
             if (!isNotProd && !overEighteen) {
               shouldNotShow = true;
@@ -106,6 +108,7 @@ export default function applicantInformationUpdate(schema, options) {
           'ui:title': 'First name of Parent, Guardian or Custodian',
           'ui:required': formData => {
             const isRequired = eighteenOrOver(formData.relativeDateOfBirth);
+
             return !isRequired;
           },
         },
