@@ -1,4 +1,11 @@
 [
+      {     
+    "name": "Education Service Yellow Ribbon Program Open Season",
+    "url": "https://www.benefits.va.gov/gibill/yellow_ribbon/yellow_ribbon_info_schools.asp",
+    "date": "2023-03-21",
+    "displayStartDate": "2023-03-21",
+    "displayEndDate": "2023-06-21"
+     },
      {     
     "name": "Education Service Yellow Ribbon Program Foreign Schools Open Season",
     "url": "https://www.benefits.va.gov/gibill/yellow_ribbon/yellow_ribbon_info_schools.asp",
@@ -12,26 +19,5 @@
     "date": "2022-03-21",
     "displayStartDate": "2022-03-21",
     "displayEndDate": "2022-05-15"
-    },
-    {     
-    "name": "Education Service Yellow Ribbon Program Opportunity for Foreign Institutions",
-    "url": "https://www.benefits.va.gov/gibill/#20210624",
-    "date": "2021-06-24",
-    "displayStartDate": "2021-06-24",
-    "displayEndDate": "2021-07-24"
-    },
-    {     
-    "name": "School Certifying Officials Webinar June 16-17. ",
-    "url": "https://www.benefits.va.gov/gibill/#20210609",
-    "date": "2021-06-09",
-    "displayStartDate": "2021-06-09",
-    "displayEndDate": "2021-06-18"
-    },
-    {     
-    "name": "Yellow Ribbon Program Open Season June 15-June 30",
-    "url": "https://www.benefits.va.gov/gibill/#20210526",
-    "date": "2021-05-21",
-    "displayStartDate": "2021-05-21",
-    "displayEndDate": "2021-05-21"
     }
-  ]
+]
