@@ -159,7 +159,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       },
       {
         href: '/COMMUNITYCARE/programs/veterans/index.asp',
-        text: 'Community Care',
+        text: 'Community care',
       },
       {
         href: '/health-care/update-health-information/',
