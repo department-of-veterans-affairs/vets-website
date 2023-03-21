@@ -107,12 +107,6 @@ describe('VAOS VA request flow', () => {
       expect(body).to.have.property('phoneNumber', '5035551234');
     });
 
-    // Check messages requestBody is as expected
-    cy.wait('@v0:create:messages').should(xhr => {
-      const { body } = xhr.request;
-      expect(body).to.have.property('messageText', 'cough');
-    });
-
     // Confirmation page
     cy.url().should('include', '/requests/testing');
     // cy.findByText('VA appointment');

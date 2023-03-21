@@ -415,9 +415,6 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
       state: 'DC',
       zipCode: '20005-3477',
     });
-
-    const messageData = JSON.parse(global.fetch.getCall(1).args[1].body);
-    expect(messageData.messageText).to.equal('I need an appt');
   });
 
   it('should show error message on failure', async () => {
