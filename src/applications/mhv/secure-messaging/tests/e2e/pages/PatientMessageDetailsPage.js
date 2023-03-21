@@ -307,5 +307,60 @@ class PatientMessageDetailsPage {
         ),
       );
   };
+
+  ReplyToMessageTO = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="reply-form"] > :nth-child(3) > :nth-child(1)')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `(Draft) To: ${messageDetails.data.attributes.recipientName}`,
+      );
+  };
+
+  ReplyToMessagesenderName = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="from"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `From: ${messageDetails.data.attributes.senderName}`,
+      );
+  };
+
+  ReplyToMessagerecipientName = (messageDetails, messageIndex = 0) => {
+    cy.get('[aria-label="message details."] > :nth-child(2)')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `To: ${messageDetails.data.attributes.recipientName}`,
+      );
+  };
+
+  ReplyToMessageDate = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="message-date"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        dateFormat(
+          messageDetails.data.attributes.sentDate,
+          'MMMM D, YYYY [at] h:mm a z',
+        ),
+      );
+  };
+
+  ReplyToMessageId = messageDetails => {
+    cy.get('[aria-label="message details."] > :nth-child(4)').should(
+      'have.text',
+      `Message ID: ${messageDetails.data.attributes.messageId}`,
+    );
+  };
+
+  ReplyToMessagebody = messageDetails => {
+    cy.get(
+      '.vads-u-margin-top--1 > .message-list-body-collapsed > .vads-u-margin-y--0',
+    ).should($mbody => {
+      expect($mbody.text()).to.contain(messageDetails.data.attributes.body);
+    });
+  };
 }
+
 export default PatientMessageDetailsPage;
