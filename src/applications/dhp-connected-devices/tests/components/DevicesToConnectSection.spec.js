@@ -26,6 +26,7 @@ describe('Devices to Connect Section', () => {
       <DevicesToConnectSection
         connectedDevices={devices}
         connectionAvailable
+        hasLoaded
       />,
     );
 
@@ -40,9 +41,23 @@ describe('Devices to Connect Section', () => {
       <DevicesToConnectSection
         connectedDevices={devices}
         connectionAvailable={false}
+        hasLoaded
       />,
     );
 
     expect(section.getByTestId('connection-unavailable-alert')).to.exist;
+  });
+
+  it('renders loading indicator when hasLoaded is false', async () => {
+    const section = render(
+      <DevicesToConnectSection
+        connectedDevices={[]}
+        connectionAvailable
+        hasLoaded={false}
+      />,
+    );
+
+    expect(section.getByTestId('va-loading-indicator')).to.exist;
+    expect(section.queryByTestId('connection-unavailable-alert')).to.not.exist;
   });
 });
