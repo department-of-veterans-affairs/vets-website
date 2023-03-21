@@ -64,7 +64,7 @@ export const DevicesToConnectSection = ({
     ? devicesToConnect()
     : error();
   return !hasLoaded ? (
-    <va-loading-indicator set-focus />
+    <va-loading-indicator data-testid="va-loading-indicator" set-focus />
   ) : (
     devicesAvailableToConnect
   );
