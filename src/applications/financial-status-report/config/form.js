@@ -741,13 +741,16 @@ const formConfig = {
           title: 'Repayments',
           uiSchema: pages.repayments.uiSchema,
           schema: pages.repayments.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         repaymentRecords: {
           path: 'repayment-records',
           title: 'Repayments',
           uiSchema: pages.repaymentRecords.uiSchema,
           schema: pages.repaymentRecords.schema,
-          depends: ({ questions }) => questions.hasRepayments,
+          depends: formData =>
+            formData.questions.hasRepayments &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
         creditCardBills: {

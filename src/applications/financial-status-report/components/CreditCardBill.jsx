@@ -82,16 +82,21 @@ const CreditCardBill = props => {
     const newCreditCardBillArray = [...creditCardBills];
     newCreditCardBillArray[index] = creditCardBillRecord;
 
-    // update form data
-    setFormData({
-      ...data,
-      expenses: {
-        ...data.expenses,
-        creditCardBills: newCreditCardBillArray,
-      },
-    });
+    if (
+      creditCardBillRecord.minMonthlyPayment &&
+      creditCardBillRecord.unpaidBalance
+    ) {
+      // update form data
+      setFormData({
+        ...data,
+        expenses: {
+          ...data.expenses,
+          creditCardBills: newCreditCardBillArray,
+        },
+      });
 
-    goToPath('/credit-card-bills-summary');
+      goToPath('/credit-card-bills-summary');
+    }
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
@@ -111,6 +116,7 @@ const CreditCardBill = props => {
             null
           }
           hint={null}
+          required
           inputmode="numeric"
           label="Unpaid balance"
           name="unpaidBalance"
@@ -129,6 +135,7 @@ const CreditCardBill = props => {
             null
           }
           hint={null}
+          required
           inputmode="numeric"
           label="Minimum monthly payment amount"
           name="minMonthlyPayment"
