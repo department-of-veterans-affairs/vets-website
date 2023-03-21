@@ -76,10 +76,6 @@ const connectionUnavailableResponse = {
   connectionAvailable: false,
 };
 
-const errorResponse = {
-  status: 401,
-};
-
 describe('Connect Devices Container When Connections Available', () => {
   it('should render DeviceConnectionSection and DeviceConnectionCards when devices are not connected', async () => {
     mockApiRequest(noDevicesConnectedResponse);
@@ -187,7 +183,17 @@ describe('Connect Devices Container When Connections Unavailable', () => {
   });
 
   it('should render connection unavailable alert when error response is returned', async () => {
-    mockApiRequest(errorResponse);
+    const err = {
+      errors: [
+        {
+          title: 'Not authorized',
+          detail: 'Not authorized',
+          code: '401',
+          status: '401',
+        },
+      ],
+    };
+    mockApiRequest(err, false);
 
     const connectionUnavailableContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
