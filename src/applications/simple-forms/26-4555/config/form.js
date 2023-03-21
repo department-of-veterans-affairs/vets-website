@@ -71,13 +71,13 @@ const formConfig = {
       pages: {
         personalInformation1: {
           path: 'personal-information-1',
-          title: 'Personal Information',
+          title: 'Personal information',
           uiSchema: personalInformation1.uiSchema,
           schema: personalInformation1.schema,
         },
         personalInformation2: {
           path: 'personal-information-2',
-          title: "Identification Information",
+          title: "Identification information",
           uiSchema: personalInformation2.uiSchema,
           schema: personalInformation2.schema,
         },
@@ -88,7 +88,7 @@ const formConfig = {
       pages: {
         contactInformation1: {
           path: 'contact-information-1',
-          title: 'Mailing Address',
+          title: 'Mailing address',
           uiSchema: contactInformation1.uiSchema,
           schema: contactInformation1.schema,
         },
