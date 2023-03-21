@@ -302,6 +302,18 @@ const analyticsEvents = {
       prefix: 'radio-button',
     },
   ],
+  'va-search-input': [
+    {
+      action: 'click',
+      event: 'int-search-input-click',
+      prefix: 'search-input',
+    },
+    {
+      action: 'blur',
+      event: 'int-search-input-blur',
+      prefix: 'search-input',
+    },
+  ],
   'va-select': [
     {
       action: 'change',
