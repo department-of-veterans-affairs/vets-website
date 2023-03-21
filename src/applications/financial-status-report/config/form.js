@@ -21,6 +21,8 @@ import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
 import VehicleSummaryWidget from '../pages/assets/vehicles/VehicleSummaryWidget';
+import CreditCardBill from '../components/CreditCardBill';
+import CreditCardBillSummary from '../pages/expenses/creditCardBills/CreditCardBillSummary';
 import AddAsset from '../components/otherAssets/AddAsset';
 import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
@@ -747,6 +749,36 @@ const formConfig = {
           schema: pages.repaymentRecords.schema,
           depends: ({ questions }) => questions.hasRepayments,
           editModeOnReviewPage: true,
+        },
+        creditCardBills: {
+          path: 'credit-card-bills',
+          title: 'Credit card bills',
+          uiSchema: pages.creditCardBills.uiSchema,
+          schema: pages.creditCardBills.schema,
+        },
+        addEditCreditCardBills: {
+          path: 'your-credit-card-bills',
+          title: 'Credit card bills',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasCreditCardBills &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: CreditCardBill,
+          CustomPageReview: null,
+        },
+        creditCardBillSummary: {
+          path: 'credit-card-bills-summary',
+          title: 'Credit card bills',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasCreditCardBills &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: CreditCardBillSummary,
+          CustomPageReview: null,
         },
         otherExpenses: {
           path: 'other-expenses',
