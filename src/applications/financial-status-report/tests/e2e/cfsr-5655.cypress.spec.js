@@ -95,6 +95,37 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'credit-card-bills': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_questions_hasCreditCardBillsYes').check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'your-credit-card-bills': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#unpaidBalance')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('#minMonthlyPayment')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('#amountOverdue')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'credit-card-bills-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'resolution-option/0': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type="radio"][value="monthly"]').click();
