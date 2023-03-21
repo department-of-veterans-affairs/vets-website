@@ -657,7 +657,7 @@ const formConfig = {
       },
     },
     supportingDocuments: {
-      title: 'Supporting documents',
+      title: 'Supporting Documents',
       pages: {
         supportingDocuments: {
           path: 'supporting-documents',
