@@ -1,40 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { getBackendStatuses as getBackendStatusAction } from 'platform/monitoring/external-services/actions';
 import environment from 'platform/utilities/environment';
 import { getStatusFromStatuses } from '../constants';
 
-export function DowntimeBanners({
-  shouldGetBackendStatuses,
-  getBackendStatuses,
-  statuses,
-}) {
-  const [bannerStatus, setBannerStatus] = useState({});
-
-  useEffect(
-    () => {
-      if (!environment.isLocalhost() && shouldGetBackendStatuses) {
-        getBackendStatuses();
-      }
-    },
-    [shouldGetBackendStatuses, getBackendStatuses],
+export default function DowntimeBanners() {
+  const { loading, statuses = [] } = useSelector(
+    state => state.externalServiceStatuses,
   );
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!loading && !environment.isLocalhost()) {
+      dispatch(getBackendStatusAction());
+    }
+  }, []); // only on load
 
-  useEffect(
-    () => {
-      if (statuses !== null) {
-        const _sorted = getStatusFromStatuses(statuses);
-        setBannerStatus(_sorted);
-      }
-    },
-    [setBannerStatus, statuses],
-  );
-
-  const shouldRender = Object.keys(bannerStatus).length > 0;
+  if (!statuses) return null;
+  const bannerStatus = getStatusFromStatuses(statuses);
+  if (!Object.keys(bannerStatus).length) return null;
   const { headline, status: alertStatus, message } = bannerStatus;
 
   return (
-    shouldRender && (
+    !loading && (
       <div className="downtime-notification row">
         <div className="columns small-12">
           <div className="form-warning-banner fed-warning--v2">
@@ -48,16 +35,3 @@ export function DowntimeBanners({
     )
   );
 }
-
-export const mapStateToProps = state => {
-  const { loading, statuses } = state.externalServiceStatuses;
-  const shouldGetBackendStatuses = !loading && !statuses;
-  return { shouldGetBackendStatuses, statuses };
-};
-
-const mapDispatchToProps = { getBackendStatuses: getBackendStatusAction };
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DowntimeBanners);
