@@ -1,7 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import {
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default class EducationWizard extends React.Component {
   constructor(props) {
@@ -74,18 +77,25 @@ export default class EducationWizard extends React.Component {
               if (shouldDisplayQuestion) {
                 if (options) {
                   return (
-                    <RadioButtons
-                      additionalFieldsetClass="wizard-fieldset"
+                    <VaRadio
+                      class="wizard-fieldset"
+                      label={label}
                       name={type}
                       id={type}
                       key={type}
-                      options={options}
-                      onValueChange={({ value }) =>
-                        this.answerQuestion(type, value)
-                      }
-                      value={{ value: this.state.choices[type] }}
-                      label={label}
-                    />
+                      onVaValueChange={event => {
+                        this.answerQuestion(type, event.detail.value);
+                      }}
+                    >
+                      {options.map((option, index) => (
+                        <VaRadioOption
+                          name="question"
+                          key={`${option.value}-${index}`}
+                          label={option.label}
+                          value={option.value}
+                        />
+                      ))}
+                    </VaRadio>
                   );
                 }
                 return <Component key={type} />;

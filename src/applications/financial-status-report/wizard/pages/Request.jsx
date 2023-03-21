@@ -1,6 +1,10 @@
 import React from 'react';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-import recordEvent from 'platform/monitoring/record-event';
+import PropTypes from 'prop-types';
+import {
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { PAGE_NAMES } from '../constants';
 
 const label = 'What do you want to do for this debt?';
@@ -27,24 +31,45 @@ const options = [
   },
 ];
 
-const Request = ({ setPageState, state = {} }) => (
-  <RadioButtons
-    name={`${PAGE_NAMES.reconsider}-option`}
-    label={label}
-    id={`${PAGE_NAMES.reconsider}-option`}
-    options={options}
-    value={{ value: state.selected }}
-    onValueChange={({ value }) => {
-      recordEvent({
-        event: 'howToWizard-formChange',
-        'form-field-type': 'form-radio-buttons',
-        'form-field-label': label,
-        'form-field-value': value,
-      });
-      setPageState({ selected: value }, value);
-    }}
-  />
-);
+const Request = ({ setPageState, state = {} }) => {
+  const handleOptionChange = ({ detail } = {}) => {
+    const { value } = detail;
+    recordEvent({
+      event: 'howToWizard-formChange',
+      'form-field-type': 'form-radio-buttons',
+      'form-field-label': label,
+      'form-field-value': value,
+    });
+    setPageState({ selected: value }, value);
+  };
+  return (
+    <VaRadio
+      className="vads-u-margin-y--2 "
+      label={label}
+      onVaValueChange={handleOptionChange}
+    >
+      {options.map((option, index) => (
+        <VaRadioOption
+          key={`${option.value}-${index}`}
+          id={`reconsider-option-${index}`}
+          name="reconsider-option"
+          label={option.label}
+          value={option.value}
+          checked={state.selected === option.value}
+          ariaDescribedby={
+            state.selected === option.value ? option.value : null
+          }
+          className="no-wrap vads-u-margin-y--3 vads-u-margin-left--2 "
+        />
+      ))}
+    </VaRadio>
+  );
+};
+
+Request.propTypes = {
+  setPageState: PropTypes.func,
+  state: PropTypes.object,
+};
 
 export default {
   name: PAGE_NAMES.request,

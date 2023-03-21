@@ -1,9 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import PreferredDates from './PreferredDates';
 
+function handleClick(history) {
+  return () => {
+    history.push(newAppointmentFlow.requestDateTime.url);
+  };
+}
+
 export default function PreferredDatesSection(props) {
+  const history = useHistory();
   return (
     <>
       <div className="vads-l-grid-container vads-u-padding--0">
@@ -16,15 +24,19 @@ export default function PreferredDatesSection(props) {
             </ul>
           </div>
           <div>
-            <Link
-              to={newAppointmentFlow.requestDateTime.url}
+            <va-link
               aria-label="Edit preferred date"
-            >
-              Edit
-            </Link>
+              text="Edit"
+              data-testid="edit-new-appointment"
+              onClick={handleClick(history)}
+            />
           </div>
         </div>
       </div>
     </>
   );
 }
+
+PreferredDatesSection.propTypes = {
+  props: PropTypes.object.isRequired,
+};

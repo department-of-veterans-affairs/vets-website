@@ -98,13 +98,16 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
     );
   }
 
+  const keys = Object.keys(appointmentsByMonth);
   return (
     <>
       <div aria-live="assertive" className="sr-only">
         {hasTypeChanged && 'Showing canceled appointments and requests'}
       </div>
-      {appointmentsByMonth?.map((monthBucket, monthIndex) => {
-        const monthDate = moment(monthBucket[0].start);
+      {keys.map((key, monthIndex) => {
+        const monthDate = moment(key, 'YYYY-MM');
+        const monthBucket = appointmentsByMonth[key];
+
         return (
           <React.Fragment key={monthIndex}>
             <h3
@@ -139,7 +142,7 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
                   return (
                     <AppointmentListItem
                       key={index}
-                      appointment={appt}
+                      id={appt.id}
                       className="vaos-appts__card--clickable vads-u-margin-bottom--3"
                     >
                       <AppointmentCard
@@ -162,7 +165,7 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
           </React.Fragment>
         );
       })}
-      {!appointmentsByMonth?.length && (
+      {!keys?.length && (
         <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
             description="canceled appointments"

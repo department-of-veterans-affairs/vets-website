@@ -39,7 +39,7 @@ const ClaimsAndAppealsError = () => {
     <div className="vads-u-margin-bottom--2p5">
       <va-alert status="error">
         <h2 slot="headline">
-          We can’t access any claims or appeals information right now.
+          We can’t access your claims or appeals information
         </h2>
         <div>
           <p>
@@ -64,9 +64,9 @@ const PopularActionsForClaimsAndAppeals = ({ showLearnLink = false }) => {
           icon="file"
           onClick={() => {
             recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': 'view-how-to-file-a-claim',
+              event: 'nav-linkslist',
+              'links-list-header': 'Learn how to file a claim',
+              'links-list-section-header': 'Claims and appeals',
             });
           }}
           testId="file-claims-and-appeals-link-v2"
@@ -78,9 +78,9 @@ const PopularActionsForClaimsAndAppeals = ({ showLearnLink = false }) => {
         icon="clipboard-check"
         onClick={() => {
           recordEvent({
-            event: 'profile-navigation',
-            'profile-action': 'view-link',
-            'profile-section': 'view-manage-claims-and-appeals',
+            event: 'nav-linkslist',
+            'links-list-header': 'Manage all claims and appeals',
+            'links-list-section-header': 'Claims and appeals',
           });
         }}
         testId="manage-claims-and-appeals-link-v2"

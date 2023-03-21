@@ -1,16 +1,32 @@
-import { format, addDays } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   getMessageList,
   getMessage,
   getMessageHistory,
   deleteMessage as deleteMessageCall,
-  moveMessage as moveMessageCall,
+  moveMessageThread as moveThreadCall,
   createMessage,
   createReplyToMessage,
+  getMessageThread,
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
+import { isOlderThan } from '../util/helpers';
+
+const oldMessageAlert = (sentDate, isDraft = false) => dispatch => {
+  if (!isDraft && isOlderThan(sentDate, 45)) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_INFO,
+        Constants.Alerts.Message.CANNOT_REPLY_INFO_HEADER,
+        Constants.Alerts.Message.CANNOT_REPLY_BODY,
+        Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
+        Constants.Links.Link.CANNOT_REPLY.TO,
+        Constants.Links.Link.CANNOT_REPLY.TITLE,
+      ),
+    );
+  }
+};
 
 /**
  * @param {Long} folderId
@@ -52,6 +68,22 @@ export const retrieveMessageHistory = (
       type: isDraft ? Actions.Draft.GET_HISTORY : Actions.Message.GET_HISTORY,
       response,
     });
+
+    // Info handling for old messages
+    // Update to use new response.data in draftsDetails later
+    const { attributes } = response.data?.length > 0 && response.data[0];
+    if (attributes && isOlderThan(attributes.sentDate, 45)) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_INFO,
+          Constants.Alerts.Message.DRAFT_CANNOT_REPLY_INFO_HEADER,
+          Constants.Alerts.Message.DRAFT_CANNOT_REPLY_INFO_BODY,
+          Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
+          Constants.Links.Link.CANNOT_REPLY.TO,
+          Constants.Links.Link.CANNOT_REPLY.TITLE,
+        ),
+      );
+    }
   }
 };
 
@@ -85,19 +117,79 @@ export const retrieveMessage = (
     });
   }
 
-  // Error handling for old messages
+  // Info handling for old messages
   const { sentDate } = response.data.attributes;
-  const today = new Date();
-  const messageSentDate = format(new Date(sentDate), 'MM-dd-yyyy');
-  const cannotReplyDate = addDays(new Date(messageSentDate), 45);
-  if (!isDraft && today > cannotReplyDate) {
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_INFO,
-        Constants.Alerts.Message.CANNOT_REPLY_INFO_HEADER,
-        Constants.Alerts.Message.CANNOT_REPLY_BODY,
-      ),
-    );
+  dispatch(oldMessageAlert(sentDate, isDraft));
+};
+
+/**
+ * @param {Long} messageId
+ * @returns
+ */
+export const markMessageAsRead = messageId => async () => {
+  const response = await getMessage(messageId);
+  if (response.errors) {
+    // TODO Add error handling
+  }
+};
+
+/**
+ * @param {Long} messageId
+ * @returns
+ */
+export const markMessageAsReadInThread = messageId => async dispatch => {
+  const response = await getMessage(messageId);
+  if (response.errors) {
+    // TODO Add error handling
+  } else {
+    dispatch({
+      type: Actions.Message.GET_IN_THREAD,
+      response,
+    });
+  }
+};
+
+/**
+ * Retrieves a message thread, and sends getMessage call to fill the most recent messasge in the thread with more context
+ * such as full body text, attachments, etc.
+ * @param {Long} messageId
+ * @param {Boolean} isDraft true if the message is a draft, otherwise false
+ * @param {Boolean} refresh true if the refreshing a thread on a current view, to avoid clearing redux state and triggering spinning circle
+ * @returns
+ */
+export const retrieveMessageThread = (
+  messageId,
+  isDraft = false,
+  refresh = false,
+) => async dispatch => {
+  if (!refresh) {
+    dispatch(clearMessage());
+  }
+  const response = await getMessageThread(messageId);
+  if (response.errors) {
+    // TODO Add error handling
+  } else {
+    const msgResponse = await getMessage(response.data[0].attributes.messageId);
+    if (!msgResponse.errors) {
+      const { sentDate } = msgResponse.data.attributes;
+      dispatch(oldMessageAlert(sentDate, isDraft));
+      dispatch({
+        type: Actions.Message.GET,
+        response: {
+          data: {
+            attributes: {
+              threadId: response.data[0].attributes.threadId,
+              ...msgResponse.data.attributes,
+            },
+          },
+          included: msgResponse.included,
+        },
+      });
+      dispatch({
+        type: isDraft ? Actions.Draft.GET_HISTORY : Actions.Message.GET_HISTORY,
+        response: { data: response.data.slice(1, response.data.length) },
+      });
+    }
   }
 };
 
@@ -129,26 +221,29 @@ export const deleteMessage = messageId => async dispatch => {
 };
 
 /**
- * @param {Long} messageId
+ * @param {Long} threadId
  * @param {Long} folderId
  * @returns
  */
-export const moveMessage = (messageId, folderId) => async dispatch => {
+export const moveMessageThread = (threadId, folderId) => async dispatch => {
+  dispatch({ type: Actions.Message.MOVE_REQUEST });
   try {
-    await moveMessageCall(messageId, folderId);
+    await moveThreadCall(threadId, folderId);
+    dispatch({ type: Actions.Message.MOVE_SUCCESS });
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
         '',
-        Constants.Alerts.Message.MOVE_MESSAGE_SUCCESS,
+        Constants.Alerts.Message.MOVE_MESSAGE_THREAD_SUCCESS,
       ),
     );
   } catch (e) {
+    dispatch({ type: Actions.Message.MOVE_FAILED });
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_ERROR,
         '',
-        Constants.Alerts.Message.MOVE_MESSAGE_ERROR,
+        Constants.Alerts.Message.MOVE_MESSAGE_THREAD_ERROR,
       ),
     );
     throw e;

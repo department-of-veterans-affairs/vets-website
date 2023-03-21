@@ -29,7 +29,7 @@ describe('Check In Experience -- ', () => {
     });
     it('validation trims white space before posting', () => {
       cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validateVeteran('Smith           ', '1989', '03', '15');
+      ValidateVeteran.validateVeteran('Smith           ', '1935', '04', '07');
       ValidateVeteran.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
     });

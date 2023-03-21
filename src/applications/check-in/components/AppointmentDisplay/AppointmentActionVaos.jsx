@@ -1,30 +1,26 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import { parseISO } from 'date-fns';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { api } from '../../api';
+import { makeSelectCurrentContext } from '../../selectors';
 
 import { createAnalyticsSlug } from '../../utils/analytics';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
 
-import { appointmentWasCheckedInto } from '../../actions/day-of';
-
 import { CheckInButton } from './CheckInButton';
 import { useUpdateError } from '../../hooks/useUpdateError';
+import { getAppointmentId } from '../../utils/appointment';
 
 const AppointmentActionVaos = props => {
-  const { appointment, router, token, event } = props;
+  const { appointment, router, event } = props;
 
-  const dispatch = useDispatch();
-  const setSelectedAppointment = useCallback(
-    appt => {
-      dispatch(appointmentWasCheckedInto(appt));
-    },
-    [dispatch],
-  );
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectCurrentContext);
+
   const { updateError } = useUpdateError();
 
   const { jumpToPage } = useFormRouting(router);
@@ -43,8 +39,7 @@ const AppointmentActionVaos = props => {
         });
         const { status } = json;
         if (status === 200) {
-          setSelectedAppointment(appointment);
-          jumpToPage('complete');
+          jumpToPage(`complete/${getAppointmentId(appointment)}`);
         } else {
           updateError('check-in-post-error');
         }
@@ -52,14 +47,7 @@ const AppointmentActionVaos = props => {
         updateError('error-completing-check-in');
       }
     },
-    [
-      appointment,
-      updateError,
-      jumpToPage,
-      setSelectedAppointment,
-      token,
-      event,
-    ],
+    [appointment, updateError, jumpToPage, token, event],
   );
   if (
     appointment.eligibility &&
@@ -83,7 +71,6 @@ AppointmentActionVaos.propTypes = {
   appointment: PropTypes.object,
   event: PropTypes.string,
   router: PropTypes.object,
-  token: PropTypes.string,
 };
 
 export default AppointmentActionVaos;

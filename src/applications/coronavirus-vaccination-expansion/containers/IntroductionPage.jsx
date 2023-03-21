@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import recordEvent from 'platform/monitoring/record-event';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
@@ -13,11 +13,6 @@ import { modalContents } from './privacyDataHelper';
 const alreadyReceivingCarePath =
   '/health-care/covid-19-vaccine/stay-informed/form';
 const newlyEligiblePath = `/eligibility`;
-const receivingCareLabelText = (
-  <strong>
-    Are you a Veteran who is enrolled in VA health care or receiving care at VA?
-  </strong>
-);
 
 class IntroductionPage extends React.Component {
   constructor(props) {
@@ -28,6 +23,7 @@ class IntroductionPage extends React.Component {
       showPrivacyModal: false,
     };
   }
+
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
@@ -38,6 +34,7 @@ class IntroductionPage extends React.Component {
       errorMessage: null,
     });
   }
+
   loadNextPage() {
     if (this.state.currentSelection === '') {
       this.setState({ errorMessage: 'Please select an option' });
@@ -60,9 +57,11 @@ class IntroductionPage extends React.Component {
       this.props.router.push(newlyEligiblePath);
     }
   }
+
   togglePrivacyModal() {
     this.setState({ showPrivacyModal: !this.state.showPrivacyModal });
   }
+
   render() {
     return (
       <div className="schemaform-intro">
@@ -80,17 +79,23 @@ class IntroductionPage extends React.Component {
           }}
         >
           <p>
-            <RadioButtons
+            <VaRadio
+              className="vads-u-margin-y--5"
               id="introductionRadios"
-              errorMessage={this.state.errorMessage}
-              onKeyDown={function noRefCheck() {}}
-              onMouseDown={function noRefCheck() {}}
-              onValueChange={val => this.setSelected(val)}
-              options={['Yes', 'No', "I'm not sure"]}
+              error={this.state.errorMessage}
+              onVaValueChange={val => this.setSelected(val)}
+              label="Are you a Veteran who is enrolled in VA health care or receiving care at VA?"
               value={this.state.currentSelection}
-              label={receivingCareLabelText}
               required
-            />
+            >
+              <va-radio-option name="yes1" value="Yes" label="Yes" />
+              <va-radio-option name="no1" value="No" label="No" />
+              <va-radio-option
+                name="unsure1"
+                value="I'm not sure"
+                label="I'm not sure"
+              />
+            </VaRadio>
           </p>
           <ProgressButton
             id="continueButton"

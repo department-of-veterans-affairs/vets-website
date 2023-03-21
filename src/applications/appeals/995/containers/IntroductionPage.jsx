@@ -10,10 +10,11 @@ import environment from 'platform/utilities/environment';
 
 import NeedsToVerify from '../components/NeedsToVerify';
 import MissingInfo from '../components/MissingInfo';
+import { clearReturnState } from '../utils/contactInfo';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('h1');
   }
 
   render() {
@@ -27,6 +28,9 @@ class IntroductionPage extends React.Component {
     } = this.props;
     const { formConfig, pageList } = route;
     const { formId, prefillEnabled, savedFormMessages, downtime } = formConfig;
+
+    // clear contact info editing state
+    clearReturnState();
 
     // Without being LOA3 (verified), the prefill & contestable issues won't load
     const showVerifyLink = loggedIn && !isVerified;
@@ -63,9 +67,7 @@ class IntroductionPage extends React.Component {
         {loggedIn &&
           !showVerifyLink &&
           !showMissingInfo && <SaveInProgressIntro {...sipOptions} />}
-        <h2 className="vad-u-margin-top--0">
-          Follow these steps to get started
-        </h2>
+        <h2>Follow these steps to get started</h2>
         <va-process-list>
           <li>
             <h3>Check your eligibility</h3>

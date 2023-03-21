@@ -49,6 +49,7 @@ describe('Check In Experience', () => {
         'Is this your current next of kin information?',
       );
       cy.injectAxeThenAxeCheck();
+      NextOfKin.validateBackButton();
       NextOfKin.attemptToGoToNextPage();
 
       cy.get('[data-testid="back-button"]').click();

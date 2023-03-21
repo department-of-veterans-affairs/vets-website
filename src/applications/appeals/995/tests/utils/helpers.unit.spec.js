@@ -41,56 +41,40 @@ import {
 describe('getEligibleContestableIssues', () => {
   const date = moment().startOf('day');
 
-  const eligibleIssue = {
+  const getIssue = (text, description = '', dateOffset) => ({
     type: 'contestableIssue',
     attributes: {
-      ratingIssueSubjectText: 'Issue 2',
-      description: '',
-      approxDecisionDate: getDate({ date, offset: { months: -10 } }),
+      ratingIssueSubjectText: text,
+      description,
+      approxDecisionDate: dateOffset
+        ? getDate({ date, offset: { months: dateOffset } })
+        : '',
     },
-  };
-  const ineligibleIssue = [
-    {
-      type: 'contestableIssue',
-      attributes: {
-        ratingIssueSubjectText: 'Issue 1',
-        description: '',
-        approxDecisionDate: getDate({ date, offset: { years: -2 } }),
-      },
-    },
-  ];
-  const deferredIssue = {
-    type: 'contestableIssue',
-    attributes: {
-      ratingIssueSubjectText: 'Issue 2',
-      description: 'this is a deferred issue',
-      approxDecisionDate: getDate({ date, offset: { months: -1 } }),
-    },
-  };
+  });
+  const olderIssue = getIssue('Issue 1', '', -25);
+  const eligibleIssue = getIssue('Issue 2', '', -10);
+  const deferredIssue = getIssue('Issue 3', 'this is a deferred issue', -1);
+  const emptyDateIssue = getIssue('Issue 4');
 
   it('should return empty array', () => {
     expect(getEligibleContestableIssues()).to.have.lengthOf(0);
     expect(getEligibleContestableIssues([])).to.have.lengthOf(0);
     expect(getEligibleContestableIssues([{}])).to.have.lengthOf(0);
   });
-  it('should filter out dates more than one year in the past', () => {
+  it('should keep issues with dates more than one year in the past', () => {
     expect(
-      getEligibleContestableIssues([ineligibleIssue, eligibleIssue]),
-    ).to.deep.equal([eligibleIssue]);
+      getEligibleContestableIssues([olderIssue, eligibleIssue]),
+    ).to.deep.equal([olderIssue, eligibleIssue]);
   });
-  it('should filter out dates more than one year in the past', () => {
+  it('should filter out missing dates', () => {
     expect(
-      getEligibleContestableIssues([eligibleIssue, ineligibleIssue]),
+      getEligibleContestableIssues([emptyDateIssue, eligibleIssue]),
     ).to.deep.equal([eligibleIssue]);
   });
   it('should filter out deferred issues', () => {
     expect(
-      getEligibleContestableIssues([
-        eligibleIssue,
-        deferredIssue,
-        ineligibleIssue,
-      ]),
-    ).to.deep.equal([eligibleIssue]);
+      getEligibleContestableIssues([eligibleIssue, deferredIssue, olderIssue]),
+    ).to.deep.equal([eligibleIssue, olderIssue]);
   });
 });
 

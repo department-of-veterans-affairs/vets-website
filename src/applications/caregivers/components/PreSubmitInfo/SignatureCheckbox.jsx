@@ -18,8 +18,14 @@ const SignatureCheckbox = ({
   const [hasError, setError] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
   const hasSubmittedForm = !!submission.status;
+  const normalizedFullName = `${fullName?.first} ${fullName?.middle || ''} ${
+    fullName?.last
+  }`.replace(/ +(?= )/g, '');
   const representativeLabelId = isRepresentative
     ? `${label}-signature-label`
+    : undefined;
+  const ariaDescribedbyMessage = isRepresentative
+    ? `on behalf of ${normalizedFullName}`
     : undefined;
 
   useEffect(
@@ -39,9 +45,9 @@ const SignatureCheckbox = ({
       {!!children && <>{children}</>}
 
       <SignatureInput
-        ariaDescribedBy={representativeLabelId}
+        ariaDescribedBy={ariaDescribedbyMessage}
         label={label}
-        fullName={fullName}
+        fullName={normalizedFullName}
         required={isRequired}
         showError={showError}
         hasSubmittedForm={hasSubmittedForm}
@@ -53,9 +59,7 @@ const SignatureCheckbox = ({
       {isRepresentative && (
         <p className="signature-box--representative" id={representativeLabelId}>
           On behalf of
-          <strong className="vads-u-font-size--lg">
-            {fullName.first} {fullName.middle} {fullName.last}
-          </strong>
+          <strong className="vads-u-font-size--lg">{normalizedFullName}</strong>
         </p>
       )}
 

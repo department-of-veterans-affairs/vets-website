@@ -15,6 +15,8 @@ import {
 } from './loadingStatus';
 import { storeUtterances, LOGGED_IN_FLOW, IN_AUTH_EXP } from './utils';
 
+// const ONE_MINUTE_IN_MS = 60_000;
+
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
   const token = useVirtualAgentToken(props);
@@ -63,6 +65,10 @@ export default function Chatbox(props) {
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
   const isAccepted = useSelector(state => state.virtualAgentData.termsAccepted);
   const [isAuthTopic, setIsAuthTopic] = useState(false);
+  const [lastMessageTime, setLastMessageTime] = useState(0);
+  const [chatBotLoadTime] = useState(Date.now());
+  const ONE_SEC_IN_MILLISECONDS = 1000;
+  const ONE_MIN = ONE_SEC_IN_MILLISECONDS * 60;
 
   window.addEventListener('webchat-auth-activity', () => {
     setTimeout(function() {
@@ -71,6 +77,22 @@ export default function Chatbox(props) {
         setIsAuthTopic(true);
       }
     }, 2000);
+  });
+
+  useEffect(() => {
+    window.addEventListener('bot-outgoing-activity', () => {
+      const currentTime = Date.now();
+
+      if (lastMessageTime && currentTime - lastMessageTime > 30 * ONE_MIN) {
+        window.location.reload();
+      } else {
+        setLastMessageTime(currentTime);
+      }
+
+      if (currentTime - chatBotLoadTime > 60 * ONE_MIN) {
+        window.location.reload();
+      }
+    });
   });
 
   useEffect(() => {

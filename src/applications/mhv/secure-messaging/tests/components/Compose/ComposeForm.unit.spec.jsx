@@ -7,6 +7,7 @@ import categories from '../../fixtures/categories-response.json';
 import draftMessage from '../../fixtures/message-draft-response.json';
 import reducer from '../../../reducers';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
+import { Prompts } from '../../../util/constants';
 
 describe('Compose form component', () => {
   const initialState = {
@@ -61,7 +62,7 @@ describe('Compose form component', () => {
     expect(body).to.exist;
   });
 
-  it('does not display recipients with preferredTeam:false attribute', async () => {
+  it('displays Edit List modal if path is /compose', async () => {
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={triageTeams} />,
       {
@@ -70,18 +71,27 @@ describe('Compose form component', () => {
         path: `/compose`,
       },
     );
-    const recipient = await screen.getByTestId('compose-recipient-select');
-    const recipientValues = Array.from(
-      recipient.querySelectorAll('option'),
-    ).map(e => parseInt(e.getAttribute('value'), 10));
-    const falseValues = triageTeams
-      .filter(team => team.preferredTeam === false)
-      .map(team => team.id);
-    const trueValues = triageTeams
-      .filter(team => team.preferredTeam === true)
-      .map(team => team.id);
-    expect(recipientValues.some(r => falseValues.indexOf(r) >= 0)).to.be.false;
-    expect(recipientValues).to.include.members(trueValues);
+
+    const editListLink = await screen.getByText('Edit List', {
+      selector: 'button',
+      exact: true,
+    });
+    expect(
+      document.querySelector('#edit-list').getAttribute('visible'),
+    ).to.equal('false');
+
+    fireEvent.click(editListLink);
+    const modalContent = await screen.getByText(
+      Prompts.Compose.EDIT_LIST_CONTENT,
+    );
+
+    expect(
+      document.querySelector('#edit-list').getAttribute('visible'),
+    ).to.equal('true');
+    expect(
+      document.querySelector('.vads-c-action-link--green').getAttribute('href'),
+    ).to.equal('https://mhv-syst.myhealth.va.gov/mhv-portal-web/preferences');
+    expect(modalContent).to.exist;
   });
 
   it('displays compose action buttons if path is /compose', async () => {

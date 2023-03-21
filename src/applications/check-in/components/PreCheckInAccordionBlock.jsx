@@ -3,6 +3,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 import ExternalLink from './ExternalLink';
+import { phoneNumbers } from '../utils/appConstants';
 
 const PreCheckInAccordionBlock = ({
   demographicsUpToDate = 'no',
@@ -63,15 +64,15 @@ const PreCheckInAccordionBlock = ({
                 values={{ link: t('sign-in') }}
               />
             </p>
-            <p>
+            <p data-testid="or-you-can-call">
               <Trans
                 i18nKey="or-you-can-call"
                 components={[
-                  <va-telephone key="or-you-can-call" contact="8006982411">
-                    link
-                  </va-telephone>,
+                  <va-telephone
+                    key={phoneNumbers.mainInfo}
+                    contact={phoneNumbers.mainInfo}
+                  />,
                 ]}
-                values={{ link: '800-698-2411' }}
               />
             </p>
           </>
@@ -93,21 +94,23 @@ const PreCheckInAccordionBlock = ({
       <>
         {updateBody}
         <strong>{title}</strong>
-        <p>
-          {appointmentType === 'clinic' ? (
-            t('a-staff-member-will-help-you-on-the-day-of-your-appointment')
-          ) : (
+        {appointmentType === 'clinic' ? (
+          <p>
+            {t('a-staff-member-will-help-you-on-the-day-of-your-appointment')}
+          </p>
+        ) : (
+          <p data-testid="please-call">
             <Trans
               i18nKey="please-call"
               components={[
-                <va-telephone key="please call" contact="8006982411">
-                  link
-                </va-telephone>,
+                <va-telephone
+                  key={phoneNumbers.mainInfo}
+                  contact={phoneNumbers.mainInfo}
+                />,
               ]}
-              values={{ link: '800-698-2411' }}
             />
-          )}
-        </p>
+          </p>
+        )}
       </>
     );
   }
@@ -137,17 +140,14 @@ const PreCheckInAccordionBlock = ({
                     i18nKey="facility-name-at-phone"
                     components={[
                       <va-telephone
-                        key="facility-name-at-phone"
+                        key={appointment.clinicPhoneNumber}
                         contact={appointment.clinicPhoneNumber}
-                      >
-                        phone
-                      </va-telephone>,
+                      />,
                     ]}
                     values={{
                       facility:
                         appointment.clinicFriendlyName ||
                         appointment.clinicName,
-                      phone: appointment.clinicPhoneNumber,
                     }}
                   />
                 </p>

@@ -78,7 +78,7 @@ describe('evidenceSummaryList', () => {
       const vaEvidence = records().locations;
       const { container } = render(<VaContent list={vaEvidence} testing />);
 
-      expect($('h3', container).textContent).to.contain(content.vaTitle);
+      expect($('h4', container).textContent).to.contain(content.vaTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(2);
@@ -133,7 +133,7 @@ describe('evidenceSummaryList', () => {
         <PrivateContent list={privateEvidence} limitedConsent="test" testing />,
       );
 
-      expect($('h3', container).textContent).to.contain(content.privateTitle);
+      expect($('h4', container).textContent).to.contain(content.privateTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(3);
       expect($$('.edit-item', container).length).to.eq(3);
@@ -224,7 +224,7 @@ describe('evidenceSummaryList', () => {
         <UploadContent list={otherEvidence} testing />,
       );
 
-      expect($('h3', container).textContent).to.contain(content.otherTitle);
+      expect($('h4', container).textContent).to.contain(content.otherTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(2);

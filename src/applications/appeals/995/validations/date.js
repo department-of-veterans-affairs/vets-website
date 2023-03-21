@@ -1,8 +1,8 @@
 import moment from 'moment';
 
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
-import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 
+import { fixDateFormat } from '../utils/replace';
 import { errorMessages, FORMAT_YMD, MAX_YEARS_PAST } from '../constants';
 
 export const minDate = moment()
@@ -11,25 +11,26 @@ export const minDate = moment()
 
 const maxDate = moment().startOf('day');
 
-export const validateDate = (errors, dateString = '', fullData) => {
+export const validateDate = (errors, rawString = '', fullData) => {
+  const dateString = fixDateFormat(rawString);
   const { day, month, year } = parseISODate(dateString);
-  const date = moment(dateString, FORMAT_YMD);
+  const date = moment(rawString, FORMAT_YMD);
   const dateType = fullData?.dateType || 'decisions';
 
   if (
-    dateString === 'XXXX-XX-XX' ||
-    dateString === '' ||
+    !year ||
+    year === '' ||
+    !day ||
+    day === '0' ||
+    !month ||
+    month === '0' ||
     dateString?.length < FORMAT_YMD.length
   ) {
-    // The va-date component currently overrides the error message when the
-    // value is blank
+    // The va-memorable-date component currently overrides the error message
+    // when the value is blank
     errors.addError(errorMessages[dateType].missingDate);
-  } else if (!day || day === 'XX' || !month || month === 'XX') {
+  } else if (!date.isValid()) {
     errors.addError(errorMessages.invalidDate);
-  } else if (year?.length >= 4 && !isValidYear(year)) {
-    errors.addError(
-      errorMessages.invalidDateRange(minDate.year(), maxDate.year()),
-    );
   } else if (date.isSameOrAfter(maxDate)) {
     // Lighthouse won't accept same day (as submission) decision date
     errors.addError(errorMessages[dateType].pastDate);

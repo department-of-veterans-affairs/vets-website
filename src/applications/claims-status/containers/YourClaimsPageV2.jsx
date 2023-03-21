@@ -23,7 +23,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 // START lighthouse_migration
-import ClaimsListItemV1 from '../components/appeals-v2/ClaimsListItemV2';
+import ClaimsListItemEVSS from '../components/appeals-v2/ClaimsListItemV2';
 import ClaimsListItemLighthouse from '../components/ClaimsListItem';
 // END lighthouse_migration
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
@@ -37,7 +37,7 @@ import StemClaimListItem from '../components/StemClaimListItem';
 import { ITEMS_PER_PAGE } from '../constants';
 
 // START lighthouse_migration
-import { cstUseLighthouse } from '../selectors';
+import { cstUseLighthouse, getBackendServices } from '../selectors';
 // END lighthouse_migration
 
 import {
@@ -72,12 +72,15 @@ class YourClaimsPageV2 extends React.Component {
     const {
       appealsLoading,
       canAccessAppeals,
+      // START lighthouse_migration
+      canAccessClaimsLighthouse,
       canAccessClaimsEVSS,
+      // END lighthouse_migration
       claimsLoading,
       getAppealsV2,
       // START lighthouse_migration
+      getClaimsEVSS,
       getClaimsLighthouse,
-      getClaimsV2,
       // END lighthouse_migration
       getStemClaims,
       stemClaimsLoading,
@@ -86,15 +89,19 @@ class YourClaimsPageV2 extends React.Component {
       // END lighthouse_migration
     } = this.props;
 
-    if (canAccessClaimsEVSS) {
-      // START lighthouse_migration
-      if (useLighthouse) {
-        getClaimsLighthouse();
-      } else {
-        getClaimsV2();
-      }
-      // END lighthouse_migration
+    // START lighthouse_migration
+    // Only call if we should be using Lighthouse and the current
+    // user has access to Lighthouse claims
+    if (useLighthouse && canAccessClaimsLighthouse) {
+      getClaimsLighthouse();
     }
+
+    // Only call if we should be using EVSS and the current
+    // user has access to EVSS claims
+    if (!useLighthouse && canAccessClaimsEVSS) {
+      getClaimsEVSS();
+    }
+    // END lighthouse_migration
 
     if (canAccessAppeals) {
       getAppealsV2();
@@ -134,7 +141,7 @@ class YourClaimsPageV2 extends React.Component {
     const { useLighthouse } = this.props;
     const ClaimsListItem = useLighthouse
       ? ClaimsListItemLighthouse
-      : ClaimsListItemV1;
+      : ClaimsListItemEVSS;
     // END lighthouse_migration
 
     return <ClaimsListItem key={claim.id} claim={claim} />;
@@ -299,14 +306,17 @@ YourClaimsPageV2.propTypes = {
   appealsAvailable: PropTypes.string,
   appealsLoading: PropTypes.bool,
   canAccessAppeals: PropTypes.bool,
+  // START lighthouse_migration
   canAccessClaimsEVSS: PropTypes.bool,
+  canAccessClaimsLighthouse: PropTypes.bool,
+  // END lighthouse_migration
   claimsAvailable: PropTypes.string,
   claimsLoading: PropTypes.bool,
   fullName: PropTypes.shape({}),
   getAppealsV2: PropTypes.func,
   // START lighthouse_migration
+  getClaimsEVSS: PropTypes.func,
   getClaimsLighthouse: PropTypes.func,
-  getClaimsV2: PropTypes.func,
   // END lighthouse_migration
   getStemClaims: PropTypes.func,
   list: PropTypes.arrayOf(
@@ -325,12 +335,14 @@ YourClaimsPageV2.propTypes = {
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
   const claimsV2Root = claimsState.claimsV2; // this is where all the meat is for v2
-  const profileState = state.user.profile;
-  const canAccessAppeals = profileState.services.includes(
-    backendServices.APPEALS_STATUS,
-  );
-  const canAccessClaimsEVSS = profileState.services.includes(
-    backendServices.EVSS_CLAIMS,
+
+  const services = getBackendServices(state);
+  const canAccessAppeals = services.includes(backendServices.APPEALS_STATUS);
+  // START lighthouse_migration
+  const canAccessClaimsEVSS = services.includes(backendServices.EVSS_CLAIMS);
+  // END lighthouse_migration
+  const canAccessClaimsLighthouse = services.includes(
+    backendServices.LIGHTHOUSE,
   );
   const stemAutomatedDecision = toggleValues(state)[
     FEATURE_FLAG_NAMES.stemAutomatedDecision
@@ -349,7 +361,10 @@ function mapStateToProps(state) {
     appealsAvailable: claimsV2Root.v2Availability,
     appealsLoading: claimsV2Root.appealsLoading,
     canAccessAppeals,
+    // START lighthouse_migration
+    canAccessClaimsLighthouse,
     canAccessClaimsEVSS,
+    // END lighthouse_migration
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
     fullName: state.user.profile.userFullName,
@@ -366,7 +381,7 @@ const mapDispatchToProps = {
   getAppealsV2: getAppealsV2Action,
   // START lighthouse_migration
   getClaimsLighthouse: getClaimsAction,
-  getClaimsV2: getClaimsV2Action,
+  getClaimsEVSS: getClaimsV2Action,
   // END lighthouse_migration
   getStemClaims: getStemClaimsAction,
 };
