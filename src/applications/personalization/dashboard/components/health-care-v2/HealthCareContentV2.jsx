@@ -206,21 +206,9 @@ const HealthCareContentV2 = ({
           />
         ) : null}
       </DashboardWidgetWrapper>
-      {!shouldShowOnOneColumn && !hasAppointmentsError ? (
-        <DashboardWidgetWrapper>
-          <HealthCareCTA
-            hasInboxError={hasInboxError}
-            authenticatedWithSSOe={authenticatedWithSSOe}
-            hasUpcomingAppointment={hasUpcomingAppointment}
-            unreadMessagesCount={unreadMessagesCount}
-            isVAPatient={isVAPatient}
-            hasAppointmentsError={hasAppointmentsError}
-          />
-        </DashboardWidgetWrapper>
-      ) : null}
       {!shouldShowOnOneColumn &&
-      hasAppointmentsError &&
-      shouldShowUnreadMessageAlert ? (
+      (!hasAppointmentsError ||
+        (hasAppointmentsError && shouldShowUnreadMessageAlert)) ? (
         <DashboardWidgetWrapper>
           <HealthCareCTA
             hasInboxError={hasInboxError}
