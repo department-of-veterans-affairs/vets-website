@@ -3,7 +3,6 @@ import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 import mockMessages from './fixtures/messages-response.json';
-import { dateFormat } from '../../util/helpers';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
@@ -49,15 +48,12 @@ describe('Secure Messaging Reply', () => {
         messageDetails.data.attributes.senderName,
       );
     });
-    cy.get('[data-testid="message-date"]')
-      .eq(0)
-      .should(
-        'have.text',
-        dateFormat(
-          messageDetails.data.attributes.sentDate,
-          'MMMM D, YYYY [at] h:mm a z',
-        ),
+    cy.get('[aria-label="message details."] > :nth-child(2)').should($to => {
+      expect($to.text()).to.contain(
+        messageDetails.data.attributes.recipientName,
       );
+    });
+    messageDetailsPage.verifyExpandedMessageDateDisplay(messageDetails);
 
     cy.get('[aria-label="message details."] > :nth-child(4)').should($mID => {
       expect($mID.text()).to.contain(messageDetails.data.attributes.messageId);
