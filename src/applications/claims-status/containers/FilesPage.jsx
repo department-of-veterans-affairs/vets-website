@@ -4,15 +4,17 @@ import PropTypes from 'prop-types';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
-import ClaimDetailLayout from '../components/ClaimDetailLayout';
-import AskVAToDecide from '../components/AskVAToDecide';
+import { clearNotification } from '../actions';
+import FilesPageContent from '../components/evss/FilesPageContent';
 import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
+import AskVAToDecide from '../components/AskVAToDecide';
+import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 
-import { clearNotification } from '../actions';
 import { getClaimType } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
+import { cstUseLighthouse } from '../selectors';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
 const FIRST_GATHERING_EVIDENCE_PHASE = 3;
@@ -100,76 +102,87 @@ class FilesPage extends React.Component {
       : `Files - Your ${getClaimType(this.props.claim)} claim`;
   }
 
+  getPageContent() {
+    const { claim, params, useLighthouse } = this.props;
+    if (!useLighthouse) {
+      return <FilesPageContent claim={claim} param={params} />;
+    }
+
+    const {
+      claimPhaseDates,
+      closeDate,
+      evidenceWaiverSubmitted5103,
+      supportingDocuments,
+    } = claim.attributes;
+
+    const isOpen = closeDate === null;
+
+    const waiverSubmitted = evidenceWaiverSubmitted5103;
+    const showDecision =
+      claimPhaseDates.latestPhaseType === 'Gathering of evidence' &&
+      !waiverSubmitted;
+    const trackedItems = getTrackedItems(claim);
+    console.log(trackedItems);
+    const filesNeeded = trackedItems.filter(
+      event =>
+        event.trackedItemStatus === NEED_ITEMS_STATUS &&
+        event.neededFrom === 'YOU',
+    );
+    console.log('FILES NEEDED:', filesNeeded);
+    const optionalFiles = trackedItems.filter(
+      event =>
+        event.trackedItemStatus === NEED_ITEMS_STATUS &&
+        event.neededFrom === 'OTHERS',
+    );
+    const documentsTurnedIn = trackedItems.filter(event => {
+      return event.trackedItemStatus !== NEED_ITEMS_STATUS;
+    });
+    documentsTurnedIn.push(...supportingDocuments);
+
+    return (
+      <div>
+        {isOpen && (
+          <RequestedFilesInfo
+            id={claim.id}
+            filesNeeded={filesNeeded}
+            optionalFiles={optionalFiles}
+          />
+        )}
+        {showDecision && <AskVAToDecide id={params.id} />}
+        <div className="submitted-files-list">
+          <h2 className="claim-file-border">Documents filed</h2>
+          {documentsTurnedIn.length === 0 ? (
+            <div>
+              <p>You haven’t turned in any documents to VA.</p>
+            </div>
+          ) : null}
+
+          {documentsTurnedIn.map(
+            (item, itemIndex) =>
+              (item.status || item.trackedItemStatus) && item.trackedItemId ? (
+                <SubmittedTrackedItem item={item} key={itemIndex} />
+              ) : (
+                <AdditionalEvidenceItem item={item} key={itemIndex} />
+              ),
+          )}
+        </div>
+      </div>
+    );
+  }
+
   render() {
-    const { claim, loading, params, message, synced } = this.props;
+    const {
+      claim,
+      loading,
+      params,
+      message,
+      synced,
+      useLighthouse,
+    } = this.props;
 
     let content = null;
     if (!loading && claim) {
-      const { attributes } = claim;
-      const isOpen = isEVSSClaim(claim)
-        ? attributes.open
-        : attributes.closeDate === null;
-
-      const waiverSubmitted =
-        attributes.waiverSubmitted || attributes.evidenceWaiverSubmitted5103;
-      const showDecision =
-        attributes.phase === FIRST_GATHERING_EVIDENCE_PHASE && !waiverSubmitted;
-      const trackedItems = getTrackedItems(claim);
-      console.log(trackedItems);
-      const filesNeeded = trackedItems.filter(
-        event =>
-          (event.status === NEED_ITEMS_STATUS ||
-            event.trackedItemStatus === NEED_ITEMS_STATUS) &&
-          (event.type === 'still_need_from_you_list' ||
-            event.neededFrom === 'YOU'),
-      );
-      console.log('FILES NEEDED:', filesNeeded);
-      const optionalFiles = trackedItems.filter(
-        event =>
-          (event.status === NEED_ITEMS_STATUS ||
-            event.trackedItemStatus === NEED_ITEMS_STATUS) &&
-          (event.type === 'still_need_from_others_list' ||
-            event.neededFrom === 'OTHERS'),
-      );
-      const documentsTurnedIn = trackedItems.filter(event => {
-        return (
-          (event.status && event.status !== NEED_ITEMS_STATUS) ||
-          (event.trackedItemStatus && event.trackedItemStatus !== NEED_ITEMS_STATUS) ||
-          (event.type && !event.type.startsWith('still_need_from'))
-        );
-      });
-      documentsTurnedIn.push(...attributes.supportingDocuments);
-
-      content = (
-        <div>
-          {isOpen && (
-            <RequestedFilesInfo
-              id={claim.id}
-              filesNeeded={filesNeeded}
-              optionalFiles={optionalFiles}
-            />
-          )}
-          {showDecision && <AskVAToDecide id={params.id} />}
-          <div className="submitted-files-list">
-            <h2 className="claim-file-border">Documents filed</h2>
-            {documentsTurnedIn.length === 0 ? (
-              <div>
-                <p>You haven’t turned in any documents to VA.</p>
-              </div>
-            ) : null}
-
-            {documentsTurnedIn.map(
-              (item, itemIndex) =>
-                (item.status || item.trackedItemStatus) &&
-                item.trackedItemId ? (
-                  <SubmittedTrackedItem item={item} key={itemIndex} />
-                ) : (
-                  <AdditionalEvidenceItem item={item} key={itemIndex} />
-                ),
-            )}
-          </div>
-        </div>
-      );
+      content = this.getPageContent();
     }
 
     return (
@@ -195,6 +208,7 @@ function mapStateToProps(state) {
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
     synced: claimsState.claimSync.synced,
+    useLighthouse: cstUseLighthouse(state),
   };
 }
 
@@ -219,4 +233,6 @@ FilesPage.propTypes = {
   clearNotification: PropTypes.func,
   loading: PropTypes.bool,
   params: PropTypes.object,
+  synced: PropTypes.bool,
+  useLighthouse: PropTypes.bool,
 };

@@ -14,7 +14,7 @@ import {
   getUserPhaseDescription,
   getPhaseDescription,
   truncateDescription,
-  getItemDate,
+  getItemDateEVSS,
   isClaimComplete,
   itemsNeedingAttentionFromVet,
   makeAuthRequest,
@@ -50,6 +50,7 @@ describe('Disability benefits helpers: ', () => {
 
       expect(phaseActivity[1][0].type).to.equal('filed');
     });
+
     it('should filter out events without a date', () => {
       const events = [
         {
@@ -62,6 +63,7 @@ describe('Disability benefits helpers: ', () => {
 
       expect(phaseActivity).to.be.empty;
     });
+
     it('should group events after phase 1 into phase 2', () => {
       const events = [
         {
@@ -87,6 +89,7 @@ describe('Disability benefits helpers: ', () => {
       expect(phaseActivity[1][0].type).to.equal('filed');
       expect(phaseActivity[2].length).to.equal(3);
     });
+
     it('should discard micro phases', () => {
       const events = [
         {
@@ -120,6 +123,7 @@ describe('Disability benefits helpers: ', () => {
       expect(phaseActivity[3].length).to.equal(1);
       expect(phaseActivity[3][0].type).to.equal('phase_entered');
     });
+
     it('should group events into correct bucket', () => {
       const events = [
         {
@@ -227,6 +231,7 @@ describe('Disability benefits helpers: ', () => {
       expect(isPopulatedClaim(claim)).to.be.false;
     });
   });
+
   describe('truncateDescription', () => {
     it('should truncate text longer than 120 characters', () => {
       const userText =
@@ -238,6 +243,7 @@ describe('Disability benefits helpers: ', () => {
       expect(text).to.equal(userTextEllipsed);
     });
   });
+
   describe('hasBeenReviewed', () => {
     it('should check that item is reviewed', () => {
       const result = hasBeenReviewed({
@@ -247,6 +253,7 @@ describe('Disability benefits helpers: ', () => {
 
       expect(result).to.be.true;
     });
+
     it('should check that item has not been reviewed', () => {
       const result = hasBeenReviewed({
         type: 'received_from_you_list',
@@ -256,6 +263,7 @@ describe('Disability benefits helpers: ', () => {
       expect(result).to.be.false;
     });
   });
+
   describe('getDocTypeDescription', () => {
     it('should get description by type', () => {
       const result = getDocTypeDescription('L070');
@@ -263,23 +271,27 @@ describe('Disability benefits helpers: ', () => {
       expect(result).to.equal('Photographs');
     });
   });
+
   describe('displayFileSize', () => {
     it('should show size in bytes', () => {
       const size = displayFileSize(2);
 
       expect(size).to.equal('2B');
     });
+
     it('should show size in kilobytes', () => {
       const size = displayFileSize(1026);
 
       expect(size).to.equal('1KB');
     });
+
     it('should show size in megabytes', () => {
       const size = displayFileSize(2097152);
 
       expect(size).to.equal('2MB');
     });
   });
+
   describe('getUserPhase', () => {
     it('should get phase 3 desc for 4-6', () => {
       const phase = getUserPhase(5);
@@ -287,6 +299,7 @@ describe('Disability benefits helpers: ', () => {
       expect(phase).to.equal(3);
     });
   });
+
   describe('getUserPhaseDescription', () => {
     it('should get description for 3', () => {
       const desc = getUserPhaseDescription(3);
@@ -301,9 +314,10 @@ describe('Disability benefits helpers: ', () => {
       expect(desc).to.equal('Initial review');
     });
   });
-  describe('getItemDate', () => {
+
+  describe('getItemDateEVSS', () => {
     it('should use the received date', () => {
-      const date = getItemDate({
+      const date = getItemDateEVSS({
         receivedDate: '2010-01-01',
         documents: [{ uploadDate: '2011-01-01' }],
         date: '2012-01-01',
@@ -311,8 +325,9 @@ describe('Disability benefits helpers: ', () => {
 
       expect(date).to.equal('2010-01-01');
     });
+
     it('should use the last document upload date', () => {
-      const date = getItemDate({
+      const date = getItemDateEVSS({
         receivedDate: null,
         documents: [{ uploadDate: '2011-01-01' }, { uploadDate: '2012-01-01' }],
         date: '2013-01-01',
@@ -320,8 +335,9 @@ describe('Disability benefits helpers: ', () => {
 
       expect(date).to.equal('2012-01-01');
     });
+
     it('should use the date', () => {
-      const date = getItemDate({
+      const date = getItemDateEVSS({
         receivedDate: null,
         documents: [],
         date: '2013-01-01',
@@ -329,8 +345,9 @@ describe('Disability benefits helpers: ', () => {
 
       expect(date).to.equal('2013-01-01');
     });
+
     it('should use the upload date', () => {
-      const date = getItemDate({
+      const date = getItemDateEVSS({
         uploadDate: '2014-01-01',
         type: 'other_documents_list',
         date: '2013-01-01',
@@ -339,6 +356,7 @@ describe('Disability benefits helpers: ', () => {
       expect(date).to.equal('2014-01-01');
     });
   });
+
   describe('isClaimComplete', () => {
     it('should check if claim is in complete phase', () => {
       const isComplete = isClaimComplete({
@@ -349,6 +367,7 @@ describe('Disability benefits helpers: ', () => {
 
       expect(isComplete).to.be.true;
     });
+
     it('should check if claim has decision letter', () => {
       const isComplete = isClaimComplete({
         attributes: {
@@ -389,6 +408,7 @@ describe('Disability benefits helpers: ', () => {
       };
       expect(getClaimType(claim)).to.equal('awesome');
     });
+
     it('should return the default claim type', () => {
       const claim = {
         attributes: {
@@ -465,6 +485,7 @@ describe('Disability benefits helpers: ', () => {
       expect(onSuccess.called).to.be.false;
       expect(dispatch.called).to.be.false;
     });
+
     it('should dispatch auth error', done => {
       server.use(
         rest.get(

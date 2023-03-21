@@ -55,6 +55,21 @@ export function getItemDate(item) {
   if (item.receivedDate) {
     return item.receivedDate;
   }
+
+  if (item.documents && item.documents.length) {
+    return item.documents[item.documents.length - 1].uploadDate;
+  }
+  if (item.trackedItemId === null && item.uploadDate) {
+    return item.uploadDate;
+  }
+
+  return item.requestedDate;
+}
+
+export function getItemDateEVSS(item) {
+  if (item.receivedDate) {
+    return item.receivedDate;
+  }
   if (item.documents && item.documents.length) {
     return item.documents[item.documents.length - 1].uploadDate;
   }
@@ -74,7 +89,7 @@ function isEventOrPrimaryPhase(event) {
     return event.phase <= 3 || event.phase >= 7;
   }
 
-  return !!getItemDate(event);
+  return !!getItemDateEVSS(event);
 }
 
 export function groupTimelineActivity(events) {
