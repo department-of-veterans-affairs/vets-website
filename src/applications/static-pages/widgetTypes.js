@@ -4,6 +4,7 @@ export default {
   BANNER: 'banner',
   BASIC_FACILITY_LOCATIONS_LIST: 'basic-facility-locations-list',
   BURIALS_APP_STATUS: 'burials-app-status',
+  BTSSS_LOGIN: 'btsss-login',
   CHAPTER_31_CTA: 'chapter-31-cta',
   CHAPTER_31_WIZARD: 'chapter-31-Wizard',
   CHAPTER_36_CTA: 'chapter-36-cta',
