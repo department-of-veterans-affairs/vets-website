@@ -1,9 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-
 import { MISSING_CONTACT_INFO } from '@@vap-svc/constants';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import AddContactInfoLink from '../../../components/notification-settings/AddContactInfoLink';
 
