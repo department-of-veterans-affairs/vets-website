@@ -147,7 +147,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
     [
       {
         href: '/manage-va-debt/summary/copay-balances/',
-        text: 'Current veteran copay rates',
+        text: 'Current Veteran copay rates',
       },
       {
         href: '/health-care/health-needs-conditions/mental-health',
