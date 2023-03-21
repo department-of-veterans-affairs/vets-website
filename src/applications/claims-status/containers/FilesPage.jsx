@@ -171,14 +171,7 @@ class FilesPage extends React.Component {
   }
 
   render() {
-    const {
-      claim,
-      loading,
-      params,
-      message,
-      synced,
-      useLighthouse,
-    } = this.props;
+    const { claim, loading, message, synced } = this.props;
 
     let content = null;
     if (!loading && claim) {
@@ -231,7 +224,13 @@ export { FilesPage };
 FilesPage.propTypes = {
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
+  lastPage: PropTypes.string,
   loading: PropTypes.bool,
+  message: PropTypes.shape({
+    body: PropTypes.string,
+    title: PropTypes.string,
+    type: PropTypes.string,
+  }),
   params: PropTypes.object,
   synced: PropTypes.bool,
   useLighthouse: PropTypes.bool,
