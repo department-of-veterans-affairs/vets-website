@@ -725,9 +725,9 @@ class ApiInitializer {
         req.reply(btsss.post.createMockSuccessResponse());
       });
     },
-    withFailure: (errorCode = 400, errorType) => {
+    withFailure: () => {
       cy.intercept('POST', `/check_in/v0/travel_claims/`, req => {
-        req.reply(errorCode, btsss.post.createMockFailedResponse(errorType));
+        req.reply(btsss.post.createMockFailedResponse());
       });
     },
   };
