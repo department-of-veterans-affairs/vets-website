@@ -36,34 +36,13 @@ describe('Secure Messaging Reply', () => {
       testMessageBody,
     );
 
-    cy.get('[data-testid="reply-form"] > :nth-child(3) > :nth-child(1)').should(
-      $to => {
-        expect($to.text()).to.contain(
-          messageDetails.data.attributes.recipientName,
-        );
-      },
-    );
-    cy.get('[aria-label="message details."] > :nth-child(1)').should($from => {
-      expect($from.text()).to.contain(
-        messageDetails.data.attributes.senderName,
-      );
-    });
-    cy.get('[aria-label="message details."] > :nth-child(2)').should($to => {
-      expect($to.text()).to.contain(
-        messageDetails.data.attributes.recipientName,
-      );
-    });
+    messageDetailsPage.ReplyToMessageTO(messageDetails);
+    messageDetailsPage.ReplyToMessagesenderName(messageDetails);
+    messageDetailsPage.ReplyToMessagerecipientName(messageDetails);
     messageDetailsPage.ReplyToMessageDate(messageDetails);
+    messageDetailsPage.ReplyToMessageId(messageDetails);
+    messageDetailsPage.ReplyToMessagebody(messageDetails);
 
-    cy.get('[aria-label="message details."] > :nth-child(4)').should($mID => {
-      expect($mID.text()).to.contain(messageDetails.data.attributes.messageId);
-    });
-
-    cy.get(
-      '.vads-u-margin-top--1 > .message-list-body-collapsed > .vads-u-margin-y--0',
-    ).should($mbody => {
-      expect($mbody.text()).to.contain(messageDetails.data.attributes.body);
-    });
     replyPage.sendReplyDraft(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.senderId,
