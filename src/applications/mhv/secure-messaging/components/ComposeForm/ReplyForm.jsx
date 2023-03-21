@@ -291,20 +291,19 @@ const ReplyForm = props => {
           />
           <EmergencyNote />
           <div>
-            <p>
+            <h4
+              className="vads-u-display--flex vads-u-color--gray-dark vads-u-font-weight--bold"
+              style={{ whiteSpace: 'break-spaces' }}
+            >
               <i
                 className="fas fa-reply vads-u-margin-right--0p5"
                 aria-hidden="true"
               />
-              <strong>
-                <strong className="vads-u-color--secondary-darkest">
-                  (Draft)
-                </strong>{' '}
-                To:{' '}
-              </strong>
-              {replyMessage.recipientName}
+              {`(Draft) To: ${draftToEdit.replyToName}\n(Team: ${
+                replyMessage.recipientName
+              }) `}
               <br />
-            </p>
+            </h4>
             <va-textarea
               label="Message"
               required

@@ -12,7 +12,7 @@ const MessageReply = () => {
   const { error } = useSelector(state => state.sm.draftDetails);
   const location = useLocation();
   const isDraftPage = location.pathname.includes('/draft');
-  const replyMessage = useSelector(state => state.sm.messageDetails.message);
+  const replyMessage = useSelector(state => state.sm.draftDeatils.draftMessage);
   const messageHistory = useSelector(
     state => state.sm.messageDetails.messageHistory,
   );

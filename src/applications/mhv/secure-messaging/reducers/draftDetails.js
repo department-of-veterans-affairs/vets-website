@@ -28,6 +28,7 @@ export const draftDetailsReducer = (state = initialState, action) => {
         ...state,
         lastSaveTime: null,
         draftMessage: {
+          replyToName: data.replyToName,
           ...data.attributes,
           attachments: msgAttachments,
         },

@@ -14,7 +14,7 @@ const MessageDetail = () => {
   const dispatch = useDispatch();
   const alert = useSelector(state => state.sm.alerts.alert);
   const message = useSelector(state => state.sm.messageDetails.message);
-  const draftMessage = useSelector(state => state.sm.draftDetails.draftMessage);
+  const { draftMessage } = useSelector(state => state.sm.draftDetails);
   const messageHistory = useSelector(
     state => state.sm.messageDetails.messageHistory,
   );
@@ -28,27 +28,9 @@ const MessageDetail = () => {
 
   useEffect(
     () => {
-      // if (activeFolder?.folderId === Constants.DefaultFolders.DRAFTS.id) {
-      //   history.push(`/draft/${messageId}`);
-      // }
-
-      // if (messageId) {
-      //   dispatch(closeAlert()); // to clear out any past alerts before landing this page
-      //   dispatch(retrieveMessage(messageId));
-      // }
-
       if (threadId) {
         dispatch(closeAlert());
         dispatch(retrieveMessageThread(threadId));
-        // .then(() => {
-        //   if (
-        //     message.folderId === Constants.DefaultFolders.DRAFTS.id ||
-        //     message?.draftDate !== null ||
-        //     activeFolder?.folderId === Constants.DefaultFolders.DRAFTS.id
-        //   ) {
-        //     history.push(`/draft/${threadId}`);
-        //   }
-        // });
       }
     },
     [dispatch, threadId],
@@ -60,7 +42,7 @@ const MessageDetail = () => {
         history.push(`/draft/${threadId}`);
       }
     },
-    [draftMessage],
+    [draftMessage, history, message, threadId],
   );
 
   useEffect(

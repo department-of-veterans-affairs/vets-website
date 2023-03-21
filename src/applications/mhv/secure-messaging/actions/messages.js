@@ -172,14 +172,17 @@ export const retrieveMessageThread = (
     const msgResponse = await getMessage(response.data[0].attributes.messageId);
     if (!msgResponse.errors) {
       const { sentDate } = msgResponse.data.attributes;
-      const isDraft =
-        response.data[0].attributes.draftDate !== (null || undefined);
+      const isDraft = response.data[0].attributes.draftDate !== null;
+      const replyToName = response.data
+        .find(m => m.attributes.triageGroupName !== m.attributes.recipientName)
+        .attributes.senderName.trim();
 
       dispatch(oldMessageAlert(sentDate, isDraft));
       dispatch({
         type: isDraft ? Actions.Draft.GET : Actions.Message.GET,
         response: {
           data: {
+            replyToName,
             ...msgResponse.data,
             ...response.data[0],
           },

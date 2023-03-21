@@ -39,10 +39,10 @@ const Compose = () => {
         dispatch(retrieveMessageThread(draftId));
       }
       if (location.pathname === '/compose') {
+        dispatch(getTriageTeams());
         dispatch(clearDraft());
         setReplyMessage(null);
       }
-      dispatch(getTriageTeams());
 
       return () => {
         dispatch(clearDraft());
@@ -123,7 +123,7 @@ const Compose = () => {
         </>
       );
     }
-    if ((isDraftPage && !draftMessage) || !triageTeams) {
+    if ((isDraftPage && !draftMessage) || (!isDraftPage && !triageTeams)) {
       return (
         <va-loading-indicator
           message="Loading your secure message..."

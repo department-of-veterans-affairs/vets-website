@@ -111,7 +111,7 @@
       max-width: 100%;
       // background-color: $color-gray-dark;
     }
-    va-textarea#message-body {
+    va-textarea#message-body::part(textarea) {
       max-width: 100%;
     }
 
@@ -155,7 +155,7 @@
 
   .message-replied-to {
     .message-list-body-collapsed {
-      word-break: break-all;
+      word-break: break-word;
     }
   }
 }
