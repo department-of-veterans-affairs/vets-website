@@ -8,7 +8,7 @@ import {
   EVIDENCE_OTHER,
 } from '../constants';
 import { hasHomeAndMobilePhone, hasMobilePhone } from './contactInfo';
-import { replaceSubmittedData } from './replace';
+import { replaceSubmittedData, fixDateFormat } from './replace';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -47,7 +47,10 @@ export const getClaimantData = ({
   };
 
   if (result.claimantType === 'other' && claimantTypeOtherValue) {
-    result.claimantTypeOtherValue = claimantTypeOtherValue;
+    result.claimantTypeOtherValue = (claimantTypeOtherValue || '').substring(
+      0,
+      MAX_LENGTH.CLAIMANT_OTHER,
+    );
   }
   return result;
 };
@@ -69,7 +72,8 @@ export const createIssueName = ({ attributes } = {}) => {
     description,
   ]
     .filter(part => part)
-    .join(' - ');
+    .join(' - ')
+    .substring(0, MAX_LENGTH.ISSUE_NAME);
   return replaceSubmittedData(result);
 };
 
@@ -104,7 +108,7 @@ export const getContestedIssues = ({ contestedIssues = [] }) =>
       },
       {
         issue: createIssueName(issue),
-        decisionDate: attr.approxDecisionDate,
+        decisionDate: fixDateFormat(attr.approxDecisionDate),
       },
     );
 
@@ -148,7 +152,7 @@ export const addIncludedIssues = formData => {
           type: 'contestableIssue',
           attributes: {
             issue: replaceSubmittedData(issue.issue),
-            decisionDate: issue.decisionDate,
+            decisionDate: fixDateFormat(issue.decisionDate),
           },
         });
       }
@@ -203,13 +207,14 @@ export const getAddress = formData => {
   );
   return removeEmptyEntries({
     // Long addresses will overflow to an attachment page
-    addressLine1: truncate('addressLine1'),
-    addressLine2: truncate('addressLine2'),
-    addressLine3: truncate('addressLine3'),
-    city: truncate('city'),
+    addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
+    addressLine2: truncate('addressLine2', MAX_LENGTH.ADDRESS_LINE2),
+    addressLine3: truncate('addressLine3', MAX_LENGTH.ADDRESS_LINE3),
+    city: truncate('city', MAX_LENGTH.CITY),
+    // stateCode is from enum
     stateCode: truncate('stateCode'),
     // user profile provides "Iso2", whereas Lighthouse wants "ISO2"
-    countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY),
+    countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.ADDRESS_COUNTRY),
     // zipCode5 is always required, set to 00000 for international codes
     // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200995.json#L28
     zipCode5: internationalPostalCode
@@ -242,6 +247,16 @@ export const getPhone = formData => {
     phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
     phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
   });
+};
+
+/**
+ * Truncate long email addresses
+ * @param {Veteran} veteran - Veteran formData object
+ * @returns {String} submittable email address
+ */
+export const getEmail = formData => {
+  const { veteran } = formData || {};
+  return (veteran?.email || '').substring(0, MAX_LENGTH.EMAIL);
 };
 
 /**
@@ -318,8 +333,8 @@ export const getEvidence = formData => {
         // providing one
         evidenceDates: [
           {
-            startDate: location.evidenceDates.from,
-            endDate: location.evidenceDates.to,
+            startDate: fixDateFormat(location.evidenceDates.from),
+            endDate: fixDateFormat(location.evidenceDates.to),
           },
         ],
       },
@@ -350,7 +365,12 @@ export const getForm4142 = formData => {
   const providerFacility = (formData?.providerFacility || []).map(facility => ({
     ...facility,
     // 4142 is expecting an array
-    treatmentDateRange: [facility.treatmentDateRange],
+    treatmentDateRange: [
+      {
+        from: fixDateFormat(facility.treatmentDateRange?.from),
+        to: fixDateFormat(facility.treatmentDateRange?.to),
+      },
+    ],
   }));
   return formData[EVIDENCE_PRIVATE]
     ? {
@@ -358,5 +378,5 @@ export const getForm4142 = formData => {
         limitedConsent,
         providerFacility,
       }
-    : {};
+    : null;
 };

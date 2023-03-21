@@ -185,7 +185,7 @@ jobs:
       - name: Get code coverage
         if: ${{ always() }}
         id: code-coverage
-        run: echo ::set-output name=MARKDOWN::$(node ./script/github-actions/code-coverage-format-report.js)
+        run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
 
       - name: Publish test results
         if: ${{ always() }}
@@ -359,7 +359,7 @@ jobs:
 
       - name: Set Allow List Output
         id: allow-list-output
-        run: echo ::set-output name=list::$ALLOW_LIST
+        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
@@ -407,23 +407,23 @@ jobs:
 
       - name: Set output of TESTS
         id: tests
-        run: echo ::set-output name=selected::$TESTS
+        run: echo selected=$TESTS >> $GITHUB_OUTPUT
 
       - name: Set output of TESTS_TO_STRESS_TEST
         id: tests-to-stress-test
-        run: echo ::set-output name=tests::$TESTS_TO_STRESS_TEST
+        run: echo tests=$TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
 
       - name: Set output of TEST_SELECTION_DISALLOWED_TESTS
         id: test_selection_disallowed_tests
-        run: echo ::set-output name=test_selection_disallowed_tests::$TEST_SELECTION_DISALLOWED_TESTS
+        run: echo test_selection_disallowed_tests=$TEST_SELECTION_DISALLOWED_TESTS >> $GITHUB_OUTPUT
 
       - name: Set output of NUM_CONTAINERS
         id: containers
-        run: echo ::set-output name=num::$NUM_CONTAINERS
+        run: echo num=$NUM_CONTAINERS >> $GITHUB_OUTPUT
 
       - name: Set output of CI_NODE_INDEX
         id: matrix
-        run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
+        run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
 
   cypress-tests:
     name: Cypress E2E Tests
@@ -534,7 +534,7 @@ jobs:
   stress-test-cypress-tests:
     name: Stress Test Cypress Tests
     runs-on: self-hosted
-    timeout-minutes: 60
+    timeout-minutes: 120
     needs: [build, cypress-tests-prep]
     if: |
       needs.build.result == 'success' &&
@@ -602,7 +602,7 @@ jobs:
       - name: Run Cypress tests
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
         run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 40
+        timeout-minutes: 90
         env:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
@@ -1169,9 +1169,9 @@ jobs:
         id: set-environments
         run: |
           if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && ${{ needs.build.outputs.continuous_deployment }} == true ]]; then
-            echo ::set-output name=environments::{\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]}
+            echo environments={\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]} >> $GITHUB_OUTPUT
           else
-            echo ::set-output name=environments::{\"include\":[${{env.DEV}},${{env.STAGING}}]}
+            echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
           fi
 
   deploy:

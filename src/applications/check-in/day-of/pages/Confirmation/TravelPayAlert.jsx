@@ -37,22 +37,24 @@ const TravelPayAlert = props => {
     <>
       {travelPayEligible &&
         travelPayClaimData && (
-          <va-alert background-only show-icon data-testid="travel-pay-message">
+          <va-alert
+            background-only
+            show-icon
+            data-testid="travel-pay-message"
+            status="success"
+          >
             <div>
               <p
                 className="vads-u-margin-top--0"
                 data-testid="travel-pay-eligible-success-message"
               >
-                {t('check-travel-claim-status')}
+                <Trans
+                  i18nKey="processing-travel-claim"
+                  components={[
+                    <span key="bold" className="vads-u-font-weight--bold" />,
+                  ]}
+                />
               </p>
-              <ExternalLink
-                href="/health-care/get-reimbursed-for-travel-pay/"
-                hrefLang="en"
-                eventId="clicked-go-to-accessva-from-success"
-                eventPrefix="nav"
-              >
-                {t('go-to-the-accessva-travel-claim-portal-now')}
-              </ExternalLink>
             </div>
           </va-alert>
         )}
@@ -76,7 +78,7 @@ const TravelPayAlert = props => {
             />
           </p>
           <ExternalLink
-            href="/health-care/get-reimbursed-for-travel-pay/"
+            href="/resources/how-to-file-a-va-travel-reimbursement-claim-online/"
             hrefLang="en"
             eventId="clicked-how-to-file-link-from-ineligible"
             eventPrefix="nav"
@@ -101,7 +103,7 @@ const TravelPayAlert = props => {
               {errorMsg}
             </p>
             <ExternalLink
-              href="/health-care/get-reimbursed-for-travel-pay/"
+              href="/resources/how-to-file-a-va-travel-reimbursement-claim-online/"
               hrefLang="en"
               eventId={errorLinkEventId}
               eventPrefix="nav"

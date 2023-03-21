@@ -1,37 +1,35 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { parseISO } from 'date-fns';
 import { api } from '../../api';
-
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
 
-import { appointmentWasCheckedInto } from '../../actions/day-of';
-
 import { CheckInButton } from './CheckInButton';
 import { useUpdateError } from '../../hooks/useUpdateError';
+import { getAppointmentId } from '../../utils/appointment';
+import { createAnalyticsSlug } from '../../utils/analytics';
 
 const AppointmentAction = props => {
-  const { appointment, router, token } = props;
+  const { appointment, router, token, event } = props;
   const { t } = useTranslation();
 
-  const dispatch = useDispatch();
-  const setSelectedAppointment = useCallback(
-    appt => {
-      dispatch(appointmentWasCheckedInto(appt));
-    },
-    [dispatch],
-  );
   const { updateError } = useUpdateError();
 
   const defaultMessage = t(
     'online-check-in-isnt-available-check-in-with-a-staff-member',
   );
-  const { goToNextPage } = useFormRouting(router);
+  const { jumpToPage } = useFormRouting(router);
   const onClick = useCallback(
     async () => {
+      if (event) {
+        recordEvent({
+          event: createAnalyticsSlug(event, 'nav'),
+        });
+      }
       try {
         const json = await api.v2.postCheckInData({
           uuid: token,
@@ -40,8 +38,7 @@ const AppointmentAction = props => {
         });
         const { status } = json;
         if (status === 200) {
-          setSelectedAppointment(appointment);
-          goToNextPage();
+          jumpToPage(`complete/${getAppointmentId(appointment)}`);
         } else {
           updateError('check-in-post-error');
         }
@@ -49,7 +46,7 @@ const AppointmentAction = props => {
         updateError('error-completing-check-in');
       }
     },
-    [appointment, updateError, goToNextPage, setSelectedAppointment, token],
+    [appointment, updateError, jumpToPage, token, event],
   );
 
   if (appointment.eligibility) {
@@ -148,6 +145,7 @@ const AppointmentAction = props => {
 
 AppointmentAction.propTypes = {
   appointment: PropTypes.object,
+  event: PropTypes.string,
   router: PropTypes.object,
   token: PropTypes.string,
 };

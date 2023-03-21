@@ -4,6 +4,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { payrollDeductionOptions } from '../constants/checkboxSelections';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
+import Checklist from './shared/CheckList';
 
 const PayrollDeductionChecklist = props => {
   const { goToPath, goBack, onReviewPage, setFormData } = props;
@@ -106,23 +107,11 @@ const PayrollDeductionChecklist = props => {
       <span className="vads-u-font-size--h4 vads-u-font-family--sans">
         Which of these payroll deductions do you pay for?
       </span>
-      <div className="checkbox-list">
-        {payrollDeductionOptions?.map((option, key) => (
-          <div key={option + key} className="checkbox-list-item">
-            <input
-              type="checkbox"
-              id={option + key}
-              name={option}
-              value={option}
-              checked={isBoxChecked(option)}
-              onChange={onChange}
-            />
-            <label className="vads-u-margin-y--2" htmlFor={option + key}>
-              {option}
-            </label>
-          </div>
-        ))}
-      </div>
+      <Checklist
+        options={payrollDeductionOptions}
+        onChange={event => onChange(event)}
+        isBoxChecked={isBoxChecked}
+      />
       {onReviewPage ? updateButton : navButtons}
     </form>
   );

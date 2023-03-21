@@ -92,14 +92,14 @@ const MessageListItem = props => {
           to={`/${
             activeFolder?.folderId === DefaultFolders.DRAFTS.id
               ? 'draft'
-              : 'message'
+              : 'thread'
           }/${messageId}`}
         >
           {categoryLabel}: {getHighlightedText(subject)}
         </Link>
         <p className="received-date vads-u-margin-y--0p5">
           {attachment && <i className={attachmentClasses} aria-hidden />}
-          <span className="vads-u-font-style--italic">{formattedDate}</span>
+          <span>{formattedDate}</span>
         </p>
       </div>
     </div>

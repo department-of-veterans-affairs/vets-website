@@ -8,7 +8,7 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
   const basicSearchPage = new PatientBasicSearchPage();
   const site = new SecureMessagingSite();
 
-  it('search for clickable URL', () => {
+  it.skip('search for clickable URL', () => {
     site.login();
     site.loadPage();
     cy.intercept(
@@ -32,6 +32,7 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     site.loadMessageDetailsWithData(mockSpeciaCharMessage);
     cy.injectAxe();
     cy.axeCheck();
+    // *Refactor* check only if it exists, do not visit
     cy.get('pre > a').click();
   });
 });

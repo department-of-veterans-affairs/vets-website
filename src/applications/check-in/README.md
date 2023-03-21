@@ -18,7 +18,7 @@ Before you get started check [this page](https://depo-platform-documentation.scr
   - visit the app:
     - check-in `http://localhost:3001/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
     - pre-check-in `http://localhost:3001/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
-  - Login using the mock user, Last name: `Smith` DOB: `03-15-1989`
+  - Login using the mock user, Last name: `Smith` DOB: `04-07-1935`
 
 ## Mock UUIDs
 There are several different mock UUIDs that can be used as a value for the `id` URL param.
@@ -26,6 +26,9 @@ There are several different mock UUIDs that can be used as a value for the `id` 
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
   - aboutToExpireUUID: `25165847-2c16-4c8b-8790-5de37a7f427f`
   - pacificTimezoneUUID: `6c72b801-74ac-47fe-82af-cfe59744b45f`
+  - allAppointmentTypesUUID: `bb48c558-7b35-44ec-8ab7-32b7d49364fc`
+  - missingUUID: `a5895713-ca42-4244-9f38-f8b5db020d04`
+
 ### Pre-check-in
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
   - phoneApptUUID: `258d753c-262a-4ab2-b618-64b645884daf`
@@ -34,6 +37,9 @@ There are several different mock UUIDs that can be used as a value for the `id` 
   - canceledPhoneAppointmentUUID: `1448d690-fd5f-11ec-b939-0242ac120002`
   - expiredUUID: `354d5b3a-b7b7-4e5c-99e4-8d563f15c521`
   - expiredPhoneUUID: `08ba56a7-68b7-4b9f-b779-53ba609140ef`
+  - missingUUID: `a5895713-ca42-4244-9f38-f8b5db020d04`
+  - allDemographicsCurrentUUID: `e544c217-6fe8-44c5-915f-6c3d9908a678`
+  - onlyDemographicsCurrentUUID: `7397abc0-fb4d-4238-a3e2-32b0e47a1527` (NoK and Emergency Contact not current)
 
 ## Design system
 99% of the styling comes from the VA design system [component library](https://design.va.gov/components/) and [utility classes](https://design.va.gov/foundation/utilities/). For the remaining 1% of styling there is an scss file in the `sass` directory in the project root.

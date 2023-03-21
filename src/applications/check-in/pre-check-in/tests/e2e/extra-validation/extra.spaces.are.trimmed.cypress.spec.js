@@ -30,7 +30,7 @@ describe('Pre-Check In Experience', () => {
       cy.visitPreCheckInWithUUID();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validatePage.preCheckIn();
-      ValidateVeteran.validateVeteran('Smith           ', '1989', '03', '15');
+      ValidateVeteran.validateVeteran('Smith           ', '1935', '04', '07');
       ValidateVeteran.attemptToGoToNextPage();
       Introduction.validatePageLoaded();
     });

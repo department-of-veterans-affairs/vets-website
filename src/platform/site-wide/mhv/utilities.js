@@ -9,6 +9,7 @@ const mhvToEauthRoutes = {
   'web/myhealthevet/refill-prescriptions':
     'eauth?deeplinking=prescription_refill',
   'secure-messaging': 'eauth?deeplinking=secure_messaging',
+  preferences: 'eauth?deeplinking=preferences',
   appointments: 'eauth?deeplinking=appointments',
   home: 'eauth',
   'labs-tests': 'eauth?deeplinking=labs-tests',
@@ -21,7 +22,8 @@ const mhvToEauthRoutes = {
 function mhvUrl(authenticatedWithSSOe, path) {
   const normPath = path.startsWith('/') ? path.substring(1) : path;
   if (authenticatedWithSSOe) {
-    const eauthDeepLink = mhvToEauthRoutes[normPath];
+    const eauthDeepLink =
+      mhvToEauthRoutes[normPath] || `eauth?deeplinking=${normPath}`;
     return `https://${eauthPrefix}eauth.va.gov/mhv-portal-web/${eauthDeepLink}`;
   }
   return `https://${mhvPrefix}.myhealth.va.gov/mhv-portal-web/${normPath}`;

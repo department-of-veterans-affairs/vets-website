@@ -1,6 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
+import PropTypes from 'prop-types';
+import InputList from './shared/InputList';
 
 const HouseholdExpensesInputList = props => {
   const { submitted } = props.formContext;
@@ -35,27 +37,24 @@ const HouseholdExpensesInputList = props => {
   };
 
   return (
-    <div>
-      {expenseRecords?.map((income, key) => (
-        <div key={income.name + key} className="vads-u-margin-y--2">
-          <va-number-input
-            label={income.name}
-            name={income.name}
-            value={income.amount}
-            id={income.name + key}
-            error={
-              submitted && errorList.includes(income.name)
-                ? 'Enter valid dollar amount'
-                : ''
-            }
-            inputmode="decimal"
-            onInput={onChange}
-            required
-          />
-        </div>
-      ))}
-    </div>
+    <InputList
+      errorList={errorList}
+      inputs={expenseRecords}
+      submitted={submitted}
+      onChange={event => onChange(event)}
+    />
   );
+};
+
+HouseholdExpensesInputList.propTypes = {
+  errorSchema: PropTypes.shape({
+    expenseRecords: PropTypes.shape({
+      __errors: PropTypes.array,
+    }),
+  }),
+  formContext: PropTypes.shape({
+    submitted: PropTypes.bool,
+  }),
 };
 
 export default HouseholdExpensesInputList;

@@ -6,7 +6,11 @@ import SignatureCheckbox from '../../../components/PreSubmitInfo/SignatureCheckb
 const getData = ({ isRepresentative = false, label } = {}) => ({
   mockProps: {
     children: undefined,
-    fullName: '',
+    fullName: {
+      first: 'John',
+      middle: '',
+      last: 'Smith',
+    },
     label,
     setSignatures: () => {},
     showError: false,
@@ -16,31 +20,31 @@ const getData = ({ isRepresentative = false, label } = {}) => ({
   },
 });
 
-describe('10-10CG', () => {
-  describe('SignatureCheckbox', () => {
-    it('should render aria-describedby attribute when "isRepresentative" is true', () => {
-      const label = 'test-label';
-      const labelId = `${label}-signature-label`;
-      const { mockProps } = getData({
-        isRepresentative: true,
-        label,
-      });
-      const view = render(<SignatureCheckbox {...mockProps} />);
-      const inputComponent = view.container.querySelector('.signature-input');
-
-      expect(inputComponent).to.have.attribute('aria-describedby', labelId);
+describe('CG <SignatureCheckbox>', () => {
+  it('should render message-aria-describedby attribute when "isRepresentative" is true', () => {
+    const label = 'test-label';
+    const { mockProps } = getData({
+      isRepresentative: true,
+      label,
     });
+    const view = render(<SignatureCheckbox {...mockProps} />);
+    const inputComponent = view.container.querySelector('.signature-input');
 
-    it('should not render aria-describedby attribute when "isRepresentative" is false', () => {
-      const label = 'test-label';
-      const { mockProps } = getData({
-        isRepresentative: false,
-        label,
-      });
-      const view = render(<SignatureCheckbox {...mockProps} />);
-      const inputComponent = view.container.querySelector('.signature-input');
+    expect(inputComponent).to.have.attribute(
+      'message-aria-describedby',
+      'on behalf of John Smith',
+    );
+  });
 
-      expect(inputComponent).to.not.have.attribute('aria-describedby');
+  it('should not render message-aria-describedby attribute when "isRepresentative" is false', () => {
+    const label = 'test-label';
+    const { mockProps } = getData({
+      isRepresentative: false,
+      label,
     });
+    const view = render(<SignatureCheckbox {...mockProps} />);
+    const inputComponent = view.container.querySelector('.signature-input');
+
+    expect(inputComponent).to.not.have.attribute('message-aria-describedby');
   });
 });

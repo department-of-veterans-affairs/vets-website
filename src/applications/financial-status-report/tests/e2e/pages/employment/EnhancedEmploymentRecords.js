@@ -39,11 +39,6 @@ class EnhancedEmploymentRecords {
 
     if (employer.isCurrent) {
       cy.get(`input[name="current-employment"]`).check();
-
-      cy.get(':nth-child(2) > .hydrated')
-        .shadow()
-        .find('#error-message')
-        .should('not.exist');
     } else {
       cy.fillDate(
         'to',

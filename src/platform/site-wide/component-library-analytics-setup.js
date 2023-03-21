@@ -64,13 +64,6 @@ const analyticsEvents = {
       prefix: 'loading-indicator',
     },
   ],
-  RadioButtons: [
-    {
-      action: 'change',
-      event: 'int-radio-button-option-click',
-      prefix: 'radio-button',
-    },
-  ],
   Select: [
     {
       action: 'change',
@@ -238,6 +231,18 @@ const analyticsEvents = {
       action: 'blur',
       event: 'int-number-input-blur',
       prefix: 'number-input',
+    },
+  ],
+  'va-official-gov-banner': [
+    {
+      action: 'expand',
+      event: 'int-official-gov-banner-expand',
+      prefix: 'official-gov-banner',
+    },
+    {
+      action: 'collapse',
+      event: 'int-official-gov-banner-collapse',
+      prefix: 'official-gov-banner',
     },
   ],
   'va-promo-banner': [

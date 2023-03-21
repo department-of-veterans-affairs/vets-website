@@ -7,7 +7,7 @@ describe('Secure Messaging Trash Folder AXE Check', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
     cy.intercept('GET', '/my_health/v1/messaging/folders/-3', mockMessages).as(
       'trashFolder',
     );
