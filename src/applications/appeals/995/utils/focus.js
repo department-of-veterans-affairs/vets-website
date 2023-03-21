@@ -21,8 +21,6 @@ export const focusIssue = () => {
     scrollTo(`#issue-${id}`);
     if (type === 'updated') {
       waitForRenderThenFocus(`#issue-${id} input`);
-      // id="root_contestedIssues_0" name="root_contestedIssues_0">
-      // input isn't working
     } else {
       focusElement(`#issue-${id} .edit-issue-link`);
     }

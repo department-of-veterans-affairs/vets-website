@@ -101,46 +101,11 @@ class PatientReplyPage {
       });
   };
 
-  ReplyDraftData = (
-    messageId,
-    testRecipientId,
-    testCategory,
-    testSubject,
-    testBody,
-  ) => {
-    cy.log(`messageId = ${messageId}`);
-    cy.log(`messageSubjectParameter = ${testSubject}`);
-    cy.log(
-      `messageSubjectMockMessage = ${mockMessage.data.attributes.subject}`,
-    );
-    expect(mockMessage.data.attributes.category).to.eq(testCategory);
-    expect(mockMessage.data.attributes.body).to.eq(testBody);
-    expect(mockMessage.data.attributes.subject).to.eq(testSubject);
-    expect(mockMessage.data.attributes.recipientId).to.eq(testRecipientId);
-  };
-
-  verifyReplyDraftData = () => {
-    cy.get('@replyDraftMessage')
-      .its('request.body')
-      .then(message => {
-        expect(message.recipientId).to.eq(20029);
-        expect(message.subject).to.eq('Medication-Inquiry');
-        expect(message.body).to.eq('Test message body');
-      });
-    cy.get('@replyDraftMessage')
-      .its('response.body')
-      .then(message => {
-        expect(message.data.attributes.messageId).to.eq(7179970);
-        expect(message.data.attributes.recipientName).to.eq('ECSTEN, THOMAS ');
-        expect(message.data.attributes.body).to.eq('Test message body');
-      });
-  };
-
-  verifyReplyPageBodyField = () => {
-    cy.get('[data-testid="message-body-field"]')
+  getMessageBodyField = () => {
+    return cy
+      .get('[data-testid="message-body-field"]')
       .shadow()
-      .find('[name="message-body"]')
-      .should('be.visible');
+      .find('[name="message-body"]');
   };
 }
 

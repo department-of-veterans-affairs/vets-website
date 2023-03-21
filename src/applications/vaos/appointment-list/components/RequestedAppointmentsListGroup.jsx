@@ -144,7 +144,7 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
               {statusBucket[0] === APPOINTMENT_STATUS.cancelled && (
                 <>
                   <h2>Canceled requests</h2>
-                  <p>Your appointment requests that were canceled</p>
+                  <p>These appointment requests have been canceled.</p>
                 </>
               )}
               {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}

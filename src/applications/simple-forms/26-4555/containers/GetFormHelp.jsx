@@ -11,7 +11,7 @@ export default function() {
       </p>
       <p className="help-talk">
         <strong>
-          If you need help gathering your information or filling out your form,
+          If you need help gathering your information or filling out this form,
         </strong>{' '}
         contact a local Veterans Service Organization (VSO).
       </p>
