@@ -3,13 +3,25 @@ import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { getThreadList } from '../api/SmApi';
 
-export const getListOfThreads = (folderId, pageSize, pageNumber, sortField, sortOrder, update = false) => async dispatch => {
-
+export const getListOfThreads = (
+  folderId,
+  pageSize,
+  pageNumber,
+  sortField,
+  sortOrder,
+  update = false,
+) => async dispatch => {
   if (!update) {
     dispatch({ type: Actions.Thread.CLEAR_LIST });
   }
   try {
-    const response = await getThreadList(folderId, pageSize, pageNumber, sortField, sortOrder);
+    const response = await getThreadList(
+      folderId,
+      pageSize,
+      pageNumber,
+      sortField,
+      sortOrder,
+    );
     dispatch({
       type: Actions.Thread.GET_LIST,
       response,
