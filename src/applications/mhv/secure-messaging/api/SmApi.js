@@ -334,8 +334,8 @@ export const getThreadList = (
 };
 
 /**
- * Move a message.
- * @param {Long} messageId
+ * Move message thread.
+ * @param {Long} threadId
  * @param {Long} toFolderId
  * @returns
  */
