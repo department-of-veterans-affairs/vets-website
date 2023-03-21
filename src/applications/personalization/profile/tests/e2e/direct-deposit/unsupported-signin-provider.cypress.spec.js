@@ -1,6 +1,10 @@
 import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
 
-import { loa3User72, dsLogonUser, mvhUser } from '../../../mocks/user';
+import {
+  loa3User72,
+  dsLogonUser,
+  mvhUser,
+} from '../../../mocks/endpoints/user';
 import DirectDeposit from './DirectDeposit';
 
 let getDD4CNPBankInfoStub;

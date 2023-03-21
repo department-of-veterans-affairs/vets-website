@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import {
   VaCheckboxGroup,
-  VaDate,
+  VaMemorableDate,
   VaModal,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -74,7 +74,7 @@ const EvidenceVaRecords = ({
   };
 
   // *** state ***
-  const [currentIndex, setCurrentIndex] = useState(getIndex());
+  const [currentIndex, setCurrentIndex] = useState(getIndex()); // zero-based
   const [currentData, setCurrentData] = useState(
     locations?.[currentIndex] || defaultData,
   );
@@ -84,6 +84,8 @@ const EvidenceVaRecords = ({
   const [currentState, setCurrentState] = useState(defaultState);
 
   const availableIssues = getSelected(data).map(getIssueName);
+
+  const addOrEdit = isEmptyVaEntry(currentData) ? 'add' : 'edit';
 
   // *** validations ***
   const errors = {
@@ -111,7 +113,7 @@ const EvidenceVaRecords = ({
     () => {
       setCurrentData(locations?.[currentIndex] || defaultData);
       setCurrentState(defaultState);
-      focusElement(hasErrors() ? '[error]' : 'va-text-input');
+      focusElement(hasErrors() ? '[error]' : 'h3');
       scrollTo('topPageElement');
       setForceReload(false);
     },
@@ -337,7 +339,7 @@ const EvidenceVaRecords = ({
       <fieldset>
         <legend id="va-evidence-title" className="vads-u-font-family--serif">
           <h3 name="topPageElement" className="vads-u-margin--0">
-            {content.title}
+            {content.title(addOrEdit, currentIndex + 1)}
           </h3>
         </legend>
         <p>{content.description}</p>
@@ -367,7 +369,9 @@ const EvidenceVaRecords = ({
           error={showError('name') || errors.unique || null}
           autocomplete="section-facility name"
         />
-        <br />
+
+        <br role="presentation" />
+
         <VaCheckboxGroup
           label={content.conditions}
           name="issues"
@@ -389,7 +393,7 @@ const EvidenceVaRecords = ({
           })}
         </VaCheckboxGroup>
 
-        <VaDate
+        <VaMemorableDate
           id="location-from-date"
           name="from"
           label={content.dateStart}
@@ -399,7 +403,7 @@ const EvidenceVaRecords = ({
           value={currentData.evidenceDates?.from}
           error={showError('from')}
         />
-        <VaDate
+        <VaMemorableDate
           id="location-to-date"
           name="to"
           label={content.dateEnd}

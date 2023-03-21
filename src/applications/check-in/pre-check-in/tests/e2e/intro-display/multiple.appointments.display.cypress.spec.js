@@ -38,5 +38,9 @@ describe('Pre-Check In Experience', () => {
       Introduction.countAppointmentList(2);
       cy.injectAxeThenAxeCheck();
     });
+    it('start link styling is correct', () => {
+      Introduction.validateStartLinkStyling();
+      cy.injectAxeThenAxeCheck();
+    });
   });
 });

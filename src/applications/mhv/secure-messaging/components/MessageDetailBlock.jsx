@@ -6,10 +6,12 @@ import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
 import PrintMessageThread from './PrintMessageThread';
 import { Categories } from '../util/constants';
-import { dateFormat, urlRegex, httpRegex } from '../util/helpers';
+import { dateFormat } from '../util/helpers';
+import MessageThreadBody from './MessageThread/MessageThreadBody';
 
 const MessageDetailBlock = props => {
   const {
+    threadId,
     messageId,
     category,
     subject,
@@ -52,7 +54,6 @@ const MessageDetailBlock = props => {
   };
 
   const categoryLabel = Categories[category];
-  const words = body.split(/\s/g);
 
   return (
     <section className="message-detail-block">
@@ -66,6 +67,7 @@ const MessageDetailBlock = props => {
       </header>
       <MessageActionButtons
         id={messageId}
+        threadId={threadId}
         handlePrintThreadStyleClass={handlePrintThreadStyleClass}
         onReply={handleReplyButton}
         hideReplyButton={hideReplyButton}
@@ -91,16 +93,7 @@ const MessageDetailBlock = props => {
         </section>
 
         <section className="message-body" aria-label="Message body.">
-          <pre>
-            {words.map(word => {
-              return (word.match(urlRegex) || word.match(httpRegex)) &&
-                words.length >= 1 ? (
-                <a href={word}>{`${word} `}</a>
-              ) : (
-                `${word} `
-              );
-            })}
-          </pre>
+          <MessageThreadBody expanded text={body} />
         </section>
 
         {!!attachments &&

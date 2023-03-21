@@ -94,7 +94,7 @@ describe('<EvidencePrivateRecords>', () => {
         'va-text-input[error]',
         'va-select[error]',
         'va-checkbox-group[error]',
-        'va-date[error]',
+        'va-memorable-date[error]',
       ].join(','),
       container,
     );
@@ -126,7 +126,7 @@ describe('<EvidencePrivateRecords>', () => {
     expect($$('va-select', container).length).to.eq(2);
     expect($('va-checkbox-group', container)).to.exist;
     expect($$('va-checkbox', container).length).to.eq(2);
-    expect($$('va-date', container).length).to.eq(2);
+    expect($$('va-memorable-date', container).length).to.eq(2);
     expect($('.vads-c-action-link--green', container)).to.exist;
   });
 
@@ -488,8 +488,8 @@ describe('<EvidencePrivateRecords>', () => {
     const page = setup({ index: 0, data, method: 'onBlur:from' });
     const { container } = render(page);
 
-    const dateFrom = $('va-date', container);
-    // blur date inputs - va-text-input blur works, but not the va-date?
+    const dateFrom = $('va-memorable-date', container);
+    // blur date inputs - va-text-input blur works, but not the va-memorable-date?
     // fireEvent.blur(dateFrom);
     fireEvent.click($('#test-method', container));
 
@@ -507,8 +507,8 @@ describe('<EvidencePrivateRecords>', () => {
     const page = setup({ index: 0, data, method: 'onBlur:to' });
     const { container } = render(page);
 
-    const dateTo = $$('va-date', container)[1];
-    // blur date inputs - va-text-input blur works, but not the va-date?
+    const dateTo = $$('va-memorable-date', container)[1];
+    // blur date inputs - va-text-input blur works, but not the va-memorable-date?
     // fireEvent.blur(dateFrom);
     fireEvent.click($('#test-method', container));
 
@@ -526,8 +526,8 @@ describe('<EvidencePrivateRecords>', () => {
     const page = setup({ index: 0, data, method: 'onBlur:from' });
     const { container } = render(page);
 
-    const dateFrom = $('va-date', container);
-    // blur date inputs - va-text-input blur works, but not the va-date?
+    const dateFrom = $('va-memorable-date', container);
+    // blur date inputs - va-text-input blur works, but not the va-memorable-date?
     // fireEvent.blur(dateFrom);
     fireEvent.click($('#test-method', container));
 
@@ -545,8 +545,8 @@ describe('<EvidencePrivateRecords>', () => {
     const page = setup({ index: 0, data, method: 'onBlur:to' });
     const { container } = render(page);
 
-    const dateTo = $$('va-date', container)[1];
-    // blur date inputs - va-text-input blur works, but not the va-date?
+    const dateTo = $$('va-memorable-date', container)[1];
+    // blur date inputs - va-text-input blur works, but not the va-memorable-date?
     // fireEvent.blur(dateTo);
     fireEvent.click($('#test-method', container));
 
@@ -565,8 +565,8 @@ describe('<EvidencePrivateRecords>', () => {
     const page = setup({ index: 0, data, method: 'onBlur:to' });
     const { container } = render(page);
 
-    const dateTo = $$('va-date', container)[1];
-    // blur date inputs - va-text-input blur works, but not the va-date?
+    const dateTo = $$('va-memorable-date', container)[1];
+    // blur date inputs - va-text-input blur works, but not the va-memorable-date?
     // fireEvent.blur(dateTo);
     fireEvent.click($('#test-method', container));
 

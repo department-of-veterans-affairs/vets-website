@@ -74,6 +74,7 @@ const {
   phone,
   files,
   centralMailVaFile,
+  militaryServiceNumber,
   race,
 } = fullSchemaPreNeed.definitions;
 
@@ -132,6 +133,7 @@ const formConfig = {
     phone,
     files,
     centralMailVaFile,
+    militaryServiceNumber,
   },
   chapters: {
     applicantInformation: {
@@ -156,6 +158,12 @@ const formConfig = {
                       2: 'Spouse or surviving spouse',
                       3: 'Unmarried adult child',
                       4: 'Other',
+                    },
+                    widgetProps: {
+                      1: { 'aria-describedby': 'veteran-relationship' },
+                      2: { 'aria-describedby': 'spouse-relationship' },
+                      3: { 'aria-describedby': 'child-relationship' },
+                      4: { 'aria-describedby': 'other-relationship' },
                     },
                     nestedContent: {
                       1: veteranRelationshipDescription,
@@ -268,11 +276,15 @@ const formConfig = {
                 militaryServiceNumber: {
                   'ui:title':
                     'Sponsor’s Military Service number (if they have one that’s different than their Social Security number)',
+                  'ui:errorMessages': {
+                    pattern:
+                      'Sponsor’s Military Service number must be between 4 to 10 characters',
+                  },
                 },
                 vaClaimNumber: {
                   'ui:title': 'Sponsor’s VA claim number (if known)',
                   'ui:errorMessages': {
-                    pattern: 'Your VA claim number must be 8 or 9 digits',
+                    pattern: 'Sponsor’s VA claim number must be 8 or 9 digits',
                   },
                 },
                 ssn: {
@@ -287,6 +299,10 @@ const formConfig = {
                 gender: {
                   'ui:title':
                     "Sponsor's sex (information will be used for statistical purposes only)",
+                },
+                race: {
+                  'ui:title':
+                    'Which categories best describe your sponsor? (You may check more than one)',
                 },
                 maritalStatus: {
                   'ui:title': 'Sponsor’s marital status',
@@ -804,7 +820,10 @@ const formConfig = {
                       country: { 'ui:required': isAuthorizedAgent },
                       street: { 'ui:required': isAuthorizedAgent },
                       city: { 'ui:required': isAuthorizedAgent },
-                      state: { 'ui:required': isAuthorizedAgent },
+                      state: {
+                        'ui:required':
+                          isAuthorizedAgent && environment.isProduction(),
+                      },
                       postalCode: { 'ui:required': isAuthorizedAgent },
                     },
                   ),

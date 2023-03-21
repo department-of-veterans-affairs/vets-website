@@ -26,6 +26,9 @@ const AuthorizedRoutes = () => {
         <Route exact path="/message/:messageId" key="MessageDetails">
           <MessageDetails />
         </Route>
+        <Route exact path="/thread/:threadId" key="MessageDetails">
+          <MessageDetails />
+        </Route>
         <Route exact path="/reply/:replyId" key="MessageReply">
           <MessageReply />
         </Route>

@@ -15,12 +15,12 @@
         "value": false
       },
       {
-        "name": "hcaShortFormEnabled",
+        "name": "hcaUseFacilitiesApi",
         "value": true
       },
       {
-        "name": "hcaUseFacilitiesApi",
-        "value": true
+        "name": "hcaHouseholdV2Enabled",
+        "value": false
       }
     ]
   }

@@ -7,10 +7,10 @@ import { format } from 'date-fns-tz';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
+import { savedMessage } from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
-import { savedMessage } from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
 
 class FormSaved extends React.Component {
   constructor(props) {
@@ -21,6 +21,7 @@ class FormSaved extends React.Component {
     };
     this.location = props.location || window.location;
   }
+
   componentDidMount() {
     // if we don’t have this then that means we’re loading the page
     // without any data and should just go back to the intro
@@ -28,13 +29,14 @@ class FormSaved extends React.Component {
       this.props.router.replace(this.props.route.pageList[0].path);
     } else {
       this.scrollToTop();
-      focusElement('.usa-alert');
+      focusElement('.usa-alert h2');
     }
   }
 
   getResumeOnly = () => {
     return this.props.route?.formConfig?.saveInProgress?.resumeOnly;
   };
+
   render() {
     const { formId, lastSavedDate, expirationMessage } = this.props;
     const { profile } = this.props.user;
@@ -53,7 +55,9 @@ class FormSaved extends React.Component {
       <div>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <strong>{savedMessage(this.props.route.formConfig)}</strong>
+            <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
+              {savedMessage(this.props.route.formConfig)}
+            </h2>
             <br />
             {!!lastSavedDate &&
               !!expirationDate && (

@@ -40,9 +40,6 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Set UUID for Mochawesome reports
-        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
       - name: Get Source Repo and Source Ref
         run: node ./script/github-actions/pe-deploy-source.js
         env:
@@ -66,7 +63,7 @@ jobs:
       #     push: false
       #     # Update tags and ECR Repository
       #     tags: |
-      #       ${{ steps.login-ecr.outputs.registry }}/dsva/preview-environment/vets-website:${{ env.SOURCE_REF_SANITIZED }}
+      #       ${{ steps.login-ecr.outputs.registry }}/dsva/preview-environment/${{ env.SOURCE_REPO }}:${{ env.SOURCE_REF_SANITIZED }}
       #     # cache-from: type=registry,ref=$ECR_REGISTRY/$ECR_REPOSITORY
       #     # cache-to: type=inline
 

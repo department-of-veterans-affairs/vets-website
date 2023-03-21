@@ -126,7 +126,7 @@ const testConfig = createTestConfig(
       },
       'resolution-options': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type="radio"][value="Compromise"]').click();
+          cy.get('va-radio-option[value="Compromise"]').click();
           cy.get(`input[name="compromise-resolution-amount"]`).type('100');
           cy.get('.usa-button-primary').click();
         });

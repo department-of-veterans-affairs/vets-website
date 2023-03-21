@@ -15,7 +15,7 @@ export const phoneFormSchema = {
     },
     extension: {
       type: 'string',
-      pattern: '^\\s*[a-zA-Z0-9]{0,6}\\s*$',
+      pattern: '^\\s*[0-9-]{0,6}\\s*$',
       maxLength: 6,
     },
   },
@@ -37,7 +37,7 @@ export const phoneUiSchema = fieldName => {
     extension: {
       'ui:title': 'Extension (6 digits maximum)',
       'ui:errorMessages': {
-        pattern: 'Please enter a valid extension.',
+        pattern: 'Please enter a valid extension up to 6 digits.',
       },
     },
   };

@@ -18,9 +18,10 @@ import {
   hasVAPServiceConnectionError,
   // TODO: uncomment when email is a supported communication channel
   // selectVAPEmailAddress,
-  selectPatientFacilities,
   selectVAPMobilePhone,
 } from '~/platform/user/selectors';
+
+import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 
 import { LOADING_STATES } from '../../../common/constants';
 
@@ -30,14 +31,12 @@ import Headline from '../ProfileSectionHeadline';
 import HealthCareGroupSupportingText from './HealthCareGroupSupportingText';
 import MissingContactInfoAlert from './MissingContactInfoAlert';
 import NotificationGroup from './NotificationGroup';
-import { selectShowPaymentsNotificationSetting } from '../../selectors';
 
 const NotificationSettings = ({
   allContactInfoOnFile,
   emailAddress,
   facilities,
   fetchNotificationSettings,
-  shouldShowPaymentsNotificationSetting,
   mobilePhoneNumber,
   noContactInfoOnFile,
   notificationGroups,
@@ -112,13 +111,6 @@ const NotificationSettings = ({
             mobilePhoneNumber={mobilePhoneNumber}
           />
           {notificationGroups.ids.map(groupId => {
-            if (
-              groupId === NOTIFICATION_GROUPS.PAYMENTS &&
-              !shouldShowPaymentsNotificationSetting
-            ) {
-              return null;
-            }
-
             // we handle the health care group a little differently
             if (groupId === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
               return (
@@ -144,7 +136,6 @@ NotificationSettings.propTypes = {
   fetchNotificationSettings: PropTypes.func.isRequired,
   noContactInfoOnFile: PropTypes.bool.isRequired,
   shouldShowLoadingIndicator: PropTypes.bool.isRequired,
-  shouldShowPaymentsNotificationSetting: PropTypes.bool.isRequired,
   allContactInfoOnFile: PropTypes.object,
   emailAddress: PropTypes.string,
   facilities: PropTypes.arrayOf(
@@ -166,9 +157,6 @@ const mapStateToProps = state => {
   const communicationPreferencesState = selectCommunicationPreferences(state);
   const hasVAPServiceError = hasVAPServiceConnectionError(state);
   const hasLoadingError = !!communicationPreferencesState.loadingErrors;
-  const shouldShowPaymentsNotificationSetting = selectShowPaymentsNotificationSetting(
-    state,
-  );
 
   // TODO: uncomment when email is a supported notification channel
   // const emailAddress = selectVAPEmailAddress(state);
@@ -193,7 +181,6 @@ const mapStateToProps = state => {
     shouldShowAPIError,
     shouldShowLoadingIndicator:
       communicationPreferencesState.loadingStatus === LOADING_STATES.pending,
-    shouldShowPaymentsNotificationSetting,
   };
 };
 

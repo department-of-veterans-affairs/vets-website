@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 import { shallowEqual, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { APPOINTMENT_TYPES, SPACE_BAR } from '../../../utils/constants';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
-import Grid from './Grid';
+import AppointmentFlexGrid from './AppointmentFlexGrid';
 import {
   getAppointmentDate,
   getAppointmentTimezone,
@@ -82,8 +82,8 @@ function getGridData(appointment) {
           ? `${typeOfCareName} with ${getPractitionerName(appointment)}`
           : 'VA Appointment',
       appointmentType: facilityName
-        ? `In person at ${facilityName}`
-        : 'In person appointment',
+        ? `In-person at ${facilityName}`
+        : 'In-person appointment',
       icon: '',
     };
   }
@@ -141,7 +141,7 @@ export default function AppointmentListItemGroup({ data }) {
         borderBottom={!isBorderBottom}
         status="upcoming"
       >
-        <Grid
+        <AppointmentFlexGrid
           key={index}
           index={index}
           appointment={appointment}
@@ -179,7 +179,7 @@ export default function AppointmentListItemGroup({ data }) {
               'vads-u-padding-right--1',
               {
                 'vads-u-border-bottom--1px': isBorderBottom,
-                'vads-u-border-color--gray-lighter': isBorderBottom,
+                'vads-u-border-color--gray-medium': isBorderBottom,
               },
             )}
           >
@@ -188,15 +188,15 @@ export default function AppointmentListItemGroup({ data }) {
                 ...styles.canceled,
               }}
             >
-              {`${appointmentDate.format('h:mm')} ${appointmentDate
-                .format('a')
-                .replace(/\./g, '')} ${abbreviation}`}{' '}
+              {`${appointmentDate.format('h:mm')} ${appointmentDate.format(
+                'a',
+              )} ${abbreviation}`}{' '}
             </div>
           </div>
           <div
             className={classNames('vads-l-col--4', 'vads-u-padding-y--2', {
               'vads-u-border-bottom--1px': isBorderBottom,
-              'vads-u-border-color--gray-lighter': isBorderBottom,
+              'vads-u-border-color--gray-medium': isBorderBottom,
             })}
           >
             <div
@@ -211,7 +211,7 @@ export default function AppointmentListItemGroup({ data }) {
           <div
             className={classNames('vads-l-col--4', 'vads-u-padding-y--2', {
               'vads-u-border-bottom--1px': isBorderBottom,
-              'vads-u-border-color--gray-lighter': isBorderBottom,
+              'vads-u-border-color--gray-medium': isBorderBottom,
             })}
           >
             <div style={styles.canceled}>
@@ -221,6 +221,7 @@ export default function AppointmentListItemGroup({ data }) {
                   'fa-phone': isVAPhoneAppointment(appointment),
                   'fa-video': isVideo,
                   'fa-building': isInPersonVAAppointment() || isCommunityCare,
+                  'fa-blank': isCommunityCare,
                 })}
               />
 
@@ -236,20 +237,20 @@ export default function AppointmentListItemGroup({ data }) {
               'vads-u-text-align--right',
               {
                 'vads-u-border-bottom--1px': isBorderBottom,
-                'vads-u-border-color--gray-lighter': isBorderBottom,
+                'vads-u-border-color--gray-medium': isBorderBottom,
               },
             )}
           >
-            <Link
+            <va-link
               className="vaos-appts__focus--hide-outline"
               aria-label={label}
-              to={link}
+              href={link}
               onClick={e => e.preventDefault()}
-            >
-              Details
-            </Link>
+              text="Details"
+              role="link"
+            />
           </div>
-        </Grid>
+        </AppointmentFlexGrid>
       </ListItem>
     );
   });

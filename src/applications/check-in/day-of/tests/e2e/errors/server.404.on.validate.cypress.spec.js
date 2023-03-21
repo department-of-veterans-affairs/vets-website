@@ -21,7 +21,7 @@ describe('Check In Experience', () => {
   });
   it('C5732 - Validate - 404 error', () => {
     Error.validateURL();
-    Error.validatePageLoaded();
+    Error.validatePageLoaded('uuid-not-found');
     cy.injectAxeThenAxeCheck();
   });
 });

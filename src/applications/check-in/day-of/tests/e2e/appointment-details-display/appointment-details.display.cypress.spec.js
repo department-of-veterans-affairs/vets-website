@@ -62,6 +62,7 @@ describe('Check In Experience', () => {
       AppointmentDetails.validateWhere();
       AppointmentDetails.validatePhone();
       AppointmentDetails.validateCheckInButton();
+      AppointmentDetails.validateReturnToAppointmentsPageButton();
       cy.injectAxeThenAxeCheck();
     });
     it('Can check-in from details page for eligible appointment', () => {

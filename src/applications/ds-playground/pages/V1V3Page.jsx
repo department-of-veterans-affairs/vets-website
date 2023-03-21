@@ -10,7 +10,8 @@ import {
   VaRadioOption,
   VaSelect,
   VaTextInput,
-  VaMemorableDate,
+  VaCheckboxGroup,
+  VaCheckbox,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V1V3Page() {
@@ -31,6 +32,28 @@ export default function V1V3Page() {
   }
   updateRadioValue({ value: 'Radio One' }, 'v1');
   updateRadioValue({ value: 'Radio One' }, 'v3');
+
+  const checkboxValueStore = {
+    v1: [],
+    v3: [],
+  };
+
+  /**
+   * @param {{value: string}} value
+   * @param {string} id
+   */
+  const updateCheckboxValue = (e, id) => {
+    const { value, checked } = e.srcElement;
+    const valueStore = checkboxValueStore[id];
+    if (checked) {
+      valueStore.push(value);
+    } else {
+      const index = valueStore.indexOf(value);
+      valueStore.splice(index, 1);
+    }
+    const display = document.getElementById(`${id}CheckboxValue`);
+    if (display) display.innerText = valueStore.sort().join(', ');
+  };
 
   const ValueDisplay = ({ id, label }) => {
     return (
@@ -166,35 +189,59 @@ export default function V1V3Page() {
           </div>
         </div>
 
-        {/* Memorable Date Comparison */}
+        {/* Checkbox Comparison */}
         <div className="vads-l-row">
           <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
             <div className="vads-l-col--6 vads-u-margin--1">
-              <VaMemorableDate
-                name="v1MemorableDate"
-                label="V1 Memorable date"
-                hint="This is a hint"
-                onDateBlur={e => updateValue(e)}
-                onDateChange={e => updateValue(e)}
-              />
-              <ValueDisplay
-                label="V1 Memorable date"
-                id="v1MemorableDateValue"
-              />
+              <VaCheckboxGroup
+                label="V1 Checkbox Group"
+                onVaChange={e => updateCheckboxValue(e, 'v1')}
+              >
+                <VaCheckbox
+                  label="Checkbox 1"
+                  name="v1Checkbox"
+                  value="Checkbox 1"
+                />
+                <VaCheckbox
+                  label="Checkbox 2"
+                  name="v1Checkbox"
+                  value="Checkbox 2"
+                />
+                <VaCheckbox
+                  label="Checkbox 3"
+                  name="v1Checkbox"
+                  value="Checkbox 3"
+                />
+              </VaCheckboxGroup>
+              <ValueDisplay label="V1 Checkbox Group" id="v1CheckboxValue" />
             </div>
 
             <div className="vads-l-col--6 vads-u-margin--1">
-              <VaMemorableDate
-                name="v3MemorableDate"
-                label="V3 Memorable date"
-                onDateBlur={e => updateValue(e)}
-                onDateChange={e => updateValue(e)}
+              <VaCheckboxGroup
                 uswds
-              />
-              <ValueDisplay
-                label="V3 Memorable date"
-                id="v3MemorableDateValue"
-              />
+                label="V3 Checkbox Group"
+                onVaChange={e => updateCheckboxValue(e, 'v3')}
+              >
+                <VaCheckbox
+                  uswds
+                  label="Checkbox 1"
+                  name="v3Checkbox"
+                  value="Checkbox 1"
+                />
+                <VaCheckbox
+                  uswds
+                  label="Checkbox 2"
+                  name="v3Checkbox"
+                  value="Checkbox 2"
+                />
+                <VaCheckbox
+                  uswds
+                  label="Checkbox 3"
+                  name="v3Checkbox"
+                  value="Checkbox 3"
+                />
+              </VaCheckboxGroup>
+              <ValueDisplay label="V3 Checkbox Group" id="v3CheckboxValue" />
             </div>
           </div>
         </div>
