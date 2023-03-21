@@ -17,6 +17,52 @@ import { setUpPage, isTab, setFocus } from '../utils/page';
 const NEED_ITEMS_STATUS = 'NEEDED';
 const FIRST_GATHERING_EVIDENCE_PHASE = 3;
 
+const isEVSSClaim = claim => claim.type === 'evss_claims';
+
+const isAssociatedWithAnyTrackedItem = doc => doc.trackedItemId !== null;
+
+const isAssociatedWithTrackedItem = itemId => doc =>
+  doc.trackedItemId === itemId;
+
+const getDocsAssociatedWithTrackedItems = docs =>
+  docs.filter(isAssociatedWithAnyTrackedItem);
+
+const getDocsAssociatedWithTrackedItem = (item, docs) => {
+  const predicate = isAssociatedWithTrackedItem(item.trackedItemId);
+  return docs.filter(predicate);
+};
+
+const filterAssociatedDocs = docs =>
+  docs.filter(!isAssociatedWithAnyTrackedItem);
+
+const associateDocsWithTrackedItems = (items, docs) => {
+  return items.map(item => {
+    const newItem = { ...item };
+    const associatedDocs = getDocsAssociatedWithTrackedItem(newItem, docs);
+    console.log(associatedDocs);
+    newItem.documents = associatedDocs;
+    return newItem;
+  });
+};
+
+const getTrackedItems = claim => {
+  const {
+    eventsTimeline,
+    supportingDocuments,
+    trackedItems,
+  } = claim.attributes;
+
+  if (isEVSSClaim(claim)) {
+    return eventsTimeline.filter(event => event.type.endsWith('_list'));
+  }
+
+  const associatedDocuments = getDocsAssociatedWithTrackedItems(
+    supportingDocuments,
+  );
+
+  return associateDocsWithTrackedItems(trackedItems, associatedDocuments);
+};
+
 class FilesPage extends React.Component {
   componentDidMount() {
     this.setTitle();
@@ -55,42 +101,55 @@ class FilesPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced } = this.props;
+    const { claim, loading, params, message, synced } = this.props;
 
     let content = null;
     if (!loading && claim) {
+      const { attributes } = claim;
+      const isOpen = isEVSSClaim(claim)
+        ? attributes.open
+        : attributes.closeDate === null;
+
+      const waiverSubmitted =
+        attributes.waiverSubmitted || attributes.evidenceWaiverSubmitted5103;
       const showDecision =
-        claim.attributes.phase === FIRST_GATHERING_EVIDENCE_PHASE &&
-        !claim.attributes.waiverSubmitted;
-      const trackedItems = claim.attributes.eventsTimeline.filter(event =>
-        event.type.endsWith('_list'),
-      );
+        attributes.phase === FIRST_GATHERING_EVIDENCE_PHASE && !waiverSubmitted;
+      const trackedItems = getTrackedItems(claim);
+      console.log(trackedItems);
       const filesNeeded = trackedItems.filter(
         event =>
-          event.status === NEED_ITEMS_STATUS &&
-          event.type === 'still_need_from_you_list',
+          (event.status === NEED_ITEMS_STATUS ||
+            event.trackedItemStatus === NEED_ITEMS_STATUS) &&
+          (event.type === 'still_need_from_you_list' ||
+            event.neededFrom === 'YOU'),
       );
+      console.log('FILES NEEDED:', filesNeeded);
       const optionalFiles = trackedItems.filter(
         event =>
-          event.status === NEED_ITEMS_STATUS &&
-          event.type === 'still_need_from_others_list',
+          (event.status === NEED_ITEMS_STATUS ||
+            event.trackedItemStatus === NEED_ITEMS_STATUS) &&
+          (event.type === 'still_need_from_others_list' ||
+            event.neededFrom === 'OTHERS'),
       );
-      const documentsTurnedIn = trackedItems.filter(
-        event =>
-          event.status !== NEED_ITEMS_STATUS ||
-          !event.type.startsWith('still_need_from'),
-      );
+      const documentsTurnedIn = trackedItems.filter(event => {
+        return (
+          (event.status && event.status !== NEED_ITEMS_STATUS) ||
+          (event.trackedItemStatus && event.trackedItemStatus !== NEED_ITEMS_STATUS) ||
+          (event.type && !event.type.startsWith('still_need_from'))
+        );
+      });
+      documentsTurnedIn.push(...attributes.supportingDocuments);
 
       content = (
         <div>
-          {claim.attributes.open && (
+          {isOpen && (
             <RequestedFilesInfo
               id={claim.id}
               filesNeeded={filesNeeded}
               optionalFiles={optionalFiles}
             />
           )}
-          {showDecision && <AskVAToDecide id={this.props.params.id} />}
+          {showDecision && <AskVAToDecide id={params.id} />}
           <div className="submitted-files-list">
             <h2 className="claim-file-border">Documents filed</h2>
             {documentsTurnedIn.length === 0 ? (
@@ -101,6 +160,7 @@ class FilesPage extends React.Component {
 
             {documentsTurnedIn.map(
               (item, itemIndex) =>
+                (item.status || item.trackedItemStatus) &&
                 item.trackedItemId ? (
                   <SubmittedTrackedItem item={item} key={itemIndex} />
                 ) : (
@@ -153,3 +213,10 @@ export default connect(
 )(FilesPage);
 
 export { FilesPage };
+
+FilesPage.propTypes = {
+  claim: PropTypes.object,
+  clearNotification: PropTypes.func,
+  loading: PropTypes.bool,
+  params: PropTypes.object,
+};

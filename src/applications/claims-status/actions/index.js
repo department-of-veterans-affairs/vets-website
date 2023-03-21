@@ -322,6 +322,36 @@ export function getClaims() {
 // END lighthouse_migration
 
 // START lighthouse_migration
+export const getClaim = (id, router) => {
+  return dispatch => {
+    const startTimeMillis = Date.now();
+    dispatch({
+      type: GET_CLAIM_DETAIL,
+    });
+
+    return apiRequest(`/benefits_claims/${id}`)
+      .then(res => {
+        recordClaimsAPIEvent({
+          startTime: startTimeMillis,
+          success: true,
+        });
+
+        dispatch({
+          type: SET_CLAIM_DETAIL,
+          claim: res.data,
+          meta: { syncStatus: 'SUCCESS' },
+        });
+      })
+      .catch(error => {
+        if (error.status !== 404 || !router) {
+          return dispatch({ type: SET_CLAIMS_UNAVAILABLE });
+        }
+
+        return router.replace('your-claims');
+      });
+  };
+};
+
 export function getClaimDetail(id, router, poll = pollRequest) {
   return dispatch => {
     dispatch({
@@ -359,8 +389,6 @@ export function getClaimDetail(id, router, poll = pollRequest) {
     });
   };
 }
-
-export const getClaim = getClaimDetail;
 // END lighthouse_migration
 
 export function submitRequest(id) {

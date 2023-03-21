@@ -10,7 +10,7 @@
       "phaseChangeDate": "2021-01-22",
       "open": true,
       "waiverSubmitted": false,
-      "documentsNeeded": false,
+      "documentsNeeded": true,
       "developmentLetterSent": false,
       "decisionLetterSent": false,
       "phase": 3,
@@ -36,9 +36,43 @@
           "date": "2022-01-05"
         },
         {
+          "type": "received_from_you_list",
+          "trackedItemId": 4,
+          "description": "Sample received_from_you_list item for Lighthouse Demo",
+          "displayName": "Request 11",
+          "overdue": false,
+          "status": "ACCEPTED",
+          "uploaded": true,
+          "uploadsAllowed": false,
+          "openedDate": null,
+          "requestedDate": null,
+          "receivedDate": "2022-01-04",
+          "closedDate": null,
+          "suspenseDate": null,
+          "documents": [
+            {
+              "trackedItemId": 4,
+              "fileType": "Correspondence",
+              "documentType": "L102",
+              "filename": "name4.pdf",
+              "uploadDate": "2022-01-04"
+            },
+            {
+              "trackedItemId": 5,
+              "fileType": "Correspondence",
+              "documentType": "L023",
+              "filename": "benefits.pdf",
+              "uploadDate": "2021-08-22",
+              "type": "other_documents_list",
+              "date": "2022-01-04"
+            }
+          ],
+          "date": "2022-01-04"
+        },
+        {
           "type": "received_from_others_list",
           "trackedItemId": 4,
-          "description": "What was received item two.",
+          "description": "Sample received_from_others_list item for Lighthouse Demo",
           "displayName": "Request 11",
           "overdue": false,
           "status": "ACCEPTED",
@@ -72,6 +106,30 @@
         {
           "type": "phase2",
           "date": "2022-01-01"
+        },
+        {
+          "trackedItemId": 50,
+          "fileType": "Correspondence",
+          "documentType": "L023",
+          "filename": "Large_BDD_STR_Test_part_2_of_3.pdf",
+          "uploadDate": "2021-09-22",
+          "description": "Sample still_need_from_you_list request for Lighthouse Demo",
+          "displayName": "Request 11",
+          "type": "still_need_from_you_list",
+          "date": "2021-09-22",
+          "status": "NEEDED"
+        },
+        {
+          "trackedItemId": 51,
+          "fileType": "Correspondence",
+          "documentType": "L023",
+          "filename": "Large_BDD_STR_Test_part_2_of_3.pdf",
+          "uploadDate": "2021-09-22",
+          "description": "Sample still_need_from_others_list request for Lighthouse Demo",
+          "displayName": "Request 12",
+          "type": "still_need_from_others_list",
+          "date": "2021-09-22",
+          "status": "NEEDED"
         },
         {
           "trackedItemId": null,

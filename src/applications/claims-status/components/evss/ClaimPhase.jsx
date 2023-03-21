@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import moment from 'moment';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { getUserPhaseDescription } from '../utils/helpers';
+import { getUserPhaseDescription } from '../../utils/helpers';
 
 const stepClasses = {
   1: 'one',
@@ -189,7 +189,7 @@ export default class ClaimPhase extends React.Component {
   }
 
   render() {
-    const { children, current, phase } = this.props;
+    const { phase, current, children } = this.props;
     const { open } = this.state;
     const expandCollapseIcon =
       phase <= current ? (

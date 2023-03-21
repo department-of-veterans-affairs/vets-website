@@ -210,10 +210,15 @@ export function isPopulatedClaim({ attributes }) {
 }
 
 export function hasBeenReviewed(trackedItem) {
-  return (
-    trackedItem.type.startsWith('received_from') &&
-    trackedItem.status !== 'SUBMITTED_AWAITING_REVIEW'
-  );
+  if ('type' in trackedItem) {
+    return (
+      trackedItem.type.startsWith('received_from') &&
+      trackedItem.status !== 'SUBMITTED_AWAITING_REVIEW'
+    );
+  }
+
+  const reviewedStatuses = ['ACCEPTED', 'INITIAL_REVIEW_COMPLETE'];
+  return reviewedStatuses.indexOf(trackedItem.trackedItemStatus) !== -1;
 }
 
 // Adapted from http://stackoverflow.com/a/26230989/487883

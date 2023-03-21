@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
-import DueDate from './DueDate';
+import AdditionalEvidencePage from '../containers/AdditionalEvidencePage';
 import { truncateDescription, stripHtml } from '../utils/helpers';
 
-import AdditionalEvidencePage from '../containers/AdditionalEvidencePage';
+import DueDate from './DueDate';
 
 export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
   return (
@@ -25,7 +25,9 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
             key={item.trackedItemId}
           >
             <div className="item-container">
-              <h3 className="file-request-title">{item.displayName}</h3>
+              <h3 className="file-request-title">
+                {item.displayName || item.displayedName}
+              </h3>
               <p className="submission-description">
                 {truncateDescription(stripHtml(item.description))}
               </p>
@@ -50,7 +52,9 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
             key={item.trackedItemId}
           >
             <div className="item-container">
-              <h3 className="file-request-title">{item.displayName}</h3>
+              <h3 className="file-request-title">
+                {item.displayName || item.displayedName}
+              </h3>
               <p className="submission-description">
                 {truncateDescription(stripHtml(item.description))}
               </p>

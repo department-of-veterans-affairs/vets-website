@@ -9,22 +9,27 @@ import {
 } from '../utils/helpers';
 
 export default function SubmittedTrackedItem({ item }) {
-  const closed =
-    item.type.startsWith('never_received') ||
-    item.status === 'NO_LONGER_REQUIRED';
+  const status = item.status || item.trackedItemStatus;
+
+  console.log(item);
+  const closed = status === 'NO_LONGER_REQUIRED';
   const reviewed = hasBeenReviewed(item);
   return (
     <div className="submitted-file-list-item">
-      <h3 className="submission-file-type">{item.displayName}</h3>
+      <h3 className="submission-file-type">
+        {item.displayName || item.displayedName}
+      </h3>
       <p className="submission-description">
         {truncateDescription(item.description)}
       </p>
       {item.documents &&
         item.documents.map((doc, index) => (
           <div key={index} className="submission-description">
-            <span className="claim-item-label">File:</span> {doc.filename}
+            <span className="claim-item-label">File:</span>{' '}
+            {doc.filename || doc.originalFileName}
             <br />
-            <span className="claim-item-label">Type:</span> {doc.fileType}
+            <span className="claim-item-label">Type:</span>{' '}
+            {doc.fileType || doc.documentTypeLabel}
           </div>
         ))}
       {closed && (
