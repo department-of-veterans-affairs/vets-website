@@ -22,6 +22,8 @@ import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
 import VehicleSummaryWidget from '../pages/assets/vehicles/VehicleSummaryWidget';
 import AddAsset from '../components/otherAssets/AddAsset';
+import OtherAssetsSummary from '../components/otherAssets/OtherAssetsSummary';
+import OtherAssetsSummaryReview from '../components/otherAssets/OtherAssetsSummaryReview';
 import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
 
@@ -583,24 +585,26 @@ const formConfig = {
         enhancedVehicleRecords: {
           path: 'your-vehicle-records',
           title: 'Vehicles',
-          uiSchema: pages.enhancedVehicleRecords.uiSchema,
-          schema: pages.enhancedVehicleRecords.schema,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
           depends: formData =>
             formData.questions.hasVehicle &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: EnhancedVehicleRecord,
+          CustomPageReview: null,
         },
         vehiclesSummary: {
           path: 'vehicles-summary',
           title: 'Your car or other vehicle',
-          uiSchema: pages.vehicleSummary.uiSchema,
-          schema: pages.vehicleSummary.schema,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
           depends: formData =>
             formData.questions.hasVehicle &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: VehicleSummaryWidget,
+          CustomPageReview: null,
         },
         recreationalVehicles: {
           path: 'recreational-vehicles',
@@ -670,15 +674,20 @@ const formConfig = {
         otherAssetsSummary: {
           path: 'other-assets-summary',
           title: 'Other assets summary',
-          uiSchema: pages.otherAssetPages.otherAssetsSummary.uiSchema,
-          schema: pages.otherAssetPages.otherAssetsSummary.schema,
-          depends: formData => formData['view:enhancedFinancialStatusReport'],
+          CustomPage: OtherAssetsSummary,
+          CustomPageReview: OtherAssetsSummaryReview,
+          editModeOnReviewPage: true,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            !!formData.assets?.otherAssets?.length &&
+            formData['view:enhancedFinancialStatusReport'],
         },
         addOtherAsset: {
           path: 'add-other-asset',
           title: 'Add your additional assets',
           CustomPage: AddAsset,
-          CustomPageReview: null, // TODO: Add review page (or check if reviewpage on normal)
+          CustomPageReview: null,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           depends: () => false, // accessed from otherAssetsSummary

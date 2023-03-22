@@ -25,6 +25,7 @@ export const PROFILE_PATHS = Object.freeze({
   NOTIFICATION_SETTINGS: '/profile/notifications',
   CONNECTED_APPLICATIONS: '/profile/connected-applications',
   ACCOUNT_SECURITY: '/profile/account-security',
+  EDIT: '/profile/edit',
 });
 
 export const PROFILE_PATH_NAMES = Object.freeze({
@@ -35,6 +36,7 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   NOTIFICATION_SETTINGS: 'Notification settings',
   CONNECTED_APPLICATIONS: 'Connected apps',
   ACCOUNT_SECURITY: 'Account security',
+  EDIT: 'Edit your information',
 });
 
 export const ACCOUNT_TYPES_OPTIONS = {

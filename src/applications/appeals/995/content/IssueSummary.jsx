@@ -31,7 +31,7 @@ const IssueSummary = ({ formData }) => {
       <ul className="issues-summary vads-u-margin-bottom--0">
         {issues.map((issue, index) => (
           <li key={index} className={listClassNames}>
-            <h4 className="capitalize vads-u-margin-top--0">
+            <h4 className="capitalize vads-u-margin-top--0 vads-u-padding-right--2">
               {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}
             </h4>
             <div>

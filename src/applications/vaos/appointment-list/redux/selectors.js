@@ -404,6 +404,20 @@ export function selectIsPending(appointment) {
   );
 }
 
+export function selectIsPendingAppointment(appt) {
+  return (
+    !appt.vaos.isExpressCare &&
+    (appt.status === APPOINTMENT_STATUS.proposed ||
+      appt.status === APPOINTMENT_STATUS.pending)
+  );
+}
+
+export function selectIsCancelledAppointment(appt) {
+  return (
+    !appt.vaos.isExpressCare && appt.status === APPOINTMENT_STATUS.cancelled
+  );
+}
+
 export function selectAppointmentLocality(appointment) {
   const practitioner = selectPractitionerName(appointment);
   const typeOfCareName = selectTypeOfCareName(appointment);
@@ -412,7 +426,7 @@ export function selectAppointmentLocality(appointment) {
   const isVideo = selectIsVideo(appointment);
   const isInPerson = selectIsInPerson(appointment);
 
-  if (isPendingOrCancelledRequest(appointment)) {
+  if (selectIsPendingAppointment(appointment)) {
     const { name: facilityName } = appointment.vaos.facilityData || {
       name: '',
     };
@@ -481,7 +495,7 @@ export function selectModalityText(appointment) {
     name: '',
   };
 
-  if (isPendingOrCancelledRequest(appointment)) {
+  if (selectIsPendingAppointment(appointment)) {
     if (isInPerson) {
       return 'In person';
     }
@@ -495,7 +509,14 @@ export function selectModalityText(appointment) {
   //
   // TODO: What default should be displayed if the data is corrupt an there is
   // no facility name?
-  if (facilityName && isVideoAtlas) return `At ${facilityName}`;
+  if (selectIsVideo(appointment)) {
+    if (isVideoAtlas) {
+      const { line, city, state } = appointment.videoData.atlasLocation.address;
+      return `At ${line} ${city}, ${state}`;
+    }
+
+    if (isVideoHome || isVideoVADevice) return 'Video';
+  }
 
   if (isInPerson || isVideoClinic) {
     return facilityName ? `At ${facilityName}` : 'At VA facility';
@@ -503,7 +524,7 @@ export function selectModalityText(appointment) {
 
   if (isPhone) return 'Phone';
   if (isCommunityCare) return 'Community care';
-  if (isVideoHome || isVideoVADevice) return 'Video';
+  // if (facilityName) return `At ${facilityName}`;
 
   return '';
 }

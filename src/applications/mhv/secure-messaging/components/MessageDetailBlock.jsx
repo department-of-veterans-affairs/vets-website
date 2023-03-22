@@ -13,6 +13,7 @@ import { closeAlert } from '../actions/alerts';
 
 const MessageDetailBlock = props => {
   const {
+    threadId,
     messageId,
     category,
     subject,
@@ -81,6 +82,7 @@ const MessageDetailBlock = props => {
       </header>
       <MessageActionButtons
         id={messageId}
+        threadId={threadId}
         handlePrintThreadStyleClass={handlePrintThreadStyleClass}
         onReply={handleReplyButton}
         hideReplyButton={hideReplyButton}
