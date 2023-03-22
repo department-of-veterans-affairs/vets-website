@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearJobIndex } from '../../../utils/session';
 import {
@@ -63,7 +64,7 @@ const VehicleSummaryWidget = ({
                 pathname: '/your-vehicle-records',
                 search: `?index=${index}`,
               }}
-              heading={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
+              heading={`${vehicle.year || ''} ${vehicle.make} ${vehicle.model}`}
               key={vehicle.make + vehicle.model + vehicle.year}
               onDelete={() => onDelete(index)}
               showDelete
@@ -86,6 +87,23 @@ const VehicleSummaryWidget = ({
       {contentAfterButtons}
     </form>
   );
+};
+
+VehicleSummaryWidget.propTypes = {
+  contentAfterButtons: PropTypes.object,
+  contentBeforeButtons: PropTypes.object,
+  data: PropTypes.shape({
+    assets: PropTypes.array,
+    questions: PropTypes.shape({
+      hasVehicle: PropTypes.bool,
+    }),
+  }),
+  goBack: PropTypes.func,
+  goToPath: PropTypes.func,
+  setFormData: PropTypes.func,
+  testingIndex: PropTypes.number,
+  updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
 
 export default VehicleSummaryWidget;

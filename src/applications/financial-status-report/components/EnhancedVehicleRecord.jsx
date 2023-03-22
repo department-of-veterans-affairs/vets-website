@@ -4,14 +4,12 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
-const defaultRecord = [
-  {
-    make: '',
-    model: '',
-    year: '',
-    resaleValue: '',
-  },
-];
+const defaultRecord = {
+  make: '',
+  model: '',
+  year: '',
+  resaleValue: '',
+};
 
 const MAX_VEHICLE_MAKE_LENGTH = 32;
 
@@ -34,7 +32,7 @@ const EnhancedVehicleRecord = props => {
   const specificRecord = automobiles ? automobiles[index] : defaultRecord[0];
 
   const [vehicleRecord, setVehicleRecord] = useState({
-    ...(isEditing ? specificRecord : defaultRecord[0]),
+    ...(isEditing ? specificRecord : defaultRecord),
   });
 
   const [vehicleRecordIsDirty, setVehicleRecordIsDirty] = useState(false);
@@ -94,7 +92,11 @@ const EnhancedVehicleRecord = props => {
     const newVehicleArray = [...automobiles];
     newVehicleArray[index] = vehicleRecord;
 
-    if (vehicleRecord.make && vehicleRecord.model) {
+    if (
+      vehicleRecord.make &&
+      vehicleRecord.model &&
+      vehicleRecord.resaleValue
+    ) {
       // update form data
       setFormData({
         ...data,
@@ -158,7 +160,7 @@ const EnhancedVehicleRecord = props => {
           name="year"
           id="year"
           onInput={handleVehicleYearChange}
-          value={vehicleRecord.year}
+          value={vehicleRecord.year || ''}
         />
       </div>
 
