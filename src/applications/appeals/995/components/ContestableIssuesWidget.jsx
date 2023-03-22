@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { focusElement, scrollTo } from 'platform/utilities/ui';
 
 import { IssueCard } from './IssueCard';
-import { SELECTED, MAX_LENGTH, LAST_SC_ITEM } from '../constants';
+import {
+  SELECTED,
+  MAX_LENGTH,
+  LAST_SC_ITEM,
+  REVIEW_ISSUES,
+} from '../constants';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
@@ -53,8 +59,30 @@ const ContestableIssuesWidget = props => {
   } = props;
 
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [editState] = useState(window.sessionStorage.getItem(LAST_SC_ITEM));
+
+  useEffect(
+    () => {
+      if (editState) {
+        window.sessionStorage.removeItem(LAST_SC_ITEM);
+        const [lastEdited, returnState] = editState.split(',');
+        setTimeout(() => {
+          const card = `#issue-${lastEdited}`;
+          const target =
+            returnState === 'cancel'
+              ? `${card} .edit-issue-link`
+              : `${card} input`;
+          scrollTo(card);
+          focusElement(target);
+        }, 100);
+      }
+    },
+    [editState],
+  );
 
   const onReviewPage = formContext?.onReviewPage || false;
+  window.sessionStorage.setItem(REVIEW_ISSUES, onReviewPage);
+
   // inReviewMode = true (review page view, not in edit mode)
   // inReviewMode = false (in edit mode)
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
@@ -168,7 +196,9 @@ const ContestableIssuesWidget = props => {
           onReviewPage={onReviewPage}
           inReviewMode={inReviewMode}
         />
-        <dl className="review">{content}</dl>
+        <ul className="issues vads-u-border-top--1px vads-u-border-color--gray-light">
+          {content}
+        </ul>
         {onReviewPage && inReviewMode ? null : (
           <Link
             className="add-new-issue vads-c-action-link--green"

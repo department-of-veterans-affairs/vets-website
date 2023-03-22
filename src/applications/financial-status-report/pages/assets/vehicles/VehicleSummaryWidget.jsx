@@ -77,8 +77,8 @@ const EmploymentHistoryWidget = props => {
               heading={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
               key={vehicle.make + vehicle.model + vehicle.year}
               onDelete={() => onDelete(index)}
-              subheading={`Value: ${currencyFormatter(vehicle.resaleValue)}`}
               showDelete
+              body={<p>Value: {currencyFormatter(vehicle.resaleValue)}</p>}
             />
           ))
         )}

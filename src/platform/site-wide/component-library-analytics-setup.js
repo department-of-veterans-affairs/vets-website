@@ -64,13 +64,6 @@ const analyticsEvents = {
       prefix: 'loading-indicator',
     },
   ],
-  RadioButtons: [
-    {
-      action: 'change',
-      event: 'int-radio-button-option-click',
-      prefix: 'radio-button',
-    },
-  ],
   Select: [
     {
       action: 'change',

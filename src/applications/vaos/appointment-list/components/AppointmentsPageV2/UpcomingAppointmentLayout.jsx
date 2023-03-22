@@ -27,6 +27,7 @@ export default function UpcomingAppointmentLayout({
             'vaos-appts__listItem',
             {
               'vads-u-border-bottom--1px': !isLastInMonth,
+              'vads-u-border-color--gray-medium': !isLastInMonth,
             },
           )}
         >
@@ -81,6 +82,7 @@ export default function UpcomingAppointmentLayout({
             'vaos-appts__listItem--clickable',
             {
               'vads-u-border-bottom--1px': !isLastInMonth,
+              'vads-u-border-color--gray-medium': !isLastInMonth,
             },
           )}
         >

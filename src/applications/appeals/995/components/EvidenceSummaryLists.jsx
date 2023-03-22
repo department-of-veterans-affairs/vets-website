@@ -23,6 +23,13 @@ const listClassNames = [
   'vads-u-padding-x--0',
 ].join(' ');
 
+const removeButtonClass = [
+  'remove-item',
+  'vads-u-width--auto',
+  'vads-u-margin-left--2',
+  'vads-u-margin-top--0',
+].join(' ');
+
 const formatDateRange = ({ from, to }) => {
   const fromDate = getDate({ date: from || '', pattern: FORMAT_COMPACT });
   const toDate = getDate({ date: to || '', pattern: FORMAT_COMPACT });
@@ -69,30 +76,30 @@ export const VaContent = ({
           const path = `/${EVIDENCE_VA_PATH}?index=${index}`;
           return (
             <li key={locationAndName + index} className={listClassNames}>
-              {!reviewMode && (
-                <Link
-                  key={`edit-va-${index}`}
-                  id={`edit-va-${index}`}
-                  className="float-right edit-item"
-                  to={path}
-                  aria-label={`${content.edit} ${locationAndName}`}
-                  data-link={testing ? path : null}
-                >
-                  {content.edit}
-                </Link>
-              )}
               <strong>{locationAndName}</strong>
               <div>{readableList(issues)}</div>
               {formatDateRange(evidenceDates)}
               {!reviewMode && (
-                <va-button
-                  data-index={index}
-                  onClick={handlers.removeVaLocation}
-                  class="vads-u-display--block remove-item"
-                  label={`${content.remove} ${locationAndName}`}
-                  text={content.remove}
-                  secondary
-                />
+                <div>
+                  <Link
+                    key={`edit-va-${index}`}
+                    id={`edit-va-${index}`}
+                    className="edit-item"
+                    to={path}
+                    aria-label={`${content.edit} ${locationAndName}`}
+                    data-link={testing ? path : null}
+                  >
+                    {content.edit}
+                  </Link>
+                  <va-button
+                    data-index={index}
+                    onClick={handlers.removeVaLocation}
+                    class={removeButtonClass}
+                    label={`${content.remove} ${locationAndName}`}
+                    text={content.remove}
+                    secondary
+                  />
+                </div>
               )}
             </li>
           );
@@ -138,58 +145,60 @@ export const PrivateContent = ({
           const path = `/${EVIDENCE_PRIVATE_PATH}?index=${index}`;
           return (
             <li key={providerFacilityName + index} className={listClassNames}>
-              {!reviewMode && (
-                <Link
-                  id={`edit-private-${index}`}
-                  className="float-right edit-item"
-                  to={path}
-                  aria-label={`${content.edit} ${providerFacilityName}`}
-                  data-link={testing ? path : null}
-                >
-                  {content.edit}
-                </Link>
-              )}
               <strong>{providerFacilityName}</strong>
               <div>{readableList(issues)}</div>
               {formatDateRange(treatmentDateRange)}
               {!reviewMode && (
-                <va-button
-                  data-index={index}
-                  onClick={handlers.removePrivateFacility}
-                  class="vads-u-display--block remove-item"
-                  label={`${content.remove} ${providerFacilityName}`}
-                  text={content.remove}
-                  secondary
-                />
+                <div>
+                  <Link
+                    id={`edit-private-${index}`}
+                    className="edit-item"
+                    to={path}
+                    aria-label={`${content.edit} ${providerFacilityName}`}
+                    data-link={testing ? path : null}
+                  >
+                    {content.edit}
+                  </Link>
+                  <va-button
+                    data-index={index}
+                    onClick={handlers.removePrivateFacility}
+                    class={removeButtonClass}
+                    label={`${content.remove} ${providerFacilityName}`}
+                    text={content.remove}
+                    secondary
+                  />
+                </div>
               )}
             </li>
           );
         })}
         <li key="limitation" className={listClassNames}>
-          {!reviewMode && (
-            <Link
-              id="edit-limitation"
-              className="float-right edit-item"
-              to={`/${EVIDENCE_LIMITATION_PATH}`}
-              aria-label={`${content.edit} ${limitContent.name} `}
-              data-link={testing ? EVIDENCE_LIMITATION_PATH : null}
-            >
-              {content.edit}
-            </Link>
-          )}
           <div>{limitContent.title}</div>
           <strong>
             {limitContent.review[limitedConsent.length ? 'y' : 'n']}
           </strong>
-          {!reviewMode && limitedConsent.length ? (
-            <va-button
-              onClick={handlers.removePrivateLimitation}
-              class="vads-u-display--block remove-item"
-              label={`${content.remove} ${limitContent.name}`}
-              text={content.remove}
-              secondary
-            />
-          ) : null}
+          {!reviewMode && (
+            <div>
+              <Link
+                id="edit-limitation"
+                className="edit-item"
+                to={`/${EVIDENCE_LIMITATION_PATH}`}
+                aria-label={`${content.edit} ${limitContent.name} `}
+                data-link={testing ? EVIDENCE_LIMITATION_PATH : null}
+              >
+                {content.edit}
+              </Link>
+              {limitedConsent.length ? (
+                <va-button
+                  onClick={handlers.removePrivateLimitation}
+                  class={removeButtonClass}
+                  label={`${content.remove} ${limitContent.name}`}
+                  text={content.remove}
+                  secondary
+                />
+              ) : null}
+            </div>
+          )}
         </li>
       </ul>
     </>
@@ -228,28 +237,28 @@ export const UploadContent = ({
       <ul className="evidence-summary">
         {list.map((upload, index) => (
           <li key={upload.name + index} className={listClassNames}>
-            {!reviewMode && (
-              <Link
-                id={`edit-upload-${index}`}
-                className="float-right edit-item"
-                to={`/${EVIDENCE_UPLOAD_PATH}`}
-                aria-label={`${content.edit} ${upload.name}`}
-                data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
-              >
-                {content.edit}
-              </Link>
-            )}
             <strong>{upload.name}</strong>
             <div>{ATTACHMENTS_OTHER[upload.attachmentId] || ''}</div>
             {!reviewMode && (
-              <va-button
-                data-index={index}
-                onClick={handlers.removeUpload}
-                class="vads-u-display--block remove-item"
-                label={`${content.remove} ${upload.name}`}
-                text={content.remove}
-                secondary
-              />
+              <div>
+                <Link
+                  id={`edit-upload-${index}`}
+                  className="edit-item"
+                  to={`/${EVIDENCE_UPLOAD_PATH}`}
+                  aria-label={`${content.edit} ${upload.name}`}
+                  data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
+                >
+                  {content.edit}
+                </Link>
+                <va-button
+                  data-index={index}
+                  onClick={handlers.removeUpload}
+                  class={removeButtonClass}
+                  label={`${content.remove} ${upload.name}`}
+                  text={content.remove}
+                  secondary
+                />
+              </div>
             )}
           </li>
         ))}

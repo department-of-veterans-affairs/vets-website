@@ -15,6 +15,7 @@ import {
   selectApptDateAriaText,
   selectTypeOfCareAriaText,
   selectModalityAriaText,
+  selectIsCommunityCare,
 } from '../../redux/selectors';
 
 export default function AppointmentColumnLayout({
@@ -27,6 +28,7 @@ export default function AppointmentColumnLayout({
     selectAppointmentLocality(data),
   );
   const isCanceled = useSelector(() => selectIsCanceled(data));
+  const isCommunityCare = useSelector(() => selectIsCommunityCare(data));
   const modalityText = useSelector(() => selectModalityText(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
   const startDate = useSelector(() => selectStartDate(data));
@@ -69,7 +71,7 @@ export default function AppointmentColumnLayout({
       <AppointmentColumn
         className={classNames(
           'vaos-appts__column--2',
-          'vads-u-border-color--gray-lighter',
+          'vads-u-border-color--gray-medium',
           'vads-u-margin-left--2',
           'vads-u-padding-y--2',
           'small-screen:vads-u-margin-left--4',
@@ -115,7 +117,12 @@ export default function AppointmentColumnLayout({
                     className={classNames(
                       'fas',
                       'vads-u-margin-right--1',
+                      'vads-u-color--gray',
                       modalityIcon,
+                      {
+                        'vaos-appts__text--line-through':
+                          isCanceled && !isCommunityCare,
+                      },
                     )}
                   />
 

@@ -1,3 +1,4 @@
+import React from 'react';
 import { intersection, pick } from 'lodash';
 
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -11,13 +12,15 @@ const pageFields = [veteranFields.ssn, veteranFields.vaFileNumber];
 
 export default {
   uiSchema: {
+    'ui:title': (
+      <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+        Identification information
+      </h3>
+    ),
     [veteranFields.parentObject]: {
-      [veteranFields.ssn]: {
-        ...ssnUI,
-        'ui:title': 'Your social security number',
-      },
+      [veteranFields.ssn]: ssnUI,
       [veteranFields.vaFileNumber]: {
-        'ui:title': 'Your VA file number',
+        'ui:title': 'VA file number (if you have one)',
         'ui:errorMessages': {
           pattern:
             'Please input a valid VA file number: 7 to 9 numeric digits, & may start with a letter "C" or "c".',

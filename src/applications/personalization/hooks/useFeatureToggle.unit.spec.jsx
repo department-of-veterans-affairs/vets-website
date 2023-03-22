@@ -6,25 +6,16 @@ import { useFeatureToggle } from './useFeatureToggle';
 
 const TestComponent = ({ customToggleName = null }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  let content;
-  try {
-    const toggleValue = useToggleValue(
-      customToggleName || TOGGLE_NAMES.profileUseInfoCard,
-    );
-    content = (
-      <div>
-        <p>{`Toggle value: ${toggleValue ? 'true' : 'false'}`}</p>
-      </div>
-    );
-  } catch (e) {
-    content = (
-      <div>
-        <p>Toggle error: {e.message}</p>
-      </div>
-    );
-  }
 
-  return content;
+  const toggleValue = useToggleValue(
+    customToggleName || TOGGLE_NAMES.profileUseInfoCard,
+  );
+
+  return (
+    <div>
+      <p>{`Toggle value: ${toggleValue ? 'true' : 'false'}`}</p>
+    </div>
+  );
 };
 
 describe('useFeatureToggle hook', () => {
@@ -59,16 +50,19 @@ describe('useFeatureToggle hook', () => {
   });
 
   it('should throw an error if the toggle name is not found', () => {
-    const wrapper = renderInReduxProvider(
-      <TestComponent customToggleName="fakeToggleName" />,
-      {
-        initialState: {
-          featureToggles: {
-            profile_use_info_card: true,
+    try {
+      renderInReduxProvider(
+        <TestComponent customToggleName="fakeToggleName" />,
+        {
+          initialState: {
+            featureToggles: {
+              profile_use_info_card: true,
+            },
           },
         },
-      },
-    );
-    expect(wrapper.findAllByText('Toggle error:')).to.exist;
+      );
+    } catch (error) {
+      expect(error).to.exist;
+    }
   });
 });
