@@ -12,7 +12,6 @@ describe.skip('Secure Messaging Message Details in Drafts AXE Check', () => {
     const site = new SecureMessagingSite();
     site.login();
     const messageDetails = mockMessageDetails;
-    // const messageDetails = landingPage.setMessageDateToYesterday(mockMessageDetails);
     const date = new Date();
     date.setDate(date.getDate() - 2);
     messageDetails.data.attributes.sentDate = date.toISOString();
