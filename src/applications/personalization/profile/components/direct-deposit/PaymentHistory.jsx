@@ -35,10 +35,11 @@ function PaymentHistory() {
       <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
         <Toggler.Enabled>
           <ProfileInfoCard
-            title="VA payment history"
             className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
             data={tableData}
             level={2}
+            namedAnchor="payment-history"
+            title="VA payment history"
           />
         </Toggler.Enabled>
 
