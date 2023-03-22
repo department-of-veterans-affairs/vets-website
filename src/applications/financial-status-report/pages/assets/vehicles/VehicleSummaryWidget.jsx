@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import { useSelector, connect, useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
 import { Link } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearJobIndex } from '../../../utils/session';
@@ -11,13 +9,14 @@ import {
 
 import { currency as currencyFormatter } from '../../../utils/helpers';
 
-const EmploymentHistoryWidget = props => {
-  const dispatch = useDispatch();
-
-  const { goToPath, onReviewPage } = props;
-
-  const formData = useSelector(state => state.form.data);
-  const { assets } = formData;
+const VehicleSummaryWidget = ({
+  data,
+  goToPath,
+  setFormData,
+  contentBeforeButtons,
+  contentAfterButtons,
+}) => {
+  const { assets } = data;
   const { automobiles } = assets || [];
 
   useEffect(() => {
@@ -36,24 +35,21 @@ const EmploymentHistoryWidget = props => {
   };
 
   const onDelete = deleteIndex => {
-    dispatch(
-      setData({
-        ...formData,
-        assets: {
-          ...assets,
-          automobiles: automobiles.filter(
-            (source, index) => index !== deleteIndex,
-          ),
-        },
-      }),
-    );
+    setFormData({
+      ...data,
+      questions: {
+        ...data.questions,
+        hasVehicle: deleteIndex !== 0,
+      },
+      assets: {
+        ...assets,
+        automobiles: automobiles.filter(
+          (source, index) => index !== deleteIndex,
+        ),
+      },
+    });
   };
   const emptyPrompt = `Select the 'add additional vehicle' link to add another vehicle. Select the continue button to move on to the next question.`;
-
-  const navButtons = (
-    <FormNavButtons goBack={handlers.onBack} submitToContinue />
-  );
-  const updateButton = <button type="submit">Review update button</button>;
 
   return (
     <form onSubmit={handlers.onSubmit}>
@@ -85,16 +81,11 @@ const EmploymentHistoryWidget = props => {
       >
         Add additional vehicle
       </Link>
-      {onReviewPage ? updateButton : navButtons}
+      {contentBeforeButtons}
+      <FormNavButtons goBack={handlers.onBack} submitToContinue />
+      {contentAfterButtons}
     </form>
   );
 };
 
-const mapStateToProps = ({ form }) => {
-  return {
-    formData: form.data,
-    employmentHistory: form.data.personalData.employmentHistory,
-  };
-};
-
-export default connect(mapStateToProps)(EmploymentHistoryWidget);
+export default VehicleSummaryWidget;

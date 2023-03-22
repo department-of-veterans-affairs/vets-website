@@ -173,6 +173,7 @@ const EnhancedVehicleRecord = props => {
           label="Estimated value"
           name="estValue"
           id="estValue"
+          required
           onInput={handleVehicleEstValueChange}
           value={vehicleRecord.resaleValue}
         />
