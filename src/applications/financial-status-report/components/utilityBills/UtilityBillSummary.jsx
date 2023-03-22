@@ -28,7 +28,7 @@ const UtilityBillSummary = ({
   };
 
   const goForward = () => {
-    goToPath('/expenses-explainer');
+    goToPath('/repayments');
   };
 
   const cardBody = text => (
