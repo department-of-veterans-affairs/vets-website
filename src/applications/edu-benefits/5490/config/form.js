@@ -421,6 +421,18 @@ const formConfig = {
           path: 'sponsor/information',
           uiSchema: {
             spouseInfo: {
+              marriageDate: {
+                ...dateUI('Date of marriage'),
+                'ui:title': 'Date of marriage',
+                'ui:options': {
+                  hideIf: formData =>
+                    get('relationship', formData) === 'spouse' &&
+                    environment.isProduction(),
+                },
+                'ui:required': formData =>
+                  get('relationship', formData) === 'spouse' &&
+                  !environment.isProduction(),
+              },
               divorcePending: {
                 'ui:title':
                   'Is there a divorce or annulment pending with your sponsor?',
