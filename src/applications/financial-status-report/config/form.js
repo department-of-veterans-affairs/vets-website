@@ -589,6 +589,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
           depends: formData =>
             formData.questions.hasVehicle &&
+            !formData.assets?.automobiles?.length &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: EnhancedVehicleRecord,
