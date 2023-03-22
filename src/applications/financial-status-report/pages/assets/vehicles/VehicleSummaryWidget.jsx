@@ -60,7 +60,7 @@ const VehicleSummaryWidget = ({
         ) : (
           automobiles.map((vehicle, index) => (
             <MiniSummaryCard
-              editDesination={{
+              editDestination={{
                 pathname: '/your-vehicle-records',
                 search: `?index=${index}`,
               }}

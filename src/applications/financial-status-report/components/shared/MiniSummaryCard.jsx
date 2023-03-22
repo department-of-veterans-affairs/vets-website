@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 /**
  * MiniSummaryCard
- * @param {Object} editDesination - Object for react-router Link component { pathname: '/path-desination', search: `?index=${index-value}` }
+ * @param {Object} editDestination - Object for react-router Link component { pathname: '/path-desination', search: `?index=${index-value}` }
  * @param {String} heading - h4 styled as h3 heading for component
  * @param {Object} body - body content for component (can be a react component)
  * @param {Function} onDelete - callback for delete button
@@ -12,7 +12,7 @@ import { Link } from 'react-router';
  * @return {React Component}
  */
 export const MiniSummaryCard = ({
-  editDesination,
+  editDestination,
   heading,
   body,
   onDelete,
@@ -30,7 +30,7 @@ export const MiniSummaryCard = ({
       <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center">
         <Link
           aria-label={`Edit ${heading}`}
-          to={editDesination}
+          to={editDestination}
           className="vads-u-padding-y--1 vads-u-padding-x--2"
         >
           <span className="vads-u-font-size--h3">
@@ -62,7 +62,7 @@ export const MiniSummaryCard = ({
 };
 
 MiniSummaryCard.propTypes = {
-  editDesination: Proptypes.shape({
+  editDestination: Proptypes.shape({
     pathname: Proptypes.string.isRequired,
     search: Proptypes.string.isRequired,
   }).isRequired,
