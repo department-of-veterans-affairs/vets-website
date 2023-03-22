@@ -52,7 +52,7 @@ const EnhancedBenefits = ({ pending, income }) => {
   return !pending && (eduReceived || compReceived) ? (
     <>
       <p>This is the VA benefit information we have on file for you.</p>
-      {compReceived > 0 && (
+      {compReceived && (
         <MiniSummaryCard
           heading="Disability compensation and pension benefits"
           showDelete={false}
@@ -63,7 +63,7 @@ const EnhancedBenefits = ({ pending, income }) => {
           body={<BenefitCard received={compReceived} />}
         />
       )}
-      {eduReceived > 0 && (
+      {eduReceived && (
         <MiniSummaryCard
           heading="Education benefits"
           editDestination={{
