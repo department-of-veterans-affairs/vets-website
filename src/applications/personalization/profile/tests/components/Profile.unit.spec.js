@@ -16,7 +16,6 @@ describe('Profile', () => {
   let defaultProps;
   let fetchFullNameSpy;
   let fetchMilitaryInfoSpy;
-  let fetchMHVAccountSpy;
   let fetchCNPPaymentInfoSpy;
   let fetchPersonalInfoSpy;
   let fetchTotalDisabilityRatingSpy;
@@ -25,7 +24,6 @@ describe('Profile', () => {
   beforeEach(() => {
     fetchFullNameSpy = sinon.spy();
     fetchMilitaryInfoSpy = sinon.spy();
-    fetchMHVAccountSpy = sinon.spy();
     fetchCNPPaymentInfoSpy = sinon.spy();
     fetchPersonalInfoSpy = sinon.spy();
     fetchTotalDisabilityRatingSpy = sinon.spy();
@@ -34,7 +32,6 @@ describe('Profile', () => {
     defaultProps = {
       connectDrupalSourceOfTruthCerner: connectDrupalSourceOfTruthCernerSpy,
       fetchFullName: fetchFullNameSpy,
-      fetchMHVAccount: fetchMHVAccountSpy,
       fetchMilitaryInformation: fetchMilitaryInfoSpy,
       fetchCNPPaymentInformation: fetchCNPPaymentInfoSpy,
       fetchPersonalInformation: fetchPersonalInfoSpy,
@@ -116,12 +113,6 @@ describe('Profile', () => {
         expect(fetchPersonalInfoSpy.called).to.be.false;
         wrapper.unmount();
       });
-    });
-
-    it('should fetch the My HealtheVet data', () => {
-      const wrapper = shallow(<Profile {...defaultProps} />);
-      expect(fetchMHVAccountSpy.called).to.be.true;
-      wrapper.unmount();
     });
 
     describe('when `shouldFetchCNPDirectDepositInformation` is `true`', () => {

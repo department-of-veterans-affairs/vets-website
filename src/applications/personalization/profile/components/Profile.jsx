@@ -43,7 +43,6 @@ import {
   isLoggedIn,
 } from '~/platform/user/selectors';
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
-import { fetchMHVAccount as fetchMHVAccountAction } from '~/platform/user/profile/actions';
 import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
@@ -60,7 +59,6 @@ class Profile extends Component {
       fetchCNPPaymentInformation,
       fetchEDUPaymentInformation,
       fetchFullName,
-      fetchMHVAccount,
       fetchMilitaryInformation,
       fetchPersonalInformation,
       fetchTotalDisabilityRating,
@@ -71,7 +69,6 @@ class Profile extends Component {
       shouldFetchEDUDirectDepositInformation,
       connectDrupalSourceOfTruthCerner,
     } = this.props;
-    fetchMHVAccount();
     connectDrupalSourceOfTruthCerner();
     if (isLOA3 && isInMVI) {
       fetchFullName();
@@ -260,7 +257,6 @@ Profile.propTypes = {
   fetchCNPPaymentInformation: PropTypes.func.isRequired,
   fetchEDUPaymentInformation: PropTypes.func.isRequired,
   fetchFullName: PropTypes.func.isRequired,
-  fetchMHVAccount: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
   fetchTotalDisabilityRating: PropTypes.func.isRequired,
@@ -364,7 +360,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
-  fetchMHVAccount: fetchMHVAccountAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchCNPPaymentInformation: fetchCNPPaymentInformationAction,
