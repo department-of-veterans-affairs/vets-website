@@ -32,7 +32,6 @@ export default function SignInModal({ onClose, visible }) {
       window.history.pushState({}, '', url);
 
       return () => {
-        url.searchParams.delete('oauth');
         window.history.pushState({}, '', url);
         recordEvent({ event: `login-modal-closed${isOAuthEvent}` });
       };
