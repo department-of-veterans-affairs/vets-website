@@ -199,14 +199,21 @@ export class Main extends Component {
     this.props.toggleLoginModal(true);
   };
 
+  // TODO: Need to set up a hook to only remove the vads-u-display class once the page has loaded. If it fires before load, then it will see Unauthed and remove class every time
+  // It almost works with toggle, but renders momentarily before class is removed.
+
+  //  I'm also note sure if this is the best spot for this logic, or if it is, maybe we need to add a check for being on the homepage so that we arent checking against every page since this is attached to nav
+
   renderCreateAccountBlock = () => {
     const createAccountBlock = document.getElementsByClassName(
       'homepage-hero__create-account',
     )[0];
     const isLoading = this.props.isProfileLoading;
-    const shouldHideCreateAccountBlock = (!isLoading && this.props.currentlyLoggedIn);
+    const shouldHideCreateAccountBlock =
+      !isLoading && this.props.currentlyLoggedIn;
+    // if (shouldHideCreateAccountBlock) createAccountBlock.classList.remove('vads-u-display--none');
 
-    createAccountBlock.classList.remove('vads-u-display--none');
+    createAccountBlock.classList.toggle('vads-u-display--none');
 
   };
 
