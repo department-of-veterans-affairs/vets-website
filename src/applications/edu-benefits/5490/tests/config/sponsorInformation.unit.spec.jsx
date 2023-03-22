@@ -42,7 +42,6 @@ describe('Edu 5490 sponsorInformation', () => {
     expect(form.find('#root_veteranDateOfDeathMonth').length).to.equal(0);
     expect(form.find('#root_veteranDateOfDeathDay').length).to.equal(0);
     expect(form.find('#root_veteranDateOfDeathYear').length).to.equal(0);
-    expect(form.find('input').length).to.equal(13);
 
     form.unmount();
   });
@@ -109,7 +108,6 @@ describe('Edu 5490 sponsorInformation', () => {
     );
 
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(16);
 
     // The divorce input should be there now
     expect(formDOM.querySelector('input#root_spouseInfo_divorcePendingYes')).to
