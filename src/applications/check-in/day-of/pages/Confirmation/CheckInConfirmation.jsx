@@ -46,8 +46,6 @@ const CheckInConfirmation = props => {
   const {
     travelPayEligible,
     travelPayClaimError,
-    travelPayClaimErrorCode,
-    travelPayClaimData,
     travelPayClaimRequested,
     travelPayClaimSent,
   } = useSendTravelPayClaim(appointment);
@@ -150,9 +148,7 @@ const CheckInConfirmation = props => {
         {doTravelPay && (
           <TravelPayAlert
             travelPayEligible={travelPayEligible}
-            travelPayClaimData={travelPayClaimData}
             travelPayClaimError={travelPayClaimError}
-            travelPayClaimErrorCode={travelPayClaimErrorCode}
           />
         )}
 
