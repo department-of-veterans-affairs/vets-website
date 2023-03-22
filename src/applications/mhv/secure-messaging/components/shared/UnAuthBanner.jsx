@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 const UnAuthBanner = () => {
   const dispatch = useDispatch();
   const handleSignIn = () => {
-    dispatch(toggleLoginModal(true));
+    dispatch(toggleLoginModal(true, 'mhv-sm-landing-page'));
   };
   return (
     <va-alert
