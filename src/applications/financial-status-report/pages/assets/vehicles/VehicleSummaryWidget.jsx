@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, connect, useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearJobIndex } from '../../../utils/session';
 import {
@@ -11,16 +10,14 @@ import {
 
 import { currency as currencyFormatter } from '../../../utils/helpers';
 
-const EmploymentHistoryWidget = props => {
-  const dispatch = useDispatch();
-
-  const { goToPath, goBack, onReviewPage } = props;
-  const [hasAdditionalVehicleToAdd, setHasAdditionalVehicleoAdd] = useState(
-    'false',
-  );
-
-  const formData = useSelector(state => state.form.data);
-  const { assets } = formData;
+const VehicleSummaryWidget = ({
+  data,
+  goToPath,
+  setFormData,
+  contentBeforeButtons,
+  contentAfterButtons,
+}) => {
+  const { assets } = data;
   const { automobiles } = assets || [];
 
   useEffect(() => {
@@ -30,37 +27,30 @@ const EmploymentHistoryWidget = props => {
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      if (hasAdditionalVehicleToAdd === 'true') {
-        goToPath(`/your-vehicle-records`);
-      } else {
-        goToPath(`/recreational-vehicles`);
-      }
+      goToPath(`/recreational-vehicles`);
     },
-    onSelection: event => {
-      const { value } = event?.detail || {};
-      if (value) {
-        setHasAdditionalVehicleoAdd(value);
-      }
+    onBack: event => {
+      event.preventDefault();
+      goToPath('/vehicles');
     },
   };
 
   const onDelete = deleteIndex => {
-    dispatch(
-      setData({
-        ...formData,
-        assets: {
-          ...assets,
-          automobiles: automobiles.filter(
-            (source, index) => index !== deleteIndex,
-          ),
-        },
-      }),
-    );
+    setFormData({
+      ...data,
+      questions: {
+        ...data.questions,
+        hasVehicle: deleteIndex !== 0,
+      },
+      assets: {
+        ...assets,
+        automobiles: automobiles.filter(
+          (source, index) => index !== deleteIndex,
+        ),
+      },
+    });
   };
   const emptyPrompt = `Select the 'add additional vehicle' link to add another vehicle. Select the continue button to move on to the next question.`;
-
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
 
   return (
     <form onSubmit={handlers.onSubmit}>
@@ -74,7 +64,7 @@ const EmploymentHistoryWidget = props => {
                 pathname: '/your-vehicle-records',
                 search: `?index=${index}`,
               }}
-              heading={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
+              heading={`${vehicle.year || ''} ${vehicle.make} ${vehicle.model}`}
               key={vehicle.make + vehicle.model + vehicle.year}
               onDelete={() => onDelete(index)}
               showDelete
@@ -92,16 +82,28 @@ const EmploymentHistoryWidget = props => {
       >
         Add additional vehicle
       </Link>
-      {onReviewPage ? updateButton : navButtons}
+      {contentBeforeButtons}
+      <FormNavButtons goBack={handlers.onBack} submitToContinue />
+      {contentAfterButtons}
     </form>
   );
 };
 
-const mapStateToProps = ({ form }) => {
-  return {
-    formData: form.data,
-    employmentHistory: form.data.personalData.employmentHistory,
-  };
+VehicleSummaryWidget.propTypes = {
+  contentAfterButtons: PropTypes.object,
+  contentBeforeButtons: PropTypes.object,
+  data: PropTypes.shape({
+    assets: PropTypes.array,
+    questions: PropTypes.shape({
+      hasVehicle: PropTypes.bool,
+    }),
+  }),
+  goBack: PropTypes.func,
+  goToPath: PropTypes.func,
+  setFormData: PropTypes.func,
+  testingIndex: PropTypes.number,
+  updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
 
-export default connect(mapStateToProps)(EmploymentHistoryWidget);
+export default VehicleSummaryWidget;
