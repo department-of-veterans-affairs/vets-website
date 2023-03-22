@@ -3,16 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import RecordList from '../components/RecordList/RecordList';
 import { getVaccineList } from '../actions/vaccine';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
+import PrintHeader from '../components/shared/PrintHeader';
 
 const Vaccines = () => {
   const vaccines = useSelector(state => state.mr.vaccines.vaccineList);
-  const user = useSelector(state => state.user.profile);
-  const { first, last, middle, suffix } = user.userFullName;
-  const name = user.first
-    ? `${last}, ${first} ${middle}, ${suffix}`
-    : 'Doe, John R., Jr.';
-  const dob = user.dob || '12/12/1980';
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getVaccineList());
   });
@@ -50,18 +46,12 @@ const Vaccines = () => {
 
   return (
     <div className="vaccines" id="vaccines">
-      <div className="print-only print-header">
-        <span>
-          {name} - {dob}
-        </span>
-        <h4>CONFIDENTIAL</h4>
-      </div>
-
-      <h1>Vaccines</h1>
+      <PrintHeader />
+      <h1 className="page-title">Vaccines</h1>
       <p>
         This is a complete list of vaccines that the VA has on file for you.
       </p>
-      <p className="print-only">
+      <p className="print-only vads-u-margin-bottom--0 max-80">
         Your VA Vaccines list may not be complete. If you have any questions
         about your information, visit the FAQs or contact your VA Health care
         team.
@@ -89,17 +79,6 @@ const Vaccines = () => {
       </div>
 
       {content()}
-
-      <iframe
-        title="contentsToPrint"
-        id="contentsToPrint"
-        style={{
-          height: '0px',
-          width: '0px',
-          position: 'absolute',
-          border: 'none',
-        }}
-      />
     </div>
   );
 };

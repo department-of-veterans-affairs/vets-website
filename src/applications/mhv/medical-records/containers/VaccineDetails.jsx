@@ -6,15 +6,10 @@ import { dateFormat, typeAndDose } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getVaccineDetails } from '../actions/vaccine';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
+import PrintHeader from '../components/shared/PrintHeader';
 
 const VaccineDetails = () => {
   const vaccineDetails = useSelector(state => state.mr.vaccines.vaccineDetails);
-  const user = useSelector(state => state.user.profile);
-  const { first, last, middle, suffix } = user.userFullName;
-  const name = user.first
-    ? `${last}, ${first} ${middle}, ${suffix}`
-    : 'Doe, John R., Jr.';
-  const dob = user.dob || '12/12/1980';
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
 
@@ -55,12 +50,7 @@ const VaccineDetails = () => {
     if (vaccineDetails) {
       return (
         <>
-          <div className="print-only print-header">
-            <span>
-              {name} - {dob}
-            </span>
-            <h4>CONFIDENTIAL</h4>
-          </div>
+          <PrintHeader />
           <h1 className="vaccine-header">{vaccineDetails.name}</h1>
           <div className="vads-u-display--flex vads-u-margin-y--3 no-print">
             <button
@@ -83,7 +73,7 @@ const VaccineDetails = () => {
               Download page
             </button>
           </div>
-          <div className="detail-block">
+          <div className="detail-block max-80">
             <h2 className="vads-u-margin-top--0">Date received</h2>
             <p>{formattedDate}</p>
             <h2>Type and dosage</h2>
@@ -98,28 +88,19 @@ const VaccineDetails = () => {
               {vaccineDetails.facility ||
                 'There is no facility reported at this time'}
             </p>
-            <h2>Reactions recorded by provider</h2>
+            <h2 className="vads-u-margin-bottom--0">
+              Reactions recorded by provider
+            </h2>
             <ItemList
               list={vaccineDetails.reactions}
               emptyMessage="None reported"
             />
-            <h2>Provider comments</h2>
+            <h2 className="vads-u-margin-bottom--0">Provider comments</h2>
             <ItemList
               list={vaccineDetails.comments}
               emptyMessage="No comments at this time"
             />
           </div>
-
-          <iframe
-            title="contentsToPrint"
-            id="contentsToPrint"
-            style={{
-              height: '0px',
-              width: '0px',
-              position: 'absolute',
-              border: 'none',
-            }}
-          />
         </>
       );
     }
