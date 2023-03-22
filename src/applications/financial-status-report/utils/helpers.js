@@ -300,7 +300,7 @@ export const getTotalAssets = ({
   const totRecVehicles = !combinedFSRActive
     ? sumValues(assets.recVehicles, 'recVehicleAmount')
     : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
-  const totVehicles = questions.hasVehicle
+  const totVehicles = questions?.hasVehicle
     ? sumValues(assets.automobiles, 'resaleValue')
     : 0;
   const realEstate = !enhancedFSRActive
