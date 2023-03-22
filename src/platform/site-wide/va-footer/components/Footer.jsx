@@ -70,7 +70,7 @@ class Footer extends Component {
                 src={replaceWithStagingDomain(
                   'https://www.va.gov/img/homepage/va-logo-white.png',
                 )}
-                alt="VA logo and seal"
+                alt="VA logo and Seal, U.S. Department of Veterans Affairs"
                 width="200"
                 className="vads-u-height--auto"
               />
