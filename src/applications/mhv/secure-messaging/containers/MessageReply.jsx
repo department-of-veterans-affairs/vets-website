@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
-import { retrieveMessage, retrieveMessageHistory } from '../actions/messages';
+import { useParams } from 'react-router-dom';
+import { retrieveMessageThread } from '../actions/messages';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
@@ -10,23 +10,20 @@ const MessageReply = () => {
   const dispatch = useDispatch();
   const { replyId } = useParams();
   const { error } = useSelector(state => state.sm.draftDetails);
-  const location = useLocation();
-  const isDraftPage = location.pathname.includes('/draft');
-  const replyMessage = useSelector(state => state.sm.draftDeatils.draftMessage);
+  const replyMessage = useSelector(state => state.sm.messageDetails.message);
   const messageHistory = useSelector(
     state => state.sm.messageDetails.messageHistory,
   );
 
   useEffect(
     () => {
-      dispatch(retrieveMessage(replyId, false));
-      dispatch(retrieveMessageHistory(replyId));
+      dispatch(retrieveMessageThread(replyId));
     },
-    [isDraftPage, replyId, dispatch],
+    [replyId, dispatch],
   );
 
   const content = () => {
-    if (replyMessage === null) {
+    if (replyMessage === undefined) {
       return (
         <va-loading-indicator
           message="Loading your secure message..."

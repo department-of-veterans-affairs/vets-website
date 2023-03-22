@@ -26,6 +26,7 @@ export const messageDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         message: {
+          replyToName: data.replyToName,
           ...data.attributes,
           attachments: msgAttachments,
         },

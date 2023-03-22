@@ -39,11 +39,11 @@ const Compose = () => {
         dispatch(retrieveMessageThread(draftId));
       }
       if (location.pathname === '/compose') {
-        dispatch(getTriageTeams());
         dispatch(clearDraft());
         setReplyMessage(null);
       }
 
+      dispatch(getTriageTeams());
       return () => {
         dispatch(clearDraft());
       };

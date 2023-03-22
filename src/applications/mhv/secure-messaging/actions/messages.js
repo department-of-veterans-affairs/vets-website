@@ -168,21 +168,30 @@ export const retrieveMessageThread = (
   const response = await getMessageThread(messageId);
   if (response.errors) {
     // TODO Add error handling
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        Constants.Alerts.Message.CANNOT_REPLY_INFO_HEADER,
+        Constants.Alerts.Message.CANNOT_REPLY_BODY,
+        Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
+        Constants.Links.Link.CANNOT_REPLY.TO,
+        Constants.Links.Link.CANNOT_REPLY.TITLE,
+      ),
+    );
   } else {
     const msgResponse = await getMessage(response.data[0].attributes.messageId);
     if (!msgResponse.errors) {
-      const { sentDate } = msgResponse.data.attributes;
+      const sentDate = response.data.find(m => m.attributes.sentDate !== null)
+        ?.attributes.sentDate;
       const isDraft = response.data[0].attributes.draftDate !== null;
-      const replyToName = response.data
-        .find(m => m.attributes.triageGroupName !== m.attributes.recipientName)
-        .attributes.senderName.trim();
 
-      dispatch(oldMessageAlert(sentDate, isDraft));
+      if (sentDate) {
+        dispatch(oldMessageAlert(sentDate, isDraft));
+      }
       dispatch({
         type: isDraft ? Actions.Draft.GET : Actions.Message.GET,
         response: {
           data: {
-            replyToName,
             ...msgResponse.data,
             ...response.data[0],
           },

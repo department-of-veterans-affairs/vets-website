@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FileInput from './FileInput';
 import AttachmentsList from '../AttachmentsList';
-import { saveReplyDraft } from '../../actions/draftDetails';
+import { clearDraft, saveReplyDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 import DeleteDraft from '../Draft/DeleteDraft';
@@ -66,6 +66,15 @@ const ReplyForm = props => {
 
   useEffect(
     () => {
+      return () => {
+        dispatch(clearDraft());
+      };
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
       if (sendMessageFlag && isSaving !== true) {
         const messageData = {
           category,
@@ -79,7 +88,7 @@ const ReplyForm = props => {
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
           dispatch(sendReply(replyMessage.messageId, sendData, true)).then(() =>
-            history.push(`/message/${replyMessage.messageId}`),
+            history.push(`/thread/${replyMessage.messageId}`),
           );
         } else {
           dispatch(
@@ -89,7 +98,7 @@ const ReplyForm = props => {
               false,
             ),
           ).then(() => {
-            history.push(`/message/${replyMessage.messageId}`);
+            history.push(`/thread/${replyMessage.messageId}`);
           });
         }
       }
@@ -299,7 +308,7 @@ const ReplyForm = props => {
                 className="fas fa-reply vads-u-margin-right--0p5"
                 aria-hidden="true"
               />
-              {`(Draft) To: ${draftToEdit.replyToName}\n(Team: ${
+              {`(Draft) To: ${replyMessage?.senderName}\n(Team: ${
                 replyMessage.recipientName
               }) `}
               <br />
