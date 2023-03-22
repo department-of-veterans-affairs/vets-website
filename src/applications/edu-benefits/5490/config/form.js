@@ -435,7 +435,8 @@ const formConfig = {
                     environment.isProduction(),
                 },
                 'ui:required': formData =>
-                  get('relationship', formData) === 'spouse',
+                  get('relationship', formData) === 'spouse' &&
+                  !environment.isProduction(),
               },
               divorcePending: {
                 'ui:title':
