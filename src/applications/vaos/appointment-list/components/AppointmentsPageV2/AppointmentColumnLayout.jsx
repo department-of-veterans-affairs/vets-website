@@ -50,8 +50,8 @@ export default function AppointmentColumnLayout({
           <AppointmentRow className="xsmall-screen:vads-u-text-align--center small-screen:vads-u-flex-direction--row">
             <AppointmentColumn
               size="1"
-              className="small-screen:vads-u-flex--auto small-screen:vads-u-order--first small-screen:vads-u-padding-top--0"
-              style={{ minWidth: '25px', maxWidth: '25px' }}
+              className="small-screen:vads-u-margin-left--1 small-screen:vads-u-flex--auto small-screen:vads-u-order--first small-screen:vads-u-padding-top--0"
+              style={{ minWidth: '24px', maxWidth: '24px' }}
             >
               <h3 className="vads-u-display--inline-block vads-u-text-align--center vads-u-margin-top--0 vads-u-margin-bottom--0">
                 <span aria-hidden="true">{startDate.format('D')}</span>
@@ -60,7 +60,7 @@ export default function AppointmentColumnLayout({
             <AppointmentColumn
               className="vads-u-text-align--left xsmall-screen:vads-u-order--first small-screen:vads-u-margin-left--1"
               size="1"
-              style={{ minWidth: '25px', maxWidth: '25px' }}
+              style={{ minWidth: '56px', maxWidth: '56px' }}
             >
               <span aria-hidden="true">{startDate.format('ddd')}</span>
             </AppointmentColumn>
@@ -72,16 +72,14 @@ export default function AppointmentColumnLayout({
         className={classNames(
           'vaos-appts__column--2',
           'vads-u-border-color--gray-medium',
-          'vads-u-margin-left--2',
           'vads-u-padding-y--2',
-          'small-screen:vads-u-margin-left--4',
           {
             'vads-u-border-top--1px': grouped && !first,
           },
         )}
         size="1"
       >
-        <AppointmentRow className="small-screen:vads-u-flex-direction--row">
+        <AppointmentRow className="small-desktop-screen:vads-u-flex-direction--row">
           <AppointmentColumn
             size="1"
             canceled={isCanceled}
@@ -95,11 +93,11 @@ export default function AppointmentColumnLayout({
           </AppointmentColumn>
 
           <AppointmentColumn size="1" className="vads-u-flex--4">
-            <AppointmentRow className="medium-screen:vads-u-flex-direction--column small-desktop-screen:vads-u-flex-direction--row">
+            <AppointmentRow className="vaos-appts__column-gap--4 small-screen:vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
               <AppointmentColumn
                 padding="0"
                 size="1"
-                className="vads-u-font-weight--bold vaos-appts__text--truncate"
+                className="vads-u-font-weight--bold vaos-appts__text--truncate vaos-appts__column--locality"
                 canceled={isCanceled}
                 aria-label={typeOfCareAriaLabel}
               >
@@ -109,34 +107,31 @@ export default function AppointmentColumnLayout({
               <AppointmentColumn
                 padding="0"
                 size="1"
-                className="vaos-appts__text--truncate small-desktop-screen:vads-u-margin-left--5"
+                className="vaos-appts__text--truncate vaos-appts__column--modality"
                 canceled={isCanceled}
                 aria-label={modalityAriaLabel}
               >
-                <>
-                  <i
-                    aria-hidden="true"
-                    className={classNames(
-                      'fas',
-                      'vads-u-margin-right--1',
-                      'vads-u-color--gray',
-                      modalityIcon,
-                      {
-                        'vaos-appts__text--line-through':
-                          isCanceled && !isCommunityCare,
-                      },
-                    )}
-                  />
-                  <span aria-hidden="true">{`${modalityText}`}</span>
-                </>
+                <i
+                  aria-hidden="true"
+                  className={classNames(
+                    'fas',
+                    'vads-u-margin-right--1',
+                    'vads-u-color--gray',
+                    modalityIcon,
+                    {
+                      'vaos-appts__text--line-through':
+                        isCanceled && !isCommunityCare,
+                    },
+                  )}
+                />
+                <span aria-hidden="true">{`${modalityText}`}</span>
               </AppointmentColumn>
             </AppointmentRow>
           </AppointmentColumn>
 
           <AppointmentColumn
             id={`vaos-appts__detail-${data.id}`}
-            className="vaos-hide-for-print"
-            // className="vads-u-display--flex vads-u-flex--auto vads-u-justify-content--right vads-u-align-items--center vads-u-text-align--right vaos-hide-for-print"
+            className="vads-u-margin-right--1 vaos-hide-for-print"
             padding="0"
             size="1"
           >

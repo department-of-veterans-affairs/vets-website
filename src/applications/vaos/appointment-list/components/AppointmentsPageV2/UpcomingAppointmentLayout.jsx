@@ -5,6 +5,7 @@ import { getLink } from '../../../services/appointment';
 import AppointmentColumnLayout from './AppointmentColumnLayout';
 import AppointmentFlexGrid from './AppointmentFlexGrid';
 import AppointmentListItem from './AppointmentListItem';
+import AppointmentRow from './AppointmentRow';
 
 export default function UpcomingAppointmentLayout({
   featureStatusImprovement,
@@ -44,13 +45,19 @@ export default function UpcomingAppointmentLayout({
                   id={appt.id}
                   className="vaos-appts__listItem--clickable"
                 >
-                  <AppointmentFlexGrid idClickable={idClickable} link={link}>
-                    <AppointmentColumnLayout
-                      data={appt}
-                      first={isFirstInDay}
-                      grouped
-                      link={link}
-                    />
+                  <AppointmentFlexGrid
+                    idClickable={idClickable}
+                    link={link}
+                    className="vaos-appts__column-gap--2"
+                  >
+                    <AppointmentRow className="xsmall-screen:vads-u-flex-direction--row vaos-appts__column-gap--2">
+                      <AppointmentColumnLayout
+                        data={appt}
+                        first={isFirstInDay}
+                        grouped
+                        link={link}
+                      />
+                    </AppointmentRow>
                   </AppointmentFlexGrid>
                 </AppointmentListItem>
               );
@@ -83,7 +90,9 @@ export default function UpcomingAppointmentLayout({
           )}
         >
           <AppointmentFlexGrid idClickable={idClickable} link={link}>
-            <AppointmentColumnLayout first data={appt} link={link} />
+            <AppointmentRow className="xsmall-screen:vads-u-flex-direction--row vaos-appts__column-gap--2">
+              <AppointmentColumnLayout first data={appt} link={link} />
+            </AppointmentRow>
           </AppointmentFlexGrid>
         </AppointmentListItem>
       );

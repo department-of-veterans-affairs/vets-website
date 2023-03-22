@@ -115,6 +115,9 @@
     box-sizing: content-box;
     background-color: $color-gray-lightest;
     background-clip: content-box;
+    border: solid !important;
+    border-color: $color-gold !important;
+    border-width: 1px !important;
   }
 }
 
@@ -152,32 +155,68 @@ li.vaos-appts__listItem--clickable[data-status="pending"]:last-child {
   border-bottom: 1px solid !important;
   border-color: $color-gray-medium !important;
 }
-
-.vaos-appts__column--1 {
-  min-width: 63px;
-  max-width: 63px;
-
+.vaos-appts__column-gap--2 {
   @include media($xsmall-screen) {
-    min-width: 25px;
+    column-gap: 16px;
   }
-  @include media($small-screen) {
-    min-width: 63px !important;
-    max-width: 63px !important;
+}
+.vaos-appts__column-gap--4 {
+  @include media($xsmall-screen) {
+    column-gap: 32px;
   }
 }
 
-.vaos-appts__column--2 {
-  @media (min-width: $small-screen) {
-    // margin-left: 95px !important;
+.vaos-appts__column--1 {
+  min-width: 96px;
+  max-width: 96px;
+
+  @include media($xsmall-screen) {
+    min-width: 30px;
+    max-width: 30px;
+  }
+  @include media($small-screen) {
+    min-width: 96px !important;
+    max-width: 96px !important;
+  }
+}
+
+.vaos-appts__column--locality {
+  @media (min-width: $xsmall-screen) {
+    min-width: 234px;
+    max-width: 234px;
+  }
+  @include media($small-screen) {
+    min-width: 258px;
+    max-width: 258px;
+  }
+}
+.vaos-appts__column--modality {
+  @include media($xsmall-screen) {
+    min-width: 234px;
+    max-width: 234px;
+  }
+  @include media($small-screen) {
+    min-width: 396px;
+    max-width: 396px;
+  }
+  @include media($medium-screen) {
+    min-width: 234px;
+    max-width: 234px;
+  }
+  @include media($small-desktop-screen) {
+    min-width: 396px;
+    max-width: 396px;
   }
 }
 
 div[id^="vaos-appts__detail-"] {
   @include media($medium-screen) {
     display: flex;
-    justify-content: right;
     align-items: center;
     text-align: right;
+  }
+  @include media($small-desktop-screen) {
+    justify-content: right;
   }
 }
 
@@ -186,10 +225,6 @@ div[id^="vaos-appts__detail-"] {
     white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
-    max-width: 170px;
-  }
-  @include media($medium-screen) {
-    max-width: 222px;
   }
 }
 
