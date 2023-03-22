@@ -108,4 +108,5 @@ class PatientReplyPage {
       .find('[name="message-body"]');
   };
 }
+
 export default PatientReplyPage;

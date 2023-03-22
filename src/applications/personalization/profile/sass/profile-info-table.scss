@@ -5,11 +5,6 @@ $corner-size: 4px;
     border-top-left-radius: $corner-size;
     border-top-right-radius: $corner-size;
   }
-
-  // there is a bug that prevents setting an overall 1px border with a 0px
-  // top-border override using the utility classes. And applying three utility
-  // classes - one each for left, right, and bottom - felt like the wrong kind
-  // of hack.
   li.row {
     border: 1px solid;
     border-top: 0;
@@ -31,8 +26,10 @@ $corner-size: 4px;
     }
   }
 
-  li.row:last-child {
+  .row:last-child {
     border-bottom-left-radius: $corner-size;
     border-bottom-right-radius: $corner-size;
   }
+
+
 }
