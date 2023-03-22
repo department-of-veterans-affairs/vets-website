@@ -145,6 +145,16 @@ describe('mayHaveLegacyAppeals', () => {
     };
     expect(mayHaveLegacyAppeals(data)).to.be.true;
   });
+  it('should return true if there is no legacy & a second contestable issue with a legacy date', () => {
+    const data = {
+      legacyCount: 0,
+      contestedIssues: [
+        { attributes: { approxDecisionDate: '2021-01-01' } },
+        { attributes: { approxDecisionDate: '2019-01-01' } },
+      ],
+    };
+    expect(mayHaveLegacyAppeals(data)).to.be.true;
+  });
   it('should return true if there is legacy issue & a contestable issue with a newer date', () => {
     const data = {
       legacyCount: 1,
