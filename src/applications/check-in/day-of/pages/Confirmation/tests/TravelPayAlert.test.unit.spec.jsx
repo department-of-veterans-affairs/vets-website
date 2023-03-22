@@ -45,10 +45,8 @@ describe('check in', () => {
           <TravelPayAlert travelPayEligible travelPayClaimError />
         </I18nextProvider>,
       );
-      expect(component.getByTestId('travel-pay-claim-error-message')).to.exist;
-      expect(
-        component.getByTestId('travel-pay-claim-error-message'),
-      ).to.have.text(
+      expect(component.getByTestId('travel-pay-error-message')).to.exist;
+      expect(component.getByTestId('travel-pay-error-message')).to.have.text(
         "We’re sorry, something went wrong on our end. We can't file a travel reimbursement claim for you now. But you can still file within 30 days of the appointment.",
       );
     });
