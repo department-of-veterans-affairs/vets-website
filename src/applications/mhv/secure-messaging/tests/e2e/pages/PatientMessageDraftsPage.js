@@ -1,7 +1,7 @@
 import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json';
 import mockDraftMessages from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
-import mockThreadResponse from '../fixtures/empty-thread-response.json';
+import mockThreadResponse from '../fixtures/single-draft-response.json';
 
 class PatientMessageDraftsPage {
   loadDrafts = () => {

@@ -3,10 +3,11 @@ import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
+import mockThreadResponse from './fixtures/single-draft-response.json';
 
 describe('Secure Messaging Delete Draft', () => {
   it('Axe Check Delete Draft', () => {
-    const mockThreadResponse = { data: [] };
+    // const mockThreadResponse = { data: [] };
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
