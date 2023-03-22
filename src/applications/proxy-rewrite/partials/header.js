@@ -82,7 +82,7 @@ export default `
           )}" class="va-header-logo">
           <img src="${replaceWithStagingDomain(
             'https://www.va.gov/img/header-logo.png',
-          )}" alt="VA logo and seal"/>
+          )}" alt="VA logo and Seal, U.S. Department of Veterans Affairs"/>
           </a>
         </div>
         <div id="va-nav-controls"></div>
