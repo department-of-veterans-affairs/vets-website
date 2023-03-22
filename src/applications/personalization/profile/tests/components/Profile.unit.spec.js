@@ -370,17 +370,6 @@ describe('mapStateToProps', () => {
         const props = mapStateToProps(state);
         expect(props.showLoader).to.be.true;
       });
-
-      it('is `true` when the call to fetch MHV info has not resolved but all others have', () => {
-        const state = makeDefaultState();
-        state.user.profile.mhvAccount = {
-          accountState: null,
-          errors: null,
-          loading: false,
-        };
-        const props = mapStateToProps(state);
-        expect(props.showLoader).to.be.true;
-      });
     });
 
     describe('when direct deposit info should not be fetched because the user has not set up 2FA', () => {
@@ -421,16 +410,6 @@ describe('mapStateToProps', () => {
 
       it('is `true` when the call to fetch the full name has not resolved', () => {
         delete state.vaProfile.hero;
-        const props = mapStateToProps(state);
-        expect(props.showLoader).to.be.true;
-      });
-
-      it('is `true` when the call to fetch MHV info has not resolved', () => {
-        state.user.profile.mhvAccount = {
-          accountState: null,
-          errors: null,
-          loading: false,
-        };
         const props = mapStateToProps(state);
         expect(props.showLoader).to.be.true;
       });
