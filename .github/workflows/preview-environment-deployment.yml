@@ -55,6 +55,7 @@ jobs:
           step: start
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           env: production
+          ref: ${{ env.SOURCE_REF }}
 
       - name: Log deployment ID
         run: echo ${{ steps.deployment.outputs.deployment_id }}
