@@ -46,8 +46,10 @@ import AutoSSO from './AutoSSO';
 import { selectUserGreeting } from '../selectors';
 import recordEvent from '../../../monitoring/record-event';
 
+// remove this when organic experiment finishes
 const CreateLoginGovAccountModal = ({ visible = false, onClose }) => {
-  let logingovSingUp;
+  let logingovSingUpLink;
+  // uses logic from CreateAccountLink component
   async function generateURL() {
     const url = await authUtilities.signupOrVerify({
       policy: 'logingov',
@@ -55,7 +57,7 @@ const CreateLoginGovAccountModal = ({ visible = false, onClose }) => {
       allowVerification: false,
       useOAuth: true,
     });
-    logingovSingUp = url;
+    logingovSingUpLink = url;
   }
   generateURL();
 
@@ -66,7 +68,6 @@ const CreateLoginGovAccountModal = ({ visible = false, onClose }) => {
       large
       visible={visible}
       click-to-close
-      // closeEvent={onClose}
       onCloseEvent={() => {
         recordEvent({ event: 'organic-experiment-dismiss-modal' });
         onClose();
@@ -77,7 +78,7 @@ const CreateLoginGovAccountModal = ({ visible = false, onClose }) => {
           'button-type': 'primary-button',
           'button-click-label': '(organic experiment) Get Login.gov now',
         });
-        location.href = logingovSingUp;
+        location.href = logingovSingUpLink;
       }}
       onSecondaryButtonClick={() => {
         recordEvent({
@@ -302,7 +303,12 @@ export class Main extends Component {
   };
 
   render() {
-    const { mhvTransition, mhvTransitionModal, currentlyLoggedIn } = this.props;
+    const {
+      mhvTransition,
+      mhvTransitionModal,
+      currentlyLoggedIn,
+      user: { profile },
+    } = this.props;
 
     // Check if displaying login is disabled.
     if (
@@ -312,8 +318,12 @@ export class Main extends Component {
       return null;
     }
 
+    // only show the modal to users who are part of the organic adoption experiment,
+    // logged in with an outdated credential, and do not have IDME/LoginGov linked credentials
     const shouldShowLoginGovExperiment =
-      this.state.isLoginGovExperimentModalVisible && currentlyLoggedIn;
+      this.state.isLoginGovExperimentModalVisible &&
+      profile.showOrganicAdoptionExperimentModal &&
+      currentlyLoggedIn;
 
     return (
       <div className="profile-nav-container">
@@ -370,6 +380,7 @@ export const mapStateToProps = state => {
   let formAutoSavedStatus;
   let additionalRoutes;
   let additionalSafePaths;
+
   const { form } = state;
   if (typeof form === 'object') {
     formAutoSavedStatus = form.autoSavedStatus;
@@ -440,6 +451,7 @@ Main.propTypes = {
   showAccountTransitionSuccessModal: PropTypes.bool,
   showFormSignInModal: PropTypes.bool,
   showLoginModal: PropTypes.bool,
+  showOrganicAdoptionExperimentModal: PropTypes.bool,
   useSignInService: PropTypes.bool,
   userGreeting: PropTypes.array,
   utilitiesMenuIsOpen: PropTypes.object,
