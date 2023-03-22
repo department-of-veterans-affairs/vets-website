@@ -30,15 +30,18 @@ export const content = {
   otherTitle: 'You uploaded these documents:',
 
   addMoreLink: (
-    <p>
-      <Link
-        to={`/${EVIDENCE_VA_REQUEST}`}
-        className="vads-c-action-link--green"
-        onClick={recordActionLinkClick}
-      >
-        Add more evidence
-      </Link>
-    </p>
+    <>
+      <h4 className="sr-only">Are you missing evidence?</h4>
+      <p>
+        <Link
+          to={`/${EVIDENCE_VA_REQUEST}`}
+          className="vads-c-action-link--green"
+          onClick={recordActionLinkClick}
+        >
+          Add more evidence
+        </Link>
+      </p>
+    </>
   ),
 
   missingEvidenceHeader: 'We noticed you didn’t add new evidence',
