@@ -18,6 +18,7 @@ import { replaceDescriptionContent } from '../utils/replace';
  * @return {React Component}
  */
 export const IssueCardContent = ({
+  id,
   description,
   ratingIssuePercentNumber,
   approxDecisionDate,
@@ -29,7 +30,7 @@ export const IssueCardContent = ({
   const date = approxDecisionDate || decisionDate;
 
   return (
-    <div className="widget-content-wrap">
+    <div id={id} className="widget-content-wrap">
       {description && (
         <p className="vads-u-margin-bottom--0">
           {replaceDescriptionContent(description)}
@@ -54,6 +55,7 @@ IssueCardContent.propTypes = {
   approxDecisionDate: PropTypes.string,
   decisionDate: PropTypes.string,
   description: PropTypes.string,
+  id: PropTypes.string,
   ratingIssuePercentNumber: PropTypes.string,
 };
 
@@ -178,15 +180,10 @@ export const IssueCard = ({
               checked={itemIsSelected}
               onChange={handlers.onChange}
               aria-describedby={`issue-${index}-description`}
-            />
-            <label
-              className="schemaform-label"
-              htmlFor={elementId}
               aria-labelledby={`issue-${index}-title`}
-            >
-              <span className="vads-u-visibility--screen-reader">
-                {issueName}
-              </span>
+            />
+            <label className="schemaform-label" htmlFor={elementId}>
+              {' '}
             </label>
           </div>
         ) : null}
@@ -196,12 +193,10 @@ export const IssueCard = ({
           }`}
           data-index={index}
         >
-          <div id={`issue-${index}-description`}>
-            <Header id={`issue-${index}-title`} className={titleClass}>
-              {issueName}
-            </Header>
-            <IssueCardContent {...item} />
-          </div>
+          <Header id={`issue-${index}-title`} className={titleClass}>
+            {issueName}
+          </Header>
+          <IssueCardContent id={`issue-${index}-description`} {...item} />
           {editControls}
         </div>
       </div>

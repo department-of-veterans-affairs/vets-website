@@ -146,7 +146,7 @@ const Sections = ({ data, level }) => {
           )}
 
           {rowData?.value && (
-            <span className={classes.rowValue}>{rowData.value}</span>
+            <div className={classes.rowValue}>{rowData.value}</div>
           )}
         </div>
       ))}
@@ -205,9 +205,9 @@ export const ProfileInfoCard = ({
 ProfileInfoCard.propTypes = {
   data: PropTypes.oneOfType([PropTypes.array, PropTypes.object, PropTypes.node])
     .isRequired,
+  namedAnchor: PropTypes.string.isRequired,
   asList: PropTypes.bool,
   className: PropTypes.string,
   level: numberBetween(1, 5),
-  namedAnchor: PropTypes.string,
   title: PropTypes.string,
 };
