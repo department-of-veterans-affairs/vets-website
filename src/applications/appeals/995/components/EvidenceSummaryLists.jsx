@@ -245,7 +245,7 @@ export const UploadContent = ({
                   id={`edit-upload-${index}`}
                   className="edit-item"
                   to={`/${EVIDENCE_UPLOAD_PATH}#${index}`}
-                  aria-label={`${content.edit} ${upload.name}`}
+                  aria-label={`${content.editLinkAria} ${upload.name}`}
                   data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
                 >
                   {content.edit}

@@ -22,8 +22,7 @@ export default {
       [veteranFields.vaFileNumber]: {
         'ui:title': 'VA file number (if you have one)',
         'ui:errorMessages': {
-          pattern:
-            'Please input a valid VA file number: 7 to 9 numeric digits, & may start with a letter "C" or "c".',
+          pattern: 'Your VA file number must be 8 or 9 digits',
         },
       },
     },

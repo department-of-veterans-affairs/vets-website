@@ -19,7 +19,7 @@ describe('Secure Messaging Delete Draft', () => {
     ).as('draftsFolderMetaResponse');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2/messages**',
+      '/my_health/v1/messaging/folders/-2/threads**',
       mockDraftMessages,
     ).as('draftsResponse');
     cy.intercept(

@@ -278,6 +278,9 @@ describe('fsr transform helper functions', () => {
   describe('getTotalAssets helper', () => {
     it('should return total value of assets', () => {
       const totalAssets = {
+        questions: {
+          hasVehicle: true,
+        },
         assets: {
           otherAssets: [
             {
@@ -1138,9 +1141,13 @@ describe('fsr transform information', () => {
       });
     });
     describe('cFSR - getTotalAssets helper', () => {
-      it('should return total value of assets', () => {
+      it('should return total value of assets excluding vehicles', () => {
         const totalAssets = {
+          questions: {
+            hasVehicle: false,
+          },
           assets: {
+            realEstateValue: '2000',
             otherAssets: [
               {
                 amount: '10',
@@ -1159,14 +1166,35 @@ describe('fsr transform information', () => {
               },
             ],
           },
-          realEstateRecords: [
-            {
-              realEstateAmount: '1000',
-            },
-            {
-              realEstateAmount: '1000',
-            },
-          ],
+        };
+        expect(getTotalAssets(totalAssets)).to.equal(2120);
+      });
+
+      it('should return total value of assets including vehicles', () => {
+        const totalAssets = {
+          questions: {
+            hasVehicle: true,
+          },
+          assets: {
+            realEstateValue: '2000',
+            otherAssets: [
+              {
+                amount: '10',
+              },
+              {
+                amount: '10',
+              },
+            ],
+            recVehicleAmount: '100',
+            automobiles: [
+              {
+                resaleValue: '100',
+              },
+              {
+                resaleValue: '100',
+              },
+            ],
+          },
         };
         expect(getTotalAssets(totalAssets)).to.equal(2320);
       });
