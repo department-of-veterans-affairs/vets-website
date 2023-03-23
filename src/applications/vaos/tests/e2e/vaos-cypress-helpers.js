@@ -9,7 +9,6 @@ import * as momentTZ from '../../lib/moment-tz';
 import confirmedVA from '../../services/mocks/var/confirmed_va.json';
 import confirmedCC from '../../services/mocks/var/confirmed_cc.json';
 import requests from '../../services/mocks/var/requests.json';
-import cancelReasons from '../../services/mocks/var/cancel_reasons.json';
 import supportedSites from '../../services/mocks/var/sites-supporting-var.json';
 import facilities from '../../services/mocks/var/facilities.json';
 import facilityData from '../../services/mocks/var/facility_data.json';
@@ -645,21 +644,6 @@ export function mockAppointmentRequestMessagesApi({ id = 'testing' } = {}) {
         },
       }),
   ).as('v0:create:messages');
-}
-
-export function mockCancelReasonsApi({ facilityId }) {
-  if (facilityId) {
-    const id = Array.isArray(facilityId) ? facilityId[0] : facilityId;
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: `/vaos/v0/facilities/${id}/cancel_reasons`,
-      },
-      req => {
-        req.reply(cancelReasons);
-      },
-    ).as('v0:get:facility:cancel_reason');
-  }
 }
 
 export function mockFacilityApi({ id, apiVersion = 1 } = {}) {

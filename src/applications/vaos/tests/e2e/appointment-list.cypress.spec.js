@@ -9,7 +9,6 @@ import {
   vaosSetup,
   mockFacilitiesApi,
   mockAppointmentRequestMessagesApi,
-  mockCancelReasonsApi,
 } from './vaos-cypress-helpers';
 
 describe('VAOS appointment list', () => {
@@ -177,7 +176,6 @@ describe('VAOS appointment list', () => {
 
     it('should allow for canceling of appointments', () => {
       mockFacilityApi({ id: 'vha_442GC', apiVersion: 1 });
-      mockCancelReasonsApi({ facilityId: '983' });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
