@@ -74,7 +74,6 @@ const {
   phone,
   files,
   centralMailVaFile,
-  militaryServiceNumber,
   race,
 } = fullSchemaPreNeed.definitions;
 
@@ -133,7 +132,6 @@ const formConfig = {
     phone,
     files,
     centralMailVaFile,
-    militaryServiceNumber,
   },
   chapters: {
     applicantInformation: {
