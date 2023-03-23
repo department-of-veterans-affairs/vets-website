@@ -39,6 +39,7 @@ const responses = {
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/feature_toggles': generateFeatureToggles({
+    profileUseInfoCard: true,
     profileUseFieldEditingPage: true,
   }),
   'GET /v0/ppiu/payment_information': (_req, res) => {
