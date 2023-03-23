@@ -13,7 +13,7 @@ import ProgressButton from 'platform/forms-system/src/js/components/ProgressButt
 import { focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 
-import { EVIDENCE_VA_PATH } from '../constants';
+import { EVIDENCE_VA_PATH, NO_ISSUES_SELECTED } from '../constants';
 
 import { content } from '../content/evidenceVaRecords';
 import { getSelected, getIssueName } from '../utils/helpers';
@@ -380,8 +380,8 @@ const EvidenceVaRecords = ({
           error={showError('issues')}
           required
         >
-          {availableIssues.map((issue, index) => {
-            return (
+          {availableIssues.length ? (
+            availableIssues.map((issue, index) => (
               <va-checkbox
                 key={index}
                 name="issues"
@@ -389,8 +389,10 @@ const EvidenceVaRecords = ({
                 value={issue}
                 checked={(currentData?.issues || []).includes(issue)}
               />
-            );
-          })}
+            ))
+          ) : (
+            <strong>{NO_ISSUES_SELECTED}</strong>
+          )}
         </VaCheckboxGroup>
 
         <VaMemorableDate

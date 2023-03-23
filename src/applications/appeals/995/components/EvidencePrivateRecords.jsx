@@ -15,7 +15,7 @@ import { focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { countries, states } from 'platform/forms/address';
 
-import { EVIDENCE_PRIVATE_PATH } from '../constants';
+import { EVIDENCE_PRIVATE_PATH, NO_ISSUES_SELECTED } from '../constants';
 
 import { content } from '../content/evidencePrivateRecords';
 import { getSelected, getIssueName } from '../utils/helpers';
@@ -525,15 +525,19 @@ const EvidencePrivateRecords = ({
           error={showError('issues')}
           required
         >
-          {availableIssues.map(issue => (
-            <va-checkbox
-              key={issue}
-              name="issues"
-              label={issue}
-              value={issue}
-              checked={(currentData?.issues || []).includes(issue)}
-            />
-          ))}
+          {availableIssues.length ? (
+            availableIssues.map((issue, index) => (
+              <va-checkbox
+                key={index}
+                name="issues"
+                label={issue}
+                value={issue}
+                checked={(currentData?.issues || []).includes(issue)}
+              />
+            ))
+          ) : (
+            <strong>{NO_ISSUES_SELECTED}</strong>
+          )}
         </VaCheckboxGroup>
 
         <VaMemorableDate
