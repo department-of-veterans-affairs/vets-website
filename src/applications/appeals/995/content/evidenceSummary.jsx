@@ -16,6 +16,7 @@ const recordActionLinkClick = () => {
 
 export const content = {
   edit: 'Edit',
+  editLinkAria: 'Edit document type for',
   editLabel: 'Edit evidence summary page',
   remove: 'Remove',
   update: 'Update page',

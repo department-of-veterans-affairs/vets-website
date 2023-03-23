@@ -17,17 +17,17 @@ const pageFields = [
 
 export default {
   uiSchema: {
-    'ui:title': (
-      <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
-        Past SHA grant application details
-      </h3>
-    ),
-    'ui:description': (
-      <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
-        Tell us about your last SHA application
-      </p>
-    ),
     [previousHiApplicationFields.parentObject]: {
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+          Past SHA grant application details
+        </h3>
+      ),
+      'ui:description': (
+        <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
+          Tell us about your last SHA application
+        </p>
+      ),
       [previousHiApplicationFields.previousHiApplicationDate]: dateUI(
         'Date you last applied',
       ),

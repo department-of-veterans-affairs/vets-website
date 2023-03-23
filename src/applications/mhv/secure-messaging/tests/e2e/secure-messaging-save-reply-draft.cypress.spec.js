@@ -14,6 +14,7 @@ describe('Secure Messaging Reply', () => {
     const site = new SecureMessagingSite();
     site.login();
     const messageDetails = landingPage.getNewMessageDetails();
+    // const messageDetails = landingPage.setMessageDateToYesterday();
     landingPage.loadInboxMessages(mockMessages, messageDetails);
     messageDetailsPage.loadMessageDetails(messageDetails);
     messageDetailsPage.loadReplyPageDetails(messageDetails);
@@ -21,6 +22,7 @@ describe('Secure Messaging Reply', () => {
     composePage.getMessageBodyField().type(testMessageBody);
     cy.injectAxe();
     cy.axeCheck();
+
     replyPage.saveReplyDraft(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.senderId,
@@ -29,6 +31,13 @@ describe('Secure Messaging Reply', () => {
       testMessageBody,
     );
 
+    messageDetailsPage.ReplyToMessageTO(messageDetails);
+    messageDetailsPage.ReplyToMessagesenderName(messageDetails);
+    messageDetailsPage.ReplyToMessagerecipientName(messageDetails);
+    messageDetailsPage.ReplyToMessageDate(messageDetails);
+    messageDetailsPage.ReplyToMessageId(messageDetails);
+    messageDetailsPage.ReplyToMessagebody(messageDetails);
+
     replyPage.sendReplyDraft(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.senderId,
@@ -36,5 +45,7 @@ describe('Secure Messaging Reply', () => {
       landingPage.getNewMessage().attributes.subject,
       testMessageBody,
     );
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });

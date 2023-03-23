@@ -45,6 +45,8 @@ import { benefitTypes } from '~/applications/personalization/common/constants';
 
 import NotEligible from './alerts/NotEligible';
 import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
+import { Toggler } from '~/applications/personalization/components/Toggler';
+import { ProfileInfoCard } from '../ProfileInfoCard';
 
 export const BankInfo = ({
   isLOA3,
@@ -399,13 +401,26 @@ export const BankInfo = ({
           Cancel
         </button>
       </VaModal>
-      <ProfileInfoTable
-        className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-        title={sectionTitle}
-        data={directDepositData()}
-        namedAnchor={sectionTitleId}
-        level={2}
-      />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
+        <Toggler.Enabled>
+          <ProfileInfoCard
+            className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+            title={sectionTitle}
+            data={directDepositData()}
+            namedAnchor={sectionTitleId}
+            level={2}
+          />
+        </Toggler.Enabled>
+        <Toggler.Disabled>
+          <ProfileInfoTable
+            className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+            title={sectionTitle}
+            data={directDepositData()}
+            namedAnchor={sectionTitleId}
+            level={2}
+          />
+        </Toggler.Disabled>
+      </Toggler>
     </>
   );
 };

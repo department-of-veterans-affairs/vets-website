@@ -58,7 +58,7 @@ export default function AppointmentColumnLayout({
               </h3>
             </AppointmentColumn>
             <AppointmentColumn
-              className="xsmall-screen:vads-u-order--first small-screen:vads-u-margin-left--1"
+              className="vads-u-text-align--left xsmall-screen:vads-u-order--first small-screen:vads-u-margin-left--1"
               size="1"
               style={{ minWidth: '25px', maxWidth: '25px' }}
             >

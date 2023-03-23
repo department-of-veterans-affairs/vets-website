@@ -17,6 +17,7 @@ const simpleUser = {
         'id-card',
         'identity-proofed',
         'vet360',
+        'messaging',
       ],
       account: {
         accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
