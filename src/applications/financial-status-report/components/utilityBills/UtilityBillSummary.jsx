@@ -53,7 +53,7 @@ const UtilityBillSummary = ({
             utilityRecords.map((utility, index) => (
               <MiniSummaryCard
                 body={cardBody(`Value: ${currencyFormatter(utility.amount)}`)}
-                editDesination={{
+                editDestination={{
                   pathname: '/add-utility-bill',
                   search: `?index=${index}`,
                 }}
