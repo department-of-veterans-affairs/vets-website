@@ -17,23 +17,85 @@ import {
   mockParentSites,
 } from '../../mocks/helpers';
 
+import {
+  mockVAOSParentSites,
+  mockV2CommunityCareEligibility,
+} from '../../mocks/helpers.v2';
+import { createMockFacilityByVersion } from '../../mocks/data';
 import TypeOfEyeCarePage from '../../../new-appointment/components/TypeOfEyeCarePage';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCommunityCare: true,
-  },
-  user: {
-    profile: {
-      facilities: [{ facilityId: '983', isCerner: false }],
-    },
-  },
-};
-
 describe('VAOS <TypeOfEyeCarePage>', () => {
+  const initialState = {
+    featureToggles: {
+      vaOnlineSchedulingCommunityCare: true,
+    },
+    user: {
+      profile: {
+        facilities: [{ facilityId: '983', isCerner: false }],
+      },
+    },
+  };
+
   beforeEach(() => mockFetch());
-  it('should show page and validation', async () => {
+
+  // Skipping, this is testing the V0 endpoint
+  it.skip('should show facility type page when CC eligible and optometry is chosen', async () => {
+    const parentSite983 = {
+      id: '983',
+      attributes: {
+        ...getParentSiteMock().attributes,
+        institutionCode: '983',
+        rootStationCode: '983',
+        parentStationCode: '983',
+      },
+    };
+    mockParentSites(['983'], [parentSite983]);
+    mockCommunityCareEligibility({
+      parentSites: ['983'],
+      careType: 'Optometry',
+    });
     const store = createTestStore(initialState);
+    const nextPage = await setTypeOfCare(store, /eye care/i);
+    expect(nextPage).to.equal('/new-appointment/choose-eye-care');
+
+    const screen = renderWithStoreAndRouter(
+      <Route component={TypeOfEyeCarePage} />,
+      {
+        store,
+      },
+    );
+
+    fireEvent.click(await screen.findByLabelText(/optometry/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    await waitFor(() =>
+      expect(screen.history.push.lastCall?.args[0]).to.equal(
+        '/new-appointment/choose-facility-type',
+      ),
+    );
+  });
+});
+
+describe('VAOS <TypeOfEyeCarePage> using VAOS service', () => {
+  const initialStateVAOSService = {
+    user: {
+      profile: {
+        facilities: [{ facilityId: '983', isCerner: false }],
+      },
+    },
+    featureToggles: {
+      vaOnlineSchedulingCommunityCare: true,
+      vaOnlineSchedulingVAOSServiceRequests: true,
+      vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      vaOnlineSchedulingFacilitiesServiceV2: true,
+      vaOnlineSchedulingVAOSServiceCCAppointments: true,
+      vaOnlineSchedulingVAOSV2Next: true,
+    },
+  };
+
+  beforeEach(() => mockFetch());
+
+  it('should show page and validation', async () => {
+    const store = createTestStore(initialStateVAOSService);
     const nextPage = await setTypeOfCare(store, /eye care/i);
     expect(nextPage).to.equal('/new-appointment/choose-eye-care');
 
@@ -63,7 +125,7 @@ describe('VAOS <TypeOfEyeCarePage>', () => {
   });
 
   it('should save eye care choice on page change', async () => {
-    const store = createTestStore(initialState);
+    const store = createTestStore(initialStateVAOSService);
     let screen = renderWithStoreAndRouter(
       <Route component={TypeOfEyeCarePage} />,
       { store },
@@ -81,22 +143,23 @@ describe('VAOS <TypeOfEyeCarePage>', () => {
     );
   });
 
-  it('should facility type page when CC eligible and optometry is chosen', async () => {
-    const parentSite983 = {
-      id: '983',
-      attributes: {
-        ...getParentSiteMock().attributes,
-        institutionCode: '983',
-        rootStationCode: '983',
-        parentStationCode: '983',
-      },
-    };
-    mockParentSites(['983'], [parentSite983]);
-    mockCommunityCareEligibility({
+  it('should show facility type page when CC eligible and optometry is chosen', async () => {
+    mockVAOSParentSites(
+      ['983'],
+      [createMockFacilityByVersion({ id: '983', isParent: true })],
+      true,
+    );
+
+    mockV2CommunityCareEligibility({
       parentSites: ['983'],
-      careType: 'Optometry',
+      supportedSites: ['983'],
+      careType: 'optometry',
     });
-    const store = createTestStore(initialState);
+
+    const store = createTestStore({
+      ...initialStateVAOSService,
+    });
+
     const nextPage = await setTypeOfCare(store, /eye care/i);
     expect(nextPage).to.equal('/new-appointment/choose-eye-care');
 
@@ -109,6 +172,7 @@ describe('VAOS <TypeOfEyeCarePage>', () => {
 
     fireEvent.click(await screen.findByLabelText(/optometry/i));
     fireEvent.click(screen.getByText(/Continue/));
+
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
         '/new-appointment/choose-facility-type',
