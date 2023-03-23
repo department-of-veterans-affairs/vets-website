@@ -20,6 +20,7 @@ import SpousePayrollDeductionInputList from '../components/SpousePayrollDeductio
 import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
+import EnhancedBenefitsEdit from '../components/EnhancedBenefitsEdit';
 import VehicleSummaryWidget from '../pages/assets/vehicles/VehicleSummaryWidget';
 import CreditCardBill from '../components/CreditCardBill';
 import CreditCardBillSummary from '../pages/expenses/creditCardBills/CreditCardBillSummary';
@@ -238,6 +239,23 @@ const formConfig = {
           title: 'Benefits',
           uiSchema: pages.benefits.uiSchema,
           schema: pages.benefits.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
+        benefitsEnhanced: {
+          path: 'your-benefits',
+          title: 'Benefits',
+          uiSchema: pages.benefits.enhancedUiSchema,
+          schema: pages.benefits.enhancedSchema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        editBenefitsEnhanced: {
+          path: 'edit-benefits',
+          title: 'Benefits',
+          CustomPage: EnhancedBenefitsEdit,
+          CustomPageReview: null, // TODO: Add review page (or check if reviewpage on normal)
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: () => false, // only accessible from benefits page
         },
         socialSecurity: {
           path: 'social-security',
