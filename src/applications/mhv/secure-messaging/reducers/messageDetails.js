@@ -32,6 +32,7 @@ export const messageDetailsReducer = (state = initialState, action) => {
         ...state,
         message: {
           replyToName: data.replyToName,
+          threadFolderId: data.threadFolderId,
           ...data.attributes,
           attachments: msgAttachments,
         },

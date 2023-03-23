@@ -13,7 +13,7 @@ import DeleteDraft from '../Draft/DeleteDraft';
 import { sendReply } from '../../actions/messages';
 import EmergencyNote from '../EmergencyNote';
 import HowToAttachFiles from '../HowToAttachFiles';
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, navigateToFolderByFolderId } from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
@@ -87,8 +87,11 @@ const ReplyForm = props => {
           const sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendReply(replyMessage.messageId, sendData, true)).then(() =>
-            history.push(`/thread/${replyMessage.messageId}`),
+          dispatch(sendReply(replyMessage.messageId, sendData, true)).then(
+            () => {
+              // history.push(`/thread/${replyMessage.messageId}`);
+              navigateToFolderByFolderId(replyMessage.threadFolderId, history);
+            },
           );
         } else {
           dispatch(
@@ -98,7 +101,8 @@ const ReplyForm = props => {
               false,
             ),
           ).then(() => {
-            history.push(`/thread/${replyMessage.messageId}`);
+            // history.push(`/thread/${replyMessage.messageId}`);
+            navigateToFolderByFolderId(replyMessage.threadFolderId, history);
           });
         }
       }

@@ -29,6 +29,7 @@ export const draftDetailsReducer = (state = initialState, action) => {
         lastSaveTime: null,
         draftMessage: {
           replyToName: data.replyToName,
+          threadFolderId: data.threadFolderId,
           ...data.attributes,
           attachments: msgAttachments,
         },

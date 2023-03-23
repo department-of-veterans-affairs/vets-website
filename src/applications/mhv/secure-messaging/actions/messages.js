@@ -186,6 +186,9 @@ export const retrieveMessageThread = (
       const replyToName = response.data
         .find(m => m.attributes.triageGroupName !== m.attributes.recipientName)
         .attributes.senderName.trim();
+      const threadFolderId = response.data.find(
+        m => m.attributes.triageGroupName !== m.attributes.recipientName,
+      ).attributes.folderId;
 
       if (sentDate) {
         dispatch(oldMessageAlert(sentDate, isDraft));
@@ -195,6 +198,7 @@ export const retrieveMessageThread = (
         response: {
           data: {
             replyToName,
+            threadFolderId,
             ...msgResponse.data,
             ...response.data[0],
           },
