@@ -15,10 +15,7 @@ import { useDatadogRum } from '../hooks/useDatadogRum';
 const App = () => {
   const fullState = useSelector(state => state);
   const { featureToggles, user } = fullState;
-  const appEnabled = isLandingPageEnabledForUser(
-    featureToggles,
-    user?.profile?.signIn?.serviceName,
-  );
+
   const data = useMemo(
     () => {
       const authdWithSSOe = isAuthenticatedWithSSOe(fullState) || false;
@@ -27,10 +24,18 @@ const App = () => {
     [featureToggles, user?.profile?.session?.ssoe],
   );
 
+  const appEnabled = useMemo(
+    () => {
+      return isLandingPageEnabledForUser(fullState);
+    },
+    [fullState],
+  );
+
   useDatadogRum();
+
   if (featureToggles.loading || user.profile.loading)
     return <va-loading-indicator />;
-  if (!appEnabled && user?.login?.currentlyLoggedIn) {
+  if (!appEnabled) {
     const url = mhvUrl(true, 'home');
     window.location.replace(url);
     return <></>;

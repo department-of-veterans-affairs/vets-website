@@ -23,7 +23,7 @@ describe('check in', () => {
       expect(
         component.getByTestId('travel-pay-eligible-success-message'),
       ).to.have.text(
-        'You can check the status of your travel reimbursement claim online 24/7 on the Beneficiary Travel Self Service System (BTSSS). You can access BTSSS through the AccessVA travel claim portal.',
+        'We’re processing your travel reimbursement claim request. We’ll send you a text message with the submission status of your travel reimbursement claim.',
       );
     });
     it('renders a not eligible message', () => {

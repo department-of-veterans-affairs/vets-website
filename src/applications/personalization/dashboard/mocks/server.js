@@ -6,7 +6,7 @@ const { createAppealsSuccess } = require('./appeals-success');
 const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
 const { createClaimsSuccess } = require('./evss-claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
-const { has3Copays } = require('./medical-copays');
+const { user81Copays } = require('./medical-copays');
 const { v0, v2 } = require('./appointments');
 
 // set to true to simulate a user with debts for /v0/debts endpoint
@@ -22,7 +22,7 @@ const responses = {
   'GET /v0/user': user.cernerUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
-  'GET /v0/medical_copays': has3Copays,
+  'GET /v0/medical_copays': user81Copays,
   'GET /v0/profile/payment_history': createSuccessPayment(false),
   'GET /v0/appeals': createAppealsSuccess(),
   'GET /v0/evss_claims_async': createClaimsSuccess(),

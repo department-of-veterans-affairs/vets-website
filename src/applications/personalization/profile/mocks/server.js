@@ -14,7 +14,9 @@ const {
   handleGetPersonalInformationRoute,
   handlePutPreferredNameRoute,
 } = require('./endpoints/personal-information');
-const { createNotificationSuccess } = require('./endpoints/notifications');
+const {
+  maximalSetOfPreferences,
+} = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 const payments = require('./endpoints/payment-history');
 const bankAccounts = require('./endpoints/bank-accounts');
@@ -37,7 +39,8 @@ const responses = {
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/feature_toggles': generateFeatureToggles({
-    profileBlockForFiduciaryDeceasedOrIncompetent: true,
+    profileUseInfoCard: true,
+    profileUseFieldEditingPage: true,
   }),
   'GET /v0/ppiu/payment_information': (_req, res) => {
     // 47841 - Below are the three cases where all of Profile should be gated off
@@ -144,7 +147,7 @@ const responses = {
     );
   },
   'GET /v0/profile/communication_preferences': (_req, res) => {
-    return res.json(createNotificationSuccess());
+    return res.json(maximalSetOfPreferences);
   },
 };
 
