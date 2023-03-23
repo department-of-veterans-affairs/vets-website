@@ -177,7 +177,7 @@ const HealthCareContentV2 = ({
                   onClick={() =>
                     recordEvent({
                       event: 'nav-linkslist',
-                      'links-list-header': 'Review your messages',
+                      'links-list-header': 'View your messages',
                       'links-list-section-header': 'Health care',
                     })
                   }

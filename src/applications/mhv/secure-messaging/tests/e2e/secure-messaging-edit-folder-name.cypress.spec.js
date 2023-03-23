@@ -17,12 +17,13 @@ describe('Secure Messaging Custom Folder Edit Folder Name Message Validation', (
     landingPage.loadInboxMessages();
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/7038175/messages?per_page=-1&useCache=false',
+      '/my_health/v1/messaging/folders/7038175/threads?pageSize=100&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
       customFolderMessage,
     ).as('customFolder');
 
     cy.get('[data-testid="my-folders-sidebar"]').click();
     cy.contains('TEST2').click();
+    cy.wait('@customFolder');
     cy.get('.left-button').click({ force: true });
     cy.get('[name="new-folder-name"]')
       .shadow()
