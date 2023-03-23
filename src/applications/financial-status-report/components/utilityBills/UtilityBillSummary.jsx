@@ -34,7 +34,8 @@ const UtilityBillSummary = ({
   const cardBody = text => (
     <p className="vads-u-margin-y--2 vads-u-color--gray">{text}</p>
   );
-  const emptyPrompt = `Select the ‘add additional utility bills‘ link to add another utility bill. Select the continue button to move on to the next question.`;
+
+  const emptyPrompt = `Select the 'Add additional utility bills' link to add another utility bill. Select the 'Continue' button to proceed to the next question.`;
 
   return (
     <form>
