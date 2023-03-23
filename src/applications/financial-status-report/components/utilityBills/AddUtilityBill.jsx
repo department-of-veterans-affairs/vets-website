@@ -77,6 +77,11 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
     },
   };
 
+  const headerText =
+    utilityRecords.length === index
+      ? 'Add your additional utility bill'
+      : 'Update your utility bill';
+
   return (
     <>
       <form onSubmit={handlers.onSubmit}>
@@ -86,7 +91,7 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
             className="vads-u-font-family--serif"
             name="addOrUpdateUtility"
           >
-            Add your additional utility bill
+            {headerText}
           </legend>
           <VaTextInput
             className="no-wrap input-size-3"
