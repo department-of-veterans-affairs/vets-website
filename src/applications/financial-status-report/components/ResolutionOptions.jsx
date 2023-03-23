@@ -55,7 +55,7 @@ const ResolutionOptions = ({ formContext }) => {
   const renderWaiverText = useMemo(() => {
     return (
       <>
-        <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg2p5">
+        <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg3">
           Debt forgiveness (waiver)
         </span>
         <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-left--3">
@@ -69,7 +69,7 @@ const ResolutionOptions = ({ formContext }) => {
   const renderCompromiseText = useMemo(() => {
     return (
       <>
-        <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg2p5">
+        <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg3">
           Compromise
         </span>
         <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-left--3">
@@ -83,7 +83,7 @@ const ResolutionOptions = ({ formContext }) => {
   const renderMonthlyText = useMemo(() => {
     return (
       <>
-        <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg2p5">
+        <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg3">
           Extended monthly payments
         </span>
         <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-left--3">
