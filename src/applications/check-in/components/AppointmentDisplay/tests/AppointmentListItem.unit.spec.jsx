@@ -36,7 +36,7 @@ const mockRouter = {
   },
 };
 
-describe('AppointmentListItemVaos', () => {
+describe('AppointmentListItem', () => {
   describe('pre-check-in and day-of', () => {
     describe('In person appointment context', () => {
       it('Renders appointment details', () => {
