@@ -8,7 +8,6 @@
 
 import {
   getFacilitiesBySystemAndTypeOfCare,
-  getFacilityInfo,
   getFacilitiesInfo,
   getDirectBookingEligibilityCriteria,
   getRequestEligibilityCriteria,
@@ -21,7 +20,6 @@ import { mapToFHIRErrors } from '../utils';
 import {
   transformDSFacilities,
   transformFacilities,
-  transformFacility,
   setSupportedSchedulingMethods,
   transformCommunityProvider,
   transformCommunityProviders,
@@ -122,20 +120,13 @@ export async function getLocations({
  * @async
  * @param {Object} locationParams Parameters needed for fetching locations
  * @param {Array<string>} locationParams.facilityId An id for the facility to fetch info for
- * @param {boolean} locationParams.useV2 Use the VAOS v2 endpoints to get locations
  * @returns {Location} A FHIR Location resource
  */
-export async function getLocation({ facilityId, useV2 = false }) {
+export async function getLocation({ facilityId }) {
   try {
-    if (useV2) {
-      const facility = await getFacilityById(facilityId);
+    const facility = await getFacilityById(facilityId);
 
-      return transformFacilityV2(facility);
-    }
-
-    const facility = await getFacilityInfo(facilityId);
-
-    return transformFacility(facility);
+    return transformFacilityV2(facility);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);

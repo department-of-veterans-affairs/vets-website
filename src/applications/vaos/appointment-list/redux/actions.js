@@ -495,9 +495,6 @@ export function fetchRequestDetails(id) {
       const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
         state,
       );
-      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-        state,
-      );
       const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
         state,
       );
@@ -528,7 +525,6 @@ export function fetchRequestDetails(id) {
         try {
           facility = await getLocation({
             facilityId,
-            useV2: featureFacilitiesServiceV2,
           });
         } catch (e) {
           captureError(e);
@@ -563,9 +559,6 @@ export function fetchConfirmedAppointmentDetails(id, type) {
     try {
       const state = getState();
       const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-        state,
-      );
-      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
         state,
       );
       const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
@@ -630,7 +623,6 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         try {
           facility = await getLocation({
             facilityId,
-            useV2: featureFacilitiesServiceV2,
           });
         } catch (e) {
           captureError(e);

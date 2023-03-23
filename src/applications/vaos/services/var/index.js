@@ -141,12 +141,6 @@ export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
   ).then(parseApiList);
 }
 
-export function getFacilityInfo(facilityId) {
-  return apiRequestWithUrl(
-    `/v1/facilities/va/vha_${getStagingId(facilityId)}`,
-  ).then(parseApiObject);
-}
-
 export function getFacilitiesInfo(facilityIds) {
   const idList = facilityIds
     .map(getStagingId)
