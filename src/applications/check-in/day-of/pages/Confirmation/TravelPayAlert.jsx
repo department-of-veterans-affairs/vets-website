@@ -15,7 +15,7 @@ const TravelPayAlert = props => {
           background-only
           show-icon
           data-testid="travel-pay-message"
-          status="info"
+          status="warning"
         >
           <div>
             <p
@@ -29,6 +29,14 @@ const TravelPayAlert = props => {
                 ]}
               />
             </p>
+            <ExternalLink
+                href="/health-care/get-reimbursed-for-travel-pay/"
+                hrefLang="en"
+                eventId="request-travel-pay-reimbursement-from-confirmation-with-btsss-error--link-clicked"
+                eventPrefix="nav"
+              >
+                {t('find-out-how-to-file--link')}
+              </ExternalLink>
           </div>
         </va-alert>
       ) : (
