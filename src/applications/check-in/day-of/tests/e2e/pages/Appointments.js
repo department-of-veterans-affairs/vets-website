@@ -67,7 +67,7 @@ class Appointments {
     appointmentmentTime = '3:00 a.m.',
   ) => {
     cy.get(
-      `:nth-child(${appointmentNumber}) > .appointment-summary > [data-testid=appointment-time]`,
+      `:nth-child(${appointmentNumber}) > .check-in--appointment-summary > [data-testid=appointment-time]`,
       { timeout: Timeouts.slow },
     )
       .should('be.visible')
