@@ -88,7 +88,11 @@ const MessageDetailBlock = props => {
         hideReplyButton={hideReplyButton}
       />
       <main className="message-detail-content">
-        <section className="message-metadata" aria-label="message details.">
+        <section
+          className="message-metadata"
+          data-testid="message-metadata"
+          aria-label="message details."
+        >
           <p>
             <strong>From: </strong>
             {senderName}

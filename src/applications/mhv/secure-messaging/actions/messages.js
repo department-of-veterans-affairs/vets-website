@@ -183,6 +183,9 @@ export const retrieveMessageThread = (
       const sentDate = response.data.find(m => m.attributes.sentDate !== null)
         ?.attributes.sentDate;
       const isDraft = response.data[0].attributes.draftDate !== null;
+      const replyToName = response.data
+        .find(m => m.attributes.triageGroupName !== m.attributes.recipientName)
+        .attributes.senderName.trim();
 
       if (sentDate) {
         dispatch(oldMessageAlert(sentDate, isDraft));
@@ -191,6 +194,7 @@ export const retrieveMessageThread = (
         type: isDraft ? Actions.Draft.GET : Actions.Message.GET,
         response: {
           data: {
+            replyToName,
             ...msgResponse.data,
             ...response.data[0],
           },

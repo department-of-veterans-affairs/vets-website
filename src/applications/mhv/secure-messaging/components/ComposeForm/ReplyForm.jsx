@@ -308,8 +308,9 @@ const ReplyForm = props => {
                 className="fas fa-reply vads-u-margin-right--0p5"
                 aria-hidden="true"
               />
-              {`(Draft) To: ${replyMessage?.senderName}\n(Team: ${
-                replyMessage.recipientName
+              {`(Draft) To: ${draftToEdit?.replyToName ||
+                replyMessage?.senderName}\n(Team: ${
+                replyMessage.triageGroupName
               }) `}
               <br />
             </h4>

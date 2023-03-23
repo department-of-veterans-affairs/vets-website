@@ -14,23 +14,24 @@ import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { getTriageTeams } from '../actions/triageTeams';
 import { clearDraft } from '../actions/draftDetails';
 
-const ThreadDetails = () => {
+const ThreadDetails = props => {
   const { threadId } = useParams();
+  const { testing } = props;
   const dispatch = useDispatch();
   const alert = useSelector(state => state.sm.alerts.alert);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
-  const { message } = useSelector(state => state.sm.messageDetails);
+  const { message, messageHistory } = useSelector(
+    state => state.sm.messageDetails,
+  );
   const { draftMessage, draftMessageHistory } = useSelector(
     state => state.sm.draftDetails,
   );
-  const messageHistory = useSelector(
-    state => state.sm.messageDetails.messageHistory,
-  );
+
   const [cannotReplyAlert, setcannotReplyAlert] = useState(false);
   const [isMessage, setIsMessage] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
   const [isReply, setIsReply] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(testing);
   const header = useRef();
 
   useEffect(
