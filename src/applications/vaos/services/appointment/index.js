@@ -7,7 +7,6 @@ import * as Sentry from '@sentry/browser';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import {
-  getCancelReasons,
   getConfirmedAppointment,
   getConfirmedAppointments,
   getPendingAppointment,
@@ -770,8 +769,6 @@ async function cancelV2Appointment(appointment, useAcheron) {
   }
 }
 
-const UNABLE_TO_KEEP_APPT = '5';
-const VALID_CANCEL_CODES = new Set(['4', '5', '6']);
 async function cancelBookedAppointment(appointment) {
   const additionalEventData = {
     appointmentType: 'confirmed',
@@ -799,27 +796,9 @@ async function cancelBookedAppointment(appointment) {
       cancelCode: 'PC',
     };
 
-    cancelReasons = await getCancelReasons(appointment.location.vistaId);
-
-    if (cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)) {
-      cancelReason = UNABLE_TO_KEEP_APPT;
-      await updateAppointment({
-        ...cancelData,
-        cancelReason,
-      });
-    } else if (
-      cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason.number))
-    ) {
-      cancelReason = cancelReasons.find(reason =>
-        VALID_CANCEL_CODES.has(reason.number),
-      );
-      await updateAppointment({
-        ...cancelData,
-        cancelReason: cancelReason.number,
-      });
-    } else {
-      throw new Error('Unable to find valid cancel reason');
-    }
+    await updateAppointment({
+      ...cancelData,
+    });
 
     recordEvent({
       event: `${eventPrefix}-successful`,

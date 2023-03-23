@@ -201,12 +201,6 @@ export function getAvailableSlots(
   ).then(parseApiList);
 }
 
-export function getCancelReasons(systemId) {
-  return apiRequestWithUrl(
-    `/vaos/v0/facilities/${systemId}/cancel_reasons`,
-  ).then(parseApiList);
-}
-
 export function updateAppointment(appt) {
   return apiRequestWithUrl(`/vaos/v0/appointments/cancel`, {
     method: 'PUT',
