@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { isValidCurrency } from '../utils/validations';
 
 const defaultRecord = [
   {
@@ -27,7 +28,7 @@ const CreditCardBill = props => {
   const index = isEditing ? Number(editIndex) : 0;
 
   // if we have creditCardBills and plan to edit, we need to get it from the creditCardBills
-  const specificRecord = creditCardBills
+  const specificRecord = creditCardBills?.length
     ? creditCardBills[index]
     : defaultRecord[0];
 
@@ -35,49 +36,47 @@ const CreditCardBill = props => {
     ...(isEditing ? specificRecord : defaultRecord[0]),
   });
 
-  const [ccBillIsDirty, setCCBillIsDirty] = useState(false);
-  const [unpaidBalanceIsDirty, setUnpaidBalanceIsDirty] = useState(false);
-  const [minMonthlyPaymentIsDirty, setMinMonthlyPaymentIsDirty] = useState(
-    false,
-  );
-  const [amountOverdueIsDirty, setAmountOverdueIsDirty] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const unpaidBalanceError = !creditCardBillRecord.unpaidBalance
+  const unpaidBalanceError = !isValidCurrency(
+    creditCardBillRecord.unpaidBalance,
+  )
     ? 'Please enter the unpaid balance amount'
     : null;
 
-  const minMonthlyPaymentError = !creditCardBillRecord.minMonthlyPayment
+  const minMonthlyPaymentError = !isValidCurrency(
+    creditCardBillRecord.minMonthlyPayment,
+  )
     ? 'Please enter the minimum monthly payment amount'
     : null;
 
-  const amountOverdueError = !creditCardBillRecord.amountOverdue
-    ? 'Please enter the amount overdue'
-    : null;
+  const amountOverdueError =
+    !isValidCurrency(creditCardBillRecord.amountOverdue) &&
+    !creditCardBillRecord.amountOverdue === ''
+      ? 'Please enter a valid dollar amount'
+      : null;
 
   const handleChange = (key, value) => {
     setCreditCardBillRecord({
       ...creditCardBillRecord,
       [key]: value,
     });
-    setCCBillIsDirty(true);
   };
 
   const handleUnpaidBalanceChange = event => {
     handleChange('unpaidBalance', event.target.value);
-    setUnpaidBalanceIsDirty(true);
   };
 
   const handleMinMonthlyPaymentChange = event => {
     handleChange('minMonthlyPayment', event.target.value);
-    setMinMonthlyPaymentIsDirty(true);
   };
 
   const handleAmountOverdueChange = event => {
     handleChange('amountOverdue', event.target.value);
-    setAmountOverdueIsDirty(true);
   };
 
   const updateFormData = e => {
+    setSubmitted(true);
     e.preventDefault();
     const newCreditCardBillArray = [...creditCardBills];
     newCreditCardBillArray[index] = creditCardBillRecord;
@@ -86,6 +85,11 @@ const CreditCardBill = props => {
       creditCardBillRecord.minMonthlyPayment &&
       creditCardBillRecord.unpaidBalance
     ) {
+      // if amountOverdue is NaN, set it to 0 in order to satisfy va-number-input
+      if (!Number.isNaN(creditCardBillRecord.amountOverdue)) {
+        creditCardBillRecord.amountOverdue = 0;
+      }
+
       // update form data
       setFormData({
         ...data,
@@ -111,10 +115,7 @@ const CreditCardBill = props => {
 
       <div className="input-size-5">
         <va-number-input
-          error={
-            (ccBillIsDirty && unpaidBalanceIsDirty && unpaidBalanceError) ||
-            null
-          }
+          error={(submitted && unpaidBalanceError) || null}
           hint={null}
           required
           inputmode="numeric"
@@ -128,12 +129,7 @@ const CreditCardBill = props => {
 
       <div className="input-size-5">
         <va-number-input
-          error={
-            (ccBillIsDirty &&
-              minMonthlyPaymentIsDirty &&
-              minMonthlyPaymentError) ||
-            null
-          }
+          error={(submitted && minMonthlyPaymentError) || null}
           hint={null}
           required
           inputmode="numeric"
@@ -147,10 +143,7 @@ const CreditCardBill = props => {
 
       <div className="input-size-5">
         <va-number-input
-          error={
-            (ccBillIsDirty && amountOverdueIsDirty && amountOverdueError) ||
-            null
-          }
+          error={(submitted && amountOverdueError) || null}
           hint={null}
           inputmode="numeric"
           label="Amount overdue"
