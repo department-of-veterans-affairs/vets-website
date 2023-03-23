@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
+import { scrollTo, focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
-const submissionError = ({ form }) => {
+const SubmissionError = ({ form }) => {
+  const alertRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo(alertRef.current);
+        focusElement('h3', {}, alertRef.current);
+      }
+    },
+    [alertRef],
+  );
   recordEvent({
     event: 'visible-alert-box',
     'alert-box-type': 'error',
@@ -15,7 +28,12 @@ const submissionError = ({ form }) => {
   });
 
   return (
-    <va-alert status="error" class="vads-u-margin-bottom--4">
+    <va-alert
+      ref={alertRef}
+      id="submission-error"
+      status="error"
+      class="vads-u-margin-bottom--4"
+    >
       <h3 slot="headline">Your decision review request didn’t go through</h3>
       <p>
         We’re sorry. We’re working to fix the problem, but it may take us a
@@ -31,4 +49,10 @@ const submissionError = ({ form }) => {
   );
 };
 
-export default submissionError;
+SubmissionError.propTypes = {
+  form: PropTypes.shape({
+    inProgressFormId: PropTypes.string,
+  }),
+};
+
+export default SubmissionError;

@@ -12,6 +12,7 @@ import { SubmissionAlert } from '../components/Alerts';
 import { WIZARD_STATUS } from '../wizard/constants';
 import EnhancedEmploymentRecord from '../components/EnhancedEmploymentRecord';
 import EnhancedSpouseEmploymentRecord from '../components/EnhancedSpouseEmploymentRecord';
+import EnhancedVehicleRecord from '../components/EnhancedVehicleRecord';
 import GrossMonthlyIncomeInput from '../components/GrossMonthlyIncomeInput';
 import SpouseGrossMonthlyIncomeInput from '../components/SpouseGrossMonthlyIncomeInput';
 import SpousePayrollDeductionChecklist from '../components/SpousePayrollDeductionChecklist';
@@ -19,7 +20,11 @@ import SpousePayrollDeductionInputList from '../components/SpousePayrollDeductio
 import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
+import EnhancedBenefitsEdit from '../components/EnhancedBenefitsEdit';
+import VehicleSummaryWidget from '../pages/assets/vehicles/VehicleSummaryWidget';
 import AddAsset from '../components/otherAssets/AddAsset';
+import OtherAssetsSummary from '../components/otherAssets/OtherAssetsSummary';
+import OtherAssetsSummaryReview from '../components/otherAssets/OtherAssetsSummaryReview';
 import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
 
@@ -232,6 +237,23 @@ const formConfig = {
           title: 'Benefits',
           uiSchema: pages.benefits.uiSchema,
           schema: pages.benefits.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
+        benefitsEnhanced: {
+          path: 'your-benefits',
+          title: 'Benefits',
+          uiSchema: pages.benefits.enhancedUiSchema,
+          schema: pages.benefits.enhancedSchema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        editBenefitsEnhanced: {
+          path: 'edit-benefits',
+          title: 'Benefits',
+          CustomPage: EnhancedBenefitsEdit,
+          CustomPageReview: null, // TODO: Add review page (or check if reviewpage on normal)
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: () => false, // only accessible from benefits page
         },
         socialSecurity: {
           path: 'social-security',
@@ -573,8 +595,35 @@ const formConfig = {
           title: 'Vehicles',
           uiSchema: pages.vehicleRecords.uiSchema,
           schema: pages.vehicleRecords.schema,
-          depends: ({ questions }) => questions.hasVehicle,
+          depends: formData =>
+            formData.questions.hasVehicle &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        enhancedVehicleRecords: {
+          path: 'your-vehicle-records',
+          title: 'Vehicles',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasVehicle &&
+            !formData.assets?.automobiles?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: EnhancedVehicleRecord,
+          CustomPageReview: null,
+        },
+        vehiclesSummary: {
+          path: 'vehicles-summary',
+          title: 'Your car or other vehicle',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasVehicle &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: VehicleSummaryWidget,
+          CustomPageReview: null,
         },
         recreationalVehicles: {
           path: 'recreational-vehicles',
@@ -644,15 +693,20 @@ const formConfig = {
         otherAssetsSummary: {
           path: 'other-assets-summary',
           title: 'Other assets summary',
-          uiSchema: pages.otherAssetPages.otherAssetsSummary.uiSchema,
-          schema: pages.otherAssetPages.otherAssetsSummary.schema,
-          depends: formData => formData['view:enhancedFinancialStatusReport'],
+          CustomPage: OtherAssetsSummary,
+          CustomPageReview: OtherAssetsSummaryReview,
+          editModeOnReviewPage: true,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            !!formData.assets?.otherAssets?.length &&
+            formData['view:enhancedFinancialStatusReport'],
         },
         addOtherAsset: {
           path: 'add-other-asset',
           title: 'Add your additional assets',
           CustomPage: AddAsset,
-          CustomPageReview: null, // TODO: Add review page (or check if reviewpage on normal)
+          CustomPageReview: null,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           depends: () => false, // accessed from otherAssetsSummary

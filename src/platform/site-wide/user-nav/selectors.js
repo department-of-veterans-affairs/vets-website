@@ -14,7 +14,11 @@ export const selectUserGreeting = createSelector(
   (name, email, sessionFirstName) => {
     if (name.first || sessionFirstName) {
       return (
-        <span className="user-dropdown-email">
+        <span
+          className="user-dropdown-email"
+          data-dd-privacy="mask"
+          data-dd-action-name="First Name"
+        >
           {startCase(toLower(name.first || sessionFirstName))}
         </span>
       );
@@ -30,6 +34,8 @@ export const selectUserGreeting = createSelector(
       <span
         key="show-for-medium-up"
         className="user-dropdown-email medium-screen:vads-u-visibility--visible"
+        data-dd-privacy="mask"
+        data-dd-action-name="Email"
       >
         {email}
       </span>,

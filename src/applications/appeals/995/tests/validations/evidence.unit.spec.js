@@ -129,7 +129,7 @@ describe('VA evidence', () => {
       validateVaToDate(errors, {
         evidenceDates: { to: getDate({ offset: { years: 101 } }) },
       });
-      expect(errors.addError.args[0][0]).contains('must enter a year between');
+      expect(errors.addError.args[0][0]).eq(errorMessages.evidence.pastDate);
     });
   });
 
@@ -385,7 +385,7 @@ describe('Private evidence', () => {
       validatePrivateToDate(errors, {
         treatmentDateRange: { to: getDate({ offset: { years: 101 } }) },
       });
-      expect(errors.addError.args[0][0]).contains('must enter a year between');
+      expect(errors.addError.args[0][0]).eq(errorMessages.evidence.pastDate);
     });
   });
 

@@ -10,10 +10,7 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
     site.login();
     landingPage.loadInboxMessages();
     cy.get('[data-testid="compose-message-link"]').click();
-    cy.get('[data-testid="compose-recipient-select"]')
-      .shadow()
-      .find('[id="select"]')
-      .select('CAMRY_PCMM RELATIONSHIP_05092022_SLC4'); // trieageTeams with preferredTeam = true will appear in a recipients dropdown only
+    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4'); // trieageTeams with preferredTeam = true will appear in a recipients dropdown only
     cy.get('[name="COVID"]').click();
     cy.get('[data-testid="attach-file-input"]').selectFile(
       'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
@@ -21,10 +18,7 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
     );
   });
   it('empty message subject error', () => {
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[name="message-body"]')
-      .type('Test message body');
+    composePage.getMessageBodyField().type('Test message body');
     composePage.clickOnSendMessageButton();
     cy.get('[data-testid="message-subject-field"]')
       .shadow()
@@ -34,10 +28,7 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
     cy.axeCheck();
   });
   it('empty message body error', () => {
-    cy.get('[data-testid="message-subject-field"]')
-      .shadow()
-      .find('[name="message-subject"]')
-      .type('Test Subject');
+    composePage.getMessageSubjectField().type('Test Subject');
     composePage.clickOnSendMessageButton();
     cy.get('[data-testid="message-body-field"]')
       .shadow()

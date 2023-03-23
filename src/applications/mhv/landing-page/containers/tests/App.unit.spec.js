@@ -16,12 +16,31 @@ const generateInitState = ({
   serviceName = 'idme',
   profileLoading = false,
   currentlyLoggedIn = true,
+  isCernerPatient = false,
+  hasFacilities = true,
 }) => {
+  const facilities = hasFacilities
+    ? [{ facilityId: '123', isCerner: false }]
+    : [];
   return {
     featureToggles: {
       loading,
       // eslint-disable-next-line camelcase
       mhv_landing_page_enabled: mhvLandingPageEnabled,
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        data: {
+          cernerFacilities: [
+            {
+              vhaId: '757',
+              vamcFacilityName: 'Chalmers P. Wylie Veterans Outpatient Clinic',
+              vamcSystemName: 'VA Central Ohio health care',
+              ehr: 'cerner',
+            },
+          ],
+        },
+      },
     },
     user: {
       login: {
@@ -32,6 +51,9 @@ const generateInitState = ({
         signIn: {
           serviceName,
         },
+        facilities: isCernerPatient
+          ? [{ facilityId: '757', isCerner: true }]
+          : facilities,
       },
     },
   };
@@ -149,6 +171,45 @@ describe('MHV landing page', () => {
         loading: false,
         mhvLandingPageEnabled: true,
         currentlyLoggedIn: false,
+      });
+      const store = mockStore(initState);
+      const replace = sinon.spy();
+      global.window.location = { ...global.window.location, replace };
+      const { container } = render(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+      );
+      expect(container.querySelector('h1')).to.not.exist;
+      expect(replace.called).to.be.true;
+    });
+    it('user is a cerner patient and feature enabled -- should not show the landing page', () => {
+      const middleware = [];
+      const mockStore = configureStore(middleware);
+      const initState = generateInitState({
+        loading: false,
+        mhvLandingPageEnabled: true,
+        serviceName: CSP_IDS.MHV,
+        isCerner: true,
+      });
+      const store = mockStore(initState);
+      const replace = sinon.spy();
+      global.window.location = { ...global.window.location, replace };
+      const { container } = render(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+      );
+      expect(container.querySelector('h1')).to.not.exist;
+      expect(replace.called).to.be.true;
+    });
+    it('user is authenticated with feature enabled but has no facilities -- should not show the landing page', () => {
+      const middleware = [];
+      const mockStore = configureStore(middleware);
+      const initState = generateInitState({
+        loading: false,
+        mhvLandingPageEnabled: true,
+        hasFacilities: false,
       });
       const store = mockStore(initState);
       const replace = sinon.spy();

@@ -3,7 +3,10 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import isValid from 'date-fns/isValid';
 import PropTypes from 'prop-types';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
+import { createAnalyticsSlug } from '../../../utils/analytics';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { makeSelectVeteranData, makeSelectApp } from '../../../selectors';
 
@@ -49,6 +52,12 @@ const AppointmentDetails = props => {
     },
     [appointmentId, appointments, jumpToPage],
   );
+
+  const handlePhoneNumberClick = () => {
+    recordEvent({
+      event: createAnalyticsSlug('details-phone-link-clicked', 'nav', app),
+    });
+  };
 
   const clinic = appointment && clinicName(appointment);
 
@@ -146,7 +155,10 @@ const AppointmentDetails = props => {
                       className="fas fa-phone vads-u-color--link-default vads-u-margin-right--1"
                       aria-hidden="true"
                     />
-                    <va-telephone contact={appointment.clinicPhoneNumber} />
+                    <va-telephone
+                      onClick={handlePhoneNumberClick}
+                      contact={appointment.clinicPhoneNumber}
+                    />
                   </div>
                 </div>
               )}

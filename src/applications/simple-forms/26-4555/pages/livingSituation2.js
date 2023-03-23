@@ -1,3 +1,4 @@
+import React from 'react';
 import { intersection, pick } from 'lodash';
 
 import * as address from 'platform/forms-system/src/js/definitions/address';
@@ -9,25 +10,42 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [
   livingSituationFields.careFacilityName,
-  livingSituationFields.careFacilityAddress,
+  // livingSituationFields.careFacilityAddress,
+  // omitted because unused, will be restored when vets-json-schema is changed
 ];
 
 export default {
   uiSchema: {
     [livingSituationFields.parentObject]: {
-      'ui:title': 'Details about your current living situation',
-      [livingSituationFields.careFacilityName]: {
-        'ui:title':
-          'What is the name of the nursing home or medical care facility?',
-      },
-      [livingSituationFields.careFacilityAddress]: address.uiSchema(
-        'What is the address of the nursing home or medical care facility you are living in?',
-        false,
-        formData =>
-          formData[livingSituationFields.parentObject][
-            livingSituationFields.isInCareFacility
-          ],
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+          Facility details
+        </h3>
       ),
+      'ui:description': (
+        <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
+          Tell us more about the nursing home or medical care facility you live
+          in
+        </p>
+      ),
+      [livingSituationFields.careFacilityName]: {
+        'ui:title': 'Facility name',
+      },
+      [livingSituationFields.careFacilityAddress]: {
+        'ui:description': (
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--4">
+            Facility address
+          </p>
+        ),
+        ...address.uiSchema(
+          '',
+          false,
+          formData =>
+            formData[livingSituationFields.parentObject][
+              livingSituationFields.isInCareFacility
+            ],
+        ),
+      },
     },
   },
   schema: {
@@ -38,7 +56,6 @@ export default {
         required: intersection(required, pageFields),
         properties: {
           ...pick(properties, pageFields),
-          // address definitions appear to be implemented differently
           [livingSituationFields.careFacilityAddress]: address.schema(
             fullSchema,
             formData =>

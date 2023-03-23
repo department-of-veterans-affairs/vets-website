@@ -106,7 +106,12 @@ const EvidenceSummary = ({
             tabbable when hidden
           - Only render the alert content since the screenreader can still
             target the headers inside */}
-        <va-alert id="no-evidence" status="warning" visible={visibleError}>
+        <va-alert
+          id="no-evidence"
+          status="warning"
+          visible={visibleError}
+          class="vads-u-margin-top--4"
+        >
           {visibleError && (
             <>
               <H slot="headline">{content.missingEvidenceHeader}</H>

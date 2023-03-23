@@ -52,6 +52,7 @@ import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
+import { Toggler } from '../../components/Toggler';
 
 class Profile extends Component {
   componentDidMount() {
@@ -155,64 +156,70 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const routes = getRoutes();
     return (
-      <BrowserRouter>
-        <LastLocationProvider>
-          <ProfileWrapper
-            routes={routes}
-            isInMVI={this.props.isInMVI}
-            isLOA3={this.props.isLOA3}
-            isBlocked={this.props.isBlocked}
-          >
-            <Switch>
-              {/* Redirect users to Account Security to upgrade their account if they need to */}
-              {routes.map(route => {
-                if (
-                  (route.requiresLOA3 && !this.props.isLOA3) ||
-                  (route.requiresMVI && !this.props.isInMVI) ||
-                  (route.requiresLOA3 && this.props.isBlocked)
-                ) {
-                  return (
+      <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.profileUseFieldEditingPage}>
+        {useFieldEditingPage => {
+          const routes = getRoutes({ useFieldEditingPage });
+          return (
+            <BrowserRouter>
+              <LastLocationProvider>
+                <ProfileWrapper
+                  routes={routes}
+                  isInMVI={this.props.isInMVI}
+                  isLOA3={this.props.isLOA3}
+                  isBlocked={this.props.isBlocked}
+                >
+                  <Switch>
+                    {/* Redirect users to Account Security to upgrade their account if they need to */}
+                    {routes.map(route => {
+                      if (
+                        (route.requiresLOA3 && !this.props.isLOA3) ||
+                        (route.requiresMVI && !this.props.isInMVI) ||
+                        (route.requiresLOA3 && this.props.isBlocked)
+                      ) {
+                        return (
+                          <Redirect
+                            from={route.path}
+                            to={PROFILE_PATHS.ACCOUNT_SECURITY}
+                            key={route.path}
+                          />
+                        );
+                      }
+
+                      return (
+                        <Route
+                          component={route.component}
+                          exact
+                          key={route.path}
+                          path={route.path}
+                        />
+                      );
+                    })}
+
                     <Redirect
-                      from={route.path}
-                      to={PROFILE_PATHS.ACCOUNT_SECURITY}
-                      key={route.path}
+                      exact
+                      from="/profile#contact-information"
+                      to={PROFILE_PATHS.CONTACT_INFORMATION}
                     />
-                  );
-                }
 
-                return (
-                  <Route
-                    component={route.component}
-                    exact
-                    key={route.path}
-                    path={route.path}
-                  />
-                );
-              })}
+                    <Redirect
+                      exact
+                      from={PROFILE_PATHS.PROFILE_ROOT}
+                      to={PROFILE_PATHS.PERSONAL_INFORMATION}
+                    />
 
-              <Redirect
-                exact
-                from="/profile#contact-information"
-                to={PROFILE_PATHS.CONTACT_INFORMATION}
-              />
-
-              <Redirect
-                exact
-                from={PROFILE_PATHS.PROFILE_ROOT}
-                to={PROFILE_PATHS.PERSONAL_INFORMATION}
-              />
-
-              {/* fallback handling: redirect to root route */}
-              {/* Should we consider making a 404 page for this instead? */}
-              <Route path="*">
-                <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
-              </Route>
-            </Switch>
-          </ProfileWrapper>
-        </LastLocationProvider>
-      </BrowserRouter>
+                    {/* fallback handling: redirect to root route */}
+                    {/* Should we consider making a 404 page for this instead? */}
+                    <Route path="*">
+                      <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
+                    </Route>
+                  </Switch>
+                </ProfileWrapper>
+              </LastLocationProvider>
+            </BrowserRouter>
+          );
+        }}
+      </Toggler.Hoc>
     );
   };
 

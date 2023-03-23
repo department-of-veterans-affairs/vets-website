@@ -22,7 +22,7 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     ).as('draftsFolderMetaResponse');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2/messages**',
+      '/my_health/v1/messaging/folders/-2/threads**',
       mockDraftMessages,
     ).as('draftsResponse');
     cy.get('[data-testid="drafts-sidebar"]').click();
@@ -56,13 +56,11 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
         });
       });
 
-    cy.get('[data-testid="message-subject-field"]')
-      .shadow()
-      .find('[name="message-subject"]')
+    composePage
+      .getMessageSubjectField()
       .type(' Draft Autosave with Attachments');
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[name="message-body"]')
+    composePage
+      .getMessageBodyField()
       .type('Testing Autosave Drafts with Attachments');
     composePage.attachMessageFromFile('sample_docx.docx');
 

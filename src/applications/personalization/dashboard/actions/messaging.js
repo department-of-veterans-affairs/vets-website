@@ -25,14 +25,6 @@ export const fetchUnreadMessagesCount = () => async dispatch => {
 
   const folderUrl = `/folders/0`;
 
-  if (shouldMockApiRequest()) {
-    dispatch({
-      type: FETCH_UNREAD_MESSAGES_COUNT_SUCCESS,
-      unreadMessagesCount: mockFolderResponse.data.attributes.unreadCount,
-    });
-    return;
-  }
-
   try {
     const response = await apiRequest(`${baseUrl}${folderUrl}`);
 
