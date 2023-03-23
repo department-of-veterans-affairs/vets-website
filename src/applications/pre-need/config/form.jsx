@@ -249,7 +249,7 @@ const formConfig = {
     },
     sponsorInformation: {
       title: environment.isProduction()
-        ? 'Sponser Information'
+        ? 'Sponsor Information'
         : 'Sponsor information',
       pages: {
         sponsorInformation: {
