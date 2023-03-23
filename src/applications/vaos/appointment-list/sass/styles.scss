@@ -155,6 +155,10 @@ li.vaos-appts__listItem--clickable[data-status="pending"]:last-child {
   border-bottom: 1px solid !important;
   border-color: $color-gray-medium !important;
 }
+
+.vaos-appts__column-gap--1 {
+  column-gap: 8px;
+}
 .vaos-appts__column-gap--2 {
   @include media($xsmall-screen) {
     column-gap: 16px;
@@ -210,10 +214,12 @@ li.vaos-appts__listItem--clickable[data-status="pending"]:last-child {
 }
 
 div[id^="vaos-appts__detail-"] {
-  @include media($medium-screen) {
+  @include media($small-screen) {
     display: flex;
     align-items: center;
     text-align: right;
+    min-width: fit-content;
+    max-width: fit-content;
   }
   @include media($small-desktop-screen) {
     justify-content: right;

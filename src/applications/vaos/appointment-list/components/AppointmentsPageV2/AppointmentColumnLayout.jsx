@@ -47,7 +47,7 @@ export default function AppointmentColumnLayout({
         aria-label={dateAriaLabel}
       >
         {first && (
-          <AppointmentRow className="xsmall-screen:vads-u-text-align--center small-screen:vads-u-flex-direction--row">
+          <AppointmentRow className="vaos-appts__column-gap--1 xsmall-screen:vads-u-text-align--center small-screen:vads-u-flex-direction--row">
             <AppointmentColumn
               size="1"
               className="small-screen:vads-u-margin-left--1 small-screen:vads-u-flex--auto small-screen:vads-u-order--first small-screen:vads-u-padding-top--0"
@@ -58,7 +58,7 @@ export default function AppointmentColumnLayout({
               </h3>
             </AppointmentColumn>
             <AppointmentColumn
-              className="vads-u-text-align--left xsmall-screen:vads-u-order--first small-screen:vads-u-margin-left--1"
+              className="vads-u-text-align--left xsmall-screen:vads-u-order--first"
               size="1"
               style={{ minWidth: '56px', maxWidth: '56px' }}
             >
@@ -79,7 +79,7 @@ export default function AppointmentColumnLayout({
         )}
         size="1"
       >
-        <AppointmentRow className="small-desktop-screen:vads-u-flex-direction--row">
+        <AppointmentRow className="small-screen:vads-u-flex-direction--row">
           <AppointmentColumn
             size="1"
             canceled={isCanceled}
@@ -93,7 +93,7 @@ export default function AppointmentColumnLayout({
           </AppointmentColumn>
 
           <AppointmentColumn size="1" className="vads-u-flex--4">
-            <AppointmentRow className="vaos-appts__column-gap--4 small-screen:vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
+            <AppointmentRow className="vaos-appts__column-gap--4 small-screen:vads-u-flex-direction--column small-desktop-screen:vads-u-flex-direction--row">
               <AppointmentColumn
                 padding="0"
                 size="1"
@@ -131,7 +131,7 @@ export default function AppointmentColumnLayout({
 
           <AppointmentColumn
             id={`vaos-appts__detail-${data.id}`}
-            className="vads-u-margin-right--1 vaos-hide-for-print"
+            className="vaos-hide-for-print small-screen:vads-u-margin-right--1"
             padding="0"
             size="1"
           >

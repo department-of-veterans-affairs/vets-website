@@ -50,7 +50,7 @@ export default function UpcomingAppointmentLayout({
                     link={link}
                     className="vaos-appts__column-gap--2"
                   >
-                    <AppointmentRow className="xsmall-screen:vads-u-flex-direction--row vaos-appts__column-gap--2">
+                    <AppointmentRow className="xsmall-screen:vads-u-flex-direction--row">
                       <AppointmentColumnLayout
                         data={appt}
                         first={isFirstInDay}
@@ -90,7 +90,7 @@ export default function UpcomingAppointmentLayout({
           )}
         >
           <AppointmentFlexGrid idClickable={idClickable} link={link}>
-            <AppointmentRow className="xsmall-screen:vads-u-flex-direction--row vaos-appts__column-gap--2">
+            <AppointmentRow className="xsmall-screen:vads-u-flex-direction--row">
               <AppointmentColumnLayout first data={appt} link={link} />
             </AppointmentRow>
           </AppointmentFlexGrid>
