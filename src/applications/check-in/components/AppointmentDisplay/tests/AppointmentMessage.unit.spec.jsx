@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import MockDate from 'mockdate';
-import AppointmentMessageVaos from '../AppointmentMessageVaos';
+import AppointmentMessage from '../AppointmentMessage';
 import i18n from '../../../utils/i18n/i18n';
 
 import { ELIGIBILITY } from '../../../utils/appointment/eligibility';
@@ -15,7 +15,7 @@ describe('check-in', () => {
     MockDate.reset();
   });
 
-  describe('AppointmentMessageVaos', () => {
+  describe('AppointmentMessage', () => {
     let store;
     beforeEach(() => {
       const middleware = [];
@@ -37,7 +37,7 @@ describe('check-in', () => {
       const action = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
-            <AppointmentMessageVaos
+            <AppointmentMessage
               appointment={{
                 eligibility: ELIGIBILITY.INELIGIBLE_BAD_STATUS,
               }}
@@ -55,7 +55,7 @@ describe('check-in', () => {
       const action = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
-            <AppointmentMessageVaos
+            <AppointmentMessage
               appointment={{
                 eligibility: ELIGIBILITY.INELIGIBLE_UNSUPPORTED_LOCATION,
               }}
@@ -73,7 +73,7 @@ describe('check-in', () => {
       const action = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
-            <AppointmentMessageVaos
+            <AppointmentMessage
               appointment={{
                 eligibility: ELIGIBILITY.INELIGIBLE_UNKNOWN_REASON,
               }}
@@ -91,7 +91,7 @@ describe('check-in', () => {
       const action = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
-            <AppointmentMessageVaos
+            <AppointmentMessage
               appointment={{
                 checkInWindowEnd: '2018-01-01T12:15:00-04:00',
                 eligibility: ELIGIBILITY.ELIGIBLE,
@@ -109,7 +109,7 @@ describe('check-in', () => {
       const action = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
-            <AppointmentMessageVaos
+            <AppointmentMessage
               appointment={{
                 eligibility: ELIGIBILITY.INELIGIBLE_TOO_LATE,
               }}
@@ -127,7 +127,7 @@ describe('check-in', () => {
       const action = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
-            <AppointmentMessageVaos
+            <AppointmentMessage
               appointment={{
                 eligibility: ELIGIBILITY.INELIGIBLE_TOO_EARLY,
                 checkInWindowStart: '2021-07-19T14:00:00',
@@ -147,7 +147,7 @@ describe('check-in', () => {
       const action = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
-            <AppointmentMessageVaos
+            <AppointmentMessage
               appointment={{
                 eligibility: ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN,
                 checkedInTime: '2021-07-19T14:14:00',
@@ -167,7 +167,7 @@ describe('check-in', () => {
       const action = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
-            <AppointmentMessageVaos
+            <AppointmentMessage
               appointment={{
                 eligibility: ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN,
 
@@ -188,7 +188,7 @@ describe('check-in', () => {
       const action = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
-            <AppointmentMessageVaos
+            <AppointmentMessage
               appointment={{
                 eligibility: ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN,
                 checkedInTime: 'Invalid DateTime',

@@ -20,7 +20,7 @@ import { APP_NAMES } from '../../../utils/appConstants';
 import Wrapper from '../../layout/Wrapper';
 import BackButton from '../../BackButton';
 import AppointmentAction from '../../AppointmentDisplay/AppointmentAction';
-import AppointmentMessageVaos from '../../AppointmentDisplay/AppointmentMessageVaos';
+import AppointmentMessage from '../../AppointmentDisplay/AppointmentMessage';
 
 const AppointmentDetails = props => {
   const { router } = props;
@@ -102,7 +102,7 @@ const AppointmentDetails = props => {
                 preCheckInSubTitle
               ) : (
                 <div className="vads-u-margin-x--neg2 vads-u-margin-top--2">
-                  <AppointmentMessageVaos appointment={appointment} />
+                  <AppointmentMessage appointment={appointment} />
                 </div>
               )}
               <div data-testid="appointment-details--when">

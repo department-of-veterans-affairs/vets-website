@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-import AppointmentMessageVaos from './AppointmentMessageVaos';
+import AppointmentMessage from './AppointmentMessage';
 import AppointmentAction from './AppointmentAction';
 import {
   appointmentIcon,
@@ -102,7 +102,7 @@ const AppointmentListItem = props => {
         {app === APP_NAMES.CHECK_IN &&
           page !== 'confirmation' && (
             <>
-              <AppointmentMessageVaos appointment={appointment} />
+              <AppointmentMessage appointment={appointment} />
               <AppointmentAction
                 appointment={appointment}
                 router={router}
