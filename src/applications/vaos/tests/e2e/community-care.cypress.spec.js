@@ -29,7 +29,8 @@ describe('VAOS community care flow', () => {
     mockSupportedSitesApi();
   });
 
-  it('should fill out community care form and submit request', () => {
+  // Skipping, as this tests V0 and is mostly covered by test below
+  it.skip('should fill out community care form and submit request', () => {
     mockLoginApi({ withoutAddress: true });
 
     cy.visit(
@@ -258,7 +259,8 @@ describe('VAOS community care flow', () => {
     cy.axeCheckBestPractice();
   });
 
-  it('should submit form with provider chosen from list and submit request', () => {
+  // Skipping, as this tests V0 and is mostly covered by test below
+  it.skip('should submit form with provider chosen from list and submit request', () => {
     mockLoginApi();
 
     cy.visit(
