@@ -9,7 +9,7 @@ import replyDraftThread from '../fixtures/threads/reply-draft-thread-reducer.jso
 import { messageDetails } from '../fixtures/threads/message-thread-reducer.json';
 import { getByBrokenText } from '../../util/testUtils';
 
-describe('Thread Details container', async () => {
+describe('Thread Details container', () => {
   const setup = state => {
     return renderWithStoreAndRouter(<ThreadDetails testing />, {
       initialState: state,
@@ -143,9 +143,9 @@ describe('Thread Details container', async () => {
       recipientName,
       messageId,
     } = messageDetails.message;
-    const container = document.querySelector('.message-metadata');
 
     await waitFor(() => {
+      const container = document.querySelector('.message-metadata');
       expect(
         getByText(`${category}: ${subject}`, {
           exact: false,
