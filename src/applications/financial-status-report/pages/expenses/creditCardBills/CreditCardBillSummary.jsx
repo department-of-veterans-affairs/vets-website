@@ -87,7 +87,7 @@ const CreditCardBillSummary = props => {
         ) : (
           creditCardBills.map((bill, index) => (
             <MiniSummaryCard
-              editDesination={{
+              editDestination={{
                 pathname: '/your-credit-card-bills',
                 search: `?index=${index}`,
               }}
