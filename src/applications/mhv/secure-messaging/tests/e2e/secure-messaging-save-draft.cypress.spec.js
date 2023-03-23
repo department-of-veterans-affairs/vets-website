@@ -42,14 +42,8 @@ describe('Secure Messaging Save Draft', () => {
     cy.wait('@draftThreadResponse');
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('[data-testid="message-subject-field"]')
-      .shadow()
-      .find('[name="message-subject"]')
-      .type('message Test');
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[name="message-body"]')
-      .type('Test message body');
+    composePage.getMessageSubjectField().type('message Test');
+    composePage.getMessageBodyField().type('Test message body');
     composePage.saveDraft(
       6978854,
       'OTHER',

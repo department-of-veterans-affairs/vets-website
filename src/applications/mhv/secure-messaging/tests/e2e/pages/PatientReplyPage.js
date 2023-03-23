@@ -101,11 +101,12 @@ class PatientReplyPage {
       });
   };
 
-  verifyReplyPageBodyField = () => {
-    cy.get('[data-testid="message-body-field"]')
+  getMessageBodyField = () => {
+    return cy
+      .get('[data-testid="message-body-field"]')
       .shadow()
-      .find('[name="message-body"]')
-      .should('be.visible');
+      .find('[name="message-body"]');
   };
 }
+
 export default PatientReplyPage;

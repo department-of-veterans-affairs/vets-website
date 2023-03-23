@@ -43,14 +43,22 @@ class PatientMessageDraftsPage {
     cy.contains('test').click();
     cy.wait('@draftThreadResponse');
 
-    cy.get('[data-testid="message-subject-field"]')
+    this.getMessageSubjectField().type(' Draft Save with Attachments');
+    this.getMessageBodyField().type('Testing Save Drafts with Attachments');
+  };
+
+  getMessageSubjectField = () => {
+    return cy
+      .get('[data-testid="message-subject-field"]')
       .shadow()
-      .find('[name="message-subject"]')
-      .type(' Draft Save with Attachments');
-    cy.get('[data-testid="message-body-field"]')
+      .find('[name="message-subject"]');
+  };
+
+  getMessageBodyField = () => {
+    return cy
+      .get('[data-testid="message-body-field"]')
       .shadow()
-      .find('[name="message-body"]')
-      .type('Testing Save Drafts with Attachments');
+      .find('[name="message-body"]');
   };
 }
 export default PatientMessageDraftsPage;

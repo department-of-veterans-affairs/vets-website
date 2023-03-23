@@ -5,13 +5,17 @@ import * as Sentry from '@sentry/browser';
  * @param {string} slug
  * @param {string} eventType
  */
-const createAnalyticsSlug = (slug, eventType = '') => {
+const createAnalyticsSlug = (slug, eventType = '', app = '') => {
   let prefix = '';
   if (eventType) {
     prefix = `${eventType}-`;
   }
+  let context = '';
+  if (app) {
+    context = app === 'preCheckIn' ? `pre-` : '';
+  }
 
-  return `${prefix}check-in-${slug}`;
+  return `${prefix}${context}check-in-${slug}`;
 };
 
 /**

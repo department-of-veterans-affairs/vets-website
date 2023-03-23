@@ -16,8 +16,7 @@ import {
   PrivateContent,
   UploadContent,
 } from './EvidenceSummaryLists';
-
-const editKey = 'evidence-summary-edit';
+import { SUMMARY_EDIT } from '../constants';
 
 const EvidenceSummaryReview = ({ data, editPage }) => {
   const { limitedConsent = '' } = data;
@@ -27,11 +26,11 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   useEffect(
     () => {
       if (
-        window.sessionStorage.getItem(editKey) === 'true' &&
+        window.sessionStorage.getItem(SUMMARY_EDIT) === 'true' &&
         editRef?.current
       ) {
         // focus on edit button _after_ editing and returning
-        window.sessionStorage.removeItem(editKey);
+        window.sessionStorage.removeItem(SUMMARY_EDIT);
         setTimeout(() => focusElement(editRef.current));
       }
     },
@@ -50,7 +49,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   const handlers = {
     onEditPage: () => {
       // maintain state using session storage
-      window.sessionStorage.setItem(editKey, 'true');
+      window.sessionStorage.setItem(SUMMARY_EDIT, 'true');
       editPage();
     },
   };

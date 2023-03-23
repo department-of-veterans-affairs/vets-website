@@ -11,7 +11,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import ITFWrapper from '../../containers/ITFWrapper';
 import { outputDateFormat } from '../../content/itfWrapper';
-import { ITF_STATUSES } from '../../constants';
+import { ITF_STATUSES, FORMAT_YMD } from '../../constants';
 import itfFetchResponse from '../fixtures/mocks/intent-to-file.json';
 import itfCreateResponse from '../fixtures/mocks/intent-to-file-compensation.json';
 
@@ -46,7 +46,7 @@ const getData = ({
 });
 
 const getFormattedExpirationDate = date =>
-  moment(date).format(outputDateFormat);
+  moment(date, FORMAT_YMD).format(outputDateFormat);
 
 describe('ITFWrapper', () => {
   afterEach(() => {

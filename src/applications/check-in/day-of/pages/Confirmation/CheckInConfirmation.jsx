@@ -46,10 +46,8 @@ const CheckInConfirmation = props => {
   const { t } = useTranslation();
   const { jumpToPage } = useFormRouting(router);
   const appointment = selectedAppointment;
-  const appointmentDateTime = new Date(appointment.startTime);
 
   const {
-    isLoading,
     travelPayEligible,
     travelPayClaimError,
     travelPayClaimErrorCode,
@@ -78,25 +76,8 @@ const CheckInConfirmation = props => {
     [travelPayClaimSent, setShouldSendTravelPayClaim],
   );
 
-  let pageTitle = t('youre-checked-in', {
-    date: appointmentDateTime,
-  });
   const doTravelPay = isTravelReimbursementEnabled && travelPayClaimRequested;
 
-  if (doTravelPay && !isLoading) {
-    pageTitle += ' ';
-
-    if (travelPayClaimData && !travelPayClaimError && travelPayEligible) {
-      pageTitle += t('received-reimbursement-claim');
-    } else if (
-      travelPayClaimError &&
-      travelPayClaimErrorCode === 'CLM_002_CLAIM_EXISTS'
-    ) {
-      pageTitle += t('you-created-a-travel-claim-already');
-    } else {
-      pageTitle += t('we-couldnt-file-reimbursement');
-    }
-  }
   const handleDetailClick = e => {
     e.preventDefault();
     recordEvent({
@@ -136,7 +117,10 @@ const CheckInConfirmation = props => {
 
   const renderConfirmationMessage = () => {
     return (
-      <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
+      <Wrapper
+        pageTitle={t('youre-checked-in')}
+        testID="multiple-appointments-confirm"
+      >
         <p className="vads-u-font-family--serif">{t('your-appointment')}</p>
         <ol
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"

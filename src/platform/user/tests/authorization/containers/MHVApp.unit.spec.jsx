@@ -2,10 +2,10 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { merge } from 'lodash';
-import set from '../../../../utilities/data/set';
 import sinon from 'sinon';
+import set from '../../../../utilities/data/set';
 
-import backendServices from '../../../../user/profile/constants/backendServices';
+import backendServices from '../../../profile/constants/backendServices';
 import { MHVApp } from '../../../authorization/containers/MHVApp';
 
 describe('<MHVApp>', () => {
@@ -25,9 +25,7 @@ describe('<MHVApp>', () => {
       backendServices.USER_PROFILE,
     ],
     serviceRequired: backendServices.RX,
-    createMHVAccount: sinon.spy(),
     fetchMHVAccount: sinon.spy(),
-    upgradeMHVAccount: sinon.spy(),
   };
 
   const setup = () => {
@@ -36,9 +34,7 @@ describe('<MHVApp>', () => {
     global.window.location = {
       replace: sinon.spy(),
     };
-    props.createMHVAccount.reset();
     props.fetchMHVAccount.reset();
-    props.upgradeMHVAccount.reset();
   };
 
   const context = { router: {} };
@@ -70,14 +66,6 @@ describe('<MHVApp>', () => {
     wrapper.unmount();
   });
 
-  it('should create an account if the user does not have an account but is eligible', () => {
-    const wrapper = shallow(<MHVApp {...props} />, { context });
-    const mhvAccount = set('accountState', 'no_account', props.mhvAccount);
-    wrapper.setProps({ mhvAccount });
-    expect(props.createMHVAccount.calledOnce).to.be.true;
-    wrapper.unmount();
-  });
-
   it('should redirect if the user needs to accepts T&C', () => {
     const wrapper = shallow(<MHVApp {...props} />, { context });
     const mhvAccount = set(
@@ -87,22 +75,6 @@ describe('<MHVApp>', () => {
     );
     wrapper.setProps({ mhvAccount });
     expect(global.window.location.replace.calledOnce).to.be.true;
-    wrapper.unmount();
-  });
-
-  it('should invoke upgrade if the user is only registered', () => {
-    const wrapper = shallow(<MHVApp {...props} />, { context });
-    const mhvAccount = set('accountState', 'registered', props.mhvAccount);
-    wrapper.setProps({ mhvAccount });
-    expect(props.upgradeMHVAccount.calledOnce).to.be.true;
-    wrapper.unmount();
-  });
-
-  it('should invoke upgrade if the user is existing without access to the service', () => {
-    const wrapper = shallow(<MHVApp {...props} />, { context });
-    const mhvAccount = set('accountState', 'existing', props.mhvAccount);
-    wrapper.setProps({ mhvAccount });
-    expect(props.upgradeMHVAccount.calledOnce).to.be.true;
     wrapper.unmount();
   });
 
