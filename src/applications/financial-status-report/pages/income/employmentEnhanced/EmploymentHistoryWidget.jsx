@@ -12,7 +12,7 @@ const EmploymentHistoryWidget = props => {
   const formData = useSelector(state => state.form.data);
   const employmentHistory =
     formData.personalData.employmentHistory.veteran.employmentRecords || [];
-
+  const efsrFeatureFlag = formData['view:enhancedFinancialStatusReport'];
   useEffect(() => {
     clearJobIndex();
   }, []);
@@ -20,11 +20,13 @@ const EmploymentHistoryWidget = props => {
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
+      let path = '/benefits';
       if (hasAdditionalJobToAdd === 'true') {
-        goToPath(`/enhanced-employment-records`);
-      } else {
-        goToPath(`/benefits`);
+        path = '/enhanced-employment-records';
+      } else if (efsrFeatureFlag) {
+        path = '/your-benefits';
       }
+      goToPath(path);
     },
     onSelection: event => {
       const { value } = event?.detail || {};

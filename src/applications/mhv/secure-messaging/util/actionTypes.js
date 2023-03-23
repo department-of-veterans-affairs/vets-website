@@ -48,6 +48,10 @@ export const Actions = {
     RUN_ADVANCED: 'SM_SEARCH_RUN_ADVANCED',
     START: 'SM_SEARCH_START',
   },
+  Thread: {
+    GET_LIST: 'SM_THREAD_GET_LIST',
+    CLEAR_LIST: 'SM_THREAD_CLEAR_LIST',
+  },
   TriageTeam: {
     GET_LIST: 'SM_TRIAGE_TEAM_GET_LIST',
   },

@@ -76,6 +76,9 @@ export const Alerts = {
     FOLDER_NAME_TAKEN:
       'That folder name is already in use. Please use another name.',
   },
+  Thread: {
+    GET_THREAD_ERROR: 'We’re sorry. Something went wrong on our end.',
+  },
 };
 
 export const Errors = {
@@ -162,4 +165,13 @@ export const Attachments = {
   MAX_FILE_COUNT: 4,
   MAX_FILE_SIZE: 6000000,
   TOTAL_MAX_FILE_SIZE: 10000000,
+};
+
+export const threadSortingOptions = {
+  DESCENDING: 'DESC',
+  ASCENDING: 'ASC',
+  SORT_BY_SENDER: 'SENDER_NAME',
+  SORT_BY_RECEPIENT: 'RECIPIENT_NAME',
+  SORT_BY_SENT_DATE: 'SENT_DATE',
+  SORT_BY_DRAFT_DATE: 'DRAFT_DATE',
 };
