@@ -80,13 +80,12 @@ const CreditCardBill = props => {
     e.preventDefault();
     const newCreditCardBillArray = [...creditCardBills];
     newCreditCardBillArray[index] = creditCardBillRecord;
-
     if (
       creditCardBillRecord.minMonthlyPayment &&
       creditCardBillRecord.unpaidBalance
     ) {
       // if amountOverdue is NaN, set it to 0 in order to satisfy va-number-input
-      if (!Number.isNaN(creditCardBillRecord.amountOverdue)) {
+      if (!isValidCurrency(creditCardBillRecord.amountOverdue)) {
         creditCardBillRecord.amountOverdue = 0;
       }
 
