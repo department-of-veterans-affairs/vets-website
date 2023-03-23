@@ -7,16 +7,14 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { useTranslation, Trans } from 'react-i18next';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 
-import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
-import AppointmentBlockVaos from '../../../components/AppointmentBlockVaos';
+import AppointmentBlock from '../../../components/AppointmentBlock';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import {
   intervalUntilNextAppointmentIneligibleForCheckin,
-  sortAppointmentsByStartTime,
 } from '../../../utils/appointment';
 
 import { makeSelectCurrentContext } from '../../../selectors';
@@ -93,8 +91,6 @@ const DisplayMultipleAppointments = props => {
 
   const { goToPreviousPage } = useFormRouting(router);
 
-  const sortedAppointments = sortAppointmentsByStartTime(appointments);
-
   if (isLoading) window.scrollTo(0, 0);
 
   return isLoading ? (
@@ -116,7 +112,7 @@ const DisplayMultipleAppointments = props => {
         classNames="appointment-check-in"
         withBackButton
       >
-        <AppointmentBlockVaos
+        <AppointmentBlock
           router={router}
           appointments={appointments}
           page="details"

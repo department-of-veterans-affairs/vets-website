@@ -8,7 +8,6 @@ import { VaModal } from '@department-of-veterans-affairs/web-components/react-bi
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import AppointmentBlock from '../../../components/AppointmentBlock';
-import AppointmentBlockVaos from '../../../components/AppointmentBlockVaos';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -138,8 +137,8 @@ const IntroductionDisplay = props => {
       </p>
       {isPreCheckInActionLinkTopPlacementEnabled && <StartButton />}
 
-      <AppointmentBlockVaos appointments={appointments} page="intro" />
-      
+      <AppointmentBlock appointments={appointments} page="intro" />
+
       {!isPreCheckInActionLinkTopPlacementEnabled && (
         <>
           <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>

@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import AppointmentBlockVaos from './AppointmentBlockVaos';
+import AppointmentBlock from './AppointmentBlock';
 import ExternalLink from './ExternalLink';
 import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
 import HowToLink from './HowToLink';
@@ -43,7 +43,7 @@ const PreCheckinConfirmation = props => {
         pageTitle={t('youve-completed-pre-check-in')}
         testID="confirmation-wrapper"
       >
-        <AppointmentBlockVaos
+        <AppointmentBlock
           appointments={appointments}
           page="confirmation"
           router={router}
