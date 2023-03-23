@@ -54,6 +54,7 @@ describe('Thread Details container', () => {
 
     await waitFor(() => {
       expect(getByText('Edit draft', { exact: true, selector: 'h1' })).to.exist;
+    }).then(() => {
       expect(getByText('Don’t use messages for emergencies')).to.exist;
       expect(
         getByText(`${category}: ${subject}`, { exact: false, selector: 'h3' }),
@@ -95,7 +96,7 @@ describe('Thread Details container', () => {
 
     await waitFor(() => {
       expect(getByText(`${category}: ${subject}`, { exact: false })).to.exist;
-
+    }).then(() => {
       expect(
         getByText(
           `(Draft) To: ${replyMessage.senderName} (Team: ${
@@ -145,14 +146,14 @@ describe('Thread Details container', () => {
     } = messageDetails.message;
 
     await waitFor(() => {
-      const container = document.querySelector('.message-metadata');
       expect(
         getByText(`${category}: ${subject}`, {
           exact: false,
           selector: 'h2',
         }),
       ).to.exist;
-
+    }).then(() => {
+      const container = document.querySelector('.message-metadata');
       const from = getByBrokenText(`From: ${senderName}`, container);
       expect(from).to.exist;
 
