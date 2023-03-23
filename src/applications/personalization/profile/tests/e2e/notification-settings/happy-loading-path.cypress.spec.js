@@ -55,7 +55,7 @@ describe('Notification Settings', () => {
         // TODO: uncomment when email is a supported communication channel
         // cy.findByText('veteran@gmail.com').should('exist');
         cy.findAllByTestId('notification-group')
-          .should('have.length', 3)
+          .should('have.length', 2)
           .first()
           .should('contain.text', 'Your health care')
           .invoke('text')
@@ -99,7 +99,7 @@ describe('Notification Settings', () => {
         // TODO: uncomment when email is a supported communication channel
         // cy.findByText('veteran@gmail.com').should('exist');
         cy.findAllByTestId('notification-group')
-          .should('have.length', 3)
+          .should('have.length', 2)
           .first()
           .should('contain.text', 'Your health care')
           .invoke('text')
@@ -141,7 +141,7 @@ describe('Notification Settings', () => {
         // TODO: uncomment when email is a supported communication channel
         // cy.findByText('veteran@gmail.com').should('exist');
         cy.findAllByTestId('notification-group')
-          .should('have.length', 3)
+          .should('have.length', 2)
           .first()
           .should('contain.text', 'Your health care')
           .invoke('text')

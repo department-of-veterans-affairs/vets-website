@@ -1,7 +1,6 @@
 import React from 'react';
 import OtherAssetsChecklist from '../../../components/otherAssets/OtherAssetsChecklist';
 import OtherAssetsInputList from '../../../components/otherAssets/OtherAssetsInputList';
-import OtherAssetsSummary from '../../../components/otherAssets/OtherAssetsSummary';
 import { validateCurrencyArray } from '../../../utils/validations';
 
 export const otherAssetsChecklist = {
@@ -66,27 +65,6 @@ export const otherAssetsValues = {
             },
           },
         },
-      },
-    },
-  },
-};
-
-export const otherAssetsSummary = {
-  uiSchema: {
-    'ui:title': 'You have added these assets',
-    otherAssets: {
-      'ui:title': ' ',
-      'ui:widget': OtherAssetsSummary,
-      'ui:options': {
-        hideOnReview: true,
-      },
-    },
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      otherAssets: {
-        type: 'boolean',
       },
     },
   },

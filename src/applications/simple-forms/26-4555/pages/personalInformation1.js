@@ -1,3 +1,4 @@
+import React from 'react';
 import { intersection, pick } from 'lodash';
 
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
@@ -12,6 +13,11 @@ const pageFields = [veteranFields.fullName, veteranFields.dateOfBirth];
 
 export default {
   uiSchema: {
+    'ui:title': (
+      <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+        Name and date of birth
+      </h3>
+    ),
     [veteranFields.parentObject]: {
       [veteranFields.fullName]: fullNameUI,
       [veteranFields.dateOfBirth]: dateUI('Date of birth'),

@@ -56,7 +56,7 @@ const deleteFiles = valuesFiles => {
 
 if (process.env.TRIGGERING_EVENT === 'delete') {
   const valuesFiles = fs
-    .readdirSync('./manifests/apps/preview-environment/dev/environment-values/')
+    .readdirSync('./manifests/apps/preview-environment/dev/pe-envs/')
     .filter(file =>
       file.includes(
         `${process.env.CURRENT_REPOSITORY}-${process.env.DELETED_BRANCH}`,

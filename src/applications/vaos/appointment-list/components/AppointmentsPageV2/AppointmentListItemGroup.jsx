@@ -179,7 +179,7 @@ export default function AppointmentListItemGroup({ data }) {
               'vads-u-padding-right--1',
               {
                 'vads-u-border-bottom--1px': isBorderBottom,
-                'vads-u-border-color--gray-lighter': isBorderBottom,
+                'vads-u-border-color--gray-medium': isBorderBottom,
               },
             )}
           >
@@ -196,7 +196,7 @@ export default function AppointmentListItemGroup({ data }) {
           <div
             className={classNames('vads-l-col--4', 'vads-u-padding-y--2', {
               'vads-u-border-bottom--1px': isBorderBottom,
-              'vads-u-border-color--gray-lighter': isBorderBottom,
+              'vads-u-border-color--gray-medium': isBorderBottom,
             })}
           >
             <div
@@ -211,7 +211,7 @@ export default function AppointmentListItemGroup({ data }) {
           <div
             className={classNames('vads-l-col--4', 'vads-u-padding-y--2', {
               'vads-u-border-bottom--1px': isBorderBottom,
-              'vads-u-border-color--gray-lighter': isBorderBottom,
+              'vads-u-border-color--gray-medium': isBorderBottom,
             })}
           >
             <div style={styles.canceled}>
@@ -237,7 +237,7 @@ export default function AppointmentListItemGroup({ data }) {
               'vads-u-text-align--right',
               {
                 'vads-u-border-bottom--1px': isBorderBottom,
-                'vads-u-border-color--gray-lighter': isBorderBottom,
+                'vads-u-border-color--gray-medium': isBorderBottom,
               },
             )}
           >
