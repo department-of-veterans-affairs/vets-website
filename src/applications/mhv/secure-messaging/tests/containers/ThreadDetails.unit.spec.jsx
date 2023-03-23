@@ -50,14 +50,18 @@ describe('Thread Details container', () => {
       },
     };
 
-    const { getByText } = setup(state);
+    const screen = await setup(state);
 
-    await waitFor(() => {
-      expect(getByText('Edit draft', { exact: true, selector: 'h1' })).to.exist;
+    waitFor(() => {
+      expect(screen.getByText('Edit draft', { exact: true, selector: 'h1' })).to
+        .exist;
     }).then(() => {
-      expect(getByText('Don’t use messages for emergencies')).to.exist;
+      expect(screen.getByText('Don’t use messages for emergencies')).to.exist;
       expect(
-        getByText(`${category}: ${subject}`, { exact: false, selector: 'h3' }),
+        screen.getByText(`${category}: ${subject}`, {
+          exact: false,
+          selector: 'h3',
+        }),
       ).to.exist;
       expect(document.querySelector(`va-textarea[value="${body}"]`)).to.exist;
     });
@@ -92,13 +96,14 @@ describe('Thread Details container', () => {
         ...replyDraftThread,
       },
     };
-    const { getByText, getByTestId } = setup(state);
+    const screen = await setup(state);
 
-    await waitFor(() => {
-      expect(getByText(`${category}: ${subject}`, { exact: false })).to.exist;
+    waitFor(() => {
+      expect(screen.getByText(`${category}: ${subject}`, { exact: false })).to
+        .exist;
     }).then(() => {
       expect(
-        getByText(
+        screen.getByText(
           `(Draft) To: ${replyMessage.senderName} (Team: ${
             replyMessage.triageGroupName
           })`,
@@ -106,7 +111,7 @@ describe('Thread Details container', () => {
         ),
       ).to.exist;
 
-      const messageRepliedTo = getByTestId('message-replied-to');
+      const messageRepliedTo = screen.getByTestId('message-replied-to');
       const from = getByBrokenText(
         `From: ${replyMessage.senderName}`,
         messageRepliedTo,
@@ -119,13 +124,13 @@ describe('Thread Details container', () => {
       expect(to).to.exist;
 
       expect(
-        getByText('Messages in this conversation', {
+        screen.getByText('Messages in this conversation', {
           exact: true,
           selector: 'h2',
         }),
       ).to.exist;
 
-      expect(getByText(olderMessage.body, { exact: false })).to.exist;
+      expect(screen.getByText(olderMessage.body, { exact: false })).to.exist;
     });
   });
 
@@ -135,7 +140,7 @@ describe('Thread Details container', () => {
         messageDetails,
       },
     };
-    const { getByText } = setup(state);
+    const screen = await setup(state);
     const {
       category,
       body,
@@ -145,9 +150,9 @@ describe('Thread Details container', () => {
       messageId,
     } = messageDetails.message;
 
-    await waitFor(() => {
+    waitFor(() => {
       expect(
-        getByText(`${category}: ${subject}`, {
+        screen.getByText(`${category}: ${subject}`, {
           exact: false,
           selector: 'h2',
         }),
@@ -169,9 +174,9 @@ describe('Thread Details container', () => {
       const id = getByBrokenText(`Message ID: ${messageId}`, container);
       expect(id).to.exist;
 
-      expect(getByText(body)).to.exist;
+      expect(screen.getByText(body)).to.exist;
 
-      expect(getByText('Messages in this conversation')).to.exist;
+      expect(screen.getByText('Messages in this conversation')).to.exist;
       expect(
         document
           .querySelector('.older-messages')
