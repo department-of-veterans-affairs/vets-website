@@ -792,6 +792,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
           depends: formData =>
             formData.questions.hasCreditCardBills &&
+            !formData.expenses?.creditCardBills?.length &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: CreditCardBill,

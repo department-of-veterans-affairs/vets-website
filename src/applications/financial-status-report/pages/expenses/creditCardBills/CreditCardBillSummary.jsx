@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, connect, useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
 import { Link } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearJobIndex } from '../../../utils/session';
@@ -11,13 +10,14 @@ import {
 
 import { currency as currencyFormatter } from '../../../utils/helpers';
 
-const CreditCardBillSummary = props => {
+const CreditCardBillSummary = ({
+  data,
+  goToPath,
+  setFormData,
+  contentBeforeButtons,
+  contentAfterButtons,
+}) => {
   const dispatch = useDispatch();
-
-  const { goToPath, goBack, onReviewPage } = props;
-  const [hasAdditionalVehicleToAdd, setHasAdditionalVehicleoAdd] = useState(
-    'false',
-  );
 
   const formData = useSelector(state => state.form.data);
   const { expenses } = formData;
@@ -30,24 +30,22 @@ const CreditCardBillSummary = props => {
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      if (hasAdditionalVehicleToAdd === 'true') {
-        goToPath(`/your-credit-card-bills`);
-      } else {
-        goToPath(`/other-expenses`);
-      }
+      goToPath(`/other-expenses`);
     },
-    onSelection: event => {
-      const { value } = event?.detail || {};
-      if (value) {
-        setHasAdditionalVehicleoAdd(value);
-      }
+    onBack: event => {
+      event.preventDefault();
+      goToPath('/credit-card-bills');
     },
   };
 
   const onDelete = deleteIndex => {
     dispatch(
-      setData({
+      setFormData({
         ...formData,
+        questions: {
+          ...data.questions,
+          hasCreditCardBills: deleteIndex !== 0,
+        },
         expenses: {
           ...expenses,
           creditCardBills: creditCardBills.filter(
@@ -58,9 +56,6 @@ const CreditCardBillSummary = props => {
     );
   };
   const emptyPrompt = `Select the 'add additional credit card bill' link to add another bill. Select the continue button to move on to the next question.`;
-
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
 
   const billBody = bill => {
     return (
@@ -109,7 +104,9 @@ const CreditCardBillSummary = props => {
       >
         Add additional credit card bill
       </Link>
-      {onReviewPage ? updateButton : navButtons}
+      {contentBeforeButtons}
+      <FormNavButtons goBack={handlers.onBack} submitToContinue />
+      {contentAfterButtons}{' '}
     </form>
   );
 };
