@@ -249,25 +249,6 @@ export function getCCAppointmentMock() {
 }
 
 /**
- * Returns a stubbed var-resources cancel reason object
- *
- * @export
- * @returns {CancelReason} var-resources cancel reason object
- */
-export function getCancelReasonMock() {
-  return {
-    id: 'fake',
-    type: 'cancel_reason',
-    attributes: {
-      number: 'fake',
-      text: 'fake',
-      type: 'B',
-      inactive: false,
-    },
-  };
-}
-
-/**
  * Returns a stubbed var-resources parent site object. Mostly unused now.
  *
  * @export

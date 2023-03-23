@@ -6,11 +6,9 @@ import { mockFetch } from 'platform/testing/unit/helpers';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { getCancelReasonMock } from '../../../mocks/v0';
 import {
   mockAppointmentInfo,
   mockSingleAppointmentFetch,
-  mockVACancelFetches,
 } from '../../../mocks/helpers';
 import {
   renderWithStoreAndRouter,
@@ -56,6 +54,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     MockDate.reset();
   });
 
+  // Skipping, this is a v0 test that is covered by a test below in the next
+  // describe block
   it.skip('should show confirmed appointments detail page', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const today = moment.utc();
@@ -326,7 +326,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).not.to.contain.text('Cancel appointment');
   });
 
-  it('should allow cancellation', async () => {
+  // Skipping, this is a v0 test that is covered by a test below in the next
+  // describe block
+  it.skip('should allow cancellation', async () => {
     // Given a veteran has VA appointments
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
@@ -356,9 +358,12 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       version: 0,
     });
 
-    const cancelReason = getCancelReasonMock();
-    cancelReason.attributes = { ...cancelReason.attributes, number: '5' };
-    mockVACancelFetches('983', [cancelReason]);
+    // Commenting out this mock, the test is skipped and covered by a v2 test in the
+    // describe block below
+    //
+    // const cancelReason = getCancelReasonMock();
+    // cancelReason.attributes = { ...cancelReason.attributes, number: '5' };
+    // mockVACancelFetches('983', [cancelReason]);
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
     });
