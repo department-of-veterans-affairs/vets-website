@@ -20,7 +20,6 @@ const MessageDetail = () => {
   );
   const isTrash = window.location.pathname.includes('/trash');
   const isSent = window.location.pathname.includes('/sent');
-  // const activeFolder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
   const history = useHistory();
   const [cannotReplyAlert, setcannotReplyAlert] = useState(true);

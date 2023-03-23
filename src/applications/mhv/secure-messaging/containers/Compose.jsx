@@ -20,7 +20,6 @@ const Compose = () => {
   const { draftMessage, error } = useSelector(state => state.sm.draftDetails);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const { draftId } = useParams();
-  // const activeFolder = useSelector(state => state.sm.folders.folder);
   const messageHistory = useSelector(
     state => state.sm.draftDetails.draftMessageHistory,
   );
