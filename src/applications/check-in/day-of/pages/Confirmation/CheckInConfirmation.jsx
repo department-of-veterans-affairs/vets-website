@@ -30,7 +30,6 @@ const CheckInConfirmation = props => {
   const featureToggles = useSelector(selectFeatureToggles);
   const {
     isTravelReimbursementEnabled,
-    isUpdatedApptPresentationEnabled,
   } = featureToggles;
   const {
     isLoading: isCheckInDataLoading,
@@ -126,22 +125,15 @@ const CheckInConfirmation = props => {
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
           data-testid="appointment-list"
         >
-          {isUpdatedApptPresentationEnabled ? (
-            <AppointmentListItemVaos
-              appointment={appointment}
-              key={0}
-              showDetailsLink
-              goToDetails={handleDetailClick}
-              router={router}
-              page="confirmation"
-              app={APP_NAMES.CHECK_IN}
-            />
-          ) : (
-            <AppointmentConfirmationListItem
-              appointment={appointment}
-              key={0}
-            />
-          )}
+          <AppointmentListItemVaos
+            appointment={appointment}
+            key={0}
+            showDetailsLink
+            goToDetails={handleDetailClick}
+            router={router}
+            page="confirmation"
+            app={APP_NAMES.CHECK_IN}
+          />
         </ol>
 
         <va-alert
