@@ -6,8 +6,7 @@ import widgetTypes from '../widgetTypes';
 
 export default store => {
   const root = document.querySelector(
-    // `[data-widget-type="${widgetTypes.BTSSS_LOGIN}"]`,
-    `[data-app-id="${widgetTypes.BTSSS_LOGIN}"]`,
+    `[data-widget-type="${widgetTypes.BTSSS_LOGIN}"]`,
   );
   if (root) {
     import(/* webpackChunkName: "btsss-login" */
