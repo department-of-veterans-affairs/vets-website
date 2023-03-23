@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import { createAnalyticsSlug } from '../utils/analytics';
-import AppointmentListItemVaos from './AppointmentDisplay/AppointmentListItemVaos';
+import AppointmentListItem from './AppointmentDisplay/AppointmentListItem';
 import { makeSelectApp } from '../selectors';
 import { useFormRouting } from '../hooks/useFormRouting';
 import { APP_NAMES } from '../utils/appConstants';
@@ -55,7 +55,7 @@ const AppointmentBlock = props => {
       >
         {sortedAppointments.map(appointment => {
           return (
-            <AppointmentListItemVaos
+            <AppointmentListItem
               key={`${appointment.appointmentIen}-${appointment.stationNo}`}
               appointment={appointment}
               page={page}

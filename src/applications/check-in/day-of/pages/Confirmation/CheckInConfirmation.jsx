@@ -12,13 +12,12 @@ import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggl
 import BackToAppointments from '../../../components/BackToAppointments';
 import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
 import Wrapper from '../../../components/layout/Wrapper';
-import AppointmentConfirmationListItem from '../../../components/AppointmentDisplay/AppointmentConfirmationListItem';
 import useSendTravelPayClaim from '../../../hooks/useSendTravelPayClaim';
 import ExternalLink from '../../../components/ExternalLink';
 import TravelPayAlert from './TravelPayAlert';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import AppointmentListItemVaos from '../../../components/AppointmentDisplay/AppointmentListItemVaos';
+import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import { getAppointmentId } from '../../../utils/appointment';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import { useUpdateError } from '../../../hooks/useUpdateError';
@@ -125,7 +124,7 @@ const CheckInConfirmation = props => {
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
           data-testid="appointment-list"
         >
-          <AppointmentListItemVaos
+          <AppointmentListItem
             appointment={appointment}
             key={0}
             showDetailsLink
