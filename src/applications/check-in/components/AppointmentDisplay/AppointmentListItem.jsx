@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import AppointmentMessageVaos from './AppointmentMessageVaos';
-import AppointmentActionVaos from './AppointmentActionVaos';
+import AppointmentAction from './AppointmentAction';
 import {
   appointmentIcon,
   clinicName,
@@ -103,7 +103,7 @@ const AppointmentListItem = props => {
           page !== 'confirmation' && (
             <>
               <AppointmentMessageVaos appointment={appointment} />
-              <AppointmentActionVaos
+              <AppointmentAction
                 appointment={appointment}
                 router={router}
                 event="check-in-clicked-VAOS-design"
