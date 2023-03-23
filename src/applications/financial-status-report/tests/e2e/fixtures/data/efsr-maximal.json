@@ -178,15 +178,15 @@
   "utilityRecords": [
     {
       "name": "Electricity",
-      "amount": "350.45"
+      "amount": "402.35"
     },
     {
-      "name": "Water",
-      "amount": "75.43"
+      "name": "Gas",
+      "amount": "85.16"
     },
     {
       "name": "Cable",
-      "amount": "275.47"
+      "amount": "175.47"
     }
   ],
   "personalData": {
