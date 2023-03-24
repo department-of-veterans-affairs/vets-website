@@ -26,6 +26,7 @@ function generateWebpackDevConfig(buildOptions) {
     },
     hot: false,
     liveReload: false,
+    allowedHosts: ["vets-website-test-ecr-docker-i-dev.vfs.va.gov"],
     static: {
       directory: path.resolve(
         __dirname,
