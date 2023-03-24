@@ -341,6 +341,10 @@ span.sidelines {
   border-bottom: 1px solid $color-gray-light;
   line-height: 100%;
 
+  &:before {
+    transform: translateY(0);
+  }
+
   &.logingov {
     border-bottom: 0;
   }
