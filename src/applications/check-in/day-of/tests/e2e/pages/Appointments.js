@@ -13,7 +13,7 @@ class Appointments {
   };
 
   validateUnavailableStatus = (appointmentNumber = 1) => {
-    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) p`, {
+    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) span[data-testid="unknown-reason-message"]`, {
       timeout: Timeouts.slow,
     }).should(
       'contain',
@@ -22,7 +22,7 @@ class Appointments {
   };
 
   validateEligibleStatus = (appointmentNumber = 1) => {
-    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) > button`, {
+    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) button[data-testid="check-in-button"]`, {
       timeout: Timeouts.slow,
     })
       .should('be.visible')
@@ -30,13 +30,13 @@ class Appointments {
   };
 
   validateEarlyStatusWithTime = (appointmentNumber = 1) => {
-    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) p`, {
+    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) span[data-testid="too-early-message"]`, {
       timeout: Timeouts.slow,
     }).should('contain', 'You can check in starting at this time: 11:00 a.m.');
   };
 
   validateEarlyStatusWithoutTime = (appointmentNumber = 2) => {
-    cy.get(`.appointment-list li:nth-child(${appointmentNumber}) p`, {
+    cy.get(`.appointment-list li:nth-child(${appointmentNumber}) span[data-testid="no-time-too-early-reason-message"]`, {
       timeout: Timeouts.slow,
     }).should(
       'contain',
@@ -45,7 +45,7 @@ class Appointments {
   };
 
   validateLateStatus = (appointmentNumber = 1) => {
-    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) p`, {
+    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) span[data-testid="too-late-message"]`, {
       timeout: Timeouts.slow,
     }).should(
       'contain',
@@ -54,7 +54,7 @@ class Appointments {
   };
 
   validateUnknownStatus = (appointmentNumber = 1) => {
-    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) p`, {
+    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) span[data-testid="unknown-reason-message"]`, {
       timeout: Timeouts.slow,
     }).should(
       'contain',
@@ -100,7 +100,7 @@ class Appointments {
 
   attemptCheckIn = (appointmentNumber = 1) => {
     cy.get(
-      `:nth-child(${appointmentNumber}) > [data-testid=check-in-button]`,
+      `:nth-child(${appointmentNumber}) [data-testid=check-in-button]`,
     ).click({ waitForAnimations: true });
   };
 
