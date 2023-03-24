@@ -14,10 +14,10 @@ tar -xf vagovdev.tar.bz2 -C content-build/build/localhost/
 echo "Install and serve content-build"
 cd content-build
 yarn install
-yarn serve --disableHostCheck &
+yarn serve &
 
 # Watch vets-website
 echo "Install and watch vets-website"
 cd ../vets-website
 yarn install
-yarn watch --disableHostCheck --env host=0.0.0.0
+yarn watch --env host=0.0.0.0
