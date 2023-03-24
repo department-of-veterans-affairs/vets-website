@@ -62,6 +62,15 @@ class Appointments {
     );
   };
 
+  validateBadStatus = (appointmentNumber = 1) => {
+    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) span[data-testid="ineligible-bad-status-message"]`, {
+      timeout: Timeouts.slow,
+    }).should(
+      'contain',
+      'Online check-in isn’t available for this appointment. Check in with a staff member.',
+    );
+  };
+
   validateAppointmentTime = (
     appointmentNumber = 1,
     appointmentmentTime = '3:00 a.m.',
