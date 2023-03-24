@@ -177,16 +177,16 @@
   ],
   "utilityRecords": [
     {
-      "utilityType": "Electricity",
-      "monthlyUtilityAmount": "350.45"
+      "name": "Electricity",
+      "amount": "402.35"
     },
     {
-      "utilityType": "Water",
-      "monthlyUtilityAmount": "75.43"
+      "name": "Gas",
+      "amount": "85.16"
     },
     {
-      "utilityType": "Cable",
-      "monthlyUtilityAmount": "275.47"
+      "name": "Cable",
+      "amount": "175.47"
     }
   ],
   "personalData": {
