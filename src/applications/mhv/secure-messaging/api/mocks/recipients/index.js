@@ -21,26 +21,6 @@ const defaultRecipients = {
         preferredTeam: true,
       },
     },
-    {
-      id: '1766073',
-      type: 'triage_teams',
-      attributes: {
-        triageTeamId: 1766073,
-        name: 'VA Flagship mobile applications interface 1_DAYT29',
-        relationType: 'PATIENT',
-        preferredTeam: true,
-      },
-    },
-    {
-      id: '1918816',
-      type: 'triage_teams',
-      attributes: {
-        triageTeamId: 1918816,
-        name: 'VA Flagship mobile applications interface 2_DAYT29',
-        relationType: 'PATIENT',
-        preferredTeam: true,
-      },
-    },
   ],
   meta: { sort: { name: 'ASC' } },
 };
