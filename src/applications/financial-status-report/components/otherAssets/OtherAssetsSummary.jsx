@@ -36,7 +36,7 @@ const OtherAssetsSummary = ({
   };
 
   const cardBody = text => (
-    <p className="vads-u-margin-y--2 vads-u-color--gray">{text}</p>
+    <p className="vads-u-margin-y--2">{text}</p>
   );
   const emptyPrompt = `Select the ‘add additional assets’ link to add another asset. Select the continue button to move on to the next question.`;
 

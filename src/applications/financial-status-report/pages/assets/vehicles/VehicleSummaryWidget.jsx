@@ -68,7 +68,7 @@ const VehicleSummaryWidget = ({
               key={vehicle.make + vehicle.model + vehicle.year}
               onDelete={() => onDelete(index)}
               showDelete
-              body={<p>Value: {currencyFormatter(vehicle.resaleValue)}</p>}
+              body={<p>Value: <b>{currencyFormatter(vehicle.resaleValue)}</b></p>}
             />
           ))
         )}
