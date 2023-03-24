@@ -795,6 +795,7 @@ const formConfig = {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
           initialData: {},
+          depends: () => environment.isProduction(), // delete this row when ready for prod
           uiSchema: {
             'ui:title': 'Secondary contact',
             'ui:description':
