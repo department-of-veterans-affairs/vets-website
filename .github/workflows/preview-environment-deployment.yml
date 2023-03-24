@@ -9,6 +9,7 @@ on:
 
 jobs:
   deploy-preview-environment:
+    name: Deploy Preview Environment
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -41,7 +42,7 @@ jobs:
             node_modules
 
       - name: Start Deployment
-        if: ${{ env.SOURCE_REPO }} == 'vets-website'
+        if: ${{ github.event_name == 'push' }}
         uses: bobheadxi/deployments@v1
         id: deployment
         with:
