@@ -4,7 +4,8 @@ import mockDraftResponse from '../fixtures/message-draft-response.json';
 import mockThreadResponse from '../fixtures/empty-thread-response.json';
 
 class PatientMessageDraftsPage {
-  loadDrafts = () => {
+  loadDrafts = mockMessages => {
+    mockDraftMessages = mockMessages;
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-2',
@@ -38,6 +39,7 @@ class PatientMessageDraftsPage {
     ).as('draftThreadResponse');
   };
 
+  // this method is hard coded... not good.  We may want to load another draft besides one with title test
   loadDraftMessageDetails = () => {
     cy.log('loading draft message details');
     cy.contains('test').click();
