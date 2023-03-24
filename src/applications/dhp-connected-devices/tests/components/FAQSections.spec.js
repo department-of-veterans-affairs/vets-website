@@ -112,7 +112,7 @@ describe('FAQSections component', () => {
     it('renders the second item', () => {
       const faq = screen.getByTestId('faq-third-section-second-question');
       expect(faq.getAttribute('header')).to.eq(
-        'I can’t login or need help with my VA account',
+        'I can’t log in or need help with my VA account',
       );
     });
   });
