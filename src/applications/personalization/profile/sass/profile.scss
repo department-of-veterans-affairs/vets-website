@@ -105,6 +105,7 @@
     &:last-child {
       border-left: none;
       padding-left: calc(3.1rem + 8px);
+      padding-bottom: 0;
     }
 
     &:before {
