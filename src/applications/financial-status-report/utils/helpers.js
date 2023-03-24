@@ -259,8 +259,11 @@ export const getMonthlyExpenses = ({
   otherExpenses,
   utilityRecords,
   installmentContracts,
+  'view:enhancedFinancialStatusReport': enhancedFSRActive,
 }) => {
-  const utilities = sumValues(utilityRecords, 'monthlyUtilityAmount');
+  const utilities = enhancedFSRActive
+    ? sumValues(utilityRecords, 'amount')
+    : sumValues(utilityRecords, 'monthlyUtilityAmount');
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
   const expVals = Object.values(expenses).filter(Boolean);
