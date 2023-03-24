@@ -32,4 +32,4 @@ EXPOSE 3001
 EXPOSE 3002
 
 # Configure image to execute a script on startup with ENTRYPOINT/CMD
-CMD ["./start.sh"] --host=0.0.0.0 --disableHostCheck
+CMD ["./start.sh"] --host=0.0.0.0
