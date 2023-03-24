@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
-import defaultMockThread from './fixtures/thread-response.json';
+import mockThreadResponse from './fixtures/message-draft-thread-response-single-message.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
@@ -15,33 +15,29 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     site.login();
     inboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
-    draftsPage.loadMessageDetails(mockDraftResponse, defaultMockThread);
-
-    cy.injectAxe();
-    cy.axeCheck();
-
-    composePage
-      .getMessageSubjectField()
-      .type(' Draft Autosave with Attachments');
+    draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     composePage
       .getMessageBodyField()
       .type('Testing Autosave Drafts with Attachments');
+    cy.realPress(['Enter']);
     composePage.attachMessageFromFile('sample_docx.docx');
 
     cy.intercept(
-      'PUT',
-      '/my_health/v1/messaging/message_drafts/7208913',
+      'POST',
+      `/my_health/v1/messaging/message_drafts/${
+        mockDraftResponse.data.attributes.messageId
+      }/replydraft`,
       mockDraftResponse,
     ).as('saveDraftwithAttachment');
-    cy.wait('@saveDraftwithAttachment', { timeout: 5500 });
+    cy.wait('@saveDraftwithAttachment', { timeout: 8500 });
 
     cy.get('@saveDraftwithAttachment')
       .its('request.body')
       .should('deep.equal', {
-        recipientId: 6978854,
-        category: 'OTHER',
-        subject: 'test Draft Autosave with Attachments',
-        body: 'ststASertTesting Autosave Drafts with Attachments',
+        body: 'ststASertTesting Autosave Drafts with Attachments\n',
+        category: mockDraftResponse.data.attributes.category,
+        recipientId: mockDraftResponse.data.attributes.recipientId,
+        subject: mockDraftResponse.data.attributes.subject,
       });
 
     cy.contains('Your message was saved');

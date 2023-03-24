@@ -58,7 +58,6 @@ class PatientMessageDraftsPage {
     mockPreviousMessageDetails = mockDraftResponse,
   ) => {
     this.currentThread = mockThread;
-
     this.currentThread.data.at(0).attributes.sentDate =
       mockParentMessageDetails.data.attributes.sentDate;
     this.currentThread.data.at(0).id =
@@ -83,28 +82,32 @@ class PatientMessageDraftsPage {
         this.currentThread.data.at(0).attributes.messageId
       }`,
     );
-    this.currentThread.data.at(previousMessageIndex).attributes.sentDate =
-      mockPreviousMessageDetails.data.attributes.sentDate;
-    this.currentThread.data.at(previousMessageIndex).id =
-      mockPreviousMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(previousMessageIndex).attributes.messageId =
-      mockPreviousMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(previousMessageIndex).attributes.subject =
-      mockPreviousMessageDetails.data.attributes.subject;
-    this.currentThread.data.at(previousMessageIndex).attributes.body =
-      mockPreviousMessageDetails.data.attributes.body;
-    this.currentThread.data.at(previousMessageIndex).attributes.category =
-      mockPreviousMessageDetails.data.attributes.category;
-    this.currentThread.data.at(previousMessageIndex).attributes.recipientId =
-      mockPreviousMessageDetails.data.attributes.recipientId;
-    this.currentThread.data.at(previousMessageIndex).attributes.senderName =
-      mockPreviousMessageDetails.data.attributes.senderName;
-    this.currentThread.data.at(previousMessageIndex).attributes.recipientName =
-      mockPreviousMessageDetails.data.attributes.recipientName;
-    this.currentThread.data.at(
-      previousMessageIndex,
-    ).attributes.triageGroupName =
-      mockPreviousMessageDetails.data.attributes.triageGroupName;
+    if (this.currentThread.data.lenghth > 1) {
+      this.currentThread.data.at(previousMessageIndex).attributes.sentDate =
+        mockPreviousMessageDetails.data.attributes.sentDate;
+      this.currentThread.data.at(previousMessageIndex).id =
+        mockPreviousMessageDetails.data.attributes.messageId;
+      this.currentThread.data.at(previousMessageIndex).attributes.messageId =
+        mockPreviousMessageDetails.data.attributes.messageId;
+      this.currentThread.data.at(previousMessageIndex).attributes.subject =
+        mockPreviousMessageDetails.data.attributes.subject;
+      this.currentThread.data.at(previousMessageIndex).attributes.body =
+        mockPreviousMessageDetails.data.attributes.body;
+      this.currentThread.data.at(previousMessageIndex).attributes.category =
+        mockPreviousMessageDetails.data.attributes.category;
+      this.currentThread.data.at(previousMessageIndex).attributes.recipientId =
+        mockPreviousMessageDetails.data.attributes.recipientId;
+      this.currentThread.data.at(previousMessageIndex).attributes.senderName =
+        mockPreviousMessageDetails.data.attributes.senderName;
+      this.currentThread.data.at(
+        previousMessageIndex,
+      ).attributes.recipientName =
+        mockPreviousMessageDetails.data.attributes.recipientName;
+      this.currentThread.data.at(
+        previousMessageIndex,
+      ).attributes.triageGroupName =
+        mockPreviousMessageDetails.data.attributes.triageGroupName;
+    }
     cy.log(
       `message thread  = ${JSON.stringify(
         mockParentMessageDetails.data.attributes.messageId,
@@ -129,6 +132,28 @@ class PatientMessageDraftsPage {
     cy.contains(mockParentMessageDetails.data.attributes.subject).click();
     cy.wait('@message1');
     cy.wait('@full-thread');
+  };
+
+  clickDeleteButton = () => {
+    cy.get('[data-testid="delete-draft-button"]').click({ force: true });
+  };
+
+  confirmDeleteDraft = draftMessage => {
+    cy.intercept(
+      'DELETE',
+      `/my_health/v1/messaging/messages/${
+        draftMessage.data.attributes.messageId
+      }`,
+      draftMessage,
+    ).as('deletedDraftResponse');
+    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
+    cy.get('[data-testid="delete-draft-modal"]')
+      .shadow()
+      .find('[type ="button"]', { force: true })
+      .contains('Delete draft')
+      .should('contain', 'Delete')
+      .click({ force: true });
+    cy.wait('@deletedDraftResponse');
   };
 
   getMessageSubjectField = () => {
