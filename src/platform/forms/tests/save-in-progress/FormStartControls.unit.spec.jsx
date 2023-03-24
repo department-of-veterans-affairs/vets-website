@@ -1,6 +1,6 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
@@ -41,7 +41,7 @@ describe('Schemaform <FormStartControls>', () => {
       push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -52,15 +52,14 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-
-    expect(tree.everySubTree('ProgressButton').length).to.equal(1);
+    expect(tree.baseElement.querySelectorAll('va-button').length).to.equal(1);
   });
   it('should render 1 button when logged in with no saved form', () => {
     const routerSpy = {
       push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -71,15 +70,14 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-
-    expect(tree.everySubTree('ProgressButton').length).to.equal(1);
+    expect(tree.baseElement.querySelectorAll('va-button').length).to.equal(1);
   });
-  it('should render 3 buttons when logged in with an expired form', () => {
+  it('should render 1 va-button and 1 va-button-pair when logged in with an expired form', () => {
     const routerSpy = {
       push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -91,14 +89,18 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    expect(tree.everySubTree('ProgressButton').length).to.equal(3);
+    tree.baseElement.querySelector('va-button').click();
+    const buttonSelector = 'va-button,va-button-pair';
+    const buttonCount = tree.baseElement.querySelectorAll(buttonSelector)
+      .length;
+    expect(buttonCount).to.equal(2);
   });
-  it('should render 4 buttons when logged in with a saved form', () => {
+  it('should render 2 buttons and a button pair when logged in with a saved form', () => {
     const routerSpy = {
       push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -109,18 +111,19 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-
-    expect(tree.everySubTree('ProgressButton').length).to.equal(4);
-    expect(
-      tree.subTree('Modal').everySubTree('ProgressButton').length,
-    ).to.equal(2);
+    const buttons = tree.baseElement.querySelectorAll('va-button');
+    expect(buttons.length).to.equal(2);
+    buttons[1].click();
+    expect(tree.baseElement.querySelectorAll('va-button-pair').length).to.equal(
+      1,
+    );
   });
   it('should go to the first page when "Continue" is clicked', () => {
     const routerSpy = {
       push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
-    const tree = ReactTestUtils.renderIntoDocument(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -131,9 +134,7 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    const findDOM = findDOMNode(tree);
-    findDOM.querySelector('.usa-button-primary').click();
-
+    tree.baseElement.querySelector('va-button').click();
     expect(routerSpy.push.calledWith(startPage));
   });
 
@@ -142,7 +143,7 @@ describe('Schemaform <FormStartControls>', () => {
       push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
-    const tree = ReactTestUtils.renderIntoDocument(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -153,9 +154,7 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    const findDOM = findDOMNode(tree);
-    findDOM.querySelector('.usa-button-secondary').click();
-
+    tree.baseElement.querySelectorAll('va-button')[1].click();
     expect(routerSpy.push.calledWith(startPage));
   });
   it('should go to the returnUrl when "Resume previous application" is clicked', () => {
@@ -164,7 +163,7 @@ describe('Schemaform <FormStartControls>', () => {
     };
     const fetchSpy = sinon.stub();
     fetchSpy.returns(Promise.resolve('return/url'));
-    const tree = ReactTestUtils.renderIntoDocument(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -175,9 +174,7 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    const findDOM = findDOMNode(tree);
-    findDOM.querySelector('.usa-button-primary').click();
-
+    tree.baseElement.querySelector('va-button').click();
     expect(routerSpy.push.calledWith('return/url'));
   });
 
@@ -186,7 +183,7 @@ describe('Schemaform <FormStartControls>', () => {
       push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
-    const tree = ReactTestUtils.renderIntoDocument(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -197,9 +194,8 @@ describe('Schemaform <FormStartControls>', () => {
         routes={[{}, { formConfig: { wizardStorageKey } }]}
       />,
     );
-    const formDOM = getFormDOM(tree);
-    formDOM.click('.usa-button-primary');
 
+    tree.baseElement.querySelector('va-button').click();
     expect(fetchSpy.firstCall.args[2]).to.be.true;
   });
 
@@ -208,7 +204,7 @@ describe('Schemaform <FormStartControls>', () => {
       push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
-    const tree = ReactTestUtils.renderIntoDocument(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -219,16 +215,12 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    const formDOM = getFormDOM(tree);
-    document.body.appendChild(formDOM);
-    formDOM.click('.usa-button-secondary');
-
-    expect(formDOM.querySelector('.va-modal-body')).to.not.be.null;
-
-    formDOM.click('.va-modal-body .usa-button-primary');
-
+    tree.baseElement.querySelectorAll('va-button')[1].click();
+    expect(tree.baseElement.querySelector('.va-modal-body')).to.not.be.null;
+    const buttonPair = tree.baseElement.querySelector('va-button-pair');
+    buttonPair.primaryClick();
     expect(fetchSpy.called).to.be.true;
-    expect(formDOM.querySelector('.va-modal-body')).to.be.null;
+    expect(tree.baseElement.querySelector('.va-modal-body')).to.be.null;
   });
 
   it('should show modal and remove form when starting over', () => {
@@ -236,7 +228,7 @@ describe('Schemaform <FormStartControls>', () => {
       push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
-    const tree = ReactTestUtils.renderIntoDocument(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -257,16 +249,14 @@ describe('Schemaform <FormStartControls>', () => {
         ]}
       />,
     );
-    const formDOM = getFormDOM(tree);
-    document.body.appendChild(formDOM);
-    formDOM.click('.usa-button-secondary');
+    tree.baseElement.querySelectorAll('va-button')[1].click();
+    expect(tree.baseElement.querySelector('.va-modal-body')).to.not.be.null;
 
-    expect(formDOM.querySelector('.va-modal-body')).to.not.be.null;
-
-    formDOM.click('.va-modal-body .usa-button-primary');
+    const buttonPair = tree.baseElement.querySelector('va-button-pair');
+    buttonPair.primaryClick();
 
     expect(fetchSpy.called).to.be.true;
-    expect(formDOM.querySelector('.va-modal-body')).to.be.null;
+    expect(tree.baseElement.querySelector('.va-modal-body')).to.be.null;
     expect(global.window.sessionStorage.getItem(wizardStorageKey)).to.equal(
       WIZARD_STATUS_RESTARTING,
     );
@@ -278,7 +268,7 @@ describe('Schemaform <FormStartControls>', () => {
     };
     global.window.dataLayer = [];
     const fetchSpy = sinon.spy();
-    const tree = ReactTestUtils.renderIntoDocument(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -290,8 +280,8 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    const formDOM = getFormDOM(tree);
-    formDOM.click('.usa-button-primary');
+
+    tree.baseElement.querySelector('va-button').click();
 
     expect(global.window.dataLayer).to.eql([]);
   });
@@ -302,7 +292,7 @@ describe('Schemaform <FormStartControls>', () => {
     };
     global.window.dataLayer = [];
     const fetchSpy = sinon.spy();
-    const tree = ReactTestUtils.renderIntoDocument(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -313,8 +303,7 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    const formDOM = getFormDOM(tree);
-    formDOM.click('.usa-button-primary');
+    tree.baseElement.querySelector('va-button').click();
 
     expect(global.window.dataLayer).to.eql([
       {
@@ -329,7 +318,7 @@ describe('Schemaform <FormStartControls>', () => {
     };
     global.window.dataLayer = [];
     const fetchSpy = sinon.spy();
-    const tree = ReactTestUtils.renderIntoDocument(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -341,8 +330,7 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    const formDOM = getFormDOM(tree);
-    formDOM.click('.usa-button-primary');
+    tree.baseElement.querySelector('va-button').click();
 
     expect(global.window.dataLayer).to.eql([
       {
@@ -394,7 +382,7 @@ describe('Schemaform <FormStartControls>', () => {
         },
       },
     ];
-    const tree = SkinDeep.shallowRender(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -407,9 +395,9 @@ describe('Schemaform <FormStartControls>', () => {
         isExpired
       />,
     );
-    expect(
-      tree.dive(['ProgressButton', '.usa-button-primary']).text(),
-    ).to.include('A custom starting new app message');
+    const button = tree.baseElement.querySelector('va-button');
+    const buttonString = 'A custom starting new app message';
+    expect(button.getAttribute('text')).to.include(buttonString);
   });
   it('should display the continueAppButtonText', () => {
     const routerSpy = {
@@ -427,7 +415,7 @@ describe('Schemaform <FormStartControls>', () => {
         },
       },
     ];
-    const tree = SkinDeep.shallowRender(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -440,9 +428,9 @@ describe('Schemaform <FormStartControls>', () => {
         isExpired={false}
       />,
     );
-    expect(
-      tree.dive(['ProgressButton', '.usa-button-primary']).text(),
-    ).to.include('A custom continue app message');
+    const button = tree.baseElement.querySelector('va-button');
+    const buttonText = button.getAttribute('text');
+    expect(buttonText).to.include('A custom continue app message');
   });
 
   it('should include aria-label & aria-describedby on sign in button', () => {
@@ -474,7 +462,7 @@ describe('Schemaform <FormStartControls>', () => {
       push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -487,9 +475,12 @@ describe('Schemaform <FormStartControls>', () => {
         ariaDescribedby="test-id"
       />,
     );
-
-    const buttons = tree.everySubTree('ProgressButton');
-    expect(buttons.length).to.equal(4);
+    const buttons = tree.baseElement.querySelectorAll('va-button');
+    buttons[1].click();
+    const buttonSelector = 'va-button, va-button-pair';
+    const allButtons = tree.baseElement.querySelectorAll(buttonSelector);
+    // console.log(prettyDOM(tree.baseElement));
+    expect(allButtons.length).to.equal(3);
 
     // Modal buttons = last 2, do not include these aria-attributes
     expect(buttons[0].props.ariaLabel).to.eq('test aria-label');
@@ -498,7 +489,7 @@ describe('Schemaform <FormStartControls>', () => {
     expect(buttons[1].props.ariaDescribedby).to.eq('test-id');
   });
   it('should not throw a JS error when routes are missing', () => {
-    const tree = ReactTestUtils.renderIntoDocument(
+    const tree = render(
       <FormStartControls
         formId="1010ez"
         migrations={[]}
@@ -510,8 +501,6 @@ describe('Schemaform <FormStartControls>', () => {
       />,
     );
 
-    const formDOM = getFormDOM(tree);
-
-    expect(formDOM.querySelectorAll('button').length).to.equal(1);
+    expect(tree.baseElement.querySelectorAll('va-button').length).to.equal(1);
   });
 });

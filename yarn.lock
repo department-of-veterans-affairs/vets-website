@@ -2525,13 +2525,13 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^13.11.1":
-  version "13.11.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-13.11.1.tgz#d9b621c59c4b640e37e658598662aa3de8615c9f"
-  integrity sha512-+BXaW8TZ4mHpQnxaPO/CDfcr8r0DgB76bP+BZMOEKUcZsHD8Y813J10wAAPjoblDO3to0iAOB4e6fMRVxO55hQ==
+"@department-of-veterans-affairs/component-library@^13.12.0":
+  version "13.12.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-13.12.0.tgz#8d51af544cc5ca5e5abddad73a9677c3c1add231"
+  integrity sha512-5tPI4Y+FZbKQ+gLGs/dIgVBnOWEqVuMaxN7fdexjH9JJiFezU0JIYd/AiicQC5U6hSU4Vcz7ejVoa+vMToaM3A==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "8.0.0"
-    "@department-of-veterans-affairs/web-components" "4.27.1"
+    "@department-of-veterans-affairs/react-components" "8.0.1"
+    "@department-of-veterans-affairs/web-components" "4.28.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2563,10 +2563,10 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-8.0.0.tgz#1df916d653a3267fed962482571e8f851b9cb90f"
-  integrity sha512-WaJePVNQAVRgjn8gHZotHaRd58Irds0LCEEVyWLVuPNbTxXAlRvG7LSh8VkYsD2rlvF4Zsz1cBlgJ7DI71NtDQ==
+"@department-of-veterans-affairs/react-components@8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-8.0.1.tgz#bf1270ed8535f55b7ab75ec0a3816511daafecc4"
+  integrity sha512-3R3y7U33Oa4h0ofBR1nQUob/FrHs84PK8WgYuFDchc2ebUZBaV66MN+kULrYgk3DAun3HO6mX8OLFsZLKje+rQ==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
@@ -2604,10 +2604,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.27.1":
-  version "4.27.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.27.1.tgz#d306cb6997ec5656084ac7dd7afc02daa2f4524b"
-  integrity sha512-tkDqCbGgJ++MaLBAU45ArxXOyMyZsT2hKfWb9OEU3cclzkX1oKPzfMzcebdd9g2E9HBNhmvpe7n/OD9ZZCd7OQ==
+"@department-of-veterans-affairs/web-components@4.28.0":
+  version "4.28.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.28.0.tgz#27454cc727b93c21cabe688eab7c7c4948c6ec40"
+  integrity sha512-OwYmwX3lSU6PN4l9D69GRRpb+CDOdp4RA8qKAI8XFHone/LkIO4BwHiaFHr2+ku08Sl3OrMntxuytoRNNXtHBg==
   dependencies:
     "@stencil/core" "^2.19.2"
     aria-hidden "^1.1.3"
