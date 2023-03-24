@@ -133,7 +133,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
         What’s your spouse’s gross <strong>monthly</strong> income at this job?
       </span>
       <p className="formfield-subtitle">
-        You’ll find this in your spouse’s paycheck. It’s the amount of your
+        You’ll find this in your spouse’s pay stub. It’s the amount of your
         spouse’s pay before taxes and deductions.
       </p>
       <div className="input">

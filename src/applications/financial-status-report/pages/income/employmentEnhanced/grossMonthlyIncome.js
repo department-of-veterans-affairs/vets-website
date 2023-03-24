@@ -10,7 +10,7 @@ export const uiSchema = {
     ),
     'ui:description': (
       <p className="formfield-subtitle">
-        You’ll find this in your paycheck. It’s the amount of your pay before
+        You’ll find this in your pay stub. It’s the amount of your pay before
         taxes and deductions.
       </p>
     ),

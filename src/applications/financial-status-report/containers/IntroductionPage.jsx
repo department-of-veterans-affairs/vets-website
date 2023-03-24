@@ -73,7 +73,7 @@ const IntroductionPage = ({ route, formId }) => {
                 <strong>Income. </strong>
                 This includes money you earn from a job, VA or Social Security
                 benefits, or other sources. You’ll find the details you’ll need
-                on a recent paycheck.
+                on a recent pay stub.
               </li>
               <li>
                 <strong>Assets. </strong>
