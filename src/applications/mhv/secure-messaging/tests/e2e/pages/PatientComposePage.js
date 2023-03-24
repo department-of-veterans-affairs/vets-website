@@ -26,6 +26,7 @@ class PatientComposePage {
     cy.get('.vads-u-margin-y--0').should(
       'have.text',
       'Message was successfully sent.',
+      'be.focused',
     );
   };
 
