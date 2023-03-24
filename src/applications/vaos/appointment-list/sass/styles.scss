@@ -183,13 +183,12 @@ div[id^="vaos-appts__detail-"] {
 
 .vaos-appts__text--truncate {
   @include media($xsmall-screen) {
-    white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
-    max-width: 170px;
   }
   @include media($medium-screen) {
     max-width: 222px;
+    white-space: nowrap;
   }
 }
 
