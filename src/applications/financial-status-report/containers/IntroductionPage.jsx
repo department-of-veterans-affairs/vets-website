@@ -125,7 +125,7 @@ const IntroductionPage = ({ route, formId }) => {
             <h3 className="vads-u-font-size--h4">Submit your request</h3>
             <p>
               We’ll take you through each step of the process. It should take
-              about 30 minutes.
+              about 60 minutes.
             </p>
 
             <p>
