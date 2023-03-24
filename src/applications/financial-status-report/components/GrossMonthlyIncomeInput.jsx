@@ -130,7 +130,7 @@ const GrossMonthlyIncomeInput = props => {
         </h3>{' '}
       </div>
       <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        What’s your gross monthly income at this job?
+        What’s your gross <strong>monthly</strong> income at this job?
       </span>
       <p className="formfield-subtitle">
         You’ll find this in your paycheck. It’s the amount of your pay before

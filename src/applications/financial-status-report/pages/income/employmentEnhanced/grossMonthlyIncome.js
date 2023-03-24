@@ -5,7 +5,7 @@ export const uiSchema = {
   grossMonthlyIncome: {
     'ui:title': (
       <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        What’s your gross monthly income at this job?
+        What’s your gross <strong>monthly</strong> income at this job?
       </span>
     ),
     'ui:description': (
