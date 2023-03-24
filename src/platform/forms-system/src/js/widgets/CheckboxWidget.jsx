@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function CheckboxWidget({
   id,
@@ -11,9 +12,9 @@ export default function CheckboxWidget({
   onChange,
   options,
 }) {
-  const requiredSpan = required ? (
-    <span className="form-required-span">(*Required)</span>
-  ) : null;
+  // const requiredSpan = required ? (
+  //   <span className="form-required-span">(*Required)</span>
+  // ) : null;
   const widgetClasses = classNames('form-checkbox', options.widgetClassNames);
 
   const { widgetProps } = options;
@@ -22,7 +23,18 @@ export default function CheckboxWidget({
 
   return (
     <div className={widgetClasses}>
-      <input
+      {/* testing how many tests fail */}
+      <VaCheckbox
+        id={id}
+        name={id}
+        checked={typeof value === 'undefined' ? false : value}
+        required={required}
+        disabled={disabled}
+        label={options.title || label}
+        onVaChange={event => onChange(event.target.checked)}
+        {...getWidgetProps(value ?? false)}
+      />
+      {/* <input
         type="checkbox"
         id={id}
         name={id}
@@ -35,7 +47,7 @@ export default function CheckboxWidget({
       <label className="schemaform-label" htmlFor={id}>
         {options.title || label}
         {requiredSpan}
-      </label>
+      </label> */}
     </div>
   );
 }
