@@ -25,7 +25,7 @@ class PatientMessageDraftsPage {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-2/threads**',
-      this.draftMessages,
+      this.mockDraftMessages,
     ).as('draftsResponse');
     cy.get('[data-testid="drafts-sidebar"]').click();
     cy.injectAxe();
@@ -128,16 +128,7 @@ class PatientMessageDraftsPage {
 
     cy.contains(mockParentMessageDetails.data.attributes.subject).click();
     cy.wait('@message1');
-  };
-
-  // this method is hard coded... not good.  We may want to load another draft besides one with title test
-  loadDraftMessageDetails = () => {
-    cy.log('loading draft message details');
-    cy.contains('test').click();
-    cy.wait('@draftThreadResponse');
-
-    this.getMessageSubjectField().type(' Draft Save with Attachments');
-    this.getMessageBodyField().type('Testing Save Drafts with Attachments');
+    cy.wait('@full-thread');
   };
 
   getMessageSubjectField = () => {
