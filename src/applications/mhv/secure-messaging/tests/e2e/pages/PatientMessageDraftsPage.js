@@ -24,12 +24,14 @@ class PatientMessageDraftsPage {
     ).as('draftsFolderMetaResponse');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2/threads?pageSize=100&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
+      '/my_health/v1/messaging/folders/-2/threads**',
       this.draftMessages,
     ).as('draftsResponse');
     cy.get('[data-testid="drafts-sidebar"]').click();
-    // cy.wait('@draftsResponse');
-    // cy.wait('@draftsFolderMetaResponse');
+    cy.injectAxe();
+    cy.axeCheck();
+    cy.wait('@draftsFolderMetaResponse');
+    cy.wait('@draftsResponse');
   };
 
   setDraftTestMessageDetails = mockMessage => {
