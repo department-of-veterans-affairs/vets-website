@@ -98,6 +98,12 @@ const CheckInConfirmation = props => {
     [checkInDataError, updateError],
   );
 
+  let pageTitle = t('youre-checked-in');
+
+  if (doTravelPay && (!travelPayEligible || travelPayClaimError)) {
+    pageTitle += ` ${t('we-couldnt-file-reimbursement')}`;
+  }
+
   const renderLoadingMessage = () => {
     return (
       <div>
@@ -112,7 +118,7 @@ const CheckInConfirmation = props => {
   const renderConfirmationMessage = () => {
     return (
       <Wrapper
-        pageTitle={t('youre-checked-in')}
+        pageTitle={pageTitle}
         testID="multiple-appointments-confirm"
       >
         <p className="vads-u-font-family--serif">{t('your-appointment')}</p>
