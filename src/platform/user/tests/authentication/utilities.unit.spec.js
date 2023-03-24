@@ -435,6 +435,17 @@ describe('Authentication Utilities', () => {
     });
   });
 
+  describe('mockLogin', () => {
+    it('should redirect to proper mockLogin url', async () => {
+      setup({});
+      await authUtilities.mockLogin({});
+      expect(global.window.location).to.include(
+        'v0/sign_in/authorize?client_id=vamock',
+      );
+      setup({});
+    });
+  });
+
   describe('login', () => {
     it('should setLoginAttempted and redirect to login session url for all CSPs not on USiP', () => {
       Object.values(CSP_IDS).forEach(async policy => {
