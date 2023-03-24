@@ -1,1 +1,8 @@
 @import "modules/m-medallia";
+
+
+@media print {
+        #mdFormButton[aria-label="give feedback"]{
+            display: none;
+    }
+}
