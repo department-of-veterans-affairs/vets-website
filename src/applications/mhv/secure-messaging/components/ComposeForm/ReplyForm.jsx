@@ -315,7 +315,7 @@ const ReplyForm = props => {
               {`(Draft) To: ${draftToEdit?.replyToName ||
                 replyMessage?.senderName}\n(Team: ${
                 replyMessage.triageGroupName
-              }) `}
+              })`}
               <br />
             </h4>
             <va-textarea

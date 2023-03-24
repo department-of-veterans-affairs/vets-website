@@ -282,7 +282,7 @@ class PatientInboxPage {
   };
 
   verifyMoveMessagewithAttachmentSuccessMessage = () => {
-    cy.get('p').contains('Message was successfully moved');
+    cy.get('p').contains('Message thread was successfully moved');
   };
 
   loadComposeMessagePage = () => {
