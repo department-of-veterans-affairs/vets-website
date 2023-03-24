@@ -11,8 +11,8 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     const draftsPage = new PatientMessageDraftsPage();
     site.login();
     landingPage.loadInboxMessages();
-    draftsPage.loadDrafts();
-    draftsPage.loadDraftMessageDetails();
+    draftsPage.loadDraftMessages();
+    draftsPage.loadMessageDetails();
 
     composePage.attachMessageFromFile('sample_docx.docx');
 
