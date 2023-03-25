@@ -96,7 +96,8 @@ export async function createOAuthRequest({
   acr,
 }) {
   const isDefaultOAuth =
-    !application || [CLIENT_IDS.WEB, CLIENT_IDS.VAWEB].includes(clientId);
+    !application ||
+    [CLIENT_IDS.WEB, CLIENT_IDS.VAWEB, CLIENT_IDS.VAMOCK].includes(clientId);
   const isMobileOAuth =
     [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE, EXTERNAL_APPS.VA_OCC_MOBILE].includes(
       application,

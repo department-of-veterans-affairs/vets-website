@@ -20,10 +20,14 @@ import SpousePayrollDeductionInputList from '../components/SpousePayrollDeductio
 import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
+import EnhancedBenefitsEdit from '../components/EnhancedBenefitsEdit';
 import VehicleSummaryWidget from '../pages/assets/vehicles/VehicleSummaryWidget';
 import AddAsset from '../components/otherAssets/AddAsset';
 import OtherAssetsSummary from '../components/otherAssets/OtherAssetsSummary';
 import OtherAssetsSummaryReview from '../components/otherAssets/OtherAssetsSummaryReview';
+import AddUtilityBill from '../components/utilityBills/AddUtilityBill';
+import UtilityBillSummary from '../components/utilityBills/UtilityBillSummary';
+import UtilityBillSummaryReview from '../components/utilityBills/UtilityBillSummaryReview';
 import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
 
@@ -236,6 +240,23 @@ const formConfig = {
           title: 'Benefits',
           uiSchema: pages.benefits.uiSchema,
           schema: pages.benefits.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
+        benefitsEnhanced: {
+          path: 'your-benefits',
+          title: 'Benefits',
+          uiSchema: pages.benefits.enhancedUiSchema,
+          schema: pages.benefits.enhancedSchema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        editBenefitsEnhanced: {
+          path: 'edit-benefits',
+          title: 'Benefits',
+          CustomPage: EnhancedBenefitsEdit,
+          CustomPageReview: null, // TODO: Add review page (or check if reviewpage on normal)
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: () => false, // only accessible from benefits page
         },
         socialSecurity: {
           path: 'social-security',
@@ -589,6 +610,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
           depends: formData =>
             formData.questions.hasVehicle &&
+            !formData.assets?.automobiles?.length &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: EnhancedVehicleRecord,
@@ -732,14 +754,55 @@ const formConfig = {
           title: 'Utilities',
           uiSchema: pages.utilities.uiSchema,
           schema: pages.utilities.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         utilityRecords: {
           path: 'utility-records',
           title: 'Utilities',
           uiSchema: pages.utilityRecords.uiSchema,
           schema: pages.utilityRecords.schema,
-          depends: ({ questions }) => questions.hasUtilities,
+          depends: formData =>
+            formData.questions.hasUtilities &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        // Enhanced Utility Bills
+        utilityBillChecklist: {
+          path: 'utility-bill-checklist',
+          title: 'Utility bill options',
+          uiSchema: pages.utilityBillPages.utilityBillChecklist.uiSchema,
+          schema: pages.utilityBillPages.utilityBillChecklist.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        utilityBillValues: {
+          path: 'utility-bill-values',
+          title: 'Utility bill values',
+          uiSchema: pages.utilityBillPages.utilityBillValues.uiSchema,
+          schema: pages.utilityBillPages.utilityBillValues.schema,
+          depends: formData =>
+            !!formData.utilityRecords?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        utilityBillSummary: {
+          path: 'utility-bill-summary',
+          title: 'Utility bills summary',
+          CustomPage: UtilityBillSummary,
+          CustomPageReview: UtilityBillSummaryReview,
+          editModeOnReviewPage: true,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            !!formData.utilityRecords?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        addUtilityBill: {
+          path: 'add-utility-bill',
+          title: 'Add your utility bills',
+          CustomPage: AddUtilityBill,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: () => false, // accessed from utilityBillSummary
         },
         repayments: {
           path: 'repayments',
