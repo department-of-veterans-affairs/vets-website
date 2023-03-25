@@ -5,18 +5,21 @@ import PropTypes from 'prop-types';
 import { isLoggedIn } from 'platform/user/selectors';
 import AuthContext from '../AuthContext';
 import UnauthContext from '../UnauthContext';
+import { selectFeatureToggles } from '../selectors';
 
-export const App = ({ currentlyLoggedIn, BTSSSLoginWidget }) => {
-  if (BTSSSLoginWidget) {
+export const App = ({ currentlyLoggedIn, showBtsssLoginWidget }) => {
+  if (showBtsssLoginWidget) {
     return currentlyLoggedIn ? <AuthContext /> : <UnauthContext />;
   }
   return <></>;
 };
 
-const mapStateToProps = state => ({
-  currentlyLoggedIn: isLoggedIn(state),
-  BTSSSLoginWidget: state?.featureToggles?.BTSSSLoginWidget,
-});
+const mapStateToProps = state => {
+  return {
+    currentlyLoggedIn: isLoggedIn(state),
+    showBtsssLoginWidget: selectFeatureToggles(state),
+  };
+};
 
 export default connect(
   mapStateToProps,
@@ -24,6 +27,6 @@ export default connect(
 )(App);
 
 App.propTypes = {
-  BTSSSLoginWidget: PropTypes.bool,
+  showBtsssLoginWidget: PropTypes.bool,
   currentlyLoggedIn: PropTypes.bool,
 };
