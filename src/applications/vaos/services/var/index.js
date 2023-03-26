@@ -92,12 +92,6 @@ export const getLongTermAppointmentHistory = (() => {
   };
 })();
 
-export function getParentFacilities(systemIds) {
-  const idList = systemIds.map(id => `facility_codes[]=${id}`).join('&');
-
-  return apiRequestWithUrl(`/vaos/v0/facilities?${idList}`).then(parseApiList);
-}
-
 export function getFacilitiesBySystemAndTypeOfCare(
   systemId,
   parentId,

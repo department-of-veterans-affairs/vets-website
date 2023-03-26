@@ -701,7 +701,6 @@ export function checkCommunityCareEligibility() {
       const siteIds = selectSystemIds(state);
       const parentFacilities = await fetchParentLocations({
         siteIds,
-        useV2: featureFacilitiesServiceV2,
       });
       const ccEnabledSystems = await fetchCommunityCareSupportedSites({
         locations: parentFacilities,
