@@ -282,7 +282,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     expect(global.window.dataLayer[2].alertBoxHeading).to.equal(undefined);
   });
 
-  it('should display alert message when residental address is a PO Box', async () => {
+  it('should display alert message when residential address is a PO Box', async () => {
     const stateWithPOBox = set(
       'user.profile.vapContactInfo.residentialAddress',
       {
@@ -303,7 +303,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     ).to.exist;
   });
 
-  it('should save adress modal dismissal after page change', async () => {
+  it('should save address modal dismissal after page change', async () => {
     const stateWithoutAddress = set(
       'user.profile.vapContactInfo.residentialAddress',
       null,
