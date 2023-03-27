@@ -45,7 +45,7 @@ export const TermsAndConditions = ({ device }) => {
           >
             va.gov privacy policy
           </a>{' '}
-          in addition to the following:
+          in addition to the following terms.
           <va-additional-info
             trigger="View Terms"
             data-testid={`${device.key}-terms-and-conditions-content`}
