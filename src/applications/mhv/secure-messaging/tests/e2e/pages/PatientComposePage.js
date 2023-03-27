@@ -23,10 +23,10 @@ class PatientComposePage {
       .get('[text="Send"]')
       .realPress(['Enter']);
     cy.wait('@message');
-    cy.get('.vads-u-margin-y--0').should(
+    cy.get('.vads-u-margin-bottom--1').should(
       'have.text',
       'Message was successfully sent.',
-      'be.focused',
+      cy.get('.vads-u-margin-bottom--1').should('be.focused'),
     );
   };
 
