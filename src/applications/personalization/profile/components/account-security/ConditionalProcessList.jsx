@@ -27,16 +27,6 @@ ConditionalProcessList.propTypes = {
 const CompleteContext = createContext();
 CompleteContext.displayName = 'CompleteContext';
 
-const useComplete = () => {
-  const context = useContext(CompleteContext);
-
-  if (typeof context !== 'boolean') {
-    throw new Error('useComplete must be used within a ListItem component');
-  }
-
-  return context;
-};
-
 // The ListItem component is a wrapper for the list item content, and
 // conditionally renders the content based on the `complete` prop
 
@@ -68,7 +58,7 @@ const headingClasses =
   'vads-u-margin-y--0 vads-u-padding-top--0p5 item-heading vads-u-font-size--h4';
 
 const HeadingComplete = ({ children, headingLevel = 3 }) => {
-  const complete = useComplete();
+  const complete = useContext(CompleteContext);
   const Heading = `h${headingLevel}`;
   return complete ? (
     <Heading className={headingClasses}>{children}</Heading>
@@ -81,7 +71,7 @@ HeadingComplete.propTypes = {
 };
 
 const HeadingIncomplete = ({ children, headingLevel = 3 }) => {
-  const complete = useComplete();
+  const complete = useContext(CompleteContext);
   const Heading = `h${headingLevel}`;
   return !complete ? (
     <Heading className={headingClasses}>{children}</Heading>
@@ -94,7 +84,7 @@ HeadingIncomplete.propTypes = {
 };
 
 const ContentComplete = ({ children }) => {
-  const complete = useComplete();
+  const complete = useContext(CompleteContext);
   return complete ? (
     <div className="vads-u-margin-y--0 vads-u-padding-top--1">{children}</div>
   ) : null;
@@ -103,7 +93,7 @@ const ContentComplete = ({ children }) => {
 ContentComplete.propTypes = { children: PropTypes.node.isRequired };
 
 const ContentIncomplete = ({ children }) => {
-  const complete = useComplete();
+  const complete = useContext(CompleteContext);
   return !complete ? (
     <div className="vads-u-margin-y--0 vads-u-padding-top--1">{children}</div>
   ) : null;
