@@ -27,9 +27,7 @@ const CheckInConfirmation = props => {
   const { appointments, selectedAppointment, triggerRefresh, router } = props;
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
-  const {
-    isTravelReimbursementEnabled,
-  } = featureToggles;
+  const { isTravelReimbursementEnabled } = featureToggles;
   const {
     isLoading: isCheckInDataLoading,
     checkInDataError,
