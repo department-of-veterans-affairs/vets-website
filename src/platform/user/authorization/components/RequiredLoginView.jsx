@@ -27,6 +27,15 @@ const RequiredLoginLoader = () => {
   );
 };
 
+const ProfileErrorMessage = () => {
+  return (
+    <div className="vads-u-text-align--center">
+      <h2>We’re sorry. Something went wrong on our end.</h2>
+      <p>Please refresh this page or try again later.</p>
+    </div>
+  );
+};
+
 export const RequiredLoginView = props => {
   const { user, verify, useSiS } = props;
 
@@ -134,6 +143,10 @@ export const RequiredLoginView = props => {
     });
   };
   const renderWrappedContent = () => {
+    if (user.profile.errors) {
+      return <ProfileErrorMessage />;
+    }
+
     if (user.profile.loading) {
       return <RequiredLoginLoader />;
     }

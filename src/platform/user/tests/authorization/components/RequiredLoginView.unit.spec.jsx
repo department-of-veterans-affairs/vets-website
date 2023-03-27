@@ -131,6 +131,22 @@ describe('<RequiredLoginView>', () => {
     wrapper.unmount();
   });
 
+  it('should render an error message on API error', () => {
+    props = generateProps({
+      user: { ...loa1User, profile: { errors: true } },
+    });
+    const wrapper = mount(
+      <RequiredLoginView {...props}>
+        <TestChildComponent name="one" />
+      </RequiredLoginView>,
+    );
+
+    const loader = wrapper.find('ProfileErrorMessage');
+    expect(loader.length).to.equal(1);
+
+    wrapper.unmount();
+  });
+
   it('should display children when service is available', () => {
     props = generateProps({
       user: loa3User,
