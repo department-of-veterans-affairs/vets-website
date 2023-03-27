@@ -33,20 +33,28 @@ module.exports = {
       },
     ],
     'deprecate/import': [
-      'warn',
+      'error',
       {
         name:
-          '@department-of-veterans-affairs/component-library/CollapsiblePanel',
-        use: '<va-accordion>',
+          '@department-of-veterans-affairs/component-library/SystemDownView',
+        use: 'HTML',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/TextInput',
+        use: '<va-text-input>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/AlertBox',
         use: '<va-alert>',
       },
       {
+        name: '@department-of-veterans-affairs/component-library/CheckboxGroup',
+        use: '<va-checkbox-group>',
+      },
+      {
         name:
-          '@department-of-veterans-affairs/component-library/LoadingIndicator',
-        use: '<va-loading-indicator>',
+          '@department-of-veterans-affairs/component-library/ExpandingGroup',
+        use: 'a custom solution',
       },
       {
         name:
@@ -54,21 +62,50 @@ module.exports = {
         use: '<va-additional-info>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/ProgressBar',
-        use: '<va-progress-bar>',
+        name: '@department-of-veterans-affairs/component-library/Breadcrumbs',
+        use: '<va-breadcrumbs>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/TextArea',
-        use: '<va-textarea>',
+        name: '@department-of-veterans-affairs/component-library/DropDownPanel',
+        use: 'HTML',
+      },
+      {
+        name:
+          '@department-of-veterans-affairs/component-library/LoadingIndicator',
+        use: '<va-loading-indicator>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/Modal',
+        use: '<va-modal>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/OMBInfo',
+        use: '<va-omb-info>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/Pagination',
+        use: '<va-pagination>',
+      },
+      {
+        name:
+          '@department-of-veterans-affairs/component-library/ProgressButton',
+        use: '<va-button-pair> or <va-button>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/Table',
+        use: '<va-table>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/Telephone',
+        use: '<va-telephone>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/Select',
+        use: '<va-select>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/FileInput',
         use: '<va-file-input>',
-      },
-      {
-        name:
-          '@department-of-veterans-affairs/component-library/ExpandingGroup',
-        use: 'a custom solution',
       },
     ],
     'jsx-a11y/control-has-associated-label': 1, // 2
