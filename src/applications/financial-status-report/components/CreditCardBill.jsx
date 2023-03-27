@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { isValidCurrency } from '../utils/validations';
 
 const defaultRecord = [
@@ -13,7 +12,7 @@ const defaultRecord = [
 ];
 
 const CreditCardBill = props => {
-  const { data, goToPath, onReviewPage, setFormData } = props;
+  const { data, goToPath, setFormData } = props;
 
   const { expenses } = data;
   const { creditCardBills = [] } = expenses;
@@ -75,10 +74,7 @@ const CreditCardBill = props => {
     handleChange('amountOverdue', event.target.value);
   };
 
-  const handleBack = event => {
-    event.preventDefault();
-    goToPath('/credit-card-bills-summary');
-  };
+  const RETURN_PATH = '/credit-card-bills-summary';
 
   const updateFormData = e => {
     setSubmitted(true);
@@ -103,12 +99,25 @@ const CreditCardBill = props => {
         },
       });
 
-      goToPath('/credit-card-bills-summary');
+      goToPath(RETURN_PATH);
     }
   };
 
-  const navButtons = <FormNavButtons goBack={handleBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
+  const handlers = {
+    onSubmit: event => event.preventDefault(),
+    onCancel: event => {
+      event.preventDefault();
+      goToPath(RETURN_PATH);
+    },
+    onUpdate: event => {
+      event.preventDefault();
+      updateFormData(event);
+    },
+    onBack: event => {
+      event.preventDefault();
+      goToPath(RETURN_PATH);
+    },
+  };
 
   return (
     <form onSubmit={updateFormData}>
@@ -116,7 +125,6 @@ const CreditCardBill = props => {
       <p className="vads-u-padding-top--2">
         Enter your credit card bill’s information.
       </p>
-
       <div className="input-size-5">
         <va-number-input
           error={(submitted && unpaidBalanceError) || null}
@@ -130,7 +138,6 @@ const CreditCardBill = props => {
           value={creditCardBillRecord.unpaidBalance}
         />
       </div>
-
       <div className="input-size-5">
         <va-number-input
           error={(submitted && minMonthlyPaymentError) || null}
@@ -144,7 +151,6 @@ const CreditCardBill = props => {
           value={creditCardBillRecord.minMonthlyPayment}
         />
       </div>
-
       <div className="input-size-5">
         <va-number-input
           error={(submitted && amountOverdueError) || null}
@@ -157,8 +163,26 @@ const CreditCardBill = props => {
           value={creditCardBillRecord.amountOverdue}
         />
       </div>
-
-      {onReviewPage ? updateButton : navButtons}
+      <p>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handlers.onCancel}
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          id="submit"
+          className="vads-u-width--auto"
+          onClick={handlers.onUpdate}
+        >
+          {`${
+            creditCardBills.length === index ? 'Add' : 'Update'
+          } credit card bill`}
+        </button>
+      </p>
     </form>
   );
 };
