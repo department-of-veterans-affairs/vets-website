@@ -8,12 +8,14 @@ describe('Device connection card', () => {
   it('Renders vendors name', () => {
     const card = renderInReduxProvider(
       <DeviceConnectionCard
-        device={{ name: 'Test Vendor' }}
+        device={{ name: 'Test Vendor', key: 'test-vendor' }}
         authUrl="www.google.com"
       />,
     );
-
-    expect(card.getByText(/Test Vendor/)).to.exist;
+    expect(card.getByTestId('test-vendor-name-header')).to.exist;
+    expect(card.getByTestId('test-vendor-terms-and-conditions')).to.exist;
+    expect(card.getByTestId('test-vendor-terms-and-conditions-content')).to
+      .exist;
   });
   it('Has aria label for screen reader users', () => {
     const card = mount(
