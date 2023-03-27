@@ -1085,8 +1085,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     mockSingleVAOSRequestFetch({ request: appointment });
     mockAppointmentCancelFetch({ appointment });
     mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({ id: '442GC', version: 0 }),
-      version: 0,
+      facility: createMockFacilityByVersion({ id: '442GC' }),
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1098,12 +1097,15 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       .ok;
 
     expect(screen.baseElement).not.to.contain.text('Canceled');
+
     mockAppointmentCancelFetch({ appointment });
 
     // When user clicks on cancel request link
     fireEvent.click(screen.getByText(/cancel request/i));
+
     await screen.findByRole('alertdialog');
-    expect(window.dataLayer[0]).to.deep.equal({
+
+    expect(window.dataLayer[1]).to.deep.equal({
       event: 'vaos-cancel-request-clicked',
     });
 
