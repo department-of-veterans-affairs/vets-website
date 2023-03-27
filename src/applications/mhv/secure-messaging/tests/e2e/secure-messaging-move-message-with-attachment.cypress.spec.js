@@ -12,6 +12,7 @@ describe('Secure Messaging - Move Message with Attachment', () => {
     const messageDetailsPage = new PatientMessageDetailsPage();
     site.login();
     mockMessagewithAttachment.data.id = '7192838';
+    mockMessagewithAttachment.data.attributes.messageId = '7192838';
     mockMessagewithAttachment.data.attributes.attachment = true;
     mockMessagewithAttachment.data.attributes.body = 'attachment';
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
@@ -22,7 +23,9 @@ describe('Secure Messaging - Move Message with Attachment', () => {
     ).as('messagesFolder');
     cy.intercept(
       'PATCH',
-      '/my_health/v1/messaging/messages/7192838/move?folder_id=-3',
+      `/my_health/v1/messaging/threads/${
+        mockThreadwithAttachment.data.at(0).attributes.threadId
+      }/move?folder_id=-3`,
       mockMessagewithAttachment,
     ).as('moveMessagewithAttachment');
 

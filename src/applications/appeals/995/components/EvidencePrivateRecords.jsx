@@ -515,7 +515,8 @@ const EvidencePrivateRecords = ({
           autocomplete="section-provider postal-code"
         />
 
-        <br />
+        <br role="presentation" />
+
         <VaCheckboxGroup
           label={content.issuesLabel}
           name="issues"

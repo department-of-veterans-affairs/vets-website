@@ -11,6 +11,7 @@ import {
 } from '../constants/alerts';
 
 export const ConnectedDevicesContainer = () => {
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [connectionAvailable, setConnectionAvailable] = useState(false);
   const [connectedDevices, setConnectedDevices] = useState([]);
   const [successAlert, setSuccessAlert] = useState(false);
@@ -43,6 +44,8 @@ export const ConnectedDevicesContainer = () => {
         }
       } catch (err) {
         // console.error('getConnectedDevices error:', err);
+      } finally {
+        setHasLoaded(true);
       }
     };
     getConnectedDevices();
@@ -83,6 +86,7 @@ export const ConnectedDevicesContainer = () => {
         <DevicesToConnectSection
           connectedDevices={connectedDevices}
           connectionAvailable={connectionAvailable}
+          hasLoaded={hasLoaded}
         />
       </div>
     </>

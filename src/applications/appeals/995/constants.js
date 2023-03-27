@@ -86,12 +86,9 @@ export const errorMessages = {
   // endDateInPast: 'The end date must be in the future',
   endDateBeforeStart: 'The end date must be after the start date',
 
-  invalidDateRange: (min, max) =>
-    `You must enter a year between ${min} and ${max}`,
   decisions: {
     missingDate: 'You must enter a decision date',
-    pastDate:
-      'You must add an issue with a decision date that’s less than 100 years old',
+    pastDate: 'You must add a decision date that’s in the past',
     newerDate: 'You must add a more recent decision date',
   },
   evidence: {
@@ -153,6 +150,7 @@ const supportedBenefitTypes = [
 ];
 
 export const LEGACY_TYPE = 'legacyAppeal';
+export const AMA_DATE = '2019-02-19'; // Appeals Modernization Act in effect
 
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,

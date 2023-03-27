@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   VaMemorableDate,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-// updatePage isn't available for CustomPage on non-review pages, see
-// https://github.com/department-of-veterans-affairs/va.gov-team/issues/33797
-import { setData } from 'platform/forms-system/src/js/actions';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { getSelected, calculateIndexOffset } from '../utils/helpers';
@@ -32,10 +28,8 @@ import { content } from '../content/addIssue';
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
 const REVIEW_AND_SUBMIT = '/review-and-submit';
 
-const AddIssue = props => {
-  const { data, goToPath, setFormData, testingIndex } = props;
+const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
   const { contestedIssues = [], additionalIssues = [] } = data || {};
-
   const allIssues = contestedIssues.concat(additionalIssues);
 
   // get index from url '/add-issue?index={index}' or testingIndex
@@ -170,7 +164,9 @@ const AddIssue = props => {
         >
           {content.name.hint}
         </VaTextInput>
-        <br />
+
+        <br role="presentation" />
+
         <VaMemorableDate
           name="decision-date"
           label={content.date.label}
@@ -213,13 +209,4 @@ AddIssue.propTypes = {
   testingIndex: PropTypes.number,
 };
 
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(AddIssue);
-
-export { AddIssue };
+export default AddIssue;
