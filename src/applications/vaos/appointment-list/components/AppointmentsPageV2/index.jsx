@@ -20,6 +20,7 @@ import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import AppointmentListNavigation from '../AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
+import AppointmentSchedulingServiceAlert from '../AppointmentSchedulingServiceAlert';
 
 const DROPDOWN_VALUES = {
   upcoming: 'upcoming',
@@ -210,6 +211,7 @@ export default function AppointmentsPageV2() {
       )}
       <Switch>
         <Route exact path="/">
+          <AppointmentSchedulingServiceAlert />
           <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path={featureStatusImprovement ? '/pending' : '/requested'}>
