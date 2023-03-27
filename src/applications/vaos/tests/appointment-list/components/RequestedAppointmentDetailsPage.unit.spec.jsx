@@ -639,8 +639,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     MockDate.reset();
   });
 
-  // WIP skip
-  it.skip('should render VA request details with a VAOS appointment', async () => {
+  it('should render VA request details with a VAOS appointment', async () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
@@ -679,7 +678,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     mockSingleVAOSRequestFetch({ request: appointment });
 
     const facility = createMockFacilityByVersion({
-      id: '442GC',
+      id: '983GC',
       name: 'Cheyenne VA Medical Center',
       address: {
         postalCode: '82001-5356',
@@ -688,10 +687,9 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
         line: ['2360 East Pershing Boulevard'],
       },
       phone: '307-778-7550',
-      version: 0,
     });
 
-    mockFacilityFetchByVersion({ facility, version: 0 });
+    mockFacilityFetchByVersion({ facility });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: initialStateVAOSService,
@@ -775,8 +773,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.baseElement).to.contain.text('Call morning');
   });
 
-  // WIP skip
-  it.skip('should render CC request details with a VAOS appointment', async () => {
+  it('should render CC request details with a VAOS appointment', async () => {
     const ccAppointmentRequest = getVAOSRequestMock();
     ccAppointmentRequest.id = '1234';
     ccAppointmentRequest.attributes = {
@@ -912,8 +909,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.queryByText('Reason for appointment')).not.to.exist;
   });
 
-  // WIP skip
-  it.skip('should render CC request details using NPI with a VAOS appointment', async () => {
+  it('should render CC request details using NPI with a VAOS appointment', async () => {
     const ccAppointmentRequest = getVAOSRequestMock();
     ccAppointmentRequest.id = '1234';
     ccAppointmentRequest.attributes = {
@@ -953,7 +949,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
 
     mockSingleVAOSRequestFetch({ request: ccAppointmentRequest });
     const facility = {
-      ...createMockFacilityByVersion({ version: 0 }),
+      ...createMockFacilityByVersion(),
       id: 'vha_442GC',
     };
     mockFacilityFetchByVersion({ facility, version: 1 });
@@ -1130,8 +1126,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.baseElement).to.contain.text('You canceled this request');
   });
 
-  // WIP skip
-  it.skip('should handle error when canceling', async () => {
+  it('should handle error when canceling', async () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
@@ -1163,8 +1158,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
 
     mockSingleVAOSRequestFetch({ request: appointment });
     mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({ id: '442GC', version: 0 }),
-      version: 0,
+      facility: createMockFacilityByVersion({ id: '442GC' }),
     });
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: initialStateVAOSService,
@@ -1186,8 +1180,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.baseElement).not.to.contain.text('Canceled');
   });
 
-  // WIP skip
-  it.skip('should render CC request with correct requested dates', async () => {
+  it('should render CC request with correct requested dates', async () => {
     const ccAppointmentRequest = getVAOSRequestMock();
     ccAppointmentRequest.id = '1234';
 
