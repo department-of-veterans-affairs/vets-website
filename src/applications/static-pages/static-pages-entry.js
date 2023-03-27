@@ -34,6 +34,7 @@ import facilityReducer from './facilities/reducers';
 // Other widgets.
 import createAskVAWidget from './ask-va';
 import createApplicationStatus from './widget-creators/createApplicationStatus';
+import createBTSSSLogin from './BTSSS-login/createBTSSSLogin';
 import createCOEAccess from './coe-access/createCOEAccess';
 import createCallToActionWidget from './widget-creators/createCallToActionWidget';
 import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
@@ -129,6 +130,7 @@ createApplicationStatus(store, {
   applyText: 'Apply for health care benefits',
   widgetType: widgetTypes.HEALTH_CARE_APP_STATUS,
 });
+createBTSSSLogin(store);
 createCallToActionWidget(store, widgetTypes.CTA);
 createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
