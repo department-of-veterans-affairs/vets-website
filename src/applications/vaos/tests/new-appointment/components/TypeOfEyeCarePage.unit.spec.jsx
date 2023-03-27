@@ -3,25 +3,24 @@ import { Route } from 'react-router-dom';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-
 import { mockFetch } from 'platform/testing/unit/helpers';
-
-import { getParentSiteMock } from '../../mocks/v0';
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setTypeOfCare,
 } from '../../mocks/setup';
 import {
-  mockCommunityCareEligibility,
-  mockParentSites,
-} from '../../mocks/helpers';
+  mockV2CommunityCareEligibility,
+  mockVAOSParentSites,
+} from '../../mocks/helpers.v2';
+import { createMockFacilityByVersion } from '../../mocks/data';
 
 import TypeOfEyeCarePage from '../../../new-appointment/components/TypeOfEyeCarePage';
 
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCommunityCare: true,
+    vaOnlineSchedulingFacilitiesServiceV2: true,
   },
   user: {
     profile: {
@@ -82,20 +81,17 @@ describe('VAOS <TypeOfEyeCarePage>', () => {
   });
 
   it('should facility type page when CC eligible and optometry is chosen', async () => {
-    const parentSite983 = {
-      id: '983',
-      attributes: {
-        ...getParentSiteMock().attributes,
-        institutionCode: '983',
-        rootStationCode: '983',
-        parentStationCode: '983',
-      },
-    };
-    mockParentSites(['983'], [parentSite983]);
-    mockCommunityCareEligibility({
+    mockVAOSParentSites(
+      ['983'],
+      [createMockFacilityByVersion({ id: '983', isParent: true })],
+      true,
+    );
+
+    mockV2CommunityCareEligibility({
       parentSites: ['983'],
       careType: 'Optometry',
     });
+
     const store = createTestStore(initialState);
     const nextPage = await setTypeOfCare(store, /eye care/i);
     expect(nextPage).to.equal('/new-appointment/choose-eye-care');
