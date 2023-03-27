@@ -43,7 +43,7 @@ export const TermsAndConditions = ({ device }) => {
             target="_blank"
             rel="noreferrer"
           >
-            va.gov privacy policy
+            VA.gov privacy policy
           </a>{' '}
           in addition to the following terms.
           <va-additional-info
