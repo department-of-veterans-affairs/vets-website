@@ -79,18 +79,20 @@ export function PreSubmitSection(props) {
           )}
         </div>
       )}
-      <SaveFormLink
-        form={form}
-        formConfig={formConfig}
-        pageList={pageList}
-        user={user}
-        locationPathname={location?.pathname}
-        showLoginModal={showLoginModal}
-        saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
-        toggleLoginModal={toggleLoginModal}
-      >
-        {finishAppLaterMessage}
-      </SaveFormLink>
+      <div className="vads-u-margin-top--4">
+        <SaveFormLink
+          form={form}
+          formConfig={formConfig}
+          pageList={pageList}
+          user={user}
+          locationPathname={location?.pathname}
+          showLoginModal={showLoginModal}
+          saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
+          toggleLoginModal={toggleLoginModal}
+        >
+          {finishAppLaterMessage}
+        </SaveFormLink>
+      </div>
     </>
   );
 }

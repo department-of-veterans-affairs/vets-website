@@ -33,23 +33,22 @@ const HealthCareCTAV2 = ({
       )}
       {isVAPatient && (
         <>
-          {hasInboxError ||
-            (unreadMessagesCount === 0 && (
-              <IconCTALink
-                text="Send a secure message to your health care team"
-                icon="comments"
-                newTab
-                href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-                testId="view-your-messages-link-from-cta"
-                onClick={() =>
-                  recordEvent({
-                    event: 'nav-linkslist',
-                    'links-list-header': 'View your messages',
-                    'links-list-section-header': 'Health care',
-                  })
-                }
-              />
-            ))}
+          {(hasInboxError || unreadMessagesCount === 0) && (
+            <IconCTALink
+              text="Send a secure message to your health care team"
+              icon="comments"
+              newTab
+              href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+              testId="view-your-messages-link-from-cta"
+              onClick={() =>
+                recordEvent({
+                  event: 'nav-linkslist',
+                  'links-list-header': 'View your messages',
+                  'links-list-section-header': 'Health care',
+                })
+              }
+            />
+          )}
           {!hasUpcomingAppointment &&
             !hasAppointmentsError && (
               <IconCTALink
