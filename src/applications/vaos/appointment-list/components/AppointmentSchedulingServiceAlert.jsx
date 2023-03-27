@@ -2,9 +2,11 @@ import React from 'react';
 
 export default function AppointmentSchedulingServiceAlert() {
   return (
-    <>
-      <h2>We can't display all your appointments.</h2>
-      <va-alert-expandable status="warning" trigger="Alert Headline">
+    <div className="vads-u-margin-bottom--4">
+      <va-alert-expandable
+        status="warning"
+        trigger="We can't display all your appointments."
+      >
         <p>
           We're working to resolve this issue. To manage an appointment that is
           not shown in this list, contact the facility at which it was
@@ -14,6 +16,6 @@ export default function AppointmentSchedulingServiceAlert() {
           <a href="/find-locations">Facility locator</a>
         </p>
       </va-alert-expandable>
-    </>
+    </div>
   );
 }
