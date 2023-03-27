@@ -32,7 +32,7 @@ export const EnrollmentVerificationPage = ({
   useEffect(
     () => {
       if (hasCheckedKeepAlive && !isLoggedIn) {
-        history.push('/');
+        window.location.href = '/education/verify-school-enrollment';
       }
     },
     [hasCheckedKeepAlive, history, isLoggedIn],

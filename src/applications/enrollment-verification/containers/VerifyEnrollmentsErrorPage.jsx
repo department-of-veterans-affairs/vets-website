@@ -20,7 +20,7 @@ export const VerifyEnrollmentsErrorPage = ({
   useEffect(
     () => {
       if (hasCheckedKeepAlive && !loggedIn) {
-        history.push('/');
+        window.location.href = '/education/verify-school-enrollment';
       }
     },
     [
