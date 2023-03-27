@@ -23,6 +23,7 @@ const RECEPIENT_ALPHA_DESCENDING = 'recepient-alpha-desc';
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
 // const MAX_PAGE_LIST_LENGTH = 5;
+
 let sortOrderSelection;
 const ThreadsList = props => {
   const location = useLocation();
@@ -39,7 +40,6 @@ const ThreadsList = props => {
   } = props;
   const totalEntries = threadList?.length;
   const totalThreads = threadList[0].threadPageSize;
-
   // get display numbers
   const fromToNums = (page, total) => {
     const from = (page - 1) * threadsPerPage + 1;
@@ -108,8 +108,8 @@ const ThreadsList = props => {
   // const totalThreadPages = Math.ceil(totalThreads / threadsPerPage);
 
   return (
-    <div className="message-list vads-l-row vads-u-flex-direction--column">
-      <div className="message-list-sort">
+    <div className="thread-list vads-l-row vads-u-flex-direction--column">
+      <div className="thread-list-sort">
         <VaSelect
           id="sort-order-dropdown"
           label="Sort by"
@@ -182,6 +182,9 @@ const ThreadsList = props => {
             category={thread.category}
             activeFolder={folder}
             triageGroupName={thread.triageGroupName}
+            unreadMessages={thread.unreadMessages}
+            messageCount={thread.messageCount}
+            unsentDrafts={thread.unsentDrafts}
           />
         ))}
       {/* {totalThreads > 1 && (
