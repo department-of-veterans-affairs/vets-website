@@ -20,6 +20,8 @@ describe('Secure Messaging Compose', () => {
     );
     composePage.getMessageSubjectField().type('Test Subject');
     composePage.getMessageBodyField().type('Test message body');
-    composePage.verifyConfirmationMessage();
+    composePage.pushSendMessageWithKeyboardPress();
+    composePage.verifySendMessageConfirmationMessage();
+    composePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

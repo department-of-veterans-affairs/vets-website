@@ -13,7 +13,7 @@ class PatientComposePage {
     cy.wait('@message');
   };
 
-  verifyConfirmationMessage = () => {
+  pushSendMessageWithKeyboardPress = () => {
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/messages',
@@ -23,11 +23,17 @@ class PatientComposePage {
       .get('[text="Send"]')
       .realPress(['Enter']);
     cy.wait('@message');
+  };
+
+  verifySendMessageConfirmationMessage = () => {
     cy.get('.vads-u-margin-bottom--1').should(
       'have.text',
       'Message was successfully sent.',
-      cy.get('.vads-u-margin-bottom--1').should('be.focused'),
     );
+  };
+
+  verifySendMessageConfirmationMessageHasFocus = () => {
+    cy.get('.vads-u-margin-bottom--1').should('be.focused');
   };
 
   //* Refactor*  Need to get rid of this method and split out
