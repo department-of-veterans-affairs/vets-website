@@ -35,12 +35,18 @@ describe('pre-check-in', () => {
       const middleware = [];
       const mockStore = configureStore(middleware);
       const store = mockStore(initState);
+      const mockRouter = {
+        push: ()=>{},
+        location: {
+          basename: '/health-care/appointment-pre-check-in',
+        },
+      };
 
       it('passes the correct props to the pre-checkin confirmation component', () => {
         const testRenderer = TestRenderer.create(
           <Provider store={store}>
             <I18nextProvider i18n={i18n}>
-              <Confirmation />
+              <Confirmation router={mockRouter} />
             </I18nextProvider>
           </Provider>,
         );
