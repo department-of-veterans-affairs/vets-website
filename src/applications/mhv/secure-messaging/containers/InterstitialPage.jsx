@@ -1,8 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import PropType from 'prop-types';
 import { openCrisisModal } from '../util/helpers';
 
-const InterstitialPage = () => {
+const InterstitialPage = props => {
+  const handleKeyPress = e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      // prevent from scrolling to the footer
+      e.preventDefault();
+      props.acknowledge();
+    }
+  };
+
   return (
     <div className="interstitial-page">
       <h1>
@@ -20,7 +28,7 @@ const InterstitialPage = () => {
           <p>
             <strong>If you’re in crisis or having thoughts of suicide, </strong>{' '}
             connect with our Veterans Crisis Line. We offer confidential support
-            anytime day or night.
+            anytime, day or night.
           </p>
 
           <va-button
@@ -37,15 +45,25 @@ const InterstitialPage = () => {
           </p>
         </li>
       </ul>
-      <Link
-        className="vads-c-action-link--green vads-u-margin-top--1 link"
-        text="Continue to start message"
-        to="/compose"
-      >
-        Continue to start message
-      </Link>
+      {
+        // linter advises to use button instead. However, per designs, action link is required
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
+        <a
+          className="vads-c-action-link--green vads-u-margin-top--1 link"
+          href="#"
+          tabIndex={0}
+          onKeyPress={handleKeyPress}
+          onClick={props.acknowledge}
+        >
+          Continue to start message
+        </a>
+      }
     </div>
   );
+};
+
+InterstitialPage.propTypes = {
+  acknowledge: PropType.func,
 };
 
 export default InterstitialPage;

@@ -11,6 +11,7 @@ import MessageThread from '../components/MessageThread/MessageThread';
 import EmergencyNote from '../components/EmergencyNote';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import AlertBox from '../components/shared/AlertBox';
+import InterstitialPage from './InterstitialPage';
 import { addAlert, closeAlert } from '../actions/alerts';
 import { DefaultFolders } from '../util/constants';
 import { isOlderThan } from '../util/helpers';
@@ -27,6 +28,7 @@ const Compose = () => {
   );
   const [cannotReplyAlert, setcannotReplyAlert] = useState(false);
   const [replyMessage, setReplyMessage] = useState(undefined);
+  const [acknowledged, setAcknowledged] = useState(false);
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
@@ -112,14 +114,25 @@ const Compose = () => {
     if (!isDraftPage && triageTeams) {
       return (
         <>
-          <h1 className="page-title" ref={header}>
-            {pageTitle}
-          </h1>
-          <EmergencyNote />
-          <div>
-            <BeforeMessageAddlInfo />
-          </div>
-          <ComposeForm draft={draftMessage} recipients={triageTeams} />
+          {!acknowledged ? (
+            <InterstitialPage
+              acknowledge={() => {
+                setAcknowledged(true);
+              }}
+            />
+          ) : (
+            <>
+              {' '}
+              <h1 className="page-title" ref={header}>
+                {pageTitle}
+              </h1>
+              <EmergencyNote />
+              <div>
+                <BeforeMessageAddlInfo />
+              </div>
+              <ComposeForm draft={draftMessage} recipients={triageTeams} />
+            </>
+          )}
         </>
       );
     }
