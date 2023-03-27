@@ -13,6 +13,14 @@ describe('Device connection card', () => {
       />,
     );
     expect(card.getByTestId('test-vendor-name-header')).to.exist;
+  });
+  it('Renders vendor terms and conditions', () => {
+    const card = renderInReduxProvider(
+      <DeviceConnectionCard
+        device={{ name: 'Test Vendor', key: 'test-vendor' }}
+        authUrl="www.google.com"
+      />,
+    );
     expect(card.getByTestId('test-vendor-terms-and-conditions')).to.exist;
     expect(card.getByTestId('test-vendor-terms-and-conditions-content')).to
       .exist;
