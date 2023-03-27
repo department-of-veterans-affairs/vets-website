@@ -12,11 +12,14 @@ import {
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../mocks/setup';
-import { getParentSiteMock } from '../../mocks/v0';
+
 import {
-  mockCommunityCareEligibility,
-  mockParentSites,
-} from '../../mocks/helpers';
+  mockV2CommunityCareEligibility,
+  mockVAOSParentSites,
+} from '../../mocks/helpers.v2';
+
+import { createMockFacilityByVersion } from '../../mocks/data';
+
 import { GA_PREFIX } from '../../../utils/constants';
 
 import CommunityCarePreferencesPage from '../../../new-appointment/components/CommunityCarePreferencesPage';
@@ -24,6 +27,7 @@ import CommunityCarePreferencesPage from '../../../new-appointment/components/Co
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCommunityCare: true,
+    vaOnlineSchedulingFacilitiesServiceV2: true,
   },
   user: {
     profile: {
@@ -34,28 +38,23 @@ const initialState = {
 describe('VAOS <CommunityCarePreferencesPage>', () => {
   beforeEach(() => mockFetch());
   it('should render the page with appropriate inputs and prevent submission without required fields', async () => {
-    mockParentSites(
+    mockVAOSParentSites(
       ['983'],
-      [
-        {
-          id: '983',
-          attributes: {
-            ...getParentSiteMock().attributes,
-            institutionCode: '983',
-            rootStationCode: '983',
-            parentStationCode: '983',
-          },
-        },
-      ],
+      [createMockFacilityByVersion({ id: '983', isParent: true })],
+      true,
     );
-    mockCommunityCareEligibility({
+
+    mockV2CommunityCareEligibility({
       parentSites: ['983'],
       supportedSites: ['983'],
       careType: 'PrimaryCare',
     });
+
     const store = createTestStore(initialState);
+
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
+
     const screen = renderWithStoreAndRouter(<CommunityCarePreferencesPage />, {
       store,
     });
@@ -95,25 +94,18 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
   });
 
   it('should update data and save it after page change', async () => {
-    mockParentSites(
+    mockVAOSParentSites(
       ['983'],
-      [
-        {
-          id: '983',
-          attributes: {
-            ...getParentSiteMock().attributes,
-            institutionCode: '983',
-            rootStationCode: '983',
-            parentStationCode: '983',
-          },
-        },
-      ],
+      [createMockFacilityByVersion({ id: '983', isParent: true })],
+      true,
     );
-    mockCommunityCareEligibility({
+
+    mockV2CommunityCareEligibility({
       parentSites: ['983'],
       supportedSites: ['983'],
       careType: 'PrimaryCare',
     });
+
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
@@ -150,47 +142,40 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
   });
 
   it('should display closest city question when user has multiple supported sites', async () => {
-    mockParentSites(
+    mockVAOSParentSites(
       ['983'],
       [
-        {
+        createMockFacilityByVersion({
           id: '983',
-          attributes: {
-            ...getParentSiteMock().attributes,
+          isParent: true,
+          address: {
+            line: [],
             city: 'Bozeman',
-            stateAbbrev: 'MT',
-            institutionCode: '983',
-            rootStationCode: '983',
-            parentStationCode: '983',
+            state: 'MT',
+            postalCode: 'fake',
           },
-        },
-        {
+        }),
+        createMockFacilityByVersion({
           id: '983GJ',
-          attributes: {
-            ...getParentSiteMock().attributes,
+          isParent: true,
+          address: {
+            line: [],
             city: 'Belgrade',
-            stateAbbrev: 'MT',
-            institutionCode: '983GJ',
-            rootStationCode: '983',
-            parentStationCode: '983GJ',
+            state: 'MT',
+            postalCode: 'fake',
           },
-        },
-        {
-          id: '983GC',
-          attributes: {
-            ...getParentSiteMock().attributes,
-            institutionCode: '983GC',
-            rootStationCode: '983',
-            parentStationCode: '983GC',
-          },
-        },
+        }),
+        createMockFacilityByVersion({ id: '983GC', isParent: true }),
       ],
+      true,
     );
-    mockCommunityCareEligibility({
+
+    mockV2CommunityCareEligibility({
       parentSites: ['983', '983GJ', '983GC'],
       supportedSites: ['983', '983GJ'],
       careType: 'PrimaryCare',
     });
+
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
