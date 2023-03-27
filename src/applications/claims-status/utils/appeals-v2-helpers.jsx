@@ -746,13 +746,14 @@ export function getStatusContents(appeal, name = {}) {
       );
       break;
     case STATUS_TYPES.hlrReceived:
-      contents.title = 'A senior reviewer is taking a new look at your case';
+      contents.title =
+        'A higher-level reviewer is taking a new look at your case';
       contents.description = (
         <div>
           <p>
-            By requesting a Higher-Level Review, you asked for a senior reviewer
+            By requesting a Higher-Level Review, you asked for a higher-level at
             at the {aojDescription} to look at your case and determine whether
-            they can change the decision based on a difference of opinion or
+            whether they can change the decision based on a difference of
             because VA made an error.
           </p>
           {details.informalConference && (
@@ -799,9 +800,10 @@ export function getStatusContents(appeal, name = {}) {
       contents.title = `The ${aojDescription} is correcting an error`;
       contents.description = (
         <p>
-          During their review, the senior reviewer identified an error that must
-          be corrected before deciding your case. If needed, VA may contact you
-          to ask for more evidence or to schedule a new medical exam.
+          During their review, the higher-level reviewer identified an error
+          that must be corrected before deciding your case. If needed, VA may
+          contact you to ask for more evidence or to schedule a new medical
+          exam.
         </p>
       );
       break;
@@ -1670,7 +1672,7 @@ export function getNextEvents(appeal) {
         header: '', // intentionally empty
         events: [
           {
-            title: 'The senior reviewer will make a new decision',
+            title: 'The higher-level reviewer will make a new decision',
             description: (
               <p>
                 The {getAojDescription(appeal.attributes.aoj)} will send you a
@@ -2004,9 +2006,9 @@ export function getAlertContent(alert, appealIsActive) {
                 DECISION_REVIEW_OPTIONS.higherLevelReview,
               ) && (
                 <li className="next-event">
-                  <h3>Ask for a new look from a senior reviewer</h3>
+                  <h3>Ask for a new look from a higher-level reviewer</h3>
                   <p>
-                    A senior reviewer will look at your case and determine
+                    A higher-level reviewer will look at your case and determine
                     whether the decision can be changed based on a difference of
                     opinion or because VA made an error. This option is called a
                     <a href="/decision-reviews/higher-level-review">
@@ -2054,7 +2056,7 @@ export function getAlertContent(alert, appealIsActive) {
                 DECISION_REVIEW_OPTIONS.higherLevelReview,
               ) && (
                 <li>
-                  Ask for a new look from a senior reviewer (Higher-Level
+                  Ask for a new look from a higher-level reviewer (Higher-Level
                   Review)
                 </li>
               )}
