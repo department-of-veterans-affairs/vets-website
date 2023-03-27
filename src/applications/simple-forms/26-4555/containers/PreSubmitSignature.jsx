@@ -95,6 +95,12 @@ const PreSubmitSignature = ({
 
   return (
     <>
+      <p className="vads-u-padding-x--3">
+        <strong>Note:</strong> According to federal law, there are criminal
+        penalties, including a fine and/or imprisonment for up to 5 years, for
+        withholding information or for providing incorrect information (See 18
+        U.S.C. 1001).
+      </p>
       <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--3 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--3">
         <h3>Statement of truth</h3>
         <p>
