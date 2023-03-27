@@ -33,25 +33,30 @@ const TermsAndConditionsContentMap = {
 };
 
 export const TermsAndConditions = ({ device }) => {
-  return (
-    <p data-testid={`${device.key}-terms-and-conditions`}>
-      By connecting your {device.name} to VA.gov, you consent to the{' '}
-      <a
-        href="https://www.va.gov/privacy-policy/"
-        target="_blank"
-        rel="noreferrer"
-      >
-        va.gov privacy policy
-      </a>{' '}
-      in addition to the following:
-      <va-additional-info
-        trigger="View Terms"
-        data-testid={`${device.key}-terms-and-conditions-content`}
-      >
-        {TermsAndConditionsContentMap[device.key]}
-      </va-additional-info>
-    </p>
-  );
+  if (device.key in TermsAndConditionsContentMap) {
+    return (
+      <>
+        <p data-testid={`${device.key}-terms-and-conditions`}>
+          By connecting your {device.name} to VA.gov, you consent to the{' '}
+          <a
+            href="https://www.va.gov/privacy-policy/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            va.gov privacy policy
+          </a>{' '}
+          in addition to the following:
+          <va-additional-info
+            trigger="View Terms"
+            data-testid={`${device.key}-terms-and-conditions-content`}
+          >
+            {TermsAndConditionsContentMap[device.key]}
+          </va-additional-info>
+        </p>
+      </>
+    );
+  }
+  return <></>;
 };
 
 TermsAndConditions.propTypes = {
