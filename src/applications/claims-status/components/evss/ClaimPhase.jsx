@@ -221,6 +221,7 @@ export default class ClaimPhase extends React.Component {
           aria-expanded={open}
           onClick={handler.getDescriptionClick}
         >
+          {expandCollapseIcon}
           {titleText}
         </button>
       );
@@ -228,7 +229,6 @@ export default class ClaimPhase extends React.Component {
     return (
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
       <li className={`${getClasses(phase, current)}`}>
-        {expandCollapseIcon}
         <h4 className="section-header vads-u-font-size--h4">{title}</h4>
         {open || (current !== COMPLETE_PHASE && phase === COMPLETE_PHASE) ? (
           <div>

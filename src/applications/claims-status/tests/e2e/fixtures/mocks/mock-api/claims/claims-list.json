@@ -45,6 +45,28 @@
       }
     },
     {
+      "id": "claim-with-tracked-items",
+      "type": "evss_claims",
+      "attributes": {
+        "evssId": 600382810,
+        "dateFiled": "2023-02-08",
+        "minEstDate": "2023-06-25",
+        "maxEstDate": "2023-09-03",
+        "phaseChangeDate": "2023-03-15",
+        "open": true,
+        "waiverSubmitted": false,
+        "documentsNeeded": true,
+        "developmentLetterSent": true,
+        "decisionLetterSent": false,
+        "phase": 3,
+        "everPhaseBack": false,
+        "currentPhaseBack": false,
+        "requestedDecision": false,
+        "claimType": "Compensation",
+        "updatedAt": "2023-03-17T20:10:21.054Z"
+      }
+    },
+    {
       "id": "phase3",
       "type": "evss_claims",
       "attributes": {
@@ -130,28 +152,6 @@
         "requestedDecision": false,
         "claimType": "Dependency",
         "updatedAt": "2022-06-08T19:01:57.543Z"
-      }
-    },
-    {
-      "id": "claim-with-tracked-item",
-      "type": "evss_claims",
-      "attributes": {
-        "evss_id": 600382810,
-        "date_filed": "2023-02-08",
-        "min_est_date": "2023-06-25",
-        "max_est_date": "2023-09-03",
-        "phase_change_date": "2023-03-15",
-        "open": true,
-        "waiver_submitted": false,
-        "documents_needed": false,
-        "development_letter_sent": true,
-        "decision_letter_sent": false,
-        "phase": 3,
-        "ever_phase_back": false,
-        "current_phase_back": false,
-        "requested_decision": false,
-        "claim_type": "Compensation",
-        "updated_at": "2023-03-17T20:10:21.054Z"
       }
     }
   ],

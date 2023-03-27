@@ -17,7 +17,6 @@ import { setUpPage, isTab, setFocus } from '../utils/page';
 import { cstUseLighthouse } from '../selectors';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
-const FIRST_GATHERING_EVIDENCE_PHASE = 3;
 
 const isEVSSClaim = claim => claim.type === 'evss_claims';
 
@@ -34,14 +33,13 @@ const getDocsAssociatedWithTrackedItem = (item, docs) => {
   return docs.filter(predicate);
 };
 
-const filterAssociatedDocs = docs =>
-  docs.filter(!isAssociatedWithAnyTrackedItem);
+// const filterAssociatedDocs = docs =>
+//   docs.filter(!isAssociatedWithAnyTrackedItem);
 
 const associateDocsWithTrackedItems = (items, docs) => {
   return items.map(item => {
     const newItem = { ...item };
     const associatedDocs = getDocsAssociatedWithTrackedItem(newItem, docs);
-    console.log(associatedDocs);
     newItem.documents = associatedDocs;
     return newItem;
   });
@@ -105,7 +103,7 @@ class FilesPage extends React.Component {
   getPageContent() {
     const { claim, params, useLighthouse } = this.props;
     if (!useLighthouse) {
-      return <FilesPageContent claim={claim} param={params} />;
+      return <FilesPageContent claim={claim} params={params} />;
     }
 
     const {
@@ -122,13 +120,11 @@ class FilesPage extends React.Component {
       claimPhaseDates.latestPhaseType === 'Gathering of evidence' &&
       !waiverSubmitted;
     const trackedItems = getTrackedItems(claim);
-    console.log(trackedItems);
     const filesNeeded = trackedItems.filter(
       event =>
         event.trackedItemStatus === NEED_ITEMS_STATUS &&
         event.neededFrom === 'YOU',
     );
-    console.log('FILES NEEDED:', filesNeeded);
     const optionalFiles = trackedItems.filter(
       event =>
         event.trackedItemStatus === NEED_ITEMS_STATUS &&

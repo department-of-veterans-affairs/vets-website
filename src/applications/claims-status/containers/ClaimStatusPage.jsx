@@ -7,6 +7,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { clearNotification } from '../actions';
 import ClaimComplete from '../components/ClaimComplete';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
+import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimelineEVSS from '../components/ClaimsTimeline';
 import ClaimTimeline from '../components/ClaimTimeline';
@@ -22,7 +23,10 @@ import {
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
 // START lighthouse_migration
-const isEVSSClaim = claim => claim.type === 'evss_claims';
+const isEVSSClaim = claim => {
+  return claim.type === 'evss_claims';
+};
+
 const statuses = [
   'CLAIM_RECEIVED',
   'INITIAL_REVIEW',
@@ -66,6 +70,64 @@ class ClaimStatusPage extends React.Component {
     this.props.clearNotification();
   }
 
+  getPageContent() {
+    const { claim, showClaimLettersLink, useLighthouse } = this.props;
+
+    if (!useLighthouse) {
+      return <ClaimStatusPageContent claim={claim} />;
+    }
+
+    // claim can be null
+    const attributes = (claim && claim.attributes) || {};
+
+    // START lighthouse_migration
+    const { open, phase, status } = attributes;
+    const ClaimsTimeline = useLighthouse ? ClaimTimeline : ClaimTimelineEVSS;
+    // END lighthouse_migration
+
+    const isOpen = isEVSSClaim(claim) ? open : status !== 'COMPLETE';
+    const filesNeeded = itemsNeedingAttentionFromVet(attributes.eventsTimeline);
+    const showDocsNeeded =
+      !attributes.decisionLetterSent &&
+      isOpen &&
+      attributes.documentsNeeded &&
+      filesNeeded > 0;
+
+    return (
+      <div>
+        {showDocsNeeded ? (
+          <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
+        ) : null}
+        {attributes.decisionLetterSent && !isOpen ? (
+          <ClaimsDecision
+            completedDate={getCompletedDate(claim)}
+            showClaimLettersLink={showClaimLettersLink}
+          />
+        ) : null}
+        {!attributes.decisionLetterSent && !isOpen ? (
+          <ClaimComplete completedDate={getCompletedDate(claim)} />
+        ) : null}
+        {phase && isOpen ? (
+          <ClaimsTimeline
+            id={claim.id}
+            phase={phase}
+            currentPhaseBack={attributes.currentPhaseBack}
+            everPhaseBack={attributes.everPhaseBack}
+            events={attributes.eventsTimeline}
+          />
+        ) : null}
+        {status && isOpen ? (
+          <ClaimsTimeline
+            id={claim.id}
+            phase={getPhaseFromStatus(status)}
+            currentPhaseBack={attributes.currentPhaseBack}
+            events={attributes.eventsTimeline}
+          />
+        ) : null}
+      </div>
+    );
+  }
+
   setTitle() {
     document.title = this.props.loading
       ? 'Status - Your Claim'
@@ -73,67 +135,11 @@ class ClaimStatusPage extends React.Component {
   }
 
   render() {
-    const {
-      claim,
-      loading,
-      message,
-      showClaimLettersLink,
-      synced,
-      useLighthouse,
-    } = this.props;
+    const { claim, loading, message, synced } = this.props;
 
     let content = null;
-    // claim can be null
-    const attributes = (claim && claim.attributes) || {};
     if (!loading) {
-      // START lighthouse_migration
-      const { open, phase, status } = attributes;
-      const ClaimsTimeline = useLighthouse ? ClaimTimeline : ClaimTimelineEVSS;
-      // END lighthouse_migration
-
-      const isOpen = isEVSSClaim(claim) ? open : status !== 'COMPLETE';
-      const filesNeeded = itemsNeedingAttentionFromVet(
-        attributes.eventsTimeline,
-      );
-      const showDocsNeeded =
-        !attributes.decisionLetterSent &&
-        isOpen &&
-        attributes.documentsNeeded &&
-        filesNeeded > 0;
-
-      content = (
-        <div>
-          {showDocsNeeded ? (
-            <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
-          ) : null}
-          {attributes.decisionLetterSent && !isOpen ? (
-            <ClaimsDecision
-              completedDate={getCompletedDate(claim)}
-              showClaimLettersLink={showClaimLettersLink}
-            />
-          ) : null}
-          {!attributes.decisionLetterSent && !isOpen ? (
-            <ClaimComplete completedDate={getCompletedDate(claim)} />
-          ) : null}
-          {phase !== null && typeof phase !== 'undefined' && isOpen ? (
-            <ClaimsTimeline
-              id={claim.id}
-              phase={phase}
-              currentPhaseBack={attributes.currentPhaseBack}
-              everPhaseBack={attributes.everPhaseBack}
-              events={attributes.eventsTimeline}
-            />
-          ) : null}
-          {status !== null && isOpen ? (
-            <ClaimsTimeline
-              id={claim.id}
-              phase={getPhaseFromStatus(status)}
-              currentPhaseBack={attributes.currentPhaseBack}
-              events={attributes.eventsTimeline}
-            />
-          ) : null}
-        </div>
-      );
+      content = this.getPageContent();
     }
 
     return (

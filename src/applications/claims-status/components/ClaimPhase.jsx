@@ -222,13 +222,13 @@ export default class ClaimPhase extends React.Component {
           onClick={handler.getDescriptionClick}
         >
           {titleText}
+          {expandCollapseIcon}
         </button>
       );
 
     return (
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
       <li className={`${getClasses(phase, current)}`}>
-        {expandCollapseIcon}
         <h4 className="section-header vads-u-font-size--h4">{title}</h4>
         {open || (current !== COMPLETE_PHASE && phase === COMPLETE_PHASE) ? (
           <div>
