@@ -11,11 +11,10 @@ import DowntimeNotification, {
 } from '~/platform/monitoring/DowntimeNotification';
 import { focusElement } from '~/platform/utilities/ui';
 import { selectVeteranStatus } from '~/platform/user/selectors';
-import { Toggler } from '~/applications/personalization/components/Toggler';
+
 import LoadFail from '../alerts/LoadFail';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
-import ProfileInfoTable from '../ProfileInfoTable';
 import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 
@@ -149,27 +148,13 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
 
   return (
     <>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
-        <Toggler.Disabled>
-          <ProfileInfoTable
-            data={serviceHistory}
-            dataTransformer={transformServiceHistoryEntryIntoTableRow}
-            title="Period of service"
-            list
-            level={2}
-          />
-        </Toggler.Disabled>
-
-        <Toggler.Enabled>
-          <ProfileInfoCard
-            data={serviceHistory.map(item =>
-              transformServiceHistoryEntryIntoTableRow(item),
-            )}
-            title="Period of Service"
-            level={2}
-          />
-        </Toggler.Enabled>
-      </Toggler>
+      <ProfileInfoCard
+        data={serviceHistory.map(item =>
+          transformServiceHistoryEntryIntoTableRow(item),
+        )}
+        title="Period of Service"
+        level={2}
+      />
 
       <div className="vads-u-margin-top--4">
         <va-additional-info
