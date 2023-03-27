@@ -666,6 +666,9 @@ const formConfig = {
             'ui:description': SupportingDocumentsDescription,
             application: {
               preneedAttachments: fileUploadUI('Select files to upload', {
+                addAnotherLabel: environment.isProduction()
+                  ? 'Add Another'
+                  : 'Add another',
                 fileUploadUrl: `${
                   environment.API_URL
                 }/v0/preneeds/preneed_attachments`,
@@ -820,10 +823,7 @@ const formConfig = {
                       country: { 'ui:required': isAuthorizedAgent },
                       street: { 'ui:required': isAuthorizedAgent },
                       city: { 'ui:required': isAuthorizedAgent },
-                      state: {
-                        'ui:required':
-                          isAuthorizedAgent && environment.isProduction(),
-                      },
+                      state: { 'ui:required': isAuthorizedAgent },
                       postalCode: { 'ui:required': isAuthorizedAgent },
                     },
                   ),

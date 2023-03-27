@@ -8,7 +8,6 @@ import { VaModal } from '@department-of-veterans-affairs/web-components/react-bi
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import AppointmentBlock from '../../../components/AppointmentBlock';
-import AppointmentBlockVaos from '../../../components/AppointmentBlockVaos';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -29,7 +28,6 @@ const IntroductionDisplay = props => {
 
   const { appointments } = useSelector(selectVeteranData);
   const {
-    isUpdatedApptPresentationEnabled,
     isPreCheckInActionLinkTopPlacementEnabled,
   } = useSelector(selectFeatureToggles);
 
@@ -49,15 +47,12 @@ const IntroductionDisplay = props => {
   // );
   useEffect(
     () => {
-      const vaosOn = isUpdatedApptPresentationEnabled
-        ? 'VAOS-design'
-        : 'non-VAOS-design';
-      const slug = `pre-check-in-viewed-introduction-${vaosOn}`;
+      const slug = `pre-check-in-viewed-introduction-VAOS-design`;
       recordEvent({
         event: createAnalyticsSlug(slug, 'nav'),
       });
     },
-    [isUpdatedApptPresentationEnabled],
+    [],
   );
   const accordionContent = [
     {
@@ -98,8 +93,7 @@ const IntroductionDisplay = props => {
       if (e?.key && e.key !== ' ') {
         return;
       }
-      let slug = `pre-check-in-started-${isPhone ? 'phone' : 'in-person'}`;
-      if (isUpdatedApptPresentationEnabled) slug += '-VAOS-design';
+      let slug = `pre-check-in-started-${isPhone ? 'phone' : 'in-person'}-VAOS-design`;
       // Save this for when we go back to testing action link.
       // if (isPreCheckInActionLinkTopPlacementEnabled) slug += '-top-position';
       recordEvent({
@@ -108,7 +102,7 @@ const IntroductionDisplay = props => {
       e.preventDefault();
       goToNextPage();
     },
-    [isPhone, isUpdatedApptPresentationEnabled, goToNextPage],
+    [isPhone, goToNextPage],
   );
 
   const StartButton = () => (
@@ -142,11 +136,8 @@ const IntroductionDisplay = props => {
         {t('your-answers-will-help-us-better-prepare-for-your-needs')}
       </p>
       {isPreCheckInActionLinkTopPlacementEnabled && <StartButton />}
-      {isUpdatedApptPresentationEnabled ? (
-        <AppointmentBlockVaos appointments={appointments} page="intro" />
-      ) : (
-        <AppointmentBlock appointments={appointments} page="intro" />
-      )}
+
+      <AppointmentBlock appointments={appointments} page="intro" />
 
       {!isPreCheckInActionLinkTopPlacementEnabled && (
         <>

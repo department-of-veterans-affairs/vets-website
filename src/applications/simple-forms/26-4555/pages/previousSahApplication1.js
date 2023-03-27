@@ -11,12 +11,12 @@ const pageFields = [previousSahApplicationFields.hasPreviousSahApplication];
 
 export default {
   uiSchema: {
-    'ui:title': (
-      <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
-        Specially adapted housing grant applications
-      </h3>
-    ),
     [previousSahApplicationFields.parentObject]: {
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+          Specially adapted housing grant applications
+        </h3>
+      ),
       [previousSahApplicationFields.hasPreviousSahApplication]: {
         'ui:title':
           'Have you applied for a specially adapted housing (SAH) grant before?',

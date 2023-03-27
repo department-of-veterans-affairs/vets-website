@@ -11,12 +11,12 @@ const pageFields = [previousHiApplicationFields.hasPreviousHiApplication];
 
 export default {
   uiSchema: {
-    'ui:title': (
-      <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
-        Special home adaptation grant applications
-      </h3>
-    ),
     [previousHiApplicationFields.parentObject]: {
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+          Special home adaptation grant applications
+        </h3>
+      ),
       [previousHiApplicationFields.hasPreviousHiApplication]: {
         'ui:title':
           'Have you applied for a special home adaptation (SHA) grant before?',
