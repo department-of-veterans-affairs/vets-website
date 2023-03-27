@@ -29,7 +29,7 @@ const VitalListItem = props => {
         />
       </div>
       <Link
-        to={`/vital-details/${record.id}`}
+        to={`/vital-details/${record.name.replace(/\s+/g, '+')}`}
         className="vads-u-margin-y--0p5 no-print"
       >
         View {record.name} over time

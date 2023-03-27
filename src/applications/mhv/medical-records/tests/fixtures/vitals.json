@@ -30,11 +30,50 @@
     "id": 156,
     "measurement": "170/120 mm[Hg]",
     "date": "2022-04-13T17:42:46.000Z",
-    "facility": "school parking lot",
-    "comments": [
-        "Protects from delta variant",
-        "May need another booster for other variants"
-    ]},
+    "facility": "school parking lot"
+    },
+    {
+      "name": "Blood Pressure",
+      "id": 156,
+      "measurement": "170/120 mm[Hg]",
+      "date": "2022-04-13T17:42:46.000Z",
+      "facility": "school parking lot"
+    },
+    {
+      "name": "Blood Pressure",
+      "id": 156,
+      "measurement": "170/120 mm[Hg]",
+      "date": "2022-04-13T17:42:46.000Z",
+      "facility": "school parking lot"
+    },
+    {
+      "name": "Blood Pressure",
+      "id": 156,
+      "measurement": "170/120 mm[Hg]",
+      "date": "2022-04-13T17:42:46.000Z",
+      "facility": "school parking lot"
+    },
+    {
+      "name": "Blood Pressure",
+      "id": 156,
+      "measurement": "170/120 mm[Hg]",
+      "date": "2022-04-13T17:42:46.000Z",
+      "facility": "school parking lot"
+    },
+    {
+      "name": "Blood Pressure",
+      "id": 156,
+      "measurement": "170/120 mm[Hg]",
+      "date": "2022-04-13T17:42:46.000Z",
+      "facility": "school parking lot"
+    },
+    {
+      "name": "Blood Pressure",
+      "id": 156,
+      "measurement": "170/120 mm[Hg]",
+      "date": "2022-04-13T17:42:46.000Z",
+      "facility": "school parking lot"
+    },
     {
       "name": "Pulse Rate",
       "id": 124,

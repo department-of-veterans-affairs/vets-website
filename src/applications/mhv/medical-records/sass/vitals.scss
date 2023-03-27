@@ -1,0 +1,40 @@
+.vital-details {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        margin: 0;
+        padding: 16 0 16 0;
+        border-top: 1px solid $color-gray-light;
+    }
+    li:first-child {
+        margin: 0;
+        padding: 0 0 16 0;
+        border-top: 0;
+    }
+
+    strong {
+        margin: 8 0 0 0;
+    }
+
+    p {
+        margin: 0 0 8 0;
+    }
+}
+
+.comment-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    li {
+        margin: 0;
+        border: 0;
+        padding: 0;
+    }
+    li:first-child {
+        margin: 0;
+        border: 0;
+        padding: 0;
+    }
+}
