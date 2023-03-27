@@ -304,7 +304,7 @@ class ApiInitializer {
       });
     },
     withUuidNotFound: () => {
-      cy.intercept('GET', `/check_in/v2/pre_check_ins/*&reload=true`, req => {
+      cy.intercept('GET', `/check_in/v2/pre_check_ins/*`, req => {
         req.reply(404, preCheckInData.get.createMockNotFoundResponse());
       });
     },
