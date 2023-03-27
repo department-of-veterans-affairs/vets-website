@@ -2,8 +2,8 @@ import appendQuery from 'append-query';
 
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 import { apiRequest } from 'platform/utilities/api';
-import recordEvent from 'platform/monitoring/record-event';
 import { isVAProfileServiceConfigured } from 'platform/user/profile/vap-svc/util/local-vapsvc';
+import recordEvent from '../../../monitoring/record-event';
 import { updateLoggedInStatus } from '../../authentication/actions';
 import { teardownProfileSession } from '../utilities';
 

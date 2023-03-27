@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import localStorage from '@department-of-veterans-affairs/platform-utilities/storage/localStorage';
+import localStorage from '@department-of-veterans-affairs/platform-utilities/exports';
 
 import { AuthApp } from '../containers/AuthApp';
 

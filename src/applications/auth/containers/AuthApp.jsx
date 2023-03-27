@@ -19,7 +19,7 @@ import {
   AUTH_ERRORS,
   SENTRY_TAGS,
   getAuthError,
-} from '@department-of-veterans-affairs/platform-user/authentication/errors';
+} from '@department-of-veterans-affairs/platform-user/exports';
 import {
   hasSession,
   setupProfileSession,

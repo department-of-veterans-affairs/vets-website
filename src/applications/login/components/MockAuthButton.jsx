@@ -1,5 +1,5 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import ENVIRONMENT_CONFIGURATIONS from 'site/constants/environments-configs';
 
 export default function MockAuthButton() {

@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import {
   AUTH_ERRORS,
   getAuthError,
-} from '@department-of-veterans-affairs/platform-user/authentication/errors';
+} from '@department-of-veterans-affairs/platform-user/exports';
 import RenderErrorContainer from '../components/RenderErrorContainer';
 
 describe('RenderErrorContainer', () => {
