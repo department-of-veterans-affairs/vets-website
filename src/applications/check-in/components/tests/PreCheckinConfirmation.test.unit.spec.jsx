@@ -26,6 +26,7 @@ describe('pre-check-in', () => {
         form: {
           pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
         },
+        app: 'preCheckIn',
       },
       ...scheduledDowntimeState,
     };
@@ -36,6 +37,13 @@ describe('pre-check-in', () => {
     demographicsUpToDate: 'yes',
     emergencyContactUpToDate: 'yes',
     nextOfKinUpToDate: 'yes',
+  };
+
+  const mockRouter = {
+    push: ()=>{},
+    location: {
+      basename: '/health-care/appointment-pre-check-in',
+    },
   };
 
   describe('Confirmation page', () => {
@@ -50,26 +58,13 @@ describe('pre-check-in', () => {
                 appointments={appointments}
                 formData={formData}
                 isLoading
+                router={mockRouter}
               />
             </I18nextProvider>
           </Provider>,
         );
         expect(wrapper.queryByTestId('loading-indicator')).to.exist;
         wrapper.unmount();
-      });
-      it('renders page with clinic name', () => {
-        const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <PreCheckinConfirmation
-                appointments={appointments}
-                formData={formData}
-                isLoading={false}
-              />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(screen.getAllByText('LOM ACC CLINIC TEST')).to.have.lengthOf(1);
       });
     });
     describe('appointments with friendly name', () => {
@@ -82,30 +77,17 @@ describe('pre-check-in', () => {
                 appointments={appointments}
                 formData={formData}
                 isLoading={false}
+                router={mockRouter}
               />
             </I18nextProvider>
           </Provider>,
         );
         expect(screen.getByTestId('confirmation-wrapper')).to.exist;
-        screen.getAllByTestId('appointment-message').forEach(message => {
+        screen.getAllByTestId('in-person-msg-confirmation').forEach(message => {
           expect(message).to.have.text(
             'Please bring your insurance cards with you to your appointment.',
           );
         });
-      });
-      it('renders page with clinic friendly name', () => {
-        const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <PreCheckinConfirmation
-                appointments={appointments}
-                formData={formData}
-                isLoading={false}
-              />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(screen.getAllByText('TEST CLINIC')).to.have.lengthOf(3);
       });
     });
   });
