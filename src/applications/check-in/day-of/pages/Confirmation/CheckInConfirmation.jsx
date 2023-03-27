@@ -12,13 +12,12 @@ import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggl
 import BackToAppointments from '../../../components/BackToAppointments';
 import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
 import Wrapper from '../../../components/layout/Wrapper';
-import AppointmentConfirmationListItem from '../../../components/AppointmentDisplay/AppointmentConfirmationListItem';
 import useSendTravelPayClaim from '../../../hooks/useSendTravelPayClaim';
 import ExternalLink from '../../../components/ExternalLink';
 import TravelPayAlert from './TravelPayAlert';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import AppointmentListItemVaos from '../../../components/AppointmentDisplay/AppointmentListItemVaos';
+import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import { getAppointmentId } from '../../../utils/appointment';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import { useUpdateError } from '../../../hooks/useUpdateError';
@@ -28,10 +27,7 @@ const CheckInConfirmation = props => {
   const { appointments, selectedAppointment, triggerRefresh, router } = props;
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
-  const {
-    isTravelReimbursementEnabled,
-    isUpdatedApptPresentationEnabled,
-  } = featureToggles;
+  const { isTravelReimbursementEnabled } = featureToggles;
   const {
     isLoading: isCheckInDataLoading,
     checkInDataError,
@@ -46,10 +42,8 @@ const CheckInConfirmation = props => {
   const { t } = useTranslation();
   const { jumpToPage } = useFormRouting(router);
   const appointment = selectedAppointment;
-  const appointmentDateTime = new Date(appointment.startTime);
 
   const {
-    isLoading,
     travelPayEligible,
     travelPayClaimError,
     travelPayClaimErrorCode,
@@ -78,25 +72,8 @@ const CheckInConfirmation = props => {
     [travelPayClaimSent, setShouldSendTravelPayClaim],
   );
 
-  let pageTitle = t('youre-checked-in', {
-    date: appointmentDateTime,
-  });
   const doTravelPay = isTravelReimbursementEnabled && travelPayClaimRequested;
 
-  if (doTravelPay && !isLoading) {
-    pageTitle += ' ';
-
-    if (travelPayClaimData && !travelPayClaimError && travelPayEligible) {
-      pageTitle += t('received-reimbursement-claim');
-    } else if (
-      travelPayClaimError &&
-      travelPayClaimErrorCode === 'CLM_002_CLAIM_EXISTS'
-    ) {
-      pageTitle += t('you-created-a-travel-claim-already');
-    } else {
-      pageTitle += t('we-couldnt-file-reimbursement');
-    }
-  }
   const handleDetailClick = e => {
     e.preventDefault();
     recordEvent({
@@ -136,28 +113,24 @@ const CheckInConfirmation = props => {
 
   const renderConfirmationMessage = () => {
     return (
-      <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
+      <Wrapper
+        pageTitle={t('youre-checked-in')}
+        testID="multiple-appointments-confirm"
+      >
         <p className="vads-u-font-family--serif">{t('your-appointment')}</p>
         <ol
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
           data-testid="appointment-list"
         >
-          {isUpdatedApptPresentationEnabled ? (
-            <AppointmentListItemVaos
-              appointment={appointment}
-              key={0}
-              showDetailsLink
-              goToDetails={handleDetailClick}
-              router={router}
-              page="confirmation"
-              app={APP_NAMES.CHECK_IN}
-            />
-          ) : (
-            <AppointmentConfirmationListItem
-              appointment={appointment}
-              key={0}
-            />
-          )}
+          <AppointmentListItem
+            appointment={appointment}
+            key={0}
+            showDetailsLink
+            goToDetails={handleDetailClick}
+            router={router}
+            page="confirmation"
+            app={APP_NAMES.CHECK_IN}
+          />
         </ol>
 
         <va-alert

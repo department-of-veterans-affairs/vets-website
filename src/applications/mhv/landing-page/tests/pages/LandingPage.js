@@ -5,6 +5,10 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import MockUser from '../../mocks/api/user';
 
 class LandingPage {
+  constructor() {
+    this.pageUrl = '/my-health/';
+  }
+
   validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
@@ -21,7 +25,12 @@ class LandingPage {
 
   visitPage = ({ serviceProvider = 'idme' } = {}) => {
     cy.login(MockUser.generateUserWithServiceProvider({ serviceProvider }));
-    cy.visit('/my-health');
+    cy.visit(this.pageUrl);
+  };
+
+  visitPageAsCernerPatient = () => {
+    cy.login(MockUser.cernerPatient);
+    cy.visit(this.pageUrl);
   };
 }
 

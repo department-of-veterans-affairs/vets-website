@@ -100,21 +100,22 @@ const renderStickyBot = () => {
 
 function Page({ virtualAgentShowFloatingChatbot = null }) {
   const [chosenBot, setChosenBot] = useState(null);
-  const [isLoading, setIsLoading] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   let bot = '';
 
   useEffect(
     () => {
-      if (virtualAgentShowFloatingChatbot !== null) {
-        setIsLoading(false);
-        if (virtualAgentShowFloatingChatbot) {
-          setChosenBot('sticky');
-        } else {
-          setChosenBot('default');
-        }
+      // if (virtualAgentShowFloatingChatbot) {
+      setIsLoading(false);
+      if (virtualAgentShowFloatingChatbot) {
+        setChosenBot('sticky');
       } else {
-        setIsLoading(true);
+        setChosenBot('default');
       }
+      // }
+      // else {
+      //   setIsLoading(true);
+      // }
     },
     [virtualAgentShowFloatingChatbot],
   );

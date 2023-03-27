@@ -13,12 +13,32 @@ class PatientComposePage {
     cy.wait('@message');
   };
 
+  pushSendMessageWithKeyboardPress = () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/messages',
+      mockDraftMessage,
+    ).as('message');
+    cy.tabToElement('[data-testid="Send-Button"]')
+      .get('[text="Send"]')
+      .realPress(['Enter']);
+    cy.wait('@message');
+  };
+
+  verifySendMessageConfirmationMessage = () => {
+    cy.get('.vads-u-margin-bottom--1').should(
+      'have.text',
+      'Message was successfully sent.',
+    );
+  };
+
+  verifySendMessageConfirmationMessageHasFocus = () => {
+    cy.get('.vads-u-margin-bottom--1').should('be.focused');
+  };
+
+  //* Refactor*  Need to get rid of this method and split out
   enterComposeMessageDetails = category => {
-    cy.get('[data-testid="compose-recipient-select"]')
-      .shadow()
-      .find('[id="select"]')
-      .select('###PQR TRIAGE_TEAM 747###', { force: true })
-      .should('have.value', 6832726);
+    this.selectRecipient('###PQR TRIAGE_TEAM 747###', { force: true });
     cy.get('[data-testid="compose-category-radio-button"]')
       .shadow()
       .find('label')
@@ -28,16 +48,32 @@ class PatientComposePage {
       'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
       { force: true },
     );
-    cy.get('[data-testid="message-subject-field"]')
-      .shadow()
-      .find('[name="message-subject"]')
-      .type('Test Subject');
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[name="message-body"]')
-      .type('Test message body');
+    this.getMessageSubjectField().type('Test Subject');
+    this.getMessageBodyField().type('Test message body');
   };
 
+  getMessageSubjectField = () => {
+    return cy
+      .get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('[name="message-subject"]');
+  };
+
+  getMessageBodyField = () => {
+    return cy
+      .get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('[name="message-body"]');
+  };
+
+  selectRecipient = recipient => {
+    cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
+      .find('[id="select"]')
+      .select(recipient);
+  };
+
+  //* Refactor* Needs to have mockDraftMessage as parameter
   clickOnSendMessageButton = () => {
     cy.intercept(
       'POST',
@@ -49,6 +85,7 @@ class PatientComposePage {
       .click();
   };
 
+  //* Refactor*  make parameterize mockDraftMessage
   sendDraft = (testId, testCategory, testSubject, testBody) => {
     cy.intercept(
       'POST',
@@ -109,6 +146,7 @@ class PatientComposePage {
     });
   };
 
+  //* Refactor*Remove and consolidate
   selectSideBarMenuOption = menuOption => {
     if (menuOption === 'Inbox') {
       cy.get('[data-testid=inbox-sidebar]').click();

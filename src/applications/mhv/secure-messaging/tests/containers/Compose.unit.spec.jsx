@@ -241,7 +241,7 @@ describe('Compose container', () => {
       expect(
         screen.getByText('Messages in this conversation', {
           exact: true,
-          selector: 'h3',
+          selector: 'h2',
         }),
       ).to.exist;
 

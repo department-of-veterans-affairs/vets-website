@@ -186,7 +186,9 @@ describe('Review PreSubmitSection component', () => {
     );
 
     expect(tree.getByTestId('12345')).to.not.be.null;
-    expect(tree.container.innerHTML).to.matchSnapshot();
+    expect(tree.container.innerHTML).to.eq(
+      '<div data-testid="12345">i am custom component</div><div class="vads-u-margin-top--4"></div>',
+    );
 
     tree.unmount();
   });

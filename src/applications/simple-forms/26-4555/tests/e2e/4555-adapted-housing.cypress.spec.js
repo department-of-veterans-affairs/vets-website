@@ -44,6 +44,26 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { fullName } = data.veteran;
+            cy.get('#veteran-signature')
+              .shadow()
+              .find('input')
+              .first()
+              .type(
+                fullName.middle
+                  ? `${fullName.first} ${fullName.middle} ${fullName.last}`
+                  : `${fullName.first} ${fullName.last}`,
+              );
+            cy.get(`input[name="veteran-certify"]`).check();
+            cy.findAllByText(/Submit application/i, {
+              selector: 'button',
+            }).click();
+          });
+        });
+      },
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);

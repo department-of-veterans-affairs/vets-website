@@ -5,11 +5,8 @@ import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import MY_HEALTH_LINK from 'platform/site-wide/mega-menu/constants/MY_HEALTH_LINK';
 
 const MyHealthLink = ({ isSSOe, onClick }) => {
-  const { featureToggles, user } = useSelector(state => state);
-  const newLandingPageEnabled = isLandingPageEnabledForUser(
-    featureToggles,
-    user?.profile?.signIn?.serviceName,
-  );
+  const state = useSelector(s => s);
+  const newLandingPageEnabled = isLandingPageEnabledForUser(state);
   if (newLandingPageEnabled) {
     return (
       <li>

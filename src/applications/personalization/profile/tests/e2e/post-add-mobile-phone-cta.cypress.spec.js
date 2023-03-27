@@ -50,7 +50,7 @@ describe('Return to Notification Settings CTA', () => {
     // mode for a piece of contact info
     cy.focused()
       .clear()
-      .type('4155551234{enter}');
+      .type('5555551234{enter}');
     cy.injectAxeThenAxeCheck();
 
     cy.findByText(/update saved/i).should('exist');

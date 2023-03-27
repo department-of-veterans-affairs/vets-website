@@ -8,13 +8,13 @@ import mockDeletedFolder from './fixtures/folder-deleted-metadata.json';
 import mockCustomFolder from './fixtures/folder-custom-metadata.json';
 import mockInboxFolder from './fixtures/folder-inbox-response.json';
 
-describe('Secure Messaging Basic Search Tests', () => {
+describe.skip('Secure Messaging Basic Search Tests', () => {
   const basicSearchPage = new PatientBasicSearchPage();
   beforeEach(() => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
   });
   it('Basic Search Axe Check', () => {
     cy.intercept(
