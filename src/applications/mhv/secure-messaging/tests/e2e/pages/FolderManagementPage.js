@@ -34,7 +34,7 @@ class FolderManagementPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderId}/messages*`,
+      `/my_health/v1/messaging/folders/${folderId}/threads*`,
       folderMessages,
     ).as('customFolderMessages');
 

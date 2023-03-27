@@ -14,15 +14,10 @@ const mfaHandler = () => {
   mfa();
 };
 
-const termsAndConditionsUrl =
-  '/health-care/medical-information-terms-conditions';
-
 const AccountSetupTable = ({
   title,
   isIdentityVerified,
   isMultifactorEnabled,
-  showMHVTermsAndConditions,
-  mhvAccount,
 }) => {
   return (
     <section className="profile-info-table vads-u-margin-bottom--2 vads-u-border--1px vads-u-border-color--gray-lighter">
@@ -73,61 +68,6 @@ const AccountSetupTable = ({
             someone gets your password.
           </List.ContentIncomplete>
         </List.Item>
-
-        <List.Item
-          complete={mhvAccount.termsAndConditionsAccepted}
-          shouldShow={showMHVTermsAndConditions}
-        >
-          <List.HeadingComplete>
-            Review terms and conditions
-          </List.HeadingComplete>
-
-          <List.ContentComplete>
-            <p className="vads-u-margin-y--0">
-              You’ve accepted the terms and conditions for using VA.gov health
-              tools
-            </p>
-            <a
-              href={termsAndConditionsUrl}
-              onClick={() =>
-                recordEvent({
-                  event: 'profile-navigation',
-                  'profile-action': 'view-link',
-                  'profile-section': 'terms',
-                })
-              }
-            >
-              View terms and conditions for medical information
-            </a>
-          </List.ContentComplete>
-
-          {mhvAccount.accountState === 'needs_terms_acceptance' && (
-            <>
-              <List.HeadingIncomplete>
-                <a
-                  href={termsAndConditionsUrl}
-                  onClick={() =>
-                    recordEvent({
-                      event: 'profile-navigation',
-                      'profile-action': 'view-link',
-                      'profile-section': 'terms',
-                    })
-                  }
-                >
-                  Review terms and conditions
-                </a>
-              </List.HeadingIncomplete>
-
-              <List.ContentIncomplete>
-                Before using our health tools, you’ll need to read and agree to
-                the terms and conditions for medical information. This will give
-                us permission to share your VA medical information with you.
-                Once you do this, you can use the tools to refill your VA
-                prescriptions or download your VA health records.
-              </List.ContentIncomplete>
-            </>
-          )}
-        </List.Item>
       </List>
     </section>
   );
@@ -136,11 +76,6 @@ const AccountSetupTable = ({
 AccountSetupTable.propTypes = {
   isIdentityVerified: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
-  mhvAccount: PropTypes.shape({
-    termsAndConditionsAccepted: PropTypes.bool.isRequired,
-    accountState: PropTypes.string.isRequired,
-  }).isRequired,
-  showMHVTermsAndConditions: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
 };
 
@@ -148,8 +83,6 @@ export const AccountSecurityTables = ({
   signInServiceName,
   isIdentityVerified,
   isMultifactorEnabled,
-  showMHVTermsAndConditions,
-  mhvAccount,
 }) => {
   return (
     <>
@@ -171,8 +104,6 @@ export const AccountSecurityTables = ({
         title="Account setup"
         isIdentityVerified={isIdentityVerified}
         isMultifactorEnabled={isMultifactorEnabled}
-        showMHVTermsAndConditions={showMHVTermsAndConditions}
-        mhvAccount={mhvAccount}
       />
     </>
   );

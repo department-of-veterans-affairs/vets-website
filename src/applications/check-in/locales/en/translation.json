@@ -218,6 +218,7 @@
   "reason-for-visit": "Reason for visit",
   "appointment-day": "{{ date, day }}, {{ date, monthDay }} at {{ date, time }}",
   "back-to-appointments": "Back to appointments",
+  "details": "Details",
   "details-for-appointment": "Details for {{ type }} appointment at {{ time, time }}",
   "directions-to-location": "Directions to {{ location }}",
   "directions": "Directions",

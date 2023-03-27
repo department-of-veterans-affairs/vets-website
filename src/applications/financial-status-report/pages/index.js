@@ -42,14 +42,13 @@ import * as recreationalVehicles from './assets/recreationalVehicles';
 import * as recreationalVehicleRecords from './assets/recreationalVehicles/records';
 import * as vehicles from './assets/vehicles';
 import * as vehicleRecords from './assets/vehicles/records';
-import * as enhancedVehicleRecords from './assets/vehicles/enhancedRecords';
-import * as vehicleSummary from './assets/vehicles/vehicleSummary';
 import * as otherAssets from './assets/other';
 import * as otherAssetPages from './assets/other/otherAssetsEnhanced';
 import * as otherAssetRecords from './assets/other/records';
 import * as expenses from './expenses/household';
 import * as utilities from './expenses/utilities';
 import * as utilityRecords from './expenses/utilities/records';
+import * as utilityBillPages from './expenses/utilities/utilityBillsEnhanced';
 import * as repayments from './expenses/repayments';
 import * as repaymentRecords from './expenses/repayments/records';
 import * as otherExpenses from './expenses/other';
@@ -116,14 +115,13 @@ export {
   recreationalVehicleRecords,
   vehicles,
   vehicleRecords,
-  enhancedVehicleRecords,
-  vehicleSummary,
   otherAssets,
   otherAssetRecords,
   otherAssetPages,
   expenses,
   utilities,
   utilityRecords,
+  utilityBillPages,
   repayments,
   repaymentRecords,
   otherExpenses,
