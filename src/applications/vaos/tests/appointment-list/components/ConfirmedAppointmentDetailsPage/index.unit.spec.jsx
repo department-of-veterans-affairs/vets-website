@@ -184,7 +184,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       comment: 'New issue: ASAP',
     };
     const appointment = createMockAppointmentByVersion({
-      version: 0,
       ...data,
     });
     appointment.attributes.sta6aid = null;
@@ -1056,9 +1055,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       featureToggles: {
         ...initialState.featureToggles,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
+        vaOnlineSchedulingFacilitiesServiceV2: true,
       },
     };
-    const url = 'va/1234';
+    const url = '/va/1234';
     const futureDate = moment.utc();
 
     const appointment = getVAOSAppointmentMock();
@@ -1084,8 +1084,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       clinicId: '455',
       locationId: '983GC',
       clinicName: 'Some fancy clinic name',
-      version: 2,
     });
+
     mockSingleVAOSAppointmentFetch({ appointment });
 
     mockFacilityFetchByVersion({
@@ -1099,9 +1099,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
           state: 'WY',
           line: ['2360 East Pershing Boulevard'],
         },
-        version: 0,
+        version: 2,
       }),
-      version: 0,
+      version: 2,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1190,8 +1190,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       clinicId: '455',
       locationId: '983GC',
       clinicName: 'Some fancy clinic name',
-      version: 2,
     });
+
     mockSingleVAOSAppointmentFetch({ appointment });
 
     mockFacilityFetchByVersion({
@@ -1205,9 +1205,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
           state: 'WY',
           line: ['2360 East Pershing Boulevard'],
         },
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
