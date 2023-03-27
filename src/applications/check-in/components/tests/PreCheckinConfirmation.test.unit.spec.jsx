@@ -40,7 +40,7 @@ describe('pre-check-in', () => {
   };
 
   const mockRouter = {
-    push: ()=>{},
+    push: () => {},
     location: {
       basename: '/health-care/appointment-pre-check-in',
     },

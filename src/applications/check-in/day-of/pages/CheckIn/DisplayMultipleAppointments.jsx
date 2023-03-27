@@ -13,16 +13,14 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import {
-  intervalUntilNextAppointmentIneligibleForCheckin,
-} from '../../../utils/appointment';
+import { intervalUntilNextAppointmentIneligibleForCheckin } from '../../../utils/appointment';
 
 import { makeSelectCurrentContext } from '../../../selectors';
 
 import Wrapper from '../../../components/layout/Wrapper';
 
 const DisplayMultipleAppointments = props => {
-  const { appointments, router, token } = props;
+  const { appointments, router } = props;
   const { t } = useTranslation();
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
@@ -39,15 +37,12 @@ const DisplayMultipleAppointments = props => {
   const refreshTimer = useRef(null);
   const { updateError } = useUpdateError();
 
-  useEffect(
-    () => {
-      const slug = `check-in-viewed-appointment-list-VAOS-design`;
-      recordEvent({
-        event: createAnalyticsSlug(slug, 'nav'),
-      });
-    },
-    [],
-  );
+  useEffect(() => {
+    const slug = `check-in-viewed-appointment-list-VAOS-design`;
+    recordEvent({
+      event: createAnalyticsSlug(slug, 'nav'),
+    });
+  }, []);
 
   useEffect(
     () => {
