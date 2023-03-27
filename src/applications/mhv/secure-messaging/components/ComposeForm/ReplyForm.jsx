@@ -289,7 +289,7 @@ const ReplyForm = props => {
             confirmButtonText={navigationError?.confirmButtonText}
             cancelButtonText={navigationError?.cancelButtonText}
           />
-          <EmergencyNote />
+          <EmergencyNote dropDownFlag />
           <div>
             <p>
               <i

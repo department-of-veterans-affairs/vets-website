@@ -126,10 +126,7 @@ const Compose = () => {
               <h1 className="page-title" ref={header}>
                 {pageTitle}
               </h1>
-              <EmergencyNote />
-              <div>
-                <BeforeMessageAddlInfo />
-              </div>
+              <EmergencyNote dropDownFlag />
               <ComposeForm draft={draftMessage} recipients={triageTeams} />
             </>
           )}
