@@ -150,5 +150,6 @@ ThreadListItem.propTypes = {
   sentDate: PropTypes.string,
   subject: PropTypes.string,
   triageGroupName: PropTypes.string,
+  unreadMessages: PropTypes.bool,
   unsentDrafts: PropTypes.bool,
 };
