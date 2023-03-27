@@ -13,7 +13,7 @@ const defaultRecord = [
 ];
 
 const CreditCardBill = props => {
-  const { data, goToPath, goBack, onReviewPage, setFormData } = props;
+  const { data, goToPath, onReviewPage, setFormData } = props;
 
   const { expenses } = data;
   const { creditCardBills = [] } = expenses;
@@ -75,6 +75,11 @@ const CreditCardBill = props => {
     handleChange('amountOverdue', event.target.value);
   };
 
+  const handleBack = event => {
+    event.preventDefault();
+    goToPath('/credit-card-bills-summary');
+  };
+
   const updateFormData = e => {
     setSubmitted(true);
     e.preventDefault();
@@ -102,7 +107,7 @@ const CreditCardBill = props => {
     }
   };
 
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const navButtons = <FormNavButtons goBack={handleBack} submitToContinue />;
   const updateButton = <button type="submit">Review update button</button>;
 
   return (
