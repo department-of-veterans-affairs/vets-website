@@ -61,6 +61,11 @@ const CreateLoginGovAccountModal = ({ visible = false, onClose }) => {
   }
   generateURL();
 
+  function setDismissalCookie() {
+    const date = new Date();
+    localStorage.setItem('dismiss_organic_adoption_modal', `${date}`);
+  }
+
   return (
     <VaModal
       id="loginGovExperimentModal"
@@ -69,6 +74,7 @@ const CreateLoginGovAccountModal = ({ visible = false, onClose }) => {
       visible={visible}
       click-to-close
       onCloseEvent={() => {
+        setDismissalCookie();
         recordEvent({ event: 'organic-experiment-dismiss-modal' });
         onClose();
       }}
@@ -319,10 +325,21 @@ export class Main extends Component {
     }
 
     // only show the modal to users who are part of the organic adoption experiment,
-    // logged in with an outdated credential, and do not have IDME/LoginGov linked credentials
+    // logged in with an outdated credential, do not have IDME/LoginGov linked credentials,
+    // and have not dismissed the modal in the past 24 hours
+    let isOrganicModalDismissed = false;
+    const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
+    const dateDismissed = Date.parse(
+      localStorage.getItem('dismiss_organic_adoption_modal'),
+    );
+    if (dateDismissed > oneDayAgo) {
+      isOrganicModalDismissed = true;
+    }
+
     const shouldShowLoginGovExperiment =
       this.state.isLoginGovExperimentModalVisible &&
       profile.showOrganicAdoptionExperimentModal &&
+      !isOrganicModalDismissed &&
       currentlyLoggedIn;
 
     return (
