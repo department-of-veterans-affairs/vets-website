@@ -48,6 +48,7 @@ import * as otherAssetRecords from './assets/other/records';
 import * as expenses from './expenses/household';
 import * as utilities from './expenses/utilities';
 import * as utilityRecords from './expenses/utilities/records';
+import * as utilityBillPages from './expenses/utilities/utilityBillsEnhanced';
 import * as repayments from './expenses/repayments';
 import * as repaymentRecords from './expenses/repayments/records';
 import * as otherExpenses from './expenses/other';
@@ -69,6 +70,7 @@ import * as resolutionExplainer from './resolution/resolutionExplainer';
 import * as householdExpensesChecklist from './expenses/householdExpensesChecklist';
 import * as householdExpensesInputList from './expenses/householdExpensesValues';
 import * as expensesExplainer from './expenses/expensesExplainer';
+import * as creditCardBills from './expenses/creditCardBills';
 
 export {
   veteranInfo,
@@ -120,6 +122,7 @@ export {
   expenses,
   utilities,
   utilityRecords,
+  utilityBillPages,
   repayments,
   repaymentRecords,
   otherExpenses,
@@ -142,4 +145,5 @@ export {
   householdExpensesInputList,
   expensesExplainer,
   enhancedBankruptcyHistoryRecords,
+  creditCardBills,
 };

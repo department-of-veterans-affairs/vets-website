@@ -54,3 +54,13 @@ export const otherAssetOptions = [
   'Precious metals and coins',
   'Specialty equipment or technology',
 ];
+
+export const MAX_UTILITY_NAME_LENGTH = 32;
+export const utilityBillOptions = [
+  'Electricity',
+  'Gas',
+  'Water',
+  'Trash',
+  'Sewer',
+  'Coal',
+];
