@@ -154,6 +154,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
         )}
         title="Period of Service"
         level={2}
+        asList
       />
 
       <div className="vads-u-margin-top--4">
