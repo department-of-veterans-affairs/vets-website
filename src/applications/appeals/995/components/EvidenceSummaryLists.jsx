@@ -180,10 +180,8 @@ export const PrivateContent = ({
           );
         })}
         <li key="limitation" className={listClassNames}>
-          <div>{limitContent.title}</div>
-          <Header5>
-            {limitContent.review[limitedConsent.length ? 'y' : 'n']}
-          </Header5>
+          <Header5>{limitContent.title}</Header5>
+          <p>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</p>
           {!reviewMode && (
             <div>
               <Link
