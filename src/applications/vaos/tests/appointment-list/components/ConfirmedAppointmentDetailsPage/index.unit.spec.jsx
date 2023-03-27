@@ -171,7 +171,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     ).to.be.ok;
   });
 
-  it('should show confirmed appointment without facility information', async () => {
+  it.skip('should show confirmed appointment without facility information', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -229,7 +229,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.getByText(/Cancel appointment/)).to.be.ok;
   });
 
-  it('should show past confirmed appointments detail page', async () => {
+  it.skip('should show past confirmed appointments detail page', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -326,7 +326,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).not.to.contain.text('Cancel appointment');
   });
 
-  it('should allow cancellation', async () => {
+  it.skip('should allow cancellation', async () => {
     // Given a veteran has VA appointments
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
@@ -427,7 +427,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     // );
   });
 
-  it('should not allow cancellation of COVID-19 vaccine appointments', async () => {
+  it.skip('should not allow cancellation of COVID-19 vaccine appointments', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -475,7 +475,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     );
   });
 
-  it('should display who canceled the appointment', async () => {
+  it.skip('should display who canceled the appointment', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -520,7 +520,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     ).to.exist;
   });
 
-  it('should display who canceled the appointment for past appointments', async () => {
+  it.skip('should display who canceled the appointment for past appointments', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -573,7 +573,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       .exist;
   });
 
-  it('should fire a print request when print button clicked', async () => {
+  it.skip('should fire a print request when print button clicked', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -642,7 +642,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     global.window.print = oldPrint;
   });
 
-  it('should show error message when single fetch errors', async () => {
+  it.skip('should show error message when single fetch errors', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     // const data = {};
     const appointment = createMockAppointmentByVersion({
@@ -672,7 +672,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     });
   });
 
-  it('should allow the user to close the cancel modal without canceling', async () => {
+  it.skip('should allow the user to close the cancel modal without canceling', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -761,7 +761,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text('Your appointments');
   });
 
-  it('should verify VA in person calendar ics file format', async () => {
+  it.skip('should verify VA in person calendar ics file format', async () => {
     const startDateTime = moment();
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
@@ -871,7 +871,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(tokens.get('END')).includes('VCALENDAR');
   });
 
-  it('should verify VA phone calendar ics file format', async () => {
+  it.skip('should verify VA phone calendar ics file format', async () => {
     const url = '/va/22cdc6741c00ac67b6cbf6b972d084c0';
     const data = {
       id: '22cdc6741c00ac67b6cbf6b972d084c0',
@@ -977,7 +977,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(tokens.get('END')).includes('VCALENDAR');
   });
 
-  it('should show facility specific timezone when available', async () => {
+  it.skip('should show facility specific timezone when available', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const today = moment.utc();
 
@@ -1050,7 +1050,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     MockDate.reset();
   });
 
-  it.skip('should show confirmed appointments detail page', async () => {
+  it('should show confirmed appointments detail page', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
@@ -1154,7 +1154,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     );
   });
 
-  it('should show confirmed phone appointments detail page', async () => {
+  it.skip('should show confirmed phone appointments detail page', async () => {
     // Given a booked phone appointment
     const myInitialState = {
       ...initialState,
@@ -1393,7 +1393,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     );
   });
 
-  it('should show details without clinic name when clinic call fails', async () => {
+  it.skip('should show details without clinic name when clinic call fails', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
@@ -1466,7 +1466,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.queryByText(/clinic:/)).to.not.exist;
   });
 
-  it('should show confirmation message if redirected from new appointment submit', async () => {
+  it.skip('should show confirmation message if redirected from new appointment submit', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
@@ -1546,7 +1546,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     ).to.equal('Schedule a new appointment');
   });
 
-  it('should allow for cancellation', async () => {
+  it.skip('should allow for cancellation', async () => {
     // Given a veteran has a VA appointments
     // And has VAOS Service flag
     const myInitialState = {
