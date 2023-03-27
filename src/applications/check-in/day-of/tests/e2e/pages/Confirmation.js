@@ -10,7 +10,7 @@ class Confirmation {
   validateBtsssIssue = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('include.text', 'But we couldn\'t file your travel claim.');
+      .and('include.text', "But we couldn't file your travel claim.");
   };
 
   validatePageLoadedWithNoBtsssClaim = () => {

@@ -117,10 +117,7 @@ const CheckInConfirmation = props => {
 
   const renderConfirmationMessage = () => {
     return (
-      <Wrapper
-        pageTitle={pageTitle}
-        testID="multiple-appointments-confirm"
-      >
+      <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
         <p className="vads-u-font-family--serif">{t('your-appointment')}</p>
         <ol
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
