@@ -19,6 +19,7 @@ describe('Device disconnection card', () => {
     screen = render(<DeviceDisconnectionCard device={device} />);
     disconnectBtn = screen.getByRole('button', {
       name: 'Disconnect Test Vendor',
+      key: 'test-vendor',
     });
   });
 
@@ -38,6 +39,11 @@ describe('Device disconnection card', () => {
       disconnectBtn.focus();
       fireEvent.keyDown(disconnectBtn, { keyCode: tabKeyCode });
       expect(getDisconnectModal(screen)).to.not.exist;
+    });
+    it('Renders vendor terms and conditions', () => {
+      expect(screen.getByTestId('test-vendor-terms-and-conditions')).to.exist;
+      expect(screen.getByTestId('test-vendor-terms-and-conditions-content')).to
+        .exist;
     });
   });
 
