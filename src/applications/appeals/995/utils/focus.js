@@ -2,6 +2,7 @@ import {
   focusElement,
   scrollTo,
   scrollToTop,
+  scrollToFirstError,
   defaultFocusSelector,
   waitForRenderThenFocus,
 } from 'platform/utilities/ui';
@@ -46,6 +47,19 @@ export const focusAlertH3 = () => {
   // va-alert header is not in the shadow DOM, but still the content doesn't
   // immediately render
   waitForRenderThenFocus('h3');
+};
+
+export const focusEvidence = (_index, root) => {
+  setTimeout(() => {
+    const error = $('[error]', root);
+    if (error) {
+      scrollToFirstError();
+      focusElement(error);
+    } else {
+      scrollTo('topPageElement');
+      focusElement('#main h3', null, root);
+    }
+  });
 };
 
 export const focusUploads = (_index, root) => {
