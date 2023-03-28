@@ -54,7 +54,6 @@
     "security-check": "yarn vagov-dependency-check",
     "test": "npm run test:unit",
     "test:coverage": "npm run test:unit -- --coverage --log-level debug",
-    "test:coverage-html": "node ./script/run-unit-test-coverage-html.js",
     "test:coverage-apps": "npm run test:coverage && node script/app-coverage-report.js",
     "test:coverage-only": "NODE_ENV=test nyc report --all --reporter=json-summary",
     "test:unit": "node ./script/run-unit-test.js",
