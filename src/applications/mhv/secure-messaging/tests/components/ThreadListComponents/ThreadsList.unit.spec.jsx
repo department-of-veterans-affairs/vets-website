@@ -53,6 +53,6 @@ describe('Thread List component', () => {
     screen = setup();
 
     const renderedThreads = await screen.getAllByTestId('thread-list-item');
-    expect(renderedThreads.length).to.equal(13);
+    expect(renderedThreads.length).to.equal(listOfThreads.length);
   });
 });
