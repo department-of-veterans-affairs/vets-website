@@ -1,10 +1,23 @@
-import React from 'react';
-
+import React, { useEffect, useState } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import * as authUtilities from 'platform/user/authentication/utilities';
+import { getQueryParams } from '../utilities';
 import recordEvent from '../../../monitoring/record-event';
+import { externalApplicationsConfig } from '../usip-config';
 
 const OrganicAdoptionExperimentModal = ({ visible = false, onClose }) => {
+  const [useOAuth, setOAuth] = useState();
+  const { OAuth } = getQueryParams();
+  const { OAuthEnabled } = externalApplicationsConfig.default;
+
+  useEffect(
+    () => {
+      setOAuth(OAuthEnabled && OAuth === 'true');
+    },
+    [OAuth, OAuthEnabled],
+  );
+
   let logingovSingUpLink;
   // uses logic from CreateAccountLink component
   async function generateURL() {
@@ -12,7 +25,7 @@ const OrganicAdoptionExperimentModal = ({ visible = false, onClose }) => {
       policy: 'logingov',
       isLink: true,
       allowVerification: false,
-      useOAuth: true,
+      useOAuth,
     });
     logingovSingUpLink = url;
   }
@@ -36,6 +49,7 @@ const OrganicAdoptionExperimentModal = ({ visible = false, onClose }) => {
         onClose();
       }}
       onPrimaryButtonClick={() => {
+        setDismissalCookie();
         recordEvent({
           event: 'cta-button-click',
           'button-type': 'primary-button',
