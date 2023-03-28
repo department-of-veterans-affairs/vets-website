@@ -13,7 +13,7 @@ import { eighteenOrOver } from '../helpers';
 
 const isNotProd = !environment.isProduction();
 
-const conditionalFields = isNotProd ? ['view:minorQuestions'] : [];
+const conditionalFields = isNotProd ? ['minorQuestions'] : [];
 
 const defaults = () => ({
   fields: conditionalFields,
@@ -46,7 +46,7 @@ export default function GuardianInformation(schema, options) {
 
   const possibleProperties = {
     ...schema.properties,
-    'view:minorQuestions': {
+    minorQuestions: {
       type: 'object',
       properties: {
         guardianFirstName: {
@@ -88,7 +88,7 @@ export default function GuardianInformation(schema, options) {
     uiSchema: {
       'ui:order': fields,
       'ui:description': guardianDescription,
-      'view:minorQuestions': {
+      minorQuestions: {
         'ui:validations': [
           validateMatch('email', 'view:confirmEmail', { ignoreCase: true }),
         ],

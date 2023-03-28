@@ -20,7 +20,7 @@ const conditionalFields = prefix => {
         `${prefix}SocialSecurityNumber`,
         `${prefix}DateOfBirth`,
         'view:ageWarningNotification',
-        'view:minorHighSchoolQuestions',
+        'minorHighSchoolQuestions',
         'gender',
         'relationship',
       ]
@@ -65,7 +65,7 @@ export default function applicantInformationUpdate(schema, options) {
       type: 'object',
       properties: {},
     },
-    'view:minorHighSchoolQuestions': {
+    minorHighSchoolQuestions: {
       type: 'object',
       properties: {
         minorHighSchoolQuestion: {
@@ -107,7 +107,7 @@ export default function applicantInformationUpdate(schema, options) {
           },
         },
       },
-      'view:minorHighSchoolQuestions': {
+      minorHighSchoolQuestions: {
         'ui:options': {
           expandUnder: 'view:ageWarningNotification',
           hideIf: formData => {
@@ -141,8 +141,7 @@ export default function applicantInformationUpdate(schema, options) {
             let isRequired = false;
             if (!eighteenOrOver(formData.relativeDateOfBirth)) {
               const yesNoResults =
-                formData['view:minorHighSchoolQuestions']
-                  .minorHighSchoolQuestion;
+                formData.minorHighSchoolQuestions.minorHighSchoolQuestion;
               if (yesNoResults) {
                 isRequired = true;
               }
