@@ -13,6 +13,15 @@ The React/Redux frontend for the VA.gov MyVA.
 
 # Purpose and overview
 
+The authenticated experience team wants to work towards a concierge-like VA experience, one that puts veterans' and other customers at the center of the interaction. 
+
+My VA aims to meet this expectation by providing Veterans with a direct route to their most critical tasks and updates.
+
+Sources: 
+- [Authenticated Experience team charter](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/authenticated-experience/charter.md)
+- [Product outline: My VA](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/identity-personalization/my-va/README.md)
+
+
 # Developing locally
 
 1. Make sure you have the `vets-website` repo cloned and installed. I prefer `yarn`, but you can also use `npm`.
@@ -49,3 +58,6 @@ Visit [https://localhost:3001/my-va](https://localhost:3001/my-va).
 # Troubleshooting
 
 # Resources
+
+- [Authenticated Experience team charter](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/authenticated-experience/charter.md)
+- [Product outline: My VA](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/identity-personalization/my-va/README.md)
