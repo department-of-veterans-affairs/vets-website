@@ -47,7 +47,8 @@ import documentUpload from './chapters/militaryService/documentUpload';
 // chapter 3 VA Benefits
 import basicInformation from './chapters/vaBenefits/basicInformation';
 import pensionInformation from './chapters/vaBenefits/pensionInformation';
-import DisabilityConfirmation from '../components/FormPages/DisabilityConfirmation';
+import DisabilityConfirmationPage from '../components/FormPages/DisabilityConfirmation';
+import CompensationTypeReviewPage from '../components/FormReview/CompensationTypeReviewPage';
 
 // chapter 4 Household Information - for v1 only -- remove when v2 is fully-adopted
 import v1FinancialDisclosure from './chapters/householdInformation/financialDisclosure';
@@ -79,10 +80,9 @@ import v2DependentsReviewPage from '../components/FormReview/DependentsReviewPag
 import medicaid from './chapters/insuranceInformation/medicaid';
 import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
+import general from './chapters/insuranceInformation/general';
 import vaFacilityJsonPage from './chapters/insuranceInformation/vaFacility_json';
 import vaFacilityApiPage from './chapters/insuranceInformation/vaFacility_api';
-import general from './chapters/insuranceInformation/general';
-import CompensationTypeReviewPage from '../components/FormReview/CompensationTypeReviewPage';
 
 // declare shared paths for custom form page navigation
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
@@ -282,7 +282,7 @@ const formConfig = {
           title: 'Disability confirmation',
           initialData: {},
           depends: formData => formData.vaCompensationType === 'highDisability',
-          CustomPage: DisabilityConfirmation,
+          CustomPage: DisabilityConfirmationPage,
           CustomPageReview: null,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
