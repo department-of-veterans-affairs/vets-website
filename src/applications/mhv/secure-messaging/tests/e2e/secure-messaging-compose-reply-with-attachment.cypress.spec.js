@@ -28,7 +28,7 @@ describe('Compose message With Attacments and Errors', () => {
     composePage.attachMessageFromFile('test_ext.TXT');
 
     // TO DO: remove attachment
-    // composePage.removeAttachMessageFromFile();
+    composePage.removeAttachMessageFromFile();
 
     composePage.attachMessageFromFile('sample_pdf.pdf');
     composePage.attachMessageFromFile('sample_pdf.pdf');
