@@ -192,9 +192,12 @@ export const retrieveMessageThread = (
         response.data[0].attributes.triageGroupName;
 
       const threadFolderId =
-        response.data.find(
-          m => m.attributes.triageGroupName !== m.attributes.recipientName,
-        )?.attributes.folderId || response.data[0].attributes.folderId;
+        response.data
+          .find(
+            m => m.attributes.triageGroupName !== m.attributes.recipientName,
+          )
+          ?.attributes.folderId.toString() ||
+        response.data[0].attributes.folderId;
 
       if (sentDate) {
         dispatch(oldMessageAlert(sentDate, isDraft));
