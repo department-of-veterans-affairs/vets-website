@@ -22,20 +22,24 @@ describe('FAQSections component', () => {
 
     it('renders the first item', () => {
       const faq = screen.getByTestId('faq-first-section-first-question');
-      expect(faq.getAttribute('header')).to.eq(
-        'Why are we doing this pilot with Fitbit?',
-      );
+      expect(faq.getAttribute('header')).to.eq('Why are we doing this pilot?');
     });
 
     it('renders the second item', () => {
       const faq = screen.getByTestId('faq-first-section-second-question');
       expect(faq.getAttribute('header')).to.eq(
-        'Do I have to participate in this pilot?',
+        'What can I expect if I participate in this pilot?',
       );
     });
 
     it('renders the third item', () => {
       const faq = screen.getByTestId('faq-first-section-third-question');
+      expect(faq.getAttribute('header')).to.eq(
+        'Do I have to participate in this pilot?',
+      );
+    });
+    it('renders the fourth item', () => {
+      const faq = screen.getByTestId('faq-first-section-fourth-question');
       expect(faq.getAttribute('header')).to.eq(
         'What is a connected device and why might I use one?',
       );
@@ -88,7 +92,7 @@ describe('FAQSections component', () => {
     it('renders the sixth item', () => {
       const faq = screen.getByTestId('faq-second-section-sixth-question');
       expect(faq.getAttribute('header')).to.eq(
-        'Does VA keep my data after I disconnect a device?',
+        'What will happen if I decide to disconnect my device?',
       );
     });
   });
@@ -112,7 +116,7 @@ describe('FAQSections component', () => {
     it('renders the second item', () => {
       const faq = screen.getByTestId('faq-third-section-second-question');
       expect(faq.getAttribute('header')).to.eq(
-        'I can’t login or need help with my VA account',
+        'I can’t log in or need help with my VA account',
       );
     });
   });
