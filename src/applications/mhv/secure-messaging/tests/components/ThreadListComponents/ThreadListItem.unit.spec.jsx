@@ -62,6 +62,7 @@ describe('Thread List component', () => {
       unsentDrafts,
       unreadMessages,
     };
+
     return renderWithStoreAndRouter(
       <ThreadListItem
         keyword={keyword}
@@ -75,22 +76,32 @@ describe('Thread List component', () => {
       },
     );
   };
+
   it('renders without errors', () => {
     screen = setup(options);
     expect(screen);
   });
+
+  it('subject value is rendered', async () => {
+    screen = setup(options);
+    const subject = await screen.getByText('test subject', { exact: false });
+    expect(subject).to.exist;
+  });
+
   it('renders draft text if unsentDraft is true', async () => {
     screen = setup({ ...options, unsentDrafts: true });
 
     const threadItem = await screen.getByText('(Drafts)');
     expect(threadItem).to.exist;
   });
+
   it('does not render "Draft" text if unsentDraft is false', async () => {
     screen = setup({ ...options, unsentDrafts: false });
 
     const threadItemDraftsText = await screen.queryByText('(Drafts)');
     expect(threadItemDraftsText).to.not.exist;
   });
+
   it('sentDate is formatted correctly', async () => {
     screen = setup(options);
 
@@ -103,6 +114,7 @@ describe('Thread List component', () => {
     expect(threadItemFormattedDate).to.exist;
     expect(threadItemUnformattedDate).to.not.exist;
   });
+
   it('message icon is shown when there is an unread message in thread', async () => {
     screen = setup(options);
 
@@ -111,6 +123,7 @@ describe('Thread List component', () => {
     );
     expect(threadListUnreadIcon).to.exist;
   });
+
   it('message icon is not shown when there are no unread messages in thread', async () => {
     screen = setup({ ...options, unreadMessages: false });
 
@@ -119,6 +132,7 @@ describe('Thread List component', () => {
     );
     expect(threadListUnreadIcon).to.not.exist;
   });
+
   it('when on sent messages, dont show sender name only recepient name', async () => {
     screen = setup({ ...options, path: '/sent' });
 
