@@ -11,6 +11,7 @@ import SessionTimeoutModal from 'platform/user/authentication/components/Session
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import AccountTransitionModal from 'platform/user/authentication/components/account-transition/TransitionModal';
 import AccountTransitionSuccessModal from 'platform/user/authentication/components/account-transition/TransitionSuccessModal';
+import OrganicAdoptionExperimentModal from 'platform/user/authentication/components/OrganicAdoptionExperimentModal';
 import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
 import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
 import { hasSession } from 'platform/user/profile/utilities';
@@ -39,96 +40,9 @@ import {
 } from 'platform/site-wide/user-nav/actions';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
 import { ACCOUNT_TRANSITION_DISMISSED } from 'platform/user/authentication/constants';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import * as authUtilities from 'platform/user/authentication/utilities';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import AutoSSO from './AutoSSO';
 import { selectUserGreeting } from '../selectors';
-import recordEvent from '../../../monitoring/record-event';
-
-// remove this when organic experiment finishes
-const CreateLoginGovAccountModal = ({ visible = false, onClose }) => {
-  let logingovSingUpLink;
-  // uses logic from CreateAccountLink component
-  async function generateURL() {
-    const url = await authUtilities.signupOrVerify({
-      policy: 'logingov',
-      isLink: true,
-      allowVerification: false,
-      useOAuth: true,
-    });
-    logingovSingUpLink = url;
-  }
-  generateURL();
-
-  function setDismissalCookie() {
-    const date = new Date();
-    localStorage.setItem('dismiss_organic_adoption_modal', `${date}`);
-  }
-
-  return (
-    <VaModal
-      id="loginGovExperimentModal"
-      modalTitle="Use one account and password for secure, private access to government agencies"
-      large
-      visible={visible}
-      click-to-close
-      onCloseEvent={() => {
-        setDismissalCookie();
-        recordEvent({ event: 'organic-experiment-dismiss-modal' });
-        onClose();
-      }}
-      onPrimaryButtonClick={() => {
-        recordEvent({
-          event: 'cta-button-click',
-          'button-type': 'primary-button',
-          'button-click-label': '(organic experiment) Get Login.gov now',
-        });
-        location.href = logingovSingUpLink;
-      }}
-      onSecondaryButtonClick={() => {
-        recordEvent({
-          event: 'cta-button-click',
-          'button-type': 'secondary-button',
-          'button-click-label': '(organic experiment) Learn more',
-        });
-        location.href =
-          'https://www.va.gov/resources/signing-in-to-vagov/#should-i-create-a-logingov-or-';
-      }}
-      primaryButtonText="Get Login.gov now"
-      secondaryButtonText="Learn more"
-      data-testid="copy-address-success"
-    >
-      <div className="modal-content" data-testid="modal-content">
-        <p>
-          As part of VA’s continued effort to make it easier and safer for you
-          to access and manage the benefits you’ve earned, we recommend
-          Login.gov as the best option for Veterans to use when signing into VA
-          digital tools and products online.
-        </p>
-        <p>
-          Login.gov is an easy-to-use, secure sign in service used by the public
-          to sign in to participating government websites. It is built on the
-          most modern security standards to protect your data and you can use
-          the same username and password to sign in to any website that partners
-          with Login.gov. Partners include—USAJOBS, TSA pre-check, Small
-          Business Administration, and more.
-        </p>
-        <p>
-          <b>Estimated time to complete:</b> 20 mins
-        </p>
-        <p>
-          <b>What you will need:</b>
-        </p>
-        <ul>
-          <li>State issued I.D.</li>
-          <li>Social Security Number</li>
-          <li>A phone number where you can be reached</li>
-        </ul>
-      </div>
-    </VaModal>
-  );
-};
 
 export class Main extends Component {
   constructor(props) {
@@ -344,7 +258,7 @@ export class Main extends Component {
 
     return (
       <div className="profile-nav-container">
-        <CreateLoginGovAccountModal
+        <OrganicAdoptionExperimentModal
           visible={shouldShowLoginGovExperiment}
           onClose={this.closeLoginGovExperimentModal}
         />
