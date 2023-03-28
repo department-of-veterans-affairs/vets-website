@@ -498,14 +498,15 @@ export function getStatusContents(appeal, name = {}) {
       );
       break;
     case STATUS_TYPES.hlrReceived:
-      contents.title = 'A senior reviewer is taking a new look at your case';
+      contents.title =
+        'A higher-level reviewer is taking a new look at your case';
       contents.description = (
         <div>
           <p>
-            By requesting a Higher-Level Review, you asked for a senior reviewer
-            at the {aojDescription} to look at your case and determine whether
-            they can change the decision based on a difference of opinion or
-            because VA made an error.
+            By requesting a Higher-Level Review, you asked for a higher-level at
+            the {aojDescription} to look at your case and determine whether they
+            can change the decision based on a difference of opinion or because
+            VA made an error.
           </p>
           {details.informalConference && (
             <p>
@@ -551,9 +552,10 @@ export function getStatusContents(appeal, name = {}) {
       contents.title = `The ${aojDescription} is correcting an error`;
       contents.description = (
         <p>
-          During their review, the senior reviewer identified an error that must
-          be corrected before deciding your case. If needed, VA may contact you
-          to ask for more evidence or to schedule a new medical exam.
+          During their review, the higher-level reviewer identified an error
+          that must be corrected before deciding your case. If needed, VA may
+          contact you to ask for more evidence or to schedule a new medical
+          exam.
         </p>
       );
       break;
