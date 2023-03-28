@@ -106,14 +106,24 @@ const ThreadDetails = props => {
     }
     if (isReply) {
       return (
-        <div className="compose-container">
-          <ReplyForm
-            draftToEdit={draftMessage}
-            replyMessage={draftMessageHistory[0]}
-            cannotReplyAlert={cannotReplyAlert}
-          />
-          <MessageThread messageHistory={draftMessageHistory.slice(1)} />
-        </div>
+        <>
+          {!acknowledged ? (
+            <InterstitialPage
+              acknowledge={() => {
+                setAcknowledged(true);
+              }}
+            />
+          ) : (
+            <div className="compose-container">
+              <ReplyForm
+                draftToEdit={draftMessage}
+                replyMessage={draftMessageHistory[0]}
+                cannotReplyAlert={cannotReplyAlert}
+              />
+              <MessageThread messageHistory={draftMessageHistory.slice(1)} />
+            </div>
+          )}
+        </>
       );
     }
     if (isDraft) {
