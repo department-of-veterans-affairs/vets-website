@@ -11,6 +11,7 @@ const attachmentClasses =
 
 const ThreadListItem = props => {
   const location = useLocation();
+  const { keyword, activeFolder } = props;
   const {
     senderName,
     sentDate,
@@ -19,22 +20,20 @@ const ThreadListItem = props => {
     recipientName,
     attachment,
     messageId,
-    keyword,
     category,
-    activeFolder,
     triageGroupName,
     messageCount,
     unreadMessages,
     unsentDrafts,
-  } = props;
+  } = props.thread;
 
   const getClassNames = () => {
     // messages in draft folder have inconsistent readReceipt values
     // we need to mark all messages in draft folder as read
     return activeFolder.folderId === DefaultFolders.DRAFTS.id ||
       unreadMessages === true
-      ? readMessageClassList
-      : unreadMessageClassList;
+      ? unreadMessageClassList
+      : readMessageClassList;
   };
 
   const formattedDate = () => {
@@ -138,18 +137,6 @@ export default ThreadListItem;
 
 ThreadListItem.propTypes = {
   activeFolder: PropTypes.object,
-  attachment: PropTypes.any,
-  attributes: PropTypes.object,
-  category: PropTypes.string,
-  draftDate: PropTypes.string,
   keyword: PropTypes.any,
-  messageCount: PropTypes.number,
-  messageId: PropTypes.number,
-  recipientName: PropTypes.string,
-  senderName: PropTypes.string,
-  sentDate: PropTypes.string,
-  subject: PropTypes.string,
-  triageGroupName: PropTypes.string,
-  unreadMessages: PropTypes.bool,
-  unsentDrafts: PropTypes.bool,
+  thread: PropTypes.object,
 };

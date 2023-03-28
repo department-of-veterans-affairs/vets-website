@@ -38,6 +38,7 @@ const ThreadsList = props => {
     handleThreadApiCall,
     threadsPerPage,
   } = props;
+
   const totalEntries = threadList?.length;
   const totalThreads = threadList[0].threadPageSize;
   // get display numbers
@@ -170,21 +171,9 @@ const ThreadsList = props => {
         threadList.map((thread, idx) => (
           <ThreadListItem
             key={`${thread.messageId}+${idx}`}
-            messageId={thread.messageId}
-            senderName={thread.senderName}
-            draftDate={thread.draftDate}
-            sentDate={thread.sentDate}
-            subject={thread.subject}
-            readReceipt={thread.readReceipt}
-            attachment={thread.attachment}
-            recipientName={thread.recipientName}
             keyword={keyword}
-            category={thread.category}
             activeFolder={folder}
-            triageGroupName={thread.triageGroupName}
-            unreadMessages={thread.unreadMessages}
-            messageCount={thread.messageCount}
-            unsentDrafts={thread.unsentDrafts}
+            thread={thread}
           />
         ))}
       {/* {totalThreads > 1 && (
