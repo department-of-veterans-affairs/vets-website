@@ -110,25 +110,23 @@ const Compose = () => {
   }
 
   const content = () => {
+    if (!acknowledged) {
+      return (
+        <InterstitialPage
+          acknowledge={() => {
+            setAcknowledged(true);
+          }}
+        />
+      );
+    }
     if (!isDraftPage && triageTeams) {
       return (
         <>
-          {!acknowledged ? (
-            <InterstitialPage
-              acknowledge={() => {
-                setAcknowledged(true);
-              }}
-            />
-          ) : (
-            <>
-              {' '}
-              <h1 className="page-title" ref={header}>
-                {pageTitle}
-              </h1>
-              <EmergencyNote dropDownFlag />
-              <ComposeForm draft={draftMessage} recipients={triageTeams} />
-            </>
-          )}
+          <h1 className="page-title" ref={header}>
+            {pageTitle}
+          </h1>
+          <EmergencyNote dropDownFlag />
+          <ComposeForm draft={draftMessage} recipients={triageTeams} />
         </>
       );
     }

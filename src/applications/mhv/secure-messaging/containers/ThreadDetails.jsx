@@ -13,6 +13,7 @@ import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { getTriageTeams } from '../actions/triageTeams';
 import { clearDraft } from '../actions/draftDetails';
+import InterstitialPage from './InterstitialPage';
 
 const ThreadDetails = props => {
   const { threadId } = useParams();
@@ -32,6 +33,7 @@ const ThreadDetails = props => {
   const [isDraft, setIsDraft] = useState(false);
   const [isReply, setIsReply] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
+  const [acknowledged, setAcknowledged] = useState(false);
   const header = useRef();
 
   useEffect(
@@ -90,6 +92,15 @@ const ThreadDetails = props => {
         <va-loading-indicator
           message="Loading your secure message..."
           setFocus
+        />
+      );
+    }
+    if (!acknowledged && (isReply || isDraft)) {
+      return (
+        <InterstitialPage
+          acknowledge={() => {
+            setAcknowledged(true);
+          }}
         />
       );
     }
