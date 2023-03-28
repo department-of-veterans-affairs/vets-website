@@ -838,8 +838,9 @@ h1:focus {
   margin-top: 3px;
 }
 
-.claim-timeline-icon.fa {
+button .claim-timeline-icon.fa {
   font-size: 17px;
+  padding-right: 0;
 }
 
 .claims-evidence-list {
