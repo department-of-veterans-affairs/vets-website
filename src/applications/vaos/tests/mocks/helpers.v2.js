@@ -75,7 +75,7 @@ export function mockSingleVAOSAppointmentFetch({ appointment, error = null }) {
  * @param {Array<string>} statuses An array of appointment statuses
  * @param {Array<VAOSRequest>} params.request Request to be returned from the mock
  * @param {boolean} [params.error=null] Whether or not to return an error from the mock
- * }
+ * @param {boolean} [params.backendServiceFailures=null] Whether or not to return a backend service error with the mock
  */
 export function mockVAOSAppointmentsFetch({
   start,
