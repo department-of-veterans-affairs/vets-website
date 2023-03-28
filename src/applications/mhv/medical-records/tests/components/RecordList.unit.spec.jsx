@@ -19,7 +19,7 @@ describe('Record list component', () => {
   let screen = null;
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
-      <RecordList records={vaccines} type="vaccines" />,
+      <RecordList records={vaccines} type="vaccine" />,
       {
         initialState,
         reducers: reducer,

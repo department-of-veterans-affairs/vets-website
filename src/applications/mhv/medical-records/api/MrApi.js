@@ -29,12 +29,3 @@ export const mockGetVitalsList = () => {
     }, 1500);
   });
 };
-
-export const mockGetVital = id => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      const vital = vitals.find(vit => +vit.id === +id);
-      resolve(vital);
-    }, 1500);
-  });
-};
