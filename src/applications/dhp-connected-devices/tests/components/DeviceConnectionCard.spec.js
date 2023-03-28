@@ -8,22 +8,29 @@ describe('Device connection card', () => {
   it('Renders vendors name', () => {
     const card = renderInReduxProvider(
       <DeviceConnectionCard
-        device={{ name: 'Test Vendor' }}
+        device={{ name: 'Fitbit', key: 'fitbit' }}
         authUrl="www.google.com"
       />,
     );
-
-    expect(card.getByText(/Test Vendor/)).to.exist;
+    expect(card.getByTestId('fitbit-name-header')).to.exist;
+  });
+  it('Renders vendor terms and conditions', () => {
+    const card = renderInReduxProvider(
+      <DeviceConnectionCard
+        device={{ name: 'Fitbit', key: 'fitbit' }}
+        authUrl="www.google.com"
+      />,
+    );
+    expect(card.getByTestId('fitbit-terms-and-conditions')).to.exist;
+    expect(card.getByTestId('fitbit-terms-and-conditions-content')).to.exist;
   });
   it('Has aria label for screen reader users', () => {
     const card = mount(
-      <DeviceConnectionCard
-        device={{ key: 'test-vendor', name: 'Test Vendor' }}
-      />,
+      <DeviceConnectionCard device={{ key: 'fitbit', name: 'Fitbit' }} />,
     );
     expect(
-      card.find('[data-testid="test-vendor-connect-link"]').prop('aria-label'),
-    ).to.equal('Connect Test Vendor');
+      card.find('[data-testid="fitbit-connect-link"]').prop('aria-label'),
+    ).to.equal('Connect Fitbit');
     card.unmount();
   });
 });
