@@ -97,6 +97,10 @@ const BenefitPaymentsAndDebtV2 = ({
     );
   }
 
+  const hasNoOutstandingDebts = () => {
+    return !hasDebtError && !hasCopayError && debtsCount < 1 && copaysCount < 1;
+  };
+
   return (
     <div
       className="health-care-wrapper vads-u-margin-top--6 vads-u-margin-bottom-3"
@@ -117,16 +121,13 @@ const BenefitPaymentsAndDebtV2 = ({
                 </DashboardWidgetWrapper>
               </>
             )}
-            {!hasDebtError &&
-              !hasCopayError &&
-              debtsCount < 1 &&
-              copaysCount < 1 && (
-                <>
-                  <DashboardWidgetWrapper>
-                    <NoOutstandingDebtsText />
-                  </DashboardWidgetWrapper>
-                </>
-              )}
+            {hasNoOutstandingDebts() && (
+              <>
+                <DashboardWidgetWrapper>
+                  <NoOutstandingDebtsText />
+                </DashboardWidgetWrapper>
+              </>
+            )}
             {debtsCount > 0 && (
               <DashboardWidgetWrapper>
                 <DebtsCardV2 debts={debts} />
