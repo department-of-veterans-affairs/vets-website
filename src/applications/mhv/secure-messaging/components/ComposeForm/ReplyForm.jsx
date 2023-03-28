@@ -90,7 +90,10 @@ const ReplyForm = props => {
           dispatch(sendReply(replyMessage.messageId, sendData, true)).then(
             () => {
               // history.push(`/thread/${replyMessage.messageId}`);
-              navigateToFolderByFolderId(replyMessage.threadFolderId, history);
+              navigateToFolderByFolderId(
+                draftToEdit.threadFolderId || replyMessage.folderId,
+                history,
+              );
             },
           );
         } else {
@@ -102,7 +105,10 @@ const ReplyForm = props => {
             ),
           ).then(() => {
             // history.push(`/thread/${replyMessage.messageId}`);
-            navigateToFolderByFolderId(replyMessage.threadFolderId, history);
+            navigateToFolderByFolderId(
+              draftToEdit.threadFolderId || replyMessage.folderId,
+              history,
+            );
           });
         }
       }
