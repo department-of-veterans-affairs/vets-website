@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import MockFoldersResponse from './fixtures/folder-response.json';
 import mockMessages from './fixtures/messages-response.json';
+import mockRecipients from './fixtures/recipients-response.json';
 import MockCustomFolderResponse from './fixtures/folder-custom-metadata.json';
 import FolderManagementPage from './pages/FolderManagementPage';
 
@@ -15,7 +16,12 @@ describe('Secure Messaging Manage Folder Errors check', () => {
   });
   it('Axe Check Get Folders Error', () => {
     const testMessage = landingPage.getNewMessageDetails();
-    landingPage.loadInboxMessages(mockMessages, testMessage, 400);
+    landingPage.loadInboxMessages(
+      mockMessages,
+      testMessage,
+      mockRecipients,
+      400,
+    );
     cy.get('[data-testid="my-folders-sidebar"]').click();
     cy.injectAxe();
     cy.axeCheck();
