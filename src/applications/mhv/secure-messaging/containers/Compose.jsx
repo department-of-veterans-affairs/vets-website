@@ -9,7 +9,6 @@ import ComposeForm from '../components/ComposeForm/ComposeForm';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import EmergencyNote from '../components/EmergencyNote';
-import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import AlertBox from '../components/shared/AlertBox';
 import InterstitialPage from './InterstitialPage';
 import { addAlert, closeAlert } from '../actions/alerts';
@@ -24,7 +23,6 @@ const Compose = () => {
   const messageHistory = useSelector(
     state => state.sm.draftDetails.draftMessageHistory,
   );
-  const [cannotReplyAlert, setcannotReplyAlert] = useState(false);
   const [replyMessage, setReplyMessage] = useState(undefined);
   const [acknowledged, setAcknowledged] = useState(false);
   const location = useLocation();
@@ -95,7 +93,6 @@ const Compose = () => {
             Constants.Links.Link.CANNOT_REPLY.TITLE,
           ),
         );
-        setcannotReplyAlert(true);
       }
     },
     [replyMessage],
@@ -110,15 +107,6 @@ const Compose = () => {
   }
 
   const content = () => {
-    if (!acknowledged) {
-      return (
-        <InterstitialPage
-          acknowledge={() => {
-            setAcknowledged(true);
-          }}
-        />
-      );
-    }
     if (!isDraftPage && triageTeams) {
       return (
         <>
@@ -170,7 +158,7 @@ const Compose = () => {
               <ReplyForm
                 draftToEdit={draftMessage}
                 replyMessage={replyMessage}
-                cannotReplyAlert={cannotReplyAlert}
+                cannotReplyAlert={isOlderThan(replyMessage.sentDate, 45)}
               />
               {replyMessage &&
                 messageHistory?.length > 1 && (
@@ -185,11 +173,21 @@ const Compose = () => {
   };
 
   return (
-    <div className="vads-l-grid-container compose-container">
-      {cannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
+    <>
+      {!acknowledged ? (
+        <InterstitialPage
+          acknowledge={() => {
+            setAcknowledged(true);
+          }}
+        />
+      ) : (
+        <div className="vads-l-grid-container compose-container">
+          <AlertBox />
 
-      {content()}
-    </div>
+          {content()}
+        </div>
+      )}
+    </>
   );
 };
 

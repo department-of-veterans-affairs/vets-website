@@ -1,11 +1,12 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
+import { waitFor, fireEvent } from '@testing-library/react';
 import moment from 'moment/moment';
 import triageTeams from '../fixtures/recipients.json';
 import categories from '../fixtures/categories-response.json';
 import draftMessage from '../fixtures/message-draft-response.json';
+import { draftDetails } from '../fixtures/threads/reply-draft-thread-reducer.json';
 import { draftMessageHistory } from '../fixtures/draft-message-history-mock-reducer.json';
 import folders from '../fixtures/folder-inbox-response.json';
 import reducer from '../../reducers';
@@ -18,6 +19,16 @@ describe('Compose container', () => {
       triageTeams: { triageTeams },
       categories: { categories },
     },
+  };
+
+  const setup = (state = initialState, path = '/compose') => {
+    const screen = renderWithStoreAndRouter(<Compose />, {
+      initialState: state,
+      reducers: reducer,
+      path,
+    });
+    fireEvent.click(screen.getByText('Continue to start message'));
+    return screen;
   };
 
   it('renders without errors', () => {
@@ -58,14 +69,10 @@ describe('Compose container', () => {
   });
 
   it('dispays loading indicator if recipients are not yet loaded', async () => {
-    const screen = renderWithStoreAndRouter(<Compose />, {
-      initialState: {
-        sm: {
-          triageTeams: { triageTeams: undefined },
-        },
+    const screen = setup({
+      sm: {
+        triageTeams: { triageTeams: undefined },
       },
-      reducers: reducer,
-      path: `/compose`,
     });
 
     const loadingIndicator = await screen.getByTestId('loading-indicator');
@@ -94,11 +101,8 @@ describe('Compose container', () => {
         categories: { categories },
       },
     };
-    const screen = renderWithStoreAndRouter(<Compose />, {
-      initialState: state,
-      reducers: reducer,
-      path: `/compose`,
-    });
+
+    const screen = setup(state);
 
     const recipient = await screen.getByTestId('compose-recipient-select');
     const categoryRadioButtons = await screen.getAllByTestId(
@@ -172,11 +176,7 @@ describe('Compose container', () => {
   });
 
   it('does not display recipients with preferredTeam:false attribute', () => {
-    const screen = renderWithStoreAndRouter(<Compose />, {
-      initialState,
-      reducers: reducer,
-      path: `/compose`,
-    });
+    const screen = setup();
 
     const recipient = screen.getByTestId('compose-recipient-select');
 
@@ -210,11 +210,8 @@ describe('Compose container', () => {
         },
       },
     };
-    const screen = renderWithStoreAndRouter(<Compose />, {
-      initialState: state,
-      reducers: reducer,
-      path: `/draft/7171715`,
-    });
+
+    const screen = setup(state, `/draft/7171715`);
 
     await waitFor(() => {
       expect(
@@ -263,41 +260,75 @@ describe('Compose container', () => {
           .subtract(46, 'days')
           .format(),
         senderId: 523757,
-        senderName: 'FREEMAN, MELVIN  V',
+        senderName: 'TESTER, CLINICIAN',
         recipientId: 1930436,
         recipientName: 'EXTRA_LONG_CHARACTER_TRIAGE_GROUP_DAYT29',
         readReceipt: 'READ',
         triageGroupName: null,
         proxySenderName: null,
+        threadId: 2710544,
+        folderId: 0,
+        messageBody: 'Second test reply from Clinician\r\n\r\nOleksii',
+        draftDate: null,
+        toDate: null,
+        hasAttachments: false,
       },
-      ...draftMessageHistory,
+      ...draftDetails.draftMessageHistory,
     ];
 
     const state = {
       sm: {
+        alerts: {
+          alertVisible: true,
+          alertList: [
+            {
+              datestamp: '2023-03-28T17:29:16.362Z',
+              isActive: true,
+              alertType: 'info',
+              header: 'This conversation is too old for new replies',
+              content:
+                "The last message in this conversation is more than 45 days old. If you want to continue this conversation, you'll need to start a new message.",
+              className:
+                'fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1',
+              link: '/compose',
+              title: 'Start a new message',
+            },
+          ],
+        },
         folders: { folder: folders.drafts },
         triageTeams: { triageTeams },
         categories: { categories },
         draftDetails: {
-          draftMessage,
+          draftMessage: draftDetails.draftMessage,
           draftMessageHistory: draftMessageHistoryOld,
         },
       },
     };
-    const screen = renderWithStoreAndRouter(<Compose />, {
-      initialState: state,
-      reducers: reducer,
-      path: `/draft/7171715`,
-    });
-    await waitFor(() => {
+
+    const screen = await setup(
+      state,
+      `/draft/${draftDetails.draftMessage.messageId}`,
+    );
+    waitFor(() => {
       expect(
-        screen.getByText(`${draftMessage.category}: ${draftMessage.subject}`, {
+        screen.getByText(Alerts.Message.CANNOT_REPLY_INFO_HEADER, {
           exact: true,
-          selector: 'h1',
+          selector: 'h2',
         }),
       ).to.exist;
     }).then(() => {
       expect(screen.getByTestId('reply-form')).to.exist;
+      expect(
+        screen.getByText(
+          `${draftDetails.draftMessage.category}: ${
+            draftDetails.draftMessage.subject
+          }`,
+          {
+            exact: true,
+            selector: 'h1',
+          },
+        ),
+      ).to.exist;
       expect(screen.queryByTestId('Send-Button')).not.to.exist;
       expect(
         screen.getByText(Alerts.Message.CANNOT_REPLY_INFO_HEADER, {
@@ -352,11 +383,8 @@ describe('Compose container', () => {
         },
       },
     };
-    const screen = renderWithStoreAndRouter(<Compose />, {
-      initialState: state,
-      reducers: reducer,
-      path: `/draft/7171715`,
-    });
+
+    const screen = setup(state, `/draft/7171715`);
     await waitFor(() => {
       expect(
         screen.getByText(`${draftMessage.category}: ${draftMessage.subject}`, {
