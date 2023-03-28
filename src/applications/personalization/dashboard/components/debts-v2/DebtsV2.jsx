@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -106,22 +106,17 @@ const BenefitPaymentsAndDebtV2 = ({
       {shouldShowV2Dashboard && (
         <>
           <div className="vads-l-row">
-            {/* case 1: has debt error OR copay error; needs right-aligned link */}
             {(hasDebtError || hasCopayError) && (
               <>
                 <DashboardWidgetWrapper>
                   <OutstandingDebtsError />
                 </DashboardWidgetWrapper>
-                {/* right-aligned:
-                - debt error AND has copay */}
                 <DashboardWidgetWrapper>
                   {hasDebtError &&
                     copaysCount > 0 && <PopularActionsForDebts />}
                 </DashboardWidgetWrapper>
               </>
             )}
-
-            {/* case 2: neither error AND neither has debt or copay; needs left-aligned cta link */}
             {!hasDebtError &&
               !hasCopayError &&
               debtsCount < 1 &&
@@ -130,31 +125,8 @@ const BenefitPaymentsAndDebtV2 = ({
                   <DashboardWidgetWrapper>
                     <NoOutstandingDebtsText />
                   </DashboardWidgetWrapper>
-                  {/* <DashboardWidgetWrapper>
-                    <PopularActionsForDebts />
-                  </DashboardWidgetWrapper> */}
                 </>
               )}
-
-            {/* <SingleColumnInfo
-              debtsCount={debtsCount}
-              copaysCount={copaysCount}
-              hasCopayError={hasCopayError}
-              hasDebtError={hasDebtError}
-              withWrapper
-            /> */}
-            {/* <DashboardWidgetWrapper>
-              {((hasDebtError && !hasCopayError && copaysCount > 0) ||
-                (!hasDebtError &&
-                  !hasCopayError &&
-                  debtsCount < 1 &&
-                  copaysCount > 0)) && (
-                <>
-                  this should be right aligend
-                  <PopularActionsForDebts />
-                </>
-              )}
-            </DashboardWidgetWrapper> */}
             {debtsCount > 0 && (
               <DashboardWidgetWrapper>
                 <DebtsCardV2 debts={debts} />
@@ -165,15 +137,6 @@ const BenefitPaymentsAndDebtV2 = ({
                 <CopaysCardV2 copays={copays} />
               </DashboardWidgetWrapper>
             )}
-            {/* {hasDebtError &&
-              copaysCount > 0 && (
-                <DashboardWidgetWrapper>
-                  <PopularActionsForDebts />
-                </DashboardWidgetWrapper>
-              )} */}
-            {/* <DashboardWidgetWrapper>
-              <PopularActionsForDebts />
-            </DashboardWidgetWrapper> */}
           </div>
         </>
       )}
@@ -183,9 +146,6 @@ const BenefitPaymentsAndDebtV2 = ({
             {(hasDebtError || hasCopayError) && (
               <>
                 <OutstandingDebtsError />
-                {/* right-aligned:
-                - debt error AND has copay */}
-                {/* {hasDebtError && copaysCount > 0 && <PopularActionsForDebts />} */}
               </>
             )}
             {!hasDebtError &&
@@ -198,11 +158,6 @@ const BenefitPaymentsAndDebtV2 = ({
           </DashboardWidgetWrapper>
         </>
       )}
-
-      {/* left-aligned when:
-        - has no debts nor copays
-        - copay error with no debts
-        - debts error with no copays */}
       {((debtsCount === 0 && copaysCount === 0) ||
         (hasCopayError && debtsCount === 0) ||
         (hasDebtError && copaysCount === 0)) && (
