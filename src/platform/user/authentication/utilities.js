@@ -284,9 +284,13 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
   window.location = redirectUrl;
 }
 
-export async function mockLogin({ clickedEvent = AUTH_EVENTS.MOCK_LOGIN }) {
+export async function mockLogin(
+  { clickedEvent = AUTH_EVENTS.MOCK_LOGIN },
+  type = 'vamock',
+) {
   const url = await createOAuthRequest({
     clientId: 'vamock',
+    type,
   });
 
   if (!isExternalRedirect()) {

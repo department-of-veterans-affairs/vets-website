@@ -1,15 +1,58 @@
 import React from 'react';
-import ENVIRONMENT_CONFIGURATIONS from 'site/constants/environments-configs';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import environments from 'site/constants/environments';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
+import { SERVICE_PROVIDERS, GA } from 'platform/user/authentication/constants';
 import LoginButton from 'platform/user/authentication/components/LoginButton';
+import sinon from 'sinon';
+import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
+import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
+import SkinDeep from 'skin-deep';
 import MockAuth from '../../containers/MockAuth';
 import MockAuthButton from '../../components/MockAuthButton';
 
+const originalLocation = global.window.location;
+const originalGA = global.ga;
+
+const base = 'https://dev.va.gov';
+const mockGAClientId = '1234';
+
+const mockGADefaultArgs = {
+  mockGAActive: false,
+  trackingId: GA.trackingIds[0],
+  throwGAError: false,
+};
+
 const csps = Object.values(SERVICE_PROVIDERS);
+
+const setup = ({ path, mockGA = mockGADefaultArgs }) => {
+  global.window.location = path ? new URL(`${base}${path}`) : originalLocation;
+  global.ga = originalGA;
+  global.window.crypto = mockCrypto;
+  removeLoginAttempted();
+
+  const { mockGAActive, trackingId, throwGAError } = mockGA;
+  if (mockGAActive) {
+    global.ga = sinon.stub();
+    global.ga.getAll = throwGAError
+      ? sinon.stub().throws()
+      : sinon.stub().returns([
+          {
+            get: key => {
+              switch (key) {
+                case GA.clientIdKey:
+                  return mockGAClientId;
+                case GA.trackingIdKey:
+                  return trackingId;
+                default:
+                  return undefined;
+              }
+            },
+          },
+        ]);
+  }
+};
 
 describe('MockAuthButton', () => {
   const env = process.env.BUILDTYPE;
@@ -24,21 +67,22 @@ describe('MockAuthButton', () => {
   });
 
   Object.values(environments).forEach(currentEnvironment => {
-    it('should take you to the right link when clicked', () => {
+    it('should take you to the right link when clicked', async () => {
       process.env.BUILDTYPE = currentEnvironment;
-      const { container } = render(<MockAuthButton />);
-      const button = $('.mauth-button', container);
+      const tree = SkinDeep.shallowRender(<MockAuthButton />);
+      const button = tree.subTree('.mauth-button');
       if (
         currentEnvironment === environments.LOCALHOST ||
         currentEnvironment === environments.VAGOVDEV
       ) {
-        const correctLink = `${
-          ENVIRONMENT_CONFIGURATIONS[process.env.BUILDTYPE].API_URL
-        }/v0/sign_in/authorize?client_id=vamock`;
-        fireEvent.click(button);
-        expect(window.location).to.equal(correctLink);
+        const correctLink =
+          '/v0/sign_in/authorize?type=logingov&client_id=vamock';
+        setup({});
+        await button.props.onClick();
+        expect(global.window.location).to.include(correctLink);
+        setup({});
       } else {
-        expect(button).to.not.exist;
+        expect(button).to.be.false;
       }
     });
   });
