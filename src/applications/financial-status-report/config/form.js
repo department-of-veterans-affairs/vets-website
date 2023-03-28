@@ -22,6 +22,8 @@ import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
 import EnhancedBenefitsEdit from '../components/EnhancedBenefitsEdit';
 import VehicleSummaryWidget from '../pages/assets/vehicles/VehicleSummaryWidget';
+import CreditCardBill from '../components/CreditCardBill';
+import CreditCardBillSummary from '../pages/expenses/creditCardBills/CreditCardBillSummary';
 import AddAsset from '../components/otherAssets/AddAsset';
 import OtherAssetsSummary from '../components/otherAssets/OtherAssetsSummary';
 import OtherAssetsSummaryReview from '../components/otherAssets/OtherAssetsSummaryReview';
@@ -809,14 +811,48 @@ const formConfig = {
           title: 'Repayments',
           uiSchema: pages.repayments.uiSchema,
           schema: pages.repayments.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         repaymentRecords: {
           path: 'repayment-records',
           title: 'Repayments',
           uiSchema: pages.repaymentRecords.uiSchema,
           schema: pages.repaymentRecords.schema,
-          depends: ({ questions }) => questions.hasRepayments,
+          depends: formData =>
+            formData.questions.hasRepayments &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        creditCardBills: {
+          path: 'credit-card-bills',
+          title: 'Credit card bills',
+          uiSchema: pages.creditCardBills.uiSchema,
+          schema: pages.creditCardBills.schema,
+        },
+        addEditCreditCardBills: {
+          path: 'your-credit-card-bills',
+          title: 'Credit card bills',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasCreditCardBills &&
+            !formData.expenses?.creditCardBills?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: CreditCardBill,
+          CustomPageReview: null,
+        },
+        creditCardBillSummary: {
+          path: 'credit-card-bills-summary',
+          title: 'Credit card bills',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasCreditCardBills &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: CreditCardBillSummary,
+          CustomPageReview: null,
         },
         otherExpenses: {
           path: 'other-expenses',
