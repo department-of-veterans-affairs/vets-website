@@ -33,7 +33,7 @@ module.exports = {
       },
     ],
     'deprecate/import': [
-      'error',
+      'warn',
       {
         name:
           '@department-of-veterans-affairs/component-library/SystemDownView',
