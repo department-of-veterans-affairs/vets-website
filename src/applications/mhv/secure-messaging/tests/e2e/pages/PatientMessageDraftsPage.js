@@ -135,11 +135,6 @@ class PatientMessageDraftsPage {
       this.currentThread,
     ).as('full-thread');
 
-    cy.log(
-      ` mock message detail message subject = ${
-        mockParentMessageDetails.data.attributes.subject
-      }`,
-    );
     cy.contains(mockParentMessageDetails.data.attributes.subject).click();
     cy.injectAxe();
     cy.axeCheck();

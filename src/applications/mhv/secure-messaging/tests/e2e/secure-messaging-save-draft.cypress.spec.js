@@ -19,8 +19,8 @@ describe('Secure Messaging Save Draft', () => {
     cy.axeCheck();
     // composePage.getMessageSubjectField().type('message Test');
     composePage.getMessageBodyField().type('Test message body');
-    mockDraftResponse.data.attributes.body =
-      'ststASertTest message bodyTest message body';
+    cy.realPress(['Enter']);
+    mockDraftResponse.data.attributes.body = 'ststASertTest message body\n';
     composePage.saveDraft(mockDraftResponse);
     composePage.sendDraft(
       6978854,
