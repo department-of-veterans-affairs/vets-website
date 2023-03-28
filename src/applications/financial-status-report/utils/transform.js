@@ -264,7 +264,9 @@ export const transform = (formConfig, form) => {
     expenses: {
       rentOrMortgage: expenses.rentOrMortgage,
       food: expenses.food,
-      utilities: sumValues(utilityRecords, 'monthlyUtilityAmount'),
+      utilities: enhancedFSRActive
+        ? sumValues(utilityRecords, 'amount')
+        : sumValues(utilityRecords, 'monthlyUtilityAmount'),
       otherLivingExpenses: {
         name: otherExpenses?.map(expense => expense.name).join(', '),
         amount: sumValues(otherExpenses, 'amount'),

@@ -30,6 +30,7 @@ export const CLIENT_IDS = {
   VAWEB: 'vaweb',
   MOBILE: 'mobile',
   VAMOBILE: 'vamobile',
+  VAMOCK: 'vamock',
 };
 
 export const COOKIES = {

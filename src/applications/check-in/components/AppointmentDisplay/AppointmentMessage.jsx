@@ -5,7 +5,7 @@ import { parseISO } from 'date-fns';
 
 import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
 
-const AppointmentMessageVaos = props => {
+const AppointmentMessage = props => {
   const { appointment } = props;
   const { t } = useTranslation();
 
@@ -131,8 +131,8 @@ const AppointmentMessageVaos = props => {
   );
 };
 
-AppointmentMessageVaos.propTypes = {
+AppointmentMessage.propTypes = {
   appointment: PropTypes.object,
 };
 
-export default AppointmentMessageVaos;
+export default AppointmentMessage;
