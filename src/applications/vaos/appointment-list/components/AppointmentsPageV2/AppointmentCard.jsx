@@ -25,7 +25,10 @@ function VideoAppointmentDescription({ appointment }) {
   }
   return (
     <>
-      <i aria-hidden="true" className="fas fa-video vads-u-margin-right--1" />
+      <i
+        aria-hidden="true"
+        className="fas fa-video vads-u-margin-right--1 vads-u-color--gray"
+      />
       VA Video Connect {desc}
     </>
   );
@@ -130,7 +133,7 @@ export default function AppointmentCard({
             <>
               <i
                 aria-hidden="true"
-                className="fas fa-phone vads-u-margin-right--1"
+                className="fas fa-phone vads-u-margin-right--1 vads-u-color--gray"
               />
               Phone call
             </>

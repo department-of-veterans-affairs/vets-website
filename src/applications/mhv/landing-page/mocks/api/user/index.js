@@ -63,7 +63,6 @@ const defaultUser = {
   meta: { errors: null },
 };
 
-/* eslint-disable camelcase */
 const cernerUser = {
   data: {
     attributes: {
@@ -125,6 +124,23 @@ const cernerUser = {
   meta: { errors: null },
 };
 
+const generateUserWithFacilities = ({ facilities = [], name = 'Harry' }) => {
+  return {
+    ...defaultUser,
+    data: {
+      ...defaultUser.data,
+      attributes: {
+        ...defaultUser.data.attributes,
+        profile: {
+          ...defaultUser.data.attributes.profile,
+          facilities,
+          first_name: name,
+        },
+      },
+    },
+  };
+};
+
 const generateUserWithServiceProvider = ({ serviceProvider = 'idme' }) => {
   return {
     ...defaultUser,
@@ -143,8 +159,12 @@ const generateUserWithServiceProvider = ({ serviceProvider = 'idme' }) => {
   };
 };
 
+const noFacilityUser = generateUserWithFacilities({ facilities: [] });
+
 module.exports = {
   defaultUser,
   cernerUser,
+  noFacilityUser,
   generateUserWithServiceProvider,
+  generateUserWithFacilities,
 };

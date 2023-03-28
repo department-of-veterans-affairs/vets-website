@@ -6,8 +6,11 @@ import DirectDeposit from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
+import { Edit } from './components/edit/Edit';
 
-const getRoutes = () => {
+const getRoutes = (
+  { useFieldEditingPage } = { useFieldEditingPage: false },
+) => {
   return [
     {
       component: PersonalInformation,
@@ -58,6 +61,17 @@ const getRoutes = () => {
       requiresLOA3: true,
       requiresMVI: true,
     },
+    ...(useFieldEditingPage
+      ? [
+          {
+            component: Edit,
+            name: PROFILE_PATH_NAMES.EDIT,
+            path: PROFILE_PATHS.EDIT,
+            requiresLOA3: true,
+            requiresMVI: true,
+          },
+        ]
+      : []),
   ];
 };
 

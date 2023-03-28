@@ -374,7 +374,10 @@ export function transformVAOSAppointment(appt) {
       isCC && isRequest && appt.preferredProviderName
         ? { providerName: appt.preferredProviderName }
         : null,
-    practitioners: appt.practitioners,
+    practitioners:
+      appt.practitioners && typeof appt.practitioners !== 'undefined'
+        ? appt.practitioners
+        : [],
     ...requestFields,
     vaos: {
       isVideo,
