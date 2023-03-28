@@ -5,17 +5,18 @@ import { connect } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 import DowntimeNotification, {
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
-import { focusElement } from 'platform/utilities/ui';
-import { selectVeteranStatus } from 'platform/user/selectors';
+} from '~/platform/monitoring/DowntimeNotification';
+import { focusElement } from '~/platform/utilities/ui';
+import { selectVeteranStatus } from '~/platform/user/selectors';
+
 import LoadFail from '../alerts/LoadFail';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
-import ProfileInfoTable from '../ProfileInfoTable';
 import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
+import { ProfileInfoCard } from '../ProfileInfoCard';
 
 // Alert to show when a user does not appear to be a Veteran
 const NotAVeteranAlert = () => {
@@ -74,33 +75,6 @@ const NotInDEERSAlert = () => {
     </>
   );
 };
-
-// Request DD214
-const RequestMilServiceRecordsAlert = () => {
-  return (
-    <>
-      <va-alert
-        background-only
-        class="vads-u-margin-y--0"
-        close-btn-aria-label="Close notification"
-        disable-analytics="false"
-        status="info"
-        full-width="false"
-        visible="true"
-      >
-        <p className="vads-u-margin-y--0">
-          <h3 className="vads-u-margin-top--0" slot="headline">
-            Request your military records (DD214)
-          </h3>
-          <a href="/records/get-military-service-records">
-            Learn how to request your DD214 and other military records
-          </a>
-        </p>
-      </va-alert>
-    </>
-  );
-};
-
 // Alert to show if `GET service_history` returned an empty service history array
 const NoServiceHistoryAlert = () => {
   return (
@@ -174,14 +148,15 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
 
   return (
     <>
-      <ProfileInfoTable
-        data={serviceHistory}
-        dataTransformer={transformServiceHistoryEntryIntoTableRow}
-        title="Period of service"
-        fieldName="serviceHistory"
-        list
+      <ProfileInfoCard
+        data={serviceHistory.map(item =>
+          transformServiceHistoryEntryIntoTableRow(item),
+        )}
+        title="Period of Service"
         level={2}
+        asList
       />
+
       <div className="vads-u-margin-top--4">
         <va-additional-info
           trigger="What if I don't think my military service information is correct?"
@@ -243,8 +218,17 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           veteranStatus={veteranStatus}
         />
       </DowntimeNotification>
-      <br />
-      <RequestMilServiceRecordsAlert />
+
+      <va-featured-content>
+        <div className="vads-u-margin-y--0">
+          <h3 className="vads-u-margin-top--0" slot="headline">
+            Request your military records (DD214)
+          </h3>
+          <a href="/records/get-military-service-records">
+            Learn how to request your DD214 and other military records
+          </a>
+        </div>
+      </va-featured-content>
     </>
   );
 };
