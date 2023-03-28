@@ -113,7 +113,6 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceTravelReimbursement: false,
-          checkInExperienceUpdatedApptPresentation: true,
         }),
       );
     },
