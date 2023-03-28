@@ -42,35 +42,12 @@ describe('check in', () => {
     it('renders a generic api error message', () => {
       const component = render(
         <I18nextProvider i18n={i18n}>
-          <TravelPayAlert
-            travelPayEligible
-            travelPayClaimError
-            travelPayClaimErrorCode="CLM_011_LOL_DUNNO"
-          />
+          <TravelPayAlert travelPayEligible travelPayClaimError />
         </I18nextProvider>,
       );
-      expect(component.getByTestId('travel-pay-claim-error-message')).to.exist;
-      expect(
-        component.getByTestId('travel-pay-claim-error-message'),
-      ).to.have.text(
+      expect(component.getByTestId('travel-pay-error-message')).to.exist;
+      expect(component.getByTestId('travel-pay-error-message')).to.have.text(
         "We’re sorry, something went wrong on our end. We can't file a travel reimbursement claim for you now. But you can still file within 30 days of the appointment.",
-      );
-    });
-    it('renders a already exists api error message', () => {
-      const component = render(
-        <I18nextProvider i18n={i18n}>
-          <TravelPayAlert
-            travelPayEligible
-            travelPayClaimError
-            travelPayClaimErrorCode="CLM_002_CLAIM_EXISTS"
-          />
-        </I18nextProvider>,
-      );
-      expect(component.getByTestId('travel-pay-claim-error-message')).to.exist;
-      expect(
-        component.getByTestId('travel-pay-claim-error-message'),
-      ).to.have.text(
-        'You can check the status of your travel reimbursement claim online 24/7 on the Beneficiary Travel Self Service System (BTSSS). You can access BTSSS through the AccessVA travel claim portal.',
       );
     });
   });

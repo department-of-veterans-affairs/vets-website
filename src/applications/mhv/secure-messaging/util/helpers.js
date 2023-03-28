@@ -4,7 +4,7 @@ import { DefaultFolders as Folders } from './constants';
 export const folderPathByFolderId = folderId => {
   let path = '';
   if (folderId !== null) {
-    switch (folderId) {
+    switch (parseInt(folderId, 10)) {
       case Folders.INBOX.id:
         path = '/inbox';
         break;
