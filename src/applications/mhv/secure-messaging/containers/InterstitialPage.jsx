@@ -50,8 +50,8 @@ const InterstitialPage = props => {
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <a
           className="vads-c-action-link--green vads-u-margin-top--1 link"
-          href="#"
           tabIndex={0}
+          role="button"
           onKeyPress={handleKeyPress}
           onClick={props.acknowledge}
         >
