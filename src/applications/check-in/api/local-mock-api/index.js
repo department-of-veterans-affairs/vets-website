@@ -93,7 +93,7 @@ const responses = {
     if (!uuid || !appointmentDate) {
       return res.status(500).json(btsss.post.createMockFailedResponse());
     }
-    return res.json(btsss.post.createMockSuccessResponse({}));
+    return res.status(202).json(btsss.post.createMockSuccessResponse({}));
   },
 };
 
