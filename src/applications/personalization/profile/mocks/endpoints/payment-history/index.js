@@ -286,7 +286,7 @@ module.exports = {
       },
     },
     errors: {
-      fraud: {
+      generic: {
         errors: [
           {
             title: 'Unprocessable Entity',
