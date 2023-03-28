@@ -57,7 +57,7 @@ const OtherAssetsSummary = ({
             otherAssets.map((asset, index) => (
               <MiniSummaryCard
                 body={cardBody(`Value: ${currencyFormatter(asset.amount)}`)}
-                editDesination={{
+                editDestination={{
                   pathname: '/add-other-asset',
                   search: `?index=${index}`,
                 }}
