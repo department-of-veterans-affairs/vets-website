@@ -25,7 +25,7 @@ export const otherExpensesChecklist = {
 
 export const otherExpensesValues = {
   uiSchema: {
-    'ui:title': '',
+    'ui:title': 'Your added living expenses',
     'ui:field': OtherExpensesInputList,
     'ui:options': {
       hideOnReview: true,

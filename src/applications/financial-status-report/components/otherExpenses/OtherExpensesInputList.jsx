@@ -36,16 +36,14 @@ const OtherExpensesInputList = props => {
   const prompt = 'How much do you pay for each living expense every month?';
 
   return (
-    <>
-      <InputList
-        errorList={errorList}
-        inputs={otherExpenses}
-        title={title}
-        prompt={prompt}
-        submitted={submitted}
-        onChange={event => onChange(event)}
-      />
-    </>
+    <InputList
+      errorList={errorList}
+      inputs={otherExpenses}
+      title={title}
+      prompt={prompt}
+      submitted={submitted}
+      onChange={event => onChange(event)}
+    />
   );
 };
 
