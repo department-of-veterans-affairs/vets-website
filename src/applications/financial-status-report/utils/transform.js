@@ -185,6 +185,14 @@ export const transform = (formConfig, form) => {
       : [];
   const standardDependents = dependents?.map(dep => dep.dependentAge) ?? [];
 
+  // other living expenses - enhanced finters
+  const filteredExpenses = otherExpenses?.filter(
+    expense => !expense.name.includes('Food'),
+  );
+  const foodExpenses = otherExpenses?.find(expense =>
+    expense.name.includes('Food'),
+  ) || { amount: 0 };
+
   const submissionObj = {
     personalIdentification: {
       ssn: personalIdentification.ssn,
@@ -263,13 +271,17 @@ export const transform = (formConfig, form) => {
     ],
     expenses: {
       rentOrMortgage: expenses.rentOrMortgage,
-      food: expenses.food,
+      food: enhancedFSRActive ? foodExpenses?.amount : expenses.food,
       utilities: enhancedFSRActive
         ? sumValues(utilityRecords, 'amount')
         : sumValues(utilityRecords, 'monthlyUtilityAmount'),
       otherLivingExpenses: {
-        name: otherExpenses?.map(expense => expense.name).join(', '),
-        amount: sumValues(otherExpenses, 'amount'),
+        name: enhancedFSRActive
+          ? filteredExpenses?.map(expense => expense.name).join(', ')
+          : otherExpenses?.map(expense => expense.name).join(', '),
+        amount: enhancedFSRActive
+          ? sumValues(filteredExpenses, 'amount')
+          : sumValues(otherExpenses, 'amount'),
       },
       expensesInstallmentContractsAndOtherDebts: sumValues(
         installmentContracts,
