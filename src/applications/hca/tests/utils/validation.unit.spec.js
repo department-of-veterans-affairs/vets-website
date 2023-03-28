@@ -5,6 +5,7 @@ import moment from 'moment';
 import {
   validateServiceDates,
   validateDependentDate,
+  validateV2DependentDate,
   validateCurrency,
 } from '../../utils/validation';
 
@@ -85,6 +86,7 @@ describe('hca validation', () => {
     });
   });
 
+  // NOTE: for household v1 only -- remove after v2 is fully-adopted
   describe('validateDependentDate', () => {
     it('should set message if birth date is after dependent date', () => {
       const errors = {
@@ -132,6 +134,21 @@ describe('hca validation', () => {
     });
   });
 
+  // NOTE: for household v2 only -- rename when v2 is fully-adopted
+  describe('validateV2DependentDate', () => {
+    it('should set message if birth date is after dependent date', () => {
+      const errors = {
+        addError: sinon.spy(),
+      };
+      validateV2DependentDate(errors, '2010-01-01', {
+        dateOfBirth: '2011-01-01',
+      });
+
+      expect(errors.addError.callCount).to.equal(1);
+    });
+  });
+
+  // NOTE: for household v1 only -- remove after v2 is fully-adopted
   describe('validateCurrency', () => {
     it('should set message if value has three decimals', () => {
       const errors = {

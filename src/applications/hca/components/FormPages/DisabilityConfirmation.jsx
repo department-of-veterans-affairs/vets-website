@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import recordEvent from 'platform/monitoring/record-event';
 
-const ServiceConnectedPayConfirmation = ({ data, goBack, goForward }) => {
+const DisabilityConfirmation = ({ data, goBack, goForward }) => {
   // use logging to compare number of short forms started vs completed
   const onConfirm = () => {
     recordEvent({
@@ -32,6 +32,7 @@ const ServiceConnectedPayConfirmation = ({ data, goBack, goForward }) => {
         <div className="small-5 medium-4 columns">
           {goBack && (
             <ProgressButton
+              aria-describedby="nav-form-header"
               buttonClass="hca-progress-button usa-button-secondary"
               onButtonClick={goBack}
               buttonText="Back"
@@ -41,6 +42,7 @@ const ServiceConnectedPayConfirmation = ({ data, goBack, goForward }) => {
         </div>
         <div className="small-5 medium-4 end columns">
           <ProgressButton
+            aria-describedby="nav-form-header"
             buttonClass="hca-progress-button usa-button-primary"
             onButtonClick={onConfirm}
             buttonText="Confirm"
@@ -52,10 +54,10 @@ const ServiceConnectedPayConfirmation = ({ data, goBack, goForward }) => {
   );
 };
 
-ServiceConnectedPayConfirmation.propTypes = {
+DisabilityConfirmation.propTypes = {
   data: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
 };
 
-export default ServiceConnectedPayConfirmation;
+export default DisabilityConfirmation;

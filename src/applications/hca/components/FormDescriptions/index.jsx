@@ -1,5 +1,6 @@
 import React from 'react';
 
+/** CHAPTER 1: Veteran Information */
 export const AmericanIndianDescription = (
   <>
     <ul className="vads-u-margin-top--3">
@@ -44,12 +45,12 @@ export const AmericanIndianDescription = (
 
 export const BirthInfoDescription = (
   <>
-    <p className="vads-u-margin-bottom--4">
+    <p className="vads-u-margin-top--0">
       Enter your place of birth, including city and state, province or region.
     </p>
     <va-additional-info
       trigger="Why we ask for this information"
-      class="vads-u-margin-bottom--4"
+      class="vads-u-margin-bottom--3"
     >
       We ask for place of birth as an identity marker for record keeping. This
       will not impact your health care eligibility.
@@ -100,6 +101,62 @@ export const ContactInfoDescription = (
   </>
 );
 
+export const DemographicInfoDescription = (
+  <legend className="schemaform-label vads-u-margin-bottom--4">
+    What is your race, ethnicity, or origin? (Please check all that apply.)
+    <div className="vads-u-color--gray-medium vads-u-margin-y--1">
+      Information is gathered for statistical purposes only.
+    </div>
+  </legend>
+);
+
+export const HomeAddressDescription = (
+  <p className="vads-u-line-height--6 vads-u-margin-bottom--4">
+    Any updates you make here to your address will apply only to this
+    application.
+  </p>
+);
+
+export const MailingAddressDescription = (
+  <p className="vads-u-line-height--6 vads-u-margin-bottom--4">
+    We’ll send any important information about your application to this address.
+    Any updates you make here to your address will apply only to this
+    application.
+  </p>
+);
+
+export const SIGIGenderDescription = (
+  <>
+    <va-additional-info
+      trigger="What to know before you decide to share your gender identity"
+      class="vads-u-margin-top--2"
+    >
+      <div>
+        <p className="vads-u-margin-top--0">
+          Sharing your gender identity on this application is optional. This
+          information can help your health care team know how you wish to be
+          addressed as a person. It can also help your team better assess your
+          health needs and risks. We also use this information to help make sure
+          we’re serving the needs of all Veterans.
+        </p>
+
+        <p>
+          But you should know that any information you share here goes into your
+          VA-wide records. VA staff outside of the health care system may be
+          able to read this information.
+        </p>
+
+        <p className="vads-u-margin-bottom--0">
+          We follow strict security and privacy practices to keep your personal
+          information secure. But if you want to share your gender identity in
+          your health records only, talk with your health care team.
+        </p>
+      </div>
+    </va-additional-info>
+  </>
+);
+
+/** CHAPTER 3: VA Benefits */
 export const CompensationInfoDescription = (
   <p className="vads-u-margin-bottom-4">
     VA disability compensation (pay) provides monthly payments to Veterans with
@@ -144,6 +201,46 @@ export const CompensationTypeDescription = (
   </va-additional-info>
 );
 
+export const PensionInfoDescription = (
+  <p className="vads-u-margin-bottom-4">
+    Our Veterans Pension program provides monthly payments to certain wartime
+    Veterans. To get a Veterans Pension, you must meet certain age or disability
+    requirements and have income and net worth certain limits.
+  </p>
+);
+
+export const PensionTypeDescription = (
+  <va-additional-info
+    trigger="Why we ask for this information"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        We use this information to help us decide these 3 things:
+      </p>
+
+      <ul>
+        <li>
+          What types of VA health care benefits you’re eligible for,{' '}
+          <strong>and</strong>
+        </li>
+        <li>
+          How soon we enroll you in a VA health care, <strong>and</strong>
+        </li>
+        <li>
+          How much (if anything) you’ll have to pay toward the cost of your care
+        </li>
+      </ul>
+
+      <p>
+        If you have a Veterans Pension, you may pay a lower copay, or no copay,
+        for certain types of care and services.
+      </p>
+    </div>
+  </va-additional-info>
+);
+
+/** CHAPTER 4: Household Information */
 export const DeductibleExpensesDescription = (
   <>
     <p>
@@ -162,62 +259,60 @@ export const DeductibleExpensesDescription = (
   </>
 );
 
-export const DemographicInfoDescription = (
-  <legend className="schemaform-label vads-u-margin-bottom--4">
-    What is your race, ethnicity, or origin? (Please check all that apply.)
-    <div className="vads-u-color--gray-medium">
-      Information is gathered for statistical purposes only.
-    </div>
-  </legend>
-);
-
-export const EssentialCoverageDescription = (
+export const DependentDescription = () => (
   <va-additional-info
-    trigger="Learn more about minimum essential coverage."
-    class="vads-u-margin-y--2 vads-u-margin-left--4"
+    trigger="Who does VA consider a dependent"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
   >
-    To avoid the penalty for not having insurance, you must be enrolled in a
-    health plan that qualifies as minimum essential coverage. Being signed up
-    for VA health care meets the minimum essential coverage requirement under
-    the Affordable Care Act.
+    <div>
+      <p className="vads-u-margin-top--0">
+        <strong>A dependent is:</strong>
+      </p>
+      <ul>
+        <li>A spouse (we recognize same-sex and common law marriages)</li>
+        <li>
+          A parent, if you’re directly caring for them and their income and net
+          worth are below a certain amount
+        </li>
+        <li>
+          An unmarried child (including an adopted child or stepchild) who meets
+          one of the eligibility requirements listed below
+        </li>
+      </ul>
+      <p>
+        <strong>
+          To be considered a dependent, one of these must be true of an
+          unmarried child:
+        </strong>
+      </p>
+      <ul>
+        <li>
+          They’re under 18 years old, <strong>or</strong>
+        </li>
+        <li>
+          They’re between the ages of 18 and 23 years old and enrolled in school
+          full time, <strong>or</strong>
+        </li>
+        <li>They became permanetly disabled before they turned 18</li>
+      </ul>
+    </div>
   </va-additional-info>
 );
 
-export const FacilityLocatorDescription = (
-  <>
-    <p>
-      OR{' '}
-      <a href="/find-locations" rel="noopener noreferrer" target="_blank">
-        Find locations with the VA Facility Locator
-      </a>
-    </p>
-
-    <p>
-      If you’re looking for medical care outside the continental U.S. or Guam,
-      you’ll need to sign up for our Foreign Medical Program.{' '}
-      <a
-        href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Learn more about the Foreign Medical Program
-      </a>
-      .
-    </p>
-    <p>
-      You can also visit{' '}
-      <a
-        href="https://www.benefits.va.gov/PERSONA/veteran-abroad.asp"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Veterans Living Abroad
-      </a>
-      .
-    </p>
-  </>
+export const DependentSupportDescription = (
+  <p className="vads-u-color--gray-medium vads-u-margin-top--1 vads-u-margin-bottom--3">
+    Please count all support contributions even if they weren’t paid in regular
+    and set amounts. Support can include tuition or medical bill payments
+  </p>
 );
 
+export const EducationalExpensesDescription = (
+  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
+    This includes tuition, books, fees, and course materials.
+  </div>
+);
+
+// NOTE: for household v1 only -- remove when v2 is fully-adopted
 export const FinancialDisclosureDescription = (
   <>
     <p>
@@ -281,6 +376,198 @@ export const FinancialDisclosureDescription = (
   </>
 );
 
+// NOTE: for household v2 only -- rename when v2 is fully-adopted
+export const FinancialDisclosureV2Description = (
+  <>
+    <va-alert
+      status="info"
+      class="vads-u-margin-top--3 vads-u-margin-bottom--4"
+    >
+      <p className="vads-u-margin-top--0">
+        <strong>Note:</strong> You don’t have to provide your financial
+        information. But if you don’t have a qualifying eligibility factor, this
+        information is the only other way for us to see if you can get VA health
+        care benefits--including added benefits like waived copays.
+      </p>
+
+      <va-additional-info trigger="Why we ask for this information">
+        <ul>
+          <li>Former Prisoner of War</li>
+          <li>Received a Purple Heart</li>
+          <li>Recently discharged combat Veteran</li>
+          <li>
+            Discharged for a disability that resulted from your service or got
+            worse in the line of duty
+          </li>
+          <li>Getting VA service-connected disability compensation</li>
+          <li>Getting a VA pension</li>
+          <li>Receiving Medicaid benefits</li>
+          <li>Served in Vietnam between January 9, 1962, and May 7, 1975</li>
+          <li>
+            Served in Southwest Asia during the Gulf War between August 2, 1990,
+            and November 11, 1998
+          </li>
+          <li>
+            Served at least 30 days at Camp Lejeune between August 1, 1953, and
+            December 31, 1987
+          </li>
+        </ul>
+        <p className="vads-u-margin-bottom--0">
+          <a
+            href="/healthbenefits/apps/explorer/AnnualIncomeLimits/HealthBenefits"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Learn more
+          </a>{' '}
+          about our income thresholds (also called income limits) and
+          copayments.
+        </p>
+      </va-additional-info>
+    </va-alert>
+  </>
+);
+
+export const GrossIncomeDescription = (
+  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
+    Gross income is your income before any taxes, and other deductions are
+    subtracted. This includes any employment wages, bonuses, severance pay, and
+    tips. Include your dependent’s income if it could have been used to pay
+    household expenses.
+  </div>
+);
+
+export const IncomeDescription = (
+  <>
+    <p>
+      Please fill this section out to the best of your knowledge. Provide the
+      previous calendar year’s gross annual income for you, your spouse, and
+      your dependents.
+    </p>
+    <p>
+      <strong>Gross annual income:</strong> This income is from employment only,
+      and doesn’t include income from your farm, ranch, property, or business.
+      When you calculate your gross annual income, include your wages, bonuses,
+      tips, severance pay, and other accrued benefits. Include your dependent’s
+      income information if it could have been used to pay your household
+      expenses.
+    </p>
+    <p>
+      <strong>Net income:</strong> This is the income from your farm, ranch,
+      property, or business.
+    </p>
+    <p className="vads-u-margin-bottom--4">
+      <strong>Other income:</strong> This includes retirement and pension
+      income; Social Security Retirement and Social Security Disability income;
+      compensation benefits such as VA disability, unemployment, Workers, and
+      black lung; cash gifts; interest and dividends, including tax exempt
+      earnings and distributions from Individual Retirement Accounts (IRAs) or
+      annuities.
+    </p>
+  </>
+);
+
+// NOTE: for household v1 only -- remove when v2 is fully-adopted
+export const MaritalStatusDescription = (
+  <va-additional-info
+    trigger="Why we ask for this information"
+    class="vads-u-margin-top--3 vads-u-margin-bottom--4"
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        We want to make sure we understand your household’s financial situation.
+      </p>
+
+      <p className="vads-u-margin-bottom--0">
+        We’ll ask about your income. If you’re married, we also need to
+        understand your spouse’s financial situation. This allows us to make a
+        more informed decision about your application.
+      </p>
+    </div>
+  </va-additional-info>
+);
+
+// NOTE: for household v2 only -- rename when v2 is fully-adopted
+export const MaritalStatusV2Description = (
+  <va-additional-info
+    trigger="Why we ask for this information"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        We want to make sure we understand your household’s financial situation.
+        If you’re married, we also need to understand your spouse’s financial
+        situation. This allows us to make a more informed decision about your
+        application.
+      </p>
+    </div>
+  </va-additional-info>
+);
+
+export const NetIncomeDescription = (
+  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
+    Net income is your income after any taxes and other deductions are
+    subtracted.
+  </div>
+);
+
+export const OtherIncomeDescription = (
+  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
+    This includes any income from Social Security, unemployment, retirement and
+    pension, compensation benefits such as VA disability, and any interest or
+    dividends including, tax-exempt earnings from Individual Retirement Accounts
+    (IRAs) or annuities.
+  </div>
+);
+
+/** CHAPTER 5: Insurance Information */
+export const EssentialCoverageDescription = (
+  <va-additional-info
+    trigger="Learn more about minimum essential coverage."
+    class="vads-u-margin-y--2 vads-u-margin-left--4"
+  >
+    To avoid the penalty for not having insurance, you must be enrolled in a
+    health plan that qualifies as minimum essential coverage. Being signed up
+    for VA health care meets the minimum essential coverage requirement under
+    the Affordable Care Act.
+  </va-additional-info>
+);
+
+export const FacilityLocatorDescription = (
+  <>
+    <p>
+      OR{' '}
+      <a href="/find-locations" rel="noopener noreferrer" target="_blank">
+        Find locations with the VA Facility Locator
+      </a>
+    </p>
+
+    <p>
+      If you’re looking for medical care outside the continental U.S. or Guam,
+      you’ll need to sign up for our Foreign Medical Program.{' '}
+      <a
+        href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Learn more about the Foreign Medical Program
+      </a>
+      .
+    </p>
+    <p>
+      You can also visit{' '}
+      <a
+        href="https://www.benefits.va.gov/PERSONA/veteran-abroad.asp"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Veterans Living Abroad
+      </a>
+      .
+    </p>
+  </>
+);
+
 export const GroupCodeDescription = (
   <div className="vads-u-color--gray-medium">
     Either this or the policy number is required
@@ -325,70 +612,6 @@ export const HealthInsuranceCoverageDescription = (
           to pay for care.
         </li>
       </ul>
-    </div>
-  </va-additional-info>
-);
-
-export const HomeAddressDescription = (
-  <p className="vads-u-line-height--6 vads-u-margin-bottom--4">
-    Any updates you make here to your address will apply only to this
-    application.
-  </p>
-);
-
-export const IncomeDescription = (
-  <>
-    <p>
-      Please fill this section out to the best of your knowledge. Provide the
-      previous calendar year’s gross annual income for you, your spouse, and
-      your dependents.
-    </p>
-    <p>
-      <strong>Gross annual income:</strong> This income is from employment only,
-      and doesn’t include income from your farm, ranch, property, or business.
-      When you calculate your gross annual income, include your wages, bonuses,
-      tips, severance pay, and other accrued benefits. Include your dependent’s
-      income information if it could have been used to pay your household
-      expenses.
-    </p>
-    <p>
-      <strong>Net income:</strong> This is the income from your farm, ranch,
-      property, or business.
-    </p>
-    <p className="vads-u-margin-bottom--4">
-      <strong>Other income:</strong> This includes retirement and pension
-      income; Social Security Retirement and Social Security Disability income;
-      compensation benefits such as VA disability, unemployment, Workers, and
-      black lung; cash gifts; interest and dividends, including tax exempt
-      earnings and distributions from Individual Retirement Accounts (IRAs) or
-      annuities.
-    </p>
-  </>
-);
-
-export const MailingAddressDescription = (
-  <p className="vads-u-line-height--6 vads-u-margin-bottom--4">
-    We’ll send any important information about your application to this address.
-    Any updates you make here to your address will apply only to this
-    application.
-  </p>
-);
-
-export const MaritalStatusDescription = (
-  <va-additional-info
-    trigger="Why we ask for this information"
-    class="vads-u-margin-top--3 vads-u-margin-bottom--4"
-  >
-    <div>
-      <p className="vads-u-margin-top--0">
-        We want to make sure we understand your household’s financial situation.
-      </p>
-
-      <p className="vads-u-margin-bottom--0">
-        We’ll ask about your income. If you’re married, we also need to
-        understand your spouse’s financial situation. This allows us to make a
-        more informed decision about your application.
-      </p>
     </div>
   </va-additional-info>
 );
@@ -460,45 +683,6 @@ export const MedicarePartADescription = (
   </p>
 );
 
-export const PensionInfoDescription = (
-  <p className="vads-u-margin-bottom-4">
-    Our Veterans Pension program provides monthly payments to certain wartime
-    Veterans. To get a Veterans Pension, you must meet certain age or disability
-    requirements and have income and net worth certain limits.
-  </p>
-);
-
-export const PensionTypeDescription = (
-  <va-additional-info
-    trigger="Why we ask for this information"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--4"
-  >
-    <div>
-      <p className="vads-u-margin-top--0">
-        We use this information to help us decide these 3 things:
-      </p>
-
-      <ul>
-        <li>
-          What types of VA health care benefits you’re eligible for,{' '}
-          <strong>and</strong>
-        </li>
-        <li>
-          How soon we enroll you in a VA health care, <strong>and</strong>
-        </li>
-        <li>
-          How much (if anything) you’ll have to pay toward the cost of your care
-        </li>
-      </ul>
-
-      <p>
-        If you have a Veterans Pension, you may pay a lower copay, or no copay,
-        for certain types of care and services.
-      </p>
-    </div>
-  </va-additional-info>
-);
-
 export const PolicyNumberDescription = (
   <div className="vads-u-color--gray-medium">
     Either this or the group code is required
@@ -518,37 +702,6 @@ export const PolicyOrGroupDescription = (
       (*Required)
     </span>
   </div>
-);
-
-export const SIGIGenderDescription = (
-  <>
-    <va-additional-info
-      trigger="What to know before you decide to share your gender identity"
-      class="vads-u-margin-top--2"
-    >
-      <div>
-        <p className="vads-u-margin-top--0">
-          Sharing your gender identity on this application is optional. This
-          information can help your health care team know how you wish to be
-          addressed as a person. It can also help your team better assess your
-          health needs and risks. We also use this information to help make sure
-          we’re serving the needs of all Veterans.
-        </p>
-
-        <p>
-          But you should know that any information you share here goes into your
-          VA-wide records. VA staff outside of the health care system may be
-          able to read this information.
-        </p>
-
-        <p className="vads-u-margin-bottom--0">
-          We follow strict security and privacy practices to keep your personal
-          information secure. But if you want to share your gender identity in
-          your health records only, talk with your health care team.
-        </p>
-      </div>
-    </va-additional-info>
-  </>
 );
 
 export const TricarePolicyDescription = (

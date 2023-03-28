@@ -5,9 +5,13 @@ import {
   expensesLessThanIncome,
   transformAttachments,
   prefillTransformer,
+  isShortFormEligible,
+  includeSpousalInformation,
 } from '../../utils/helpers';
+import { HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
 
 describe('HCA helpers', () => {
+  // NOTE: for household v1 only -- remove when v2 is fully-adopted
   describe('expensesLessThanIncome', () => {
     it('should return true if expenses less than income', () => {
       const formData = {
@@ -164,6 +168,68 @@ describe('HCA helpers', () => {
       prevProps = { ...defaultProps };
       newProps = { ...defaultProps, shouldRedirect: true };
       expect(didEnrollmentStatusChange(prevProps, newProps)).to.equal(true);
+    });
+  });
+
+  describe('isShortFormEligible', () => {
+    const formData = {
+      vaCompensationType: 'none',
+      'view:totalDisabilityRating': 0,
+    };
+    it('returns `false` if disability rating is too low, and compensation type is not `highDisability`', () => {
+      expect(isShortFormEligible(formData)).to.equal(false);
+    });
+    it('returns `true` if disability rating is too low, but compensation type is `highDisability`', () => {
+      expect(
+        isShortFormEligible({
+          ...formData,
+          vaCompensationType: 'highDisability',
+        }),
+      ).to.equal(true);
+    });
+    it('returns `true` if disability rating is greater or equal to the high disability minimum', () => {
+      expect(
+        isShortFormEligible({
+          ...formData,
+          'view:totalDisabilityRating': HIGH_DISABILITY_MINIMUM,
+        }),
+      ).to.equal(true);
+    });
+  });
+
+  describe('includeSpousalInformation', () => {
+    const formData = {
+      discloseFinancialInformation: false,
+      maritalStatus: 'never married',
+    };
+    it('returns `false` if user chooses not to disclose their financial information', () => {
+      expect(includeSpousalInformation(formData)).to.equal(false);
+    });
+    it('returns `false` if user chooses to disclose their financial information, but is not married', () => {
+      expect(
+        includeSpousalInformation({
+          ...formData,
+          discloseFinancialInformation: true,
+        }),
+      ).to.equal(false);
+    });
+    it('returns `true` if user chooses to disclose their financial information and is legally married', () => {
+      expect(
+        includeSpousalInformation({
+          ...formData,
+          discloseFinancialInformation: true,
+          maritalStatus: 'married',
+        }),
+      ).to.equal(true);
+    });
+    it('returns `true` if user chooses to disclose their financial information and is legally married, but separated', () => {
+      expect(
+        includeSpousalInformation({
+          ...formData,
+          discloseFinancialInformation: true,
+          maritalStatus: 'separated',
+        }),
+      ).to.equal(true);
     });
   });
 
