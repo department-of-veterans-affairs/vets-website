@@ -36,14 +36,12 @@ import backendServices from '~/platform/user/profile/constants/backendServices';
 import {
   createIsServiceAvailableSelector,
   isMultifactorEnabled,
-  selectProfile,
   isLOA1 as isLOA1Selector,
   isLOA3 as isLOA3Selector,
   isInMPI as isInMVISelector,
   isLoggedIn,
 } from '~/platform/user/selectors';
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
-import { fetchMHVAccount as fetchMHVAccountAction } from '~/platform/user/profile/actions';
 import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
@@ -60,7 +58,6 @@ class Profile extends Component {
       fetchCNPPaymentInformation,
       fetchEDUPaymentInformation,
       fetchFullName,
-      fetchMHVAccount,
       fetchMilitaryInformation,
       fetchPersonalInformation,
       fetchTotalDisabilityRating,
@@ -71,7 +68,6 @@ class Profile extends Component {
       shouldFetchEDUDirectDepositInformation,
       connectDrupalSourceOfTruthCerner,
     } = this.props;
-    fetchMHVAccount();
     connectDrupalSourceOfTruthCerner();
     if (isLOA3 && isInMVI) {
       fetchFullName();
@@ -260,7 +256,6 @@ Profile.propTypes = {
   fetchCNPPaymentInformation: PropTypes.func.isRequired,
   fetchEDUPaymentInformation: PropTypes.func.isRequired,
   fetchFullName: PropTypes.func.isRequired,
-  fetchMHVAccount: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
   fetchTotalDisabilityRating: PropTypes.func.isRequired,
@@ -307,13 +302,6 @@ const mapStateToProps = state => {
   const hasLoadedMilitaryInformation =
     isLOA1 || !isInMVI || state.vaProfile?.militaryInformation;
 
-  // when the call to load MHV fails, `errors` will be set to a non-null value
-  // when the call succeeds, the `accountState` will be set to a non-null value
-  const hasLoadedMHVInformation =
-    !isInMVI ||
-    selectProfile(state)?.mhvAccount?.errors ||
-    selectProfile(state)?.mhvAccount?.accountState;
-
   // this piece of state will be set if the call to load personal info succeeds
   // or fails:
   const hasLoadedPersonalInformation =
@@ -334,7 +322,6 @@ const mapStateToProps = state => {
   const hasLoadedAllData =
     !isInMVI ||
     (hasLoadedFullName &&
-      hasLoadedMHVInformation &&
       hasLoadedPersonalInformation &&
       hasLoadedMilitaryInformation &&
       (shouldFetchTotalDisabilityRating
@@ -364,7 +351,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
-  fetchMHVAccount: fetchMHVAccountAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchCNPPaymentInformation: fetchCNPPaymentInformationAction,
