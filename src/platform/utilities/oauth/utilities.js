@@ -230,19 +230,10 @@ export const infoTokenExists = () => {
 };
 
 export const formatInfoCookie = cookieStringRaw => {
-  const decoded = cookieStringRaw.includes('%')
-    ? decodeURIComponent(cookieStringRaw)
-    : cookieStringRaw;
-  return decoded.split(',+:').reduce((obj, cookieString) => {
-    const [key, value] = cookieString.replace(/{:|}/g, '').split('=>');
-    const formattedValue = value
-      .replaceAll('++00:00', '')
-      .replaceAll('+', ' ')
-      .replace(',', '')
-      .replace(/\.\d+/g, '');
-
-    return { ...obj, [key]: new Date(formattedValue) };
-  }, {});
+  // eslint-disable-next-line camelcase
+  const { access_token_expiration, refresh_token_expiration } = cookieStringRaw;
+  // eslint-disable-next-line camelcase
+  return { access_token_expiration, refresh_token_expiration };
 };
 
 export const getInfoToken = () => {
