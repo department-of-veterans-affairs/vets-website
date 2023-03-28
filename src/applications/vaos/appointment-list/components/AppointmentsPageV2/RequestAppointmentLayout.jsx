@@ -48,9 +48,9 @@ export default function RequestAppointmentLayout({ appointment }) {
             )}
             size="1"
           >
-            <AppointmentRow className="vaos-appts__column-gap--4 small-screen:vads-u-flex-direction--row">
+            <AppointmentRow className="vaos-appts__column-gap--3 small-screen:vads-u-flex-direction--row">
               <AppointmentColumn size="1" className="vads-u-flex--4">
-                <AppointmentRow className="vaos-appts__column-gap--4 xsmall-screen:vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+                <AppointmentRow className="vaos-appts__column-gap--3 xsmall-screen:vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
                   <AppointmentColumn
                     padding="0"
                     size="1"

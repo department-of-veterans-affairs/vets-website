@@ -41,49 +41,92 @@ export default function AppointmentColumnLayout({
 
   return (
     <>
+      {/* Column 1 */}
       <AppointmentColumn
         size="1"
-        className="vaos-appts__column--1 vads-u-flex--auto vads-u-padding-y--2"
+        className={classNames(
+          'vads-u-flex--auto',
+          'xsmall-screen:vads-u-padding-top--1',
+          'medium-screen:vads-u-padding-y--0',
+        )}
         aria-label={dateAriaLabel}
       >
-        {first && (
-          <AppointmentRow className="vaos-appts__column-gap--1 xsmall-screen:vads-u-text-align--center small-screen:vads-u-flex-direction--row">
-            <AppointmentColumn
-              size="1"
-              className="small-screen:vads-u-margin-left--1 small-screen:vads-u-flex--auto small-screen:vads-u-order--first small-screen:vads-u-padding-top--0"
-              style={{ minWidth: '24px', maxWidth: '24px' }}
+        <AppointmentRow
+          className={classNames(
+            'vaos-appts__column--alignItems',
+            'vaos-appts__column-gap--1',
+            'xsmall-screen:vads-u-text-align--center',
+            'small-screen:vads-u-flex-direction--row',
+            'medium-screen:vads-u-padding-y--2',
+          )}
+        >
+          <AppointmentColumn
+            size="1"
+            className={classNames(
+              'small-screen:vads-u-flex--auto',
+              'small-screen:vads-u-order--first',
+              'small-screen:vads-u-padding-top--0',
+              'medium-screen:vaos-appts__minWidth',
+              'medium-screen:vaos-appts__maxWidth',
+              'medium-screen:vads-u-margin-top--neg1px',
+            )}
+          >
+            <h3
+              className={classNames(
+                'vads-u-display--inline-block',
+                'vads-u-text-align--center',
+                'vads-u-margin-top--0',
+                'vads-u-margin-bottom--0',
+                { 'vads-u-display--none': !first },
+              )}
             >
-              <h3 className="vads-u-display--inline-block vads-u-text-align--center vads-u-margin-top--0 vads-u-margin-bottom--0">
-                <span aria-hidden="true">{startDate.format('D')}</span>
-              </h3>
-            </AppointmentColumn>
-            <AppointmentColumn
-              className="vads-u-text-align--left xsmall-screen:vads-u-order--first"
-              size="1"
-              style={{ minWidth: '56px', maxWidth: '56px' }}
+              <span aria-hidden="true">{startDate.format('D')}</span>
+            </h3>
+          </AppointmentColumn>
+          <AppointmentColumn
+            className={classNames(
+              'vads-u-text-align--left',
+              'xsmall-screen:vads-u-order--first',
+              'xsmall-screen:margin-top--1',
+            )}
+            size="1"
+            style={{ minWidth: '30px', maxWidth: '30px' }}
+          >
+            <span
+              className={classNames({ 'vads-u-display--none': !first })}
+              aria-hidden="true"
             >
-              <span aria-hidden="true">{startDate.format('ddd')}</span>
-            </AppointmentColumn>
-          </AppointmentRow>
-        )}
+              {startDate.format('ddd')}
+            </span>
+          </AppointmentColumn>
+        </AppointmentRow>
       </AppointmentColumn>
 
+      {/* Column 2 */}
       <AppointmentColumn
         className={classNames(
-          'vaos-appts__column--2',
+          'vads-u-padding-right--1',
           'vads-u-border-color--gray-medium',
-          'vads-u-padding-y--2',
+          'xsmall-screen:vads-u-padding-top--1',
+          'medium-screen:vads-u-padding-top--0',
           {
             'vads-u-border-top--1px': grouped && !first,
           },
         )}
         size="1"
       >
-        <AppointmentRow className="small-screen:vads-u-flex-direction--row">
+        <AppointmentRow
+          className={classNames(
+            'vaos-appts__column--alignItems',
+            'small-screen:vads-u-flex-direction--row',
+            'small-screen:vaos-appts__column-gap--3',
+            'medium-screen:vads-u-padding-y--2',
+          )}
+        >
           <AppointmentColumn
             size="1"
             canceled={isCanceled}
-            style={{ minWidth: '108px', maxWidth: '108px' }}
+            style={{ maxWidth: '95px' }}
           >
             <span aria-hidden="true">
               {`${startDate.format('h:mm')} ${startDate.format(
@@ -93,11 +136,17 @@ export default function AppointmentColumnLayout({
           </AppointmentColumn>
 
           <AppointmentColumn size="1" className="vads-u-flex--4">
-            <AppointmentRow className="vaos-appts__column-gap--4 small-screen:vads-u-flex-direction--column small-desktop-screen:vads-u-flex-direction--row">
+            <AppointmentRow
+              className={classNames(
+                'vaos-appts__column-gap--3',
+                'small-screen:vads-u-flex-direction--column',
+                'small-desktop-screen:vads-u-flex-direction--row',
+              )}
+            >
               <AppointmentColumn
                 padding="0"
                 size="1"
-                className="vads-u-font-weight--bold vaos-appts__text--truncate vaos-appts__column--locality"
+                className="vads-u-font-weight--bold vaos-appts__text--truncate"
                 canceled={isCanceled}
                 aria-label={typeOfCareAriaLabel}
               >
@@ -107,7 +156,7 @@ export default function AppointmentColumnLayout({
               <AppointmentColumn
                 padding="0"
                 size="1"
-                className="vaos-appts__text--truncate vaos-appts__column--modality"
+                className="vaos-appts__text--truncate"
                 canceled={isCanceled}
                 aria-label={modalityAriaLabel}
               >
@@ -131,7 +180,7 @@ export default function AppointmentColumnLayout({
 
           <AppointmentColumn
             id={`vaos-appts__detail-${data.id}`}
-            className="vaos-hide-for-print small-screen:vads-u-margin-right--1"
+            className="vaos-hide-for-print"
             padding="0"
             size="1"
           >
