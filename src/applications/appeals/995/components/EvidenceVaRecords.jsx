@@ -10,13 +10,12 @@ import {
 
 import environment from 'platform/utilities/environment';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
-import { focusElement } from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
-import { EVIDENCE_VA_PATH } from '../constants';
+import { EVIDENCE_VA_PATH, NO_ISSUES_SELECTED } from '../constants';
 
 import { content } from '../content/evidenceVaRecords';
 import { getSelected, getIssueName } from '../utils/helpers';
+import { getIndex } from '../utils/evidence';
 
 import { checkValidations } from '../validations';
 import {
@@ -27,6 +26,7 @@ import {
   validateVaUnique,
   isEmptyVaEntry,
 } from '../validations/evidence';
+import { focusEvidence } from '../utils/focus';
 
 const VA_PATH = `/${EVIDENCE_VA_PATH}`;
 // const REVIEW_AND_SUBMIT = '/review-and-submit';
@@ -63,18 +63,12 @@ const EvidenceVaRecords = ({
   contentAfterButtons,
 }) => {
   const { locations = [] } = data || {};
-  const getIndex = () => {
-    // get index from url '/va-medical-records?index={index}' or testingIndex
-    const searchIndex = new URLSearchParams(window.location.search);
-    let index = parseInt(searchIndex.get('index') || testingIndex || '0', 10);
-    if (Number.isNaN(index) || index > locations.length) {
-      index = locations.length;
-    }
-    return index;
-  };
 
   // *** state ***
-  const [currentIndex, setCurrentIndex] = useState(getIndex()); // zero-based
+  // currentIndex is zero-based
+  const [currentIndex, setCurrentIndex] = useState(
+    getIndex(locations, testingIndex),
+  );
   const [currentData, setCurrentData] = useState(
     locations?.[currentIndex] || defaultData,
   );
@@ -83,9 +77,10 @@ const EvidenceVaRecords = ({
 
   const [currentState, setCurrentState] = useState(defaultState);
 
-  const availableIssues = getSelected(data).map(getIssueName);
+  const getPageType = entry => (isEmptyVaEntry(entry) ? 'add' : 'edit');
+  const [addOrEdit, setAddOrEdit] = useState(getPageType(currentData));
 
-  const addOrEdit = isEmptyVaEntry(currentData) ? 'add' : 'edit';
+  const availableIssues = getSelected(data).map(getIssueName);
 
   // *** validations ***
   const errors = {
@@ -103,18 +98,13 @@ const EvidenceVaRecords = ({
 
   const hasErrors = () => Object.values(errors).filter(Boolean).length;
 
-  const focusErrors = () => {
-    if (hasErrors()) {
-      focusElement('[error]');
-    }
-  };
-
   useEffect(
     () => {
-      setCurrentData(locations?.[currentIndex] || defaultData);
+      const entry = locations?.[currentIndex] || defaultData;
+      setCurrentData(entry);
+      setAddOrEdit(getPageType(entry));
       setCurrentState(defaultState);
-      focusElement(hasErrors() ? '[error]' : 'h3');
-      scrollTo('topPageElement');
+      focusEvidence();
       setForceReload(false);
     },
     // don't include locations or we clear state & move focus every time
@@ -167,7 +157,7 @@ const EvidenceVaRecords = ({
     const newLocations = [...locations];
     if (!isEmptyVaEntry(locations[index])) {
       // only insert a new entry if the existing entry isn't empty
-      newLocations.splice(index, 0, {});
+      newLocations.splice(index, 0, defaultData);
     }
     setFormData({ ...data, locations: newLocations });
     goToPageIndex(index);
@@ -208,11 +198,9 @@ const EvidenceVaRecords = ({
     onAddAnother: event => {
       event.preventDefault();
       if (hasErrors()) {
-        updateState({
-          submitted: true,
-          modal: { show: currentIndex !== 0, direction: NAV_PATHS.add },
-        });
-        focusElement('[error]');
+        // don't show modal
+        updateState({ submitted: true });
+        focusEvidence();
         return;
       }
       // clear state and insert a new entry after the current index (previously
@@ -223,15 +211,13 @@ const EvidenceVaRecords = ({
     },
     onGoForward: event => {
       event.preventDefault();
+      updateState({ submitted: true });
+      // non-empty entry, focus on error
       if (hasErrors()) {
-        updateState({
-          submitted: true,
-          modal: { show: currentIndex !== 0, direction: NAV_PATHS.forward },
-        });
-        focusElement('[error]');
+        focusEvidence();
         return;
       }
-      updateState({ submitted: true });
+
       const nextIndex = currentIndex + 1;
       if (currentIndex < locations.length - 1) {
         goToPageIndex(nextIndex);
@@ -241,7 +227,11 @@ const EvidenceVaRecords = ({
       }
     },
     onGoBack: () => {
-      if (hasErrors() && currentIndex !== 0) {
+      // show modal if there are errors; don't show _immediately after_ adding
+      // a new empty entry
+      if (isEmptyVaEntry(currentData)) {
+        updateCurrentLocation({ remove: true });
+      } else if (hasErrors() && addOrEdit === 'edit') {
         updateState({
           submitted: true,
           modal: { show: true, direction: NAV_PATHS.back },
@@ -261,7 +251,7 @@ const EvidenceVaRecords = ({
       // For unit testing only
       event.stopPropagation();
       updateState({ submitted: true, modal: { show: false, direction: '' } });
-      focusErrors();
+      focusEvidence();
     },
     onModalYes: () => {
       // Yes, keep location; do nothing for forward & add
@@ -276,15 +266,14 @@ const EvidenceVaRecords = ({
           goToPageIndex(prevIndex);
         }
       }
-      focusErrors();
+      focusEvidence();
     },
     onModalNo: () => {
       // No, clear current data and navigate
       const { direction } = currentState.modal;
       setCurrentData(defaultData);
-      // Using returned locations value to block going forward if the locations
-      // array has a zero length - the `locations` value is not updated in time
-      const updatedLocations = updateCurrentLocation({ remove: true });
+      updateCurrentLocation({ remove: true });
+
       updateState({ submitted: true, modal: { show: false, direction: '' } });
       if (direction === NAV_PATHS.back) {
         const prevIndex = currentIndex - 1;
@@ -293,17 +282,6 @@ const EvidenceVaRecords = ({
         } else {
           // index only passed here for testing purposes
           goBack(prevIndex);
-        }
-      } else if (direction === NAV_PATHS.forward) {
-        if (updatedLocations.length > 0) {
-          if (currentIndex < updatedLocations.length) {
-            goToPageIndex(currentIndex);
-          } else {
-            setForceReload(true);
-            goForward(data, currentIndex);
-          }
-        } else {
-          goToPageIndex(currentIndex);
         }
       } else {
         // restart this current page with empty fields (they chose No)
@@ -346,7 +324,7 @@ const EvidenceVaRecords = ({
         <VaModal
           clickToClose
           status="info"
-          modalTitle={content.modalTitle}
+          modalTitle={content.modalTitle(currentData)}
           primaryButtonText={content.modalYes}
           secondaryButtonText={content.modalNo}
           onCloseEvent={handlers.onModalClose}
@@ -380,8 +358,8 @@ const EvidenceVaRecords = ({
           error={showError('issues')}
           required
         >
-          {availableIssues.map((issue, index) => {
-            return (
+          {availableIssues.length ? (
+            availableIssues.map((issue, index) => (
               <va-checkbox
                 key={index}
                 name="issues"
@@ -389,8 +367,10 @@ const EvidenceVaRecords = ({
                 value={issue}
                 checked={(currentData?.issues || []).includes(issue)}
               />
-            );
-          })}
+            ))
+          ) : (
+            <strong>{NO_ISSUES_SELECTED}</strong>
+          )}
         </VaCheckboxGroup>
 
         <VaMemorableDate
