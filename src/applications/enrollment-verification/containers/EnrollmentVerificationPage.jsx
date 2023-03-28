@@ -56,7 +56,10 @@ export const EnrollmentVerificationPage = ({
     [submissionResult],
   );
 
-  if (!enrollmentVerificationFetchComplete) {
+  if (
+    !enrollmentVerificationFetchComplete ||
+    (!isLoggedIn && !hasCheckedKeepAlive)
+  ) {
     return <EnrollmentVerificationLoadingIndicator />;
   }
 

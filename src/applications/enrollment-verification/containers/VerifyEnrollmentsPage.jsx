@@ -299,6 +299,9 @@ export const VerifyEnrollmentsPage = ({
     [clearVerificationStatuses, history],
   );
 
+  if (!isLoggedIn && !hasCheckedKeepAlive) {
+    return <EnrollmentVerificationLoadingIndicator />;
+  }
   if (enrollmentVerificationSubmitted) {
     return (
       <EnrollmentVerificationPageWrapper>

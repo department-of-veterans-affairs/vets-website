@@ -7,9 +7,12 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import { fetchPost911GiBillEligibility } from '../actions';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
+import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import { ENROLLMENT_VERIFICATION_TYPE } from '../helpers';
+import { getEVData } from '../selectors';
 
 export const VerifyEnrollmentsErrorPage = ({
+  isLoggedIn,
   enrollmentVerification,
   getPost911GiBillEligibility,
   hasCheckedKeepAlive,
@@ -36,6 +39,9 @@ export const VerifyEnrollmentsErrorPage = ({
     scrollToTop();
   }, []);
 
+  if (!isLoggedIn && !hasCheckedKeepAlive) {
+    return <EnrollmentVerificationLoadingIndicator />;
+  }
   return (
     <EnrollmentVerificationPageWrapper>
       <h1>Verify your enrollments</h1>
@@ -64,12 +70,7 @@ VerifyEnrollmentsErrorPage.propTypes = {
   loggedIn: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
-  editMonthVerification: state?.data?.editMonthVerification,
-  hasCheckedKeepAlive: state?.user?.login?.hasCheckedKeepAlive || false,
-  loggedIn: state?.user?.login?.currentlyLoggedIn || false,
-  enrollmentVerification: state?.data?.enrollmentVerification,
-});
+const mapStateToProps = state => getEVData(state);
 
 const mapDispatchToProps = {
   getPost911GiBillEligibility: fetchPost911GiBillEligibility,
