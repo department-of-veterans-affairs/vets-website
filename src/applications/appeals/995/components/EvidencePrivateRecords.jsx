@@ -99,7 +99,8 @@ const EvidencePrivateRecords = ({
 
   const availableIssues = getSelected(data).map(getIssueName);
 
-  const addOrEdit = isEmptyPrivateEntry(currentData) ? 'add' : 'edit';
+  const getPageType = entry => (isEmptyPrivateEntry(entry) ? 'add' : 'edit');
+  const [addOrEdit, setAddorEdit] = useState(getPageType(currentData));
 
   // *** validations ***
   const errors = {
@@ -124,7 +125,9 @@ const EvidencePrivateRecords = ({
 
   useEffect(
     () => {
-      setCurrentData(providerFacility?.[currentIndex] || defaultData);
+      const entry = providerFacility?.[currentIndex] || defaultData;
+      setCurrentData(entry);
+      setAddorEdit(getPageType(entry));
       setCurrentState(defaultState);
       focusEvidence();
       setForceReload(false);

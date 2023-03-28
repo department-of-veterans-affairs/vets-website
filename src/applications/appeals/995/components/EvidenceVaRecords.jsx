@@ -77,9 +77,10 @@ const EvidenceVaRecords = ({
 
   const [currentState, setCurrentState] = useState(defaultState);
 
-  const availableIssues = getSelected(data).map(getIssueName);
+  const getPageType = entry => (isEmptyVaEntry(entry) ? 'add' : 'edit');
+  const [addOrEdit, setAddOrEdit] = useState(getPageType(currentData));
 
-  const addOrEdit = isEmptyVaEntry(currentData) ? 'add' : 'edit';
+  const availableIssues = getSelected(data).map(getIssueName);
 
   // *** validations ***
   const errors = {
@@ -99,7 +100,9 @@ const EvidenceVaRecords = ({
 
   useEffect(
     () => {
-      setCurrentData(locations?.[currentIndex] || defaultData);
+      const entry = locations?.[currentIndex] || defaultData;
+      setCurrentData(entry);
+      setAddOrEdit(getPageType(entry));
       setCurrentState(defaultState);
       focusEvidence();
       setForceReload(false);
