@@ -156,61 +156,50 @@ li.vaos-appts__listItem--clickable[data-status="pending"]:last-child {
   border-color: $color-gray-medium !important;
 }
 
-.vaos-appts__column-gap--1 {
-  column-gap: 8px;
-}
-.vaos-appts__column-gap--2 {
-  @include media($xsmall-screen) {
-    column-gap: 16px;
-  }
-}
-.vaos-appts__column-gap--4 {
-  @include media($xsmall-screen) {
-    column-gap: 32px;
-  }
-}
+$gap-values: (
+  0: initial,
+  1: 8px,
+  2: 16px,
+  3: 24px,
+  4: 32px,
+  5: 40px,
+);
 
-.vaos-appts__column--1 {
-  min-width: 96px;
-  max-width: 96px;
-
-  @include media($xsmall-screen) {
-    min-width: 30px;
-    max-width: 30px;
-  }
-  @include media($small-screen) {
-    min-width: 96px !important;
-    max-width: 96px !important;
+// Standard utilitiles
+@each $name, $value in $gap-values {
+  .vaos-appts__column-gap--#{$name} {
+    column-gap: $value !important;
   }
 }
-
-.vaos-appts__column--locality {
-  @media (min-width: $xsmall-screen) {
-    min-width: 234px;
-    max-width: 234px;
-  }
-  @include media($small-screen) {
-    min-width: 258px;
-    max-width: 258px;
+// Responsive Utilities
+@each $bp_name, $bp_value in $breakpoints {
+  @media (min-width: $bp_value) {
+    @each $name, $value in $gap-values {
+      .#{$bp_name}\:vaos-appts__column-gap--#{$name} {
+        column-gap: $value !important;
+      }
+    }
   }
 }
-.vaos-appts__column--modality {
-  @include media($xsmall-screen) {
-    min-width: 234px;
-    max-width: 234px;
+.vaos-appts__listItem--lineHeight {
+  @include media($small-desktop-screen) {
+    line-height: 3.5;
   }
-  @include media($small-screen) {
-    min-width: 396px;
-    max-width: 396px;
-  }
+}
+.medium-screen\:vaos-appts__minWidth,
+.medium-screen\:vaos-appts__maxWidth {
+  min-width: 24;
+}
+.vaos-appts__column--alignItems {
   @include media($medium-screen) {
-    min-width: 234px;
-    max-width: 234px;
+    align-items: stretch;
   }
   @include media($small-desktop-screen) {
-    min-width: 396px;
-    max-width: 396px;
+    align-items: center;
   }
+}
+.vaos-appts__column--1 {
+  //
 }
 
 div[id^="vaos-appts__detail-"] {
@@ -227,13 +216,19 @@ div[id^="vaos-appts__detail-"] {
 }
 
 .vaos-appts__text--truncate {
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
   @include media($xsmall-screen) {
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+    max-width: 221px;
+  }
+  @include media($small-screen) {
+    max-width: 215px;
   }
   @include media($medium-screen) {
-    max-width: 222px;
+    max-width: 494px;
   }
+
 }
 
 .vaos-appts__text--line-through {
