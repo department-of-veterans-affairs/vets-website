@@ -191,16 +191,7 @@ const BenefitPaymentsAndDebtV2 = ({
             {!hasDebtError &&
               !hasCopayError &&
               debtsCount < 1 &&
-              copaysCount < 1 && (
-                <>
-                  <DashboardWidgetWrapper>
-                    <NoOutstandingDebtsText />
-                  </DashboardWidgetWrapper>
-                  <DashboardWidgetWrapper>
-                    <PopularActionsForDebts />
-                  </DashboardWidgetWrapper>
-                </>
-              )}
+              copaysCount < 1 && <NoOutstandingDebtsText />}
             {debtsCount > 0 && <DebtsCardV2 debts={debts} />}
             {copaysCount > 0 && <CopaysCardV2 copays={copays} />}
             {copaysCount > 0 && hasDebtError && <PopularActionsForDebts />}
