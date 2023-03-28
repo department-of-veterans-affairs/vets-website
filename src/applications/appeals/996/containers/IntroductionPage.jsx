@@ -119,8 +119,9 @@ export class IntroductionPage extends React.Component {
           If you or your representative disagree with VA’s decision on your
           claim, you can request a Higher-Level Review. With a Higher-Level
           Review, a higher-level reviewer will take a new look at your case and
-          evidence you already provided. The reviewer will decide whether the
-          decision can be changed based on a difference of opinion or an error.
+          the evidence you already provided. The reviewer will decide whether
+          the decision can be changed based on a difference of opinion or an
+          error.
         </p>
         <h2 className="vads-u-font-size--h3">
           You can’t submit new evidence with a Higher-Level Review

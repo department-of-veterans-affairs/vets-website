@@ -751,10 +751,10 @@ export function getStatusContents(appeal, name = {}) {
       contents.description = (
         <div>
           <p>
-            By requesting a Higher-Level Review, you asked for a higher-level at
-            at the {aojDescription} to look at your case and determine whether
+            By requesting a Higher-Level Review, you asked for a higher-level
+            reviewer at the {aojDescription} to look at your case and determine
             whether they can change the decision based on a difference of
-            because VA made an error.
+            opinion or because VA made an error.
           </p>
           {details.informalConference && (
             <p>
