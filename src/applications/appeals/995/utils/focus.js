@@ -36,7 +36,7 @@ export const focusRadioH3 = () => {
   const radio = $('va-radio');
   if (radio) {
     // va-radio content doesn't immediately render
-    waitForRenderThenFocus('#main h3', radio.shadowRoot);
+    waitForRenderThenFocus('h3', radio.shadowRoot);
   } else {
     focusElement(defaultFocusSelector);
   }
