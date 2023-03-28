@@ -13,29 +13,6 @@ class PatientComposePage {
     cy.wait('@message');
   };
 
-  pushSendMessageWithKeyboardPress = () => {
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/messages',
-      mockDraftMessage,
-    ).as('message');
-    cy.tabToElement('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
-      .realPress(['Enter']);
-    cy.wait('@message');
-  };
-
-  verifySendMessageConfirmationMessage = () => {
-    cy.get('.vads-u-margin-bottom--1').should(
-      'have.text',
-      'Message was successfully sent.',
-    );
-  };
-
-  verifySendMessageConfirmationMessageHasFocus = () => {
-    cy.get('.vads-u-margin-bottom--1').should('be.focused');
-  };
-
   //* Refactor*  Need to get rid of this method and split out
   enterComposeMessageDetails = category => {
     this.selectRecipient('###PQR TRIAGE_TEAM 747###', { force: true });
@@ -122,6 +99,28 @@ class PatientComposePage {
         expect(message.category).to.eq(testCategory);
         expect(message.subject).to.eq(testSubject);
         expect(message.body).to.eq(testBody);
+      });
+  };
+
+  saveDraft = draftMessage => {
+    cy.intercept(
+      'POST',
+      `/my_health/v1/messaging/message_drafts/${
+        draftMessage.data.attributes.messageId
+      }/replydraft`,
+      draftMessage,
+    ).as('draft_message');
+
+    cy.get('[data-testid="Save-Draft-Button"]').click();
+    cy.wait('@draft_message').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
+    cy.get('@draft_message')
+      .its('request.body')
+      .then(message => {
+        expect(message.category).to.eq(draftMessage.data.attributes.category);
+        expect(message.subject).to.eq(draftMessage.data.attributes.subject);
+        expect(message.body).to.eq(draftMessage.data.attributes.body);
       });
   };
 

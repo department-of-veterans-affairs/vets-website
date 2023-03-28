@@ -15,8 +15,14 @@ class PatientMessageDraftsPage {
     detailedMessage = mockDraftResponse,
   ) => {
     this.mockDraftMessages = draftMessages;
+    cy.log(
+      `draft messages before set Draft Test Message Details = ${JSON.stringify(
+        this.mockDraftMessages,
+      )}`,
+    );
     this.setDraftTestMessageDetails(detailedMessage);
 
+    cy.log(`draft messages  = ${JSON.stringify(this.mockDraftMessages)}`);
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-2',
@@ -129,7 +135,14 @@ class PatientMessageDraftsPage {
       this.currentThread,
     ).as('full-thread');
 
+    cy.log(
+      ` mock message detail message subject = ${
+        mockParentMessageDetails.data.attributes.subject
+      }`,
+    );
     cy.contains(mockParentMessageDetails.data.attributes.subject).click();
+    cy.injectAxe();
+    cy.axeCheck();
     cy.wait('@message1');
     cy.wait('@full-thread');
   };
