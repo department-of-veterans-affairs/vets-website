@@ -176,7 +176,7 @@ class ApiInitializer {
     },
     withFailure: (errorCode = 401) => {
       cy.intercept('POST', '/check_in/v2/sessions', req => {
-        req.reply(errorCode, session.post.createMockFailedResponse());
+        req.reply(errorCode, session.post.createMockFailedResponse(errorCode));
       });
     },
   };
@@ -300,7 +300,7 @@ class ApiInitializer {
     },
     withFailure: (errorCode = 400) => {
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
-        req.reply(errorCode, preCheckInData.get.createMockFailedResponse());
+        req.reply(errorCode, sharedData.get.createMockFailedResponse());
       });
     },
     withUuidNotFound: () => {
@@ -321,7 +321,7 @@ class ApiInitializer {
     },
     withFailure: (errorCode = 400) => {
       cy.intercept('POST', '/check_in/v2/pre_check_ins/', req => {
-        req.reply(errorCode, preCheckInData.post.createMockFailedResponse());
+        req.reply(errorCode, sharedData.post.createMockFailedResponse());
       }).as('post-pre_check_ins-failure');
     },
   };
@@ -403,7 +403,7 @@ class ApiInitializer {
     },
     withFailure: (errorCode = 400) => {
       cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
-        req.reply(errorCode, checkInData.get.createMockFailedResponse());
+        req.reply(errorCode, sharedData.get.createMockFailedResponse());
       });
     },
     withUuidNotFound: () => {
@@ -493,7 +493,7 @@ class ApiInitializer {
     },
     withFailure: (errorCode = 400) => {
       cy.intercept('POST', `/check_in/v2/patient_check_ins/`, req => {
-        req.reply(errorCode, checkInData.post.createMockFailedResponse({}));
+        req.reply(errorCode, sharedData.post.createMockFailedResponse({}));
       });
     },
   };
@@ -527,7 +527,7 @@ class ApiInitializer {
         req.on('response', res => {
           res.setDelay(delay);
         });
-        req.reply(errorCode, checkInData.patch.createMockFailedResponse({}));
+        req.reply(errorCode, sharedData.patch.createMockFailedResponse({}));
       }).as('demographicsPatchFailureAlias');
     },
   };

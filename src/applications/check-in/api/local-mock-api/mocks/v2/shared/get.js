@@ -247,10 +247,17 @@ const createAppointments = (
   };
 };
 
+const createMockFailedResponse = _data => {
+  return {
+    error: true,
+  };
+};
+
 module.exports = {
   aboutToExpireUUID,
   createAppointments,
   createAppointment,
   defaultUUID,
   mockDemographics,
+  createMockFailedResponse,
 };
