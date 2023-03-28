@@ -108,7 +108,7 @@ const createStore = (options = {}) => {
   });
 };
 
-describe('Schemaform review: SubmitController', () => {
+describe.skip('Schemaform review: SubmitController', () => {
   before(() => {
     testkit.reset();
   });

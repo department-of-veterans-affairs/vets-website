@@ -6,6 +6,7 @@ const { createAppealsSuccess } = require('./appeals-success');
 const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
 const { createClaimsSuccess } = require('./evss-claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
+const { createUnreadMessagesSuccess } = require('./messaging');
 const { user81Copays } = require('./medical-copays');
 const { v0, v2 } = require('./appointments');
 
@@ -27,6 +28,7 @@ const responses = {
   'GET /v0/appeals': createAppealsSuccess(),
   'GET /v0/evss_claims_async': createClaimsSuccess(),
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
+  'GET /v0/messaging/health/folders/0': createUnreadMessagesSuccess(),
   'GET /v0/profile/full_name': {
     id: '',
     type: 'hashes',

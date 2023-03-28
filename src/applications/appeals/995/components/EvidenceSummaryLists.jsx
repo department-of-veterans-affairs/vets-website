@@ -46,9 +46,14 @@ const formatDateRange = ({ from, to }) => {
  * by one, but when edit mode (opposite of reviewMode) is entered, the page
  * header (h4) disappears, so we match the other page header levels
  */
-const getHeaderLevel = ({ onReviewPage, reviewMode }) =>
+
+// on summary page -- titles render as h4 and evidence as h5
+const getHeaderLevelH5toH4 = ({ onReviewPage, reviewMode }) =>
   onReviewPage || reviewMode ? 'h5' : 'h4';
 
+// on review and submit page -- titles render as h5 and evidence as h6
+const getHeaderLevelH6toH5 = ({ onReviewPage, reviewMode }) =>
+  onReviewPage || reviewMode ? 'h6' : 'h5';
 /**
  * Build VA evidence list
  * @param {Object[]} vaEvidence - VA evidence array
@@ -65,10 +70,11 @@ export const VaContent = ({
   handlers = {},
   testing,
 }) => {
-  const Header = getHeaderLevel({ onReviewPage, reviewMode });
+  const Header6 = getHeaderLevelH6toH5({ onReviewPage, reviewMode });
+  const Header5 = getHeaderLevelH5toH4({ onReviewPage, reviewMode });
   return list?.length ? (
     <>
-      <Header>{content.vaTitle}</Header>
+      <Header5>{content.vaTitle}</Header5>
       <ul className="evidence-summary">
         {list.map((location, index) => {
           const { locationAndName, issues, evidenceDates = {} } =
@@ -76,7 +82,7 @@ export const VaContent = ({
           const path = `/${EVIDENCE_VA_PATH}?index=${index}`;
           return (
             <li key={locationAndName + index} className={listClassNames}>
-              <strong>{locationAndName}</strong>
+              <Header6>{locationAndName}</Header6>
               <div>{readableList(issues)}</div>
               {formatDateRange(evidenceDates)}
               {!reviewMode && (
@@ -134,10 +140,11 @@ export const PrivateContent = ({
   handlers = {},
   testing,
 }) => {
-  const Header = getHeaderLevel({ onReviewPage, reviewMode });
+  const Header6 = getHeaderLevelH6toH5({ onReviewPage, reviewMode });
+  const Header5 = getHeaderLevelH5toH4({ onReviewPage, reviewMode });
   return list?.length ? (
     <>
-      <Header>{content.privateTitle}</Header>
+      <Header5>{content.privateTitle}</Header5>
       <ul className="evidence-summary">
         {list.map((facility, index) => {
           const { providerFacilityName, issues, treatmentDateRange = {} } =
@@ -145,7 +152,7 @@ export const PrivateContent = ({
           const path = `/${EVIDENCE_PRIVATE_PATH}?index=${index}`;
           return (
             <li key={providerFacilityName + index} className={listClassNames}>
-              <strong>{providerFacilityName}</strong>
+              <Header6>{providerFacilityName}</Header6>
               <div>{readableList(issues)}</div>
               {formatDateRange(treatmentDateRange)}
               {!reviewMode && (
@@ -173,10 +180,8 @@ export const PrivateContent = ({
           );
         })}
         <li key="limitation" className={listClassNames}>
-          <div>{limitContent.title}</div>
-          <strong>
-            {limitContent.review[limitedConsent.length ? 'y' : 'n']}
-          </strong>
+          <Header5>{limitContent.title}</Header5>
+          <p>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</p>
           {!reviewMode && (
             <div>
               <Link
@@ -230,22 +235,23 @@ export const UploadContent = ({
   handlers = {},
   testing,
 }) => {
-  const Header = getHeaderLevel({ onReviewPage, reviewMode });
+  const Header6 = getHeaderLevelH6toH5({ onReviewPage, reviewMode });
+  const Header5 = getHeaderLevelH5toH4({ onReviewPage, reviewMode });
   return list?.length ? (
     <>
-      <Header>{content.otherTitle}</Header>
+      <Header5>{content.otherTitle}</Header5>
       <ul className="evidence-summary">
         {list.map((upload, index) => (
           <li key={upload.name + index} className={listClassNames}>
-            <strong>{upload.name}</strong>
+            <Header6>{upload.name}</Header6>
             <div>{ATTACHMENTS_OTHER[upload.attachmentId] || ''}</div>
             {!reviewMode && (
               <div>
                 <Link
                   id={`edit-upload-${index}`}
                   className="edit-item"
-                  to={`/${EVIDENCE_UPLOAD_PATH}`}
-                  aria-label={`${content.edit} ${upload.name}`}
+                  to={`/${EVIDENCE_UPLOAD_PATH}#${index}`}
+                  aria-label={`${content.editLinkAria} ${upload.name}`}
                   data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
                 >
                   {content.edit}

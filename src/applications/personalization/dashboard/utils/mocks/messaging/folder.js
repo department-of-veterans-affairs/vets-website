@@ -1,4 +1,4 @@
-import environment from 'platform/utilities/environment';
+import environment from '~/platform/utilities/environment';
 
 export const mockFolderResponse = {
   data: {
