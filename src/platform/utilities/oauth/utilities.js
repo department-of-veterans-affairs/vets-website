@@ -300,7 +300,7 @@ export const logoutUrlSiS = () => {
 
   url.searchParams.append(
     OAUTH_KEYS.CLIENT_ID,
-    clientId && Object.keys(CLIENT_IDS).includes(clientId)
+    clientId && Object.values(CLIENT_IDS).includes(clientId)
       ? clientId
       : CLIENT_IDS.VAWEB,
   );
