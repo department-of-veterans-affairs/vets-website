@@ -6,14 +6,14 @@ import { useHistory } from 'react-router-dom';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FileInput from './FileInput';
 import AttachmentsList from '../AttachmentsList';
-import { saveReplyDraft } from '../../actions/draftDetails';
+import { clearDraft, saveReplyDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 import DeleteDraft from '../Draft/DeleteDraft';
 import { sendReply } from '../../actions/messages';
 import EmergencyNote from '../EmergencyNote';
 import HowToAttachFiles from '../HowToAttachFiles';
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, navigateToFolderByFolderId } from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
@@ -66,6 +66,15 @@ const ReplyForm = props => {
 
   useEffect(
     () => {
+      return () => {
+        dispatch(clearDraft());
+      };
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
       if (sendMessageFlag && isSaving !== true) {
         const messageData = {
           category,
@@ -78,8 +87,11 @@ const ReplyForm = props => {
           const sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendReply(replyMessage.messageId, sendData, true)).then(() =>
-            history.push(`/message/${replyMessage.messageId}`),
+          dispatch(sendReply(replyMessage.messageId, sendData, true)).then(
+            () => {
+              // history.push(`/thread/${replyMessage.messageId}`);
+              navigateToFolderByFolderId(replyMessage.threadFolderId, history);
+            },
           );
         } else {
           dispatch(
@@ -89,7 +101,8 @@ const ReplyForm = props => {
               false,
             ),
           ).then(() => {
-            history.push(`/message/${replyMessage.messageId}`);
+            // history.push(`/thread/${replyMessage.messageId}`);
+            navigateToFolderByFolderId(replyMessage.threadFolderId, history);
           });
         }
       }
@@ -291,20 +304,20 @@ const ReplyForm = props => {
           />
           <EmergencyNote dropDownFlag />
           <div>
-            <p>
+            <h4
+              className="vads-u-display--flex vads-u-color--gray-dark vads-u-font-weight--bold"
+              style={{ whiteSpace: 'break-spaces' }}
+            >
               <i
                 className="fas fa-reply vads-u-margin-right--0p5"
                 aria-hidden="true"
               />
-              <strong>
-                <strong className="vads-u-color--secondary-darkest">
-                  (Draft)
-                </strong>{' '}
-                To:{' '}
-              </strong>
-              {replyMessage.recipientName}
+              {`(Draft) To: ${draftToEdit?.replyToName ||
+                replyMessage?.senderName}\n(Team: ${
+                replyMessage.triageGroupName
+              })`}
               <br />
-            </p>
+            </h4>
             <va-textarea
               label="Message"
               required
@@ -364,7 +377,10 @@ const ReplyForm = props => {
             </p>
           </div>
         </form>
-        <main className="vads-u-margin--0" data-testid="message-replied-to">
+        <main
+          className="vads-u-margin--0 message-replied-to"
+          data-testid="message-replied-to"
+        >
           <section aria-label="message details.">
             <p className="vads-u-margin--0">
               <strong>From: </strong>
