@@ -80,7 +80,7 @@ const ThreadListItem = props => {
     >
       <div className="unread-column vads-l-col">
         {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
-          (unreadMessages !== true && (
+          (unreadMessages && (
             <i
               aria-hidden="true"
               className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
