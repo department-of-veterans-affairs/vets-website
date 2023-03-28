@@ -10,7 +10,9 @@ describe('Thread List component', () => {
   const initialState = {
     sm: {
       folders: {},
-      threads: [],
+      threads: {
+        threadList: [],
+      },
     },
   };
 
@@ -25,10 +27,10 @@ describe('Thread List component', () => {
   const pageNum = 1;
   let screen;
 
-  const setup = () => {
+  const setup = threads => {
     return renderWithStoreAndRouter(
       <ThreadsList
-        threadList={listOfThreads}
+        threadList={threads}
         folder={inbox}
         folderId={folderId}
         setPageNum={setPageNum}
@@ -46,13 +48,20 @@ describe('Thread List component', () => {
     );
   };
   it('renders without errors', () => {
-    screen = setup();
+    screen = setup(listOfThreads);
     expect(screen);
   });
   it('renders list of threads', async () => {
-    screen = setup();
+    screen = setup(listOfThreads);
 
     const renderedThreads = await screen.getAllByTestId('thread-list-item');
     expect(renderedThreads.length).to.equal(listOfThreads.length);
+  });
+  it('list with no threads', async () => {
+    const noThreads = [];
+    screen = setup(noThreads);
+
+    const renderedThreads = await screen.queryAllByTestId('thread-list-item');
+    expect(renderedThreads.length).not.to.be.greaterThan(0);
   });
 });

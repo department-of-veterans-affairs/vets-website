@@ -40,7 +40,7 @@ const ThreadsList = props => {
   } = props;
 
   const totalEntries = threadList?.length;
-  const totalThreads = threadList[0].threadPageSize;
+  const totalThreads = threadList[0]?.threadPageSize;
   // get display numbers
   const fromToNums = (page, total) => {
     const from = (page - 1) * threadsPerPage + 1;
