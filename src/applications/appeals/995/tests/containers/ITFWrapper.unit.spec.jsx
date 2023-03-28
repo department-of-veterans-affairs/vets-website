@@ -324,7 +324,7 @@ describe('ITFWrapper', () => {
         </ITFWrapper>
       </Provider>,
     );
-    // Fetch succeded and expired ITF was returned
+    // Fetch succeeded and expired ITF was returned
     // This is used to catch cases where the status field is out of date
     await waitFor(() => {
       expect(mockDispatch.called).to.be.true;
