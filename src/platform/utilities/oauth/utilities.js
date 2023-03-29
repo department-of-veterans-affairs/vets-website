@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -230,9 +231,15 @@ export const infoTokenExists = () => {
 };
 
 export const formatInfoCookie = cookieStringRaw => {
-  // eslint-disable-next-line camelcase
-  const { access_token_expiration, refresh_token_expiration } = cookieStringRaw;
-  // eslint-disable-next-line camelcase
+  const stringifiedCookie = JSON.stringify(cookieStringRaw);
+  const parsedCookie = JSON.parse(stringifiedCookie);
+
+  const access_token_expiration = new Date(
+    parsedCookie.access_token_expiration,
+  );
+  const refresh_token_expiration = new Date(
+    parsedCookie.refresh_token_expiration,
+  );
   return { access_token_expiration, refresh_token_expiration };
 };
 
