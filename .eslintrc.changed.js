@@ -39,10 +39,6 @@ module.exports = {
         use: '<va-additional-info>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/Breadcrumbs',
-        use: '<va-breadcrumbs>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/DropDownPanel',
         use: 'HTML',
       },
@@ -50,14 +46,6 @@ module.exports = {
         name:
           '@department-of-veterans-affairs/component-library/LoadingIndicator',
         use: '<va-loading-indicator>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Modal',
-        use: '<va-modal>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/OMBInfo',
-        use: '<va-omb-info>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/Pagination',
@@ -71,10 +59,6 @@ module.exports = {
       {
         name: '@department-of-veterans-affairs/component-library/Table',
         use: '<va-table>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Telephone',
-        use: '<va-telephone>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/Select',
