@@ -133,7 +133,7 @@ const VitalDetails = () => {
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                     {vital.measurement}
                   </p>
-                  <strong>{idx === 0 ? 'Most recent date:' : 'Date'}</strong>
+                  <strong>{idx === 0 ? 'Most recent date:' : 'Date:'}</strong>
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                     {dateFormat(vital.date, 'MMMM D, YYYY')}
                   </p>
