@@ -21,6 +21,7 @@ export default function AppointmentSchedulingServiceAlert() {
           <va-alert-expandable
             status="warning"
             trigger="We can't display all your appointments."
+            data-testid="backend-appointment-service-alert"
           >
             <p>
               We're working to resolve this issue. To manage an appointment that

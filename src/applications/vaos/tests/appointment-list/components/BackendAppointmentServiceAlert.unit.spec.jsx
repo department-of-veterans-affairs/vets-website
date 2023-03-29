@@ -93,7 +93,7 @@ describe('VAOS <UpcomingAppointmentsList> Backend Service Alert', () => {
       });
 
       await waitFor(() => {
-        expect(screen.queryByText("We can't display all your appointments")).to
+        expect(screen.queryByTestId('backend-appointment-service-alert')).to
           .exist;
       });
     });
@@ -156,8 +156,8 @@ describe('VAOS <UpcomingAppointmentsList> Backend Service Alert', () => {
         );
       });
 
-      expect(screen.queryByText("We can't display all your appointments.")).not
-        .to.exist;
+      expect(screen.queryByTestId('backend-appointment-service-alert')).to.not
+        .exist;
     });
   });
 
@@ -220,8 +220,8 @@ describe('VAOS <UpcomingAppointmentsList> Backend Service Alert', () => {
         );
       });
 
-      expect(screen.queryByText("We can't display all your appointments.")).not
-        .to.exist;
+      expect(screen.queryByTestId('backend-appointment-service-alert')).to.not
+        .exist;
     });
   });
 });
