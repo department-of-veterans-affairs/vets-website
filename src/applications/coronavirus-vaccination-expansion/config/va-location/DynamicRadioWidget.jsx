@@ -30,7 +30,7 @@ export function DynamicRadioWidget(props) {
       </p>
       <p>
         We'll match you with the closest medical center based on the address you
-        provided. They'll contact you when they have a vaccine for you.
+        provided. They’ll contact you when they have a vaccine for you.
       </p>
     </>
   );
