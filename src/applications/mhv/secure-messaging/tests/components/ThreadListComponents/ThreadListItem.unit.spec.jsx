@@ -92,14 +92,14 @@ describe('Thread List component', () => {
   it('renders draft text if unsentDraft is true', async () => {
     screen = setup({ ...options, unsentDrafts: true });
 
-    const threadItem = await screen.getByText('(Drafts)');
+    const threadItem = await screen.getByText('(Draft)');
     expect(threadItem).to.exist;
   });
 
   it('does not render "Draft" text if unsentDraft is false', async () => {
     screen = setup({ ...options, unsentDrafts: false });
 
-    const threadItemDraftsText = await screen.queryByText('(Drafts)');
+    const threadItemDraftsText = await screen.queryByText('(Draft)');
     expect(threadItemDraftsText).to.not.exist;
   });
 
