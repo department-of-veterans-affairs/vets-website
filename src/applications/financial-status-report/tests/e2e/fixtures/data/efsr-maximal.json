@@ -139,6 +139,7 @@
   },
   "questions": {
     "hasBeenAdjudicatedBankrupt": true,
+    "hasCreditCardBills":false,
     "hasOtherExpenses": true,
     "hasRepayments": true,
     "hasUtilities": true,
@@ -153,7 +154,6 @@
     "isMarried": true,
     "hasAdditionalIncome": true,
     "hasSocialSecurity": true,
-    "hasCreditCardBills":false, 
     "vetIsEmployed": true
   },
   "installmentContracts": [

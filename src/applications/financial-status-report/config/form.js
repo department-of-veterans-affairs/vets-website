@@ -917,6 +917,22 @@ const formConfig = {
           uiSchema: pages.resolutionComment.uiSchema,
           schema: pages.resolutionComment.schema,
         },
+        resolutionWaiverAgreement: {
+          title: 'Resolution Waiver Agreement',
+          depends: (formData, index) => {
+            return (
+              formData.selectedDebtsAndCopays?.length > 0 &&
+              formData['view:combinedFinancialStatusReport'] &&
+              formData.selectedDebtsAndCopays[index]?.resolutionOption ===
+                'waiver'
+            );
+          },
+          path: 'resolution-waiver-agreement/:index',
+          showPagePerItem: true,
+          arrayPath: 'selectedDebtsAndCopays',
+          uiSchema: pages.resolutionWaiverAgreement.uiSchema,
+          schema: pages.resolutionWaiverAgreement.schema,
+        },
         resolutionComments: {
           path: 'resolution-comments',
           title: 'Resolution comments',

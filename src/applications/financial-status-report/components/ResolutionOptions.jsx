@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import { RESOLUTION_OPTION_TYPES } from '../constants';
 
 const ResolutionOptions = ({ formContext }) => {
@@ -13,33 +12,15 @@ const ResolutionOptions = ({ formContext }) => {
   const { selectedDebtsAndCopays = [] } = formData;
   const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
 
-  const isWaiverChecked =
-    currentDebt.resolutionOption === RESOLUTION_OPTION_TYPES.WAIVER &&
-    currentDebt.resolutionWaiverCheck === true;
-
-  const onWaiverChecked = () => {
+  const onResolutionChange = ({ target }) => {
     const newlySelectedDebtsAndCopays = selectedDebtsAndCopays.map(debt => {
       if (debt.id === currentDebt.id) {
         return {
           ...debt,
-          resolutionWaiverCheck: !currentDebt.resolutionWaiverCheck,
+          resolutionOption: target.value,
+          resolutionWaiverCheck: false,
+          resolutionComment: '',
         };
-      }
-      return debt;
-    });
-
-    return dispatch(
-      setData({
-        ...formData,
-        selectedDebtsAndCopays: newlySelectedDebtsAndCopays,
-      }),
-    );
-  };
-
-  const onResolutionChange = ({ target }) => {
-    const newlySelectedDebtsAndCopays = selectedDebtsAndCopays.map(debt => {
-      if (debt.id === currentDebt.id) {
-        return { ...debt, resolutionOption: target.value };
       }
       return debt;
     });
@@ -111,11 +92,6 @@ const ResolutionOptions = ({ formContext }) => {
   const resolutionError =
     formContext.submitted && !currentDebt.resolutionOption;
   const resolutionErrorMessage = 'Please select a resolution option';
-  const checkboxError =
-    formContext.submitted &&
-    currentDebt.resolutionOption === RESOLUTION_OPTION_TYPES.WAIVER &&
-    !currentDebt.resolutionWaiverCheck;
-  const checkboxErrorMessage = 'You must agree by checking the box.';
 
   return (
     <div
@@ -136,90 +112,52 @@ const ResolutionOptions = ({ formContext }) => {
       )}
       {!isEditing && <>{renderResolutionSelectionText()}</>}
       {isEditing && (
-        <ExpandingGroup
-          open={currentDebt.resolutionOption === RESOLUTION_OPTION_TYPES.WAIVER}
-        >
-          <div>
-            <input
-              type="radio"
-              checked={
-                currentDebt.resolutionOption === RESOLUTION_OPTION_TYPES.WAIVER
-              }
-              name="resolution-option"
-              id="radio-waiver"
-              value="waiver"
-              className="vads-u-width--auto"
-              onChange={onResolutionChange}
-            />
-            <label htmlFor="radio-waiver" className="vads-u-margin--0">
-              {renderWaiverText}
-            </label>
-            {currentDebt.debtType !== 'COPAY' && (
-              <div>
-                <input
-                  type="radio"
-                  checked={
-                    currentDebt.resolutionOption ===
-                    RESOLUTION_OPTION_TYPES.MONTHLY
-                  }
-                  name="resolution-option"
-                  id="radio-monthly"
-                  value="monthly"
-                  className="vads-u-width--auto"
-                  onChange={onResolutionChange}
-                />
-                <label htmlFor="radio-monthly">{renderMonthlyText}</label>
-              </div>
-            )}
-            <input
-              type="radio"
-              checked={
-                currentDebt.resolutionOption ===
-                RESOLUTION_OPTION_TYPES.COMPROMISE
-              }
-              name="resolution-option"
-              id="radio-compromise"
-              value="compromise"
-              className="vads-u-width--auto"
-              onChange={onResolutionChange}
-            />
-            <label htmlFor="radio-compromise">{renderCompromiseText}</label>
-          </div>
-          <div
-            className={
-              checkboxError
-                ? 'error-line vads-u-margin-y--3 vads-u-padding-left--1 vads-u-margin-left--neg1p5'
-                : 'vads-u-margin-y--3'
+        <div>
+          <input
+            type="radio"
+            checked={
+              currentDebt.resolutionOption === RESOLUTION_OPTION_TYPES.WAIVER
             }
-          >
-            {checkboxError && (
-              <span
-                className="vads-u-font-weight--bold vads-u-color--secondary-dark"
-                role="alert"
-              >
-                <span className="sr-only">Error</span>
-                <p>{checkboxErrorMessage}</p>
-              </span>
-            )}
-            <input
-              name="request-help-with-copay"
-              id={currentDebt.id}
-              type="checkbox"
-              checked={isWaiverChecked || false}
-              className="vads-u-width--auto"
-              onChange={onWaiverChecked}
-            />
-            <label className="vads-u-margin--0" htmlFor={currentDebt.id}>
-              <div className="vads-u-margin-left--4 vads-u-margin-top--neg3">
-                <p className="vads-u-margin--0">
-                  By checking this box, I’m agreeing that I understand that
-                  forgiveness of education debt will reduce any remaining
-                  education benefit I may have.
-                </p>
-              </div>
-            </label>
-          </div>
-        </ExpandingGroup>
+            name="resolution-option"
+            id="radio-waiver"
+            value="waiver"
+            className="vads-u-width--auto"
+            onChange={onResolutionChange}
+          />
+          <label htmlFor="radio-waiver" className="vads-u-margin--0">
+            {renderWaiverText}
+          </label>
+          {currentDebt.debtType !== 'COPAY' && (
+            <div>
+              <input
+                type="radio"
+                checked={
+                  currentDebt.resolutionOption ===
+                  RESOLUTION_OPTION_TYPES.MONTHLY
+                }
+                name="resolution-option"
+                id="radio-monthly"
+                value="monthly"
+                className="vads-u-width--auto"
+                onChange={onResolutionChange}
+              />
+              <label htmlFor="radio-monthly">{renderMonthlyText}</label>
+            </div>
+          )}
+          <input
+            type="radio"
+            checked={
+              currentDebt.resolutionOption ===
+              RESOLUTION_OPTION_TYPES.COMPROMISE
+            }
+            name="resolution-option"
+            id="radio-compromise"
+            value="compromise"
+            className="vads-u-width--auto"
+            onChange={onResolutionChange}
+          />
+          <label htmlFor="radio-compromise">{renderCompromiseText}</label>
+        </div>
       )}
     </div>
   );
