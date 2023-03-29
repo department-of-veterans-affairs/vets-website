@@ -123,9 +123,9 @@ class FormStartControls extends React.Component {
             <p>Are you sure you want to start over?</p>
             <VaButtonPair
               primaryLabel={startNewAppButtonText}
-              primaryClick={this.startOver}
+              onPrimaryClick={this.startOver}
               secondaryLabel="Cancel"
-              secondaryClick={this.toggleModal}
+              onSecondaryClick={this.toggleModal}
             />
           </Modal>
         </div>

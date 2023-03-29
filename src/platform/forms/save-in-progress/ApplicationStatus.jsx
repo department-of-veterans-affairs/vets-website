@@ -190,9 +190,9 @@ export class ApplicationStatus extends React.Component {
               <p>Are you sure you want to start over?</p>
               <VaButtonPair
                 primaryLabel={startNewAppButtonText}
-                primaryClick={() => this.removeForm(formId)}
+                onPrimaryClick={() => this.removeForm(formId)}
                 secondaryLabel="Cancel"
-                secondaryClick={this.toggleModal}
+                onSecondaryClick={this.toggleModal}
               />
             </Modal>
           </div>
@@ -230,9 +230,9 @@ export class ApplicationStatus extends React.Component {
             <p>Are you sure you want to start over?</p>
             <VaButtonPair
               primaryLabel={startNewAppButtonText}
-              primaryClick={() => this.removeForm(formId)}
+              onPrimaryClick={() => this.removeForm(formId)}
               secondaryLabel="Cancel"
-              secondaryClick={this.toggleModal}
+              onSecondaryClick={this.toggleModal}
             />
           </Modal>
         </div>

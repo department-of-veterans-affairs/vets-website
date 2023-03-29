@@ -36,9 +36,9 @@ class SaveInProgressErrorPage extends React.Component {
 
   getBackButton = (primary = false) => {
     return primary ? (
-      <VaButtonPair primaryLabel="« Back" primaryClick={this.goBack} />
+      <VaButtonPair primaryLabel="« Back" onPrimaryClick={this.goBack} />
     ) : (
-      <VaButtonPair secondaryLabel="« Back" secondaryClick={this.goBack} />
+      <VaButtonPair secondaryLabel="« Back" onSecondaryClick={this.goBack} />
     );
   };
 
