@@ -231,8 +231,7 @@ export const infoTokenExists = () => {
 };
 
 export const formatInfoCookie = cookieStringRaw => {
-  const stringifiedCookie = JSON.stringify(cookieStringRaw);
-  const parsedCookie = JSON.parse(stringifiedCookie);
+  const parsedCookie = JSON.parse(cookieStringRaw);
 
   const access_token_expiration = new Date(
     parsedCookie.access_token_expiration,

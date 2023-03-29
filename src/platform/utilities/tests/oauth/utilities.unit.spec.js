@@ -274,11 +274,9 @@ describe('OAuth - Utilities', () => {
 
   describe('formatInfoCookie', () => {
     it('should return an object with a valid date', () => {
-      const unformattedCookie = {
-        access_token_expiration: '2023-03-17T19:17:31.089Z',
-        refresh_token_expiration: '2023-03-17T19:29:11.093Z',
-      };
-
+      const unformattedCookie = decodeURIComponent(
+        '%7B%22access_token_expiration%22%3A%222023-03-17T19%3A38%3A06.654Z%22%2C%22refresh_token_expiration%22%3A%222023-03-17T20%3A03%3A06.631Z%22%7D',
+      );
       expect(typeof oAuthUtils.formatInfoCookie(unformattedCookie)).to.eql(
         'object',
       );
@@ -291,10 +289,9 @@ describe('OAuth - Utilities', () => {
 
   describe('getInfoToken', () => {
     it('should return a formatted object of the access & refresh tokens', () => {
-      const unformattedCookie = {
-        access_token_expiration: '2023-03-17T19:17:31.089Z',
-        refresh_token_expiration: '2023-03-17T19:29:11.093Z',
-      };
+      const unformattedCookie = decodeURIComponent(
+        '%7B%22access_token_expiration%22%3A%222023-03-17T19%3A38%3A06.654Z%22%2C%22refresh_token_expiration%22%3A%222023-03-17T20%3A03%3A06.631Z%22%7D',
+      );
       const keys = Object.keys(oAuthUtils.formatInfoCookie(unformattedCookie));
       expect(keys).to.include('access_token_expiration');
       expect(keys).to.include('refresh_token_expiration');
