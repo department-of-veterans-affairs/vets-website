@@ -5,22 +5,19 @@
 
     li {
         margin: 0;
-        padding: 16 0 16 0;
+        padding: 24 0 24 0;
         border-top: 1px solid $color-gray-light;
     }
     li:first-child {
         margin: 0;
-        padding: 0 0 16 0;
+        padding: 24 0 24 0;
         border-top: 0;
     }
 
     strong {
-        margin: 8 0 0 0;
+        margin: 0;
     }
 
-    p {
-        margin: 0 0 8 0;
-    }
 }
 
 .comment-list {

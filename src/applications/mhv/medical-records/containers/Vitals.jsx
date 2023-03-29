@@ -35,13 +35,15 @@ const Vitals = () => {
     () => {
       if (vitals?.length) {
         setCards([
-          vitals.filter(vital => vital.name === 'Blood Pressure')[0],
-          vitals.filter(vital => vital.name === 'Height')[0],
-          vitals.filter(vital => vital.name === 'Pain level')[0],
-          vitals.filter(vital => vital.name === 'Pulse rate')[0],
-          vitals.filter(vital => vital.name === 'Respiration')[0],
-          vitals.filter(vital => vital.name === 'Temperature')[0],
-          vitals.filter(vital => vital.name === 'Weight')[0],
+          vitals.filter(
+            vital => vital.name.toLowerCase() === 'blood pressure',
+          )[0],
+          vitals.filter(vital => vital.name.toLowerCase() === 'height')[0],
+          vitals.filter(vital => vital.name.toLowerCase() === 'pain level')[0],
+          vitals.filter(vital => vital.name.toLowerCase() === 'pulse rate')[0],
+          vitals.filter(vital => vital.name.toLowerCase() === 'respiration')[0],
+          vitals.filter(vital => vital.name.toLowerCase() === 'temperature')[0],
+          vitals.filter(vital => vital.name.toLowerCase() === 'weight')[0],
         ]);
       }
     },

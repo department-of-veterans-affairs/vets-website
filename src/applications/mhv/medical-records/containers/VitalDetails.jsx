@@ -13,14 +13,13 @@ const VitalDetails = () => {
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
   const [filteredVitals, setFilteredVitals] = useState(null);
   const [totalEntries, setTotalEntries] = useState(0);
-  const [vitalType, setVitalType] = useState('');
   const user = useSelector(state => state.user.profile);
   const { first, last, middle, suffix } = user.userFullName;
   const name = user.first
     ? `${last}, ${first} ${middle}, ${suffix}`
     : 'Doe, John R., Jr.';
   const dob = user.dob || '12/12/1980';
-  const { vitalTypeWithPlus } = useParams();
+  const { vitalType } = useParams();
   const dispatch = useDispatch();
 
   const perPage = 5;
@@ -29,22 +28,24 @@ const VitalDetails = () => {
   const paginatedVitals = useRef([]);
 
   useEffect(() => {
-    dispatch(
-      setBreadcrumbs(
-        [
-          { url: '/my-health/medical-records/', label: 'Dashboard' },
+    if (filteredVitals?.length) {
+      dispatch(
+        setBreadcrumbs(
+          [
+            { url: '/my-health/medical-records/', label: 'Dashboard' },
+            {
+              url: '/my-health/medical-records/health-history',
+              label: 'Health history',
+            },
+            { url: '/my-health/medical-records/vitals', label: 'VA vitals' },
+          ],
           {
-            url: '/my-health/medical-records/health-history',
-            label: 'Health history',
+            url: `/my-health/medical-records/vital-details/${vitalType}`,
+            label: filteredVitals[0].name,
           },
-          { url: '/my-health/medical-records/vitals', label: 'VA vitals' },
-        ],
-        {
-          url: `/my-health/medical-records/vital-details/${vitalType}`,
-          label: vitalType,
-        },
-      ),
-    );
+        ),
+      );
+    }
   });
 
   const paginateData = data => {
@@ -74,44 +75,72 @@ const VitalDetails = () => {
 
   const displayNums = fromToNums(currentPage, filteredVitals?.length);
 
-  useEffect(() => {
-    dispatch(getVitalsList());
-    setTotalEntries(filteredVitals?.length);
-  });
-
   useEffect(
     () => {
-      setVitalType(vitalTypeWithPlus?.replace('+', ' '));
+      dispatch(getVitalsList());
+      setTotalEntries(filteredVitals?.length);
     },
-    [vitalTypeWithPlus],
+    [vitals],
   );
 
   useEffect(
     () => {
-      setFilteredVitals(vitals?.filter(vital => vital.name === vitalType));
+      setFilteredVitals(
+        vitals?.filter(
+          vital => vital.name.toLowerCase().replace(/\s+/g, '') === vitalType,
+        ),
+      );
     },
-    [vitals],
+    [vitals, vitalType],
   );
 
   const content = () => {
     if (filteredVitals?.length) {
       return (
         <>
-          <div className="vads-u-padding-y--1 vads-u-margin-bottom--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
+          <h1>{filteredVitals[0].name}</h1>
+          <div className="vads-u-display--flex vads-u-margin-y--3 no-print">
+            <button
+              className="link-button vads-u-margin-right--3"
+              type="button"
+              data-testid="print-records-button"
+              onClick={window.print}
+            >
+              <i
+                aria-hidden="true"
+                className="fas fa-print vads-u-margin-right--1"
+              />
+              Print list
+            </button>
+            <button className="link-button" type="button">
+              <i
+                aria-hidden="true"
+                className="fas fa-download vads-u-margin-right--1"
+              />
+              Download list
+            </button>
+          </div>
+          <div className="vads-u-padding-y--1 vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
             Displaying {displayNums[0]}
             &#8211;
-            {displayNums[1]} of {totalEntries} vital records
+            {displayNums[1]} of {totalEntries} vitals
           </div>
           <ul className="vital-details no-print">
             {currentVitals?.length > 0 &&
               currentVitals?.map((vital, idx) => (
                 <li key={idx}>
                   <strong>Measurement:</strong>
-                  <p>{vital.measurement}</p>
+                  <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                    {vital.measurement}
+                  </p>
                   <strong>{idx === 0 ? 'Most recent date:' : 'Date'}</strong>
-                  <p>{dateFormat(vital.date, 'MMMM D, YYYY')}</p>
+                  <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                    {dateFormat(vital.date, 'MMMM D, YYYY')}
+                  </p>
                   <strong>Location:</strong>
-                  <p>{vital.facility}</p>
+                  <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                    {vital.facility}
+                  </p>
                   <strong>Provider comments:</strong>
                   {vital?.comments?.length > 0 ? (
                     <ul className="comment-list">
@@ -120,7 +149,7 @@ const VitalDetails = () => {
                       ))}
                     </ul>
                   ) : (
-                    <p>None noted</p>
+                    <p className="vads-u-margin--0">None noted</p>
                   )}
                 </li>
               ))}
@@ -131,7 +160,7 @@ const VitalDetails = () => {
                 <li key={idx}>
                   <strong>Measurement:</strong>
                   <p>{vital.measurement}</p>
-                  <strong>{idx === 0 ? 'Most recent date:' : 'Date'}</strong>
+                  <strong>{idx === 0 ? 'Most recent date:' : 'Date:'}</strong>
                   <p>{dateFormat(vital.date, 'MMMM D, YYYY')}</p>
                   <strong>Location:</strong>
                   <p>{vital.facility}</p>
@@ -143,7 +172,7 @@ const VitalDetails = () => {
                       ))}
                     </ul>
                   ) : (
-                    <p>None noted</p>
+                    <span className="vads-u-margin--0">None noted</span>
                   )}
                 </li>
               ))}
@@ -177,28 +206,7 @@ const VitalDetails = () => {
         </span>
         <h4>CONFIDENTIAL</h4>
       </div>
-      <h1>{vitalType}</h1>
-      <div className="vads-u-display--flex vads-u-margin-y--3 no-print">
-        <button
-          className="link-button vads-u-margin-right--3"
-          type="button"
-          data-testid="print-records-button"
-          onClick={window.print}
-        >
-          <i
-            aria-hidden="true"
-            className="fas fa-print vads-u-margin-right--1"
-          />
-          Print list
-        </button>
-        <button className="link-button" type="button">
-          <i
-            aria-hidden="true"
-            className="fas fa-download vads-u-margin-right--1"
-          />
-          Download list
-        </button>
-      </div>
+
       {content()}
     </>
   );

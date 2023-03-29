@@ -27,7 +27,7 @@ const routes = (
       <Route exact path="/vitals" key="Vitals">
         <Vitals />
       </Route>
-      <Route exact path="/vital-details/:vitalTypeWithPlus" key="Vital">
+      <Route exact path="/vital-details/:vitalType" key="Vital">
         <VitalDetails />
       </Route>
     </Switch>
