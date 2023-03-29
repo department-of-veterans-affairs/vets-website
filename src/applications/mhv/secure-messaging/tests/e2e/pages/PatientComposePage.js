@@ -216,5 +216,9 @@ class PatientComposePage {
   verifySubjectField = subject => {
     cy.get('[id = "message-subject"]').should('have.value', subject);
   };
+
+  verifyClickableURLinMessageBody = url => {
+    cy.get('[id="message-body"]').should('have.value', url);
+  };
 }
 export default PatientComposePage;
