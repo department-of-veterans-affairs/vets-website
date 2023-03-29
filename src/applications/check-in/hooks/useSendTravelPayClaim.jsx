@@ -8,18 +8,12 @@ import { useTravelPayFlags } from './useTravelPayFlags';
 const useSendTravelPayClaim = appointment => {
   const [isLoading, setIsLoading] = useState(false);
   const [travelPayClaimError, setTravelPayClaimError] = useState(false);
-  const [travelPayClaimErrorCode, setTravelPayClaimErrorCode] = useState('');
   const [travelPayClaimRequested, setTravelPayClaimRequested] = useState();
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
   const { isTravelReimbursementEnabled } = featureToggles;
-  const {
-    getShouldSendTravelPayClaim,
-    setTravelClaimData,
-    getTravelClaimData,
-  } = useSessionStorage(false);
-  const travelPayClaimData = getTravelClaimData(window);
+  const { getShouldSendTravelPayClaim } = useSessionStorage(false);
   const {
     travelPayData,
     travelPayClaimSent,
@@ -47,12 +41,8 @@ const useSendTravelPayClaim = appointment => {
       setIsLoading(true);
       api.v2
         .postDayOfTravelPayClaim(travelPayData)
-        .then(json => {
-          setTravelClaimData(window, json.data);
-        })
-        .catch(e => {
+        .catch(() => {
           setTravelPayClaimError(true);
-          setTravelPayClaimErrorCode(e.data.code);
         })
         .finally(() => {
           setTravelPayClaimSent(true);
@@ -62,7 +52,6 @@ const useSendTravelPayClaim = appointment => {
     [
       getShouldSendTravelPayClaim,
       isTravelReimbursementEnabled,
-      setTravelClaimData,
       setTravelPayClaimSent,
       travelPayData,
       travelPayEligible,
@@ -73,10 +62,8 @@ const useSendTravelPayClaim = appointment => {
 
   return {
     travelPayClaimError,
-    travelPayClaimErrorCode,
     travelPayEligible,
     isLoading,
-    travelPayClaimData,
     travelPayClaimRequested,
     travelPayClaimSent,
   };
