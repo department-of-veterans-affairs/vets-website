@@ -25,12 +25,12 @@ export function DynamicRadioWidget(props) {
   const alertContent = (
     <>
       <p>
-        We’re sorry. We’re having trouble finding medical centers for you to
+        We're sorry. We're having trouble finding medical centers for you to
         choose from right now.
       </p>
       <p>
-        We’ll match you with the closest medical center based on the address you
-        provided. They’ll contact you when they have a vaccine for you.
+        We'll match you with the closest medical center based on the address you
+        provided. They'll contact you when they have a vaccine for you.
       </p>
     </>
   );
