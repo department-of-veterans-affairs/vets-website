@@ -27,6 +27,8 @@ export const BENEFIT_OFFICES_URL = `${SC_INFO_URL}#find-addresses-for-other-bene
 export const CONTESTABLE_ISSUES_API =
   '/supplemental_claims/contestable_issues/';
 
+export const ITF_API = '/intent_to_file';
+
 // Evidence upload API - same endpoint as NOD
 export const EVIDENCE_UPLOAD_API = '/v0/decision_review_evidence';
 
@@ -84,12 +86,9 @@ export const errorMessages = {
   // endDateInPast: 'The end date must be in the future',
   endDateBeforeStart: 'The end date must be after the start date',
 
-  invalidDateRange: (min, max) =>
-    `You must enter a year between ${min} and ${max}`,
   decisions: {
     missingDate: 'You must enter a decision date',
-    pastDate:
-      'You must add an issue with a decision date that’s less than 100 years old',
+    pastDate: 'You must add a decision date that’s in the past',
     newerDate: 'You must add a more recent decision date',
   },
   evidence: {
@@ -124,6 +123,7 @@ export const errorMessages = {
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
+export const NO_ISSUES_SELECTED = 'No issues were selected';
 
 // contested issue dates
 export const FORMAT_YMD = 'YYYY-MM-DD';
@@ -132,6 +132,9 @@ export const FORMAT_COMPACT = 'MMM DD, YYYY';
 
 export const LAST_SC_ITEM = 'lastScItem'; // focus management across pages
 export const CONTACT_EDIT = 'edit-contact-info'; // contact info focusing
+export const SUMMARY_EDIT = 'edit-evidence-summary'; // evidence summary focus
+export const REVIEW_CONTACT = 'onReviewPageContact';
+export const REVIEW_ISSUES = 'onReviewPageIssues';
 
 // Values from benefitTypes in Lighthouse 0995 schema
 // schema.definitions.scCreate.properties.data.properties.attributes.properties.benefitType.emum;
@@ -148,11 +151,21 @@ const supportedBenefitTypes = [
 ];
 
 export const LEGACY_TYPE = 'legacyAppeal';
+export const AMA_DATE = '2019-02-19'; // Appeals Modernization Act in effect
 
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,
   isSupported: supportedBenefitTypes.includes(type.value),
 }));
+
+// Once we include the 'pensionSurvivorsBenefits' type, we will need to know
+// from VBA is the ITF pension also includes survivors benefits. If not, then
+// the start page (subtask) benefit type question will need to split "pension"
+// and "survivors benefits"
+export const ITF_SUPPORTED_BENEFIT_TYPES = [
+  'compensation', // Phase 1
+  'pensionSurvivorsBenefits', // see comment above
+];
 
 // Copied from schmea
 // schema.definitions.scCreate.properties.data.properties.attributes.properties.claimantType.enum;
@@ -168,6 +181,15 @@ export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
 
 export const MAX_FILE_SIZE_MB = 100;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
+
+export const ITF_STATUSES = {
+  active: 'active',
+  expired: 'expired',
+  claimRecieved: 'claim_recieved',
+  duplicate: 'duplicate',
+  incomplete: 'incomplete',
+  canceled: 'canceled',
+};
 
 export const ATTACHMENTS_OTHER = {
   L015: 'Buddy/Lay Statement',

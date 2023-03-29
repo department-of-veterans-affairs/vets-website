@@ -5,6 +5,8 @@ import btsss from '../mocks/v2/btsss';
 import sharedData from '../mocks/v2/shared';
 import featureToggles from '../mocks/v2/feature-toggles';
 
+const dateFns = require('date-fns');
+
 class ApiInitializer {
   initializeFeatureToggle = {
     withAppsDisabled: () => {
@@ -111,7 +113,6 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceTravelReimbursement: false,
-          checkInExperienceUpdatedApptPresentation: true,
         }),
       );
     },
@@ -216,6 +217,22 @@ class ApiInitializer {
         emergencyContactNeedsUpdate,
         emergencyContactConfirmedAt,
       );
+    },
+    withAllDemographicsCurrent: () => {
+      const yesterday = dateFns.sub(new Date(), { days: -1 }).toISOString();
+      const data = preCheckInData.get.createMockSuccessResponse(
+        null,
+        false,
+        yesterday,
+        false,
+        yesterday,
+        false,
+        yesterday,
+      );
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
+        req.reply(data);
+      });
+      return data;
     },
     withAlreadyCompleted: () => {
       const data = preCheckInData.get.createMockSuccessResponse(
@@ -705,12 +722,12 @@ class ApiInitializer {
   initializeBtsssPost = {
     withSuccess: () => {
       cy.intercept('POST', `/check_in/v0/travel_claims/`, req => {
-        req.reply(btsss.post.createMockSuccessResponse());
+        req.reply(202, btsss.post.createMockSuccessResponse());
       });
     },
-    withFailure: (errorCode = 400, errorType) => {
+    withFailure: () => {
       cy.intercept('POST', `/check_in/v0/travel_claims/`, req => {
-        req.reply(errorCode, btsss.post.createMockFailedResponse(errorType));
+        req.reply(500, btsss.post.createMockFailedResponse());
       });
     },
   };

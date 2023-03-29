@@ -72,7 +72,7 @@ class PatientInboxPage {
     }
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/messages*',
+      '/my_health/v1/messaging/folders/0/threads*',
       this.mockInboxMessages,
     ).as('inboxMessages');
     cy.intercept(
@@ -112,6 +112,8 @@ class PatientInboxPage {
         mockMessage.data.attributes.category;
       mockThread.data.at(0).attributes.recipientId =
         mockMessage.data.attributes.recipientId;
+      mockThread.data.at(0).attributes.triageGroupName =
+        mockMessage.data.attributes.triageGroupName;
       this.mockDetailedMessage = mockMessage;
     }
   };
@@ -261,6 +263,16 @@ class PatientInboxPage {
     }
   };
 
+  clickInboxSideBar = () => {};
+
+  clickSentSideBar = () => {};
+
+  clickTrashSideBar = () => {};
+
+  clickDraftsSideBar = () => {};
+
+  clickMyFoldersSideBar = () => {};
+
   getLoadedMessages = () => {
     return this.loadedMessagesData;
   };
@@ -270,8 +282,7 @@ class PatientInboxPage {
   };
 
   verifyMoveMessagewithAttachmentSuccessMessage = () => {
-    cy.get('[data-testid="expired-alert-message"]').contains('Success');
-    cy.get('p').contains('Message was successfully moved');
+    cy.get('p').contains('Message thread was successfully moved');
   };
 
   loadComposeMessagePage = () => {

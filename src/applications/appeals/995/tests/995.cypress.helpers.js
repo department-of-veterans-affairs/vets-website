@@ -9,6 +9,36 @@ export const getRandomDate = () =>
     },
   });
 
+export const fetchItf = () => ({
+  data: {
+    id: '',
+    type: 'evss_intent_to_file_intent_to_files_responses',
+    attributes: {
+      intentToFile: [
+        {
+          id: '1',
+          creationDate: '2022-07-28T19:53:45.810+00:00',
+          // pattern null = ISO8601 format
+          expirationDate: getDate({ offset: { months: 3 }, pattern: null }),
+          participantId: 1,
+          source: 'EBN',
+          status: 'active',
+          type: 'compensation',
+        },
+      ],
+    },
+  },
+});
+
+export const getPastItf = cy => {
+  cy.get('.itf-inner')
+    .should('be.visible')
+    .then(() => {
+      // Click past the ITF message
+      cy.findByText(/continue/i, { selector: 'button' }).click();
+    });
+};
+
 export const fixDecisionDates = (data = []) => {
   return data.map(issue => {
     const newDate = getRandomDate();

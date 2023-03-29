@@ -14,7 +14,7 @@ import { clearReturnState } from '../utils/contactInfo';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('h1');
   }
 
   render() {
@@ -67,9 +67,7 @@ class IntroductionPage extends React.Component {
         {loggedIn &&
           !showVerifyLink &&
           !showMissingInfo && <SaveInProgressIntro {...sipOptions} />}
-        <h2 className="vad-u-margin-top--0">
-          Follow these steps to get started
-        </h2>
+        <h2>Follow these steps to get started</h2>
         <va-process-list>
           <li>
             <h3>Check your eligibility</h3>

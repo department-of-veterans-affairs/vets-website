@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { numberBetween } from '../../common/proptypeValidators';
+import {
+  optionalNumberBetween,
+  numberBetween,
+} from '../../common/proptypeValidators';
 
 const sectionTitle = classNames([
   'heading',
@@ -146,7 +149,7 @@ const Sections = ({ data, level }) => {
           )}
 
           {rowData?.value && (
-            <span className={classes.rowValue}>{rowData.value}</span>
+            <div className={classes.rowValue}>{rowData.value}</div>
           )}
         </div>
       ))}
@@ -196,7 +199,7 @@ export const ProfileInfoCard = ({
       {Array.isArray(data) ? (
         <ListOrSections data={data} asList={asList} level={secondaryLevel} />
       ) : (
-        <>{data}</>
+        <div className={classes.firstRow}>{data}</div>
       )}
     </section>
   );
@@ -205,9 +208,9 @@ export const ProfileInfoCard = ({
 ProfileInfoCard.propTypes = {
   data: PropTypes.oneOfType([PropTypes.array, PropTypes.object, PropTypes.node])
     .isRequired,
+  title: PropTypes.string.isRequired,
   asList: PropTypes.bool,
   className: PropTypes.string,
-  level: numberBetween(1, 5),
+  level: optionalNumberBetween(1, 5),
   namedAnchor: PropTypes.string,
-  title: PropTypes.string,
 };

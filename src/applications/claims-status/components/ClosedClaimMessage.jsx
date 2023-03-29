@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
-import moment from 'moment';
 import { orderBy } from 'lodash';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -12,6 +12,10 @@ import { getClaimType } from '../utils/helpers';
 // HELPERS
 const isBenefitsClaimOrAppeal = claim =>
   claim.type !== 'education_benefits_claims';
+
+// START lighthouse_migration
+const isEVSSClaim = claim => claim.type === 'evss_claims';
+// END lighthouse_migration
 
 const getRecentlyClosedClaims = claims => {
   return claims
@@ -38,11 +42,18 @@ const getRecentlyClosedClaims = claims => {
         );
       }
 
-      // Do the same thing as above but for benefits claims
-      // closed in the last 30 days
+      // START lighthouse_migration
+      const { closeDate, open, phaseChangeDate } = claim.attributes;
+
+      const isClosed = isEVSSClaim(claim) ? !open : Boolean(closeDate);
+      const closedDate = isEVSSClaim(claim) ? phaseChangeDate : closeDate;
+      // END lighthouse_migration
+
+      // If the claim is not an appeal, we want to filter it out
+      // if it was closed more than 30 days ago
       return (
-        !claim.attributes.open &&
-        moment(claim.attributes.phaseChangeDate)
+        isClosed &&
+        moment(closedDate)
           .startOf('day')
           .isAfter(
             moment()
@@ -72,9 +83,19 @@ const getRecentlyClosedClaims = claims => {
     });
 };
 
-const getCloseDate = claim => claim.attributes.phaseChangeDate;
+// START ligthouse_migration
+const getCloseDate = claim => {
+  const { closeDate, phaseChangeDate } = claim.attributes;
 
-const getFileDate = claim => claim.attributes.dateFiled;
+  return isEVSSClaim(claim) ? phaseChangeDate : closeDate;
+};
+
+const getFileDate = claim => {
+  const { claimDate, dateFiled } = claim.attributes;
+
+  return isEVSSClaim(claim) ? dateFiled : claimDate;
+};
+// END lighthouse_migration
 
 const formatDate = date => moment(date).format('MMMM D, YYYY');
 

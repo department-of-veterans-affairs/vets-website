@@ -41,8 +41,13 @@ describe('ApplicationInProgress component', () => {
         .to.exist;
     });
     it('renders the correct "continue" button', () => {
-      const continueButton = view.getByRole('link', { name: /continue/i });
-      expect(continueButton).to.have.attr('href', props.continueUrl);
+      const continueLink = view.container.querySelector('va-link');
+      expect(continueLink).to.exist;
+      expect(continueLink.getAttribute('text')).to.eql(
+        'Continue your application',
+      );
+      expect(continueLink.getAttribute('href')).to.eql(props.continueUrl);
+      expect(continueLink.getAttribute('active')).to.exist;
     });
   });
 });

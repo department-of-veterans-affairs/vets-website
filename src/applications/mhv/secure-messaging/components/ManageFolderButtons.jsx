@@ -12,6 +12,8 @@ import {
   renameFolder,
   retrieveFolder,
 } from '../actions/folders';
+import { closeAlert } from '../actions/alerts';
+import { Alerts } from '../util/constants';
 
 const ManageFolderButtons = () => {
   const dispatch = useDispatch();
@@ -39,6 +41,7 @@ const ManageFolderButtons = () => {
   );
 
   const openDelModal = () => {
+    dispatch(closeAlert());
     if (messages?.length > 0) {
       setIsEmptyWarning(true);
     } else {
@@ -59,6 +62,7 @@ const ManageFolderButtons = () => {
   };
 
   const openRenameModal = () => {
+    dispatch(closeAlert());
     setRenameModal(true);
   };
 
@@ -119,18 +123,19 @@ const ManageFolderButtons = () => {
           className="modal"
           visible={isEmptyWarning}
           large="true"
-          modalTitle="Empty this folder before removing it from the list."
+          modalTitle={Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER}
           onCloseEvent={() => {
             setIsEmptyWarning(false);
           }}
           status="warning"
         >
-          <p>
-            Before this folder can be removed, all of the messages in it must be
-            moved to another folder, such as Trash, Messages, or a different
-            custom folder.
-          </p>
-          <va-button text="Ok" onClick={closeDelModal} />
+          <p>{Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_BODY}</p>
+          <va-button
+            text="Ok"
+            onClick={() => {
+              setIsEmptyWarning(false);
+            }}
+          />
         </VaModal>
       )}
       {!isEmptyWarning && (
@@ -138,10 +143,11 @@ const ManageFolderButtons = () => {
           className="modal"
           visible={deleteModal}
           large="true"
-          modalTitle="Are you sure you want to remove this folder?"
+          modalTitle={Alerts.Folder.DELETE_FOLDER_CONFIRM_HEADER}
           onCloseEvent={closeDelModal}
+          status="warning"
         >
-          <p>This action cannot be undone</p>
+          <p>{Alerts.Folder.DELETE_FOLDER_CONFIRM_BODY}</p>
           <va-button text="Remove" onClick={confirmDelFolder} />
           <va-button secondary="true" text="Cancel" onClick={closeDelModal} />
         </VaModal>
@@ -153,9 +159,8 @@ const ManageFolderButtons = () => {
         modalTitle={`Editing: ${folder.name}`}
         onCloseEvent={closeRenameModal}
       >
-        <p className="vads-u-margin--0">Edit the folder name</p>
-        <p className="vads-u-color--gray-medium vads-u-margin--0">
-          (50 characters maximum)
+        <p className="vads-u-margin--0">
+          {Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
         </p>
         <VaTextInput
           value={folderName}

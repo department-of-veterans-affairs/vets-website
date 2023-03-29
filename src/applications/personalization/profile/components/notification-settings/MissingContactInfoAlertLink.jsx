@@ -1,29 +1,47 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { getContactInfoDeepLinkURL } from '@@profile/helpers';
-
 import { FIELD_NAMES, MISSING_CONTACT_INFO } from '@@vap-svc/constants';
 
+import { useContactInfoDeepLink } from '../../hooks';
+import { PROFILE_PATHS } from '../../constants';
+
 const MissingContactInfoAlertLink = ({ missingInfo }) => {
-  const linkInfo = React.useMemo(() => {
-    const linkMap = {
-      [MISSING_CONTACT_INFO.ALL]: {
-        linkText: 'Update your contact information',
-        linkTarget: getContactInfoDeepLinkURL('phoneNumbers', false),
-      },
-      [MISSING_CONTACT_INFO.EMAIL]: {
-        linkText: 'Add an email address to your profile',
-        linkTarget: getContactInfoDeepLinkURL(FIELD_NAMES.EMAIL, true),
-      },
-      [MISSING_CONTACT_INFO.MOBILE]: {
-        linkText: 'Add a mobile phone number to your profile',
-        linkTarget: getContactInfoDeepLinkURL(FIELD_NAMES.MOBILE_PHONE, true),
-      },
-    };
-    return linkMap[missingInfo];
-  }, [missingInfo]);
+  const { generateContactInfoLink } = useContactInfoDeepLink();
+
+  const linkInfo = useMemo(
+    () => {
+      const linkMap = {
+        [MISSING_CONTACT_INFO.ALL]: {
+          linkText: 'Update your contact information',
+          linkTarget: generateContactInfoLink({
+            fieldName: 'phoneNumbers',
+            focusOnEditButton: false,
+            returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
+          }),
+        },
+        [MISSING_CONTACT_INFO.EMAIL]: {
+          linkText: 'Add an email address to your profile',
+          linkTarget: generateContactInfoLink({
+            fieldName: FIELD_NAMES.EMAIL,
+            focusOnEditButton: true,
+            returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
+          }),
+        },
+        [MISSING_CONTACT_INFO.MOBILE]: {
+          linkText: 'Add a mobile phone number to your profile',
+          linkTarget: generateContactInfoLink({
+            fieldName: FIELD_NAMES.MOBILE_PHONE,
+            focusOnEditButton: true,
+            returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
+          }),
+        },
+      };
+      return linkMap[missingInfo];
+    },
+    [missingInfo, generateContactInfoLink],
+  );
   return (
     <Link to={linkInfo.linkTarget} data-testid="add-contact-info-link">
       <strong>{linkInfo.linkText}</strong>{' '}

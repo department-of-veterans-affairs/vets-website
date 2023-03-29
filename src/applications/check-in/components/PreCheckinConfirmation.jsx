@@ -1,12 +1,8 @@
-import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
-
 import AppointmentBlock from './AppointmentBlock';
-import AppointmentBlockVaos from './AppointmentBlockVaos';
 import ExternalLink from './ExternalLink';
 import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
 import HowToLink from './HowToLink';
@@ -14,17 +10,14 @@ import Wrapper from './layout/Wrapper';
 
 const PreCheckinConfirmation = props => {
   const { appointments, isLoading, formData, router } = props;
-  const {
-    demographicsUpToDate,
-    emergencyContactUpToDate,
-    nextOfKinUpToDate,
-  } = formData;
-  const { t } = useTranslation();
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
 
-  const { isUpdatedApptPresentationEnabled } = useSelector(
-    selectFeatureToggles,
-  );
+  // If the demographics answers are not present in the data, we
+  // assume that the page was skipped, and default to "yes".
+  const demographicsUpToDate = formData.demographicsUpToDate ?? 'yes';
+  const emergencyContactUpToDate = formData.emergencyContactUpToDate ?? 'yes';
+  const nextOfKinUpToDate = formData.nextOfKinUpToDate ?? 'yes';
+
+  const { t } = useTranslation();
 
   if (appointments.length === 0) {
     return <></>;
@@ -50,15 +43,11 @@ const PreCheckinConfirmation = props => {
         pageTitle={t('youve-completed-pre-check-in')}
         testID="confirmation-wrapper"
       >
-        {isUpdatedApptPresentationEnabled ? (
-          <AppointmentBlockVaos
-            appointments={appointments}
-            page="confirmation"
-            router={router}
-          />
-        ) : (
-          <AppointmentBlock appointments={appointments} page="confirmation" />
-        )}
+        <AppointmentBlock
+          appointments={appointments}
+          page="confirmation"
+          router={router}
+        />
         <HowToLink apptType={apptType} />
         <p className="vads-u-margin-bottom--4">
           <ExternalLink

@@ -69,10 +69,6 @@ describe('check-in', () => {
       expect(checkIn.getByTestId('appointment-time').innerHTML).to.match(
         /([\d]|[\d][\d]):[\d][\d]/,
       );
-      expect(checkIn.getByTestId('clinic-name')).to.exist;
-      expect(checkIn.getByTestId('clinic-name')).to.have.text(
-        'Green Team Clinic1',
-      );
     });
     describe('back button visibility based on update page', () => {
       it('shows the back button if update page is enabled', () => {

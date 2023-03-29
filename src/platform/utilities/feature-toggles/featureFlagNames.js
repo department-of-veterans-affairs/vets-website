@@ -1,6 +1,7 @@
 // prettier-ignore
 
 export default Object.freeze({
+  btsssLoginWidget: 'btsss_login_widget',
   caregiverSigiEnabled: 'caregiver_sigi_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
@@ -66,6 +67,7 @@ export default Object.freeze({
   findFormsShowPdfModal: 'find_forms_show_pdf_modal',
   fileUploadShortWorkflowEnabled: 'file_upload_short_workflow_enabled',
   form10182Nod: 'form10182_nod',
+  form264555: 'form264555',
   fsrConfirmationEmail: 'fsr_confirmation_email',
   gibctEybBottomSheet: 'gibct_eyb_bottom_sheet',
   gibctSchoolRatings: 'gibct_school_ratings',
@@ -88,9 +90,11 @@ export default Object.freeze({
   profileNotificationSettings: 'profile_notification_settings',
   profileHideDirectDepositCompAndPen: 'profile_hide_direct_deposit_comp_and_pen',
   profileDoNotRequireInternationalZipCode: 'profile_do_not_require_international_zip_code',
+  profileShowMhvNotificaionSettings: 'profile_show_mhv_notification_settings',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
   profileShowPaymentsNotificationSetting: 'profile_show_payments_notification_setting',
   profileUseInfoCard: 'profile_use_info_card',
+  profileUseFieldEditingPage: 'profile_use_field_editing_page',
   profileUseVaosV2Api: 'profile_use_vaos_v2_api',
   profileUseVAFSC: 'profile_use_vafsc',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',

@@ -357,8 +357,18 @@ describe('getForm4142', () => {
     limitedConsent: 'testing',
     // Move treatementDateRange entry into an array
     providerFacility: [
-      { test: 'foo', treatmentDateRange: wrap ? [{ a: true }] : { a: true } },
-      { test: 'bar', treatmentDateRange: wrap ? [{ b: false }] : { b: false } },
+      {
+        test: 'foo',
+        treatmentDateRange: wrap
+          ? [{ from: '2000-01-01', to: '2000-02-02' }]
+          : { from: '2000-1-1', to: '2000-2-2' },
+      },
+      {
+        test: 'bar',
+        treatmentDateRange: wrap
+          ? [{ from: '2001-03-03', to: '2001-04-04' }]
+          : { from: '2001-3-3', to: '2001-4-4' },
+      },
     ],
   });
 
@@ -374,6 +384,6 @@ describe('getForm4142', () => {
       [EVIDENCE_PRIVATE]: false,
       ...getData(),
     };
-    expect(getForm4142(data)).to.deep.equal({});
+    expect(getForm4142(data)).to.deep.equal(null);
   });
 });

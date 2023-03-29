@@ -4,10 +4,10 @@ import PatientComposePage from './pages/PatientComposePage';
 import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json';
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
+import mockThreadResponse from './fixtures/single-draft-response.json';
 
 describe('Secure Messaging Save Draft', () => {
   it('Axe Check Save Draft', () => {
-    const mockThreadResponse = { data: [] };
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
@@ -20,7 +20,7 @@ describe('Secure Messaging Save Draft', () => {
     ).as('draftsFolderMetaResponse');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2/messages**',
+      '/my_health/v1/messaging/folders/-2/threads**',
       mockDraftMessages,
     ).as('draftsResponse');
     cy.get('[data-testid="drafts-sidebar"]').click();
@@ -42,25 +42,19 @@ describe('Secure Messaging Save Draft', () => {
     cy.wait('@draftThreadResponse');
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('[data-testid="message-subject-field"]')
-      .shadow()
-      .find('[name="message-subject"]')
-      .type('message Test');
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[name="message-body"]')
-      .type('Test message body');
+    composePage.getMessageSubjectField().type('message Test');
+    composePage.getMessageBodyField().type('Test message body');
     composePage.saveDraft(
-      6978854,
-      'OTHER',
-      'testmessage Test',
-      'ststASertTest message body',
+      7208913,
+      'APPOINTMENTS',
+      'Appointment Inquirymessage Test',
+      'Test Compose DraftTest message body',
     );
     composePage.sendDraft(
-      6978854,
-      'OTHER',
-      'testmessage Test',
-      'ststASertTest message body',
+      7208913,
+      'APPOINTMENTS',
+      'Appointment Inquirymessage Test',
+      'Test Compose DraftTest message body',
     );
   });
 });

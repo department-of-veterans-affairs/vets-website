@@ -6,13 +6,13 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch } from 'react-redux';
-import { moveMessage } from '../../actions/messages';
+import { moveMessageThread } from '../../actions/messages';
 import { getFolders, newFolder } from '../../actions/folders';
 import * as Constants from '../../util/constants';
 import CreateFolderModal from '../Modals/CreateFolderModal';
 
 const MoveMessageToFolderBtn = props => {
-  const { messageId, allFolders, isVisible, activeFolder } = props;
+  const { threadId, allFolders, isVisible, activeFolder } = props;
   const dispatch = useDispatch();
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -50,7 +50,7 @@ const MoveMessageToFolderBtn = props => {
       if (selectedFolder === 'newFolder') {
         setIsNewModalVisible(true);
       } else if (selectedFolder !== null) {
-        dispatch(moveMessage(messageId, selectedFolder));
+        dispatch(moveMessageThread(threadId, selectedFolder));
       }
       closeModal();
     }
@@ -136,7 +136,7 @@ const MoveMessageToFolderBtn = props => {
   const confirmCreateFolder = (folderName, closeNewModal) => {
     dispatch(newFolder(folderName))
       .then(createdFolder =>
-        dispatch(moveMessage(messageId, createdFolder.folderId)),
+        dispatch(moveMessageThread(threadId, createdFolder.folderId)),
       )
       .finally(() => closeNewModal());
   };
@@ -178,7 +178,7 @@ MoveMessageToFolderBtn.propTypes = {
   activeFolder: PropTypes.object,
   allFolders: PropTypes.array,
   isVisible: PropTypes.bool,
-  messageId: PropTypes.number,
+  threadId: PropTypes.number,
 };
 
 export default MoveMessageToFolderBtn;

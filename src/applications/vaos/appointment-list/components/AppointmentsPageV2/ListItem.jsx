@@ -22,6 +22,7 @@ export default function ListItem({
         {
           'vads-u-border-top--1px': borderTop,
           'vads-u-border-bottom--1px': borderBottom,
+          'vads-u-border-color--gray-medium': borderBottom,
         },
       )}
       data-cy="appointment-list-item" // TODO: Update e2e tests to look for appointment-list-item

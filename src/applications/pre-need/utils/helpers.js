@@ -297,15 +297,23 @@ class SSNWidget extends React.Component {
 // Modify default uiSchema for SSN to insert any missing dashes.
 export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
 
+const vaClaimNumberErrorMessage = environment.isProduction()
+  ? 'Your VA claim number must be between 7 to 9 digits'
+  : 'Your VA claim number must be between 8 to 9 digits';
+
 export const veteranUI = {
   militaryServiceNumber: {
     'ui:title':
       'Military Service number (if you have one that’s different than your Social Security number)',
+    'ui:errorMessages': {
+      pattern:
+        'Your Military Service number must be between 4 to 10 characters',
+    },
   },
   vaClaimNumber: {
     'ui:title': 'VA claim number (if known)',
     'ui:errorMessages': {
-      pattern: 'Your VA claim number must be between 7 to 9 digits',
+      pattern: vaClaimNumberErrorMessage,
     },
   },
   placeOfBirth: {
@@ -353,24 +361,8 @@ export const veteranUI = {
     isWhite: {
       'ui:title': 'White',
     },
-    'ui:required': () => !environment.isProduction(),
     'ui:validations': [
-      (errors, fields) => {
-        if (
-          !environment.isProduction() &&
-          !(
-            fields.isSpanishHispanicLatino ||
-            fields.isAmericanIndianOrAlaskanNative ||
-            fields.isBlackOrAfricanAmerican ||
-            fields.isNativeHawaiianOrOtherPacificIslander ||
-            fields.notSpanishHispanicLatino ||
-            fields.isAsian ||
-            fields.isWhite
-          )
-        ) {
-          errors.addError('Choose at least one category');
-        }
-      },
+      /* (errors, fields) => {} */
     ],
     'ui:options': {
       showFieldLabel: true,

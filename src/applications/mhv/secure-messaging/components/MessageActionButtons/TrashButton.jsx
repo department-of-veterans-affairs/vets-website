@@ -8,7 +8,7 @@ import { navigateToFolderByFolderId } from '../../util/helpers';
 import * as Constants from '../../util/constants';
 
 const TrashButton = props => {
-  const { activeFolder, messageId, visible } = props;
+  const { activeFolder, messageId, threadId, visible } = props;
   const dispatch = useDispatch();
   const history = useHistory();
   const [isDeleteVisible, setIsDeleteVisible] = useState(false);
@@ -31,6 +31,7 @@ const TrashButton = props => {
         <li>
           <DeleteMessageModal
             id={messageId}
+            threadId={threadId}
             visible={isDeleteVisible}
             onClose={() => {
               setIsDeleteVisible(false);
@@ -74,6 +75,7 @@ const TrashButton = props => {
 TrashButton.propTypes = {
   activeFolder: PropTypes.object,
   messageId: PropTypes.number,
+  threadId: PropTypes.number,
   visible: PropTypes.bool,
 };
 export default TrashButton;

@@ -1,3 +1,4 @@
+import React from 'react';
 import { intersection, pick } from 'lodash';
 
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
@@ -11,9 +12,14 @@ const pageFields = [previousHiApplicationFields.hasPreviousHiApplication];
 export default {
   uiSchema: {
     [previousHiApplicationFields.parentObject]: {
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+          Special home adaptation grant applications
+        </h3>
+      ),
       [previousHiApplicationFields.hasPreviousHiApplication]: {
         'ui:title':
-          'Have you previously applied for a special home adaptation (SHA) grant?',
+          'Have you applied for a special home adaptation (SHA) grant before?',
         'ui:widget': 'yesNo',
       },
     },

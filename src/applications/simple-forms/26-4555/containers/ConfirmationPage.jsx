@@ -19,7 +19,7 @@ export class ConfirmationPage extends React.Component {
     const { submission, formId, data } = form;
     const { fullName } = data.veteran;
     const submitDate = submission.timestamp;
-    const confirmationNumber = '---';
+    const confirmationNumber = submission.response?.confirmationNumber;
 
     return (
       <div>
@@ -39,8 +39,8 @@ export class ConfirmationPage extends React.Component {
             Thank you for completing your benefit application
           </h2>
           <p className="vads-u-margin-y--0">
-            Once we’ve successfully received your application, we’ll contact you
-            to tell you what happens next in the application process.
+            After we review your application, we&rsquo;ll contact you to tell
+            you what happens next in the application process.
           </p>
         </va-alert>
         <div className="inset">

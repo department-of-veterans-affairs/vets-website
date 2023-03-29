@@ -31,7 +31,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
     },
     {
       href: '/health-care/schedule-view-va-appointments/appointments',
-      text: 'Your VA appointments',
+      text: 'Upcoming VA appointments',
       toggle: null,
     },
     {
@@ -82,7 +82,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, '/my-complete-medications-list'),
-        text: 'My medications and allergies',
+        text: 'Medications and allergies',
         toggle: null,
       },
     ],
@@ -94,7 +94,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, '/download-my-data'),
-        text: 'Download my medical record (Blue Button)',
+        text: 'Download medical record (Blue Button)',
         toggle: null,
       },
       {
@@ -123,7 +123,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
     {
       href: 'https://pay.gov/public/form/start/25987221',
       oldHref: null,
-      text: 'Pay your copay bill',
+      text: 'Pay copay bills',
       toggle: null,
     },
   ];
@@ -147,7 +147,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
     [
       {
         href: '/manage-va-debt/summary/copay-balances/',
-        text: 'Current veteran copay rates',
+        text: 'Current Veteran copay rates',
       },
       {
         href: '/health-care/health-needs-conditions/mental-health',
@@ -159,16 +159,16 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       },
       {
         href: '/COMMUNITYCARE/programs/veterans/index.asp',
-        text: 'Community Care',
+        text: 'Community care',
       },
       {
         href: '/health-care/update-health-information/',
-        text: 'Update my health benefits info (10-10EZR)',
+        text: 'Update health benefits info (10-10EZR)',
       },
       {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, 'health-information-card'),
-        text: 'My health information card',
+        text: 'Veteran health information card',
         toggle: null,
       },
       // {
@@ -203,38 +203,43 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       },
       {
         href: '/wholehealth/',
-        text: "VA's Whole Health living",
+        text: 'VA’s Whole Health living',
       },
       {
-        href: 'https://www.myhealth.va.gov/ss20200320-va-video-connect',
+        href: mhvUrl(false, 'ss20200320-va-video-connect'),
         text: 'How to use VA Video Connect',
       },
     ],
     featureToggles,
   );
 
-  // const spotlightLinks = [
-  //   {
-  //     href: '#FIXME-need-link',
-  //     text: 'Five Exercises for Balance',
-  //   },
-  //   {
-  //     href: '#FIXME-need-link',
-  //     text: 'Recognizing a Heart Attack',
-  //   },
-  //   {
-  //     href: '#FIXME-need-link',
-  //     text: 'Get the New Toxic Exposure Screening',
-  //   },
-  //   {
-  //     href: '#FIXME-need-link',
-  //     text: 'Need Internet or a Tablet for Appointments?',
-  //   },
-  //   {
-  //     href: '#FIXME-need-link',
-  //     text: 'Top Five Health Threats to Men',
-  //   },
-  // ];
+  // Spotlight links are non-authed, so we always pass `false` to mhvUrl
+  const spotlightLinks = resolveLinkCollection(
+    [
+      {
+        text: 'Track your cholesterol in My HealtheVet',
+        href: null,
+        oldHref: mhvUrl(false, 'ss20220106-track-cholesterol-in-myhealthevet'),
+        toggle: null,
+      },
+      {
+        text: 'Get the new toxic exposure screening',
+        href: null,
+        oldHref: mhvUrl(
+          false,
+          'ss20221110-get-the-new-toxic-exposure-screening',
+        ),
+        toggle: null,
+      },
+      {
+        text: 'Five exercises for people over 50',
+        href: null,
+        oldHref: mhvUrl(false, 'ss20161101-five-exercises-for-people-over-50'),
+        toggle: null,
+      },
+    ],
+    featureToggles,
+  );
 
   const cards = [
     {
@@ -277,10 +282,10 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       title: 'More resources and support',
       links: moreResourcesLinks,
     },
-    // {
-    //   title: 'In the Spotlight',
-    //   links: spotlightLinks,
-    // },
+    {
+      title: 'In the spotlight',
+      links: spotlightLinks,
+    },
   ];
 
   return { cards, hubs };

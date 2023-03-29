@@ -73,6 +73,7 @@ class YourClaimsPageV2 extends React.Component {
       appealsLoading,
       canAccessAppeals,
       // START lighthouse_migration
+      canAccessClaimsLighthouse,
       canAccessClaimsEVSS,
       // END lighthouse_migration
       claimsLoading,
@@ -88,15 +89,19 @@ class YourClaimsPageV2 extends React.Component {
       // END lighthouse_migration
     } = this.props;
 
-    if (canAccessClaimsEVSS) {
-      // START lighthouse_migration
-      if (useLighthouse) {
-        getClaimsLighthouse();
-      } else {
-        getClaimsEVSS();
-      }
-      // END lighthouse_migration
+    // START lighthouse_migration
+    // Only call if we should be using Lighthouse and the current
+    // user has access to Lighthouse claims
+    if (useLighthouse && canAccessClaimsLighthouse) {
+      getClaimsLighthouse();
     }
+
+    // Only call if we should be using EVSS and the current
+    // user has access to EVSS claims
+    if (!useLighthouse && canAccessClaimsEVSS) {
+      getClaimsEVSS();
+    }
+    // END lighthouse_migration
 
     if (canAccessAppeals) {
       getAppealsV2();
@@ -303,6 +308,7 @@ YourClaimsPageV2.propTypes = {
   canAccessAppeals: PropTypes.bool,
   // START lighthouse_migration
   canAccessClaimsEVSS: PropTypes.bool,
+  canAccessClaimsLighthouse: PropTypes.bool,
   // END lighthouse_migration
   claimsAvailable: PropTypes.string,
   claimsLoading: PropTypes.bool,
@@ -335,6 +341,9 @@ function mapStateToProps(state) {
   // START lighthouse_migration
   const canAccessClaimsEVSS = services.includes(backendServices.EVSS_CLAIMS);
   // END lighthouse_migration
+  const canAccessClaimsLighthouse = services.includes(
+    backendServices.LIGHTHOUSE,
+  );
   const stemAutomatedDecision = toggleValues(state)[
     FEATURE_FLAG_NAMES.stemAutomatedDecision
   ];
@@ -353,6 +362,7 @@ function mapStateToProps(state) {
     appealsLoading: claimsV2Root.appealsLoading,
     canAccessAppeals,
     // START lighthouse_migration
+    canAccessClaimsLighthouse,
     canAccessClaimsEVSS,
     // END lighthouse_migration
     claimsAvailable: claimsV2Root.claimsAvailability,

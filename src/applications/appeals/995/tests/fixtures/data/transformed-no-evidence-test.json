@@ -22,7 +22,7 @@
         "email": "test@user.com"
       },
       "form5103Acknowledged": true,
-      "socOptIn": false,
+      "socOptIn": true,
       "evidenceSubmission": {
         "evidenceType": [
           "none"
@@ -38,6 +38,6 @@
       "ratingIssueReferenceId": "142894"
     }
   }],
-  "form4142": {},
-  "additionalDocuments": []
+  "form4142": null,
+  "additionalDocuments": null
 }
