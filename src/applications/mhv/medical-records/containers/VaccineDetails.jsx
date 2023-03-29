@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { dateFormat, typeAndDose } from '../util/helpers';
+import { dateFormat, typeAndDose, downloadFile } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getVaccineDetails } from '../actions/vaccine';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
+import { getVaccinePdf } from '../api/MrApi';
 
 const VaccineDetails = () => {
   const vaccineDetails = useSelector(state => state.mr.vaccines.vaccineDetails);
@@ -46,6 +47,10 @@ const VaccineDetails = () => {
     [vaccineDetails, dispatch],
   );
 
+  const download = () => {
+    getVaccinePdf(1).then(res => downloadFile('vaccine.pdf', res.pdf));
+  };
+
   const content = () => {
     if (vaccineDetails) {
       return (
@@ -65,7 +70,11 @@ const VaccineDetails = () => {
               />
               Print page
             </button>
-            <button className="link-button no-print" type="button">
+            <button
+              className="link-button no-print"
+              type="button"
+              onClick={download}
+            >
               <i
                 aria-hidden="true"
                 className="fas fa-download vads-u-margin-right--1"

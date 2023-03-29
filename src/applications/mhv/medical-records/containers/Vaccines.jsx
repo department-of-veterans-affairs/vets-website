@@ -4,14 +4,16 @@ import RecordList from '../components/RecordList/RecordList';
 import { getVaccineList } from '../actions/vaccine';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
+import { getAllVaccinesPdf } from '../api/MrApi';
+import { downloadFile } from '../util/helpers';
 
 const Vaccines = () => {
-  const vaccines = useSelector(state => state.mr.vaccines.vaccineList);
   const dispatch = useDispatch();
+  const vaccines = useSelector(state => state.mr.vaccines.vaccineList);
 
   useEffect(() => {
     dispatch(getVaccineList());
-  });
+  }, []);
 
   useEffect(
     () => {
@@ -30,6 +32,10 @@ const Vaccines = () => {
     },
     [dispatch],
   );
+
+  const download = () => {
+    getAllVaccinesPdf().then(res => downloadFile('vaccines.pdf', res.pdf));
+  };
 
   const content = () => {
     if (vaccines?.length) {
@@ -69,7 +75,7 @@ const Vaccines = () => {
           />
           Print page
         </button>
-        <button className="link-button" type="button">
+        <button className="link-button" type="button" onClick={download}>
           <i
             aria-hidden="true"
             className="fas fa-download vads-u-margin-right--1"
