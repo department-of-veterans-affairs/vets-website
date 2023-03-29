@@ -14,12 +14,9 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     const draftsPage = new PatientMessageDraftsPage();
     site.login();
     landingPage.loadInboxMessages();
-
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
-
     composePage.attachMessageFromFile('sample_docx.docx');
-
     composePage.saveDraftButton().click();
     cy.get('[visible=""] > p').should(
       'contain',

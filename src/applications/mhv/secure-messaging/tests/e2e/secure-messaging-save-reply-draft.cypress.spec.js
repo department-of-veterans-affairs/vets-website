@@ -14,7 +14,6 @@ describe('Secure Messaging Reply', () => {
     const site = new SecureMessagingSite();
     site.login();
     const messageDetails = landingPage.getNewMessageDetails();
-    // const messageDetails = landingPage.setMessageDateToYesterday();
     landingPage.loadInboxMessages(mockMessages, messageDetails);
     messageDetailsPage.loadMessageDetails(messageDetails);
     messageDetailsPage.loadReplyPageDetails(messageDetails);
