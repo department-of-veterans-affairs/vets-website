@@ -77,7 +77,7 @@ const formConfig = {
         },
         personalInformation2: {
           path: 'personal-information-2',
-          title: "Identification information",
+          title: 'Identification information',
           uiSchema: personalInformation2.uiSchema,
           schema: personalInformation2.schema,
         },
@@ -105,15 +105,13 @@ const formConfig = {
       pages: {
         previousSahApplication1: {
           path: 'previous-sah-application-1',
-          title:
-            'Specially adapted housing grant applications',
+          title: 'Specially adapted housing grant applications',
           uiSchema: previousSahApplication1.uiSchema,
           schema: previousSahApplication1.schema,
         },
         previousSahApplication2: {
           path: 'previous-sah-application-2',
-          title:
-            'Past SAH grant application details',
+          title: 'Past SAH grant application details',
           depends: formData =>
             formData[previousSahApplicationFields.parentObject][
               previousSahApplicationFields.hasPreviousSahApplication
@@ -129,8 +127,7 @@ const formConfig = {
         },
         previousShaApplication2: {
           path: 'previous-sha-application-2',
-          title:
-            'Past SHA grant applications details',
+          title: 'Past SHA grant applications details',
           depends: formData =>
             formData[previousHiApplicationFields.parentObject][
               previousHiApplicationFields.hasPreviousHiApplication
@@ -145,8 +142,7 @@ const formConfig = {
       pages: {
         livingSituation1: {
           path: 'living-situation-1',
-          title:
-            'Current arrangement',
+          title: 'Current arrangement',
           uiSchema: livingSituation1.uiSchema,
           schema: livingSituation1.schema,
         },
