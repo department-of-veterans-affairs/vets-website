@@ -1,5 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
+import mockSpecialCharsMessage from './fixtures/message-response-specialchars.json';
+import mockMessages from './fixtures/messages-response.json';
 // import PatientComposePage from './pages/PatientComposePage';
 
 const recipientsResponseDefault = {
@@ -11,6 +13,16 @@ const recipientsResponseDefault = {
         triageTeamId: 7026562,
         name: '###ABC_XYZ_TRIAGE_TEAM_PCMM_ASSOCIATION_747###',
         relationType: 'PATIENT',
+        preferredTeam: true,
+      },
+    },
+    {
+      id: '7026564',
+      type: 'triage_teams',
+      attributes: {
+        triageTeamId: 7026564,
+        name: 'test',
+        relationType: 'family',
         preferredTeam: true,
       },
     },
@@ -28,6 +40,16 @@ const recipientsResponseFalse = {
         preferredTeam: false,
       },
     },
+    {
+      id: '7026564',
+      type: 'triage_teams',
+      attributes: {
+        triageTeamId: 7026564,
+        name: 'test',
+        relationType: 'family',
+        preferredTeam: true,
+      },
+    },
   ],
 };
 
@@ -36,15 +58,19 @@ describe('recipients dropdown box', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadInboxMessages();
+    landingPage.loadInboxMessages(
+      mockMessages,
+      mockSpecialCharsMessage,
+      recipientsResponseDefault,
+    );
     cy.get('[data-testid="compose-message-link"]').click();
     cy.injectAxe();
     cy.axeCheck();
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/recipients?useCache=false',
-      recipientsResponseDefault,
-    ).as('recipients');
+    // cy.intercept(
+    //   'GET',
+    //   '/my_health/v1/messaging/recipients?useCache=false',
+    //   recipientsResponseDefault,
+    // ).as('recipients');
     cy.get('[data-testid="compose-recipient-select"]').should('exist');
     cy.get('[name="COVID"]').click();
   });
@@ -52,7 +78,11 @@ describe('recipients dropdown box', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadInboxMessages();
+    landingPage.loadInboxMessages(
+      mockMessages,
+      mockSpecialCharsMessage,
+      recipientsResponseFalse,
+    );
     cy.get('[data-testid="compose-message-link"]').click();
     cy.injectAxe();
     cy.axeCheck();
