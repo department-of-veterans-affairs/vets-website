@@ -271,7 +271,7 @@ const EvidencePrivateRecords = ({
       // a new empty entry
       if (isEmptyPrivateEntry(currentData)) {
         updateCurrentFacility({ remove: true });
-      } else if (hasErrors() && addOrEdit === 'edit') {
+      } else if (hasErrors()) {
         // focus on first error
         updateState({
           submitted: true,
