@@ -38,9 +38,7 @@ const MessageThreadItem = props => {
         setIsExpanded(!isExpanded);
       }
 
-      if (!isExpanded) {
-        // TODO replace line above with a line below once readReceipt is fixed in the backend
-        // if (!isRead && !isExpanded) {
+      if (!isRead && !isExpanded) {
         dispatch(markMessageAsReadInThread(message.messageId));
       }
     }
