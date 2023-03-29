@@ -351,6 +351,24 @@ export const moveMessageThread = (threadId, toFolderId) => {
     },
   );
 };
+/**
+ * Delete message thread (i.g. move to Trash folder).
+ * @param {Long} threadId
+ * @param {Long} toFolderId
+ * @returns
+ */
+export const deleteMessageThread = (threadId, toFolderId) => {
+  return apiRequest(
+    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${toFolderId}
+  `,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
 
 /**
  * Get a list of triage teams.

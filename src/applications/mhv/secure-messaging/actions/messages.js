@@ -3,7 +3,7 @@ import {
   getMessageList,
   getMessage,
   getMessageHistory,
-  deleteMessage as deleteMessageCall,
+  deleteMessageThread as deleteMessageCall,
   moveMessageThread as moveThreadCall,
   createMessage,
   createReplyToMessage,
@@ -223,12 +223,13 @@ export const retrieveMessageThread = (
 };
 
 /**
- * @param {Long} messageId
+ * @param {Long} threadId
+ *  * @param {Long} folderId
  * @returns
  */
-export const deleteMessage = messageId => async dispatch => {
+export const deleteMessage = (threadId, folderId) => async dispatch => {
   try {
-    await deleteMessageCall(messageId);
+    await deleteMessageCall(threadId, folderId);
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
