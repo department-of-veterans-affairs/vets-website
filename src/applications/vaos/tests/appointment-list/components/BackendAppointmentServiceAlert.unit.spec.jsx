@@ -21,17 +21,19 @@ const initialState = {
   },
 };
 
-describe('VAOS <UpcomingAppointmentsPage>', () => {
+describe('VAOS <UpcomingAppointmentsList> Backend Service Alert', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
     mockAppointmentInfo({});
   });
+
   afterEach(() => {
     MockDate.reset();
   });
-  describe.skip('when vaOnlineSchedulingVAOSV2Next flag is on', () => {
-    it('should display AppointmentSchedulingServiceAlert if there is a failure returned', async () => {
+
+  describe('when vaOnlineSchedulingVAOSV2Next flag is on', () => {
+    it('should display BackendAppointmentServiceAlert if there is a failure returned', async () => {
       const appointmentTime = moment().add(1, 'days');
       const start = moment()
         .subtract(30, 'days')
@@ -64,7 +66,6 @@ describe('VAOS <UpcomingAppointmentsPage>', () => {
         },
       };
       const appointment = createMockAppointmentByVersion({
-        version: 2,
         ...data,
       });
 
@@ -92,12 +93,12 @@ describe('VAOS <UpcomingAppointmentsPage>', () => {
       });
 
       await waitFor(() => {
-        expect(screen.queryByText("We can't display in-person VA appointments"))
-          .to.exist;
+        expect(screen.queryByText("We can't display all your appointments")).to
+          .exist;
       });
     });
 
-    it('should not display AppointmentSchedulingServiceAlert if there is no failure returned', async () => {
+    it('should not display BackendAppointmentServiceAlert if there is no failure returned', async () => {
       const appointmentTime = moment().add(1, 'days');
       const start = moment()
         .subtract(30, 'days')
@@ -130,7 +131,6 @@ describe('VAOS <UpcomingAppointmentsPage>', () => {
         },
       };
       const appointment = createMockAppointmentByVersion({
-        version: 2,
         ...data,
       });
 
@@ -156,14 +156,13 @@ describe('VAOS <UpcomingAppointmentsPage>', () => {
         );
       });
 
-      expect(screen.queryByText("We can't display in-person VA appointments"))
-        .not.to.exist;
+      expect(screen.queryByText("We can't display all your appointments.")).not
+        .to.exist;
     });
   });
 
-  // Skipping BE Alert tests. Related to: #55677
-  describe.skip('when vaOnlineSchedulingVAOSV2Next flag is off', () => {
-    it('should not display AppointmentSchedulingServiceAlert if there is an error returned', async () => {
+  describe('when vaOnlineSchedulingVAOSV2Next flag is off', () => {
+    it('should not display BackendAppointmentServiceAlert if there is an error returned', async () => {
       const appointmentTime = moment().add(1, 'days');
       const start = moment()
         .subtract(30, 'days')
@@ -196,7 +195,6 @@ describe('VAOS <UpcomingAppointmentsPage>', () => {
         },
       };
       const appointment = createMockAppointmentByVersion({
-        version: 2,
         ...data,
       });
 
@@ -222,8 +220,8 @@ describe('VAOS <UpcomingAppointmentsPage>', () => {
         );
       });
 
-      expect(screen.queryByText("We can't display in-person VA appointments"))
-        .not.to.exist;
+      expect(screen.queryByText("We can't display all your appointments.")).not
+        .to.exist;
     });
   });
 });

@@ -13,9 +13,8 @@ export default function AppointmentSchedulingServiceAlert() {
   );
 
   if (futureStatus === FETCH_STATUS.succeeded) {
-    const hasBackendServiceFailure = !!backendServiceFailures?.meta.find(
-      backendServiceFailure => backendServiceFailure?.system === 'VSP',
-    );
+    const hasBackendServiceFailure = !!backendServiceFailures.meta?.length > 0;
+
     if (featureVaosV2Next && hasBackendServiceFailure) {
       return (
         <div className="vads-u-margin-bottom--4">
