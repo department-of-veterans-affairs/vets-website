@@ -68,12 +68,10 @@ const FolderListView = props => {
   useEffect(
     () => {
       return () => {
-        if (location.pathname) {
-          dispatch(closeAlert());
-        }
+        dispatch(closeAlert());
       };
     },
-    [location.pathname, dispatch],
+    [dispatch],
   );
 
   useInterval(() => {
