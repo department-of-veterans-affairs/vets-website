@@ -236,6 +236,7 @@ export const formatInfoCookie = cookieStringRaw => {
   const access_token_expiration = new Date(
     parsedCookie.access_token_expiration,
   );
+
   const refresh_token_expiration = new Date(
     parsedCookie.refresh_token_expiration,
   );
