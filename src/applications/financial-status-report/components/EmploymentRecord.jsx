@@ -6,9 +6,9 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import {
   VaSelect,
   VaDate,
-  VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 
 const defaultRecord = [
@@ -41,10 +41,6 @@ const EmploymentRecord = ({
   const { month: toMonth, year: toYear } = parseISODate(to);
   const { submitted } = formContext;
 
-  const [employerName, setEmployerName] = useState(
-    employment[index].employerName || null,
-  );
-
   const startError = 'Please enter your employment start date.';
   const endError = 'Please enter your employment end date.';
   const employerError = 'Please enter your employer name.';
@@ -72,11 +68,6 @@ const EmploymentRecord = ({
     });
 
     updateFormData(updated);
-  };
-
-  const handleEmployerNameChange = event => {
-    handleChange('employerName', event.target.value);
-    setEmployerName(event.target.value);
   };
 
   const handleCheckboxChange = (key, val) => {
@@ -180,15 +171,17 @@ const EmploymentRecord = ({
         onValueChange={value => handleCheckboxChange('isCurrent', value)}
       />
       <div className="input-size-6 vads-u-margin-bottom--2">
-        <VaTextInput
-          className="no-wrap input-size-6"
-          error={(submitted && employerError) || null}
+        <TextInput
+          field={{
+            value: employment[index].employerName || '',
+          }}
           label="Employer name"
           name="employerName"
-          onInput={handleEmployerNameChange}
+          onValueChange={({ value }) => handleChange('employerName', value)}
           required
-          type="text"
-          value={employerName || ''}
+          errorMessage={
+            submitted && !employment[index].employerName && employerError
+          }
         />
       </div>
     </>
@@ -216,7 +209,4 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EmploymentRecord);
+export default connect(mapStateToProps, mapDispatchToProps)(EmploymentRecord);
