@@ -2,7 +2,9 @@ import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json
 import mockDraftMessages from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
 import mockThreadResponse from '../fixtures/single-draft-response.json';
+import PatientInboxPage from './PatientInboxPage';
 
+const landingPage = new PatientInboxPage();
 class PatientMessageDraftsPage {
   loadDrafts = () => {
     cy.intercept(
@@ -42,7 +44,7 @@ class PatientMessageDraftsPage {
     cy.log('loading draft message details');
     cy.contains('test').click();
     cy.wait('@draftThreadResponse');
-
+    landingPage.interstitialStartMessage().click();
     this.getMessageSubjectField().type(' Draft Save with Attachments');
     this.getMessageBodyField().type('Testing Save Drafts with Attachments');
   };

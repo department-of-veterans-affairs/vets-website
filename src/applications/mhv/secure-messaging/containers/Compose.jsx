@@ -4,7 +4,6 @@ import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { clearDraft } from '../actions/draftDetails';
 import { retrieveMessageThread } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
-import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
@@ -147,10 +146,7 @@ const Compose = () => {
               <h1 className="page-title" ref={header}>
                 {pageTitle}
               </h1>
-              <EmergencyNote />
-              <div>
-                <BeforeMessageAddlInfo />
-              </div>
+              <EmergencyNote dropDownFlag />
               <ComposeForm draft={draftMessage} recipients={triageTeams} />
             </>
           ) : (

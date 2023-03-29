@@ -10,7 +10,7 @@ describe('Secure Messaging Compose with No Provider', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadPageForNoProvider();
-    cy.get('[data-testid="compose-message-link"]').click();
+    landingPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
     composePage.selectRecipient('');

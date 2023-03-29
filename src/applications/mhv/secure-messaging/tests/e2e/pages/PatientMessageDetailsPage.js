@@ -113,6 +113,9 @@ class PatientMessageDetailsPage {
     this.currentThread.data.at(index).attributes.triageGroupName =
       mockMessageDetails.data.attributes.triageGroupName;
     cy.get('[data-testid="reply-button-top"]').click();
+    cy.get('a')
+      .contains('Continue to start message')
+      .click();
     cy.log('loading message reply details.');
 
     cy.intercept(

@@ -14,6 +14,7 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
     const inboxPage = new PatientInboxPage();
+
     site.login();
     inboxPage.loadInboxMessages();
     cy.intercept(
@@ -56,7 +57,7 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
           'content-type': 'application/json',
         });
       });
-
+    inboxPage.interstitialStartMessage().click();
     composePage
       .getMessageSubjectField()
       .type(' Draft Autosave with Attachments');

@@ -285,8 +285,13 @@ class PatientInboxPage {
     cy.get('p').contains('Message thread was successfully moved');
   };
 
+  interstitialStartMessage = () => {
+    return cy.get('a').contains('Continue to start message');
+  };
+
   loadComposeMessagePage = () => {
     cy.get('[data-testid="compose-message-link"]').click();
+    this.interstitialStartMessage().click();
   };
 
   navigatePrintCancelButton = () => {

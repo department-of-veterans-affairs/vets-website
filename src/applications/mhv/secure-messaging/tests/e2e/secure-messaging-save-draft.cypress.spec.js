@@ -39,6 +39,7 @@ describe('Secure Messaging Save Draft', () => {
       mockThreadResponse,
     ).as('draftThreadResponse');
     cy.contains('test').click();
+    landingPage.interstitialStartMessage().click();
     cy.wait('@draftThreadResponse');
     cy.injectAxe();
     cy.axeCheck();
