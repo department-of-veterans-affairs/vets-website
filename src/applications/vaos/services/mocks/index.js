@@ -33,8 +33,8 @@ const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
 const confirmedV2 = require('./v2/confirmed.json');
-const meta = require('./v2/meta_failures.json');
-// const meta = require('./v2/meta.json');
+// const meta = require('./v2/meta_failures.json');
+const meta = require('./v2/meta.json');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 const mockAppts = [];
