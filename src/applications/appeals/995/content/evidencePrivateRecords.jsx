@@ -21,7 +21,8 @@ export const content = {
   fromLabel: 'First treatment date (you can estimate)',
   toLabel: 'Last treatment date (you can estimate)',
   modal: {
-    title: 'Do you want to keep this location?',
+    title: ({ providerFacilityName }) =>
+      `Do you want to keep ${providerFacilityName || 'this location'}?`,
     description: 'We’ve saved your current information',
     yes: 'Yes',
     no: 'No, remove this location',
