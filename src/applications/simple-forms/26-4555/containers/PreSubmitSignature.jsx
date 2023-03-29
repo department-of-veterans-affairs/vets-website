@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import Checkbox from '../components/Checkbox';
 
 const PreSubmitSignature = ({
   formData,
@@ -103,13 +103,14 @@ const PreSubmitSignature = ({
       </p>
       <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--3 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--3">
         <h3>Statement of truth</h3>
-        <p>
-          I certify that I am applying for assistance in acquiring specially
-          adapted housing or special home adaptation grant because of the nature
-          of my service-connected disability. I understand that there are
-          medical and economic features yet to be considered before I am
-          eligible for this benefit, and that I will be notified of the action
-          taken on this application as soon as possible.
+        <p id="legalText">
+          <span className="sr-only">Statement of Truth: </span>I certify that I
+          am applying for assistance in acquiring specially adapted housing or
+          special home adaptation grant because of the nature of my
+          service-connected disability. I understand that there are medical and
+          economic features yet to be considered before I am eligible for this
+          benefit, and that I will be notified of the action taken on this
+          application as soon as possible.
         </p>
         <p>
           I have read and accept the{' '}
@@ -144,8 +145,11 @@ const PreSubmitSignature = ({
           checked={certifyChecked}
           onValueChange={value => setCertifyChecked(value)}
           label="I certify the information above is correct and true to the best of my knowledge and belief."
+          ariaDescribedBy="legalText"
           errorMessage={
-            certifyCheckboxError && 'You must certify by checking the box.'
+            certifyCheckboxError
+              ? 'You must certify by checking the box.'
+              : undefined
           }
           required
         />
