@@ -109,7 +109,7 @@ describe('<EvidenceSummary>', () => {
     const { container } = setupSummary();
 
     expect($$('h3', container).length).to.eq(1);
-    expect($$('h4', container).length).to.eq(3);
+    expect($$('h4', container).length).to.eq(4);
     expect($$('ul', container).length).to.eq(3);
     expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
@@ -237,7 +237,8 @@ describe('<EvidenceSummary>', () => {
   it('should render on review & submit in edit mode', () => {
     const { container } = setupSummary({ onReviewPage: true });
 
-    expect($$('h4', container).length).to.eq(1);
+    expect($$('h4', container).length).to.eq(2);
+    // now includes limited consent
     expect($$('h5', container).length).to.eq(3);
     expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(0);
