@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -63,53 +63,6 @@ const PopularActionsForDebts = () => {
   );
 };
 
-const SingleColumnInfo = ({
-  hasDebtError,
-  hasCopayError,
-  copaysCount,
-  debtsCount,
-  withWrapper = false,
-}) => {
-  const SingleColumnInfoWithoutWrapper = () => {
-    return (
-      <>
-        {(hasDebtError || hasCopayError) && (
-          <>
-            <OutstandingDebtsError />
-            {((hasDebtError && copaysCount < 1) ||
-              (hasCopayError && debtsCount < 1)) && <PopularActionsForDebts />}
-          </>
-        )}
-        {!hasDebtError &&
-          !hasCopayError &&
-          debtsCount < 1 &&
-          copaysCount < 1 && (
-            <>
-              <NoOutstandingDebtsText />
-              <PopularActionsForDebts />
-            </>
-          )}
-      </>
-    );
-  };
-
-  return withWrapper ? (
-    <DashboardWidgetWrapper>
-      <SingleColumnInfoWithoutWrapper />
-    </DashboardWidgetWrapper>
-  ) : (
-    <SingleColumnInfoWithoutWrapper />
-  );
-};
-
-SingleColumnInfo.propTypes = {
-  copaysCount: PropTypes.number,
-  debtsCount: PropTypes.number,
-  hasCopayError: PropTypes.bool,
-  hasDebtError: PropTypes.bool,
-  withWrapper: PropTypes.bool,
-};
-
 const BenefitPaymentsAndDebtV2 = ({
   canAccessCopays,
   debts,
@@ -144,6 +97,10 @@ const BenefitPaymentsAndDebtV2 = ({
     );
   }
 
+  const hasNoOutstandingDebts = () => {
+    return !hasDebtError && !hasCopayError && debtsCount < 1 && copaysCount < 1;
+  };
+
   return (
     <div
       className="health-care-wrapper vads-u-margin-top--6 vads-u-margin-bottom-3"
@@ -152,44 +109,65 @@ const BenefitPaymentsAndDebtV2 = ({
       <h2>Outstanding debts</h2>
       {shouldShowV2Dashboard && (
         <>
-          <SingleColumnInfo
-            debtsCount={debtsCount}
-            copaysCount={copaysCount}
-            hasCopayError={hasCopayError}
-            hasDebtError={hasDebtError}
-            withWrapper
-          />
           <div className="vads-l-row">
+            {(hasDebtError || hasCopayError) && (
+              <>
+                <DashboardWidgetWrapper>
+                  <OutstandingDebtsError />
+                </DashboardWidgetWrapper>
+                <DashboardWidgetWrapper>
+                  {hasDebtError &&
+                    copaysCount > 0 && <PopularActionsForDebts />}
+                </DashboardWidgetWrapper>
+              </>
+            )}
+            {hasNoOutstandingDebts() && (
+              <>
+                <DashboardWidgetWrapper>
+                  <NoOutstandingDebtsText />
+                </DashboardWidgetWrapper>
+              </>
+            )}
             {debtsCount > 0 && (
               <DashboardWidgetWrapper>
                 <DebtsCardV2 debts={debts} />
               </DashboardWidgetWrapper>
             )}
             {copaysCount > 0 && (
-              <DashboardWidgetWrapper>
-                <CopaysCardV2 copays={copays} />
-              </DashboardWidgetWrapper>
+              <>
+                <DashboardWidgetWrapper>
+                  {hasDebtError && <OutstandingDebtsError />}
+                  <CopaysCardV2 copays={copays} />
+                </DashboardWidgetWrapper>
+                <DashboardWidgetWrapper>
+                  <PopularActionsForDebts />
+                </DashboardWidgetWrapper>
+              </>
             )}
           </div>
         </>
       )}
       {!shouldShowV2Dashboard && (
-        <DashboardWidgetWrapper>
-          <SingleColumnInfo
-            debtsCount={debtsCount}
-            copaysCount={copaysCount}
-            hasCopayError={hasCopayError}
-            hasDebtError={hasDebtError}
-          />
-          {debtsCount > 0 && <DebtsCardV2 debts={debts} />}
-          {copaysCount > 0 && <CopaysCardV2 copays={copays} />}
-        </DashboardWidgetWrapper>
+        <>
+          <DashboardWidgetWrapper>
+            {(hasDebtError || hasCopayError) && (
+              <>
+                <OutstandingDebtsError />
+              </>
+            )}
+            {!hasDebtError &&
+              !hasCopayError &&
+              debtsCount < 1 &&
+              copaysCount < 1 && <NoOutstandingDebtsText />}
+            {debtsCount > 0 && <DebtsCardV2 debts={debts} />}
+            {copaysCount > 0 && <CopaysCardV2 copays={copays} />}
+            {copaysCount > 0 && hasDebtError && <PopularActionsForDebts />}
+          </DashboardWidgetWrapper>
+        </>
       )}
-      {((hasDebtError && !hasCopayError && copaysCount > 0) ||
-        (!hasDebtError &&
-          !hasCopayError &&
-          debtsCount < 1 &&
-          copaysCount > 0)) && (
+      {((debtsCount === 0 && copaysCount === 0) ||
+        (hasCopayError && debtsCount === 0) ||
+        (hasDebtError && copaysCount === 0)) && (
         <DashboardWidgetWrapper>
           <PopularActionsForDebts />
         </DashboardWidgetWrapper>

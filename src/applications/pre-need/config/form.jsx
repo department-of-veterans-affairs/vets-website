@@ -137,7 +137,9 @@ const formConfig = {
   },
   chapters: {
     applicantInformation: {
-      title: 'Applicant Information',
+      title: environment.isProduction()
+        ? 'Applicant Information'
+        : 'Applicant information',
       pages: {
         applicantInformation: {
           title: 'Applicant information',
@@ -246,7 +248,9 @@ const formConfig = {
       },
     },
     sponsorInformation: {
-      title: 'Sponsor Information',
+      title: environment.isProduction()
+        ? 'Sponsor Information'
+        : 'Sponsor information',
       pages: {
         sponsorInformation: {
           path: 'sponsor-information',
@@ -379,7 +383,9 @@ const formConfig = {
       },
     },
     militaryHistory: {
-      title: 'Military History',
+      title: environment.isProduction()
+        ? 'Military History'
+        : 'Military history',
       pages: {
         // Two sets of military history pages dependent on
         // whether the applicant is the veteran or not.
@@ -567,7 +573,7 @@ const formConfig = {
       },
     },
     burialBenefits: {
-      title: 'Burial Benefits',
+      title: environment.isProduction() ? 'Burial Benefits' : 'Burial benefits',
       pages: {
         burialBenefits: {
           path: 'burial-benefits',
@@ -657,7 +663,7 @@ const formConfig = {
       },
     },
     supportingDocuments: {
-      title: 'Supporting documents',
+      title: 'Supporting Documents',
       pages: {
         supportingDocuments: {
           path: 'supporting-documents',
@@ -709,7 +715,9 @@ const formConfig = {
       },
     },
     contactInformation: {
-      title: 'Contact Information',
+      title: environment.isProduction()
+        ? 'Contact Information'
+        : 'Contact information',
       pages: {
         applicantContactInformation: {
           title: 'Applicant’s contact information',

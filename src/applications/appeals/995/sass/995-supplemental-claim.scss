@@ -172,8 +172,9 @@ article[data-location="supporting-evidence/private-medical-records"] {
   /* Add margin for error messages, otherwise the label + error + input take up
    * the same space
    */
+  va-select[error],
   va-text-input[error] {
-    margin-top: 2.5rem;
+    margin-top: 3rem;
   }
 }
 
