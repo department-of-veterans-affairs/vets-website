@@ -1,8 +1,6 @@
 /* eslint-disable camelcase */
 import sinon from 'sinon';
 import { expect } from 'chai';
-// import { rest } from 'msw';
-// import { createServer } from 'msw/node';
 
 import localStorage from 'platform/utilities/storage/localStorage';
 import {
@@ -377,11 +375,30 @@ describe('OAuth - Utilities', () => {
   });
 
   describe('logoutUrlSiS', () => {
-    it('should redirect to backend for logout', () => {
-      window.location = new URL('https://va.gov/?state=some_random_state');
+    it('should set client_id=vaweb by default', () => {
       const url = oAuthUtils.logoutUrlSiS();
-      window.location = url;
-      expect(window.location).to.eql(url);
+      expect(url).to.include('logout');
+      expect(url).to.include('client_id=vaweb');
+    });
+    it('should set client_id to value of sessionStorage', () => {
+      const mockedClientId = 'vamock';
+      const storage = sessionStorage;
+      storage.clear();
+      storage.setItem('ci', mockedClientId);
+      const url = oAuthUtils.logoutUrlSiS();
+      expect(url).to.include('logout');
+      expect(url).to.include(`client_id=${mockedClientId}`);
+      storage.clear();
+    });
+    it('should set client_id=vaweb when clientId is not of approved clientId list', () => {
+      const badClientId = 'bad_actor_client_id';
+      const storage = sessionStorage;
+      storage.clear();
+      storage.setItem('ci', badClientId);
+      const url = oAuthUtils.logoutUrlSiS();
+      expect(url).to.include('logout');
+      expect(url).to.include(`client_id=vaweb`);
+      storage.clear();
     });
   });
 

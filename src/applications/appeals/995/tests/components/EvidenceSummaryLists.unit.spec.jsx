@@ -138,8 +138,8 @@ describe('evidenceSummaryList', () => {
       expect($('h4', container).textContent).to.contain(content.privateTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(3);
-      // Does not include limited consent
-      expect($$('h5', container).length).to.eq(2);
+      // Includes limited consent
+      expect($$('h5', container).length).to.eq(3);
       expect($$('.edit-item', container).length).to.eq(3);
       expect($$('.remove-item', container).length).to.eq(3);
     });
@@ -148,8 +148,8 @@ describe('evidenceSummaryList', () => {
       const { container } = render(
         <PrivateContent list={privateEvidence} limitedConsent="" testing />,
       );
-      // Does not include limited consent
-      expect($$('h5', container).length).to.eq(2);
+      // Includes limited consent
+      expect($$('h5', container).length).to.eq(3);
       expect($$('.edit-item', container).length).to.eq(3);
       expect($$('.remove-item', container).length).to.eq(2);
     });
@@ -167,8 +167,8 @@ describe('evidenceSummaryList', () => {
       expect($('h5', container).textContent).to.contain(content.privateTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(3);
-      // Does not include limited consent
-      expect($$('h6', container).length).to.eq(2);
+      // Includes limited consent
+      expect($$('h6', container).length).to.eq(3);
       expect($$('.edit-item', container).length).to.eq(0);
       expect($$('.remove-item', container).length).to.eq(0);
     });

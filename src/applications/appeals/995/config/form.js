@@ -78,6 +78,7 @@ import {
   focusRadioH3,
   focusAlertH3,
   focusIssue,
+  focusEvidence,
   focusUploads,
 } from '../utils/focus';
 
@@ -178,7 +179,6 @@ const formConfig = {
           CustomPageReview: PrimaryPhoneReview,
           uiSchema: primaryPhone.uiSchema,
           schema: primaryPhone.schema,
-          // needs useCustomScrollAndFocus: true to work
           scrollAndFocusTarget: focusRadioH3,
         },
       },
@@ -230,7 +230,6 @@ const formConfig = {
           CustomPageReview: null, // reviewField renders this!
           uiSchema: notice5103.uiSchema,
           schema: notice5103.schema,
-          // needs useCustomScrollAndFocus: true to work
           scrollAndFocusTarget: focusAlertH3,
           initialData: {
             form5103Acknowledged: false,
@@ -251,6 +250,7 @@ const formConfig = {
           uiSchema: blankUiSchema,
           schema: blankSchema,
           hideHeaderRow: true,
+          scrollAndFocusTarget: focusEvidence,
         },
         evidencePrivateRecordsRequest: {
           title: 'Request private medical records',
@@ -259,7 +259,6 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: evidencePrivateRequest.uiSchema,
           schema: evidencePrivateRequest.schema,
-          // needs useCustomScrollAndFocus: true to work
           scrollAndFocusTarget: focusRadioH3,
         },
         evidencePrivateRecordsAuthorization: {
@@ -279,6 +278,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: blankUiSchema,
           schema: blankSchema,
+          scrollAndFocusTarget: focusEvidence,
         },
         evidencePrivateLimitation: {
           title: 'Private medical record limitations',
