@@ -38,7 +38,7 @@ const MessageThreadItem = props => {
         setIsExpanded(!isExpanded);
       }
 
-      if (!isRead && !isExpanded) {
+      if (!isExpanded) {
         dispatch(markMessageAsReadInThread(message.messageId));
       }
     }
