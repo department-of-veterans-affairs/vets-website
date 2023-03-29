@@ -147,7 +147,7 @@ class PatientComposePage {
   };
 
   removeAttachMessageFromFile = () => {
-    cy.get('[data-testid="attach-file-input"]').clear();
+    cy.get('.remove-attachment-button').click();
   };
 
   //* Refactor*Remove and consolidate
