@@ -29,6 +29,7 @@ import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
 import EligibleBuriedView from '../components/EligibleBuriedView';
 import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
+import MemorableDateOfBirthField from '../components/MemorableDateOfBirth';
 import { validateSponsorDeathDate } from '../validation';
 
 import manifest from '../manifest.json';
@@ -148,7 +149,10 @@ const formConfig = {
               claimant: {
                 name: fullMaidenNameUI,
                 ssn: ssnDashesUI,
-                dateOfBirth: currentOrPastDateUI('Date of birth'),
+                dateOfBirth: {
+                  'ui:title': 'Date Of Birth',
+                  'ui:field': MemorableDateOfBirthField,
+                },
                 relationshipToVet: {
                   'ui:title': 'Relationship to service member',
                   'ui:widget': 'radio',

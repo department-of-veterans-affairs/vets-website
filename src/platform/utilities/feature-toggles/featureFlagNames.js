@@ -117,6 +117,7 @@ export default Object.freeze({
   showEduBenefits5495Wizard: 'show_edu_benefits_5495_wizard',
   showExpandableVamcAlert: 'show_expandable_vamc_alert',
   showFinancialStatusReport: 'show_financial_status_report',
+  showMbmsPreneedMemorableDateOfBirth: 'show_mbms_preneed_memorable_date_of_birth',
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
   showFormI18n: 'show_form_i18n',
   showMbsPreneedChangeVa4010007: 'show_mbs_preneed_change_va_4010007',
