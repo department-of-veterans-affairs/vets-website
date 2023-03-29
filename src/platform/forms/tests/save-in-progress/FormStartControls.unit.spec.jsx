@@ -215,7 +215,7 @@ describe('Schemaform <FormStartControls>', () => {
     tree.baseElement.querySelectorAll('va-button')[1].click();
     expect(tree.baseElement.querySelector('.va-modal-body')).to.not.be.null;
     const buttonPair = tree.baseElement.querySelector('va-button-pair');
-    buttonPair.primaryClick();
+    buttonPair.__events.primaryClick();
     expect(fetchSpy.called).to.be.true;
     expect(tree.baseElement.querySelector('.va-modal-body')).to.be.null;
   });
@@ -250,7 +250,7 @@ describe('Schemaform <FormStartControls>', () => {
     expect(tree.baseElement.querySelector('.va-modal-body')).to.not.be.null;
 
     const buttonPair = tree.baseElement.querySelector('va-button-pair');
-    buttonPair.primaryClick();
+    buttonPair.__events.primaryClick();
 
     expect(fetchSpy.called).to.be.true;
     expect(tree.baseElement.querySelector('.va-modal-body')).to.be.null;
