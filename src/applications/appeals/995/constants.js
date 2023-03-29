@@ -74,6 +74,8 @@ export const MAX_LENGTH = {
   EVIDENCE_LOCATION_AND_NAME: 255,
 };
 
+export const REGEX_COMMA = /[, ]/g;
+
 export const errorMessages = {
   contestedIssue: 'You must select an eligible issue',
   missingIssue: 'You must add an issue',
