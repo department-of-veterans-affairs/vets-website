@@ -139,10 +139,12 @@ export const ALERT_TYPE_INFO = 'info';
 
 export const Categories = {
   OTHER: 'General',
+  OTHERS: 'General',
   COVID: 'COVID',
   APPOINTMENTS: 'Appointment',
   MEDICATIONS: 'Medication',
   TEST_RESULTS: 'Test',
+  TEST_RESULT: 'Test',
   EDUCATION: 'Education',
 };
 

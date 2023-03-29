@@ -18,7 +18,7 @@ const ThreadListItem = props => {
     draftDate,
     subject,
     recipientName,
-    attachment,
+    hasAttachment,
     messageId,
     category,
     triageGroupName,
@@ -126,7 +126,7 @@ const ThreadListItem = props => {
           {categoryLabel}: {getHighlightedText(subject)}
         </Link>
         <p className="received-date vads-u-margin-y--0p5">
-          {attachment && <i className={attachmentClasses} aria-hidden />}
+          {hasAttachment && <i className={attachmentClasses} aria-hidden />}
           <span>{formattedDate()}</span>
         </p>
       </div>

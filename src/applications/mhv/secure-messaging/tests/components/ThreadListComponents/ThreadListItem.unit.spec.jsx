@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducers from '../../../reducers';
 import ThreadListItem from '../../../components/ThreadList/ThreadListItem';
+import { dateFormat } from '../../../util/helpers';
 
 describe('Thread List component', () => {
   const initialState = {
@@ -106,10 +107,10 @@ describe('Thread List component', () => {
     screen = setup(options);
 
     const threadItemFormattedDate = await screen.getByText(
-      'February 14, 2023 at 8:03 a.m. PST',
+      dateFormat(options.sentDate, 'MMMM D, YYYY [at] h:mm a z'),
     );
     const threadItemUnformattedDate = await screen.queryByText(
-      '2023-02-14T16:03:32.000Z',
+      options.sentDate,
     );
     expect(threadItemFormattedDate).to.exist;
     expect(threadItemUnformattedDate).to.not.exist;
