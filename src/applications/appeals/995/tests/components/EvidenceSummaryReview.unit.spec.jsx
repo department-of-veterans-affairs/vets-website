@@ -90,7 +90,8 @@ describe('<EvidenceSummaryReview>', () => {
     const { container } = setupSummary();
 
     expect($('button.edit-page', container)).to.exist;
-    expect($$('h5', container).length).to.eq(4);
+    // now includes limited consent
+    expect($$('h5', container).length).to.eq(3);
     expect($$('ul', container).length).to.eq(3);
     expect($$('a', container).length).to.eq(0);
     expect($('a.vads-c-action-link--green', container)).to.not.exist;

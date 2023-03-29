@@ -18,9 +18,9 @@ describe('Secure Messaging Draft Save with Attachments', () => {
 
     composePage.saveDraft(
       6978854,
-      'OTHER',
-      'test Draft Save with Attachments',
-      'ststASertTesting Save Drafts with Attachments',
+      'APPOINTMENTS',
+      'Appointment Inquiry Draft Save with Attachments',
+      'Test Compose DraftTesting Save Drafts with Attachments',
     );
 
     cy.get('@draft_message')
