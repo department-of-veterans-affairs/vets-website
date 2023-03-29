@@ -74,7 +74,7 @@ export function mockSingleVAOSAppointmentFetch({ appointment, error = null }) {
  * @param {string} end End date for list of appointments
  * @param {Array<string>} statuses An array of appointment statuses
  * @param {Array<VAOSRequest>} params.request Request to be returned from the mock
- * @param {boolean} [params.error=null] Whether or not to return an error from the mock
+ * @param {boolean} [params.error=null] Whether or not to return a fetch error from the mock
  * @param {boolean} [params.backendServiceFailures=null] Whether or not to return a backend service error with the mock
  */
 export function mockVAOSAppointmentsFetch({
@@ -94,8 +94,10 @@ export function mockVAOSAppointmentsFetch({
   const meta = backendServiceFailures ? metaWithFailures : metaWithoutFailures;
 
   if (error) {
+    // General fetching error, no appointments returned
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
   } else {
+    // Returns a meta object within the response with or without any backendServiceFailures
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
       data: requests,
       meta,
