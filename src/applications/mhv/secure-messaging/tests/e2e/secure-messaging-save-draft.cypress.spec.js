@@ -22,11 +22,6 @@ describe('Secure Messaging Save Draft', () => {
     cy.realPress(['Enter']);
     mockDraftResponse.data.attributes.body = 'ststASertTest message body\n';
     composePage.saveDraft(mockDraftResponse);
-    composePage.sendDraft(
-      6978854,
-      'OTHER',
-      'testmessage Test',
-      'ststASertTest message body',
-    );
+    composePage.sendDraft(mockDraftResponse);
   });
 });

@@ -22,11 +22,13 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     cy.realPress(['Enter']);
     composePage.attachMessageFromFile('sample_docx.docx');
 
+    mockDraftResponse.data.attributes.body =
+      'ststASertTesting Autosave Drafts with Attachments\n';
     cy.intercept(
-      'POST',
+      'PUT',
       `/my_health/v1/messaging/message_drafts/${
         mockDraftResponse.data.attributes.messageId
-      }/replydraft`,
+      }`,
       mockDraftResponse,
     ).as('saveDraftwithAttachment');
     cy.wait('@saveDraftwithAttachment', { timeout: 8500 });

@@ -13,6 +13,7 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     const draftsPage = new PatientMessageDraftsPage();
     site.login();
     landingPage.loadInboxMessages();
+
     draftsPage.loadDraftMessages(mockDraftMessages, mockThreadResponse);
     draftsPage.loadMessageDetails(mockThreadResponse);
 
@@ -26,6 +27,7 @@ describe('Secure Messaging Draft Save with Attachments', () => {
       'Test Compose DraftTesting Save Drafts with Attachments',
     );
     
+
     cy.get('@draft_message')
       .its('response')
       .then(res => {
