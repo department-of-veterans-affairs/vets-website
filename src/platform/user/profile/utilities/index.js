@@ -52,7 +52,6 @@ export function mapRawUserDataToState(json) {
         vet360ContactInformation,
         veteranStatus,
         session,
-        showOrganicAdoptionExperimentModal,
       },
     },
     meta,
@@ -80,7 +79,6 @@ export function mapRawUserDataToState(json) {
     claims,
     vapContactInfo: vet360ContactInformation,
     session,
-    showOrganicAdoptionExperimentModal,
     veteranStatus: {},
   };
 

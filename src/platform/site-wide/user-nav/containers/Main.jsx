@@ -40,6 +40,7 @@ import {
 } from 'platform/site-wide/user-nav/actions';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
 import { ACCOUNT_TRANSITION_DISMISSED } from 'platform/user/authentication/constants';
+import { apiRequest } from 'platform/utilities/api';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import AutoSSO from './AutoSSO';
 import { selectUserGreeting } from '../selectors';
@@ -47,12 +48,25 @@ import { selectUserGreeting } from '../selectors';
 export class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = { isLoginGovExperimentModalVisible: true };
+    this.state = {
+      isLoginGovExperimentModalVisible: true,
+      organicAdoptionExperimentFeatureFlag: null,
+    };
   }
 
-  closeLoginGovExperimentModal = () => {
+  closeOrganicAdoptionExperimentModal = () => {
     this.setState({
       isLoginGovExperimentModalVisible: false,
+    });
+  };
+
+  updateOrganicAdoptionExperimentStatus = async () => {
+    const { organicModal } = await apiRequest(
+      '/user_transition_availabilities',
+    );
+
+    this.setState({
+      organicAdoptionExperimentFeatureFlag: organicModal,
     });
   };
 
@@ -70,7 +84,7 @@ export class Main extends Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { currentlyLoggedIn, user } = this.props;
     const { mhvTransitionEligible, mhvTransitionComplete } = user || {};
     const accountTransitionPreviouslyDismissed = localStorage.getItem(
@@ -80,6 +94,8 @@ export class Main extends Component {
     if (currentlyLoggedIn) {
       this.executeRedirect();
       this.closeModals();
+      if (prevProps.currentlyLoggedIn === false)
+        this.updateOrganicAdoptionExperimentStatus();
 
       if (
         this.props.signInServiceName === 'mhv' &&
@@ -223,12 +239,7 @@ export class Main extends Component {
   };
 
   render() {
-    const {
-      mhvTransition,
-      mhvTransitionModal,
-      currentlyLoggedIn,
-      user: { profile },
-    } = this.props;
+    const { mhvTransition, mhvTransitionModal, currentlyLoggedIn } = this.props;
 
     // Check if displaying login is disabled.
     if (
@@ -252,7 +263,7 @@ export class Main extends Component {
 
     const shouldShowLoginGovExperiment =
       this.state.isLoginGovExperimentModalVisible &&
-      profile.showOrganicAdoptionExperimentModal &&
+      this.state.organicAdoptionExperimentFeatureFlag &&
       !isOrganicModalDismissed &&
       currentlyLoggedIn;
 
@@ -260,7 +271,7 @@ export class Main extends Component {
       <div className="profile-nav-container">
         <OrganicAdoptionExperimentModal
           visible={shouldShowLoginGovExperiment}
-          onClose={this.closeLoginGovExperimentModal}
+          onClose={this.closeOrganicAdoptionExperimentModal}
         />
         <SearchHelpSignIn
           isHeaderV2={this.props.isHeaderV2}
@@ -382,7 +393,6 @@ Main.propTypes = {
   showAccountTransitionSuccessModal: PropTypes.bool,
   showFormSignInModal: PropTypes.bool,
   showLoginModal: PropTypes.bool,
-  showOrganicAdoptionExperimentModal: PropTypes.bool,
   useSignInService: PropTypes.bool,
   userGreeting: PropTypes.array,
   utilitiesMenuIsOpen: PropTypes.object,
