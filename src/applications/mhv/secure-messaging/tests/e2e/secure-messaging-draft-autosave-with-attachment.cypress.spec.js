@@ -14,7 +14,7 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     const draftsPage = new PatientMessageDraftsPage();
     site.login();
     inboxPage.loadInboxMessages();
-    draftsPage.loadDraftMessages(mockDraftMessages, mockThreadResponse);
+    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     composePage
       .getMessageBodyField()

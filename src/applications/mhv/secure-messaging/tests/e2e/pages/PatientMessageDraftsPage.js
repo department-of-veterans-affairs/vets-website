@@ -43,10 +43,10 @@ class PatientMessageDraftsPage {
   setDraftTestMessageDetails = mockMessage => {
     if (this.mockDraftMessages.data.length > 0) {
       cy.log(`draftMessages size ${this.mockDraftMessages.data.length}`);
-      //  this.mockDraftMessages.data.at(0).attributes.sentDate =
-      //   mockMessage.data.attributes.sentDate;
-      //  this.mockDraftMessages.data.at(0).attributes.messageId =
-      //   mockMessage.data.attributes.messageId;
+      this.mockDraftMessages.data.at(0).attributes.sentDate =
+        mockMessage.data.attributes.sentDate;
+      this.mockDraftMessages.data.at(0).attributes.messageId =
+        mockMessage.data.attributes.messageId;
       this.mockDraftMessages.data.at(0).attributes.subject =
         mockMessage.data.attributes.subject;
       this.mockDraftMessages.data.at(0).attributes.body =

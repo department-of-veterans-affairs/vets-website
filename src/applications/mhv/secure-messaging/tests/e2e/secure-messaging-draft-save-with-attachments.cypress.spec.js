@@ -3,6 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockDraftMessages from './fixtures/drafts-response.json';
+import mockDraftResponse from './fixtures/message-draft-response.json';
 import mockThreadResponse from './fixtures/single-draft-response.json';
 
 describe('Secure Messaging Draft Save with Attachments', () => {
@@ -14,28 +15,12 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     site.login();
     landingPage.loadInboxMessages();
 
-    draftsPage.loadDraftMessages(mockDraftMessages, mockThreadResponse);
-    draftsPage.loadMessageDetails(mockThreadResponse);
+    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
+    draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
 
     composePage.attachMessageFromFile('sample_docx.docx');
 
-    composePage.saveDraftButton.click();
-    /* composePage.saveDraft(
-      6978854,
-      'APPOINTMENTS',
-      'Appointment Inquiry Draft Save with Attachments',
-      'Test Compose DraftTesting Save Drafts with Attachments',
-    );
-    
-
-    cy.get('@draft_message')
-      .its('response')
-      .then(res => {
-        expect(res.body.data.attributes).to.include({
-          attachment: false,
-        });
-      });
-      */
+    composePage.saveDraftButton().click();
     cy.get('[visible=""] > p').should(
       'contain',
       'If you save this message as a draft',
