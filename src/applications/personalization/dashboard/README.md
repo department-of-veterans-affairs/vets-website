@@ -18,7 +18,7 @@ The React/Redux frontend for the VA.gov MyVA. Modeled after [Profile's README](h
 
 # Purpose and overview
 
-The authenticated experience team wants to work towards a concierge-like VA experience, one that puts veterans' and other customers at the center of the interaction. 
+The authenticated experience team wants to work towards a concierge-like VA experience, one that puts veterans and other customers at the center of the interaction. 
 
 My VA aims to meet this expectation by providing Veterans with a direct route to their most critical tasks and updates.
 
