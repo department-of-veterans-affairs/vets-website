@@ -227,9 +227,9 @@ export const retrieveMessageThread = (
  *  * @param {Long} folderId
  * @returns
  */
-export const deleteMessage = (threadId, folderId) => async dispatch => {
+export const deleteMessage = threadId => async dispatch => {
   try {
-    await deleteMessageCall(threadId, folderId);
+    await deleteMessageCall(threadId);
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,

@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DeleteMessageModal from '../Modals/DeleteMessageModal';
 import { deleteMessage } from '../../actions/messages';
-// import { navigateToFolderByFolderId } from '../../util/helpers';
-// import * as Constants from '../../util/constants';
+import { navigateToFolderByFolderId } from '../../util/helpers';
+import * as Constants from '../../util/constants';
 
 const TrashButton = props => {
   const { activeFolder, messageId, threadId, visible } = props;
   const dispatch = useDispatch();
-  // const history = useHistory();
+  const history = useHistory();
   const [isDeleteVisible, setIsDeleteVisible] = useState(false);
 
   const handleDeleteMessageConfirm = () => {
     setIsDeleteVisible(false);
-    dispatch(deleteMessage(threadId, activeFolder.folderId));
+    dispatch(deleteMessage(threadId)).then(() => {
+      navigateToFolderByFolderId(
+        activeFolder
+          ? activeFolder.folderId
+          : Constants.DefaultFolders.DELETED.id,
+        history,
+      );
+    });
   };
 
   const deleteMessageModal = () => {

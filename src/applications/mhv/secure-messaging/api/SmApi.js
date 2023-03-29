@@ -354,12 +354,11 @@ export const moveMessageThread = (threadId, toFolderId) => {
 /**
  * Delete message thread (i.g. move to Trash folder).
  * @param {Long} threadId
- * @param {Long} toFolderId
  * @returns
  */
-export const deleteMessageThread = (threadId, toFolderId) => {
+export const deleteMessageThread = threadId => {
   return apiRequest(
-    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${toFolderId}
+    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=-3
   `,
     {
       method: 'PATCH',
