@@ -1,17 +1,17 @@
 import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json';
-import mockDraftMessages from '../fixtures/drafts-response.json';
+import mockDraftMessagesResponse from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
 import defaultMockThread from '../fixtures/single-draft-response.json';
 
 class PatientMessageDraftsPage {
-  mockDraftMessages = undefined;
+  mockDraftMessages = mockDraftMessagesResponse;
 
-  mockDetailedMessage = undefined;
+  mockDetailedMessage = mockDraftResponse;
 
   currentThread = defaultMockThread;
 
   loadDraftMessages = (
-    draftMessages = mockDraftMessages,
+    draftMessages = mockDraftMessagesResponse,
     detailedMessage = mockDraftResponse,
   ) => {
     this.mockDraftMessages = draftMessages;
@@ -43,10 +43,10 @@ class PatientMessageDraftsPage {
   setDraftTestMessageDetails = mockMessage => {
     if (this.mockDraftMessages.data.length > 0) {
       cy.log(`draftMessages size ${this.mockDraftMessages.data.length}`);
-      this.mockDraftMessages.data.at(0).attributes.sentDate =
-        mockMessage.data.attributes.sentDate;
-      this.mockDraftMessages.data.at(0).attributes.messageId =
-        mockMessage.data.attributes.messageId;
+      //  this.mockDraftMessages.data.at(0).attributes.sentDate =
+      //   mockMessage.data.attributes.sentDate;
+      //  this.mockDraftMessages.data.at(0).attributes.messageId =
+      //   mockMessage.data.attributes.messageId;
       this.mockDraftMessages.data.at(0).attributes.subject =
         mockMessage.data.attributes.subject;
       this.mockDraftMessages.data.at(0).attributes.body =
@@ -64,8 +64,8 @@ class PatientMessageDraftsPage {
     mockPreviousMessageDetails = mockDraftResponse,
   ) => {
     this.currentThread = mockThread;
-    this.currentThread.data.at(0).attributes.sentDate =
-      mockParentMessageDetails.data.attributes.sentDate;
+    // this.currentThread.data.at(0).attributes.sentDate =
+    //  mockParentMessageDetails.data.attributes.sentDate;
     this.currentThread.data.at(0).id =
       mockParentMessageDetails.data.attributes.messageId;
     this.currentThread.data.at(0).attributes.messageId =
