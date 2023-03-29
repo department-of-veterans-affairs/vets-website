@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -229,19 +230,16 @@ export const infoTokenExists = () => {
 };
 
 export const formatInfoCookie = cookieStringRaw => {
-  const decoded = cookieStringRaw.includes('%')
-    ? decodeURIComponent(cookieStringRaw)
-    : cookieStringRaw;
-  return decoded.split(',+:').reduce((obj, cookieString) => {
-    const [key, value] = cookieString.replace(/{:|}/g, '').split('=>');
-    const formattedValue = value
-      .replaceAll('++00:00', '')
-      .replaceAll('+', ' ')
-      .replace(',', '')
-      .replace(/\.\d+/g, '');
+  const parsedCookie = JSON.parse(cookieStringRaw);
 
-    return { ...obj, [key]: new Date(formattedValue) };
-  }, {});
+  const access_token_expiration = new Date(
+    parsedCookie.access_token_expiration,
+  );
+
+  const refresh_token_expiration = new Date(
+    parsedCookie.refresh_token_expiration,
+  );
+  return { access_token_expiration, refresh_token_expiration };
 };
 
 export const getInfoToken = () => {
