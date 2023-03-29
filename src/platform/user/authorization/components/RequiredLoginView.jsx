@@ -37,7 +37,7 @@ const ProfileErrorMessage = () => {
 };
 
 export const RequiredLoginView = props => {
-  const { user, verify, useSiS } = props;
+  const { user, verify, useSiS, showProfileErrorMessage = false } = props;
 
   const shouldSignIn = useCallback(() => !user.login.currentlyLoggedIn, [
     user.login.currentlyLoggedIn,
@@ -143,7 +143,7 @@ export const RequiredLoginView = props => {
     });
   };
   const renderWrappedContent = () => {
-    if (user.profile.errors) {
+    if (showProfileErrorMessage && user.profile.errors) {
       return <ProfileErrorMessage />;
     }
 
@@ -177,6 +177,7 @@ RequiredLoginView.propTypes = {
     PropTypes.arrayOf(validService),
   ]).isRequired,
   user: PropTypes.object.isRequired,
+  showProfileErrorMessage: PropTypes.bool,
   useSiS: PropTypes.bool,
   verify: PropTypes.bool,
 };

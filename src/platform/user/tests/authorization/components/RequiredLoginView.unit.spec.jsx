@@ -65,12 +65,14 @@ const generateProps = ({
   user = loa1User,
   loginUrl = 'http://fake-login-url',
   verifyUrl = 'http://fake-verify-url',
+  showProfileErrorMessage = false,
 }) => ({
   verify,
   serviceRequired,
   user,
   loginUrl,
   verifyUrl,
+  showProfileErrorMessage,
 });
 
 function TestChildComponent({ name }) {
@@ -128,12 +130,14 @@ describe('<RequiredLoginView>', () => {
     );
 
     expect(wrapper.text()).to.contain('Loading your information...');
+    expect(wrapper.find('ProfileErrorMessage').length).to.equal(0);
     wrapper.unmount();
   });
 
-  it('should render an error message on API error', () => {
+  it('should render ProfileErrorMessage when showProfileErrorMessage is set', () => {
     props = generateProps({
       user: { ...loa1User, profile: { errors: true } },
+      showProfileErrorMessage: true,
     });
     const wrapper = mount(
       <RequiredLoginView {...props}>
@@ -143,7 +147,6 @@ describe('<RequiredLoginView>', () => {
 
     const loader = wrapper.find('ProfileErrorMessage');
     expect(loader.length).to.equal(1);
-
     wrapper.unmount();
   });
 
