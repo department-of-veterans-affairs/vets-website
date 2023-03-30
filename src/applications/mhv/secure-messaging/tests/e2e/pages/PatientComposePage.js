@@ -146,6 +146,10 @@ class PatientComposePage {
     });
   };
 
+  removeAttachMessageFromFile = () => {
+    cy.get('.remove-attachment-button').click();
+  };
+
   //* Refactor*Remove and consolidate
   selectSideBarMenuOption = menuOption => {
     if (menuOption === 'Inbox') {
