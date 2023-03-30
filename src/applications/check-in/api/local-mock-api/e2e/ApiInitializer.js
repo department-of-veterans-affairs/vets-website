@@ -93,17 +93,6 @@ class ApiInitializer {
         }),
       );
     },
-    withPhoneAppointments: () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          checkInExperienceEnabled: true,
-          preCheckInEnabled: true,
-          emergencyContactEnabled: true,
-        }),
-      );
-    },
     withDetailsPage: () => {
       cy.intercept(
         'GET',
