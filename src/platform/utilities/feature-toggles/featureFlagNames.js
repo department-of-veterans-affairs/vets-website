@@ -1,6 +1,7 @@
 // prettier-ignore
 
 export default Object.freeze({
+  btsssLoginWidget: 'btsss_login_widget',
   caregiverSigiEnabled: 'caregiver_sigi_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
