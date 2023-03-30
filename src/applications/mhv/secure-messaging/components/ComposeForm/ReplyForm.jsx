@@ -336,69 +336,41 @@ const ReplyForm = props => {
                 value={messageBody}
                 error={bodyError}
               />
-              <EmergencyNote />
-              <div>
-                <p>
-                  <i
-                    className="fas fa-reply vads-u-margin-right--0p5"
-                    aria-hidden="true"
-                  />
-                  <strong>
-                    <strong className="vads-u-color--secondary-darkest">
-                      (Draft)
-                    </strong>{' '}
-                    To:{' '}
-                  </strong>
-                  {replyMessage.recipientName}
-                  <br />
-                </p>
-                <va-textarea
-                  label="Message"
-                  required
-                  id="reply-message-body"
-                  name="reply-message-body"
-                  className="message-body"
-                  data-testid="message-body-field"
-                  onInput={e => setMessageBody(e.target.value)}
-                  value={messageBody}
-                  error={bodyError}
+              <section className="attachments-section vads-u-margin-top--2">
+                <strong>Attachments</strong>
+                <HowToAttachFiles />
+                <AttachmentsList
+                  attachments={attachments}
+                  setAttachments={setAttachments}
+                  editingEnabled
                 />
-                <section className="attachments-section vads-u-margin-top--2">
-                  <strong>Attachments</strong>
-                  <HowToAttachFiles />
-                  <AttachmentsList
-                    attachments={attachments}
-                    setAttachments={setAttachments}
-                    editingEnabled
-                  />
 
-                  <FileInput
-                    attachments={attachments}
-                    setAttachments={setAttachments}
-                  />
-                </section>
-                <div className="compose-form-actions vads-u-display--flex">
-                  {!cannotReplyAlert && (
-                    <button
-                      type="button"
-                      className="vads-u-flex--1"
-                      data-testid="Send-Button"
-                      onClick={sendMessageHandler}
-                    >
-                      Send
-                    </button>
-                  )}
+                <FileInput
+                  attachments={attachments}
+                  setAttachments={setAttachments}
+                />
+              </section>
+              <div className="compose-form-actions vads-u-display--flex">
+                {!cannotReplyAlert && (
                   <button
                     type="button"
-                    className="usa-button-secondary vads-u-flex--1"
-                    data-testid="Save-Draft-Button"
-                    onClick={() => saveDraftHandler('manual')}
+                    className="vads-u-flex--1"
+                    data-testid="Send-Button"
+                    onClick={sendMessageHandler}
                   >
-                    Save draft
+                    Send
                   </button>
-                  {/* UCD requested to keep button even when not saved as draft */}
-                  <DeleteDraft draftId={newDraftId} />
-                </div>
+                )}
+                <button
+                  type="button"
+                  className="usa-button-secondary vads-u-flex--1"
+                  data-testid="Save-Draft-Button"
+                  onClick={() => saveDraftHandler('manual')}
+                >
+                  Save draft
+                </button>
+                {/* UCD requested to keep button even when not saved as draft */}
+                <DeleteDraft draftId={newDraftId} />
               </div>
             </div>
             <DraftSavedInfo userSaved={userSaved} />
