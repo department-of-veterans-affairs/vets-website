@@ -218,7 +218,7 @@ class PatientComposePage {
   };
 
   verifyClickableURLinMessageBody = url => {
-    cy.get('[id="message-body"]').should('have.value', url);
+    cy.get('[id= "message-body"]').should('have.value', url);
   };
 }
 export default PatientComposePage;
