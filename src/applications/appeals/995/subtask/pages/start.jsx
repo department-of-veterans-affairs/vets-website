@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { BASE_URL } from '../../constants';
@@ -43,6 +44,11 @@ const validate = ({ benefitType } = {}) => optionValues.includes(benefitType);
  * @returns {JSX}
  */
 const BenefitType = ({ data = {}, error, setPageData }) => {
+  useEffect(() => {
+    setTimeout(() => {
+      focusElement('#main h2');
+    });
+  }, []);
   const handlers = {
     setBenefitType: event => {
       const { value } = event.detail;
@@ -60,7 +66,8 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--0">Is this the form I need?</h1>
+      <h1>File a Supplemental Claim</h1>
+      <h2 className="vads-u-margin-y--0">Is this the form I need?</h2>
       <p>
         Use this Supplemental Claim form (VA 20-0995) if you disagree with our
         decision on your claim and you meet at least 1 of these requirements:

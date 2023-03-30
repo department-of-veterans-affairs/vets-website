@@ -332,6 +332,7 @@ const formConfig = {
           title: 'Spouse\u2019s information',
           initialData: {},
           depends: formData =>
+            !isShortFormEligible(formData) &&
             formData.discloseFinancialInformation &&
             (formData.maritalStatus?.toLowerCase() === 'married' ||
               formData.maritalStatus?.toLowerCase() === 'separated'),
@@ -341,7 +342,9 @@ const formConfig = {
         dependentInformation: {
           path: 'household-information/dependent-information',
           title: 'Dependent information',
-          depends: formData => formData.discloseFinancialInformation,
+          depends: formData =>
+            !isShortFormEligible(formData) &&
+            formData.discloseFinancialInformation,
           uiSchema: dependentInformation.uiSchema,
           schema: dependentInformation.schema,
         },
@@ -349,14 +352,18 @@ const formConfig = {
           path: 'household-information/annual-income',
           title: 'Annual income',
           initialData: {},
-          depends: formData => formData.discloseFinancialInformation,
+          depends: formData =>
+            !isShortFormEligible(formData) &&
+            formData.discloseFinancialInformation,
           uiSchema: annualIncome.uiSchema,
           schema: annualIncome.schema,
         },
         deductibleExpenses: {
           path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
-          depends: formData => formData.discloseFinancialInformation,
+          depends: formData =>
+            !isShortFormEligible(formData) &&
+            formData.discloseFinancialInformation,
           uiSchema: deductibleExpenses.uiSchema,
           schema: deductibleExpenses.schema,
         },
