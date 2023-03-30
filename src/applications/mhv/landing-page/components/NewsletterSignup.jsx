@@ -22,6 +22,7 @@ const NewsletterSignup = () => {
             <label htmlFor="email">Your email address</label>
             <input
               className="vads-u-margin-top--1"
+              id="email"
               type="email"
               name="email"
               required
