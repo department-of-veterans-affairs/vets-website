@@ -297,6 +297,10 @@ class SSNWidget extends React.Component {
 // Modify default uiSchema for SSN to insert any missing dashes.
 export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
 
+const vaClaimNumberErrorMessage = environment.isProduction()
+  ? 'Your VA claim number must be between 7 to 9 digits'
+  : 'Your VA claim number must be between 8 to 9 digits';
+
 export const veteranUI = {
   militaryServiceNumber: {
     'ui:title':
@@ -309,7 +313,7 @@ export const veteranUI = {
   vaClaimNumber: {
     'ui:title': 'VA claim number (if known)',
     'ui:errorMessages': {
-      pattern: 'Your VA claim number must be between 7 to 9 digits',
+      pattern: vaClaimNumberErrorMessage,
     },
   },
   placeOfBirth: {
@@ -389,7 +393,7 @@ export const serviceRecordsUI = {
     'Please provide all your service periods. If you need to add another service period, please click the Add Another Service Period button.',
   'ui:options': {
     viewField: ServicePeriodView,
-    itemName: 'Service Period',
+    itemName: environment.isProduction() ? 'Service Period' : 'service period',
   },
   items: {
     'ui:order': [

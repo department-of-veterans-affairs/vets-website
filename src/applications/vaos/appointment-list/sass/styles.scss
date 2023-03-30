@@ -188,6 +188,7 @@ div[id^="vaos-appts__detail-"] {
   }
   @include media($medium-screen) {
     max-width: 222px;
+    white-space: nowrap;
   }
 }
 

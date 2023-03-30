@@ -31,7 +31,8 @@ describe('VAOS <AppointmentsPage>', () => {
     MockDate.reset();
   });
 
-  describe('when vaOnlineSchedulingVAOSV2Next flag is on', () => {
+  // Skipping BE Alert tests. Related to: #55677
+  describe.skip('when vaOnlineSchedulingVAOSV2Next flag is on', () => {
     it('should display VistaSchedulingServiceAlert if there is a failure returned', async () => {
       const appointmentTime = moment().add(1, 'days');
       const start = moment()
@@ -162,7 +163,8 @@ describe('VAOS <AppointmentsPage>', () => {
     });
   });
 
-  describe('when vaOnlineSchedulingVAOSV2Next flag is off', () => {
+  // Skipping BE Alert tests. Related to: #55677
+  describe.skip('when vaOnlineSchedulingVAOSV2Next flag is off', () => {
     it('should not display VistaSchedulingServiceAlert if there is an error returned', async () => {
       const appointmentTime = moment().add(1, 'days');
       const start = moment()

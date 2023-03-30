@@ -15,7 +15,7 @@ const TrashButton = props => {
 
   const handleDeleteMessageConfirm = () => {
     setIsDeleteVisible(false);
-    dispatch(deleteMessage(messageId)).then(() => {
+    dispatch(deleteMessage(threadId)).then(() => {
       navigateToFolderByFolderId(
         activeFolder
           ? activeFolder.folderId

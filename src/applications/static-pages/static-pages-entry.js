@@ -80,6 +80,7 @@ import create1095BDownloadCTA from './download-1095b';
 
 import createEnrollmentVerificationLoginWidget from './view-enrollment-verification-login/createEnrollmentVerificationLoginWidget';
 import createEducationLettersLoginWidget from './view-education-letters-login/createEducationLettersLoginWidget';
+import create264555Access from './simple-forms/26-4555/entry';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -213,6 +214,7 @@ createEducationLettersLoginWidget(
   store,
   widgetTypes.VIEW_EDUCATION_LETTERS_LOGIN,
 );
+create264555Access(store, widgetTypes.FORM_264555_CTA);
 
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {

@@ -13,6 +13,29 @@ class PatientComposePage {
     cy.wait('@message');
   };
 
+  pushSendMessageWithKeyboardPress = () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/messages',
+      mockDraftMessage,
+    ).as('message');
+    cy.tabToElement('[data-testid="Send-Button"]')
+      .get('[text="Send"]')
+      .realPress(['Enter']);
+    cy.wait('@message');
+  };
+
+  verifySendMessageConfirmationMessage = () => {
+    cy.get('.vads-u-margin-bottom--1').should(
+      'have.text',
+      'Message was successfully sent.',
+    );
+  };
+
+  verifySendMessageConfirmationMessageHasFocus = () => {
+    cy.get('.vads-u-margin-bottom--1').should('be.focused');
+  };
+
   //* Refactor*  Need to get rid of this method and split out
   enterComposeMessageDetails = category => {
     this.selectRecipient('###PQR TRIAGE_TEAM 747###', { force: true });
@@ -40,7 +63,7 @@ class PatientComposePage {
     return cy
       .get('[data-testid="message-body-field"]')
       .shadow()
-      .find('[name="message-body"]');
+      .find('[name="compose-message-body"]');
   };
 
   selectRecipient = recipient => {
@@ -123,6 +146,10 @@ class PatientComposePage {
     });
   };
 
+  removeAttachMessageFromFile = () => {
+    cy.get('.remove-attachment-button').click();
+  };
+
   //* Refactor*Remove and consolidate
   selectSideBarMenuOption = menuOption => {
     if (menuOption === 'Inbox') {
@@ -175,7 +202,10 @@ class PatientComposePage {
     cy.get('[data-testid=compose-category-radio-button]')
       .should('have.value', 'OTHER')
       .and('have.attr', 'checked');
-    cy.get('[id="message-body"]').should('have.value', 'Test message body');
+    cy.get('[id="compose-message-body"]').should(
+      'have.value',
+      'Test message body',
+    );
   };
 
   verifyRecipient = recipient => {
