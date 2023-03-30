@@ -1,7 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { diff } from 'just-diff';
-import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  setFetchJSONFailure,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import { fetchFlowEligibilityAndClinics } from '../../../services/patient';
 import { mockEligibilityFetchesByVersion } from '../../mocks/fetch';

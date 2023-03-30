@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 import { cleanup } from '@testing-library/react';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import CommunityCareLanguagePage from '../../../new-appointment/components/CommunityCareLanguagePage';
 

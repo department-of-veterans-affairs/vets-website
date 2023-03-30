@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import MockDate from 'mockdate';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
 import RequestedAppointmentsListGroup from '../../../appointment-list/components/RequestedAppointmentsListGroup';
 import { getVAOSRequestMock } from '../../mocks/v2';

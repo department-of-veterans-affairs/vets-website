@@ -6,10 +6,13 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 
 import set from 'platform/utilities/data/set';
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  setFetchJSONResponse,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import moment from 'moment';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { getParentSiteMock } from '../../mocks/v0';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import {

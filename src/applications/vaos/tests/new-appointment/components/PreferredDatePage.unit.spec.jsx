@@ -2,11 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 
-import PreferredDatePage from '../../../new-appointment/components/PreferredDatePage';
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
+import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
+import PreferredDatePage from '../../../new-appointment/components/PreferredDatePage';
 
 const initialState = {
   featureToggles: {

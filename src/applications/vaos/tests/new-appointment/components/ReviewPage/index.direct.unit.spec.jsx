@@ -6,7 +6,7 @@ import { waitFor, within } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
 import { setFetchJSONFailure, mockFetch } from 'platform/testing/unit/helpers';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
   createTestStore,

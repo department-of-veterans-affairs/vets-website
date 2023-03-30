@@ -1,8 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
-import environment from 'platform/utilities/environment';
+import {
+  mockFetch,
+  setFetchJSONResponse,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import moment from 'moment';

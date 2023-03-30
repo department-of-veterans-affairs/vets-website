@@ -1,10 +1,13 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { diff } from 'just-diff';
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  setFetchJSONResponse,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
-import { getSlots } from '../../../services/slot';
 import moment from 'moment';
+import { getSlots } from '../../../services/slot';
 
 describe('VAOS Slot service', () => {
   describe('getSlots', () => {

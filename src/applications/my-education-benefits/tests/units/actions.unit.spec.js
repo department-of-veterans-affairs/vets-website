@@ -1,7 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  setFetchJSONResponse,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import * as mockPersonalInfo from '../../testing/responses';
 
 import { fetchPersonalInformation } from '../../actions';

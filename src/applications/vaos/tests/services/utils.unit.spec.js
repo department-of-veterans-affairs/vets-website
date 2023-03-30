@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  setFetchJSONResponse,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import { mapToFHIRErrors, fhirSearch } from '../../services/utils';
 import mockData from '../../services/mocks/fhir/mock_organizations.json';

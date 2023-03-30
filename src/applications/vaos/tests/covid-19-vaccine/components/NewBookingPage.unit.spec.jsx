@@ -1,11 +1,14 @@
 import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
-import environment from 'platform/utilities/environment';
+import {
+  mockFetch,
+  setFetchJSONResponse,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { NewBookingSection } from '../../../covid-19-vaccine';
-import { getDirectBookingEligibilityCriteriaMock } from '../../../tests/mocks/v0';
+import { getDirectBookingEligibilityCriteriaMock } from '../../mocks/v0';
 import {
   mockDirectBookingEligibilityCriteria,
   mockRequestEligibilityCriteria,

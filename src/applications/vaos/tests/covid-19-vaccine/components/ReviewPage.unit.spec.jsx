@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 
 import { setFetchJSONFailure, mockFetch } from 'platform/testing/unit/helpers';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 

@@ -2,17 +2,17 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setVaccineFacility,
 } from '../../mocks/setup';
-import userEvent from '@testing-library/user-event';
 
 import ClinicChoicePage from '../../../covid-19-vaccine/components/ClinicChoicePage';
 import { mockEligibilityFetches } from '../../mocks/helpers';
 import { getClinicMock } from '../../mocks/v0';
-import { mockFetch } from 'platform/testing/unit/helpers';
 import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
 
 const initialState = {

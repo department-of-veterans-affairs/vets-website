@@ -2,7 +2,7 @@ import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducers from '../../../redux/reducer';
 import { getCCAppointmentMock } from '../../mocks/v0';
 import { mockAppointmentInfo } from '../../mocks/helpers';
