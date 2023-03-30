@@ -117,8 +117,8 @@ const EmploymentRecord = ({
     <>
       <div className="input-size-5">
         <VaSelect
-          id="type"
           name="type"
+          data-test-id="employment-type"
           label="Type of work"
           required
           value={employment[index].type || []}

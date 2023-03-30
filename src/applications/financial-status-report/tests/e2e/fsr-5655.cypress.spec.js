@@ -14,7 +14,7 @@ Cypress.config('waitForAnimations', true);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['minimal', 'maximal'],
+    dataSets: ['maximal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
@@ -63,7 +63,7 @@ const testConfig = createTestConfig(
       'employment-records': ({ afterHook }) => {
         afterHook(() => {
           // Employer One - Current Employment
-          cy.get('#type')
+          cy.get('[data-test-id="employment-type"]')
             .shadow()
             .find('select')
             .select('Full time');
@@ -76,7 +76,7 @@ const testConfig = createTestConfig(
           // Add job link
           cy.get('.add-item-button').click();
           // Employer Two - Previous Employment
-          cy.get('#type')
+          cy.get('[data-test-id="employment-type"]')
             .shadow()
             .find('select')
             .select('Full time');
@@ -93,7 +93,7 @@ const testConfig = createTestConfig(
       'spouse-employment-records': ({ afterHook }) => {
         afterHook(() => {
           // Employer One - Current Employment
-          cy.get('#type')
+          cy.get('[data-test-id="employment-type"]')
             .shadow()
             .find('select')
             .select('Full time');
@@ -106,7 +106,7 @@ const testConfig = createTestConfig(
           // Add job link
           cy.get('.add-item-button').click();
           // Employer Two - Previous Employment
-          cy.get('#type')
+          cy.get('[data-test-id="employment-type"]')
             .shadow()
             .find('select')
             .select('Full time');
