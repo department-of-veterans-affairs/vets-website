@@ -19,8 +19,10 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
 
     cy.intercept(
-      'DELETE',
-      '/my_health/v1/messaging/messages/7192838',
+      'PATCH',
+      `/my_health/v1/messaging/threads/${
+        mockThreadwithAttachment.data.at(0).attributes.threadId
+      }/move?folder_id=-3`,
       mockMessagewithAttachment,
     ).as('deleteMessagewithAttachment');
 
