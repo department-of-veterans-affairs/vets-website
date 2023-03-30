@@ -109,3 +109,18 @@ export const openCrisisModal = () => {
     `${modal.getAttribute('class')} va-overlay--open`,
   );
 };
+
+export const handleHeader = (folderId, folder) => {
+  switch (folderId) {
+    case Folders.INBOX.id: // Inbox
+      return Folders.INBOX.header;
+    case Folders.SENT.id: // Sent
+      return Folders.SENT.header;
+    case Folders.DRAFTS.id: // Drafts
+      return Folders.DRAFTS.header;
+    case Folders.DELETED.id: // Trash
+      return Folders.DELETED.header;
+    default:
+      return folder.name;
+  }
+};
