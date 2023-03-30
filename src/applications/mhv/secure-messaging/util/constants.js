@@ -30,7 +30,7 @@ export const Alerts = {
     GET_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     DELETE_MESSAGE_SUCCESS: 'Message thread was successfully moved to Trash.',
     DELETE_MESSAGE_ERROR:
-      'Message thread could not be deleted. Try again later. If this problem persists, contact the help desk.',
+      'Message could not be deleted. Try again later. If this problem persists, contact the help desk.',
     DRAFT_CANNOT_REPLY_INFO_HEADER:
       'This conversation is too old for new replies',
     DRAFT_CANNOT_REPLY_INFO_BODY: `The last message in this conversation is more than 45 days old. If you want to continue this conversation, you'll need to start a new message.`,
