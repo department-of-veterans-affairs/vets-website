@@ -111,7 +111,7 @@ export const FormSignature = ({
         label={signatureLabel}
         value={signature.value}
         onInput={event => {
-          setSignature({ value: event.target.value, dirty: true });
+          setSignature({ value: event.target.value });
         }}
         onBlur={() => {
           setSignature({ value: signature.value, dirty: true });
