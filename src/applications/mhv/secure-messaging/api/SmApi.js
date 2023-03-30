@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
+import { DefaultFolders } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -343,6 +344,25 @@ export const moveMessageThread = (threadId, toFolderId) => {
   return apiRequest(
     `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${toFolderId}
    `,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
+/**
+ * Delete message thread (i.g. move to Trash folder).
+ * @param {Long} threadId
+ * @returns
+ */
+export const deleteMessageThread = threadId => {
+  return apiRequest(
+    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${
+      DefaultFolders.DELETED.id
+    }
+  `,
     {
       method: 'PATCH',
       headers: {
