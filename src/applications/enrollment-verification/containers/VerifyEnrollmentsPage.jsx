@@ -22,6 +22,7 @@ import ReviewEnrollmentVerifications from '../components/ReviewEnrollmentVerific
 import MonthReviewCard from '../components/MonthReviewCard';
 import {
   REVIEW_ENROLLMENTS_RELATIVE_URL,
+  STATIC_CONTENT_ENROLLMENT_URL,
   VERIFY_ENROLLMENTS_ERROR_RELATIVE_URL,
 } from '../constants';
 import {
@@ -55,7 +56,7 @@ export const VerifyEnrollmentsPage = ({
   useEffect(
     () => {
       if (hasCheckedKeepAlive && !isLoggedIn) {
-        window.location.href = '/education/verify-school-enrollment';
+        window.location.href = STATIC_CONTENT_ENROLLMENT_URL;
       }
     },
     [hasCheckedKeepAlive, history, isLoggedIn],

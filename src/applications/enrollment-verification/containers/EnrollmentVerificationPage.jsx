@@ -9,6 +9,7 @@ import {
   fetchPost911GiBillEligibility,
   UPDATE_VERIFICATION_STATUS_SUCCESS,
 } from '../actions';
+import { STATIC_CONTENT_ENROLLMENT_URL } from '../constants';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationAlert from '../components/EnrollmentVerificationAlert';
@@ -32,7 +33,7 @@ export const EnrollmentVerificationPage = ({
   useEffect(
     () => {
       if (hasCheckedKeepAlive && !isLoggedIn) {
-        window.location.href = '/education/verify-school-enrollment';
+        window.location.href = STATIC_CONTENT_ENROLLMENT_URL;
       }
     },
     [hasCheckedKeepAlive, history, isLoggedIn],

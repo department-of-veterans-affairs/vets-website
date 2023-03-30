@@ -4,8 +4,8 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-
 import { fetchPost911GiBillEligibility } from '../actions';
+import { STATIC_CONTENT_ENROLLMENT_URL } from '../constants';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import { ENROLLMENT_VERIFICATION_TYPE } from '../helpers';
@@ -23,7 +23,7 @@ export const VerifyEnrollmentsErrorPage = ({
   useEffect(
     () => {
       if (hasCheckedKeepAlive && !loggedIn) {
-        window.location.href = '/education/verify-school-enrollment';
+        window.location.href = STATIC_CONTENT_ENROLLMENT_URL;
       }
     },
     [
