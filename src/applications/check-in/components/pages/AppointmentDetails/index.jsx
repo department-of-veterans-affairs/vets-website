@@ -19,8 +19,8 @@ import { APP_NAMES } from '../../../utils/appConstants';
 
 import Wrapper from '../../layout/Wrapper';
 import BackButton from '../../BackButton';
-import AppointmentActionVaos from '../../AppointmentDisplay/AppointmentActionVaos';
-import AppointmentMessageVaos from '../../AppointmentDisplay/AppointmentMessageVaos';
+import AppointmentAction from '../../AppointmentDisplay/AppointmentAction';
+import AppointmentMessage from '../../AppointmentDisplay/AppointmentMessage';
 
 const AppointmentDetails = props => {
   const { router } = props;
@@ -102,7 +102,7 @@ const AppointmentDetails = props => {
                 preCheckInSubTitle
               ) : (
                 <div className="vads-u-margin-x--neg2 vads-u-margin-top--2">
-                  <AppointmentMessageVaos appointment={appointment} />
+                  <AppointmentMessage appointment={appointment} />
                 </div>
               )}
               <div data-testid="appointment-details--when">
@@ -164,7 +164,7 @@ const AppointmentDetails = props => {
               )}
               {app === APP_NAMES.CHECK_IN && (
                 <div className="vads-u-margin-top--2">
-                  <AppointmentActionVaos
+                  <AppointmentAction
                     appointment={appointment}
                     router={router}
                     event="check-in-clicked-VAOS-design"

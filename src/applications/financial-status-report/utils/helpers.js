@@ -269,6 +269,10 @@ export const getMonthlyExpenses = ({
   const expVals = Object.values(expenses).filter(Boolean);
   const food = Number(get(expenses, 'food', 0));
   const rentOrMortgage = Number(get(expenses, 'rentOrMortgage', 0));
+  const creditCardBills = sumValues(
+    expenses.creditCardBills,
+    'minMonthlyPayment',
+  );
 
   let totalExp = 0;
 
@@ -286,7 +290,15 @@ export const getMonthlyExpenses = ({
     );
   }
 
-  return utilities + installments + otherExp + totalExp + food + rentOrMortgage;
+  return (
+    utilities +
+    installments +
+    otherExp +
+    totalExp +
+    food +
+    rentOrMortgage +
+    creditCardBills
+  );
 };
 
 export const getTotalAssets = ({

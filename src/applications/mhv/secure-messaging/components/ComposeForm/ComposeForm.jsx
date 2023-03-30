@@ -420,8 +420,8 @@ const ComposeForm = props => {
           <va-textarea
             label="Message"
             required
-            id="message-body"
-            name="message-body"
+            id="compose-message-body"
+            name="compose-message-body"
             className="message-body"
             data-testid="message-body-field"
             onInput={messageBodyHandler}
