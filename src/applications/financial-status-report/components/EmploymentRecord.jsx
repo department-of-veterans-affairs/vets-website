@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { Select } from '@department-of-veterans-affairs/component-library';
-import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaSelect,
+  VaDate,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
@@ -29,6 +31,7 @@ const EmploymentRecord = ({
 }) => {
   const [fromDateError, setFromDateError] = useState();
   const [toDateError, setToDateError] = useState();
+
   const index = Number(idSchema.$id.slice(-1));
   const { userType, userArray } = uiSchema['ui:options'];
   const { employmentRecords } = employmentHistory[`${userType}`];
@@ -38,7 +41,6 @@ const EmploymentRecord = ({
   const { month: toMonth, year: toYear } = parseISODate(to);
   const { submitted } = formContext;
 
-  const typeError = 'Please enter the type of work.';
   const startError = 'Please enter your employment start date.';
   const endError = 'Please enter your employment end date.';
   const employerError = 'Please enter your employer name.';
@@ -104,20 +106,31 @@ const EmploymentRecord = ({
     updateFormData(updated);
   };
 
+  // check field for validation errors only if field is dirty or form has been submitted
+  const showError = () => {
+    return submitted && !employment[index].type
+      ? 'Please select a type of employment'
+      : false;
+  };
+
   return (
     <>
       <div className="input-size-5">
-        <Select
-          label="Type of work"
+        <VaSelect
+          id="type"
           name="type"
-          onValueChange={({ value }) => handleChange('type', value)}
-          options={['Full time', 'Part time', 'Seasonal', 'Temporary']}
-          value={{
-            value: employment[index].type || '',
-          }}
+          label="Type of work"
           required
-          errorMessage={submitted && !employment[index].type && typeError}
-        />
+          value={employment[index].type || []}
+          onVaSelect={e => handleChange('type', e.detail.value)}
+          error={showError() || null}
+        >
+          <option value=""> </option>
+          <option value="Full time">Full time</option>
+          <option value="Part time">Part time</option>
+          <option value="Seasonal">Seasonal</option>
+          <option value="Temporary">Temporary</option>
+        </VaSelect>
       </div>
       <div className="vads-u-margin-top--3">
         <VaDate

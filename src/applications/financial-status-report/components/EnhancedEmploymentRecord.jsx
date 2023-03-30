@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { Select } from '@department-of-veterans-affairs/component-library';
-import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaSelect,
+  VaDate,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
@@ -25,7 +27,7 @@ const EmploymentRecord = props => {
 
   const editIndex = getJobIndex();
 
-  const isEditing = editIndex && !Number.isNaN(editIndex);
+  const isEditing = editIndex >= 0 && !Number.isNaN(editIndex);
 
   const index = isEditing ? Number(editIndex) : 0;
 
@@ -39,8 +41,8 @@ const EmploymentRecord = props => {
     ...(isEditing ? specificRecord : defaultRecord[0]),
   });
 
-  const [employmentRecordIsDirty, setEmploymentRecordIsDirty] = useState(false);
   const [employerNameIsDirty, setEmployerNameIsDirty] = useState(false);
+  const [typeError, setTypeError] = useState('');
 
   const handleChange = (key, value) => {
     setEmploymentRecord({
@@ -49,18 +51,12 @@ const EmploymentRecord = props => {
     });
   };
 
-  const handleEmploymentRecordChange = value => {
-    handleChange('type', value);
-    setEmploymentRecordIsDirty(true);
-  };
-
   const handleEmployerNameChange = value => {
     handleChange('employerName', value);
     setEmployerNameIsDirty(true);
   };
 
   const [fromDateError, setFromDateError] = useState();
-  // const [toDateError, setToDateError] = useState();
 
   const userType = 'veteran';
   const userArray = 'currEmployment';
@@ -70,12 +66,15 @@ const EmploymentRecord = props => {
   const { month: fromMonth, year: fromYear } = parseISODate(from);
   const { month: toMonth, year: toYear } = parseISODate(to);
 
-  const typeError = 'Please enter the type of work.';
   const startError = 'Please enter your employment start date.';
-  // const endError = 'Please enter your employment end date.';
   const employerError = 'Please enter your employer name.';
 
   const updateFormData = e => {
+    if (!employmentRecord.type || employmentRecord.type === '') {
+      setTypeError('Please select your type of work.');
+      return;
+    }
+
     e.preventDefault();
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
@@ -129,14 +128,6 @@ const EmploymentRecord = props => {
     }
   };
 
-  const handleCheckboxChange = (key, val) => {
-    setEmploymentRecord({
-      ...employmentRecord,
-      [key]: val,
-      to: '',
-    });
-  };
-
   const validateYear = (monthYear, errorSetter, requiredMessage) => {
     const [year] = monthYear.split('-');
     const todayYear = new Date().getFullYear();
@@ -154,9 +145,25 @@ const EmploymentRecord = props => {
     }
   };
 
-  const handleDateChange = (key, monthYear) => {
-    const dateString = `${monthYear}-XX`;
-    handleChange(key, dateString);
+  const handlers = {
+    onChange: event => {
+      const { target = {} } = event;
+      const fieldName = target.name;
+      // detail.value from va-select & target.value from va-text-input
+      const value = event.detail?.value || target.value;
+      handleChange(fieldName, value);
+    },
+    handleDateChange: (key, monthYear) => {
+      const dateString = `${monthYear}-XX`;
+      handleChange(key, dateString);
+    },
+    handleCheckboxChange: (key, val) => {
+      setEmploymentRecord({
+        ...employmentRecord,
+        [key]: val,
+        to: '',
+      });
+    },
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
@@ -165,19 +172,21 @@ const EmploymentRecord = props => {
   return (
     <form onSubmit={updateFormData}>
       <div className="input-size-5">
-        <Select
-          label="Type of work"
+        <VaSelect
+          id="type"
           name="type"
-          onValueChange={({ value }) => handleEmploymentRecordChange(value)}
-          options={['Full time', 'Part time', 'Seasonal', 'Temporary']}
-          value={{
-            value: employmentRecord.type || '',
-          }}
+          label="Type of work"
           required
-          errorMessage={
-            employmentRecordIsDirty && !employmentRecord.type && typeError
-          }
-        />
+          value={employmentRecord.type}
+          onVaSelect={handlers.onChange}
+          error={typeError}
+        >
+          <option value=""> </option>
+          <option value="Full time">Full time</option>
+          <option value="Part time">Part time</option>
+          <option value="Seasonal">Seasonal</option>
+          <option value="Temporary">Temporary</option>
+        </VaSelect>
       </div>
       <div className="vads-u-margin-top--3">
         <VaDate
@@ -185,7 +194,7 @@ const EmploymentRecord = props => {
           value={`${fromYear}-${fromMonth}`}
           label="Date you started work at this job?"
           name="from"
-          onDateChange={e => handleDateChange('from', e.target.value)}
+          onDateChange={e => handlers.handleDateChange('from', e.target.value)}
           onDateBlur={e =>
             validateYear(e.target.value || '', setFromDateError, startError)
           }
@@ -203,7 +212,7 @@ const EmploymentRecord = props => {
           value={`${toYear}-${toMonth}`}
           label="Date you stopped work at this job?"
           name="to"
-          onDateChange={e => handleDateChange('to', e.target.value)}
+          onDateChange={e => handlers.handleDateChange('to', e.target.value)}
           // onDateBlur={e =>
           //   validateYear(e.target.value || '', setToDateError, endError)
           // }
@@ -215,7 +224,9 @@ const EmploymentRecord = props => {
         name="current-employment"
         label="I currently work here"
         checked={employmentRecord.isCurrent || false}
-        onValueChange={value => handleCheckboxChange('isCurrent', value)}
+        onValueChange={value =>
+          handlers.handleCheckboxChange('isCurrent', value)
+        }
       />
       <div className="input-size-6 vads-u-margin-bottom--2">
         <TextInput
