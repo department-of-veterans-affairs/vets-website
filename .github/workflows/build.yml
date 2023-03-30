@@ -31,7 +31,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: dsva/preview-environment/vets-website
-        IMAGE_TAG: test-ecr-docker
+        IMAGE_TAG: test-ecr-docker-image
       run: |
         docker build -f src/platform/utilities/preview-environment/Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
