@@ -13,15 +13,15 @@ import { mockAppointmentInfo } from '../../mocks/helpers';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 import { createMockAppointmentByVersion } from '../../mocks/data';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingVAOSServiceCCAppointments: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
-  },
-};
-
 describe('VAOS <UpcomingAppointmentsList> Backend Service Alert', () => {
+  const initialState = {
+    featureToggles: {
+      vaOnlineSchedulingVAOSServiceCCAppointments: true,
+      // eslint-disable-next-line camelcase
+      show_new_schedule_view_appointments_page: true,
+    },
+  };
+
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
