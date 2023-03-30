@@ -137,7 +137,7 @@ const PreSubmitSignature = ({
                   ''} ${last}`
               : ''
           }
-          aria-describedby="certify-text"
+          message-aria-describedby="certify-text"
         />
 
         <Checkbox
