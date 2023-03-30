@@ -19,6 +19,8 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     composePage.getMessageBodyField().type('https://www.va.gov/');
     composePage.verifyClickableURLinMessageBody('https://www.va.gov/');
     composePage.sendMessage();
+    cy.injectAxe();
+    cy.axeCheck();
     composePage.verifySendMessageConfirmationMessage();
   });
 });
