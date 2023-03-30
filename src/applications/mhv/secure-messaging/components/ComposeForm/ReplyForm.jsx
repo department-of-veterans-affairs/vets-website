@@ -276,82 +276,55 @@ const ReplyForm = props => {
     return (
       <>
         <h1 className="page-title">{setMessageTitle()}</h1>
-        {/* <div role="heading" aria-level="2"> */}
-        <form
-          className="reply-form"
-          data-testid="reply-form"
-          onSubmit={sendMessageHandler}
-        >
-          {saveError && (
-            <VaModal
-              modalTitle={saveError.title}
-              onPrimaryButtonClick={() => setSaveError(null)}
-              onCloseEvent={() => setSaveError(null)}
-              primaryButtonText="Continue editing"
-              status="warning"
-              visible
-            >
-              <p>{saveError.p1}</p>
-              {saveError.p2 && <p>{saveError.p2}</p>}
-            </VaModal>
-          )}
-          <RouteLeavingGuard
-            when={!!navigationError}
-            navigate={path => {
-              history.push(path);
-            }}
-            shouldBlockNavigation={() => {
-              return !!navigationError;
-            }}
-            title={navigationError?.title}
-            p1={navigationError?.p1}
-            p2={navigationError?.p2}
-            confirmButtonText={navigationError?.confirmButtonText}
-            cancelButtonText={navigationError?.cancelButtonText}
-          />
-          <EmergencyNote />
-          <div>
-            <h4
-              className="vads-u-display--flex vads-u-color--gray-dark vads-u-font-weight--bold"
-              style={{ whiteSpace: 'break-spaces' }}
-            >
-              <i
-                className="fas fa-reply vads-u-margin-right--0p5"
-                aria-hidden="true"
-              />
-              {`(Draft) To: ${draftToEdit?.replyToName ||
-                replyMessage?.senderName}\n(Team: ${
-                replyMessage.triageGroupName
-              })`}
-              <br />
-            </h4>
-            <va-textarea
-              label="Message"
-              required
-              id="message-body"
-              name="message-body"
-              className="message-body"
-              data-testid="message-body-field"
-              onInput={e => setMessageBody(e.target.value)}
-              value={messageBody}
-              error={bodyError}
+        <div role="heading" aria-level="2">
+          <form
+            className="reply-form"
+            data-testid="reply-form"
+            onSubmit={sendMessageHandler}
+          >
+            {saveError && (
+              <VaModal
+                modalTitle={saveError.title}
+                onPrimaryButtonClick={() => setSaveError(null)}
+                onCloseEvent={() => setSaveError(null)}
+                primaryButtonText="Continue editing"
+                status="warning"
+                visible
+              >
+                <p>{saveError.p1}</p>
+                {saveError.p2 && <p>{saveError.p2}</p>}
+              </VaModal>
+            )}
+            <RouteLeavingGuard
+              when={!!navigationError}
+              navigate={path => {
+                history.push(path);
+              }}
+              shouldBlockNavigation={() => {
+                return !!navigationError;
+              }}
+              title={navigationError?.title}
+              p1={navigationError?.p1}
+              p2={navigationError?.p2}
+              confirmButtonText={navigationError?.confirmButtonText}
+              cancelButtonText={navigationError?.cancelButtonText}
             />
             <EmergencyNote />
             <div>
-              <p>
+              <h4
+                className="vads-u-display--flex vads-u-color--gray-dark vads-u-font-weight--bold"
+                style={{ whiteSpace: 'break-spaces' }}
+              >
                 <i
                   className="fas fa-reply vads-u-margin-right--0p5"
                   aria-hidden="true"
                 />
-                <strong>
-                  <strong className="vads-u-color--secondary-darkest">
-                    (Draft)
-                  </strong>{' '}
-                  To:{' '}
-                </strong>
-                {replyMessage.recipientName}
+                {`(Draft) To: ${draftToEdit?.replyToName ||
+                  replyMessage?.senderName}\n(Team: ${
+                  replyMessage.triageGroupName
+                })`}
                 <br />
-              </p>
+              </h4>
               <va-textarea
                 label="Message"
                 required
@@ -363,56 +336,83 @@ const ReplyForm = props => {
                 value={messageBody}
                 error={bodyError}
               />
-              <section className="attachments-section vads-u-margin-top--2">
-                <strong>Attachments</strong>
-                <HowToAttachFiles />
-                <AttachmentsList
-                  attachments={attachments}
-                  setAttachments={setAttachments}
-                  editingEnabled
+              <EmergencyNote />
+              <div>
+                <p>
+                  <i
+                    className="fas fa-reply vads-u-margin-right--0p5"
+                    aria-hidden="true"
+                  />
+                  <strong>
+                    <strong className="vads-u-color--secondary-darkest">
+                      (Draft)
+                    </strong>{' '}
+                    To:{' '}
+                  </strong>
+                  {replyMessage.recipientName}
+                  <br />
+                </p>
+                <va-textarea
+                  label="Message"
+                  required
+                  id="message-body"
+                  name="message-body"
+                  className="message-body"
+                  data-testid="message-body-field"
+                  onInput={e => setMessageBody(e.target.value)}
+                  value={messageBody}
+                  error={bodyError}
                 />
+                <section className="attachments-section vads-u-margin-top--2">
+                  <strong>Attachments</strong>
+                  <HowToAttachFiles />
+                  <AttachmentsList
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    editingEnabled
+                  />
 
-                <FileInput
-                  attachments={attachments}
-                  setAttachments={setAttachments}
-                />
-              </section>
-              <div className="compose-form-actions vads-u-display--flex">
-                {!cannotReplyAlert && (
+                  <FileInput
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                  />
+                </section>
+                <div className="compose-form-actions vads-u-display--flex">
+                  {!cannotReplyAlert && (
+                    <button
+                      type="button"
+                      className="vads-u-flex--1"
+                      data-testid="Send-Button"
+                      onClick={sendMessageHandler}
+                    >
+                      Send
+                    </button>
+                  )}
                   <button
                     type="button"
-                    className="vads-u-flex--1"
-                    data-testid="Send-Button"
-                    onClick={sendMessageHandler}
+                    className="usa-button-secondary vads-u-flex--1"
+                    data-testid="Save-Draft-Button"
+                    onClick={() => saveDraftHandler('manual')}
                   >
-                    Send
+                    Save draft
                   </button>
-                )}
-                <button
-                  type="button"
-                  className="usa-button-secondary vads-u-flex--1"
-                  data-testid="Save-Draft-Button"
-                  onClick={() => saveDraftHandler('manual')}
-                >
-                  Save draft
-                </button>
-                {/* UCD requested to keep button even when not saved as draft */}
-                <DeleteDraft draftId={newDraftId} />
+                  {/* UCD requested to keep button even when not saved as draft */}
+                  <DeleteDraft draftId={newDraftId} />
+                </div>
               </div>
             </div>
-          </div>
-          <DraftSavedInfo userSaved={userSaved} />
-          <div className="message-detail-note vads-u-text-align--center">
-            <p>
-              <i>
-                Note: This message may not be from the person you intially
-                contacted. It may have been reassigned to efficiently address
-                your original message
-              </i>
-            </p>
-          </div>
-        </form>
-        {/* </div> */}
+            <DraftSavedInfo userSaved={userSaved} />
+            <div className="message-detail-note vads-u-text-align--center">
+              <p>
+                <i>
+                  Note: This message may not be from the person you intially
+                  contacted. It may have been reassigned to efficiently address
+                  your original message
+                </i>
+              </p>
+            </div>
+          </form>
+        </div>
         <main
           className="vads-u-margin--0 message-replied-to"
           data-testid="message-replied-to"
