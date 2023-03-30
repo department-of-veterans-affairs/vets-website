@@ -56,11 +56,12 @@ export default function UpcomingAppointmentLayout({
                         'xsmall-screen:vads-u-margin-x--0p5',
                         'xsmall-screen:vads-u-margin-y--1',
                         'xsmall-screen:vaos-appts__column-gap--2',
+
                         'small-screen:vads-u-padding-left--1',
 
-                        'medium-screen:vads-u-padding-x--0',
-                        'medium-screen:vads-u-margin-y--0',
                         'medium-screen:vads-u-margin-x--1p5',
+                        'medium-screen:vads-u-margin-y--0',
+                        'medium-screen:vads-u-padding--0',
 
                         'small-desktop-screen:vads-u-margin-x--1',
                         'small-desktop-screen:vads-u-margin-y--0',
@@ -116,12 +117,14 @@ export default function UpcomingAppointmentLayout({
                 'xsmall-screen:vads-u-margin-x--0p5',
                 'xsmall-screen:vads-u-margin-y--1',
                 'xsmall-screen:vaos-appts__column-gap--2',
+
                 'small-screen:vads-u-padding-x--1',
                 'small-screen:vads-u-padding-y--2p5',
-                'medium-screen:vads-u-padding-x--0',
-                'medium-screen:vads-u-padding-y--2',
-                'medium-screen:vads-u-margin-y--0',
+
                 'medium-screen:vads-u-margin-x--1p5',
+                'medium-screen:vads-u-margin-y--0',
+                'medium-screen:vads-u-padding--0',
+
                 'small-desktop-screen:vads-u-margin-x--1',
                 'small-desktop-screen:vads-u-margin-y--0',
                 'small-desktop-screen:vads-u-padding--0',
