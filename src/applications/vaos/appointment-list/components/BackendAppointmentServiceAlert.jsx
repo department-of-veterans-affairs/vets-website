@@ -9,7 +9,7 @@ export default function BackendAppointmentServiceAlert() {
   );
 
   if (futureStatus === FETCH_STATUS.succeeded) {
-    const hasBackendServiceFailure = !!backendServiceFailures.meta?.length > 0;
+    const hasBackendServiceFailure = backendServiceFailures?.meta?.length > 0;
 
     if (hasBackendServiceFailure) {
       return (
