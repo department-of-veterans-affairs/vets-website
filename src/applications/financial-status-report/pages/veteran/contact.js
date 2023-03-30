@@ -77,14 +77,12 @@ export const uiSchema = {
       },
       livesOnMilitaryBaseInfo: {
         'ui:description': () => (
-          <div className="vads-u-padding-x--2p5">
-            <va-additional-info trigger="Learn more about military base addresses">
-              <span>
-                The United States is automatically chosen as your country if you
-                live on a military base outside of the country.
-              </span>
-            </va-additional-info>
-          </div>
+          <va-additional-info trigger="Learn more about military base addresses">
+            <span>
+              The United States is automatically chosen as your country if you
+              live on a military base outside of the country.
+            </span>
+          </va-additional-info>
         ),
       },
       country: {
