@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
-import { toggleValues as toggleValuesSelector } from '~/platform/site-wide/feature-toggles/selectors';
-import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import TOGGLE_NAMES from './featureFlagNames';
+
+export const toggleValuesSelector = state => state.featureToggles || {};
 
 export const useFeatureToggle = () => {
   const useToggleValue = toggleName => {

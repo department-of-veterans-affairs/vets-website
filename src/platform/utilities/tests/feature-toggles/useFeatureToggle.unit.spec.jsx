@@ -1,8 +1,10 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { expect } from 'chai';
-import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
-import { useFeatureToggle } from './useFeatureToggle';
+import PropTypes from 'prop-types';
+
+import { renderInReduxProvider } from '../../../testing/unit/react-testing-library-helpers';
+import { useFeatureToggle } from '../../feature-toggles/useFeatureToggle';
 
 const TestComponent = ({ customToggleName = null }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -16,6 +18,10 @@ const TestComponent = ({ customToggleName = null }) => {
       <p>{`Toggle value: ${toggleValue ? 'true' : 'false'}`}</p>
     </div>
   );
+};
+
+TestComponent.propTypes = {
+  customToggleName: PropTypes.string,
 };
 
 describe('useFeatureToggle hook', () => {

@@ -2,7 +2,7 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import { Toggler } from '../../../components/Toggler';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles/Toggler';
 import { renderWithProfileReducers as render } from '../unit-test-helpers';
 
 describe('Toggler', () => {
