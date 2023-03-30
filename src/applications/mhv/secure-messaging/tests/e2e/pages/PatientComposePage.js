@@ -63,7 +63,7 @@ class PatientComposePage {
     return cy
       .get('[data-testid="message-body-field"]')
       .shadow()
-      .find('[name="message-body"]');
+      .find('[name="compose-message-body"]');
   };
 
   selectRecipient = recipient => {
@@ -146,6 +146,10 @@ class PatientComposePage {
     });
   };
 
+  removeAttachMessageFromFile = () => {
+    cy.get('.remove-attachment-button').click();
+  };
+
   //* Refactor*Remove and consolidate
   selectSideBarMenuOption = menuOption => {
     if (menuOption === 'Inbox') {
@@ -198,7 +202,10 @@ class PatientComposePage {
     cy.get('[data-testid=compose-category-radio-button]')
       .should('have.value', 'OTHER')
       .and('have.attr', 'checked');
-    cy.get('[id="message-body"]').should('have.value', 'Test message body');
+    cy.get('[id="compose-message-body"]').should(
+      'have.value',
+      'Test message body',
+    );
   };
 
   verifyRecipient = recipient => {

@@ -18,7 +18,7 @@ import {
 
 export default function RequestAppointmentLayout({ appointment }) {
   const appointmentLocality = useSelector(() =>
-    selectAppointmentLocality(appointment),
+    selectAppointmentLocality(appointment, true),
   );
   const first = true;
   const grouped = true;
@@ -26,7 +26,7 @@ export default function RequestAppointmentLayout({ appointment }) {
   const isCanceled = useSelector(() => selectIsCanceled(appointment));
   const isCommunityCare = useSelector(() => selectIsCommunityCare(appointment));
   const link = `requests/${appointment.id}`;
-  const modality = useSelector(() => selectModalityText(appointment));
+  const modality = useSelector(() => selectModalityText(appointment, true));
   const modalityIcon = useSelector(() => selectModalityIcon(appointment));
   const typeOfCareName = useSelector(() => selectTypeOfCareName(appointment));
 

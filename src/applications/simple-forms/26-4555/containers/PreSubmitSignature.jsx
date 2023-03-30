@@ -103,7 +103,7 @@ const PreSubmitSignature = ({
       </p>
       <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--3 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--3">
         <h3>Statement of truth</h3>
-        <p>
+        <p id="certify-text">
           I certify that I am applying for assistance in acquiring specially
           adapted housing or special home adaptation grant because of the nature
           of my service-connected disability. I understand that there are
@@ -137,6 +137,7 @@ const PreSubmitSignature = ({
                   ''} ${last}`
               : ''
           }
+          ariaDescribedby="certify-text"
         />
 
         <Checkbox
