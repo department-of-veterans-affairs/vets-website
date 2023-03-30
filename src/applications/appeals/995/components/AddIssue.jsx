@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   VaMemorableDate,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-// updatePage isn't available for CustomPage on non-review pages, see
-// https://github.com/department-of-veterans-affairs/va.gov-team/issues/33797
-import { setData } from 'platform/forms-system/src/js/actions';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { getSelected, calculateIndexOffset } from '../utils/helpers';
@@ -17,6 +13,7 @@ import {
   MAX_LENGTH,
   LAST_SC_ITEM,
   CONTESTABLE_ISSUES_PATH,
+  REVIEW_ISSUES,
 } from '../constants';
 
 import { checkValidations } from '../validations';
@@ -31,10 +28,8 @@ import { content } from '../content/addIssue';
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
 const REVIEW_AND_SUBMIT = '/review-and-submit';
 
-const AddIssue = props => {
-  const { data, goToPath, onReviewPage, setFormData, testingIndex } = props;
+const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
   const { contestedIssues = [], additionalIssues = [] } = data || {};
-
   const allIssues = contestedIssues.concat(additionalIssues);
 
   // get index from url '/add-issue?index={index}' or testingIndex
@@ -48,12 +43,14 @@ const AddIssue = props => {
     // upon return to the eligible issues page (a11y); when -1 is set, the add
     // a new issue action link will be focused
     window.sessionStorage.setItem(LAST_SC_ITEM, value || `${index},${type}`);
+    window.sessionStorage.removeItem(REVIEW_ISSUES);
   };
   const offsetIndex = calculateIndexOffset(index, contestedIssues.length);
   const currentData = allIssues[index] || {};
 
   const addOrEdit = currentData.issue ? 'edit' : 'add';
 
+  const onReviewPage = window.sessionStorage.getItem(REVIEW_ISSUES) === 'true';
   const returnPath = onReviewPage ? REVIEW_AND_SUBMIT : ISSUES_PAGE;
 
   const nameValidations = [missingIssueName, maxNameLength, uniqueIssue];
@@ -167,7 +164,9 @@ const AddIssue = props => {
         >
           {content.name.hint}
         </VaTextInput>
-        <br />
+
+        <br role="presentation" />
+
         <VaMemorableDate
           name="decision-date"
           label={content.date.label}
@@ -208,16 +207,6 @@ AddIssue.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
-  onReviewPage: PropTypes.bool,
 };
 
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(AddIssue);
-
-export { AddIssue };
+export default AddIssue;

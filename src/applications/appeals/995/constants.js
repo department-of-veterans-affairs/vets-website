@@ -86,12 +86,9 @@ export const errorMessages = {
   // endDateInPast: 'The end date must be in the future',
   endDateBeforeStart: 'The end date must be after the start date',
 
-  invalidDateRange: (min, max) =>
-    `You must enter a year between ${min} and ${max}`,
   decisions: {
     missingDate: 'You must enter a decision date',
-    pastDate:
-      'You must add an issue with a decision date that’s less than 100 years old',
+    pastDate: 'You must add a decision date that’s in the past',
     newerDate: 'You must add a more recent decision date',
   },
   evidence: {
@@ -126,6 +123,7 @@ export const errorMessages = {
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
+export const NO_ISSUES_SELECTED = 'No issues were selected';
 
 // contested issue dates
 export const FORMAT_YMD = 'YYYY-MM-DD';
@@ -134,6 +132,9 @@ export const FORMAT_COMPACT = 'MMM DD, YYYY';
 
 export const LAST_SC_ITEM = 'lastScItem'; // focus management across pages
 export const CONTACT_EDIT = 'edit-contact-info'; // contact info focusing
+export const SUMMARY_EDIT = 'edit-evidence-summary'; // evidence summary focus
+export const REVIEW_CONTACT = 'onReviewPageContact';
+export const REVIEW_ISSUES = 'onReviewPageIssues';
 
 // Values from benefitTypes in Lighthouse 0995 schema
 // schema.definitions.scCreate.properties.data.properties.attributes.properties.benefitType.emum;
@@ -150,6 +151,7 @@ const supportedBenefitTypes = [
 ];
 
 export const LEGACY_TYPE = 'legacyAppeal';
+export const AMA_DATE = '2019-02-19'; // Appeals Modernization Act in effect
 
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,

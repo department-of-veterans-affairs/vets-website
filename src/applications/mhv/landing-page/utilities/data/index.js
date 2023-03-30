@@ -147,7 +147,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
     [
       {
         href: '/manage-va-debt/summary/copay-balances/',
-        text: 'Current veteran copay rates',
+        text: 'Current Veteran copay rates',
       },
       {
         href: '/health-care/health-needs-conditions/mental-health',
@@ -159,7 +159,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       },
       {
         href: '/COMMUNITYCARE/programs/veterans/index.asp',
-        text: 'Community Care',
+        text: 'Community care',
       },
       {
         href: '/health-care/update-health-information/',
@@ -203,7 +203,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       },
       {
         href: '/wholehealth/',
-        text: "VA's Whole Health living",
+        text: 'VA’s Whole Health living',
       },
       {
         href: mhvUrl(false, 'ss20200320-va-video-connect'),
@@ -217,13 +217,13 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
   const spotlightLinks = resolveLinkCollection(
     [
       {
-        text: 'Track Your Cholesterol in My HealtheVet',
+        text: 'Track your cholesterol in My HealtheVet',
         href: null,
         oldHref: mhvUrl(false, 'ss20220106-track-cholesterol-in-myhealthevet'),
         toggle: null,
       },
       {
-        text: 'Get the New Toxic Exposure Screening',
+        text: 'Get the new toxic exposure screening',
         href: null,
         oldHref: mhvUrl(
           false,
@@ -232,7 +232,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
         toggle: null,
       },
       {
-        text: 'Five Exercises for People Over 50',
+        text: 'Five exercises for people over 50',
         href: null,
         oldHref: mhvUrl(false, 'ss20161101-five-exercises-for-people-over-50'),
         toggle: null,
@@ -283,7 +283,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       links: moreResourcesLinks,
     },
     {
-      title: 'In the Spotlight',
+      title: 'In the spotlight',
       links: spotlightLinks,
     },
   ];

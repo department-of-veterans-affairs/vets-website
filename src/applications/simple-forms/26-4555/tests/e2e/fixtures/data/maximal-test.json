@@ -1,6 +1,15 @@
 {
   "data": {
-    "remarks": "total blindess",
+    "remarks": {
+      "respiratoryIllness": true,
+      "blindness": true,
+      "lossOfHands": true,
+      "lossOfLimbs": true,
+      "lossOfLegs": true,
+      "lossOfExtremity": true,
+      "burns": true,
+      "otherConditions": "This really weird fungus thing"
+    },
     "livingSituation": {
       "careFacilityName": "One Stone Facility Care",
       "careFacilityAddress": {
@@ -53,7 +62,7 @@
         "postalCode": "11111"
       },
       "ssn": "345345678",
-      "vaFileNumber": "c12345678",
+      "vaFileNumber": "123456789",
       "fullName": {
         "first": "Barnie",
         "middle": "Stone",

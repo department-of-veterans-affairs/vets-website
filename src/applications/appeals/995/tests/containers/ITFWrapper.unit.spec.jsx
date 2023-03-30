@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -11,7 +11,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import ITFWrapper from '../../containers/ITFWrapper';
 import { outputDateFormat } from '../../content/itfWrapper';
-import { ITF_STATUSES } from '../../constants';
+import { ITF_STATUSES, FORMAT_YMD } from '../../constants';
 import itfFetchResponse from '../fixtures/mocks/intent-to-file.json';
 import itfCreateResponse from '../fixtures/mocks/intent-to-file-compensation.json';
 
@@ -46,7 +46,7 @@ const getData = ({
 });
 
 const getFormattedExpirationDate = date =>
-  moment(date).format(outputDateFormat);
+  moment(date, FORMAT_YMD).format(outputDateFormat);
 
 describe('ITFWrapper', () => {
   afterEach(() => {
@@ -171,7 +171,7 @@ describe('ITFWrapper', () => {
     expect(mockDispatch.called).to.be.true;
   });
 
-  it('should fetch the ITF if the form is loaded on the intro and navigated to the next page', () => {
+  it('should fetch the ITF if the form is loaded on the intro and navigated to the next page', async () => {
     mockApiRequest();
     const mockDispatch = sinon.spy();
     const { props, mockStore } = getData({
@@ -186,17 +186,19 @@ describe('ITFWrapper', () => {
       </Provider>,
     );
     expect(mockDispatch.called).to.be.false;
-    rerender(
+    await rerender(
       <Provider store={mockStore}>
         <ITFWrapper {...props} pathname="/middle">
           <p>Shouldn’t see me yet...</p>
         </ITFWrapper>
       </Provider>,
     );
-    expect(mockDispatch.called).to.be.true;
+    await waitFor(() => {
+      expect(mockDispatch.called).to.be.true;
+    });
   });
 
-  it('should render a loading indicator', () => {
+  it('should render a loading indicator', async () => {
     mockApiRequest();
     const mockDispatch = sinon.spy();
     const data = getData({ mockDispatch });
@@ -209,14 +211,16 @@ describe('ITFWrapper', () => {
     );
     expect($$('va-loading-indicator', container).length).to.eq(1);
     const newData = getData({ fetchCallState: requestStates.pending });
-    rerender(
+    await rerender(
       <Provider store={newData.mockStore}>
         <ITFWrapper {...newData.props}>
           <p>Shouldn’t see me yet...</p>
         </ITFWrapper>
       </Provider>,
     );
-    expect($$('va-loading-indicator', container).length).to.eq(1);
+    await waitFor(() => {
+      expect($$('va-loading-indicator', container).length).to.eq(1);
+    });
   });
 
   it('should render an error message if the ITF fetch failed', () => {
@@ -253,7 +257,7 @@ describe('ITFWrapper', () => {
     expect(mockDispatch.called).to.be.true;
   });
 
-  it('should submit a new ITF if no active ITF is found', () => {
+  it('should submit a new ITF if no active ITF is found', async () => {
     const mockData = {
       data: {
         id: '',
@@ -278,17 +282,19 @@ describe('ITFWrapper', () => {
       fetchCallState: requestStates.succeeded,
       mockDispatch,
     });
-    rerender(
+    await rerender(
       <Provider store={newData.mockStore}>
         <ITFWrapper {...newData.props}>
           <p>Shouldn’t see me yet...</p>
         </ITFWrapper>
       </Provider>,
     );
-    expect(mockDispatch.called).to.be.true;
+    await waitFor(() => {
+      expect(mockDispatch.called).to.be.true;
+    });
   });
 
-  it('should submit a new ITF if the current ITF is expired', () => {
+  it('should submit a new ITF if the current ITF is expired', async () => {
     mockApiRequest(itfFetchResponse);
     const data = getData();
     const { rerender } = render(
@@ -311,16 +317,18 @@ describe('ITFWrapper', () => {
         expirationDate,
       },
     });
-    rerender(
+    await rerender(
       <Provider store={newData.mockStore}>
         <ITFWrapper {...newData.props}>
           <p>Shouldn’t see me yet...</p>
         </ITFWrapper>
       </Provider>,
     );
-    // Fetch succeded and expired ITF was returned
+    // Fetch succeeded and expired ITF was returned
     // This is used to catch cases where the status field is out of date
-    expect(mockDispatch.called).to.be.true;
+    await waitFor(() => {
+      expect(mockDispatch.called).to.be.true;
+    });
   });
 
   it('should render an error message if the ITF creation failed', () => {

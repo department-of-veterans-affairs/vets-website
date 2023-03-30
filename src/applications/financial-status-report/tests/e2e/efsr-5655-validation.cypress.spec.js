@@ -97,6 +97,34 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'your-vehicle-records': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-number-input')
+            .as('numberInputs')
+            .should('have.length', 2);
+          cy.get('#add-make-name')
+            .first()
+            .shadow()
+            .find('input')
+            .type('Make');
+          cy.get('#add-model-name')
+            .first()
+            .shadow()
+            .find('input')
+            .type('Model');
+          cy.get('#year')
+            .first()
+            .shadow()
+            .find('input')
+            .type('2000');
+          cy.get('#estValue')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1000');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'cfsr-recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
           cy.findByLabelText(
@@ -150,6 +178,85 @@ const testConfig = createTestConfig(
             .eq(1)
             .should('contain', 'Collectibles')
             .and('contain', '$1,500.00');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'utility-bill-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type=checkbox]')
+            .as('checklist')
+            .should('have.length', 6);
+          cy.get('@checklist')
+            .eq(0)
+            .click();
+          cy.get('@checklist')
+            .eq(1)
+            .click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'utility-bill-values': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-number-input')
+            .as('numberInputs')
+            .should('have.length', 2);
+          cy.get('#Electricity0')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1000');
+          cy.get('[id="Gas1"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1500');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'utility-bill-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[data-testid="mini-summary-card"]')
+            .as('cards')
+            .should('have.length', 2);
+          cy.get('@cards')
+            .eq(0)
+            .should('contain', 'Electricity')
+            .and('contain', '$1,000.00');
+          cy.get('@cards')
+            .eq(1)
+            .should('contain', 'Gas')
+            .and('contain', '$1,500.00');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'credit-card-bills': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_questions_hasCreditCardBillsYes').check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'your-credit-card-bills': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#unpaidBalance')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('#minMonthlyPayment')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('#amountOverdue')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'credit-card-bills-summary': ({ afterHook }) => {
+        afterHook(() => {
           cy.get('.usa-button-primary').click();
         });
       },

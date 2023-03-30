@@ -4,10 +4,11 @@ import PatientComposePage from './pages/PatientComposePage';
 import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json';
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
+import mockThreadResponse from './fixtures/single-draft-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 
 describe('Secure Messaging Draft AutoSave with Attachments', () => {
-  const mockThreadResponse = { data: [] };
+  // const mockThreadResponse = { data: [] };
 
   it('Axe Check Draft AutoSave with Attachments', () => {
     const composePage = new PatientComposePage();
@@ -22,7 +23,7 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     ).as('draftsFolderMetaResponse');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2/messages**',
+      '/my_health/v1/messaging/folders/-2/threads**',
       mockDraftMessages,
     ).as('draftsResponse');
     cy.get('[data-testid="drafts-sidebar"]').click();
@@ -69,10 +70,10 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     cy.get('@saveDraftwithAttachment')
       .its('request.body')
       .should('deep.equal', {
-        recipientId: 6978854,
-        category: 'OTHER',
-        subject: 'test Draft Autosave with Attachments',
-        body: 'ststASertTesting Autosave Drafts with Attachments',
+        recipientId: 6820911,
+        category: 'APPOINTMENTS',
+        subject: 'Appointment Inquiry Draft Autosave with Attachments',
+        body: 'Test Compose DraftTesting Autosave Drafts with Attachments',
       });
 
     cy.contains('Your message was saved');

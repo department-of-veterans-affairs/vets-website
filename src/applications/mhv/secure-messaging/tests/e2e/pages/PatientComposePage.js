@@ -13,6 +13,29 @@ class PatientComposePage {
     cy.wait('@message');
   };
 
+  pushSendMessageWithKeyboardPress = () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/messages',
+      mockDraftMessage,
+    ).as('message');
+    cy.tabToElement('[data-testid="Send-Button"]')
+      .get('[text="Send"]')
+      .realPress(['Enter']);
+    cy.wait('@message');
+  };
+
+  verifySendMessageConfirmationMessage = () => {
+    cy.get('.vads-u-margin-bottom--1').should(
+      'have.text',
+      'Message was successfully sent.',
+    );
+  };
+
+  verifySendMessageConfirmationMessageHasFocus = () => {
+    cy.get('.vads-u-margin-bottom--1').should('be.focused');
+  };
+
   //* Refactor*  Need to get rid of this method and split out
   enterComposeMessageDetails = category => {
     this.selectRecipient('###PQR TRIAGE_TEAM 747###', { force: true });
@@ -121,6 +144,10 @@ class PatientComposePage {
     cy.get('[data-testid="attach-file-input"]').selectFile(filepath, {
       force: true,
     });
+  };
+
+  removeAttachMessageFromFile = () => {
+    cy.get('.remove-attachment-button').click();
   };
 
   //* Refactor*Remove and consolidate

@@ -41,7 +41,7 @@ const HealthCareCTA = ({
             onClick={() => {
               recordEvent({
                 event: 'nav-linkslist',
-                'links-list-header': 'Schedule and view your appointments',
+                'links-list-header': 'Schedule and manage your appointments',
                 'links-list-section-header': 'Health care',
               });
             }}

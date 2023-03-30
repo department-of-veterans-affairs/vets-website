@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router';
 
-import { SELECTED, FORMAT_READABLE } from '../constants';
+import { SELECTED, FORMAT_YMD, FORMAT_READABLE } from '../constants';
 import { replaceDescriptionContent } from '../utils/replace';
 
-/** Copied from HLR v2 card */
+/** Modified from HLR v2 card */
 /**
  * IssueCardContent
  * @param {String} description - contestable issue description
@@ -18,6 +18,7 @@ import { replaceDescriptionContent } from '../utils/replace';
  * @return {React Component}
  */
 export const IssueCardContent = ({
+  id,
   description,
   ratingIssuePercentNumber,
   approxDecisionDate,
@@ -29,7 +30,7 @@ export const IssueCardContent = ({
   const date = approxDecisionDate || decisionDate;
 
   return (
-    <div className="widget-content-wrap">
+    <div id={id} className="widget-content-wrap">
       {description && (
         <p className="vads-u-margin-bottom--0">
           {replaceDescriptionContent(description)}
@@ -37,12 +38,13 @@ export const IssueCardContent = ({
       )}
       {showPercentNumber && (
         <p className="vads-u-margin-bottom--0">
-          Current rating: <strong>{ratingIssuePercentNumber}%</strong>
+          Current rating: <strong>{`${ratingIssuePercentNumber}%`}</strong>
         </p>
       )}
       {date && (
         <p>
-          Decision date: <strong>{moment(date).format(FORMAT_READABLE)}</strong>
+          Decision date:{' '}
+          <strong>{moment(date, FORMAT_YMD).format(FORMAT_READABLE)}</strong>
         </p>
       )}
     </div>
@@ -53,6 +55,7 @@ IssueCardContent.propTypes = {
   approxDecisionDate: PropTypes.string,
   decisionDate: PropTypes.string,
   description: PropTypes.string,
+  id: PropTypes.string,
   ratingIssuePercentNumber: PropTypes.string,
 };
 
@@ -104,16 +107,22 @@ export const IssueCard = ({
   const issueName = item.issue || item.ratingIssueSubjectText;
 
   const wrapperClass = [
-    'review-row',
-    'widget-wrapper-v2',
+    'widget-wrapper',
     isEditable ? 'additional-issue' : '',
     showCheckbox ? '' : 'checkbox-hidden',
     showCheckbox ? 'vads-u-padding-top--3' : '',
     'vads-u-padding-right--3',
     'vads-u-margin-bottom--0',
+    'vads-u-border-bottom--1px',
+    'vads-u-border-color--gray-light',
   ].join(' ');
 
-  const titleClass = ['widget-title', 'vads-u-font-size--h4'].join(' ');
+  const titleClass = [
+    'widget-title',
+    'vads-u-font-size--h4',
+    'vads-u-margin--0',
+    'capitalize',
+  ].join(' ');
 
   const removeButtonClass = [
     'remove-issue',
@@ -160,38 +169,38 @@ export const IssueCard = ({
   const Header = onReviewPage ? 'h5' : 'h4';
 
   return (
-    <div id={`issue-${index}`} className={wrapperClass} key={index}>
-      <dt className="widget-checkbox-wrap">
+    <li id={`issue-${index}`} key={index}>
+      <div className={wrapperClass}>
         {showCheckbox ? (
-          <>
+          <div className="widget-checkbox-wrap">
             <input
               type="checkbox"
               id={elementId}
               name={elementId}
               checked={itemIsSelected}
               onChange={handlers.onChange}
+              aria-describedby={`issue-${index}-description`}
+              aria-labelledby={`issue-${index}-title`}
             />
             <label className="schemaform-label" htmlFor={elementId}>
-              <span className="vads-u-visibility--screen-reader">
-                {issueName}
-              </span>
+              {' '}
             </label>
-          </>
-        ) : (
-          <div />
-        )}
-      </dt>
-      <dd
-        className={`${
-          editControls ? 'widget-editable vads-u-padding-bottom--1' : ''
-        } widget-content vads-u-font-weight--normal`}
-        data-index={index}
-      >
-        <Header className={titleClass}>{issueName}</Header>
-        <IssueCardContent {...item} />
-        {editControls}
-      </dd>
-    </div>
+          </div>
+        ) : null}
+        <div
+          className={`widget-content ${
+            editControls ? 'widget-editable vads-u-padding-bottom--2' : ''
+          }`}
+          data-index={index}
+        >
+          <Header id={`issue-${index}-title`} className={titleClass}>
+            {issueName}
+          </Header>
+          <IssueCardContent id={`issue-${index}-description`} {...item} />
+          {editControls}
+        </div>
+      </div>
+    </li>
   );
 };
 
@@ -212,7 +221,6 @@ IssueCard.propTypes = {
   }),
   showCheckbox: PropTypes.bool,
   onChange: PropTypes.func,
-  onEdit: PropTypes.func,
   onRemove: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };
