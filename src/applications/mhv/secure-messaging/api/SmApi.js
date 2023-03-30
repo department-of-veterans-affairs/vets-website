@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
+import { DefaultFolders } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -358,7 +359,9 @@ export const moveMessageThread = (threadId, toFolderId) => {
  */
 export const deleteMessageThread = threadId => {
   return apiRequest(
-    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=-3
+    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${
+      DefaultFolders.DELETED.id
+    }
   `,
     {
       method: 'PATCH',
