@@ -20,12 +20,12 @@ export const FinancialHelp = () => (
           </li>
           <li>
             <strong>Compromise offer.</strong> This means you offer a lesser
-            one-time lump sum amount as full payment of the debt. If we accept
+            one-time lump sum amount as full payment of the debt. If we approve
             your request, you’ll have to pay the one-time amount within 30 days.
           </li>
           <li>
             <strong>Waiver.</strong> This means you ask us to forgive (or
-            “waive”) part or all of the debt. If we accept your request, you
+            “waive”) part or all of the debt. If we approve your request, you
             won’t have to pay the amount waived.
           </li>
         </ul>
