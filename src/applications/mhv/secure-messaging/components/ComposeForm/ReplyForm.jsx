@@ -328,8 +328,8 @@ const ReplyForm = props => {
               <va-textarea
                 label="Message"
                 required
-                id="message-body"
-                name="message-body"
+                id="reply-message-body"
+                name="reply-message-body"
                 className="message-body"
                 data-testid="message-body-field"
                 onInput={e => setMessageBody(e.target.value)}
@@ -355,8 +355,8 @@ const ReplyForm = props => {
                 <va-textarea
                   label="Message"
                   required
-                  id="message-body"
-                  name="message-body"
+                  id="reply-message-body"
+                  name="reply-message-body"
                   className="message-body"
                   data-testid="message-body-field"
                   onInput={e => setMessageBody(e.target.value)}
