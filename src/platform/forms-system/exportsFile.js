@@ -180,6 +180,7 @@ export {
 } from './src/js/widgets/PhoneNumberWidget';
 
 export { default as TextWidget } from './src/js/widgets/TextWidget';
+export { default as VaTextWidget } from './src/js/widgets/VaTextWidget';
 
 export { default as ArrayCountWidget } from './src/js/widgets/ArrayCountWidget';
 

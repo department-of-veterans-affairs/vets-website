@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import get from '../../../../utilities/data/get';
 import { isReactComponent } from '../../../../utilities/ui';
+import { FieldTemplateProvider } from './FieldTemplateContext';
 // import environment from 'platform/utilities/environment';
 
 /*
@@ -106,6 +107,24 @@ export default function FieldTemplate(props) {
   const showLabel =
     !uiSchema['ui:options']?.hideLabelText &&
     (typeof label !== 'string' || (requiredSpan || label.trim()));
+
+  // figure out what component to return based on string
+  // if we find ui:WebComponent with string we recognize, return
+  // our custom component
+  if (uiSchema['ui:WebComponent']) {
+    return (
+      <FieldTemplateProvider
+        value={{
+          hasErrors,
+          help,
+          rawErrors,
+          label,
+        }}
+      >
+        {children}
+      </FieldTemplateProvider>
+    );
+  }
 
   const content = (
     <>

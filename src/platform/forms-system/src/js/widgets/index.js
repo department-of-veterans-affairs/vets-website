@@ -1,4 +1,6 @@
 import TextWidget from './TextWidget';
+import VaTextWidget from './VaTextWidget';
+import VaCheckbox from './VaCheckbox';
 import SelectWidget from './SelectWidget';
 import DateWidget from './DateWidget';
 import EmailWidget from './EmailWidget';
@@ -8,6 +10,8 @@ import YesNoWidget from './YesNoWidget';
 
 const widgets = {
   TextWidget,
+  VaTextWidget,
+  VaCheckbox,
   SelectWidget,
   DateWidget,
   EmailWidget,

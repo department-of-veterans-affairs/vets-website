@@ -1,37 +1,49 @@
-import React from 'react';
-import { intersection, pick } from 'lodash';
-
-import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
-import { veteranFields } from '../definitions/constants';
-
-const { required, properties } = fullSchema.properties[
-  veteranFields.parentObject
-];
-const pageFields = [veteranFields.fullName, veteranFields.dateOfBirth];
+import VaTextWidget from 'platform/forms-system/src/js/widgets/VaTextWidget';
+import VaCheckbox from 'platform/forms-system/src/js/widgets/VaCheckbox';
 
 export default {
   uiSchema: {
-    'ui:description': PrefillMessage,
-    [veteranFields.parentObject]: {
-      'ui:title': (
-        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
-          Name and date of birth
-        </h3>
-      ),
-      [veteranFields.fullName]: fullNameUI,
-      [veteranFields.dateOfBirth]: dateUI('Date of birth'),
+    myFields: {
+      name: {
+        'ui:title': 'Ninja Name web component',
+        'ui:description': 'Enter your ninja name',
+        'ui:WebComponent': 'VaTextWidget',
+        'ui:widget': VaTextWidget,
+      },
+      name2: {
+        'ui:title': 'Ninja Name',
+      },
+      isNinja: {
+        'ui:title': 'Are you a ninja using web component?',
+        'ui:WebComponent': VaCheckbox,
+        'ui:widget': VaCheckbox,
+        // 'ui:widget': 'yesNo',
+      },
+      isNinja2: {
+        'ui:title': 'Are you a ninja?',
+      },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      [veteranFields.parentObject]: {
+      myFields: {
         type: 'object',
-        required: intersection(required, pageFields),
-        properties: pick(properties, pageFields),
+        required: ['name', 'name2', 'isNinja', 'isNinja2'],
+        properties: {
+          name: {
+            type: 'string',
+          },
+          name2: {
+            type: 'string',
+          },
+          isNinja: {
+            type: 'boolean',
+          },
+          isNinja2: {
+            type: 'boolean',
+          },
+        },
       },
     },
   },
