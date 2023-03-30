@@ -19056,7 +19056,7 @@ verror@1.10.0:
     extsprintf "^1.2.0"
 
 "vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#984b17d675e7456df070e05223dadf481ca440f3":
-  version "20.26.5"
+  version "20.26.6"
   resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#984b17d675e7456df070e05223dadf481ca440f3"
 
 vfile-message@^2.0.0:
