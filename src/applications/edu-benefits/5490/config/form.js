@@ -197,6 +197,21 @@ const formConfig = {
                 },
               },
             },
+            restorativeTraining: {
+              'ui:title':
+                ' Are you looking for Special Restorative Training because of a disability? Special Restorative Training could include speech and voice therapy, language retraining, lip reading, or Braille reading and writing.',
+              'ui:widget': 'yesNo',
+            },
+            vocationalTraining: {
+              'ui:title':
+                'Are you looking for Special Vocational Training or specialized courses because a disability prevents you from pursuing an education program?',
+              'ui:widget': 'yesNo',
+            },
+            educationalCounseling: {
+              'ui:title':
+                'Would you like to get vocational and educational counseling?',
+              'ui:widget': 'yesNo',
+            },
           },
           schema: {
             type: 'object',
@@ -211,6 +226,15 @@ const formConfig = {
                 properties: {},
               },
               benefit,
+              restorativeTraining: {
+                type: 'boolean',
+              },
+              vocationalTraining: {
+                type: 'boolean',
+              },
+              educationalCounseling: {
+                type: 'boolean',
+              },
             },
           },
         },
