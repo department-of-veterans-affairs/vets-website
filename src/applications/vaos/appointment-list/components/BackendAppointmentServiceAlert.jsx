@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectBackendServiceFailuresInfo } from '../redux/selectors';
 import { FETCH_STATUS } from '../../utils/constants';
 
-export default function AppointmentSchedulingServiceAlert() {
+export default function BackendAppointmentServiceAlert() {
   const { backendServiceFailures, futureStatus } = useSelector(state =>
     selectBackendServiceFailuresInfo(state),
   );
