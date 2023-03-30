@@ -47,7 +47,7 @@ const recipientsResponseFalse = {
         triageTeamId: 7026564,
         name: 'test',
         relationType: 'family',
-        preferredTeam: true,
+        preferredTeam: false,
       },
     },
   ],
@@ -66,12 +66,11 @@ describe('recipients dropdown box', () => {
     cy.get('[data-testid="compose-message-link"]').click();
     cy.injectAxe();
     cy.axeCheck();
-    // cy.intercept(
-    //   'GET',
-    //   '/my_health/v1/messaging/recipients?useCache=false',
-    //   recipientsResponseDefault,
-    // ).as('recipients');
     cy.get('[data-testid="compose-recipient-select"]').should('exist');
+    cy.get('[data-testid="compose-recipient-select"]')
+      .find('option')
+      .its('length')
+      .should('equal', 3);
     cy.get('[name="COVID"]').click();
   });
   it('preferredTriageTeam selcet dropdown false', () => {
@@ -91,10 +90,10 @@ describe('recipients dropdown box', () => {
       '/my_health/v1/messaging/recipients?useCache=false',
       recipientsResponseFalse,
     ).as('recipients');
-    cy.get('[data-testid="compose-recipient-select"]').should('have.length', 1);
     cy.get('[data-testid="compose-recipient-select"]')
-      .find('[id="select"]')
-      .should('have.length', 0);
+      .find('option')
+      .its('length')
+      .should('equal', 1);
     cy.get('[name="COVID"]').click();
   });
 });
