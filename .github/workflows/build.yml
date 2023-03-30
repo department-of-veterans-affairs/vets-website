@@ -2,7 +2,7 @@ name: Build and Push Docker Image to ECR
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "rework-pe-frontend" ]
     
 jobs:
 
