@@ -30,8 +30,11 @@ const DecisionReviewPage = () => {
 
   return (
     <div id={pageNames.other}>
-      <h1>File a Supplemental Claim</h1>
-      <h2 className="vads-u-margin-y--0">
+      <h1 className="vads-u-margin-bottom--0">File a Supplemental Claim</h1>
+      <div className="schemaform-subtitle vads-u-font-size--lg">
+        VA Form 20-0995
+      </div>
+      <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Filing if your Supplemental Claim isn’t for a disability
       </h2>
       <p>
