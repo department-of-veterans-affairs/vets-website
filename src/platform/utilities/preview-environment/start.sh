@@ -10,14 +10,15 @@ mkdir -p content-build/build/localhost
 echo "untar the build into content-build/build/localhost/"
 tar -xf vagovdev.tar.bz2 -C content-build/build/localhost/
 
-# Serve the content-build
-echo "Install and serve content-build"
-cd content-build
-yarn install
-yarn serve &
-
 # Watch vets-website
 echo "Install and watch vets-website"
-cd ../vets-website
+cd vets-website
 yarn install
-yarn watch --env host=0.0.0.0
+yarn watch --env host=0.0.0.0 &
+
+# Serve the content-build
+echo "Install and serve content-build"
+cd ../content-build
+yarn install
+ln -s /website/vets-website/build/localhost/generated /website/content-build/build/localhost/generated
+yarn serve
