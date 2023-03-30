@@ -350,6 +350,7 @@ const formConfig = {
           title: 'Spouse\u2019s information',
           initialData: {},
           depends: formData =>
+            !isShortFormEligible(formData) &&
             includeSpousalInformation(formData) &&
             !formData['view:isHouseholdV2Enabled'],
           uiSchema: spouseInformation.uiSchema,
@@ -359,6 +360,7 @@ const formConfig = {
           path: 'household-information/dependent-information',
           title: 'Dependent information',
           depends: formData =>
+            !isShortFormEligible(formData) &&
             formData.discloseFinancialInformation &&
             !formData['view:isHouseholdV2Enabled'],
           uiSchema: dependentInformation.uiSchema,
@@ -369,6 +371,7 @@ const formConfig = {
           title: 'Annual income',
           initialData: {},
           depends: formData =>
+            !isShortFormEligible(formData) &&
             formData.discloseFinancialInformation &&
             !formData['view:isHouseholdV2Enabled'],
           uiSchema: annualIncome.uiSchema,
@@ -378,6 +381,7 @@ const formConfig = {
           path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
           depends: formData =>
+            !isShortFormEligible(formData) &&
             formData.discloseFinancialInformation &&
             !formData['view:isHouseholdV2Enabled'],
           uiSchema: deductibleExpenses.uiSchema,
@@ -413,7 +417,9 @@ const formConfig = {
           path: 'household-information-v2/marital-status',
           title: 'Marital status',
           initialData: {},
-          depends: formData => formData['view:isHouseholdV2Enabled'],
+          depends: formData =>
+            !isShortFormEligible(formData) &&
+            formData['view:isHouseholdV2Enabled'],
           uiSchema: v2MaritalStatus.uiSchema,
           schema: v2MaritalStatus.schema,
         },
@@ -422,6 +428,7 @@ const formConfig = {
           title: 'Spouse\u2019s basic information',
           initialData: {},
           depends: formData =>
+            !isShortFormEligible(formData) &&
             includeSpousalInformation(formData) &&
             formData['view:isHouseholdV2Enabled'],
           uiSchema: v2SpouseBasicInformation.uiSchema,
@@ -432,6 +439,7 @@ const formConfig = {
           title: 'Spouse\u2019s additional information',
           initialData: {},
           depends: formData =>
+            !isShortFormEligible(formData) &&
             includeSpousalInformation(formData) &&
             formData['view:isHouseholdV2Enabled'],
           uiSchema: v2SpouseAdditionalInformation.uiSchema,
@@ -441,6 +449,7 @@ const formConfig = {
           path: 'household-information-v2/spouse-financial-support',
           title: 'Spouse\u2019s financial support',
           depends: formData =>
+            !isShortFormEligible(formData) &&
             includeSpousalInformation(formData) &&
             formData['view:isHouseholdV2Enabled'],
           uiSchema: v2SpouseFinancialSupport.uiSchema,
@@ -451,6 +460,7 @@ const formConfig = {
           title: 'Spouse\u2019s address and phone number',
           initialData: {},
           depends: formData =>
+            !isShortFormEligible(formData) &&
             includeSpousalInformation(formData) &&
             !formData.sameAddress &&
             formData['view:isHouseholdV2Enabled'],
@@ -461,6 +471,7 @@ const formConfig = {
           path: DEPENDENT_PATHS.summary,
           title: 'Dependents',
           depends: formData =>
+            !isShortFormEligible(formData) &&
             formData.discloseFinancialInformation &&
             formData['view:isHouseholdV2Enabled'],
           CustomPage: v2DependentSummaryPage,
@@ -472,6 +483,7 @@ const formConfig = {
           path: DEPENDENT_PATHS.info,
           title: 'Dependent information',
           depends: formData =>
+            !isShortFormEligible(formData) &&
             !formData['view:skipDependentInfo'] &&
             formData['view:isHouseholdV2Enabled'],
           CustomPage: v2DependentInformationPage,
@@ -484,6 +496,7 @@ const formConfig = {
           title: 'Your annual income',
           initialData: {},
           depends: formData =>
+            !isShortFormEligible(formData) &&
             formData.discloseFinancialInformation &&
             formData['view:isHouseholdV2Enabled'],
           uiSchema: v2VeteranAnnualIncome.uiSchema,
@@ -494,6 +507,7 @@ const formConfig = {
           title: 'Spouse\u2019s annual income',
           initialData: {},
           depends: formData =>
+            !isShortFormEligible(formData) &&
             includeSpousalInformation(formData) &&
             formData['view:isHouseholdV2Enabled'],
           uiSchema: v2SpouseAnnualIncome.uiSchema,
@@ -504,6 +518,7 @@ const formConfig = {
           title: 'Deductible expenses',
           initialData: {},
           depends: formData =>
+            !isShortFormEligible(formData) &&
             formData.discloseFinancialInformation &&
             formData['view:isHouseholdV2Enabled'],
           uiSchema: v2DeductibleExpenses.uiSchema,
