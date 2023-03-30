@@ -14,7 +14,7 @@ tar -xf vagovdev.tar.bz2 -C content-build/build/localhost/
 echo "Install and watch vets-website"
 cd vets-website
 yarn install
-yarn watch --env host=0.0.0.0 &
+yarn watch &
 
 # Serve the content-build
 echo "Install and serve content-build"
