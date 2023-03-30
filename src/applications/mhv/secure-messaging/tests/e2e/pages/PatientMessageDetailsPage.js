@@ -80,11 +80,14 @@ class PatientMessageDetailsPage {
       this.currentThread,
     ).as('full-thread');
 
+    /*
     cy.contains(
       `${mockParentMessageDetails.data.attributes.category}: ${
         mockParentMessageDetails.data.attributes.subject
       }`,
     ).click();
+    */
+    cy.contains(`${mockParentMessageDetails.data.attributes.subject}`).click();
     cy.wait('@message1');
   };
 
