@@ -1,6 +1,9 @@
 class EmploymentRecords {
   employerFill = employer => {
-    cy.findByLabelText(/Type of work/).select(employer.type);
+    cy.get('#type')
+      .shadow()
+      .find('select')
+      .select(employer.type);
     cy.fillDate(
       'from',
       `${employer.from.split('-')[0]}-${employer.from.split('-')[1]}`,
