@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 import pageNames from './pageNames';
@@ -6,6 +8,12 @@ import DownloadLink from '../../content/DownloadLink';
 import { BENEFIT_OFFICES_URL } from '../../constants';
 
 const DecisionReviewPage = () => {
+  useEffect(() => {
+    setTimeout(() => {
+      focusElement('#main h2');
+    });
+  }, []);
+
   recordEvent({
     event: 'howToWizard-alert-displayed',
     'reason-for-alert': 'veteran wants to submit an unsupported claim type',
@@ -22,9 +30,10 @@ const DecisionReviewPage = () => {
 
   return (
     <div id={pageNames.other}>
-      <h1 className="vads-u-margin-bottom--0">
+      <h1>File a Supplemental Claim</h1>
+      <h2 className="vads-u-margin-y--0">
         Filing if your Supplemental Claim isn’t for a disability
-      </h1>
+      </h2>
       <p>
         We can accept online Supplemental Claims only for disability claims at
         this time. For other types of claims, you’ll need to fill out and submit
