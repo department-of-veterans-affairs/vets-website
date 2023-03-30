@@ -1,13 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectFeatureVaosV2Next } from '../../redux/selectors';
 import { selectBackendServiceFailuresInfo } from '../redux/selectors';
 import { FETCH_STATUS } from '../../utils/constants';
 
 export default function AppointmentSchedulingServiceAlert() {
-  const featureVaosV2Next = useSelector(state =>
-    selectFeatureVaosV2Next(state),
-  );
   const { backendServiceFailures, futureStatus } = useSelector(state =>
     selectBackendServiceFailuresInfo(state),
   );
@@ -15,7 +11,7 @@ export default function AppointmentSchedulingServiceAlert() {
   if (futureStatus === FETCH_STATUS.succeeded) {
     const hasBackendServiceFailure = !!backendServiceFailures.meta?.length > 0;
 
-    if (featureVaosV2Next && hasBackendServiceFailure) {
+    if (hasBackendServiceFailure) {
       return (
         <div className="vads-u-margin-bottom--4">
           <va-alert-expandable

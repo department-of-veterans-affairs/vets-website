@@ -32,196 +32,120 @@ describe('VAOS <UpcomingAppointmentsList> Backend Service Alert', () => {
     MockDate.reset();
   });
 
-  describe('when vaOnlineSchedulingVAOSV2Next flag is on', () => {
-    it('should display BackendAppointmentServiceAlert if there is a failure returned', async () => {
-      const appointmentTime = moment().add(1, 'days');
-      const start = moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD');
-      const end = moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD');
+  it('should display BackendAppointmentServiceAlert if there is a failure returned', async () => {
+    const appointmentTime = moment().add(1, 'days');
+    const start = moment()
+      .subtract(30, 'days')
+      .format('YYYY-MM-DD');
+    const end = moment()
+      .add(395, 'days')
+      .format('YYYY-MM-DD');
 
-      const data = {
-        id: '01aa456cc',
-        kind: 'cc',
-        practitioners: [
-          {
-            identifier: [{ system: null, value: '123' }],
-            name: {
-              family: 'Medical Care',
-              given: ['Atlantic'],
-            },
-          },
-        ],
-        description: 'community care appointment',
-        comment: 'test comment',
-        start: appointmentTime,
-        communityCareProvider: {
-          providerName: 'Atlantic Medical Care',
-        },
-        serviceType: 'audiology',
-        reasonCode: {
-          text: 'test comment',
-        },
-      };
-      const appointment = createMockAppointmentByVersion({
-        ...data,
-      });
-
-      mockVAOSAppointmentsFetch({
-        start,
-        end,
-        requests: [appointment],
-        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-        backendServiceFailures: true,
-      });
-
-      const screen = renderWithStoreAndRouter(<AppointmentList />, {
-        initialState: {
-          featureToggles: {
-            ...initialState.featureToggles,
-            vaOnlineSchedulingVAOSV2Next: true,
+    const data = {
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          identifier: [{ system: null, value: '123' }],
+          name: {
+            family: 'Medical Care',
+            given: ['Atlantic'],
           },
         },
-      });
-
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `Your appointments | VA online scheduling | Veterans Affairs`,
-        );
-      });
-
-      await waitFor(() => {
-        expect(screen.queryByTestId('backend-appointment-service-alert')).to
-          .exist;
-      });
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+      communityCareProvider: {
+        providerName: 'Atlantic Medical Care',
+      },
+      serviceType: 'audiology',
+      reasonCode: {
+        text: 'test comment',
+      },
+    };
+    const appointment = createMockAppointmentByVersion({
+      ...data,
     });
 
-    it('should not display BackendAppointmentServiceAlert if there is no failure returned', async () => {
-      const appointmentTime = moment().add(1, 'days');
-      const start = moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD');
-      const end = moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD');
+    mockVAOSAppointmentsFetch({
+      start,
+      end,
+      requests: [appointment],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      backendServiceFailures: true,
+    });
 
-      const data = {
-        id: '01aa456cc',
-        kind: 'cc',
-        practitioners: [
-          {
-            identifier: [{ system: null, value: '123' }],
-            name: {
-              family: 'Medical Care',
-              given: ['Atlantic'],
-            },
-          },
-        ],
-        description: 'community care appointment',
-        comment: 'test comment',
-        start: appointmentTime,
-        communityCareProvider: {
-          providerName: 'Atlantic Medical Care',
-        },
-        serviceType: 'audiology',
-        reasonCode: {
-          text: 'test comment',
-        },
-      };
-      const appointment = createMockAppointmentByVersion({
-        ...data,
-      });
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+    });
 
-      mockVAOSAppointmentsFetch({
-        start,
-        end,
-        requests: [appointment],
-        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      });
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Your appointments | VA online scheduling | Veterans Affairs`,
+      );
+    });
 
-      const screen = renderWithStoreAndRouter(<AppointmentList />, {
-        initialState: {
-          featureToggles: {
-            ...initialState.featureToggles,
-            vaOnlineSchedulingVAOSV2Next: true,
-          },
-        },
-      });
-
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `Your appointments | VA online scheduling | Veterans Affairs`,
-        );
-      });
-
-      expect(screen.queryByTestId('backend-appointment-service-alert')).to.not
+    await waitFor(() => {
+      expect(screen.queryByTestId('backend-appointment-service-alert')).to
         .exist;
     });
   });
 
-  describe('when vaOnlineSchedulingVAOSV2Next flag is off', () => {
-    it('should not display BackendAppointmentServiceAlert if there is an error returned', async () => {
-      const appointmentTime = moment().add(1, 'days');
-      const start = moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD');
-      const end = moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD');
+  it('should not display BackendAppointmentServiceAlert if there is no failure returned', async () => {
+    const appointmentTime = moment().add(1, 'days');
+    const start = moment()
+      .subtract(30, 'days')
+      .format('YYYY-MM-DD');
+    const end = moment()
+      .add(395, 'days')
+      .format('YYYY-MM-DD');
 
-      const data = {
-        id: '01aa456cc',
-        kind: 'cc',
-        practitioners: [
-          {
-            identifier: [{ system: null, value: '123' }],
-            name: {
-              family: 'Medical Care',
-              given: ['Atlantic'],
-            },
-          },
-        ],
-        description: 'community care appointment',
-        comment: 'test comment',
-        start: appointmentTime,
-        communityCareProvider: {
-          providerName: 'Atlantic Medical Care',
-        },
-        serviceType: 'audiology',
-        reasonCode: {
-          text: 'test comment',
-        },
-      };
-      const appointment = createMockAppointmentByVersion({
-        ...data,
-      });
-
-      mockVAOSAppointmentsFetch({
-        start,
-        end,
-        requests: [appointment],
-        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      });
-
-      const screen = renderWithStoreAndRouter(<AppointmentList />, {
-        initialState: {
-          featureToggles: {
-            ...initialState.featureToggles,
-            vaOnlineSchedulingVAOSV2Next: false,
+    const data = {
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          identifier: [{ system: null, value: '123' }],
+          name: {
+            family: 'Medical Care',
+            given: ['Atlantic'],
           },
         },
-      });
-
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `Your appointments | VA online scheduling | Veterans Affairs`,
-        );
-      });
-
-      expect(screen.queryByTestId('backend-appointment-service-alert')).to.not
-        .exist;
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+      communityCareProvider: {
+        providerName: 'Atlantic Medical Care',
+      },
+      serviceType: 'audiology',
+      reasonCode: {
+        text: 'test comment',
+      },
+    };
+    const appointment = createMockAppointmentByVersion({
+      ...data,
     });
+
+    mockVAOSAppointmentsFetch({
+      start,
+      end,
+      requests: [appointment],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+    });
+
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Your appointments | VA online scheduling | Veterans Affairs`,
+      );
+    });
+
+    expect(screen.queryByTestId('backend-appointment-service-alert')).to.not
+      .exist;
   });
 });
