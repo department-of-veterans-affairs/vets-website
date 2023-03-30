@@ -250,7 +250,7 @@ class ApiInitializer {
     },
     withFailure: (errorCode = 400) => {
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
-        req.reply(errorCode, preCheckInData.get.createMockFailedResponse());
+        req.reply(errorCode, sharedData.get.createMockFailedResponse());
       });
     },
     withUuidNotFoundReload: ({
@@ -303,7 +303,7 @@ class ApiInitializer {
       uuid = sharedData.get.defaultUUID,
     } = {}) => {
       cy.intercept('GET', `/check_in/v2/pre_check_ins/*&reload=true`, req => {
-        req.reply(400, preCheckInData.get.createMockFailedResponse());
+        req.reply(400, sharedData.get.createMockFailedResponse());
       });
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*&reload=false', req => {
         if (extraValidation) {
@@ -344,7 +344,7 @@ class ApiInitializer {
     },
     withFailure: (errorCode = 400) => {
       cy.intercept('POST', '/check_in/v2/pre_check_ins/', req => {
-        req.reply(errorCode, preCheckInData.post.createMockFailedResponse());
+        req.reply(errorCode, sharedData.post.createMockFailedResponse());
       }).as('post-pre_check_ins-failure');
     },
   };
@@ -426,7 +426,7 @@ class ApiInitializer {
     },
     withFailure: (errorCode = 400) => {
       cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
-        req.reply(errorCode, checkInData.get.createMockFailedResponse());
+        req.reply(errorCode, sharedData.get.createMockFailedResponse());
       });
     },
     withUuidNotFound: () => {
@@ -507,7 +507,7 @@ class ApiInitializer {
         'GET',
         `/check_in/v2/patient_check_ins/*?reload=true`,
         req => {
-          req.reply(400, checkInData.get.createMockFailedResponse());
+          req.reply(400, sharedData.get.createMockFailedResponse());
         },
       );
       cy.intercept(
@@ -630,7 +630,7 @@ class ApiInitializer {
     },
     withFailure: (errorCode = 400) => {
       cy.intercept('POST', `/check_in/v2/patient_check_ins/`, req => {
-        req.reply(errorCode, checkInData.post.createMockFailedResponse({}));
+        req.reply(errorCode, sharedData.post.createMockFailedResponse({}));
       });
     },
   };
@@ -664,7 +664,7 @@ class ApiInitializer {
         req.on('response', res => {
           res.setDelay(delay);
         });
-        req.reply(errorCode, checkInData.patch.createMockFailedResponse({}));
+        req.reply(errorCode, sharedData.patch.createMockFailedResponse({}));
       }).as('demographicsPatchFailureAlias');
     },
   };
