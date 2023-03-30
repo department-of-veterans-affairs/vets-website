@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DefaultFolders as Folders } from '../../util/constants';
+import { handleHeader } from '../../util/helpers';
 import EmergencyNote from '../EmergencyNote';
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 
 const FolderHeader = props => {
-  const { folder, handleHeader } = props;
+  const { folder } = props;
 
   const handleFolderDescription = () => {
     let text = '';
@@ -40,7 +41,9 @@ const FolderHeader = props => {
 
   return (
     <>
-      <h1 data-testid="folder-header">{handleHeader()}</h1>
+      <h1 data-testid="folder-header">
+        {handleHeader(folder.folderId, folder)}
+      </h1>
       <>{handleFolderDescription()}</>
       {folder.folderId === Folders.INBOX.id && (
         <>
@@ -56,7 +59,6 @@ const FolderHeader = props => {
 
 FolderHeader.propTypes = {
   folder: PropTypes.object,
-  handleHeader: PropTypes.func,
 };
 
 export default FolderHeader;

@@ -23,6 +23,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
+import { handleHeader } from '../../util/helpers';
 import MessageListItem from './MessageListItem';
 
 const DESCENDING = 'desc';
@@ -37,7 +38,7 @@ const MAX_PAGE_LIST_LENGTH = 5;
 let sortOrderSelection;
 const MessageList = props => {
   const location = useLocation();
-  const { folder, messages, keyword, isSearch, handleHeader } = props;
+  const { folder, messages, keyword, isSearch } = props;
   // const perPage = messages.meta.pagination.per_page;
   const perPage = 10;
   // const totalEntries = messages.meta.pagination.total_entries;
@@ -135,9 +136,12 @@ const MessageList = props => {
       className="message-list vads-l-row vads-u-flex-direction--column"
       role="heading"
       aria-level="2"
-      aria-label={`Conversations in your ${handleHeader()}, ${
-        displayNums[0]
-      } - ${displayNums[1]} of ${totalEntries} conversations`}
+      aria-label={`Conversations in your ${handleHeader(
+        folder.folderId,
+        folder,
+      )}, ${displayNums[0]} - ${
+        displayNums[1]
+      } of ${totalEntries} conversations`}
     >
       <div className="message-list-sort">
         <VaSelect
@@ -231,7 +235,6 @@ export default MessageList;
 
 MessageList.propTypes = {
   folder: PropTypes.object,
-  handleHeader: PropTypes.func,
   isSearch: PropTypes.bool,
   keyword: PropTypes.string,
   messages: PropTypes.array,
