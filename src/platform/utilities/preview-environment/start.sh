@@ -10,6 +10,9 @@ mkdir -p content-build/build/localhost
 echo "untar the build into content-build/build/localhost/"
 tar -xf vagovdev.tar.bz2 -C content-build/build/localhost/
 
+echo "set yarn to allow self-signed cert for install"
+yarn config set "strict-ssl" false
+
 # Watch vets-website
 echo "Install and watch vets-website"
 cd vets-website
