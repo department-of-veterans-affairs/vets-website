@@ -28,7 +28,7 @@ export const Alerts = {
       "The last message in this conversation is more than 45 days old. If you want to continue this conversation, you'll need to start a new message.",
     CANNOT_REPLY_INFO_HEADER: 'This conversation is too old for new replies',
     GET_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
-    DELETE_MESSAGE_SUCCESS: 'Message was successfully moved to Trash.',
+    DELETE_MESSAGE_SUCCESS: 'Message thread was successfully moved to Trash.',
     DELETE_MESSAGE_ERROR:
       'Message could not be deleted. Try again later. If this problem persists, contact the help desk.',
     DRAFT_CANNOT_REPLY_INFO_HEADER:
@@ -37,6 +37,9 @@ export const Alerts = {
     MOVE_MESSAGE_SUCCESS: 'Message was successfully moved',
     MOVE_MESSAGE_ERROR:
       'Message could not be moved. Try again later. If this problem persists, contact the help desk.',
+    MOVE_MESSAGE_THREAD_SUCCESS: 'Message thread was successfully moved.',
+    MOVE_MESSAGE_THREAD_ERROR:
+      'Message thread could not be moved. Try again later. If this problem persists, contact the help desk.',
     NO_MESSAGES: 'There are no messages in this folder.',
     DELETE_DRAFT_SUCCESS: 'Draft was successfully deleted.',
     DELETE_DRAFT_ERROR:
@@ -72,6 +75,9 @@ export const Alerts = {
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',
     FOLDER_NAME_TAKEN:
       'That folder name is already in use. Please use another name.',
+  },
+  Thread: {
+    GET_THREAD_ERROR: 'We’re sorry. Something went wrong on our end.',
   },
 };
 
@@ -159,4 +165,13 @@ export const Attachments = {
   MAX_FILE_COUNT: 4,
   MAX_FILE_SIZE: 6000000,
   TOTAL_MAX_FILE_SIZE: 10000000,
+};
+
+export const threadSortingOptions = {
+  DESCENDING: 'DESC',
+  ASCENDING: 'ASC',
+  SORT_BY_SENDER: 'SENDER_NAME',
+  SORT_BY_RECEPIENT: 'RECIPIENT_NAME',
+  SORT_BY_SENT_DATE: 'SENT_DATE',
+  SORT_BY_DRAFT_DATE: 'DRAFT_DATE',
 };

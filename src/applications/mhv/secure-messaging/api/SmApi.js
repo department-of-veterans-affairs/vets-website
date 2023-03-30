@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
+import { DefaultFolders } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -310,14 +311,58 @@ export const getMessageThread = messageId => {
 };
 
 /**
- * Move a message.
- * @param {Long} messageId
+ * Gets a list of threads in a folder.
+ * @param {Long} folderId
+ * @returns
+ */
+export const getThreadList = (
+  folderId = 0,
+  pageSize = 10,
+  pageNumber = 1,
+  sortField = 'SENDER_NAME',
+  sortOrder = 'ASC',
+) => {
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}/threads?pageSize=${pageSize}&pageNumber=${pageNumber}&sortField=${sortField}&sortOrder=${sortOrder}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+      },
+    },
+  );
+};
+
+/**
+ * Move message thread.
+ * @param {Long} threadId
  * @param {Long} toFolderId
  * @returns
  */
-export const moveMessage = (messageId, toFolderId) => {
+export const moveMessageThread = (threadId, toFolderId) => {
   return apiRequest(
-    `${apiBasePath}/messaging/messages/${messageId}/move?folder_id=${toFolderId}`,
+    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${toFolderId}
+   `,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
+/**
+ * Delete message thread (i.g. move to Trash folder).
+ * @param {Long} threadId
+ * @returns
+ */
+export const deleteMessageThread = threadId => {
+  return apiRequest(
+    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${
+      DefaultFolders.DELETED.id
+    }
+  `,
     {
       method: 'PATCH',
       headers: {

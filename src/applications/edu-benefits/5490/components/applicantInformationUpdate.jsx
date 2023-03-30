@@ -33,13 +33,13 @@ const defaults = prefix => ({
 export default function applicantInformationUpdate(schema, options) {
   // Use the defaults as necessary, but override with the options given
   const prefix = options && options.isVeteran ? 'veteran' : 'relative';
-  const { fields, required, labels } = Object.assign(
-    {},
-    defaults(prefix),
-    options,
-  );
+  const { fields, required, labels } = {
+    ...defaults(prefix),
+    ...options,
+  };
 
-  const possibleProperties = Object.assign({}, schema.properties, {
+  const possibleProperties = {
+    ...schema.properties,
     'view:noSSN': {
       type: 'boolean',
     },
@@ -47,53 +47,47 @@ export default function applicantInformationUpdate(schema, options) {
       type: 'object',
       properties: {},
     },
-  });
+  };
 
   return {
     path: 'applicant/information',
     title: 'Applicant information',
     initialData: {},
-    uiSchema: Object.assign(
-      {},
-      {
-        'ui:order': fields,
-        'ui:description': applicantDescription,
-        [`${prefix}FullName`]: fullNameUI,
-        [`${prefix}DateOfBirth`]: Object.assign(
-          {},
-          currentOrPastDateUI('Your date of birth'),
-          {
-            'ui:errorMessages': {
-              pattern: 'Please provide a valid date',
-              required: 'Please enter a date',
-              futureDate: 'Please provide a valid date',
-            },
-          },
-        ),
-        'view:ageWarningNotification': {
-          'ui:description': ageWarning,
-          'ui:options': {
-            hideIf: formData => eighteenOrOver(formData.relativeDateOfBirth),
-          },
-        },
-        gender: {
-          'ui:widget': 'radio',
-          'ui:title': 'Gender',
-          'ui:options': {
-            labels: labels.gender || genderLabels,
-          },
-        },
-        relationship: {
-          'ui:widget': 'radio',
-          'ui:title':
-            'What’s your relationship to the service member whose benefit is being transferred to you?',
-          'ui:options': {
-            labels: labels.relationship || relationshipLabels,
-          },
+    uiSchema: {
+      'ui:order': fields,
+      'ui:description': applicantDescription,
+      [`${prefix}FullName`]: fullNameUI,
+      [`${prefix}DateOfBirth`]: {
+        ...currentOrPastDateUI('Your date of birth'),
+        'ui:errorMessages': {
+          pattern: 'Please provide a valid date',
+          required: 'Please enter a date',
+          futureDate: 'Please provide a valid date',
         },
       },
-      personId.uiSchema(prefix, 'view:noSSN'),
-    ),
+      'view:ageWarningNotification': {
+        'ui:description': ageWarning,
+        'ui:options': {
+          hideIf: formData => eighteenOrOver(formData.relativeDateOfBirth),
+        },
+      },
+      gender: {
+        'ui:widget': 'radio',
+        'ui:title': 'Gender',
+        'ui:options': {
+          labels: labels.gender || genderLabels,
+        },
+      },
+      relationship: {
+        'ui:widget': 'radio',
+        'ui:title':
+          'What’s your relationship to the service member whose benefit is being transferred to you?',
+        'ui:options': {
+          labels: labels.relationship || relationshipLabels,
+        },
+      },
+      ...personId.uiSchema(prefix, 'view:noSSN'),
+    },
     schema: {
       type: 'object',
       definitions: pick(schema.definitions, [

@@ -2,10 +2,12 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
-import FolderListView from './FolderListView';
+// import FolderListView from './FolderListView';
 import Folders from './Folders';
+import FolderThreadListView from './FolderThreadListView';
 import LandingPageAuth from './LandingPageAuth';
 import MessageDetails from './MessageDetails';
+import ThreadDetails from './ThreadDetails';
 import MessageReply from './MessageReply';
 import SearchResults from './SearchResults';
 
@@ -26,8 +28,8 @@ const AuthorizedRoutes = () => {
         <Route exact path="/message/:messageId" key="MessageDetails">
           <MessageDetails />
         </Route>
-        <Route exact path="/thread/:threadId" key="MessageDetails">
-          <MessageDetails />
+        <Route exact path="/thread/:threadId" key="ThreadDetails">
+          <ThreadDetails />
         </Route>
         <Route exact path="/reply/:replyId" key="MessageReply">
           <MessageReply />
@@ -48,7 +50,8 @@ const AuthorizedRoutes = () => {
           path={['/inbox', '/sent', '/trash', '/drafts', '/folder/:folderId']}
           key="FolderListView"
         >
-          <FolderListView />
+          {/* <FolderListView /> */}
+          <FolderThreadListView />
         </Route>
       </Switch>
     </div>

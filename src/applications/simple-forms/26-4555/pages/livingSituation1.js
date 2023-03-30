@@ -11,12 +11,12 @@ const pageFields = [livingSituationFields.isInCareFacility];
 
 export default {
   uiSchema: {
-    'ui:title': (
-      <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
-        Current arrangement
-      </h3>
-    ),
     [livingSituationFields.parentObject]: {
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+          Current arrangement
+        </h3>
+      ),
       [livingSituationFields.isInCareFacility]: {
         'ui:title': 'Do you live in a nursing home or medical care facility?',
         'ui:widget': 'yesNo',

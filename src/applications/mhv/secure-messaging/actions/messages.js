@@ -3,8 +3,8 @@ import {
   getMessageList,
   getMessage,
   getMessageHistory,
-  deleteMessage as deleteMessageCall,
-  moveMessage as moveMessageCall,
+  deleteMessageThread as deleteMessageCall,
+  moveMessageThread as moveThreadCall,
   createMessage,
   createReplyToMessage,
   getMessageThread,
@@ -159,26 +159,61 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
  */
 export const retrieveMessageThread = (
   messageId,
-  isDraft = false,
   refresh = false,
 ) => async dispatch => {
   if (!refresh) {
     dispatch(clearMessage());
   }
-
   const response = await getMessageThread(messageId);
   if (response.errors) {
     // TODO Add error handling
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        Constants.Alerts.Message.CANNOT_REPLY_INFO_HEADER,
+        Constants.Alerts.Message.CANNOT_REPLY_BODY,
+        Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
+        Constants.Links.Link.CANNOT_REPLY.TO,
+        Constants.Links.Link.CANNOT_REPLY.TITLE,
+      ),
+    );
   } else {
     const msgResponse = await getMessage(response.data[0].attributes.messageId);
     if (!msgResponse.errors) {
-      const { sentDate } = msgResponse.data.attributes;
-      dispatch(oldMessageAlert(sentDate, isDraft));
-      dispatch({
-        type: Actions.Message.GET,
-        response: msgResponse,
-      });
+      const sentDate = response.data.find(m => m.attributes.sentDate !== null)
+        ?.attributes.sentDate;
+      const isDraft = response.data[0].attributes.draftDate !== null;
+      const replyToName =
+        response.data
+          .find(
+            m => m.attributes.triageGroupName !== m.attributes.recipientName,
+          )
+          ?.attributes.senderName.trim() ||
+        response.data[0].attributes.triageGroupName;
 
+      const threadFolderId =
+        response.data
+          .find(
+            m => m.attributes.triageGroupName !== m.attributes.recipientName,
+          )
+          ?.attributes.folderId.toString() ||
+        response.data[0].attributes.folderId;
+
+      if (sentDate) {
+        dispatch(oldMessageAlert(sentDate, isDraft));
+      }
+      dispatch({
+        type: isDraft ? Actions.Draft.GET : Actions.Message.GET,
+        response: {
+          data: {
+            replyToName,
+            threadFolderId,
+            ...msgResponse.data,
+            ...response.data[0],
+          },
+          included: msgResponse.included,
+        },
+      });
       dispatch({
         type: isDraft ? Actions.Draft.GET_HISTORY : Actions.Message.GET_HISTORY,
         response: { data: response.data.slice(1, response.data.length) },
@@ -188,12 +223,13 @@ export const retrieveMessageThread = (
 };
 
 /**
- * @param {Long} messageId
+ * @param {Long} threadId
+ *  * @param {Long} folderId
  * @returns
  */
-export const deleteMessage = messageId => async dispatch => {
+export const deleteMessage = threadId => async dispatch => {
   try {
-    await deleteMessageCall(messageId);
+    await deleteMessageCall(threadId);
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
@@ -215,26 +251,29 @@ export const deleteMessage = messageId => async dispatch => {
 };
 
 /**
- * @param {Long} messageId
+ * @param {Long} threadId
  * @param {Long} folderId
  * @returns
  */
-export const moveMessage = (messageId, folderId) => async dispatch => {
+export const moveMessageThread = (threadId, folderId) => async dispatch => {
+  dispatch({ type: Actions.Message.MOVE_REQUEST });
   try {
-    await moveMessageCall(messageId, folderId);
+    await moveThreadCall(threadId, folderId);
+    dispatch({ type: Actions.Message.MOVE_SUCCESS });
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
         '',
-        Constants.Alerts.Message.MOVE_MESSAGE_SUCCESS,
+        Constants.Alerts.Message.MOVE_MESSAGE_THREAD_SUCCESS,
       ),
     );
   } catch (e) {
+    dispatch({ type: Actions.Message.MOVE_FAILED });
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_ERROR,
         '',
-        Constants.Alerts.Message.MOVE_MESSAGE_ERROR,
+        Constants.Alerts.Message.MOVE_MESSAGE_THREAD_ERROR,
       ),
     );
     throw e;
