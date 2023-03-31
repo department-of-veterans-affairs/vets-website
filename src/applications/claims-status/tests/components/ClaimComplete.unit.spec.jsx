@@ -9,7 +9,7 @@ describe('<ClaimComplete>', () => {
     const date = '2010-03-01';
     const tree = SkinDeep.shallowRender(<ClaimComplete completedDate={date} />);
 
-    expect(tree.text()).to.contain('Your claim was closed on March 1, 2010');
+    expect(tree.text()).to.contain('We decided your claim on March 1, 2010');
     expect(tree.everySubTree('CompleteDetails')).to.not.be.false;
   });
 });
