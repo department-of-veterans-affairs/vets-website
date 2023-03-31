@@ -179,7 +179,7 @@ export default function AppointmentListItemGroup({ data }) {
               'vads-u-padding-right--1',
               {
                 'vads-u-border-bottom--1px': isBorderBottom,
-                'vads-u-border-color--gray-lighter': isBorderBottom,
+                'vads-u-border-color--gray-medium': isBorderBottom,
               },
             )}
           >

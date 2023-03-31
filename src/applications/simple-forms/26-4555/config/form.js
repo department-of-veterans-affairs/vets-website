@@ -3,7 +3,7 @@ import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
 import preSubmitInfo from '../containers/PreSubmitSignature';
-import transformForSubmit from '../../shared/config/submit-transformer';
+import transformForSubmit from './submit-transformer';
 import prefillTransformer from './prefill-transformer';
 import getHelp from '../containers/GetFormHelp';
 
@@ -61,9 +61,9 @@ const formConfig = {
   migrations: [],
   prefillEnabled: true,
   prefillTransformer,
-  title: 'Apply for a Specially Adapted Housing Grant Grant',
+  title: 'Apply for an adapted housing grant',
   subTitle:
-    'Equal to Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555)',
+    'Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555)',
   defaultDefinitions: fullSchema.definitions,
   chapters: {
     personalInformationChapter: {
@@ -71,13 +71,13 @@ const formConfig = {
       pages: {
         personalInformation1: {
           path: 'personal-information-1',
-          title: 'Personal Information',
+          title: 'Personal information',
           uiSchema: personalInformation1.uiSchema,
           schema: personalInformation1.schema,
         },
         personalInformation2: {
           path: 'personal-information-2',
-          title: "Personal Information (cont'd)",
+          title: 'Identification information',
           uiSchema: personalInformation2.uiSchema,
           schema: personalInformation2.schema,
         },
@@ -88,32 +88,30 @@ const formConfig = {
       pages: {
         contactInformation1: {
           path: 'contact-information-1',
-          title: 'Contact Information',
+          title: 'Mailing address',
           uiSchema: contactInformation1.uiSchema,
           schema: contactInformation1.schema,
         },
         contactInformation2: {
           path: 'contact-information-2',
-          title: 'Additional contact information',
+          title: 'Phone number and email address',
           uiSchema: contactInformation2.uiSchema,
           schema: contactInformation2.schema,
         },
       },
     },
     previousApplicationsChapter: {
-      title: 'Your previous applications',
+      title: 'Your past applications',
       pages: {
         previousSahApplication1: {
           path: 'previous-sah-application-1',
-          title:
-            'Have you previously applied for a specially adapted housing (SAH) grant?',
+          title: 'Specially adapted housing grant applications',
           uiSchema: previousSahApplication1.uiSchema,
           schema: previousSahApplication1.schema,
         },
         previousSahApplication2: {
           path: 'previous-sah-application-2',
-          title:
-            'Details about your past application for a specially adapted housing grant',
+          title: 'Past SAH grant application details',
           depends: formData =>
             formData[previousSahApplicationFields.parentObject][
               previousSahApplicationFields.hasPreviousSahApplication
@@ -123,14 +121,13 @@ const formConfig = {
         },
         previousShaApplication1: {
           path: 'previous-sha-application-1',
-          title: 'Have you applied for a special home adaptation (SHA) grant?',
+          title: 'Special home adaptation grant applications',
           uiSchema: previousHiApplication1.uiSchema,
           schema: previousHiApplication1.schema,
         },
         previousShaApplication2: {
           path: 'previous-sha-application-2',
-          title:
-            'Details about your past application for a special home adaptation grant',
+          title: 'Past SHA grant applications details',
           depends: formData =>
             formData[previousHiApplicationFields.parentObject][
               previousHiApplicationFields.hasPreviousHiApplication
@@ -141,18 +138,17 @@ const formConfig = {
       },
     },
     livingSituationChapter: {
-      title: 'Your current living situation',
+      title: 'Your current living arrangement',
       pages: {
         livingSituation1: {
           path: 'living-situation-1',
-          title:
-            'Are you currently living in a nursing home or medical care facility?',
+          title: 'Current arrangement',
           uiSchema: livingSituation1.uiSchema,
           schema: livingSituation1.schema,
         },
         livingSituation2: {
           path: 'living-situation-2',
-          title: 'Details about your current living situation',
+          title: 'Facility details',
           depends: formData =>
             formData[livingSituationFields.parentObject][
               livingSituationFields.isInCareFacility
@@ -163,11 +159,11 @@ const formConfig = {
       },
     },
     additionalInformationChapter: {
-      title: 'Additional information',
+      title: 'Your conditions',
       pages: {
         remarks: {
           path: 'additional-information',
-          title: 'Additional information',
+          title: 'Service-connected conditions',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,
         },

@@ -35,7 +35,7 @@ describe('validateDate & isValidDate', () => {
   });
   it('should throw a range error for dates too old', () => {
     validateDate(errors, '1899-01-01');
-    expect(errorMessage).to.contain('enter a year between');
+    expect(errorMessage).to.eq(errorMessages.decisions.newerDate);
     expect(isValidDate('1899')).to.be.false;
   });
   it('should throw an error for dates in the future', () => {

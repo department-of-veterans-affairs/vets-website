@@ -3,24 +3,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
 import MessageThread from '../components/MessageThread/MessageThread';
-import { retrieveMessage, retrieveMessageThread } from '../actions/messages';
+import { retrieveMessageThread } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import AlertBox from '../components/shared/AlertBox';
 import { closeAlert } from '../actions/alerts';
-import * as Constants from '../util/constants';
 
 const MessageDetail = () => {
   const { messageId, threadId } = useParams();
   const dispatch = useDispatch();
   const alert = useSelector(state => state.sm.alerts.alert);
   const message = useSelector(state => state.sm.messageDetails.message);
+  const { draftMessage } = useSelector(state => state.sm.draftDetails);
   const messageHistory = useSelector(
     state => state.sm.messageDetails.messageHistory,
   );
   const isTrash = window.location.pathname.includes('/trash');
   const isSent = window.location.pathname.includes('/sent');
-  const activeFolder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
   const history = useHistory();
   const [cannotReplyAlert, setcannotReplyAlert] = useState(true);
@@ -28,21 +27,21 @@ const MessageDetail = () => {
 
   useEffect(
     () => {
-      if (activeFolder?.folderId === Constants.DefaultFolders.DRAFTS.id) {
-        history.push(`/draft/${messageId}`);
-      }
-
-      if (messageId) {
-        dispatch(closeAlert()); // to clear out any past alerts before landing this page
-        dispatch(retrieveMessage(messageId));
-      }
-
       if (threadId) {
         dispatch(closeAlert());
         dispatch(retrieveMessageThread(threadId));
       }
     },
-    [dispatch, location, messageId, activeFolder, history, threadId],
+    [dispatch, threadId],
+  );
+
+  useEffect(
+    () => {
+      if (draftMessage?.messageId && message?.draftDate !== null) {
+        history.push(`/draft/${threadId}`);
+      }
+    },
+    [draftMessage, history, message, threadId],
   );
 
   useEffect(

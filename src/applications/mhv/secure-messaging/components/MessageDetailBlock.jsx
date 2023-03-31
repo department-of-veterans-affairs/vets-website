@@ -1,16 +1,19 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
+import { useDispatch } from 'react-redux';
 import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
 import PrintMessageThread from './PrintMessageThread';
 import { Categories } from '../util/constants';
 import { dateFormat } from '../util/helpers';
 import MessageThreadBody from './MessageThread/MessageThreadBody';
+import { closeAlert } from '../actions/alerts';
 
 const MessageDetailBlock = props => {
   const {
+    threadId,
     messageId,
     category,
     subject,
@@ -22,6 +25,8 @@ const MessageDetailBlock = props => {
   } = props.message;
 
   const history = useHistory();
+  const dispatch = useDispatch();
+  const location = useLocation();
   const sentReplyDate = format(new Date(sentDate), 'MM-dd-yyyy');
   const cannotReplyDate = addDays(new Date(sentReplyDate), 45);
   const [printThread, setPrintThread] = useState('dont-print-thread');
@@ -41,6 +46,17 @@ const MessageDetailBlock = props => {
       }
     },
     [cannotReplyDate, hideReplyButton, sentReplyDate, sentDate],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
   );
 
   const handlePrintThreadStyleClass = option => {
@@ -66,12 +82,22 @@ const MessageDetailBlock = props => {
       </header>
       <MessageActionButtons
         id={messageId}
+        threadId={threadId}
         handlePrintThreadStyleClass={handlePrintThreadStyleClass}
         onReply={handleReplyButton}
         hideReplyButton={hideReplyButton}
       />
-      <main className="message-detail-content">
-        <section className="message-metadata" aria-label="message details.">
+      <main
+        className="message-detail-content"
+        role="heading"
+        aria-level="2"
+        aria-label="Most recent message in this conversation"
+      >
+        <section
+          className="message-metadata"
+          data-testid="message-metadata"
+          aria-label="message details."
+        >
           <p>
             <strong>From: </strong>
             {senderName}

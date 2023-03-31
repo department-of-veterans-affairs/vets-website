@@ -54,7 +54,9 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
           Gender: <span className="gender">{genderLabels?.[gender] || ''}</span>
         </p>
       </div>
-      <br />
+
+      <br role="presentation" />
+
       <p>
         <strong>Note:</strong> If you need to update your personal information,
         you can call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />.

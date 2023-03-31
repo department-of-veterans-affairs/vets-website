@@ -221,6 +221,7 @@ export default class ClaimPhase extends React.Component {
           aria-expanded={open}
           onClick={handler.getDescriptionClick}
         >
+          {expandCollapseIcon}
           {titleText}
           {expandCollapseIcon}
         </button>

@@ -5,6 +5,7 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 export default class EducationWizard extends React.Component {
   constructor(props) {
     super(props);

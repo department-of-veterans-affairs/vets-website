@@ -39,8 +39,8 @@ export const WizardContainer = ({ setWizardStatus }) => {
         <h2>Is this the form I need?</h2>
         <p>
           Use this form if you disagree with our decision on your claim and want
-          a senior reviewer to review your case again. You can’t submit any new
-          evidence with a Higher-Level Review.
+          a higher-level reviewer to review your case again. You can’t submit
+          any new evidence with a Higher-Level Review.
         </p>
         <p>Answer a question to get started.</p>
         <Wizard

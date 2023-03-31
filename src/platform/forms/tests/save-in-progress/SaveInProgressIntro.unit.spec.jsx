@@ -241,7 +241,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.find('.usa-alert').text()).to.contain(
-      'Save time—and save your work in progress—by signing in before starting your application',
+      'We can fill in some of your information for you to save you time.',
     );
     expect(tree.find('.usa-button-primary').text()).to.contain(
       'Sign in to start your application',
