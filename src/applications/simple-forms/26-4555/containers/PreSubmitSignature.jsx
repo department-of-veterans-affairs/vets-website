@@ -20,6 +20,10 @@ const PreSubmitSignature = ({
     dirty: false,
   });
   const isDirty = signature.dirty;
+
+  const legalText =
+    'I certify that I am applying for assistance in acquiring specially adapted housing or special home adaptation grant because of the nature of my service-connected disability. I understand that there are medical and economic features yet to be considered before I am eligible for this benefit, and that I will be notified of the action taken on this application as soon as possible.';
+
   const setNewSignature = event => {
     setSignature({ value: event.target.value, dirty: true });
   };
@@ -103,14 +107,7 @@ const PreSubmitSignature = ({
       </p>
       <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--3 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--3">
         <h3>Statement of truth</h3>
-        <p id="certify-text">
-          I certify that I am applying for assistance in acquiring specially
-          adapted housing or special home adaptation grant because of the nature
-          of my service-connected disability. I understand that there are
-          medical and economic features yet to be considered before I am
-          eligible for this benefit, and that I will be notified of the action
-          taken on this application as soon as possible.
-        </p>
+        <p>{legalText}</p>
         <p>
           I have read and accept the{' '}
           <a
@@ -137,7 +134,7 @@ const PreSubmitSignature = ({
                   ''} ${last}`
               : ''
           }
-          ariaDescribedby="certify-text"
+          message-aria-describedby={`Statement of Truth: ${legalText}`}
         />
 
         <Checkbox

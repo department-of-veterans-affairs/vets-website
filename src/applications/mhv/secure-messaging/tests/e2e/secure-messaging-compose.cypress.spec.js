@@ -9,9 +9,7 @@ describe('Secure Messaging Compose', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.get('[data-testid="compose-message-link"]').click();
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     cy.get('[name="COVID"]').click();
     cy.get('[data-testid="attach-file-input"]').selectFile(
@@ -21,5 +19,7 @@ describe('Secure Messaging Compose', () => {
     composePage.getMessageSubjectField().type('Test Subject');
     composePage.getMessageBodyField().type('Test message body');
     composePage.sendMessage();
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });

@@ -10,9 +10,8 @@ describe('Secure Messaging Compose with No Provider', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadPageForNoProvider();
-    landingPage.loadComposeMessagePage();
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.get('[data-testid="compose-message-link"]').click();
+
     composePage.selectRecipient('');
     cy.get('[name="COVID"]').click();
     composePage.getMessageSubjectField().type('Test Subject');
@@ -30,5 +29,7 @@ describe('Secure Messaging Compose with No Provider', () => {
       .shadow()
       .find('[id="error-message"]')
       .should('contain', ' Please select a recipient.');
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });

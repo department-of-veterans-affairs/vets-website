@@ -1,80 +1,45 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-
-import PatientComposePage from './pages/PatientComposePage';
-import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json';
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 import mockThreadResponse from './fixtures/single-draft-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
+import PatientComposePage from './pages/PatientComposePage';
+import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 
 describe('Secure Messaging Draft AutoSave with Attachments', () => {
-  // const mockThreadResponse = { data: [] };
-
   it('Axe Check Draft AutoSave with Attachments', () => {
     const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
     const inboxPage = new PatientInboxPage();
-
+    const draftsPage = new PatientMessageDraftsPage();
     site.login();
     inboxPage.loadInboxMessages();
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/-2',
-      mockDraftFolderMetaResponse,
-    ).as('draftsFolderMetaResponse');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/-2/threads**',
-      mockDraftMessages,
-    ).as('draftsResponse');
-    cy.get('[data-testid="drafts-sidebar"]').click();
-    cy.injectAxe();
-    cy.axeCheck();
-    cy.wait('@draftsFolderMetaResponse');
-    cy.wait('@draftsResponse');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/messages/7208913',
-      mockDraftResponse,
-    ).as('draftMessageResponse');
-    cy.intercept(
-      'PUT',
-      '/my_health/v1/messaging/message_drafts/7208913',
-      mockDraftResponse,
-    ).as('saveDraftwithAttachment');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/messages/7208913/thread',
-      mockThreadResponse,
-    ).as('draftThreadResponse');
-
-    cy.contains('test').click();
-
-    cy.get('@draftsFolderMetaResponse')
-      .its('response')
-      .then(res => {
-        expect(res.headers).to.include({
-          'content-type': 'application/json',
-        });
-      });
-    inboxPage.interstitialStartMessage().click();
-    composePage
-      .getMessageSubjectField()
-      .type(' Draft Autosave with Attachments');
+    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
+    draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     composePage
       .getMessageBodyField()
       .type('Testing Autosave Drafts with Attachments');
+    cy.realPress(['Enter']);
     composePage.attachMessageFromFile('sample_docx.docx');
 
-    cy.wait('@saveDraftwithAttachment', { timeout: 55000 });
+    mockDraftResponse.data.attributes.body =
+      'ststASertTesting Autosave Drafts with Attachments\n';
+    cy.intercept(
+      'PUT',
+      `/my_health/v1/messaging/message_drafts/${
+        mockDraftResponse.data.attributes.messageId
+      }`,
+      mockDraftResponse,
+    ).as('saveDraftwithAttachment');
+    cy.wait('@saveDraftwithAttachment', { timeout: 8500 });
 
     cy.get('@saveDraftwithAttachment')
       .its('request.body')
       .should('deep.equal', {
-        recipientId: 6820911,
-        category: 'APPOINTMENTS',
-        subject: 'Appointment Inquiry Draft Autosave with Attachments',
-        body: 'Test Compose DraftTesting Autosave Drafts with Attachments',
+        body: 'ststASertTesting Autosave Drafts with Attachments\n',
+        category: mockDraftResponse.data.attributes.category,
+        recipientId: mockDraftResponse.data.attributes.recipientId,
+        subject: mockDraftResponse.data.attributes.subject,
       });
 
     cy.contains('Your message was saved');

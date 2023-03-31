@@ -66,8 +66,13 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
 
   return (
     <>
-      <h1>File a Supplemental Claim</h1>
-      <h2 className="vads-u-margin-y--0">Is this the form I need?</h2>
+      <h1 className="vads-u-margin-bottom--0">File a Supplemental Claim</h1>
+      <div className="schemaform-subtitle vads-u-font-size--lg">
+        VA Form 20-0995
+      </div>
+      <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+        Is this the form I need?
+      </h2>
       <p>
         Use this Supplemental Claim form (VA 20-0995) if you disagree with our
         decision on your claim and you meet at least 1 of these requirements:

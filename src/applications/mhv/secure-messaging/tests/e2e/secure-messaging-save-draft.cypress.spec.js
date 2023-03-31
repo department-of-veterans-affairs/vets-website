@@ -1,61 +1,27 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json';
+import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
-import mockThreadResponse from './fixtures/single-draft-response.json';
 
 describe('Secure Messaging Save Draft', () => {
   it('Axe Check Save Draft', () => {
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
+    const draftsPage = new PatientMessageDraftsPage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/-2',
-      mockDraftFolderMetaResponse,
-    ).as('draftsFolderMetaResponse');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/-2/threads**',
-      mockDraftMessages,
-    ).as('draftsResponse');
-    cy.get('[data-testid="drafts-sidebar"]').click();
+    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
+    draftsPage.loadMessageDetails(mockDraftResponse);
     cy.injectAxe();
     cy.axeCheck();
-    cy.wait('@draftsFolderMetaResponse');
-    cy.wait('@draftsResponse');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/messages/7208913',
-      mockDraftResponse,
-    ).as('draftMessageResponse');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/messages/7208913/thread',
-      mockThreadResponse,
-    ).as('draftThreadResponse');
-    cy.contains('test').click();
-    landingPage.interstitialStartMessage().click();
-    cy.wait('@draftThreadResponse');
-    cy.injectAxe();
-    cy.axeCheck();
-    composePage.getMessageSubjectField().type('message Test');
+    // composePage.getMessageSubjectField().type('message Test');
     composePage.getMessageBodyField().type('Test message body');
-    composePage.saveDraft(
-      7208913,
-      'APPOINTMENTS',
-      'Appointment Inquirymessage Test',
-      'Test Compose DraftTest message body',
-    );
-    composePage.sendDraft(
-      7208913,
-      'APPOINTMENTS',
-      'Appointment Inquirymessage Test',
-      'Test Compose DraftTest message body',
-    );
+    cy.realPress(['Enter']);
+    mockDraftResponse.data.attributes.body = 'ststASertTest message body\n';
+    composePage.saveDraft(mockDraftResponse);
+    composePage.sendDraft(mockDraftResponse);
   });
 });
