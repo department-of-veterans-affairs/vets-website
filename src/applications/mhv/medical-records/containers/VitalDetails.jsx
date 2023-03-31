@@ -18,7 +18,7 @@ const VitalDetails = () => {
   const name = user.first
     ? `${last}, ${first} ${middle}, ${suffix}`
     : 'Doe, John R., Jr.';
-  const dob = user.dob || '12/12/1980';
+  const { dob } = user;
   const { vitalType } = useParams();
   const dispatch = useDispatch();
 

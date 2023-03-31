@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import VitalDetails from '../../containers/VitalDetails';
+import App from '../../containers/App';
 import reducer from '../../reducers';
+import { user } from '../fixtures/user-reducer.json';
 
 describe('Vital details container', () => {
   const initialState = {
@@ -19,13 +20,14 @@ describe('Vital details container', () => {
         ],
       },
     },
+    user,
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<VitalDetails />, {
+    return renderWithStoreAndRouter(<App />, {
       initialState: state,
       reducers: reducer,
-      path: '/vital-details/Blood+Pressure',
+      path: '/vital-details/bloodpressure',
     });
   };
 
@@ -45,6 +47,7 @@ describe('Vital details container', () => {
 
   it('displays a print button', () => {
     const screen = setup();
+    screen.debug();
     const printButton = screen.getByTestId('print-records-button');
     expect(printButton).to.exist;
   });
