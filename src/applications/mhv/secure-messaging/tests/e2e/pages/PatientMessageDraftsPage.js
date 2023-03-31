@@ -58,7 +58,7 @@ class PatientMessageDraftsPage {
     return cy
       .get('[data-testid="message-body-field"]')
       .shadow()
-      .find('[name="message-body"]');
+      .find('[name="compose-message-body"]');
   };
 }
 export default PatientMessageDraftsPage;

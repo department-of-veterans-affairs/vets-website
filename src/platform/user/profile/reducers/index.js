@@ -10,6 +10,7 @@ import {
   FETCH_MHV_ACCOUNT_FAILURE,
   FETCH_MHV_ACCOUNT_SUCCESS,
   REMOVING_SAVED_FORM_SUCCESS,
+  PROFILE_ERROR,
 } from '../actions';
 
 const initialState = {
@@ -44,6 +45,7 @@ const initialState = {
   services: [],
   session: {},
   mhvTransitionEligible: false,
+  errors: false,
 };
 
 const updateMhvAccountState = (state, mhvAccount) =>
@@ -91,6 +93,9 @@ function profileInformation(state = initialState, action) {
       const forms = state.savedForms.filter(el => el.form !== action.formId);
       return set('savedForms', forms, state);
     }
+
+    case PROFILE_ERROR:
+      return set('errors', true, state);
 
     default:
       return state;

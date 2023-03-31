@@ -601,3 +601,11 @@ $medium-phone-screen: 375px;
     }
   }
 }
+
+@media print {
+  #mdFormButton{
+      &[aria-label="give feedback"]{
+          display: none;
+      }
+  }
+}
