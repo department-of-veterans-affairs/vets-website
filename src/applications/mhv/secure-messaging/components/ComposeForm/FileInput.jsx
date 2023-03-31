@@ -102,7 +102,11 @@ const FileInput = ({ attachments, setAttachments }) => {
   return (
     <div className="file-input vads-u-font-weight--bold vads-u-color--secondary-dark">
       {error && (
-        <span id="error-message" role="alert">
+        <span
+          id="error-message"
+          role="alert"
+          data-testid="file-input-error-message"
+        >
           <p>{error.title}</p>
           <p>{error.message}</p>
         </span>
