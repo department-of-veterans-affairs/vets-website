@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function CompleteDetails({ className }) {
   return (
@@ -16,3 +17,7 @@ export default function CompleteDetails({ className }) {
     </div>
   );
 }
+
+CompleteDetails.propTypes = {
+  className: PropTypes.string,
+};
