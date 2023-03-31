@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropType from 'prop-types';
 import { openCrisisModal } from '../util/helpers';
 
 const InterstitialPage = props => {
+  const { acknowledge, type } = props;
   const handleKeyPress = e => {
     if (e.key === 'Enter' || e.key === ' ') {
       // prevent from scrolling to the footer
       e.preventDefault();
-      props.acknowledge();
+      acknowledge();
     }
   };
+
+  const continueButtonText = useMemo(
+    () => {
+      switch (type) {
+        case 'reply':
+          return 'Continue to reply';
+        case 'draft':
+          return 'Continue to draft';
+        default:
+          return 'Continue to start message';
+      }
+    },
+    [type],
+  );
 
   return (
     <div className="interstitial-page">
@@ -55,7 +70,7 @@ const InterstitialPage = props => {
           onKeyPress={handleKeyPress}
           onClick={props.acknowledge}
         >
-          Continue to start message
+          {continueButtonText}
         </a>
       }
     </div>
@@ -64,6 +79,7 @@ const InterstitialPage = props => {
 
 InterstitialPage.propTypes = {
   acknowledge: PropType.func,
+  type: PropType.string,
 };
 
 export default InterstitialPage;

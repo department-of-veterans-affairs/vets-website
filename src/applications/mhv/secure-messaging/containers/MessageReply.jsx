@@ -64,6 +64,7 @@ const MessageReply = () => {
           acknowledge={() => {
             setAcknowledged(true);
           }}
+          type="reply"
         />
       ) : (
         <>

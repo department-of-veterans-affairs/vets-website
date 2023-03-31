@@ -320,7 +320,8 @@ const ReplyForm = props => {
                   className="fas fa-reply vads-u-margin-right--0p5"
                   aria-hidden="true"
                 />
-                {`(Draft) To: ${draftToEdit?.replyToName ||
+                <span className="vads-u-color--secondary-darkest">(Draft)</span>
+                {` To:${draftToEdit?.replyToName ||
                   replyMessage?.senderName}\n(Team: ${
                   replyMessage.triageGroupName
                 })`}

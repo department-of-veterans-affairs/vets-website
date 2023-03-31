@@ -285,8 +285,10 @@ class PatientInboxPage {
     cy.get('p').contains('Message thread was successfully moved');
   };
 
-  interstitialStartMessage = () => {
-    return cy.get('a').contains('Continue to start message');
+  interstitialStartMessage = type => {
+    return cy
+      .get('a')
+      .contains(`Continue to ${!type ? 'start message' : type} `);
   };
 
   loadComposeMessagePage = () => {

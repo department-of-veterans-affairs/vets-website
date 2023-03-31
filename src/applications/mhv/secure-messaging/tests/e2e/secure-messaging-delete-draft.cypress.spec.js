@@ -42,14 +42,12 @@ describe('Secure Messaging Delete Draft', () => {
     cy.axeCheck();
 
     cy.wait('@draftsFolderMetaResponse');
-    cy.wait('@draftsResponse');
 
     // cy.get(':nth-child(3) > .message-subject-link').click();
     cy.contains('Appointment:').click();
-    landingPage
-      .interstitialStartMessage()
-      .click({ waitforanimatinos: true, force: true });
+    cy.wait('@draftsResponse');
     cy.wait('@draftThreadResponse');
+    landingPage.interstitialStartMessage('draft').click();
 
     cy.get('[data-testid="delete-draft-button"]').click({ force: true });
 

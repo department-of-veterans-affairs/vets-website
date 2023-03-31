@@ -24,30 +24,25 @@ const Compose = () => {
   );
   const [replyMessage, setReplyMessage] = useState(undefined);
   const [acknowledged, setAcknowledged] = useState(false);
+  const [draftType, setDraftType] = useState('');
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
   const header = useRef();
 
-  useEffect(
-    () => {
-      // to prevent users from accessing draft edit view if directly hitting url path with messageId
-      // in case that message no longer is a draft
-      if (isDraftPage && draftMessage === undefined) {
-        dispatch(retrieveMessageThread(draftId));
-      }
-      if (location.pathname === '/compose') {
-        dispatch(clearDraft());
-        setReplyMessage(null);
-      }
+  useEffect(() => {
+    dispatch(getTriageTeams());
 
-      dispatch(getTriageTeams());
-      return () => {
-        dispatch(clearDraft());
-      };
-    },
-    [dispatch, location.pathname],
-  );
+    if (location.pathname === '/compose') {
+      dispatch(clearDraft());
+      setDraftType('compose');
+    } else {
+      dispatch(retrieveMessageThread(draftId));
+    }
+    return () => {
+      dispatch(clearDraft());
+    };
+  }, []);
 
   useEffect(
     () => {
@@ -71,8 +66,10 @@ const Compose = () => {
         if (messageHistory?.length > 0) {
           // TODO filter history to grab only received messages.
           setReplyMessage(messageHistory[0]);
+          setDraftType('reply');
         } else {
           setReplyMessage(null);
+          setDraftType('draft');
         }
       }
     },
@@ -170,18 +167,31 @@ const Compose = () => {
 
   return (
     <>
-      {!acknowledged ? (
+      {!draftType && (
+        <va-loading-indicator
+          message="Loading your secure message..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      )}
+
+      {draftType && !acknowledged ? (
         <InterstitialPage
           acknowledge={() => {
             setAcknowledged(true);
           }}
+          type={draftType}
         />
       ) : (
-        <div className="vads-l-grid-container compose-container">
-          <AlertBox />
+        <>
+          {draftType && (
+            <div className="vads-l-grid-container compose-container">
+              <AlertBox />
 
-          {content()}
-        </div>
+              {content()}
+            </div>
+          )}
+        </>
       )}
     </>
   );

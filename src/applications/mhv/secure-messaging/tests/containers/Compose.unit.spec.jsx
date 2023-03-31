@@ -12,6 +12,7 @@ import folders from '../fixtures/folder-inbox-response.json';
 import reducer from '../../reducers';
 import Compose from '../../containers/Compose';
 import { Alerts, Links } from '../../util/constants';
+import AuthorizedRoutes from '../../containers/AuthorizedRoutes';
 
 describe('Compose container', () => {
   const initialState = {
@@ -22,13 +23,11 @@ describe('Compose container', () => {
   };
 
   const setup = (state = initialState, path = '/compose') => {
-    const screen = renderWithStoreAndRouter(<Compose />, {
+    return renderWithStoreAndRouter(<AuthorizedRoutes />, {
       initialState: state,
       reducers: reducer,
       path,
     });
-    fireEvent.click(screen.getByText('Continue to start message'));
-    return screen;
   };
 
   it('renders without errors', () => {
@@ -69,13 +68,15 @@ describe('Compose container', () => {
   });
 
   it('dispays loading indicator if recipients are not yet loaded', async () => {
-    const screen = setup({
+    const screen = await setup({
       sm: {
         triageTeams: { triageTeams: undefined },
       },
     });
-
-    const loadingIndicator = await screen.getByTestId('loading-indicator');
+    waitFor(() => {
+      fireEvent.click(screen.getByText('Continue to start message'));
+    });
+    const loadingIndicator = screen.getByTestId('loading-indicator');
     expect(loadingIndicator).to.exist;
   });
 
@@ -103,9 +104,11 @@ describe('Compose container', () => {
     };
 
     const screen = setup(state);
-
-    const recipient = await screen.getByTestId('compose-recipient-select');
-    const categoryRadioButtons = await screen.getAllByTestId(
+    await waitFor(() => {
+      fireEvent.click(screen.getByText('Continue to start message'));
+    });
+    const recipient = screen.getByTestId('compose-recipient-select');
+    const categoryRadioButtons = screen.getAllByTestId(
       'compose-category-radio-button',
     );
 
@@ -175,9 +178,11 @@ describe('Compose container', () => {
     expect(deleteButton).to.exist;
   });
 
-  it('does not display recipients with preferredTeam:false attribute', () => {
+  it('does not display recipients with preferredTeam:false attribute', async () => {
     const screen = setup();
-
+    await waitFor(() => {
+      fireEvent.click(screen.getByText('Continue to start message'));
+    });
     const recipient = screen.getByTestId('compose-recipient-select');
 
     const recipientValues = Array.from(
@@ -212,40 +217,40 @@ describe('Compose container', () => {
     };
 
     const screen = setup(state, `/draft/7171715`);
-
     await waitFor(() => {
-      expect(
-        screen.getByText(`${draftMessage.category}: ${draftMessage.subject}`, {
-          exact: true,
-          selector: 'h1',
-        }),
-      ).to.exist;
-    }).then(() => {
-      expect(screen.getByTestId('reply-form')).to.exist;
-      const repliedMessage = screen.getByTestId('message-replied-to');
-      expect(repliedMessage.textContent).to.contain(
-        `From: ${draftMessageHistory[0].senderName}`,
-      );
-      expect(repliedMessage.textContent).to.contain(
-        `To: ${draftMessageHistory[0].recipientName}`,
-      );
-      expect(repliedMessage.textContent).to.contain(
-        `Message ID: ${draftMessageHistory[0].messageId}`,
-      );
-      expect(repliedMessage.textContent).to.contain(
-        `${draftMessageHistory[0].body}`,
-      );
-      expect(
-        screen.getByText('Messages in this conversation', {
-          exact: true,
-          selector: 'h2',
-        }),
-      ).to.exist;
-
-      expect(screen.queryByText('Edit draft', { exact: true, selector: 'h1' }))
-        .not.to.exist;
-      expect(screen.queryByTestId('compose-form-header')).not.to.exist;
+      fireEvent.click(screen.getByText('Continue to reply'));
     });
+
+    expect(
+      screen.getByText(`${draftMessage.category}: ${draftMessage.subject}`, {
+        exact: true,
+        selector: 'h1',
+      }),
+    ).to.exist;
+    expect(screen.getByTestId('reply-form')).to.exist;
+    const repliedMessage = screen.getByTestId('message-replied-to');
+    expect(repliedMessage.textContent).to.contain(
+      `From: ${draftMessageHistory[0].senderName}`,
+    );
+    expect(repliedMessage.textContent).to.contain(
+      `To: ${draftMessageHistory[0].recipientName}`,
+    );
+    expect(repliedMessage.textContent).to.contain(
+      `Message ID: ${draftMessageHistory[0].messageId}`,
+    );
+    expect(repliedMessage.textContent).to.contain(
+      `${draftMessageHistory[0].body}`,
+    );
+    expect(
+      screen.getByText('Messages in this conversation', {
+        exact: true,
+        selector: 'h2',
+      }),
+    ).to.exist;
+
+    expect(screen.queryByText('Edit draft', { exact: true, selector: 'h1' }))
+      .not.to.exist;
+    expect(screen.queryByTestId('compose-form-header')).not.to.exist;
   });
 
   it('Reply draft on a replied to message is older than 45 days', async () => {
@@ -386,32 +391,34 @@ describe('Compose container', () => {
 
     const screen = setup(state, `/draft/7171715`);
     await waitFor(() => {
-      expect(
-        screen.getByText(`${draftMessage.category}: ${draftMessage.subject}`, {
-          exact: true,
-          selector: 'h1',
-        }),
-      ).to.exist;
-    }).then(() => {
-      expect(screen.getByTestId('reply-form')).to.exist;
-      expect(screen.getByTestId('Send-Button')).to.exist;
-      expect(
-        screen.queryByText(Alerts.Message.CANNOT_REPLY_INFO_HEADER, {
-          exact: true,
-          selector: 'h2',
-        }),
-      ).not.to.exist;
-      expect(
-        screen.queryByText(Alerts.Message.CANNOT_REPLY_BODY, {
-          exact: true,
-        }),
-      ).not.to.exist;
-      expect(
-        screen.queryByText(Links.Link.CANNOT_REPLY.TITLE, {
-          exact: true,
-          selector: 'a',
-        }),
-      ).not.to.exist;
+      fireEvent.click(screen.getByText('Continue to reply'));
     });
+
+    expect(
+      screen.getByText(`${draftMessage.category}: ${draftMessage.subject}`, {
+        exact: true,
+        selector: 'h1',
+      }),
+    ).to.exist;
+
+    expect(screen.getByTestId('reply-form')).to.exist;
+    expect(screen.getByTestId('Send-Button')).to.exist;
+    expect(
+      screen.queryByText(Alerts.Message.CANNOT_REPLY_INFO_HEADER, {
+        exact: true,
+        selector: 'h2',
+      }),
+    ).not.to.exist;
+    expect(
+      screen.queryByText(Alerts.Message.CANNOT_REPLY_BODY, {
+        exact: true,
+      }),
+    ).not.to.exist;
+    expect(
+      screen.queryByText(Links.Link.CANNOT_REPLY.TITLE, {
+        exact: true,
+        selector: 'a',
+      }),
+    ).not.to.exist;
   });
 });
