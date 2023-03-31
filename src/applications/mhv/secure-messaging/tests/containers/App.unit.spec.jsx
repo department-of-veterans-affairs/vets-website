@@ -82,9 +82,7 @@ describe('App', () => {
       reducers: reducer,
       path: `/`,
     });
-    expect(
-      screen.getByText('Secure Messages', { selector: 'h1', exact: true }),
-    );
+    expect(screen.getByText('Messages', { selector: 'h1', exact: true }));
     expect(
       screen.getByText(
         'Communicate privately and securely with your VA health care team online.',

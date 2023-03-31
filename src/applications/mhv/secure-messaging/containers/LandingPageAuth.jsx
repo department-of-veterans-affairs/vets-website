@@ -57,7 +57,7 @@ const LandingPageAuth = () => {
 
   return (
     <div className="dashboard">
-      <h1>Secure Messages</h1>
+      <h1>Messages</h1>
       <p className="va-introtext">
         Communicate privately and securely with your VA health care team online.
       </p>
