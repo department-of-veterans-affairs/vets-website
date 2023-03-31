@@ -102,10 +102,10 @@ const FileInput = ({ attachments, setAttachments }) => {
   return (
     <div className="file-input vads-u-font-weight--bold vads-u-color--secondary-dark">
       {error && (
-        <span id="error-message" role="alert">
+        <label htmlFor="attachments" id="error-message" role="alert">
           <p>{error.title}</p>
           <p>{error.message}</p>
-        </span>
+        </label>
       )}
 
       {attachments?.length < Attachments.MAX_FILE_COUNT && (
