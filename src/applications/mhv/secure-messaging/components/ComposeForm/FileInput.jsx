@@ -25,9 +25,7 @@ const FileInput = ({ attachments, setAttachments }) => {
 
     if (selectedFile.size === 0) {
       setError({
-        title: 'File is empty.',
-        message:
-          'The file you are attempting to attach is empty. Please select a non-empty file.',
+        message: 'Your file is empty. Try attaching a different file.',
       });
       fileInputRef.current.value = null;
       return;
@@ -35,7 +33,6 @@ const FileInput = ({ attachments, setAttachments }) => {
 
     if (!fileExtension || !acceptedFileTypes[fileExtension.toLowerCase()]) {
       setError({
-        title: '',
         message: `We can't attach this file type. Try attaching a DOC, JPG, PDF, PNG, RTF, TXT, or XLS.`,
       });
       fileInputRef.current.value = null;
@@ -48,7 +45,6 @@ const FileInput = ({ attachments, setAttachments }) => {
       ).length > 0
     ) {
       setError({
-        title: 'File already attached.',
         message: 'You have already attached this file.',
       });
       fileInputRef.current.value = null;
@@ -58,7 +54,6 @@ const FileInput = ({ attachments, setAttachments }) => {
     if (attachments.length === 4) {
       setError('You have already attached the maximum number of files.');
       setError({
-        title: 'Maximum number of files exceeded.',
         message: 'You may only attach up to 4 files.',
       });
       fileInputRef.current.value = null;
@@ -67,8 +62,8 @@ const FileInput = ({ attachments, setAttachments }) => {
 
     if (selectedFile.size > Attachments.MAX_FILE_SIZE) {
       setError({
-        title: 'File is too large.',
-        message: 'File size for a single attachment cannot exceed 6MB.',
+        message:
+          'Your file is too large. Try attaching a file smaller than 6MB.',
       });
       fileInputRef.current.value = null;
       return;
@@ -79,8 +74,8 @@ const FileInput = ({ attachments, setAttachments }) => {
       Attachments.TOTAL_MAX_FILE_SIZE
     ) {
       setError({
-        title: 'Total size of files is too large.',
-        message: 'The total size of all attachments cannot exceed 10MB.',
+        message:
+          'Your files are too large. The total size of all files must be smaller than 10MB.',
       });
       fileInputRef.current.value = null;
       return;
@@ -102,8 +97,12 @@ const FileInput = ({ attachments, setAttachments }) => {
   return (
     <div className="file-input vads-u-font-weight--bold vads-u-color--secondary-dark">
       {error && (
-        <label htmlFor="attachments" id="error-message" role="alert">
-          <p>{error.title}</p>
+        <label
+          htmlFor="attachments"
+          id="error-message"
+          role="alert"
+          data-testid="file-input-error-message"
+        >
           <p>{error.message}</p>
         </label>
       )}
