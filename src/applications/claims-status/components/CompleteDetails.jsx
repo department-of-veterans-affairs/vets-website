@@ -4,9 +4,8 @@ export default function CompleteDetails({ className }) {
   return (
     <div className={className}>
       <p>
-        A decision packet has been mailed to you. Typically, decision notices
-        are received within 10 days, but this is dependent upon U.S. Postal
-        Service timeframes.
+        We mailed you a decision letter. It should arrive within 10 days after
+        the date we decided your claim. It can sometimes take longer.
       </p>
       <h5 className="vads-u-font-size--h4">Payments</h5>
       <p>
