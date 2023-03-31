@@ -6,13 +6,11 @@ import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { dateFormat } from '../util/helpers';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { getVitalsList } from '../actions/vitals';
+import { getVitalDetails } from '../actions/vitals';
 
 const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = () => {
-  const vitals = useSelector(state => state.mr.vitals.vitalsList);
-  const [filteredVitals, setFilteredVitals] = useState(null);
-  const [totalEntries, setTotalEntries] = useState(0);
+  const filteredVitals = useSelector(state => state.mr.vitals.vitalDetails);
   const user = useSelector(state => state.user.profile);
   const { first, last, middle, suffix } = user.userFullName;
   const name = user.first
@@ -77,21 +75,11 @@ const VitalDetails = () => {
 
   useEffect(
     () => {
-      dispatch(getVitalsList());
-      setTotalEntries(filteredVitals?.length);
+      if (vitalType) {
+        dispatch(getVitalDetails(vitalType));
+      }
     },
-    [vitals],
-  );
-
-  useEffect(
-    () => {
-      setFilteredVitals(
-        vitals?.filter(
-          vital => vital.name.toLowerCase().replace(/\s+/g, '') === vitalType,
-        ),
-      );
-    },
-    [vitals, vitalType],
+    [vitalType],
   );
 
   const content = () => {
@@ -123,7 +111,7 @@ const VitalDetails = () => {
           <div className="vads-u-padding-y--1 vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
             Displaying {displayNums[0]}
             &#8211;
-            {displayNums[1]} of {totalEntries} vitals
+            {displayNums[1]} of {filteredVitals.length} vitals
           </div>
           <ul className="vital-details no-print">
             {currentVitals?.length > 0 &&

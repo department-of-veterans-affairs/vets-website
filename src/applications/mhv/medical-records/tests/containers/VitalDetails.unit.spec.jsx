@@ -1,17 +1,17 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import App from '../../containers/App';
 import reducer from '../../reducers';
 import { user } from '../fixtures/user-reducer.json';
+import VitalDetails from '../../containers/VitalDetails';
 
 describe('Vital details container', () => {
   const initialState = {
     mr: {
       vitals: {
-        vitalsList: [
+        vitalDetails: [
           {
-            name: 'Blood Pressure',
+            name: 'Blood pressure',
             id: '155',
             measurement: '120/80 mm[Hg]',
             date: '2022-06-14T17:42:46.000Z',
@@ -24,7 +24,7 @@ describe('Vital details container', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<App />, {
+    return renderWithStoreAndRouter(<VitalDetails />, {
       initialState: state,
       reducers: reducer,
       path: '/vital-details/bloodpressure',
@@ -47,7 +47,6 @@ describe('Vital details container', () => {
 
   it('displays a print button', () => {
     const screen = setup();
-    screen.debug();
     const printButton = screen.getByTestId('print-records-button');
     expect(printButton).to.exist;
   });
@@ -56,7 +55,7 @@ describe('Vital details container', () => {
     const screen = setup();
 
     const vitalName = screen.getByText(
-      initialState.mr.vitals.vitalsList[0].name,
+      initialState.mr.vitals.vitalDetails[0].name,
       {
         exact: true,
         selector: 'h1',
@@ -67,7 +66,7 @@ describe('Vital details container', () => {
 
   it('displays the formatted received date', () => {
     const screen = setup();
-    const formattedDate = screen.getByText('June 14, 2022', {
+    const formattedDate = screen.getAllByText('June 14, 2022', {
       exact: true,
       selector: 'p',
     });
@@ -76,8 +75,8 @@ describe('Vital details container', () => {
 
   it('displays the location', () => {
     const screen = setup();
-    const location = screen.getByText(
-      initialState.mr.vitals.vitalsList[0].facility,
+    const location = screen.getAllByText(
+      initialState.mr.vitals.vitalDetails[0].facility,
       {
         exact: true,
         selector: 'p',

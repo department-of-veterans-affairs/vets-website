@@ -5,7 +5,7 @@ import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
 import vitals from '../fixtures/vitals.json';
 
-describe('Vaccine list item component', () => {
+describe('Vital list item component', () => {
   const initialState = {
     mr: {
       vitals: {
@@ -28,12 +28,12 @@ describe('Vaccine list item component', () => {
 
   it('renders without errors', () => {
     const screen = setup();
-    expect(screen.getByText('Blood Pressure', { exact: true })).to.exist;
+    expect(screen.getByText('Blood pressure', { exact: true })).to.exist;
   });
 
   it('should contain the name and date of the record', () => {
     const screen = setup();
-    const recordName = screen.getByText('Blood Pressure', { exact: true });
+    const recordName = screen.getByText('Blood pressure', { exact: true });
     const recordDate = screen.getByText('June', { exact: false });
     expect(recordName).to.exist;
     expect(recordDate).to.exist;
@@ -42,7 +42,7 @@ describe('Vaccine list item component', () => {
   it('should contain a link to view record details', () => {
     const screen = setup();
     const recordDetailsLink = screen.getByRole('link', {
-      name: 'View Blood Pressure over time',
+      name: 'View Blood pressure over time',
     });
     expect(recordDetailsLink).to.exist;
   });

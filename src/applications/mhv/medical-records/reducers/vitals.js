@@ -17,7 +17,10 @@ export const vitalReducer = (state = initialState, action) => {
     case Actions.Vitals.GET: {
       return {
         ...state,
-        vitalDetails: action.response,
+        vitalDetails: state.vitalsList.filter(
+          vital =>
+            vital.name.toLowerCase().replace(/\s+/g, '') === action.vitalType,
+        ),
       };
     }
     case Actions.Vitals.GET_LIST: {
