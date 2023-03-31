@@ -21,7 +21,7 @@ export const content = {
   remove: 'Remove',
   update: 'Update page',
 
-  summaryTitle: 'Confirm or edit your evidence',
+  summaryTitle: 'Review the evidence you’re submitting',
 
   vaTitle: 'We’re requesting records from these VA locations:',
 
@@ -49,14 +49,14 @@ export const content = {
   missingEvidenceText: (
     <>
       <p>
-        If you have a presumptive condition, you don’t need to submit new
-        evidence with your claim. You can continue through this form.
-      </p>
-      <p>
         If you’re filing a claim based on new evidence, we encourage you to
         submit the evidence with your claim. But if you don’t have the evidence
         now, you can still file your claim. We’ll work with you to get the
         evidence.
+      </p>
+      <p>
+        <strong>Note:</strong> If you have a presumptive condition, you don’t
+        need to submit evidence to prove a service connection.
       </p>
     </>
   ),
