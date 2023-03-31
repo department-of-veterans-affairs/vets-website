@@ -176,6 +176,7 @@ const Dashboard = ({
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}
       user={props.user}
+      showProfileErrorMessage={shouldShowV2Dashboard}
     >
       <DowntimeNotification
         appTitle="user dashboard"

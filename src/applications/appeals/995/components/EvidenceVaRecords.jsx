@@ -231,7 +231,7 @@ const EvidenceVaRecords = ({
       // a new empty entry
       if (isEmptyVaEntry(currentData)) {
         updateCurrentLocation({ remove: true });
-      } else if (hasErrors() && addOrEdit === 'edit') {
+      } else if (hasErrors()) {
         updateState({
           submitted: true,
           modal: { show: true, direction: NAV_PATHS.back },
