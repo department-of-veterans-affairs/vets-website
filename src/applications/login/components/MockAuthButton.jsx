@@ -25,12 +25,10 @@ export default function MockAuthButton() {
           errorMessage={mockLoginError}
           value={{ value: authType }}
           onValueChange={({ value }) => setAuthType(value)}
-          options={Object.values(SERVICE_PROVIDERS)
-            .filter(provider => provider.policy !== CSP_IDS.VAMOCK)
-            .map(provider => ({
-              label: provider.label,
-              value: provider.policy,
-            }))}
+          options={Object.values(SERVICE_PROVIDERS).map(provider => ({
+            label: provider.label,
+            value: provider.policy,
+          }))}
         />
       )}
       <button
