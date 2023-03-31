@@ -111,7 +111,7 @@ class Introduction {
   validateAppointmentType = type => {
     if (type === 'phone') {
       cy.get('[data-testid="appointment-type-label"]').each(item => {
-        expect(Cypress.$(item).text()).to.eq('Phone Call');
+        expect(Cypress.$(item).text()).to.eq('Phone');
       });
       cy.get('[data-testid="appointment-message"]').each(item => {
         expect(Cypress.$(item).text()).to.eq('Your provider will call you.');
