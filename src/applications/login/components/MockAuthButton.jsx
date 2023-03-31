@@ -10,24 +10,27 @@ import { Select } from '@department-of-veterans-affairs/component-library';
 
 export default function MockAuthButton() {
   const [authType, setAuthType] = useState(CSP_IDS.LOGIN_GOV);
+  const [mockLoginError, setMockLoginError] = useState('');
   const processTypeUndefined = typeof process === 'undefined';
   const environ = !processTypeUndefined
     ? process.env.BUILDTYPE
     : environment.BUILDTYPE;
-  return environ === environments.LOCALHOST ||
-    environ === environments.VAGOVDEV ? (
+  return [environments.LOCALHOST, environments.VAGOVDEV].includes(environ) ? (
     <>
       {processTypeUndefined && (
         <Select
-          label="Authentication Type"
+          label="Credential Service Provider"
           name="authType"
           includeBlankOption={false}
+          errorMessage={mockLoginError}
           value={{ value: authType }}
           onValueChange={({ value }) => setAuthType(value)}
-          options={Object.values(SERVICE_PROVIDERS).map(provider => ({
-            label: provider.label,
-            value: provider.policy,
-          }))}
+          options={Object.values(SERVICE_PROVIDERS)
+            .filter(provider => provider.policy !== CSP_IDS.VAMOCK)
+            .map(provider => ({
+              label: provider.label,
+              value: provider.policy,
+            }))}
         />
       )}
       <button
@@ -35,13 +38,15 @@ export default function MockAuthButton() {
         aria-label="Mock Authentication"
         className="usa-button mauth-button vads-u-margin-y--1p5 vads-u-padding-y--2"
         onClick={async () => {
-          await mockLogin({}, authType);
+          try {
+            await mockLogin({ type: authType });
+          } catch (error) {
+            setMockLoginError(error.toString());
+          }
         }}
       >
         Mock Authentication
       </button>
     </>
-  ) : (
-    <></>
-  );
+  ) : null;
 }

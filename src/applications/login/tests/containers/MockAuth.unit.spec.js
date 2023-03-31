@@ -72,8 +72,9 @@ describe('MockAuthButton', () => {
       const tree = SkinDeep.shallowRender(<MockAuthButton />);
       const button = tree.subTree('.mauth-button');
       if (
-        currentEnvironment === environments.LOCALHOST ||
-        currentEnvironment === environments.VAGOVDEV
+        [environments.LOCALHOST, environments.VAGOVDEV].includes(
+          currentEnvironment,
+        )
       ) {
         const correctLink =
           '/v0/sign_in/authorize?type=logingov&client_id=vamock';
