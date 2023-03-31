@@ -8,6 +8,7 @@ import {
   // focusRadioH3,
   focusAlertH3,
   focusIssue,
+  focusEvidence,
   focusUploads,
 } from '../../utils/focus';
 import { LAST_SC_ITEM } from '../../constants';
@@ -107,6 +108,35 @@ describe('focusIssue', () => {
     await focusIssue(0, container);
     await waitFor(() => {
       const target = $('#issue-1 .edit-issue-link', container);
+      expect(document.activeElement).to.eq(target);
+    });
+  });
+});
+
+describe('focusEvidence', () => {
+  const renderPage = hasError =>
+    render(
+      <div id="main">
+        <h3>Title</h3>
+        {hasError ? <div error="true" /> : <div />}
+      </div>,
+    );
+
+  it('should focus on header', async () => {
+    const { container } = await renderPage();
+
+    await focusEvidence(null, container);
+    await waitFor(() => {
+      const target = $('h3', container);
+      expect(document.activeElement).to.eq(target);
+    });
+  });
+  it('should focus on error', async () => {
+    const { container } = await renderPage(true);
+
+    await focusEvidence(null, container);
+    await waitFor(() => {
+      const target = $('[error]', container);
       expect(document.activeElement).to.eq(target);
     });
   });
