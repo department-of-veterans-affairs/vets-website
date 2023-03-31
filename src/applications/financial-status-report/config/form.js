@@ -828,6 +828,7 @@ const formConfig = {
           title: 'Credit card bills',
           uiSchema: pages.creditCardBills.uiSchema,
           schema: pages.creditCardBills.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
         },
         addEditCreditCardBills: {
           path: 'your-credit-card-bills',
