@@ -7,7 +7,13 @@ import * as personId from 'platform/forms/definitions/personId';
 
 import { relationshipLabels, genderLabels } from 'platform/static-data/labels';
 
-import { ageWarning, eighteenOrOver } from '../helpers';
+import environment from 'platform/utilities/environment';
+
+import {
+  ageWarning,
+  eighteenOrOver,
+  relationshipAndChildTypeLabels,
+} from '../helpers';
 
 const defaults = prefix => ({
   fields: [
@@ -18,8 +24,9 @@ const defaults = prefix => ({
     'view:ageWarningNotification',
     'gender',
     'relationship',
+    'relationshipAndChildType',
   ],
-  required: [`${prefix}FullName`, `${prefix}DateOfBirth`, 'relationship'],
+  required: [`${prefix}FullName`, `${prefix}DateOfBirth`],
   labels: {},
   isVeteran: false,
 });
@@ -84,7 +91,19 @@ export default function applicantInformationUpdate(schema, options) {
           'What’s your relationship to the service member whose benefit is being transferred to you?',
         'ui:options': {
           labels: labels.relationship || relationshipLabels,
+          hideIf: () => !environment.isProduction(),
         },
+        'ui:required': () => environment.isProduction(),
+      },
+      relationshipAndChildType: {
+        'ui:widget': 'radio',
+        'ui:title':
+          'What’s your relationship to the service member whose benefit is being transferred to you?',
+        'ui:options': {
+          labels: relationshipAndChildTypeLabels,
+          hideIf: () => environment.isProduction(),
+        },
+        'ui:required': () => !environment.isProduction(),
       },
       ...personId.uiSchema(prefix, 'view:noSSN'),
     },
@@ -93,6 +112,7 @@ export default function applicantInformationUpdate(schema, options) {
       definitions: pick(schema.definitions, [
         'fullName',
         'relationship',
+        'relationshipAndChildType',
         'ssn',
         'gender',
         'date',

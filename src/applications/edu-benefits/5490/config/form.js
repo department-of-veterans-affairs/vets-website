@@ -26,6 +26,7 @@ import {
   benefitsDisclaimerChild,
   benefitsDisclaimerSpouse,
   relationshipLabels,
+  relationshipAndChildTypeLabels,
   highSchoolStatusLabels,
   transform,
 } from '../helpers';
@@ -83,11 +84,21 @@ const {
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
 
+const prodOrPreProdRelationship = (myGet, formData) => {
+  if (environment.isProduction()) {
+    return myGet('relationship', formData) === 'spouse';
+  }
+  return myGet('relationshipAndChildType', formData) === 'spouse';
+};
+
 const removeAdditionalBenefit = () => {
   if (environment.isProduction()) {
     return {
       applicantInformation: applicantInformationUpdate(fullSchema5490, {
-        labels: { relationship: relationshipLabels },
+        labels: {
+          relationship: relationshipLabels,
+          relationshipAndChildType: relationshipAndChildTypeLabels,
+        },
       }),
       additionalBenefits: additionalBenefitsPage(fullSchema5490, {
         fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource'],
@@ -98,7 +109,10 @@ const removeAdditionalBenefit = () => {
 
   return {
     applicantInformation: applicantInformationUpdate(fullSchema5490, {
-      labels: { relationship: relationshipLabels },
+      labels: {
+        relationship: relationshipLabels,
+        relationshipAndChildType: relationshipAndChildTypeLabels,
+      },
     }),
     applicantService: applicantServicePage(fullSchema5490),
   };
@@ -426,11 +440,11 @@ const formConfig = {
                 'ui:title': 'Date of marriage',
                 'ui:options': {
                   hideIf: formData =>
-                    get('relationship', formData) === 'spouse' &&
+                    prodOrPreProdRelationship(get, formData) &&
                     environment.isProduction(),
                 },
                 'ui:required': formData =>
-                  get('relationship', formData) === 'spouse' &&
+                  prodOrPreProdRelationship(get, formData) &&
                   !environment.isProduction(),
               },
               divorcePending: {
@@ -438,7 +452,7 @@ const formConfig = {
                   'Is there a divorce or annulment pending with your sponsor?',
                 'ui:widget': 'yesNo',
                 'ui:required': formData =>
-                  get('relationship', formData) === 'spouse',
+                  prodOrPreProdRelationship(get, formData),
               },
               remarried: {
                 'ui:title':
@@ -523,7 +537,7 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   get('benefit', formData) === 'chapter33' &&
-                  get('relationship', formData) === 'spouse',
+                  prodOrPreProdRelationship(get, formData),
               },
             },
             sponsorStatus: {

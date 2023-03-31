@@ -34,7 +34,7 @@ describe('Edu 5490 sponsorInformation', () => {
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        data={{ relationship: 'spouse', benefit: 'chapter33' }}
+        data={{ relationshipAndChildType: 'spouse', benefit: 'chapter33' }}
         uiSchema={uiSchema}
       />,
     );

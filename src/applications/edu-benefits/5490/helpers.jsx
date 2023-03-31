@@ -44,6 +44,28 @@ export const relationshipLabels = {
   ),
 };
 
+export const relationshipAndChildTypeLabels = {
+  step: 'Step Child',
+  biological: 'Biological Child',
+  adopted: 'Adopted Child',
+  spouse: (
+    <p>
+      Spouse or surviving spouse
+      <>
+        <br />
+        <a
+          aria-label="Learn more about VA requirements for marriage certification"
+          rel="noopener noreferrer"
+          target="_blank"
+          href="http://www.va.gov/opa/marriage/"
+        >
+          Learn more
+        </a>
+      </>
+    </p>
+  ),
+};
+
 export const highSchoolStatusLabels = {
   graduated: 'Graduated from high school',
   graduationExpected: 'Expect to graduate from high school',

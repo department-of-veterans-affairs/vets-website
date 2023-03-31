@@ -8,7 +8,7 @@ import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../5490/config/form';
+import formConfig from '../../config/form';
 
 describe('Edu 5490 benefitSelection', () => {
   const {
@@ -19,7 +19,7 @@ describe('Edu 5490 benefitSelection', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        data={{ relationship: 'spouse' }}
+        data={{ relationshipAndChildType: 'spouse' }}
         uiSchema={uiSchema}
       />,
     );
