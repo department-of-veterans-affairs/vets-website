@@ -23,6 +23,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
+import { handleHeader } from '../../util/helpers';
 import MessageListItem from './MessageListItem';
 
 const DESCENDING = 'desc';
@@ -131,7 +132,17 @@ const MessageList = props => {
   const displayNums = fromToNums(currentPage, messages?.length);
 
   return (
-    <div className="message-list vads-l-row vads-u-flex-direction--column">
+    <div
+      className="message-list vads-l-row vads-u-flex-direction--column"
+      role="heading"
+      aria-level="2"
+      aria-label={`Conversations in your ${handleHeader(
+        folder.folderId,
+        folder,
+      )}, ${displayNums[0]} - ${
+        displayNums[1]
+      } of ${totalEntries} conversations`}
+    >
       <div className="message-list-sort">
         <VaSelect
           id="sort-order-dropdown"

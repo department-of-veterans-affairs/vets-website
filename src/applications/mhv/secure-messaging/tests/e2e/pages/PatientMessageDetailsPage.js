@@ -80,7 +80,14 @@ class PatientMessageDetailsPage {
       this.currentThread,
     ).as('full-thread');
 
-    cy.contains(mockParentMessageDetails.data.attributes.subject).click();
+    /*
+    cy.contains(
+      `${mockParentMessageDetails.data.attributes.category}: ${
+        mockParentMessageDetails.data.attributes.subject
+      }`,
+    ).click();
+    */
+    cy.contains(`${mockParentMessageDetails.data.attributes.subject}`).click();
     cy.wait('@message1');
   };
 
@@ -313,7 +320,9 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `(Draft) To: ${messageDetails.data.attributes.recipientName}`,
+        `(Draft) To: ${messageDetails.data.attributes.senderName}\n(Team: ${
+          messageDetails.data.attributes.triageGroupName
+        })`,
       );
   };
 

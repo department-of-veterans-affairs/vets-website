@@ -46,8 +46,6 @@ const CheckInConfirmation = props => {
   const {
     travelPayEligible,
     travelPayClaimError,
-    travelPayClaimErrorCode,
-    travelPayClaimData,
     travelPayClaimRequested,
     travelPayClaimSent,
   } = useSendTravelPayClaim(appointment);
@@ -100,6 +98,12 @@ const CheckInConfirmation = props => {
     [checkInDataError, updateError],
   );
 
+  let pageTitle = t('youre-checked-in');
+
+  if (doTravelPay && (!travelPayEligible || travelPayClaimError)) {
+    pageTitle += ` ${t('we-couldnt-file-reimbursement')}`;
+  }
+
   const renderLoadingMessage = () => {
     return (
       <div>
@@ -113,10 +117,7 @@ const CheckInConfirmation = props => {
 
   const renderConfirmationMessage = () => {
     return (
-      <Wrapper
-        pageTitle={t('youre-checked-in')}
-        testID="multiple-appointments-confirm"
-      >
+      <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
         <p className="vads-u-font-family--serif">{t('your-appointment')}</p>
         <ol
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
@@ -150,9 +151,7 @@ const CheckInConfirmation = props => {
         {doTravelPay && (
           <TravelPayAlert
             travelPayEligible={travelPayEligible}
-            travelPayClaimData={travelPayClaimData}
             travelPayClaimError={travelPayClaimError}
-            travelPayClaimErrorCode={travelPayClaimErrorCode}
           />
         )}
 

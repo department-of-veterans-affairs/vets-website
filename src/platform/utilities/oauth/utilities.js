@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -96,12 +97,11 @@ export async function createOAuthRequest({
   acr,
 }) {
   const isDefaultOAuth =
-    !application ||
-    [CLIENT_IDS.WEB, CLIENT_IDS.VAWEB, CLIENT_IDS.VAMOCK].includes(clientId);
+    !application || [CLIENT_IDS.VAWEB, CLIENT_IDS.VAMOCK].includes(clientId);
   const isMobileOAuth =
     [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE, EXTERNAL_APPS.VA_OCC_MOBILE].includes(
       application,
-    ) || [CLIENT_IDS.MOBILE, CLIENT_IDS.VAMOBILE].includes(clientId);
+    ) || [CLIENT_IDS.VAMOBILE].includes(clientId);
   const { oAuthOptions } =
     config ??
     (externalApplicationsConfig[application] ||
@@ -124,11 +124,10 @@ export async function createOAuthRequest({
       ? passedQueryParams
       : await pkceChallengeFromVerifier(codeVerifier);
 
+  const usedClientId = clientId || oAuthOptions.clientId;
   // Build the authorization URL query params from config
   const oAuthParams = {
-    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(
-      clientId || oAuthOptions.clientId,
-    ),
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(usedClientId),
     [OAUTH_KEYS.ACR]:
       acr ||
       (passedOptions.isSignup
@@ -149,6 +148,7 @@ export async function createOAuthRequest({
     url.searchParams.append(param, oAuthParams[param]),
   );
 
+  sessionStorage.setItem('ci', usedClientId);
   recordEvent({ event: `login-attempted-${type}-oauth-${clientId}` });
 
   return url.toString();
@@ -230,19 +230,16 @@ export const infoTokenExists = () => {
 };
 
 export const formatInfoCookie = cookieStringRaw => {
-  const decoded = cookieStringRaw.includes('%')
-    ? decodeURIComponent(cookieStringRaw)
-    : cookieStringRaw;
-  return decoded.split(',+:').reduce((obj, cookieString) => {
-    const [key, value] = cookieString.replace(/{:|}/g, '').split('=>');
-    const formattedValue = value
-      .replaceAll('++00:00', '')
-      .replaceAll('+', ' ')
-      .replace(',', '')
-      .replace(/\.\d+/g, '');
+  const parsedCookie = JSON.parse(cookieStringRaw);
 
-    return { ...obj, [key]: new Date(formattedValue) };
-  }, {});
+  const access_token_expiration = new Date(
+    parsedCookie.access_token_expiration,
+  );
+
+  const refresh_token_expiration = new Date(
+    parsedCookie.refresh_token_expiration,
+  );
+  return { access_token_expiration, refresh_token_expiration };
 };
 
 export const getInfoToken = () => {
@@ -296,7 +293,17 @@ export const checkOrSetSessionExpiration = response => {
 };
 
 export const logoutUrlSiS = () => {
-  return new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'logout' })).href;
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'logout' }));
+  const clientId = sessionStorage.getItem(COOKIES.CI);
+
+  url.searchParams.append(
+    OAUTH_KEYS.CLIENT_ID,
+    clientId && Object.values(CLIENT_IDS).includes(clientId)
+      ? clientId
+      : CLIENT_IDS.VAWEB,
+  );
+
+  return url.href;
 };
 
 export const logoutEvent = async (signInServiceName, wait = {}) => {
