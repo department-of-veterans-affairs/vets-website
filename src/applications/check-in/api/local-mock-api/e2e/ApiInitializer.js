@@ -722,12 +722,12 @@ class ApiInitializer {
   initializeBtsssPost = {
     withSuccess: () => {
       cy.intercept('POST', `/check_in/v0/travel_claims/`, req => {
-        req.reply(btsss.post.createMockSuccessResponse());
+        req.reply(202, btsss.post.createMockSuccessResponse());
       });
     },
-    withFailure: (errorCode = 400, errorType) => {
+    withFailure: () => {
       cy.intercept('POST', `/check_in/v0/travel_claims/`, req => {
-        req.reply(errorCode, btsss.post.createMockFailedResponse(errorType));
+        req.reply(500, btsss.post.createMockFailedResponse());
       });
     },
   };

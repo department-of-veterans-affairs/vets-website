@@ -12,7 +12,7 @@ import { optionalNumberBetween } from '~/applications/personalization/common/pro
 
 export const ConditionalProcessList = ({ children }) => {
   return (
-    <ol className="va-conditional-process-list vads-u-margin-top--4 vads-u-padding-x--3 medium-screen:vads-u-padding-x--5">
+    <ol className="va-conditional-process-list vads-u-margin-y--0 vads-u-padding-x--3 medium-screen:vads-u-padding-x--5">
       {children}
     </ol>
   );

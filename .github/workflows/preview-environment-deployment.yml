@@ -41,15 +41,15 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Start Deployment
-        if: ${{ github.event_name == 'push' }}
-        uses: bobheadxi/deployments@v1
-        id: deployment
-        with:
-          step: start
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          env: master/${{ env.SOURCE_REF_SANITIZED }}/main
-          ref: ${{ github.ref_name }}
+      # - name: Start Deployment
+      #   if: ${{ github.event_name == 'push' }}
+      #   uses: bobheadxi/deployments@v1
+      #   id: deployment
+      #   with:
+      #     step: start
+      #     token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+      #     env: master/${{ github.ref_name }}/main
+      #     ref: ${{ github.ref_name }}
 
       - name: Get Source Repo and Source Ref
         run: node ./script/github-actions/pe-deploy-source.js
@@ -58,8 +58,8 @@ jobs:
           SOURCE_BRANCH: ${{ github.event.client_payload.source_ref }}
           SOURCE_REPO: ${{ github.event.client_payload.source_repo }}
           WORKFLOW_BRANCH: ${{ github.ref_name }}
-          SOURCE_DEPLOYMENT: ${{ github.event.client_payload.deployment_id }}
-          WORKFLOW_DEPLOYMENT: ${{ steps.deployment.outputs.deployment_id }}
+          # SOURCE_DEPLOYMENT: ${{ github.event.client_payload.deployment_id }}
+          # WORKFLOW_DEPLOYMENT: ${{ steps.deployment.outputs.deployment_id }}
 
       # - name: Login to ECR # Update ECR credentials if necessary
       #   id: login-ecr

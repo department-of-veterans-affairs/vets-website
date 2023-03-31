@@ -36,7 +36,7 @@ describe('pre-check-in', () => {
       const mockStore = configureStore(middleware);
       const store = mockStore(initState);
       const mockRouter = {
-        push: ()=>{},
+        push: () => {},
         location: {
           basename: '/health-care/appointment-pre-check-in',
         },

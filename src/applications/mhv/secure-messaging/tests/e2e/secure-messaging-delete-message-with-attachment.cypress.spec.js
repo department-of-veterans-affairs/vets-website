@@ -17,10 +17,16 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
     mockMessagewithAttachment.data.attributes.attachment = true;
     mockMessagewithAttachment.data.attributes.body = 'attachment';
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
-
     cy.intercept(
-      'DELETE',
-      '/my_health/v1/messaging/messages/7192838',
+      'GET',
+      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
+      mockMessages,
+    ).as('messagesFolder');
+    cy.intercept(
+      'PATCH',
+      `/my_health/v1/messaging/threads/${
+        mockThreadwithAttachment.data.at(0).attributes.threadId
+      }/move?folder_id=-3`,
       mockMessagewithAttachment,
     ).as('deleteMessagewithAttachment');
 

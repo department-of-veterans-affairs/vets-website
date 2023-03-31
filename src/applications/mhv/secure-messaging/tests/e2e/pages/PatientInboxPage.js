@@ -286,7 +286,6 @@ class PatientInboxPage {
   };
 
   verifyMoveMessagewithAttachmentSuccessMessage = () => {
-    cy.get('[data-testid="expired-alert-message"]').contains('Success');
     cy.get('p').contains('Message thread was successfully moved');
   };
 
