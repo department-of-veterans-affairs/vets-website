@@ -27,6 +27,8 @@ export const mockGetVitalsList = () => {
     setTimeout(() => {
       resolve(vitals);
     }, 1500);
+  });
+};
 
 /**
  * Get the list of messages in the specified folder.
