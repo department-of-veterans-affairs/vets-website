@@ -20,7 +20,7 @@ describe('Compose message With Attacments and Errors', () => {
     );
     composePage.attachMessageFromFile('empty.txt');
     composePage.verifyAttachmentErrorMessage(
-      'File is empty.The file you are attempting to attach is empty. Please select a non-empty file.',
+      'Your file is empty. Try attaching a different file.',
     );
     composePage.attachMessageFromFile('test_ext.TXT');
 
@@ -30,12 +30,12 @@ describe('Compose message With Attacments and Errors', () => {
     composePage.attachMessageFromFile('sample_pdf.pdf');
     composePage.attachMessageFromFile('sample_pdf.pdf');
     composePage.verifyAttachmentErrorMessage(
-      'File already attached.You have already attached this file.',
+      'You have already attached this file.',
     );
 
     composePage.attachMessageFromFile('test_image_10mb.jpg');
     composePage.verifyAttachmentErrorMessage(
-      'File is too large.File size for a single attachment cannot exceed 6MB.',
+      'Your file is too large. Try attaching a file smaller than 6MB.',
     );
 
     composePage.attachMessageFromFile('sample_pdf.pdf');
