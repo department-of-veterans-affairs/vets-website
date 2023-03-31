@@ -221,7 +221,12 @@ const formConfig = {
                 properties: {
                   veteran: {
                     type: 'object',
-                    required: ['gender', 'maritalStatus', 'militaryStatus'],
+                    required: [
+                      'race',
+                      'gender',
+                      'maritalStatus',
+                      'militaryStatus',
+                    ],
                     properties: set(
                       'militaryStatus.enum',
                       veteran.properties.militaryStatus.enum.filter(
@@ -359,6 +364,7 @@ const formConfig = {
                       'maritalStatus',
                       'militaryStatus',
                       'isDeceased',
+                      'race',
                     ],
                     properties: pick(veteran.properties, [
                       'currentName',
