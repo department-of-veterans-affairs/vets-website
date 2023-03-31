@@ -27,7 +27,7 @@ const EmploymentRecord = props => {
 
   const editIndex = getJobIndex();
 
-  const isEditing = editIndex >= 0 && !Number.isNaN(editIndex);
+  const isEditing = editIndex && !Number.isNaN(editIndex);
 
   const index = isEditing ? Number(editIndex) : 0;
 
