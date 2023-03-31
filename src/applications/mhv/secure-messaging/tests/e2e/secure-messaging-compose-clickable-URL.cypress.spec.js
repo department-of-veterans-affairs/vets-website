@@ -7,10 +7,8 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     const site = new SecureMessagingSite();
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
-
     site.login();
     landingPage.loadInboxMessages();
-
     cy.injectAxe();
     cy.axeCheck();
     cy.get('[data-testid="compose-message-link"]').click();
