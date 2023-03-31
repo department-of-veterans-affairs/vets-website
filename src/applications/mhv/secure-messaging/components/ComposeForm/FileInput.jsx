@@ -1,16 +1,12 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { acceptedFileTypes, Attachments } from '../../util/constants';
 
 const FileInput = ({ attachments, setAttachments }) => {
   const [error, setError] = useState();
   const fileInputRef = useRef();
 
-  const closeModal = () => {
-    setError(null);
-  };
-
+  // Validation for files
   const handleFiles = event => {
     const currentTotalSize = attachments.reduce((currentSize, item) => {
       return currentSize + item.size;
@@ -29,7 +25,7 @@ const FileInput = ({ attachments, setAttachments }) => {
 
     if (selectedFile.size === 0) {
       setError({
-        title: 'File is empty',
+        title: 'File is empty.',
         message:
           'The file you are attempting to attach is empty. Please select a non-empty file.',
       });
@@ -39,20 +35,20 @@ const FileInput = ({ attachments, setAttachments }) => {
 
     if (!fileExtension || !acceptedFileTypes[fileExtension.toLowerCase()]) {
       setError({
-        title: 'File type not supported',
-        message:
-          'File supported: doc, docx, gif, jpg, jpeg, pdf, png, rtf, txt, xls, xlsx',
+        title: '',
+        message: `We can't attach this file type. Try attaching a DOC, JPG, PDF, PNG, RTF, TXT, or XLS.`,
       });
       fileInputRef.current.value = null;
       return;
     }
+
     if (
       attachments.filter(
         a => a.name === selectedFile.name && a.size === selectedFile.size,
       ).length > 0
     ) {
       setError({
-        title: 'File already attached',
+        title: 'File already attached.',
         message: 'You have already attached this file.',
       });
       fileInputRef.current.value = null;
@@ -62,26 +58,28 @@ const FileInput = ({ attachments, setAttachments }) => {
     if (attachments.length === 4) {
       setError('You have already attached the maximum number of files.');
       setError({
-        title: 'Maximum number of files exceeded',
+        title: 'Maximum number of files exceeded.',
         message: 'You may only attach up to 4 files.',
       });
       fileInputRef.current.value = null;
       return;
     }
+
     if (selectedFile.size > Attachments.MAX_FILE_SIZE) {
       setError({
-        title: 'File is too large',
+        title: 'File is too large.',
         message: 'File size for a single attachment cannot exceed 6MB.',
       });
       fileInputRef.current.value = null;
       return;
     }
+
     if (
       currentTotalSize + selectedFile.size >
       Attachments.TOTAL_MAX_FILE_SIZE
     ) {
       setError({
-        title: 'Total size of files is too large',
+        title: 'Total size of files is too large.',
         message: 'The total size of all attachments cannot exceed 10MB.',
       });
       fileInputRef.current.value = null;
@@ -102,19 +100,12 @@ const FileInput = ({ attachments, setAttachments }) => {
   };
 
   return (
-    <div className="file-input">
+    <div className="file-input vads-u-font-weight--bold vads-u-color--secondary-dark">
       {error && (
-        <VaModal
-          modalTitle={error.title}
-          onCloseEvent={closeModal}
-          onPrimaryButtonClick={closeModal}
-          primaryButtonText="Continue editing"
-          status="warning"
-          visible
-          data-testid="attach-file-error-modal"
-        >
+        <span id="error-message" role="alert">
+          <p>{error.title}</p>
           <p>{error.message}</p>
-        </VaModal>
+        </span>
       )}
 
       {attachments?.length < Attachments.MAX_FILE_COUNT && (
