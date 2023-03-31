@@ -253,6 +253,16 @@ const createMockFailedResponse = _data => {
   };
 };
 
+const createMockNotFoundResponse = () => {
+  return {
+    errors: [
+      {
+        status: '404',
+      },
+    ],
+  };
+};
+
 module.exports = {
   aboutToExpireUUID,
   createAppointments,
@@ -260,4 +270,5 @@ module.exports = {
   defaultUUID,
   mockDemographics,
   createMockFailedResponse,
+  createMockNotFoundResponse,
 };

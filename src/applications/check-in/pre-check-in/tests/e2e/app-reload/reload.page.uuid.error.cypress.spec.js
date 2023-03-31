@@ -44,13 +44,13 @@ describe('Pre-Check In Experience', () => {
     });
 
     it('Demographics page', () => {
-      ApiInitializer.initializePreCheckInDataGet.withUuidNotFoundReload();
+      ApiInitializer.initializePreCheckInDataGet.withUuidNotFound();
       cy.reload();
       Error.validateUuidNotFoundErrorPageLoaded();
       cy.injectAxeThenAxeCheck();
     });
     it('emergency contact page', () => {
-      ApiInitializer.initializePreCheckInDataGet.withUuidNotFoundReload();
+      ApiInitializer.initializePreCheckInDataGet.withUuidNotFound();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       cy.reload();
@@ -58,7 +58,7 @@ describe('Pre-Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
     });
     it('next of kin page', () => {
-      ApiInitializer.initializePreCheckInDataGet.withUuidNotFoundReload();
+      ApiInitializer.initializePreCheckInDataGet.withUuidNotFound();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
@@ -69,7 +69,7 @@ describe('Pre-Check In Experience', () => {
     });
 
     it('confirmation page', () => {
-      ApiInitializer.initializePreCheckInDataGet.withUuidNotFoundReload();
+      ApiInitializer.initializePreCheckInDataGet.withUuidNotFound();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
