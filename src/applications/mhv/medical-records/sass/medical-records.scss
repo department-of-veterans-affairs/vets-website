@@ -35,4 +35,29 @@ va-loading-indicator {
     display: none;
     margin: 0 !important;
   }
+  .page-title {
+    border: solid 1px $color-black;
+    padding: 8px 0;
+    text-align: center;
+  }
+  .print-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 16px 0;
+    * {
+      margin: 0;
+    }
+  }
+  .card {
+    margin: 0 0 12px 0 !important;
+    padding: 24px 0 12px !important;
+  }
+  .item-list * {
+    line-height: 1.3;
+  }
+}
+
+.max-80 {
+  max-width: 80ch;
 }

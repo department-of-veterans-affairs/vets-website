@@ -40,10 +40,4 @@ describe('Vaccines list container', () => {
     const printButton = screen.getByTestId('print-records-button');
     expect(printButton).to.exist;
   });
-
-  it('contains an iframe for printing content', () => {
-    const screen = setup();
-    const printButton = screen.getByTitle('contentsToPrint');
-    expect(printButton).to.exist;
-  });
 });

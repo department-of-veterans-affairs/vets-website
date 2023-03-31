@@ -20,7 +20,6 @@ function LocationDirectionsLink({ location, from }) {
           location.searchString
         }&daddr=${address}`}
         rel="noopener noreferrer"
-        target="_blank"
       >
         {from === 'FacilityDetail' && <i className="fa fa-road" />}
         Get directions on Google Maps
