@@ -6,10 +6,12 @@ import ClaimComplete from '../../components/ClaimComplete';
 
 describe('<ClaimComplete>', () => {
   it('should render message', () => {
-    const date = '2010-03-01';
+    const date = '2010-09-01';
     const tree = SkinDeep.shallowRender(<ClaimComplete completedDate={date} />);
 
-    expect(tree.text()).to.contain('We decided your claim on March 1, 2010');
+    expect(tree.text()).to.contain(
+      'We decided your claim on September 1, 2010',
+    );
     expect(tree.everySubTree('CompleteDetails')).to.not.be.false;
   });
 });
