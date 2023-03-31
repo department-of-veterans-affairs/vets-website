@@ -1,7 +1,7 @@
 import React from 'react';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-export default function(props) {
+export default function FormFieldVaTextInput(props) {
   const {
     textDescription,
     showLabel,
