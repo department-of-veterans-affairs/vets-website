@@ -55,20 +55,20 @@ const setup = ({ path, mockGA = mockGADefaultArgs }) => {
 };
 
 describe('MockAuthButton', () => {
-  const env = process.env.BUILDTYPE;
   const oldWindow = global.window;
+  const buildType = __BUILDTYPE__;
   beforeEach(() => {
-    process.env.BUILDTYPE = env;
     global.window = oldWindow;
+    __BUILDTYPE__ = buildType;
   });
   afterEach(() => {
-    process.env.BUILDTYPE = env;
     global.window = oldWindow;
+    __BUILDTYPE__ = buildType;
   });
 
   Object.values(environments).forEach(currentEnvironment => {
     it('should take you to the right link when clicked', async () => {
-      process.env.BUILDTYPE = currentEnvironment;
+      __BUILDTYPE__ = currentEnvironment;
       const tree = SkinDeep.shallowRender(<MockAuthButton />);
       const button = tree.subTree('.mauth-button');
       if (
@@ -90,7 +90,7 @@ describe('MockAuthButton', () => {
 
   csps.forEach(csp => {
     it(`should be a different color than any other csp button`, () => {
-      process.env.BUILDTYPE = environments.LOCALHOST;
+      __BUILDTYPE__ = environments.LOCALHOST;
       const { container } = render(
         <>
           <MockAuthButton />
@@ -107,7 +107,7 @@ describe('MockAuthButton', () => {
   });
 
   it('should be rendered on the mocked auth page', () => {
-    process.env.BUILDTYPE = environments.LOCALHOST;
+    __BUILDTYPE__ = environments.LOCALHOST;
     const { container } = render(<MockAuth />);
     expect($('.mauth-button', container)).to.exist;
   });
@@ -115,7 +115,7 @@ describe('MockAuthButton', () => {
   it('does not, cannot show up on staging or production stacks', () => {
     [environments.VAGOVPROD, environments.VAGOVSTAGING].forEach(
       currentEnvironment => {
-        process.env.BUILDTYPE = currentEnvironment;
+        __BUILDTYPE__ = currentEnvironment;
         const { container } = render(<MockAuthButton />);
         expect($('.mauth-button', container)).to.not.exist;
         const { container2 } = render(<MockAuth />);
