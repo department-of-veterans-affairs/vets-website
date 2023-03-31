@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import get from '../../../../utilities/data/get';
 import { isReactComponent } from '../../../../utilities/ui';
+import WebComponent from './WebComponent';
 // import environment from 'platform/utilities/environment';
 
 /*
@@ -106,6 +107,25 @@ export default function FieldTemplate(props) {
   const showLabel =
     !uiSchema['ui:options']?.hideLabelText &&
     (typeof label !== 'string' || (requiredSpan || label.trim()));
+
+  if (uiSchema['ui:webComponent']) {
+    return (
+      <WebComponent
+        webComponent={uiSchema['ui:webComponent']}
+        textDescription={textDescription}
+        showLabel={showLabel}
+        label={label}
+        required={required}
+        error={hasErrors ? rawErrors[0] : null}
+        DescriptionField={DescriptionField}
+        uiOptions={uiSchema['ui:options']}
+        index={formContext?.pagePerItemIndex}
+        description={description}
+        childrenProps={children.props}
+        help={help}
+      />
+    );
+  }
 
   const content = (
     <>
