@@ -25,6 +25,17 @@ class PatientComposePage {
     cy.wait('@message');
   };
 
+  verifySendMessageConfirmationMessage = () => {
+    cy.get('.vads-u-margin-bottom--1').should(
+      'have.text',
+      'Message was successfully sent.',
+    );
+  };
+
+  verifySendMessageConfirmationMessageHasFocus = () => {
+    cy.get('.vads-u-margin-bottom--1').should('be.focused');
+  };
+
   //* Refactor*  Need to get rid of this method and split out
   enterComposeMessageDetails = category => {
     this.selectRecipient('###PQR TRIAGE_TEAM 747###', { force: true });
