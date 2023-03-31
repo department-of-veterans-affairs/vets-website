@@ -1,8 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 import { shallow } from 'enzyme';
-import LocationDirectionsLink from '../../../components/search-results-items/common/LocationDirectionsLink';
 import { expect } from 'chai';
+import LocationDirectionsLink from '../../../components/search-results-items/common/LocationDirectionsLink';
 import testDataFacilities from '../../../constants/mock-facility-v1.json';
 import testDataProviders from '../../../constants/mock-facility-data-v1.json';
 
@@ -13,7 +13,7 @@ const verifyLink = data => {
         ...data,
         ...{ searchString: 'my house' },
       }}
-      from={'SearchResult'}
+      from="SearchResult"
     />,
   );
 
@@ -24,7 +24,6 @@ const verifyLink = data => {
     href:
       'https://maps.google.com?saddr=my house&daddr=7901 Metropolis Drive, Austin, TX 78744-3111',
     rel: 'noopener noreferrer',
-    target: '_blank',
   });
   expect(wrapper.find('a').text()).to.equal(
     'Get directions on Google Mapsto Austin VA Clinic',

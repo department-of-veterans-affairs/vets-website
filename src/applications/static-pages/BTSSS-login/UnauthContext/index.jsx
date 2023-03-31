@@ -23,9 +23,11 @@ const UnauthContext = () => {
         </h3>
         <div>
           <p className="vads-u-margin-top--0">
-            Sign in with your existing Login.gov, ID.me, DS Logon, or My
-            HealtheVet account. If you don’t have any of these accounts, you can
-            create a free Login.gov or ID.me account now.
+            Sign in with your existing <strong>Login.gov</strong>,{' '}
+            <strong>ID.me</strong>, <strong>DS Logon</strong>, or{' '}
+            <strong>My HealtheVet</strong> account. If you don’t have any of
+            these accounts, you can create a free <strong>Login.gov</strong> or{' '}
+            <strong>ID.me</strong> account now.
           </p>
           <button className="va-button-primary" onClick={handleSigninClick}>
             Sign in or create an account
