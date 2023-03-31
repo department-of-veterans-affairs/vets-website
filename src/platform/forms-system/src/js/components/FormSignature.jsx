@@ -119,7 +119,7 @@ export const FormSignature = ({
         label={checkboxLabel}
         description={null}
         required={required}
-        error={showError && checkboxError}
+        error={showError ? checkboxError : null}
         onVaChange={event => setChecked(event.target.checked)}
       >
         {checkboxDescription && <p slot="description">{checkboxDescription}</p>}
