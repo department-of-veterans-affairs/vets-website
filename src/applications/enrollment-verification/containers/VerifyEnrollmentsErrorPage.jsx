@@ -4,12 +4,15 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-
 import { fetchPost911GiBillEligibility } from '../actions';
+import { STATIC_CONTENT_ENROLLMENT_URL } from '../constants';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
+import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import { ENROLLMENT_VERIFICATION_TYPE } from '../helpers';
+import { getEVData } from '../selectors';
 
 export const VerifyEnrollmentsErrorPage = ({
+  isLoggedIn,
   enrollmentVerification,
   getPost911GiBillEligibility,
   hasCheckedKeepAlive,
@@ -20,7 +23,7 @@ export const VerifyEnrollmentsErrorPage = ({
   useEffect(
     () => {
       if (hasCheckedKeepAlive && !loggedIn) {
-        history.push('/');
+        window.location.href = STATIC_CONTENT_ENROLLMENT_URL;
       }
     },
     [
@@ -36,6 +39,9 @@ export const VerifyEnrollmentsErrorPage = ({
     scrollToTop();
   }, []);
 
+  if (!isLoggedIn && !hasCheckedKeepAlive) {
+    return <EnrollmentVerificationLoadingIndicator />;
+  }
   return (
     <EnrollmentVerificationPageWrapper>
       <h1>Verify your enrollments</h1>
@@ -64,12 +70,7 @@ VerifyEnrollmentsErrorPage.propTypes = {
   loggedIn: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
-  editMonthVerification: state?.data?.editMonthVerification,
-  hasCheckedKeepAlive: state?.user?.login?.hasCheckedKeepAlive || false,
-  loggedIn: state?.user?.login?.currentlyLoggedIn || false,
-  enrollmentVerification: state?.data?.enrollmentVerification,
-});
+const mapStateToProps = state => getEVData(state);
 
 const mapDispatchToProps = {
   getPost911GiBillEligibility: fetchPost911GiBillEligibility,

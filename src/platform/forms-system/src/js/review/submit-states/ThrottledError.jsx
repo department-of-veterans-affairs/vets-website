@@ -1,13 +1,13 @@
 import React from 'react';
 import moment from 'moment';
-import { timeFromNow } from '../../utilities/date';
 
-import Back from './Back';
-import ProgressButton from '../../components/ProgressButton';
 import PropTypes from 'prop-types';
 import { Column, Row } from 'platform/forms/components/common/grid';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
+import ProgressButton from '../../components/ProgressButton';
+import Back from './Back';
+import { timeFromNow } from '../../utilities/date';
 
 export default function ThrottledError(props) {
   const { buttonText, when, formConfig, onBack, onSubmit, testId } = props;
@@ -35,7 +35,7 @@ export default function ThrottledError(props) {
         </Column>
       </Row>
       <PreSubmitSection formConfig={formConfig} />
-      <Row classNames="form-progress-buttons">
+      <Row classNames="form-progress-buttons vads-u-margin-y--2">
         <Column classNames="small-6 medium-5">
           <Back onButtonClick={onBack} />
         </Column>
