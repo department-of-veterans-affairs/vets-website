@@ -35,10 +35,13 @@ const VitalDetails = () => {
               url: '/my-health/medical-records/health-history',
               label: 'Health history',
             },
-            { url: '/my-health/medical-records/vitals', label: 'VA vitals' },
+            {
+              url: '/my-health/medical-records/health-history/vitals',
+              label: 'VA vitals',
+            },
           ],
           {
-            url: `/my-health/medical-records/vital-details/${vitalType}`,
+            url: `/my-health/medical-records/health-history/vitals/${vitalType}`,
             label: filteredVitals[0].name,
           },
         ),

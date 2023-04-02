@@ -26,7 +26,10 @@ const Vaccines = () => {
               label: 'Health history',
             },
           ],
-          { url: '/my-health/medical-records/vaccines', label: 'VA vaccines' },
+          {
+            url: '/my-health/medical-records/health-history/vaccines',
+            label: 'VA vaccines',
+          },
         ),
       );
     },

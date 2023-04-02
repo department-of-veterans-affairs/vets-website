@@ -14,29 +14,28 @@ const routes = (
     <MrBreadcrumbs />
     <div className="medical-records-container">
       <Navigation />
-      <Switch>
-        <Route exact path="/" key="Medical Records Home">
-          <App />
-        </Route>
-        <Route exact path="/health-history" key="Health History">
-          <HealthHistory />
-        </Route>
-        <Route path="/health-history/vaccines" key="Vaccines">
-          <Vaccines />
-        </Route>
-        <Route path="/health-history/vaccine-details/:vaccineId" key="Vaccine">
-          <VaccineDetails />
-        </Route>
-        <Route path="/health-history/vitals" key="Vitals">
-          <Vitals />
-        </Route>
-        <Route
-          path="/health-history/vital-details/:vitalType"
-          key="VitalDetails"
-        >
-          <VitalDetails />
-        </Route>
-      </Switch>
+      <div className="vads-l-grid-container main-content">
+        <Switch>
+          <Route exact path="/" key="Medical Records Home">
+            <App />
+          </Route>
+          <Route exact path="/health-history" key="Health History">
+            <HealthHistory />
+          </Route>
+          <Route exact path="/health-history/vaccines" key="Vaccines">
+            <Vaccines />
+          </Route>
+          <Route path="/health-history/vaccines/:vaccineId" key="Vaccine">
+            <VaccineDetails />
+          </Route>
+          <Route exact path="/health-history/vitals" key="Vitals">
+            <Vitals />
+          </Route>
+          <Route path="/health-history/vitals/:vitalType" key="VitalDetails">
+            <VitalDetails />
+          </Route>
+        </Switch>
+      </div>
     </div>
   </div>
 );

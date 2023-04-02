@@ -66,6 +66,11 @@ va-loading-indicator {
 .medical-records-container {
   display: flex;
   flex-direction: row;
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 0;
+  }
   .medical-records-navigation {
     margin-right: 24px;
   }
