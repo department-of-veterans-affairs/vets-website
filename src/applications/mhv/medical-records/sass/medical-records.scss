@@ -5,6 +5,7 @@
 @import "./breadcrumbs";
 @import "./health-history";
 @import "./vitals";
+@import "./navigation";
 
 // Your custom sass
 va-loading-indicator {
@@ -60,4 +61,22 @@ va-loading-indicator {
 
 .max-80 {
   max-width: 80ch;
+}
+
+.medical-records-container {
+  display: flex;
+  flex-direction: row;
+  .medical-records-navigation {
+    margin-right: 24px;
+  }
+}
+
+@media (max-width: $small-screen) {
+  .medical-records-container {
+    flex-direction: column;
+    .medical-records-navigation {
+      margin-top: 24px;
+      margin-right: 0px;
+    }
+  }
 }
