@@ -12,7 +12,7 @@ const MessageThreadItem = props => {
   const dispatch = useDispatch();
   const [isExpanded, setIsExpanded] = useState(false);
   const { message } = props;
-  const isRead = message.readReceipt === 'READ';
+  const isRead = message.readReceipt === 'READ' || message.readReceipt === null;
 
   useEffect(
     () => {
