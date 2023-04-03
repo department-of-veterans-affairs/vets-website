@@ -8,15 +8,17 @@ import { clearNotification } from '../actions';
 import ClaimComplete from '../components/ClaimComplete';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import ClaimsDecision from '../components/ClaimsDecision';
-import ClaimsTimeline from '../components/ClaimsTimeline';
+import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
-import { showClaimLettersFeature } from '../selectors';
+import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
 import {
   itemsNeedingAttentionFromVet,
   getClaimType,
   getCompletedDate,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
+
+import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 
 class ClaimStatusPage extends React.Component {
   componentDidMount() {
@@ -50,6 +52,53 @@ class ClaimStatusPage extends React.Component {
     this.props.clearNotification();
   }
 
+  getPageContent() {
+    const { claim, showClaimLettersLink, useLighthouse } = this.props;
+
+    if (!useLighthouse) {
+      return <ClaimStatusPageContent claim={claim} />;
+    }
+
+    // claim can be null
+    const attributes = (claim && claim.attributes) || {};
+
+    const { open, phase } = attributes;
+
+    const isOpen = open;
+    const filesNeeded = itemsNeedingAttentionFromVet(attributes.eventsTimeline);
+    const showDocsNeeded =
+      !attributes.decisionLetterSent &&
+      isOpen &&
+      attributes.documentsNeeded &&
+      filesNeeded > 0;
+
+    return (
+      <div>
+        {showDocsNeeded ? (
+          <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
+        ) : null}
+        {attributes.decisionLetterSent && !isOpen ? (
+          <ClaimsDecision
+            completedDate={getCompletedDate(claim)}
+            showClaimLettersLink={showClaimLettersLink}
+          />
+        ) : null}
+        {!attributes.decisionLetterSent && !isOpen ? (
+          <ClaimComplete completedDate={getCompletedDate(claim)} />
+        ) : null}
+        {phase && isOpen ? (
+          <ClaimTimeline
+            id={claim.id}
+            phase={phase}
+            currentPhaseBack={attributes.currentPhaseBack}
+            everPhaseBack={attributes.everPhaseBack}
+            events={attributes.eventsTimeline}
+          />
+        ) : null}
+      </div>
+    );
+  }
+
   setTitle() {
     document.title = this.props.loading
       ? 'Status - Your Claim'
@@ -57,53 +106,11 @@ class ClaimStatusPage extends React.Component {
   }
 
   render() {
-    const {
-      claim,
-      loading,
-      message,
-      showClaimLettersLink,
-      synced,
-    } = this.props;
+    const { claim, loading, message, synced } = this.props;
 
     let content = null;
-    // claim can be null
-    const attributes = (claim && claim.attributes) || {};
     if (!loading) {
-      const { phase } = attributes;
-      const filesNeeded = itemsNeedingAttentionFromVet(
-        attributes.eventsTimeline,
-      );
-      const showDocsNeeded =
-        !attributes.decisionLetterSent &&
-        attributes.open &&
-        attributes.documentsNeeded &&
-        filesNeeded > 0;
-
-      content = (
-        <div>
-          {showDocsNeeded ? (
-            <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
-          ) : null}
-          {attributes.decisionLetterSent && !attributes.open ? (
-            <ClaimsDecision
-              completedDate={getCompletedDate(claim)}
-              showClaimLettersLink={showClaimLettersLink}
-            />
-          ) : null}
-          {!attributes.decisionLetterSent && !attributes.open ? (
-            <ClaimComplete completedDate={getCompletedDate(claim)} />
-          ) : null}
-          {phase !== null && attributes.open ? (
-            <ClaimsTimeline
-              id={claim.id}
-              phase={phase}
-              currentPhaseBack={attributes.currentPhaseBack}
-              everPhaseBack={attributes.everPhaseBack}
-              events={attributes.eventsTimeline}
-            />
-          ) : null}
-        </div>
-      );
+      content = this.getPageContent();
     }
 
     return (
@@ -124,6 +131,7 @@ class ClaimStatusPage extends React.Component {
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
+
   return {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
@@ -131,6 +139,7 @@ function mapStateToProps(state) {
     lastPage: claimsState.routing.lastPage,
     showClaimLettersLink: showClaimLettersFeature(state),
     synced: claimsState.claimSync.synced,
+    useLighthouse: cstUseLighthouse(state),
   };
 }
 
@@ -147,6 +156,7 @@ ClaimStatusPage.propTypes = {
   params: PropTypes.object,
   showClaimLettersLink: PropTypes.bool,
   synced: PropTypes.bool,
+  useLighthouse: PropTypes.bool,
 };
 
 export default connect(
