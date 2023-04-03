@@ -73,8 +73,8 @@ const ResolutionOptions = ({ formContext }) => {
           Compromise
         </span>
         <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-left--3">
-          If you can’t pay the debt in full or make smaller monthly payments,
-          we can consider a smaller, one-time payment to resolve your debt.
+          If you can’t pay the debt in full or make smaller monthly payments, we
+          can consider a smaller, one-time payment to resolve your debt.
         </span>
       </>
     );
