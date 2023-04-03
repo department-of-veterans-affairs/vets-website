@@ -52,8 +52,7 @@ describe('<DocumentRequestPage>', () => {
         message={message}
       />,
     );
-    const content = tree.dive(['DocumentRequestPageContent']);
-    expect(content.subTree('Notification')).not.to.be.false;
+    expect(tree.subTree('Notification')).not.to.be.false;
   });
 
   it('should clear upload error when leaving', () => {
@@ -139,7 +138,8 @@ describe('<DocumentRequestPage>', () => {
         trackedItem={trackedItem}
       />,
     );
-    expect(tree.subTree('.optional-upload')).not.to.be.false;
+    const content = tree.dive(['DocumentRequestPageContent']);
+    expect(content.subTree('.optional-upload')).not.to.be.false;
   });
 
   it('should handle submit files', () => {
