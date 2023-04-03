@@ -67,7 +67,7 @@ export default function GuardianInformation(schema, options) {
           type: 'object',
           $ref: '#/definitions/phone',
         },
-        email: {
+        guardianEmail: {
           type: 'string',
           format: 'email',
         },
@@ -90,7 +90,9 @@ export default function GuardianInformation(schema, options) {
       'ui:description': guardianDescription,
       minorQuestions: {
         'ui:validations': [
-          validateMatch('email', 'view:confirmEmail', { ignoreCase: true }),
+          validateMatch('guardianEmail', 'view:confirmEmail', {
+            ignoreCase: true,
+          }),
         ],
         'ui:options': {
           hideIf: formData => {
@@ -135,7 +137,7 @@ export default function GuardianInformation(schema, options) {
         ),
         guardianMobilePhone: phoneUI('Mobile phone number'),
         guardianHomePhone: phoneUI('Home phone number'),
-        email: emailUI(),
+        guardianEmail: emailUI(),
         'view:confirmEmail': merge({}, emailUI('Re-enter email address'), {
           'ui:options': {
             hideOnReview: true,

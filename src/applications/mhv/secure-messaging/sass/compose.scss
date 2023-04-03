@@ -111,7 +111,7 @@
       max-width: 100%;
       // background-color: $color-gray-dark;
     }
-    va-textarea#message-body {
+    va-textarea#message-body::part(textarea) {
       max-width: 100%;
     }
 
@@ -150,6 +150,12 @@
     }
     .last-save-time {
       margin-top: 12px;
+    }
+  }
+
+  .message-replied-to {
+    .message-list-body-collapsed {
+      word-break: break-word;
     }
   }
 }

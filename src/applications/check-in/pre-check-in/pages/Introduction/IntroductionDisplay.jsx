@@ -27,9 +27,9 @@ const IntroductionDisplay = props => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
 
   const { appointments } = useSelector(selectVeteranData);
-  const {
-    isPreCheckInActionLinkTopPlacementEnabled,
-  } = useSelector(selectFeatureToggles);
+  const { isPreCheckInActionLinkTopPlacementEnabled } = useSelector(
+    selectFeatureToggles,
+  );
 
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
   // Save this useEffect for when we go back to testing action link.
@@ -45,15 +45,12 @@ const IntroductionDisplay = props => {
   //   },
   //   [isPreCheckInActionLinkTopPlacementEnabled],
   // );
-  useEffect(
-    () => {
-      const slug = `pre-check-in-viewed-introduction-VAOS-design`;
-      recordEvent({
-        event: createAnalyticsSlug(slug, 'nav'),
-      });
-    },
-    [],
-  );
+  useEffect(() => {
+    const slug = `pre-check-in-viewed-introduction-VAOS-design`;
+    recordEvent({
+      event: createAnalyticsSlug(slug, 'nav'),
+    });
+  }, []);
   const accordionContent = [
     {
       header: t('will-va-protect-my-personal-health-information'),
@@ -93,7 +90,9 @@ const IntroductionDisplay = props => {
       if (e?.key && e.key !== ' ') {
         return;
       }
-      let slug = `pre-check-in-started-${isPhone ? 'phone' : 'in-person'}-VAOS-design`;
+      const slug = `pre-check-in-started-${
+        isPhone ? 'phone' : 'in-person'
+      }-VAOS-design`;
       // Save this for when we go back to testing action link.
       // if (isPreCheckInActionLinkTopPlacementEnabled) slug += '-top-position';
       recordEvent({

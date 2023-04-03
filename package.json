@@ -242,7 +242,7 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@department-of-veterans-affairs/component-library": "^13.11.1",
+    "@department-of-veterans-affairs/component-library": "^14.2.0",
     "@department-of-veterans-affairs/formation": "^7.0.5",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",

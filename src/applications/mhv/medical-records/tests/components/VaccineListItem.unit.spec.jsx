@@ -5,7 +5,7 @@ import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
 import vaccines from '../fixtures/vaccines.json';
 
-describe('Record list item component', () => {
+describe('Vaccine list item component', () => {
   const initialState = {
     mr: {
       vaccines: {
@@ -16,11 +16,14 @@ describe('Record list item component', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<RecordListItem record={vaccines[0]} />, {
-      initialState: state,
-      reducers: reducer,
-      path: '/vaccines',
-    });
+    return renderWithStoreAndRouter(
+      <RecordListItem record={vaccines[0]} type="vaccine" />,
+      {
+        initialState: state,
+        reducers: reducer,
+        path: '/vaccines',
+      },
+    );
   };
 
   it('renders without errors', () => {

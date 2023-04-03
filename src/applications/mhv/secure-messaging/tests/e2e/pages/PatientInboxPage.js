@@ -29,12 +29,16 @@ class PatientInboxPage {
 
   mockDetailedMessage = mockSpecialCharsMessage;
 
+  mockRecipients = mockRecipients;
+
   loadInboxMessages = (
     inboxMessages = mockMessages,
     detailedMessage = mockSpecialCharsMessage,
+    recipients = mockRecipients,
     getFoldersStatus = 200,
   ) => {
     this.mockInboxMessages = inboxMessages;
+    this.mockRecipients = recipients;
     this.setInboxTestMessageDetails(detailedMessage);
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -83,7 +87,7 @@ class PatientInboxPage {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/recipients?useCache=false',
-      mockRecipients,
+      this.mockRecipients,
     ).as('recipients');
     cy.visit('my-health/secure-messages/inbox', {
       onBeforeLoad: win => {
@@ -282,7 +286,6 @@ class PatientInboxPage {
   };
 
   verifyMoveMessagewithAttachmentSuccessMessage = () => {
-    cy.get('[data-testid="expired-alert-message"]').contains('Success');
     cy.get('p').contains('Message thread was successfully moved');
   };
 

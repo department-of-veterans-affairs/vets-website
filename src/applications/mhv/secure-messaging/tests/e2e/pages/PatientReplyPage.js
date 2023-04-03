@@ -105,7 +105,7 @@ class PatientReplyPage {
     return cy
       .get('[data-testid="message-body-field"]')
       .shadow()
-      .find('[name="message-body"]');
+      .find('[name="reply-message-body"]');
   };
 }
 
