@@ -13,8 +13,8 @@ const MrBreadcrumbs = () => {
       {crumbs.length > 0 &&
         crumbs[0]?.url && (
           <div className="vads-l-row breadcrumbs-container">
-            {/* per exisiting issue found here https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/1296
-          eslint-disable-next-line @department-of-veterans-affairs/prefer-web-component-library */}
+            {/* per exisiting issue found here https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/1296 */}
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-web-component-library */}
             <Breadcrumbs label="Breadcrumb">
               {crumbs.map((crumb, idx) => (
                 <a href={crumb.url} key={idx}>
