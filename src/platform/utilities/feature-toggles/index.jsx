@@ -1,11 +1,14 @@
 // import React, { useState, useEffect } from 'react';
-import FlipperClient from 'platform/utilities/feature-toggles/flipper-client';
 import {
   TOGGLE_VALUES_SET,
   FETCH_TOGGLE_VALUES_STARTED,
   FETCH_TOGGLE_VALUES_SUCCEEDED,
-} from 'platform/site-wide/feature-toggles/actionTypes';
-import environments from 'platform/utilities/environment';
+} from '../../site-wide/feature-toggles/actionTypes';
+import environments from '../environment';
+
+import FlipperClient from './flipper-client';
+import { useFeatureToggle } from './useFeatureToggle';
+import { Toggler } from './Toggler';
 
 const { fetchToggleValues } = FlipperClient({ host: environments.API_URL });
 
@@ -158,4 +161,6 @@ export {
   // FeatureToggle,
   // subscribeToToggleUpdates,
   // withFeatureToggleProvider,
+  useFeatureToggle,
+  Toggler,
 };
