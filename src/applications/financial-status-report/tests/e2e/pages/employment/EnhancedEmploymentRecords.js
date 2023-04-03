@@ -1,6 +1,9 @@
 class EnhancedEmploymentRecords {
   employerFill = employer => {
-    cy.findByLabelText(/Type of work/).select(employer.type);
+    cy.get('[data-test-id="employment-type"]')
+      .shadow()
+      .find('select')
+      .select(employer.type);
     cy.fillDate(
       'from',
       `${employer.from.split('-')[0]}-${employer.from.split('-')[1]}`,
@@ -20,10 +23,19 @@ class EnhancedEmploymentRecords {
   };
 
   failValidationEmployerFill = employer => {
-    cy.findByLabelText(/Type of work/).select(employer.type);
-    cy.findByLabelText(/Type of work/).select('');
+    cy.get('[data-test-id="employment-type"]')
+      .shadow()
+      .find('select')
+      .select(employer.type);
+    cy.get('[data-test-id="employment-type"]')
+      .shadow()
+      .find('select')
+      .select('');
     cy.get('#errorable-select-1-error-message').should('exist');
-    cy.findByLabelText(/Type of work/).select(employer.type);
+    cy.get('[data-test-id="employment-type"]')
+      .shadow()
+      .find('select')
+      .select(employer.type);
     cy.get('#errorable-select-1-error-message').should('not.exist');
 
     cy.fillDate(
