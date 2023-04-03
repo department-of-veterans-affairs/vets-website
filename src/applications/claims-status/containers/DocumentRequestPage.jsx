@@ -82,9 +82,8 @@ class DocumentRequestPage extends React.Component {
 
   getPageContent() {
     const { trackedItem, useLighthouse } = this.props;
-
     if (!useLighthouse) {
-      <DocumentRequestPageContent trackedItem={trackedItem} />;
+      return <DocumentRequestPageContent trackedItem={trackedItem} />;
     }
 
     return (
