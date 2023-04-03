@@ -1,3 +1,5 @@
+import configureStore from 'redux-mock-store';
+
 const scheduledDowntimeState = {
   scheduledDowntime: {
     globalDowntime: null,
@@ -10,4 +12,42 @@ const scheduledDowntimeState = {
   },
 };
 
-export { scheduledDowntimeState };
+const createStore = ({
+  app = '',
+  demographicsUpToDate = 'yes',
+  emergencyContactUpToDate = 'yes',
+  nextOfKinUpToDate = 'yes',
+  appointments = [
+    {
+      clinicPhone: '555-867-5309',
+      startTime: '2021-07-19T13:56:31',
+      facilityName: 'Acme VA',
+      clinicName: 'Green Team Clinic1',
+    },
+  ],
+} = {}) => {
+  const middleware = [];
+  const mockStore = configureStore(middleware);
+  const initState = {
+    checkInData: {
+      app,
+      context: {
+        token: 'some-token',
+      },
+      form: {
+        pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+        data: {
+          demographicsUpToDate,
+          emergencyContactUpToDate,
+          nextOfKinUpToDate,
+        },
+      },
+      appointments,
+      veteranData: {},
+    },
+    ...scheduledDowntimeState,
+  };
+  return mockStore(initState);
+};
+
+export { scheduledDowntimeState, createStore };
