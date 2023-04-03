@@ -218,13 +218,14 @@ export const SecondFAQSection = () => {
           data-testid="faq-second-section-fifth-question"
         >
           We will keep information about you, including any patient-generated
-          data that you share, strictly confidential to the extent required by
-          law. The VA will not sell, rent, or otherwise provide your personal
+          data that you share through VA.gov, confidential to the extent
+          required by law. VA will not sell, rent, or otherwise provide your
           information to outside marketers. Information collected via VA.gov,
           include data shared with VA as a part of this pilot, may be shared
           with employees, contractors, and other service providers as necessary
           to respond to a request, provide a service, or as otherwise authorized
-          by law.
+          by law. For more information on VA.gov protection refer to the{' '}
+          <a href="https://www.va.gov/privacy-policy/">Privacy Policy</a>.
         </va-accordion-item>
         <va-accordion-item
           header="What will happen if I decide to disconnect my device?"
@@ -232,9 +233,9 @@ export const SecondFAQSection = () => {
           aria-controls="dhp-faq-second-section-sixth-question"
           data-testid="faq-second-section-sixth-question"
         >
-          The VA will no longer receive new data from your device after it is
-          disconnected. The data shared while your device was connected will not
-          be deleted.
+          VA will no longer receive new data from your device after it is
+          disconnected. The data shared while your device was connected to
+          VA.gov will not be deleted.
         </va-accordion-item>
       </va-accordion>
     </>
