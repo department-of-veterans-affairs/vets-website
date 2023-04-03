@@ -6,6 +6,7 @@ import {
   VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -46,6 +47,7 @@ const ComposeForm = props => {
   const [formPopulated, setFormPopulated] = useState(false);
   const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
+  const [messageInvalid, setMessageInvalid] = useState(false);
   const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
@@ -68,6 +70,16 @@ const ComposeForm = props => {
     TEST_RESULTS,
     EDUCATION,
   } = Categories;
+
+  const focusOnErrorField = () => {
+    focusElement(
+      document
+        .querySelectorAll('[error]:not([error=""]')[0]
+        .shadowRoot.querySelector(
+          '[aria-describedby="error-message"], #error-message',
+        ),
+    );
+  };
 
   useEffect(
     () => {
@@ -119,6 +131,15 @@ const ComposeForm = props => {
       }
     },
     [sendMessageFlag, isSaving],
+  );
+
+  useEffect(
+    () => {
+      if (messageInvalid) {
+        focusOnErrorField();
+      }
+    },
+    [messageInvalid],
   );
 
   const recipientExists = recipientId => {
@@ -182,6 +203,7 @@ const ComposeForm = props => {
   };
 
   const checkMessageValidity = () => {
+    // setMessageInvalid(false);
     let messageValid = true;
     if (!selectedRecipient || selectedRecipient === '') {
       setRecipientError('Please select a recipient.');
@@ -199,6 +221,7 @@ const ComposeForm = props => {
       setCategoryError('Please select a category.');
       messageValid = false;
     }
+    setMessageInvalid(!messageValid);
     return messageValid;
   };
 
@@ -250,8 +273,9 @@ const ComposeForm = props => {
     if (!attachments.length) setNavigationError(null);
   };
 
-  const sendMessageHandler = () => {
+  const sendMessageHandler = async () => {
     // TODO add GA event
+    await setMessageInvalid(false);
     if (checkMessageValidity()) {
       setSendMessageFlag(true);
       setNavigationError(null);
