@@ -4,10 +4,13 @@ import { expect } from 'chai';
 import { renderInReduxProvider } from '../../../testing/unit/react-testing-library-helpers';
 import { Toggler } from '../../feature-toggles/Toggler';
 
+// this toggle name should not be removed, if it is the test will fail, so a different toggle name would need to be used
+const testToggleName = Toggler.TOGGLE_NAMES.profileUseExperimental;
+
 describe('Toggler with enabled/disabled nested components', () => {
   it('should show enabled nested component', async () => {
     const view = renderInReduxProvider(
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
+      <Toggler toggleName={testToggleName}>
         <Toggler.Enabled>
           <p>Enabled</p>
         </Toggler.Enabled>
@@ -18,7 +21,7 @@ describe('Toggler with enabled/disabled nested components', () => {
       {
         initialState: {
           featureToggles: {
-            [Toggler.TOGGLE_NAMES.profileUseInfoCard]: true,
+            [testToggleName]: true,
           },
         },
       },
@@ -29,7 +32,7 @@ describe('Toggler with enabled/disabled nested components', () => {
 
   it('should show enabled nested component', async () => {
     const view = renderInReduxProvider(
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
+      <Toggler toggleName={testToggleName}>
         <Toggler.Enabled>
           <p>Enabled</p>
         </Toggler.Enabled>
@@ -40,7 +43,7 @@ describe('Toggler with enabled/disabled nested components', () => {
       {
         initialState: {
           featureToggles: {
-            [Toggler.TOGGLE_NAMES.profileUseInfoCard]: false,
+            [testToggleName]: false,
           },
         },
       },
@@ -53,13 +56,13 @@ describe('Toggler with enabled/disabled nested components', () => {
 describe('Toggler HOC with render prop', () => {
   it('should provide toggle value in HOC and render Enabled based on the value', async () => {
     const view = renderInReduxProvider(
-      <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
+      <Toggler.Hoc toggleName={testToggleName}>
         {toggleValue => <p>{toggleValue ? 'Enabled' : 'Disabled'}</p>}
       </Toggler.Hoc>,
       {
         initialState: {
           featureToggles: {
-            [Toggler.TOGGLE_NAMES.profileUseInfoCard]: true,
+            [testToggleName]: true,
           },
         },
       },
@@ -70,13 +73,13 @@ describe('Toggler HOC with render prop', () => {
 
   it('should provide toggle value in HOC and render Disabled based on the value', async () => {
     const view = renderInReduxProvider(
-      <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
+      <Toggler.Hoc toggleName={testToggleName}>
         {toggleValue => <p>{toggleValue ? 'Enabled' : 'Disabled'}</p>}
       </Toggler.Hoc>,
       {
         initialState: {
           featureToggles: {
-            [Toggler.TOGGLE_NAMES.profileUseInfoCard]: false,
+            [testToggleName]: false,
           },
         },
       },

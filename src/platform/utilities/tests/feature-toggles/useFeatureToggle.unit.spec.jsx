@@ -4,14 +4,16 @@ import { expect } from 'chai';
 import PropTypes from 'prop-types';
 
 import { renderInReduxProvider } from '../../../testing/unit/react-testing-library-helpers';
+
 import { useFeatureToggle } from '../../feature-toggles/useFeatureToggle';
+import { Toggler } from '../../feature-toggles/Toggler';
+
+const testToggleName = Toggler.TOGGLE_NAMES.profileUseExperimental;
 
 const TestComponent = ({ customToggleName = null }) => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const { useToggleValue } = useFeatureToggle();
 
-  const toggleValue = useToggleValue(
-    customToggleName || TOGGLE_NAMES.profileUseInfoCard,
-  );
+  const toggleValue = useToggleValue(customToggleName || testToggleName);
 
   return (
     <div>
@@ -25,7 +27,7 @@ TestComponent.propTypes = {
 };
 
 describe('useFeatureToggle hook', () => {
-  it('should return a feature toggle names objects and a function for use', () => {
+  it('should return a feature toggle names objects and a hook function for use', () => {
     const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
     expect(useToggleValue).to.be.a('function');
     expect(TOGGLE_NAMES).to.be.a('object');
@@ -37,7 +39,7 @@ describe('useFeatureToggle hook', () => {
     const wrapper = renderInReduxProvider(<TestComponent />, {
       initialState: {
         featureToggles: {
-          profile_use_info_card: false,
+          [testToggleName]: false,
         },
       },
     });
@@ -48,7 +50,7 @@ describe('useFeatureToggle hook', () => {
     const wrapper = renderInReduxProvider(<TestComponent />, {
       initialState: {
         featureToggles: {
-          profile_use_info_card: true,
+          [testToggleName]: true,
         },
       },
     });
@@ -62,7 +64,7 @@ describe('useFeatureToggle hook', () => {
         {
           initialState: {
             featureToggles: {
-              profile_use_info_card: true,
+              [testToggleName]: true,
             },
           },
         },
