@@ -21,6 +21,11 @@ const helpSections = [
         example:
           '$ yarn test:unit --log-level debug src/applications/vaos/tests/components/ExpressCareListItem.jsx',
       },
+      {
+        desc: '4. Run tests with code coverage metrics as HTML',
+        example:
+          '$ yarn test:unit --app-folder personalization --coverage --coverage-html',
+      },
     ],
   },
   {
@@ -37,7 +42,13 @@ const helpSections = [
         name: 'coverage',
         typeLabel: '{underline boolean}',
         description:
-          'Runs the unit tests with code coverage metrics, and outputs the results to an html report in coverage/',
+          'Runs the unit tests with code coverage metrics, and outputs the results to an json report in coverage/',
+      },
+      {
+        name: 'coverage-html',
+        typeLabel: '{underline boolean}',
+        description:
+          'Used in conjunction with `--coverage` Runs the unit tests with code coverage metrics, and outputs the results to an html report in coverage/ instead of json.',
       },
       {
         name: 'app-folder',

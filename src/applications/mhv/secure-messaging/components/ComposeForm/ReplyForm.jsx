@@ -6,14 +6,14 @@ import { useHistory } from 'react-router-dom';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FileInput from './FileInput';
 import AttachmentsList from '../AttachmentsList';
-import { saveReplyDraft } from '../../actions/draftDetails';
+import { clearDraft, saveReplyDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 import DeleteDraft from '../Draft/DeleteDraft';
 import { sendReply } from '../../actions/messages';
 import EmergencyNote from '../EmergencyNote';
 import HowToAttachFiles from '../HowToAttachFiles';
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, navigateToFolderByFolderId } from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
@@ -66,6 +66,15 @@ const ReplyForm = props => {
 
   useEffect(
     () => {
+      return () => {
+        dispatch(clearDraft());
+      };
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
       if (sendMessageFlag && isSaving !== true) {
         const messageData = {
           category,
@@ -78,8 +87,14 @@ const ReplyForm = props => {
           const sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendReply(replyMessage.messageId, sendData, true)).then(() =>
-            history.push(`/message/${replyMessage.messageId}`),
+          dispatch(sendReply(replyMessage.messageId, sendData, true)).then(
+            () => {
+              // history.push(`/thread/${replyMessage.messageId}`);
+              navigateToFolderByFolderId(
+                draftToEdit.threadFolderId || replyMessage.folderId,
+                history,
+              );
+            },
           );
         } else {
           dispatch(
@@ -89,7 +104,11 @@ const ReplyForm = props => {
               false,
             ),
           ).then(() => {
-            history.push(`/message/${replyMessage.messageId}`);
+            // history.push(`/thread/${replyMessage.messageId}`);
+            navigateToFolderByFolderId(
+              draftToEdit.threadFolderId || replyMessage.folderId,
+              history,
+            );
           });
         }
       }
@@ -257,114 +276,119 @@ const ReplyForm = props => {
     return (
       <>
         <h1 className="page-title">{setMessageTitle()}</h1>
-        <form
-          className="reply-form"
-          data-testid="reply-form"
-          onSubmit={sendMessageHandler}
-        >
-          {saveError && (
-            <VaModal
-              modalTitle={saveError.title}
-              onPrimaryButtonClick={() => setSaveError(null)}
-              onCloseEvent={() => setSaveError(null)}
-              primaryButtonText="Continue editing"
-              status="warning"
-              visible
-            >
-              <p>{saveError.p1}</p>
-              {saveError.p2 && <p>{saveError.p2}</p>}
-            </VaModal>
-          )}
-          <RouteLeavingGuard
-            when={!!navigationError}
-            navigate={path => {
-              history.push(path);
-            }}
-            shouldBlockNavigation={() => {
-              return !!navigationError;
-            }}
-            title={navigationError?.title}
-            p1={navigationError?.p1}
-            p2={navigationError?.p2}
-            confirmButtonText={navigationError?.confirmButtonText}
-            cancelButtonText={navigationError?.cancelButtonText}
-          />
-          <EmergencyNote />
-          <div>
-            <p>
-              <i
-                className="fas fa-reply vads-u-margin-right--0p5"
-                aria-hidden="true"
-              />
-              <strong>
-                <strong className="vads-u-color--secondary-darkest">
-                  (Draft)
-                </strong>{' '}
-                To:{' '}
-              </strong>
-              {replyMessage.recipientName}
-              <br />
-            </p>
-            <va-textarea
-              label="Message"
-              required
-              id="message-body"
-              name="message-body"
-              className="message-body"
-              data-testid="message-body-field"
-              onInput={e => setMessageBody(e.target.value)}
-              value={messageBody}
-              error={bodyError}
+        <div role="heading" aria-level="2">
+          <form
+            className="reply-form"
+            data-testid="reply-form"
+            onSubmit={sendMessageHandler}
+          >
+            {saveError && (
+              <VaModal
+                modalTitle={saveError.title}
+                onPrimaryButtonClick={() => setSaveError(null)}
+                onCloseEvent={() => setSaveError(null)}
+                primaryButtonText="Continue editing"
+                status="warning"
+                visible
+              >
+                <p>{saveError.p1}</p>
+                {saveError.p2 && <p>{saveError.p2}</p>}
+              </VaModal>
+            )}
+            <RouteLeavingGuard
+              when={!!navigationError}
+              navigate={path => {
+                history.push(path);
+              }}
+              shouldBlockNavigation={() => {
+                return !!navigationError;
+              }}
+              title={navigationError?.title}
+              p1={navigationError?.p1}
+              p2={navigationError?.p2}
+              confirmButtonText={navigationError?.confirmButtonText}
+              cancelButtonText={navigationError?.cancelButtonText}
             />
-            <section className="attachments-section vads-u-margin-top--2">
-              <strong>Attachments</strong>
-              <HowToAttachFiles />
-              <AttachmentsList
-                attachments={attachments}
-                setAttachments={setAttachments}
-                editingEnabled
+            <EmergencyNote />
+            <div>
+              <h4
+                className="vads-u-display--flex vads-u-color--gray-dark vads-u-font-weight--bold"
+                style={{ whiteSpace: 'break-spaces' }}
+              >
+                <i
+                  className="fas fa-reply vads-u-margin-right--0p5"
+                  aria-hidden="true"
+                />
+                {`(Draft) To: ${draftToEdit?.replyToName ||
+                  replyMessage?.senderName}\n(Team: ${
+                  replyMessage.triageGroupName
+                })`}
+                <br />
+              </h4>
+              <va-textarea
+                label="Message"
+                required
+                id="reply-message-body"
+                name="reply-message-body"
+                className="message-body"
+                data-testid="message-body-field"
+                onInput={e => setMessageBody(e.target.value)}
+                value={messageBody}
+                error={bodyError}
               />
+              <section className="attachments-section vads-u-margin-top--2">
+                <strong>Attachments</strong>
+                <HowToAttachFiles />
+                <AttachmentsList
+                  attachments={attachments}
+                  setAttachments={setAttachments}
+                  editingEnabled
+                />
 
-              <FileInput
-                attachments={attachments}
-                setAttachments={setAttachments}
-              />
-            </section>
-            <div className="compose-form-actions vads-u-display--flex">
-              {!cannotReplyAlert && (
+                <FileInput
+                  attachments={attachments}
+                  setAttachments={setAttachments}
+                />
+              </section>
+              <div className="compose-form-actions vads-u-display--flex">
+                {!cannotReplyAlert && (
+                  <button
+                    type="button"
+                    className="vads-u-flex--1"
+                    data-testid="Send-Button"
+                    onClick={sendMessageHandler}
+                  >
+                    Send
+                  </button>
+                )}
                 <button
                   type="button"
-                  className="vads-u-flex--1"
-                  data-testid="Send-Button"
-                  onClick={sendMessageHandler}
+                  className="usa-button-secondary vads-u-flex--1"
+                  data-testid="Save-Draft-Button"
+                  onClick={() => saveDraftHandler('manual')}
                 >
-                  Send
+                  Save draft
                 </button>
-              )}
-              <button
-                type="button"
-                className="usa-button-secondary vads-u-flex--1"
-                data-testid="Save-Draft-Button"
-                onClick={() => saveDraftHandler('manual')}
-              >
-                Save draft
-              </button>
-              {/* UCD requested to keep button even when not saved as draft */}
-              <DeleteDraft draftId={newDraftId} />
+                {/* UCD requested to keep button even when not saved as draft */}
+                <DeleteDraft draftId={newDraftId} />
+              </div>
             </div>
-          </div>
-          <DraftSavedInfo userSaved={userSaved} />
-          <div className="message-detail-note vads-u-text-align--center">
-            <p>
-              <i>
-                Note: This message may not be from the person you intially
-                contacted. It may have been reassigned to efficiently address
-                your original message
-              </i>
-            </p>
-          </div>
-        </form>
-        <main className="vads-u-margin--0" data-testid="message-replied-to">
+            <DraftSavedInfo userSaved={userSaved} />
+            <div className="message-detail-note vads-u-text-align--center">
+              <p>
+                <i>
+                  Note: This message may not be from the person you intially
+                  contacted. It may have been reassigned to efficiently address
+                  your original message
+                </i>
+              </p>
+            </div>
+          </form>
+        </div>
+        <main
+          className="vads-u-margin--0 message-replied-to"
+          data-testid="message-replied-to"
+        >
           <section aria-label="message details.">
             <p className="vads-u-margin--0">
               <strong>From: </strong>

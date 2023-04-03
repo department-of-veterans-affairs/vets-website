@@ -10,7 +10,10 @@ import AppointmentListItem from './AppointmentDisplay/AppointmentListItem';
 import { makeSelectApp } from '../selectors';
 import { useFormRouting } from '../hooks/useFormRouting';
 import { APP_NAMES } from '../utils/appConstants';
-import { getAppointmentId, sortAppointmentsByStartTime } from '../utils/appointment';
+import {
+  getAppointmentId,
+  sortAppointmentsByStartTime,
+} from '../utils/appointment';
 
 const AppointmentBlock = props => {
   const { appointments, page, router } = props;
