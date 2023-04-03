@@ -41,7 +41,7 @@ const VaccineListItem = props => {
         </div>
       </div>
       <Link
-        to={`/vaccine-details/${record.id}`}
+        to={`/health-history/vaccines/${record.id}`}
         className="vads-u-margin-y--0p5 no-print"
       >
         Details
