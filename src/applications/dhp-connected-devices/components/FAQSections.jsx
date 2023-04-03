@@ -225,7 +225,14 @@ export const SecondFAQSection = () => {
           with employees, contractors, and other service providers as necessary
           to respond to a request, provide a service, or as otherwise authorized
           by law. For more information on VA.gov protection refer to the{' '}
-          <a href="https://www.va.gov/privacy-policy/">Privacy Policy</a>.
+          <a
+            href="https://www.va.gov/privacy-policy/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Privacy Policy
+          </a>
+          .
         </va-accordion-item>
         <va-accordion-item
           header="What will happen if I decide to disconnect my device?"
