@@ -69,6 +69,7 @@ const InterstitialPage = props => {
           role="button"
           onKeyPress={handleKeyPress}
           onClick={props.acknowledge}
+          data-testid="continue-button"
         >
           {continueButtonText}
         </a>

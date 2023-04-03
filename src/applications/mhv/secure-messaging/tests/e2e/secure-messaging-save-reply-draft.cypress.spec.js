@@ -1,6 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
+import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 import mockMessages from './fixtures/messages-response.json';
 
@@ -8,6 +9,7 @@ describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
     const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
+    const patientInterstitialPage = new PatientInterstitialPage();
     const replyPage = new PatientReplyPage();
     const site = new SecureMessagingSite();
     site.login();
@@ -15,6 +17,7 @@ describe('Secure Messaging Reply', () => {
     landingPage.loadInboxMessages(mockMessages, messageDetails);
     messageDetailsPage.loadMessageDetails(messageDetails);
     messageDetailsPage.loadReplyPageDetails(messageDetails);
+    patientInterstitialPage.getContinueButton().click();
     const testMessageBody = 'Test message body';
     replyPage.getMessageBodyField().type(testMessageBody);
     cy.injectAxe();

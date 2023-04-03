@@ -7,6 +7,7 @@ describe('Secure Messaging Compose Categories', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   const composePage = new PatientComposePage();
+
   beforeEach(() => {
     site.login();
     cy.intercept(

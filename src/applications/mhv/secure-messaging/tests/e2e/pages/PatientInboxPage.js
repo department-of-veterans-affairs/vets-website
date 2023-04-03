@@ -7,6 +7,7 @@ import mockSpecialCharsMessage from '../fixtures/message-response-specialchars.j
 import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
+import PatientInterstitialPage from './PatientInterstitialPage';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -297,7 +298,8 @@ class PatientInboxPage {
 
   loadComposeMessagePage = () => {
     cy.get('[data-testid="compose-message-link"]').click();
-    this.interstitialStartMessage().click();
+    const interstitialPage = new PatientInterstitialPage();
+    interstitialPage.getContinueButton().click();
   };
 
   navigatePrintCancelButton = () => {
@@ -329,5 +331,4 @@ class PatientInboxPage {
     cy.realPress(['Enter']);
   };
 }
-
 export default PatientInboxPage;
