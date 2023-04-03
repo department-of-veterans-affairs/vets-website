@@ -43,6 +43,7 @@ describe('<DocumentRequestPage>', () => {
       title: 'Test',
       body: 'Testing',
     };
+
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
         params={params}
@@ -51,7 +52,8 @@ describe('<DocumentRequestPage>', () => {
         message={message}
       />,
     );
-    expect(tree.subTree('Notification')).not.to.be.false;
+    const content = tree.dive(['DocumentRequestPageContent']);
+    expect(content.subTree('Notification')).not.to.be.false;
   });
 
   it('should clear upload error when leaving', () => {
@@ -110,6 +112,7 @@ describe('<DocumentRequestPage>', () => {
       type: 'still_need_from_you_list',
       suspenseDate: '2010-05-10',
     };
+
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
         params={params}
@@ -117,8 +120,11 @@ describe('<DocumentRequestPage>', () => {
         trackedItem={trackedItem}
       />,
     );
-    expect(tree.subTree('DueDate')).not.to.be.false;
-    expect(tree.subTree('DueDate').props.date).to.eql(trackedItem.suspenseDate);
+    const content = tree.dive(['DocumentRequestPageContent']);
+    expect(content.subTree('DueDate')).not.to.be.false;
+    expect(content.subTree('DueDate').props.date).to.eql(
+      trackedItem.suspenseDate,
+    );
   });
 
   it('should render optional upload alert', () => {
