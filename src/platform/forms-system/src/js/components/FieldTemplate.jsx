@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 import get from '../../../../utilities/data/get';
 import { isReactComponent } from '../../../../utilities/ui';
-import WebComponent from './WebComponent';
 // import environment from 'platform/utilities/environment';
 
 /*
@@ -108,10 +107,11 @@ export default function FieldTemplate(props) {
     !uiSchema['ui:options']?.hideLabelText &&
     (typeof label !== 'string' || (requiredSpan || label.trim()));
 
-  if (uiSchema['ui:webComponent']) {
+  const WebComponent = uiSchema['ui:webComponent'];
+
+  if (WebComponent) {
     return (
       <WebComponent
-        webComponent={uiSchema['ui:webComponent']}
         textDescription={textDescription}
         showLabel={showLabel}
         label={label}
