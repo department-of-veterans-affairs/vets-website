@@ -6,7 +6,6 @@ import {
   VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -16,6 +15,7 @@ import useDebounce from '../../hooks/use-debounce';
 import DeleteDraft from '../Draft/DeleteDraft';
 import { sortRecipients } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
+import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import HowToAttachFiles from '../HowToAttachFiles';
 import {
@@ -70,16 +70,6 @@ const ComposeForm = props => {
     TEST_RESULTS,
     EDUCATION,
   } = Categories;
-
-  const focusOnErrorField = () => {
-    focusElement(
-      document
-        .querySelectorAll('[error]:not([error=""]')[0]
-        .shadowRoot.querySelector(
-          '[aria-describedby="error-message"], #error-message',
-        ),
-    );
-  };
 
   useEffect(
     () => {
@@ -203,7 +193,6 @@ const ComposeForm = props => {
   };
 
   const checkMessageValidity = () => {
-    // setMessageInvalid(false);
     let messageValid = true;
     if (!selectedRecipient || selectedRecipient === '') {
       setRecipientError('Please select a recipient.');

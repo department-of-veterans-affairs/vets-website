@@ -11,6 +11,7 @@ import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 import DeleteDraft from '../Draft/DeleteDraft';
 import { sendReply } from '../../actions/messages';
+import { focusOnErrorField } from '../../util/formHelpers';
 import EmergencyNote from '../EmergencyNote';
 import HowToAttachFiles from '../HowToAttachFiles';
 import { dateFormat, navigateToFolderByFolderId } from '../../util/helpers';
@@ -41,6 +42,7 @@ const ReplyForm = props => {
   const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
+  const [messageInvalid, setMessageInvalid] = useState(false);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const history = useHistory();
@@ -75,6 +77,15 @@ const ReplyForm = props => {
 
   useEffect(
     () => {
+      if (messageInvalid) {
+        focusOnErrorField();
+      }
+    },
+    [messageInvalid],
+  );
+
+  useEffect(
+    () => {
       if (sendMessageFlag && isSaving !== true) {
         const messageData = {
           category,
@@ -89,7 +100,6 @@ const ReplyForm = props => {
           attachments.map(upload => sendData.append('uploads[]', upload));
           dispatch(sendReply(replyMessage.messageId, sendData, true)).then(
             () => {
-              // history.push(`/thread/${replyMessage.messageId}`);
               navigateToFolderByFolderId(
                 draftToEdit.threadFolderId || replyMessage.folderId,
                 history,
@@ -104,7 +114,6 @@ const ReplyForm = props => {
               false,
             ),
           ).then(() => {
-            // history.push(`/thread/${replyMessage.messageId}`);
             navigateToFolderByFolderId(
               draftToEdit.threadFolderId || replyMessage.folderId,
               history,
@@ -175,10 +184,12 @@ const ReplyForm = props => {
       setBodyError('Message body cannot be blank.');
       messageValid = false;
     }
+    setMessageInvalid(!messageValid);
     return messageValid;
   };
 
-  const sendMessageHandler = () => {
+  const sendMessageHandler = async () => {
+    await setMessageInvalid(false);
     if (checkMessageValidity()) {
       setSendMessageFlag(true);
       setNavigationError(null);
@@ -262,6 +273,11 @@ const ReplyForm = props => {
     ],
   );
 
+  const messageBodyHandler = e => {
+    setMessageBody(e.target.value);
+    if (e.target.value) setBodyError('');
+  };
+
   if (!sendMessageFlag && !navigationError && attachments.length) {
     setNavigationError({
       title: "We can't save attachments in a draft message",
@@ -332,7 +348,7 @@ const ReplyForm = props => {
                 name="reply-message-body"
                 className="message-body"
                 data-testid="message-body-field"
-                onInput={e => setMessageBody(e.target.value)}
+                onInput={messageBodyHandler}
                 value={messageBody}
                 error={bodyError}
               />
