@@ -97,6 +97,7 @@ export const NOTIFICATION_GROUPS = Object.freeze({
   GENERAL: 'group2',
   YOUR_HEALTH_CARE: 'group3',
   PAYMENTS: 'group4',
+  QUICK_SUBMIT: 'group5',
 });
 
 /**

@@ -111,6 +111,10 @@ const NotificationSettings = ({
             mobilePhoneNumber={mobilePhoneNumber}
           />
           {notificationGroups.ids.map(groupId => {
+            // filtering out the quick submit group for now until it is ready
+            if (groupId === NOTIFICATION_GROUPS.QUICK_SUBMIT) {
+              return null;
+            }
             // we handle the health care group a little differently
             if (groupId === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
               return (
