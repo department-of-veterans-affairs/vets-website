@@ -56,12 +56,11 @@ class FilesPage extends React.Component {
       return <FilesPageContent claim={claim} params={params} />;
     }
 
-    const { open, waiverSubmitted } = claim.attributes;
+    const { eventsTimeline, open, phase, waiverSubmitted } = claim.attributes;
     const isOpen = open;
     const showDecision =
-      claim.attributes.phase === FIRST_GATHERING_EVIDENCE_PHASE &&
-      !waiverSubmitted;
-    const trackedItems = claim.attributes.eventsTimeline.filter(event =>
+      phase === FIRST_GATHERING_EVIDENCE_PHASE && !waiverSubmitted;
+    const trackedItems = eventsTimeline.filter(event =>
       event.type.endsWith('_list'),
     );
     const filesNeeded = trackedItems.filter(

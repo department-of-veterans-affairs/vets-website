@@ -62,12 +62,12 @@ class ClaimStatusPage extends React.Component {
     // claim can be null
     const attributes = (claim && claim.attributes) || {};
 
-    const { open, phase } = attributes;
+    const { decisionLetterSent, eventsTimeline, phase } = attributes;
 
-    const isOpen = open;
-    const filesNeeded = itemsNeedingAttentionFromVet(attributes.eventsTimeline);
+    const isOpen = attributes.open;
+    const filesNeeded = itemsNeedingAttentionFromVet(eventsTimeline);
     const showDocsNeeded =
-      !attributes.decisionLetterSent &&
+      !decisionLetterSent &&
       isOpen &&
       attributes.documentsNeeded &&
       filesNeeded > 0;
@@ -77,13 +77,13 @@ class ClaimStatusPage extends React.Component {
         {showDocsNeeded ? (
           <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
         ) : null}
-        {attributes.decisionLetterSent && !isOpen ? (
+        {decisionLetterSent && !isOpen ? (
           <ClaimsDecision
             completedDate={getCompletedDate(claim)}
             showClaimLettersLink={showClaimLettersLink}
           />
         ) : null}
-        {!attributes.decisionLetterSent && !isOpen ? (
+        {!decisionLetterSent && !isOpen ? (
           <ClaimComplete completedDate={getCompletedDate(claim)} />
         ) : null}
         {phase && isOpen ? (
@@ -92,7 +92,7 @@ class ClaimStatusPage extends React.Component {
             phase={phase}
             currentPhaseBack={attributes.currentPhaseBack}
             everPhaseBack={attributes.everPhaseBack}
-            events={attributes.eventsTimeline}
+            events={eventsTimeline}
           />
         ) : null}
       </div>
