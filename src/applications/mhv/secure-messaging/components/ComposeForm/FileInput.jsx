@@ -1,10 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { acceptedFileTypes, Attachments } from '../../util/constants';
 
 const FileInput = ({ attachments, setAttachments }) => {
   const [error, setError] = useState();
   const fileInputRef = useRef();
+  const errorRef = useRef(null);
+  const [selectedFileId, setSelectedFileId] = useState(null);
 
   // Validation for files
   const handleFiles = event => {
@@ -13,6 +15,7 @@ const FileInput = ({ attachments, setAttachments }) => {
     }, 0);
     const selectedFile = event.target.files[0];
 
+    setSelectedFileId(selectedFile.lastModified);
     // eslint disabled here to clear the input's stored value to allow a user to remove and re-add the same attachment
     // https://stackoverflow.com/questions/42192346/how-to-reset-reactjs-file-input
     // eslint-disable-next-line no-param-reassign
@@ -90,6 +93,16 @@ const FileInput = ({ attachments, setAttachments }) => {
     }
   };
 
+  useEffect(
+    () => {
+      const errorElement = document.getElementById(`error-${selectedFileId}`);
+      if (errorElement) {
+        errorElement.focus();
+      }
+    },
+    [selectedFileId],
+  );
+
   const useFileInput = () => {
     fileInputRef.current.click();
   };
@@ -99,11 +112,14 @@ const FileInput = ({ attachments, setAttachments }) => {
       {error && (
         <label
           htmlFor="attachments"
-          id="error-message"
+          id={`error-${selectedFileId}`}
           role="alert"
           data-testid="file-input-error-message"
+          ref={errorRef}
+          tabIndex="-1"
+          aria-live="polite"
         >
-          <p>{error.message}</p>
+          {error.message}
         </label>
       )}
 
