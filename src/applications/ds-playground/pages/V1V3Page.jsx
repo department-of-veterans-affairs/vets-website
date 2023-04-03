@@ -13,6 +13,7 @@ import {
   VaCheckboxGroup,
   VaCheckbox,
   VaMemorableDate,
+  VaButtonPair,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V1V3Page() {
@@ -276,6 +277,43 @@ export default function V1V3Page() {
                 label="V3 Memorable date"
                 id="v3MemorableDateValue"
               />
+            </div>
+          </div>
+        </div>
+
+        {/* Button pair Comparison */}
+        <div className="vads-l-row">
+          <h4>Button pair</h4>
+          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <VaButtonPair
+                continue
+                onPrimaryClick={() => {}}
+                onSecondaryClick={function noRefCheck() {}}
+              />
+            </div>
+
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <VaButtonPair
+                continue
+                onPrimaryClick={() => {}}
+                onSecondaryClick={function noRefCheck() {}}
+                uswds
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Button Comparison */}
+        <div className="vads-l-row">
+          <h4>Button</h4>
+          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <va-button onClick={() => {}} text="Edit" />
+            </div>
+
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <va-button onClick={() => {}} text="Edit" uswds />
             </div>
           </div>
         </div>
