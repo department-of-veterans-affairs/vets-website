@@ -7,10 +7,10 @@ export default function DocumentRequestPageContent({ trackedItem }) {
   return (
     <>
       <h1 className="claims-header">{trackedItem.displayName}</h1>
-      {trackedItem.neededFrom === 'YOU' ? (
+      {trackedItem.type.endsWith('you_list') ? (
         <DueDate date={trackedItem.suspenseDate} />
       ) : null}
-      {trackedItem.neededFrom === 'OTHERS' ? (
+      {trackedItem.type.endsWith('others_list') ? (
         <div className="optional-upload">
           <p>
             <strong>Optional</strong> - We’ve asked others to send this to us,
