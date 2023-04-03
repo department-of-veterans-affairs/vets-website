@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import ClaimPhase from '../../components/ClaimPhase';
+import ClaimPhase from '../../components/evss/ClaimPhase';
 
 describe('<ClaimPhase>', () => {
   it('should render activity when on current phase', () => {
