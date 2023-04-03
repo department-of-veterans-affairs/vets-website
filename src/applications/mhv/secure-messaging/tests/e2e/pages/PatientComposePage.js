@@ -28,7 +28,7 @@ class PatientComposePage {
   verifySendMessageConfirmationMessage = () => {
     cy.get('.vads-u-margin-bottom--1').should(
       'have.text',
-      'Message was successfully sent.',
+      'Secure message was successfully sent.',
     );
   };
 
