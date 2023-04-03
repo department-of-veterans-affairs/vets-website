@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import set from 'platform/utilities/data/set';
@@ -7,23 +7,25 @@ import { selectMemorableDateOfBirth } from '../redux-selectors';
 
 const MemorableDateOfBirthField = props => {
   const { showDateOfBirth, formData } = props;
-
+  const [dateOfBirth, setDateOfBirth] = useState(
+    get('application.claimant.dateOfBirth', formData),
+  );
   // console.log(formData);
   const updateField = event => {
     const claimant = set(
-      'application.claimant.dateOfBirth',
+      'dateOfBirth',
       event.target.value,
-      formData,
+      formData.application?.claimant,
     );
-    // console.log(claimant);
-    return set('application.claimant', claimant, formData);
+    setDateOfBirth(claimant?.dateOfBirth);
+    // console.log(dateOfBirth);
   };
 
   if (showDateOfBirth) {
     return (
       <>
         <VaMemorableDate
-          value={get('application.claimant.dateOfBirth', formData)}
+          value={dateOfBirth}
           onDateBlur={updateField}
           onDateChange={updateField}
         />
