@@ -9,7 +9,7 @@ describe('Secure Messaging Compose', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
-    cy.get('[data-testid="compose-message-link"]').click();
+    landingPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
