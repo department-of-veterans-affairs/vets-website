@@ -49,6 +49,7 @@ const formConfigKeys = [
   'transformForSubmit',
   'confirmation',
   'preSubmitInfo',
+  'hasVetsJsonSchema',
   'footerContent',
   'getHelp',
   'errorText',
@@ -160,13 +161,14 @@ const validFormConfigKeys = formConfig => {
   });
 };
 
-const validFormId = formConfig => {
+const validVetsJsonSchema = formConfig => {
+  if (formConfig.hasVetsJsonSchema === false) {
+    return;
+  }
   let { formId } = formConfig;
   if (Object.keys(remapFormId).includes(formId)) {
     formId = remapFormId[formId];
   }
-
-  validStringProperty(formConfig, 'formId');
   const schemaFormIds = Object.keys(schemas);
   if (missingFromVetsJsonSchema.includes(formId)) {
     expect(schemaFormIds).to.not.include(
@@ -176,7 +178,7 @@ const validFormId = formConfig => {
   } else {
     expect(schemaFormIds).to.include(
       formId,
-      `the formId "${formId}" does not match an entry in vets-json-schema/dist/schemas. Add the ID to missingFromVetsJsonSchema or add the corresponding schema to the vets-json-schema repo.`,
+      `the formId "${formId}" does not match an entry in vets-json-schema/dist/schemas. a) Add the ID to missingFromVetsJsonSchema, b) add the corresponding schema to the vets-json-schema repo, or c) set hasVetsJsonSchema to false in the formConfig if it should not have a corresponding vets-json-schema.`,
     );
   }
 };
@@ -291,7 +293,8 @@ describe('form:', () => {
         import(configFilePath).then(({ default: formConfig }) => {
           validStringProperty(formConfig, 'ariaDescribedBySubmit', false);
           validFormConfigKeys(formConfig);
-          validFormId(formConfig);
+          validStringProperty(formConfig, 'formId');
+          validVetsJsonSchema(formConfig);
           validStringProperty(formConfig, 'rootUrl', true);
           validNumberProperty(formConfig, 'version');
           validMigrations(formConfig);
