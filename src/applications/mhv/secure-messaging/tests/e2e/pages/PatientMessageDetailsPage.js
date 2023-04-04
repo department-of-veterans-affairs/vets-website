@@ -274,6 +274,20 @@ class PatientMessageDetailsPage {
     cy.log('message does not have attachment');
   };
 
+  verifyUnexpandedMessageFromDisplay = messageDetails => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        messageDetails.data.attributes.messageId
+      }`,
+      messageDetails,
+    );
+    cy.get('[data-testid="expand-message-button-7161879"]').should(
+      'contain',
+      `From: ${this.currentThread.data.at(2).attributes.senderName}`,
+    );
+  };
+
   verifyExpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
     cy.get('[data-testid="from"]')
       .eq(messageIndex)
