@@ -320,7 +320,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `(Draft) To: ${messageDetails.data.attributes.senderName}\n(Team: ${
+        `(Draft) To:${messageDetails.data.attributes.senderName}\n(Team: ${
           messageDetails.data.attributes.triageGroupName
         })`,
       );
@@ -363,11 +363,11 @@ class PatientMessageDetailsPage {
     );
   };
 
-  ReplyToMessagebody = messageDetails => {
+  ReplyToMessagebody = messageBody => {
     cy.get(
       '.vads-u-margin-top--1 > .message-list-body-collapsed > .vads-u-margin-y--0',
     ).should($mbody => {
-      expect($mbody.text()).to.contain(messageDetails.data.attributes.body);
+      expect($mbody.text()).to.contain(messageBody);
     });
   };
 }

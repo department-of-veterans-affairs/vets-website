@@ -36,7 +36,7 @@ export const mockGetVitalsList = () => {
  * @returns json with base64 of a pdf
  */
 export const getVaccinePdf = id => {
-  return apiRequest(`${apiBasePath}/phr/vaccines?id=${id}`, {
+  return apiRequest(`${apiBasePath}/medical_records/vaccines/pdf?id=${id}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -48,7 +48,7 @@ export const getVaccinePdf = id => {
  * @returns json with base64 of a pdf
  */
 export const getAllVaccinesPdf = () => {
-  return apiRequest(`${apiBasePath}/phr/vaccines`, {
+  return apiRequest(`${apiBasePath}/medical_records/vaccines/pdf`, {
     headers: {
       'Content-Type': 'application/json',
     },

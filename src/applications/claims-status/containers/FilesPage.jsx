@@ -1,14 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import ClaimDetailLayout from '../components/ClaimDetailLayout';
-import AskVAToDecide from '../components/AskVAToDecide';
+
+import FilesPageContent from '../components/evss/FilesPageContent';
 import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
-import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
+import AskVAToDecide from '../components/AskVAToDecide';
+import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
+import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 
 import { clearNotification } from '../actions';
+import { cstUseLighthouse } from '../selectors';
 import { getClaimType } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
@@ -46,6 +50,66 @@ class FilesPage extends React.Component {
     this.props.clearNotification();
   }
 
+  getPageContent() {
+    const { claim, params, useLighthouse } = this.props;
+    if (!useLighthouse) {
+      return <FilesPageContent claim={claim} params={params} />;
+    }
+
+    const { eventsTimeline, open, phase, waiverSubmitted } = claim.attributes;
+    const isOpen = open;
+    const showDecision =
+      phase === FIRST_GATHERING_EVIDENCE_PHASE && !waiverSubmitted;
+    const trackedItems = eventsTimeline.filter(event =>
+      event.type.endsWith('_list'),
+    );
+    const filesNeeded = trackedItems.filter(
+      event =>
+        event.status === NEED_ITEMS_STATUS &&
+        event.type === 'still_need_from_you_list',
+    );
+    const optionalFiles = trackedItems.filter(
+      event =>
+        event.status === NEED_ITEMS_STATUS &&
+        event.type === 'still_need_from_others_list',
+    );
+    const documentsTurnedIn = trackedItems.filter(
+      event =>
+        event.status !== NEED_ITEMS_STATUS ||
+        !event.type.startsWith('still_need_from'),
+    );
+
+    return (
+      <div>
+        {isOpen && (
+          <RequestedFilesInfo
+            id={claim.id}
+            filesNeeded={filesNeeded}
+            optionalFiles={optionalFiles}
+          />
+        )}
+        {showDecision && <AskVAToDecide id={params.id} />}
+        <div className="submitted-files-list">
+          <h2 className="claim-file-border">Documents filed</h2>
+          {documentsTurnedIn.length === 0 ? (
+            <div>
+              <p>You haven’t turned in any documents to VA.</p>
+            </div>
+          ) : null}
+
+          {documentsTurnedIn.map(
+            (item, itemIndex) =>
+              (item.status || item.trackedItemStatus) && item.trackedItemId ? (
+                <SubmittedTrackedItem item={item} key={itemIndex} />
+              ) : (
+                <AdditionalEvidenceItem item={item} key={itemIndex} />
+              ),
+          )}
+        </div>
+      </div>
+    );
+  }
+
   setTitle() {
     document.title = this.props.loading
       ? 'Files - Your claim'
@@ -57,57 +121,7 @@ class FilesPage extends React.Component {
 
     let content = null;
     if (!loading && claim) {
-      const showDecision =
-        claim.attributes.phase === FIRST_GATHERING_EVIDENCE_PHASE &&
-        !claim.attributes.waiverSubmitted;
-      const trackedItems = claim.attributes.eventsTimeline.filter(event =>
-        event.type.endsWith('_list'),
-      );
-      const filesNeeded = trackedItems.filter(
-        event =>
-          event.status === NEED_ITEMS_STATUS &&
-          event.type === 'still_need_from_you_list',
-      );
-      const optionalFiles = trackedItems.filter(
-        event =>
-          event.status === NEED_ITEMS_STATUS &&
-          event.type === 'still_need_from_others_list',
-      );
-      const documentsTurnedIn = trackedItems.filter(
-        event =>
-          event.status !== NEED_ITEMS_STATUS ||
-          !event.type.startsWith('still_need_from'),
-      );
-
-      content = (
-        <div>
-          {claim.attributes.open && (
-            <RequestedFilesInfo
-              id={claim.id}
-              filesNeeded={filesNeeded}
-              optionalFiles={optionalFiles}
-            />
-          )}
-          {showDecision && <AskVAToDecide id={this.props.params.id} />}
-          <div className="submitted-files-list">
-            <h2 className="claim-file-border">Documents filed</h2>
-            {documentsTurnedIn.length === 0 ? (
-              <div>
-                <p>You haven’t turned in any documents to VA.</p>
-              </div>
-            ) : null}
-
-            {documentsTurnedIn.map(
-              (item, itemIndex) =>
-                item.trackedItemId ? (
-                  <SubmittedTrackedItem item={item} key={itemIndex} />
-                ) : (
-                  <AdditionalEvidenceItem item={item} key={itemIndex} />
-                ),
-            )}
-          </div>
-        </div>
-      );
+      content = this.getPageContent();
     }
 
     return (
@@ -133,11 +147,27 @@ function mapStateToProps(state) {
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
     synced: claimsState.claimSync.synced,
+    useLighthouse: cstUseLighthouse(state),
   };
 }
 
 const mapDispatchToProps = {
   clearNotification,
+};
+
+FilesPage.propTypes = {
+  claim: PropTypes.object,
+  clearNotification: PropTypes.func,
+  lastPage: PropTypes.string,
+  loading: PropTypes.bool,
+  message: PropTypes.shape({
+    body: PropTypes.string,
+    title: PropTypes.string,
+    type: PropTypes.string,
+  }),
+  params: PropTypes.object,
+  synced: PropTypes.bool,
+  useLighthouse: PropTypes.bool,
 };
 
 export default connect(

@@ -50,7 +50,7 @@ const Navigation = () => {
       path: '/health-history',
       label: 'Health history',
       datatestid: 'health-history-sidebar',
-      subPaths: healthHistoryPaths,
+      subpaths: healthHistoryPaths,
     },
     {
       path: '/share-your-medical-record',
@@ -99,21 +99,25 @@ const Navigation = () => {
 
   const handleActiveLinksStyle = path => {
     if (path === '/' && location.pathname === '/') return 'is-active';
-    if (path !== '/' && location.pathname === path) return 'is-active';
+    if (location.pathname === path) return 'is-active';
     return '';
   };
 
-  const subMenu = subPaths => {
+  const handleSubpathsOpen = path => {
+    return location.pathname !== '/' && location.pathname.includes(path);
+  };
+
+  const subMenu = subpaths => {
     return (
       <div className="sidebar-navigation-mr-list-menu">
         <ul className="usa-sidenav-list sub-list">
-          {subPaths.map((subPath, j) => (
-            <li key={j} data-testid={subPath.datatestid}>
+          {subpaths.map((subpath, j) => (
+            <li key={j} data-testid={subpath.datatestid}>
               <Link
-                className={handleActiveLinksStyle(subPath.path)}
-                to={subPath.path}
+                className={handleActiveLinksStyle(subpath.path)}
+                to={subpath.path}
               >
-                <span>{subPath.label}</span>
+                <span>{subpath.label}</span>
               </Link>
             </li>
           ))}
@@ -123,7 +127,7 @@ const Navigation = () => {
   };
 
   return (
-    <div className="medical-records-navigation vads-u-flex--auto vads-u-padding-bottom--7 medium-screen:vads-u-padding-bottom--0">
+    <div className="medical-records-navigation vads-u-flex--auto vads-u-padding-bottom--7 medium-screen:vads-u-padding-bottom--0 no-print">
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div className="sidebar-navigation">
@@ -152,7 +156,9 @@ const Navigation = () => {
                     </Link>
                   </div>
 
-                  {path.subPaths && subMenu(path.subPaths)}
+                  {path.subpaths &&
+                    handleSubpathsOpen(path.path) &&
+                    subMenu(path.subpaths)}
                 </li>
               ))}
             </ul>

@@ -7,16 +7,11 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { dateFormat } from '../util/helpers';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getVitalDetails } from '../actions/vitals';
+import PrintHeader from '../components/shared/PrintHeader';
 
 const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = () => {
   const filteredVitals = useSelector(state => state.mr.vitals.vitalDetails);
-  const user = useSelector(state => state.user.profile);
-  const { first, last, middle, suffix } = user.userFullName;
-  const name = user.first
-    ? `${last}, ${first} ${middle}, ${suffix}`
-    : 'Doe, John R., Jr.';
-  const { dob } = user;
   const { vitalType } = useParams();
   const dispatch = useDispatch();
 
@@ -191,12 +186,7 @@ const VitalDetails = () => {
 
   return (
     <>
-      <div className="print-only print-header">
-        <span>
-          {name} - {dob}
-        </span>
-        <h4>CONFIDENTIAL</h4>
-      </div>
+      <PrintHeader />
 
       {content()}
     </>

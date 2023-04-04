@@ -19,7 +19,7 @@ describe('Pre-Check In Experience', () => {
         initializePreCheckInDataGet,
         initializePreCheckInDataPost,
       } = ApiInitializer;
-      initializeFeatureToggle.withDetailsPage();
+      initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
 
       initializeSessionPost.withSuccess();
@@ -67,7 +67,7 @@ describe('Pre-Check In Experience', () => {
         initializePreCheckInDataGet,
         initializePreCheckInDataPost,
       } = ApiInitializer;
-      initializeFeatureToggle.withDetailsPage();
+      initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
 
       initializeSessionPost.withSuccess();

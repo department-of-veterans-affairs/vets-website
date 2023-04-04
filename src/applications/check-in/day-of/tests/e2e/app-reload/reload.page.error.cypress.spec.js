@@ -23,9 +23,15 @@ describe('Check In Experience', () => {
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
-      initializeCheckInDataGet.withBadReload();
+      initializeCheckInDataGet.withSuccess();
       initializeCheckInDataPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
+      cy.visitWithUUID();
+      ValidateVeteran.validatePage.dayOf();
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      Demographics.validatePageLoaded();
+      initializeCheckInDataGet.withFailure();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -33,37 +39,18 @@ describe('Check In Experience', () => {
       });
     });
     it('demographics page', () => {
-      cy.visitWithUUID();
-
-      ValidateVeteran.validatePage.dayOf();
-      ValidateVeteran.validateVeteran();
-      ValidateVeteran.attemptToGoToNextPage();
-      Demographics.validatePageLoaded();
       cy.reload();
       Error.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
     it('emergency contact page', () => {
-      cy.visitWithUUID();
-
-      ValidateVeteran.validatePage.dayOf();
-      ValidateVeteran.validateVeteran();
-      ValidateVeteran.attemptToGoToNextPage();
-      Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
-
       EmergencyContact.validatePageLoaded();
       cy.reload();
       Error.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
     it('next of kin page', () => {
-      cy.visitWithUUID();
-
-      ValidateVeteran.validatePage.dayOf();
-      ValidateVeteran.validateVeteran();
-      ValidateVeteran.attemptToGoToNextPage();
-      Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
@@ -76,12 +63,6 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
     });
     it('appointments page', () => {
-      cy.visitWithUUID();
-
-      ValidateVeteran.validatePage.dayOf();
-      ValidateVeteran.validateVeteran();
-      ValidateVeteran.attemptToGoToNextPage();
-      Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
@@ -96,12 +77,6 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
     });
     it('confirmation page', () => {
-      cy.visitWithUUID();
-
-      ValidateVeteran.validatePage.dayOf();
-      ValidateVeteran.validateVeteran();
-      ValidateVeteran.attemptToGoToNextPage();
-      Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();

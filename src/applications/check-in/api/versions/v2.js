@@ -55,11 +55,9 @@ const v2 = {
     };
   },
 
-  getCheckInData: async (token, reload = false) => {
+  getCheckInData: async token => {
     const url = '/check_in/v2/patient_check_ins/';
-    const requestUrl = appendQuery(`${environment.API_URL}${url}${token}`, {
-      reload,
-    });
+    const requestUrl = `${environment.API_URL}${url}${token}`;
     const json = await makeApiCallWithSentry(
       apiRequest(requestUrl),
       'get-lorota-data',
@@ -96,11 +94,10 @@ const v2 = {
       ...json,
     };
   },
-  getPreCheckInData: async (token, reload = false) => {
+  getPreCheckInData: async token => {
     const url = '/check_in/v2/pre_check_ins/';
     const requestUrl = appendQuery(`${environment.API_URL}${url}${token}`, {
       checkInType: 'preCheckIn',
-      reload,
     });
 
     const json = await makeApiCallWithSentry(
