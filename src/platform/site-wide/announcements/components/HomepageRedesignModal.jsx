@@ -21,7 +21,7 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
     hasRedirectParam = searchParams.has('next');
   }
   const isAllowed = useStaggeredFeatureRelease(
-    50,
+    75,
     'show-homepage-soft-launch-modal',
   );
 
