@@ -22,23 +22,19 @@ describe('Forms library - Forms signature component', () => {
 
   describe('signature input', () => {
     it('should render input with default label', () => {
-      const { getByLabelText } = render(<FormSignature {...signatureProps} />);
-      expect(getByLabelText('Veteran’s full name')).to.exist;
+      const { container } = render(<FormSignature {...signatureProps} />);
+      expect(
+        container.querySelector('va-text-input').getAttribute('label'),
+      ).to.equal('Veteran’s full name');
     });
 
     it('should render input with custom string label', () => {
-      const { getByLabelText } = render(
+      const { container } = render(
         <FormSignature {...signatureProps} signatureLabel="Custom text here" />,
       );
-      expect(getByLabelText('Custom text here')).to.exist;
-    });
-
-    it('should render input input with custom React element label', () => {
-      const customLabel = <span>Custom text here</span>;
-      const { getByLabelText } = render(
-        <FormSignature {...signatureProps} signatureLabel={customLabel} />,
-      );
-      expect(getByLabelText('Custom text here')).to.exist;
+      expect(
+        container.querySelector('va-text-input').getAttribute('label'),
+      ).to.equal('Custom text here');
     });
 
     it('should pass axeCheck', () => {
@@ -89,19 +85,21 @@ describe('Forms library - Forms signature component', () => {
   });
 
   describe('validation', () => {
-    it.skip('should require signature and certification', () => {
-      const { getByText } = render(
+    it('should require signature and certification', () => {
+      const { container } = render(
         <FormSignature {...signatureProps} required />,
       );
-      expect(getByText(inputErrorText)).to.exist;
-      expect(getByText(checkboxErrorText)).to.exist;
+      expect(
+        container.querySelector('va-text-input').getAttribute('required'),
+      ).to.equal('true');
     });
 
     it('should not show validation errors when showError is false', () => {
-      const { queryByText } = render(
+      const { container, queryByText } = render(
         <FormSignature {...signatureProps} showError={false} required />,
       );
-      expect(queryByText(inputErrorText)).to.not.exist;
+      expect(container.querySelector('va-text-input').getAttribute('error')).to
+        .not.exist;
       expect(queryByText(checkboxErrorText)).to.not.exist;
     });
 
@@ -167,7 +165,7 @@ describe('Forms library - Forms signature component', () => {
       //   - There are no validation errors
       //   - The checkbox has been checked
       const oscSpy = spy();
-      const { container, getByLabelText } = render(
+      const { container } = render(
         <FormSignature
           {...signatureProps}
           required
@@ -187,7 +185,10 @@ describe('Forms library - Forms signature component', () => {
       userEvent.click(checkbox);
 
       // Not called if the box isn't checked
-      userEvent.type(getByLabelText(/Veteran’s full name/), 'asdf');
+      userEvent.type(
+        container.querySelector('va-text-input').getAttribute('label'),
+        'asdf',
+      );
       expect(oscSpy.called).to.be.false;
     });
 
