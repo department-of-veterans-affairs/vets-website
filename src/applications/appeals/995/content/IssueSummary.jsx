@@ -25,7 +25,7 @@ const IssueSummary = ({ formData }) => {
     <fieldset>
       <legend className={legendClassNames}>
         <h3 className="vads-u-margin-y--0">
-          Confirm the issues you’re asking to receive a Supplemental Claim for.
+          You’ve selected the following issues for review
         </h3>
       </legend>
       <ul className="issues-summary vads-u-margin-bottom--0">
