@@ -49,24 +49,6 @@ const createMockSuccessResponse = (
   return rv;
 };
 
-const createMockFailedResponse = _data => {
-  return {
-    error: true,
-  };
-};
-
-const createMockNotFoundResponse = () => {
-  return {
-    errors: [
-      {
-        status: '404',
-      },
-    ],
-  };
-};
-
 module.exports = {
   createMockSuccessResponse,
-  createMockFailedResponse,
-  createMockNotFoundResponse,
 };

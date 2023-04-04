@@ -151,7 +151,7 @@ const useGetCheckInData = ({
             });
         } else {
           api.v2
-            .getCheckInData(token, reload)
+            .getCheckInData(token)
             .then(json => {
               setDayOfData(json.payload);
             })

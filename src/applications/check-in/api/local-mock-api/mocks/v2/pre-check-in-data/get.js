@@ -140,28 +140,10 @@ const createMockSuccessResponse = (
   };
 };
 
-const createMockFailedResponse = _data => {
-  return {
-    error: true,
-  };
-};
-
-const createMockNotFoundResponse = () => {
-  return {
-    errors: [
-      {
-        status: '404',
-      },
-    ],
-  };
-};
-
 module.exports = {
   alreadyPreCheckedInUUID,
   canceledAppointmentUUID,
   createMockSuccessResponse,
-  createMockFailedResponse,
-  createMockNotFoundResponse,
   defaultUUID,
   expiredUUID,
   past15MinuteUUID,
