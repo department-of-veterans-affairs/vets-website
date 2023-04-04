@@ -670,9 +670,7 @@ const formConfig = {
             'ui:description': SupportingDocumentsDescription,
             application: {
               preneedAttachments: fileUploadUI('Select files to upload', {
-                addAnotherLabel: environment.isProduction()
-                  ? 'Add Another'
-                  : 'Add another',
+                addAnotherLabel: 'Add another',
                 fileUploadUrl: `${
                   environment.API_URL
                 }/v0/preneeds/preneed_attachments`,
