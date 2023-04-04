@@ -5,6 +5,8 @@ import { isValidUSZipCode } from 'platform/forms/address';
 import { errorMessages, MAX_LENGTH } from '../constants';
 import { validateDate } from './date';
 
+const REGEX_EMPTY_DATE = /--/;
+
 /* *** VA *** */
 export const validateVaLocation = (errors, data) => {
   const { locationAndName } = data || {};
@@ -40,11 +42,13 @@ export const validateVaToDate = (errors, data) => {
 };
 
 // Check if VA evidence object is empty
+// an empty va-memorable-date value may equal '--'
 export const isEmptyVaEntry = (checkData = {}) =>
   [
     checkData.locationAndName || '',
     ...(checkData.issues || []),
-    ...Object.values(checkData.evidenceDates || {}),
+    (checkData.evidenceDates?.from || '').replace(REGEX_EMPTY_DATE, ''),
+    (checkData.evidenceDates?.to || '').replace(REGEX_EMPTY_DATE, ''),
   ].join('') === '';
 
 export const validateVaUnique = (errors, _data, fullData) => {
@@ -131,12 +135,15 @@ export const validatePrivateToDate = (errors, data) => {
   }
 };
 
+// Check if private evidence object is empty
+// an empty va-memorable-date value may equal '--'
 export const isEmptyPrivateEntry = (checkData = {}) => {
   const result = [
     checkData.providerFacilityName || '',
     ...Object.values(checkData.providerFacilityAddress || {}),
     ...(checkData.issues || []),
-    ...Object.values(checkData.treatmentDateRange || {}),
+    (checkData.treatmentDateRange?.from || '').replace(REGEX_EMPTY_DATE, ''),
+    (checkData.treatmentDateRange?.to || '').replace(REGEX_EMPTY_DATE, ''),
   ].join('');
   // country defaults to 'USA' when adding a new entry
   return result === '' || result === 'USA';
