@@ -109,7 +109,7 @@ export default function FieldTemplate(props) {
 
   const WebComponent = uiSchema['ui:webComponent'];
 
-  if (WebComponent) {
+  if (typeof WebComponent === 'function') {
     return (
       <WebComponent
         textDescription={textDescription}
