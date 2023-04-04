@@ -75,6 +75,7 @@ export const MAX_LENGTH = {
 };
 
 export const REGEX_COMMA = /[, ]/g;
+export const REGEX_EMPTY_DATE = /--/;
 
 export const errorMessages = {
   contestedIssue: 'You must select an eligible issue',

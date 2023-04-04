@@ -2,10 +2,13 @@ import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms-system/src/js/utilities/validations';
 import { isValidUSZipCode } from 'platform/forms/address';
 
-import { errorMessages, MAX_LENGTH, REGEX_COMMA } from '../constants';
+import {
+  errorMessages,
+  MAX_LENGTH,
+  REGEX_COMMA,
+  REGEX_EMPTY_DATE,
+} from '../constants';
 import { validateDate } from './date';
-
-const REGEX_EMPTY_DATE = /--/;
 
 /* *** VA *** */
 export const validateVaLocation = (errors, data) => {
