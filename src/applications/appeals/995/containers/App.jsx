@@ -149,6 +149,7 @@ export const App = ({
         pathname={location.pathname}
         title={formConfig.title}
         benefitType={subTaskBenefitType}
+        router={router}
       >
         {children}
       </ITFWrapper>

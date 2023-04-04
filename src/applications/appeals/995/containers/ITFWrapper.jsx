@@ -25,6 +25,7 @@ const ITFWrapper = ({
   pathname,
   children,
   mockDispatch,
+  router,
 }) => {
   const allowITF = loggedIn && isSupportedBenefitType(benefitType);
   const [isFetching, setIsFetching] = useState(false);
@@ -108,6 +109,7 @@ const ITFWrapper = ({
           previousITF={itf.previousITF}
           currentExpDate={currentExpDate}
           previousExpDate={prevExpDate}
+          router={router}
         >
           {children}
         </ITFBanner>
@@ -153,6 +155,9 @@ ITFWrapper.propTypes = {
   children: PropTypes.any.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   pathname: PropTypes.string.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   itf: PropTypes.shape({
     fetchCallState: PropTypes.oneOf(requestStateEnum).isRequired,
     creationCallState: PropTypes.oneOf(requestStateEnum).isRequired,
