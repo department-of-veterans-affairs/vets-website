@@ -22,18 +22,32 @@ export const getListOfThreads = (
       sortField,
       sortOrder,
     );
+    if (response.length === 0) {
+      dispatch({
+        type: Actions.Thread.GET_EMPTY_LIST,
+        response,
+      });
+    }
     dispatch({
       type: Actions.Thread.GET_LIST,
       response,
     });
   } catch (e) {
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_ERROR,
-        '',
-        Constants.Alerts.Thread.GET_THREAD_ERROR,
-      ),
-    );
+    if (e.errors[0].detail === 'No messages in the requested folder') {
+      const noThreads = [];
+      dispatch({
+        type: Actions.Thread.GET_EMPTY_LIST,
+        response: noThreads,
+      });
+    } else {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Thread.GET_THREAD_ERROR,
+        ),
+      );
+    }
   }
 };
 

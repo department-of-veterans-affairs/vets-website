@@ -171,8 +171,8 @@ const EvidenceVaRecords = ({
     onChange: event => {
       const { target = {} } = event;
       const fieldName = target.name;
-      // detail.value from va-select & target.value from va-text-input
-      const value = event.detail?.value || target.value;
+      // target.value from va-text-input & va-memorable-date
+      const value = target.value || '';
       updateCurrentLocation({ [fieldName]: value });
     },
 
@@ -231,7 +231,7 @@ const EvidenceVaRecords = ({
       // a new empty entry
       if (isEmptyVaEntry(currentData)) {
         updateCurrentLocation({ remove: true });
-      } else if (hasErrors() && addOrEdit === 'edit') {
+      } else if (hasErrors()) {
         updateState({
           submitted: true,
           modal: { show: true, direction: NAV_PATHS.back },

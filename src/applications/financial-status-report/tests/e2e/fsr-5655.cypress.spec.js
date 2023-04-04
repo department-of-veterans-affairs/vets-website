@@ -65,7 +65,10 @@ const testConfig = createTestConfig(
       'employment-records': ({ afterHook }) => {
         afterHook(() => {
           // Employer One - Current Employment
-          cy.findByLabelText(/Type of work/).select('Full time');
+          cy.get('[data-test-id="employment-type"]')
+            .shadow()
+            .find('select')
+            .select('Full time');
           cy.fillDate('from', '2017-1');
           cy.get(`input[name="current-employment"]`).check();
           cy.get(`input[name="employerName"]`).type('Employer One');
@@ -75,7 +78,10 @@ const testConfig = createTestConfig(
           // Add job link
           cy.get('.add-item-button').click();
           // Employer Two - Previous Employment
-          cy.findByLabelText(/Type of work/).select('Full time');
+          cy.get('[data-test-id="employment-type"]')
+            .shadow()
+            .find('select')
+            .select('Full time');
           cy.fillDate('from', '2015-1');
           cy.fillDate('to', '2017-1');
           cy.get(`input[name="employerName"]`).type('Employer Two');
@@ -89,7 +95,10 @@ const testConfig = createTestConfig(
       'spouse-employment-records': ({ afterHook }) => {
         afterHook(() => {
           // Employer One - Current Employment
-          cy.findByLabelText(/Type of work/).select('Full time');
+          cy.get('[data-test-id="employment-type"]')
+            .shadow()
+            .find('select')
+            .select('Full time');
           cy.fillDate('from', '2015-5');
           cy.get(`input[name="current-employment"]`).check();
           cy.get(`input[name="employerName"]`).type('Employer One');
@@ -99,7 +108,10 @@ const testConfig = createTestConfig(
           // Add job link
           cy.get('.add-item-button').click();
           // Employer Two - Previous Employment
-          cy.findByLabelText(/Type of work/).select('Full time');
+          cy.get('[data-test-id="employment-type"]')
+            .shadow()
+            .find('select')
+            .select('Full time');
           cy.fillDate('from', '2013-2');
           cy.fillDate('to', '2018-3');
           cy.get(`input[name="employerName"]`).type('Employer Two');
