@@ -68,6 +68,27 @@ describe('995 contact info loop', () => {
       .click();
   };
 
+  it('should go to intro page when back button is selected on intent to file message', () => {
+    cy.injectAxeThenAxeCheck();
+
+    cy.findAllByText(/start your claim/i, { selector: 'a' })
+      .first()
+      .click();
+    cy.get('.itf-inner')
+      .should('be.visible')
+      .then(() => {
+        // Click past the ITF message
+        // cy.findByText(/continue/i, { selector: 'button' }).click();
+        cy.get('va-button-pair')
+          .shadow()
+          .find('va-button[back]')
+          .shadow()
+          .find('button')
+          .click();
+      });
+    cy.location('pathname').should('eq', `${BASE_URL}/introduction`);
+  });
+
   it('should edit info on a new page & cancel returns to contact info page - C30848', () => {
     getToContactPage();
 
