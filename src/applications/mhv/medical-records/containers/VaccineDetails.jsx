@@ -33,12 +33,12 @@ const VaccineDetails = () => {
               label: 'Health history',
             },
             {
-              url: '/my-health/medical-records/vaccines',
+              url: '/my-health/medical-records/health-history/vaccines',
               label: 'VA vaccines',
             },
           ],
           {
-            url: `/my-health/medical-records/vaccine-details/${vaccineId}`,
+            url: `/my-health/medical-records/health-history/vaccines/${vaccineId}`,
             label: vaccineDetails?.name,
           },
         ),
