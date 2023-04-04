@@ -1,9 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { expect } from 'chai';
-import { setupServer } from 'msw/node';
 
-import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
 
 import {
@@ -67,18 +65,6 @@ const testContactInfo = toggleValue => {
 };
 
 describe('ContactInformation', () => {
-  let server;
-  before(() => {
-    server = setupServer(...mocks.updateDD4CNPSuccess);
-    server.listen();
-  });
-  afterEach(() => {
-    server.resetHandlers();
-  });
-  after(() => {
-    server.close();
-  });
-
   context(
     'correct contact info based on what exists in the Redux state',
     () => {
