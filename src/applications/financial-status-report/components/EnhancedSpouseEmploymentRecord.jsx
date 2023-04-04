@@ -40,7 +40,6 @@ const EmploymentRecord = props => {
   const [employmentRecord, setEmploymentRecord] = useState({
     ...(isEditing ? specificRecord : defaultRecord[0]),
   });
-  const [employerNameError, setEmployerNameError] = useState(false);
   const [employerName, setEmployerName] = useState(
     employmentRecord.employerName || null,
   );
@@ -102,16 +101,6 @@ const EmploymentRecord = props => {
     }
 
     if (!employmentRecord.employerName) {
-      setEmployerNameError(true);
-    } else {
-      setEmployerNameError(false);
-    }
-    if (
-      !employmentRecord.type &&
-      employmentRecord.type !== '' &&
-      !employmentRecord.employerName &&
-      employmentRecord.employerName !== ''
-    ) {
       return;
     }
 
@@ -247,14 +236,6 @@ const EmploymentRecord = props => {
         }
       />
       <div className="input-size-6 vads-u-margin-bottom--2">
-        <va-text-input
-          label="Employer name"
-          name="employerName"
-          onInput={handleEmployerNameChange}
-          value={employmentRecord.employerName}
-          required
-          error={employerNameError ? 'Please enter your employer name.' : ''}
-        />
         <VaTextInput
           className="no-wrap input-size-6"
           error={(submitted && nameError) || null}
