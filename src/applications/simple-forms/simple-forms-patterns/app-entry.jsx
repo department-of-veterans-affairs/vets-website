@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import './sass/simple-forms-patterns.scss';
+import './sass/mock-simple-forms-patterns.scss';
 
 import startApp from 'platform/startup';
 
