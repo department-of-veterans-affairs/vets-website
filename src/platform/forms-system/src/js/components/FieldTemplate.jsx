@@ -107,11 +107,11 @@ export default function FieldTemplate(props) {
     !uiSchema['ui:options']?.hideLabelText &&
     (typeof label !== 'string' || (requiredSpan || label.trim()));
 
-  const WebComponent = uiSchema['ui:webComponent'];
+  const WebComponentField = uiSchema['ui:webComponentField'];
 
-  if (typeof WebComponent === 'function') {
+  if (typeof WebComponentField === 'function') {
     return (
-      <WebComponent
+      <WebComponentField
         textDescription={textDescription}
         showLabel={showLabel}
         label={label}
