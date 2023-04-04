@@ -1,7 +1,7 @@
 import { Actions } from '../util/actionTypes';
 
 const initialState = {
-  alertVisible: true,
+  alertVisible: false,
   /**
    * The list of possible message categories
    * @type {array}
