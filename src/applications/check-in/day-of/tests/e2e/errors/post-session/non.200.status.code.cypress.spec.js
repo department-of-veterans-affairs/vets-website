@@ -40,7 +40,7 @@ describe('Check In Experience ', () => {
 
       ValidateVeteran.attemptToGoToNextPage();
 
-      Error.validatePageLoaded();
+      ValidateVeteran.validateErrorAlert();
     });
   });
 });
