@@ -1,4 +1,5 @@
 import moment from 'moment-timezone';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { DefaultFolders as Folders } from './constants';
 
 export const folderPathByFolderId = folderId => {
@@ -108,6 +109,7 @@ export const openCrisisModal = () => {
     'class',
     `${modal.getAttribute('class')} va-overlay--open`,
   );
+  focusElement(document.querySelector('a[href="tel:988"]'));
 };
 
 export const handleHeader = (folderId, folder) => {

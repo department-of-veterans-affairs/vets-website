@@ -1,28 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { openCrisisModal } from '../util/helpers';
 
 const EmergencyNote = props => {
   const { dropDownFlag } = props;
 
   const content = () => (
     <>
-      <ul className="vads-u-margin-bottom--2">
-        <li>
-          <strong>If you think your life or health is in danger,</strong> call{' '}
-          <va-telephone contact="911" /> or go to the nearest emergency room.
-        </li>
-        <li>
-          <strong>
-            If you’re in a mental health crisis or thinking about suicide,
-          </strong>{' '}
-          call <va-telephone contact="988" /> then select 1. Or you can chat at{' '}
-          <a href="https://988lifeline.org/">988lifeline.org</a>
-        </li>
-      </ul>
-      <p className="vads-u-margin-bottom--0">
-        Messages are only for non-urgent questions and concerns.{' '}
-        <strong>It can take up to 3 business days to get a response.</strong>
-      </p>
+      <div className="vads-u-margin-bottom--2">
+        <p>
+          Your care team may take up to <strong>3 business days</strong> to
+          reply.
+        </p>
+        <p>
+          If you need help sooner, use one of these urgent communication
+          options:
+        </p>
+        <ul>
+          <li>
+            <strong>If you’re in crisis or having thoughts of suicide,</strong>{' '}
+            connect with our Veterans Crisis Line. We offer confidential support
+            anytime, day or night.
+          </li>
+          <va-button
+            className="vads-u-margin-top--1"
+            // style={{ position: 'relative', left: '-25px' }}
+            secondary
+            onClick={openCrisisModal}
+            text="Connect with the Veterans Crisis Line"
+          />
+          <li>
+            <strong>If you think your life or health is in danger,</strong> Call{' '}
+            <va-telephone contact="911" /> or go to the nearest emergency room.
+          </li>
+        </ul>
+      </div>
     </>
   );
 
@@ -30,8 +42,8 @@ const EmergencyNote = props => {
     <>
       {dropDownFlag ? (
         <va-alert-expandable
-          status="warning"
-          trigger="Don’t use messages for emergencies"
+          status="info"
+          trigger="Only use messages for non-urgent needs"
         >
           <div className="vads-u-padding-x--1 vads-u-padding-bottom--1">
             {content()}

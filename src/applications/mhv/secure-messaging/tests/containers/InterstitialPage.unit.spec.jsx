@@ -1,21 +1,21 @@
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import React from 'react';
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
 import InterstitialPage from '../../containers/InterstitialPage';
+import { getByBrokenText } from '../../util/testUtils';
 
 describe('Interstitial page header', () => {
-  const initialState = {
-    sm: {},
-  };
-  it('renders without errors', () => {
-    const screen = renderWithStoreAndRouter(<InterstitialPage />, {
-      initialState,
-    });
+  it('renders without errors', async () => {
+    render(<InterstitialPage />);
 
-    screen.getByText(
-      'connect with our Veterans Crisis Line. We offer confidential support anytime day or night.',
-      {
-        exact: false,
-      },
-    );
+    expect(
+      getByBrokenText(
+        'If you’re in crisis or having thoughts of suicide, ',
+        document.querySelector('.interstitial-page'),
+      ),
+    ).to.exist;
+    expect(
+      document.querySelector('[text="Connect with the Veterans Crisis Line"]'),
+    ).to.exist;
   });
 });

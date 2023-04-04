@@ -18,7 +18,7 @@ describe('Pre-Check In Experience ', () => {
       initializePreCheckInDataPost,
       initializeDemographicsPatch,
     } = ApiInitializer;
-    initializeFeatureToggle.withPhoneAppointments();
+    initializeFeatureToggle.withAllFeatures();
     initializeDemographicsPatch.withSuccess();
     initializeSessionGet.withSuccessfulNewSession();
 
@@ -35,7 +35,7 @@ describe('Pre-Check In Experience ', () => {
       window.sessionStorage.clear();
     });
   });
-  it.skip('Happy Path yes to demographics', () => {
+  it('Happy Path yes to demographics', () => {
     cy.visitPreCheckInWithUUID('258d753c-262a-4ab2-b618-64b645884daf');
     // page: Validate
     ValidateVeteran.validatePage.preCheckIn();
