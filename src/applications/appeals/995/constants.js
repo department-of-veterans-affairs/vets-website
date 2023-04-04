@@ -123,6 +123,7 @@ export const errorMessages = {
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
+export const NO_ISSUES_SELECTED = 'No issues were selected';
 
 // contested issue dates
 export const FORMAT_YMD = 'YYYY-MM-DD';
@@ -150,6 +151,7 @@ const supportedBenefitTypes = [
 ];
 
 export const LEGACY_TYPE = 'legacyAppeal';
+export const AMA_DATE = '2019-02-19'; // Appeals Modernization Act in effect
 
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,

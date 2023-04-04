@@ -582,10 +582,6 @@ h1:focus {
     color: $color-primary;
   }
 
-  .section-header {
-    padding-right: 23px !important;
-  }
-
   .section-current:before {
     background: $color-primary;
   }
@@ -839,8 +835,12 @@ h1:focus {
 
 .claim-timeline-icon {
   float: right;
-  margin-top: 6px;
+  margin-top: 3px;
+}
+
+button .claim-timeline-icon.fa {
   font-size: 17px;
+  padding-right: 0;
 }
 
 .claims-evidence-list {

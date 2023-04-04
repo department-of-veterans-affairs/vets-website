@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import recordEvent from '~/platform/monitoring/record-event';
 import CTALink from '../CTALink';
 import { getAppointmentTimezone } from '../../utils/timezone';
 
@@ -42,6 +43,13 @@ export const AppointmentsCard = ({ appointments }) => {
           href="/health-care/schedule-view-va-appointments/appointments"
           showArrow
           className="vads-u-font-weight--bold"
+          onClick={() =>
+            recordEvent({
+              event: 'nav-linkslist',
+              'links-list-header': 'Schedule and manage your appointments',
+              'links-list-section-header': 'Health care',
+            })
+          }
         />
       </div>
     </div>

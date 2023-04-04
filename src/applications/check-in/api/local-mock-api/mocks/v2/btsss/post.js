@@ -1,26 +1,18 @@
 const createMockSuccessResponse = _data => {
   return {
     data: {
-      value: {
-        claimNumber: 'TC202207000011666',
-      },
-      formatters: [],
-      contentTypes: [],
-      declaredType: null,
-      statusCode: 200,
+      statusCode: 202,
     },
-    status: 200,
+    status: 202,
   };
 };
 
-const createMockFailedResponse = errorType => {
+const createMockFailedResponse = () => {
   return {
     data: {
       error: true,
-      code: errorType,
-      message: '10/16/2020 : Error message',
     },
-    status: 400,
+    status: 500,
   };
 };
 

@@ -7,10 +7,7 @@ import {
   validateMonthYear,
   validateFutureDateIfExpectedGrad,
 } from 'platform/forms-system/src/js/validation';
-import {
-  schema as addressSchema,
-  uiSchema as addressUI,
-} from 'platform/forms/definitions/address';
+import * as address from 'platform/forms/definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
@@ -45,7 +42,6 @@ import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage5490 from '../content/directDeposit';
 import createDirectDepositPage from '../../pages/directDeposit';
 import applicantInformationUpdate from '../components/applicantInformationUpdate';
-import GuardianInformation from '../components/GuardianInformation';
 import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
@@ -151,7 +147,6 @@ const formConfig = {
     fullName,
     ssn,
     vaFileNumber,
-    phone,
   },
   chapters: {
     applicantInformation: {
@@ -426,6 +421,18 @@ const formConfig = {
           path: 'sponsor/information',
           uiSchema: {
             spouseInfo: {
+              marriageDate: {
+                ...dateUI('Date of marriage'),
+                'ui:title': 'Date of marriage',
+                'ui:options': {
+                  hideIf: formData =>
+                    get('relationship', formData) === 'spouse' &&
+                    environment.isProduction(),
+                },
+                'ui:required': formData =>
+                  get('relationship', formData) === 'spouse' &&
+                  !environment.isProduction(),
+              },
               divorcePending: {
                 'ui:title':
                   'Is there a divorce or annulment pending with your sponsor?',
@@ -800,7 +807,7 @@ const formConfig = {
               sameAddress: {
                 'ui:title': 'Address for secondary contact is the same as mine',
               },
-              address: merge({}, addressUI(), {
+              address: merge({}, address.uiSchema(), {
                 'ui:options': {
                   hideIf: formData =>
                     get('secondaryContact.sameAddress', formData) === true,
@@ -817,7 +824,7 @@ const formConfig = {
                   fullName: secondaryContact.properties.fullName,
                   phone,
                   sameAddress: secondaryContact.properties.sameAddress,
-                  address: addressSchema(fullSchema5490),
+                  address: address.schema(fullSchema5490),
                 },
               },
             },
@@ -826,12 +833,6 @@ const formConfig = {
         directDeposit: !environment.isProduction()
           ? createDirectDepositPage5490()
           : createDirectDepositPage(fullSchema5490),
-      },
-    },
-    GuardianInformation: {
-      title: 'Guardian information',
-      pages: {
-        guardianInformation: GuardianInformation(fullSchema5490, {}),
       },
     },
   },

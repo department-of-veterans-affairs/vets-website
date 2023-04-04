@@ -26,14 +26,14 @@ export const API_SIGN_IN_SERVICE_URL = ({
     `?type=${type}`}`;
 
 export const CLIENT_IDS = {
-  WEB: 'web',
   VAWEB: 'vaweb',
-  MOBILE: 'mobile',
   VAMOBILE: 'vamobile',
+  VAMOCK: 'vamock',
 };
 
 export const COOKIES = {
   INFO_TOKEN: 'vagov_info_token',
+  CI: 'ci',
 };
 
 export const OAUTH_KEYS = {

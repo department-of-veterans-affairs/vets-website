@@ -6,6 +6,7 @@ import { DeviceConnectionAlert } from './DeviceConnectionAlerts';
 export const DevicesToConnectSection = ({
   connectedDevices,
   connectionAvailable,
+  hasLoaded,
 }) => {
   const areAllDevicesConnected = () => {
     try {
@@ -59,9 +60,18 @@ export const DevicesToConnectSection = ({
     );
   };
 
-  return connectionAvailable ? devicesToConnect() : error();
+  const devicesAvailableToConnect = connectionAvailable
+    ? devicesToConnect()
+    : error();
+  return !hasLoaded ? (
+    <va-loading-indicator data-testid="va-loading-indicator" set-focus />
+  ) : (
+    devicesAvailableToConnect
+  );
 };
 
 DevicesToConnectSection.propTypes = {
   connectedDevices: PropTypes.array.isRequired,
+  connectionAvailable: PropTypes.bool.isRequired,
+  hasLoaded: PropTypes.bool.isRequired,
 };

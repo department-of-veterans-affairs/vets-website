@@ -239,14 +239,6 @@ export function submitAppointment(appointment) {
   });
 }
 
-export function sendRequestMessage(id, messageText) {
-  return apiRequestWithUrl(`/vaos/v0/appointment_requests/${id}/messages`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messageText }),
-  }).then(parseApiObject);
-}
-
 export function getRequestEligibilityCriteria(sites) {
   return apiRequestWithUrl(
     `/vaos/v0/request_eligibility_criteria?${sites

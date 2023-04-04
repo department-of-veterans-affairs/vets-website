@@ -127,16 +127,19 @@ const GrossMonthlyIncomeInput = props => {
       <div>
         <h3 className="vads-u-margin-top--neg1p5">
           Your job at {employerName}
-        </h3>{' '}
+        </h3>
       </div>
-      <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        What’s your gross monthly income at this job?
-      </span>
+      <p className="vads-u-margin-bottom--0">
+        What’s your gross <strong>monthly</strong> income at this job?{' '}
+        <span className="required vads-u-color--secondary-dark">
+          (*Required)
+        </span>
+      </p>
       <p className="formfield-subtitle">
-        You’ll find this in your paycheck. It’s the amount of your pay before
+        You’ll find this in your pay stub. It’s the amount of your pay before
         taxes and deductions.
       </p>
-      <div className="input">
+      <div className="input vads-u-margin-top--neg3">
         <va-number-input
           inputmode="numeric"
           id="gross-monthly-income"

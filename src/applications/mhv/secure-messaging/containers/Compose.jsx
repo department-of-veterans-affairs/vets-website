@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { clearDraft } from '../actions/draftDetails';
-import { retrieveMessage } from '../actions/messages';
+import { retrieveMessageThread } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
@@ -12,7 +12,6 @@ import EmergencyNote from '../components/EmergencyNote';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import AlertBox from '../components/shared/AlertBox';
 import { addAlert, closeAlert } from '../actions/alerts';
-import { DefaultFolders } from '../util/constants';
 import { isOlderThan } from '../util/helpers';
 import * as Constants from '../util/constants';
 
@@ -21,7 +20,6 @@ const Compose = () => {
   const { draftMessage, error } = useSelector(state => state.sm.draftDetails);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const { draftId } = useParams();
-  const activeFolder = useSelector(state => state.sm.folders.folder);
   const messageHistory = useSelector(
     state => state.sm.draftDetails.draftMessageHistory,
   );
@@ -36,33 +34,34 @@ const Compose = () => {
     () => {
       // to prevent users from accessing draft edit view if directly hitting url path with messageId
       // in case that message no longer is a draft
-      if (isDraftPage && activeFolder?.folderId !== DefaultFolders.DRAFTS.id) {
-        history.push('/drafts');
+      if (isDraftPage && draftMessage === undefined) {
+        dispatch(retrieveMessageThread(draftId));
       }
       if (location.pathname === '/compose') {
         dispatch(clearDraft());
         setReplyMessage(null);
       }
+
       dispatch(getTriageTeams());
-      if (isDraftPage && draftId) {
-        dispatch(retrieveMessage(draftId, true));
-      }
       return () => {
         dispatch(clearDraft());
       };
     },
-    [isDraftPage, draftId, activeFolder, dispatch, history, location.pathname],
+    [dispatch, location.pathname],
   );
 
   useEffect(
     () => {
+      if (draftMessage?.messageId && draftMessage.draftDate === null) {
+        history.push('/inbox');
+      }
       return () => {
         if (isDraftPage) {
           dispatch(closeAlert());
         }
       };
     },
-    [isDraftPage, dispatch],
+    [isDraftPage, draftMessage, history, dispatch],
   );
 
   useEffect(
@@ -123,7 +122,7 @@ const Compose = () => {
         </>
       );
     }
-    if ((isDraftPage && !draftMessage) || !triageTeams) {
+    if ((isDraftPage && !draftMessage) || (!isDraftPage && !triageTeams)) {
       return (
         <va-loading-indicator
           message="Loading your secure message..."
