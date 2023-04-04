@@ -25,6 +25,8 @@ const createStore = ({
       clinicName: 'Green Team Clinic1',
     },
   ],
+  formPages = ['first-page', 'second-page', 'third-page', 'fourth-page'],
+  features = {},
 } = {}) => {
   const middleware = [];
   const mockStore = configureStore(middleware);
@@ -35,7 +37,7 @@ const createStore = ({
         token: 'some-token',
       },
       form: {
-        pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+        pages: formPages,
         data: {
           demographicsUpToDate,
           emergencyContactUpToDate,
@@ -45,6 +47,7 @@ const createStore = ({
       appointments,
       veteranData: {},
     },
+    featureToggles: features,
     ...scheduledDowntimeState,
   };
   return mockStore(initState);
