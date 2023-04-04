@@ -6,7 +6,7 @@ import {
   truncateDescription,
   hasBeenReviewed,
   getItemDate,
-} from '../utils/helpers';
+} from '../../utils/helpers';
 
 export default function SubmittedTrackedItem({ item }) {
   const closed =

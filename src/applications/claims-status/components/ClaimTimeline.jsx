@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ClaimPhase from './evss/ClaimPhase';
+import ClaimPhase from './ClaimPhase';
 import PhaseBackWarning from './PhaseBackWarning';
 import CompleteDetails from './CompleteDetails';
 import { getUserPhase, groupTimelineActivity } from '../utils/helpers';
