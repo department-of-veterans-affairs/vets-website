@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import set from 'platform/utilities/data/set';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 /**
@@ -107,12 +107,17 @@ export const FormSignature = ({
 
   return (
     <>
-      <TextInput
+      <VaTextInput
         label={signatureLabel}
-        field={signature}
-        onValueChange={setSignature}
+        value={signature.value}
+        onInput={event => {
+          setSignature({ value: event.target.value });
+        }}
+        onBlur={() => {
+          setSignature({ value: signature.value, dirty: true });
+        }}
         required={required}
-        errorMessage={(showError || signature.dirty) && signatureError}
+        error={((showError || signature.dirty) && signatureError) || null}
       />
       <Checkbox
         label={checkboxLabel}
