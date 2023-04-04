@@ -230,13 +230,7 @@ export const retrieveMessageThread = (
 export const deleteMessage = threadId => async dispatch => {
   try {
     await deleteMessageCall(threadId);
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_SUCCESS,
-        '',
-        Constants.Alerts.Message.DELETE_MESSAGE_SUCCESS,
-      ),
-    );
+    dispatch({ type: Actions.Message.DELETE_SUCCESS });
   } catch (e) {
     // const error = e.errors[0].detail;
     dispatch(
@@ -260,13 +254,6 @@ export const moveMessageThread = (threadId, folderId) => async dispatch => {
   try {
     await moveThreadCall(threadId, folderId);
     dispatch({ type: Actions.Message.MOVE_SUCCESS });
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_SUCCESS,
-        '',
-        Constants.Alerts.Message.MOVE_MESSAGE_THREAD_SUCCESS,
-      ),
-    );
   } catch (e) {
     dispatch({ type: Actions.Message.MOVE_FAILED });
     dispatch(
