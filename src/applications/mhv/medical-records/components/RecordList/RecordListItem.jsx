@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import VaccineListItem from './VaccineListItem';
 import VitalListItem from './VitalListItem';
+import ConditionListItem from './ConditionListItem';
 
 const RecordListItem = props => {
   const { record, type } = props;
@@ -11,6 +12,8 @@ const RecordListItem = props => {
       return <VaccineListItem record={record} />;
     case 'vital':
       return <VitalListItem record={record} />;
+    case 'health condition':
+      return <ConditionListItem record={record} />;
     default:
       return <p>Something went wrong, please try again.</p>;
   }

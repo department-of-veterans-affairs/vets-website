@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import HealthConditions from './containers/HealthConditions';
 import HealthHistory from './containers/HealthHistory';
 import VaccineDetails from './containers/VaccineDetails';
 import Vaccines from './containers/Vaccines';
@@ -33,6 +34,13 @@ const routes = (
           </Route>
           <Route path="/health-history/vitals/:vitalType" key="VitalDetails">
             <VitalDetails />
+          </Route>
+          <Route
+            exact
+            path="/health-history/health-conditions"
+            key="Health Conditions"
+          >
+            <HealthConditions />
           </Route>
         </Switch>
       </div>

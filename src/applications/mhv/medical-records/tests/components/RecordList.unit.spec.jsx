@@ -29,7 +29,7 @@ describe('Record list component', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen.getByText('Displaying', { exact: false })).to.exist;
+    expect(screen.getByText('Showing', { exact: false })).to.exist;
   });
 
   it('displays a list of records when records are provided', async () => {

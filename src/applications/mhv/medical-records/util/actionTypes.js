@@ -10,4 +10,8 @@ export const Actions = {
     GET: 'MR_VITALS_GET',
     GET_LIST: 'MR_VITALS_GET_LIST',
   },
+  Conditions: {
+    GET: 'MR_CONDITION_GET',
+    GET_LIST: 'MR_CONDITION_GET_LIST',
+  },
 };
