@@ -29,6 +29,6 @@ describe('Secure Messaging - Cross Site Scripting', () => {
         body: 'Test message body- >\x3Cscript>alert(1);\x3C/script>',
         subject: 'Test Cross Scripting - >\x3Cscript>alert(1);\x3C/script>',
       });
-    cy.contains('Message was successfully sent.');
+    cy.contains('Secure message was successfully sent.');
   });
 });

@@ -35,9 +35,7 @@ const OtherAssetsSummary = ({
     return goToPath('/expenses-explainer');
   };
 
-  const cardBody = text => (
-    <p className="vads-u-margin-y--2 vads-u-color--gray">{text}</p>
-  );
+  const cardBody = text => <p className="vads-u-margin-y--2">{text}</p>;
   const emptyPrompt = `Select the ‘add additional assets’ link to add another asset. Select the continue button to move on to the next question.`;
 
   return (
@@ -57,7 +55,7 @@ const OtherAssetsSummary = ({
             otherAssets.map((asset, index) => (
               <MiniSummaryCard
                 body={cardBody(`Value: ${currencyFormatter(asset.amount)}`)}
-                editDesination={{
+                editDestination={{
                   pathname: '/add-other-asset',
                   search: `?index=${index}`,
                 }}
