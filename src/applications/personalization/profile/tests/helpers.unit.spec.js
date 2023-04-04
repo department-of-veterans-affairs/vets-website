@@ -40,7 +40,7 @@ describe('transformServiceHistoryEntryIntoTableRow', () => {
   };
   let transformedData;
 
-  it('should convert military service history into the format the ProfileInfoTable expects', () => {
+  it('should convert military service history into the format the ProfileInfoCard expects', () => {
     transformedData = transformServiceHistoryEntryIntoTableRow(serviceHistory);
     expect(transformedData.title).not.to.be.undefined;
     expect(transformedData.value).not.to.be.undefined;
