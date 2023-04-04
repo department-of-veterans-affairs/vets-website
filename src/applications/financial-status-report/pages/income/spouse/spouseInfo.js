@@ -1,8 +1,7 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 const MaritalStatusInfo = (
-  <AdditionalInfo triggerText="Why does my marital status matter?">
+  <va-additional-info trigger="Why does my marital status matter?">
     <p>
       We want to make sure we understand your household’s financial situation.
     </p>
@@ -11,7 +10,7 @@ const MaritalStatusInfo = (
       situation. This allows us to make a more informed decision on your
       request.
     </p>
-  </AdditionalInfo>
+  </va-additional-info>
 );
 
 export const uiSchema = {

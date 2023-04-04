@@ -39,7 +39,7 @@ describe('Check In Experience', () => {
       });
     });
     it('Appointment shows bad status', () => {
-      Appointments.validateUnavailableStatus();
+      Appointments.validateBadStatus();
       cy.injectAxeThenAxeCheck();
     });
   });

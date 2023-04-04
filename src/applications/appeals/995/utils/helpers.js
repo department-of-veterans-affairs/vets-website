@@ -7,6 +7,7 @@ import {
   EVIDENCE_PRIVATE,
   EVIDENCE_OTHER,
   FORMAT_YMD,
+  AMA_DATE,
 } from '../constants';
 
 /**
@@ -109,6 +110,7 @@ export const getLegacyAppealsLength = issues =>
     return count;
   }, 0);
 
+const amaCutoff = moment(AMA_DATE).startOf('day');
 /**
  * Are there any legacy appeals in the API, or did the Veteran manually add an
  * issue of unknown legacy status?
@@ -117,8 +119,19 @@ export const getLegacyAppealsLength = issues =>
  */
 export const mayHaveLegacyAppeals = ({
   legacyCount = 0,
-  additionalIssues,
-} = {}) => legacyCount > 0 || additionalIssues?.length > 0;
+  contestedIssues = [],
+  additionalIssues = [],
+} = {}) => {
+  if (legacyCount > 0 || additionalIssues?.length > 0) {
+    return true;
+  }
+  return contestedIssues?.some(issue => {
+    const decisionDate = moment(issue.attributes.approxDecisionDate).startOf(
+      'day',
+    );
+    return decisionDate.isBefore(amaCutoff);
+  });
+};
 
 export const someSelected = issues =>
   (issues || []).some(issue => issue[SELECTED]);

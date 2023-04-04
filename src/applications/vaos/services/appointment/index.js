@@ -80,9 +80,6 @@ function hasPartialResults(response) {
   );
 }
 
-function hasBackendSystemFailure(response) {
-  return response.backendSystemFailures?.length > 0;
-}
 // Sort the requested appointments, latest appointments appear at the top of the list.
 function apptRequestSort(a, b) {
   return new Date(b.created).getTime() - new Date(a.created).getTime();
@@ -126,12 +123,9 @@ export async function fetchAppointments({
         return !appt.requestedPeriods;
       });
 
-      appointments.push(...transformVAOSAppointments(filteredAppointments));
-      if (hasBackendSystemFailure(allAppointments)) {
-        appointments.push(...transformVAOSAppointments(filteredAppointments), {
-          meta: allAppointments.backendSystemFailures,
-        });
-      }
+      appointments.push(...transformVAOSAppointments(filteredAppointments), {
+        meta: allAppointments.backendSystemFailures,
+      });
 
       if (useV2VA && useV2CC) {
         return appointments;

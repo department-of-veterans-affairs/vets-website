@@ -122,16 +122,53 @@ describe('mayHaveLegacyAppeals', () => {
     expect(mayHaveLegacyAppeals()).to.be.false;
   });
   it('should return false if there is no legacy & no additional issues', () => {
-    expect(mayHaveLegacyAppeals({ legacyCount: 0, additionalIssues: [] })).to.be
-      .false;
+    expect(mayHaveLegacyAppeals({ legacyCount: 0 })).to.be.false;
+  });
+  it('should return false if there is no legacy & a newer contestable issue date', () => {
+    const data = {
+      legacyCount: 0,
+      contestedIssues: [{ attributes: { approxDecisionDate: '2020-01-01' } }],
+    };
+    expect(mayHaveLegacyAppeals(data)).to.be.false;
   });
   it('should return true if there are some legacy issues & no additional issues', () => {
-    expect(mayHaveLegacyAppeals({ legacyCount: 1, additionalIssues: [] })).to.be
-      .true;
+    expect(mayHaveLegacyAppeals({ legacyCount: 1 })).to.be.true;
   });
   it('should return true if there is no legacy & some additional issues', () => {
     expect(mayHaveLegacyAppeals({ legacyCount: 0, additionalIssues: [{}] })).to
       .be.true;
+  });
+  it('should return true if there is no legacy & a contestable issue with a legacy date', () => {
+    const data = {
+      legacyCount: 0,
+      contestedIssues: [{ attributes: { approxDecisionDate: '2019-01-01' } }],
+    };
+    expect(mayHaveLegacyAppeals(data)).to.be.true;
+  });
+  it('should return true if there is no legacy & a second contestable issue with a legacy date', () => {
+    const data = {
+      legacyCount: 0,
+      contestedIssues: [
+        { attributes: { approxDecisionDate: '2021-01-01' } },
+        { attributes: { approxDecisionDate: '2019-01-01' } },
+      ],
+    };
+    expect(mayHaveLegacyAppeals(data)).to.be.true;
+  });
+  it('should return true if there is legacy issue & a contestable issue with a newer date', () => {
+    const data = {
+      legacyCount: 1,
+      contestedIssues: [{ attributes: { approxDecisionDate: '2020-01-01' } }],
+    };
+    expect(mayHaveLegacyAppeals(data)).to.be.true;
+  });
+  it('should return true if there is no legacy, has an additional issue & a contestable issue with a newer date', () => {
+    const data = {
+      legacyCount: 0,
+      additionalIssues: [{}],
+      contestedIssues: [{ attributes: { approxDecisionDate: '2020-01-01' } }],
+    };
+    expect(mayHaveLegacyAppeals(data)).to.be.true;
   });
 });
 

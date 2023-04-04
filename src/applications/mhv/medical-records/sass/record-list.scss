@@ -20,23 +20,16 @@
 }
 
 @media print {
-  .print-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 16px 0;
-    * {
-      margin: 0;
-    }
-  }
   .record-list-item {
     break-inside: avoid;
-  }
-  .card {
-    margin: 0;
-    padding: 0;
+    border-bottom: 2px solid $color-black !important;
+    border-radius: 0;
+    background-color: $color-white !important;
   }
   .fields {
+    * {
+      line-height: 2;
+    }
     padding: 0 16px;
     .field-label {
       font-weight: 600;
