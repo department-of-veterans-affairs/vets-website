@@ -282,11 +282,11 @@ class PatientInboxPage {
   };
 
   verifySentSuccessMessage = () => {
-    cy.contains('Message was successfully sent.').should('be.visible');
+    cy.contains('Secure message was successfully sent.').should('be.visible');
   };
 
   verifyMoveMessagewithAttachmentSuccessMessage = () => {
-    cy.get('p').contains('Message thread was successfully moved');
+    cy.get('p').contains('Message conversation was successfully moved');
   };
 
   loadComposeMessagePage = () => {
