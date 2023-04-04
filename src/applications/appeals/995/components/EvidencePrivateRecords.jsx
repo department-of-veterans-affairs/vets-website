@@ -210,8 +210,10 @@ const EvidencePrivateRecords = ({
     onChange: event => {
       const { target = {} } = event;
       const fieldName = target.name;
-      // detail.value from va-select & target.value from va-text-input
-      const value = event.detail?.value || target.value;
+      // detail.value from va-select &
+      // target.value from va-text-input & va-memorable-date
+      const value = event.detail?.value || target.value || '';
+      // empty va-memorable-date may return '--'
       updateCurrentFacility({ [fieldName]: value });
     },
 
