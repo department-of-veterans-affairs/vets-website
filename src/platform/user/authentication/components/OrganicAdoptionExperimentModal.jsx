@@ -51,9 +51,8 @@ const OrganicAdoptionExperimentModal = ({ visible = false, onClose }) => {
       }}
       primaryButtonText="Get Login.gov now"
       secondaryButtonText="Learn more"
-      data-testid="copy-address-success"
     >
-      <div className="modal-content" data-testid="modal-content">
+      <div className="modal-content">
         <p>
           As part of VA’s continued effort to make it easier and safer for you
           to access and manage the benefits you’ve earned, we recommend
