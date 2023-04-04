@@ -2,18 +2,14 @@ import React from 'react';
 
 export default {
   uiSchema: {
+    'ui:title': (
+      <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+        Service-connected conditions
+      </h3>
+    ),
     remarks: {
       'ui:title': (
-        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
-          Service-connected conditions
-          <span className="sr-only">
-            : Do you have any of these conditions that were caused&mdash;or made
-            worse&mdash;by your service?
-          </span>
-        </h3>
-      ),
-      'ui:description': (
-        <p>
+        <p className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
           Do you have any of these conditions that were caused&mdash;or made
           worse&mdash;by your service?
         </p>
