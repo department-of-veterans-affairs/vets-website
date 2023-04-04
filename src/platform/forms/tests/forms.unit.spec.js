@@ -49,7 +49,7 @@ const formConfigKeys = [
   'transformForSubmit',
   'confirmation',
   'preSubmitInfo',
-  'hasVetsJsonSchema',
+  'skipVetsJsonSchemaCheck',
   'footerContent',
   'getHelp',
   'errorText',
@@ -162,7 +162,7 @@ const validFormConfigKeys = formConfig => {
 };
 
 const validVetsJsonSchema = formConfig => {
-  if (formConfig.hasVetsJsonSchema === false) {
+  if (formConfig.skipVetsJsonSchemaCheck === true) {
     return;
   }
   let { formId } = formConfig;
@@ -178,7 +178,7 @@ const validVetsJsonSchema = formConfig => {
   } else {
     expect(schemaFormIds).to.include(
       formId,
-      `the formId "${formId}" does not match an entry in vets-json-schema/dist/schemas. a) Add the ID to missingFromVetsJsonSchema, b) add the corresponding schema to the vets-json-schema repo, or c) set hasVetsJsonSchema to false in the formConfig if it should not have a corresponding vets-json-schema.`,
+      `the formId "${formId}" does not match an entry in vets-json-schema/dist/schemas. a) Add the ID to missingFromVetsJsonSchema, b) add the corresponding schema to the vets-json-schema repo, or c) set skipVetsJsonSchemaCheck to true if the vets-json-schema should not be verified.`,
     );
   }
 };
