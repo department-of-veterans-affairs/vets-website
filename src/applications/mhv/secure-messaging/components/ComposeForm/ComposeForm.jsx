@@ -194,7 +194,11 @@ const ComposeForm = props => {
 
   const checkMessageValidity = () => {
     let messageValid = true;
-    if (!selectedRecipient || selectedRecipient === '') {
+    if (
+      selectedRecipient === '0' ||
+      selectedRecipient === '' ||
+      !selectedRecipient
+    ) {
       setRecipientError('Please select a recipient.');
       messageValid = false;
     }
@@ -305,8 +309,10 @@ const ComposeForm = props => {
 
   const recipientHandler = e => {
     setSelectedRecipient(e.detail.value);
-    if (e.detail.value) setRecipientError('');
-    setUnsavedNavigationError();
+    if (e.detail.value !== '0') {
+      if (e.detail.value) setRecipientError('');
+      setUnsavedNavigationError();
+    }
   };
 
   const subjectHandler = e => {
