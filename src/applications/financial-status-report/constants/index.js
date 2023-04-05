@@ -35,3 +35,15 @@ export const SCHEMA_DEFINITIONS = {
     pattern: '^\\d{5}(?:([-\\s]?)\\d{4})?$',
   },
 };
+
+export const DEBT_TYPES = Object.freeze({
+  DEBT: 'DEBT',
+  COPAY: 'COPAY',
+});
+
+export const ALERT_TYPES = Object.freeze({
+  ALL_ERROR: 'ALL_ERROR',
+  ALL_ZERO: 'ALL_ZERO',
+  ERROR: 'ERROR',
+  ZERO: 'ZERO',
+});

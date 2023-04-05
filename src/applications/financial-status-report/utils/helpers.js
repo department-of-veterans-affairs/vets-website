@@ -379,11 +379,6 @@ export const sortStatementsByDate = statements => {
   );
 };
 
-export const DEBT_TYPES = Object.freeze({
-  DEBT: 'DEBT',
-  COPAY: 'COPAY',
-});
-
 // Returns name of debt depending on the type
 export const getDebtName = debt => {
   return debt.debtType === 'COPAY'
