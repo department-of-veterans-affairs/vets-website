@@ -8,7 +8,7 @@ describe('Vaccines list container', () => {
   const initialState = {
     mr: {
       vaccines: {
-        vaccineList: null,
+        vaccinesList: null,
       },
     },
   };

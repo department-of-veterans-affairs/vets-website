@@ -39,12 +39,12 @@ describe('<EvidenceVaRecords>', () => {
   };
   const mockLocation = {
     locationAndName: 'Location 1',
-    issues: ['Ankylosis of knee'],
+    issues: ['test 1'],
     evidenceDates: { from: '2001-01-01', to: '2011-01-01' },
   };
   const mockLocation2 = {
     locationAndName: 'Location 2',
-    issues: ['Tinnitus'],
+    issues: ['test 2'],
     evidenceDates: { from: '2002-02-02', to: '2012-02-02' },
   };
 
@@ -104,7 +104,7 @@ describe('<EvidenceVaRecords>', () => {
       // continue
       fireEvent.click($('.usa-button-primary', container));
       await waitFor(() => {
-        expect($('va-modal', container).getAttribute('visible')).to.eq('false');
+        expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.calledWith(data)).to.be.true;
       });
     });
@@ -123,7 +123,7 @@ describe('<EvidenceVaRecords>', () => {
       fireEvent.click($('.usa-button-secondary', container));
 
       await waitFor(() => {
-        expect($('va-modal', container).getAttribute('visible')).to.eq('false');
+        expect($('va-modal[visible="false"]', container)).to.exist;
         // passing a negative index is okay, we're leaving the indexed pages
         expect(goSpy.calledWith(index - 1)).to.be.true;
       });
@@ -146,7 +146,7 @@ describe('<EvidenceVaRecords>', () => {
       fireEvent.click($('.vads-c-action-link--green', container));
 
       await waitFor(() => {
-        expect($('va-modal', container).getAttribute('visible')).to.eq('false');
+        expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index + 1}`)).to
           .be.true;
       });
@@ -168,7 +168,7 @@ describe('<EvidenceVaRecords>', () => {
       fireEvent.click($('.vads-c-action-link--green', container));
 
       await waitFor(() => {
-        expect($('va-modal', container).getAttribute('visible')).to.eq('false');
+        expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index + 1}`)).to
           .be.true;
       });
@@ -197,7 +197,7 @@ describe('<EvidenceVaRecords>', () => {
       fireEvent.click($('.usa-button-primary', container));
 
       await waitFor(() => {
-        expect($('va-modal', container).getAttribute('visible')).to.eq('false');
+        expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.called).to.be.false;
         getAndTestAllErrors(container);
       });
@@ -221,7 +221,7 @@ describe('<EvidenceVaRecords>', () => {
       fireEvent.click($('.usa-button-primary', container));
 
       await waitFor(() => {
-        expect($('va-modal', container).getAttribute('visible')).to.eq('false');
+        expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.called).to.be.false;
         getAndTestAllErrors(container);
       });
@@ -236,7 +236,7 @@ describe('<EvidenceVaRecords>', () => {
       fireEvent.click($('.usa-button-secondary', container));
 
       await waitFor(() => {
-        expect($('va-modal', container).getAttribute('visible')).to.eq('false');
+        expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.called).to.be.true;
         expect(goSpy.calledWith(index - 1)).to.be.true;
       });
@@ -258,7 +258,7 @@ describe('<EvidenceVaRecords>', () => {
       fireEvent.click($('.usa-button-secondary', container));
 
       await waitFor(() => {
-        expect($('va-modal', container).getAttribute('visible')).to.eq('false');
+        expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.called).to.be.true;
         expect(setDataSpy.called).to.be.true;
         expect(setDataSpy.lastCall.args[0].locations.length).to.eq(1);
@@ -283,7 +283,7 @@ describe('<EvidenceVaRecords>', () => {
       fireEvent.click($('.vads-c-action-link--green', container));
 
       await waitFor(() => {
-        expect($('va-modal', container).getAttribute('visible')).to.eq('false');
+        expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.called).to.be.false;
         getAndTestAllErrors(container);
       });
@@ -295,13 +295,13 @@ describe('<EvidenceVaRecords>', () => {
       expect(getErrorElements(container).length).to.eq(total);
       // modal visible
       await waitFor(() => {
-        expect($('va-modal', container).getAttribute('visible')).to.eq('true');
+        expect($('va-modal[visible="true"]', container)).to.exist;
       });
 
       // close modal by clicking method-assigned hidden button
       fireEvent.click($('#test-method', container));
       await waitFor(() => {
-        expect($('va-modal', container).getAttribute('visible')).to.eq('false');
+        expect($('va-modal[visible="false"]', container)).to.exist;
       });
     };
 

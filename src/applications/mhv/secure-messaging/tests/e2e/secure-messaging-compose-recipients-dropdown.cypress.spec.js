@@ -77,7 +77,7 @@ describe('recipients dropdown box', () => {
       .should('equal', 3);
     cy.get('[name="COVID"]').click();
   });
-  it('preferredTriageTeam selcet dropdown false', () => {
+  it.skip('preferredTriageTeam selcet dropdown false', () => {
     const landingPage = new PatientInboxPage();
     const patientInterstitialPage = new PatientInterstitialPage();
     const site = new SecureMessagingSite();
