@@ -37,13 +37,13 @@ export const TermsAndConditions = ({ device }) => {
     return (
       <>
         <p data-testid={`${device.key}-terms-and-conditions`}>
-          By connecting your {device.name} to VA.gov, you consent to the{' '}
+          By connecting your {device.name} to VA.gov, you consent to follow the{' '}
           <a
             href="https://www.va.gov/privacy-policy/"
             target="_blank"
             rel="noreferrer"
           >
-            VA.gov privacy policy
+            VA.gov Terms and Conditions,
           </a>{' '}
           in addition to the following terms.
           <va-additional-info
