@@ -1,8 +1,8 @@
 import { Actions } from '../util/actionTypes';
-import { mockGetVaccineList, mockGetVaccine } from '../api/MrApi';
+import { mockGetVaccine, mockGetVaccinesList } from '../api/MrApi';
 
-export const getVaccineList = () => async dispatch => {
-  const response = await mockGetVaccineList();
+export const getVaccinesList = () => async dispatch => {
+  const response = await mockGetVaccinesList();
   dispatch({ type: Actions.Vaccines.GET_LIST, response });
 };
 
