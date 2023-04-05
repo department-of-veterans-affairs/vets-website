@@ -72,4 +72,22 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     cy.injectAxe();
     cy.axeCheck();
   });
+
+  it('Create Folder Input Field Error check on blank value submit', () => {
+    cy.get('[data-testid="my-folders-sidebar"]').click();
+    folderPage.createANewFolderButton().click();
+    folderPage.createFolderModalButton().click();
+    cy.injectAxe();
+    cy.axeCheck();
+    cy.get('[name="folder-name"]')
+      .shadow()
+      .find('input')
+      .should('be.focused');
+    cy.get('[name="folder-name"]')
+      .shadow()
+      .find('#input-error-message')
+      .should(err => {
+        expect(err).to.contain('Folder name cannot be blank');
+      });
+  });
 });
