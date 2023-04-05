@@ -5,7 +5,7 @@ const initialState = {
    * The list of vaccines returned from the api
    * @type {array}
    */
-  vaccineList: undefined,
+  vaccinesList: undefined,
   /**
    * The vaccine currently being displayed to the user
    */
@@ -23,7 +23,7 @@ export const vaccineReducer = (state = initialState, action) => {
     case Actions.Vaccines.GET_LIST: {
       return {
         ...state,
-        vaccineList: action.response.map(vaccine => {
+        vaccinesList: action.response.map(vaccine => {
           return { ...vaccine };
         }),
       };

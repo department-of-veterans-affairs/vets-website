@@ -9,7 +9,7 @@ describe('Vaccine list item component', () => {
   const initialState = {
     mr: {
       vaccines: {
-        vaccineList: vaccines,
+        vaccinesList: vaccines,
         vaccineDetails: vaccines[0],
       },
     },
