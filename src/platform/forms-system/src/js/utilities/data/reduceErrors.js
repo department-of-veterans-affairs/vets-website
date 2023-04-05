@@ -25,12 +25,23 @@ export const replaceNumberWithWord = (_, word, number) => {
  * @returns {string} predefined error message
  */
 /**
+ * @typedef FormConfig~reviewErrorOverride
+ * @type {function}
+ * @param {string} error - error containing either the name of the property with
+ *  the error, or the error stack (if it exists), or the error argument
+ * @returns {object} - object containing the `chapterKey` and `pageKey`
+ *  associated with the error; needed for summary pages on the review & submit
+ *  page
+ */
+/**
  * @typedef FormConfig~reviewErrors - Cross-reference of required schema names
  *  with the error message displayed inside of the alert error link
  * @type {Object}
  * @property {Object.<string>} - required schema name (key)
  * @property {FormConfig~reviewErrorMessage} - Error message string or function
  *  that returns a string
+ * @property {FormConfig~reviewErrorOverride} - Function to return the chapter
+ *  and page key for a particular error
  */
 /**
  * Get error message contained in FormConfig~reviewErrors
