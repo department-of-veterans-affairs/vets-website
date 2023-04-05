@@ -2,9 +2,10 @@ import {
   VaModal,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { navigateToFoldersPage } from '../util/helpers';
 import {
   delFolder,
@@ -29,6 +30,7 @@ const ManageFolderButtons = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [renameModal, setRenameModal] = useState(false);
   const [folderName, setFolderName] = useState('');
+  const folderNameInput = useRef();
   let folderMatch = null;
 
   useEffect(
@@ -38,6 +40,14 @@ const ManageFolderButtons = () => {
       }
     },
     [dispatch, location.pathname, params.folderId],
+  );
+
+  useEffect(
+    () => {
+      if (nameWarning.length)
+        focusElement(folderNameInput.current.shadowRoot.querySelector('input'));
+    },
+    [nameWarning],
   );
 
   const openDelModal = () => {
@@ -163,10 +173,14 @@ const ManageFolderButtons = () => {
           {Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
         </p>
         <VaTextInput
+          ref={folderNameInput}
           value={folderName}
           className="input"
           error={nameWarning}
-          onInput={e => setFolderName(e.target.value)}
+          onInput={e => {
+            setFolderName(e.target.value);
+            setNameWarning(e.target.value ? '' : 'Folder name cannot be blank');
+          }}
           maxlength="50"
           name="new-folder-name"
         />
