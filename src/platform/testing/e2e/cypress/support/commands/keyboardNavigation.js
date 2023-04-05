@@ -135,23 +135,21 @@ Cypress.Commands.add(
 // Target & use the "Start" form button on the Introduction page
 Cypress.Commands.add('tabToStartForm', () => {
   // Same button selector as tabToSubmitForm, or action link
-  cy.get('body').then(body => {
-    const buttonSelector =
-      'va-button, button[id$="continueButton"].usa-button-primary, .vads-c-action-link--green';
-    cy.get(buttonSelector, { timeout: 10000 }).then(() => {
-      if (body.find('va-button').length > 0) {
-        cy.get('va-button')
-          .first()
-          .shadow()
-          .find('button')
-          .focus();
-      } else {
-        cy.tabToElement(
-          'button[id$="continueButton"].usa-button-primary, .vads-c-action-link--green',
-        );
-      }
-      cy.realPress('Enter');
-    });
+  const buttonSelector =
+    'va-button, button[id$="continueButton"].usa-button-primary, .vads-c-action-link--green';
+  cy.get(buttonSelector, { timeout: 10000 }).then(() => {
+    if (cy.find('va-button').length > 0) {
+      cy.get('va-button')
+        .first()
+        .shadow()
+        .find('button')
+        .focus();
+    } else {
+      cy.tabToElement(
+        'button[id$="continueButton"].usa-button-primary, .vads-c-action-link--green',
+      );
+    }
+    cy.realPress('Enter');
   });
 });
 
