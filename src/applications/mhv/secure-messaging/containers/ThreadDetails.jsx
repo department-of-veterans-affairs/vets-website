@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
+import PropTypes from 'prop-types';
 import MessageThread from '../components/MessageThread/MessageThread';
 import { retrieveMessageThread } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
@@ -9,10 +10,10 @@ import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import AlertBox from '../components/shared/AlertBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import EmergencyNote from '../components/EmergencyNote';
-import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { getTriageTeams } from '../actions/triageTeams';
 import { clearDraft } from '../actions/draftDetails';
+import InterstitialPage from './InterstitialPage';
 
 const ThreadDetails = props => {
   const { threadId } = useParams();
@@ -32,6 +33,7 @@ const ThreadDetails = props => {
   const [isDraft, setIsDraft] = useState(false);
   const [isReply, setIsReply] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
+  const [acknowledged, setAcknowledged] = useState(false);
   const header = useRef();
 
   useEffect(
@@ -93,6 +95,16 @@ const ThreadDetails = props => {
         />
       );
     }
+    if (!acknowledged && (isReply || isDraft)) {
+      return (
+        <InterstitialPage
+          acknowledge={() => {
+            setAcknowledged(true);
+          }}
+          type={isReply ? 'reply' : isDraft && 'draft'}
+        />
+      );
+    }
     if (isReply) {
       return (
         <div className="compose-container">
@@ -111,10 +123,8 @@ const ThreadDetails = props => {
           <h1 className="page-title" ref={header}>
             Edit draft
           </h1>
-          <EmergencyNote />
-          <div>
-            <BeforeMessageAddlInfo />
-          </div>
+          <EmergencyNote dropDownFlag />
+
           <ComposeForm draft={draftMessage} recipients={triageTeams} />
         </div>
       );
@@ -147,6 +157,10 @@ const ThreadDetails = props => {
       {content()}
     </div>
   );
+};
+
+ThreadDetails.propTypes = {
+  testing: PropTypes.bool,
 };
 
 export default ThreadDetails;
