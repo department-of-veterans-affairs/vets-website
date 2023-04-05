@@ -50,14 +50,9 @@ const CreateFolderModal = props => {
       modalTitle={Alerts.Folder.CREATE_FOLDER_MODAL_HEADER}
       onCloseEvent={closeNewModal}
     >
-      <p
-        className="vads-u-margin--0"
-        data-testid="folder-enter-name-message-text"
-      >
-        {Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
-      </p>
       <VaTextInput
         ref={folderNameInput}
+        label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
         className="input vads-u-margin--0"
         value={folderName}
         onInput={e => {

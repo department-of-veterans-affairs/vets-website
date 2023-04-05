@@ -169,11 +169,9 @@ const ManageFolderButtons = () => {
         modalTitle={`Editing: ${folder.name}`}
         onCloseEvent={closeRenameModal}
       >
-        <p className="vads-u-margin--0">
-          {Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
-        </p>
         <VaTextInput
           ref={folderNameInput}
+          label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
           value={folderName}
           className="input"
           error={nameWarning}
