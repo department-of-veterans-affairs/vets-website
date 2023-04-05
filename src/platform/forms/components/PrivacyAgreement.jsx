@@ -1,28 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import { VaPrivacyAgreement } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function PrivacyAgreement({ onChange, checked, showError }) {
   return (
     <div>
-      <Checkbox
-        required
+      <VaPrivacyAgreement
         checked={checked}
-        onValueChange={onChange}
-        name="privacyAgreement"
-        errorMessage={
-          showError && !checked
-            ? 'You must accept the privacy policy before continuing.'
-            : undefined
-        }
-        label={
-          <span>
-            I have read and accept the{' '}
-            <a target="_blank" href="/privacy-policy/">
-              privacy policy
-            </a>
-          </span>
-        }
+        showError={showError && !checked}
+        onVaChange={event => onChange(event.target.checked)}
       />
     </div>
   );
