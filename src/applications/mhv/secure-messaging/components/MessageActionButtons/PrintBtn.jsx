@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 const PrintBtn = props => {
   const [printOption, setPrintOption] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [printSelectError, setPrintSelectError] = useState(null);
   const messageThread = useSelector(
     state => state.sm.messageDetails.messageHistory,
   );
@@ -39,12 +40,19 @@ const PrintBtn = props => {
 
   const handleOnChangePrintOption = ({ target }) => {
     setPrintOption(target.value);
+    setPrintSelectError(
+      target.value ? null : 'Please select an option to print.',
+    );
   };
 
   const handleConfirmPrint = () => {
-    props.handlePrint(printOption);
-    setPrintOption(null);
-    closeModal();
+    if (printOption === null) {
+      setPrintSelectError('Please select an option to print.');
+    } else {
+      props.handlePrint(printOption);
+      setPrintOption(null);
+      closeModal();
+    }
   };
 
   const printModal = () => {
@@ -66,13 +74,13 @@ const PrintBtn = props => {
             <VaRadio
               className="form-radio-buttons"
               enable-analytics
-              // error={ // TODO: add error state}
+              error={printSelectError}
               onRadioOptionSelected={handleOnChangePrintOption}
             >
               <VaRadioOption
                 data-testid="radio-print-one-message"
                 label="Print only this message"
-                name="defaultName"
+                name="this-message"
                 value="this message"
               />
 
@@ -83,7 +91,7 @@ const PrintBtn = props => {
                   messageThreadCount.current
                 } messages)`}
                 label="Print all messages in this conversation"
-                name="defaultName"
+                name="all-messages"
                 value="all messages"
               />
             </VaRadio>
