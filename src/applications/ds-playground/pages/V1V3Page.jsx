@@ -13,6 +13,7 @@ import {
   VaCheckboxGroup,
   VaCheckbox,
   VaMemorableDate,
+  VaButtonPair,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V1V3Page() {
@@ -37,6 +38,14 @@ export default function V1V3Page() {
   const checkboxValueStore = {
     v1: [],
     v3: [],
+  };
+
+  /**
+   * @param {string} id
+   * @param {{value: string}} value
+   */
+  const handleClick = (id, value) => {
+    document.getElementById(id).innerHTML = `${value} button was clicked!`;
   };
 
   /**
@@ -276,6 +285,62 @@ export default function V1V3Page() {
                 label="V3 Memorable date"
                 id="v3MemorableDateValue"
               />
+            </div>
+          </div>
+        </div>
+
+        {/* Button pair Comparison */}
+        <div className="vads-l-row">
+          <h4>Button pair</h4>
+          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <VaButtonPair
+                continue
+                onPrimaryClick={() =>
+                  handleClick('v1ButtonPairValue', 'V1 continue')
+                }
+                onSecondaryClick={() =>
+                  handleClick('v1ButtonPairValue', 'V1 back')
+                }
+              />
+              <ValueDisplay label="V1 button pair" id="v1ButtonPairValue" />
+            </div>
+
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <VaButtonPair
+                continue
+                onPrimaryClick={() =>
+                  handleClick('v3ButtonPairValue', 'V3 continue')
+                }
+                onSecondaryClick={() =>
+                  handleClick('v3ButtonPairValue', 'V3 back')
+                }
+                uswds
+              />
+              <ValueDisplay label="V3 button pair" id="v3ButtonPairValue" />
+            </div>
+          </div>
+        </div>
+
+        {/* Button Comparison */}
+        <div className="vads-l-row">
+          <h4>Button</h4>
+          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <va-button
+                onClick={() => handleClick('v1ButtonValue', 'V1 edit')}
+                text="Edit"
+              />
+              <ValueDisplay label="V1 button" id="v1ButtonValue" />
+            </div>
+
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <va-button
+                onClick={() => handleClick('v3ButtonValue', 'V3 edit')}
+                text="Edit"
+                uswds
+              />
+              <ValueDisplay label="V3 button" id="v3ButtonValue" />
             </div>
           </div>
         </div>
