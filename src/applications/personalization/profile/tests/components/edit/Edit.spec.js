@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { Toggler } from '~/applications/personalization/components/Toggler';
+import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import { Edit } from '../../../components/edit/Edit';
