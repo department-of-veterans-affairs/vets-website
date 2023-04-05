@@ -40,10 +40,7 @@ describe('check in', () => {
     it('renders a generic api error message', () => {
       const component = render(
         <CheckInProvider>
-          <TravelPayAlert
-            travelPayEligible
-            travelPayClaimError
-          />
+          <TravelPayAlert travelPayEligible travelPayClaimError />
         </CheckInProvider>,
       );
       expect(component.getByTestId('travel-pay-error-message')).to.exist;
