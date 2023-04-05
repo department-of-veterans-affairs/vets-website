@@ -164,6 +164,30 @@ class PatientMessageDraftsPage {
     cy.wait('@deletedDraftResponse');
   };
 
+  verifyTrashButtonModalFocus = () => {
+    cy.get('[data-testid=trash-button-text]').click();
+
+    cy.get('[data-testid=delete-message-confirm-note] p', { timeout: 8000 })
+      .contains('Messages in the trash folder')
+      .should('be.visible');
+    cy.get('[data-testid=delete-message-modal]')
+      .shadow()
+      .find('h1')
+      .contains('Are you sure you want to move this message to the trash?')
+      .should('be.visible');
+    cy.get('[data-testid=delete-message-modal]')
+      .shadow()
+      .find('button')
+      .contains('Confirm')
+      .should('be.visible');
+    cy.get('[data-testid=delete-message-modal]')
+      .shadow()
+      .find('button')
+      .contains('Cancel')
+      .should('be.visible')
+      .click();
+  };
+
   getMessageSubjectField = () => {
     return cy
       .get('[data-testid="message-subject-field"]')

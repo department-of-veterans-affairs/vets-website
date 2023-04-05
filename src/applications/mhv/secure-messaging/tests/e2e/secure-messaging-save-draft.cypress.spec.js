@@ -1,6 +1,5 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientComposePage from './pages/PatientComposePage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockDraftMessages from './fixtures/drafts-response.json';
@@ -11,13 +10,11 @@ describe('Secure Messaging Save Draft', () => {
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
     const draftsPage = new PatientMessageDraftsPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse);
-    patientInterstitialPage.getContinueButton().click();
     cy.injectAxe();
     cy.axeCheck();
     // composePage.getMessageSubjectField().type('message Test');
@@ -26,5 +23,6 @@ describe('Secure Messaging Save Draft', () => {
     mockDraftResponse.data.attributes.body = 'ststASertTest message body\n';
     composePage.saveDraft(mockDraftResponse);
     composePage.sendDraft(mockDraftResponse);
+    PatientMessageDraftsPage.verifyTrashButtonModalFocus(mockDraftMessages);
   });
 });

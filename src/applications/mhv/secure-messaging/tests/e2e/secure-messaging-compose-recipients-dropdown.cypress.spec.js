@@ -3,7 +3,6 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import mockSpecialCharsMessage from './fixtures/message-response-specialchars.json';
 import mockMessages from './fixtures/messages-response.json';
-// import PatientComposePage from './pages/PatientComposePage';
 
 const recipientsResponseDefault = {
   data: [
@@ -70,14 +69,13 @@ describe('recipients dropdown box', () => {
     patientInterstitialPage.getContinueButton().click();
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('[data-testid="compose-recipient-select"]').should('exist');
-    cy.get('[data-testid="compose-recipient-select"]')
-      .find('option')
-      .its('length')
-      .should('equal', 3);
+    cy.get('[data-testid="compose-recipient-select"] > option').should(
+      'have.length',
+      3,
+    );
     cy.get('[name="COVID"]').click();
   });
-  it.skip('preferredTriageTeam selcet dropdown false', () => {
+  it('preferredTriageTeam selcet dropdown false', () => {
     const landingPage = new PatientInboxPage();
     const patientInterstitialPage = new PatientInterstitialPage();
     const site = new SecureMessagingSite();
@@ -96,10 +94,7 @@ describe('recipients dropdown box', () => {
       '/my_health/v1/messaging/recipients?useCache=false',
       recipientsResponseFalse,
     ).as('recipients');
-    cy.get('[data-testid="compose-recipient-select"]')
-      .find('option')
-      .its('length')
-      .should('equal', 1);
+    cy.get('[data-testid="compose-recipient-select"]').should('have.length', 1);
     cy.get('[name="COVID"]').click();
   });
 });
