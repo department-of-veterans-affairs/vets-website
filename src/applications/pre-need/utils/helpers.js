@@ -358,7 +358,12 @@ export const veteranUI = {
       'ui:title': 'White',
     },
     'ui:validations': [
-      /* (errors, fields) => {} */
+      // require at least one value to be true/checked
+      (errors, fields) => {
+        if (!Object.values(fields).some(val => val === true)) {
+          errors.addError('Please provide a response');
+        }
+      },
     ],
     'ui:options': {
       showFieldLabel: true,
