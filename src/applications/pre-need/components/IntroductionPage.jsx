@@ -47,9 +47,7 @@ class IntroductionPage extends React.Component {
                   buried.
                   <br />
                   <a href={getAppUrl('facilities')}>
-                    {environment.isProduction()
-                      ? 'Find a VA national cemetery.'
-                      : 'Find a VA national cemetery'}
+                    Find a VA national cemetery
                   </a>
                 </li>
                 <li>
@@ -58,9 +56,8 @@ class IntroductionPage extends React.Component {
                   your or your sponsor’s:
                   <ul>
                     <li>
-                      {environment.isProduction()
-                        ? 'Social Security number (and Military Service Number if it’s different than the Social Security number)'
-                        : 'Social Security number (and Military Service number if it’s different than the Social Security number)'}
+                      Social Security number (and Military Service number if
+                      it’s different than the Social Security number)
                     </li>
                     <li>VA claim number (if you know it)</li>
                     <li>Date and place of birth</li>

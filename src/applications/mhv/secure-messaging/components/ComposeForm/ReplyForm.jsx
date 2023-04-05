@@ -276,6 +276,7 @@ const ReplyForm = props => {
     return (
       <>
         <h1 className="page-title">{setMessageTitle()}</h1>
+
         <div role="heading" aria-level="2">
           <form
             className="reply-form"
@@ -309,7 +310,7 @@ const ReplyForm = props => {
               confirmButtonText={navigationError?.confirmButtonText}
               cancelButtonText={navigationError?.cancelButtonText}
             />
-            <EmergencyNote />
+            <EmergencyNote dropDownFlag />
             <div>
               <h4
                 className="vads-u-display--flex vads-u-color--gray-dark vads-u-font-weight--bold"
@@ -319,7 +320,8 @@ const ReplyForm = props => {
                   className="fas fa-reply vads-u-margin-right--0p5"
                   aria-hidden="true"
                 />
-                {`(Draft) To: ${draftToEdit?.replyToName ||
+                <span className="vads-u-color--secondary-darkest">(Draft)</span>
+                {` To:${draftToEdit?.replyToName ||
                   replyMessage?.senderName}\n(Team: ${
                   replyMessage.triageGroupName
                 })`}

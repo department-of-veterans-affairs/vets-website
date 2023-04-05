@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { PAGE_NAMES } from '../constants';
 import DelayedLiveRegion from '../DelayedLiveRegion';
 
@@ -38,14 +35,9 @@ const VetTec = () => {
           </li>
           <li>
             <strong>Phone: </strong>
-            Call us at <Telephone contact="716-857-5061" /> (TTY:
-            <Telephone
-              contact={CONTACTS[711]}
-              pattern={PATTERNS['3_DIGIT']}
-              className="vads-u-margin-x--0p5"
-            />
-            ) and leave a detailed message. We’ll call you back as soon as
-            possible.
+            Call us at <VaTelephone contact="716-857-5061" /> (
+            <VaTelephone contact="711" tty />) and leave a detailed message.
+            We’ll call you back as soon as possible.
           </li>
           <li>
             <strong>Mail: </strong>

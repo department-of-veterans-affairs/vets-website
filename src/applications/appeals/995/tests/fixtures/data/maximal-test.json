@@ -88,8 +88,8 @@
       {
         "locationAndName": "VAMC Location 1",
         "issues": [
-          "PTSD",
-          "Test"
+          "Test",
+          "Test 2"
         ],
         "evidenceDates": {
           "from": "2001-1-1",
@@ -118,8 +118,8 @@
           "postalCode": "90210"
         },
         "issues": [
-          "PTSD",
-          "Test"
+          "Test",
+          "Test 2"
         ],
         "treatmentDateRange": {
           "from": "2022-1-1",
