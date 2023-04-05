@@ -252,10 +252,9 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
           err.__errors?.length &&
           !errorExists(processedErrors, name, errorIndex)
         ) {
-          const { chapterKey = '', pageKey = '' } = getPropertyInfo(
-            pageList,
-            name,
-          );
+          const { chapterKey = '', pageKey = '' } =
+            reviewErrors._override?.(name || err.stack || err.argument) ||
+            getPropertyInfo(pageList, name);
           // `message` is null if we don't want a link to show up.
           // For example, this happens for the 526 when a new disability is
           // missing (has error), and the nested required condition (also has
@@ -300,14 +299,16 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
            * anyone and show both
           */
           if (!errorExists(processedErrors, propertyName, index)) {
-            const { chapterKey = '', pageKey = '' } = getPropertyInfo(
-              // List of all form pages; includes chapterKey, pageKey and
-              // uiSchema
-              pageList,
-              argument,
-              // full path to the error
-              property,
-            );
+            const { chapterKey = '', pageKey = '' } =
+              reviewErrors._override?.(property || err?.stack || argument) ||
+              getPropertyInfo(
+                // List of all form pages; includes chapterKey, pageKey and
+                // uiSchema
+                pageList,
+                argument,
+                // full path to the error
+                property,
+              );
             processedErrors.push({
               // property name
               name: propertyName,
