@@ -25,8 +25,11 @@ const createStore = ({
       clinicName: 'Green Team Clinic1',
     },
   ],
+  veteranData = {},
   formPages = ['first-page', 'second-page', 'third-page', 'fourth-page'],
   features = {},
+  error = null,
+  seeStaffMessage = null,
 } = {}) => {
   const middleware = [];
   const mockStore = configureStore(middleware);
@@ -45,7 +48,9 @@ const createStore = ({
         },
       },
       appointments,
-      veteranData: {},
+      veteranData,
+      error,
+      seeStaffMessage,
     },
     featureToggles: features,
     ...scheduledDowntimeState,
