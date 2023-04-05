@@ -137,8 +137,8 @@ Cypress.Commands.add('tabToStartForm', () => {
   // Same button selector as tabToSubmitForm, or action link
   const buttonSelector =
     'va-button, button[id$="continueButton"].usa-button-primary, .vads-c-action-link--green';
-  cy.get(buttonSelector, { timeout: 10000 }).then(() => {
-    if (cy.find('va-button').length > 0) {
+  cy.get(buttonSelector, { timeout: 10000 }).then(button => {
+    if (button[0].tagName === 'VA-BUTTON') {
       cy.get('va-button')
         .first()
         .shadow()
