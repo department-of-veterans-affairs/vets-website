@@ -84,7 +84,6 @@ export default RecordList;
 
 RecordList.propTypes = {
   hidePagination: PropTypes.bool,
-  hideRecordsLabel: PropTypes.bool,
   perPage: PropTypes.number,
   records: PropTypes.array,
   type: PropTypes.string,

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getConditionsList } from '../actions/conditions';
+import { RecordType } from '../util/constants';
 
 const HealthConditions = () => {
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
@@ -35,7 +36,9 @@ const HealthConditions = () => {
 
   const content = () => {
     if (conditions?.length > 0) {
-      return <RecordList records={conditions} type="health condition" />;
+      return (
+        <RecordList records={conditions} type={RecordType.HEALTH_CONDITIONS} />
+      );
     }
     if (conditions?.length === 0) {
       return (
