@@ -24,6 +24,26 @@ class IntroductionPage extends React.Component {
           Complete this form. After you submit the form, you&rsquo;ll get a
           confirmation message. You can print this page for your records.
         </p>
+        <div>
+          <h3>Pages</h3>
+          <ul>
+            <li>
+              <a href="/mock-simple-forms-patterns/text-input">Text input</a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/checkbox">Checkbox</a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/select">Select</a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/radio">Radio</a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/date">Date</a>
+            </li>
+          </ul>
+        </div>
         <SaveInProgressIntro
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
