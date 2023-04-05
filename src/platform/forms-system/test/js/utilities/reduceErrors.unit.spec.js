@@ -122,7 +122,7 @@ describe('Process form validation errors', () => {
     ];
     expect(reduceErrors(raw, pages)).to.eql(result);
   });
-  it('should process __errors message but return override value', () => {
+  it('should process __errors message but return override values', () => {
     const pages = [
       {
         title: 'Issues',
@@ -254,7 +254,7 @@ describe('Process form validation errors', () => {
     ];
     expect(reduceErrors(raw, pages)).to.eql(result);
   });
-  it('should process object instance messages', () => {
+  it('should process object instance messages but return override values', () => {
     const pages = [
       {
         title: 'Abc',
