@@ -12,6 +12,7 @@ export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
 export const REMOVING_SAVED_FORM = 'REMOVING_SAVED_FORM';
 export const REMOVING_SAVED_FORM_SUCCESS = 'REMOVING_SAVED_FORM_SUCCESS';
 export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
+export const PROFILE_ERROR = 'PROFILE_ERROR';
 
 export * from './mhv';
 
@@ -30,6 +31,12 @@ export function profileLoadingFinished() {
   };
 }
 
+export function profileError() {
+  return {
+    type: PROFILE_ERROR,
+  };
+}
+
 // check for errors from main response body, or from meta object (aka external service errors)
 const hasError = dataPayload =>
   dataPayload?.errors?.length > 0 || dataPayload?.meta?.errors?.length > 0;
@@ -44,8 +51,8 @@ export function refreshProfile(
   };
   return async dispatch => {
     const url = forceCacheClear ? appendQuery(baseUrl, query) : baseUrl;
-
     const payload = await apiRequest(url);
+
     if (!payload.errors) {
       sessionStorage.setItem(
         'serviceName',
@@ -81,6 +88,8 @@ export function initializeProfile() {
       ) {
         dispatch(updateLoggedInStatus(false));
         teardownProfileSession();
+      } else {
+        dispatch(profileError());
       }
     }
   };

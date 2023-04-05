@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DeleteMessageModal from '../Modals/DeleteMessageModal';
 import { deleteMessage } from '../../actions/messages';
+import { addAlert } from '../../actions/alerts';
 import { navigateToFolderByFolderId } from '../../util/helpers';
 import * as Constants from '../../util/constants';
 
@@ -15,12 +16,19 @@ const TrashButton = props => {
 
   const handleDeleteMessageConfirm = () => {
     setIsDeleteVisible(false);
-    dispatch(deleteMessage(messageId)).then(() => {
+    dispatch(deleteMessage(threadId)).then(() => {
       navigateToFolderByFolderId(
         activeFolder
           ? activeFolder.folderId
           : Constants.DefaultFolders.DELETED.id,
         history,
+      );
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_SUCCESS,
+          '',
+          Constants.Alerts.Message.DELETE_MESSAGE_SUCCESS,
+        ),
       );
     });
   };

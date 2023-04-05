@@ -35,13 +35,13 @@ const HealthCareCTA = ({
         !hasAppointmentsError && (
           <IconCTALink
             href="/health-care/schedule-view-va-appointments/appointments"
-            icon="calendar-check"
+            icon="calendar"
             newTab
             text="Schedule and manage your appointments"
             onClick={() => {
               recordEvent({
                 event: 'nav-linkslist',
-                'links-list-header': 'Schedule and view your appointments',
+                'links-list-header': 'Schedule and manage your appointments',
                 'links-list-section-header': 'Health care',
               });
             }}

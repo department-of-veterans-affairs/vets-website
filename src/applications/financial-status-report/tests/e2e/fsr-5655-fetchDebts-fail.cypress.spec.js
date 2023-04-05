@@ -63,8 +63,10 @@ describe('Fetch Debts Unsuccessfully', () => {
     cy.get('#recipients-option-1').click();
     cy.get('[data-testid="start-button"]').click();
 
-    cy.findAllByText(/start/i, { selector: 'button' })
+    cy.get('va-button[text*="start"]')
       .first()
+      .shadow()
+      .find('button')
       .click();
 
     cy.findAllByText(/continue/i, { selector: 'button' })

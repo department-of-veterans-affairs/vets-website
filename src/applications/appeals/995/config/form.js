@@ -30,26 +30,26 @@ import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
 import submissionError from '../content/submissionError';
 
+import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInformation';
 import primaryPhone from '../pages/primaryPhone';
 import contestableIssues from '../pages/contestableIssues';
+import issueSummary from '../pages/issueSummary';
+import optIn from '../pages/optIn';
+import notice5103 from '../pages/notice5103';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
 import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
-import issueSummary from '../pages/issueSummary';
-import notice5103 from '../pages/notice5103';
-import optIn from '../pages/optIn';
-import veteranInfo from '../pages/veteranInfo';
+import evidenceSummary from '../pages/evidenceSummary';
 
+import { appStateSelector, mayHaveLegacyAppeals } from '../utils/helpers';
 import {
-  appStateSelector,
-  mayHaveLegacyAppeals,
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
-} from '../utils/helpers';
+} from '../utils/evidence';
 import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
 import manifest from '../manifest.json';
@@ -74,7 +74,13 @@ import submitForm from './submitForm';
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
 
-import { focusRadioH3, focusAlertH3, focusIssue } from '../utils/focus';
+import {
+  focusRadioH3,
+  focusAlertH3,
+  focusIssue,
+  focusEvidence,
+  focusUploads,
+} from '../utils/focus';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
@@ -173,7 +179,6 @@ const formConfig = {
           CustomPageReview: PrimaryPhoneReview,
           uiSchema: primaryPhone.uiSchema,
           schema: primaryPhone.schema,
-          // needs useCustomScrollAndFocus: true to work
           scrollAndFocusTarget: focusRadioH3,
         },
       },
@@ -225,7 +230,6 @@ const formConfig = {
           CustomPageReview: null, // reviewField renders this!
           uiSchema: notice5103.uiSchema,
           schema: notice5103.schema,
-          // needs useCustomScrollAndFocus: true to work
           scrollAndFocusTarget: focusAlertH3,
           initialData: {
             form5103Acknowledged: false,
@@ -246,6 +250,7 @@ const formConfig = {
           uiSchema: blankUiSchema,
           schema: blankSchema,
           hideHeaderRow: true,
+          scrollAndFocusTarget: focusEvidence,
         },
         evidencePrivateRecordsRequest: {
           title: 'Request private medical records',
@@ -254,7 +259,6 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: evidencePrivateRequest.uiSchema,
           schema: evidencePrivateRequest.schema,
-          // needs useCustomScrollAndFocus: true to work
           scrollAndFocusTarget: focusRadioH3,
         },
         evidencePrivateRecordsAuthorization: {
@@ -274,6 +278,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: blankUiSchema,
           schema: blankSchema,
+          scrollAndFocusTarget: focusEvidence,
         },
         evidencePrivateLimitation: {
           title: 'Private medical record limitations',
@@ -296,14 +301,15 @@ const formConfig = {
           depends: hasOtherEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,
+          scrollAndFocusTarget: focusUploads,
         },
         evidenceSummary: {
           title: 'Summary of evidence',
           path: 'supporting-evidence/summary',
           CustomPage: EvidenceSummary,
           CustomPageReview: EvidenceSummaryReview,
-          uiSchema: {},
-          schema: blankSchema,
+          uiSchema: evidenceSummary.uiSchema,
+          schema: evidenceSummary.schema,
         },
       },
     },

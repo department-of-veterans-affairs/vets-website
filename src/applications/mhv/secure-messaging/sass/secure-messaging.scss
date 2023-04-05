@@ -1,7 +1,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "./navigation";
 @import "./folders-list";
+@import "./folder-thread-list-view";
 @forward "usa-button-group";
+
 
 .secure-messaging-container {
   display: flex;
@@ -279,4 +281,25 @@ pre {
 
 va-loading-indicator {
   margin: 200px auto;
+}
+
+.interstitial-page {
+  h1 {
+    color: $color-gray-dark;
+  }
+  strong {
+    color: $color-gray-dark;
+  }
+  ul {
+    padding-left: 15px;
+  }
+  .no-word-wrap {
+    white-space: nowrap;
+  }
+  ul{
+    margin-top: 32px;
+  }
+  .link:visited {
+    color: $color-primary;
+  }
 }

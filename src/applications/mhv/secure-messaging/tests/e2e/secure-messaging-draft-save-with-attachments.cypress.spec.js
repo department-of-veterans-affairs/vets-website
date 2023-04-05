@@ -1,7 +1,11 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
+import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientComposePage from './pages/PatientComposePage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
+import mockDraftMessages from './fixtures/drafts-response.json';
+import mockDraftResponse from './fixtures/message-draft-response.json';
+import mockThreadResponse from './fixtures/single-draft-response.json';
 
 describe('Secure Messaging Draft Save with Attachments', () => {
   it('Axe Check Draft Save with Attachments', () => {
@@ -9,28 +13,15 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
     const draftsPage = new PatientMessageDraftsPage();
+    const patientInterstitialPage = new PatientInterstitialPage();
+
     site.login();
     landingPage.loadInboxMessages();
-    draftsPage.loadDrafts();
-    draftsPage.loadDraftMessageDetails();
-
+    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
+    draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
+    patientInterstitialPage.getContinueButton().click();
     composePage.attachMessageFromFile('sample_docx.docx');
-
-    composePage.saveDraft(
-      6978854,
-      'OTHER',
-      'test Draft Save with Attachments',
-      'ststASertTesting Save Drafts with Attachments',
-    );
-
-    cy.get('@draft_message')
-      .its('response')
-      .then(res => {
-        expect(res.body.data.attributes).to.include({
-          attachment: false,
-        });
-      });
-
+    composePage.saveDraftButton().click();
     cy.get('[visible=""] > p').should(
       'contain',
       'If you save this message as a draft',

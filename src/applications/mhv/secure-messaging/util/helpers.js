@@ -1,10 +1,11 @@
 import moment from 'moment-timezone';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { DefaultFolders as Folders } from './constants';
 
 export const folderPathByFolderId = folderId => {
   let path = '';
   if (folderId !== null) {
-    switch (folderId) {
+    switch (parseInt(folderId, 10)) {
       case Folders.INBOX.id:
         path = '/inbox';
         break;
@@ -108,4 +109,20 @@ export const openCrisisModal = () => {
     'class',
     `${modal.getAttribute('class')} va-overlay--open`,
   );
+  focusElement(document.querySelector('a[href="tel:988"]'));
+};
+
+export const handleHeader = (folderId, folder) => {
+  switch (folderId) {
+    case Folders.INBOX.id: // Inbox
+      return Folders.INBOX.header;
+    case Folders.SENT.id: // Sent
+      return Folders.SENT.header;
+    case Folders.DRAFTS.id: // Drafts
+      return Folders.DRAFTS.header;
+    case Folders.DELETED.id: // Trash
+      return Folders.DELETED.header;
+    default:
+      return folder.name;
+  }
 };

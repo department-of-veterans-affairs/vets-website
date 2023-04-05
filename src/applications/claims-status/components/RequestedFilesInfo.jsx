@@ -2,10 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
-import DueDate from './DueDate';
-import { truncateDescription, stripHtml } from '../utils/helpers';
-
 import AdditionalEvidencePage from '../containers/AdditionalEvidencePage';
+import { truncateDescription, stripHtml } from '../utils/helpers';
+import DueDate from './DueDate';
 
 export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
   return (

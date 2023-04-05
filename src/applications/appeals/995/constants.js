@@ -74,6 +74,9 @@ export const MAX_LENGTH = {
   EVIDENCE_LOCATION_AND_NAME: 255,
 };
 
+export const REGEX_COMMA = /[, ]/g;
+export const REGEX_EMPTY_DATE = /--/;
+
 export const errorMessages = {
   contestedIssue: 'You must select an eligible issue',
   missingIssue: 'You must add an issue',
@@ -123,6 +126,7 @@ export const errorMessages = {
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
+export const NO_ISSUES_SELECTED = 'No issues were selected';
 
 // contested issue dates
 export const FORMAT_YMD = 'YYYY-MM-DD';
@@ -150,6 +154,7 @@ const supportedBenefitTypes = [
 ];
 
 export const LEGACY_TYPE = 'legacyAppeal';
+export const AMA_DATE = '2019-02-19'; // Appeals Modernization Act in effect
 
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,

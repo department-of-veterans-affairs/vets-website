@@ -80,7 +80,14 @@ class PatientMessageDetailsPage {
       this.currentThread,
     ).as('full-thread');
 
-    cy.contains(mockParentMessageDetails.data.attributes.subject).click();
+    /*
+    cy.contains(
+      `${mockParentMessageDetails.data.attributes.category}: ${
+        mockParentMessageDetails.data.attributes.subject
+      }`,
+    ).click();
+    */
+    cy.contains(`${mockParentMessageDetails.data.attributes.subject}`).click();
     cy.wait('@message1');
   };
 
@@ -313,7 +320,9 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `(Draft) To: ${messageDetails.data.attributes.recipientName}`,
+        `(Draft) To:${messageDetails.data.attributes.senderName}\n(Team: ${
+          messageDetails.data.attributes.triageGroupName
+        })`,
       );
   };
 
@@ -354,11 +363,11 @@ class PatientMessageDetailsPage {
     );
   };
 
-  ReplyToMessagebody = messageDetails => {
+  ReplyToMessagebody = messageBody => {
     cy.get(
       '.vads-u-margin-top--1 > .message-list-body-collapsed > .vads-u-margin-y--0',
     ).should($mbody => {
-      expect($mbody.text()).to.contain(messageDetails.data.attributes.body);
+      expect($mbody.text()).to.contain(messageBody);
     });
   };
 }

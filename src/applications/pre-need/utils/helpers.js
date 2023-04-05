@@ -309,7 +309,7 @@ export const veteranUI = {
   vaClaimNumber: {
     'ui:title': 'VA claim number (if known)',
     'ui:errorMessages': {
-      pattern: 'Your VA claim number must be between 7 to 9 digits',
+      pattern: 'Your VA claim number must be between 8 to 9 digits',
     },
   },
   placeOfBirth: {
@@ -358,7 +358,12 @@ export const veteranUI = {
       'ui:title': 'White',
     },
     'ui:validations': [
-      /* (errors, fields) => {} */
+      // require at least one value to be true/checked
+      (errors, fields) => {
+        if (!Object.values(fields).some(val => val === true)) {
+          errors.addError('Please provide a response');
+        }
+      },
     ],
     'ui:options': {
       showFieldLabel: true,
@@ -389,7 +394,7 @@ export const serviceRecordsUI = {
     'Please provide all your service periods. If you need to add another service period, please click the Add Another Service Period button.',
   'ui:options': {
     viewField: ServicePeriodView,
-    itemName: 'Service Period',
+    itemName: environment.isProduction() ? 'Service Period' : 'service period',
   },
   items: {
     'ui:order': [
