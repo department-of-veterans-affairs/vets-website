@@ -201,11 +201,11 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.get('#root_hasReceivedDoseYes')
       .focus()
       .click();
-    cy.findByText(/Continue/).click();
+    cy.contains('button', /Continue/i).click();
 
     // Contact Facility Page
     cy.url().should('include', '/contact-facility');
-    cy.findByText(/Continue/i).should('not.exist');
+    cy.contains('button', /Continue/i).should('not.exist');
   });
 });
 
@@ -248,7 +248,7 @@ describe('VAOS COVID-19 vaccine appointment flow - unavailable', () => {
       .check();
 
     // Start vaccine flow
-    cy.findByText(/Continue/).click();
+    cy.contains('button', /Continue/i).click();
 
     // Contact Facility Page
     cy.url().should('include', '/contact-facility');
@@ -259,7 +259,7 @@ describe('VAOS COVID-19 vaccine appointment flow - unavailable', () => {
     ]).then(() => {
       cy.findByText('Your facilities');
       cy.axeCheckBestPractice();
-      cy.findByText(/Continue/i).should('not.exist');
+      cy.contains('button', /Continue/i).should('not.exist');
     });
   });
 });

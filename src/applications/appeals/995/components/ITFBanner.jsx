@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
 import {
@@ -15,6 +16,10 @@ import { BASE_URL } from '../constants';
 
 const ITFBanner = props => {
   const [messageDismissed, setMessageDismissed] = useState(false);
+
+  const goHome = () => {
+    props.router.push(`${BASE_URL}/introduction`);
+  };
 
   const dismissMessage = () => {
     setMessageDismissed(true);
@@ -68,13 +73,11 @@ const ITFBanner = props => {
             </Link>
           </p>
         ) : (
-          <button
-            type="button"
-            className="usa-button-primary vads-u-margin-top--2"
-            onClick={dismissMessage}
-          >
-            Continue
-          </button>
+          <VaButtonPair
+            continue
+            onPrimaryClick={dismissMessage}
+            onSecondaryClick={goHome}
+          />
         )}
       </div>
     </div>
@@ -87,6 +90,9 @@ ITFBanner.propTypes = {
   currentExpDate: PropTypes.string,
   previousExpDate: PropTypes.string,
   previousITF: PropTypes.object,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
 
 export default ITFBanner;
