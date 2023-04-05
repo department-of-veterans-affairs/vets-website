@@ -215,6 +215,18 @@ div[id^="vaos-appts__detail-"] {
   }
 }
 
+.vaos-appts__display--table {
+  @include media($small-screen) {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    max-width: initial;
+  }
+}
+.vaos-appts__display--table-cell {
+  display: table-cell;
+}
+
 .vaos-appts__text--truncate {
   white-space: nowrap;
   overflow: hidden !important;
@@ -223,12 +235,11 @@ div[id^="vaos-appts__detail-"] {
     max-width: 221px;
   }
   @include media($small-screen) {
-    max-width: 215px;
+    max-width: initial;
   }
   @include media($medium-screen) {
     max-width: 494px;
   }
-
 }
 
 .vaos-appts__text--line-through {

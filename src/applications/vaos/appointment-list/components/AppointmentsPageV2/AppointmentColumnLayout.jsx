@@ -128,7 +128,7 @@ export default function AppointmentColumnLayout({
           <AppointmentColumn
             size="1"
             canceled={isCanceled}
-            style={{ maxWidth: '95px' }}
+            style={{ minWidth: '95px', maxWidth: '95px' }}
           >
             <span aria-hidden="true">
               {`${startDate.format('h:mm')} ${startDate.format(
@@ -148,17 +148,25 @@ export default function AppointmentColumnLayout({
               <AppointmentColumn
                 padding="0"
                 size="1"
-                className="vads-u-font-weight--bold vaos-appts__text--truncate"
+                className="vads-u-font-weight--bold vaos-appts__display--table vaos-appts__text--truncate"
                 canceled={isCanceled}
                 aria-label={typeOfCareAriaLabel}
               >
-                <span aria-hidden="true">{appointmentLocality}</span>
+                <span
+                  aria-hidden="true"
+                  className={classNames(
+                    'vaos-appts__display--table-cell',
+                    'vaos-appts__text--truncate',
+                  )}
+                >
+                  {appointmentLocality}
+                </span>
               </AppointmentColumn>
 
               <AppointmentColumn
                 padding="0"
                 size="1"
-                className="vaos-appts__text--truncate"
+                className="vaos-appts__display--table vaos-appts__text--truncate"
                 canceled={isCanceled}
                 aria-label={modalityAriaLabel}
               >
@@ -168,14 +176,21 @@ export default function AppointmentColumnLayout({
                     'fas',
                     'vads-u-margin-right--1',
                     'vads-u-color--gray',
+                    'vaos-appts__display--table-cell',
                     modalityIcon,
                     {
                       'vaos-appts__text--line-through':
                         isCanceled && !isCommunityCare,
                     },
                   )}
+                  style={{ width: '30px' }}
                 />
-                <span aria-hidden="true">{`${modalityText}`}</span>
+                <span
+                  aria-hidden="true"
+                  className="vaos-appts__display--table-cell vaos-appts__text--truncate"
+                >
+                  {`${modalityText}`}
+                </span>
               </AppointmentColumn>
             </AppointmentRow>
           </AppointmentColumn>
