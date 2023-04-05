@@ -78,7 +78,6 @@ describe('995 contact info loop', () => {
       .should('be.visible')
       .then(() => {
         // Click past the ITF message
-        // cy.findByText(/continue/i, { selector: 'button' }).click();
         cy.get('va-button-pair')
           .shadow()
           .find('va-button[back]')
@@ -89,7 +88,7 @@ describe('995 contact info loop', () => {
     cy.location('pathname').should('eq', `${BASE_URL}/introduction`);
   });
 
-  it('should edit info on a new page & cancel returns to contact info page', () => {
+  it('should edit info on a new page & cancel returns to contact info page - C30848', () => {
     getToContactPage();
 
     // Contact info
@@ -135,9 +134,8 @@ describe('995 contact info loop', () => {
   });
 
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-  it('should edit info on a new page, update & return to contact info page', () => {
+  it('should edit info on a new page, update & return to contact info page ', () => {
     getToContactPage();
-
     cy.intercept('/v0/profile/telephones', mockTelephoneUpdateSuccess);
 
     // Contact info
