@@ -4,7 +4,11 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
-import textInputs from '../pages/textInputs';
+import textInput from '../pages/textInput';
+import checkbox from '../pages/checkbox';
+import radio from '../pages/radio';
+import select from '../pages/select';
+import date from '../pages/date';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -25,14 +29,58 @@ const formConfig = {
   title: 'Simple Forms Patterns',
   defaultDefinitions: {},
   chapters: {
-    chapter1: {
-      title: 'Text Inputs',
+    textInput: {
+      title: 'Text Input',
       pages: {
         textInput: {
-          path: 'text-inputs',
-          title: 'Text Inputs',
-          uiSchema: textInputs.uiSchema,
-          schema: textInputs.schema,
+          path: 'text-input',
+          title: 'Text Input',
+          uiSchema: textInput.uiSchema,
+          schema: textInput.schema,
+        },
+      },
+    },
+    checkbox: {
+      title: 'Checkbox',
+      pages: {
+        checkbox: {
+          path: 'checkbox',
+          title: 'Checkbox',
+          uiSchema: checkbox.uiSchema,
+          schema: checkbox.schema,
+        },
+      },
+    },
+    select: {
+      title: 'Select',
+      pages: {
+        checkbox: {
+          path: 'select',
+          title: 'Select',
+          uiSchema: select.uiSchema,
+          schema: select.schema,
+        },
+      },
+    },
+    radio: {
+      title: 'Radio',
+      pages: {
+        checkbox: {
+          path: 'radio',
+          title: 'Radio',
+          uiSchema: radio.uiSchema,
+          schema: radio.schema,
+        },
+      },
+    },
+    date: {
+      title: 'Date',
+      pages: {
+        checkbox: {
+          path: 'date',
+          title: 'Date',
+          uiSchema: date.uiSchema,
+          schema: date.schema,
         },
       },
     },
