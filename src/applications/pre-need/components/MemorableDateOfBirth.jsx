@@ -1,45 +1,40 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { selectMemorableDateOfBirth } from '../redux-selectors';
 
-const MemorableDateOfBirthField = props => {
-  const { showDateOfBirth, formData } = props;
-  const [dateOfBirth, setDateOfBirth] = useState(
-    get('application.claimant.dateOfBirth', formData),
-  );
-  // console.log(formData);
-  const updateField = event => {
-    const claimant = set(
-      'dateOfBirth',
-      event.target.value,
-      formData.application?.claimant,
+const MemorableDateOfBirth = ({ showDateOfBirth, formData }) => {
+  const dispatch = useDispatch();
+
+  const handleClick = event => {
+    const content = event.target.value;
+    const updatedFormData = set(
+      'application.claimant.dateOfBirth',
+      content,
+      { ...formData }, // make a copy of the original formData
     );
-    setDateOfBirth(claimant?.dateOfBirth);
-    // console.log(dateOfBirth);
+    dispatch(setData(updatedFormData));
   };
 
-  if (showDateOfBirth) {
-    return (
-      <>
+  return (
+    <>
+      {!showDateOfBirth && (
         <VaMemorableDate
-          value={dateOfBirth}
-          onDateBlur={updateField}
-          onDateChange={updateField}
+          value={get('application.claimant.dateOfBirth', formData)}
+          onDateChange={handleClick}
         />
-      </>
-    );
-  }
-  return <p>Toggle is OFF</p>;
+      )}
+      {showDateOfBirth && <p>Toggle is OFF</p>}
+    </>
+  );
 };
 
-function mapStateToProps(state) {
-  return {
-    showDateOfBirth: selectMemorableDateOfBirth(state),
-    formData: state.form?.data,
-  };
-}
+const mapStateToProps = state => ({
+  showDateOfBirth: selectMemorableDateOfBirth(state),
+  formData: state.form?.data,
+});
 
-export default connect(mapStateToProps)(MemorableDateOfBirthField);
+export default connect(mapStateToProps)(MemorableDateOfBirth);
