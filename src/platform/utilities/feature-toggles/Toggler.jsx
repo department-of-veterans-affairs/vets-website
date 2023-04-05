@@ -1,7 +1,7 @@
 import React, { useContext, createContext } from 'react';
 import PropTypes from 'prop-types';
-import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
-import { useFeatureToggle } from '../hooks/useFeatureToggle';
+import TOGGLE_NAMES from './featureFlagNames';
+import { useFeatureToggle } from './useFeatureToggle';
 
 const ToggleContext = createContext();
 ToggleContext.displayName = 'ToggleContext';
