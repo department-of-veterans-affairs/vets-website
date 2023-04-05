@@ -84,6 +84,11 @@ const maximalSetOfPreferences = {
                     allowed: false,
                   },
                 },
+                {
+                  id: 2,
+                  name: 'Email',
+                  description: 'Email Notification',
+                },
               ],
             },
             // new communication items https://github.com/department-of-veterans-affairs/va.gov-team/issues/53616

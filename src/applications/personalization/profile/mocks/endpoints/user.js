@@ -1,4 +1,4 @@
-const set = require('lodash/set');
+// const set = require('lodash/set');
 /**
  * Loops through the claims array and adds the claims to the user object
  *
@@ -1400,11 +1400,12 @@ const mockUserData = {
   },
 };
 
-const loa3UserWithNoMobilePhone = set(
-  { ...mockUserData.loa3User72 },
-  'data.attributes.vet360ContactInformation.mobilePhone',
-  null,
-);
+// fix, make this a clone so it doesn't mutate the original
+// const loa3UserWithNoMobilePhone = set(
+//   { ...mockUserData.loa3User72 },
+//   'data.attributes.vet360ContactInformation.mobilePhone',
+//   null,
+// );
 
 // example of creating a user with data claims
 // eslint-disable-next-line no-unused-vars
@@ -1422,17 +1423,16 @@ const handleUserRequest = (req, res) => {
   if (req?.query?.bai === 'clear') {
     return res.json(mockUserData.loa3User72);
   }
-  // default response
+
   // example user data cases
-  // return res.json(mockUserData.loa3User72); // control user (success)
+  // return res.json(mockUserData.loa3User72); // default user (success)
   // return res.json(mockUserData.badAddress); // user with bad address
   // return res.json(mockUserData.loa3User); // user with loa3
   // return res.json(mockUserData.nonVeteranUser); // non-veteran user
   // return res.json(mockUserData.externalServiceError); // external service error
+  // return res.json(loa3UserWithNoMobilePhone); // user with no mobile phone number
 
-  return res.json(loa3UserWithNoMobilePhone); // user with no mobile phone number
-
-  // return res.json(mockUserData.loa3User72);
+  return res.json(mockUserData.loa3User72);
 };
 
 module.exports = { ...mockUserData, handleUserRequest };
