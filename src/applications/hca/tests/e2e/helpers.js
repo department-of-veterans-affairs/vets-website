@@ -181,8 +181,11 @@ export const shortFormSelfDisclosureToSubmit = () => {
     .should('have.text', 'Yes (50% or higher rating)');
 
   cy.get('[name="privacyAgreementAccepted"]')
+    .find('[type="checkbox"]')
     .scrollIntoView()
-    .check();
+    .check({
+      force: true,
+    });
   cy.findByText(/submit/i, { selector: 'button' }).click();
   cy.wait('@mockSubmit').then(interception => {
     // check submitted vaCompensationType value.

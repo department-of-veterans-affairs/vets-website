@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import VaccineListItem from './VaccineListItem';
+import VaccinesListItem from './VaccinesListItem';
 import VitalListItem from './VitalListItem';
 import ConditionListItem from './ConditionListItem';
+import LabsAndTestsListItem from './LabsAndTestsListItem';
 
 const RecordListItem = props => {
   const { record, type } = props;
 
   switch (type) {
+    case 'lab and test results':
+      return <LabsAndTestsListItem record={record} />;
     case 'vaccine':
-      return <VaccineListItem record={record} />;
+      return <VaccinesListItem record={record} />;
     case 'vital':
       return <VitalListItem record={record} />;
     case 'health condition':

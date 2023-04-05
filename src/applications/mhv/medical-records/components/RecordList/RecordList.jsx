@@ -8,7 +8,7 @@ import RecordListItem from './RecordListItem';
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
 const RecordList = props => {
-  const { records, type, perPage = 5, hidePagination = false } = props;
+  const { records, type, perPage = 5, hidePagination } = props;
   const totalEntries = records?.length;
 
   const [currentRecords, setCurrentRecords] = useState([]);
@@ -50,7 +50,7 @@ const RecordList = props => {
       >
         Showing {displayNums[0]}
         &#8211;
-        {displayNums[1]} of {totalEntries} {type}s
+        {displayNums[1]} of {totalEntries} {type}
       </div>
       <div className="no-print">
         {currentRecords?.length > 0 &&
@@ -83,6 +83,9 @@ const RecordList = props => {
 export default RecordList;
 
 RecordList.propTypes = {
+  hidePagination: PropTypes.bool,
+  hideRecordsLabel: PropTypes.bool,
+  perPage: PropTypes.number,
   records: PropTypes.array,
   type: PropTypes.string,
 };

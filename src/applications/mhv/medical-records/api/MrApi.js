@@ -1,12 +1,21 @@
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
+import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vaccines from '../tests/fixtures/vaccines.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
-export const mockGetVaccineList = () => {
+export const mockGetLabsAndTestsList = () => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(labsAndTests);
+    }, 1000);
+  });
+};
+
+export const mockGetVaccinesList = () => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(vaccines);
@@ -27,7 +36,7 @@ export const mockGetVitalsList = () => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(vitals);
-    }, 1500);
+    }, 1000);
   });
 };
 

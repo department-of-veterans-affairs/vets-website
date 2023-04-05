@@ -14,7 +14,7 @@ import {
   singleAppointment,
 } from '../../../tests/unit/mocks/mock-appointments';
 
-describe.skip('check-in experience', () => {
+describe('check-in experience', () => {
   describe('shared components', () => {
     const middleware = [];
     const mockStore = configureStore(middleware);
@@ -182,7 +182,7 @@ describe.skip('check-in experience', () => {
             getByTestId('appointment-details--appointment-value'),
           ).to.have.text('stop code test');
         });
-        it.skip('renders doctor name if exists', () => {
+        it('renders doctor name if exists', () => {
           const { getByTestId } = render(
             <Provider store={existStore}>
               <I18nextProvider i18n={i18n}>

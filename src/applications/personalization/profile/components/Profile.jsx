@@ -50,7 +50,7 @@ import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
-import { Toggler } from '../../components/Toggler';
+import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 
 class Profile extends Component {
   componentDidMount() {

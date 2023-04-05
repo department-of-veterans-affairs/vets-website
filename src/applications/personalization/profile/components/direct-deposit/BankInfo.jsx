@@ -27,6 +27,7 @@ import {
 } from '@@profile/selectors';
 import UpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 import { kebabCase } from 'lodash';
+import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
@@ -45,7 +46,6 @@ import { benefitTypes } from '~/applications/personalization/common/constants';
 
 import NotEligible from './alerts/NotEligible';
 import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
-import { Toggler } from '~/applications/personalization/components/Toggler';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 
 export const BankInfo = ({
