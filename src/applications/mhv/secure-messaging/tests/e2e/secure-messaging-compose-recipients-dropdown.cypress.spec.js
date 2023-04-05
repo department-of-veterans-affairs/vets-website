@@ -72,6 +72,7 @@ describe('recipients dropdown box', () => {
     cy.axeCheck();
     cy.get('[data-testid="compose-recipient-select"]').should('exist');
     cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
       .find('option')
       .its('length')
       .should('equal', 3);
