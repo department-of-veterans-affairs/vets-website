@@ -49,11 +49,19 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
 
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('[name="folder-name"]')
+
+    cy.get('[name="new-folder-name"]')
+      .shadow()
+      .find('input')
+      .click();
+    cy.get('[name="new-folder-name"]')
       .shadow()
       .find('input')
       .should('be.focused');
-    cy.get('[name="folder-name"]')
+    cy.realPress(['Enter']);
+    cy.realPress(['Tab']);
+    cy.realPress(['Enter']);
+    cy.get('[name="new-folder-name"]')
       .shadow()
       .find('#input-error-message')
       .should(err => {

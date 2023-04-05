@@ -7,7 +7,7 @@ class FolderManagementPage {
   };
 
   editFolderNameButton = () => {
-    return cy.get('button[text="Edit folder name"]');
+    return cy.get('[data-testid="edit-folder-button"]');
   };
 
   createFolderTextBox = () => {
