@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { errorMessages, MAX_LENGTH } from '../../constants';
+import { errorMessages, SELECTED, MAX_LENGTH } from '../../constants';
 import { getDate } from '../../utils/dates';
 
 import {
@@ -51,21 +51,10 @@ describe('VA evidence', () => {
   describe('validateVaIssues', () => {
     it('should not show an error for included issues', () => {
       const errors = { addError: sinon.spy() };
-      validateVaIssues(errors, { issues: ['ok'] });
-      expect(errors.addError.called).to.be.false;
-    });
-    it('should show an error for a missing issues', () => {
-      const errors = { addError: sinon.spy() };
-      validateVaIssues(errors, { issues: [] });
-      expect(errors.addError.calledWith(errorMessages.evidence.issuesMissing))
-        .to.be.true;
-    });
-  });
-
-  describe('validateVaIssues', () => {
-    it('should not show an error for included issues', () => {
-      const errors = { addError: sinon.spy() };
-      validateVaIssues(errors, { issues: ['ok'] });
+      validateVaIssues(errors, null, {
+        additionalIssues: [{ issue: 'ok', [SELECTED]: true }],
+        locations: [{ issues: ['ok'] }],
+      });
       expect(errors.addError.called).to.be.false;
     });
     it('should show an error for a missing issues', () => {
@@ -339,7 +328,10 @@ describe('Private evidence', () => {
   describe('validatePrivateIssues', () => {
     it('should not show an error for an added facility issues', () => {
       const errors = { addError: sinon.spy() };
-      validatePrivateIssues(errors, { issues: ['ok'] });
+      validatePrivateIssues(errors, null, {
+        additionalIssues: [{ issue: 'ok', [SELECTED]: true }],
+        providerFacility: [{ issues: ['ok'] }],
+      });
       expect(errors.addError.called).to.be.false;
     });
     it('should show an error for a missing facility issues', () => {
