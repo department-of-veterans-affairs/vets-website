@@ -32,9 +32,13 @@ const EvidenceSummary = ({
   updatePage,
 }) => {
   const { limitedConsent = '' } = data;
-  const vaEvidence = hasVAEvidence(data) ? data.locations : [];
-  const privateEvidence = hasPrivateEvidence(data) ? data.providerFacility : [];
-  const otherEvidence = hasOtherEvidence(data) ? data.additionalDocuments : [];
+  const vaEvidence = hasVAEvidence(data) ? data?.locations || [] : [];
+  const privateEvidence = hasPrivateEvidence(data)
+    ? data?.providerFacility || []
+    : [];
+  const otherEvidence = hasOtherEvidence(data)
+    ? data?.additionalDocuments || []
+    : [];
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
