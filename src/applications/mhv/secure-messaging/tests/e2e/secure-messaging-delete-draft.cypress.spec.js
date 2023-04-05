@@ -21,10 +21,26 @@ describe('Secure Messaging Delete Draft', () => {
     cy.injectAxe();
     cy.axeCheck();
     draftsPage.confirmDeleteDraft(mockDraftResponse);
-    cy.contains('successfully deleted').should(
-      'have.text',
-      'Draft was successfully deleted.',
-    );
+    cy.contains('successfully deleted')
+      .focused()
+      .should('have.text', 'Draft was successfully deleted.');
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+
+  it(' Delete Drafts on key press enter', () => {
+    site.login();
+    inboxPage.loadInboxMessages();
+    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
+    draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
+    patientInterstitialPage.getContinueButton().click();
+    draftsPage.clickDeleteButton();
+    cy.injectAxe();
+    cy.axeCheck();
+    draftsPage.confirmDeleteDraftOnEnter(mockDraftResponse);
+    cy.contains('successfully deleted')
+      .focused()
+      .should('have.text', 'Draft was successfully deleted.');
     cy.injectAxe();
     cy.axeCheck();
   });
