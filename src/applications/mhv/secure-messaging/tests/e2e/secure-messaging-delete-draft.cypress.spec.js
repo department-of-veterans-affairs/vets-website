@@ -21,10 +21,9 @@ describe('Secure Messaging Delete Draft', () => {
     cy.injectAxe();
     cy.axeCheck();
     draftsPage.confirmDeleteDraft(mockDraftResponse);
-    cy.contains('successfully deleted').should(
-      'have.text',
-      'Draft was successfully deleted.',
-    );
+    cy.contains('successfully deleted')
+      .focused()
+      .should('have.text', 'Draft was successfully deleted.');
     cy.injectAxe();
     cy.axeCheck();
   });
