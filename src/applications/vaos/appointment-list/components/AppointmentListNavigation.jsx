@@ -25,9 +25,7 @@ export default function AppointmentListNavigation({ count, callback }) {
               to="/"
               onClick={() => callback(true)}
               // eslint-disable-next-line jsx-a11y/aria-proptypes
-              aria-current={`${
-                location.pathname.endsWith('/') ? 'true' : false
-              }`}
+              aria-current={`${!!location.pathname.endsWith('/')}`}
             >
               Upcoming
             </NavLink>
@@ -43,9 +41,7 @@ export default function AppointmentListNavigation({ count, callback }) {
                 });
               }}
               // eslint-disable-next-line jsx-a11y/aria-proptypes
-              aria-current={`${
-                location.pathname.endsWith('pending') ? 'true' : false
-              }`}
+              aria-current={`${!!location.pathname.endsWith('pending')}`}
             >
               {`Pending (${count})`}
             </NavLink>
@@ -61,9 +57,7 @@ export default function AppointmentListNavigation({ count, callback }) {
                 });
               }}
               // eslint-disable-next-line jsx-a11y/aria-proptypes
-              aria-current={`${
-                location.pathname.endsWith('past') ? 'true' : false
-              }`}
+              aria-current={`${!!location.pathname.endsWith('past')}`}
             >
               Past
             </NavLink>
