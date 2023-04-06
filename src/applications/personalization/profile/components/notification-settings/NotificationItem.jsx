@@ -14,7 +14,7 @@ const NotificationItem = ({ channelIds }) => {
   // since the email channel is not yet supported and all Mhv notifications are email based for now
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const allEnabled = useToggleValue(
-    TOGGLE_NAMES.profileShowMhvNotificaionSettings,
+    TOGGLE_NAMES.profileShowMhvNotificationSettings,
   );
   // this is filtering all the channels that end with 1, which is the text channel
   // once the support for email is added, we'll need to remove this filter along with the feature toggle reliance
