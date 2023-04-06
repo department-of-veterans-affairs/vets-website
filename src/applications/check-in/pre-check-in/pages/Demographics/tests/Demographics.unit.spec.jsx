@@ -1,80 +1,61 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { I18nextProvider } from 'react-i18next';
 
-import i18n from '../../../../utils/i18n/i18n';
-import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
 import { multipleAppointments } from '../../../../tests/unit/mocks/mock-appointments';
+import CheckInProvider from '../../../../tests/unit/utils/CheckInProvider';
 import Demographics from '../index';
 
-import { createMockRouter } from '../../../../tests/unit/mocks/router';
-
-const middleware = [];
-const mockStore = configureStore(middleware);
-const mockRouter = createMockRouter();
-const initState = {
-  checkInData: {
-    appointments: multipleAppointments,
-    veteranData: {
-      demographics: {
-        nextOfKin1: {
-          name: 'VETERAN,JONAH',
-          relationship: 'BROTHER',
-          phone: '1112223333',
-          workPhone: '4445556666',
-          address: {
-            street1: '123 Main St',
-            street2: 'Ste 234',
-            street3: '',
-            city: 'Los Angeles',
-            county: 'Los Angeles',
-            state: 'CA',
-            zip: '90089',
-            zip4: '',
-            country: 'USA',
-          },
-        },
-        mailingAddress: {
-          street1: '123 Turtle Trail',
-          street2: '',
-          street3: '',
-          city: 'Treetopper',
-          state: 'Tennessee',
-          zip: '101010',
-        },
-        homeAddress: {
-          street1: '445 Fine Finch Fairway',
-          street2: 'Apt 201',
-          city: 'Fairfence',
-          state: 'Florida',
-          zip: '445545',
-        },
-        homePhone: '5552223333',
-        mobilePhone: '5553334444',
-        workPhone: '5554445555',
-        emailAddress: 'kermit.frog@sesameenterprises.us',
+const veteranData = {
+  demographics: {
+    nextOfKin1: {
+      name: 'VETERAN,JONAH',
+      relationship: 'BROTHER',
+      phone: '1112223333',
+      workPhone: '4445556666',
+      address: {
+        street1: '123 Main St',
+        street2: 'Ste 234',
+        street3: '',
+        city: 'Los Angeles',
+        county: 'Los Angeles',
+        state: 'CA',
+        zip: '90089',
+        zip4: '',
+        country: 'USA',
       },
     },
-    context: {},
-    form: {
-      pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+    mailingAddress: {
+      street1: '123 Turtle Trail',
+      street2: '',
+      street3: '',
+      city: 'Treetopper',
+      state: 'Tennessee',
+      zip: '101010',
     },
+    homeAddress: {
+      street1: '445 Fine Finch Fairway',
+      street2: 'Apt 201',
+      city: 'Fairfence',
+      state: 'Florida',
+      zip: '445545',
+    },
+    homePhone: '5552223333',
+    mobilePhone: '5553334444',
+    workPhone: '5554445555',
+    emailAddress: 'kermit.frog@sesameenterprises.us',
   },
 };
 
 describe('pre-check-in', () => {
   describe('Demographics sub message', () => {
-    const subStore = mockStore({ ...initState, ...scheduledDowntimeState });
     it('renders the sub-message for an in-person appointment', () => {
       const component = render(
-        <Provider store={subStore}>
-          <I18nextProvider i18n={i18n}>
-            <Demographics router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider
+          store={{ appointments: multipleAppointments, veteranData }}
+        >
+          <Demographics />
+        </CheckInProvider>,
       );
       expect(
         component.queryByText(
@@ -83,18 +64,16 @@ describe('pre-check-in', () => {
       ).to.exist;
     });
     it('does not render the sub-message for a phone appointment appointment', () => {
-      const phoneInitState = JSON.parse(JSON.stringify(initState));
-      phoneInitState.checkInData.appointments[0].kind = 'phone';
-      const phoneSubStore = mockStore({
-        ...phoneInitState,
-        ...scheduledDowntimeState,
-      });
+      const phoneAppointments = JSON.parse(
+        JSON.stringify(multipleAppointments),
+      );
+      phoneAppointments[0].kind = 'phone';
       const component = render(
-        <Provider store={phoneSubStore}>
-          <I18nextProvider i18n={i18n}>
-            <Demographics router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider
+          store={{ appointments: phoneAppointments, veteranData }}
+        >
+          <Demographics />
+        </CheckInProvider>,
       );
       expect(
         component.queryByText(

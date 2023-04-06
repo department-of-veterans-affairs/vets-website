@@ -8,7 +8,7 @@ import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../5490/config/form';
+import formConfig from '../../config/form';
 
 describe('Edu 5490 benefitSelection', () => {
   const {
@@ -28,7 +28,7 @@ describe('Edu 5490 benefitSelection', () => {
       'input',
     ).concat(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select'));
 
-    expect(fields.length).to.equal(2);
+    expect(fields.length).to.equal(8);
   });
 
   it('should show nested content', () => {
