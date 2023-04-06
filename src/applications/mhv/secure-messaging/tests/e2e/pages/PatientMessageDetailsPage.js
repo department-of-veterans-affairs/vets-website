@@ -284,13 +284,15 @@ class PatientMessageDetailsPage {
     );
     cy.get(
       `[data-testid= expand-message-button-${
-        this.currentThread.data.at(2).attributes.messageId
+        this.currentThread.data.at(messageIndex + 2).attributes.messageId
       }]`,
     )
       .eq(messageIndex)
       .should(
         'contain',
-        `From: ${this.currentThread.data.at(2).attributes.senderName}`,
+        `From: ${
+          this.currentThread.data.at(messageIndex + 2).attributes.senderName
+        }`,
       );
   };
 
