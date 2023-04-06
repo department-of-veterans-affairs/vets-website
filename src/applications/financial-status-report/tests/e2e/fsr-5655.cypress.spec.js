@@ -48,8 +48,10 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.findAllByText(/start/i, { selector: 'button' })
+        cy.get('va-button[text*="start"]')
           .first()
+          .shadow()
+          .find('button')
           .click();
       },
       'available-debts': ({ afterHook }) => {

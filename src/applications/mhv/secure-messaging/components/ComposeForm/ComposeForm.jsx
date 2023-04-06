@@ -15,6 +15,7 @@ import useDebounce from '../../hooks/use-debounce';
 import DeleteDraft from '../Draft/DeleteDraft';
 import { sortRecipients } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
+import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import HowToAttachFiles from '../HowToAttachFiles';
 import {
@@ -46,6 +47,7 @@ const ComposeForm = props => {
   const [formPopulated, setFormPopulated] = useState(false);
   const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
+  const [messageInvalid, setMessageInvalid] = useState(false);
   const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
@@ -121,6 +123,15 @@ const ComposeForm = props => {
     [sendMessageFlag, isSaving],
   );
 
+  useEffect(
+    () => {
+      if (messageInvalid) {
+        focusOnErrorField();
+      }
+    },
+    [messageInvalid],
+  );
+
   const recipientExists = recipientId => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
   };
@@ -183,7 +194,11 @@ const ComposeForm = props => {
 
   const checkMessageValidity = () => {
     let messageValid = true;
-    if (!selectedRecipient || selectedRecipient === '') {
+    if (
+      selectedRecipient === '0' ||
+      selectedRecipient === '' ||
+      !selectedRecipient
+    ) {
       setRecipientError('Please select a recipient.');
       messageValid = false;
     }
@@ -199,6 +214,7 @@ const ComposeForm = props => {
       setCategoryError('Please select a category.');
       messageValid = false;
     }
+    setMessageInvalid(!messageValid);
     return messageValid;
   };
 
@@ -250,8 +266,9 @@ const ComposeForm = props => {
     if (!attachments.length) setNavigationError(null);
   };
 
-  const sendMessageHandler = () => {
+  const sendMessageHandler = async () => {
     // TODO add GA event
+    await setMessageInvalid(false);
     if (checkMessageValidity()) {
       setSendMessageFlag(true);
       setNavigationError(null);
@@ -292,8 +309,10 @@ const ComposeForm = props => {
 
   const recipientHandler = e => {
     setSelectedRecipient(e.detail.value);
-    if (e.detail.value) setRecipientError('');
-    setUnsavedNavigationError();
+    if (e.detail.value !== '0') {
+      if (e.detail.value) setRecipientError('');
+      setUnsavedNavigationError();
+    }
   };
 
   const subjectHandler = e => {

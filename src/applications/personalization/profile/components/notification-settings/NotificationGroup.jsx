@@ -7,7 +7,7 @@ import { selectCommunicationPreferences } from '@@profile/reducers';
 
 import NotificationItem from './NotificationItem';
 import { BLOCKED_NOTIFICATION_IDS, NOTIFICATION_GROUPS } from '../../constants';
-import { useFeatureToggle } from '~/applications/personalization/hooks/useFeatureToggle';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 const shouldRenderGroup = ({
   groupId,
