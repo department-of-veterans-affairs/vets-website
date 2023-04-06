@@ -185,7 +185,7 @@ const EmploymentRecord = ({
           error={(submitted && employerError) || null}
           id="employer-name"
           label="Employer name"
-          name="employer-name"
+          name="employerName"
           onInput={handleEmployerNameChange}
           required
           type="text"
