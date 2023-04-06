@@ -153,6 +153,7 @@
     "isMarried": true,
     "hasAdditionalIncome": true,
     "hasSocialSecurity": true,
+    "hasCreditCardBills":false, 
     "vetIsEmployed": true
   },
   "installmentContracts": [

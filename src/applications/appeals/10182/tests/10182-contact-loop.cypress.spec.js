@@ -62,8 +62,10 @@ describe('NOD contact info loop', () => {
 
   const getToContactPage = () => {
     // start form
-    cy.findAllByText(/start the board/i, { selector: 'button' })
+    cy.get('va-button[text*="start the board"]')
       .first()
+      .shadow()
+      .find('button')
       .click();
 
     // Veteran info (DOB, SSN, etc)

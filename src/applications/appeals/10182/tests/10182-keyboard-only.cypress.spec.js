@@ -7,7 +7,7 @@ import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUser from './fixtures/mocks/user.json';
 
-describe.skip('Notice of Disagreement keyboard only navigation', () => {
+describe('Notice of Disagreement keyboard only navigation', () => {
   before(() => {
     cy.fixture(path.join(__dirname, 'fixtures/data/minimal-test.json')).as(
       'testData',
@@ -105,7 +105,7 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
 
       // Review & submit page
       cy.url().should('include', 'review-and-submit');
-      cy.tabToElement('[name="privacyAgreementAccepted"]');
+      cy.tabToElement('input[type="checkbox"]');
       cy.realPress('Space');
       cy.tabToSubmitForm();
 

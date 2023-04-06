@@ -1,11 +1,20 @@
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
+import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vaccines from '../tests/fixtures/vaccines.json';
 import vitals from '../tests/fixtures/vitals.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
-export const mockGetVaccineList = () => {
+export const mockGetLabsAndTestsList = () => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(labsAndTests);
+    }, 1000);
+  });
+};
+
+export const mockGetVaccinesList = () => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(vaccines);
@@ -26,7 +35,7 @@ export const mockGetVitalsList = () => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(vitals);
-    }, 1500);
+    }, 1000);
   });
 };
 
@@ -36,7 +45,7 @@ export const mockGetVitalsList = () => {
  * @returns json with base64 of a pdf
  */
 export const getVaccinePdf = id => {
-  return apiRequest(`${apiBasePath}/phr/vaccines?id=${id}`, {
+  return apiRequest(`${apiBasePath}/medical_records/vaccines/pdf?id=${id}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -48,7 +57,7 @@ export const getVaccinePdf = id => {
  * @returns json with base64 of a pdf
  */
 export const getAllVaccinesPdf = () => {
-  return apiRequest(`${apiBasePath}/phr/vaccines`, {
+  return apiRequest(`${apiBasePath}/medical_records/vaccines/pdf`, {
     headers: {
       'Content-Type': 'application/json',
     },

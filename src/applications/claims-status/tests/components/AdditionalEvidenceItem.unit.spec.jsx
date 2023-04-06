@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import AdditionalEvidenceItem from '../../components/AdditionalEvidenceItem';
+import AdditionalEvidenceItem from '../../components/evss/AdditionalEvidenceItem';
 
 describe('<AdditionalEvidenceItem>', () => {
   it('should render additional evidence item', () => {

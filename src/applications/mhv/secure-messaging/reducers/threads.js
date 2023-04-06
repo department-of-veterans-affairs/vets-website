@@ -19,6 +19,11 @@ export const threadsReducer = (state = initialState, action) => {
           return { ...thrdAttr };
         }),
       };
+    case Actions.Thread.GET_EMPTY_LIST:
+      return {
+        ...state,
+        threadList: action.response,
+      };
     case Actions.Thread.CLEAR_LIST:
       return {
         ...state,

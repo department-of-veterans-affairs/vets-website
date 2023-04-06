@@ -9,7 +9,7 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
-    cy.get('[data-testid="compose-message-link"]').click();
+    landingPage.loadComposeMessagePage();
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4'); // trieageTeams with preferredTeam = true will appear in a recipients dropdown only
     cy.get('[name="COVID"]').click();
     cy.get('[data-testid="attach-file-input"]').selectFile(
