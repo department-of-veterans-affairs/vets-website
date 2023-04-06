@@ -11,7 +11,6 @@ import SessionTimeoutModal from 'platform/user/authentication/components/Session
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import AccountTransitionModal from 'platform/user/authentication/components/account-transition/TransitionModal';
 import AccountTransitionSuccessModal from 'platform/user/authentication/components/account-transition/TransitionSuccessModal';
-import OrganicAdoptionExperimentModal from 'platform/user/authentication/components/OrganicAdoptionExperimentModal';
 import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
 import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
 import { hasSession } from 'platform/user/profile/utilities';
@@ -40,36 +39,11 @@ import {
 } from 'platform/site-wide/user-nav/actions';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
 import { ACCOUNT_TRANSITION_DISMISSED } from 'platform/user/authentication/constants';
-import { apiRequest } from 'platform/utilities/api';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import AutoSSO from './AutoSSO';
 import { selectUserGreeting } from '../selectors';
 
 export class Main extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoginGovExperimentModalVisible: true,
-      organicAdoptionExperimentFeatureFlag: null,
-    };
-  }
-
-  closeOrganicAdoptionExperimentModal = () => {
-    this.setState({
-      isLoginGovExperimentModalVisible: false,
-    });
-  };
-
-  updateOrganicAdoptionExperimentStatus = async () => {
-    const { organicModal } = await apiRequest(
-      '/user_transition_availabilities',
-    );
-
-    this.setState({
-      organicAdoptionExperimentFeatureFlag: organicModal,
-    });
-  };
-
   componentDidMount() {
     // Close any open modals when navigating to different routes within an app.
     window.addEventListener('popstate', this.closeModals);
@@ -84,7 +58,7 @@ export class Main extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     const { currentlyLoggedIn, user } = this.props;
     const { mhvTransitionEligible, mhvTransitionComplete } = user || {};
     const accountTransitionPreviouslyDismissed = localStorage.getItem(
@@ -94,8 +68,6 @@ export class Main extends Component {
     if (currentlyLoggedIn) {
       this.executeRedirect();
       this.closeModals();
-      if (prevProps.currentlyLoggedIn === false)
-        this.updateOrganicAdoptionExperimentStatus();
 
       if (
         this.props.signInServiceName === 'mhv' &&
@@ -239,7 +211,7 @@ export class Main extends Component {
   };
 
   render() {
-    const { mhvTransition, mhvTransitionModal, currentlyLoggedIn } = this.props;
+    const { mhvTransition, mhvTransitionModal } = this.props;
 
     // Check if displaying login is disabled.
     if (
@@ -249,30 +221,8 @@ export class Main extends Component {
       return null;
     }
 
-    // only show the modal to users who are part of the organic adoption experiment,
-    // logged in with an outdated credential, do not have IDME/LoginGov linked credentials,
-    // and have not dismissed the modal in the past 24 hours
-    let isOrganicModalDismissed = false;
-    const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
-    const dateDismissed = Date.parse(
-      localStorage.getItem('dismiss_organic_adoption_modal'),
-    );
-    if (dateDismissed > oneDayAgo) {
-      isOrganicModalDismissed = true;
-    }
-
-    const shouldShowLoginGovExperiment =
-      this.state.isLoginGovExperimentModalVisible &&
-      this.state.organicAdoptionExperimentFeatureFlag &&
-      !isOrganicModalDismissed &&
-      currentlyLoggedIn;
-
     return (
       <div className="profile-nav-container">
-        <OrganicAdoptionExperimentModal
-          visible={shouldShowLoginGovExperiment}
-          onClose={this.closeOrganicAdoptionExperimentModal}
-        />
         <SearchHelpSignIn
           isHeaderV2={this.props.isHeaderV2}
           isLOA3={this.props.isLOA3}
@@ -322,7 +272,6 @@ export const mapStateToProps = state => {
   let formAutoSavedStatus;
   let additionalRoutes;
   let additionalSafePaths;
-
   const { form } = state;
   if (typeof form === 'object') {
     formAutoSavedStatus = form.autoSavedStatus;
