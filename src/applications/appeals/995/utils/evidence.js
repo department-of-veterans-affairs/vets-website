@@ -20,18 +20,20 @@ export const getIndex = (data, testingIndex, testSearch) => {
 
 // Update evidence issues if they change
 export const evidenceNeedsUpdating = formData => {
-  let noUpdate = true;
+  let needsUpdate = false;
   const selectedIssues = getSelected(formData).map(getIssueName);
   const iterator = ({ issues }) =>
     (issues || []).every(issue => selectedIssues.includes(issue));
 
   if (hasVAEvidence(formData)) {
-    noUpdate = (formData.locations || []).every(iterator);
+    const locations = formData.locations || [];
+    needsUpdate = locations.length > 0 && !locations.every(iterator);
   }
-  if (noUpdate && hasPrivateEvidence(formData)) {
-    noUpdate = (formData.providerFacility || []).every(iterator);
+  if (!needsUpdate && hasPrivateEvidence(formData)) {
+    const facility = formData.providerFacility || [];
+    needsUpdate = facility.length > 0 && !facility?.every(iterator);
   }
-  return !noUpdate;
+  return needsUpdate;
 };
 
 /**
@@ -41,7 +43,8 @@ export const evidenceNeedsUpdating = formData => {
  * @param {Object} data - form data
  * @returns {Object} - cleaned up data
  */
-export const removeNonSelectedIssuesFromEvidence = formData => {
+export const removeNonSelectedIssuesFromEvidence = data => {
+  const formData = data || {};
   const selectedIssues = getSelected(formData).map(getIssueName);
   const mapper = obj => ({
     ...obj,
@@ -49,7 +52,7 @@ export const removeNonSelectedIssuesFromEvidence = formData => {
   });
   return {
     ...formData,
-    location: formData.location.map(mapper),
-    providerFacility: formData.providerFacility.map(mapper),
+    locations: formData.locations?.map(mapper) || [],
+    providerFacility: formData.providerFacility?.map(mapper) || [],
   };
 };

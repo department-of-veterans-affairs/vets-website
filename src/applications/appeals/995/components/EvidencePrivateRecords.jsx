@@ -12,6 +12,7 @@ import {
 import environment from 'platform/utilities/environment';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { countries, states } from 'platform/forms/address';
+import debounce from 'platform/utilities/data/debounce';
 
 import { EVIDENCE_PRIVATE_PATH, NO_ISSUES_SELECTED } from '../constants';
 
@@ -90,6 +91,7 @@ const EvidencePrivateRecords = ({
   );
   // force a useEffect call when currentIndex doesn't change
   const [forceReload, setForceReload] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
 
   const [currentState, setCurrentState] = useState(defaultState);
 
@@ -112,7 +114,12 @@ const EvidencePrivateRecords = ({
     city: checkValidations([validateCity], currentData)[0],
     state: checkValidations([validateState], currentData)[0],
     postal: checkValidations([validatePostal], currentData)[0],
-    issues: checkValidations([validatePrivateIssues], currentData)[0],
+    issues: checkValidations(
+      [validatePrivateIssues],
+      currentData,
+      data,
+      currentIndex,
+    )[0],
     from: checkValidations([validatePrivateFromDate], currentData)[0],
     to: checkValidations([validatePrivateToDate], currentData)[0],
   };
@@ -127,6 +134,7 @@ const EvidencePrivateRecords = ({
       setCurrentState(defaultState);
       focusEvidence();
       setForceReload(false);
+      debounce(() => setIsBusy(false));
     },
     // don't include providerFacility or we clear state & move focus every time
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -200,8 +208,12 @@ const EvidencePrivateRecords = ({
 
   const handlers = {
     onBlur: event => {
-      const fieldName = event.target.getAttribute('name');
-      updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
+      // we're switching pages, don't set a field to dirty otherwise the next
+      // page may set this and focus on an error without blurring a field
+      if (!isBusy) {
+        const fieldName = event.target.getAttribute('name');
+        updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
+      }
     },
     onChange: event => {
       const { target = {} } = event;
@@ -256,6 +268,7 @@ const EvidencePrivateRecords = ({
         return;
       }
 
+      setIsBusy(true);
       const nextIndex = currentIndex + 1;
       if (currentIndex < providerFacility.length - 1) {
         goToPageIndex(nextIndex);
@@ -274,6 +287,8 @@ const EvidencePrivateRecords = ({
         updateState({ submitted: true, showModal: true });
         return;
       }
+
+      setIsBusy(true);
       const prevIndex = currentIndex - 1;
       if (currentIndex > 0) {
         goToPageIndex(prevIndex);

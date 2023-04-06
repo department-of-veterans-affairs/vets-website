@@ -46,7 +46,11 @@ describe('HCA-User-Authenticated-Identity-Without-DOB', () => {
       .first()
       .should('exist');
 
-    cy.get('#1-continueButton').click();
+    cy.get('va-button[continue]')
+      .first()
+      .shadow()
+      .find('button')
+      .click();
 
     cy.wait('@mockSip');
 
@@ -113,7 +117,11 @@ describe('HCA-User-Authenticated-Identity-With-DOB', () => {
     //   .click();
 
     // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
-    cy.get('#1-continueButton').click();
+    cy.get('va-button[continue]')
+      .first()
+      .shadow()
+      .find('button')
+      .click();
 
     cy.wait('@mockSip');
 

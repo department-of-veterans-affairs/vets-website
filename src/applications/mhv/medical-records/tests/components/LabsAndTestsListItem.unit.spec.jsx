@@ -3,37 +3,39 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
-import vaccines from '../fixtures/vaccines.json';
+import labsAndTests from '../fixtures/labsAndTests.json';
 
-describe('Vaccine list item component', () => {
+describe('LabsAndTestsListItem component', () => {
   const initialState = {
     mr: {
-      vaccines: {
-        vaccinesList: vaccines,
-        vaccineDetails: vaccines[0],
+      labsAndTests: {
+        labsAndTestsList: labsAndTests,
+        labsAndTestDetails: labsAndTests[0],
       },
     },
   };
 
   const setup = (state = initialState) => {
     return renderWithStoreAndRouter(
-      <RecordListItem record={vaccines[0]} type="vaccine" />,
+      <RecordListItem record={labsAndTests[0]} type="lab and test results" />,
       {
         initialState: state,
         reducers: reducer,
-        path: '/vaccines',
+        path: '/labs-and-tests',
       },
     );
   };
 
   it('renders without errors', () => {
     const screen = setup();
-    expect(screen.getByText('COVID-19 vaccine', { exact: true })).to.exist;
+    expect(screen.getByText('Complete blood count', { exact: true })).to.exist;
   });
 
   it('should contain the name and date of the record', () => {
     const screen = setup();
-    const recordName = screen.getByText('COVID-19 vaccine', { exact: true });
+    const recordName = screen.getByText('Complete blood count', {
+      exact: true,
+    });
     const recordDate = screen.getByText('June', { exact: false });
     expect(recordName).to.exist;
     expect(recordDate).to.exist;
