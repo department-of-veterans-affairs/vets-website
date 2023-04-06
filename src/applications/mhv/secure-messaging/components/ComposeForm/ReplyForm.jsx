@@ -16,7 +16,7 @@ import EmergencyNote from '../EmergencyNote';
 import HowToAttachFiles from '../HowToAttachFiles';
 import { dateFormat, navigateToFolderByFolderId } from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
-import { draftAutoSaveTimeout } from '../../util/constants';
+import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
 
 const ReplyForm = props => {
@@ -181,7 +181,7 @@ const ReplyForm = props => {
   const checkMessageValidity = () => {
     let messageValid = true;
     if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-      setBodyError('Message body cannot be blank.');
+      setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
       messageValid = false;
     }
     setMessageInvalid(!messageValid);
@@ -200,21 +200,11 @@ const ReplyForm = props => {
     if (type === 'manual') {
       setUserSaved(true);
       if (!checkMessageValidity()) {
-        setSaveError({
-          title: "We can't save this message yet",
-          p1:
-            'We need more information from you before we can save this draft.',
-          p2:
-            "You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
-        });
+        setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE);
         return;
       }
       if (attachments.length) {
-        setSaveError({
-          title: "We can't save attachments in a draft message",
-          p1:
-            "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
-        });
+        setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT);
         setNavigationError(null);
       }
     }
@@ -280,9 +270,7 @@ const ReplyForm = props => {
 
   if (!sendMessageFlag && !navigationError && attachments.length) {
     setNavigationError({
-      title: "We can't save attachments in a draft message",
-      p1:
-        "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
+      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
       confirmButtonText: 'Continue editing',
       cancelButtonText: 'OK',
     });
