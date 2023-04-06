@@ -7,7 +7,6 @@ import {
   VaDate,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
@@ -41,8 +40,8 @@ const EmploymentRecord = props => {
     ...(isEditing ? specificRecord : defaultRecord[0]),
   });
 
-  const [employerNameIsDirty, setEmployerNameIsDirty] = useState(false);
   const [typeError, setTypeError] = useState('');
+  const [employerNameError, setEmployerNameError] = useState(false);
 
   const handleChange = (key, value) => {
     setEmploymentRecord({
@@ -51,9 +50,8 @@ const EmploymentRecord = props => {
     });
   };
 
-  const handleEmployerNameChange = value => {
-    handleChange('employerName', value);
-    setEmployerNameIsDirty(true);
+  const handleEmployerNameChange = event => {
+    handleChange('employerName', event.target.value);
   };
 
   const [fromDateError, setFromDateError] = useState();
@@ -67,15 +65,27 @@ const EmploymentRecord = props => {
   const { month: toMonth, year: toYear } = parseISODate(to);
 
   const startError = 'Please enter your employment start date.';
-  const employerError = 'Please enter your employer name.';
 
   const updateFormData = e => {
+    e.preventDefault();
+
     if (!employmentRecord.type || employmentRecord.type === '') {
       setTypeError('Please select your type of work.');
-      return;
     }
 
-    e.preventDefault();
+    if (!employmentRecord.employerName) {
+      setEmployerNameError(true);
+    } else {
+      setEmployerNameError(false);
+    }
+
+    if (
+      !employmentRecord.type &&
+      !employmentRecord.employerName &&
+      employmentRecord.employerName !== ''
+    ) {
+      return;
+    }
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
       const updatedRecords = data.personalData.employmentHistory.veteran.employmentRecords.map(
@@ -229,19 +239,13 @@ const EmploymentRecord = props => {
         }
       />
       <div className="input-size-6 vads-u-margin-bottom--2">
-        <TextInput
-          field={{
-            value: employmentRecord.employerName || '',
-          }}
+        <va-text-input
           label="Employer name"
           name="employerName"
-          onValueChange={({ value }) => handleEmployerNameChange(value)}
+          onInput={handleEmployerNameChange}
+          value={employmentRecord.employerName}
           required
-          errorMessage={
-            employerNameIsDirty &&
-            !employmentRecord.employerName &&
-            employerError
-          }
+          error={employerNameError ? 'Please enter your employer name.' : ''}
         />
       </div>
       {onReviewPage ? updateButton : navButtons}

@@ -8,7 +8,7 @@ import {
 import AdvancedSearchExpander from '../Search/AdvancedSearchExpander';
 import { foldersList as folders } from '../../selectors';
 import { runBasicSearch } from '../../actions/search';
-import { DefaultFolders as Folders } from '../../util/constants';
+import { ErrorMessages, DefaultFolders as Folders } from '../../util/constants';
 
 const DashboardSearch = () => {
   const dispatch = useDispatch();
@@ -23,12 +23,12 @@ const DashboardSearch = () => {
 
   const handleSearchSubmit = () => {
     if (!searchFolder) {
-      setSearchFolderError('Please select a folder');
+      setSearchFolderError(ErrorMessages.SearchForm.FOLDER_REQUIRED);
     } else {
       setSearchFolderError(null);
     }
     if (!keyword) {
-      setKeywordError('Please enter a keyword');
+      setKeywordError(ErrorMessages.SearchForm.KEYWORD_REQUIRED);
     } else {
       setKeywordError(null);
     }
@@ -57,7 +57,9 @@ const DashboardSearch = () => {
                 onVaSelect={e => {
                   setSearchFolder(e.target.value);
                   setSearchFolderError(
-                    e.target.value ? null : 'Please select a folder',
+                    e.target.value
+                      ? null
+                      : ErrorMessages.SearchForm.FOLDER_REQUIRED,
                   );
                 }}
                 error={searchFolderError}
@@ -79,7 +81,9 @@ const DashboardSearch = () => {
                   onInput={e => {
                     setKeyword(e.target.value);
                     setKeywordError(
-                      e.target.value ? null : 'Please enter a keyword',
+                      e.target.value
+                        ? null
+                        : ErrorMessages.SearchForm.KEYWORD_REQUIRED,
                     );
                   }}
                   value={keyword}
