@@ -4,9 +4,8 @@ import { VaMemorableDate } from '@department-of-veterans-affairs/component-libra
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { selectMemorableDateOfBirth } from '../redux-selectors';
 
-const MemorableDateOfBirth = ({ showDateOfBirth, formData }) => {
+const MemorableDateOfBirth = ({ formData }) => {
   const dispatch = useDispatch();
 
   const handleClick = event => {
@@ -21,19 +20,15 @@ const MemorableDateOfBirth = ({ showDateOfBirth, formData }) => {
 
   return (
     <>
-      {!showDateOfBirth && (
-        <VaMemorableDate
-          value={get('application.claimant.dateOfBirth', formData)}
-          onDateChange={handleClick}
-        />
-      )}
-      {showDateOfBirth && <p>Toggle is OFF</p>}
+      <VaMemorableDate
+        value={get('application.claimant.dateOfBirth', formData)}
+        onDateChange={handleClick}
+      />
     </>
   );
 };
 
 const mapStateToProps = state => ({
-  showDateOfBirth: selectMemorableDateOfBirth(state),
   formData: state.form?.data,
 });
 

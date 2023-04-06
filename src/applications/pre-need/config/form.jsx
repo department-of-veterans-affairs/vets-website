@@ -149,15 +149,17 @@ const formConfig = {
               claimant: {
                 name: fullMaidenNameUI,
                 ssn: ssnDashesUI,
-                dateOfBirth: {
-                  'ui:title': 'Date Of Birth',
-                  'ui:field': MemorableDateOfBirthField,
-                  'ui:validations': [validateCurrentOrPastDate],
-                  'ui:errorMessages': {
-                    pattern: 'Please enter a valid current or past date',
-                    required: 'Please enter a date',
-                  },
-                },
+                dateOfBirth: environment.isProduction()
+                  ? currentOrPastDateUI('Date Of Birth')
+                  : {
+                      'ui:title': 'Date Of Birth',
+                      'ui:field': MemorableDateOfBirthField,
+                      'ui:validations': [validateCurrentOrPastDate],
+                      'ui:errorMessages': {
+                        pattern: 'Please enter a valid current or past date',
+                        required: 'Please enter a date',
+                      },
+                    },
                 relationshipToVet: {
                   'ui:title': 'Relationship to service member',
                   'ui:widget': 'radio',
