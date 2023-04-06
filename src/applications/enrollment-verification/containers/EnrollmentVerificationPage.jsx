@@ -50,7 +50,10 @@ export const EnrollmentVerificationPage = ({
 
   useEffect(
     () => {
-      if (submissionResult !== UPDATE_VERIFICATION_STATUS_SUCCESS) {
+      if (
+        submissionResult !== UPDATE_VERIFICATION_STATUS_SUCCESS &&
+        isLoggedIn
+      ) {
         focusElement('va-alert');
       }
     },

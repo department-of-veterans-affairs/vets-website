@@ -23,8 +23,10 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/order/i, { selector: 'button' })
+          cy.get('va-button[text*="order"]')
             .first()
+            .shadow()
+            .find('button')
             .click({ force: true });
         });
       },
