@@ -116,9 +116,9 @@ function Page({ virtualAgentShowFloatingChatbot = null }) {
   );
 
   if (chosenBot === 'sticky') {
-    bot = renderStickyBot();
-  } else if (chosenBot === 'default') {
     bot = renderChatBox();
+  } else if (chosenBot === 'default') {
+    bot = renderStickyBot();
   } else {
     bot = '';
   }
