@@ -7,11 +7,13 @@ const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
 const { createClaimsSuccess } = require('./evss-claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
 const { createUnreadMessagesSuccess } = require('./messaging');
+const { createNotificationsSuccess } = require('./notifications');
 const { user81Copays } = require('./medical-copays');
 const { v0, v2 } = require('./appointments');
 
 // set to true to simulate a user with debts for /v0/debts endpoint
 const hasDebts = false;
+const hasNotifications = true;
 
 /* eslint-disable camelcase */
 const responses = {
@@ -40,6 +42,9 @@ const responses = {
     },
   },
   'GET /v0/debts': hasDebts ? createDebtsSuccess() : createNoDebtsSuccess(),
+  'GET /v0/onsite_notifications': hasNotifications
+    ? createNotificationsSuccess()
+    : null,
   'GET /v0/profile/service_history': {
     data: {
       id: '',

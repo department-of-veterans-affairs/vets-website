@@ -11,7 +11,6 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import {
   notificationsError,
   notificationSuccessDismissed,
-  notificationDismissedSuccess,
   notificationsSuccessEmpty,
   notificationSuccessNotDismissed,
   multipleNotificationSuccess,
@@ -99,7 +98,7 @@ describe('The My VA Dashboard - Notifications', () => {
       `v0/onsite_notifications/e4213b12-eb44-4b2f-bac5-3384fbde0b7a`,
       {
         statusCode: 200,
-        body: notificationDismissedSuccess(),
+        body: notificationSuccessDismissed(),
         delay: 100,
       },
     ).as('patch');
