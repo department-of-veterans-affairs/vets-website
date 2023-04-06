@@ -164,7 +164,7 @@ class PatientMessageDraftsPage {
     cy.wait('@deletedDraftResponse');
   };
 
-  confirmDeleteDraftOnEnter = draftMessage => {
+  confirmDeleteDraftWithEnterKey = draftMessage => {
     cy.intercept(
       'DELETE',
       `/my_health/v1/messaging/messages/${
