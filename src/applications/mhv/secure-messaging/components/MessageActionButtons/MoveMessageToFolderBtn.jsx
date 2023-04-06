@@ -49,7 +49,9 @@ const MoveMessageToFolderBtn = props => {
 
   const handleConfirmMoveFolderTo = () => {
     if (selectedFolder === null) {
-      setFolderInputError('Please select a folder to move the message to.');
+      setFolderInputError(
+        Constants.ErrorMessages.MoveConversation.FOLDER_REQUIRED,
+      );
     } else {
       if (selectedFolder === 'newFolder') {
         setIsNewModalVisible(true);
