@@ -3,6 +3,12 @@ const createMockRouter = ({
   createHref = () => {},
   currentPage = '',
   params = {},
+  replace = () => {},
+  go = () => {},
+  goBack = () => {},
+  goForward = () => {},
+  setRouteLeaveHook = () => {},
+  isActive = () => {},
 } = {}) => {
   const pathname =
     currentPage && !currentPage.startsWith('/')
@@ -15,6 +21,12 @@ const createMockRouter = ({
       pathname,
     },
     params,
+    replace,
+    go,
+    goBack,
+    goForward,
+    setRouteLeaveHook,
+    isActive,
   };
 };
 

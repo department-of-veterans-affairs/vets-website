@@ -1,11 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { I18nextProvider } from 'react-i18next';
-import configureStore from 'redux-mock-store';
 import { format as formatDate } from 'date-fns';
-import i18n from '../../utils/i18n/i18n';
+import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 
 import AppointmentBlock from '../AppointmentBlock';
 
@@ -33,45 +30,12 @@ const appointments = [
 ];
 describe('AppointmentBlock', () => {
   describe('pre-check-in context', () => {
-    let mockRouter;
-    let store;
-    beforeEach(() => {
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      const initState = {
-        checkInData: {
-          context: {
-            token: '',
-          },
-          form: {
-            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-          },
-          app: 'preCheckIn',
-        },
-      };
-      store = mockStore(initState);
-
-      mockRouter = {
-        params: {
-          token: 'token-123',
-        },
-        location: {
-          pathname: '/third-page',
-        },
-      };
-    });
     describe('In person appointment context', () => {
       it('Renders appointment day for multiple appointments', () => {
         const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <AppointmentBlock
-                appointments={appointments}
-                page="intro"
-                router={mockRouter}
-              />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider store={{ app: 'preCheckIn' }}>
+            <AppointmentBlock appointments={appointments} page="intro" />
+          </CheckInProvider>,
         );
         expect(screen.getByTestId('appointment-day-location')).to.have.text(
           'Your appointments are on November 16, 2021.',
@@ -83,15 +47,12 @@ describe('AppointmentBlock', () => {
       it('Renders appointment day and facility for single appointment', () => {
         const updateAppointments = [...appointments];
         const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <AppointmentBlock
-                appointments={[updateAppointments.shift()]}
-                page="intro"
-                router={mockRouter}
-              />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider store={{ app: 'preCheckIn' }}>
+            <AppointmentBlock
+              appointments={[updateAppointments.shift()]}
+              page="intro"
+            />
+          </CheckInProvider>,
         );
         expect(screen.getByTestId('appointment-day-location')).to.have.text(
           'Your appointment is on November 16, 2021.',
@@ -109,15 +70,12 @@ describe('AppointmentBlock', () => {
 
       it('Renders appointment time with no clinic for phone appointments', () => {
         const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <AppointmentBlock
-                appointments={phoneAppointments}
-                page="confirmation"
-                router={mockRouter}
-              />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider store={{ app: 'preCheckIn' }}>
+            <AppointmentBlock
+              appointments={phoneAppointments}
+              page="confirmation"
+            />
+          </CheckInProvider>,
         );
         expect(screen.getByTestId('appointment-day-location')).to.have.text(
           'Your appointments are on November 16, 2021.',
@@ -126,46 +84,13 @@ describe('AppointmentBlock', () => {
     });
   });
   describe('day-of context', () => {
-    let mockRouter;
-    let store;
-    beforeEach(() => {
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      const initState = {
-        checkInData: {
-          context: {
-            token: '',
-          },
-          form: {
-            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-          },
-          app: 'dayOf',
-        },
-      };
-      store = mockStore(initState);
-
-      mockRouter = {
-        params: {
-          token: 'token-123',
-        },
-        location: {
-          pathname: '/third-page',
-        },
-      };
-    });
     describe('In person appointment context', () => {
       it('Renders appointment date', () => {
         const today = formatDate(new Date(), 'MMMM dd, yyyy');
         const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <AppointmentBlock
-                appointments={appointments}
-                page="details"
-                router={mockRouter}
-              />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider store={{ app: 'dayOf' }}>
+            <AppointmentBlock appointments={appointments} page="details" />
+          </CheckInProvider>,
         );
         expect(screen.getByTestId('date-text')).to.have.text(
           `Here are your appointments for today: ${today}.`,

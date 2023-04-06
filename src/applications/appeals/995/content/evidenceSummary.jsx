@@ -45,6 +45,7 @@ export const content = {
     </>
   ),
 
+  missingIssues: 'Missing treated conditions',
   missingEvidenceHeader: 'We noticed you didn’t add new evidence',
   missingEvidenceText: (
     <>

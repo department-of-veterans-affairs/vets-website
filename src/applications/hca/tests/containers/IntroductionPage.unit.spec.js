@@ -161,8 +161,7 @@ describe('HCA IntroductionPage', () => {
         <IntroductionPage {...props} />
       </Provider>,
     );
-
-    expect(view.container.querySelector('.usa-button-primary')).to.contain.text(
+    expect(view.container.querySelector('va-button').text).to.contain(
       'Start the health care application',
     );
   });

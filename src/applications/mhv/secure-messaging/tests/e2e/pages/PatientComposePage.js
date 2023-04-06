@@ -28,7 +28,7 @@ class PatientComposePage {
   verifySendMessageConfirmationMessage = () => {
     cy.get('.vads-u-margin-bottom--1').should(
       'have.text',
-      'Message was successfully sent.',
+      'Secure message was successfully sent.',
     );
   };
 
@@ -86,12 +86,10 @@ class PatientComposePage {
   };
 
   //* Refactor*  make parameterize mockDraftMessage
-  sendDraft = (testId, testCategory, testSubject, testBody) => {
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/messages',
-      mockDraftMessage,
-    ).as('draft_message');
+  sendDraft = draftMessage => {
+    cy.intercept('POST', '/my_health/v1/messaging/messages', draftMessage).as(
+      'draft_message',
+    );
     cy.get('[data-testid="Send-Button"]').click();
     cy.wait('@draft_message').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
@@ -99,17 +97,23 @@ class PatientComposePage {
     cy.get('@draft_message')
       .its('request.body')
       .then(message => {
-        expect(message.category).to.eq(testCategory);
-        expect(message.subject).to.eq(testSubject);
-        expect(message.body).to.eq(testBody);
+        expect(message.category).to.eq(draftMessage.data.attributes.category);
+        expect(message.subject).to.eq(draftMessage.data.attributes.subject);
+        expect(message.body).to.eq(draftMessage.data.attributes.body);
       });
   };
 
-  saveDraft = (testId, testCategory, testSubject, testBody) => {
+  saveDraftButton = () => {
+    return cy.get('[data-testid="Save-Draft-Button"]');
+  };
+
+  saveDraft = draftMessage => {
     cy.intercept(
       'PUT',
-      '/my_health/v1/messaging/message_drafts/*',
-      mockDraftMessage,
+      `/my_health/v1/messaging/message_drafts/${
+        draftMessage.data.attributes.messageId
+      }`,
+      draftMessage,
     ).as('draft_message');
 
     cy.get('[data-testid="Save-Draft-Button"]').click();
@@ -119,14 +123,14 @@ class PatientComposePage {
     cy.get('@draft_message')
       .its('request.body')
       .then(message => {
-        expect(message.category).to.eq(testCategory);
-        expect(message.subject).to.eq(testSubject);
-        expect(message.body).to.eq(testBody);
+        expect(message.category).to.eq(draftMessage.data.attributes.category);
+        expect(message.subject).to.eq(draftMessage.data.attributes.subject);
+        expect(message.body).to.eq(draftMessage.data.attributes.body);
       });
   };
 
   verifyAttachmentErrorMessage = errormessage => {
-    cy.get('[data-testid="attach-file-error-modal"] p')
+    cy.get('[data-testid="file-input-error-message"]')
       .should('have.text', errormessage)
       .should('be.visible');
   };
@@ -218,6 +222,13 @@ class PatientComposePage {
 
   verifySubjectField = subject => {
     cy.get('[id = "message-subject"]').should('have.value', subject);
+  };
+
+  verifyClickableURLinMessageBody = url => {
+    cy.get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('[id = "textarea"]')
+      .should('have.value', url);
   };
 }
 export default PatientComposePage;

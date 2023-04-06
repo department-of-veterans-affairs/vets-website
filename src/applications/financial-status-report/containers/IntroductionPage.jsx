@@ -72,7 +72,7 @@ const IntroductionPage = ({ route, formId }) => {
                 <strong>Income. </strong>
                 This includes money you earn from a job, VA or Social Security
                 benefits, or other sources. You’ll find the details you’ll need
-                on a recent paycheck.
+                on a recent pay stub.
               </li>
               <li>
                 <strong>Assets. </strong>
@@ -121,7 +121,7 @@ const IntroductionPage = ({ route, formId }) => {
             <h3 className="vads-u-font-size--h4">Submit your request</h3>
             <p>
               We’ll take you through each step of the process. It should take
-              about 30 minutes.
+              about 60 minutes.
             </p>
 
             <p>

@@ -7,7 +7,7 @@ const NewsletterSignup = () => {
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
       <h2 className="vads-u-margin-bottom--0">
-        Subscribe to receive My HealtheVet updates
+        Subscribe to get My HealtheVet updates
       </h2>
       <div className="vads-l-row">
         <div className="vads-l-col medium-screen:vads-l-col--4">
@@ -19,7 +19,7 @@ const NewsletterSignup = () => {
               name="authenticity_token"
             />
             <input type="hidden" value="USVHA_60" name="topic_id" />
-            <label htmlFor="email">Your email address</label>
+            <label htmlFor="email">Email address</label>
             <input
               className="vads-u-margin-top--1"
               id="email"
@@ -30,7 +30,7 @@ const NewsletterSignup = () => {
             <input
               className="usa-button"
               type="submit"
-              value="Sign up"
+              value="Subscribe"
               name="commit"
             />
           </form>

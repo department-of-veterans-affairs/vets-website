@@ -29,7 +29,7 @@ describe('Check In Experience', () => {
           checkInWindowStart: undefined,
         },
       ];
-      initializeFeatureToggle.withDetailsPage();
+      initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
 
       initializeSessionPost.withSuccess();

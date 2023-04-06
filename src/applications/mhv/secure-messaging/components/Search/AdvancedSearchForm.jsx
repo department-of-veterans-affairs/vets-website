@@ -15,7 +15,7 @@ import {
 } from '../../util/inputContants';
 import { runAdvancedSearch } from '../../actions/search';
 import { dateFormat } from '../../util/helpers';
-import { DefaultFolders as Folders } from '../../util/constants';
+import { ErrorMessages, DefaultFolders as Folders } from '../../util/constants';
 
 const AdvancedSearchForm = props => {
   const {
@@ -61,11 +61,11 @@ const AdvancedSearchForm = props => {
     if (dateRange === 'custom' || testingDateRange) {
       if (!fromDate && !testingFromDate) {
         formInvalid = true;
-        setFromDateError('Please enter a start date');
+        setFromDateError(ErrorMessages.SearchForm.START_DATE_REQUIRED);
       }
       if (!toDate && !testingToDate) {
         formInvalid = true;
-        setToDateError('Please enter an end date');
+        setToDateError(ErrorMessages.SearchForm.END_DATE_REQUIRED);
       }
       if (
         (fromDate || testingFromDate) &&
@@ -73,8 +73,8 @@ const AdvancedSearchForm = props => {
         moment(toDate || testingToDate).isBefore(fromDate || testingFromDate)
       ) {
         formInvalid = true;
-        setFromDateError('Start date must be on or before end date');
-        setToDateError('End date must be on or after start date');
+        setFromDateError(ErrorMessages.SearchForm.START_DATE_AFTER_END_DATE);
+        setToDateError(ErrorMessages.SearchForm.END_DATE_BEFORE_START_DATE);
       }
     } else if (
       dateRange === 'any' &&
@@ -139,10 +139,7 @@ const AdvancedSearchForm = props => {
           status="error"
           visible
         >
-          <p>
-            Please use at least one of the following search fields or choose a
-            date range other than 'any'.
-          </p>
+          <p>{ErrorMessages.SearchForm.NO_FIELDS_SELECTED_MODAL_HEADER}</p>
           <ul>
             <li>Message ID</li>
             <li>From</li>

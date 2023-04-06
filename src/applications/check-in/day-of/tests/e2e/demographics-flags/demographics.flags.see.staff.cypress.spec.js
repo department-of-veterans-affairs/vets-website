@@ -17,7 +17,7 @@ describe('Check In Experience', () => {
         initializeCheckInDataGet,
         initializeDemographicsPatch,
       } = ApiInitializer;
-      initializeFeatureToggle.withDayOfDemographicsFlagsEnabled();
+      initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess();
@@ -153,7 +153,7 @@ describe('Check In Experience', () => {
         initializeCheckInDataGet,
         initializeDemographicsPatch,
       } = ApiInitializer;
-      initializeFeatureToggle.withDayOfDemographicsFlagsEnabled();
+      initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess();
