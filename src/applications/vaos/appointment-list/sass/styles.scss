@@ -147,6 +147,7 @@
   cursor: default;
   pointer-events: none;
   text-decoration: none;
+  color: $color-black !important;
 }
 
 li.vaos-appts__listItem--clickable[data-status="upcoming"]:last-child
