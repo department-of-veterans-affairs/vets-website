@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
+import environment from 'platform/utilities/environment';
 
 import {
   itfMessage,
@@ -71,9 +72,17 @@ const ITFBanner = props => {
             <Link to={BASE_URL} className="vads-u-margin-top--2">
               Back
             </Link>
+            {!environment.isProduction() && (
+              <va-button
+                class="vads-u-margin-left--2"
+                onClick={dismissMessage}
+                text="Continue (testing only)"
+              />
+            )}
           </p>
         ) : (
           <VaButtonPair
+            class="vads-u-margin-top--2"
             continue
             onPrimaryClick={dismissMessage}
             onSecondaryClick={goHome}
