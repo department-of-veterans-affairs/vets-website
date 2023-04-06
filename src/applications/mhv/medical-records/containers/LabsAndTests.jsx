@@ -49,7 +49,7 @@ const LabsAndTests = () => {
   };
 
   return (
-    <div className="vaccines" id="vaccines">
+    <div id="labs-and-tests">
       <h1 className="page-title">Lab and test results</h1>
       <p>Review lab and test results in your VA medical records.</p>
       <va-additional-info trigger="What to know about lab and test results">

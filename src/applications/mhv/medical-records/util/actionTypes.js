@@ -6,6 +6,10 @@ export const Actions = {
     GET: 'MR_LABS_AND_TESTS_GET',
     GET_LIST: 'MR_LABS_AND_TESTS_GET_LIST',
   },
+  CareSummariesAndNotes: {
+    GET: 'MR_CARE_SUMMARIES_AND_NOTES_GET',
+    GET_LIST: 'MR_CARE_SUMMARIES_AND_NOTES_GET_LIST',
+  },
   Vaccines: {
     GET: 'MR_VACCINES_GET',
     GET_LIST: 'MR_VACCINES_GET_LIST',
