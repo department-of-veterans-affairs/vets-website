@@ -1,10 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import chai from 'chai';
+import { shallow } from 'enzyme';
 import RaceEthnicityReviewField from '../../components/RaceEthnicityReviewField';
 
 describe('RaceEthnicityReviewField', () => {
-  it('should render ObjectField if reviewMode is false', () => {
+  it('should render race categories if reviewMode is false', () => {
     const props = {
       formContext: { reviewMode: false },
       uiSchema: {},
