@@ -16,10 +16,11 @@ import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
+import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation';
 
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import MemorableDateOfBirthField from '../components/MemorableDateOfBirthField';
 import * as address from '../definitions/address';
 import Footer from '../components/Footer';
 
@@ -148,7 +149,15 @@ const formConfig = {
               claimant: {
                 name: fullMaidenNameUI,
                 ssn: ssnDashesUI,
-                dateOfBirth: currentOrPastDateUI('Date of birth'),
+                dateOfBirth: {
+                  'ui:title': 'Date Of Birth',
+                  'ui:field': MemorableDateOfBirthField,
+                  'ui:validations': [validateCurrentOrPastDate],
+                  'ui:errorMessages': {
+                    pattern: 'Please enter a valid current or past date',
+                    required: 'Please enter a date',
+                  },
+                },
                 relationshipToVet: {
                   'ui:title': 'Relationship to service member',
                   'ui:widget': 'radio',
