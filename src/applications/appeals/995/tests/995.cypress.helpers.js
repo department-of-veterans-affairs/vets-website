@@ -98,10 +98,9 @@ const twoIssues = [
       ratingIssueReferenceId: '142927',
       ratingIssueProfileDate: date,
       ratingIssueDiagnosticCode: '9411',
-      ratingIssueSubjectText: 'PTSD',
+      ratingIssueSubjectText: 'Headaches',
       ratingIssuePercentNumber: '30',
-      description:
-        'Service connection for PTSD is granted with an evaluation of 30 percent effective March 5, 2019.',
+      description: 'Acute chronic head pain',
       isRating: true,
       latestIssuesInChain: [{ id: null, approxDecisionDate: date }],
       decisionIssueId: null,

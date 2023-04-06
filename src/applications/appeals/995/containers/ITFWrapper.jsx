@@ -91,7 +91,12 @@ const ITFWrapper = ({
 
   if (itf.fetchCallState === requestStates.failed) {
     // We'll get here after the fetchITF promise is fulfilled
-    return <ITFBanner status="error" router={router} />;
+    // render children to allow testing in non-production environment
+    return (
+      <ITFBanner status="error" router={router}>
+        {children}
+      </ITFBanner>
+    );
   }
 
   if (itf?.currentITF?.status === ITF_STATUSES.active) {
