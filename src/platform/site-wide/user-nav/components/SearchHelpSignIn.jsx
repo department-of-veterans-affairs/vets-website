@@ -61,7 +61,18 @@ class SearchHelpSignIn extends Component {
         />
       );
     }
-
+    // This handles logic to reveal the create account block on the homepage if the user is not logged in
+    if (
+      window.location.pathname === '/' ||
+      window.location.pathname === '/new-home-page/'
+    ) {
+      const createAccountBlock = document.getElementsByClassName(
+        'homepage-hero__create-account',
+      )[0];
+      if (createAccountBlock) {
+        createAccountBlock.classList.remove('vads-u-display--none');
+      }
+    }
     return (
       <div className="sign-in-links">
         {!isSubdomain && (
@@ -89,6 +100,7 @@ class SearchHelpSignIn extends Component {
           this.props.isHeaderV2 ? '' : ' vads-u-padding-top--1'
         }`}
       >
+        {/* {this.renderCreateAccountBlock()} */}
         {/* Search */}
         {!this.props.isHeaderV2 && (
           <SearchMenu
