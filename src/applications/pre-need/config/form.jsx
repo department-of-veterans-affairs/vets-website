@@ -285,7 +285,7 @@ const formConfig = {
                     'Sponsor’s Military Service number (if they have one that’s different than their Social Security number)',
                   'ui:errorMessages': {
                     pattern:
-                      'Sponsor’s Military Service number must be between 4 to 10 characters',
+                      'Sponsor’s Military Service number must be between 4 to 9 characters',
                   },
                 },
                 vaClaimNumber: {
