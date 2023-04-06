@@ -1,26 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import CTALink from '../CTALink';
-import recordEvent from '~/platform/monitoring/record-event';
+// import moment from 'moment';
+// import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+// import CTALink from '../CTALink';
+// import recordEvent from '~/platform/monitoring/record-event';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
+import TestNotification from './TestNotification';
 import { dismissNotificationById } from '../../actions/notifications';
 import '../../sass/user-profile.scss';
 
-export const DebtNotification = ({ notification, dismissNotification }) => {
-  const createdAtFormatted = moment(notification.attributes.createdAt).format(
-    'dddd, MMM DD, YYYY',
-  );
+export const DebtNotification = () =>
+  //   {
+  //   notification,
+  //   dismissNotification
+  // }
+  {
+    // const createdAtFormatted = moment(notification.attributes.createdAt).format(
+    //   'dddd, MMM DD, YYYY',
+    // );
 
-  return (
-    <DashboardWidgetWrapper>
-      <div
-        data-testid="dashboard-notification-alert"
-        className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-top--2p5"
-      >
-        <VaAlert
+    return (
+      <DashboardWidgetWrapper>
+        <div
+          data-testid="dashboard-notification-alert"
+          className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-top--2p5"
+        >
+          {/* <VaAlert
           status="warning"
           show-icon
           className="vads-u-margin-top--0"
@@ -44,11 +50,13 @@ export const DebtNotification = ({ notification, dismissNotification }) => {
             />
           </div>
           <div className="vads-u-margin-top--0">{createdAtFormatted}</div>
-        </VaAlert>
-      </div>
-    </DashboardWidgetWrapper>
-  );
-};
+        </VaAlert> */}
+
+          <TestNotification />
+        </div>
+      </DashboardWidgetWrapper>
+    );
+  };
 
 DebtNotification.propTypes = {
   dismissNotification: PropTypes.func.isRequired,
