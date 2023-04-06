@@ -282,18 +282,9 @@ class PatientMessageDetailsPage {
       }`,
       messageDetails,
     );
-    cy.get(
-      `[data-testid= expand-message-button-${
-        this.currentThread.data.at(messageIndex + 2).attributes.messageId
-      }]`,
-    )
+    cy.get('[class= "vads-u-flex--fill"]')
       .eq(messageIndex)
-      .should(
-        'contain',
-        `From: ${
-          this.currentThread.data.at(messageIndex + 2).attributes.senderName
-        }`,
-      );
+      .should('contain', `From: ${messageDetails.data.attributes.senderName}`);
   };
 
   verifyExpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
