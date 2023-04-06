@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { dateFormat, typeAndDose } from '../../util/helpers';
 import ItemList from '../shared/ItemList';
 
-const VaccineListItem = props => {
+const VaccinesListItem = props => {
   const { record } = props;
   const formattedDate = dateFormat(record.date, 'MMMM D, YYYY');
 
@@ -54,8 +54,8 @@ const VaccineListItem = props => {
   );
 };
 
-export default VaccineListItem;
+export default VaccinesListItem;
 
-VaccineListItem.propTypes = {
+VaccinesListItem.propTypes = {
   record: PropTypes.object,
 };

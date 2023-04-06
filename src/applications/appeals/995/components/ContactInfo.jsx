@@ -142,54 +142,56 @@ const ContactInfo = ({
       </Headers>
       {showSuccessAlert('home-phone', 'Home phone number')}
       <span>{getFormattedPhone(homePhone)}</span>
-      <Link
-        id="edit-home-phone"
-        to="/edit-home-phone"
-        aria-label="Edit home phone number"
-        className="vads-u-margin-left--2"
-      >
-        edit
-      </Link>
+      <p className="vads-u-margin-top--0p5">
+        <Link
+          id="edit-home-phone"
+          to="/edit-home-phone"
+          aria-label="Edit home phone number"
+        >
+          edit
+        </Link>
+      </p>
 
       <Headers className={headerClassNames}>Mobile phone number</Headers>
       {showSuccessAlert('mobile-phone', 'Mobile phone number')}
       <span>{getFormattedPhone(mobilePhone)}</span>
-      <Link
-        id="edit-mobile-phone"
-        to="/edit-mobile-phone"
-        aria-label="Edit mobile phone number"
-        className="vads-u-margin-left--2"
-      >
-        edit
-      </Link>
+      <p className="vads-u-margin-top--0p5">
+        <Link
+          id="edit-mobile-phone"
+          to="/edit-mobile-phone"
+          aria-label="Edit mobile phone number"
+        >
+          edit
+        </Link>
+      </p>
 
       <Headers className={headerClassNames}>Email address</Headers>
       {showSuccessAlert('email', 'Email')}
       <span>{email || ''}</span>
-      <Link
-        id="edit-email"
-        to="/edit-email-address"
-        aria-label="Edit email address"
-        className="vads-u-margin-left--2"
-      >
-        edit
-      </Link>
+      <p className="vads-u-margin-top--0p5">
+        <Link
+          id="edit-email"
+          to="/edit-email-address"
+          aria-label="Edit email address"
+        >
+          edit
+        </Link>
+      </p>
 
       <Headers className={headerClassNames}>Mailing address</Headers>
       {showSuccessAlert('address', 'Mailing address')}
       <div className="vads-u-display--flex">
         <AddressView data={address} />
-        <div>
-          <Link
-            id="edit-address"
-            to="/edit-mailing-address"
-            aria-label="Edit mailing address"
-            className="vads-u-margin-left--2"
-          >
-            edit
-          </Link>
-        </div>
       </div>
+      <p className="vads-u-margin-top--0p5">
+        <Link
+          id="edit-address"
+          to="/edit-mailing-address"
+          aria-label="Edit mailing address"
+        >
+          edit
+        </Link>
+      </p>
     </>
   );
 

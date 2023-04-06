@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import RecordList from '../components/RecordList/RecordList';
-import { getVaccineList } from '../actions/vaccine';
+import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import { getAllVaccinesPdf } from '../api/MrApi';
@@ -9,10 +9,10 @@ import { downloadFile } from '../util/helpers';
 
 const Vaccines = () => {
   const dispatch = useDispatch();
-  const vaccines = useSelector(state => state.mr.vaccines.vaccineList);
+  const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
 
   useEffect(() => {
-    dispatch(getVaccineList());
+    dispatch(getVaccinesList());
   }, []);
 
   useEffect(

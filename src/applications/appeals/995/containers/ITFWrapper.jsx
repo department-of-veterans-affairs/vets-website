@@ -25,6 +25,7 @@ const ITFWrapper = ({
   pathname,
   children,
   mockDispatch,
+  router,
 }) => {
   const allowITF = loggedIn && isSupportedBenefitType(benefitType);
   const [isFetching, setIsFetching] = useState(false);
@@ -90,7 +91,7 @@ const ITFWrapper = ({
 
   if (itf.fetchCallState === requestStates.failed) {
     // We'll get here after the fetchITF promise is fulfilled
-    return <ITFBanner status="error" />;
+    return <ITFBanner status="error" router={router} />;
   }
 
   if (itf?.currentITF?.status === ITF_STATUSES.active) {
@@ -108,6 +109,7 @@ const ITFWrapper = ({
           previousITF={itf.previousITF}
           currentExpDate={currentExpDate}
           previousExpDate={prevExpDate}
+          router={router}
         >
           {children}
         </ITFBanner>
@@ -116,7 +118,11 @@ const ITFWrapper = ({
 
     // Else we fetched an active ITF
     return (
-      <ITFBanner status={status} currentExpDate={currentExpDate}>
+      <ITFBanner
+        status={status}
+        currentExpDate={currentExpDate}
+        router={router}
+      >
         {children}
       </ITFBanner>
     );
@@ -133,7 +139,7 @@ const ITFWrapper = ({
 
   // We'll get here after the createITF promise is fulfilled and we have no
   // active ITF because of a failed creation call
-  return <ITFBanner status="error" />;
+  return <ITFBanner status="error" router={router} />;
 };
 
 const requestStateEnum = Object.values(requestStates);
@@ -153,6 +159,9 @@ ITFWrapper.propTypes = {
   children: PropTypes.any.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   pathname: PropTypes.string.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   itf: PropTypes.shape({
     fetchCallState: PropTypes.oneOf(requestStateEnum).isRequired,
     creationCallState: PropTypes.oneOf(requestStateEnum).isRequired,

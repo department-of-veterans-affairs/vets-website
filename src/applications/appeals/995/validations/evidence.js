@@ -8,6 +8,7 @@ import {
   REGEX_COMMA,
   REGEX_EMPTY_DATE,
 } from '../constants';
+import { getSelected, getIssueName } from '../utils/helpers';
 import { validateDate } from './date';
 
 /* *** VA *** */
@@ -20,8 +21,20 @@ export const validateVaLocation = (errors, data) => {
   }
 };
 
-export const validateVaIssues = (errors, data) => {
-  if (!data.issues?.length) {
+export const validateVaIssues = (
+  errors,
+  _data,
+  fullData,
+  _schema,
+  _uiSchema,
+  currentIndex = 0,
+) => {
+  const issues = fullData?.locations?.[currentIndex]?.issues || [];
+  const selectedIssues = getSelected(fullData).map(getIssueName);
+  const allSelectedIssues = issues.every(issue =>
+    selectedIssues.includes(issue),
+  );
+  if (!issues?.length || !allSelectedIssues) {
     errors.addError(errorMessages.evidence.issuesMissing);
   }
 };
@@ -126,8 +139,20 @@ export const validatePostal = (errors, data) => {
   }
 };
 
-export const validatePrivateIssues = (errors, data) => {
-  if (!data.issues?.length) {
+export const validatePrivateIssues = (
+  errors,
+  data,
+  fullData,
+  _schema,
+  _uiSchema,
+  currentIndex = 0,
+) => {
+  const issues = fullData?.providerFacility?.[currentIndex]?.issues || [];
+  const selectedIssues = getSelected(fullData).map(getIssueName);
+  const allSelectedIssues = issues.every(issue =>
+    selectedIssues.includes(issue),
+  );
+  if (!issues?.length || !allSelectedIssues) {
     errors.addError(errorMessages.evidence.issuesMissing);
   }
 };
