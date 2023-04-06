@@ -51,7 +51,7 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
-          cy.get('va-button[text="Add or remove a dependent"]')
+          cy.get('va-button[text="Add or remove a dependent »"]')
             .first()
             .shadow()
             .find('button')

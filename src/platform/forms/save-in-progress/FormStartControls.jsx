@@ -151,7 +151,7 @@ class FormStartControls extends React.Component {
       <div>
         <VaButton
           onClick={this.handleLoadPrefill}
-          text={startText}
+          text={`${startText} »`}
           label={ariaLabel}
         />
       </div>
