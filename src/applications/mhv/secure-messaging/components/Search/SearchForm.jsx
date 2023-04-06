@@ -6,6 +6,7 @@ import moment from 'moment';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { runBasicSearch } from '../../actions/search';
 import AdvancedSearchExpander from './AdvancedSearchExpander';
+import { ErrorMessages } from '../../util/constants';
 
 const SearchForm = props => {
   const { folder, keyword, resultsCount, query } = props;
@@ -28,7 +29,7 @@ const SearchForm = props => {
     setSearchTermError(null);
 
     if (!searchTerm) {
-      setSearchTermError('Please enter a search term');
+      setSearchTermError(ErrorMessages.SearchForm.SEARCH_TERM_REQUIRED);
       return;
     }
     dispatch(runBasicSearch(folder.folderId, e.target.value.toLowerCase()));
