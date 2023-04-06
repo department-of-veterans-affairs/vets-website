@@ -123,7 +123,7 @@ const PersonalInformationSection = ({
       </div>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
         <Toggler.Enabled>
-          <ProfileInfoCard data={tableFields} level={2} />
+          <ProfileInfoCard data={tableFields} level={1} />
         </Toggler.Enabled>
 
         <Toggler.Disabled>
