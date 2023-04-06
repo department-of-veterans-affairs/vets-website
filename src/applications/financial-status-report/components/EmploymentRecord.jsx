@@ -183,7 +183,6 @@ const EmploymentRecord = ({
         <VaTextInput
           className="no-wrap input-size-6"
           error={(submitted && employerError) || null}
-          id="employer-name"
           label="Employer name"
           name="employerName"
           onInput={handleEmployerNameChange}
@@ -217,7 +216,4 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EmploymentRecord);
+export default connect(mapStateToProps, mapDispatchToProps)(EmploymentRecord);
