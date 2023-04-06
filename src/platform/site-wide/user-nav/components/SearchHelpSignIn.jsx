@@ -100,7 +100,6 @@ class SearchHelpSignIn extends Component {
           this.props.isHeaderV2 ? '' : ' vads-u-padding-top--1'
         }`}
       >
-        {/* {this.renderCreateAccountBlock()} */}
         {/* Search */}
         {!this.props.isHeaderV2 && (
           <SearchMenu
