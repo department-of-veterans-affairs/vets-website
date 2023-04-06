@@ -1,17 +1,14 @@
 import React from 'react';
 import moment from 'moment';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 const ContactDMC = () => (
   <span className="vads-u-margin-x--0p5">
-    <Telephone contact={CONTACTS.DMC || '800-827-0648'} /> (or
-    <Telephone
+    <va-telephone contact={CONTACTS.DMC || '800-827-0648'} /> (or
+    <va-telephone
       className="vads-u-margin-x--0p5"
       contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
-      pattern={PATTERNS.OUTSIDE_US}
+      international
     />
     from overseas)
   </span>
@@ -280,7 +277,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           <p data-testid="diary-code-080-next-step">
             <strong>Next step: </strong>
             Call the U.S. Department of the Treasury’s Debt Management Center at
-            <Telephone
+            <va-telephone
               className="vads-u-margin-left--0p5"
               contact={CONTACTS.DMC_TREASURY || '888-826-3127'}
             />
