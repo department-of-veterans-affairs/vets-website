@@ -2,7 +2,12 @@ import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms-system/src/js/utilities/validations';
 import { isValidUSZipCode } from 'platform/forms/address';
 
-import { errorMessages, MAX_LENGTH } from '../constants';
+import {
+  errorMessages,
+  MAX_LENGTH,
+  REGEX_COMMA,
+  REGEX_EMPTY_DATE,
+} from '../constants';
 import { validateDate } from './date';
 
 /* *** VA *** */
@@ -39,30 +44,44 @@ export const validateVaToDate = (errors, data) => {
   }
 };
 
-// Check if VA evidence object is empty
-export const isEmptyVaEntry = (checkData = {}) =>
+const buildVaLocationString = (data, joiner = '') =>
   [
-    checkData.locationAndName || '',
-    ...(checkData.issues || []),
-    ...Object.values(checkData.evidenceDates || {}),
-  ].join('') === '';
+    data.locationAndName || '',
+    ...(data.issues || []),
+    (data.evidenceDates?.from || '').replace(REGEX_EMPTY_DATE, ''),
+    (data.evidenceDates?.to || '').replace(REGEX_EMPTY_DATE, ''),
+  ].join(joiner);
 
-export const validateVaUnique = (errors, _data, fullData) => {
-  const locations = (fullData?.locations || [])
-    .filter(location => !isEmptyVaEntry(location))
-    .map(({ locationAndName, issues = [], evidenceDates = {} } = {}) =>
-      [
-        locationAndName || '',
-        ...issues,
-        evidenceDates?.from || '',
-        evidenceDates?.to || '',
-      ]
-        .join(',')
-        .toLowerCase(),
-    );
+// Check if VA evidence object is empty
+// an empty va-memorable-date value may equal '--'
+export const isEmptyVaEntry = (checkData = {}) =>
+  buildVaLocationString(checkData) === '';
+
+export const validateVaUnique = (
+  errors,
+  _data,
+  fullData,
+  _schema,
+  _uiSchema,
+  currentIndex = 0,
+) => {
+  const locations = (fullData?.locations || []).map(data =>
+    buildVaLocationString(data, ',').toLowerCase(),
+  );
   const uniqueLocations = new Set(locations);
   if (locations.length > 1 && locations.length !== uniqueLocations.size) {
-    errors.addError(errorMessages.evidence.unique);
+    const hasDuplicate = locations.find(location => {
+      if (location.replace(REGEX_COMMA, '') === '') {
+        return false;
+      }
+      const firstIndex = locations.indexOf(location);
+      const lastIndex = locations.lastIndexOf(location);
+      // only
+      return firstIndex !== lastIndex && lastIndex === currentIndex;
+    });
+    if (hasDuplicate) {
+      errors.addError(errorMessages.evidence.unique);
+    }
   }
 };
 
@@ -131,13 +150,17 @@ export const validatePrivateToDate = (errors, data) => {
   }
 };
 
+const buildPrivateString = (data, joiner = '') =>
+  [
+    data.providerFacilityName || '',
+    ...Object.values(data.providerFacilityAddress || {}),
+    ...(data.issues || []),
+    (data.treatmentDateRange?.from || '').replace(REGEX_EMPTY_DATE, ''),
+    (data.treatmentDateRange?.to || '').replace(REGEX_EMPTY_DATE, ''),
+  ].join(joiner);
+
 export const isEmptyPrivateEntry = (checkData = {}) => {
-  const result = [
-    checkData.providerFacilityName || '',
-    ...Object.values(checkData.providerFacilityAddress || {}),
-    ...(checkData.issues || []),
-    ...Object.values(checkData.treatmentDateRange || {}),
-  ].join('');
+  const result = buildPrivateString(checkData);
   // country defaults to 'USA' when adding a new entry
   return result === '' || result === 'USA';
 };
@@ -148,46 +171,25 @@ export const validatePrivateUnique = (
   fullData = {},
   _schema,
   _uiSchema,
-  index,
+  currentIndex = 0,
 ) => {
   // combine all data into a comma-separated string value for easy comparison
-  const facilities = (fullData?.providerFacility || []).map(
-    ({
-      providerFacilityName,
-      providerFacilityAddress = {},
-      issues = [],
-      treatmentDateRange = {},
-    } = {}) =>
-      [
-        providerFacilityName || '',
-        ...issues,
-        Object.values(providerFacilityAddress || {}).join(','),
-        treatmentDateRange?.from || '',
-        treatmentDateRange?.to || '',
-      ]
-        .join(',')
-        .toLowerCase(),
+  const facilities = (fullData?.providerFacility || []).map(facility =>
+    buildPrivateString(facility, ',').toLowerCase(),
   );
   const uniqueFacilities = new Set(facilities);
   const len = facilities.length;
   if (len > 1 && len !== uniqueFacilities.size) {
-    // only show error for last duplicate item; findLastIndex doesn't work with
-    // node v14 unit tests, so re-writting this :(
-    // const lastIndex = facilities.findLastIndex(
-    //   (item, indx) =>
-    //     item === facilities[index] && facilities.indexOf(item) !== indx,
-    // );
-    let lastIndex = -1;
-    let indx = len;
-    while (indx > 0) {
-      const item = facilities[indx];
-      if (item === facilities[index] && facilities.indexOf(item) !== indx) {
-        lastIndex = indx;
-        indx = 0;
+    const hasDuplicate = facilities.find(facility => {
+      if (facility.replace(REGEX_COMMA, '') === '') {
+        return false;
       }
-      indx -= 1;
-    }
-    if (lastIndex === index) {
+      const firstIndex = facilities.indexOf(facility);
+      const lastIndex = facilities.lastIndexOf(facility);
+      // only
+      return firstIndex !== lastIndex && lastIndex === currentIndex;
+    });
+    if (hasDuplicate) {
       errors.addError(errorMessages.evidence.unique);
     }
   }

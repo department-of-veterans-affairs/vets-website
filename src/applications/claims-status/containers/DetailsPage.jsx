@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
@@ -46,6 +47,13 @@ class DetailsPage extends React.Component {
 
     let content = null;
     if (!loading) {
+      const {
+        claimType,
+        contentionList,
+        dateFiled,
+        vaRepresentative,
+      } = claim.attributes;
+
       content = (
         <>
           <h3 className="vads-u-visibility--screen-reader">Claim details</h3>
@@ -53,15 +61,14 @@ class DetailsPage extends React.Component {
             <dt className="claim-detail-label">
               <h4>Claim type</h4>
             </dt>
-            <dd>{claim.attributes.claimType || 'Not Available'}</dd>
+            <dd>{claimType || 'Not Available'}</dd>
             <dt className="claim-detail-label">
               <h4>What you’ve claimed</h4>
             </dt>
             <dd>
-              {claim.attributes.contentionList &&
-              claim.attributes.contentionList.length ? (
+              {contentionList && contentionList.length ? (
                 <ul className="claim-detail-list">
-                  {claim.attributes.contentionList.map((contention, index) => (
+                  {contentionList.map((contention, index) => (
                     <li key={index} className="claim-detail-list-item">
                       {contention}
                     </li>
@@ -74,11 +81,11 @@ class DetailsPage extends React.Component {
             <dt className="claim-detail-label">
               <h4>Date received</h4>
             </dt>
-            <dd>{moment(claim.attributes.dateFiled).format('MMM D, YYYY')}</dd>
+            <dd>{moment(dateFiled).format('MMM D, YYYY')}</dd>
             <dt className="claim-detail-label">
               <h4>Your representative for VA claims</h4>
             </dt>
-            <dd>{claim.attributes.vaRepresentative || 'Not Available'}</dd>
+            <dd>{vaRepresentative || 'Not Available'}</dd>
           </dl>
         </>
       );
@@ -106,6 +113,13 @@ function mapStateToProps(state) {
     synced: claimsState.claimSync.synced,
   };
 }
+
+DetailsPage.propTypes = {
+  claim: PropTypes.object,
+  lastPage: PropTypes.string,
+  loading: PropTypes.bool,
+  synced: PropTypes.bool,
+};
 
 export default connect(mapStateToProps)(DetailsPage);
 

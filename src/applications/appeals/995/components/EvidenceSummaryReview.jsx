@@ -7,7 +7,7 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
-} from '../utils/helpers';
+} from '../utils/evidence';
 
 import { content } from '../content/evidenceSummary';
 

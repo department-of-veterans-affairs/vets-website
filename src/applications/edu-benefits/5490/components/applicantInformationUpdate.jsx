@@ -1,24 +1,42 @@
 import { pick } from 'lodash';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
-
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import * as personId from 'platform/forms/definitions/personId';
 
 import { relationshipLabels, genderLabels } from 'platform/static-data/labels';
 
+import environment from 'platform/utilities/environment';
 import { ageWarning, eighteenOrOver } from '../helpers';
 
+const isNotProd = !environment.isProduction();
+
+const conditionalFields = prefix => {
+  return isNotProd
+    ? [
+        `${prefix}FullName`,
+        'view:noSSN',
+        `${prefix}SocialSecurityNumber`,
+        `${prefix}DateOfBirth`,
+        'view:ageWarningNotification',
+        'minorHighSchoolQuestions',
+        'gender',
+        'relationship',
+      ]
+    : [
+        `${prefix}FullName`,
+        'view:noSSN',
+        `${prefix}SocialSecurityNumber`,
+        `${prefix}DateOfBirth`,
+        'view:ageWarningNotification',
+        'gender',
+        'relationship',
+      ];
+};
+
 const defaults = prefix => ({
-  fields: [
-    `${prefix}FullName`,
-    'view:noSSN',
-    `${prefix}SocialSecurityNumber`,
-    `${prefix}DateOfBirth`,
-    'view:ageWarningNotification',
-    'gender',
-    'relationship',
-  ],
+  fields: conditionalFields(prefix),
   required: [`${prefix}FullName`, `${prefix}DateOfBirth`, 'relationship'],
   labels: {},
   isVeteran: false,
@@ -47,6 +65,22 @@ export default function applicantInformationUpdate(schema, options) {
       type: 'object',
       properties: {},
     },
+    minorHighSchoolQuestions: {
+      type: 'object',
+      properties: {
+        minorHighSchoolQuestion: {
+          type: 'boolean',
+        },
+        highSchoolGedGradDate: {
+          type: 'object',
+          $ref: '#/definitions/date',
+        },
+        highSchoolGedExpectedGradDate: {
+          type: 'object',
+          $ref: '#/definitions/date',
+        },
+      },
+    },
   };
 
   return {
@@ -68,12 +102,73 @@ export default function applicantInformationUpdate(schema, options) {
       'view:ageWarningNotification': {
         'ui:description': ageWarning,
         'ui:options': {
-          hideIf: formData => eighteenOrOver(formData.relativeDateOfBirth),
+          hideIf: formData => {
+            return eighteenOrOver(formData.relativeDateOfBirth);
+          },
+        },
+      },
+      minorHighSchoolQuestions: {
+        'ui:options': {
+          expandUnder: 'view:ageWarningNotification',
+          hideIf: formData => {
+            let shouldNotShow = true;
+            const overEighteen = eighteenOrOver(formData.relativeDateOfBirth);
+            if (!isNotProd && !overEighteen) {
+              shouldNotShow = true;
+            } else {
+              shouldNotShow = false;
+            }
+            return shouldNotShow;
+          },
+        },
+        minorHighSchoolQuestion: {
+          'ui:title': 'Applicant has graduated high school or received GED?',
+          'ui:widget': 'yesNo',
+          'ui:required': formData => {
+            const isNotRequired = eighteenOrOver(formData.relativeDateOfBirth);
+            if (isNotRequired && !isNotProd) {
+              return isNotRequired;
+            }
+            return !isNotRequired;
+          },
+        },
+        highSchoolGedGradDate: {
+          ...currentOrPastDateUI('Date graduated'),
+          'ui:options': {
+            expandUnder: 'minorHighSchoolQuestion',
+          },
+          'ui:required': formData => {
+            let isRequired = false;
+            if (!eighteenOrOver(formData.relativeDateOfBirth)) {
+              const yesNoResults =
+                formData.minorHighSchoolQuestions.minorHighSchoolQuestion;
+              if (yesNoResults) {
+                isRequired = true;
+              }
+              if (!yesNoResults) {
+                isRequired = false;
+              }
+            }
+            return isRequired;
+          },
+        },
+        highSchoolGedExpectedGradDate: {
+          'ui:title': 'Date expected to graduate',
+          'ui:widget': 'date',
+          'ui:options': {
+            expandUnder: 'minorHighSchoolQuestion',
+            expandUnderCondition: false,
+          },
+          'ui:validations': [validateCurrentOrFutureDate],
+          'ui:errorMessages': {
+            pattern: 'Please enter a valid current or future date',
+            required: 'Please enter a date',
+          },
         },
       },
       gender: {
         'ui:widget': 'radio',
-        'ui:title': 'Gender',
+        'ui:title': 'Your Gender',
         'ui:options': {
           labels: labels.gender || genderLabels,
         },
