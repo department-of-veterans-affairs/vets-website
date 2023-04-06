@@ -1,4 +1,4 @@
-import '@department-of-veterans-affairs/platform-polyfills';
+import 'platform/polyfills';
 import './sass/10210-lay-witness-statement.scss';
 import startApp from 'platform/startup';
 
