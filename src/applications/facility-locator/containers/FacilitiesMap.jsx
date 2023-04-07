@@ -26,7 +26,6 @@ import {
   facilitiesPpmsSuppressCommunityCare,
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
-  facilityLocatorLighthouseCovidVaccineQuery,
 } from '../utils/featureFlagSelectors';
 import ResultsList from '../components/ResultsList';
 import PaginationWrapper from '../components/PaginationWrapper';
@@ -431,18 +430,14 @@ const FacilitiesMap = props => {
           suppressPPMS={props.suppressPPMS}
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
-          searchCovid19Vaccine={props.searchCovid19Vaccine}
           clearSearchText={props.clearSearchText}
         />
         {(isEmergencyCareType || isCppEmergencyCareTypes) && (
           <div id="search-result-emergency-care-info">
             <p className="search-result-emergency-care-subheader">
               <strong>Note:</strong> If you think your life or health is in
-              danger, call{' '}
-              <a aria-label="9 1 1" href="tel:911">
-                911
-              </a>{' '}
-              or go to the nearest emergency department right away.
+              danger, call <va-telephone contact="911" /> or go to the nearest
+              emergency department right away.
             </p>
           </div>
         )}
@@ -668,7 +663,6 @@ const mapStateToProps = state => ({
   suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
   suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
-  searchCovid19Vaccine: facilityLocatorLighthouseCovidVaccineQuery(state),
   results: state.searchResult.results,
   searchError: state.searchResult.error,
   resultTime: state.searchResult.resultTime,

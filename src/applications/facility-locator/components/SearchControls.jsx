@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from 'platform/monitoring/record-event';
-import omit from 'platform/utilities/data/omit';
-import { LocationType } from '../constants';
+import { focusElement } from 'platform/utilities/ui';
+import classNames from 'classnames';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import {
   healthServices,
   benefitsServices,
@@ -11,9 +11,8 @@ import {
   emergencyCareServices,
   nonPPMSfacilityTypeOptions,
 } from '../config';
-import { focusElement } from 'platform/utilities/ui';
-import classNames from 'classnames';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { LocationType } from '../constants';
+import ServiceTypeAhead from './ServiceTypeAhead';
 import { setFocus } from '../utils/helpers';
 
 const SearchControls = props => {
@@ -267,7 +266,6 @@ const SearchControls = props => {
   };
 
   const renderServiceTypeDropdown = () => {
-    const { searchCovid19Vaccine } = props;
     const { facilityType, serviceType, serviceTypeChanged } = currentQuery;
     const disabled = ![
       LocationType.HEALTH,
@@ -278,12 +276,8 @@ const SearchControls = props => {
     ].includes(facilityType);
 
     const showError = serviceTypeChanged && !disabled && !serviceType;
+    const filteredHealthServices = healthServices;
 
-    let filteredHealthServices = healthServices;
-
-    if (!searchCovid19Vaccine) {
-      filteredHealthServices = omit(['Covid19Vaccine'], healthServices);
-    }
     let services;
     // Determine what service types to display for the location type (if any).
     switch (facilityType) {
@@ -398,7 +392,7 @@ const SearchControls = props => {
         }
       />
       <form id="facility-search-controls" onSubmit={handleSubmit}>
-        <div className={'columns'}>
+        <div className="columns">
           {renderLocationInputField()}
           <div id="search-controls-bottom-row">
             {renderFacilityTypeDropdown()}
