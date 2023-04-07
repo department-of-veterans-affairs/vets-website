@@ -80,7 +80,7 @@ export const PrimaryPhone = ({
             value="home"
             name="primary"
             checked={primary === 'home'}
-            data-number={getFormattedPhone(homePhone)}
+            description={getFormattedPhone(homePhone)}
           />
           <va-radio-option
             id="mobile-phone"
@@ -88,7 +88,7 @@ export const PrimaryPhone = ({
             value="mobile"
             name="primary"
             checked={primary === 'mobile'}
-            data-number={getFormattedPhone(mobilePhone)}
+            description={getFormattedPhone(mobilePhone)}
           />
         </VaRadio>
         {navButtons}
