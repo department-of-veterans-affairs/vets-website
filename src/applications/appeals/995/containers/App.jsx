@@ -19,13 +19,11 @@ import {
 import user from '../tests/fixtures/mocks/user.json';
 
 import formConfig from '../config/form';
+import { issuesNeedUpdating, processContestableIssues } from '../utils/helpers';
 import {
-  issuesNeedUpdating,
-  processContestableIssues,
-  hasVAEvidence,
-  cleanupLocationIssues,
+  removeNonSelectedIssuesFromEvidence,
   evidenceNeedsUpdating,
-} from '../utils/helpers';
+} from '../utils/evidence';
 
 import ITFWrapper from './ITFWrapper';
 import { WIP } from '../components/WIP';
@@ -106,15 +104,9 @@ export const App = ({
               ),
               legacyCount: contestableIssues?.legacyCount,
             });
-          } else if (
-            hasVAEvidence(formData) &&
-            evidenceNeedsUpdating(formData)
-          ) {
-            // update VA evidence location issues
-            setFormData({
-              ...formData,
-              locations: cleanupLocationIssues(formData),
-            });
+          } else if (evidenceNeedsUpdating(formData)) {
+            // update evidence issues
+            setFormData(removeNonSelectedIssuesFromEvidence(formData));
           }
         }
       }
@@ -149,6 +141,7 @@ export const App = ({
         pathname={location.pathname}
         title={formConfig.title}
         benefitType={subTaskBenefitType}
+        router={router}
       >
         {children}
       </ITFWrapper>

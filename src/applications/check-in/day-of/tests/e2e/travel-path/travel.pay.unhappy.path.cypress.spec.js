@@ -18,7 +18,6 @@ describe('Check In Experience', () => {
         initializeSessionGet,
         initializeSessionPost,
         initializeCheckInDataGet,
-        initializeCheckInDataPost,
         initializeDemographicsPatch,
       } = ApiInitializer;
       initializeFeatureToggle.withTravelPay();
@@ -28,7 +27,6 @@ describe('Check In Experience', () => {
       initializeCheckInDataGet.withSuccess({
         appointments,
       });
-      initializeCheckInDataPost.withSuccess();
       cy.visitWithUUID();
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
@@ -48,7 +46,8 @@ describe('Check In Experience', () => {
       });
     });
     it('shows the correct error message for generic api error.', () => {
-      ApiInitializer.initializeBtsssPost.withFailure(400, 'CLM_011_LOL_DUNNO');
+      ApiInitializer.initializeCheckInDataPost.withSuccess();
+      ApiInitializer.initializeBtsssPost.withFailure();
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
@@ -64,34 +63,11 @@ describe('Check In Experience', () => {
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Appointments.attemptCheckIn(1);
+      Confirmation.validateBtsssIssue();
       Confirmation.validatePageLoadedWithBtsssGenericFailure();
       cy.injectAxeThenAxeCheck();
-      cy.createScreenshots('Day-of-check-in--travel-pay--btsss-generic-error');
-    });
-    it('shows the correct error message for travel claim exists api error.', () => {
-      ApiInitializer.initializeBtsssPost.withFailure(
-        400,
-        'CLM_002_CLAIM_EXISTS',
-      );
-      TravelPages.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('vehicle');
-      cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('address');
-      cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('mileage');
-      cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
-      Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-      Appointments.attemptCheckIn(1);
-      Confirmation.validatePageLoadedWithBtsssTravelClaimExistsFailure();
-      cy.injectAxeThenAxeCheck();
       cy.createScreenshots(
-        'Day-of-check-in--travel-pay--btsss-travel-claim-exists',
+        'Day-of-check-in--travel-pay--btsss-generic-api-error',
       );
     });
   });

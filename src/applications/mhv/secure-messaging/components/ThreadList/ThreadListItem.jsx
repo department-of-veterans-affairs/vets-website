@@ -11,29 +11,29 @@ const attachmentClasses =
 
 const ThreadListItem = props => {
   const location = useLocation();
+  const { keyword, activeFolder } = props;
   const {
     senderName,
     sentDate,
     draftDate,
     subject,
-    readReceipt,
     recipientName,
-    attachment,
+    hasAttachment,
     messageId,
-    keyword,
     category,
-    activeFolder,
     triageGroupName,
-  } = props;
-  // const activeFolder = useSelector(state => state.sm.folders.folder);
+    messageCount,
+    unreadMessages,
+    unsentDrafts,
+  } = props.thread;
 
   const getClassNames = () => {
     // messages in draft folder have inconsistent readReceipt values
     // we need to mark all messages in draft folder as read
     return activeFolder.folderId === DefaultFolders.DRAFTS.id ||
-      readReceipt === 'READ'
-      ? readMessageClassList
-      : unreadMessageClassList;
+      unreadMessages === true
+      ? unreadMessageClassList
+      : readMessageClassList;
   };
 
   const formattedDate = () => {
@@ -75,30 +75,46 @@ const ThreadListItem = props => {
 
   return (
     <div
-      className="message-list-item vads-l-row vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light"
-      data-testid="message-list-item"
+      className="thread-list-item vads-l-row vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light"
+      data-testid="thread-list-item"
     >
       <div className="unread-column vads-l-col">
-        {/* {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
-          (readReceipt !== 'READ' && (
+        {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
+          (unreadMessages && (
             <i
               aria-hidden="true"
               className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
+              data-testid="thread-list-unread-icon"
             />
-          ))} */}
+          ))}
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
         <div className={getClassNames()}>
           {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
-            <span>From: {getHighlightedText(senderName)}</span>
+            <>
+              <span>
+                {unsentDrafts && (
+                  <span className="thread-list-draft">(Draft)</span>
+                )}
+              </span>{' '}
+              <span>
+                {getHighlightedText(senderName)} (Team: {triageGroupName})
+              </span>{' '}
+              {messageCount > 1 && (
+                <span className="message-count">({messageCount} messages)</span>
+              )}
+            </>
           ) : (
             <div>
-              <div>To: {recipientName}</div>
-              <div>From: {senderName}</div>
+              <div>
+                To: {recipientName} (Team: {triageGroupName}){' '}
+              </div>{' '}
+              {messageCount > 1 && (
+                <span className="message-count">({messageCount} messages)</span>
+              )}
             </div>
           )}
         </div>
-        <div>Triage Group: {triageGroupName}</div>
         <Link
           className="message-subject-link vads-u-margin-y--0p5"
           to={`/${
@@ -110,7 +126,7 @@ const ThreadListItem = props => {
           {categoryLabel}: {getHighlightedText(subject)}
         </Link>
         <p className="received-date vads-u-margin-y--0p5">
-          {attachment && <i className={attachmentClasses} aria-hidden />}
+          {hasAttachment && <i className={attachmentClasses} aria-hidden />}
           <span>{formattedDate()}</span>
         </p>
       </div>
@@ -122,16 +138,6 @@ export default ThreadListItem;
 
 ThreadListItem.propTypes = {
   activeFolder: PropTypes.object,
-  attachment: PropTypes.any,
-  attributes: PropTypes.object,
-  category: PropTypes.string,
-  draftDate: PropTypes.string,
   keyword: PropTypes.any,
-  messageId: PropTypes.number,
-  readReceipt: PropTypes.any,
-  recipientName: PropTypes.string,
-  senderName: PropTypes.string,
-  sentDate: PropTypes.string,
-  subject: PropTypes.string,
-  triageGroupName: PropTypes.string,
+  thread: PropTypes.object,
 };

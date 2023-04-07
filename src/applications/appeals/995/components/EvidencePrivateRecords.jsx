@@ -11,14 +11,14 @@ import {
 
 import environment from 'platform/utilities/environment';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { focusElement } from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 import { countries, states } from 'platform/forms/address';
+import debounce from 'platform/utilities/data/debounce';
 
-import { EVIDENCE_PRIVATE_PATH } from '../constants';
+import { EVIDENCE_PRIVATE_PATH, NO_ISSUES_SELECTED } from '../constants';
 
 import { content } from '../content/evidencePrivateRecords';
 import { getSelected, getIssueName } from '../utils/helpers';
+import { getIndex } from '../utils/evidence';
 
 import { checkValidations } from '../validations';
 import {
@@ -34,11 +34,11 @@ import {
   validatePrivateUnique,
   isEmptyPrivateEntry,
 } from '../validations/evidence';
+import { focusEvidence } from '../utils/focus';
 
 const PRIVATE_PATH = `/${EVIDENCE_PRIVATE_PATH}`;
 // const REVIEW_AND_SUBMIT = '/review-and-submit';
-// Directions to go after modal shows
-const NAV_PATHS = { add: 'add', back: 'back', forward: 'forward' };
+
 const defaultData = {
   providerFacilityName: '',
   issues: [],
@@ -64,10 +64,7 @@ const defaultState = {
     from: false,
     to: false,
   },
-  modal: {
-    show: false,
-    direction: '',
-  },
+  showModal: false,
   submitted: false,
 };
 
@@ -83,29 +80,25 @@ const EvidencePrivateRecords = ({
   contentAfterButtons,
 }) => {
   const { providerFacility = [] } = data || {};
-  const getIndex = () => {
-    // get index from url '/va-medical-records?index={index}' or testingIndex
-    const searchIndex = new URLSearchParams(window.location.search);
-    let index = parseInt(searchIndex.get('index') || testingIndex || '0', 10);
-    if (Number.isNaN(index) || index > providerFacility.length) {
-      index = providerFacility.length;
-    }
-    return index;
-  };
 
   // *** state ***
-  const [currentIndex, setCurrentIndex] = useState(getIndex());
+  // currentIndex is zero-based
+  const [currentIndex, setCurrentIndex] = useState(
+    getIndex(providerFacility, testingIndex),
+  );
   const [currentData, setCurrentData] = useState(
     providerFacility?.[currentIndex] || defaultData,
   );
   // force a useEffect call when currentIndex doesn't change
   const [forceReload, setForceReload] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
 
   const [currentState, setCurrentState] = useState(defaultState);
 
   const availableIssues = getSelected(data).map(getIssueName);
 
-  const addOrEdit = isEmptyPrivateEntry(currentData) ? 'add' : 'edit';
+  const getPageType = entry => (isEmptyPrivateEntry(entry) ? 'add' : 'edit');
+  const [addOrEdit, setAddorEdit] = useState(getPageType(currentData));
 
   // *** validations ***
   const errors = {
@@ -121,26 +114,27 @@ const EvidencePrivateRecords = ({
     city: checkValidations([validateCity], currentData)[0],
     state: checkValidations([validateState], currentData)[0],
     postal: checkValidations([validatePostal], currentData)[0],
-    issues: checkValidations([validatePrivateIssues], currentData)[0],
+    issues: checkValidations(
+      [validatePrivateIssues],
+      currentData,
+      data,
+      currentIndex,
+    )[0],
     from: checkValidations([validatePrivateFromDate], currentData)[0],
     to: checkValidations([validatePrivateToDate], currentData)[0],
   };
 
   const hasErrors = () => Object.values(errors).filter(Boolean).length;
 
-  const focusErrors = () => {
-    if (hasErrors()) {
-      focusElement('[error]');
-    }
-  };
-
   useEffect(
     () => {
-      setCurrentData(providerFacility?.[currentIndex] || defaultData);
+      const entry = providerFacility?.[currentIndex] || defaultData;
+      setCurrentData(entry);
+      setAddorEdit(getPageType(entry));
       setCurrentState(defaultState);
-      focusElement(hasErrors() ? '[error]' : 'h3');
-      scrollTo('topPageElement');
+      focusEvidence();
       setForceReload(false);
+      debounce(() => setIsBusy(false));
     },
     // don't include providerFacility or we clear state & move focus every time
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -190,10 +184,10 @@ const EvidencePrivateRecords = ({
 
   const updateState = ({
     dirty = currentState.dirty,
-    modal = currentState.modal,
+    showModal = currentState.showModal,
     submitted = currentState.submitted,
   } = {}) => {
-    setCurrentState({ dirty, modal, submitted });
+    setCurrentState({ dirty, showModal, submitted });
   };
 
   const goToPageIndex = index => {
@@ -206,7 +200,7 @@ const EvidencePrivateRecords = ({
     const newProviderFacility = [...providerFacility];
     if (!isEmptyPrivateEntry(providerFacility[index])) {
       // only insert a new entry if the existing entry isn't empty
-      newProviderFacility.splice(index, 0, {});
+      newProviderFacility.splice(index, 0, defaultData);
     }
     setFormData({ ...data, providerFacility: newProviderFacility });
     goToPageIndex(index);
@@ -214,14 +208,20 @@ const EvidencePrivateRecords = ({
 
   const handlers = {
     onBlur: event => {
-      const fieldName = event.target.getAttribute('name');
-      updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
+      // we're switching pages, don't set a field to dirty otherwise the next
+      // page may set this and focus on an error without blurring a field
+      if (!isBusy) {
+        const fieldName = event.target.getAttribute('name');
+        updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
+      }
     },
     onChange: event => {
       const { target = {} } = event;
       const fieldName = target.name;
-      // detail.value from va-select & target.value from va-text-input
-      const value = event.detail?.value || target.value;
+      // detail.value from va-select &
+      // target.value from va-text-input & va-memorable-date
+      const value = event.detail?.value || target.value || '';
+      // empty va-memorable-date may return '--'
       updateCurrentFacility({ [fieldName]: value });
     },
 
@@ -247,11 +247,9 @@ const EvidencePrivateRecords = ({
     onAddAnother: event => {
       event.preventDefault();
       if (hasErrors()) {
-        updateState({
-          submitted: true,
-          modal: { show: currentIndex !== 0, direction: NAV_PATHS.add },
-        });
-        focusElement('[error]');
+        // don't show modal
+        updateState({ submitted: true });
+        focusEvidence();
         return;
       }
       // clear state and insert a new entry after the current index (previously
@@ -263,15 +261,14 @@ const EvidencePrivateRecords = ({
 
     onGoForward: event => {
       event.preventDefault();
+      updateState({ submitted: true });
+      // non-empty entry, focus on error
       if (hasErrors()) {
-        updateState({
-          submitted: true,
-          modal: { show: currentIndex !== 0, direction: NAV_PATHS.forward },
-        });
-        focusElement('[error]');
+        focusEvidence();
         return;
       }
-      updateState({ submitted: true });
+
+      setIsBusy(true);
       const nextIndex = currentIndex + 1;
       if (currentIndex < providerFacility.length - 1) {
         goToPageIndex(nextIndex);
@@ -281,14 +278,17 @@ const EvidencePrivateRecords = ({
       }
     },
     onGoBack: () => {
-      if (hasErrors() && currentIndex !== 0) {
+      // show modal if there are errors; don't show _immediately after_ adding
+      // a new empty entry
+      if (isEmptyPrivateEntry(currentData)) {
+        updateCurrentFacility({ remove: true });
+      } else if (hasErrors()) {
         // focus on first error
-        updateState({
-          submitted: true,
-          modal: { show: true, direction: NAV_PATHS.back },
-        });
+        updateState({ submitted: true, showModal: true });
         return;
       }
+
+      setIsBusy(true);
       const prevIndex = currentIndex - 1;
       if (currentIndex > 0) {
         goToPageIndex(prevIndex);
@@ -301,56 +301,33 @@ const EvidencePrivateRecords = ({
     onModalClose: event => {
       // For unit testing only
       event.stopPropagation();
-      updateState({ submitted: true, modal: { show: false, direction: '' } });
-      focusErrors();
+      updateState({ submitted: true, showModal: false });
+      focusEvidence();
     },
     onModalYes: () => {
-      // Yes, keep providerFacility; do nothing for forward & add
-      const { direction } = currentState.modal;
-      updateState({ submitted: true, modal: { show: false, direction: '' } });
-      if (direction === NAV_PATHS.back) {
-        const prevIndex = currentIndex - 1;
-        // index only passed here for testing purposes
-        if (prevIndex < 0) {
-          goBack(prevIndex);
-        } else {
-          goToPageIndex(prevIndex);
-        }
+      // Yes, keep providerFacilit
+      updateState({ submitted: true, showModal: false });
+      const prevIndex = currentIndex - 1;
+      // index only passed here for testing purposes
+      if (prevIndex < 0) {
+        goBack(prevIndex);
+      } else {
+        goToPageIndex(prevIndex);
       }
-      focusErrors();
+      focusEvidence();
     },
     onModalNo: () => {
       // No, clear current data and navigate
-      const { direction } = currentState.modal;
       setCurrentData(defaultData);
-      // Using returned providerFacility value to block going forward if the
-      // providerFacilities array has a zero length - the `providerFacility`
-      // value is not updated in time
-      const updatedFacility = updateCurrentFacility({ remove: true });
-      updateState({ submitted: true, modal: { show: false, direction: '' } });
-      if (direction === NAV_PATHS.back) {
-        const prevIndex = currentIndex - 1;
-        if (prevIndex >= 0) {
-          goToPageIndex(prevIndex);
-        } else {
-          // index only passed here for testing purposes
-          goBack(prevIndex);
-        }
-      } else if (direction === NAV_PATHS.forward) {
-        if (updatedFacility.length > 0) {
-          if (currentIndex < updatedFacility.length) {
-            goToPageIndex(currentIndex);
-          } else {
-            setForceReload(true);
-            goForward(data, currentIndex);
-          }
-        } else {
-          goToPageIndex(currentIndex);
-        }
+      updateCurrentFacility({ remove: true });
+
+      updateState({ submitted: true, showModal: false });
+      const prevIndex = currentIndex - 1;
+      if (prevIndex >= 0) {
+        goToPageIndex(prevIndex);
       } else {
-        // restart this current page with empty fields (they chose No)
-        setCurrentState(defaultState);
-        goToPageIndex(currentIndex);
+        // index only passed here for testing purposes
+        goBack(prevIndex);
       }
     },
   };
@@ -394,13 +371,13 @@ const EvidencePrivateRecords = ({
         <VaModal
           clickToClose
           status="info"
-          modalTitle={content.modal.title}
+          modalTitle={content.modal.title(currentData)}
           primaryButtonText={content.modal.yes}
           secondaryButtonText={content.modal.no}
           onCloseEvent={handlers.onModalClose}
           onPrimaryButtonClick={handlers.onModalYes}
           onSecondaryButtonClick={handlers.onModalNo}
-          visible={currentState.modal.show}
+          visible={currentState.showModal}
         >
           <p>{content.modal.description}</p>
         </VaModal>
@@ -525,15 +502,19 @@ const EvidencePrivateRecords = ({
           error={showError('issues')}
           required
         >
-          {availableIssues.map(issue => (
-            <va-checkbox
-              key={issue}
-              name="issues"
-              label={issue}
-              value={issue}
-              checked={(currentData?.issues || []).includes(issue)}
-            />
-          ))}
+          {availableIssues.length ? (
+            availableIssues.map((issue, index) => (
+              <va-checkbox
+                key={index}
+                name="issues"
+                label={issue}
+                value={issue}
+                checked={(currentData?.issues || []).includes(issue)}
+              />
+            ))
+          ) : (
+            <strong>{NO_ISSUES_SELECTED}</strong>
+          )}
         </VaCheckboxGroup>
 
         <VaMemorableDate

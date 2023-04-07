@@ -1,18 +1,15 @@
 import React from 'react';
 import moment from 'moment';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const ContactDMC = () => (
   <span className="vads-u-margin-x--0p5">
-    <Telephone contact={CONTACTS.DMC || '800-827-0648'} /> (or
-    <Telephone
-      className="vads-u-margin-x--0p5"
+    <VaTelephone contact={CONTACTS.DMC || '800-827-0648'} /> (or{' '}
+    <VaTelephone
       contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
-      pattern={PATTERNS.OUTSIDE_US}
-    />
+      international
+    />{' '}
     from overseas)
   </span>
 );
@@ -279,13 +276,10 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         nextStep: (
           <p data-testid="diary-code-080-next-step">
             <strong>Next step: </strong>
-            Call the U.S. Department of the Treasury’s Debt Management Center at
-            <Telephone
-              className="vads-u-margin-left--0p5"
-              contact={CONTACTS.DMC_TREASURY || '888-826-3127'}
-            />
-            , 8:30 a.m. to 6:30 p.m. ET. Don’t send us payment directly. This
-            will delay posting of payment to your account. And the Treasury
+            Call the U.S. Department of the Treasury’s Debt Management Center at{' '}
+            <VaTelephone contact={CONTACTS.DMC_TREASURY || '888-826-3127'} />,
+            8:30 a.m. to 6:30 p.m. ET. Don’t send us payment directly. This will
+            delay posting of payment to your account. And the Treasury
             Department may continue adding fees and interest.
           </p>
         ),

@@ -9,6 +9,7 @@ import {
   fetchPost911GiBillEligibility,
   UPDATE_VERIFICATION_STATUS_SUCCESS,
 } from '../actions';
+import { STATIC_CONTENT_ENROLLMENT_URL } from '../constants';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationAlert from '../components/EnrollmentVerificationAlert';
@@ -32,7 +33,7 @@ export const EnrollmentVerificationPage = ({
   useEffect(
     () => {
       if (hasCheckedKeepAlive && !isLoggedIn) {
-        history.push('/');
+        window.location.href = STATIC_CONTENT_ENROLLMENT_URL;
       }
     },
     [hasCheckedKeepAlive, history, isLoggedIn],
@@ -49,14 +50,20 @@ export const EnrollmentVerificationPage = ({
 
   useEffect(
     () => {
-      if (submissionResult !== UPDATE_VERIFICATION_STATUS_SUCCESS) {
+      if (
+        submissionResult !== UPDATE_VERIFICATION_STATUS_SUCCESS &&
+        isLoggedIn
+      ) {
         focusElement('va-alert');
       }
     },
     [submissionResult],
   );
 
-  if (!enrollmentVerificationFetchComplete) {
+  if (
+    !enrollmentVerificationFetchComplete ||
+    (!isLoggedIn && !hasCheckedKeepAlive)
+  ) {
     return <EnrollmentVerificationLoadingIndicator />;
   }
 

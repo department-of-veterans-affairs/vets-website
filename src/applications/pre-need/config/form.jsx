@@ -74,7 +74,6 @@ const {
   phone,
   files,
   centralMailVaFile,
-  militaryServiceNumber,
   race,
 } = fullSchemaPreNeed.definitions;
 
@@ -133,11 +132,12 @@ const formConfig = {
     phone,
     files,
     centralMailVaFile,
-    militaryServiceNumber,
   },
   chapters: {
     applicantInformation: {
-      title: 'Applicant Information',
+      title: environment.isProduction()
+        ? 'Applicant Information'
+        : 'Applicant information',
       pages: {
         applicantInformation: {
           title: 'Applicant information',
@@ -219,7 +219,12 @@ const formConfig = {
                 properties: {
                   veteran: {
                     type: 'object',
-                    required: ['gender', 'maritalStatus', 'militaryStatus'],
+                    required: [
+                      'race',
+                      'gender',
+                      'maritalStatus',
+                      'militaryStatus',
+                    ],
                     properties: set(
                       'militaryStatus.enum',
                       veteran.properties.militaryStatus.enum.filter(
@@ -246,7 +251,9 @@ const formConfig = {
       },
     },
     sponsorInformation: {
-      title: 'Sponsor Information',
+      title: environment.isProduction()
+        ? 'Sponsor Information'
+        : 'Sponsor information',
       pages: {
         sponsorInformation: {
           path: 'sponsor-information',
@@ -355,6 +362,7 @@ const formConfig = {
                       'maritalStatus',
                       'militaryStatus',
                       'isDeceased',
+                      'race',
                     ],
                     properties: pick(veteran.properties, [
                       'currentName',
@@ -379,7 +387,9 @@ const formConfig = {
       },
     },
     militaryHistory: {
-      title: 'Military History',
+      title: environment.isProduction()
+        ? 'Military History'
+        : 'Military history',
       pages: {
         // Two sets of military history pages dependent on
         // whether the applicant is the veteran or not.
@@ -567,7 +577,7 @@ const formConfig = {
       },
     },
     burialBenefits: {
-      title: 'Burial Benefits',
+      title: environment.isProduction() ? 'Burial Benefits' : 'Burial benefits',
       pages: {
         burialBenefits: {
           path: 'burial-benefits',
@@ -657,7 +667,7 @@ const formConfig = {
       },
     },
     supportingDocuments: {
-      title: 'Supporting documents',
+      title: 'Supporting Documents',
       pages: {
         supportingDocuments: {
           path: 'supporting-documents',
@@ -666,9 +676,7 @@ const formConfig = {
             'ui:description': SupportingDocumentsDescription,
             application: {
               preneedAttachments: fileUploadUI('Select files to upload', {
-                addAnotherLabel: environment.isProduction()
-                  ? 'Add Another'
-                  : 'Add another',
+                addAnotherLabel: 'Add another',
                 fileUploadUrl: `${
                   environment.API_URL
                 }/v0/preneeds/preneed_attachments`,
@@ -709,7 +717,9 @@ const formConfig = {
       },
     },
     contactInformation: {
-      title: 'Contact Information',
+      title: environment.isProduction()
+        ? 'Contact Information'
+        : 'Contact information',
       pages: {
         applicantContactInformation: {
           title: 'Applicant’s contact information',

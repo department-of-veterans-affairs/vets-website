@@ -2,17 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
+  VaNumberInput,
   VaRadio,
   VaRadioOption,
+  VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { setData } from 'platform/forms-system/src/js/actions';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import { deductionCodes } from '../constants/deduction-codes';
 import { currency } from '../utils/helpers';
 
@@ -31,27 +29,39 @@ const ExpandedContent = ({
   switch (debt.resolution?.resolutionType) {
     case 'Extended monthly payments':
       return (
-        <div className="currency-input">
-          <TextInput
-            name="extended-payment-resolution-amount"
-            additionalClass="input-size-3"
+        <div>
+          <VaNumberInput
+            className="no-wrap input-size-3"
+            currency
+            error={(submitted && inputErrMsg) || null}
+            id="monthly"
+            value={debt.resolution.offerToPay || ''}
             label="How much can you pay monthly on this debt?"
-            field={{ value: debt.resolution?.offerToPay || '' }}
-            onValueChange={({ value }) => updateDebts(objKey, value, debt)}
-            errorMessage={submitted && inputErrMsg}
+            name="extended-payment-resolution-amount"
+            onInput={e => {
+              updateDebts(objKey, e.target.value, debt);
+            }}
+            required
+            type="text"
           />
         </div>
       );
     case 'Compromise':
       return (
-        <div className="currency-input">
-          <TextInput
-            name="compromise-resolution-amount"
-            additionalClass="input-size-3"
+        <div>
+          <VaNumberInput
+            className="no-wrap input-size-3"
+            currency
+            error={(submitted && inputErrMsg) || null}
+            id="compromise"
             label="What is your offer for a one-time payment?"
-            field={{ value: debt.resolution?.offerToPay || '' }}
-            onValueChange={({ value }) => updateDebts(objKey, value, debt)}
-            errorMessage={submitted && inputErrMsg}
+            name="compromise-resolution-amount"
+            value={debt.resolution.offerToPay || ''}
+            onInput={e => {
+              updateDebts(objKey, e.target.value, debt);
+            }}
+            required
+            type="text"
           />
         </div>
       );
@@ -66,17 +76,12 @@ const ExpandedContent = ({
             errorMessage={submitted && checkboxErrMsg}
           />
           <p>
-            Note: If you have questions about this, call us at
-            <Telephone
-              contact={CONTACTS.DMC || '800-827-0648'}
-              className="vads-u-margin-x--0p5"
-            />
-            (or
-            <Telephone
+            Note: If you have questions about this, call us at{' '}
+            <VaTelephone contact={CONTACTS.DMC || '800-827-0648'} /> (or{' '}
+            <VaTelephone
               contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
-              pattern={PATTERNS.OUTSIDE_US}
-              className="vads-u-margin-x--0p5"
-            />
+              international
+            />{' '}
             from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00
             p.m. ET.
           </p>
