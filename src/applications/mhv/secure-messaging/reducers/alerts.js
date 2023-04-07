@@ -2,6 +2,7 @@ import { Actions } from '../util/actionTypes';
 
 const initialState = {
   alertVisible: false,
+  alertFocusOut: false,
   /**
    * The list of possible message categories
    * @type {array}
@@ -16,6 +17,7 @@ export const alertsReducer = (state = initialState, action) => {
       return {
         ...state,
         alertVisible: false,
+        alertFocusOut: false,
         alertList: state.alertList.map(alert => {
           return {
             ...alert,
@@ -44,6 +46,11 @@ export const alertsReducer = (state = initialState, action) => {
         alertList: [...state.alertList, newAlert],
       };
     }
+    case Actions.Alerts.FOCUS_OUT_ALERT:
+      return {
+        ...state,
+        alertFocusOut: true,
+      };
     default:
       return state;
   }
