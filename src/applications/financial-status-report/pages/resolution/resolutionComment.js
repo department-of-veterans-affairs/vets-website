@@ -1,9 +1,6 @@
 import { CurrentDebtTitle } from '../../components/CurrentDebtTitle';
 import CustomResolutionReview from '../../components/CustomResolutionReview';
-import {
-  validateCurrency,
-  validateResolutionAmount,
-} from '../../utils/validations';
+import { validateResolutionAmount } from '../../utils/validations';
 
 export const uiSchema = {
   selectedDebtsAndCopays: {
@@ -14,6 +11,7 @@ export const uiSchema = {
           ? 'How much can you afford to pay monthly on this debt?'
           : 'How much can you afford to pay as a one-time payment?';
       },
+      'ui:validations': [validateResolutionAmount],
       resolutionComment: {
         'ui:title': ' ',
         'ui:reviewField': CustomResolutionReview,
@@ -28,7 +26,6 @@ export const uiSchema = {
               'waiver'
           );
         },
-        'ui:validations': [validateCurrency, validateResolutionAmount],
       },
     },
   },
