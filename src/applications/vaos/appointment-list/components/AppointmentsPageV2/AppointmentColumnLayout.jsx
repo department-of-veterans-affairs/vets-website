@@ -44,8 +44,8 @@ export default function AppointmentColumnLayout({
       <AppointmentColumn
         size="1"
         className="vaos-appts__column--1 vads-u-flex--auto vads-u-padding-y--2"
-        aria-label={dateAriaLabel}
       >
+        <span className="sr-only">{dateAriaLabel}</span>
         {first && (
           <AppointmentRow className="xsmall-screen:vads-u-text-align--center small-screen:vads-u-flex-direction--row">
             <AppointmentColumn

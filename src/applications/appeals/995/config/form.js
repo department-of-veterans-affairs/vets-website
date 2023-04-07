@@ -29,6 +29,7 @@ import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
 import submissionError from '../content/submissionError';
+import reviewErrors from '../content/reviewErrors';
 
 import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInformation';
@@ -111,6 +112,8 @@ const formConfig = {
   defaultDefinitions: fullSchema.definitions,
   preSubmitInfo,
   submissionError,
+  // showReviewErrors: true,
+  reviewErrors,
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
