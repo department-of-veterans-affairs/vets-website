@@ -88,6 +88,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 NotificationGroup.propTypes = {
+  groupId: PropTypes.string.isRequired,
   groupName: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
