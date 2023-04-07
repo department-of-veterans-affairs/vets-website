@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { breadcrumbsReducer } from './breadcrumbs';
+import { conditionReducer } from './conditions';
 import { labsAndTestsReducer } from './labsAndTests';
 import { careSummariesAndNotesReducer } from './careSummariesAndNotes';
 import { vaccineReducer } from './vaccines';
@@ -13,6 +14,7 @@ const rootReducer = {
     careSummariesAndNotes: careSummariesAndNotesReducer,
     vaccines: vaccineReducer,
     vitals: vitalReducer,
+    conditions: conditionReducer,
   }),
 };
 
