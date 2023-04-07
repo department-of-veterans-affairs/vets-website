@@ -13,6 +13,7 @@ import {
   VaCheckboxGroup,
   VaCheckbox,
   VaMemorableDate,
+  VaTextarea,
   VaButtonPair,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
@@ -285,6 +286,32 @@ export default function V1V3Page() {
                 label="V3 Memorable date"
                 id="v3MemorableDateValue"
               />
+            </div>
+          </div>
+        </div>
+
+        {/* TextArea Comparison */}
+        <div className="vads-l-row">
+          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <VaTextarea
+                name="v1TextArea"
+                label="V1 Text Area"
+                hint="This is a hint"
+                onInput={e => updateValue(e)}
+              />
+              <ValueDisplay label="V1 Text Area" id="v1TextAreaValue" />
+            </div>
+
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <VaTextarea
+                name="v3TextArea"
+                label="V3 Text Area"
+                hint="This is a hint"
+                onInput={e => updateValue(e)}
+                uswds
+              />
+              <ValueDisplay label="V3 Text Area" id="v3TextAreaValue" />
             </div>
           </div>
         </div>
