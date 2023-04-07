@@ -68,7 +68,7 @@ const OverviewPage = () => {
             <h3>Questions about medical copayment bills</h3>
             <p>
               Call the VA Health Resource Center at{' '}
-              <va-telephone contact="8664001238" /> (TTY:{' '}
+              <va-telephone contact="8664001238" /> (
               <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>

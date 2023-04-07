@@ -36,7 +36,7 @@ const PastDueContent = ({ id, date, amount }) => (
     <span className="vads-u-margin-x--0p5">
       <va-telephone contact="8664001238" />
     </span>
-    (TTY: <va-telephone contact={CONTACTS[711]} />
+    ( <va-telephone tty contact={CONTACTS[711]} />
     ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
   </p>
 );

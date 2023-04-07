@@ -25,9 +25,10 @@ export const DownloadLettersAlert = () => (
         className="vads-u-margin-x--0p5"
       />
       from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m.
-      ET. If you have hearing loss, call TTY:
+      ET. If you have hearing loss, call
       <va-telephone
         contact={CONTACTS[711]}
+        tty
         className="vads-u-margin-left--0p5"
       />
       .
