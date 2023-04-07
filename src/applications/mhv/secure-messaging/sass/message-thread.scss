@@ -43,16 +43,19 @@
   }
 
   .older-message {
+    hr {
+      border-width: 0.5px;
+    }
     p {
       margin-top: 2px;
       margin-bottom: 1px;
     }
-    .message-date {
-      color: $color-gray-medium !important;
-      i {
-        color: $color-gray-medium !important;
-      }
-    }
+    // .message-date {
+    //   color: $color-gray-medium !important;
+    //   i {
+    //     color: $color-gray-medium !important;
+    //   }
+    // }
     @media (max-width: $small-screen) {
       p {
         margin: 4px 0;

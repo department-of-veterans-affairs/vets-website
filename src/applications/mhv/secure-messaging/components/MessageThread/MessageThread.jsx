@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import PropType from 'prop-types';
+import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import HorizontalRule from '../shared/HorizontalRule';
 import MessageThreadItem from './MessageThreadItem';
 import { clearMessageHistory } from '../../actions/messages';
@@ -9,6 +10,7 @@ const MessageThread = props => {
   const dispatch = useDispatch();
   const { messageHistory } = props;
   const [viewCount, setViewCount] = useState(5);
+  const accordionRef = useRef();
 
   useEffect(
     () => {
@@ -18,6 +20,21 @@ const MessageThread = props => {
     },
     [dispatch],
   );
+
+  // useEffect(
+  //   () => {
+  //     if (
+  //       accordionRef.current.shadowRoot.querySelector('button', 'Expand all +')
+  //     ) {
+  //       accordionRef.current.shadowRoot
+  //         .querySelector('button', 'Expand all +')
+  //         .addEventListener('onClick', event => {
+  //           console.log('Expand all listener');
+  //         });
+  //     }
+  //   },
+  //   [accordionRef.current],
+  // );
 
   const handleLoadMoreMessages = () => {
     setViewCount(viewCount + 5);
@@ -57,13 +74,15 @@ const MessageThread = props => {
             </h2>
             <HorizontalRule />
 
-            {messageHistory.map((m, i) => {
-              return (
-                i < viewCount && (
-                  <MessageThreadItem key={m.messageId} message={m} />
-                )
-              );
-            })}
+            <VaAccordion ref={accordionRef} bordered>
+              {messageHistory.map((m, i) => {
+                return (
+                  i < viewCount && (
+                    <MessageThreadItem key={m.messageId} message={m} expanded />
+                  )
+                );
+              })}
+            </VaAccordion>
 
             {viewCount < messageHistory?.length && (
               <div className="vads-u-margin-top--1 vads-l-row vads-u-justify-content--flex-start">

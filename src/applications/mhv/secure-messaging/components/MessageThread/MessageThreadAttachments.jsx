@@ -1,18 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AttachmentsList from '../AttachmentsList';
+import HorizontalRule from '../shared/HorizontalRule';
 
 const MessageThreadAttachments = props => {
   return (
-    props.expanded &&
     !!props.attachments && (
       <div className="message-thread-attachments">
-        <div
-          className="message-body-attachments-label vads-u-font-weight--bold"
-          data-testid="message-body-attachments-label"
-        >
-          Attachments
-        </div>
+        <HorizontalRule />
         <AttachmentsList attachments={props.attachments} />
       </div>
     )
@@ -21,7 +16,6 @@ const MessageThreadAttachments = props => {
 
 MessageThreadAttachments.propTypes = {
   attachments: PropTypes.array,
-  expanded: PropTypes.bool,
 };
 
 export default MessageThreadAttachments;

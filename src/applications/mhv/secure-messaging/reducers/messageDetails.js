@@ -60,6 +60,7 @@ export const messageDetailsReducer = (state = initialState, action) => {
             toDate: message.toDate,
             ...updatedMessage,
             attachments: msgAttachments,
+            preloaded: true, // this is used to determine if we need to fetch the message body again on expand
           };
         }
         return message;

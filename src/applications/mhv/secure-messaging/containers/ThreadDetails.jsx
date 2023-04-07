@@ -133,7 +133,12 @@ const ThreadDetails = props => {
       return (
         <>
           <MessageDetailBlock message={message} />
-          <MessageThread messageHistory={messageHistory} threadId={threadId} />
+          {messageHistory?.length > 0 && (
+            <MessageThread
+              messageHistory={messageHistory}
+              threadId={threadId}
+            />
+          )}
         </>
       );
     }
