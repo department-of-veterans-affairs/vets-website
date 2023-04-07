@@ -64,7 +64,11 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       .first()
       .should('exist');
 
-    cy.get('#1-continueButton').click();
+    cy.get('va-button[continue]')
+      .first()
+      .shadow()
+      .find('button')
+      .click();
 
     cy.wait('@mockSip');
 
@@ -224,7 +228,11 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
       .first()
       .should('exist');
 
-    cy.get('#1-continueButton').click();
+    cy.get('va-button[continue]')
+      .first()
+      .shadow()
+      .find('button')
+      .click();
 
     cy.wait('@mockSip');
     cy.location('pathname').should(

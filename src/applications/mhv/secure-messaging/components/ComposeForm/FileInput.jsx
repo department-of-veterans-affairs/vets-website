@@ -1,6 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { acceptedFileTypes, Attachments } from '../../util/constants';
+import {
+  acceptedFileTypes,
+  Attachments,
+  ErrorMessages,
+} from '../../util/constants';
 
 const FileInput = ({ attachments, setAttachments }) => {
   const [error, setError] = useState();
@@ -28,7 +32,7 @@ const FileInput = ({ attachments, setAttachments }) => {
 
     if (selectedFile.size === 0) {
       setError({
-        message: 'Your file is empty. Try attaching a different file.',
+        message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_EMPTY,
       });
       fileInputRef.current.value = null;
       return;
@@ -36,7 +40,7 @@ const FileInput = ({ attachments, setAttachments }) => {
 
     if (!fileExtension || !acceptedFileTypes[fileExtension.toLowerCase()]) {
       setError({
-        message: `We can't attach this file type. Try attaching a DOC, JPG, PDF, PNG, RTF, TXT, or XLS.`,
+        message: ErrorMessages.ComposeForm.ATTACHMENTS.INVALID_FILE_TYPE,
       });
       fileInputRef.current.value = null;
       return;
@@ -48,7 +52,7 @@ const FileInput = ({ attachments, setAttachments }) => {
       ).length > 0
     ) {
       setError({
-        message: 'You have already attached this file.',
+        message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_DUPLICATE,
       });
       fileInputRef.current.value = null;
       return;
@@ -65,8 +69,7 @@ const FileInput = ({ attachments, setAttachments }) => {
 
     if (selectedFile.size > Attachments.MAX_FILE_SIZE) {
       setError({
-        message:
-          'Your file is too large. Try attaching a file smaller than 6MB.',
+        message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_TOO_LARGE,
       });
       fileInputRef.current.value = null;
       return;
@@ -78,7 +81,7 @@ const FileInput = ({ attachments, setAttachments }) => {
     ) {
       setError({
         message:
-          'Your files are too large. The total size of all files must be smaller than 10MB.',
+          ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
       });
       fileInputRef.current.value = null;
       return;

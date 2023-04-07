@@ -2,41 +2,17 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import configureStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
-import { I18nextProvider } from 'react-i18next';
-import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
-import i18n from '../../../utils/i18n/i18n';
+import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import DemographicsDisplay from './DemographicsDisplay';
 
 describe('pre-check-in experience', () => {
   describe('shared components', () => {
     describe('DemographicsDisplay', () => {
-      let store;
-      beforeEach(() => {
-        const middleware = [];
-        const mockStore = configureStore(middleware);
-        const initState = {
-          checkInData: {
-            context: {
-              token: '',
-            },
-            form: {
-              pages: [],
-            },
-          },
-          ...scheduledDowntimeState,
-        };
-        store = mockStore(initState);
-      });
-
       it('renders with default values', () => {
         const { queryByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <DemographicsDisplay />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <DemographicsDisplay />
+          </CheckInProvider>,
         );
         expect(queryByText('Is this your current contact information?')).to
           .exist;
@@ -49,22 +25,18 @@ describe('pre-check-in experience', () => {
       });
       it('renders custom header', () => {
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <DemographicsDisplay header="foo" />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <DemographicsDisplay header="foo" />
+          </CheckInProvider>,
         );
 
         expect(getByText('foo')).to.exist;
       });
       it('renders custom subtitle', () => {
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <DemographicsDisplay subtitle="foo" />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <DemographicsDisplay subtitle="foo" />
+          </CheckInProvider>,
         );
         expect(getByText('foo')).to.exist;
       });
@@ -91,11 +63,9 @@ describe('pre-check-in experience', () => {
           emailAddress: 'kermit.frog@sesameenterprises.us',
         };
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <DemographicsDisplay demographics={demographics} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <DemographicsDisplay demographics={demographics} />
+          </CheckInProvider>,
         );
         expect(getByText('Mailing address')).to.exist;
         expect(getByText('Home address')).to.exist;
@@ -127,11 +97,9 @@ describe('pre-check-in experience', () => {
           emailAddress: 'kermit.frog@sesameenterprises.us',
         };
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <DemographicsDisplay demographics={demographics} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <DemographicsDisplay demographics={demographics} />
+          </CheckInProvider>,
         );
         expect(getByText('123 Turtle Trail')).to.exist;
         expect(getByText('Treetopper, Tennessee 10101')).to.exist;
@@ -146,11 +114,9 @@ describe('pre-check-in experience', () => {
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
         const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <DemographicsDisplay yesAction={yesClick} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <DemographicsDisplay yesAction={yesClick} />
+          </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('yes-button'));
         expect(yesClick.calledOnce).to.be.true;
@@ -158,11 +124,9 @@ describe('pre-check-in experience', () => {
       it('fires the no function', () => {
         const noClick = sinon.spy();
         const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <DemographicsDisplay noAction={noClick} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <DemographicsDisplay noAction={noClick} />
+          </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('no-button'));
         expect(noClick.calledOnce).to.be.true;

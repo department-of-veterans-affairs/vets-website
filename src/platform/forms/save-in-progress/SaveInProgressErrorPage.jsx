@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
@@ -12,7 +14,6 @@ import {
 } from './actions';
 
 import SignInLink from '../components/SignInLink';
-import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
 
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 import {
@@ -34,14 +35,10 @@ class SaveInProgressErrorPage extends React.Component {
   }
 
   getBackButton = (primary = false) => {
-    const buttonClass = primary ? 'usa-button-primary' : 'usa-button-secondary';
-    return (
-      <ProgressButton
-        onButtonClick={this.goBack}
-        buttonClass={buttonClass}
-        buttonText="Back"
-        beforeText="«"
-      />
+    return primary ? (
+      <VaButtonPair primaryLabel="« Back" onPrimaryClick={this.goBack} />
+    ) : (
+      <VaButtonPair secondaryLabel="« Back" onSecondaryClick={this.goBack} />
     );
   };
 
@@ -49,10 +46,11 @@ class SaveInProgressErrorPage extends React.Component {
     this.props.setFetchFormStatus(LOAD_STATUSES.notAttempted);
     this.props.router.goBack();
   };
+
   // Reload the form and try again.
   reloadForm = () => {
     // formConfig is put in this.props.routes[length - 1]
-    const formConfig = this.props.route.formConfig;
+    const { formConfig } = this.props.route;
     if (this.props.isStartingOver) {
       this.props.removeInProgressForm(formConfig.formId, formConfig.migrations);
     } else {
