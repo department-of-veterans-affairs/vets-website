@@ -1,66 +1,36 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { I18nextProvider } from 'react-i18next';
 
-import i18n from '../../../utils/i18n/i18n';
-import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
-
+import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import EmergencyContact from '../EmergencyContact';
-
-import { createMockRouter } from '../../../tests/unit/mocks/router';
 
 describe('check in', () => {
   describe('EmergencyContact', () => {
-    let store;
-    const initState = {
-      checkInData: {
-        context: {
-          token: '',
-        },
-        form: {
-          pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-          currentPage: 'first-page',
-        },
-        veteranData: {
-          demographics: {
-            emergencyContact: {
-              address: {
-                street1: '445 Fine Finch Fairway',
-                street2: 'Apt 201',
-                city: 'Fairfence',
-                state: 'Florida',
-                zip: '445545',
-              },
-              name: 'Leslie',
-              relationship: 'Aunt',
-              phone: '5553334444',
-              workPhone: '5554445555',
-            },
+    const veteranData = {
+      demographics: {
+        emergencyContact: {
+          address: {
+            street1: '445 Fine Finch Fairway',
+            street2: 'Apt 201',
+            city: 'Fairfence',
+            state: 'Florida',
+            zip: '445545',
           },
+          name: 'Leslie',
+          relationship: 'Aunt',
+          phone: '5553334444',
+          workPhone: '5554445555',
         },
       },
-      ...scheduledDowntimeState,
     };
-    const middleware = [];
-    const mockStore = configureStore(middleware);
-
-    const mockRouter = createMockRouter();
-
-    beforeEach(() => {
-      store = mockStore(initState);
-    });
 
     it('renders', () => {
       const component = render(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <EmergencyContact router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider store={{ veteranData }}>
+          <EmergencyContact />
+        </CheckInProvider>,
       );
 
       expect(component.getByText('Is this your current emergency contact?')).to
@@ -68,34 +38,19 @@ describe('check in', () => {
     });
 
     it('shows emergency contact fields, with message for empty data', () => {
-      const updatedStore = {
-        checkInData: {
-          context: {
-            token: '',
-          },
-          form: {
-            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
-          },
-          veteranData: {
-            demographics: {
-              emergencyContact: {
-                ...initState.checkInData.veteranData.demographics
-                  .emergencyContact,
-                phone: '',
-                relationship: '',
-              },
-            },
+      const updatedVeteranData = {
+        demographics: {
+          emergencyContact: {
+            ...veteranData.demographics.emergencyContact,
+            phone: '',
+            relationship: '',
           },
         },
-        ...scheduledDowntimeState,
       };
       const component = render(
-        <Provider store={mockStore(updatedStore)}>
-          <I18nextProvider i18n={i18n}>
-            <EmergencyContact router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider store={{ veteranData: updatedVeteranData }}>
+          <EmergencyContact />
+        </CheckInProvider>,
       );
 
       expect(component.getByText('445 Fine Finch Fairway')).to.exist;
@@ -106,31 +61,27 @@ describe('check in', () => {
     });
 
     it('has a clickable no button', () => {
-      mockRouter.push = sinon.spy();
+      const push = sinon.spy();
       const component = render(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <EmergencyContact router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider store={{ veteranData }} router={{ push }}>
+          <EmergencyContact />
+        </CheckInProvider>,
       );
 
       component.getByTestId('no-button').click();
-      expect(mockRouter.push.calledOnce).to.be.true;
+      expect(push.calledOnce).to.be.true;
     });
 
     it('has a clickable yes button', () => {
-      mockRouter.push = sinon.spy();
+      const push = sinon.spy();
       const component = render(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <EmergencyContact router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider store={{ veteranData }} router={{ push }}>
+          <EmergencyContact />
+        </CheckInProvider>,
       );
 
       component.getByTestId('yes-button').click();
-      expect(mockRouter.push.calledOnce).to.be.true;
+      expect(push.calledOnce).to.be.true;
     });
   });
 });

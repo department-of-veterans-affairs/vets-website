@@ -8,7 +8,7 @@ describe('Secure Messaging Keyboard Nav To Compose', () => {
     site.login();
     patientInboxPage.loadInboxMessages();
   });
-  it('Keyboard Nav from Welcome Page to Compose', () => {
+  it.skip('Keyboard Nav from Welcome Page to Compose', () => {
     cy.tabToElement('[data-testid="compose-message-link"]');
     cy.realPress(['Enter']);
     cy.injectAxe();

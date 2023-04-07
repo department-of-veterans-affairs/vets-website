@@ -13,10 +13,11 @@ tar -xf vagovdev.tar.bz2 -C content-build/build/localhost/
 echo "set yarn to allow self-signed cert for install"
 yarn config set "strict-ssl" false
 
-# Watch vets-website
-echo "Install and watch vets-website"
+# Build and watch vets-website
+echo "Install, build, and watch vets-website"
 cd vets-website
 yarn install
+yarn build:webpack:local
 yarn watch &
 
 # Serve the content-build

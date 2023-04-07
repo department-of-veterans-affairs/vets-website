@@ -25,6 +25,25 @@ const formConfig = {
     // condition is an array path, so an index is passed as a parameter
     condition: index =>
       `Add a new conditions (in the ${numberToWords(index + 1)} section`,
+
+    // For form data not associated with a particular page, e.g. list loop pages
+    // aren't shown on the review & submit page, instead shows a summary page
+    _override: error => {
+      if (error === 'location') {
+        return {
+          chapterKey: 'locations',
+          pageKey: 'summary', // summary page on review & submit
+        };
+      }
+      if (error.includes('dates')) {
+        return {
+          chapterKey: 'locations',
+          pageKey: 'summary-dates',
+        };
+      }
+      // always return null for non-matches
+      return null;
+    }
   },
   // ...
 };
@@ -39,3 +58,11 @@ The following screenshot shows the same errors as in the screenshot above, but w
 ![error message text based on error key](./images/error-text-based-on-error-name.png)
 
 The `reviewErrors` text can be reviewed by your content team to provide the best content for that specific form entry.
+
+## Overrides
+
+[Custom pages documentation](https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-how-to-bypass-schema-form) don't require a `uiSchema`, but if the page contains required form fields, `ui:validations` must be included to block form submission.
+
+In an example of using a list-loop + summary page, the summary page gets the `ui:validations`  array added to the summary page. With missing form values, submission shows a generic error message on the review & submit page, but does not highlight any accordion; this is because the `reduceErrors` function searches for the chapter & page based on the uiSchema path.
+
+See the Supplemental Claim form (`/applications/appeals/995`) for an example.
