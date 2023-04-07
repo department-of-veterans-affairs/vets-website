@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
@@ -33,6 +34,10 @@ describe('transformServiceHistoryEntryIntoTableRow', () => {
   // problem can be found in this GitHub issue
   // https://github.com/enzymejs/enzyme/issues/2327
   const FragmentWrapper = ({ children }) => <>{children}</>;
+  FragmentWrapper.propTypes = {
+    children: PropTypes.node,
+  };
+
   const serviceHistory = {
     branchOfService: 'Army',
     beginDate: '2000-01-31',

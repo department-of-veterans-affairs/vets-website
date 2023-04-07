@@ -6,8 +6,8 @@ import React from 'react';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 
-import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
-import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
+import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
+import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
 
 import ProfileInfoTable from '../../ProfileInfoTable';
 import { ProfileInfoCard } from '../../ProfileInfoCard';
