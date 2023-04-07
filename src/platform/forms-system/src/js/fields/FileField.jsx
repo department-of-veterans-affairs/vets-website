@@ -268,7 +268,7 @@ class FileField extends React.Component {
     // hide upload & delete buttons on review & submit page when reviewing
     const showButtons = !formContext.reviewMode && !isUploading;
 
-    let { buttonText = 'Upload a document' } = uiOptions;
+    let { buttonText = 'Upload' } = uiOptions;
     if (files.length > 0) buttonText = uiOptions.addAnotherLabel;
 
     const Tag =
