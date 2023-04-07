@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import {
+  VaButtonPair,
   VaCheckboxGroup,
   VaMemorableDate,
   VaModal,
@@ -9,7 +10,6 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import environment from 'platform/utilities/environment';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import debounce from 'platform/utilities/data/debounce';
 
 import { EVIDENCE_VA_PATH, NO_ISSUES_SELECTED } from '../constants';
@@ -404,29 +404,13 @@ const EvidenceVaRecords = ({
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}
           {testMethodButton}
-          <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-            <div className="small-6 medium-5 columns">
-              {goBack && (
-                <ProgressButton
-                  onButtonClick={handlers.onGoBack}
-                  buttonText="Back"
-                  buttonClass="usa-button-secondary"
-                  beforeText="«"
-                  // This button is described by the current form's header ID
-                  aria-describedby="nav-form-header"
-                />
-              )}
-            </div>
-            <div className="small-6 medium-5 end columns">
-              <ProgressButton
-                onButtonClick={handlers.onGoForward}
-                buttonText="Continue"
-                buttonClass="usa-button-primary"
-                afterText="»"
-                // This button is described by the current form's header ID
-                aria-describedby="nav-form-header"
-              />
-            </div>
+          <div className="form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+            <VaButtonPair
+              continue
+              onPrimaryClick={handlers.onGoForward}
+              onSecondaryClick={handlers.onGoBack}
+              aria-describedby="nav-form-header"
+            />
           </div>
           {contentAfterButtons}
         </div>

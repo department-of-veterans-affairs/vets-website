@@ -89,6 +89,21 @@ describe('<EvidenceVaRecords>', () => {
     expect($('.vads-c-action-link--green', container)).to.exist;
   });
 
+  const clickEvent = new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+  });
+
+  const clickContinue = container => {
+    const pair = $('va-button-pair', container);
+    pair.__events.primaryClick(clickEvent);
+  };
+
+  const clickBack = container => {
+    const pair = $('va-button-pair', container);
+    pair.__events.secondaryClick(clickEvent);
+  };
+
   // *** VALID DATA ***
   describe('valid data navigation', () => {
     it('should navigate forward to VA private request page with valid data', async () => {
@@ -102,7 +117,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // continue
-      fireEvent.click($('.usa-button-primary', container));
+      clickContinue(container);
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.calledWith(data)).to.be.true;
@@ -120,7 +135,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // back
-      fireEvent.click($('.usa-button-secondary', container));
+      clickBack(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -194,7 +209,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // forward
-      fireEvent.click($('.usa-button-primary', container));
+      clickContinue(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -218,7 +233,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // continue
-      fireEvent.click($('.usa-button-primary', container));
+      clickContinue(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -233,7 +248,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // back
-      fireEvent.click($('.usa-button-secondary', container));
+      clickBack(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -255,7 +270,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // back
-      fireEvent.click($('.usa-button-secondary', container));
+      clickBack(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -321,7 +336,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // continue
-      fireEvent.click($('.usa-button-primary', container));
+      clickContinue(container);
 
       await waitFor(() => {
         expect(goSpy.called).to.be.false;
@@ -350,7 +365,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // back
-      fireEvent.click($('.usa-button-secondary', container));
+      clickBack(container);
       await testAndCloseModal(container, 3);
 
       await waitFor(() => {
@@ -379,7 +394,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // back
-      fireEvent.click($('.usa-button-secondary', container));
+      clickBack(container);
       await testAndCloseModal(container, 3);
 
       await waitFor(() => {
