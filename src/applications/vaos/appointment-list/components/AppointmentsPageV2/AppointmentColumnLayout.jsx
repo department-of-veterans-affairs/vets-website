@@ -51,7 +51,11 @@ export default function AppointmentColumnLayout({
             <AppointmentColumn
               size="1"
               className="small-screen:vads-u-flex--auto small-screen:vads-u-order--first small-screen:vads-u-padding-top--0"
-              style={{ minWidth: '25px', maxWidth: '25px' }}
+              style={{
+                minWidth: '25px',
+                maxWidth: '25px',
+                alignSelf: 'center',
+              }}
             >
               <h3 className="vads-u-display--inline-block vads-u-text-align--center vads-u-margin-top--0 vads-u-margin-bottom--0">
                 <span aria-hidden="true">{startDate.format('D')}</span>
@@ -60,7 +64,10 @@ export default function AppointmentColumnLayout({
             <AppointmentColumn
               className="vads-u-text-align--left xsmall-screen:vads-u-order--first small-screen:vads-u-margin-left--1"
               size="1"
-              style={{ minWidth: '25px', maxWidth: '25px' }}
+              style={{
+                minWidth: '25px',
+                maxWidth: '25px',
+              }}
             >
               <span aria-hidden="true">{startDate.format('ddd')}</span>
             </AppointmentColumn>
