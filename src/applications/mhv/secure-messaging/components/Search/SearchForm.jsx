@@ -1,20 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { runBasicSearch } from '../../actions/search';
-import AdvancedSearchExpander from './AdvancedSearchExpander';
+import FilterBox from '../MessageActionButtons/FilterBox';
 
 const SearchForm = props => {
   const { folder, keyword, resultsCount, query } = props;
   const dispatch = useDispatch();
   const history = useHistory();
-  const nodeRef = useRef(null);
   const folders = useSelector(state => state.sm.folders.folderList);
   const [searchTerm, setSearchTerm] = useState('');
-  const [advancedOpen, setAdvancedOpen] = useState(false);
+  // const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [advancedOpen] = useState(false);
+
   const [searchTermError, setSearchTermError] = useState(null);
 
   useEffect(
@@ -143,12 +144,9 @@ const SearchForm = props => {
       )}
 
       {folders && (
-        <AdvancedSearchExpander
-          advancedOpen={advancedOpen}
-          setAdvancedOpen={setAdvancedOpen}
-          nodeRef={nodeRef}
-          folders={folders}
-        />
+        <>
+          <FilterBox />
+        </>
       )}
     </div>
   );
