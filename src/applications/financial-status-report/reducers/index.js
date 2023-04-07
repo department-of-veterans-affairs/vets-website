@@ -5,6 +5,7 @@ import {
   FSR_API_ERROR,
   FSR_RESET_ERRORS,
   DEBTS_FETCH_SUCCESS,
+  DEBTS_FETCH_FAILURE,
 } from '../constants/actionTypes';
 import {
   MCP_STATEMENTS_FETCH_INIT,
@@ -44,6 +45,12 @@ const fsrApi = (state = initialState, action) => {
       return {
         ...state,
         debts: action.debts,
+        pending: false,
+      };
+    case DEBTS_FETCH_FAILURE:
+      return {
+        ...state,
+        debtError: action.error,
         pending: false,
       };
     case MCP_STATEMENTS_FETCH_SUCCESS:
