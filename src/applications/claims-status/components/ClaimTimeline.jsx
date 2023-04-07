@@ -4,14 +4,56 @@ import PropTypes from 'prop-types';
 import ClaimPhase from './ClaimPhase';
 import PhaseBackWarning from './PhaseBackWarning';
 import CompleteDetails from './CompleteDetails';
-import { getUserPhase, groupTimelineActivity } from '../utils/helpers';
+import { getUserPhase } from '../utils/helpers';
 
-const LAST_EVIDENCE_GATHERING_PHASE = 6;
+const LAST_EVIDENCE_GATHERING_PHASE = 'PENDING_DECISION_APPROVAL';
+
+export function groupTimelineActivity(events) {
+  const phases = {};
+  let activity = [];
+
+  const phaseEvents = events
+    .map(event => {
+      if (event.type.startsWith('phase')) {
+        return {
+          type: 'phase_entered',
+          phase: getPhaseNumber(event.type) + 1,
+          date: event.date,
+        };
+      }
+
+      return event;
+    })
+    .filter(isEventOrPrimaryPhase);
+
+  phaseEvents.forEach(event => {
+    if (event.type.startsWith('phase')) {
+      activity.push(event);
+      phases[getUserPhase(event.phase)] = activity;
+      activity = [];
+    } else {
+      activity.push(event);
+    }
+  });
+
+  if (activity.length > 0) {
+    phases[1] = activity;
+  }
+
+  return phases;
+}
 
 export default function ClaimsTimeline(props) {
   const { events, phase, id, currentPhaseBack, everPhaseBack } = props;
   const userPhase = getUserPhase(phase);
-  const activityByPhase = groupTimelineActivity(events);
+  // const activityByPhase = groupTimelineActivity(events);
+  const activityByPhase = {
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+  };
 
   return (
     <>

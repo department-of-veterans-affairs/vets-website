@@ -9,9 +9,7 @@ import {
 } from '../utils/helpers';
 
 export default function SubmittedTrackedItem({ item }) {
-  const closed =
-    item.type.startsWith('never_received') ||
-    item.status === 'NO_LONGER_REQUIRED';
+  const closed = item.status === 'NO_LONGER_REQUIRED';
   const reviewed = hasBeenReviewed(item);
 
   return (
@@ -23,9 +21,11 @@ export default function SubmittedTrackedItem({ item }) {
       {item.documents &&
         item.documents.map((doc, index) => (
           <div key={index} className="submission-description">
-            <span className="claim-item-label">File:</span> {doc.filename}
+            <span className="claim-item-label">File:</span>{' '}
+            {doc.originalFileName}
             <br />
-            <span className="claim-item-label">Type:</span> {doc.fileType}
+            <span className="claim-item-label">Type:</span>{' '}
+            {doc.documentTypeLabel}
           </div>
         ))}
       {closed && (

@@ -20,6 +20,26 @@ import { setUpPage, isTab, setFocus } from '../utils/page';
 
 import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 
+// Using a Map instead of the typical Object because
+// we want to guarantee that the key insertion order
+// is maintained when converting to an array of keys
+const getStatusMap = () => {
+  const map = new Map();
+  map.set('CLAIM RECEIVED', 'CLAIM_RECEIVED');
+  map.set('INITIAL REVIEW', 'INITIAL REVIEW');
+  map.set(
+    'EVIDENCE_GATHERING_REVIEW_DECISION',
+    'EVIDENCE_GATHERING_REVIEW_DECISION',
+  );
+  map.set('PREPARATION_FOR_NOTIFICATION');
+  map.set('COMPLETE');
+  return map;
+};
+
+const STATUSES = getStatusMap();
+
+const getPhaseFromStatus = status => [...STATUSES.keys()].indexOf(status) + 1;
+
 class ClaimStatusPage extends React.Component {
   componentDidMount() {
     this.setTitle();
@@ -62,15 +82,12 @@ class ClaimStatusPage extends React.Component {
     // claim can be null
     const attributes = (claim && claim.attributes) || {};
 
-    const { decisionLetterSent, eventsTimeline, phase } = attributes;
+    const { decisionLetterSent, documentsNeeded, status } = attributes;
 
-    const isOpen = attributes.open;
-    const filesNeeded = itemsNeedingAttentionFromVet(eventsTimeline);
+    const isOpen = status !== STATUSES.COMPLETE;
+    const filesNeeded = itemsNeedingAttentionFromVet(attributes.eventsTimeline);
     const showDocsNeeded =
-      !decisionLetterSent &&
-      isOpen &&
-      attributes.documentsNeeded &&
-      filesNeeded > 0;
+      !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
 
     return (
       <div>
@@ -86,13 +103,13 @@ class ClaimStatusPage extends React.Component {
         {!decisionLetterSent && !isOpen ? (
           <ClaimComplete completedDate={getCompletedDate(claim)} />
         ) : null}
-        {phase && isOpen ? (
+        {status && isOpen ? (
           <ClaimTimeline
             id={claim.id}
-            phase={phase}
+            phase={getPhaseFromStatus(status)}
             currentPhaseBack={attributes.currentPhaseBack}
             everPhaseBack={attributes.everPhaseBack}
-            events={eventsTimeline}
+            events={attributes.eventsTimeline}
           />
         ) : null}
       </div>
