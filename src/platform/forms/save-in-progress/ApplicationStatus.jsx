@@ -10,8 +10,12 @@ import {
   formBenefits,
 } from 'applications/personalization/dashboard/helpers';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import {
+  WIZARD_STATUS,
+  WIZARD_STATUS_COMPLETE,
+} from 'platform/site-wide/wizard';
 import { removeSavedForm } from '../../user/profile/actions';
 
 import {
@@ -20,11 +24,6 @@ import {
   APP_TYPE_DEFAULT,
   APP_ACTION_DEFAULT,
 } from '../../forms-system/src/js/constants';
-
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_COMPLETE,
-} from 'platform/site-wide/wizard';
 
 export class ApplicationStatus extends React.Component {
   constructor(props) {
@@ -189,15 +188,11 @@ export class ApplicationStatus extends React.Component {
               visible={this.state.modalOpen}
             >
               <p>Are you sure you want to start over?</p>
-              <ProgressButton
-                onButtonClick={() => this.removeForm(formId)}
-                buttonText={startNewAppButtonText}
-                buttonClass="usa-button-primary"
-              />
-              <ProgressButton
-                onButtonClick={this.toggleModal}
-                buttonText="Cancel"
-                buttonClass="usa-button-secondary"
+              <VaButtonPair
+                primaryLabel={startNewAppButtonText}
+                onPrimaryClick={() => this.removeForm(formId)}
+                secondaryLabel="Cancel"
+                onSecondaryClick={this.toggleModal}
               />
             </Modal>
           </div>
@@ -233,15 +228,11 @@ export class ApplicationStatus extends React.Component {
             visible={this.state.modalOpen}
           >
             <p>Are you sure you want to start over?</p>
-            <ProgressButton
-              onButtonClick={() => this.removeForm(formId)}
-              buttonText={startNewAppButtonText}
-              buttonClass="usa-button-primary"
-            />
-            <ProgressButton
-              onButtonClick={this.toggleModal}
-              buttonText="Cancel"
-              buttonClass="usa-button-secondary"
+            <VaButtonPair
+              primaryLabel={startNewAppButtonText}
+              onPrimaryClick={() => this.removeForm(formId)}
+              secondaryLabel="Cancel"
+              onSecondaryClick={this.toggleModal}
             />
           </Modal>
         </div>
@@ -250,7 +241,8 @@ export class ApplicationStatus extends React.Component {
 
     if (showApplyButton && applyRender) {
       return applyRender();
-    } else if (showApplyButton) {
+    }
+    if (showApplyButton) {
       return (
         <div
           itemProp="steps"

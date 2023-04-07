@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
+  VaNumberInput,
   VaRadio,
   VaRadioOption,
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -29,27 +29,39 @@ const ExpandedContent = ({
   switch (debt.resolution?.resolutionType) {
     case 'Extended monthly payments':
       return (
-        <div className="currency-input">
-          <TextInput
-            name="extended-payment-resolution-amount"
-            additionalClass="input-size-3"
+        <div>
+          <VaNumberInput
+            className="no-wrap input-size-3"
+            currency
+            error={(submitted && inputErrMsg) || null}
+            id="monthly"
+            value={debt.resolution.offerToPay || ''}
             label="How much can you pay monthly on this debt?"
-            field={{ value: debt.resolution?.offerToPay || '' }}
-            onValueChange={({ value }) => updateDebts(objKey, value, debt)}
-            errorMessage={submitted && inputErrMsg}
+            name="extended-payment-resolution-amount"
+            onInput={e => {
+              updateDebts(objKey, e.target.value, debt);
+            }}
+            required
+            type="text"
           />
         </div>
       );
     case 'Compromise':
       return (
-        <div className="currency-input">
-          <TextInput
-            name="compromise-resolution-amount"
-            additionalClass="input-size-3"
+        <div>
+          <VaNumberInput
+            className="no-wrap input-size-3"
+            currency
+            error={(submitted && inputErrMsg) || null}
+            id="compromise"
             label="What is your offer for a one-time payment?"
-            field={{ value: debt.resolution?.offerToPay || '' }}
-            onValueChange={({ value }) => updateDebts(objKey, value, debt)}
-            errorMessage={submitted && inputErrMsg}
+            name="compromise-resolution-amount"
+            value={debt.resolution.offerToPay || ''}
+            onInput={e => {
+              updateDebts(objKey, e.target.value, debt);
+            }}
+            required
+            type="text"
           />
         </div>
       );
