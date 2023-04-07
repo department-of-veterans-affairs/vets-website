@@ -22,7 +22,7 @@ const DisasterAlert = () => {
             For help with VA debt related to medical care and pharmacy services:{' '}
           </strong>
           Call our Health Resource Center at{' '}
-          <va-telephone contact="8664001213" />
+          <va-telephone contact="8664001213" />(
           <va-telephone tty contact="711" />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </li>
