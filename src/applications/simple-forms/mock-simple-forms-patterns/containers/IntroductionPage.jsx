@@ -31,6 +31,16 @@ class IntroductionPage extends React.Component {
               <a href="/mock-simple-forms-patterns/text-input">Text input</a>
             </li>
             <li>
+              <a href="/mock-simple-forms-patterns/text-input-widgets1">
+                Text input widgets 1
+              </a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/text-input-full-name">
+                Text input full name
+              </a>
+            </li>
+            <li>
               <a href="/mock-simple-forms-patterns/checkbox">Checkbox</a>
             </li>
             <li>
