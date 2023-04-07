@@ -189,26 +189,6 @@ article[data-location$="va-medical-records"] {
   }
 }
 
-article[data-location="review-and-submit"],
-article[data-location="primary-phone-number"] {
-  /* Make radio group legend the same size as an h3 */
-  va-radio::part(legend) {
-    font-size: 2rem;
-    font-weight: 700;
-  }
-
-  va-radio-option {
-    font-weight: 700;
-  }
-  /* Add actual phone number to radio option */
-  va-radio-option:after {
-    display: block;
-    margin-left: 3rem;
-    font-weight: 400;
-    content: attr(data-number);
-  }
-}
-
 article[data-location="review-and-submit"] {
   /* Add actual phone number to radio option */
   va-radio-option:after {
