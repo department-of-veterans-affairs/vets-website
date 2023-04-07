@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
 import { closeAlert } from '../../actions/alerts';
 
 const AlertBackgroundBox = props => {
@@ -54,9 +53,6 @@ const AlertBackgroundBox = props => {
       onCloseEvent={
         closeAlertBox // success, error, warning, info, continue
       }
-      onVa-component-did-load={() => {
-        focusElement(alertRef.current);
-      }}
     >
       <div>
         <p className="vads-u-margin-y--0">{activeAlert.content}</p>
