@@ -302,8 +302,7 @@ export const veteranUI = {
     'ui:title':
       'Military Service number (if you have one that’s different than your Social Security number)',
     'ui:errorMessages': {
-      pattern:
-        'Your Military Service number must be between 4 to 10 characters',
+      pattern: 'Your Military Service number must be between 4 to 9 characters',
     },
   },
   vaClaimNumber: {
