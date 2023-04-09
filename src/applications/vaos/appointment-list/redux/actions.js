@@ -117,7 +117,7 @@ export function fetchRequestMessages(requestId) {
   };
 }
 
-/*
+/**
  * The facility data we get back from the various endpoints for
  * requests and appointments does not have basics like address or phone.
  *
