@@ -12,25 +12,6 @@ export const goToNextPage = pagePath => {
     cy.location('pathname').should('include', pagePath);
   }
 };
-export const advanceToAiqPage = () => {
-  // cy.findAllByText(/start.+application/i, { selector: 'button' })
-  //   .first()
-  //   .click();
-
-  // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
-  cy.get('#1-continueButton').click();
-
-  cy.wait('@mockSip');
-  cy.location('pathname').should(
-    'include',
-    '/veteran-information/personal-information',
-  );
-  goToNextPage('/veteran-information/birth-information');
-  goToNextPage('/veteran-information/maiden-name-information');
-  goToNextPage('/veteran-information/birth-sex');
-  goToNextPage('/veteran-information/demographic-information');
-  goToNextPage('/veteran-information/american-indian');
-};
 export const advanceFromAiqToReviewPage = () => {
   goToNextPage('/veteran-information/veteran-address');
   cy.get('[type=radio]')
@@ -88,9 +69,6 @@ export const advanceToServiceInfoPage = () => {
   goToNextPage('/veteran-information/birth-sex');
 
   goToNextPage('/veteran-information/demographic-information');
-
-  goToNextPage('/veteran-information/american-indian');
-  cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
 
   goToNextPage('/veteran-information/veteran-address');
   cy.get('[type=radio]')

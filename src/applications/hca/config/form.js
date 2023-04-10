@@ -29,7 +29,6 @@ import personalInformationSsn from './chapters/veteranInformation/personalInform
 import personalInformationDOB from './chapters/veteranInformation/personalInformationDob';
 import birthInformation from './chapters/veteranInformation/birthInformation';
 import maidenNameInformation from './chapters/veteranInformation/maidenNameInformation';
-import americanIndian from './chapters/veteranInformation/americanIndian';
 import birthSex from './chapters/veteranInformation/birthSex';
 import veteranInformation from './chapters/veteranInformation/personalnformation';
 import demographicInformation from './chapters/veteranInformation/demographicInformation';
@@ -214,14 +213,6 @@ const formConfig = {
           },
           uiSchema: demographicInformation.uiSchema,
           schema: demographicInformation.schema,
-        },
-        americanIndian: {
-          path: 'veteran-information/american-indian',
-          title: 'Recognition as an American Indian or Alaska Native',
-          initialData: {},
-          depends: formData => formData['view:isAiqEnabled'],
-          uiSchema: americanIndian.uiSchema,
-          schema: americanIndian.schema,
         },
         veteranAddress: {
           path: 'veteran-information/veteran-address',
