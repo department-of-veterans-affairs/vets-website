@@ -133,7 +133,7 @@ class FormStartControls extends React.Component {
     }
     const { startText } = this.props;
 
-    return this.props.testActionLink ? (
+    return (
       // eslint-disable-next-line jsx-a11y/anchor-is-valid
       <a
         href="#"
@@ -147,15 +147,6 @@ class FormStartControls extends React.Component {
       >
         {startText}
       </a>
-    ) : (
-      <div>
-        <VaButton
-          onClick={this.handleLoadPrefill}
-          text={startText}
-          continue
-          label={ariaLabel}
-        />
-      </div>
     );
   }
 }

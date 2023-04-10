@@ -343,7 +343,6 @@ describe('Schemaform <FormStartControls>', () => {
     const fetchSpy = sinon.spy();
     const tree = render(
       <FormStartControls
-        testActionLink
         formId="1010ez"
         migrations={[]}
         startPage={startPage}

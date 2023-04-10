@@ -19,7 +19,6 @@ const IntroductionPage = props => {
       </p>
       <SaveInProgressIntro
         buttonOnly
-        testActionLink
         unauthStartText="Sign in and search for a representative"
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
