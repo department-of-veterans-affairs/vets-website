@@ -46,9 +46,9 @@
       {
         "type": "contestableIssue",
         "attributes": {
-          "ratingIssueSubjectText": "Being green",
-          "description": "Chronic greenness",
-          "ratingIssuePercentNumber": "50",
+          "ratingIssueSubjectText": "Tinnitus",
+          "description": "Service connection for Tinnitus is granted with an evaluation of 0 percent effective September 25, 2019.",
+          "ratingIssuePercentNumber": "0",
           "approxDecisionDate": "2021-6-1",
           "decisionIssueId": 42,
           "ratingIssueReferenceId": "52",

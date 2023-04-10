@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList } from '../actions/labsAndTests';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
+import { RecordType } from '../util/constants';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -32,11 +33,7 @@ const LabsAndTests = () => {
   const content = () => {
     if (labsAndTests?.length) {
       return (
-        <RecordList
-          records={labsAndTests}
-          type="lab and test results"
-          hideRecordsLabel
-        />
+        <RecordList records={labsAndTests} type={RecordType.LABS_AND_TESTS} />
       );
     }
     return (
@@ -49,7 +46,7 @@ const LabsAndTests = () => {
   };
 
   return (
-    <div className="vaccines" id="vaccines">
+    <div id="labs-and-tests">
       <h1 className="page-title">Lab and test results</h1>
       <p>Review lab and test results in your VA medical records.</p>
       <va-additional-info trigger="What to know about lab and test results">
