@@ -441,7 +441,7 @@ describe('Schemaform <FormStartControls>', () => {
       <FormStartControls
         formId="1010ez"
         migrations={[]}
-        formSaved={false}
+        formSaved
         startPage={startPage}
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
@@ -450,9 +450,8 @@ describe('Schemaform <FormStartControls>', () => {
         ariaDescribedby="test-id"
       />,
     );
-    const button = tree.baseElement.querySelectorAll('va-button');
-    expect(button.length).to.equal(1);
-    expect(button[0].getAttribute('label')).to.eq('test aria-label');
+    const button = tree.baseElement.querySelector('va-button');
+    expect(button.getAttribute('label')).to.eq('test aria-label');
   });
   it('should include aria-label on all buttons when logged in with a saved form', () => {
     const routerSpy = {
