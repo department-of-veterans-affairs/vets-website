@@ -136,7 +136,7 @@ class FormStartControls extends React.Component {
     return (
       // eslint-disable-next-line jsx-a11y/anchor-is-valid
       <a
-        href="#"
+        href="/"
         className="vads-c-action-link--green vads-u-padding-left--0"
         onClick={event => {
           event.preventDefault();
