@@ -26,6 +26,10 @@ COPY . .
 COPY src/platform/utilities/preview-environment/start.sh .
 RUN chmod +x start.sh
 
+CONTENT_URL=$AWS_URL
+
+RUN echo "The content url is: $CONTENT_URL"
+
 # Expose ports
 EXPOSE 3001
 EXPOSE 3002
