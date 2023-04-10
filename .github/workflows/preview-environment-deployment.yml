@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - '**'
+env:
+  AWS_URL: https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content-build/0008051ce15e731cc01289933dfb060d6f0d4df6/vagovprod.tar.bz2
 
 jobs:
   deploy-preview-environment:
@@ -70,6 +72,7 @@ jobs:
         with:
           build-args: |
             userid=${{ env.VETS_WEBSITE_USER_ID }}
+            AWS_URL=${{ env.AWS_URL }}
 
           context: .
           file: src/platform/utilities/preview-environment/Dockerfile
@@ -80,8 +83,6 @@ jobs:
             ${{ steps.login-ecr.outputs.registry }}/dsva/preview-environment/${{ env.SOURCE_REPO }}:${{ env.SOURCE_REF_SANITIZED }}
           # cache-from: type=registry,ref=$ECR_REGISTRY/$ECR_REPOSITORY
           # cache-to: type=inline
-        env:
-          AWS_URL: https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content-build/0008051ce15e731cc01289933dfb060d6f0d4df6/vagovprod.tar.bz2
 
 #       - name: Repository Dispatch
 #         uses: peter-evans/repository-dispatch@v2
