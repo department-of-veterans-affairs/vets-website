@@ -2,34 +2,34 @@
 [
     {
         "id": "SCT161891005",
-        "name": "Back pain",
+        "name": "Back pain (SCT 161891005)",
         "active": true,
         "provider": "Becky",
-        "location": "chiropractor's office",
+        "facility": "chiropractor's office",
         "comments": []
     },
     {
         "id": "SCT867530999",
-        "name": "Sick sinus syndrome",
+        "name": "Sick sinus syndrome (SCT 867530999)",
         "active": true,
         "provider": "Becky",
-        "location": "No one nose",
+        "facility": "No one nose",
         "comments": []
     },
     {
         "id": "SCT525000600",
-        "name": "Asthma",
+        "name": "Asthma (SCT 525000600)",
         "active": true,
         "provider": "Becky",
-        "location": "Lung doctor's office",
+        "facility": "Lung doctor's office",
         "comments": []
     },
     {
         "id": "SCT500530505",
-        "name": "Hypertension",
+        "name": "Hypertension (SCT 500530505)",
         "active": true,
         "provider": "Becky",
-        "location": "Cardiologist's office",
+        "facility": "Cardiologist's office",
         "comments": []
     }
 ]

@@ -22,7 +22,10 @@ const ConditionDetails = () => {
     },
     [conditionId, dispatch],
   );
-  const formattedDate = dateFormat(conditionDetails?.date, 'MMMM D, YYYY');
+  const formattedDate = dateFormat(
+    conditionDetails?.date,
+    'MMMM D, YYYY [at] h:mm z',
+  );
 
   useEffect(
     () => {
@@ -60,8 +63,14 @@ const ConditionDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="condition-header">{conditionDetails.name}</h1>
-          <div className="vads-u-display--flex vads-u-margin-y--3 no-print">
+          <h1 className="condition-header">
+            {conditionDetails.name.split('(')[0]}
+          </h1>
+          <div className="time-header">
+            <h2>Date and time entered: </h2>
+            <p>{formattedDate}</p>
+          </div>
+          <div className="condition-buttons vads-u-display--flex vads-u-padding-y--3 vads-u-margin-y--0 no-print">
             <button
               className="link-button vads-u-margin-right--3 no-print"
               type="button"
@@ -86,9 +95,11 @@ const ConditionDetails = () => {
               Download page
             </button>
           </div>
-          <div className="detail-block max-80">
-            <h2 className="vads-u-margin-top--0">Date received</h2>
-            <p>{formattedDate}</p>
+          <div className="condition-details max-80">
+            <h2>Status of health condition</h2>
+            <p>{conditionDetails.active ? 'Active' : 'Inactive'}</p>
+            <h2>Provider</h2>
+            <p>{conditionDetails.provider}</p>
             <h2>Location</h2>
             <p>
               {conditionDetails.facility ||
