@@ -69,6 +69,8 @@ import v2SpouseAnnualIncome from './chapters/householdInformationV2/spouseAnnual
 import v2VeteranAnnualIncome from './chapters/householdInformationV2/veteranAnnualIncome';
 import v2DeductibleExpenses from './chapters/householdInformationV2/deductibleExpenses';
 import v2FinancialOnboarding from '../components/FormPages/FinancialOnboarding';
+import v2FinancialConfirmation from '../components/FormPages/FinancialConfirmation';
+import v2FinancialInformation from '../components/FormPages/FinancialInformation';
 import v2DependentInformationPage from '../components/FormPages/DependentInformation';
 import v2DependentSummaryPage from '../components/FormPages/DependentSummary';
 import v2DependentsReviewPage from '../components/FormReview/DependentsReviewPage';
@@ -412,6 +414,30 @@ const formConfig = {
             formData['view:isHouseholdV2Enabled'],
           uiSchema: v2FinancialDisclosure.uiSchema,
           schema: v2FinancialDisclosure.schema,
+        },
+        financialConfirmation: {
+          path: 'household-information-v2/confirm-financial-disclosure',
+          title: 'Financial disclosure confirmation',
+          depends: formData =>
+            !isShortFormEligible(formData) &&
+            !formData.discloseFinancialInformation &&
+            formData['view:isHouseholdV2Enabled'],
+          CustomPage: v2FinancialConfirmation,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        financialInformation: {
+          path: 'household-information-v2/financial-information',
+          title: 'Financial information needed',
+          depends: formData =>
+            !isShortFormEligible(formData) &&
+            formData.discloseFinancialInformation &&
+            formData['view:isHouseholdV2Enabled'],
+          CustomPage: v2FinancialInformation,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
         maritalStatus: {
           path: 'household-information-v2/marital-status',

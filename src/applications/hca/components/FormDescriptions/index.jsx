@@ -376,58 +376,6 @@ export const FinancialDisclosureDescription = (
   </>
 );
 
-// NOTE: for household v2 only -- rename when v2 is fully-adopted
-export const FinancialDisclosureV2Description = (
-  <>
-    <va-alert
-      status="info"
-      class="vads-u-margin-top--3 vads-u-margin-bottom--4"
-    >
-      <p className="vads-u-margin-top--0">
-        <strong>Note:</strong> You don’t have to provide your financial
-        information. But if you don’t have a qualifying eligibility factor, this
-        information is the only other way for us to see if you can get VA health
-        care benefits--including added benefits like waived copays.
-      </p>
-
-      <va-additional-info trigger="Why we ask for this information">
-        <ul>
-          <li>Former Prisoner of War</li>
-          <li>Received a Purple Heart</li>
-          <li>Recently discharged combat Veteran</li>
-          <li>
-            Discharged for a disability that resulted from your service or got
-            worse in the line of duty
-          </li>
-          <li>Getting VA service-connected disability compensation</li>
-          <li>Getting a VA pension</li>
-          <li>Receiving Medicaid benefits</li>
-          <li>Served in Vietnam between January 9, 1962, and May 7, 1975</li>
-          <li>
-            Served in Southwest Asia during the Gulf War between August 2, 1990,
-            and November 11, 1998
-          </li>
-          <li>
-            Served at least 30 days at Camp Lejeune between August 1, 1953, and
-            December 31, 1987
-          </li>
-        </ul>
-        <p className="vads-u-margin-bottom--0">
-          <a
-            href="/healthbenefits/apps/explorer/AnnualIncomeLimits/HealthBenefits"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more
-          </a>{' '}
-          about our income thresholds (also called income limits) and
-          copayments.
-        </p>
-      </va-additional-info>
-    </va-alert>
-  </>
-);
-
 export const GrossIncomeDescription = (
   <div className="vads-u-color--gray-medium vads-u-margin-y--1">
     Gross income is your income before any taxes, and other deductions are

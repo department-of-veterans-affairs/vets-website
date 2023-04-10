@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -9,52 +10,85 @@ const HouseholdFinancialOnboarding = props => {
     contentBeforeButtons,
     contentAfterButtons,
   } = props;
+  const previousYear = moment().subtract(1, 'years');
 
   return (
     <>
       <p>
-        Next we’ll ask about your household finances. We’ll ask about income and
-        expenses for you, your spouse (if you’re married), and any dependents
-        you may have.
+        Next we’ll ask about your household financial information from{' '}
+        {previousYear.format('Y')}. We’ll ask about income and expenses for you,
+        your spouse (if you’re married), and any dependents you may have.
       </p>
 
-      <h3>How we use your financial information</h3>
+      <h3>How we use your household financial information</h3>
       <p>
-        When you provide your financial information from the most recent tax
-        year, we will verify this information with the IRS. We use this
-        information to determine these factors:
+        It’s your choice whether you want to share your financial information.
+        Before you decide, here’s what to know about how we’ll use your
+        financial information.
       </p>
-      <ul>
-        <li>If you’re eligible for VA health care based on your income</li>
-        <li>If you’re eligible for travel pay reimbursement</li>
-        <li>
-          If you’ll need to pay a copay for care or prescription medicines
-        </li>
-      </ul>
-
-      <h3>The financial information you will need</h3>
-      <p>
-        You will need the following information to fill out this part of the
-        application:
+      <p className="vads-u-font-weight--bold">
+        We use your financial information to determine these factors:
       </p>
       <ul>
         <li>
           <strong>
-            Last year’s gross and net household income for you, your spouse, and
-            your dependents.
+            If you’re eligible for VA health care based on your income.
           </strong>{' '}
-          This includes income from a job and any other sources. Gross income is
-          your income before taxes and any other deductions. Net income is your
-          income after taxes and deductions.
+          You may be eligible based on factors other than your income. We call
+          these “enhanced eligibility status” factors. If you don’t have one of
+          these factors, we’ll use your income to decide if you’re eligible.
+        </li>
+        <li>
+          <strong>If you’re eligible for travel pay reimbursement.</strong>{' '}
+          Reimbursement means we pay you back for the cost of travel to and from
+          your VA health appointments.
         </li>
         <li>
           <strong>
-            Your deductible expenses for last year. These include certain health
-            care and education costs.
+            If you’ll need to pay a copay for non-service-connected care or
+            prescription medicines.
           </strong>{' '}
-          These expenses will lower the amount of money we count as your income.
+          This means you may need to pay a fixed amount for some types of care
+          or medications you receive from a VA health care provider or an
+          approved community care provider.
         </li>
       </ul>
+
+      <p>
+        Note: We verify the financial information you provide with the Internal
+        Revenue Service (IRS).
+      </p>
+
+      <va-additional-info trigger="Learn more about enhanced eligibility status for VA health care">
+        <div>
+          <p className="vads-u-font-weight--bold vads-u-margin-top--0">
+            You may qualify for enhanced eligibility status if you receive any
+            of these benefits:
+          </p>
+          <ul>
+            <li>VA pension</li>
+            <li>A service-connected disability compensation</li>
+            <li>Medicaid benefits</li>
+          </ul>
+          <p className="vads-u-font-weight--bold">
+            You may also qualify for enhanced eligibility status if you fit one
+            of these descriptions:
+          </p>
+          <ul className="vads-u-margin-bottom--0">
+            <li>You’re a former Prisoner of War (POW)</li>
+            <li>You received a Purple Heart</li>
+            <li>You received a Medal of Honor</li>
+            <li>
+              You served in Southwest Asia during the Gulf War between August 2,
+              1990, and November 11, 1998
+            </li>
+            <li>
+              You served at least 30 days at Camp Lejeune between August 1,
+              1953, and December 31, 1987.
+            </li>
+          </ul>
+        </div>
+      </va-additional-info>
 
       {contentBeforeButtons}
       <FormNavButtons goBack={goBack} goForward={goForward} />

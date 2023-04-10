@@ -1,15 +1,19 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import { FinancialDisclosureV2Description } from '../../../components/FormDescriptions';
 
 const { discloseFinancialInformation } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
-    'ui:title': 'Financial disclosure',
-    'ui:description': FinancialDisclosureV2Description,
     discloseFinancialInformation: {
-      'ui:title': 'Do you want to provide your financial information?',
+      'ui:title':
+        'Select whether you want to provide your household financial information.',
       'ui:widget': 'yesNo',
+      'ui:options': {
+        labels: {
+          Y: 'Yes, I want to provide my household financial information',
+          N: 'No, I don’t want to provide my household financial information',
+        },
+      },
     },
   },
   schema: {
