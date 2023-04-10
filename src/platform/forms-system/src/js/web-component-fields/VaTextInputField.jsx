@@ -35,14 +35,9 @@ export default function VaTextInputField(props) {
           ? ''
           : childrenProps.formData
       }
-      // inputmode
+      inputmode={uiOptions?.inputmode}
       type={inputType}
-      // success
-      // pattern
-      // message-aria-describedby
-      // hint
-      // invalid
-      // uswds
+      hint={uiOptions?.hint}
       onInput={event =>
         childrenProps.onChange(
           event.target.value ? event.target.value : undefined,
