@@ -55,7 +55,7 @@ export default function RequestAppointmentLayout({ appointment }) {
                     padding="0"
                     size="1"
                     canceled={isCanceled}
-                    className="vads-u-font-weight--bold"
+                    className="vads-u-font-weight--bold vaos-appts__display--table-cell"
                   >
                     {typeOfCareName}
                   </AppointmentColumn>
