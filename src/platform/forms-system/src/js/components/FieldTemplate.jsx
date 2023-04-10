@@ -112,17 +112,15 @@ export default function FieldTemplate(props) {
   if (typeof WebComponentField === 'function') {
     return (
       <WebComponentField
+        description={description}
         textDescription={textDescription}
-        showLabel={showLabel}
-        label={label}
+        DescriptionField={DescriptionField}
+        label={showLabel ? label : null}
         required={required}
         error={hasErrors ? rawErrors[0] : null}
-        DescriptionField={DescriptionField}
         uiOptions={uiSchema['ui:options']}
         index={formContext?.pagePerItemIndex}
-        description={description}
         childrenProps={children.props}
-        help={help}
       />
     );
   }
