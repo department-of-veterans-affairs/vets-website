@@ -18,7 +18,7 @@ const MemorableDateOfBirth = ({ formData }) => {
 
   function handleDateBlur() {
     if (dateInput > today) {
-      setErrorVal('Date must be in the past');
+      setErrorVal('Please enter a valid current or past date');
     } else {
       setErrorVal('');
     }
