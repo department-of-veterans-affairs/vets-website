@@ -71,6 +71,7 @@ import * as householdExpensesChecklist from './expenses/householdExpensesCheckli
 import * as householdExpensesInputList from './expenses/householdExpensesValues';
 import * as expensesExplainer from './expenses/expensesExplainer';
 import * as creditCardBills from './expenses/creditCardBills';
+import * as installmentContracts from './expenses/repayments/installmentContracts';
 
 export {
   veteranInfo,
@@ -146,4 +147,5 @@ export {
   expensesExplainer,
   enhancedBankruptcyHistoryRecords,
   creditCardBills,
+  installmentContracts,
 };

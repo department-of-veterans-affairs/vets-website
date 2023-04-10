@@ -32,6 +32,8 @@ import UtilityBillSummary from '../components/utilityBills/UtilityBillSummary';
 import UtilityBillSummaryReview from '../components/utilityBills/UtilityBillSummaryReview';
 import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
+import InstallmentContract from '../components/InstallmentContract';
+import InstallmentContractSummary from '../pages/expenses/repayments/InstallmentContractSummary';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -823,6 +825,38 @@ const formConfig = {
             formData.questions.hasRepayments &&
             !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        installmentContracts: {
+          path: 'installment-contracts',
+          title: 'Installment Contracts',
+          uiSchema: pages.installmentContracts.uiSchema,
+          schema: pages.installmentContracts.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        addEditInstallmentContract: {
+          path: 'your-installment-contracts',
+          title: 'Installment contracts',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasRepayments &&
+            !formData.expenses?.installmentContracts?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: InstallmentContract,
+          CustomPageReview: null,
+        },
+        installmentContractSummary: {
+          path: 'installment-contracts-summary',
+          title: 'Installment contracts',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasRepayments &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: InstallmentContractSummary,
+          CustomPageReview: null,
         },
         creditCardBills: {
           path: 'credit-card-bills',
