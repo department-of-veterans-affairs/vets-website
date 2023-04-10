@@ -47,7 +47,7 @@ const HealthHistory = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/health-history/notes"
+            href="/my-health/medical-records/health-history/care-summaries-and-notes"
             text="Review your care summaries and notes"
             data-testid="section-link"
           />

@@ -4,20 +4,24 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
 import labsAndTests from '../fixtures/labsAndTests.json';
+import { RecordType } from '../../util/constants';
 
 describe('LabsAndTestsListItem component', () => {
   const initialState = {
     mr: {
       labsAndTests: {
         labsAndTestsList: labsAndTests,
-        labsAndTestDetails: labsAndTests[0],
+        labsAndTestsDetails: labsAndTests[0],
       },
     },
   };
 
   const setup = (state = initialState) => {
     return renderWithStoreAndRouter(
-      <RecordListItem record={labsAndTests[0]} type="lab and test results" />,
+      <RecordListItem
+        record={labsAndTests[0]}
+        type={RecordType.LABS_AND_TESTS}
+      />,
       {
         initialState: state,
         reducers: reducer,

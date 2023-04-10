@@ -6,6 +6,7 @@ import { waitFor } from '@testing-library/react';
 import RecordList from '../../components/RecordList/RecordList';
 import vaccines from '../fixtures/vaccines.json';
 import reducer from '../../reducers';
+import { RecordType } from '../../util/constants';
 
 describe('Record list component', () => {
   const initialState = {
@@ -19,7 +20,7 @@ describe('Record list component', () => {
   let screen = null;
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
-      <RecordList records={vaccines} type="vaccine" />,
+      <RecordList records={vaccines} type={RecordType.VACCINES} />,
       {
         initialState,
         reducers: reducer,
@@ -29,7 +30,7 @@ describe('Record list component', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen.getByText('Displaying', { exact: false })).to.exist;
+    expect(screen.getByText('Showing', { exact: false })).to.exist;
   });
 
   it('displays a list of records when records are provided', async () => {
