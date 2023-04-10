@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 
@@ -34,6 +33,3 @@ export default function DowntimeMessage({
     </va-alert>
   );
 }
-DowntimeMessage.propTypes = {
-  downtime: PropTypes.string.isRequired,
-};
