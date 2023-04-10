@@ -147,17 +147,14 @@ export default function AppointmentColumnLayout({
             >
               <AppointmentColumn
                 padding="0"
-                size="1"
+                size="2"
                 className="vads-u-font-weight--bold vaos-appts__display--table vaos-appts__text--truncate"
                 canceled={isCanceled}
                 aria-label={typeOfCareAriaLabel}
               >
                 <span
                   aria-hidden="true"
-                  className={classNames(
-                    'vaos-appts__display--table-cell',
-                    'vaos-appts__text--truncate',
-                  )}
+                  className={classNames('vaos-appts__display--table-cell')}
                 >
                   {appointmentLocality}
                 </span>
@@ -165,30 +162,28 @@ export default function AppointmentColumnLayout({
 
               <AppointmentColumn
                 padding="0"
-                size="1"
+                size="3"
                 className="vaos-appts__display--table vaos-appts__text--truncate"
                 canceled={isCanceled}
                 aria-label={modalityAriaLabel}
               >
-                <i
-                  aria-hidden="true"
-                  className={classNames(
-                    'fas',
-                    'vads-u-margin-right--1',
-                    'vads-u-color--gray',
-                    'vaos-appts__display--table-cell',
-                    modalityIcon,
-                    {
-                      'vaos-appts__text--line-through':
-                        isCanceled && !isCommunityCare,
-                    },
-                  )}
-                  style={{ width: '30px' }}
-                />
                 <span
                   aria-hidden="true"
-                  className="vaos-appts__display--table-cell vaos-appts__text--truncate"
+                  className="vaos-appts__display--table-cell"
                 >
+                  <i
+                    aria-hidden="true"
+                    className={classNames(
+                      'fas',
+                      'vads-u-margin-right--1',
+                      'vads-u-color--gray',
+                      modalityIcon,
+                      {
+                        'vaos-appts__text--line-through':
+                          isCanceled && !isCommunityCare,
+                      },
+                    )}
+                  />
                   {`${modalityText}`}
                 </span>
               </AppointmentColumn>

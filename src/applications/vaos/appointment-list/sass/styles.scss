@@ -188,7 +188,7 @@ $gap-values: (
 }
 .medium-screen\:vaos-appts__minWidth,
 .medium-screen\:vaos-appts__maxWidth {
-  min-width: 24;
+  min-width: 24px;
 }
 .vaos-appts__column--alignItems {
   @include media($medium-screen) {
@@ -216,30 +216,19 @@ div[id^="vaos-appts__detail-"] {
 }
 
 .vaos-appts__display--table {
-  @include media($small-screen) {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
-    max-width: initial;
-  }
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  max-width: initial;
 }
 .vaos-appts__display--table-cell {
   display: table-cell;
 }
 
-.vaos-appts__text--truncate {
+.vaos-appts__text--truncate > * {
   white-space: nowrap;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  @include media($xsmall-screen) {
-    max-width: 221px;
-  }
-  @include media($small-screen) {
-    max-width: initial;
-  }
-  @include media($medium-screen) {
-    max-width: 494px;
-  }
 }
 
 .vaos-appts__text--line-through {
