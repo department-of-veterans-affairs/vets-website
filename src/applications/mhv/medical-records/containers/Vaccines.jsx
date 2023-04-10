@@ -55,7 +55,7 @@ const Vaccines = () => {
   };
 
   return (
-    <div className="vaccines" id="vaccines">
+    <div id="vaccines">
       <PrintHeader />
       <h1 className="page-title">Vaccines</h1>
       <p>
