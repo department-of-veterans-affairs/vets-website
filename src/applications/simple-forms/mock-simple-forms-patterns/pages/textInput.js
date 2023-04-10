@@ -43,6 +43,20 @@ export default {
         hideOnReview: true,
       },
     },
+    hintNew: {
+      'ui:title': 'VaTextInputField - with string hint',
+      'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        hint: 'This is a hint',
+      },
+    },
+    inputmodeDecimalNew: {
+      'ui:title': 'VaTextInputField - with decimal inputmode',
+      'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        inputmode: 'decimal',
+      },
+    },
   },
   schema: {
     type: 'object',
@@ -58,6 +72,12 @@ export default {
       },
       requiredNew: {
         type: 'string',
+      },
+      hintNew: {
+        type: 'string',
+      },
+      inputmodeDecimalNew: {
+        type: 'number',
       },
     },
     required: ['requiredOld', 'requiredNew'],
