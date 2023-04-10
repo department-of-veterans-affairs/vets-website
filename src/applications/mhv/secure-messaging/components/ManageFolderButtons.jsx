@@ -82,9 +82,10 @@ const ManageFolderButtons = () => {
     setRenameModal(false);
   };
 
-  const confirmRenameFolder = () => {
+  const confirmRenameFolder = async () => {
     folderMatch = null;
     folderMatch = folders.filter(testFolder => testFolder.name === folderName);
+    await setNameWarning(''); // Clear any previous warnings, so that the warning state can be updated and refocuses back to input if on repeat Save clicks.
     if (folderName === '' || folderName.match(/^[\s]+$/)) {
       setNameWarning('Folder name cannot be blank');
     } else if (folderMatch.length > 0) {
