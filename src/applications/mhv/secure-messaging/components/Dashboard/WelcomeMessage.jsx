@@ -1,8 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import FeedbackEmail from '../shared/FeedbackEmail';
 
 const WelcomeMessage = () => {
+  const fullState = useSelector(state => state);
   return (
     <div className="welcome-message">
       <h2>What to know as you try out this tool</h2>
@@ -17,7 +20,11 @@ const WelcomeMessage = () => {
       <p>
         <strong>Note:</strong> You still have access to the previous version of
         secure messaging. You can go back to that version at any time.{' '}
-        <a target="blank" href={mhvUrl(true, 'home')}>
+        <a
+          href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'secure-messaging')}
+          target="_blank"
+          rel="noreferrer"
+        >
           Go back to the previous version of secure messaging
         </a>
       </p>
