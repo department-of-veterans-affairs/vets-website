@@ -891,4 +891,13 @@ const formConfig = {
   },
 };
 
+// Removing Education History in all non production environments.
+const removeEductionHistory = () => {
+  if (!environment.isProduction()) {
+    delete formConfig.chapters.educationHistory;
+  }
+};
+
+removeEductionHistory();
+
 export default formConfig;
