@@ -2,15 +2,24 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
+import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 import LandingPageAuth from '../../containers/LandingPageAuth';
 import reducer from '../../reducers';
 import folderList from '../fixtures/folder-response.json';
 import { unreadCountInbox } from '../../util/helpers';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 describe('Landing dashboard', () => {
   const initialState = {
     sm: {
       folders: { folderList },
+    },
+    user: {
+      profile: {
+        session: {
+          ssoe: true,
+        },
+      },
     },
   };
 
@@ -62,9 +71,9 @@ describe('Landing dashboard', () => {
     );
     expect(link).to.have.attribute(
       'href',
-      'https://int.eauth.va.gov/mhv-portal-web/eauth',
+      mhvUrl(isAuthenticatedWithSSOe(initialState), 'secure-messaging'),
     );
-    expect(link).to.have.attribute('target', 'blank');
+    expect(link).to.have.attribute('target', '_blank');
   });
 
   it('displays a FAQ component', () => {
