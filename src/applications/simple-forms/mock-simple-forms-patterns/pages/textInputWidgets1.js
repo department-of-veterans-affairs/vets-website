@@ -25,11 +25,6 @@ export default {
       ...ssnUI(),
       'ui:title': 'TextWidget - ssnUI',
     },
-    ssnNew: {
-      ...ssnUI(),
-      'ui:title': 'VaTextInputField - ssnUI',
-      'ui:webComponentField': VaTextInputField,
-    },
   },
   schema: {
     type: 'object',
@@ -55,10 +50,6 @@ export default {
         minLength: 10,
       },
       ssnOld: {
-        type: 'string',
-        pattern: '^[0-9]{9}$',
-      },
-      ssnNew: {
         type: 'string',
         pattern: '^[0-9]{9}$',
       },
