@@ -49,7 +49,9 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    expect(tree.baseElement.querySelectorAll('va-button').length).to.equal(1);
+    expect(
+      tree.baseElement.querySelectorAll('a.vads-c-action-link--green').length,
+    ).to.equal(1);
   });
   it('should render 1 button when logged in with no saved form', () => {
     const routerSpy = {
@@ -67,7 +69,9 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    expect(tree.baseElement.querySelectorAll('va-button').length).to.equal(1);
+    expect(
+      tree.baseElement.querySelectorAll('a.vads-c-action-link--green').length,
+    ).to.equal(1);
   });
   it('should render 1 va-button and 1 va-button-pair when logged in with an expired form', () => {
     const routerSpy = {
@@ -192,7 +196,7 @@ describe('Schemaform <FormStartControls>', () => {
       />,
     );
 
-    tree.baseElement.querySelector('va-button').click();
+    tree.baseElement.querySelector('a.vads-c-action-link--green').click();
     expect(fetchSpy.firstCall.args[2]).to.be.true;
   });
 
@@ -278,7 +282,7 @@ describe('Schemaform <FormStartControls>', () => {
       />,
     );
 
-    tree.baseElement.querySelector('va-button').click();
+    tree.baseElement.querySelector('a.vads-c-action-link--green').click();
 
     expect(global.window.dataLayer).to.eql([]);
   });
@@ -300,7 +304,7 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    tree.baseElement.querySelector('va-button').click();
+    tree.baseElement.querySelector('a.vads-c-action-link--green').click();
 
     expect(global.window.dataLayer).to.eql([
       {
@@ -327,7 +331,7 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    tree.baseElement.querySelector('va-button').click();
+    tree.baseElement.querySelector('a.vads-c-action-link--green').click();
 
     expect(global.window.dataLayer).to.eql([
       {
@@ -491,6 +495,8 @@ describe('Schemaform <FormStartControls>', () => {
       />,
     );
 
-    expect(tree.baseElement.querySelectorAll('va-button').length).to.equal(1);
+    expect(
+      tree.baseElement.querySelectorAll('a.vads-c-action-link--green').length,
+    ).to.equal(1);
   });
 });
