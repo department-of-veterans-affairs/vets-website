@@ -70,7 +70,7 @@ const MessageThreadItem = props => {
       }}
     >
       <div>
-        <MessageThreadMeta message={message} from={from} />
+        <MessageThreadMeta message={message} fromMe={fromMe} />
         <HorizontalRule />
         <MessageThreadBody text={body} />
 

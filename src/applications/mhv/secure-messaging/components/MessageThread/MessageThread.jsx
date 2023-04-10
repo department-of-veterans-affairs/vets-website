@@ -4,7 +4,10 @@ import PropType from 'prop-types';
 import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import HorizontalRule from '../shared/HorizontalRule';
 import MessageThreadItem from './MessageThreadItem';
-import { clearMessageHistory } from '../../actions/messages';
+import {
+  clearMessageHistory,
+  markMessageAsReadInThread,
+} from '../../actions/messages';
 
 const MessageThread = props => {
   const dispatch = useDispatch();
@@ -19,6 +22,19 @@ const MessageThread = props => {
       };
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (messageHistory?.length) {
+        messageHistory.forEach((m, i) => {
+          if (i < viewCount && !m.preloaded) {
+            dispatch(markMessageAsReadInThread(m.messageId));
+          }
+        });
+      }
+    },
+    [viewCount],
   );
 
   // useEffect(

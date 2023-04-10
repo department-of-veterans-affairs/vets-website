@@ -21,6 +21,7 @@ const MessageDetailBlock = props => {
     sentDate,
     senderName,
     recipientName,
+    triageGroupName,
     attachments,
   } = props.message;
 
@@ -31,6 +32,7 @@ const MessageDetailBlock = props => {
   const cannotReplyDate = addDays(new Date(sentReplyDate), 45);
   const [printThread, setPrintThread] = useState('dont-print-thread');
   const [hideReplyButton, setReplyButton] = useState(false);
+  const fromMe = recipientName === triageGroupName;
 
   const handleReplyButton = useCallback(
     () => {
@@ -100,7 +102,7 @@ const MessageDetailBlock = props => {
         >
           <p>
             <strong>From: </strong>
-            {senderName}
+            {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
           </p>
           <p>
             <strong>To: </strong>

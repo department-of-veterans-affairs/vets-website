@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
 
 const MessageThreadMeta = props => {
-  const { message, from } = props;
+  const { message, fromMe } = props;
   const {
     recipientName,
+    senderName,
+    triageGroupName,
     // messageId, // confirming with UCD if messageId is still needed
     sentDate,
   } = message;
@@ -18,7 +20,7 @@ const MessageThreadMeta = props => {
         </p>
         <p className="vads-u-padding-right--2" data-testid="from">
           <strong>From: </strong>
-          {from}
+          {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
         </p>
         <p className="vads-u-padding-right--2" data-testid="to">
           <strong>To: </strong>
@@ -30,7 +32,7 @@ const MessageThreadMeta = props => {
 };
 
 MessageThreadMeta.propTypes = {
-  from: PropTypes.string.isRequired,
+  fromMe: PropTypes.bool.isRequired,
   message: PropTypes.object.isRequired,
 };
 
