@@ -62,7 +62,7 @@ export default function RequestAppointmentLayout({ appointment }) {
                   <AppointmentColumn
                     padding="0"
                     size="1"
-                    className="vaos-appts__text--truncate"
+                    className="vaos-appts__display--table-cell"
                     canceled={isCanceled}
                   >
                     <>
