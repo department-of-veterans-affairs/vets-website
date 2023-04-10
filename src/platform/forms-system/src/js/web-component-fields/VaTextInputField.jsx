@@ -3,17 +3,15 @@ import { VaTextInput } from '@department-of-veterans-affairs/component-library/d
 
 export default function VaTextInputField(props) {
   const {
+    description,
     textDescription,
-    showLabel,
+    DescriptionField,
     label,
     required,
     error,
-    DescriptionField,
     uiOptions,
     index,
-    description,
     childrenProps,
-    help,
   } = props;
 
   let inputType = uiOptions?.inputType;
@@ -26,7 +24,7 @@ export default function VaTextInputField(props) {
   return (
     <VaTextInput
       name={childrenProps.idSchema.$id}
-      label={showLabel && label}
+      label={label}
       autocomplete={uiOptions?.autocomplete}
       required={required}
       error={error}
@@ -42,7 +40,7 @@ export default function VaTextInputField(props) {
       // success
       // pattern
       // message-aria-describedby
-      hint={help.props.help}
+      // hint
       // invalid
       // uswds
       onInput={event =>
@@ -52,6 +50,7 @@ export default function VaTextInputField(props) {
       }
       onBlur={() => childrenProps.onBlur(childrenProps.idSchema.$id)}
     >
+      {textDescription && <p>{textDescription}</p>}
       {DescriptionField && (
         <DescriptionField options={uiOptions} index={index} />
       )}
