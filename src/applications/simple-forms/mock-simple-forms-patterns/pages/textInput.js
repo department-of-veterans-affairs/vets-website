@@ -57,6 +57,15 @@ export default {
         inputmode: 'decimal',
       },
     },
+    disabledOld: {
+      'ui:title': 'TextWidget - disabled',
+      'ui:disabled': true,
+    },
+    disabledNew: {
+      'ui:title': 'VaTextInputField - disabled',
+      'ui:disabled': true,
+      'ui:webComponentField': VaTextInputField,
+    },
   },
   schema: {
     type: 'object',
@@ -78,6 +87,12 @@ export default {
       },
       inputmodeDecimalNew: {
         type: 'number',
+      },
+      disabledOld: {
+        type: 'string',
+      },
+      disabledNew: {
+        type: 'string',
       },
     },
     required: ['requiredOld', 'requiredNew'],

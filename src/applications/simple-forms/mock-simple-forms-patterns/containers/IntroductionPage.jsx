@@ -41,6 +41,14 @@ class IntroductionPage extends React.Component {
               </a>
             </li>
             <li>
+              <a href="/mock-simple-forms-patterns/text-input-address">
+                Text input address
+              </a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/ssn-pattern">Ssn pattern</a>
+            </li>
+            <li>
               <a href="/mock-simple-forms-patterns/checkbox">Checkbox</a>
             </li>
             <li>
