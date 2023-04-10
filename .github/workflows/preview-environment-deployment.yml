@@ -70,7 +70,7 @@ jobs:
         with:
           build-args: |
             userid=${{ env.VETS_WEBSITE_USER_ID }}
-            AWS_URL=https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content-build/0008051ce15e731cc01289933dfb060d6f0d4df6/vagovprod.tar.bz2
+            "AWS_URL=https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content-build/0008051ce15e731cc01289933dfb060d6f0d4df6/vagovprod.tar.bz2"
 
           context: .
           file: src/platform/utilities/preview-environment/Dockerfile

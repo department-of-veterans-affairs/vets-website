@@ -1,5 +1,6 @@
 FROM public.ecr.aws/bitnami/node:14.15.5
 
+ARG CONTENT_URL
 ENV CONTENT_URL=$AWS_URL
 
 RUN mkdir -p /website
