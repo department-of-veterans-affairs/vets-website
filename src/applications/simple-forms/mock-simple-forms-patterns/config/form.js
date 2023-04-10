@@ -1,4 +1,5 @@
 import environment from 'platform/utilities/environment';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -7,6 +8,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import textInput from '../pages/textInput';
 import textInputWidgets1 from '../pages/textInputWidgets1';
 import textInputFullName from '../pages/textInputFullName';
+import textInputAddress from '../pages/textInputAddress';
+import ssnPattern from '../pages/ssnPattern';
 // import checkbox from '../pages/checkbox';
 // import radio from '../pages/radio';
 // import select from '../pages/select';
@@ -29,7 +32,7 @@ const formConfig = {
       'Please sign in again to continue your application for simple form patterns.',
   },
   title: 'Simple Forms Patterns',
-  defaultDefinitions: {},
+  defaultDefinitions: commonDefinitions,
   chapters: {
     textInput: {
       title: 'Text Input',
@@ -53,6 +56,19 @@ const formConfig = {
           uiSchema: textInputFullName.uiSchema,
           schema: textInputFullName.schema,
           initialData: textInputFullName.initialData,
+        },
+        textInputAddress: {
+          path: 'text-input-address',
+          title: 'Text Input Address',
+          uiSchema: textInputAddress.uiSchema,
+          schema: textInputAddress.schema,
+          initialData: textInputAddress.initialData,
+        },
+        ssnPattern: {
+          path: 'ssn-pattern',
+          title: 'SSN Pattern',
+          uiSchema: ssnPattern.uiSchema,
+          schema: ssnPattern.schema,
         },
       },
     },
