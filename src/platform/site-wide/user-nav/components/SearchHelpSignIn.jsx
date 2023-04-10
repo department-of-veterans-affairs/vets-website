@@ -26,7 +26,7 @@ class SearchHelpSignIn extends Component {
   };
 
   componentDidMount() {
-    this.checkHomepageCreateAccountBlock();
+    this.showHomepageCreateAccountBlock();
   }
 
   componentDidUpdate(prevProps) {
@@ -36,7 +36,7 @@ class SearchHelpSignIn extends Component {
     ) {
       return;
     }
-    this.checkHomepageCreateAccountBlock();
+    this.showHomepageCreateAccountBlock();
   }
 
   handleSignInSignUp = e => {
@@ -55,9 +55,9 @@ class SearchHelpSignIn extends Component {
 
   handleAccountMenuClick = this.handleMenuClick('account');
 
-  checkHomepageCreateAccountBlock = () => {
+  showHomepageCreateAccountBlock = () => {
     if (
-      this.shouldRenderSignedInContent() &&
+      !this.shouldRenderSignedInContent() &&
       (window.location.pathname === '/' ||
         window.location.pathname === '/new-home-page/')
     ) {
