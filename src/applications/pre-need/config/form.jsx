@@ -17,8 +17,6 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
-import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation';
-
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import MemorableDateOfBirthField from '../components/MemorableDateOfBirthField';
 import * as address from '../definitions/address';
@@ -150,15 +148,10 @@ const formConfig = {
                 name: fullMaidenNameUI,
                 ssn: ssnDashesUI,
                 dateOfBirth: environment.isProduction()
-                  ? currentOrPastDateUI('Date Of Birth')
+                  ? currentOrPastDateUI('Date of birth')
                   : {
-                      'ui:title': 'Date Of Birth',
+                      'ui:title': ' ',
                       'ui:field': MemorableDateOfBirthField,
-                      'ui:validations': [validateCurrentOrPastDate],
-                      'ui:errorMessages': {
-                        pattern: 'Please enter a valid current or past date',
-                        required: 'Please enter a date',
-                      },
                     },
                 relationshipToVet: {
                   'ui:title': 'Relationship to service member',
@@ -195,12 +188,7 @@ const formConfig = {
                 properties: {
                   claimant: {
                     type: 'object',
-                    required: [
-                      'name',
-                      'ssn',
-                      'dateOfBirth',
-                      'relationshipToVet',
-                    ],
+                    required: ['name', 'ssn', 'relationshipToVet'],
                     properties: pick(claimant.properties, [
                       'name',
                       'ssn',
