@@ -112,10 +112,8 @@ describe('Fetch Debts Successfully', () => {
     cy.get('#recipients-option-1').click();
     cy.get('[data-testid="start-button"]').click();
 
-    cy.get('va-button[text*="start"]')
+    cy.get('a.vads-c-action-link--green')
       .first()
-      .shadow()
-      .find('button')
       .click();
 
     cy.findAllByText(/continue/i, { selector: 'button' })
