@@ -24,7 +24,7 @@ export const MiniSummaryCard = ({
       data-testid="mini-summary-card"
     >
       <div className="vads-u-padding--2 vads-u-display--flex vads-u-flex-direction--column">
-        <h4 className="vads-u-margin-y--0 vads-u-font-size--h3">{heading}</h4>
+        <h4 className="vads-u-margin-y--0">{heading}</h4>
         {body}
       </div>
       <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center">
@@ -33,7 +33,7 @@ export const MiniSummaryCard = ({
           to={editDestination}
           className="vads-u-padding-y--1 vads-u-padding-x--2"
         >
-          <span className="vads-u-font-size--h3">
+          <span>
             <strong>Edit</strong>
             <i
               aria-hidden="true"

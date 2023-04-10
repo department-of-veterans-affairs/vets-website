@@ -64,6 +64,8 @@ export { default as isVATeamSiteSubdomain } from './environment/va-subdomain';
 export {
   connectFeatureToggle,
   updateFeatureToggleValue,
+  useFeatureToggle,
+  Toggler,
 } from './feature-toggles/index';
 export { getFlipperId, generateToken } from './feature-toggles/helpers';
 export { default as makeFlipperClient } from './feature-toggles/flipper-client';

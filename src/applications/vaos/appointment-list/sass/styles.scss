@@ -146,6 +146,14 @@
   }
 }
 
+.vaos-appts__breadcrumb li > a[aria-current="true"] {
+  cursor: default;
+  pointer-events: none;
+  text-decoration: none;
+  color: $color-black !important;
+  font-weight: 700;
+}
+
 li.vaos-appts__listItem--clickable[data-status="upcoming"]:last-child
   div.vads-u-border-bottom--1px {
   border-bottom: none !important;

@@ -74,7 +74,6 @@ const {
   phone,
   files,
   centralMailVaFile,
-  militaryServiceNumber,
   race,
 } = fullSchemaPreNeed.definitions;
 
@@ -133,7 +132,6 @@ const formConfig = {
     phone,
     files,
     centralMailVaFile,
-    militaryServiceNumber,
   },
   chapters: {
     applicantInformation: {
@@ -221,7 +219,12 @@ const formConfig = {
                 properties: {
                   veteran: {
                     type: 'object',
-                    required: ['gender', 'maritalStatus', 'militaryStatus'],
+                    required: [
+                      'race',
+                      'gender',
+                      'maritalStatus',
+                      'militaryStatus',
+                    ],
                     properties: set(
                       'militaryStatus.enum',
                       veteran.properties.militaryStatus.enum.filter(
@@ -282,7 +285,7 @@ const formConfig = {
                     'Sponsor’s Military Service number (if they have one that’s different than their Social Security number)',
                   'ui:errorMessages': {
                     pattern:
-                      'Sponsor’s Military Service number must be between 4 to 10 characters',
+                      'Sponsor’s Military Service number must be between 4 to 9 characters',
                   },
                 },
                 vaClaimNumber: {
@@ -359,6 +362,7 @@ const formConfig = {
                       'maritalStatus',
                       'militaryStatus',
                       'isDeceased',
+                      'race',
                     ],
                     properties: pick(veteran.properties, [
                       'currentName',
@@ -672,9 +676,7 @@ const formConfig = {
             'ui:description': SupportingDocumentsDescription,
             application: {
               preneedAttachments: fileUploadUI('Select files to upload', {
-                addAnotherLabel: environment.isProduction()
-                  ? 'Add Another'
-                  : 'Add another',
+                addAnotherLabel: 'Add another',
                 fileUploadUrl: `${
                   environment.API_URL
                 }/v0/preneeds/preneed_attachments`,

@@ -13,13 +13,13 @@ import CanceledAppointmentsList from '../CanceledAppointmentsList';
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
-import VistaSchedulingServiceAlert from '../VistaSchedulingServiceAlert';
 import PageLayout from '../PageLayout';
 import { selectPendingAppointments } from '../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import AppointmentListNavigation from '../AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
+import BackendAppointmentServiceAlert from '../BackendAppointmentServiceAlert';
 
 const DROPDOWN_VALUES = {
   upcoming: 'upcoming',
@@ -193,7 +193,6 @@ export default function AppointmentsPageV2() {
       />
       <ScheduleNewAppointment />
       <AppointmentListNavigation count={count} callback={setHasTypeChanged} />
-      <VistaSchedulingServiceAlert />
       {!featureStatusImprovement && (
         <>
           <h2 className="vads-u-margin-y--3">{subHeading}</h2>
@@ -210,6 +209,7 @@ export default function AppointmentsPageV2() {
       )}
       <Switch>
         <Route exact path="/">
+          <BackendAppointmentServiceAlert />
           <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path={featureStatusImprovement ? '/pending' : '/requested'}>
