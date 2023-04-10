@@ -53,32 +53,19 @@ describe('Landing dashboard', () => {
     expect(screen.getByText(`What to know as you try out this tool`)).to.exist;
   });
 
-  /* it('displays a search component', () => {
-    expect(
-      screen.getByText(`Search for messages`, {
-        exact: true,
-      }),
-    ).to.exist;
-    expect(
-      screen.getByText(`Search messages`, {
-        exact: true,
-      }),
-    ).to.exist;
-  }); */
-
-  /* it('displays a Folders List component', () => {
-    expect(
-      screen.getByText(`Folders`, {
-        exact: true,
-      }),
-    ).to.exist;
-    expect(
-      screen.getByText(`TESTAGAIN`, {
-        exact: true,
+  it('displays a MHV URL Link', () => {
+    const link = screen.getByText(
+      `Go back to the previous version of secure messaging`,
+      {
         selector: 'a',
-      }),
-    ).to.exist;
-  }); */
+      },
+    );
+    expect(link).to.have.attribute(
+      'href',
+      'https://int.eauth.va.gov/mhv-portal-web/eauth',
+    );
+    expect(link).to.have.attribute('target', 'blank');
+  });
 
   it('displays a FAQ component', () => {
     expect(screen.getByText(`Questions about using messages`)).to.exist;
