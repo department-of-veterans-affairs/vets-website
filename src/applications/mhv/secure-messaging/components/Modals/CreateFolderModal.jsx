@@ -28,8 +28,9 @@ const CreateFolderModal = props => {
     setIsModalVisible(false);
   };
 
-  const confirmNewFolder = () => {
+  const confirmNewFolder = async () => {
     folderMatch = null;
+    await setNameWarning('');
     folderMatch = folders.filter(folder => folder.name === folderName);
     if (folderName === '' || folderName.match(/^[\s]+$/)) {
       setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_NOT_BLANK);
