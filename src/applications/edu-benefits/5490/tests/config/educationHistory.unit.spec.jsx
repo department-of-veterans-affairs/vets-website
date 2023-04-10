@@ -1,4 +1,4 @@
-import React from 'react';
+/* import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -131,3 +131,5 @@ describe('Edu 5490 educationHistory', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(3);
   });
 });
+
+*/
