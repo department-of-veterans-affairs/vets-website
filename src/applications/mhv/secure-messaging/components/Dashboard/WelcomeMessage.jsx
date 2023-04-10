@@ -1,4 +1,5 @@
 import React from 'react';
+import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 import FeedbackEmail from '../shared/FeedbackEmail';
 
 const WelcomeMessage = () => {
@@ -7,16 +8,18 @@ const WelcomeMessage = () => {
       <h2>What to know as you try out this tool</h2>
       <p>
         We’re giving the trusted My HealtheVet secure messaging tool a new home
-        here on VA.gov. You can use this tool to communicate securely with your
-        care team online-just like you can today on the My HealtheVet website.
+        on VA.gov. And we need your feedback to help us keep making this tool
+        better for you and all Veterans.
       </p>
       <p>
-        We need your feedback to help us keep making this tool better for you
-        and all Veterans.
+        Email your feedback and questions to us at <FeedbackEmail />.
       </p>
       <p>
-        Email us at <FeedbackEmail /> to tell us what you think. We can also
-        answer questions about how to use the tool.
+        <strong>Note:</strong> You still have access to the previous version of
+        secure messaging. You can go back to that version at any time.{' '}
+        <a target="blank" href={mhvUrl(true, 'home')}>
+          Go back to the previous version of secure messaging
+        </a>
       </p>
     </div>
   );
