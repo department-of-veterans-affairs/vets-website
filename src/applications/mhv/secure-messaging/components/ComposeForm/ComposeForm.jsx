@@ -200,7 +200,6 @@ const ComposeForm = props => {
       selectedRecipient === '' ||
       !selectedRecipient
     ) {
-
       setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
 
       messageValid = false;
