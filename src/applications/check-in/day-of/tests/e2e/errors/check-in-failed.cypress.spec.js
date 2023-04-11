@@ -41,7 +41,7 @@ describe('Check In Experience -- ', () => {
   });
   it('C5722 - Check in failed with a 200 and error message in the body', () => {
     Appointments.attemptCheckIn(1);
-    Error.validatePageLoaded();
+    Error.validatePageLoaded('check-in-failed-find-out');
     cy.injectAxe();
     cy.axeCheck();
     cy.createScreenshots('Day-of-check-in--Error-on-check-in-no-travel-claim');

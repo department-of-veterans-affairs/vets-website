@@ -142,7 +142,11 @@ const Error = () => {
           ),
         },
         {
-          type: form.data['travel-question'] === 'no' ? 'info' : 'warning',
+          type:
+            form.data['travel-question'] === 'no' ||
+            !isTravelReimbursementEnabled
+              ? 'info'
+              : 'warning',
           message: getTravelMessage(),
         },
       ];
