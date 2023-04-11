@@ -28,6 +28,7 @@ export const fileUploadUi = content => {
     hideLabelText: !content.label,
     fileUploadUrl: `${environment.API_URL}${EVIDENCE_UPLOAD_API}`,
     addAnotherLabel,
+    buttonText: 'Upload a document',
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
     minSize: 1,
