@@ -661,6 +661,7 @@ const formConfig = {
         educationHistory: {
           title: 'Education history',
           path: 'education/history',
+          depends: () => environment.isProduction(),
           initialData: {},
           uiSchema: {
             highSchool: {
@@ -766,11 +767,19 @@ const formConfig = {
         },
       },
     },
+    /*
+    depends added to keep this section out of staging
+    PR VFEP-50 contains details, this section is to be removed
+    while it is in review on staging, this section should stay in
+    production.
+    */
     schoolSelection: {
       title: 'School selection',
       pages: {
         schoolSelection: merge(
-          {},
+          {
+            depends: () => environment.isProduction(),
+          },
           createSchoolSelectionPage(
             fullSchema5490,
             schoolSelectionOptionsFor['5490'],
