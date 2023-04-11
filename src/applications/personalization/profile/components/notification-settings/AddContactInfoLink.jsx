@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { getContactInfoDeepLinkURL } from '@@profile/helpers';
 
 import { FIELD_NAMES, MISSING_CONTACT_INFO } from '@@vap-svc/constants';
-import { useFeatureToggle } from 'applications/personalization/hooks/useFeatureToggle';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 const AddContactInfoLink = ({ missingInfo }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();

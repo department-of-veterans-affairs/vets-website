@@ -10,14 +10,19 @@ mkdir -p content-build/build/localhost
 echo "untar the build into content-build/build/localhost/"
 tar -xf vagovdev.tar.bz2 -C content-build/build/localhost/
 
+echo "set yarn to allow self-signed cert for install"
+yarn config set "strict-ssl" false
+
+# Build and watch vets-website
+echo "Install, build, and watch vets-website"
+cd vets-website
+yarn install
+yarn build:webpack:local
+yarn watch &
+
 # Serve the content-build
 echo "Install and serve content-build"
-cd content-build
+cd ../content-build
 yarn install
-yarn serve &
-
-# Watch vets-website
-echo "Install and watch vets-website"
-cd ../vets-website
-yarn install
-yarn watch --env host=0.0.0.0
+ln -s /website/vets-website/build/localhost/generated /website/content-build/build/localhost/generated
+yarn serve

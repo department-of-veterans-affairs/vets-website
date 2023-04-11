@@ -27,16 +27,16 @@ const providerFacilityAddress = {
   postalCode: '90210',
 };
 
-const records = () => ({
+const records = ({ emptyIssue = false } = {}) => ({
   locations: [
     {
       locationAndName: 'VAMC Location 1',
-      issues: ['Test'],
+      issues: emptyIssue ? [] : ['Test 1'],
       evidenceDates: { from: '2001-01-01', to: '2011-01-01' },
     },
     {
       locationAndName: 'VAMC Location 2',
-      issues: ['Test 2'],
+      issues: ['Test 1', 'Test 2'],
       evidenceDates: { from: '2002-02-02', to: '2012-02-02' },
     },
   ],
@@ -44,13 +44,13 @@ const records = () => ({
     {
       providerFacilityName: 'Private Doctor',
       providerFacilityAddress,
-      issues: ['PTSD', 'Tinnitus'],
+      issues: emptyIssue ? [] : ['Test 1', 'Test 2'],
       treatmentDateRange: { from: '2022-04-01', to: '2022-07-01' },
     },
     {
       providerFacilityName: 'Private Hospital',
       providerFacilityAddress,
-      issues: ['Test 2', 'Tinnitus', 'Test'],
+      issues: ['Test 1', 'Test 2', 'Tinnitus'],
       treatmentDateRange: { from: '2022-09-20', to: '2022-09-30' },
     },
   ],
@@ -82,6 +82,7 @@ describe('evidenceSummaryList', () => {
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(2);
+      expect($$('h5', container).length).to.eq(2);
       expect($$('.remove-item', container).length).to.eq(2);
     });
     it('should render review-only VA content', () => {
@@ -93,8 +94,17 @@ describe('evidenceSummaryList', () => {
       expect($('h5', container).textContent).to.contain(content.vaTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
+      expect($$('h6', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(0);
       expect($$('.remove-item', container).length).to.eq(0);
+    });
+    it('should show missing issues message', () => {
+      const vaEvidence = records({ emptyIssue: true }).locations;
+      const { container } = render(<VaContent list={vaEvidence} testing />);
+
+      const li = $$('li', container);
+      expect(li[0].textContent).to.contain(content.missingIssues);
+      expect(li[1].textContent).to.contain('Test 1 and Test 2');
     });
     it('should have edit links pointing to the appropriate VA indexed page', () => {
       const vaEvidence = records().locations;
@@ -136,6 +146,8 @@ describe('evidenceSummaryList', () => {
       expect($('h4', container).textContent).to.contain(content.privateTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(3);
+      // Includes limited consent
+      expect($$('h5', container).length).to.eq(3);
       expect($$('.edit-item', container).length).to.eq(3);
       expect($$('.remove-item', container).length).to.eq(3);
     });
@@ -144,7 +156,8 @@ describe('evidenceSummaryList', () => {
       const { container } = render(
         <PrivateContent list={privateEvidence} limitedConsent="" testing />,
       );
-
+      // Includes limited consent
+      expect($$('h5', container).length).to.eq(3);
       expect($$('.edit-item', container).length).to.eq(3);
       expect($$('.remove-item', container).length).to.eq(2);
     });
@@ -162,8 +175,20 @@ describe('evidenceSummaryList', () => {
       expect($('h5', container).textContent).to.contain(content.privateTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(3);
+      // Includes limited consent
+      expect($$('h6', container).length).to.eq(3);
       expect($$('.edit-item', container).length).to.eq(0);
       expect($$('.remove-item', container).length).to.eq(0);
+    });
+    it('should show missing issues message', () => {
+      const privateEvidence = records({ emptyIssue: true }).providerFacility;
+      const { container } = render(
+        <PrivateContent list={privateEvidence} limitedConsent="" testing />,
+      );
+
+      const li = $$('li', container);
+      expect(li[0].textContent).to.contain(content.missingIssues);
+      expect(li[1].textContent).to.contain('Test 1, Test 2, and Tinnitus');
     });
     it('should have edit links pointing to the appropriate private indexed page or limitation page', () => {
       const privateEvidence = records().providerFacility;
@@ -227,6 +252,7 @@ describe('evidenceSummaryList', () => {
       expect($('h4', container).textContent).to.contain(content.otherTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
+      expect($$('h5', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(2);
       expect($$('.remove-item', container).length).to.eq(2);
     });
@@ -239,6 +265,7 @@ describe('evidenceSummaryList', () => {
       expect($('h5', container).textContent).to.contain(content.otherTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
+      expect($$('h6', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(0);
       expect($$('.remove-item', container).length).to.eq(0);
     });

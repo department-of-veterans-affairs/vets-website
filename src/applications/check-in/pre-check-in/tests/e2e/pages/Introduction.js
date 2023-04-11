@@ -110,15 +110,12 @@ class Introduction {
 
   validateAppointmentType = type => {
     if (type === 'phone') {
-      cy.get('[data-testid="appointment-type-label"]').each(item => {
-        expect(Cypress.$(item).text()).to.eq('Phone Call');
-      });
-      cy.get('[data-testid="appointment-message"]').each(item => {
-        expect(Cypress.$(item).text()).to.eq('Your provider will call you.');
+      cy.get('[data-testid="appointment-kind-and-location"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq('Phone');
       });
     } else if (type === 'in-person') {
-      cy.get('[data-testid="appointment-type-label"]').each(item => {
-        expect(Cypress.$(item).text()).to.eq('In person');
+      cy.get('[data-testid="appointment-kind-and-location"]').each(item => {
+        expect(Cypress.$(item).text()).to.contain('In person');
       });
     }
   };
