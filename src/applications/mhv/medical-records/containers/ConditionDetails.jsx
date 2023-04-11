@@ -105,6 +105,8 @@ const ConditionDetails = () => {
               {conditionDetails.facility ||
                 'There is no facility reported at this time'}
             </p>
+            <h2>SNOMED Clinical term</h2>
+            <p>{conditionDetails.name}</p>
             <h2 className="vads-u-margin-bottom--0">Provider comments</h2>
             <ItemList
               list={conditionDetails.comments}
