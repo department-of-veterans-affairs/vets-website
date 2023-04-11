@@ -91,7 +91,7 @@ export default Object.freeze({
   profileNotificationSettings: 'profile_notification_settings',
   profileHideDirectDepositCompAndPen: 'profile_hide_direct_deposit_comp_and_pen',
   profileDoNotRequireInternationalZipCode: 'profile_do_not_require_international_zip_code',
-  profileShowMhvNotificaionSettings: 'profile_show_mhv_notification_settings',
+  profileShowMhvNotificationSettings: 'profile_show_mhv_notification_settings',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
   profileShowPaymentsNotificationSetting: 'profile_show_payments_notification_setting',
   profileUseExperimental: 'profile_use_experimental',

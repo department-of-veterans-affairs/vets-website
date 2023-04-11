@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
 const useQuery = () => {
