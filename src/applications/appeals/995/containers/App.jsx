@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -41,6 +42,9 @@ export const App = ({
   contestableIssues = {},
   legacyCount,
   isLoadingFeatures,
+  accountUuid,
+  inProgressFormId,
+  testSetTag,
   show995,
 }) => {
   // vapContactInfo is an empty object locally, so mock it
@@ -61,6 +65,19 @@ export const App = ({
 
   const subTaskBenefitType =
     formData?.benefitType || getStoredSubTask()?.benefitType;
+
+  useEffect(
+    () => {
+      // Set user account & application id in Sentry so we can access their form
+      // data for any thrown errors
+      if (accountUuid && inProgressFormId) {
+        const setTag = testSetTag || Sentry.setTag;
+        setTag('account_uuid', accountUuid);
+        setTag('in_progress_form_id', inProgressFormId);
+      }
+    },
+    [accountUuid, inProgressFormId, testSetTag],
+  );
 
   useEffect(
     () => {
@@ -141,6 +158,7 @@ export const App = ({
         pathname={location.pathname}
         title={formConfig.title}
         benefitType={subTaskBenefitType}
+        router={router}
       >
         {children}
       </ITFWrapper>
@@ -182,6 +200,7 @@ export const App = ({
 App.propTypes = {
   getContestableIssues: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
+  accountUuid: PropTypes.string,
   children: PropTypes.any,
   contestableIssues: PropTypes.shape({}),
   formData: PropTypes.shape({
@@ -192,6 +211,7 @@ App.propTypes = {
     legacyCount: PropTypes.number,
     informalConferenceRep: PropTypes.shape({}),
   }),
+  inProgressFormId: PropTypes.number,
   isLoadingFeatures: PropTypes.bool,
   legacyCount: PropTypes.number,
   location: PropTypes.shape({
@@ -206,9 +226,12 @@ App.propTypes = {
   }),
   savedForms: PropTypes.array,
   show995: PropTypes.bool,
+  testSetTag: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
+  accountUuid: state?.user?.profile?.accountUuid,
+  inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   loggedIn: isLoggedIn(state),
   formData: state.form?.data || {},
   profile: selectProfile(state) || {},

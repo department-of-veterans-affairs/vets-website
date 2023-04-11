@@ -23,9 +23,7 @@ describe('SIP Load Fail Test', () => {
     cy.get('body').should('be.visible');
 
     cy.title().should('contain', 'Mock SIP Form');
-    cy.get('.main .usa-button-primary', { timeout: Timeouts.slow }).should(
-      'be.visible',
-    );
+    cy.get('va-button', { timeout: Timeouts.slow }).should('be.visible');
 
     cy.injectAxeThenAxeCheck();
 
@@ -33,8 +31,10 @@ describe('SIP Load Fail Test', () => {
     cy.intercept('GET', '/v0/in_progress_forms/XX-123', {
       statusCode: 500,
     });
-    cy.get('.main .usa-button-primary')
+    cy.get('va-button')
       .first()
+      .shadow()
+      .find('button')
       .click();
 
     cy.url().should('not.contain', '/introduction');
@@ -55,9 +55,11 @@ describe('SIP Load Fail Test', () => {
       statusCode: 404,
     });
 
-    cy.get('.main .usa-button-primary');
-    cy.get('.main .usa-button-primary')
+    cy.get('va-button');
+    cy.get('va-button')
       .first()
+      .shadow()
+      .find('button')
       .click();
 
     cy.get('.usa-alert-error', { timeout: Timeouts.slow });
@@ -74,9 +76,11 @@ describe('SIP Load Fail Test', () => {
       statusCode: 401,
     });
 
-    cy.get('.main .usa-button-primary').should('exist');
-    cy.get('.main .usa-button-primary')
+    cy.get('.main va-button').should('exist');
+    cy.get('.main va-button')
       .first()
+      .shadow()
+      .find('button')
       .click();
 
     cy.get('.usa-alert-error', { timeout: Timeouts.slow });

@@ -25,12 +25,23 @@ export const replaceNumberWithWord = (_, word, number) => {
  * @returns {string} predefined error message
  */
 /**
+ * @typedef FormConfig~reviewErrorOverride
+ * @type {function}
+ * @param {string} error - error containing either the name of the property with
+ *  the error, or the error stack (if it exists), or the error argument
+ * @returns {object} - object containing the `chapterKey` and `pageKey`
+ *  associated with the error; needed for summary pages on the review & submit
+ *  page
+ */
+/**
  * @typedef FormConfig~reviewErrors - Cross-reference of required schema names
  *  with the error message displayed inside of the alert error link
  * @type {Object}
  * @property {Object.<string>} - required schema name (key)
  * @property {FormConfig~reviewErrorMessage} - Error message string or function
  *  that returns a string
+ * @property {FormConfig~reviewErrorOverride} - Function to return the chapter
+ *  and page key for a particular error
  */
 /**
  * Get error message contained in FormConfig~reviewErrors
@@ -252,10 +263,9 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
           err.__errors?.length &&
           !errorExists(processedErrors, name, errorIndex)
         ) {
-          const { chapterKey = '', pageKey = '' } = getPropertyInfo(
-            pageList,
-            name,
-          );
+          const { chapterKey = '', pageKey = '' } =
+            reviewErrors._override?.(name || err.stack || err.argument) ||
+            getPropertyInfo(pageList, name);
           // `message` is null if we don't want a link to show up.
           // For example, this happens for the 526 when a new disability is
           // missing (has error), and the nested required condition (also has
@@ -300,14 +310,16 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
            * anyone and show both
           */
           if (!errorExists(processedErrors, propertyName, index)) {
-            const { chapterKey = '', pageKey = '' } = getPropertyInfo(
-              // List of all form pages; includes chapterKey, pageKey and
-              // uiSchema
-              pageList,
-              argument,
-              // full path to the error
-              property,
-            );
+            const { chapterKey = '', pageKey = '' } =
+              reviewErrors._override?.(property || err?.stack || argument) ||
+              getPropertyInfo(
+                // List of all form pages; includes chapterKey, pageKey and
+                // uiSchema
+                pageList,
+                argument,
+                // full path to the error
+                property,
+              );
             processedErrors.push({
               // property name
               name: propertyName,
