@@ -13,7 +13,7 @@ export const uiSchema = {
       'ui:title': CurrentDebtTitle,
       'ui:description': CurrentDebtDescription,
       'ui:validations': [validateWaiverCheckbox],
-      agreeToWaiver: {
+      resolutionWaiverCheck: {
         'ui:title': (
           <p className="vads-u-margin-y--0">
             <span className="vads-u-display--block">You selected:</span>
@@ -28,9 +28,6 @@ export const uiSchema = {
         ),
         'ui:reviewField': CustomResolutionWaiverReview,
         'ui:widget': ResolutionWaiverAgreement,
-        'ui:options': {
-          hideOnReview: false,
-        },
       },
     },
   },
@@ -44,7 +41,7 @@ export const schema = {
       items: {
         type: 'object',
         properties: {
-          agreeToWaiver: {
+          resolutionWaiverCheck: {
             type: 'boolean',
           },
         },

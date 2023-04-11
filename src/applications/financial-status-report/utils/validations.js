@@ -100,7 +100,6 @@ export const validateResolutionOption = (errors, fieldData) => {
   }
 };
 
-// Don't add formData as third argument, it goes from localized to whole form on review
 export const validateResolutionAmount = (errors, fieldData) => {
   // fieldData is each individual debt object
   const { debtType, resolutionComment, resolutionOption } = fieldData;
@@ -108,8 +107,10 @@ export const validateResolutionAmount = (errors, fieldData) => {
   // not required for waiver
   if (resolutionOption === 'waiver') return;
 
+  // this is weird, but adding error to the child resolutionComment
+  // correctly populates the error message
   if (!resolutionComment) {
-    errors.addError('Please enter a valid dollar amount.');
+    errors.resolutionComment.addError('Please enter a valid dollar amount.');
   }
 
   // Checking compromise/monthly resolution amount against remaining debt amount
@@ -117,7 +118,9 @@ export const validateResolutionAmount = (errors, fieldData) => {
     (debtType === 'DEBT' && fieldData?.currentAr <= resolutionComment) ||
     (debtType === 'COPAY' && fieldData?.pHAmtDue <= resolutionComment)
   ) {
-    errors.addError('Please enter a value less than the current balance.');
+    errors.resolutionComment.addError(
+      'Please enter a value less than the current balance.',
+    );
   }
 };
 
