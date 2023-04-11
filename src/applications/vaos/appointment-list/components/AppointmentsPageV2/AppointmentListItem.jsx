@@ -3,16 +3,14 @@ import PropTypes from 'prop-types';
 
 export default function AppointmentListItem({ children, className, id }) {
   return (
-    <>
-      <li
-        id={`id-${id.replace('.', '\\.')}`}
-        className={className}
-        data-request-id={id}
-        data-cy="appointment-list-item"
-      >
-        {children}
-      </li>
-    </>
+    <li
+      id={`id-${id.replace('.', '\\.')}`}
+      className={`vaos-appts__listItem--lineHeight ${className}`}
+      data-request-id={id}
+      data-cy="appointment-list-item"
+    >
+      {children}
+    </li>
   );
 }
 
