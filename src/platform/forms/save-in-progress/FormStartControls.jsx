@@ -3,18 +3,17 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import {
   VaButton,
-  VaButtonPair,
+  VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_RESTARTING,
 } from 'platform/site-wide/wizard';
 import {
+  APP_TYPE_DEFAULT,
   CONTINUE_APP_DEFAULT_MESSAGE,
   START_NEW_APP_DEFAULT_MESSAGE,
-  APP_TYPE_DEFAULT,
 } from '../../forms-system/src/js/constants';
 
 class FormStartControls extends React.Component {
@@ -113,21 +112,19 @@ class FormStartControls extends React.Component {
               label={ariaLabel}
             />
           )}
-          <Modal
-            cssClass="va-modal-large"
+          <VaModal
+            class="va-modal-large"
             id="start-over-modal"
-            onClose={this.toggleModal}
+            onCloseEvent={this.toggleModal}
+            modalTitle={`Starting over will delete your in-progress ${appType}.`}
             visible={this.state.modalOpen}
+            onPrimaryButtonClick={this.startOver}
+            primaryButtonText={startNewAppButtonText}
+            onSecondaryButtonClick={this.toggleModal}
+            secondaryButtonText="Cancel"
           >
-            <h4>Starting over will delete your in-progress {appType}.</h4>
             <p>Are you sure you want to start over?</p>
-            <VaButtonPair
-              primaryLabel={startNewAppButtonText}
-              onPrimaryClick={this.startOver}
-              secondaryLabel="Cancel"
-              onSecondaryClick={this.toggleModal}
-            />
-          </Modal>
+          </VaModal>
         </div>
       );
     }
