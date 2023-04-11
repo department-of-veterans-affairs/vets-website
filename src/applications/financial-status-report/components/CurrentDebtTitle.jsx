@@ -49,15 +49,18 @@ export const CurrentDebtDescription = ({ formContext }) => {
   );
 };
 
+// pagePerItemIndex is string in form, and populates as number in reivew page edit mode
 CurrentDebtTitle.propTypes = {
   formContext: PropTypes.shape({
-    pagePerItemIndex: PropTypes.number.isRequired,
+    pagePerItemIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
   }),
 };
 
 CurrentDebtDescription.propTypes = {
   formContext: PropTypes.shape({
-    pagePerItemIndex: PropTypes.number.isRequired,
+    pagePerItemIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
     pageTitle: PropTypes.string.isRequired,
   }),
 };

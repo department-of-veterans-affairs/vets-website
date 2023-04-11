@@ -163,9 +163,10 @@ const ResolutionOptions = ({ formContext }) => {
   );
 };
 
+// pagePerItemIndex is string in form, and populates as number in reivew page edit mode
 ResolutionOptions.propTypes = {
   formContext: PropTypes.shape({
-    pagePerItemIndex: PropTypes.number.isRequired,
+    pagePerItemIndex: PropTypes.string.isRequired,
     submitted: PropTypes.bool,
     onReviewPage: PropTypes.bool,
     reviewMode: PropTypes.bool,

@@ -85,9 +85,10 @@ const ResolutionWaiverAgreement = ({ formContext }) => {
   );
 };
 
+// pagePerItemIndex is string in form, and populates as number in reivew page edit mode
 ResolutionWaiverAgreement.propTypes = {
   formContext: PropTypes.shape({
-    pagePerItemIndex: PropTypes.number,
+    pagePerItemIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     submitted: PropTypes.bool,
   }),
 };
