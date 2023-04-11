@@ -6,8 +6,6 @@ on:
   push:
     branches:
       - '**'
-env:
-  AWS_URL: https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content-build/0008051ce15e731cc01289933dfb060d6f0d4df6/vagovprod.tar.bz2
 
 jobs:
   deploy-preview-environment:
@@ -73,7 +71,10 @@ jobs:
       #     env: master/${{ github.ref_name }}/main
       #     ref: ${{ github.ref_name }}
       - name: Get most recent cache file url
-        run: aws s3 ls vetsgov-website-builds-s3-upload/content-build --recursive | sort | tail -n 1 | awk '{print $4}'
+        run: echo "MOST_RECENT_CONTENT=$(echo $(aws s3 ls vetsgov-website-builds-s3-upload/content-build --recursive | sort | tail -n 1 | awk '{print $4}'))" >> $GITHUB_ENV
+
+      - name: Trim Most Recent File path
+        run: node ./script/github-actions/pe-get-content.js
 
       - name: Get Source Repo and Source Ref
         run: node ./script/github-actions/pe-deploy-source.js

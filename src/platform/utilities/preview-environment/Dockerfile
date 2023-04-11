@@ -28,14 +28,14 @@ COPY . .
 COPY src/platform/utilities/preview-environment/start.sh .
 RUN chmod +x start.sh
 
-ARG AWS_URL
-ENV AWS_URL $AWS_URL
-
-RUN echo "The content url is: $AWS_URL"
-
 # Expose ports
 EXPOSE 3001
 EXPOSE 3002
 
+ARG AWS_URL
+ENV AWS_URL $AWS_URL
+
+RUN echo $AWS_URL
 # Configure image to execute a script on startup with ENTRYPOINT/CMD
-CMD ["./start.sh"]
+ENTRYPOINT ["./start.sh"]
+CMD ["$AWS_URL"]
