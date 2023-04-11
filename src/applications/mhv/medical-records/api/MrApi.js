@@ -60,7 +60,7 @@ export const mockGetConditionsList = () => {
 export const mockGetCondition = id => {
   return new Promise(resolve => {
     setTimeout(() => {
-      const condition = conditions.find(cond => +cond.id === +id);
+      const condition = conditions.find(cond => cond.id === id);
       resolve(condition);
     }, 1000);
   });
