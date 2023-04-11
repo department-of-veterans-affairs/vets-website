@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaTextInput,
+  VaDate,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import { isValidCurrency } from '../utils/validations';
 
 const defaultRecord = [
@@ -48,11 +52,15 @@ const InstallmentContract = props => {
     contractRecord.creditorName || null,
   );
 
+  const [fromDateError, setLoanBeganError] = useState();
+
+  const { from } = contractRecord;
+
+  const { month: fromMonth, year: fromYear } = parseISODate(from);
+
   const [submitted, setSubmitted] = useState(false);
 
-  const unpaidBalanceError = !isValidCurrency(contractRecord.unpaidBalance)
-    ? 'Please enter the unpaid balance amount'
-    : null;
+  const contractBeganError = 'Please enter the contract start date';
 
   const minMonthlyPaymentError = !isValidCurrency(
     contractRecord.minMonthlyPayment,
@@ -60,13 +68,7 @@ const InstallmentContract = props => {
     ? 'Please enter the minimum monthly payment amount'
     : null;
 
-  const typeError = !contractType ? 'Please enter your employer name.' : null;
-
-  const amountOverdueError =
-    !isValidCurrency(contractRecord.amountOverdue) &&
-    !contractRecord.amountOverdue === ''
-      ? 'Please enter a valid dollar amount'
-      : null;
+  const typeError = !contractType ? 'Please enter the contract type' : null;
 
   const handleChange = (key, value) => {
     setContractRecord({
@@ -85,6 +87,10 @@ const InstallmentContract = props => {
     setCreditorName(event.target.value);
   };
 
+  const handleOriginalLoanAmountChange = event => {
+    handleChange('originalLoanAmount', event.target.value);
+  };
+
   const handleUnpaidBalanceChange = event => {
     handleChange('unpaidBalance', event.target.value);
   };
@@ -97,6 +103,23 @@ const InstallmentContract = props => {
     handleChange('amountOverdue', event.target.value);
   };
 
+  const validateLoanBegan = (monthYear, errorSetter, requiredMessage) => {
+    const [year] = monthYear.split('-');
+    const todayYear = new Date().getFullYear();
+    const isComplete = /\d{4}-\d{1,2}/.test(monthYear);
+    if (!isComplete) {
+      // This allows a custom required error message to be used
+      errorSetter(requiredMessage);
+    } else if (
+      !!year &&
+      (parseInt(year, 10) > todayYear || parseInt(year, 10) < 1900)
+    ) {
+      errorSetter(`Please enter a year between 1900 and ${todayYear}`);
+    } else {
+      errorSetter(null);
+    }
+  };
+
   const RETURN_PATH = '/installment-contracts-summary';
 
   const updateFormData = e => {
@@ -104,10 +127,18 @@ const InstallmentContract = props => {
     e.preventDefault();
     const newInstallmentContractArray = [...installmentContracts];
     newInstallmentContractArray[index] = contractRecord;
-    if (contractRecord.minMonthlyPayment && contractRecord.unpaidBalance) {
+    if (contractRecord.contractType && contractRecord.minMonthlyPayment) {
       // if amountOverdue is NaN, set it to 0 in order to satisfy va-number-input
       if (!isValidCurrency(contractRecord.amountOverdue)) {
         contractRecord.amountOverdue = 0;
+      }
+
+      if (!isValidCurrency(contractRecord.originalLoanAmount)) {
+        contractRecord.originalLoanAmount = 0;
+      }
+
+      if (!isValidCurrency(contractRecord.unpaidBalance)) {
+        contractRecord.unpaidBalance = 0;
       }
 
       // update form data
@@ -136,6 +167,10 @@ const InstallmentContract = props => {
     onBack: event => {
       event.preventDefault();
       goToPath(RETURN_PATH);
+    },
+    handleDateChange: (key, monthYear) => {
+      const dateString = `${monthYear}-XX`;
+      handleChange(key, dateString);
     },
   };
 
@@ -174,9 +209,20 @@ const InstallmentContract = props => {
       </div>
       <div className="input-size-4">
         <va-number-input
-          error={(submitted && unpaidBalanceError) || null}
           hint={null}
-          required
+          currency
+          inputmode="numeric"
+          label="Original loan amount"
+          name="originalLoanAmount"
+          id="originalLoanAmount"
+          onInput={handleOriginalLoanAmountChange}
+          value={contractRecord.originalLoanAmount}
+        />
+      </div>
+      <div className="input-size-4">
+        <va-number-input
+          hint={null}
+          currency
           inputmode="numeric"
           label="Unpaid balance"
           name="unpaidBalance"
@@ -189,6 +235,7 @@ const InstallmentContract = props => {
         <va-number-input
           error={(submitted && minMonthlyPaymentError) || null}
           hint={null}
+          currency
           required
           inputmode="numeric"
           label="Minimum monthly payment amount"
@@ -198,10 +245,28 @@ const InstallmentContract = props => {
           value={contractRecord.minMonthlyPayment}
         />
       </div>
+      <div>
+        <VaDate
+          monthYearOnly
+          value={`${fromYear}-${fromMonth}`}
+          label="Date the loan began"
+          name="loanBegan"
+          onDateChange={e => handlers.handleDateChange('from', e.target.value)}
+          onDateBlur={e =>
+            validateLoanBegan(
+              e.target.value || '',
+              setLoanBeganError,
+              contractBeganError,
+            )
+          }
+          required
+          error={fromDateError}
+        />
+      </div>
       <div className="input-size-4">
         <va-number-input
-          error={(submitted && amountOverdueError) || null}
           hint={null}
+          currency
           inputmode="numeric"
           label="Amount overdue"
           name="amountOverdue"

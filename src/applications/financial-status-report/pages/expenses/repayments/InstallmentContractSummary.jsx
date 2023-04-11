@@ -21,7 +21,7 @@ const InstallmentContractSummary = ({
 
   const formData = useSelector(state => state.form.data);
   const { expenses } = formData;
-  const { installmentContracts } = expenses || [];
+  const { installmentContracts = [] } = expenses;
 
   useEffect(() => {
     clearJobIndex();
@@ -34,7 +34,7 @@ const InstallmentContractSummary = ({
     },
     onBack: event => {
       event.preventDefault();
-      goToPath('/your-installment-contracts');
+      goToPath('/installment-contracts');
     },
   };
 
@@ -72,7 +72,7 @@ const InstallmentContractSummary = ({
           Minimum monthly payment amount:{' '}
           <strong>{currencyFormatter(bill.minMonthlyPayment)}</strong>
           <br />
-          Date received: <strong>{bill.dateBegan}</strong>
+          Date received: <strong>{bill.from}</strong>
           <br />
           Amount overdue:{' '}
           <strong>{currencyFormatter(bill.amountOverdue)}</strong>
@@ -111,6 +111,20 @@ const InstallmentContractSummary = ({
       >
         Add additional installment contract or other debt
       </Link>
+      <va-additional-info
+        class="vads-u-margin-top--4"
+        trigger="What are examples of installment contracts or other debt?"
+      >
+        Examples of installment contracts or other debt include:
+        <br />
+        <ul>
+          <li>Medical bills</li>
+          <li>Student loans</li>
+          <li>Auto loans</li>
+          <li>Home loans</li>
+          <li>Personal debts</li>
+        </ul>
+      </va-additional-info>
       {contentBeforeButtons}
       <FormNavButtons goBack={handlers.onBack} submitToContinue />
       {contentAfterButtons}{' '}
