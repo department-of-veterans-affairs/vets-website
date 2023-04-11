@@ -44,6 +44,6 @@ describe('Check In Experience -- ', () => {
     Error.validatePageLoaded();
     cy.injectAxe();
     cy.axeCheck();
-    cy.createScreenshots('Day-of-check-in--Error');
+    cy.createScreenshots('Day-of-check-in--Error-on-check-in-no-travel-claim');
   });
 });
