@@ -498,6 +498,7 @@ legend.schemaform-label.schemaform-file-label {
     border-bottom: 0.5rem solid var(--color-secondary-lightest);
     > .usa-button-unstyled {
       background-color: $color-secondary-lightest;
+      padding-left: 2rem;
     }
     .schemaform-review-chapter-error-icon {
       position: absolute;
