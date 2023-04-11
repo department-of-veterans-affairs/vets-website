@@ -27,6 +27,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
 
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
@@ -42,12 +48,6 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
-
-      - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Install dependencies
         uses: ./.github/workflows/install
