@@ -100,7 +100,14 @@ const LandingPage = () => {
               your care team and ask them to add it for you.
             </p>
             <p>
-              <a href="/my-health/secure-messaging/compose">
+              <a
+                href={mhvUrl(
+                  isAuthenticatedWithSSOe(fullState),
+                  'secure-messaging',
+                )}
+                target="_blank"
+                rel="noreferrer"
+              >
                 Start a new message
               </a>
             </p>
@@ -177,7 +184,14 @@ const LandingPage = () => {
             </p>
             <p>Send a message to your care team</p>
             <p>
-              <a href="/my-health/secure-messaging/compose">
+              <a
+                href={mhvUrl(
+                  isAuthenticatedWithSSOe(fullState),
+                  'secure-messaging',
+                )}
+                target="_blank"
+                rel="noreferrer"
+              >
                 Start a new message
               </a>
             </p>
@@ -189,33 +203,26 @@ const LandingPage = () => {
               If you need help sooner, use one of these urgent communication
               options:
             </p>
-            <p>
-              <ul>
-                <li>
-                  <p>
-                    <strong>
-                      If you’re in crisis or having thoughts of suicide,
-                    </strong>{' '}
-                    connect with our Veterans Crisis Line. We offer confidential
-                    support anytime, day or night.
-                  </p>
-                  <a
-                    href="https://www.veteranscrisisline.net/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Connect with the Veterans Crisis Line
-                  </a>
-                </li>
-                <li>
-                  <strong>
-                    If you think your life or health is in danger,
-                  </strong>{' '}
-                  call <va-telephone contact="911" /> or go to the nearest
-                  emergency room.
-                </li>
-              </ul>
-            </p>
+            <ul>
+              <li>
+                <strong>
+                  If you’re in crisis or having thoughts of suicide,
+                </strong>{' '}
+                connect with our Veterans Crisis Line. We offer confidential
+                support anytime, day or night.
+                <p
+                  className="va-overlay-trigger vads-u-text-decoration--underline vads-u-color--link-default vads-u-margin-x--0p5"
+                  data-show="#modal-crisisline"
+                >
+                  Connect with the Veterans Crisis Line
+                </p>
+              </li>
+              <li>
+                <strong>If you think your life or health is in danger,</strong>{' '}
+                call <va-telephone contact="911" /> or go to the nearest
+                emergency room.
+              </li>
+            </ul>
             <p>
               <strong>For questions about how to use this tool</strong>
             </p>
