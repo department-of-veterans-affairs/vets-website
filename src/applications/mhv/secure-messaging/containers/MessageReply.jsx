@@ -51,7 +51,7 @@ const MessageReply = () => {
     return (
       <>
         {messageHistory?.length > 0 && (
-          <MessageThread messageHistory={messageHistory} />
+          <MessageThread messageHistory={messageHistory} isDraftThread />
         )}
       </>
     );

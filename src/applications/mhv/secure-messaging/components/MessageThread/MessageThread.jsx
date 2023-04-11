@@ -11,7 +11,7 @@ import {
 
 const MessageThread = props => {
   const dispatch = useDispatch();
-  const { messageHistory } = props;
+  const { messageHistory, isDraftThread } = props;
   const [viewCount, setViewCount] = useState(5);
   const accordionRef = useRef();
 
@@ -94,7 +94,12 @@ const MessageThread = props => {
               {messageHistory.map((m, i) => {
                 return (
                   i < viewCount && (
-                    <MessageThreadItem key={m.messageId} message={m} expanded />
+                    <MessageThreadItem
+                      key={m.messageId}
+                      message={m}
+                      isDraftThread={isDraftThread}
+                      expanded
+                    />
                   )
                 );
               })}
@@ -132,6 +137,7 @@ const MessageThread = props => {
 };
 
 MessageThread.propTypes = {
+  isDraftThread: PropType.bool,
   messageHistory: PropType.array,
 };
 

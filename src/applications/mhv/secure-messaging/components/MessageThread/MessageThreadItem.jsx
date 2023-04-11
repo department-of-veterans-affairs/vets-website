@@ -13,21 +13,21 @@ const MessageThreadItem = props => {
   const dispatch = useDispatch();
   const accordionItemRef = useRef();
   const [isExpanded, setIsExpanded] = useState(false);
-  const { message } = props;
+  const { message, isDraftThread } = props;
   const {
     // attachment,
     attachments,
     body,
     messageId,
     preloaded,
-    // readReceipt,
+    readReceipt,
     recipientName,
     senderName,
     sentDate,
     triageGroupName,
   } = message;
 
-  // const isRead = readReceipt === 'READ';
+  const isRead = readReceipt === 'READ';
   const fromMe = recipientName === triageGroupName;
   const from = fromMe ? 'Me' : `${senderName} ${triageGroupName}`;
 
@@ -42,7 +42,7 @@ const MessageThreadItem = props => {
 
   const handleExpand = isPreloaded => {
     if (!isPreloaded) {
-      dispatch(markMessageAsReadInThread(messageId));
+      dispatch(markMessageAsReadInThread(messageId, isDraftThread));
     }
     setIsExpanded(!isExpanded);
   };
@@ -89,7 +89,10 @@ const MessageThreadItem = props => {
     <VaAccordionItem
       className="older-message"
       ref={accordionItemRef}
-      header={dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
+      header={`${!isRead ? '[UNREAD] ' : ''}${dateFormat(
+        sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}`}
       subheader={from}
       // header={header()}
       // subheader={subheader()}
@@ -158,6 +161,7 @@ const MessageThreadItem = props => {
 };
 
 MessageThreadItem.propTypes = {
+  isDraftThread: PropTypes.bool,
   message: PropTypes.object,
   printView: PropTypes.bool,
 };

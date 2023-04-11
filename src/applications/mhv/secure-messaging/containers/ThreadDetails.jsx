@@ -113,7 +113,10 @@ const ThreadDetails = props => {
             replyMessage={draftMessageHistory[0]}
             cannotReplyAlert={cannotReplyAlert}
           />
-          <MessageThread messageHistory={draftMessageHistory.slice(1)} />
+          <MessageThread
+            messageHistory={draftMessageHistory.slice(1)}
+            isDraftThread
+          />
         </div>
       );
     }
