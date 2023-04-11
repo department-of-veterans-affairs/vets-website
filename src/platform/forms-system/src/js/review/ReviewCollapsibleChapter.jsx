@@ -400,6 +400,7 @@ class ReviewCollapsibleChapter extends React.Component {
             </h3>
             {this.props.hasUnviewedPages && (
               <va-alert
+                role="alert"
                 status="error"
                 background-only
                 aria-describedby={`collapsibleButton${this.id}`}
