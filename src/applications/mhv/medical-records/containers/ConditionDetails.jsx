@@ -39,12 +39,13 @@ const ConditionDetails = () => {
                 label: 'Health history',
               },
               {
-                url: '/my-health/medical-records/health-history/conditions',
+                url:
+                  '/my-health/medical-records/health-history/health-conditions',
                 label: 'VA health conditions',
               },
             ],
             {
-              url: `/my-health/medical-records/health-history/conditions/${conditionId}`,
+              url: `/my-health/medical-records/health-history/condition-details/${conditionId}`,
               label: conditionDetails?.name,
             },
           ),
@@ -64,7 +65,7 @@ const ConditionDetails = () => {
         <>
           <PrintHeader />
           <h1 className="condition-header">
-            {conditionDetails.name.split('(')[0]}
+            {conditionDetails.name.split(' (')[0]}
           </h1>
           <div className="time-header">
             <h2>Date and time entered: </h2>
