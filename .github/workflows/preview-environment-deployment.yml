@@ -71,8 +71,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           build-args: |
-            userid=${{ env.VETS_WEBSITE_USER_ID }}
-            AWS_URL=${{ env.AWS_URL }}
+            "userid=${{ env.VETS_WEBSITE_USER_ID }}""
+            "AWS_URL=${{ env.AWS_URL }}"
 
           context: .
           file: src/platform/utilities/preview-environment/Dockerfile
