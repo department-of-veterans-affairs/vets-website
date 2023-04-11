@@ -1,6 +1,6 @@
-import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientInboxPage from './pages/PatientInboxPage';
-import PatientInterstitialPage from './pages/PatientInterstitialPage';
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import PatientInboxPage from '../pages/PatientInboxPage';
+import PatientInterstitialPage from '../pages/PatientInterstitialPage';
 
 describe('Validate the category', () => {
   it('selects a category', () => {
