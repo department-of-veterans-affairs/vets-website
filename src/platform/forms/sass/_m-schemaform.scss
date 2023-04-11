@@ -491,19 +491,21 @@ legend.schemaform-label.schemaform-file-label {
   }
 }
 
-.schemaform-review-chapter-warning {
+.schemaform-review-chapter-error {
   .schemaform-chapter-accordion-header {
     position: relative;
+    margin-bottom: 0;
+    border-bottom: 0.5rem solid var(--color-secondary-lightest);
     > .usa-button-unstyled {
-      background-color: $color-gold-lightest;
+      background-color: $color-secondary-lightest;
     }
-    .schemaform-review-chapter-warning-icon {
+    .schemaform-review-chapter-error-icon {
       position: absolute;
-      top: 2.8rem;
-      right: 4rem;
+      top: calc(50% - 0.6em);
+      right: 2rem;
       display: block;
-      background-image: url("~uswds/dist/img/alerts/warning.png");
-      background-image: url("~uswds/dist/img/alerts/warning.svg");
+      background-image: url("~uswds/dist/img/alerts/error.png");
+      background-image: url("~uswds/dist/img/alerts/error.svg");
       width: 2em;
       height: 1.2em;
       background-size: 1.8em;
@@ -511,9 +513,9 @@ legend.schemaform-label.schemaform-file-label {
     }
   }
   .schemaform-chapter-accordion-content {
-    border-right-color: $color-gold-lightest;
-    border-left-color: $color-gold-lightest;
-    border-bottom-color: $color-gold-lightest;
+    border-right-color: $color-secondary-lightest;
+    border-left-color: $color-secondary-lightest;
+    border-bottom-color: $color-secondary-lightest;
   }
 }
 
@@ -639,15 +641,6 @@ legend.schemaform-label.schemaform-file-label {
 .schemaform-confirmation-claim-header {
   font-size: $h4-font-size;
   margin-top: 1em;
-}
-
-.usa-accordion,
-.usa-accordion-bordered {
-  > ul {
-    button {
-      border-radius: $button-border-radius;
-    }
-  }
 }
 
 .schemaform-title-underline {

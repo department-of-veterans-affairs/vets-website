@@ -359,7 +359,7 @@ class ReviewCollapsibleChapter extends React.Component {
     }
 
     const classes = classNames('usa-accordion-bordered', 'form-review-panel', {
-      'schemaform-review-chapter-warning': this.props.hasUnviewedPages,
+      'schemaform-review-chapter-error': this.props.hasUnviewedPages,
     });
 
     const headerClasses = classNames(
@@ -394,20 +394,19 @@ class ReviewCollapsibleChapter extends React.Component {
               {this.props.hasUnviewedPages && (
                 <span
                   aria-describedby={`collapsibleButton${this.id}`}
-                  className="schemaform-review-chapter-warning-icon"
+                  className="schemaform-review-chapter-error-icon"
                 />
               )}
             </h3>
             {this.props.hasUnviewedPages && (
-              <span
-                className="vads-u-color--secondary vads-u-border-left--10px vads-u-border-color--secondary vads-u-display--flex vads-u-padding-left--1p5 vads-u-align-items--center vads-u-font-weight--bold"
-                role="alert"
-                style={{ minHeight: '50px' }}
+              <va-alert
+                status="error"
+                background-only
                 aria-describedby={`collapsibleButton${this.id}`}
               >
                 <span className="sr-only">Error</span>
                 {chapterTitle} needs to be updated
-              </span>
+              </va-alert>
             )}
             <div id={`collapsible-${this.id}`}>{pageContent}</div>
           </li>
