@@ -4,7 +4,7 @@
 echo "Download dev content-build to website dir"
 
 cd ..
-curl -LO ${AWS_URL}/vagovprod.tar.bz2
+curl -LO ${AWS_URL}
 
 echo "Setup content-build and extract pre-built content into content-build/build/localhost"
 echo "make the build folder"
