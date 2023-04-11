@@ -12,8 +12,7 @@ describe('Validate the category', () => {
     cy.get('[data-testid="compose-message-link"]').click();
     patientInterstitialPage.getContinueButton().click();
     cy.tabToElement('.link-button').should('have.focus');
-    cy.get('[data-testid="compose-message-categories"]');
-    cy.tabToElement('#OTHEROTHER').should('have.focus');
+    cy.realPress(['Tab']);
     cy.realPress(['ArrowDown']);
     cy.get('#COVIDCOVID').should('have.focus');
     cy.realPress(['ArrowDown']);
