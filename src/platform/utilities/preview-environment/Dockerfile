@@ -35,7 +35,6 @@ EXPOSE 3002
 ARG AWS_URL
 ENV AWS_URL $AWS_URL
 
-RUN echo $AWS_URL
 # Configure image to execute a script on startup with ENTRYPOINT/CMD
 ENTRYPOINT ["./start.sh"]
 CMD ["$AWS_URL"]
