@@ -756,8 +756,8 @@ describe.skip('Schemaform review: SubmitController', () => {
     );
 
     const customComponent = tree.queryAllByText('Hello from CustomComponent!');
-    const defaultComponent = tree.getByText(
-      'I agree to the terms and conditions.',
+    const defaultComponent = tree.container.querySelector(
+      'va-checkbox[label="I agree to the terms and conditions."]',
     );
 
     expect(customComponent).to.be.an('array').that.is.empty;

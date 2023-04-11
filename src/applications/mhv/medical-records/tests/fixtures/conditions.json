@@ -1,0 +1,35 @@
+
+[
+    {
+        "id": 160,
+        "name": "Back pain",
+        "active": true,
+        "provider": "Becky",
+        "location": "chiropractor's office",
+        "comments": []
+    },
+    {
+        "id": 161,
+        "name": "Sick sinus syndrome",
+        "active": true,
+        "provider": "Becky",
+        "location": "No one nose",
+        "comments": []
+    },
+    {
+        "id": 162,
+        "name": "Asthma",
+        "active": true,
+        "provider": "Becky",
+        "location": "Lung doctor's office",
+        "comments": []
+    },
+    {
+        "id": 163,
+        "name": "Hypertension",
+        "active": true,
+        "provider": "Becky",
+        "location": "Cardiologist's office",
+        "comments": []
+    }
+]

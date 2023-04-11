@@ -28,7 +28,7 @@ class PatientComposePage {
   verifySendMessageConfirmationMessage = () => {
     cy.get('.vads-u-margin-bottom--1').should(
       'have.text',
-      'Message was successfully sent.',
+      'Secure message was successfully sent.',
     );
   };
 
@@ -130,7 +130,7 @@ class PatientComposePage {
   };
 
   verifyAttachmentErrorMessage = errormessage => {
-    cy.get('[data-testid="attach-file-error-modal"] p')
+    cy.get('[data-testid="file-input-error-message"]')
       .should('have.text', errormessage)
       .should('be.visible');
   };

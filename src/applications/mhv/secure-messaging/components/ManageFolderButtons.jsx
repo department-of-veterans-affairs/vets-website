@@ -13,7 +13,7 @@ import {
   retrieveFolder,
 } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
-import { Alerts } from '../util/constants';
+import { Alerts, ErrorMessages } from '../util/constants';
 
 const ManageFolderButtons = () => {
   const dispatch = useDispatch();
@@ -76,9 +76,9 @@ const ManageFolderButtons = () => {
     folderMatch = null;
     folderMatch = folders.filter(testFolder => testFolder.name === folderName);
     if (folderName === '' || folderName.match(/^[\s]+$/)) {
-      setNameWarning('Folder name cannot be blank');
+      setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_REQUIRED);
     } else if (folderMatch.length > 0) {
-      setNameWarning('Folder name already in use. Please use another name.');
+      setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
     } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
       closeRenameModal();
       dispatch(renameFolder(folderId, folderName)).then(() => {
@@ -89,7 +89,7 @@ const ManageFolderButtons = () => {
       });
     } else {
       setNameWarning(
-        'Folder name can only contain letters, numbers, and spaces.',
+        ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
       );
     }
   };

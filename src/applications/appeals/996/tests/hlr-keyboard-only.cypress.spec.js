@@ -140,7 +140,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
       // Review & submit page
       cy.url().should('include', 'review-and-submit');
-      cy.tabToElement('[name="privacyAgreementAccepted"]');
+      cy.tabToElement('input[type="checkbox"]');
       cy.realPress('Space');
       cy.tabToSubmitForm();
 

@@ -28,7 +28,7 @@ describe('Edu 5490 benefitSelection', () => {
       'input',
     ).concat(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select'));
 
-    expect(fields.length).to.equal(2);
+    expect(fields.length).to.equal(8);
   });
 
   it('should show nested content', () => {

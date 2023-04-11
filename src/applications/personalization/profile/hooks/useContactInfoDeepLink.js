@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { FIELD_IDS } from '@@vap-svc/constants';
-import { useFeatureToggle } from '../../hooks/useFeatureToggle';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { PROFILE_PATHS } from '../constants';
 
 export const useContactInfoDeepLink = () => {

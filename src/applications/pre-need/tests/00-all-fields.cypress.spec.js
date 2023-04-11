@@ -328,10 +328,15 @@ describe('Pre-need form VA 40-10007', () => {
       cy.get('.form-panel .usa-button-primary').click();
       cy.url().should('not.contain', '/preparer');
 
-      cy.get('label[name="privacyAgreementAccepted-label"]', {
-        timeout: Timeouts.slow,
-      });
-      cy.get('input[type="checkbox"]').click();
+      cy.get('[name="privacyAgreementAccepted"]')
+        .find('label[for="checkbox-element"]')
+        .should('be.visible');
+
+      cy.get('[name="privacyAgreementAccepted"]')
+        .find('[type="checkbox"]')
+        .check({
+          force: true,
+        });
 
       cy.axeCheck();
       cy.get('.form-progress-buttons .usa-button-primary').click();

@@ -83,7 +83,9 @@ export const VaContent = ({
           return (
             <li key={locationAndName + index} className={listClassNames}>
               <Header6>{locationAndName}</Header6>
-              <div>{readableList(issues)}</div>
+              <div>
+                {issues.length ? readableList(issues) : content.missingIssues}
+              </div>
               {formatDateRange(evidenceDates)}
               {!reviewMode && (
                 <div>
@@ -153,7 +155,9 @@ export const PrivateContent = ({
           return (
             <li key={providerFacilityName + index} className={listClassNames}>
               <Header6>{providerFacilityName}</Header6>
-              <div>{readableList(issues)}</div>
+              <div>
+                {issues.length ? readableList(issues) : content.missingIssues}
+              </div>
               {formatDateRange(treatmentDateRange)}
               {!reviewMode && (
                 <div>

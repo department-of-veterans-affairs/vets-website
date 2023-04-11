@@ -419,14 +419,15 @@ const formConfig = {
         enhancedSpouseEmploymentRecords: {
           path: 'enhanced-spouse-employment-records',
           title: 'Employment',
-          uiSchema: pages.enhancedEmploymentRecords.uiSchema,
-          schema: pages.enhancedEmploymentRecords.schema,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
           depends: formData =>
             formData.questions.isMarried &&
             formData.questions.spouseIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: EnhancedSpouseEmploymentRecord,
+          CustomPageReview: null,
         },
         enhancedSpouseGrossMonthlyIncome: {
           path: 'spouse-gross-monthly-income',

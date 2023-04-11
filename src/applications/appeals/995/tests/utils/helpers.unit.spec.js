@@ -1,13 +1,7 @@
 import moment from 'moment';
 import { expect } from 'chai';
 
-import {
-  SELECTED,
-  LEGACY_TYPE,
-  EVIDENCE_VA,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_OTHER,
-} from '../../constants';
+import { SELECTED, LEGACY_TYPE } from '../../constants';
 
 import { getDate } from '../../utils/dates';
 
@@ -31,11 +25,6 @@ import {
   readableList,
   calculateIndexOffset,
   checkContestableIssueError,
-  hasVAEvidence,
-  hasPrivateEvidence,
-  hasOtherEvidence,
-  evidenceNeedsUpdating,
-  cleanupLocationIssues,
 } from '../../utils/helpers';
 
 describe('getEligibleContestableIssues', () => {
@@ -504,114 +493,5 @@ describe('checkContestableIssueError', () => {
     expect(checkContestableIssueError({ error: 'blah' })).to.be.true;
     expect(checkContestableIssueError({ errors: [{ status: '123' }] })).to.be
       .true;
-  });
-});
-
-describe('hasVAEvidence', () => {
-  it('should return expected value', () => {
-    expect(hasVAEvidence({ [EVIDENCE_VA]: undefined })).to.be.undefined;
-    expect(hasVAEvidence({ [EVIDENCE_VA]: true })).to.be.true;
-    expect(hasVAEvidence({ [EVIDENCE_VA]: false })).to.be.false;
-  });
-});
-
-describe('hasPrivateEvidence', () => {
-  it('should return expected value', () => {
-    expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: undefined })).to.be
-      .undefined;
-    expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: true })).to.be.true;
-    expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: false })).to.be.false;
-  });
-});
-
-describe('hasOtherEvidence', () => {
-  it('should return expected value', () => {
-    expect(hasOtherEvidence({ [EVIDENCE_OTHER]: undefined })).to.be.undefined;
-    expect(hasOtherEvidence({ [EVIDENCE_OTHER]: true })).to.be.true;
-    expect(hasOtherEvidence({ [EVIDENCE_OTHER]: false })).to.be.false;
-  });
-});
-
-describe('evidenceNeedsUpdating', () => {
-  const getEvidence = ({
-    hasVa = true,
-    addIssue = 'abc',
-    locationIssues = ['abc', 'def'],
-  } = {}) => {
-    return {
-      [EVIDENCE_VA]: hasVa,
-      contestedIssues: [
-        {
-          attributes: { ratingIssueSubjectText: 'def' },
-          [SELECTED]: true,
-        },
-      ],
-      additionalIssues: addIssue ? [{ issue: addIssue, [SELECTED]: true }] : [],
-      locations: [{ issues: locationIssues }],
-    };
-  };
-
-  it('should return false if no VA evidence selected', () => {
-    const evidence = getEvidence({ hasVa: false });
-    expect(evidenceNeedsUpdating(evidence)).to.be.false;
-  });
-  it('should return false VA evidence undefined', () => {
-    const evidence = getEvidence({ hasVa: false });
-    expect(evidenceNeedsUpdating({ ...evidence, locations: null })).to.be.false;
-  });
-  it('should return false if no updates needed', () => {
-    const evidence = getEvidence();
-    expect(evidenceNeedsUpdating(evidence)).to.be.false;
-  });
-  it('should return true if issue no longer exists', () => {
-    const evidence = getEvidence({ addIssue: '' });
-    expect(evidenceNeedsUpdating(evidence)).to.be.true;
-  });
-  it('should return true if issue is renamed', () => {
-    const evidence = getEvidence({ addIssue: 'acb' });
-    expect(evidenceNeedsUpdating(evidence)).to.be.true;
-  });
-});
-
-describe('cleanupLocationIssues', () => {
-  const getEvidence = ({
-    addIssue = 'abc',
-    locationIssues = ['abc', 'def'],
-  } = {}) => {
-    return {
-      contestedIssues: [
-        {
-          attributes: { ratingIssueSubjectText: 'def' },
-          [SELECTED]: true,
-        },
-      ],
-      additionalIssues: addIssue ? [{ issue: addIssue, [SELECTED]: true }] : [],
-      locations: [{ issues: locationIssues }],
-    };
-  };
-
-  it('should return same location issues', () => {
-    const evidence = getEvidence();
-    expect(cleanupLocationIssues(evidence)).to.deep.equal([
-      { issues: ['abc', 'def'] },
-    ]);
-    expect(
-      cleanupLocationIssues({ ...evidence, locations: null }),
-    ).to.deep.equal([]);
-    expect(
-      cleanupLocationIssues({ ...evidence, locations: [{ issues: null }] }),
-    ).to.deep.equal([{ issues: [] }]);
-  });
-  it('should remove missing additional issue', () => {
-    const evidence = getEvidence({ addIssue: '' });
-    expect(cleanupLocationIssues(evidence)).to.deep.equal([
-      { issues: ['def'] },
-    ]);
-  });
-  it('should remove missing contested issue', () => {
-    const evidence = getEvidence();
-    expect(
-      cleanupLocationIssues({ ...evidence, contestedIssues: [] }),
-    ).to.deep.equal([{ issues: ['abc'] }]);
   });
 });
