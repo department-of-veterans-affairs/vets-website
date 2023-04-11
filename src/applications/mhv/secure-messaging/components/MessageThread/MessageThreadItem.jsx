@@ -47,6 +47,32 @@ const MessageThreadItem = props => {
     setIsExpanded(!isExpanded);
   };
 
+  // const header = () => {
+  //   return (
+  //     <>
+  //       <i
+  //         className="unread-icon fas fa-circle"
+  //         aria-hidden
+  //         style={{ visibility: isRead === true ? 'hidden' : '' }}
+  //       />
+  //       {dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
+  //     </>
+  //   );
+  // };
+
+  // const subheader = () => {
+  //   return (
+  //     <>
+  //       <i
+  //         className="fas fa-paperclip"
+  //         aria-hidden
+  //         style={{ visibility: attachments !== true ? 'hidden' : '' }}
+  //       />
+  //       {from}
+  //     </>
+  //   );
+  // };
+
   // const ariaLabel = useMemo(
   //   () => {
   //     return `${!isRead ? 'New' : ''} message ${
@@ -65,6 +91,8 @@ const MessageThreadItem = props => {
       ref={accordionItemRef}
       header={dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
       subheader={from}
+      // header={header()}
+      // subheader={subheader()}
       onAccordionItemToggled={() => {
         handleExpand(preloaded);
       }}
