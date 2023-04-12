@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { InitializeVAPServiceID } from '~/platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
-import { ProfileInformationFieldController } from '~/platform/user/profile/vap-svc/components/ProfileInformationFieldController';
+import { useSelector } from 'react-redux';
+import InitializeVAPServiceIDContainer from '~/platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
+import ProfileInformationFieldController from '~/platform/user/profile/vap-svc/components/ProfileInformationFieldController';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
+import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 
 const useQuery = () => {
   const { search } = useLocation();
@@ -25,6 +27,10 @@ export const Edit = () => {
   const fieldName = query.get('fieldName');
   const returnPathName = getPathName(returnPath);
 
+  const hasVAPServiceError = useSelector(state =>
+    hasVAPServiceConnectionError(state),
+  );
+
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
@@ -45,16 +51,18 @@ export const Edit = () => {
     <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseFieldEditingPage}>
       <Toggler.Enabled>
         <div className="vads-u-display--block medium-screen:vads-u-display--block">
-          {fieldName && (
-            <InitializeVAPServiceID>
-              <ProfileInformationFieldController
-                fieldName={fieldName}
-                isDeleteDisabled
-                cancelCallback={handlers.cancel}
-                successCallback={handlers.success}
-              />
-            </InitializeVAPServiceID>
-          )}
+          {fieldName &&
+            !hasVAPServiceError && (
+              <InitializeVAPServiceIDContainer>
+                <ProfileInformationFieldController
+                  fieldName={fieldName}
+                  forceEditView
+                  isDeleteDisabled
+                  cancelCallback={handlers.cancel}
+                  successCallback={handlers.success}
+                />
+              </InitializeVAPServiceIDContainer>
+            )}
           <Link to={returnPath}>{`Return to ${returnPathName}`}</Link>
         </div>
       </Toggler.Enabled>
