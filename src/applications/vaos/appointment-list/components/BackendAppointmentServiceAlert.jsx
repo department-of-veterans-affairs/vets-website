@@ -5,9 +5,9 @@ import { selectBackendServiceFailuresInfo } from '../redux/selectors';
 import { FETCH_STATUS, ERROR_CODES } from '../../utils/constants';
 
 function getDisplay(errorCodes, location) {
-  const isPending = location.pathname.includes('/pending');
-  const isPast = location.pathname.includes('/past');
-  const isUpcoming = location.pathname.includes('/');
+  const isPending = location.pathname.endsWith('/pending');
+  const isPast = location.pathname.endsWith('/past');
+  const isUpcoming = location.pathname.endsWith('/');
 
   if (errorCodes.some(code => code === 10000 || code === 10006) && isPending) {
     return 'requests';

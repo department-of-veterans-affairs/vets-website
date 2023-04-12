@@ -122,8 +122,8 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
         {hasTypeChanged && 'Showing requested appointments'}
       </div>
       <>
-        <p className="vaos-hide-for-print">{paragraphText}</p>
         <BackendAppointmentServiceAlert />
+        <p className="vaos-hide-for-print">{paragraphText}</p>
 
         {!appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
           <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
