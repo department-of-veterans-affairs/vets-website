@@ -123,7 +123,7 @@ const formConfig = {
       },
     },
     recordsRequested: {
-      title: 'Records requested',
+      title: 'Treatment records',
       pages: {
         recordsRequested: {
           path: 'records-requested',
