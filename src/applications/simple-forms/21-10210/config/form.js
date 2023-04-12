@@ -3,8 +3,9 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import statementInformation1 from '../pages/statementInformation1';
+import statementInformation2 from '../pages/statementInformation2';
 // import { uiSchema as addressUiSchema } from 'src/platform/forms/definitions/address';
-import get from 'platform/utilities/data/get';
 
 // const { } = fullSchema.properties;
 
@@ -41,73 +42,16 @@ const formConfig = {
       title: 'Who is submitting this statement?',
       pages: {
         statementInformation1: {
-          path: 'statement-information',
-          title: 'Statement information',
-          uiSchema: {
-            claimOwnership: {
-              'ui:title':
-                "Are you submitting this statement to support your claim or someone else's claim?",
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  self: 'My own claim',
-                  'third-party': 'Someone else’s claim',
-                },
-              },
-            },
-            claimantType: {
-              'ui:widget': 'radio',
-              'ui:options': {
-                hideIf: formData => formData.claimOwnership === undefined,
-                updateSchema: (formData, schema, uiSchema) => {
-                  const { claimOwnership } = formData;
-                  let title;
-                  switch (claimOwnership) {
-                    case 'self':
-                      title = 'Which of these descriptions best describes you?';
-                      uiSchema['ui:options'].labels = {
-                        veteran: 'I’m a Veteran',
-                        'non-veteran': 'I’m a non-Veteran claimant',
-                      };
-                      break;
-                    case 'third-party':
-                      title =
-                        'Which of these individuals are you submitting a statement for?';
-                      uiSchema['ui:options'].labels = {
-                        veteran: 'A Veteran',
-                        'non-veteran': 'A non-Veteran claimant',
-                      };
-                      break;
-                    default:
-                      title = 'Claimant type:';
-                  }
-
-                  return {
-                    title,
-                    uiSchema,
-                  };
-                },
-                labels: {
-                  veteran: 'Veteran',
-                  'non-veteran': 'Non-Veteran',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['claimOwnership', 'claimantType'],
-            properties: {
-              claimOwnership: {
-                type: 'string',
-                enum: ['self', 'third-party'],
-              },
-              claimantType: {
-                type: 'string',
-                enum: ['veteran', 'non-veteran'],
-              },
-            },
-          },
+          path: 'claim-ownership',
+          title: 'Who is submitting this statement?',
+          uiSchema: statementInformation1.uiSchema,
+          schema: statementInformation1.schema,
+        },
+        statementInformation2: {
+          path: 'claimant-type',
+          title: 'Who is submitting this statement?',
+          uiSchema: statementInformation2.uiSchema,
+          schema: statementInformation2.schema,
         },
       },
     },
