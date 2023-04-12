@@ -6,9 +6,14 @@ import {
 } from '../api/SmApi';
 
 const findByKeyword = (keyword, messages) => {
+  // const parsedMessageId = parseInt(keyword, 10)
+  // console.log("parsedMessageId: ",parsedMessageId)
   return messages.filter(message => {
+    // const { subject, senderName, recipientName, messageId } = message.attributes;
     const { subject, senderName, recipientName } = message.attributes;
+
     return (
+      // (messageId && subject.toLowerCase().includes(parsedMessageId)) ||
       (subject && subject.toLowerCase().includes(keyword)) ||
       (senderName && senderName.toLowerCase().includes(keyword)) ||
       (recipientName && recipientName.toLowerCase().includes(keyword))

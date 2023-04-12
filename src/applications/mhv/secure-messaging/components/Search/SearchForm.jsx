@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { runBasicSearch } from '../../actions/search';
-import FilterBox from '../MessageActionButtons/FilterBox';
+import FilterBox from './FilterBox';
 
 const SearchForm = props => {
   const { folder, keyword, resultsCount, query } = props;
@@ -85,10 +85,9 @@ const SearchForm = props => {
       resultsCount === undefined ? (
         <>
           <div>
-            Search your <strong>{folder.name}</strong> messages folder
-          </div>
-          <div className="keyword-help-text">
-            Keyword (Sender, subject line, or category)
+            <h3>
+              Filter messages in <strong>{folder.name}</strong>{' '}
+            </h3>
           </div>
         </>
       ) : (
@@ -98,12 +97,6 @@ const SearchForm = props => {
           </strong>{' '}
           results {displayQuery()}
         </>
-      );
-    if (advancedOpen)
-      return (
-        <p className="vads-u-margin--0">
-          <strong>Search messages</strong>
-        </p>
       );
     return (
       <label
@@ -123,7 +116,10 @@ const SearchForm = props => {
   return (
     <div className="search-form">
       {label()}
-
+      <div className="keyword-help-text">
+        Enter information from one of these fields: to, from, message ID, or
+        subject
+      </div>
       {!advancedOpen && (
         <>
           {searchTermError && (
@@ -133,7 +129,7 @@ const SearchForm = props => {
             </div>
           )}
           <VaSearchInput
-            buttonText={window.innerWidth <= 481 ? null : 'Search'}
+            buttonText={window.innerWidth <= 481 ? null : 'Filter'}
             onInput={e => setSearchTerm(e.target.value)}
             onSubmit={handleSearch}
             value={searchTerm}
@@ -142,11 +138,19 @@ const SearchForm = props => {
           />
         </>
       )}
+      <va-additional-info
+        trigger="What's a message ID?"
+        class="message-id-info"
+      >
+        A message ID is a number we assign to each message. If you sign up for
+        email notifications, we’ll send you an email each time you get a new
+        message. These emails include the message ID.
+      </va-additional-info>
 
       {folders && (
-        <>
-          <FilterBox />
-        </>
+        <div>
+          <FilterBox folderId={folder.folderId} />
+        </div>
       )}
     </div>
   );
