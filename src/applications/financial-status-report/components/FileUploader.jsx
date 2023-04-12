@@ -27,8 +27,8 @@ const FileUploader = ({ files, onAddFile }) => {
     Scroll.scroller.scrollTo(`documentScroll${position}`, options);
   };
 
-  const handleChange = async uploadedFile => {
-    const file = uploadedFile[0];
+  const handleChange = async event => {
+    const file = event?.detail?.files[0];
     const extraData = {};
 
     const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
