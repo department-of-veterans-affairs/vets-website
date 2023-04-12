@@ -9,7 +9,7 @@ const MessageThreadBody = props => {
   return (
     <div className="vads-u-padding-y--1 ">
       <>
-        <span className="vads-u-margin-y--0">
+        <span data-testid="message-body" className="vads-u-margin-y--0">
           {words?.map((word, i) => {
             return (word.match(urlRegex) || word.match(httpRegex)) &&
               words.length >= 1 ? (

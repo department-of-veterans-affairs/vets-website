@@ -99,6 +99,7 @@ const MessageThreadItem = props => {
       onAccordionItemToggled={() => {
         handleExpand(preloaded);
       }}
+      data-testid={`expand-message-button-${messageId}`}
     >
       <div>
         <MessageThreadMeta message={message} fromMe={fromMe} />

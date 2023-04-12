@@ -331,7 +331,9 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName}`,
+        `From: ${messageDetails.data.attributes.senderName} (${
+          messageDetails.data.attributes.triageGroupName
+        })`,
       );
   };
 
@@ -364,11 +366,11 @@ class PatientMessageDetailsPage {
   };
 
   ReplyToMessagebody = messageBody => {
-    cy.get(
-      '.vads-u-margin-top--1 > .message-list-body-collapsed > .vads-u-margin-y--0',
-    ).should($mbody => {
-      expect($mbody.text()).to.contain(messageBody);
-    });
+    cy.get('[data-testid="message-replied-to"]')
+      .find('[data-testid="message-body"]')
+      .should($mbody => {
+        expect($mbody.text()).to.contain(messageBody);
+      });
   };
 }
 
