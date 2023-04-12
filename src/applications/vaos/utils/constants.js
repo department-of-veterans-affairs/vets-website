@@ -422,3 +422,21 @@ export const CANCELLATION_REASONS = {
 };
 
 export const SPACE_BAR = 32;
+
+export const ERROR_CODES = [
+  {
+    status: 'upcoming',
+    display: 'appointments',
+    code: 10000,
+  },
+  {
+    status: 'past',
+    display: 'appointments',
+    code: 10005,
+  },
+  {
+    status: 'pending',
+    display: 'requests',
+    code: 10006,
+  },
+];

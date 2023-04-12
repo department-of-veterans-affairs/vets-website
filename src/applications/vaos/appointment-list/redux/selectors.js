@@ -318,6 +318,8 @@ export function selectCommunityCareDetailsInfo(state, id) {
 export function selectBackendServiceFailuresInfo(state) {
   const { backendServiceFailures } = state.appointments;
   return {
+    pastStatus: state.appointments.pastStatus,
+    pendingStatus: state.appointments.pending,
     futureStatus: selectFutureStatus(state),
     backendServiceFailures,
   };
