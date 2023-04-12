@@ -11,7 +11,7 @@ describe('LabsAndTestsListItem component', () => {
     mr: {
       labsAndTests: {
         labsAndTestsList: labsAndTests,
-        labsAndTestDetails: labsAndTests[0],
+        labsAndTestsDetails: labsAndTests[0],
       },
     },
   };
