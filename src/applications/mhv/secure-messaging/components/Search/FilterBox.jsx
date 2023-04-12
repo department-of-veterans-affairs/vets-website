@@ -15,7 +15,6 @@ import {
 } from '../../util/inputContants';
 import { runAdvancedSearch } from '../../actions/search';
 import { dateFormat } from '../../util/helpers';
-// import { DefaultFolders as Folders } from '../../util/constants';
 
 const FilterBox = props => {
   const {
@@ -31,7 +30,7 @@ const FilterBox = props => {
   const [folder] = useState(0);
   const [messageId] = useState('');
   const [senderName] = useState('');
-  const [subject, setSubject] = useState('');
+  const [subject] = useState('');
   const [category, setCategory] = useState('');
   const [dateRange, setDateRange] = useState('any');
   const [fromDate, setFromDate] = useState('');
@@ -114,8 +113,7 @@ const FilterBox = props => {
     }
 
     const folderData = folders.find(item => +item.id === +folder);
-    // console.log("folderData: ",folderData)
-
+    // console.log(folderData)
     dispatch(
       runAdvancedSearch(folderData, {
         messageId,
@@ -162,45 +160,6 @@ const FilterBox = props => {
             Additional filters
           </h6>
           <div className="filter-content">
-            {/* <VaSelect
-        id="folder-dropdown"
-        label="Folder"
-        name="folder"
-        value={folder}
-        class="advanced-search-field"
-        onVaSelect={e => setFolder(e.detail.value)}
-        data-testid="folder-dropdown"
-        required
-        enable-analytics
-      >
-        {folders?.length > 0 &&
-          folders?.map(item => (
-            <option key={item.id} value={item.id}>
-              {item.id === Folders.DELETED.id
-                ? Folders.DELETED.header
-                : item.name}
-            </option>
-          ))}
-      </VaSelect> */}
-            {/* 
-      <va-text-input
-        label="From"
-        name="from"
-        onBlur={e => setSenderName(e.target.value)}
-        value={senderName}
-        class="advanced-search-field"
-        data-testid="sender-text-input"
-      />
-      */}
-            <va-text-input
-              label="Subject"
-              name="subject"
-              onBlur={e => setSubject(e.target.value)}
-              value={subject}
-              class="advanced-search-field"
-              data-testid="subject-text-input"
-            />
-
             <VaSelect
               id="category-dropdown"
               label="Category"
@@ -259,20 +218,6 @@ const FilterBox = props => {
                 </div>
               </div>
             )}
-
-            {/* <va-text-input
-        label="Message ID"
-        name="messageId"
-        onBlur={e => setMessageId(e.target.value)}
-        value={messageId}
-        class="advanced-search-field"
-        data-testid="message-id-text-input"
-      />
-      <va-additional-info trigger="What's this?" class="message-id-info">
-        A message ID is a number we assign to each message. If you sign up for
-        email notifications, we’ll send you an email each time you get a new
-        message. These emails include the message ID.
-      </va-additional-info> */}
 
             <va-button
               class="advanced-search-button"
