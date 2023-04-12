@@ -45,6 +45,16 @@ export const content = {
     </>
   ),
 
+  // remove messages
+  removeEvidence: {
+    title: 'Are you sure you want to remove this evidence?',
+    limitationTitle: 'Are you sure you want to remove the request limitation?',
+    va: 'We will remove the VA medical record request for',
+    private: 'We will remove the private medical record request for',
+    limitation: '',
+    upload: 'We will remove the uploaded document',
+  },
+
   // error messages
   missing: {
     location: (
