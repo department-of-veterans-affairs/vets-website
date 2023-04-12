@@ -1093,27 +1093,27 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       status: 'booked',
     };
 
-    //     mockSingleClinicFetchByVersion({
-    //       clinicId: '455',
-    //       locationId: '983GC',
-    //       clinicName: 'Some fancy clinic name',
-    //     });
-    //
-    //     mockSingleVAOSAppointmentFetch({ appointment });
-    //
-    //     mockFacilityFetchByVersion({
-    //       facility: createMockFacilityByVersion({
-    //         id: '442GC',
-    //         name: 'Cheyenne VA Medical Center',
-    //         phone: '970-224-1550',
-    //         address: {
-    //           postalCode: '82001-5356',
-    //           city: 'Cheyenne',
-    //           state: 'WY',
-    //           line: ['2360 East Pershing Boulevard'],
-    //         },
-    //       }),
-    //     });
+    mockSingleClinicFetchByVersion({
+      clinicId: '455',
+      locationId: '983GC',
+      clinicName: 'Some fancy clinic name',
+    });
+
+    mockSingleVAOSAppointmentFetch({ appointment });
+
+    // mockFacilityFetchByVersion({
+    //   facility: createMockFacilityByVersion({
+    //     id: '442GC',
+    //     name: 'Cheyenne VA Medical Center',
+    //     phone: '970-224-1550',
+    //     address: {
+    //       postalCode: '82001-5356',
+    //       city: 'Cheyenne',
+    //       state: 'WY',
+    //       line: ['2360 East Pershing Boulevard'],
+    //     },
+    //   }),
+    // });
 
     const facility = createMockCheyenneFacilityByVersion({ version: 2 });
     const realFacilityId = getRealFacilityId('983');
