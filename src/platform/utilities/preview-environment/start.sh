@@ -17,7 +17,7 @@ yarn config set "strict-ssl" false
 echo "Install, build, and watch vets-website"
 cd vets-website
 yarn install
-yarn build:webpack:local
+yarn build:webpack:local --env api="${http://localhost:3000/}"
 yarn watch &
 
 # Serve the content-build
