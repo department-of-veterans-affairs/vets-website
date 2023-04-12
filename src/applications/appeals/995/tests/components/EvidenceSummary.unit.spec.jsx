@@ -219,6 +219,21 @@ describe('<EvidenceSummary>', () => {
     });
   });
 
+  it('should not remove VA entry when "No" is selected in the modal', async () => {
+    const setFormData = sinon.spy();
+    const { container } = setupSummary({ setFormData });
+
+    // remove second VA entry
+    fireEvent.click($('va-button[label="Remove VAMC Location 2"]', container));
+
+    const modal = $('va-modal', container);
+    modal.__events.secondaryButtonClick(); // Cancel removal
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.false;
+    });
+  });
+
   it('should remove second private entry when remove is clicked', async () => {
     const setFormData = sinon.spy();
     const { container } = setupSummary({ setFormData });
@@ -236,6 +251,21 @@ describe('<EvidenceSummary>', () => {
     });
   });
 
+  it('should not remove private entry when "No" is selected in the modal', async () => {
+    const setFormData = sinon.spy();
+    const { container } = setupSummary({ setFormData });
+
+    // remove second VA entry
+    fireEvent.click($('va-button[label="Remove Private Hospital"]', container));
+
+    const modal = $('va-modal', container);
+    modal.__events.secondaryButtonClick(); // Cancel removal
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.false;
+    });
+  });
+
   it('should remove private limitations when remove is clicked', async () => {
     const setFormData = sinon.spy();
     const { container } = setupSummary({ setFormData });
@@ -248,6 +278,21 @@ describe('<EvidenceSummary>', () => {
     await waitFor(() => {
       expect(setFormData.called).to.be.true;
       expect(setFormData.args[0][0].limitedConsent).to.deep.equal('');
+    });
+  });
+
+  it('should not remove limitations when "No" is selected in the modal', async () => {
+    const setFormData = sinon.spy();
+    const { container } = setupSummary({ setFormData });
+
+    // remove second VA entry
+    fireEvent.click($('va-button[label="Remove limitations"]', container));
+
+    const modal = $('va-modal', container);
+    modal.__events.secondaryButtonClick(); // Cancel removal
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.false;
     });
   });
 
@@ -267,6 +312,21 @@ describe('<EvidenceSummary>', () => {
       expect(setFormData.args[0][0].additionalDocuments[0]).to.deep.equal(
         result,
       );
+    });
+  });
+
+  it('should not remove upload when "No" is selected in the modal', async () => {
+    const setFormData = sinon.spy();
+    const { container } = setupSummary({ setFormData });
+
+    // remove second VA entry
+    fireEvent.click($('va-button[label="Remove x-rays.pdf"]', container));
+
+    const modal = $('va-modal', container);
+    modal.__events.secondaryButtonClick(); // Cancel removal
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.false;
     });
   });
 
