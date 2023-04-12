@@ -1,9 +1,11 @@
 import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
+import footerContent from 'platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import getHelp from '../../shared/components/GetFormHelp';
 
 // pages
 import personalInformation1 from '../pages/personalInformation1';
@@ -20,8 +22,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
-  // submit: () =>
-  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'medical-release-4142-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -42,10 +42,12 @@ const formConfig = {
       'Please sign in again to continue your application for authorize release of medical information.',
   },
   title: 'Authorize the release of medical information to the VA',
+  subTitle:
+    'Authorization to disclose information to the Department of Veterans Affairs (VA) (VA Form 21-4142 & 21-4142a)',
   defaultDefinitions: fullSchema.definitions,
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    personalInformation1Chapter: {
+      title: "Veteran's personal information",
       pages: {
         personalInformation1: {
           path: 'personal-information-1',
@@ -53,6 +55,11 @@ const formConfig = {
           uiSchema: personalInformation1.uiSchema,
           schema: personalInformation1.schema,
         },
+      },
+    },
+    personalInformation2Chapter: {
+      title: "Veteran's identification information",
+      pages: {
         personalInformation2: {
           path: 'personal-information-2',
           title: "Personal Information (cont'd)",
@@ -61,8 +68,8 @@ const formConfig = {
         },
       },
     },
-    contactInformationChapter: {
-      title: 'Your contact information',
+    contactInformation1Chapter: {
+      title: "Veteran's mailing address",
       pages: {
         contactInformation1: {
           path: 'contact-information-1',
@@ -70,6 +77,11 @@ const formConfig = {
           uiSchema: contactInformation1.uiSchema,
           schema: contactInformation1.schema,
         },
+      },
+    },
+    contactInformation2Chapter: {
+      title: "Veteran's contact information",
+      pages: {
         contactInformation2: {
           path: 'contact-information-2',
           title: 'Additional contact information',
@@ -79,7 +91,7 @@ const formConfig = {
       },
     },
     patientIdentificationChapter: {
-      title: 'Your records',
+      title: 'Patient identification',
       pages: {
         patientIdentification1: {
           path: 'patient-identification-1',
@@ -90,6 +102,10 @@ const formConfig = {
         patientIdentification2: {
           path: 'patient-identification-2',
           title: 'Whose records are you granting authorization to release?',
+          depends: formData =>
+            !formData[patientIdentificationFields.parentObject][
+              [patientIdentificationFields.isRequestingOwnMedicalRecords]
+            ],
           uiSchema: patientIdentification2.uiSchema,
           schema: patientIdentification2.schema,
         },
@@ -129,6 +145,8 @@ const formConfig = {
       },
     },
   },
+  footerContent,
+  getHelp,
 };
 
 export default formConfig;

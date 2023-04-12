@@ -100,6 +100,10 @@ export default {
     },
     [schemaFields.acknowledgeToReleaseInformation]: {
       'ui:title': 'I acknowledge and authorize this release of information',
+      'ui:errorMessages': {
+        pattern:
+          'Please authorize the release so we can request your private medical records from your doctor.',
+      },
     },
   },
   schema: {
