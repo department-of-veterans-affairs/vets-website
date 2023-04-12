@@ -44,7 +44,12 @@ describe('Pre-Check In Experience ', () => {
     Error.validateCanceledPageLoaded();
     Error.validateAccordionBlocks();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots(
+      'Pre-check-in--Phone-appointment--canceled-error--default-accordions',
+    );
     Confirmation.expandAllAccordions();
-    cy.createScreenshots('Pre-check-in--Phone-appointment--canceled-error');
+    cy.createScreenshots(
+      'Pre-check-in--Phone-appointment--canceled-error--expanded-accordions',
+    );
   });
 });
