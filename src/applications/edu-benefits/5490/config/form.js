@@ -661,6 +661,7 @@ const formConfig = {
         educationHistory: {
           title: 'Education history',
           path: 'education/history',
+          depends: () => environment.isProduction(),
           initialData: {},
           uiSchema: {
             highSchool: {

@@ -75,13 +75,20 @@ const getData = ({
         login: {
           currentlyLoggedIn: loggedIn,
         },
-        profile: { ...mockProfile, savedForms, verified },
+        profile: {
+          ...mockProfile,
+          savedForms,
+          verified,
+          accountUuid: 'abcd-5678',
+        },
       },
       form: {
         loadedStatus: 'success',
         savedStatus: '',
         loadedData: {
-          metadata: {},
+          metadata: {
+            inProgressFormId: '5678',
+          },
         },
         data,
       },
@@ -208,5 +215,21 @@ describe('App', () => {
     expect(alert).to.exist;
     expect(alert.getAttribute('message')).to.contain('restart the app');
     expect(push.calledWith('/start')).to.be.true;
+  });
+
+  it('should set Sentry tags', () => {
+    const setTagSpy = sinon.spy();
+    const { props, data } = getData();
+    render(
+      <Provider store={mockStore(data)}>
+        <App {...props} testSetTag={setTagSpy} />
+      </Provider>,
+    );
+
+    expect(setTagSpy.called).to.be.true;
+    expect(setTagSpy.firstCall.args[1]).to.eq(data.user.profile.accountUuid);
+    expect(setTagSpy.secondCall.args[1]).to.eq(
+      data.form.loadedData.metadata.inProgressFormId,
+    );
   });
 });

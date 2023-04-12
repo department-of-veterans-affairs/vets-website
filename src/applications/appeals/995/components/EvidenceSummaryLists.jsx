@@ -23,6 +23,14 @@ const listClassNames = [
   'vads-u-padding-x--0',
 ].join(' ');
 
+const errorClassNames = [
+  'usa-input-error',
+  'vads-u-padding-x--2',
+  'vads-u-padding-y--0',
+  'vads-u-margin-left--2',
+  'vads-u-margin-top--0',
+].join(' ');
+
 const removeButtonClass = [
   'remove-item',
   'vads-u-width--auto',
@@ -30,10 +38,9 @@ const removeButtonClass = [
   'vads-u-margin-top--0',
 ].join(' ');
 
-const formatDateRange = ({ from, to }) => {
-  const fromDate = getDate({ date: from || '', pattern: FORMAT_COMPACT });
-  const toDate = getDate({ date: to || '', pattern: FORMAT_COMPACT });
-  return `${fromDate}${fromDate && toDate ? ' \u2013 ' : ''}${toDate}`;
+const formatDate = date => {
+  const result = getDate({ date, pattern: FORMAT_COMPACT });
+  return result.includes(',') ? result : '';
 };
 
 /**
@@ -77,38 +84,53 @@ export const VaContent = ({
       <Header5>{content.vaTitle}</Header5>
       <ul className="evidence-summary">
         {list.map((location, index) => {
-          const { locationAndName, issues, evidenceDates = {} } =
+          const { locationAndName, issues = [], evidenceDates = {} } =
             location || {};
           const path = `/${EVIDENCE_VA_PATH}?index=${index}`;
+          const fromDate = formatDate(evidenceDates.from);
+          const toDate = formatDate(evidenceDates.to);
+          const errors = {
+            name: locationAndName ? '' : content.missing.location,
+            issues: issues.length ? '' : content.missing.condition,
+            from: fromDate ? '' : content.missing.from,
+            to: toDate ? '' : content.missing.to,
+            dates: !fromDate && !toDate ? content.missing.dates : '',
+          };
+          const hasErrors = Object.values(errors).join('');
+
           return (
             <li key={locationAndName + index} className={listClassNames}>
-              <Header6>{locationAndName}</Header6>
-              <div>
-                {issues.length ? readableList(issues) : content.missingIssues}
+              <div className={hasErrors ? errorClassNames : ''}>
+                {errors.name || <Header6>{locationAndName}</Header6>}
+                <div>{errors.issues || readableList(issues)}</div>
+                {errors.dates || (
+                  <>
+                    {errors.from || fromDate} – {errors.to || toDate}
+                  </>
+                )}
+                {!reviewMode && (
+                  <div>
+                    <Link
+                      key={`edit-va-${index}`}
+                      id={`edit-va-${index}`}
+                      className="edit-item"
+                      to={path}
+                      aria-label={`${content.edit} ${locationAndName}`}
+                      data-link={testing ? path : null}
+                    >
+                      {content.edit}
+                    </Link>
+                    <va-button
+                      data-index={index}
+                      onClick={handlers.removeVaLocation}
+                      class={removeButtonClass}
+                      label={`${content.remove} ${locationAndName}`}
+                      text={content.remove}
+                      secondary
+                    />
+                  </div>
+                )}
               </div>
-              {formatDateRange(evidenceDates)}
-              {!reviewMode && (
-                <div>
-                  <Link
-                    key={`edit-va-${index}`}
-                    id={`edit-va-${index}`}
-                    className="edit-item"
-                    to={path}
-                    aria-label={`${content.edit} ${locationAndName}`}
-                    data-link={testing ? path : null}
-                  >
-                    {content.edit}
-                  </Link>
-                  <va-button
-                    data-index={index}
-                    onClick={handlers.removeVaLocation}
-                    class={removeButtonClass}
-                    label={`${content.remove} ${locationAndName}`}
-                    text={content.remove}
-                    secondary
-                  />
-                </div>
-              )}
             </li>
           );
         })}
@@ -149,37 +171,66 @@ export const PrivateContent = ({
       <Header5>{content.privateTitle}</Header5>
       <ul className="evidence-summary">
         {list.map((facility, index) => {
-          const { providerFacilityName, issues, treatmentDateRange = {} } =
-            facility || {};
+          const {
+            providerFacilityName,
+            issues = [],
+            providerFacilityAddress = {},
+            treatmentDateRange = {},
+          } = facility || {};
           const path = `/${EVIDENCE_PRIVATE_PATH}?index=${index}`;
+
+          const fromDate = formatDate(treatmentDateRange.from);
+          const toDate = formatDate(treatmentDateRange.to);
+          const errors = {
+            name: providerFacilityName ? '' : content.missing.facility,
+            issues: issues.length ? '' : content.missing.condition,
+            address:
+              providerFacilityAddress.country &&
+              providerFacilityAddress.street &&
+              providerFacilityAddress.city &&
+              providerFacilityAddress.state &&
+              providerFacilityAddress.postalCode
+                ? ''
+                : content.missing.address,
+            from: fromDate ? '' : content.missing.from,
+            to: toDate ? '' : content.missing.to,
+            dates: !fromDate && !toDate ? content.missing.dates : '',
+          };
+          const hasErrors = Object.values(errors).join('');
+
           return (
             <li key={providerFacilityName + index} className={listClassNames}>
-              <Header6>{providerFacilityName}</Header6>
-              <div>
-                {issues.length ? readableList(issues) : content.missingIssues}
+              <div className={hasErrors ? errorClassNames : ''}>
+                {errors.name || <Header6>{providerFacilityName}</Header6>}
+                <div>{errors.issues || readableList(issues)}</div>
+                {errors.address}
+                {errors.dates || (
+                  <>
+                    {errors.from || fromDate} – {errors.to || toDate}
+                  </>
+                )}
+                {!reviewMode && (
+                  <div>
+                    <Link
+                      id={`edit-private-${index}`}
+                      className="edit-item"
+                      to={path}
+                      aria-label={`${content.edit} ${providerFacilityName}`}
+                      data-link={testing ? path : null}
+                    >
+                      {content.edit}
+                    </Link>
+                    <va-button
+                      data-index={index}
+                      onClick={handlers.removePrivateFacility}
+                      class={removeButtonClass}
+                      label={`${content.remove} ${providerFacilityName}`}
+                      text={content.remove}
+                      secondary
+                    />
+                  </div>
+                )}
               </div>
-              {formatDateRange(treatmentDateRange)}
-              {!reviewMode && (
-                <div>
-                  <Link
-                    id={`edit-private-${index}`}
-                    className="edit-item"
-                    to={path}
-                    aria-label={`${content.edit} ${providerFacilityName}`}
-                    data-link={testing ? path : null}
-                  >
-                    {content.edit}
-                  </Link>
-                  <va-button
-                    data-index={index}
-                    onClick={handlers.removePrivateFacility}
-                    class={removeButtonClass}
-                    label={`${content.remove} ${providerFacilityName}`}
-                    text={content.remove}
-                    secondary
-                  />
-                </div>
-              )}
             </li>
           );
         })}

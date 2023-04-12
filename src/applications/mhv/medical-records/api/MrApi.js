@@ -1,6 +1,7 @@
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import labsAndTests from '../tests/fixtures/labsAndTests.json';
+import careSummariesAndNotes from '../tests/fixtures/careSummariesAndNotes.json';
 import vaccines from '../tests/fixtures/vaccines.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
@@ -19,6 +20,14 @@ export const mockGetVaccinesList = () => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(vaccines);
+    }, 1000);
+  });
+};
+
+export const mockGetCareSummariesAndNotesList = () => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(careSummariesAndNotes);
     }, 1000);
   });
 };
@@ -51,7 +60,7 @@ export const mockGetConditionsList = () => {
 export const mockGetCondition = id => {
   return new Promise(resolve => {
     setTimeout(() => {
-      const condition = conditions.find(cond => +cond.id === +id);
+      const condition = conditions.find(cond => cond.id === id);
       resolve(condition);
     }, 1000);
   });
