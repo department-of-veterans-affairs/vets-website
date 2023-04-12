@@ -26,7 +26,7 @@ describe('Edu 5490 sponsorInformation', () => {
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(15);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(12);
   });
 
   it('should display date options for chapter 33 and spouse relationship', () => {
