@@ -9,7 +9,7 @@ const initialState = {
   /**
    * The lab or test result currently being displayed to the user
    */
-  labOrTestDetails: undefined,
+  labsAndTestsDetails: undefined,
 };
 
 export const labsAndTestsReducer = (state = initialState, action) => {
@@ -17,7 +17,7 @@ export const labsAndTestsReducer = (state = initialState, action) => {
     case Actions.LabsAndTests.GET: {
       return {
         ...state,
-        labOrTestDetails: action.response,
+        labsAndTestsDetails: action.response,
       };
     }
     case Actions.LabsAndTests.GET_LIST: {

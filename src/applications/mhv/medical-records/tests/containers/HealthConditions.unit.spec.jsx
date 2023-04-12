@@ -38,6 +38,7 @@ describe('Health conditions list container', () => {
 
   it('displays active condition', () => {
     const screen = setup();
-    expect(screen.getAllByText('Back pain', { exact: true })).to.exist;
+    expect(screen.getAllByText('Back pain (SCT 161891005)', { exact: true })).to
+      .exist;
   });
 });
