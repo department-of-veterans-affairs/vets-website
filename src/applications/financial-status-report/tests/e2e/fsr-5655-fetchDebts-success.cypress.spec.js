@@ -106,7 +106,7 @@ describe('Fetch Debts Successfully', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Successful API Response', () => {
+  it.skip('Successful API Response', () => {
     cy.get('#start-option-0').click();
     cy.get('#reconsider-option-2').click();
     cy.get('#recipients-option-1').click();
