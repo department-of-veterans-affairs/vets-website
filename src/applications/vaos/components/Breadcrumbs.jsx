@@ -75,13 +75,14 @@ export default function VAOSBreadcrumbs({ children }) {
         </li>
       )}
 
-      {isPending && (
-        <li className="va-breadcrumbs-li">
-          <NavLink to="/pending" id="pending">
-            Pending
-          </NavLink>
-        </li>
-      )}
+      {featureStatusImprovement &&
+        isPending && (
+          <li className="va-breadcrumbs-li">
+            <NavLink to="/pending" id="pending">
+              Pending
+            </NavLink>
+          </li>
+        )}
 
       {children}
     </va-breadcrumbs>
