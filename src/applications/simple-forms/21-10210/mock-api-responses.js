@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 const commonResponses = require('../../../platform/testing/local-dev-mock-api/common');
 const sipJson = require('./tests/fixtures/mocks/in-progress-forms.json');
+const submitJson = require('./tests/fixtures/mocks/form-submit.json');
 
 const responses = {
   ...commonResponses,
@@ -85,6 +86,7 @@ const responses = {
   },
   'GET /v0/in_progress_forms/21-10210': sipJson,
   'PUT /v0/in_progress_forms/21-10210': sipJson,
+  'POST /v0/api': submitJson,
 };
 /* eslint-enable camelcase */
 
