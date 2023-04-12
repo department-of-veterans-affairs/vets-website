@@ -25,7 +25,7 @@ export const content = {
       `Do you want to keep ${providerFacilityName || 'this location'}?`,
     description: 'We’ve saved your current information',
     yes: 'Yes',
-    no: 'No, remove this location',
+    no: 'No, remove location',
   },
   addAnotherLink: 'Add another location',
 };

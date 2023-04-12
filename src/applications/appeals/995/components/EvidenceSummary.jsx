@@ -177,8 +177,8 @@ const EvidenceSummary = ({
           onCloseEvent={handlers.closeModal}
           onPrimaryButtonClick={handlers.removeEvidence}
           onSecondaryButtonClick={handlers.closeModal}
-          primaryButtonText="Yes, remove this evidence"
-          secondaryButtonText="No, do not remove"
+          primaryButtonText={content.removeEvidence.modalRemove}
+          secondaryButtonText={content.removeEvidence.modalNotRemove}
         >
           <p>
             {content.removeEvidence[(removeData?.type)] || ''}

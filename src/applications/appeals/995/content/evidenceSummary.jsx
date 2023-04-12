@@ -53,6 +53,8 @@ export const content = {
     private: 'We will remove the private medical record request for',
     limitation: '',
     upload: 'We will remove the uploaded document',
+    modalRemove: 'Yes, remove evidence',
+    modalNotRemove: 'No, do not remove',
   },
 
   // error messages
