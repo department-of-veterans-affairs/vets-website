@@ -110,53 +110,6 @@ const MessageThreadItem = props => {
         )}
       </div>
     </VaAccordionItem>
-    // <>
-    //   <div className="older-message vads-u-padding-top--0p5 vads-u-padding-bottom--2 vads-u-display--flex vads-u-flex-direction--row">
-    //     <div
-    //       className="vads-u-flex--auto"
-    //       role="img"
-    //       aria-label={!isRead ? 'Unread message' : 'Previously read message'}
-    //     >
-    //       <i
-    //         className="unread-icon fas fa-circle"
-    //         aria-hidden
-    //         style={{ visibility: isRead === true ? 'hidden' : '' }}
-    //       />
-    //     </div>
-
-    //     <div
-    //       className="vads-u-flex--fill "
-    //       role="button"
-    //       tabIndex={0}
-    //       data-testid={`expand-message-button-${message.messageId}`}
-    //       aria-expanded={isExpanded}
-    //       aria-label={!isExpanded ? ariaLabel : ''}
-    //       onClickCapture={e => {
-    //         handleExpand(e);
-    //       }}
-    //       onKeyDown={e => {
-    //         handleExpand(e);
-    //       }}
-    //     >
-    // <MessageThreadMeta
-    //         expanded={isExpanded}
-    //         message={message}
-    //         isRead={isRead}
-    //         hasAttachments={hasAttachments}
-    //       />
-    //       <MessageThreadBody expanded={isExpanded} text={message.body} />
-    // {isExpanded &&
-    //   message.attachments?.length > 0 && (
-    //     <MessageThreadAttachments
-    //       expanded={isExpanded}
-    //       // TODO check how backend can return attachments list
-    //       attachments={message.attachments}
-    //     />
-    //   )}
-    //     </div>
-    //   </div>
-    //   <HorizontalRule />
-    // </>
   );
 };
 

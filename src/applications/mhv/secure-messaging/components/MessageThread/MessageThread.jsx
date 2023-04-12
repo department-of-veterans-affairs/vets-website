@@ -1,3 +1,11 @@
+/*
+On each <MeesageThreadItem> expand we need to send a /read call to the backend to retrieve full message data.
+We are able to do this by using the onAccordionItemToggled event from the <va-accordion> component.
+However, as of 4/11/2023 <va-accordion> Expand All button is not triggering onAccordionItemToggled 
+for each individual <va-accordion-item> event. Prelaoding all messages on the first render of <MessageThread>
+is not an option since it will mark all messages as read. 
+*/
+
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import PropType from 'prop-types';
@@ -36,21 +44,6 @@ const MessageThread = props => {
     },
     [viewCount],
   );
-
-  // useEffect(
-  //   () => {
-  //     if (
-  //       accordionRef.current.shadowRoot.querySelector('button', 'Expand all +')
-  //     ) {
-  //       accordionRef.current.shadowRoot
-  //         .querySelector('button', 'Expand all +')
-  //         .addEventListener('onClick', event => {
-  //           console.log('Expand all listener');
-  //         });
-  //     }
-  //   },
-  //   [accordionRef.current],
-  // );
 
   const handleLoadMoreMessages = () => {
     setViewCount(viewCount + 5);
