@@ -14,7 +14,7 @@ const defaultRecord = [
     creditorName: '',
     originalLoanAmount: '',
     unpaidBalance: '',
-    minMonthlyPayment: '',
+    amountDueMonthly: '',
     dateBegan: '',
     amountOverdue: '',
   },
@@ -62,8 +62,8 @@ const InstallmentContract = props => {
 
   const contractBeganError = 'Please enter the contract start date';
 
-  const minMonthlyPaymentError = !isValidCurrency(
-    contractRecord.minMonthlyPayment,
+  const amountDueMonthlyError = !isValidCurrency(
+    contractRecord.amountDueMonthly,
   )
     ? 'Please enter the minimum monthly payment amount'
     : null;
@@ -95,8 +95,8 @@ const InstallmentContract = props => {
     handleChange('unpaidBalance', event.target.value);
   };
 
-  const handleMinMonthlyPaymentChange = event => {
-    handleChange('minMonthlyPayment', event.target.value);
+  const handleAmountDueMonthlyChange = event => {
+    handleChange('amountDueMonthly', event.target.value);
   };
 
   const handleAmountOverdueChange = event => {
@@ -127,7 +127,7 @@ const InstallmentContract = props => {
     e.preventDefault();
     const newInstallmentContractArray = [...installmentContracts];
     newInstallmentContractArray[index] = contractRecord;
-    if (contractRecord.contractType && contractRecord.minMonthlyPayment) {
+    if (contractRecord.contractType && contractRecord.amountDueMonthly) {
       // if amountOverdue is NaN, set it to 0 in order to satisfy va-number-input
       if (!isValidCurrency(contractRecord.amountOverdue)) {
         contractRecord.amountOverdue = 0;
@@ -233,7 +233,7 @@ const InstallmentContract = props => {
       </div>
       <div className="input-size-4">
         <va-number-input
-          error={(submitted && minMonthlyPaymentError) || null}
+          error={(submitted && amountDueMonthlyError) || null}
           hint={null}
           currency
           required
@@ -241,7 +241,7 @@ const InstallmentContract = props => {
           label="Minimum monthly payment amount"
           name="minMonthlyPayment"
           id="minMonthlyPayment"
-          onInput={handleMinMonthlyPaymentChange}
+          onInput={handleAmountDueMonthlyChange}
           value={contractRecord.minMonthlyPayment}
         />
       </div>

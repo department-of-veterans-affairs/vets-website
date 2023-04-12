@@ -70,7 +70,7 @@ const InstallmentContractSummary = ({
           <strong>{currencyFormatter(bill.unpaidBalance)}</strong>
           <br />
           Minimum monthly payment amount:{' '}
-          <strong>{currencyFormatter(bill.minMonthlyPayment)}</strong>
+          <strong>{currencyFormatter(bill.amountDueMonthly)}</strong>
           <br />
           Date received: <strong>{bill.from}</strong>
           <br />
