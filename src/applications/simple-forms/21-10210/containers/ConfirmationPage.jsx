@@ -15,7 +15,7 @@ export class ConfirmationPage extends React.Component {
   render() {
     const { form } = this.props;
     const { submission, formId, data } = form;
-    const submitDate = format(submission.timestamp, 'YYYY-MM-DD');
+    const submitDate = new Date(submission?.timestamp);
 
     const { fullName } = data;
 
