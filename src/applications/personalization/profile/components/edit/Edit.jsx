@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { InitializeVAPServiceID } from '~/platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
+import { ProfileInformationFieldController } from '~/platform/user/profile/vap-svc/components/ProfileInformationFieldController';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
@@ -22,17 +24,37 @@ export const Edit = () => {
   const returnPath = query.get('returnPath');
   const fieldName = query.get('fieldName');
   const returnPathName = getPathName(returnPath);
+
+  const handlers = {
+    onSubmit: event => {
+      // This prevents this nested form submit event from passing to the
+      // outer form and causing a page advance
+      event.stopPropagation();
+    },
+    cancel: () => {
+      // console.log('you cancelled');
+      return true;
+    },
+    success: () => {
+      // console.log('you succeeded');
+      return true;
+    },
+  };
+
   return (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseFieldEditingPage}>
       <Toggler.Enabled>
         <div className="vads-u-display--block medium-screen:vads-u-display--block">
-          <h2>Welcome to the new field editing page!</h2>
-
-          <p>
-            Field name: <span>{fieldName}</span>
-          </p>
-          <p>Return Path: {returnPath}</p>
-
+          {fieldName && (
+            <InitializeVAPServiceID>
+              <ProfileInformationFieldController
+                fieldName={fieldName}
+                isDeleteDisabled
+                cancelCallback={handlers.cancel}
+                successCallback={handlers.success}
+              />
+            </InitializeVAPServiceID>
+          )}
           <Link to={returnPath}>{`Return to ${returnPathName}`}</Link>
         </div>
       </Toggler.Enabled>

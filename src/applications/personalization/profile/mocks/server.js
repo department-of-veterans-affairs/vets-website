@@ -22,6 +22,9 @@ const payments = require('./endpoints/payment-history');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
 const fullName = require('./endpoints/full-name');
+const {
+  baseUserTransitionAvailabilities,
+} = require('./endpoints/user-transition-availabilities');
 
 // seed data for VAMC drupal source of truth json file
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
@@ -150,6 +153,7 @@ const responses = {
   'GET /v0/profile/communication_preferences': (_req, res) => {
     return res.json(maximalSetOfPreferences);
   },
+  'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
 };
 
 function terminationHandler(signal) {
