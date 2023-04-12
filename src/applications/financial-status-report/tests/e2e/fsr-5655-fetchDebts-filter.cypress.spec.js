@@ -1,5 +1,6 @@
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
+import { mockCopaysEmpty } from './fixtures/helpers';
 
 describe('Fetch Debts Successfully and Filter Out Invalid Debt', () => {
   before(() => {
@@ -95,6 +96,8 @@ describe('Fetch Debts Successfully and Filter Out Invalid Debt', () => {
       ],
     });
 
+    cy.intercept('GET', '/v0/medical_copays', mockCopaysEmpty);
+
     cy.intercept('GET', '/v0/in_progress_forms/5655', {
       formData: {
         personalIdentification: { ssn: '4437', fileNumber: '4437' },
@@ -153,7 +156,7 @@ describe('Fetch Debts Successfully and Filter Out Invalid Debt', () => {
       'What debt do you need help with?',
     );
 
-    cy.get('.debt-card').should('have.length', 2);
+    cy.get('[data-testid="debt-selection-checkbox"]').should('have.length', 2);
 
     cy.injectAxeThenAxeCheck();
   });
