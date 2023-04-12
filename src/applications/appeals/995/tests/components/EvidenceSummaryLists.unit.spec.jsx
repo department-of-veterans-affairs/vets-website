@@ -103,9 +103,38 @@ describe('evidenceSummaryList', () => {
       const { container } = render(<VaContent list={vaEvidence} testing />);
 
       const li = $$('li', container);
-      expect(li[0].textContent).to.contain(content.missingIssues);
+      expect(li[0].textContent).to.contain('Missing condition');
       expect(li[1].textContent).to.contain('Test 1 and Test 2');
     });
+    it('should show missing location name & treatment dates', () => {
+      const vaEvidence = [
+        {
+          locationAndName: '',
+          issues: [],
+          evidenceDates: { from: '--', to: '' },
+        },
+      ];
+      const { container } = render(<VaContent list={vaEvidence} testing />);
+
+      const li = $('li', container);
+      expect(li.textContent).to.contain('Missing location name');
+      expect(li.textContent).to.contain('Missing treatment dates');
+    });
+    it('should show missing start treatment date', () => {
+      const vaEvidence = [{ evidenceDates: { from: '2000-1-1', to: '' } }];
+      const { container } = render(<VaContent list={vaEvidence} testing />);
+
+      const li = $('li', container);
+      expect(li.textContent).to.contain('Missing end date');
+    });
+    it('should show missing end treatment date', () => {
+      const vaEvidence = [{ evidenceDates: { from: '--', to: '2000-1-1' } }];
+      const { container } = render(<VaContent list={vaEvidence} testing />);
+
+      const li = $('li', container);
+      expect(li.textContent).to.contain('Missing start date');
+    });
+
     it('should have edit links pointing to the appropriate VA indexed page', () => {
       const vaEvidence = records().locations;
       const { container } = render(<VaContent list={vaEvidence} testing />);
@@ -187,7 +216,7 @@ describe('evidenceSummaryList', () => {
       );
 
       const li = $$('li', container);
-      expect(li[0].textContent).to.contain(content.missingIssues);
+      expect(li[0].textContent).to.contain('Missing condition');
       expect(li[1].textContent).to.contain('Test 1, Test 2, and Tinnitus');
     });
     it('should have edit links pointing to the appropriate private indexed page or limitation page', () => {

@@ -196,7 +196,7 @@ describe('VAOS appointment list', () => {
       cy.findByText(/Cancel appointment/i).click();
       cy.findByText(/Yes, cancel this appointment/i).click();
       cy.findByTestId('cancel-appointment-SuccessModal').should('exist');
-      cy.findByText(/Continue/i).click();
+      cy.contains('button', /Continue/i).click();
       cy.get('#cancelAppt').should('not.exist');
       cy.get('.usa-alert-success').should('not.exist');
       cy.get('.usa-alert-error').should('exist');
