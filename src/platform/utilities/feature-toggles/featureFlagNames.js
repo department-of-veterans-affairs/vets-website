@@ -126,6 +126,7 @@ export default Object.freeze({
   showMebDgi42Features: 'show_meb_dgi42_features',
   showMebCh33SelfForm: 'show_meb_ch33_self_form',
   showMebUnverifiedUserAlert: 'show_meb_unverified_user_alert',
+  showMebEnhancements: 'show_meb_enhancements',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
   showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
