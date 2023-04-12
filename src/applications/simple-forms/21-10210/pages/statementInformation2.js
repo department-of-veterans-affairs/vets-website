@@ -6,12 +6,12 @@ export default {
         hideIf: formData => formData.claimOwnership === undefined,
         updateSchema: (formData, schema, uiSchema) => {
           const { claimOwnership } = formData;
+          const uiSchemaCopy = { ...uiSchema };
           let title;
           switch (claimOwnership) {
             case 'self':
               title = 'Which of these descriptions best describes you?';
-              // eslint-disable-next-line no-param-reassign
-              uiSchema['ui:options'].labels = {
+              uiSchemaCopy['ui:options'].labels = {
                 veteran: 'I’m a Veteran',
                 'non-veteran': 'I’m a non-Veteran claimant',
               };
@@ -19,8 +19,7 @@ export default {
             case 'third-party':
               title =
                 'Which of these individuals are you submitting a statement for?';
-              // eslint-disable-next-line no-param-reassign
-              uiSchema['ui:options'].labels = {
+              uiSchemaCopy['ui:options'].labels = {
                 veteran: 'A Veteran',
                 'non-veteran': 'A non-Veteran claimant',
               };
@@ -31,7 +30,7 @@ export default {
 
           return {
             title,
-            uiSchema,
+            uiSchemaCopy,
           };
         },
         labels: {
