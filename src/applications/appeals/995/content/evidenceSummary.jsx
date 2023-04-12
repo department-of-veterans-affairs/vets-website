@@ -45,7 +45,35 @@ export const content = {
     </>
   ),
 
-  missingIssues: 'Missing treated conditions',
+  // error messages
+  missing: {
+    location: (
+      <span className="usa-input-error-message">Missing location name</span>
+    ),
+    facility: (
+      <span className="usa-input-error-message">Missing provider name</span>
+    ),
+    condition: (
+      <span className="usa-input-error-message">Missing condition</span>
+    ),
+    dates: (
+      <span className="usa-input-error-message">Missing treatment dates</span>
+    ),
+    from: (
+      <span className="usa-input-error-message vads-u-display--inline-block">
+        Missing start date
+      </span>
+    ),
+    to: (
+      <span className="usa-input-error-message vads-u-display--inline-block">
+        Missing end date
+      </span>
+    ),
+    address: (
+      <span className="usa-input-error-message">Incomplete address</span>
+    ),
+  },
+
   missingEvidenceHeader: 'We noticed you didn’t add new evidence',
   missingEvidenceText: (
     <>

@@ -11,6 +11,7 @@ import MrBreadcrumbs from './components/MrBreadcrumbs';
 import Navigation from './components/Navigation';
 import LabsAndTests from './containers/LabsAndTests';
 import CareSummariesAndNotes from './containers/CareSummariesAndNotes';
+import ConditionDetails from './containers/ConditionDetails';
 
 const routes = (
   <div className="vads-l-grid-container">
@@ -53,6 +54,12 @@ const routes = (
             key="Health Conditions"
           >
             <HealthConditions />
+          </Route>
+          <Route
+            path="/health-history/condition-details/:conditionId"
+            key="Condition Details"
+          >
+            <ConditionDetails />
           </Route>
         </Switch>
       </div>
