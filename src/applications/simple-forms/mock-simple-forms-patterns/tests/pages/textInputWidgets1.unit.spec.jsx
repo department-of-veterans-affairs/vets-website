@@ -5,9 +5,12 @@ import { mount } from 'enzyme';
 import Sinon from 'sinon';
 import formConfig from '../../config/form';
 
-const { schema, uiSchema } = formConfig.chapters.textInput.pages.textInput;
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.textInput.pages.textInputWidgets1;
 
-describe('web component vs regular text inputs', () => {
+describe('web component vs regular text inputs for widgets 1', () => {
   it('should have appropriate number of fields', () => {
     const form = mount(
       <DefinitionTester
@@ -19,8 +22,8 @@ describe('web component vs regular text inputs', () => {
       />,
     );
 
-    expect(form.find('va-text-input').length).to.equal(4);
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('va-text-input').length).to.equal(3);
+    expect(form.find('input').length).to.equal(3);
 
     form.unmount();
   });
@@ -46,12 +49,12 @@ describe('web component vs regular text inputs', () => {
       form.findWhere(node => {
         return node.is('va-text-input') && node.prop('error');
       }).length,
-    ).to.equal(1);
+    ).to.equal(0);
 
     // regular input errors
-    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(form.find('.usa-input-error').length).to.equal(0);
 
-    expect(onSubmit.called).to.be.false;
+    expect(onSubmit.called).to.be.true;
 
     form.unmount();
   });
