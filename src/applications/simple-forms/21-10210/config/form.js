@@ -9,6 +9,8 @@ import statementInformation1 from '../pages/statementInformation1';
 import statementInformation2 from '../pages/statementInformation2';
 import witnessInformation1 from '../pages/witnessInformation1';
 import witnessInformation2 from '../pages/witnessInformation2';
+import claimantInformation1 from '../pages/claimantInformation1';
+import claimantInformation2 from '../pages/claimantInformation2';
 // import { uiSchema as addressUiSchema } from 'src/platform/forms/definitions/address';
 
 // const { } = fullSchema.properties;
@@ -83,6 +85,31 @@ const formConfig = {
           },
           uiSchema: witnessInformation2.uiSchema,
           schema: witnessInformation2.schema,
+        },
+      },
+    },
+    claimantInformation: {
+      title: 'Claimant Information',
+      pages: {
+        claimantInformation1: {
+          path: 'claimant-personal-information',
+          title: 'Your personal information',
+          depends: {
+            claimOwnership: CLAIM_OWNERSHIP.THIRD_PARTY,
+            claimantType: CLAIMANT_TYPE.NON_VETERAN,
+          },
+          uiSchema: claimantInformation1.uiSchema,
+          schema: claimantInformation1.schema,
+        },
+        claimantInformation2: {
+          path: 'claimant-contact-information',
+          title: 'Your contact information',
+          depends: {
+            claimOwnership: CLAIM_OWNERSHIP.THIRD_PARTY,
+            claimantType: CLAIMANT_TYPE.NON_VETERAN,
+          },
+          uiSchema: claimantInformation2.uiSchema,
+          schema: claimantInformation2.schema,
         },
       },
     },
