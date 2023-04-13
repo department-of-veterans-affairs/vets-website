@@ -30,7 +30,6 @@ class IntroductionPage extends React.Component {
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the housing grant application"
-          testActionLink
         >
           Please complete the Simple Forms Patterns form to apply for Simple
           Forms Patterns.

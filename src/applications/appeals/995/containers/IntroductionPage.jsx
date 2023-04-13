@@ -48,7 +48,6 @@ class IntroductionPage extends React.Component {
       messages: savedFormMessages,
       startText: 'Start your Claim',
       gaStartEventName: 'decision-reviews-va20-0995-start-form',
-      testActionLink: true,
       useActionLinks: true,
     };
 
@@ -57,8 +56,8 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
         <p className="va-introtext">
-          If we denied your claim in the past, a Supplemental Claim may be an
-          option for you.
+          If you disagree with our decision on your claim, a Supplemental Claim
+          may be an option for you.
         </p>
         {loggedIn && showVerifyLink && <NeedsToVerify pathname={pathname} />}
         {loggedIn &&
@@ -77,17 +76,40 @@ class IntroductionPage extends React.Component {
             </p>
             <ul>
               <li>
-                You have new and relevant evidence that we didn't consider
+                You have new and relevant evidence that we didn’t consider
                 before, <strong>or</strong>
               </li>
               <li>
                 You have a condition that we now consider presumptive (such as
-                under the <a href="/pact">PACT Act</a>)
+                under the{' '}
+                <a href="/resources/the-pact-act-and-your-va-benefits/">
+                  PACT Act
+                </a>
+                )
               </li>
             </ul>
+            <va-additional-info trigger="What’s a presumptive condition?">
+              <div>
+                <p className="vads-u-margin-top--0">
+                  For some conditions, we automatically assume (or “presume”)
+                  that your service caused your condition. We call these
+                  “presumptive conditions.”
+                </p>
+                <p>
+                  If you have a presumptive condition, you don’t need to prove
+                  that your service caused the condition. You only need to meet
+                  the service requirements for the presumption.
+                </p>
+                <p className="vads-u-margin-bottom--0">
+                  <a href="/resources/the-pact-act-and-your-va-benefits/">
+                    Learn more about the PACT act
+                  </a>
+                </p>
+              </div>
+            </va-additional-info>
             <p>
               You can file a Supplemental Claim if you have new and relevant
-              evidence that we didn't have when we reviewed your case before.
+              evidence that we didn’t have when we reviewed your case before.
               You can file your claim anytime, but we recommend you file within
               1 year from the date on your decision letter.
             </p>
@@ -114,23 +136,6 @@ class IntroductionPage extends React.Component {
                 Go back to the questions
               </a>
             </p>
-            <va-additional-info trigger="What’s a presumptive condition?">
-              <div>
-                <p className="vads-u-margin-top--0">
-                  For some conditions, we automatically assume (or “presume”)
-                  that your service caused your condition. We call these
-                  “presumptive conditions.”
-                </p>
-                <p>
-                  If you have a presumptive condition, you don’t need to prove
-                  that your service caused the condition. You only need to meet
-                  the service requirements for the presumption.
-                </p>
-                <p className="vads-u-margin-bottom--0">
-                  <a href="/pact">Learn more about the PACT act</a>
-                </p>
-              </div>
-            </va-additional-info>
           </li>
           <li>
             <h3>Gather your information</h3>
@@ -139,17 +144,17 @@ class IntroductionPage extends React.Component {
               <li>
                 New evidence. You can either submit new evidence (supporting
                 documents) or identify new evidence you want us to gather for
-                you. Note: If you have a condition that we consider presumptive
-                under a new law or regulation (such as the PACT Act), you don't
-                need to submit evidence to prove that your service caused the
-                condition.
+                you. <strong>Note:</strong> If you have a condition that we
+                consider presumptive under a new law or regulation (such as the
+                PACT Act), you don’t need to submit evidence to prove that your
+                service caused the condition.
               </li>
               <li>
                 The decision date of any issue you want us to review. You can
                 ask us to review more than 1 issue.
               </li>
               <li>
-                The name and address of any private medical facility you'd like
+                The name and address of any private medical facility you’d like
                 us to request your records from.
               </li>
               <li>
