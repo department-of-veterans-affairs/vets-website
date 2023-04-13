@@ -7,8 +7,6 @@ import * as personId from 'platform/forms/definitions/personId';
 
 import { genderLabels } from 'platform/static-data/labels';
 
-// import environment from 'platform/utilities/environment';
-
 import {
   ageWarning,
   eighteenOrOver,
