@@ -15,33 +15,17 @@ import {
   relationshipAndChildTypeLabels,
 } from '../helpers';
 
-const isNotProd = !environment.isProduction();
-
-const conditionalFields = prefix => {
-  return isNotProd
-    ? [
-        `${prefix}FullName`,
-        'view:noSSN',
-        `${prefix}SocialSecurityNumber`,
-        `${prefix}DateOfBirth`,
-        'view:ageWarningNotification',
-        'minorHighSchoolQuestions',
-        'gender',
-        'relationshipAndChildType',
-      ]
-    : [
-        `${prefix}FullName`,
-        'view:noSSN',
-        `${prefix}SocialSecurityNumber`,
-        `${prefix}DateOfBirth`,
-        'view:ageWarningNotification',
-        'gender',
-        'relationship',
-      ];
-};
-
 const defaults = prefix => ({
-  fields: conditionalFields(prefix),
+  fields: [
+    `${prefix}FullName`,
+    'view:noSSN',
+    `${prefix}SocialSecurityNumber`,
+    `${prefix}DateOfBirth`,
+    'view:ageWarningNotification',
+    'minorHighSchoolQuestions',
+    'gender',
+    'relationshipAndChildType',
+  ],
   required: [`${prefix}FullName`, `${prefix}DateOfBirth`],
   labels: {},
   isVeteran: false,
@@ -115,27 +99,13 @@ export default function applicantInformationUpdate(schema, options) {
       minorHighSchoolQuestions: {
         'ui:options': {
           expandUnder: 'view:ageWarningNotification',
-          hideIf: formData => {
-            let shouldNotShow = true;
-            const overEighteen = eighteenOrOver(formData.relativeDateOfBirth);
-            if (!isNotProd && !overEighteen) {
-              shouldNotShow = true;
-            } else {
-              shouldNotShow = false;
-            }
-            return shouldNotShow;
-          },
+          hideIf: formData => eighteenOrOver(formData.relativeDateOfBirth),
         },
         minorHighSchoolQuestion: {
           'ui:title': 'Applicant has graduated high school or received GED?',
           'ui:widget': 'yesNo',
-          'ui:required': formData => {
-            const isNotRequired = eighteenOrOver(formData.relativeDateOfBirth);
-            if (isNotRequired && !isNotProd) {
-              return isNotRequired;
-            }
-            return !isNotRequired;
-          },
+          'ui:required': formData =>
+            eighteenOrOver(formData.relativeDateOfBirth),
         },
         highSchoolGedGradDate: {
           ...currentOrPastDateUI('Date graduated'),
@@ -184,7 +154,7 @@ export default function applicantInformationUpdate(schema, options) {
           'What’s your relationship to the service member whose benefit is being transferred to you?',
         'ui:options': {
           labels: labels.relationship || relationshipLabels,
-          hideIf: () => !environment.isProduction(),
+          // hideIf: () => !environment.isProduction(),
         },
         'ui:required': () => environment.isProduction(),
       },
@@ -194,7 +164,7 @@ export default function applicantInformationUpdate(schema, options) {
           'What’s your relationship to the service member whose benefit is being transferred to you?',
         'ui:options': {
           labels: relationshipAndChildTypeLabels,
-          hideIf: () => environment.isProduction(),
+          // hideIf: () => environment.isProduction(),
         },
         'ui:required': () => !environment.isProduction(),
       },
@@ -202,26 +172,14 @@ export default function applicantInformationUpdate(schema, options) {
     },
     schema: {
       type: 'object',
-      definitions: pick(
-        schema.definitions,
-        isNotProd
-          ? [
-              'fullName',
-              'relationshipAndChildType',
-              'ssn',
-              'gender',
-              'date',
-              'vaFileNumber',
-            ]
-          : [
-              'fullName',
-              'relationship',
-              'ssn',
-              'gender',
-              'date',
-              'vaFileNumber',
-            ],
-      ),
+      definitions: pick(schema.definitions, [
+        'fullName',
+        'relationshipAndChildType',
+        'ssn',
+        'gender',
+        'date',
+        'vaFileNumber',
+      ]),
       required,
       properties: pick(possibleProperties, fields),
     },
