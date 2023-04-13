@@ -37,7 +37,8 @@ describe('Pre-Check In Experience ', () => {
     Error.validatePast15MinutesPageLoaded();
     Error.validateAccordionBlocks();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Pre-check-in--past-15-min--default-accordions');
     Confirmation.expandAllAccordions();
-    cy.createScreenshots('Pre-check-in--past-15-min');
+    cy.createScreenshots('Pre-check-in--past-15-min--expanded-accordions');
   });
 });
