@@ -1,23 +1,10 @@
 import { merge, omit } from 'lodash';
-// import { merge, omit, without } from 'lodash';
 import get from 'platform/utilities/data/get';
-// import { createSelector } from 'reselect';
 
 import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
-// import {
-//   validateMonthYear,
-//   validateFutureDateIfExpectedGrad,
-// } from 'platform/forms-system/src/js/validation';
-// import {
-//   schema as addressSchema,
-//   uiSchema as addressUI,
-// } from 'platform/forms/definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
-// import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
-// import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as personId from 'platform/forms/definitions/personId';
-// import dateRangeUi from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUi from 'platform/forms/definitions/fullName';
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
@@ -30,18 +17,15 @@ import {
   benefitsDisclaimerChild,
   benefitsDisclaimerSpouse,
   relationshipAndChildTypeLabels,
-  // highSchoolStatusLabels,
   transform,
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
 
-// import { stateLabels, survivorBenefitsLabels } from '../../utils/labels';
 import { survivorBenefitsLabels } from '../../utils/labels';
 
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
-// import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage5490 from '../content/directDeposit';
@@ -49,10 +33,6 @@ import createDirectDepositPage from '../../pages/directDeposit';
 import applicantInformationUpdate from '../components/applicantInformationUpdate';
 import GuardianInformation from '../components/GuardianInformation';
 import applicantServicePage from '../../pages/applicantService';
-// import createSchoolSelectionPage, {
-//   schoolSelectionOptionsFor,
-// } from '../../pages/schoolSelection';
-// import additionalBenefitsPage from '../../pages/additionalBenefits';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -65,7 +45,6 @@ const {
   benefitsRelinquishedDate,
   currentlyActiveDuty,
   currentSameAsPrevious,
-  // highSchool,
   outstandingFelony,
   previousBenefits,
   serviceBranch,
@@ -76,12 +55,10 @@ const {
 } = fullSchema5490.properties;
 
 const {
-  // secondaryContact,
   date,
   dateRange,
   educationType,
   fullName,
-  // postHighSchoolTrainings,
   vaFileNumber,
   phone,
   ssn,
@@ -660,182 +637,7 @@ const formConfig = {
         },
       },
     },
-    // educationHistory: {
-    //   title: 'Education history',
-    //   pages: {
-    //     educationHistory: {
-    //       title: 'Education history',
-    //       path: 'education/history',
-    //       depends: () => environment.isProduction(),
-    //       initialData: {},
-    //       uiSchema: {
-    //         highSchool: {
-    //           status: {
-    //             'ui:title': 'What’s your current high school status?',
-    //             'ui:options': {
-    //               labels: highSchoolStatusLabels,
-    //               expandUnderClassNames: 'schemaform-expandUnder-indent',
-    //             },
-    //           },
-    //           highSchoolOrGedCompletionDate: {
-    //             ...monthYearUI(null),
-    //             'ui:options': {
-    //               monthYear: true,
-    //               expandUnderCondition: status =>
-    //                 status === 'graduated' || status === 'graduationExpected',
-    //               expandUnder: 'status',
-    //               updateSchema: form => {
-    //                 const status = get('highSchool.status', form);
 
-    //                 if (status === 'graduationExpected') {
-    //                   return {
-    //                     title:
-    //                       'When do you expect to earn your high school diploma?',
-    //                   };
-    //                 }
-
-    //                 return {
-    //                   title: 'When did you earn your high school diploma?',
-    //                 };
-    //               },
-    //             },
-    //             'ui:validations': [
-    //               validateMonthYear,
-    //               validateFutureDateIfExpectedGrad,
-    //             ],
-    //           },
-    //           'view:hasHighSchool': {
-    //             'ui:options': {
-    //               expandUnderCondition: status => status === 'discontinued',
-    //               expandUnder: 'status',
-    //             },
-    //             name: {
-    //               'ui:title': 'Name of high school',
-    //             },
-    //             city: {
-    //               'ui:title': 'City',
-    //             },
-    //             state: {
-    //               'ui:title': 'State',
-    //               'ui:options': {
-    //                 labels: stateLabels,
-    //               },
-    //             },
-    //             dateRange: dateRangeUi(),
-    //           },
-    //         },
-    //         'view:hasTrainings': {
-    //           'ui:title': 'Do you have any training after high school?',
-    //           'ui:widget': 'yesNo',
-    //           'ui:options': {
-    //             hideIf: form => {
-    //               const status = get('highSchool.status', form);
-    //               return (
-    //                 status === 'discontinued' ||
-    //                 status === 'graduationExpected' ||
-    //                 status === 'neverAttended'
-    //               );
-    //             },
-    //           },
-    //         },
-    //         postHighSchoolTrainings: merge({}, postHighSchoolTrainingsUi, {
-    //           'ui:options': {
-    //             expandUnder: 'view:hasTrainings',
-    //           },
-    //         }),
-    //       },
-    //       schema: {
-    //         type: 'object',
-    //         properties: {
-    //           highSchool: {
-    //             type: 'object',
-    //             properties: {
-    //               status: highSchool.properties.status,
-    //               highSchoolOrGedCompletionDate: date,
-    //               'view:hasHighSchool': {
-    //                 type: 'object',
-    //                 properties: {
-    //                   name: highSchool.properties.name,
-    //                   city: highSchool.properties.city,
-    //                   state: highSchool.properties.state,
-    //                   dateRange: highSchool.properties.dateRange,
-    //                 },
-    //               },
-    //             },
-    //           },
-    //           'view:hasTrainings': {
-    //             type: 'boolean',
-    //           },
-    //           postHighSchoolTrainings,
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
-    /*
-    depends added to keep this section out of staging
-    PR VFEP-50 contains details, this section is to be removed
-    while it is in review on staging, this section should stay in
-    production.
-    */
-    // schoolSelection: {
-    //   title: 'School selection',
-    //   pages: {
-    //     schoolSelection: merge(
-    //       {
-    //         depends: () => environment.isProduction(),
-    //       },
-    //       createSchoolSelectionPage(
-    //         fullSchema5490,
-    //         schoolSelectionOptionsFor['5490'],
-    //       ),
-    //       {
-    //         // Rephrase the question for facility name in educationProgram
-    //         uiSchema: {
-    //           educationProgram: {
-    //             name: {
-    //               'ui:title':
-    //                 'Name of school, university, or training facility you want to attend',
-    //             },
-    //             educationType: {
-    //               'ui:options': {
-    //                 updateSchema: (() => {
-    //                   const edTypes = educationType.enum;
-    //                   // Using reselect here avoids running the filter code
-    //                   // and creating a new object unless either benefit or
-    //                   // relationship has changed
-    //                   const filterEducationType = createSelector(
-    //                     form => get('benefit', form),
-    //                     form => getRelationship(get, form),
-    //                     (benefitData, relationshipData) => {
-    //                       // Remove tuition top-up
-    //                       const filterOut = ['tuitionTopUp'];
-    //                       // Correspondence not available to Chapter 35 (DEA) children
-    //                       if (
-    //                         benefitData === 'chapter35' &&
-    //                         relationshipData === 'child'
-    //                       ) {
-    //                         filterOut.push('correspondence');
-    //                       }
-    //                       // Flight training available to Chapter 33 (Fry Scholarships) only
-    //                       if (benefitData && benefitData !== 'chapter33') {
-    //                         filterOut.push('flightTraining');
-    //                       }
-
-    //                       return { enum: without(edTypes, filterOut) };
-    //                     },
-    //                   );
-
-    //                   return form => filterEducationType(form);
-    //                 })(),
-    //               },
-    //             },
-    //           },
-    //         },
-    //       },
-    //     ),
-    //   },
-    // },
     personalInformation: {
       title: 'Personal information',
       pages: {
@@ -843,46 +645,7 @@ const formConfig = {
           fullSchema5490,
           'relativeAddress',
         ),
-        // secondaryContact: {
-        //   title: 'Secondary contact',
-        //   path: 'personal-information/secondary-contact',
-        //   initialData: {},
-        //   depends: () => environment.isProduction(), // delete this row when ready for prod
-        //   uiSchema: {
-        //     'ui:title': 'Secondary contact',
-        //     'ui:description':
-        //       'This person should know where you can be reached at all times.',
-        //     secondaryContact: {
-        //       fullName: {
-        //         'ui:title': 'Name',
-        //       },
-        //       phone: phoneUI('Telephone number'),
-        //       sameAddress: {
-        //         'ui:title': 'Address for secondary contact is the same as mine',
-        //       },
-        //       address: merge({}, addressUI(), {
-        //         'ui:options': {
-        //           hideIf: formData =>
-        //             get('secondaryContact.sameAddress', formData) === true,
-        //         },
-        //       }),
-        //     },
-        //   },
-        //   schema: {
-        //     type: 'object',
-        //     properties: {
-        //       secondaryContact: {
-        //         type: 'object',
-        //         properties: {
-        //           fullName: secondaryContact.properties.fullName,
-        //           phone,
-        //           sameAddress: secondaryContact.properties.sameAddress,
-        //           address: addressSchema(fullSchema5490),
-        //         },
-        //       },
-        //     },
-        //   },
-        // },
+
         directDeposit: !environment.isProduction()
           ? createDirectDepositPage5490()
           : createDirectDepositPage(fullSchema5490),
