@@ -1,3 +1,5 @@
+import { CLAIM_OWNERSHIP } from '../definitions/constants';
+
 export default {
   uiSchema: {
     claimOwnership: {
@@ -18,7 +20,7 @@ export default {
     properties: {
       claimOwnership: {
         type: 'string',
-        enum: ['self', 'third-party'],
+        enum: [CLAIM_OWNERSHIP.SELF, CLAIM_OWNERSHIP.THIRD_PARTY],
       },
     },
   },
