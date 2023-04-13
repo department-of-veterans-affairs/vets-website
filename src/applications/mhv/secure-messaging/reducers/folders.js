@@ -2,6 +2,10 @@ import { Actions } from '../util/actionTypes';
 
 const initialState = {
   /**
+   * The current in-focus folderId, i.e. the folderId of the folder being viewed by the user
+   */
+  folderId: undefined,
+  /**
    * The current in-focus folder, i.e. the folder being viewed by the user
    */
   folder: undefined,
@@ -34,6 +38,8 @@ export const foldersReducer = (state = initialState, action) => {
       return { ...state, folder: { ...initialState } };
     case Actions.Folder.DELETE:
       return { ...state };
+    case Actions.Folder.SET_FOLDER:
+      return { ...state, folderId: action.action };
     default:
       return state;
   }

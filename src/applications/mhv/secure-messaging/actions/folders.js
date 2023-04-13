@@ -139,3 +139,10 @@ export const renameFolder = (folderId, newName) => async dispatch => {
     }
   }
 };
+
+export const setActiveFolderId = folderId => async dispatch => {
+  dispatch({
+    type: Actions.Folder.SET_FOLDER_ID,
+    folderId,
+  });
+};

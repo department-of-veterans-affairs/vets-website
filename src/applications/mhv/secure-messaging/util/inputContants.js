@@ -20,7 +20,7 @@ export const SelectCategories = [
     label: ' ',
   },
   {
-    value: 'other',
+    value: 'general',
     label: 'General',
   },
   {

@@ -140,7 +140,7 @@ const SearchForm = props => {
 
         {folders && (
           <div>
-            <FilterBox folderId={folder.folderId} />
+            <FilterBox folders={folders} />
           </div>
         )}
       </div>

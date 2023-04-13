@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   VaDate,
   VaModal,
@@ -27,10 +27,7 @@ const FilterBox = props => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [folder] = useState(0);
-  const [messageId] = useState('');
-  const [senderName] = useState('');
-  const [subject] = useState('');
+  const folderId = useSelector(state => state.sm.folders.folder.folderId);
   const [category, setCategory] = useState('');
   const [dateRange, setDateRange] = useState('any');
   const [fromDate, setFromDate] = useState('');
@@ -77,9 +74,6 @@ const FilterBox = props => {
       }
     } else if (
       dateRange === 'any' &&
-      !messageId &&
-      !senderName &&
-      !subject &&
       !category
     ) {
       formInvalid = true;
@@ -112,13 +106,9 @@ const FilterBox = props => {
       toDateTime = `${toDate}T23:59:59${offset}`;
     }
 
-    const folderData = folders.find(item => +item.id === +folder);
-    // console.log(folderData)
+    const folderData = folders.find(item => +item.id === +folderId);
     dispatch(
       runAdvancedSearch(folderData, {
-        messageId,
-        sender: senderName,
-        subject,
         category,
         fromDate: relativeFromDate || fromDateTime,
         toDate: relativeToDate || toDateTime,

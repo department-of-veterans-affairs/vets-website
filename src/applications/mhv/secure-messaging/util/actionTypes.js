@@ -27,6 +27,7 @@ export const Actions = {
     CREATE: 'SM_FOLDER_CREATE',
     DELETE: 'SM_FOLDER_DELETE',
     RENAME: 'SM_FOLDER_RENAME',
+    SET_FOLDER_ID: 'SM_FOLDER_SET_ACTIVE_FOLDER_ID',
   },
   Message: {
     GET: 'SM_MESSAGE_GET',
