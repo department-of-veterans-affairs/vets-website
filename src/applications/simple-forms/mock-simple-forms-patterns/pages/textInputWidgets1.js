@@ -63,6 +63,6 @@ export default {
         pattern: '^[0-9]{9}$',
       },
     },
-    required: ['requiredOld', 'requiredNew'],
+    required: [],
   },
 };

@@ -9,7 +9,7 @@ import manifest from '../../manifest.json';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['minimal-test', 'maximal-test'],
+    dataSets: ['minimal-test'],
     dataDir: path.join(__dirname, 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -18,23 +18,40 @@ const testConfig = createTestConfig(
           cy.findByText(/without signing in/i).click({ force: true });
         });
       },
-      'review-and-submit': ({ afterHook }) => {
+      'text-input': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const { fullName } = data.veteran;
-            cy.get('#veteran-signature')
+            const dataName = 'requiredNew';
+            cy.fillPage();
+            cy.get(`va-text-input[name="root_${dataName}"]`)
               .shadow()
               .find('input')
-              .first()
-              .type(
-                fullName.middle
-                  ? `${fullName.first} ${fullName.middle} ${fullName.last}`
-                  : `${fullName.first} ${fullName.last}`,
-              );
-            cy.get(`input[name="veteran-certify"]`).check();
-            cy.findAllByText(/Submit application/i, {
-              selector: 'button',
-            }).click();
+              .type(data?.[dataName]);
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'text-input-full-name': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+
+            cy.get(`va-text-input[name="root_spouseFullNameNew_first"]`)
+              .shadow()
+              .find('input')
+              .type(data.spouseFullNameNew.first);
+
+            cy.get(`va-text-input[name="root_spouseFullNameNew_last"]`)
+              .shadow()
+              .find('input')
+              .type(data.spouseFullNameNew.last);
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
