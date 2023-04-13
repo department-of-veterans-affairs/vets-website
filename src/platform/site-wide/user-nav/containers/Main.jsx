@@ -132,13 +132,24 @@ export class Main extends Component {
     return null;
   }
 
-  appendOrRemoveParameter({ url = 'loginModal', pageTitle = '' } = {}) {
+  appendOrRemoveParameter({
+    url = 'loginModal',
+    pageTitle = '',
+    useSiS = true,
+  } = {}) {
     if (url === 'loginModal' && this.getNextParameter()) {
       return null;
     }
     const location = window.location.toString();
-    const nextQuery = { next: url };
-    const nextPath = appendQuery(location, nextQuery);
+    const nextQuery = {
+      next: url,
+      ...(useSiS &&
+        this.props.useSignInService && {
+          oauth: true,
+        }),
+    };
+    const path = useSiS ? location : location.replace('&oauth=true', '');
+    const nextPath = appendQuery(path, nextQuery);
     history.pushState({}, pageTitle, nextPath);
 
     return nextQuery;
@@ -205,6 +216,7 @@ export class Main extends Component {
 
   closeLoginModal = () => {
     this.props.toggleLoginModal(false);
+    this.appendOrRemoveParameter({ useSiS: false });
   };
 
   closeAccountTransitionModal = () => {
@@ -223,6 +235,7 @@ export class Main extends Component {
 
   openLoginModal = () => {
     this.props.toggleLoginModal(true);
+    this.appendOrRemoveParameter({});
   };
 
   signInSignUp = () => {
