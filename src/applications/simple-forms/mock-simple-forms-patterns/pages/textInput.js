@@ -82,8 +82,8 @@ export default {
     },
     required: ['requiredOld', 'requiredNew'],
   },
-  initialData: {
-    requiredOld: 'Test',
-    requiredNew: 'Test',
-  },
+  // initialData: {
+  //   requiredOld: 'Test',
+  //   requiredNew: 'Test',
+  // },
 };
