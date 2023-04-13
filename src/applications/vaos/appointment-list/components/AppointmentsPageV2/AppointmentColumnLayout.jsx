@@ -91,7 +91,7 @@ export default function AppointmentColumnLayout({
               'xsmall-screen:margin-top--1',
             )}
             size="1"
-            style={{ minWidth: '30px', maxWidth: '30px' }}
+            style={{ minWidth: '30px', maxWidth: '30px', alignSelf: 'center' }}
           >
             <span
               className={classNames({ 'vads-u-display--none': !first })}
