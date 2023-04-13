@@ -16,7 +16,7 @@ const PrintBtn = props => {
   );
   const messageThreadCount = useMemo(
     () => {
-      return messageThread.length + 1; // +1 for the original message
+      return messageThread?.length + 1; // +1 for the original message
     },
     [messageThread],
   );

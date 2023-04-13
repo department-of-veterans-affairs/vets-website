@@ -6,14 +6,15 @@ import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import InterstitialPage from './InterstitialPage';
+import { PrintMessageOptions } from '../util/constants';
 
 const MessageReply = () => {
   const dispatch = useDispatch();
   const { replyId } = useParams();
   const { error } = useSelector(state => state.sm.draftDetails);
   const replyMessage = useSelector(state => state.sm.messageDetails.message);
-  const messageHistory = useSelector(
-    state => state.sm.messageDetails.messageHistory,
+  const { messageHistory, printOption, threadViewCount } = useSelector(
+    state => state.sm.messageDetails,
   );
   const [acknowledged, setAcknowledged] = useState(false);
 
@@ -51,7 +52,12 @@ const MessageReply = () => {
     return (
       <>
         {messageHistory?.length > 0 && (
-          <MessageThread messageHistory={messageHistory} isDraftThread />
+          <MessageThread
+            messageHistory={messageHistory}
+            isDraftThread
+            isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
+            viewCount={threadViewCount}
+          />
         )}
       </>
     );

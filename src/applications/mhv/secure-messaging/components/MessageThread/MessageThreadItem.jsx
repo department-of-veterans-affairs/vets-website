@@ -29,7 +29,7 @@ const MessageThreadItem = props => {
 
   const isRead = readReceipt === 'READ';
   const fromMe = recipientName === triageGroupName;
-  const from = fromMe ? 'Me' : `${senderName} ${triageGroupName}`;
+  const from = fromMe ? 'Me' : `${senderName}`;
 
   useEffect(
     () => {
