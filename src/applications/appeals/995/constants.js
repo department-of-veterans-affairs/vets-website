@@ -141,7 +141,7 @@ export const REVIEW_ISSUES = 'onReviewPageIssues';
 
 // Values from benefitTypes in Lighthouse 0995 schema
 // schema.definitions.scCreate.properties.data.properties.attributes.properties.benefitType.emum;
-const supportedBenefitTypes = [
+export const SUPPORTED_BENEFIT_TYPES_LIST = [
   'compensation', // Phase 1
   // 'pensionSurvivorsBenefits',
   // 'fiduciary',
@@ -158,7 +158,7 @@ export const AMA_DATE = '2019-02-19'; // Appeals Modernization Act in effect
 
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,
-  isSupported: supportedBenefitTypes.includes(type.value),
+  isSupported: SUPPORTED_BENEFIT_TYPES_LIST.includes(type.value),
 }));
 
 // Once we include the 'pensionSurvivorsBenefits' type, we will need to know
