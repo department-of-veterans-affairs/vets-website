@@ -6,7 +6,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 const initializeDatadogRum = () => {
   if (
     // Prevent RUM from running on local/CI environments.
-    !environment.isLocalhost() &&
+    environment.BASE_URL.indexOf('localhost') < 0 &&
     // Prevent re-initializing the SDK.
     !window.DD_RUM?.getInitConfiguration() &&
     !window.Mocha
