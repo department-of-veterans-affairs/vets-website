@@ -43,7 +43,19 @@ const responses = {
   'GET /v0/debts': hasDebts ? createDebtsSuccess() : createNoDebtsSuccess(),
   'GET /v0/onsite_notifications': notifications.hasMultiple,
   'PATCH /v0/onsite_notifications/:id': (req, res) => {
-    return res.json(notifications.dismissalReceived.success);
+    const { id } = req.params;
+
+    if (
+      id === 'e4213b12-eb44-4b2f-bac5-3384fbde0b7a' ||
+      id === 'f9947b27-df3b-4b09-875c-7f76594d766d'
+    ) {
+      return res.json(notifications.createDismissalSuccessResponse(id));
+    }
+    if (!id) {
+      return notifications.hasError;
+    }
+
+    return res.json({ data: [] });
   },
   'GET /v0/profile/service_history': {
     data: {

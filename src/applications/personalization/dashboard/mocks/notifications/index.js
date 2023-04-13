@@ -1,5 +1,21 @@
 const templateId = 'f9947b27-df3b-4b09-875c-7f76594d766d';
 
+const hasOnlyOne = {
+  data: [
+    {
+      id: 'f9947b27-df3b-4b09-875c-7f76594d766d',
+      type: 'onsite_notifications',
+      attributes: {
+        templateId,
+        vaProfileId: '1273780',
+        dismissed: false,
+        createdAt: new Date(2023, 2, 28),
+        updatedAt: new Date(2023, 3, 1),
+      },
+    },
+  ],
+};
+
 const hasMultiple = {
   data: [
     {
@@ -27,32 +43,20 @@ const hasMultiple = {
   ],
 };
 
-const dismissalReceived = {
-  success: {
+const createDismissalSuccessResponse = resId => {
+  return {
     data: {
-      id: '',
-      type: 'onsite_notifications',
-      attributes: {
-        dismissed: true,
-      },
-    },
-  },
-};
-
-const dismissedSuccess = {
-  data: [
-    {
-      id: '',
+      id: resId,
       type: 'onsite_notifications',
       attributes: {
         templateId,
         vaProfileId: '',
         dismissed: true,
         createdAt: '',
-        updatedAt: 'new Date(2023, 3, 1)',
+        updatedAt: '',
       },
     },
-  ],
+  };
 };
 
 const none = {
@@ -62,17 +66,20 @@ const none = {
 const hasError = {
   errors: [
     {
-      title: 'Server Error',
-      code: '500',
-      status: '500',
+      title: 'Bad Request',
+      detail: 'Received a bad request response from the upstream server',
+      code: 'EVSS400',
+      source: 'EVSS::DisabilityCompensationForm::Service',
+      status: '400',
+      meta: {},
     },
   ],
 };
 
 module.exports = {
+  hasOnlyOne,
   hasMultiple,
-  dismissalReceived,
-  dismissedSuccess,
   none,
   hasError,
+  createDismissalSuccessResponse,
 };
