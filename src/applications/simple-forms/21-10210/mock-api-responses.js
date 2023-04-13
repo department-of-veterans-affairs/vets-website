@@ -86,7 +86,7 @@ const responses = {
   },
   'GET /v0/in_progress_forms/21-10210': sipJson,
   'PUT /v0/in_progress_forms/21-10210': sipJson,
-  'POST /v0/api': submitJson,
+  'POST /forms_api/v1/simple_forms': submitJson,
 };
 /* eslint-enable camelcase */
 

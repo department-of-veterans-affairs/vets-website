@@ -1,4 +1,5 @@
 // import fullSchema from 'vets-json-schema/dist/21-10210-schema.json';
+import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -14,7 +15,7 @@ import statementInformation2 from '../pages/statementInformation2';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'lay-witness-10210-',
@@ -35,7 +36,8 @@ const formConfig = {
     // notFound: 'Please start over to apply for claims.',
     // noAuth: 'Please sign in again to continue your application for claims.',
   },
-  title: '21-10210 Lay/Witness Statement',
+  title: 'Submit a Lay/Witness Statement',
+  subTitle: 'Equal to submitting a Lay/Witness Statement (VA Form 21-10210)',
   defaultDefinitions: {},
   chapters: {
     statementInformation: {
