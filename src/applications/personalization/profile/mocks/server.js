@@ -41,6 +41,7 @@ const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
     profileUseInfoCard: true,
     profileUseFieldEditingPage: true,
+    profileShowMhvNotificationSettings: false,
   }),
   'GET /v0/ppiu/payment_information': (_req, res) => {
     // 47841 - Below are the three cases where all of Profile should be gated off

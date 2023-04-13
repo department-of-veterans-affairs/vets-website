@@ -1,9 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const DownloadLettersAlert = () => (
   <va-alert
@@ -20,18 +17,18 @@ export const DownloadLettersAlert = () => (
     </p>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
       If you have any questions, call us at
-      <Telephone contact="800-827-0648" className="vads-u-margin-x--0p5" />
+      <va-telephone contact="8008270648" className="vads-u-margin-x--0p5" />
       (or
-      <Telephone
-        contact="1-612-713-6415"
-        pattern={PATTERNS.OUTSIDE_US}
+      <va-telephone
+        contact="6127136415"
+        international
         className="vads-u-margin-x--0p5"
       />
       from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m.
-      ET. If you have hearing loss, call TTY:
-      <Telephone
+      ET. If you have hearing loss, call
+      <va-telephone
         contact={CONTACTS[711]}
-        pattern={PATTERNS['3_DIGIT']}
+        tty
         className="vads-u-margin-left--0p5"
       />
       .
@@ -76,7 +73,11 @@ export const DowntimeMessage = () => {
         </a>
         If you need help resolving a debt, or you would like to get information
         about a debt that has been resolved, call the Debt Management Center at
-        <Telephone className="vads-u-margin-left--0p5" contact="8008270648" />.
+        <va-telephone
+          className="vads-u-margin-left--0p5"
+          contact="8008270648"
+        />
+        .
       </p>
     </va-alert>
   );
@@ -115,8 +116,11 @@ export const ErrorAlert = () => (
       <h4>What you can do</h4>
       <p className="vads-u-font-family--sans vads-u-margin-y--0">
         You can check back later or call the Debt Management Center at
-        <Telephone className="vads-u-margin-x--0p5" contact="8008270648" /> to
-        find out more information about how to resolve your debt.
+        <va-telephone
+          className="vads-u-margin-x--0p5"
+          contact="8008270648"
+        />{' '}
+        to find out more information about how to resolve your debt.
       </p>
     </div>
   </va-alert>
@@ -135,7 +139,7 @@ export const DependentDebt = () => (
       <h4>What you can do</h4>
       <p className="vads-u-font-family--sans vads-u-margin-y--0">
         If you need to access debt letters that were mailed to you, call the
-        Debt Management Center at <Telephone contact="8008270648" />.
+        Debt Management Center at <va-telephone contact="8008270648" />.
       </p>
     </div>
   </va-alert>
@@ -148,7 +152,7 @@ export const NoDebtLinks = () => (
       <p className="vads-u-font-family--sans">
         Our records show you don’t have any debt letters related to VA benefits.
         If you think this is an error, please contact the Debt Management Center
-        at <Telephone contact="8008270648" />.
+        at <va-telephone contact="8008270648" />.
       </p>
       <p className="vads-u-font-family--sans vads-u-margin-y--0">
         If you have VA health care copay debt, go to our
