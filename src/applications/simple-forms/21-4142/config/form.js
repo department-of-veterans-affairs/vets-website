@@ -19,6 +19,15 @@ import patientIdentification2 from '../pages/patientIdentification2';
 import authorization from '../pages/authorization';
 import recordsRequested from '../pages/recordsRequested';
 import limitations from '../pages/limitations';
+import preparerIdentification from '../pages/preparerIdentification';
+import preparerPersonalInformation from '../pages/preparerPersonalInformation';
+import preparerAddress1 from '../pages/preparerAddress1';
+import preparerAddress2 from '../pages/preparerAddress2';
+import {
+  patientIdentificationFields,
+  preparerIdentificationFields,
+  veteranIsSelfText,
+} from '../definitions/constants';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -144,6 +153,60 @@ const formConfig = {
           title: 'Do you want to limit the information we can request?',
           uiSchema: limitations.uiSchema,
           schema: limitations.schema,
+        },
+      },
+    },
+    preparerIdentification: {
+      title: 'Preparer identification',
+      pages: {
+        preparerIdentification: {
+          path: 'preparer-identification',
+          title: 'Preparer identification',
+          uiSchema: preparerIdentification.uiSchema,
+          schema: preparerIdentification.schema,
+        },
+      },
+    },
+    preparerPersonalInformation: {
+      title: 'Preparer personal information',
+      pages: {
+        preparerPersonalInformation: {
+          path: 'preparer-personal-information',
+          title: 'Preparer personal information',
+          depends: formData =>
+            formData[preparerIdentificationFields.parentObject][
+              [preparerIdentificationFields.relationshipToVeteran]
+            ] !== veteranIsSelfText,
+          uiSchema: preparerPersonalInformation.uiSchema,
+          schema: preparerPersonalInformation.schema,
+        },
+      },
+    },
+    preparerAddress: {
+      title: 'Preparer address',
+      pages: {
+        preparerAddress1: {
+          path: 'preparer-address-1',
+          title: 'Preparer address 1',
+          depends: formData =>
+            formData[preparerIdentificationFields.parentObject][
+              [preparerIdentificationFields.relationshipToVeteran]
+            ] !== veteranIsSelfText,
+          uiSchema: preparerAddress1.uiSchema,
+          schema: preparerAddress1.schema,
+        },
+        preparerAddress2: {
+          path: 'preparer-address-2',
+          title: 'Preparer address 2',
+          depends: formData =>
+            !formData[preparerIdentificationFields.parentObject][
+              [preparerIdentificationFields.preparerHasSameAddressAsVeteran]
+            ] &&
+            formData[preparerIdentificationFields.parentObject][
+              [preparerIdentificationFields.relationshipToVeteran]
+            ] !== veteranIsSelfText,
+          uiSchema: preparerAddress2.uiSchema,
+          schema: preparerAddress2.schema,
         },
       },
     },
