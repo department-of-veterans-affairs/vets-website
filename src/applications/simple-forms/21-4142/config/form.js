@@ -7,6 +7,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 
+import transformForSubmit from '../../shared/config/submit-transformer';
+
 // pages
 import personalInformation1 from '../pages/personalInformation1';
 import personalInformation2 from '../pages/personalInformation2';
@@ -35,6 +37,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  transformForSubmit,
   savedFormMessages: {
     notFound:
       'Please start over to apply for authorize release of medical information.',

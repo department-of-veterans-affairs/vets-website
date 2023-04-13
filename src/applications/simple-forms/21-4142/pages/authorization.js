@@ -107,8 +107,14 @@ export default {
     },
     [schemaFields.acknowledgeToReleaseInformation]: {
       'ui:title': 'I acknowledge and authorize this release of information',
+      'ui:widget': 'checkbox',
+      'ui:options': {
+        hideLabelText: true,
+      },
       'ui:errorMessages': {
-        pattern:
+        enum:
+          'Please authorize the release so we can request your private medical records from your doctor.',
+        required:
           'Please authorize the release so we can request your private medical records from your doctor.',
       },
     },
