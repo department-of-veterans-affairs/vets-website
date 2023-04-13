@@ -34,6 +34,7 @@ import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
 import InstallmentContract from '../components/InstallmentContract';
 import InstallmentContractSummary from '../pages/expenses/repayments/InstallmentContractSummary';
+import EmploymentQuestion from '../components/EmploymentQuestion';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -158,6 +159,7 @@ const formConfig = {
           title: 'Employment',
           uiSchema: pages.employment.uiSchema,
           schema: pages.employment.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         // loop begins
         employmentRecords: {
@@ -169,6 +171,15 @@ const formConfig = {
             formData.questions.vetIsEmployed &&
             !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        employmentQuestion: {
+          path: 'employment-question',
+          title: 'Employment',
+          CustomPage: EmploymentQuestion,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
         },
         enhancedEmploymentRecords: {
           path: 'enhanced-employment-records',
