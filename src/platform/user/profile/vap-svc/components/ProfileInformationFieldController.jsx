@@ -434,6 +434,8 @@ class ProfileInformationFieldController extends React.Component {
           title={title}
           recordCustomProfileEvent={recordCustomProfileEvent}
           forceEditView={forceEditView}
+          cancelButtonText={this.props?.cancelButtonText}
+          saveButtonText={this.props?.saveButtonText}
         />
       );
     }
@@ -523,6 +525,7 @@ ProfileInformationFieldController.propTypes = {
   uiSchema: PropTypes.object.isRequired,
   activeEditView: PropTypes.string,
   ariaDescribedBy: PropTypes.string,
+  cancelButtonText: PropTypes.string,
   cancelCallback: PropTypes.func,
   data: PropTypes.object,
   editViewData: PropTypes.object,
@@ -530,6 +533,7 @@ ProfileInformationFieldController.propTypes = {
   isDeleteDisabled: PropTypes.bool,
   refreshTransaction: PropTypes.func,
   refreshTransactionRequest: PropTypes.func,
+  saveButtonText: PropTypes.string,
   showRemoveModal: PropTypes.bool,
   showUpdateSuccessAlert: PropTypes.bool,
   successCallback: PropTypes.func,

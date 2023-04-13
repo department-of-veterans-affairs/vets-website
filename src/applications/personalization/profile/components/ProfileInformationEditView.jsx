@@ -277,6 +277,8 @@ export class ProfileInformationEditView extends Component {
         title,
         transaction,
         transactionRequest,
+        cancelButtonText,
+        saveButtonText,
       },
       onClickUpdateHandler,
     } = this;
@@ -341,7 +343,7 @@ export class ProfileInformationEditView extends Component {
                     className="vads-u-margin-top--0"
                     onClick={onClickUpdateHandler}
                   >
-                    Save
+                    {saveButtonText || 'Save'}
                   </LoadingButton>
 
                   {!isLoading && (
@@ -351,7 +353,7 @@ export class ProfileInformationEditView extends Component {
                       className="usa-button-secondary small-screen:vads-u-margin-top--0"
                       onClick={onCancel}
                     >
-                      Cancel
+                      {cancelButtonText || 'Cancel'}
                     </button>
                   )}
                 </div>
@@ -384,6 +386,7 @@ ProfileInformationEditView.propTypes = {
   validateAddress: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   activeEditView: PropTypes.string,
+  cancelButtonText: PropTypes.string,
   data: PropTypes.object,
   editViewData: PropTypes.object,
   field: PropTypes.shape({
@@ -393,6 +396,7 @@ ProfileInformationEditView.propTypes = {
     uiSchema: PropTypes.object,
   }),
   forceEditView: PropTypes.bool,
+  saveButtonText: PropTypes.string,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
