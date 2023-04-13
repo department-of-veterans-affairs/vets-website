@@ -48,7 +48,6 @@ class IntroductionPage extends React.Component {
       messages: savedFormMessages,
       startText: 'Start your Claim',
       gaStartEventName: 'decision-reviews-va20-0995-start-form',
-      testActionLink: true,
       useActionLinks: true,
     };
 
