@@ -11,6 +11,8 @@ import witnessInformation1 from '../pages/witnessInformation1';
 import witnessInformation2 from '../pages/witnessInformation2';
 import claimantInformation1 from '../pages/claimantInformation1';
 import claimantInformation2 from '../pages/claimantInformation2';
+import veteranInformation1 from '../pages/veteranInformation1';
+import veteranInformation2 from '../pages/veteranInformation2';
 // import { uiSchema as addressUiSchema } from 'src/platform/forms/definitions/address';
 
 // const { } = fullSchema.properties;
@@ -110,6 +112,23 @@ const formConfig = {
           },
           uiSchema: claimantInformation2.uiSchema,
           schema: claimantInformation2.schema,
+        },
+      },
+    },
+    veteranInformation: {
+      title: 'Veteran Information',
+      pages: {
+        veteranInformation1: {
+          path: 'veteran-personal-information',
+          title: 'Veteran’s personal information',
+          uiSchema: veteranInformation1.uiSchema,
+          schema: veteranInformation1.schema,
+        },
+        veteranInformation2: {
+          path: 'veteran-contact-information',
+          title: 'Veteran’s contact information',
+          uiSchema: veteranInformation2.uiSchema,
+          schema: veteranInformation2.schema,
         },
       },
     },
