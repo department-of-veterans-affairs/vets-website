@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaModal,
@@ -6,6 +6,7 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
+import { PrintMessageOptions } from '../../util/constants';
 
 const PrintBtn = props => {
   const [printOption, setPrintOption] = useState(null);
@@ -13,14 +14,9 @@ const PrintBtn = props => {
   const messageThread = useSelector(
     state => state.sm.messageDetails.messageHistory,
   );
-  const messageThreadCount = useRef(1);
-  useEffect(
+  const messageThreadCount = useMemo(
     () => {
-      if (messageThread?.length > 0) {
-        messageThread.forEach(() => {
-          messageThreadCount.current += 1;
-        });
-      }
+      return messageThread.length + 1; // +1 for the original message
     },
     [messageThread],
   );
@@ -42,9 +38,9 @@ const PrintBtn = props => {
   };
 
   const handleConfirmPrint = () => {
-    props.handlePrint(printOption);
     setPrintOption(null);
     closeModal();
+    props.handlePrint(printOption);
   };
 
   const printModal = () => {
@@ -73,7 +69,7 @@ const PrintBtn = props => {
                 data-testid="radio-print-one-message"
                 label="Print only this message"
                 name="defaultName"
-                value="this message"
+                value={PrintMessageOptions.PRINT_MAIN}
               />
 
               <VaRadioOption
@@ -84,11 +80,11 @@ const PrintBtn = props => {
                 } messages)`}
                 label="Print all messages in this conversation"
                 name="defaultName"
-                value="all messages"
+                value={PrintMessageOptions.PRINT_THREAD}
               />
             </VaRadio>
             <p>
-              <strong>{`(${messageThreadCount.current} messages)`}</strong>
+              <strong>{`(${messageThreadCount} messages)`}</strong>
             </p>
           </div>
         </VaModal>

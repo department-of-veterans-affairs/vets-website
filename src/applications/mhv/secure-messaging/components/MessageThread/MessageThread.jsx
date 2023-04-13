@@ -6,7 +6,7 @@ for each individual <va-accordion-item> event. Prelaoding all messages on the fi
 is not an option since it will mark all messages as read. 
 */
 
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import PropType from 'prop-types';
 import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -16,11 +16,11 @@ import {
   clearMessageHistory,
   markMessageAsReadInThread,
 } from '../../actions/messages';
+import { Actions } from '../../util/actionTypes';
 
 const MessageThread = props => {
   const dispatch = useDispatch();
-  const { messageHistory, isDraftThread } = props;
-  const [viewCount, setViewCount] = useState(5);
+  const { messageHistory, isDraftThread, isForPrint, viewCount } = props;
   const accordionRef = useRef();
 
   useEffect(
@@ -44,6 +44,10 @@ const MessageThread = props => {
     },
     [viewCount],
   );
+
+  const setViewCount = count => {
+    dispatch({ type: Actions.Message.SET_THREAD_VIEW_COUNT, payload: count });
+  };
 
   const handleLoadMoreMessages = () => {
     setViewCount(viewCount + 5);
@@ -77,7 +81,11 @@ const MessageThread = props => {
 
       {messageHistory?.length > 0 &&
         viewCount && (
-          <div className="older-messages vads-u-margin-top--3 vads-u-padding-left--0p5">
+          <div
+            className={`older-messages vads-u-margin-top--3 vads-u-padding-left--0p5 ${
+              isForPrint ? 'print' : 'do-not-print'
+            }`}
+          >
             <h2 className="vads-u-font-weight--bold">
               Messages in this conversation
             </h2>
@@ -131,7 +139,9 @@ const MessageThread = props => {
 
 MessageThread.propTypes = {
   isDraftThread: PropType.bool,
+  isForPrint: PropType.bool,
   messageHistory: PropType.array,
+  viewCount: PropType.number,
 };
 
 export default MessageThread;

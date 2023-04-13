@@ -178,3 +178,8 @@ export const threadSortingOptions = {
   SORT_BY_SENT_DATE: 'SENT_DATE',
   SORT_BY_DRAFT_DATE: 'DRAFT_DATE',
 };
+
+export const PrintMessageOptions = {
+  PRINT_MAIN: 'PRINT_MAIN',
+  PRINT_THREAD: 'PRINT_THREAD',
+};
