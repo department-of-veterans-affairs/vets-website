@@ -135,7 +135,7 @@ describe('Fetch Debts Successfully and Filter Out Invalid Debt', () => {
       window.sessionStorage.clear();
     });
   });
-  it.skip('Successful API Response', () => {
+  it('Successful API Response', () => {
     cy.get('#start-option-0').click();
     cy.get('#reconsider-option-2').click();
     cy.get('#recipients-option-1').click();
