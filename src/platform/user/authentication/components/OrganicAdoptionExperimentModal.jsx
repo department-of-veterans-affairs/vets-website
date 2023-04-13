@@ -9,48 +9,48 @@ import { isAuthenticatedWithOAuth } from '../selectors';
 const OrganicAdoptionExperimentModal = ({ visible = false, onClose }) => {
   const useOAuth = useSelector(isAuthenticatedWithOAuth);
 
-  function setDismissalCookie() {
+  const setDismissalCookie = () => {
     const date = new Date();
     localStorage.setItem('dismiss_organic_adoption_modal', `${date}`);
-  }
+  };
+
+  const onPrimaryButtonClick = async () => {
+    setDismissalCookie();
+    recordEvent({
+      event: 'cta-button-click',
+      'button-type': 'primary-button',
+      'button-click-label': '(organic experiment) Get Login.gov now',
+    });
+    location.href = await authUtilities.signupOrVerify({
+      policy: 'logingov',
+      isLink: true,
+      allowVerification: false,
+      useOAuth,
+    });
+  };
+
+  const onSecondaryButtonClick = () => {
+    recordEvent({
+      event: 'cta-button-click',
+      'button-type': 'secondary-button',
+      'button-click-label': '(organic experiment) Learn more',
+    });
+    location.href =
+      'https://www.va.gov/resources/signing-in-to-vagov/#should-i-create-a-logingov-or-';
+  };
 
   return (
     <Modal
       id="loginGovExperimentModal"
-      modalTitle="Use one account and password for secure, private access to government agencies"
-      large
+      title="Use one account and password for secure, private access to government agencies"
+      cssClass="va-modal-large"
       visible={visible}
-      click-to-close
-      onCloseEvent={() => {
+      clickToClose
+      onClose={() => {
         setDismissalCookie();
         recordEvent({ event: 'organic-experiment-dismiss-modal' });
         onClose();
       }}
-      onPrimaryButtonClick={async () => {
-        setDismissalCookie();
-        recordEvent({
-          event: 'cta-button-click',
-          'button-type': 'primary-button',
-          'button-click-label': '(organic experiment) Get Login.gov now',
-        });
-        location.href = await authUtilities.signupOrVerify({
-          policy: 'logingov',
-          isLink: true,
-          allowVerification: false,
-          useOAuth,
-        });
-      }}
-      onSecondaryButtonClick={() => {
-        recordEvent({
-          event: 'cta-button-click',
-          'button-type': 'secondary-button',
-          'button-click-label': '(organic experiment) Learn more',
-        });
-        location.href =
-          'https://www.va.gov/resources/signing-in-to-vagov/#should-i-create-a-logingov-or-';
-      }}
-      primaryButtonText="Get Login.gov now"
-      secondaryButtonText="Learn more"
     >
       <div className="modal-content">
         <p>
@@ -78,6 +78,18 @@ const OrganicAdoptionExperimentModal = ({ visible = false, onClose }) => {
           <li>Social Security Number</li>
           <li>A phone number where you can be reached</li>
         </ul>
+        <div className="alert-actions">
+          <button type="button" onClick={onPrimaryButtonClick}>
+            Get Login.gov now
+          </button>
+          <button
+            className="button-secondary"
+            onClick={onSecondaryButtonClick}
+            type="button"
+          >
+            Learn more
+          </button>
+        </div>
       </div>
     </Modal>
   );
