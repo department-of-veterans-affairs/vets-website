@@ -5,9 +5,9 @@ import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/valida
 import fullNameUI from 'platform/forms/definitions/fullName';
 import * as personId from 'platform/forms/definitions/personId';
 
-import { relationshipLabels, genderLabels } from 'platform/static-data/labels';
+import { genderLabels } from 'platform/static-data/labels';
 
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 
 import {
   ageWarning,
@@ -148,25 +148,13 @@ export default function applicantInformationUpdate(schema, options) {
           labels: labels.gender || genderLabels,
         },
       },
-      relationship: {
-        'ui:widget': 'radio',
-        'ui:title':
-          'What’s your relationship to the service member whose benefit is being transferred to you?',
-        'ui:options': {
-          labels: labels.relationship || relationshipLabels,
-          // hideIf: () => !environment.isProduction(),
-        },
-        'ui:required': () => environment.isProduction(),
-      },
       relationshipAndChildType: {
         'ui:widget': 'radio',
         'ui:title':
           'What’s your relationship to the service member whose benefit is being transferred to you?',
         'ui:options': {
           labels: relationshipAndChildTypeLabels,
-          // hideIf: () => environment.isProduction(),
         },
-        'ui:required': () => !environment.isProduction(),
       },
       ...personId.uiSchema(prefix, 'view:noSSN'),
     },

@@ -29,7 +29,6 @@ import {
   benefitsRelinquishedWarning,
   benefitsDisclaimerChild,
   benefitsDisclaimerSpouse,
-  relationshipLabels,
   relationshipAndChildTypeLabels,
   // highSchoolStatusLabels,
   transform,
@@ -53,7 +52,7 @@ import applicantServicePage from '../../pages/applicantService';
 // import createSchoolSelectionPage, {
 //   schoolSelectionOptionsFor,
 // } from '../../pages/schoolSelection';
-import additionalBenefitsPage from '../../pages/additionalBenefits';
+// import additionalBenefitsPage from '../../pages/additionalBenefits';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -91,23 +90,14 @@ const {
 const nonRequiredFullName = createNonRequiredFullName(fullName);
 
 const relationshipEqualToSpouse = (myGet, formData) => {
-  if (environment.isProduction()) {
-    return myGet('relationship', formData) === 'spouse';
-  }
   return myGet('relationshipAndChildType', formData) === 'spouse';
 };
 
 const relationshipNotEqualToSpouse = (myGet, formData) => {
-  if (environment.isProduction()) {
-    return myGet('relationship', formData) !== 'spouse';
-  }
   return myGet('relationshipAndChildType', formData) !== 'spouse';
 };
 
 const relationshipEqualToChild = (myGet, formData) => {
-  if (environment.isProduction()) {
-    return myGet('relationship', formData) === 'child';
-  }
   return (
     myGet('relationshipAndChildType', formData) === 'adopted' ||
     myGet('relationshipAndChildType', formData) === 'biological' ||
@@ -116,9 +106,6 @@ const relationshipEqualToChild = (myGet, formData) => {
 };
 
 const relationshipNotEqualToChild = (myGet, formData) => {
-  if (environment.isProduction()) {
-    return myGet('relationship', formData) !== 'child';
-  }
   return (
     myGet('relationshipAndChildType', formData) !== 'adopted' ||
     myGet('relationshipAndChildType', formData) !== 'biological' ||
@@ -127,32 +114,13 @@ const relationshipNotEqualToChild = (myGet, formData) => {
 };
 
 const getRelationship = (myGet, formData) => {
-  if (environment.isProduction()) {
-    return myGet('relationship', formData);
-  }
   return myGet('relationshipAndChildType', formData);
 };
 
 const removeAdditionalBenefit = () => {
-  if (environment.isProduction()) {
-    return {
-      applicantInformation: applicantInformationUpdate(fullSchema5490, {
-        labels: {
-          relationship: relationshipLabels,
-          relationshipAndChildType: relationshipAndChildTypeLabels,
-        },
-      }),
-      additionalBenefits: additionalBenefitsPage(fullSchema5490, {
-        fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource'],
-      }),
-      applicantService: applicantServicePage(fullSchema5490),
-    };
-  }
-
   return {
     applicantInformation: applicantInformationUpdate(fullSchema5490, {
       labels: {
-        relationship: relationshipLabels,
         relationshipAndChildType: relationshipAndChildTypeLabels,
       },
     }),
@@ -258,25 +226,16 @@ const formConfig = {
               'ui:title':
                 ' Are you looking for Special Restorative Training because of a disability? Special Restorative Training could include speech and voice therapy, language retraining, lip reading, or Braille reading and writing.',
               'ui:widget': 'yesNo',
-              'ui:options': {
-                hideIf: () => environment.isProduction(),
-              },
             },
             vocationalTraining: {
               'ui:title':
                 'Are you looking for Special Vocational Training or specialized courses because a disability prevents you from pursuing an education program?',
               'ui:widget': 'yesNo',
-              'ui:options': {
-                hideIf: () => environment.isProduction(),
-              },
             },
             educationalCounseling: {
               'ui:title':
                 'Would you like to get vocational and educational counseling?',
               'ui:widget': 'yesNo',
-              'ui:options': {
-                hideIf: () => environment.isProduction(),
-              },
             },
           },
           schema: {
@@ -514,14 +473,8 @@ const formConfig = {
               marriageDate: {
                 ...dateUI('Date of marriage'),
                 'ui:title': 'Date of marriage',
-                'ui:options': {
-                  hideIf: formData =>
-                    relationshipEqualToSpouse(get, formData) &&
-                    environment.isProduction(),
-                },
                 'ui:required': formData =>
-                  relationshipEqualToSpouse(get, formData) &&
-                  !environment.isProduction(),
+                  relationshipEqualToSpouse(get, formData),
               },
               divorcePending: {
                 'ui:title':
