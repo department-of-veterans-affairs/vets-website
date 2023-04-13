@@ -49,12 +49,14 @@ export const content = {
   removeEvidence: {
     title: 'Are you sure you want to remove this evidence?',
     limitationTitle: 'Are you sure you want to remove the request limitation?',
-    va: 'We will remove the VA medical record request for',
-    private: 'We will remove the private medical record request for',
+    va: 'We’ll remove the VA medical record request for',
+    private: 'We’ll remove the private medical record request for',
     limitation: '',
-    upload: 'We will remove the uploaded document',
-    modalRemove: 'Yes, remove evidence',
-    modalNotRemove: 'No, do not remove',
+    upload: 'We’ll remove the uploaded document',
+    modalRemove: 'Yes, remove this',
+    modalNotRemove: 'No, keep this',
+    modalRemoveLimitation: 'Yes, remove limitation',
+    modalNotRemoveLimitation: 'No, keep limitation',
   },
 
   // error messages
