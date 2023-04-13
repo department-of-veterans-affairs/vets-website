@@ -105,7 +105,7 @@ export default function applicantInformationUpdate(schema, options) {
           'ui:title': 'Applicant has graduated high school or received GED?',
           'ui:widget': 'yesNo',
           'ui:required': formData =>
-            eighteenOrOver(formData.relativeDateOfBirth),
+            !eighteenOrOver(formData.relativeDateOfBirth),
         },
         highSchoolGedGradDate: {
           ...currentOrPastDateUI('Date graduated'),
