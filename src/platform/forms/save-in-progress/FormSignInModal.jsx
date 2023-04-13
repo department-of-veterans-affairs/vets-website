@@ -34,7 +34,6 @@ class FormSignInModal extends React.Component {
         onSecondaryButtonClick={this.handleSignIn}
         secondaryButtonText="Sign in and start over"
         initialFocusSelector="button"
-        hideCloseButton
       >
         <p>
           Since you didn’t sign in before you started, we can’t save your
