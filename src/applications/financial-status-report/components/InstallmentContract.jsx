@@ -15,7 +15,7 @@ const defaultRecord = [
     originalLoanAmount: '',
     unpaidBalance: '',
     amountDueMonthly: '',
-    dateBegan: '',
+    from: '',
     amountOverdue: '',
   },
 ];
@@ -52,15 +52,26 @@ const InstallmentContract = props => {
     contractRecord.creditorName || null,
   );
 
-  const [fromDateError, setLoanBeganError] = useState();
+  const validateLoanBegan = monthYear => {
+    const [year] = monthYear.split('-');
+    const todayYear = new Date().getFullYear();
+    const isComplete = /\d{4}-\d{1,2}/.test(monthYear);
+
+    return !(
+      !isComplete ||
+      (!!year && (parseInt(year, 10) > todayYear || parseInt(year, 10) < 1900))
+    );
+  };
+
+  const fromDateError = validateLoanBegan(contractRecord.from)
+    ? null
+    : 'Please enter the loan start date';
 
   const { from } = contractRecord;
 
   const { month: fromMonth, year: fromYear } = parseISODate(from);
 
   const [submitted, setSubmitted] = useState(false);
-
-  const contractBeganError = 'Please enter the contract start date';
 
   const amountDueMonthlyError = !isValidCurrency(
     contractRecord.amountDueMonthly,
@@ -103,30 +114,16 @@ const InstallmentContract = props => {
     handleChange('amountOverdue', event.target.value);
   };
 
-  const validateLoanBegan = (monthYear, errorSetter, requiredMessage) => {
-    const [year] = monthYear.split('-');
-    const todayYear = new Date().getFullYear();
-    const isComplete = /\d{4}-\d{1,2}/.test(monthYear);
-    if (!isComplete) {
-      // This allows a custom required error message to be used
-      errorSetter(requiredMessage);
-    } else if (
-      !!year &&
-      (parseInt(year, 10) > todayYear || parseInt(year, 10) < 1900)
-    ) {
-      errorSetter(`Please enter a year between 1900 and ${todayYear}`);
-    } else {
-      errorSetter(null);
-    }
-  };
-
   const RETURN_PATH = '/installment-contracts-summary';
 
   const updateFormData = e => {
     setSubmitted(true);
     e.preventDefault();
-    const newInstallmentContractArray = [...installmentContracts];
-    newInstallmentContractArray[index] = contractRecord;
+
+    if (fromDateError || typeError || amountDueMonthlyError) {
+      return;
+    }
+
     if (contractRecord.contractType && contractRecord.amountDueMonthly) {
       // if amountOverdue is NaN, set it to 0 in order to satisfy va-number-input
       if (!isValidCurrency(contractRecord.amountOverdue)) {
@@ -140,6 +137,9 @@ const InstallmentContract = props => {
       if (!isValidCurrency(contractRecord.unpaidBalance)) {
         contractRecord.unpaidBalance = 0;
       }
+
+      const newInstallmentContractArray = [...installmentContracts];
+      newInstallmentContractArray[index] = contractRecord;
 
       // update form data
       setFormData({
@@ -242,7 +242,7 @@ const InstallmentContract = props => {
           name="minMonthlyPayment"
           id="minMonthlyPayment"
           onInput={handleAmountDueMonthlyChange}
-          value={contractRecord.minMonthlyPayment}
+          value={contractRecord.amountDueMonthly}
         />
       </div>
       <div>
@@ -252,15 +252,9 @@ const InstallmentContract = props => {
           label="Date the loan began"
           name="loanBegan"
           onDateChange={e => handlers.handleDateChange('from', e.target.value)}
-          onDateBlur={e =>
-            validateLoanBegan(
-              e.target.value || '',
-              setLoanBeganError,
-              contractBeganError,
-            )
-          }
+          onDateBlur={e => validateLoanBegan(e.target.value)}
           required
-          error={fromDateError}
+          error={(submitted && fromDateError) || null}
         />
       </div>
       <div className="input-size-4">
