@@ -80,17 +80,9 @@ const SearchForm = props => {
     );
   };
 
-  const label = () => {
-    const labelString =
-      resultsCount === undefined ? (
-        <>
-          <div>
-            <h3>
-              Filter messages in <strong>{folder.name}</strong>{' '}
-            </h3>
-          </div>
-        </>
-      ) : (
+  const FilterResults = () => {
+    const results =
+      resultsCount === undefined ? null : (
         <>
           <strong className="search-results-count">
             {resultsCount.toLocaleString()}
@@ -100,59 +92,60 @@ const SearchForm = props => {
       );
     return (
       <label
-        htmlFor="search-message-folder-input"
         data-testid="search-message-folder-input-label"
         className={
-          resultsCount === undefined
-            ? 'keyword-search-label'
-            : 'search-in-description'
+          resultsCount === undefined ? null : 'filter-results-in-folder'
         }
       >
-        {labelString}
+        {results}
       </label>
     );
   };
 
-  return (
-    <div className="search-form">
-      {label()}
-      <div className="keyword-help-text">
-        Enter information from one of these fields: to, from, message ID, or
-        subject
-      </div>
-      {!advancedOpen && (
-        <>
-          {searchTermError && (
-            <div className="error-message" role="alert">
-              <span className="sr-only">Error</span>
-              {searchTermError}
-            </div>
-          )}
-          <VaSearchInput
-            buttonText={window.innerWidth <= 481 ? null : 'Filter'}
-            onInput={e => setSearchTerm(e.target.value)}
-            onSubmit={handleSearch}
-            value={searchTerm}
-            label="search-message-folder-input"
-            data-testid="keyword-search-input"
-          />
-        </>
-      )}
-      <va-additional-info
-        trigger="What's a message ID?"
-        class="message-id-info"
-      >
-        A message ID is a number we assign to each message. If you sign up for
-        email notifications, we’ll send you an email each time you get a new
-        message. These emails include the message ID.
-      </va-additional-info>
+  const filterLabelHeading = `Filter messages in ${folder.name} `;
+  const filterLabelBody =
+    'Enter information from one of these fields: to, from, message ID, or subject';
 
-      {folders && (
-        <div>
-          <FilterBox folderId={folder.folderId} />
-        </div>
-      )}
-    </div>
+  return (
+    <>
+      <div className="search-form">
+        <h3>{filterLabelHeading}</h3>
+        <div className="keyword-help-text">{filterLabelBody}</div>
+        {!advancedOpen && (
+          <>
+            {searchTermError && (
+              <div className="error-message" role="alert">
+                <span className="sr-only">Error</span>
+                {searchTermError}
+              </div>
+            )}
+            <VaSearchInput
+              buttonText={window.innerWidth <= 481 ? null : 'Filter'}
+              onInput={e => setSearchTerm(e.target.value)}
+              onSubmit={handleSearch}
+              value={searchTerm}
+              label={filterLabelHeading + filterLabelBody}
+              data-testid="keyword-search-input"
+            />
+          </>
+        )}
+        <va-additional-info
+          trigger="What's a message ID?"
+          class="message-id-info"
+        >
+          A message ID is a number we assign to each message. If you sign up for
+          email notifications, we’ll send you an email each time you get a new
+          message. These emails include the message ID.
+        </va-additional-info>
+
+        {folders && (
+          <div>
+            <FilterBox folderId={folder.folderId} />
+          </div>
+        )}
+      </div>
+      <FilterResults />
+    </>
   );
 };
 
