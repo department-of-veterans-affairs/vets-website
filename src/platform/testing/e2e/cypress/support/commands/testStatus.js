@@ -14,9 +14,12 @@ Cypress.Commands.add('testStatus', (page, url) => {
     .then(button => {
       cy.wrap(button).click();
     });
-  cy.get('#start-over-modal .va-modal-title').should(
-    'contain',
-    'Starting over will delete your in-progress application.',
-  );
+  cy.get('#start-over-modal')
+    .shadow()
+    .get('.va-modal-title')
+    .should(
+      'contain',
+      'Starting over will delete your in-progress application.',
+    );
   cy.axeCheck();
 });
