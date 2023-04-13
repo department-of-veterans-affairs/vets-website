@@ -7,8 +7,8 @@
     "personalData": {
       "veteranFullName": {
         "first":"Mark",
-        "middle":"Tux",
-        "last":"Polarbear",
+        "middle": "",
+        "last":"Webb",
         "suffix":"Jr."
       }, 
       "address": { 

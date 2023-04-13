@@ -16,7 +16,6 @@ Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
-    skip: true,
     dataPrefix: 'data',
     dataSets: ['cfsr-maximal', 'cfsr-minimal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
@@ -29,7 +28,6 @@ const testConfig = createTestConfig(
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
-            { name: 'combined_financial_status_report', value: true },
             {
               name: 'combined_financial_status_report_enhancements',
               value: false,
@@ -129,7 +127,7 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'resolution-option/0': ({ afterHook }) => {
+      'resolution-options/0': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type="radio"][value="monthly"]').click();
           cy.get('.usa-button-primary').click();
