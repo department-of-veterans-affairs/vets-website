@@ -81,7 +81,6 @@ export class IntroductionPage extends React.Component {
         gaStartEventName="decision-reviews-va20-0996-start-form"
         ariaDescribedby="main-content"
         hideUnauthedStartLink
-        testActionLink
         buttonOnly={last}
       />
     );

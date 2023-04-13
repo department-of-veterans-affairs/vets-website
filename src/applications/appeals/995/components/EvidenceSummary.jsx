@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Element } from 'react-scroll';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import {
   hasVAEvidence,
@@ -20,6 +22,8 @@ import {
   UploadContent,
 } from './EvidenceSummaryLists';
 
+import { LIMITATION_KEY } from '../constants';
+
 const EvidenceSummary = ({
   data,
   goBack,
@@ -31,6 +35,9 @@ const EvidenceSummary = ({
   onReviewPage,
   updatePage,
 }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [removeData, setRemoveData] = useState({});
+
   const { limitedConsent = '' } = data;
   const vaEvidence = hasVAEvidence(data) ? data?.locations || [] : [];
   const privateEvidence = hasPrivateEvidence(data)
@@ -53,28 +60,63 @@ const EvidenceSummary = ({
     [evidenceLength],
   );
 
-  const handlers = {
-    removeVaLocation: event => {
-      const { target } = event;
-      const index = parseInt(target.dataset.index, 10);
-      vaEvidence.splice(index, 1);
+  const callbacks = {
+    va: () => {
+      vaEvidence.splice(removeData.index, 1);
       setFormData({ ...data, locations: vaEvidence });
     },
-    removePrivateFacility: event => {
-      const { target } = event;
-      const index = parseInt(target.dataset.index, 10);
-      privateEvidence.splice(index, 1);
+    private: () => {
+      privateEvidence.splice(removeData.index, 1);
       setFormData({ ...data, providerFacility: privateEvidence });
     },
-    removePrivateLimitation: () => {
+    limitation: () => {
       setFormData({ ...data, limitedConsent: '' });
     },
-    removeUpload: event => {
-      const { target } = event;
-      const index = parseInt(target.dataset.index, 10);
-      otherEvidence.splice(index, 1);
+    upload: () => {
+      otherEvidence.splice(removeData.index, 1);
       setFormData({ ...data, additionalDocuments: otherEvidence });
     },
+  };
+
+  const getName = (type, index) => {
+    const sections = {
+      va: vaEvidence[index]?.locationAndName,
+      private: privateEvidence[index]?.providerFacilityName,
+      upload: otherEvidence[index]?.name,
+    };
+    return sections[type];
+  };
+
+  const handlers = {
+    showModal: event => {
+      const { target } = event;
+      const { type, index } = target.dataset;
+      const isLimitation = type === LIMITATION_KEY;
+      setRemoveData({
+        type,
+        index: isLimitation ? null : parseInt(index, 10),
+        name: isLimitation ? null : getName(type, index),
+      });
+      setShowModal(true);
+    },
+    closeModal: () => {
+      const { type, index } = removeData;
+      const focusTarget =
+        type === LIMITATION_KEY
+          ? $(`.remove-item[data-type="${LIMITATION_KEY}"]`)
+          : $(`.remove-item[data-type="${type}"][data-index="${index}"]`);
+      setShowModal(false);
+      scrollTo(focusTarget);
+      focusElement('button', {}, focusTarget?.shadowRoot);
+      setRemoveData({});
+    },
+    removeEvidence: () => {
+      setShowModal(false);
+      callbacks[removeData.type]();
+      focusElement('.vads-c-action-link--green');
+      setRemoveData({});
+    },
+
     onGoForward: () => {
       goForward(data);
     },
@@ -84,14 +126,18 @@ const EvidenceSummary = ({
   };
   const visibleError = evidenceLength === 0;
   const H = onReviewPage ? 'h5' : 'h3';
+  const Header = onReviewPage ? 'h4' : 'h3';
+
+  const modalTitle =
+    content.removeEvidence[
+      removeData.type === LIMITATION_KEY ? 'limitationTitle' : 'title'
+    ];
 
   const props = {
     handlers,
     onReviewPage,
     testing: contentBeforeButtons === 'testing',
   };
-
-  const Header = onReviewPage ? 'h4' : 'h3';
 
   return (
     <div className={onReviewPage ? 'form-review-panel-page' : ''}>
@@ -124,6 +170,33 @@ const EvidenceSummary = ({
           )}
         </va-alert>
 
+        <VaModal
+          status="warning"
+          visible={showModal}
+          modalTitle={modalTitle}
+          onCloseEvent={handlers.closeModal}
+          onPrimaryButtonClick={handlers.removeEvidence}
+          onSecondaryButtonClick={handlers.closeModal}
+          primaryButtonText={
+            content.removeEvidence[
+              removeData.type === 'limitation'
+                ? 'modalRemoveLimitation'
+                : 'modalRemove'
+            ]
+          }
+          secondaryButtonText={
+            content.removeEvidence[
+              removeData.type === 'limitation'
+                ? 'modalNotRemoveLimitation'
+                : 'modalNotRemove'
+            ]
+          }
+        >
+          <p>
+            {content.removeEvidence[(removeData?.type)] || ''}
+            {removeData?.name ? <strong>{` ${removeData.name}`}</strong> : null}
+          </p>
+        </VaModal>
         <VaContent list={vaEvidence} {...props} />
         <PrivateContent
           list={privateEvidence}

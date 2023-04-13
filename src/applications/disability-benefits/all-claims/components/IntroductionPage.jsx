@@ -60,7 +60,6 @@ class IntroductionPage extends React.Component {
       downtime: formConfig.downtime,
       retentionPeriod: '1 year',
       ariaDescribedby: 'main-content',
-      testActionLink: true,
     };
 
     return (

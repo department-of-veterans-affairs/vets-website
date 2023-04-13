@@ -32,7 +32,6 @@ class IntroductionPage extends React.Component {
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the housing grant application"
-          testActionLink
         >
           Please complete the 26-4555 form to apply for adapted housing.
         </SaveInProgressIntro>
