@@ -18,6 +18,6 @@ export const content = {
   modalTitle: ({ locationAndName }) =>
     `Do you want to keep ${locationAndName || 'this location'}?`,
   modalDescription: 'We’ve saved your current information.',
-  modalYes: 'Yes',
+  modalYes: 'Yes, keep location',
   modalNo: 'No, remove location',
 };
