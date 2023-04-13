@@ -16,6 +16,15 @@ export const mockGetLabsAndTestsList = () => {
   });
 };
 
+export const mockGetLabAndTest = labId => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const result = labsAndTests.find(lab => +lab.id === +labId);
+      resolve(result);
+    }, 1000);
+  });
+};
+
 export const mockGetVaccinesList = () => {
   return new Promise(resolve => {
     setTimeout(() => {
