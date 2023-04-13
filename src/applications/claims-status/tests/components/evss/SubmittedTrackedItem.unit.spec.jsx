@@ -2,15 +2,16 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import SubmittedTrackedItem from '../../components/SubmittedTrackedItem';
+import SubmittedTrackedItem from '../../../components/evss/SubmittedTrackedItem';
 
 describe('<SubmittedTrackedItem>', () => {
   it('should render submitted item with no docs', () => {
     const item = {
       trackedItemId: 1,
       displayName: 'Request 1',
-      requestedDate: '2010-01-01',
+      date: '2010-01-01',
       description: 'Testing',
+      type: 'received_from_you_list',
       status: 'SUBMITTED_AWAITING_REVIEW',
     };
 
@@ -27,18 +28,18 @@ describe('<SubmittedTrackedItem>', () => {
     );
     expect(tree.everySubTree('.submission-item')).to.be.empty;
   });
-
   it('should render item with doc', () => {
     const item = {
       trackedItemId: 1,
       displayName: 'Request 1',
       date: '2010-01-01',
       description: 'Testing',
+      type: 'received_from_you_list',
       status: 'SUBMITTED_AWAITING_REVIEW',
       documents: [
         {
-          originalFileName: 'testfile.pdf',
-          documentTypeLabel: 'Test Type',
+          filename: 'testfile.pdf',
+          fileType: 'Test Type',
         },
       ],
     };
@@ -53,22 +54,22 @@ describe('<SubmittedTrackedItem>', () => {
       'Type: Test Type',
     );
   });
-
   it('should render item with multiple docs', () => {
     const item = {
       trackedItemId: 1,
       displayName: 'Request 1',
       date: '2010-01-01',
       description: 'Testing',
+      type: 'received_from_you_list',
       status: 'SUBMITTED_AWAITING_REVIEW',
       documents: [
         {
-          originalFileName: 'testfile.pdf',
-          documentTypeLabel: 'Test Type',
+          filename: 'testfile.pdf',
+          fileType: 'Test Type',
         },
         {
-          originalFileName: 'testfile2.pdf',
-          documentTypeLabel: 'Test 2 Type',
+          filename: 'testfile2.pdf',
+          fileType: 'Test 2 Type',
         },
       ],
     };
@@ -80,18 +81,18 @@ describe('<SubmittedTrackedItem>', () => {
       item.documents.length + 1,
     );
   });
-
   it('should render reviewed item', () => {
     const item = {
       trackedItemId: 1,
       displayName: 'Request 1',
-      requestedDate: '2010-01-01',
+      date: '2010-01-01',
       description: 'Testing',
+      type: 'received_from_you_list',
       status: 'ACCEPTED',
       documents: [
         {
-          originalFileName: 'testfile.pdf',
-          documentTypeLabel: 'Test Type',
+          filename: 'testfile.pdf',
+          fileType: 'Test Type',
         },
       ],
     };
@@ -102,14 +103,13 @@ describe('<SubmittedTrackedItem>', () => {
       'Reviewed by VA',
     );
   });
-
-  // TODO: Figure out how to reproduce / deal with this case
   it('should render no longer needed item by type', () => {
     const item = {
       trackedItemId: 1,
       displayName: 'Request 1',
-      requestedDate: '2010-01-01',
+      date: '2010-01-01',
       description: 'Testing',
+      type: 'never_received_from_you_list',
       status: 'ACCEPTED',
       documents: [],
     };
@@ -120,13 +120,13 @@ describe('<SubmittedTrackedItem>', () => {
       'No longer needed',
     );
   });
-
   it('should render no longer needed item by status', () => {
     const item = {
       trackedItemId: 1,
       displayName: 'Request 1',
-      requestedDate: '2010-01-01',
+      date: '2010-01-01',
       description: 'Testing',
+      type: 'still_need_from_you_list',
       status: 'NO_LONGER_REQUIRED',
       documents: [],
     };

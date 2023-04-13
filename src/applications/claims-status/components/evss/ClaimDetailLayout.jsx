@@ -37,8 +37,6 @@ export default function ClaimDetailLayout(props) {
     );
   } else if (claim !== null) {
     const claimTitle = `Your ${getClaimType(claim)} claim`;
-    const { contentions } = claim.attributes || {};
-    const hasContentions = contentions && contentions.length;
 
     headingContent = (
       <>
@@ -57,16 +55,16 @@ export default function ClaimDetailLayout(props) {
             What you’ve claimed:
           </h2>
           <span>
-            {claim?.attributes?.contentions &&
-            claim.attributes.contentions.length
-              ? claim.attributes.contentions
+            {claim?.attributes?.contentionList &&
+            claim.attributes.contentionList.length
+              ? claim.attributes.contentionList
                   .slice(0, MAX_CONTENTIONS)
                   .map(cond => cond.trim())
                   .join(', ')
               : 'Not available'}
           </span>
-          {claim?.attributes?.contentions &&
-          claim.attributes.contentions.length > MAX_CONTENTIONS ? (
+          {claim?.attributes?.contentionList &&
+          claim.attributes.contentionList.length > MAX_CONTENTIONS ? (
             <span>
               <br />
               <Link to={`your-claims/${claim.id}/details`}>

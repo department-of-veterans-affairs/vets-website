@@ -48,11 +48,14 @@ class DetailsPage extends React.Component {
     let content = null;
     if (!loading) {
       const {
+        claimDate,
         claimType,
         contentionList,
         dateFiled,
         vaRepresentative,
       } = claim.attributes;
+
+      const openDate = dateFiled || claimDate;
 
       content = (
         <>
@@ -81,7 +84,7 @@ class DetailsPage extends React.Component {
             <dt className="claim-detail-label">
               <h4>Date received</h4>
             </dt>
-            <dd>{moment(dateFiled).format('MMM D, YYYY')}</dd>
+            <dd>{moment(openDate).format('MMM D, YYYY')}</dd>
             <dt className="claim-detail-label">
               <h4>Your representative for VA claims</h4>
             </dt>

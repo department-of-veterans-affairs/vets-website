@@ -40,6 +40,43 @@ const STATUSES = getStatusMap();
 
 const getPhaseFromStatus = status => [...STATUSES.keys()].indexOf(status) + 1;
 
+const generatePhases = claim => {
+  const { previousPhases } = claim.attributes.claimPhaseDates;
+  const phases = [];
+
+  // Add 'filed' event
+  phases.push({
+    type: 'phase_entered',
+    phase: 1,
+    date: claim.attributes.claimDate,
+  });
+
+  const regex = /\d+/;
+
+  // Add other phase events
+  const phaseKeys = Object.keys(previousPhases);
+  phaseKeys.forEach(phaseKey => {
+    phases.push({
+      type: 'phase_entered',
+      // We are assuming here that each phaseKey is of the format:
+      // phaseXCompleteDate, where X corresponds to an integer
+      phase: Number(phaseKey.match(regex)[0]) + 1,
+      date: previousPhases[phaseKey],
+    });
+  });
+
+  return phases;
+};
+
+const generateEventTimeline = claim => {
+  const eventTimeline = [];
+
+  const phases = generatePhases(claim);
+  eventTimeline.push(...phases);
+
+  return eventTimeline;
+};
+
 class ClaimStatusPage extends React.Component {
   componentDidMount() {
     this.setTitle();

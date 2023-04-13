@@ -43,7 +43,7 @@ export function groupTimelineActivity(events) {
   return phases;
 }
 
-export default function ClaimsTimeline(props) {
+export default function ClaimTimeline(props) {
   const { events, phase, id, currentPhaseBack, everPhaseBack } = props;
   const userPhase = getUserPhase(phase);
   // const activityByPhase = groupTimelineActivity(events);
@@ -114,7 +114,7 @@ export default function ClaimsTimeline(props) {
   );
 }
 
-ClaimsTimeline.propTypes = {
+ClaimTimeline.propTypes = {
   id: PropTypes.string.isRequired,
   phase: PropTypes.number.isRequired,
   currentPhaseBack: PropTypes.bool,

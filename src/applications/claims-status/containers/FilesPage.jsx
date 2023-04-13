@@ -130,12 +130,14 @@ class FilesPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced } = this.props;
+    const { claim, loading, message, synced, useLighthouse } = this.props;
 
     let content = null;
     if (!loading && claim) {
       content = this.getPageContent();
     }
+
+    const ClaimDetailLayout = useLighthouse ? ClaimDetailLayoutLighthouse : ClaimDetailLayoutEVSS;
 
     return (
       <ClaimDetailLayout
