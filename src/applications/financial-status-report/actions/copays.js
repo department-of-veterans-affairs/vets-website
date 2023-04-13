@@ -43,7 +43,7 @@ export const getStatements = async dispatch => {
       });
     })
     .catch(({ errors }) => {
-      const [error] = errors;
+      const [error] = errors ?? ['No error message provided'];
       Sentry.withScope(scope => {
         scope.setExtra('error', error);
         Sentry.captureMessage(`medical_copays failed: ${error.detail}`);

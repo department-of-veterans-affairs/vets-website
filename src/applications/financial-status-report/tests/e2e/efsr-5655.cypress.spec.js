@@ -10,26 +10,26 @@ import saveInProgress from './fixtures/mocks/saveInProgress.json';
 import debts from './fixtures/mocks/debts.json';
 import copays from './fixtures/mocks/copays.json';
 import EnhancedVeteranEmploymentHistory from './pages/employment/EnhancedVeteranEmploymentHistory';
-import SpouseEmploymentHistory from './pages/employment/SpouseEmploymentHistory';
 
 Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
-    skip: true,
     dataPrefix: 'data',
     dataSets: ['efsr-maximal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
+      cy.window().then(win => {
+        win.sessionStorage.clear();
+      });
+
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-      cy.login(mockUser);
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
-            { name: 'combined_financial_status_report', value: true },
             {
               name: 'combined_financial_status_report_enhancements',
               value: true,
@@ -37,12 +37,18 @@ const testConfig = createTestConfig(
           ],
         },
       });
-      cy.intercept('GET', '/v0/debts', debts);
-      cy.intercept('GET', '/v0/medical_copays', copays);
+
+      cy.intercept('GET', '/v0/maintenance_windows', []);
+      cy.login(mockUser);
+
       cy.get('@testData').then(testData => {
         cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
         cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgress);
       });
+
+      cy.intercept('GET', '/v0/debts', debts);
+      cy.intercept('GET', '/v0/medical_copays', copays);
+
       cy.intercept('POST', formConfig.submitUrl, {
         statusCode: 200,
         body: {
@@ -53,8 +59,12 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.findAllByText(/start/i, { selector: 'button' })
+        cy.get('.skip-wizard-link').click();
+
+        cy.get('va-button[text*="start"]')
           .first()
+          .shadow()
+          .find('button')
           .click();
       },
       'all-available-debts': ({ afterHook }) => {
@@ -85,14 +95,6 @@ const testConfig = createTestConfig(
       },
       'deduction-checklist': ({ afterHook }) => {
         afterHook(() => {
-          EnhancedVeteranEmploymentHistory.goBackAndValidateInput(
-            '[data-testid="gross-monthly-income"]',
-            '1000',
-          );
-
-          // continuing to deduction checklist
-          EnhancedVeteranEmploymentHistory.attemptNextPage();
-
           cy.get(`input[name="State tax"]`)
             .first()
             .check();
@@ -125,40 +127,9 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'credit-card-bills': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#root_questions_hasCreditCardBillsYes').check();
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'your-credit-card-bills': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#unpaidBalance')
-            .first()
-            .shadow()
-            .find('input')
-            .type('100');
-          cy.get('#minMonthlyPayment')
-            .first()
-            .shadow()
-            .find('input')
-            .type('100');
-          cy.get('#amountOverdue')
-            .first()
-            .shadow()
-            .find('input')
-            .type('100');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'credit-card-bills-summary': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('.usa-button-primary').click();
-        });
-      },
       'enhanced-spouse-employment-records': ({ afterHook }) => {
         afterHook(() => {
-          SpouseEmploymentHistory.fillEmployerInfo();
+          EnhancedVeteranEmploymentHistory.fillEmployerInfo();
         });
       },
       'spouse-gross-monthly-income': ({ afterHook }) => {
@@ -173,8 +144,10 @@ const testConfig = createTestConfig(
       },
       'spouse-deduction-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type="checkbox"][value="State tax"]').click();
-          SpouseEmploymentHistory.attemptNextPage();
+          cy.get(`input[name="State tax"]`)
+            .first()
+            .check();
+          EnhancedVeteranEmploymentHistory.attemptNextPage();
         });
       },
       'spouse-deduction-values': ({ afterHook }) => {
@@ -184,7 +157,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('123');
-          SpouseEmploymentHistory.attemptNextPage();
+          cy.get('.usa-button-primary').click();
         });
       },
       'dependent-ages': ({ afterHook }) => {
@@ -197,6 +170,77 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('17');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'monetary-asset-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type=checkbox]')
+            .as('checklist')
+            .should('have.length', 8);
+          cy.get('@checklist')
+            .eq(0)
+            .click();
+          cy.get('@checklist')
+            .eq(1)
+            .click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'monetary-asset-values': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-number-input')
+            .as('numberInputs')
+            .should('have.length', 2);
+          cy.get('#Cash0')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1000');
+          cy.get('[id="Checking accounts1"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1500');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'your-vehicle-records': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#add-make-name')
+            .first()
+            .shadow()
+            .find('input')
+            .type('Ford');
+          cy.get('#add-model-name')
+            .first()
+            .shadow()
+            .find('input')
+            .type('Ranger');
+          cy.get('#year')
+            .first()
+            .shadow()
+            .find('input')
+            .type('2003');
+          cy.get('#estValue')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1500');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'vehicles-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[data-testid="mini-summary-card"]')
+            .as('cards')
+            .should('have.length', 1);
+          cy.get('@cards')
+            .eq(0)
+            .should('contain', 'Ford')
+            .and('contain', 'Ranger')
+            .and('contain', '2003')
+            .and('contain', '$1,500.00');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -304,7 +348,49 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'resolution-option/0': ({ afterHook }) => {
+      'credit-card-bills': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_questions_hasCreditCardBillsYes').check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'your-credit-card-bills': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#unpaidBalance')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('#minMonthlyPayment')
+            .first()
+            .shadow()
+            .find('input')
+            .type('25');
+          cy.get('#amountOverdue')
+            .first()
+            .shadow()
+            .find('input')
+            .type('10');
+          cy.findAllByText(/Add a credit card bill/i, { selector: 'button' })
+            .first()
+            .click();
+          // cy.get('.usa-button-primary').click();
+        });
+      },
+      'credit-card-bills-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[data-testid="mini-summary-card"]')
+            .as('cards')
+            .should('have.length', 1);
+          cy.get('@cards')
+            .eq(0)
+            .should('contain', 'Unpaid balance: $100.00')
+            .and('contain', 'Minimum monthly payment amount: $25.00')
+            .and('contain', 'Amount overdue: $10.00');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'resolution-options/0': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type="radio"][value="monthly"]').click();
           cy.get('.usa-button-primary').click();

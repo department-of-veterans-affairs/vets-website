@@ -1,6 +1,6 @@
 class EnhancedEmploymentRecords {
   employerFill = employer => {
-    cy.get('[data-test-id="employment-type"]')
+    cy.get('#type')
       .shadow()
       .find('select')
       .select(employer.type);
