@@ -2,10 +2,13 @@
 import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 
+import { CLAIM_OWNERSHIP, CLAIMANT_TYPE } from '../definitions/constants';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import statementInformation1 from '../pages/statementInformation1';
 import statementInformation2 from '../pages/statementInformation2';
+import witnessInformation1 from '../pages/witnessInformation1';
+import witnessInformation2 from '../pages/witnessInformation2';
 // import { uiSchema as addressUiSchema } from 'src/platform/forms/definitions/address';
 
 // const { } = fullSchema.properties;
@@ -54,6 +57,32 @@ const formConfig = {
           title: 'Who is submitting this statement?',
           uiSchema: statementInformation2.uiSchema,
           schema: statementInformation2.schema,
+        },
+      },
+    },
+    witnessInformation: {
+      // for third-party claimOwnership & non-veteran claimantType
+      title: 'Witness Information',
+      pages: {
+        witnessInformation1: {
+          path: 'witness-personal-information',
+          title: 'Your personal information',
+          depends: {
+            claimOwnership: CLAIM_OWNERSHIP.THIRD_PARTY,
+            claimantType: CLAIMANT_TYPE.NON_VETERAN,
+          },
+          uiSchema: witnessInformation1.uiSchema,
+          schema: witnessInformation1.schema,
+        },
+        witnessInformation2: {
+          path: 'witness-contact-information',
+          title: 'Your contact information',
+          depends: {
+            claimOwnership: CLAIM_OWNERSHIP.THIRD_PARTY,
+            claimantType: CLAIMANT_TYPE.NON_VETERAN,
+          },
+          uiSchema: witnessInformation2.uiSchema,
+          schema: witnessInformation2.schema,
         },
       },
     },
