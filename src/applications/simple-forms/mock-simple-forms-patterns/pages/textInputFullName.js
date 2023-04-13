@@ -70,7 +70,6 @@ export default {
       },
       suffix: {
         'ui:title': 'VaTextInputField - Spouse\u2019s suffix',
-        'ui:webComponentField': VaTextInputField,
       },
     },
   },
@@ -82,14 +81,14 @@ export default {
     },
     required: [],
   },
-  initialData: {
-    spouseFullNameOld: {
-      first: 'Jane',
-      last: 'Doe',
-    },
-    spouseFullNameNew: {
-      first: 'John',
-      last: 'Doe',
-    },
-  },
+  // initialData: {
+  //   spouseFullNameOld: {
+  //     first: 'Jane',
+  //     last: 'Doe',
+  //   },
+  //   spouseFullNameNew: {
+  //     first: 'John',
+  //     last: 'Doe',
+  //   },
+  // },
 };

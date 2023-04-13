@@ -1,3 +1,14 @@
 {
-  "data": {}
+  "data": {
+    "spouseFullNameOld": {
+      "first": "first name",
+      "last": "last name"
+    },
+    "spouseFullNameNew": {
+      "first": "first name",
+      "last": "last name"
+    },
+    "requiredOld": "test 1",
+    "requiredNew": "test 2"
+  }
 }
