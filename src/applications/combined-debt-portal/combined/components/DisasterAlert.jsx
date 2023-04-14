@@ -14,16 +14,16 @@ const DisasterAlert = () => {
           request temporary financial relief or via Ask VA at{' '}
           <a href="https://ask.va.gov">https://ask.va.gov</a> (select "Veterans
           Affairs-Debt" as the category). We’re here Monday through Friday, 7:30
-          a.m. to 7:00 p.m. ET. If you have hearing loss, call TTY:{' '}
-          <va-telephone contact="711" />.
+          a.m. to 7:00 p.m. ET. If you have hearing loss, call
+          <va-telephone tty contact="711" />.
         </li>
         <li>
           <strong>
             For help with VA debt related to medical care and pharmacy services:{' '}
           </strong>
           Call our Health Resource Center at{' '}
-          <va-telephone contact="8664001213" /> (TTY:{' '}
-          <va-telephone contact="711" />
+          <va-telephone contact="8664001213" />(
+          <va-telephone tty contact="711" />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </li>
       </ul>

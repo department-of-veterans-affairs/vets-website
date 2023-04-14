@@ -174,8 +174,6 @@ ListOrSections.propTypes = {
 // render a list of items, sections of items, or a single item
 // 'asList' as true, will render as an ordered list instead of series of sections (legacy behavior)
 // if single item is passed as data, it will be rendered as is (passing single node)
-// This component will replace the current ProfileInfoTable component and its main purpose is
-// to provide an accessible container for each part of profile pages
 export const ProfileInfoCard = ({
   className,
   title,
