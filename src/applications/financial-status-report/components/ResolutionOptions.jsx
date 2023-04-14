@@ -124,7 +124,10 @@ const ResolutionOptions = ({ formContext }) => {
             className="vads-u-width--auto"
             onChange={onResolutionChange}
           />
-          <label htmlFor="radio-waiver" className="vads-u-margin--0">
+          <label
+            htmlFor="radio-waiver"
+            className="vads-u-margin--0 vads-u-display--flex vads-u-flex-direction--column vads-u-align-items--left "
+          >
             {renderWaiverText}
           </label>
           {currentDebt.debtType !== 'COPAY' && (
@@ -141,7 +144,12 @@ const ResolutionOptions = ({ formContext }) => {
                 className="vads-u-width--auto"
                 onChange={onResolutionChange}
               />
-              <label htmlFor="radio-monthly">{renderMonthlyText}</label>
+              <label
+                htmlFor="radio-monthly"
+                className=" vads-u-display--flex vads-u-flex-direction--column vads-u-align-items--left "
+              >
+                {renderMonthlyText}
+              </label>
             </div>
           )}
           <input
@@ -156,7 +164,12 @@ const ResolutionOptions = ({ formContext }) => {
             className="vads-u-width--auto"
             onChange={onResolutionChange}
           />
-          <label htmlFor="radio-compromise">{renderCompromiseText}</label>
+          <label
+            htmlFor="radio-compromise"
+            className=" vads-u-display--flex vads-u-flex-direction--column vads-u-align-items--left "
+          >
+            {renderCompromiseText}
+          </label>
         </div>
       )}
     </div>
