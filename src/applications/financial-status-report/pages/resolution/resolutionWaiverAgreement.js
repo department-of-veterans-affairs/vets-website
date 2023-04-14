@@ -16,10 +16,13 @@ export const uiSchema = {
       resolutionWaiverCheck: {
         'ui:title': (
           <p className="vads-u-margin-y--0">
-            <span className="vads-u-display--block">You selected:</span>
-            <span className="vads-u-display--block vads-u-font-weight--bold">
-              Debt forgiveness (waiver)
-            </span>
+            <p className="vads-u-display--block">
+              You selected:{' '}
+              <span className="vads-u-font-weight--bold">
+                Debt forgiveness (waiver)
+              </span>
+            </p>
+
             <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-bottom--1">
               If we approve your request, we’ll stop collection on and forgive
               (or "waive") the debt.
