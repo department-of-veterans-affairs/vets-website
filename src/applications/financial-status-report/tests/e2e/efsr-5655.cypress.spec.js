@@ -16,7 +16,7 @@ Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
-    skip: true,
+    skip: false,
     dataPrefix: 'data',
     dataSets: ['efsr-maximal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
@@ -148,12 +148,31 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('100');
-          cy.get('.usa-button-primary').click();
+          cy.get('#submit').click();
         });
       },
       'credit-card-bills-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('.usa-button-primary').click();
+        });
+      },
+      'your-installment-contracts': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get(':nth-child(3) > .no-wrap')
+            .first()
+            .shadow()
+            .find('input')
+            .type('Loan');
+
+          cy.get('#minMonthlyPayment')
+            .first()
+            .shadow()
+            .find('input')
+            .type('50');
+
+          cy.fillDate('loanBegan', '2020-01');
+
+          cy.get('#submit').click();
         });
       },
       'enhanced-spouse-employment-records': ({ afterHook }) => {
