@@ -18,37 +18,29 @@ const DebtCheckBox = ({ debt }) => {
     : '';
 
   const formData = useSelector(state => state.form.data);
-  const { selectedDebts, selectedDebtsAndCopays = [] } = formData;
+  const { selectedDebtsAndCopays = [] } = formData;
 
-  const isChecked = selectedDebts?.some(
+  const isChecked = selectedDebtsAndCopays?.some(
     currentDebt => currentDebt.id === debt.id,
   );
 
   const onChange = selectedDebt => {
-    const alreadyIncluded = selectedDebts?.some(
+    const alreadyIncluded = selectedDebtsAndCopays?.some(
       currentDebt => currentDebt.id === selectedDebt.id,
     );
 
     if (alreadyIncluded) {
-      const checked = selectedDebts?.filter(
-        debtEntry => debtEntry.id !== selectedDebt.id,
-      );
-
-      const combinedChecked = selectedDebtsAndCopays?.filter(
+      const checked = selectedDebtsAndCopays?.filter(
         selection => selection.id !== selectedDebt.id,
       );
 
       return dispatch(
         setData({
           ...formData,
-          selectedDebts: checked,
-          selectedDebtsAndCopays: combinedChecked,
+          selectedDebtsAndCopays: checked,
         }),
       );
     }
-    const newFsrDebts = selectedDebts?.length
-      ? [...selectedDebts, selectedDebt]
-      : [selectedDebt];
 
     const newlySelectedDebtsAndCopays = selectedDebtsAndCopays?.length
       ? [...selectedDebtsAndCopays, selectedDebt]
@@ -57,7 +49,6 @@ const DebtCheckBox = ({ debt }) => {
     return dispatch(
       setData({
         ...formData,
-        selectedDebts: newFsrDebts,
         selectedDebtsAndCopays: newlySelectedDebtsAndCopays,
       }),
     );

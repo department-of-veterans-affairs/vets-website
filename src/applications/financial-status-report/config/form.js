@@ -101,7 +101,6 @@ const formConfig = {
         },
         combinedAvailableDebts: {
           initialData: {
-            selectedDebts: [],
             selectedDebtsAndCopays: [],
           },
           path: 'all-available-debts',
