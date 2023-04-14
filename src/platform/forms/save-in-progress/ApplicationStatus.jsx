@@ -180,7 +180,7 @@ export class ApplicationStatus extends React.Component {
               </p>
             )}
             <VaModal
-              class="va-modal-large"
+              large
               id="start-over-modal"
               onCloseEvent={this.toggleModal}
               modalTitle={`Starting over will delete your in-progress ${appType}.`}
