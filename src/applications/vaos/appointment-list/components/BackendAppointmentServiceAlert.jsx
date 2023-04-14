@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectBackendServiceFailuresInfo } from '../redux/selectors';
 import { FETCH_STATUS, ERROR_CODES } from '../../utils/constants';
 
-function getDisplay(errorCodes, location) {
+function displayType(errorCodes, location) {
   const isPending = location.pathname.endsWith('/pending');
   const isPast = location.pathname.endsWith('/past');
   const isUpcoming = location.pathname.endsWith('/');
@@ -47,7 +47,7 @@ export default function BackendAppointmentServiceAlert() {
         .filter(code => code.match === true)
         .map(code => code.code);
 
-      const display = getDisplay(errorCodes, location);
+      const display = displayType(errorCodes, location);
 
       if (display !== null) {
         return (

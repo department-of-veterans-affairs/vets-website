@@ -426,14 +426,14 @@ export const SPACE_BAR = 32;
 export const ERROR_CODES = [
   {
     code: 10000,
-    description: 'Failure to fetch - Generic Error',
+    detail: 'Failure to fetch - Generic Error',
   },
   {
     code: 10005,
-    description: 'Failure to fetch Booked Appointments',
+    detail: 'Failure to fetch Booked Appointments',
   },
   {
     code: 10006,
-    description: 'Failure to fetch Requests',
+    detail: 'Failure to fetch Requests',
   },
 ];

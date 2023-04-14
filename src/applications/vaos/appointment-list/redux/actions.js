@@ -362,9 +362,14 @@ export function fetchPendingAppointments() {
         useAcheron: featureAcheronVAOSServiceRequests,
       });
 
+      const backendSystemFailures = pendingAppointments.filter(
+        appt => appt.meta,
+      );
+
       dispatch({
         type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
         data: pendingAppointments,
+        backendServiceFailures: backendSystemFailures[0],
       });
 
       recordEvent({
@@ -429,7 +434,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     });
 
     try {
-      const fetches = [
+      const promises = [
         fetchAppointments({
           startDate,
           endDate,
@@ -439,7 +444,10 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         }),
       ];
 
-      const [appointments, requests] = await Promise.all(fetches);
+      const results = await Promise.all(promises);
+      const appointments = results[0]?.filter(appt => !appt.meta);
+      const requests = [];
+      const backendSystemFailures = results[0]?.filter(appt => appt.meta);
 
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
@@ -447,6 +455,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         requests,
         startDate,
         endDate,
+        backendServiceFailures: backendSystemFailures[0],
       });
 
       recordEvent({
