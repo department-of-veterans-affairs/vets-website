@@ -1,7 +1,6 @@
 import React from 'react';
 import { dateFormat, downloadFile } from '../../util/helpers';
 import PrintHeader from '../shared/PrintHeader';
-import ItemList from '../shared/ItemList';
 import { getVaccinePdf } from '../../api/MrApi';
 
 const EkgDetails = props => {
@@ -22,46 +21,76 @@ const EkgDetails = props => {
           <PrintHeader />
           <h1 className="condition-header">{results.name}</h1>
           <div className="time-header">
-            <h2>Date performed: </h2>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Date:{' '}
+            </h2>
             <p>{formattedDate}</p>
           </div>
-          <div className="condition-buttons vads-u-display--flex vads-u-padding-y--3 vads-u-margin-y--0 no-print">
-            <button
-              className="link-button vads-u-margin-right--3 no-print"
-              type="button"
-              onClick={window.print}
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-print vads-u-margin-right--1"
-                data-testid="print-records-button"
-              />
-              Print page
-            </button>
-            <button
-              className="link-button no-print"
-              type="button"
-              onClick={download}
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-download vads-u-margin-right--1"
-              />
-              Download page
-            </button>
+          <div className="condition-buttons">
+            <div className="vads-u-display--flex vads-u-padding-y--3 vads-u-margin-y--0 no-print">
+              <button
+                className="link-button vads-u-margin-right--3 no-print"
+                type="button"
+                onClick={window.print}
+              >
+                <i
+                  aria-hidden="true"
+                  className="fas fa-print vads-u-margin-right--1"
+                  data-testid="print-records-button"
+                />
+                Print page
+              </button>
+              <button
+                className="link-button no-print"
+                type="button"
+                onClick={download}
+              >
+                <i
+                  aria-hidden="true"
+                  className="fas fa-download vads-u-margin-right--1"
+                />
+                Download page
+              </button>
+            </div>
+            <va-additional-info trigger="What to know about downloading records">
+              <ul>
+                <li>
+                  <strong>If you’re on a public or shared computer,</strong>{' '}
+                  print your records instead of downloading. Downloading will
+                  save a copy of your records to the public computer.
+                </li>
+                <li>
+                  <strong>If you use assistive technology,</strong> a Text file
+                  (.txt) may work better for technology such as screen reader,
+                  screen enlargers, or Braille displays.
+                </li>
+              </ul>
+            </va-additional-info>
           </div>
           <div className="condition-details max-80">
-            <h2>Procedure and test(s)</h2>
-            <p>Electrocardiogram</p>
-            <h2>Ordering location</h2>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Ordering location
+            </h2>
             <p>
               {results.facility || 'There is no facility reported at this time'}
             </p>
-            <h2 className="vads-u-margin-bottom--0">Provider comments</h2>
-            <ItemList
-              list={results.comments}
-              emptyMessage="No comments at this time"
-            />
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Results
+            </h2>
+            <p>
+              Your EKG results aren’t available in this tool. To get your EKG
+              results, you can request a copy of your complete medical record
+              from your VA health facility.
+            </p>
+            <p className="vads-u-margin-top--2">
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/"
+              >
+                Learn how to get records from your VA health facility
+              </a>
+            </p>
           </div>
         </>
       );

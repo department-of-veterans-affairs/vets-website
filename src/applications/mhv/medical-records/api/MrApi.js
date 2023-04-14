@@ -12,6 +12,7 @@ export const mockGetLabsAndTestsList = () => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(labsAndTests);
+      // resolve([]);      //Used for testing when user has no labs or tests on record.
     }, 1000);
   });
 };
