@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { dateFormat, downloadFile } from '../../util/helpers';
 import PrintHeader from '../shared/PrintHeader';
 import { getVaccinePdf } from '../../api/MrApi';
@@ -109,3 +110,7 @@ const EkgDetails = props => {
 };
 
 export default EkgDetails;
+
+EkgDetails.propTypes = {
+  results: PropTypes.object,
+};
