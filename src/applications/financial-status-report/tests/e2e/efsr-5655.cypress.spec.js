@@ -53,7 +53,7 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.findAllByText(/start/i, { selector: 'button' })
+        cy.get('a.vads-c-action-link--green')
           .first()
           .click();
       },

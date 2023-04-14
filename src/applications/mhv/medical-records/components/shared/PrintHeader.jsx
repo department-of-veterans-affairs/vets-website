@@ -7,14 +7,12 @@ const PrintHeader = () => {
   const name = user.first
     ? `${last}, ${first} ${middle}, ${suffix}`
     : 'Doe, John R., Jr.';
-  const dob = user.dob || '12/12/1980';
+  const dob = user.dob || 'March 15, 1982';
 
   return (
     <div className="print-only print-header vads-u-padding-bottom--2">
-      <span>
-        {name} - DOB {dob}
-      </span>
-      <h4>CONFIDENTIAL</h4>
+      <span>{name}</span>
+      <span>Date of birth: {dob}</span>
     </div>
   );
 };
