@@ -14,7 +14,7 @@ const form = createTestConfig(
     dataSets: ['minimal'],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
-      // mocks: path.join(__dirname, 'fixtures', 'mocks'),
+      mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
     setupPerTest: () => {
       cy.login(mockUser);
@@ -48,6 +48,4 @@ const form = createTestConfig(
   formConfig,
 );
 
-for (let i = 0; i < 10; i++) {
-  testForm(form);
-}
+testForm(form);
