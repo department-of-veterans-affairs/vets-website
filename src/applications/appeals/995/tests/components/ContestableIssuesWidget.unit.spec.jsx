@@ -110,7 +110,7 @@ describe('<ContestableIssuesWidget>', () => {
     );
   });
 
-  it('should remove additional item', async () => {
+  it('should remove additional item after confirming in modal', async () => {
     const setFormDataSpy = sinon.spy();
     const props = getProps({ setFormData: setFormDataSpy });
     const { container } = render(<ContestableIssuesWidget {...props} />);
@@ -123,9 +123,24 @@ describe('<ContestableIssuesWidget>', () => {
     modal.__events.primaryButtonClick(); // Remove entry
 
     await waitFor(() => {
-      // console.log(setFormDataSpy.args[0][0].additionalIssues)
       expect(setFormDataSpy.called).to.be.true;
       expect(setFormDataSpy.args[0][0].additionalIssues.length).to.equal(0);
+    });
+  });
+  it('should not remove additional item after choosing No in the modal', async () => {
+    const setFormDataSpy = sinon.spy();
+    const props = getProps({ setFormData: setFormDataSpy });
+    const { container } = render(<ContestableIssuesWidget {...props} />);
+
+    const removeButton = $$('.remove-issue', container);
+    expect(removeButton.length).to.equal(1);
+    fireEvent.click(removeButton[0]);
+
+    const modal = $('va-modal', container);
+    modal.__events.secondaryButtonClick(); // Remove entry
+
+    await waitFor(() => {
+      expect(setFormDataSpy.called).to.be.false;
     });
   });
 });
