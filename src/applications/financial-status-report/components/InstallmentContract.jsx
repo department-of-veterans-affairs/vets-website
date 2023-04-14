@@ -53,6 +53,9 @@ const InstallmentContract = props => {
   );
 
   const validateLoanBegan = monthYear => {
+    if (!monthYear || typeof monthYear !== 'string')
+      return 'Please enter a valid date.';
+
     const [year] = monthYear.split('-');
     const todayYear = new Date().getFullYear();
     const isComplete = /\d{4}-\d{1,2}/.test(monthYear);
