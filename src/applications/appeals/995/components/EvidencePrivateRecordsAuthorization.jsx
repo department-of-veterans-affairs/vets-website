@@ -90,7 +90,7 @@ const EvidencePrivateRecordsAuthorization = ({
           label={authorizationLabel}
           checked={data.privacyAgreementAccepted}
           onVaChange={handlers.onChange}
-          aria-describedby="authorizationInfo"
+          aria-describedby="authorize-text"
           required
           enable-analytics
         />
