@@ -29,7 +29,6 @@ import ErrorText from '../../components/ErrorText';
 
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage5490 from '../content/directDeposit';
-import createDirectDepositPage from '../../pages/directDeposit';
 import applicantInformationUpdate from '../components/applicantInformationUpdate';
 import GuardianInformation from '../components/GuardianInformation';
 import applicantServicePage from '../../pages/applicantService';
@@ -646,9 +645,7 @@ const formConfig = {
           'relativeAddress',
         ),
 
-        directDeposit: !environment.isProduction()
-          ? createDirectDepositPage5490()
-          : createDirectDepositPage(fullSchema5490),
+        directDeposit: createDirectDepositPage5490(),
       },
     },
     GuardianInformation: {

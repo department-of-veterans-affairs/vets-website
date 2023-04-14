@@ -24,7 +24,11 @@ const defaults = prefix => ({
     'gender',
     'relationshipAndChildType',
   ],
-  required: [`${prefix}FullName`, `${prefix}DateOfBirth`],
+  required: [
+    `${prefix}FullName`,
+    `${prefix}DateOfBirth`,
+    'relationshipAndChildType',
+  ],
   labels: {},
   isVeteran: false,
 });

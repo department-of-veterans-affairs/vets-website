@@ -88,9 +88,6 @@ export default function GuardianInformation(schema, options) {
             ignoreCase: true,
           }),
         ],
-        'ui:options': {
-          hideIf: formData => eighteenOrOver(formData.relativeDateOfBirth),
-        },
         guardianFirstName: {
           'ui:title': 'First name of Parent, Guardian or Custodian',
           'ui:required': formData => {
