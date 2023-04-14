@@ -54,7 +54,7 @@ export const Notice5103Description = ({ onReviewPage }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Review the notice of evidence needed
+          Review the notice of evidence needed (opens in a new tab)
         </a>
       </p>
     </>
