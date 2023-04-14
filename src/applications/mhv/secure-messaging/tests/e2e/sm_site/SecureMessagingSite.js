@@ -8,6 +8,7 @@ class SecureMessagingSite {
       cy.login();
       window.localStorage.setItem('isLoggedIn', true);
       cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
+      cy.intercept('GET', '/v0/user_transition_availabilities', mockUser);
       cy.intercept('GET', '/v0/profile/status', mockStatus);
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
