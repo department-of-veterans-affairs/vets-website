@@ -13,6 +13,7 @@ import claimantInformation1 from '../pages/claimantInformation1';
 import claimantInformation2 from '../pages/claimantInformation2';
 import veteranInformation1 from '../pages/veteranInformation1';
 import veteranInformation2 from '../pages/veteranInformation2';
+import statement from '../pages/statement';
 // import { uiSchema as addressUiSchema } from 'src/platform/forms/definitions/address';
 
 // const { } = fullSchema.properties;
@@ -129,6 +130,17 @@ const formConfig = {
           title: 'Veteran’s contact information',
           uiSchema: veteranInformation2.uiSchema,
           schema: veteranInformation2.schema,
+        },
+      },
+    },
+    statement: {
+      title: 'Your statement',
+      pages: {
+        statement: {
+          path: 'statement',
+          title: 'Please indicate the claimed issue that you are addressing',
+          uiSchema: statement.uiSchema,
+          schema: statement.schema,
         },
       },
     },
