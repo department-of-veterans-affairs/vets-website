@@ -47,5 +47,6 @@ const form = createTestConfig(
   manifest,
   formConfig,
 );
-
-testForm(form);
+for (let i = 0; i < 20; i++) {
+  testForm(form);
+}
