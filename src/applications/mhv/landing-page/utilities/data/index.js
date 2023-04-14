@@ -213,28 +213,30 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
     featureToggles,
   );
 
-  // Spotlight links are non-authed, so we always pass `false` to mhvUrl
   const spotlightLinks = resolveLinkCollection(
     [
       {
-        text: 'Track your cholesterol in My HealtheVet',
+        text: 'VA waives copays for American Indian and Alaska Native Veterans',
         href: null,
-        oldHref: mhvUrl(false, 'ss20220106-track-cholesterol-in-myhealthevet'),
+        oldHref: mhvUrl(
+          true,
+          'va-waives-copays-for-american-indian-and-alaska-native-veterans',
+        ),
+        toggle: null,
+      },
+      {
+        text: 'Aging and muscle loss',
+        href: null,
+        oldHref: mhvUrl(true, 'ss20201023-aging-muscle-loss'),
         toggle: null,
       },
       {
         text: 'Get the new toxic exposure screening',
         href: null,
         oldHref: mhvUrl(
-          false,
+          true,
           'ss20221110-get-the-new-toxic-exposure-screening',
         ),
-        toggle: null,
-      },
-      {
-        text: 'Five exercises for people over 50',
-        href: null,
-        oldHref: mhvUrl(false, 'ss20161101-five-exercises-for-people-over-50'),
         toggle: null,
       },
     ],
