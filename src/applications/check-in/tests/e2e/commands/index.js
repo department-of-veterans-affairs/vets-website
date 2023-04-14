@@ -40,18 +40,18 @@ Cypress.Commands.add('createScreenshots', filename => {
     // Hide local only BackToHome link
     cy.get('.local-start-again').invoke('attr', 'style', 'display: none;');
     // Create screenshot
-    cy.screenshot(filename);
+    cy.screenshot(`english/${filename}`);
     // Wait while screenshot is created
     cy.wait(1000);
     // Capture Spanish
     cy.get('[data-testid="translate-button-es"]').click();
     cy.wait(1000);
-    cy.screenshot(`${filename}-spanish`);
+    cy.screenshot(`spanish/${filename}-spanish`);
     cy.wait(1000);
     // Capture Tagalog
     cy.get('[data-testid="translate-button-tl"]').click();
     cy.wait(1000);
-    cy.screenshot(`${filename}-tagalog`);
+    cy.screenshot(`tagalog/${filename}-tagalog`);
     cy.wait(1000);
     // Back to english
     cy.get('[data-testid="translate-button-en"]').click();
