@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toggler } from '~/applications/personalization/components/Toggler';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import recordEvent from '~/platform/monitoring/record-event';
 import ProfileInfoTable from '../ProfileInfoTable';
 import { ProfileInfoCard } from '../ProfileInfoCard';

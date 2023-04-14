@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { PAGE_NAMES } from '../constants';
 import ContactDMC from '../components/Contacts';
 import DelayedLiveRegion from '../DelayedLiveRegion';
@@ -64,8 +64,7 @@ const Dependents = () => {
             <div>St. Paul, MN 55111-0930</div>
           </li>
           <li>
-            <strong>Fax: </strong>
-            <Telephone contact="1-612-970-5688" />
+            <strong>Fax:</strong> <VaTelephone contact="1-612-970-5688" />
           </li>
         </ul>
 

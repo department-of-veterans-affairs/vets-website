@@ -57,6 +57,10 @@ Unit tests for both check-in and pre-check-in can be run using this command: `ya
 
 Cypress tests can be run with the GUI using this command: `yarn cy:open`. From there you can filter by `check-in` to run just check-in and pre-check-in end to end tests.
 
+## Writing tests
+### Unit tests
+Components that need to access data from redux (or have children that do) require a provider wrapper to initialize a mock store. Also needed for most components is a provider wrapper to import the i18n translations. To help reduce the repatative boiler plate a new provider has been created that incorporates both of these providers with default data. Located in `tests\unit\utilsCheckInProvider.jsx` the file exports the `CheckInProvider` component that can be imported into a unit test and wrapped around the component you are testing. This provider also sets up a basic router prop the will be automatically passed to its children. Also included is the requred `scheduledDowntimeState` redux store via the `createStore` util used within the provider. You can pass overrides to both the store and the router for the custom data needs of your component or test.
+
 ## Translations
 This application uses i18next to translate text to Spanish and Tagalog. Translation files for English, Spanish, and Tagalog are located in `/locals` at the root of the check-in application. All text is contained in the `translation.json` file for each language. The application should only reference the unique key for each text string with a `<Trans />` component or a `t()` function. Never hard code text within the application.
 
@@ -100,7 +104,11 @@ Current features day-of only: `yarn cy:run --env with_screenshots=true --spec sr
 
 Phone appointments PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-phone.pci.cypress.spec.js`
 
-Travel Pay PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-pay.day-of.cypress.spec.js`
+Travel Pay day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-pay.day-of.cypress.spec.js`
+
+Errors only day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-errors.day-of.cypress.spec.js`
+
+Errors only PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-errors.pci.cypress.spec.js`
 
 ### Adding additional screenshots
 There is a cypress command that gets imported in our local commands named `createScreenshots`. It is best used after an axe check on the page you wish to capture. Add cy.createScreenshots([filename]) and also make sure that the test is imported in one of the screenshot scripts listed above. Filename syntax should be `application--page-name` example: `Pre-check-in--Validate-with-DOB`. The command will automatically get screenshots for translated versions of the page.

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { dateFormat, typeAndDose, downloadFile } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
-import { getVaccineDetails } from '../actions/vaccine';
+import { getVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import { getVaccinePdf } from '../api/MrApi';
@@ -33,12 +33,12 @@ const VaccineDetails = () => {
               label: 'Health history',
             },
             {
-              url: '/my-health/medical-records/vaccines',
+              url: '/my-health/medical-records/health-history/vaccines',
               label: 'VA vaccines',
             },
           ],
           {
-            url: `/my-health/medical-records/vaccine-details/${vaccineId}`,
+            url: `/my-health/medical-records/health-history/vaccines/${vaccineId}`,
             label: vaccineDetails?.name,
           },
         ),

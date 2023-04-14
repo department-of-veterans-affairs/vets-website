@@ -33,7 +33,7 @@ const HealthHistory = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/allergies"
+            href="/my-health/medical-records/health-history/allergies"
             text="Review your allergies"
             data-testid="section-link"
           />
@@ -47,7 +47,7 @@ const HealthHistory = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/notes"
+            href="/my-health/medical-records/health-history/care-summaries-and-notes"
             text="Review your care summaries and notes"
             data-testid="section-link"
           />
@@ -65,7 +65,7 @@ const HealthHistory = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/health-conditions"
+            href="/my-health/medical-records/health-history/health-conditions"
             text="Review your health conditions"
             data-testid="section-link"
           />
@@ -79,7 +79,7 @@ const HealthHistory = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/vaccines"
+            href="/my-health/medical-records/health-history/vaccines"
             text="Review your vaccines"
             data-testid="section-link"
           />
@@ -97,7 +97,7 @@ const HealthHistory = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/vitals"
+            href="/my-health/medical-records/health-history/vitals"
             text="Review your vitals"
             data-testid="section-link"
           />

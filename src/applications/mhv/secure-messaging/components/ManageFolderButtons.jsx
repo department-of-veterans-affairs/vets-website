@@ -2,9 +2,10 @@ import {
   VaModal,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { navigateToFoldersPage } from '../util/helpers';
 import {
   delFolder,
@@ -13,7 +14,7 @@ import {
   retrieveFolder,
 } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
-import { Alerts } from '../util/constants';
+import { Alerts, ErrorMessages } from '../util/constants';
 
 const ManageFolderButtons = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const ManageFolderButtons = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [renameModal, setRenameModal] = useState(false);
   const [folderName, setFolderName] = useState('');
+  const folderNameInput = useRef();
   let folderMatch = null;
 
   useEffect(
@@ -38,6 +40,14 @@ const ManageFolderButtons = () => {
       }
     },
     [dispatch, location.pathname, params.folderId],
+  );
+
+  useEffect(
+    () => {
+      if (nameWarning.length)
+        focusElement(folderNameInput.current.shadowRoot.querySelector('input'));
+    },
+    [nameWarning],
   );
 
   const openDelModal = () => {
@@ -72,13 +82,14 @@ const ManageFolderButtons = () => {
     setRenameModal(false);
   };
 
-  const confirmRenameFolder = () => {
+  const confirmRenameFolder = async () => {
     folderMatch = null;
     folderMatch = folders.filter(testFolder => testFolder.name === folderName);
+    await setNameWarning(''); // Clear any previous warnings, so that the warning state can be updated and refocuses back to input if on repeat Save clicks.
     if (folderName === '' || folderName.match(/^[\s]+$/)) {
-      setNameWarning('Folder name cannot be blank');
+      setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_REQUIRED);
     } else if (folderMatch.length > 0) {
-      setNameWarning('Folder name already in use. Please use another name.');
+      setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
     } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
       closeRenameModal();
       dispatch(renameFolder(folderId, folderName)).then(() => {
@@ -89,7 +100,7 @@ const ManageFolderButtons = () => {
       });
     } else {
       setNameWarning(
-        'Folder name can only contain letters, numbers, and spaces.',
+        ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
       );
     }
   };
@@ -159,14 +170,16 @@ const ManageFolderButtons = () => {
         modalTitle={`Editing: ${folder.name}`}
         onCloseEvent={closeRenameModal}
       >
-        <p className="vads-u-margin--0">
-          {Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
-        </p>
         <VaTextInput
+          ref={folderNameInput}
+          label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
           value={folderName}
           className="input"
           error={nameWarning}
-          onInput={e => setFolderName(e.target.value)}
+          onInput={e => {
+            setFolderName(e.target.value);
+            setNameWarning(e.target.value ? '' : 'Folder name cannot be blank');
+          }}
           maxlength="50"
           name="new-folder-name"
         />

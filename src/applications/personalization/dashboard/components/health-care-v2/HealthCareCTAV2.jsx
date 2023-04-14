@@ -53,7 +53,7 @@ const HealthCareCTAV2 = ({
             !hasAppointmentsError && (
               <IconCTALink
                 href="/health-care/schedule-view-va-appointments/appointments"
-                icon="calendar-check"
+                icon="calendar"
                 newTab
                 text="Schedule and manage your appointments"
                 testId="view-manage-appointments-link-from-cta"

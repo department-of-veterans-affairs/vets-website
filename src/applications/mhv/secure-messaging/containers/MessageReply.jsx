@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { retrieveMessageThread } from '../actions/messages';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
+import InterstitialPage from './InterstitialPage';
 
 const MessageReply = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const MessageReply = () => {
   const messageHistory = useSelector(
     state => state.sm.messageDetails.messageHistory,
   );
+  const [acknowledged, setAcknowledged] = useState(false);
 
   useEffect(
     () => {
@@ -56,12 +58,25 @@ const MessageReply = () => {
   };
 
   return (
-    <div className="vads-l-grid-container compose-container">
-      <AlertBackgroundBox closeable />
+    <>
+      {!acknowledged ? (
+        <InterstitialPage
+          acknowledge={() => {
+            setAcknowledged(true);
+          }}
+          type="reply"
+        />
+      ) : (
+        <>
+          <div className="vads-l-grid-container compose-container">
+            <AlertBackgroundBox closeable />
 
-      {content()}
-      {replyMessage && thread()}
-    </div>
+            {content()}
+            {replyMessage && thread()}
+          </div>
+        </>
+      )}
+    </>
   );
 };
 

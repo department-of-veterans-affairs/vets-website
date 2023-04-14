@@ -16,12 +16,12 @@ export const uiSchema = {
       <ul>
         <li>
           <strong>Waiver: </strong>
-          If we accept your request, we’ll stop collection on and forgive (or
+          If we approve your request, we’ll stop collection on and forgive (or
           “waive”) the debt.
         </li>
         <li>
           <strong>Extended monthly payments: </strong>
-          If we accept your request, you can make smaller monthly payments for
+          If we approve your request, you can make smaller monthly payments for
           up to 5 years with either monthly offsets or monthly payment plan.
         </li>
         <li>

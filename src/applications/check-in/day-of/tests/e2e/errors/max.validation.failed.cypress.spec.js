@@ -29,7 +29,7 @@ describe('Check In Experience -- ', () => {
       ValidateVeteran.attemptToGoToNextPage();
 
       Error.validatePageLoaded('max-validation');
-      cy.createScreenshots('Day-of-check-in--validation-error');
+      cy.createScreenshots('Day-of-check-in--Error-validation-error');
     });
   });
 });
