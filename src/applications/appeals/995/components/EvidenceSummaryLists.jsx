@@ -14,6 +14,7 @@ import {
   EVIDENCE_LIMITATION_PATH,
   EVIDENCE_UPLOAD_PATH,
   ATTACHMENTS_OTHER,
+  LIMITATION_KEY,
 } from '../constants';
 
 const listClassNames = [
@@ -122,7 +123,8 @@ export const VaContent = ({
                     </Link>
                     <va-button
                       data-index={index}
-                      onClick={handlers.removeVaLocation}
+                      data-type="va"
+                      onClick={handlers.showModal}
                       class={removeButtonClass}
                       label={`${content.remove} ${locationAndName}`}
                       text={content.remove}
@@ -222,7 +224,8 @@ export const PrivateContent = ({
                     </Link>
                     <va-button
                       data-index={index}
-                      onClick={handlers.removePrivateFacility}
+                      data-type="private"
+                      onClick={handlers.showModal}
                       class={removeButtonClass}
                       label={`${content.remove} ${providerFacilityName}`}
                       text={content.remove}
@@ -234,7 +237,7 @@ export const PrivateContent = ({
             </li>
           );
         })}
-        <li key="limitation" className={listClassNames}>
+        <li key={LIMITATION_KEY} className={listClassNames}>
           <Header6>{limitContent.title}</Header6>
           <p>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</p>
           {!reviewMode && (
@@ -250,7 +253,8 @@ export const PrivateContent = ({
               </Link>
               {limitedConsent.length ? (
                 <va-button
-                  onClick={handlers.removePrivateLimitation}
+                  data-type={LIMITATION_KEY}
+                  onClick={handlers.showModal}
                   class={removeButtonClass}
                   label={`${content.remove} ${limitContent.name}`}
                   text={content.remove}
@@ -313,7 +317,8 @@ export const UploadContent = ({
                 </Link>
                 <va-button
                   data-index={index}
-                  onClick={handlers.removeUpload}
+                  data-type="upload"
+                  onClick={handlers.showModal}
                   class={removeButtonClass}
                   label={`${content.remove} ${upload.name}`}
                   text={content.remove}
