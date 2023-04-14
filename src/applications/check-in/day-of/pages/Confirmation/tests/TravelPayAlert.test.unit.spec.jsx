@@ -1,22 +1,20 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { I18nextProvider } from 'react-i18next';
 
-import i18n from '../../../../utils/i18n/i18n';
-
+import CheckInProvider from '../../../../tests/unit/utils/CheckInProvider';
 import TravelPayAlert from '../TravelPayAlert';
 
 describe('check in', () => {
   describe('TravelPayAlert', () => {
     it('renders a eligible message', () => {
       const component = render(
-        <I18nextProvider i18n={i18n}>
+        <CheckInProvider>
           <TravelPayAlert
             travelPayEligible
             travelPayClaimData={{ claimdata: true }}
           />
-        </I18nextProvider>,
+        </CheckInProvider>,
       );
       expect(component.getByTestId('travel-pay-eligible-success-message')).to
         .exist;
@@ -28,9 +26,9 @@ describe('check in', () => {
     });
     it('renders a not eligible message', () => {
       const component = render(
-        <I18nextProvider i18n={i18n}>
+        <CheckInProvider>
           <TravelPayAlert travelPayEligible={false} />
-        </I18nextProvider>,
+        </CheckInProvider>,
       );
       expect(component.getByTestId('travel-pay-not-eligible-message')).to.exist;
       expect(
@@ -41,9 +39,9 @@ describe('check in', () => {
     });
     it('renders a generic api error message', () => {
       const component = render(
-        <I18nextProvider i18n={i18n}>
+        <CheckInProvider>
           <TravelPayAlert travelPayEligible travelPayClaimError />
-        </I18nextProvider>,
+        </CheckInProvider>,
       );
       expect(component.getByTestId('travel-pay-error-message')).to.exist;
       expect(component.getByTestId('travel-pay-error-message')).to.have.text(

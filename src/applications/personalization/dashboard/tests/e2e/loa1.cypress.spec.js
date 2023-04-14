@@ -14,6 +14,8 @@ import manifest from '~/applications/personalization/dashboard/manifest.json';
 function loa1DashboardTest(mobile, stubs) {
   cy.visit(manifest.rootUrl);
 
+  // TODO: update cy.viewport to Cypress.env().vaTopMobileViewports
+  // https://depo-platform-documentation.scrollhelp.site/developer-docs/viewport-testing-helper-functions
   if (mobile) {
     cy.viewport('iphone-4');
   }
@@ -21,6 +23,9 @@ function loa1DashboardTest(mobile, stubs) {
   // make sure that the "Verify" alert is shown
   cy.findByText(/Verify your identity to access/i).should('exist');
   cy.findByText(/we need to make sure you’re you/i).should('exist');
+  cy.findByRole('link', { name: 'Verify your identity' })
+    .should('have.attr', 'href', '/verify')
+    .click();
 
   // focus should be on the h1
   cy.focused()
@@ -107,16 +112,5 @@ describe('The My VA Dashboard', () => {
 
   it('should handle LOA1 users at mobile phone size', () => {
     loa1DashboardTest(true, stubs);
-  });
-});
-
-describe('When clicking on the verify your identity link', () => {
-  it('should focus on the h1 element', () => {
-    cy.login(loa1User);
-    cy.visit(manifest.rootUrl);
-    cy.findByRole('link', { name: 'Verify your identity' })
-      .should('have.attr', 'href', '/verify')
-      .click();
-    cy.get('h1').should('be.focused');
   });
 });

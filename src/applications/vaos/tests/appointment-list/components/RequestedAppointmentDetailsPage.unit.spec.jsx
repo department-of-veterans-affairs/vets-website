@@ -215,7 +215,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       .ok;
     expect(
       screen.getByText('VA online scheduling').getAttribute('href'),
-    ).to.equal('/health-care/schedule-view-va-appointments/appointments');
+    ).to.equal('/');
   });
 
   it('should render CC request details', async () => {

@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import set from 'platform/utilities/data/set';
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import {
+  VaTextInput,
+  VaCheckbox,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 /**
  * The text input and checkbox which make up the form signature. It's
@@ -29,6 +31,7 @@ import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox
 export const FormSignature = ({
   signatureLabel,
   checkboxLabel,
+  checkboxDescription,
   formData,
   setFormData,
   signaturePath,
@@ -119,12 +122,15 @@ export const FormSignature = ({
         required={required}
         error={((showError || signature.dirty) && signatureError) || null}
       />
-      <Checkbox
+      <VaCheckbox
         label={checkboxLabel}
+        description={null}
         required={required}
-        onValueChange={setChecked}
-        errorMessage={showError && checkboxError}
-      />
+        error={showError ? checkboxError : null}
+        onVaChange={event => setChecked(event.target.checked)}
+      >
+        {checkboxDescription && <p slot="description">{checkboxDescription}</p>}
+      </VaCheckbox>
     </>
   );
 };
@@ -152,7 +158,15 @@ FormSignature.propTypes = {
   /**
    * The label for the checkbox input
    */
-  checkboxLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  checkboxLabel: PropTypes.string,
+
+  /**
+   * The description for the checkbox input
+   */
+  checkboxDescription: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]),
 
   /**
    * An array of validator functions. Each function returns a string for the
