@@ -72,10 +72,7 @@ const FilterBox = props => {
         setFromDateError('Start date must be on or before end date');
         setToDateError('End date must be on or after start date');
       }
-    } else if (
-      dateRange === 'any' &&
-      !category
-    ) {
+    } else if (dateRange === 'any' && !category) {
       formInvalid = true;
       setFormError(true);
     }
@@ -223,7 +220,6 @@ const FilterBox = props => {
 };
 
 FilterBox.propTypes = {
-  advancedSearchOpen: PropTypes.bool,
   folders: PropTypes.any,
   testingDateRange: PropTypes.any,
   testingFromDate: PropTypes.any,
