@@ -1,46 +1,18 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { selectFeatureStatusImprovement } from '../../redux/selectors';
 import { GA_PREFIX } from '../../utils/constants';
 
-function handleClick({ history, callback }) {
-  return event => {
-    if (event.target.id === 'pending') {
-      history.push('/pending');
-      callback(true);
-      recordEvent({
-        event: `${GA_PREFIX}-status-pending-link-clicked`,
-      });
-    }
-    if (event.target.id === 'past') {
-      recordEvent({
-        event: `${GA_PREFIX}-status-past-link-clicked`,
-      });
-      history.push('/past');
-      callback(true);
-    }
-  };
-}
-
 export default function AppointmentListNavigation({ count, callback }) {
-  const history = useHistory();
   const location = useLocation();
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
 
   if (featureStatusImprovement) {
-    // Only display navigation on upcoming appointments page
-    if (
-      location.pathname.endsWith('pending') ||
-      location.pathname.endsWith('past')
-    ) {
-      return null;
-    }
-
     return (
       <nav
         aria-label="Appointment list navigation"
@@ -48,30 +20,47 @@ export default function AppointmentListNavigation({ count, callback }) {
       >
         <ul>
           <li>
-            <button
-              id="pending"
-              type="button"
-              className="va-button-link"
-              onClick={handleClick({
-                history,
-                callback,
-              })}
+            <NavLink
+              id="upcoming"
+              to="/"
+              onClick={() => callback(true)}
+              // eslint-disable-next-line jsx-a11y/aria-proptypes
+              aria-current={`${!!location.pathname.endsWith('/')}`}
             >
-              {`Pending (${count})`}
-            </button>
+              Upcoming
+            </NavLink>
           </li>
           <li>
-            <button
+            <NavLink
+              id="pending"
+              to="/pending"
+              onClick={() => {
+                callback(true);
+                recordEvent({
+                  event: `${GA_PREFIX}-status-pending-link-clicked`,
+                });
+              }}
+              // eslint-disable-next-line jsx-a11y/aria-proptypes
+              aria-current={`${!!location.pathname.endsWith('pending')}`}
+            >
+              {`Pending (${count})`}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               id="past"
-              type="button"
-              className="va-button-link"
-              onClick={handleClick({
-                history,
-                callback,
-              })}
+              to="/past"
+              onClick={() => {
+                callback(true);
+                recordEvent({
+                  event: `${GA_PREFIX}-status-past-link-clicked`,
+                });
+              }}
+              // eslint-disable-next-line jsx-a11y/aria-proptypes
+              aria-current={`${!!location.pathname.endsWith('past')}`}
             >
               Past
-            </button>
+            </NavLink>
           </li>
         </ul>
       </nav>

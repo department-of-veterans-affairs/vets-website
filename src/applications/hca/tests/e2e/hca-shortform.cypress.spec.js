@@ -64,10 +64,8 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       .first()
       .should('exist');
 
-    cy.get('va-button[continue]')
+    cy.get('a.vads-c-action-link--green')
       .first()
-      .shadow()
-      .find('button')
       .click();
 
     cy.wait('@mockSip');
@@ -228,10 +226,8 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
       .first()
       .should('exist');
 
-    cy.get('va-button[continue]')
+    cy.get('a.vads-c-action-link--green')
       .first()
-      .shadow()
-      .find('button')
       .click();
 
     cy.wait('@mockSip');

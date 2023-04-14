@@ -274,6 +274,19 @@ class PatientMessageDetailsPage {
     cy.log('message does not have attachment');
   };
 
+  verifyUnexpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        messageDetails.data.attributes.messageId
+      }`,
+      messageDetails,
+    );
+    cy.get('[class= "vads-u-flex--fill"]')
+      .eq(messageIndex)
+      .should('contain', `From: ${messageDetails.data.attributes.senderName}`);
+  };
+
   verifyExpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
     cy.get('[data-testid="from"]')
       .eq(messageIndex)

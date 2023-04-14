@@ -214,7 +214,6 @@ export function createFeatureTogglesState(customToggles = {}) {
   return {
     featureToggles: {
       loading: false,
-      profile_use_vafsc: true,
       ...customToggles,
     },
   };

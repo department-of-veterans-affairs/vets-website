@@ -1,14 +1,17 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import HealthConditions from './containers/HealthConditions';
 import HealthHistory from './containers/HealthHistory';
 import VaccineDetails from './containers/VaccineDetails';
 import Vaccines from './containers/Vaccines';
 import VitalDetails from './containers/VitalDetails';
 import Vitals from './containers/Vitals';
-import App from './containers/App';
+import LandingPage from './containers/LandingPage';
 import MrBreadcrumbs from './components/MrBreadcrumbs';
 import Navigation from './components/Navigation';
 import LabsAndTests from './containers/LabsAndTests';
+import CareSummariesAndNotes from './containers/CareSummariesAndNotes';
+import ConditionDetails from './containers/ConditionDetails';
 
 const routes = (
   <div className="vads-l-grid-container">
@@ -18,13 +21,20 @@ const routes = (
       <div className="vads-l-grid-container main-content">
         <Switch>
           <Route exact path="/" key="Medical Records Home">
-            <App />
+            <LandingPage />
           </Route>
           <Route exact path="/labs-and-tests" key="LabsAndTests">
             <LabsAndTests />
           </Route>
           <Route exact path="/health-history" key="HealthHistory">
             <HealthHistory />
+          </Route>
+          <Route
+            exact
+            path="/health-history/care-summaries-and-notes"
+            key="CareSummariesAndNotes"
+          >
+            <CareSummariesAndNotes />
           </Route>
           <Route exact path="/health-history/vaccines" key="Vaccines">
             <Vaccines />
@@ -37,6 +47,19 @@ const routes = (
           </Route>
           <Route path="/health-history/vitals/:vitalType" key="VitalDetails">
             <VitalDetails />
+          </Route>
+          <Route
+            exact
+            path="/health-history/health-conditions"
+            key="Health Conditions"
+          >
+            <HealthConditions />
+          </Route>
+          <Route
+            path="/health-history/condition-details/:conditionId"
+            key="Condition Details"
+          >
+            <ConditionDetails />
           </Route>
         </Switch>
       </div>

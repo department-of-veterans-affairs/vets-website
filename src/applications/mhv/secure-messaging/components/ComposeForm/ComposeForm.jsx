@@ -22,6 +22,7 @@ import {
   draftAutoSaveTimeout,
   Categories,
   Prompts,
+  ErrorMessages,
 } from '../../util/constants';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -199,19 +200,20 @@ const ComposeForm = props => {
       selectedRecipient === '' ||
       !selectedRecipient
     ) {
-      setRecipientError('Please select a recipient.');
+      setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+
       messageValid = false;
     }
     if (!subject || subject === '') {
-      setSubjectError('Subject cannot be blank.');
+      setSubjectError(ErrorMessages.ComposeForm.SUBJECT_REQUIRED);
       messageValid = false;
     }
     if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-      setBodyError('Message body cannot be blank.');
+      setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
       messageValid = false;
     }
     if (!category || category === '') {
-      setCategoryError('Please select a category.');
+      setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
       messageValid = false;
     }
     setMessageInvalid(!messageValid);
@@ -222,21 +224,11 @@ const ComposeForm = props => {
     if (type === 'manual') {
       setUserSaved(true);
       if (!checkMessageValidity()) {
-        setSaveError({
-          title: "We can't save this message yet",
-          p1:
-            'We need more information from you before we can save this draft.',
-          p2:
-            "You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
-        });
+        setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE);
         return;
       }
       if (attachments.length) {
-        setSaveError({
-          title: "We can't save attachments in a draft message",
-          p1:
-            "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
-        });
+        setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT);
         setNavigationError(null);
       }
     }
@@ -298,10 +290,7 @@ const ComposeForm = props => {
 
   const setUnsavedNavigationError = () => {
     setNavigationError({
-      title: "We can't save this message yet",
-      p1: 'We need more information from you before we can save this draft.',
-      p2:
-        "You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
+      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
       confirmButtonText: 'Continue editing',
       cancelButtonText: 'Delete draft',
     });

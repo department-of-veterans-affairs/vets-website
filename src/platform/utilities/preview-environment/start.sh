@@ -1,8 +1,10 @@
 #!/bin/sh
 
+
 echo "Download dev content-build to website dir"
+
 cd ..
-curl -LO https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content-build/0008051ce15e731cc01289933dfb060d6f0d4df6/vagovdev.tar.bz2
+curl -LO ${AWS_URL}
 
 echo "Setup content-build and extract pre-built content into content-build/build/localhost"
 echo "make the build folder"
@@ -13,10 +15,11 @@ tar -xf vagovdev.tar.bz2 -C content-build/build/localhost/
 echo "set yarn to allow self-signed cert for install"
 yarn config set "strict-ssl" false
 
-# Watch vets-website
-echo "Install and watch vets-website"
+# Build and watch vets-website
+echo "Install, build, and watch vets-website"
 cd vets-website
 yarn install
+yarn build:webpack:local --env api="${http://localhost:3000/}"
 yarn watch &
 
 # Serve the content-build
