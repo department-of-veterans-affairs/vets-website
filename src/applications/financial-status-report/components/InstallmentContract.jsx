@@ -31,7 +31,7 @@ const InstallmentContract = props => {
   if (Number.isNaN(editIndex)) {
     editIndex = installmentContracts?.length ?? 0;
   }
-  const isEditing = editIndex >= 0 && !Number.isNaN(editIndex);
+  const isEditing = !Number.isNaN(editIndex) && editIndex >= 0;
 
   const index = isEditing ? Number(editIndex) : 0;
 
@@ -282,7 +282,7 @@ const InstallmentContract = props => {
           Cancel
         </button>
         <button
-          type="button"
+          type="submit"
           id="submit"
           className="vads-u-width--auto"
           onClick={handlers.onUpdate}

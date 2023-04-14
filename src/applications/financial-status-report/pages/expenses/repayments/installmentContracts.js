@@ -12,14 +12,16 @@ export const uiSchema = {
       'ui:required': () => true,
       'ui:description': () => (
         <>
-          Examples include:
-          <ul>
-            <li>Medical bills</li>
-            <li>Student loans</li>
-            <li>Auto loans</li>
-            <li>Home loans</li>
-            <li>Personal debts</li>
-          </ul>
+          <div className="vads-u-margin-y--2">
+            Examples include:
+            <ul>
+              <li>Medical bills</li>
+              <li>Student loans</li>
+              <li>Auto loans</li>
+              <li>Home loans</li>
+              <li>Personal debts</li>
+            </ul>
+          </div>
         </>
       ),
       'ui:widget': 'yesNo',
