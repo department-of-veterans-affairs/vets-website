@@ -28,6 +28,7 @@ import {
 
 import ITFWrapper from './ITFWrapper';
 import { WIP } from '../components/WIP';
+import { SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
 
 export const App = ({
   loggedIn,
@@ -79,10 +80,13 @@ export const App = ({
 
   useEffect(
     () => {
-      if (show995) {
+      if (
+        show995 &&
+        SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)
+      ) {
         // form data is reset after logging in and from the save-in-progress data,
         // so get it from the session storage
-        if (!formData.benefitType && subTaskBenefitType) {
+        if (!formData.benefitType) {
           setFormData({
             ...formData,
             benefitType: subTaskBenefitType,
@@ -172,7 +176,7 @@ export const App = ({
     return <WIP />;
   }
 
-  if (!subTaskBenefitType) {
+  if (!SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)) {
     router.push('/start');
     content = wrapInH1(
       <va-loading-indicator message="Please wait while we restart the application for you." />,

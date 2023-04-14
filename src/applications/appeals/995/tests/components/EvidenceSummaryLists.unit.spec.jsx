@@ -10,6 +10,7 @@ import {
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
   EVIDENCE_UPLOAD_PATH,
+  LIMITATION_KEY,
 } from '../../constants';
 
 import { content } from '../../content/evidenceSummary';
@@ -150,7 +151,7 @@ describe('evidenceSummaryList', () => {
     it('should execute callback when removing an entry', () => {
       const removeSpy = sinon.spy();
       const vaEvidence = records().locations;
-      const handlers = { removeVaLocation: removeSpy };
+      const handlers = { showModal: removeSpy };
       const { container } = render(
         <VaContent list={vaEvidence} handlers={handlers} testing />,
       );
@@ -159,9 +160,11 @@ describe('evidenceSummaryList', () => {
       fireEvent.click(buttons[0]);
       expect(removeSpy.calledOnce).to.be.true;
       expect(removeSpy.args[0][0].target.getAttribute('data-index')).to.eq('0');
+      expect(removeSpy.args[0][0].target.getAttribute('data-type')).to.eq('va');
       fireEvent.click(buttons[1]);
       expect(removeSpy.calledTwice).to.be.true;
       expect(removeSpy.args[1][0].target.getAttribute('data-index')).to.eq('1');
+      expect(removeSpy.args[1][0].target.getAttribute('data-type')).to.eq('va');
     });
   });
 
@@ -239,7 +242,7 @@ describe('evidenceSummaryList', () => {
     it('should execute callback when removing an entry', () => {
       const removeSpy = sinon.spy();
       const privateEvidence = records().providerFacility;
-      const handlers = { removePrivateFacility: removeSpy };
+      const handlers = { showModal: removeSpy };
       const { container } = render(
         <PrivateContent list={privateEvidence} handlers={handlers} testing />,
       );
@@ -248,14 +251,20 @@ describe('evidenceSummaryList', () => {
       fireEvent.click(buttons[0]);
       expect(removeSpy.calledOnce).to.be.true;
       expect(removeSpy.args[0][0].target.getAttribute('data-index')).to.eq('0');
+      expect(removeSpy.args[0][0].target.getAttribute('data-type')).to.eq(
+        'private',
+      );
       fireEvent.click(buttons[1]);
       expect(removeSpy.calledTwice).to.be.true;
       expect(removeSpy.args[1][0].target.getAttribute('data-index')).to.eq('1');
+      expect(removeSpy.args[1][0].target.getAttribute('data-type')).to.eq(
+        'private',
+      );
     });
     it('should execute callback when removing the limitation', () => {
       const removeSpy = sinon.spy();
       const privateEvidence = records().providerFacility;
-      const handlers = { removePrivateLimitation: removeSpy };
+      const handlers = { showModal: removeSpy };
       const { container } = render(
         <PrivateContent
           list={privateEvidence}
@@ -268,6 +277,9 @@ describe('evidenceSummaryList', () => {
       const buttons = $$('.remove-item', container);
       fireEvent.click(buttons[2]);
       expect(removeSpy.called).to.be.true;
+      expect(removeSpy.args[0][0].target.getAttribute('data-type')).to.eq(
+        LIMITATION_KEY,
+      );
     });
   });
 
@@ -315,7 +327,7 @@ describe('evidenceSummaryList', () => {
     it('should execute callback when removing an upload', () => {
       const removeSpy = sinon.spy();
       const otherEvidence = records().additionalDocuments;
-      const handlers = { removeUpload: removeSpy };
+      const handlers = { showModal: removeSpy };
       const { container } = render(
         <UploadContent list={otherEvidence} handlers={handlers} testing />,
       );
@@ -324,9 +336,15 @@ describe('evidenceSummaryList', () => {
       fireEvent.click(buttons[0]);
       expect(removeSpy.calledOnce).to.be.true;
       expect(removeSpy.args[0][0].target.getAttribute('data-index')).to.eq('0');
+      expect(removeSpy.args[0][0].target.getAttribute('data-type')).to.eq(
+        'upload',
+      );
       fireEvent.click(buttons[1]);
       expect(removeSpy.calledTwice).to.be.true;
       expect(removeSpy.args[1][0].target.getAttribute('data-index')).to.eq('1');
+      expect(removeSpy.args[1][0].target.getAttribute('data-type')).to.eq(
+        'upload',
+      );
     });
   });
 });
