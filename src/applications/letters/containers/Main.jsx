@@ -28,7 +28,8 @@ export class Main extends React.Component {
     if (!this.props.emptyAddress) {
       return this.props.getLetterListAndBSLOptions();
     }
-    return this.props.profileHasEmptyAddress();
+    return this.props.getLetterListAndBSLOptions();
+    // return this.props.profileHasEmptyAddress();
   }
 
   render() {

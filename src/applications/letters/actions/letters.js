@@ -20,7 +20,7 @@ import {
 } from '../utils/constants';
 
 export function getLetterList(dispatch) {
-  return apiRequest('/v0/letters')
+  return apiRequest('/v0/letters_generator')
     .then(response => {
       recordEvent({ event: 'letter-list-success' });
       return dispatch({
@@ -59,7 +59,7 @@ export function getLetterList(dispatch) {
 }
 
 export function getBenefitSummaryOptions(dispatch) {
-  return apiRequest('/v0/letters/beneficiary')
+  return apiRequest('/v0/letters_generator/beneficiary')
     .then(response => {
       recordEvent({ event: 'letter-get-bsl-success' });
       return dispatch({
@@ -95,13 +95,13 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
   let settings;
   if (letterType === LETTER_TYPES.benefitSummary) {
     settings = {
-      method: 'POST',
+      method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(letterOptions),
     };
   } else {
     settings = {
-      method: 'POST',
+      method: 'GET',
     };
   }
 
@@ -132,7 +132,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
       //  a user interaction.
       downloadWindow = window.open();
     }
-    return apiRequest(`/v0/letters/${letterType}`, settings)
+    return apiRequest(`/v0/letters_generator/download/${letterType}`, settings)
       .then(response => {
         let downloadUrl;
         response.blob().then(blob => {

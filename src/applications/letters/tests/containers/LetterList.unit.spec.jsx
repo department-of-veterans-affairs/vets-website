@@ -8,15 +8,15 @@ import { AVAILABILITY_STATUSES } from '../../utils/constants';
 const defaultProps = {
   letters: [
     {
-      name: 'Commissary Letter',
+      letterName: 'Commissary Letter',
       letterType: 'commissary',
     },
     {
-      name: 'Benefit Summary and Service Verification Letter',
+      letterName: 'Benefit Summary and Service Verification Letter',
       letterType: 'benefit_summary',
     },
     {
-      name: 'Benefit Verification Letter',
+      letterName: 'Benefit Verification Letter',
       letterType: 'benefit_verification',
     },
   ],
@@ -42,7 +42,7 @@ describe('<LetterList>', () => {
     const panels = component.everySubTree('va-accordion-item');
     defaultProps.letters.forEach((letter, index) => {
       const letterProps = panels[index].dive(['h3']).text();
-      expect(letterProps).to.contain(defaultProps.letters[index].name);
+      expect(letterProps).to.contain(defaultProps.letters[index].letterName);
     });
   });
 
@@ -61,7 +61,8 @@ describe('<LetterList>', () => {
       expect(panelText).to.not.contain('Connect(DownloadLetterLink)');
     };
 
-    const isBSL = panelText => panelText.includes(defaultProps.letters[1].name);
+    const isBSL = panelText =>
+      panelText.includes(defaultProps.letters[1].letterName);
     const props = { ...defaultProps, optionsAvailable: false };
     const component = SkinDeep.shallowRender(<LetterList {...props} />);
 
@@ -78,7 +79,7 @@ describe('<LetterList>', () => {
     };
 
     const isNotBSL = panelText =>
-      !panelText.includes(defaultProps.letters[1].name);
+      !panelText.includes(defaultProps.letters[1].letterName);
 
     const props = { ...defaultProps, optionsAvailable: false };
     const component = SkinDeep.shallowRender(<LetterList {...props} />);

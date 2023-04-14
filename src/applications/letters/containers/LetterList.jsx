@@ -22,27 +22,25 @@ export class LetterList extends React.Component {
       let content;
       let letterTitle;
       let helpText;
-      if (letter.letterType === LETTER_TYPES.benefitSummary) {
+      const type = letter.letterType.toLowerCase();
+      if (type === LETTER_TYPES.benefitSummary) {
         letterTitle = 'Benefit Summary and Service Verification Letter';
         content = <VeteranBenefitSummaryLetter />;
         helpText = bslHelpInstructions;
-      } else if (letter.letterType === LETTER_TYPES.proofOfService) {
+      } else if (type === LETTER_TYPES.proofOfService) {
         letterTitle = 'Proof of Service Card';
-        content = letterContent[letter.letterType] || '';
+        content = letterContent[type] || '';
       } else {
-        letterTitle = letter.name;
-        content = letterContent[letter.letterType] || '';
+        letterTitle = letter.letterName;
+        content = letterContent[type] || '';
       }
 
       let conditionalDownloadButton;
-      if (
-        letter.letterType !== LETTER_TYPES.benefitSummary ||
-        this.props.optionsAvailable
-      ) {
+      if (type !== LETTER_TYPES.benefitSummary || this.props.optionsAvailable) {
         conditionalDownloadButton = (
           <DownloadLetterLink
             letterType={letter.letterType}
-            letterName={letter.name}
+            letterName={letter.letterName}
             downloadStatus={downloadStatus[letter.letterType]}
             key={`download-link-${index}`}
           />
@@ -154,8 +152,8 @@ export class LetterList extends React.Component {
           <div>
             If you have any questions, please call the VA Benefits Help Desk:
             <br />
-            <a href="tel:1-800-827-1000">800-827-1000</a>, Monday &#8211;
-            Friday, 8 a.m. &#8211; 9 p.m. ET
+            <va-telephone contact="8008271000" />, Monday &#8211; Friday, 8 a.m.
+            &#8211; 9 p.m. ET
           </div>
         </div>
       </div>
@@ -178,7 +176,7 @@ LetterList.propTypes = {
   letters: PropTypes.arrayOf(
     PropTypes.shape({
       letterType: PropTypes.string,
-      name: PropTypes.string,
+      letterName: PropTypes.string,
     }),
   ),
   lettersAvailability: PropTypes.string,
