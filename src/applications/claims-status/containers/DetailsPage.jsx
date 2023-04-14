@@ -5,9 +5,13 @@ import PropTypes from 'prop-types';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
-import ClaimDetailLayout from '../components/ClaimDetailLayout';
+// START lighthouse_migration
+import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
+import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
+// END lighthouse_migration
 import { getClaimType } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
+import { cstUseLighthouse } from '../selectors';
 
 class DetailsPage extends React.Component {
   componentDidMount() {
@@ -43,7 +47,7 @@ class DetailsPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, synced } = this.props;
+    const { claim, loading, synced, useLighthouse } = this.props;
 
     let content = null;
     if (!loading) {
@@ -94,6 +98,10 @@ class DetailsPage extends React.Component {
       );
     }
 
+    const ClaimDetailLayout = useLighthouse
+      ? ClaimDetailLayoutLighthouse
+      : ClaimDetailLayoutEVSS;
+
     return (
       <ClaimDetailLayout
         claim={claim}
@@ -114,6 +122,7 @@ function mapStateToProps(state) {
     claim: claimsState.claimDetail.detail,
     lastPage: claimsState.routing.lastPage,
     synced: claimsState.claimSync.synced,
+    useLighthouse: cstUseLighthouse(state),
   };
 }
 
@@ -122,6 +131,7 @@ DetailsPage.propTypes = {
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   synced: PropTypes.bool,
+  useLighthouse: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(DetailsPage);

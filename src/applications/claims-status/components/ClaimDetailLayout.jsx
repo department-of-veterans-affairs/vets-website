@@ -37,8 +37,9 @@ export default function ClaimDetailLayout(props) {
     );
   } else if (claim !== null) {
     const claimTitle = `Your ${getClaimType(claim)} claim`;
-    const { contentions } = claim.attributes || {};
+    const { contentions, status } = claim.attributes || {};
     const hasContentions = contentions && contentions.length;
+    const isOpen = status !== 'COMPLETE';
 
     headingContent = (
       <>
@@ -57,16 +58,14 @@ export default function ClaimDetailLayout(props) {
             What you’ve claimed:
           </h2>
           <span>
-            {claim?.attributes?.contentions &&
-            claim.attributes.contentions.length
-              ? claim.attributes.contentions
+            {hasContentions
+              ? contentions
                   .slice(0, MAX_CONTENTIONS)
                   .map(cond => cond.trim())
                   .join(', ')
               : 'Not available'}
           </span>
-          {claim?.attributes?.contentions &&
-          claim.attributes.contentions.length > MAX_CONTENTIONS ? (
+          {hasContentions && contentions.length > MAX_CONTENTIONS ? (
             <span>
               <br />
               <Link to={`your-claims/${claim.id}/details`}>
@@ -91,8 +90,7 @@ export default function ClaimDetailLayout(props) {
           >
             {currentTab === tab && (
               <div className="va-tab-content claim-tab-content">
-                {isPopulatedClaim(claim || {}) ||
-                !claim?.attributes.open ? null : (
+                {isPopulatedClaim(claim.attributes || {}) || !isOpen ? null : (
                   <AddingDetails />
                 )}
                 {props.children}

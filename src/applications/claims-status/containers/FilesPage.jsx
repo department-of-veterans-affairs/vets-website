@@ -4,10 +4,13 @@ import PropTypes from 'prop-types';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
+// START lighthouse_migration
+import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
 import FilesPageContent from '../components/evss/FilesPageContent';
+// END lighthouse_migration
 import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
 import AskVAToDecide from '../components/AskVAToDecide';
-import ClaimDetailLayout from '../components/ClaimDetailLayout';
+import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 
@@ -24,14 +27,14 @@ const FIRST_GATHERING_EVIDENCE_PHASE = 'EVIDENCE_GATHERING';
 // is maintained when converting to an array of keys
 const getStatusMap = () => {
   const map = new Map();
-  map.set('CLAIM RECEIVED', 'CLAIM_RECEIVED');
-  map.set('INITIAL REVIEW', 'INITIAL REVIEW');
+  map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
+  map.set('INITIAL_REVIEW', 'INITIAL REVIEW');
   map.set(
     'EVIDENCE_GATHERING_REVIEW_DECISION',
     'EVIDENCE_GATHERING_REVIEW_DECISION',
   );
-  map.set('PREPARATION_FOR_NOTIFICATION');
-  map.set('COMPLETE');
+  map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
+  map.set('COMPLETE', 'COMPLETE');
   return map;
 };
 
@@ -137,7 +140,11 @@ class FilesPage extends React.Component {
       content = this.getPageContent();
     }
 
-    const ClaimDetailLayout = useLighthouse ? ClaimDetailLayoutLighthouse : ClaimDetailLayoutEVSS;
+    // START lighthouse_migration
+    const ClaimDetailLayout = useLighthouse
+      ? ClaimDetailLayoutLighthouse
+      : ClaimDetailLayoutEVSS;
+    // END lighthouse_migration
 
     return (
       <ClaimDetailLayout

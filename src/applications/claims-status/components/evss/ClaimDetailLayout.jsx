@@ -2,14 +2,19 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
-import TabNav from './TabNav';
-import ClaimSyncWarning from './ClaimSyncWarning';
-import AskVAQuestions from './AskVAQuestions';
-import AddingDetails from './AddingDetails';
-import Notification from './Notification';
-import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
-import ClaimsUnavailable from './ClaimsUnavailable';
-import { isPopulatedClaim, getClaimType } from '../utils/helpers';
+import TabNav from '../TabNav';
+import ClaimSyncWarning from '../ClaimSyncWarning';
+import AskVAQuestions from '../AskVAQuestions';
+import AddingDetails from '../AddingDetails';
+import Notification from '../Notification';
+import ClaimsBreadcrumbs from '../ClaimsBreadcrumbs';
+import ClaimsUnavailable from '../ClaimsUnavailable';
+import { getClaimType } from '../../utils/helpers';
+
+export const isPopulatedClaim = ({ attributes }) =>
+  !!attributes.claimType &&
+  (attributes.contentionList && !!attributes.contentionList.length) &&
+  !!attributes.dateFiled;
 
 const MAX_CONTENTIONS = 3;
 

@@ -25,6 +25,7 @@ export function getPhaseDescription(phase) {
 }
 
 export function getUserPhaseDescription(phase) {
+  console.log(phase)
   if (phase < 3) {
     return phaseMap[phase];
   }
@@ -201,13 +202,8 @@ export function getDocTypeDescription(docType) {
   return DOC_TYPES.filter(type => type.value === docType)[0].label;
 }
 
-export function isPopulatedClaim({ attributes }) {
-  return (
-    !!attributes.claimType &&
-    (attributes.contentionList && !!attributes.contentionList.length) &&
-    !!attributes.dateFiled
-  );
-}
+export const isPopulatedClaim = ({ claimDate, claimType, contentions }) =>
+  !!claimType && (contentions && !!contentions.length) && !!claimDate;
 
 export function hasBeenReviewed(trackedItem) {
   const reviewedStatuses = ['INITIAL_REVIEW_COMPLETE', 'ACCEPTED'];

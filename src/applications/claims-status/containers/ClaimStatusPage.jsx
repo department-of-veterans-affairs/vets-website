@@ -6,7 +6,8 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import { clearNotification } from '../actions';
 import ClaimComplete from '../components/ClaimComplete';
-import ClaimDetailLayout from '../components/ClaimDetailLayout';
+import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
+import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
@@ -25,14 +26,14 @@ import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 // is maintained when converting to an array of keys
 const getStatusMap = () => {
   const map = new Map();
-  map.set('CLAIM RECEIVED', 'CLAIM_RECEIVED');
-  map.set('INITIAL REVIEW', 'INITIAL REVIEW');
+  map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
+  map.set('INITIAL_REVIEW', 'INITIAL_REVIEW');
   map.set(
     'EVIDENCE_GATHERING_REVIEW_DECISION',
     'EVIDENCE_GATHERING_REVIEW_DECISION',
   );
-  map.set('PREPARATION_FOR_NOTIFICATION');
-  map.set('COMPLETE');
+  map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
+  map.set('COMPLETE', 'COMPLETE');
   return map;
 };
 
@@ -121,6 +122,8 @@ class ClaimStatusPage extends React.Component {
 
     const { decisionLetterSent, documentsNeeded, status } = attributes;
 
+    console.log(getPhaseFromStatus(status), status);
+
     const isOpen = status !== STATUSES.COMPLETE;
     const filesNeeded = itemsNeedingAttentionFromVet(attributes.eventsTimeline);
     const showDocsNeeded =
@@ -160,12 +163,16 @@ class ClaimStatusPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced } = this.props;
+    const { claim, loading, message, synced, useLighthouse } = this.props;
 
     let content = null;
     if (!loading) {
       content = this.getPageContent();
     }
+
+    const ClaimDetailLayout = useLighthouse
+      ? ClaimDetailLayoutLighthouse
+      : ClaimDetailLayoutEVSS;
 
     return (
       <ClaimDetailLayout
