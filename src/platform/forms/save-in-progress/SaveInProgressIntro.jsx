@@ -254,7 +254,8 @@ class SaveInProgressIntro extends React.Component {
                     aria-label={ariaLabel}
                     aria-describedby={ariaDescribedby}
                   >
-                    Start your {appType} without signing in
+                    {this.props.unauthStartLinkText ||
+                      `Start your ${appType} without signing in`}
                   </Link>
                 </p>
               )}
@@ -422,6 +423,7 @@ SaveInProgressIntro.propTypes = {
   startText: PropTypes.string,
   testActionLink: PropTypes.bool,
   unauthStartText: PropTypes.string,
+  unauthStartLinkText: PropTypes.string,
   unverifiedPrefillAlert: PropTypes.element,
   verifiedPrefillAlert: PropTypes.element,
   verifyRequiredPrefill: PropTypes.bool,
