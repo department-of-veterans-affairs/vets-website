@@ -66,7 +66,6 @@ export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
       <va-loading-indicator
         label="Loading"
         message="Please wait while we load the application for you."
-        set-focus
       />
     </div>
   );

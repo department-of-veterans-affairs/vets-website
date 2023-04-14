@@ -18,7 +18,7 @@ import {
 
 export default function RequestAppointmentLayout({ appointment }) {
   const appointmentLocality = useSelector(() =>
-    selectAppointmentLocality(appointment),
+    selectAppointmentLocality(appointment, true),
   );
   const first = true;
   const grouped = true;
@@ -26,7 +26,7 @@ export default function RequestAppointmentLayout({ appointment }) {
   const isCanceled = useSelector(() => selectIsCanceled(appointment));
   const isCommunityCare = useSelector(() => selectIsCommunityCare(appointment));
   const link = `requests/${appointment.id}`;
-  const modality = useSelector(() => selectModalityText(appointment));
+  const modality = useSelector(() => selectModalityText(appointment, true));
   const modalityIcon = useSelector(() => selectModalityIcon(appointment));
   const typeOfCareName = useSelector(() => selectTypeOfCareName(appointment));
 
@@ -37,81 +37,82 @@ export default function RequestAppointmentLayout({ appointment }) {
   return (
     <ListItem appointment={appointment} borderTop status="pending">
       <AppointmentFlexGrid idClickable={idClickable} link={link}>
-        <AppointmentColumn
-          className={classNames(
-            'vaos-appts__column--2',
-            'vads-u-border-color--gray-medium',
-            'vads-u-padding-y--2',
-            {
-              'vads-u-border-top--1px': grouped && !first,
-            },
-          )}
-          size="1"
-        >
-          <AppointmentRow className="small-screen:vads-u-flex-direction--row">
-            <AppointmentColumn size="1" className="vads-u-flex--4">
-              <AppointmentRow className="xsmall-screen:vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-                <AppointmentColumn
-                  padding="0"
-                  size="1"
-                  canceled={isCanceled}
-                  className="vads-u-font-weight--bold"
-                >
-                  {typeOfCareName}
-                </AppointmentColumn>
-                <AppointmentColumn
-                  padding="0"
-                  size="1"
-                  className="vaos-appts__text--truncate"
-                  canceled={isCanceled}
-                >
-                  <>
-                    <i
-                      aria-hidden="true"
-                      className={classNames(
-                        'fas',
-                        'vads-u-margin-right--1',
-                        'vads-u-color--gray',
-                        modalityIcon,
-                        {
-                          'vaos-appts__text--line-through':
-                            isCanceled && !isCommunityCare,
-                        },
-                      )}
-                    />
+        <AppointmentRow className="vads-u-margin-x--1p5 xsmall-screen:vads-u-flex-direction--row">
+          <AppointmentColumn
+            className={classNames(
+              'vads-u-border-color--gray-medium',
+              'vads-u-padding-y--2',
+              {
+                'vads-u-border-top--1px': grouped && !first,
+              },
+            )}
+            size="1"
+          >
+            <AppointmentRow className="vaos-appts__column-gap--3 small-screen:vads-u-flex-direction--row">
+              <AppointmentColumn size="1" className="vads-u-flex--4">
+                <AppointmentRow className="vaos-appts__column-gap--3 vaos-appts__display--table vaos-appts__text--truncate xsmall-screen:vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+                  <AppointmentColumn
+                    padding="0"
+                    size="1"
+                    canceled={isCanceled}
+                    className="vads-u-font-weight--bold vaos-appts__display--table-cell"
+                  >
+                    {typeOfCareName}
+                  </AppointmentColumn>
+                  <AppointmentColumn
+                    padding="0"
+                    size="1"
+                    className="vaos-appts__display--table-cell"
+                    canceled={isCanceled}
+                  >
+                    <>
+                      <i
+                        aria-hidden="true"
+                        className={classNames(
+                          'fas',
+                          'vads-u-margin-right--1',
+                          'vads-u-color--gray',
+                          modalityIcon,
+                          {
+                            'vaos-appts__text--line-through':
+                              isCanceled && !isCommunityCare,
+                          },
+                        )}
+                      />
 
-                    {`${modality}`}
-                  </>
-                </AppointmentColumn>
-                <AppointmentColumn
-                  padding="0"
-                  size="1"
-                  className="vaos-appts__text--truncate"
-                  canceled={isCanceled}
-                >
-                  {appointmentLocality}
-                </AppointmentColumn>
-              </AppointmentRow>
-            </AppointmentColumn>
+                      {`${modality}`}
+                    </>
+                  </AppointmentColumn>
+                  <AppointmentColumn
+                    padding="0"
+                    size="1"
+                    className="vaos-appts__display--table-cell"
+                    canceled={isCanceled}
+                  >
+                    {appointmentLocality}
+                  </AppointmentColumn>
+                </AppointmentRow>
+              </AppointmentColumn>
 
-            <AppointmentColumn
-              id={`vaos-appts__detail-${appointment.id}`}
-              className="vaos-hide-for-print"
-              padding="0"
-              size="1"
-              aria-label={detailAriaLabel}
-            >
-              <va-link
-                className="vaos-appts__focus--hide-outline"
-                aria-describedby={`vaos-appts__detail-${appointment.id}`}
-                href={link}
-                onClick={e => e.preventDefault()}
-                text="Details"
-                role="link"
-              />
-            </AppointmentColumn>
-          </AppointmentRow>
-        </AppointmentColumn>{' '}
+              <AppointmentColumn
+                id={`vaos-appts__detail-${appointment.id}`}
+                className="vaos-hide-for-print"
+                padding="0"
+                size="1"
+                aria-label={detailAriaLabel}
+              >
+                <va-link
+                  className="vaos-appts__focus--hide-outline"
+                  aria-describedby={`vaos-appts__detail-${appointment.id}`}
+                  href={link}
+                  onClick={e => e.preventDefault()}
+                  text="Details"
+                  role="link"
+                />
+              </AppointmentColumn>
+            </AppointmentRow>
+          </AppointmentColumn>{' '}
+        </AppointmentRow>
       </AppointmentFlexGrid>
     </ListItem>
   );

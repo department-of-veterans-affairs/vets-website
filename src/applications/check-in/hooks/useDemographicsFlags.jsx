@@ -42,7 +42,6 @@ const useDemographicsFlags = () => {
     demographicsUpToDate === undefined &&
     emergencyContactUpToDate === undefined &&
     nextOfKinUpToDate === undefined;
-
   return {
     demographicsData,
     demographicsFlagsSent,

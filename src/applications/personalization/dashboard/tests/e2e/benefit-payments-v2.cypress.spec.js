@@ -74,17 +74,21 @@ describe('The My VA Dashboard - Benefit Payments', () => {
           ],
         },
       }).as('featuresB');
-      cy.intercept('/v0/debts', debtsSuccessEmpty()).as('noDebtsB');
-      cy.intercept('/v0/medical_copays', copaysSuccessEmpty()).as('noCopaysB');
+      cy.intercept('GET', '/v0/debts', debtsSuccessEmpty()).as('noDebtsB');
+      cy.intercept('GET', '/v0/medical_copays', copaysSuccessEmpty()).as(
+        'noCopaysB',
+      );
     });
 
     // With payments
     describe('and user has recent payments', () => {
       describe('with direct deposit', () => {
         it('shows payments card with deposit text - C20887', () => {
-          cy.intercept('/v0/profile/payment_history', paymentsSuccess(true)).as(
-            'recentPayments1',
-          );
+          cy.intercept(
+            'GET',
+            '/v0/profile/payment_history',
+            paymentsSuccess(true),
+          ).as('recentPayments1');
 
           cy.visit('my-va/');
           cy.wait([
@@ -138,9 +142,11 @@ describe('The My VA Dashboard - Benefit Payments', () => {
     // no recent payments but payment history
     describe('and user has payment history', () => {
       it('shows no recent payment text with payment history link - C20889', () => {
-        cy.intercept('/v0/profile/payment_history', paymentsSuccess()).as(
-          'oldPayments1',
-        );
+        cy.intercept(
+          'GET',
+          '/v0/profile/payment_history',
+          paymentsSuccess(),
+        ).as('oldPayments1');
         cy.visit('my-va/');
         cy.wait(['@featuresB', '@noDebtsB', '@noCopaysB', '@oldPayments1']);
         cy.findByTestId('dashboard-section-payment-v2').should('exist');
@@ -161,9 +167,11 @@ describe('The My VA Dashboard - Benefit Payments', () => {
     // user never had a payment
     describe('and user has never had payments', () => {
       it('shows no recent payment text with no payment history link - C20890', () => {
-        cy.intercept('/v0/profile/payment_history', paymentsSuccessEmpty()).as(
-          'emptyPayments1',
-        );
+        cy.intercept(
+          'GET',
+          '/v0/profile/payment_history',
+          paymentsSuccessEmpty(),
+        ).as('emptyPayments1');
         cy.visit('my-va/');
         cy.wait(['@featuresB', '@noDebtsB', '@noCopaysB', '@emptyPayments1']);
         cy.findByTestId('dashboard-section-payment-v2').should('exist');
@@ -227,8 +235,10 @@ describe('when the payment history claims does not exist', () => {
         ],
       },
     }).as('featuresC');
-    cy.intercept('/v0/debts', debtsSuccessEmpty()).as('noDebtsC');
-    cy.intercept('/v0/medical_copays', copaysSuccessEmpty()).as('noCopaysC');
+    cy.intercept('GET', '/v0/debts', debtsSuccessEmpty()).as('noDebtsC');
+    cy.intercept('GET', '/v0/medical_copays', copaysSuccessEmpty()).as(
+      'noCopaysC',
+    );
   });
   it('the v2 dashboard shows up - C22832', () => {
     cy.visit('my-va/');
@@ -294,8 +304,10 @@ describe('when the payment history claims is false', () => {
         ],
       },
     }).as('featuresD');
-    cy.intercept('/v0/debts', debtsSuccessEmpty()).as('noDebtsD');
-    cy.intercept('/v0/medical_copays', copaysSuccessEmpty()).as('noCopaysD');
+    cy.intercept('GET', '/v0/debts', debtsSuccessEmpty()).as('noDebtsD');
+    cy.intercept('GET', '/v0/medical_copays', copaysSuccessEmpty()).as(
+      'noCopaysD',
+    );
   });
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('the v2 dashboard should show up - C22831', () => {

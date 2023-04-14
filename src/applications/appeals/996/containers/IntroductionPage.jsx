@@ -81,7 +81,6 @@ export class IntroductionPage extends React.Component {
         gaStartEventName="decision-reviews-va20-0996-start-form"
         ariaDescribedby="main-content"
         hideUnauthedStartLink
-        testActionLink
         buttonOnly={last}
       />
     );
@@ -118,15 +117,16 @@ export class IntroductionPage extends React.Component {
         <p>
           If you or your representative disagree with VA’s decision on your
           claim, you can request a Higher-Level Review. With a Higher-Level
-          Review, a senior reviewer will take a new look at your case and the
-          evidence you already provided. The reviewer will decide whether the
-          decision can be changed based on a difference of opinion or an error.
+          Review, a higher-level reviewer will take a new look at your case and
+          the evidence you already provided. The reviewer will decide whether
+          the decision can be changed based on a difference of opinion or an
+          error.
         </p>
         <h2 className="vads-u-font-size--h3">
           You can’t submit new evidence with a Higher-Level Review
         </h2>
         <p>
-          The senior reviewer will only review the evidence you already
+          The higher-level reviewer will only review the evidence you already
           provided. If you have new and relevant evidence, you can{' '}
           <a href={SUPPLEMENTAL_CLAIM_URL}>file a Supplemental Claim</a>.
         </p>

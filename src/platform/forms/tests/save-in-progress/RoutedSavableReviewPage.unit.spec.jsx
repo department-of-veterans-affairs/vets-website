@@ -224,7 +224,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       );
 
       expect(submit.find('.not-down').exists()).to.be.false;
-      expect(submit.find('AlertBox').exists()).to.be.true;
+      expect(submit.find('va-alert').exists()).to.be.true;
       submit.unmount();
     });
   });

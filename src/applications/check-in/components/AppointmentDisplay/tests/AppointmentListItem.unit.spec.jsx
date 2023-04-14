@@ -1,180 +1,168 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
-
-import { Provider } from 'react-redux';
-import { I18nextProvider } from 'react-i18next';
-import configureStore from 'redux-mock-store';
+import { render, fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
+import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 
 import AppointmentListItem from '../AppointmentListItem';
-import i18n from '../../../utils/i18n/i18n';
 
-describe('check-in', () => {
-  describe('AppointmentListItem', () => {
-    let store;
-    beforeEach(() => {
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      const initState = {
-        checkInData: {
-          context: {},
-          form: {
-            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-          },
-        },
-      };
-      store = mockStore(initState);
-    });
-    it('should render the appointment time', () => {
-      const listItem = render(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
+const appointments = [
+  {
+    facility: 'LOMA LINDA VA CLINIC',
+    clinicPhoneNumber: '5551234567',
+    clinicFriendlyName: 'TEST CLINIC',
+    clinicName: 'LOM ACC CLINIC TEST',
+    appointmentIen: 'some-ien',
+    startTime: '2021-11-16T21:39:36',
+    doctorName: 'Dr. Green',
+    clinicStopCodeName: 'Primary care',
+    kind: 'clinic',
+  },
+  {
+    facility: 'LOMA LINDA VA CLINIC',
+    clinicPhoneNumber: '5551234567',
+    clinicFriendlyName: 'TEST CLINIC',
+    clinicName: 'LOM ACC CLINIC TEST',
+    appointmentIen: 'some-ien',
+    startTime: '2021-11-16T21:39:36',
+    doctorName: '',
+    clinicStopCodeName: '',
+    kind: 'phone',
+  },
+];
+const mockRouter = {
+  currentPage: '/health-care/appointment-check-in',
+};
+
+describe('AppointmentListItem', () => {
+  describe('pre-check-in and day-of', () => {
+    describe('In person appointment context', () => {
+      it('Renders appointment details', () => {
+        const screen = render(
+          <CheckInProvider router={mockRouter}>
             <AppointmentListItem
-              appointment={{
-                startTime: '2021-07-19T13:56:31',
-                clinicFriendlyName: 'Green Team Clinic1',
-                facility: 'Green Team facility',
-              }}
+              app="preCheckIn"
+              appointment={appointments[0]}
+              page="intro"
             />
-          </I18nextProvider>
-        </Provider>,
-      );
-
-      expect(listItem.getByTestId('appointment-time')).to.exist;
-      expect(listItem.getByTestId('appointment-time').innerHTML).to.match(
-        /([\d]|[\d][\d]):[\d][\d]/,
-      );
-      expect(listItem.getByTestId('clinic-name')).to.exist;
-      expect(listItem.getByTestId('clinic-name')).to.have.text(
-        'Green Team Clinic1',
-      );
-      expect(listItem.getByTestId('facility-name')).to.exist;
-      expect(listItem.getByTestId('facility-name')).to.have.text(
-        'Green Team facility',
-      );
+          </CheckInProvider>,
+        );
+        expect(screen.getByTestId('appointment-time')).to.have.text(
+          '9:39 p.m.',
+        );
+        expect(
+          screen.getByTestId('appointment-type-and-provider'),
+        ).to.have.text('Primary care with Dr. Green');
+        expect(
+          screen.getByTestId('appointment-kind-and-location'),
+        ).to.have.text(
+          'In person at LOMA LINDA VA CLINIC  Clinic: TEST CLINIC',
+        );
+      });
+      it('Displays appointment instructions for pre-check-in in-person appointment on confirmation page', () => {
+        const screen = render(
+          <CheckInProvider router={mockRouter}>
+            <AppointmentListItem
+              app="preCheckIn"
+              appointment={appointments[0]}
+              page="confirmation"
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.queryByTestId('appointment-message')).to.exist;
+        expect(screen.queryByTestId('in-person-msg-confirmation')).to.exist;
+      });
+      it('Does not display appointment instructions for pre-check-in in-person appointment on intro page', () => {
+        const screen = render(
+          <CheckInProvider router={mockRouter}>
+            <AppointmentListItem
+              app="preCheckIn"
+              appointment={appointments[0]}
+              page="intro"
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.queryByTestId('appointment-message')).to.not.exist;
+        expect(screen.queryByTestId('in-person-msg-confirmation')).to.not.exist;
+      });
     });
-    it('should render the appointment location for in-person appointments when available', () => {
-      const listItem = render(
-        <Provider store={store}>
-          <AppointmentListItem
-            appointment={{
-              startTime: '2021-07-19T13:56:31',
-              clinicFriendlyName: 'Green Team Clinic1',
-              facility: 'Green Team facility',
-              clinicLocation: 'Green Team location',
-              kind: 'clinic',
-            }}
-          />
-        </Provider>,
-      );
-
-      expect(listItem.getByTestId('clinic-location')).to.exist;
-      expect(listItem.getByTestId('clinic-location')).to.have.text(
-        'Green Team location',
-      );
+    describe('Phone appointment context', () => {
+      it('Renders appointment details with no stopCodeName or provider', () => {
+        const screen = render(
+          <CheckInProvider router={mockRouter}>
+            <AppointmentListItem
+              app="preCheckIn"
+              appointment={appointments[1]}
+              page="intro"
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.getByTestId('appointment-time')).to.have.text(
+          '9:39 p.m.',
+        );
+        expect(
+          screen.getByTestId('appointment-type-and-provider'),
+        ).to.have.text('VA Appointment');
+        expect(
+          screen.getByTestId('appointment-kind-and-location'),
+        ).to.have.text('Phone');
+      });
+      it('Displays appointment instructions for pre-check-in phone appointment confirmation page', () => {
+        const screen = render(
+          <CheckInProvider router={mockRouter}>
+            <AppointmentListItem
+              app="preCheckIn"
+              appointment={appointments[1]}
+              page="confirmation"
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.queryByTestId('appointment-message')).to.exist;
+        expect(screen.queryByTestId('phone-msg-confirmation')).to.exist;
+      });
     });
-    it('should not render the appointment location for phone appointments even if available', () => {
-      const listItem = render(
-        <Provider store={store}>
-          <AppointmentListItem
-            appointment={{
-              startTime: '2021-07-19T13:56:31',
-              clinicFriendlyName: 'Green Team Clinic1',
-              facility: 'Green Team facility',
-              clinicLocation: 'Green Team location',
-              kind: 'phone',
-            }}
-          />
-        </Provider>,
-      );
-
-      expect(listItem.queryByTestId('clinic-location')).to.not.exist;
-    });
-    it('should not render the appointment location when not available', () => {
-      const listItem = render(
-        <Provider store={store}>
-          <AppointmentListItem
-            appointment={{
-              startTime: '2021-07-19T13:56:31',
-              clinicFriendlyName: 'Green Team Clinic1',
-              facility: 'Green Team facility',
-              kind: 'clinic',
-            }}
-          />
-        </Provider>,
-      );
-
-      expect(listItem.queryByTestId('clinic-location')).to.not.exist;
-    });
-    it('should default type of care to VA Appointment when value not available', () => {
-      const listItem = render(
-        <Provider store={store}>
-          <AppointmentListItem
-            appointment={{
-              startTime: '2021-07-19T13:56:31',
-              clinicFriendlyName: 'Green Team Clinic1',
-              facility: 'Green Team facility',
-            }}
-          />
-        </Provider>,
-      );
-
-      expect(listItem.getByTestId('type-of-care')).to.exist;
-      expect(listItem.getByTestId('type-of-care')).to.have.text(
-        'VA Appointment',
-      );
-    });
-    it('should render type of care when available', () => {
-      const listItem = render(
-        <Provider store={store}>
-          <AppointmentListItem
-            appointment={{
-              startTime: '2021-07-19T13:56:31',
-              clinicFriendlyName: 'Green Team Clinic1',
-              facility: 'Green Team facility',
-              clinicStopCodeName: 'Green Team care',
-            }}
-          />
-        </Provider>,
-      );
-
-      expect(listItem.getByTestId('type-of-care')).to.exist;
-      expect(listItem.getByTestId('type-of-care')).to.have.text(
-        'Green Team care',
-      );
-    });
-
-    it('should render the provider when available', () => {
-      const listItem = render(
-        <Provider store={store}>
-          <AppointmentListItem
-            appointment={{
-              startTime: '2021-07-19T13:56:31',
-              clinicFriendlyName: 'Green Team Clinic1',
-              facility: 'Green Team facility',
-              doctorName: 'Dr. Green',
-            }}
-          />
-        </Provider>,
-      );
-
-      expect(listItem.getByTestId('provider')).to.exist;
-      expect(listItem.getByTestId('provider')).to.have.text('Dr. Green');
-    });
-    it('should not render the provider when not available', () => {
-      const listItem = render(
-        <Provider store={store}>
-          <AppointmentListItem
-            appointment={{
-              startTime: '2021-07-19T13:56:31',
-              clinicFriendlyName: 'Green Team Clinic1',
-              facility: 'Green Team facility',
-            }}
-          />
-        </Provider>,
-      );
-
-      expect(listItem.queryByTestId('provider')).to.not.exist;
+    describe('Details link', () => {
+      it("Doesn't show if not on correct page", () => {
+        const screen = render(
+          <CheckInProvider router={mockRouter}>
+            <AppointmentListItem
+              app="preCheckIn"
+              appointment={appointments[0]}
+              goToDetails={() => {}}
+              page="intro"
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.queryByTestId('details-link')).to.not.exist;
+      });
+      it('Does show if on a correct page', () => {
+        const screen = render(
+          <CheckInProvider router={mockRouter}>
+            <AppointmentListItem
+              app="preCheckIn"
+              appointment={appointments[0]}
+              goToDetails={() => {}}
+              page="details"
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.queryByTestId('details-link')).to.exist;
+      });
+      it('Fires go to details function', () => {
+        const goToDetails = sinon.spy();
+        const screen = render(
+          <CheckInProvider router={mockRouter}>
+            <AppointmentListItem
+              app="preCheckIn"
+              appointment={appointments[0]}
+              goToDetails={goToDetails}
+              page="details"
+            />
+          </CheckInProvider>,
+        );
+        fireEvent.click(screen.getByTestId('details-link'));
+        expect(goToDetails.calledOnce).to.be.true;
+      });
     });
   });
 });

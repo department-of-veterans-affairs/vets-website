@@ -81,7 +81,7 @@ describe('<ContactInfo>', () => {
 
       const alert = $('#updated-email', container);
       expect(alert).to.exist;
-      expect(alert.innerHTML).to.contain('Email updated');
+      expect(alert.innerHTML).to.contain('Email address updated');
       await waitFor(() => {
         expect(document.activeElement).to.eq(alert);
       });

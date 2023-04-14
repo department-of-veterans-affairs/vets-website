@@ -15,43 +15,51 @@ export const FirstFAQSection = () => {
         }}
       >
         <va-accordion-item
-          header="Why are we doing this pilot with Fitbit?"
+          header="Why are we doing this pilot?"
           id="dhp-faq-first-section-first-question"
           aria-controls="dhp-faq-first-section-first-question"
           data-testid="faq-first-section-first-question"
         >
-          The goal of the Digital Health Platform Fitbit pilot (the “Pilot”) is
-          to help the VA understand the best ways for Veterans to connect and
-          share their connected device data (i.e., data from a Fitbit) with
-          their VA care team. By volunteering to connect your device, you will
-          be helping the VA and other Veterans by supporting an early-stage
-          evaluation of a new offering from VA. We expect this pilot to take
-          about 6 to 12 months, and your ability to connect your device with the
-          VA to share data through the Digital Health Platform may be
-          discontinued after the pilot is over. There may still be other ways
-          for you to keep sharing the data with your care team at that time, and
-          we will let you know about any available options after the Pilot is
-          over. The Pilot is not meant to replace normal care activities between
-          you and your VA care team.
+          The VA Digital Health Platform Fitbit Pilot (i.e., the Pilot) is an
+          effort designed to evaluate how VA can provide you with an opportunity
+          to share your patient-generated data (PGD) with your VA care team.
+          This pilot is not meant to replace normal care activities between you
+          and your VA care team. The estimated duration of this pilot is 6-12
+          months, after which your ability to connect and share data through the
+          Digital Health Platform may be discontinued.
         </va-accordion-item>
         <va-accordion-item
-          header="Do I have to participate in this pilot?"
+          header="What can I expect if I participate in this pilot?"
           id="dhp-faq-first-section-second-question"
           aria-controls="dhp-faq-first-section-second-question"
           data-testid="faq-first-section-second-question"
         >
-          It is your decision to be part of this Pilot program. It is completely
-          voluntary. Your participation is voluntary, and you have the right to
-          refuse to participate. You do not have to take part in this Pilot to
-          receive treatment at the VA. Your choice will not affect in any way
-          your current or future medical care or any other benefits from the VA
-          to which you are otherwise entitled.
+          By participating in the pilot, the data you choose to share with the
+          VA may be accessed by your VA care team and discussed with you. At any
+          time, you can choose to opt out of the pilot and disconnect your
+          device in the Connected Devices section. If you choose to opt out of
+          the pilot, any data will be retained for a minimum timeframe of 6-12
+          months (duration of the pilot). At the end of the pilot, data will be
+          retained for a minimum timeframe of 6 to 12 months.
         </va-accordion-item>
         <va-accordion-item
-          header="What is a connected device and why might I use one?"
+          header="Do I have to participate in this pilot?"
           id="dhp-faq-first-section-third-question"
           aria-controls="dhp-faq-first-section-third-question"
           data-testid="faq-first-section-third-question"
+        >
+          It is your decision to be part of this pilot program. Your
+          participation is voluntary and have the right to refuse to
+          participate. You do not have to take part in this pilot to receive
+          treatment at the VA. Your choice will not affect in any way your
+          current or future medical care or any other benefits from VA to which
+          you are otherwise entitled.
+        </va-accordion-item>
+        <va-accordion-item
+          header="What is a connected device and why might I use one?"
+          id="dhp-faq-first-section-fourth-question"
+          aria-controls="dhp-faq-first-section-fourth-question"
+          data-testid="faq-first-section-fourth-question"
         >
           A connected device is any device that can connect to the internet so
           that it can communicate with other devices or computers. Examples of
@@ -96,7 +104,11 @@ export const SecondFAQSection = () => {
               HealtheVet, or ID.me account
               <ol type="a">
                 <li>
-                  <a href="https://www.va.gov/resources/signing-in-to-vagov/">
+                  <a
+                    href="https://www.va.gov/resources/signing-in-to-vagov/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     Signing in to VA.gov guide
                   </a>
                 </li>
@@ -115,6 +127,8 @@ export const SecondFAQSection = () => {
           <a
             href="https://www.youtube.com/watch?v=37aRcEZ3vyo"
             aria-label="This video will help Veterans connect their Fitbit device to va.gov"
+            target="_blank"
+            rel="noreferrer"
           >
             video
           </a>{' '}
@@ -138,7 +152,11 @@ export const SecondFAQSection = () => {
               HealtheVet, or ID.me account
               <ol type="a">
                 <li>
-                  <a href="https://www.va.gov/resources/signing-in-to-vagov/">
+                  <a
+                    href="https://www.va.gov/resources/signing-in-to-vagov/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     Signing in to VA.gov guide
                   </a>
                 </li>
@@ -158,6 +176,8 @@ export const SecondFAQSection = () => {
           <a
             href="https://www.youtube.com/watch?v=37aRcEZ3vyo"
             aria-label="This video will help Veterans disconnect their Fitbit device to va.gov"
+            target="_blank"
+            rel="noreferrer"
           >
             video
           </a>{' '}
@@ -197,24 +217,32 @@ export const SecondFAQSection = () => {
           aria-controls="dhp-faq-second-section-fifth-question"
           data-testid="faq-second-section-fifth-question"
         >
-          VA will keep information about you, including any connected device
-          data that you share, strictly confidential to the extent required by
-          law. The VA will not sell, rent, or otherwise provide your personal
+          We will keep information about you, including any patient-generated
+          data that you share through VA.gov, confidential to the extent
+          required by law. VA will not sell, rent, or otherwise provide your
           information to outside marketers. Information collected via VA.gov,
-          including data shared with VA as a part of this Pilot, may be shared
+          include data shared with VA as a part of this pilot, may be shared
           with employees, contractors, and other service providers as necessary
           to respond to a request, provide a service, or as otherwise authorized
-          by law.
+          by law. For more information on VA.gov protection refer to the{' '}
+          <a
+            href="https://www.va.gov/privacy-policy/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Privacy Policy
+          </a>
+          .
         </va-accordion-item>
         <va-accordion-item
-          header="Does VA keep my data after I disconnect a device?"
+          header="What will happen if I decide to disconnect my device?"
           id="dhp-faq-second-section-sixth-question"
           aria-controls="dhp-faq-second-section-sixth-question"
           data-testid="faq-second-section-sixth-question"
         >
           VA will no longer receive new data from your device after it is
-          disconnected. Data shared while your device was connected will not be
-          deleted.
+          disconnected. The data shared while your device was connected to
+          VA.gov will not be deleted.
         </va-accordion-item>
       </va-accordion>
     </>
@@ -242,7 +270,11 @@ export const ThirdFAQSection = () => {
           data-testid="faq-third-section-first-question"
         >
           Please visit the{' '}
-          <a href="https://myhelp.fitbit.com/s/support?language=en_US">
+          <a
+            href="https://myhelp.fitbit.com/s/support?language=en_US"
+            target="_blank"
+            rel="noreferrer"
+          >
             Fitbit support website
           </a>{' '}
           or call <va-telephone contact="8776234997" international /> for Fitbit
@@ -261,7 +293,11 @@ export const ThirdFAQSection = () => {
           aria-controls="dhp-faq-third-section-second-question"
           data-testid="faq-third-section-second-question"
         >
-          <a href="https://www.va.gov/resources/signing-in-to-vagov/">
+          <a
+            href="https://www.va.gov/resources/signing-in-to-vagov/"
+            target="_blank"
+            rel="noreferrer"
+          >
             Signing in to VA.gov guide.
           </a>{' '}
           Please contact the VA help desk that applies to you from the list
@@ -287,13 +323,21 @@ export const ThirdFAQSection = () => {
             </li>
             <ul>
               <li>
-                <a href="https://www.myhealth.va.gov/forgot-user-id?action=new">
+                <a
+                  href="https://www.myhealth.va.gov/forgot-user-id?action=new"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   Forgot Your My HealtheVet User ID
                 </a>{' '}
                 (Continue to My HealtheVet Only)
               </li>
               <li>
-                <a href="https://www.myhealth.va.gov/forgot-password?action=new">
+                <a
+                  href="https://www.myhealth.va.gov/forgot-password?action=new"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   Forgot Your My HealtheVet Password
                 </a>{' '}
                 (Continue to My HealtheVet Only)
@@ -326,7 +370,10 @@ export const FourthFAQSection = () => {
           aria-controls="dhp-faq-fourth-section-first-question"
           data-testid="faq-fourth-section-first-question"
         >
-          Contact <a href="mailto:VA-DHP-Pilot@va.gov">VA-DHP-Pilot@va.gov</a>
+          Contact{' '}
+          <a href="mailto:VA-DHP-Pilot@va.gov" target="_blank" rel="noreferrer">
+            VA-DHP-Pilot@va.gov
+          </a>
         </va-accordion-item>
       </va-accordion>
     </>

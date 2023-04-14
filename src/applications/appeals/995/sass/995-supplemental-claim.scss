@@ -172,8 +172,9 @@ article[data-location="supporting-evidence/private-medical-records"] {
   /* Add margin for error messages, otherwise the label + error + input take up
    * the same space
    */
+  va-select[error],
   va-text-input[error] {
-    margin-top: 2.5rem;
+    margin-top: 3rem;
   }
 }
 
@@ -185,26 +186,6 @@ article[data-location$="va-medical-records"] {
   }
   .va-growable-background {
     border-bottom: solid 1px $color-gray-light;
-  }
-}
-
-article[data-location="review-and-submit"],
-article[data-location="primary-phone-number"] {
-  /* Make radio group legend the same size as an h3 */
-  va-radio::part(legend) {
-    font-size: 2rem;
-    font-weight: 700;
-  }
-
-  va-radio-option {
-    font-weight: 700;
-  }
-  /* Add actual phone number to radio option */
-  va-radio-option:after {
-    display: block;
-    margin-left: 3rem;
-    font-weight: 400;
-    content: attr(data-number);
   }
 }
 

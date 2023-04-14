@@ -122,6 +122,59 @@ describe('Process form validation errors', () => {
     ];
     expect(reduceErrors(raw, pages)).to.eql(result);
   });
+  it('should process __errors message but return override values', () => {
+    const pages = [
+      {
+        title: 'Issues',
+        path: '/issues',
+        uiSchema: {},
+        schema: {},
+        chapterTitle: 'Issues',
+        chapterKey: 'fooIssues',
+        pageKey: 'barIssues',
+      },
+    ];
+    const raw = [
+      {
+        issues: {
+          __errors: ['Please select an issue'],
+        },
+        moreIssues: {
+          nestedObj: {
+            deeplyNestedObj: {
+              __errors: ['Another error'],
+            },
+          },
+        },
+      },
+    ];
+    const reviewErrors = {
+      _override: err => {
+        if (err === 'issues' || err === 'deeplyNestedObj') {
+          return { chapterKey: 'fooIssues', pageKey: 'barIssues' };
+        }
+        return null;
+      },
+    };
+    const result = [
+      {
+        name: 'issues',
+        message: 'Please select an issue',
+        chapterKey: 'fooIssues',
+        pageKey: 'barIssues',
+        index: null,
+      },
+      {
+        name: 'deeplyNestedObj',
+        message: 'Another error',
+        chapterKey: 'fooIssues',
+        pageKey: 'barIssues',
+        index: null,
+      },
+    ];
+    expect(reduceErrors(raw, pages, reviewErrors)).to.eql(result);
+  });
+
   it('should process object instance messages', () => {
     const pages = [
       {
@@ -201,6 +254,74 @@ describe('Process form validation errors', () => {
     ];
     expect(reduceErrors(raw, pages)).to.eql(result);
   });
+  it('should process object instance messages but return override values', () => {
+    const pages = [
+      {
+        title: 'Abc',
+        path: '/abc',
+        uiSchema: {},
+        schema: {},
+        chapterKey: 'bar',
+        pageKey: 'zoo',
+      },
+      {
+        title: 'contact',
+        path: '/contact',
+        uiSchema: {},
+        schema: {},
+        chapterTitle: 'Info',
+        chapterKey: 'info',
+        pageKey: 'contact',
+      },
+    ];
+    const raw = [
+      {
+        property: 'instance',
+        message: 'requires property "view:baz"',
+        schema: {},
+        name: 'required',
+        argument: 'view:baz',
+        stack: 'instance requires property "view:baz"',
+      },
+      {
+        property: 'instance.address',
+        message: 'requires property "city"',
+        schema: {},
+        name: 'required',
+        argument: 'city',
+        stack: 'instance.address requires property "city"',
+      },
+    ];
+    const reviewErrors = {
+      _override: err => {
+        if (err === 'address') {
+          return { chapterKey: 'info', pageKey: 'contact' };
+        }
+        if (err.includes('view:baz')) {
+          return { chapterKey: 'bar', pageKey: 'zoo' };
+        }
+        return null;
+      },
+    };
+    const result = [
+      {
+        name: 'view:baz',
+        message: 'Baz',
+        chapterKey: 'bar',
+        pageKey: 'zoo',
+        index: null,
+      },
+      {
+        name: 'city',
+        message: 'Address city',
+        chapterKey: 'info',
+        pageKey: 'contact',
+        index: null,
+      },
+    ];
+    expect(reduceErrors(raw, pages, reviewErrors)).to.eql(result);
+  });
+
   it('should process array instance messages', () => {
     const pages = [
       {
@@ -245,6 +366,48 @@ describe('Process form validation errors', () => {
       },
     ];
     expect(reduceErrors(raw, pages)).to.eql(result);
+  });
+  it('should process array instance messages but return override values', () => {
+    const pages = [
+      {
+        path: '/news/follow-up/:index',
+        showPagePerItem: true,
+        arrayPath: 'news',
+        uiSchema: {},
+        schema: {},
+        chapterTitle: 'Diz',
+        chapterKey: 'diz',
+        pageKey: 'news',
+      },
+    ];
+    const raw = [
+      {
+        property: 'instance.news[0]',
+        message: 'requires property "cause"',
+        schema: {},
+        name: 'required',
+        argument: 'cause',
+        stack: 'instance.news[0] requires property "cause"',
+      },
+    ];
+    const reviewErrors = {
+      _override: err => {
+        if (err.startsWith('news[')) {
+          return { chapterKey: 'diz', pageKey: 'news' };
+        }
+        return null;
+      },
+    };
+    const result = [
+      {
+        name: 'cause',
+        message: 'First news cause',
+        chapterKey: 'diz',
+        pageKey: 'news',
+        index: '0',
+      },
+    ];
+    expect(reduceErrors(raw, pages, reviewErrors)).to.eql(result);
   });
 
   it('should process minimum array length', () => {

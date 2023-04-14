@@ -2,17 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { clearDraft } from '../actions/draftDetails';
-import { retrieveMessage } from '../actions/messages';
+import { retrieveMessageThread } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
-import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import EmergencyNote from '../components/EmergencyNote';
-import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import AlertBox from '../components/shared/AlertBox';
+import InterstitialPage from './InterstitialPage';
 import { addAlert, closeAlert } from '../actions/alerts';
-import { DefaultFolders } from '../util/constants';
 import { isOlderThan } from '../util/helpers';
 import * as Constants from '../util/constants';
 
@@ -21,48 +19,43 @@ const Compose = () => {
   const { draftMessage, error } = useSelector(state => state.sm.draftDetails);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const { draftId } = useParams();
-  const activeFolder = useSelector(state => state.sm.folders.folder);
   const messageHistory = useSelector(
     state => state.sm.draftDetails.draftMessageHistory,
   );
-  const [cannotReplyAlert, setcannotReplyAlert] = useState(false);
   const [replyMessage, setReplyMessage] = useState(undefined);
+  const [acknowledged, setAcknowledged] = useState(false);
+  const [draftType, setDraftType] = useState('');
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
   const header = useRef();
 
-  useEffect(
-    () => {
-      // to prevent users from accessing draft edit view if directly hitting url path with messageId
-      // in case that message no longer is a draft
-      if (isDraftPage && activeFolder?.folderId !== DefaultFolders.DRAFTS.id) {
-        history.push('/drafts');
-      }
-      if (location.pathname === '/compose') {
-        dispatch(clearDraft());
-        setReplyMessage(null);
-      }
-      dispatch(getTriageTeams());
-      if (isDraftPage && draftId) {
-        dispatch(retrieveMessage(draftId, true));
-      }
-      return () => {
-        dispatch(clearDraft());
-      };
-    },
-    [isDraftPage, draftId, activeFolder, dispatch, history, location.pathname],
-  );
+  useEffect(() => {
+    dispatch(getTriageTeams());
+
+    if (location.pathname === '/compose') {
+      dispatch(clearDraft());
+      setDraftType('compose');
+    } else {
+      dispatch(retrieveMessageThread(draftId));
+    }
+    return () => {
+      dispatch(clearDraft());
+    };
+  }, []);
 
   useEffect(
     () => {
+      if (draftMessage?.messageId && draftMessage.draftDate === null) {
+        history.push('/inbox');
+      }
       return () => {
         if (isDraftPage) {
           dispatch(closeAlert());
         }
       };
     },
-    [isDraftPage, dispatch],
+    [isDraftPage, draftMessage, history, dispatch],
   );
 
   useEffect(
@@ -73,8 +66,10 @@ const Compose = () => {
         if (messageHistory?.length > 0) {
           // TODO filter history to grab only received messages.
           setReplyMessage(messageHistory[0]);
+          setDraftType('reply');
         } else {
           setReplyMessage(null);
+          setDraftType('draft');
         }
       }
     },
@@ -94,7 +89,6 @@ const Compose = () => {
             Constants.Links.Link.CANNOT_REPLY.TITLE,
           ),
         );
-        setcannotReplyAlert(true);
       }
     },
     [replyMessage],
@@ -115,15 +109,12 @@ const Compose = () => {
           <h1 className="page-title" ref={header}>
             {pageTitle}
           </h1>
-          <EmergencyNote />
-          <div>
-            <BeforeMessageAddlInfo />
-          </div>
+          <EmergencyNote dropDownFlag />
           <ComposeForm draft={draftMessage} recipients={triageTeams} />
         </>
       );
     }
-    if ((isDraftPage && !draftMessage) || !triageTeams) {
+    if ((isDraftPage && !draftMessage) || (!isDraftPage && !triageTeams)) {
       return (
         <va-loading-indicator
           message="Loading your secure message..."
@@ -152,10 +143,7 @@ const Compose = () => {
               <h1 className="page-title" ref={header}>
                 {pageTitle}
               </h1>
-              <EmergencyNote />
-              <div>
-                <BeforeMessageAddlInfo />
-              </div>
+              <EmergencyNote dropDownFlag />
               <ComposeForm draft={draftMessage} recipients={triageTeams} />
             </>
           ) : (
@@ -163,7 +151,7 @@ const Compose = () => {
               <ReplyForm
                 draftToEdit={draftMessage}
                 replyMessage={replyMessage}
-                cannotReplyAlert={cannotReplyAlert}
+                cannotReplyAlert={isOlderThan(replyMessage.sentDate, 45)}
               />
               {replyMessage &&
                 messageHistory?.length > 1 && (
@@ -178,11 +166,34 @@ const Compose = () => {
   };
 
   return (
-    <div className="vads-l-grid-container compose-container">
-      {cannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
+    <>
+      {!draftType && (
+        <va-loading-indicator
+          message="Loading your secure message..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      )}
 
-      {content()}
-    </div>
+      {draftType && !acknowledged ? (
+        <InterstitialPage
+          acknowledge={() => {
+            setAcknowledged(true);
+          }}
+          type={draftType}
+        />
+      ) : (
+        <>
+          {draftType && (
+            <div className="vads-l-grid-container compose-container">
+              <AlertBox />
+
+              {content()}
+            </div>
+          )}
+        </>
+      )}
+    </>
   );
 };
 

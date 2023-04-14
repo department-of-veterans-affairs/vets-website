@@ -21,7 +21,7 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
     hasRedirectParam = searchParams.has('next');
   }
   const isAllowed = useStaggeredFeatureRelease(
-    50,
+    75,
     'show-homepage-soft-launch-modal',
   );
 
@@ -57,7 +57,11 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
               dismiss();
             }}
           >
-            <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
+            <img
+              src="/img/design/logo/va-logo.png"
+              alt="VA logo and Seal, U.S. Department of Veterans Affairs"
+              width="300"
+            />
             <h1
               id="homepage-modal-label-title"
               className="vads-u-font-size--lg vads-u-margin-top--2p5"

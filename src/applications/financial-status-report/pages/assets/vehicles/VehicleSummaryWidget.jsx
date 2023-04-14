@@ -51,6 +51,11 @@ const VehicleSummaryWidget = ({
     });
   };
   const emptyPrompt = `Select the 'add additional vehicle' link to add another vehicle. Select the continue button to move on to the next question.`;
+  const cardBody = text => (
+    <p>
+      Value: <b>{currencyFormatter(text)}</b>
+    </p>
+  );
 
   return (
     <form onSubmit={handlers.onSubmit}>
@@ -68,7 +73,7 @@ const VehicleSummaryWidget = ({
               key={vehicle.make + vehicle.model + vehicle.year}
               onDelete={() => onDelete(index)}
               showDelete
-              body={<p>Value: {currencyFormatter(vehicle.resaleValue)}</p>}
+              body={cardBody(vehicle.resaleValue)}
             />
           ))
         )}

@@ -7,22 +7,11 @@ import fullName from '../../fixtures/full-name-success.json';
 import personalInformation from '../../fixtures/personal-information-success-enhanced.json';
 import serviceHistory from '../../fixtures/service-history-success.json';
 
-context('when user is LOA3, verified, TOA accepted, but Non 2Fa', () => {
+context('when user is LOA3 but Non 2Fa', () => {
   beforeEach(() => {
     cy.intercept('v0/profile/full_name', fullName);
     cy.intercept('v0/profile/personal_information', personalInformation);
     cy.intercept('v0/profile/service_history', () => serviceHistory);
-    cy.intercept('v0/mhv_account', {
-      data: {
-        id: '',
-        type: 'mhv_accounts',
-        attributes: {
-          accountLevel: null,
-          accountState: 'no_account',
-          termsAndConditionsAccepted: true,
-        },
-      },
-    });
 
     cy.login(userNon2Fa);
   });
@@ -38,9 +27,6 @@ context('when user is LOA3, verified, TOA accepted, but Non 2Fa', () => {
     // check content within the process list
     cy.findByText('We’ve verified your identity.');
     cy.findByRole('button', { name: 'Add 2-factor authentication' });
-    cy.findByText(
-      'You’ve accepted the terms and conditions for using VA.gov health tools',
-    );
 
     cy.injectAxeThenAxeCheck();
   });

@@ -104,7 +104,13 @@ export default function appointmentsReducer(state = initialState, action) {
         pastSelectedIndex: action.selectedIndex,
       };
     case FETCH_PAST_APPOINTMENTS_SUCCEEDED: {
-      const { appointments, requests = [], startDate, endDate } = action;
+      const {
+        appointments,
+        requests = [],
+        startDate,
+        endDate,
+        backendServiceFailures,
+      } = action;
 
       const past = appointments
         ?.filter(appt => {
@@ -127,6 +133,7 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         past,
         pastStatus: FETCH_STATUS.succeeded,
+        backendServiceFailures,
       };
     }
     case FETCH_PAST_APPOINTMENTS_FAILED:
