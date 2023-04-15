@@ -5,3 +5,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+.schemaform-label[for="root_witnessRelationshipToClaimant_family-or-friend"] {
+  margin-top: 0.8rem;
+}
+.schemaform-label[for="root_witnessRelationshipToClaimant_coworker-or-supervisor"] {
+  margin-top: 0;
+}

@@ -49,6 +49,7 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     statementInformation: {
+      // for all claimOwnership/claimantType combos
       title: 'Who is submitting this statement?',
       pages: {
         statementInformation1: {
@@ -67,7 +68,7 @@ const formConfig = {
     },
     witnessInformation: {
       // for third-party claimOwnership & non-veteran claimantType
-      title: 'Witness Information',
+      title: 'Your personal information',
       pages: {
         witnessInformation1: {
           path: 'witness-personal-information',
@@ -117,6 +118,7 @@ const formConfig = {
       },
     },
     veteranInformation: {
+      // for all claimOwnership/claimantType combos
       title: 'Veteran Information',
       pages: {
         veteranInformation1: {
