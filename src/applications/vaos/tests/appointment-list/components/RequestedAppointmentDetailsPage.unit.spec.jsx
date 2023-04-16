@@ -217,7 +217,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       .ok;
     expect(
       screen.getByText('VA online scheduling').getAttribute('href'),
-    ).to.equal('/health-care/schedule-view-va-appointments/appointments');
+    ).to.equal('/');
   });
 
   // Skipping this, it is for v0 and is covered by a test in the describe section

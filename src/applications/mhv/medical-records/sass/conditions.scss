@@ -1,0 +1,31 @@
+.condition-header {
+    margin-bottom: 0;
+}
+
+.time-header {
+    h2 {
+        margin: 0 4 0 0;
+        font-size: 15px;
+        display: inline-block;
+    }
+
+    p {
+        margin: 0 0 0 0;
+        display: inline-block;
+    }
+}
+
+.condition-buttons {
+    border-bottom: 1px solid $color-gray-light;
+}
+
+.condition-details {
+    margin: 24 0 40 0;
+    h2 {
+        margin: 16 0 0 0;
+    }
+
+    p {
+        margin: 0;
+    }
+}

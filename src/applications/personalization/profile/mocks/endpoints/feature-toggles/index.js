@@ -10,6 +10,7 @@ const defaultToggleValues = {
   profileShowPaymentsNotificationSetting: true,
   profileUseInfoCard: true,
   profileUseFieldEditingPage: true,
+  profileShowMhvNotificationSettings: false,
 };
 
 const generateFeatureToggles = (values = defaultToggleValues) => {

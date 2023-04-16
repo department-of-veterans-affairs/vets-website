@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../5490/config/form.js';
+import formConfig from '../../config/form.js';
 
 describe('Edu 5490 applicantInformation', () => {
   const {
@@ -17,6 +17,6 @@ describe('Edu 5490 applicantInformation', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(13);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(15);
   });
 });

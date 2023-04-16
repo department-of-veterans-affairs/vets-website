@@ -56,7 +56,12 @@ class ClaimStatusPage extends React.Component {
     const { claim, showClaimLettersLink, useLighthouse } = this.props;
 
     if (!useLighthouse) {
-      return <ClaimStatusPageContent claim={claim} />;
+      return (
+        <ClaimStatusPageContent
+          claim={claim}
+          showClaimLettersLink={showClaimLettersLink}
+        />
+      );
     }
 
     // claim can be null
