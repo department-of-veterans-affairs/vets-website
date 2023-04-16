@@ -207,7 +207,7 @@ const FilterBox = props => {
             )}
 
             <va-button
-              class="advanced-search-button"
+              class="custom-filter-button"
               data-testid="advanced-search-submit"
               text="Filter"
               onClick={handleFormSubmit}

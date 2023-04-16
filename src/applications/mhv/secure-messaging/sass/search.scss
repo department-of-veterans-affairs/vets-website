@@ -7,22 +7,23 @@
 
   va-accordion {
     margin-left: -16px;
-    width: 70%;
+    width: 90%;
     @media (max-width: $small-screen) {
     width: 106%;
     }
   }
 
   .filter-input-box-container  {
+    display: flex;
+    flex-wrap: nowrap;
     width: 100%;
-    // flex-direction: row;
   }
 
   .basic-filter-button {
-    display: inline-block;
-    margin: 0px;
+    margin-top: -5px;
   }
   .filter-button {
+    width: 109px;
     padding: 13px;
     padding-left: 20px;
     padding-right: 20px;
@@ -31,12 +32,18 @@
     border-radius: 0 5px 5px 0;
   }
   .filter-text-input{
-    display: inline-block;
+    width: 70%;
     margin: 0px;
   }
 
   .filter-input-box {
     margin: 0px;
+  }
+
+  .custom-filter-button {
+    @media (max-width: $small-screen) {
+      width: 80%;
+      }
   }
 
   .advanced-search-field {

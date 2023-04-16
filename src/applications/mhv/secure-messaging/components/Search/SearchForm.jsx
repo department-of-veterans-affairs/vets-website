@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { runBasicSearch } from '../../actions/search';
 import FilterBox from './FilterBox';
 
@@ -13,7 +12,6 @@ const SearchForm = props => {
   const history = useHistory();
   const folders = useSelector(state => state.sm.folders.folderList);
   const [searchTerm, setSearchTerm] = useState('');
-  // const [advancedOpen, setAdvancedOpen] = useState(false);
   const [advancedOpen] = useState(false);
 
   const [searchTermError, setSearchTermError] = useState(null);
@@ -26,13 +24,14 @@ const SearchForm = props => {
   );
 
   const handleSearch = e => {
+    e.preventDefault();
     setSearchTermError(null);
 
     if (!searchTerm) {
       setSearchTermError('Please enter a search term');
       return;
     }
-    dispatch(runBasicSearch(folder.folderId, e.target.value.toLowerCase()));
+    dispatch(runBasicSearch(folder.folderId, searchTerm.toLowerCase()));
     if (!resultsCount) {
       history.push('/search/results');
     }
@@ -119,14 +118,28 @@ const SearchForm = props => {
                 {searchTermError}
               </div>
             )}
-            <VaSearchInput
-              buttonText={window.innerWidth <= 481 ? null : 'Filter'}
-              onInput={e => setSearchTerm(e.target.value)}
-              onSubmit={handleSearch}
-              value={searchTerm}
-              label={filterLabelHeading + filterLabelBody}
-              data-testid="keyword-search-input"
-            />
+            {/* {filterLabelHeading + filterLabelBody} */}
+            <div className="filter-input-box-container">
+              <div className="filter-text-input">
+                <va-text-input
+                  className="filter-input-box"
+                  message-aria-describedby="filter text input"
+                  value={searchTerm}
+                  onInput={e => setSearchTerm(e.target.value)}
+                  aria-label={filterLabelHeading + filterLabelBody}
+                  data-testid="keyword-search-input"
+                />
+              </div>
+              <div className="basic-filter-button">
+                <button
+                  type="button"
+                  className="usa-button-primary filter-button"
+                  onClick={handleSearch}
+                >
+                  Filter
+                </button>
+              </div>
+            </div>
           </>
         )}
         <va-additional-info
