@@ -119,7 +119,6 @@ const SearchForm = props => {
                 {searchTermError}
               </div>
             )}
-            {/* {filterLabelHeading + filterLabelBody} */}
             <div className="filter-input-box-container">
               <div className="filter-text-input">
                 <va-text-input
