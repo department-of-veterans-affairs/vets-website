@@ -4,11 +4,14 @@ import { selectBackendServiceFailuresInfo } from '../redux/selectors';
 import { FETCH_STATUS } from '../../utils/constants';
 
 export default function BackendAppointmentServiceAlert() {
-  const { backendServiceFailures, futureStatus } = useSelector(state =>
-    selectBackendServiceFailuresInfo(state),
+  const { backendServiceFailures, futureStatus, pastStatus } = useSelector(
+    state => selectBackendServiceFailuresInfo(state),
   );
 
-  if (futureStatus === FETCH_STATUS.succeeded) {
+  if (
+    futureStatus === FETCH_STATUS.succeeded ||
+    pastStatus === FETCH_STATUS.succeeded
+  ) {
     const hasBackendServiceFailure = backendServiceFailures?.meta?.length > 0;
 
     if (hasBackendServiceFailure) {
