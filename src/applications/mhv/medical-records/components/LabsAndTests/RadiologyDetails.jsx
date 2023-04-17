@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { dateFormat, downloadFile } from '../../util/helpers';
 import PrintHeader from '../shared/PrintHeader';
 import { getVaccinePdf } from '../../api/MrApi';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const RadiologyDetails = props => {
-  const { results } = props;
+  const { results, fullState } = props;
 
   const formattedDate = dateFormat(results?.date, 'MMMM D, YYYY');
 
@@ -109,7 +111,23 @@ const RadiologyDetails = props => {
           <div className="test-results-container">
             <h2>Results</h2>
             <va-additional-info trigger="Need help understanding your results?">
-              <p>This is how to understand your results.</p>
+              <p>
+                Your provider will review your results and explain what they
+                mean for your health. To ask a question now, send a secure
+                message to your care team.
+              </p>
+              <p>
+                <a
+                  href={mhvUrl(
+                    isAuthenticatedWithSSOe(fullState),
+                    'secure-messaging',
+                  )}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Start a new message
+                </a>
+              </p>
             </va-additional-info>
             <p>{results.labResults}</p>
           </div>

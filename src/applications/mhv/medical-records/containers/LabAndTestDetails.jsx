@@ -11,6 +11,7 @@ const LabAndTestDetails = () => {
   const labAndTestDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
+  const fullState = useSelector(state => state);
   const { labId } = useParams();
 
   useEffect(
@@ -50,7 +51,9 @@ const LabAndTestDetails = () => {
       case 'chemistry and hematology':
         return <p>chem and hem</p>;
       case 'radiology':
-        return <RadiologyDetails results={labAndTestDetails} />;
+        return (
+          <RadiologyDetails results={labAndTestDetails} fullState={fullState} />
+        );
       default:
         switch (labAndTestDetails?.name.toLowerCase()) {
           case 'electrocardiogram (ekg)':
