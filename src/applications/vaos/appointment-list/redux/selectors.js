@@ -157,12 +157,6 @@ export const selectCanceledAppointments = createSelector(
   },
 );
 
-export function selectFirstRequestMessage(state, id) {
-  const { requestMessages } = state.appointments;
-
-  return requestMessages?.[id]?.[0]?.attributes?.messageText || null;
-}
-
 /*
  * V2 Past appointments state selectors
  */
@@ -236,7 +230,6 @@ export function selectRequestedAppointmentDetails(state, id) {
     ]),
     appointmentDetailsStatus,
     facilityData,
-    message: selectFirstRequestMessage(state, id),
     cancelInfo: getCancelInfo(state),
     useV2: featureVAOSServiceCCAppointments,
   };
