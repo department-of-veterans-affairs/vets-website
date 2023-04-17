@@ -38,11 +38,14 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '21-4142',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your authorize release of medical information application (21-4142) is in progress.',
-    //   expired: 'Your saved authorize release of medical information application (21-4142) has expired. If you want to apply for authorize release of medical information, please start a new application.',
-    //   saved: 'Your authorize release of medical information application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your authorize release of medical information application (21-4142) is in progress.',
+      expired:
+        'Your saved authorize release of medical information application (21-4142) has expired. If you want to apply for authorize release of medical information, please start a new application.',
+      saved:
+        'Your authorize release of medical information application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
