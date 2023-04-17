@@ -53,7 +53,11 @@ const LabAndTestDetails = () => {
       case 'radiology':
         return <p>radiology</p>;
       default:
-        if (labAndTestDetails?.name.toLowerCase().includes('pathology')) {
+        if (
+          labAndTestDetails?.name.toLowerCase().includes('pathology') ||
+          labAndTestDetails?.name.toLowerCase().includes('cytology') ||
+          labAndTestDetails?.name.toLowerCase().includes('microscopy')
+        ) {
           return (
             <PathologyDetails
               results={labAndTestDetails}
