@@ -1,4 +1,4 @@
-import mockMessage from '../fixtures/message-response.json';
+import mockMessage from '../fixtures/message-clickableUrl-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import { dateFormat } from '../../../util/helpers';
 
