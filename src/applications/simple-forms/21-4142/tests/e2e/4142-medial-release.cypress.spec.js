@@ -9,7 +9,7 @@ import manifest from '../../manifest.json';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['minimal-test', 'maximal-test'],
+    dataSets: ['maximal-test'],
     dataDir: path.join(__dirname, 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -37,6 +37,48 @@ const testConfig = createTestConfig(
                 cy.get('#root_veteran_address_city').type(
                   data.veteran.address.city,
                 );
+              }
+            }
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'patient-identification-1': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.get('.form-radio-buttons') // get the radio container
+              .find('input[type="radio"]')
+              .eq(
+                data.patientIdentification.isRequestingOwnMedicalRecords
+                  ? 0
+                  : 1,
+              ) // Select the first (0) for true and the second (1) for false
+              .check();
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'records-requested': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            for (
+              let facilityIndex = 0;
+              facilityIndex < data.providerFacility.length;
+              facilityIndex++
+            ) {
+              cy.fillPage();
+              // fillPage doesn't catch state select, so select state manually
+              const selectId = `select#root_providerFacility_${facilityIndex}_providerFacilityAddress_state`;
+              cy.get(selectId).select(
+                data.providerFacility[facilityIndex].providerFacilityAddress
+                  .state,
+              );
+              if (facilityIndex < data.providerFacility.length - 1) {
+                cy.findByText(/add another/i, { selector: 'button' }).click();
               }
             }
             cy.axeCheck();
