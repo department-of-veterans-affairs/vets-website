@@ -33,11 +33,14 @@ describe('Radiology details component', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<RadiologyDetails results={mockRadio} />, {
-      initialState: state,
-      reducers: reducer,
-      path: '/labs-and-tests/125',
-    });
+    return renderWithStoreAndRouter(
+      <RadiologyDetails results={mockRadio} fullState={state} />,
+      {
+        initialState: state,
+        reducers: reducer,
+        path: '/labs-and-tests/125',
+      },
+    );
   };
 
   it('renders without errors', () => {
