@@ -56,7 +56,7 @@ describe('Search form', () => {
     );
 
     const count = await screen.findByText('5', { exact: true });
-    const statement = await screen.findByText('results in', { exact: false });
+    const statement = await screen.findByText('results for', { exact: false });
     const keyword = await screen.findByText('test', { exact: true });
     const statementFolder = await screen.findByText('Inbox', { exact: true });
 
