@@ -11,6 +11,7 @@ const LabAndTestDetails = () => {
   const labAndTestDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
+  const fullState = useSelector(state => state);
   const { labId } = useParams();
 
   useEffect(
@@ -56,7 +57,9 @@ const LabAndTestDetails = () => {
           case 'electrocardiogram (ekg)':
             return <EkgDetails results={labAndTestDetails} />;
           case 'microbiology':
-            return <MicroDetails results={labAndTestDetails} />;
+            return (
+              <MicroDetails results={labAndTestDetails} fullState={fullState} />
+            );
           default:
             return <p>something else</p>;
         }
