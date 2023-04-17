@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { getLabAndTest } from '../actions/labsAndTests';
 import EkgDetails from '../components/LabsAndTests/EkgDetails';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
+import PathologyDetails from '../components/LabsAndTests/PathologyDetails';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
@@ -51,6 +52,9 @@ const LabAndTestDetails = () => {
       case 'radiology':
         return <p>radiology</p>;
       default:
+        if (labAndTestDetails?.name.toLowerCase().includes('pathology')) {
+          return <PathologyDetails results={labAndTestDetails} />;
+        }
         switch (labAndTestDetails?.name.toLowerCase()) {
           case 'electrocardiogram (ekg)':
             return <EkgDetails results={labAndTestDetails} />;
