@@ -18,6 +18,7 @@ describe('<FilesPage>', () => {
     );
     expect(tree.props.message).not.to.be.null;
   });
+
   it('should not render children with null claim', () => {
     const claim = null;
 
@@ -42,6 +43,7 @@ describe('<FilesPage>', () => {
 
     expect(tree.subTree('RequestedFilesInfo')).to.be.false;
   });
+
   it('should show requested files when open', () => {
     const claim = {
       attributes: {
@@ -50,9 +52,10 @@ describe('<FilesPage>', () => {
       },
     };
     const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
-
-    expect(tree.subTree('RequestedFilesInfo')).not.to.be.false;
+    const content = tree.dive(['FilesPageContent']);
+    expect(content.subTree('RequestedFilesInfo')).not.to.be.false;
   });
+
   it('should render ask va to decide component', () => {
     const claim = {
       id: 1,
@@ -73,8 +76,10 @@ describe('<FilesPage>', () => {
     const tree = SkinDeep.shallowRender(
       <FilesPage params={{ id: 2 }} claim={claim} />,
     );
-    expect(tree.everySubTree('AskVAToDecide')).not.to.be.empty;
+    const content = tree.dive(['FilesPageContent']);
+    expect(content.everySubTree('AskVAToDecide')).not.to.be.empty;
   });
+
   it('should display turned in docs', () => {
     const claim = {
       attributes: {
@@ -94,8 +99,10 @@ describe('<FilesPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
-    expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(1);
+    const content = tree.dive(['FilesPageContent']);
+    expect(content.everySubTree('SubmittedTrackedItem').length).to.equal(1);
   });
+
   it('should display additional evidence docs', () => {
     const claim = {
       attributes: {
@@ -110,8 +117,10 @@ describe('<FilesPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
-    expect(tree.everySubTree('AdditionalEvidenceItem').length).to.equal(1);
+    const content = tree.dive(['FilesPageContent']);
+    expect(content.everySubTree('AdditionalEvidenceItem').length).to.equal(1);
   });
+
   it('should show never received docs as tracked items', () => {
     const claim = {
       attributes: {
@@ -141,9 +150,11 @@ describe('<FilesPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
-    expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(2);
-    expect(tree.everySubTree('AdditionalEvidenceItem')).to.be.empty;
+    const content = tree.dive(['FilesPageContent']);
+    expect(content.everySubTree('SubmittedTrackedItem').length).to.equal(2);
+    expect(content.everySubTree('AdditionalEvidenceItem')).to.be.empty;
   });
+
   it('should clear alert', () => {
     const claim = {
       attributes: {
@@ -167,6 +178,7 @@ describe('<FilesPage>', () => {
     tree.subTree('ClaimDetailLayout').props.clearNotification();
     expect(clearNotification.called).to.be.true;
   });
+
   it('should clear notification when leaving', () => {
     const claim = {
       attributes: {

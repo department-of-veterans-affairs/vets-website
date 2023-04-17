@@ -12,6 +12,7 @@ import {
 import environment from 'platform/utilities/environment';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { countries, states } from 'platform/forms/address';
+import debounce from 'platform/utilities/data/debounce';
 
 import { EVIDENCE_PRIVATE_PATH, NO_ISSUES_SELECTED } from '../constants';
 
@@ -37,8 +38,7 @@ import { focusEvidence } from '../utils/focus';
 
 const PRIVATE_PATH = `/${EVIDENCE_PRIVATE_PATH}`;
 // const REVIEW_AND_SUBMIT = '/review-and-submit';
-// Directions to go after modal shows
-const NAV_PATHS = { add: 'add', back: 'back', forward: 'forward' };
+
 const defaultData = {
   providerFacilityName: '',
   issues: [],
@@ -64,10 +64,7 @@ const defaultState = {
     from: false,
     to: false,
   },
-  modal: {
-    show: false,
-    direction: '',
-  },
+  showModal: false,
   submitted: false,
 };
 
@@ -94,6 +91,7 @@ const EvidencePrivateRecords = ({
   );
   // force a useEffect call when currentIndex doesn't change
   const [forceReload, setForceReload] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
 
   const [currentState, setCurrentState] = useState(defaultState);
 
@@ -116,7 +114,12 @@ const EvidencePrivateRecords = ({
     city: checkValidations([validateCity], currentData)[0],
     state: checkValidations([validateState], currentData)[0],
     postal: checkValidations([validatePostal], currentData)[0],
-    issues: checkValidations([validatePrivateIssues], currentData)[0],
+    issues: checkValidations(
+      [validatePrivateIssues],
+      currentData,
+      data,
+      currentIndex,
+    )[0],
     from: checkValidations([validatePrivateFromDate], currentData)[0],
     to: checkValidations([validatePrivateToDate], currentData)[0],
   };
@@ -131,6 +134,7 @@ const EvidencePrivateRecords = ({
       setCurrentState(defaultState);
       focusEvidence();
       setForceReload(false);
+      debounce(() => setIsBusy(false));
     },
     // don't include providerFacility or we clear state & move focus every time
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -180,10 +184,10 @@ const EvidencePrivateRecords = ({
 
   const updateState = ({
     dirty = currentState.dirty,
-    modal = currentState.modal,
+    showModal = currentState.showModal,
     submitted = currentState.submitted,
   } = {}) => {
-    setCurrentState({ dirty, modal, submitted });
+    setCurrentState({ dirty, showModal, submitted });
   };
 
   const goToPageIndex = index => {
@@ -204,8 +208,12 @@ const EvidencePrivateRecords = ({
 
   const handlers = {
     onBlur: event => {
-      const fieldName = event.target.getAttribute('name');
-      updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
+      // we're switching pages, don't set a field to dirty otherwise the next
+      // page may set this and focus on an error without blurring a field
+      if (!isBusy) {
+        const fieldName = event.target.getAttribute('name');
+        updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
+      }
     },
     onChange: event => {
       const { target = {} } = event;
@@ -260,6 +268,7 @@ const EvidencePrivateRecords = ({
         return;
       }
 
+      setIsBusy(true);
       const nextIndex = currentIndex + 1;
       if (currentIndex < providerFacility.length - 1) {
         goToPageIndex(nextIndex);
@@ -275,12 +284,11 @@ const EvidencePrivateRecords = ({
         updateCurrentFacility({ remove: true });
       } else if (hasErrors()) {
         // focus on first error
-        updateState({
-          submitted: true,
-          modal: { show: true, direction: NAV_PATHS.back },
-        });
+        updateState({ submitted: true, showModal: true });
         return;
       }
+
+      setIsBusy(true);
       const prevIndex = currentIndex - 1;
       if (currentIndex > 0) {
         goToPageIndex(prevIndex);
@@ -293,43 +301,33 @@ const EvidencePrivateRecords = ({
     onModalClose: event => {
       // For unit testing only
       event.stopPropagation();
-      updateState({ submitted: true, modal: { show: false, direction: '' } });
+      updateState({ submitted: true, showModal: false });
       focusEvidence();
     },
     onModalYes: () => {
-      // Yes, keep providerFacility; do nothing for forward & add
-      const { direction } = currentState.modal;
-      updateState({ submitted: true, modal: { show: false, direction: '' } });
-      if (direction === NAV_PATHS.back) {
-        const prevIndex = currentIndex - 1;
-        // index only passed here for testing purposes
-        if (prevIndex < 0) {
-          goBack(prevIndex);
-        } else {
-          goToPageIndex(prevIndex);
-        }
+      // Yes, keep providerFacilit
+      updateState({ submitted: true, showModal: false });
+      const prevIndex = currentIndex - 1;
+      // index only passed here for testing purposes
+      if (prevIndex < 0) {
+        goBack(prevIndex);
+      } else {
+        goToPageIndex(prevIndex);
       }
       focusEvidence();
     },
     onModalNo: () => {
       // No, clear current data and navigate
-      const { direction } = currentState.modal;
       setCurrentData(defaultData);
       updateCurrentFacility({ remove: true });
 
-      updateState({ submitted: true, modal: { show: false, direction: '' } });
-      if (direction === NAV_PATHS.back) {
-        const prevIndex = currentIndex - 1;
-        if (prevIndex >= 0) {
-          goToPageIndex(prevIndex);
-        } else {
-          // index only passed here for testing purposes
-          goBack(prevIndex);
-        }
+      updateState({ submitted: true, showModal: false });
+      const prevIndex = currentIndex - 1;
+      if (prevIndex >= 0) {
+        goToPageIndex(prevIndex);
       } else {
-        // restart this current page with empty fields (they chose No)
-        setCurrentState(defaultState);
-        goToPageIndex(currentIndex);
+        // index only passed here for testing purposes
+        goBack(prevIndex);
       }
     },
   };
@@ -379,7 +377,7 @@ const EvidencePrivateRecords = ({
           onCloseEvent={handlers.onModalClose}
           onPrimaryButtonClick={handlers.onModalYes}
           onSecondaryButtonClick={handlers.onModalNo}
-          visible={currentState.modal.show}
+          visible={currentState.showModal}
         >
           <p>{content.modal.description}</p>
         </VaModal>

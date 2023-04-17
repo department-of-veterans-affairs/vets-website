@@ -19,7 +19,7 @@ describe('Pre-Check In Experience', () => {
         initializePreCheckInDataGet,
         initializePreCheckInDataPost,
       } = ApiInitializer;
-      initializeFeatureToggle.withDetailsPage();
+      initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
 
       initializeSessionPost.withSuccess();
@@ -55,6 +55,7 @@ describe('Pre-Check In Experience', () => {
       AppointmentDetails.validateWhere();
       AppointmentDetails.validatePhone();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Pre-check-in--Appointment-detail--in-person');
     });
   });
 
@@ -67,7 +68,7 @@ describe('Pre-Check In Experience', () => {
         initializePreCheckInDataGet,
         initializePreCheckInDataPost,
       } = ApiInitializer;
-      initializeFeatureToggle.withDetailsPage();
+      initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
 
       initializeSessionPost.withSuccess();
@@ -105,6 +106,9 @@ describe('Pre-Check In Experience', () => {
       AppointmentDetails.validateWhere('phone');
       AppointmentDetails.validatePhone();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots(
+        'Pre-check-in--Phone-appointment--Appointment-detail',
+      );
     });
   });
 });

@@ -19,7 +19,7 @@ export default {
     [patientIdentificationFields.parentObject]: {
       'ui:title': (
         <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-          Whose records are you granting authorization to release?
+          Identify the person whose records you are authorizing the release of
         </h3>
       ),
       [patientIdentificationFields.patientFullName]: fullNameUI,

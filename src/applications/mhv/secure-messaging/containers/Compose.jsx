@@ -4,13 +4,12 @@ import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { clearDraft } from '../actions/draftDetails';
 import { retrieveMessageThread } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
-import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import EmergencyNote from '../components/EmergencyNote';
-import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import AlertBox from '../components/shared/AlertBox';
+import InterstitialPage from './InterstitialPage';
 import { addAlert, closeAlert } from '../actions/alerts';
 import { isOlderThan } from '../util/helpers';
 import * as Constants from '../util/constants';
@@ -23,32 +22,27 @@ const Compose = () => {
   const messageHistory = useSelector(
     state => state.sm.draftDetails.draftMessageHistory,
   );
-  const [cannotReplyAlert, setcannotReplyAlert] = useState(false);
   const [replyMessage, setReplyMessage] = useState(undefined);
+  const [acknowledged, setAcknowledged] = useState(false);
+  const [draftType, setDraftType] = useState('');
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
   const header = useRef();
 
-  useEffect(
-    () => {
-      // to prevent users from accessing draft edit view if directly hitting url path with messageId
-      // in case that message no longer is a draft
-      if (isDraftPage && draftMessage === undefined) {
-        dispatch(retrieveMessageThread(draftId));
-      }
-      if (location.pathname === '/compose') {
-        dispatch(clearDraft());
-        setReplyMessage(null);
-      }
+  useEffect(() => {
+    dispatch(getTriageTeams());
 
-      dispatch(getTriageTeams());
-      return () => {
-        dispatch(clearDraft());
-      };
-    },
-    [dispatch, location.pathname],
-  );
+    if (location.pathname === '/compose') {
+      dispatch(clearDraft());
+      setDraftType('compose');
+    } else {
+      dispatch(retrieveMessageThread(draftId));
+    }
+    return () => {
+      dispatch(clearDraft());
+    };
+  }, []);
 
   useEffect(
     () => {
@@ -72,8 +66,10 @@ const Compose = () => {
         if (messageHistory?.length > 0) {
           // TODO filter history to grab only received messages.
           setReplyMessage(messageHistory[0]);
+          setDraftType('reply');
         } else {
           setReplyMessage(null);
+          setDraftType('draft');
         }
       }
     },
@@ -93,7 +89,6 @@ const Compose = () => {
             Constants.Links.Link.CANNOT_REPLY.TITLE,
           ),
         );
-        setcannotReplyAlert(true);
       }
     },
     [replyMessage],
@@ -114,10 +109,7 @@ const Compose = () => {
           <h1 className="page-title" ref={header}>
             {pageTitle}
           </h1>
-          <EmergencyNote />
-          <div>
-            <BeforeMessageAddlInfo />
-          </div>
+          <EmergencyNote dropDownFlag />
           <ComposeForm draft={draftMessage} recipients={triageTeams} />
         </>
       );
@@ -151,10 +143,7 @@ const Compose = () => {
               <h1 className="page-title" ref={header}>
                 {pageTitle}
               </h1>
-              <EmergencyNote />
-              <div>
-                <BeforeMessageAddlInfo />
-              </div>
+              <EmergencyNote dropDownFlag />
               <ComposeForm draft={draftMessage} recipients={triageTeams} />
             </>
           ) : (
@@ -162,7 +151,7 @@ const Compose = () => {
               <ReplyForm
                 draftToEdit={draftMessage}
                 replyMessage={replyMessage}
-                cannotReplyAlert={cannotReplyAlert}
+                cannotReplyAlert={isOlderThan(replyMessage.sentDate, 45)}
               />
               {replyMessage &&
                 messageHistory?.length > 1 && (
@@ -177,11 +166,34 @@ const Compose = () => {
   };
 
   return (
-    <div className="vads-l-grid-container compose-container">
-      {cannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
+    <>
+      {!draftType && (
+        <va-loading-indicator
+          message="Loading your secure message..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      )}
 
-      {content()}
-    </div>
+      {draftType && !acknowledged ? (
+        <InterstitialPage
+          acknowledge={() => {
+            setAcknowledged(true);
+          }}
+          type={draftType}
+        />
+      ) : (
+        <>
+          {draftType && (
+            <div className="vads-l-grid-container compose-container">
+              <AlertBox />
+
+              {content()}
+            </div>
+          )}
+        </>
+      )}
+    </>
   );
 };
 

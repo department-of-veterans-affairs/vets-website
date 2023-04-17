@@ -29,7 +29,7 @@ export const authorizationAlertContent = onAnchorClick => (
 export const authorizationInfo = (
   <>
     <h3>We need your authorization to request your medical records</h3>
-    <p>
+    <p id="authorize-text">
       I voluntarily authorize and request disclosure (including paper, oral, and
       electronic interchange) of: All my medical records; including information
       related to my ability to perform tasks of daily living. This includes

@@ -18,7 +18,7 @@ describe('Pre-Check In Experience ', () => {
       initializePreCheckInDataPost,
       initializeDemographicsPatch,
     } = ApiInitializer;
-    initializeFeatureToggle.withPhoneAppointments();
+    initializeFeatureToggle.withAllFeatures();
     initializeDemographicsPatch.withSuccess();
     initializeSessionGet.withSuccessfulNewSession();
 
@@ -35,7 +35,7 @@ describe('Pre-Check In Experience ', () => {
       window.sessionStorage.clear();
     });
   });
-  it.skip('Happy Path yes to demographics', () => {
+  it('Happy Path yes to demographics', () => {
     cy.visitPreCheckInWithUUID('258d753c-262a-4ab2-b618-64b645884daf');
     // page: Validate
     ValidateVeteran.validatePage.preCheckIn();
@@ -66,9 +66,12 @@ describe('Pre-Check In Experience ', () => {
     Confirmation.validatePageLoaded();
     Confirmation.validateAppointmentType('phone');
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots(
+      'Pre-check-in--Phone-appointment--Confirmation-answer-yes-to-all--default-accordions',
+    );
     Confirmation.expandAllAccordions();
     cy.createScreenshots(
-      'Pre-check-in--Phone-appointment--Confirmation-answer-yes-to-all',
+      'Pre-check-in--Phone-appointment--Confirmation-answer-yes-to-all--expanded-accordions',
     );
   });
   it('Happy Path no to demographics', () => {
@@ -99,9 +102,12 @@ describe('Pre-Check In Experience ', () => {
     Confirmation.validatePageLoaded();
 
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots(
+      'Pre-check-in--Phone-appointment--Confirmation-answer-no-to-all--default-accordions',
+    );
     Confirmation.expandAllAccordions();
     cy.createScreenshots(
-      'Pre-check-in--Phone-appointment--Confirmation-answer-no-to-all',
+      'Pre-check-in--Phone-appointment--Confirmation-answer-no-to-all--expanded-accordions',
     );
   });
 });

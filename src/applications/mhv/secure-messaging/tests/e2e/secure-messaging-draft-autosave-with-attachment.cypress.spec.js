@@ -3,6 +3,7 @@ import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 import mockThreadResponse from './fixtures/single-draft-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
+import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientComposePage from './pages/PatientComposePage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 
@@ -12,10 +13,12 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     const site = new SecureMessagingSite();
     const inboxPage = new PatientInboxPage();
     const draftsPage = new PatientMessageDraftsPage();
+    const patientInterstitialPage = new PatientInterstitialPage();
     site.login();
     inboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
+    patientInterstitialPage.getContinueButton().click();
     composePage
       .getMessageBodyField()
       .type('Testing Autosave Drafts with Attachments');

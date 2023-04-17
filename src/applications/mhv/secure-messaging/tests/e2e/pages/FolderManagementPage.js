@@ -6,6 +6,10 @@ class FolderManagementPage {
       .find('[type="button"]');
   };
 
+  editFolderNameButton = () => {
+    return cy.get('[data-testid="edit-folder-button"]');
+  };
+
   createFolderTextBox = () => {
     return cy
       .get('[name="folder-name"]')
