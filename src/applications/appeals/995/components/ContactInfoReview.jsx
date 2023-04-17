@@ -81,7 +81,7 @@ const ContactInfoReview = ({ data, editPage }) => {
           type="button"
           ref={editRef}
           id="confirmContactInformationEdit"
-          className="float-right edit-page usa-button-secondary"
+          className="edit-page usa-button-secondary"
           onClick={handlers.onEditPage}
           aria-label={content.editLabel}
         >

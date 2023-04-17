@@ -2,6 +2,7 @@ export const Actions = {
   Alerts: {
     CLOSE_ALERT: 'SM_ALERT_CLOSE_ALERT',
     ADD_ALERT: 'SM_ALERT_ADD_ALERT',
+    FOCUS_OUT_ALERT: 'SM_ALERT_FOCUS_OUT',
   },
   Breadcrumbs: {
     SET_BREAD_CRUMBS: 'SM_SET_BREAD_CRUMBS',
@@ -49,6 +50,7 @@ export const Actions = {
     START: 'SM_SEARCH_START',
   },
   Thread: {
+    GET_EMPTY_LIST: 'SM_THREAD_GET_EMPTY_LIST',
     GET_LIST: 'SM_THREAD_GET_LIST',
     CLEAR_LIST: 'SM_THREAD_CLEAR_LIST',
   },

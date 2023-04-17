@@ -276,6 +276,16 @@ describe('<Main>', () => {
     wrapper.unmount();
   });
 
+  it('should append `&oauth=true` when the login modal is opened and signInServiceEnabled feature flag is true', () => {
+    const wrapper = shallow(<Main {...props} useSignInService />);
+    wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
+    const signInModalProps = wrapper.find('SignInModal').props();
+    expect(signInModalProps.useSiS).to.be.true;
+    expect(appendSpy.returnValues[0].next).to.equal('loginModal');
+    expect(appendSpy.returnValues[0].oauth).to.equal(true);
+    wrapper.unmount();
+  });
+
   it('should not append ?next=loginModal when the login modal is opened and a ?next parameter already exists', () => {
     global.window.location.search = { next: 'account' };
     const wrapper = shallow(<Main {...props} />);

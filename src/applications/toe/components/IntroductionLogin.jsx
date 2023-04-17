@@ -107,7 +107,6 @@ function IntroductionLogin({
             pageList={route.pageList}
             prefillEnabled={route?.formConfig?.prefillEnabled}
             startText={START_APPLICATION_TEXT}
-            testActionLink
             user={user}
           />
         )}

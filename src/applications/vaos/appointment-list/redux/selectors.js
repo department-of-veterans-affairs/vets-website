@@ -318,6 +318,7 @@ export function selectCommunityCareDetailsInfo(state, id) {
 export function selectBackendServiceFailuresInfo(state) {
   const { backendServiceFailures } = state.appointments;
   return {
+    pastStatus: state.appointments.pastStatus,
     futureStatus: selectFutureStatus(state),
     backendServiceFailures,
   };
@@ -418,7 +419,10 @@ export function selectIsCancelledAppointment(appt) {
   );
 }
 
-export function selectAppointmentLocality(appointment) {
+export function selectAppointmentLocality(
+  appointment,
+  isPendingAppointment = false,
+) {
   const practitioner = selectPractitionerName(appointment);
   const typeOfCareName = selectTypeOfCareName(appointment);
   const isCommunityCare = selectIsCommunityCare(appointment);
@@ -426,7 +430,7 @@ export function selectAppointmentLocality(appointment) {
   const isVideo = selectIsVideo(appointment);
   const isInPerson = selectIsInPerson(appointment);
 
-  if (selectIsPendingAppointment(appointment)) {
+  if (isPendingAppointment) {
     const { name: facilityName } = appointment.vaos.facilityData || {
       name: '',
     };
@@ -483,7 +487,7 @@ export function selectTimeZoneAbbr(appointment) {
   return abbreviation;
 }
 
-export function selectModalityText(appointment) {
+export function selectModalityText(appointment, isPendingAppointment = false) {
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isInPerson = selectIsInPerson(appointment);
   const isPhone = selectIsPhone(appointment);
@@ -495,7 +499,7 @@ export function selectModalityText(appointment) {
     name: '',
   };
 
-  if (selectIsPendingAppointment(appointment)) {
+  if (isPendingAppointment) {
     if (isInPerson) {
       return 'In person';
     }

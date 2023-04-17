@@ -34,8 +34,7 @@ export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
       </legend>
       <div className="vads-u-margin-bottom--2">
         These are the issues we have on file for you. If an issue is missing
-        from the list, you can add it here. Select the issues you’d like us to
-        review.
+        from the list, you can add it here.
       </div>
     </>
   );
@@ -167,7 +166,7 @@ export const ContestableIssuesAdditionalInfo = (
     class="vads-u-margin-top--4"
   >
     If you don’t see your issue or decision listed here, it may not be in our
-    system yet. This can happen if it’s a more recent claim decision. We may
-    still be processing it.
+    system yet. This can happen if it’s a more recent claim decision. If you
+    have a decision date, you can add a new issue now.
   </va-additional-info>
 );

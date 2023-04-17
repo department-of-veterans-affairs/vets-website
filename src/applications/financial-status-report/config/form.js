@@ -419,14 +419,15 @@ const formConfig = {
         enhancedSpouseEmploymentRecords: {
           path: 'enhanced-spouse-employment-records',
           title: 'Employment',
-          uiSchema: pages.enhancedEmploymentRecords.uiSchema,
-          schema: pages.enhancedEmploymentRecords.schema,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
           depends: formData =>
             formData.questions.isMarried &&
             formData.questions.spouseIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: EnhancedSpouseEmploymentRecord,
+          CustomPageReview: null,
         },
         enhancedSpouseGrossMonthlyIncome: {
           path: 'spouse-gross-monthly-income',
@@ -828,6 +829,7 @@ const formConfig = {
           title: 'Credit card bills',
           uiSchema: pages.creditCardBills.uiSchema,
           schema: pages.creditCardBills.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
         },
         addEditCreditCardBills: {
           path: 'your-credit-card-bills',
@@ -889,31 +891,41 @@ const formConfig = {
         // New resolution radio options
         resolutionOption: {
           title: 'Resolution Option',
-          depends: formData =>
-            formData.selectedDebtsAndCopays?.length > 0 &&
-            formData['view:combinedFinancialStatusReport'],
+          depends: formData => {
+            return (
+              formData.selectedDebtsAndCopays?.length > 0 &&
+              formData['view:combinedFinancialStatusReport']
+            );
+          },
           path: 'resolution-option/:index',
           showPagePerItem: true,
           arrayPath: 'selectedDebtsAndCopays',
           uiSchema: pages.resolutionOption.uiSchema,
           schema: pages.resolutionOption.schema,
         },
-        // New text field
         resolutionComment: {
           title: 'Resolution Amount',
-          depends: (formData, index) => {
-            return (
-              formData.selectedDebtsAndCopays?.length > 0 &&
-              formData['view:combinedFinancialStatusReport'] &&
-              formData.selectedDebtsAndCopays[index]?.resolutionOption !==
-                'waiver'
-            );
-          },
+          depends: formData =>
+            formData.selectedDebtsAndCopays?.length > 0 &&
+            formData['view:combinedFinancialStatusReport'],
+          itemFilter: item => item.resolutionOption !== 'waiver',
           path: 'resolution-comment/:index',
           showPagePerItem: true,
           arrayPath: 'selectedDebtsAndCopays',
           uiSchema: pages.resolutionComment.uiSchema,
           schema: pages.resolutionComment.schema,
+        },
+        resolutionWaiverCheck: {
+          title: 'Resolution Waiver Agreement',
+          depends: formData =>
+            formData.selectedDebtsAndCopays?.length > 0 &&
+            formData['view:combinedFinancialStatusReport'],
+          itemFilter: item => item.resolutionOption === 'waiver',
+          path: 'resolution-waiver-agreement/:index',
+          showPagePerItem: true,
+          arrayPath: 'selectedDebtsAndCopays',
+          uiSchema: pages.resolutionWaiverAgreement.uiSchema,
+          schema: pages.resolutionWaiverAgreement.schema,
         },
         resolutionComments: {
           path: 'resolution-comments',

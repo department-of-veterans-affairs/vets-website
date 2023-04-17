@@ -1,0 +1,35 @@
+
+[
+    {
+        "id": "SCT161891005",
+        "name": "Back pain (SCT 161891005)",
+        "active": true,
+        "provider": "Becky",
+        "facility": "chiropractor's office",
+        "comments": []
+    },
+    {
+        "id": "SCT867530999",
+        "name": "Sick sinus syndrome (SCT 867530999)",
+        "active": true,
+        "provider": "Becky",
+        "facility": "No one nose",
+        "comments": []
+    },
+    {
+        "id": "SCT525000600",
+        "name": "Asthma (SCT 525000600)",
+        "active": true,
+        "provider": "Becky",
+        "facility": "Lung doctor's office",
+        "comments": []
+    },
+    {
+        "id": "SCT500530505",
+        "name": "Hypertension (SCT 500530505)",
+        "active": true,
+        "provider": "Becky",
+        "facility": "Cardiologist's office",
+        "comments": []
+    }
+]

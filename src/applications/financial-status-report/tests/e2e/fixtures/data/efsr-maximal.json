@@ -139,6 +139,7 @@
   },
   "questions": {
     "hasBeenAdjudicatedBankrupt": true,
+    "hasCreditCardBills":false,
     "hasOtherExpenses": true,
     "hasRepayments": true,
     "hasUtilities": true,
@@ -377,6 +378,7 @@
       "id": 0,
       "debtType": "DEBT",
       "resolutionOption": "waiver",
+      "resolutionComment": "",
       "resolutionWaiverCheck": true
     },
     {
@@ -1237,6 +1239,7 @@
       },
       "debtType": "COPAY",
       "resolutionOption": "waiver",
+      "resolutionComment": "",
       "resolutionWaiverCheck": true
     }
   ],

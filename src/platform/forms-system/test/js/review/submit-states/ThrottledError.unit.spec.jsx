@@ -51,8 +51,6 @@ const getFormConfig = (options = {}) => ({
     required: true,
     field: 'privacyAgreementAccepted',
     notice: '<div>Notice</div>',
-    label: 'I accept the privacy agreement',
-    error: 'You must accept the privacy agreement',
   },
   chapters: {
     chapter1: {
@@ -135,7 +133,7 @@ describe('Schemaform review: <ThrottledError />', () => {
       </Provider>,
     );
 
-    expect(tree.getByText('I accept the privacy agreement')).to.not.be.null;
+    expect(tree.container.querySelector('va-privacy-agreement')).does.exist;
 
     tree.unmount();
   });
@@ -196,7 +194,7 @@ describe('Schemaform review: <ThrottledError />', () => {
           formConfig={formConfig}
           onBack={onBack}
           onSubmit={onSubmit}
-          testId={'12345'}
+          testId="12345"
         />
       </Provider>,
     );
