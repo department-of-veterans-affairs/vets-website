@@ -32,6 +32,7 @@ const ManageFolderButtons = () => {
   const [renameModal, setRenameModal] = useState(false);
   const [folderName, setFolderName] = useState('');
   const folderNameInput = useRef();
+  const renameModalReference = useRef(null);
   let folderMatch = null;
 
   useEffect(
@@ -41,6 +42,15 @@ const ManageFolderButtons = () => {
       }
     },
     [dispatch, location.pathname, params.folderId],
+  );
+
+  useEffect(
+    () => {
+      if (alertStatus) {
+        renameModalReference.current?.focus();
+      }
+    },
+    [alertStatus],
   );
 
   useEffect(
