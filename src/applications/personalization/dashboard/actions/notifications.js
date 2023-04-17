@@ -93,8 +93,6 @@ export const dismissNotificationById = id => async dispatch => {
       }),
     };
 
-    // console.log('running dismissNotification')
-
     return apiRequest(
       `${environment.API_URL}/v0/onsite_notifications/${id}`,
       options,
@@ -103,10 +101,6 @@ export const dismissNotificationById = id => async dispatch => {
 
   try {
     const response = await dismissNotification();
-    // console.log('running try statement after dismissNotification')
-
-    // console.log(`dismissed notification: `, response)
-
     if (response.errors) {
       recordEvent({
         event: `api_call`,

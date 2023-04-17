@@ -25,8 +25,8 @@ export const TestNotification = ({ notification, dismissNotification }) => {
   );
 
   const closeNotification = () => {
-    setVisible(prev => !prev);
     dismissNotification(notification.id);
+    setVisible(open => !open);
   };
 
   return (

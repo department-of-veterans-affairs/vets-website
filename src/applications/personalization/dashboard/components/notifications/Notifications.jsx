@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../../sass/user-profile.scss';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import DebtNotification from './DebtNotification';
+// import DebtNotification from './DebtNotification';
+import TestNotification from './TestNotification';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import { fetchNotifications } from '../../actions/notifications';
 import environment from '~/platform/utilities/environment';
@@ -28,7 +29,12 @@ export const Notifications = ({
     n => n.attributes.templateId === debtTemplateId,
   );
 
-  if (!debtNotifications || !debtNotifications.length || notificationsError) {
+  if (
+    !debtNotifications ||
+    !debtNotifications.length ||
+    debtNotifications.length < 1 ||
+    notificationsError
+  ) {
     return null;
   }
 
@@ -49,7 +55,12 @@ export const Notifications = ({
         </DashboardWidgetWrapper>
       )}
       {debtNotifications.map((n, i) => (
-        <DebtNotification
+        // <DebtNotification
+        //   key={i}
+        //   hasError={notificationsError}
+        //   notification={n}
+        // />
+        <TestNotification
           key={i}
           hasError={notificationsError}
           notification={n}
