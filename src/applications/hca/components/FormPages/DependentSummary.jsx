@@ -85,7 +85,7 @@ const DependentSummary = props => {
 
         {/** Dependent tile list */}
         {dependents.length > 0 ? (
-          <div>
+          <div data-testid="hca-dependent-list-field">
             <DependentList
               labelledBy="root__title"
               list={dependents}
@@ -98,7 +98,7 @@ const DependentSummary = props => {
         {!onReviewPage ? (
           <>
             {/** Field radio group */}
-            <div>
+            <div data-testid="hca-dependent-declaration-field">
               <DependentDeclarationField
                 defaultValue={fieldData}
                 error={error}
@@ -123,6 +123,7 @@ const DependentSummary = props => {
           onClick={updatePage}
           className="usa-button-primary"
           aria-label="Update your dependents"
+          data-testid="hca-update-button"
         >
           Update page
         </button>

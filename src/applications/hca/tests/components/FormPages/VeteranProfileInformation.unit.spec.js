@@ -4,18 +4,15 @@ import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import PersonalAuthenticatedInformation from '../../components/PersonalAuthenticatedInformation';
+import VeteranProfileInformation from '../../../components/FormPages/VeteranProfileInformation';
 
-describe('hca <PersonalAuthenticatedInformation>', () => {
+describe('hca VeteranProfileInformation', () => {
   const middleware = [];
   const mockStore = configureStore(middleware);
 
   it('should render name and date of birth when user is logged in and date of birth has a value', () => {
-    const userDob = {
+    const mockData = {
       user: {
-        login: {
-          currentlyLoggedIn: true,
-        },
         profile: {
           userFullName: {
             first: 'John',
@@ -27,11 +24,11 @@ describe('hca <PersonalAuthenticatedInformation>', () => {
         },
       },
     };
-    const store = mockStore(userDob);
+    const store = mockStore(mockData);
 
     const { getByText } = render(
       <Provider store={store}>
-        <PersonalAuthenticatedInformation />
+        <VeteranProfileInformation />
       </Provider>,
     );
     expect(getByText(/john marjorie smith sr./i)).to.exist;
@@ -39,11 +36,8 @@ describe('hca <PersonalAuthenticatedInformation>', () => {
   });
 
   it('should render name and not date of birth when user is logged in and date of birth does not have a value', () => {
-    const user = {
+    const mockData = {
       user: {
-        login: {
-          currentlyLoggedIn: true,
-        },
         profile: {
           userFullName: {
             first: 'John',
@@ -54,11 +48,11 @@ describe('hca <PersonalAuthenticatedInformation>', () => {
         },
       },
     };
-    const store = mockStore(user);
+    const store = mockStore(mockData);
 
     const view = render(
       <Provider store={store}>
-        <PersonalAuthenticatedInformation />
+        <VeteranProfileInformation />
       </Provider>,
     );
 
@@ -67,31 +61,6 @@ describe('hca <PersonalAuthenticatedInformation>', () => {
     expect(
       view.container.querySelector('[data-testid="hca-veteran-fullname"]'),
     ).to.contain.text('John Marjorie Smith Sr.');
-    expect(view.container.querySelector('[data-testid="hca-veteran-dob"]')).to
-      .not.exist;
-  });
-
-  it('should not render name and date of birth when user is not logged in', () => {
-    const notLoggedIn = {
-      user: {
-        login: {
-          currentlyLoggedIn: false,
-        },
-        profile: {
-          userFullName: {},
-        },
-      },
-    };
-    const store = mockStore(notLoggedIn);
-
-    const view = render(
-      <Provider store={store}>
-        <PersonalAuthenticatedInformation />
-      </Provider>,
-    );
-
-    expect(view.container.querySelector('[data-testid="hca-veteran-fullname"]'))
-      .to.not.exist;
     expect(view.container.querySelector('[data-testid="hca-veteran-dob"]')).to
       .not.exist;
   });

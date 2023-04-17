@@ -8,14 +8,14 @@ import {
   DefinitionTester,
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../config/form';
-import { simulateInputChange } from '../helpers';
+import formConfig from '../../../config/form';
+import { simulateInputChange } from '../../helpers';
 
-describe('Hca medicare', () => {
+describe('Hca deductible expenses', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.insuranceInformation.pages.medicare;
+  } = formConfig.chapters.householdInformation.pages.v1DeductibleExpenses;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -26,7 +26,7 @@ describe('Hca medicare', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
   });
 
   it('should not submit empty form', () => {
@@ -39,12 +39,11 @@ describe('Hca medicare', () => {
         uiSchema={uiSchema}
       />,
     );
-
     const formDOM = findDOMNode(form);
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -53,15 +52,19 @@ describe('Hca medicare', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
+        data={{}}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(formDOM, '#root_isEnrolledMedicarePartANo', 'N');
+    simulateInputChange(formDOM, '#root_deductibleMedicalExpenses', '100');
+
+    simulateInputChange(formDOM, '#root_deductibleFuneralExpenses', '0');
+
+    simulateInputChange(formDOM, '#root_deductibleEducationExpenses', '500');
 
     submitForm(form);
 

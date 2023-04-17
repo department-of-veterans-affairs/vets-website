@@ -8,13 +8,13 @@ import {
   DefinitionTester,
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
 
 describe('Hca annual income', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.householdInformation.pages.annualIncome;
+  } = formConfig.chapters.householdInformation.pages.v1AnnualIncome;
   const marriedWithChildren = {
     maritalStatus: 'Married',
     'view:reportDependents': true,

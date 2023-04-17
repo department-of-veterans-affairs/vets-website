@@ -8,8 +8,8 @@ import {
   DefinitionTester,
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../config/form';
-import { simulateInputChange } from '../helpers';
+import formConfig from '../../../config/form';
+import { simulateInputChange } from '../../helpers';
 
 describe('HCA veteranInformation', () => {
   it('should render personal information page', () => {
@@ -375,7 +375,7 @@ describe('HCA veteranInformation', () => {
     const {
       schema,
       uiSchema,
-    } = formConfig.chapters.householdInformation.pages.maritalStatus;
+    } = formConfig.chapters.householdInformation.pages.v1MaritalStatus;
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -400,7 +400,7 @@ describe('HCA veteranInformation', () => {
     const {
       schema,
       uiSchema,
-    } = formConfig.chapters.householdInformation.pages.maritalStatus;
+    } = formConfig.chapters.householdInformation.pages.v1MaritalStatus;
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}

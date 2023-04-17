@@ -7,21 +7,18 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-  getFormDOM,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
+import { simulateInputChange } from '../../helpers';
 
 describe('Hca medicare', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.insuranceInformation.pages.medicarePartAEffectiveDate;
-  const formData = {};
-
+  } = formConfig.chapters.insuranceInformation.pages.medicare;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        data={formData}
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
@@ -29,9 +26,6 @@ describe('Hca medicare', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(
-      formDOM.querySelector('#root_medicareClaimNumber').maxLength,
-    ).to.equal(30);
     expect(formDOM.querySelectorAll('input').length).to.equal(2);
   });
 
@@ -39,7 +33,6 @@ describe('Hca medicare', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        data={formData}
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
@@ -51,7 +44,7 @@ describe('Hca medicare', () => {
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -59,7 +52,6 @@ describe('Hca medicare', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        data={formData}
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
@@ -67,12 +59,9 @@ describe('Hca medicare', () => {
       />,
     );
 
-    const formDOM = getFormDOM(form);
+    const formDOM = findDOMNode(form);
 
-    formDOM.fillData('#root_medicarePartAEffectiveDateMonth', '1');
-    formDOM.fillData('#root_medicarePartAEffectiveDateDay', '1');
-    formDOM.fillData('#root_medicarePartAEffectiveDateYear', '2000');
-    formDOM.fillData('#root_medicareClaimNumber', '7AD5WC9MW60');
+    simulateInputChange(formDOM, '#root_isEnrolledMedicarePartANo', 'N');
 
     submitForm(form);
 

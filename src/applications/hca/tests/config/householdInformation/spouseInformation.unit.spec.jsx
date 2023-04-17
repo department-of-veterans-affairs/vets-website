@@ -8,14 +8,14 @@ import {
   DefinitionTester,
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../config/form';
-import { simulateInputChange } from '../helpers';
+import formConfig from '../../../config/form';
+import { simulateInputChange } from '../../helpers';
 
 describe('Hca spouse information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.householdInformation.pages.spouseInformation;
+  } = formConfig.chapters.householdInformation.pages.v1SpouseInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

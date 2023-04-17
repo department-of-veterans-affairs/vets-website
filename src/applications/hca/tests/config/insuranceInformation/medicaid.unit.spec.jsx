@@ -8,29 +8,28 @@ import {
   DefinitionTester,
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
+import { simulateInputChange } from '../../helpers';
 
-describe('Hca additionalInformation', () => {
+describe('Hca medicare', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.militaryService.pages.additionalInformation;
-  const definitions = formConfig.defaultDefinitions;
+  } = formConfig.chapters.insuranceInformation.pages.medicaid;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        data={{}}
+        definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
-        definitions={definitions}
       />,
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(9);
+    expect(formDOM.querySelectorAll('input').length).to.equal(2);
   });
 
-  it('should submit without data', () => {
+  it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -40,8 +39,32 @@ describe('Hca additionalInformation', () => {
         uiSchema={uiSchema}
       />,
     );
+
     const formDOM = findDOMNode(form);
+
     submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('should submit with valid data', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    const formDOM = findDOMNode(form);
+
+    simulateInputChange(formDOM, '#root_isMedicaidEligibleYes', 'Y');
+
+    submitForm(form);
+
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });

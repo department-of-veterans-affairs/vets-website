@@ -8,25 +8,23 @@ import {
   DefinitionTester,
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../config/form';
-import { simulateInputChange } from '../helpers';
+import formConfig from '../../../config/form';
+import { simulateInputChange } from '../../helpers';
 
-describe('Hca deductible expenses', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.householdInformation.pages.deductibleExpenses;
+describe('Hca vaBenefits', () => {
+  const { schema, uiSchema } = formConfig.chapters.vaBenefits.pages.vaBenefits;
+  const definitions = formConfig.defaultDefinitions;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
+        definitions={definitions}
       />,
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
+    expect(formDOM.querySelectorAll('input').length).to.equal(3);
   });
 
   it('should not submit empty form', () => {
@@ -34,16 +32,17 @@ describe('Hca deductible expenses', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
+
     const formDOM = findDOMNode(form);
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -52,22 +51,16 @@ describe('Hca deductible expenses', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        data={{}}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(formDOM, '#root_deductibleMedicalExpenses', '100');
-
-    simulateInputChange(formDOM, '#root_deductibleFuneralExpenses', '0');
-
-    simulateInputChange(formDOM, '#root_deductibleEducationExpenses', '500');
+    simulateInputChange(formDOM, '#root_vaCompensationType_0', 'lowDisability');
 
     submitForm(form);
-
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
