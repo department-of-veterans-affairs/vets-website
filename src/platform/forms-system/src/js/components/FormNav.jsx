@@ -73,8 +73,9 @@ export default function FormNav(props) {
     );
   }
 
-  const stepText = `Step ${current} of ${chapters.length}: ${chapterName}`;
   const showHeader = Math.abs(current - index) === 1;
+  const hideStepText = formConfig.chapters[page.chapterKey]?.hideStepText;
+  const stepText = `Step ${current} of ${chapters.length}: ${chapterName}`;
 
   // The goal with this is to quickly "remove" the header from the DOM, and
   // immediately re-render the component with the header included.
@@ -118,13 +119,13 @@ export default function FormNav(props) {
         <div className="nav-header nav-header-schemaform">
           {showHeader && (
             <h2 id="nav-form-header" className="vads-u-font-size--h4">
-              {stepText}
+              {!hideStepText && stepText}
               {inProgressMessage}
             </h2>
           )}
           {!showHeader && (
             <div className="vads-u-font-size--h4">
-              {stepText}
+              {!hideStepText && stepText}
               {inProgressMessage}
             </div>
           )}
