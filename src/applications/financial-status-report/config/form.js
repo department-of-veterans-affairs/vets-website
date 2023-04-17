@@ -35,6 +35,8 @@ import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/Sp
 import InstallmentContract from '../components/InstallmentContract';
 import InstallmentContractSummary from '../pages/expenses/repayments/InstallmentContractSummary';
 import EmploymentQuestion from '../components/EmploymentQuestion';
+import InstallmentContract from '../components/InstallmentContract';
+import InstallmentContractSummary from '../pages/expenses/repayments/InstallmentContractSummary';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
