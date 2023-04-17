@@ -28,11 +28,14 @@ describe('Pathology details component', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<PathologyDetails results={mockPatho} />, {
-      initialState: state,
-      reducers: reducer,
-      path: '/labs-and-tests/125',
-    });
+    return renderWithStoreAndRouter(
+      <PathologyDetails results={mockPatho} fullState={state} />,
+      {
+        initialState: state,
+        reducers: reducer,
+        path: '/labs-and-tests/125',
+      },
+    );
   };
 
   it('renders without errors', () => {
