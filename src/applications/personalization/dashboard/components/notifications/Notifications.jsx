@@ -54,14 +54,14 @@ export const Notifications = ({
           </div>
         </DashboardWidgetWrapper>
       )}
-      {debtNotifications.map((n, i) => (
+      {debtNotifications.map(n => (
         // <DebtNotification
         //   key={i}
         //   hasError={notificationsError}
         //   notification={n}
         // />
         <TestNotification
-          key={i}
+          key={n.id}
           hasError={notificationsError}
           notification={n}
         />
