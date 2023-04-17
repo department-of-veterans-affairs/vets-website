@@ -12,41 +12,6 @@ export const goToNextPage = pagePath => {
     cy.location('pathname').should('include', pagePath);
   }
 };
-export const advanceFromAiqToReviewPage = () => {
-  goToNextPage('/veteran-information/veteran-address');
-  cy.get('[type=radio]')
-    .first()
-    .scrollIntoView()
-    .check('Y');
-  goToNextPage('/veteran-information/contact-information');
-  cy.wait('@mockSip');
-  goToNextPage('/va-benefits/basic-information');
-  cy.get('[name="root_vaCompensationType"]').check('none');
-  goToNextPage('/va-benefits/pension-information');
-  cy.get('[name="root_vaPensionType"]').check('No');
-  goToNextPage('/military-service/service-information');
-  goToNextPage('/military-service/additional-information');
-  goToNextPage('/household-information/financial-disclosure');
-  cy.get('[name="root_discloseFinancialInformation"]').check('N');
-  goToNextPage('/household-information/marital-status');
-  cy.get('select#root_maritalStatus').select(testData.maritalStatus);
-  goToNextPage('/insurance-information/medicaid');
-  cy.get('[name="root_isMedicaidEligible"]').check('N');
-  goToNextPage('/insurance-information/medicare');
-  cy.get('[name="root_isEnrolledMedicarePartA"]').check('N');
-  goToNextPage('/insurance-information/general');
-  cy.get('[name="root_isCoveredByHealthInsurance"]').check('N');
-  goToNextPage('/insurance-information/va-facility');
-  cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
-    testData['view:preferredFacility']['view:facilityState'],
-  );
-  cy.wait(['@mockSip', '@getFacilities']);
-  cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]')
-    .shadow()
-    .find('select')
-    .select(testData['view:preferredFacility'].vaMedicalFacility);
-  goToNextPage('review-and-submit');
-};
 
 export const advanceToServiceInfoPage = () => {
   // cy.findAllByText(/start.+application/i, { selector: 'button' })
