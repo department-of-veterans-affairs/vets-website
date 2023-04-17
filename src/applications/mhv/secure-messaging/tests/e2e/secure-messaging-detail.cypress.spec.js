@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import inboxMessages from './fixtures/messages-response.json';
 import mockMessageDetails from './fixtures/message-response.json';
-import defaultMockThread from './fixtures/thread-response.json';
+// import defaultMockThread from './fixtures/thread-response.json';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 
 describe('Secure Messaging Message Details AXE Check', () => {
@@ -18,7 +18,7 @@ describe('Secure Messaging Message Details AXE Check', () => {
     messageDetails.data.attributes.sentDate = date.toISOString();
     cy.log(`New Message Details ==== ${JSON.stringify(messageDetails)}`);
     landingPage.loadInboxMessages(inboxMessages, messageDetails);
-    detailsPage.loadMessageDetails(messageDetails, defaultMockThread, 0);
+    detailsPage.loadMessageDetails(messageDetails);
     cy.injectAxe();
     cy.axeCheck();
   });
