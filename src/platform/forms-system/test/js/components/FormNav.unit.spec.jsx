@@ -63,14 +63,18 @@ describe('Schemaform FormNav', () => {
 
     expect(tree.getByText('Step 1 of 4: Testing')).to.not.be.null;
   });
-  it('should hide current chapter stepText', () => {
+  it('should optionally hide current chapter progress-bar & stepText', () => {
     const currentPath = 'testing1';
     const formConfigDefaultData = getDefaultData();
-    formConfigDefaultData.chapters.chapter1.hideStepText = true;
+    formConfigDefaultData.chapters.chapter1.hideFormNavProgress = true;
     const tree = render(
       <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />,
     );
 
+    // expect(
+    //   tree.getElementsByClassName('schemaform-chapter-progress'),
+    // ).to.have.lengthOf(0);
+    expect(tree.queryAllByRole('progressbar')).to.have.lengthOf(0);
     expect(tree.findAllByText('Step 1 of 4: Testing')).to.be.empty;
   });
   it('should display a custom review page title', () => {
