@@ -32,11 +32,14 @@ describe('Microbiology details component', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<MicroDetails results={mockMicro} />, {
-      initialState: state,
-      reducers: reducer,
-      path: '/labs-and-tests/124',
-    });
+    return renderWithStoreAndRouter(
+      <MicroDetails results={mockMicro} fullState={state} />,
+      {
+        initialState: state,
+        reducers: reducer,
+        path: '/labs-and-tests/124',
+      },
+    );
   };
 
   it('renders without errors', () => {
