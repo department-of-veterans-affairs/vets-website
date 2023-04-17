@@ -110,14 +110,14 @@ class Main extends React.Component {
     const view = (
       <div className="row">
         <div className="usa-width-two-thirds medium-8 vet-id-card">
-          <h1>Printed Veteran ID Card</h1>
+          <h1>Veteran ID Card</h1>
           <p>
-            You can use your printed Veteran ID Card (VIC) instead of your DD214
+            You can use your Veteran ID Card (VIC) instead of your DD214
             to get discounts on goods and services offered to Veterans. You can
             also use other identification cards for this purpose. Find out if
             you need a VIC or if you already have what you need.
           </p>
-          <h3>Should I request a printed Veteran ID card?</h3>
+          <h3>Should I request a Veteran ID card?</h3>
           <p>
             You <b>do not</b> need to request this card if you have one of
             these:
