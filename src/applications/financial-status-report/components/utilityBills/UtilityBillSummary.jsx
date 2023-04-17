@@ -28,7 +28,7 @@ const UtilityBillSummary = ({
   };
 
   const goForward = () => {
-    goToPath('/credit-card-bills');
+    goToPath('/installment-contracts');
   };
 
   const cardBody = text => (
