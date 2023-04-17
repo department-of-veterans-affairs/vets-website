@@ -56,7 +56,7 @@ describe('FolderListView', () => {
     );
 
     expect(folderStatementStart.textContent).to.contain(
-      `Search your ${folder.name} messages folder`,
+      `Filter messages in ${folder.name}`,
     );
   });
 });

@@ -11,7 +11,10 @@ import FilterBox from '../../../components/Search/FilterBox';
 describe('Filter box', () => {
   const initialState = {
     sm: {
-      folders: { folderList, folder },
+      folders: {
+        folderList,
+        folder,
+      },
       search: {},
     },
   };
