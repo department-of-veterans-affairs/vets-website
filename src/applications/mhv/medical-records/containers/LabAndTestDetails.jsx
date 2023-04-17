@@ -11,6 +11,7 @@ const LabAndTestDetails = () => {
   const labAndTestDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
+  const fullState = useSelector(state => state);
   const { labId } = useParams();
 
   useEffect(
@@ -53,7 +54,12 @@ const LabAndTestDetails = () => {
         return <p>radiology</p>;
       default:
         if (labAndTestDetails?.name.toLowerCase().includes('pathology')) {
-          return <PathologyDetails results={labAndTestDetails} />;
+          return (
+            <PathologyDetails
+              results={labAndTestDetails}
+              fullState={fullState}
+            />
+          );
         }
         switch (labAndTestDetails?.name.toLowerCase()) {
           case 'electrocardiogram (ekg)':
