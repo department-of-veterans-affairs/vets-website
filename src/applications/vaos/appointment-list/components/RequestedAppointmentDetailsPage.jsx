@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -136,11 +136,11 @@ export default function RequestedAppointmentDetailsPage() {
   return (
     <PageLayout>
       <Breadcrumbs>
-        <a
-          href={`/health-care/schedule-view-va-appointments/appointments/requests/${id}`}
+        <NavLink
+          to={`/health-care/schedule-view-va-appointments/appointments/requests/${id}`}
         >
           Request detail
-        </a>
+        </NavLink>
       </Breadcrumbs>
 
       <h1>

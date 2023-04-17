@@ -31,9 +31,18 @@ const LabsAndTests = () => {
   );
 
   const content = () => {
-    if (labsAndTests?.length) {
+    if (labsAndTests?.length > 0) {
       return (
         <RecordList records={labsAndTests} type={RecordType.LABS_AND_TESTS} />
+      );
+    }
+    if (labsAndTests?.length === 0) {
+      return (
+        <div className="vads-u-margin-bottom--3">
+          <va-alert background-only status="info">
+            You don’t have any records in Labs and tests
+          </va-alert>
+        </div>
       );
     }
     return (
