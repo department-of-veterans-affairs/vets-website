@@ -285,7 +285,7 @@ const formConfig = {
                     'Sponsor’s Military Service number (if they have one that’s different than their Social Security number)',
                   'ui:errorMessages': {
                     pattern:
-                      'Sponsor’s Military Service number must be between 4 to 10 characters',
+                      'Sponsor’s Military Service number must be between 4 to 9 characters',
                   },
                 },
                 vaClaimNumber: {
@@ -667,7 +667,9 @@ const formConfig = {
       },
     },
     supportingDocuments: {
-      title: 'Supporting Documents',
+      title: environment.isProduction()
+        ? 'Supporting Documents'
+        : 'Supporting documents',
       pages: {
         supportingDocuments: {
           path: 'supporting-documents',
@@ -676,9 +678,7 @@ const formConfig = {
             'ui:description': SupportingDocumentsDescription,
             application: {
               preneedAttachments: fileUploadUI('Select files to upload', {
-                addAnotherLabel: environment.isProduction()
-                  ? 'Add Another'
-                  : 'Add another',
+                addAnotherLabel: 'Add another',
                 fileUploadUrl: `${
                   environment.API_URL
                 }/v0/preneeds/preneed_attachments`,

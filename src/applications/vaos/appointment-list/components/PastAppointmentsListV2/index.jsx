@@ -33,6 +33,7 @@ import {
 } from '../../../redux/selectors';
 import AppointmentCard from '../AppointmentsPageV2/AppointmentCard';
 import UpcomingAppointmentLayout from '../AppointmentsPageV2/UpcomingAppointmentLayout';
+import BackendAppointmentServiceAlert from '../BackendAppointmentServiceAlert';
 
 function handleClick({ history, link, idClickable }) {
   return () => {
@@ -237,6 +238,7 @@ export default function PastAppointmentsListNew() {
 
   return (
     <>
+      <BackendAppointmentServiceAlert />
       {dropdown}
       <div aria-live="assertive" className="sr-only">
         {(hasTypeChanged || !isInitialMount) &&

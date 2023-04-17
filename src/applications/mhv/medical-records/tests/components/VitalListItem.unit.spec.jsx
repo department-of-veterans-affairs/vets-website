@@ -4,6 +4,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
 import vitals from '../fixtures/vitals.json';
+import { RecordType } from '../../util/constants';
 
 describe('Vital list item component', () => {
   const initialState = {
@@ -17,11 +18,11 @@ describe('Vital list item component', () => {
 
   const setup = (state = initialState) => {
     return renderWithStoreAndRouter(
-      <RecordListItem record={vitals[0]} type="vital" />,
+      <RecordListItem record={vitals[0]} type={RecordType.VITALS} />,
       {
         initialState: state,
         reducers: reducer,
-        path: '/vaccines',
+        path: '/vitals',
       },
     );
   };

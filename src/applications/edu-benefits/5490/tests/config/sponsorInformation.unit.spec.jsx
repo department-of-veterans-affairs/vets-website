@@ -19,14 +19,14 @@ describe('Edu 5490 sponsorInformation', () => {
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        data={{ relationship: 'child', benefit: 'chapter33' }}
+        data={{ relationshipAndChildType: 'child', benefit: 'chapter33' }}
         uiSchema={uiSchema}
       />,
     );
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(12);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(15);
   });
 
   it('should display date options for chapter 33 and spouse relationship', () => {
@@ -34,7 +34,7 @@ describe('Edu 5490 sponsorInformation', () => {
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        data={{ relationship: 'spouse', benefit: 'chapter33' }}
+        data={{ relationshipAndChildType: 'spouse', benefit: 'chapter33' }}
         uiSchema={uiSchema}
       />,
     );
@@ -51,7 +51,7 @@ describe('Edu 5490 sponsorInformation', () => {
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        data={{ relationship: 'child', benefit: 'chapter33' }}
+        data={{ relationshipAndChildType: 'child', benefit: 'chapter33' }}
         uiSchema={uiSchema}
       />,
     );
@@ -68,7 +68,7 @@ describe('Edu 5490 sponsorInformation', () => {
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        data={{ relationship: 'child', benefit: 'chapter35' }}
+        data={{ relationshipAndChildType: 'child', benefit: 'chapter35' }}
         uiSchema={uiSchema}
       />,
     );
@@ -85,7 +85,7 @@ describe('Edu 5490 sponsorInformation', () => {
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        data={{ relationship: 'spouse', benefit: 'chapter35' }}
+        data={{ relationshipAndChildType: 'spouse', benefit: 'chapter35' }}
         uiSchema={uiSchema}
       />,
     );
@@ -102,7 +102,7 @@ describe('Edu 5490 sponsorInformation', () => {
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        data={{ relationship: 'spouse', benefit: 'chapter33' }}
+        data={{ relationshipAndChildType: 'spouse', benefit: 'chapter33' }}
         uiSchema={uiSchema}
       />,
     );

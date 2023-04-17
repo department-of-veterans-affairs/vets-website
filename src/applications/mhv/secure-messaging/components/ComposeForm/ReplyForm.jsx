@@ -11,11 +11,12 @@ import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 import DeleteDraft from '../Draft/DeleteDraft';
 import { sendReply } from '../../actions/messages';
+import { focusOnErrorField } from '../../util/formHelpers';
 import EmergencyNote from '../EmergencyNote';
 import HowToAttachFiles from '../HowToAttachFiles';
 import { dateFormat, navigateToFolderByFolderId } from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
-import { draftAutoSaveTimeout } from '../../util/constants';
+import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
 
 const ReplyForm = props => {
@@ -41,6 +42,7 @@ const ReplyForm = props => {
   const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
+  const [messageInvalid, setMessageInvalid] = useState(false);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const history = useHistory();
@@ -75,6 +77,15 @@ const ReplyForm = props => {
 
   useEffect(
     () => {
+      if (messageInvalid) {
+        focusOnErrorField();
+      }
+    },
+    [messageInvalid],
+  );
+
+  useEffect(
+    () => {
       if (sendMessageFlag && isSaving !== true) {
         const messageData = {
           category,
@@ -89,7 +100,6 @@ const ReplyForm = props => {
           attachments.map(upload => sendData.append('uploads[]', upload));
           dispatch(sendReply(replyMessage.messageId, sendData, true)).then(
             () => {
-              // history.push(`/thread/${replyMessage.messageId}`);
               navigateToFolderByFolderId(
                 draftToEdit.threadFolderId || replyMessage.folderId,
                 history,
@@ -104,7 +114,6 @@ const ReplyForm = props => {
               false,
             ),
           ).then(() => {
-            // history.push(`/thread/${replyMessage.messageId}`);
             navigateToFolderByFolderId(
               draftToEdit.threadFolderId || replyMessage.folderId,
               history,
@@ -172,13 +181,15 @@ const ReplyForm = props => {
   const checkMessageValidity = () => {
     let messageValid = true;
     if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-      setBodyError('Message body cannot be blank.');
+      setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
       messageValid = false;
     }
+    setMessageInvalid(!messageValid);
     return messageValid;
   };
 
-  const sendMessageHandler = () => {
+  const sendMessageHandler = async () => {
+    await setMessageInvalid(false);
     if (checkMessageValidity()) {
       setSendMessageFlag(true);
       setNavigationError(null);
@@ -189,21 +200,11 @@ const ReplyForm = props => {
     if (type === 'manual') {
       setUserSaved(true);
       if (!checkMessageValidity()) {
-        setSaveError({
-          title: "We can't save this message yet",
-          p1:
-            'We need more information from you before we can save this draft.',
-          p2:
-            "You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
-        });
+        setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE);
         return;
       }
       if (attachments.length) {
-        setSaveError({
-          title: "We can't save attachments in a draft message",
-          p1:
-            "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
-        });
+        setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT);
         setNavigationError(null);
       }
     }
@@ -262,11 +263,14 @@ const ReplyForm = props => {
     ],
   );
 
+  const messageBodyHandler = e => {
+    setMessageBody(e.target.value);
+    if (e.target.value) setBodyError('');
+  };
+
   if (!sendMessageFlag && !navigationError && attachments.length) {
     setNavigationError({
-      title: "We can't save attachments in a draft message",
-      p1:
-        "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
+      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
       confirmButtonText: 'Continue editing',
       cancelButtonText: 'OK',
     });
@@ -334,7 +338,7 @@ const ReplyForm = props => {
                 name="reply-message-body"
                 className="message-body"
                 data-testid="message-body-field"
-                onInput={e => setMessageBody(e.target.value)}
+                onInput={messageBodyHandler}
                 value={messageBody}
                 error={bodyError}
               />
