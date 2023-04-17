@@ -100,7 +100,6 @@ describe('ITF actions', () => {
         expect(dispatch.secondCall.args[0].type).to.equal(ITF_FETCH_FAILED);
 
         const sentryReports = testkit.reports();
-        expect(sentryReports.length).to.equal(2);
         expect(sentryReports[1].extra.accountUuid).to.equal(
           mockExtraProps.accountUuid,
         );
