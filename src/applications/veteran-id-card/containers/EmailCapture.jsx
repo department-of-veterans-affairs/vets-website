@@ -26,7 +26,7 @@ class EmailCapture extends React.Component {
     if (this.props.success) {
       view = (
         <div>
-          <h1>Printed Veteran ID Card</h1>
+          <h1>Veteran ID Card</h1>
           <AlertBox
             headline="Thank you for your email address. We will follow up with instructions on how to proceed with the application."
             content={''}
@@ -38,7 +38,7 @@ class EmailCapture extends React.Component {
     } else {
       view = (
         <div>
-          <h1>Printed Veteran ID Card</h1>
+          <h1>Veteran ID Card</h1>
           <p>
             You've reached the new Veteran ID Card application. We're excited to
             bring this important recognition to Veterans. We've experienced a
