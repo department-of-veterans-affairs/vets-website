@@ -79,7 +79,7 @@ const FilterBox = props => {
     return formInvalid;
   };
 
-  const handleFormSubmit = e => {
+  const handleFilterMessages = e => {
     e.preventDefault();
     const formInvalid = testingSubmit || checkFormValidity();
     if (formInvalid) return;
@@ -117,7 +117,7 @@ const FilterBox = props => {
   return (
     <form
       className="advanced-search-form filter-box"
-      onSubmit={handleFormSubmit}
+      onSubmit={handleFilterMessages}
     >
       {formError && (
         <VaModal
@@ -208,9 +208,9 @@ const FilterBox = props => {
 
             <va-button
               class="custom-filter-button"
-              data-testid="advanced-search-submit"
+              data-testid="filter-messages-button"
               text="Filter"
-              onClick={handleFormSubmit}
+              onClick={handleFilterMessages}
             />
           </div>
         </va-accordion-item>
