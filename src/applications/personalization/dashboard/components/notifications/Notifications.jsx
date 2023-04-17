@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../../sass/user-profile.scss';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import DebtNotification from './DebtNotification';
+import DebtNotification from './DebtNotification';
 import TestNotification from './TestNotification';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import { fetchNotifications } from '../../actions/notifications';
 import environment from '~/platform/utilities/environment';
+import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 
 const debtTemplateId = environment.isProduction()
   ? '7efc2b8b-e59a-4571-a2ff-0fd70253e973'
@@ -29,12 +30,7 @@ export const Notifications = ({
     n => n.attributes.templateId === debtTemplateId,
   );
 
-  if (
-    !debtNotifications ||
-    !debtNotifications.length ||
-    debtNotifications.length < 1 ||
-    notificationsError
-  ) {
+  if (!debtNotifications || !debtNotifications.length || notificationsError) {
     return null;
   }
 
@@ -55,16 +51,26 @@ export const Notifications = ({
         </DashboardWidgetWrapper>
       )}
       {debtNotifications.map(n => (
-        // <DebtNotification
-        //   key={i}
-        //   hasError={notificationsError}
-        //   notification={n}
-        // />
-        <TestNotification
+        <Toggler
+          toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimental}
           key={n.id}
-          hasError={notificationsError}
-          notification={n}
-        />
+        >
+          <Toggler.Enabled>
+            <TestNotification
+              key={n.id}
+              hasError={notificationsError}
+              notification={n}
+            />
+          </Toggler.Enabled>
+
+          <Toggler.Disabled>
+            <DebtNotification
+              key={n.id}
+              hasError={notificationsError}
+              notification={n}
+            />
+          </Toggler.Disabled>
+        </Toggler>
       ))}
     </div>
   );

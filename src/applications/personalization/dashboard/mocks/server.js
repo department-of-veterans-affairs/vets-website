@@ -17,6 +17,7 @@ const hasDebts = false;
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
+    myVaUseExperimental: true,
     profileUseVaosV2Api: true,
     showMyVADashboardV2: true,
     showPaymentAndDebtSection: true,
@@ -42,6 +43,7 @@ const responses = {
   },
   'GET /v0/debts': hasDebts ? createDebtsSuccess() : createNoDebtsSuccess(),
   'GET /v0/onsite_notifications': notifications.hasMultiple,
+  // TODO: put id into a constant file when we get more notification types
   'PATCH /v0/onsite_notifications/:id': (req, res) => {
     const { id } = req.params;
 
