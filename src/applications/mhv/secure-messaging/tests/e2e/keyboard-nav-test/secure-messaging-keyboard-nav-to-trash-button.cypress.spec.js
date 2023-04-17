@@ -11,13 +11,17 @@ describe('Navigate to Trash button', () => {
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/7038175',
+      `/my_health/v1/messaging/folders/${
+        customFolder.data.attributes.folderId
+      }`,
       customFolder,
     ).as('test2Folder');
     landingPage.loadInboxMessages();
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/7038175/threads?pageSize=100&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
+      `/my_health/v1/messaging/folders/${
+        customFolder.data.attributes.folderId
+      }/threads?pageSize=100&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC`,
       customFolderMessage,
     ).as('customFolder');
 
