@@ -36,9 +36,15 @@ describe('Navigate to Trash button', () => {
       .shadow()
       .find('button');
     cy.get('[visible=""] > p');
-    cy.intercept('DELETE', `/my_health/v1/messaging/folders/7038175`, {
-      statusCode: 204,
-    }).as('deleteFolder');
+    cy.intercept(
+      'DELETE',
+      `/my_health/v1/messaging/folders/${
+        customFolder.data.attributes.folderId
+      }`,
+      {
+        statusCode: 204,
+      },
+    ).as('deleteFolder');
     cy.tabToElement('[text="Remove"]');
     cy.realPress(['Enter']);
     cy.get('.vads-u-margin-bottom--1').should('have.focus');
