@@ -159,20 +159,20 @@
       {
         "purpose": "Credit card payments",
         "creditorName": "Creditor One",
-        "originalAmount": "50000.54",
+        "originalLoanAmount": "50000.54",
         "unpaidBalance": "15000.56",
         "amountDueMonthly": "800.10",
         "dateStarted": "2017-03-XX",
-        "amountPastDue": "125.43"
+        "amountOverdue": "125.43"
       },
       {
         "purpose": "Car payment/lease",
         "creditorName": "Creditor Two",
-        "originalAmount": "100000.43",
+        "originalLoanAmount": "100000.43",
         "unpaidBalance": "50000.26",
         "amountDueMonthly": "1200.54",
         "dateStarted": "2019-05-XX",
-        "amountPastDue": "0"
+        "amountOverdue": "0"
       }
     ],
     "utilityRecords": [
