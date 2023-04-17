@@ -71,31 +71,31 @@ const MicroDetails = props => {
           <div className="test-details-container max-80">
             <h2>Details about this test</h2>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Sample tested:
+              Sample tested
             </h3>
             <p>{results.sampleTested}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Sample from:
+              Sample from
             </h3>
             <p>{results.sampleFrom}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Ordered by:
+              Ordered by
             </h3>
             <p>{results.orderedBy}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Ordering location:
+              Ordering location
             </h3>
             <p>{results.orderingLocation}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Collecting location:
+              Collecting location
             </h3>
             <p>{results.collectingLocation}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Lab location:
+              Lab location
             </h3>
             <p>{results.labLocation}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Date completed:
+              Date completed
             </h3>
             <p>{formattedDate}</p>
           </div>
