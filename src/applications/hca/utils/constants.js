@@ -9,6 +9,7 @@ export const DASHBOARD_ALERT_TYPES = Object.freeze({
 
 // declare view fields for use in household section
 export const DEPENDENT_VIEW_FIELDS = {
+  list: 'view:depedentsList',
   report: 'view:reportDependents',
   skip: 'view:skipDependentInfo',
 };

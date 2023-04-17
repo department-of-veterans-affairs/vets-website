@@ -4,6 +4,7 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateCurrency } from '../../../utils/validation';
 import { DeductableExpensesAlert } from '../../../components/FormAlerts';
 import { EducationalExpensesDescription } from '../../../components/FormDescriptions';
+import CustomReviewField from '../../../components/FormReview/CustomReviewField';
 
 const {
   deductibleEducationExpenses,
@@ -33,6 +34,7 @@ export default {
       ),
       'ui:description': EducationalExpensesDescription,
       'ui:validations': [validateCurrency],
+      'ui:reviewField': CustomReviewField,
     },
   },
   schema: {

@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
 import {
@@ -50,17 +50,16 @@ const SUB_PAGES = [
 const DependentInformation = props => {
   const {
     data,
-    goBack,
     goToPath,
     setFormData,
     contentBeforeButtons,
     contentAfterButtons,
   } = props;
 
-  const { dependents = [] } = data || {};
+  const dependents = JSON.parse(data[DEPENDENT_VIEW_FIELDS.list]);
   const search = new URLSearchParams(window.location.search);
-  const action = search.get('action') || 'add';
-  const oldDependents = useRef(dependents);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const listRef = useMemo(() => data[DEPENDENT_VIEW_FIELDS.list], []);
 
   // determine where this dependent data will live in the array
   const searchIndex = () => {
@@ -71,6 +70,20 @@ const DependentInformation = props => {
     return indexToReturn;
   };
 
+  // determine specific routes and actions based on what mode we are in
+  const action = () => {
+    const mode = search.get('action') || 'add';
+    const resultToReturn = {
+      mode,
+      pathToGo: `/${DEPENDENT_PATHS.summary}`,
+      label: `${mode === 'add' ? 'add' : 'edit'}ing`,
+    };
+    if (mode === 'update') {
+      resultToReturn.pathToGo = '/review-and-submit';
+    }
+    return resultToReturn;
+  };
+
   // determine which `page` & dataset to start with based on the index
   const defaultStates = () => {
     const resultToReturn = { data: {}, page: SUB_PAGES[0] };
@@ -79,7 +92,7 @@ const DependentInformation = props => {
     if (typeof dependents[searchIndex()] !== 'undefined') {
       resultToReturn.data = dependents[searchIndex()];
 
-      if (action === 'edit') {
+      if (action !== 'add') {
         window.sessionStorage.setItem(SESSION_ITEM_NAME, searchIndex());
       }
     }
@@ -118,16 +131,15 @@ const DependentInformation = props => {
       setLocalData({ ...localData, ...formData });
     },
     onConfirm: () => {
-      setFormData({ ...data, dependents: oldDependents.current });
-      goToPath(`/${DEPENDENT_PATHS.summary}`);
+      setLocalData(null);
+      goToPath(action().pathToGo);
     },
     onGoBack: () => {
       const index = activePages.findIndex(item => item.id === currentPage.id);
       if (index > 0) {
         setCurrentPage(activePages[index - 1]);
       } else {
-        setFormData({ ...data, dependents: oldDependents.current });
-        goToPath(`/${DEPENDENT_PATHS.summary}`);
+        handlers.showConfirm();
       }
     },
     onSubmit: () => {
@@ -138,7 +150,7 @@ const DependentInformation = props => {
           [DEPENDENT_VIEW_FIELDS.report]: null,
           [DEPENDENT_VIEW_FIELDS.skip]: true,
         });
-        goToPath(`/${DEPENDENT_PATHS.summary}`);
+        goToPath(action().pathToGo);
       } else {
         setCurrentPage(activePages[index + 1]);
       }
@@ -174,7 +186,6 @@ const DependentInformation = props => {
 
   /**
    * set form data on each change to the localData object state
-   * NOTE: localData will be empty ONLY when cancelling an `add` action
    */
   useEffect(
     () => {
@@ -182,19 +193,20 @@ const DependentInformation = props => {
         beforeIndex: dependents.slice(0, searchIndex()),
         afterIndex: dependents.slice(searchIndex() + 1),
       };
-      const dataToSet = !localData
-        ? {
-            dependents: [...slices.beforeIndex, ...slices.afterIndex],
-            [DEPENDENT_VIEW_FIELDS.report]: null,
-            [DEPENDENT_VIEW_FIELDS.skip]: true,
-          }
-        : {
-            dependents: [
-              ...slices.beforeIndex,
-              localData,
-              ...slices.afterIndex,
-            ],
-          };
+      const dataToSet =
+        localData === null
+          ? {
+              [DEPENDENT_VIEW_FIELDS.list]: listRef,
+              [DEPENDENT_VIEW_FIELDS.report]: null,
+              [DEPENDENT_VIEW_FIELDS.skip]: true,
+            }
+          : {
+              [DEPENDENT_VIEW_FIELDS.list]: JSON.stringify([
+                ...slices.beforeIndex,
+                localData,
+                ...slices.afterIndex,
+              ]),
+            };
       setFormData({ ...data, ...dataToSet });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -204,18 +216,20 @@ const DependentInformation = props => {
   // set active pages array based on form data conditionals
   useEffect(
     () => {
-      const pagesToSet = SUB_PAGES.reduce((acc, page) => {
-        if ('depends' in page) {
-          const { key, value } = page.depends;
-          if (localData[key] === value) {
+      if (localData) {
+        const pagesToSet = SUB_PAGES.reduce((acc, page) => {
+          if ('depends' in page) {
+            const { key, value } = page.depends;
+            if (localData[key] === value) {
+              acc.push(page);
+            }
+          } else {
             acc.push(page);
           }
-        } else {
-          acc.push(page);
-        }
-        return acc;
-      }, []);
-      setActivePages(pagesToSet);
+          return acc;
+        }, []);
+        setActivePages(pagesToSet);
+      }
     },
     [localData],
   );
@@ -235,7 +249,7 @@ const DependentInformation = props => {
           {/** Cancel confirmation modal trigger */}
           <div className="vads-u-margin-y--2">
             <va-button
-              text={`Cancel ${action}ing this dependent`}
+              text={`Cancel ${action().label} this dependent`}
               onClick={handlers.showConfirm}
               secondary
             />
@@ -243,35 +257,16 @@ const DependentInformation = props => {
 
           {/** Form progress buttons */}
           {contentBeforeButtons}
-          <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-            <div className="small-6 medium-5 columns">
-              {goBack && (
-                <ProgressButton
-                  ariaDescribedBy="nav-form-header"
-                  buttonClass="usa-button-secondary"
-                  onButtonClick={handlers.onGoBack}
-                  buttonText="Back"
-                  beforeText="«"
-                />
-              )}
-            </div>
-            <div className="small-6 medium-5 end columns">
-              <ProgressButton
-                ariaDescribedBy="nav-form-header"
-                buttonClass="usa-button-primary"
-                buttonText="Continue"
-                afterText="»"
-                submitButton
-              />
-            </div>
-          </div>
+          <FormNavButtons goBack={handlers.onGoBack} submitToContinue />
           {contentAfterButtons}
         </SchemaForm>
       ) : null}
 
       <VaModal
-        modalTitle={`Are you sure you want to cancel ${action}ing this dependent?`}
-        primaryButtonText={`Yes, cancel ${action}ing this dependent`}
+        modalTitle={`Are you sure you want to cancel ${
+          action().label
+        } this dependent?`}
+        primaryButtonText={`Yes, cancel ${action().label} this dependent`}
         secondaryButtonText="No, continue"
         onPrimaryButtonClick={handlers.onConfirm}
         onSecondaryButtonClick={handlers.onCancel}
@@ -281,7 +276,7 @@ const DependentInformation = props => {
         clickToClose
       >
         <p className="vads-u-margin--0">
-          This will stop {`${action}ing`}
+          This will stop {action().label}
           the dependent. You will return to a list of any previously added
           dependents and your changes will not be applied.
         </p>
@@ -294,7 +289,6 @@ DependentInformation.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   data: PropTypes.object,
-  goBack: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };

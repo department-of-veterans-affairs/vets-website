@@ -2,6 +2,7 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import { validateCurrency } from '../../../utils/validation';
+import CustomReviewField from '../../../components/FormReview/CustomReviewField';
 import {
   GrossIncomeDescription,
   NetIncomeDescription,
@@ -21,16 +22,19 @@ export default {
       ...currencyUI('Gross annual income from employment'),
       'ui:description': GrossIncomeDescription,
       'ui:validations': [validateCurrency],
+      'ui:reviewField': CustomReviewField,
     },
     veteranNetIncome: {
       ...currencyUI('Net income from your farm, ranch, property or business'),
       'ui:description': NetIncomeDescription,
       'ui:validations': [validateCurrency],
+      'ui:reviewField': CustomReviewField,
     },
     veteranOtherIncome: {
       ...currencyUI('Other income'),
       'ui:description': OtherIncomeDescription,
       'ui:validations': [validateCurrency],
+      'ui:reviewField': CustomReviewField,
     },
   },
   schema: {

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { focusElement } from 'platform/utilities/ui';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import DependentDeclarationField from '../FormFields/DependentDeclarationField';
 import DependentList from '../FormFields/DependentList';
 import { DEPENDENT_VIEW_FIELDS, SHARED_PATHS } from '../../utils/constants';
@@ -17,16 +16,17 @@ const DependentSummary = props => {
     goBack,
     goForward,
     goToPath,
+    updatePage,
     setFormData,
+    onReviewPage,
     contentBeforeButtons,
     contentAfterButtons,
   } = props;
 
-  const {
-    dependents = [],
-    [DEPENDENT_VIEW_FIELDS.report]: reportDependents = null,
-  } = data;
+  const { [DEPENDENT_VIEW_FIELDS.report]: reportDependents = null } = data;
+  const dependents = JSON.parse(data[DEPENDENT_VIEW_FIELDS.list]);
   const pageTitle = dependents.length ? 'Your Dependents' : 'Dependents';
+  const mode = onReviewPage ? 'update' : 'edit';
 
   /**
    * declare default state variables
@@ -53,8 +53,10 @@ const DependentSummary = props => {
       hasError(false);
     },
     onDelete: list => {
-      setFormData({ ...data, dependents: list });
-      focusElement('#root__title');
+      setFormData({
+        ...data,
+        [DEPENDENT_VIEW_FIELDS.list]: JSON.stringify(list),
+      });
     },
     onGoForward: () => {
       if (error) return;
@@ -87,47 +89,44 @@ const DependentSummary = props => {
             <DependentList
               labelledBy="root__title"
               list={dependents}
+              mode={mode}
               onDelete={handlers.onDelete}
             />
           </div>
         ) : null}
 
-        {/** Field radio group */}
-        <div>
-          <DependentDeclarationField
-            defaultValue={fieldData}
-            error={error}
-            hasList={dependents.length > 0}
-            onChange={handlers.onChange}
-          />
-        </div>
+        {!onReviewPage ? (
+          <>
+            {/** Field radio group */}
+            <div>
+              <DependentDeclarationField
+                defaultValue={fieldData}
+                error={error}
+                hasList={dependents.length > 0}
+                onChange={handlers.onChange}
+              />
+            </div>
+          </>
+        ) : null}
       </fieldset>
 
-      {/** Form navigation buttons */}
-      {contentBeforeButtons}
-      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-        <div className="small-6 medium-5 columns">
-          {goBack && (
-            <ProgressButton
-              ariaDescribedBy="nav-form-header"
-              buttonClass="usa-button-secondary"
-              onButtonClick={goBack}
-              buttonText="Back"
-              beforeText="«"
-            />
-          )}
-        </div>
-        <div className="small-6 medium-5 end columns">
-          <ProgressButton
-            ariaDescribedBy="nav-form-header"
-            buttonClass="usa-button-primary"
-            onButtonClick={handlers.onGoForward}
-            buttonText="Continue"
-            afterText="»"
-          />
-        </div>
-      </div>
-      {contentAfterButtons}
+      {!onReviewPage ? (
+        <>
+          {/** Form navigation buttons */}
+          {contentBeforeButtons}
+          <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
+          {contentAfterButtons}
+        </>
+      ) : (
+        <button
+          type="button"
+          onClick={updatePage}
+          className="usa-button-primary"
+          aria-label="Update your dependents"
+        >
+          Update page
+        </button>
+      )}
     </form>
   );
 };
@@ -140,6 +139,8 @@ DependentSummary.propTypes = {
   goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
 
 export default DependentSummary;

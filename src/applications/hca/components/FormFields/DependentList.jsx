@@ -17,7 +17,7 @@ const DEFAULT_STATE = {
 };
 
 // declare default component
-const DependentList = ({ labelledBy, list, onDelete }) => {
+const DependentList = ({ labelledBy, list, mode, onDelete }) => {
   const scrollId = `hca-dependent-item--${window.sessionStorage.getItem(
     SESSION_ITEM_NAME,
   )}`;
@@ -59,6 +59,9 @@ const DependentList = ({ labelledBy, list, onDelete }) => {
     () => {
       onDelete(dependents);
       setModal(DEFAULT_STATE.modal);
+      setTimeout(() => {
+        focusElement('#root__title');
+      }, 0);
     },
     [dependents],
   );
@@ -67,7 +70,7 @@ const DependentList = ({ labelledBy, list, onDelete }) => {
   useEffect(
     () => {
       if (listItemsRef.current.length) {
-        const elRef = listItemsRef.current.find(item => scrollId === item.id);
+        const elRef = listItemsRef.current.find(item => scrollId === item?.id);
         if (elRef) {
           focusElement(elRef);
           window.sessionStorage.removeItem(SESSION_ITEM_NAME);
@@ -80,7 +83,9 @@ const DependentList = ({ labelledBy, list, onDelete }) => {
   // create dependent list items
   const listItems = dependents.map((item, index) => {
     const { fullName, dependentRelation } = item;
-    const normalizedFullName = `${fullName.first} ${fullName.last}`;
+    const normalizedFullName = `${fullName.first} ${
+      fullName.last
+    } ${fullName.suffix || ''}`.replace(/ +(?= )/g, '');
 
     return (
       <li
@@ -97,7 +102,7 @@ const DependentList = ({ labelledBy, list, onDelete }) => {
             className="va-button-link hca-button-link vads-u-margin-left--2p5 vads-u-font-weight--bold"
             to={{
               pathname: DEPENDENT_PATHS.info,
-              search: `?index=${index}&action=edit`,
+              search: `?index=${index}&action=${mode}`,
             }}
           >
             Edit <span className="sr-only">{normalizedFullName}</span>{' '}
@@ -153,6 +158,7 @@ const DependentList = ({ labelledBy, list, onDelete }) => {
 DependentList.propTypes = {
   labelledBy: PropTypes.string,
   list: PropTypes.array,
+  mode: PropTypes.string,
   onDelete: PropTypes.func,
 };
 
