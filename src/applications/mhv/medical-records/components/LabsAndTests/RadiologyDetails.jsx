@@ -20,7 +20,7 @@ const RadiologyDetails = props => {
       return (
         <>
           <PrintHeader />
-          <h1 className="condition-header">{results.name}</h1>
+          <h1 className="vads-u-margin-bottom--1">{results.name}</h1>
           <div className="time-header">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Date:{' '}
