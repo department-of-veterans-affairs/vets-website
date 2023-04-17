@@ -114,8 +114,9 @@ export const noneSelected =
 /**
  * Shows the alert box only if the form has been submitted
  */
-export const NoneSelectedAlert = ({ count }) => {
+export const NoneSelectedAlert = ({ count, headerLevel = 3 }) => {
   const wrapAlert = useRef(null);
+  const Header = `H${headerLevel}`;
 
   useEffect(
     () => {
@@ -144,12 +145,12 @@ export const NoneSelectedAlert = ({ count }) => {
   return (
     <div ref={wrapAlert}>
       <va-alert status="error" class="vads-u-margin-bottom--2">
-        <h3
+        <Header
           slot="headline"
           className="eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2"
         >
           {title}
-        </h3>
+        </Header>
         <p>{noneSelected}</p>
       </va-alert>
     </div>
@@ -158,6 +159,7 @@ export const NoneSelectedAlert = ({ count }) => {
 
 NoneSelectedAlert.propTypes = {
   count: PropTypes.number,
+  headerLevel: PropTypes.number,
 };
 
 export const ContestableIssuesAdditionalInfo = (
@@ -170,3 +172,15 @@ export const ContestableIssuesAdditionalInfo = (
     have a decision date, you can add a new issue now.
   </va-additional-info>
 );
+
+export const removeModalContent = {
+  title: 'Are you sure you want to remove this issue?',
+  description: issueName => (
+    <span>
+      We’ll remove <strong>{issueName}</strong> from the issues you’d like us to
+      review
+    </span>
+  ),
+  yesButton: 'Yes, remove this',
+  noButton: 'No, keep this',
+};
