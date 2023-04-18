@@ -17,8 +17,14 @@ export default {
         </h3>
       ),
       [patientIdentificationFields.isRequestingOwnMedicalRecords]: {
-        'ui:title': 'Are you authoring the release your own medical records?',
+        'ui:title': 'Whose medical records are you authorizing the release of?',
         'ui:widget': 'yesNo',
+        'ui:options': {
+          labels: {
+            Y: 'Veteran',
+            N: 'Someone else connected to the Veteran',
+          },
+        },
       },
     },
   },
