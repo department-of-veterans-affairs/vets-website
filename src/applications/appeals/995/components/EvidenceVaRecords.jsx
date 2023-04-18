@@ -9,7 +9,6 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import environment from 'platform/utilities/environment';
 import debounce from 'platform/utilities/data/debounce';
 
 import { EVIDENCE_VA_PATH, NO_ISSUES_SELECTED } from '../constants';
@@ -55,7 +54,6 @@ const EvidenceVaRecords = ({
   goToPath,
   setFormData,
   testingIndex,
-  testingMethod,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
@@ -172,7 +170,8 @@ const EvidenceVaRecords = ({
       // we're switching pages, don't set a field to dirty otherwise the next
       // page may set this and focus on an error without blurring a field
       if (!isBusy) {
-        const fieldName = event.target.getAttribute('name');
+        // event.detail from testing
+        const fieldName = event.target?.getAttribute('name') || event.detail;
         updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
       }
     },
@@ -293,23 +292,6 @@ const EvidenceVaRecords = ({
     ((currentState.submitted || currentState.dirty[name]) && errors[name]) ||
     null;
 
-  // for testing only; testing-library can't close modal by clicking shadow dom
-  // so this adds a clickable button for testing, adding a color + attr name
-  // will allow simulating a field name, e.g. "onBlur:from" blurs the from date
-  const [testMethod, testName = 'test'] = (testingMethod || '').split(':');
-  const testMethodButton =
-    testingMethod && !environment.isProduction() ? (
-      <button
-        id="test-method"
-        className="sr-only"
-        type="button"
-        name={testName}
-        onClick={handlers[testMethod]}
-      >
-        test
-      </button>
-    ) : null;
-
   return (
     <form onSubmit={handlers.onGoForward}>
       <fieldset>
@@ -403,7 +385,6 @@ const EvidenceVaRecords = ({
 
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}
-          {testMethodButton}
           <div className="form-progress-buttons schemaform-buttons vads-u-margin-y--2">
             <VaButtonPair
               continue
@@ -428,7 +409,6 @@ EvidenceVaRecords.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
-  testingMethod: PropTypes.string,
 };
 
 export default EvidenceVaRecords;
