@@ -154,7 +154,7 @@ const SearchForm = props => {
 
         {folders && (
           <div>
-            <FilterBox folders={folders} />
+            <FilterBox folders={folders} keyword={keyword} />
           </div>
         )}
       </div>

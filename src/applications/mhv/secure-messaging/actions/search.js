@@ -47,13 +47,15 @@ export const runBasicSearch = (folderId, keyword) => async dispatch => {
   }
 };
 
-export const runAdvancedSearch = (folder, query) => async dispatch => {
+export const runAdvancedSearch = (folder, query, keyword) => async dispatch => {
   dispatch({ type: Actions.Search.START });
   try {
     const response = await searchFolderAdvanced(folder.id, query);
+    const matches = findByKeyword(keyword, response.data);
+
     dispatch({
       type: Actions.Search.RUN_ADVANCED,
-      response: { folder, query, data: response.data },
+      response: { folder, query, data: matches },
     });
   } catch (error) {
     const err = error.errors[0];

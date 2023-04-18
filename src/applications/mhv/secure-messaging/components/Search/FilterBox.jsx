@@ -17,7 +17,7 @@ import { runAdvancedSearch } from '../../actions/search';
 import { dateFormat } from '../../util/helpers';
 
 const FilterBox = props => {
-  const { folders } = props;
+  const { folders, keyword } = props;
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -95,11 +95,15 @@ const FilterBox = props => {
 
     const folderData = folders.find(item => +item.id === +folderId);
     dispatch(
-      runAdvancedSearch(folderData, {
-        category,
-        fromDate: relativeFromDate || fromDateTime,
-        toDate: relativeToDate || toDateTime,
-      }),
+      runAdvancedSearch(
+        folderData,
+        {
+          category,
+          fromDate: relativeFromDate || fromDateTime,
+          toDate: relativeToDate || toDateTime,
+        },
+        keyword,
+      ),
     );
     history.push('/search/results');
   };
