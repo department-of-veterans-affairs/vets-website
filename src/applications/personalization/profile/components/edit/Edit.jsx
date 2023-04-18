@@ -72,7 +72,10 @@ export const Edit = ({ children }) => {
     <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseFieldEditingPage}>
       <Toggler.Enabled>
         {fieldInfo && !hasVAPServiceError ? (
-          <div className="vads-u-display--block medium-screen:vads-u-display--block">
+          <div
+            className="vads-u-display--block medium-screen:vads-u-display--block"
+            id="profile-edit-field-page"
+          >
             <h1 className="vads-u-font-size--h2 vads-u-margin-top--2p5">
               {`Add or update your ${fieldInfo.title.toLowerCase()}`}
             </h1>
