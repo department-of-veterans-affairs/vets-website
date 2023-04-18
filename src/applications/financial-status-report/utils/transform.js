@@ -314,10 +314,14 @@ export const transform = (formConfig, form) => {
       },
     })),
     totalOfInstallmentContractsAndOtherDebts: {
-      originalAmount: sumValues(installmentContracts, 'originalAmount'),
+      originalAmount: enhancedFSRActive
+        ? sumValues(installmentContracts, 'originalLoanAmount')
+        : sumValues(installmentContracts, 'originalAmount'),
       unpaidBalance: sumValues(installmentContracts, 'unpaidBalance'),
       amountDueMonthly: sumValues(installmentContracts, 'amountDueMonthly'),
-      amountPastDue: sumValues(installmentContracts, 'amountPastDue'),
+      amountPastDue: enhancedFSRActive
+        ? sumValues(installmentContracts, 'amountOverdue')
+        : sumValues(installmentContracts, 'amountPastDue'),
     },
     additionalData: {
       bankruptcy: {
