@@ -68,6 +68,7 @@ const formConfig = {
     // ** Complex Form
     applicantInformationChapter: {
       title: 'Chapter Title: Applicant Information (Basic Form elements)',
+      hideFormNavProgress: true,
       pages: {
         applicantInformation: {
           path: 'applicant-information',
@@ -91,6 +92,7 @@ const formConfig = {
     },
     additionalInformationChapter: {
       title: 'Chapter Title: Additional Information (manual method)',
+      hideFormNavProgress: true,
       pages: {
         contactInformation1: {
           path: 'contact-information',

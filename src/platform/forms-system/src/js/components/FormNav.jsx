@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import uniq from 'lodash/uniq';
 
 import {
+  getChaptersLengthDisplay,
   createFormPageList,
   createPageList,
   getActiveExpandedPages,
+  getCurrentChapterDisplay,
 } from '../helpers';
 
 import {
@@ -76,7 +78,9 @@ export default function FormNav(props) {
   const showHeader = Math.abs(current - index) === 1;
   const hideFormNavProgress =
     formConfig?.chapters[page?.chapterKey]?.hideFormNavProgress;
-  const stepText = `Step ${current} of ${chapters.length}: ${chapterName}`;
+  const chaptersLengthDisplay = getChaptersLengthDisplay(formConfig);
+  const currentChapterDisplay = getCurrentChapterDisplay(formConfig, current);
+  const stepText = `Step ${currentChapterDisplay} of ${chaptersLengthDisplay}: ${chapterName}`;
 
   // The goal with this is to quickly "remove" the header from the DOM, and
   // immediately re-render the component with the header included.
