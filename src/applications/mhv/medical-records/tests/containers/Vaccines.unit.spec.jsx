@@ -26,13 +26,9 @@ describe('Vaccines list container', () => {
     expect(screen.getByText('Vaccines', { exact: true })).to.exist;
   });
 
-  it('displays CONFIDENTIAL header for print view', () => {
+  it('displays Date of birth for the print view', () => {
     const screen = setup();
-    const printHeading = screen.getByRole('heading', {
-      name: 'CONFIDENTIAL',
-      level: 4,
-    });
-    expect(printHeading).to.exist;
+    expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
   });
 
   it('displays a print button', () => {
