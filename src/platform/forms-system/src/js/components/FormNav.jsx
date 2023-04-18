@@ -75,7 +75,7 @@ export default function FormNav(props) {
 
   const showHeader = Math.abs(current - index) === 1;
   const hideFormNavProgress =
-    formConfig.chapters[page.chapterKey]?.hideFormNavProgress;
+    formConfig?.chapters[page?.chapterKey]?.hideFormNavProgress;
   const stepText = `Step ${current} of ${chapters.length}: ${chapterName}`;
 
   // The goal with this is to quickly "remove" the header from the DOM, and
