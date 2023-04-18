@@ -13,7 +13,6 @@ const SearchForm = props => {
   const history = useHistory();
   const folders = useSelector(state => state.sm.folders.folderList);
   const [searchTerm, setSearchTerm] = useState('');
-
   const [searchTermError, setSearchTermError] = useState(null);
 
   useEffect(
