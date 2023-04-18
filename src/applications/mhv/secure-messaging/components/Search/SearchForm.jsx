@@ -13,7 +13,6 @@ const SearchForm = props => {
   const history = useHistory();
   const folders = useSelector(state => state.sm.folders.folderList);
   const [searchTerm, setSearchTerm] = useState('');
-  const [advancedOpen] = useState(false);
 
   const [searchTermError, setSearchTermError] = useState(null);
 
@@ -111,37 +110,35 @@ const SearchForm = props => {
       <div className="search-form">
         <h3>{filterLabelHeading}</h3>
         <div className="keyword-help-text">{filterLabelBody}</div>
-        {!advancedOpen && (
-          <>
-            {searchTermError && (
-              <div className="error-message" role="alert">
-                <span className="sr-only">Error</span>
-                {searchTermError}
-              </div>
-            )}
-            <div className="filter-input-box-container">
-              <div className="filter-text-input">
-                <va-text-input
-                  className="filter-input-box"
-                  message-aria-describedby="filter text input"
-                  value={searchTerm}
-                  onInput={e => setSearchTerm(e.target.value)}
-                  aria-label={filterLabelHeading + filterLabelBody}
-                  data-testid="keyword-search-input"
-                />
-              </div>
-              <div className="basic-filter-button">
-                <button
-                  type="button"
-                  className="usa-button-primary filter-button"
-                  onClick={handleSearch}
-                >
-                  Filter
-                </button>
-              </div>
+        <>
+          {searchTermError && (
+            <div className="error-message" role="alert">
+              <span className="sr-only">Error</span>
+              {searchTermError}
             </div>
-          </>
-        )}
+          )}
+          <div className="filter-input-box-container">
+            <div className="filter-text-input">
+              <va-text-input
+                className="filter-input-box"
+                message-aria-describedby="filter text input"
+                value={searchTerm}
+                onInput={e => setSearchTerm(e.target.value)}
+                aria-label={filterLabelHeading + filterLabelBody}
+                data-testid="keyword-search-input"
+              />
+            </div>
+            <div className="basic-filter-button">
+              <button
+                type="button"
+                className="usa-button-primary filter-button"
+                onClick={handleSearch}
+              >
+                Filter
+              </button>
+            </div>
+          </div>
+        </>
         <va-additional-info
           trigger="What's a message ID?"
           class="message-id-info"
