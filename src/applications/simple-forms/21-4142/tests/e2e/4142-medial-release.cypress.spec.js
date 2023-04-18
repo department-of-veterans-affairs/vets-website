@@ -5,6 +5,7 @@ import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-tog
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
+import { fillProviderFacility } from './helpers';
 
 const testConfig = createTestConfig(
   {
@@ -70,15 +71,11 @@ const testConfig = createTestConfig(
               facilityIndex < data.providerFacility.length;
               facilityIndex++
             ) {
-              cy.fillPage();
-              // fillPage doesn't catch state select, so select state manually
-              const selectId = `select#root_providerFacility_${facilityIndex}_providerFacilityAddress_state`;
-              cy.get(selectId).select(
-                data.providerFacility[facilityIndex].providerFacilityAddress
-                  .state,
-              );
+              fillProviderFacility(data, facilityIndex);
               if (facilityIndex < data.providerFacility.length - 1) {
-                cy.findByText(/add another/i, { selector: 'button' }).click();
+                cy.findByText(/add another/i, {
+                  selector: 'button',
+                }).click();
               }
             }
             cy.axeCheck();
