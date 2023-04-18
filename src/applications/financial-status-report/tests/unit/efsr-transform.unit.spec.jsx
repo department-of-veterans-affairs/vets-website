@@ -922,7 +922,7 @@ describe('efsr-fsr transform information', () => {
         ).haveOwnProperty('creditorName');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0],
-        ).haveOwnProperty('originalAmount');
+        ).haveOwnProperty('originalLoanAmount');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0],
         ).haveOwnProperty('unpaidBalance');
@@ -934,7 +934,7 @@ describe('efsr-fsr transform information', () => {
         ).haveOwnProperty('dateStarted');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0],
-        ).haveOwnProperty('amountPastDue');
+        ).haveOwnProperty('amountOverdue');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0],
         ).haveOwnProperty('creditorAddress');
@@ -951,7 +951,7 @@ describe('efsr-fsr transform information', () => {
           submissionObj.installmentContractsAndOtherDebts[0].creditorName,
         ).to.equal('Creditor One');
         expect(
-          submissionObj.installmentContractsAndOtherDebts[0].originalAmount,
+          submissionObj.installmentContractsAndOtherDebts[0].originalLoanAmount,
         ).to.equal('50000.54');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0].unpaidBalance,
@@ -963,7 +963,7 @@ describe('efsr-fsr transform information', () => {
           submissionObj.installmentContractsAndOtherDebts[0].dateStarted,
         ).to.equal('03/2017');
         expect(
-          submissionObj.installmentContractsAndOtherDebts[0].amountPastDue,
+          submissionObj.installmentContractsAndOtherDebts[0].amountOverdue,
         ).to.equal('125.43');
       });
       describe('efsr-creditorAddress', () => {
