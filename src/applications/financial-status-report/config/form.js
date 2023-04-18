@@ -32,8 +32,6 @@ import UtilityBillSummary from '../components/utilityBills/UtilityBillSummary';
 import UtilityBillSummaryReview from '../components/utilityBills/UtilityBillSummaryReview';
 import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
-import InstallmentContract from '../components/InstallmentContract';
-import InstallmentContractSummary from '../pages/expenses/repayments/InstallmentContractSummary';
 import EmploymentQuestion from '../components/EmploymentQuestion';
 import InstallmentContract from '../components/InstallmentContract';
 import InstallmentContractSummary from '../pages/expenses/repayments/InstallmentContractSummary';
