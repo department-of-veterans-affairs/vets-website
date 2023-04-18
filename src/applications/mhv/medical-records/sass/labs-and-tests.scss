@@ -1,0 +1,31 @@
+.test-details-container {
+    border-bottom: 1px solid $color-gray-light;
+    border-top: 1px solid $color-gray-light;
+
+    margin: 24 0 0 0;
+    padding: 0 0 32 0;
+
+    h2 {
+        margin: 32 0 0 0;
+    }
+
+    h3 {
+        margin: 16 0 0 0;
+    }
+
+    p {
+        margin: 0;
+    }
+}
+
+.test-results-container {
+    margin: 32 0 40 0;
+
+    h2 {
+        margin: 32 0 0 0;
+    }
+
+    p {
+        white-space: pre-wrap;
+    }
+}
