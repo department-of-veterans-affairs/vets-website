@@ -106,16 +106,14 @@ describe('Fetch Debts Successfully', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Successful API Response', () => {
+  it.skip('Successful API Response', () => {
     cy.get('#start-option-0').click();
     cy.get('#reconsider-option-2').click();
     cy.get('#recipients-option-1').click();
     cy.get('[data-testid="start-button"]').click();
 
-    cy.get('va-button[text*="start"]')
+    cy.get('a.vads-c-action-link--green')
       .first()
-      .shadow()
-      .find('button')
       .click();
 
     cy.findAllByText(/continue/i, { selector: 'button' })

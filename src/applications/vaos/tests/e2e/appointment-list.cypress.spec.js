@@ -8,7 +8,6 @@ import {
   mockAppointmentRequestsApi,
   vaosSetup,
   mockFacilitiesApi,
-  mockAppointmentRequestMessagesApi,
   mockCancelReasonsApi,
 } from './vaos-cypress-helpers';
 
@@ -196,7 +195,7 @@ describe('VAOS appointment list', () => {
       cy.findByText(/Cancel appointment/i).click();
       cy.findByText(/Yes, cancel this appointment/i).click();
       cy.findByTestId('cancel-appointment-SuccessModal').should('exist');
-      cy.findByText(/Continue/i).click();
+      cy.contains('button', /Continue/i).click();
       cy.get('#cancelAppt').should('not.exist');
       cy.get('.usa-alert-success').should('not.exist');
       cy.get('.usa-alert-error').should('exist');
@@ -255,9 +254,6 @@ describe('VAOS appointment list', () => {
       mockAppointmentsApi({ apiVersion: 0 });
       mockFacilitiesApi({ apiVersion: 1 });
       mockAppointmentRequestsApi({ id: '8a4886886e4c8e22016e6613216d001g' });
-      mockAppointmentRequestMessagesApi({
-        id: '8a4886886e4c8e22016e6613216d001g',
-      });
       mockFeatureToggles();
       mockLoginApi();
 
@@ -358,12 +354,12 @@ describe('VAOS appointment list', () => {
     it('should select an updated date range', () => {
       cy.get('#date-dropdown')
         .shadow()
-        .find('#select')
+        .findByLabelText(/Select a date range/i)
         .select('1')
         .should('have.value', '1');
       cy.get('button')
         .contains(/Update/i)
-        .click();
+        .click({ force: true });
       cy.get('h3').should('exist');
 
       cy.axeCheckBestPractice();

@@ -139,6 +139,7 @@
   },
   "questions": {
     "hasBeenAdjudicatedBankrupt": true,
+    "hasCreditCardBills":false,
     "hasOtherExpenses": true,
     "hasRepayments": true,
     "hasUtilities": true,
@@ -153,7 +154,6 @@
     "isMarried": true,
     "hasAdditionalIncome": true,
     "hasSocialSecurity": true,
-    "hasCreditCardBills":false, 
     "vetIsEmployed": true
   },
   "installmentContracts": [
@@ -378,6 +378,7 @@
       "id": 0,
       "debtType": "DEBT",
       "resolutionOption": "waiver",
+      "resolutionComment": "",
       "resolutionWaiverCheck": true
     },
     {
@@ -1238,6 +1239,7 @@
       },
       "debtType": "COPAY",
       "resolutionOption": "waiver",
+      "resolutionComment": "",
       "resolutionWaiverCheck": true
     }
   ],

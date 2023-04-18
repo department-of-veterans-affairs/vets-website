@@ -43,13 +43,13 @@ describe('Updating Notification Settings', () => {
       cy.login(mockPatient);
       cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
 
-      // both radio buttons will start off unchecked because of the mocked
-      // response from mockCommunicationPreferences
+      //
       cy.findByRole('radio', {
-        name: /^do not notify me of.*hearing reminder.*by email/i,
-      }).should('not.be.checked');
+        name: /^notify me of.*hearing reminder.*by text/i,
+      }).should('be.checked');
+
       cy.findByRole('radio', {
-        name: /^notify me of.*hearing reminder.*by email/i,
+        name: /^do not notify me of.*hearing reminder.*by text/i,
       })
         .should('not.be.checked')
         .click()
@@ -62,10 +62,11 @@ describe('Updating Notification Settings', () => {
       cy.findByText(/^Saving/).should('not.exist');
       cy.findByText(/we’re sorry.*try again/i).should('exist');
       cy.findByRole('radio', {
-        name: /^notify me of.*hearing reminder.*by email/i,
+        name: /^do not notify me of.*hearing reminder.*by text/i,
       })
         .should('not.be.checked')
         .should('not.be.disabled');
+      cy.injectAxeThenAxeCheck();
     });
 
     it('should handle 500 error when opting out of getting notifications - C9519', () => {
@@ -101,6 +102,7 @@ describe('Updating Notification Settings', () => {
       })
         .should('not.be.checked')
         .should('not.be.disabled');
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

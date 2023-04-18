@@ -23,11 +23,9 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-button[text*="order"]')
+          cy.get('.vads-c-action-link--green')
             .first()
-            .shadow()
-            .find('button')
-            .click({ force: true });
+            .click();
         });
       },
       address: () => {

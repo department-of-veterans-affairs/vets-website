@@ -51,10 +51,8 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
-          cy.get('va-button[text="Add or remove a dependent"]')
+          cy.get('a.vads-c-action-link--green')
             .first()
-            .shadow()
-            .find('button')
             .click();
         });
       },

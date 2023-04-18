@@ -8,7 +8,6 @@ import SubwayMap from '../components/SubwayMap';
 const LoggedInContent = ({ route }) => (
   <>
     <SaveInProgressIntro
-      testActionLink
       formId={route.formConfig.formId}
       prefillEnabled={route.formConfig.prefillEnabled}
       messages={route.formConfig.savedFormMessages}
@@ -25,7 +24,6 @@ const LoggedInContent = ({ route }) => (
     <div className="vads-u-margin-bottom--5">
       <SaveInProgressIntro
         buttonOnly
-        testActionLink
         formId={route.formConfig.formId}
         prefillEnabled={route.formConfig.prefillEnabled}
         messages={route.formConfig.savedFormMessages}

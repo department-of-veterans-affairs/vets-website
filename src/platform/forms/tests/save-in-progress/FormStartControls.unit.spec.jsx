@@ -49,7 +49,9 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    expect(tree.baseElement.querySelectorAll('va-button').length).to.equal(1);
+    expect(
+      tree.baseElement.querySelectorAll('a.vads-c-action-link--green').length,
+    ).to.equal(1);
   });
   it('should render 1 button when logged in with no saved form', () => {
     const routerSpy = {
@@ -67,7 +69,9 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    expect(tree.baseElement.querySelectorAll('va-button').length).to.equal(1);
+    expect(
+      tree.baseElement.querySelectorAll('a.vads-c-action-link--green').length,
+    ).to.equal(1);
   });
   it('should render 1 va-button and 1 va-button-pair when logged in with an expired form', () => {
     const routerSpy = {
@@ -192,7 +196,7 @@ describe('Schemaform <FormStartControls>', () => {
       />,
     );
 
-    tree.baseElement.querySelector('va-button').click();
+    tree.baseElement.querySelector('a.vads-c-action-link--green').click();
     expect(fetchSpy.firstCall.args[2]).to.be.true;
   });
 
@@ -278,7 +282,7 @@ describe('Schemaform <FormStartControls>', () => {
       />,
     );
 
-    tree.baseElement.querySelector('va-button').click();
+    tree.baseElement.querySelector('a.vads-c-action-link--green').click();
 
     expect(global.window.dataLayer).to.eql([]);
   });
@@ -300,7 +304,7 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    tree.baseElement.querySelector('va-button').click();
+    tree.baseElement.querySelector('a.vads-c-action-link--green').click();
 
     expect(global.window.dataLayer).to.eql([
       {
@@ -327,7 +331,7 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    tree.baseElement.querySelector('va-button').click();
+    tree.baseElement.querySelector('a.vads-c-action-link--green').click();
 
     expect(global.window.dataLayer).to.eql([
       {
@@ -343,7 +347,6 @@ describe('Schemaform <FormStartControls>', () => {
     const fetchSpy = sinon.spy();
     const tree = render(
       <FormStartControls
-        testActionLink
         formId="1010ez"
         migrations={[]}
         startPage={startPage}
@@ -438,7 +441,7 @@ describe('Schemaform <FormStartControls>', () => {
       <FormStartControls
         formId="1010ez"
         migrations={[]}
-        formSaved={false}
+        formSaved
         startPage={startPage}
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
@@ -447,9 +450,8 @@ describe('Schemaform <FormStartControls>', () => {
         ariaDescribedby="test-id"
       />,
     );
-    const button = tree.baseElement.querySelectorAll('va-button');
-    expect(button.length).to.equal(1);
-    expect(button[0].getAttribute('label')).to.eq('test aria-label');
+    const button = tree.baseElement.querySelector('va-button');
+    expect(button.getAttribute('label')).to.eq('test aria-label');
   });
   it('should include aria-label on all buttons when logged in with a saved form', () => {
     const routerSpy = {
@@ -492,6 +494,8 @@ describe('Schemaform <FormStartControls>', () => {
       />,
     );
 
-    expect(tree.baseElement.querySelectorAll('va-button').length).to.equal(1);
+    expect(
+      tree.baseElement.querySelectorAll('a.vads-c-action-link--green').length,
+    ).to.equal(1);
   });
 });
