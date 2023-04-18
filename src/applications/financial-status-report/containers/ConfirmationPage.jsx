@@ -138,14 +138,13 @@ const ConfirmationPage = ({ form, download }) => {
             We’ll send you an email confirming your request to{' '}
             <strong>{data.personalData.emailAddress}.</strong>
           </p>
+          <p>
+            We’ll send you a letter with our decision and any next steps. If you
+            experience changes that may affect our decision (like a loss or a
+            new job), you’ll need to submit a new request.
+          </p>
         </va-alert>
       )}
-
-      <p>
-        We’ll send you a letter with our decision and any next steps. If you
-        experience changes that may affect our decision (like a job loss or a
-        new job), you’ll need to submit a new request.
-      </p>
 
       {response && (
         <RequestDetailsCard
