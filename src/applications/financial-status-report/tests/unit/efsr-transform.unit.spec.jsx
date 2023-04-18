@@ -131,34 +131,33 @@ describe('efsr-fsr transform helper functions', () => {
   describe('efsr-getMonthlyExpenses helper', () => {
     it('should return a number which is the sum total monthly expenses', () => {
       const expenses = {
+        'view:enhancedFinancialStatusReport': true,
         expenses: {
           expenseRecords: [
             {
               name: 'Rent',
               amount: '100',
             },
-            {
-              name: 'Food',
-              amount: '100',
-            },
           ],
-          rentOrMortgage: '100',
-          food: '100',
         },
         otherExpenses: [
           {
+            name: 'Food',
             amount: '100',
           },
           {
+            name: 'Veteran added',
             amount: '100',
           },
         ],
         utilityRecords: [
           {
-            monthlyUtilityAmount: '100',
+            name: 'Electricity',
+            amount: '100',
           },
           {
-            monthlyUtilityAmount: '100',
+            name: 'Water',
+            amount: '100',
           },
         ],
         installmentContracts: [
@@ -170,7 +169,7 @@ describe('efsr-fsr transform helper functions', () => {
           },
         ],
       };
-      expect(getMonthlyExpenses(expenses)).to.equal(1000);
+      expect(getMonthlyExpenses(expenses)).to.equal(700);
     });
   });
 
@@ -788,12 +787,12 @@ describe('efsr-fsr transform information', () => {
     it('has valid data', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj.expenses.rentOrMortgage).to.equal('1200.53');
-      expect(submissionObj.expenses.food).to.equal('4000.38');
+      expect(submissionObj.expenses.food).to.equal('1000.54');
       expect(submissionObj.expenses.utilities).to.equal('701.35');
       expect(
         submissionObj.expenses.expensesInstallmentContractsAndOtherDebts,
       ).to.equal('2000.64');
-      expect(submissionObj.expenses.totalMonthlyExpenses).to.equal('13404.35');
+      expect(submissionObj.expenses.totalMonthlyExpenses).to.equal('10224.51');
     });
     describe('efsr-other living expenses', () => {
       it('has valid structure', () => {
@@ -808,10 +807,10 @@ describe('efsr-fsr transform information', () => {
       it('has valid data', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj.expenses.otherLivingExpenses.name).to.equal(
-          'Pool service, Lawn service',
+          'Clothing, Veteran added',
         );
         expect(submissionObj.expenses.otherLivingExpenses.amount).to.equal(
-          '300.54',
+          '110.00',
         );
       });
     });
@@ -1077,7 +1076,7 @@ describe('efsr-fsr transform information', () => {
     it('has valid data', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj.additionalData.additionalComments).to.equal(
-        'Supporting personal statement...\nIndividual expense amount: Pool service ($200.00), Lawn service ($100.54)',
+        'Supporting personal statement...\nIndividual expense amount: Clothing ($10.00), Veteran added ($100.00)',
       );
     });
     describe('efsr-bankruptcy', () => {

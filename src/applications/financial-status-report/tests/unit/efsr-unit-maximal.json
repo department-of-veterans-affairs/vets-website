@@ -4,12 +4,16 @@
     "view:enhancedFinancialStatusReport": true,
     "otherExpenses": [
       {
-        "name": "Pool service",
-        "amount": "200"
+        "name": "Clothing",
+        "amount": "10"
       },
       {
-        "name": "Lawn service",
-        "amount": "100.54"
+        "name": "Food",
+        "amount": "1000.54"
+      },
+      {
+        "name": "Veteran added",
+        "amount": "100"
       }
     ],
     "view:components": {
@@ -25,14 +29,8 @@
         {
           "name": "Rent",
           "amount": "1200.53"
-        },
-        {
-          "name": "Food",
-          "amount": "4000.38"
         }
-      ],
-      "rentOrMortgage": "1200.53",
-      "food": "4000.38"
+      ]
     },
     "assets": {
       "realEstateValue": "800000.81",

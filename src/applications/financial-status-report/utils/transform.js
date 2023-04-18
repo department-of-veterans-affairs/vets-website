@@ -131,12 +131,21 @@ export const transform = (formConfig, form) => {
   const spOtherIncome = spAddlInc + spBenefits + spSocialSecAmt;
   const spNetIncome = spGrossSalary - spTotDeductions;
 
+  // other living expenses - enhanced finters
+  const filteredExpenses = otherExpenses?.filter(
+    expense => !expense.name.includes('Food'),
+  );
+  const foodExpenses = otherExpenses?.find(expense =>
+    expense.name.includes('Food'),
+  ) || { amount: 0 };
+
   // generate name strings
   const vetOtherName = nameStr(vetSocSecAmt, vetComp, vetEdu, addlIncRecords);
   const spOtherName = nameStr(spSocialSecAmt, spComp, spEdu, spAddlIncome);
   const vetOtherDeductionsName = otherDeductionsName(vetDeductions, allFilters);
   const spOtherDeductionsName = otherDeductionsName(spDeductions, allFilters);
 
+  // get monthly totals
   const totMonthlyNetIncome = getMonthlyIncome(form.data);
   const totMonthlyExpenses = getMonthlyExpenses(form.data);
   const employmentHistory = getEmploymentHistory(form.data);
@@ -184,14 +193,6 @@ export const transform = (formConfig, form) => {
           .map(dep => dep.dependentAge)
       : [];
   const standardDependents = dependents?.map(dep => dep.dependentAge) ?? [];
-
-  // other living expenses - enhanced finters
-  const filteredExpenses = otherExpenses?.filter(
-    expense => !expense.name.includes('Food'),
-  );
-  const foodExpenses = otherExpenses?.find(expense =>
-    expense.name.includes('Food'),
-  ) || { amount: 0 };
 
   const submissionObj = {
     personalIdentification: {
@@ -270,7 +271,9 @@ export const transform = (formConfig, form) => {
       },
     ],
     expenses: {
-      rentOrMortgage: expenses.rentOrMortgage,
+      rentOrMortgage: enhancedFSRActive
+        ? sumValues(expenses?.expenseRecords, 'amount')
+        : expenses.rentOrMortgage,
       food: enhancedFSRActive ? foodExpenses?.amount : expenses.food,
       utilities: enhancedFSRActive
         ? sumValues(utilityRecords, 'amount')
@@ -344,7 +347,7 @@ export const transform = (formConfig, form) => {
       },
       additionalComments: mergeAdditionalComments(
         additionalData.additionalComments,
-        otherExpenses,
+        enhancedFSRActive ? filteredExpenses : otherExpenses,
       ),
     },
     applicantCertifications: {

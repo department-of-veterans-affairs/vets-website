@@ -267,12 +267,17 @@ export const getMonthlyExpenses = ({
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
   const expVals = Object.values(expenses).filter(Boolean);
-  const food = Number(get(expenses, 'food', 0));
-  const rentOrMortgage = Number(get(expenses, 'rentOrMortgage', 0));
   const creditCardBills = sumValues(
     expenses.creditCardBills,
     'minMonthlyPayment',
   );
+
+  // efsr note: food is included in otherExpenses
+  const food = enhancedFSRActive ? 0 : Number(get(expenses, 'food', 0));
+  // efsr note: Rent & Mortgage is included in otherExpenses
+  const rentOrMortgage = enhancedFSRActive
+    ? 0
+    : Number(get(expenses, 'rentOrMortgage', 0));
 
   let totalExp = 0;
 
