@@ -27,11 +27,36 @@ export const patientIdentificationFields = {
   patientVaFileNumber: 'patientVaFileNumber',
 };
 
+export const preparerIdentificationFields = {
+  parentObject: 'preparerIdentification',
+  relationshipToVeteran: 'relationshipToVeteran',
+  preparerFullName: 'preparerFullName',
+  preparerTitle: 'preparerTitle',
+  preparerOrganization: 'preparerOrganization',
+  courtAppointmentInfo: 'courtAppointmentInfo',
+  preparerHasSameAddressAsVeteran: 'view:preparerHasSameAddressAsVeteran',
+  preparerAddress: 'preparerAddress',
+};
+
 export const schemaFields = {
   [veteranFields.parentObject]: veteranFields,
   [providerFacilityFields.parentObject]: providerFacilityFields,
   [patientIdentificationFields.parentObject]: patientIdentificationFields,
+  [preparerIdentificationFields.parentObject]: preparerIdentificationFields,
   acknowledgeToReleaseInformation: 'acknowledgeToReleaseInformation',
   limitedConsent: 'limitedConsent',
   privacyAgreementAccepted: 'privacyAgreementAccepted',
 };
+
+export const veteranIsSelfText = 'I am the service member/Veteran';
+
+export const veteranDirectRelative = ['Spouse', 'Child'];
+
+export const relationshipToVeteranEnum = [
+  veteranIsSelfText,
+  ...veteranDirectRelative,
+  'Fiduciary',
+  'Veteran Service Officer',
+  'Alternate Signer',
+  'Third-party',
+];

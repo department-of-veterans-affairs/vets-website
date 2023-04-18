@@ -1,4 +1,4 @@
-import mockMessage from '../fixtures/message-response.json';
+import mockMessage from '../fixtures/message-clickableUrl-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import { dateFormat } from '../../../util/helpers';
 
@@ -12,6 +12,12 @@ class PatientMessageDetailsPage {
     mockPreviousMessageDetails = mockMessage,
   ) => {
     this.currentThread = mockThread;
+
+    cy.log(
+      `current thread Details 1--------${JSON.stringify(
+        this.currentThread.data.at(1),
+      )}`,
+    );
 
     this.currentThread.data.at(0).attributes.sentDate =
       mockParentMessageDetails.data.attributes.sentDate;
@@ -31,7 +37,11 @@ class PatientMessageDetailsPage {
       mockParentMessageDetails.data.attributes.senderName;
     this.currentThread.data.at(0).attributes.recipientName =
       mockParentMessageDetails.data.attributes.recipientName;
-
+    cy.log(
+      `current thread Details 2--------${JSON.stringify(
+        this.currentThread.data.at(1),
+      )}`,
+    );
     cy.log(
       `loading parent message details.${
         this.currentThread.data.at(0).attributes.messageId
@@ -59,8 +69,14 @@ class PatientMessageDetailsPage {
       previousMessageIndex,
     ).attributes.triageGroupName =
       mockPreviousMessageDetails.data.attributes.triageGroupName;
+
     cy.log(
-      `message thread  = ${JSON.stringify(
+      `current thread Details 3--------${JSON.stringify(
+        this.currentThread.data.at(1),
+      )}`,
+    );
+    cy.log(
+      `message thread details = ${JSON.stringify(
         mockParentMessageDetails.data.attributes.messageId,
       )}`,
     );
