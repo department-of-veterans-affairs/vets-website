@@ -99,8 +99,13 @@ const SearchForm = props => {
       </label>
     );
   };
-
-  const filterLabelHeading = `Filter messages in ${folder.name} `;
+  const handleFolderName = () => {
+    if (folder.name === 'Deleted') {
+      return 'Trash';
+    }
+    return folder.name;
+  };
+  const filterLabelHeading = `Filter messages in ${handleFolderName()} `;
   const filterLabelBody =
     'Enter information from one of these fields: to, from, message ID, or subject';
 
