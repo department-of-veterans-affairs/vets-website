@@ -29,7 +29,6 @@ const BenefitsForm = ({
     { optionValue: '0.7', optionLabel: '18 months: 70%' },
     { optionValue: '0.6', optionLabel: '6 months: 60%' },
     { optionValue: '0.5', optionLabel: '90 days: 50%' },
-    // { optionValue: '1.00', optionLabel: 'GYSGT Fry Scholarship: 100%' }, // notice not 1.0
     {
       optionValue: 'service discharge',
       optionLabel: 'Service-Connected Discharge: 100%',
