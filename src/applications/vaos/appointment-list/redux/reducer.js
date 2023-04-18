@@ -111,7 +111,6 @@ export default function appointmentsReducer(state = initialState, action) {
         endDate,
         backendServiceFailures,
       } = action;
-
       const past = appointments
         ?.filter(appt => {
           const apptDateTime = moment(appt.start);

@@ -47,14 +47,14 @@ describe('Vital details container', () => {
     expect(printButton).to.exist;
   });
 
-  it('displays the vital name as an h1', () => {
+  it('displays the vital name inside an h1 as a span', () => {
     const screen = setup();
 
     const vitalName = screen.getByText(
       initialState.mr.vitals.vitalDetails[0].name,
       {
         exact: true,
-        selector: 'h1',
+        selector: 'span',
       },
     );
     expect(vitalName).to.exist;
