@@ -2,8 +2,9 @@ import React, { useMemo } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
+import PropTypes from 'prop-types';
 import InitializeVAPServiceIDContainer from '~/platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
-import ProfileInformationFieldControllerBlahhh from '~/platform/user/profile/vap-svc/components/ProfileInformationFieldController';
+import ProfileInformationFieldController from '~/platform/user/profile/vap-svc/components/ProfileInformationFieldController';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import { PROFILE_PATHS } from '../../constants';
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
@@ -45,7 +46,7 @@ const FallbackContent = () => (
   </>
 );
 
-export const Edit = () => {
+export const Edit = ({ children }) => {
   const history = useHistory();
   const query = useQuery();
 
@@ -75,16 +76,18 @@ export const Edit = () => {
             <h1 className="vads-u-font-size--h2 vads-u-margin-top--2p5">
               {`Add or update your ${fieldInfo.title.toLowerCase()}`}
             </h1>
-            <InitializeVAPServiceIDContainer>
-              <ProfileInformationFieldControllerBlahhh
-                fieldName={fieldInfo.fieldName}
-                forceEditView
-                isDeleteDisabled
-                cancelCallback={handlers.cancel}
-                cancelButtonText="Cancel and go back to last page"
-                successCallback={handlers.success}
-              />
-            </InitializeVAPServiceIDContainer>
+            {children || (
+              <InitializeVAPServiceIDContainer>
+                <ProfileInformationFieldController
+                  fieldName={fieldInfo.fieldName}
+                  forceEditView
+                  isDeleteDisabled
+                  cancelCallback={handlers.cancel}
+                  cancelButtonText="Cancel and go back to last page"
+                  successCallback={handlers.success}
+                />
+              </InitializeVAPServiceIDContainer>
+            )}
           </div>
         ) : (
           <FallbackContent />
@@ -96,4 +99,8 @@ export const Edit = () => {
       </Toggler.Disabled>
     </Toggler>
   );
+};
+
+Edit.propTypes = {
+  children: PropTypes.node,
 };
