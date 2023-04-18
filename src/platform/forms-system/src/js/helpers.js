@@ -16,6 +16,8 @@ export const maxYear = moment()
 // For the DISPLAYED step-count on pages [in progress-bar and step-header], we need to subtract the number of progress-hidden chapters from the total number of chapters
 // Progress-hidden chapters are those that have a hideFormNavProgress prop set to true
 export const getChaptersLengthDisplay = formConfig => {
+  // Do NOT manipulate or re-assign formConfig param!
+  // It's used elsewhere [in functional logic]
   const { chapters } = formConfig;
 
   // some chapters have hideFormNavProgress true, so we need to substract them from the total length
@@ -35,6 +37,8 @@ export const getChaptersLengthDisplay = formConfig => {
 // For the DISPLAYED chapter NUMBER on pages [in step-header], we need to account for any progress-hidden chapters.
 // Progress-hidden chapters are those that have a hideFormNavProgress prop set to true.
 export const getCurrentChapterDisplay = (formConfig, currentChapterIndex) => {
+  // Do NOT manipulate or re-assign params passed in!
+  // formConfig & currentChapterIndex are likely used in elsewhere [in functional logic]
   const { chapters } = formConfig;
   let upstreamProgressHiddenChaptersLength = 0;
   Object.keys(chapters).forEach((chapter, index) => {

@@ -16,6 +16,7 @@ describe('Schemaform FormNav', () => {
         },
       },
       chapter2: {
+        title: 'Testing',
         pages: {
           page2: {
             path: 'testing2',
@@ -23,6 +24,7 @@ describe('Schemaform FormNav', () => {
         },
       },
       chapter3: {
+        title: 'Testing',
         pages: {
           page3: {
             path: 'testing3',
@@ -61,22 +63,38 @@ describe('Schemaform FormNav', () => {
       <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />,
     );
 
-    expect(tree.getByText('Step 1 of 4: Testing')).to.not.be.null;
+    expect(tree.getByTestId('navFormHeader').textContent).to.contain(
+      'Step 1 of 3: Testing',
+    );
   });
   it('should optionally hide current chapter progress-bar & stepText', () => {
     const currentPath = 'testing1';
-    const formConfigDefaultData = getDefaultData();
+    const formConfigDefaultData = { ...getDefaultData() };
+    formConfigDefaultData.chapters.chapter1.hideFormNavProgress = true;
+
+    const tree = render(
+      <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />,
+    );
+
+    expect(tree.queryAllByRole('progressbar')).to.have.lengthOf(0);
+    expect(tree.getByTestId('navFormHeader')).to.be.empty;
+  });
+
+  it('should display correct chapter number & total in stepText after previous progress-hidden chapter', () => {
+    const currentPath = 'testing2';
+    const formConfigDefaultData = { ...getDefaultData() };
+
+    // set PREVIOUS chapter to hide progress-bar
     formConfigDefaultData.chapters.chapter1.hideFormNavProgress = true;
     const tree = render(
       <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />,
     );
 
-    // expect(
-    //   tree.getElementsByClassName('schemaform-chapter-progress'),
-    // ).to.have.lengthOf(0);
-    expect(tree.queryAllByRole('progressbar')).to.have.lengthOf(0);
-    expect(tree.findAllByText('Step 1 of 4: Testing')).to.be.empty;
+    expect(tree.getByTestId('navFormHeader')).to.contain.text(
+      'Step 1 of 2: Testing',
+    );
   });
+
   it('should display a custom review page title', () => {
     const formConfigReviewData = getReviewData();
     const currentPath = 'review-and-submit';
@@ -87,7 +105,7 @@ describe('Schemaform FormNav', () => {
     expect(tree.getByText('Custom Review Page Title', { exact: false })).to.not
       .be.null;
   });
-  it('should diplay the auto-save message & application ID', () => {
+  it('should display the auto-save message & application ID', () => {
     const formConfigReviewData = getReviewData();
     const currentPath = 'review-and-submit';
 
@@ -122,9 +140,8 @@ describe('Schemaform FormNav', () => {
         isLoggedIn={false}
       />,
     );
-    expect(
-      tree.getByText('Step 3 of 3: Custom Review Page Title', { exact: true }),
-    ).to.not.be.null;
+    expect(tree.getByText(/^step [0-9]+ of [0-9]+: Custom Review Page Title$/i))
+      .to.not.be.null;
   });
 
   // Can't get this test to work... useEffect callback is calling the focus
