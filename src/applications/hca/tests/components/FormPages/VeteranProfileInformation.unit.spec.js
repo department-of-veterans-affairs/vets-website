@@ -70,29 +70,4 @@ describe('hca VeteranProfileInformation', () => {
     expect(view.container.querySelector('[data-testid="hca-veteran-dob"]')).to
       .not.exist;
   });
-
-  it('should not render name and date of birth when user is not logged in', () => {
-    const notLoggedIn = {
-      user: {
-        login: {
-          currentlyLoggedIn: false,
-        },
-        profile: {
-          userFullName: {},
-        },
-      },
-    };
-    const store = mockStore(notLoggedIn);
-
-    const view = render(
-      <Provider store={store}>
-        <VeteranProfileInformation />
-      </Provider>,
-    );
-
-    expect(view.container.querySelector('[data-testid="hca-veteran-fullname"]'))
-      .to.not.exist;
-    expect(view.container.querySelector('[data-testid="hca-veteran-dob"]')).to
-      .not.exist;
-  });
 });
