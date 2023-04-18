@@ -23,8 +23,10 @@ const DependentSummary = props => {
     contentAfterButtons,
   } = props;
 
-  const { [DEPENDENT_VIEW_FIELDS.report]: reportDependents = null } = data;
-  const dependents = JSON.parse(data[DEPENDENT_VIEW_FIELDS.list]);
+  const {
+    dependents = [],
+    [DEPENDENT_VIEW_FIELDS.report]: reportDependents = null,
+  } = data;
   const pageTitle = dependents.length ? 'Your Dependents' : 'Dependents';
   const mode = onReviewPage ? 'update' : 'edit';
 
@@ -55,7 +57,7 @@ const DependentSummary = props => {
     onDelete: list => {
       setFormData({
         ...data,
-        [DEPENDENT_VIEW_FIELDS.list]: JSON.stringify(list),
+        dependents: list,
       });
     },
     onGoForward: () => {

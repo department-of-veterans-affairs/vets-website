@@ -56,10 +56,10 @@ const DependentInformation = props => {
     contentAfterButtons,
   } = props;
 
-  const dependents = JSON.parse(data[DEPENDENT_VIEW_FIELDS.list]);
+  const { dependents = [] } = data;
   const search = new URLSearchParams(window.location.search);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const listRef = useMemo(() => data[DEPENDENT_VIEW_FIELDS.list], []);
+  const listRef = useMemo(() => dependents, []);
 
   // determine where this dependent data will live in the array
   const searchIndex = () => {
@@ -92,7 +92,7 @@ const DependentInformation = props => {
     if (typeof dependents[searchIndex()] !== 'undefined') {
       resultToReturn.data = dependents[searchIndex()];
 
-      if (action !== 'add') {
+      if (action().mode !== 'add') {
         window.sessionStorage.setItem(SESSION_ITEM_NAME, searchIndex());
       }
     }
@@ -196,16 +196,16 @@ const DependentInformation = props => {
       const dataToSet =
         localData === null
           ? {
-              [DEPENDENT_VIEW_FIELDS.list]: listRef,
+              dependents: listRef,
               [DEPENDENT_VIEW_FIELDS.report]: null,
               [DEPENDENT_VIEW_FIELDS.skip]: true,
             }
           : {
-              [DEPENDENT_VIEW_FIELDS.list]: JSON.stringify([
+              dependents: [
                 ...slices.beforeIndex,
                 localData,
                 ...slices.afterIndex,
-              ]),
+              ],
             };
       setFormData({ ...data, ...dataToSet });
     },

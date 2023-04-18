@@ -2,14 +2,13 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import { DEPENDENT_VIEW_FIELDS } from '../../../utils/constants';
 import DependentSummary from '../../../components/FormPages/DependentSummary';
 
 describe('hca DependentSummary', () => {
   describe('when no dependents have been declared', () => {
     const props = {
       data: {
-        [DEPENDENT_VIEW_FIELDS.list]: '[]',
+        dependents: [],
       },
       onReviewPage: false,
     };
@@ -34,8 +33,12 @@ describe('hca DependentSummary', () => {
   describe('when dependents have been declared', () => {
     const props = {
       data: {
-        [DEPENDENT_VIEW_FIELDS.list]:
-          '[{ "fullName": { "first": "John", "last": "Smith" }, "dependentRelation": "son" }]',
+        dependents: [
+          {
+            fullName: { first: 'John', last: 'Smith' },
+            dependentRelation: 'son',
+          },
+        ],
       },
       onReviewPage: false,
     };
@@ -60,8 +63,12 @@ describe('hca DependentSummary', () => {
   describe('when not rendered on the review page', () => {
     const props = {
       data: {
-        [DEPENDENT_VIEW_FIELDS.list]:
-          '[{ "fullName": { "first": "John", "last": "Smith" }, "dependentRelation": "son" }]',
+        dependents: [
+          {
+            fullName: { first: 'John', last: 'Smith' },
+            dependentRelation: 'son',
+          },
+        ],
       },
       onReviewPage: false,
     };
@@ -90,8 +97,12 @@ describe('hca DependentSummary', () => {
   describe('when rendered on the review page', () => {
     const props = {
       data: {
-        [DEPENDENT_VIEW_FIELDS.list]:
-          '[{ "fullName": { "first": "John", "last": "Smith" }, "dependentRelation": "son" }]',
+        dependents: [
+          {
+            fullName: { first: 'John', last: 'Smith' },
+            dependentRelation: 'son',
+          },
+        ],
       },
       onReviewPage: true,
     };

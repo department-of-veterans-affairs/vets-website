@@ -15,7 +15,7 @@ import {
 import { getInactivePages } from 'platform/forms/helpers';
 import { isInMPI } from 'platform/user/selectors';
 
-import { DEPENDENT_VIEW_FIELDS, HIGH_DISABILITY_MINIMUM } from './constants';
+import { HIGH_DISABILITY_MINIMUM } from './constants';
 
 // clean address so we only get address related properties then return the object
 const cleanAddressObject = address => {
@@ -165,22 +165,15 @@ export function transform(formConfig, form) {
   }
 
   // parse dependents list here, because it could have been removed in filterViewFields
-  if (withoutInactivePages[DEPENDENT_VIEW_FIELDS.list]) {
-    const dependents = JSON.parse(
-      withoutInactivePages[DEPENDENT_VIEW_FIELDS.list],
-    );
-    if (dependents.length) {
-      const listToSet = dependents.map(item => ({
-        ...item,
-        grossIncome: item.grossIncome || 0,
-        netIncome: item.netIncome || 0,
-        otherIncome: item.otherIncome || 0,
-      }));
-      withoutViewFields = set('dependents', listToSet, withoutViewFields);
-    }
-  }
-
-  if (!withoutViewFields.dependents) {
+  if (withoutViewFields.dependents?.length) {
+    const listToSet = withoutViewFields.dependents.map(item => ({
+      ...item,
+      grossIncome: item.grossIncome || 0,
+      netIncome: item.netIncome || 0,
+      otherIncome: item.otherIncome || 0,
+    }));
+    withoutViewFields = set('dependents', listToSet, withoutViewFields);
+  } else {
     withoutViewFields = set('dependents', [], withoutViewFields);
   }
 
