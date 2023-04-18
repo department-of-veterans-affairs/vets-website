@@ -15,6 +15,7 @@ import {
   VaMemorableDate,
   VaTextarea,
   VaButtonPair,
+  VaNumberInput,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V1V3Page() {
@@ -104,6 +105,34 @@ export default function V1V3Page() {
                 onInput={e => updateValue(e)}
               />
               <ValueDisplay label="V3 Input" id="v3InputValue" />
+            </div>
+          </div>
+        </div>
+
+        {/* Number Input Comparison */}
+        <div className="vads-l-row">
+          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <VaNumberInput
+                name="v1NumberInput"
+                label="V1 Number Input"
+                hint="This is a hint"
+                inputmode="numeric"
+                onInput={e => updateValue(e)}
+              />
+              <ValueDisplay label="V1 Number Input" id="v1NumberInputValue" />
+            </div>
+
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <VaNumberInput
+                uswds
+                name="v3NumberInput"
+                label="V3 Number Input"
+                hint="This is a hint"
+                inputmode="numeric"
+                onInput={e => updateValue(e)}
+              />
+              <ValueDisplay label="V3 Number Input" id="v3NumberInputValue" />
             </div>
           </div>
         </div>
