@@ -8,28 +8,29 @@ import {
   DefinitionTester,
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../config/form';
-import { simulateInputChange } from '../helpers';
+import formConfig from '../../../config/form';
 
-describe('Hca medicare', () => {
+describe('Hca additionalInformation', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.insuranceInformation.pages.medicaid;
+  } = formConfig.chapters.militaryService.pages.additionalInformation;
+  const definitions = formConfig.defaultDefinitions;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        data={{}}
         uiSchema={uiSchema}
+        definitions={definitions}
       />,
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    expect(formDOM.querySelectorAll('input').length).to.equal(9);
   });
 
-  it('should not submit empty form', () => {
+  it('should submit without data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -39,32 +40,8 @@ describe('Hca medicare', () => {
         uiSchema={uiSchema}
       />,
     );
-
     const formDOM = findDOMNode(form);
-
     submitForm(form);
-
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-  });
-
-  it('should submit with valid data', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    const formDOM = findDOMNode(form);
-
-    simulateInputChange(formDOM, '#root_isMedicaidEligibleYes', 'Y');
-
-    submitForm(form);
-
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });

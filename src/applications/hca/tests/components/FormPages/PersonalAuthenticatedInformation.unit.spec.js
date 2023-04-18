@@ -4,9 +4,9 @@ import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import PersonalAuthenticatedInformation from '../../components/PersonalAuthenticatedInformation';
+import VeteranProfileInformation from '../../../components/FormPages/VeteranProfileInformation';
 
-describe('hca <PersonalAuthenticatedInformation>', () => {
+describe('hca VeteranProfileInformation', () => {
   const middleware = [];
   const mockStore = configureStore(middleware);
 
@@ -31,7 +31,7 @@ describe('hca <PersonalAuthenticatedInformation>', () => {
 
     const { getByText } = render(
       <Provider store={store}>
-        <PersonalAuthenticatedInformation />
+        <VeteranProfileInformation />
       </Provider>,
     );
     expect(getByText(/john marjorie smith sr./i)).to.exist;
@@ -58,7 +58,7 @@ describe('hca <PersonalAuthenticatedInformation>', () => {
 
     const view = render(
       <Provider store={store}>
-        <PersonalAuthenticatedInformation />
+        <VeteranProfileInformation />
       </Provider>,
     );
 
@@ -86,7 +86,7 @@ describe('hca <PersonalAuthenticatedInformation>', () => {
 
     const view = render(
       <Provider store={store}>
-        <PersonalAuthenticatedInformation />
+        <VeteranProfileInformation />
       </Provider>,
     );
 

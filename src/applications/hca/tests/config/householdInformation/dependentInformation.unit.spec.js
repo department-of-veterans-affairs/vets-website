@@ -9,14 +9,14 @@ import {
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { fillDate } from '@department-of-veterans-affairs/platform-testing/helpers';
-import formConfig from '../../config/form';
-import { simulateInputChange } from '../helpers';
+import formConfig from '../../../config/form';
+import { simulateInputChange } from '../../helpers';
 
 describe('Hca dependent information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.householdInformation.pages.dependentInformation;
+  } = formConfig.chapters.householdInformation.pages.v1DependentInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

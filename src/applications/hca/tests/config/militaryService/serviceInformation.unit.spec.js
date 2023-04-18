@@ -9,7 +9,7 @@ import {
   fillData,
   fillDate,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
 
 describe('Hca serviceInformation', () => {
   const {

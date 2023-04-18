@@ -8,8 +8,8 @@ import {
   DefinitionTester,
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../config/form';
-import { simulateInputChange } from '../helpers';
+import formConfig from '../../../config/form';
+import { simulateInputChange } from '../../helpers';
 
 describe('HCA veteranInformation', () => {
   it('should render personal information page', () => {
@@ -363,56 +363,6 @@ describe('HCA veteranInformation', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-
-    submitForm(form);
-
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-  });
-
-  it('should render maritalStatus page', () => {
-    const onSubmit = sinon.spy();
-    const {
-      schema,
-      uiSchema,
-    } = formConfig.chapters.householdInformation.pages.maritalStatus;
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{}}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = findDOMNode(form);
-
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(1);
-    expect(formDOM.querySelector('#root_maritalStatus')).not.to.be.null;
-
-    submitForm(form);
-
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-  });
-
-  it('should submit marital status page with no data', () => {
-    const onSubmit = sinon.spy();
-    const {
-      schema,
-      uiSchema,
-    } = formConfig.chapters.householdInformation.pages.maritalStatus;
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{}}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = findDOMNode(form);
-
-    simulateInputChange(formDOM, '#root_maritalStatus', 'Married');
 
     submitForm(form);
 

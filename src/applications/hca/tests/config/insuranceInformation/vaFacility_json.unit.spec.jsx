@@ -8,15 +8,15 @@ import {
   DefinitionTester,
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../config/form';
-import { simulateInputChange } from '../helpers';
+import formConfig from '../../../config/form';
 
-describe('Hca financial disclosure', () => {
+describe('Hca VA facility', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.householdInformation.pages.financialDisclosure;
+  } = formConfig.chapters.insuranceInformation.pages.vaFacilityJson;
   const definitions = formConfig.defaultDefinitions;
+
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -27,7 +27,11 @@ describe('Hca financial disclosure', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(5);
+    // with no state selected, the facilities list should include only a blank placeholder
+    expect(
+      formDOM.querySelectorAll('select')[1].querySelectorAll('option').length,
+    ).to.equal(1);
   });
 
   it('should not submit empty form', () => {
@@ -35,18 +39,38 @@ describe('Hca financial disclosure', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
+        uiSchema={uiSchema}
         definitions={definitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}
       />,
     );
-
     const formDOM = findDOMNode(form);
 
     submitForm(form);
-
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
+  });
+
+  it('should set center list by state', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        data={{
+          'view:preferredFacility': {
+            'view:facilityState': 'MA',
+          },
+        }}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+
+    expect(
+      formDOM.querySelectorAll('select')[1].querySelectorAll('option').length,
+    ).to.equal(24);
   });
 
   it('should submit with valid data', () => {
@@ -54,34 +78,32 @@ describe('Hca financial disclosure', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
+        uiSchema={uiSchema}
         definitions={definitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}
+        data={{
+          'view:preferredFacility': {
+            'view:facilityState': 'MA',
+            vaMedicalFacility: '631',
+          },
+        }}
       />,
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(formDOM, '#root_discloseFinancialInformationYes', 'Y');
+    ReactTestUtils.Simulate.change(formDOM.querySelectorAll('select')[1], {
+      target: {
+        value: '631',
+      },
+    });
+    ReactTestUtils.Simulate.change(formDOM.querySelectorAll('select')[0], {
+      target: {
+        value: 'MA',
+      },
+    });
 
     submitForm(form);
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
-  });
-  it('should show a warning if No is selected', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        definitions={definitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = findDOMNode(form);
-    expect(Array.from(formDOM.querySelectorAll('va-alert')).length).to.equal(1);
-
-    simulateInputChange(formDOM, '#root_discloseFinancialInformationNo', 'N');
-
-    expect(Array.from(formDOM.querySelectorAll('va-alert')).length).to.equal(2);
   });
 });

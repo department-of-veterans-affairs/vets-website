@@ -7,21 +7,18 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-  getFormDOM,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
+import { simulateInputChange } from '../../helpers';
 
-describe('Hca medicare', () => {
+describe('Hca deductible expenses', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.insuranceInformation.pages.medicarePartAEffectiveDate;
-  const formData = {};
-
+  } = formConfig.chapters.householdInformation.pages.v1DeductibleExpenses;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        data={formData}
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
@@ -29,29 +26,24 @@ describe('Hca medicare', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(
-      formDOM.querySelector('#root_medicareClaimNumber').maxLength,
-    ).to.equal(30);
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
   });
 
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        data={formData}
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-
     const formDOM = findDOMNode(form);
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -59,20 +51,20 @@ describe('Hca medicare', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        data={formData}
         schema={schema}
+        data={{}}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
+    const formDOM = findDOMNode(form);
 
-    const formDOM = getFormDOM(form);
+    simulateInputChange(formDOM, '#root_deductibleMedicalExpenses', '100');
 
-    formDOM.fillData('#root_medicarePartAEffectiveDateMonth', '1');
-    formDOM.fillData('#root_medicarePartAEffectiveDateDay', '1');
-    formDOM.fillData('#root_medicarePartAEffectiveDateYear', '2000');
-    formDOM.fillData('#root_medicareClaimNumber', '7AD5WC9MW60');
+    simulateInputChange(formDOM, '#root_deductibleFuneralExpenses', '0');
+
+    simulateInputChange(formDOM, '#root_deductibleEducationExpenses', '500');
 
     submitForm(form);
 
