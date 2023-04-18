@@ -9,11 +9,7 @@ import {
 } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import FolderHeader from '../components/MessageList/FolderHeader';
-import {
-  clearFolder,
-  retrieveFolder,
-  setActiveFolderId,
-} from '../actions/folders';
+import { clearFolder, retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 import ThreadsList from '../components/ThreadList/ThreadsList';
@@ -112,15 +108,6 @@ const FolderThreadListView = props => {
       );
     }
   }, 60000);
-
-  useEffect(
-    () => {
-      if (folderId) {
-        dispatch(setActiveFolderId(folderId));
-      }
-    },
-    [folder],
-  );
 
   const loadingIndicator = () => {
     return (
