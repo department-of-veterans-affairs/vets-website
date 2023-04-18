@@ -62,32 +62,59 @@ const EmploymentHistorySummaryCard = ({
 
   const employmentCardHeading = `${type} employment at ${employerName}`;
 
+  const StyledParagraph = ({ children }) => (
+    <p className="vads-u-margin-y--0">{children}</p>
+  );
+
+  StyledParagraph.propTypes = {
+    children: PropTypes.node, // PropType for the children prop (can be any renderable content)
+  };
+
+  // Reusable functional component to render expense information
+  const EmploymentCardBody = ({ label, value }) => (
+    <StyledParagraph>
+      {label}: <strong>{value}</strong>
+    </StyledParagraph>
+  );
+
   const cardBody = (
-    <div>
-      <p className="vads-u-margin-y--2 vads-u-font-weight--normal">
-        Dates:
-        <span className="vads-u-margin-x--1">
-          <strong>
-            {dateFormatter(from)} - {isCurrent ? 'Present' : dateFormatter(to)}
-          </strong>
-        </span>
-      </p>
+    <div className="vads-u-margin-y--1">
+      {/* Render date information */}
+      <EmploymentCardBody
+        label="Dates"
+        value={`${dateFormatter(from)} - ${
+          isCurrent ? 'Present' : dateFormatter(to)
+        }`}
+      />
+
+      {/* Conditionally render gross monthly income information */}
       {grossMonthlyIncome && (
-        <p>
-          Gross Monthly Income: <strong> ${grossMonthlyIncome}</strong>
-        </p>
+        <EmploymentCardBody
+          label="Gross Monthly Income"
+          value={`$${grossMonthlyIncome}`}
+        />
       )}
-      {deductions && (
-        <div>
-          {deductions.map((deduction, i) => (
-            <p key={i}>
-              {deduction.name}: <strong>${deduction.amount}</strong>
-            </p>
-          ))}
-        </div>
-      )}
+
+      {/* Render deductions information */}
+      {deductions &&
+        deductions.map((deduction, i) => (
+          <EmploymentCardBody
+            key={i}
+            label={deduction.name}
+            value={`$${deduction.amount}`}
+          />
+        ))}
     </div>
   );
+
+  EmploymentCardBody.propTypes = {
+    label: PropTypes.string, // PropType for the label prop (string)
+    value: PropTypes.oneOfType([
+      // PropType for the value prop (can be string or number)
+      PropTypes.string,
+      PropTypes.number,
+    ]),
+  };
 
   return (
     <MiniSummaryCard
