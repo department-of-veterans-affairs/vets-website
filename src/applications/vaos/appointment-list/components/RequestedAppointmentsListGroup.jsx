@@ -23,6 +23,7 @@ import {
   selectFeatureStatusImprovement,
 } from '../../redux/selectors';
 import RequestAppointmentLayout from './AppointmentsPageV2/RequestAppointmentLayout';
+import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
 
 export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   const {
@@ -121,6 +122,7 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
         {hasTypeChanged && 'Showing requested appointments'}
       </div>
       <>
+        <BackendAppointmentServiceAlert />
         <p className="vaos-hide-for-print">{paragraphText}</p>
 
         {!appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (

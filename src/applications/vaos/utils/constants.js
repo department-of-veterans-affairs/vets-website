@@ -422,3 +422,18 @@ export const CANCELLATION_REASONS = {
 };
 
 export const SPACE_BAR = 32;
+
+export const ERROR_CODES = [
+  {
+    code: 10000,
+    detail: 'Failure to fetch - Generic Error',
+  },
+  {
+    code: 10005,
+    detail: 'Failure to fetch Booked Appointments',
+  },
+  {
+    code: 10006,
+    detail: 'Failure to fetch Requests',
+  },
+];
