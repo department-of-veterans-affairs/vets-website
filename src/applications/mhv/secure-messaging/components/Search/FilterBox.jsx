@@ -17,13 +17,7 @@ import { runAdvancedSearch } from '../../actions/search';
 import { dateFormat } from '../../util/helpers';
 
 const FilterBox = props => {
-  const {
-    folders,
-    testingSubmit,
-    testingDateRange,
-    testingFromDate,
-    testingToDate,
-  } = props;
+  const { folders } = props;
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -54,20 +48,16 @@ const FilterBox = props => {
   const checkFormValidity = () => {
     // TODO: add validation for ALL blank fields
     let formInvalid;
-    if (dateRange === 'custom' || testingDateRange) {
-      if (!fromDate && !testingFromDate) {
+    if (dateRange === 'custom') {
+      if (!fromDate) {
         formInvalid = true;
         setFromDateError('Please enter a start date');
       }
-      if (!toDate && !testingToDate) {
+      if (!toDate) {
         formInvalid = true;
         setToDateError('Please enter an end date');
       }
-      if (
-        (fromDate || testingFromDate) &&
-        (toDate || testingToDate) &&
-        moment(toDate || testingToDate).isBefore(fromDate || testingFromDate)
-      ) {
+      if (fromDate && toDate && moment(toDate).isBefore(fromDate)) {
         formInvalid = true;
         setFromDateError('Start date must be on or before end date');
         setToDateError('End date must be on or after start date');
@@ -81,7 +71,7 @@ const FilterBox = props => {
 
   const handleFilterMessages = e => {
     e.preventDefault();
-    const formInvalid = testingSubmit || checkFormValidity();
+    const formInvalid = checkFormValidity();
     if (formInvalid) return;
 
     const todayDateTime = moment(new Date()).format();
@@ -179,7 +169,7 @@ const FilterBox = props => {
               ))}
             </VaSelect>
 
-            {(dateRange === 'custom' || testingDateRange) && (
+            {dateRange === 'custom' && (
               <div className="fromToDatesContainer">
                 <div className="fromToDates">
                   <VaDate
@@ -221,10 +211,6 @@ const FilterBox = props => {
 
 FilterBox.propTypes = {
   folders: PropTypes.any,
-  testingDateRange: PropTypes.any,
-  testingFromDate: PropTypes.any,
-  testingSubmit: PropTypes.any,
-  testingToDate: PropTypes.any,
 };
 
 export default FilterBox;
