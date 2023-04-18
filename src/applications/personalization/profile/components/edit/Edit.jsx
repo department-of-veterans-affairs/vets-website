@@ -3,7 +3,7 @@ import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
 import InitializeVAPServiceIDContainer from '~/platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
-import ProfileInformationFieldController from '~/platform/user/profile/vap-svc/components/ProfileInformationFieldController';
+import ProfileInformationFieldControllerBlahhh from '~/platform/user/profile/vap-svc/components/ProfileInformationFieldController';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import { PROFILE_PATHS } from '../../constants';
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
@@ -34,9 +34,16 @@ const getFieldInfo = fieldName => {
   return {
     fieldName,
     fieldKey: fieldNameKey,
-    title: FIELD_TITLES[fieldName],
+    title: FIELD_TITLES?.[fieldName] || '',
   };
 };
+
+const FallbackContent = () => (
+  <>
+    <h1>Sorry, this page is unavailable</h1>
+    <Link to={PROFILE_PATHS.PROFILE_ROOT}>Return to your profile</Link>
+  </>
+);
 
 export const Edit = () => {
   const history = useHistory();
@@ -51,47 +58,41 @@ export const Edit = () => {
 
   const handlers = {
     cancel: () => {
-      history.goBack();
+      history.push(validReturnPath || PROFILE_PATHS.PROFILE_ROOT);
     },
     success: () => {
-      const appendedPath = validReturnPath
-        ? `${validReturnPath}?success=true`
-        : PROFILE_PATHS.PROFILE_ROOT;
-      history.push(appendedPath, { success: true, fieldInfo });
+      history.push(validReturnPath || PROFILE_PATHS.PROFILE_ROOT, {
+        fieldInfo,
+      });
     },
   };
 
   return (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseFieldEditingPage}>
       <Toggler.Enabled>
-        <div className="vads-u-display--block medium-screen:vads-u-display--block">
-          {fieldInfo &&
-            !hasVAPServiceError && (
-              <>
-                <h1 className="vads-u-font-size--h2 vads-u-margin-top--2p5">
-                  {`Add or update your ${fieldInfo.title.toLowerCase()}`}
-                </h1>
-                <InitializeVAPServiceIDContainer>
-                  <ProfileInformationFieldController
-                    fieldName={fieldInfo.fieldName}
-                    forceEditView
-                    isDeleteDisabled
-                    cancelCallback={handlers.cancel}
-                    cancelButtonText="Cancel and go back to last page"
-                    successCallback={handlers.success}
-                  />
-                </InitializeVAPServiceIDContainer>
-              </>
-            )}
-        </div>
+        {fieldInfo && !hasVAPServiceError ? (
+          <div className="vads-u-display--block medium-screen:vads-u-display--block">
+            <h1 className="vads-u-font-size--h2 vads-u-margin-top--2p5">
+              {`Add or update your ${fieldInfo.title.toLowerCase()}`}
+            </h1>
+            <InitializeVAPServiceIDContainer>
+              <ProfileInformationFieldControllerBlahhh
+                fieldName={fieldInfo.fieldName}
+                forceEditView
+                isDeleteDisabled
+                cancelCallback={handlers.cancel}
+                cancelButtonText="Cancel and go back to last page"
+                successCallback={handlers.success}
+              />
+            </InitializeVAPServiceIDContainer>
+          </div>
+        ) : (
+          <FallbackContent />
+        )}
       </Toggler.Enabled>
 
       <Toggler.Disabled>
-        <>
-          <h2>Sorry, this page is unavailable</h2>
-
-          <Link to={PROFILE_PATHS.PROFILE_ROOT}>Return to your profile</Link>
-        </>
+        <FallbackContent />
       </Toggler.Disabled>
     </Toggler>
   );

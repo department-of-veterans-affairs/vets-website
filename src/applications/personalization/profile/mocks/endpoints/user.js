@@ -1430,6 +1430,11 @@ const handleUserRequest = (req, res) => {
     return res.json(allMockResponses.loa3User72);
   }
 
+  // the now query string is used to get the current user data right after an update to a field
+  if (req?.query?.now) {
+    return res.json(allMockResponses.loa3User72);
+  }
+
   // example user data cases
   // return res.json(allMockResponses.loa3User72); // default user (success)
   // return res.json(allMockResponses.loa1User); // user with loa1
@@ -1437,8 +1442,8 @@ const handleUserRequest = (req, res) => {
   // return res.json(allMockResponses.loa3User); // user with loa3
   // return res.json(allMockResponses.nonVeteranUser); // non-veteran user
   // return res.json(allMockResponses.externalServiceError); // external service error
-  return res.json(allMockResponses.loa3UserWithNoMobilePhone); // user with no mobile phone number
 
+  return res.json(allMockResponses.loa3UserWithNoMobilePhone); // user with no mobile phone number
   // return res.json(allMockResponses.loa3User72);
 };
 
