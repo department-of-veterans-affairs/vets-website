@@ -393,7 +393,7 @@ export const serviceRecordsUI = {
     'Please provide all your service periods. If you need to add another service period, please click the Add Another Service Period button.',
   'ui:options': {
     viewField: ServicePeriodView,
-    itemName: environment.isProduction() ? 'Service Period' : 'service period',
+    itemName: 'service period',
   },
   items: {
     'ui:order': [
