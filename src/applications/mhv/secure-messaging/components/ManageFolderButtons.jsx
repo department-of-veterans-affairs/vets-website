@@ -25,12 +25,14 @@ const ManageFolderButtons = () => {
   const folders = useSelector(state => state.sm.folders.folderList);
   const messages = useSelector(state => state.sm.messages.messageList);
   const folder = useSelector(state => state.sm.folders.folder);
+  const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const [isEmptyWarning, setIsEmptyWarning] = useState(false);
   const [nameWarning, setNameWarning] = useState('');
   const [deleteModal, setDeleteModal] = useState(false);
   const [renameModal, setRenameModal] = useState(false);
   const [folderName, setFolderName] = useState('');
   const folderNameInput = useRef();
+  const renameModalReference = useRef(null);
   let folderMatch = null;
 
   useEffect(
@@ -40,6 +42,15 @@ const ManageFolderButtons = () => {
       }
     },
     [dispatch, location.pathname, params.folderId],
+  );
+
+  useEffect(
+    () => {
+      if (alertStatus) {
+        renameModalReference.current?.focus();
+      }
+    },
+    [alertStatus],
   );
 
   useEffect(
@@ -116,6 +127,7 @@ const ManageFolderButtons = () => {
             className="left-button usa-button-secondary"
             data-testid="edit-folder-button"
             onClick={openRenameModal}
+            ref={renameModalReference}
           >
             Edit folder name
           </button>
