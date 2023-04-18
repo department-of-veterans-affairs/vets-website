@@ -82,7 +82,6 @@ describe('Find VA Forms <SearchResults>', () => {
 
     expect(tree.find('SearchResult')).to.have.lengthOf(MAX_PAGE_LIST_LENGTH);
     expect(tree.find('VaPagination')).to.have.lengthOf(1);
-
     tree.unmount();
   });
 });
