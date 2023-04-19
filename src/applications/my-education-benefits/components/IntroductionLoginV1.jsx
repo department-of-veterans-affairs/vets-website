@@ -32,8 +32,10 @@ function IntroductionLoginV1({ firstName, eligibility, route, user }) {
       )}
 
       {!user?.login?.currentlyLoggedIn && (
-        <a href="/education/apply-for-education-benefits/application/1990/applicant/information">
-          Start your application without signing in
+        <a href="https://www.va.gov/find-forms/about-form-22-1990/">
+          If you don't want to sign in, you can apply using the paper form.
+          Please expect longer processing time for decisions when opting for
+          this method
         </a>
       )}
     </>
