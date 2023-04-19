@@ -43,7 +43,9 @@ export const TestNotification = ({ notification, dismissNotification }) => {
             vads-u-margin-right--1"
             />
             <div className="body" role="presentation">
-              <h4 className="vads-u-margin-y--0">You have new debt. </h4>
+              <h3 className="vads-u-margin-y--0 vads-u-font-size--md">
+                You have new debt.
+              </h3>
               <div className="">{createdAtFormatted}</div>
 
               <CTALink
