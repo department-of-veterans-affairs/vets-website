@@ -29,7 +29,7 @@ describe('Secure Messaging Message Details AXE Check', () => {
     cy.reload(true);
     detailsPage.verifyExpandedMessageToDisplay(mockParentMessageDetails);
     detailsPage.verifyExpandedMessageFromDisplay(mockParentMessageDetails);
-    detailsPage.verifyExpandedMessageIDDisplay(mockParentMessageDetails); // TODO UCD is still determining whether ow to display this
+    // detailsPage.verifyExpandedMessageIDDisplay(mockParentMessageDetails); // TODO UCD is still determining whether to display this
     detailsPage.verifyExpandedMessageDateDisplay(mockParentMessageDetails);
 
     detailsPage.verifyUnexpandedMessageAttachment(1);
