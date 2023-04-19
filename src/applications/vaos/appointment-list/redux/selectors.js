@@ -312,6 +312,7 @@ export function selectBackendServiceFailuresInfo(state) {
   const { backendServiceFailures } = state.appointments;
   return {
     pastStatus: state.appointments.pastStatus,
+    pendingStatus: state.appointments.pendingStatus,
     futureStatus: selectFutureStatus(state),
     backendServiceFailures,
   };

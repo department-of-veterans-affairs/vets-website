@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import recordEvent from '../../monitoring/record-event';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
@@ -19,36 +19,28 @@ class FormSignInModal extends React.Component {
   };
 
   render() {
-    const primaryButton = {
-      action: this.handleClose,
-      text: 'Finish applying',
-    };
-
-    const secondaryButton = {
-      action: this.handleSignIn,
-      text: 'Sign in and start over',
-    };
     const { formConfig } = this.props;
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
     return (
-      <Modal
+      <VaModal
         id="form-sign-in-modal"
-        primaryButton={primaryButton}
-        secondaryButton={secondaryButton}
         visible={this.props.visible}
-        focusSelector="button"
-        hideCloseButton
-        onClose={this.props.onClose}
+        onCloseEvent={this.props.onClose}
+        modalTitle="If you sign in now, you’ll lose any information you’ve filled in"
         status="warning"
-        title="If you sign in now, you’ll lose any information you’ve filled in"
+        onPrimaryButtonClick={this.handleClose}
+        primaryButtonText="Finish applying"
+        onSecondaryButtonClick={this.handleSignIn}
+        secondaryButtonText="Sign in and start over"
+        initialFocusSelector="button"
       >
         <p>
           Since you didn’t sign in before you started, we can’t save your
           in-progress {appType}.
         </p>
         <p>If you sign in now, you’ll need to start over.</p>
-      </Modal>
+      </VaModal>
     );
   }
 }
