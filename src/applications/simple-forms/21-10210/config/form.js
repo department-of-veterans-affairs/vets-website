@@ -51,6 +51,7 @@ const formConfig = {
     statementInformation: {
       // for all claimOwnership/claimantType combos
       title: 'Who is submitting this statement?',
+      hideFormNavProgress: true,
       pages: {
         statementInformation1: {
           path: 'claim-ownership',
