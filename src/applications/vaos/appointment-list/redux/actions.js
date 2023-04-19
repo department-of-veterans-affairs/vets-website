@@ -332,9 +332,14 @@ export function fetchPendingAppointments() {
         useAcheron: featureAcheronVAOSServiceRequests,
       });
 
+      const backendSystemFailures = pendingAppointments.filter(
+        appt => appt.meta,
+      );
+
       dispatch({
         type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
         data: pendingAppointments,
+        backendServiceFailures: backendSystemFailures[0],
       });
 
       recordEvent({

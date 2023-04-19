@@ -152,10 +152,7 @@ export default function AppointmentColumnLayout({
                 canceled={isCanceled}
                 aria-label={typeOfCareAriaLabel}
               >
-                <span
-                  aria-hidden="true"
-                  className={classNames('vaos-appts__display--table-cell')}
-                >
+                <span className={classNames('vaos-appts__display--table-cell')}>
                   {appointmentLocality}
                 </span>
               </AppointmentColumn>
@@ -167,10 +164,7 @@ export default function AppointmentColumnLayout({
                 canceled={isCanceled}
                 aria-label={modalityAriaLabel}
               >
-                <span
-                  aria-hidden="true"
-                  className="vaos-appts__display--table-cell"
-                >
+                <span className="vaos-appts__display--table-cell">
                   <i
                     aria-hidden="true"
                     className={classNames(
