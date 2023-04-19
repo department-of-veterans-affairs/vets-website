@@ -8,13 +8,13 @@ import mockDeletedFolder from './fixtures/folder-deleted-metadata.json';
 import mockCustomFolder from './fixtures/folder-custom-metadata.json';
 import mockInboxFolder from './fixtures/folder-inbox-response.json';
 
-describe.skip('Secure Messaging Basic Search Tests', () => {
-  const basicSearchPage = new PatientBasicSearchPage();
+describe('Secure Messaging Basic Search Tests', () => {
+  // const basicSearchPage = new PatientBasicSearchPage();
   beforeEach(() => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
+    // const landingPage = new PatientInboxPage();
+    // const site = new SecureMessagingSite();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
   });
   it('Basic Search Axe Check', () => {
     cy.intercept(
@@ -37,9 +37,9 @@ describe.skip('Secure Messaging Basic Search Tests', () => {
       '/my_health/v1/messaging/folders/0/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchInboxRequest');
-    basicSearchPage.typeSearchInputFieldText('test');
-    basicSearchPage.submitSearch();
-    basicSearchPage.verifyHighlightedText('test');
+    PatientBasicSearchPage.typeSearchInputFieldText('test');
+    PatientBasicSearchPage.submitSearch();
+    PatientBasicSearchPage.verifyHighlightedText('test');
 
     cy.injectAxe();
     cy.axeCheck();
@@ -53,21 +53,21 @@ describe.skip('Secure Messaging Basic Search Tests', () => {
     ).as('basicSearchRequestDraftsMeta');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2/messages?per_page=-1',
+      '/my_health/v1/messaging/folders/-2/messages?per_page=-1**',
       mockMessages,
     ).as('basicSearchRequestDrafts');
     cy.get('[data-testid="drafts-sidebar"]').click();
 
-    basicSearchPage.typeSearchInputFieldText('test');
+    PatientBasicSearchPage.typeSearchInputFieldText('test');
 
-    basicSearchPage.submitSearch();
+    PatientBasicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestDrafts');
-    basicSearchPage.verifyHighlightedText('test');
+    PatientBasicSearchPage.verifyHighlightedText('test');
     cy.injectAxe();
     cy.axeCheck();
   });
 
-  it.skip('Basic Search Sent Folder Check', () => {
+  it('Basic Search Sent Folder Check', () => {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-1',
@@ -75,16 +75,16 @@ describe.skip('Secure Messaging Basic Search Tests', () => {
     ).as('basicSearchRequestSentMeta');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1/messages?per_page=-1',
+      '/my_health/v1/messaging/folders/-1/messages?per_page=-1**',
       mockMessages,
     ).as('basicSearchRequestSentFolder');
     cy.get('[data-testid="sent-sidebar"]').click();
 
-    basicSearchPage.typeSearchInputFieldText('test');
+    PatientBasicSearchPage.typeSearchInputFieldText('test');
 
-    basicSearchPage.submitSearch();
+    PatientBasicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestSentFolder');
-    basicSearchPage.verifyHighlightedText('test');
+    PatientBasicSearchPage.verifyHighlightedText('test');
     cy.injectAxe();
     cy.axeCheck();
   });
@@ -97,16 +97,16 @@ describe.skip('Secure Messaging Basic Search Tests', () => {
     ).as('basicSearchRequestDeletedMeta');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-3/messages?per_page=-1',
+      '/my_health/v1/messaging/folders/-3/messages?per_page=-1**',
       mockMessages,
     ).as('basicSearchRequestDeletedFolder');
     cy.get('[data-testid="trash-sidebar"]').click();
 
-    basicSearchPage.typeSearchInputFieldText('test');
+    PatientBasicSearchPage.typeSearchInputFieldText('test');
 
-    basicSearchPage.submitSearch();
+    PatientBasicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestDeletedFolder');
-    basicSearchPage.verifyHighlightedText('test');
+    PatientBasicSearchPage.verifyHighlightedText('test');
     cy.injectAxe();
     cy.axeCheck();
   });
@@ -120,15 +120,15 @@ describe.skip('Secure Messaging Basic Search Tests', () => {
     ).as('basicSearchRequestCustomMeta');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/7038175/messages?per_page=-1',
+      '/my_health/v1/messaging/folders/7038175/messages?per_page=-1**',
       mockMessages,
     ).as('basicSearchRequestCustomFolder');
 
     cy.get('.folders-list > :nth-child(1) > a').click({ force: true });
-    basicSearchPage.typeSearchInputFieldText('test');
-    basicSearchPage.submitSearch();
+    PatientBasicSearchPage.typeSearchInputFieldText('test');
+    PatientBasicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestCustomFolder');
-    basicSearchPage.verifyHighlightedText('test');
+    PatientBasicSearchPage.verifyHighlightedText('test');
     cy.injectAxe();
     cy.axeCheck();
   });

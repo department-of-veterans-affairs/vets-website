@@ -44,4 +44,4 @@ class SecureMessagingSite {
     cy.wait('@mockUser');
   };
 }
-export default SecureMessagingSite;
+export default new SecureMessagingSite();

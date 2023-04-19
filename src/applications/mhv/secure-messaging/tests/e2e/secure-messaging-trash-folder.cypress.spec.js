@@ -13,7 +13,7 @@ describe('Secure Messaging Trash Folder AXE Check', () => {
     );
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-3/messages',
+      '/my_health/v1/messaging/folders/-3/messages**',
       mockMessages,
     ).as('trashFolderMessages');
     cy.get('[data-testid="trash-sidebar"]').click();

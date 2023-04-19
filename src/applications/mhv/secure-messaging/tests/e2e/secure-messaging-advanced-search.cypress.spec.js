@@ -4,12 +4,12 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import mockMessages from './fixtures/drafts-search-results.json';
 import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
 
-describe.skip(manifest.appName, () => {
-  it.skip('Advanced Search Axe Check', () => {
-    const site = new SecureMessagingSite();
-    site.login();
-    const landingPage = new PatientInboxPage();
-    landingPage.loadPage();
+describe(manifest.appName, () => {
+  it('Advanced Search Axe Check', () => {
+    // const site = new SecureMessagingSite();
+    SecureMessagingSite.login();
+    // const landingPage = new PatientInboxPage();
+    PatientInboxPage.loadInboxMessages();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-2',
@@ -17,7 +17,7 @@ describe.skip(manifest.appName, () => {
     ).as('basicSearchRequestDraftsMeta');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2/messages?per_page=-1',
+      '/my_health/v1/messaging/folders/-2/messages?per_page=-1**',
       mockMessages,
     ).as('basicSearchRequestDrafts');
     cy.get('[data-testid="drafts-sidebar"]').click();
