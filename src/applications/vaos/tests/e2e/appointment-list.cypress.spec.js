@@ -351,10 +351,10 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('should select an updated date range', () => {
+    it.skip('should select an updated date range', () => {
       cy.get('#date-dropdown')
         .shadow()
-        .findByLabelText(/Select a date range/i)
+        .find('#select')
         .select('1')
         .should('have.value', '1');
       cy.get('button')

@@ -5,13 +5,12 @@ import { format } from 'date-fns-tz';
 import { connect } from 'react-redux';
 
 import {
-  formLinks,
-  formDescriptions,
   formBenefits,
+  formDescriptions,
+  formLinks,
 } from 'applications/personalization/dashboard/helpers';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
@@ -19,10 +18,10 @@ import {
 import { removeSavedForm } from '../../user/profile/actions';
 
 import {
+  APP_ACTION_DEFAULT,
+  APP_TYPE_DEFAULT,
   CONTINUE_APP_DEFAULT_MESSAGE,
   START_NEW_APP_DEFAULT_MESSAGE,
-  APP_TYPE_DEFAULT,
-  APP_ACTION_DEFAULT,
 } from '../../forms-system/src/js/constants';
 
 export class ApplicationStatus extends React.Component {
@@ -180,21 +179,19 @@ export class ApplicationStatus extends React.Component {
                 .
               </p>
             )}
-            <Modal
-              cssClass="va-modal-large"
+            <VaModal
+              large
               id="start-over-modal"
-              onClose={this.toggleModal}
-              title={`Starting over will delete your in-progress ${appType}.`}
+              onCloseEvent={this.toggleModal}
+              modalTitle={`Starting over will delete your in-progress ${appType}.`}
               visible={this.state.modalOpen}
+              onPrimaryButtonClick={() => this.removeForm(formId)}
+              primaryButtonText={startNewAppButtonText}
+              onSecondaryButtonClick={this.toggleModal}
+              secondaryButtonText="Cancel"
             >
               <p>Are you sure you want to start over?</p>
-              <VaButtonPair
-                primaryLabel={startNewAppButtonText}
-                onPrimaryClick={() => this.removeForm(formId)}
-                secondaryLabel="Cancel"
-                onSecondaryClick={this.toggleModal}
-              />
-            </Modal>
+            </VaModal>
           </div>
         );
       }
@@ -220,21 +217,19 @@ export class ApplicationStatus extends React.Component {
               .
             </p>
           )}
-          <Modal
-            cssClass="va-modal-large"
+          <VaModal
+            class="va-modal-large"
             id="start-over-modal"
-            onClose={this.toggleModal}
-            title={`Starting over will delete your in-progress ${appType}.`}
+            onCloseEvent={this.toggleModal}
+            modalTitle={`Starting over will delete your in-progress ${appType}.`}
             visible={this.state.modalOpen}
+            onPrimaryButtonClick={() => this.removeForm(formId)}
+            primaryButtonText={startNewAppButtonText}
+            onSecondaryButtonClick={this.toggleModal}
+            secondaryButtonText="Cancel"
           >
             <p>Are you sure you want to start over?</p>
-            <VaButtonPair
-              primaryLabel={startNewAppButtonText}
-              onPrimaryClick={() => this.removeForm(formId)}
-              secondaryLabel="Cancel"
-              onSecondaryClick={this.toggleModal}
-            />
-          </Modal>
+          </VaModal>
         </div>
       );
     }
