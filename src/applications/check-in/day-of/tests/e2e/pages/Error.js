@@ -4,7 +4,7 @@ const titles = {
   default: {
     en: 'We couldn’t check you in.',
     es: 'No pudimos completar el registro.',
-    tl: 'Hindi ka namin mai-check in',
+    tl: 'Hindi ka namin mai-check in.',
   },
   uuidNotFound: {
     en: 'We’re sorry. This link has expired.',
