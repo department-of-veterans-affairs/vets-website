@@ -46,7 +46,7 @@ export const MiniSummaryCard = ({
         {showDelete && (
           <button
             type="button"
-            aria-label={`Delete ${heading}`}
+            aria-label={`Delete ${heading} ${index}`}
             className="usa-button summary-card-delete-button vads-u-margin--1"
             onClick={onDelete}
           >
