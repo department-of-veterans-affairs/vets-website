@@ -230,5 +230,14 @@ class PatientComposePage {
       .find('[id = "textarea"]')
       .should('have.value', url);
   };
+
+  clickConfirmDeleteButton = () => {
+    cy.get('[data-testid=delete-message-modal]')
+      .shadow()
+      .find('button')
+      .contains('Confirm')
+      .should('be.visible')
+      .click();
+  };
 }
 export default PatientComposePage;

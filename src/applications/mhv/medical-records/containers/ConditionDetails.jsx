@@ -77,6 +77,11 @@ const ConditionDetails = () => {
               <div>{moment().format('LL')}</div>
             </span>
           </h1>
+          <p className="vads-u-margin-bottom--0 print-only">
+            Your health conditions list may not be complete. If you have any
+            questions about your information, visit the FAQs or contact your VA
+            Health care team.
+          </p>
           <div className="time-header no-print">
             <h2>Date and time entered: </h2>
             <p>{formattedDate}</p>
