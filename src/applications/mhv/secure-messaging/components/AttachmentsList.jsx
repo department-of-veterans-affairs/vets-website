@@ -43,8 +43,8 @@ const AttachmentsList = props => {
           attachments.map(file => (
             <li key={file.name + file.size}>
               {editingEnabled && (
-                <div className="editable-attachment">
-                  <span>
+                <div className="editable-attachment vads-u-display--flex vads-u-flex-direction--row">
+                  <span className="vads-u-flex--1">
                     <i className="fas fa-paperclip" aria-hidden="true" />
                     <span ref={attachmentReference} tabIndex={-1}>
                       {file.name}{' '}
@@ -54,9 +54,9 @@ const AttachmentsList = props => {
                   <va-button
                     onClick={() => removeAttachment(file)}
                     secondary
-                    text="Remove"
+                    text="REMOVE"
                     aria-label={`remove ${file.name}`}
-                    class="remove-attachment-button"
+                    class="remove-attachment-button vads-u-flex--auto"
                   />
                 </div>
               )}
