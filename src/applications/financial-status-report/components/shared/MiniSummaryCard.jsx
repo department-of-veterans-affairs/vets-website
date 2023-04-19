@@ -17,6 +17,7 @@ export const MiniSummaryCard = ({
   body,
   onDelete,
   showDelete = false,
+  index,
 }) => {
   return (
     <div
@@ -29,7 +30,7 @@ export const MiniSummaryCard = ({
       </div>
       <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center">
         <Link
-          aria-label={`Edit ${heading}`}
+          aria-label={`Edit ${heading} ${index}`}
           to={editDestination}
           className="vads-u-padding-y--1 vads-u-padding-x--2"
         >
