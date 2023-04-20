@@ -20,7 +20,6 @@ const HealthCareCTA = ({
           <IconCTALink
             text="Send a secure message to your health care team"
             icon="comments"
-            newTab
             href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
             onClick={() =>
               recordEvent({
@@ -36,7 +35,6 @@ const HealthCareCTA = ({
           <IconCTALink
             href="/health-care/schedule-view-va-appointments/appointments"
             icon="calendar"
-            newTab
             text="Schedule and manage your appointments"
             onClick={() => {
               recordEvent({
@@ -56,7 +54,6 @@ const HealthCareCTA = ({
             'web/myhealthevet/refill-prescriptions',
           )}
           icon="prescription-bottle"
-          newTab
           text="Refill and track your prescriptions"
           onClick={() => {
             recordEvent({
@@ -72,7 +69,6 @@ const HealthCareCTA = ({
       <IconCTALink
         href="/health-care/get-reimbursed-for-travel-pay/"
         icon="suitcase"
-        newTab
         text="Request travel reimbursement"
         onClick={() => {
           recordEvent({
@@ -87,7 +83,6 @@ const HealthCareCTA = ({
       <IconCTALink
         href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
         icon="file-medical"
-        newTab
         text="Get your VA medical records"
         onClick={() => {
           recordEvent({
