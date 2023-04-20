@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { runAdvancedSearch, runBasicSearch } from '../../actions/search';
@@ -10,6 +10,7 @@ import { ErrorMessages } from '../../util/constants';
 const SearchForm = props => {
   const { folder, keyword, resultsCount, query } = props;
   const dispatch = useDispatch();
+  const location = useLocation();
   const history = useHistory();
   const folders = useSelector(state => state.sm.folders.folderList);
   const [searchTerm, setSearchTerm] = useState('');
@@ -125,8 +126,14 @@ const SearchForm = props => {
     return folder.name;
   };
   const filterLabelHeading = `Filter messages in ${handleFolderName()} `;
-  const filterLabelBody =
-    'Enter information from one of these fields: to, from, message ID, or subject';
+  let filterLabelBody;
+  if (location.pathname.includes('/drafts')) {
+    filterLabelBody =
+      'Enter information from one of these fields: to, from, or subject';
+  } else {
+    filterLabelBody =
+      'Enter information from one of these fields: to, from, message ID, or subject';
+  }
 
   return (
     <>
@@ -165,15 +172,16 @@ const SearchForm = props => {
             </div>
           </div>
         </>
-        <va-additional-info
-          trigger="What's a message ID?"
-          class="message-id-info"
-        >
-          A message ID is a number we assign to each message. If you sign up for
-          email notifications, we’ll send you an email each time you get a new
-          message. These emails include the message ID.
-        </va-additional-info>
-
+        {!location.pathname.includes('/drafts') && (
+          <va-additional-info
+            trigger="What's a message ID?"
+            class="message-id-info"
+          >
+            A message ID is a number we assign to each message. If you sign up
+            for email notifications, we’ll send you an email each time you get a
+            new message. These emails include the message ID.
+          </va-additional-info>
+        )}
         {folders && (
           <div>
             <FilterBox
