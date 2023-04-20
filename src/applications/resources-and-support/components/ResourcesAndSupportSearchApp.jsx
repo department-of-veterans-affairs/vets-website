@@ -1,7 +1,6 @@
 // Node modules.
 import React, { useEffect, useState, useCallback } from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import URLSearchParams from 'url-search-params';
 import { focusElement } from 'platform/utilities/ui';
@@ -98,11 +97,11 @@ const ResourcesAndSupportSearchApp = () => {
     <div className="usa-grid usa-grid-full">
       <div className="usa-content vads-u-margin-bottom--0 medium-screen:vads-u-margin-bottom--3">
         {errorMessage && (
-          <AlertBox
-            headline="Something went wrong"
-            status="error"
-            content={errorMessage}
-          />
+          <va-alert status="error">
+            <h3 slot="headline">"Something went wrong"</h3>
+
+            {errorMessage}
+          </va-alert>
         )}
 
         {articles && (
@@ -139,7 +138,7 @@ const ResourcesAndSupportSearchApp = () => {
 
         {!errorMessage &&
           !articles && (
-            <LoadingIndicator message="Please wait while we load the application for you." />
+            <va-loading-indicator message="Please wait while we load the application for you." />
           )}
       </div>
     </div>

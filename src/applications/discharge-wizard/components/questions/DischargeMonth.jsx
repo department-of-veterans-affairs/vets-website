@@ -4,7 +4,6 @@ import Scroll from 'react-scroll';
 
 // Relative Imports
 import { months } from 'platform/static-data/options-for-select.js';
-import Select from '@department-of-veterans-affairs/component-library/Select';
 import { shouldShowQuestion } from '../../helpers';
 
 const { Element } = Scroll;
@@ -34,11 +33,11 @@ const DischargeMonthQuestion = ({
   return (
     <fieldset className="fieldset-input dischargeMonth" key={key}>
       <Element name={key} />
-      <Select
+      <va-select
         autocomplete="false"
         label={monthLabel}
         name={key}
-        onKeyDown={handleKeyDown}
+        vaKeyDown={handleKeyDown}
         options={months}
         value={{ value: formValues[key] }}
         onValueChange={update => {

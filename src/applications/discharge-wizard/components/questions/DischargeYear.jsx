@@ -4,7 +4,6 @@ import { range } from 'lodash';
 import Scroll from 'react-scroll';
 
 // Relative Imports
-import Select from '@department-of-veterans-affairs/component-library/Select';
 import { shouldShowQuestion } from '../../helpers';
 
 const { Element } = Scroll;
@@ -43,12 +42,12 @@ const DischargeYearQuestion = ({
   return (
     <fieldset className="fieldset-input dischargeYear" key={key}>
       <Element name={key} />
-      <Select
+      <va-select
         autocomplete="false"
         label={label}
         name={key}
         options={yearOptions}
-        onKeyDown={handleKeyDown}
+        vaKeyDown={handleKeyDown}
         value={{ value: dischargeYear }}
         onValueChange={update => {
           updateField(key, update.value);

@@ -10,7 +10,7 @@ describe('<CernerCallToAction>', () => {
     const wrapper = shallow(<CernerCallToAction />);
 
     const text = wrapper.text();
-    expect(text).to.include('<LoadingIndicator />');
+    expect(text).to.include('<va-loading-indicator />');
 
     wrapper.unmount();
   });

@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import { isEmpty, map, replace } from 'lodash';
 import * as Sentry from '@sentry/browser';
 // Relative imports.
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
@@ -95,7 +93,7 @@ export class CernerCallToAction extends Component {
     if (fetching) {
       return (
         <div data-testid="cerner-cta-widget">
-          <LoadingIndicator message="Loading your information..." />
+          <va-loading-indicator message="Loading your information..." />
         </div>
       );
     }
@@ -112,11 +110,13 @@ export class CernerCallToAction extends Component {
       });
       return (
         <div data-testid="cerner-cta-widget">
-          <AlertBox
-            headline="Something went wrong"
-            content="We’re sorry. Something went wrong on our end. Please try again later."
-            status="error"
-          />
+          <va-alert status="error">
+            <h3 slot="headline">"Something went wrong"</h3>
+            <p className="vads-u-margin-y--0">
+              We’re sorry. Something went wrong on our end. Please try again
+              later.
+            </p>
+          </va-alert>
         </div>
       );
     }

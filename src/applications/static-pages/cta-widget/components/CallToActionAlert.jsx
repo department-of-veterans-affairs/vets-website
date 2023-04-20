@@ -1,7 +1,5 @@
 import React from 'react';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-
 export default function CallToActionAlert({
   heading,
   headerLevel,
@@ -46,5 +44,31 @@ export default function CallToActionAlert({
     status,
   };
 
-  return <AlertBox isVisible {...alertProps} />;
+  return (
+    // TODO fix this
+    <va-alert visible {...alertProps}>
+      <h3 slot="headline">undefined</h3>
+      <div>
+        {alertText}
+        {primaryButtonText && (
+          <button
+            className={buttonClass}
+            onClick={primaryButtonHandler}
+            aria-label={ariaLabel}
+            aria-describedby={ariaDescribedby}
+          >
+            {primaryButtonText}
+          </button>
+        )}
+        {secondaryButtonText && (
+          <button
+            className="va-button-link vads-u-margin-left--2"
+            onClick={secondaryButtonHandler}
+          >
+            {secondaryButtonText}
+          </button>
+        )}
+      </div>
+    </va-alert>
+  );
 }
