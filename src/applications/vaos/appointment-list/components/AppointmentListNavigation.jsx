@@ -13,10 +13,16 @@ export default function AppointmentListNavigation({ count, callback }) {
   );
 
   if (featureStatusImprovement) {
+    const isPending = !!location.pathname.endsWith('/pending');
+    const isPast = !!location.pathname.endsWith('/past');
+    const isUpcoming = !!location.pathname.endsWith('/');
+
     return (
       <nav
         aria-label="Appointment list navigation"
-        className="vaos-appts__breadcrumb"
+        className={`vaos-appts__breadcrumb xsmall-screen:${
+          isPast ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--3'
+        } small-screen:vads-u-margin-bottom--4`}
       >
         <ul>
           <li>
@@ -25,7 +31,7 @@ export default function AppointmentListNavigation({ count, callback }) {
               to="/"
               onClick={() => callback(true)}
               // eslint-disable-next-line jsx-a11y/aria-proptypes
-              aria-current={`${!!location.pathname.endsWith('/')}`}
+              aria-current={isUpcoming}
             >
               Upcoming
             </NavLink>
@@ -41,7 +47,7 @@ export default function AppointmentListNavigation({ count, callback }) {
                 });
               }}
               // eslint-disable-next-line jsx-a11y/aria-proptypes
-              aria-current={`${!!location.pathname.endsWith('pending')}`}
+              aria-current={isPending}
             >
               {`Pending (${count})`}
             </NavLink>
@@ -57,7 +63,7 @@ export default function AppointmentListNavigation({ count, callback }) {
                 });
               }}
               // eslint-disable-next-line jsx-a11y/aria-proptypes
-              aria-current={`${!!location.pathname.endsWith('past')}`}
+              aria-current={isPast}
             >
               Past
             </NavLink>
