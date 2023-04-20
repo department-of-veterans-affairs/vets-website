@@ -53,7 +53,6 @@ describe('Schemaform <FormStartControls>', () => {
       tree.baseElement.querySelectorAll('a.vads-c-action-link--green').length,
     ).to.equal(1);
   });
-
   it('should render 1 button when logged in with no saved form', () => {
     const routerSpy = {
       push: sinon.spy(),
@@ -74,8 +73,7 @@ describe('Schemaform <FormStartControls>', () => {
       tree.baseElement.querySelectorAll('a.vads-c-action-link--green').length,
     ).to.equal(1);
   });
-
-  it('should render 1 <va-button> when logged in with an expired form', () => {
+  it('should render 1 va-button and 1 va-button-pair when logged in with an expired form', () => {
     const routerSpy = {
       push: sinon.spy(),
     };
@@ -93,11 +91,12 @@ describe('Schemaform <FormStartControls>', () => {
       />,
     );
     tree.baseElement.querySelector('va-button').click();
-    const buttonCount = tree.baseElement.querySelectorAll('va-button').length;
-    expect(buttonCount).to.equal(1);
+    const buttonSelector = 'va-button,va-button-pair';
+    const buttonCount = tree.baseElement.querySelectorAll(buttonSelector)
+      .length;
+    expect(buttonCount).to.equal(2);
   });
-
-  it('should render 2 buttons when logged in with a saved form', () => {
+  it('should render 2 buttons and a button pair when logged in with a saved form', () => {
     const routerSpy = {
       push: sinon.spy(),
     };
@@ -115,8 +114,11 @@ describe('Schemaform <FormStartControls>', () => {
     );
     const buttons = tree.baseElement.querySelectorAll('va-button');
     expect(buttons.length).to.equal(2);
+    buttons[1].click();
+    expect(tree.baseElement.querySelectorAll('va-button-pair').length).to.equal(
+      1,
+    );
   });
-
   it('should go to the first page when "Continue" is clicked', () => {
     const routerSpy = {
       push: sinon.spy(),
@@ -215,10 +217,11 @@ describe('Schemaform <FormStartControls>', () => {
       />,
     );
     tree.baseElement.querySelectorAll('va-button')[1].click();
-    const modal = tree.baseElement.querySelector('va-modal');
-    modal.__events.primaryButtonClick();
-
+    expect(tree.baseElement.querySelector('.va-modal-body')).to.not.be.null;
+    const buttonPair = tree.baseElement.querySelector('va-button-pair');
+    buttonPair.__events.primaryClick();
     expect(fetchSpy.called).to.be.true;
+    expect(tree.baseElement.querySelector('.va-modal-body')).to.be.null;
   });
 
   it('should show modal and remove form when starting over', () => {
@@ -248,11 +251,13 @@ describe('Schemaform <FormStartControls>', () => {
       />,
     );
     tree.baseElement.querySelectorAll('va-button')[1].click();
+    expect(tree.baseElement.querySelector('.va-modal-body')).to.not.be.null;
 
-    const modal = tree.baseElement.querySelector('va-modal');
-    modal.__events.primaryButtonClick();
+    const buttonPair = tree.baseElement.querySelector('va-button-pair');
+    buttonPair.__events.primaryClick();
 
     expect(fetchSpy.called).to.be.true;
+    expect(tree.baseElement.querySelector('.va-modal-body')).to.be.null;
     expect(global.window.sessionStorage.getItem(wizardStorageKey)).to.equal(
       WIZARD_STATUS_RESTARTING,
     );
@@ -467,7 +472,10 @@ describe('Schemaform <FormStartControls>', () => {
       />,
     );
     const buttons = tree.baseElement.querySelectorAll('va-button');
-    expect(buttons.length).to.equal(2);
+    buttons[1].click();
+    const buttonSelector = 'va-button, va-button-pair';
+    const allButtons = tree.baseElement.querySelectorAll(buttonSelector);
+    expect(allButtons.length).to.equal(3);
 
     // Modal buttons = last 2, do not include these aria-attributes
     expect(buttons[0].getAttribute('label')).to.eq('test aria-label');
