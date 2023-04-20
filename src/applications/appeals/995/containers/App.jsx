@@ -28,6 +28,7 @@ import {
 
 import ITFWrapper from './ITFWrapper';
 import { WIP } from '../components/WIP';
+import { SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
 
 export const App = ({
   loggedIn,
@@ -44,7 +45,6 @@ export const App = ({
   isLoadingFeatures,
   accountUuid,
   inProgressFormId,
-  testSetTag,
   show995,
 }) => {
   // vapContactInfo is an empty object locally, so mock it
@@ -71,20 +71,22 @@ export const App = ({
       // Set user account & application id in Sentry so we can access their form
       // data for any thrown errors
       if (accountUuid && inProgressFormId) {
-        const setTag = testSetTag || Sentry.setTag;
-        setTag('account_uuid', accountUuid);
-        setTag('in_progress_form_id', inProgressFormId);
+        Sentry.setTag('account_uuid', accountUuid);
+        Sentry.setTag('in_progress_form_id', inProgressFormId);
       }
     },
-    [accountUuid, inProgressFormId, testSetTag],
+    [accountUuid, inProgressFormId],
   );
 
   useEffect(
     () => {
-      if (show995) {
+      if (
+        show995 &&
+        SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)
+      ) {
         // form data is reset after logging in and from the save-in-progress data,
         // so get it from the session storage
-        if (!formData.benefitType && subTaskBenefitType) {
+        if (!formData.benefitType) {
           setFormData({
             ...formData,
             benefitType: subTaskBenefitType,
@@ -159,6 +161,8 @@ export const App = ({
         title={formConfig.title}
         benefitType={subTaskBenefitType}
         router={router}
+        accountUuid={accountUuid}
+        inProgressFormId={inProgressFormId}
       >
         {children}
       </ITFWrapper>
@@ -172,7 +176,7 @@ export const App = ({
     return <WIP />;
   }
 
-  if (!subTaskBenefitType) {
+  if (!SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)) {
     router.push('/start');
     content = wrapInH1(
       <va-loading-indicator message="Please wait while we restart the application for you." />,

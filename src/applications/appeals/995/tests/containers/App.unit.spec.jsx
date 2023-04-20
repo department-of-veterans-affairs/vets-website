@@ -217,19 +217,18 @@ describe('App', () => {
     expect(push.calledWith('/start')).to.be.true;
   });
 
-  it('should set Sentry tags', () => {
-    const setTagSpy = sinon.spy();
-    const { props, data } = getData();
-    render(
+  it('should redirect to start for unsupported benefit types', () => {
+    const push = sinon.spy();
+    const { props, data } = getData({ push, data: { benefitType: 'other' } });
+    const { container } = render(
       <Provider store={mockStore(data)}>
-        <App {...props} testSetTag={setTagSpy} />
+        <App {...props} />
       </Provider>,
     );
 
-    expect(setTagSpy.called).to.be.true;
-    expect(setTagSpy.firstCall.args[1]).to.eq(data.user.profile.accountUuid);
-    expect(setTagSpy.secondCall.args[1]).to.eq(
-      data.form.loadedData.metadata.inProgressFormId,
-    );
+    const alert = $('va-loading-indicator', container);
+    expect(alert).to.exist;
+    expect(alert.getAttribute('message')).to.contain('restart the app');
+    expect(push.calledWith('/start')).to.be.true;
   });
 });

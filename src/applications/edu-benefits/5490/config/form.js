@@ -29,6 +29,7 @@ import {
   benefitsDisclaimerChild,
   benefitsDisclaimerSpouse,
   relationshipLabels,
+  relationshipAndChildTypeLabels,
   highSchoolStatusLabels,
   transform,
 } from '../helpers';
@@ -87,11 +88,57 @@ const {
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
 
+const relationshipEqualToSpouse = (myGet, formData) => {
+  if (environment.isProduction()) {
+    return myGet('relationship', formData) === 'spouse';
+  }
+  return myGet('relationshipAndChildType', formData) === 'spouse';
+};
+
+const relationshipNotEqualToSpouse = (myGet, formData) => {
+  if (environment.isProduction()) {
+    return myGet('relationship', formData) !== 'spouse';
+  }
+  return myGet('relationshipAndChildType', formData) !== 'spouse';
+};
+
+const relationshipEqualToChild = (myGet, formData) => {
+  if (environment.isProduction()) {
+    return myGet('relationship', formData) === 'child';
+  }
+  return (
+    myGet('relationshipAndChildType', formData) === 'adopted' ||
+    myGet('relationshipAndChildType', formData) === 'biological' ||
+    myGet('relationshipAndChildType', formData) === 'step'
+  );
+};
+
+const relationshipNotEqualToChild = (myGet, formData) => {
+  if (environment.isProduction()) {
+    return myGet('relationship', formData) !== 'child';
+  }
+  return (
+    myGet('relationshipAndChildType', formData) !== 'adopted' ||
+    myGet('relationshipAndChildType', formData) !== 'biological' ||
+    myGet('relationshipAndChildType', formData) !== 'step'
+  );
+};
+
+const getRelationship = (myGet, formData) => {
+  if (environment.isProduction()) {
+    return myGet('relationship', formData);
+  }
+  return myGet('relationshipAndChildType', formData);
+};
+
 const removeAdditionalBenefit = () => {
   if (environment.isProduction()) {
     return {
       applicantInformation: applicantInformationUpdate(fullSchema5490, {
-        labels: { relationship: relationshipLabels },
+        labels: {
+          relationship: relationshipLabels,
+          relationshipAndChildType: relationshipAndChildTypeLabels,
+        },
       }),
       additionalBenefits: additionalBenefitsPage(fullSchema5490, {
         fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource'],
@@ -102,7 +149,10 @@ const removeAdditionalBenefit = () => {
 
   return {
     applicantInformation: applicantInformationUpdate(fullSchema5490, {
-      labels: { relationship: relationshipLabels },
+      labels: {
+        relationship: relationshipLabels,
+        relationshipAndChildType: relationshipAndChildTypeLabels,
+      },
     }),
     applicantService: applicantServicePage(fullSchema5490),
   };
@@ -170,13 +220,13 @@ const formConfig = {
             'view:benefitsDisclaimerChild': {
               'ui:description': benefitsDisclaimerChild,
               'ui:options': {
-                hideIf: form => get('relationship', form) !== 'child',
+                hideIf: form => relationshipNotEqualToChild(get, form),
               },
             },
             'view:benefitsDisclaimerSpouse': {
               'ui:description': benefitsDisclaimerSpouse,
               'ui:options': {
-                hideIf: form => get('relationship', form) !== 'spouse',
+                hideIf: form => relationshipNotEqualToSpouse(get, form),
               },
             },
             benefit: {
@@ -185,7 +235,7 @@ const formConfig = {
               'ui:options': {
                 labels: survivorBenefitsLabels,
                 updateSchema: (form, schema, uiSchema) => {
-                  const relationship = get('relationship', form);
+                  const relationship = getRelationship(get, form);
                   const nestedContent = {
                     chapter33: benefitSelectionWarning(
                       'chapter33',
@@ -464,11 +514,11 @@ const formConfig = {
                 'ui:title': 'Date of marriage',
                 'ui:options': {
                   hideIf: formData =>
-                    get('relationship', formData) === 'spouse' &&
+                    relationshipEqualToSpouse(get, formData) &&
                     environment.isProduction(),
                 },
                 'ui:required': formData =>
-                  get('relationship', formData) === 'spouse' &&
+                  relationshipEqualToSpouse(get, formData) &&
                   !environment.isProduction(),
               },
               divorcePending: {
@@ -476,7 +526,7 @@ const formConfig = {
                   'Is there a divorce or annulment pending with your sponsor?',
                 'ui:widget': 'yesNo',
                 'ui:required': formData =>
-                  get('relationship', formData) === 'spouse',
+                  relationshipEqualToSpouse(get, formData),
               },
               remarried: {
                 'ui:title':
@@ -492,7 +542,7 @@ const formConfig = {
                   get('spouseInfo.remarried', formData),
               },
               'ui:options': {
-                hideIf: formData => get('relationship', formData) !== 'spouse',
+                hideIf: formData => relationshipNotEqualToSpouse(get, formData),
               },
             },
             currentSameAsPrevious: {
@@ -561,7 +611,7 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   get('benefit', formData) === 'chapter33' &&
-                  get('relationship', formData) === 'spouse',
+                  relationshipEqualToSpouse(get, formData),
               },
             },
             sponsorStatus: {
@@ -577,7 +627,7 @@ const formConfig = {
                 },
                 hideIf: formData =>
                   get('benefit', formData) === 'chapter35' ||
-                  get('relationship', formData) === 'child',
+                  relationshipEqualToChild(get, formData),
               },
             },
             'view:sponsorDateOfDeath': {
@@ -587,7 +637,7 @@ const formConfig = {
                 expandUnderCondition: status => status && status !== 'powOrMia',
                 hideIf: formData =>
                   get('benefit', formData) === 'chapter35' ||
-                  get('relationship', formData) === 'child',
+                  relationshipEqualToChild(get, formData),
               },
             },
             'view:sponsorDateListedMiaOrPow': {
@@ -597,7 +647,7 @@ const formConfig = {
                 expandUnderCondition: status => status && status === 'powOrMia',
                 hideIf: formData =>
                   get('benefit', formData) === 'chapter35' ||
-                  get('relationship', formData) === 'child',
+                  relationshipEqualToChild(get, formData),
               },
             },
           },
@@ -661,6 +711,7 @@ const formConfig = {
         educationHistory: {
           title: 'Education history',
           path: 'education/history',
+          depends: () => environment.isProduction(),
           initialData: {},
           uiSchema: {
             highSchool: {
@@ -800,7 +851,7 @@ const formConfig = {
                       // relationship has changed
                       const filterEducationType = createSelector(
                         form => get('benefit', form),
-                        form => get('relationship', form),
+                        form => getRelationship(get, form),
                         (benefitData, relationshipData) => {
                           // Remove tuition top-up
                           const filterOut = ['tuitionTopUp'];

@@ -36,11 +36,16 @@ describe('Secure Messaging Manage Folder Errors check', () => {
       `/my_health/v1/messaging/folders/${folderID}`,
       MockCustomFolderResponse,
     ).as('customFolderID');
+    cy.intercept(
+      'GET',
+      `my_health/v1/messaging/folders/${folderID}/threads?pageSize=100&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC`,
+      mockMessages,
+    ).as('customFolderThreads');
     cy.contains(folderName).click();
 
     cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderID}`, {
       forceNetworkError: true,
-    });
+    }).as('deleteCustomMessage');
     cy.get('[data-testid="remove-folder-button"]').click();
     cy.get('[text="Remove"]')
       .shadow()
@@ -71,5 +76,23 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     folderPage.verifyCreateFolderNetworkFailureMessage();
     cy.injectAxe();
     cy.axeCheck();
+  });
+
+  it('Create Folder Input Field Error check on blank value submit', () => {
+    cy.get('[data-testid="my-folders-sidebar"]').click();
+    folderPage.createANewFolderButton().click();
+    folderPage.createFolderModalButton().click();
+    cy.injectAxe();
+    cy.axeCheck();
+    cy.get('[name="folder-name"]')
+      .shadow()
+      .find('input')
+      .should('be.focused');
+    cy.get('[name="folder-name"]')
+      .shadow()
+      .find('#input-error-message')
+      .should(err => {
+        expect(err).to.contain('Folder name cannot be blank');
+      });
   });
 });

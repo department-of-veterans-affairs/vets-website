@@ -73,7 +73,6 @@ EvidencePrivateLimitation.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
-  testingMethod: PropTypes.string,
 };
 
 export default EvidencePrivateLimitation;

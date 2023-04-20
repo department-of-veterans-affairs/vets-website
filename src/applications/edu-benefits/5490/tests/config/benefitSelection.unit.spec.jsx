@@ -19,7 +19,7 @@ describe('Edu 5490 benefitSelection', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        data={{ relationship: 'spouse' }}
+        data={{ relationshipAndChildType: 'spouse' }}
         uiSchema={uiSchema}
       />,
     );

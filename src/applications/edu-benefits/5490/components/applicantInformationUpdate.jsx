@@ -8,7 +8,12 @@ import * as personId from 'platform/forms/definitions/personId';
 import { relationshipLabels, genderLabels } from 'platform/static-data/labels';
 
 import environment from 'platform/utilities/environment';
-import { ageWarning, eighteenOrOver } from '../helpers';
+
+import {
+  ageWarning,
+  eighteenOrOver,
+  relationshipAndChildTypeLabels,
+} from '../helpers';
 
 const isNotProd = !environment.isProduction();
 
@@ -22,7 +27,7 @@ const conditionalFields = prefix => {
         'view:ageWarningNotification',
         'minorHighSchoolQuestions',
         'gender',
-        'relationship',
+        'relationshipAndChildType',
       ]
     : [
         `${prefix}FullName`,
@@ -37,7 +42,7 @@ const conditionalFields = prefix => {
 
 const defaults = prefix => ({
   fields: conditionalFields(prefix),
-  required: [`${prefix}FullName`, `${prefix}DateOfBirth`, 'relationship'],
+  required: [`${prefix}FullName`, `${prefix}DateOfBirth`],
   labels: {},
   isVeteran: false,
 });
@@ -179,20 +184,44 @@ export default function applicantInformationUpdate(schema, options) {
           'What’s your relationship to the service member whose benefit is being transferred to you?',
         'ui:options': {
           labels: labels.relationship || relationshipLabels,
+          hideIf: () => !environment.isProduction(),
         },
+        'ui:required': () => environment.isProduction(),
+      },
+      relationshipAndChildType: {
+        'ui:widget': 'radio',
+        'ui:title':
+          'What’s your relationship to the service member whose benefit is being transferred to you?',
+        'ui:options': {
+          labels: relationshipAndChildTypeLabels,
+          hideIf: () => environment.isProduction(),
+        },
+        'ui:required': () => !environment.isProduction(),
       },
       ...personId.uiSchema(prefix, 'view:noSSN'),
     },
     schema: {
       type: 'object',
-      definitions: pick(schema.definitions, [
-        'fullName',
-        'relationship',
-        'ssn',
-        'gender',
-        'date',
-        'vaFileNumber',
-      ]),
+      definitions: pick(
+        schema.definitions,
+        isNotProd
+          ? [
+              'fullName',
+              'relationshipAndChildType',
+              'ssn',
+              'gender',
+              'date',
+              'vaFileNumber',
+            ]
+          : [
+              'fullName',
+              'relationship',
+              'ssn',
+              'gender',
+              'date',
+              'vaFileNumber',
+            ],
+      ),
       required,
       properties: pick(possibleProperties, fields),
     },

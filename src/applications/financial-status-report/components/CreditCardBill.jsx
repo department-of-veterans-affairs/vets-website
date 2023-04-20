@@ -133,6 +133,7 @@ const CreditCardBill = props => {
         <va-number-input
           error={(submitted && unpaidBalanceError) || null}
           hint={null}
+          currency
           required
           inputmode="numeric"
           label="Unpaid balance"
@@ -147,6 +148,7 @@ const CreditCardBill = props => {
           error={(submitted && minMonthlyPaymentError) || null}
           hint={null}
           required
+          currency
           inputmode="numeric"
           label="Minimum monthly payment amount"
           name="minMonthlyPayment"
@@ -159,6 +161,7 @@ const CreditCardBill = props => {
         <va-number-input
           error={(submitted && amountOverdueError) || null}
           hint={null}
+          currency
           inputmode="numeric"
           label="Amount overdue"
           name="amountOverdue"
@@ -179,7 +182,7 @@ const CreditCardBill = props => {
         <button
           type="button"
           id="submit"
-          className="vads-u-width--auto"
+          className="vads-u-width--auto usa-button-primary"
           onClick={handlers.onUpdate}
         >
           {`${
