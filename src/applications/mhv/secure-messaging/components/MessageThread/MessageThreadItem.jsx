@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaAccordionItem } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -15,7 +15,7 @@ const MessageThreadItem = props => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { message, isDraftThread } = props;
   const {
-    // attachment,
+    attachment,
     attachments,
     body,
     messageId,
@@ -73,20 +73,21 @@ const MessageThreadItem = props => {
   //   );
   // };
 
-  // const ariaLabel = useMemo(
-  //   () => {
-  //     return `${!isRead ? 'New' : ''} message ${
-  //       attachment ? 'with attachment' : ''
-  //     } from ${senderName}, ${dateFormat(
-  //       sentDate,
-  //       'MMMM D, YYYY [at] h:mm a z',
-  //     )}. Click to ${isExpanded ? 'Collapse message' : 'Expand message'}`;
-  //   },
-  //   [attachment, isExpanded, isRead, senderName, sentDate],
-  // );
+  const accordionAriaLabel = useMemo(
+    () => {
+      return `${!isRead ? 'New' : ''} message ${
+        attachment ? 'with attachment' : ''
+      } from ${senderName}, ${dateFormat(
+        sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}. ${isExpanded ? 'Collapse message' : 'Expand message'}`;
+    },
+    [attachment, isExpanded, isRead, senderName, sentDate],
+  );
 
   return (
     <VaAccordionItem
+      aria-label={accordionAriaLabel}
       className="older-message"
       ref={accordionItemRef}
       header={`${!isRead ? '[UNREAD] ' : ''}${dateFormat(
