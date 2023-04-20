@@ -174,6 +174,7 @@ const EnhancedVehicleRecord = props => {
           inputmode="numeric"
           label="Estimated value"
           name="estValue"
+          currency
           id="estValue"
           required
           onInput={handleVehicleEstValueChange}
