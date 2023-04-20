@@ -63,6 +63,7 @@ const OtherAssetsSummary = ({
                 key={asset.name + asset.amount}
                 onDelete={() => onDelete(index)}
                 showDelete
+                index={index}
               />
             ))
           )}
