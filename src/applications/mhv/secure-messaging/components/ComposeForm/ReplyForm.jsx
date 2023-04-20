@@ -46,7 +46,7 @@ const ReplyForm = props => {
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const history = useHistory();
-  let draft;
+  const [draft, setDraft] = useState(null);
 
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
@@ -61,6 +61,9 @@ const ReplyForm = props => {
         setSubject(replyMessage.subject);
         setMessageBody('');
         setCategory(replyMessage.category);
+      }
+      if (draftToEdit) {
+        setDraft(draftToEdit);
       }
     },
     [replyMessage, draftToEdit],
@@ -158,10 +161,14 @@ const ReplyForm = props => {
     );
   };
 
-  if (draftToEdit && !formPopulated) {
-    draft = draftToEdit;
-    populateForm();
-  }
+  useEffect(
+    () => {
+      if (draft && !formPopulated) {
+        populateForm();
+      }
+    },
+    [draft],
+  );
 
   const setMessageTitle = () => {
     const casedCategory =
@@ -196,12 +203,13 @@ const ReplyForm = props => {
     }
   };
 
-  const saveDraftHandler = type => {
+  const saveDraftHandler = async type => {
     if (type === 'manual') {
       setUserSaved(true);
-      if (!checkMessageValidity()) {
-        setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE);
-        return;
+
+      await setMessageInvalid(false);
+      if (checkMessageValidity()) {
+        setNavigationError(null);
       }
       if (attachments.length) {
         setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT);
@@ -233,7 +241,7 @@ const ReplyForm = props => {
     if (!draftId) {
       dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
         newDraft => {
-          draft = newDraft;
+          setDraft(newDraft);
           setNewDraftId(newDraft.messageId);
         },
       );

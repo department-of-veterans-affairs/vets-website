@@ -4,12 +4,16 @@ import { useParams } from 'react-router-dom';
 import { getLabAndTest } from '../actions/labsAndTests';
 import EkgDetails from '../components/LabsAndTests/EkgDetails';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
+import RadiologyDetails from '../components/LabsAndTests/RadiologyDetails';
+import MicroDetails from '../components/LabsAndTests/MicroDetails';
+import PathologyDetails from '../components/LabsAndTests/PathologyDetails';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
   const labAndTestDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
+  const fullState = useSelector(state => state);
   const { labId } = useParams();
 
   useEffect(
@@ -49,13 +53,29 @@ const LabAndTestDetails = () => {
       case 'chemistry and hematology':
         return <p>chem and hem</p>;
       case 'radiology':
-        return <p>radiology</p>;
+        return (
+          <RadiologyDetails results={labAndTestDetails} fullState={fullState} />
+        );
       default:
+        if (
+          labAndTestDetails?.name.toLowerCase().includes('pathology') ||
+          labAndTestDetails?.name.toLowerCase().includes('cytology') ||
+          labAndTestDetails?.name.toLowerCase().includes('microscopy')
+        ) {
+          return (
+            <PathologyDetails
+              results={labAndTestDetails}
+              fullState={fullState}
+            />
+          );
+        }
         switch (labAndTestDetails?.name.toLowerCase()) {
           case 'electrocardiogram (ekg)':
             return <EkgDetails results={labAndTestDetails} />;
-          case 'Microbiology':
-            return <p>Microbiology</p>;
+          case 'microbiology':
+            return (
+              <MicroDetails results={labAndTestDetails} fullState={fullState} />
+            );
           default:
             return <p>something else</p>;
         }

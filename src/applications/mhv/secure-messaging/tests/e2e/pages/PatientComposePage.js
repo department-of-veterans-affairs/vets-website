@@ -13,6 +13,10 @@ class PatientComposePage {
     cy.wait('@message');
   };
 
+  getCategory = category => {
+    return cy.get(`[name=${category}]`);
+  };
+
   pushSendMessageWithKeyboardPress = () => {
     cy.intercept(
       'POST',
@@ -71,6 +75,10 @@ class PatientComposePage {
       .shadow()
       .find('[id="select"]')
       .select(recipient);
+  };
+
+  verifyFocusonMessageAttachment = () => {
+    cy.get('.editable-attachment > :nth-child(1) > span').should('have.focus');
   };
 
   //* Refactor* Needs to have mockDraftMessage as parameter
@@ -229,6 +237,15 @@ class PatientComposePage {
       .shadow()
       .find('[id = "textarea"]')
       .should('have.value', url);
+  };
+
+  clickConfirmDeleteButton = () => {
+    cy.get('[data-testid=delete-message-modal]')
+      .shadow()
+      .find('button')
+      .contains('Confirm')
+      .should('be.visible')
+      .click();
   };
 }
 export default PatientComposePage;

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import moment from 'moment';
 import { dateFormat } from '../util/helpers';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getVitalDetails } from '../actions/vitals';
@@ -84,7 +85,16 @@ const VitalDetails = () => {
     if (filteredVitals?.length) {
       return (
         <>
-          <h1>{filteredVitals[0].name}</h1>
+          <h1>
+            <span className="no-print">{filteredVitals[0].name}</span>
+            <span className="print-title print-only">
+              <div className="vads-u-margin-right--1">Vitals: </div>
+              <div className="vads-u-margin-right--1">
+                {filteredVitals[0].name.toLowerCase()},{' '}
+              </div>
+              <div>{moment().format('LL')}</div>
+            </span>
+          </h1>
           <div className="vads-u-display--flex vads-u-margin-y--3 no-print">
             <button
               className="link-button vads-u-margin-right--3"
@@ -115,19 +125,19 @@ const VitalDetails = () => {
             {currentVitals?.length > 0 &&
               currentVitals?.map((vital, idx) => (
                 <li key={idx}>
-                  <strong>Measurement:</strong>
+                  <h2>Measurement:</h2>
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                     {vital.measurement}
                   </p>
-                  <strong>{idx === 0 ? 'Most recent date:' : 'Date:'}</strong>
+                  <h2>{idx === 0 ? 'Most recent date:' : 'Date:'}</h2>
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                     {dateFormat(vital.date, 'MMMM D, YYYY')}
                   </p>
-                  <strong>Location:</strong>
+                  <h2>Location:</h2>
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                     {vital.facility}
                   </p>
-                  <strong>Provider comments:</strong>
+                  <h2>Provider comments:</h2>
                   {vital?.comments?.length > 0 ? (
                     <ul className="comment-list">
                       {vital.comments.map((comment, commentIdx) => (
@@ -144,13 +154,13 @@ const VitalDetails = () => {
             {filteredVitals?.length > 0 &&
               filteredVitals?.map((vital, idx) => (
                 <li key={idx}>
-                  <strong>Measurement:</strong>
+                  <h2>Measurement:</h2>
                   <p>{vital.measurement}</p>
-                  <strong>{idx === 0 ? 'Most recent date:' : 'Date:'}</strong>
+                  <h2>{idx === 0 ? 'Most recent date:' : 'Date:'}</h2>
                   <p>{dateFormat(vital.date, 'MMMM D, YYYY')}</p>
-                  <strong>Location:</strong>
+                  <h2>Location:</h2>
                   <p>{vital.facility}</p>
-                  <strong>Provider comments:</strong>
+                  <h2>Provider comments:</h2>
                   {vital?.comments?.length > 0 ? (
                     <ul className="comment-list">
                       {vital.comments.map((comment, commentIdx) => (

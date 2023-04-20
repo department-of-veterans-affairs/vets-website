@@ -28,7 +28,7 @@ const UtilityBillSummary = ({
   };
 
   const goForward = () => {
-    goToPath('/credit-card-bills');
+    goToPath('/installment-contracts');
   };
 
   const cardBody = text => (
@@ -62,6 +62,7 @@ const UtilityBillSummary = ({
                 key={utility.name + utility.amount}
                 onDelete={() => onDelete(index)}
                 showDelete
+                index={index}
               />
             ))
           )}

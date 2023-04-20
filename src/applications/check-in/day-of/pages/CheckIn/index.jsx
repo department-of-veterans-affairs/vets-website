@@ -19,15 +19,14 @@ const CheckIn = props => {
   const context = useSelector(selectCurrentContext);
   useSendDemographicsFlags();
 
-  const appointment = appointments ? appointments[0] : {};
-
   const { token } = context;
 
-  if (!appointment) {
+  if (appointments?.length < 1) {
     window.scrollTo(0, 0);
     return (
       <div>
         <va-loading-indicator
+          data-testid="loading-indicator"
           message={t('loading-your-appointments-for-today')}
         />
       </div>

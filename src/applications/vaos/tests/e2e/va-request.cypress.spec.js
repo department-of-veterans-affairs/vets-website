@@ -3,7 +3,6 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import {
   vaosSetup,
   mockFeatureToggles,
-  mockAppointmentRequestMessagesApi,
   mockAppointmentRequestsApi,
   mockAppointmentsApi,
   mockCCProvidersApi,
@@ -27,7 +26,6 @@ describe('VAOS VA request flow', () => {
   beforeEach(() => {
     vaosSetup();
 
-    mockAppointmentRequestMessagesApi();
     mockAppointmentRequestsApi();
     mockCCProvidersApi();
     mockFacilitiesApi({ apiVersion: 0 });

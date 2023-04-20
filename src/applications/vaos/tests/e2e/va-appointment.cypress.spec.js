@@ -10,7 +10,6 @@ import {
   mockSchedulingConfigurationApi,
   mockAppointmentsApi,
   vaosSetup,
-  mockAppointmentRequestMessagesApi,
   mockAppointmentRequestsApi,
   mockCCProvidersApi,
   mockFacilitiesApi,
@@ -35,7 +34,6 @@ describe('VAOS direct schedule flow', () => {
   beforeEach(() => {
     vaosSetup();
 
-    mockAppointmentRequestMessagesApi();
     mockAppointmentRequestsApi();
     mockAppointmentsApi({ apiVersion: 0 });
     mockCCProvidersApi();
