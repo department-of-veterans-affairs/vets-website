@@ -128,7 +128,7 @@ class AddressPage {
   };
 
   editAddress = (labels, fields) => {
-    cy.findByRole('button', { name: /edit address/i }).click();
+    cy.findByRole('button', { name: /go back to edit/i }).click();
     this.confirmAddressFields(labels, fields);
     cy.findByRole('button', { name: /^Save$/i }).click({ force: true });
     cy.findByRole('button', { name: /^use this address$/i }).click({

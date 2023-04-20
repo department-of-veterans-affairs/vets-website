@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { Redirect, useHistory } from 'react-router-dom';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from '../../lib/moment-tz';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
 import { selectConfirmationPage } from '../redux/selectors';
@@ -15,9 +16,19 @@ import {
   getFacilityPhone,
 } from '../../services/location';
 import AppointmentDate from '../../new-appointment/components/ReviewPage/AppointmentDate';
-import { getTimezoneByFacilityId } from '../../utils/timezone';
+import { startNewAppointmentFlow } from '../redux/actions';
 
 const pageTitle = 'We’ve scheduled your appointment';
+
+function handleClick(history, dispatch) {
+  return () => {
+    recordEvent({
+      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+    });
+    dispatch(startNewAppointmentFlow());
+    history.push(`/new-appointment`);
+  };
+}
 
 function ConfirmationPageV2({
   clinic,
@@ -26,6 +37,9 @@ function ConfirmationPageV2({
   slot,
   submitStatus,
 }) {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
@@ -53,19 +67,23 @@ function ConfirmationPageV2({
         <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
         <div className="vads-u-margin-y--1">
-          <Link
-            to="/"
+          <va-link
+            href="/health-care/schedule-view-va-appointments/appointments/"
             onClick={() => {
               recordEvent({
                 event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
               });
             }}
-          >
-            Review your appointments
-          </Link>
+            text="Review your appointments"
+            data-testid="review-appointments-link"
+          />
         </div>
         <div>
-          <Link to="/new-appointment">Schedule a new appointment</Link>
+          <va-link
+            text="Schedule a new appointment"
+            data-testid="schedule-appointment-link"
+            onClick={handleClick(history, dispatch)}
+          />
         </div>
       </InfoAlert>
       <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">

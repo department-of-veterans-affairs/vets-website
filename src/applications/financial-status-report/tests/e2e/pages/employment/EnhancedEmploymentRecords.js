@@ -1,6 +1,9 @@
 class EnhancedEmploymentRecords {
   employerFill = employer => {
-    cy.findByLabelText(/Type of work/).select(employer.type);
+    cy.get('#type')
+      .shadow()
+      .find('select')
+      .select(employer.type);
     cy.fillDate(
       'from',
       `${employer.from.split('-')[0]}-${employer.from.split('-')[1]}`,
@@ -13,17 +16,29 @@ class EnhancedEmploymentRecords {
         `${employer.to.split('-')[0]}-${employer.to.split('-')[1]}`,
       );
     }
-    cy.get(`input[name="employerName"]`).type(employer.employerName);
+    cy.get(`[label="Employer name"]`)
+      .shadow()
+      .find('input')
+      .type(employer.employerName);
     cy.findAllByText(/Continue/i, { selector: 'button' })
       .first()
       .click();
   };
 
   failValidationEmployerFill = employer => {
-    cy.findByLabelText(/Type of work/).select(employer.type);
-    cy.findByLabelText(/Type of work/).select('');
+    cy.get('[label="Type of work"]')
+      .shadow()
+      .find('select')
+      .select(employer.type);
+    cy.get('[label="Type of work"]')
+      .shadow()
+      .find('select')
+      .select('');
     cy.get('#errorable-select-1-error-message').should('exist');
-    cy.findByLabelText(/Type of work/).select(employer.type);
+    cy.get('[label="Type of work"]')
+      .shadow()
+      .find('select')
+      .select(employer.type);
     cy.get('#errorable-select-1-error-message').should('not.exist');
 
     cy.fillDate(
@@ -38,12 +53,7 @@ class EnhancedEmploymentRecords {
       .should('contain', 'start date.');
 
     if (employer.isCurrent) {
-      cy.get(`input[name="current-employment"]`).check();
-
-      cy.get(':nth-child(2) > .hydrated')
-        .shadow()
-        .find('#error-message')
-        .should('not.exist');
+      cy.get(`input[label="Employer name]`).check();
     } else {
       cy.fillDate(
         'to',
@@ -51,12 +61,19 @@ class EnhancedEmploymentRecords {
       );
     }
 
-    cy.get(`input[name="employerName"]`).type(employer.employerName);
-    cy.get(`input[name="employerName"]`).clear();
+    cy.get(`[label="Employer name]`)
+      .shadow()
+      .find('input')
+      .type(employer.employerName);
+
+    cy.get(`[label="Employer name]`).clear();
     cy.get('#errorable-text-input-1-error-message')
       .should('exist')
       .should('contain', 'employer name');
-    cy.get(`input[name="employerName"]`).type(employer.employerName);
+    cy.get(`[label="Employer name]`)
+      .shadow()
+      .find('input')
+      .type(employer.employerName);
     cy.findAllByText(/Continue/i, { selector: 'button' })
       .first()
       .click();

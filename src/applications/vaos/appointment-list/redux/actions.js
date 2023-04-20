@@ -17,8 +17,6 @@ import {
   selectFeatureAcheronService,
 } from '../../redux/selectors';
 
-import { getRequestMessages } from '../../services/var';
-
 import {
   getLocation,
   getLocations,
@@ -33,8 +31,6 @@ import {
   fetchRequestById,
   fetchBookedAppointment,
   cancelAppointment,
-  fetchPreferredProvider,
-  getPreferredCCProviderNPI,
 } from '../../services/appointment';
 import { captureError, has400LevelError } from '../../utils/error';
 import {
@@ -72,12 +68,6 @@ export const FETCH_CONFIRMED_DETAILS_FAILED =
 export const FETCH_CONFIRMED_DETAILS_SUCCEEDED =
   'vaos/FETCH_CONFIRMED_DETAILS_SUCCEEDED';
 
-export const FETCH_REQUEST_MESSAGES = 'vaos/FETCH_REQUEST_MESSAGES';
-export const FETCH_REQUEST_MESSAGES_FAILED =
-  'vaos/FETCH_REQUEST_MESSAGES_FAILED';
-export const FETCH_REQUEST_MESSAGES_SUCCEEDED =
-  'vaos/FETCH_REQUEST_MESSAGES_SUCCEEDED';
-
 export const FETCH_PROVIDER_SUCCEEDED = 'vaos/FETCH_PROVIDER_SUCCEEDED';
 
 export const CANCEL_APPOINTMENT = 'vaos/CANCEL_APPOINTMENT';
@@ -96,28 +86,6 @@ export const FETCH_FACILITY_SETTINGS_FAILED =
   'vaos/FETCH_FACILITY_SETTINGS_FAILED';
 export const FETCH_FACILITY_SETTINGS_SUCCEEDED =
   'vaos/FETCH_FACILITY_SETTINGS_SUCCEEDED';
-
-export function fetchRequestMessages(requestId) {
-  return async dispatch => {
-    try {
-      dispatch({
-        type: FETCH_REQUEST_MESSAGES,
-      });
-      const messages = await getRequestMessages(requestId);
-      dispatch({
-        type: FETCH_REQUEST_MESSAGES_SUCCEEDED,
-        requestId,
-        messages,
-      });
-    } catch (error) {
-      captureError(error);
-      dispatch({
-        type: FETCH_REQUEST_MESSAGES_FAILED,
-        error,
-      });
-    }
-  };
-}
 
 /*
  * The facility data we get back from the various endpoints for
@@ -168,79 +136,11 @@ function getAdditionalFacilityInfoV2(appointments) {
     .filter(n => n);
 }
 
-export function fetchPendingAppointments() {
-  return async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: FETCH_PENDING_APPOINTMENTS,
-      });
-
-      const state = getState();
-      const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
-        state,
-      );
-      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-        state,
-      );
-      const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
-        state,
-      );
-
-      const pendingAppointments = await getAppointmentRequests({
-        startDate: moment()
-          .subtract(120, 'days')
-          .format('YYYY-MM-DD'),
-        endDate: moment()
-          .add(featureVAOSServiceRequests ? 1 : 0, 'days')
-          .format('YYYY-MM-DD'),
-        useV2: featureVAOSServiceRequests,
-        useAcheron: featureAcheronVAOSServiceRequests,
-      });
-
-      dispatch({
-        type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-        data: pendingAppointments,
-      });
-
-      recordEvent({
-        event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
-      });
-
-      try {
-        let facilityData;
-        if (featureVAOSServiceRequests) {
-          facilityData = getAdditionalFacilityInfoV2(pendingAppointments);
-        } else {
-          facilityData = await getAdditionalFacilityInfo(
-            pendingAppointments,
-            featureFacilitiesServiceV2,
-          );
-        }
-        if (facilityData) {
-          dispatch({
-            type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-            facilityData,
-          });
-        }
-      } catch (error) {
-        captureError(error);
-      }
-
-      return pendingAppointments;
-    } catch (error) {
-      recordEvent({
-        event: `${GA_PREFIX}-get-pending-appointments-failed`,
-      });
-      dispatch({
-        type: FETCH_PENDING_APPOINTMENTS_FAILED,
-      });
-      return captureError(error);
-    }
-  };
-}
-
 export function fetchFutureAppointments({ includeRequests = true } = {}) {
   return async (dispatch, getState) => {
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
+      getState(),
+    );
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       getState(),
     );
@@ -286,57 +186,89 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           useAcheron: featureAcheronVAOSServiceRequests,
         }),
       ];
-
       if (includeRequests) {
-        const p = dispatch(fetchPendingAppointments());
-        promises.push(p);
+        promises.push(
+          getAppointmentRequests({
+            startDate: moment()
+              .subtract(120, 'days')
+              .format('YYYY-MM-DD'),
+            endDate: moment()
+              .add(featureVAOSServiceRequests ? 1 : 0, 'days')
+              .format('YYYY-MM-DD'),
+            useV2: featureVAOSServiceRequests,
+            useAcheron: featureAcheronVAOSServiceRequests,
+          })
+            .then(requests => {
+              dispatch({
+                type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
+                data: requests,
+              });
+
+              recordEvent({
+                event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
+              });
+
+              return requests;
+            })
+            .catch(resp => {
+              recordEvent({
+                event: `${GA_PREFIX}-get-pending-appointments-failed`,
+              });
+              dispatch({
+                type: FETCH_PENDING_APPOINTMENTS_FAILED,
+              });
+
+              return Promise.reject(resp);
+            }),
+        );
       }
-      const data = await Promise.all(promises);
+      const results = await Promise.all(promises);
+      const data = results[0]?.filter(appt => !appt.meta);
+      const backendSystemFailures = results[0]?.filter(appt => appt.meta);
 
       recordEvent({
         event: `${GA_PREFIX}-get-future-appointments-retrieved`,
       });
-      recordItemsRetrieved('upcoming', data[0]?.length);
+      recordItemsRetrieved('upcoming', data?.length);
       recordItemsRetrieved(
         'video_home',
-        data[0]?.filter(appt => isVideoHome(appt)).length,
+        data?.filter(appt => isVideoHome(appt)).length,
       );
 
       recordItemsRetrieved(
         'video_atlas',
-        data[0]?.filter(appt => appt.videoData.isAtlas).length,
+        data?.filter(appt => appt.videoData.isAtlas).length,
       );
 
       recordItemsRetrieved(
         'video_va_facility',
-        data[0]?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic)
-          .length,
+        data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic).length,
       );
 
       recordItemsRetrieved(
         'video_gfe',
-        data[0]?.filter(appt => appt.videoData.kind === VIDEO_TYPES.gfe).length,
+        data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.gfe).length,
       );
 
       recordItemsRetrieved(
         'video_store_forward',
-        data[0]?.filter(
-          appt => appt.videoData.kind === VIDEO_TYPES.storeForward,
-        ).length,
+        data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.storeForward)
+          .length,
       );
 
       dispatch({
         type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
-        data: data[0],
+        data,
+        backendServiceFailures: backendSystemFailures[0],
       });
 
       try {
         let facilityData;
         if (featureVAOSServiceVAAppointments) {
-          facilityData = getAdditionalFacilityInfoV2(data.flat());
+          facilityData = getAdditionalFacilityInfoV2(data);
         } else {
           facilityData = await getAdditionalFacilityInfo(
-            [].concat(...data),
+            [].concat(...results),
             featureFacilitiesServiceV2,
           );
         }
@@ -353,8 +285,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
 
       if (
         data
-          .flat()
-          ?.filter(appt => appt?.videoData?.kind === VIDEO_TYPES.clinic)
+          ?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic)
           .some(appt => !appt.location?.stationId)
       ) {
         Sentry.captureMessage('VAOS clinic based appointment missing sta6aid');
@@ -368,6 +299,82 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
         type: FETCH_FUTURE_APPOINTMENTS_FAILED,
         error,
       });
+    }
+  };
+}
+
+export function fetchPendingAppointments() {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: FETCH_PENDING_APPOINTMENTS,
+      });
+
+      const state = getState();
+      const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
+        state,
+      );
+      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
+        state,
+      );
+      const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
+        state,
+      );
+
+      const pendingAppointments = await getAppointmentRequests({
+        startDate: moment()
+          .subtract(120, 'days')
+          .format('YYYY-MM-DD'),
+        endDate: moment()
+          .add(featureVAOSServiceRequests ? 1 : 0, 'days')
+          .format('YYYY-MM-DD'),
+        useV2: featureVAOSServiceRequests,
+        useAcheron: featureAcheronVAOSServiceRequests,
+      });
+
+      const backendSystemFailures = pendingAppointments.filter(
+        appt => appt.meta,
+      );
+
+      dispatch({
+        type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
+        data: pendingAppointments,
+        backendServiceFailures: backendSystemFailures[0],
+      });
+
+      recordEvent({
+        event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
+      });
+
+      try {
+        let facilityData;
+        if (featureVAOSServiceRequests) {
+          facilityData = getAdditionalFacilityInfoV2(pendingAppointments);
+        } else {
+          facilityData = await getAdditionalFacilityInfo(
+            pendingAppointments,
+            featureFacilitiesServiceV2,
+          );
+        }
+        if (facilityData) {
+          dispatch({
+            type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+            facilityData,
+          });
+        }
+      } catch (error) {
+        captureError(error);
+      }
+
+      return pendingAppointments;
+    } catch (error) {
+      recordEvent({
+        event: `${GA_PREFIX}-get-pending-appointments-failed`,
+      });
+      dispatch({
+        type: FETCH_PENDING_APPOINTMENTS_FAILED,
+      });
+      return captureError(error);
     }
   };
 }
@@ -397,7 +404,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     });
 
     try {
-      const fetches = [
+      const promises = [
         fetchAppointments({
           startDate,
           endDate,
@@ -407,7 +414,10 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         }),
       ];
 
-      const [appointments, requests] = await Promise.all(fetches);
+      const results = await Promise.all(promises);
+      const appointments = results[0]?.filter(appt => !appt.meta);
+      const requests = [];
+      const backendSystemFailures = results[0]?.filter(appt => appt.meta);
 
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
@@ -415,6 +425,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         requests,
         startDate,
         endDate,
+        backendServiceFailures: backendSystemFailures[0],
       });
 
       recordEvent({
@@ -508,15 +519,6 @@ export function fetchRequestDetails(id) {
         id,
         facility,
       });
-
-      if (!featureVAOSServiceRequests) {
-        const { requestMessages } = state.appointments;
-        const messages = requestMessages?.[id];
-
-        if (!messages) {
-          dispatch(fetchRequestMessages(id));
-        }
-      }
     } catch (e) {
       captureError(e);
       dispatch({
@@ -715,40 +717,6 @@ export function fetchFacilitySettings() {
       });
 
       captureError(e, false);
-    }
-  };
-}
-
-/**
- * Function to retrieve provider information from the provider
- * endpoint when using the v2 api.
- *
- * @param {*} appointment
- */
-export function getProviderInfoV2(appointment) {
-  // Provider information included with v2 provider api call.
-  return async (dispatch, getState) => {
-    const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-      getState(),
-    );
-    if (featureVAOSServiceCCAppointments && appointment.practitioners?.length) {
-      const ProviderNpi = getPreferredCCProviderNPI(appointment);
-
-      const providerData = await fetchPreferredProvider(ProviderNpi);
-
-      dispatch({
-        type: FETCH_PROVIDER_SUCCEEDED,
-        providerData,
-      });
-    }
-    if (
-      featureVAOSServiceCCAppointments &&
-      !appointment.practitioners?.length
-    ) {
-      dispatch({
-        type: FETCH_PROVIDER_SUCCEEDED,
-        providerData: null,
-      });
     }
   };
 }

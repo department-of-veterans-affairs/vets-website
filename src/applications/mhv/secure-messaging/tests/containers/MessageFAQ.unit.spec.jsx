@@ -28,7 +28,7 @@ describe('Message FAQ container', () => {
       },
     );
 
-    const FAQs = screen.getByText('Questions about this messaging tool');
+    const FAQs = screen.getByText('Questions about using messages');
     expect(FAQs).to.exist;
   });
 });

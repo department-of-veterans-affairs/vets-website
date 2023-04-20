@@ -64,12 +64,9 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       .first()
       .should('exist');
 
-    // cy.findAllByText(/start.+application/i, { selector: 'button' })
-    //   .first()
-    //   .click();
-
-    // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
-    cy.get('#1-continueButton').click();
+    cy.get('a.vads-c-action-link--green')
+      .first()
+      .click();
 
     cy.wait('@mockSip');
 
@@ -166,8 +163,11 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
     aiqHelpers.goToNextPage('review-and-submit');
 
     cy.get('[name="privacyAgreementAccepted"]')
+      .find('[type="checkbox"]')
       .scrollIntoView()
-      .check();
+      .check({
+        force: true,
+      });
     cy.findByText(/submit/i, { selector: 'button' }).click();
     cy.wait('@mockSubmit');
     cy.location('pathname').should('include', '/confirmation');
@@ -226,12 +226,9 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
       .first()
       .should('exist');
 
-    // cy.findAllByText(/start.+application/i, { selector: 'button' })
-    //   .first()
-    //   .click();
-
-    // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
-    cy.get('#1-continueButton').click();
+    cy.get('a.vads-c-action-link--green')
+      .first()
+      .click();
 
     cy.wait('@mockSip');
     cy.location('pathname').should(

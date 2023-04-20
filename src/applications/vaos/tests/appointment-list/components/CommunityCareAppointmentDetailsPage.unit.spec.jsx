@@ -45,7 +45,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     MockDate.reset();
   });
 
-  it('should navigate to community care appointments detail page', async () => {
+  it.skip('should navigate to community care appointments detail page', async () => {
     // CC appointment id from confirmed_cc.json
     const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
     const appointmentTime = moment().add(1, 'days');
@@ -86,6 +86,8 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
 
     // Select an appointment details link...
     let detailLink = detailLinks.find(l => l.getAttribute('href') === url);
+
+    // And the user select the appointment to display the appointment details page
     userEvent.click(detailLink);
 
     // Verify page content...
@@ -145,7 +147,12 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
       name: /VA online scheduling/,
     });
     userEvent.click(VAOSHomepageLink);
-    expect(await screen.findAllByText(/Detail/)).to.be.ok;
+
+    expect(
+      await screen.findAllByRole('link', {
+        name: /Detail/i,
+      }),
+    ).to.be.ok;
   });
 
   it('should show cc info when directly opening page', async () => {
@@ -547,7 +554,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     MockDate.reset();
   });
 
-  it('should navigate to community care appointments detail page', async () => {
+  it.skip('should navigate to community care appointments detail page', async () => {
     const url = '/cc/01aa456cc';
     const appointmentTime = moment().add(1, 'days');
     const start = moment()

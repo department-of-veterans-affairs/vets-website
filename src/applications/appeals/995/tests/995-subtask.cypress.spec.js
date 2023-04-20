@@ -17,6 +17,7 @@ describe('995 subtask', () => {
   it('should show error when nothing selected - C30850', () => {
     cy.injectAxeThenAxeCheck();
 
+    cy.get('h1').contains('File a Supplemental Claim');
     cy.findByText(/continue/i, { selector: 'va-button' }).click();
     cy.get('va-radio')
       .shadow()
@@ -29,6 +30,7 @@ describe('995 subtask', () => {
   it('should go to intro page when compensation is selected - C30851', () => {
     cy.injectAxeThenAxeCheck();
 
+    cy.get('h1').contains('File a Supplemental Claim');
     cy.selectRadio('benefitType', 'compensation');
     cy.findByText(/continue/i, { selector: 'va-button' }).click();
 
@@ -38,11 +40,12 @@ describe('995 subtask', () => {
   it('should go to non-compensation type page when another type is selected - C30852', () => {
     cy.injectAxeThenAxeCheck();
 
+    cy.get('h1').contains('File a Supplemental Claim');
     cy.selectRadio('benefitType', 'other');
     cy.findByText(/continue/i, { selector: 'va-button' }).click();
 
     cy.location('pathname').should('eq', `${BASE_URL}/start`);
-    cy.get('h1').contains('Claim isn’t for a disability');
+    cy.get('h2').contains('Claim isn’t for a disability');
     cy.findByText('Find the address for mailing your form', { selector: 'a' })
       .should('have.attr', 'href')
       .and(

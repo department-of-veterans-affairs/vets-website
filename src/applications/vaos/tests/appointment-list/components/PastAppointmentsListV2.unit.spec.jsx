@@ -55,6 +55,8 @@ describe('VAOS <PastAppointmentsListV2>', () => {
   });
 
   it('should update range on dropdown change', async () => {
+    const url = '/va/1234';
+
     const pastDate = moment().subtract(3, 'months');
     const data = {
       id: '1234',
@@ -96,7 +98,13 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     await screen.findByText(/VA appointment/);
 
     expect(screen.baseElement).to.contain.text(`Appointments in ${rangeLabel}`);
-    expect(screen.baseElement).to.contain.text('Details');
+
+    const detailLinks = await screen.findAllByRole('link', {
+      name: /Detail/i,
+    });
+
+    const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+    expect(detailLink.getAttribute('text')).to.equal('Details');
   });
 
   it('should show information without facility name', async () => {

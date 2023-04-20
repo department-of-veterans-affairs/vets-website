@@ -3,11 +3,10 @@ import {
   getValidationMessageKey,
   showAddressValidationModal,
 } from 'platform/user/profile/vap-svc/util';
+import { ADDRESS_VALIDATION_TYPES } from '../../constants/addressValidationMessages';
 
 describe('getValidationMessageKey', () => {
   it('returns showSuggestionsOverride key', () => {
-    const addressValidationError = false;
-    const validationKey = 12345;
     const suggestedAddresses = [
       {
         address: {
@@ -50,20 +49,16 @@ describe('getValidationMessageKey', () => {
         },
       },
     ];
-    const confirmedAddresses = [];
     expect(
-      getValidationMessageKey(
+      getValidationMessageKey({
         suggestedAddresses,
-        validationKey,
-        addressValidationError,
-        confirmedAddresses,
-      ),
+        addressValidationError: false,
+        confirmedSuggestions: [],
+      }),
     ).to.equal('showSuggestionsOverride');
   });
 
   it('returns missingUnitNumberOverride key', () => {
-    const addressValidationError = false;
-    const validationKey = 12345;
     const suggestedAddresses = [
       {
         address: {
@@ -88,12 +83,43 @@ describe('getValidationMessageKey', () => {
       },
     ];
     expect(
-      getValidationMessageKey(
+      getValidationMessageKey({
         suggestedAddresses,
-        validationKey,
-        addressValidationError,
-      ),
+        addressValidationError: false,
+      }),
     ).to.equal('missingUnitNumberOverride');
+  });
+
+  it('returns validationError key', () => {
+    const suggestedAddresses = [
+      {
+        address: {
+          addressLine1: '400 NE 65th St',
+          addressType: 'DOMESTIC',
+          city: 'Seattle',
+          countryName: 'USA',
+          countryCodeIso3: 'USA',
+          countyCode: '53033',
+          countyName: 'King',
+          stateCode: 'WA',
+          zipCode: '98115',
+          zipCodeSuffix: '6463',
+        },
+        addressMetaData: {
+          confidenceScore: 98.0,
+          addressType: 'Domestic',
+          deliveryPointValidation:
+            'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER',
+          residentialDeliveryIndicator: 'RESIDENTIAL',
+        },
+      },
+    ];
+    expect(
+      getValidationMessageKey({
+        suggestedAddresses,
+        addressValidationError: true,
+      }),
+    ).to.equal(ADDRESS_VALIDATION_TYPES.VALIDATION_ERROR);
   });
 });
 

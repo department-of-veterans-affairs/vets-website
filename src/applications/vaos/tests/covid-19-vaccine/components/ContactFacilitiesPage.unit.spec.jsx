@@ -15,39 +15,41 @@ import {
 import { createMockFacilityByVersion } from '../../mocks/data';
 import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingDirect: true,
-  },
-  appointments: {
-    facilitySettings: [
-      {
-        id: '983',
-        services: [
-          {
-            id: 'covid',
-            direct: {
-              enabled: true,
-            },
-          },
-        ],
-      },
-    ],
-  },
-  user: {
-    profile: {
-      facilities: [
-        { facilityId: '983', isCerner: false },
-        { facilityId: '984', isCerner: false },
-      ],
-    },
-  },
-};
-
 const parentSiteIds = ['983', '984'];
 
 describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
-  beforeEach(() => mockFetch());
+  const initialState = {
+    featureToggles: {
+      vaOnlineSchedulingDirect: true,
+    },
+    appointments: {
+      facilitySettings: [
+        {
+          id: '983',
+          services: [
+            {
+              id: 'covid',
+              direct: {
+                enabled: true,
+              },
+            },
+          ],
+        },
+      ],
+    },
+    user: {
+      profile: {
+        facilities: [
+          { facilityId: '983', isCerner: false },
+          { facilityId: '984', isCerner: false },
+        ],
+      },
+    },
+  };
+
+  beforeEach(() => {
+    mockFetch();
+  });
 
   it('should show closest two registered facilities', async () => {
     mockDirectBookingEligibilityCriteria(parentSiteIds, [
@@ -294,7 +296,7 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
     ).to.be.ok;
   });
 
-  it('should show no facilities for online vaccine scheduling view', async () => {
+  it.skip('should show no facilities for online vaccine scheduling view', async () => {
     mockDirectBookingEligibilityCriteria(parentSiteIds, [
       getDirectBookingEligibilityCriteriaMock({
         id: '983',

@@ -1,11 +1,11 @@
-import { badAddress, loa3User72 } from '../../../mocks/user';
+import { badAddress, loa3User72 } from '../../../mocks/endpoints/user';
 
-import { generateFeatureToggles } from '../../../mocks/feature-toggles';
+import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 import {
   addressValidation,
   mailingAddressStatusSuccess,
   mailingAddressUpdateReceived,
-} from '../../../mocks/address';
+} from '../../../mocks/endpoints/address';
 
 import BadAddressFeature from './BadAddressFeature';
 

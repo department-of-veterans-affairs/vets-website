@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectFeatureStatusImprovement } from '../redux/selectors';
 
@@ -11,7 +10,9 @@ export default function VAOSBreadcrumbs({ children }) {
   );
   const location = useLocation();
   const isPast = location.pathname.includes('/past');
-  const isPending = location.pathname.includes('/pending');
+  const isPending =
+    location.pathname.includes('/pending') ||
+    location.pathname.includes('/requests');
   const breadcrumbsRef = useRef(null);
 
   useEffect(
@@ -34,12 +35,14 @@ export default function VAOSBreadcrumbs({ children }) {
     [location, breadcrumbsRef],
   );
 
+  // The va-breadcrumbs component only allows for either Link components or anchor links,
+  // it will not work with the va-link component currently
   return (
-    <VaBreadcrumbs
+    <va-breadcrumbs
       role="navigation"
       aria-label="Breadcrumbs"
       ref={breadcrumbsRef}
-      className="vaos-hide-for-print"
+      class="vaos-hide-for-print"
     >
       <a href="/" key="home">
         Home
@@ -54,34 +57,35 @@ export default function VAOSBreadcrumbs({ children }) {
         Schedule and manage health appointments
       </a>
       {!featureStatusImprovement && (
-        <Link to="/" key="vaos-home">
+        <NavLink to="/" id="vaos-home">
           VA online scheduling
-        </Link>
+        </NavLink>
       )}
       {featureStatusImprovement && (
-        <Link to="/" key="vaos-home">
+        <NavLink to="/" id="vaos-home">
           Your appointments
-        </Link>
+        </NavLink>
       )}
 
       {isPast && (
         <li className="va-breadcrumbs-li">
-          <Link to="/past" key="past">
+          <NavLink to="/past" id="past">
             Past
-          </Link>
+          </NavLink>
         </li>
       )}
 
-      {isPending && (
-        <li className="va-breadcrumbs-li">
-          <Link to="/pending" key="pending">
-            Pending
-          </Link>
-        </li>
-      )}
+      {featureStatusImprovement &&
+        isPending && (
+          <li className="va-breadcrumbs-li">
+            <NavLink to="/pending" id="pending">
+              Pending
+            </NavLink>
+          </li>
+        )}
 
       {children}
-    </VaBreadcrumbs>
+    </va-breadcrumbs>
   );
 }
 

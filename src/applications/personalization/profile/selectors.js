@@ -83,10 +83,6 @@ export const militaryInformationLoadError = state => {
 export const hasBadAddress = state =>
   state.user?.profile?.vapContactInfo?.mailingAddress?.badAddress;
 
-export const profileShowAddressChangeModal = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowAddressChangeModal] ||
-  false;
-
 export const profileShowPronounsAndSexualOrientation = state =>
   toggleValues(state)?.[
     FEATURE_FLAG_NAMES.profileShowPronounsAndSexualOrientation
@@ -117,18 +113,4 @@ export function selectVAProfilePersonalInformation(state, fieldName) {
 export const selectHideDirectDepositCompAndPen = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileHideDirectDepositCompAndPen];
 
-export const selectShowPaymentsNotificationSetting = state =>
-  toggleValues(state)?.[
-    FEATURE_FLAG_NAMES.profileShowPaymentsNotificationSetting
-  ];
-
-// toggle used for 47841
-export const selectToggleProfileBlockForFiduciaryDeceasedOrIncompetent = state =>
-  toggleValues(state)?.[
-    FEATURE_FLAG_NAMES.profileBlockForFiduciaryDeceasedOrIncompetent
-  ];
-
-// remove the feature flag reliance once 47841 is live
-export const selectIsBlocked = state =>
-  cnpDirectDepositIsBlocked(state) &&
-  selectToggleProfileBlockForFiduciaryDeceasedOrIncompetent(state);
+export const selectIsBlocked = state => cnpDirectDepositIsBlocked(state);

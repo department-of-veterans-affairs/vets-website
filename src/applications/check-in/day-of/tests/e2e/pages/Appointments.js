@@ -5,7 +5,7 @@ class Appointments {
   validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Your appointments:');
+      .and('have.text', 'Your appointments');
   };
 
   validateAppointmentLength = length => {
@@ -13,50 +13,80 @@ class Appointments {
   };
 
   validateUnavailableStatus = (appointmentNumber = 1) => {
-    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) p`, {
-      timeout: Timeouts.slow,
-    }).should(
+    cy.get(
+      `.appointment-list > li:nth-child(${appointmentNumber}) span[data-testid="unknown-reason-message"]`,
+      {
+        timeout: Timeouts.slow,
+      },
+    ).should(
       'contain',
       'Online check-in isn’t available for this appointment. Check in with a staff member.',
     );
   };
 
   validateEligibleStatus = (appointmentNumber = 1) => {
-    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) > button`, {
-      timeout: Timeouts.slow,
-    })
+    cy.get(
+      `.appointment-list > li:nth-child(${appointmentNumber}) button[data-testid="check-in-button"]`,
+      {
+        timeout: Timeouts.slow,
+      },
+    )
       .should('be.visible')
       .and('contain', 'Check in now');
   };
 
   validateEarlyStatusWithTime = (appointmentNumber = 1) => {
-    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) p`, {
-      timeout: Timeouts.slow,
-    }).should('contain', 'You can check in starting at this time: 11:00 a.m.');
+    cy.get(
+      `.appointment-list > li:nth-child(${appointmentNumber}) span[data-testid="too-early-message"]`,
+      {
+        timeout: Timeouts.slow,
+      },
+    ).should('contain', 'You can check in starting at: 11:00 a.m.');
   };
 
   validateEarlyStatusWithoutTime = (appointmentNumber = 2) => {
-    cy.get(`.appointment-list li:nth-child(${appointmentNumber}) p`, {
-      timeout: Timeouts.slow,
-    }).should(
+    cy.get(
+      `.appointment-list li:nth-child(${appointmentNumber}) span[data-testid="no-time-too-early-reason-message"]`,
+      {
+        timeout: Timeouts.slow,
+      },
+    ).should(
       'contain',
       'This appointment isn’t eligible for online check-in. Check-in with a staff member.',
     );
   };
 
   validateLateStatus = (appointmentNumber = 1) => {
-    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) p`, {
-      timeout: Timeouts.slow,
-    }).should(
+    cy.get(
+      `.appointment-list > li:nth-child(${appointmentNumber}) span[data-testid="too-late-message"]`,
+      {
+        timeout: Timeouts.slow,
+      },
+    ).should(
       'contain',
       'Your appointment started more than 15 minutes ago. We can’t check you in online. Ask a staff member for help.',
     );
   };
 
   validateUnknownStatus = (appointmentNumber = 1) => {
-    cy.get(`.appointment-list > li:nth-child(${appointmentNumber}) p`, {
-      timeout: Timeouts.slow,
-    }).should(
+    cy.get(
+      `.appointment-list > li:nth-child(${appointmentNumber}) span[data-testid="unknown-reason-message"]`,
+      {
+        timeout: Timeouts.slow,
+      },
+    ).should(
+      'contain',
+      'Online check-in isn’t available for this appointment. Check in with a staff member.',
+    );
+  };
+
+  validateBadStatus = (appointmentNumber = 1) => {
+    cy.get(
+      `.appointment-list > li:nth-child(${appointmentNumber}) span[data-testid="ineligible-bad-status-message"]`,
+      {
+        timeout: Timeouts.slow,
+      },
+    ).should(
       'contain',
       'Online check-in isn’t available for this appointment. Check in with a staff member.',
     );
@@ -67,7 +97,7 @@ class Appointments {
     appointmentmentTime = '3:00 a.m.',
   ) => {
     cy.get(
-      `:nth-child(${appointmentNumber}) > .appointment-summary > [data-testid=appointment-time]`,
+      `:nth-child(${appointmentNumber}) > .check-in--appointment-summary > [data-testid=appointment-time]`,
       { timeout: Timeouts.slow },
     )
       .should('be.visible')
@@ -100,7 +130,7 @@ class Appointments {
 
   attemptCheckIn = (appointmentNumber = 1) => {
     cy.get(
-      `:nth-child(${appointmentNumber}) > [data-testid=check-in-button]`,
+      `li:nth-child(${appointmentNumber}) [data-testid=check-in-button]`,
     ).click({ waitForAnimations: true });
   };
 

@@ -41,15 +41,15 @@ const BackButton = props => {
       <nav
         aria-label={t('breadcrumb')}
         aria-live="polite"
-        className="va-nav-breadcrumbs va-nav-breadcrumbs--mobile"
+        className="row check-in-back-button columns"
       >
-        <ul className="row va-nav-breadcrumbs-list columns">
-          <li>
-            <Link onClick={handleClick} to={prevUrl} data-testid="back-button">
-              {text || t('back-to-last-screen')}
-            </Link>
-          </li>
-        </ul>
+        <Link onClick={handleClick} to={prevUrl} data-testid="back-button">
+          <i
+            aria-hidden="true"
+            className="fas fa-angle-left vads-u-margin-right--0p25"
+          />
+          {text || t('back-to-last-screen')}
+        </Link>
       </nav>
     </>
   );

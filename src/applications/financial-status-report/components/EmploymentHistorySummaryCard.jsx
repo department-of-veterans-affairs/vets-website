@@ -2,7 +2,7 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import { setJobIndex } from '../utils/session';
 
-const EmploymentHistorySummaryCard = ({ job, index }) => {
+const EmploymentHistorySummaryCard = ({ job, index, isSpouse }) => {
   const employmentCardHeading = `${job.employerName}`;
   const employmentCardSubheading = `From ${job.from} to ${
     job.isCurrent ? 'Now' : job.to
@@ -10,7 +10,11 @@ const EmploymentHistorySummaryCard = ({ job, index }) => {
 
   const handleClick = () => {
     setJobIndex(index);
-    browserHistory.push(`/enhanced-employment-records`);
+    if (isSpouse) {
+      browserHistory.push(`/enhanced-spouse-employment-records`);
+    } else {
+      browserHistory.push(`/enhanced-employment-records`);
+    }
   };
 
   return (
@@ -27,6 +31,7 @@ const EmploymentHistorySummaryCard = ({ job, index }) => {
           handleClick();
         }}
         href="#/edit"
+        aria-label={`Edit Employment History for ${employmentCardHeading}`}
       >
         Edit
       </a>

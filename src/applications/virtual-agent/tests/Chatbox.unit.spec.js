@@ -69,6 +69,17 @@ describe('App', () => {
     );
   }
 
+  async function wait(timeout) {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  }
+
+  function dispatchAndWait(eventToDispatch, timeToWaitInMS = 100) {
+    window.dispatchEvent(eventToDispatch);
+    return wait(timeToWaitInMS);
+  }
+
   beforeEach(() => {
     createStoreSpy = sandbox.spy();
     directLineSpy = sandbox.spy();
@@ -86,11 +97,79 @@ describe('App', () => {
     sandbox.restore();
   });
 
-  async function wait(timeout) {
-    return new Promise(resolve => {
-      setTimeout(resolve, timeout);
+  describe('Reload after intervals', () => {
+    const locationReload = window.location;
+    beforeEach(() => {
+      sandbox.stub(Date, 'now');
+      Date.now.returns(1);
     });
-  }
+    afterEach(() => {
+      window.location = locationReload;
+    });
+
+    it('Will reload the page after 60 minutes of first render', async () => {
+      const unacknowledgedUserStore = {
+        initialState: {
+          featureToggles: { loading: false },
+          virtualAgentData: { termsAccepted: false },
+          user: {
+            login: { currentlyLoggedIn: true },
+            profile: { userFullName: { first: 'Steve' } },
+          },
+        },
+        reducers: virtualAgentReducer,
+      };
+
+      window.location = { reload: sinon.stub() };
+
+      renderInReduxProvider(
+        <Chatbox {...defaultProps} />,
+        unacknowledgedUserStore,
+      );
+
+      const outgoingActivityEvent = new Event('bot-outgoing-activity');
+
+      await dispatchAndWait(outgoingActivityEvent);
+      expect(window.location.reload.called).to.be.false;
+
+      Date.now.returns(60 * 60 * 1000 + 2);
+      await dispatchAndWait(outgoingActivityEvent);
+      expect(window.location.reload.called).to.be.true;
+    });
+
+    it('Will reload the page after 30 minutes between messages', async () => {
+      const unacknowledgedUserStore = {
+        initialState: {
+          featureToggles: { loading: false },
+          virtualAgentData: { termsAccepted: false },
+          user: {
+            login: { currentlyLoggedIn: true },
+            profile: { userFullName: { first: 'Steve' } },
+          },
+        },
+        reducers: virtualAgentReducer,
+      };
+
+      window.location = { reload: sinon.stub() };
+
+      renderInReduxProvider(
+        <Chatbox {...defaultProps} />,
+        unacknowledgedUserStore,
+      );
+
+      const outgoingActivityEvent = new Event('bot-outgoing-activity');
+      await dispatchAndWait(outgoingActivityEvent);
+      expect(window.location.reload.called).to.be.false;
+
+      Date.now.returns(15 * 60 * 1000 + Date.now());
+      await dispatchAndWait(outgoingActivityEvent);
+      expect(window.location.reload.called).to.be.false;
+
+      Date.now.returns(30 * 60 * 1000 + Date.now() + 1);
+      await dispatchAndWait(outgoingActivityEvent);
+      expect(window.location.reload.called).to.be.true;
+    });
+  });
 
   describe('user lands on chatbot page (default behaviors)', () => {
     const providerObject = {
@@ -363,7 +442,6 @@ describe('App', () => {
           });
 
           const messageActivityHandlerSpy = sinon.spy();
-          // console.log('--- ', messageActivityHandlerSpy);
           window.addEventListener(
             'webchat-message-activity',
             messageActivityHandlerSpy,

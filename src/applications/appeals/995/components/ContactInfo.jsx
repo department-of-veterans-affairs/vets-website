@@ -6,11 +6,23 @@ import { Element } from 'react-scroll';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { focusElement, scrollTo, scrollAndFocus } from 'platform/utilities/ui';
 
 import { readableList } from '../utils/helpers';
-import { getFormattedPhone } from '../utils/contactInfo';
+import {
+  getFormattedPhone,
+  getReturnState,
+  clearReturnState,
+} from '../utils/contactInfo';
 import { content } from '../content/contactInfo';
+import { REVIEW_CONTACT } from '../constants';
+
+// Used by form config to not focus on the H3 the contact info was edited
+export const customContactFocus = () => {
+  if (!getReturnState()) {
+    focusElement('#main h3');
+  }
+};
 
 const ContactInfo = ({
   data,
@@ -24,7 +36,8 @@ const ContactInfo = ({
   const [hadError, setHadError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const wrapRef = useRef(null);
-  window.sessionStorage.setItem('onReviewPage', onReviewPage || false);
+  window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
+  const [editState] = useState(getReturnState());
 
   const { email = '', homePhone = {}, mobilePhone = {}, address = {} } =
     data?.veteran || {};
@@ -46,6 +59,10 @@ const ContactInfo = ({
       // outer form and causing a page advance
       event.stopPropagation();
     },
+    onGoBack: () => {
+      clearReturnState();
+      goBack();
+    },
     onGoForward: () => {
       setSubmitted(true);
       if (missingInfo.length) {
@@ -59,10 +76,28 @@ const ContactInfo = ({
       if (missingInfo.length) {
         scrollAndFocus(wrapRef.current);
       } else {
+        clearReturnState();
         updatePage();
       }
     },
   };
+
+  useEffect(
+    () => {
+      if (editState) {
+        const [lastEdited, returnState] = editState.split(',');
+        setTimeout(() => {
+          const target =
+            returnState === 'canceled'
+              ? `#edit-${lastEdited}`
+              : `#updated-${lastEdited}`;
+          scrollTo('topScrollElement');
+          focusElement(target);
+        });
+      }
+    },
+    [editState],
+  );
 
   useEffect(
     () => {
@@ -76,11 +111,27 @@ const ContactInfo = ({
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = onReviewPage ? 'h5' : 'h4';
-  const headerClassNames = [
-    'vads-u-font-size--h3',
-    'vads-u-width--auto',
-    'vads-u-display--inline-block',
-  ].join(' ');
+  const headerClassNames = ['vads-u-font-size--h4', 'vads-u-width--auto'].join(
+    ' ',
+  );
+
+  const showSuccessAlert = (id, text) => {
+    // keep alerts in DOM, so we don't have to delay focus; but keep the 100ms
+    // delay to move focus away from the h3
+    const isHidden =
+      editState === `${id},updated` ? '' : 'vads-u-display--none';
+    return (
+      <va-alert
+        id={`updated-${id}`}
+        class={`vads-u-margin-y--1 ${isHidden}`}
+        status="success"
+        background-only
+        role="alert"
+      >
+        {`${text} updated`}
+      </va-alert>
+    );
+  };
 
   // Loop to separate pages when editing
   // Each Link includes an ID for focus managements on the review & submit page
@@ -89,50 +140,58 @@ const ContactInfo = ({
       <Headers className={`${headerClassNames} vads-u-margin-top--0p5`}>
         Home phone number
       </Headers>
-      <Link
-        id="edit-home-phone"
-        to="/edit-home-phone"
-        aria-label="Edit home phone number"
-        className="vads-u-margin-left--2"
-      >
-        edit
-      </Link>
-      <div>{getFormattedPhone(homePhone)}</div>
+      {showSuccessAlert('home-phone', 'Home phone number')}
+      <span>{getFormattedPhone(homePhone)}</span>
+      <p className="vads-u-margin-top--0p5">
+        <Link
+          id="edit-home-phone"
+          to="/edit-home-phone"
+          aria-label="Edit home phone number"
+        >
+          edit
+        </Link>
+      </p>
 
       <Headers className={headerClassNames}>Mobile phone number</Headers>
-      <Link
-        id="edit-mobile-phone"
-        to="/edit-mobile-phone"
-        aria-label="Edit mobile phone number"
-        className="vads-u-margin-left--2"
-      >
-        edit
-      </Link>
-      <div>{getFormattedPhone(mobilePhone)}</div>
+      {showSuccessAlert('mobile-phone', 'Mobile phone number')}
+      <span>{getFormattedPhone(mobilePhone)}</span>
+      <p className="vads-u-margin-top--0p5">
+        <Link
+          id="edit-mobile-phone"
+          to="/edit-mobile-phone"
+          aria-label="Edit mobile phone number"
+        >
+          edit
+        </Link>
+      </p>
 
       <Headers className={headerClassNames}>Email address</Headers>
-      <Link
-        id="edit-email"
-        to="/edit-email-address"
-        aria-label="Edit email address"
-        className="vads-u-margin-left--2"
-      >
-        edit
-      </Link>
-      <div>{email || ''}</div>
+      {showSuccessAlert('email', 'Email address')}
+      <span>{email || ''}</span>
+      <p className="vads-u-margin-top--0p5">
+        <Link
+          id="edit-email"
+          to="/edit-email-address"
+          aria-label="Edit email address"
+        >
+          edit
+        </Link>
+      </p>
 
       <Headers className={headerClassNames}>Mailing address</Headers>
-      <Link
-        id="edit-address"
-        to="/edit-mailing-address"
-        aria-label="Edit mailing address"
-        className="vads-u-margin-left--2"
-      >
-        edit
-      </Link>
-      <div>
+      {showSuccessAlert('address', 'Mailing address')}
+      <div className="vads-u-display--flex">
         <AddressView data={address} />
       </div>
+      <p className="vads-u-margin-top--0p5">
+        <Link
+          id="edit-address"
+          to="/edit-mailing-address"
+          aria-label="Edit mailing address"
+        >
+          edit
+        </Link>
+      </p>
     </>
   );
 
@@ -141,14 +200,17 @@ const ContactInfo = ({
   ) : (
     <>
       {contentBeforeButtons}
-      <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
+      <FormNavButtons
+        goBack={handlers.onGoBack}
+        goForward={handlers.onGoForward}
+      />
       {contentAfterButtons}
     </>
   );
 
   return (
     <div className="vads-u-margin-y--2">
-      <Element name="confirmContactInformationScrollElement" />
+      <Element name="topScrollElement" />
       <form onSubmit={handlers.onSubmit}>
         <MainHeader
           id="confirmContactInformationHeader"

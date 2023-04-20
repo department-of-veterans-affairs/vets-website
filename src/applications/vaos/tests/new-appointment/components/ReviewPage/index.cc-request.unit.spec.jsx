@@ -175,7 +175,7 @@ describe('VAOS <ReviewPage> CC request', () => {
     expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Call anytime during the day');
 
-    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
+    const editLinks = screen.getAllByTestId('edit-new-appointment');
     const uniqueLinks = new Set();
     editLinks.forEach(link => {
       expect(link).to.have.attribute('aria-label');
@@ -374,7 +374,7 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
     expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Call anytime during the day');
 
-    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
+    const editLinks = screen.getAllByTestId('edit-new-appointment');
     const uniqueLinks = new Set();
     editLinks.forEach(link => {
       expect(link).to.have.attribute('aria-label');
@@ -415,9 +415,6 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
       state: 'DC',
       zipCode: '20005-3477',
     });
-
-    const messageData = JSON.parse(global.fetch.getCall(1).args[1].body);
-    expect(messageData.messageText).to.equal('I need an appt');
   });
 
   it('should show error message on failure', async () => {

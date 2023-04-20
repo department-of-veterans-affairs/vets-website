@@ -1,8 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { I18nextProvider } from 'react-i18next';
-import i18n from '../../utils/i18n/i18n';
+import { format as formatDate } from 'date-fns';
+import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
+
 import AppointmentBlock from '../AppointmentBlock';
 
 const appointments = [
@@ -27,42 +28,14 @@ const appointments = [
     kind: 'clinic',
   },
 ];
-describe('pre-check-in', () => {
-  describe('AppointmentBlock', () => {
+describe('AppointmentBlock', () => {
+  describe('pre-check-in context', () => {
     describe('In person appointment context', () => {
-      it('Renders appointment type label', () => {
-        const screen = render(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentBlock appointments={appointments} page="confirmation" />
-          </I18nextProvider>,
-        );
-        expect(screen.getAllByTestId('appointment-type-label')[0]).to.have.text(
-          'In person',
-        );
-      });
-      it('Renders insurance message with appointment on confirmation page', () => {
-        const screen = render(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentBlock appointments={appointments} page="confirmation" />
-          </I18nextProvider>,
-        );
-        expect(screen.getAllByTestId('appointment-message')[0]).to.have.text(
-          'Please bring your insurance cards with you to your appointment.',
-        );
-      });
-      it('Does not render insurance message with appointment on intro page', () => {
-        const screen = render(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentBlock appointments={appointments} page="intro" />
-          </I18nextProvider>,
-        );
-        expect(screen.queryByTestId('appointment-message')).to.not.exist;
-      });
       it('Renders appointment day for multiple appointments', () => {
         const screen = render(
-          <I18nextProvider i18n={i18n}>
+          <CheckInProvider store={{ app: 'preCheckIn' }}>
             <AppointmentBlock appointments={appointments} page="intro" />
-          </I18nextProvider>,
+          </CheckInProvider>,
         );
         expect(screen.getByTestId('appointment-day-location')).to.have.text(
           'Your appointments are on November 16, 2021.',
@@ -74,12 +47,12 @@ describe('pre-check-in', () => {
       it('Renders appointment day and facility for single appointment', () => {
         const updateAppointments = [...appointments];
         const screen = render(
-          <I18nextProvider i18n={i18n}>
+          <CheckInProvider store={{ app: 'preCheckIn' }}>
             <AppointmentBlock
               appointments={[updateAppointments.shift()]}
               page="intro"
             />
-          </I18nextProvider>,
+          </CheckInProvider>,
         );
         expect(screen.getByTestId('appointment-day-location')).to.have.text(
           'Your appointment is on November 16, 2021.',
@@ -89,160 +62,39 @@ describe('pre-check-in', () => {
           1,
         );
       });
-      it('Renders appointment facility, time, and clinic', () => {
-        const screen = render(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentBlock appointments={appointments} page="intro" />
-          </I18nextProvider>,
-        );
-        expect(
-          screen
-            .getAllByTestId('appointment-list-item')[0]
-            .querySelector('[data-testid="facility-name"]'),
-        ).to.have.text('LOMA LINDA VA CLINIC');
-        expect(
-          screen
-            .getAllByTestId('appointment-list-item')[0]
-            .querySelector('[data-testid="appointment-time"]'),
-        ).to.have.text('9:39 p.m.');
-        expect(
-          screen
-            .getAllByTestId('appointment-list-item')[0]
-            .querySelector('[data-testid="appointment-clinic"]'),
-        ).to.have.text('TEST CLINIC');
-      });
-      it('Renders clinicName if no clinicFriendlyName', () => {
-        const screen = render(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentBlock appointments={appointments} page="intro" />
-          </I18nextProvider>,
-        );
-        expect(
-          screen
-            .getAllByTestId('appointment-list-item')[1]
-            .querySelector('[data-testid="appointment-clinic"]'),
-        ).to.have.text('LOM ACC CLINIC TEST');
-      });
-      it('should render the appointment location for in person appointments when available', () => {
-        const locationAppointments = JSON.parse(JSON.stringify(appointments));
-        locationAppointments[0].clinicLocation = 'Test location';
-        const screen = render(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentBlock appointments={locationAppointments} />
-          </I18nextProvider>,
-        );
-        expect(
-          screen
-            .getAllByTestId('appointment-list-item')[0]
-            .querySelector('[data-testid="clinic-location"]'),
-        ).to.have.text('Test location');
-        expect(
-          screen
-            .getAllByTestId('appointment-list-item')[1]
-            .querySelector('[data-testid="clinic-location"]'),
-        ).to.not.exist;
-      });
     });
     describe('Phone appointment context', () => {
       const phoneAppointments = JSON.parse(JSON.stringify(appointments));
       phoneAppointments[0].kind = 'phone';
       phoneAppointments[1].kind = 'phone';
-      it('Renders appointment type label', () => {
-        const screen = render(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentBlock
-              appointments={phoneAppointments}
-              page="confirmation"
-            />
-          </I18nextProvider>,
-        );
-        expect(screen.getAllByTestId('appointment-type-label')[0]).to.have.text(
-          'Phone Call',
-        );
-      });
+
       it('Renders appointment time with no clinic for phone appointments', () => {
         const screen = render(
-          <I18nextProvider i18n={i18n}>
+          <CheckInProvider store={{ app: 'preCheckIn' }}>
             <AppointmentBlock
               appointments={phoneAppointments}
               page="confirmation"
             />
-          </I18nextProvider>,
+          </CheckInProvider>,
         );
         expect(screen.getByTestId('appointment-day-location')).to.have.text(
           'Your appointments are on November 16, 2021.',
         );
       });
-      it('Renders phone message with appointment on confirmation page', () => {
+    });
+  });
+  describe('day-of context', () => {
+    describe('In person appointment context', () => {
+      it('Renders appointment date', () => {
+        const today = formatDate(new Date(), 'MMMM dd, yyyy');
         const screen = render(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentBlock
-              appointments={phoneAppointments}
-              page="confirmation"
-            />
-          </I18nextProvider>,
+          <CheckInProvider store={{ app: 'dayOf' }}>
+            <AppointmentBlock appointments={appointments} page="details" />
+          </CheckInProvider>,
         );
-        expect(screen.getAllByTestId('appointment-message')[0]).to.have.text(
-          'Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.',
+        expect(screen.getByTestId('date-text')).to.have.text(
+          `Here are your appointments for today: ${today}.`,
         );
-      });
-      it('Renders phone message with appointment on intro page', () => {
-        const screen = render(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentBlock appointments={phoneAppointments} page="intro" />
-          </I18nextProvider>,
-        );
-        expect(screen.getAllByTestId('appointment-message')[0]).to.have.text(
-          'Your provider will call you.',
-        );
-      });
-      it('Does not render facility name', () => {
-        const screen = render(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentBlock appointments={phoneAppointments} page="intro" />
-          </I18nextProvider>,
-        );
-        expect(screen.queryByTestId('facility-name')).to.not.exist;
-      });
-      it('should render the type of care when available or default', () => {
-        const screen = render(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentBlock appointments={appointments} />
-          </I18nextProvider>,
-        );
-        expect(
-          screen
-            .getAllByTestId('appointment-list-item')[0]
-            .querySelector('[data-testid="type-of-care"]'),
-        ).to.have.text('Primary care');
-        expect(
-          screen
-            .getAllByTestId('appointment-list-item')[1]
-            .querySelector('[data-testid="type-of-care"]'),
-        ).to.have.text('VA Appointment');
-      });
-      it('should not render the appointment location for phone appointments even when available', () => {
-        const phoneLocationAppointments = JSON.parse(
-          JSON.stringify(appointments),
-        );
-        phoneLocationAppointments[0].clinicLocation = 'Test location';
-        phoneLocationAppointments[0].kind = 'phone';
-        phoneLocationAppointments[1].kind = 'phone';
-        const screen = render(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentBlock appointments={phoneLocationAppointments} />
-          </I18nextProvider>,
-        );
-        expect(
-          screen
-            .getAllByTestId('appointment-list-item')[0]
-            .querySelector('[data-testid="clinic-location"]'),
-        ).to.not.exist;
-        expect(
-          screen
-            .getAllByTestId('appointment-list-item')[1]
-            .querySelector('[data-testid="clinic-location"]'),
-        ).to.not.exist;
       });
     });
   });

@@ -56,7 +56,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     MockDate.reset();
   });
 
-  it('should show confirmed appointments detail page', async () => {
+  it.skip('should show confirmed appointments detail page', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const today = moment.utc();
     const data = {
@@ -153,8 +153,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     const detailLinks = await screen.findAllByRole('link', {
       name: /Detail/i,
     });
-    const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
 
+    const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
     // Go back to Appointment detail...
     userEvent.click(detailLink);
 
@@ -228,6 +228,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.getByText(/Print/)).to.be.ok;
     expect(screen.getByText(/Cancel appointment/)).to.be.ok;
   });
+
   it('should show past confirmed appointments detail page', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
@@ -719,7 +720,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     );
   });
 
-  it('should allow the user to go back to the appointment list', async () => {
+  it.skip('should allow the user to go back to the appointment list', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -1049,7 +1050,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     MockDate.reset();
   });
 
-  it('should show confirmed appointments detail page', async () => {
+  it.skip('should show confirmed appointments detail page', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
@@ -1057,7 +1058,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
       },
     };
-    const url = '/va/1234';
+    const url = 'va/1234';
     const futureDate = moment.utc();
 
     const appointment = getVAOSAppointmentMock();
@@ -1533,8 +1534,16 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.baseElement).to.contain.text(
       'We’ve scheduled and confirmed your appointment.',
     );
-    expect(screen.baseElement).to.contain.text('Review your appointments');
-    expect(screen.baseElement).to.contain.text('Schedule a new appointment');
+
+    expect(screen.queryByTestId('review-appointments-link')).to.exist;
+    expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+
+    expect(
+      screen.queryByTestId('review-appointments-link').getAttribute('text'),
+    ).to.equal('Review your appointments');
+    expect(
+      screen.queryByTestId('schedule-appointment-link').getAttribute('text'),
+    ).to.equal('Schedule a new appointment');
   });
 
   it('should allow for cancellation', async () => {

@@ -6,9 +6,11 @@ import { connect } from 'react-redux';
 import { selectProfile } from 'platform/user/selectors';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { focusElement } from 'platform/utilities/ui';
+import { resetStoredSubTask } from 'platform/forms/sub-task';
 
 import { FORMAT_READABLE } from '../constants';
 import { getSelected, getIssueName } from '../utils/helpers';
+import GetFormHelp from '../content/GetFormHelp';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -26,6 +28,7 @@ export class ConfirmationPage extends React.Component {
     ));
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
     const submitDate = moment(submission?.timestamp);
+    resetStoredSubTask();
 
     return (
       <div>
@@ -40,12 +43,12 @@ export class ConfirmationPage extends React.Component {
         <va-alert status="success">
           <h2 slot="headline">Thank you for filing a Supplemental Claim</h2>
           <p>
-            When we've completed our review, we'll mail you a decision packet
-            the details of our decision.
+            When we’ve completed our review, we’ll mail you a decision packet
+            with the details of our decision.
           </p>
         </va-alert>
         <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
+          <h3 className="vads-u-margin-top--0">
             Your information for this claim
           </h3>
           <h4>Your name</h4>
@@ -64,43 +67,50 @@ export class ConfirmationPage extends React.Component {
               <span>{submitDate.format(FORMAT_READABLE)}</span>
             </p>
           ) : null}
-          <h4>Issue(s) for review</h4>
+          <h4>You’ve selected these issues for review</h4>
           <ul className="vads-u-margin-top--0">{issues}</ul>
           <button
             type="button"
             className="usa-button screen-only"
             onClick={window.print}
           >
-            Print this page
+            Print this confirmation
           </button>
         </div>
         <h3>What to expect next</h3>
         <p>
-          If we need more information, we'll contact you to tell you what other
-          information you'll need to submit. We'll also tell you if we need to
+          If we need more information, we’ll contact you to tell you what other
+          information you’ll need to submit. We’ll also tell you if we need to
           schedule an exam for you.
         </p>
         <p>
-          When we've completed your review, we'll mail you a decision packet
+          When we’ve completed your review, we’ll mail you a decision packet
           with the details of our decision.{' '}
           <a href="/decision-reviews/after-you-request-review/">
             Learn more about what happens after you request a review
           </a>
           .
         </p>
-        <h3>What to do if you have questions now</h3>
         <p>
-          You can call us at <va-telephone contact="8008271000" /> (
-          <va-telephone contact="711" tty />) We're here Monday through Friday,
-          8:00 a.m. to 9:00 p.m. ET.
+          If you requested a decision review and haven’t heard back from us yet,
+          please don’t request another review. Call us instead.
         </p>
         <p>
-          Note: If you requested a decision review and haven't heard back from
-          us yet, please don't request another review. Call us instead.
+          Note: You can choose to have a hearing at any point in the claims
+          process. Contact us online through Ask VA to request a hearing.{' '}
+          <a href="https://ask.va.gov/">Contact us through Ask VA</a>
+        </p>
+        <p>
+          You can also call us at <va-telephone contact="8008271000" /> (
+          <va-telephone contact="711" tty />
+          ).
         </p>
         <a href="/track-claims/your-claims" className="usa-button">
           Track the status of your claim
         </a>
+        <p />
+        <h3 className="help-heading">Need help?</h3>
+        <GetFormHelp />
       </div>
     );
   }

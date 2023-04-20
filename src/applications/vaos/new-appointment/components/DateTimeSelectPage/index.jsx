@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
-import PropTypes from 'prop-types';
 import InfoAlert from '../../../components/InfoAlert';
 
 import {
@@ -11,7 +11,6 @@ import {
   onCalendarChange,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  startRequestAppointmentFlow,
   requestAppointmentDateChoice,
 } from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -178,9 +177,6 @@ export default function DateTimeSelectPage() {
           eligibleForRequests={eligibleForRequests}
           facilityId={facilityId}
           nextAvailableApptDate={availableSlots?.[0]?.start}
-          onClickRequest={(...args) =>
-            dispatch(startRequestAppointmentFlow(...args))
-          }
           preferredDate={preferredDate}
           timezone={timezoneDescription}
         />
@@ -257,3 +253,8 @@ export default function DateTimeSelectPage() {
     </div>
   );
 }
+
+ErrorMessage.propTypes = {
+  facilityId: PropTypes.string.isRequired,
+  history: PropTypes.objectOf.isRequired,
+};

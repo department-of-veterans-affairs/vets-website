@@ -21,9 +21,11 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_10182,
   VA_FORM_IDS.FORM_21_22A,
   VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL_UPDATE,
+  VA_FORM_IDS.FORM_21_10210,
   VA_FORM_IDS.FORM_XX_123,
   VA_FORM_IDS.FORM_MOCK,
   VA_FORM_IDS.FORM_20_0995,
+  VA_FORM_IDS.FORM_MOCK_SF_PATTERNS,
 ];
 
 const root = path.join(__dirname, '../../../');
@@ -65,6 +67,7 @@ const formConfigKeys = [
   'wizardStorageKey',
   'showReviewErrors',
   'reviewErrors',
+  'useCustomScrollAndFocus',
 ];
 
 const validProperty = (

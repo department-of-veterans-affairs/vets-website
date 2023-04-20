@@ -137,8 +137,12 @@ const useGetCheckInData = ({
                 jumpToPage(URLS.COMPLETE);
               }
             })
-            .catch(() => {
-              setCheckInDataError(true);
+            .catch(e => {
+              if (e.errors && e?.errors[0]?.status === '404') {
+                updateError('uuid-not-found');
+              } else {
+                setCheckInDataError(true);
+              }
             })
             .finally(() => {
               setIsStale(false);
@@ -147,12 +151,16 @@ const useGetCheckInData = ({
             });
         } else {
           api.v2
-            .getCheckInData(token, reload)
+            .getCheckInData(token)
             .then(json => {
               setDayOfData(json.payload);
             })
-            .catch(() => {
-              setCheckInDataError(true);
+            .catch(e => {
+              if (e.errors && e.errors[0]?.status === '404') {
+                updateError('uuid-not-found');
+              } else {
+                setCheckInDataError(true);
+              }
             })
             .finally(() => {
               setIsStale(false);

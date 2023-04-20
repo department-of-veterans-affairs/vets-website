@@ -64,9 +64,11 @@ export const PrimaryPhone = ({
   return (
     <div className="vads-u-margin-y--2">
       <form onSubmit={handlers.onSubmit}>
+        <div name="topScrollElement" />
         <VaRadio
           class="vads-u-margin-y--2"
           label="What is your primary phone number?"
+          label-header-level="3"
           hint="We may need to contact you if we have questions about your Supplemental Claim."
           error={hasError && errorMessages.missingPrimaryPhone}
           onVaValueChange={handlers.onSelection}
@@ -78,7 +80,7 @@ export const PrimaryPhone = ({
             value="home"
             name="primary"
             checked={primary === 'home'}
-            data-number={getFormattedPhone(homePhone)}
+            description={getFormattedPhone(homePhone)}
           />
           <va-radio-option
             id="mobile-phone"
@@ -86,7 +88,7 @@ export const PrimaryPhone = ({
             value="mobile"
             name="primary"
             checked={primary === 'mobile'}
-            data-number={getFormattedPhone(mobilePhone)}
+            description={getFormattedPhone(mobilePhone)}
           />
         </VaRadio>
         {navButtons}

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from '../../../lib/moment-tz';
 import {
@@ -8,6 +7,7 @@ import {
   isVAPhoneAppointment,
   isClinicVideoAppointment,
   getAppointmentDate,
+  getLink,
 } from '../../../services/appointment';
 import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
@@ -25,7 +25,10 @@ function VideoAppointmentDescription({ appointment }) {
   }
   return (
     <>
-      <i aria-hidden="true" className="fas fa-video vads-u-margin-right--1" />
+      <i
+        aria-hidden="true"
+        className="fas fa-video vads-u-margin-right--1 vads-u-color--gray"
+      />
       VA Video Connect {desc}
     </>
   );
@@ -65,17 +68,6 @@ VAFacilityName.propTypes = {
   facility: PropTypes.object,
 };
 
-function getIsCommunityCare({ appointment, featureStatusImprovement }) {
-  const { isCommunityCare, isPastAppointment } = appointment.vaos;
-  return isCommunityCare
-    ? `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}cc/${
-        appointment.id
-      }`
-    : `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}va/${
-        appointment.id
-      }`;
-}
-
 function isCanceled(appointment) {
   return appointment.status === APPOINTMENT_STATUS.cancelled;
 }
@@ -104,7 +96,10 @@ export default function AppointmentCard({
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
-  const link = getIsCommunityCare({ appointment, featureStatusImprovement });
+  const link = getLink({
+    featureStatusImprovement,
+    appointment,
+  });
 
   return (
     <>
@@ -138,21 +133,21 @@ export default function AppointmentCard({
             <>
               <i
                 aria-hidden="true"
-                className="fas fa-phone vads-u-margin-right--1"
+                className="fas fa-phone vads-u-margin-right--1 vads-u-color--gray"
               />
               Phone call
             </>
           )}
         </div>
         <div className="vads-u-flex--auto vads-u-padding-top--0p5 medium-screen:vads-u-padding-top--0 vaos-hide-for-print">
-          <Link
+          <va-link
             className="vaos-appts__focus--hide-outline"
             aria-label={label}
-            to={link}
+            href={link}
             onClick={e => e.preventDefault()}
-          >
-            Details
-          </Link>
+            text="Details"
+            role="link"
+          />
           <i
             aria-hidden="true"
             className="fas fa-chevron-right vads-u-color--link-default vads-u-margin-left--1"

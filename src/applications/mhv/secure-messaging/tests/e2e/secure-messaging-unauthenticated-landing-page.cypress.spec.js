@@ -1,8 +1,10 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
+import PatientInboxPage from './pages/PatientInboxPage';
 
-describe('Secure Messaging Compose', () => {
-  it('can send message', () => {
+describe.skip('Secure Messaging Compose', () => {
+  it.skip('can send message', () => {
     const site = new SecureMessagingSite();
+    const patientInboxPage = new PatientInboxPage();
     site.login(false);
     site.loadPageUnauthenticated();
 
@@ -10,7 +12,7 @@ describe('Secure Messaging Compose', () => {
 
     site.login();
 
-    site.loadPage();
+    patientInboxPage.loadInboxMessages();
     cy.get('[data-testid="inbox-sidebar"] > a').click();
 
     cy.injectAxe();

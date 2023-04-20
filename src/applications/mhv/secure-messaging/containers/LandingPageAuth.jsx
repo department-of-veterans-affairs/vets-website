@@ -10,7 +10,7 @@ Assumptions that may need to be addressed:
 then additional functionality will need to be added to account for this.
 */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllMessages } from '../actions';
 import { getTriageTeams } from '../actions/triageTeams';
@@ -20,15 +20,26 @@ import { DefaultFolders as Folder } from '../util/constants';
 import { getMessages } from '../actions/messages';
 import DashboardUnreadMessages from '../components/Dashboard/DashboardUnreadMessages';
 import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
-import DashboardSearch from '../components/Dashboard/DashboardSearch';
-import DashboardFolders from '../components/Dashboard/DashboardFolders';
+// import DashboardSearch from '../components/Dashboard/DashboardSearch';
+// import DashboardFolders from '../components/Dashboard/DashboardFolders';
 import FrequentlyAskedQuestions from '../components/FrequentlyAskedQuestions';
 import { foldersList } from '../selectors';
 import ComposeMessageButton from '../components/MessageActionButtons/ComposeMessageButton';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const LandingPageAuth = () => {
   const dispatch = useDispatch();
   const folders = useSelector(foldersList);
+  const fullState = useSelector(state => state);
+  const [prefLink, setPrefLink] = useState('');
+
+  useEffect(
+    () => {
+      setPrefLink(mhvUrl(isAuthenticatedWithSSOe(fullState), 'preferences'));
+    },
+    [fullState?.user?.profile?.session?.ssoe],
+  );
 
   // fire api call to retreive messages
 
@@ -53,9 +64,9 @@ const LandingPageAuth = () => {
       <ComposeMessageButton />
       <DashboardUnreadMessages folders={folders} />
       <WelcomeMessage />
-      <DashboardSearch />
-      <DashboardFolders />
-      <FrequentlyAskedQuestions />
+      {/* <DashboardSearch /> */}
+      {/* <DashboardFolders /> */}
+      <FrequentlyAskedQuestions prefLink={prefLink} />
     </div>
   );
 };

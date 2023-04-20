@@ -17,6 +17,7 @@ import {
 import {
   getLink,
   getVAAppointmentLocationId,
+  groupAppointmentByDay,
 } from '../../services/appointment';
 import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
 import NoAppointments from './NoAppointments';
@@ -29,8 +30,9 @@ import {
   selectFeatureAppointmentList,
   selectFeatureStatusImprovement,
 } from '../../redux/selectors';
-import AppointmentListGroup from './AppointmentsPageV2/AppointmentListGroup';
 import AppointmentCard from './AppointmentsPageV2/AppointmentCard';
+import UpcomingAppointmentLayout from './AppointmentsPageV2/UpcomingAppointmentLayout';
+import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
 
 function handleClick({ history, link, idClickable }) {
   return () => {
@@ -109,43 +111,60 @@ export default function UpcomingAppointmentsList() {
     );
   }
 
+  const keys = Object.keys(appointmentsByMonth);
+  const Heading = featureAppointmentList ? 'h2' : 'h3';
+
   return (
     <>
+      <BackendAppointmentServiceAlert />
       <div aria-live="assertive" className="sr-only">
         {hasTypeChanged && 'Showing upcoming appointments'}
       </div>
 
-      {featureAppointmentList && (
-        <AppointmentListGroup
-          data={appointmentsByMonth}
-          hasTypeChanged={hasTypeChanged}
-        />
-      )}
+      {keys.map((key, index) => {
+        const monthDate = moment(key, 'YYYY-MM');
 
-      {!featureAppointmentList &&
-        appointmentsByMonth.map((monthBucket, monthIndex) => {
-          const monthDate = moment(monthBucket[0].start);
-          return (
-            <React.Fragment key={monthIndex}>
-              <h3
-                id={`appointment_list_${monthDate.format('YYYY-MM')}`}
-                data-cy="upcoming-appointment-list-header"
-              >
-                <span className="sr-only">Appointments in </span>
-                {monthDate.format('MMMM YYYY')}
-              </h3>
-              {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-              <ul
-                aria-labelledby={`appointment_list_${monthDate.format(
-                  'YYYY-MM',
-                )}`}
-                className={classNames('vads-u-padding-left--0', {
-                  'vads-u-border-bottom--1px': featureAppointmentList,
+        let hashTable = appointmentsByMonth;
+        if (featureAppointmentList) {
+          hashTable = groupAppointmentByDay(hashTable[key]);
+        }
+
+        return (
+          <React.Fragment key={key}>
+            <Heading
+              className={classNames('vads-u-font-size--h3', {
+                'vads-u-margin-top--0': index === 0,
+              })}
+              id={`appointment_list_${monthDate.format('YYYY-MM')}`}
+              data-cy="upcoming-appointment-list-header"
+            >
+              <span className="sr-only">Appointments in </span>
+              {monthDate.format('MMMM YYYY')}
+            </Heading>
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+            <ul
+              aria-labelledby={`appointment_list_${monthDate.format(
+                'YYYY-MM',
+              )}`}
+              className={classNames(
+                'usa-unstyled-list',
+                'vads-u-padding-left--0',
+                {
+                  'vads-u-border-bottom--1px vads-u-border-color--gray-medium': featureAppointmentList,
+                },
+              )}
+              data-cy="upcoming-appointment-list"
+              role="list"
+            >
+              {featureAppointmentList &&
+                UpcomingAppointmentLayout({
+                  featureStatusImprovement,
+                  hashTable,
+                  history,
                 })}
-                data-cy="upcoming-appointment-list"
-                role="list"
-              >
-                {monthBucket.map((appt, index) => {
+
+              {!featureAppointmentList &&
+                hashTable[key].map(appt => {
                   const facilityId = getVAAppointmentLocationId(appt);
                   const idClickable = `id-${appt.id.replace('.', '\\.')}`;
                   const link = getLink({
@@ -161,8 +180,8 @@ export default function UpcomingAppointmentsList() {
                   ) {
                     return (
                       <AppointmentListItem
-                        key={index}
-                        appointment={appt}
+                        key={key}
+                        id={idClickable}
                         className="vaos-appts__card--clickable vads-u-margin-bottom--3"
                       >
                         <AppointmentCard
@@ -181,12 +200,12 @@ export default function UpcomingAppointmentsList() {
                   }
                   return null;
                 })}
-              </ul>
-            </React.Fragment>
-          );
-        })}
+            </ul>
+          </React.Fragment>
+        );
+      })}
 
-      {!appointmentsByMonth?.length && (
+      {!keys?.length && (
         <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
             description="upcoming appointments"

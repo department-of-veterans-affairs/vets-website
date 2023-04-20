@@ -5,7 +5,6 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { usePrevious } from 'platform/utilities/react-hooks';
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-
 import { getFacilityPageV2Info } from '../../redux/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
 import EligibilityModal from './EligibilityModal';

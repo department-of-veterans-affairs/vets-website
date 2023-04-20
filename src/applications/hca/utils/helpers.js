@@ -15,14 +15,7 @@ import {
 import { getInactivePages } from 'platform/forms/helpers';
 import { isInMPI } from 'platform/user/selectors';
 
-import {
-  IS_LOGGED_IN,
-  USER_DOB,
-  IS_GTE_HIGH_DISABILITY,
-  IS_SHORT_FORM_ENABLED,
-  IS_COMPENSATION_TYPE_HIGH,
-  IS_VETERAN_IN_MVI,
-} from './constants';
+import { HIGH_DISABILITY_MINIMUM } from './constants';
 
 // clean address so we only get address related properties then return the object
 const cleanAddressObject = address => {
@@ -317,42 +310,6 @@ export function didEnrollmentStatusChange(prevProps, props) {
   );
 }
 
-export function formValue(formData, value) {
-  const HIGH_DISABILITY = 50;
-
-  switch (value) {
-    case IS_LOGGED_IN:
-      return formData['view:isLoggedIn'];
-    case USER_DOB:
-      return formData['view:userDob'];
-    case IS_GTE_HIGH_DISABILITY:
-      return formData['view:totalDisabilityRating'] >= HIGH_DISABILITY;
-    case IS_SHORT_FORM_ENABLED:
-      return formData['view:isShortFormEnabled'];
-    case IS_COMPENSATION_TYPE_HIGH:
-      return formData.vaCompensationType === 'highDisability';
-    case IS_VETERAN_IN_MVI:
-      return formData['view:isUserInMvi'];
-    default:
-      return false;
-  }
-}
-
-export function NotHighDisabilityOrNotCompensationTypeHigh(formData) {
-  return !(
-    formValue(formData, IS_SHORT_FORM_ENABLED) &&
-    (formValue(formData, IS_COMPENSATION_TYPE_HIGH) ||
-      formValue(formData, IS_GTE_HIGH_DISABILITY))
-  );
-}
-
-export function NotHighDisability(formData) {
-  return !(
-    formValue(formData, IS_SHORT_FORM_ENABLED) &&
-    formValue(formData, IS_GTE_HIGH_DISABILITY)
-  );
-}
-
 /**
  * Helper that maps an array to an object literal to allow for
  * multiple keys to have the same value
@@ -366,4 +323,19 @@ export function createLiteralMap(arrayToMap) {
     }
     return obj;
   }, {});
+}
+
+/**
+ * Helper that determines if the user data contains values that allow them
+ * to fill out the form using the short form flow
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the total disability rating is greater than or equal
+ * to the minimum percetage OR the user self-declares they receive compensation equal to
+ * that of a high-disability-rated Veteran.
+ */
+export function isShortFormEligible(formData) {
+  const hasHighRating =
+    formData['view:totalDisabilityRating'] >= HIGH_DISABILITY_MINIMUM;
+  const hasHighCompensation = formData.vaCompensationType === 'highDisability';
+  return hasHighRating || hasHighCompensation;
 }

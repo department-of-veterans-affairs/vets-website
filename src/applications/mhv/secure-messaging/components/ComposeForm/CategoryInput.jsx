@@ -26,9 +26,9 @@ const CategoryInput = props => {
     [dispatch],
   );
 
-  const categoryChangeHandler = ({ target }) => {
-    setCategory(target.value);
-    setCategoryError(null);
+  const categoryChangeHandler = e => {
+    setCategory(e.detail.value || e.target.value);
+    if (e.detail.value || e.target.value) setCategoryError(null);
     setUnsavedNavigationError();
   };
 
@@ -44,11 +44,12 @@ const CategoryInput = props => {
           label="Category"
           className=" fieldset-input message-category"
           error={categoryError}
-          onRadioOptionSelected={categoryChangeHandler}
+          onVaValueChange={categoryChangeHandler}
         >
           {categories?.map((item, i) => (
             <VaRadioOption
               data-testid="compose-category-radio-button"
+              style={{ display: 'flex' }}
               key={i}
               label={
                 RadioCategories[item]

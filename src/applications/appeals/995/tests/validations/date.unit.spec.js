@@ -22,6 +22,12 @@ describe('validateDate & isValidDate', () => {
     expect(errorMessage).to.equal('');
     expect(isValidDate(date)).to.be.true;
   });
+  it('should allow valid dates without a leading zero', () => {
+    const date = '2020-1-1';
+    validateDate(errors, date);
+    expect(errorMessage).to.equal('');
+    expect(isValidDate(date)).to.be.true;
+  });
   it('should throw a invalid date error', () => {
     validateDate(errors, '200');
     expect(errorMessage).to.eq(errorMessages.decisions.missingDate);
@@ -29,7 +35,7 @@ describe('validateDate & isValidDate', () => {
   });
   it('should throw a range error for dates too old', () => {
     validateDate(errors, '1899-01-01');
-    expect(errorMessage).to.contain('enter a year between');
+    expect(errorMessage).to.eq(errorMessages.decisions.newerDate);
     expect(isValidDate('1899')).to.be.false;
   });
   it('should throw an error for dates in the future', () => {

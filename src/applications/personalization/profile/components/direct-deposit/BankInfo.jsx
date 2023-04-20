@@ -27,6 +27,7 @@ import {
 } from '@@profile/selectors';
 import UpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 import { kebabCase } from 'lodash';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
@@ -45,6 +46,7 @@ import { benefitTypes } from '~/applications/personalization/common/constants';
 
 import NotEligible from './alerts/NotEligible';
 import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
+import { ProfileInfoCard } from '../ProfileInfoCard';
 
 export const BankInfo = ({
   isLOA3,
@@ -399,13 +401,26 @@ export const BankInfo = ({
           Cancel
         </button>
       </VaModal>
-      <ProfileInfoTable
-        className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-        title={sectionTitle}
-        data={directDepositData()}
-        namedAnchor={sectionTitleId}
-        level={2}
-      />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
+        <Toggler.Enabled>
+          <ProfileInfoCard
+            className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+            title={sectionTitle}
+            data={directDepositData()}
+            namedAnchor={sectionTitleId}
+            level={2}
+          />
+        </Toggler.Enabled>
+        <Toggler.Disabled>
+          <ProfileInfoTable
+            className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+            title={sectionTitle}
+            data={directDepositData()}
+            namedAnchor={sectionTitleId}
+            level={2}
+          />
+        </Toggler.Disabled>
+      </Toggler>
     </>
   );
 };

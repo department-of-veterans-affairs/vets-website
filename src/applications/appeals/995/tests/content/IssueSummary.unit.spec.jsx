@@ -56,6 +56,8 @@ describe('IssueSummary', () => {
     const { container } = render(<IssueSummary formData={data} />);
     expect($('ul', container)).to.exist;
     expect($$('li', container).length).to.eq(4);
+    expect($('h3', container)).to.exist;
+    expect($$('h4', container).length).to.eq(4);
   });
   it('should render items', () => {
     const { container } = render(<IssueSummary formData={data} />);

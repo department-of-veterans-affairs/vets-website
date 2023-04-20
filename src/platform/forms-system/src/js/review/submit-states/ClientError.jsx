@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import Scroll from 'react-scroll';
-import Back from './Back';
-import ProgressButton from '../../components/ProgressButton';
 import PropTypes from 'prop-types';
 import { Column, Row } from 'platform/forms/components/common/grid';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import ProgressButton from '../../components/ProgressButton';
+import Back from './Back';
 
 export default function ClientError(props) {
   const { buttonText, formConfig, onBack, onSubmit, testId } = props;
-  const Element = Scroll.Element;
+  const { Element } = Scroll;
   const scrollToError = () => {
     scrollTo('errorScrollElement', getScrollOptions());
   };
@@ -42,7 +42,7 @@ export default function ClientError(props) {
         </Column>
       </Row>
       <PreSubmitSection formConfig={formConfig} />
-      <Row classNames="form-progress-buttons">
+      <Row classNames="form-progress-buttons vads-u-margin-y--2">
         <Column classNames="small-6 medium-5">
           <Back onButtonClick={onBack} />
         </Column>

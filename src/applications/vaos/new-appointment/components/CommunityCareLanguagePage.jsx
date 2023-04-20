@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import FormButtons from '../../components/FormButtons';
 import { LANGUAGES } from '../../utils/constants';
 import * as actions from '../redux/actions';
 import { getFormPageInfo } from '../redux/selectors';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { useHistory } from 'react-router-dom';
 
 const initialSchema = {
   type: 'object',
@@ -90,3 +91,13 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(CommunityCareLanguagePage);
+
+CommunityCareLanguagePage.propTypes = {
+  data: PropTypes.object.isRequired,
+  openFormPage: PropTypes.func.isRequired,
+  pageChangeInProgress: PropTypes.bool.isRequired,
+  routeToNextAppointmentPage: PropTypes.func.isRequired,
+  routeToPreviousAppointmentPage: PropTypes.func.isRequired,
+  schema: PropTypes.object.isRequired,
+  updateFormData: PropTypes.func.isRequired,
+};

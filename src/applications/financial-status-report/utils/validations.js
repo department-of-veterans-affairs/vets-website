@@ -100,19 +100,27 @@ export const validateResolutionOption = (errors, fieldData) => {
   }
 };
 
-export const validateResolutionAmount = (errors, fieldData, formData) => {
-  const { debtType, resolutionOption } = formData;
+export const validateResolutionAmount = (errors, fieldData) => {
+  // fieldData is each individual debt object
+  const { debtType, resolutionComment, resolutionOption } = fieldData;
 
-  if (resolutionOption !== 'waiver' && !fieldData) {
-    errors.addError('Please enter a valid dollar amount.');
+  // not required for waiver
+  if (resolutionOption === 'waiver') return;
+
+  // this is weird, but adding error to the child resolutionComment
+  // correctly populates the error message
+  if (!resolutionComment) {
+    errors.resolutionComment.addError('Please enter a valid dollar amount.');
   }
 
   // Checking compromise/monthly resolution amount against remaining debt amount
   if (
-    (debtType === 'DEBT' && formData?.currentAr <= fieldData) ||
-    (debtType === 'COPAY' && formData?.pHAmtDue <= fieldData)
+    (debtType === 'DEBT' && fieldData?.currentAr <= resolutionComment) ||
+    (debtType === 'COPAY' && fieldData?.pHAmtDue <= resolutionComment)
   ) {
-    errors.addError('Please enter a value less than the current balance.');
+    errors.resolutionComment.addError(
+      'Please enter a value less than the current balance.',
+    );
   }
 };
 
@@ -150,15 +158,7 @@ export const validateCurrencyArray = (errors, fieldData) => {
   }
 };
 
-export const contactInfoValidation = (errors, _fieldData, formData) => {
-  const { personalData = {} } = formData;
-  if (!personalData.emailAddress) {
-    errors.addError('Please add an email address to your profile');
-  }
-  if (!personalData.telephoneNumber?.phoneNumber) {
-    errors.addError('Please add a phone number to your profile');
-  }
-  if (!personalData.address?.addressLine1) {
-    errors.addError('Please add an address to your profile');
-  }
+export const validateIsNumber = value => {
+  const pattern = /^\d*\.?\d*$/;
+  return pattern.test(value);
 };

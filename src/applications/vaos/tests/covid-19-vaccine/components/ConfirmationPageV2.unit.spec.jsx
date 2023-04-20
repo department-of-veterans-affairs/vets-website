@@ -1,4 +1,3 @@
-import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import moment from 'moment';
@@ -101,11 +100,15 @@ describe('VAOS vaccine flow <ConfirmationPageV2>', () => {
         /We’ve scheduled and confirmed your appointment./i,
       ),
     ).to.be.ok;
-    userEvent.click(screen.getByText(/Review your appointments/i));
-    expect(screen.history.replace.called).to.be.true;
-    expect(screen.history.replace.firstCall.args[0]).to.equal('/');
-    userEvent.click(screen.getByText(/Schedule a new appointment/i));
-    expect(screen.history.push.firstCall.args[0]).to.equal('/new-appointment');
+    expect(screen.queryByTestId('review-appointments-link')).to.exist;
+    expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+
+    expect(
+      screen.queryByTestId('review-appointments-link').getAttribute('text'),
+    ).to.equal('Review your appointments');
+    expect(
+      screen.queryByTestId('schedule-appointment-link').getAttribute('text'),
+    ).to.equal('Schedule a new appointment');
   });
 
   it('should redirect to home page if no form data', async () => {

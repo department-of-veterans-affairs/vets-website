@@ -1,6 +1,6 @@
 {
   "view:combinedFinancialStatusReport": true,
-  "view:enhancedFinancialStatusReport": true,
+  "view:enhancedFinancialStatusReport": false,
   "otherExpenses": [
     {
       "name": "Pool service",

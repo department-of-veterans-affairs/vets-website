@@ -14,15 +14,12 @@ import GetHelp from '../components/GetHelp';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
 import { DowntimeWarning } from '../components/FormAlerts';
 import IntroductionPage from '../containers/IntroductionPage';
-import { prefillTransformer, transform, formValue } from '../utils/helpers';
 import {
-  IS_LOGGED_IN,
-  USER_DOB,
-  IS_GTE_HIGH_DISABILITY,
-  IS_SHORT_FORM_ENABLED,
-  IS_COMPENSATION_TYPE_HIGH,
-  IS_VETERAN_IN_MVI,
-} from '../utils/constants';
+  prefillTransformer,
+  transform,
+  isShortFormEligible,
+} from '../utils/helpers';
+import { HIGH_DISABILITY_MINIMUM } from '../utils/constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { createDependentSchema } from '../definitions/dependent';
 
@@ -68,8 +65,7 @@ import general from './chapters/insuranceInformation/general';
 import ServiceConnectedPayConfirmation from '../components/FormAlerts/ServiceConnectedPayConfirmation';
 import CompensationTypeReviewPage from '../components/FormReview/CompensationTypeReviewPage';
 
-const dependentSchema = createDependentSchema(fullSchemaHca);
-
+// declare schema definitions
 const {
   date,
   fullName,
@@ -78,36 +74,12 @@ const {
   provider,
   ssn,
 } = fullSchemaHca.definitions;
+const dependentSchema = createDependentSchema(fullSchemaHca);
 
-// For which page should be shown on short form
-
-// show page when short form feature toggle is not enabled or
-// when compensation type high is not selected and veteran does not have high disability rating
-const notHighDisabilityNotSelfDisclosure = formData =>
-  !formValue(formData, IS_SHORT_FORM_ENABLED) ||
-  (!formValue(formData, IS_COMPENSATION_TYPE_HIGH) &&
-    !formValue(formData, IS_GTE_HIGH_DISABILITY));
-
-// show page when short form feature toggle is not enabled and veteran does not have data in MPI or
-// when compensation type high is not selected and veteran does not have data in MPI
-const notHighDisabilityAndNotInMvi = formData =>
-  (!formValue(formData, IS_SHORT_FORM_ENABLED) &&
-    !formValue(formData, IS_VETERAN_IN_MVI)) ||
-  (formValue(formData, IS_SHORT_FORM_ENABLED) &&
-    !formValue(formData, IS_COMPENSATION_TYPE_HIGH) &&
-    !formValue(formData, IS_VETERAN_IN_MVI));
-
-// show page when short form feature toggle is not enabled and is enrolled in medicare part A is selected or
-// when compensation type high is not selected and is enrolled in medicare part A is selected
-const notHighDisabilityEnrolledMedicarePartA = formData =>
-  (!formValue(formData, IS_SHORT_FORM_ENABLED) &&
-    formData.isEnrolledMedicarePartA) ||
-  (formValue(formData, IS_SHORT_FORM_ENABLED) &&
-    !formValue(formData, IS_COMPENSATION_TYPE_HIGH) &&
-    formData.isEnrolledMedicarePartA);
-
-// For which page needs prefill-message, check
-// vets-api/config/form_profile_mappings/1010ez.yml
+/**
+ * NOTE: Prefill message data values can be found in
+ * `vets-api/config/form_profile_mappings/1010ez.yml`
+ */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -142,7 +114,7 @@ const formConfig = {
       path: 'id-form',
       component: IDPage,
       pageKey: 'id-form',
-      depends: formData => !formValue(formData, IS_LOGGED_IN),
+      depends: formData => !formData['view:isLoggedIn'],
     },
   ],
   confirmation: ConfirmationPage,
@@ -171,7 +143,7 @@ const formConfig = {
           CustomPage: PersonalAuthenticatedInformation,
           CustomPageReview: null,
           initialData: {},
-          depends: formData => formValue(formData, IS_LOGGED_IN),
+          depends: formData => formData['view:isLoggedIn'],
           uiSchema: {},
           schema: {
             type: 'object',
@@ -182,7 +154,7 @@ const formConfig = {
           path: 'veteran-information/profile-information',
           title: 'Veteran name',
           initialData: {},
-          depends: formData => !formValue(formData, IS_LOGGED_IN),
+          depends: formData => !formData['view:isLoggedIn'],
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
@@ -190,7 +162,7 @@ const formConfig = {
           path: 'veteran-information/profile-information-ssn',
           title: 'Social Security number',
           initialData: {},
-          depends: formData => !formValue(formData, IS_LOGGED_IN),
+          depends: formData => !formData['view:isLoggedIn'],
           uiSchema: personalInformationSsn.uiSchema,
           schema: personalInformationSsn.schema,
         },
@@ -199,8 +171,7 @@ const formConfig = {
           title: 'Date of birth',
           initialData: {},
           depends: formData =>
-            !formValue(formData, IS_LOGGED_IN) ||
-            !formValue(formData, USER_DOB),
+            !formData['view:isLoggedIn'] || !formData['view:userDob'],
           uiSchema: personalInformationDOB.uiSchema,
           schema: personalInformationDOB.schema,
         },
@@ -284,8 +255,7 @@ const formConfig = {
           title: 'VA benefits',
           CustomPageReview: CompensationTypeReviewPage,
           depends: formData =>
-            !formValue(formData, IS_GTE_HIGH_DISABILITY) ||
-            !formValue(formData, IS_SHORT_FORM_ENABLED),
+            formData['view:totalDisabilityRating'] < HIGH_DISABILITY_MINIMUM,
           uiSchema: basicInformation.uiSchema,
           schema: basicInformation.schema,
         },
@@ -295,9 +265,7 @@ const formConfig = {
           CustomPage: ServiceConnectedPayConfirmation,
           CustomPageReview: null,
           initialData: {},
-          depends: formData =>
-            formData.vaCompensationType === 'highDisability' &&
-            formValue(formData, IS_SHORT_FORM_ENABLED),
+          depends: formData => formData.vaCompensationType === 'highDisability',
           uiSchema: {},
           schema: {
             type: 'object',
@@ -309,7 +277,7 @@ const formConfig = {
           title: 'VA pension',
           uiSchema: pensionInformation.uiSchema,
           schema: pensionInformation.schema,
-          depends: ({ vaCompensationType }) => vaCompensationType === 'none',
+          depends: formData => formData.vaCompensationType === 'none',
         },
       },
     },
@@ -319,21 +287,22 @@ const formConfig = {
         serviceInformation: {
           path: 'military-service/service-information',
           title: 'Service periods',
-          depends: notHighDisabilityNotSelfDisclosure,
+          depends: formData => !isShortFormEligible(formData),
           uiSchema: serviceInformation.uiSchema,
           schema: serviceInformation.schema,
         },
         additionalInformation: {
           path: 'military-service/additional-information',
           title: 'Service history',
-          depends: notHighDisabilityNotSelfDisclosure,
+          depends: formData => !isShortFormEligible(formData),
           uiSchema: additionalInformation.uiSchema,
           schema: additionalInformation.schema,
         },
         documentUpload: {
           title: 'Upload your discharge papers',
           path: 'military-service/documents',
-          depends: notHighDisabilityAndNotInMvi,
+          depends: formData =>
+            !isShortFormEligible(formData) && !formData['view:isUserInMvi'],
           editModeOnReviewPage: true,
           uiSchema: documentUpload.uiSchema,
           schema: documentUpload.schema,
@@ -346,14 +315,14 @@ const formConfig = {
         financialDisclosure: {
           path: 'household-information/financial-disclosure',
           title: 'Financial disclosure',
-          depends: notHighDisabilityNotSelfDisclosure,
+          depends: formData => !isShortFormEligible(formData),
           uiSchema: financialDisclosure.uiSchema,
           schema: financialDisclosure.schema,
         },
         maritalStatus: {
           path: 'household-information/marital-status',
           title: 'Marital status information',
-          depends: notHighDisabilityNotSelfDisclosure,
+          depends: formData => !isShortFormEligible(formData),
           initialData: {},
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
@@ -363,17 +332,19 @@ const formConfig = {
           title: 'Spouse\u2019s information',
           initialData: {},
           depends: formData =>
+            !isShortFormEligible(formData) &&
             formData.discloseFinancialInformation &&
-            formData.maritalStatus &&
-            (formData.maritalStatus.toLowerCase() === 'married' ||
-              formData.maritalStatus.toLowerCase() === 'separated'),
+            (formData.maritalStatus?.toLowerCase() === 'married' ||
+              formData.maritalStatus?.toLowerCase() === 'separated'),
           uiSchema: spouseInformation.uiSchema,
           schema: spouseInformation.schema,
         },
         dependentInformation: {
           path: 'household-information/dependent-information',
           title: 'Dependent information',
-          depends: data => data.discloseFinancialInformation,
+          depends: formData =>
+            !isShortFormEligible(formData) &&
+            formData.discloseFinancialInformation,
           uiSchema: dependentInformation.uiSchema,
           schema: dependentInformation.schema,
         },
@@ -381,14 +352,18 @@ const formConfig = {
           path: 'household-information/annual-income',
           title: 'Annual income',
           initialData: {},
-          depends: data => data.discloseFinancialInformation,
+          depends: formData =>
+            !isShortFormEligible(formData) &&
+            formData.discloseFinancialInformation,
           uiSchema: annualIncome.uiSchema,
           schema: annualIncome.schema,
         },
         deductibleExpenses: {
           path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
-          depends: data => data.discloseFinancialInformation,
+          depends: formData =>
+            !isShortFormEligible(formData) &&
+            formData.discloseFinancialInformation,
           uiSchema: deductibleExpenses.uiSchema,
           schema: deductibleExpenses.schema,
         },
@@ -407,7 +382,7 @@ const formConfig = {
         medicare: {
           path: 'insurance-information/medicare',
           title: 'Medicare coverage',
-          depends: notHighDisabilityNotSelfDisclosure,
+          depends: formData => !isShortFormEligible(formData),
           initialData: {},
           uiSchema: medicare.uiSchema,
           schema: medicare.schema,
@@ -416,7 +391,8 @@ const formConfig = {
           path: 'insurance-information/medicare-part-a-effective-date',
           title: 'Medicare Part A effective date',
           initialData: {},
-          depends: notHighDisabilityEnrolledMedicarePartA,
+          depends: formData =>
+            !isShortFormEligible(formData) && formData.isEnrolledMedicarePartA,
           uiSchema: medicarePartAEffectiveDate.uiSchema,
           schema: medicarePartAEffectiveDate.schema,
         },

@@ -3,25 +3,32 @@ const { generateFeatureToggles } = require('./feature-toggles');
 const user = require('./users');
 const { createSuccessPayment } = require('./payment-history');
 const { createAppealsSuccess } = require('./appeals-success');
-const { createDebtsSuccess } = require('./debts');
+const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
 const { createClaimsSuccess } = require('./evss-claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
+const { createUnreadMessagesSuccess } = require('./messaging');
+const { user81Copays } = require('./medical-copays');
 const { v0, v2 } = require('./appointments');
+
+// set to true to simulate a user with debts for /v0/debts endpoint
+const hasDebts = false;
 
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
     profileUseVaosV2Api: true,
-    myvaCernerFromDrupal: true,
     showMyVADashboardV2: true,
+    showPaymentAndDebtSection: true,
   }),
   'GET /v0/user': user.cernerUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
-  'GET /v0/profile/payment_history': createSuccessPayment(true),
+  'GET /v0/medical_copays': user81Copays,
+  'GET /v0/profile/payment_history': createSuccessPayment(false),
   'GET /v0/appeals': createAppealsSuccess(),
   'GET /v0/evss_claims_async': createClaimsSuccess(),
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
+  'GET /v0/messaging/health/folders/0': createUnreadMessagesSuccess(),
   'GET /v0/profile/full_name': {
     id: '',
     type: 'hashes',
@@ -32,7 +39,7 @@ const responses = {
       suffix: null,
     },
   },
-  'GET /v0/debts': createDebtsSuccess(),
+  'GET /v0/debts': hasDebts ? createDebtsSuccess() : createNoDebtsSuccess(),
   'GET /v0/profile/service_history': {
     data: {
       id: '',
@@ -67,4 +74,4 @@ const responses = {
   },
 };
 
-module.exports = delay(responses, 2000);
+module.exports = delay(responses, 100);

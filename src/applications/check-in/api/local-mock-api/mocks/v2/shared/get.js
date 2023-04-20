@@ -105,6 +105,7 @@ const createAppointment = ({
   checkInSteps = [],
   clinicStopCodeName = 'Mental health',
   doctorName = 'Dr. Jones',
+  clinicIen = '0001',
 } = {}) => {
   const formattedStartTime = dateFns.format(
     startTime,
@@ -167,6 +168,7 @@ const createAppointment = ({
     clinicLocation,
     clinicStopCodeName,
     doctorName,
+    clinicIen,
   };
 };
 
@@ -186,6 +188,7 @@ const createAppointments = (
     createAppointment({
       eligibility: 'ELIGIBLE',
       facilityId: 'ABC_123',
+      clinicIen: '0001',
       appointmentIen: `0001`,
       clinicFriendlyName: `HEART CLINIC-1`,
       uuid: token,
@@ -198,6 +201,7 @@ const createAppointments = (
       createAppointment({
         eligibility: 'INELIGIBLE_TOO_LATE',
         facilityId: 'ABC_123',
+        clinicIen: '0001',
         appointmentIen: '0000',
         clinicFriendlyName: `HEART CLINIC-1`,
       }),
@@ -207,6 +211,7 @@ const createAppointments = (
         createAppointment({
           eligibility: 'ELIGIBLE',
           facilityId: 'ABC_123',
+          clinicIen: '0001',
           appointmentIen: `000${i + 1}`,
           clinicFriendlyName: `HEART CLINIC-${i}`,
           uuid: token,
@@ -218,6 +223,7 @@ const createAppointments = (
       createAppointment({
         eligibility: 'INELIGIBLE_TOO_EARLY',
         facilityId: 'ABC_123',
+        clinicIen: '0001',
         appointmentIen: `0050`,
         clinicFriendlyName: `HEART CLINIC-E`,
       }),
@@ -241,10 +247,28 @@ const createAppointments = (
   };
 };
 
+const createMockFailedResponse = _data => {
+  return {
+    error: true,
+  };
+};
+
+const createMockNotFoundResponse = () => {
+  return {
+    errors: [
+      {
+        status: '404',
+      },
+    ],
+  };
+};
+
 module.exports = {
   aboutToExpireUUID,
   createAppointments,
   createAppointment,
   defaultUUID,
   mockDemographics,
+  createMockFailedResponse,
+  createMockNotFoundResponse,
 };

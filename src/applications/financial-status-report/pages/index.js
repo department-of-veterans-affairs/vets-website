@@ -22,6 +22,13 @@ import * as spouseBenefitRecords from './income/spouse/benefits/records';
 import * as spouseEmployment from './income/spouse/employment';
 import * as spouseEmploymentRecords from './income/spouse/employment/records';
 import * as spouseIncome from './income/spouse/currentIncome';
+import * as spouseEmploymentQuestion from './income/spouse/employment/employmentQuestion';
+import * as spouseEmploymentHistory from './income/employmentEnhanced/spouseEmploymentHistory';
+import * as spouseGrossMonthlyIncome from './income/employmentEnhanced/spouseGrossMonthlyIncome';
+import * as spousePayrollDeductionChecklist from './income/employmentEnhanced/spousePayrollDeductionChecklist';
+import * as spousePayrollDeductionInputList from './income/employmentEnhanced/spousePayrollDeductionInputList';
+import * as spouseAdditionalIncomeCheckList from './income/spouse/additionalIncome/enhancedIndex';
+import * as spouseAdditionalIncomeValues from './income/spouse/additionalIncome/enhancedRecords';
 import * as dependents from './income/dependents';
 import * as dependentRecords from './income/dependents/records';
 import * as monetary from './assets/monetary';
@@ -36,10 +43,12 @@ import * as recreationalVehicleRecords from './assets/recreationalVehicles/recor
 import * as vehicles from './assets/vehicles';
 import * as vehicleRecords from './assets/vehicles/records';
 import * as otherAssets from './assets/other';
+import * as otherAssetPages from './assets/other/otherAssetsEnhanced';
 import * as otherAssetRecords from './assets/other/records';
 import * as expenses from './expenses/household';
 import * as utilities from './expenses/utilities';
 import * as utilityRecords from './expenses/utilities/records';
+import * as utilityBillPages from './expenses/utilities/utilityBillsEnhanced';
 import * as repayments from './expenses/repayments';
 import * as repaymentRecords from './expenses/repayments/records';
 import * as otherExpenses from './expenses/other';
@@ -48,6 +57,7 @@ import * as resolutionOptions from './resolution/options';
 import * as resolutionOption from './resolution/resolutionOption';
 import * as resolutionComments from './resolution/comments';
 import * as resolutionComment from './resolution/resolutionComment';
+import * as resolutionWaiverAgreement from './resolution/resolutionWaiverAgreement';
 import * as bankruptcyHistory from './bankruptcy';
 import * as bankruptcyHistoryRecords from './bankruptcy/records';
 import * as enhancedBankruptcyHistoryRecords from './bankruptcy/enhancedRecords';
@@ -61,7 +71,8 @@ import * as resolutionExplainer from './resolution/resolutionExplainer';
 import * as householdExpensesChecklist from './expenses/householdExpensesChecklist';
 import * as householdExpensesInputList from './expenses/householdExpensesValues';
 import * as expensesExplainer from './expenses/expensesExplainer';
-import * as contactInformation from './veteran/contactInformation';
+import * as creditCardBills from './expenses/creditCardBills';
+import * as installmentContracts from './expenses/repayments/installmentContracts';
 
 export {
   veteranInfo,
@@ -87,6 +98,13 @@ export {
   spouseIncome,
   spouseSocialSecurity,
   spouseSocialSecurityRecords,
+  spouseEmploymentQuestion,
+  spouseEmploymentHistory,
+  spouseGrossMonthlyIncome,
+  spousePayrollDeductionChecklist,
+  spousePayrollDeductionInputList,
+  spouseAdditionalIncomeCheckList,
+  spouseAdditionalIncomeValues,
   dependents,
   dependentRecords,
   monetary,
@@ -102,9 +120,11 @@ export {
   vehicleRecords,
   otherAssets,
   otherAssetRecords,
+  otherAssetPages,
   expenses,
   utilities,
   utilityRecords,
+  utilityBillPages,
   repayments,
   repaymentRecords,
   otherExpenses,
@@ -113,6 +133,7 @@ export {
   resolutionOption,
   resolutionComments,
   resolutionComment,
+  resolutionWaiverAgreement,
   bankruptcyHistory,
   bankruptcyHistoryRecords,
   contactInfo,
@@ -127,5 +148,6 @@ export {
   householdExpensesInputList,
   expensesExplainer,
   enhancedBankruptcyHistoryRecords,
-  contactInformation,
+  creditCardBills,
+  installmentContracts,
 };

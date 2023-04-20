@@ -186,7 +186,7 @@ export function ResultCard({
       <div>
         <div className="vads-l-grid-container search-star-container">
           <div className="vads-u-margin-bottom--2 vads-l-row">
-            <div className="vads-u-margin-top--0p5 star-icons">
+            <div className="star-icons">
               <RatingsStars rating={ratingAverage} />
             </div>
             <div className="xsmall-screen:vads-l-col--12 medium-screen:vads-l-col--8">

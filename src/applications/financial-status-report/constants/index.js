@@ -35,5 +35,3 @@ export const SCHEMA_DEFINITIONS = {
     pattern: '^\\d{5}(?:([-\\s]?)\\d{4})?$',
   },
 };
-
-export const PROFILE_URL = '/profile';

@@ -9,16 +9,11 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+import { fetchMHVAccount } from 'platform/user/profile/actions';
 import { mhvAccessError } from '../../../static-data/error-messages';
 import backendServices from '../../profile/constants/backendServices';
 import { selectProfile } from '../../selectors';
 import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
-
-import {
-  createMHVAccount,
-  fetchMHVAccount,
-  upgradeMHVAccount,
-} from 'platform/user/profile/actions';
 
 /* eslint-disable camelcase */
 const INELIGIBLE_MESSAGES = {
@@ -154,12 +149,9 @@ export class MHVApp extends React.Component {
       }
 
       case 'no_account':
-        this.props.createMHVAccount();
-        break;
-
       case 'existing':
       case 'registered':
-        this.props.upgradeMHVAccount();
+        // We will no longer be creating or upgrading MHV accounts
         break;
 
       default: // Do nothing.
@@ -191,7 +183,7 @@ export class MHVApp extends React.Component {
     return <AlertBox isVisible status="success" {...alertProps} />;
   };
 
-  renderPlaceholderErrorMessage() {
+  renderPlaceholderErrorMessage = () => {
     const alertProps = {
       headline: (
         <span>We’re not able to process your My HealtheVet account</span>
@@ -199,13 +191,9 @@ export class MHVApp extends React.Component {
       content: (
         <p>
           Please{' '}
-          <a
-            onClick={() => {
-              window.location.reload(true);
-            }}
-          >
+          <button type="button" onClick={() => window.location.reload(true)}>
             refresh this page
-          </a>{' '}
+          </button>{' '}
           or try again later. If you keep having trouble, please{' '}
           <SubmitSignInForm />
         </p>
@@ -213,7 +201,7 @@ export class MHVApp extends React.Component {
     };
 
     return <AlertBox isVisible status="error" {...alertProps} />;
-  }
+  };
 
   renderIneligibleMessage = ineligibleState => {
     const alertProps = INELIGIBLE_MESSAGES[ineligibleState];
@@ -232,7 +220,7 @@ export class MHVApp extends React.Component {
     return mhvAccessError;
   };
 
-  renderAccountUnknownMessage() {
+  renderAccountUnknownMessage = () => {
     const alertProps = {
       headline: <span>We can’t confirm your My HealtheVet account level</span>,
       content: (
@@ -247,9 +235,9 @@ export class MHVApp extends React.Component {
     };
 
     return <AlertBox isVisible status="error" {...alertProps} />;
-  }
+  };
 
-  renderRegisterFailedMessage() {
+  renderRegisterFailedMessage = () => {
     const alertProps = {
       headline: `We can’t give you access to VA.gov health tools right now`,
       content: (
@@ -263,9 +251,9 @@ export class MHVApp extends React.Component {
     };
 
     return <AlertBox isVisible status="error" {...alertProps} />;
-  }
+  };
 
-  renderUpgradeFailedMessage() {
+  renderUpgradeFailedMessage = () => {
     const alertProps = {
       headline: `We can’t give you access to VA.gov health tools right now`,
       content: (
@@ -282,7 +270,7 @@ export class MHVApp extends React.Component {
     };
 
     return <AlertBox isVisible status="error" {...alertProps} />;
-  }
+  };
 
   render() {
     const {
@@ -346,6 +334,8 @@ export class MHVApp extends React.Component {
 
 MHVApp.propTypes = {
   children: PropTypes.node,
+  fetchMHVAccount: PropTypes.func,
+  mhvAccount: PropTypes.object,
   serviceRequired: PropTypes.oneOf([
     backendServices.HEALTH_RECORDS,
     backendServices.MESSAGING,
@@ -364,11 +354,7 @@ const mapStateToProps = state => {
   return { mhvAccount, availableServices };
 };
 
-const mapDispatchToProps = {
-  createMHVAccount,
-  fetchMHVAccount,
-  upgradeMHVAccount,
-};
+const mapDispatchToProps = { fetchMHVAccount };
 
 export default withRouter(
   connect(

@@ -2,10 +2,6 @@
   "data": {
     "features": [
       {
-        "name": "profileEnhancements",
-        "value": true
-      },
-      {
         "name": "profile_enhancements",
         "value": true
       },
@@ -14,7 +10,7 @@
         "value": true
       },
       {
-        "name": "profileShowPronounsAndSexualOrientation",
+        "name": "profile_use_info_card",
         "value": true
       }
     ]

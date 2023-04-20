@@ -5,20 +5,24 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useDispatch, useSelector } from 'react-redux';
-import { moveMessage } from '../../actions/messages';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { moveMessageThread } from '../../actions/messages';
 import { getFolders, newFolder } from '../../actions/folders';
+import { navigateToFolderByFolderId } from '../../util/helpers';
 import * as Constants from '../../util/constants';
+import { addAlert } from '../../actions/alerts';
 import CreateFolderModal from '../Modals/CreateFolderModal';
 
 const MoveMessageToFolderBtn = props => {
-  const { messageId, allFolders, isVisible } = props;
+  const { threadId, allFolders, isVisible, activeFolder } = props;
   const dispatch = useDispatch();
+  const history = useHistory();
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isNewModalVisible, setIsNewModalVisible] = useState(false);
   const [folderInputError, setFolderInputError] = useState(null);
-  const folders = useSelector(state => state.sm.folders.folderList);
+  const [updatedFoldersList, setUpdatedFolderList] = useState([]);
 
   useEffect(
     () => {
@@ -45,16 +49,46 @@ const MoveMessageToFolderBtn = props => {
 
   const handleConfirmMoveFolderTo = () => {
     if (selectedFolder === null) {
-      setFolderInputError('Please select a folder to move the message to.');
+      setFolderInputError(
+        Constants.ErrorMessages.MoveConversation.FOLDER_REQUIRED,
+      );
     } else {
       if (selectedFolder === 'newFolder') {
         setIsNewModalVisible(true);
       } else if (selectedFolder !== null) {
-        dispatch(moveMessage(messageId, selectedFolder));
+        dispatch(moveMessageThread(threadId, selectedFolder)).then(() => {
+          navigateToFolderByFolderId(
+            activeFolder
+              ? activeFolder.folderId
+              : Constants.DefaultFolders.INBOX.id,
+            history,
+          );
+          dispatch(
+            addAlert(
+              Constants.ALERT_TYPE_SUCCESS,
+              '',
+              Constants.Alerts.Message.MOVE_MESSAGE_THREAD_SUCCESS,
+            ),
+          );
+        });
       }
       closeModal();
     }
   };
+
+  useEffect(
+    () => {
+      setUpdatedFolderList(
+        allFolders.filter(
+          folder =>
+            folder.id !== activeFolder?.folderId &&
+            folder.id !== Constants.DefaultFolders.DRAFTS.id &&
+            folder.id !== Constants.DefaultFolders.SENT.id,
+        ),
+      );
+    },
+    [allFolders, activeFolder],
+  );
 
   const moveToFolderModal = () => {
     return (
@@ -85,30 +119,24 @@ const MoveMessageToFolderBtn = props => {
             error={folderInputError}
             onRadioOptionSelected={handleOnChangeFolder}
           >
-            {allFolders &&
-              allFolders
-                .filter(
-                  folder =>
-                    folder.id !== Constants.DefaultFolders.DRAFTS.id &&
-                    folder.id !== Constants.DefaultFolders.SENT.id,
-                )
-                .map((folder, i) => (
-                  <>
-                    <VaRadioOption
-                      data-testid={`radiobutton-${folder.name}`}
-                      key={i}
-                      id={`radiobutton-${folder.name}`}
-                      // checking if the folder is the trash folder, as the name on the backend is 'Deleted' instead of 'Trash'
-                      label={
-                        folder.id === Constants.DefaultFolders.DELETED.id
-                          ? Constants.DefaultFolders.DELETED.header
-                          : folder.name
-                      }
-                      name="defaultName"
-                      value={folder.id}
-                    />
-                  </>
-                ))}
+            {updatedFoldersList &&
+              updatedFoldersList.map((folder, i) => (
+                <>
+                  <VaRadioOption
+                    data-testid={`radiobutton-${folder.name}`}
+                    key={i}
+                    id={`radiobutton-${folder.name}`}
+                    // checking if the folder is the trash folder, as the name on the backend is 'Deleted' instead of 'Trash'
+                    label={
+                      folder.id === Constants.DefaultFolders.DELETED.id
+                        ? Constants.DefaultFolders.DELETED.header
+                        : folder.name
+                    }
+                    name="defaultName"
+                    value={folder.id}
+                  />
+                </>
+              ))}
             <>
               <VaRadioOption
                 data-testid="folder-list-radio-button"
@@ -128,7 +156,7 @@ const MoveMessageToFolderBtn = props => {
   const confirmCreateFolder = (folderName, closeNewModal) => {
     dispatch(newFolder(folderName))
       .then(createdFolder =>
-        dispatch(moveMessage(messageId, createdFolder.folderId)),
+        dispatch(moveMessageThread(threadId, createdFolder.folderId)),
       )
       .finally(() => closeNewModal());
   };
@@ -158,7 +186,7 @@ const MoveMessageToFolderBtn = props => {
             isModalVisible={isNewModalVisible}
             setIsModalVisible={setIsNewModalVisible}
             onConfirm={confirmCreateFolder}
-            folders={folders}
+            folders={updatedFoldersList}
           />
         )}
       </li>
@@ -167,9 +195,10 @@ const MoveMessageToFolderBtn = props => {
 };
 
 MoveMessageToFolderBtn.propTypes = {
+  activeFolder: PropTypes.object,
   allFolders: PropTypes.array,
   isVisible: PropTypes.bool,
-  messageId: PropTypes.number,
+  threadId: PropTypes.number,
 };
 
 export default MoveMessageToFolderBtn;

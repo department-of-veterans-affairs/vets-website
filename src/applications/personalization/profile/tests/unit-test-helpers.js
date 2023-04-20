@@ -1,10 +1,13 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { Formik } from 'formik';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 import profile from '@@profile/reducers';
 import connectedApps from '@@profile/components/connected-apps/reducers/connectedApps';
+import {
+  renderInReduxProvider,
+  renderWithStoreAndRouter,
+} from '~/platform/testing/unit/react-testing-library-helpers';
 
 export function wait(timeout) {
   return new Promise(resolve => {
@@ -26,6 +29,16 @@ export function renderWithProfileReducers(
     reducers: { ...profile, connectedApps, ...reducers },
     initialState,
     ...renderOptions,
+  });
+}
+
+export function renderWithProfileReducersAndRouter(
+  ui,
+  { initialState = {}, reducers = {} } = {},
+) {
+  return renderWithStoreAndRouter(ui, {
+    reducers: { ...profile, connectedApps, ...reducers },
+    initialState,
   });
 }
 
@@ -201,7 +214,6 @@ export function createFeatureTogglesState(customToggles = {}) {
   return {
     featureToggles: {
       loading: false,
-      profile_use_vafsc: true,
       ...customToggles,
     },
   };

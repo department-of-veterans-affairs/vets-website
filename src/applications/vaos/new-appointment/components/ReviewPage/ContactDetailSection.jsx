@@ -1,8 +1,9 @@
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
 import newAppointmentFlow from '../../newAppointmentFlow';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../../utils/constants';
 import { selectFeatureAcheronService } from '../../../redux/selectors';
@@ -34,12 +35,20 @@ function formatBestTimetoCall(bestTime) {
   return output.toLowerCase();
 }
 
+function handleClick(history) {
+  return () => {
+    history.push(newAppointmentFlow.contactInfo.url);
+  };
+}
+
 export default function ContactDetailSection({ data }) {
   const formData = useSelector(getFormData);
   const featureAcheronService = useSelector(state =>
     selectFeatureAcheronService(state),
   );
   const flowType = useSelector(getFlowType);
+  const history = useHistory();
+
   return (
     <>
       <div className="vads-l-grid-container vads-u-padding--0">
@@ -72,12 +81,12 @@ export default function ContactDetailSection({ data }) {
             </span>
           </div>
           <div>
-            <Link
-              to={newAppointmentFlow.contactInfo.url}
+            <va-link
               aria-label="Edit call back time"
-            >
-              Edit
-            </Link>
+              text="Edit"
+              data-testid="edit-new-appointment"
+              onClick={handleClick(history)}
+            />
           </div>
         </div>
       </div>

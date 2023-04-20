@@ -3,24 +3,44 @@ import mockFolders from '../fixtures/folder-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
-import mockMessage from '../fixtures/message-response-specialchars.json';
+import mockSpecialCharsMessage from '../fixtures/message-response-specialchars.json';
+import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
-import mockInboxNoMessages from '../fixtures/empty-thread-response.json';
-import mockMessagewithAttachment from '../fixtures/message-response-withattachments.json';
-import mockThreadwithAttachment from '../fixtures/thread-attachment-response.json';
+import PatientInterstitialPage from './PatientInterstitialPage';
 
 class PatientInboxPage {
   newMessageIndex = 0;
 
-  loadedMessagesData = undefined;
+  dynamicMessageId = undefined;
 
-  loadPage = (doAxeCheck = false) => {
-    const date = new Date();
-    date.setDate(date.getDate() - 1);
-    mockMessages.data.at(
-      this.newMessageIndex,
-    ).attributes.sentDate = date.toISOString();
+  dynamicMessageBody = undefined;
+
+  dynamicMessageTitle = undefined;
+
+  dynamicMessageCategory = undefined;
+
+  dynamicMessageDate = undefined;
+
+  dynamicMessageRecipient = undefined;
+
+  useDynamicData = false;
+
+  mockInboxMessages = mockMessages;
+
+  mockDetailedMessage = mockSpecialCharsMessage;
+
+  mockRecipients = mockRecipients;
+
+  loadInboxMessages = (
+    inboxMessages = mockMessages,
+    detailedMessage = mockSpecialCharsMessage,
+    recipients = mockRecipients,
+    getFoldersStatus = 200,
+  ) => {
+    this.mockInboxMessages = inboxMessages;
+    this.mockRecipients = recipients;
+    this.setInboxTestMessageDetails(detailedMessage);
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
@@ -37,17 +57,29 @@ class PatientInboxPage {
       '/my_health/v1/messaging/messages/categories',
       mockCategories,
     ).as('categories');
+    if (getFoldersStatus === 200) {
+      cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
+        'folders',
+      );
+    } else {
+      cy.intercept('GET', '/my_health/v1/messaging/folders*', {
+        statusCode: 400,
+        body: {
+          alertType: 'error',
+          header: 'err.title',
+          content: 'err.detail',
+          response: {
+            header: 'err.title',
+            content: 'err.detail',
+          },
+        },
+      }).as('folders');
+    }
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders?page*',
-      mockFolders,
-    ).as('folders');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/0/messages*',
-      mockMessages,
+      '/my_health/v1/messaging/folders/0/threads*',
+      this.mockInboxMessages,
     ).as('inboxMessages');
-    this.loadedMessagesData = mockMessages;
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0*',
@@ -56,101 +88,43 @@ class PatientInboxPage {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/recipients?useCache=false',
-      mockRecipients,
+      this.mockRecipients,
     ).as('recipients');
     cy.visit('my-health/secure-messages/inbox', {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
       },
     });
-    if (doAxeCheck) {
-      cy.injectAxe();
-    }
 
     cy.wait('@folders');
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     cy.wait('@inboxMessages');
-    if (doAxeCheck) {
-      cy.axeCheck();
+  };
+
+  setInboxTestMessageDetails = mockMessage => {
+    if (this.mockInboxMessages.data.length > 0) {
+      cy.log(`mockInboxMessages size ${this.mockInboxMessages.data.length}`);
+      this.mockInboxMessages.data.at(0).attributes.sentDate =
+        mockMessage.data.attributes.sentDate;
+      this.mockInboxMessages.data.at(0).attributes.messageId =
+        mockMessage.data.attributes.messageId;
+      this.mockInboxMessages.data.at(0).attributes.subject =
+        mockMessage.data.attributes.subject;
+      this.mockInboxMessages.data.at(0).attributes.body =
+        mockMessage.data.attributes.body;
+      this.mockInboxMessages.data.at(0).attributes.category =
+        mockMessage.data.attributes.category;
+      mockThread.data.at(0).attributes.recipientId =
+        mockMessage.data.attributes.recipientId;
+      mockThread.data.at(0).attributes.triageGroupName =
+        mockMessage.data.attributes.triageGroupName;
+      this.mockDetailedMessage = mockMessage;
     }
   };
 
-  loadEmptyPage = (doAxeCheck = false) => {
-    const date = new Date();
-    date.setDate(date.getDate() - 1);
-    mockMessages.data.at(
-      this.newMessageIndex,
-    ).attributes.sentDate = date.toISOString();
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: 'mhv_secure_messaging_to_va_gov_release',
-            value: true,
-          },
-        ],
-      },
-    }).as('featureToggle');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/messages/categories',
-      mockCategories,
-    ).as('categories');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders?page*',
-      mockFolders,
-    ).as('folders');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/0/messages*',
-      mockInboxNoMessages,
-    ).as('inboxMessages');
-    this.loadedMessagesData = mockInboxNoMessages;
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/0*',
-      mockInboxFolder,
-    ).as('inboxFolderMetaData');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/recipients?useCache=false',
-      mockRecipients,
-    ).as('recipients');
-    cy.visit('my-health/secure-messages/inbox');
-    if (doAxeCheck) {
-      cy.injectAxe();
-    }
-
-    cy.wait('@folders');
-    cy.wait('@featureToggle');
-    cy.wait('@mockUser');
-    if (doAxeCheck) {
-      cy.axeCheck();
-    }
-  };
-
-  loadMessageDetails = (messageId, messageTitle, messageDate) => {
-    cy.log('loading message details.');
-    cy.log(`Sent date: ${messageDate}`);
-    mockMessage.data.attributes.sentDate = messageDate;
-    mockMessage.data.attributes.messageId = messageId;
-    mockMessage.data.attributes.messageTitle = messageTitle;
-    cy.intercept(
-      'GET',
-      `/my_health/v1/messaging/messages/${messageId}`,
-      mockMessage,
-    ).as('message');
-    cy.intercept(
-      'GET',
-      `/my_health/v1/messaging/messages/${messageId}/thread`,
-      mockThread,
-    ).as('full-thread');
-    cy.contains(messageTitle).click();
-    cy.wait('@message');
-    cy.wait('@full-thread');
+  getInboxTestMessageDetails = () => {
+    return this.mockDetailedMessage;
   };
 
   loadMessageDetailsByTabbingAndEnterKey = inputMockMessage => {
@@ -159,7 +133,7 @@ class PatientInboxPage {
       `/my_health/v1/messaging/messages/${
         inputMockMessage.attributes.messageId
       }`,
-      mockMessage,
+      mockSpecialCharsMessage,
     ).as('message');
     cy.intercept(
       'GET',
@@ -184,7 +158,7 @@ class PatientInboxPage {
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${inputMockMessage.data.id}`,
-      mockMessage,
+      mockSpecialCharsMessage,
     ).as('message');
     cy.intercept(
       'GET',
@@ -196,20 +170,6 @@ class PatientInboxPage {
     cy.wait('@full-thread');
   };
 
-  loadMessagewithAttachments = mockMessagewithAttach => {
-    cy.log('loading message with attachments');
-    cy.intercept(
-      'GET',
-      `/my_health/v1/messaging/messages/${mockMessagewithAttach.data.id}`,
-      mockMessagewithAttachment,
-    ).as('message');
-    cy.intercept(
-      'GET',
-      `my_health/v1/messaging/messages/${mockMessagewithAttach.data.id}/thread`,
-      mockThreadwithAttachment,
-    ).as('thread');
-  };
-
   getNewMessage = () => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
@@ -219,6 +179,22 @@ class PatientInboxPage {
     return mockMessages.data.at(this.newMessageIndex);
   };
 
+  getNewMessageDetails = () => {
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+    const newMessage = mockMessageDetails;
+    newMessage.data.attributes.sentDate = date.toISOString();
+    return newMessage;
+  };
+
+  setMessageDateToYesterday = mockMessage => {
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+    const newMessage = mockMessage;
+    newMessage.data.attributes.sentDate = date.toISOString();
+    return newMessage;
+  };
+
   getExpired46DayOldMessage = () => {
     const date = new Date();
     date.setDate(date.getDate() - 46);
@@ -226,6 +202,14 @@ class PatientInboxPage {
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();
     return mockMessages.data.at(this.newMessageIndex);
+  };
+
+  getExpired46DayOldMessageDetails = () => {
+    const date = new Date();
+    date.setDate(date.getDate() - 46);
+    const newMessage = mockMessageDetails;
+    newMessage.data.attributes.sentDate = date.toISOString();
+    return newMessage;
   };
 
   loadPageForNoProvider = (doAxeCheck = false) => {
@@ -284,17 +268,75 @@ class PatientInboxPage {
     }
   };
 
+  clickInboxSideBar = () => {};
+
+  clickSentSideBar = () => {};
+
+  clickTrashSideBar = () => {};
+
+  clickDraftsSideBar = () => {};
+
+  clickMyFoldersSideBar = () => {};
+
   getLoadedMessages = () => {
     return this.loadedMessagesData;
   };
 
   verifySentSuccessMessage = () => {
-    cy.contains('Message was successfully sent.').should('be.visible');
+    cy.contains('Secure message was successfully sent.').should('be.visible');
+  };
+
+  verifyMoveMessagewithAttachmentSuccessMessage = () => {
+    cy.get('p').contains('Message conversation was successfully moved');
+  };
+
+  interstitialStartMessage = type => {
+    return cy
+      .get('a')
+      .contains(`Continue to ${!type ? 'start message' : type} `);
   };
 
   loadComposeMessagePage = () => {
     cy.get('[data-testid="compose-message-link"]').click();
+    const interstitialPage = new PatientInterstitialPage();
+    interstitialPage.getContinueButton().click();
+  };
+
+  navigatePrintCancelButton = () => {
+    cy.tabToElement('[class="usa-button-secondary"]');
+    cy.realPress(['Enter']);
+    cy.get('[data-testid="radio-print-one-message"]').should('be.visible');
+    cy.get('[data-testid="print-modal-popup"]')
+      .shadow()
+      .find('button')
+      .contains('Cancel')
+      .realPress(['Enter']);
+  };
+
+  navigateTrash = () => {
+    cy.tabToElement(':nth-child(2) > .usa-button-secondary');
+    cy.realPress(['Enter']);
+    cy.get('[data-testid="delete-message-confirm-note"] p')
+      .contains('Messages in the trash folder')
+      .should('be.visible');
+    cy.get('[data-testid="delete-message-modal"]')
+      .shadow()
+      .find('button')
+      .contains('Cancel')
+      .realPress(['Enter']);
+  };
+
+  navigateReply = () => {
+    cy.tabToElement('[data-testid="reply-button-top"]');
+    cy.realPress(['Enter']);
+  };
+
+  loadLandingPagebyTabbingandEnterKey = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
+      mockFolders,
+    ).as('folders');
   };
 }
-
 export default PatientInboxPage;

@@ -176,7 +176,7 @@ class ValidateVeteran {
   getLastNameError = () => {
     cy.get('[label="Your last name"]')
       .shadow()
-      .find('#error-message')
+      .find('#input-error-message')
       .contains('Please enter your last name.');
   };
 

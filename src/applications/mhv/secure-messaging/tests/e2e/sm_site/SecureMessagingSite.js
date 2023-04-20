@@ -1,20 +1,16 @@
-import mockCategories from '../fixtures/categories-response.json';
-import mockFolders from '../fixtures/folder-response.json';
-import mockInboxFolder from '../fixtures/folder-inbox-response.json';
-import mockMessages from '../fixtures/messages-response.json';
-import mockRecipients from '../fixtures/recipients-response.json';
 import mockUser from '../fixtures/user.json';
 import mockNonSMUser from '../fixtures/non_sm_user.json';
 import mockStatus from '../fixtures/profile-status.json';
-import mockMessage from '../fixtures/message-response-specialchars.json';
-import mockThread from '../fixtures/thread-response.json';
+import vamcUser from '../fixtures/vamc-ehr.json';
 
 class SecureMessagingSite {
   login = (isSMUser = true) => {
     if (isSMUser) {
       cy.login();
       window.localStorage.setItem('isLoggedIn', true);
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
       cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
+      cy.intercept('GET', '/v0/user_transition_availabilities', mockUser);
       cy.intercept('GET', '/v0/profile/status', mockStatus);
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
@@ -32,6 +28,9 @@ class SecureMessagingSite {
       window.localStorage.setItem('isLoggedIn', true);
       cy.intercept('GET', '/v0/user', mockNonSMUser).as('mockUser');
       cy.intercept('GET', '/v0/profile/status', mockStatus);
+      cy.intercept('GET', '/v0/user_transition_availabilities', {
+        statusCode: 200,
+      });
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
           type: 'feature_toggles',
@@ -49,67 +48,6 @@ class SecureMessagingSite {
   loadPageUnauthenticated = () => {
     cy.visit('my-health/secure-messages/');
     cy.wait('@mockUser');
-  };
-
-  loadPage = (doAxeCheck = false) => {
-    const date = new Date();
-    date.setDate(date.getDate() - 1);
-    mockMessages.data.at(
-      this.newMessageIndex,
-    ).attributes.sentDate = date.toISOString();
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/messages/categories',
-      mockCategories,
-    ).as('categories');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders?page*',
-      mockFolders,
-    ).as('folders');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/0/messages*',
-      mockMessages,
-    ).as('inboxMessages');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/0*',
-      mockInboxFolder,
-    ).as('inboxFolderMetaData');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/recipients?useCache=false',
-      mockRecipients,
-    ).as('recipients');
-    cy.visit('my-health/secure-messages/');
-    cy.wait('@folders');
-    cy.wait('@featureToggle');
-    cy.wait('@mockUser');
-    cy.wait('@inboxMessages');
-    cy.wait('@inboxFolderMetaData');
-    cy.wait('@categories');
-    if (doAxeCheck) {
-      cy.axeCheck();
-    }
-  };
-
-  loadMessageDetailsWithData = inputMockMessage => {
-    cy.log('loading message details.');
-
-    cy.intercept(
-      'GET',
-      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}`,
-      mockMessage,
-    ).as('message');
-    cy.intercept(
-      'GET',
-      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}/thread`,
-      mockThread,
-    ).as('full-thread');
-    cy.contains(inputMockMessage.data.attributes.subject).click();
-    cy.wait('@message');
-    cy.wait('@full-thread');
   };
 }
 export default SecureMessagingSite;

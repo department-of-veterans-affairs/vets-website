@@ -1,8 +1,8 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
     profileUseVaosV2Api = true,
-    myvaCernerFromDrupal = true,
     showMyVADashboardV2 = true,
+    showPaymentAndDebtSection = true,
   } = toggles;
 
   return {
@@ -14,12 +14,12 @@ const generateFeatureToggles = (toggles = {}) => {
           value: profileUseVaosV2Api,
         },
         {
-          name: 'myva_cerner_from_drupal',
-          value: myvaCernerFromDrupal,
-        },
-        {
           name: 'show_myva_dashboard_2_0',
           value: showMyVADashboardV2,
+        },
+        {
+          name: 'show_payment_and_debt_section',
+          value: showPaymentAndDebtSection,
         },
       ],
     },

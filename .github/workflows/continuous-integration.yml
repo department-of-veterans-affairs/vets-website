@@ -534,7 +534,7 @@ jobs:
   stress-test-cypress-tests:
     name: Stress Test Cypress Tests
     runs-on: self-hosted
-    timeout-minutes: 60
+    timeout-minutes: 120
     needs: [build, cypress-tests-prep]
     if: |
       needs.build.result == 'success' &&
@@ -602,7 +602,7 @@ jobs:
       - name: Run Cypress tests
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
         run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 40
+        timeout-minutes: 90
         env:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}

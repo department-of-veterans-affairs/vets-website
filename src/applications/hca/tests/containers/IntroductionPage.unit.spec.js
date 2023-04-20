@@ -161,9 +161,8 @@ describe('HCA IntroductionPage', () => {
         <IntroductionPage {...props} />
       </Provider>,
     );
-
-    expect(view.container.querySelector('.usa-button-primary')).to.contain.text(
-      'Start the health care application',
-    );
+    expect(
+      view.container.querySelector('a.vads-c-action-link--green').text,
+    ).to.contain('Start the health care application');
   });
 });

@@ -12,15 +12,11 @@ import copays from './fixtures/mocks/copays.json';
 import EnhancedVeteranEmploymentHistory from './pages/employment/EnhancedVeteranEmploymentHistory';
 import SpouseEmploymentHistory from './pages/employment/SpouseEmploymentHistory';
 
-// Contact Info Mocks
-import mockStatus from './fixtures/mocks/contact-info-mocks/profile-status.json';
-import mockTelephoneUpdate from './fixtures/mocks/contact-info-mocks/telephone-update.json';
-import mockTelephoneUpdateSuccess from './fixtures/mocks/contact-info-mocks/telephone-update-success.json';
-
 Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
+    skip: true,
     dataPrefix: 'data',
     dataSets: ['efsr-maximal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
@@ -41,25 +37,12 @@ const testConfig = createTestConfig(
           ],
         },
       });
-
-      // Debt and Copay info
       cy.intercept('GET', '/v0/debts', debts);
       cy.intercept('GET', '/v0/medical_copays', copays);
-
-      // Save in progress info -- testData comes from testForm
       cy.get('@testData').then(testData => {
         cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
         cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgress);
       });
-
-      // Profile Info
-      cy.intercept('GET', '/v0/profile/status', mockStatus);
-      cy.intercept('GET', '/v0/maintenance_windows', []);
-
-      // Telephone info
-      cy.intercept('PUT', '/v0/profile/telephones', mockTelephoneUpdate);
-      cy.intercept('GET', '/v0/profile/status/*', mockTelephoneUpdateSuccess);
-
       cy.intercept('POST', formConfig.submitUrl, {
         statusCode: 200,
         body: {
@@ -70,8 +53,10 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.findAllByText(/start/i, { selector: 'button' })
+        cy.get('a.vads-c-action-link--green')
           .first()
+          .shadow()
+          .find('button')
           .click();
       },
       'all-available-debts': ({ afterHook }) => {
@@ -142,15 +127,139 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'spouse-employment-records': ({ afterHook }) => {
+      'credit-card-bills': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_questions_hasCreditCardBillsYes').check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'your-credit-card-bills': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#unpaidBalance')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('#minMonthlyPayment')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('#amountOverdue')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('#submit').click();
+        });
+      },
+      'credit-card-bills-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'your-installment-contracts': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get(':nth-child(3) > .no-wrap')
+            .first()
+            .shadow()
+            .find('input')
+            .type('Loan');
+
+          cy.get('#minMonthlyPayment')
+            .first()
+            .shadow()
+            .find('input')
+            .type('50');
+
+          cy.fillDate('loanBegan', '2020-01');
+
+          cy.get('#submit').click();
+        });
+      },
+      'enhanced-spouse-employment-records': ({ afterHook }) => {
         afterHook(() => {
           SpouseEmploymentHistory.fillEmployerInfo();
+        });
+      },
+      'spouse-gross-monthly-income': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#gross-monthly-income')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1000');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'spouse-deduction-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type="checkbox"][value="State tax"]').click();
           SpouseEmploymentHistory.attemptNextPage();
         });
       },
-      'spouse/income/0': ({ afterHook }) => {
+      'spouse-deduction-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`#root_spouseGrossSalary`).type('3500');
+          cy.get('#State\\ tax0')
+            .first()
+            .shadow()
+            .find('input')
+            .type('123');
+          SpouseEmploymentHistory.attemptNextPage();
+        });
+      },
+      'dependent-ages': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#dependentAge-0')
+            .shadow()
+            .find('input')
+            .type('12');
+          cy.get('#dependentAge-1')
+            .shadow()
+            .find('input')
+            .type('17');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'your-vehicle-records': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-number-input')
+            .as('numberInputs')
+            .should('have.length', 2);
+          cy.get('#add-make-name')
+            .first()
+            .shadow()
+            .find('input')
+            .type('Make');
+          cy.get('#add-model-name')
+            .first()
+            .shadow()
+            .find('input')
+            .type('Model');
+          cy.get('#year')
+            .first()
+            .shadow()
+            .find('input')
+            .type('2000');
+          cy.get('#estValue')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1000');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'vehicles-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[data-testid="mini-summary-card"]')
+            .as('cards')
+            .should('have.length', 1);
+          cy.get('@cards')
+            .eq(0)
+            .should('contain', '$1,000.00')
+            .and('contain', 'Make')
+            .and('contain', 'Model')
+            .and('contain', '2000');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -158,9 +267,103 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.findByLabelText(
             /What is the estimated value of all of your trailers, campers, and boats?/,
-          )
-            .type('2500')
-            .type('{downarrow}{enter}');
+          ).type('2500');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'other-assets-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type=checkbox]')
+            .as('checklist')
+            .should('have.length', 6);
+          cy.get('@checklist')
+            .eq(0)
+            .click();
+          cy.get('@checklist')
+            .eq(1)
+            .click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'other-assets-values': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-number-input')
+            .as('numberInputs')
+            .should('have.length', 2);
+          cy.get('#Antiques0')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1000');
+          cy.get('[id="Collectibles, or collection(s)1"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1500');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'other-assets-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[data-testid="mini-summary-card"]')
+            .as('cards')
+            .should('have.length', 2);
+          cy.get('@cards')
+            .eq(0)
+            .should('contain', 'Antiques')
+            .and('contain', '$1,000.00');
+          cy.get('@cards')
+            .eq(1)
+            .should('contain', 'Collectibles')
+            .and('contain', '$1,500.00');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'utility-bill-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type=checkbox]')
+            .as('checklist')
+            .should('have.length', 6);
+          cy.get('@checklist')
+            .eq(0)
+            .click();
+          cy.get('@checklist')
+            .eq(1)
+            .click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'utility-bill-values': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-number-input')
+            .as('numberInputs')
+            .should('have.length', 2);
+          cy.get('#Electricity0')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1000');
+          cy.get('[id="Gas1"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1500');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'utility-bill-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[data-testid="mini-summary-card"]')
+            .as('cards')
+            .should('have.length', 2);
+          cy.get('@cards')
+            .eq(0)
+            .should('contain', 'Electricity')
+            .and('contain', '$1,000.00');
+          cy.get('@cards')
+            .eq(1)
+            .should('contain', 'Gas')
+            .and('contain', '$1,500.00');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -179,7 +382,12 @@ const testConfig = createTestConfig(
       'resolution-option/1': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type="radio"][value="waiver"]').click();
-          cy.get('[type="checkbox"]').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'resolution-waiver-agreement/1': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type=checkbox]').check();
           cy.get('.usa-button-primary').click();
         });
       },

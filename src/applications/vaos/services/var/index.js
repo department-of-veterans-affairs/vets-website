@@ -43,12 +43,6 @@ export function getConfirmedAppointment(id, type) {
   );
 }
 
-export function getRequestMessages(requestId) {
-  return apiRequestWithUrl(
-    `/vaos/v0/appointment_requests/${requestId}/messages`,
-  ).then(resp => resp.data);
-}
-
 // This request takes a while, so we're going to call it early
 // and we need a way to wait for an in progress call to finish
 // So this memoizes the promise and returns it to the caller
@@ -237,14 +231,6 @@ export function submitAppointment(appointment) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(appointment),
   });
-}
-
-export function sendRequestMessage(id, messageText) {
-  return apiRequestWithUrl(`/vaos/v0/appointment_requests/${id}/messages`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messageText }),
-  }).then(parseApiObject);
 }
 
 export function getRequestEligibilityCriteria(sites) {

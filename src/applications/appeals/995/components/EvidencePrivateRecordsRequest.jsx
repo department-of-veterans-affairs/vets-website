@@ -65,6 +65,7 @@ const EvidencePrivateRequest = ({
     <form onSubmit={handlers.onGoForward}>
       <VaRadio
         label={privateRecordsRequestTitle}
+        label-header-level="3"
         onVaValueChange={handlers.onSelected}
         required
         error={error}

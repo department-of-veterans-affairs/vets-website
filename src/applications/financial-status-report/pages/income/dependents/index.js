@@ -29,3 +29,35 @@ export const schema = {
     },
   },
 };
+
+export const uiSchemaEnhanced = {
+  'ui:title': 'Your dependents',
+  questions: {
+    hasDependents: {
+      'ui:title':
+        'How many dependents do you have who rely on you for financial support?',
+      'ui:widget': 'TextWidget',
+      'ui:required': () => true,
+      'ui:options': {
+        classNames: 'no-wrap input-size-2',
+      },
+      'ui:errorMessages': {
+        required: 'Please enter your dependent(s) information.',
+      },
+    },
+  },
+};
+
+export const schemaEnhanced = {
+  type: 'object',
+  properties: {
+    questions: {
+      type: 'object',
+      properties: {
+        hasDependents: {
+          type: 'string',
+        },
+      },
+    },
+  },
+};

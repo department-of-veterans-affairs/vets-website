@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { subDays } from 'date-fns';
 
+import { phoneNumbers } from '../../../utils/appConstants';
 import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
 import HowToLink from '../../../components/HowToLink';
 
@@ -116,7 +117,16 @@ const Error = () => {
             })}
           </p>
           <p className="vads-u-margin-top--2">
-            {t('if-you-have-questions-please-call-us-were-here-24-7')}
+            <Trans
+              i18nKey="if-you-have-questions-please-call-us-were-here-24-7"
+              components={[
+                <va-telephone
+                  contact={phoneNumbers.mainInfo}
+                  key={phoneNumbers.mainInfo}
+                />,
+                <va-telephone contact="711" tty key="711" />,
+              ]}
+            />
           </p>
           {canceledAppointment?.kind === 'phone' ? (
             ''
@@ -147,6 +157,13 @@ const Error = () => {
           : t('your-provider-will-call-you-at-your-appointment-time');
       accordion = appointmentAccordion(appointments);
       showHowToLink = true;
+      break;
+    case 'uuid-not-found':
+      // Shown when POST sessions returns 404.
+      alertType = 'info';
+      header = t('were-sorry-this-link-has-expired');
+      messageText = mixedPhoneAndInPersonMessage;
+      showHowToLink = false;
       break;
     case 'session-error':
     case 'bad-token':

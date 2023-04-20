@@ -18,8 +18,12 @@ import RequestListItem from './AppointmentsPageV2/RequestListItem';
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { selectFeatureAppointmentList } from '../../redux/selectors';
-import RequestListItemGroup from './AppointmentsPageV2/RequestListItemGroup';
+import {
+  selectFeatureAppointmentList,
+  selectFeatureStatusImprovement,
+} from '../../redux/selectors';
+import RequestAppointmentLayout from './AppointmentsPageV2/RequestAppointmentLayout';
+import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
 
 export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   const {
@@ -33,6 +37,9 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   );
   const featureAppointmentList = useSelector(state =>
     selectFeatureAppointmentList(state),
+  );
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
   );
 
   const dispatch = useDispatch();
@@ -100,15 +107,23 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
     return 0;
   });
 
+  let paragraphText =
+    'Below is your list of appointment requests that haven’t been scheduled yet.';
+  if (featureAppointmentList) {
+    paragraphText = 'These appointment requests haven’t been scheduled yet.';
+  } else if (featureStatusImprovement) {
+    paragraphText =
+      'Your appointment requests that haven’t been scheduled yet.';
+  }
+
   return (
     <>
       <div aria-live="polite" className="sr-only">
         {hasTypeChanged && 'Showing requested appointments'}
       </div>
       <>
-        <p className="vaos-hide-for-print">
-          Your appointment requests that haven’t been scheduled yet.
-        </p>
+        <BackendAppointmentServiceAlert />
+        <p className="vaos-hide-for-print">{paragraphText}</p>
 
         {!appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
           <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
@@ -127,25 +142,27 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
 
         {appointmentsByStatus.map(statusBucket => {
           return (
-            <div key={statusBucket[0]}>
+            <React.Fragment key={statusBucket[0]}>
               {statusBucket[0] === APPOINTMENT_STATUS.cancelled && (
                 <>
                   <h2>Canceled requests</h2>
-                  <p>Your appointment requests that were canceled</p>
+                  <p>These appointment requests have been canceled.</p>
                 </>
               )}
               {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
               <ul
-                className="vads-u-padding-left--0"
+                className="vads-u-margin-top--4 vads-u-padding-left--0"
                 data-cy="requested-appointment-list"
               >
-                {featureAppointmentList && (
-                  <RequestListItemGroup
-                    key={1}
-                    data={statusBucket[1]}
-                    facilityData={facilityData}
-                  />
-                )}
+                {featureAppointmentList &&
+                  statusBucket[1].map((appt, index) => {
+                    return (
+                      <RequestAppointmentLayout
+                        key={index}
+                        appointment={appt}
+                      />
+                    );
+                  })}
 
                 {!featureAppointmentList &&
                   statusBucket[1].map((appt, index) => {
@@ -160,7 +177,7 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
                     );
                   })}
               </ul>
-            </div>
+            </React.Fragment>
           );
         })}
       </>

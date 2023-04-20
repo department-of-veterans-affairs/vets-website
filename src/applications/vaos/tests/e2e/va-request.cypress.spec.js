@@ -3,7 +3,6 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import {
   vaosSetup,
   mockFeatureToggles,
-  mockAppointmentRequestMessagesApi,
   mockAppointmentRequestsApi,
   mockAppointmentsApi,
   mockCCProvidersApi,
@@ -27,7 +26,6 @@ describe('VAOS VA request flow', () => {
   beforeEach(() => {
     vaosSetup();
 
-    mockAppointmentRequestMessagesApi();
     mockAppointmentRequestsApi();
     mockCCProvidersApi();
     mockFacilitiesApi({ apiVersion: 0 });
@@ -105,12 +103,6 @@ describe('VAOS VA request flow', () => {
       expect(body).to.have.property('optionTime3', 'No Time Selected');
       expect(body).to.have.property('email', 'veteran@gmail.com');
       expect(body).to.have.property('phoneNumber', '5035551234');
-    });
-
-    // Check messages requestBody is as expected
-    cy.wait('@v0:create:messages').should(xhr => {
-      const { body } = xhr.request;
-      expect(body).to.have.property('messageText', 'cough');
     });
 
     // Confirmation page

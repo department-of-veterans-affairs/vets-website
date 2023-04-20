@@ -10,6 +10,7 @@ import {
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
   EVIDENCE_UPLOAD_PATH,
+  LIMITATION_KEY,
 } from '../../constants';
 
 import { content } from '../../content/evidenceSummary';
@@ -27,16 +28,16 @@ const providerFacilityAddress = {
   postalCode: '90210',
 };
 
-const records = () => ({
+const records = ({ emptyIssue = false } = {}) => ({
   locations: [
     {
       locationAndName: 'VAMC Location 1',
-      issues: ['Test'],
+      issues: emptyIssue ? [] : ['Test 1'],
       evidenceDates: { from: '2001-01-01', to: '2011-01-01' },
     },
     {
       locationAndName: 'VAMC Location 2',
-      issues: ['Test 2'],
+      issues: ['Test 1', 'Test 2'],
       evidenceDates: { from: '2002-02-02', to: '2012-02-02' },
     },
   ],
@@ -44,13 +45,13 @@ const records = () => ({
     {
       providerFacilityName: 'Private Doctor',
       providerFacilityAddress,
-      issues: ['PTSD', 'Tinnitus'],
+      issues: emptyIssue ? [] : ['Test 1', 'Test 2'],
       treatmentDateRange: { from: '2022-04-01', to: '2022-07-01' },
     },
     {
       providerFacilityName: 'Private Hospital',
       providerFacilityAddress,
-      issues: ['Test 2', 'Tinnitus', 'Test'],
+      issues: ['Test 1', 'Test 2', 'Tinnitus'],
       treatmentDateRange: { from: '2022-09-20', to: '2022-09-30' },
     },
   ],
@@ -78,10 +79,11 @@ describe('evidenceSummaryList', () => {
       const vaEvidence = records().locations;
       const { container } = render(<VaContent list={vaEvidence} testing />);
 
-      expect($('h3', container).textContent).to.contain(content.vaTitle);
+      expect($('h4', container).textContent).to.contain(content.vaTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(2);
+      expect($$('h5', container).length).to.eq(2);
       expect($$('.remove-item', container).length).to.eq(2);
     });
     it('should render review-only VA content', () => {
@@ -93,9 +95,47 @@ describe('evidenceSummaryList', () => {
       expect($('h5', container).textContent).to.contain(content.vaTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
+      expect($$('h6', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(0);
       expect($$('.remove-item', container).length).to.eq(0);
     });
+    it('should show missing issues message', () => {
+      const vaEvidence = records({ emptyIssue: true }).locations;
+      const { container } = render(<VaContent list={vaEvidence} testing />);
+
+      const li = $$('li', container);
+      expect(li[0].textContent).to.contain('Missing condition');
+      expect(li[1].textContent).to.contain('Test 1 and Test 2');
+    });
+    it('should show missing location name & treatment dates', () => {
+      const vaEvidence = [
+        {
+          locationAndName: '',
+          issues: [],
+          evidenceDates: { from: '--', to: '' },
+        },
+      ];
+      const { container } = render(<VaContent list={vaEvidence} testing />);
+
+      const li = $('li', container);
+      expect(li.textContent).to.contain('Missing location name');
+      expect(li.textContent).to.contain('Missing treatment dates');
+    });
+    it('should show missing start treatment date', () => {
+      const vaEvidence = [{ evidenceDates: { from: '2000-1-1', to: '' } }];
+      const { container } = render(<VaContent list={vaEvidence} testing />);
+
+      const li = $('li', container);
+      expect(li.textContent).to.contain('Missing end date');
+    });
+    it('should show missing end treatment date', () => {
+      const vaEvidence = [{ evidenceDates: { from: '--', to: '2000-1-1' } }];
+      const { container } = render(<VaContent list={vaEvidence} testing />);
+
+      const li = $('li', container);
+      expect(li.textContent).to.contain('Missing start date');
+    });
+
     it('should have edit links pointing to the appropriate VA indexed page', () => {
       const vaEvidence = records().locations;
       const { container } = render(<VaContent list={vaEvidence} testing />);
@@ -111,7 +151,7 @@ describe('evidenceSummaryList', () => {
     it('should execute callback when removing an entry', () => {
       const removeSpy = sinon.spy();
       const vaEvidence = records().locations;
-      const handlers = { removeVaLocation: removeSpy };
+      const handlers = { showModal: removeSpy };
       const { container } = render(
         <VaContent list={vaEvidence} handlers={handlers} testing />,
       );
@@ -120,9 +160,11 @@ describe('evidenceSummaryList', () => {
       fireEvent.click(buttons[0]);
       expect(removeSpy.calledOnce).to.be.true;
       expect(removeSpy.args[0][0].target.getAttribute('data-index')).to.eq('0');
+      expect(removeSpy.args[0][0].target.getAttribute('data-type')).to.eq('va');
       fireEvent.click(buttons[1]);
       expect(removeSpy.calledTwice).to.be.true;
       expect(removeSpy.args[1][0].target.getAttribute('data-index')).to.eq('1');
+      expect(removeSpy.args[1][0].target.getAttribute('data-type')).to.eq('va');
     });
   });
 
@@ -133,9 +175,11 @@ describe('evidenceSummaryList', () => {
         <PrivateContent list={privateEvidence} limitedConsent="test" testing />,
       );
 
-      expect($('h3', container).textContent).to.contain(content.privateTitle);
+      expect($('h4', container).textContent).to.contain(content.privateTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(3);
+      // Includes limited consent
+      expect($$('h5', container).length).to.eq(3);
       expect($$('.edit-item', container).length).to.eq(3);
       expect($$('.remove-item', container).length).to.eq(3);
     });
@@ -144,7 +188,8 @@ describe('evidenceSummaryList', () => {
       const { container } = render(
         <PrivateContent list={privateEvidence} limitedConsent="" testing />,
       );
-
+      // Includes limited consent
+      expect($$('h5', container).length).to.eq(3);
       expect($$('.edit-item', container).length).to.eq(3);
       expect($$('.remove-item', container).length).to.eq(2);
     });
@@ -162,8 +207,20 @@ describe('evidenceSummaryList', () => {
       expect($('h5', container).textContent).to.contain(content.privateTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(3);
+      // Includes limited consent
+      expect($$('h6', container).length).to.eq(3);
       expect($$('.edit-item', container).length).to.eq(0);
       expect($$('.remove-item', container).length).to.eq(0);
+    });
+    it('should show missing issues message', () => {
+      const privateEvidence = records({ emptyIssue: true }).providerFacility;
+      const { container } = render(
+        <PrivateContent list={privateEvidence} limitedConsent="" testing />,
+      );
+
+      const li = $$('li', container);
+      expect(li[0].textContent).to.contain('Missing condition');
+      expect(li[1].textContent).to.contain('Test 1, Test 2, and Tinnitus');
     });
     it('should have edit links pointing to the appropriate private indexed page or limitation page', () => {
       const privateEvidence = records().providerFacility;
@@ -185,7 +242,7 @@ describe('evidenceSummaryList', () => {
     it('should execute callback when removing an entry', () => {
       const removeSpy = sinon.spy();
       const privateEvidence = records().providerFacility;
-      const handlers = { removePrivateFacility: removeSpy };
+      const handlers = { showModal: removeSpy };
       const { container } = render(
         <PrivateContent list={privateEvidence} handlers={handlers} testing />,
       );
@@ -194,14 +251,20 @@ describe('evidenceSummaryList', () => {
       fireEvent.click(buttons[0]);
       expect(removeSpy.calledOnce).to.be.true;
       expect(removeSpy.args[0][0].target.getAttribute('data-index')).to.eq('0');
+      expect(removeSpy.args[0][0].target.getAttribute('data-type')).to.eq(
+        'private',
+      );
       fireEvent.click(buttons[1]);
       expect(removeSpy.calledTwice).to.be.true;
       expect(removeSpy.args[1][0].target.getAttribute('data-index')).to.eq('1');
+      expect(removeSpy.args[1][0].target.getAttribute('data-type')).to.eq(
+        'private',
+      );
     });
     it('should execute callback when removing the limitation', () => {
       const removeSpy = sinon.spy();
       const privateEvidence = records().providerFacility;
-      const handlers = { removePrivateLimitation: removeSpy };
+      const handlers = { showModal: removeSpy };
       const { container } = render(
         <PrivateContent
           list={privateEvidence}
@@ -214,6 +277,9 @@ describe('evidenceSummaryList', () => {
       const buttons = $$('.remove-item', container);
       fireEvent.click(buttons[2]);
       expect(removeSpy.called).to.be.true;
+      expect(removeSpy.args[0][0].target.getAttribute('data-type')).to.eq(
+        LIMITATION_KEY,
+      );
     });
   });
 
@@ -224,9 +290,10 @@ describe('evidenceSummaryList', () => {
         <UploadContent list={otherEvidence} testing />,
       );
 
-      expect($('h3', container).textContent).to.contain(content.otherTitle);
+      expect($('h4', container).textContent).to.contain(content.otherTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
+      expect($$('h5', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(2);
       expect($$('.remove-item', container).length).to.eq(2);
     });
@@ -239,6 +306,7 @@ describe('evidenceSummaryList', () => {
       expect($('h5', container).textContent).to.contain(content.otherTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
+      expect($$('h6', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(0);
       expect($$('.remove-item', container).length).to.eq(0);
     });
@@ -259,7 +327,7 @@ describe('evidenceSummaryList', () => {
     it('should execute callback when removing an upload', () => {
       const removeSpy = sinon.spy();
       const otherEvidence = records().additionalDocuments;
-      const handlers = { removeUpload: removeSpy };
+      const handlers = { showModal: removeSpy };
       const { container } = render(
         <UploadContent list={otherEvidence} handlers={handlers} testing />,
       );
@@ -268,9 +336,15 @@ describe('evidenceSummaryList', () => {
       fireEvent.click(buttons[0]);
       expect(removeSpy.calledOnce).to.be.true;
       expect(removeSpy.args[0][0].target.getAttribute('data-index')).to.eq('0');
+      expect(removeSpy.args[0][0].target.getAttribute('data-type')).to.eq(
+        'upload',
+      );
       fireEvent.click(buttons[1]);
       expect(removeSpy.calledTwice).to.be.true;
       expect(removeSpy.args[1][0].target.getAttribute('data-index')).to.eq('1');
+      expect(removeSpy.args[1][0].target.getAttribute('data-type')).to.eq(
+        'upload',
+      );
     });
   });
 });

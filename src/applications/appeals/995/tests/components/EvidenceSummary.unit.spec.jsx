@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
@@ -108,7 +108,8 @@ describe('<EvidenceSummary>', () => {
   it('should render', () => {
     const { container } = setupSummary();
 
-    expect($$('h3', container).length).to.eq(3);
+    expect($$('h3', container).length).to.eq(1);
+    expect($$('h4', container).length).to.eq(4);
     expect($$('ul', container).length).to.eq(3);
     expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
@@ -200,43 +201,140 @@ describe('<EvidenceSummary>', () => {
     expect(goBack.called).to.be.true;
   });
 
-  it('should remove second VA entry when remove is clicked', () => {
+  // Remove entries
+  it('should remove second VA entry when remove is clicked', async () => {
     const setFormData = sinon.spy();
     const { container } = setupSummary({ setFormData });
     const result = records().locations[0];
 
     // remove second VA entry
     fireEvent.click($('va-button[label="Remove VAMC Location 2"]', container));
-    expect(setFormData.called).to.be.true;
-    expect(setFormData.args[0][0].locations[0]).to.deep.equal(result);
+
+    const modal = $('va-modal', container);
+    modal.__events.primaryButtonClick(); // Remove entry
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      expect(setFormData.args[0][0].locations[0]).to.deep.equal(result);
+    });
   });
 
-  it('should remove second private entry when remove is clicked', () => {
+  it('should not remove VA entry when "No" is selected in the modal', async () => {
+    const setFormData = sinon.spy();
+    const { container } = setupSummary({ setFormData });
+
+    // remove second VA entry
+    fireEvent.click($('va-button[label="Remove VAMC Location 2"]', container));
+
+    const modal = $('va-modal', container);
+    modal.__events.secondaryButtonClick(); // Cancel removal
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.false;
+    });
+  });
+
+  it('should remove second private entry when remove is clicked', async () => {
     const setFormData = sinon.spy();
     const { container } = setupSummary({ setFormData });
     const result = records().providerFacility[0];
 
     // remove second private entry
     fireEvent.click($('va-button[label="Remove Private Hospital"]', container));
-    expect(setFormData.called).to.be.true;
-    expect(setFormData.args[0][0].providerFacility[0]).to.deep.equal(result);
+
+    const modal = $('va-modal', container);
+    modal.__events.primaryButtonClick(); // Remove entry
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      expect(setFormData.args[0][0].providerFacility[0]).to.deep.equal(result);
+    });
   });
 
-  it('should remove second upload entry when remove is clicked', () => {
+  it('should not remove private entry when "No" is selected in the modal', async () => {
+    const setFormData = sinon.spy();
+    const { container } = setupSummary({ setFormData });
+
+    // remove second VA entry
+    fireEvent.click($('va-button[label="Remove Private Hospital"]', container));
+
+    const modal = $('va-modal', container);
+    modal.__events.secondaryButtonClick(); // Cancel removal
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.false;
+    });
+  });
+
+  it('should remove private limitations when remove is clicked', async () => {
+    const setFormData = sinon.spy();
+    const { container } = setupSummary({ setFormData });
+    // remove limitation
+    fireEvent.click($('va-button[label="Remove limitations"]', container));
+
+    const modal = $('va-modal', container);
+    modal.__events.primaryButtonClick(); // Remove entry
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      expect(setFormData.args[0][0].limitedConsent).to.deep.equal('');
+    });
+  });
+
+  it('should not remove limitations when "No" is selected in the modal', async () => {
+    const setFormData = sinon.spy();
+    const { container } = setupSummary({ setFormData });
+
+    // remove second VA entry
+    fireEvent.click($('va-button[label="Remove limitations"]', container));
+
+    const modal = $('va-modal', container);
+    modal.__events.secondaryButtonClick(); // Cancel removal
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.false;
+    });
+  });
+
+  it('should remove second upload entry when remove is clicked', async () => {
     const setFormData = sinon.spy();
     const { container } = setupSummary({ setFormData });
     const result = records().additionalDocuments[0];
 
     // remove second upload entry
     fireEvent.click($('va-button[label="Remove x-rays.pdf"]', container));
-    expect(setFormData.called).to.be.true;
-    expect(setFormData.args[0][0].additionalDocuments[0]).to.deep.equal(result);
+
+    const modal = $('va-modal', container);
+    modal.__events.primaryButtonClick(); // Remove entry
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      expect(setFormData.args[0][0].additionalDocuments[0]).to.deep.equal(
+        result,
+      );
+    });
+  });
+
+  it('should not remove upload when "No" is selected in the modal', async () => {
+    const setFormData = sinon.spy();
+    const { container } = setupSummary({ setFormData });
+
+    // remove second VA entry
+    fireEvent.click($('va-button[label="Remove x-rays.pdf"]', container));
+
+    const modal = $('va-modal', container);
+    modal.__events.secondaryButtonClick(); // Cancel removal
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.false;
+    });
   });
 
   it('should render on review & submit in edit mode', () => {
     const { container } = setupSummary({ onReviewPage: true });
 
-    expect($$('h4', container).length).to.eq(1);
+    expect($$('h4', container).length).to.eq(2);
+    // now includes limited consent
     expect($$('h5', container).length).to.eq(3);
     expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(0);

@@ -36,7 +36,7 @@ describe('Check In Experience', () => {
 
       cy.get('[label="Your last name"]')
         .shadow()
-        .find('#error-message')
+        .find('#input-error-message')
         .contains('Please enter your last name.');
 
       ValidateVeteran.validateVeteran();

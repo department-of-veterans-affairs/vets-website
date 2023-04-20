@@ -25,6 +25,7 @@ export const PROFILE_PATHS = Object.freeze({
   NOTIFICATION_SETTINGS: '/profile/notifications',
   CONNECTED_APPLICATIONS: '/profile/connected-applications',
   ACCOUNT_SECURITY: '/profile/account-security',
+  EDIT: '/profile/edit',
 });
 
 export const PROFILE_PATH_NAMES = Object.freeze({
@@ -35,6 +36,7 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   NOTIFICATION_SETTINGS: 'Notification settings',
   CONNECTED_APPLICATIONS: 'Connected apps',
   ACCOUNT_SECURITY: 'Account security',
+  EDIT: 'Edit your information',
 });
 
 export const ACCOUNT_TYPES_OPTIONS = {
@@ -92,6 +94,33 @@ export const BANK_INFO_UPDATED_ALERT_SETTINGS = {
 
 export const NOTIFICATION_GROUPS = Object.freeze({
   APPLICATIONS: 'group1',
+  GENERAL: 'group2',
   YOUR_HEALTH_CARE: 'group3',
   PAYMENTS: 'group4',
 });
+
+export const NOTIFICATION_CHANNEL_IDS = Object.freeze({
+  TEXT: '1',
+  EMAIL: '2',
+});
+
+/**
+ * These notification item IDs are not currently supported by the VA Profile
+ * they are blocked via feature toggle 'profile_show_mhv_notification_settings'
+ *
+ * 7 - RX refill shipment notification
+ * 8 - VA Appointment reminders
+ * 9 - Securing messaging alert
+ * 10 - Medical images and reports available
+ * 11 - Biweekly MHV newsletter
+ *
+ * These are email notifications and will be added once support for that notification type is added
+ *
+ */
+export const BLOCKED_NOTIFICATION_IDS = [
+  'item7',
+  'item8',
+  'item9',
+  'item10',
+  'item11',
+];

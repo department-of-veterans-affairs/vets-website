@@ -411,6 +411,7 @@ class ProfileInformationFieldController extends React.Component {
               this.props.formSchema,
             )}
             title={title}
+            forceEditView={forceEditView}
           />
         </>
       ) : (
@@ -432,6 +433,7 @@ class ProfileInformationFieldController extends React.Component {
           )}
           title={title}
           recordCustomProfileEvent={recordCustomProfileEvent}
+          forceEditView={forceEditView}
         />
       );
     }

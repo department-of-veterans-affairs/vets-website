@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllFolders } from '../actions';
@@ -10,7 +10,7 @@ import ReplyButton from './MessageActionButtons/ReplyButton';
 import TrashButton from './MessageActionButtons/TrashButton';
 
 const MessageActionButtons = props => {
-  const { id, hideReplyButton } = props;
+  const { id, hideReplyButton, threadId } = props;
   const dispatch = useDispatch();
   const folders = useSelector(state => state.sm.folders.folderList);
   const activeFolder = useSelector(state => state.sm.folders.folder);
@@ -24,43 +24,64 @@ const MessageActionButtons = props => {
     [dispatch],
   );
 
-  const handlePrint = printOption => {
-    if (printOption === 'all messages') {
-      props.handlePrintThreadStyleClass('print thread');
-    }
-    if (printOption === 'this message') {
-      props.handlePrintThreadStyleClass('this message');
-    }
-    if (printOption !== null) {
-      window.print();
-    }
-  };
+  const buttonsArray = useMemo(
+    () => {
+      const handlePrint = printOption => {
+        if (printOption === 'all messages') {
+          props.handlePrintThreadStyleClass('print thread');
+        }
+        if (printOption === 'this message') {
+          props.handlePrintThreadStyleClass('this message');
+        }
+        if (printOption !== null) {
+          window.print();
+        }
+      };
 
-  const buttonsArray = [
-    <li key="print">
-      <PrintBtn handlePrint={handlePrint} id={id} />
-    </li>,
-    <TrashButton
-      key="trashButton"
-      activeFolder={activeFolder}
-      messageId={id}
-      visible={
-        activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
-        activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id
+      const buttons = [];
+      buttons.push(
+        <li key="print">
+          <PrintBtn handlePrint={handlePrint} id={id} />
+        </li>,
+      );
+
+      buttons.push(
+        <TrashButton
+          key="trashButton"
+          activeFolder={activeFolder}
+          threadId={threadId}
+          messageId={id}
+          visible={
+            activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
+            activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id
+          }
+        />,
+      );
+      if (folders) {
+        buttons.push(
+          <MoveMessageToFolderBtn
+            activeFolder={activeFolder}
+            key="moveMessageToFolderBtn"
+            isVisible={
+              activeFolder?.folderId !== Constants.DefaultFolders.SENT.id
+            }
+            threadId={threadId}
+            messageId={id}
+            allFolders={folders}
+          />,
+        );
       }
-    />,
-    <MoveMessageToFolderBtn
-      key="moveMessageToFolderBtn"
-      isVisible={activeFolder?.folderId !== Constants.DefaultFolders.SENT.id}
-      messageId={id}
-      allFolders={folders}
-    />,
-    <ReplyButton
-      key="replyButton"
-      visible={!hideReplyButton}
-      onReply={props.onReply}
-    />,
-  ];
+      buttons.push(
+        <ReplyButton
+          key="replyButton"
+          visible={!hideReplyButton}
+          onReply={props.onReply}
+        />,
+      );
+      return buttons;
+    },
+    [activeFolder, folders, hideReplyButton, id, props, threadId],
+  );
 
   return <ActionButtons buttonsArray={buttonsArray} />;
 };

@@ -1,5 +1,5 @@
 import { setup } from '@@profile/tests/e2e/personal-information/setup';
-import { unsetUserPersonalInfo } from '../../../mocks/personal-information';
+import { unsetUserPersonalInfo } from 'applications/personalization/profile/mocks/endpoints/personal-information';
 
 describe('Content on the personal information page', () => {
   it('should render as expected with edit buttons for personal info fields when no personal data set in api', () => {

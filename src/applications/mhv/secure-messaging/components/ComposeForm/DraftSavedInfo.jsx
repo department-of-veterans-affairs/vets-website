@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { dateFormat } from '../../util/helpers';
+import { ErrorMessages } from '../../util/constants';
 
 const DraftSavedInfo = props => {
   const { userSaved } = props;
@@ -32,7 +33,7 @@ const DraftSavedInfo = props => {
         visible="true"
       >
         <p className="vads-u-margin-y--0">
-          Something went wrong... Failed to save message.
+          {ErrorMessages.ComposeForm.UNABLE_TO_SAVE_OTHER}
         </p>
       </va-alert>
     );
@@ -47,10 +48,22 @@ const DraftSavedInfo = props => {
           show-icon
           status="success"
           visible={userSaved}
+          aria-describedby="save-draft-button"
         >
           <p className="vads-u-margin-y--0">{content()}</p>
         </va-alert>
-        {userSaved === false && <p>{content()}</p>}
+        {userSaved === false && (
+          <va-alert
+            background-only
+            class="last-save-time"
+            full-width="false"
+            show-icon
+            status="success"
+            visible
+          >
+            <p className="vads-u-margin-y--0">{content()}</p>
+          </va-alert>
+        )}
       </>
     );
   }

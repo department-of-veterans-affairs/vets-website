@@ -29,7 +29,7 @@ describe('FolderListView', () => {
 
   it('renders without errors', () => {
     const screen = setup();
-    expect(screen.getByText('Messages', { exact: true })).to.exist;
+    expect(screen.getByText('Inbox', { exact: true, selector: 'h1' })).to.exist;
   });
 
   it('displays loading indicator when messages are not yet loaded', () => {
@@ -51,15 +51,12 @@ describe('FolderListView', () => {
 
   it('displays the name of folder to be searched', async () => {
     const screen = setup();
-    const folderStatementStart = await screen.getByText('Search your', {
-      exact: false,
-    });
-    const folderName = await screen.getByText(folder.name);
-    const folderStatementEnd = await screen.getByText('messages folder', {
-      exact: false,
-    });
-    expect(folderStatementStart).to.exist;
-    expect(folderName).to.exist;
-    expect(folderStatementEnd).to.exist;
+    const folderStatementStart = await screen.getByTestId(
+      'search-message-folder-input-label',
+    );
+
+    expect(folderStatementStart.textContent).to.contain(
+      `Search your ${folder.name} messages folder`,
+    );
   });
 });

@@ -73,6 +73,12 @@ class AppointmentDetails {
     cy.get('div[data-testid="appointment-message"]').should('be.visible');
   };
 
+  validateCheckedInMessage = () => {
+    cy.get('span[data-testid="already-checked-in-no-time-message"]').should(
+      'be.visible',
+    );
+  };
+
   validateNoAppointmentMessage = () => {
     cy.get('div[data-testid="appointment-message"]').should('not.exist');
   };

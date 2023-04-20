@@ -1,15 +1,15 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 
-import { loa3User72 } from '../../../mocks/user';
+import { loa3User72 } from 'applications/personalization/profile/mocks/endpoints/user';
 
-import { generateFeatureToggles } from '../../../mocks/feature-toggles';
+import { generateFeatureToggles } from 'applications/personalization/profile/mocks/endpoints/feature-toggles';
 import {
   addressValidation,
   mailingAddressStatusSuccess,
   mailingAddressUpdateReceived,
-} from '../../../mocks/address';
+} from 'applications/personalization/profile/mocks/endpoints/address';
 
-import phoneNumber from '../../../mocks/phone-number';
+import phoneNumber from 'applications/personalization/profile/mocks/endpoints/phone-number';
 
 describe('focus after editing fields', () => {
   describe('Contact info fields', () => {

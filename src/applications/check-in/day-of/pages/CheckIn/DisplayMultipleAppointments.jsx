@@ -7,33 +7,24 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { useTranslation, Trans } from 'react-i18next';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 
-import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
-import AppointmentBlockVaos from '../../../components/AppointmentBlockVaos';
+import AppointmentBlock from '../../../components/AppointmentBlock';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import {
-  intervalUntilNextAppointmentIneligibleForCheckin,
-  sortAppointmentsByStartTime,
-} from '../../../utils/appointment';
+import { intervalUntilNextAppointmentIneligibleForCheckin } from '../../../utils/appointment';
 
 import { makeSelectCurrentContext } from '../../../selectors';
-import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 import Wrapper from '../../../components/layout/Wrapper';
 
 const DisplayMultipleAppointments = props => {
-  const { appointments, router, token } = props;
+  const { appointments, router } = props;
   const { t } = useTranslation();
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isUpdatedApptPresentationEnabled } = useSelector(
-    selectFeatureToggles,
-  );
   const { shouldRefresh } = context;
   const { isLoading, checkInDataError, refreshCheckInData } = useGetCheckInData(
     {
@@ -45,6 +36,13 @@ const DisplayMultipleAppointments = props => {
 
   const refreshTimer = useRef(null);
   const { updateError } = useUpdateError();
+
+  useEffect(() => {
+    const slug = `check-in-viewed-appointment-list-VAOS-design`;
+    recordEvent({
+      event: createAnalyticsSlug(slug, 'nav'),
+    });
+  }, []);
 
   useEffect(
     () => {
@@ -88,8 +86,6 @@ const DisplayMultipleAppointments = props => {
 
   const { goToPreviousPage } = useFormRouting(router);
 
-  const sortedAppointments = sortAppointmentsByStartTime(appointments);
-
   if (isLoading) window.scrollTo(0, 0);
 
   return isLoading ? (
@@ -111,37 +107,11 @@ const DisplayMultipleAppointments = props => {
         classNames="appointment-check-in"
         withBackButton
       >
-        {isUpdatedApptPresentationEnabled ? (
-          <AppointmentBlockVaos
-            router={router}
-            appointments={appointments}
-            page="details"
-            token={token}
-          />
-        ) : (
-          <>
-            <p data-testid="date-text">
-              {t('here-are-your-appointments-for-today', { date: new Date() })}
-            </p>
-            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-            <ol
-              className="appointment-list vads-u-padding--0 vads-u-margin--0 vads-u-margin-bottom--2"
-              role="list"
-            >
-              {sortedAppointments.map((appointment, index) => {
-                return (
-                  <AppointmentListItem
-                    appointment={appointment}
-                    key={index}
-                    router={router}
-                    token={token}
-                  />
-                );
-              })}
-            </ol>
-          </>
-        )}
-
+        <AppointmentBlock
+          router={router}
+          appointments={appointments}
+          page="details"
+        />
         <p data-testid="update-text">
           <Trans
             i18nKey="latest-update"

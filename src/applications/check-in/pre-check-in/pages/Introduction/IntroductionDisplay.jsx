@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +8,6 @@ import { VaModal } from '@department-of-veterans-affairs/web-components/react-bi
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import AppointmentBlock from '../../../components/AppointmentBlock';
-import AppointmentBlockVaos from '../../../components/AppointmentBlockVaos';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -28,12 +27,30 @@ const IntroductionDisplay = props => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
 
   const { appointments } = useSelector(selectVeteranData);
-  const { isUpdatedApptPresentationEnabled } = useSelector(
+  const { isPreCheckInActionLinkTopPlacementEnabled } = useSelector(
     selectFeatureToggles,
   );
 
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
-
+  // Save this useEffect for when we go back to testing action link.
+  // useEffect(
+  //   () => {
+  //     const position = isPreCheckInActionLinkTopPlacementEnabled
+  //       ? 'top'
+  //       : 'bottom';
+  //     const slug = `pre-check-in-viewed-introduction-${position}-position`;
+  //     recordEvent({
+  //       event: createAnalyticsSlug(slug, 'nav'),
+  //     });
+  //   },
+  //   [isPreCheckInActionLinkTopPlacementEnabled],
+  // );
+  useEffect(() => {
+    const slug = `pre-check-in-viewed-introduction-VAOS-design`;
+    recordEvent({
+      event: createAnalyticsSlug(slug, 'nav'),
+    });
+  }, []);
   const accordionContent = [
     {
       header: t('will-va-protect-my-personal-health-information'),
@@ -73,11 +90,13 @@ const IntroductionDisplay = props => {
       if (e?.key && e.key !== ' ') {
         return;
       }
+      const slug = `pre-check-in-started-${
+        isPhone ? 'phone' : 'in-person'
+      }-VAOS-design`;
+      // Save this for when we go back to testing action link.
+      // if (isPreCheckInActionLinkTopPlacementEnabled) slug += '-top-position';
       recordEvent({
-        event: createAnalyticsSlug(
-          `pre-check-in-started-${isPhone ? 'phone' : 'in-person'}`,
-          'nav',
-        ),
+        event: createAnalyticsSlug(slug, 'nav'),
       });
       e.preventDefault();
       goToNextPage();
@@ -115,14 +134,17 @@ const IntroductionDisplay = props => {
       <p className="vads-u-font-family--serif">
         {t('your-answers-will-help-us-better-prepare-for-your-needs')}
       </p>
-      {isUpdatedApptPresentationEnabled ? (
-        <AppointmentBlockVaos appointments={appointments} page="intro" />
-      ) : (
-        <AppointmentBlock appointments={appointments} page="intro" />
+      {isPreCheckInActionLinkTopPlacementEnabled && <StartButton />}
+
+      <AppointmentBlock appointments={appointments} page="intro" />
+
+      {!isPreCheckInActionLinkTopPlacementEnabled && (
+        <>
+          <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
+          <StartButton />
+        </>
       )}
 
-      <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
-      <StartButton />
       {accordionContent && accordionContent.length ? (
         <va-accordion
           bordered

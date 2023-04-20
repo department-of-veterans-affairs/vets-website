@@ -48,7 +48,7 @@ const Repayment = ({ setPageState, state = {} }) => {
           ariaDescribedby={
             state.selected === option.value ? option.value : null
           }
-          className="vads-u-margin-y--3 vads-u-margin-left--2 "
+          className="no-wrap  vads-u-margin-y--3 vads-u-margin-left--2 "
         />
       ))}
     </VaRadio>

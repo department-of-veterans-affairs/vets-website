@@ -1,14 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { getSelected } from '../utils/helpers';
 import { getDate } from '../utils/dates';
-import {
-  SELECTED,
-  CONTESTABLE_ISSUES_PATH,
-  FORMAT_READABLE,
-} from '../constants';
+import { SELECTED, FORMAT_READABLE, NO_ISSUES_SELECTED } from '../constants';
 
 const legendClassNames = [
   'vads-u-margin-top--0',
@@ -29,27 +24,34 @@ const IssueSummary = ({ formData }) => {
   return (
     <fieldset>
       <legend className={legendClassNames}>
-        These are the issues you’re asking to receive a Supplemental Claim.
+        <h3 className="vads-u-margin-y--0">
+          You’ve selected these issues for review
+        </h3>
       </legend>
-      <ul className="issues-summary">
-        {issues.map((issue, index) => (
-          <li key={index} className={listClassNames}>
-            <h3 className="capitalize vads-u-margin-top--0 vads-u-font-size--h4">
-              {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}
-            </h3>
-            <div>
-              Decision date:{' '}
-              {getDate({
-                date:
-                  issue.attributes?.approxDecisionDate ||
-                  issue.decisionDate ||
-                  '',
-                pattern: FORMAT_READABLE,
-              })}
-            </div>
-            <Link to={CONTESTABLE_ISSUES_PATH}>Edit</Link>
+      <ul className="issues-summary vads-u-margin-bottom--0">
+        {issues.length ? (
+          issues.map((issue, index) => (
+            <li key={index} className={listClassNames}>
+              <h4 className="capitalize vads-u-margin-top--0 vads-u-padding-right--2">
+                {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}
+              </h4>
+              <div>
+                Decision date:{' '}
+                {getDate({
+                  date:
+                    issue.attributes?.approxDecisionDate ||
+                    issue.decisionDate ||
+                    '',
+                  pattern: FORMAT_READABLE,
+                })}
+              </div>
+            </li>
+          ))
+        ) : (
+          <li>
+            <strong>{NO_ISSUES_SELECTED}</strong>
           </li>
-        ))}
+        )}
       </ul>
     </fieldset>
   );

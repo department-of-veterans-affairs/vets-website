@@ -49,7 +49,7 @@ export default function PastAppointmentsDateDropdown({
           featureStatusImprovement,
         })}
         id="date-dropdown"
-        value={dateRangeIndex}
+        value={dateRangeIndex.toString()}
         label="Select a date range"
       />
       {!featureStatusImprovement && (

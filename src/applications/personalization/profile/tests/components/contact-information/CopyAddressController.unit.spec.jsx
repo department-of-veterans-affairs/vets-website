@@ -36,11 +36,7 @@ describe('Copy Address Modal', () => {
         },
       },
       ...{
-        featureToggles: {
-          profileShowAddressChangeModal: true,
-          // eslint-disable-next-line camelcase
-          profile_show_address_change_modal: true,
-        },
+        featureToggles: {},
       },
     };
 
@@ -80,11 +76,7 @@ describe('Copy Address Modal', () => {
         },
       },
       ...{
-        featureToggles: {
-          profileShowAddressChangeModal: true,
-          // eslint-disable-next-line camelcase
-          profile_show_address_change_modal: true,
-        },
+        featureToggles: {},
       },
     };
 
@@ -109,11 +101,7 @@ describe('Copy Address Modal', () => {
         },
       },
       ...{
-        featureToggles: {
-          profileShowAddressChangeModal: true,
-          // eslint-disable-next-line camelcase
-          profile_show_address_change_modal: true,
-        },
+        featureToggles: {},
       },
     };
 
@@ -151,11 +139,7 @@ describe('Copy Address Modal', () => {
         },
       },
       ...{
-        featureToggles: {
-          profileShowAddressChangeModal: true,
-          // eslint-disable-next-line camelcase
-          profile_show_address_change_modal: true,
-        },
+        featureToggles: {},
       },
     };
 

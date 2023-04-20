@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React, { useEffect, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { getAvgCount } from '../../../utils/helpers';
@@ -20,8 +21,18 @@ export default function RatingsAccordion({
     values.forEach((_, index) => {
       const avgCount = getAvgCount(questionObj, index);
       const { question } = questionObj[index];
+      const ariaLabel =
+        avgCount > 0
+          ? `${question} with a rating of ${avgCount} out of 4.`
+          : `${question} This question has not been rated.`;
       tempQuestions.push(
-        <div key={index} className="vads-u-margin-top--1">
+        <div
+          key={index}
+          role="listitem"
+          tabIndex="0"
+          aria-label={ariaLabel}
+          className="vads-u-margin-top--1"
+        >
           <RenderBar label={question} avgRating={avgCount} />
         </div>,
       );
@@ -66,11 +77,10 @@ export default function RatingsAccordion({
 
   return (
     <div className="vads-u-padding--1">
-      <div className="star-heading">
+      <div aria-hidden className="star-heading">
         <RatingsStars rating={categoryRating} />
         <span className="vads-u-margin-left--1">{categoryRating}</span>
       </div>
-
       <va-accordion
         open-single
         headline={<h6 slot="headline">{title}</h6>}

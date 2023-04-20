@@ -1,19 +1,62 @@
 import * as Sentry from '@sentry/browser';
 import merge from 'lodash/merge';
+import retryFetch from 'fetch-retry';
 
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
-import { checkOrSetSessionExpiration } from '../oauth/utilities';
+import {
+  checkOrSetSessionExpiration,
+  infoTokenExists,
+  refresh,
+} from '../oauth/utilities';
 import { checkAndUpdateSSOeSession } from '../sso';
+
+const isJson = response => {
+  const contentType = response.headers.get('Content-Type');
+  return contentType && contentType.includes('application/json');
+};
+
+const retryOn = async (attempt, error, response) => {
+  if (error) return false;
+
+  if (response.status === 403) {
+    const errorResponse = await response.json();
+
+    if (
+      errorResponse?.errors === 'Access token has expired' &&
+      infoTokenExists() &&
+      attempt < 1
+    ) {
+      await refresh({ type: sessionStorage.getItem('serviceName') });
+
+      return true;
+    }
+    return false;
+  }
+
+  return false;
+};
 
 export function fetchAndUpdateSessionExpiration(url, settings) {
   // use regular fetch if stubbed by sinon or cypress
-  if (fetch.isSinonProxy || window.Cypress) {
+  if (fetch.isSinonProxy) {
     return fetch(url, settings);
   }
 
+  const originalFetch = fetch;
   // Only replace with custom fetch if not stubbed for unit testing
-  return fetch(url, settings).then(response => {
+  const _fetch = !environment.isProduction()
+    ? retryFetch(originalFetch)
+    : fetch;
+
+  const mergedSettings = {
+    ...settings,
+    ...(!environment.isProduction() && {
+      retryOn,
+    }),
+  };
+
+  return _fetch(url, mergedSettings).then(response => {
     const apiURL = environment.API_URL;
 
     if (response.url.includes(apiURL)) {
@@ -31,11 +74,6 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
     }
     return response;
   });
-}
-
-function isJson(response) {
-  const contentType = response.headers.get('Content-Type');
-  return contentType && contentType.includes('application/json');
 }
 
 /**

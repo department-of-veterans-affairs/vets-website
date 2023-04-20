@@ -2,9 +2,9 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import testData from './schema/maximal-test.json';
 import cemeteries from './fixtures/mocks/cemeteries.json';
 
-describe('Pre-need test', () => {
+describe('Pre-need form VA 40-10007', () => {
   // Test skipped to match Nightwatch
-  it.skip('fills the form and navigates accordingly', () => {
+  it('fills the form and navigates accordingly', () => {
     cy.intercept('POST', '/v0/preneeds/burial_forms', {
       data: {
         attributes: {
@@ -42,12 +42,12 @@ describe('Pre-need test', () => {
     cy.url().should('not.contain', '/introduction');
 
     cy.get('input[name="root_application_claimant_name_first"]');
-    cy.get('.progress-bar-segmented div.progress-segment:nth-child(1)').should(
-      'have.class',
-      'progress-segment-complete',
-    );
 
     // Application Information
+    cy.get('va-segmented-progress-bar')
+      .shadow()
+      .find('.progress-bar-segmented div.progress-segment:nth-child(1)')
+      .should('have.class', 'progress-segment-complete');
     cy.fillName(
       'root_application_claimant_name',
       testData.data.application.claimant.name,
@@ -83,10 +83,10 @@ describe('Pre-need test', () => {
 
     // Veteran Information
     cy.get('input[name="root_application_veteran_currentName_first"]');
-    cy.get('.progress-bar-segmented div.progress-segment:nth-child(2)').should(
-      'have.class',
-      'progress-segment-complete',
-    );
+    cy.get('va-segmented-progress-bar')
+      .shadow()
+      .find('.progress-bar-segmented div.progress-segment:nth-child(2)')
+      .should('have.class', 'progress-segment-complete');
 
     cy.fillName(
       'root_application_veteran_currentName',
@@ -183,10 +183,10 @@ describe('Pre-need test', () => {
       }
     });
 
-    cy.get('.progress-bar-segmented div.progress-segment:nth-child(3)').should(
-      'have.class',
-      'progress-segment-complete',
-    );
+    cy.get('va-segmented-progress-bar')
+      .shadow()
+      .find('.progress-bar-segmented div.progress-segment:nth-child(3)')
+      .should('have.class', 'progress-segment-complete');
 
     cy.axeCheck();
     cy.get('.form-panel .usa-button-primary').click();
@@ -208,10 +208,10 @@ describe('Pre-need test', () => {
     cy.get('label[for="root_application_claimant_desiredCemetery"]').should(
       'be.visible',
     );
-    cy.get('.progress-bar-segmented div.progress-segment:nth-child(4)').should(
-      'have.class',
-      'progress-segment-complete',
-    );
+    cy.get('va-segmented-progress-bar')
+      .shadow()
+      .find('.progress-bar-segmented div.progress-segment:nth-child(4)')
+      .should('have.class', 'progress-segment-complete');
     cy.fill(
       'input[name="root_application_claimant_desiredCemetery"]',
       testData.data.application.claimant.desiredCemetery.label,
@@ -253,19 +253,19 @@ describe('Pre-need test', () => {
     // Supporting Documents page
     cy.get('label[for="root_application_preneedAttachments"]');
 
-    cy.get('.progress-bar-segmented div.progress-segment:nth-child(5)').should(
-      'have.class',
-      'progress-segment-complete',
-    );
+    cy.get('va-segmented-progress-bar')
+      .shadow()
+      .find('.progress-bar-segmented div.progress-segment:nth-child(5)')
+      .should('have.class', 'progress-segment-complete');
     cy.get('.form-panel .usa-button-primary').click();
     cy.url().should('not.contain', '/supporting-documents');
 
     // Applicant/Claimant Contact Information page
     cy.get('select[name="root_application_claimant_address_country"]');
-    cy.get('.progress-bar-segmented div.progress-segment:nth-child(6)').should(
-      'have.class',
-      'progress-segment-complete',
-    );
+    cy.get('va-segmented-progress-bar')
+      .shadow()
+      .find('.progress-bar-segmented div.progress-segment:nth-child(6)')
+      .should('have.class', 'progress-segment-complete');
     cy.fillAddress(
       'root_application_claimant_address',
       testData.data.application.claimant.address,
@@ -281,10 +281,10 @@ describe('Pre-need test', () => {
 
     // Veteran Contact Information page
     cy.get('select[name="root_application_veteran_address_country"]');
-    cy.get('.progress-bar-segmented div.progress-segment:nth-child(6)').should(
-      'have.class',
-      'progress-segment-complete',
-    );
+    cy.get('va-segmented-progress-bar')
+      .shadow()
+      .find('.progress-bar-segmented div.progress-segment:nth-child(6)')
+      .should('have.class', 'progress-segment-complete');
     cy.fillAddress(
       'root_application_veteran_address',
       testData.data.application.veteran.address,
@@ -296,10 +296,10 @@ describe('Pre-need test', () => {
     cy.get(
       'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
     );
-    cy.get('.progress-bar-segmented div.progress-segment:nth-child(6)').should(
-      'have.class',
-      'progress-segment-complete',
-    );
+    cy.get('va-segmented-progress-bar')
+      .shadow()
+      .find('.progress-bar-segmented div.progress-segment:nth-child(6)')
+      .should('have.class', 'progress-segment-complete');
     cy.selectRadio(
       'root_application_applicant_applicantRelationshipToClaimant',
       testData.data.application.applicant.applicantRelationshipToClaimant,
@@ -328,10 +328,15 @@ describe('Pre-need test', () => {
       cy.get('.form-panel .usa-button-primary').click();
       cy.url().should('not.contain', '/preparer');
 
-      cy.get('label[name="privacyAgreementAccepted-label"]', {
-        timeout: Timeouts.slow,
-      });
-      cy.get('input[type="checkbox"]').click();
+      cy.get('[name="privacyAgreementAccepted"]')
+        .find('label[for="checkbox-element"]')
+        .should('be.visible');
+
+      cy.get('[name="privacyAgreementAccepted"]')
+        .find('[type="checkbox"]')
+        .check({
+          force: true,
+        });
 
       cy.axeCheck();
       cy.get('.form-progress-buttons .usa-button-primary').click();

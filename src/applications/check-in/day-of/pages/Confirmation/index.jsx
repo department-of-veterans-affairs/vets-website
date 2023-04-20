@@ -65,6 +65,7 @@ const Confirmation = props => {
           selectedAppointment={appointment}
           appointments={appointments}
           triggerRefresh={refreshAppointments}
+          router={router}
         />
       )}
     </>

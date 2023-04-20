@@ -1,12 +1,33 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 
-import { getClaimDetail } from '../actions';
+// START lighthouse_migration
+import {
+  getClaim as getClaimAction,
+  getClaimDetail as getClaimEVSSAction,
+} from '../actions';
+import { cstUseLighthouse } from '../selectors';
+// END lighthouse_migration
 
 class ClaimPage extends React.Component {
   componentDidMount() {
-    this.props.getClaimDetail(this.props.params.id, this.props.router);
+    // START lighthouse_migration
+    const {
+      getClaimEVSS,
+      getClaimLighthouse,
+      params,
+      router,
+      useLighthouse,
+    } = this.props;
+
+    if (useLighthouse) {
+      getClaimLighthouse(params.id, router);
+    } else {
+      getClaimEVSS(params.id, router);
+    }
+    // END lighthouse_migration
   }
 
   render() {
@@ -14,12 +35,19 @@ class ClaimPage extends React.Component {
   }
 }
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  return {
+    // START lighthouse_migration
+    useLighthouse: cstUseLighthouse(state),
+    // END lighthouse_migration
+  };
 }
 
 const mapDispatchToProps = {
-  getClaimDetail,
+  // START lighthouse_migration
+  getClaimEVSS: getClaimEVSSAction,
+  getClaimLighthouse: getClaimAction,
+  // END lighthouse_migration
 };
 
 export default withRouter(
@@ -28,3 +56,18 @@ export default withRouter(
     mapDispatchToProps,
   )(ClaimPage),
 );
+
+ClaimPage.propTypes = {
+  children: PropTypes.node,
+  // START lighthouse_migration
+  getClaimEVSS: PropTypes.func,
+  getClaimLighthouse: PropTypes.func,
+  // END lighthouse_migration
+  params: PropTypes.object,
+  router: PropTypes.object,
+  // START lighthouse_migration
+  useLighthouse: PropTypes.bool,
+  // END lighthouse_migration
+};
+
+export { ClaimPage };

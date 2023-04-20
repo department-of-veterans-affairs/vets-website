@@ -143,8 +143,8 @@
 
 // form field subtitle
 .formfield-subtitle {
-  margin: 4px 0 8px;
-  font-size: 15px;
+  margin: 4px 0 0;
+  font-size: 16px;
   max-width: 400px;
   color: $color-gray-medium;
 }
@@ -327,4 +327,20 @@
 .error-line {
   border-left: 4px solid var(--color-secondary-dark);
   position: relative;
+}
+
+.summary-card-delete-button {
+  color: $color-secondary-dark;
+  background-color: transparent;
+  width: 152px;
+  max-width: 152px;
+  font-weight: bold;
+  &:hover {
+    color: $color-secondary-dark;
+    background-color: $color-secondary-lightest;
+  }
+  &:active {
+    color: $color-secondary-darkest;
+    background-color: $color-secondary-lightest;
+  }
 }

@@ -23,7 +23,7 @@ import ServicePeriodView from '../components/ServicePeriodView';
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
 export const contactInfoDescription = (
-  <va-alert status="info" background-only>
+  <va-additional-info trigger="Why do we need your contact information?">
     <p>
       We may contact you by phone if we need more information about your
       application.
@@ -32,11 +32,12 @@ export const contactInfoDescription = (
       You can also provide your email address to receive updates about new
       openings in VA national cemeteries or other burial benefits.
     </p>
-  </va-alert>
+  </va-additional-info>
 );
 
 export const authorizedAgentDescription = (
-  <va-alert status="info" background-only>
+  // TODO va-additional-info component to be replaced with a more optimal solution
+  <va-additional-info trigger="Who can a preparer sign for?">
     <p>A preparer may sign for an individual who’s:</p>
     <ul>
       <li>
@@ -48,14 +49,18 @@ export const authorizedAgentDescription = (
       <li>Is physically unable to sign the application</li>
     </ul>
     <p>
-      If you’re the preparer of this application, please provide your contact
-      information.
+      If you’re the preparer of this application, you’ll need to provide your
+      contact information.
     </p>
-  </va-alert>
+  </va-additional-info>
 );
-
 export const veteranRelationshipDescription = (
-  <va-alert status="info" background-only>
+  <va-alert
+    status="info"
+    background-only
+    role="status"
+    id="veteran-relationship"
+  >
     You’re applying as the <strong>service member or Veteran</strong>. We’ll ask
     you questions about your military status and history to determine if you
     qualify for burial in a VA national cemetery.
@@ -63,7 +68,12 @@ export const veteranRelationshipDescription = (
 );
 
 export const spouseRelationshipDescription = (
-  <va-alert status="info" background-only>
+  <va-alert
+    status="info"
+    background-only
+    role="status"
+    id="spouse-relationship"
+  >
     You’re applying as the{' '}
     <strong>legally married spouse or surviving spouse</strong> of the service
     member or Veteran who’s your sponsor. We’ll ask you questions about your
@@ -73,7 +83,7 @@ export const spouseRelationshipDescription = (
 );
 
 export const childRelationshipDescription = (
-  <va-alert status="info" background-only>
+  <va-alert status="info" background-only role="status" id="child-relationship">
     You’re applying as the <strong>unmarried adult child</strong> of the service
     member or Veteran who’s your sponsor. We’ll ask you questions about your
     sponsor’s military status and history to determine if you qualify for burial
@@ -83,7 +93,7 @@ export const childRelationshipDescription = (
 );
 
 export const otherRelationshipDescription = (
-  <va-alert status="info" background-only>
+  <va-alert status="info" background-only role="status" id="other-relationship">
     You’re applying on <strong>behalf</strong> of the service member or Veteran
     who’s your sponsor. We’ll ask you questions about your sponsor’s military
     status and history to determine if they qualify for burial in a VA national
@@ -291,11 +301,14 @@ export const veteranUI = {
   militaryServiceNumber: {
     'ui:title':
       'Military Service number (if you have one that’s different than your Social Security number)',
+    'ui:errorMessages': {
+      pattern: 'Your Military Service number must be between 4 to 9 characters',
+    },
   },
   vaClaimNumber: {
     'ui:title': 'VA claim number (if known)',
     'ui:errorMessages': {
-      pattern: 'Your VA claim number must be between 7 to 9 digits',
+      pattern: 'Your VA claim number must be between 8 to 9 digits',
     },
   },
   placeOfBirth: {
@@ -343,22 +356,11 @@ export const veteranUI = {
     isWhite: {
       'ui:title': 'White',
     },
-    'ui:required': () => !environment.isProduction(),
     'ui:validations': [
+      // require at least one value to be true/checked
       (errors, fields) => {
-        if (
-          !environment.isProduction() &&
-          !(
-            fields.isSpanishHispanicLatino ||
-            fields.isAmericanIndianOrAlaskanNative ||
-            fields.isBlackOrAfricanAmerican ||
-            fields.isNativeHawaiianOrOtherPacificIslander ||
-            fields.notSpanishHispanicLatino ||
-            fields.isAsian ||
-            fields.isWhite
-          )
-        ) {
-          errors.addError('Choose at least one category');
+        if (!Object.values(fields).some(val => val === true)) {
+          errors.addError('Please provide a response');
         }
       },
     ],
@@ -391,7 +393,7 @@ export const serviceRecordsUI = {
     'Please provide all your service periods. If you need to add another service period, please click the Add Another Service Period button.',
   'ui:options': {
     viewField: ServicePeriodView,
-    itemName: 'Service Period',
+    itemName: 'service period',
   },
   items: {
     'ui:order': [

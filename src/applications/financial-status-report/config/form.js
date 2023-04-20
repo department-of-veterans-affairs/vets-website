@@ -11,18 +11,29 @@ import { transform } from '../utils/transform';
 import { SubmissionAlert } from '../components/Alerts';
 import { WIZARD_STATUS } from '../wizard/constants';
 import EnhancedEmploymentRecord from '../components/EnhancedEmploymentRecord';
+import EnhancedSpouseEmploymentRecord from '../components/EnhancedSpouseEmploymentRecord';
+import EnhancedVehicleRecord from '../components/EnhancedVehicleRecord';
 import GrossMonthlyIncomeInput from '../components/GrossMonthlyIncomeInput';
+import SpouseGrossMonthlyIncomeInput from '../components/SpouseGrossMonthlyIncomeInput';
+import SpousePayrollDeductionChecklist from '../components/SpousePayrollDeductionChecklist';
+import SpousePayrollDeductionInputList from '../components/SpousePayrollDeductionInputList';
 import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
+import EnhancedBenefitsEdit from '../components/EnhancedBenefitsEdit';
+import VehicleSummaryWidget from '../pages/assets/vehicles/VehicleSummaryWidget';
+import CreditCardBill from '../components/CreditCardBill';
+import CreditCardBillSummary from '../pages/expenses/creditCardBills/CreditCardBillSummary';
+import AddAsset from '../components/otherAssets/AddAsset';
+import OtherAssetsSummary from '../components/otherAssets/OtherAssetsSummary';
+import OtherAssetsSummaryReview from '../components/otherAssets/OtherAssetsSummaryReview';
+import AddUtilityBill from '../components/utilityBills/AddUtilityBill';
+import UtilityBillSummary from '../components/utilityBills/UtilityBillSummary';
+import UtilityBillSummaryReview from '../components/utilityBills/UtilityBillSummaryReview';
 import submitForm from './submitForm';
-import {
-  EditPhone,
-  EditEmail,
-  EditAddress,
-} from '../components/contact-information/EditContactInfo';
-
-import ContactInformationReview from '../components/contact-information/ContactInformationReview';
+import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
+import InstallmentContract from '../components/InstallmentContract';
+import InstallmentContractSummary from '../pages/expenses/repayments/InstallmentContractSummary';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -136,42 +147,6 @@ const formConfig = {
           title: 'Contact Information',
           uiSchema: pages.contactInfo.uiSchema,
           schema: pages.contactInfo.schema,
-          depends: formData => !formData['view:enhancedFinancialStatusReport'],
-        },
-        confirmContactInformation: {
-          title: 'Contact information',
-          path: 'current-contact-information',
-          uiSchema: pages.contactInformation.uiSchema,
-          schema: pages.contactInformation.schema,
-          CustomPageReview: ContactInformationReview,
-          depends: formData => formData['view:enhancedFinancialStatusReport'],
-        },
-        editMobilePhone: {
-          title: 'Edit phone number',
-          path: 'edit-mobile-phone',
-          CustomPage: EditPhone,
-          CustomPageReview: EditPhone,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-        editEmailAddress: {
-          title: 'Edit email address',
-          path: 'edit-email-address',
-          CustomPage: EditEmail,
-          CustomPageReview: EditEmail,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-        editMailingAddress: {
-          title: 'Edit mailing address',
-          path: 'edit-mailing-address',
-          CustomPage: EditAddress,
-          CustomPageReview: EditAddress,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
         },
       },
     },
@@ -269,6 +244,23 @@ const formConfig = {
           title: 'Benefits',
           uiSchema: pages.benefits.uiSchema,
           schema: pages.benefits.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
+        benefitsEnhanced: {
+          path: 'your-benefits',
+          title: 'Benefits',
+          uiSchema: pages.benefits.enhancedUiSchema,
+          schema: pages.benefits.enhancedSchema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        editBenefitsEnhanced: {
+          path: 'edit-benefits',
+          title: 'Benefits',
+          CustomPage: EnhancedBenefitsEdit,
+          CustomPageReview: null, // TODO: Add review page (or check if reviewpage on normal)
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: () => false, // only accessible from benefits page
         },
         socialSecurity: {
           path: 'social-security',
@@ -330,15 +322,19 @@ const formConfig = {
           title: 'Spouse employment',
           uiSchema: pages.spouseEmployment.uiSchema,
           schema: pages.spouseEmployment.schema,
-          depends: ({ questions }) => questions.isMarried,
+          depends: formData =>
+            formData.questions.isMarried &&
+            !formData['view:enhancedFinancialStatusReport'],
         },
         spouseEmploymentRecords: {
           path: 'spouse-employment-records',
           title: 'Spouse employment',
           uiSchema: pages.spouseEmploymentRecords.uiSchema,
           schema: pages.spouseEmploymentRecords.schema,
-          depends: ({ questions }) =>
-            questions.isMarried && questions.spouseIsEmployed,
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData.questions.spouseIsEmployed &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
         spouseIncome: {
@@ -348,8 +344,10 @@ const formConfig = {
           showPagePerItem: true,
           uiSchema: pages.spouseIncome.uiSchema,
           schema: pages.spouseIncome.schema,
-          depends: ({ questions }) =>
-            questions.isMarried && questions.spouseIsEmployed,
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData.questions.spouseIsEmployed &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
         spouseBenefits: {
@@ -357,59 +355,178 @@ const formConfig = {
           title: 'Spouse benefits',
           uiSchema: pages.spouseBenefits.uiSchema,
           schema: pages.spouseBenefits.schema,
-          depends: ({ questions }) => questions.isMarried,
+          depends: formData =>
+            formData.questions.isMarried &&
+            !formData['view:enhancedFinancialStatusReport'],
         },
         spouseBenefitRecords: {
           path: 'spouse-benefit-records',
           title: 'Spouse benefits',
           uiSchema: pages.spouseBenefitRecords.uiSchema,
           schema: pages.spouseBenefitRecords.schema,
-          depends: ({ questions }) =>
-            questions.isMarried && questions.spouseHasBenefits,
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData.questions.spouseHasBenefits &&
+            !formData['view:enhancedFinancialStatusReport'],
         },
         spouseSocialSecurity: {
           path: 'spouse-social-security',
           title: 'Spouse Social Security',
           uiSchema: pages.spouseSocialSecurity.uiSchema,
           schema: pages.spouseSocialSecurity.schema,
-          depends: ({ questions }) => questions.isMarried,
+          depends: formData =>
+            formData.questions.isMarried &&
+            !formData['view:enhancedFinancialStatusReport'],
         },
         spouseSocialSecurityRecords: {
           path: 'spouse-social-security-records',
           title: 'Spouse Social Security',
           uiSchema: pages.spouseSocialSecurityRecords.uiSchema,
           schema: pages.spouseSocialSecurityRecords.schema,
-          depends: ({ questions }) =>
-            questions.isMarried && questions.spouseHasSocialSecurity,
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData.questions.spouseHasSocialSecurity &&
+            !formData['view:enhancedFinancialStatusReport'],
         },
         spouseAdditionalIncome: {
           path: 'spouse-additional-income',
           title: 'Spouse additional income',
           uiSchema: pages.spouseAdditionalIncome.uiSchema,
           schema: pages.spouseAdditionalIncome.schema,
-          depends: ({ questions }) => questions.isMarried,
+          depends: formData =>
+            formData.questions.isMarried &&
+            !formData['view:enhancedFinancialStatusReport'],
         },
         spouseAdditionalIncomeRecords: {
           path: 'spouse-additional-income-records',
           title: 'Spouse additional income',
           uiSchema: pages.spouseAdditionalIncomeRecords.uiSchema,
           schema: pages.spouseAdditionalIncomeRecords.schema,
-          depends: ({ questions }) =>
-            questions.isMarried && questions.spouseHasAdditionalIncome,
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData.questions.spouseHasAdditionalIncome &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        spouseEmploymentQuestion: {
+          path: 'enhanced-spouse-employment-question',
+          title: 'Employment',
+          uiSchema: pages.spouseEmploymentQuestion.uiSchema,
+          schema: pages.spouseEmploymentQuestion.schema,
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: false,
+        },
+        enhancedSpouseEmploymentRecords: {
+          path: 'enhanced-spouse-employment-records',
+          title: 'Employment',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData.questions.spouseIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: EnhancedSpouseEmploymentRecord,
+          CustomPageReview: null,
+        },
+        enhancedSpouseGrossMonthlyIncome: {
+          path: 'spouse-gross-monthly-income',
+          title: 'Gross monthly income',
+          uiSchema: pages.spouseGrossMonthlyIncome.uiSchema,
+          schema: pages.spouseGrossMonthlyIncome.schema,
+          depends: formData =>
+            formData.questions.spouseIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: SpouseGrossMonthlyIncomeInput,
+        },
+        spousePayrollDeductionChecklist: {
+          path: 'spouse-deduction-checklist',
+          title: 'Payroll deductions',
+          uiSchema: pages.spousePayrollDeductionChecklist.uiSchema,
+          schema: pages.spousePayrollDeductionChecklist.schema,
+          depends: formData =>
+            formData.questions.spouseIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: SpousePayrollDeductionChecklist,
+        },
+        spousePayrollDeductionInputList: {
+          title: 'Spouse deduction amounts',
+          path: 'spouse-deduction-values',
+          // listOfIssues defined in next section
+          uiSchema: pages.spousePayrollDeductionInputList.uiSchema,
+          schema: pages.spousePayrollDeductionInputList.schema,
+          // needed to bypass bug on review & submit page
+          depends: formData =>
+            formData.questions.spouseIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          CustomPage: SpousePayrollDeductionInputList,
+        },
+        spouseEmploymentHistory: {
+          path: 'spouse-employment-history',
+          title: 'Employment',
+          uiSchema: pages.spouseEmploymentHistory.uiSchema,
+          schema: pages.spouseEmploymentHistory.schema,
+          depends: formData =>
+            formData.questions.spouseIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: SpouseEmploymentHistoryWidget,
+        },
+        spouseAdditionalIncomeCheckList: {
+          path: 'spouse-additional-income-checklist',
+          title: 'Additional income options',
+          uiSchema: pages.spouseAdditionalIncomeCheckList.uiSchema,
+          schema: pages.spouseAdditionalIncomeCheckList.schema,
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        spouseAdditionalIncomeValues: {
+          path: 'spouse-additional-income-values',
+          title: 'Additional income values',
+          uiSchema: pages.spouseAdditionalIncomeValues.uiSchema,
+          schema: pages.spouseAdditionalIncomeValues.schema,
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData.additionalIncome?.spouse?.spAddlIncome?.length > 0 &&
+            formData['view:enhancedFinancialStatusReport'],
         },
         dependents: {
           path: 'dependents',
           title: 'Dependents',
           uiSchema: pages.dependents.uiSchema,
           schema: pages.dependents.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
+        dependentCount: {
+          path: 'dependents-count',
+          title: 'Dependents',
+          uiSchema: pages.dependents.uiSchemaEnhanced,
+          schema: pages.dependents.schemaEnhanced,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
         },
         dependentRecords: {
           path: 'dependent-records',
           title: 'Dependents',
           uiSchema: pages.dependentRecords.uiSchema,
           schema: pages.dependentRecords.schema,
-          depends: ({ questions }) => questions.hasDependents,
+          depends: formData =>
+            !formData['view:enhancedFinancialStatusReport'] &&
+            formData.questions?.hasDependents,
+          editModeOnReviewPage: true,
+        },
+        dependentAges: {
+          path: 'dependent-ages',
+          title: 'Dependents',
+          uiSchema: pages.dependentRecords.uiSchemaEnhanced,
+          schema: pages.dependentRecords.schemaEnhanced,
+          depends: formData =>
+            formData['view:enhancedFinancialStatusReport'] &&
+            formData.questions?.hasDependents > 0,
           editModeOnReviewPage: true,
         },
       },
@@ -486,8 +603,35 @@ const formConfig = {
           title: 'Vehicles',
           uiSchema: pages.vehicleRecords.uiSchema,
           schema: pages.vehicleRecords.schema,
-          depends: ({ questions }) => questions.hasVehicle,
+          depends: formData =>
+            formData.questions.hasVehicle &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        enhancedVehicleRecords: {
+          path: 'your-vehicle-records',
+          title: 'Vehicles',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasVehicle &&
+            !formData.assets?.automobiles?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: EnhancedVehicleRecord,
+          CustomPageReview: null,
+        },
+        vehiclesSummary: {
+          path: 'vehicles-summary',
+          title: 'Your car or other vehicle',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasVehicle &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: VehicleSummaryWidget,
+          CustomPageReview: null,
         },
         recreationalVehicles: {
           path: 'recreational-vehicles',
@@ -525,14 +669,55 @@ const formConfig = {
           title: 'Other assets',
           uiSchema: pages.otherAssets.uiSchema,
           schema: pages.otherAssets.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         otherAssetRecords: {
           path: 'other-asset-records',
           title: 'Other assets',
           uiSchema: pages.otherAssetRecords.uiSchema,
           schema: pages.otherAssetRecords.schema,
-          depends: ({ questions }) => questions.hasOtherAssets,
+          depends: formData =>
+            formData.questions.hasOtherAssets &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        // Other Household Assets
+        otherAssetsChecklist: {
+          path: 'other-assets-checklist',
+          title: 'Other assets options',
+          uiSchema: pages.otherAssetPages.otherAssetsChecklist.uiSchema,
+          schema: pages.otherAssetPages.otherAssetsChecklist.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        otherAssetsValues: {
+          path: 'other-assets-values',
+          title: 'Other assets values',
+          uiSchema: pages.otherAssetPages.otherAssetsValues.uiSchema,
+          schema: pages.otherAssetPages.otherAssetsValues.schema,
+          depends: formData =>
+            !!formData.assets?.otherAssets?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        otherAssetsSummary: {
+          path: 'other-assets-summary',
+          title: 'Other assets summary',
+          CustomPage: OtherAssetsSummary,
+          CustomPageReview: OtherAssetsSummaryReview,
+          editModeOnReviewPage: true,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            !!formData.assets?.otherAssets?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        addOtherAsset: {
+          path: 'add-other-asset',
+          title: 'Add your additional assets',
+          CustomPage: AddAsset,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: () => false, // accessed from otherAssetsSummary
         },
       },
     },
@@ -574,28 +759,136 @@ const formConfig = {
           title: 'Utilities',
           uiSchema: pages.utilities.uiSchema,
           schema: pages.utilities.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         utilityRecords: {
           path: 'utility-records',
           title: 'Utilities',
           uiSchema: pages.utilityRecords.uiSchema,
           schema: pages.utilityRecords.schema,
-          depends: ({ questions }) => questions.hasUtilities,
+          depends: formData =>
+            formData.questions.hasUtilities &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        // Enhanced Utility Bills
+        utilityBillChecklist: {
+          path: 'utility-bill-checklist',
+          title: 'Utility bill options',
+          uiSchema: pages.utilityBillPages.utilityBillChecklist.uiSchema,
+          schema: pages.utilityBillPages.utilityBillChecklist.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        utilityBillValues: {
+          path: 'utility-bill-values',
+          title: 'Utility bill values',
+          uiSchema: pages.utilityBillPages.utilityBillValues.uiSchema,
+          schema: pages.utilityBillPages.utilityBillValues.schema,
+          depends: formData =>
+            !!formData.utilityRecords?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        utilityBillSummary: {
+          path: 'utility-bill-summary',
+          title: 'Utility bills summary',
+          CustomPage: UtilityBillSummary,
+          CustomPageReview: UtilityBillSummaryReview,
+          editModeOnReviewPage: true,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            !!formData.utilityRecords?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        addUtilityBill: {
+          path: 'add-utility-bill',
+          title: 'Add your utility bills',
+          CustomPage: AddUtilityBill,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: () => false, // accessed from utilityBillSummary
         },
         repayments: {
           path: 'repayments',
           title: 'Repayments',
           uiSchema: pages.repayments.uiSchema,
           schema: pages.repayments.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         repaymentRecords: {
           path: 'repayment-records',
           title: 'Repayments',
           uiSchema: pages.repaymentRecords.uiSchema,
           schema: pages.repaymentRecords.schema,
-          depends: ({ questions }) => questions.hasRepayments,
+          depends: formData =>
+            formData.questions.hasRepayments &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        installmentContracts: {
+          path: 'installment-contracts',
+          title: 'Installment Contracts',
+          uiSchema: pages.installmentContracts.uiSchema,
+          schema: pages.installmentContracts.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        addEditInstallmentContract: {
+          path: 'your-installment-contracts',
+          title: 'Installment contracts',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasRepayments &&
+            !formData.expenses?.installmentContracts?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: InstallmentContract,
+          CustomPageReview: null,
+        },
+        installmentContractSummary: {
+          path: 'installment-contracts-summary',
+          title: 'Installment contracts',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasRepayments &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: InstallmentContractSummary,
+          CustomPageReview: null,
+        },
+        creditCardBills: {
+          path: 'credit-card-bills',
+          title: 'Credit card bills',
+          uiSchema: pages.creditCardBills.uiSchema,
+          schema: pages.creditCardBills.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        addEditCreditCardBills: {
+          path: 'your-credit-card-bills',
+          title: 'Credit card bills',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasCreditCardBills &&
+            !formData.expenses?.creditCardBills?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: CreditCardBill,
+          CustomPageReview: null,
+        },
+        creditCardBillSummary: {
+          path: 'credit-card-bills-summary',
+          title: 'Credit card bills',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasCreditCardBills &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: CreditCardBillSummary,
+          CustomPageReview: null,
         },
         otherExpenses: {
           path: 'other-expenses',
@@ -632,31 +925,41 @@ const formConfig = {
         // New resolution radio options
         resolutionOption: {
           title: 'Resolution Option',
-          depends: formData =>
-            formData.selectedDebtsAndCopays?.length > 0 &&
-            formData['view:combinedFinancialStatusReport'],
+          depends: formData => {
+            return (
+              formData.selectedDebtsAndCopays?.length > 0 &&
+              formData['view:combinedFinancialStatusReport']
+            );
+          },
           path: 'resolution-option/:index',
           showPagePerItem: true,
           arrayPath: 'selectedDebtsAndCopays',
           uiSchema: pages.resolutionOption.uiSchema,
           schema: pages.resolutionOption.schema,
         },
-        // New text field
         resolutionComment: {
           title: 'Resolution Amount',
-          depends: (formData, index) => {
-            return (
-              formData.selectedDebtsAndCopays?.length > 0 &&
-              formData['view:combinedFinancialStatusReport'] &&
-              formData.selectedDebtsAndCopays[index]?.resolutionOption !==
-                'waiver'
-            );
-          },
+          depends: formData =>
+            formData.selectedDebtsAndCopays?.length > 0 &&
+            formData['view:combinedFinancialStatusReport'],
+          itemFilter: item => item.resolutionOption !== 'waiver',
           path: 'resolution-comment/:index',
           showPagePerItem: true,
           arrayPath: 'selectedDebtsAndCopays',
           uiSchema: pages.resolutionComment.uiSchema,
           schema: pages.resolutionComment.schema,
+        },
+        resolutionWaiverCheck: {
+          title: 'Resolution Waiver Agreement',
+          depends: formData =>
+            formData.selectedDebtsAndCopays?.length > 0 &&
+            formData['view:combinedFinancialStatusReport'],
+          itemFilter: item => item.resolutionOption === 'waiver',
+          path: 'resolution-waiver-agreement/:index',
+          showPagePerItem: true,
+          arrayPath: 'selectedDebtsAndCopays',
+          uiSchema: pages.resolutionWaiverAgreement.uiSchema,
+          schema: pages.resolutionWaiverAgreement.schema,
         },
         resolutionComments: {
           path: 'resolution-comments',

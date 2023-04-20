@@ -18,6 +18,6 @@ describe('Vaccine container', () => {
   it('displays links to different sections', async () => {
     const screen = setup();
     const sectionLinks = await screen.getAllByTestId('section-link');
-    expect(sectionLinks.length).to.equal(3);
+    expect(sectionLinks.length).to.equal(5);
   });
 });

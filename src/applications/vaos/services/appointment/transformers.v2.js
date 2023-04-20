@@ -24,9 +24,13 @@ import {
 export function getAppointmentInfoFromComments(comments, key) {
   const data = [];
   const appointmentInfo = comments?.split('|');
+
   if (key === 'modality') {
     const preferredModality = appointmentInfo
-      ? appointmentInfo[1]?.split(':')[1]?.trim()
+      ? appointmentInfo
+          .filter(item => item.includes('preferred modality:'))[0]
+          ?.split(':')[1]
+          ?.trim()
       : null;
 
     if (appointmentInfo) {
@@ -37,10 +41,16 @@ export function getAppointmentInfoFromComments(comments, key) {
 
   if (key === 'contact') {
     const phone = appointmentInfo
-      ? appointmentInfo[2]?.split(':')[1]?.trim()
+      ? appointmentInfo
+          .filter(item => item.includes('phone number:'))[0]
+          ?.split(':')[1]
+          ?.trim()
       : null;
     const email = appointmentInfo
-      ? appointmentInfo[3]?.split(':')[1]?.trim()
+      ? appointmentInfo
+          .filter(item => item.includes('email:'))[0]
+          ?.split(':')[1]
+          ?.trim()
       : null;
 
     const transformedPhone = { system: 'phone', value: phone };
@@ -52,7 +62,10 @@ export function getAppointmentInfoFromComments(comments, key) {
 
   if (key === 'preferredDate') {
     const preferredDates = appointmentInfo
-      ? appointmentInfo[4]?.split(':')[1]?.split(',')
+      ? appointmentInfo
+          .filter(item => item.includes('preferred dates:'))[0]
+          ?.split(':')[1]
+          ?.split(',')
       : null;
     preferredDates?.map(date => {
       const preferredDatePeriod = date?.split(' ');
@@ -82,7 +95,9 @@ export function getAppointmentInfoFromComments(comments, key) {
   }
   if (key === 'reasonCode') {
     const reasonCode = appointmentInfo
-      ? appointmentInfo[5]?.split(':')[1]
+      ? appointmentInfo
+          .filter(item => item.includes('preferred dates:'))[0]
+          ?.split(':')[1]
       : null;
     const transformedReasonCode = { code: reasonCode };
     if (reasonCode) {
@@ -185,7 +200,7 @@ function getPatientContact(appt) {
     };
   }
   return {
-    telecom: getAppointmentInfoFromComments(appt.reasonCode.text, 'contact'),
+    telecom: getAppointmentInfoFromComments(appt.reasonCode?.text, 'contact'),
   };
 }
 
@@ -355,7 +370,14 @@ export function transformVAOSAppointment(appt) {
               providers !== undefined ? getProviderName(appt) : null,
           }
         : null,
-    practitioners: appt.practitioners,
+    preferredProviderName:
+      isCC && isRequest && appt.preferredProviderName
+        ? { providerName: appt.preferredProviderName }
+        : null,
+    practitioners:
+      appt.practitioners && typeof appt.practitioners !== 'undefined'
+        ? appt.practitioners
+        : [],
     ...requestFields,
     vaos: {
       isVideo,
@@ -375,20 +397,4 @@ export function transformVAOSAppointment(appt) {
 
 export function transformVAOSAppointments(appts) {
   return appts.map(appt => transformVAOSAppointment(appt));
-}
-
-/**
- * Transforms a provider object from the providers endpoint into our
- * VAOS format
- *
- * @export
- * @param {provider} provider A provider from the providers endpoint
- * @returns {Provider} A Provider resource
- */
-export function transformPreferredProviderV2(provider) {
-  return {
-    resourceType: 'Provider',
-    id: provider.providerIdentifier,
-    name: provider.name,
-  };
 }

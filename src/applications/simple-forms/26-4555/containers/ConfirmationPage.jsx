@@ -17,8 +17,9 @@ export class ConfirmationPage extends React.Component {
   render() {
     const { form } = this.props;
     const { submission, formId, data } = form;
-
-    const { fullName } = data;
+    const { fullName } = data.veteran;
+    const submitDate = submission.timestamp;
+    const confirmationNumber = submission.response?.confirmationNumber;
 
     return (
       <div>
@@ -28,42 +29,54 @@ export class ConfirmationPage extends React.Component {
             alt="VA logo"
             width="300"
           />
-          <h2>
-            Apply for a Specially Adapted Housing Grant or Special Home
-            Adaptation Grant
-          </h2>
         </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="success"
+          visible
+        >
+          <h2 slot="headline">
+            Thank you for completing your benefit application
+          </h2>
+          <p className="vads-u-margin-y--0">
+            After we review your application, we&rsquo;ll contact you to tell
+            you what happens next in the application process.
+          </p>
+        </va-alert>
         <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            26-4555 Application in Acquiring Specially Adapted Housing or
-            Special Home Adaptation Grant Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
+          <h3 className="vads-u-margin-top--0">Your application information</h3>
           {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
+            <>
+              <h4>Applicant</h4>
+              <p>
+                {fullName.first} {fullName.middle} {fullName.last}
+                {fullName.suffix ? `, ${fullName.suffix}` : null}
+              </p>
+            </>
+          ) : null}
+
+          {confirmationNumber ? (
+            <>
+              <h4>Confirmation number</h4>
+              <p>{confirmationNumber}</p>
+            </>
           ) : null}
 
           {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
+            <>
+              <h4>Date submitted</h4>
+              <p>{format(submitDate, 'MMMM d, yyyy')}</p>
+            </>
           ) : null}
+
+          <h4>Confirmation for your records</h4>
+          <p>You can print this confirmation page for your records</p>
           <button
             type="button"
-            className="usa-button screen-only"
+            className="usa-button vads-u-margin-top--0 screen-only"
             onClick={window.print}
           >
-            Print this for your records
+            Print this page
           </button>
         </div>
       </div>

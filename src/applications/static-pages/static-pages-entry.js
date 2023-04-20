@@ -34,6 +34,7 @@ import facilityReducer from './facilities/reducers';
 // Other widgets.
 import createAskVAWidget from './ask-va';
 import createApplicationStatus from './widget-creators/createApplicationStatus';
+import createBTSSSLogin from './BTSSS-login/createBTSSSLogin';
 import createCOEAccess from './coe-access/createCOEAccess';
 import createCallToActionWidget from './widget-creators/createCallToActionWidget';
 import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
@@ -79,6 +80,7 @@ import create1095BDownloadCTA from './download-1095b';
 
 import createEnrollmentVerificationLoginWidget from './view-enrollment-verification-login/createEnrollmentVerificationLoginWidget';
 import createEducationLettersLoginWidget from './view-education-letters-login/createEducationLettersLoginWidget';
+import create264555Access from './simple-forms/26-4555/entry';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -128,6 +130,7 @@ createApplicationStatus(store, {
   applyText: 'Apply for health care benefits',
   widgetType: widgetTypes.HEALTH_CARE_APP_STATUS,
 });
+createBTSSSLogin(store);
 createCallToActionWidget(store, widgetTypes.CTA);
 createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
@@ -200,7 +203,7 @@ createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
 createHomepageSearch(store, widgetTypes.HOMEPAGE_SEARCH);
 create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
-createShiftedVetsBanner(store, widgetTypes.SHIFTED_VETS_BANNER);
+createShiftedVetsBanner(store);
 createNodCTA(store, widgetTypes.FORM_10182_CTA);
 createSupplementalClaim(store, widgetTypes.SUPPLEMENTAL_CLAIM);
 createEnrollmentVerificationLoginWidget(
@@ -211,6 +214,7 @@ createEducationLettersLoginWidget(
   store,
   widgetTypes.VIEW_EDUCATION_LETTERS_LOGIN,
 );
+create264555Access(store, widgetTypes.FORM_264555_CTA);
 
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {

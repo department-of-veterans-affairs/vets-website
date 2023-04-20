@@ -120,7 +120,7 @@
     "@babel/traverse": "^7.17.3",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.1.2",
     "@cypress/code-coverage": "^3.10.0",
-    "@department-of-veterans-affairs/eslint-plugin": "^1.6.1",
+    "@department-of-veterans-affairs/eslint-plugin": "^1.9.0",
     "@department-of-veterans-affairs/generator-vets-website": "^3.8.0",
     "@octokit/rest": "^18.11.0",
     "@sentry/browser": "^6.13.2",
@@ -242,8 +242,8 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@department-of-veterans-affairs/component-library": "^13.8.0",
-    "@department-of-veterans-affairs/formation": "^7.0.4",
+    "@department-of-veterans-affairs/component-library": "^15.0.0",
+    "@department-of-veterans-affairs/formation": "^7.0.5",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
@@ -307,7 +307,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#bde8b2b06006e2d72de819ef859da527f3df77c2"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#f4be27eadb0f90e48860f00b5bfb71681def72dd"
   },
   "resolutions": {
     "**/lodash": "4.17.21",

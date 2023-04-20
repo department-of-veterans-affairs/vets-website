@@ -1,5 +1,5 @@
 import React from 'react';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   startingPageName,
   veteranPathPageNames,
@@ -17,24 +17,37 @@ const options = [
   { value: otherPathPageNames.isOther, label: 'Neither of these' },
 ];
 
-const StartPage = ({ setPageState, state = {} }) => (
-  <RadioButtons
-    name={`${startingPageName.start}-option`}
-    label="Which of these describes you?"
-    id={`${startingPageName.start}-option`}
-    options={options}
-    onValueChange={({ value }) =>
-      handleChangeAndPageSet(
-        setPageState,
-        value,
-        options,
-        'Which of these describes you?',
-      )
-    }
-    value={{ value: state.selected }}
-    additionalFieldsetClass="vads-u-margin-top--0"
-  />
-);
+const StartPage = ({ setPageState, state = {} }) => {
+  const handleValueChange = ({ detail } = {}) => {
+    const { value } = detail;
+    handleChangeAndPageSet(
+      setPageState,
+      value,
+      options,
+      'Which of these describes you?',
+    );
+  };
+  return (
+    <VaRadio
+      class="vads-u-margin-y--2"
+      label="Which of these describes you?"
+      onVaValueChange={handleValueChange}
+    >
+      {options.map(option => (
+        <va-radio-option
+          key={option.value}
+          name="describes-you"
+          label={option.label}
+          value={option.value}
+          checked={state.selected === option.value}
+          aria-describedby={
+            state.selected === option.value ? option.value : null
+          }
+        />
+      ))}
+    </VaRadio>
+  );
+};
 
 export default {
   name: startingPageName.start,

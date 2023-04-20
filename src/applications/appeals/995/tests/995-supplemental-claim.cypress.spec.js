@@ -9,6 +9,8 @@ import manifest from '../manifest.json';
 import {
   mockContestableIssues,
   mockContestableIssuesWithLegacyAppeals,
+  getPastItf,
+  fetchItf,
 } from './995.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
@@ -53,6 +55,10 @@ const testConfig = createTestConfig(
             .click();
         });
       },
+      'veteran-information': () => {
+        getPastItf(cy);
+        cy.findByText('Continue', { selector: 'button' }).click();
+      },
       'primary-phone-number': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(testData => {
@@ -79,17 +85,6 @@ const testConfig = createTestConfig(
                 cy.get('#submit').click();
               }
             });
-            cy.findByText('Continue', { selector: 'button' }).click();
-          });
-        });
-      },
-      'opt-in': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(({ socOptIn }) => {
-            if (socOptIn) {
-              cy.get('va-checkbox').click();
-            }
             cy.findByText('Continue', { selector: 'button' }).click();
           });
         });
@@ -134,7 +129,10 @@ const testConfig = createTestConfig(
                 }
               }
             });
-            cy.findByText('Continue', { selector: 'button' }).click();
+            cy.get('va-button-pair')
+              .shadow()
+              .find('va-button[continue]')
+              .click();
           });
         });
       },
@@ -264,6 +262,7 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/profile/status', mockStatus);
       cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('POST', EVIDENCE_UPLOAD_API, mockUpload);
+      cy.intercept('GET', '/v0/intent_to_file', fetchItf());
 
       // Include legacy appeals to mock data for maximal test
       const dataSet = Cypress.currentTest.titlePath[1];
@@ -288,7 +287,7 @@ const testConfig = createTestConfig(
 
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

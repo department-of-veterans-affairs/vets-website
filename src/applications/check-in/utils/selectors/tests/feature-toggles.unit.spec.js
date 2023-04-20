@@ -16,7 +16,7 @@ describe('check-in', () => {
         check_in_experience_translation_disclaimer_tagalog_enabled: false,
         check_in_experience_travel_reimbursement: false,
         check_in_experience_browser_monitoring: false,
-        check_in_experience_updated_appt_presentation: false,
+        check_in_experience_pre_check_in_action_link_top_placement: true,
         loading: false,
       },
     };
@@ -32,7 +32,7 @@ describe('check-in', () => {
           isTranslationDisclaimerTagalogEnabled: false,
           isTravelReimbursementEnabled: false,
           isBrowserMonitoringEnabled: false,
-          isUpdatedApptPresentationEnabled: false,
+          isPreCheckInActionLinkTopPlacementEnabled: true,
         });
       });
     });

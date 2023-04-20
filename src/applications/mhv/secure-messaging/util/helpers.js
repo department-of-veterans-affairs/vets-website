@@ -1,10 +1,11 @@
 import moment from 'moment-timezone';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { DefaultFolders as Folders } from './constants';
 
 export const folderPathByFolderId = folderId => {
   let path = '';
   if (folderId !== null) {
-    switch (folderId) {
+    switch (parseInt(folderId, 10)) {
       case Folders.INBOX.id:
         path = '/inbox';
         break;
@@ -31,9 +32,9 @@ export const navigateToFolderByFolderId = (folderId, history) => {
   history.push(folderPathByFolderId(folderId));
 };
 
-export const unreadCountAllFolders = folders => {
+export const unreadCountInbox = folders => {
   return folders
-    .filter(folder => folder.id !== Folders.DRAFTS.id)
+    .filter(folder => folder.id === Folders.INBOX.id)
     .reduce((a, b) => a + b.unreadCount, 0);
 };
 
@@ -41,15 +42,23 @@ export const navigateToFoldersPage = history => {
   history.push('/folders');
 };
 
+export const today = new Date();
+
 /**
  * @param {*} timestamp
  * @param {*} format momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
  * @returns {String} fromatted timestamp
  */
 
-export const today = new Date();
-
 export const dateFormat = (timestamp, format = null) => {
+  moment.updateLocale('en', {
+    meridiem: hour => {
+      if (hour < 12) {
+        return 'a.m.';
+      }
+      return 'p.m.';
+    },
+  });
   const timeZone = moment.tz.guess();
   return moment
     .tz(timestamp, timeZone)
@@ -79,3 +88,41 @@ export const titleCase = str => {
 
 export const httpRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi; // Accepts 'http'
 export const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/gi; // Accepts www and https
+
+/**
+ * Comparing a timestampt to current date and time, if older than days return true
+ * @param {*} timestamp
+ * @param {*} days
+ * @returns {Boolean} true if timestamp is older than days
+ */
+
+export const isOlderThan = (timestamp, days) => {
+  const now = moment();
+  const then = moment(timestamp);
+  return now.diff(then, 'days') > days;
+};
+
+// Opens the veterans Crisis modal (the modal that appears when clicking the red banner in the header (or footer on mobile) to connect to the crisis line)
+export const openCrisisModal = () => {
+  const modal = document.querySelector('#modal-crisisline');
+  modal.setAttribute(
+    'class',
+    `${modal.getAttribute('class')} va-overlay--open`,
+  );
+  focusElement(document.querySelector('a[href="tel:988"]'));
+};
+
+export const handleHeader = (folderId, folder) => {
+  switch (folderId) {
+    case Folders.INBOX.id: // Inbox
+      return Folders.INBOX.header;
+    case Folders.SENT.id: // Sent
+      return Folders.SENT.header;
+    case Folders.DRAFTS.id: // Drafts
+      return Folders.DRAFTS.header;
+    case Folders.DELETED.id: // Trash
+      return Folders.DELETED.header;
+    default:
+      return folder.name;
+  }
+};

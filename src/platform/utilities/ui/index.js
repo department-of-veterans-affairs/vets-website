@@ -1,5 +1,30 @@
-import Scroll from 'react-scroll';
 import * as ReactIs from 'react-is';
+
+import {
+  focusElement,
+  focusByOrder,
+  waitForRenderThenFocus,
+  defaultFocusSelector,
+} from './focus';
+import {
+  getScrollOptions,
+  scrollTo,
+  scrollToTop,
+  scrollToFirstError,
+  scrollAndFocus,
+} from './scroll';
+
+export {
+  focusElement,
+  focusByOrder,
+  waitForRenderThenFocus,
+  defaultFocusSelector,
+  getScrollOptions,
+  scrollTo,
+  scrollToTop,
+  scrollToFirstError,
+  scrollAndFocus,
+};
 
 export function displayFileSize(size) {
   if (size < 1024) {
@@ -13,90 +38,6 @@ export function displayFileSize(size) {
 
   const mbSize = kbSize / 1024;
   return `${Math.round(mbSize)}MB`;
-}
-
-/**
- * Focus on element
- * @param {String|Element} selectorOrElement - CSS selector or attached DOM
- *  element
- * @param {FocusOptions} options - "preventScroll" or "focusVisible". See
- *  https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#parameters
- * @param {Element} root - root element for querySelector; would allow focusing
- *  on elements inside of shadow dom
- */
-export function focusElement(selectorOrElement, options, root) {
-  const el =
-    typeof selectorOrElement === 'string'
-      ? (root || document).querySelector(selectorOrElement)
-      : selectorOrElement;
-
-  if (el) {
-    // Use getAttribute to grab the "tabindex" attribute (returns string), not
-    // the "tabIndex" property (returns number). Focusable elements will
-    // automatically have a tabIndex of zero, otherwise it's -1.
-    const tabindex = el.getAttribute('tabindex');
-    // No need to add, or remove a tabindex="0"
-    if (el.tabIndex !== 0) {
-      el.setAttribute('tabindex', '-1');
-      if (typeof tabindex === 'undefined' || tabindex === null) {
-        // Remove tabindex on blur. If a web-component is focused using a -1
-        // tabindex and is not removed on blur, the shadow elements inside will
-        // not be focusable
-        el.addEventListener(
-          'blur',
-          () => {
-            el.removeAttribute('tabindex');
-          },
-          { once: true },
-        );
-      }
-    }
-    el.focus(options);
-  }
-}
-
-// Allows smooth scrolling to be overridden by our E2E tests
-export function getScrollOptions(additionalOptions) {
-  const globals = window.Forms || {};
-  const reducedMotion = window?.matchMedia('(prefers-reduced-motion: reduce)')
-    ?.matches;
-  const defaults = {
-    duration: reducedMotion ? 0 : 500,
-    delay: 0,
-    smooth: !reducedMotion,
-  };
-  return { ...defaults, ...globals.scroll, ...additionalOptions };
-}
-
-export function scrollToFirstError() {
-  // [error] will focus any web-components with an error message
-  const errorEl = document.querySelector(
-    '.usa-input-error, .input-error-date, [error]',
-  );
-  if (errorEl) {
-    // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
-    const currentPosition =
-      window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
-    const position = errorEl.getBoundingClientRect().top + currentPosition;
-    Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
-    focusElement(errorEl);
-  }
-}
-
-export function scrollAndFocus(errorEl) {
-  if (errorEl) {
-    const currentPosition =
-      window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
-    const position = errorEl.getBoundingClientRect().top + currentPosition;
-    Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
-    focusElement(errorEl);
-  }
 }
 
 /* Converts a percentage decimal number to a percentage number.
@@ -137,4 +78,26 @@ export function formatSSN(ssnString = '') {
   val = val.replace(/^(.{3})(.{1,2})/, '$1-$2');
   val = val.replace(/^(.{3})-(.{2})(.{1,4})$/, '$1-$2-$3');
   return val;
+}
+
+/**
+ * Custom focus - focuses on a page's H3 by default (unique header) if it exists
+ * will fall back to the breadcrumb H2 (Step _ of _). This function is called
+ * only if the formConfig includes a `useCustomScrollAndFocus: true`, then it
+ * checks the page's `scrollAndFocusTarget` setting which is either a string or
+ * function to allow for custom focus management, e.g. returning to a page after
+ * editing a value to ensure focus is returned to the edit link
+ * @param {String|Function} scrollAndFocusTarget - Custom focus target
+ * @param {Number} pageIndex - index inside of a page array loop
+ */
+export function customScrollAndFocus(scrollAndFocusTarget, pageIndex) {
+  if (typeof scrollAndFocusTarget === 'string') {
+    scrollAndFocus(document.querySelector(scrollAndFocusTarget));
+  } else if (typeof scrollAndFocusTarget === 'function') {
+    scrollAndFocusTarget(pageIndex);
+  } else {
+    scrollToTop('topScrollElement', getScrollOptions());
+    // h3 should be a unique header on the page
+    focusByOrder(['#main h3', defaultFocusSelector]);
+  }
 }

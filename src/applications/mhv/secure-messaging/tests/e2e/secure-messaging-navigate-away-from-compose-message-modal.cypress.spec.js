@@ -9,10 +9,10 @@ describe('Secure Messaging Navigate Away From Compose Message', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   const composePage = new PatientComposePage();
+
   it('Navigate Away From Compose To Inbox', () => {
     site.login();
-    landingPage.loadPage();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     landingPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
@@ -23,14 +23,13 @@ describe('Secure Messaging Navigate Away From Compose Message', () => {
 
     composePage.selectSideBarMenuOption('Inbox');
     composePage.clickOnDeleteDraftButton();
-    composePage.verifyExpectedPageOpened('Messages');
+    composePage.verifyExpectedPageOpened('Inbox');
     cy.get('[data-testid="compose-message-link"]').should('be.visible');
   });
 
   it('Navigate Away From Compose To Draft', () => {
     site.login();
-    landingPage.loadPage();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     landingPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
@@ -51,8 +50,7 @@ describe('Secure Messaging Navigate Away From Compose Message', () => {
 
   it('Navigate Away From Compose To Sent', () => {
     site.login();
-    landingPage.loadPage();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     landingPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
@@ -73,8 +71,7 @@ describe('Secure Messaging Navigate Away From Compose Message', () => {
 
   it('Navigate Away From Compose To Trash', () => {
     site.login();
-    landingPage.loadPage();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     landingPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
@@ -95,8 +92,7 @@ describe('Secure Messaging Navigate Away From Compose Message', () => {
 
   it('Navigate Away From Compose To MY Folders', () => {
     site.login();
-    landingPage.loadPage();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     landingPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();

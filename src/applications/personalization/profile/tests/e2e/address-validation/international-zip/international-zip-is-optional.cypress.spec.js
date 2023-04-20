@@ -1,5 +1,5 @@
 import AddressPage from '../page-objects/AddressPage';
-import { generateFeatureToggles } from '../../../../mocks/feature-toggles';
+import { generateFeatureToggles } from '../../../../mocks/endpoints/feature-toggles';
 
 describe('Personal and contact information', () => {
   describe('when entering an international address', () => {

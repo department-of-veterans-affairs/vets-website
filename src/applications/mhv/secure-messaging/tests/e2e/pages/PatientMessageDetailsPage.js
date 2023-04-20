@@ -1,31 +1,200 @@
 import mockMessage from '../fixtures/message-response.json';
-import mockThread from '../fixtures/thread-response.json';
+import defaultMockThread from '../fixtures/thread-response.json';
+import { dateFormat } from '../../../util/helpers';
 
 class PatientMessageDetailsPage {
-  loadReplyPage = (messageId, messageTitle, messageDate) => {
-    mockMessage.data.attributes.sentDate = messageDate;
-    mockMessage.data.attributes.messageTitle = messageTitle;
-    mockMessage.data.attributes.messageId = messageId;
-    cy.get('[data-testid="reply-button-top"]').click();
-    cy.log('loading message details.');
-    cy.log(`Sent date: ${messageDate}`);
+  currentThread = defaultMockThread;
+
+  loadMessageDetails = (
+    mockParentMessageDetails,
+    mockThread = defaultMockThread,
+    previousMessageIndex = 1,
+    mockPreviousMessageDetails = mockMessage,
+  ) => {
+    this.currentThread = mockThread;
+
+    this.currentThread.data.at(0).attributes.sentDate =
+      mockParentMessageDetails.data.attributes.sentDate;
+    this.currentThread.data.at(0).id =
+      mockParentMessageDetails.data.attributes.messageId;
+    this.currentThread.data.at(0).attributes.messageId =
+      mockParentMessageDetails.data.attributes.messageId;
+    this.currentThread.data.at(0).attributes.subject =
+      mockParentMessageDetails.data.attributes.subject;
+    this.currentThread.data.at(0).attributes.body =
+      mockParentMessageDetails.data.attributes.body;
+    this.currentThread.data.at(0).attributes.category =
+      mockParentMessageDetails.data.attributes.category;
+    this.currentThread.data.at(0).attributes.recipientId =
+      mockParentMessageDetails.data.attributes.recipientId;
+    this.currentThread.data.at(0).attributes.senderName =
+      mockParentMessageDetails.data.attributes.senderName;
+    this.currentThread.data.at(0).attributes.recipientName =
+      mockParentMessageDetails.data.attributes.recipientName;
+
+    cy.log(
+      `loading parent message details.${
+        this.currentThread.data.at(0).attributes.messageId
+      }`,
+    );
+    this.currentThread.data.at(previousMessageIndex).attributes.sentDate =
+      mockPreviousMessageDetails.data.attributes.sentDate;
+    this.currentThread.data.at(previousMessageIndex).id =
+      mockPreviousMessageDetails.data.attributes.messageId;
+    this.currentThread.data.at(previousMessageIndex).attributes.messageId =
+      mockPreviousMessageDetails.data.attributes.messageId;
+    this.currentThread.data.at(previousMessageIndex).attributes.subject =
+      mockPreviousMessageDetails.data.attributes.subject;
+    this.currentThread.data.at(previousMessageIndex).attributes.body =
+      mockPreviousMessageDetails.data.attributes.body;
+    this.currentThread.data.at(previousMessageIndex).attributes.category =
+      mockPreviousMessageDetails.data.attributes.category;
+    this.currentThread.data.at(previousMessageIndex).attributes.recipientId =
+      mockPreviousMessageDetails.data.attributes.recipientId;
+    this.currentThread.data.at(previousMessageIndex).attributes.senderName =
+      mockPreviousMessageDetails.data.attributes.senderName;
+    this.currentThread.data.at(previousMessageIndex).attributes.recipientName =
+      mockPreviousMessageDetails.data.attributes.recipientName;
+    this.currentThread.data.at(
+      previousMessageIndex,
+    ).attributes.triageGroupName =
+      mockPreviousMessageDetails.data.attributes.triageGroupName;
+    cy.log(
+      `message thread  = ${JSON.stringify(
+        mockParentMessageDetails.data.attributes.messageId,
+      )}`,
+    );
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        this.currentThread.data.at(0).attributes.messageId
+      }`,
+      mockParentMessageDetails,
+    ).as('message1');
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${messageId}`,
-      mockMessage,
-    ).as('message');
+      `/my_health/v1/messaging/messages/${
+        mockParentMessageDetails.data.attributes.messageId
+      }/thread`,
+      this.currentThread,
+    ).as('full-thread');
+
+    /*
+    cy.contains(
+      `${mockParentMessageDetails.data.attributes.category}: ${
+        mockParentMessageDetails.data.attributes.subject
+      }`,
+    ).click();
+    */
+    cy.contains(`${mockParentMessageDetails.data.attributes.subject}`).click();
+    cy.wait('@message1');
+  };
+
+  getCurrentThread() {
+    return this.currentThread;
+  }
+
+  loadReplyPageDetails = (
+    mockMessageDetails,
+    mockThread = defaultMockThread,
+    index = 0,
+  ) => {
+    cy.log(`mock Message Details--------${JSON.stringify(mockMessageDetails)}`);
+    this.currentThread = mockThread;
+    cy.log('loading message details.');
+    this.currentThread.data.at(index).attributes.sentDate =
+      mockMessageDetails.data.attributes.sentDate;
+    this.currentThread.data.at(index).id =
+      mockMessageDetails.data.attributes.messageId;
+    this.currentThread.data.at(index).attributes.messageId =
+      mockMessageDetails.data.attributes.messageId;
+    this.currentThread.data.at(index).attributes.subject =
+      mockMessageDetails.data.attributes.subject;
+    this.currentThread.data.at(index).attributes.body =
+      mockMessageDetails.data.attributes.body;
+    this.currentThread.data.at(index).attributes.category =
+      mockMessageDetails.data.attributes.category;
+    this.currentThread.data.at(index).attributes.recipientId =
+      mockMessageDetails.data.attributes.recipientId;
+    this.currentThread.data.at(index).attributes.triageGroupName =
+      mockMessageDetails.data.attributes.triageGroupName;
+    cy.get('[data-testid="reply-button-top"]').click();
+    cy.log('loading message reply details.');
+
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${messageId}/thread`,
+      `/my_health/v1/messaging/messages/${
+        mockMessageDetails.data.attributes.messageId
+      }`,
+      mockMessage,
+    ).as('message2');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockMessageDetails.data.attributes.messageId
+      }/thread`,
       mockThread,
     ).as('full-thread');
-    cy.wait('@message');
     cy.wait('@full-thread');
     cy.intercept(
       'POST',
-      `/my_health/v1/messaging/message_drafts/${messageId}/replydraft`,
+      `/my_health/v1/messaging/message_drafts/${
+        mockMessageDetails.data.attributes.messageId
+      }/replydraft`,
     ).as('replyDraftSave');
+  };
+
+  expandThreadMessageDetails = (mockThread, index = 1) => {
+    const threadMessageDetails = mockMessage;
+    cy.log('loading expanded thread message details.');
+    threadMessageDetails.data.attributes.sentDate = mockThread.data.at(
+      index,
+    ).attributes.sentDate;
+    threadMessageDetails.data.id = mockThread.data.at(index).id;
+    threadMessageDetails.data.attributes.messageId = mockThread.data.at(
+      index,
+    ).attributes.messageId;
+    threadMessageDetails.data.attributes.subject = mockThread.data.at(
+      index,
+    ).attributes.subject;
+    threadMessageDetails.data.attributes.body = mockThread.data.at(
+      index,
+    ).attributes.body;
+    threadMessageDetails.data.attributes.category = mockThread.data.at(
+      index,
+    ).attributes.category;
+    threadMessageDetails.data.attributes.readReceipt = mockThread.data.at(
+      index,
+    ).attributes.readReceipt;
+    threadMessageDetails.data.attributes.recipientId = mockThread.data.at(
+      index,
+    ).attributes.recipientId;
+    threadMessageDetails.data.attributes.triageGroupName = mockThread.data.at(
+      index,
+    ).attributes.triageGroupName;
+    cy.log(
+      `thread message detail id expanding = ${
+        threadMessageDetails.data.attributes.messageId
+      }`,
+    );
+
+    cy.log(`expanded message content${JSON.stringify(threadMessageDetails)}`);
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        threadMessageDetails.data.attributes.messageId
+      }`,
+      threadMessageDetails,
+    ).as('messageDetails');
+    cy.get('.older-messages')
+      .find(
+        `[data-testid="expand-message-button-${
+          threadMessageDetails.data.attributes.messageId
+        }"]`,
+      )
+      .eq(index - 1)
+      .click({ waitforanimations: true });
   };
 
   verifyTrashButtonModal = () => {
@@ -60,7 +229,6 @@ class PatientMessageDetailsPage {
         'This conversation will be moved. Any replies to this message will appear in your inbox',
       )
       .should('be.visible');
-    cy.get('[data-testid=radiobutton-Inbox]').should('be.visible');
     cy.get('[data-testid=radiobutton-Deleted]').should('be.visible');
     cy.get('[data-testid=radiobutton-TEST2]').should('be.visible');
     cy.get('[data-testid=radiobutton-TESTAGAIN]').should('be.visible');
@@ -78,12 +246,143 @@ class PatientMessageDetailsPage {
       .click();
   };
 
-  verifyReplyButtonAction = () => {
+  loadReplyPage = mockMessageDetails => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockMessageDetails.data.attributes.messageId
+      }`,
+      mockMessageDetails,
+    ).as('reply-message');
     cy.get('[data-testid=reply-button-text]').click();
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[name="message-body"]')
-      .should('be.visible');
+  };
+
+  verifyUnexpandedMessageAttachment = (messageIndex = 0) => {
+    cy.log(
+      `message has attachments = ${
+        this.currentThread.data.at(messageIndex).attributes.hasAttachments
+      }`,
+    );
+    if (
+      this.currentThread.data.at(messageIndex + 1).attributes.hasAttachments
+    ) {
+      cy.log('message has attachment... checking for image');
+      cy.get('[data-testid="message-attachment-img')
+        .eq(messageIndex)
+        .should('be.visible');
+    }
+    cy.log('message does not have attachment');
+  };
+
+  verifyUnexpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        messageDetails.data.attributes.messageId
+      }`,
+      messageDetails,
+    );
+    cy.get('[class= "vads-u-flex--fill"]')
+      .eq(messageIndex)
+      .should('contain', `From: ${messageDetails.data.attributes.senderName}`);
+  };
+
+  verifyExpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="from"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `From: ${messageDetails.data.attributes.senderName} (${
+          messageDetails.data.attributes.triageGroupName
+        })`,
+      );
+  };
+
+  verifyExpandedMessageToDisplay = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="to"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `To: ${messageDetails.data.attributes.recipientName}`,
+      );
+  };
+
+  verifyExpandedMessageIDDisplay = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="message-id"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `Message ID: ${messageDetails.data.attributes.messageId}`,
+      );
+  };
+
+  verifyExpandedMessageDateDisplay = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="message-date"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        dateFormat(
+          messageDetails.data.attributes.sentDate,
+          'MMMM D, YYYY [at] h:mm a z',
+        ),
+      );
+  };
+
+  ReplyToMessageTO = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="reply-form"] > :nth-child(3) > :nth-child(1)')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `(Draft) To:${messageDetails.data.attributes.senderName}\n(Team: ${
+          messageDetails.data.attributes.triageGroupName
+        })`,
+      );
+  };
+
+  ReplyToMessagesenderName = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="from"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `From: ${messageDetails.data.attributes.senderName}`,
+      );
+  };
+
+  ReplyToMessagerecipientName = (messageDetails, messageIndex = 0) => {
+    cy.get('[aria-label="message details."] > :nth-child(2)')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `To: ${messageDetails.data.attributes.recipientName}`,
+      );
+  };
+
+  ReplyToMessageDate = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="message-date"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        dateFormat(
+          messageDetails.data.attributes.sentDate,
+          'MMMM D, YYYY [at] h:mm a z',
+        ),
+      );
+  };
+
+  ReplyToMessageId = messageDetails => {
+    cy.get('[aria-label="message details."] > :nth-child(4)').should(
+      'have.text',
+      `Message ID: ${messageDetails.data.attributes.messageId}`,
+    );
+  };
+
+  ReplyToMessagebody = messageBody => {
+    cy.get(
+      '.vads-u-margin-top--1 > .message-list-body-collapsed > .vads-u-margin-y--0',
+    ).should($mbody => {
+      expect($mbody.text()).to.contain(messageBody);
+    });
   };
 }
+
 export default PatientMessageDetailsPage;

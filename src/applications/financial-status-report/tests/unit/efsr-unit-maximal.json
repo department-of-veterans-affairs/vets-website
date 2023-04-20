@@ -147,7 +147,7 @@
       "hasRecreationalVehicle": true,
       "hasVehicle": true,
       "hasRealEstate": true,
-      "hasDependents": true,
+      "hasDependents": "2",
       "spouseHasAdditionalIncome": true,
       "spouseHasBenefits": true,
       "spouseIsEmployed": true,
@@ -159,34 +159,34 @@
       {
         "purpose": "Credit card payments",
         "creditorName": "Creditor One",
-        "originalAmount": "50000.54",
+        "originalLoanAmount": "50000.54",
         "unpaidBalance": "15000.56",
         "amountDueMonthly": "800.10",
         "dateStarted": "2017-03-XX",
-        "amountPastDue": "125.43"
+        "amountOverdue": "125.43"
       },
       {
         "purpose": "Car payment/lease",
         "creditorName": "Creditor Two",
-        "originalAmount": "100000.43",
+        "originalLoanAmount": "100000.43",
         "unpaidBalance": "50000.26",
         "amountDueMonthly": "1200.54",
         "dateStarted": "2019-05-XX",
-        "amountPastDue": "0"
+        "amountOverdue": "0"
       }
     ],
     "utilityRecords": [
       {
-        "utilityType": "Electricity",
-        "monthlyUtilityAmount": "350.45"
+        "name": "Electricity",
+        "amount": "350.45"
       },
       {
-        "utilityType": "Water",
-        "monthlyUtilityAmount": "75.43"
+        "name": "Water",
+        "amount": "75.43"
       },
       {
-        "utilityType": "Cable",
-        "monthlyUtilityAmount": "275.47"
+        "name": "Cable",
+        "amount": "275.47"
       }
     ],
     "personalData": {
@@ -282,61 +282,15 @@
         "last": "Mitchell"
       },
       "address": {
-        "addressLine1": "123 main",
-        "addressLine2": "Apt 2",
-        "addressLine3": null,
-        "addressPou": "CORRESPONDENCE",
-        "addressType": "DOMESTIC",
-        "city": "City",
-        "countryName": "United States",
-        "countryCodeIso2": "US",
-        "countryCodeIso3": "USA",
-        "countryCodeFips": null,
-        "countyCode": null,
-        "countyName": null,
-        "createdAt": "2022-07-15T13:49:44.000+00:00",
-        "effectiveEndDate": null,
-        "effectiveStartDate": "2022-09-16T14:11:24.000+00:00",
-        "geocodeDate": "2022-09-16T14:11:25.000+00:00",
-        "geocodePrecision": null,
-        "id": 334540,
-        "internationalPostalCode": null,
-        "latitude": 39.9802,
-        "longitude": -76.5798,
-        "province": null,
-        "sourceDate": "2022-09-16T14:11:24.000+00:00",
-        "sourceSystemUser": null,
-        "stateCode": "AK",
-        "transactionId": "0fd0c358-1afe-48e7-ae4b-7f9978bf0717",
-        "updatedAt": "2022-09-16T14:11:25.000+00:00",
-        "validationKey": null,
-        "vet360Id": "121435",
-        "zipCode": "17402",
-        "zipCodeSuffix": null,
-        "badAddress": false
+        "livesOnMilitaryBaseInfo": {},
+        "country": "USA",
+        "street": "123 Fake Street",
+        "city": "Tampa",
+        "state": "FL",
+        "postalCode": "33543"
       },
-      "telephoneNumber": {
-        "areaCode": "717",
-        "countryCode": "1",
-        "createdAt": "2022-09-14T13:43:00.000+00:00",
-        "extension": null,
-        "effectiveEndDate": null,
-        "effectiveStartDate": "2023-01-19T18:34:29.000+00:00",
-        "id": 313007,
-        "isInternational": false,
-        "isTextable": null,
-        "isTextPermitted": null,
-        "isTty": null,
-        "isVoicemailable": null,
-        "phoneNumber": "4244321",
-        "phoneType": "MOBILE",
-        "sourceDate": "2023-01-19T18:34:29.000+00:00",
-        "sourceSystemUser": null,
-        "transactionId": "20ea713c-0337-4554-90c4-f9e8fc491784",
-        "updatedAt": "2023-01-19T18:34:31.000+00:00",
-        "vet360Id": "121435"
-      },
-      "emailAddress": "nope@nope.com",
+      "telephoneNumber": "4445551212",
+      "emailAddress": "test2@test1.net",
       "veteranFullName": {
         "first": "Greg",
         "last": "Anderson",
