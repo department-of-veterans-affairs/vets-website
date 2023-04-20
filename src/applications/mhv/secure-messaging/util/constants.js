@@ -55,6 +55,8 @@ export const ErrorMessages = {
     END_DATE_REQUIRED: 'Please enter an end date.',
     START_DATE_AFTER_END_DATE: 'Start date must be on or before end date.',
     END_DATE_BEFORE_START_DATE: 'End date must be on or after start date.',
+    END_YEAR_GREATER_THAN_CURRENT_YEAR:
+      'End year must not be greater than current year.',
     NO_FIELDS_SELECTED_MODAL_HEADER:
       "Please use at least one of the following search fields or choose a date range other than 'any'.",
     SEARCH_TERM_REQUIRED: 'Please enter a search term.',

@@ -12,6 +12,7 @@ import {
   SelectCategories,
 } from '../../util/inputContants';
 import { dateFormat } from '../../util/helpers';
+import { ErrorMessages } from '../../util/constants';
 
 const FilterBox = props => {
   const { handleSearch } = props;
@@ -40,21 +41,28 @@ const FilterBox = props => {
   };
 
   const checkFormValidity = () => {
+    const today = new Date();
     // TODO: add validation for ALL blank fields
     let formInvalid;
     if (dateRange === 'custom') {
       if (!fromDate) {
         formInvalid = true;
-        setFromDateError('Please enter a start date');
+        setFromDateError(ErrorMessages.SearchForm.START_DATE_REQUIRED);
       }
       if (!toDate) {
         formInvalid = true;
-        setToDateError('Please enter an end date');
+        setToDateError(ErrorMessages.SearchForm.END_DATE_REQUIRED);
       }
       if (fromDate && toDate && moment(toDate).isBefore(fromDate)) {
         formInvalid = true;
-        setFromDateError('Start date must be on or before end date');
-        setToDateError('End date must be on or after start date');
+        setFromDateError(ErrorMessages.SearchForm.START_DATE_AFTER_END_DATE);
+        setToDateError(ErrorMessages.SearchForm.END_DATE_BEFORE_START_DATE);
+      }
+      if (parseInt(toDate.substring(0, 4), 10) > today.getFullYear()) {
+        formInvalid = true;
+        setToDateError(
+          ErrorMessages.SearchForm.END_YEAR_GREATER_THAN_CURRENT_YEAR,
+        );
       }
     }
     return formInvalid;
