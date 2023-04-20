@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import { isEmptyAddress } from 'platform/forms/address/helpers';
-
 import { createPersonalInfoUpdate } from '@@profile/actions/personalInformation';
 
 import {
@@ -43,11 +40,14 @@ import {
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
 import { getEditButtonId } from '@@vap-svc/util/id-factory';
 
-import { focusElement } from 'platform/utilities/ui';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import { focusElement } from '~/platform/utilities/ui';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import recordEvent from '~/platform/monitoring/record-event';
+import { isEmptyAddress } from '~/platform/forms/address/helpers';
+import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
 
-import recordEvent from 'platform/monitoring/record-event';
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
+
 import {
   getErrorsFromDom,
   handleUpdateButtonClick,
