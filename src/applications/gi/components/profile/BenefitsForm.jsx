@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
@@ -6,11 +6,65 @@ import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
 import LearnMoreLabel from '../LearnMoreLabel';
 
+const VETERAN = 'veteran';
+const SPOUSE = 'spouse';
+const NATIONAL_GUARD_RESERVES = 'national guard / reserves';
+
+const POST_911_ARRAY = [
+  { optionValue: VETERAN, optionLabel: 'Veteran' },
+  { optionValue: 'active duty', optionLabel: 'Active Duty' },
+  {
+    optionValue: 'national guard / reserves',
+    optionLabel: 'National Guard / Reserves',
+  },
+];
+
+const FRY_SCHOLARSHIP_ARRAY = [
+  { optionValue: SPOUSE, optionLabel: 'Surviving Spouse' },
+  { optionValue: 'child', optionLabel: 'Child' },
+];
+
+const MONTGOMERY_GI_BILL_ARRAY = [
+  { optionValue: VETERAN, optionLabel: 'Veteran' },
+  { optionValue: 'active duty', optionLabel: 'Active Duty' },
+  {
+    optionValue: 'national guard / reserves',
+    optionLabel: 'National Guard / Reserves',
+  },
+  { optionValue: 'spouse', optionLabel: 'Spouse' },
+  { optionValue: 'child', optionLabel: 'Child' },
+];
+
+const SELECT_RESERVE_GI_BILL_ARRAY = [
+  {
+    optionValue: NATIONAL_GUARD_RESERVES,
+    optionLabel: 'National Guard / Reserves',
+  },
+];
+
+const VETERAN_READINESS_ARRAY = [
+  { optionValue: VETERAN, optionLabel: 'Veteran' },
+  { optionValue: 'spouse', optionLabel: 'Spouse' },
+  { optionValue: 'child', optionLabel: 'Child' },
+];
+
+const SURVIVOR_AND_DEPENDENT_ARRAY = [
+  { optionValue: VETERAN, optionLabel: 'Veteran' },
+  { optionValue: 'active duty', optionLabel: 'Active Duty' },
+  {
+    optionValue: 'national guard / reserves',
+    optionLabel: 'National Guard / Reserves',
+  },
+  { optionValue: 'spouse', optionLabel: 'Spouse' },
+  { optionValue: 'child', optionLabel: 'Child' },
+];
+
 const BenefitsForm = ({
   children,
   cumulativeService,
   eligForPostGiBill,
   eligibilityChange,
+  eligibilityChangeRedux,
   enlistmentService,
   giBillChapter,
   giBillChapterOpen,
@@ -22,6 +76,38 @@ const BenefitsForm = ({
   showModal,
   spouseActiveDuty,
 }) => {
+  const [
+    whatsYourMilitaryStatusDropDown,
+    setWhatsYourMilitaryStatusDropDown,
+  ] = useState(POST_911_ARRAY);
+
+  const preEligibilityChange = (e, name, number) => {
+    const field = e.target.name;
+    const { value } = e.target;
+    //
+    if (field === 'giBillChapter' && value === '33a') {
+      setWhatsYourMilitaryStatusDropDown(POST_911_ARRAY);
+      eligibilityChangeRedux({ militaryStatus: VETERAN });
+    } else if (field === 'giBillChapter' && value === '33b') {
+      setWhatsYourMilitaryStatusDropDown(FRY_SCHOLARSHIP_ARRAY);
+      eligibilityChangeRedux({ militaryStatus: SPOUSE });
+    } else if (field === 'giBillChapter' && value === '30') {
+      setWhatsYourMilitaryStatusDropDown(MONTGOMERY_GI_BILL_ARRAY);
+      eligibilityChangeRedux({ militaryStatus: VETERAN });
+    } else if (field === 'giBillChapter' && value === '1606') {
+      setWhatsYourMilitaryStatusDropDown(SELECT_RESERVE_GI_BILL_ARRAY);
+      eligibilityChangeRedux({ militaryStatus: NATIONAL_GUARD_RESERVES });
+    } else if (field === 'giBillChapter' && value === '31') {
+      setWhatsYourMilitaryStatusDropDown(VETERAN_READINESS_ARRAY);
+      eligibilityChangeRedux({ militaryStatus: VETERAN });
+    } else if (field === 'giBillChapter' && value === '35') {
+      // Investigate
+      setWhatsYourMilitaryStatusDropDown(SURVIVOR_AND_DEPENDENT_ARRAY);
+      eligibilityChangeRedux({ militaryStatus: VETERAN });
+    }
+    eligibilityChange(e, name, number);
+  };
+
   const cumulativeServiceOptions = () => [
     { optionValue: '1.0', optionLabel: '36+ months: 100%' }, // notice not 1.00
     { optionValue: '0.9', optionLabel: '30 months: 90%' },
@@ -59,40 +145,6 @@ const BenefitsForm = ({
     const chapter33Check = giBillChapter === '33a' || giBillChapter === '33b';
     return (
       <div>
-        <ExpandingGroup open={militaryStatus === 'spouse'}>
-          <Dropdown
-            label="What's your military status?"
-            name="militaryStatus"
-            options={[
-              { optionValue: 'veteran', optionLabel: 'Veteran' },
-              { optionValue: 'active duty', optionLabel: 'Active Duty' },
-              {
-                optionValue: 'national guard / reserves',
-                optionLabel: 'National Guard / Reserves',
-              },
-              { optionValue: 'spouse', optionLabel: 'Spouse' },
-              { optionValue: 'child', optionLabel: 'Child' },
-            ]}
-            value={militaryStatus}
-            alt="What's your military status?"
-            visible
-            onChange={eligibilityChange}
-            onFocus={handleInputFocus}
-          />
-          <Dropdown
-            label="Is your spouse currently on active duty?"
-            name="spouseActiveDuty"
-            options={[
-              { optionValue: 'yes', optionLabel: 'Yes' },
-              { optionValue: 'no', optionLabel: 'No' },
-            ]}
-            value={spouseActiveDuty}
-            alt="Is your spouse on active duty?"
-            visible
-            onChange={eligibilityChange}
-            onFocus={handleInputFocus}
-          />
-        </ExpandingGroup>
         <ExpandingGroup
           open={
             ['30', '31', '33a', '33b'].includes(giBillChapter) ||
@@ -129,7 +181,9 @@ const BenefitsForm = ({
             value={giBillChapter}
             alt="Which GI Bill benefit do you want to use?"
             visible
-            onChange={eligibilityChange}
+            onChange={(e, name, number) =>
+              preEligibilityChange(e, name, number)
+            }
             onFocus={handleInputFocus}
           />
           <div>
@@ -226,6 +280,31 @@ const BenefitsForm = ({
             />
             {children}
           </div>
+        </ExpandingGroup>
+        <ExpandingGroup open={militaryStatus === 'spouse'}>
+          <Dropdown
+            label="What's your military status?"
+            name="militaryStatus"
+            options={whatsYourMilitaryStatusDropDown}
+            value={militaryStatus}
+            alt="What's your military status?"
+            visible
+            onChange={eligibilityChange}
+            onFocus={handleInputFocus}
+          />
+          <Dropdown
+            label="Is your spouse currently on active duty?"
+            name="spouseActiveDuty"
+            options={[
+              { optionValue: 'yes', optionLabel: 'Yes' },
+              { optionValue: 'no', optionLabel: 'No' },
+            ]}
+            value={spouseActiveDuty}
+            alt="Is your spouse on active duty?"
+            visible
+            onChange={eligibilityChange}
+            onFocus={handleInputFocus}
+          />
         </ExpandingGroup>
       </div>
     );
