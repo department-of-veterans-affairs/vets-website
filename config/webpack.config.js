@@ -9,6 +9,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -369,12 +370,35 @@ module.exports = async (env = {}) => {
             loader: 'null-loader',
           },
         },
+        // bundle and load afm files verbatim
+        { test: /\.afm$/, type: 'asset/source' },
+        // bundle and load binary files inside static-assets folder as base64
+        {
+          test: /src[/\\]static-assets/,
+          type: 'asset/inline',
+          generator: {
+            dataUrl: content => {
+              return content.toString('base64');
+            }
+          }
+        },
       ],
       noParse: [/mapbox\/vendor\/promise.js$/],
     },
     resolve: {
+      alias: {
+        fs: 'pdfkit/js/virtual-fs.js',
+      },
       extensions: ['.js', '.jsx'],
       fallback: {
+        // crypto module is not necessary at browser
+        crypto: false,
+        // fallbacks for native node libraries
+        buffer: require.resolve('buffer/'),
+        stream: require.resolve('readable-stream'),
+        zlib: require.resolve('browserify-zlib'),
+        util: require.resolve('util/'),
+        assert: require.resolve('assert/'),
         path: require.resolve('path-browserify'),
       },
       symlinks: false,
@@ -419,6 +443,17 @@ module.exports = async (env = {}) => {
         'process.env.VIRTUAL_AGENT_BACKEND_URL': JSON.stringify(
           process.env.VIRTUAL_AGENT_BACKEND_URL || '',
         ),
+      }),
+
+      /*
+      new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, 'src/index.html'),
+      }),
+      */
+
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
+        process: 'process/browser',
       }),
 
       new webpack.SourceMapDevToolPlugin({

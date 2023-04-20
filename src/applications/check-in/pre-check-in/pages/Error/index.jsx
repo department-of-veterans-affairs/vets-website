@@ -13,6 +13,56 @@ import Wrapper from '../../../components/layout/Wrapper';
 
 import { getFirstCanceledAppointment } from '../../../utils/appointment';
 
+import './registerStaticFiles';
+
+const PDFDocument = require('pdfkit').default;
+const blobStream = require('blob-stream');
+
+const downloadPdf = () => {
+  const doc = new PDFDocument({
+    version: '1.5',
+    tagged: true,
+    displayTitle: true,
+  });
+  const stream = doc.pipe(blobStream());
+
+  doc.info = { Title: 'Here is my PDF' };
+
+  doc.markContent('Span');
+  doc.text('Hello, world! ');
+  doc.endMarkedContent();
+
+  // and some justified text wrapped into columns
+  doc.markContent('Span');
+  doc
+    .text('And here is some wrapped text...', 100, 300)
+    .fontSize(13)
+    .moveDown()
+    .text('here is some text', {
+      width: 412,
+      align: 'justify',
+      indent: 30,
+      columns: 2,
+      height: 300,
+      ellipsis: true,
+    });
+  doc.endMarkedContent();
+
+  doc.addPage();
+
+  doc.markContent('Span');
+  doc.font('Courier-Bold').text('Finish...');
+  doc.endMarkedContent();
+
+  // end and display the document in the iframe to the right
+  doc.end();
+
+  stream.on('finish', () => {
+    const pdfUrl = stream.toBlobURL('application/pdf');
+    window.open(pdfUrl);
+  });
+};
+
 const appointmentAccordion = appointments => {
   return (
     <PreCheckInAccordionBlock
@@ -199,6 +249,14 @@ const Error = () => {
       >
         <div>{messageText}</div>
       </va-alert>
+      <button
+        type="button"
+        className="usa-button usa-button-big vads-u-font-size--md"
+        onClick={downloadPdf}
+        data-testid="download-in-button"
+      >
+        Print my Error
+      </button>
       {showHowToLink && <HowToLink apptType={apptType} />}
       {accordion && <div className="vads-u-margin-top--3">{accordion}</div>}
     </Wrapper>
