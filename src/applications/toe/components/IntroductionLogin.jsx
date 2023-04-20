@@ -89,7 +89,7 @@ function IntroductionLogin({
                 </button>
               </div>
             </va-alert>
-            <p className="vads-u-margin-top--4">
+            {/* <p className="vads-u-margin-top--4">
               {showMebEnhancements ? ( // Add conditional rendering based on showMebEnhancements
                 <a href="https://www.va.gov/find-forms/about-form-22-1990e/">
                   If you don’t want to sign in, you can apply using the paper
@@ -97,6 +97,24 @@ function IntroductionLogin({
                   opting for this method
                 </a>
               ) : (
+                <a href="/education/apply-for-education-benefits/application/1990E/applicant/information">
+                  Start your application without signing in
+                </a>
+              )}
+            </p> */}
+            <p className="vads-u-margin-top--4">
+              {showMebEnhancements ? (
+                // If showMebEnhancements is true, display paper form option
+                <>
+                  If you don't want to sign in, you can apply using the{' '}
+                  <a href="https://www.va.gov/find-forms/about-form-22-1990e/">
+                    paper form
+                  </a>
+                  . Please expect longer processing time for decisions when
+                  opting for this method.
+                </>
+              ) : (
+                // If showMebEnhancements is false, display option to start application without signing in
                 <a href="/education/apply-for-education-benefits/application/1990E/applicant/information">
                   Start your application without signing in
                 </a>
