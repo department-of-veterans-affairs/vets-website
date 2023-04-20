@@ -11,8 +11,10 @@ import witnessInformation1 from '../pages/witnessInformation1';
 import witnessInformation2 from '../pages/witnessInformation2';
 import claimantInformation1 from '../pages/claimantInformation1';
 import claimantInformation2 from '../pages/claimantInformation2';
-import veteranInformation1 from '../pages/veteranInformation1';
-import veteranInformation2 from '../pages/veteranInformation2';
+import vetPersInfo from '../pages/vetPersInfo';
+import vetIdInfo from '../pages/vetIdInfo';
+import vetAddrInfo from '../pages/vetAddrInfo';
+import vetContInfo from '../pages/vetContInfo';
 import statement from '../pages/statement';
 // import { uiSchema as addressUiSchema } from 'src/platform/forms/definitions/address';
 
@@ -118,21 +120,67 @@ const formConfig = {
         },
       },
     },
-    veteranInformation: {
+    veteranPersonalInfo: {
       // for all claimOwnership/claimantType combos
-      title: 'Veteran Information',
+      title: ({ formData } = {}) =>
+        formData.claimOwnership === CLAIM_OWNERSHIP.SELF &&
+        formData.claimantType === CLAIMANT_TYPE.VETERAN
+          ? 'Your personal information'
+          : 'Veteran personal information',
       pages: {
-        veteranInformation1: {
+        veteranPersonalInfo1: {
           path: 'veteran-personal-information',
-          title: 'Veteran’s personal information',
-          uiSchema: veteranInformation1.uiSchema,
-          schema: veteranInformation1.schema,
+          title: 'Veteran personal information',
+          uiSchema: vetPersInfo.uiSchema,
+          schema: vetPersInfo.schema,
         },
-        veteranInformation2: {
+      },
+    },
+    veteranIdentificationInfo: {
+      // for all claimOwnership/claimantType combos
+      title: ({ formData } = {}) =>
+        formData.claimOwnership === CLAIM_OWNERSHIP.SELF &&
+        formData.claimantType === CLAIMANT_TYPE.VETERAN
+          ? 'Your identification information'
+          : 'Veteran identification information',
+      pages: {
+        veteranIdentificationInfo1: {
+          path: 'veteran-identification-information',
+          title: 'Veteran identification information',
+          uiSchema: vetIdInfo.uiSchema,
+          schema: vetIdInfo.schema,
+        },
+      },
+    },
+    veteranMailingAddressInfo: {
+      // for all claimOwnership/claimantType combos
+      title: ({ formData } = {}) =>
+        formData.claimOwnership === CLAIM_OWNERSHIP.SELF &&
+        formData.claimantType === CLAIMANT_TYPE.VETERAN
+          ? 'Your mailing address'
+          : 'Veteran mailing address',
+      pages: {
+        veteranMailingAddressInfo1: {
+          path: 'veteran-mailing-address',
+          title: 'Veteran mailing address',
+          uiSchema: vetAddrInfo.uiSchema,
+          schema: vetAddrInfo.schema,
+        },
+      },
+    },
+    veteranContactInfo: {
+      // for all claimOwnership/claimantType combos
+      title: ({ formData } = {}) =>
+        formData.claimOwnership === CLAIM_OWNERSHIP.SELF &&
+        formData.claimantType === CLAIMANT_TYPE.VETERAN
+          ? 'Your contact information'
+          : 'Veteran contact information',
+      pages: {
+        veteranContactInfo1: {
           path: 'veteran-contact-information',
-          title: 'Veteran’s contact information',
-          uiSchema: veteranInformation2.uiSchema,
-          schema: veteranInformation2.schema,
+          title: 'Veteran contact information',
+          uiSchema: vetContInfo.uiSchema,
+          schema: vetContInfo.schema,
         },
       },
     },

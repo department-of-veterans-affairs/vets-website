@@ -61,7 +61,7 @@ export default function FormNav(props) {
         ? formConfig?.customText?.reviewPageTitle || REVIEW_APP_DEFAULT_MESSAGE
         : formConfig.chapters[page.chapterKey].title;
     if (typeof chapterName === 'function') {
-      chapterName = chapterName();
+      chapterName = chapterName({ formData, formConfig });
     }
   }
 
@@ -125,6 +125,9 @@ export default function FormNav(props) {
   // show progress-bar and stepText only if hideFormNavProgress is falsy.
   return (
     <div>
+      {!hideFormNavProgress && (
+        <va-segmented-progress-bar total={chapters.length} current={current} />
+      )}
       {!hideFormNavProgress && (
         <va-segmented-progress-bar total={chapters.length} current={current} />
       )}
