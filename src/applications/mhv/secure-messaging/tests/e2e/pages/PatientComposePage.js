@@ -73,6 +73,10 @@ class PatientComposePage {
       .select(recipient);
   };
 
+  verifyFocusonMessageAttachment = () => {
+    cy.get('.editable-attachment > :nth-child(1) > span').should('have.focus');
+  };
+
   //* Refactor* Needs to have mockDraftMessage as parameter
   clickOnSendMessageButton = () => {
     cy.intercept(

@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import uniq from 'lodash/uniq';
 
 import {
+  getChaptersLengthDisplay,
   createFormPageList,
   createPageList,
   getActiveExpandedPages,
+  getCurrentChapterDisplay,
 } from '../helpers';
 
 import {
@@ -73,8 +75,17 @@ export default function FormNav(props) {
     );
   }
 
-  const stepText = `Step ${current} of ${chapters.length}: ${chapterName}`;
   const showHeader = Math.abs(current - index) === 1;
+  // Some chapters may have progress-bar & step-header hidden via hideFormNavProgress.
+  const hideFormNavProgress =
+    formConfig?.chapters[page?.chapterKey]?.hideFormNavProgress;
+  // Ensure other chapters [that do show progress-bar & step-header] have
+  // the correct number & total [with progress-hidden chapters discounted].
+  // formConfig, current, & chapters.length should NOT be manipulated,
+  // as they are likely used elsewhere in functional logic.
+  const chaptersLengthDisplay = getChaptersLengthDisplay(formConfig);
+  const currentChapterDisplay = getCurrentChapterDisplay(formConfig, current);
+  const stepText = `Step ${currentChapterDisplay} of ${chaptersLengthDisplay}: ${chapterName}`;
 
   // The goal with this is to quickly "remove" the header from the DOM, and
   // immediately re-render the component with the header included.
@@ -111,20 +122,27 @@ export default function FormNav(props) {
     [current, index],
   );
 
+  // show progress-bar and stepText only if hideFormNavProgress is falsy.
   return (
     <div>
-      <va-segmented-progress-bar total={chapters.length} current={current} />
+      {!hideFormNavProgress && (
+        <va-segmented-progress-bar total={chapters.length} current={current} />
+      )}
       <div className="schemaform-chapter-progress">
         <div className="nav-header nav-header-schemaform">
           {showHeader && (
-            <h2 id="nav-form-header" className="vads-u-font-size--h4">
-              {stepText}
+            <h2
+              id="nav-form-header"
+              data-testid="navFormHeader"
+              className="vads-u-font-size--h4"
+            >
+              {!hideFormNavProgress && stepText}
               {inProgressMessage}
             </h2>
           )}
           {!showHeader && (
-            <div className="vads-u-font-size--h4">
-              {stepText}
+            <div data-testid="navFormDiv" className="vads-u-font-size--h4">
+              {!hideFormNavProgress && stepText}
               {inProgressMessage}
             </div>
           )}

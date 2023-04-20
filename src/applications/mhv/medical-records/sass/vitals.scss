@@ -1,37 +1,47 @@
 .vital-details {
-    list-style: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
     margin: 0;
-    padding: 0;
-
-    li {
-        margin: 0;
-        padding: 24 0 24 0;
-        border-top: 1px solid $color-gray-light;
+    padding: 24 0 24 0;
+    border-top: 1px solid $color-gray-light;
+    @media print {
+      break-inside: avoid;
     }
-    li:first-child {
-        margin: 0;
-        padding: 24 0 24 0;
-        border-top: 0;
+    h2 {
+      font-size: 15px;
+      margin: 16px 0 0;
     }
-
-    strong {
-        margin: 0;
+    h2:first-child {
+      margin: 0;
     }
+    p {
+      margin: 0;
+    }
+  }
+  li:first-child {
+    border-top: 0;
+  }
 
+  strong {
+    margin: 0;
+  }
 }
 
 .comment-list {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  li {
     margin: 0;
-    li {
-        margin: 0;
-        border: 0;
-        padding: 0;
-    }
-    li:first-child {
-        margin: 0;
-        border: 0;
-        padding: 0;
-    }
+    border: 0;
+    padding: 0;
+  }
+  li:first-child {
+    margin: 0;
+    border: 0;
+    padding: 0;
+  }
 }
