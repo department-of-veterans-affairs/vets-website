@@ -120,6 +120,12 @@
   color: $color-gray-light !important;
 }
 
+/* constrains modal width */
+#liveForm .kpl_builder[style] {
+  width: auto !important;
+  max-width: 28rem !important;
+ }
+
 /* helper text under textarea */
 #liveForm .kpl_builder.neb-form-wcag .description.help-block {
   color: $color-gray-dark !important;
@@ -143,6 +149,10 @@
 .footer-right-buttons {
   float: left !important;
   margin-right: 10px;
+}
+
+#liveForm .kpl_builder {
+  max-width: 28;
 }
 
 #liveForm .kpl_builder .panel-footer .btn.submit-btn {
