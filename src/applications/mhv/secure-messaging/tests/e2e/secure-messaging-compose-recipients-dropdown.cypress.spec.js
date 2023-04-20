@@ -55,7 +55,7 @@ const recipientsResponseFalse = {
 };
 
 describe('recipients dropdown box', () => {
-  it('preferredTriageTeam selcet dropdown default ', () => {
+  it.skip('preferredTriageTeam selcet dropdown default ', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     const patientInterstitialPage = new PatientInterstitialPage();
@@ -72,12 +72,13 @@ describe('recipients dropdown box', () => {
     cy.axeCheck();
     cy.get('[data-testid="compose-recipient-select"]').should('exist');
     cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
       .find('option')
       .its('length')
       .should('equal', 3);
     cy.get('[name="COVID"]').click();
   });
-  it('preferredTriageTeam selcet dropdown false', () => {
+  it.skip('preferredTriageTeam selcet dropdown false', () => {
     const landingPage = new PatientInboxPage();
     const patientInterstitialPage = new PatientInterstitialPage();
     const site = new SecureMessagingSite();

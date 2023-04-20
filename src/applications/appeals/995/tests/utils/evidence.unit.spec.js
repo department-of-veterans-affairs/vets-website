@@ -67,6 +67,8 @@ describe('evidenceNeedsUpdating', () => {
     hasVa = true,
     hasPrivate = true,
     addIssue = 'abc',
+    locations = [{ issues: ['abc', 'def'] }],
+    providerFacility = [{ issues: ['abc', 'def'] }],
   } = {}) => {
     return {
       [EVIDENCE_VA]: hasVa,
@@ -78,8 +80,8 @@ describe('evidenceNeedsUpdating', () => {
         },
       ],
       additionalIssues: addIssue ? [{ issue: addIssue, [SELECTED]: true }] : [],
-      locations: [{ issues: ['abc', 'def'] }],
-      providerFacility: [{ issues: ['abc', 'def'] }],
+      locations,
+      providerFacility,
     };
   };
 
@@ -120,7 +122,7 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
       { issue: 'test 2', [SELECTED]: true },
       { issue: 'test 4', [SELECTED]: false },
     ],
-    location: [
+    locations: [
       {
         foo: true,
         bar: false,

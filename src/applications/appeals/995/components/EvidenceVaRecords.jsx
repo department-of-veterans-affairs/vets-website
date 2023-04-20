@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import {
+  VaButtonPair,
   VaCheckboxGroup,
   VaMemorableDate,
   VaModal,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import environment from 'platform/utilities/environment';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import debounce from 'platform/utilities/data/debounce';
 
 import { EVIDENCE_VA_PATH, NO_ISSUES_SELECTED } from '../constants';
 
@@ -54,7 +54,6 @@ const EvidenceVaRecords = ({
   goToPath,
   setFormData,
   testingIndex,
-  testingMethod,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
@@ -70,6 +69,7 @@ const EvidenceVaRecords = ({
   );
   // force a useEffect call when currentIndex doesn't change
   const [forceReload, setForceReload] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
 
   const [currentState, setCurrentState] = useState(defaultState);
 
@@ -87,7 +87,12 @@ const EvidenceVaRecords = ({
       currentIndex,
     )[0],
     name: checkValidations([validateVaLocation], currentData, data)[0],
-    issues: checkValidations([validateVaIssues], currentData)[0],
+    issues: checkValidations(
+      [validateVaIssues],
+      currentData,
+      data,
+      currentIndex,
+    )[0],
     from: checkValidations([validateVaFromDate], currentData)[0],
     to: checkValidations([validateVaToDate], currentData)[0],
   };
@@ -102,6 +107,7 @@ const EvidenceVaRecords = ({
       setCurrentState(defaultState);
       focusEvidence();
       setForceReload(false);
+      debounce(() => setIsBusy(false));
     },
     // don't include locations or we clear state & move focus every time
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -161,8 +167,13 @@ const EvidenceVaRecords = ({
 
   const handlers = {
     onBlur: event => {
-      const fieldName = event.target.getAttribute('name');
-      updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
+      // we're switching pages, don't set a field to dirty otherwise the next
+      // page may set this and focus on an error without blurring a field
+      if (!isBusy) {
+        // event.detail from testing
+        const fieldName = event.target?.getAttribute('name') || event.detail;
+        updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
+      }
     },
     onChange: event => {
       const { target = {} } = event;
@@ -214,6 +225,7 @@ const EvidenceVaRecords = ({
         return;
       }
 
+      setIsBusy(true);
       const nextIndex = currentIndex + 1;
       if (currentIndex < locations.length - 1) {
         goToPageIndex(nextIndex);
@@ -231,6 +243,8 @@ const EvidenceVaRecords = ({
         updateState({ submitted: true, showModal: true });
         return;
       }
+
+      setIsBusy(true);
       const prevIndex = currentIndex - 1;
       if (currentIndex > 0) {
         goToPageIndex(prevIndex);
@@ -277,23 +291,6 @@ const EvidenceVaRecords = ({
   const showError = name =>
     ((currentState.submitted || currentState.dirty[name]) && errors[name]) ||
     null;
-
-  // for testing only; testing-library can't close modal by clicking shadow dom
-  // so this adds a clickable button for testing, adding a color + attr name
-  // will allow simulating a field name, e.g. "onBlur:from" blurs the from date
-  const [testMethod, testName = 'test'] = (testingMethod || '').split(':');
-  const testMethodButton =
-    testingMethod && !environment.isProduction() ? (
-      <button
-        id="test-method"
-        className="sr-only"
-        type="button"
-        name={testName}
-        onClick={handlers[testMethod]}
-      >
-        test
-      </button>
-    ) : null;
 
   return (
     <form onSubmit={handlers.onGoForward}>
@@ -388,30 +385,13 @@ const EvidenceVaRecords = ({
 
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}
-          {testMethodButton}
-          <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-            <div className="small-6 medium-5 columns">
-              {goBack && (
-                <ProgressButton
-                  onButtonClick={handlers.onGoBack}
-                  buttonText="Back"
-                  buttonClass="usa-button-secondary"
-                  beforeText="«"
-                  // This button is described by the current form's header ID
-                  aria-describedby="nav-form-header"
-                />
-              )}
-            </div>
-            <div className="small-6 medium-5 end columns">
-              <ProgressButton
-                onButtonClick={handlers.onGoForward}
-                buttonText="Continue"
-                buttonClass="usa-button-primary"
-                afterText="»"
-                // This button is described by the current form's header ID
-                aria-describedby="nav-form-header"
-              />
-            </div>
+          <div className="form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+            <VaButtonPair
+              continue
+              onPrimaryClick={handlers.onGoForward}
+              onSecondaryClick={handlers.onGoBack}
+              aria-describedby="nav-form-header"
+            />
           </div>
           {contentAfterButtons}
         </div>
@@ -429,7 +409,6 @@ EvidenceVaRecords.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
-  testingMethod: PropTypes.string,
 };
 
 export default EvidenceVaRecords;

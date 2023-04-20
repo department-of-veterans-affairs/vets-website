@@ -146,7 +146,7 @@ export default function InstitutionProfile({
       {displayStars &&
         isProduction && (
           <ProfileSection label="Veteran ratings" id="veteran-ratings">
-            <div id="profile-school-ratings">
+            <div>
               <SchoolRatings
                 ratingAverage={institution.institutionRating.overallAvg}
                 ratingCount={

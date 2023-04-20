@@ -16,7 +16,7 @@ describe('Secure Messaging Compose with No Provider', () => {
     patientInterstitialPage.getContinueButton().click();
 
     composePage.selectRecipient('');
-    cy.get('[name="COVID"]').click();
+    composePage.getCategory('COVID').click();
     composePage.getMessageSubjectField().type('Test Subject');
     composePage.getMessageBodyField().type('Test message body');
 

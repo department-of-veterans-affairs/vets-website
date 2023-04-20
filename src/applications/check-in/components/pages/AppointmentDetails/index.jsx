@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import isValid from 'date-fns/isValid';
@@ -35,7 +35,7 @@ const AppointmentDetails = props => {
   const appointmentDay = new Date(appointment?.startTime);
   const isPhoneAppointment = appointment?.kind === 'phone';
   const { appointmentId } = router.params;
-  useEffect(
+  useLayoutEffect(
     () => {
       if (appointmentId) {
         const activeAppointmentDetails = findAppointment(
@@ -76,7 +76,7 @@ const AppointmentDetails = props => {
 
   return (
     <>
-      {appointment ? (
+      {Object.keys(appointment).length && (
         <>
           <BackButton
             router={router}
@@ -174,8 +174,6 @@ const AppointmentDetails = props => {
             </div>
           </Wrapper>
         </>
-      ) : (
-        <va-loading-indicator message={t('loading')} />
       )}
     </>
   );

@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import {
+  VaButton,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_RESTARTING,
 } from 'platform/site-wide/wizard';
 import {
+  APP_TYPE_DEFAULT,
   CONTINUE_APP_DEFAULT_MESSAGE,
   START_NEW_APP_DEFAULT_MESSAGE,
-  APP_TYPE_DEFAULT,
 } from '../../forms-system/src/js/constants';
 
 class FormStartControls extends React.Component {
@@ -96,55 +98,41 @@ class FormStartControls extends React.Component {
       return (
         <div>
           {!this.props.isExpired && (
-            <ProgressButton
-              onButtonClick={this.handleLoadForm}
-              buttonText={continueAppButtonText}
-              buttonClass="usa-button-primary no-text-transform"
-              ariaLabel={ariaLabel}
-              ariaDescribedby={ariaDescribedby}
+            <VaButton
+              onClick={this.handleLoadForm}
+              text={continueAppButtonText}
+              label={ariaLabel}
             />
           )}
           {!this.props.resumeOnly && (
-            <ProgressButton
-              onButtonClick={this.toggleModal}
-              buttonText={startNewAppButtonText}
-              buttonClass={
-                this.props.isExpired
-                  ? 'usa-button-primary'
-                  : 'usa-button-secondary'
-              }
-              ariaLabel={ariaLabel}
-              ariaDescribedby={ariaDescribedby}
+            <VaButton
+              onClick={this.toggleModal}
+              text={startNewAppButtonText}
+              secondary={!this.props.isExpired}
+              label={ariaLabel}
             />
           )}
-          <Modal
-            cssClass="va-modal-large"
+          <VaModal
+            large
             id="start-over-modal"
-            onClose={this.toggleModal}
+            onCloseEvent={this.toggleModal}
+            modalTitle={`Starting over will delete your in-progress ${appType}.`}
             visible={this.state.modalOpen}
+            onPrimaryButtonClick={this.startOver}
+            primaryButtonText={startNewAppButtonText}
+            onSecondaryButtonClick={this.toggleModal}
+            secondaryButtonText="Cancel"
           >
-            <h4>Starting over will delete your in-progress {appType}.</h4>
             <p>Are you sure you want to start over?</p>
-            <ProgressButton
-              onButtonClick={this.startOver}
-              buttonText={startNewAppButtonText}
-              buttonClass="usa-button-primary"
-            />
-            <ProgressButton
-              onButtonClick={this.toggleModal}
-              buttonText="Cancel"
-              buttonClass="usa-button-secondary"
-            />
-          </Modal>
+          </VaModal>
         </div>
       );
     }
     const { startText } = this.props;
 
-    return this.props.testActionLink ? (
-      // eslint-disable-next-line jsx-a11y/anchor-is-valid
+    return (
       <a
-        href="#"
+        href="#start"
         className="vads-c-action-link--green vads-u-padding-left--0"
         onClick={event => {
           event.preventDefault();
@@ -155,17 +143,6 @@ class FormStartControls extends React.Component {
       >
         {startText}
       </a>
-    ) : (
-      <div>
-        <ProgressButton
-          onButtonClick={this.handleLoadPrefill}
-          buttonText={startText}
-          buttonClass="usa-button-primary va-button-primary schemaform-start-button"
-          afterText="»"
-          ariaLabel={ariaLabel}
-          ariaDescribedby={ariaDescribedby}
-        />
-      </div>
     );
   }
 }

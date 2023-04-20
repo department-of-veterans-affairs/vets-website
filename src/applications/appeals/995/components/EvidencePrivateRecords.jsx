@@ -9,9 +9,9 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import environment from 'platform/utilities/environment';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { countries, states } from 'platform/forms/address';
+import debounce from 'platform/utilities/data/debounce';
 
 import { EVIDENCE_PRIVATE_PATH, NO_ISSUES_SELECTED } from '../constants';
 
@@ -74,7 +74,6 @@ const EvidencePrivateRecords = ({
   goToPath,
   setFormData,
   testingIndex,
-  testingMethod,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
@@ -90,6 +89,7 @@ const EvidencePrivateRecords = ({
   );
   // force a useEffect call when currentIndex doesn't change
   const [forceReload, setForceReload] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
 
   const [currentState, setCurrentState] = useState(defaultState);
 
@@ -112,7 +112,12 @@ const EvidencePrivateRecords = ({
     city: checkValidations([validateCity], currentData)[0],
     state: checkValidations([validateState], currentData)[0],
     postal: checkValidations([validatePostal], currentData)[0],
-    issues: checkValidations([validatePrivateIssues], currentData)[0],
+    issues: checkValidations(
+      [validatePrivateIssues],
+      currentData,
+      data,
+      currentIndex,
+    )[0],
     from: checkValidations([validatePrivateFromDate], currentData)[0],
     to: checkValidations([validatePrivateToDate], currentData)[0],
   };
@@ -127,6 +132,7 @@ const EvidencePrivateRecords = ({
       setCurrentState(defaultState);
       focusEvidence();
       setForceReload(false);
+      debounce(() => setIsBusy(false));
     },
     // don't include providerFacility or we clear state & move focus every time
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -200,8 +206,13 @@ const EvidencePrivateRecords = ({
 
   const handlers = {
     onBlur: event => {
-      const fieldName = event.target.getAttribute('name');
-      updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
+      // we're switching pages, don't set a field to dirty otherwise the next
+      // page may set this and focus on an error without blurring a field
+      if (!isBusy) {
+        // event.detail from testing
+        const fieldName = event.target?.getAttribute('name') || event.detail;
+        updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
+      }
     },
     onChange: event => {
       const { target = {} } = event;
@@ -256,6 +267,7 @@ const EvidencePrivateRecords = ({
         return;
       }
 
+      setIsBusy(true);
       const nextIndex = currentIndex + 1;
       if (currentIndex < providerFacility.length - 1) {
         goToPageIndex(nextIndex);
@@ -274,6 +286,8 @@ const EvidencePrivateRecords = ({
         updateState({ submitted: true, showModal: true });
         return;
       }
+
+      setIsBusy(true);
       const prevIndex = currentIndex - 1;
       if (currentIndex > 0) {
         goToPageIndex(prevIndex);
@@ -320,23 +334,6 @@ const EvidencePrivateRecords = ({
   const showError = name =>
     ((currentState.submitted || currentState.dirty[name]) && errors[name]) ||
     null;
-
-  // for testing only; testing-library can't close modal by clicking shadow dom
-  // so this adds a clickable button for testing, adding a color + attr name
-  // will allow simulating a field name, e.g. "onBlur:from" blurs the from date
-  const [testMethod, testName = 'test'] = (testingMethod || '').split(':');
-  const testMethodButton =
-    testingMethod && !environment.isProduction() ? (
-      <button
-        id="test-method"
-        className="sr-only"
-        type="button"
-        name={testName}
-        onClick={handlers[testMethod]}
-      >
-        test
-      </button>
-    ) : null;
 
   const hasStates =
     states[(currentData.providerFacilityAddress?.country)] || [];
@@ -534,7 +531,6 @@ const EvidencePrivateRecords = ({
 
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}
-          {testMethodButton}
           <FormNavButtons
             goBack={handlers.onGoBack}
             goForward={handlers.onGoForward}
@@ -574,7 +570,6 @@ EvidencePrivateRecords.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
-  testingMethod: PropTypes.string,
 };
 
 export default EvidencePrivateRecords;

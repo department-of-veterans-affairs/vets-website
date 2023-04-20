@@ -17,8 +17,6 @@ import {
   selectFeatureAcheronService,
 } from '../../redux/selectors';
 
-import { getRequestMessages } from '../../services/var';
-
 import {
   getLocation,
   getLocations,
@@ -70,12 +68,6 @@ export const FETCH_CONFIRMED_DETAILS_FAILED =
 export const FETCH_CONFIRMED_DETAILS_SUCCEEDED =
   'vaos/FETCH_CONFIRMED_DETAILS_SUCCEEDED';
 
-export const FETCH_REQUEST_MESSAGES = 'vaos/FETCH_REQUEST_MESSAGES';
-export const FETCH_REQUEST_MESSAGES_FAILED =
-  'vaos/FETCH_REQUEST_MESSAGES_FAILED';
-export const FETCH_REQUEST_MESSAGES_SUCCEEDED =
-  'vaos/FETCH_REQUEST_MESSAGES_SUCCEEDED';
-
 export const FETCH_PROVIDER_SUCCEEDED = 'vaos/FETCH_PROVIDER_SUCCEEDED';
 
 export const CANCEL_APPOINTMENT = 'vaos/CANCEL_APPOINTMENT';
@@ -94,28 +86,6 @@ export const FETCH_FACILITY_SETTINGS_FAILED =
   'vaos/FETCH_FACILITY_SETTINGS_FAILED';
 export const FETCH_FACILITY_SETTINGS_SUCCEEDED =
   'vaos/FETCH_FACILITY_SETTINGS_SUCCEEDED';
-
-export function fetchRequestMessages(requestId) {
-  return async dispatch => {
-    try {
-      dispatch({
-        type: FETCH_REQUEST_MESSAGES,
-      });
-      const messages = await getRequestMessages(requestId);
-      dispatch({
-        type: FETCH_REQUEST_MESSAGES_SUCCEEDED,
-        requestId,
-        messages,
-      });
-    } catch (error) {
-      captureError(error);
-      dispatch({
-        type: FETCH_REQUEST_MESSAGES_FAILED,
-        error,
-      });
-    }
-  };
-}
 
 /*
  * The facility data we get back from the various endpoints for
@@ -362,9 +332,14 @@ export function fetchPendingAppointments() {
         useAcheron: featureAcheronVAOSServiceRequests,
       });
 
+      const backendSystemFailures = pendingAppointments.filter(
+        appt => appt.meta,
+      );
+
       dispatch({
         type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
         data: pendingAppointments,
+        backendServiceFailures: backendSystemFailures[0],
       });
 
       recordEvent({
@@ -429,7 +404,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     });
 
     try {
-      const fetches = [
+      const promises = [
         fetchAppointments({
           startDate,
           endDate,
@@ -439,7 +414,10 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         }),
       ];
 
-      const [appointments, requests] = await Promise.all(fetches);
+      const results = await Promise.all(promises);
+      const appointments = results[0]?.filter(appt => !appt.meta);
+      const requests = [];
+      const backendSystemFailures = results[0]?.filter(appt => appt.meta);
 
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
@@ -447,6 +425,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         requests,
         startDate,
         endDate,
+        backendServiceFailures: backendSystemFailures[0],
       });
 
       recordEvent({
@@ -540,15 +519,6 @@ export function fetchRequestDetails(id) {
         id,
         facility,
       });
-
-      if (!featureVAOSServiceRequests) {
-        const { requestMessages } = state.appointments;
-        const messages = requestMessages?.[id];
-
-        if (!messages) {
-          dispatch(fetchRequestMessages(id));
-        }
-      }
     } catch (e) {
       captureError(e);
       dispatch({

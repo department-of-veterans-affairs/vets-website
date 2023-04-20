@@ -44,27 +44,43 @@ describe('Forms library - Forms signature component', () => {
 
   describe('certification checkbox', () => {
     it('should render with default label', () => {
-      const { getByLabelText } = render(<FormSignature {...signatureProps} />);
+      const { container } = render(<FormSignature {...signatureProps} />);
+
       expect(
-        getByLabelText(
-          'I certify the information above is correct and true to the best of my knowledge and belief.',
-        ),
-      ).to.exist;
+        container.querySelector('va-checkbox').getAttribute('label'),
+      ).to.equal(
+        'I certify the information above is correct and true to the best of my knowledge and belief.',
+      );
     });
 
     it('should render with custom string label', () => {
-      const { getByLabelText } = render(
+      const { container } = render(
         <FormSignature {...signatureProps} checkboxLabel="LGTM" />,
       );
-      expect(getByLabelText('LGTM')).to.exist;
+
+      expect(
+        container.querySelector('va-checkbox').getAttribute('label'),
+      ).to.equal('LGTM');
     });
 
     it('should render with custom React element label', () => {
-      const customLabel = <span>Custom text here</span>;
-      const { getByLabelText } = render(
-        <FormSignature {...signatureProps} checkboxLabel={customLabel} />,
+      const customLabel = 'Custom text here';
+      const customDescription = (
+        <span id="custom-description">Custom description</span>
       );
-      expect(getByLabelText('Custom text here')).to.exist;
+      const { container } = render(
+        <FormSignature
+          {...signatureProps}
+          checkboxLabel={customLabel}
+          checkboxDescription={customDescription}
+        />,
+      );
+      const checkbox = container.querySelector('va-checkbox');
+
+      expect(checkbox.getAttribute('label')).to.equal(customLabel);
+      expect(checkbox.querySelector('#custom-description').innerHTML).to.equal(
+        'Custom description',
+      );
     });
   });
 
@@ -149,7 +165,7 @@ describe('Forms library - Forms signature component', () => {
       //   - There are no validation errors
       //   - The checkbox has been checked
       const oscSpy = spy();
-      const { container, getByLabelText } = render(
+      const { container } = render(
         <FormSignature
           {...signatureProps}
           required
@@ -158,9 +174,8 @@ describe('Forms library - Forms signature component', () => {
       );
       // Not called on first render
       expect(oscSpy.called).to.be.false;
-      const checkbox = getByLabelText(
-        /I certify the information above is correct/,
-      );
+
+      const checkbox = container.querySelector('va-checkbox');
 
       // Not called if there are validation errors (required name isn't entered)
       userEvent.click(checkbox);

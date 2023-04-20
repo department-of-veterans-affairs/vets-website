@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import RecordList from '../components/RecordList/RecordList';
-import { getVaccineList } from '../actions/vaccine';
+import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import { getAllVaccinesPdf } from '../api/MrApi';
 import { downloadFile } from '../util/helpers';
+import { RecordType } from '../util/constants';
 
 const Vaccines = () => {
   const dispatch = useDispatch();
-  const vaccines = useSelector(state => state.mr.vaccines.vaccineList);
+  const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
 
   useEffect(() => {
-    dispatch(getVaccineList());
+    dispatch(getVaccinesList());
   }, []);
 
   useEffect(
@@ -42,7 +43,7 @@ const Vaccines = () => {
 
   const content = () => {
     if (vaccines?.length) {
-      return <RecordList records={vaccines} type="vaccine" />;
+      return <RecordList records={vaccines} type={RecordType.VACCINES} />;
     }
     return (
       <va-loading-indicator
@@ -54,7 +55,7 @@ const Vaccines = () => {
   };
 
   return (
-    <div className="vaccines" id="vaccines">
+    <div id="vaccines">
       <PrintHeader />
       <h1 className="page-title">Vaccines</h1>
       <p>

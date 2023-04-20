@@ -24,13 +24,15 @@ describe('SIP Finish Later', () => {
     cy.visit('/mock-sip-form');
     cy.get('body').should('be.visible');
     cy.title().should('contain', 'Mock SIP Form');
-    cy.get('.usa-button-primary', { timeout: Timeouts.slow });
+    cy.get('va-button', { timeout: Timeouts.slow });
 
     cy.injectAxeThenAxeCheck();
 
     // load an in progress form
-    cy.get('.usa-button-primary')
+    cy.get('va-button')
       .first()
+      .shadow()
+      .find('button')
       .click();
 
     cy.url().should('not.contain', '/introduction');
@@ -53,7 +55,11 @@ describe('SIP Finish Later', () => {
 
     cy.axeCheck();
 
-    cy.get('.usa-button-primary').click();
+    cy.get('va-button')
+      .first()
+      .shadow()
+      .find('button')
+      .click();
     cy.get('.schemaform-sip-save-link').should('be.visible');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
       statusCode: 500,
@@ -94,9 +100,16 @@ describe('SIP Finish Later', () => {
     cy.url().should('contain', 'form-saved');
 
     // test start over, but all it really does is fetch the form again
-    cy.get('.usa-button-secondary').click();
-    cy.get('.va-modal').should('be.visible');
-    cy.get('.va-modal .usa-button-primary').click();
+    cy.get('va-button[secondary]')
+      .first()
+      .shadow()
+      .find('button')
+      .click();
+    cy.get('va-modal').should('be.visible');
+    cy.get('va-modal')
+      .get('.alert-actions button')
+      .first()
+      .click();
     cy.get('.schemaform-chapter-progress');
 
     cy.url().should('not.contain', 'form-saved');

@@ -330,5 +330,13 @@ class PatientInboxPage {
     cy.tabToElement('[data-testid="reply-button-top"]');
     cy.realPress(['Enter']);
   };
+
+  loadLandingPagebyTabbingandEnterKey = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
+      mockFolders,
+    ).as('folders');
+  };
 }
 export default PatientInboxPage;

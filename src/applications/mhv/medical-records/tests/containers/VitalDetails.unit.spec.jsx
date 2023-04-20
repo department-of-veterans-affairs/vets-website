@@ -36,13 +36,9 @@ describe('Vital details container', () => {
     expect(screen);
   });
 
-  it('displays CONFIDENTIAL header for print view', () => {
+  it('displays Date of birth for the print view', () => {
     const screen = setup();
-    const printHeading = screen.getByRole('heading', {
-      name: 'CONFIDENTIAL',
-      level: 4,
-    });
-    expect(printHeading).to.exist;
+    expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
   });
 
   it('displays a print button', () => {
@@ -51,14 +47,14 @@ describe('Vital details container', () => {
     expect(printButton).to.exist;
   });
 
-  it('displays the vital name as an h1', () => {
+  it('displays the vital name inside an h1 as a span', () => {
     const screen = setup();
 
     const vitalName = screen.getByText(
       initialState.mr.vitals.vitalDetails[0].name,
       {
         exact: true,
-        selector: 'h1',
+        selector: 'span',
       },
     );
     expect(vitalName).to.exist;

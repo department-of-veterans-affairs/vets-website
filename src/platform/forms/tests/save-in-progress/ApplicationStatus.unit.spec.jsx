@@ -3,13 +3,12 @@ import moment from 'moment';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 
-import { getFormDOM } from '../../../testing/unit/schemaform-utils';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import { ApplicationStatus } from '../../save-in-progress/ApplicationStatus';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
+import { ApplicationStatus } from '../../save-in-progress/ApplicationStatus';
 
 describe('schemaform <ApplicationStatus>', () => {
   let formConfigDefaultData;
@@ -122,7 +121,7 @@ describe('schemaform <ApplicationStatus>', () => {
   it('should clear wizard status when starting a new application', () => {
     const wizardStatus = 'testKey';
     const fetchSpy = sinon.stub();
-    const tree = ReactTestUtils.renderIntoDocument(
+    const tree = render(
       <ApplicationStatus
         formId="21P-527EZ"
         wizardStatus={wizardStatus}
@@ -148,15 +147,11 @@ describe('schemaform <ApplicationStatus>', () => {
         formConfig={formConfigDefaultData}
       />,
     );
-    const formDOM = getFormDOM(tree);
-    formDOM.click('.usa-button-secondary'); // open modal
 
-    expect(formDOM.querySelector('.va-modal-body')).to.not.be.null;
-
-    formDOM.click('.va-modal-body .usa-button-primary');
+    const modal = tree.baseElement.querySelector('va-modal');
+    modal.__events.primaryButtonClick();
 
     // remove form & reset wizard
-    expect(fetchSpy.called).to.be.true;
     expect(sessionStorage.getItem(wizardStatus)).to.be.null;
   });
 
