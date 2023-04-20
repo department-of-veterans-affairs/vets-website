@@ -48,15 +48,4 @@ describe('FolderListView', () => {
     const loadingIndicator = screen.getByTestId('loading-indicator');
     expect(loadingIndicator).to.exist;
   });
-
-  it('displays the name of folder to be searched', async () => {
-    const screen = setup();
-    const folderStatementStart = await screen.getByTestId(
-      'search-message-folder-input-label',
-    );
-
-    expect(folderStatementStart.textContent).to.contain(
-      `Filter messages in ${folder.name}`,
-    );
-  });
 });

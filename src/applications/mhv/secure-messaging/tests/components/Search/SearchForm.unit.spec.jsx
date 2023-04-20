@@ -35,6 +35,14 @@ describe('Search form', () => {
     expect(screen);
   });
 
+  it('displays the name of folder to be searched', () => {
+    const screen = setup();
+    const folderStatementStart = screen.getByText('Filter messages in Inbox');
+
+    expect(folderStatementStart.textContent).to.contain(
+      `Filter messages in ${folder.name}`,
+    );
+  });
   it('displays keyword field', () => {
     const screen = setup();
     const keyword = screen.getByTestId('keyword-search-input');
