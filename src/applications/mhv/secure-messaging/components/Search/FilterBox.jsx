@@ -1,27 +1,21 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   VaDate,
   VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import {
   DateRangeValues,
   DateRangeOptions,
   SelectCategories,
 } from '../../util/inputContants';
-import { runAdvancedSearch } from '../../actions/search';
 import { dateFormat } from '../../util/helpers';
 
 const FilterBox = props => {
-  const { folders, keyword } = props;
-  const dispatch = useDispatch();
-  const history = useHistory();
+  const { handleSearch } = props;
 
-  const folderId = useSelector(state => state.sm.folders.folder.folderId);
   const [category, setCategory] = useState('');
   const [dateRange, setDateRange] = useState('any');
   const [fromDate, setFromDate] = useState('');
@@ -62,9 +56,6 @@ const FilterBox = props => {
         setFromDateError('Start date must be on or before end date');
         setToDateError('End date must be on or after start date');
       }
-    } else if (dateRange === 'any' && !category) {
-      formInvalid = true;
-      setFormError(true);
     }
     return formInvalid;
   };
@@ -93,26 +84,18 @@ const FilterBox = props => {
       toDateTime = `${toDate}T23:59:59${offset}`;
     }
 
-    const folderData = folders.find(item => +item.id === +folderId);
-    dispatch(
-      runAdvancedSearch(
-        folderData,
-        {
-          category,
-          fromDate: relativeFromDate || fromDateTime,
-          toDate: relativeToDate || toDateTime,
-        },
-        keyword,
-      ),
+    handleSearch(
+      true,
+      category,
+      relativeFromDate,
+      fromDateTime,
+      relativeToDate,
+      toDateTime,
     );
-    history.push('/search/results');
   };
 
   return (
-    <form
-      className="advanced-search-form filter-box"
-      onSubmit={handleFilterMessages}
-    >
+    <form className="advanced-search-form filter-box" onSubmit={handleSearch}>
       {formError && (
         <VaModal
           modalTitle="Invalid search"
@@ -127,9 +110,6 @@ const FilterBox = props => {
             date range other than 'any'.
           </p>
           <ul>
-            <li>Message ID</li>
-            <li>From</li>
-            <li>Subject</li>
             <li>Category</li>
           </ul>
         </VaModal>
@@ -215,6 +195,7 @@ const FilterBox = props => {
 
 FilterBox.propTypes = {
   folders: PropTypes.any,
+  handleSearch: PropTypes.func,
 };
 
 export default FilterBox;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { runBasicSearch } from '../../actions/search';
+import { runAdvancedSearch, runBasicSearch } from '../../actions/search';
 import FilterBox from './FilterBox';
 import { ErrorMessages } from '../../util/constants';
 
@@ -22,15 +22,34 @@ const SearchForm = props => {
     [keyword],
   );
 
-  const handleSearch = e => {
-    e.preventDefault();
-    setSearchTermError(null);
-
-    if (!searchTerm) {
-      setSearchTermError(ErrorMessages.SearchForm.SEARCH_TERM_REQUIRED);
-      return;
+  const handleSearch = (
+    customFilter = false,
+    category,
+    relativeFromDate,
+    fromDateTime,
+    relativeToDate,
+    toDateTime,
+  ) => {
+    if (customFilter === true) {
+      dispatch(
+        runAdvancedSearch(
+          folder,
+          {
+            category,
+            fromDate: relativeFromDate || fromDateTime,
+            toDate: relativeToDate || toDateTime,
+          },
+          searchTerm.toLowerCase(),
+        ),
+      );
+    } else {
+      if (!searchTerm) {
+        setSearchTermError(null);
+        setSearchTermError(ErrorMessages.SearchForm.SEARCH_TERM_REQUIRED);
+        return;
+      }
+      dispatch(runBasicSearch(folder.folderId, searchTerm.toLowerCase()));
     }
-    dispatch(runBasicSearch(folder.folderId, searchTerm.toLowerCase()));
     if (!resultsCount) {
       history.push('/search/results');
     }
@@ -136,7 +155,10 @@ const SearchForm = props => {
               <button
                 type="button"
                 className="usa-button-primary filter-button"
-                onClick={handleSearch}
+                onClick={e => {
+                  e.preventDefault();
+                  handleSearch();
+                }}
               >
                 Filter
               </button>
@@ -154,7 +176,11 @@ const SearchForm = props => {
 
         {folders && (
           <div>
-            <FilterBox folders={folders} keyword={keyword} />
+            <FilterBox
+              folders={folders}
+              keyword={keyword}
+              handleSearch={handleSearch}
+            />
           </div>
         )}
       </div>

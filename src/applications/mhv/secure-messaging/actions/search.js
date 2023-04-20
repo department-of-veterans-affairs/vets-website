@@ -55,7 +55,7 @@ export const runAdvancedSearch = (folder, query, keyword) => async dispatch => {
 
     dispatch({
       type: Actions.Search.RUN_ADVANCED,
-      response: { folder, query, data: matches },
+      response: { folder, keyword, query, data: matches },
     });
   } catch (error) {
     const err = error.errors[0];
