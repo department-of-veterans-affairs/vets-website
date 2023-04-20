@@ -164,8 +164,10 @@
   .attach-file-button {
     display: block;
     margin: 16px 0px 24px 0;
-    @media (min-width: $small-screen) {
-      margin-right: 8px;
+    width: 100%;
+
+    @media (min-width: $medium-screen) {
+      width: 32.5%;
     }
   }
   .attach-file-button::part(button) {
@@ -173,9 +175,6 @@
     color: $color-gray-dark;
     height: 36px;
     width: 100%;
-    @media (min-width: $medium-screen) {
-      width: 32%;
-    }
   }
 
   .how-to-attach-files {
@@ -191,27 +190,34 @@
   margin-top: 15px;
   display: flex;
   flex-direction: column;
+  va-button {
+    display: block;
+    height: 36px;
+    padding: 0;
+    width: 100%;
+  }
+
+  button {
+    margin-right: 0;
+  }
 
   @media (min-width: $medium-screen) {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-  }
-
-  va-button {
-    display: block;
-    height: 36px;
-    padding: 0;
+    va-button {
+      width: 33.33%;
+    }
+    button {
+      margin-right: 6px;
+    }
   }
 
   va-button::part(button) {
     height: 36px;
     width: 100%;
     margin: 0;
-    @media (min-width: $medium-screen) {
-      width: 197px;
-    }
   }
 
   .send-button {
