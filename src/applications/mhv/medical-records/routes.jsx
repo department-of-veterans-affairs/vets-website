@@ -12,6 +12,7 @@ import Navigation from './components/Navigation';
 import LabsAndTests from './containers/LabsAndTests';
 import CareSummariesAndNotes from './containers/CareSummariesAndNotes';
 import ConditionDetails from './containers/ConditionDetails';
+import LabAndTestDetails from './containers/LabAndTestDetails';
 
 const routes = (
   <div className="vads-l-grid-container">
@@ -25,6 +26,9 @@ const routes = (
           </Route>
           <Route exact path="/labs-and-tests" key="LabsAndTests">
             <LabsAndTests />
+          </Route>
+          <Route path="/labs-and-tests/:labId" key="LabAndTestDetails">
+            <LabAndTestDetails />
           </Route>
           <Route exact path="/health-history" key="HealthHistory">
             <HealthHistory />

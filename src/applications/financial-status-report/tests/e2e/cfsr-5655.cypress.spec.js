@@ -53,10 +53,8 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.get('va-button[text*="start"]')
+        cy.get('.vads-c-action-link--green')
           .first()
-          .shadow()
-          .find('button')
           .click();
       },
       'all-available-debts': ({ afterHook }) => {
@@ -144,7 +142,12 @@ const testConfig = createTestConfig(
       'resolution-option/1': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type="radio"][value="waiver"]').click();
-          cy.get('[type="checkbox"]').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'resolution-waiver-agreement/1': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type=checkbox]').check();
           cy.get('.usa-button-primary').click();
         });
       },

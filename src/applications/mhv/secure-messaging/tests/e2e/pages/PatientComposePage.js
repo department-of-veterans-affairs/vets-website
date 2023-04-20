@@ -73,6 +73,10 @@ class PatientComposePage {
       .select(recipient);
   };
 
+  verifyFocusonMessageAttachment = () => {
+    cy.get('.editable-attachment > :nth-child(1) > span').should('have.focus');
+  };
+
   //* Refactor* Needs to have mockDraftMessage as parameter
   clickOnSendMessageButton = () => {
     cy.intercept(
@@ -229,6 +233,15 @@ class PatientComposePage {
       .shadow()
       .find('[id = "textarea"]')
       .should('have.value', url);
+  };
+
+  clickConfirmDeleteButton = () => {
+    cy.get('[data-testid=delete-message-modal]')
+      .shadow()
+      .find('button')
+      .contains('Confirm')
+      .should('be.visible')
+      .click();
   };
 }
 export default PatientComposePage;

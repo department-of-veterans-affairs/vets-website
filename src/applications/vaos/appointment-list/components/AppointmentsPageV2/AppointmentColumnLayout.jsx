@@ -91,7 +91,7 @@ export default function AppointmentColumnLayout({
               'xsmall-screen:margin-top--1',
             )}
             size="1"
-            style={{ minWidth: '30px', maxWidth: '30px' }}
+            style={{ minWidth: '30px', maxWidth: '30px', alignSelf: 'center' }}
           >
             <span
               className={classNames({ 'vads-u-display--none': !first })}
@@ -152,10 +152,7 @@ export default function AppointmentColumnLayout({
                 canceled={isCanceled}
                 aria-label={typeOfCareAriaLabel}
               >
-                <span
-                  aria-hidden="true"
-                  className={classNames('vaos-appts__display--table-cell')}
-                >
+                <span className={classNames('vaos-appts__display--table-cell')}>
                   {appointmentLocality}
                 </span>
               </AppointmentColumn>
@@ -167,10 +164,7 @@ export default function AppointmentColumnLayout({
                 canceled={isCanceled}
                 aria-label={modalityAriaLabel}
               >
-                <span
-                  aria-hidden="true"
-                  className="vaos-appts__display--table-cell"
-                >
+                <span className="vaos-appts__display--table-cell">
                   <i
                     aria-hidden="true"
                     className={classNames(
@@ -196,14 +190,14 @@ export default function AppointmentColumnLayout({
             padding="0"
             size="1"
           >
-            <va-link
+            <a
               className="vaos-appts__focus--hide-outline"
               aria-label={detailAriaLabel}
               href={link}
               onClick={e => e.preventDefault()}
-              text="Details"
-              role="link"
-            />
+            >
+              Details
+            </a>
           </AppointmentColumn>
         </AppointmentRow>
       </AppointmentColumn>

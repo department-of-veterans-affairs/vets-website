@@ -179,7 +179,7 @@ const CreditCardBill = props => {
         <button
           type="button"
           id="submit"
-          className="vads-u-width--auto"
+          className="vads-u-width--auto usa-button-primary"
           onClick={handlers.onUpdate}
         >
           {`${

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import moment from 'moment';
 import { dateFormat, downloadFile } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getConditionDetails } from '../actions/conditions';
@@ -65,9 +66,23 @@ const ConditionDetails = () => {
         <>
           <PrintHeader />
           <h1 className="condition-header">
-            {conditionDetails.name.split(' (')[0]}
+            <span className="no-print">
+              {conditionDetails.name.split(' (')[0]}
+            </span>
+            <span className="print-title print-only">
+              <div className="vads-u-margin-right--1">Health conditions: </div>
+              <div className="vads-u-margin-right--1">
+                {conditionDetails.name.split(' (')[0].toLowerCase()},{' '}
+              </div>
+              <div>{moment().format('LL')}</div>
+            </span>
           </h1>
-          <div className="time-header">
+          <p className="vads-u-margin-bottom--0 print-only">
+            Your health conditions list may not be complete. If you have any
+            questions about your information, visit the FAQs or contact your VA
+            Health care team.
+          </p>
+          <div className="time-header no-print">
             <h2>Date and time entered: </h2>
             <p>{formattedDate}</p>
           </div>

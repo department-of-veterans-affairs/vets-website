@@ -33,7 +33,10 @@ describe('check-in experience', () => {
       kind: 'clinic',
       appointmentIen: 3333,
       startTime: now,
-      checkInWindowEnd: add(now, { minutes: 30 }),
+      checkInWindowEnd: format(
+        add(new Date(), { minutes: 30 }),
+        "yyyy-LL-dd'T'HH:mm:ss",
+      ),
       stationNo: '230',
       clinicStopCodeName: '',
     };
