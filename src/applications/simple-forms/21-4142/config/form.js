@@ -6,7 +6,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
-
+import prefillTransformer from './prefill-transformer';
 import transformForSubmit from '../../shared/config/submit-transformer';
 
 // pages
@@ -49,6 +49,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   transformForSubmit,
   savedFormMessages: {
     notFound:
