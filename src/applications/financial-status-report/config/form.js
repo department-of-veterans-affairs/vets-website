@@ -32,6 +32,7 @@ import UtilityBillSummary from '../components/utilityBills/UtilityBillSummary';
 import UtilityBillSummaryReview from '../components/utilityBills/UtilityBillSummaryReview';
 import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
+import SpouseEmploymentQuestion from '../components/SpouseEmploymentQuestion';
 import EmploymentQuestion from '../components/EmploymentQuestion';
 import InstallmentContract from '../components/InstallmentContract';
 import InstallmentContractSummary from '../pages/expenses/repayments/InstallmentContractSummary';
@@ -328,6 +329,91 @@ const formConfig = {
           uiSchema: pages.spouseInformation.uiSchema,
           schema: pages.spouseInformation.schema,
         },
+        spouseName: {
+          path: 'spouse-name',
+          title: 'Spouse name',
+          uiSchema: pages.spouseName.uiSchema,
+          schema: pages.spouseName.schema,
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        spouseEmploymentQuestion: {
+          path: 'enhanced-spouse-employment-question',
+          title: 'Spouse employment',
+          CustomPage: SpouseEmploymentQuestion,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: false,
+        },
+        enhancedSpouseEmploymentRecords: {
+          path: 'enhanced-spouse-employment-records',
+          title: 'Employment',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData.questions.spouseIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: EnhancedSpouseEmploymentRecord,
+          CustomPageReview: null,
+        },
+        enhancedSpouseGrossMonthlyIncome: {
+          path: 'spouse-gross-monthly-income',
+          title: 'Gross monthly income',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData.questions.spouseIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: SpouseGrossMonthlyIncomeInput,
+          CustomPageReview: null,
+        },
+        spousePayrollDeductionChecklist: {
+          path: 'spouse-deduction-checklist',
+          title: 'Payroll deductions',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData.questions.spouseIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: SpousePayrollDeductionChecklist,
+          CustomPageReview: null,
+        },
+        spousePayrollDeductionInputList: {
+          title: 'Spouse deduction amounts',
+          path: 'spouse-deduction-values',
+          // listOfIssues defined in next section
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          // needed to bypass bug on review & submit page
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData.questions.spouseIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          CustomPage: SpousePayrollDeductionInputList,
+          CustomPageReview: null,
+        },
+        spouseEmploymentHistory: {
+          path: 'spouse-employment-history',
+          title: 'Employment',
+          uiSchema: pages.spouseEmploymentHistory.uiSchema,
+          schema: pages.spouseEmploymentHistory.schema,
+          depends: formData =>
+            formData.questions.spouseIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: SpouseEmploymentHistoryWidget,
+        },
         spouseEmployment: {
           path: 'spouse-employment',
           title: 'Spouse employment',
@@ -366,9 +452,7 @@ const formConfig = {
           title: 'Spouse benefits',
           uiSchema: pages.spouseBenefits.uiSchema,
           schema: pages.spouseBenefits.schema,
-          depends: formData =>
-            formData.questions.isMarried &&
-            !formData['view:enhancedFinancialStatusReport'],
+          depends: formData => formData.questions.isMarried,
         },
         spouseBenefitRecords: {
           path: 'spouse-benefit-records',
@@ -377,8 +461,7 @@ const formConfig = {
           schema: pages.spouseBenefitRecords.schema,
           depends: formData =>
             formData.questions.isMarried &&
-            formData.questions.spouseHasBenefits &&
-            !formData['view:enhancedFinancialStatusReport'],
+            formData.questions.spouseHasBenefits,
         },
         spouseSocialSecurity: {
           path: 'spouse-social-security',
@@ -419,74 +502,18 @@ const formConfig = {
             !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
-        spouseEmploymentQuestion: {
-          path: 'enhanced-spouse-employment-question',
-          title: 'Employment',
-          uiSchema: pages.spouseEmploymentQuestion.uiSchema,
-          schema: pages.spouseEmploymentQuestion.schema,
-          depends: formData =>
-            formData.questions.isMarried &&
-            formData['view:enhancedFinancialStatusReport'],
-          editModeOnReviewPage: false,
-        },
-        enhancedSpouseEmploymentRecords: {
-          path: 'enhanced-spouse-employment-records',
-          title: 'Employment',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-          depends: formData =>
-            formData.questions.isMarried &&
-            formData.questions.spouseIsEmployed &&
-            formData['view:enhancedFinancialStatusReport'],
-          editModeOnReviewPage: true,
-          CustomPage: EnhancedSpouseEmploymentRecord,
-          CustomPageReview: null,
-        },
-        enhancedSpouseGrossMonthlyIncome: {
-          path: 'spouse-gross-monthly-income',
-          title: 'Gross monthly income',
-          uiSchema: pages.spouseGrossMonthlyIncome.uiSchema,
-          schema: pages.spouseGrossMonthlyIncome.schema,
-          depends: formData =>
-            formData.questions.spouseIsEmployed &&
-            formData['view:enhancedFinancialStatusReport'],
-          editModeOnReviewPage: true,
-          CustomPage: SpouseGrossMonthlyIncomeInput,
-        },
-        spousePayrollDeductionChecklist: {
-          path: 'spouse-deduction-checklist',
-          title: 'Payroll deductions',
-          uiSchema: pages.spousePayrollDeductionChecklist.uiSchema,
-          schema: pages.spousePayrollDeductionChecklist.schema,
-          depends: formData =>
-            formData.questions.spouseIsEmployed &&
-            formData['view:enhancedFinancialStatusReport'],
-          editModeOnReviewPage: true,
-          CustomPage: SpousePayrollDeductionChecklist,
-        },
-        spousePayrollDeductionInputList: {
-          title: 'Spouse deduction amounts',
-          path: 'spouse-deduction-values',
-          // listOfIssues defined in next section
-          uiSchema: pages.spousePayrollDeductionInputList.uiSchema,
-          schema: pages.spousePayrollDeductionInputList.schema,
-          // needed to bypass bug on review & submit page
-          depends: formData =>
-            formData.questions.spouseIsEmployed &&
-            formData['view:enhancedFinancialStatusReport'],
-          CustomPage: SpousePayrollDeductionInputList,
-        },
-        spouseEmploymentHistory: {
-          path: 'spouse-employment-history',
-          title: 'Employment',
-          uiSchema: pages.spouseEmploymentHistory.uiSchema,
-          schema: pages.spouseEmploymentHistory.schema,
-          depends: formData =>
-            formData.questions.spouseIsEmployed &&
-            formData['view:enhancedFinancialStatusReport'],
-          editModeOnReviewPage: true,
-          CustomPage: SpouseEmploymentHistoryWidget,
-        },
+
+        // spouseEmploymentQuestion: {
+        //   path: 'enhanced-spouse-employment-question',
+        //   title: 'Employment',
+        //   uiSchema: pages.spouseEmploymentQuestion.uiSchema,
+        //   schema: pages.spouseEmploymentQuestion.schema,
+        //   depends: formData =>
+        //     formData.questions.isMarried &&
+        //     formData['view:enhancedFinancialStatusReport'],
+        //   editModeOnReviewPage: false,
+        // },
+
         spouseAdditionalIncomeCheckList: {
           path: 'spouse-additional-income-checklist',
           title: 'Additional income options',
