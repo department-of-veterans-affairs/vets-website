@@ -73,7 +73,7 @@ const ChemHemDetails = props => {
               </ul>
             </va-additional-info>
           </div>
-
+          {/*                   TEST DETAILS                          */}
           <div className="test-details-container max-80">
             <h2>Details about this test</h2>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -104,7 +104,7 @@ const ChemHemDetails = props => {
               emptyMessage="No notes reported at this time"
             />
           </div>
-
+          {/*         RESULTS CARDS            */}
           <div className="test-results-container">
             <h2>Results</h2>
             <va-additional-info trigger="Need help understanding your results?">

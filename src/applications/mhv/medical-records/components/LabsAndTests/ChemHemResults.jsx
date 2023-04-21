@@ -14,11 +14,11 @@ const ChemHemResults = props => {
               <h4 className="vads-u-font-size--base vads-u-font-family--sans">
                 Result
               </h4>
-              <p>{result.result}</p>
+              <p className="data">{result.result}</p>
               <h4 className="vads-u-font-size--base vads-u-font-family--sans">
                 Standard range
               </h4>
-              <p>{result.standardRange}</p>
+              <p className="range">{result.standardRange}</p>
               <va-additional-info trigger="What's the standard range?">
                 The standard range is one tool your providers use to understand
                 your results. If your results are outside the standard range,
@@ -28,15 +28,15 @@ const ChemHemResults = props => {
               <h4 className="vads-u-font-size--base vads-u-font-family--sans">
                 Status
               </h4>
-              <p>{result.status}</p>
+              <p className="data">{result.status}</p>
               <h4 className="vads-u-font-size--base vads-u-font-family--sans">
                 Lab location
               </h4>
-              <p>{result.labLocation}</p>
+              <p className="data">{result.labLocation}</p>
               <h4 className="vads-u-font-size--base vads-u-font-family--sans">
                 Interpretation
               </h4>
-              <p>{result.interpretation}</p>
+              <p className="data">{result.interpretation}</p>
             </div>
           </li>
         );
