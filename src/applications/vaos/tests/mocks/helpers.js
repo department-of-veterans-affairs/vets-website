@@ -268,25 +268,6 @@ export function mockCCSingleProviderFetch(request) {
 }
 
 /**
- * Mocks api calls used when cancelling an appointment
- *
- * @export
- * @param {string} id Facility id wheren appointment is being cancelled
- * @param {Array<VACancelReason>} reasons Array of cancel reasons to return from mock
- */
-export function mockVACancelFetches(id, reasons) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/facilities/${id}/cancel_reasons`,
-    ),
-    { data: reasons },
-  );
-  setFetchJSONResponse(
-    global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments/cancel`),
-    { data: {} },
-  );
-}
-/**
  * Mocks the api call made to cancel a request.
  *
  * @export
