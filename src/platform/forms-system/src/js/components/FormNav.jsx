@@ -128,9 +128,6 @@ export default function FormNav(props) {
       {!hideFormNavProgress && (
         <va-segmented-progress-bar total={chapters.length} current={current} />
       )}
-      {!hideFormNavProgress && (
-        <va-segmented-progress-bar total={chapters.length} current={current} />
-      )}
       <div className="schemaform-chapter-progress">
         <div className="nav-header nav-header-schemaform">
           {showHeader && (
