@@ -5,13 +5,13 @@
         "sign_in": {
           "service_name": "idme"
         },
-        "email": "fake@fake.com",
+        "email": "joe.veteran@example.com",
         "loa": { "current": 3 },
-        "first_name": "John",
+        "first_name": "Joe",
         "middle_name": "",
-        "last_name": "Doe",
+        "last_name": "Veteran",
         "gender": "M",
-        "birth_date": "1985-01-01",
+        "birth_date": "2000-01-01",
         "verified": true
       },
       "veteran_status": {
@@ -19,8 +19,26 @@
         "is_veteran": true,
         "served_in_military": true
       },
-      "in_progress_forms": [],
-      "prefills_available": [],
+      "in_progress_forms": [
+        {
+          "form": "21-10210",
+          "metadata": {
+            "savedAt": 1681760746439,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": 1681760746426,
+              "hasAttemptedSubmit": true
+            },
+            "expiresAt": 1686944746,
+            "lastUpdated": 1681760746,
+            "inProgressFormId": 19439
+          },
+          "lastUpdated": 1681760746
+        }
+      ],
+      "prefills_available": ["21-10210"],
       "services": [
         "hca",
         "edu-benefits",
@@ -33,10 +51,10 @@
       ],
       "va_profile": {
         "status": "OK",
-        "birth_date": "19850101",
-        "family_name": "Doe",
+        "birth_date": "20000101",
+        "family_name": "Veteran",
         "gender": "M",
-        "given_names": ["John", ""],
+        "given_names": ["Joe", ""],
         "active_status": "active",
         "facilities": []
       }
