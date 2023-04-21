@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 import { subDays } from 'date-fns';
 
+import fs from 'fs';
+
 import { phoneNumbers } from '../../../utils/appConstants';
 import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
 import HowToLink from '../../../components/HowToLink';
@@ -18,43 +20,167 @@ import './registerStaticFiles';
 const PDFDocument = require('pdfkit').default;
 const blobStream = require('blob-stream');
 
-const downloadPdf = () => {
+const downloadPdf = async () => {
   const doc = new PDFDocument({
-    version: '1.5',
+    pdfVersion: '1.5',
+    lang: 'en-US',
     tagged: true,
     displayTitle: true,
+    autoFirstPage: false,
+    bufferPages: true,
   });
   const stream = doc.pipe(blobStream());
 
-  doc.info = { Title: 'Here is my PDF' };
+  // Set some meta data
+  doc.info.Title = 'Test Document';
+  doc.info.Author = 'Devon Govett';
 
-  doc.markContent('Span');
-  doc.text('Hello, world! ');
-  doc.endMarkedContent();
+  // Initialise document logical structure
+  const struct = doc.struct('Document');
+  doc.addStructure(struct);
 
-  // and some justified text wrapped into columns
-  doc.markContent('Span');
-  doc
-    .text('And here is some wrapped text...', 100, 300)
-    .fontSize(13)
-    .moveDown()
-    .text('here is some text', {
-      width: 412,
-      align: 'justify',
-      indent: 30,
-      columns: 2,
-      height: 300,
-      ellipsis: true,
-    });
-  doc.endMarkedContent();
+  // Register a font name for use later
 
-  doc.addPage();
+  let request;
+  let font;
 
-  doc.markContent('Span');
-  doc.font('Courier-Bold').text('Finish...');
-  doc.endMarkedContent();
+  request = await fetch('/generated/bitterboldb64.ttf');
+  font = await request.text();
+  fs.writeFileSync('bitter-bold.ttf', font);
+  doc.registerFont('Bitter-Bold', 'bitter-bold.ttf');
 
-  // end and display the document in the iframe to the right
+  request = await fetch('/generated/ssp-regb64.ttf');
+  font = await request.text();
+  fs.writeFileSync('ssp-regular.ttf', font);
+  doc.registerFont('Sans', 'ssp-regular.ttf');
+
+  request = await fetch('/generated/ssp-boldb64.ttf');
+  font = await request.text();
+  fs.writeFileSync('ssp-bold.ttf', font);
+  doc.registerFont('Sans-Bold', 'ssp-bold.ttf');
+
+  doc.addPage({
+    margin: 50,
+  });
+
+  struct.add(
+    doc.struct('H1', () => {
+      doc
+        .font('Bitter-Bold')
+        .fontSize(20)
+        .text('Lab and test results: Complete blood count on April 18, 2023', {
+          paragraphGap: 10,
+        });
+    }),
+  );
+
+  const message =
+    "If your results are outside the standard range, this doesn't automatically mean you have a health problem. Your provider will explain what your results mean for your health. If you have questions about your results, contact your VA care team.";
+  struct.add(
+    doc.struct('P', () => {
+      doc
+        .font('Sans')
+        .fontSize(12)
+        .text(message, { paragraphGap: 10 });
+    }),
+  );
+
+  struct.add(
+    doc.struct('H2', () => {
+      doc
+        .font('Bitter-Bold')
+        .fontSize(16)
+        .text('Details about this test', { paragraphGap: 10 });
+    }),
+  );
+
+  const detailsList = doc.struct('L');
+  struct.add(detailsList);
+
+  const detailsListItem = doc.struct('LI');
+  struct.add(detailsListItem);
+
+  detailsListItem.add(
+    doc.struct('Lbl', () => {
+      doc.font('Sans-Bold', 12).text('Provider notes', { indent: 10 });
+    }),
+  );
+
+  detailsListItem.add(
+    doc.struct('LBody', () => {
+      doc.font('Sans', 12).text('None noted', { indent: 10 });
+    }),
+  );
+
+  const details = [
+    { label: 'Type of test', data: 'Chemistry and hematology' },
+    { label: 'Sample tested', data: 'Serum' },
+    { label: 'Ordered by', data: 'Beth M. Smith' },
+    {
+      label: 'Ordering location',
+      data: 'DAYTON, OH VAMC 4100 W. THIRD STREE, DAYTON, OH 45428',
+    },
+    {
+      label: 'Collecting location',
+      data: 'DAYTON, OH VAMC 4100 W. THIRD STREE, DAYTON, OH 45428',
+    },
+  ];
+
+  details.forEach(item => {
+    struct.add(
+      doc.struct('LI', () => {
+        doc
+          .font('Sans-Bold', 12)
+          .lineGap(5)
+          .text(`${item.label}: `, { continued: true, indent: 10 })
+          .font('Sans', 12)
+          .text(item.data, { indent: 50 });
+      }),
+    );
+  });
+
+  detailsList.end();
+
+  // Global Edits to All Pages (Header/Footer, etc)
+  const pages = doc.bufferedPageRange();
+  for (let i = 0; i < pages.count; i += 1) {
+    doc.switchToPage(i);
+
+    // Header: Add page number
+    const oldTopMargin = doc.page.margins.top;
+    doc.page.margins.top = 0; // Dumb: Have to remove top margin in order to write into it
+    doc.text(
+      'Roberts, Jesse',
+      50,
+      oldTopMargin - 30, // Centered vertically in top margin
+      { align: 'left' },
+    );
+    doc.text(
+      `Page: ${i + 1} of ${pages.count}`,
+      0,
+      oldTopMargin - 30, // Centered vertically in top margin
+      { align: 'right' },
+    );
+    doc.page.margins.top = oldTopMargin; // ReProtect top margin
+
+    // Footer: Add page number
+    const oldBottomMargin = doc.page.margins.bottom;
+    doc.page.margins.bottom = 0; // Dumb: Have to remove bottom margin in order to write into it
+    doc.text(
+      'Report generated by My HealtheVet and VA on May 1, 2023',
+      50,
+      doc.page.height - oldBottomMargin / 2, // Centered vertically in bottom margin
+      { align: 'left' },
+    );
+    doc.text(
+      `Page: ${i + 1} of ${pages.count}`,
+      50,
+      doc.page.height - oldBottomMargin / 2, // Centered vertically in bottom margin
+      { align: 'right' },
+    );
+    doc.page.margins.bottom = oldBottomMargin; // ReProtect bottom margin
+  }
+
   doc.end();
 
   stream.on('finish', () => {

@@ -374,13 +374,30 @@ module.exports = async (env = {}) => {
         { test: /\.afm$/, type: 'asset/source' },
         // bundle and load binary files inside static-assets folder as base64
         {
-          test: /src[/\\]static-assets/,
+          test: /.*\.Zttf$/,
           type: 'asset/inline',
           generator: {
             dataUrl: content => {
               return content.toString('base64');
-            }
-          }
+            },
+          },
+        },
+        // convert to base64 and include inline file system binary files used by fontkit and linebreak
+        {
+          enforce: 'post',
+          test: /fontkit[/\\]index.js$/,
+          loader: 'transform-loader',
+          options: {
+            brfs: {},
+          },
+        },
+        {
+          enforce: 'post',
+          test: /linebreak[/\\]src[/\\]linebreaker.js/,
+          loader: 'transform-loader',
+          options: {
+            brfs: {},
+          },
         },
       ],
       noParse: [/mapbox\/vendor\/promise.js$/],
@@ -388,6 +405,8 @@ module.exports = async (env = {}) => {
     resolve: {
       alias: {
         fs: 'pdfkit/js/virtual-fs.js',
+        // iconv-lite is used to load cid less fonts (not spec compliant)
+        'iconv-lite': false,
       },
       extensions: ['.js', '.jsx'],
       fallback: {
@@ -444,12 +463,6 @@ module.exports = async (env = {}) => {
           process.env.VIRTUAL_AGENT_BACKEND_URL || '',
         ),
       }),
-
-      /*
-      new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'src/index.html'),
-      }),
-      */
 
       new webpack.ProvidePlugin({
         Buffer: ['buffer', 'Buffer'],
