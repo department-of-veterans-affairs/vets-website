@@ -14,10 +14,6 @@ import MessageReply from './MessageReply';
 import SearchResults from './SearchResults';
 
 const AuthorizedRoutes = () => {
-  // useEffect(() => {
-  //   focusElement(document.querySelector('h1'));
-  // });
-
   return (
     <div className="secure-messaging vads-u-flex--fill">
       <ScrollToTop />

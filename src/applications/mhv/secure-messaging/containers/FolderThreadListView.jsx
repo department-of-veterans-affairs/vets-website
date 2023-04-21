@@ -63,6 +63,15 @@ const FolderThreadListView = props => {
 
   useEffect(
     () => {
+      if (threads !== undefined) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [threads],
+  );
+
+  useEffect(
+    () => {
       // clear out folder reducer to prevent from previous folder data flashing
       // when navigating between folders
       if (!testing) dispatch(clearFolder());
@@ -111,29 +120,19 @@ const FolderThreadListView = props => {
     }
   }, 60000);
 
-  // useEffect(() => {
-  //   setIsLoading(true);
-  // }, []);
-
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-  });
-
-  // JSX
-  // const LoadingIndicator = () => {
-  //   return (
-  //     <va-loading-indicator
-  //       message="Loading your s@@@ecure messages..."
-  //       setFocus
-  //       data-testid="loading-indicator"
-  //     />
-  //     // null
-  //   );
-  // };
+  const LoadingIndicator = () => {
+    return (
+      <va-loading-indicator
+        message="Loading your secure messages..."
+        setFocus
+        data-testid="loading-indicator"
+      />
+    );
+  };
 
   const content = () => {
     if (threads === undefined) {
-      return null;
+      return <LoadingIndicator />;
     }
 
     if (threads.length === 0) {
@@ -183,20 +182,21 @@ const FolderThreadListView = props => {
         />
       );
     }
-
     return null;
   };
 
   return (
-    <div className="vads-l-grid-container vads-u-padding--0 main-content custom-folder">
-      <AlertBackgroundBox closeable />
-      {/* {folder?.folderId === undefined && LoadingIndicator()} */}
-      {folder?.folderId !== undefined && (
-        <>
-          {<FolderHeader folder={folder} />}
-          {content()}
-        </>
-      )}
+    <div className="vads-l-grid-container vads-u-padding--0">
+      <div className="main-content">
+        <AlertBackgroundBox closeable />
+        {folder?.folderId === undefined && <LoadingIndicator />}
+        {folder?.folderId !== undefined && (
+          <>
+            <FolderHeader folder={folder} />
+            {content()}
+          </>
+        )}
+      </div>
     </div>
   );
 };
