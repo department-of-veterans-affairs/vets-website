@@ -1,5 +1,7 @@
 import React from 'react';
+// import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
+// import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
 // import FolderListView from './FolderListView';
@@ -12,8 +14,12 @@ import MessageReply from './MessageReply';
 import SearchResults from './SearchResults';
 
 const AuthorizedRoutes = () => {
+  // useEffect(() => {
+  //   focusElement(document.querySelector('h1'));
+  // });
+
   return (
-    <div className="vads-u-flex--fill">
+    <div className="secure-messaging vads-u-flex--fill">
       <ScrollToTop />
       <Switch>
         <Route exact path="/" key="App">

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   DefaultFolders as Folders,
   Alerts,
@@ -19,6 +20,7 @@ const FolderThreadListView = props => {
   const { testing } = props;
   const dispatch = useDispatch();
   const [folderId, setFolderId] = useState(null);
+  // const [isLoading, setIsLoading] = useState(false);
   const error = null;
   // Currently the pagination has a bug that doesnt return the correct amount of results per page, as a temporary solution, the threadsPerPage is set to 100 to cover most folders without needing pagination.
   const threadsPerPage = 100;
@@ -109,20 +111,31 @@ const FolderThreadListView = props => {
     }
   }, 60000);
 
-  const loadingIndicator = () => {
-    return (
-      <va-loading-indicator
-        message="Loading your secure messages..."
-        setFocus
-        data-testid="loading-indicator"
-      />
-    );
-  };
+  // useEffect(() => {
+  //   setIsLoading(true);
+  // }, []);
+
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  });
+
+  // JSX
+  // const LoadingIndicator = () => {
+  //   return (
+  //     <va-loading-indicator
+  //       message="Loading your s@@@ecure messages..."
+  //       setFocus
+  //       data-testid="loading-indicator"
+  //     />
+  //     // null
+  //   );
+  // };
 
   const content = () => {
     if (threads === undefined) {
-      return loadingIndicator();
+      return null;
     }
+
     if (threads.length === 0) {
       return (
         <>
@@ -142,6 +155,7 @@ const FolderThreadListView = props => {
         </>
       );
     }
+
     if (error) {
       return (
         <va-alert status="error" visible>
@@ -153,6 +167,7 @@ const FolderThreadListView = props => {
         </va-alert>
       );
     }
+
     if (threads.length > 0) {
       return (
         <ThreadsList
@@ -168,21 +183,20 @@ const FolderThreadListView = props => {
         />
       );
     }
-    return '';
+
+    return null;
   };
 
   return (
-    <div className="vads-l-grid-container vads-u-padding--0">
-      <div className="main-content">
-        <AlertBackgroundBox closeable />
-        {folder?.folderId === undefined && loadingIndicator()}
-        {folder?.folderId !== undefined && (
-          <>
-            <FolderHeader folder={folder} />
-            {content()}
-          </>
-        )}
-      </div>
+    <div className="vads-l-grid-container vads-u-padding--0 main-content custom-folder">
+      <AlertBackgroundBox closeable />
+      {/* {folder?.folderId === undefined && LoadingIndicator()} */}
+      {folder?.folderId !== undefined && (
+        <>
+          {<FolderHeader folder={folder} />}
+          {content()}
+        </>
+      )}
     </div>
   );
 };

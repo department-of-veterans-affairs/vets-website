@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import { useDispatch } from 'react-redux';
 
@@ -7,6 +8,10 @@ const LandingPageUnauth = () => {
   const handleSignIn = () => {
     dispatch(toggleLoginModal(true, 'mhv-sm-landing-page'));
   };
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  });
+
   return (
     <div className="main-content vads-u-flex--fill">
       <h1>Messages</h1>
