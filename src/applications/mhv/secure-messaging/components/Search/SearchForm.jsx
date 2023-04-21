@@ -139,7 +139,7 @@ const SearchForm = props => {
     <>
       <div className="search-form">
         <h3>{filterLabelHeading}</h3>
-        <div className="keyword-help-text">{filterLabelBody}</div>
+        {/* <div className="keyword-help-text">{filterLabelBody}</div> */}
         <>
           {searchTermError && (
             <div className="error-message" role="alert">
@@ -151,7 +151,7 @@ const SearchForm = props => {
             <div className="filter-text-input">
               <va-text-input
                 id="filter-input"
-                label=""
+                label={filterLabelBody}
                 className="filter-input-box"
                 message-aria-describedby="filter text input"
                 value={searchTerm}

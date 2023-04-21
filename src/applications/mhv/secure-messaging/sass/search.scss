@@ -14,21 +14,26 @@
   }
 
   .filter-input-box-container  {
+    margin-top: -30px;
+    position: relative;
     display: flex;
     flex-wrap: nowrap;
     width: 100%;
   }
 
-  .basic-filter-button {
+  .basic-filter-button-container {
     margin-top: -5px;
+
   }
   .filter-button {
+    position: absolute;
+    bottom: 0;
     width: 109px;
     padding: 13px;
     padding-left: 20px;
     padding-right: 20px;
-
     margin-left: 0;
+    margin-bottom: 3.2px;
     border-radius: 0 5px 5px 0;
   }
   .filter-text-input{
