@@ -20,8 +20,7 @@ const InstallmentContractSummary = ({
   const dispatch = useDispatch();
 
   const formData = useSelector(state => state.form.data);
-  const { expenses } = formData;
-  const { installmentContracts = [] } = expenses;
+  const { installmentContracts = [] } = formData;
 
   useEffect(() => {
     clearJobIndex();
@@ -46,12 +45,9 @@ const InstallmentContractSummary = ({
           ...data.questions,
           hasRepayments: deleteIndex !== 0,
         },
-        expenses: {
-          ...expenses,
-          installmentContracts: installmentContracts.filter(
-            (source, index) => index !== deleteIndex,
-          ),
-        },
+        installmentContracts: installmentContracts.filter(
+          (source, index) => index !== deleteIndex,
+        ),
       }),
     );
   };
@@ -64,7 +60,7 @@ const InstallmentContractSummary = ({
           Creditor: <strong>{bill.creditorName} </strong>
           <br />
           Original Loan Amount:{' '}
-          <strong>{currencyFormatter(bill.originalLoanAmount)}</strong>
+          <strong>{currencyFormatter(bill.originalAmount)}</strong>
           <br />
           Unpaid balance:{' '}
           <strong>{currencyFormatter(bill.unpaidBalance)}</strong>
@@ -72,10 +68,10 @@ const InstallmentContractSummary = ({
           Minimum monthly payment amount:{' '}
           <strong>{currencyFormatter(bill.amountDueMonthly)}</strong>
           <br />
-          Date received: <strong>{bill.from}</strong>
+          Date received: <strong>{bill.dateStarted}</strong>
           <br />
           Amount overdue:{' '}
-          <strong>{currencyFormatter(bill.amountOverdue)}</strong>
+          <strong>{currencyFormatter(bill.amountPastDue)}</strong>
         </p>
       </>
     );
@@ -93,7 +89,7 @@ const InstallmentContractSummary = ({
                 pathname: '/your-installment-contracts',
                 search: `?index=${index}`,
               }}
-              heading={bill.contractType}
+              heading={bill.purpose}
               key={bill.minPaymentAmount + bill.unpaidBalance}
               onDelete={() => onDelete(index)}
               showDelete

@@ -259,47 +259,35 @@ export const getMonthlyExpenses = ({
   otherExpenses,
   utilityRecords,
   installmentContracts,
-  'view:enhancedFinancialStatusReport': enhancedFSRActive,
+  'view:enhancedFinancialStatusReport': enhancedFSRActive = false,
 }) => {
   const utilities = enhancedFSRActive
     ? sumValues(utilityRecords, 'amount')
     : sumValues(utilityRecords, 'monthlyUtilityAmount');
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
-  const expVals = Object.values(expenses).filter(Boolean);
   const creditCardBills = sumValues(
     expenses.creditCardBills,
-    'minMonthlyPayment',
+    'amountDueMonthly',
   );
 
   // efsr note: food is included in otherExpenses
-  const food = enhancedFSRActive ? 0 : Number(get(expenses, 'food', 0));
-  // efsr note: Rent & Mortgage is included in otherExpenses
-  const rentOrMortgage = enhancedFSRActive
-    ? 0
-    : Number(get(expenses, 'rentOrMortgage', 0));
+  const food = Number(get(expenses, 'food', 0));
+  // efsr note: Rent & Mortgage is included in expenseRecords
+  const rentOrMortgage = Number(get(expenses, 'rentOrMortgage', 0));
 
-  let totalExp = 0;
-
-  if (expenses.expenseRecords && expenses.expenseRecords.length > 0) {
-    totalExp = expenses.expenseRecords.reduce(
+  const calculatedExpenseRecords =
+    expenses?.expenseRecords?.reduce(
       (acc, expense) =>
         acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
       0,
-    );
-  } else {
-    totalExp = expVals.reduce(
-      (acc, expense) =>
-        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
-      0,
-    );
-  }
+    ) ?? 0;
 
   return (
     utilities +
     installments +
     otherExp +
-    totalExp +
+    calculatedExpenseRecords +
     food +
     rentOrMortgage +
     creditCardBills

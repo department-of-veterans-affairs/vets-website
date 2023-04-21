@@ -786,13 +786,16 @@ describe('efsr-fsr transform information', () => {
     });
     it('has valid data', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
-      expect(submissionObj.expenses.rentOrMortgage).to.equal('1200.53');
+      expect(submissionObj.expenses.rentOrMortgage).to.equal('2000.53');
       expect(submissionObj.expenses.food).to.equal('1000.54');
       expect(submissionObj.expenses.utilities).to.equal('701.35');
+      expect(submissionObj.expenses.otherLivingExpenses.amount).to.equal(
+        '195.25',
+      );
       expect(
         submissionObj.expenses.expensesInstallmentContractsAndOtherDebts,
       ).to.equal('2000.64');
-      expect(submissionObj.expenses.totalMonthlyExpenses).to.equal('10224.51');
+      expect(submissionObj.expenses.totalMonthlyExpenses).to.equal('5898.31');
     });
     describe('efsr-other living expenses', () => {
       it('has valid structure', () => {
@@ -807,10 +810,10 @@ describe('efsr-fsr transform information', () => {
       it('has valid data', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj.expenses.otherLivingExpenses.name).to.equal(
-          'Clothing, Veteran added',
+          'Clothing, Veteran added, Property tax',
         );
         expect(submissionObj.expenses.otherLivingExpenses.amount).to.equal(
-          '110.00',
+          '195.25',
         );
       });
     });
@@ -831,7 +834,7 @@ describe('efsr-fsr transform information', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(
         submissionObj.discretionaryIncome.netMonthlyIncomeLessExpenses,
-      ).to.equal('7193.50');
+      ).to.equal('14699.54');
       expect(
         submissionObj.discretionaryIncome.amountCanBePaidTowardDebt,
       ).to.equal('61.02');
@@ -921,7 +924,7 @@ describe('efsr-fsr transform information', () => {
         ).haveOwnProperty('creditorName');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0],
-        ).haveOwnProperty('originalLoanAmount');
+        ).haveOwnProperty('originalAmount');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0],
         ).haveOwnProperty('unpaidBalance');
@@ -933,7 +936,7 @@ describe('efsr-fsr transform information', () => {
         ).haveOwnProperty('dateStarted');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0],
-        ).haveOwnProperty('amountOverdue');
+        ).haveOwnProperty('amountPastDue');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0],
         ).haveOwnProperty('creditorAddress');
@@ -950,7 +953,7 @@ describe('efsr-fsr transform information', () => {
           submissionObj.installmentContractsAndOtherDebts[0].creditorName,
         ).to.equal('Creditor One');
         expect(
-          submissionObj.installmentContractsAndOtherDebts[0].originalLoanAmount,
+          submissionObj.installmentContractsAndOtherDebts[0].originalAmount,
         ).to.equal('50000.54');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0].unpaidBalance,
@@ -962,7 +965,7 @@ describe('efsr-fsr transform information', () => {
           submissionObj.installmentContractsAndOtherDebts[0].dateStarted,
         ).to.equal('03/2017');
         expect(
-          submissionObj.installmentContractsAndOtherDebts[0].amountOverdue,
+          submissionObj.installmentContractsAndOtherDebts[0].amountPastDue,
         ).to.equal('125.43');
       });
       describe('efsr-creditorAddress', () => {
@@ -1076,7 +1079,7 @@ describe('efsr-fsr transform information', () => {
     it('has valid data', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj.additionalData.additionalComments).to.equal(
-        'Supporting personal statement...\nIndividual expense amount: Clothing ($10.00), Veteran added ($100.00)',
+        'Supporting personal statement...\nIndividual expense amount: Clothing ($10.00), Veteran added ($100.00), Property tax ($85.25)',
       );
     });
     describe('efsr-bankruptcy', () => {

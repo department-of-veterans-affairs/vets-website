@@ -29,6 +29,14 @@
         {
           "name": "Rent",
           "amount": "1200.53"
+        },
+        {
+          "name": "Mortgage payment",
+          "amount": "800.00"
+        },
+        {
+          "name": "Property tax",
+          "amount": "85.25"
         }
       ]
     },
@@ -157,20 +165,20 @@
       {
         "purpose": "Credit card payments",
         "creditorName": "Creditor One",
-        "originalLoanAmount": "50000.54",
+        "originalAmount": "50000.54",
         "unpaidBalance": "15000.56",
         "amountDueMonthly": "800.10",
         "dateStarted": "2017-03-XX",
-        "amountOverdue": "125.43"
+        "amountPastDue": "125.43"
       },
       {
         "purpose": "Car payment/lease",
         "creditorName": "Creditor Two",
-        "originalLoanAmount": "100000.43",
+        "originalAmount": "100000.43",
         "unpaidBalance": "50000.26",
         "amountDueMonthly": "1200.54",
         "dateStarted": "2019-05-XX",
-        "amountOverdue": "0"
+        "amountPastDue": "0"
       }
     ],
     "utilityRecords": [

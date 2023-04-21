@@ -29,6 +29,17 @@
         "name": "Rent",
         "amount": "1200.53"
       }
+    ],
+    "creditCardBills": [
+      {
+        "purpose": "Credit card payment",
+        "creditorName": "",
+        "originalAmount": "",
+        "unpaidBalance": "300000",
+        "amountDueMonthly": "10000",
+        "dateStarted": "",
+        "amountPastDue": "7000"
+      }
     ]
   },
   "assets": {
@@ -147,7 +158,7 @@
   },
   "questions": {
     "hasBeenAdjudicatedBankrupt": true,
-    "hasCreditCardBills":false,
+    "hasCreditCardBills": true,
     "hasOtherExpenses": true,
     "hasRepayments": true,
     "hasUtilities": true,

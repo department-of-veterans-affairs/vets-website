@@ -47,7 +47,12 @@ export const transform = (formConfig, form) => {
         spouse: { spEmploymentRecords = [] },
       },
     },
-    expenses,
+    expenses: {
+      creditCardBills = [],
+      expenseRecords = [],
+      food = 0,
+      rentOrMortgage = 0,
+    },
     otherExpenses,
     utilityRecords,
     assets,
@@ -131,13 +136,32 @@ export const transform = (formConfig, form) => {
   const spOtherIncome = spAddlInc + spBenefits + spSocialSecAmt;
   const spNetIncome = spGrossSalary - spTotDeductions;
 
-  // other living expenses - enhanced finters
-  const filteredExpenses = otherExpenses?.filter(
-    expense => !expense.name.includes('Food'),
-  );
+  // === expenses ===
+  // rent & mortgage expenses for box 18
+  const rentOrMortgageExpenses = expenseRecords.filter(
+    expense => expense.name === 'Rent' || expense.name === 'Mortgage payment',
+  ) || { amount: 0 };
+
+  // food expenses for box 19
   const foodExpenses = otherExpenses?.find(expense =>
     expense.name.includes('Food'),
   ) || { amount: 0 };
+
+  // other living expenses box 21
+  // Including options from expoenseRecords (living expenses) w/o rent & mortgage
+  const filteredExpenses = [
+    ...otherExpenses?.filter(
+      expense => !expense.name.toLowerCase().includes('food'),
+    ),
+    ...expenseRecords.filter(
+      expense => expense.name !== 'Rent' && expense.name !== 'Mortgage payment',
+    ),
+  ];
+
+  const installmentContractsAndCreditCards = [
+    ...installmentContracts,
+    ...creditCardBills,
+  ];
 
   // generate name strings
   const vetOtherName = nameStr(vetSocSecAmt, vetComp, vetEdu, addlIncRecords);
@@ -272,9 +296,9 @@ export const transform = (formConfig, form) => {
     ],
     expenses: {
       rentOrMortgage: enhancedFSRActive
-        ? sumValues(expenses?.expenseRecords, 'amount')
-        : expenses.rentOrMortgage,
-      food: enhancedFSRActive ? foodExpenses?.amount : expenses.food,
+        ? sumValues(rentOrMortgageExpenses, 'amount')
+        : rentOrMortgage,
+      food: enhancedFSRActive ? foodExpenses?.amount : food,
       utilities: enhancedFSRActive
         ? sumValues(utilityRecords, 'amount')
         : sumValues(utilityRecords, 'monthlyUtilityAmount'),
@@ -286,10 +310,9 @@ export const transform = (formConfig, form) => {
           ? sumValues(filteredExpenses, 'amount')
           : sumValues(otherExpenses, 'amount'),
       },
-      expensesInstallmentContractsAndOtherDebts: sumValues(
-        installmentContracts,
-        'amountDueMonthly',
-      ),
+      expensesInstallmentContractsAndOtherDebts: enhancedFSRActive
+        ? sumValues(installmentContractsAndCreditCards, 'amountDueMonthly')
+        : sumValues(installmentContracts, 'amountDueMonthly'),
       totalMonthlyExpenses: totMonthlyExpenses,
     },
     discretionaryIncome: {
@@ -315,27 +338,35 @@ export const transform = (formConfig, form) => {
       otherAssets: assets.otherAssets,
       totalAssets,
     },
-    installmentContractsAndOtherDebts: installmentContracts?.map(debt => ({
-      ...debt,
-      dateStarted: dateFormatter(debt.dateStarted),
-      creditorAddress: {
-        addresslineOne: '',
-        addresslineTwo: '',
-        addresslineThree: '',
-        city: '',
-        stateOrProvince: '',
-        zipOrPostalCode: '',
-        countryName: '',
-      },
-    })),
+    installmentContractsAndOtherDebts: installmentContractsAndCreditCards?.map(
+      debt => ({
+        ...debt,
+        dateStarted: dateFormatter(debt.dateStarted),
+        creditorAddress: {
+          addresslineOne: '',
+          addresslineTwo: '',
+          addresslineThree: '',
+          city: '',
+          stateOrProvince: '',
+          zipOrPostalCode: '',
+          countryName: '',
+        },
+      }),
+    ),
     totalOfInstallmentContractsAndOtherDebts: {
       originalAmount: enhancedFSRActive
-        ? sumValues(installmentContracts, 'originalLoanAmount')
+        ? sumValues(installmentContractsAndCreditCards, 'originalAmount')
         : sumValues(installmentContracts, 'originalAmount'),
-      unpaidBalance: sumValues(installmentContracts, 'unpaidBalance'),
-      amountDueMonthly: sumValues(installmentContracts, 'amountDueMonthly'),
+      unpaidBalance: sumValues(
+        installmentContractsAndCreditCards,
+        'unpaidBalance',
+      ),
+      amountDueMonthly: sumValues(
+        installmentContractsAndCreditCards,
+        'amountDueMonthly',
+      ),
       amountPastDue: enhancedFSRActive
-        ? sumValues(installmentContracts, 'amountOverdue')
+        ? sumValues(installmentContractsAndCreditCards, 'amountPastDue')
         : sumValues(installmentContracts, 'amountPastDue'),
     },
     additionalData: {
