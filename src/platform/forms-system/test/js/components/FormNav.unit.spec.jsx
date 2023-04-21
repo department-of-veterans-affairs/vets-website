@@ -80,6 +80,31 @@ describe('Schemaform FormNav', () => {
     expect(tree.getByTestId('navFormHeader')).to.be.empty;
   });
 
+  it('should render dynamic chapter-title stepText', () => {
+    const currentPath = 'testing1';
+    const formConfigDefaultData = { ...getDefaultData() };
+
+    // use a function for chapter-title instead of a string
+    formConfigDefaultData.chapters.chapter1.title = ({
+      formData,
+      formConfig,
+    }) => {
+      if (!!formData && !!formConfig) {
+        return 'Title [from function]';
+      }
+
+      return '[no params provided to function]';
+    };
+
+    const tree = render(
+      <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />,
+    );
+
+    expect(tree.getByTestId('navFormHeader').textContent).to.contain(
+      'Step 1 of 3: Title [from function]',
+    );
+  });
+
   it('should display correct chapter number & total in stepText after previous progress-hidden chapter', () => {
     const currentPath = 'testing2';
     const formConfigDefaultData = { ...getDefaultData() };
