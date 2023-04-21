@@ -417,7 +417,7 @@ class SearchApp extends React.Component {
           {results &&
             results.length > 0 && (
               <VaPagination
-                onPageSelect={this.handlePageChange}
+                onPageSelect={e => this.handlePageChange(e.detail.page)}
                 page={currentPage}
                 pages={totalPages}
                 maxPageListLength={5}

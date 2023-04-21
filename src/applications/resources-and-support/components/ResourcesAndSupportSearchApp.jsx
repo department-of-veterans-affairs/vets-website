@@ -129,7 +129,7 @@ const ResourcesAndSupportSearchApp = () => {
             />
             <VaPagination
               maxPageListLength={RESULTS_PER_PAGE}
-              onPageSelect={onPageSelect}
+              onPageSelect={e => onPageSelect(e.detail.page)}
               page={page}
               pages={totalPages}
               showLastPage

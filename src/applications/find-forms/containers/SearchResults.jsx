@@ -309,7 +309,7 @@ export const SearchResults = ({
         <VaPagination
           className="find-va-forms-pagination-override"
           maxPageListLength={MAX_PAGE_LIST_LENGTH}
-          onPageSelect={onPageSelect}
+          onPageSelect={e => onPageSelect(e.detail.page)}
           page={page}
           pages={totalPages}
           showLastPage
