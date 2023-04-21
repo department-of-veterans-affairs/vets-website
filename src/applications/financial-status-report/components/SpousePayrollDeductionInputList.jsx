@@ -114,6 +114,7 @@ const SpousePayrollDeductionInputList = props => {
             inputmode="decimal"
             onInput={onChange}
             required
+            currency
           />
         </div>
       ))}

@@ -62,6 +62,7 @@ const UtilityBillSummary = ({
                 key={utility.name + utility.amount}
                 onDelete={() => onDelete(index)}
                 showDelete
+                index={index}
               />
             ))
           )}
