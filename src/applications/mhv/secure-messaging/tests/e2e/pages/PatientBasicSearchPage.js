@@ -9,7 +9,7 @@ class PatientBasicSearchPage {
   typeSearchInputFieldText = text => {
     cy.get('[data-testid="keyword-search-input"]')
       .shadow()
-      .find('[id="va-search-input"]')
+      .find('[id="filter-input"]')
       .type(text, { waitforanimations: false });
   };
 
