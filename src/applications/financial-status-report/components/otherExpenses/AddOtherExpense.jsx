@@ -115,7 +115,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             name="add-other-living-expense-amount"
             onInput={handlers.onExpenseAmountChange}
             required
-            type="text"
+            type="number"
             value={expenseAmount || ''}
           />
           <div className="vads-u-margin-top--2">
@@ -128,7 +128,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
               Cancel
             </button>
             <button
-              type="button"
+              type="submit"
               id="submit"
               className="vads-u-width--auto"
               onClick={handlers.onUpdate}
