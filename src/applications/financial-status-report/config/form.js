@@ -32,6 +32,8 @@ import UtilityBillSummary from '../components/utilityBills/UtilityBillSummary';
 import UtilityBillSummaryReview from '../components/utilityBills/UtilityBillSummaryReview';
 import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
+import InstallmentContract from '../components/InstallmentContract';
+import InstallmentContractSummary from '../pages/expenses/repayments/InstallmentContractSummary';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -419,14 +421,15 @@ const formConfig = {
         enhancedSpouseEmploymentRecords: {
           path: 'enhanced-spouse-employment-records',
           title: 'Employment',
-          uiSchema: pages.enhancedEmploymentRecords.uiSchema,
-          schema: pages.enhancedEmploymentRecords.schema,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
           depends: formData =>
             formData.questions.isMarried &&
             formData.questions.spouseIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: EnhancedSpouseEmploymentRecord,
+          CustomPageReview: null,
         },
         enhancedSpouseGrossMonthlyIncome: {
           path: 'spouse-gross-monthly-income',
@@ -823,6 +826,38 @@ const formConfig = {
             !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
+        installmentContracts: {
+          path: 'installment-contracts',
+          title: 'Installment Contracts',
+          uiSchema: pages.installmentContracts.uiSchema,
+          schema: pages.installmentContracts.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        addEditInstallmentContract: {
+          path: 'your-installment-contracts',
+          title: 'Installment contracts',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasRepayments &&
+            !formData.expenses?.installmentContracts?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: InstallmentContract,
+          CustomPageReview: null,
+        },
+        installmentContractSummary: {
+          path: 'installment-contracts-summary',
+          title: 'Installment contracts',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasRepayments &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: InstallmentContractSummary,
+          CustomPageReview: null,
+        },
         creditCardBills: {
           path: 'credit-card-bills',
           title: 'Credit card bills',
@@ -890,31 +925,41 @@ const formConfig = {
         // New resolution radio options
         resolutionOption: {
           title: 'Resolution Option',
-          depends: formData =>
-            formData.selectedDebtsAndCopays?.length > 0 &&
-            formData['view:combinedFinancialStatusReport'],
+          depends: formData => {
+            return (
+              formData.selectedDebtsAndCopays?.length > 0 &&
+              formData['view:combinedFinancialStatusReport']
+            );
+          },
           path: 'resolution-option/:index',
           showPagePerItem: true,
           arrayPath: 'selectedDebtsAndCopays',
           uiSchema: pages.resolutionOption.uiSchema,
           schema: pages.resolutionOption.schema,
         },
-        // New text field
         resolutionComment: {
           title: 'Resolution Amount',
-          depends: (formData, index) => {
-            return (
-              formData.selectedDebtsAndCopays?.length > 0 &&
-              formData['view:combinedFinancialStatusReport'] &&
-              formData.selectedDebtsAndCopays[index]?.resolutionOption !==
-                'waiver'
-            );
-          },
+          depends: formData =>
+            formData.selectedDebtsAndCopays?.length > 0 &&
+            formData['view:combinedFinancialStatusReport'],
+          itemFilter: item => item.resolutionOption !== 'waiver',
           path: 'resolution-comment/:index',
           showPagePerItem: true,
           arrayPath: 'selectedDebtsAndCopays',
           uiSchema: pages.resolutionComment.uiSchema,
           schema: pages.resolutionComment.schema,
+        },
+        resolutionWaiverCheck: {
+          title: 'Resolution Waiver Agreement',
+          depends: formData =>
+            formData.selectedDebtsAndCopays?.length > 0 &&
+            formData['view:combinedFinancialStatusReport'],
+          itemFilter: item => item.resolutionOption === 'waiver',
+          path: 'resolution-waiver-agreement/:index',
+          showPagePerItem: true,
+          arrayPath: 'selectedDebtsAndCopays',
+          uiSchema: pages.resolutionWaiverAgreement.uiSchema,
+          schema: pages.resolutionWaiverAgreement.schema,
         },
         resolutionComments: {
           path: 'resolution-comments',

@@ -12,9 +12,7 @@ const MessageThreadItem = props => {
   const dispatch = useDispatch();
   const [isExpanded, setIsExpanded] = useState(false);
   const { message } = props;
-  // TODO currently setting isRead to true due to a bug in the backend. This will need to be reverted once the backend is fixed.
-  const isRead = true;
-  // const isRead = message.readReceipt === 'READ';
+  const isRead = message.readReceipt === 'READ';
 
   useEffect(
     () => {
@@ -41,8 +39,6 @@ const MessageThreadItem = props => {
       }
 
       if (!isExpanded) {
-        // TODO replace line above with a line below once readReceipt is fixed in the backend
-        // if (!isRead && !isExpanded) {
         dispatch(markMessageAsReadInThread(message.messageId));
       }
     }

@@ -26,4 +26,18 @@ describe('transform', () => {
 
     expect(transformedResult).to.deep.equal(transformedNoEvidence);
   });
+
+  it('should set the benefitType to "compensation" for non-supported entries', () => {
+    const data = {
+      data: {
+        ...maximalData.data,
+        benefitType: 'other',
+      },
+    };
+    const transformedResult = JSON.parse(transform(formConfig, data));
+    // copy over variables that change based on date & location
+    transformedResult.data.attributes.veteran.timezone = 'America/Los_Angeles';
+
+    expect(transformedResult).to.deep.equal(transformedMaximalData);
+  });
 });

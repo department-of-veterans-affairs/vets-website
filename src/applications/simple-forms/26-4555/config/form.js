@@ -5,7 +5,7 @@ import footerContent from 'platform/forms/components/FormFooter';
 import preSubmitInfo from '../containers/PreSubmitSignature';
 import transformForSubmit from './submit-transformer';
 import prefillTransformer from './prefill-transformer';
-import getHelp from '../containers/GetFormHelp';
+import getHelp from '../../shared/components/GetFormHelp';
 
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';

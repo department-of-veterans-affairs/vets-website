@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { intersection } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import SystemDownView from '@department-of-veterans-affairs/component-library/SystemDownView';
 import { connect } from 'react-redux';
 import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
@@ -104,20 +103,35 @@ export const RequiredLoginView = props => {
     if (user.profile.status === 'SERVER_ERROR' && !attemptingAppealsAccess) {
       // If va_profile is null, show a system down message.
       return (
-        <SystemDownView messageLine1="Sorry, our system is temporarily down while we fix a few things. Please try again later." />
+        <div className="row">
+          <div className="small-12 columns">
+            <div>
+              <h3>
+                Sorry, our system is temporarily down while we fix a few things.
+                Please try again later.
+              </h3>
+              <a href="/">Go back to VA.gov</a>
+            </div>
+          </div>
+        </div>
       );
     }
     if (user.profile.status === 'NOT_FOUND' && !attemptingAppealsAccess) {
       // If va_profile is "not found", show message that we cannot find the user in our system.
       return (
-        <SystemDownView
-          messageLine1="We couldn’t find your records with that information."
-          messageLine2={
-            <span>
-              Please <SubmitSignInForm />
-            </span>
-          }
-        />
+        <div className="row">
+          <div className="small-12 columns">
+            <div>
+              <h3>We couldn’t find your records with that information.</h3>
+              <h4>
+                <span>
+                  Please <SubmitSignInForm />
+                </span>
+              </h4>
+              <a href="/">Go back to VA.gov</a>
+            </div>
+          </div>
+        </div>
       );
     }
 

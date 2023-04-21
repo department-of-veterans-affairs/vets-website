@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { apiRequest } from 'platform/utilities/api';
@@ -35,7 +34,11 @@ const ErrorAlert = () => (
       <p className="vads-u-font-family--sans vads-u-margin-y--0">
         If you need help resolving debt, or you would like to get information
         about a debt that has been resolved, call the Debt Management Center at
-        <Telephone className="vads-u-margin-left--0p5" contact="8008270648" />.
+        <va-telephone
+          className="vads-u-margin-left--0p5"
+          contact="8008270648"
+        />
+        .
       </p>
     </div>
   </section>
@@ -50,7 +53,7 @@ const EmptyItemsAlert = () => (
     <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
       If you believe that you have a debt with the VA, call the Debt Management
       Center at
-      <Telephone className="vads-u-margin-left--0p5" contact="8008270648" />.
+      <va-telephone className="vads-u-margin-left--0p5" contact="8008270648" />.
     </p>
     <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
       For medical copayment debts, visit

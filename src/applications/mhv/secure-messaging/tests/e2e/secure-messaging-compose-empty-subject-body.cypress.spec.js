@@ -9,9 +9,9 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
-    cy.get('[data-testid="compose-message-link"]').click();
+    landingPage.loadComposeMessagePage();
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4'); // trieageTeams with preferredTeam = true will appear in a recipients dropdown only
-    cy.get('[name="COVID"]').click();
+    composePage.getCategory('COVID').click();
     cy.get('[data-testid="attach-file-input"]').selectFile(
       'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
       { force: true },

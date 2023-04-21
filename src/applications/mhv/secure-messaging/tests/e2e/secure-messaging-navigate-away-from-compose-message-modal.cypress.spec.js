@@ -9,6 +9,7 @@ describe('Secure Messaging Navigate Away From Compose Message', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   const composePage = new PatientComposePage();
+
   it('Navigate Away From Compose To Inbox', () => {
     site.login();
     landingPage.loadInboxMessages();

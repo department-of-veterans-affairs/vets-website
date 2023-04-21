@@ -7,7 +7,10 @@ import {
   validateMonthYear,
   validateFutureDateIfExpectedGrad,
 } from 'platform/forms-system/src/js/validation';
-import * as address from 'platform/forms/definitions/address';
+import {
+  schema as addressSchema,
+  uiSchema as addressUI,
+} from 'platform/forms/definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
@@ -26,6 +29,7 @@ import {
   benefitsDisclaimerChild,
   benefitsDisclaimerSpouse,
   relationshipLabels,
+  relationshipAndChildTypeLabels,
   highSchoolStatusLabels,
   transform,
 } from '../helpers';
@@ -42,6 +46,7 @@ import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage5490 from '../content/directDeposit';
 import createDirectDepositPage from '../../pages/directDeposit';
 import applicantInformationUpdate from '../components/applicantInformationUpdate';
+import GuardianInformation from '../components/GuardianInformation';
 import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
@@ -83,11 +88,57 @@ const {
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
 
+const relationshipEqualToSpouse = (myGet, formData) => {
+  if (environment.isProduction()) {
+    return myGet('relationship', formData) === 'spouse';
+  }
+  return myGet('relationshipAndChildType', formData) === 'spouse';
+};
+
+const relationshipNotEqualToSpouse = (myGet, formData) => {
+  if (environment.isProduction()) {
+    return myGet('relationship', formData) !== 'spouse';
+  }
+  return myGet('relationshipAndChildType', formData) !== 'spouse';
+};
+
+const relationshipEqualToChild = (myGet, formData) => {
+  if (environment.isProduction()) {
+    return myGet('relationship', formData) === 'child';
+  }
+  return (
+    myGet('relationshipAndChildType', formData) === 'adopted' ||
+    myGet('relationshipAndChildType', formData) === 'biological' ||
+    myGet('relationshipAndChildType', formData) === 'step'
+  );
+};
+
+const relationshipNotEqualToChild = (myGet, formData) => {
+  if (environment.isProduction()) {
+    return myGet('relationship', formData) !== 'child';
+  }
+  return (
+    myGet('relationshipAndChildType', formData) !== 'adopted' ||
+    myGet('relationshipAndChildType', formData) !== 'biological' ||
+    myGet('relationshipAndChildType', formData) !== 'step'
+  );
+};
+
+const getRelationship = (myGet, formData) => {
+  if (environment.isProduction()) {
+    return myGet('relationship', formData);
+  }
+  return myGet('relationshipAndChildType', formData);
+};
+
 const removeAdditionalBenefit = () => {
   if (environment.isProduction()) {
     return {
       applicantInformation: applicantInformationUpdate(fullSchema5490, {
-        labels: { relationship: relationshipLabels },
+        labels: {
+          relationship: relationshipLabels,
+          relationshipAndChildType: relationshipAndChildTypeLabels,
+        },
       }),
       additionalBenefits: additionalBenefitsPage(fullSchema5490, {
         fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource'],
@@ -98,7 +149,10 @@ const removeAdditionalBenefit = () => {
 
   return {
     applicantInformation: applicantInformationUpdate(fullSchema5490, {
-      labels: { relationship: relationshipLabels },
+      labels: {
+        relationship: relationshipLabels,
+        relationshipAndChildType: relationshipAndChildTypeLabels,
+      },
     }),
     applicantService: applicantServicePage(fullSchema5490),
   };
@@ -147,6 +201,7 @@ const formConfig = {
     fullName,
     ssn,
     vaFileNumber,
+    phone,
   },
   chapters: {
     applicantInformation: {
@@ -165,13 +220,13 @@ const formConfig = {
             'view:benefitsDisclaimerChild': {
               'ui:description': benefitsDisclaimerChild,
               'ui:options': {
-                hideIf: form => get('relationship', form) !== 'child',
+                hideIf: form => relationshipNotEqualToChild(get, form),
               },
             },
             'view:benefitsDisclaimerSpouse': {
               'ui:description': benefitsDisclaimerSpouse,
               'ui:options': {
-                hideIf: form => get('relationship', form) !== 'spouse',
+                hideIf: form => relationshipNotEqualToSpouse(get, form),
               },
             },
             benefit: {
@@ -180,7 +235,7 @@ const formConfig = {
               'ui:options': {
                 labels: survivorBenefitsLabels,
                 updateSchema: (form, schema, uiSchema) => {
-                  const relationship = get('relationship', form);
+                  const relationship = getRelationship(get, form);
                   const nestedContent = {
                     chapter33: benefitSelectionWarning(
                       'chapter33',
@@ -197,6 +252,30 @@ const formConfig = {
                 },
               },
             },
+            restorativeTraining: {
+              'ui:title':
+                ' Are you looking for Special Restorative Training because of a disability? Special Restorative Training could include speech and voice therapy, language retraining, lip reading, or Braille reading and writing.',
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                hideIf: () => environment.isProduction(),
+              },
+            },
+            vocationalTraining: {
+              'ui:title':
+                'Are you looking for Special Vocational Training or specialized courses because a disability prevents you from pursuing an education program?',
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                hideIf: () => environment.isProduction(),
+              },
+            },
+            educationalCounseling: {
+              'ui:title':
+                'Would you like to get vocational and educational counseling?',
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                hideIf: () => environment.isProduction(),
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -211,6 +290,15 @@ const formConfig = {
                 properties: {},
               },
               benefit,
+              restorativeTraining: {
+                type: 'boolean',
+              },
+              vocationalTraining: {
+                type: 'boolean',
+              },
+              educationalCounseling: {
+                type: 'boolean',
+              },
             },
           },
         },
@@ -426,11 +514,11 @@ const formConfig = {
                 'ui:title': 'Date of marriage',
                 'ui:options': {
                   hideIf: formData =>
-                    get('relationship', formData) === 'spouse' &&
+                    relationshipEqualToSpouse(get, formData) &&
                     environment.isProduction(),
                 },
                 'ui:required': formData =>
-                  get('relationship', formData) === 'spouse' &&
+                  relationshipEqualToSpouse(get, formData) &&
                   !environment.isProduction(),
               },
               divorcePending: {
@@ -438,7 +526,7 @@ const formConfig = {
                   'Is there a divorce or annulment pending with your sponsor?',
                 'ui:widget': 'yesNo',
                 'ui:required': formData =>
-                  get('relationship', formData) === 'spouse',
+                  relationshipEqualToSpouse(get, formData),
               },
               remarried: {
                 'ui:title':
@@ -454,7 +542,7 @@ const formConfig = {
                   get('spouseInfo.remarried', formData),
               },
               'ui:options': {
-                hideIf: formData => get('relationship', formData) !== 'spouse',
+                hideIf: formData => relationshipNotEqualToSpouse(get, formData),
               },
             },
             currentSameAsPrevious: {
@@ -523,7 +611,7 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   get('benefit', formData) === 'chapter33' &&
-                  get('relationship', formData) === 'spouse',
+                  relationshipEqualToSpouse(get, formData),
               },
             },
             sponsorStatus: {
@@ -539,7 +627,7 @@ const formConfig = {
                 },
                 hideIf: formData =>
                   get('benefit', formData) === 'chapter35' ||
-                  get('relationship', formData) === 'child',
+                  relationshipEqualToChild(get, formData),
               },
             },
             'view:sponsorDateOfDeath': {
@@ -549,7 +637,7 @@ const formConfig = {
                 expandUnderCondition: status => status && status !== 'powOrMia',
                 hideIf: formData =>
                   get('benefit', formData) === 'chapter35' ||
-                  get('relationship', formData) === 'child',
+                  relationshipEqualToChild(get, formData),
               },
             },
             'view:sponsorDateListedMiaOrPow': {
@@ -559,7 +647,7 @@ const formConfig = {
                 expandUnderCondition: status => status && status === 'powOrMia',
                 hideIf: formData =>
                   get('benefit', formData) === 'chapter35' ||
-                  get('relationship', formData) === 'child',
+                  relationshipEqualToChild(get, formData),
               },
             },
           },
@@ -623,6 +711,7 @@ const formConfig = {
         educationHistory: {
           title: 'Education history',
           path: 'education/history',
+          depends: () => environment.isProduction(),
           initialData: {},
           uiSchema: {
             highSchool: {
@@ -728,11 +817,19 @@ const formConfig = {
         },
       },
     },
+    /*
+    depends added to keep this section out of staging
+    PR VFEP-50 contains details, this section is to be removed
+    while it is in review on staging, this section should stay in
+    production.
+    */
     schoolSelection: {
       title: 'School selection',
       pages: {
         schoolSelection: merge(
-          {},
+          {
+            depends: () => environment.isProduction(),
+          },
           createSchoolSelectionPage(
             fullSchema5490,
             schoolSelectionOptionsFor['5490'],
@@ -754,7 +851,7 @@ const formConfig = {
                       // relationship has changed
                       const filterEducationType = createSelector(
                         form => get('benefit', form),
-                        form => get('relationship', form),
+                        form => getRelationship(get, form),
                         (benefitData, relationshipData) => {
                           // Remove tuition top-up
                           const filterOut = ['tuitionTopUp'];
@@ -795,6 +892,7 @@ const formConfig = {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
           initialData: {},
+          depends: () => environment.isProduction(), // delete this row when ready for prod
           uiSchema: {
             'ui:title': 'Secondary contact',
             'ui:description':
@@ -807,7 +905,7 @@ const formConfig = {
               sameAddress: {
                 'ui:title': 'Address for secondary contact is the same as mine',
               },
-              address: merge({}, address.uiSchema(), {
+              address: merge({}, addressUI(), {
                 'ui:options': {
                   hideIf: formData =>
                     get('secondaryContact.sameAddress', formData) === true,
@@ -824,7 +922,7 @@ const formConfig = {
                   fullName: secondaryContact.properties.fullName,
                   phone,
                   sameAddress: secondaryContact.properties.sameAddress,
-                  address: address.schema(fullSchema5490),
+                  address: addressSchema(fullSchema5490),
                 },
               },
             },
@@ -833,6 +931,12 @@ const formConfig = {
         directDeposit: !environment.isProduction()
           ? createDirectDepositPage5490()
           : createDirectDepositPage(fullSchema5490),
+      },
+    },
+    GuardianInformation: {
+      title: 'Guardian information',
+      pages: {
+        guardianInformation: GuardianInformation(fullSchema5490, {}),
       },
     },
   },

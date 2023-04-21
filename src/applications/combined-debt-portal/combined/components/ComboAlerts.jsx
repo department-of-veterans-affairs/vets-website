@@ -50,14 +50,14 @@ ComboAlert.Zero = () => {
       <ul>
         <li>
           <strong>For benefit debts</strong>, call the Debt Management Center
-          (DMC) at <va-telephone contact="800-827-0648" /> (TTY:{' '}
-          <va-telephone contact="711" />
+          (DMC) at <va-telephone contact="8008270648" />(
+          <va-telephone tty contact="711" />
           ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </li>
         <li>
           <strong>For medical copay bills</strong>, call the VA Health Resource
-          Center at <va-telephone contact="866-400-1238" /> (TTY:{' '}
-          <va-telephone contact="711" />
+          Center at <va-telephone contact="8664001238" />(
+          <va-telephone tty contact="711" />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </li>
       </ul>

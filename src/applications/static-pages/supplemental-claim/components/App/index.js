@@ -116,7 +116,7 @@ export const App = ({ show }) => {
       </p>
       <p>
         <strong>
-          If you want us to get records from your private health care provider,
+          If you want us to get records from your private health care provider,{' '}
         </strong>
         you’ll also need to fill out VA Form 21-4142.
       </p>

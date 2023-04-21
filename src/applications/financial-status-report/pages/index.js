@@ -57,6 +57,7 @@ import * as resolutionOptions from './resolution/options';
 import * as resolutionOption from './resolution/resolutionOption';
 import * as resolutionComments from './resolution/comments';
 import * as resolutionComment from './resolution/resolutionComment';
+import * as resolutionWaiverAgreement from './resolution/resolutionWaiverAgreement';
 import * as bankruptcyHistory from './bankruptcy';
 import * as bankruptcyHistoryRecords from './bankruptcy/records';
 import * as enhancedBankruptcyHistoryRecords from './bankruptcy/enhancedRecords';
@@ -71,6 +72,7 @@ import * as householdExpensesChecklist from './expenses/householdExpensesCheckli
 import * as householdExpensesInputList from './expenses/householdExpensesValues';
 import * as expensesExplainer from './expenses/expensesExplainer';
 import * as creditCardBills from './expenses/creditCardBills';
+import * as installmentContracts from './expenses/repayments/installmentContracts';
 
 export {
   veteranInfo,
@@ -131,6 +133,7 @@ export {
   resolutionOption,
   resolutionComments,
   resolutionComment,
+  resolutionWaiverAgreement,
   bankruptcyHistory,
   bankruptcyHistoryRecords,
   contactInfo,
@@ -146,4 +149,5 @@ export {
   expensesExplainer,
   enhancedBankruptcyHistoryRecords,
   creditCardBills,
+  installmentContracts,
 };

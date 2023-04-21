@@ -19,7 +19,6 @@ function IntroductionLoginV1({ firstName, eligibility, route, user }) {
 
       {!user.login.currentlyLoggedIn || (firstName && eligibility) ? (
         <SaveInProgressIntro
-          testActionLink
           user={user}
           prefillEnabled={route.formConfig.prefillEnabled}
           messages={route.formConfig.savedFormMessages}
