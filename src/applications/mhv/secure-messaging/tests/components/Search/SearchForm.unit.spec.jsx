@@ -1,7 +1,6 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/react';
 import searchResults from '../../fixtures/search-response.json';
 import folder from '../../fixtures/folder-inbox-metadata.json';
 import folderList from '../../fixtures/folder-inbox-response.json';
@@ -13,6 +12,7 @@ describe('Search form', () => {
     sm: {
       folders: {
         folderList,
+        folder,
       },
     },
   };
@@ -35,21 +35,18 @@ describe('Search form', () => {
     expect(screen);
   });
 
+  it('displays the name of folder to be searched', () => {
+    const screen = setup();
+    const folderStatementStart = screen.getByText('Filter messages in Inbox');
+
+    expect(folderStatementStart.textContent).to.contain(
+      `Filter messages in ${folder.name}`,
+    );
+  });
   it('displays keyword field', () => {
     const screen = setup();
     const keyword = screen.getByTestId('keyword-search-input');
     expect(keyword).to.exist;
-  });
-
-  it('displays an advanced search form toggle button', () => {
-    const screen = setup();
-    expect(screen.findByText('Advanced search', { exact: true }));
-  });
-
-  it('displays the advanced search form when the advanced search is open', async () => {
-    const screen = setup();
-    fireEvent.click(await screen.getByText('Advanced search'));
-    expect(await screen.getByTestId('advanced-search-submit')).to.exist;
   });
 
   it('renders displays a query summary containing the number of results, searched keyword, and folder', async () => {
@@ -103,7 +100,7 @@ describe('Search form', () => {
     const messageId = await screen.findByText('7232799', { exact: true });
     const sender = await screen.findByText('islam', { exact: true });
     const subject = await screen.findByText('mess', { exact: true });
-    const category = await screen.findByText('other', { exact: true });
+    const category = await screen.findByText('General', { exact: true });
     const dateRange = await screen.findByText(
       'September 19th 2022 to December 19th 2022',
       { exact: true },

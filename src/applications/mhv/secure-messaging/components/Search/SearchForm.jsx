@@ -1,21 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { runBasicSearch } from '../../actions/search';
-import AdvancedSearchExpander from './AdvancedSearchExpander';
+import { runAdvancedSearch, runBasicSearch } from '../../actions/search';
+import FilterBox from './FilterBox';
 import { ErrorMessages } from '../../util/constants';
 
 const SearchForm = props => {
   const { folder, keyword, resultsCount, query } = props;
   const dispatch = useDispatch();
+  const location = useLocation();
   const history = useHistory();
-  const nodeRef = useRef(null);
   const folders = useSelector(state => state.sm.folders.folderList);
   const [searchTerm, setSearchTerm] = useState('');
-  const [advancedOpen, setAdvancedOpen] = useState(false);
   const [searchTermError, setSearchTermError] = useState(null);
 
   useEffect(
@@ -25,14 +23,34 @@ const SearchForm = props => {
     [keyword],
   );
 
-  const handleSearch = e => {
-    setSearchTermError(null);
-
-    if (!searchTerm) {
-      setSearchTermError(ErrorMessages.SearchForm.SEARCH_TERM_REQUIRED);
-      return;
+  const handleSearch = (
+    customFilter = false,
+    category,
+    relativeFromDate,
+    fromDateTime,
+    relativeToDate,
+    toDateTime,
+  ) => {
+    if (customFilter === true) {
+      dispatch(
+        runAdvancedSearch(
+          folder,
+          {
+            category,
+            fromDate: relativeFromDate || fromDateTime,
+            toDate: relativeToDate || toDateTime,
+          },
+          searchTerm.toLowerCase(),
+        ),
+      );
+    } else {
+      if (!searchTerm) {
+        setSearchTermError(null);
+        setSearchTermError(ErrorMessages.SearchForm.SEARCH_TERM_REQUIRED);
+        return;
+      }
+      dispatch(runBasicSearch(folder.folderId, searchTerm.toLowerCase()));
     }
-    dispatch(runBasicSearch(folder.folderId, e.target.value.toLowerCase()));
     if (!resultsCount) {
       history.push('/search/results');
     }
@@ -80,18 +98,9 @@ const SearchForm = props => {
     );
   };
 
-  const label = () => {
-    const labelString =
-      resultsCount === undefined ? (
-        <>
-          <div>
-            Search your <strong>{folder.name}</strong> messages folder
-          </div>
-          <div className="keyword-help-text">
-            Keyword (Sender, subject line, or category)
-          </div>
-        </>
-      ) : (
+  const FilterResults = () => {
+    const results =
+      resultsCount === undefined ? null : (
         <>
           <strong className="search-results-count">
             {resultsCount.toLocaleString()}
@@ -99,32 +108,38 @@ const SearchForm = props => {
           results {displayQuery()}
         </>
       );
-    if (advancedOpen)
-      return (
-        <p className="vads-u-margin--0">
-          <strong>Search messages</strong>
-        </p>
-      );
     return (
       <label
-        htmlFor="search-message-folder-input"
         data-testid="search-message-folder-input-label"
         className={
-          resultsCount === undefined
-            ? 'keyword-search-label'
-            : 'search-in-description'
+          resultsCount === undefined ? null : 'filter-results-in-folder'
         }
       >
-        {labelString}
+        {results}
       </label>
     );
   };
+  const handleFolderName = () => {
+    if (folder.name === 'Deleted') {
+      return 'Trash';
+    }
+    return folder.name;
+  };
+  const filterLabelHeading = `Filter messages in ${handleFolderName()} `;
+  let filterLabelBody;
+  if (location.pathname.includes('/drafts')) {
+    filterLabelBody =
+      'Enter information from one of these fields: to, from, or subject';
+  } else {
+    filterLabelBody =
+      'Enter information from one of these fields: to, from, message ID, or subject';
+  }
 
   return (
-    <div className="search-form">
-      {label()}
-
-      {!advancedOpen && (
+    <>
+      <div className="search-form">
+        <h3>{filterLabelHeading}</h3>
+        <div className="keyword-help-text">{filterLabelBody}</div>
         <>
           {searchTermError && (
             <div className="error-message" role="alert">
@@ -132,26 +147,55 @@ const SearchForm = props => {
               {searchTermError}
             </div>
           )}
-          <VaSearchInput
-            buttonText={window.innerWidth <= 481 ? null : 'Search'}
-            onInput={e => setSearchTerm(e.target.value)}
-            onSubmit={handleSearch}
-            value={searchTerm}
-            label="search-message-folder-input"
-            data-testid="keyword-search-input"
-          />
+          <div className="filter-input-box-container">
+            <div className="filter-text-input">
+              <va-text-input
+                id="filter-input"
+                label=""
+                className="filter-input-box"
+                message-aria-describedby="filter text input"
+                value={searchTerm}
+                onInput={e => setSearchTerm(e.target.value)}
+                aria-label={filterLabelHeading + filterLabelBody}
+                data-testid="keyword-search-input"
+              />
+            </div>
+            <div className="basic-filter-button">
+              <button
+                type="button"
+                className="usa-button-primary filter-button"
+                onClick={e => {
+                  e.preventDefault();
+                  handleSearch();
+                }}
+              >
+                Filter
+              </button>
+            </div>
+          </div>
         </>
-      )}
-
-      {folders && (
-        <AdvancedSearchExpander
-          advancedOpen={advancedOpen}
-          setAdvancedOpen={setAdvancedOpen}
-          nodeRef={nodeRef}
-          folders={folders}
-        />
-      )}
-    </div>
+        {!location.pathname.includes('/drafts') && (
+          <va-additional-info
+            trigger="What's a message ID?"
+            class="message-id-info"
+          >
+            A message ID is a number we assign to each message. If you sign up
+            for email notifications, we’ll send you an email each time you get a
+            new message. These emails include the message ID.
+          </va-additional-info>
+        )}
+        {folders && (
+          <div>
+            <FilterBox
+              folders={folders}
+              keyword={keyword}
+              handleSearch={handleSearch}
+            />
+          </div>
+        )}
+      </div>
+      <FilterResults />
+    </>
   );
 };
 
