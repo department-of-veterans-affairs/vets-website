@@ -4,10 +4,11 @@ import footerContent from 'platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
+import preSubmitInfo from '../containers/PreSubmitSignature';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 
-import transformForSubmit from '../../shared/config/submit-transformer';
+import transformForSubmit from './submit-transformer';
 
 // pages
 import personalInformation1 from '../pages/personalInformation1';
@@ -36,6 +37,7 @@ const formConfig = {
   trackingPrefix: 'medical-release-4142-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo,
   formId: '21-4142',
   saveInProgress: {
     messages: {

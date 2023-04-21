@@ -13,20 +13,16 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    // const { form } = this.props;
-    // const { submission, formId, data } = form;
-    // const { fullName } = data;
-    // TODO: use backend data instead of placeholders
-    const fullName = {
-      first: 'John',
-      middle: '',
-      last: 'Doe',
-      suffix: '',
-    };
-    // TODO: use backend data instead of placeholders
-    const confirmationNumber = '---';
-    // TODO: use backend data instead of placeholders
-    const submitDate = new Date();
+    const { form } = this.props;
+    const { submission, data } = form;
+    const preparerNameDefined =
+      data.preparerIdentification?.preparerFullName?.first &&
+      data.preparerIdentification?.preparerFullName?.last;
+    const { first, middle, last, suffix } = preparerNameDefined
+      ? data.preparerIdentification.preparerFullName
+      : data.veteran.fullName;
+    const submitDate = submission.timestamp;
+    const confirmationNumber = submission.response?.confirmationNumber;
 
     return (
       <div>
@@ -37,10 +33,6 @@ export class ConfirmationPage extends React.Component {
             width="300"
           />
         </div>
-        <p className="vads-u-font-size--h3">
-          Equal to Authorization to disclose information to the Department of
-          Veterans Affairs (VA) (VA Form 21-4142 & 4142a)
-        </p>
         <va-alert
           close-btn-aria-label="Close notification"
           status="success"
@@ -50,18 +42,18 @@ export class ConfirmationPage extends React.Component {
             Thank you for completing your benefit application
           </h2>
           <p className="vads-u-margin-y--0">
-            Once we’ve successfully received your application, we’ll contact you
-            to tell you what happens next in the application process.
+            After we review your application, we&rsquo;ll contact you to tell
+            you what happens next in the application process.
           </p>
         </va-alert>
         <div className="inset">
           <h3 className="vads-u-margin-top--0">Your application information</h3>
-          {fullName ? (
+          {first && last ? (
             <>
               <h4>Applicant</h4>
               <p>
-                {fullName.first} {fullName.middle} {fullName.last}
-                {fullName.suffix ? `, ${fullName.suffix}` : null}
+                {first} {middle} {last}
+                {suffix ? `, ${suffix}` : null}
               </p>
             </>
           ) : null}
@@ -98,12 +90,10 @@ export class ConfirmationPage extends React.Component {
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
+      first: PropTypes.string,
+      middle: PropTypes.string,
+      last: PropTypes.string,
+      suffix: PropTypes.string,
     }),
     formId: PropTypes.string,
     submission: PropTypes.shape({

@@ -4,6 +4,8 @@ import * as address from 'platform/forms-system/src/js/definitions/address';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import { providerFacilityFields } from '../definitions/constants';
 
+import RecordField from '../components/RecordField';
+
 export default {
   uiSchema: {
     'ui:title': (
@@ -20,7 +22,8 @@ export default {
     [providerFacilityFields.parentObject]: {
       'ui:options': {
         itemName: 'provider facility',
-        viewField: () => null,
+        viewField: RecordField,
+        keepInPageOnReview: true,
       },
       items: {
         'ui:order': [
