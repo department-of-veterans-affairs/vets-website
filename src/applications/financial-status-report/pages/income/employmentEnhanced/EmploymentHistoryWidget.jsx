@@ -7,28 +7,30 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import { clearJobIndex } from '../../../utils/session';
 
 const EmploymentHistoryWidget = props => {
-  const { goToPath, goBack, onReviewPage } = props;
+  const { goToPath, goForward, onReviewPage } = props;
 
   const formData = useSelector(state => state.form.data);
   const employmentHistory =
     formData.personalData.employmentHistory.veteran.employmentRecords || [];
-  const efsrFeatureFlag = formData['view:enhancedFinancialStatusReport'];
+
   useEffect(() => {
     clearJobIndex();
   }, []);
 
   const handlers = {
-    onSubmit: event => {
+    onBackClick: event => {
       event.preventDefault();
-      let path = '/benefits';
-      if (efsrFeatureFlag) {
-        path = '/your-benefits';
-      }
-      goToPath(path);
+      goToPath('/employment-question');
     },
   };
 
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const navButtons = (
+    <FormNavButtons
+      goBack={handlers.onBackClick}
+      goForward={goForward}
+      submitToContinue
+    />
+  );
   const updateButton = <button type="submit">Review update button</button>;
 
   return (
@@ -55,7 +57,7 @@ const EmploymentHistoryWidget = props => {
   );
 };
 EmploymentHistoryWidget.propTypes = {
-  goBack: PropTypes.func.isRequired,
+  goForward: PropTypes.func.isRequired,
   goToPath: PropTypes.func.isRequired,
   onReviewPage: PropTypes.bool,
 };

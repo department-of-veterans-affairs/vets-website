@@ -196,36 +196,39 @@ const formConfig = {
         grossMonthlyIncome: {
           path: 'gross-monthly-income',
           title: 'Gross monthly income',
-          uiSchema: pages.grossMonthlyIncome.uiSchema,
-          schema: pages.grossMonthlyIncome.schema,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
           depends: formData =>
             formData.questions.vetIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: GrossMonthlyIncomeInput,
+          CustomPageReview: null,
         },
         payrollDeductionChecklist: {
           path: 'deduction-checklist',
           title: 'Payroll deductions',
-          uiSchema: pages.payrollDeductionChecklist.uiSchema,
-          schema: pages.payrollDeductionChecklist.schema,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
           depends: formData =>
             formData.questions.vetIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: PayrollDeductionChecklist,
+          CustomPageReview: null,
         },
         payrollDeductionInputList: {
           title: 'Deduction amounts',
           path: 'deduction-values',
           // listOfIssues defined in next section
-          uiSchema: pages.payrollDeductionInputList.uiSchema,
-          schema: pages.payrollDeductionInputList.schema,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
           // needed to bypass bug on review & submit page
           depends: formData =>
             formData.questions.vetIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
           CustomPage: PayrollDeductionInputList,
+          CustomPageReview: null,
         },
         // loop ends with option to re enter here
         employmentHistorySummary: {
