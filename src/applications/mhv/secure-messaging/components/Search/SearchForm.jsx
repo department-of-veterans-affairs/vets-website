@@ -151,7 +151,7 @@ const SearchForm = props => {
             <div className="filter-text-input">
               <va-text-input
                 id="filter-input"
-                label={null}
+                label=""
                 className="filter-input-box"
                 message-aria-describedby="filter text input"
                 value={searchTerm}
