@@ -81,11 +81,16 @@ class ReviewCollapsibleChapter extends React.Component {
     const { form } = this.props;
     const formData = form.data;
     const formConfig = form;
+    const { formContext } = this.props;
 
     let chapterTitle = chapterFormConfig.title;
 
     if (typeof chapterFormConfig.title === 'function') {
-      chapterTitle = chapterFormConfig.title({ formData, formConfig });
+      chapterTitle = chapterFormConfig.title({
+        formData,
+        formConfig,
+        formContext,
+      });
     }
     if (chapterFormConfig.reviewTitle) {
       chapterTitle = chapterFormConfig.reviewTitle;
