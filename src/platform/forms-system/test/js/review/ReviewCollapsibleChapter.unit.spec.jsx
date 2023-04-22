@@ -594,8 +594,8 @@ describe('<ReviewCollapsibleChapter>', () => {
     ];
     const chapterKey = 'test';
     const chapter = {
-      title: ({ formData, formConfig }) => {
-        if (formData && formConfig) {
+      title: ({ formData, formConfig, onReviewPage }) => {
+        if (formData && formConfig && onReviewPage) {
           return testChapterTitleFromFunction;
         }
 

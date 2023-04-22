@@ -81,7 +81,7 @@ class ReviewCollapsibleChapter extends React.Component {
     const { form } = this.props;
     const formData = form.data;
     const formConfig = form;
-    const { formContext } = this.props;
+    const onReviewPage = true;
 
     let chapterTitle = chapterFormConfig.title;
 
@@ -89,7 +89,7 @@ class ReviewCollapsibleChapter extends React.Component {
       chapterTitle = chapterFormConfig.title({
         formData,
         formConfig,
-        formContext,
+        onReviewPage,
       });
     }
     if (chapterFormConfig.reviewTitle) {
