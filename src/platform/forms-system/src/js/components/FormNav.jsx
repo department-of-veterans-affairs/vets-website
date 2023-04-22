@@ -56,8 +56,9 @@ export default function FormNav(props) {
 
   if (page) {
     const onReviewPage = page.chapterKey === 'review';
-
     current = chapters.indexOf(page.chapterKey) + 1;
+
+    // The review page is always part of our forms, but isn’t listed in chapter list
     chapterName = onReviewPage
       ? formConfig?.customText?.reviewPageTitle || REVIEW_APP_DEFAULT_MESSAGE
       : formConfig.chapters[page.chapterKey].title;
