@@ -190,7 +190,9 @@ const formConfig = {
   chapters: {
     veteranDetails: {
       title: ({ formContext }) =>
-        `${formContext.onReviewPage ? 'Review ' : ''}Veteran Details`,
+        `${
+          !!formContext && formContext.onReviewPage ? 'Review ' : ''
+        }Veteran Details`,
       pages: {
         veteranInformation: {
           title: 'Veteran information',
