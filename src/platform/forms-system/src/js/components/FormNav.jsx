@@ -53,15 +53,17 @@ export default function FormNav(props) {
   let current;
   let chapterName;
   let inProgressMessage = null;
+
   if (page) {
+    const onReviewPage = page.chapterKey === 'review';
+
     current = chapters.indexOf(page.chapterKey) + 1;
-    // The review page is always part of our forms, but isn’t listed in chapter list
-    chapterName =
-      page.chapterKey === 'review'
-        ? formConfig?.customText?.reviewPageTitle || REVIEW_APP_DEFAULT_MESSAGE
-        : formConfig.chapters[page.chapterKey].title;
-    if (typeof chapterName === 'function') {
-      const onReviewPage = page.chapterKey === 'review';
+    chapterName = onReviewPage
+      ? formConfig?.customText?.reviewPageTitle || REVIEW_APP_DEFAULT_MESSAGE
+      : formConfig.chapters[page.chapterKey].title;
+    if (typeof chapterName === 'function' && !onReviewPage) {
+      // for FormNav, we only call chapter-config title-function if
+      // not on review-page.
       chapterName = chapterName({ formData, formConfig, onReviewPage });
     }
   }
