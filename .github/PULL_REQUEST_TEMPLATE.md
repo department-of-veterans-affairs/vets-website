@@ -57,7 +57,7 @@ _Note: This field is mandatory for UI changes (non-component work should NOT hav
 
 - [ ] Did you login to a local build and verify all authenticated routes work as expected with a test user
 
-### Team Sites (only applies to modifications made to the VA.go header)
+### :warning: Team Sites (only applies to modifications made to the VA.go header) :warning:
 
 - [ ] The vets-website header does not contain any web-components
 - [ ] I used the [proxy-rewrite steps](https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/applications/proxy-rewrite#local-dev) to test the injected header scenario
