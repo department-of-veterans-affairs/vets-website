@@ -147,7 +147,7 @@ const BenefitsForm = ({
       <div>
         <ExpandingGroup
           open={
-            ['30', '31', '33a', '33b'].includes(giBillChapter) ||
+            ['30', '31', '33a', '33b', '35', '1606'].includes(giBillChapter) ||
             giBillChapterOpen.includes(true)
           }
         >
@@ -187,6 +187,36 @@ const BenefitsForm = ({
             onFocus={handleInputFocus}
           />
           <div>
+            {giBillChapter !== '' && (
+              <div className="military-status-info info form-group">
+                <ExpandingGroup open={militaryStatus === 'spouse'}>
+                  <Dropdown
+                    label="What's your military status?"
+                    name="militaryStatus"
+                    options={whatsYourMilitaryStatusDropDown}
+                    value={militaryStatus}
+                    alt="What's your military status?"
+                    visible
+                    onChange={eligibilityChange}
+                    onFocus={handleInputFocus}
+                  />
+                  <Dropdown
+                    label="Is your spouse currently on active duty?"
+                    name="spouseActiveDuty"
+                    options={[
+                      { optionValue: 'yes', optionLabel: 'Yes' },
+                      { optionValue: 'no', optionLabel: 'No' },
+                    ]}
+                    value={spouseActiveDuty}
+                    alt="Is your spouse on active duty?"
+                    visible
+                    onChange={eligibilityChange}
+                    onFocus={handleInputFocus}
+                  />
+                </ExpandingGroup>
+              </div>
+            )}
+
             {militaryStatus === 'active duty' &&
               chapter33Check && (
                 <div className="military-status-info warning form-group">
@@ -280,31 +310,6 @@ const BenefitsForm = ({
             />
             {children}
           </div>
-        </ExpandingGroup>
-        <ExpandingGroup open={militaryStatus === 'spouse'}>
-          <Dropdown
-            label="What's your military status?"
-            name="militaryStatus"
-            options={whatsYourMilitaryStatusDropDown}
-            value={militaryStatus}
-            alt="What's your military status?"
-            visible
-            onChange={eligibilityChange}
-            onFocus={handleInputFocus}
-          />
-          <Dropdown
-            label="Is your spouse currently on active duty?"
-            name="spouseActiveDuty"
-            options={[
-              { optionValue: 'yes', optionLabel: 'Yes' },
-              { optionValue: 'no', optionLabel: 'No' },
-            ]}
-            value={spouseActiveDuty}
-            alt="Is your spouse on active duty?"
-            visible
-            onChange={eligibilityChange}
-            onFocus={handleInputFocus}
-          />
         </ExpandingGroup>
       </div>
     );
