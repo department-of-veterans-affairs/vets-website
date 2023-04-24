@@ -16,7 +16,7 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         run: |
           echo "SOURCE_REF=${{ github.ref_name }}" >> $GITHUB_ENV
-          echo "API_BRANCH=main" >> $GITHUB_ENV
+          echo "API_BRANCH=master" >> $GITHUB_ENV
 
       - name: Set custom source branch
         if: ${{ github.event_name == 'repository_dispatch' }}
@@ -122,5 +122,5 @@ jobs:
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           event-type: deploy_review_instance
           repository: department-of-veterans-affairs/devops
-          client-payload: '{"source_repo": "${{ env.SOURCE_REPO }}", "source_ref": "${{ env.SOURCE_REF }}", "source_ref_sanitized": "${{ env.SOURCE_REF_SANITIZED }}", "deployment_id": "${{ env.DEPLOYMENT_ID }}", "web_branch": "${{ github.event.client_payload.web_branch }}", "api_branch": "${{ env.API_BRANCH }}" }'
+          client-payload: '{"source_repo": "${{ env.SOURCE_REPO }}", "source_ref": "${{ env.SOURCE_REF }}", "source_ref_sanitized": "${{ env.SOURCE_REF_SANITIZED }}", "deployment_id": "${{ env.DEPLOYMENT_ID }}", "web_branch": "${{ env.SOURCE_BRANCH }}", "api_branch": "${{ env.API_BRANCH }}" }'
           # Once docker image is built, add the name of the image to this object as a new property.
