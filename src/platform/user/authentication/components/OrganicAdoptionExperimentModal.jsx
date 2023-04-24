@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
@@ -8,17 +8,6 @@ import { isAuthenticatedWithOAuth } from '../selectors';
 
 const OrganicAdoptionExperimentModal = ({ visible = false, onClose }) => {
   const useOAuth = useSelector(isAuthenticatedWithOAuth);
-
-  useEffect(
-    () => {
-      recordEvent({
-        event: `organic-adoption-experiment-modal-${
-          visible ? 'opened' : 'closed'
-        }`,
-      });
-    },
-    [visible],
-  );
 
   const setDismissalCookie = () => {
     const date = new Date();
