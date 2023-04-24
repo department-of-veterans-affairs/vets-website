@@ -180,6 +180,7 @@ export const retrieveMessageThread = (
   } else {
     const msgResponse = await getMessage(response.data[0].attributes.messageId);
     if (!msgResponse.errors) {
+      // finding last sent message in a thread to check if it is not too old for replies
       const sentDate = response.data.find(m => m.attributes.sentDate !== null)
         ?.attributes.sentDate;
       const isDraft = response.data[0].attributes.draftDate !== null;
@@ -208,6 +209,7 @@ export const retrieveMessageThread = (
           data: {
             replyToName,
             threadFolderId,
+            replyToMessageId: msgResponse.data.attributes.messageId,
             ...msgResponse.data,
             ...response.data[0],
           },
@@ -297,6 +299,11 @@ export const sendMessage = (message, attachments) => async dispatch => {
     throw e;
   }
 };
+
+/** when sending a reply with an existing draft message, same draft message id is passed as a param query and in the body of the request
+ * @param {Long} replyToId - the id of the message being replied to. If replying with a saved draft, this is the id of the draft message
+ * @param {Object} message - contains "body" field. Add "draft_id" field if replying with a saved draft and pass messageId of the same draft message
+ */
 
 export const sendReply = (
   replyToId,

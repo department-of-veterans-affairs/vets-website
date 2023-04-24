@@ -6,13 +6,10 @@ const initialState = {
    */
   message: undefined,
   /**
-   * The message history for the currently displayed message
+   * The message thread currently displayed to the user
    * @type {array}
    */
   messageHistory: undefined,
-  /**
-   * The message thread currently displayed to the user
-   */
   isLoading: false,
   error: null,
 };
