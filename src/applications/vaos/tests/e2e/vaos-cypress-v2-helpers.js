@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
-import { mockContactInformation } from '~/platform/user/profile/vap-svc/util/local-vapsvc';
+// eslint-disable-next-line import/no-unresolved
+import { mockContactInformation } from '@department-of-veterans-affairs/platform-user/local-vapsvc';
 import moment from '../../lib/moment-tz';
 import schedulingConfigurations from '../../services/mocks/v2/scheduling_configurations.json';
 import { getVAOSAppointmentMock } from '../mocks/v2';
