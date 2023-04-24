@@ -95,7 +95,7 @@ function IntroductionLogin({
                 <>
                   If you don't want to sign in, you can{' '}
                   <a href="https://www.va.gov/find-forms/about-form-22-1990e/">
-                    apply using thepaper form
+                    apply using the paper form
                   </a>
                   . Please expect longer processing time for decisions when
                   opting for this method.
