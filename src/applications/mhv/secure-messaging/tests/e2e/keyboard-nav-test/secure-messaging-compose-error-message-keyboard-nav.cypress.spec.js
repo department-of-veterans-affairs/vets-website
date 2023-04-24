@@ -39,4 +39,11 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifyFocusOnErrorEmptyMessageSubject();
   });
+  it('focus on error message for empty message body', () => {
+    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    composePage.selectCategory();
+    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.pushSendMessageWithKeyboardPress();
+    composePage.verifyFocusOnErrorEmptyMessageBody();
+  });
 });

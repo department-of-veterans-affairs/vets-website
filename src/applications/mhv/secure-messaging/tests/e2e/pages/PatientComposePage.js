@@ -102,6 +102,10 @@ class PatientComposePage {
     cy.focused().should('have.attr', 'error', 'Subject cannot be blank.');
   };
 
+  verifyFocusOnErrorEmptyMessageBody = () => {
+    cy.focused().should('have.attr', 'error', 'Message body cannot be blank.');
+  };
+
   //* Refactor* Needs to have mockDraftMessage as parameter
   clickOnSendMessageButton = () => {
     cy.intercept(
