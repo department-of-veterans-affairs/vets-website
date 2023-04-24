@@ -12,12 +12,15 @@ jobs:
     name: Deploy Preview Environment
     runs-on: ubuntu-latest
     steps:
-      - name: Set vets-website branch
+      - name: Set default source branch
+        if: ${{ github.event_name == "push" }}
         run: |
-          if ${{ github.event_name == 'push' }}; then
-            echo "source_ref=${{ github.ref_name }}" >> $GITHUB_ENV
-          else
-            echo "source_ref=${{ github.event.client_payload.source_ref }}" >> $GITHUB_ENV
+          echo "source_ref=${{ github.ref_name }}" >> $GITHUB_ENV
+
+      - name: Set custom source branch
+        if: ${{ github.event_name == "repository_dispatch" }}
+        run: |
+          echo "source_ref=${{ github.event.client_payload.source_ref }}" >> $GITHUB_ENV
 
       - name: Log env variable
         run: echo ${{ env.source_ref }}
@@ -90,9 +93,7 @@ jobs:
         run: node ./script/github-actions/pe-deploy-source.js
         env:
           SOURCE_EVENT: ${{ github.event_name }}
-          SOURCE_BRANCH: ${{ github.event.client_payload.source_ref }}
           SOURCE_REPO: ${{ github.event.client_payload.source_repo }}
-          WORKFLOW_BRANCH: ${{ github.ref_name }}
           SOURCE_DEPLOYMENT: ${{ github.event.client_payload.deployment_id }}
           WORKFLOW_DEPLOYMENT: ${{ steps.deployment.outputs.deployment_id }}
 
