@@ -10,6 +10,7 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import PropType from 'prop-types';
 import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import HorizontalRule from '../shared/HorizontalRule';
 import MessageThreadItem from './MessageThreadItem';
 import {
@@ -22,6 +23,18 @@ const MessageThread = props => {
   const dispatch = useDispatch();
   const { messageHistory, isDraftThread, isForPrint, viewCount } = props;
   const accordionRef = useRef();
+
+  // value for screen readers to indicate how many messages are being loaded
+  const messagesLoaded = useMemo(
+    () => {
+      if (messageHistory?.length)
+        return messageHistory?.length > viewCount
+          ? 5
+          : messageHistory.length - viewCount + 5;
+      return null;
+    },
+    [viewCount, messageHistory],
+  );
 
   useEffect(
     () => {
@@ -40,6 +53,13 @@ const MessageThread = props => {
             dispatch(markMessageAsReadInThread(m.messageId));
           }
         });
+      }
+      if (viewCount > 5) {
+        focusElement(
+          `[data-testid="expand-message-button-${
+            messageHistory[viewCount - 5].messageId
+          }"]`,
+        );
       }
     },
     [viewCount],
@@ -60,18 +80,6 @@ const MessageThread = props => {
       handleLoadMoreMessages();
     }
   };
-
-  // value for screen readers to indicate how many messages are being loaded
-  const messagesLoaded = useMemo(
-    () => {
-      if (messageHistory?.length)
-        return messageHistory?.length > viewCount
-          ? 5
-          : messageHistory.length - viewCount + 5;
-      return null;
-    },
-    [viewCount, messageHistory],
-  );
 
   return (
     <>
@@ -128,7 +136,7 @@ const MessageThread = props => {
                 role="alert"
                 aria-label={`${messagesLoaded} more message${
                   messagesLoaded > 1 ? 's are' : ' is'
-                } loaded. Press Tab to navigate to the next message`}
+                } loaded. Continue to navigate to the next message`}
               />
             )}
           </div>
