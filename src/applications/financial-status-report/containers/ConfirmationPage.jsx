@@ -140,11 +140,12 @@ const ConfirmationPage = ({ form, download }) => {
           </p>
         </va-alert>
       )}
-
       <p>
-        We’ll send you a letter with our decision and any next steps. If you
-        experience changes that may affect our decision (like a job loss or a
-        new job), you’ll need to submit a new request.
+        We’ll send you a letter with our decision and any next steps.{' '}
+        <strong>
+          If you experience changes that may affect our decision (like a loss or
+          new job), you’ll need to submit a new request.
+        </strong>
       </p>
 
       {response && (
