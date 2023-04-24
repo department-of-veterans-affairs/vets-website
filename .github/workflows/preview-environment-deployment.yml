@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Set vets-website branch
         run: |
-          if ${{ github.event.source == 'push' }}; then
+          if ${{ github.event_name == 'push' }}; then
             echo "source_ref=${{ github.ref_name }}" >> $GITHUB_ENV
           else
             echo "source_ref=${{ github.event.client_payload.source_ref }}" >> $GITHUB_ENV
