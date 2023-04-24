@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
@@ -8,6 +8,17 @@ import { isAuthenticatedWithOAuth } from '../selectors';
 
 const OrganicAdoptionExperimentModal = ({ visible = false, onClose }) => {
   const useOAuth = useSelector(isAuthenticatedWithOAuth);
+
+  useEffect(
+    () => {
+      recordEvent({
+        event: `organic-adoption-experiment-modal-${
+          visible ? 'opened' : 'closed'
+        }`,
+      });
+    },
+    [visible],
+  );
 
   const setDismissalCookie = () => {
     const date = new Date();
@@ -79,11 +90,15 @@ const OrganicAdoptionExperimentModal = ({ visible = false, onClose }) => {
           <li>A phone number where you can be reached</li>
         </ul>
         <div className="alert-actions">
-          <button type="button" onClick={onPrimaryButtonClick}>
+          <button
+            className="va-button usa-button"
+            type="button"
+            onClick={onPrimaryButtonClick}
+          >
             Get Login.gov now
           </button>
           <button
-            className="button-secondary"
+            className="va-button usa-button-secondary"
             onClick={onSecondaryButtonClick}
             type="button"
           >
