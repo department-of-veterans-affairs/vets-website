@@ -33,6 +33,7 @@ export const TestNotification = ({ notification, dismissNotification }) => {
     <DashboardWidgetWrapper>
       {visible && (
         <div
+          data-testid="onsite-notification-card"
           className="onsite-notification vads-u-background-color--white vads-u-padding--2 vads-u-margin-bottom--2p5"
           role="alert"
         >
