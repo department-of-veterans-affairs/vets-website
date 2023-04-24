@@ -1,7 +1,6 @@
 // prettier-ignore
 
 export default Object.freeze({
-  btsssLoginWidget: 'btsss_login_widget',
   caregiverSigiEnabled: 'caregiver_sigi_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
@@ -42,6 +41,7 @@ export default Object.freeze({
   covidVolunteerIntakeEnabled: 'covid_volunteer_intake_enabled',
   covidVolunteerUpdateEnabled: 'covid_volunteer_update_enabled',
   cstUseLighthouse: 'cst_use_lighthouse',
+  cstIncludeDdlBoaLetters: 'cst_include_ddl_boa_letters',
   debtLettersShowLetters: 'debt_letters_show_letters',
   debtLettersShowLettersVBMS: 'debt_letters_show_letters_vbms',
   dependencyVerification: 'dependency_verification',
@@ -91,7 +91,7 @@ export default Object.freeze({
   profileNotificationSettings: 'profile_notification_settings',
   profileHideDirectDepositCompAndPen: 'profile_hide_direct_deposit_comp_and_pen',
   profileDoNotRequireInternationalZipCode: 'profile_do_not_require_international_zip_code',
-  profileShowMhvNotificaionSettings: 'profile_show_mhv_notification_settings',
+  profileShowMhvNotificationSettings: 'profile_show_mhv_notification_settings',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
   profileShowPaymentsNotificationSetting: 'profile_show_payments_notification_setting',
   profileUseExperimental: 'profile_use_experimental',
@@ -126,6 +126,7 @@ export default Object.freeze({
   showMebDgi42Features: 'show_meb_dgi42_features',
   showMebCh33SelfForm: 'show_meb_ch33_self_form',
   showMebUnverifiedUserAlert: 'show_meb_unverified_user_alert',
+  showMebEnhancements: 'show_meb_enhancements',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
   showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',

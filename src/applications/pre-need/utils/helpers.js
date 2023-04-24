@@ -302,8 +302,7 @@ export const veteranUI = {
     'ui:title':
       'Military Service number (if you have one that’s different than your Social Security number)',
     'ui:errorMessages': {
-      pattern:
-        'Your Military Service number must be between 4 to 10 characters',
+      pattern: 'Your Military Service number must be between 4 to 9 characters',
     },
   },
   vaClaimNumber: {
@@ -394,7 +393,7 @@ export const serviceRecordsUI = {
     'Please provide all your service periods. If you need to add another service period, please click the Add Another Service Period button.',
   'ui:options': {
     viewField: ServicePeriodView,
-    itemName: environment.isProduction() ? 'Service Period' : 'service period',
+    itemName: 'service period',
   },
   items: {
     'ui:order': [

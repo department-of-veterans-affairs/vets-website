@@ -26,7 +26,7 @@ function ScheduleNewAppointmentButton() {
   return (
     <button
       type="button"
-      className="vaos-hide-for-print"
+      className="xsmall-screen:vads-u-margin-bottom--2 vaos-hide-for-print vads-u-margin--0 small-screen:vads-u-margin-bottom--4"
       aria-label="Start scheduling an appointment"
       id="schedule-button"
       onClick={handleClick(history, dispatch)}

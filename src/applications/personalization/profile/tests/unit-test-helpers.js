@@ -34,11 +34,13 @@ export function renderWithProfileReducers(
 
 export function renderWithProfileReducersAndRouter(
   ui,
-  { initialState = {}, reducers = {} } = {},
+  { initialState = {}, reducers = {}, history = null, path = '/' } = {},
 ) {
   return renderWithStoreAndRouter(ui, {
     reducers: { ...profile, connectedApps, ...reducers },
     initialState,
+    path,
+    history,
   });
 }
 
@@ -214,7 +216,6 @@ export function createFeatureTogglesState(customToggles = {}) {
   return {
     featureToggles: {
       loading: false,
-      profile_use_vafsc: true,
       ...customToggles,
     },
   };

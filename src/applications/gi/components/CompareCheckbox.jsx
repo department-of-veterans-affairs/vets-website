@@ -7,7 +7,7 @@ export default function CompareCheckbox({
   handleCompareUpdate,
   cityState,
 }) {
-  const name = `Compare ${institution} ${cityState}`;
+  const name = `${institution} ${cityState}`;
   return (
     <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
       <Checkbox

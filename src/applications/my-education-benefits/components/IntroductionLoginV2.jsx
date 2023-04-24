@@ -2,12 +2,10 @@ import React from 'react';
 import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
-
 import { getAppData } from '../selectors/selectors';
 import LoadingIndicator from './LoadingIndicator';
 
@@ -19,28 +17,24 @@ function IntroductionLoginV2({
   route,
   showHideLoginModal,
   user,
+  showMebEnhancements, // Add showMebEnhancements as a prop
 }) {
   const apiCallsComplete =
     isLOA3 === false || (isClaimantCallComplete && isEligibilityCallComplete);
-
   const openLoginModal = () => {
     showHideLoginModal(true, 'cta-form');
   };
-
   const nextQuery = { next: window.location.pathname };
   const verifyUrl = appendQuery('/verify', nextQuery);
-
   return (
     <>
       {((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) ||
         !apiCallsComplete) && <LoadingIndicator />}
-
       {(isLoggedIn || user?.login?.hasCheckedKeepAlive) && (
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--3">
           Begin your application for education benefits
         </h2>
       )}
-
       {!isLoggedIn &&
         user?.login?.hasCheckedKeepAlive && (
           <>
@@ -76,7 +70,6 @@ function IntroductionLoginV2({
                   your application, you won’t be able to save the information
                   you’ve already filled in.
                 </p>
-
                 <button
                   className="usa-button-primary"
                   onClick={openLoginModal}
@@ -88,15 +81,26 @@ function IntroductionLoginV2({
                 </button>
               </div>
             </va-alert>
-
             <p className="vads-u-margin-top--4">
-              <a href="/education/apply-for-education-benefits/application/1990/applicant/information">
-                Start your application without signing in
-              </a>
+              {showMebEnhancements ? (
+                // If showMebEnhancements is true, display paper form option
+                <>
+                  If you don't want to sign in, you can apply using the{' '}
+                  <a href="https://www.va.gov/find-forms/about-form-22-1990/">
+                    paper form
+                  </a>
+                  . Please expect longer processing time for decisions when
+                  opting for this method.
+                </>
+              ) : (
+                // If showMebEnhancements is false, display option to start application without signing in
+                <a href="/education/apply-for-education-benefits/application/1990/applicant/information">
+                  Start your application without signing in
+                </a>
+              )}
             </p>
           </>
         )}
-
       {apiCallsComplete &&
         isLoggedIn &&
         isLOA3 && (
@@ -107,11 +111,9 @@ function IntroductionLoginV2({
             pageList={route.pageList}
             prefillEnabled={route?.formConfig?.prefillEnabled}
             startText="Start your application"
-            testActionLink
             user={user}
           />
         )}
-
       {apiCallsComplete &&
         isLoggedIn &&
         isLOA3 === false && (
@@ -150,7 +152,6 @@ function IntroductionLoginV2({
     </>
   );
 }
-
 IntroductionLoginV2.propTypes = {
   route: PropTypes.object.isRequired,
   eligibility: PropTypes.arrayOf(PropTypes.string),
@@ -159,18 +160,16 @@ IntroductionLoginV2.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
+  showMebEnhancements: PropTypes.bool, // Add showMebEnhancements to propTypes
   user: PropTypes.object,
 };
-
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
 });
-
 const mapDispatchToProps = {
   showHideLoginModal: toggleLoginModal,
 };
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

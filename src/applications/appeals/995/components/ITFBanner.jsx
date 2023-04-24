@@ -4,12 +4,14 @@ import { Link } from 'react-router';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
+import environment from 'platform/utilities/environment';
 
 import {
   itfMessage,
   itfError,
   itfSuccess,
   itfActive,
+  itfExpander,
 } from '../content/itfWrapper';
 
 import { BASE_URL } from '../constants';
@@ -66,14 +68,23 @@ const ITFBanner = props => {
     <div className="itf-inner vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
       <div className="usa-content">
         {message}
+        <div className="vads-u-margin-top--2">{itfExpander}</div>
         {props.status === 'error' ? (
           <p>
             <Link to={BASE_URL} className="vads-u-margin-top--2">
               Back
             </Link>
+            {!environment.isProduction() && (
+              <va-button
+                class="vads-u-margin-left--2"
+                onClick={dismissMessage}
+                text="Continue (testing only)"
+              />
+            )}
           </p>
         ) : (
           <VaButtonPair
+            class="vads-u-margin-top--2"
             continue
             onPrimaryClick={dismissMessage}
             onSecondaryClick={goHome}

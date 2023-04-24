@@ -74,6 +74,7 @@ const VehicleSummaryWidget = ({
               onDelete={() => onDelete(index)}
               showDelete
               body={cardBody(vehicle.resaleValue)}
+              index={index}
             />
           ))
         )}
