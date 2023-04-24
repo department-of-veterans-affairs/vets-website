@@ -35,51 +35,51 @@
         "lastAction": null,
         "date": null
       },{
-      "description": "Service connection, tinnitus",
-      "diagnosticCode": "6847",
-      "active": true,
-      "lastAction": "field_grant",
-      "date": null
+        "description": "Service connection, tinnitus",
+        "diagnosticCode": "6847",
+        "active": true,
+        "lastAction": "field_grant",
+        "date": null
       },{
-      "description": "Service connection, sore foot",
-      "diagnosticCode": "6847",
-      "active": true,
-      "lastAction": "withdrawn",
-      "date": null
+        "description": "Service connection, sore foot",
+        "diagnosticCode": "6847",
+        "active": true,
+        "lastAction": "withdrawn",
+        "date": null
       },{
-      "description": "Service connection, shoulder ache",
-      "diagnosticCode": "6847",
-      "active": true,
-      "lastAction": "allowed",
-      "date": null
+        "description": "Service connection, shoulder ache",
+        "diagnosticCode": "6847",
+        "active": true,
+        "lastAction": "allowed",
+        "date": null
       },{
-      "description": "Service connection, knee ankylosis",
-      "diagnosticCode": "6847",
-      "active": true,
-      "lastAction": "denied",
-      "date": null
+        "description": "Service connection, knee ankylosis",
+        "diagnosticCode": "6847",
+        "active": true,
+        "lastAction": "denied",
+        "date": null
       },{
-      "description": "Service connection, arthritis",
-      "diagnosticCode": "6847",
-      "active": true,
-      "lastAction": "remand",
-      "date": null
+        "description": "Service connection, arthritis",
+        "diagnosticCode": "6847",
+        "active": true,
+        "lastAction": "remand",
+        "date": null
       },{
-      "description": "Service connection, wrist issue",
-      "diagnosticCode": "6847",
-      "active": true,
-      "lastAction": "cavc_remand",
-      "date": null
+        "description": "Service connection, wrist issue",
+        "diagnosticCode": "6847",
+        "active": true,
+        "lastAction": "cavc_remand",
+        "date": null
       }],
       "events": [{
         "type": "claim_decision",
         "date": "2017-07-31"
       }, {
-      "type": "nod",
-      "date": "2017-08-10"
+        "type": "nod",
+        "date": "2017-08-10"
       }, {
-      "type": "soc",
-      "date": "2018-05-15"
+        "type": "soc",
+        "date": "2018-05-15"
       }],
       "evidence": []
     }
