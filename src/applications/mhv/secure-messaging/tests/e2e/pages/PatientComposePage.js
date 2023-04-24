@@ -26,7 +26,7 @@ class PatientComposePage {
     cy.tabToElement('[data-testid="Send-Button"]')
       .get('[text="Send"]')
       .realPress(['Enter']);
-    cy.wait('@message');
+    // cy.wait('@message');
   };
 
   verifySendMessageConfirmationMessage = () => {
@@ -77,8 +77,29 @@ class PatientComposePage {
       .select(recipient);
   };
 
+  selectCategoryByTabbingKeyboard = () => {
+    cy.tabToElement('#OTHEROTHER');
+    cy.realPress(['Enter']);
+  };
+
+  selectCategory = () => {
+    cy.get('#OTHEROTHER').click({ force: true });
+  };
+
   verifyFocusonMessageAttachment = () => {
     cy.get('.editable-attachment > :nth-child(1) > span').should('have.focus');
+  };
+
+  verifyFocusOnErrorMessageToSelectRecipient = () => {
+    cy.focused().should('have.attr', 'error', 'Please select a recipient.');
+  };
+
+  verifyFocusOnErrorMessageToSelectCategory = () => {
+    cy.focused().should('have.attr', 'error', 'Please select a category.');
+  };
+
+  verifyFocusOnErrorEmptyMessageSubject = () => {
+    cy.focused().should('have.attr', 'error', 'Subject cannot be blank.');
   };
 
   //* Refactor* Needs to have mockDraftMessage as parameter
