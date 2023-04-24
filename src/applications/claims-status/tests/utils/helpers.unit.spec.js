@@ -512,6 +512,52 @@ describe('Disability benefits helpers: ', () => {
         'We’re sorry, VA.gov will soon be updated to show your status.',
       );
     });
+
+    describe('appeal decision DDL link', () => {
+      let appeal;
+      beforeEach(() => {
+        appeal = mockData.data.find(a => a.id === 'A106');
+      });
+
+      it('returns a link to DDL for a BVA-decided appeal', () => {
+        const contents = getStatusContents(appeal);
+        const descText = shallow(contents.description);
+        const linkToDDL = descText
+          .find('Toggler')
+          .find('Enabled')
+          .find('Link');
+
+        expect(linkToDDL.length).to.equal(1);
+        expect(linkToDDL.props().to).to.equal('your-claim-letters');
+
+        descText.unmount();
+      });
+
+      it('returns a link to DDL for a BVA-post-decided appeal', () => {
+        const postDecisionAppeal = {
+          ...appeal,
+          attributes: {
+            ...appeal.attributes,
+            status: {
+              ...appeal.attributes.status,
+              type: 'post_bva_dta_decision',
+            },
+          },
+        };
+
+        const contents = getStatusContents(postDecisionAppeal);
+        const descText = shallow(contents.description);
+        const linkToDDL = descText
+          .find('Toggler')
+          .find('Enabled')
+          .find('Link');
+
+        expect(linkToDDL.length).to.equal(1);
+        expect(linkToDDL.props().to).to.equal('your-claim-letters');
+
+        descText.unmount();
+      });
+    });
   });
 
   describe('makeDurationText', () => {

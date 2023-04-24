@@ -1,7 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { getAojDescription } from '../../utils/appeals-v2-helpers';
 
@@ -91,17 +89,6 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
           )}
       </div>
       <p>Please see your decision for more details.</p>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.cstIncludeDdlBoaLetters}>
-        <Toggler.Enabled>
-          <p>
-            You can download your decision letter online now. You can also get
-            other letters related to your claims and appeals.
-            <Link className="vads-c-action-link--blue" to="your-claim-letters">
-              Get your decision letters
-            </Link>
-          </p>
-        </Toggler.Enabled>
-      </Toggler>
     </div>
   );
 };
