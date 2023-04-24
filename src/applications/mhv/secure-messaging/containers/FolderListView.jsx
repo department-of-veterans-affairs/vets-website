@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearMessage, getMessages } from '../actions/messages';
 import { DefaultFolders as Folders, Alerts } from '../util/constants';
 import useInterval from '../hooks/use-interval';
@@ -16,7 +15,6 @@ const FolderListView = props => {
   const { testing } = props;
   const dispatch = useDispatch();
   const [folderId, setFolderId] = useState(null);
-  // const [isLoading, setIsLoading] = useState(true);
   const error = null;
   const messages = useSelector(state => state.sm.messages?.messageList);
   const folder = useSelector(state => state.sm.folders.folder);
@@ -91,10 +89,6 @@ const FolderListView = props => {
       />
     );
   };
-
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-  });
 
   const content = () => {
     if (messages === undefined) {

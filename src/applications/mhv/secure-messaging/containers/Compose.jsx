@@ -30,19 +30,22 @@ const Compose = () => {
   const isDraftPage = location.pathname.includes('/draft');
   const header = useRef();
 
-  useEffect(() => {
-    dispatch(getTriageTeams());
+  useEffect(
+    () => {
+      dispatch(getTriageTeams());
 
-    if (location.pathname === '/compose') {
-      dispatch(clearDraft());
-      setDraftType('compose');
-    } else {
-      dispatch(retrieveMessageThread(draftId));
-    }
-    return () => {
-      dispatch(clearDraft());
-    };
-  }, []);
+      if (location.pathname === '/compose') {
+        dispatch(clearDraft());
+        setDraftType('compose');
+      } else {
+        dispatch(retrieveMessageThread(draftId));
+      }
+      return () => {
+        dispatch(clearDraft());
+      };
+    },
+    [dispatch, draftId, location.pathname],
+  );
 
   useEffect(
     () => {
@@ -99,7 +102,7 @@ const Compose = () => {
   if (isDraftPage) {
     pageTitle = 'Edit draft';
   } else {
-    pageTitle = 'Compose message';
+    pageTitle = 'Start a new message';
   }
 
   const content = () => {

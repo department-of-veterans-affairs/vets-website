@@ -40,7 +40,7 @@ describe('FolderHeader component in Inbox', () => {
     ).to.exist;
   });
 
-  it('must display Compose message link', () => {
+  it('must display `Start a new message` link', () => {
     const screen = setup(folders.inbox);
     expect(screen.getByText('Start a new message')).to.exist;
   });
@@ -56,7 +56,7 @@ describe('FolderHeader component in Sent folder', () => {
     expect(tree.text()).to.contain(Folder.SENT.desc);
   });
 
-  it('must NOT display Compose message link', () => {
+  it('must NOT display `Start a new message` link', () => {
     expect(tree.subTree('Link')).is.not.rendered;
   });
 });
@@ -71,7 +71,7 @@ describe('FolderHeader component in Drafts folder', () => {
     expect(tree.text()).to.contain(Folder.DRAFTS.desc);
   });
 
-  it('must NOT display Compose message link', () => {
+  it('must NOT display `Start a new message` link', () => {
     expect(tree.subTree('Link')).is.not.rendered;
   });
 });
@@ -86,7 +86,7 @@ describe('FolderHeader component in Trash folder', () => {
     expect(tree.text()).to.contain(Folder.DELETED.desc);
   });
 
-  it('must NOT display Compose message link', () => {
+  it('must NOT display `Start a new message` link', () => {
     expect(tree.subTree('Link')).is.not.rendered;
   });
 });

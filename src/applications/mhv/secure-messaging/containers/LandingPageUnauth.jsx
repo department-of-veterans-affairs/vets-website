@@ -36,7 +36,11 @@ const LandingPageUnauth = () => {
           </p>
           {/* va-button component from design library has a bug which affects the styling */}
           {/* However, toggleLoginModal function has appropriate analytic tags */}
-          <button className="va-button-primary" onClick={handleSignIn}>
+          <button
+            type="button"
+            className="va-button-primary"
+            onClick={handleSignIn}
+          >
             Sign in or create an account
           </button>
         </div>
@@ -56,7 +60,7 @@ const LandingPageUnauth = () => {
           className="vads-c-action-link--blue compose-message-link"
           href="/my-health/secure-messages"
         >
-          Compose a new message
+          Start a new message
         </a>
       </p>
       <p>

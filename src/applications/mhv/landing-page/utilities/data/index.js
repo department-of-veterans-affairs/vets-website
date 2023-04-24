@@ -46,7 +46,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, 'compose-message'),
-        text: 'Compose message',
+        text: 'Start a new message',
         toggle: null,
       },
       {
