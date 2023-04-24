@@ -44,17 +44,9 @@ const SELECT_RESERVE_GI_BILL_ARRAY = [
 
 const VETERAN_READINESS_ARRAY = [
   { optionValue: VETERAN, optionLabel: 'Veteran' },
-  { optionValue: 'spouse', optionLabel: 'Spouse' },
-  { optionValue: 'child', optionLabel: 'Child' },
 ];
 
 const SURVIVOR_AND_DEPENDENT_ARRAY = [
-  { optionValue: VETERAN, optionLabel: 'Veteran' },
-  { optionValue: 'active duty', optionLabel: 'Active Duty' },
-  {
-    optionValue: 'national guard / reserves',
-    optionLabel: 'National Guard / Reserves',
-  },
   { optionValue: 'spouse', optionLabel: 'Spouse' },
   { optionValue: 'child', optionLabel: 'Child' },
 ];
@@ -103,7 +95,7 @@ const BenefitsForm = ({
     } else if (field === 'giBillChapter' && value === '35') {
       // Investigate
       setWhatsYourMilitaryStatusDropDown(SURVIVOR_AND_DEPENDENT_ARRAY);
-      eligibilityChangeRedux({ militaryStatus: VETERAN });
+      eligibilityChangeRedux({ militaryStatus: SPOUSE });
     }
     eligibilityChange(e, name, number);
   };
