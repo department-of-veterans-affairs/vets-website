@@ -11,7 +11,7 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('Hca marital status', () => {
+describe('hca MaritalStatus config', () => {
   const {
     schema,
     uiSchema,

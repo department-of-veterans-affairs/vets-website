@@ -94,7 +94,10 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
         ref={el => listItemsRef.current.push(el)}
         className="hca-dependent-list--tile vads-u-display--flex vads-u-align-items--center vads-u-border--2px vads-u-border-color--gray-light"
       >
-        <span className="vads-u-flex--1 vads-u-padding-right--2">
+        <span
+          className="vads-u-flex--1 vads-u-padding-right--2"
+          data-testid="hca-dependent-tile-name"
+        >
           <strong>{normalizedFullName}</strong>, {dependentRelation}
         </span>
         <span className="vads-u-flex--auto">

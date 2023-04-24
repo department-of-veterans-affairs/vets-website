@@ -10,7 +10,7 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../config/form';
 
-describe('Hca annual income', () => {
+describe('hca AnnualIncome config', () => {
   const {
     schema,
     uiSchema,

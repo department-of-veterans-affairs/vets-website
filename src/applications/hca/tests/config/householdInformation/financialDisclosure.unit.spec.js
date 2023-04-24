@@ -11,7 +11,7 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('Hca financial disclosure', () => {
+describe('hca FinancialDisclosure config', () => {
   const {
     schema,
     uiSchema,

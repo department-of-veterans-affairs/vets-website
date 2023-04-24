@@ -14,7 +14,9 @@ const HouseholdFinancialOnboarding = props => {
 
   return (
     <>
-      <h3>Financial information you’ll need</h3>
+      <h3 data-testid="hca-custom-page-title">
+        Financial information you’ll need
+      </h3>
       <p>
         We’ll ask for income information from {previousYear.format('Y')} for
         you, your spouse (if you’re married), and any dependents you may have.

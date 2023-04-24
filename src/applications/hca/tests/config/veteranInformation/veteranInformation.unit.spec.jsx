@@ -11,7 +11,7 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('HCA veteranInformation', () => {
+describe('HCA veteran information', () => {
   it('should render personal information page', () => {
     const onSubmit = sinon.spy();
     const {

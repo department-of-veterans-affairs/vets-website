@@ -11,7 +11,7 @@ describe('hca VeteranProfileInformation', () => {
   const mockStore = configureStore(middleware);
 
   it('should render name and date of birth when user is logged in and date of birth has a value', () => {
-    const userDob = {
+    const data = {
       user: {
         login: {
           currentlyLoggedIn: true,
@@ -27,8 +27,7 @@ describe('hca VeteranProfileInformation', () => {
         },
       },
     };
-    const store = mockStore(userDob);
-
+    const store = mockStore(data);
     const { getByText } = render(
       <Provider store={store}>
         <VeteranProfileInformation />
@@ -39,7 +38,7 @@ describe('hca VeteranProfileInformation', () => {
   });
 
   it('should render name and not date of birth when user is logged in and date of birth does not have a value', () => {
-    const user = {
+    const data = {
       user: {
         login: {
           currentlyLoggedIn: true,
@@ -54,14 +53,12 @@ describe('hca VeteranProfileInformation', () => {
         },
       },
     };
-    const store = mockStore(user);
-
+    const store = mockStore(data);
     const view = render(
       <Provider store={store}>
         <VeteranProfileInformation />
       </Provider>,
     );
-
     expect(view.container.querySelector('[data-testid="hca-veteran-fullname"]'))
       .to.exist;
     expect(

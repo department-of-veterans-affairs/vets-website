@@ -11,7 +11,7 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('Hca vaBenefits', () => {
+describe('Hca VA benefits', () => {
   const { schema, uiSchema } = formConfig.chapters.vaBenefits.pages.vaBenefits;
   const definitions = formConfig.defaultDefinitions;
   it('should render', () => {

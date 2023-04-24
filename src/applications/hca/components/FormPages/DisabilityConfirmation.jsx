@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import recordEvent from 'platform/monitoring/record-event';
 
-const ServiceConnectedPayConfirmation = ({ data, goBack, goForward }) => {
+const DisabilityConfirmation = ({ data, goBack, goForward }) => {
   // use logging to compare number of short forms started vs completed
   const onConfirm = () => {
     recordEvent({
@@ -20,7 +20,7 @@ const ServiceConnectedPayConfirmation = ({ data, goBack, goForward }) => {
     >
       <h3 className="vads-u-margin-top--0">
         Confirm that you receive service-connected pay for a 50% or higher
-        disability rating.
+        disability rating
       </h3>
       <p>
         You selected that you currently receive service-connected disability pay
@@ -52,10 +52,10 @@ const ServiceConnectedPayConfirmation = ({ data, goBack, goForward }) => {
   );
 };
 
-ServiceConnectedPayConfirmation.propTypes = {
+DisabilityConfirmation.propTypes = {
   data: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
 };
 
-export default ServiceConnectedPayConfirmation;
+export default DisabilityConfirmation;

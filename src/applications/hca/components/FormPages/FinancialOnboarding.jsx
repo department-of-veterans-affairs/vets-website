@@ -20,7 +20,9 @@ const HouseholdFinancialOnboarding = props => {
         your spouse (if you’re married), and any dependents you may have.
       </p>
 
-      <h3>How we use your household financial information</h3>
+      <h3 data-testid="hca-custom-page-title">
+        How we use your household financial information
+      </h3>
       <p>
         It’s your choice whether you want to share your financial information.
         Before you decide, here’s what to know about how we’ll use your

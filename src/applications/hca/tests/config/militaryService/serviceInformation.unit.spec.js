@@ -11,7 +11,7 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../config/form';
 
-describe('Hca serviceInformation', () => {
+describe('Hca military service information', () => {
   const {
     schema,
     uiSchema,

@@ -12,7 +12,7 @@ import { fillDate } from '@department-of-veterans-affairs/platform-testing/helpe
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('Hca dependent information', () => {
+describe('hca DependentInformation config', () => {
   const {
     schema,
     uiSchema,
