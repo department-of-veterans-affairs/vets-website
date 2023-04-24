@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Scroll from 'react-scroll';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // Relative Imports
 import { months } from 'platform/static-data/options-for-select.js';
@@ -16,6 +17,26 @@ const DischargeMonthQuestion = ({
 }) => {
   const key = '3_dischargeMonth';
 
+  // const yearOptions = range(currentYear - 1992).map(i => {
+  //   const year = currentYear - i;
+  //   return (
+  //     <option key={i} value={year.toString()}>
+  //       {year.toString()}
+  //     </option>
+  //   );
+  // });
+
+  // console.log(`LOG MONTHS: ${months}`);
+
+  // TODO make this make sense
+  const monthOptions = months.map(month => {
+    return (
+      <option key={1} value={month}>
+        {month}
+      </option>
+    );
+  });
+
   if (!formValues) {
     return null;
   }
@@ -26,18 +47,19 @@ const DischargeMonthQuestion = ({
   return (
     <fieldset className="fieldset-input dischargeMonth" key={key}>
       <Element name={key} />
-      <va-select
+      <VaSelect
         autocomplete="false"
         label="What month were you discharged?"
         name={key}
         vaKeyDown={handleKeyDown}
-        options={months}
         value={{ value: formValues[key] }}
-        onValueChange={update => {
+        onVaSelect={update => {
           updateField(key, update.value);
           scrollToLast();
         }}
-      />
+      >
+        {monthOptions}
+      </VaSelect>
     </fieldset>
   );
 };

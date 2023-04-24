@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { range } from 'lodash';
 import Scroll from 'react-scroll';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // Relative Imports
 import { shouldShowQuestion } from '../../helpers';
@@ -34,25 +35,30 @@ const DischargeYearQuestion = ({
       </option>
     );
   });
+  const before1992Key = yearOptions.length + 1;
 
-  // yearOptions.push({ text: 'Before 1992', value: '1991' });
+  yearOptions.push(
+    <option key={before1992Key} value="1991">
+      Before 1992
+    </option>,
+  );
 
   return (
     <fieldset className="fieldset-input dischargeYear" key={key}>
       <Element name={key} />
-      <va-select
+      <VaSelect
         autocomplete="false"
         label="What year were you discharged from the military?"
         name={key}
         vaKeyDown={handleKeyDown}
         value={{ value: dischargeYear }}
-        onValueChange={update => {
+        onVaSelect={update => {
           updateField(key, update.value);
           scrollToLast();
         }}
       >
         {yearOptions}
-      </va-select>
+      </VaSelect>
     </fieldset>
   );
 };
