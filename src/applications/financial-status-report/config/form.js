@@ -505,18 +505,6 @@ const formConfig = {
             !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
-
-        // spouseEmploymentQuestion: {
-        //   path: 'enhanced-spouse-employment-question',
-        //   title: 'Employment',
-        //   uiSchema: pages.spouseEmploymentQuestion.uiSchema,
-        //   schema: pages.spouseEmploymentQuestion.schema,
-        //   depends: formData =>
-        //     formData.questions.isMarried &&
-        //     formData['view:enhancedFinancialStatusReport'],
-        //   editModeOnReviewPage: false,
-        // },
-
         spouseAdditionalIncomeCheckList: {
           path: 'spouse-additional-income-checklist',
           title: 'Additional income options',
