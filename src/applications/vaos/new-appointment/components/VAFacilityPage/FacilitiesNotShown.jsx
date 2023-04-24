@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+// eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 // import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import FacilityPhone from '../../../components/FacilityPhone';

@@ -8,8 +8,7 @@ import RecordListItem from './RecordListItem';
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
 const RecordList = props => {
-  const { records, type } = props;
-  const perPage = 5;
+  const { records, type, perPage = 5, hidePagination } = props;
   const totalEntries = records?.length;
 
   const [currentRecords, setCurrentRecords] = useState([]);
@@ -45,26 +44,29 @@ const RecordList = props => {
 
   return (
     <div className="record-list vads-l-row vads-u-flex-direction--column">
-      <div className="vads-u-padding-y--1 vads-u-margin-bottom--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
-        Displaying {displayNums[0]}
+      <div
+        className="pagination vads-u-padding-y--1 vads-u-margin-bottom--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
+        hidden={hidePagination}
+      >
+        Showing {displayNums[0]}
         &#8211;
-        {displayNums[1]} of {totalEntries} {type} records
+        {displayNums[1]} of {totalEntries} {type}
       </div>
       <div className="no-print">
         {currentRecords?.length > 0 &&
           currentRecords.map((record, idx) => (
-            <RecordListItem key={idx} record={record} />
+            <RecordListItem key={idx} record={record} type={type} />
           ))}
       </div>
       <div className="print-only">
         {records?.length > 0 &&
           records.map((record, idx) => (
-            <RecordListItem key={idx} record={record} />
+            <RecordListItem key={idx} record={record} type={type} />
           ))}
       </div>
       {currentRecords &&
         paginatedRecords.current.length > 1 && (
-          <div className="vads-u-margin-bottom--2 no-print">
+          <div className="pagination vads-u-margin-bottom--2 no-print">
             <VaPagination
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
@@ -81,6 +83,8 @@ const RecordList = props => {
 export default RecordList;
 
 RecordList.propTypes = {
+  hidePagination: PropTypes.bool,
+  perPage: PropTypes.number,
   records: PropTypes.array,
   type: PropTypes.string,
 };

@@ -15,12 +15,12 @@ export default function transformForSubmit(formConfig, form) {
       // non-empty strings add their string content
       remarkString +=
         remarksFormData[remarkKey] === true
-          ? `${remarksUiSchema[remarkKey]['ui:title']}, `
-          : `${remarksFormData[remarkKey]}, `;
+          ? `${remarksUiSchema[remarkKey]['ui:title']}; `
+          : `${remarksFormData[remarkKey].replaceAll('\n', '; ')}; `;
     }
   });
 
-  // removes final ', ' and trims whitespace
+  // removes final '; ' and trims whitespace
   remarkString = remarkString.slice(0, remarkString.length - 2).trim();
 
   const transformedData = JSON.parse(

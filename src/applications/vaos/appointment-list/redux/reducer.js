@@ -13,7 +13,6 @@ import {
   FETCH_PAST_APPOINTMENTS_FAILED,
   FETCH_REQUEST_DETAILS,
   FETCH_REQUEST_DETAILS_SUCCEEDED,
-  FETCH_REQUEST_MESSAGES_SUCCEEDED,
   CANCEL_APPOINTMENT,
   CANCEL_APPOINTMENT_CONFIRMED,
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
@@ -35,7 +34,6 @@ import {
   VACCINE_FORM_SUBMIT_SUCCEEDED,
 } from '../../redux/sitewide';
 
-import { sortMessages } from '../../services/appointment';
 import { FETCH_STATUS, APPOINTMENT_STATUS } from '../../utils/constants';
 
 const initialState = {
@@ -53,7 +51,6 @@ const initialState = {
   appointmentDetailsStatus: FETCH_STATUS.notStarted,
   appointmentToCancel: null,
   facilityData: {},
-  requestMessages: {},
   systemClinicToFacilityMap: {},
   facilitySettingsStatus: FETCH_STATUS.notStarted,
   facilitySettings: null,
@@ -107,8 +104,13 @@ export default function appointmentsReducer(state = initialState, action) {
         pastSelectedIndex: action.selectedIndex,
       };
     case FETCH_PAST_APPOINTMENTS_SUCCEEDED: {
-      const { appointments, requests = [], startDate, endDate } = action;
-
+      const {
+        appointments,
+        requests = [],
+        startDate,
+        endDate,
+        backendServiceFailures,
+      } = action;
       const past = appointments
         ?.filter(appt => {
           const apptDateTime = moment(appt.start);
@@ -130,6 +132,7 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         past,
         pastStatus: FETCH_STATUS.succeeded,
+        backendServiceFailures,
       };
     }
     case FETCH_PAST_APPOINTMENTS_FAILED:
@@ -183,18 +186,6 @@ export default function appointmentsReducer(state = initialState, action) {
         };
       }
       return newState;
-    }
-    case FETCH_REQUEST_MESSAGES_SUCCEEDED: {
-      const requestMessages = { ...state.requestMessages };
-      const { messages } = action;
-
-      if (messages?.length)
-        requestMessages[action.requestId] = messages.sort(sortMessages);
-
-      return {
-        ...state,
-        requestMessages,
-      };
     }
     case CANCEL_APPOINTMENT:
       return {

@@ -1,49 +1,109 @@
 import React, { useMemo } from 'react';
-import { Toggler } from 'applications/personalization/components/Toggler';
-import { Link, useLocation } from 'react-router-dom';
-import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
+import { Link, useLocation, useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
+import PropTypes from 'prop-types';
+import InitializeVAPServiceIDContainer from '~/platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
+import ProfileInformationFieldController from '~/platform/user/profile/vap-svc/components/ProfileInformationFieldController';
+import { Toggler } from '~/platform/utilities/feature-toggles';
+import { PROFILE_PATHS } from '../../constants';
+import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 
 const useQuery = () => {
   const { search } = useLocation();
   return useMemo(() => new URLSearchParams(search), [search]);
 };
 
-const getPathName = path => {
+const getReturnPath = path => {
   const pathKey = Object.entries(PROFILE_PATHS).find(
     ([_, value]) => value === path,
   )?.[0];
-  return pathKey
-    ? PROFILE_PATH_NAMES[pathKey]
-    : PROFILE_PATH_NAMES.PERSONAL_INFORMATION;
+  if (!pathKey) {
+    return null;
+  }
+  return PROFILE_PATHS[pathKey];
 };
 
-export const Edit = () => {
+const getFieldInfo = fieldName => {
+  const fieldNameKey = Object.entries(FIELD_NAMES).find(
+    ([_, value]) => value === fieldName,
+  )?.[0];
+  if (!fieldNameKey) {
+    return null;
+  }
+
+  return {
+    fieldName,
+    fieldKey: fieldNameKey,
+    title: FIELD_TITLES?.[fieldName] || '',
+  };
+};
+
+const FallbackContent = () => (
+  <>
+    <h1>Sorry, this page is unavailable</h1>
+    <Link to={PROFILE_PATHS.PROFILE_ROOT}>Return to your profile</Link>
+  </>
+);
+
+export const Edit = ({ children }) => {
+  const history = useHistory();
   const query = useQuery();
-  const returnPath = query.get('returnPath');
-  const fieldName = query.get('fieldName');
-  const returnPathName = getPathName(returnPath);
+
+  const fieldInfo = getFieldInfo(query.get('fieldName'));
+  const validReturnPath = getReturnPath(query.get('returnPath'));
+
+  const hasVAPServiceError = useSelector(state =>
+    hasVAPServiceConnectionError(state),
+  );
+
+  const handlers = {
+    cancel: () => {
+      history.push(validReturnPath || PROFILE_PATHS.PROFILE_ROOT);
+    },
+    success: () => {
+      history.push(validReturnPath || PROFILE_PATHS.PROFILE_ROOT, {
+        fieldInfo,
+      });
+    },
+  };
+
   return (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseFieldEditingPage}>
       <Toggler.Enabled>
-        <div className="vads-u-display--block medium-screen:vads-u-display--block">
-          <h2>Welcome to the new field editing page!</h2>
-
-          <p>
-            Field name: <span>{fieldName}</span>
-          </p>
-          <p>Return Path: {returnPath}</p>
-
-          <Link to={returnPath}>{`Return to ${returnPathName}`}</Link>
-        </div>
+        {fieldInfo && !hasVAPServiceError ? (
+          <div
+            className="vads-u-display--block medium-screen:vads-u-display--block"
+            id="profile-edit-field-page"
+          >
+            <h1 className="vads-u-font-size--h2 vads-u-margin-top--2p5">
+              {`Add or update your ${fieldInfo.title.toLowerCase()}`}
+            </h1>
+            {children || (
+              <InitializeVAPServiceIDContainer>
+                <ProfileInformationFieldController
+                  fieldName={fieldInfo.fieldName}
+                  forceEditView
+                  isDeleteDisabled
+                  cancelCallback={handlers.cancel}
+                  cancelButtonText="Cancel and go back to last page"
+                  successCallback={handlers.success}
+                />
+              </InitializeVAPServiceIDContainer>
+            )}
+          </div>
+        ) : (
+          <FallbackContent />
+        )}
       </Toggler.Enabled>
 
       <Toggler.Disabled>
-        <>
-          <h2>Sorry, this page is unavailable</h2>
-
-          <Link to={PROFILE_PATHS.PROFILE_ROOT}>Return to your profile</Link>
-        </>
+        <FallbackContent />
       </Toggler.Disabled>
     </Toggler>
   );
+};
+
+Edit.propTypes = {
+  children: PropTypes.node,
 };
