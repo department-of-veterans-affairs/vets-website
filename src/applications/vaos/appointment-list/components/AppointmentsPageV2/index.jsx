@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import classNames from 'classnames';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
@@ -115,8 +116,8 @@ export default function AppointmentsPageV2() {
   } = getDropdownValueFromLocation(location.pathname);
 
   let prefix = 'Your';
-  const isPending = !!location.pathname.endsWith('/pending');
-  const isPast = !!location.pathname.endsWith('/past');
+  const isPending = location.pathname.endsWith('/pending');
+  const isPast = location.pathname.endsWith('/past');
 
   if (featureStatusImprovement) {
     if (isPending) {
@@ -199,11 +200,13 @@ export default function AppointmentsPageV2() {
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
       <h1
-        className={`xsmall-screen:${
-          isPending ? 'vads-u-margin-bottom--1' : 'vads-u-margin-bottom--2'
-        } vads-u-flex--1 vaos-hide-for-print small-screen:${
-          isPending ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--4'
-        }`}
+        className={classNames(
+          `xsmall-screen:${
+            isPending ? 'vads-u-margin-bottom--1' : 'vads-u-margin-bottom--2'
+          } vads-u-flex--1 vaos-hide-for-print small-screen:${
+            isPending ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--4'
+          }`,
+        )}
       >
         {pageTitle}
       </h1>

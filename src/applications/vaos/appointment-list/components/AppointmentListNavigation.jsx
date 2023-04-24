@@ -13,9 +13,9 @@ export default function AppointmentListNavigation({ count, callback }) {
   );
 
   if (featureStatusImprovement) {
-    const isPending = !!location.pathname.endsWith('/pending');
-    const isPast = !!location.pathname.endsWith('/past');
-    const isUpcoming = !!location.pathname.endsWith('/');
+    const isPending = location.pathname.endsWith('/pending');
+    const isPast = location.pathname.endsWith('/past');
+    const isUpcoming = location.pathname.endsWith('/');
 
     return (
       <nav
