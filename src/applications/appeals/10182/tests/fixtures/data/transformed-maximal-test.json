@@ -35,7 +35,7 @@
         "decisionIssueId": 1,
         "ratingIssueReferenceId": "2",
         "ratingDecisionReferenceId": "3",
-        "disagreementArea": "service connection,effective date,disability evaluation,this is an other entry"
+        "disagreementArea": "service connection,effective date,disability evaluation,this is tinnitus entry"
       }
     },
     {
@@ -53,7 +53,7 @@
       "attributes": {
         "issue": "right shoulder",
         "decisionDate": "2021-06-06",
-        "disagreementArea": "disability evaluation,this is another's other entry"
+        "disagreementArea": "disability evaluation,this is right shoulder entry"
       }
     }
   ],
