@@ -29,7 +29,6 @@ const BenefitsForm = ({
     { optionValue: '0.7', optionLabel: '18 months: 70%' },
     { optionValue: '0.6', optionLabel: '6 months: 60%' },
     { optionValue: '0.5', optionLabel: '90 days: 50%' },
-    { optionValue: '1.00', optionLabel: 'GYSGT Fry Scholarship: 100%' }, // notice not 1.0
     {
       optionValue: 'service discharge',
       optionLabel: 'Service-Connected Discharge: 100%',
@@ -57,6 +56,12 @@ const BenefitsForm = ({
 
   const renderYourMilitaryDetails = () => {
     const chapter33Check = giBillChapter === '33a' || giBillChapter === '33b';
+    /*
+      ***toggleCumulativeDropDown***
+      Hide Cumulative Post 9/11 active-duty service drop down if applicant selects 'Fry Scholarship'
+      as their GI Bill Benefit
+    */
+    const toggleCumulativeDropDown = () => giBillChapter !== '33b';
     return (
       <div>
         <ExpandingGroup open={militaryStatus === 'spouse'}>
@@ -172,7 +177,8 @@ const BenefitsForm = ({
               options={cumulativeServiceOptions()}
               value={cumulativeService}
               alt="Cumulative Post-9/11 active-duty service"
-              visible={chapter33Check}
+              // visible={false}
+              visible={chapter33Check && toggleCumulativeDropDown()}
               onChange={eligibilityChange}
               onFocus={handleInputFocus}
             />
