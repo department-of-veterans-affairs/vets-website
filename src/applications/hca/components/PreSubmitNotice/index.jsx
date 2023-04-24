@@ -24,15 +24,15 @@ const PreSubmitNotice = props => {
           nonservice-connected VA medical care or services.
         </li>
         <li>
-          You’ve read and accept our privacy policy.
-          <br />
-          <a
-            aria-label="Read our privacy policy, will open in new tab"
-            target="_blank"
-            href="/privacy-policy/"
-          >
-            Read our privacy policy
-          </a>
+          You’ve read and accept our privacy policy.{' '}
+          <span className="vads-u-display--block">
+            <a target="_blank" href="/privacy-policy/">
+              Read our privacy policy
+              <span className="vads-u-visibility--screen-reader">
+                , will open in new tab
+              </span>
+            </a>
+          </span>
         </li>
       </ul>
       <va-additional-info
