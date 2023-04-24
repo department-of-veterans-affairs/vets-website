@@ -64,7 +64,7 @@ describe('Schemaform FormNav', () => {
     );
 
     expect(tree.getByTestId('navFormHeader').textContent).to.contain(
-      'Step 1 of 3: Testing',
+      'Step 1 of 4: Testing',
     );
   });
   it('should optionally hide current chapter progress-bar & stepText', () => {
@@ -116,7 +116,7 @@ describe('Schemaform FormNav', () => {
     );
 
     expect(tree.getByTestId('navFormHeader')).to.contain.text(
-      'Step 1 of 2: Testing',
+      'Step 1 of 3: Testing',
     );
   });
 
