@@ -15,12 +15,12 @@ jobs:
       - name: Set default source branch
         if: ${{ github.event_name == 'push' }}
         run: |
-          echo "source_ref=${{ github.ref_name }}" >> $GITHUB_ENV
+          echo "SOURCE_REF=${{ github.ref_name }}" >> $GITHUB_ENV
 
       - name: Set custom source branch
         if: ${{ github.event_name == 'repository_dispatch' }}
         run: |
-          echo "source_ref=${{ github.event.client_payload.source_ref }}" >> $GITHUB_ENV
+          echo "SOURCE_REF=${{ github.event.client_payload.source_ref }}" >> $GITHUB_ENV
 
       - name: Log env variable
         run: echo ${{ env.source_ref }}
