@@ -19,6 +19,7 @@ function IntroductionLogin({
   isSponsorsFetchComplete,
   route,
   showHideLoginModal,
+  showMebEnhancements,
   user,
 }) {
   const apiCallsComplete =
@@ -88,11 +89,23 @@ function IntroductionLogin({
                 </button>
               </div>
             </va-alert>
-
             <p className="vads-u-margin-top--4">
-              <a href="/education/apply-for-education-benefits/application/1990E/applicant/information">
-                Start your application without signing in
-              </a>
+              {showMebEnhancements ? (
+                // If showMebEnhancements is true, display paper form option
+                <>
+                  If you don't want to sign in, you can apply using the{' '}
+                  <a href="https://www.va.gov/find-forms/about-form-22-1990e/">
+                    paper form
+                  </a>
+                  . Please expect longer processing time for decisions when
+                  opting for this method.
+                </>
+              ) : (
+                // If showMebEnhancements is false, display option to start application without signing in
+                <a href="/education/apply-for-education-benefits/application/1990E/applicant/information">
+                  Start your application without signing in
+                </a>
+              )}
             </p>
           </>
         )}
@@ -158,6 +171,7 @@ IntroductionLogin.propTypes = {
   isPersonalInfoFetchComplete: PropTypes.bool,
   isSponsorsFetchComplete: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
+  showMebEnhancements: PropTypes.bool,
   user: PropTypes.object,
 };
 
