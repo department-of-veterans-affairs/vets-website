@@ -23,19 +23,12 @@ const DischargeMonthQuestion = ({
   if (!shouldShowQuestion(key, formValues.questions)) {
     return null;
   }
-
-  const monthLabel = (
-    <legend className={`${key}_header legend-label`}>
-      What month were you discharged?
-    </legend>
-  );
-
   return (
     <fieldset className="fieldset-input dischargeMonth" key={key}>
       <Element name={key} />
       <va-select
         autocomplete="false"
-        label={monthLabel}
+        label="What month were you discharged?"
         name={key}
         vaKeyDown={handleKeyDown}
         options={months}

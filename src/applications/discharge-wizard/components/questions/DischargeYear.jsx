@@ -28,32 +28,31 @@ const DischargeYearQuestion = ({
   const currentYear = new Date().getFullYear();
   const yearOptions = range(currentYear - 1992).map(i => {
     const year = currentYear - i;
-    return { label: year.toString(), value: year.toString() };
+    return (
+      <option key={i} value={year.toString()}>
+        {year.toString()}
+      </option>
+    );
   });
 
-  yearOptions.push({ label: 'Before 1992', value: '1991' });
-
-  const label = (
-    <legend className={`${key}_header legend-label`}>
-      What year were you discharged from the military?
-    </legend>
-  );
+  // yearOptions.push({ text: 'Before 1992', value: '1991' });
 
   return (
     <fieldset className="fieldset-input dischargeYear" key={key}>
       <Element name={key} />
       <va-select
         autocomplete="false"
-        label={label}
+        label="What year were you discharged from the military?"
         name={key}
-        options={yearOptions}
         vaKeyDown={handleKeyDown}
         value={{ value: dischargeYear }}
         onValueChange={update => {
           updateField(key, update.value);
           scrollToLast();
         }}
-      />
+      >
+        {yearOptions}
+      </va-select>
     </fieldset>
   );
 };
