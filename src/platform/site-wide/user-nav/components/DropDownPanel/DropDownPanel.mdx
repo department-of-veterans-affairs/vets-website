@@ -1,0 +1,51 @@
+---
+title: DropDownPanel
+name: DropDownPanel
+tags: panel, component
+---
+
+import DropDownPanel from './DropDownPanel'
+
+### Code:
+```javascript
+import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel'
+
+<div style={{ backgroundColor: '#112e51' }}>
+  <DropDownPanel
+    buttonText='Helpdesk'
+    cssClass='va-dropdown'
+    isOpen={this.state.open}
+    contents='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ullamcorper at eros eu suscipit. Ut imperdiet libero et luctus pretium.'
+    clickHandler={() => this.setState({ open: !this.state.open })}>
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ullamcorper at eros eu suscipit. Ut imperdiet libero et luctus pretium.'
+  </DropDownPanel>
+</div>
+```
+
+### Rendered Component
+export class RenderComponent extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      open: false
+    }
+  }
+  render() {
+    return (
+      <div className="site-c-reactcomp__rendered">
+        <div style={{ backgroundColor: '#112e51' }}>
+          <DropDownPanel
+            buttonText='Helpdesk'
+            cssClass='va-dropdown'
+            isOpen={this.state.open}
+            contents='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ullamcorper at eros eu suscipit. Ut imperdiet libero et luctus pretium.'
+            clickHandler={() => this.setState({ open: !this.state.open }) }>
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ullamcorper at eros eu suscipit. Ut imperdiet libero et luctus pretium.'
+          </DropDownPanel>
+        </div>
+      </div>
+    )
+  }
+}
+
+<RenderComponent />
