@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set default source branch
-        if: ${{ github.event_name == "push" }}
+        if: ${{ github.event_name == 'push' }}
         run: |
           echo "source_ref=${{ github.ref_name }}" >> $GITHUB_ENV
 
       - name: Set custom source branch
-        if: ${{ github.event_name == "repository_dispatch" }}
+        if: ${{ github.event_name == 'repository_dispatch' }}
         run: |
           echo "source_ref=${{ github.event.client_payload.source_ref }}" >> $GITHUB_ENV
 
