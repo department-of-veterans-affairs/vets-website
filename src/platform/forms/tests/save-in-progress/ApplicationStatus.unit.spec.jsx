@@ -148,8 +148,11 @@ describe('schemaform <ApplicationStatus>', () => {
       />,
     );
 
-    const modal = tree.baseElement.querySelector('va-modal');
-    modal.__events.primaryButtonClick();
+    tree.container.querySelector('.usa-button-secondary').click(); // open modal
+
+    expect(tree.container.querySelector('.va-modal-body')).to.not.be.null;
+
+    tree.getByText('Start a new application').click();
 
     // remove form & reset wizard
     expect(sessionStorage.getItem(wizardStatus)).to.be.null;
