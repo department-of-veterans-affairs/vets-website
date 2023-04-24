@@ -20,8 +20,7 @@ const DeactivatedMHVIds = () => {
           <p>
             Call us at <va-telephone contact="8773270022" />. We’re here Monday
             Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you have
-            hearing loss, call TTY: <va-telephone contact={CONTACTS.HELP_TTY} />
-            .
+            hearing loss, call <va-telephone contact={CONTACTS.HELP_TTY} tty />.
           </p>
           <p>
             Tell the representative that you tried to sign in to use the health
