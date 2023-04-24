@@ -12,14 +12,11 @@ export const goToNextPage = pagePath => {
     cy.location('pathname').should('include', pagePath);
   }
 };
+
 export const advanceToAiqPage = () => {
-  // cy.findAllByText(/start.+application/i, { selector: 'button' })
-  //   .first()
-  //   .click();
-
-  // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
-  cy.get('#1-continueButton').click();
-
+  cy.get('[href="#start"]')
+    .first()
+    .click();
   cy.wait('@mockSip');
   cy.location('pathname').should(
     'include',
@@ -31,6 +28,7 @@ export const advanceToAiqPage = () => {
   goToNextPage('/veteran-information/demographic-information');
   goToNextPage('/veteran-information/american-indian');
 };
+
 export const advanceFromAiqToReviewPage = () => {
   goToNextPage('/veteran-information/veteran-address');
   cy.get('[type=radio]')
@@ -68,13 +66,9 @@ export const advanceFromAiqToReviewPage = () => {
 };
 
 export const advanceToServiceInfoPage = () => {
-  // cy.findAllByText(/start.+application/i, { selector: 'button' })
-  //   .first()
-  //   .click();
-
-  // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
-  cy.get('#1-continueButton').click();
-
+  cy.get('[href="#start"]')
+    .first()
+    .click();
   cy.wait('@mockSip');
   cy.location('pathname').should(
     'include',
@@ -181,11 +175,10 @@ export const shortFormSelfDisclosureToSubmit = () => {
     .should('have.text', 'Yes (50% or higher rating)');
 
   cy.get('[name="privacyAgreementAccepted"]')
-    .find('[type="checkbox"]')
     .scrollIntoView()
-    .check({
-      force: true,
-    });
+    .shadow()
+    .find('[type="checkbox"]')
+    .check();
   cy.findByText(/submit/i, { selector: 'button' }).click();
   cy.wait('@mockSubmit').then(interception => {
     // check submitted vaCompensationType value.
