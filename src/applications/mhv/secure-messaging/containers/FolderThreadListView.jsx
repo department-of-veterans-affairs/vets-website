@@ -20,7 +20,6 @@ const FolderThreadListView = props => {
   const { testing } = props;
   const dispatch = useDispatch();
   const [folderId, setFolderId] = useState(null);
-  // const [isLoading, setIsLoading] = useState(false);
   const error = null;
   // Currently the pagination has a bug that doesnt return the correct amount of results per page, as a temporary solution, the threadsPerPage is set to 100 to cover most folders without needing pagination.
   const threadsPerPage = 100;

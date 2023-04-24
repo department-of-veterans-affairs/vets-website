@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearDraft } from '../actions/draftDetails';
 import { retrieveMessageThread } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
@@ -104,6 +105,10 @@ const Compose = () => {
   } else {
     pageTitle = 'Start a new message';
   }
+
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  });
 
   const content = () => {
     if (!isDraftPage && triageTeams) {

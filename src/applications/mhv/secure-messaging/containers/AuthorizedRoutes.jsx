@@ -1,7 +1,5 @@
 import React from 'react';
-// import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
-// import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
 // import FolderListView from './FolderListView';
