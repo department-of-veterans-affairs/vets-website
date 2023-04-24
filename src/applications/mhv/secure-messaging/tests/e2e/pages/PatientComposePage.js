@@ -13,6 +13,10 @@ class PatientComposePage {
     cy.wait('@message');
   };
 
+  getCategory = category => {
+    return cy.get(`[name=${category}]`);
+  };
+
   pushSendMessageWithKeyboardPress = () => {
     cy.intercept(
       'POST',

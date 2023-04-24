@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+// eslint-disable-next-line import/no-unresolved
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';

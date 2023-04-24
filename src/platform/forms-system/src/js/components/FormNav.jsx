@@ -61,7 +61,7 @@ export default function FormNav(props) {
         ? formConfig?.customText?.reviewPageTitle || REVIEW_APP_DEFAULT_MESSAGE
         : formConfig.chapters[page.chapterKey].title;
     if (typeof chapterName === 'function') {
-      chapterName = chapterName();
+      chapterName = chapterName({ formData, formConfig });
     }
   }
 
