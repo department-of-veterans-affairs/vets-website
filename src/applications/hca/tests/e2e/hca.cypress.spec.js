@@ -51,6 +51,16 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[name="privacyAgreementAccepted"]')
+            .scrollIntoView()
+            .shadow()
+            .find('[type="checkbox"]')
+            .check();
+          cy.findByText(/submit/i, { selector: 'button' }).click();
+        });
+      },
     },
 
     setupPerTest: () => {
