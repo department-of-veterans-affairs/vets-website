@@ -105,10 +105,14 @@ describe('SIP Finish Later', () => {
       .shadow()
       .find('button')
       .click();
-    cy.get('va-modal').should('be.visible');
-    cy.get('va-modal')
-      .get('.alert-actions button')
+    cy.get('.va-modal').should('be.visible');
+    cy.get('.va-modal va-button-pair')
       .first()
+      .shadow()
+      .find('va-button')
+      .first()
+      .shadow()
+      .find('button')
       .click();
     cy.get('.schemaform-chapter-progress');
 

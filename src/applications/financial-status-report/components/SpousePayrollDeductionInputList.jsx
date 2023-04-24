@@ -103,7 +103,10 @@ const SpousePayrollDeductionInputList = props => {
         Your spouse’s job at {employerName}
       </h3>{' '}
       <br />
-      <p>How much does your spouse pay for each of their payroll deductions?</p>
+      <p>
+        How much does your spouse pay monthly for each of their payroll
+        deductions?
+      </p>
       {selectedDeductions?.map((deduction, key) => (
         <div key={deduction.name + key} className="vads-u-margin-y--2">
           <va-number-input
@@ -114,6 +117,7 @@ const SpousePayrollDeductionInputList = props => {
             inputmode="decimal"
             onInput={onChange}
             required
+            currency
           />
         </div>
       ))}

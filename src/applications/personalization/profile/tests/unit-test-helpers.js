@@ -34,11 +34,13 @@ export function renderWithProfileReducers(
 
 export function renderWithProfileReducersAndRouter(
   ui,
-  { initialState = {}, reducers = {} } = {},
+  { initialState = {}, reducers = {}, history = null, path = '/' } = {},
 ) {
   return renderWithStoreAndRouter(ui, {
     reducers: { ...profile, connectedApps, ...reducers },
     initialState,
+    path,
+    history,
   });
 }
 

@@ -29,6 +29,7 @@ const InputList = ({
             onInput={onChange}
             required
             value={input.amount}
+            currency
           />
         </div>
       ))}
