@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -73,12 +73,12 @@ describe('hca <PreSubmitNotice>', () => {
     );
   });
 
-  it('should fire `onSectionComplete` when the onChange event is triggered from the checkbox', () => {
+  it('should fire `onSectionComplete` when the checkbox is clicked', () => {
     const { container } = render(<PreSubmitNotice {...defaultProps} />);
     const checkbox = container.querySelector(
       `[name="${defaultProps.preSubmitInfo.field}"]`,
     );
-    checkbox.__events.vaChange();
+    fireEvent.click(checkbox);
     expect(defaultProps.onSectionComplete.called).to.be.true;
   });
 });
