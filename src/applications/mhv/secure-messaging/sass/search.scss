@@ -29,6 +29,9 @@
     position: absolute;
     bottom: 0;
     width: 109px;
+    @media (max-width: $small-screen) {
+      width: 100px;
+    }
     padding: 13px;
     padding-left: 20px;
     padding-right: 20px;
