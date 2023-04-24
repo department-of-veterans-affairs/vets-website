@@ -38,6 +38,8 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     composePage.getMessageBodyField().type('Test Message Body');
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifyFocusOnErrorEmptyMessageSubject();
+    cy.injectAxe();
+    cy.axeCheck();
   });
   it('focus on error message for empty message body', () => {
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
@@ -45,5 +47,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     composePage.getMessageSubjectField().type('Test Subject');
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifyFocusOnErrorEmptyMessageBody();
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });
