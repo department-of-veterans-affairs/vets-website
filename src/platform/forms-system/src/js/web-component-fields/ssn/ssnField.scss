@@ -1,8 +1,0 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-
-va-text-input::part(input) {
-  // same as usa-input-medium
-  @include media($medium-screen) {
-    max-width: 12rem;
-  }
-}
