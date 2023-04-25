@@ -46,12 +46,12 @@ export default function startSitewideComponents(commonStore) {
   // Start site-wide widgets.
   startUserNavWidget(commonStore);
   startAnnouncementWidget(commonStore);
-  startMegaMenuWidget(window.VetsGov.headerFooter.megaMenuData, commonStore);
+  startMegaMenuWidget(window.VetsGov.headerFooter?.megaMenuData, commonStore);
   startSideNav(window.sideNav, commonStore);
   startBanners();
   startMobileMenuButton(commonStore);
-  startVAFooter(window.VetsGov.headerFooter.footerData, commonStore);
-  startHeader(commonStore, window.VetsGov.headerFooter.megaMenuData);
+  startVAFooter(window.VetsGov.headerFooter?.footerData, commonStore);
+  startHeader(commonStore, window.VetsGov.headerFooter?.megaMenuData);
 
   // Start Veteran Crisis Line modal functionality.
   document.addEventListener('DOMContentLoaded', () => {

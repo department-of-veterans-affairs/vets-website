@@ -1,0 +1,59 @@
+<!--
+  IMPORTANT: This template is only used when running vets-website in standalone mode for development.
+  Changes to this file must also be made to src/site/layouts/page-react.html in the content-build repository.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+
+    <script nonce="**CSP_NONCE**">
+      <%= loadInlineScript('record-event.js') %>
+    </script>
+
+    <!-- Icons -->
+    <link href="/img/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
+    <link href="/img/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
+    <link href="/img/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
+    <link href="/img/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
+    <link rel="shortcut icon" href="/img/design/icons/favicon.ico" />
+
+    <meta name="msapplication-TileImage" content="/img/design/icons/apple-touch-icon-114x114">
+    <meta name="msapplication-TileColor" content="#144073">
+
+    <!-- Preload main fonts -->
+    <link rel="preload" href="/generated/sourcesanspro-bold-webfont.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/generated/sourcesanspro-regular-webfont.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/generated/bitter-bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+    <!-- Scripts and CSS -->
+    <%= modifyScriptAndStyleTags(htmlWebpackPlugin.tags.headTags) %>
+
+  </head>
+
+  <body class="merger">
+    <!-- React root -->
+    <main id="main" class="main">
+      <div class="section">
+        <div id="react-root">
+          <div class="vads-u-margin-y--5">
+            <div class="loading-indicator-container">
+              <div class="loading-indicator" role="progressbar" aria-valuetext="<%= loadingMessage %>" aria-label="Load application" tabindex="0">
+              </div>
+              <%= loadingMessage %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!--
+      “To care for him who shall have borne the battle and for his widow, and his orphan.”
+      - Abraham Lincoln
+    -->
+  </body>
+</html>

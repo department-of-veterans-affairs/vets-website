@@ -198,8 +198,14 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
     widgetType,
     widgetTemplate,
     useLocalStylesAndComponents,
-  }) =>
-    new HtmlPlugin({
+  }) => {
+    const { layout } = template;
+    const templatePath =
+      layout && layout === 'page-react-minimal.html'
+        ? 'src/platform/landing-pages/minimal-template.ejs'
+        : 'src/platform/landing-pages/dev-template.ejs';
+
+    return new HtmlPlugin({
       chunks: [
         'polyfills',
         useLocalStylesAndComponents ? null : 'web-components',
@@ -210,7 +216,7 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
       filename: path.join(buildPath, rootUrl, 'index.html'),
       inject: false,
       scriptLoading: 'defer',
-      template: 'src/platform/landing-pages/dev-template.ejs',
+      template: templatePath,
       templateParameters: {
         // Menu and navigation content
         headerFooterData,
@@ -241,6 +247,7 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
               : null
             : 'VA.gov Home | Veterans Affairs',
     });
+  };
   /* eslint-enable no-nested-ternary */
 
   return [...appRegistry, ...scaffoldRegistry]
