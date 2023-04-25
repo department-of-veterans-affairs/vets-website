@@ -374,7 +374,10 @@ export const getClaim = (id, router) => {
       })
       .catch(error => {
         if (error.status !== 404 || !router) {
-          return dispatch({ type: SET_CLAIMS_UNAVAILABLE });
+          return dispatch({
+            type: SET_CLAIMS_UNAVAILABLE,
+            error: error.message,
+          });
         }
 
         return router.replace('your-claims');

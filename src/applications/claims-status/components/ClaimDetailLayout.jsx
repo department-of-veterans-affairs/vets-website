@@ -61,7 +61,7 @@ export default function ClaimDetailLayout(props) {
             {hasContentions
               ? contentions
                   .slice(0, MAX_CONTENTIONS)
-                  .map(cond => cond.trim())
+                  .map(cond => cond.name.trim())
                   .join(', ')
               : 'Not available'}
           </span>
