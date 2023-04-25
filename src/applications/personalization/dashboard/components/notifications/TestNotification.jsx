@@ -87,7 +87,6 @@ TestNotification.propTypes = {
       createdAt: PropTypes.string.isRequired,
       dismissed: PropTypes.bool.isRequired,
       templateId: PropTypes.string.isRequired,
-      updatedAt: PropTypes.string,
       vaProfileId: PropTypes.string.isRequired,
     }),
   }),
