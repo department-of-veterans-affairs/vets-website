@@ -14,40 +14,11 @@ export default function CallToActionAlert({
 }) {
   const buttonClass =
     status === 'continue' ? 'va-button-primary' : 'usa-button-primary';
-
-  const alertProps = {
-    headline: heading,
-    level: headerLevel,
-    content: (
-      <div>
-        {alertText}
-        {primaryButtonText && (
-          <button
-            className={buttonClass}
-            onClick={primaryButtonHandler}
-            aria-label={ariaLabel}
-            aria-describedby={ariaDescribedby}
-          >
-            {primaryButtonText}
-          </button>
-        )}
-        {secondaryButtonText && (
-          <button
-            className="va-button-link vads-u-margin-left--2"
-            onClick={secondaryButtonHandler}
-          >
-            {secondaryButtonText}
-          </button>
-        )}
-      </div>
-    ),
-    status,
-  };
-
+  const CustomHeaderLevel = `h${headerLevel}`;
   return (
     // TODO fix this
-    <va-alert visible {...alertProps}>
-      <h3 slot="headline">undefined</h3>
+    <va-alert visible status={status}>
+      <CustomHeaderLevel slot="headline">{heading}</CustomHeaderLevel>
       <div>
         {alertText}
         {primaryButtonText && (

@@ -43,6 +43,12 @@ const DischargeYearQuestion = ({
     </option>,
   );
 
+  yearOptions.unshift(
+    <option key="-1" value="">
+      {' '}
+    </option>,
+  );
+
   return (
     <fieldset className="fieldset-input dischargeYear" key={key}>
       <Element name={key} />
@@ -53,7 +59,7 @@ const DischargeYearQuestion = ({
         vaKeyDown={handleKeyDown}
         value={{ value: dischargeYear }}
         onVaSelect={update => {
-          updateField(key, update.value);
+          updateField(key, update.detail.value);
           scrollToLast();
         }}
       >

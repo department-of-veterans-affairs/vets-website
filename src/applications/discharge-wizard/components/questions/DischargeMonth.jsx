@@ -17,25 +17,19 @@ const DischargeMonthQuestion = ({
 }) => {
   const key = '3_dischargeMonth';
 
-  // const yearOptions = range(currentYear - 1992).map(i => {
-  //   const year = currentYear - i;
-  //   return (
-  //     <option key={i} value={year.toString()}>
-  //       {year.toString()}
-  //     </option>
-  //   );
-  // });
-
-  // console.log(`LOG MONTHS: ${months}`);
-
-  // TODO make this make sense
   const monthOptions = months.map(month => {
     return (
-      <option key={1} value={month}>
-        {month}
+      <option key={month.value} value={month.value}>
+        {month.label}
       </option>
     );
   });
+
+  monthOptions.unshift(
+    <option key="-1" value="">
+      {' '}
+    </option>,
+  );
 
   if (!formValues) {
     return null;
@@ -54,7 +48,7 @@ const DischargeMonthQuestion = ({
         vaKeyDown={handleKeyDown}
         value={{ value: formValues[key] }}
         onVaSelect={update => {
-          updateField(key, update.value);
+          updateField(key, update.detail.value);
           scrollToLast();
         }}
       >

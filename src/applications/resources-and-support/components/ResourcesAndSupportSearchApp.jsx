@@ -99,7 +99,6 @@ const ResourcesAndSupportSearchApp = () => {
         {errorMessage && (
           <va-alert status="error">
             <h3 slot="headline">"Something went wrong"</h3>
-
             {errorMessage}
           </va-alert>
         )}
