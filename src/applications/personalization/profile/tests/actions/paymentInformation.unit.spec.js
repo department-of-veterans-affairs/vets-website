@@ -45,8 +45,10 @@ describe('actions/paymentInformation', () => {
       beforeEach(() => {
         setup({ mockGA: true });
         recordEventSpy = sinon.spy();
+        captureErrorSpy = sinon.spy();
         actionCreator = paymentInformationActions.fetchCNPPaymentInformation({
           recordEvent: recordEventSpy,
+          captureCNPError: captureErrorSpy,
         });
         dispatch = sinon.spy();
         setFetchJSONResponse(global.fetch.onFirstCall(), {

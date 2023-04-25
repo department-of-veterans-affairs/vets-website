@@ -48,6 +48,7 @@ export const EDU_PAYMENT_INFORMATION_SAVE_FAILED =
 export function fetchCNPPaymentInformation({
   recordEvent = recordAnalyticsEvent,
   useLighthouseDirectDepositEndpoint = false,
+  captureCNPError = captureError,
 }) {
   return async dispatch => {
     dispatch({ type: CNP_PAYMENT_INFORMATION_FETCH_STARTED });
@@ -75,6 +76,12 @@ export function fetchCNPPaymentInformation({
 
     if (response.error) {
       recordEvent({ event: `profile-get-cnp-direct-deposit-failed` });
+
+      captureCNPError(response, {
+        eventName: 'cnp-get-direct-deposit-failed',
+        useLighthouseDirectDepositEndpoint,
+      });
+
       dispatch({
         type: CNP_PAYMENT_INFORMATION_FETCH_FAILED,
         response,
