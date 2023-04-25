@@ -79,6 +79,8 @@ describe('HCA-AIQ', () => {
       .should('have.text', 'Yes');
     cy.get('[name="privacyAgreementAccepted"]')
       .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
       .check();
     cy.findByText(/submit/i, { selector: 'button' }).click();
     cy.wait('@mockSubmit').then(interception => {
@@ -117,6 +119,8 @@ describe('HCA-AIQ', () => {
       .should('have.text', 'No');
     cy.get('[name="privacyAgreementAccepted"]')
       .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
       .check();
     cy.findByText(/submit/i, { selector: 'button' }).click();
     cy.wait('@mockSubmit').then(interception => {
