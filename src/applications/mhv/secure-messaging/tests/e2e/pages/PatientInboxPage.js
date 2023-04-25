@@ -299,7 +299,7 @@ class PatientInboxPage {
   loadComposeMessagePage = () => {
     cy.get('[data-testid="compose-message-link"]').click();
     const interstitialPage = new PatientInterstitialPage();
-    interstitialPage.getContinueButton().click();
+    interstitialPage.getContinueButton().click({ force: true });
   };
 
   navigatePrintCancelButton = () => {
