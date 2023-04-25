@@ -7,7 +7,6 @@ import { expect } from 'chai';
 import { spy } from 'sinon';
 
 import DirectDepositWrapper from '@@profile/components/direct-deposit/DirectDepositWrapper';
-import { paymentHistory } from '@@profile/mocks/endpoints/payment-information';
 
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 
@@ -33,7 +32,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       const initState = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [{ controlInformation }],
+            controlInformation,
           },
         },
         user: {
@@ -152,8 +151,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       const setViewingIsRestricted = spy();
       const store = createStore({
         controlInformation: {
-          ...paymentHistory.isDeceased.data.attributes.responses[0]
-            .controlInformation,
+          notDeceasedIndicator: false,
         },
       });
 
@@ -171,8 +169,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       const setViewingIsRestricted = spy();
       const store = createStore({
         controlInformation: {
-          ...paymentHistory.isFiduciary.data.attributes.responses[0]
-            .controlInformation,
+          noFiduciaryAssignedIndicator: false,
         },
       });
 
@@ -190,8 +187,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       const setViewingIsRestricted = spy();
       const store = createStore({
         controlInformation: {
-          ...paymentHistory.isNotCompetent.data.attributes.responses[0]
-            .controlInformation,
+          isCompetentIndicator: false,
         },
       });
 
