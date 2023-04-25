@@ -53,10 +53,10 @@ export const transform = (formConfig, form) => {
       food = 0,
       rentOrMortgage = 0,
     },
-    otherExpenses,
+    otherExpenses = [],
     utilityRecords,
     assets,
-    installmentContracts,
+    installmentContracts = [],
     additionalData,
     selectedDebts,
     selectedDebtsAndCopays = [],
@@ -310,9 +310,10 @@ export const transform = (formConfig, form) => {
           ? sumValues(filteredExpenses, 'amount')
           : sumValues(otherExpenses, 'amount'),
       },
-      expensesInstallmentContractsAndOtherDebts: enhancedFSRActive
-        ? sumValues(installmentContractsAndCreditCards, 'amountDueMonthly')
-        : sumValues(installmentContracts, 'amountDueMonthly'),
+      expensesInstallmentContractsAndOtherDebts: sumValues(
+        installmentContractsAndCreditCards,
+        'amountDueMonthly',
+      ),
       totalMonthlyExpenses: totMonthlyExpenses,
     },
     discretionaryIncome: {
@@ -354,9 +355,10 @@ export const transform = (formConfig, form) => {
       }),
     ),
     totalOfInstallmentContractsAndOtherDebts: {
-      originalAmount: enhancedFSRActive
-        ? sumValues(installmentContractsAndCreditCards, 'originalAmount')
-        : sumValues(installmentContracts, 'originalAmount'),
+      originalAmount: sumValues(
+        installmentContractsAndCreditCards,
+        'originalAmount',
+      ),
       unpaidBalance: sumValues(
         installmentContractsAndCreditCards,
         'unpaidBalance',
@@ -365,9 +367,10 @@ export const transform = (formConfig, form) => {
         installmentContractsAndCreditCards,
         'amountDueMonthly',
       ),
-      amountPastDue: enhancedFSRActive
-        ? sumValues(installmentContractsAndCreditCards, 'amountPastDue')
-        : sumValues(installmentContracts, 'amountPastDue'),
+      amountPastDue: sumValues(
+        installmentContractsAndCreditCards,
+        'amountPastDue',
+      ),
     },
     additionalData: {
       bankruptcy: {
