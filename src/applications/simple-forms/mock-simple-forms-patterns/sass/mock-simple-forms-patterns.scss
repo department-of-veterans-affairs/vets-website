@@ -5,3 +5,5 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+// hack css - dont use in production without consulting with design system team
+@import "./web-component-adapter"

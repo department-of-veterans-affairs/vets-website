@@ -1,12 +1,19 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import SsnField from '../web-component-fields/ssn/SsnField';
+import SsnField from '../web-component-fields/SsnField';
 import { validateSSN } from '../validation';
 import SSNReviewWidget from '../review/SSNWidget';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
+import './schemaTypeDefs';
 
-export const ssnUI = label => {
+/**
+ * @param {string | UISchemaOptions} [options]
+ * @returns {UISchemaOptions}
+ */
+export const ssnUI = options => {
+  const opts = typeof options === 'string' ? { 'ui:title': options } : options;
+
   return {
-    'ui:title': label || 'Social Security number',
+    'ui:title': 'Social Security number',
     'ui:webComponentField': SsnField,
     'ui:reviewWidget': SSNReviewWidget,
     'ui:validations': [validateSSN],
@@ -15,17 +22,29 @@ export const ssnUI = label => {
         'Please enter a valid 9 digit Social Security number (dashes allowed)',
       required: 'Please enter a Social Security number',
     },
+    ...opts,
   };
 };
 
-export const ssnSchema = () => ({
-  ...commonDefinitions.ssn,
-  required: true,
-});
+/**
+ * @param {SchemaOptions} [options] schema partial
+ * @returns {SchemaOptions} schema
+ */
+export const ssnSchema = options => {
+  return options
+    ? { ...commonDefinitions.ssn, ...options }
+    : commonDefinitions.ssn;
+};
 
-export const vaFileNumberUI = label => {
+/**
+ * @param {string | UISchemaOptions} [options]
+ * @returns {UISchemaOptions}
+ */
+export const vaFileNumberUI = options => {
+  const opts = typeof options === 'string' ? { 'ui:title': options } : options;
+
   return {
-    'ui:title': label || 'VA file number (if you have one)',
+    'ui:title': 'VA file number (if you have one)',
     'ui:webComponentField': VaTextInputField,
     'ui:errorMessages': {
       pattern: 'Your VA file number must be 8 or 9 digits',
@@ -33,14 +52,29 @@ export const vaFileNumberUI = label => {
     'ui:options': {
       hideEmptyValueInReview: true,
     },
+    ...opts,
   };
 };
 
-export const vaFileNumberSchema = () => commonDefinitions.vaFileNumber;
+/**
+ * @param {SchemaOptions} [options] schema partial
+ * @returns {SchemaOptions} schema
+ */
+export const vaFileNumberSchema = options => {
+  return options
+    ? { ...commonDefinitions.vaFileNumber, ...options }
+    : commonDefinitions.vaFileNumber;
+};
 
-export const serviceNumberUI = label => {
+/**
+ * @param {string | UISchemaOptions} [options]
+ * @returns {UISchemaOptions}
+ */
+export const serviceNumberUI = options => {
+  const opts = typeof options === 'string' ? { 'ui:title': options } : options;
+
   return {
-    'ui:title': label || 'Service number (if applicable)',
+    'ui:title': 'Service number (if applicable)',
     'ui:webComponentField': VaTextInputField,
     'ui:errorMessages': {
       pattern: 'Please enter a valid service number',
@@ -48,26 +82,16 @@ export const serviceNumberUI = label => {
     'ui:options': {
       hideEmptyValueInReview: true,
     },
+    ...opts,
   };
 };
 
-export const serviceNumberSchema = () => commonDefinitions.veteranServiceNumber;
-
-// not sure about this
-//
-// export const ssnWithVaFileNumberPattern = options => {
-//   return {
-//     ssnUI: {
-//       ...ssnUI(options.ssnLabel),
-//       'ui:required': form => !form.vaFileNumber,
-//     },
-//     vaFileNumber: {
-//       ...vaFileNumberUI(
-//         'VA file number (must have this or a Social Security number)',
-//       ),
-//       'ui:required': form => !form.ssn,
-//     },
-//     ssnSchema: ssnSchema(),
-//     vaFileNumberSchema: vaFileNumberSchema(),
-//   };
-// };
+/**
+ * @param {SchemaOptions} [options] schema partial
+ * @returns {SchemaOptions} schema
+ */
+export const serviceNumberSchema = options => {
+  return options
+    ? { ...commonDefinitions.veteranServiceNumber, ...options }
+    : commonDefinitions.veteranServiceNumber;
+};
