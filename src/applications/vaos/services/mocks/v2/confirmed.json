@@ -1290,8 +1290,8 @@
         "patientIcn": "1013120826V646496",
         "locationId": "983GC",
         "clinic": "945",
-        "start": "2023-03-22T13:00:00Z",
-        "end": "2023-03-22T14:00:00Z",
+        "start": "2023-06-22T13:00:00Z",
+        "end": "2023-06-22T14:00:00Z",
         "created": "2023-03-17T00:00:00Z",
         "cancellable": true,
         "extension": {
