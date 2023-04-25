@@ -10,7 +10,7 @@ import { fillProviderFacility } from './helpers';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['maximal-test'],
+    dataSets: ['minimal-test', 'maximal-test'],
     dataDir: path.join(__dirname, 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -86,15 +86,19 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const { fullName } = data.veteran;
+            const signerName =
+              data.preparerIdentification?.preparerFullName ??
+              data.veteran.fullName;
             cy.get('#veteran-signature')
               .shadow()
               .find('input')
               .first()
               .type(
-                fullName.middle
-                  ? `${fullName.first} ${fullName.middle} ${fullName.last}`
-                  : `${fullName.first} ${fullName.last}`,
+                signerName.middle
+                  ? `${signerName.first} ${signerName.middle} ${
+                      signerName.last
+                    }`
+                  : `${signerName.first} ${signerName.last}`,
               );
             cy.get(`input[name="veteran-certify"]`).check();
             cy.findAllByText(/Submit application/i, {
