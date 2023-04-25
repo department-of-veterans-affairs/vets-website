@@ -27,8 +27,8 @@ export const ssnUI = options => {
 };
 
 /**
- * @param {SchemaOptions} [options] schema partial
- * @returns {SchemaOptions} schema
+ * @param {SchemaOptions} [options]
+ * @returns {SchemaOptions}
  */
 export const ssnSchema = options => {
   return options
@@ -57,8 +57,8 @@ export const vaFileNumberUI = options => {
 };
 
 /**
- * @param {SchemaOptions} [options] schema partial
- * @returns {SchemaOptions} schema
+ * @param {SchemaOptions} [options]
+ * @returns {SchemaOptions}
  */
 export const vaFileNumberSchema = options => {
   return options
@@ -87,8 +87,8 @@ export const serviceNumberUI = options => {
 };
 
 /**
- * @param {SchemaOptions} [options] schema partial
- * @returns {SchemaOptions} schema
+ * @param {SchemaOptions} [options]
+ * @returns {SchemaOptions}
  */
 export const serviceNumberSchema = options => {
   return options
