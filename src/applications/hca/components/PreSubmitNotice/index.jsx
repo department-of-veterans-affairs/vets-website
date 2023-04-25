@@ -1,27 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const PreSubmitNotice = props => {
-  const { preSubmitInfo, showError, onSectionComplete } = props;
+  const { formData, preSubmitInfo, showError, onSectionComplete } = props;
   const { field, required } = preSubmitInfo;
-  const [accepted, setAccepted] = useState(false);
-
-  /**
-   * set section completed value and unset if user navigates away from the page
-   * before submitting the form.
-   */
-  useEffect(
-    () => {
-      onSectionComplete(accepted);
-
-      return () => {
-        onSectionComplete(false);
-      };
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [accepted],
-  );
 
   return (
     <>
@@ -94,13 +77,13 @@ const PreSubmitNotice = props => {
       <VaCheckbox
         required={required}
         name={field}
-        checked={accepted}
+        checked={formData[field]}
         error={
-          showError && !accepted
+          showError && !formData[field]
             ? 'You must accept the agreement before continuing.'
             : undefined
         }
-        onVaChange={event => setAccepted(event.target.checked)}
+        onVaChange={event => onSectionComplete(event.target.checked)}
         label="I certify the information above is correct and true to the best of my knowledge and belief."
       />
     </>
