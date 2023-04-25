@@ -120,6 +120,35 @@ describe('Schemaform FormNav', () => {
     );
   });
 
+  it('should display/return correct chapter title when title-function uses onReviewPage parameter', () => {
+    const formConfigDefaultData = { ...getDefaultData() };
+    const formPageChapterTitle = 'Testing';
+    const reviewPageChapterTitle = 'Testing [on review page]';
+
+    formConfigDefaultData.chapters.chapter1.title = ({ onReviewPage }) => {
+      if (onReviewPage) {
+        return reviewPageChapterTitle;
+      }
+
+      return formPageChapterTitle;
+    };
+
+    const tree = render(
+      <FormNav formConfig={formConfigDefaultData} currentPath="testing1" />,
+    );
+
+    // assert actual chapter title on form-page
+    expect(tree.getByTestId('navFormHeader').textContent).to.contain(
+      `Step 1 of 3: ${formPageChapterTitle}`,
+    );
+
+    // actual chapter accordions are outside FormNav, so we assert on
+    // what's returned from calling the title-function directly
+    expect(
+      formConfigDefaultData.chapters.chapter1.title({ onReviewPage: true }),
+    ).to.eq(reviewPageChapterTitle);
+  });
+
   it('should display a custom review page title', () => {
     const formConfigReviewData = getReviewData();
     const currentPath = 'review-and-submit';
