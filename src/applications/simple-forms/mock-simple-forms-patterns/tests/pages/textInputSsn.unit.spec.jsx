@@ -5,13 +5,14 @@ import { mount } from 'enzyme';
 import Sinon from 'sinon';
 import formConfig from '../../config/form';
 
-const { schema, uiSchema } = formConfig.chapters.textInput.pages.textInput;
+const { schema, uiSchema } = formConfig.chapters.textInput.pages.textInputSsn;
 
-describe('web component vs regular text inputs', () => {
+describe('ssn web component', () => {
   it('should have appropriate number of fields', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
+        click
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -19,8 +20,8 @@ describe('web component vs regular text inputs', () => {
       />,
     );
 
-    expect(form.find('va-text-input').length).to.equal(5);
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('va-text-input').length).to.equal(3);
+    expect(form.find('input').length).to.equal(0);
 
     form.unmount();
   });
@@ -32,7 +33,9 @@ describe('web component vs regular text inputs', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={{
+          ssn: '123',
+        }}
         formData={{}}
         onSubmit={onSubmit}
       />,
@@ -49,7 +52,7 @@ describe('web component vs regular text inputs', () => {
     ).to.equal(1);
 
     // regular input errors
-    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(form.find('.usa-input-error').length).to.equal(0);
 
     expect(onSubmit.called).to.be.false;
 

@@ -1,0 +1,26 @@
+// This is a hack - don't use in production without consulting with design system team
+// Can use this scss file to align web component styles to our existing styles
+
+// va-text-input::part(input) {
+//     // same as usa-input-medium
+//     @include media($medium-screen) {
+//         max-width: 12rem;
+//     }
+// }
+
+va-text-input[error]:not([error=""]) {
+    margin-left: -1.9rem;
+    padding-left: 1.5rem;
+    border-width: 0.4rem;
+    margin-top: 3rem;
+
+    &::part(input) {
+        border-width: 3px
+    }
+}
+
+va-text-input[error]:not([error=""]) {
+    &::part(label) {
+        font-weight: 600;
+    }
+}
