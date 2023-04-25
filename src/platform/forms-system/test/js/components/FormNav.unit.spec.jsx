@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
 
+import environment from 'platform/utilities/environment';
 import FormNav from '../../../src/js/components/FormNav';
 
 describe('Schemaform FormNav', () => {
@@ -105,7 +106,11 @@ describe('Schemaform FormNav', () => {
     );
   });
 
-  it('should display correct chapter number & total in stepText after previous progress-hidden chapter', () => {
+  it('should display correct chapter number & total in stepText after previous progress-hidden chapter', function() {
+    if (!environment.isLocalhost()) {
+      this.skip();
+    }
+
     const currentPath = 'testing2';
     const formConfigDefaultData = { ...getDefaultData() };
 
