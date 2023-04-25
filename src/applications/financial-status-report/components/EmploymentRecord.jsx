@@ -127,7 +127,6 @@ const EmploymentRecord = ({
       <div className="input-size-5">
         <VaSelect
           name="type"
-          id="type"
           data-test-id="employment-type"
           label="Type of work"
           required
@@ -185,7 +184,6 @@ const EmploymentRecord = ({
           className="no-wrap input-size-6"
           error={(submitted && employerError) || null}
           label="Employer name"
-          id="employer-name"
           name="employerName"
           onInput={handleEmployerNameChange}
           required
