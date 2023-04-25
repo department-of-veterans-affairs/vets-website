@@ -80,6 +80,10 @@ export function fetchCNPPaymentInformation({
         response,
       });
     } else {
+      const formattedResponse = useLighthouseDirectDepositEndpoint
+        ? client.formatDirectDepositResponseFromLighthouse(response)
+        : response?.responses[0];
+
       recordEvent({
         event: `profile-get-cnp-direct-deposit-retrieved`,
         // The API might report an empty payment address for some folks who are
@@ -88,16 +92,12 @@ export function fetchCNPPaymentInformation({
         // we'll check to see if they either have a payment address _or_ are
         // already signed up for direct deposit here:
         'direct-deposit-setup-eligible':
-          isEligibleForCNPDirectDeposit(response) ||
-          isSignedUpForCNPDirectDeposit(response),
+          isEligibleForCNPDirectDeposit(formattedResponse) ||
+          isSignedUpForCNPDirectDeposit(formattedResponse),
         'direct-deposit-setup-complete': isSignedUpForCNPDirectDeposit(
-          response,
+          formattedResponse,
         ),
       });
-
-      const formattedResponse = useLighthouseDirectDepositEndpoint
-        ? client.formatDirectDepositResponseFromLighthouse(response)
-        : response?.responses[0];
 
       dispatch({
         type: CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
