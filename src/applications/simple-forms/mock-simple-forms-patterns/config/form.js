@@ -9,7 +9,7 @@ import textInput from '../pages/textInput';
 import textInputWidgets1 from '../pages/textInputWidgets1';
 import textInputFullName from '../pages/textInputFullName';
 import textInputAddress from '../pages/textInputAddress';
-import ssnPattern from '../pages/ssnPattern';
+import textInputSsn from '../pages/textInputSsn';
 // import checkbox from '../pages/checkbox';
 // import radio from '../pages/radio';
 // import select from '../pages/select';
@@ -64,11 +64,11 @@ const formConfig = {
           schema: textInputAddress.schema,
           initialData: textInputAddress.initialData,
         },
-        ssnPattern: {
+        textInputSsn: {
           path: 'ssn-pattern',
           title: 'SSN Pattern',
-          uiSchema: ssnPattern.uiSchema,
-          schema: ssnPattern.schema,
+          uiSchema: textInputSsn.uiSchema,
+          schema: textInputSsn.schema,
         },
       },
     },

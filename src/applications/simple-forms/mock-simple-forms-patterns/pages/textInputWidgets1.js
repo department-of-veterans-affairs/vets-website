@@ -4,6 +4,10 @@ import {
   ssnUI,
 } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import {
+  ssnUI as ssnNewUI,
+  ssnSchema as ssnNewSchema,
+} from 'platform/forms-system/src/js/web-component-schemas/personalIdSchemas';
 
 export default {
   uiSchema: {
@@ -25,6 +29,7 @@ export default {
       ...ssnUI(),
       'ui:title': 'TextWidget - ssnUI',
     },
+    ssnNew: ssnNewUI(),
   },
   schema: {
     type: 'object',
@@ -53,6 +58,7 @@ export default {
         type: 'string',
         pattern: '^[0-9]{9}$',
       },
+      ssnNew: ssnNewSchema(),
     },
     required: [],
   },

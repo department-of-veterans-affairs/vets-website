@@ -1,8 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { formatSSN } from 'platform/utilities/ui';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import vaTextInputFieldMapping from '../vaTextInputFieldMapping';
-import './ssnField.scss';
+import vaTextInputFieldMapping from './vaTextInputFieldMapping';
 
 /**
  * Mask a SSN, but leave the final sequence of digits visible (up to 4)
