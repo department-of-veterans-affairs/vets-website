@@ -16,7 +16,7 @@ Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
-    skip: true,
+    // skip: true,
     dataPrefix: 'data',
     dataSets: ['efsr-maximal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
@@ -55,8 +55,6 @@ const testConfig = createTestConfig(
       introduction: () => {
         cy.get('a.vads-c-action-link--green')
           .first()
-          .shadow()
-          .find('button')
           .click();
       },
       'all-available-debts': ({ afterHook }) => {
