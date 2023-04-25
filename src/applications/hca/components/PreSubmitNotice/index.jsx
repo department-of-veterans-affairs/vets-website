@@ -7,17 +7,9 @@ const PreSubmitNotice = props => {
   const { field, required } = preSubmitInfo;
   const [accepted, setAccepted] = useState(false);
 
-  /**
-   * set section completed value and unset if user navigates away from the page
-   * before submitting the form.
-   */
   useEffect(
     () => {
       onSectionComplete(accepted);
-
-      return () => {
-        onSectionComplete(false);
-      };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [accepted],

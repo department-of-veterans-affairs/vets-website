@@ -48,10 +48,7 @@ class PatientComposePage {
       .find('label')
       .contains(category)
       .click({ force: true });
-    cy.get('[data-testid="attach-file-input"]').selectFile(
-      'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
-      { force: true },
-    );
+    this.attachMessageFromFile('test_image.jpg');
     this.getMessageSubjectField().type('Test Subject');
     this.getMessageBodyField().type('Test message body');
   };
