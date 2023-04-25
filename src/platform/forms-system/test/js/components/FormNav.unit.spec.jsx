@@ -106,7 +106,7 @@ describe('Schemaform FormNav', () => {
     );
   });
 
-  it('should display correct chapter number & total in stepText after previous progress-hidden chapter', () => {
+  it('should display correct chapter number & total in stepText after previous progress-hidden chapter', function() {
     if (!environment.isLocalhost()) {
       this.skip();
     }
