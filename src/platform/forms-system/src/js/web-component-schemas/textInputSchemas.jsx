@@ -1,4 +1,4 @@
-import { uiSchema as emailUIDefinition } from 'platform/forms-system/src/js/definitions/email';
+import emailUIDefinition from 'platform/forms-system/src/js/definitions/email';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 import './schemaTypeDefs';
@@ -17,8 +17,8 @@ export const textInputUI = options => {
 };
 
 /**
- * @param {SchemaOptions} [options] schema partial
- * @returns {SchemaOptions} schema
+ * @param {SchemaOptions} [options]
+ * @returns {SchemaOptions}
  */
 export const textInputSchema = options => {
   return { type: 'string', ...options };
@@ -39,8 +39,8 @@ export const emailUI = options => {
 };
 
 /**
- * @param {SchemaOptions} [options] schema partial
- * @returns {SchemaOptions} schema
+ * @param {SchemaOptions} [options]
+ * @returns {SchemaOptions}
  */
 export const emailSchema = options => {
   return options

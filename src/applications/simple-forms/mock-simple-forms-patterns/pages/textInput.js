@@ -1,5 +1,8 @@
 import React from 'react';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import {
+  textInputSchema,
+  textInputUI,
+} from 'platform/forms-system/src/js/web-component-schemas';
 
 export default {
   uiSchema: {
@@ -7,11 +10,10 @@ export default {
       'ui:title': 'TextWidget - with string description',
       'ui:description': 'Text description',
     },
-    simpleNew: {
+    simpleNew: textInputUI({
       'ui:title': 'VaTextInputField - with string description',
       'ui:description': 'Text description',
-      'ui:webComponentField': VaTextInputField,
-    },
+    }),
     requiredOld: {
       'ui:title': 'TextWidget - with JSX description',
       'ui:description': (
@@ -25,7 +27,7 @@ export default {
         required: 'Please enter a value',
       },
     },
-    requiredNew: {
+    requiredNew: textInputUI({
       'ui:title': 'VaTextInputField - with JSX description',
       'ui:description': (
         <va-additional-info trigger="JSX description">
@@ -34,7 +36,6 @@ export default {
           not a requirement to apply for the program.
         </va-additional-info>
       ),
-      'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
         required: 'Please enter a value',
       },
@@ -42,30 +43,27 @@ export default {
         hideIf: formData => formData.hide,
         hideOnReview: true,
       },
-    },
-    hintNew: {
+    }),
+    hintNew: textInputUI({
       'ui:title': 'VaTextInputField - with string hint',
-      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         hint: 'This is a hint',
       },
-    },
-    inputmodeDecimalNew: {
+    }),
+    inputmodeDecimalNew: textInputUI({
       'ui:title': 'VaTextInputField - with decimal inputmode',
-      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         inputmode: 'decimal',
       },
-    },
+    }),
     disabledOld: {
       'ui:title': 'TextWidget - disabled',
       'ui:disabled': true,
     },
-    disabledNew: {
+    disabledNew: textInputUI({
       'ui:title': 'VaTextInputField - disabled',
       'ui:disabled': true,
-      'ui:webComponentField': VaTextInputField,
-    },
+    }),
   },
   schema: {
     type: 'object',
@@ -73,27 +71,17 @@ export default {
       simpleOld: {
         type: 'string',
       },
-      simpleNew: {
-        type: 'string',
-      },
+      simpleNew: textInputSchema(),
       requiredOld: {
         type: 'string',
       },
-      requiredNew: {
-        type: 'string',
-      },
-      hintNew: {
-        type: 'string',
-      },
-      inputmodeDecimalNew: {
-        type: 'number',
-      },
+      requiredNew: textInputSchema(),
+      hintNew: textInputSchema(),
+      inputmodeDecimalNew: textInputSchema(),
       disabledOld: {
         type: 'string',
       },
-      disabledNew: {
-        type: 'string',
-      },
+      disabledNew: textInputSchema(),
     },
     required: ['requiredOld', 'requiredNew'],
   },

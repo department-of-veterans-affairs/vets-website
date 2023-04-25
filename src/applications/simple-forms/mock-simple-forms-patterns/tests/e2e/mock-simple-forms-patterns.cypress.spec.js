@@ -55,6 +55,46 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'text-input-address': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            // fillPage doesn't catch state select, so select state manually
+            cy.get('select#root_addressOld_state').select(
+              data.addressOld.state,
+            );
+            if (data.addressOld.city) {
+              if (data.addressOld.isMilitary) {
+                // there is a select dropdown instead when military is checked
+                cy.get('select#root_addressOld_city').select(
+                  data.addressOld.city,
+                );
+              } else {
+                cy.get('#root_addressOld_city').type(data.addressOld.city);
+              }
+            }
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'ssn-pattern': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+
+            cy.get(`va-text-input[name="root_ssn"]`)
+              .shadow()
+              .find('input')
+              .type(data.ssn);
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
