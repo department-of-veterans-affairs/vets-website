@@ -33,18 +33,18 @@ const IntroductionDisplay = props => {
 
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
   // Save this useEffect for when we go back to testing action link.
-  // useEffect(
-  //   () => {
-  //     const position = isPreCheckInActionLinkTopPlacementEnabled
-  //       ? 'top'
-  //       : 'bottom';
-  //     const slug = `pre-check-in-viewed-introduction-${position}-position`;
-  //     recordEvent({
-  //       event: createAnalyticsSlug(slug, 'nav'),
-  //     });
-  //   },
-  //   [isPreCheckInActionLinkTopPlacementEnabled],
-  // );
+  useEffect(
+    () => {
+      const position = isPreCheckInActionLinkTopPlacementEnabled
+        ? 'top'
+        : 'bottom';
+      const slug = `pre-check-in-viewed-introduction-${position}-position`;
+      recordEvent({
+        event: createAnalyticsSlug(slug, 'nav'),
+      });
+    },
+    [isPreCheckInActionLinkTopPlacementEnabled],
+  );
   useEffect(() => {
     const slug = `pre-check-in-viewed-introduction-VAOS-design`;
     recordEvent({
@@ -90,18 +90,18 @@ const IntroductionDisplay = props => {
       if (e?.key && e.key !== ' ') {
         return;
       }
-      const slug = `pre-check-in-started-${
+      let slug = `pre-check-in-started-${
         isPhone ? 'phone' : 'in-person'
       }-VAOS-design`;
       // Save this for when we go back to testing action link.
-      // if (isPreCheckInActionLinkTopPlacementEnabled) slug += '-top-position';
+      if (isPreCheckInActionLinkTopPlacementEnabled) slug += '-top-position';
       recordEvent({
         event: createAnalyticsSlug(slug, 'nav'),
       });
       e.preventDefault();
       goToNextPage();
     },
-    [isPhone, goToNextPage],
+    [isPhone, goToNextPage, isPreCheckInActionLinkTopPlacementEnabled],
   );
 
   const StartButton = () => (
@@ -115,7 +115,9 @@ const IntroductionDisplay = props => {
         onKeyDown={handleStart}
         onClick={handleStart}
       >
-        {t('answer-questions')}
+        {isPreCheckInActionLinkTopPlacementEnabled
+          ? t('complete-pre-check-in')
+          : t('answer-questions')}
       </a>
     </div>
   );

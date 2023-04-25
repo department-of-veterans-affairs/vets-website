@@ -24,7 +24,7 @@ export const MiniSummaryCard = ({
       className="vads-u-border--1px vads-u-margin-y--2 vads-u-padding--0"
       data-testid="mini-summary-card"
     >
-      <div className="vads-u-padding--2 vads-u-display--flex vads-u-flex-direction--column">
+      <div className="vads-u-padding-x--2 vads-u-padding-top--2 vads-u-display--flex vads-u-flex-direction--column">
         <h4 className="vads-u-margin-y--0">{heading}</h4>
         {body}
       </div>

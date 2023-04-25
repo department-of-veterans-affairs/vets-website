@@ -25,8 +25,8 @@ const scrollOffset = -40;
  * Displays all the pages in a chapter on the review page
  */
 class ReviewCollapsibleChapter extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleEdit = this.handleEdit.bind(this);
   }
 
@@ -78,9 +78,19 @@ class ReviewCollapsibleChapter extends React.Component {
   };
 
   getChapterTitle = chapterFormConfig => {
+    const { form } = this.props;
+    const formData = form.data;
+    const formConfig = form;
+    const onReviewPage = true;
+
     let chapterTitle = chapterFormConfig.title;
+
     if (typeof chapterFormConfig.title === 'function') {
-      chapterTitle = chapterFormConfig.title(true);
+      chapterTitle = chapterFormConfig.title({
+        formData,
+        formConfig,
+        onReviewPage,
+      });
     }
     if (chapterFormConfig.reviewTitle) {
       chapterTitle = chapterFormConfig.reviewTitle;
