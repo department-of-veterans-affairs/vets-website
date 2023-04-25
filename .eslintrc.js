@@ -5,6 +5,10 @@ module.exports = {
     ecmaVersion: 11,
     sourceType: 'module',
   },
+  env: {
+    'jest/globals': true,
+  },
+  plugins: ['jest'],
   extends: ['plugin:@department-of-veterans-affairs/recommended'],
   globals: {
     __BUILDTYPE__: true,

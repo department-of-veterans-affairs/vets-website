@@ -58,10 +58,14 @@
     "test:coverage-only": "NODE_ENV=test nyc report --all --reporter=json-summary",
     "test:unit": "node ./script/run-unit-test.js",
     "test:watch": "node script/watch-tests.js",
+    "test:jest": "jest",
+    "test:jest:cover": "npm run test:jest -- --coverage ",
+    "test:jest:watch": "jest --watchAll",
     "update:schema": "./script/update-json-schema.sh",
     "watch": "node ./script/watch.js",
     "watch:no-server": "yarn build:webpack --watch --stats=minimal",
-    "watch:review": "node ./script/run-review-instance-api.js"
+    "watch:review": "node ./script/run-review-instance-api.js",
+    "watch:all": "concurrently -k -r -s first \"npm run watch\" \"npm run test:jest:watch\""
   },
   "repository": {
     "type": "git",
@@ -85,6 +89,21 @@
       "**/*.spec.jsx"
     ]
   },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/script/assetsTransformer.js",
+      "\\.(css)$": "<rootDir>/script/assetsTransformer.js"
+    },
+    "testMatch": [
+      "**/?(*.)jest.+(spec|test).js?(x)"
+    ],
+    "setupFiles": [
+      "<rootDir>/src/platform/testing/unit/enzyme-setup.js"
+    ],
+    "globals": {
+      "__BUILDTYPE__": "development"
+    }
+  },
   "sasslintConfig": "config/sass-lint.yml",
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "browserslist": [
@@ -103,6 +122,7 @@
     "@actions/core": "^1.8.0",
     "@axe-core/react": "^4.4.3",
     "@babel/core": "^7.17.7",
+    "babel-jest": "^29.5.0",
     "@babel/parser": "^7.17.7",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/plugin-proposal-export-namespace-from": "^7.16.7",
@@ -172,6 +192,7 @@
     "eslint-plugin-deprecate": "^0.7.0",
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jest": "^27.2.1",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-mocha": "^9.0.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -190,6 +211,9 @@
     "husky": ">=6",
     "inquirer": "^8.1.5",
     "isomorphic-fetch": "^2.2.1",
+    "jest": "^29.5.0",
+    "jest-axe": "^7.0.1",
+    "jest-cli": "^29.5.0",
     "jsdoc": "^3.6.10",
     "just-diff": "^3.1.1",
     "libxmljs2": "^0.28.0",
