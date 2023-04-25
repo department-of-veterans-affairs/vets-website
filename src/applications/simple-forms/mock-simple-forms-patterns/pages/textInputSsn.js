@@ -5,7 +5,7 @@ import {
   vaFileNumberUI,
   serviceNumberUI,
   serviceNumberSchema,
-} from 'platform/forms-system/src/js/web-component-schemas/personalIdSchemas';
+} from 'platform/forms-system/src/js/web-component-schemas';
 
 export default {
   uiSchema: {
