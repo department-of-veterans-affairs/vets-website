@@ -282,7 +282,7 @@ class PatientMessageDetailsPage {
       }`,
       messageDetails,
     );
-    cy.get('[class= "vads-u-flex--fill"]')
+    cy.get('[class="vads-u-flex--1 vads-u-padding-right--2"]')
       .eq(messageIndex)
       .should('contain', `From: ${messageDetails.data.attributes.senderName}`);
   };
