@@ -457,3 +457,7 @@ export const ERROR_CODES = [
     detail: 'Failure to fetch Requests',
   },
 ];
+export const SERVICE_CATEGORY = {
+  compensationAndPension: 'COMPENSATION & PENSION',
+  regular: 'REGULAR',
+};
