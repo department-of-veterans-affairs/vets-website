@@ -1,14 +1,23 @@
 {
   "data": {
+    "ssn": "343434343",
+    "addressOld": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "test",
+      "city": "test",
+      "state": "AL",
+      "postalCode": "12345"
+    },
     "spouseFullNameOld": {
-      "first": "first name",
-      "last": "last name"
+      "first": "test",
+      "last": "test"
     },
     "spouseFullNameNew": {
-      "first": "first name",
-      "last": "last name"
+      "first": "test",
+      "last": "test"
     },
-    "requiredOld": "test 1",
-    "requiredNew": "test 2"
+    "requiredOld": "test",
+    "requiredNew": "test"
   }
 }
