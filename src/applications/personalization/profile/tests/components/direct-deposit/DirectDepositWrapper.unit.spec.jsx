@@ -6,11 +6,10 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import DirectDepositWrapper from '@@profile/components/direct-deposit/DirectDepositWrapper';
+import { paymentHistory } from '@@profile/mocks/endpoints/payment-information';
 
-import DirectDepositWrapper from '../../../components/direct-deposit/DirectDepositWrapper';
-
-import { paymentHistory } from '../../../mocks/endpoints/payment-history';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 
 describe('authenticated experience -- profile -- direct deposit', () => {
   describe('DirectDepositWrapper', () => {

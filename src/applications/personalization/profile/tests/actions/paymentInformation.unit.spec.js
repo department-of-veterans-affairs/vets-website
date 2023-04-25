@@ -39,14 +39,15 @@ describe('actions/paymentInformation', () => {
     let actionCreator;
     let dispatch;
     let recordEventSpy;
+    let captureErrorSpy;
 
     describe('fetchCNPPaymentInformation', () => {
       beforeEach(() => {
         setup({ mockGA: true });
         recordEventSpy = sinon.spy();
-        actionCreator = paymentInformationActions.fetchCNPPaymentInformation(
-          recordEventSpy,
-        );
+        actionCreator = paymentInformationActions.fetchCNPPaymentInformation({
+          recordEvent: recordEventSpy,
+        });
         dispatch = sinon.spy();
       });
 
@@ -109,7 +110,7 @@ describe('actions/paymentInformation', () => {
           setFetchJSONResponse(global.fetch.onFirstCall(), {
             data: {
               attributes: {
-                responses: [paymentInfo],
+                ...paymentInfo,
               },
             },
           });
@@ -120,9 +121,9 @@ describe('actions/paymentInformation', () => {
           expect(dispatch.secondCall.args[0].type).to.be.equal(
             paymentInformationActions.CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
           );
-          expect(dispatch.secondCall.args[0].response).to.deep.equal({
-            responses: [paymentInfo],
-          });
+          expect(dispatch.secondCall.args[0].response).to.deep.equal(
+            paymentInfo,
+          );
         });
 
         it('reports the correct data to Google Analytics', () => {
@@ -181,7 +182,7 @@ describe('actions/paymentInformation', () => {
           setFetchJSONResponse(global.fetch.onFirstCall(), {
             data: {
               attributes: {
-                responses: [paymentInfo],
+                ...paymentInfo,
               },
             },
           });
@@ -192,9 +193,9 @@ describe('actions/paymentInformation', () => {
           expect(dispatch.secondCall.args[0].type).to.be.equal(
             paymentInformationActions.CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
           );
-          expect(dispatch.secondCall.args[0].response).to.deep.equal({
-            responses: [paymentInfo],
-          });
+          expect(dispatch.secondCall.args[0].response).to.deep.equal(
+            paymentInfo,
+          );
         });
 
         it('reports the correct data to Google Analytics', () => {
@@ -253,7 +254,7 @@ describe('actions/paymentInformation', () => {
           setFetchJSONResponse(global.fetch.onFirstCall(), {
             data: {
               attributes: {
-                responses: [paymentInfo],
+                ...paymentInfo,
               },
             },
           });
@@ -264,9 +265,9 @@ describe('actions/paymentInformation', () => {
           expect(dispatch.secondCall.args[0].type).to.be.equal(
             paymentInformationActions.CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
           );
-          expect(dispatch.secondCall.args[0].response).to.deep.equal({
-            responses: [paymentInfo],
-          });
+          expect(dispatch.secondCall.args[0].response).to.deep.equal(
+            paymentInfo,
+          );
         });
 
         it('reports the correct data to Google Analytics', () => {
@@ -304,13 +305,11 @@ describe('actions/paymentInformation', () => {
       beforeEach(() => {
         setup({ mockGA: true });
         recordEventSpy = sinon.spy();
-        actionCreator = paymentInformationActions.saveCNPPaymentInformation(
-          {
-            data: 'value',
-          },
-          false,
-          recordEventSpy,
-        );
+        captureErrorSpy = sinon.spy();
+        actionCreator = paymentInformationActions.saveCNPPaymentInformation({
+          fields: { data: 'value' },
+          recordEvent: recordEventSpy,
+        });
         dispatch = sinon.spy();
       });
       afterEach(teardown);
@@ -507,12 +506,14 @@ describe('actions/paymentInformation', () => {
       beforeEach(() => {
         setup({ mockGA: true });
         recordEventSpy = sinon.spy();
-        actionCreator = paymentInformationActions.saveEDUPaymentInformation(
-          {
+        captureErrorSpy = sinon.spy();
+        actionCreator = paymentInformationActions.saveEDUPaymentInformation({
+          fields: {
             data: 'value',
           },
           recordEventSpy,
-        );
+          captureError: captureErrorSpy,
+        });
         dispatch = sinon.spy();
       });
       afterEach(teardown);

@@ -1,5 +1,5 @@
 import DirectDeposit from '../DirectDeposit';
-import { paymentHistory } from '../../../../mocks/endpoints/payment-history';
+import { paymentHistory } from '../../../../mocks/endpoints/payment-information';
 import { noAccount } from '../../../../mocks/endpoints/bank-accounts';
 import { loa3User72 } from '../../../../mocks/endpoints/user';
 

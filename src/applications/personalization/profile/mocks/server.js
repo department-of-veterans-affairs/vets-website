@@ -18,7 +18,8 @@ const {
   maximalSetOfPreferences,
 } = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
-const payments = require('./endpoints/payment-history');
+const paymentInformation = require('./endpoints/payment-information');
+const disabilityComps = require('./endpoints/disability-compensations');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
 const fullName = require('./endpoints/full-name');
@@ -45,28 +46,45 @@ const responses = {
     profileUseInfoCard: true,
     profileUseFieldEditingPage: true,
     profileShowMhvNotificationSettings: false,
+    profileLighthouseDirectDeposit: true,
   }),
   'GET /v0/ppiu/payment_information': (_req, res) => {
     // 47841 - Below are the three cases where all of Profile should be gated off
-    // payments.paymentHistory.isFiduciary
-    // payments.paymentHistory.isDeceased
-    // payments.paymentHistory.isNotCompetent
+    // paymentInformation.isFiduciary
+    // paymentInformation.isDeceased
+    // paymentInformation.isNotCompetent
 
     // This is a 'normal' payment history / control case data
-    // payments.paymentHistory.simplePaymentHistory
+    // paymentInformation.base
 
-    return res.status(200).json(payments.paymentHistory.simplePaymentHistory);
+    return res.status(200).json(paymentInformation.base);
   },
   'PUT /v0/ppiu/payment_information': (_req, res) => {
-    return res
-      .status(200)
-      .json(
-        _.set(
-          payments.paymentInformation.saved.success,
-          'data.attributes.error',
-          payments.paymentInformation.errors.routingNumberInvalid,
-        ),
-      );
+    // substitute the various errors arrays to test various update error responses
+    // Examples:
+    // paymentInformation.updates.errors.fraud
+    // paymentsInformation.updates.errors.phoneNumber
+    // paymentsInformation.updates.errors.address
+    // return res
+    //   .status(200)
+    //   .json(
+    //     _.set(
+    //       _.cloneDeep(paymentInformation.base),
+    //       'data.attributes.error',
+    //       paymentInformation.updates.errors.invalidAddress,
+    //     ),
+    //   );
+
+    // successful update response
+    return res.status(200).json(paymentInformation.updates.success);
+  },
+  'GET /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
+    // Lighthouse based API endpoint for direct deposit CNP
+    // alternate to the PPIU endpoint above: /v0/ppiu/payment_information
+    return res.json(disabilityComps.base);
+  },
+  'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
+    return res.status(400).json(disabilityComps.errors.invalidRoutingNumber);
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount.needsPatient,

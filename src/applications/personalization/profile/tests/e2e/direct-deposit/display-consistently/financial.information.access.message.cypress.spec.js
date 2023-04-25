@@ -1,5 +1,5 @@
 import { PROFILE_PATHS } from '@@profile/constants';
-import { paymentHistory } from 'applications/personalization/profile/mocks/endpoints//payment-history';
+import { paymentHistory } from '@@profile/mocks/endpoints/payment-information';
 import { loa3User72 } from 'applications/personalization/profile/mocks/endpoints/user';
 import { basicUserPersonalInfo } from 'applications/personalization/profile/mocks/endpoints/personal-information';
 import { generateFeatureToggles } from 'applications/personalization/profile/mocks/endpoints/feature-toggles';
