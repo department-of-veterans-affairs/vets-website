@@ -211,7 +211,9 @@ class FileField extends React.Component {
 
     // When other actions follow removeFile, we do not want to apply this focus
     if (focusAddButton) {
-      this.focusAddAnotherButton();
+      setTimeout(() => {
+        this.focusAddAnotherButton();
+      }, 50);
     }
   };
 
@@ -363,6 +365,14 @@ class FileField extends React.Component {
                   pagePerItemIndex: index,
                 },
               };
+
+              // Add focus to the 'Cancel' button when a file is being uploaded
+              if (file.uploading && this.state.progress > 0) {
+                document
+                  .querySelector('.schemaform-file-uploading')
+                  .querySelector('button')
+                  .focus();
+              }
 
               return (
                 <li
