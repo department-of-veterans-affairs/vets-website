@@ -7,7 +7,7 @@ import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
-  SERVICE_CATEGORY,
+  COMP_AND_PEN,
 } from '../../utils/constants';
 import {
   getVAAppointmentLocationId,
@@ -351,8 +351,9 @@ export function selectTypeOfCareName(appointment) {
     getTypeOfCareById(appointment.vaos.apiData?.serviceType) || {};
   const serviceCategoryName =
     appointment.vaos.apiData?.serviceCategory?.[0].text || {};
-  if (serviceCategoryName === SERVICE_CATEGORY.compensationAndPension) {
-    return serviceCategoryName;
+  if (serviceCategoryName === COMP_AND_PEN) {
+    const { displayName } = getTypeOfCareById(serviceCategoryName);
+    return displayName;
   }
   return name;
 }
