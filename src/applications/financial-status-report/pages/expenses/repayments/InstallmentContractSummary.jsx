@@ -61,8 +61,12 @@ const InstallmentContractSummary = ({
     return (
       <>
         <p>
-          Creditor: <strong>{bill.creditorName} </strong>
-          <br />
+          {bill.creditorName.length > 0 ? (
+            <>
+              Creditor: <strong>{bill.creditorName} </strong>
+              <br />
+            </>
+          ) : null}
           Original Loan Amount:{' '}
           <strong>{currencyFormatter(bill.originalLoanAmount)}</strong>
           <br />
