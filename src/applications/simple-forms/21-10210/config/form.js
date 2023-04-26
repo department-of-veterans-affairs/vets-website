@@ -18,7 +18,9 @@ import vetIdInfo from '../pages/vetIdInfo';
 import vetAddrInfo from '../pages/vetAddrInfo';
 import vetContInfo from '../pages/vetContInfo';
 import statement from '../pages/statement';
-import testData from '../tests/fixtures/data/test-data-flow4.json';
+
+// mock-data import for local development & review-instances
+import testData from '../tests/fixtures/data/test-data-flow3.json';
 // import { uiSchema as addressUiSchema } from 'src/platform/forms/definitions/address';
 
 // const { } = fullSchema.properties;
@@ -66,8 +68,9 @@ const formConfig = {
         claimOwnershipPage: {
           path: 'claim-ownership',
           title: 'Who is submitting this statement?',
+          // we want req'd fields prefilled for testing/previewing
           initialData:
-            environment.isLocalhost() || location.host.includes('.review.')
+            environment.isLocalhost() || location.hostname.includes('.review.')
               ? mockData
               : undefined,
           uiSchema: claimOwnership.uiSchema,
@@ -280,6 +283,7 @@ const formConfig = {
         statementPage: {
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.SELF,
+            claimantType: CLAIMANT_TYPES.VETERAN,
           },
           path: 'statement',
           title: 'Please indicate the claimed issue that you are addressing',
