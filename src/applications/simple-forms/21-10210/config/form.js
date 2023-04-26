@@ -105,6 +105,21 @@ const formConfig = {
         },
       },
     },
+    statementChapterA: {
+      // for Flows 2-4: 3rd-party claim
+      title: 'Your statement',
+      pages: {
+        statementPage: {
+          depends: {
+            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+          },
+          path: 'statement',
+          title: 'Please indicate the claimed issue that you are addressing',
+          uiSchema: statement.uiSchema,
+          schema: statement.schema,
+        },
+      },
+    },
     claimantInformation: {
       // for Flow 4: 3rd-party claim & non-vet claimant
       title: 'Claimant Information',
@@ -195,10 +210,14 @@ const formConfig = {
         },
       },
     },
-    statement: {
+    statementChapterB: {
+      // for Flow 1: self claim, veteran claimant
       title: 'Your statement',
       pages: {
-        statement: {
+        statementPage: {
+          depends: {
+            claimOwnership: CLAIM_OWNERSHIPS.SELF,
+          },
           path: 'statement',
           title: 'Please indicate the claimed issue that you are addressing',
           uiSchema: statement.uiSchema,
