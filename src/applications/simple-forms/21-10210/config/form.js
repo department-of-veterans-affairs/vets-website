@@ -192,7 +192,7 @@ const formConfig = {
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
         formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your personal information'
-          : 'Veteran personal information',
+          : 'Veteran’s personal information',
       pages: {
         veteranPersonalInfo1: {
           path: 'veteran-personal-information',
@@ -208,7 +208,7 @@ const formConfig = {
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
         formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your identification information'
-          : 'Veteran identification information',
+          : 'Veteran’s identification information',
       pages: {
         veteranIdentificationInfo1: {
           path: 'veteran-identification-information',
@@ -224,7 +224,7 @@ const formConfig = {
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
         formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your mailing address'
-          : 'Veteran mailing address',
+          : 'Veteran’s mailing address',
       pages: {
         veteranMailingAddressInfo1: {
           path: 'veteran-mailing-address',
@@ -240,7 +240,7 @@ const formConfig = {
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
         formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your contact information'
-          : 'Veteran contact information',
+          : 'Veteran’s contact information',
       pages: {
         veteranContactInfo1: {
           path: 'veteran-contact-information',
