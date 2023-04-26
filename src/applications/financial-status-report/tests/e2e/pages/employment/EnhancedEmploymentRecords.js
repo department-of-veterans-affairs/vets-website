@@ -1,6 +1,6 @@
 class EnhancedEmploymentRecords {
   employerFill = employer => {
-    cy.get('[label="Type of work"]')
+    cy.get('#type')
       .shadow()
       .find('select')
       .select(employer.type);

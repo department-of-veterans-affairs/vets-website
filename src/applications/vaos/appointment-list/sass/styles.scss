@@ -126,7 +126,6 @@
 }
 
 .vaos-appts__breadcrumb {
-  padding: 2em 0;
 
   ul {
     margin: 0;
@@ -234,9 +233,11 @@ div[id^="vaos-appts__detail-"] {
 }
 
 .vaos-appts__text--truncate > * {
-  white-space: nowrap;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
+  @include media($small-screen) {
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
 }
 
 .vaos-appts__text--line-through {

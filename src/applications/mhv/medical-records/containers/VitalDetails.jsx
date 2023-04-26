@@ -115,19 +115,19 @@ const VitalDetails = () => {
             {currentVitals?.length > 0 &&
               currentVitals?.map((vital, idx) => (
                 <li key={idx}>
-                  <strong>Measurement:</strong>
+                  <h2>Measurement:</h2>
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                     {vital.measurement}
                   </p>
-                  <strong>{idx === 0 ? 'Most recent date:' : 'Date:'}</strong>
+                  <h2>{idx === 0 ? 'Most recent date:' : 'Date:'}</h2>
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                     {dateFormat(vital.date, 'MMMM D, YYYY')}
                   </p>
-                  <strong>Location:</strong>
+                  <h2>Location:</h2>
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                     {vital.facility}
                   </p>
-                  <strong>Provider comments:</strong>
+                  <h2>Provider comments:</h2>
                   {vital?.comments?.length > 0 ? (
                     <ul className="comment-list">
                       {vital.comments.map((comment, commentIdx) => (
@@ -144,13 +144,13 @@ const VitalDetails = () => {
             {filteredVitals?.length > 0 &&
               filteredVitals?.map((vital, idx) => (
                 <li key={idx}>
-                  <strong>Measurement:</strong>
+                  <h2>Measurement:</h2>
                   <p>{vital.measurement}</p>
-                  <strong>{idx === 0 ? 'Most recent date:' : 'Date:'}</strong>
+                  <h2>{idx === 0 ? 'Most recent date:' : 'Date:'}</h2>
                   <p>{dateFormat(vital.date, 'MMMM D, YYYY')}</p>
-                  <strong>Location:</strong>
+                  <h2>Location:</h2>
                   <p>{vital.facility}</p>
-                  <strong>Provider comments:</strong>
+                  <h2>Provider comments:</h2>
                   {vital?.comments?.length > 0 ? (
                     <ul className="comment-list">
                       {vital.comments.map((comment, commentIdx) => (

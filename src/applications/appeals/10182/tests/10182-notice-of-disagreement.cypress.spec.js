@@ -5,13 +5,20 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import { fixDecisionDates } from './nod.cypress.helpers';
+import { fixDecisionDates, getRandomDate } from './nod.cypress.helpers';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
+import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
+import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUpload from './fixtures/mocks/mock-upload.json';
 import mockUser from './fixtures/mocks/user.json';
-import { CONTESTABLE_ISSUES_API, SELECTED } from '../constants';
+import {
+  CONTESTABLE_ISSUES_API,
+  CONTESTABLE_ISSUES_PATH,
+  BASE_URL,
+  SELECTED,
+} from '../constants';
 
 const testConfig = createTestConfig(
   {
@@ -28,19 +35,38 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'button' })
-            .last()
+          cy.findAllByText(/start/i, { selector: 'a' })
+            .first()
             .click();
         });
       },
-      'contestable-issues': () => {
-        cy.get('@testData').then(data => {
-          data.contestableIssues.forEach((item, index) => {
-            if (item[SELECTED]) {
-              cy.get(`input[name="root_contestableIssues_${index}"]`)
-                .first()
-                .click({ force: true });
-            }
+      [CONTESTABLE_ISSUES_PATH]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            testData.additionalIssues?.forEach(additionalIssue => {
+              if (additionalIssue.issue && additionalIssue[SELECTED]) {
+                cy.get('.add-new-issue').click();
+                cy.url().should('include', `${BASE_URL}/add-issue?index=`);
+                cy.axeCheck();
+                cy.get('#add-nod-issue')
+                  .shadow()
+                  .find('input')
+                  .type(additionalIssue.issue);
+                cy.fillDate('decision-date', getRandomDate());
+                cy.get('#submit').click();
+              }
+            });
+            testData.contestableIssues.forEach(issue => {
+              if (issue[SELECTED]) {
+                cy.get(
+                  `label:contains("${
+                    issue.attributes.ratingIssueSubjectText
+                  }")`,
+                ).click();
+              }
+            });
+            cy.findByText('Continue', { selector: 'button' }).click();
           });
         });
       },
@@ -60,25 +86,19 @@ const testConfig = createTestConfig(
 
       cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
 
-      cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
-
+      cy.intercept('GET', '/v0/profile/status', mockStatus);
+      cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('POST', 'v0/decision_review_evidence', mockUpload);
-
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
 
-      cy.get('@testData').then(testData => {
+      cy.get('@testData').then(data => {
+        cy.intercept('GET', '/v0/in_progress_forms/10182', mockPrefill);
+        cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
         cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {
-          data: fixDecisionDates(testData.contestableIssues),
+          data: fixDecisionDates(data.contestableIssues, { unselected: true }),
         });
-
-        cy.intercept('GET', '/v0/in_progress_forms/10182', testData);
-        cy.intercept('PUT', 'v0/in_progress_forms/10182', testData);
       });
     },
-
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

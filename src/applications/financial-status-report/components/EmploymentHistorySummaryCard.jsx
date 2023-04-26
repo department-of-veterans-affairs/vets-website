@@ -31,6 +31,7 @@ const EmploymentHistorySummaryCard = ({ job, index, isSpouse }) => {
           handleClick();
         }}
         href="#/edit"
+        aria-label={`Edit Employment History for ${employmentCardHeading}`}
       >
         Edit
       </a>

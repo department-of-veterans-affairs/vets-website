@@ -13,6 +13,7 @@ import LabsAndTests from './containers/LabsAndTests';
 import CareSummariesAndNotes from './containers/CareSummariesAndNotes';
 import ConditionDetails from './containers/ConditionDetails';
 import LabAndTestDetails from './containers/LabAndTestDetails';
+import ScrollToTop from './components/shared/ScrollToTop';
 
 const routes = (
   <div className="vads-l-grid-container">
@@ -20,6 +21,7 @@ const routes = (
     <div className="medical-records-container">
       <Navigation />
       <div className="vads-l-grid-container main-content">
+        <ScrollToTop />
         <Switch>
           <Route exact path="/" key="Medical Records Home">
             <LandingPage />
