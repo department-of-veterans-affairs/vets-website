@@ -1,4 +1,3 @@
-// import fullSchema from 'vets-json-schema/dist/21-10210-schema.json';
 import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 
@@ -19,16 +18,12 @@ import vetAddrInfo from '../pages/vetAddrInfo';
 import vetContInfo from '../pages/vetContInfo';
 import statement from '../pages/statement';
 
-// mock-data import for local development & review-instances
-import testData from '../tests/fixtures/data/test-data-flow1.json';
-// import { uiSchema as addressUiSchema } from 'src/platform/forms/definitions/address';
-
-// const { } = fullSchema.properties;
-// const { } = fullSchema.definitions;
-
 // "Flows" in comments below map to "Stories" in the mockups:
 // https://www.sketch.com/s/a11421d3-c148-41a2-a34f-3d7821ea676f
-// There are 4 Flows, based on claimOwnership & claimantType
+
+// mock-data import for local development & review-instances
+// import the appropriate file for the flow you're working on
+import testData from '../tests/fixtures/data/test-data-flow4.json';
 
 const mockData = testData.data;
 const formConfig = {
@@ -61,7 +56,7 @@ const formConfig = {
   chapters: {
     statementInfoChapter: {
       // for ALL Flows
-      // claimOwnership & claimantType decide which Flow to render
+      // claimOwnership & claimantType decide which Flow to render downstream
       title: 'Who is submitting this statement?',
       hideFormNavProgress: true,
       pages: {
@@ -69,6 +64,7 @@ const formConfig = {
           path: 'claim-ownership',
           title: 'Who is submitting this statement?',
           // we want req'd fields prefilled for testing/previewing
+          // one single initialData prop here will suffice for entire form
           initialData:
             environment.isLocalhost() || location.hostname.includes('.review.')
               ? mockData
@@ -132,7 +128,10 @@ const formConfig = {
     },
     claimantPersonalInfoChapter: {
       // for Flows 3 & 4: non-vet claimant
-      title: 'Claimant’s personal information',
+      title: ({ formData } = {}) =>
+        formData.claimOwnership === CLAIM_OWNERSHIPS.SELF
+          ? 'Your personal information'
+          : 'Claimant’s personal information',
       pages: {
         claimantPersInfoPage: {
           path: 'claimant-personal-information',
@@ -147,7 +146,10 @@ const formConfig = {
     },
     claimantIdInfoChapter: {
       // for Flows 3 & 4: non-vet claimant
-      title: 'Claimant’s identification information',
+      title: ({ formData } = {}) =>
+        formData.claimOwnership === CLAIM_OWNERSHIPS.SELF
+          ? 'Your identification information'
+          : 'Claimant’s identification information',
       pages: {
         claimantIdInfoPage: {
           path: 'claimant-identification-information',
@@ -162,7 +164,10 @@ const formConfig = {
     },
     claimantAddrInfoChapter: {
       // for Flows 3 & 4: non-vet claimant
-      title: 'Claimant’s mailing address',
+      title: ({ formData } = {}) =>
+        formData.claimOwnership === CLAIM_OWNERSHIPS.SELF
+          ? 'Your mailing address'
+          : 'Claimant’s mailing address',
       pages: {
         claimantAddrInfoPage: {
           path: 'claimant-address-information',
@@ -177,7 +182,10 @@ const formConfig = {
     },
     claimantContactInfoChapter: {
       // for Flows 3 & 4: non-vet claimant
-      title: 'Claimant’s contact information',
+      title: ({ formData } = {}) =>
+        formData.claimOwnership === CLAIM_OWNERSHIPS.SELF
+          ? 'Your contact information'
+          : 'Claimant’s contact information',
       pages: {
         claimantContInfoPage: {
           path: 'claimant-contact-information',
