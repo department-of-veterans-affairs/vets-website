@@ -18,6 +18,7 @@ import vetIdInfo from '../pages/vetIdInfo';
 import vetAddrInfo from '../pages/vetAddrInfo';
 import vetContInfo from '../pages/vetContInfo';
 import statement from '../pages/statement';
+import testData from '../tests/fixtures/data/test-data-flow4.json';
 // import { uiSchema as addressUiSchema } from 'src/platform/forms/definitions/address';
 
 // const { } = fullSchema.properties;
@@ -27,6 +28,7 @@ import statement from '../pages/statement';
 // https://www.sketch.com/s/a11421d3-c148-41a2-a34f-3d7821ea676f
 // There are 4 Flows, based on claimOwnership & claimantType
 
+const mockData = testData.data;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -64,6 +66,7 @@ const formConfig = {
         claimOwnershipPage: {
           path: 'claim-ownership',
           title: 'Who is submitting this statement?',
+          initialData: environment.isLocalhost() ? mockData : {},
           uiSchema: claimOwnership.uiSchema,
           schema: claimOwnership.schema,
         },
