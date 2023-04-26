@@ -108,7 +108,8 @@ const formConfig = {
       },
     },
     statementChapterA: {
-      // for Flows 2-4: 3rd-party claim
+      // for Flows 2 & 4: 3rd-party claim
+      // populates SAME statement field as the other statementChapters
       title: 'Your statement',
       pages: {
         statementPage: {
@@ -123,14 +124,13 @@ const formConfig = {
       },
     },
     claimantPersonalInfoChapter: {
-      // for Flow 4: 3rd-party claim & non-vet claimant
+      // for Flows 3 & 4: non-vet claimant
       title: 'Claimant’s personal information',
       pages: {
         claimantPersInfoPage: {
           path: 'claimant-personal-information',
           title: 'Your personal information',
           depends: {
-            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
           uiSchema: claimantPersInfo.uiSchema,
@@ -139,14 +139,13 @@ const formConfig = {
       },
     },
     claimantIdInfoChapter: {
-      // for Flow 4: 3rd-party claim & non-vet claimant
+      // for Flows 3 & 4: non-vet claimant
       title: 'Claimant’s identification information',
       pages: {
         claimantIdInfoPage: {
           path: 'claimant-identification-information',
           title: 'Claimant’s identification information',
           depends: {
-            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
           uiSchema: claimantIdInfo.uiSchema,
@@ -155,14 +154,13 @@ const formConfig = {
       },
     },
     claimantAddrInfoChapter: {
-      // for Flow 4: 3rd-party claim & non-vet claimant
+      // for Flows 3 & 4: non-vet claimant
       title: 'Claimant’s mailing address',
       pages: {
         claimantAddrInfoPage: {
           path: 'claimant-address-information',
           title: 'Claimant’s mailing address',
           depends: {
-            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
           uiSchema: claimantAddrInfo.uiSchema,
@@ -171,18 +169,35 @@ const formConfig = {
       },
     },
     claimantContactInfoChapter: {
-      // for Flow 4: 3rd-party claim & non-vet claimant
+      // for Flows 3 & 4: non-vet claimant
       title: 'Claimant’s contact information',
       pages: {
         claimantContInfoPage: {
           path: 'claimant-contact-information',
           title: 'Claimant’s contact information',
           depends: {
-            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
           uiSchema: claimantContInfo.uiSchema,
           schema: claimantContInfo.schema,
+        },
+      },
+    },
+    statementChapterB: {
+      // for Flow 3: self claim, non-veteran claimant
+      // populates SAME statement field as the other statementChapters
+      title: 'Your statement',
+      hideFormNavProgress: true,
+      pages: {
+        statementPage: {
+          depends: {
+            claimOwnership: CLAIM_OWNERSHIPS.SELF,
+            claimantType: CLAIMANT_TYPES.NON_VETERAN,
+          },
+          path: 'statement',
+          title: 'Please indicate the claimed issue that you are addressing',
+          uiSchema: statement.uiSchema,
+          schema: statement.schema,
         },
       },
     },
@@ -250,9 +265,11 @@ const formConfig = {
         },
       },
     },
-    statementChapterB: {
+    statementChapterC: {
       // for Flow 1: self claim, veteran claimant
+      // populates SAME statement field as the other statementChapters
       title: 'Your statement',
+      hideFormNavProgress: true,
       pages: {
         statementPage: {
           depends: {
