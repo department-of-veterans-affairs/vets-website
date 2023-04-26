@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import { getLongTermAppointmentHistory } from '../../../services/var';
 import FormButtons from '../../../components/FormButtons';
 import PodiatryAppointmentUnavailableModal from './PodiatryAppointmentUnavailableModal';
 import UpdateAddressAlert from './UpdateAddressAlert';
@@ -35,7 +34,6 @@ export default function TypeOfCarePage() {
     showCommunityCare,
     showDirectScheduling,
     showPodiatryApptUnavailableModal,
-    useV2,
     useAcheron,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
 
@@ -117,8 +115,7 @@ export default function TypeOfCarePage() {
             // This could get called multiple times, but the function is memoized
             // and returns the previous promise if it eixsts
             if (showDirectScheduling) {
-              if (useV2) getLongTermAppointmentHistoryV2(useAcheron);
-              else getLongTermAppointmentHistory();
+              getLongTermAppointmentHistoryV2(useAcheron);
             }
 
             setData(newData);
