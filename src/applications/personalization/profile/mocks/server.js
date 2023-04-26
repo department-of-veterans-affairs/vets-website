@@ -22,6 +22,9 @@ const payments = require('./endpoints/payment-history');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
 const fullName = require('./endpoints/full-name');
+const {
+  baseUserTransitionAvailabilities,
+} = require('./endpoints/user-transition-availabilities');
 
 // seed data for VAMC drupal source of truth json file
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
@@ -35,7 +38,7 @@ const { debug } = require('./script/utils');
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/user': user.handleUserRequest,
-  'GET /v0/profile/status': status,
+  'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/feature_toggles': generateFeatureToggles({
@@ -88,6 +91,9 @@ const responses = {
   'PUT /v0/profile/telephones': (_req, res) => {
     return res.status(200).json(phoneNumber.transactions.received);
   },
+  'POST /v0/profile/telephones': (_req, res) => {
+    return res.status(200).json(phoneNumber.transactions.received);
+  },
   'PUT /v0/profile/addresses': (req, res) => {
     // return res.status(401).json(require('../tests/fixtures/401.json'));
 
@@ -134,10 +140,7 @@ const responses = {
     // }
 
     // uncomment to conditionally provide a failure error code based on transaction id
-    if (
-      req?.params?.id === 'erroredId' ||
-      req?.params?.id === '06880455-a2e2-4379-95ba-90aa53fdb273'
-    ) {
+    if (req?.params?.id === 'erroredId') {
       return res.json(
         _.set(status.failure, 'data.attributes.transactionId', req.params.id),
       );
@@ -150,6 +153,7 @@ const responses = {
   'GET /v0/profile/communication_preferences': (_req, res) => {
     return res.json(maximalSetOfPreferences);
   },
+  'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
 };
 
 function terminationHandler(signal) {

@@ -155,7 +155,10 @@ const Compose = () => {
               />
               {replyMessage &&
                 messageHistory?.length > 1 && (
-                  <MessageThread messageHistory={messageHistory.slice(1)} />
+                  <MessageThread
+                    isDraftThread
+                    messageHistory={messageHistory.slice(1)}
+                  />
                 )}
             </>
           )}

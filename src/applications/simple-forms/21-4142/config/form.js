@@ -7,8 +7,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import preSubmitInfo from '../containers/PreSubmitSignature';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
-
-import transformForSubmit from './submit-transformer';
+import prefillTransformer from './prefill-transformer';
+import transformForSubmit from '../../shared/config/submit-transformer';
 
 // pages
 import personalInformation1 from '../pages/personalInformation1';
@@ -52,6 +52,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   transformForSubmit,
   savedFormMessages: {
     notFound:

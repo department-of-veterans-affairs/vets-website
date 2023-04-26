@@ -46,10 +46,8 @@ const AttachmentsList = props => {
                 <div className="editable-attachment">
                   <span>
                     <i className="fas fa-paperclip" aria-hidden="true" />
-                    <span ref={attachmentReference} tabIndex={-1}>
-                      {file.name}{' '}
-                    </span>
-                    ({getSize(file.size || file.attachmentSize)})
+                    <span ref={attachmentReference}>{file.name} </span>(
+                    {getSize(file.size || file.attachmentSize)})
                   </span>
                   <va-button
                     onClick={() => removeAttachment(file)}
@@ -76,10 +74,8 @@ const AttachmentsList = props => {
                       });
                     }}
                   >
-                    <span ref={attachmentReference} tabIndex={-1}>
-                      {file.name}{' '}
-                    </span>
-                    ({getSize(file.size || file.attachmentSize)})
+                    <span ref={attachmentReference}>{file.name} </span>(
+                    {getSize(file.size || file.attachmentSize)})
                   </a>
                 </>
               )}
