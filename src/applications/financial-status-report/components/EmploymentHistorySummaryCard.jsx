@@ -2,7 +2,10 @@ import React from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
-import { MiniSummaryCard } from './shared/MiniSummaryCard';
+import {
+  EmptyMiniSummaryCard,
+  MiniSummaryCard,
+} from './shared/MiniSummaryCard';
 import { setJobIndex } from '../utils/session';
 import { dateFormatter } from '../utils/helpers';
 
@@ -117,13 +120,17 @@ const EmploymentHistorySummaryCard = ({
   };
 
   return (
-    <MiniSummaryCard
-      editDestination={handleClick(index)}
-      heading={employmentCardHeading}
-      body={cardBody}
-      onDelete={() => onDelete(index)}
-      showDelete
-    />
+    (!job && (
+      <EmptyMiniSummaryCard content="No employment history provided" />
+    )) || (
+      <MiniSummaryCard
+        editDestination={handleClick(index)}
+        heading={employmentCardHeading}
+        body={cardBody}
+        onDelete={() => onDelete(index)}
+        showDelete
+      />
+    )
   );
 };
 

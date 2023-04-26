@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { useSelector, connect } from 'react-redux';
 import EmploymentHistorySummaryCard from '../../../components/EmploymentHistorySummaryCard';
+import { EmptyMiniSummaryCard } from '../../../components/shared/MiniSummaryCard';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearJobIndex } from '../../../utils/session';
 
@@ -37,14 +38,18 @@ const EmploymentHistoryWidget = props => {
     <form onSubmit={handlers.onSubmit}>
       <legend className="schemaform-block-title">Your work history</legend>
       <div className="vads-u-margin-top--3" data-testid="debt-list">
-        {employmentHistory.map((job, index) => (
-          <EmploymentHistorySummaryCard
-            key={`${index}-${job.employername}`}
-            job={job}
-            index={index}
-            isSpouse={false}
-          />
-        ))}
+        {employmentHistory.length === 0 ? (
+          <EmptyMiniSummaryCard content="No employment history provided" />
+        ) : (
+          employmentHistory.map((job, index) => (
+            <EmploymentHistorySummaryCard
+              key={`${index}-${job.employername}`}
+              job={job}
+              index={index}
+              isSpouse={false}
+            />
+          ))
+        )}
       </div>
       <Link
         className="vads-c-action-link--green"

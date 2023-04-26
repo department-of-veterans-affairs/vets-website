@@ -185,13 +185,14 @@ const formConfig = {
         enhancedEmploymentRecords: {
           path: 'enhanced-employment-records',
           title: 'Employment',
-          uiSchema: pages.enhancedEmploymentRecords.uiSchema,
-          schema: pages.enhancedEmploymentRecords.schema,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
           depends: formData =>
             formData.questions.vetIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: EnhancedEmploymentRecord,
+          CustomPageReview: null,
         },
         grossMonthlyIncome: {
           path: 'gross-monthly-income',
@@ -234,13 +235,14 @@ const formConfig = {
         employmentHistorySummary: {
           path: 'employment-history',
           title: 'Employment',
-          uiSchema: pages.employmentHistory.uiSchema,
-          schema: pages.employmentHistory.schema,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
           depends: formData =>
             formData.questions.vetIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: EmploymentHistoryWidget,
+          CustomPageReview: null,
         },
         income: {
           title: 'Income',
@@ -409,13 +411,14 @@ const formConfig = {
         spouseEmploymentHistory: {
           path: 'spouse-employment-history',
           title: 'Employment',
-          uiSchema: pages.spouseEmploymentHistory.uiSchema,
-          schema: pages.spouseEmploymentHistory.schema,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
           depends: formData =>
             formData.questions.spouseIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: SpouseEmploymentHistoryWidget,
+          CustomPageReview: null,
         },
         spouseEmployment: {
           path: 'spouse-employment',

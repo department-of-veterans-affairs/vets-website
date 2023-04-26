@@ -3,6 +3,7 @@ import { useSelector, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import EmploymentHistorySummaryCard from '../../../components/EmploymentHistorySummaryCard';
+import { EmptyMiniSummaryCard } from '../../../components/shared/MiniSummaryCard';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearJobIndex } from '../../../utils/session';
 
@@ -39,14 +40,18 @@ const SpouseEmploymentHistoryWidget = props => {
         Your spouse’s work history
       </legend>
       <div className="vads-u-margin-top--3" data-testid="debt-list">
-        {employmentHistory.map((job, index) => (
-          <EmploymentHistorySummaryCard
-            key={`${index}-${job.employername}`}
-            job={job}
-            index={index}
-            isSpouse
-          />
-        ))}
+        {employmentHistory.length === 0 ? (
+          <EmptyMiniSummaryCard content="No employment history provided" />
+        ) : (
+          employmentHistory.map((job, index) => (
+            <EmploymentHistorySummaryCard
+              key={`${index}-${job.employername}`}
+              job={job}
+              index={index}
+              isSpouse
+            />
+          ))
+        )}
       </div>
       <Link
         className="vads-c-action-link--green"
