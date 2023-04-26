@@ -20,7 +20,7 @@ import vetContInfo from '../pages/vetContInfo';
 import statement from '../pages/statement';
 
 // mock-data import for local development & review-instances
-import testData from '../tests/fixtures/data/test-data-flow2.json';
+import testData from '../tests/fixtures/data/test-data-flow1.json';
 // import { uiSchema as addressUiSchema } from 'src/platform/forms/definitions/address';
 
 // const { } = fullSchema.properties;
