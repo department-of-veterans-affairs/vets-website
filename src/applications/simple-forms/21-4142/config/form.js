@@ -27,6 +27,7 @@ import preparerAddress2 from '../pages/preparerAddress2';
 import {
   patientIdentificationFields,
   preparerIdentificationFields,
+  veteranDirectRelative,
   veteranIsSelfText,
 } from '../definitions/constants';
 
@@ -194,9 +195,11 @@ const formConfig = {
           path: 'preparer-address-1',
           title: 'Preparer address 1',
           depends: formData =>
-            formData[preparerIdentificationFields.parentObject][
-              [preparerIdentificationFields.relationshipToVeteran]
-            ] !== veteranIsSelfText,
+            veteranDirectRelative.includes(
+              formData[preparerIdentificationFields.parentObject][
+                [preparerIdentificationFields.relationshipToVeteran]
+              ],
+            ),
           uiSchema: preparerAddress1.uiSchema,
           schema: preparerAddress1.schema,
         },

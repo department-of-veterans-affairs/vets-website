@@ -57,6 +57,7 @@ export default {
     properties: {
       [providerFacilityFields.parentObject]: {
         type: 'array',
+        minItems: 1,
         items: {
           ...fullSchema.properties[providerFacilityFields.parentObject].items,
           properties: {
