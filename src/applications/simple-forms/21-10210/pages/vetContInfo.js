@@ -26,7 +26,7 @@ export default {
     type: 'object',
     required: ['veteranPhone'],
     properties: {
-      veteranPhone: definitions.usaPhone,
+      veteranPhone: definitions.phone,
       veteranEmail: definitions.email,
       veteranEmailConsent: {
         type: 'boolean',

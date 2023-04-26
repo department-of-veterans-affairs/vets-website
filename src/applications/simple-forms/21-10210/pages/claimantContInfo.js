@@ -26,7 +26,7 @@ export default {
     type: 'object',
     required: ['claimantPhone'],
     properties: {
-      claimantPhone: definitions.usaPhone,
+      claimantPhone: definitions.phone,
       claimantEmail: definitions.email,
       claimantEmailConsent: {
         type: 'boolean',
