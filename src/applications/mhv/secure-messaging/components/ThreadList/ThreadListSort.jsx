@@ -73,22 +73,22 @@ const ThreadListSort = props => {
           Newest to oldest
         </option>
         <option value={threadSortingOptions.ASCENDING}>Oldest to newest</option>
-        {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
-          <>
-            <option value={SENDER_ALPHA_ASCENDING}>
-              A to Z - Sender’s name
-            </option>
-            <option value={SENDER_ALPHA_DESCENDING}>
-              Z to A - Sender’s name
-            </option>
-          </>
-        ) : (
+        {location.pathname === '/sent' || location.pathname === '/drafts' ? (
           <>
             <option value={RECEPIENT_ALPHA_ASCENDING}>
               A to Z - Recipient’s name
             </option>
             <option value={RECEPIENT_ALPHA_DESCENDING}>
               Z to A - Recipient’s name
+            </option>
+          </>
+        ) : (
+          <>
+            <option value={SENDER_ALPHA_ASCENDING}>
+              A to Z - Sender’s name
+            </option>
+            <option value={SENDER_ALPHA_DESCENDING}>
+              Z to A - Sender’s name
             </option>
           </>
         )}
