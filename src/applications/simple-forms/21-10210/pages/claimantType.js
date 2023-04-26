@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CLAIMANT_TYPE, CLAIM_OWNERSHIP } from '../definitions/constants';
+import { CLAIMANT_TYPES, CLAIM_OWNERSHIPS } from '../definitions/constants';
 
 export default {
   uiSchema: {
@@ -13,7 +13,7 @@ export default {
           const uiSchemaCopy = { ...uiSchema };
           let title;
           switch (claimOwnership) {
-            case CLAIM_OWNERSHIP.SELF:
+            case CLAIM_OWNERSHIPS.SELF:
               title = (
                 <span className="vads-u-font-family--serif vads-u-font-size--h3">
                   Which of these descriptions best describes you?
@@ -24,7 +24,7 @@ export default {
                 'non-veteran': 'I’m a non-Veteran claimant',
               };
               break;
-            case CLAIM_OWNERSHIP.THIRD_PARTY:
+            case CLAIM_OWNERSHIPS.THIRD_PARTY:
               title = (
                 <span className="vads-u-font-family--serif vads-u-font-size--h3">
                   Which of these individuals are you submitting a statement for?
@@ -61,7 +61,7 @@ export default {
     properties: {
       claimantType: {
         type: 'string',
-        enum: [CLAIMANT_TYPE.VETERAN, CLAIMANT_TYPE.NON_VETERAN],
+        enum: [CLAIMANT_TYPES.VETERAN, CLAIMANT_TYPES.NON_VETERAN],
       },
     },
   },

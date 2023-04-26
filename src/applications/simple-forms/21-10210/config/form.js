@@ -2,13 +2,13 @@
 import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 
-import { CLAIM_OWNERSHIP, CLAIMANT_TYPE } from '../definitions/constants';
+import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import statementInformation1 from '../pages/statementInformation1';
-import statementInformation2 from '../pages/statementInformation2';
-import witnessInformation1 from '../pages/witnessInformation1';
-import witnessInformation2 from '../pages/witnessInformation2';
+import claimOwnership from '../pages/claimOwnership';
+import claimantType from '../pages/claimantType';
+import witnessPersInfo from '../pages/witnessPersInfo';
+import witnessContInfo from '../pages/witnessContInfo';
 import claimantInformation1 from '../pages/claimantInformation1';
 import claimantInformation2 from '../pages/claimantInformation2';
 import vetPersInfo from '../pages/vetPersInfo';
@@ -19,8 +19,11 @@ import statement from '../pages/statement';
 // import { uiSchema as addressUiSchema } from 'src/platform/forms/definitions/address';
 
 // const { } = fullSchema.properties;
-
 // const { } = fullSchema.definitions;
+
+// "Flows" in comments below map to "Stories" in the mockups:
+// https://www.sketch.com/s/a11421d3-c148-41a2-a34f-3d7821ea676f
+// There are 4 Flows, based on claimOwnership & claimantType
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -50,60 +53,68 @@ const formConfig = {
   subTitle: 'Equal to submitting a Lay/Witness Statement (VA Form 21-10210)',
   defaultDefinitions: {},
   chapters: {
-    statementInformation: {
-      // for all claimOwnership/claimantType combos
+    statementInfoChapter: {
+      // for ALL Flows
+      // claimOwnership & claimantType decide which Flow to render
       title: 'Who is submitting this statement?',
       hideFormNavProgress: true,
       pages: {
-        statementInformation1: {
+        claimOwnershipPage: {
           path: 'claim-ownership',
           title: 'Who is submitting this statement?',
-          uiSchema: statementInformation1.uiSchema,
-          schema: statementInformation1.schema,
+          uiSchema: claimOwnership.uiSchema,
+          schema: claimOwnership.schema,
         },
-        statementInformation2: {
+        claimantTypePage: {
           path: 'claimant-type',
           title: 'Who is submitting this statement?',
-          uiSchema: statementInformation2.uiSchema,
-          schema: statementInformation2.schema,
+          uiSchema: claimantType.uiSchema,
+          schema: claimantType.schema,
         },
       },
     },
-    witnessInformation: {
-      // for third-party claimOwnership & non-veteran claimantType
+    witnessPersonalInfoChapter: {
+      // for Flow 4: 3rd-party claim & non-vet claimant
       title: 'Your personal information',
       pages: {
-        witnessInformation1: {
+        witnessPersonalInfoPage: {
           path: 'witness-personal-information',
           title: 'Your personal information',
           depends: {
-            claimOwnership: CLAIM_OWNERSHIP.THIRD_PARTY,
-            claimantType: CLAIMANT_TYPE.NON_VETERAN,
+            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+            claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
-          uiSchema: witnessInformation1.uiSchema,
-          schema: witnessInformation1.schema,
+          uiSchema: witnessPersInfo.uiSchema,
+          schema: witnessPersInfo.schema,
         },
-        witnessInformation2: {
+      },
+    },
+    witnessContactInfoChapter: {
+      // for Flow 4: 3rd-party claim & non-vet claimant
+      title: 'Your contact information',
+      pages: {
+        witnessContactInfoPage: {
           path: 'witness-contact-information',
           title: 'Your contact information',
           depends: {
-            claimOwnership: CLAIM_OWNERSHIP.THIRD_PARTY,
-            claimantType: CLAIMANT_TYPE.NON_VETERAN,
+            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+            claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
-          uiSchema: witnessInformation2.uiSchema,
-          schema: witnessInformation2.schema,
+          uiSchema: witnessContInfo.uiSchema,
+          schema: witnessContInfo.schema,
         },
       },
     },
     claimantInformation: {
+      // for Flow 4: 3rd-party claim & non-vet claimant
       title: 'Claimant Information',
       pages: {
         claimantInformation1: {
           path: 'claimant-personal-information',
           title: 'Your personal information',
           depends: {
-            claimOwnership: CLAIM_OWNERSHIP.THIRD_PARTY,
-            claimantType: CLAIMANT_TYPE.NON_VETERAN,
+            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+            claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
           uiSchema: claimantInformation1.uiSchema,
           schema: claimantInformation1.schema,
@@ -112,8 +123,8 @@ const formConfig = {
           path: 'claimant-contact-information',
           title: 'Your contact information',
           depends: {
-            claimOwnership: CLAIM_OWNERSHIP.THIRD_PARTY,
-            claimantType: CLAIMANT_TYPE.NON_VETERAN,
+            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+            claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
           uiSchema: claimantInformation2.uiSchema,
           schema: claimantInformation2.schema,
@@ -121,10 +132,10 @@ const formConfig = {
       },
     },
     veteranPersonalInfo: {
-      // for all claimOwnership/claimantType combos
+      // for All flows
       title: ({ formData } = {}) =>
-        formData.claimOwnership === CLAIM_OWNERSHIP.SELF &&
-        formData.claimantType === CLAIMANT_TYPE.VETERAN
+        formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
+        formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your personal information'
           : 'Veteran personal information',
       pages: {
@@ -139,8 +150,8 @@ const formConfig = {
     veteranIdentificationInfo: {
       // for all claimOwnership/claimantType combos
       title: ({ formData } = {}) =>
-        formData.claimOwnership === CLAIM_OWNERSHIP.SELF &&
-        formData.claimantType === CLAIMANT_TYPE.VETERAN
+        formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
+        formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your identification information'
           : 'Veteran identification information',
       pages: {
@@ -155,8 +166,8 @@ const formConfig = {
     veteranMailingAddressInfo: {
       // for all claimOwnership/claimantType combos
       title: ({ formData } = {}) =>
-        formData.claimOwnership === CLAIM_OWNERSHIP.SELF &&
-        formData.claimantType === CLAIMANT_TYPE.VETERAN
+        formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
+        formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your mailing address'
           : 'Veteran mailing address',
       pages: {
@@ -171,8 +182,8 @@ const formConfig = {
     veteranContactInfo: {
       // for all claimOwnership/claimantType combos
       title: ({ formData } = {}) =>
-        formData.claimOwnership === CLAIM_OWNERSHIP.SELF &&
-        formData.claimantType === CLAIMANT_TYPE.VETERAN
+        formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
+        formData.claimantType === CLAIMANT_TYPES.VETERAN
           ? 'Your contact information'
           : 'Veteran contact information',
       pages: {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CLAIM_OWNERSHIP } from '../definitions/constants';
+import { CLAIM_OWNERSHIPS } from '../definitions/constants';
 
 export default {
   uiSchema: {
@@ -26,7 +26,7 @@ export default {
     properties: {
       claimOwnership: {
         type: 'string',
-        enum: [CLAIM_OWNERSHIP.SELF, CLAIM_OWNERSHIP.THIRD_PARTY],
+        enum: [CLAIM_OWNERSHIPS.SELF, CLAIM_OWNERSHIPS.THIRD_PARTY],
       },
     },
   },

@@ -1,5 +1,5 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
-import { CLAIMANT_TYPE } from '../definitions/constants';
+import { CLAIMANT_TYPES } from '../definitions/constants';
 
 export default {
   uiSchema: {
@@ -18,7 +18,7 @@ export default {
         required: 'Please agree to receive electronic correspondence.',
       },
       'ui:options': {
-        hideIf: formData => formData.claimantType !== CLAIMANT_TYPE.VETERAN,
+        hideIf: formData => formData.claimantType !== CLAIMANT_TYPES.VETERAN,
       },
     },
   },
