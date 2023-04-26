@@ -21,6 +21,7 @@ import Wrapper from '../../layout/Wrapper';
 import BackButton from '../../BackButton';
 import AppointmentAction from '../../AppointmentDisplay/AppointmentAction';
 import AppointmentMessage from '../../AppointmentDisplay/AppointmentMessage';
+import AddressBlock from '../../AddressBlock';
 
 const AppointmentDetails = props => {
   const { router } = props;
@@ -133,8 +134,17 @@ const AppointmentDetails = props => {
                   {isPhoneAppointment ? t('clinic') : t('where-to-attend')}
                 </h2>
                 {!isPhoneAppointment && (
-                  <div data-testid="appointment-details--facility-value">
+                  <div
+                    className="vads-u-margin-bottom--2"
+                    data-testid="appointment-details--facility-value"
+                  >
                     {appointment.facility}
+                    <br />
+                    <AddressBlock
+                      address={appointment.facilityAddress}
+                      placeName={appointment.facility}
+                      showDirections
+                    />
                   </div>
                 )}
                 <div data-testid="appointment-details--clinic-value">
