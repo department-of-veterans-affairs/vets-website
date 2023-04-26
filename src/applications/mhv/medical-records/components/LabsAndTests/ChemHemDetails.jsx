@@ -136,10 +136,7 @@ const ChemHemDetails = props => {
   };
 
   return (
-    <div
-      className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5"
-      id="condition-details"
-    >
+    <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       {content()}
     </div>
   );

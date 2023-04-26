@@ -1,6 +1,5 @@
 // platform imports
 import environment from 'platform/utilities/environment';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -13,6 +12,7 @@ import FormFooter from '../components/FormFooter';
 import GetHelp from '../components/GetHelp';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
 import { DowntimeWarning } from '../components/FormAlerts';
+import PreSubmitNotice from '../components/PreSubmitNotice';
 import IntroductionPage from '../containers/IntroductionPage';
 import {
   prefillTransformer,
@@ -121,7 +121,11 @@ const formConfig = {
   submissionError: SubmissionErrorAlert,
   title: 'Apply for VA health care',
   subTitle: 'Form 10-10EZ',
-  preSubmitInfo,
+  preSubmitInfo: {
+    required: true,
+    field: 'privacyAgreementAccepted',
+    CustomComponent: PreSubmitNotice,
+  },
   footerContent: FormFooter,
   getHelp: GetHelp,
   defaultDefinitions: {

@@ -580,6 +580,66 @@ describe('<ReviewCollapsibleChapter>', () => {
     wrapper.unmount();
   });
 
+  it('should show dynamic chapter title', () => {
+    const testChapterTitle = 'test chapter title';
+    const testChapterTitleFromFunction = `${testChapterTitle} [from function]`;
+
+    const onEdit = sinon.spy();
+    const pages = [
+      {
+        pageKey: 'test',
+        title: testChapterTitleFromFunction,
+        updateFormData: (oldData, newData) => ({ ...newData, bar: 'baz' }),
+      },
+    ];
+    const chapterKey = 'test';
+    const chapter = {
+      title: ({ formData, formConfig, onReviewPage }) => {
+        if (formData && formConfig && onReviewPage) {
+          return testChapterTitleFromFunction;
+        }
+
+        return testChapterTitle;
+      },
+    };
+    const form = {
+      pages: {
+        test: {
+          title: testChapterTitleFromFunction,
+          schema: {
+            type: 'object',
+            properties: {
+              foo: { type: 'string' },
+            },
+          },
+          uiSchema: {},
+          editMode: false,
+        },
+      },
+      data: {},
+    };
+    const setPagesViewed = sinon.spy();
+
+    const wrapper = mount(
+      <ReviewCollapsibleChapter
+        setPagesViewed={setPagesViewed}
+        viewedPages={new Set()}
+        onEdit={onEdit}
+        open
+        expandedPages={pages}
+        chapterKey={chapterKey}
+        chapterFormConfig={chapter}
+        form={form}
+      />,
+    );
+
+    expect(wrapper.find('h3.accordion-header').text()).to.equal(
+      testChapterTitleFromFunction,
+    );
+
+    wrapper.unmount();
+  });
+
   it('does not display page if all fields are hidden on review', () => {
     const pages = [
       {
