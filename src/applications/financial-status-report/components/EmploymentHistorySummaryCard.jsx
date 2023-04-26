@@ -118,11 +118,10 @@ const EmploymentHistorySummaryCard = ({
       PropTypes.number,
     ]),
   };
+  const emptyPrompt = `Select the ‘add additional job link to add another job. Select the continue button to move on to the next question.`;
 
   return (
-    (!job && (
-      <EmptyMiniSummaryCard content="No employment history provided" />
-    )) || (
+    (!job && <EmptyMiniSummaryCard content={emptyPrompt} />) || (
       <MiniSummaryCard
         editDestination={handleClick(index)}
         heading={employmentCardHeading}

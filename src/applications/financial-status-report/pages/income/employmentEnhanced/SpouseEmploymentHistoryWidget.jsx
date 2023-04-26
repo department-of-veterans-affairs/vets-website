@@ -33,6 +33,7 @@ const SpouseEmploymentHistoryWidget = props => {
     />
   );
   const updateButton = <button type="submit">Review update button</button>;
+  const emptyPrompt = `Select the ‘add additional job link to add another job. Select the continue button to move on to the next question.`;
 
   return (
     <form>
@@ -41,7 +42,7 @@ const SpouseEmploymentHistoryWidget = props => {
       </legend>
       <div className="vads-u-margin-top--3" data-testid="debt-list">
         {employmentHistory.length === 0 ? (
-          <EmptyMiniSummaryCard content="No employment history provided" />
+          <EmptyMiniSummaryCard content={emptyPrompt} />
         ) : (
           employmentHistory.map((job, index) => (
             <EmploymentHistorySummaryCard
