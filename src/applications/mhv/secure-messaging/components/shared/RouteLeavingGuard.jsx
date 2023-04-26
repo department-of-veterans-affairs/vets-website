@@ -12,6 +12,8 @@ export const RouteLeavingGuard = ({
   p2,
   confirmButtonText,
   cancelButtonText,
+  attachments,
+  saveDraftHandler,
 }) => {
   const [modalVisible, updateModalVisible] = useState(false);
   const [lastLocation, updateLastLocation] = useState();
@@ -30,6 +32,8 @@ export const RouteLeavingGuard = ({
   };
 
   const handleBlockedNavigation = nextLocation => {
+    saveDraftHandler('manual');
+
     if (!confirmedNavigation && shouldBlockNavigation(nextLocation)) {
       showModal(nextLocation);
       return false;
@@ -54,32 +58,43 @@ export const RouteLeavingGuard = ({
     [confirmedNavigation],
   );
 
+  const handleRenderModal = () => {
+    if (attachments.length === 0) {
+      return (
+        <VaModal
+          modalTitle={title}
+          onPrimaryButtonClick={closeModal}
+          onSecondaryButtonClick={handleConfirmNavigationClick}
+          onCloseEvent={closeModal}
+          primaryButtonText={confirmButtonText}
+          secondaryButtonText={cancelButtonText}
+          status="warning"
+          visible={modalVisible}
+        >
+          <p>{p1}</p>
+          {p2 && <p>{p2}</p>}
+        </VaModal>
+      );
+    }
+    return null;
+  };
+
   return (
     <>
       <Prompt when={when} message={handleBlockedNavigation} />
-      <VaModal
-        modalTitle={title}
-        onPrimaryButtonClick={closeModal}
-        onSecondaryButtonClick={handleConfirmNavigationClick}
-        onCloseEvent={closeModal}
-        primaryButtonText={confirmButtonText}
-        secondaryButtonText={cancelButtonText}
-        status="warning"
-        visible={modalVisible}
-      >
-        <p>{p1}</p>
-        {p2 && <p>{p2}</p>}
-      </VaModal>
+      {handleRenderModal}
     </>
   );
 };
 
 RouteLeavingGuard.propTypes = {
+  attachments: PropTypes.array,
   cancelButtonText: PropTypes.string,
   confirmButtonText: PropTypes.string,
   navigate: PropTypes.func,
   p1: PropTypes.string,
   p2: PropTypes.any,
+  saveDraftHandler: PropTypes.func,
   shouldBlockNavigation: PropTypes.func,
   title: PropTypes.string,
   when: PropTypes.bool,

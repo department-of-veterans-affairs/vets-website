@@ -230,8 +230,13 @@ const ComposeForm = props => {
       }
       if (attachments.length) {
         setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT);
-        setNavigationError(null);
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+          confirmButtonText: 'Continue editing',
+          cancelButtonText: 'Delete draft',
+        });
       }
+      setNavigationError(null);
     }
 
     const draftId = draft && draft.messageId;
@@ -348,6 +353,10 @@ const ComposeForm = props => {
         p2={navigationError?.p2}
         confirmButtonText={navigationError?.confirmButtonText}
         cancelButtonText={navigationError?.cancelButtonText}
+        attachments={attachments}
+        setSaveError={setSaveError}
+        saveError={saveError}
+        saveDraftHandler={saveDraftHandler}
       />
       <div className="compose-form-header" data-testid="compose-form-header">
         <h3>{setMessageTitle()}</h3>
