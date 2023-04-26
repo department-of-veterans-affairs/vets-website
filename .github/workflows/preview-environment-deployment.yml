@@ -22,10 +22,7 @@ jobs:
         if: ${{ github.event_name == 'repository_dispatch' }}
         run: |
           echo "SOURCE_REF=${{ github.event.client_payload.source_ref }}" >> $GITHUB_ENV
-          echo "API_BRANCH=${{ github.event.client_payload.api_branch }} >> $GITHUB_ENV"
-
-      - name: Log env variable
-        run: echo ${{ env.source_ref }}
+          echo "API_BRANCH=${{ github.event.client_payload.api_branch }}" >> $GITHUB_ENV
 
       - name: Checkout
         uses: actions/checkout@v3
