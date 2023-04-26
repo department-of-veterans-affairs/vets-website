@@ -34,6 +34,7 @@ export default {
         ],
         [providerFacilityFields.providerFacilityName]: {
           'ui:title': 'Name of private provider or hospital',
+          'ui:required': () => true,
         },
         [providerFacilityFields.providerFacilityAddress]: address.uiSchema(
           null,
@@ -58,6 +59,7 @@ export default {
       [providerFacilityFields.parentObject]: {
         type: 'array',
         minItems: 1,
+        maxItems: 5,
         items: {
           ...fullSchema.properties[providerFacilityFields.parentObject].items,
           properties: {
