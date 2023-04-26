@@ -9,8 +9,10 @@ import claimOwnership from '../pages/claimOwnership';
 import claimantType from '../pages/claimantType';
 import witnessPersInfo from '../pages/witnessPersInfo';
 import witnessContInfo from '../pages/witnessContInfo';
-import claimantInformation1 from '../pages/claimantInformation1';
-import claimantInformation2 from '../pages/claimantInformation2';
+import claimantPersInfo from '../pages/claimantPersInfo';
+import claimantIdInfo from '../pages/claimantIdInfo';
+import claimantAddrInfo from '../pages/claimantAddrInfo';
+import claimantContInfo from '../pages/claimantContInfo';
 import vetPersInfo from '../pages/vetPersInfo';
 import vetIdInfo from '../pages/vetIdInfo';
 import vetAddrInfo from '../pages/vetAddrInfo';
@@ -120,29 +122,67 @@ const formConfig = {
         },
       },
     },
-    claimantInformation: {
+    claimantPersonalInfoChapter: {
       // for Flow 4: 3rd-party claim & non-vet claimant
-      title: 'Claimant Information',
+      title: 'Claimant’s personal information',
       pages: {
-        claimantInformation1: {
+        claimantPersInfoPage: {
           path: 'claimant-personal-information',
           title: 'Your personal information',
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
-          uiSchema: claimantInformation1.uiSchema,
-          schema: claimantInformation1.schema,
+          uiSchema: claimantPersInfo.uiSchema,
+          schema: claimantPersInfo.schema,
         },
-        claimantInformation2: {
-          path: 'claimant-contact-information',
-          title: 'Your contact information',
+      },
+    },
+    claimantIdInfoChapter: {
+      // for Flow 4: 3rd-party claim & non-vet claimant
+      title: 'Claimant’s identification information',
+      pages: {
+        claimantIdInfoPage: {
+          path: 'claimant-identification-information',
+          title: 'Claimant’s identification information',
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
-          uiSchema: claimantInformation2.uiSchema,
-          schema: claimantInformation2.schema,
+          uiSchema: claimantIdInfo.uiSchema,
+          schema: claimantIdInfo.schema,
+        },
+      },
+    },
+    claimantAddrInfoChapter: {
+      // for Flow 4: 3rd-party claim & non-vet claimant
+      title: 'Claimant’s mailing address',
+      pages: {
+        claimantAddrInfoPage: {
+          path: 'claimant-address-information',
+          title: 'Claimant’s mailing address',
+          depends: {
+            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+            claimantType: CLAIMANT_TYPES.NON_VETERAN,
+          },
+          uiSchema: claimantAddrInfo.uiSchema,
+          schema: claimantAddrInfo.schema,
+        },
+      },
+    },
+    claimantContactInfoChapter: {
+      // for Flow 4: 3rd-party claim & non-vet claimant
+      title: 'Claimant’s contact information',
+      pages: {
+        claimantContInfoPage: {
+          path: 'claimant-contact-information',
+          title: 'Claimant’s contact information',
+          depends: {
+            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+            claimantType: CLAIMANT_TYPES.NON_VETERAN,
+          },
+          uiSchema: claimantContInfo.uiSchema,
+          schema: claimantContInfo.schema,
         },
       },
     },
