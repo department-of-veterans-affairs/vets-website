@@ -137,13 +137,18 @@ export const markMessageAsRead = messageId => async () => {
  * @param {Long} messageId
  * @returns
  */
-export const markMessageAsReadInThread = messageId => async dispatch => {
+export const markMessageAsReadInThread = (
+  messageId,
+  isDraftThread,
+) => async dispatch => {
   const response = await getMessage(messageId);
   if (response.errors) {
     // TODO Add error handling
   } else {
     dispatch({
-      type: Actions.Message.GET_IN_THREAD,
+      type: isDraftThread
+        ? Actions.Draft.GET_IN_THREAD
+        : Actions.Message.GET_IN_THREAD,
       response,
     });
   }
