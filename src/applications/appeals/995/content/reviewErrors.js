@@ -4,11 +4,19 @@
  */
 const reviewErrors = {
   _override: err => {
-    if (
-      typeof err === 'string' &&
-      (err?.startsWith('locations[') || err?.startsWith('providerFacility['))
-    ) {
-      return { chapterKey: 'evidence', pageKey: 'evidenceSummary' };
+    if (typeof err === 'string') {
+      if (
+        err?.startsWith('locations[') ||
+        err?.startsWith('providerFacility[')
+      ) {
+        return { chapterKey: 'evidence', pageKey: 'evidenceSummary' };
+      }
+      if (err.startsWith('veteran')) {
+        return {
+          chapterKey: 'infoPages',
+          pageKey: 'confirmContactInformation',
+        };
+      }
     }
     return null;
   },
