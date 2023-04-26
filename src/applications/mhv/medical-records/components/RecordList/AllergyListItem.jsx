@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { dateFormat } from '../../util/helpers';
 
-const ConditionListItem = props => {
+const AllergyListItem = props => {
   const { record } = props;
   const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
 
@@ -17,7 +17,7 @@ const ConditionListItem = props => {
           <h4>{record.name}</h4>
           <p className="vads-u-margin--0">Date entered: {formattedDate}</p>
           <Link
-            to={`/health-history/condition-details/${record.id}`}
+            to={`/health-history/allergies/${record.id}`}
             className="vads-u-margin--0 no-print"
           >
             <strong>Details</strong>
@@ -35,8 +35,8 @@ const ConditionListItem = props => {
   return content();
 };
 
-export default ConditionListItem;
+export default AllergyListItem;
 
-ConditionListItem.propTypes = {
+AllergyListItem.propTypes = {
   record: PropTypes.object,
 };

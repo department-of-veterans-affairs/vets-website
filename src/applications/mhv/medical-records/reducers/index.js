@@ -6,9 +6,11 @@ import { labsAndTestsReducer } from './labsAndTests';
 import { careSummariesAndNotesReducer } from './careSummariesAndNotes';
 import { vaccineReducer } from './vaccines';
 import { vitalReducer } from './vitals';
+import { allergyReducer } from './allergies';
 
 const rootReducer = {
   mr: combineReducers({
+    allergies: allergyReducer,
     breadcrumbs: breadcrumbsReducer,
     labsAndTests: labsAndTestsReducer,
     careSummariesAndNotes: careSummariesAndNotesReducer,
