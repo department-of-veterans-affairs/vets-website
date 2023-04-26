@@ -66,7 +66,10 @@ const formConfig = {
         claimOwnershipPage: {
           path: 'claim-ownership',
           title: 'Who is submitting this statement?',
-          initialData: environment.isLocalhost() ? mockData : {},
+          initialData:
+            environment.isLocalhost() || location.host.includes('.review.')
+              ? mockData
+              : undefined,
           uiSchema: claimOwnership.uiSchema,
           schema: claimOwnership.schema,
         },
