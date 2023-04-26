@@ -98,6 +98,7 @@ const InstallmentContractSummary = ({
               onDelete={() => onDelete(index)}
               showDelete
               body={billBody(bill)}
+              index={index}
             />
           ))
         )}

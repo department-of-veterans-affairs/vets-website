@@ -102,14 +102,14 @@ export default function RequestAppointmentLayout({ appointment }) {
                 size="1"
                 aria-label={detailAriaLabel}
               >
-                <va-link
+                <a
                   className="vaos-appts__focus--hide-outline"
                   aria-describedby={`vaos-appts__detail-${appointment.id}`}
                   href={link}
                   onClick={e => e.preventDefault()}
-                  text="Details"
-                  role="link"
-                />
+                >
+                  Details
+                </a>
               </AppointmentColumn>
             </AppointmentRow>
           </AppointmentColumn>{' '}

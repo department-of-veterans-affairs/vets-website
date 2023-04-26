@@ -7,6 +7,8 @@ import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUser from './fixtures/mocks/user.json';
 
+import { CONTESTABLE_ISSUES_API } from '../constants';
+
 describe('Notice of Disagreement keyboard only navigation', () => {
   before(() => {
     cy.fixture(path.join(__dirname, 'fixtures/data/minimal-test.json')).as(
@@ -21,7 +23,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
   it('navigates through a maximal form', () => {
     cy.get('@testData').then(({ data }) => {
       const { chapters } = formConfig;
-      cy.intercept('GET', 'v0/notice_of_disagreements/contestable_issues', {
+      cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {
         data: fixDecisionDates(data.contestableIssues),
       });
       cy.visit(

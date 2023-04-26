@@ -69,12 +69,10 @@ export default function AppointmentColumnLayout({
               'small-screen:vads-u-padding-top--0',
               'medium-screen:vaos-appts__minWidth',
               'medium-screen:vaos-appts__maxWidth',
-              'medium-screen:vads-u-margin-top--neg1px',
             )}
           >
             <h3
               className={classNames(
-                'vads-u-display--inline-block',
                 'vads-u-text-align--center',
                 'vads-u-margin-top--0',
                 'vads-u-margin-bottom--0',

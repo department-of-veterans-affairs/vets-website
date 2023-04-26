@@ -91,6 +91,7 @@ const CreditCardBillSummary = ({
               onDelete={() => onDelete(index)}
               showDelete
               body={billBody(bill)}
+              index={index}
             />
           ))
         )}
