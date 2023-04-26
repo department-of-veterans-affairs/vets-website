@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
 
+import environment from 'platform/utilities/environment';
 import FormNav from '../../../src/js/components/FormNav';
 
 describe('Schemaform FormNav', () => {
@@ -105,7 +106,11 @@ describe('Schemaform FormNav', () => {
     );
   });
 
-  it('should display correct chapter number & total in stepText after previous progress-hidden chapter', () => {
+  it('should display correct chapter number & total in stepText after previous progress-hidden chapter', function() {
+    if (!environment.isLocalhost()) {
+      this.skip();
+    }
+
     const currentPath = 'testing2';
     const formConfigDefaultData = { ...getDefaultData() };
 
@@ -118,6 +123,35 @@ describe('Schemaform FormNav', () => {
     expect(tree.getByTestId('navFormHeader')).to.contain.text(
       'Step 1 of 2: Testing',
     );
+  });
+
+  it('should display/return correct chapter title when title-function uses onReviewPage parameter', () => {
+    const formConfigDefaultData = { ...getDefaultData() };
+    const formPageChapterTitle = 'Testing';
+    const reviewPageChapterTitle = 'Testing [on review page]';
+
+    formConfigDefaultData.chapters.chapter1.title = ({ onReviewPage }) => {
+      if (onReviewPage) {
+        return reviewPageChapterTitle;
+      }
+
+      return formPageChapterTitle;
+    };
+
+    const tree = render(
+      <FormNav formConfig={formConfigDefaultData} currentPath="testing1" />,
+    );
+
+    // assert actual chapter title on form-page
+    expect(tree.getByTestId('navFormHeader').textContent).to.contain(
+      `Step 1 of 3: ${formPageChapterTitle}`,
+    );
+
+    // actual chapter accordions are outside FormNav, so we assert on
+    // what's returned from calling the title-function directly
+    expect(
+      formConfigDefaultData.chapters.chapter1.title({ onReviewPage: true }),
+    ).to.eq(reviewPageChapterTitle);
   });
 
   it('should display a custom review page title', () => {

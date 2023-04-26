@@ -6,26 +6,24 @@ import { ContactInfoDescription } from '../../components/ContactInformation';
 
 const getData = ({
   email = true,
-  mobile = true,
+  phone = true,
   address = true,
   submitted = false,
   homeless = false,
 } = {}) => {
-  const data = {};
+  const veteran = {};
   if (email) {
-    data.email = {
-      emailAddress: 'someone@famous.com',
-    };
+    veteran.email = 'someone@famous.com';
   }
-  if (mobile) {
-    data.mobilePhone = {
+  if (phone) {
+    veteran.phone = {
       areaCode: '555',
       phoneNumber: '8001212',
       extension: '1234',
     };
   }
   if (address) {
-    data.mailingAddress = {
+    veteran.address = {
       addressType: 'DOMESTIC',
       countryName: 'United States',
       countryCodeIso3: 'USA',
@@ -39,7 +37,7 @@ const getData = ({
   }
   return {
     formContext: { submitted },
-    profile: { vapContactInfo: data },
+    formData: { veteran },
     homeless,
   };
 };
@@ -60,7 +58,7 @@ describe('Contact information review content', () => {
   });
 
   it('should render note about missing phone', () => {
-    const data = getData({ mobile: false });
+    const data = getData({ phone: false });
     const tree = shallow(<ContactInfoDescription {...data} />);
     const text = tree.find('va-alert').text();
 
@@ -68,7 +66,7 @@ describe('Contact information review content', () => {
     tree.unmount();
   });
   it('should render note about missing email & phone', () => {
-    const data = getData({ mobile: false, email: false });
+    const data = getData({ phone: false, email: false });
     const tree = shallow(<ContactInfoDescription {...data} />);
     const text = tree.find('va-alert').text();
 
@@ -76,7 +74,7 @@ describe('Contact information review content', () => {
     tree.unmount();
   });
   it('should render note about missing email, phone & address', () => {
-    const data = getData({ mobile: false, email: false, address: false });
+    const data = getData({ phone: false, email: false, address: false });
     const tree = shallow(<ContactInfoDescription {...data} />);
     const text = tree.find('va-alert').text();
 
