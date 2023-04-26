@@ -494,12 +494,13 @@ describe('Disability benefits helpers: ', () => {
   describe('getStatusContents', () => {
     it('returns an object with correct title & description', () => {
       const expectedTitle = 'The Board made a decision on your appeal';
-      const expectedDescSnippet =
-        'The judge granted the following issue:Reasonableness of attorney fees';
+      const expectedDescSnippet = 'Reasonableness of attorney fees';
       const contents = getStatusContents(mockData.data[6]);
       expect(contents.title).to.equal(expectedTitle);
+
       const descText = shallow(contents.description);
-      expect(descText.render().text()).to.contain(expectedDescSnippet);
+      const decision = descText.find('Decision');
+      expect(decision.dive().text()).to.contain(expectedDescSnippet);
       descText.unmount();
     });
 
