@@ -22,4 +22,8 @@ export const Actions = {
     GET: 'MR_CONDITION_GET',
     GET_LIST: 'MR_CONDITION_GET_LIST',
   },
+  Allergies: {
+    GET: 'MR_ALLERGY_GET',
+    GET_LIST: 'MR_ALLERGIES_GET_LIST,',
+  },
 };
