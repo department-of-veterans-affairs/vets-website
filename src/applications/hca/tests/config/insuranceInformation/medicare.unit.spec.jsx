@@ -11,21 +11,22 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('Hca medicare', () => {
+describe('hca Medicare config', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.insuranceInformation.pages.medicare;
+  const definitions = formConfig.defaultDefinitions;
+
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
-
     expect(formDOM.querySelectorAll('input').length).to.equal(2);
   });
 
@@ -34,14 +35,13 @@ describe('Hca medicare', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
 
     const formDOM = findDOMNode(form);
-
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
@@ -53,16 +53,14 @@ describe('Hca medicare', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-
     const formDOM = findDOMNode(form);
 
     simulateInputChange(formDOM, '#root_isEnrolledMedicarePartANo', 'N');
-
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);

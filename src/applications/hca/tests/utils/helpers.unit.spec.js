@@ -10,7 +10,7 @@ import {
 } from '../../utils/helpers';
 import { HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
 
-describe('HCA helpers', () => {
+describe('hca helpers', () => {
   // NOTE: for household v1 only -- remove when v2 is fully-adopted
   describe('expensesLessThanIncome', () => {
     it('should return true if expenses less than income', () => {

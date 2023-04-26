@@ -11,21 +11,22 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('Hca general insurance', () => {
+describe('hca GeneralInsurance config', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.insuranceInformation.pages.general;
+  const definitions = formConfig.defaultDefinitions;
+
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
-
     expect(formDOM.querySelectorAll('input').length).to.equal(2);
   });
 
@@ -34,14 +35,13 @@ describe('Hca general insurance', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
 
     const formDOM = findDOMNode(form);
-
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
@@ -53,18 +53,15 @@ describe('Hca general insurance', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-
     const formDOM = findDOMNode(form);
-
     expect(formDOM.querySelectorAll('input, select').length).to.equal(2);
 
     simulateInputChange(formDOM, '#root_isCoveredByHealthInsuranceYes', 'Y');
-
     expect(formDOM.querySelectorAll('input, select').length).to.equal(6);
 
     submitForm(form);
@@ -78,7 +75,7 @@ describe('Hca general insurance', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
@@ -87,19 +84,16 @@ describe('Hca general insurance', () => {
     const formDOM = findDOMNode(form);
 
     simulateInputChange(formDOM, '#root_isCoveredByHealthInsuranceYes', 'Y');
-
     simulateInputChange(
       formDOM,
       '#root_providers_0_insuranceName',
       'Insurer name',
     );
-
     simulateInputChange(
       formDOM,
       '#root_providers_0_insurancePolicyHolderName',
       'Testing',
     );
-
     simulateInputChange(
       formDOM,
       '#root_providers_0_insurancePolicyNumber',
@@ -117,12 +111,13 @@ describe('Hca general insurance', () => {
       formDOM.querySelector('.va-growable-background').textContent,
     ).to.contain('Insurer name');
   });
+
   it('should require one of policy number or group code', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
@@ -131,25 +126,23 @@ describe('Hca general insurance', () => {
     const formDOM = findDOMNode(form);
 
     simulateInputChange(formDOM, '#root_isCoveredByHealthInsuranceYes', 'Y');
-
     simulateInputChange(
       formDOM,
       '#root_providers_0_insuranceName',
       'Insurer name',
     );
-
     simulateInputChange(
       formDOM,
       '#root_providers_0_insurancePolicyHolderName',
       'Testing',
     );
-
     submitForm(form);
+
     expect(onSubmit.called).to.be.false;
 
     simulateInputChange(formDOM, '#root_providers_0_insuranceGroupCode', '123');
-
     submitForm(form);
+
     expect(onSubmit.called).to.be.true;
   });
 });

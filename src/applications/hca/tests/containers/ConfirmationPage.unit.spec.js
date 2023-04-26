@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
-describe('HCA ConfirmationPage', () => {
+describe('hca ConfirmationPage', () => {
   const initState = {
     form: {
       submission: false,

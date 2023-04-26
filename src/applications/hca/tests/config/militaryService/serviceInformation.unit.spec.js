@@ -1,167 +1,166 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
-import moment from 'moment';
+import ReactTestUtils from 'react-dom/test-utils';
 
 import {
   DefinitionTester,
-  fillData,
-  fillDate,
+  submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../config/form';
+import { simulateInputChange } from '../../helpers';
 
-describe('Hca military service information', () => {
+describe('hca MilitaryServiceInformation config', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.militaryService.pages.serviceInformation;
+  const definitions = formConfig.defaultDefinitions;
 
-  it('renders military info', () => {
-    const form = mount(
+  it('should render', () => {
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         schema={schema}
-        data={{}}
-        formData={{}}
         uiSchema={uiSchema}
       />,
     );
-
-    expect(form.find('input').length).to.equal(2);
-    expect(form.find('select').length).to.equal(6);
-    form.unmount();
+    const formDOM = findDOMNode(form);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(8);
   });
 
-  it('does not submit without info', () => {
+  it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         schema={schema}
-        data={{}}
-        formData={{}}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
+    const formDOM = findDOMNode(form);
+    submitForm(form);
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
-
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
-    form.unmount();
   });
 
-  it('submits with required info', () => {
+  it('should submit with valid data', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         schema={schema}
-        data={{}}
-        formData={{}}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    fillData(form, 'select#root_lastServiceBranch', 'army');
-    fillDate(form, 'root_lastEntryDate', '1990-1-1');
-    fillDate(
-      form,
-      'root_lastDischargeDate',
-      moment()
-        .add(130, 'days')
-        .format('YYYY-MM-DD'),
-    );
-    fillData(form, 'select#root_dischargeType', 'general');
+    const formDOM = findDOMNode(form);
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
+    simulateInputChange(formDOM, '#root_lastServiceBranch', 'army');
+    simulateInputChange(formDOM, '#root_lastEntryDateMonth', '1');
+    simulateInputChange(formDOM, '#root_lastEntryDateDay', '1');
+    simulateInputChange(formDOM, '#root_lastEntryDateYear', '1990');
+    simulateInputChange(formDOM, '#root_lastDischargeDateMonth', '1');
+    simulateInputChange(formDOM, '#root_lastDischargeDateDay', '1');
+    simulateInputChange(formDOM, '#root_lastDischargeDateYear', '2011');
+    simulateInputChange(formDOM, '#root_dischargeType', 'general');
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
-    form.unmount();
   });
 
-  it('shows discharge type with lastDischargeDate is in the present or past', () => {
+  it('should not submit when service start date is greater than service end date', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         schema={schema}
-        data={{}}
-        formData={{}}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    fillData(form, 'select#root_lastServiceBranch', 'army');
-    fillDate(form, 'root_lastEntryDate', '1990-1-1');
-    fillDate(form, 'root_lastDischargeDate', '2011-1-1');
-    expect(form.find('select').length).to.equal(6);
+    const formDOM = findDOMNode(form);
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
+    simulateInputChange(formDOM, '#root_lastServiceBranch', 'army');
+    simulateInputChange(formDOM, '#root_lastEntryDateMonth', '5');
+    simulateInputChange(formDOM, '#root_lastEntryDateDay', '1');
+    simulateInputChange(formDOM, '#root_lastEntryDateYear', '1990');
+    simulateInputChange(formDOM, '#root_lastDischargeDateMonth', '1');
+    simulateInputChange(formDOM, '#root_lastDischargeDateDay', '1');
+    simulateInputChange(formDOM, '#root_lastDischargeDateYear', '1990');
+    simulateInputChange(formDOM, '#root_dischargeType', 'general');
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
-    fillData(form, 'select#root_dischargeType', 'honorable');
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
   });
 
-  it('Does not submit when service start date is greater than or equal to the service end date', () => {
+  it('should not submit when service start date is equal to service end date', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         schema={schema}
-        data={{}}
-        formData={{}}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-    fillData(form, 'select#root_lastServiceBranch', 'army');
-    fillDate(form, 'root_lastEntryDate', '1990-1-2');
-    fillDate(form, 'root_lastDischargeDate', '1990-1-1');
-    fillData(form, 'select#root_dischargeType', 'honorable');
+    const formDOM = findDOMNode(form);
 
-    // check for start date > end date
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
+    simulateInputChange(formDOM, '#root_lastServiceBranch', 'army');
+    simulateInputChange(formDOM, '#root_lastEntryDateMonth', '1');
+    simulateInputChange(formDOM, '#root_lastEntryDateDay', '1');
+    simulateInputChange(formDOM, '#root_lastEntryDateYear', '1990');
+    simulateInputChange(formDOM, '#root_lastDischargeDateMonth', '1');
+    simulateInputChange(formDOM, '#root_lastDischargeDateDay', '1');
+    simulateInputChange(formDOM, '#root_lastDischargeDateYear', '1990');
+    simulateInputChange(formDOM, '#root_dischargeType', 'general');
+    submitForm(form);
 
-    // check for start date = end date
-    fillDate(form, 'root_lastEntryDate', '1990-1-2');
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    form.unmount();
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
   });
 
-  it('Does not submit when service end date is greater than one year from today', () => {
+  it('should not submit when service end date is greater than one year from today', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         schema={schema}
-        data={{}}
-        formData={{}}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
+    const formDOM = findDOMNode(form);
+    const today = new Date();
 
-    const nextYear = new Date();
-    nextYear.setFullYear(nextYear.getFullYear() + 1);
-    nextYear.setDate(nextYear.getDate() + 1); // plus one day
+    simulateInputChange(formDOM, '#root_lastServiceBranch', 'army');
+    simulateInputChange(formDOM, '#root_lastEntryDateMonth', '1');
+    simulateInputChange(formDOM, '#root_lastEntryDateDay', '1');
+    simulateInputChange(formDOM, '#root_lastEntryDateYear', '1990');
+    simulateInputChange(
+      formDOM,
+      '#root_lastDischargeDateMonth',
+      today.getMonth() + 1,
+    );
+    simulateInputChange(
+      formDOM,
+      '#root_lastDischargeDateDay',
+      today.getDate() + 1,
+    );
+    simulateInputChange(
+      formDOM,
+      '#root_lastDischargeDateYear',
+      today.getFullYear() + 1,
+    );
+    simulateInputChange(formDOM, '#root_dischargeType', 'general');
+    submitForm(form);
 
-    fillData(form, 'select#root_lastServiceBranch', 'army');
-    fillDate(form, 'root_lastEntryDate', '1990-1-2');
-    fillDate(form, 'root_lastDischargeDate', nextYear.toLocaleDateString());
-    fillData(form, 'select#root_dischargeType', 'honorable');
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
-
-    form.unmount();
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
   });
 });

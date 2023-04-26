@@ -11,19 +11,19 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('hca Medicaid config', () => {
+describe('hca VeteranBirthSex config', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.insuranceInformation.pages.medicaid;
+  } = formConfig.chapters.veteranInformation.pages.birthSex;
   const definitions = formConfig.defaultDefinitions;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={definitions}
         uiSchema={uiSchema}
+        definitions={definitions}
       />,
     );
     const formDOM = findDOMNode(form);
@@ -59,7 +59,7 @@ describe('hca Medicaid config', () => {
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(formDOM, '#root_isMedicaidEligibleYes', 'Y');
+    simulateInputChange(formDOM, '#root_gender_0', 'F');
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);

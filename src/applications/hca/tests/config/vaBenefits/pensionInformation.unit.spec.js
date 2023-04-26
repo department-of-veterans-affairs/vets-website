@@ -11,19 +11,16 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('hca Medicaid config', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.insuranceInformation.pages.medicaid;
+describe('hca VaPension config', () => {
+  const { schema, uiSchema } = formConfig.chapters.vaBenefits.pages.vaPension;
   const definitions = formConfig.defaultDefinitions;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={definitions}
         uiSchema={uiSchema}
+        definitions={definitions}
       />,
     );
     const formDOM = findDOMNode(form);
@@ -55,11 +52,14 @@ describe('hca Medicaid config', () => {
         definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
+        data={{
+          vaCompensationType: 'none',
+        }}
       />,
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(formDOM, '#root_isMedicaidEligibleYes', 'Y');
+    simulateInputChange(formDOM, '#root_vaPensionType_0', 'Yes');
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);

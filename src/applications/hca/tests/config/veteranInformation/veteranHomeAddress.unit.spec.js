@@ -11,23 +11,23 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('hca Medicaid config', () => {
+describe('hca VeteranHomeAddress config', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.insuranceInformation.pages.medicaid;
+  } = formConfig.chapters.veteranInformation.pages.veteranHomeAddress;
   const definitions = formConfig.defaultDefinitions;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={definitions}
         uiSchema={uiSchema}
+        definitions={definitions}
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(7);
   });
 
   it('should not submit empty form', () => {
@@ -43,7 +43,7 @@ describe('hca Medicaid config', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -59,7 +59,22 @@ describe('hca Medicaid config', () => {
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(formDOM, '#root_isMedicaidEligibleYes', 'Y');
+    simulateInputChange(
+      formDOM,
+      '#root_veteranHomeAddress_street',
+      '123 Elm St',
+    );
+    simulateInputChange(
+      formDOM,
+      '#root_veteranHomeAddress_city',
+      'Northampton',
+    );
+    simulateInputChange(formDOM, '#root_veteranHomeAddress_state', 'MA');
+    simulateInputChange(
+      formDOM,
+      '#root_veteranHomeAddress_postalCode',
+      '01060',
+    );
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);

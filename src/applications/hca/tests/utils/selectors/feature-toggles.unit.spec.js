@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
-describe('HCA Selectors', () => {
+describe('hca FeatureToggles selector', () => {
   const state = {
     featureToggles: {
       /* eslint-disable camelcase */

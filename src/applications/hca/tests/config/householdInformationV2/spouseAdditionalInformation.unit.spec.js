@@ -11,23 +11,22 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('hca Medicaid config', () => {
+describe('hca SpouseAdditionalInformation config', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.insuranceInformation.pages.medicaid;
-  const definitions = formConfig.defaultDefinitions;
+  } = formConfig.chapters.householdInformationV2.pages.v2SpouseAdditionalInformation;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={definitions}
+        definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(4);
   });
 
   it('should not submit empty form', () => {
@@ -35,7 +34,7 @@ describe('hca Medicaid config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={definitions}
+        definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
@@ -52,14 +51,15 @@ describe('hca Medicaid config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={definitions}
+        definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(formDOM, '#root_isMedicaidEligibleYes', 'Y');
+    simulateInputChange(formDOM, '#root_sameAddressYes', 'Y');
+    simulateInputChange(formDOM, '#root_cohabitedLastYearNo', 'Y');
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);

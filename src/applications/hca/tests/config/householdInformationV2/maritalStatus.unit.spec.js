@@ -1,8 +1,8 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
+import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
 
 import {
   DefinitionTester,
@@ -11,20 +11,21 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('Hca VA benefits', () => {
-  const { schema, uiSchema } = formConfig.chapters.vaBenefits.pages.vaBenefits;
+describe('hca MaritalStatus config', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.householdInformationV2.pages.v2MaritalStatus;
   const definitions = formConfig.defaultDefinitions;
+
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={definitions}
-      />,
+      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(3);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(1);
+    expect(formDOM.querySelector('#root_maritalStatus')).not.to.be.null;
   });
 
   it('should not submit empty form', () => {
@@ -58,9 +59,9 @@ describe('Hca VA benefits', () => {
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(formDOM, '#root_vaCompensationType_0', 'lowDisability');
-
+    simulateInputChange(formDOM, '#root_maritalStatus', 'Married');
     submitForm(form);
+
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });

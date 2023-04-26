@@ -9,23 +9,30 @@ import {
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../config/form';
+import { simulateInputChange } from '../../helpers';
 
-describe('Hca VA facility with Lighthouse API list', () => {
+describe('hca VaFacilityLighthouse config', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.insuranceInformation.pages.vaFacilityJson;
+  const definitions = formConfig.defaultDefinitions;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} definitions={{}} />,
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={definitions}
+      />,
     );
     const formDOM = findDOMNode(form);
-
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(5);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(5);
     // with no state selected, the facilities list should include only a blank placeholder
     expect(
-      formDOM.querySelectorAll('select')[1].querySelectorAll('option').length,
+      formDOM
+        .querySelector('#root_view\\3A preferredFacility_vaMedicalFacility')
+        .querySelectorAll('option').length,
     ).to.equal(1);
   });
 
@@ -35,15 +42,43 @@ describe('Hca VA facility with Lighthouse API list', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        definitions={{}}
+        definitions={definitions}
+        onSubmit={onSubmit}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('should submit with valid data', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={definitions}
         onSubmit={onSubmit}
       />,
     );
     const formDOM = findDOMNode(form);
 
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A preferredFacility_view\\3A facilityState',
+      'MA',
+    );
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A preferredFacility_vaMedicalFacility',
+      '631',
+    );
     submitForm(form);
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
-    expect(onSubmit.called).to.be.false;
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 
   it('should set facilities list based on state selection', () => {
@@ -52,49 +87,22 @@ describe('Hca VA facility with Lighthouse API list', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        definitions={{}}
+        definitions={definitions}
         onSubmit={onSubmit}
       />,
     );
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelectorAll('select')[0], {
-      target: {
-        value: 'MA',
-      },
-    });
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A preferredFacility_view\\3A facilityState',
+      'MA',
+    );
 
     expect(
-      formDOM.querySelectorAll('select')[1].querySelectorAll('option').length,
+      formDOM
+        .querySelector('#root_view\\3A preferredFacility_vaMedicalFacility')
+        .querySelectorAll('option').length,
     ).to.be.greaterThan(1);
-  });
-
-  it('should submit with valid required data', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-    const formDOM = findDOMNode(form);
-
-    ReactTestUtils.Simulate.change(formDOM.querySelectorAll('select')[0], {
-      target: {
-        value: 'MA',
-      },
-    });
-
-    ReactTestUtils.Simulate.change(formDOM.querySelectorAll('select')[1], {
-      target: {
-        value: '631',
-      },
-    });
-
-    submitForm(form);
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
   });
 });

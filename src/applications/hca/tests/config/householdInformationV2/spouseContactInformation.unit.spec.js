@@ -11,23 +11,22 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('hca Medicaid config', () => {
+describe('hca SpouseContactInformation config', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.insuranceInformation.pages.medicaid;
-  const definitions = formConfig.defaultDefinitions;
+  } = formConfig.chapters.householdInformationV2.pages.v2SpouseContactInformation;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={definitions}
+        definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(8);
   });
 
   it('should not submit empty form', () => {
@@ -35,7 +34,7 @@ describe('hca Medicaid config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={definitions}
+        definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
@@ -43,7 +42,7 @@ describe('hca Medicaid config', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -52,14 +51,23 @@ describe('hca Medicaid config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={definitions}
+        definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(formDOM, '#root_isMedicaidEligibleYes', 'Y');
+    simulateInputChange(formDOM, '#root_spouseAddress_country', 'USA');
+    simulateInputChange(
+      formDOM,
+      '#root_spouseAddress_street',
+      '200 Main Street',
+    );
+    simulateInputChange(formDOM, '#root_spouseAddress_city', 'Madison');
+    simulateInputChange(formDOM, '#root_spouseAddress_state', 'NY');
+    simulateInputChange(formDOM, '#root_spouseAddress_postalCode', '27981');
+    simulateInputChange(formDOM, '#root_spousePhone', '3424445555');
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);

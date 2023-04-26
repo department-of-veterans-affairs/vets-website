@@ -9,7 +9,6 @@ export default {
     type: 'object',
     properties: {
       [DEPENDENT_VIEW_FIELDS.report]: { type: 'boolean' },
-      [DEPENDENT_VIEW_FIELDS.list]: { type: 'string', default: '[]' },
       dependents: {
         ...dependents,
         default: [],

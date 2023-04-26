@@ -11,23 +11,22 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('hca Medicaid config', () => {
+describe('hca SpouseBasicInformation config', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.insuranceInformation.pages.medicaid;
-  const definitions = formConfig.defaultDefinitions;
+  } = formConfig.chapters.householdInformationV2.pages.v2SpouseBasicInformation;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={definitions}
+        definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(10);
   });
 
   it('should not submit empty form', () => {
@@ -35,7 +34,7 @@ describe('hca Medicaid config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={definitions}
+        definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
@@ -43,7 +42,7 @@ describe('hca Medicaid config', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -52,14 +51,21 @@ describe('hca Medicaid config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={definitions}
+        definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(formDOM, '#root_isMedicaidEligibleYes', 'Y');
+    simulateInputChange(formDOM, '#root_spouseFullName_first', 'Mary');
+    simulateInputChange(formDOM, '#root_spouseFullName_last', 'Smith');
+    simulateInputChange(formDOM, '#root_spouseDateOfBirthMonth', '10');
+    simulateInputChange(formDOM, '#root_spouseDateOfBirthDay', '15');
+    simulateInputChange(formDOM, '#root_spouseDateOfBirthYear', '1991');
+    simulateInputChange(formDOM, '#root_dateOfMarriageMonth', '05');
+    simulateInputChange(formDOM, '#root_dateOfMarriageDay', '29');
+    simulateInputChange(formDOM, '#root_dateOfMarriageYear', '2015');
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import * as actions from '../../utils/actions';
 import reducer from '../../reducers/enrollment-status';
 
-describe('HCA Enrollment Status Reducer', () => {
+describe('hca EnrollmentStatus reducer', () => {
   let state;
   let reducedState;
   let action;

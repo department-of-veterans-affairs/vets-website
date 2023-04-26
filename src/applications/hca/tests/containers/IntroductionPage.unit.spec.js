@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
 
-describe('HCA IntroductionPage', () => {
+describe('hca IntroductionPage', () => {
   const getData = ({
     showLoader,
     loaState,
