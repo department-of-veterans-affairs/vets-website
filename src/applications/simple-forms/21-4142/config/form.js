@@ -208,12 +208,17 @@ const formConfig = {
           path: 'preparer-address-2',
           title: 'Preparer address 2',
           depends: formData =>
-            !formData[preparerIdentificationFields.parentObject][
+            (!formData[preparerIdentificationFields.parentObject][
               [preparerIdentificationFields.preparerHasSameAddressAsVeteran]
             ] &&
-            formData[preparerIdentificationFields.parentObject][
-              [preparerIdentificationFields.relationshipToVeteran]
-            ] !== veteranIsSelfText,
+              formData[preparerIdentificationFields.parentObject][
+                [preparerIdentificationFields.relationshipToVeteran]
+              ] !== veteranIsSelfText) ||
+            !veteranDirectRelative.includes(
+              formData[preparerIdentificationFields.parentObject][
+                [preparerIdentificationFields.relationshipToVeteran]
+              ],
+            ),
           uiSchema: preparerAddress2.uiSchema,
           schema: preparerAddress2.schema,
         },
