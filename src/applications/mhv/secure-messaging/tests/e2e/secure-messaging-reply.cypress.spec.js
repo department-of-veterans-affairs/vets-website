@@ -23,5 +23,6 @@ describe('Secure Messaging Reply', () => {
     cy.injectAxe();
     cy.axeCheck();
     replyPage.sendReplyMessageDetails(testMessage);
+    replyPage.verifySendMessageConfirmationMessage();
   });
 });

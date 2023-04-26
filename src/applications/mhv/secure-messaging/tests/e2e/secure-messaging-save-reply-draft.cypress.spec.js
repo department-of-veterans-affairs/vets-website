@@ -56,6 +56,7 @@ describe('Secure Messaging Reply', () => {
       landingPage.getNewMessage().attributes.subject,
       testMessageBody,
     );
+    replyPage.verifySendMessageConfirmationMessage();
     cy.injectAxe();
     cy.axeCheck();
   });
