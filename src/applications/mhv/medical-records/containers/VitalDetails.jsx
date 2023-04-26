@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import moment from 'moment';
 import { dateFormat } from '../util/helpers';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getVitalDetails } from '../actions/vitals';
@@ -85,16 +84,7 @@ const VitalDetails = () => {
     if (filteredVitals?.length) {
       return (
         <>
-          <h1>
-            <span className="no-print">{filteredVitals[0].name}</span>
-            <span className="print-title print-only">
-              <div className="vads-u-margin-right--1">Vitals: </div>
-              <div className="vads-u-margin-right--1">
-                {filteredVitals[0].name.toLowerCase()},{' '}
-              </div>
-              <div>{moment().format('LL')}</div>
-            </span>
-          </h1>
+          <h1>{filteredVitals[0].name}</h1>
           <div className="vads-u-display--flex vads-u-margin-y--3 no-print">
             <button
               className="link-button vads-u-margin-right--3"
