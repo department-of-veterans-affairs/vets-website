@@ -1,10 +1,11 @@
 /**
  * Test PDF template.
  */
+import registerFonts from '../registerFonts';
 
 const PDFDocument = require('pdfkit').default;
 
-function generate(data) {
+const generate = async data => {
   const doc = new PDFDocument({
     pdfVersion: '1.5',
     lang: 'en-US',
@@ -13,6 +14,8 @@ function generate(data) {
     autoFirstPage: false,
     bufferPages: true,
   });
+
+  await registerFonts(doc, ['Bitter-Bold']);
 
   doc.info.Title = data.title;
   const struct = doc.struct('Document');
@@ -24,13 +27,16 @@ function generate(data) {
 
   struct.add(
     doc.struct('H1', () => {
-      doc.fontSize(20).text(data.heading, {
-        paragraphGap: 10,
-      });
+      doc
+        .font('Bitter-Bold')
+        .fontSize(20)
+        .text(data.heading, {
+          paragraphGap: 10,
+        });
     }),
   );
 
   return doc;
-}
+};
 
-module.exports = { generate };
+export { generate };
