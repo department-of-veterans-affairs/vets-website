@@ -20,7 +20,7 @@ import vetContInfo from '../pages/vetContInfo';
 import statement from '../pages/statement';
 
 // mock-data import for local development & review-instances
-import testData from '../tests/fixtures/data/test-data-flow3.json';
+import testData from '../tests/fixtures/data/test-data-flow2.json';
 // import { uiSchema as addressUiSchema } from 'src/platform/forms/definitions/address';
 
 // const { } = fullSchema.properties;
@@ -85,7 +85,7 @@ const formConfig = {
       },
     },
     witnessPersonalInfoChapter: {
-      // for Flow 4: 3rd-party claim & non-vet claimant
+      // for Flows 2 & 4: 3rd-party claim
       title: 'Your personal information',
       pages: {
         witnessPersonalInfoPage: {
@@ -93,7 +93,6 @@ const formConfig = {
           title: 'Your personal information',
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
-            claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
           uiSchema: witnessPersInfo.uiSchema,
           schema: witnessPersInfo.schema,
@@ -101,7 +100,7 @@ const formConfig = {
       },
     },
     witnessContactInfoChapter: {
-      // for Flow 4: 3rd-party claim & non-vet claimant
+      // for Flows 2 & 4: 3rd-party claim
       title: 'Your contact information',
       pages: {
         witnessContactInfoPage: {
@@ -109,7 +108,6 @@ const formConfig = {
           title: 'Your contact information',
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
-            claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
           uiSchema: witnessContInfo.uiSchema,
           schema: witnessContInfo.schema,
