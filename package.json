@@ -95,14 +95,12 @@
       "\\.(css)$": "<rootDir>/script/assetsTransformer.js"
     },
     "testMatch": [
-      "**/?(*.)jest.+(spec|test).js?(x)"
+      "**/?(*.)(jest|unit).+(spec|test).js?(x)"
     ],
     "setupFiles": [
-      "<rootDir>/src/platform/testing/unit/enzyme-setup.js"
-    ],
-    "globals": {
-      "__BUILDTYPE__": "development"
-    }
+      "<rootDir>/src/platform/testing/unit/enzyme-setup.js",
+      "<rootDir>/src/platform/testing/unit/jest.setup.js"
+    ]
   },
   "sasslintConfig": "config/sass-lint.yml",
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
@@ -368,7 +366,7 @@
     "**/kind-of": "^6.0.3",
     "**/glob-parent": "^5.1.2",
     "**/ansi-regex": "^5.0.1",
-    "**/yargs-parser": "13.1.2",
+    "**/yargs-parser": "^20.2.9",
     "@babel/runtime": "^7.15.4",
     "punycode": "1.4.1",
     "**/cached-path-relative": "1.1.0",

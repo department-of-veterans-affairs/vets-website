@@ -17,7 +17,7 @@ import VSP_ENVIRONMENTS from 'site/constants/vsp-environments';
 // instead import this module and interface with it instead.
 const BUILDTYPE = __BUILDTYPE__;
 
-const environment = ENVIRONMENT_CONFIGURATIONS[BUILDTYPE];
+const environment = global.environment || ENVIRONMENT_CONFIGURATIONS[BUILDTYPE];
 const isPort80 = location.port === '' || location.port === 80;
 
 if (!isPort80) {
