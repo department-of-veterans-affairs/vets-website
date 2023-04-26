@@ -7,6 +7,7 @@ import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
+  COMP_AND_PEN,
 } from '../../utils/constants';
 import {
   getVAAppointmentLocationId,
@@ -348,6 +349,12 @@ export function selectIsVideo(appointment) {
 export function selectTypeOfCareName(appointment) {
   const { name } =
     getTypeOfCareById(appointment.vaos.apiData?.serviceType) || {};
+  const serviceCategoryName =
+    appointment.vaos.apiData?.serviceCategory?.[0].text || {};
+  if (serviceCategoryName === COMP_AND_PEN) {
+    const { displayName } = getTypeOfCareById(serviceCategoryName);
+    return displayName;
+  }
   return name;
 }
 
