@@ -1,4 +1,4 @@
-import { paymentHistory } from '@@profile/mocks/endpoints/payment-information';
+import * as paymentInfo from '@@profile/mocks/endpoints/payment-information';
 import { anAccount } from '@@profile/mocks/endpoints/bank-accounts';
 import { loa3User72 } from '@@profile/mocks/endpoints/user';
 import { data } from '@@profile/mocks/endpoints/mhvAccount';
@@ -14,11 +14,7 @@ describe('Direct Deposit Consistently', () => {
   });
 
   it('happy path', () => {
-    cy.intercept(
-      'GET',
-      'v0/ppiu/payment_information',
-      paymentHistory.simplePaymentHistory,
-    );
+    cy.intercept('GET', 'v0/ppiu/payment_information', paymentInfo.base);
     DirectDeposit.visitPage();
 
     DirectDeposit.confirmDirectDepositIsAvailable();
@@ -26,11 +22,7 @@ describe('Direct Deposit Consistently', () => {
     cy.injectAxeThenAxeCheck();
   });
   it('blocks profile for deceased veterans', () => {
-    cy.intercept(
-      'GET',
-      'v0/ppiu/payment_information',
-      paymentHistory.isDeceased,
-    );
+    cy.intercept('GET', 'v0/ppiu/payment_information', paymentInfo.isDeceased);
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();
     DirectDeposit.confirmDirectDepositIsNotAvailableInNav();
@@ -38,11 +30,7 @@ describe('Direct Deposit Consistently', () => {
     DirectDeposit.confirmProfileIsBlocked();
   });
   it('shows blocked message for Fiduciary', () => {
-    cy.intercept(
-      'GET',
-      'v0/ppiu/payment_information',
-      paymentHistory.isFiduciary,
-    );
+    cy.intercept('GET', 'v0/ppiu/payment_information', paymentInfo.isFiduciary);
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();
     DirectDeposit.confirmDirectDepositIsNotAvailableInNav();
@@ -53,7 +41,7 @@ describe('Direct Deposit Consistently', () => {
     cy.intercept(
       'GET',
       'v0/ppiu/payment_information',
-      paymentHistory.isNotCompetent,
+      paymentInfo.isNotCompetent,
     );
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();
