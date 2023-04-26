@@ -16,6 +16,7 @@ describe('hca spouse information', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.householdInformation.pages.v1SpouseInformation;
+
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -64,27 +65,18 @@ describe('hca spouse information', () => {
     const formDOM = findDOMNode(form);
 
     simulateInputChange(formDOM, '#root_spouseFullName_first', 'Mary');
-
     simulateInputChange(formDOM, '#root_spouseFullName_last', 'Smith');
-
     simulateInputChange(
       formDOM,
       '#root_spouseSocialSecurityNumber',
       '899663459',
     );
-
     simulateInputChange(formDOM, '#root_spouseDateOfBirthMonth', '10');
-
     simulateInputChange(formDOM, '#root_spouseDateOfBirthDay', '15');
-
     simulateInputChange(formDOM, '#root_spouseDateOfBirthYear', '1991');
-
     simulateInputChange(formDOM, '#root_dateOfMarriageMonth', '05');
-
     simulateInputChange(formDOM, '#root_dateOfMarriageDay', '29');
-
     simulateInputChange(formDOM, '#root_dateOfMarriageYear', '2015');
-
     simulateInputChange(formDOM, '#root_sameAddressYes', 'Y');
 
     submitForm(form);
@@ -108,14 +100,11 @@ describe('hca spouse information', () => {
     const formDOM = findDOMNode(form);
 
     // Expand spouse address and phone number
-
     simulateInputChange(formDOM, '#root_sameAddressNo', 'N');
-
     expect(formDOM.querySelectorAll('input, select').length).to.equal(23);
 
     // Expand spouse financial support
     simulateInputChange(formDOM, '#root_cohabitedLastYearNo', 'N');
-
     expect(formDOM.querySelectorAll('input, select').length).to.equal(25);
   });
 });

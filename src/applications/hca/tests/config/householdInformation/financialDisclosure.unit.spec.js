@@ -17,6 +17,7 @@ describe('hca FinancialDisclosure config', () => {
     uiSchema,
   } = formConfig.chapters.householdInformation.pages.v1FinancialDisclosure;
   const definitions = formConfig.defaultDefinitions;
+
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -62,11 +63,12 @@ describe('hca FinancialDisclosure config', () => {
     const formDOM = findDOMNode(form);
 
     simulateInputChange(formDOM, '#root_discloseFinancialInformationYes', 'Y');
-
     submitForm(form);
+
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
+
   it('should show a warning if No is selected', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(

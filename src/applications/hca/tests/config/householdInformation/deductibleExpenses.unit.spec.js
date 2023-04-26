@@ -16,6 +16,7 @@ describe('hca DeductibleExpenses config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.householdInformation.pages.v1DeductibleExpenses;
+
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -61,11 +62,8 @@ describe('hca DeductibleExpenses config', () => {
     const formDOM = findDOMNode(form);
 
     simulateInputChange(formDOM, '#root_deductibleMedicalExpenses', '100');
-
     simulateInputChange(formDOM, '#root_deductibleFuneralExpenses', '0');
-
     simulateInputChange(formDOM, '#root_deductibleEducationExpenses', '500');
-
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);

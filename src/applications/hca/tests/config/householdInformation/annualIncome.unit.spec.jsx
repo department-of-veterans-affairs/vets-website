@@ -15,7 +15,7 @@ describe('hca AnnualIncome config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.householdInformation.pages.v1AnnualIncome;
-  const marriedWithChildren = {
+  const formData = {
     maritalStatus: 'Married',
     'view:reportDependents': true,
     dependents: [
@@ -64,13 +64,13 @@ describe('hca AnnualIncome config', () => {
     expect(formDOM.querySelectorAll('input, select').length).to.equal(6);
   });
 
-  it('should render with children information', () => {
+  it('should render with dependent information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
-        data={marriedWithChildren}
+        data={formData}
       />,
     );
     const formDOM = findDOMNode(form);
@@ -86,7 +86,7 @@ describe('hca AnnualIncome config', () => {
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
-        data={marriedWithChildren}
+        data={formData}
       />,
     );
     const formDOM = findDOMNode(form);

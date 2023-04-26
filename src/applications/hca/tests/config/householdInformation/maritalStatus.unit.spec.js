@@ -16,21 +16,31 @@ describe('hca MaritalStatus config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.householdInformation.pages.v1MaritalStatus;
-  const onSubmit = sinon.spy();
+  const definitions = formConfig.defaultDefinitions;
 
-  it('should render maritalStatus page', () => {
+  it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{}}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
     );
     const formDOM = findDOMNode(form);
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(1);
     expect(formDOM.querySelector('#root_maritalStatus')).not.to.be.null;
+  });
+
+  it('should not submit empty form', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        data={{}}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    const formDOM = findDOMNode(form);
 
     submitForm(form);
 
@@ -38,12 +48,13 @@ describe('hca MaritalStatus config', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit marital status page with no data', () => {
+  it('should submit with valid data', () => {
+    const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         data={{}}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,

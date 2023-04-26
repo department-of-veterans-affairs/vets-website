@@ -17,6 +17,7 @@ describe('hca DependentInformation config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.householdInformation.pages.v1DependentInformation;
+
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -40,7 +41,6 @@ describe('hca DependentInformation config', () => {
         uiSchema={uiSchema}
       />,
     );
-
     const formDOM = findDOMNode(form);
 
     submitForm(form);
@@ -110,23 +110,18 @@ describe('hca DependentInformation config', () => {
     // And fill out the required fields
 
     simulateInputChange(formDOM, '#root_dependents_0_fullName_first', 'John');
-
     simulateInputChange(formDOM, '#root_dependents_0_fullName_last', 'Doe');
-
     simulateInputChange(formDOM, '#root_dependents_0_dependentRelation', 'Son');
-
     simulateInputChange(
       formDOM,
       '#root_dependents_0_socialSecurityNumber',
       '123123123',
     );
-
     simulateInputChange(
       formDOM,
       '#root_dependents_0_cohabitedLastYearYes',
       'Y',
     );
-
     simulateInputChange(formDOM, '#root_dependents_0_disabledBefore18Yes', 'Y');
 
     fillDate(formDOM, 'root_dependents_0_dateOfBirth', '2012-12-12');
