@@ -171,11 +171,7 @@ const FolderThreadListView = props => {
         <ThreadsList
           threadList={threads}
           folder={folder}
-          folderId={folderId}
-          setPageNum={setPageNum}
           pageNum={pageNum}
-          setSortOrder={setSortOrder}
-          setSortBy={setSortBy}
           threadsPerPage={threadsPerPage}
         />
       );
