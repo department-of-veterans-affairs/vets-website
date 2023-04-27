@@ -18,8 +18,8 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
-
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import MemorableDateOfBirthField from '../components/MemorableDateOfBirthField';
 import * as address from '../definitions/address';
 import Footer from '../components/Footer';
 
@@ -146,7 +146,12 @@ const formConfig = {
               claimant: {
                 name: fullMaidenNameUI,
                 ssn: ssnDashesUI,
-                dateOfBirth: currentOrPastDateUI('Date of birth'),
+                dateOfBirth: environment.isProduction()
+                  ? currentOrPastDateUI('Date of birth')
+                  : {
+                      'ui:title': ' ',
+                      'ui:field': MemorableDateOfBirthField,
+                    },
                 relationshipToVet: {
                   'ui:title': 'Relationship to service member',
                   'ui:widget': 'radio',
