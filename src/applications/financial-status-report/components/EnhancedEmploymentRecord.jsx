@@ -174,6 +174,10 @@ const EmploymentRecord = props => {
     },
     handleCheckboxChange: (key, val) => {
       setDoesNotCurrentlyWorkHere(!val);
+      if (val === true) {
+        // if box has become checked
+        setToDateError('');
+      }
       setEmploymentRecord({
         ...employmentRecord,
         [key]: val,
