@@ -236,7 +236,6 @@ const ComposeForm = props => {
           cancelButtonText: 'Delete draft',
         });
       }
-      setNavigationError(null);
     }
 
     const draftId = draft && draft.messageId;
@@ -324,9 +323,9 @@ const ComposeForm = props => {
     setUnsavedNavigationError();
   };
 
-  return (
-    <form className="compose-form">
-      {saveError && (
+  const errorModal = () => {
+    if (saveError) {
+      return (
         <VaModal
           modalTitle={saveError.title}
           onPrimaryButtonClick={() => setSaveError(null)}
@@ -339,7 +338,14 @@ const ComposeForm = props => {
           <p>{saveError.p1}</p>
           {saveError.p2 && <p>{saveError.p2}</p>}
         </VaModal>
-      )}
+      );
+    }
+    return null;
+  };
+
+  return (
+    <form className="compose-form">
+      {errorModal}
       <RouteLeavingGuard
         when={!!navigationError}
         navigate={path => {

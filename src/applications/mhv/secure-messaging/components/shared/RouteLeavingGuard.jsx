@@ -12,7 +12,6 @@ export const RouteLeavingGuard = ({
   p2,
   confirmButtonText,
   cancelButtonText,
-  attachments,
   saveDraftHandler,
 }) => {
   const [modalVisible, updateModalVisible] = useState(false);
@@ -58,31 +57,22 @@ export const RouteLeavingGuard = ({
     [confirmedNavigation],
   );
 
-  const handleRenderModal = () => {
-    if (attachments.length === 0) {
-      return (
-        <VaModal
-          modalTitle={title}
-          onPrimaryButtonClick={closeModal}
-          onSecondaryButtonClick={handleConfirmNavigationClick}
-          onCloseEvent={closeModal}
-          primaryButtonText={confirmButtonText}
-          secondaryButtonText={cancelButtonText}
-          status="warning"
-          visible={modalVisible}
-        >
-          <p>{p1}</p>
-          {p2 && <p>{p2}</p>}
-        </VaModal>
-      );
-    }
-    return null;
-  };
-
   return (
     <>
       <Prompt when={when} message={handleBlockedNavigation} />
-      {handleRenderModal}
+      <VaModal
+        modalTitle={title}
+        onPrimaryButtonClick={closeModal}
+        onSecondaryButtonClick={handleConfirmNavigationClick}
+        onCloseEvent={closeModal}
+        primaryButtonText={confirmButtonText}
+        secondaryButtonText={cancelButtonText}
+        status="warning"
+        visible={modalVisible}
+      >
+        <p>{p1}</p>
+        {p2 && <p>{p2}</p>}
+      </VaModal>
     </>
   );
 };
