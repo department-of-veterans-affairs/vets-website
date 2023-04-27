@@ -84,6 +84,7 @@ jobs:
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           env: master/${{ github.ref_name }}/main
           ref: ${{ github.ref_name }}
+
       - name: Get most recent cache file url
         run: echo "MOST_RECENT_CONTENT=$(echo $(aws s3 ls vetsgov-website-builds-s3-upload/content-build --recursive | sort | tail -n 1 | awk '{print $4}'))" >> $GITHUB_ENV
 
@@ -97,6 +98,7 @@ jobs:
           SOURCE_REPO: ${{ github.event.client_payload.source_repo }}
           SOURCE_DEPLOYMENT: ${{ github.event.client_payload.deployment_id }}
           WORKFLOW_DEPLOYMENT: ${{ steps.deployment.outputs.deployment_id }}
+          PE_EXPIRATION_DAYS: ${{ github.event.client_payload.expiration_days }}
 
       - name: Build Docker Image #use "file" input to designate alternate dockerfile path. Defaults to "Dockerfile": https://github.com/docker/build-push-action
         uses: docker/build-push-action@v2
