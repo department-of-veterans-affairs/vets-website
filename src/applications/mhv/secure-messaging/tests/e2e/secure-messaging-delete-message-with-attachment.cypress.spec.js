@@ -43,6 +43,7 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
     });
 
     composePage.clickConfirmDeleteButton();
+    composePage.verifyDeleteDraftSuccessfulMessage();
 
     cy.wait('@deleteMessagewithAttachment');
     cy.injectAxe();

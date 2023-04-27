@@ -269,5 +269,12 @@ class PatientComposePage {
       .should('be.visible')
       .click();
   };
+
+  verifyDeleteDraftSuccessfulMessage = () => {
+    cy.get('.vads-u-margin-bottom--1').should(
+      'have.text',
+      'Message conversation was successfully moved to Trash.',
+    );
+  };
 }
 export default PatientComposePage;
