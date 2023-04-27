@@ -50,12 +50,16 @@ class DetailsPage extends React.Component {
 
   getPageContent() {
     const { claim, useLighthouse } = this.props;
-
     if (!useLighthouse) {
       return <DetailsPageContent claim={claim} />;
     }
 
-    const { claimDate, claimType, contentions } = claim.attributes;
+    const {
+      claimType,
+      contentionList,
+      dateFiled,
+      vaRepresentative,
+    } = claim.attributes;
 
     return (
       <>
@@ -69,11 +73,11 @@ class DetailsPage extends React.Component {
             <h4>What you’ve claimed</h4>
           </dt>
           <dd>
-            {contentions && contentions.length ? (
+            {contentionList && contentionList.length ? (
               <ul className="claim-detail-list">
-                {contentions.map((contention, index) => (
+                {contentionList.map((contention, index) => (
                   <li key={index} className="claim-detail-list-item">
-                    {contention.name}
+                    {contention}
                   </li>
                 ))}
               </ul>
@@ -84,7 +88,11 @@ class DetailsPage extends React.Component {
           <dt className="claim-detail-label">
             <h4>Date received</h4>
           </dt>
-          <dd>{moment(claimDate).format('MMM D, YYYY')}</dd>
+          <dd>{moment(dateFiled).format('MMM D, YYYY')}</dd>
+          <dt className="claim-detail-label">
+            <h4>Your representative for VA claims</h4>
+          </dt>
+          <dd>{vaRepresentative || 'Not Available'}</dd>
         </dl>
       </>
     );
