@@ -4,4 +4,5 @@ export const RecordType = {
   CARE_SUMMARIES_AND_NOTES: 'care summaries and notes',
   VACCINES: 'vaccines',
   VITALS: 'vitals',
+  ALLERGIES: 'allergies',
 };
