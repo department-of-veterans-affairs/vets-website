@@ -13,7 +13,7 @@ export default function App() {
   const app = urlParams.get('app');
   if (checkInUnifiedExperience) {
     window.location.replace(
-      `/health-care/appointment-pre-check-in?id=${token}&app=unified`,
+      `/health-care/appointment-check-in?id=${token}&app=unified`,
     );
   }
 
