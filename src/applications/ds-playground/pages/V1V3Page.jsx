@@ -436,6 +436,7 @@ export default function V1V3Page() {
               <va-button
                 onClick={openModalV3}
                 text="Click here to open V3 modal"
+                uswds
               />
               <VaModal
                 modalTitle="Are you sure you want to continue?"
