@@ -17,7 +17,9 @@ describe('Secure Messaging Manage Folder AXE check', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
     folderPage.createANewFolderButton().click();
     const createFolderName = 'create folder test';
-    folderPage.createFolderTextBox().type(createFolderName);
+    folderPage
+      .createFolderTextBox()
+      .type(createFolderName, { waitforanimations: true });
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/folders',
