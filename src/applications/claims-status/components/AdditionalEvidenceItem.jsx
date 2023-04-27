@@ -3,7 +3,7 @@ import React from 'react';
 import moment from 'moment';
 
 export default function AdditionalEvidenceItem({ item }) {
-  const itemDate = item.uploadDate;
+  const { originalFileName, documentTypeLabel, uploadDate } = item;
 
   return (
     <div className="submitted-file-list-item">
@@ -11,15 +11,15 @@ export default function AdditionalEvidenceItem({ item }) {
         Additional evidence
       </h3>
       <p className="submission-description">
-        <span className="claim-item-label">File:</span> {item.originalFileName}
+        <span className="claim-item-label">File:</span> {originalFileName}
         <br />
-        <span className="claim-item-label">Type:</span> {item.documentTypeLabel}
+        <span className="claim-item-label">Type:</span> {documentTypeLabel}
       </p>
       <div>
         <strong className="submission-status">Submitted:</strong>
-        {!!itemDate && (
+        {!!uploadDate && (
           <span className="submission-date">
-            {moment(itemDate).format('MMM D, YYYY')}
+            {moment(uploadDate).format('MMM D, YYYY')}
           </span>
         )}
       </div>
