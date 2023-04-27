@@ -415,9 +415,10 @@ export default function V1V3Page() {
           <h4>Modal</h4>
           <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
             <div className="vads-l-col--6 vads-u-margin--1">
-              <button type="button" onClick={openModalV1}>
-                Click here to open V1 modal
-              </button>
+              <va-button
+                onClick={openModalV1}
+                text="Click here to open V1 modal"
+              />
               <VaModal
                 modalTitle="Are you sure you want to continue?"
                 primaryButtonText="Continue without saving"
@@ -432,9 +433,10 @@ export default function V1V3Page() {
             </div>
 
             <div className="vads-l-col--6 vads-u-margin--1">
-              <button type="button" onClick={openModalV3}>
-                Click here to open V3 modal
-              </button>
+              <va-button
+                onClick={openModalV3}
+                text="Click here to open V3 modal"
+              />
               <VaModal
                 modalTitle="Are you sure you want to continue?"
                 primaryButtonText="Continue without saving"
