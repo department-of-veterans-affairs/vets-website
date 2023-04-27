@@ -120,7 +120,6 @@
     "@actions/core": "^1.8.0",
     "@axe-core/react": "^4.4.3",
     "@babel/core": "^7.17.7",
-    "babel-jest": "^29.5.0",
     "@babel/parser": "^7.17.7",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/plugin-proposal-export-namespace-from": "^7.16.7",
@@ -132,6 +131,7 @@
     "@babel/plugin-proposal-throw-expressions": "^7.16.7",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-syntax-import-meta": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.21.4",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@babel/register": "^7.17.7",
@@ -152,6 +152,7 @@
     "axe-core": "^4.4.3",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
+    "babel-jest": "^29.5.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-istanbul": "^6.0.0",
@@ -263,7 +264,7 @@
   },
   "private": true,
   "dependencies": {
-    "@babel/runtime": "^7.15.4",
+    "@babel/runtime": "^7.21.0",
     "@department-of-veterans-affairs/component-library": "^15.0.0",
     "@department-of-veterans-affairs/formation": "^7.0.5",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
@@ -388,7 +389,6 @@
       "src/platform/forms",
       "src/platform/forms-system",
       "src/platform/monitoring",
-
       "src/applications/check-in",
       "src/applications/vaos"
     ],
@@ -397,7 +397,6 @@
       "**/applications-check-in/react-i18next",
       "**/applications-vaos/simple-guid",
       "**/applications-vaos/mocker-api",
-
       "**/platform-polyfills/@formatjs/intl-datetimeformat",
       "**/platform-polyfills/@formatjs/intl-getcanonicallocales",
       "**/platform-polyfills/@formatjs/intl-locale",
