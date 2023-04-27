@@ -44,7 +44,7 @@ export const vaFileNumberUI = options => {
   const opts = typeof options === 'string' ? { 'ui:title': options } : options;
 
   return {
-    'ui:title': 'VA file number (if you have one)',
+    'ui:title': 'VA file number (if applicable)',
     'ui:webComponentField': VaTextInputField,
     'ui:errorMessages': {
       pattern: 'Your VA file number must be 8 or 9 digits',
@@ -77,7 +77,8 @@ export const serviceNumberUI = options => {
     'ui:title': 'Service number (if applicable)',
     'ui:webComponentField': VaTextInputField,
     'ui:errorMessages': {
-      pattern: 'Please enter a valid service number',
+      pattern:
+        'Your Veteran Service Number must start with 0, 1, or 2 letters followed by 5 to 8 digits',
     },
     'ui:options': {
       hideEmptyValueInReview: true,

@@ -11,7 +11,8 @@ import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-libra
  */
 
 const GroupCheckboxWidget = props => {
-  const { value, options, formContext, onChange } = props;
+  const { formContext, onChange } = props.childrenProps.formContext;
+  const { value, options } = props;
   const { onReviewPage, reviewMode } = formContext || {};
   const { labels } = options;
 
