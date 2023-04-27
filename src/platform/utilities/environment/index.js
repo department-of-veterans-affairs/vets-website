@@ -95,4 +95,9 @@ export default Object.freeze({
   isLocalhost() {
     return environment.BUILDTYPE === ENVIRONMENTS.LOCALHOST;
   },
+
+  /** Workaround for testing/using components accross different enviroments */
+  getRawBuildtype() {
+    return __BUILDTYPE__;
+  },
 });

@@ -10,6 +10,7 @@ import {
   TYPES_OF_SLEEP_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_CARE,
+  SERVICE_CATEGORY,
 } from './constants';
 
 export const CANCELLED_APPOINTMENT_SET = new Set([
@@ -75,6 +76,7 @@ export function getTypeOfCareById(inputId) {
     ...TYPES_OF_SLEEP_CARE,
     ...AUDIOLOGY_TYPES_OF_CARE,
     ...TYPES_OF_CARE,
+    ...SERVICE_CATEGORY,
   ];
 
   return allTypesOfCare.find(

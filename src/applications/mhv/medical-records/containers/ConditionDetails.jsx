@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
 import { dateFormat, downloadFile } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getConditionDetails } from '../actions/conditions';
@@ -65,58 +64,58 @@ const ConditionDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="condition-header">
-            <span className="no-print">
-              {conditionDetails.name.split(' (')[0]}
-            </span>
-            <span className="print-title print-only">
-              <div className="vads-u-margin-right--1">Health conditions: </div>
-              <div className="vads-u-margin-right--1">
-                {conditionDetails.name.split(' (')[0].toLowerCase()},{' '}
-              </div>
-              <div>{moment().format('LL')}</div>
-            </span>
+          <h1 className="vads-u-margin-bottom--0">
+            {conditionDetails.name.split(' (')[0]}
           </h1>
-          <div className="time-header no-print">
-            <h2>Date and time entered: </h2>
-            <p>{formattedDate}</p>
+          <div className="condition-subheader vads-u-margin-bottom--3">
+            <div className="time-header">
+              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                Date and time entered:{' '}
+              </h2>
+              <p>{formattedDate}</p>
+            </div>
+            <div className="vads-u-display--flex vads-u-padding-y--3 vads-u-margin-y--0 no-print">
+              <button
+                className="link-button vads-u-margin-right--3"
+                type="button"
+                onClick={window.print}
+              >
+                <i
+                  aria-hidden="true"
+                  className="fas fa-print vads-u-margin-right--1"
+                  data-testid="print-records-button"
+                />
+                Print page
+              </button>
+              <button className="link-button" type="button" onClick={download}>
+                <i
+                  aria-hidden="true"
+                  className="fas fa-download vads-u-margin-right--1"
+                />
+                Download page
+              </button>
+            </div>
           </div>
-          <div className="condition-buttons vads-u-display--flex vads-u-padding-y--3 vads-u-margin-y--0 no-print">
-            <button
-              className="link-button vads-u-margin-right--3 no-print"
-              type="button"
-              onClick={window.print}
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-print vads-u-margin-right--1"
-                data-testid="print-records-button"
-              />
-              Print page
-            </button>
-            <button
-              className="link-button no-print"
-              type="button"
-              onClick={download}
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-download vads-u-margin-right--1"
-              />
-              Download page
-            </button>
-          </div>
+
           <div className="condition-details max-80">
-            <h2>Status of health condition</h2>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Status of health condition
+            </h2>
             <p>{conditionDetails.active ? 'Active' : 'Inactive'}</p>
-            <h2>Provider</h2>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Provider
+            </h2>
             <p>{conditionDetails.provider}</p>
-            <h2>Location</h2>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Location
+            </h2>
             <p>
               {conditionDetails.facility ||
                 'There is no facility reported at this time'}
             </p>
-            <h2>SNOMED Clinical term</h2>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              SNOMED Clinical term
+            </h2>
             <p>{conditionDetails.name}</p>
             <h2 className="vads-u-margin-bottom--0">Provider comments</h2>
             <ItemList
@@ -137,10 +136,7 @@ const ConditionDetails = () => {
   };
 
   return (
-    <div
-      className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5"
-      id="condition-details"
-    >
+    <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       {content()}
     </div>
   );

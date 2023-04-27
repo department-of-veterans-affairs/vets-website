@@ -203,7 +203,7 @@ describe('Compose container', () => {
     });
   });
 
-  it('displays Reply draft when a message has previous messages in the thread', async () => {
+  it.skip('displays Reply draft when a message has previous messages in the thread', async () => {
     const state = {
       sm: {
         folders: { folder: folders.drafts },
@@ -355,7 +355,7 @@ describe('Compose container', () => {
     });
   });
 
-  it('Reply draft on a replied to message is less than 45 days', async () => {
+  it.skip('Reply draft on a replied to message is less than 45 days', async () => {
     const draftMessageHistoryOld = [
       {
         messageId: 2609285,

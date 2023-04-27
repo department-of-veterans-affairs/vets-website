@@ -30,8 +30,13 @@ import OtherAssetsSummaryReview from '../components/otherAssets/OtherAssetsSumma
 import AddUtilityBill from '../components/utilityBills/AddUtilityBill';
 import UtilityBillSummary from '../components/utilityBills/UtilityBillSummary';
 import UtilityBillSummaryReview from '../components/utilityBills/UtilityBillSummaryReview';
+import AddOtherExpense from '../components/otherExpenses/AddOtherExpense';
+import OtherExpensesSummary from '../components/otherExpenses/OtherExpensesSummary';
+import OtherExpensesSummaryReview from '../components/otherExpenses/OtherExpensesSummaryReview';
 import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
+import InstallmentContract from '../components/InstallmentContract';
+import InstallmentContractSummary from '../pages/expenses/repayments/InstallmentContractSummary';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -824,6 +829,38 @@ const formConfig = {
             !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
+        installmentContracts: {
+          path: 'installment-contracts',
+          title: 'Installment Contracts',
+          uiSchema: pages.installmentContracts.uiSchema,
+          schema: pages.installmentContracts.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        addEditInstallmentContract: {
+          path: 'your-installment-contracts',
+          title: 'Installment contracts',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasRepayments &&
+            !formData.expenses?.installmentContracts?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: InstallmentContract,
+          CustomPageReview: null,
+        },
+        installmentContractSummary: {
+          path: 'installment-contracts-summary',
+          title: 'Installment contracts',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasRepayments &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: InstallmentContractSummary,
+          CustomPageReview: null,
+        },
         creditCardBills: {
           path: 'credit-card-bills',
           title: 'Credit card bills',
@@ -861,15 +898,57 @@ const formConfig = {
           title: 'Other expenses',
           uiSchema: pages.otherExpenses.uiSchema,
           schema: pages.otherExpenses.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         otherExpenseRecords: {
           path: 'other-expense-records',
           title: 'Other expenses',
           uiSchema: pages.otherExpenseRecords.uiSchema,
           schema: pages.otherExpenseRecords.schema,
-          depends: ({ questions }) => questions.hasOtherExpenses,
+          depends: formData =>
+            formData.questions.hasOtherExpenses &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
+        // Start Other Living Expenses
+        otherExpensesChecklist: {
+          path: 'other-expenses-checklist',
+          title: 'Other expense options',
+          uiSchema: pages.otherExpensesPages.otherExpensesChecklist.uiSchema,
+          schema: pages.otherExpensesPages.otherExpensesChecklist.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        otherExpensesValues: {
+          path: 'other-expenses-values',
+          title: 'Other expense values',
+          uiSchema: pages.otherExpensesPages.otherExpensesValues.uiSchema,
+          schema: pages.otherExpensesPages.otherExpensesValues.schema,
+          depends: formData =>
+            !!formData.otherExpenses?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        otherExpensesSummary: {
+          path: 'other-expenses-summary',
+          title: 'Other living expenses',
+          CustomPage: OtherExpensesSummary,
+          CustomPageReview: OtherExpensesSummaryReview,
+          editModeOnReviewPage: true,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            !!formData.otherExpenses?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        addOtherExpenses: {
+          path: 'add-other-expense',
+          title: 'Add your additional expense',
+          CustomPage: AddOtherExpense,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: () => false, // accessed from otherExpensesSummary
+        },
+        // End Other Living Expenses
       },
     },
     resolutionOptionsChapter: {

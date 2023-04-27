@@ -284,11 +284,17 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
   window.location = redirectUrl;
 }
 
-export async function mockLogin({ clickedEvent = AUTH_EVENTS.MOCK_LOGIN }) {
+export async function mockLogin({
+  clickedEvent = AUTH_EVENTS.MOCK_LOGIN,
+  type = '',
+}) {
+  if (!type) {
+    throw new Error('Attempted to call mockLogin without a type');
+  }
   const url = await createOAuthRequest({
     clientId: 'vamock',
+    type,
   });
-
   if (!isExternalRedirect()) {
     setLoginAttempted();
   }
