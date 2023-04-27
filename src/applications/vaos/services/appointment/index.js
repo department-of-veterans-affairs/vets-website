@@ -230,7 +230,15 @@ export async function getAppointmentRequests({
 
       requestsWithoutAppointments.sort(apptRequestSort);
 
-      return transformVAOSAppointments(requestsWithoutAppointments);
+      const transformRequests = transformVAOSAppointments(
+        requestsWithoutAppointments,
+      );
+
+      transformRequests.push(transformRequests, {
+        meta: appointments.backendSystemFailures,
+      });
+
+      return transformRequests;
     }
 
     const appointments = await getPendingAppointments(startDate, endDate);
@@ -478,7 +486,7 @@ export function isUpcomingAppointmentOrRequest(appt) {
  */
 export function isPendingOrCancelledRequest(appt) {
   return (
-    !appt.vaos.isExpressCare &&
+    !appt.vaos?.isExpressCare &&
     (appt.status === APPOINTMENT_STATUS.proposed ||
       appt.status === APPOINTMENT_STATUS.pending ||
       appt.status === APPOINTMENT_STATUS.cancelled)

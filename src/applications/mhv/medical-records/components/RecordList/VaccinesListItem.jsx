@@ -44,7 +44,7 @@ const VaccinesListItem = props => {
         to={`/health-history/vaccines/${record.id}`}
         className="vads-u-margin-y--0p5 no-print"
       >
-        Details
+        <strong>Details</strong>
         <i
           className="fas fa-angle-right details-link-icon"
           aria-hidden="true"

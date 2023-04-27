@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
-export default function DefaultPageContent({ claim }) {
+export default function DetailsPageContent({ claim }) {
   const {
     claimType,
     contentionList,
@@ -47,6 +47,6 @@ export default function DefaultPageContent({ claim }) {
   );
 }
 
-DefaultPageContent.propTypes = {
+DetailsPageContent.propTypes = {
   claim: PropTypes.object,
 };

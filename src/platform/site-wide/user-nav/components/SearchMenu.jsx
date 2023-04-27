@@ -8,9 +8,9 @@ import recordEvent from 'platform/monitoring/record-event';
 import * as Sentry from '@sentry/browser';
 
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
-import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
 import { apiRequest } from 'platform/utilities/api';
 import SearchDropdownComponent from 'applications/search/components/SearchDropdown/SearchDropdownComponent';
+import DropDownPanel from './DropDownPanel/DropDownPanel';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 
 const ENTER_KEY = 13;

@@ -9,7 +9,6 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import environment from 'platform/utilities/environment';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { countries, states } from 'platform/forms/address';
 import debounce from 'platform/utilities/data/debounce';
@@ -75,7 +74,6 @@ const EvidencePrivateRecords = ({
   goToPath,
   setFormData,
   testingIndex,
-  testingMethod,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
@@ -211,7 +209,8 @@ const EvidencePrivateRecords = ({
       // we're switching pages, don't set a field to dirty otherwise the next
       // page may set this and focus on an error without blurring a field
       if (!isBusy) {
-        const fieldName = event.target.getAttribute('name');
+        // event.detail from testing
+        const fieldName = event.target?.getAttribute('name') || event.detail;
         updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
       }
     },
@@ -335,23 +334,6 @@ const EvidencePrivateRecords = ({
   const showError = name =>
     ((currentState.submitted || currentState.dirty[name]) && errors[name]) ||
     null;
-
-  // for testing only; testing-library can't close modal by clicking shadow dom
-  // so this adds a clickable button for testing, adding a color + attr name
-  // will allow simulating a field name, e.g. "onBlur:from" blurs the from date
-  const [testMethod, testName = 'test'] = (testingMethod || '').split(':');
-  const testMethodButton =
-    testingMethod && !environment.isProduction() ? (
-      <button
-        id="test-method"
-        className="sr-only"
-        type="button"
-        name={testName}
-        onClick={handlers[testMethod]}
-      >
-        test
-      </button>
-    ) : null;
 
   const hasStates =
     states[(currentData.providerFacilityAddress?.country)] || [];
@@ -549,7 +531,6 @@ const EvidencePrivateRecords = ({
 
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}
-          {testMethodButton}
           <FormNavButtons
             goBack={handlers.onGoBack}
             goForward={handlers.onGoForward}
@@ -589,7 +570,6 @@ EvidencePrivateRecords.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
-  testingMethod: PropTypes.string,
 };
 
 export default EvidencePrivateRecords;

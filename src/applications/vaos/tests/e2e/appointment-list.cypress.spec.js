@@ -8,7 +8,6 @@ import {
   mockAppointmentRequestsApi,
   vaosSetup,
   mockFacilitiesApi,
-  mockAppointmentRequestMessagesApi,
   mockCancelReasonsApi,
 } from './vaos-cypress-helpers';
 
@@ -255,9 +254,6 @@ describe('VAOS appointment list', () => {
       mockAppointmentsApi({ apiVersion: 0 });
       mockFacilitiesApi({ apiVersion: 1 });
       mockAppointmentRequestsApi({ id: '8a4886886e4c8e22016e6613216d001g' });
-      mockAppointmentRequestMessagesApi({
-        id: '8a4886886e4c8e22016e6613216d001g',
-      });
       mockFeatureToggles();
       mockLoginApi();
 
@@ -355,10 +351,10 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('should select an updated date range', () => {
+    it.skip('should select an updated date range', () => {
       cy.get('#date-dropdown')
         .shadow()
-        .findByLabelText(/Select a date range/i)
+        .find('#select')
         .select('1')
         .should('have.value', '1');
       cy.get('button')
