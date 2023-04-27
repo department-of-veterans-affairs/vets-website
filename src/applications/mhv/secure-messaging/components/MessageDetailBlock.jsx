@@ -11,6 +11,7 @@ import MessageThreadBody from './MessageThread/MessageThreadBody';
 import { closeAlert } from '../actions/alerts';
 
 const MessageDetailBlock = props => {
+  const { message, cannotReply } = props;
   const {
     threadId,
     messageId,
@@ -22,7 +23,7 @@ const MessageDetailBlock = props => {
     recipientName,
     triageGroupName,
     attachments,
-  } = props.message;
+  } = message;
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -75,7 +76,7 @@ const MessageDetailBlock = props => {
         id={messageId}
         threadId={threadId}
         onReply={handleReplyButton}
-        hideReplyButton={hideReplyButton}
+        hideReplyButton={cannotReply}
       />
       <main
         className="message-detail-content"
@@ -134,6 +135,7 @@ const MessageDetailBlock = props => {
   );
 };
 MessageDetailBlock.propTypes = {
+  cannotReply: PropTypes.bool,
   message: PropTypes.object,
 };
 
