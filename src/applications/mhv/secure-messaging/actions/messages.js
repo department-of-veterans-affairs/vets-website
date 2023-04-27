@@ -159,8 +159,6 @@ export const retrieveMessageThread = (
     const msgResponse = await getMessage(response.data[0].attributes.messageId);
     if (!msgResponse.errors) {
       // finding last sent message in a thread to check if it is not too old for replies
-      // const sentDate = response.data.find(m => m.attributes.sentDate !== null)
-      //   ?.attributes.sentDate;
       const lastSentDate = getLastSentMessage(response.data)?.attributes
         .sentDate;
       dispatch(oldMessageAlert(lastSentDate));
