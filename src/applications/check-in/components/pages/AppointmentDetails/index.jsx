@@ -36,6 +36,8 @@ const AppointmentDetails = props => {
   const appointmentDay = new Date(appointment?.startTime);
   const isPhoneAppointment = appointment?.kind === 'phone';
   const { appointmentId } = router.params;
+  const isPreCheckIn = app === 'preCheckIn';
+
   useLayoutEffect(
     () => {
       if (appointmentId) {
@@ -134,17 +136,18 @@ const AppointmentDetails = props => {
                   {isPhoneAppointment ? t('clinic') : t('where-to-attend')}
                 </h2>
                 {!isPhoneAppointment && (
-                  <div
-                    className="vads-u-margin-bottom--2"
-                    data-testid="appointment-details--facility-value"
-                  >
+                  <div data-testid="appointment-details--facility-value">
                     {appointment.facility}
                     <br />
-                    <AddressBlock
-                      address={appointment.facilityAddress}
-                      placeName={appointment.facility}
-                      showDirections
-                    />
+                    {appointment.facilityAddress?.street1 && (
+                      <div className="vads-u-margin-bottom--2">
+                        <AddressBlock
+                          address={appointment.facilityAddress}
+                          placeName={appointment.facility}
+                          showDirections={isPreCheckIn}
+                        />
+                      </div>
+                    )}
                   </div>
                 )}
                 <div data-testid="appointment-details--clinic-value">
