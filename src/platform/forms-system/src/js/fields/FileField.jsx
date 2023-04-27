@@ -154,6 +154,17 @@ class FileField extends React.Component {
           const { formData = [] } = this.props;
           formData[idx] = { ...file, isEncrypted: !!password };
           onChange(formData);
+          // Focus on the 'Cancel' button when a file is being uploaded
+          if (file.uploading) {
+            document
+              .querySelector('.schemaform-file-uploading')
+              .querySelector('button')
+              .focus();
+          }
+          // Focus on the file name input after the file has finished uploading
+          if (!file.uploading) {
+            document.querySelector(`input[value="${file.name}"]`).focus();
+          }
           this.uploadRequest = null;
         },
         () => {
@@ -211,9 +222,10 @@ class FileField extends React.Component {
 
     // When other actions follow removeFile, we do not want to apply this focus
     if (focusAddButton) {
+      // Add a timeout to allow for the upload button to reappear in the DOM before trying to focus on it
       setTimeout(() => {
         this.focusAddAnotherButton();
-      }, 50);
+      }, 0);
     }
   };
 
@@ -365,14 +377,6 @@ class FileField extends React.Component {
                   pagePerItemIndex: index,
                 },
               };
-
-              // Add focus to the 'Cancel' button when a file is being uploaded
-              if (file.uploading && this.state.progress > 0) {
-                document
-                  .querySelector('.schemaform-file-uploading')
-                  .querySelector('button')
-                  .focus();
-              }
 
               return (
                 <li
