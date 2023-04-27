@@ -202,7 +202,6 @@ const formConfig = {
       // for Flow 3: self claim, non-veteran claimant
       // populates SAME statement field as the other statementChapters
       title: 'Your statement',
-      hideFormNavProgress: true,
       pages: {
         statementPage: {
           depends: {
@@ -284,7 +283,6 @@ const formConfig = {
       // for Flow 1: self claim, veteran claimant
       // populates SAME statement field as the other statementChapters
       title: 'Your statement',
-      hideFormNavProgress: true,
       pages: {
         statementPage: {
           depends: {
