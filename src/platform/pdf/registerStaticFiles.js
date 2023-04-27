@@ -1,4 +1,4 @@
-// the fs here is not node fs but the provided virtual one
+// The fs here is not node fs but the provided virtual fs.
 import fs from 'fs';
 
 function registerAFMFonts(ctx) {
@@ -11,6 +11,10 @@ function registerAFMFonts(ctx) {
   });
 }
 
-// register AFM fonts distributed with pdfkit
-// is good practice to register only required fonts to avoid the bundle size increase too much
-registerAFMFonts(require.context('pdfkit/js/data', false, /Helvetica.*\.afm$/));
+// Register the required AFM fonts distributed with pdfkit.
+// This is skipped during tests because we're not using the virtual fs.
+if (process.env.NODE_ENV !== 'test') {
+  registerAFMFonts(
+    require.context('pdfkit/js/data', false, /Helvetica.*\.afm$/),
+  );
+}
