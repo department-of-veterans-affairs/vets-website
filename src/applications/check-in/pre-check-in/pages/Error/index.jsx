@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 import { subDays } from 'date-fns';
+import generatePdf from '@department-of-veterans-affairs/platform-pdf';
 
 import { phoneNumbers } from '../../../utils/appConstants';
 import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
@@ -12,6 +13,16 @@ import { makeSelectVeteranData, makeSelectError } from '../../../selectors';
 import Wrapper from '../../../components/layout/Wrapper';
 
 import { getFirstCanceledAppointment } from '../../../utils/appointment';
+
+const getPdf = e => {
+  e.preventDefault();
+  generatePdf('test_pdf', {
+    title: 'Test Title',
+    generatedAt: new Date.toString(),
+    generatedBy: 'Check-in Experience',
+    heading: 'Test Heading',
+  });
+};
 
 const appointmentAccordion = appointments => {
   return (
@@ -199,6 +210,22 @@ const Error = () => {
       >
         <div>{messageText}</div>
       </va-alert>
+      <div>
+        <i
+          aria-label="download"
+          className="fas fa-download vads-u-color--link-default vads-u-margin-right--1"
+          aria-hidden="true"
+        />
+        <a
+          download="test.pdf"
+          type="application/pdf"
+          href="test.pdf"
+          onClick={getPdf}
+        >
+          Download PDF
+        </a>
+      </div>
+
       {showHowToLink && <HowToLink apptType={apptType} />}
       {accordion && <div className="vads-u-margin-top--3">{accordion}</div>}
     </Wrapper>
