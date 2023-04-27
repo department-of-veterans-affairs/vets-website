@@ -140,12 +140,12 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('100');
-          cy.get('#minMonthlyPayment')
+          cy.get('#amountDueMonthly')
             .first()
             .shadow()
             .find('input')
             .type('100');
-          cy.get('#amountOverdue')
+          cy.get('#amountPastDue')
             .first()
             .shadow()
             .find('input')
@@ -166,7 +166,7 @@ const testConfig = createTestConfig(
             .find('input')
             .type('Loan');
 
-          cy.get('#minMonthlyPayment')
+          cy.get('#amountDueMonthly')
             .first()
             .shadow()
             .find('input')

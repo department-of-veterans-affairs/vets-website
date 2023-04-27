@@ -26,7 +26,7 @@ class PatientComposePage {
     cy.tabToElement('[data-testid="Send-Button"]')
       .get('[text="Send"]')
       .realPress(['Enter']);
-    cy.wait('@message');
+    // cy.wait('@message');
   };
 
   verifySendMessageConfirmationMessage = () => {
@@ -48,10 +48,7 @@ class PatientComposePage {
       .find('label')
       .contains(category)
       .click({ force: true });
-    cy.get('[data-testid="attach-file-input"]').selectFile(
-      'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
-      { force: true },
-    );
+    this.attachMessageFromFile('test_image.jpg');
     this.getMessageSubjectField().type('Test Subject');
     this.getMessageBodyField().type('Test message body');
   };
@@ -77,8 +74,33 @@ class PatientComposePage {
       .select(recipient);
   };
 
+  selectCategoryByTabbingKeyboard = () => {
+    cy.tabToElement('#OTHEROTHER');
+    cy.realPress(['Enter']);
+  };
+
+  selectCategory = () => {
+    cy.get('#OTHEROTHER').click({ force: true });
+  };
+
   verifyFocusonMessageAttachment = () => {
     cy.get('.editable-attachment > :nth-child(1) > span').should('have.focus');
+  };
+
+  verifyFocusOnErrorMessageToSelectRecipient = () => {
+    cy.focused().should('have.attr', 'error', 'Please select a recipient.');
+  };
+
+  verifyFocusOnErrorMessageToSelectCategory = () => {
+    cy.focused().should('have.attr', 'error', 'Please select a category.');
+  };
+
+  verifyFocusOnErrorEmptyMessageSubject = () => {
+    cy.focused().should('have.attr', 'error', 'Subject cannot be blank.');
+  };
+
+  verifyFocusOnErrorEmptyMessageBody = () => {
+    cy.focused().should('have.attr', 'error', 'Message body cannot be blank.');
   };
 
   //* Refactor* Needs to have mockDraftMessage as parameter

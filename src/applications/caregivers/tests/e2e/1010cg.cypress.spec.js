@@ -59,6 +59,8 @@ const signAsParty = (partyLabel, signature) => {
     .type(signature);
 
   cy.findByTestId(partyLabel)
+    .find('.signature-checkbox')
+    .shadow()
     .find('[type="checkbox"]')
     .check();
 };

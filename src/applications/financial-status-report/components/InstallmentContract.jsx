@@ -10,21 +10,20 @@ import { isValidCurrency } from '../utils/validations';
 
 const defaultRecord = [
   {
-    contractType: '',
+    purpose: '',
     creditorName: '',
-    originalLoanAmount: '',
+    originalAmount: '',
     unpaidBalance: '',
     amountDueMonthly: '',
-    from: '',
-    amountOverdue: '',
+    dateStarted: '',
+    amountPastDue: '',
   },
 ];
 
 const InstallmentContract = props => {
   const { data, goToPath, setFormData } = props;
 
-  const { expenses } = data;
-  const { installmentContracts = [] } = expenses;
+  const { installmentContracts = [] } = data;
 
   const searchIndex = new URLSearchParams(window.location.search);
   let editIndex = parseInt(searchIndex.get('index'), 10);
@@ -44,9 +43,7 @@ const InstallmentContract = props => {
     ...(isEditing ? specificRecord : defaultRecord[0]),
   });
 
-  const [contractType, setContractType] = useState(
-    contractRecord.contractType || null,
-  );
+  const [purpose, setPurpose] = useState(contractRecord.purpose || null);
 
   const [creditorName, setCreditorName] = useState(
     contractRecord.creditorName || null,
@@ -66,13 +63,13 @@ const InstallmentContract = props => {
     );
   };
 
-  const fromDateError = validateLoanBegan(contractRecord.from)
+  const fromDateError = validateLoanBegan(contractRecord.dateStarted)
     ? null
     : 'Please enter the loan start date';
 
-  const { from } = contractRecord;
+  const { dateStarted } = contractRecord;
 
-  const { month: fromMonth, year: fromYear } = parseISODate(from);
+  const { month: fromMonth, year: fromYear } = parseISODate(dateStarted);
 
   const [submitted, setSubmitted] = useState(false);
 
@@ -82,7 +79,7 @@ const InstallmentContract = props => {
     ? 'Please enter the minimum monthly payment amount'
     : null;
 
-  const typeError = !contractType ? 'Please enter the contract type' : null;
+  const typeError = !purpose ? 'Please enter the contract type' : null;
 
   const handleChange = (key, value) => {
     setContractRecord({
@@ -91,9 +88,9 @@ const InstallmentContract = props => {
     });
   };
 
-  const handleContractTypeChange = event => {
-    handleChange('contractType', event.target.value);
-    setContractType(event.target.value);
+  const handlePurposeChange = event => {
+    handleChange('purpose', event.target.value);
+    setPurpose(event.target.value);
   };
 
   const handleCreditorNameChange = event => {
@@ -102,7 +99,7 @@ const InstallmentContract = props => {
   };
 
   const handleOriginalLoanAmountChange = event => {
-    handleChange('originalLoanAmount', event.target.value);
+    handleChange('originalAmount', event.target.value);
   };
 
   const handleUnpaidBalanceChange = event => {
@@ -114,7 +111,7 @@ const InstallmentContract = props => {
   };
 
   const handleAmountOverdueChange = event => {
-    handleChange('amountOverdue', event.target.value);
+    handleChange('amountPastDue', event.target.value);
   };
 
   const RETURN_PATH = '/installment-contracts-summary';
@@ -127,14 +124,14 @@ const InstallmentContract = props => {
       return;
     }
 
-    if (contractRecord.contractType && contractRecord.amountDueMonthly) {
-      // if amountOverdue is NaN, set it to 0 in order to satisfy va-number-input
-      if (!isValidCurrency(contractRecord.amountOverdue)) {
-        contractRecord.amountOverdue = 0;
+    if (contractRecord.purpose && contractRecord.amountDueMonthly) {
+      // if amountPastDue is NaN, set it to 0 in order to satisfy va-number-input
+      if (!isValidCurrency(contractRecord.amountPastDue)) {
+        contractRecord.amountPastDue = 0;
       }
 
-      if (!isValidCurrency(contractRecord.originalLoanAmount)) {
-        contractRecord.originalLoanAmount = 0;
+      if (!isValidCurrency(contractRecord.originalAmount)) {
+        contractRecord.originalAmount = 0;
       }
 
       if (!isValidCurrency(contractRecord.unpaidBalance)) {
@@ -147,10 +144,7 @@ const InstallmentContract = props => {
       // update form data
       setFormData({
         ...data,
-        expenses: {
-          ...data.expenses,
-          installmentContracts: newInstallmentContractArray,
-        },
+        installmentContracts: newInstallmentContractArray,
       });
 
       goToPath(RETURN_PATH);
@@ -194,10 +188,10 @@ const InstallmentContract = props => {
           error={(submitted && typeError) || null}
           label="Type of contract or debt"
           name="contract-type"
-          onInput={handleContractTypeChange}
+          onInput={handlePurposeChange}
           required
           type="text"
-          value={contractType || ''}
+          value={purpose || ''}
         />
       </div>
       <div className="input-size-6">
@@ -216,10 +210,10 @@ const InstallmentContract = props => {
           currency
           inputmode="numeric"
           label="Original loan amount"
-          name="originalLoanAmount"
-          id="originalLoanAmount"
+          name="originalAmount"
+          id="originalAmount"
           onInput={handleOriginalLoanAmountChange}
-          value={contractRecord.originalLoanAmount}
+          value={contractRecord.originalAmount}
         />
       </div>
       <div className="input-size-4">
@@ -242,8 +236,8 @@ const InstallmentContract = props => {
           required
           inputmode="numeric"
           label="Minimum monthly payment amount"
-          name="minMonthlyPayment"
-          id="minMonthlyPayment"
+          name="amountDueMonthly"
+          id="amountDueMonthly"
           onInput={handleAmountDueMonthlyChange}
           value={contractRecord.amountDueMonthly}
         />
@@ -254,7 +248,9 @@ const InstallmentContract = props => {
           value={`${fromYear}-${fromMonth}`}
           label="Date the loan began"
           name="loanBegan"
-          onDateChange={e => handlers.handleDateChange('from', e.target.value)}
+          onDateChange={e =>
+            handlers.handleDateChange('dateStarted', e.target.value)
+          }
           onDateBlur={e => validateLoanBegan(e.target.value)}
           required={!contractRecord.amountDueMonthly}
           error={(submitted && fromDateError) || null}
@@ -266,10 +262,10 @@ const InstallmentContract = props => {
           currency
           inputmode="numeric"
           label="Amount overdue"
-          name="amountOverdue"
-          id="amountOverdue"
+          name="amountPastDue"
+          id="amountPastDue"
           onInput={handleAmountOverdueChange}
-          value={contractRecord.amountOverdue}
+          value={contractRecord.amountPastDue}
         />
       </div>
       <p>
