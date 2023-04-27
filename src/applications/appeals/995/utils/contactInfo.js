@@ -45,13 +45,14 @@ export const getFormattedPhone = phone => {
     let i = 0;
     return phonePattern.replace(hashRegex, () => fullString[i++] || '');
   }
-  return '';
+  return fullString;
 };
 
+// schema allows 1 digit area code & 1 digit phone number
 export const hasHomePhone = formData =>
-  getPhoneString(formData?.veteran?.homePhone).length === 10;
+  getPhoneString(formData?.veteran?.homePhone).length >= 2;
 export const hasMobilePhone = formData =>
-  getPhoneString(formData?.veteran?.mobilePhone).length === 10;
+  getPhoneString(formData?.veteran?.mobilePhone).length >= 2;
 
 export const hasHomeAndMobilePhone = formData =>
   hasHomePhone(formData) && hasMobilePhone(formData);
