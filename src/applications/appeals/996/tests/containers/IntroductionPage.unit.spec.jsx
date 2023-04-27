@@ -62,17 +62,6 @@ describe('IntroductionPage', () => {
     removeHlrWizardStatus();
   });
 
-  it('should show has empty address message', () => {
-    const tree = shallow(
-      <IntroductionPage {...defaultProps} loggedIn hasEmptyAddress />,
-    );
-
-    const alert = tree.find('va-alert');
-    expect(alert.length).to.equal(1);
-    expect(alert.text()).to.contain('need to have an address on file');
-    tree.unmount();
-  });
-
   it('should render SaveInProgressIntro', () => {
     setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const tree = shallow(<IntroductionPage {...defaultProps} />);
