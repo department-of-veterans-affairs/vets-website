@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 export default function DefaultPageContent({ claim }) {
   const {
-    claimDate,
     claimType,
     contentionList,
+    dateFiled,
     vaRepresentative,
   } = claim.attributes;
 
@@ -37,7 +37,7 @@ export default function DefaultPageContent({ claim }) {
         <dt className="claim-detail-label">
           <h4>Date received</h4>
         </dt>
-        <dd>{moment(claimDate).format('MMM D, YYYY')}</dd>
+        <dd>{moment(dateFiled).format('MMM D, YYYY')}</dd>
         <dt className="claim-detail-label">
           <h4>Your representative for VA claims</h4>
         </dt>
