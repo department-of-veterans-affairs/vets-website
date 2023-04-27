@@ -8,19 +8,23 @@
 //     }
 // }
 
-va-text-input[error]:not([error=""]) {
-    margin-left: -1.9rem;
-    padding-left: 1.5rem;
-    border-width: 0.4rem;
-    margin-top: 3rem;
+// va-text-input[error]:not([error=""]) {
+//     margin-left: -1.9rem;
+//     padding-left: 1.5rem;
+//     border-width: 0.4rem;
+//     margin-top: 3rem;
 
-    &::part(input) {
-        border-width: 3px
-    }
-}
+//     &::part(input) {
+//         border-width: 3px
+//     }
+// }
 
-va-text-input[error]:not([error=""]) {
-    &::part(label) {
-        font-weight: 600;
-    }
-}
+// va-text-input[error]:not([error=""]) {
+//     &::part(label) {
+//         font-weight: 600;
+//     }
+// }
+
+// va-checkbox::slotted(label) {
+//     font-weight: 600;
+// }

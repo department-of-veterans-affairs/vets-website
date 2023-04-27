@@ -95,6 +95,27 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'checkbox-and-text-input': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+
+            cy.get(`va-text-input[name="root_textInputNew"]`)
+              .shadow()
+              .find('input')
+              .type(data.textInputNew);
+
+            cy.get(`va-text-input[name="root_textInput"]`)
+              .shadow()
+              .find('input')
+              .type(data.textInput);
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);

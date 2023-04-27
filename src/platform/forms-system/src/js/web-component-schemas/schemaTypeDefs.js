@@ -14,7 +14,7 @@
  *    updateSchema: (formData: any) => any,
  *    replaceSchema: (formData: any) => any,
  *    viewComponent: (props: any) => JSX.Element,
- *    'ui:widget': string,
+ *    className: string,
  *  },
  *  'ui:errorMessages': {
  *     pattern: string,
@@ -24,6 +24,7 @@
  *  'ui:reviewField': (props: any) => JSX.Element,
  *  'ui:inputmode': string,
  *  'ui:widget': string,
+ *  'ui:hidden': boolean,
  *  'ui:validations': ((errors, value) => void)[]
  *  'ui:webComponentField': (props: any) => JSX.Element
  * }} UISchemaOptions
@@ -31,9 +32,11 @@
 
 /**
  * @typedef {{
- *  'type': string,
- *  'pattern' : string,
- *  'properties': Record<string, any>,
- *  'required': string[]
+ *  type: string,
+ *  pattern : string,
+ *  properties: Record<string, any>,
+ *  required: string[]
+ *  minLength: number,
+ *  maxLength: number,
  * }} SchemaOptions
  */
