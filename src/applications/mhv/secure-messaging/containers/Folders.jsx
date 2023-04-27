@@ -34,9 +34,14 @@ const Folders = () => {
     [dispatch, location, isModalVisible],
   );
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-  });
+  useEffect(
+    () => {
+      if (!isModalVisible) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [isModalVisible],
+  );
 
   const openNewModal = () => {
     dispatch(closeAlert());
