@@ -10,7 +10,11 @@ import replyDraftThread from '../fixtures/threads/reply-draft-thread-reducer.jso
 import recipients from '../fixtures/recipients.json';
 import { messageDetails } from '../fixtures/threads/message-thread-reducer.json';
 import { getByBrokenText } from '../../util/testUtils';
-import { getLastSentMessage, isOlderThan } from '../../util/helpers';
+import {
+  dateFormat,
+  getLastSentMessage,
+  isOlderThan,
+} from '../../util/helpers';
 
 describe('Thread Details container', () => {
   const setup = state => {
@@ -40,6 +44,7 @@ describe('Thread Details container', () => {
       body,
       subject,
       senderName,
+      sentDate,
       recipientName,
       messageId,
       triageGroupName,
@@ -58,7 +63,7 @@ describe('Thread Details container', () => {
       `To: ${recipientName}`,
     );
     expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `Date: March 23, 2023, 10:58 a.m. EDT`,
+      `Date: ${dateFormat(sentDate)}`,
     );
     expect(screen.getByTestId('message-metadata').textContent).to.contain(
       `Message ID: ${messageId}`,
@@ -90,6 +95,7 @@ describe('Thread Details container', () => {
       body,
       subject,
       senderName,
+      sentDate,
       recipientName,
       messageId,
       triageGroupName,
@@ -109,7 +115,7 @@ describe('Thread Details container', () => {
       `To: ${recipientName}`,
     );
     expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `Date: March 23, 2023, 10:58 a.m. EDT`,
+      `Date: ${dateFormat(sentDate)}`,
     );
     expect(screen.getByTestId('message-metadata').textContent).to.contain(
       `Message ID: ${messageId}`,
