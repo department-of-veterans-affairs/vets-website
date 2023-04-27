@@ -17,20 +17,14 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
   it('empty message subject error', () => {
     composePage.getMessageBodyField().type('Test message body');
     composePage.clickOnSendMessageButton();
-    cy.get('[data-testid="message-subject-field"]')
-      .shadow()
-      .find('[id=input-error-message]')
-      .should('be.visible');
+    composePage.verifyFocusOnErrorEmptyMessageSubject();
     cy.injectAxe();
     cy.axeCheck();
   });
   it('empty message body error', () => {
     composePage.getMessageSubjectField().type('Test Subject');
     composePage.clickOnSendMessageButton();
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[id=error-message]')
-      .should('be.visible');
+    composePage.verifyFocusOnErrorEmptyMessageBody();
     cy.injectAxe();
     cy.axeCheck();
   });
