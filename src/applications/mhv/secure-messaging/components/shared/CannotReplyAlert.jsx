@@ -7,22 +7,26 @@ import { Alerts } from '../../util/constants';
 const CannotReplyAlert = props => {
   const { visible } = props;
   return (
-    <VaAlert status="info" visible={visible} class="vads-u-margin-y--4">
-      <h2 slot="headline" data-testid="expired-alert-message">
-        {Alerts.Message.CANNOT_REPLY_INFO_HEADER}
-      </h2>
-      <p>{Alerts.Message.CANNOT_REPLY_BODY}</p>
-      <p className="vads-u-margin-top--neg1 vads-u-margin-bottom--1 vads-u-font-weight--bold">
-        <Link
-          className="alertbox-link"
-          aria-label="Start a new message"
-          to="/compose"
-        >
-          <i className="fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1" />
-          Start a new message
-        </Link>
-      </p>
-    </VaAlert>
+    <>
+      {visible && (
+        <VaAlert status="info" class="vads-u-margin-y--4">
+          <h2 slot="headline" data-testid="expired-alert-message">
+            {Alerts.Message.CANNOT_REPLY_INFO_HEADER}
+          </h2>
+          <p>{Alerts.Message.CANNOT_REPLY_BODY}</p>
+          <p className="vads-u-margin-top--neg1 vads-u-margin-bottom--1 vads-u-font-weight--bold">
+            <Link
+              className="alertbox-link"
+              aria-label="Start a new message"
+              to="/compose"
+            >
+              <i className="fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1" />
+              Start a new message
+            </Link>
+          </p>
+        </VaAlert>
+      )}
+    </>
   );
 };
 
