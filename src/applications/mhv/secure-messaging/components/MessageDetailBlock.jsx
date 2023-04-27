@@ -6,7 +6,6 @@ import { format, addDays } from 'date-fns';
 import { useDispatch } from 'react-redux';
 import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
-import PrintMessageThread from './PrintMessageThread';
 import { Categories } from '../util/constants';
 import { dateFormat } from '../util/helpers';
 import MessageThreadBody from './MessageThread/MessageThreadBody';
@@ -22,6 +21,7 @@ const MessageDetailBlock = props => {
     sentDate,
     senderName,
     recipientName,
+    triageGroupName,
     attachments,
   } = props.message;
 
@@ -30,8 +30,8 @@ const MessageDetailBlock = props => {
   const location = useLocation();
   const sentReplyDate = format(new Date(sentDate), 'MM-dd-yyyy');
   const cannotReplyDate = addDays(new Date(sentReplyDate), 45);
-  const [printThread, setPrintThread] = useState('dont-print-thread');
   const [hideReplyButton, setReplyButton] = useState(false);
+  const fromMe = recipientName === triageGroupName;
 
   const handleReplyButton = useCallback(
     () => {
@@ -64,15 +64,6 @@ const MessageDetailBlock = props => {
     focusElement(document.querySelector('h2'));
   });
 
-  const handlePrintThreadStyleClass = option => {
-    if (option === 'print thread') {
-      setPrintThread('print-thread');
-    }
-    if (option !== 'print thread') {
-      setPrintThread('dont-print-thread');
-    }
-  };
-
   const categoryLabel = Categories[category];
 
   return (
@@ -88,7 +79,6 @@ const MessageDetailBlock = props => {
       <MessageActionButtons
         id={messageId}
         threadId={threadId}
-        handlePrintThreadStyleClass={handlePrintThreadStyleClass}
         onReply={handleReplyButton}
         hideReplyButton={hideReplyButton}
       />
@@ -105,7 +95,7 @@ const MessageDetailBlock = props => {
         >
           <p>
             <strong>From: </strong>
-            {senderName}
+            {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
           </p>
           <p>
             <strong>To: </strong>
@@ -145,9 +135,6 @@ const MessageDetailBlock = props => {
           </p>
         </div>
       </main>
-      <div className={printThread}>
-        <PrintMessageThread messageId={messageId} />
-      </div>
     </section>
   );
 };

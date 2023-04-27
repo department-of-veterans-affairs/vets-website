@@ -1,23 +1,23 @@
 import { expect } from 'chai';
-import formConfig from '../config/form';
+import formConfig from '../../config/form';
 import {
   veteranFields,
   primaryCaregiverFields,
   secondaryOneFields,
   secondaryTwoFields,
-} from '../definitions/constants';
+} from '../../definitions/constants';
 import {
   submitTransform,
   isSSNUnique,
   arrayToSentenceString,
-} from '../utils/helpers';
+} from '../../utils/helpers';
 
 // data
-import requiredOnly from './e2e/fixtures/data/requiredOnly.json';
-import secondaryTwoOnly from './e2e/fixtures/data/secondaryOneOnly.json';
-import oneSecondaryCaregivers from './e2e/fixtures/data/oneSecondaryCaregivers.json';
-import twoSecondaryCaregivers from './e2e/fixtures/data/twoSecondaryCaregivers.json';
-import signAsRepresentativeNo from './e2e/fixtures/data/signAsRepresentativeNo.json';
+import requiredOnly from '../e2e/fixtures/data/requiredOnly.json';
+import secondaryTwoOnly from '../e2e/fixtures/data/secondaryOneOnly.json';
+import oneSecondaryCaregivers from '../e2e/fixtures/data/oneSecondaryCaregivers.json';
+import twoSecondaryCaregivers from '../e2e/fixtures/data/twoSecondaryCaregivers.json';
+import signAsRepresentativeNo from '../e2e/fixtures/data/signAsRepresentativeNo.json';
 
 describe('Caregivers helpers', () => {
   it('should transform required parties correctly (minimal with primary)', () => {

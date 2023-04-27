@@ -30,7 +30,7 @@ const CreditCardBillSummary = ({
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      goToPath(`/other-expenses`);
+      goToPath(`/other-expenses-checklist`);
     },
     onBack: event => {
       event.preventDefault();
@@ -65,10 +65,10 @@ const CreditCardBillSummary = ({
           <strong>{currencyFormatter(bill.unpaidBalance)}</strong>
           <br />
           Minimum monthly payment amount:{' '}
-          <strong>{currencyFormatter(bill.minMonthlyPayment)}</strong>
+          <strong>{currencyFormatter(bill.amountDueMonthly)}</strong>
           <br />
           Amount overdue:{' '}
-          <strong>{currencyFormatter(bill.amountOverdue)}</strong>
+          <strong>{currencyFormatter(bill.amountPastDue)}</strong>
         </p>
       </>
     );

@@ -33,6 +33,7 @@ const ManageFolderButtons = () => {
   const [folderName, setFolderName] = useState('');
   const folderNameInput = useRef();
   const renameModalReference = useRef(null);
+  const removeButton = useRef(null);
   let folderMatch = null;
 
   useEffect(
@@ -59,6 +60,22 @@ const ManageFolderButtons = () => {
         focusElement(folderNameInput.current.shadowRoot.querySelector('input'));
     },
     [nameWarning],
+  );
+
+  useEffect(
+    () => {
+      focusElement(folderNameInput.current.shadowRoot.querySelector('input'));
+    },
+    [renameModal],
+  );
+
+  useEffect(
+    () => {
+      if (deleteModal) {
+        focusElement(removeButton.current);
+      }
+    },
+    [deleteModal],
   );
 
   const openDelModal = () => {
@@ -171,7 +188,11 @@ const ManageFolderButtons = () => {
           status="warning"
         >
           <p>{Alerts.Folder.DELETE_FOLDER_CONFIRM_BODY}</p>
-          <va-button text="Remove" onClick={confirmDelFolder} />
+          <va-button
+            ref={removeButton}
+            text="Remove"
+            onClick={confirmDelFolder}
+          />
           <va-button secondary="true" text="Cancel" onClick={closeDelModal} />
         </VaModal>
       )}

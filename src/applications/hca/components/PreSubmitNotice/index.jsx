@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const PreSubmitNotice = props => {
-  const { preSubmitInfo, showError, onSectionComplete } = props;
+  const { preSubmitInfo, showError, onSectionComplete, submission } = props;
   const { field, required } = preSubmitInfo;
-  const [accepted, setAccepted] = useState(false);
 
-  /**
-   * set section completed value and unset if user navigates away from the page
-   * before submitting the form.
-   */
+  const [accepted, setAccepted] = useState(false);
+  const [error, setError] = useState(undefined);
+  const formSubmitted = !!submission.status;
+
+  // set section complete value--unset if user navigates away from the page before submitting the form.
   useEffect(
     () => {
       onSectionComplete(accepted);
@@ -21,6 +22,18 @@ const PreSubmitNotice = props => {
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [accepted],
+  );
+
+  // set error message status
+  useEffect(
+    () => {
+      const hasError = accepted === true || formSubmitted ? false : showError;
+      const message = hasError
+        ? 'You must accept the agreement before continuing.'
+        : undefined;
+      setError(message);
+    },
+    [accepted, showError, formSubmitted],
   );
 
   return (
@@ -94,12 +107,7 @@ const PreSubmitNotice = props => {
       <VaCheckbox
         required={required}
         name={field}
-        checked={accepted}
-        error={
-          showError && !accepted
-            ? 'You must accept the agreement before continuing.'
-            : undefined
-        }
+        error={error}
         onVaChange={event => setAccepted(event.target.checked)}
         label="I certify the information above is correct and true to the best of my knowledge and belief."
       />
@@ -111,7 +119,14 @@ PreSubmitNotice.propTypes = {
   formData: PropTypes.object,
   preSubmitInfo: PropTypes.object,
   showError: PropTypes.bool,
+  submission: PropTypes.object,
   onSectionComplete: PropTypes.func,
 };
 
-export default PreSubmitNotice;
+const mapStateToProps = state => {
+  return {
+    submission: state.form.submission,
+  };
+};
+
+export default connect(mapStateToProps)(PreSubmitNotice);

@@ -8,6 +8,9 @@
     background-color: $color-white;
 
     .message-detail-header {
+      @media print {
+        display: block;
+      }
       padding-right: 6px;
       padding-bottom: none !important;
       h3 {
@@ -103,10 +106,6 @@
   }
 }
 
-.message-thread-list {
-  display: none;
-}
-
 @media print {
   body {
     a,
@@ -129,14 +128,6 @@
     .nav-links {
       display: none;
     }
-    .older-messages {
-      display: none;
-    }
-    .print-thread {
-      .message-thread-list {
-        display: contents;
-      }
-    }
   }
   .message-detail-block {
     left: 0;
@@ -144,5 +135,9 @@
     .message-action-buttons {
       display: none;
     }
+  }
+
+  .message-thread-meta {
+    display: block;
   }
 }
