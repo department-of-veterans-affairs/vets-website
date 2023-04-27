@@ -2,6 +2,7 @@ import fs from 'fs';
 
 const knownFonts = {
   'Bitter-Bold': 'bitter-bold.ttf',
+  'Bitter-Regular': 'bitter-regular.ttf',
 };
 
 export default async function registerFonts(doc, fonts) {
