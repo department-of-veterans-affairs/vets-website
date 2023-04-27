@@ -1,34 +1,39 @@
 .result-cards {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 
-    li {
-        margin: 0 0 24 0;
-        background: $color-gray-lightest;
-        border: 2px solid $color-gray-lighter;
+  li {
+    margin: 0 0 24 0;
+    background: $color-gray-lightest;
+    border: 2px solid $color-gray-lighter;
 
-        h3 {
-            margin: 0;
-            padding: 16px;
-        }
-
-        div {
-            background: $color-white;
-            border-top: 2px solid $color-gray-lighter;
-            padding: 8 16 8 16;
-
-            h4 {
-                margin: 0;
-            }
-
-            .data {
-                margin: 0 0 16 0;
-            }
-
-            .range {
-                margin: 0;
-            }
-        }
+    h3 {
+      margin: 0;
+      padding: 16px;
     }
+
+    div {
+      background: $color-white;
+      border-top: 2px solid $color-gray-lighter;
+      padding: 8 16 8 16;
+
+      h4 {
+        margin: 0;
+      }
+
+      .data {
+        margin: 0 0 16 0;
+      }
+
+      .range {
+        @media screen {
+          margin: 0;
+        }
+        @media print {
+          margin-top: 0;
+        }
+      }
+    }
+  }
 }
