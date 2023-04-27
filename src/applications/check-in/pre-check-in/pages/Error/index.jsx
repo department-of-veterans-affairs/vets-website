@@ -16,9 +16,10 @@ import { getFirstCanceledAppointment } from '../../../utils/appointment';
 
 const getPdf = e => {
   e.preventDefault();
+
   generatePdf('test_pdf', {
     title: 'Test Title',
-    generatedAt: new Date.toString(),
+    generatedAt: new Date().toISOString(),
     generatedBy: 'Check-in Experience',
     heading: 'Test Heading',
   });
