@@ -1,6 +1,7 @@
 // prettier-ignore
 
 export default Object.freeze({
+  bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
   caregiverSigiEnabled: 'caregiver_sigi_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
