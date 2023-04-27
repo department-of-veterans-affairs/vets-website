@@ -1,7 +1,7 @@
-import React from 'react';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import {
+  testNumberOfErrorsOnSubmit,
+  testNumberOfFields,
+} from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 
 const {
@@ -9,34 +9,22 @@ const {
   uiSchema,
 } = formConfig.chapters.preparerIdentification.pages.preparerIdentification;
 
-describe('preparer identification page', () => {
-  it('should have appropriate number of fields', () => {
-    const { container } = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-      />,
-    );
+const pageTitle = 'preparer identification';
 
-    expect(container.querySelectorAll('input')).to.have.lengthOf(8);
-  });
+const expectedNumberOfFields = 8;
+testNumberOfFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfFields,
+  pageTitle,
+);
 
-  it('should show the correct number of errors on submit', () => {
-    const { getByRole, queryAllByRole } = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-      />,
-    );
-
-    getByRole('button', { name: /submit/i }).click();
-    const errors = queryAllByRole('alert');
-    expect(errors).to.have.lengthOf(0);
-  });
-});
+const expectedNumberOfErrors = 0;
+testNumberOfErrorsOnSubmit(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfErrors,
+  pageTitle,
+);

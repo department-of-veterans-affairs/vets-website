@@ -1,98 +1,71 @@
-import React from 'react';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+import {
+  testNumberOfErrorsOnSubmit,
+  testNumberOfFields,
+} from '../../../shared/tests/pages/pageTests.spec';
 import {
   preparerIdentificationFields,
   veteranDirectRelative,
 } from '../../definitions/constants';
+import formConfig from '../../config/form';
 
 const {
   schema,
   uiSchema,
 } = formConfig.chapters.preparerPersonalInformation.pages.preparerPersonalInformation;
 
-describe('preparer personal information page', () => {
-  it('should have appropriate number of fields for direct relative', () => {
-    const { container } = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          [preparerIdentificationFields.parentObject]: {
-            [preparerIdentificationFields.relationshipToVeteran]:
-              veteranDirectRelative[0],
-          },
-        }}
-        formData={{}}
-      />,
-    );
+const pageTitleForDirectRelative =
+  'preparer personal information - direct relative';
+const pageTitleForThirdParty = 'preparer personal information - third party';
 
-    expect(
-      container.querySelectorAll('input, select, textarea'),
-    ).to.have.lengthOf(4);
-  });
+const mockDataForDirectRelative = {
+  [preparerIdentificationFields.parentObject]: {
+    [preparerIdentificationFields.relationshipToVeteran]:
+      veteranDirectRelative[0],
+  },
+};
 
-  it('should have appropriate number of fields for third-party (or any non-veteran/relative text)', () => {
-    const { container } = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          [preparerIdentificationFields.parentObject]: {
-            [preparerIdentificationFields.relationshipToVeteran]: 'Third-party',
-          },
-        }}
-        formData={{}}
-      />,
-    );
+const mockDataForThirdParty = {
+  [preparerIdentificationFields.parentObject]: {
+    [preparerIdentificationFields.relationshipToVeteran]: 'Third-party',
+  },
+};
 
-    expect(
-      container.querySelectorAll('input, select, textarea'),
-    ).to.have.lengthOf(7);
-  });
+const expectedNumberOfFieldsForDirectRelative = 4;
+testNumberOfFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfFieldsForDirectRelative,
+  pageTitleForDirectRelative,
+  mockDataForDirectRelative,
+);
 
-  it('should show the correct number of errors on submit for direct relative', () => {
-    const { getByRole, queryAllByRole } = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          [preparerIdentificationFields.parentObject]: {
-            [preparerIdentificationFields.relationshipToVeteran]:
-              veteranDirectRelative[0],
-          },
-        }}
-        formData={{}}
-      />,
-    );
+const expectedNumberOfFieldsForThirdParty = 7;
+testNumberOfFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfFieldsForThirdParty,
+  pageTitleForThirdParty,
+  mockDataForThirdParty,
+);
 
-    getByRole('button', { name: /submit/i }).click();
-    const errors = queryAllByRole('alert');
-    expect(errors).to.have.lengthOf(2);
-  });
+const expectedNumberOfErrorsForDirectRelative = 2;
+testNumberOfErrorsOnSubmit(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfErrorsForDirectRelative,
+  pageTitleForDirectRelative,
+  mockDataForDirectRelative,
+);
 
-  it('should show the correct number of errors on submit for third-party (or any non-veteran/relative text)', () => {
-    const { getByRole, queryAllByRole } = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          [preparerIdentificationFields.parentObject]: {
-            [preparerIdentificationFields.relationshipToVeteran]: 'Third-party',
-          },
-        }}
-        formData={{}}
-      />,
-    );
-
-    getByRole('button', { name: /submit/i }).click();
-    const errors = queryAllByRole('alert');
-    expect(errors).to.have.lengthOf(2);
-  });
-});
+const expectedNumberOfErrorsForThirdParty = 2;
+testNumberOfErrorsOnSubmit(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfErrorsForThirdParty,
+  pageTitleForThirdParty,
+  mockDataForThirdParty,
+);
