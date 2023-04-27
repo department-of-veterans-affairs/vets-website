@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import PropTypes from 'prop-types';
 
 import { benefitTypes } from '~/applications/personalization/common/constants';
 
@@ -35,10 +35,17 @@ const DirectDepositConnectionError = ({ benefitType }) => {
   }
 
   return (
-    <div className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4">
-      <AlertBox headline={headline} content={content} status="warning" />
-    </div>
+    <va-alert class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4">
+      <h3 slot="headline">{headline}</h3>
+
+      {content}
+    </va-alert>
   );
+};
+
+// add prop types for the component
+DirectDepositConnectionError.propTypes = {
+  benefitType: PropTypes.string.isRequired,
 };
 
 export default DirectDepositConnectionError;
