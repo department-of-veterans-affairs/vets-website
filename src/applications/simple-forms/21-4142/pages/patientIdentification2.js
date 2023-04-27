@@ -48,7 +48,10 @@ export default {
     properties: {
       [patientIdentificationFields.parentObject]: {
         type: 'object',
-        required: intersection(required, pageFields),
+        required: [
+          ...intersection(required, pageFields),
+          [patientIdentificationFields.patientSsn],
+        ],
         properties: pick(properties, pageFields),
       },
     },

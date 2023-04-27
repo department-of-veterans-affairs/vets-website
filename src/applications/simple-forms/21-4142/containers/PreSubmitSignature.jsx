@@ -151,7 +151,9 @@ const PreSubmitSignature = ({
             signatureError
               ? `Please enter your name exactly as it appears on your application: ${
                   nameOfSigner?.first
-                } ${nameOfSigner?.middle || ''} ${nameOfSigner?.last}`
+                } ${nameOfSigner?.middle ? `${nameOfSigner?.middle} ` : ''}${
+                  nameOfSigner?.last
+                }`
               : ''
           }
           message-aria-describedby={`Statement of Truth: ${legalText}`}

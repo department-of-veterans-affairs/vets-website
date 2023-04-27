@@ -52,7 +52,8 @@ export class ConfirmationPage extends React.Component {
             <>
               <h4>Applicant</h4>
               <p>
-                {first} {middle} {last}
+                {first} ${middle ? `${middle} ` : ''}
+                {last}
                 {suffix ? `, ${suffix}` : null}
               </p>
             </>
