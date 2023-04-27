@@ -19,7 +19,7 @@ const PrimaryPhoneReview = ({ data, editPage }) => {
         {errorMessages.missingPrimaryPhone}
       </strong>
     ) : null;
-  const lableWrapClasses = error
+  const labelWrapClasses = error
     ? 'vads-u-border-left--4px vads-u-border-color--secondary-dark vads-u-padding-left--1p5'
     : '';
   return hasHomeAndMobilePhone(data) ? (
@@ -39,7 +39,7 @@ const PrimaryPhoneReview = ({ data, editPage }) => {
       </div>
       <dl className="review">
         <div className="review-row">
-          <dt className={lableWrapClasses}>{error || label}</dt>
+          <dt className={labelWrapClasses}>{error || label}</dt>
           <dd>
             <strong>{error ? '' : getFormattedPhone(phone)}</strong>
           </dd>
