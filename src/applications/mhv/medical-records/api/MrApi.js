@@ -88,7 +88,7 @@ export const mockGetAllergiesList = () => {
 export const mockGetAllergy = id => {
   return new Promise(resolve => {
     setTimeout(() => {
-      const allergy = allergies.find(cond => cond.id === id);
+      const allergy = allergies.find(alg => +alg.id === +id);
       resolve(allergy);
     }, 1000);
   });
