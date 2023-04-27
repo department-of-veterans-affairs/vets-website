@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
   VaSelect,
@@ -178,6 +179,12 @@ const EmploymentRecord = props => {
 
   return (
     <form onSubmit={updateFormData}>
+      <legend className="schemaform-block-title">Add a job</legend>
+      <p className="vads-u-padding-top--1">
+        Tell us about any jobs your spouse had in the past 2 years that they
+        received pay stubs for. You’ll need to provide their income information
+        if it’s a current job.
+      </p>
       <div className="input-size-5">
         <VaSelect
           id="type"
@@ -187,6 +194,7 @@ const EmploymentRecord = props => {
           value={employmentRecord.type}
           onVaSelect={handlers.onChange}
           error={typeError}
+          class="advanced-search-field"
         >
           <option value=""> </option>
           <option value="Full time">Full time</option>
@@ -205,6 +213,7 @@ const EmploymentRecord = props => {
           onDateBlur={e =>
             validateYear(e.target.value || '', setFromDateError, startError)
           }
+          className="vads-u-margin-top--0"
           required
           error={fromDateError}
         />
@@ -251,6 +260,14 @@ const EmploymentRecord = props => {
       {onReviewPage ? updateButton : navButtons}
     </form>
   );
+};
+
+EmploymentRecord.propTypes = {
+  data: PropTypes.object.isRequired,
+  goBack: PropTypes.func.isRequired,
+  goToPath: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  onReviewPage: PropTypes.bool,
 };
 
 const mapStateToProps = ({ form }) => {

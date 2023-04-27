@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
   VaSelect,
@@ -52,8 +53,9 @@ const EmploymentRecord = props => {
 
   const handleEmployerNameChange = event => {
     handleChange('employerName', event.target.value);
+    setEmployerNameError(false);
   };
-
+  const [toDateError, setToDateError] = useState();
   const [fromDateError, setFromDateError] = useState();
 
   const userType = 'veteran';
@@ -80,9 +82,9 @@ const EmploymentRecord = props => {
     }
 
     if (
-      !employmentRecord.type &&
-      !employmentRecord.employerName &&
-      employmentRecord.employerName !== ''
+      !employmentRecord.type ||
+      employmentRecord.type === '' ||
+      (!employmentRecord.employerName && employmentRecord.employerName !== '')
     ) {
       return;
     }
@@ -181,6 +183,12 @@ const EmploymentRecord = props => {
 
   return (
     <form onSubmit={updateFormData}>
+      <legend className="schemaform-block-title">Add a job</legend>
+      <p className="vads-u-padding-top--1">
+        Tell us about any jobs you’ve had in the past 2 years that you received
+        pay stubs for. You’ll need to provide your income information if it’s a
+        current job.
+      </p>
       <div className="input-size-5">
         <VaSelect
           id="type"
@@ -223,11 +231,15 @@ const EmploymentRecord = props => {
           label="Date you stopped work at this job?"
           name="to"
           onDateChange={e => handlers.handleDateChange('to', e.target.value)}
-          // onDateBlur={e =>
-          //   validateYear(e.target.value || '', setToDateError, endError)
-          // }
+          onDateBlur={e =>
+            validateYear(
+              e.target.value || '',
+              setToDateError,
+              'Please enter your employment end date.',
+            )
+          }
           required
-          // error={toDateError}
+          error={toDateError}
         />
       </div>
       <Checkbox
@@ -251,6 +263,14 @@ const EmploymentRecord = props => {
       {onReviewPage ? updateButton : navButtons}
     </form>
   );
+};
+
+EmploymentRecord.propTypes = {
+  data: PropTypes.object.isRequired,
+  goBack: PropTypes.func.isRequired,
+  goToPath: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  onReviewPage: PropTypes.bool,
 };
 
 const mapStateToProps = ({ form }) => {

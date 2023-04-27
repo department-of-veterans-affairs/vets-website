@@ -61,14 +61,17 @@ export const MiniSummaryCard = ({
     </div>
   );
 };
-
 MiniSummaryCard.propTypes = {
-  editDestination: Proptypes.shape({
-    pathname: Proptypes.string.isRequired,
-    search: Proptypes.string.isRequired,
-  }).isRequired,
+  editDestination: Proptypes.oneOfType([
+    Proptypes.shape({
+      pathname: Proptypes.string.isRequired,
+      search: Proptypes.string.isRequired,
+    }),
+    Proptypes.func,
+  ]).isRequired,
   heading: Proptypes.string.isRequired,
   body: Proptypes.object,
+  index: Proptypes.number,
   showDelete: Proptypes.bool,
   onDelete: Proptypes.func,
 };
