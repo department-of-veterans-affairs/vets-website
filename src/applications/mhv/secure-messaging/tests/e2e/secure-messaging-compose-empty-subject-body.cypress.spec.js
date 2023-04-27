@@ -17,14 +17,14 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
   it('empty message subject error', () => {
     composePage.getMessageBodyField().type('Test message body');
     composePage.clickOnSendMessageButton();
-    composePage.verifyFocusOnErrorEmptyMessageSubject();
+    composePage.verifySubjectErrorMessage();
     cy.injectAxe();
     cy.axeCheck();
   });
   it('empty message body error', () => {
     composePage.getMessageSubjectField().type('Test Subject');
     composePage.clickOnSendMessageButton();
-    composePage.verifyFocusOnErrorEmptyMessageBody();
+    composePage.verifyBodyErrorMessage();
     cy.injectAxe();
     cy.axeCheck();
   });
