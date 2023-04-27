@@ -48,9 +48,9 @@ class AppointmentDetails {
 
   validateDirectionsLink = visible => {
     if (visible) {
-      cy.get('div[data-testid="directions-link"]').should('be.visible');
+      cy.get('a[data-testid="directions-link"]').should('be.visible');
     } else {
-      cy.get('div[data-testid="directions-link"]').should('not.exist');
+      cy.get('a[data-testid="directions-link"]').should('not.exist');
     }
   };
 
