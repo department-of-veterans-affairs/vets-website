@@ -234,7 +234,7 @@ const EmploymentRecord = props => {
       />
       <div
         className={classNames('vads-u-margin-top--3', {
-          'field-disabled': doesNotCurrentlyWorkHere,
+          'field-disabled': !doesNotCurrentlyWorkHere,
         })}
       >
         <VaDate
