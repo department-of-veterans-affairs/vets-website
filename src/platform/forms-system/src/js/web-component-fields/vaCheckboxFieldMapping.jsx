@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function vaTextInputFieldMapping(props) {
+export default function vaCheckboxFieldMapping(props) {
   const {
     description,
     textDescription,
@@ -24,31 +24,29 @@ export default function vaTextInputFieldMapping(props) {
     ...uiOptions,
     name: childrenProps.idSchema.$id,
     label,
-    // autocomplete: uiOptions?.autocomplete,
     required,
     error,
+    description: textDescription,
     maxlength: childrenProps.schema.maxLength,
     minlength: childrenProps.schema.minLength,
-    value:
+    checked:
       typeof childrenProps.formData === 'undefined'
-        ? ''
+        ? false
         : childrenProps.formData,
-    // inputmode: uiOptions?.inputmode,
     type: inputType,
-    // hint: uiOptions?.hint,
-    vaChange: (event, value) => {
-      const newVal = value ?? event.target.value ?? undefined;
+    onVaChange: (event, value) => {
+      const newVal = value ?? event.target.checked ?? undefined;
       childrenProps.onChange(newVal);
     },
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
     children: (
-      <>
+      <div slot="description">
         {textDescription && <p>{textDescription}</p>}
         {DescriptionField && (
           <DescriptionField options={uiOptions} index={index} />
         )}
         {!textDescription && !DescriptionField && description}
-      </>
+      </div>
     ),
   };
 }

@@ -18,6 +18,13 @@
       "last": "test"
     },
     "requiredOld": "test",
-    "requiredNew": "test"
+    "requiredNew": "test",
+    "textInputOld": "test",
+    "textInputNew": "test",
+    "oldCheckbox": true,
+    "checkboxWithJsx": true,
+    "textInputOld2": "343434343",
+    "checkboxWithLabelAndLegend": false,
+    "textInput": "343434343"
   }
 }
