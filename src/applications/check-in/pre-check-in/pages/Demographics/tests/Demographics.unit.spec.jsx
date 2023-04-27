@@ -63,7 +63,7 @@ describe('pre-check-in', () => {
         ),
       ).to.exist;
     });
-    it('does not render the sub-message for a phone appointment appointment', () => {
+    it('does not render the sub-message for a phone appointment', () => {
       const phoneAppointments = JSON.parse(
         JSON.stringify(multipleAppointments),
       );
@@ -80,6 +80,18 @@ describe('pre-check-in', () => {
           'If you need to make changes, please talk to a staff member when you check in.',
         ),
       ).not.to.exist;
+    });
+    it('renders the sub-message for an in-person appointment if there are no appointments', () => {
+      const component = render(
+        <CheckInProvider store={{ appointments: [], veteranData }}>
+          <Demographics />
+        </CheckInProvider>,
+      );
+      expect(
+        component.queryByText(
+          'If you need to make changes, please talk to a staff member when you check in.',
+        ),
+      ).to.exist;
     });
   });
 });

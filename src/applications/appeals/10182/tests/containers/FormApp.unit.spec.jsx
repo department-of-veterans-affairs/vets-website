@@ -6,32 +6,9 @@ import sinon from 'sinon';
 
 import { FormApp } from '../../containers/FormApp';
 import { SELECTED } from '../../constants';
+import vapContactInfo from '../fixtures/mocks/vapProfile.json';
 
-const profile = {
-  vapContactInfo: {
-    email: {
-      emailAddress: 'test@user.com',
-    },
-    mobilePhone: {
-      countryCode: '2',
-      areaCode: '345',
-      phoneNumber: '6789012',
-      phoneNumberExt: '34',
-      updatedAt: '2021-01-01',
-    },
-    mailingAddress: {
-      addressLine1: '123 test',
-      addressLine2: 'c/o foo',
-      addressLine3: 'suite 99',
-      city: 'Big City',
-      stateCode: 'NV',
-      zipCode: '10101',
-      countryName: 'USA',
-      internationalPostalCode: '12345',
-      updatedAt: '2021-01-01',
-    },
-  },
-};
+const profile = { vapContactInfo };
 
 const getData = ({
   showNod = true,

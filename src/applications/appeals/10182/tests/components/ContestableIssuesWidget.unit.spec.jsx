@@ -1,7 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
+
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { ContestableIssuesWidget } from '../../components/ContestableIssuesWidget';
 import { SELECTED } from '../../constants';
@@ -30,51 +32,35 @@ describe('<ContestableIssuesWidget>', () => {
 
   it('should render a list of check boxes (IssueCard component)', () => {
     const props = getProps();
-    const wrapper = mount(<ContestableIssuesWidget {...props} />);
-    expect(wrapper.find('input[type="checkbox"]').length).to.equal(
+    const { container } = render(<ContestableIssuesWidget {...props} />);
+    expect($$('input[type="checkbox"]', container).length).to.equal(
       props.value.length + props.additionalIssues.length,
     );
-    expect(
-      wrapper
-        .find('.widget-title')
-        .first()
-        .text(),
-    ).to.equal('issue-1');
-    wrapper.unmount();
+    expect($('.widget-title', container).textContent).to.equal('issue-1');
   });
   it('should render change link & remove button', () => {
     const props = getProps();
-    const wrapper = mount(<ContestableIssuesWidget {...props} />);
     const addLength = props.additionalIssues.length;
-    const link = wrapper.find('a.change-issue-link');
-    expect(link.length).to.equal(addLength);
-    expect(wrapper.find('button.remove-issue').length).to.equal(
-      props.additionalIssues.length,
-    );
-    wrapper.unmount();
+    const { container } = render(<ContestableIssuesWidget {...props} />);
+    expect($$('a.change-issue-link', container).length).to.equal(addLength);
+    expect($$('.remove-issue', container).length).to.equal(addLength);
   });
 
   it('should not wrap the checkboxes in a fieldset', () => {
     const props = getProps();
-    const wrapper = mount(<ContestableIssuesWidget {...props} />);
-    expect(wrapper.find('fieldset').length).to.equal(0);
-    wrapper.unmount();
+    const { container } = render(<ContestableIssuesWidget {...props} />);
+    expect($$('fieldset', container).length).to.equal(0);
   });
 
   it('should call onChange when the checkbox is toggled', () => {
     const onChange = sinon.spy();
     const props = getProps({ onChange });
-    const wrapper = mount(<ContestableIssuesWidget {...props} />);
-    wrapper.find('.form-checkbox').forEach((element, index) => {
+    const { container } = render(<ContestableIssuesWidget {...props} />);
+    $$('.form-checkbox', container).forEach((element, index) => {
       onChange.reset();
 
       // "Click" the option
-      // .simulate('click') wasn't calling the onChange handler for some reason
-      element
-        .find('input')
-        .first()
-        .props()
-        .onChange({ target: { checked: true } });
+      fireEvent.change($('input', element), { target: { checked: true } });
 
       // Check that it changed
       expect(onChange.callCount).to.equal(1);
@@ -84,11 +70,7 @@ describe('<ContestableIssuesWidget>', () => {
       });
 
       // "Click" the option
-      element
-        .find('input')
-        .first()
-        .props()
-        .onChange({ target: { checked: false } });
+      fireEvent.change($('input', element), { target: { checked: false } });
 
       // Check that it changed back
       expect(onChange.callCount).to.equal(2);
@@ -97,46 +79,38 @@ describe('<ContestableIssuesWidget>', () => {
         [SELECTED]: false,
       });
     });
-    wrapper.unmount();
   });
   it('should not show an error on submission with one selection', () => {
     const props = getProps({ submitted: true });
     const issues = [{ [SELECTED]: true }];
-    const wrapper = mount(
+    const { container } = render(
       <ContestableIssuesWidget {...props} additionalIssues={issues} />,
     );
-    expect(wrapper.find('.usa-input-error').length).to.equal(0);
-    wrapper.unmount();
+    expect($$('.usa-input-error', container).length).to.equal(0);
   });
 
   it('should show an error when submitted with no selections', () => {
     const props = getProps({ submitted: true });
-    const wrapper = mount(<ContestableIssuesWidget {...props} />);
-    expect(wrapper.find('va-alert h3').length).to.equal(1);
-    wrapper.unmount();
+    const { container } = render(<ContestableIssuesWidget {...props} />);
+    expect($$('va-alert h3', container).length).to.equal(1);
   });
   it('should show a message when no issues selected on review page', () => {
     const props = getProps({ review: true });
-    const wrapper = mount(<ContestableIssuesWidget {...props} />);
-    expect(wrapper.find('dt').text()).to.contain(
+    const { container } = render(<ContestableIssuesWidget {...props} />);
+    expect($('dt', container).textContent).to.contain(
       'at least one issue, so we can process your request',
     );
-    wrapper.unmount();
   });
   it('should remove additional item', () => {
     const setFormData = sinon.spy();
     const props = getProps({ setFormData });
-    const wrapper = mount(<ContestableIssuesWidget {...props} />);
+    const { container } = render(<ContestableIssuesWidget {...props} />);
 
     expect(props.additionalIssues.length).to.equal(1);
 
-    wrapper
-      .find('button.remove-issue')
-      .props()
-      .onClick({ preventDefault: () => {} });
+    fireEvent.click($('va-button.remove-issue', container));
 
     expect(setFormData.called).to.be.true;
     expect(setFormData.args[0][0].additionalIssues.length).to.equal(0);
-    wrapper.unmount();
   });
 });

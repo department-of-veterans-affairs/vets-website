@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
+import environment from 'platform/utilities/environment';
+
+import user from '../tests/fixtures/mocks/user.json';
 
 import formConfig from '../config/form';
 import {
@@ -33,8 +36,12 @@ export const FormApp = ({
   getContestableIssues,
   contestableIssues = {},
 }) => {
-  const { email = {}, mobilePhone = {}, mailingAddress = {} } =
-    profile?.vapContactInfo || {};
+  // vapContactInfo is an empty object locally, so mock it
+  const data = environment.isLocalhost()
+    ? user.data.attributes.vet360ContactInformation
+    : profile?.vapContactInfo || {};
+
+  const { email = {}, mobilePhone = {}, mailingAddress = {} } = data;
 
   // Update profile data changes in the form data dynamically
   useEffect(

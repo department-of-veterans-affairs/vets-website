@@ -1,81 +1,71 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 import { useSelector, connect } from 'react-redux';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import EmploymentHistorySummaryCard from '../../../components/EmploymentHistorySummaryCard';
+import { EmptyMiniSummaryCard } from '../../../components/shared/MiniSummaryCard';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearJobIndex } from '../../../utils/session';
 
 const EmploymentHistoryWidget = props => {
-  const { goToPath, goBack, onReviewPage } = props;
-  const [hasAdditionalJobToAdd, setHasAdditionalJobToAdd] = useState('false');
+  const { goToPath, goForward, onReviewPage } = props;
 
   const formData = useSelector(state => state.form.data);
   const employmentHistory =
     formData.personalData.employmentHistory.veteran.employmentRecords || [];
-  const efsrFeatureFlag = formData['view:enhancedFinancialStatusReport'];
+
   useEffect(() => {
     clearJobIndex();
   }, []);
 
   const handlers = {
-    onSubmit: event => {
+    onBackClick: event => {
       event.preventDefault();
-      let path = '/benefits';
-      if (hasAdditionalJobToAdd === 'true') {
-        path = '/enhanced-employment-records';
-      } else if (efsrFeatureFlag) {
-        path = '/your-benefits';
-      }
-      goToPath(path);
-    },
-    onSelection: event => {
-      const { value } = event?.detail || {};
-      if (value) {
-        setHasAdditionalJobToAdd(value);
-      }
+      goToPath('/employment-question');
     },
   };
 
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const navButtons = (
+    <FormNavButtons
+      goBack={handlers.onBackClick}
+      goForward={goForward}
+      submitToContinue
+    />
+  );
   const updateButton = <button type="submit">Review update button</button>;
 
   return (
     <form onSubmit={handlers.onSubmit}>
+      <legend className="schemaform-block-title">Your work history</legend>
       <div className="vads-u-margin-top--3" data-testid="debt-list">
-        {employmentHistory.map((job, index) => (
-          <EmploymentHistorySummaryCard
-            key={`${index}-${job.employername}`}
-            job={job}
-            index={index}
-            isSpouse={false}
-          />
-        ))}
+        {employmentHistory.length === 0 ? (
+          <EmptyMiniSummaryCard content="No employment history provided" />
+        ) : (
+          employmentHistory.map((job, index) => (
+            <EmploymentHistorySummaryCard
+              key={`${index}-${job.employername}`}
+              job={job}
+              index={index}
+              isSpouse={false}
+            />
+          ))
+        )}
       </div>
-      <VaRadio
-        class="vads-u-margin-y--2"
-        label="Have you had another job in the last 2 years?"
-        onVaValueChange={handlers.onSelection}
-        required
+      <Link
+        className="vads-c-action-link--green"
+        to="/enhanced-employment-records"
       >
-        <va-radio-option
-          id="home-phone"
-          label="Yes"
-          value="true"
-          checked={hasAdditionalJobToAdd === 'true'}
-        />
-        <va-radio-option
-          id="mobile-phone"
-          label="No"
-          value="false"
-          name="primary"
-          checked={hasAdditionalJobToAdd === 'false'}
-        />
-      </VaRadio>
+        Add another job from the last 2 years
+      </Link>
       {onReviewPage ? updateButton : navButtons}
     </form>
   );
 };
-
+EmploymentHistoryWidget.propTypes = {
+  goForward: PropTypes.func.isRequired,
+  goToPath: PropTypes.func.isRequired,
+  onReviewPage: PropTypes.bool,
+};
 const mapStateToProps = ({ form }) => {
   return {
     formData: form.data,

@@ -46,6 +46,22 @@ class AppointmentDetails {
     );
   };
 
+  validateDirectionsLink = visible => {
+    if (visible) {
+      cy.get('a[data-testid="directions-link"]').should('be.visible');
+    } else {
+      cy.get('a[data-testid="directions-link"]').should('not.exist');
+    }
+  };
+
+  validateFacilityAddress = visible => {
+    if (visible) {
+      cy.get('div[data-testid="address-block"]').should('be.visible');
+    } else {
+      cy.get('div[data-testid="address-block"]').should('not.exist');
+    }
+  };
+
   validateWhere = (type = 'in-person') => {
     cy.get('div[data-testid="appointment-details--where"]').should(
       'be.visible',
@@ -54,8 +70,19 @@ class AppointmentDetails {
       'be.visible',
     );
     if (type === 'in-person') {
+      cy.get('div[data-testid="appointment-details--facility-value"]').should(
+        'be.visible',
+      );
+
       cy.get('div[data-testid="appointment-details--location-value"]').should(
         'be.visible',
+      );
+    } else {
+      cy.get('div[data-testid="appointment-details--facility-value"]').should(
+        'not.exist',
+      );
+      cy.get('div[data-testid="appointment-details--location-value"]').should(
+        'not.exist',
       );
     }
   };

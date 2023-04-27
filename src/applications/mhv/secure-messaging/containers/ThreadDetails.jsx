@@ -14,6 +14,7 @@ import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { getTriageTeams } from '../actions/triageTeams';
 import { clearDraft } from '../actions/draftDetails';
 import InterstitialPage from './InterstitialPage';
+import { PrintMessageOptions } from '../util/constants';
 
 const ThreadDetails = props => {
   const { threadId } = useParams();
@@ -21,7 +22,7 @@ const ThreadDetails = props => {
   const dispatch = useDispatch();
   const alert = useSelector(state => state.sm.alerts.alert);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
-  const { message, messageHistory } = useSelector(
+  const { message, messageHistory, printOption, threadViewCount } = useSelector(
     state => state.sm.messageDetails,
   );
   const { draftMessage, draftMessageHistory } = useSelector(
@@ -113,7 +114,12 @@ const ThreadDetails = props => {
             replyMessage={draftMessageHistory[0]}
             cannotReplyAlert={cannotReplyAlert}
           />
-          <MessageThread messageHistory={draftMessageHistory.slice(1)} />
+          <MessageThread
+            messageHistory={draftMessageHistory.slice(1)}
+            isDraftThread
+            isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
+            viewCount={threadViewCount}
+          />
         </div>
       );
     }
@@ -133,7 +139,14 @@ const ThreadDetails = props => {
       return (
         <>
           <MessageDetailBlock message={message} />
-          <MessageThread messageHistory={messageHistory} threadId={threadId} />
+          {messageHistory?.length > 0 && (
+            <MessageThread
+              messageHistory={messageHistory}
+              threadId={threadId}
+              isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
+              viewCount={threadViewCount}
+            />
+          )}
         </>
       );
     }

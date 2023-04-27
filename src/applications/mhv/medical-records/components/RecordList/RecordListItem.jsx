@@ -6,6 +6,7 @@ import ConditionListItem from './ConditionListItem';
 import LabsAndTestsListItem from './LabsAndTestsListItem';
 import CareSummariesAndNotesListItem from './CareSummariesAndNotesListItem';
 import { RecordType } from '../../util/constants';
+import AllergyListItem from './AllergyListItem';
 
 const RecordListItem = props => {
   const { record, type } = props;
@@ -21,6 +22,8 @@ const RecordListItem = props => {
       return <VitalListItem record={record} />;
     case RecordType.HEALTH_CONDITIONS:
       return <ConditionListItem record={record} />;
+    case RecordType.ALLERGIES:
+      return <AllergyListItem record={record} />;
     default:
       return <p>Something went wrong, please try again.</p>;
   }

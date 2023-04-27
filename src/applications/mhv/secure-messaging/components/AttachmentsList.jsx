@@ -93,10 +93,8 @@ const AttachmentsList = props => {
                       });
                     }}
                   >
-                    <span ref={attachmentReference} tabIndex={-1}>
-                      {file.name}{' '}
-                    </span>
-                    ({getSize(file.size || file.attachmentSize)})
+                    <span ref={attachmentReference}>{file.name} </span>(
+                    {getSize(file.size || file.attachmentSize)})
                   </a>
                 </>
               )}
