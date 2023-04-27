@@ -38,8 +38,16 @@ export default function ClaimDetailLayout(props) {
   } else if (claim !== null) {
     const claimTitle = `Your ${getClaimType(claim)} claim`;
     const { contentions, status } = claim.attributes || {};
+
     const hasContentions = contentions && contentions.length;
     const isOpen = status !== 'COMPLETE';
+
+    const contentionsText = hasContentions
+      ? contentions
+          .slice(0, MAX_CONTENTIONS)
+          .map(cond => cond.name)
+          .join(', ')
+      : 'Not available';
 
     headingContent = (
       <>
@@ -57,14 +65,7 @@ export default function ClaimDetailLayout(props) {
           <h2 className="claim-contentions-header vads-u-font-size--h6">
             What you’ve claimed:
           </h2>
-          <span>
-            {hasContentions
-              ? contentions
-                  .slice(0, MAX_CONTENTIONS)
-                  .map(cond => cond.name.trim())
-                  .join(', ')
-              : 'Not available'}
-          </span>
+          <span>{contentionsText}</span>
           {hasContentions && contentions.length > MAX_CONTENTIONS ? (
             <span>
               <br />
