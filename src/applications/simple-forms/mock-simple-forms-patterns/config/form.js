@@ -10,7 +10,8 @@ import textInputWidgets1 from '../pages/textInputWidgets1';
 import textInputFullName from '../pages/textInputFullName';
 import textInputAddress from '../pages/textInputAddress';
 import textInputSsn from '../pages/textInputSsn';
-import checkbox from '../pages/checkbox';
+import checkboxAndTextInput from '../pages/checkboxAndTextInput';
+// import checkboxGroup from '../pages/checkboxGroup';
 // import radio from '../pages/radio';
 // import select from '../pages/select';
 // import date from '../pages/date';
@@ -70,25 +71,20 @@ const formConfig = {
           uiSchema: textInputSsn.uiSchema,
           schema: textInputSsn.schema,
         },
-        checkbox: {
-          path: 'checkbox',
-          title: 'Checkbox',
-          uiSchema: checkbox.uiSchema,
-          schema: checkbox.schema,
+        checkboxAndTextInput: {
+          path: 'checkbox-and-text-input',
+          title: 'Checkbox and text input',
+          uiSchema: checkboxAndTextInput.uiSchema,
+          schema: checkboxAndTextInput.schema,
         },
+        // checkboxGroup: {
+        //   path: 'checkbox-group',
+        //   title: 'Checkbox group',
+        //   uiSchema: checkboxGroup.uiSchema,
+        //   schema: checkboxGroup.schema,
+        // },
       },
     },
-    // checkbox: {
-    //   title: 'Checkbox',
-    //   pages: {
-    //     checkbox: {
-    //       path: 'checkbox',
-    //       title: 'Checkbox',
-    //       uiSchema: checkbox.uiSchema,
-    //       schema: checkbox.schema,
-    //     },
-    //   },
-    // },
     // select: {
     //   title: 'Select',
     //   pages: {
