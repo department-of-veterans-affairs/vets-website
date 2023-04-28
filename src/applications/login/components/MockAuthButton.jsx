@@ -1,24 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import environment from 'platform/utilities/environment';
-import ENVIRONMENT_CONFIGURATIONS from 'site/constants/environments-configs';
+import environments from 'site/constants/environments';
+import { mockLogin } from 'platform/user/authentication/utilities';
+import {
+  CSP_IDS,
+  SERVICE_PROVIDERS,
+} from 'platform/user/authentication/constants';
+import Select from '@department-of-veterans-affairs/component-library/Select';
 
 export default function MockAuthButton() {
-  return (
-    <button
-      type="button"
-      aria-label="Mock Authentication"
-      className="usa-button mauth-button vads-u-margin-y--1p5 vads-u-padding-y--2"
-      onClick={() => {
-        const environ =
-          typeof process !== 'undefined'
-            ? process.env.BUILDTYPE
-            : environment.BUILDTYPE;
-        window.location = `${
-          ENVIRONMENT_CONFIGURATIONS[environ].API_URL
-        }/v0/sign_in/authorize?client_id=vamock`;
-      }}
-    >
-      Mock Authentication
-    </button>
-  );
+  const [authType, setAuthType] = useState(CSP_IDS.LOGIN_GOV);
+  const [mockLoginError, setMockLoginError] = useState('');
+  return [environments.LOCALHOST, environments.VAGOVDEV].includes(
+    environment.getRawBuildtype(),
+  ) ? (
+    <>
+      <Select
+        label="Credential Service Provider"
+        name="authType"
+        includeBlankOption={false}
+        errorMessage={mockLoginError}
+        value={{ value: authType }}
+        onValueChange={({ value }) => setAuthType(value)}
+        options={Object.values(SERVICE_PROVIDERS).map(provider => ({
+          label: provider.label,
+          value: provider.policy,
+        }))}
+      />
+      <button
+        type="button"
+        aria-label="Mock Authentication"
+        className="usa-button mauth-button vads-u-margin-y--1p5 vads-u-padding-y--2"
+        onClick={async () => {
+          try {
+            await mockLogin({ type: authType });
+          } catch (error) {
+            setMockLoginError(error.toString());
+          }
+        }}
+      >
+        Mock Authentication
+      </button>
+    </>
+  ) : null;
 }

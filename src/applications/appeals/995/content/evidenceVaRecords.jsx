@@ -5,7 +5,7 @@ import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToW
 export const content = {
   title: (addOrEdit, index) =>
     `${addOrEdit === 'add' ? 'Add' : 'Edit'} the ${numberToWords(
-      index,
+      index || 1,
     )} VA facility that treated you`,
   description: 'We’ll request your VA medical records from this facility',
   locationAndName:

@@ -4,9 +4,10 @@ import footerContent from 'platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
+import preSubmitInfo from '../containers/PreSubmitSignature';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
-
+import prefillTransformer from './prefill-transformer';
 import transformForSubmit from '../../shared/config/submit-transformer';
 
 // pages
@@ -26,6 +27,7 @@ import preparerAddress2 from '../pages/preparerAddress2';
 import {
   patientIdentificationFields,
   preparerIdentificationFields,
+  veteranDirectRelative,
   veteranIsSelfText,
 } from '../definitions/constants';
 
@@ -36,16 +38,21 @@ const formConfig = {
   trackingPrefix: 'medical-release-4142-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo,
   formId: '21-4142',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your authorize release of medical information application (21-4142) is in progress.',
-    //   expired: 'Your saved authorize release of medical information application (21-4142) has expired. If you want to apply for authorize release of medical information, please start a new application.',
-    //   saved: 'Your authorize release of medical information application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your authorize release of medical information application (21-4142) is in progress.',
+      expired:
+        'Your saved authorize release of medical information application (21-4142) has expired. If you want to apply for authorize release of medical information, please start a new application.',
+      saved:
+        'Your authorize release of medical information application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   transformForSubmit,
   savedFormMessages: {
     notFound:
@@ -189,9 +196,11 @@ const formConfig = {
           path: 'preparer-address-1',
           title: 'Preparer address 1',
           depends: formData =>
-            formData[preparerIdentificationFields.parentObject][
-              [preparerIdentificationFields.relationshipToVeteran]
-            ] !== veteranIsSelfText,
+            veteranDirectRelative.includes(
+              formData[preparerIdentificationFields.parentObject][
+                [preparerIdentificationFields.relationshipToVeteran]
+              ],
+            ),
           uiSchema: preparerAddress1.uiSchema,
           schema: preparerAddress1.schema,
         },
@@ -199,9 +208,14 @@ const formConfig = {
           path: 'preparer-address-2',
           title: 'Preparer address 2',
           depends: formData =>
-            !formData[preparerIdentificationFields.parentObject][
+            (!formData[preparerIdentificationFields.parentObject][
               [preparerIdentificationFields.preparerHasSameAddressAsVeteran]
-            ] &&
+            ] ||
+              !veteranDirectRelative.includes(
+                formData[preparerIdentificationFields.parentObject][
+                  [preparerIdentificationFields.relationshipToVeteran]
+                ],
+              )) &&
             formData[preparerIdentificationFields.parentObject][
               [preparerIdentificationFields.relationshipToVeteran]
             ] !== veteranIsSelfText,

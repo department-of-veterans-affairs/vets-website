@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, connect } from 'react-redux';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 import EmploymentHistorySummaryCard from '../../../components/EmploymentHistorySummaryCard';
+import { EmptyMiniSummaryCard } from '../../../components/shared/MiniSummaryCard';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearJobIndex } from '../../../utils/session';
 
 const SpouseEmploymentHistoryWidget = props => {
-  const { goToPath, goBack, onReviewPage } = props;
-  const [hasAdditionalJobToAdd, setHasAdditionalJobToAdd] = useState(false);
+  const { goToPath, goForward, onReviewPage } = props;
 
   const formData = useSelector(state => state.form.data);
   const employmentHistory =
@@ -18,63 +19,62 @@ const SpouseEmploymentHistoryWidget = props => {
   }, []);
 
   const handlers = {
-    onSelection: event => {
-      const value = event?.detail?.value;
-      if (value) {
-        setHasAdditionalJobToAdd(true);
-      }
-    },
-    onSubmit: event => {
+    onBackClick: event => {
       event.preventDefault();
-      let path = '/dependents';
-      if (efsrFeatureFlag && hasAdditionalJobToAdd) {
-        path = '/enhanced-spouse-employment-records';
-      } else if (hasAdditionalJobToAdd) {
-        path = '/spouse-employment-records';
-      } else if (efsrFeatureFlag && !hasAdditionalJobToAdd) {
-        path = '/dependents-count';
-      }
-      goToPath(path);
+      goToPath('/enhanced-spouse-employment-question');
     },
   };
 
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const navButtons = (
+    <FormNavButtons
+      goBack={handlers.onBackClick}
+      goForward={goForward}
+      submitToContinue
+    />
+  );
   const updateButton = <button type="submit">Review update button</button>;
+  const emptyPrompt = `Select the ‘add additional job link to add another job. Select the continue button to move on to the next question.`;
 
   return (
-    <form onSubmit={handlers.onSubmit}>
+    <form>
+      <legend className="schemaform-block-title">
+        Your spouse’s work history
+      </legend>
       <div className="vads-u-margin-top--3" data-testid="debt-list">
-        {employmentHistory.map((job, index) => (
-          <EmploymentHistorySummaryCard
-            key={`${index}-${job.employername}`}
-            job={job}
-            index={index}
-            isSpouse
-          />
-        ))}
+        {employmentHistory.length === 0 ? (
+          <EmptyMiniSummaryCard content={emptyPrompt} />
+        ) : (
+          employmentHistory.map((job, index) => (
+            <EmploymentHistorySummaryCard
+              key={`${index}-${job.employername}`}
+              job={job}
+              index={index}
+              isSpouse
+            />
+          ))
+        )}
       </div>
-      <VaRadio
-        class="vads-u-margin-y--2"
-        label="Has your spouse had another job in the last 2 years?"
-        onVaValueChange={handlers.onSelection}
-        required
+      <Link
+        className="vads-c-action-link--green"
+        to={
+          efsrFeatureFlag
+            ? '/enhanced-spouse-employment-records'
+            : '/spouse-employment-records'
+        }
       >
-        <va-radio-option
-          id="has-additional-job"
-          label="Yes"
-          value
-          checked={hasAdditionalJobToAdd}
-        />
-        <va-radio-option
-          id="has-no-additional-job"
-          label="No"
-          value={false}
-          checked={!hasAdditionalJobToAdd}
-        />
-      </VaRadio>
+        Add another job from the last 2 years
+      </Link>
+
       {onReviewPage ? updateButton : navButtons}
     </form>
   );
+};
+
+SpouseEmploymentHistoryWidget.propTypes = {
+  goBack: PropTypes.func.isRequired,
+  goForward: PropTypes.func.isRequired,
+  goToPath: PropTypes.func.isRequired,
+  onReviewPage: PropTypes.bool,
 };
 
 const mapStateToProps = ({ form }) => {

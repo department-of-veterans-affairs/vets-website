@@ -48,7 +48,7 @@ class Introduction {
 
   validateStartButtonTopPlacement = () => {
     cy.get('div[data-testid="start-button"]')
-      .contains('Answer questions')
+      .contains('Complete pre-check-in')
       .parent()
       .prev()
       .contains('Your answers will');

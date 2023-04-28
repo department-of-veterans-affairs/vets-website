@@ -140,22 +140,41 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('100');
-          cy.get('#minMonthlyPayment')
+          cy.get('#amountDueMonthly')
             .first()
             .shadow()
             .find('input')
             .type('100');
-          cy.get('#amountOverdue')
+          cy.get('#amountPastDue')
             .first()
             .shadow()
             .find('input')
             .type('100');
-          cy.get('.usa-button-primary').click();
+          cy.get('#submit').click();
         });
       },
       'credit-card-bills-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('.usa-button-primary').click();
+        });
+      },
+      'your-installment-contracts': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get(':nth-child(3) > .no-wrap')
+            .first()
+            .shadow()
+            .find('input')
+            .type('Loan');
+
+          cy.get('#amountDueMonthly')
+            .first()
+            .shadow()
+            .find('input')
+            .type('50');
+
+          cy.fillDate('loanBegan', '2020-01');
+
+          cy.get('#submit').click();
         });
       },
       'enhanced-spouse-employment-records': ({ afterHook }) => {

@@ -55,19 +55,18 @@ export default function RequestAppointmentLayout({ appointment }) {
                     padding="0"
                     size="1"
                     canceled={isCanceled}
-                    className="vads-u-font-weight--bold vaos-appts__display--table-cell"
+                    className="vads-u-font-weight--bold vaos-appts__display--table"
                   >
                     {typeOfCareName}
                   </AppointmentColumn>
                   <AppointmentColumn
                     padding="0"
                     size="1"
-                    className="vaos-appts__display--table-cell"
+                    className="vaos-appts__display--table"
                     canceled={isCanceled}
                   >
-                    <>
+                    <span className="vaos-appts__display--table-cell">
                       <i
-                        aria-hidden="true"
                         className={classNames(
                           'fas',
                           'vads-u-margin-right--1',
@@ -81,15 +80,17 @@ export default function RequestAppointmentLayout({ appointment }) {
                       />
 
                       {`${modality}`}
-                    </>
+                    </span>
                   </AppointmentColumn>
                   <AppointmentColumn
                     padding="0"
                     size="1"
-                    className="vaos-appts__display--table-cell"
+                    className="vaos-appts__display--table vaos-appts__text--truncate"
                     canceled={isCanceled}
                   >
-                    {appointmentLocality}
+                    <span className="vaos-appts__display--table-cell">
+                      {appointmentLocality}
+                    </span>
                   </AppointmentColumn>
                 </AppointmentRow>
               </AppointmentColumn>
@@ -101,14 +102,14 @@ export default function RequestAppointmentLayout({ appointment }) {
                 size="1"
                 aria-label={detailAriaLabel}
               >
-                <va-link
+                <a
                   className="vaos-appts__focus--hide-outline"
                   aria-describedby={`vaos-appts__detail-${appointment.id}`}
                   href={link}
                   onClick={e => e.preventDefault()}
-                  text="Details"
-                  role="link"
-                />
+                >
+                  Details
+                </a>
               </AppointmentColumn>
             </AppointmentRow>
           </AppointmentColumn>{' '}
