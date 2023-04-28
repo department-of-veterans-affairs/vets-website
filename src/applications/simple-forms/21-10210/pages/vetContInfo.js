@@ -1,5 +1,5 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
-import { CLAIMANT_TYPES } from '../definitions/constants';
+import { CLAIMANT_TYPES, CLAIM_OWNERSHIPS } from '../definitions/constants';
 
 export default {
   uiSchema: {
@@ -19,7 +19,9 @@ export default {
       },
       'ui:options': {
         hideIf: formData =>
-          formData.claimantType === CLAIMANT_TYPES.NON_VETERAN,
+          formData.claimantType === CLAIMANT_TYPES.NON_VETERAN ||
+          (formData.claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY &&
+            formData.claimantType === CLAIMANT_TYPES.VETERAN),
       },
     },
   },
