@@ -2,9 +2,9 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import ClaimDetailLayout from '../../components/ClaimDetailLayout';
+import ClaimDetailLayout from '../../../components/evss/ClaimDetailLayout';
 
-describe('<ClaimDetailLayout>', () => {
+describe('<ClaimDetailLayoutEVSS>', () => {
   it('should render loading indicator', () => {
     const tree = SkinDeep.shallowRender(<ClaimDetailLayout loading />);
 
@@ -13,7 +13,7 @@ describe('<ClaimDetailLayout>', () => {
   it('should render sync warning', () => {
     const claim = {
       attributes: {
-        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
+        contentionList: ['Condition 1', 'Condition 2'],
       },
     };
 
@@ -47,12 +47,12 @@ describe('<ClaimDetailLayout>', () => {
     const claim = {
       id: 5,
       attributes: {
-        contentions: [
-          { name: 'Condition 1' },
-          { name: 'Condition 2' },
-          { name: 'Condition 3' },
-          { name: 'Condition 4' },
-          { name: 'Condition 5' },
+        contentionList: [
+          'Condition 1',
+          'Condition 2',
+          'Condition 3',
+          'Condition 4',
+          'Condition 5',
         ],
       },
     };
@@ -69,7 +69,7 @@ describe('<ClaimDetailLayout>', () => {
   it('should render not available if no contention list', () => {
     const claim = {
       attributes: {
-        contentions: [],
+        contentionList: [],
       },
     };
 
@@ -83,7 +83,7 @@ describe('<ClaimDetailLayout>', () => {
     const claim = {
       attributes: {
         open: true,
-        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
+        contentionList: ['Condition 1', 'Condition 2'],
       },
     };
 
@@ -96,8 +96,8 @@ describe('<ClaimDetailLayout>', () => {
   it('should not render adding details info if closed', () => {
     const claim = {
       attributes: {
-        closeDate: '2023-04-28',
-        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
+        open: false,
+        contentionList: ['Condition 1', 'Condition 2'],
       },
     };
 
@@ -111,8 +111,9 @@ describe('<ClaimDetailLayout>', () => {
     const claim = {
       attributes: {
         claimType: 'Compensation',
-        claimDate: '2010-05-05',
-        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
+        dateFiled: '2010-05-05',
+        vaRepresentative: 'Somebody',
+        contentionList: ['Condition 1', 'Condition 2'],
       },
     };
 
@@ -128,7 +129,7 @@ describe('<ClaimDetailLayout>', () => {
   it('should render message', () => {
     const claim = {
       attributes: {
-        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
+        contentionList: ['Condition 1', 'Condition 2'],
       },
     };
     const message = {
