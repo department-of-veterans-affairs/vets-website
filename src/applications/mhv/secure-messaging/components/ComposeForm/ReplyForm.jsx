@@ -428,19 +428,19 @@ const ReplyForm = props => {
           data-testid="message-replied-to"
         >
           <section aria-label="message details.">
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-testid="message-from">
               <strong>From: </strong>
               {replyMessage.senderName}
             </p>
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-testid="message-to">
               <strong>To: </strong>
               {replyMessage.recipientName}
             </p>
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-testid="message-date">
               <strong>Date: </strong>
               {dateFormat(replyMessage.sentDate)}
             </p>
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-testid="message-id">
               <strong>Message ID: </strong>
               {replyMessage.messageId}
             </p>
