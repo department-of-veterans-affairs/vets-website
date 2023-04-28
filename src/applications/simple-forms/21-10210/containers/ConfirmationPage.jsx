@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import GetFormHelp from '../components/GetFormHelp';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -97,8 +96,6 @@ export class ConfirmationPage extends React.Component {
         >
           Go back to VA.gov
         </a>
-        <h3 className="help-heading">Need help?</h3>
-        <GetFormHelp />
       </div>
     );
   }

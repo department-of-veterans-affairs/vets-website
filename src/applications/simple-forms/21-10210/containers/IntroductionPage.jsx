@@ -1,11 +1,10 @@
 import React from 'react';
 
 import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import GetFormHelp from '../components/GetFormHelp';
+import SaveInProgressIntro from '../components/SaveInProgressIntro';
 
+// TODO: Before launch, refactor platform's original component to replace this copy.
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -32,6 +31,7 @@ class IntroductionPage extends React.Component {
           Veteran.
         </p>
         <SaveInProgressIntro
+          customTitle="Sign in now to save time and save your work in progress"
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
@@ -42,10 +42,12 @@ class IntroductionPage extends React.Component {
           <p>Please complete the 21-10210 form to apply for claims.</p>
         </SaveInProgressIntro>
         <p />
-        <h3 className="help-heading">Need help?</h3>
-        <GetFormHelp />
 
-        <OMBInfo resBurden={10} ombNumber="2900-z" expDate="06/30/2024" />
+        <va-omb-info
+          res-burden={10}
+          omb-number="2900-z"
+          exp-date="06/30/2024"
+        />
       </article>
     );
   }

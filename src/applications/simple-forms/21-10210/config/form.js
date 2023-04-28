@@ -1,6 +1,8 @@
 import environment from 'platform/utilities/environment';
+import footerContent from 'platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 
+import getHelp from '../../shared/components/GetFormHelp';
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -52,7 +54,12 @@ const formConfig = {
   },
   title: 'Submit a Lay/Witness Statement',
   subTitle: 'Equal to submitting a Lay/Witness Statement (VA Form 21-10210)',
-  defaultDefinitions: {},
+  defaultDefinitions: {
+    privacyAgreementAccepted: {
+      type: 'boolean',
+      enum: [true],
+    },
+  },
   chapters: {
     statementInfoChapter: {
       // for ALL Flows
@@ -297,6 +304,8 @@ const formConfig = {
       },
     },
   },
+  footerContent,
+  getHelp,
 };
 
 export default formConfig;

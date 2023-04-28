@@ -6,8 +6,6 @@ export default {
     veteranFullName: fullNameUI,
     veteranDateOfBirth: {
       'ui:title': 'Date of birth',
-      'ui:description':
-        'Please enter two digits for the month and day and four digits for the year.',
       'ui:widget': 'date',
     },
   },
