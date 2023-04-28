@@ -39,6 +39,7 @@ const getAllowedApps = (filePath, allowedApps) => {
 
   const manifests = getManifests(filePath);
   const rootAppFolderName = filePath.split('/')[2];
+  console.log(rootAppFolderName, 'rootAppFolderName');
   const allowedApp = allowedApps.find(
     app => app.rootFolder === rootAppFolderName,
   );
