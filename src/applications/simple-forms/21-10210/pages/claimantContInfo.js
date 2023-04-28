@@ -1,5 +1,4 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
-import { CLAIMANT_TYPES } from '../definitions/constants';
 
 export default {
   uiSchema: {
@@ -17,9 +16,7 @@ export default {
       'ui:errorMessages': {
         required: 'Please agree to receive electronic correspondence.',
       },
-      'ui:options': {
-        hideIf: formData => formData.claimantType !== CLAIMANT_TYPES.VETERAN,
-      },
+      // TODO: Confirm with Designer whether this should be hidden for Flow 4 [claimantType veteran]
     },
   },
   schema: {

@@ -14,7 +14,8 @@
 }
 
 #root_veteranEmailConsent-label,
-#root_witnessEmailConsent-label {
+#root_witnessEmailConsent-label,
+#root_claimantEmailConsent-label {
   display: none !important;
 
   & + .schemaform-widget-wrapper {
