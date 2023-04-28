@@ -17,6 +17,10 @@ const createStore = ({
   demographicsUpToDate = 'yes',
   emergencyContactUpToDate = 'yes',
   nextOfKinUpToDate = 'yes',
+  travelQuestion = null,
+  travelAddress = null,
+  travelMileage = null,
+  travelVehicle = null,
   appointments = [
     {
       clinicPhone: '555-867-5309',
@@ -45,6 +49,10 @@ const createStore = ({
           demographicsUpToDate,
           emergencyContactUpToDate,
           nextOfKinUpToDate,
+          'travel-question': travelQuestion,
+          'travel-address': travelAddress,
+          'travel-mileage': travelMileage,
+          'travel-Vehicle': travelVehicle,
         },
       },
       appointments,

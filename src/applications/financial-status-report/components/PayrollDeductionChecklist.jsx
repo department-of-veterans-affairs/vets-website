@@ -94,7 +94,11 @@ const PayrollDeductionChecklist = props => {
         },
       });
     }
-    goToPath(`/deduction-values`);
+    if (selectedDeductions.length > 0) {
+      goToPath(`/deduction-values`);
+    } else {
+      goToPath(`/employment-history`);
+    }
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;

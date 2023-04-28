@@ -8,7 +8,7 @@ import RecordListItem from './RecordListItem';
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
 const RecordList = props => {
-  const { records, type, perPage = 5, hidePagination } = props;
+  const { records, type, perPage = 10, hidePagination } = props;
   const totalEntries = records?.length;
 
   const [currentRecords, setCurrentRecords] = useState([]);
@@ -50,7 +50,7 @@ const RecordList = props => {
       >
         Showing {displayNums[0]}
         &#8211;
-        {displayNums[1]} of {totalEntries} {type}
+        {displayNums[1]} of {totalEntries} records
       </div>
       <div className="no-print">
         {currentRecords?.length > 0 &&
@@ -65,7 +65,7 @@ const RecordList = props => {
           ))}
       </div>
       {currentRecords &&
-        paginatedRecords.current.length > 1 && (
+        (paginatedRecords.current.length > 1 ? (
           <div className="pagination vads-u-margin-bottom--2 no-print">
             <VaPagination
               onPageSelect={e => onPageChange(e.detail.page)}
@@ -75,7 +75,9 @@ const RecordList = props => {
               showLastPage
             />
           </div>
-        )}
+        ) : (
+          <div className="vads-u-margin-bottom--5 no-print" />
+        ))}
     </div>
   );
 };

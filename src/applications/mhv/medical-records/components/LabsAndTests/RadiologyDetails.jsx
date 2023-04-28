@@ -20,7 +20,7 @@ const RadiologyDetails = props => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--1">{results.name}</h1>
+          <h1 className="vads-u-margin-bottom--0">{results.name}</h1>
           <div className="time-header">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Date:{' '}
@@ -28,10 +28,10 @@ const RadiologyDetails = props => {
             <p>{formattedDate}</p>
           </div>
 
-          <div>
-            <div className="vads-u-display--flex vads-u-padding-y--3 vads-u-margin-y--0 no-print">
+          <div className="no-print">
+            <div className="vads-u-display--flex vads-u-padding-y--3 vads-u-margin-y--0">
               <button
-                className="link-button vads-u-margin-right--3 no-print"
+                className="link-button vads-u-margin-right--3"
                 type="button"
                 onClick={window.print}
               >
@@ -42,11 +42,7 @@ const RadiologyDetails = props => {
                 />
                 Print page
               </button>
-              <button
-                className="link-button no-print"
-                type="button"
-                onClick={download}
-              >
+              <button className="link-button" type="button" onClick={download}>
                 <i
                   aria-hidden="true"
                   className="fas fa-download vads-u-margin-right--1"
@@ -72,15 +68,11 @@ const RadiologyDetails = props => {
 
           <div className="test-details-container max-80">
             <h2>Details about this test</h2>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans no-print">
               Images
             </h3>
-            <p>
-              <va-link
-                active
-                href="https://i0.wp.com/www.aliem.com/wp-content/uploads/2020/02/Normal-ankle-radiology-AP-2.jpg?fit=853%2C1999&ssl=1"
-                text="See all 44 images"
-              />
+            <p className="no-print">
+              <va-link active href="/" text="See all 44 images" />
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Reason for test
@@ -110,7 +102,10 @@ const RadiologyDetails = props => {
 
           <div className="test-results-container">
             <h2>Results</h2>
-            <va-additional-info trigger="Need help understanding your results?">
+            <va-additional-info
+              trigger="Need help understanding your results?"
+              class="no-print"
+            >
               <p>
                 Your provider will review your results and explain what they
                 mean for your health. To ask a question now, send a secure
@@ -138,10 +133,7 @@ const RadiologyDetails = props => {
   };
 
   return (
-    <div
-      className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5"
-      id="condition-details"
-    >
+    <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       {content()}
     </div>
   );

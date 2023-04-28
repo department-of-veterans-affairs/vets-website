@@ -92,6 +92,12 @@ const EnhancedVehicleRecord = props => {
     const newVehicleArray = [...automobiles];
     newVehicleArray[index] = vehicleRecord;
 
+    // set dirty flags so validation errors show
+    setVehicleRecordIsDirty(true);
+    setVehicleMakeIsDirty(true);
+    setVehicleModelIsDirty(true);
+    setEstValueIsDirty(true);
+
     if (
       vehicleRecord.make &&
       vehicleRecord.model &&
@@ -174,6 +180,7 @@ const EnhancedVehicleRecord = props => {
           inputmode="numeric"
           label="Estimated value"
           name="estValue"
+          currency
           id="estValue"
           required
           onInput={handleVehicleEstValueChange}

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaModal,
@@ -6,6 +6,7 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
+import { PrintMessageOptions } from '../../util/constants';
 
 const PrintBtn = props => {
   const [printOption, setPrintOption] = useState(null);
@@ -14,14 +15,9 @@ const PrintBtn = props => {
   const messageThread = useSelector(
     state => state.sm.messageDetails.messageHistory,
   );
-  const messageThreadCount = useRef(1);
-  useEffect(
+  const messageThreadCount = useMemo(
     () => {
-      if (messageThread?.length > 0) {
-        messageThread.forEach(() => {
-          messageThreadCount.current += 1;
-        });
-      }
+      return messageThread?.length + 1; // +1 for the original message
     },
     [messageThread],
   );
@@ -49,9 +45,9 @@ const PrintBtn = props => {
     if (printOption === null) {
       setPrintSelectError('Please select an option to print.');
     } else {
-      props.handlePrint(printOption);
       setPrintOption(null);
       closeModal();
+      props.handlePrint(printOption);
     }
   };
 
@@ -80,8 +76,8 @@ const PrintBtn = props => {
               <VaRadioOption
                 data-testid="radio-print-one-message"
                 label="Print only this message"
+                value={PrintMessageOptions.PRINT_MAIN}
                 name="this-message"
-                value="this message"
               />
 
               <VaRadioOption
@@ -91,12 +87,12 @@ const PrintBtn = props => {
                   messageThreadCount.current
                 } messages)`}
                 label="Print all messages in this conversation"
+                value={PrintMessageOptions.PRINT_THREAD}
                 name="all-messages"
-                value="all messages"
               />
             </VaRadio>
             <p>
-              <strong>{`(${messageThreadCount.current} messages)`}</strong>
+              <strong>{`(${messageThreadCount} messages)`}</strong>
             </p>
           </div>
         </VaModal>

@@ -115,7 +115,6 @@ const HealthCareContent = ({
                 }. `}
                 <CTALink
                   text="View your messages"
-                  newTab
                   href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
                   onClick={() =>
                     recordEvent({

@@ -35,8 +35,8 @@ describe('Record list component', () => {
 
   it('displays a list of records when records are provided', async () => {
     await waitFor(() => {
-      // 15 because 5 (paginated) for regular view plus 10 (unpaginated) for print view
-      expect(screen.getAllByTestId('record-list-item')).to.have.length(15);
+      // 20 because 10 (paginated) for regular view plus 10 (unpaginated) for print view
+      expect(screen.getAllByTestId('record-list-item')).to.have.length(20);
     });
   });
 });
