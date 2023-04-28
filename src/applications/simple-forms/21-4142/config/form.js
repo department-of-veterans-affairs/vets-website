@@ -210,15 +210,15 @@ const formConfig = {
           depends: formData =>
             (!formData[preparerIdentificationFields.parentObject][
               [preparerIdentificationFields.preparerHasSameAddressAsVeteran]
-            ] &&
-              formData[preparerIdentificationFields.parentObject][
-                [preparerIdentificationFields.relationshipToVeteran]
-              ] !== veteranIsSelfText) ||
-            !veteranDirectRelative.includes(
-              formData[preparerIdentificationFields.parentObject][
-                [preparerIdentificationFields.relationshipToVeteran]
-              ],
-            ),
+            ] ||
+              !veteranDirectRelative.includes(
+                formData[preparerIdentificationFields.parentObject][
+                  [preparerIdentificationFields.relationshipToVeteran]
+                ],
+              )) &&
+            formData[preparerIdentificationFields.parentObject][
+              [preparerIdentificationFields.relationshipToVeteran]
+            ] !== veteranIsSelfText,
           uiSchema: preparerAddress2.uiSchema,
           schema: preparerAddress2.schema,
         },
