@@ -124,9 +124,7 @@ const EnhancedVehicleRecord = props => {
       <legend className="schemaform-block-title">
         Your car or other vehicle
       </legend>
-      <p className="vads-u-padding-top--2">
-        Enter your vehicle’s information below.
-      </p>
+      <p>Enter your vehicle’s information below.</p>
       <div className="input-size-5">
         <VaTextInput
           className="no-wrap input-size-3"
