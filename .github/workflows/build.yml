@@ -2,7 +2,7 @@ name: Build and Push Docker Image to ECR
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "pe_route_api_over_service_name" ]
     
 jobs:
 
