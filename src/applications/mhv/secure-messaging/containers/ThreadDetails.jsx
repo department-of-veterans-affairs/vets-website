@@ -35,7 +35,8 @@ const ThreadDetails = props => {
   const [isReply, setIsReply] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
   const [acknowledged, setAcknowledged] = useState(false);
-  const header = useRef();
+  const [h1Focus, setH1Focus] = useState(false);
+  const header = useRef(h1Focus);
 
   useEffect(
     () => {
@@ -87,6 +88,13 @@ const ThreadDetails = props => {
     [header],
   );
 
+  useEffect(() => {
+    if (isDraft) {
+      setH1Focus(true);
+      focusElement(header.current);
+    }
+  });
+
   const content = () => {
     if (!isLoaded) {
       return (
@@ -113,6 +121,7 @@ const ThreadDetails = props => {
             draftToEdit={draftMessage}
             replyMessage={draftMessageHistory[0]}
             cannotReplyAlert={cannotReplyAlert}
+            header={header}
           />
           <MessageThread
             messageHistory={draftMessageHistory.slice(1)}

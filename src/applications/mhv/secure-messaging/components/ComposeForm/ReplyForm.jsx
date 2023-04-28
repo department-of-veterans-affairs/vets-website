@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -20,7 +21,7 @@ import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
 
 const ReplyForm = props => {
-  const { draftToEdit, replyMessage, cannotReplyAlert } = props;
+  const { draftToEdit, replyMessage, cannotReplyAlert, header } = props;
   const dispatch = useDispatch();
 
   const defaultRecipientsList = [{ id: 0, name: ' ' }];
@@ -293,6 +294,13 @@ const ReplyForm = props => {
     ],
   );
 
+  useEffect(
+    () => {
+      focusElement(header.current);
+    },
+    [header],
+  );
+
   const messageBodyHandler = e => {
     setMessageBody(e.target.value);
     if (e.target.value) setBodyError('');
@@ -309,7 +317,9 @@ const ReplyForm = props => {
   if (replyMessage) {
     return (
       <>
-        <h1 className="page-title">{setMessageTitle()}</h1>
+        <h1 ref={header} className="page-title">
+          {setMessageTitle()}
+        </h1>
 
         <div role="heading" aria-level="2">
           <form
@@ -470,6 +480,7 @@ const ReplyForm = props => {
 ReplyForm.propTypes = {
   cannotReplyAlert: PropTypes.bool,
   draftToEdit: PropTypes.object,
+  header: PropTypes.bool,
   recipients: PropTypes.array,
   replyMessage: PropTypes.object,
 };
