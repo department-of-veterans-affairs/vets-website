@@ -13,6 +13,7 @@ export default function DetailsPageContent({ claim }) {
   return (
     <>
       <h3 className="vads-u-visibility--screen-reader">Claim details</h3>
+      <h3>EVSS version of details page</h3>
       <dl className="claim-details">
         <dt className="claim-detail-label">
           <h4>Claim type</h4>
