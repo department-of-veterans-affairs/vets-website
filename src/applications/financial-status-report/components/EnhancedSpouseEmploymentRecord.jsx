@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
@@ -45,6 +44,9 @@ const EmploymentRecord = props => {
     employmentRecord.employerName || null,
   );
   const [submitted, setSubmitted] = useState(false);
+  const [doesNotCurrentlyWorkHere, setDoesNotCurrentlyWorkHere] = useState(
+    true,
+  );
 
   const handleChange = (key, value) => {
     setEmploymentRecord({
@@ -71,6 +73,7 @@ const EmploymentRecord = props => {
       handleChange(key, dateString);
     },
     handleCheckboxChange: (key, val) => {
+      setDoesNotCurrentlyWorkHere(!val);
       setEmploymentRecord({
         ...employmentRecord,
         [key]: val,
@@ -218,11 +221,15 @@ const EmploymentRecord = props => {
           error={fromDateError}
         />
       </div>
-      <div
-        className={classNames('vads-u-margin-top--3', {
-          'field-disabled': employmentRecord.isCurrent,
-        })}
-      >
+      <Checkbox
+        name="current-employment"
+        label="My spouse currently works here"
+        checked={employmentRecord.isCurrent || false}
+        onValueChange={value =>
+          handlers.handleCheckboxChange('isCurrent', value)
+        }
+      />
+      <div>
         <VaDate
           monthYearOnly
           value={`${toYear}-${toMonth}`}
@@ -232,18 +239,10 @@ const EmploymentRecord = props => {
           // onDateBlur={e =>
           //   validateYear(e.target.value || '', setToDateError, endError)
           // }
-          required
+          required={doesNotCurrentlyWorkHere}
           // error={toDateError}
         />
       </div>
-      <Checkbox
-        name="current-employment"
-        label="My spouse currently works here"
-        checked={employmentRecord.isCurrent || false}
-        onValueChange={value =>
-          handlers.handleCheckboxChange('isCurrent', value)
-        }
-      />
       <div className="input-size-6 vads-u-margin-bottom--2">
         <VaTextInput
           className="no-wrap input-size-6"
