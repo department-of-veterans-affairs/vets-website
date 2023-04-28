@@ -17,13 +17,16 @@ describe('Secure Messaging Reply Message Details Thread', () => {
     landingPage.loadInboxMessages(mockMessages, testMessage);
     messageDetailsPage.loadMessageDetails(testMessage);
     messageDetailsPage.loadReplyPageDetails(testMessage);
-    patientInterstitialPage.getContinueButton().click();
+    patientInterstitialPage
+      .getContinueButton()
+      .click({ waitforanimations: true });
+
     messageDetailsPage.verifyExpandedMessageDateDisplay(testMessage);
     cy.get(
       `[data-testid='expand-message-button-${
         testMessage.data.attributes.messageId
       }']`,
-    ).click();
+    ).click({ waitforanimations: true });
     messageDetailsPage.verifyExpandedMessageFromDisplay(testMessage);
     // messageDetailsPage.verifyExpandedMessageIDDisplay(testMessage); // TODO: Pending UCD decision if message ID should be displayed
     messageDetailsPage.verifyExpandedMessageToDisplay(testMessage);
