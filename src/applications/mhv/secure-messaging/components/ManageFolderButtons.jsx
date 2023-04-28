@@ -34,6 +34,7 @@ const ManageFolderButtons = () => {
   const folderNameInput = useRef();
   const renameModalReference = useRef(null);
   const removeButton = useRef(null);
+  const emptyFolderConfirmBtn = useRef(null);
   let folderMatch = null;
 
   useEffect(
@@ -76,6 +77,15 @@ const ManageFolderButtons = () => {
       }
     },
     [deleteModal],
+  );
+
+  useEffect(
+    () => {
+      if (isEmptyWarning) {
+        focusElement(emptyFolderConfirmBtn.current);
+      }
+    },
+    [isEmptyWarning],
   );
 
   const openDelModal = () => {
@@ -171,6 +181,7 @@ const ManageFolderButtons = () => {
         >
           <p>{Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_BODY}</p>
           <va-button
+            ref={emptyFolderConfirmBtn}
             text="Ok"
             onClick={() => {
               setIsEmptyWarning(false);
