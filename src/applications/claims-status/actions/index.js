@@ -280,7 +280,7 @@ export function getClaimsV2(options = {}) {
   };
 }
 
-export function getClaims() {
+export const getClaims = () => {
   return dispatch => {
     const startTimeMillis = Date.now();
     dispatch({ type: FETCH_CLAIMS_PENDING });
@@ -318,7 +318,7 @@ export function getClaims() {
         return dispatch({ type: FETCH_CLAIMS_ERROR });
       });
   };
-}
+};
 // END lighthouse_migration
 
 // START lighthouse_migration
@@ -360,7 +360,30 @@ export function getClaimDetail(id, router, poll = pollRequest) {
   };
 }
 
-export const getClaim = getClaimDetail;
+export const getClaim = (id, router) => {
+  return dispatch => {
+    dispatch({ type: GET_CLAIM_DETAIL });
+
+    return apiRequest(`/benefits_claims/${id}`)
+      .then(res => {
+        dispatch({
+          type: SET_CLAIM_DETAIL,
+          claim: res.data,
+          meta: { syncStatus: 'SUCCESS' },
+        });
+      })
+      .catch(error => {
+        if (error.status !== 404 || !router) {
+          return dispatch({
+            type: SET_CLAIMS_UNAVAILABLE,
+            error: error.message,
+          });
+        }
+
+        return router.replace('your-claims');
+      });
+  };
+};
 // END lighthouse_migration
 
 export function submitRequest(id) {

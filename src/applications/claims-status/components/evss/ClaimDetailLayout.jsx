@@ -2,14 +2,19 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
-import TabNav from './TabNav';
-import ClaimSyncWarning from './ClaimSyncWarning';
-import AskVAQuestions from './AskVAQuestions';
-import AddingDetails from './AddingDetails';
-import Notification from './Notification';
-import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
-import ClaimsUnavailable from './ClaimsUnavailable';
-import { isPopulatedClaim, getClaimType } from '../utils/helpers';
+import TabNav from '../TabNav';
+import ClaimSyncWarning from '../ClaimSyncWarning';
+import AskVAQuestions from '../AskVAQuestions';
+import AddingDetails from '../AddingDetails';
+import Notification from '../Notification';
+import ClaimsBreadcrumbs from '../ClaimsBreadcrumbs';
+import ClaimsUnavailable from '../ClaimsUnavailable';
+import { getClaimType } from '../../utils/helpers';
+
+export const isPopulatedClaim = ({ attributes }) =>
+  !!attributes.claimType &&
+  (attributes.contentionList && !!attributes.contentionList.length) &&
+  !!attributes.dateFiled;
 
 const MAX_CONTENTIONS = 3;
 
@@ -37,17 +42,6 @@ export default function ClaimDetailLayout(props) {
     );
   } else if (claim !== null) {
     const claimTitle = `Your ${getClaimType(claim)} claim`;
-    const { contentions, status } = claim.attributes || {};
-
-    const hasContentions = contentions && contentions.length;
-    const isOpen = status !== 'COMPLETE';
-
-    const contentionsText = hasContentions
-      ? contentions
-          .slice(0, MAX_CONTENTIONS)
-          .map(cond => cond.name)
-          .join(', ')
-      : 'Not available';
 
     headingContent = (
       <>
@@ -65,8 +59,17 @@ export default function ClaimDetailLayout(props) {
           <h2 className="claim-contentions-header vads-u-font-size--h6">
             What you’ve claimed:
           </h2>
-          <span>{contentionsText}</span>
-          {hasContentions && contentions.length > MAX_CONTENTIONS ? (
+          <span>
+            {claim?.attributes?.contentionList &&
+            claim.attributes.contentionList.length
+              ? claim.attributes.contentionList
+                  .slice(0, MAX_CONTENTIONS)
+                  .map(cond => cond.trim())
+                  .join(', ')
+              : 'Not available'}
+          </span>
+          {claim?.attributes?.contentionList &&
+          claim.attributes.contentionList.length > MAX_CONTENTIONS ? (
             <span>
               <br />
               <Link to={`your-claims/${claim.id}/details`}>
@@ -91,7 +94,8 @@ export default function ClaimDetailLayout(props) {
           >
             {currentTab === tab && (
               <div className="va-tab-content claim-tab-content">
-                {isPopulatedClaim(claim.attributes || {}) || !isOpen ? null : (
+                {isPopulatedClaim(claim || {}) ||
+                !claim?.attributes.open ? null : (
                   <AddingDetails />
                 )}
                 {props.children}
