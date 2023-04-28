@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -292,13 +291,6 @@ const ReplyForm = props => {
       debouncedSubject,
       selectedRecipient,
     ],
-  );
-
-  useEffect(
-    () => {
-      focusElement(header.current);
-    },
-    [header],
   );
 
   const messageBodyHandler = e => {
