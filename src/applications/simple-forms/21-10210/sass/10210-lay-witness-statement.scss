@@ -29,3 +29,10 @@ div:has(> .form-checkbox):nth-of-type(1) .form-checkbox .schemaform-label {
 div:has(> .form-checkbox):nth-of-type(n + 2) .form-checkbox .schemaform-label {
   margin-top: 0.75rem;
 }
+
+.form-review-panel[data-chapter="statementInfoChapter"] .review-row dt > span {
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", Arial,
+    sans-serif !important;
+  font-size: 1.6rem !important;
+  font-weight: 400 !important;
+}

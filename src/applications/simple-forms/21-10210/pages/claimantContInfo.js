@@ -1,4 +1,5 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
+import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
 
 export default {
   uiSchema: {
@@ -16,7 +17,11 @@ export default {
       'ui:errorMessages': {
         required: 'Please agree to receive electronic correspondence.',
       },
-      // TODO: Confirm with Designer whether this should be hidden for Flow 4 [claimantType veteran]
+      'ui:options': {
+        hideIf: formData =>
+          formData.claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY &&
+          formData.claimantType === CLAIMANT_TYPES.NON_VETERAN,
+      },
     },
   },
   schema: {

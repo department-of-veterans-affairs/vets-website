@@ -1,4 +1,5 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
+import { CLAIMANT_TYPES } from '../definitions/constants';
 
 export default {
   uiSchema: {
@@ -16,7 +17,10 @@ export default {
       'ui:errorMessages': {
         required: 'Please agree to receive electronic correspondence.',
       },
-      // TODO: Confirm with Designer whether this should be hidden for Flows 3 & 4 [claimantType non-veteran]
+      'ui:options': {
+        hideIf: formData =>
+          formData.claimantType === CLAIMANT_TYPES.NON_VETERAN,
+      },
     },
   },
   schema: {
