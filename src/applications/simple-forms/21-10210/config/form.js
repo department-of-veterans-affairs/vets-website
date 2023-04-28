@@ -25,7 +25,7 @@ import statement from '../pages/statement';
 
 // mock-data import for local development & review-instances
 // import the appropriate file for the flow you're working on
-import testData from '../tests/fixtures/data/test-data-flow4.json';
+import testData from '../tests/fixtures/data/test-data.json';
 
 const mockData = testData.data;
 const formConfig = {
@@ -73,9 +73,7 @@ const formConfig = {
           // we want req'd fields prefilled for testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
-            environment.isLocalhost() || location.hostname.includes('.review.')
-              ? mockData
-              : undefined,
+            !!mockData && environment.isLocalhost() ? mockData : undefined,
           uiSchema: claimOwnership.uiSchema,
           schema: claimOwnership.schema,
         },
