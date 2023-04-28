@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
@@ -230,11 +229,7 @@ const EmploymentRecord = props => {
           handlers.handleCheckboxChange('isCurrent', value)
         }
       />
-      <div
-        className={classNames('vads-u-margin-top--3', {
-          'field-disabled': !doesNotCurrentlyWorkHere,
-        })}
-      >
+      <div>
         <VaDate
           monthYearOnly
           value={`${toYear}-${toMonth}`}
