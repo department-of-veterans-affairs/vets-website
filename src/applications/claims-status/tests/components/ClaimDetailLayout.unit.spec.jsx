@@ -82,8 +82,9 @@ describe('<ClaimDetailLayout>', () => {
   it('should render adding details info if open', () => {
     const claim = {
       attributes: {
-        open: true,
+        closeDate: null,
         contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
+        status: 'INITIAL_REVIEW',
       },
     };
 
@@ -98,6 +99,7 @@ describe('<ClaimDetailLayout>', () => {
       attributes: {
         closeDate: '2023-04-28',
         contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
+        status: 'COMPLETE',
       },
     };
 
