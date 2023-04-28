@@ -24,7 +24,7 @@ const EvidencePrivateLimitation = ({
     onGoBack: () => {
       if (data[EVIDENCE_PRIVATE]) {
         // go to last private facility entry, but only if they requested it
-        const last = data.providerFacility.length - 1;
+        const last = data.providerFacility?.length - 1 || 0;
         goToPath(`/${EVIDENCE_PRIVATE_PATH}?index=${last}`);
       } else {
         // go to request VA evidence page

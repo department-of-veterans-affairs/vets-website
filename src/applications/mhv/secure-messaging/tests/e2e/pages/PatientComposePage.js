@@ -291,5 +291,26 @@ class PatientComposePage {
       .should('be.visible')
       .click();
   };
+
+  verifySelcteRespitantErrorMessage = () => {
+    cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
+      .find('[id="error-message"]')
+      .should('contain', ' Please select a recipient.');
+  };
+
+  verifyBodyErrorMessage = () => {
+    cy.get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('[id=error-message]')
+      .should('be.visible');
+  };
+
+  verifySubjectErrorMessage = () => {
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('[id=input-error-message]')
+      .should('be.visible');
+  };
 }
 export default PatientComposePage;
