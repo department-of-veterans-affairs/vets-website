@@ -198,7 +198,7 @@ describe('Disability benefits helpers: ', () => {
         },
       };
 
-      expect(isPopulatedClaim(claim)).to.be.false;
+      expect(isPopulatedClaim(claim.attributes)).to.be.false;
     });
 
     it('should return true if no field is empty', () => {
@@ -210,7 +210,7 @@ describe('Disability benefits helpers: ', () => {
         },
       };
 
-      expect(isPopulatedClaim(claim)).to.be.true;
+      expect(isPopulatedClaim(claim.attributes)).to.be.true;
     });
 
     it('should return false if contention list is empty', () => {
@@ -222,7 +222,7 @@ describe('Disability benefits helpers: ', () => {
         },
       };
 
-      expect(isPopulatedClaim(claim)).to.be.false;
+      expect(isPopulatedClaim(claim.attributes)).to.be.false;
     });
   });
 

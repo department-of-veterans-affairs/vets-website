@@ -33,7 +33,7 @@ describe('<ClaimDetailLayout>', () => {
   it('should render contention list', () => {
     const claim = {
       attributes: {
-        contentionList: ['Condition 1', 'Condition 2'],
+        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
       },
     };
 
