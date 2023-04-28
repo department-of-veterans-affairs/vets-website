@@ -77,7 +77,7 @@ function checkForSuccess() {
   cy.wait('@connectedAppDelete2');
 
   // Check for the presence of 2 disconnect success alerts
-  cy.get('.usa-alert-success').should('have.length', 2);
+  cy.get('va-alert[status="success"]').should('have.length', 2);
 
   cy.findByText(/Go to app directory/i).should('exist');
 }

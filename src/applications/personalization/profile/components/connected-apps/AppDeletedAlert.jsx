@@ -15,24 +15,18 @@ export const AppDeletedAlert = ({ title, privacyUrl }) => {
         backgroundOnly
         class="vads-u-padding-bottom--0"
       >
-        <div className="vads-u-display--flex">
-          <i
-            aria-hidden="true"
-            className="fa fa-check-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
-          />
-          <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
-            <span>
-              We disconnected {title} from your VA.gov profile. If you have
-              questions about data the app has already collected, review the
-              app’s privacy policy or contact customer support.
-            </span>
-            <p>
-              <a href={privacyUrl} target="_blank" rel="noopener noreferrer">
-                Review the {title} privacy policy.
-              </a>
-            </p>
+        <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
+          <span>
+            We disconnected {title} from your VA.gov profile. If you have
+            questions about data the app has already collected, review the app’s
+            privacy policy or contact customer support.
+          </span>
+          <p>
+            <a href={privacyUrl} target="_blank" rel="noopener noreferrer">
+              Review the {title} privacy policy.
+            </a>
           </p>
-        </div>
+        </p>
       </va-alert>
     </div>
   );
