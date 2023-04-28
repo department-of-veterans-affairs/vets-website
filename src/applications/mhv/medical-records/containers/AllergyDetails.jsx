@@ -60,7 +60,7 @@ const AllergyDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">
+          <h1 className="vads-u-margin-bottom--0p5">
             Allergy: {allergyDetails.name}
           </h1>
           <div className="condition-subheader vads-u-margin-bottom--3">
@@ -70,7 +70,7 @@ const AllergyDetails = () => {
               </h2>
               <p>{formattedDate}</p>
             </div>
-            <div className="vads-u-display--flex vads-u-padding-y--3 vads-u-margin-y--0 no-print">
+            <div className="vads-u-display--flex vads-u-padding-y--2 vads-u-margin-y--0 no-print">
               <button
                 className="link-button vads-u-margin-right--3"
                 type="button"
@@ -111,19 +111,19 @@ const AllergyDetails = () => {
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Reaction
             </h2>
-            <p>{allergyDetails.reaction}</p>
+            <p>{allergyDetails.reaction || 'None noted'}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Type of allergy
             </h2>
-            <p>{allergyDetails.allergyType}</p>
+            <p>{allergyDetails.allergyType || 'None noted'}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               VA drug class
             </h2>
-            <p>{allergyDetails.drugClass}</p>
+            <p>{allergyDetails.drugClass || 'None noted'}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h2>
-            <p>{allergyDetails.location}</p>
+            <p>{allergyDetails.location || 'None noted'}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Observed or reported
             </h2>

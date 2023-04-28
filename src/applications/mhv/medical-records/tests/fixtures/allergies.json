@@ -13,13 +13,16 @@
     {
         "id": 124,
         "name": "Aspirin related medications",
-        "dateEntered": "2021-06-31T17:42:46.000Z",
+        "dateEntered": "2021-06-30T17:42:46.000Z",
         "reaction": "Urticaria",
         "allergyType": "Drug allergy",
         "drugClass": "Penicillin-G related penicillins",
         "location": "Washington DC VA medical center",
         "observed": true,
-        "notes": []
+        "notes": [
+            "This is a note",
+            "This is another note"
+        ]
     },
     {
         "id": 125,
@@ -30,17 +33,13 @@
         "drugClass": "Penicillin-G related penicillins",
         "location": "Washington DC VA medical center",
         "observed": false,
-        "notes": []
+        "notes": [
+            "This is a single note"
+        ]
     },
     {
         "id": 126,
         "name": "Prazosin",
-        "dateEntered": "2018-03-15T17:42:46.000Z",
-        "reaction": "Urticaria",
-        "allergyType": "Drug allergy",
-        "drugClass": "Penicillin-G related penicillins",
-        "location": "Washington DC VA medical center",
-        "observed": true,
-        "notes": []
+        "dateEntered": "2018-03-15T17:42:46.000Z"
     }
 ]
