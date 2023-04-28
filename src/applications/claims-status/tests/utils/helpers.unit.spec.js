@@ -193,8 +193,8 @@ describe('Disability benefits helpers: ', () => {
       const claim = {
         attributes: {
           claimType: 'something',
-          contentionList: ['thing'],
-          dateFiled: '',
+          closeDate: null,
+          contentions: [{ name: 'Condition 1' }],
         },
       };
 
@@ -204,10 +204,9 @@ describe('Disability benefits helpers: ', () => {
     it('should return true if no field is empty', () => {
       const claim = {
         attributes: {
+          claimDate: '2023-04-28',
           claimType: 'something',
-          contentionList: ['thing'],
-          dateFiled: 'asdf',
-          vaRepresentative: null,
+          contentions: [{ name: 'Condition 1' }],
         },
       };
 
@@ -217,16 +216,16 @@ describe('Disability benefits helpers: ', () => {
     it('should return false if contention list is empty', () => {
       const claim = {
         attributes: {
+          claimDate: '2023-04-28',
           claimType: 'something',
-          contentionList: [],
-          dateFiled: 'asdf',
-          vaRepresentative: 'test',
+          contentions: [],
         },
       };
 
       expect(isPopulatedClaim(claim)).to.be.false;
     });
   });
+
   describe('truncateDescription', () => {
     it('should truncate text longer than 120 characters', () => {
       const userText =
