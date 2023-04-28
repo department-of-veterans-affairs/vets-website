@@ -40,7 +40,7 @@ testNumberOfFields(
   mockData,
 );
 
-const expectedNumberOfErrors = 0;
+const expectedNumberOfErrors = 1;
 testNumberOfErrorsOnSubmit(
   formConfig,
   schema,

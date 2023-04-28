@@ -17,6 +17,7 @@
     },
     "providerFacility": [
       {
+        "providerFacilityName": "Hospital 1",
         "treatmentDateRange": { "from": "2000-01-01", "to": "2000-01-02" },
         "providerFacilityAddress": {
           "street": "2 Health St",
