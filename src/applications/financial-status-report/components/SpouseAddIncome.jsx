@@ -7,7 +7,7 @@ import {
 import { isValidCurrency } from '../utils/validations';
 import { MAX_ASSET_NAME_LENGTH } from '../constants/checkboxSelections';
 
-const AddIncome = ({ data, goToPath, setFormData }) => {
+const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
   const { additionalIncome } = data;
   const { spouse } = additionalIncome;
   const { spAddlIncome = [] } = spouse;
@@ -119,28 +119,6 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
             value={assetAmount || ''}
           />
           <br />
-          <va-additional-info
-            class="vads-u-margin-top--4"
-            trigger="Why do I need to provide this information?"
-          >
-            We ask for details about items of value such as jewelry and art
-            because it gives us a picture of your financial situation and allows
-            us to make a more informed decision regarding your request.
-          </va-additional-info>
-          <va-additional-info trigger="What if I don’t know the estimated value of an asset?">
-            Don’t worry. We just want to get an idea of items of value you may
-            own so we can better understand your financial situation. Include
-            the amount of money you think you would get if you sold the asset.
-            To get an idea of prices, you can check these places:
-            <ul>
-              <li>Online forums for your community</li>
-              <li>Classified ads in local newspapers</li>
-              <li>
-                Websites or forums that appraise the value of items like jewelry
-                and art
-              </li>
-            </ul>
-          </va-additional-info>
           <p>
             <button
               type="button"
@@ -167,7 +145,7 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
   );
 };
 
-AddIncome.propTypes = {
+SpouseAddIncome.propTypes = {
   data: PropTypes.shape({
     assets: PropTypes.shape({
       otherAssets: PropTypes.arrayOf(
@@ -182,4 +160,4 @@ AddIncome.propTypes = {
   setFormData: PropTypes.func,
 };
 
-export default AddIncome;
+export default SpouseAddIncome;

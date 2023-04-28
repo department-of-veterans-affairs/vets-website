@@ -8,7 +8,7 @@ import {
 } from './shared/MiniSummaryCard';
 import { currency as currencyFormatter } from '../utils/helpers';
 
-const OtherIncomeSummary = ({
+const SpouseOtherIncomeSummary = ({
   data,
   goBack,
   goToPath,
@@ -118,7 +118,7 @@ const OtherIncomeSummary = ({
   );
 };
 
-OtherIncomeSummary.propTypes = {
+SpouseOtherIncomeSummary.propTypes = {
   contentAfterButtons: PropTypes.object,
   contentBeforeButtons: PropTypes.object,
   data: PropTypes.shape({
@@ -134,4 +134,4 @@ OtherIncomeSummary.propTypes = {
   onReviewPage: PropTypes.bool,
 };
 
-export default OtherIncomeSummary;
+export default SpouseOtherIncomeSummary;
