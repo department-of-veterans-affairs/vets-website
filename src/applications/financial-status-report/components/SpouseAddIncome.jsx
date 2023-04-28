@@ -97,7 +97,7 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             className="no-wrap input-size-3"
             error={(submitted && nameError) || null}
             id="add-other-income-name"
-            label="What is the source of income?"
+            label="What is the income source?"
             maxlength={MAX_ASSET_NAME_LENGTH}
             name="add-other-income-name"
             onInput={handlers.onAssetNameChange}
@@ -110,7 +110,7 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             error={(submitted && amountError) || null}
             id="add-other-asset-amount"
             inputmode="decimal"
-            label="How much does your spouse receive from this source?"
+            label="Other monthly income amount?"
             min={0}
             name="add-other-income-amount"
             onInput={handlers.onAssetAmountChange}
