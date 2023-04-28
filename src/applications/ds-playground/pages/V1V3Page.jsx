@@ -2,7 +2,7 @@
  * This page is for testing the compatibility of running v1 and v3 components on the same page.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
@@ -16,6 +16,7 @@ import {
   VaTextarea,
   VaButtonPair,
   VaNumberInput,
+  VaModal,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V1V3Page() {
@@ -66,6 +67,14 @@ export default function V1V3Page() {
     const display = document.getElementById(`${id}CheckboxValue`);
     if (display) display.innerText = valueStore.sort().join(', ');
   };
+
+  const [isVisibleV1, setIsVisibleV1] = useState();
+  const onCloseEventV1 = () => setIsVisibleV1(!isVisibleV1);
+  const openModalV1 = () => setIsVisibleV1(true);
+
+  const [isVisibleV3, setIsVisibleV3] = useState();
+  const onCloseEventV3 = () => setIsVisibleV3(!isVisibleV3);
+  const openModalV3 = () => setIsVisibleV3(true);
 
   const ValueDisplay = ({ id, label }) => {
     return (
@@ -397,6 +406,50 @@ export default function V1V3Page() {
                 uswds
               />
               <ValueDisplay label="V3 button" id="v3ButtonValue" />
+            </div>
+          </div>
+        </div>
+
+        {/* Modal Comparison */}
+        <div className="vads-l-row">
+          <h4>Modal</h4>
+          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <va-button
+                onClick={openModalV1}
+                text="Click here to open V1 modal"
+              />
+              <VaModal
+                modalTitle="Are you sure you want to continue?"
+                primaryButtonText="Continue without saving"
+                secondaryButtonText="Go back"
+                onCloseEvent={onCloseEventV1}
+                onPrimaryButtonClick={onCloseEventV1}
+                onSecondaryButtonClick={onCloseEventV1}
+                visible={isVisibleV1}
+              >
+                <p>You have unsaved changes that will be lost.</p>
+              </VaModal>
+            </div>
+
+            <div className="vads-l-col--6 vads-u-margin--1">
+              <va-button
+                onClick={openModalV3}
+                text="Click here to open V3 modal"
+                uswds
+              />
+              <VaModal
+                modalTitle="Are you sure you want to continue?"
+                primaryButtonText="Continue without saving"
+                secondaryButtonText="Go back"
+                onCloseEvent={onCloseEventV3}
+                onPrimaryButtonClick={onCloseEventV3}
+                onSecondaryButtonClick={onCloseEventV3}
+                visible={isVisibleV3}
+                uswds
+              >
+                <p>You have unsaved changes that will be lost.</p>
+              </VaModal>
             </div>
           </div>
         </div>
