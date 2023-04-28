@@ -25,7 +25,7 @@ import statement from '../pages/statement';
 
 // mock-data import for local development & review-instances
 // import the appropriate file for the flow you're working on
-import testData from '../tests/fixtures/data/test-data-flow1.json';
+import testData from '../tests/fixtures/data/test-data-flow2.json';
 
 const mockData = testData.data;
 const formConfig = {
