@@ -1,4 +1,6 @@
 import mockDraftMessage from '../fixtures/message-draft-response.json';
+import mockMessageResponse from '../fixtures/message-response.json';
+import mockThreadResponse from '../fixtures/thread-response.json';
 
 class PatientComposePage {
   sendMessage = () => {
@@ -259,6 +261,26 @@ class PatientComposePage {
       .shadow()
       .find('[id = "textarea"]')
       .should('have.value', url);
+  };
+
+  clickTrashButton = () => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockMessageResponse.data.attributes.messageId
+      }`,
+      mockMessageResponse,
+    ).as('mockMessageResponse');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockThreadResponse.data.at(2).attributes.messageId
+      }`,
+      mockThreadResponse,
+    ).as('mockThreadResponse');
+    cy.get('[data-testid="trash-button-text"]').click({
+      waitforanimations: true,
+    });
   };
 
   clickConfirmDeleteButton = () => {
