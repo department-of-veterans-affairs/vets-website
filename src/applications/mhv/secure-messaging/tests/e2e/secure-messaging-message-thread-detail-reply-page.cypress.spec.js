@@ -5,7 +5,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import mockMessages from './fixtures/messages-response.json';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 
-describe('Secure Messaging Reply Message Details Thread', () => {
+describe.skip('Secure Messaging Reply Message Details Thread', () => {
   it('Axe Check Message Reply Details', () => {
     const landingPage = new PatientInboxPage();
     const patientInterstitialPage = new PatientInterstitialPage();

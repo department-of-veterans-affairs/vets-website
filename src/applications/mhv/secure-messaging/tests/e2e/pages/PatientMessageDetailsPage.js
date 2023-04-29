@@ -64,14 +64,38 @@ class PatientMessageDetailsPage {
         mockParentMessageDetails.data.attributes.messageId,
       )}`,
     );
+
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
         this.currentThread.data.at(0).attributes.messageId
       }`,
       mockParentMessageDetails,
-    ).as('message1');
+    ).as(`message1`);
 
+    cy.log(` thread size = ${this.currentThread.data.length}`);
+    //  mockParentMessageDetails.data.attributes.messageId= this.currentThread.data.at(this.currentThread.data.length-1).attributes.messageId;
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        this.currentThread.data.at(this.currentThread.data.length - 1)
+          .attributes.messageId
+      }`,
+      mockParentMessageDetails,
+    ).as('last_message');
+
+    /*
+    for (let i = 0; i < this.currentThread.length; i++) {
+      cy.log("intercepting thread "+ i);
+      cy.intercept(
+        'GET',
+        `/my_health/v1/messaging/messages/${
+          this.currentThread.data.at(i).attributes.messageId
+        }`,
+        mockParentMessageDetails,
+      ).as(`message${i}`);
+    }
+*/
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
@@ -88,7 +112,8 @@ class PatientMessageDetailsPage {
     ).click();
     */
     cy.contains(`${mockParentMessageDetails.data.attributes.subject}`).click();
-    cy.wait('@message1');
+    cy.wait('@last_message');
+    cy.wait('@full-thread');
   };
 
   getCurrentThread() {
@@ -143,6 +168,7 @@ class PatientMessageDetailsPage {
         mockMessageDetails.data.attributes.messageId
       }/replydraft`,
     ).as('replyDraftSave');
+    // cy.wait('@message2');
   };
 
   expandThreadMessageDetails = (mockThread, index = 1) => {
@@ -321,10 +347,10 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        dateFormat(
+        `Date: ${dateFormat(
           messageDetails.data.attributes.sentDate,
-          'MMMM D, YYYY [at] h:mm a z',
-        ),
+          'MMMM D, YYYY, h:mm a z',
+        )}`,
       );
   };
 
@@ -364,10 +390,10 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        dateFormat(
+        `Date: ${dateFormat(
           messageDetails.data.attributes.sentDate,
-          'MMMM D, YYYY [at] h:mm a z',
-        ),
+          'MMMM D, YYYY, h:mm a z',
+        )}`,
       );
   };
 

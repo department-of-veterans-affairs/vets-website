@@ -38,7 +38,7 @@ describe('Secure Messaging - Search Special Characters', () => {
     ).as('mockSpecialCharmessage');
     cy.get('[data-testid="sent-sidebar"]').click();
 
-    basicSearchPage.typeSearchInputFieldText('message%$#*');
+    basicSearchPage.typeSearchInputFieldText('message%$#*', { force: true });
 
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestSentFolder');
