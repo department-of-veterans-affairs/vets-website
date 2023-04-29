@@ -20,7 +20,10 @@ const CannotReplyAlert = props => {
               aria-label="Start a new message"
               to="/compose"
             >
-              <i className="fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1" />
+              <i
+                aria-hidden
+                className="fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1"
+              />
               Start a new message
             </Link>
           </p>
