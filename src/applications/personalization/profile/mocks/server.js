@@ -25,6 +25,7 @@ const fullName = require('./endpoints/full-name');
 const {
   baseUserTransitionAvailabilities,
 } = require('./endpoints/user-transition-availabilities');
+const maintenanceWindows = require('./endpoints/maintenance-windows');
 
 // seed data for VAMC drupal source of truth json file
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
@@ -40,7 +41,7 @@ const responses = {
   'GET /v0/user': user.handleUserRequest,
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
-  'GET /v0/maintenance_windows': { data: [] },
+  'GET /v0/maintenance_windows': maintenanceWindows.noDowntime,
   'GET /v0/feature_toggles': generateFeatureToggles({
     profileUseInfoCard: true,
     profileUseFieldEditingPage: true,
@@ -54,6 +55,8 @@ const responses = {
 
     // This is a 'normal' payment history / control case data
     // payments.paymentHistory.simplePaymentHistory
+
+    // return res.status(400).json({ errors: [] });
 
     return res.status(200).json(payments.paymentHistory.simplePaymentHistory);
   },

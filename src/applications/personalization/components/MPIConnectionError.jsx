@@ -5,7 +5,7 @@ const MPIConnectionError = ({ className }) => {
   return (
     <va-alert class={className} status="warning">
       <h2 slot="headline">We can’t access your records right now</h2>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         We’re sorry. Something went wrong when we tried to connect to your
         records. Please refresh this page or try again later.
       </p>

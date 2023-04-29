@@ -8,7 +8,7 @@ function DowntimeBanner({ downtime, section }) {
     <va-alert status="warning" visible>
       <h3 slot="headline">{`We can’t show your ${section}`}</h3>
 
-      <p>
+      <p className="vads-u-margin-bottom--0">
         We’re sorry. The system that handles {section} information is down for
         maintenance right now. We hope to be finished with our work by{' '}
         {downtime.endTime.format('MMMM Do, LT')} Please check back soon.
