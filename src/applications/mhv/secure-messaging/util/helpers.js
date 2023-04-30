@@ -95,11 +95,19 @@ export const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-
  * @param {*} days
  * @returns {Boolean} true if timestamp is older than days
  */
-
 export const isOlderThan = (timestamp, days) => {
   const now = moment();
   const then = moment(timestamp);
   return now.diff(then, 'days') > days;
+};
+
+export const getLastSentMessage = messages => {
+  return messages.find(
+    m =>
+      m.attributes !== undefined
+        ? m.attributes.sentDate !== null
+        : m.sentDate !== null,
+  );
 };
 
 // Opens the veterans Crisis modal (the modal that appears when clicking the red banner in the header (or footer on mobile) to connect to the crisis line)
