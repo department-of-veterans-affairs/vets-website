@@ -292,6 +292,13 @@ class PatientComposePage {
       .click();
   };
 
+  verifyDeleteDraftSuccessfulMessage = () => {
+    cy.get('.vads-u-margin-bottom--1').should(
+      'have.text',
+      'Message conversation was successfully moved to Trash.',
+    );
+  };
+
   verifySelcteRespitantErrorMessage = () => {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
