@@ -2,7 +2,6 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import recordEvent from 'platform/monitoring/record-event';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -86,12 +85,6 @@ class LocationPage extends React.Component {
               />
             </VaRadio>
           </p>
-          {/* <ProgressButton
-            id="continueButton"
-            afterText="»"
-            buttonText="Continue"
-            onButtonClick={() => this.loadNextPage()}
-          /> */}
         </fieldset>
       </div>
     );

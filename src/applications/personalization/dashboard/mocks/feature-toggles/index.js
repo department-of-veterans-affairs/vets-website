@@ -1,5 +1,6 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
+    myVaUseExperimental = true,
     profileUseVaosV2Api = true,
     showMyVADashboardV2 = true,
     showPaymentAndDebtSection = true,
@@ -9,6 +10,10 @@ const generateFeatureToggles = (toggles = {}) => {
     data: {
       type: 'feature_toggles',
       features: [
+        {
+          name: 'my_va_experimental',
+          value: myVaUseExperimental,
+        },
         {
           name: 'profile_use_vaos_v2_api',
           value: profileUseVaosV2Api,

@@ -94,6 +94,7 @@ export const PURPOSE_TEXT_V2 = [
 
 export const PODIATRY_ID = 'tbd-podiatry';
 export const COVID_VACCINE_ID = 'covid';
+export const COMP_AND_PEN = 'COMPENSATION & PENSION';
 
 /**
  * @typedef TypeOfCare
@@ -455,5 +456,11 @@ export const ERROR_CODES = [
   {
     code: 10006,
     detail: 'Failure to fetch Requests',
+  },
+];
+export const SERVICE_CATEGORY = [
+  {
+    id: COMP_AND_PEN,
+    displayName: 'Compensation and pension exam',
   },
 ];
