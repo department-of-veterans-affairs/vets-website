@@ -6,10 +6,9 @@ import PropTypes from 'prop-types';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 // START lighthouse_migration
+import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
 import DetailsPageContent from '../components/evss/DetailsPageContent';
-// END lighthouse_migration
-import ClaimDetailLayout from '../components/ClaimDetailLayout';
-// START lighthouse_migration
+import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
 import { cstUseLighthouse } from '../selectors';
 // END lighthouse_migration
 import { getClaimType } from '../utils/helpers';
@@ -54,12 +53,8 @@ class DetailsPage extends React.Component {
       return <DetailsPageContent claim={claim} />;
     }
 
-    const {
-      claimType,
-      contentionList,
-      dateFiled,
-      vaRepresentative,
-    } = claim.attributes;
+    const { claimDate, claimType, contentions } = claim.attributes || {};
+    const hasContentions = contentions && contentions.length;
 
     return (
       <>
@@ -73,11 +68,11 @@ class DetailsPage extends React.Component {
             <h4>What you’ve claimed</h4>
           </dt>
           <dd>
-            {contentionList && contentionList.length ? (
+            {hasContentions ? (
               <ul className="claim-detail-list">
-                {contentionList.map((contention, index) => (
+                {contentions.map((contention, index) => (
                   <li key={index} className="claim-detail-list-item">
-                    {contention}
+                    {contention.name}
                   </li>
                 ))}
               </ul>
@@ -88,23 +83,25 @@ class DetailsPage extends React.Component {
           <dt className="claim-detail-label">
             <h4>Date received</h4>
           </dt>
-          <dd>{moment(dateFiled).format('MMM D, YYYY')}</dd>
-          <dt className="claim-detail-label">
-            <h4>Your representative for VA claims</h4>
-          </dt>
-          <dd>{vaRepresentative || 'Not Available'}</dd>
+          <dd>{moment(claimDate).format('MMM D, YYYY')}</dd>
         </dl>
       </>
     );
   }
 
   render() {
-    const { claim, loading, synced } = this.props;
+    const { claim, loading, synced, useLighthouse } = this.props;
 
     let content = null;
     if (!loading) {
       content = this.getPageContent();
     }
+
+    // START lighthouse_migration
+    const ClaimDetailLayout = useLighthouse
+      ? ClaimDetailLayoutLighthouse
+      : ClaimDetailLayoutEVSS;
+    // END lighthouse_migration
 
     return (
       <ClaimDetailLayout
