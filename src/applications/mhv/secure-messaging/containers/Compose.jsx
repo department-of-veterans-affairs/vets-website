@@ -6,24 +6,17 @@ import { clearDraft } from '../actions/draftDetails';
 import { retrieveMessageThread } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
-import ReplyForm from '../components/ComposeForm/ReplyForm';
-import MessageThread from '../components/MessageThread/MessageThread';
 import EmergencyNote from '../components/EmergencyNote';
 import AlertBox from '../components/shared/AlertBox';
 import InterstitialPage from './InterstitialPage';
-import { addAlert, closeAlert } from '../actions/alerts';
-import { isOlderThan } from '../util/helpers';
-import * as Constants from '../util/constants';
+import { closeAlert } from '../actions/alerts';
 
 const Compose = () => {
   const dispatch = useDispatch();
   const { draftMessage, error } = useSelector(state => state.sm.draftDetails);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const { draftId } = useParams();
-  const messageHistory = useSelector(
-    state => state.sm.draftDetails.draftMessageHistory,
-  );
-  const [replyMessage, setReplyMessage] = useState(undefined);
+
   const [acknowledged, setAcknowledged] = useState(false);
   const [draftType, setDraftType] = useState('');
   const location = useLocation();
@@ -60,42 +53,6 @@ const Compose = () => {
       };
     },
     [isDraftPage, draftMessage, history, dispatch],
-  );
-
-  useEffect(
-    () => {
-      // wait until messageHistory is retrieved to determine if we should show a ReplyForm
-      // To prevent from Edit Draft Title falshing on screen
-      if (messageHistory !== undefined) {
-        if (messageHistory?.length > 0) {
-          // TODO filter history to grab only received messages.
-          setReplyMessage(messageHistory[0]);
-          setDraftType('reply');
-        } else {
-          setReplyMessage(null);
-          setDraftType('draft');
-        }
-      }
-    },
-    [messageHistory],
-  );
-
-  useEffect(
-    () => {
-      if (replyMessage && isOlderThan(replyMessage.sentDate, 45)) {
-        dispatch(
-          addAlert(
-            Constants.ALERT_TYPE_INFO,
-            Constants.Alerts.Message.DRAFT_CANNOT_REPLY_INFO_HEADER,
-            Constants.Alerts.Message.DRAFT_CANNOT_REPLY_INFO_BODY,
-            Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
-            Constants.Links.Link.CANNOT_REPLY.TO,
-            Constants.Links.Link.CANNOT_REPLY.TITLE,
-          ),
-        );
-      }
-    },
-    [replyMessage],
   );
 
   let pageTitle;
@@ -143,36 +100,6 @@ const Compose = () => {
       );
     }
 
-    if (replyMessage !== undefined) {
-      return (
-        <>
-          {replyMessage === null ? (
-            <>
-              <h1 className="page-title" ref={header}>
-                {pageTitle}
-              </h1>
-              <EmergencyNote dropDownFlag />
-              <ComposeForm draft={draftMessage} recipients={triageTeams} />
-            </>
-          ) : (
-            <>
-              <ReplyForm
-                draftToEdit={draftMessage}
-                replyMessage={replyMessage}
-                cannotReplyAlert={isOlderThan(replyMessage.sentDate, 45)}
-              />
-              {replyMessage &&
-                messageHistory?.length > 1 && (
-                  <MessageThread
-                    isDraftThread
-                    messageHistory={messageHistory.slice(1)}
-                  />
-                )}
-            </>
-          )}
-        </>
-      );
-    }
     return null;
   };
 
