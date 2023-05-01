@@ -5,12 +5,12 @@
  */
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import moment from 'moment';
 import {
   TYPES_OF_EYE_CARE,
   TYPES_OF_SLEEP_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_CARE,
-  SERVICE_CATEGORY,
 } from './constants';
 
 export const CANCELLED_APPOINTMENT_SET = new Set([
@@ -76,7 +76,6 @@ export function getTypeOfCareById(inputId) {
     ...TYPES_OF_SLEEP_CARE,
     ...AUDIOLOGY_TYPES_OF_CARE,
     ...TYPES_OF_CARE,
-    ...SERVICE_CATEGORY,
   ];
 
   return allTypesOfCare.find(
@@ -125,4 +124,27 @@ export function getProviderName(appointment) {
     return null;
   }
   return null;
+}
+
+/**
+ * Function to generate appointment REST API URL
+ *
+ * @param {*} startDate - Appointment start date
+ * @param {*} endDate - Appointment end date
+ * @param {*} [statuses=[]] - Appointment statusesm i.e. ['booked', 'arrived', 'fulfilled', 'cancelled']
+ * @param {number} [version=2] - API version number
+ * @returns URL string
+ */
+export function generateAppointmentUrl(
+  startDate,
+  endDate,
+  statuses = [],
+  version = 2,
+) {
+  const end = moment(endDate).format('YYYY-MM-DD');
+  const start = moment(startDate).format('YYYY-MM-DD');
+
+  return `/vaos/v${version}/appointments?_include=facilities,clinics&start=${start}&end=${end}&${statuses
+    .map(status => `statuses[]=${status}`)
+    .join('&')}`;
 }

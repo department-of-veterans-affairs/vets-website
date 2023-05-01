@@ -64,8 +64,11 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
       startDate: startOfToday
         .clone()
         .subtract(3, 'months')
-        .format(),
-      endDate: today.format(),
+        .format('YYYY-MM-DD'),
+      endDate: today
+        .clone()
+        .startOf('hour')
+        .format('YYYY-MM-DD'),
     },
   ];
 
@@ -86,8 +89,8 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
     options.push({
       value: index,
       label: `${start.format('MMM YYYY')} – ${end.format('MMM YYYY')}`,
-      startDate: start.format(),
-      endDate: end.format(),
+      startDate: start.format('YYYY-MM-DD'),
+      endDate: end.format('YYYY-MM-DD'),
     });
 
     monthsToSubtract += 3;
@@ -101,8 +104,8 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
     startDate: startOfToday
       .clone()
       .startOf('year')
-      .format(),
-    endDate: startOfToday.format(),
+      .format('YYYY-MM-DD'),
+    endDate: startOfToday.format('YYYY-MM-DD'),
   });
 
   // All of last year
@@ -111,11 +114,11 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
   options.push({
     value: 5,
     label: `All of ${lastYear.format('YYYY')}`,
-    startDate: lastYear.startOf('year').format(),
+    startDate: lastYear.startOf('year').format('YYYY-MM-DD'),
     endDate: lastYear
       .clone()
       .endOf('year')
-      .format(),
+      .format('YYYY-MM-DD'),
   });
 
   return options;
@@ -260,7 +263,6 @@ export default function PastAppointmentsListNew() {
             <h3
               id={`appointment_list_${monthDate.format('YYYY-MM')}`}
               data-cy="past-appointment-list-header"
-              className="vads-u-margin-top--0"
             >
               <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}

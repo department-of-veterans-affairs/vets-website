@@ -1,11 +1,5 @@
-import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import {
-  apiRequestWithUrl,
-  parseApiList,
-  parseApiListWithErrors,
-  parseApiObject,
-} from '../utils';
+import { apiRequestWithUrl, parseApiList, parseApiObject } from '../utils';
 
 function getStagingId(facilityId) {
   if (!environment.isProduction() && facilityId.startsWith('983')) {
@@ -17,12 +11,6 @@ function getStagingId(facilityId) {
   }
 
   return facilityId;
-}
-
-export function getConfirmedAppointments(type, startDate, endDate) {
-  return apiRequestWithUrl(
-    `/vaos/v0/appointments?start_date=${startDate}&end_date=${endDate}&type=${type}`,
-  ).then(parseApiListWithErrors);
 }
 
 export function getPendingAppointments(startDate, endDate) {
@@ -42,49 +30,6 @@ export function getConfirmedAppointment(id, type) {
     parseApiObject,
   );
 }
-
-// This request takes a while, so we're going to call it early
-// and we need a way to wait for an in progress call to finish
-// So this memoizes the promise and returns it to the caller
-export const getLongTermAppointmentHistory = (() => {
-  const MAX_HISTORY = 24;
-  const MONTH_CHUNK = 12;
-  let promise = null;
-
-  return () => {
-    if (!promise || navigator.userAgent === 'node.js') {
-      const appointments = [];
-      const ranges = [];
-      let currentMonths = 0;
-
-      // Creating an array of start and end dates for each chunk
-      while (currentMonths < MAX_HISTORY) {
-        ranges.push([
-          moment()
-            .startOf('day')
-            .subtract(currentMonths + MONTH_CHUNK, 'months')
-            .toISOString(),
-          moment()
-            .subtract(currentMonths, 'months')
-            .startOf('day')
-            .toISOString(),
-        ]);
-        currentMonths += MONTH_CHUNK;
-      }
-
-      // This is weird, but hopefully clear. There are two chunks with date
-      // ranges from the array created above. We're trying to run them serially,
-      // because we want to be careful about overloading the upstream service,
-      // so Promise.all doesn't fit here
-      promise = getConfirmedAppointments('va', ranges[0][0], ranges[0][1])
-        .then(({ data }) => appointments.push(...data))
-        .then(() => getConfirmedAppointments('va', ranges[1][0], ranges[1][1]))
-        .then(({ data }) => appointments.push(...data))
-        .then(() => appointments);
-    }
-    return promise;
-  };
-})();
 
 export function getParentFacilities(systemIds) {
   const idList = systemIds.map(id => `facility_codes[]=${id}`).join('&');
