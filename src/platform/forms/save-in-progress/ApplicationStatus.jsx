@@ -9,7 +9,6 @@ import {
   formDescriptions,
   formBenefits,
 } from 'applications/personalization/dashboard/helpers';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import {
@@ -101,7 +100,7 @@ export class ApplicationStatus extends React.Component {
 
       return (
         <div className="sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
-          <LoadingIndicator message={message} />
+          <va-loading-indicator label="Loading" message={message} />
         </div>
       );
     }
