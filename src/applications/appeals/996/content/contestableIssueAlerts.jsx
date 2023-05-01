@@ -2,8 +2,6 @@ import React from 'react';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import { PROFILE_URL } from '../constants';
-
 const networkError = (
   <p className="vads-u-font-size--base">
     We’re having some connection issues on our end. Please refresh this page to
@@ -55,14 +53,3 @@ export const showContestableIssueError = ({ error, status } = {}, delay) => {
     </va-alert>
   );
 };
-
-export const showHasEmptyAddress = (
-  <va-alert status="info">
-    <h3 slot="headline">You need to have an address on file</h3>
-    <p className="vads-u-font-size--base">
-      To request a Higher-Level Review, you need to have an address in your
-      VA.gov profile. To add an address,{' '}
-      <a href={PROFILE_URL}>please go to your profile page.</a>
-    </p>
-  </va-alert>
-);
