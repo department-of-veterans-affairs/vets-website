@@ -7,7 +7,10 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import FilesPageContent from '../components/evss/FilesPageContent';
 import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
 import AskVAToDecide from '../components/AskVAToDecide';
-import ClaimDetailLayout from '../components/ClaimDetailLayout';
+// START lighthouse_migration
+import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
+import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
+// END lighthouse_migration
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 
@@ -117,12 +120,18 @@ class FilesPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced } = this.props;
+    const { claim, loading, message, synced, useLighthouse } = this.props;
 
     let content = null;
     if (!loading && claim) {
       content = this.getPageContent();
     }
+
+    // START lighthouse_migration
+    const ClaimDetailLayout = useLighthouse
+      ? ClaimDetailLayoutLighthouse
+      : ClaimDetailLayoutEVSS;
+    // END lighthouse_migration
 
     return (
       <ClaimDetailLayout
