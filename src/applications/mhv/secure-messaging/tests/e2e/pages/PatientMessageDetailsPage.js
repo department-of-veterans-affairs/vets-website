@@ -343,15 +343,27 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageDateDisplay = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-date"]')
-      .eq(messageIndex)
-      .should(
-        'have.text',
-        `Date: ${dateFormat(
-          messageDetails.data.attributes.sentDate,
-          'MMMM D, YYYY, h:mm a z',
-        )}`,
-      );
+    if (messageIndex > 0) {
+      cy.get('[data-testid="message-date"]')
+        .eq(messageIndex)
+        .should(
+          'have.text',
+          `Date: ${dateFormat(
+            messageDetails.data.attributes.sentDate,
+            'MMMM D, YYYY, h:mm a z',
+          )}`,
+        );
+    } else {
+      cy.get('[data-testid="message-date"]')
+        .eq(messageIndex)
+        .should(
+          'have.text',
+          `${dateFormat(
+            messageDetails.data.attributes.sentDate,
+            'MMMM D, YYYY [at] h:mm a z',
+          )}`,
+        );
+    }
   };
 
   ReplyToMessageTO = (messageDetails, messageIndex = 0) => {
