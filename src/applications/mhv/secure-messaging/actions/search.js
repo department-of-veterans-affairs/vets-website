@@ -50,7 +50,7 @@ export const runBasicSearch = (folderId, keyword) => async dispatch => {
 export const runAdvancedSearch = (folder, query, keyword) => async dispatch => {
   dispatch({ type: Actions.Search.START });
   try {
-    const response = await searchFolderAdvanced(folder.id, query);
+    const response = await searchFolderAdvanced(folder.folderId, query);
     const matches = findByKeyword(keyword, response.data);
 
     dispatch({

@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { runAdvancedSearch, runBasicSearch } from '../../actions/search';
+import { runAdvancedSearch } from '../../actions/search';
 import FilterBox from './FilterBox';
 import { ErrorMessages } from '../../util/constants';
+import { DateRangeValues } from '../../util/inputContants';
+import { dateFormat } from '../../util/helpers';
 
 const SearchForm = props => {
   const { folder, keyword, resultsCount, query } = props;
@@ -15,6 +17,10 @@ const SearchForm = props => {
   const folders = useSelector(state => state.sm.folders.folderList);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTermError, setSearchTermError] = useState(null);
+  const [category, setCategory] = useState('');
+  const [dateRange, setDateRange] = useState('any');
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
 
   useEffect(
     () => {
@@ -23,33 +29,55 @@ const SearchForm = props => {
     [keyword],
   );
 
-  const handleSearch = (
-    customFilter = false,
-    category,
-    relativeFromDate,
-    fromDateTime,
-    relativeToDate,
-    toDateTime,
-  ) => {
-    if (customFilter === true) {
-      dispatch(
-        runAdvancedSearch(
-          folder,
-          {
-            category,
-            fromDate: relativeFromDate || fromDateTime,
-            toDate: relativeToDate || toDateTime,
-          },
-          searchTerm.toLowerCase(),
-        ),
-      );
-    } else {
-      if (!searchTerm) {
-        setSearchTermError(null);
-        setSearchTermError(ErrorMessages.SearchForm.SEARCH_TERM_REQUIRED);
-        return;
-      }
-      dispatch(runBasicSearch(folder.folderId, searchTerm.toLowerCase()));
+  const getRelativeDate = range => {
+    const today = new Date();
+
+    if (range === DateRangeValues.LAST3) {
+      today.setMonth(today.getMonth() - 3);
+    } else if (range === DateRangeValues.LAST6) {
+      today.setMonth(today.getMonth() - 6);
+    } else if (range === DateRangeValues.LAST12) {
+      today.setMonth(today.getMonth() - 12);
+    }
+
+    return dateFormat(today, 'yyyy-MM-DD');
+  };
+
+  const handleSearch = (customFilter = false) => {
+    const todayDateTime = moment(new Date()).format();
+    const offset = todayDateTime.substring(todayDateTime.length - 6);
+    let relativeToDate;
+    let relativeFromDate;
+    let fromDateTime;
+    let toDateTime;
+
+    if (
+      dateRange === DateRangeValues.LAST3 ||
+      dateRange === DateRangeValues.LAST6 ||
+      dateRange === DateRangeValues.LAST12
+    ) {
+      relativeToDate = moment(new Date());
+      relativeFromDate = `${getRelativeDate(dateRange)}T00:00:00${offset}`;
+    } else if (dateRange === DateRangeValues.CUSTOM) {
+      fromDateTime = `${fromDate}T00:00:00${offset}`;
+      toDateTime = `${toDate}T23:59:59${offset}`;
+    }
+
+    dispatch(
+      runAdvancedSearch(
+        folder,
+        {
+          category,
+          fromDate: relativeFromDate || fromDateTime,
+          toDate: relativeToDate || toDateTime,
+        },
+        searchTerm.toLowerCase(),
+      ),
+    );
+    if (searchTerm === '' && customFilter === false) {
+      setSearchTermError(null);
+      setSearchTermError(ErrorMessages.SearchForm.SEARCH_TERM_REQUIRED);
+      return;
     }
     if (!resultsCount) {
       history.push('/search/results');
@@ -64,7 +92,7 @@ const SearchForm = props => {
     );
   };
 
-  const dateRange = () => {
+  const dateRangeDisplay = () => {
     if (query.fromDate && query.toDate) {
       return queryItem(
         null,
@@ -77,22 +105,15 @@ const SearchForm = props => {
   };
 
   const displayQuery = () => {
-    if (keyword) {
-      return (
-        <>
-          for "<strong>{keyword}</strong>" in <strong>{folder.name}</strong>
-        </>
-      );
-    }
     return (
       <>
-        in <strong>{folder.name}</strong> for
+        in <strong>{folder.name}</strong> for "<strong>{keyword}</strong>"
         <ul>
           {query.messageId && queryItem('Message ID', query.messageId)}
           {query.sender && queryItem('From', query.sender)}
           {query.subject && queryItem('Subject', query.subject)}
           {query.category && queryItem('Category', query.category)}
-          {dateRange()}
+          {dateRangeDisplay()}
         </ul>
       </>
     );
@@ -103,7 +124,7 @@ const SearchForm = props => {
       resultsCount === undefined ? null : (
         <>
           <strong className="search-results-count">
-            {resultsCount.toLocaleString()}
+            {resultsCount?.toLocaleString()}
           </strong>{' '}
           results {displayQuery()}
         </>
@@ -119,6 +140,7 @@ const SearchForm = props => {
       </label>
     );
   };
+
   const handleFolderName = () => {
     if (folder.name === 'Deleted') {
       return 'Trash';
@@ -139,7 +161,6 @@ const SearchForm = props => {
     <>
       <div className="search-form">
         <h3>{filterLabelHeading}</h3>
-        {/* <div className="keyword-help-text">{filterLabelBody}</div> */}
         <>
           {searchTermError && (
             <div className="error-message" role="alert">
@@ -190,6 +211,14 @@ const SearchForm = props => {
               folders={folders}
               keyword={keyword}
               handleSearch={handleSearch}
+              category={category}
+              setCategory={setCategory}
+              dateRange={dateRange}
+              setDateRange={setDateRange}
+              fromDate={fromDate}
+              setFromDate={setFromDate}
+              toDate={toDate}
+              setToDate={setToDate}
             />
           </div>
         )}

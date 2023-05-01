@@ -6,39 +6,25 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from 'moment';
-import {
-  DateRangeValues,
-  DateRangeOptions,
-  SelectCategories,
-} from '../../util/inputContants';
-import { dateFormat } from '../../util/helpers';
+import { DateRangeOptions, SelectCategories } from '../../util/inputContants';
 import { ErrorMessages } from '../../util/constants';
 
 const FilterBox = props => {
-  const { handleSearch } = props;
-
-  const [category, setCategory] = useState('');
-  const [dateRange, setDateRange] = useState('any');
-  const [fromDate, setFromDate] = useState('');
-  const [toDate, setToDate] = useState('');
+  const {
+    handleSearch,
+    category,
+    setCategory,
+    dateRange,
+    setDateRange,
+    fromDate,
+    setFromDate,
+    toDate,
+    setToDate,
+  } = props;
 
   const [fromDateError, setFromDateError] = useState('');
   const [toDateError, setToDateError] = useState('');
   const [formError, setFormError] = useState('');
-
-  const getRelativeDate = range => {
-    const today = new Date();
-
-    if (range === DateRangeValues.LAST3) {
-      today.setMonth(today.getMonth() - 3);
-    } else if (range === DateRangeValues.LAST6) {
-      today.setMonth(today.getMonth() - 6);
-    } else if (range === DateRangeValues.LAST12) {
-      today.setMonth(today.getMonth() - 12);
-    }
-
-    return dateFormat(today, 'yyyy-MM-DD');
-  };
 
   const checkFormValidity = () => {
     const today = new Date();
@@ -73,33 +59,7 @@ const FilterBox = props => {
     const formInvalid = checkFormValidity();
     if (formInvalid) return;
 
-    const todayDateTime = moment(new Date()).format();
-    const offset = todayDateTime.substring(todayDateTime.length - 6);
-    let relativeToDate;
-    let relativeFromDate;
-    let fromDateTime;
-    let toDateTime;
-
-    if (
-      dateRange === DateRangeValues.LAST3 ||
-      dateRange === DateRangeValues.LAST6 ||
-      dateRange === DateRangeValues.LAST12
-    ) {
-      relativeToDate = moment(new Date());
-      relativeFromDate = `${getRelativeDate(dateRange)}T00:00:00${offset}`;
-    } else if (dateRange === DateRangeValues.CUSTOM) {
-      fromDateTime = `${fromDate}T00:00:00${offset}`;
-      toDateTime = `${toDate}T23:59:59${offset}`;
-    }
-
-    handleSearch(
-      true,
-      category,
-      relativeFromDate,
-      fromDateTime,
-      relativeToDate,
-      toDateTime,
-    );
+    handleSearch(true);
   };
 
   return (
@@ -204,6 +164,14 @@ const FilterBox = props => {
 FilterBox.propTypes = {
   folders: PropTypes.any,
   handleSearch: PropTypes.func,
+  category: PropTypes.any,
+  setCategory: PropTypes.func,
+  dateRange: PropTypes.any,
+  setDateRange: PropTypes.func,
+  fromDate: PropTypes.any,
+  setFromDate: PropTypes.func,
+  toDate: PropTypes.any,
+  setToDate: PropTypes.func,
 };
 
 export default FilterBox;
