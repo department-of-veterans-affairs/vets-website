@@ -26,7 +26,9 @@ const AssetInfo = (
 export const uiSchema = {
   'ui:title': () => (
     <>
-      <legend className="schemaform-block-title">Your other assets</legend>
+      <legend className="schemaform-block-title vads-u-font-size--h3">
+        Your other assets
+      </legend>
       <p>
         Enter each type of asset separately below. For each, include an
         estimated value.

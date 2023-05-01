@@ -37,7 +37,7 @@ const SpouseEmploymentHistoryWidget = props => {
 
   return (
     <form>
-      <legend className="schemaform-block-title">
+      <legend className="schemaform-block-title vads-u-font-size--h3">
         Your spouse’s work history
       </legend>
       <div className="vads-u-margin-top--3" data-testid="debt-list">

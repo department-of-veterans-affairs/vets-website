@@ -25,7 +25,7 @@ const RecVehicleInfo = (
 const combinedFSRRecreationalUIVehicleSchema = {
   'ui:title': () => (
     <>
-      <legend className="schemaform-block-title">
+      <legend className="schemaform-block-title vads-u-font-size--h3">
         Your trailers, campers, and boats
       </legend>
     </>
@@ -55,7 +55,7 @@ const combinedFSRRecreationalUIVehicleSchema = {
 const fSRRecreationalVehicleUISchema = {
   'ui:title': () => (
     <>
-      <legend className="schemaform-block-title">
+      <legend className="schemaform-block-title vads-u-font-size--h3">
         Your trailers, campers, and boats
       </legend>
       <p>Enter each of your trailers, campers, and boats separately below.</p>

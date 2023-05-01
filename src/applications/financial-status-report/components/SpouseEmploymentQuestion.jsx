@@ -59,7 +59,7 @@ const SpouseEmploymentQuestion = props => {
 
   return (
     <form onSubmit={handlers.nextPage}>
-      <legend className="schemaform-block-title">
+      <legend className="schemaform-block-title vads-u-font-size--h3">
         Your spouse’s work history
       </legend>
       <VaRadio

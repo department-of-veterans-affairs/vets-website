@@ -121,7 +121,7 @@ const EnhancedVehicleRecord = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <legend className="schemaform-block-title">
+      <legend className="schemaform-block-title vads-u-font-size--h3">
         Your car or other vehicle
       </legend>
       <p>Enter your vehicle’s information below.</p>

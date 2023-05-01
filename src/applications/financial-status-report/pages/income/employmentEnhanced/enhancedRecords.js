@@ -4,7 +4,9 @@ import EnhancedEmploymentRecord from '../../../components/EnhancedEmploymentReco
 export const uiSchema = {
   'ui:title': () => (
     <>
-      <legend className="schemaform-block-title">Your work history</legend>
+      <legend className="schemaform-block-title vads-u-font-size--h3">
+        Your work history
+      </legend>
       <p>
         Tell us about the jobs you’ve had in the past 2 years that you received
         paychecks for. You’ll need to provide your income information for any
