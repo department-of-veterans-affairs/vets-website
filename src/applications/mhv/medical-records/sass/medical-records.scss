@@ -93,6 +93,10 @@ va-loading-indicator {
     width: 100%;
     max-width: 486;
     padding: 0;
+    @media print {
+      margin-right: 0;
+      max-width: none;
+    }
   }
   .medical-records-navigation {
     margin-right: 24px;
