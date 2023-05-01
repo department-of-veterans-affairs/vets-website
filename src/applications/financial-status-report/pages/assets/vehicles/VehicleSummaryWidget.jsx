@@ -59,7 +59,7 @@ const VehicleSummaryWidget = ({
 
   return (
     <form onSubmit={handlers.onSubmit}>
-      <legend className="schemaform-block-title">
+      <legend className="schemaform-block-title vads-u-margin-top--5">
         Your cars or other vehicles
       </legend>
       <div className="vads-u-margin-top--3" data-testid="debt-list">
