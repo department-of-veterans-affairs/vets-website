@@ -1,4 +1,6 @@
 import mockDraftMessage from '../fixtures/message-draft-response.json';
+import mockMessageResponse from '../fixtures/message-response.json';
+import mockThreadResponse from '../fixtures/thread-response.json';
 
 class PatientComposePage {
   sendMessage = () => {
@@ -261,6 +263,26 @@ class PatientComposePage {
       .should('have.value', url);
   };
 
+  clickTrashButton = () => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockMessageResponse.data.attributes.messageId
+      }`,
+      mockMessageResponse,
+    ).as('mockMessageResponse');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockThreadResponse.data.at(2).attributes.messageId
+      }`,
+      mockThreadResponse,
+    ).as('mockThreadResponse');
+    cy.get('[data-testid="trash-button-text"]').click({
+      waitforanimations: true,
+    });
+  };
+
   clickConfirmDeleteButton = () => {
     cy.get('[data-testid=delete-message-modal]')
       .shadow()
@@ -270,11 +292,30 @@ class PatientComposePage {
       .click();
   };
 
+ 
   verifyDeleteDraftSuccessfulMessage = () => {
     cy.get('.vads-u-margin-bottom--1').should(
       'have.text',
       'Message conversation was successfully moved to Trash.',
     );
+    };
+  verifySelcteRespitantErrorMessage = () => {
+    cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
+      .find('[id="error-message"]')
+      .should('contain', ' Please select a recipient.');
+  };
+  verifyBodyErrorMessage = () => {
+    cy.get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('[id=error-message]')
+      .should('be.visible');
+  };
+  verifySubjectErrorMessage = () => {
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('[id=input-error-message]')
+      .should('be.visible');
   };
 }
 export default PatientComposePage;
