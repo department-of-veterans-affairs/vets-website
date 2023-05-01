@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { Actions } from '../util/actionTypes';
 
 const initialState = {
@@ -21,7 +22,9 @@ export const alertsReducer = (state = initialState, action) => {
         alertList: state.alertList.map(alert => {
           return {
             ...alert,
-            isActive: false,
+            isActive: moment(alert.datestamp)
+              .add(2, 'seconds')
+              .isAfter(moment(new Date())),
           };
         }),
       };
