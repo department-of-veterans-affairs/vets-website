@@ -292,25 +292,27 @@ class PatientComposePage {
       .click();
   };
 
- 
   verifyDeleteDraftSuccessfulMessage = () => {
     cy.get('.vads-u-margin-bottom--1').should(
       'have.text',
       'Message conversation was successfully moved to Trash.',
     );
-    };
+  };
+
   verifySelcteRespitantErrorMessage = () => {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="error-message"]')
       .should('contain', ' Please select a recipient.');
   };
+
   verifyBodyErrorMessage = () => {
     cy.get('[data-testid="message-body-field"]')
       .shadow()
       .find('[id=error-message]')
       .should('be.visible');
   };
+
   verifySubjectErrorMessage = () => {
     cy.get('[data-testid="message-subject-field"]')
       .shadow()
