@@ -14,7 +14,10 @@ export const YellowRibbonApp = ({ hasFetchedOnce }) => (
     data-e2e-id="yellow-ribbon-app"
   >
     {/* Breadcrumbs */}
-    <va-breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
+    <va-breadcrumbs
+      label="Breadcrumb"
+      className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0"
+    >
       <a href="/">Home</a>
       <a href="/education/">Education and training</a>
       <a href={manifest.rootUrl}>Find a Yellow Ribbon school</a>

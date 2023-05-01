@@ -115,13 +115,8 @@ export const UnauthContent = () => (
       </li>
       <li>
         Call the My HealtheVet help desk at{' '}
-        <a href="tel:18773270022" aria-label="8 7 7. 3 2 7. 0 0 2 2.">
-          877-327-0022
-        </a>{' '}
-        (
-        <a href=" tel:18008778339." aria-label=" TTY. 8 0 0. 8 7 7. 8 3 3 9.">
-          TTY: 800-877-8339
-        </a>
+        <va-telephone contact="8773270022" /> (
+        <va-telephone contact="8008778339" />
         ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </li>
       <li>
