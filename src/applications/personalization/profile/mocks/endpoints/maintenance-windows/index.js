@@ -1,5 +1,12 @@
 const moment = require('moment');
 
+const SERVICES = {
+  EMIS: 'emis',
+  EVSS: 'evss',
+  MVI: 'mvi',
+  GLOBAL: 'global',
+};
+
 const beforeNow = moment()
   .subtract(1, 'minute')
   .toISOString();
@@ -42,4 +49,5 @@ module.exports = {
   createDonwtimeApproachingNotification,
   createDowntimeActiveNotification,
   noDowntime,
+  SERVICES,
 };

@@ -5,7 +5,7 @@ const NotInMPIError = ({ className }) => {
   return (
     <div className={className}>
       <va-alert status="warning">
-        <h2 slot="headline" className="text-balance">
+        <h2 slot="headline">
           We can’t match your information with our Veteran records
         </h2>
         <p className="vads-u-margin-bottom--0">

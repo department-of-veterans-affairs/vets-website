@@ -25,6 +25,7 @@ const fullName = require('./endpoints/full-name');
 const {
   baseUserTransitionAvailabilities,
 } = require('./endpoints/user-transition-availabilities');
+
 const maintenanceWindows = require('./endpoints/maintenance-windows');
 
 // seed data for VAMC drupal source of truth json file
@@ -41,7 +42,22 @@ const responses = {
   'GET /v0/user': user.handleUserRequest,
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
-  'GET /v0/maintenance_windows': maintenanceWindows.noDowntime,
+  'GET /v0/maintenance_windows': (_req, res) => {
+    // return res.json(
+    //   maintenanceWindows.createDonwtimeApproachingNotification([
+    //     maintenanceWindows.SERVICES.EMIS,
+    //   ]),
+    // );
+
+    // return res.json(
+    //   maintenanceWindows.createDowntimeActiveNotification([
+    //     maintenanceWindows.SERVICES.MVI,
+    //     maintenanceWindows.SERVICES.EMIS,
+    //   ]),
+    // );
+
+    return res.json(maintenanceWindows.noDowntime);
+  },
   'GET /v0/feature_toggles': generateFeatureToggles({
     profileUseInfoCard: true,
     profileUseFieldEditingPage: true,
