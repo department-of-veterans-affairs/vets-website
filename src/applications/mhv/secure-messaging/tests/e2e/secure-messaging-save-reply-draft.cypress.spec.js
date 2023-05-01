@@ -43,7 +43,7 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.ReplyToMessageTO(messageDetails);
     messageDetailsPage.ReplyToMessagesenderName(messageDetails);
     messageDetailsPage.ReplyToMessagerecipientName(messageDetails);
-    messageDetailsPage.ReplyToMDessageDate(messageDetails);
+    messageDetailsPage.ReplyToMessageDate(messageDetails);
     messageDetailsPage.ReplyToMessageId(messageDetails);
 
     messageDetails.data.attributes.body = messageDetailsBody;

@@ -18,6 +18,7 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     inboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
+    cy.reload();
     patientInterstitialPage.getContinueButton().click();
     composePage
       .getMessageBodyField()
