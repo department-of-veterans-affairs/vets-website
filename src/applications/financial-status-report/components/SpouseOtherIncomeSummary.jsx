@@ -10,7 +10,6 @@ import { currency as currencyFormatter } from '../utils/helpers';
 
 const SpouseOtherIncomeSummary = ({
   data,
-  goBack,
   goToPath,
   setFormData,
   contentBeforeButtons,
@@ -35,7 +34,14 @@ const SpouseOtherIncomeSummary = ({
   };
 
   const goForward = () => {
-    return goToPath('/dependents');
+    return goToPath('/dependents-count');
+  };
+
+  const goBack = () => {
+    if (spAddlIncome.length === 0) {
+      return goToPath('/spouse-additional-income-checklist');
+    }
+    return goToPath('/spouse-additional-income-values');
   };
 
   const cardBody = text => (

@@ -10,7 +10,6 @@ import { currency as currencyFormatter } from '../utils/helpers';
 
 const OtherIncomeSummary = ({
   data,
-  goBack,
   goToPath,
   setFormData,
   contentBeforeButtons,
@@ -33,6 +32,13 @@ const OtherIncomeSummary = ({
 
   const goForward = () => {
     return goToPath('/spouse-information');
+  };
+
+  const goBack = () => {
+    if (addlIncRecords.length === 0) {
+      return goToPath('/additional-income-checklist');
+    }
+    return goToPath('/additional-income-values');
   };
 
   const cardBody = text => (
