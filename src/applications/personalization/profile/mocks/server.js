@@ -48,7 +48,7 @@ const responses = {
     // but couldn't be directly imported due to export default vs module.exports
 
     // return res.json(
-    //   maintenanceWindows.createDonwtimeApproachingNotification([
+    //   maintenanceWindows.createDowntimeApproachingNotification([
     //     maintenanceWindows.SERVICES.EMIS,
     //   ]),
     // );

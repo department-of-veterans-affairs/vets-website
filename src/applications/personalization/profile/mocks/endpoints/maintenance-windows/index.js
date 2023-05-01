@@ -35,7 +35,7 @@ const createDowntimeNotificationBase = (services, startTime) => {
   };
 };
 
-const createDonwtimeApproachingNotification = services => {
+const createDowntimeApproachingNotification = services => {
   return createDowntimeNotificationBase(services, withinHour);
 };
 
@@ -46,7 +46,7 @@ const createDowntimeActiveNotification = services => {
 const noDowntime = { data: [] };
 
 module.exports = {
-  createDonwtimeApproachingNotification,
+  createDowntimeApproachingNotification,
   createDowntimeActiveNotification,
   noDowntime,
   SERVICES,
