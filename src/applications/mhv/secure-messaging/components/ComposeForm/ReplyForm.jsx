@@ -20,7 +20,7 @@ import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
 
 const ReplyForm = props => {
-  const { draftToEdit, replyMessage, cannotReplyAlert } = props;
+  const { draftToEdit, replyMessage, cannotReply } = props;
   const dispatch = useDispatch();
 
   const defaultRecipientsList = [{ id: 0, name: ' ' }];
@@ -355,7 +355,7 @@ const ReplyForm = props => {
                   aria-hidden="true"
                 />
                 <span className="vads-u-color--secondary-darkest">(Draft)</span>
-                {` To:${draftToEdit?.replyToName ||
+                {` To: ${draftToEdit?.replyToName ||
                   replyMessage?.senderName}\n(Team: ${
                   replyMessage.triageGroupName
                 })`}
@@ -387,7 +387,7 @@ const ReplyForm = props => {
                 />
               </section>
               <div className="compose-form-actions vads-u-display--flex">
-                {!cannotReplyAlert && (
+                {!cannotReply && (
                   <button
                     type="button"
                     className="vads-u-flex--1"
@@ -468,7 +468,7 @@ const ReplyForm = props => {
 };
 
 ReplyForm.propTypes = {
-  cannotReplyAlert: PropTypes.bool,
+  cannotReply: PropTypes.bool,
   draftToEdit: PropTypes.object,
   recipients: PropTypes.array,
   replyMessage: PropTypes.object,

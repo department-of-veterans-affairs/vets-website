@@ -31,9 +31,29 @@ export default {
           have questions about your application.
         </p>
       ),
-      [veteranFields.homePhone]: phoneUI('Home phone number'),
-      [veteranFields.mobilePhone]: phoneUI('Mobile phone number'),
-      [veteranFields.email]: emailUI(),
+      [veteranFields.homePhone]: {
+        ...phoneUI('Home phone number'),
+        'ui:errorMessages': {
+          ...phoneUI()['ui:errorMessages'],
+          required:
+            'Please enter a 10-digit phone number (with or without dashes)',
+        },
+      },
+      [veteranFields.mobilePhone]: {
+        ...phoneUI('Mobile phone number'),
+        'ui:errorMessages': {
+          ...phoneUI()['ui:errorMessages'],
+          required:
+            'Please enter a 10-digit phone number (with or without dashes)',
+        },
+      },
+      [veteranFields.email]: {
+        ...emailUI(),
+        'ui:errorMessages': {
+          format:
+            'Enter a valid email address. Your address can only have letters, numbers, the @ symbol, and a period, with no spaces.',
+        },
+      },
     },
   },
   schema: {
