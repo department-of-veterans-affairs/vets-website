@@ -120,7 +120,7 @@
   color: $color-gray-light !important;
 }
 
-/* modal width */
+/* override to constrain modal width  */
 #liveForm .kpl_builder[style] {
   width: auto !important;
   max-width: 28rem !important;
