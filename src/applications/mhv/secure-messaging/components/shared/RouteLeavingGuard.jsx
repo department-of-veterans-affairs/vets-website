@@ -13,16 +13,13 @@ export const RouteLeavingGuard = ({
   confirmButtonText,
   cancelButtonText,
   saveDraftHandler,
-  saveError,
 }) => {
   const [modalVisible, updateModalVisible] = useState(false);
   const [lastLocation, updateLastLocation] = useState();
   const [confirmedNavigation, updateConfirmedNavigation] = useState(false);
 
   const showModal = location => {
-    if (!saveError) {
-      updateModalVisible(true);
-    }
+    updateModalVisible(true);
     updateLastLocation(location);
   };
 
