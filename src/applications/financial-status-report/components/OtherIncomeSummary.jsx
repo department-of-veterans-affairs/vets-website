@@ -84,7 +84,7 @@ const OtherIncomeSummary = ({
               search: `?index=${addlIncRecords.length}`,
             }}
           >
-            Add other income
+            Add additional other income
           </Link>
           {contentBeforeButtons}
           <FormNavButtons

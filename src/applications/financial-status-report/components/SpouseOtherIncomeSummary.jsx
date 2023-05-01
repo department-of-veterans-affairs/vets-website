@@ -87,7 +87,7 @@ const SpouseOtherIncomeSummary = ({
               search: `?index=${spAddlIncome.length}`,
             }}
           >
-            Add other income
+            Add additional other income
           </Link>
           {contentBeforeButtons}
           <FormNavButtons
