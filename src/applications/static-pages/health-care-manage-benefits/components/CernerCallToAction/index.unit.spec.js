@@ -10,7 +10,7 @@ describe('<CernerCallToAction>', () => {
     const wrapper = shallow(<CernerCallToAction />);
 
     const text = wrapper.text();
-    expect(text).to.include('<va-loading-indicator />');
+    expect(text).to.include('<va-loading-indicator');
 
     wrapper.unmount();
   });
@@ -20,7 +20,7 @@ describe('<CernerCallToAction>', () => {
     wrapper.setState({ fetching: false, error: 'Some error' });
 
     const text = wrapper.text();
-    expect(text).to.include('<AlertBox />');
+    expect(text).to.include('<va-alert');
 
     wrapper.unmount();
   });
@@ -30,7 +30,7 @@ describe('<CernerCallToAction>', () => {
     wrapper.setState({ fetching: false });
 
     const text = wrapper.text();
-    expect(text).to.include('<AlertBox />');
+    expect(text).to.include('<va-alert');
 
     wrapper.unmount();
   });
