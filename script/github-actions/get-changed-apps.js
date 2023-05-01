@@ -38,8 +38,13 @@ const getAllowedApps = (filePath, allowedApps) => {
   if (!filePath.startsWith(appsDirectory)) return [];
 
   const manifests = getManifests(filePath);
-  const rootAppFolderName = filePath.split('/')[2];
-  console.log(rootAppFolderName, 'rootAppFolderName');
+  const rootAppFolderNameArr = filePath.split('/');
+  console.log(rootAppFolderNameArr, 'rootAppFolderArr');
+  const appIndex =
+    rootAppFolderNameArr[rootAppFolderNameArr.length - 1].indexOf('.') === -1
+      ? rootAppFolderNameArr.length - 1
+      : rootAppFolderNameArr.length - 2;
+  const rootAppFolderName = rootAppFolderNameArr[appIndex];
   const allowedApp = allowedApps.find(
     app => app.rootFolder === rootAppFolderName,
   );
