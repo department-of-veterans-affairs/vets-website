@@ -15,7 +15,7 @@ describe('facilities <OtherFacilityListWidget>', () => {
       },
     );
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    expect(tree.find('va-loading-indicator').exists()).to.be.true;
     tree.unmount();
   });
 
@@ -27,7 +27,7 @@ describe('facilities <OtherFacilityListWidget>', () => {
     );
     tree.instance().request.then(() => {
       tree.update();
-      expect(tree.find('LoadingIndicator').exists()).to.be.false;
+      expect(tree.find('va-loading-indicator').exists()).to.be.false;
 
       const facilityName = tree.find('h3');
       expect(facilityName.text()).to.contain(
