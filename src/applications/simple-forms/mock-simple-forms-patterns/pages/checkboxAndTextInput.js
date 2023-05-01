@@ -1,28 +1,44 @@
 import React from 'react';
 import {
-  checkboxSchema,
-  checkboxUI,
   jsxSchema,
   jsxUI,
   ssnUI as newSsnUI,
-  textInputSchema,
-  textInputUI,
 } from 'platform/forms-system/src/js/web-component-schemas';
 import { ssnUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
-// import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     textInputOld: {
       'ui:title': 'RJSF text input',
     },
-    textInputNew: textInputUI('Web component'),
+    textInputNewUswds: {
+      'ui:title': 'USWDS Web component text input',
+      'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        uswds: true,
+      },
+    },
+    textInputNew: {
+      'ui:title': 'Web component text input',
+      'ui:webComponentField': VaTextInputField,
+    },
     oldCheckbox: {
       'ui:title': 'RJSF checkbox',
     },
-    checkboxWithJsx: checkboxUI({
-      'ui:title': 'Web component version',
-    }),
+    checkboxWithJsx: {
+      'ui:title': 'Web component checkbox',
+      'ui:webComponentField': VaCheckboxField,
+    },
+    checkboxWithJsxUsdws: {
+      'ui:title': 'USWDS Web component checkbox',
+      'ui:webComponentField': VaCheckboxField,
+      'ui:options': {
+        uswds: true,
+      },
+    },
     textInputOld2: {
       ...ssnUI('RJSF - Social security number'),
       'ui:title': 'RJSF - Social security number',
@@ -30,10 +46,14 @@ export default {
         required: 'Please enter a Social Security number',
       },
     },
-    checkboxWithLabelAndLegend: checkboxUI({
+    checkboxWithLabelAndLegend: {
       'ui:title': 'Web component',
+      'ui:webComponentField': VaCheckboxField,
       'ui:description': 'Web component description (legend)',
-    }),
+      'ui:options': {
+        uswds: true,
+      },
+    },
     textInput: newSsnUI('Web component - Social Security number'),
     checkboxWithLabel: jsxUI(
       <div className="vads-u-background-color--gray-light-alt">
@@ -51,18 +71,30 @@ export default {
       textInputOld: {
         type: 'string',
       },
+      textInputNewUswds: {
+        type: 'string',
+      },
       textInputNew: {
         type: 'string',
       },
       oldCheckbox: {
         type: 'boolean',
       },
-      checkboxWithJsx: checkboxSchema(),
+      checkboxWithJsx: {
+        type: 'boolean',
+      },
+      checkboxWithJsxUsdws: {
+        type: 'boolean',
+      },
       textInputOld2: {
         type: 'string',
       },
-      checkboxWithLabelAndLegend: checkboxSchema(),
-      textInput: textInputSchema(),
+      checkboxWithLabelAndLegend: {
+        type: 'boolean',
+      },
+      textInput: {
+        type: 'string',
+      },
       checkboxWithLabel: jsxSchema(),
       oldCheckboxExample: {
         type: 'boolean',
@@ -74,6 +106,7 @@ export default {
       'textInputOld2',
       'textInputOld',
       'textInputNew',
+      'textInputNewUswds',
     ],
   },
 };

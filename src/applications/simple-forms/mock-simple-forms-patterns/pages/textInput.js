@@ -1,19 +1,18 @@
 import React from 'react';
-import {
-  textInputSchema,
-  textInputUI,
-} from 'platform/forms-system/src/js/web-component-schemas';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     simpleOld: {
       'ui:title': 'TextWidget - with string description',
       'ui:description': 'Text description',
     },
-    simpleNew: textInputUI({
+    simpleNew: {
       'ui:title': 'VaTextInputField - with string description',
+      'ui:webComponentField': VaTextInputField,
       'ui:description': 'Text description',
-    }),
+    },
     requiredOld: {
       'ui:title': 'TextWidget - with JSX description',
       'ui:description': (
@@ -27,8 +26,9 @@ export default {
         required: 'Please enter a value',
       },
     },
-    requiredNew: textInputUI({
+    requiredNew: {
       'ui:title': 'VaTextInputField - with JSX description',
+      'ui:webComponentField': VaTextInputField,
       'ui:description': (
         <va-additional-info trigger="JSX description">
           We need the Veteran’s Social Security number or tax identification
@@ -43,27 +43,30 @@ export default {
         hideIf: formData => formData.hide,
         hideOnReview: true,
       },
-    }),
-    hintNew: textInputUI({
+    },
+    hintNew: {
       'ui:title': 'VaTextInputField - with string hint',
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         hint: 'This is a hint',
       },
-    }),
-    inputmodeDecimalNew: textInputUI({
+    },
+    inputmodeDecimalNew: {
       'ui:title': 'VaTextInputField - with decimal inputmode',
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         inputmode: 'decimal',
       },
-    }),
+    },
     disabledOld: {
       'ui:title': 'TextWidget - disabled',
       'ui:disabled': true,
     },
-    disabledNew: textInputUI({
+    disabledNew: {
       'ui:title': 'VaTextInputField - disabled',
+      'ui:webComponentField': VaTextInputField,
       'ui:disabled': true,
-    }),
+    },
   },
   schema: {
     type: 'object',
@@ -71,22 +74,28 @@ export default {
       simpleOld: {
         type: 'string',
       },
-      simpleNew: textInputSchema(),
+      simpleNew: {
+        type: 'string',
+      },
       requiredOld: {
         type: 'string',
       },
-      requiredNew: textInputSchema(),
-      hintNew: textInputSchema(),
-      inputmodeDecimalNew: textInputSchema(),
+      requiredNew: {
+        type: 'string',
+      },
+      hintNew: {
+        type: 'string',
+      },
+      inputmodeDecimalNew: {
+        type: 'string',
+      },
       disabledOld: {
         type: 'string',
       },
-      disabledNew: textInputSchema(),
+      disabledNew: {
+        type: 'string',
+      },
     },
     required: ['requiredOld', 'requiredNew'],
   },
-  // initialData: {
-  //   requiredOld: 'Test',
-  //   requiredNew: 'Test',
-  // },
 };
