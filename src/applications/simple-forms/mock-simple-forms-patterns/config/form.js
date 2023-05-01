@@ -13,9 +13,10 @@ import textInputSsn from '../pages/textInputSsn';
 import checkboxAndTextInput from '../pages/checkboxAndTextInput';
 // import checkboxGroup from '../pages/checkboxGroup';
 // import radio from '../pages/radio';
-// import select from '../pages/select';
-// import date from '../pages/date';
+import select from '../pages/select';
+import date from '../pages/date';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -85,17 +86,17 @@ const formConfig = {
         // },
       },
     },
-    // select: {
-    //   title: 'Select',
-    //   pages: {
-    //     checkbox: {
-    //       path: 'select',
-    //       title: 'Select',
-    //       uiSchema: select.uiSchema,
-    //       schema: select.schema,
-    //     },
-    //   },
-    // },
+    select: {
+      title: 'Select',
+      pages: {
+        select: {
+          path: 'select',
+          title: 'Select',
+          uiSchema: select.uiSchema,
+          schema: select.schema,
+        },
+      },
+    },
     // radio: {
     //   title: 'Radio',
     //   pages: {
@@ -107,17 +108,17 @@ const formConfig = {
     //     },
     //   },
     // },
-    // date: {
-    //   title: 'Date',
-    //   pages: {
-    //     checkbox: {
-    //       path: 'date',
-    //       title: 'Date',
-    //       uiSchema: date.uiSchema,
-    //       schema: date.schema,
-    //     },
-    //   },
-    // },
+    date: {
+      title: 'Date',
+      pages: {
+        checkbox: {
+          path: 'date',
+          title: 'Date',
+          uiSchema: date.uiSchema,
+          schema: date.schema,
+        },
+      },
+    },
   },
 };
 

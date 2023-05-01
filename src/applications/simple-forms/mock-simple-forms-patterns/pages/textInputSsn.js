@@ -7,6 +7,7 @@ import {
   serviceNumberSchema,
 } from 'platform/forms-system/src/js/web-component-schemas';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     ssn: ssnUI(),

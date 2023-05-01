@@ -9,6 +9,7 @@ import {
   ssnSchema as ssnNewSchema,
 } from 'platform/forms-system/src/js/web-component-schemas/personalIdSchemas';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     emailOld: {

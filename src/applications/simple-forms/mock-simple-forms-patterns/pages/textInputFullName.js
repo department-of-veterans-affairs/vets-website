@@ -1,6 +1,7 @@
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import fullNameUI from 'platform/forms/definitions/fullName';
 
+/** @type {PageSchema} */
 const fullNameDef = {
   type: 'object',
   properties: {

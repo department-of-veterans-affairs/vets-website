@@ -3,7 +3,6 @@ import SsnField from '../web-component-fields/SsnField';
 import { validateSSN } from '../validation';
 import SSNReviewWidget from '../review/SSNWidget';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
-import './schemaTypeDefs';
 
 /**
  * @param {string | UISchemaOptions} [options]
