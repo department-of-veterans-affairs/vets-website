@@ -85,7 +85,7 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
         <fieldset>
           <legend
             id="decision-date-description"
-            className="vads-u-font-family--serif"
+            className="vads-u-font-family--serif vads-u-font-size--h3"
             name="addOrUpdateAsset"
           >
             Add your additional assets

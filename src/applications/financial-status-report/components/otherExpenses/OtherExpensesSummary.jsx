@@ -49,7 +49,7 @@ const OtherExpensesSummary = ({
       <fieldset>
         <legend
           id="added-other-living-expenses-summary"
-          className="vads-u-font-family--serif"
+          className="vads-u-font-family--serif vads-u-font-size--h3"
           name="addedOtherLiviingExpensesSummary"
         >
           You have added these expenses

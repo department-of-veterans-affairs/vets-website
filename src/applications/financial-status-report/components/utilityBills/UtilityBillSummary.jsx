@@ -44,7 +44,7 @@ const UtilityBillSummary = ({
       <fieldset>
         <legend
           id="added-utility-bills-summary"
-          className="vads-u-font-family--serif"
+          className="vads-u-font-family--serif vads-u-font-size--h3"
           name="addedUtilityBillsSummary"
         >
           You have added these utility bills

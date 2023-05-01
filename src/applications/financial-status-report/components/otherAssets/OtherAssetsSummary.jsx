@@ -47,7 +47,7 @@ const OtherAssetsSummary = ({
       <fieldset>
         <legend
           id="added-assets-summary"
-          className="vads-u-font-family--serif"
+          className="vads-u-font-family--serif vads-u-font-size--h3"
           name="addedAssetsSummary"
         >
           You have added these assets
