@@ -3,6 +3,7 @@ import {
   checkboxGroupUI,
 } from 'platform/forms-system/src/js/web-component-schemas';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     group: checkboxGroupUI({

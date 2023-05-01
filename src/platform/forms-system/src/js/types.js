@@ -165,6 +165,7 @@
  *   'ui:reviewWidget': (props: any) => JSX.Element,
  *   'ui:title': string | JSX.Element,
  *   'ui:validations': Array<((errors, value) => void)>,
+ *   'ui:webComponentField': (props: any) => JSX.Element,
  *   'ui:widget': 'yesNo' | 'checkbox' | 'radio' | 'select' | 'email' | 'date' | 'textarea' | (props: any) => JSX.Element,
  *   [key: string]: UISchemaOptions
  * }} UISchemaOptions
