@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 import recordEvent from 'platform/monitoring/record-event';
 import { logout as IAMLogout } from 'platform/user/authentication/utilities';
@@ -6,6 +9,13 @@ import { refresh, logoutUrlSiS } from 'platform/utilities/oauth/utilities';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
+
+import { initializeProfile } from 'platform/user/profile/actions';
+import {
+  signInServiceName as signInServiceNameSelector,
+  isAuthenticatedWithOAuth,
+} from 'platform/user/authentication/selectors';
+import { isLoggedIn } from 'platform/user/selectors';
 
 const MODAL_DURATION = 30; // seconds
 
@@ -124,4 +134,26 @@ class SessionTimeoutModal extends React.Component {
   }
 }
 
-export default SessionTimeoutModal;
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: isLoggedIn(state),
+    authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
+    serviceName: signInServiceNameSelector(state),
+  };
+};
+
+const mapDispatchToProps = {
+  initializeProfile,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SessionTimeoutModal);
+
+SessionTimeoutModal.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  initializeProfile: PropTypes.func.isRequired,
+  authenticatedWithOAuth: PropTypes.bool,
+  serviceName: PropTypes.string,
+};
