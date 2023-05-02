@@ -12,7 +12,7 @@ describe('hca FinancialConfirmation', () => {
     const selector = view.container.querySelector('va-alert');
     expect(selector).to.exist;
     expect(selector).to.contain.text(
-      'Confirm that you do not want to share your household financial information',
+      'Confirm that you don\u2019t want to provide your household financial information',
     );
   });
 
