@@ -141,6 +141,12 @@
   }
 }
 
+// schemaform title override to match DS
+.schemaform-block-title {
+  font-size: $h3-font-size;
+  color: $color-base;
+}
+
 // form field subtitle
 .formfield-subtitle {
   margin: 4px 0 0;
@@ -160,9 +166,6 @@
 }
 
 // resolution options
-.resolution-options-available .schemaform-block-title {
-  font-size: 20px;
-}
 .resolution-options-debt-title {
   font-size: 18px;
 }
@@ -216,9 +219,10 @@
   }
 }
 
-.repayments {
+.repayments, .utility-bills {
   #root__title {
     height: auto;
+    font-size: $h3-font-size;
   }
 }
 
