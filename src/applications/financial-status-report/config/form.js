@@ -39,7 +39,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit: transform,
-  submitUrl: `${environment.API_URL}/v0/financial_status_reports`,
+  submitUrl: `${environment.API_URL}/debts_api/v0/financial_status_reports`,
   submit: submitForm,
   submissionError: SubmissionAlert,
   trackingPrefix: 'fsr-5655-',

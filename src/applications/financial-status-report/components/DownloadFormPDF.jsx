@@ -22,7 +22,9 @@ const DownloadFormPDF = ({ pdfContent, useContent }) => {
         }
         try {
           const response = await fetch(
-            `${environment.API_URL}/v0/financial_status_reports/download_pdf`,
+            `${
+              environment.API_URL
+            }/debts_api/v0/financial_status_reports/download_pdf`,
             {
               method: 'GET',
               credentials: 'include',

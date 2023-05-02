@@ -47,7 +47,9 @@ describe('submitForm', () => {
 
   it('should submit at endpioint', done => {
     submitForm(maximal, formConfig);
-    expect(requests[0].url).to.contain('/v0/financial_status_reports');
+    expect(requests[0].url).to.contain(
+      '/debts_api/v0/financial_status_reports',
+    );
     done();
   });
 });
