@@ -84,7 +84,7 @@ class PatientComposePage {
   };
 
   verifyFocusonMessageAttachment = () => {
-    cy.get('.editable-attachment > :nth-child(1) > span').should('have.focus');
+    cy.get('.editable-attachment > span').should('have.focus');
   };
 
   verifyFocusOnErrorMessageToSelectRecipient = () => {
