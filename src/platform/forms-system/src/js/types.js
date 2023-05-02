@@ -1,7 +1,7 @@
 /**
  * @typedef {{
  *   ariaDescribedBySubmit: string,
- *   chapters: Record<string, Chapter>,
+ *   chapters: Record<string, FormConfigChapter>,
  *   confirmation: (props: any) => JSX.Element,
  *   defaultDefinitions: Record<string, SchemaOptions>,
  *   errorText: () => JSX.Element,
@@ -32,14 +32,12 @@
  *       saved: string
  *     }
  *   },
- *   schema: Object,
  *   submit: (form: any, formConfig: any) => Promise<any>
  *   submitUrl: string,
  *   subTitle: string,
  *   title: string,
  *   trackingPrefix: string,
  *   transformForSubmit: (form: any, formConfig: any) => any,
- *   uiSchema: Object,
  *   urlPrefix: string,
  *   version: number
  * }} FormConfig
@@ -47,9 +45,9 @@
 
 /**
  * @typedef {{
- *   pages: Record<string, Page>
+ *   pages: Record<string, FormConfigPage>
  *   title: string
- * }} Chapter
+ * }} FormConfigChapter
  */
 
 /**
@@ -61,18 +59,13 @@
  *   schema: SchemaOptions
  *   title: string,
  *   uiSchema: UISchemaOptions,
- * }} Page
+ * }} FormConfigPage
  */
 
 /**
  * @typedef {Object} PageSchema
  * @property {UISchemaOptions} uiSchema - The UI schema options for the form
  * @property {SchemaOptions} schema - The schema for the form
- * @property {Object} initialData - The initial data for the form
- * @property {(formData: Object) => boolean} depends - A function that returns a boolean indicating whether the page should be shown
- * @property {(formData: any) => void} onContinue - A function that is called when the user clicks the continue button
- * @property {string} path - The path for the page
- * @property {string} title - The title for the page
  */
 
 /**
