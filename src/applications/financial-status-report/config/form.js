@@ -43,6 +43,15 @@ import OtherIncomeSummary from '../components/OtherIncomeSummary';
 import AddIncome from '../components/AddIncome';
 import SpouseOtherIncomeSummary from '../components/SpouseOtherIncomeSummary';
 import SpouseAddIncome from '../components/SpouseAddIncome';
+import ContactInfo, {
+  customContactFocus,
+} from '../components/contactInfo/ContactInfo';
+import ContactInfoReview from '../components/contactInfo/ContactInfoReview';
+import {
+  EditMobilePhone,
+  EditEmail,
+  EditAddress,
+} from '../components/contactInfo/EditContactInfo';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -156,6 +165,43 @@ const formConfig = {
           title: 'Contact Information',
           uiSchema: pages.contactInfo.uiSchema,
           schema: pages.contactInfo.schema,
+        },
+        confirmContactInformation: {
+          title: 'Contact information',
+          path: 'current-contact-information',
+          CustomPage: ContactInfo,
+          CustomPageReview: ContactInfoReview,
+          uiSchema: pages.contactInformation.uiSchema,
+          schema: pages.contactInformationschema,
+          // needs useCustomScrollAndFocus: true to work
+          scrollAndFocusTarget: customContactFocus,
+        },
+        editMobilePhone: {
+          title: 'Edit mobile phone number',
+          path: 'edit-mobile-phone',
+          CustomPage: EditMobilePhone,
+          CustomPageReview: EditMobilePhone,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editEmailAddress: {
+          title: 'Edit email address',
+          path: 'edit-email-address',
+          CustomPage: EditEmail,
+          CustomPageReview: EditEmail,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editMailingAddress: {
+          title: 'Edit mailing address',
+          path: 'edit-mailing-address',
+          CustomPage: EditAddress,
+          CustomPageReview: EditAddress,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },
