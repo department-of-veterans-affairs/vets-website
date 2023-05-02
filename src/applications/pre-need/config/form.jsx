@@ -3,6 +3,7 @@ import { merge, pick } from 'lodash';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import set from 'platform/utilities/data/set';
+import '../sass/pre-need.scss';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
@@ -13,13 +14,13 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import fullNameUI from 'platform/forms/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import fullNameUI from '../definitions/fullName';
 import * as address from '../definitions/address';
 import Footer from '../components/Footer';
 
@@ -624,7 +625,13 @@ const formConfig = {
                 },
                 items: {
                   name: merge({}, fullNameUI, {
-                    'ui:title': 'Name of deceased',
+                    'ui:title': (
+                      <span>
+                        <h3 className="name-of-deceased-text">
+                          Name of deceased
+                        </h3>
+                      </span>
+                    ),
                   }),
                   cemeteryNumber: autosuggest.uiSchema(
                     'VA national cemetery where they’re buried',

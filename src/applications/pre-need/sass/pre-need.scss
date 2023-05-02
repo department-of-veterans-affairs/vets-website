@@ -12,6 +12,7 @@
       margin-top: 0;
     }
   }
+
   .form-expanding-group {
     margin-bottom: 1em;
   }
@@ -19,6 +20,12 @@
 
 .schemaform-radio-indent {
   margin: 0;
+}
+
+h3.name-of-deceased-text {
+  color: rgb(50, 58, 69);
+  font-family: "Bitter";
+  font-weight: bold;
 }
 
 .mail-or-fax-message,
@@ -42,7 +49,7 @@
 }
 
 article#pre-need[data-location="veteran-applicant-information"] {
-  .schemaform-widget-wrapper > fieldset {
+  .schemaform-widget-wrapper>fieldset {
     margin-top: 0 !important;
   }
 }
