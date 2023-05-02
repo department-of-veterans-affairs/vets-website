@@ -57,6 +57,7 @@ const EmploymentQuestion = props => {
 
   return (
     <form>
+      <legend className="schemaform-block-title">Your work history</legend>
       <VaRadio
         class="vads-u-margin-y--2"
         label="Have you had another job in the last 2 years?"
