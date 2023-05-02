@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   DefaultFolders as Folders,
   Alerts,
@@ -46,7 +47,11 @@ const FolderThreadListView = props => {
     setPageNum(page);
     dispatch(
       getListOfThreads(folderId, threadsPerPage, page, sortBy, sortOrder),
-    );
+    ).then(() => {
+      focusElement(
+        document.querySelector("[data-testid='displaying-number-of-threads']"),
+      );
+    });
   };
 
   useEffect(
