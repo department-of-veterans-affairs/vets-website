@@ -126,7 +126,7 @@ const SearchForm = props => {
           <strong className="search-results-count">
             {resultsCount?.toLocaleString()}
           </strong>{' '}
-          results {displayQuery()}
+          resultss {displayQuery()}
         </>
       );
     return (
