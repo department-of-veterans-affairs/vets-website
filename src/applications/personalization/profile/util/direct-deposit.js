@@ -14,21 +14,21 @@ export class DirectDepositClient {
     return this.useLighthouseEndpoint ? this.#LH_ENDPOINT : this.#PPIU_ENDPOINT;
   }
 
-  generateApiRequestOptions(payload) {
+  generateApiRequestOptions(fields) {
     const options = {
       headers: {
         'Content-Type': 'application/json',
       },
       method: 'PUT',
-      body: JSON.stringify(payload),
+      body: JSON.stringify(fields),
       mode: 'cors',
     };
 
     if (this.useLighthouseEndpoint) {
       options.body = JSON.stringify({
-        accountType: payload.accountType,
-        accountNumber: payload.accountNumber,
-        routingNumber: payload.financialInstitutionRoutingNumber,
+        accountType: fields.accountType,
+        accountNumber: fields.accountNumber,
+        routingNumber: fields.financialInstitutionRoutingNumber,
       });
     }
     return options;
