@@ -1,4 +1,5 @@
 import { Actions } from '../util/actionTypes';
+import { updateMessageInThread } from '../util/helpers';
 
 const initialState = {
   /**
@@ -91,6 +92,15 @@ export const draftDetailsReducer = (state = initialState, action) => {
       return {
         ...initialState,
       };
+    case Actions.Draft.GET_IN_THREAD: {
+      return {
+        ...state,
+        draftMessageHistory: updateMessageInThread(
+          state.draftMessageHistory,
+          action.response,
+        ),
+      };
+    }
     default:
       return state;
   }

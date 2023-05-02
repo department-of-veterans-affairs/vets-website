@@ -4,6 +4,8 @@ import * as address from 'platform/forms-system/src/js/definitions/address';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import { providerFacilityFields } from '../definitions/constants';
 
+import RecordField from '../components/RecordField';
+
 export default {
   uiSchema: {
     'ui:title': (
@@ -20,7 +22,8 @@ export default {
     [providerFacilityFields.parentObject]: {
       'ui:options': {
         itemName: 'provider facility',
-        viewField: () => null,
+        viewField: RecordField,
+        keepInPageOnReview: true,
       },
       items: {
         'ui:order': [
@@ -31,6 +34,7 @@ export default {
         ],
         [providerFacilityFields.providerFacilityName]: {
           'ui:title': 'Name of private provider or hospital',
+          'ui:required': () => true,
         },
         [providerFacilityFields.providerFacilityAddress]: address.uiSchema(
           null,
@@ -54,6 +58,8 @@ export default {
     properties: {
       [providerFacilityFields.parentObject]: {
         type: 'array',
+        minItems: 1,
+        maxItems: 5,
         items: {
           ...fullSchema.properties[providerFacilityFields.parentObject].items,
           properties: {

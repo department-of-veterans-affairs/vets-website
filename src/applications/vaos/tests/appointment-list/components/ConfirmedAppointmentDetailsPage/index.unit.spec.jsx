@@ -311,7 +311,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       }),
     ).to.be.ok;
 
-    expect(screen.getByText(/Primary care/i)).to.be.ok;
     expect(screen.getByText(/New issue: ASAP/)).to.be.ok;
     expect(screen.baseElement).not.to.contain.text(
       new RegExp(

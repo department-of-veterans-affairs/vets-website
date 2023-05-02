@@ -5,6 +5,7 @@ import careSummariesAndNotes from '../tests/fixtures/careSummariesAndNotes.json'
 import vaccines from '../tests/fixtures/vaccines.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
+import allergies from '../tests/fixtures/allergies.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -72,6 +73,23 @@ export const mockGetCondition = id => {
     setTimeout(() => {
       const condition = conditions.find(cond => cond.id === id);
       resolve(condition);
+    }, 1000);
+  });
+};
+
+export const mockGetAllergiesList = () => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(allergies);
+    }, 1000);
+  });
+};
+
+export const mockGetAllergy = id => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const allergy = allergies.find(alg => +alg.id === +id);
+      resolve(allergy);
     }, 1000);
   });
 };
