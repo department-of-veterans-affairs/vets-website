@@ -71,7 +71,7 @@ const mockLocalDSOT = () => {
   try {
     if (fs.existsSync(pathToSaveData)) {
       debug('🚀 FILE EXISTS... NOT POPULATING');
-      const fileCreationDate = fs.statSync(pathToSaveData).birthtime;
+      const fileCreationDate = fs.statSync(pathToSaveData).mtime;
       const isOlderThanTwoWeeks = dfns.isBefore(fileCreationDate, twoWeeksAgo);
 
       if (isOlderThanTwoWeeks) {
