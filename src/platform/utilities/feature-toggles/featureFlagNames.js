@@ -73,7 +73,6 @@ export default Object.freeze({
   gibctEybBottomSheet: 'gibct_eyb_bottom_sheet',
   gibctSchoolRatings: 'gibct_school_ratings',
   giSandboxComparisonToolToggle: 'gi_sandbox_comparision_tool_toggle',
-  hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
   hcaBrowserMonitoringEnabled: 'hca_browser_monitoring_enabled',
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
   hcaHouseholdV2Enabled: 'hca_household_v2_enabled',
