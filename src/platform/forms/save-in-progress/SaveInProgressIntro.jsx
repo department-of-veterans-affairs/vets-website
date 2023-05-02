@@ -223,7 +223,8 @@ class SaveInProgressIntro extends React.Component {
         <div className="usa-alert usa-alert-info schemaform-sip-alert">
           <div className="usa-alert-body">
             <H className="usa-alert-heading">
-              Sign in now to save your work in progress
+              {this.props.customHeading ||
+                'Sign in now to save your work in progress'}
             </H>
             <div className="usa-alert-text">
               <p>Here&rsquo;s how signing in now helps you:</p>
@@ -406,6 +407,7 @@ SaveInProgressIntro.propTypes = {
   formData: PropTypes.object,
   gaStartEventName: PropTypes.string,
   headingLevel: PropTypes.number,
+  customHeading: PropTypes.string,
   hideUnauthedStartLink: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   lastSavedDate: PropTypes.number,

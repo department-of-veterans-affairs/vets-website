@@ -2,7 +2,8 @@ import React from 'react';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from '../components/SaveInProgressIntro';
+// import SaveInProgressIntro from '../components/SaveInProgressIntro';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 // TODO: Before launch, refactor platform's original component to replace this copy.
 class IntroductionPage extends React.Component {
@@ -31,7 +32,7 @@ class IntroductionPage extends React.Component {
           Veteran.
         </p>
         <SaveInProgressIntro
-          customTitle="Sign in now to save time and save your work in progress"
+          customHeading="Sign in now to save time and save your work in progress"
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
