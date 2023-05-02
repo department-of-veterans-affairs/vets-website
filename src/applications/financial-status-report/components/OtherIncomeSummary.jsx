@@ -103,8 +103,8 @@ OtherIncomeSummary.propTypes = {
   contentAfterButtons: PropTypes.object,
   contentBeforeButtons: PropTypes.object,
   data: PropTypes.shape({
-    assets: PropTypes.shape({
-      otherAssets: PropTypes.array,
+    additionalIncome: PropTypes.shape({
+      addlIncRecords: PropTypes.array,
     }),
   }),
   goBack: PropTypes.func,

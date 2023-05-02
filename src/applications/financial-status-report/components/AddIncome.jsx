@@ -144,8 +144,8 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
 
 AddIncome.propTypes = {
   data: PropTypes.shape({
-    assets: PropTypes.shape({
-      otherAssets: PropTypes.arrayOf(
+    additionalIncome: PropTypes.shape({
+      addlIncRecords: PropTypes.arrayOf(
         PropTypes.shape({
           name: PropTypes.string,
           amount: PropTypes.string,

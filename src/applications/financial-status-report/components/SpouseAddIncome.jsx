@@ -147,13 +147,15 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
 
 SpouseAddIncome.propTypes = {
   data: PropTypes.shape({
-    assets: PropTypes.shape({
-      otherAssets: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string,
-          amount: PropTypes.string,
-        }),
-      ),
+    additionalIncome: PropTypes.shape({
+      spouse: PropTypes.shape({
+        spAddlIncome: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string,
+            amount: PropTypes.string,
+          }),
+        ),
+      }),
     }),
   }),
   goToPath: PropTypes.func,
