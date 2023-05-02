@@ -4,7 +4,7 @@
     "features": [
       {
         "name": "caregiverSigiEnabled",
-        "value": true
+        "value": false
       },
       {
         "name": "hcaBrowserMonitoringEnabled",
@@ -12,7 +12,11 @@
       },
       {
         "name": "hcaUseFacilitiesApi",
-        "value": true
+        "value": false
+      },
+      {
+        "name": "hcaHouseholdV2Enabled",
+        "value": false
       }
     ]
   }

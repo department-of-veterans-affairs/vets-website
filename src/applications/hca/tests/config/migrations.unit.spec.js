@@ -3,7 +3,7 @@ import formConfig from '../../config/form';
 
 const { migrations } = formConfig;
 
-describe('HCA migrations', () => {
+describe('hca migrations', () => {
   describe('first migration', () => {
     it('should remove hispanic property and add in view: object', () => {
       const data = {
@@ -39,6 +39,7 @@ describe('HCA migrations', () => {
       });
     });
   });
+
   describe('second migration', () => {
     const migration = migrations[1];
     it('should convert report children field', () => {
@@ -93,6 +94,7 @@ describe('HCA migrations', () => {
       });
     });
   });
+
   describe('third migration', () => {
     const migration = migrations[2];
     it('should update url when it matches', () => {
@@ -126,6 +128,7 @@ describe('HCA migrations', () => {
       expect(formData).to.equal(data.formData);
     });
   });
+
   describe('fourth migration', () => {
     const migration = migrations[3];
     it('should leave data alone if not set', () => {
@@ -254,6 +257,7 @@ describe('HCA migrations', () => {
       );
     });
   });
+
   describe('fifth migration', () => {
     const migration = migrations[4];
     it('should unset required fields that are blank strings', () => {
@@ -307,6 +311,7 @@ describe('HCA migrations', () => {
       );
     });
   });
+
   describe('sixth migration', () => {
     const migration = migrations[5];
     it('should unset insurance fields that are blank strings', () => {

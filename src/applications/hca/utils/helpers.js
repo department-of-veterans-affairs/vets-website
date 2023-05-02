@@ -164,8 +164,16 @@ export function transform(formConfig, form) {
     );
   }
 
-  // add back dependents here, because it could have been removed in filterViewFields
-  if (!withoutViewFields.dependents) {
+  // parse dependents list here, because it could have been removed in filterViewFields
+  if (withoutViewFields.dependents?.length) {
+    const listToSet = withoutViewFields.dependents.map(item => ({
+      ...item,
+      grossIncome: item.grossIncome || 0,
+      netIncome: item.netIncome || 0,
+      otherIncome: item.otherIncome || 0,
+    }));
+    withoutViewFields = set('dependents', listToSet, withoutViewFields);
+  } else {
     withoutViewFields = set('dependents', [], withoutViewFields);
   }
 
@@ -228,7 +236,11 @@ export const medicalCentersByState = mapValues(vaMedicalFacilities, val =>
   val.map(center => center.value),
 );
 
-// check if the declared expenses are greater than the declared income
+/**
+ * check if the declared expenses are greater than the declared income
+ *
+ * NOTE: for household v1 only -- remove when v2 is fully-adopted
+ */
 export function expensesLessThanIncome(fieldShownUnder) {
   const fields = [
     'deductibleMedicalExpenses',
@@ -297,7 +309,6 @@ export function expensesLessThanIncome(fieldShownUnder) {
  * @param {Object} props - second set of props to compare
  * @returns {boolean} - true if any relevant props differ between the two sets
  * of props; otherwise returns false
- *
  */
 export function didEnrollmentStatusChange(prevProps, props) {
   const relevantProps = [
@@ -326,7 +337,7 @@ export function createLiteralMap(arrayToMap) {
 }
 
 /**
- * Helper that determines if the user data contains values that allow them
+ * Helper that determines if the form data contains values that allow users
  * to fill out the form using the short form flow
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if the total disability rating is greater than or equal
@@ -334,8 +345,26 @@ export function createLiteralMap(arrayToMap) {
  * that of a high-disability-rated Veteran.
  */
 export function isShortFormEligible(formData) {
-  const hasHighRating =
-    formData['view:totalDisabilityRating'] >= HIGH_DISABILITY_MINIMUM;
-  const hasHighCompensation = formData.vaCompensationType === 'highDisability';
+  const {
+    'view:totalDisabilityRating': disabilityRating,
+    vaCompensationType,
+  } = formData;
+  const hasHighRating = disabilityRating >= HIGH_DISABILITY_MINIMUM;
+  const hasHighCompensation = vaCompensationType === 'highDisability';
   return hasHighRating || hasHighCompensation;
+}
+
+/**
+ * Helper that determines if the form data contains values that require users
+ * to fill out spousal information
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user declares they would like to provide their
+ * financial data & have a marital status of 'married' or 'separated'.
+ */
+export function includeSpousalInformation(formData) {
+  const { discloseFinancialInformation, maritalStatus } = formData;
+  const hasSpouseToDeclare =
+    maritalStatus?.toLowerCase() === 'married' ||
+    maritalStatus?.toLowerCase() === 'separated';
+  return discloseFinancialInformation && hasSpouseToDeclare;
 }
