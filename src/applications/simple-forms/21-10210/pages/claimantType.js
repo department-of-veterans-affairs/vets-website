@@ -1,5 +1,7 @@
 import React from 'react';
 
+import cloanDeep from 'lodash/cloneDeep';
+
 import { CLAIMANT_TYPES, CLAIM_OWNERSHIPS } from '../definitions/constants';
 
 export default {
@@ -10,7 +12,7 @@ export default {
         hideIf: formData => formData.claimOwnership === undefined,
         updateSchema: (formData, schema, uiSchema) => {
           const { claimOwnership } = formData;
-          const uiSchemaCopy = { ...uiSchema };
+          const uiSchemaCopy = cloanDeep(uiSchema);
           let title;
           switch (claimOwnership) {
             case CLAIM_OWNERSHIPS.SELF:
