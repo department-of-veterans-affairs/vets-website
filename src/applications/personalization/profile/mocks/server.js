@@ -30,8 +30,8 @@ const {
 // seed data for VAMC drupal source of truth json file
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
-// some node script utils
-const { debug } = require('./script/utils');
+// utils
+const { debug, delaySingleResponse } = require('./script/utils');
 
 // uncomment if using status retries
 // let retries = 0;
@@ -42,12 +42,18 @@ const responses = {
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
-  'GET /v0/feature_toggles': generateFeatureToggles({
-    profileUseInfoCard: true,
-    profileUseFieldEditingPage: true,
-    profileShowMhvNotificationSettings: false,
-    profileLighthouseDirectDeposit: true,
-  }),
+  'GET /v0/feature_toggles': (_req, res) => {
+    delaySingleResponse(() =>
+      res.json(
+        generateFeatureToggles({
+          profileUseInfoCard: true,
+          profileUseFieldEditingPage: true,
+          profileShowMhvNotificationSettings: false,
+          profileLighthouseDirectDeposit: true,
+        }),
+      ),
+    );
+  },
   'GET /v0/ppiu/payment_information': (_req, res) => {
     // 47841 - Below are the three cases where all of Profile should be gated off
     // paymentInformation.isFiduciary

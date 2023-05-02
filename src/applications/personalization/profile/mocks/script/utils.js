@@ -26,10 +26,17 @@ const debug = message => {
   }
 };
 
+const delaySingleResponse = (cb, delay = 3000) => {
+  setTimeout(() => {
+    cb();
+  }, delay);
+};
+
 module.exports = {
   warn,
   error,
   info,
   success,
   debug,
+  delaySingleResponse,
 };
