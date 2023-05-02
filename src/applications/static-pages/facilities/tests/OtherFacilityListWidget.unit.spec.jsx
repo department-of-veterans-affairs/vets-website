@@ -41,7 +41,10 @@ describe('facilities <OtherFacilityListWidget>', () => {
       );
 
       const mainPhone = tree.find('.main-phone');
-      expect(mainPhone.text()).to.contain('Main phone: 866-482-7488');
+      expect(mainPhone.exists()).to.be.true;
+      const vaTelephone = mainPhone.find('va-telephone');
+      expect(vaTelephone.exists()).to.be.true;
+      expect(vaTelephone.prop('contact')).to.equal('866-482-7488');
 
       const facilityType = tree.find('.facility-type');
       expect(facilityType.text()).to.contain('VA Medical Center (VAMC)');
