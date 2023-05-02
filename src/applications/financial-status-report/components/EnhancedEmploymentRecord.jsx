@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
@@ -43,6 +42,9 @@ const EmploymentRecord = props => {
 
   const [typeError, setTypeError] = useState('');
   const [employerNameError, setEmployerNameError] = useState(false);
+  const [doesNotCurrentlyWorkHere, setDoesNotCurrentlyWorkHere] = useState(
+    true,
+  );
 
   const handleChange = (key, value) => {
     setEmploymentRecord({
@@ -170,6 +172,11 @@ const EmploymentRecord = props => {
       handleChange(key, dateString);
     },
     handleCheckboxChange: (key, val) => {
+      setDoesNotCurrentlyWorkHere(!val);
+      if (val === true) {
+        // if box has become checked
+        setToDateError('');
+      }
       setEmploymentRecord({
         ...employmentRecord,
         [key]: val,
@@ -220,11 +227,15 @@ const EmploymentRecord = props => {
           error={fromDateError}
         />
       </div>
-      <div
-        className={classNames('vads-u-margin-top--3', {
-          'field-disabled': employmentRecord.isCurrent,
-        })}
-      >
+      <Checkbox
+        name="current-employment"
+        label="I currently work here"
+        checked={employmentRecord.isCurrent || false}
+        onValueChange={value =>
+          handlers.handleCheckboxChange('isCurrent', value)
+        }
+      />
+      <div>
         <VaDate
           monthYearOnly
           value={`${toYear}-${toMonth}`}
@@ -238,18 +249,10 @@ const EmploymentRecord = props => {
               'Please enter your employment end date.',
             )
           }
-          required
+          required={doesNotCurrentlyWorkHere}
           error={toDateError}
         />
       </div>
-      <Checkbox
-        name="current-employment"
-        label="I currently work here"
-        checked={employmentRecord.isCurrent || false}
-        onValueChange={value =>
-          handlers.handleCheckboxChange('isCurrent', value)
-        }
-      />
       <div className="input-size-6 vads-u-margin-bottom--2">
         <va-text-input
           label="Employer name"

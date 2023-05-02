@@ -39,6 +39,10 @@ import SpouseEmploymentQuestion from '../components/SpouseEmploymentQuestion';
 import EmploymentQuestion from '../components/EmploymentQuestion';
 import InstallmentContract from '../components/InstallmentContract';
 import InstallmentContractSummary from '../pages/expenses/repayments/InstallmentContractSummary';
+import OtherIncomeSummary from '../components/OtherIncomeSummary';
+import AddIncome from '../components/AddIncome';
+import SpouseOtherIncomeSummary from '../components/SpouseOtherIncomeSummary';
+import SpouseAddIncome from '../components/SpouseAddIncome';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -331,6 +335,27 @@ const formConfig = {
             formData.additionalIncome?.addlIncRecords?.length &&
             formData['view:enhancedFinancialStatusReport'],
         },
+        otherIncomeSummary: {
+          path: 'other-income-summary',
+          title: 'Other income summary',
+          CustomPage: OtherIncomeSummary,
+          CustomPageReview: null,
+          editModeOnReviewPage: true,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.additionalIncome?.addlIncRecords?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        addOtherIncome: {
+          path: 'add-other-income',
+          title: 'Add your other sources of income',
+          CustomPage: AddIncome,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: () => false, // accessed from otherIncomeSummary
+        },
         spouseInformation: {
           path: 'spouse-information',
           title: 'Spouse information',
@@ -529,6 +554,28 @@ const formConfig = {
             formData.questions.isMarried &&
             formData.additionalIncome?.spouse?.spAddlIncome?.length > 0 &&
             formData['view:enhancedFinancialStatusReport'],
+        },
+        spouseOtherIncomeSummary: {
+          path: 'spouse-other-income-summary',
+          title: 'Spouse other income summary',
+          CustomPage: SpouseOtherIncomeSummary,
+          CustomPageReview: null,
+          editModeOnReviewPage: true,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.isMarried &&
+            formData.additionalIncome?.spouse?.spAddlIncome?.length > 0 &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        spouseAddOtherIncome: {
+          path: 'spouse-add-other-income',
+          title: 'Add your other sources of income',
+          CustomPage: SpouseAddIncome,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: () => false, // accessed from spouseOtherIncomeSummary
         },
         dependents: {
           path: 'dependents',

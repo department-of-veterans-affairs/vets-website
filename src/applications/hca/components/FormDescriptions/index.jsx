@@ -1,47 +1,5 @@
 import React from 'react';
 
-export const AmericanIndianDescription = (
-  <>
-    <ul className="vads-u-margin-top--3">
-      <li>
-        You’re a member—or the first- or second-degree descendant of a member—of
-        a tribe, band, or other organized group of Indians, including those
-        terminated since 1940 and those recognized now or in the future by the
-        state you live in (note: this applies whether or not you live on or near
-        a reservation), <strong>or</strong>
-      </li>
-      <li>
-        You’re an Eskimo or Aleut or other Alaska Native, <strong>or</strong>
-      </li>
-      <li>
-        You’re considered by the Secretary of the Interior to be an Indian for
-        any purpose, <strong>or</strong>
-      </li>
-      <li>
-        You’re determined to be an Indian under regulations put into effect by
-        the Secretary of the Interior, <strong>or</strong>
-      </li>
-      <li>
-        You meet any of these descriptions and you live in an urban center (a
-        community that the Secretary of the Interior has determined has a large
-        enough urban Indian population with unmet health needs to warrant
-        assistance under title V of the Indian Health Care Improvement Act, or
-        IHCIA)
-      </li>
-    </ul>
-
-    <div className="vads-u-margin-bottom--3">
-      <a
-        href="https://www.ihs.gov/ihcia/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Learn more about the IHCIA on the Indian Health Service website
-      </a>
-    </div>
-  </>
-);
-
 export const BirthInfoDescription = (
   <>
     <p className="vads-u-margin-bottom--4">

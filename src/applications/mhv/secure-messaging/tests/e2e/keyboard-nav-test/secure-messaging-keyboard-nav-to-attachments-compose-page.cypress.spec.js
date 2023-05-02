@@ -3,7 +3,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
 
 describe('Secure Messaging Keyboard Nav to Attachment', () => {
-  it.skip('Keyboard Nav to Focus on Attachment', () => {
+  it('Keyboard Nav to Focus on Attachment', () => {
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
