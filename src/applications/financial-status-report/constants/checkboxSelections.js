@@ -9,7 +9,6 @@ export const otherIncome = [
   'Irregular or “gig” income',
   'Retirement or non-VA pension payments',
   'Employment bonus',
-  'Other',
 ];
 
 export const monetaryAssets = [

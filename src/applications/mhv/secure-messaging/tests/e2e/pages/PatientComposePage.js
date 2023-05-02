@@ -86,7 +86,7 @@ class PatientComposePage {
   };
 
   verifyFocusonMessageAttachment = () => {
-    cy.get('.editable-attachment > :nth-child(1) > span').should('have.focus');
+    cy.get('.editable-attachment > span').should('have.focus');
   };
 
   verifyFocusOnErrorMessageToSelectRecipient = () => {
@@ -290,6 +290,13 @@ class PatientComposePage {
       .contains('Confirm')
       .should('be.visible')
       .click();
+  };
+
+  verifyDeleteDraftSuccessfulMessage = () => {
+    cy.get('.vads-u-margin-bottom--1').should(
+      'have.text',
+      'Message conversation was successfully moved to Trash.',
+    );
   };
 
   verifySelcteRespitantErrorMessage = () => {

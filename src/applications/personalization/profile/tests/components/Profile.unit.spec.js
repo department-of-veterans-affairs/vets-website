@@ -45,6 +45,7 @@ describe('Profile', () => {
       location: {
         pathname: '/profile/personal-information',
       },
+      useLighthouseDirectDepositEndpoint: false,
     };
   });
 
@@ -281,6 +282,7 @@ describe('mapStateToProps', () => {
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',
       'isBlocked',
+      'useLighthouseDirectDepositEndpoint',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
   });

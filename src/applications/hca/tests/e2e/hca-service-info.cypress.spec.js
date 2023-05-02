@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles-aiq.json';
+import featureToggles from './fixtures/mocks/feature-toggles-shortForm.json';
 import mockUserAiq from './fixtures/mocks/mockUserAiq';
 import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import prefillServiceTest from './fixtures/mocks/mockPrefillServiceTest.json';

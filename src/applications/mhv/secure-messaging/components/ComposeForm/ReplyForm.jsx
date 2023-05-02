@@ -313,7 +313,7 @@ const ReplyForm = props => {
           {setMessageTitle()}
         </h1>
 
-        <div role="heading" aria-level="2">
+        <section aria-label="Reply draft edit mode">
           <form
             className="reply-form"
             data-testid="reply-form"
@@ -422,13 +422,14 @@ const ReplyForm = props => {
               </p>
             </div>
           </form>
-        </div>
-        <main
+        </section>
+        <section
+          aria-label="Message you are replying to"
           className="vads-u-margin--0 message-replied-to"
           data-testid="message-replied-to"
         >
-          <section aria-label="message details.">
-            <p className="vads-u-margin--0" data-testid="message-from">
+          <div aria-label="message details.">
+            <p className="vads-u-margin--0">
               <strong>From: </strong>
               {replyMessage.senderName}
             </p>
@@ -444,7 +445,7 @@ const ReplyForm = props => {
               <strong>Message ID: </strong>
               {replyMessage.messageId}
             </p>
-          </section>
+          </div>
 
           <section aria-label="Message body." className="vads-u-margin-top--1">
             <MessageThreadBody text={replyMessage.body} />
@@ -462,7 +463,7 @@ const ReplyForm = props => {
                 />
               </>
             )}
-        </main>
+        </section>
       </>
     );
   }
