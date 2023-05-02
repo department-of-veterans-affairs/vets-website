@@ -38,7 +38,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     ).as('customFolderID');
     cy.intercept(
       'GET',
-      `my_health/v1/messaging/folders/${folderID}/threads?pageSize=100&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC`,
+      `my_health/v1/messaging/folders/${folderID}/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC`,
       mockMessages,
     ).as('customFolderThreads');
     cy.contains(folderName).click();
