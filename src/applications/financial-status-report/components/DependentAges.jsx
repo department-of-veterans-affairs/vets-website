@@ -4,8 +4,9 @@ import { VaNumberInput } from '@department-of-veterans-affairs/component-library
 import { setData } from 'platform/forms-system/src/js/actions';
 import { DEPENDENT_AGE_LABELS } from '../constants/dependentLabels';
 import { validateIsNumber } from '../utils/validations';
+import ButtonGroup from './shared/ButtonGroup';
 
-const DependentAges = () => {
+const DependentAges = ({ goToPath }) => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
   const {
@@ -64,6 +65,19 @@ const DependentAges = () => {
     [stateDependents, dispatch, formData],
   );
 
+  const handlers = {
+    onSubmit: event => {
+      event.preventDefault();
+      if (!errors.some(error => error !== null)) {
+        goToPath('/monetary-asset-checklist');
+      }
+    },
+    onCancel: event => {
+      event.preventDefault();
+      goToPath('/dependent-count');
+    },
+  };
+
   const handleBlur = useCallback(
     (event, i) => {
       const { value } = event.target;
@@ -99,7 +113,30 @@ const DependentAges = () => {
       )),
     [stateDependents, handleBlur, errors, updateDependents],
   );
-  return <>{dependentAgeInputs}</>;
+  return (
+    <form onSubmit={handlers.onSubmit}>
+      <legend className="schemaform-block-title">Your dependents</legend>
+      <p className="vads-u-padding-top--2">
+        Enter each dependent’s age separately.
+      </p>
+      {dependentAgeInputs}
+      <ButtonGroup
+        buttons={[
+          {
+            label: 'Back',
+            onClick: handlers.onCancel,
+            secondary: true,
+            iconLeft: '«',
+          },
+          {
+            label: 'Continue',
+            type: 'submit',
+            iconRight: '»',
+          },
+        ]}
+      />
+    </form>
+  );
 };
 
 export default DependentAges;
