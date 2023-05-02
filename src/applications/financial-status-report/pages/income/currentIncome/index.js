@@ -13,7 +13,7 @@ export const uiSchema = {
   currEmployment: {
     items: {
       'ui:title': ({ formData }) => (
-        <legend className="schemaform-block-title vads-u-font-size--h3">
+        <legend className="schemaform-block-title">
           Income for your job at {formData.employerName}
         </legend>
       ),

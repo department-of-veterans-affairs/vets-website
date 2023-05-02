@@ -12,9 +12,7 @@ import {
 export const uiSchema = {
   'ui:title': () => (
     <>
-      <legend className="schemaform-block-title vads-u-font-size--h3">
-        Your other income
-      </legend>
+      <legend className="schemaform-block-title">Your other income</legend>
       <p>Tell us how much you get each month for each type of income.</p>
     </>
   ),

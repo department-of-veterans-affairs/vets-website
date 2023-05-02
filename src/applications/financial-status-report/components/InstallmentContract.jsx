@@ -173,7 +173,7 @@ const InstallmentContract = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <legend className="schemaform-block-title vads-u-font-size--h3">
+      <legend className="schemaform-block-title">
         {`${
           installmentContracts.length === index ? 'Add' : 'Update'
         } an installment contract or other debt`}

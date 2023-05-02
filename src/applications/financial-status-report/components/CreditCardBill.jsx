@@ -125,7 +125,7 @@ const CreditCardBill = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <legend className="schemaform-block-title vads-u-font-size--h3">
+      <legend className="schemaform-block-title">
         {`${
           creditCardBills.length === index ? 'Add' : 'Update'
         } a credit card bill`}

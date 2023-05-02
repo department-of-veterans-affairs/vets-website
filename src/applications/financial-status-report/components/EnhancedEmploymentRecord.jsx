@@ -190,9 +190,7 @@ const EmploymentRecord = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <legend className="schemaform-block-title vads-u-font-size--h3">
-        Add a job
-      </legend>
+      <legend className="schemaform-block-title">Add a job</legend>
       <p className="vads-u-padding-top--1">
         Tell us about any jobs you’ve had in the past 2 years that you received
         pay stubs for. You’ll need to provide your income information if it’s a

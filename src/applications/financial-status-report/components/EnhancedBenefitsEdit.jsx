@@ -80,10 +80,7 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
   return (
     <form>
       <fieldset className="vads-u-margin-y--2">
-        <legend
-          className="schemaform-block-title vads-u-font-size--h3"
-          id="root__title"
-        >
+        <legend className="schemaform-block-title" id="root__title">
           Your VA benefits
         </legend>
         <div className="vads-u-padding-top--1p5">

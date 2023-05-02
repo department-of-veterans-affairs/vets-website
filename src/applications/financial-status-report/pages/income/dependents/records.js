@@ -6,9 +6,7 @@ import DependentAges from '../../../components/DependentAges';
 export const uiSchema = {
   'ui:title': () => (
     <>
-      <legend className="schemaform-block-title vads-u-font-size--h3">
-        Your dependents
-      </legend>
+      <legend className="schemaform-block-title">Your dependents</legend>
       <p>Enter each dependent’s age separately.</p>
     </>
   ),
@@ -64,9 +62,7 @@ export const schema = {
 export const uiSchemaEnhanced = {
   'ui:title': () => (
     <>
-      <legend className="schemaform-block-title vads-u-font-size--h3">
-        Your dependents
-      </legend>
+      <legend className="schemaform-block-title">Your dependents</legend>
       <p>Enter each dependent’s age separately.</p>
     </>
   ),

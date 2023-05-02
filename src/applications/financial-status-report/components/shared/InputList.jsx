@@ -11,11 +11,7 @@ const InputList = ({
 }) => {
   return (
     <div>
-      {title && (
-        <legend className="schemaform-block-title vads-u-font-size--h3">
-          {title}
-        </legend>
-      )}
+      {title && <legend className="schemaform-block-title">{title}</legend>}
       {prompt && <p>{prompt}</p>}
       {inputs?.map((input, key) => (
         <div key={input.name + key}>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 const HouseholdExpensesExplainerWidget = () => {
   return (
-    <div className="vads-u-margin-top--neg5 vads-u-margin-bottom--neg2">
+    <div className="vads-u-margin-y--neg3">
       <h2 className="vads-u-font-size--h3">Your monthly household expenses</h2>
       <p className="vads-u-font-size--base vads-u-font-family--sans">
         Now we’re going to ask you about your monthly household expenses,
