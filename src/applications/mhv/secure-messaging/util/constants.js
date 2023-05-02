@@ -129,6 +129,7 @@ export const Alerts = {
   },
   Thread: {
     GET_THREAD_ERROR: 'We’re sorry. Something went wrong on our end.',
+    THREAD_NOT_FOUND_ERROR: 'This conversation was not found.',
   },
 };
 

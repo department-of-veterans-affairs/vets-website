@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
 import PropTypes from 'prop-types';
 import MessageThread from '../components/MessageThread/MessageThread';
@@ -16,12 +16,14 @@ import InterstitialPage from './InterstitialPage';
 import { PrintMessageOptions } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from '../components/shared/CannotReplyAlert';
+import { navigateToFolderByFolderId } from '../util/helpers';
 
 const ThreadDetails = props => {
   const { threadId } = useParams();
   const { testing } = props;
   const dispatch = useDispatch();
   const location = useLocation();
+  const history = useHistory();
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const {
     message,
@@ -33,6 +35,7 @@ const ThreadDetails = props => {
   const { draftMessage, draftMessageHistory } = useSelector(
     state => state.sm.draftDetails,
   );
+  const { folder } = useSelector(state => state.sm.folders);
 
   const [isMessage, setIsMessage] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
@@ -46,9 +49,13 @@ const ThreadDetails = props => {
     () => {
       if (threadId) {
         dispatch(getTriageTeams());
-        dispatch(retrieveMessageThread(threadId)).then(() => {
-          setIsLoaded(true);
-        });
+        dispatch(retrieveMessageThread(threadId))
+          .then(() => {
+            setIsLoaded(true);
+          })
+          .catch(() => {
+            navigateToFolderByFolderId(folder?.folderId || 0, history);
+          });
       }
       return () => {
         dispatch(clearDraft());
