@@ -21,7 +21,11 @@ export const YellowRibbonApp = ({ hasFetchedOnce }) => (
       <a href="/">Home</a>
       <a href="/education/">Education and training</a>
       <a href={manifest.rootUrl}>Find a Yellow Ribbon school</a>
-      {hasFetchedOnce && <a href={window.location.href}>Search results</a>}
+      {hasFetchedOnce && (
+        <li>
+          <a href={window.location.href}>Search results</a>
+        </li>
+      )}
     </va-breadcrumbs>
 
     {/* Derive the Page */}
