@@ -15,6 +15,8 @@ export class DirectDepositClient {
   }
 
   generateApiRequestOptions(payload) {
+    set(payload, 'financialInstitutionName', 'Hidden form field');
+
     const options = {
       headers: {
         'Content-Type': 'application/json',
