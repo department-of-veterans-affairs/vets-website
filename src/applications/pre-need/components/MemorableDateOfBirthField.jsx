@@ -49,8 +49,10 @@ const MemorableDateOfBirth = ({ formData }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  formData: state.form?.data,
-});
+const mapStateToProps = state => {
+  return {
+    formData: state.form.data,
+  };
+};
 
 export default connect(mapStateToProps)(MemorableDateOfBirth);
