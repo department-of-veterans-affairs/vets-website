@@ -19,7 +19,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 
 const MODAL_DURATION = 30; // seconds
 
-class SessionTimeoutModal extends React.Component {
+export class SessionTimeoutModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = { countdown: null };
