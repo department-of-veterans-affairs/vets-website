@@ -83,7 +83,7 @@ const ThreadDetails = props => {
   );
 
   useEffect(() => {
-    if (isDraft) {
+    if (isDraft || isReply) {
       setH1Focus(true);
       focusElement(header.current);
     }
