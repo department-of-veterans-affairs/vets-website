@@ -333,7 +333,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `(Draft) To:${messageDetails.data.attributes.senderName}\n(Team: ${
+        `(Draft) To: ${messageDetails.data.attributes.senderName}\n(Team: ${
           messageDetails.data.attributes.triageGroupName
         })`,
       );

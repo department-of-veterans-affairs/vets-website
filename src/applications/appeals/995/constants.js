@@ -38,6 +38,7 @@ export const SUBMIT_URL = '/v1/supplemental_claims';
 export const SELECTED = 'view:selected';
 
 export const PRIMARY_PHONE = 'view:primaryPhone';
+export const PRIMARY_PHONE_TYPES = ['home', 'mobile'];
 
 export const EVIDENCE_VA = 'view:hasVaEvidence';
 export const EVIDENCE_PRIVATE = 'view:hasPrivateEvidence';

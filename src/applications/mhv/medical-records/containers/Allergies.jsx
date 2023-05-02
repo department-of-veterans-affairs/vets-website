@@ -61,13 +61,16 @@ const Allergies = () => {
   };
 
   return (
-    <div id="labs-and-tests">
+    <div id="allergies">
       <PrintHeader />
       <h1 className="vads-u-margin--0">Allergies</h1>
       <p className="vads-u-margin-top--1">
         Review allergies and reactions in your VA medical records.
       </p>
-      <va-additional-info trigger="What to know about allergy records">
+      <va-additional-info
+        trigger="What to know about allergy records"
+        class="no-print"
+      >
         <ul>
           <li className="vads-u-margin-bottom--2">
             <p className="vads-u-margin--0">
@@ -127,7 +130,10 @@ const Allergies = () => {
           Download page
         </button>
       </div>
-      <va-additional-info trigger="What to know about downloading records">
+      <va-additional-info
+        trigger="What to know about downloading records"
+        class="no-print"
+      >
         <ul>
           <li>
             <strong>If you’re on a public or shared computer,</strong> print

@@ -10,7 +10,6 @@ import { currency as currencyFormatter } from '../../utils/helpers';
 
 const OtherExpensesSummary = ({
   data,
-  goBack,
   goToPath,
   setFormData,
   contentBeforeButtons,
@@ -27,6 +26,13 @@ const OtherExpensesSummary = ({
       ...data,
       otherExpenses: newExpenses,
     });
+  };
+
+  const goBack = () => {
+    if (otherExpenses.length === 0) {
+      return goToPath('/other-expenses-checklist');
+    }
+    return goToPath('/other-expenses-values');
   };
 
   const goForward = () => {

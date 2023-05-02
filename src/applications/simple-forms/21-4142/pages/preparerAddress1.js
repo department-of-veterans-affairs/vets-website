@@ -14,6 +14,7 @@ export default {
       ),
       [preparerIdentificationFields.preparerHasSameAddressAsVeteran]: {
         'ui:widget': 'yesNo',
+        'ui:required': () => true,
         'ui:options': {
           labels: {
             Y: 'Yes, this is my mailing address',

@@ -101,7 +101,6 @@ export default function createDirectDepositPage() {
                 checking: 'Checking',
                 savings: 'Savings',
               },
-              //   hideIf: formData => !usingDirectDeposit(formData),
             },
           },
           accountNumber: {
