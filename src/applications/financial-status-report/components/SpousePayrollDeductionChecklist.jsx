@@ -94,7 +94,11 @@ const SpousePayrollDeductionChecklist = props => {
         },
       });
     }
-    goToPath(`/spouse-deduction-values`);
+    if (selectedDeductions.length > 0) {
+      goToPath(`/spouse-deduction-values`);
+    } else {
+      goToPath(`/spouse-employment-history`);
+    }
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;

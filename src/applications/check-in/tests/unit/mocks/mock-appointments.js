@@ -12,6 +12,14 @@ const singleAppointment = [
     checkInWindowStart: '2022-01-03T14:56:04.788Z',
     checkInWindowEnd: '2022-01-03T14:56:04.788Z',
     checkedInTime: '',
+    facilityAddress: {
+      zip: '92357-1000',
+      street1: '11201 Benton Street',
+      state: 'CA',
+      street2: null,
+      street3: null,
+      city: 'Loma Linda',
+    },
   },
 ];
 
@@ -29,6 +37,14 @@ const multipleAppointments = [
     checkInWindowStart: '2021-11-30T17:12:10.694Z',
     checkInWindowEnd: '2021-11-30T17:12:10.694Z',
     checkedInTime: '',
+    facilityAddress: {
+      zip: '92357-1000',
+      street1: '11201 Benton Street',
+      state: 'CA',
+      street2: null,
+      street3: null,
+      city: 'Loma Linda',
+    },
   },
   {
     facility: 'LOMA LINDA VA CLINIC',
@@ -43,6 +59,14 @@ const multipleAppointments = [
     checkInWindowStart: '2021-11-30T17:12:10.694Z',
     checkInWindowEnd: '2021-11-30T17:12:10.694Z',
     checkedInTime: '',
+    facilityAddress: {
+      zip: '92357-1000',
+      street1: '11201 Benton Street',
+      state: 'CA',
+      street2: null,
+      street3: null,
+      city: 'Loma Linda',
+    },
   },
   {
     facility: 'LOMA LINDA VA CLINIC',
@@ -57,6 +81,14 @@ const multipleAppointments = [
     checkInWindowStart: '2021-11-30T17:12:10.694Z',
     checkInWindowEnd: '2021-11-30T17:12:10.694Z',
     checkedInTime: '',
+    facilityAddress: {
+      zip: '92357-1000',
+      street1: '11201 Benton Street',
+      state: 'CA',
+      street2: null,
+      street3: null,
+      city: 'Loma Linda',
+    },
   },
 ];
 

@@ -619,34 +619,6 @@ export function mockAppointmentRequestsApi({ id = 'testing' } = {}) {
   ).as('v0:create:appointment:request');
 }
 
-export function mockAppointmentRequestMessagesApi({ id = 'testing' } = {}) {
-  cy.intercept(
-    {
-      method: 'GET',
-      pathname: `/vaos/v0/appointment_requests/${id}/messages`,
-    },
-    req =>
-      req.reply({
-        data: {
-          messageText: 'This is a very good reason.',
-        },
-      }),
-  ).as('v0:get:messages');
-
-  cy.intercept(
-    {
-      method: 'POST',
-      pathname: `/vaos/v0/appointment_requests/${id}/messages`,
-    },
-    req =>
-      req.reply({
-        data: {
-          messageText: 'This is a very good reason.',
-        },
-      }),
-  ).as('v0:create:messages');
-}
-
 export function mockCancelReasonsApi({ facilityId }) {
   if (facilityId) {
     const id = Array.isArray(facilityId) ? facilityId[0] : facilityId;

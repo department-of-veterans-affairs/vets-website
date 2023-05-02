@@ -10,9 +10,6 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { isEmptyAddress } from 'platform/forms/address/helpers';
-import { selectVAPContactInfoField } from '@@vap-svc/selectors';
-import { FIELD_NAMES } from '@@vap-svc/constants';
 import { WIZARD_STATUS_NOT_STARTED } from 'platform/site-wide/wizard';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
@@ -25,10 +22,7 @@ import {
   FACILITY_LOCATOR_URL,
   GET_HELP_REVIEW_REQUEST_URL,
 } from '../constants';
-import {
-  showContestableIssueError,
-  showHasEmptyAddress,
-} from '../content/contestableIssueAlerts';
+import { showContestableIssueError } from '../content/contestableIssueAlerts';
 import NeedsToVerify from '../components/NeedsToVerify';
 import { checkContestableIssueError } from '../utils/helpers';
 
@@ -81,7 +75,6 @@ export class IntroductionPage extends React.Component {
         gaStartEventName="decision-reviews-va20-0996-start-form"
         ariaDescribedby="main-content"
         hideUnauthedStartLink
-        testActionLink
         buttonOnly={last}
       />
     );
@@ -93,19 +86,8 @@ export class IntroductionPage extends React.Component {
   };
 
   render() {
-    const { loggedIn, hasEmptyAddress } = this.props;
     const pageTitle = 'Request a Higher-Level Review with VA Form 20-0996';
     const subTitle = 'VA Form 20-0996 (Higher-Level Review)';
-
-    // check if user has address
-    if (loggedIn && hasEmptyAddress) {
-      return (
-        <article className="schemaform-intro">
-          <FormTitle title={pageTitle} subTitle={subTitle} />
-          {showHasEmptyAddress}
-        </article>
-      );
-    }
 
     return (
       <article className="schemaform-intro">
@@ -118,15 +100,16 @@ export class IntroductionPage extends React.Component {
         <p>
           If you or your representative disagree with VA’s decision on your
           claim, you can request a Higher-Level Review. With a Higher-Level
-          Review, a senior reviewer will take a new look at your case and the
-          evidence you already provided. The reviewer will decide whether the
-          decision can be changed based on a difference of opinion or an error.
+          Review, a higher-level reviewer will take a new look at your case and
+          the evidence you already provided. The reviewer will decide whether
+          the decision can be changed based on a difference of opinion or an
+          error.
         </p>
         <h2 className="vads-u-font-size--h3">
           You can’t submit new evidence with a Higher-Level Review
         </h2>
         <p>
-          The senior reviewer will only review the evidence you already
+          The higher-level reviewer will only review the evidence you already
           provided. If you have new and relevant evidence, you can{' '}
           <a href={SUPPLEMENTAL_CLAIM_URL}>file a Supplemental Claim</a>.
         </p>
@@ -225,7 +208,6 @@ IntroductionPage.propTypes = {
     benefitType: PropTypes.string,
   }),
   delay: PropTypes.number,
-  hasEmptyAddress: PropTypes.bool,
   isVerified: PropTypes.bool,
   location: PropTypes.shape({
     basename: PropTypes.string,
@@ -251,9 +233,6 @@ function mapStateToProps(state) {
     savedForms: profile.savedForms,
     isVerified: profile.verified,
     contestableIssues,
-    hasEmptyAddress: isEmptyAddress(
-      selectVAPContactInfoField(state, FIELD_NAMES.MAILING_ADDRESS),
-    ),
   };
 }
 

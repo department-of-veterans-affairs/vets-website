@@ -2,15 +2,24 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
+import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 import LandingPageAuth from '../../containers/LandingPageAuth';
 import reducer from '../../reducers';
 import folderList from '../fixtures/folder-response.json';
 import { unreadCountInbox } from '../../util/helpers';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 describe('Landing dashboard', () => {
   const initialState = {
     sm: {
       folders: { folderList },
+    },
+    user: {
+      profile: {
+        session: {
+          ssoe: true,
+        },
+      },
     },
   };
 
@@ -53,32 +62,19 @@ describe('Landing dashboard', () => {
     expect(screen.getByText(`What to know as you try out this tool`)).to.exist;
   });
 
-  /* it('displays a search component', () => {
-    expect(
-      screen.getByText(`Search for messages`, {
-        exact: true,
-      }),
-    ).to.exist;
-    expect(
-      screen.getByText(`Search messages`, {
-        exact: true,
-      }),
-    ).to.exist;
-  }); */
-
-  /* it('displays a Folders List component', () => {
-    expect(
-      screen.getByText(`Folders`, {
-        exact: true,
-      }),
-    ).to.exist;
-    expect(
-      screen.getByText(`TESTAGAIN`, {
-        exact: true,
+  it('displays a MHV URL Link', () => {
+    const link = screen.getByText(
+      `Go back to the previous version of secure messaging`,
+      {
         selector: 'a',
-      }),
-    ).to.exist;
-  }); */
+      },
+    );
+    expect(link).to.have.attribute(
+      'href',
+      mhvUrl(isAuthenticatedWithSSOe(initialState), 'secure-messaging'),
+    );
+    expect(link).to.have.attribute('target', '_blank');
+  });
 
   it('displays a FAQ component', () => {
     expect(screen.getByText(`Questions about using messages`)).to.exist;

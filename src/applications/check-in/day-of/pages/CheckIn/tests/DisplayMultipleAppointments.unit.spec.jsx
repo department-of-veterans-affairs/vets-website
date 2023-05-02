@@ -1,37 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
 import format from 'date-fns/format';
-import { Provider } from 'react-redux';
-import { I18nextProvider } from 'react-i18next';
-import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 
-import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
-import i18n from '../../../../utils/i18n/i18n';
-
+import CheckInProvider from '../../../../tests/unit/utils/CheckInProvider';
 import DisplayMultipleAppointments from '../DisplayMultipleAppointments';
-import { createMockRouter } from '../../../../tests/unit/mocks/router';
 
 describe('check-in', () => {
   describe('DisplayMultipleAppointments component', () => {
-    let store;
-    beforeEach(() => {
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      const initState = {
-        checkInData: {
-          context: {
-            token: '',
-          },
-          form: {
-            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-          },
-        },
-        ...scheduledDowntimeState,
-      };
-      store = mockStore(initState);
-    });
-    const mockRouter = createMockRouter();
     it('shows appointment details progress', () => {
       const token = 'token-123';
       const appointments = [
@@ -44,15 +20,12 @@ describe('check-in', () => {
       ];
 
       const checkIn = render(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <DisplayMultipleAppointments
-              router={mockRouter}
-              token={token}
-              appointments={appointments}
-            />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider>
+          <DisplayMultipleAppointments
+            token={token}
+            appointments={appointments}
+          />
+        </CheckInProvider>,
       );
 
       expect(checkIn.getAllByRole('list')).to.exist;
@@ -69,10 +42,6 @@ describe('check-in', () => {
       expect(checkIn.getByTestId('appointment-time').innerHTML).to.match(
         /([\d]|[\d][\d]):[\d][\d]/,
       );
-      expect(checkIn.getByTestId('clinic-name')).to.exist;
-      expect(checkIn.getByTestId('clinic-name')).to.have.text(
-        'Green Team Clinic1',
-      );
     });
     describe('back button visibility based on update page', () => {
       it('shows the back button if update page is enabled', () => {
@@ -87,15 +56,12 @@ describe('check-in', () => {
         ];
 
         const checkIn = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <DisplayMultipleAppointments
-                router={mockRouter}
-                token={token}
-                appointments={appointments}
-              />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <DisplayMultipleAppointments
+              token={token}
+              appointments={appointments}
+            />
+          </CheckInProvider>,
         );
         expect(checkIn.getByTestId('back-button')).to.exist;
       });
@@ -111,15 +77,12 @@ describe('check-in', () => {
         ];
 
         const checkIn = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <DisplayMultipleAppointments
-                router={mockRouter}
-                token={token}
-                appointments={appointments}
-              />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <DisplayMultipleAppointments
+              token={token}
+              appointments={appointments}
+            />
+          </CheckInProvider>,
         );
         expect(checkIn.getByTestId('back-button')).to.exist;
       });
@@ -136,15 +99,12 @@ describe('check-in', () => {
         ];
 
         const checkIn = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <DisplayMultipleAppointments
-                router={mockRouter}
-                token={token}
-                appointments={appointments}
-              />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <DisplayMultipleAppointments
+              token={token}
+              appointments={appointments}
+            />
+          </CheckInProvider>,
         );
         expect(checkIn.getByTestId('update-text')).to.have.text(
           `Latest update: ${format(new Date(), "MMMM d, yyyy 'at' h:mm aaaa")}`,

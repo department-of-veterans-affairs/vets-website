@@ -1,8 +1,8 @@
 import React from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import formConfig from '../config/form';
 import FormFooter from 'platform/forms/components/FormFooter';
+import formConfig from '../config/form';
 
 const IntroductionPage = props => {
   return (
@@ -19,7 +19,6 @@ const IntroductionPage = props => {
       </p>
       <SaveInProgressIntro
         buttonOnly
-        testActionLink
         unauthStartText="Sign in and search for a representative"
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
@@ -33,6 +32,7 @@ const IntroductionPage = props => {
         find out more about how a representative can help with your VA claims
         and appeals
       </p>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a href="#">Get help filing your claim or appeal</a>
       <FormFooter formConfig={formConfig} />
     </div>

@@ -23,6 +23,7 @@ const formatDate = date => {
 
 const docTypeToDescription = {
   184: 'Notification Letter',
+  27: 'Board Of Appeals Decision Letter',
 };
 
 const getDescription = docType => {

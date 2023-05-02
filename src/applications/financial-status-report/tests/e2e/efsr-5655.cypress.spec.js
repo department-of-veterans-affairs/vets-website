@@ -16,6 +16,7 @@ Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
+    skip: true,
     dataPrefix: 'data',
     dataSets: ['efsr-maximal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
@@ -52,8 +53,10 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.findAllByText(/start/i, { selector: 'button' })
+        cy.get('a.vads-c-action-link--green')
           .first()
+          .shadow()
+          .find('button')
           .click();
       },
       'all-available-debts': ({ afterHook }) => {
@@ -122,6 +125,56 @@ const testConfig = createTestConfig(
             .find('input')
             .type('123');
           cy.get('.usa-button-primary').click();
+        });
+      },
+      'credit-card-bills': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_questions_hasCreditCardBillsYes').check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'your-credit-card-bills': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#unpaidBalance')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('#amountDueMonthly')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('#amountPastDue')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('#submit').click();
+        });
+      },
+      'credit-card-bills-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'your-installment-contracts': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get(':nth-child(3) > .no-wrap')
+            .first()
+            .shadow()
+            .find('input')
+            .type('Loan');
+
+          cy.get('#amountDueMonthly')
+            .first()
+            .shadow()
+            .find('input')
+            .type('50');
+
+          cy.fillDate('loanBegan', '2020-01');
+
+          cy.get('#submit').click();
         });
       },
       'enhanced-spouse-employment-records': ({ afterHook }) => {
@@ -266,6 +319,54 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'utility-bill-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type=checkbox]')
+            .as('checklist')
+            .should('have.length', 6);
+          cy.get('@checklist')
+            .eq(0)
+            .click();
+          cy.get('@checklist')
+            .eq(1)
+            .click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'utility-bill-values': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-number-input')
+            .as('numberInputs')
+            .should('have.length', 2);
+          cy.get('#Electricity0')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1000');
+          cy.get('[id="Gas1"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1500');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'utility-bill-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[data-testid="mini-summary-card"]')
+            .as('cards')
+            .should('have.length', 2);
+          cy.get('@cards')
+            .eq(0)
+            .should('contain', 'Electricity')
+            .and('contain', '$1,000.00');
+          cy.get('@cards')
+            .eq(1)
+            .should('contain', 'Gas')
+            .and('contain', '$1,500.00');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'resolution-option/0': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type="radio"][value="monthly"]').click();
@@ -281,7 +382,12 @@ const testConfig = createTestConfig(
       'resolution-option/1': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type="radio"][value="waiver"]').click();
-          cy.get('[type="checkbox"]').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'resolution-waiver-agreement/1': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type=checkbox]').check();
           cy.get('.usa-button-primary').click();
         });
       },

@@ -1,7 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "../../../../platform/forms/sass/m-schemaform";
 @import "./shared";
-@import "./profile-info-table";
 @import "./profile-subnav";
 @import "./profile-mobile-subnav";
 @import "./connected-apps";
@@ -105,6 +104,7 @@
     &:last-child {
       border-left: none;
       padding-left: calc(3.1rem + 8px);
+      padding-bottom: 0;
     }
 
     &:before {
@@ -135,5 +135,17 @@
 
   .item-heading {
     clear: inherit;
+  }
+}
+
+// hides the extension field on the single field editing page
+// for mobile phone number specifically, for now
+#profile-edit-field-page [data-field-name="mobilePhone"] {
+  #root_extension {
+    display: none;
+  }
+
+  #root_extension-label {
+    display: none !important;
   }
 }

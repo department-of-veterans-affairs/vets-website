@@ -80,7 +80,14 @@ class PatientMessageDetailsPage {
       this.currentThread,
     ).as('full-thread');
 
-    cy.contains(mockParentMessageDetails.data.attributes.subject).click();
+    /*
+    cy.contains(
+      `${mockParentMessageDetails.data.attributes.category}: ${
+        mockParentMessageDetails.data.attributes.subject
+      }`,
+    ).click();
+    */
+    cy.contains(`${mockParentMessageDetails.data.attributes.subject}`).click();
     cy.wait('@message1');
   };
 
@@ -267,6 +274,19 @@ class PatientMessageDetailsPage {
     cy.log('message does not have attachment');
   };
 
+  verifyUnexpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        messageDetails.data.attributes.messageId
+      }`,
+      messageDetails,
+    );
+    cy.get('[class= "vads-u-flex--fill"]')
+      .eq(messageIndex)
+      .should('contain', `From: ${messageDetails.data.attributes.senderName}`);
+  };
+
   verifyExpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
     cy.get('[data-testid="from"]')
       .eq(messageIndex)
@@ -313,7 +333,9 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `(Draft) To: ${messageDetails.data.attributes.recipientName}`,
+        `(Draft) To: ${messageDetails.data.attributes.senderName}\n(Team: ${
+          messageDetails.data.attributes.triageGroupName
+        })`,
       );
   };
 
@@ -322,7 +344,9 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName}`,
+        `From: ${messageDetails.data.attributes.senderName} (${
+          messageDetails.data.attributes.triageGroupName
+        })`,
       );
   };
 
@@ -354,12 +378,12 @@ class PatientMessageDetailsPage {
     );
   };
 
-  ReplyToMessagebody = messageDetails => {
-    cy.get(
-      '.vads-u-margin-top--1 > .message-list-body-collapsed > .vads-u-margin-y--0',
-    ).should($mbody => {
-      expect($mbody.text()).to.contain(messageDetails.data.attributes.body);
-    });
+  ReplyToMessagebody = messageBody => {
+    cy.get('[data-testid="message-replied-to"]')
+      .find('[data-testid="message-body"]')
+      .should($mbody => {
+        expect($mbody.text()).to.contain(messageBody);
+      });
   };
 }
 

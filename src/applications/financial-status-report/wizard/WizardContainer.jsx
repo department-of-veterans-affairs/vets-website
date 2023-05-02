@@ -44,20 +44,20 @@ const WizardContainer = ({ setWizardStatus, showFSR }) => {
           <p>
             If you already know this is the form you need, you can go to the
             form now.
-            <button
-              type="button"
-              className="va-button-link vads-u-display--inline-block skip-wizard-link"
-              onClick={e => {
-                e.preventDefault();
-                setWizardStatus(WIZARD_STATUS_COMPLETE);
-                recordEvent({
-                  event: `howToWizard-skip`,
-                });
-              }}
-            >
-              Request help with VA Form 5655
-            </button>
           </p>
+          <button
+            type="button"
+            className="skip-wizard-link"
+            onClick={e => {
+              e.preventDefault();
+              setWizardStatus(WIZARD_STATUS_COMPLETE);
+              recordEvent({
+                event: `howToWizard-skip`,
+              });
+            }}
+          >
+            Request help with VA Form 5655
+          </button>
           <section aria-live="polite">
             <Wizard
               pages={pages}

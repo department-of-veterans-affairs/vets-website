@@ -172,12 +172,11 @@ const HealthCareContentV2 = ({
                 }. `}
                 <CTALink
                   text="Review your messages"
-                  newTab
                   href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
                   onClick={() =>
                     recordEvent({
                       event: 'nav-linkslist',
-                      'links-list-header': 'Review your messages',
+                      'links-list-header': 'View your messages',
                       'links-list-section-header': 'Health care',
                     })
                   }
@@ -195,7 +194,8 @@ const HealthCareContentV2 = ({
         {isVAPatient &&
           !hasUpcomingAppointment &&
           !hasAppointmentsError && <NoUpcomingAppointmentsText />}
-        {shouldShowOnOneColumn ? (
+        {shouldShowOnOneColumn ||
+        (hasAppointmentsError && shouldShowUnreadMessageAlert) ? (
           <HealthCareCTA
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}

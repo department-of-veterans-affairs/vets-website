@@ -1,4 +1,4 @@
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 import environment from '~/platform/utilities/environment';
 
@@ -133,6 +133,10 @@ export const dismissNotificationById = id => async dispatch => {
       'api-name': 'PATCH dismiss on-site notification',
       'api-status': 'failed',
     });
-    throw new Error(error);
+    return dispatch({
+      type: NOTIFICATION_DISMISSAL_FAILED,
+      dismissalError: true,
+      errors: error,
+    });
   }
 };

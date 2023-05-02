@@ -4,12 +4,16 @@
     "view:enhancedFinancialStatusReport": true,
     "otherExpenses": [
       {
-        "name": "Pool service",
-        "amount": "200"
+        "name": "Clothing",
+        "amount": "10"
       },
       {
-        "name": "Lawn service",
-        "amount": "100.54"
+        "name": "Food",
+        "amount": "1000.54"
+      },
+      {
+        "name": "Veteran added",
+        "amount": "100"
       }
     ],
     "view:components": {
@@ -27,12 +31,14 @@
           "amount": "1200.53"
         },
         {
-          "name": "Food",
-          "amount": "4000.38"
+          "name": "Mortgage payment",
+          "amount": "800.00"
+        },
+        {
+          "name": "Property tax",
+          "amount": "85.25"
         }
-      ],
-      "rentOrMortgage": "1200.53",
-      "food": "4000.38"
+      ]
     },
     "assets": {
       "realEstateValue": "800000.81",
@@ -177,16 +183,16 @@
     ],
     "utilityRecords": [
       {
-        "utilityType": "Electricity",
-        "monthlyUtilityAmount": "350.45"
+        "name": "Electricity",
+        "amount": "350.45"
       },
       {
-        "utilityType": "Water",
-        "monthlyUtilityAmount": "75.43"
+        "name": "Water",
+        "amount": "75.43"
       },
       {
-        "utilityType": "Cable",
-        "monthlyUtilityAmount": "275.47"
+        "name": "Cable",
+        "amount": "275.47"
       }
     ],
     "personalData": {

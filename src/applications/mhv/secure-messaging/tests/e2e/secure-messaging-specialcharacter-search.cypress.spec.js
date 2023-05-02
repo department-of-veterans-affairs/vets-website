@@ -33,7 +33,7 @@ describe('Secure Messaging - Search Special Characters', () => {
     ).as('basicSearchRequestSentFolder');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1/messages?per_page=-1&useCache=false',
+      '/my_health/v1/messaging/folders/-1/threads?pageSize=100&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
       mockMessages,
     ).as('mockSpecialCharmessage');
     cy.get('[data-testid="sent-sidebar"]').click();
@@ -46,7 +46,6 @@ describe('Secure Messaging - Search Special Characters', () => {
     messageDetailsPage.loadMessageDetails(
       mockSpeciaCharMessage,
       defaultMockThread,
-      0,
     );
     cy.get('span').should('contain', 'special %$#');
 

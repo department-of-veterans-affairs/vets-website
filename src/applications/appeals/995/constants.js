@@ -38,6 +38,7 @@ export const SUBMIT_URL = '/v1/supplemental_claims';
 export const SELECTED = 'view:selected';
 
 export const PRIMARY_PHONE = 'view:primaryPhone';
+export const PRIMARY_PHONE_TYPES = ['home', 'mobile'];
 
 export const EVIDENCE_VA = 'view:hasVaEvidence';
 export const EVIDENCE_PRIVATE = 'view:hasPrivateEvidence';
@@ -73,6 +74,9 @@ export const MAX_LENGTH = {
   CLAIMANT_OTHER: 25,
   EVIDENCE_LOCATION_AND_NAME: 255,
 };
+
+export const REGEX_COMMA = /[, ]/g;
+export const REGEX_EMPTY_DATE = /--/;
 
 export const errorMessages = {
   contestedIssue: 'You must select an eligible issue',
@@ -123,6 +127,7 @@ export const errorMessages = {
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
+export const NO_ISSUES_SELECTED = 'No issues were selected';
 
 // contested issue dates
 export const FORMAT_YMD = 'YYYY-MM-DD';
@@ -134,10 +139,11 @@ export const CONTACT_EDIT = 'edit-contact-info'; // contact info focusing
 export const SUMMARY_EDIT = 'edit-evidence-summary'; // evidence summary focus
 export const REVIEW_CONTACT = 'onReviewPageContact';
 export const REVIEW_ISSUES = 'onReviewPageIssues';
+export const LIMITATION_KEY = 'limitation';
 
 // Values from benefitTypes in Lighthouse 0995 schema
 // schema.definitions.scCreate.properties.data.properties.attributes.properties.benefitType.emum;
-const supportedBenefitTypes = [
+export const SUPPORTED_BENEFIT_TYPES_LIST = [
   'compensation', // Phase 1
   // 'pensionSurvivorsBenefits',
   // 'fiduciary',
@@ -150,10 +156,11 @@ const supportedBenefitTypes = [
 ];
 
 export const LEGACY_TYPE = 'legacyAppeal';
+export const AMA_DATE = '2019-02-19'; // Appeals Modernization Act in effect
 
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,
-  isSupported: supportedBenefitTypes.includes(type.value),
+  isSupported: SUPPORTED_BENEFIT_TYPES_LIST.includes(type.value),
 }));
 
 // Once we include the 'pensionSurvivorsBenefits' type, we will need to know

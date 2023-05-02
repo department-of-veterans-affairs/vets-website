@@ -7,6 +7,7 @@ import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
+  COMP_AND_PEN,
 } from '../../utils/constants';
 import {
   getVAAppointmentLocationId,
@@ -157,12 +158,6 @@ export const selectCanceledAppointments = createSelector(
   },
 );
 
-export function selectFirstRequestMessage(state, id) {
-  const { requestMessages } = state.appointments;
-
-  return requestMessages?.[id]?.[0]?.attributes?.messageText || null;
-}
-
 /*
  * V2 Past appointments state selectors
  */
@@ -236,7 +231,6 @@ export function selectRequestedAppointmentDetails(state, id) {
     ]),
     appointmentDetailsStatus,
     facilityData,
-    message: selectFirstRequestMessage(state, id),
     cancelInfo: getCancelInfo(state),
     useV2: featureVAOSServiceCCAppointments,
   };
@@ -318,6 +312,8 @@ export function selectCommunityCareDetailsInfo(state, id) {
 export function selectBackendServiceFailuresInfo(state) {
   const { backendServiceFailures } = state.appointments;
   return {
+    pastStatus: state.appointments.pastStatus,
+    pendingStatus: state.appointments.pendingStatus,
     futureStatus: selectFutureStatus(state),
     backendServiceFailures,
   };
@@ -353,6 +349,12 @@ export function selectIsVideo(appointment) {
 export function selectTypeOfCareName(appointment) {
   const { name } =
     getTypeOfCareById(appointment.vaos.apiData?.serviceType) || {};
+  const serviceCategoryName =
+    appointment.vaos.apiData?.serviceCategory?.[0]?.text || {};
+  if (serviceCategoryName === COMP_AND_PEN) {
+    const { displayName } = getTypeOfCareById(serviceCategoryName);
+    return displayName;
+  }
   return name;
 }
 
@@ -404,7 +406,24 @@ export function selectIsPending(appointment) {
   );
 }
 
-export function selectAppointmentLocality(appointment) {
+export function selectIsPendingAppointment(appt) {
+  return (
+    !appt.vaos.isExpressCare &&
+    (appt.status === APPOINTMENT_STATUS.proposed ||
+      appt.status === APPOINTMENT_STATUS.pending)
+  );
+}
+
+export function selectIsCancelledAppointment(appt) {
+  return (
+    !appt.vaos.isExpressCare && appt.status === APPOINTMENT_STATUS.cancelled
+  );
+}
+
+export function selectAppointmentLocality(
+  appointment,
+  isPendingAppointment = false,
+) {
   const practitioner = selectPractitionerName(appointment);
   const typeOfCareName = selectTypeOfCareName(appointment);
   const isCommunityCare = selectIsCommunityCare(appointment);
@@ -412,7 +431,7 @@ export function selectAppointmentLocality(appointment) {
   const isVideo = selectIsVideo(appointment);
   const isInPerson = selectIsInPerson(appointment);
 
-  if (isPendingOrCancelledRequest(appointment)) {
+  if (isPendingAppointment) {
     const { name: facilityName } = appointment.vaos.facilityData || {
       name: '',
     };
@@ -469,7 +488,7 @@ export function selectTimeZoneAbbr(appointment) {
   return abbreviation;
 }
 
-export function selectModalityText(appointment) {
+export function selectModalityText(appointment, isPendingAppointment = false) {
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isInPerson = selectIsInPerson(appointment);
   const isPhone = selectIsPhone(appointment);
@@ -481,7 +500,7 @@ export function selectModalityText(appointment) {
     name: '',
   };
 
-  if (isPendingOrCancelledRequest(appointment)) {
+  if (isPendingAppointment) {
     if (isInPerson) {
       return 'In person';
     }
@@ -495,10 +514,13 @@ export function selectModalityText(appointment) {
   //
   // TODO: What default should be displayed if the data is corrupt an there is
   // no facility name?
-  if (facilityName) return `At ${facilityName}`;
-  if (isVideoAtlas) {
-    const { line, city, state } = appointment.videoData.atlasLocation.address;
-    return `At ${line} ${city}, ${state}`;
+  if (selectIsVideo(appointment)) {
+    if (isVideoAtlas) {
+      const { line, city, state } = appointment.videoData.atlasLocation.address;
+      return `At ${line} ${city}, ${state}`;
+    }
+
+    if (isVideoHome || isVideoVADevice) return 'Video';
   }
 
   if (isInPerson || isVideoClinic) {
@@ -507,7 +529,7 @@ export function selectModalityText(appointment) {
 
   if (isPhone) return 'Phone';
   if (isCommunityCare) return 'Community care';
-  if (isVideoHome || isVideoVADevice) return 'Video';
+  // if (facilityName) return `At ${facilityName}`;
 
   return '';
 }

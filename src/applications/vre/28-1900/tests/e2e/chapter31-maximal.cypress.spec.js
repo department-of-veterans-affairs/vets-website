@@ -38,9 +38,7 @@ const testConfig = createTestConfig(
         // re-inject aXe to get the automatic aXe checks working.
         afterHook(() => {
           cy.injectAxe();
-          cy.findAllByRole('button', {
-            name: /Apply for Veteran Readiness and Employment/i,
-          })
+          cy.get('.vads-c-action-link--green')
             .first()
             .click();
         });

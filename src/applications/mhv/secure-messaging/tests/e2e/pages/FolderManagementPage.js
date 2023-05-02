@@ -6,6 +6,10 @@ class FolderManagementPage {
       .find('[type="button"]');
   };
 
+  editFolderNameButton = () => {
+    return cy.get('[data-testid="edit-folder-button"]');
+  };
+
   createFolderTextBox = () => {
     return cy
       .get('[name="folder-name"]')
@@ -34,7 +38,7 @@ class FolderManagementPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderId}/messages*`,
+      `/my_health/v1/messaging/folders/${folderId}/threads*`,
       folderMessages,
     ).as('customFolderMessages');
 

@@ -15,6 +15,7 @@ export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
   `${environment.API_URL}/${version}/sessions/${type}/new`;
 
 export const AUTH_EVENTS = {
+  MOCK_LOGIN: 'mock-login-link-clicked-modal',
   MODAL_LOGIN: 'login-link-clicked-modal',
   LOGIN: 'login-link-clicked',
   SSO_LOGIN: 'sso-automatic-login',
@@ -38,6 +39,7 @@ export const CSP_IDS = {
   ID_ME: 'idme',
   DS_LOGON: 'dslogon',
   LOGIN_GOV: 'logingov',
+  VAMOCK: 'vamock',
 };
 
 export const SERVICE_PROVIDERS = {

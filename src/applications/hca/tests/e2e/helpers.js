@@ -14,13 +14,9 @@ export const goToNextPage = pagePath => {
 };
 
 export const advanceToServiceInfoPage = () => {
-  // cy.findAllByText(/start.+application/i, { selector: 'button' })
-  //   .first()
-  //   .click();
-
-  // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
-  cy.get('#1-continueButton').click();
-
+  cy.get('[href="#start"]')
+    .first()
+    .click();
   cy.wait('@mockSip');
   cy.location('pathname').should(
     'include',
@@ -125,6 +121,8 @@ export const shortFormSelfDisclosureToSubmit = () => {
 
   cy.get('[name="privacyAgreementAccepted"]')
     .scrollIntoView()
+    .shadow()
+    .find('[type="checkbox"]')
     .check();
   cy.findByText(/submit/i, { selector: 'button' }).click();
   cy.wait('@mockSubmit').then(interception => {

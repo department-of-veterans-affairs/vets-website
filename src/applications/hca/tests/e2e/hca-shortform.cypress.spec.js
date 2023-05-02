@@ -6,7 +6,7 @@ import mockFacilities from './fixtures/mocks/mockFacilities.json';
 import prefillAiq from './fixtures/mocks/mockPrefillAiq.json';
 import mockUserAiq from './fixtures/mocks/mockUserAiq';
 import minTestData from './fixtures/data/minimal-test.json';
-import * as aiqHelpers from './helpers';
+import * as shortformHelpers from './helpers';
 
 const testData = minTestData.data;
 
@@ -64,7 +64,9 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       .first()
       .should('exist');
 
-    cy.get('#1-continueButton').click();
+    cy.get('a.vads-c-action-link--green')
+      .first()
+      .click();
 
     cy.wait('@mockSip');
 
@@ -95,21 +97,25 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    aiqHelpers.goToNextPage('/veteran-information/maiden-name-information');
-    aiqHelpers.shortFormAdditionalHelpAssertion();
+    shortformHelpers.goToNextPage(
+      '/veteran-information/maiden-name-information',
+    );
+    shortformHelpers.shortFormAdditionalHelpAssertion();
 
-    aiqHelpers.goToNextPage('/veteran-information/birth-sex');
-    aiqHelpers.shortFormAdditionalHelpAssertion();
+    shortformHelpers.goToNextPage('/veteran-information/birth-sex');
+    shortformHelpers.shortFormAdditionalHelpAssertion();
 
-    aiqHelpers.goToNextPage('/veteran-information/demographic-information');
-    aiqHelpers.shortFormAdditionalHelpAssertion();
+    shortformHelpers.goToNextPage(
+      '/veteran-information/demographic-information',
+    );
+    shortformHelpers.shortFormAdditionalHelpAssertion();
 
-    aiqHelpers.goToNextPage('/veteran-information/veteran-address');
-    aiqHelpers.shortFormAdditionalHelpAssertion();
+    shortformHelpers.goToNextPage('/veteran-information/veteran-address');
+    shortformHelpers.shortFormAdditionalHelpAssertion();
     cy.get('[type=radio]').check('N');
 
-    aiqHelpers.goToNextPage('/veteran-information/veteran-home-address');
-    aiqHelpers.shortFormAdditionalHelpAssertion();
+    shortformHelpers.goToNextPage('/veteran-information/veteran-home-address');
+    shortformHelpers.shortFormAdditionalHelpAssertion();
     cy.get('#root_veteranHomeAddress_street').type(
       testData.veteranAddress.street,
     );
@@ -121,30 +127,30 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       testData.veteranAddress.postalCode,
     );
 
-    aiqHelpers.goToNextPage('/veteran-information/contact-information');
-    aiqHelpers.shortFormAdditionalHelpAssertion();
+    shortformHelpers.goToNextPage('/veteran-information/contact-information');
+    shortformHelpers.shortFormAdditionalHelpAssertion();
 
     cy.wait('@mockSip');
 
     // medicaid
-    aiqHelpers.goToNextPage('/insurance-information/medicaid');
-    aiqHelpers.shortFormAdditionalHelpAssertion();
+    shortformHelpers.goToNextPage('/insurance-information/medicaid');
+    shortformHelpers.shortFormAdditionalHelpAssertion();
     cy.get('[type=radio]#root_isMedicaidEligibleNo')
       .first()
       .scrollIntoView()
       .check('N');
 
     // general insurance
-    aiqHelpers.goToNextPage('/insurance-information/general');
-    aiqHelpers.shortFormAdditionalHelpAssertion();
+    shortformHelpers.goToNextPage('/insurance-information/general');
+    shortformHelpers.shortFormAdditionalHelpAssertion();
 
     cy.get('[type=radio]#root_isCoveredByHealthInsuranceNo')
       .first()
       .scrollIntoView()
       .check('N');
 
-    aiqHelpers.goToNextPage('/insurance-information/va-facility');
-    aiqHelpers.shortFormAdditionalHelpAssertion();
+    shortformHelpers.goToNextPage('/insurance-information/va-facility');
+    shortformHelpers.shortFormAdditionalHelpAssertion();
     cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
       testData['view:preferredFacility']['view:facilityState'],
     );
@@ -154,10 +160,12 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       .find('select')
       .select(testData['view:preferredFacility'].vaMedicalFacility);
 
-    aiqHelpers.goToNextPage('review-and-submit');
+    shortformHelpers.goToNextPage('review-and-submit');
 
     cy.get('[name="privacyAgreementAccepted"]')
       .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
       .check();
     cy.findByText(/submit/i, { selector: 'button' }).click();
     cy.wait('@mockSubmit');
@@ -217,7 +225,9 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
       .first()
       .should('exist');
 
-    cy.get('#1-continueButton').click();
+    cy.get('a.vads-c-action-link--green')
+      .first()
+      .click();
 
     cy.wait('@mockSip');
     cy.location('pathname').should(
@@ -225,24 +235,28 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
       '/veteran-information/personal-information',
     );
 
-    aiqHelpers.goToNextPage('/veteran-information/birth-information');
-    aiqHelpers.goToNextPage('/veteran-information/maiden-name-information');
-    aiqHelpers.goToNextPage('/veteran-information/birth-sex');
-    aiqHelpers.goToNextPage('/veteran-information/demographic-information');
+    shortformHelpers.goToNextPage('/veteran-information/birth-information');
+    shortformHelpers.goToNextPage(
+      '/veteran-information/maiden-name-information',
+    );
+    shortformHelpers.goToNextPage('/veteran-information/birth-sex');
+    shortformHelpers.goToNextPage(
+      '/veteran-information/demographic-information',
+    );
 
-    aiqHelpers.goToNextPage('/veteran-information/veteran-address');
+    shortformHelpers.goToNextPage('/veteran-information/veteran-address');
     cy.get('[type=radio]')
       .first()
       .scrollIntoView()
       .check('Y');
 
-    aiqHelpers.goToNextPage('/veteran-information/contact-information');
+    shortformHelpers.goToNextPage('/veteran-information/contact-information');
     cy.wait('@mockSip');
 
     cy.injectAxe();
     cy.axeCheck();
 
-    aiqHelpers.shortFormSelfDisclosureToSubmit();
+    shortformHelpers.shortFormSelfDisclosureToSubmit();
   });
 });
 
@@ -287,18 +301,26 @@ describe('HCA-Shortform-UnAuthenticated', () => {
     cy.findByLabelText(/social security/i).type(
       testData.veteranSocialSecurityNumber,
     );
-    aiqHelpers.goToNextPage('veteran-information/profile-information');
-    aiqHelpers.goToNextPage('veteran-information/profile-information-ssn');
-    aiqHelpers.goToNextPage('veteran-information/profile-information-dob');
+    shortformHelpers.goToNextPage('veteran-information/profile-information');
+    shortformHelpers.goToNextPage(
+      'veteran-information/profile-information-ssn',
+    );
+    shortformHelpers.goToNextPage(
+      'veteran-information/profile-information-dob',
+    );
 
-    aiqHelpers.goToNextPage('/veteran-information/birth-information');
-    aiqHelpers.goToNextPage('/veteran-information/maiden-name-information');
-    aiqHelpers.goToNextPage('/veteran-information/birth-sex');
+    shortformHelpers.goToNextPage('/veteran-information/birth-information');
+    shortformHelpers.goToNextPage(
+      '/veteran-information/maiden-name-information',
+    );
+    shortformHelpers.goToNextPage('/veteran-information/birth-sex');
     cy.get('[type=radio]').check('M');
 
-    aiqHelpers.goToNextPage('/veteran-information/demographic-information');
+    shortformHelpers.goToNextPage(
+      '/veteran-information/demographic-information',
+    );
 
-    aiqHelpers.goToNextPage('/veteran-information/veteran-address');
+    shortformHelpers.goToNextPage('/veteran-information/veteran-address');
     cy.get('#root_veteranAddress_street').type(testData.veteranAddress.street);
     cy.get('#root_veteranAddress_city').type(testData.veteranAddress.city);
     cy.get('#root_veteranAddress_state').select(testData.veteranAddress.state);
@@ -311,11 +333,11 @@ describe('HCA-Shortform-UnAuthenticated', () => {
       .scrollIntoView()
       .check('Y');
 
-    aiqHelpers.goToNextPage('/veteran-information/contact-information');
+    shortformHelpers.goToNextPage('/veteran-information/contact-information');
 
     cy.injectAxe();
     cy.axeCheck();
 
-    aiqHelpers.shortFormSelfDisclosureToSubmit();
+    shortformHelpers.shortFormSelfDisclosureToSubmit();
   });
 });

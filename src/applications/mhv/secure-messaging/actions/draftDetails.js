@@ -92,7 +92,7 @@ export const saveReplyDraft = (
     if (id) {
       dispatch({
         type: Actions.Draft.UPDATE_SUCCEEDED,
-        response,
+        response: messageData,
       });
     } else {
       dispatch({

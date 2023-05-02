@@ -1,0 +1,17 @@
+.condition-subheader {
+  border-bottom: 1px solid $color-gray-light;
+  @media print {
+    padding-bottom: 24px;
+  }
+}
+
+.condition-details {
+  padding: 0 0 40 0;
+  h2 {
+    margin: 16 0 0;
+    font-size: 15px;
+  }
+  p {
+    margin: 0;
+  }
+}

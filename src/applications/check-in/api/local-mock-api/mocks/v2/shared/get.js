@@ -106,6 +106,14 @@ const createAppointment = ({
   clinicStopCodeName = 'Mental health',
   doctorName = 'Dr. Jones',
   clinicIen = '0001',
+  facilityAddress = {
+    zip: '92357-1000',
+    street1: '11201 Benton Street',
+    state: 'CA',
+    street2: null,
+    street3: null,
+    city: 'Loma Linda',
+  },
 } = {}) => {
   const formattedStartTime = dateFns.format(
     startTime,
@@ -169,6 +177,7 @@ const createAppointment = ({
     clinicStopCodeName,
     doctorName,
     clinicIen,
+    facilityAddress,
   };
 };
 
@@ -247,10 +256,28 @@ const createAppointments = (
   };
 };
 
+const createMockFailedResponse = _data => {
+  return {
+    error: true,
+  };
+};
+
+const createMockNotFoundResponse = () => {
+  return {
+    errors: [
+      {
+        status: '404',
+      },
+    ],
+  };
+};
+
 module.exports = {
   aboutToExpireUUID,
   createAppointments,
   createAppointment,
   defaultUUID,
   mockDemographics,
+  createMockFailedResponse,
+  createMockNotFoundResponse,
 };
