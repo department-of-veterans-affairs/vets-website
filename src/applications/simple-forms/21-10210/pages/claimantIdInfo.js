@@ -1,8 +1,9 @@
+import definitions from 'vets-json-schema/dist/definitions.json';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+
 export default {
   uiSchema: {
-    claimantSSN: {
-      'ui:title': 'Social Security number',
-    },
+    claimantSSN: ssnUI,
     vaFileNumber: {
       'ui:title': 'VA file number (if applicable)',
     },
@@ -14,9 +15,7 @@ export default {
     type: 'object',
     required: ['claimantSSN'],
     properties: {
-      claimantSSN: {
-        type: 'string',
-      },
+      claimantSSN: definitions.ssn,
       vaFileNumber: {
         type: 'string',
       },
