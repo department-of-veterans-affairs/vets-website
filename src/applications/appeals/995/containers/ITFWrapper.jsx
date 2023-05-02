@@ -166,15 +166,15 @@ const itfShape = {
 };
 
 ITFWrapper.propTypes = {
-  accountUuid: PropTypes.string.isRequired,
   benefitType: PropTypes.string.isRequired,
   children: PropTypes.any.isRequired,
-  inProgressFormId: PropTypes.string.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   pathname: PropTypes.string.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  accountUuid: PropTypes.string,
+  inProgressFormId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   itf: PropTypes.shape({
     fetchCallState: PropTypes.oneOf(requestStateEnum).isRequired,
     creationCallState: PropTypes.oneOf(requestStateEnum).isRequired,

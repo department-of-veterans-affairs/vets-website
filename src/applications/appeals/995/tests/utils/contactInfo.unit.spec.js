@@ -53,10 +53,13 @@ describe('getFormattedPhone', () => {
   it('should return an empty string', () => {
     expect(getFormattedPhone()).to.eq('');
     expect(getFormattedPhone(getPhone({ area: '', number: '' }))).to.eq('');
+  });
+  it('should return unformatted phone number', () => {
+    expect(getFormattedPhone(getPhone({ area: '' }))).to.eq('5551212');
+    expect(getFormattedPhone(getPhone({ area: '1', number: '2' }))).to.eq('12');
     expect(
       getFormattedPhone(getPhone({ area: '123', number: '456789' })),
-    ).to.eq('');
-    expect(getFormattedPhone(getPhone({ area: '' }))).to.eq('');
+    ).to.eq('123456789');
   });
   it('should return a formatted phone number', () => {
     expect(getFormattedPhone(getPhone())).to.eq('(800) 555-1212');
@@ -74,71 +77,120 @@ const getVeteran = ({
 });
 
 describe('hasHomePhone', () => {
+  const getData = (area, number) =>
+    getVeteran({ homePhone: getPhone({ area, number }) });
   it('should return false for no home phone', () => {
     const data = getVeteran({ homePhone: {} });
     expect(hasHomePhone(data)).to.be.false;
   });
-  it('should return false for partial home phone', () => {
-    const data = number => getVeteran({ homePhone: getPhone({ number }) });
-    expect(hasHomePhone(data('123'))).to.be.false;
-    expect(hasHomePhone(data('1234'))).to.be.false;
-    expect(hasHomePhone(data('12345'))).to.be.false;
-    expect(hasHomePhone(data('123456'))).to.be.false;
-    expect(hasHomePhone(data('12345678'))).to.be.false;
+  it('should return false for home phone less than desired length', () => {
+    expect(hasHomePhone(getData('', ''))).to.be.false;
+    expect(hasHomePhone(getData('1', ''))).to.be.false;
+    expect(hasHomePhone(getData('', '2'))).to.be.false;
+  });
+  it('should return true for partial home phone', () => {
+    expect(hasHomePhone(getData('1', '2'))).to.be.true;
+    expect(hasHomePhone(getData('12', '3'))).to.be.true;
+    expect(hasHomePhone(getData('123', '4'))).to.be.true;
+    expect(hasHomePhone(getData('1234', '5'))).to.be.true;
+    expect(hasHomePhone(getData('123', '45'))).to.be.true;
+    expect(hasHomePhone(getData('123', '456'))).to.be.true;
+    expect(hasHomePhone(getData('123', '4567'))).to.be.true;
+    expect(hasHomePhone(getData('123', '45678'))).to.be.true;
+    expect(hasHomePhone(getData('123', '456789'))).to.be.true;
   });
   it('should return true for valid home phone', () => {
-    const data = getVeteran({ homePhone: getPhone() });
-    expect(hasHomePhone(data)).to.be.true;
+    expect(hasHomePhone(getData('123', '4567890'))).to.be.true;
+    // schema allows 4 digit area code & 14 digit phone number
+    expect(hasHomePhone(getData('1234', '12345678901234'))).to.be.true;
   });
 });
 
 describe('hasMobilePhone', () => {
+  const getData = (area, number) =>
+    getVeteran({ mobilePhone: getPhone({ area, number }) });
   it('should return false for no mobile phone', () => {
     const data = getVeteran({ mobilePhone: {} });
     expect(hasMobilePhone(data)).to.be.false;
   });
+  it('should return false for mobile phone less than desired length', () => {
+    expect(hasMobilePhone(getData('', ''))).to.be.false;
+    expect(hasMobilePhone(getData('1', ''))).to.be.false;
+    expect(hasMobilePhone(getData('', '2'))).to.be.false;
+  });
   it('should return false for partial mobile phone', () => {
-    const data = number => getVeteran({ mobilePhone: getPhone({ number }) });
-    expect(hasMobilePhone(data('123'))).to.be.false;
-    expect(hasMobilePhone(data('1234'))).to.be.false;
-    expect(hasMobilePhone(data('12345'))).to.be.false;
-    expect(hasMobilePhone(data('123456'))).to.be.false;
-    expect(hasMobilePhone(data('12345678'))).to.be.false;
+    expect(hasMobilePhone(getData('1', '2'))).to.be.true;
+    expect(hasMobilePhone(getData('12', '3'))).to.be.true;
+    expect(hasMobilePhone(getData('123', '4'))).to.be.true;
+    expect(hasMobilePhone(getData('1234', '5'))).to.be.true;
+    expect(hasMobilePhone(getData('123', '45'))).to.be.true;
+    expect(hasMobilePhone(getData('123', '456'))).to.be.true;
+    expect(hasMobilePhone(getData('123', '4567'))).to.be.true;
+    expect(hasMobilePhone(getData('123', '45678'))).to.be.true;
+    expect(hasMobilePhone(getData('123', '456789'))).to.be.true;
   });
   it('should return true for valid mobile phone', () => {
-    const data = getVeteran({ mobilePhone: getPhone() });
-    expect(hasMobilePhone(data)).to.be.true;
+    expect(hasMobilePhone(getData('123', '4567890'))).to.be.true;
+    // schema allows 4 digit area code & 14 digit phone number
+    expect(hasMobilePhone(getData('1234', '12345678901234'))).to.be.true;
   });
 });
 
 describe('hasHomeAndMobilePhone', () => {
-  const getBoth = (number1, number2) =>
+  const getBoth = (area1, number1, area2 = '123', number2 = '45678890') =>
     getVeteran({
-      homePhone: number1 ? getPhone({ number: number1 }) : {},
-      mobilePhone: number2 ? getPhone({ number: number2 }) : {},
+      homePhone: number1 ? getPhone({ area: area1, number: number1 }) : {},
+      mobilePhone: number2 ? getPhone({ area: area2, number: number2 }) : {},
     });
   it('should return false for one or less phones', () => {
     expect(hasHomeAndMobilePhone(getBoth())).to.be.false;
-    expect(hasHomeAndMobilePhone(getBoth(undefined, '1234567'))).to.be.false;
-    expect(hasHomeAndMobilePhone(getBoth('1234567', undefined))).to.be.false;
+    expect(hasHomeAndMobilePhone(getBoth('1', '', '1', ''))).to.be.false;
+    expect(hasHomeAndMobilePhone(getBoth('', '2', '', '2'))).to.be.false;
+    expect(hasHomeAndMobilePhone(getBoth('123', '4567890', '', ''))).to.be
+      .false;
+    expect(hasHomeAndMobilePhone(getBoth('123', '4567890', '1', ''))).to.be
+      .false;
+    expect(hasHomeAndMobilePhone(getBoth('123', '4567890', '', '2'))).to.be
+      .false;
+    expect(hasHomeAndMobilePhone(getBoth('1', ''))).to.be.false;
+    expect(hasHomeAndMobilePhone(getBoth('', '2'))).to.be.false;
   });
-  it('should return false for partial home or mobile phone', () => {
+  it('should return true for partial home or mobile phone', () => {
     // partial home phone
-    expect(hasHomeAndMobilePhone(getBoth('123', '1234567'))).to.be.false;
-    expect(hasHomeAndMobilePhone(getBoth('1234', '1234567'))).to.be.false;
-    expect(hasHomeAndMobilePhone(getBoth('12345', '1234567'))).to.be.false;
-    expect(hasHomeAndMobilePhone(getBoth('123456', '1234567'))).to.be.false;
-    expect(hasHomeAndMobilePhone(getBoth('12345678', '1234567'))).to.be.false;
+    expect(hasHomeAndMobilePhone(getBoth('1', '2'))).to.be.true;
+    expect(hasHomeAndMobilePhone(getBoth('12', '3'))).to.be.true;
+    expect(hasHomeAndMobilePhone(getBoth('123', '4'))).to.be.true;
+    expect(hasHomeAndMobilePhone(getBoth('123', '45'))).to.be.true;
+    expect(hasHomeAndMobilePhone(getBoth('123', '456'))).to.be.true;
+    expect(hasHomeAndMobilePhone(getBoth('123', '45678'))).to.be.true;
+    expect(hasHomeAndMobilePhone(getBoth('123', '456789'))).to.be.true;
+    expect(hasHomeAndMobilePhone(getBoth('123', '4567890'))).to.be.true;
     // partial mobile phone
-    expect(hasHomeAndMobilePhone(getBoth('1234567', '123'))).to.be.false;
-    expect(hasHomeAndMobilePhone(getBoth('1234567', '1234'))).to.be.false;
-    expect(hasHomeAndMobilePhone(getBoth('1234567', '12345'))).to.be.false;
-    expect(hasHomeAndMobilePhone(getBoth('1234567', '123456'))).to.be.false;
-    expect(hasHomeAndMobilePhone(getBoth('1234567', '12345678'))).to.be.false;
+    expect(hasHomeAndMobilePhone(getBoth('123', '4567890', '1', '2'))).to.be
+      .true;
+    expect(hasHomeAndMobilePhone(getBoth('123', '4567890', '12', '3'))).to.be
+      .true;
+    expect(hasHomeAndMobilePhone(getBoth('123', '4567890', '123', '4'))).to.be
+      .true;
+    expect(hasHomeAndMobilePhone(getBoth('123', '4567890', '123', '45'))).to.be
+      .true;
+    expect(hasHomeAndMobilePhone(getBoth('123', '4567890', '123', '456'))).to.be
+      .true;
+    expect(hasHomeAndMobilePhone(getBoth('123', '4567890', '123', '45678'))).to
+      .be.true;
+    expect(hasHomeAndMobilePhone(getBoth('123', '4567890', '123', '456789'))).to
+      .be.true;
+    expect(hasHomeAndMobilePhone(getBoth('123', '4567890', '123', '4567890')))
+      .to.be.true;
   });
   it('should return true for valid mobile phone', () => {
     const data = getVeteran({ homePhone: getPhone(), mobilePhone: getPhone() });
     expect(hasHomeAndMobilePhone(data)).to.be.true;
+    expect(
+      hasHomeAndMobilePhone(
+        getBoth('1234', '12345678901234', '1234', '12345678901234'),
+      ),
+    ).to.be.true;
   });
 });
 

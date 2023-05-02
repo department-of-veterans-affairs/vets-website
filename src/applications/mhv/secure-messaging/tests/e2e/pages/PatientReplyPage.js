@@ -102,6 +102,13 @@ class PatientReplyPage {
       .shadow()
       .find('[name="reply-message-body"]');
   };
+
+  verifySendMessageConfirmationMessage = () => {
+    cy.get('.vads-u-margin-bottom--1').should(
+      'have.text',
+      'Secure message was successfully sent.',
+    );
+  };
 }
 
 export default PatientReplyPage;
