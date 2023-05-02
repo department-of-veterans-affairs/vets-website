@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles-aiq.json';
+import featureToggles from './fixtures/mocks/feature-toggles-shortForm.json';
 import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import * as dobHelpers from './helpers';
