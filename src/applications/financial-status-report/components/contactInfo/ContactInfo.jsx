@@ -137,21 +137,6 @@ const ContactInfo = ({
   // Each Link includes an ID for focus managements on the review & submit page
   const contactSection = (
     <>
-      <Headers className={`${headerClassNames} vads-u-margin-top--0p5`}>
-        Home phone number
-      </Headers>
-      {showSuccessAlert('home-phone', 'Home phone number')}
-      <span>{getFormattedPhone(homePhone)}</span>
-      <p className="vads-u-margin-top--0p5">
-        <Link
-          id="edit-home-phone"
-          to="/edit-home-phone"
-          aria-label="Edit home phone number"
-        >
-          edit
-        </Link>
-      </p>
-
       <Headers className={headerClassNames}>Mobile phone number</Headers>
       {showSuccessAlert('mobile-phone', 'Mobile phone number')}
       <span>{getFormattedPhone(mobilePhone)}</span>
