@@ -13120,7 +13120,7 @@ minimist-options@4.1.0:
     is-plain-obj "^1.1.0"
     kind-of "^6.0.3"
 
-minimist@1.1.x, minimist@1.2.5, minimist@^1.1.0, minimist@^1.2.0, minimist@^1.2.5, minimist@^1.2.6:
+minimist@1.1.x, minimist@1.2.5, minimist@^1.1.0, minimist@^1.2.0, minimist@^1.2.3, minimist@^1.2.5, minimist@^1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
@@ -19055,9 +19055,11 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#f4be27eadb0f90e48860f00b5bfb71681def72dd":
-  version "20.26.8"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#f4be27eadb0f90e48860f00b5bfb71681def72dd"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#e00332ee678c5209f3ef7fee699cc76a92e1a2bf":
+  version "21.26.8"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#e00332ee678c5209f3ef7fee699cc76a92e1a2bf"
+  dependencies:
+    minimist "^1.2.3"
 
 vfile-message@^2.0.0:
   version "2.0.4"
