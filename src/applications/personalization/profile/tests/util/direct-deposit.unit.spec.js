@@ -46,7 +46,7 @@ describe('DirectDepositClient', () => {
       paymentAccount: {
         accountType: 'CHECKING',
         accountNumber: '123456789',
-        financialInstitutionRoutingNumber: '987654321',
+        routingNumber: '987654321',
         name: 'Bank of America',
       },
     };
@@ -60,9 +60,22 @@ describe('DirectDepositClient', () => {
         accountType: 'CHECKING',
         accountNumber: '123456789',
         financialInstitutionRoutingNumber: '987654321',
+        routingNumber: '987654321',
         financialInstitutionName: 'Bank of America',
         name: 'Bank of America',
       },
     });
+  });
+
+  it('passes response back unformatted if keys do not exist', () => {
+    const response = {
+      test: true,
+    };
+
+    const formattedResponse = lighthouseClient.formatDirectDepositResponseFromLighthouse(
+      response,
+    );
+
+    expect(formattedResponse).to.deep.equal(response);
   });
 });

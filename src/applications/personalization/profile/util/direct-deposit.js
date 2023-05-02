@@ -43,7 +43,7 @@ export class DirectDepositClient {
         result.paymentAccount.name,
       );
     }
-    if (result.paymentAccount?.routingNumber) {
+    if (result?.paymentAccount?.routingNumber) {
       set(
         result,
         'paymentAccount.financialInstitutionRoutingNumber',
