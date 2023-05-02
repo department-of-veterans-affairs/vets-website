@@ -165,6 +165,7 @@ const formConfig = {
           title: 'Contact Information',
           uiSchema: pages.contactInfo.uiSchema,
           schema: pages.contactInfo.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         confirmContactInformation: {
           title: 'Contact information',
@@ -172,9 +173,10 @@ const formConfig = {
           CustomPage: ContactInfo,
           CustomPageReview: ContactInfoReview,
           uiSchema: pages.contactInformation.uiSchema,
-          schema: pages.contactInformationschema,
+          schema: pages.contactInformation.schema,
           // needs useCustomScrollAndFocus: true to work
           scrollAndFocusTarget: customContactFocus,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
         },
         editMobilePhone: {
           title: 'Edit mobile phone number',

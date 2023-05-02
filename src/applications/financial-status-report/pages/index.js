@@ -1,6 +1,6 @@
 import * as veteranInfo from './veteran/veteranInfo';
 import * as contactInfo from './veteran/contact';
-import * as contactInformation from './veteran/contactInformation';
+import contactInformation from './veteran/contactInformation';
 import * as availableDebts from './veteran/debts';
 import * as combinedDebts from './veteran/combinedDebts';
 import * as employment from './income/employment';
