@@ -22,6 +22,8 @@ export const alertsReducer = (state = initialState, action) => {
         alertList: state.alertList.map(alert => {
           return {
             ...alert,
+            // to prevent setting isActive to false prematurely
+            // value of 2 seconds is arbitrary
             isActive: moment(alert.datestamp)
               .add(2, 'seconds')
               .isAfter(moment(new Date())),
