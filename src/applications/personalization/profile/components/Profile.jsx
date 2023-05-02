@@ -368,7 +368,6 @@ const mapStateToProps = state => {
       state,
     ),
     togglesLoaded,
-    hasLoadedAllData,
   };
 };
 

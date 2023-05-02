@@ -46,6 +46,7 @@ describe('Profile', () => {
         pathname: '/profile/personal-information',
       },
       useLighthouseDirectDepositEndpoint: false,
+      togglesLoaded: true,
     };
   });
 
@@ -185,6 +186,9 @@ describe('mapStateToProps', () => {
     loa: {
       current: 3,
     },
+    featureToggles: {
+      loading: false,
+    },
   });
   const makeDefaultVaProfileState = () => ({
     hero: {
@@ -283,6 +287,7 @@ describe('mapStateToProps', () => {
       'isDowntimeWarningDismissed',
       'isBlocked',
       'useLighthouseDirectDepositEndpoint',
+      'togglesLoaded',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
   });
