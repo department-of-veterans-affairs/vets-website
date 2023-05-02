@@ -8,12 +8,23 @@ import { focusElement } from 'platform/utilities/ui';
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
-import { letterContent, bslHelpInstructions } from '../utils/helpers';
+// eslint-disable-next-line -- LH_MIGRATION
+import { letterContent, bslHelpInstructions, LH_MIGRATION__getOptions } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
+import { lettersUseLighthouse } from '../selectors';
 
 export class LetterList extends React.Component {
+  constructor(props) {
+    super(props);
+    // eslint-disable-next-line -- LH_MIGRATION
+    this.state = { LH_MIGRATION__options: LH_MIGRATION__getOptions(false) }
+  }
+
   componentDidMount() {
+    const { shouldUseLighthouse } = this.props;
     focusElement('h2#nav-form-header');
+    // eslint-disable-next-line -- LH_MIGRATION
+    this.setState({ LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse)});
   }
 
   render() {
@@ -30,7 +41,10 @@ export class LetterList extends React.Component {
         letterTitle = 'Proof of Service Card';
         content = letterContent[letter.letterType] || '';
       } else {
-        letterTitle = letter.name;
+        // eslint-disable-next-line -- LH_MIGRATION
+        const LH_MIGRATION__nameKey = this.state.LH_MIGRATION__options.letterNameKey;
+        // eslint-disable-next-line -- LH_MIGRATION
+        letterTitle = letter[LH_MIGRATION__nameKey];
         content = letterContent[letter.letterType] || '';
       }
 
@@ -39,11 +53,17 @@ export class LetterList extends React.Component {
         letter.letterType !== LETTER_TYPES.benefitSummary ||
         this.props.optionsAvailable
       ) {
+        // eslint-disable-next-line -- LH_MIGRATION
+        const LH_MIGRATION__nameKey = this.state.LH_MIGRATION__options.letterNameKey;
+
         conditionalDownloadButton = (
           <DownloadLetterLink
             letterType={letter.letterType}
-            letterName={letter.name}
+            // eslint-disable-next-line -- LH_MIGRATION
+          letterName={letter[LH_MIGRATION__nameKey]}
             downloadStatus={downloadStatus[letter.letterType]}
+            // eslint-disable-next-line -- LH_MIGRATION
+          LH_MIGRATION__options={this.state.LH_MIGRATION__options}
             key={`download-link-${index}`}
           />
         );
@@ -154,8 +174,8 @@ export class LetterList extends React.Component {
           <div>
             If you have any questions, please call the VA Benefits Help Desk:
             <br />
-            <a href="tel:1-800-827-1000">800-827-1000</a>, Monday &#8211;
-            Friday, 8 a.m. &#8211; 9 p.m. ET
+            <va-telephone contact="8008271000" />, Monday &#8211; Friday, 8 a.m.
+            &#8211; 9 p.m. ET
           </div>
         </div>
       </div>
@@ -170,6 +190,7 @@ function mapStateToProps(state) {
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     optionsAvailable: letterState.optionsAvailable,
+    shouldUseLighthouse: lettersUseLighthouse(state),
   };
 }
 
