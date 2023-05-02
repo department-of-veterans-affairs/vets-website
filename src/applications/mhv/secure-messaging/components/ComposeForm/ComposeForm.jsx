@@ -469,7 +469,7 @@ const ComposeForm = props => {
             data-testid="Save-Draft-Button"
             onClick={() => saveDraftHandler('manual')}
           />
-          <div className="vads-u-flex--1 vads-u-display--flex">
+          <div className="vads-u-flex--1">
             {draft && <DeleteDraft draft={draft} />}
           </div>
         </div>
