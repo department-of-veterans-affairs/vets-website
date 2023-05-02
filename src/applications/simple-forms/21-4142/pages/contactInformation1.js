@@ -8,6 +8,7 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [veteranFields.address];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
