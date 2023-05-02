@@ -71,7 +71,9 @@ context('downtime notification cases for Account Security', () => {
 
     cy.injectAxeThenAxeCheck();
 
-    cy.findByText('We can’t show your account security').should('exist');
+    cy.findByText(
+      'We can’t show your account security information right now.',
+    ).should('exist');
 
     cy.findByText('Sign in information').should('not.exist');
     cy.findByText('Account setup').should('not.exist');

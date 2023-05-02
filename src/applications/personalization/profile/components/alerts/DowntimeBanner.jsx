@@ -6,12 +6,15 @@ import { externalServiceStatus } from '~/platform/monitoring/DowntimeNotificatio
 function DowntimeBanner({ downtime, section }) {
   return (
     <va-alert status="warning" visible>
-      <h3 slot="headline">{`We can’t show your ${section} information right now.`}</h3>
+      <h3 slot="headline">
+        {`We can’t show your ${section} information right now.`}
+      </h3>
 
       <p className="vads-u-margin-bottom--0">
-        We’re sorry. The system that handles {section} information is down for
-        maintenance right now. We hope to be finished with our work by{' '}
-        {downtime.endTime.format('MMMM Do, LT')} Please check back soon.
+        {`We’re sorry. The system that handles ${section} information is down for
+        maintenance right now. We hope to be finished with our work by ${downtime.endTime.format(
+          'MMMM Do, LT',
+        )} Please check back soon.`}
       </p>
     </va-alert>
   );

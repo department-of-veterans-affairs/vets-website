@@ -8,22 +8,25 @@ import mockConnectedApps from '../fixtures/connected-apps/mock-connected-apps.js
  */
 
 function disconnectApps(mobile = false, error = false) {
-  cy.server();
-  cy.route('GET', 'v0/profile/connected_applications', mockConnectedApps);
+  cy.intercept('GET', 'v0/profile/connected_applications', mockConnectedApps);
 
-  cy.route({
-    method: 'DELETE',
-    url: 'v0/profile/connected_applications/0oa3s6dlvxgsZr62p2p7',
-    response: error ? { errors: [{ code: 5, status: 500 }] } : {},
-    status: error ? 500 : 200,
-  }).as('connectedAppDelete1');
+  cy.intercept(
+    'DELETE',
+    'v0/profile/connected_applications/0oa3s6dlvxgsZr62p2p7',
+    {
+      body: error ? { errors: [{ code: 5, status: 500 }] } : {},
+      statusCode: error ? 500 : 200,
+    },
+  ).as('connectedAppDelete1');
 
-  cy.route({
-    method: 'DELETE',
-    url: 'v0/profile/connected_applications/10oa3s6dlvxgsZr62p2p7',
-    response: error ? { errors: [{ code: 5, status: 500 }] } : {},
-    status: error ? 500 : 200,
-  }).as('connectedAppDelete2');
+  cy.intercept(
+    'DELETE',
+    'v0/profile/connected_applications/10oa3s6dlvxgsZr62p2p7',
+    {
+      body: error ? { errors: [{ code: 5, status: 500 }] } : {},
+      statusCode: error ? 500 : 200,
+    },
+  ).as('connectedAppDelete2');
 
   cy.visit(PROFILE_PATHS.CONNECTED_APPLICATIONS);
   if (mobile) {
