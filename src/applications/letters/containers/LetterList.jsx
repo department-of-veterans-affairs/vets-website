@@ -41,10 +41,7 @@ export class LetterList extends React.Component {
         letterTitle = 'Proof of Service Card';
         content = letterContent[letter.letterType] || '';
       } else {
-        // eslint-disable-next-line -- LH_MIGRATION
-        const LH_MIGRATION__nameKey = this.state.LH_MIGRATION__options.letterNameKey;
-        // eslint-disable-next-line -- LH_MIGRATION
-        letterTitle = letter[LH_MIGRATION__nameKey];
+        letterTitle = letter.name;
         content = letterContent[letter.letterType] || '';
       }
 
@@ -53,17 +50,14 @@ export class LetterList extends React.Component {
         letter.letterType !== LETTER_TYPES.benefitSummary ||
         this.props.optionsAvailable
       ) {
-        // eslint-disable-next-line -- LH_MIGRATION
-        const LH_MIGRATION__nameKey = this.state.LH_MIGRATION__options.letterNameKey;
-
         conditionalDownloadButton = (
           <DownloadLetterLink
             letterType={letter.letterType}
             // eslint-disable-next-line -- LH_MIGRATION
-          letterName={letter[LH_MIGRATION__nameKey]}
+            letterName={letter.name}
             downloadStatus={downloadStatus[letter.letterType]}
             // eslint-disable-next-line -- LH_MIGRATION
-          LH_MIGRATION__options={this.state.LH_MIGRATION__options}
+            LH_MIGRATION__options={this.state.LH_MIGRATION__options}
             key={`download-link-${index}`}
           />
         );

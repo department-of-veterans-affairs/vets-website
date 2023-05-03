@@ -36,10 +36,7 @@ export function LH_MIGRATION__getOptions(shouldUseLighthouse) {
       method: 'POST',
       path: '/v0/letters',
     },
-    letterNameKey: 'name',
     dataEntryPoint: ['data', 'attributes'],
-    benOpts_awardDateKey: 'awardEffectiveDate',
-    benOpts_chapter35DateKey: 'chapter35EligibilityDate',
   };
 
   if (shouldUseLighthouse) {
@@ -47,10 +44,7 @@ export function LH_MIGRATION__getOptions(shouldUseLighthouse) {
     migrationOptions.summaryEndpoint.path = '/v0/letters_generator/beneficiary';
     migrationOptions.downloadEndpoint.method = 'GET';
     migrationOptions.downloadEndpoint.path = '/v0/letters_generator/download';
-    migrationOptions.letterNameKey = 'letterName';
     migrationOptions.dataEntryPoint = [];
-    migrationOptions.benOpts_awardDateKey = 'awardEffectiveDateTime';
-    migrationOptions.benOpts_chapter35DateKey = 'chapter35EligibilityDateTime';
   }
 
   return migrationOptions;
@@ -347,36 +341,6 @@ const benefitOptionText = {
   },
 };
 
-const LH_MIGRATION__benefitOptionText = {
-  nonServiceConnectedPension: benefitOptionText.hasNonServiceConnectedPension,
-  serviceConnectedDisabilities:
-    benefitOptionText.hasServiceConnectedDisabilities,
-  survivorsIndemnityCompensationAward:
-    benefitOptionText.hasSurvivorsIndemnityCompensationAward,
-  survivorsPensionAward: benefitOptionText.hasSurvivorsPensionAward,
-  adaptedHousing: benefitOptionText.hasAdaptedHousing,
-  chapter35Eligibility: benefitOptionText.hasChapter35Eligibility,
-  deathResultOfDisability: benefitOptionText.hasDeathResultOfDisability,
-  individualUnemployabilityGranted:
-    benefitOptionText.hasIndividualUnemployabilityGranted,
-  specialMonthlyCompensation: benefitOptionText.hasSpecialMonthlyCompensation,
-
-  hasNonServiceConnectedPension:
-    benefitOptionText.hasNonServiceConnectedPension,
-  hasServiceConnectedDisabilities:
-    benefitOptionText.hasServiceConnectedDisabilities,
-  hasSurvivorsIndemnityCompensationAward:
-    benefitOptionText.hasSurvivorsIndemnityCompensationAward,
-  hasSurvivorsPensionAward: benefitOptionText.hasSurvivorsPensionAward,
-  hasAdaptedHousing: benefitOptionText.hasAdaptedHousing,
-  hasChapter35Eligibility: benefitOptionText.hasChapter35Eligibility,
-  hasDeathResultOfDisability: benefitOptionText.hasDeathResultOfDisability,
-  hasIndividualUnemployabilityGranted:
-    benefitOptionText.hasIndividualUnemployabilityGranted,
-  hasSpecialMonthlyCompensation:
-    benefitOptionText.hasSpecialMonthlyCompensation,
-};
-
 /**
  * EVSS sets dates to central time (T06:00:00.000+00:00), but adds the timezone
  * offset after the "T" instead of after the "+". So we're going to strip off
@@ -412,18 +376,16 @@ export function getBenefitOptionText(
     BENEFIT_OPTIONS.awardEffectiveDate,
     BENEFIT_OPTIONS.monthlyAwardAmount,
     BENEFIT_OPTIONS.serviceConnectedPercentage,
-    'chapter35EligibilityDateTime',
   ]);
 
   if (!availableOptions.has(option)) {
-    return LH_MIGRATION__benefitOptionText[option][valueString][personType];
+    return benefitOptionText[option][valueString][personType];
   }
   if (option === BENEFIT_OPTIONS.monthlyAwardAmount && isAvailable) {
-    const awardAmount = `$${value.value} ${value.currency}`;
     return (
       <div>
         <div>
-          Your current monthly award is <strong>{awardAmount}</strong>.
+          Your current monthly award is <strong>${value}</strong>.
         </div>
         <div>
           The effective date of the last change to your current award was{' '}

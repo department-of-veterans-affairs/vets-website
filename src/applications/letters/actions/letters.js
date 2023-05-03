@@ -77,13 +77,6 @@ export function getBenefitSummaryOptions(dispatch, LH_MIGRATION__options) {
       // eslint-disable-next-line -- LH_MIGRATION
       const data = LH_MIGRATION__getEntryPoint(response, LH_MIGRATION__entryPointKeys)
 
-      // LH_MIGRATION: Remove once migration is finalized
-      // eslint-disable-next-line -- LH_MIGRATION
-      const awardDateKey = LH_MIGRATION__options.benOpts_awardDateKey;
-      data.benefitInformation.awardEffectiveDate =
-        data.benefitInformation[awardDateKey];
-      delete data.benefitInformation.awardEffectiveDateTime;
-
       recordEvent({ event: 'letter-get-bsl-success' });
       return dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS, data });
     })
