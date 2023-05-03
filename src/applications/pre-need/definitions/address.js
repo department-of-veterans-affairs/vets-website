@@ -269,6 +269,9 @@ export function uiSchema(
 
         if (
           !environment.isProduction() &&
+          modifiedData.application &&
+          modifiedData.application.claimant &&
+          modifiedData.application.claimant.address &&
           (modifiedData.application.claimant.address.country !== 'USA' ||
             modifiedData.application.claimant.address.country !== 'CAN') &&
           !modifiedData.application.claimant.address.state
@@ -278,7 +281,11 @@ export function uiSchema(
 
         if (
           !environment.isProduction() &&
+          modifiedData.application &&
+          modifiedData.application.applicant &&
           modifiedData.application.applicant['view:applicantInfo'] &&
+          modifiedData.application.applicant['view:applicantInfo']
+            .mailingAddress &&
           (modifiedData.application.applicant['view:applicantInfo']
             .mailingAddress.country !== 'USA' ||
             modifiedData.application.applicant['view:applicantInfo']
