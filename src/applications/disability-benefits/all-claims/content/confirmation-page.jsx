@@ -11,9 +11,17 @@ import {
 } from './confirmation-poll';
 
 import { NULL_CONDITION_STRING } from '../constants';
+// import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+import { BddConfirmationAlert } from './bddConfirmationAlert';
 
 const template = (props, title, content, submissionMessage, messageType) => {
-  const { fullName, disabilities, submittedAt, isSubmittingBDD } = props;
+  const {
+    fullName,
+    disabilities,
+    submittedAt,
+    isSubmittingBDD,
+    isShowBDDSHA,
+  } = props;
   const { first, last, middle, suffix } = fullName;
 
   // This is easier than passing down props and checking if the form type
@@ -43,6 +51,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
           <h2 slot="headline">{title}</h2>
           {renderableContent}
         </va-alert>
+        {isSubmittingBDD && isShowBDDSHA && <BddConfirmationAlert />}
         {backButtonContent}
       </>
     );
@@ -63,6 +72,8 @@ const template = (props, title, content, submissionMessage, messageType) => {
         <h2 slot="headline">{title}</h2>
         {renderableContent}
       </va-alert>
+
+      {isSubmittingBDD && isShowBDDSHA && <BddConfirmationAlert />}
 
       <h2 className="vads-u-font-size--h5" id="note-email">
         We’ll send you an email to confirm that we received your claim.{' '}
@@ -259,7 +270,7 @@ export const successfulSubmitContent = props =>
 
 export const submitErrorContent = props => {
   const submissionIdContent = props.submissionId
-    ? ` and provide this refernce number ${props.submissionId}`
+    ? ` and provide this reference number ${props.submissionId}`
     : '';
 
   return template(

@@ -1,20 +1,35 @@
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import { validateIfHasEvidence } from '../validations';
+import _ from 'platform/utilities/data';
 import get from 'platform/utilities/data/get';
+import { validateIfHasEvidence } from '../validations';
 
 import {
-  hasEvidenceLabel,
+  HasEvidenceLabel,
   evidenceTypeTitle,
   privateMedicalRecords,
-  evidenceLayStatements,
   evidenceTypeError,
   evidenceTypeHelp,
+  EvidenceLayStatements,
 } from '../content/evidenceTypesBDD';
+
+import { BddEvidenceSubmitLater } from '../content/bddEvidenceSubmitLater';
 
 export const uiSchema = {
   'view:hasEvidence': {
-    'ui:title': hasEvidenceLabel,
+    'ui:title': ' ',
+    'ui:description': HasEvidenceLabel,
     'ui:widget': 'yesNo',
+    'ui:options': {
+      labels: {
+        Y: 'Yes',
+        N: 'No, I will submit more information later',
+      },
+      widgetProps: {
+        N: {
+          'aria-describedby': 'submit-str-asap',
+        },
+      },
+    },
   },
   'view:hasEvidenceFollowUp': {
     'ui:options': {
@@ -37,7 +52,7 @@ export const uiSchema = {
         'ui:title': privateMedicalRecords,
       },
       'view:hasOtherEvidence': {
-        'ui:title': evidenceLayStatements,
+        'ui:title': EvidenceLayStatements(),
       },
     },
     'view:evidenceTypeHelp': {
@@ -46,6 +61,13 @@ export const uiSchema = {
       'ui:options': {
         forceDivWrapper: true,
       },
+    },
+  },
+  'view:evidenceSubmitLater': {
+    'ui:title': '',
+    'ui:description': BddEvidenceSubmitLater,
+    'ui:options': {
+      hideIf: data => _.get('view:hasEvidence', data, true),
     },
   },
 };
@@ -73,6 +95,10 @@ export const schema = {
           properties: {},
         },
       },
+    },
+    'view:evidenceSubmitLater': {
+      type: 'object',
+      properties: {},
     },
   },
 };

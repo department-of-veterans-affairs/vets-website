@@ -243,3 +243,10 @@ article[data-location="confirmation"] {
     display: none;
   }
 }
+
+/* Workaround issue using toggled component in ui:title for bdd evidence page */
+article[data-location="supporting-evidence/evidence-types-bdd"] {
+  #root_view\:hasEvidence-label .schemaform-required-span {
+    display: none
+  }
+}

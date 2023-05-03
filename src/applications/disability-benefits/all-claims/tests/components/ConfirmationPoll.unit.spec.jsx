@@ -65,6 +65,7 @@ describe('ConfirmationPoll', () => {
   const defaultProps = {
     jobId: '12345',
     fullName: { first: 'asdf', last: 'fdsa' },
+    isShowBDDSHA: false,
     disabilities: [],
     submittedAt: Date.now(),
     isSubmittingBDD: false,
@@ -96,11 +97,13 @@ describe('ConfirmationPoll', () => {
 
   it('should render the confirmation page', done => {
     mockApiRequest(successResponse.response);
-    const tree = shallow(<ConfirmationPoll {...defaultProps} pollRate={10} />);
+    const tree = mount(<ConfirmationPoll {...defaultProps} pollRate={10} />);
+
     setTimeout(() => {
       // Without this update, it wasn't catching the last render even though the function was running first
       tree.update();
       const confirmationPage = tree.find('ConfirmationPage');
+
       expect(confirmationPage.length).to.equal(1);
       expect(confirmationPage.first().props()).to.eql({
         submissionStatus: submissionStatuses.succeeded,
@@ -110,6 +113,7 @@ describe('ConfirmationPoll', () => {
         disabilities: defaultProps.disabilities,
         submittedAt: defaultProps.submittedAt,
         isSubmittingBDD: defaultProps.isSubmittingBDD,
+        isShowBDDSHA: false,
       });
       tree.unmount();
       done();

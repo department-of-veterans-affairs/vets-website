@@ -106,11 +106,34 @@ describe('<IntroductionPage/>', () => {
     );
     wrapper.unmount();
   });
+
   it('should render reset wizard link to intro page', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} showWizard />);
     expect(wrapper.find('#restart-wizard a').props().href).to.equal(
       `${DISABILITY_526_V2_ROOT_URL}/start`,
     );
+    wrapper.unmount();
+  });
+
+  it('should display prepare overview when BDD SHA not enabled', () => {
+    const wrapper = shallow(<IntroductionPage {...defaultProps} showWizard />);
+
+    expect(
+      wrapper.find('[data-testid="process-step1-prepare"]').text(),
+    ).contains('When you file a disability claim');
+
+    wrapper.unmount();
+  });
+
+  it('should display BDD prepare overview when BDD SHA enabled', () => {
+    const wrapper = shallow(
+      <IntroductionPage {...defaultProps} showWizard isBDDForm isShowBDDSHA />,
+    );
+
+    expect(
+      wrapper.find('[data-testid="process-step1-prepare"]').text(),
+    ).contains('When you file a BDD claim online');
+
     wrapper.unmount();
   });
 });

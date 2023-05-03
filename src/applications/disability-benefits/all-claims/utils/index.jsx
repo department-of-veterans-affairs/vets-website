@@ -755,3 +755,9 @@ export const truncateDescriptions = data =>
     }),
     {},
   );
+
+/**
+ * Returns true if Self Help Assessment is enabled for BDD flow
+ */
+export const showBDDSHA = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.form526BddSha];
