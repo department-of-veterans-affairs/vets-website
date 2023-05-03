@@ -49,5 +49,31 @@ class SecureMessagingSite {
     cy.visit('my-health/secure-messages/');
     cy.wait('@mockUser');
   };
+
+  loadVAPaginationNextMessages = (interceptedPage = 0, mockMessages) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${interceptedPage}&sortField=SENT_DATE&sortOrder=DESC`,
+      mockMessages,
+    ).as(`inboxMessagesessages${interceptedPage}`);
+    cy.get('[aria-label="Pagination"]')
+      .shadow()
+      .find('[aria-label="Next page"')
+      .click();
+    cy.wait(`@inboxMessagesessages${interceptedPage}`);
+  };
+
+  getVAPaginationPreviousButton = (interceptedPage = 0, mockMessages) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${interceptedPage}&sortField=SENT_DATE&sortOrder=DESC`,
+      mockMessages,
+    ).as(`inboxMessagesessages${interceptedPage}`);
+    cy.get('[aria-label="Pagination"]')
+      .shadow()
+      .find('[aria-label="Previous page"')
+      .click();
+    cy.wait(`@inboxMessagesessages${interceptedPage}`);
+  };
 }
 export default SecureMessagingSite;
