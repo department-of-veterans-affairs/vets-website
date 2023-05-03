@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import * as Sentry from '@sentry/browser';
 
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { apiRequest as commonApiClient } from 'platform/utilities/api';
@@ -7,6 +8,53 @@ import environment from 'platform/utilities/environment';
 import { formatDateShort } from 'platform/utilities/date';
 import { ADDRESS_TYPES_ALTERNATE } from '@@vap-svc/constants';
 import { BENEFIT_OPTIONS } from './constants';
+
+export function LH_MIGRATION__getEntryPoint(topLevelObject, entryPointKeys) {
+  return entryPointKeys.reduce((acc, key) => {
+    return acc[key];
+  }, topLevelObject);
+}
+
+export function LH_MIGRATION__getOptions(shouldUseLighthouse) {
+  Sentry.withScope(() => {
+    Sentry.captureMessage(
+      'Remove LH_MIGRATION__getOptions after Lighthouse migration',
+      'warn',
+    );
+  });
+
+  const migrationOptions = {
+    listEndpoint: {
+      method: 'GET',
+      path: '/v0/letters',
+    },
+    summaryEndpoint: {
+      method: 'GET',
+      path: '/v0/letters/beneficiary',
+    },
+    downloadEndpoint: {
+      method: 'POST',
+      path: '/v0/letters',
+    },
+    letterNameKey: 'name',
+    dataEntryPoint: ['data', 'attributes'],
+    benOpts_awardDateKey: 'awardEffectiveDate',
+    benOpts_chapter35DateKey: 'chapter35EligibilityDate',
+  };
+
+  if (shouldUseLighthouse) {
+    migrationOptions.listEndpoint.path = '/v0/letters_generator';
+    migrationOptions.summaryEndpoint.path = '/v0/letters_generator/beneficiary';
+    migrationOptions.downloadEndpoint.method = 'GET';
+    migrationOptions.downloadEndpoint.path = '/v0/letters_generator/download';
+    migrationOptions.letterNameKey = 'letterName';
+    migrationOptions.dataEntryPoint = [];
+    migrationOptions.benOpts_awardDateKey = 'awardEffectiveDateTime';
+    migrationOptions.benOpts_chapter35DateKey = 'chapter35EligibilityDateTime';
+  }
+
+  return migrationOptions;
+}
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
@@ -34,10 +82,7 @@ export const recordsNotFound = (
     <hr className="divider" />
     <p>
       If you have questions or need help looking up your VA letters and
-      documents, please call{' '}
-      <a className="letters-phone-nowrap" href="tel:1-800-827-1000">
-        800-827-1000
-      </a>{' '}
+      documents, please call <va-telephone contact="8008271000" />
       from 8:00 a.m. to 7:00 pm ET.
     </p>
   </div>
@@ -120,8 +165,8 @@ export const letterContent = {
       you’re enrolled in the VA health care system, you must have IRS Form
       1095-B from VA to show what months you were covered by a VA health care
       plan. If you’ve lost your IRS Form 1095-B, please call{' '}
-      <a href="tel:+18772228387">877-222-8387</a>, Monday through Friday, 8:00
-      a.m. to 8:00 p.m. ET to request another copy.
+      <va-telephone contact="8772228387" />, Monday through Friday, 8:00 a.m. to
+      8:00 p.m. ET to request another copy.
     </div>
   ),
   service_verification: serviceVerificationLetterContent,
@@ -302,6 +347,36 @@ const benefitOptionText = {
   },
 };
 
+const LH_MIGRATION__benefitOptionText = {
+  nonServiceConnectedPension: benefitOptionText.hasNonServiceConnectedPension,
+  serviceConnectedDisabilities:
+    benefitOptionText.hasServiceConnectedDisabilities,
+  survivorsIndemnityCompensationAward:
+    benefitOptionText.hasSurvivorsIndemnityCompensationAward,
+  survivorsPensionAward: benefitOptionText.hasSurvivorsPensionAward,
+  adaptedHousing: benefitOptionText.hasAdaptedHousing,
+  chapter35Eligibility: benefitOptionText.hasChapter35Eligibility,
+  deathResultOfDisability: benefitOptionText.hasDeathResultOfDisability,
+  individualUnemployabilityGranted:
+    benefitOptionText.hasIndividualUnemployabilityGranted,
+  specialMonthlyCompensation: benefitOptionText.hasSpecialMonthlyCompensation,
+
+  hasNonServiceConnectedPension:
+    benefitOptionText.hasNonServiceConnectedPension,
+  hasServiceConnectedDisabilities:
+    benefitOptionText.hasServiceConnectedDisabilities,
+  hasSurvivorsIndemnityCompensationAward:
+    benefitOptionText.hasSurvivorsIndemnityCompensationAward,
+  hasSurvivorsPensionAward: benefitOptionText.hasSurvivorsPensionAward,
+  hasAdaptedHousing: benefitOptionText.hasAdaptedHousing,
+  hasChapter35Eligibility: benefitOptionText.hasChapter35Eligibility,
+  hasDeathResultOfDisability: benefitOptionText.hasDeathResultOfDisability,
+  hasIndividualUnemployabilityGranted:
+    benefitOptionText.hasIndividualUnemployabilityGranted,
+  hasSpecialMonthlyCompensation:
+    benefitOptionText.hasSpecialMonthlyCompensation,
+};
+
 /**
  * EVSS sets dates to central time (T06:00:00.000+00:00), but adds the timezone
  * offset after the "T" instead of after the "+". So we're going to strip off
@@ -337,16 +412,18 @@ export function getBenefitOptionText(
     BENEFIT_OPTIONS.awardEffectiveDate,
     BENEFIT_OPTIONS.monthlyAwardAmount,
     BENEFIT_OPTIONS.serviceConnectedPercentage,
+    'chapter35EligibilityDateTime',
   ]);
 
   if (!availableOptions.has(option)) {
-    return benefitOptionText[option][valueString][personType];
+    return LH_MIGRATION__benefitOptionText[option][valueString][personType];
   }
   if (option === BENEFIT_OPTIONS.monthlyAwardAmount && isAvailable) {
+    const awardAmount = `$${value.value} ${value.currency}`;
     return (
       <div>
         <div>
-          Your current monthly award is <strong>${value}</strong>.
+          Your current monthly award is <strong>{awardAmount}</strong>.
         </div>
         <div>
           The effective date of the last change to your current award was{' '}
