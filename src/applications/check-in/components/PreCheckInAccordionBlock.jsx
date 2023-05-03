@@ -223,7 +223,6 @@ const PreCheckInAccordionBlock = ({
         return (
           <va-accordion-item
             header={accordion.header}
-            id={index}
             key={index}
             open={accordion.open}
           >
