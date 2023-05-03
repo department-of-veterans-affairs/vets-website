@@ -15,39 +15,38 @@ const DependentAgeField = ({
   onAgeChange,
   onBlur,
   error,
-}) => (
-  <dl
-    className={`review ${
-      isEditing ? 'vads-u-border-bottom--0 vads-u-border-top--0' : ''
-    }`}
-    key={`dependentAge-${index}`}
-  >
-    <div
-      className={`review-row ${
-        index > 0 || isEditing ? 'vads-u-border-top--0' : ''
-      }`}
+}) => {
+  const fieldClassName = `review-row ${isEditing ? 'vads-u-padding--0' : ''} ${
+    index > 0 ? 'vads-u-border-top--0 vads-u-padding-top--2' : ''
+  }`;
+  return (
+    <dl
+      className={`review ${isEditing ? 'vads-u-border--0' : ''}`}
+      key={`dependentAge-${index}`}
     >
-      {!isEditing ? <dt>{DEPENDENT_AGE_LABELS[index + 1]}</dt> : null}
-      <dd>
-        {isEditing ? (
-          <VaNumberInput
-            id={`dependentAge-${index}`}
-            label={DEPENDENT_AGE_LABELS[index + 1]}
-            name={`dependentAge-${index}`}
-            onInput={e => onAgeChange(index, e)}
-            value={inputValues[index] || ''}
-            className="no-wrap input-size-1"
-            onBlur={e => onBlur(index, e)}
-            error={error}
-            required
-          />
-        ) : (
-          dependent.dependentAge || ''
-        )}
-      </dd>
-    </div>
-  </dl>
-);
+      <div className={fieldClassName}>
+        {!isEditing && <dt>{DEPENDENT_AGE_LABELS[index + 1]}</dt>}
+        <dd>
+          {isEditing ? (
+            <VaNumberInput
+              id={`dependentAge-${index}`}
+              label={DEPENDENT_AGE_LABELS[index + 1]}
+              name={`dependentAge-${index}`}
+              onInput={e => onAgeChange(index, e)}
+              value={inputValues[index] || ''}
+              className="no-wrap input-size-1"
+              onBlur={e => onBlur(index, e)}
+              error={error}
+              required
+            />
+          ) : (
+            dependent.dependentAge || ''
+          )}
+        </dd>
+      </div>
+    </dl>
+  );
+};
 
 const DependentAgesReview = () => {
   const dispatch = useDispatch();
@@ -81,18 +80,11 @@ const DependentAgesReview = () => {
 
   useEffect(
     () => {
-      setInputValues(dependents.map(dependent => dependent.dependentAge || ''));
-    },
-    [dependents],
-  );
-
-  useEffect(
-    () => {
-      if (!isEditing) {
-        setInputValues(
-          dependents.map(dependent => dependent.dependentAge || ''),
-        );
-      }
+      setInputValues(
+        isEditing
+          ? dependents.map(dependent => dependent.dependentAge || '')
+          : [],
+      );
     },
     [isEditing, dependents],
   );
@@ -191,7 +183,7 @@ const DependentAgesReview = () => {
             setIsEditing(false);
           }}
           ariaLabel={`Update ${DEPENDENT_AGE_LABELS[1]}`}
-          buttonText="Update Page"
+          buttonText="Update"
         />
       ) : null}
     </>

@@ -38,16 +38,18 @@ const ReviewControl = ({
               {title}
             </h4>
           )}
-          <button
-            type={position === 'footer' ? 'submit' : 'button'}
-            className={`edit-btn ${
-              position === 'header' ? 'primary-outline' : ''
-            }`}
-            onClick={position === 'header' ? onEditClick : onUpdateClick}
-            aria-label={ariaLabel}
-          >
-            {buttonText}
-          </button>
+          {buttonText && (
+            <button
+              type={position === 'footer' ? 'submit' : 'button'}
+              className={`edit-btn ${
+                position === 'header' ? 'primary-outline' : ''
+              }`}
+              onClick={position === 'header' ? onEditClick : onUpdateClick}
+              aria-label={ariaLabel}
+            >
+              {buttonText}
+            </button>
+          )}
         </div>
       )}
     </>
@@ -55,9 +57,9 @@ const ReviewControl = ({
 };
 ReviewControl.propTypes = {
   ariaLabel: PropTypes.string.isRequired, // ARIA label for the button
-  buttonText: PropTypes.string.isRequired, // Text for the button
   isEditing: PropTypes.bool.isRequired, // Whether the component is in editing mode
   position: PropTypes.oneOf(['header', 'footer']).isRequired, // Position of the control bar, either "header" or "footer"
+  buttonText: PropTypes.string, // Text for the button
   title: PropTypes.string, // Optional title for the header
   onEditClick: PropTypes.func, // Callback function for the "Edit" button click (optional if used as footer)
   onUpdateClick: PropTypes.func, // Callback function for the "Update" button click (optional if used as header)
