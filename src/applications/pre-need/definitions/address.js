@@ -1,6 +1,7 @@
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import unset from 'platform/utilities/data/unset';
+import environment from 'platform/utilities/environment';
 import { createSelector } from 'reselect';
 
 import {
@@ -231,15 +232,22 @@ export function uiSchema(
           withEnum,
         );
       }
-
       // Hide the state field for non US and CAN addresses
-      if (!stateList && !schemaUpdate.properties.state['ui:hidden']) {
+      if (
+        environment.isProduction() &&
+        !stateList &&
+        !schemaUpdate.properties.state['ui:hidden']
+      ) {
         schemaUpdate.properties = set(
           'state.ui:hidden',
           true,
           schemaUpdate.properties,
         );
-      } else if (stateList && schemaUpdate.properties.state['ui:hidden']) {
+      } else if (
+        environment.isProduction() &&
+        stateList &&
+        schemaUpdate.properties.state['ui:hidden']
+      ) {
         schemaUpdate.properties = unset(
           'state.ui:hidden',
           schemaUpdate.properties,
@@ -256,6 +264,17 @@ export function uiSchema(
     'ui:options': {
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
         let currentSchema = addressSchema;
+
+        const modifiedData = { ...formData };
+
+        if (
+          environment.isProduction() &&
+          modifiedData.application.claimant.address.country !== 'USA' &&
+          !modifiedData.application.claimant.address.state
+        ) {
+          modifiedData.application.claimant.address.state = '';
+        }
+
         if (isRequired) {
           const required = isRequired(formData, index);
           if (required && currentSchema.required.length === 0) {
