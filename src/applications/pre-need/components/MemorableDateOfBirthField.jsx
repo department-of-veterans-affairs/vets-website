@@ -1,64 +1,57 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-class MemorableDateOfBirth extends React.Component {
-  constructor(props) {
-    super(props);
+const MemorableDateOfBirth = ({ formData }) => {
+  const [dateVal, setDateVal] = useState(
+    get('application.claimant.dateOfBirth', formData),
+  );
+  const [errorVal, setErrorVal] = useState('');
+  const today = new Date();
+  // new Date as YYYY-MM-DD is giving the day prior to the day select
+  // new Date as YYYY MM DD is giving the correct day selected
+  const dateInput = new Date(dateVal?.split('-').join(' '));
+  const dispatch = useDispatch();
 
-    this.state = {
-      dateVal: get('application.claimant.dateOfBirth', props.formData),
-      errorVal: '',
-    };
+  function handleDateBlur() {
+    if (dateInput > today) {
+      setErrorVal('Please enter a valid current or past date');
+    } else {
+      setErrorVal('');
+    }
   }
 
-  handleDateBlur = () => {
-    const { dateVal } = this.state;
-    const today = new Date();
-    const dateInput = new Date(dateVal?.split('-').join(' '));
-
-    if (dateInput > today) {
-      this.setState({ errorVal: 'Please enter a valid current or past date' });
-    } else {
-      this.setState({ errorVal: '' });
-    }
-  };
-
-  handleClick = event => {
+  const handleClick = event => {
     const content = event.target.value;
-    const { formData, dispatch } = this.props;
     const updatedFormData = set(
       'application.claimant.dateOfBirth',
       content,
       { ...formData }, // make a copy of the original formData
     );
-    this.setState({ dateVal: content });
+    setDateVal(content);
     dispatch(setData(updatedFormData));
   };
+  return (
+    <>
+      <VaMemorableDate
+        label="Date of birth"
+        required
+        error={errorVal}
+        value={dateVal}
+        onDateBlur={() => handleDateBlur()}
+        onDateChange={handleClick}
+      />
+    </>
+  );
+};
 
-  render() {
-    const { dateVal, errorVal } = this.state;
-
-    return (
-      <>
-        <VaMemorableDate
-          label="Date of birth"
-          required
-          error={errorVal}
-          value={dateVal}
-          onDateBlur={() => this.handleDateBlur()}
-          onDateChange={this.handleClick}
-        />
-      </>
-    );
-  }
-}
-
-const mapStateToProps = state => ({
-  formData: state.form?.data,
-});
+const mapStateToProps = state => {
+  return {
+    formData: state.form?.data,
+  };
+};
 
 export default connect(mapStateToProps)(MemorableDateOfBirth);
