@@ -110,7 +110,7 @@
  *   'ui:required': (formData: any) => boolean,
  *   'ui:reviewField': (props: any) => JSX.Element,
  *   'ui:reviewWidget': (props: any) => JSX.Element,
- *   'ui:title': string,
+ *   'ui:title': string | JSX.Element,
  *   'ui:validations': Array<((errors, value) => void)>,
  *   'ui:webComponentField': (props: any) => JSX.Element
  *   'ui:widget': 'yesNo' | 'radio' | 'email' | 'date' | 'textarea' | (props: any) => JSX.Element,
