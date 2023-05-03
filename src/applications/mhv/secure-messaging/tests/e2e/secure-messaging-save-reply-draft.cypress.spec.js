@@ -50,10 +50,10 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.ReplyToMessagebody(messageDetailsBody);
 
     replyPage.sendReplyDraft(
-      landingPage.getNewMessage().attributes.messageId,
-      landingPage.getNewMessage().attributes.senderId,
-      landingPage.getNewMessage().attributes.category,
-      landingPage.getNewMessage().attributes.subject,
+      messageDetails.data.attributes.messageId,
+      messageDetails.data.attributes.senderId,
+      messageDetails.data.attributes.category,
+      messageDetails.data.attributes.subject,
       testMessageBody,
     );
     cy.injectAxe();
