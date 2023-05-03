@@ -32,7 +32,7 @@ const DeleteDraft = props => {
       <button
         type="button"
         data-testid="delete-draft-button"
-        className="usa-button-secondary delete-draft-button vads-u-flex--1 vads-u-margin-right--0 vads-u-margin-y--1"
+        className="usa-button-secondary delete-draft-button vads-u-flex--1 vads-u-margin-y--1"
         onClick={() => {
           setIsModalVisible(true);
         }}
