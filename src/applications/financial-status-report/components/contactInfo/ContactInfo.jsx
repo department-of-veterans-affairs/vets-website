@@ -39,13 +39,11 @@ const ContactInfo = ({
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
   const [editState] = useState(getReturnState());
 
-  const { email = '', homePhone = {}, mobilePhone = {}, address = {} } =
-    data?.personaData?.veteranContactInfo || {};
+  const { email = '', mobilePhone = {}, address = {} } =
+    data?.personalData?.veteranContactInfo || {};
 
   const missingInfo = [
-    homePhone?.phoneNumber || mobilePhone?.phoneNumber
-      ? ''
-      : content.homeOrMobile,
+    mobilePhone?.phoneNumber ? '' : content.homeOrMobile,
     email ? '' : content.emailText,
     address?.addressLine1 ? '' : content.addressText,
   ].filter(Boolean);
@@ -260,12 +258,6 @@ ContactInfo.propTypes = {
   data: PropTypes.shape({
     personalData: PropTypes.shape({
       veteranContactInfo: PropTypes.shape({
-        homePhone: PropTypes.shape({
-          countryCode: PropTypes.string,
-          areaCode: PropTypes.string,
-          phoneNumber: PropTypes.string,
-          extension: PropTypes.string,
-        }),
         mobilePhone: PropTypes.shape({
           countryCode: PropTypes.string,
           areaCode: PropTypes.string,

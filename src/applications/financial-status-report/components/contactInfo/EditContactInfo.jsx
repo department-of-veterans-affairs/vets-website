@@ -65,10 +65,6 @@ BuildPage.propTypes = {
   title: PropTypes.string,
 };
 
-export const EditHomePhone = props => (
-  <BuildPage {...props} field="HOME_PHONE" id="home-phone" />
-);
-
 export const EditMobilePhone = props => (
   <BuildPage {...props} field="MOBILE_PHONE" id="mobile-phone" />
 );

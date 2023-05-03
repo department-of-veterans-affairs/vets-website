@@ -19,11 +19,10 @@ export const content = {
   editLabel: 'Edit contact information',
   update: 'Update page',
 
-  homeOrMobile: 'home or mobile phone',
+  homeOrMobile: 'mobile phone',
   addressText: 'address',
   emailText: 'email',
 
-  home: 'Home phone',
   mobile: 'Mobile phone',
   email: 'Email address',
   country: 'Country',

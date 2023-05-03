@@ -44,7 +44,6 @@ const contactInformation = {
                   'zipCode',
                 ],
               },
-              homePhone: phone,
               mobilePhone: phone,
               email: {
                 type: 'string',

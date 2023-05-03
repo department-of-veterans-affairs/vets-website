@@ -26,16 +26,15 @@ const ContactInfoReview = ({ data, editPage }) => {
     [editRef],
   );
 
-  const { veteran } = data;
+  const { veteranContactInfo } = data.personalData;
 
-  const { email = '', homePhone = {}, mobilePhone = {}, address = {} } =
-    veteran || {};
+  const { email = '', mobilePhone = {}, address = {} } =
+    veteranContactInfo || {};
   const isUS = address.addressType !== ADDRESS_TYPES.international;
   const stateOrProvince = isUS ? 'state' : 'province';
 
   // Label: formatted value in (design) display order
   const display = [
-    [content.home, () => getFormattedPhone(homePhone)],
     [content.mobile, () => getFormattedPhone(mobilePhone)],
     [content.email, () => email],
     [content.country, () => (isUS ? '' : address.countryName)],
@@ -95,11 +94,15 @@ const ContactInfoReview = ({ data, editPage }) => {
 
 ContactInfoReview.propTypes = {
   data: PropTypes.shape({
-    veteran: PropTypes.shape({
-      email: PropTypes.string,
-      homePhone: PropTypes.shape({}),
-      mobilePhone: PropTypes.shape({}),
-      address: PropTypes.shape({}),
+    personalData: PropTypes.shape({
+      veteranContactInfo: PropTypes.shape({
+        mobilePhone: PropTypes.shape({
+          countryCode: PropTypes.string,
+          areaCode: PropTypes.string,
+          phoneNumber: PropTypes.string,
+          extension: PropTypes.string,
+        }),
+      }).isRequired,
     }),
   }),
   editPage: PropTypes.func,
