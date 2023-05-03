@@ -105,9 +105,15 @@ const SearchForm = props => {
   };
 
   const displayQuery = () => {
+    let folderName;
+    if (folder.name === 'Deleted') {
+      folderName = 'Trash';
+    } else {
+      folderName = folder.name;
+    }
     return (
       <>
-        in <strong>{folder.name}</strong> for "<strong>{keyword}</strong>"
+        in <strong>{folderName}</strong> for "<strong>{keyword}</strong>"
         <ul>
           {query.category && queryItem('Category', query.category)}
           {dateRangeDisplay()}
