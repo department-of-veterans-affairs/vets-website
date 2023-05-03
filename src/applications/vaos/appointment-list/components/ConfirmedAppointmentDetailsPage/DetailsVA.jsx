@@ -33,6 +33,7 @@ export default function DetailsVA({ appointment, facilityData }) {
   const isPhone = appointment.vaos.isPhoneAppointment;
 
   const typeOfCareName = selectTypeOfCareName(appointment);
+  const isCAndP = typeOfCareName === 'Compensation and pension exam';
 
   // v0 does not return a stopCode for covid as serviceType, instead we check for isCovid
   // remove the check for isCovid when we migrate entirely to v2
@@ -41,10 +42,28 @@ export default function DetailsVA({ appointment, facilityData }) {
     return (
       !!typeOfCare && (
         <>
-          <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
-            Type of care:
-          </h2>
-          <div className="vads-u-display--inline"> {typeOfCare}</div>
+          {isCAndP ? (
+            <>
+              <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
+                {typeOfCare}
+              </h2>
+              <div className="vads-u-display--inline" />
+              <p className="vads-u-font-size--base vads-u-font-family--sans">
+                This appointment is for rating purposes only and will not
+                include treatment.
+                <br />
+                If you have any medical evidence to support your claim, please
+                bring copies to your exam.
+              </p>
+            </>
+          ) : (
+            <>
+              <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
+                Type of care:
+              </h2>
+              <div className="vads-u-display--inline"> {typeOfCare}</div>
+            </>
+          )}
         </>
       )
     );
