@@ -33,7 +33,7 @@ const UtilityBillSummary = ({
 
   const cardBody = text => (
     <p>
-      Value: <b>{currencyFormatter(text)}</b>
+      Monthly payment amount: <b>{currencyFormatter(text)}</b>
     </p>
   );
 
@@ -41,10 +41,10 @@ const UtilityBillSummary = ({
 
   return (
     <form>
-      <fieldset>
+      <fieldset className="vads-u-margin-y--2">
         <legend
           id="added-utility-bills-summary"
-          className="vads-u-font-family--serif vads-u-font-size--h3"
+          className="schemaform-block-title"
           name="addedUtilityBillsSummary"
         >
           You have added these utility bills
