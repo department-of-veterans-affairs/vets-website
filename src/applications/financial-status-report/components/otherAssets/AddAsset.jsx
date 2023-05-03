@@ -82,10 +82,10 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
   return (
     <>
       <form onSubmit={handlers.onSubmit}>
-        <fieldset>
+        <fieldset className="vads-u-margin-y--2">
           <legend
             id="decision-date-description"
-            className="vads-u-font-family--serif vads-u-font-size--h3"
+            className="schemaform-block-title"
             name="addOrUpdateAsset"
           >
             Add your additional assets

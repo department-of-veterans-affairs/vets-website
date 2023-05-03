@@ -125,73 +125,75 @@ const CreditCardBill = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <legend className="schemaform-block-title">
-        {`${
-          creditCardBills.length === index ? 'Add' : 'Update'
-        } a credit card bill`}
-      </legend>
-      <p>Enter your credit card bill’s information.</p>
-      <div className="input-size-5">
-        <va-number-input
-          error={(submitted && unpaidBalanceError) || null}
-          hint={null}
-          currency
-          required
-          inputmode="numeric"
-          label="Unpaid balance"
-          name="unpaidBalance"
-          id="unpaidBalance"
-          onInput={handleUnpaidBalanceChange}
-          value={creditCardBillRecord.unpaidBalance}
-        />
-      </div>
-      <div className="input-size-5">
-        <va-number-input
-          error={(submitted && minMonthlyPaymentError) || null}
-          hint={null}
-          required
-          currency
-          inputmode="numeric"
-          label="Minimum monthly payment amount"
-          name="amountDueMonthly"
-          id="amountDueMonthly"
-          onInput={handleMinMonthlyPaymentChange}
-          value={creditCardBillRecord.amountDueMonthly}
-        />
-      </div>
-      <div className="input-size-5">
-        <va-number-input
-          error={(submitted && amountOverdueError) || null}
-          hint={null}
-          currency
-          inputmode="numeric"
-          label="Amount overdue"
-          name="amountPastDue"
-          id="amountPastDue"
-          onInput={handleAmountOverdueChange}
-          value={creditCardBillRecord.amountPastDue}
-        />
-      </div>
-      <p>
-        <button
-          type="button"
-          id="cancel"
-          className="usa-button-secondary vads-u-width--auto"
-          onClick={handlers.onCancel}
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
-          id="submit"
-          className="vads-u-width--auto usa-button-primary"
-          onClick={handlers.onUpdate}
-        >
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">
           {`${
             creditCardBills.length === index ? 'Add' : 'Update'
           } a credit card bill`}
-        </button>
-      </p>
+        </legend>
+        <p>Enter your credit card bill’s information.</p>
+        <div className="input-size-5">
+          <va-number-input
+            error={(submitted && unpaidBalanceError) || null}
+            hint={null}
+            currency
+            required
+            inputmode="numeric"
+            label="Unpaid balance"
+            name="unpaidBalance"
+            id="unpaidBalance"
+            onInput={handleUnpaidBalanceChange}
+            value={creditCardBillRecord.unpaidBalance}
+          />
+        </div>
+        <div className="input-size-5">
+          <va-number-input
+            error={(submitted && minMonthlyPaymentError) || null}
+            hint={null}
+            required
+            currency
+            inputmode="numeric"
+            label="Minimum monthly payment amount"
+            name="amountDueMonthly"
+            id="amountDueMonthly"
+            onInput={handleMinMonthlyPaymentChange}
+            value={creditCardBillRecord.amountDueMonthly}
+          />
+        </div>
+        <div className="input-size-5">
+          <va-number-input
+            error={(submitted && amountOverdueError) || null}
+            hint={null}
+            currency
+            inputmode="numeric"
+            label="Amount overdue"
+            name="amountPastDue"
+            id="amountPastDue"
+            onInput={handleAmountOverdueChange}
+            value={creditCardBillRecord.amountPastDue}
+          />
+        </div>
+        <p>
+          <button
+            type="button"
+            id="cancel"
+            className="usa-button-secondary vads-u-width--auto"
+            onClick={handlers.onCancel}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            id="submit"
+            className="vads-u-width--auto usa-button-primary"
+            onClick={handlers.onUpdate}
+          >
+            {`${
+              creditCardBills.length === index ? 'Add' : 'Update'
+            } a credit card bill`}
+          </button>
+        </p>
+      </fieldset>
     </form>
   );
 };

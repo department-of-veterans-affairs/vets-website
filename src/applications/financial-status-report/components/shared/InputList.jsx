@@ -10,7 +10,7 @@ const InputList = ({
   onChange,
 }) => {
   return (
-    <div>
+    <fieldset className="vads-u-margin-y--2">
       {title && <legend className="schemaform-block-title">{title}</legend>}
       {prompt && <p>{prompt}</p>}
       {inputs?.map((input, key) => (
@@ -33,7 +33,7 @@ const InputList = ({
           />
         </div>
       ))}
-    </div>
+    </fieldset>
   );
 };
 

@@ -59,29 +59,31 @@ const SpouseEmploymentQuestion = props => {
 
   return (
     <form onSubmit={handlers.nextPage}>
-      <legend className="schemaform-block-title">
-        Your spouse’s work history
-      </legend>
-      <VaRadio
-        class="vads-u-margin-y--2"
-        label="Has your spouse had any jobs in the last 2 years? "
-        onVaValueChange={onSelection}
-        required
-      >
-        <va-radio-option
-          id="has-job"
-          label="Yes"
-          value="true"
-          checked={hasJobToAdd}
-        />
-        <va-radio-option
-          id="has-no-job"
-          label="No"
-          value="false"
-          name="primary"
-          checked={!hasJobToAdd}
-        />
-      </VaRadio>
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">
+          Your spouse’s work history
+        </legend>
+        <VaRadio
+          class="vads-u-margin-y--2"
+          label="Has your spouse had any jobs in the last 2 years? "
+          onVaValueChange={onSelection}
+          required
+        >
+          <va-radio-option
+            id="has-job"
+            label="Yes"
+            value="true"
+            checked={hasJobToAdd}
+          />
+          <va-radio-option
+            id="has-no-job"
+            label="No"
+            value="false"
+            name="primary"
+            checked={!hasJobToAdd}
+          />
+        </VaRadio>
+      </fieldset>
       {contentBeforeButtons}
       <FormNavButtons goBack={goBack} submitToContinue />
       {contentAfterButtons}
