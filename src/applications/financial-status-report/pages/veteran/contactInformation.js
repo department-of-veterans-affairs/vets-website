@@ -18,31 +18,41 @@ const contactInformation = {
   schema: {
     type: 'object',
     properties: {
-      veteran: {
+      personalData: {
         type: 'object',
         properties: {
-          address: {
+          veteranContactInfo: {
             type: 'object',
             properties: {
-              addressLine1,
-              addressLine2,
-              addressLine3,
-              city,
-              stateCode,
-              countryCodeIso2: countryCodeISO2,
-              zipCode: zipCode5,
-              internationalPostalCode,
+              address: {
+                type: 'object',
+                properties: {
+                  addressLine1,
+                  addressLine2,
+                  addressLine3,
+                  city,
+                  stateCode,
+                  countryCodeIso2: countryCodeISO2,
+                  zipCode: zipCode5,
+                  internationalPostalCode,
+                },
+                // the schema has countryCodeISO2 and zipCode5
+                required: [
+                  'addressLine1',
+                  'city',
+                  'countryCodeIso2',
+                  'zipCode',
+                ],
+              },
+              homePhone: phone,
+              mobilePhone: phone,
+              email: {
+                type: 'string',
+                format: 'email',
+                minLength: 6,
+                maxLength: 255,
+              },
             },
-            // the schema has countryCodeISO2 and zipCode5
-            required: ['addressLine1', 'city', 'countryCodeIso2', 'zipCode'],
-          },
-          homePhone: phone,
-          mobilePhone: phone,
-          email: {
-            type: 'string',
-            format: 'email',
-            minLength: 6,
-            maxLength: 255,
           },
         },
       },

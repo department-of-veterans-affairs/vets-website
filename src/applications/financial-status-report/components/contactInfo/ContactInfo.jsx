@@ -40,7 +40,7 @@ const ContactInfo = ({
   const [editState] = useState(getReturnState());
 
   const { email = '', homePhone = {}, mobilePhone = {}, address = {} } =
-    data?.veteran || {};
+    data?.personaData?.veteranContactInfo || {};
 
   const missingInfo = [
     homePhone?.phoneNumber || mobilePhone?.phoneNumber
@@ -258,20 +258,22 @@ ContactInfo.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   data: PropTypes.shape({
-    veteran: PropTypes.shape({
-      homePhone: PropTypes.shape({
-        countryCode: PropTypes.string,
-        areaCode: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        extension: PropTypes.string,
-      }),
-      mobilePhone: PropTypes.shape({
-        countryCode: PropTypes.string,
-        areaCode: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        extension: PropTypes.string,
-      }),
-    }).isRequired,
+    personalData: PropTypes.shape({
+      veteranContactInfo: PropTypes.shape({
+        homePhone: PropTypes.shape({
+          countryCode: PropTypes.string,
+          areaCode: PropTypes.string,
+          phoneNumber: PropTypes.string,
+          extension: PropTypes.string,
+        }),
+        mobilePhone: PropTypes.shape({
+          countryCode: PropTypes.string,
+          areaCode: PropTypes.string,
+          phoneNumber: PropTypes.string,
+          extension: PropTypes.string,
+        }),
+      }).isRequired,
+    }),
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

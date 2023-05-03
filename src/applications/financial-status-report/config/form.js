@@ -167,7 +167,7 @@ const formConfig = {
           schema: pages.contactInfo.schema,
           depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
-        confirmContactInformation: {
+        currentContactInformation: {
           title: 'Contact information',
           path: 'current-contact-information',
           CustomPage: ContactInfo,
