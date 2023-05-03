@@ -276,6 +276,21 @@ export function uiSchema(
           modifiedData.application.claimant.address.state = '';
         }
 
+        if (
+          !environment.isProduction() &&
+          modifiedData.application.applicant['view:applicantInfo'] &&
+          (modifiedData.application.applicant['view:applicantInfo']
+            .mailingAddress.country !== 'USA' ||
+            modifiedData.application.applicant['view:applicantInfo']
+              .mailingAddress.country !== 'CAN') &&
+          !modifiedData.application.applicant['view:applicantInfo']
+            .mailingAddress.state
+        ) {
+          modifiedData.application.applicant[
+            'view:applicantInfo'
+          ].mailingAddress.state = '';
+        }
+
         if (isRequired) {
           const required = isRequired(formData, index);
           if (required && currentSchema.required.length === 0) {
