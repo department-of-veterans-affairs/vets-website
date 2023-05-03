@@ -268,7 +268,7 @@ export function uiSchema(
         const modifiedData = { ...formData };
 
         if (
-          environment.isProduction() &&
+          !environment.isProduction() &&
           (modifiedData.application.claimant.address.country !== 'USA' ||
             modifiedData.application.claimant.address.country !== 'CAN') &&
           !modifiedData.application.claimant.address.state
