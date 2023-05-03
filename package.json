@@ -286,6 +286,7 @@
     "react-focus-lock": "^2.6.0",
     "react-is": "^17.0.2",
     "react-leaflet": "^3.2.2",
+    "react-linkify": "^1.0.0-alpha",
     "react-meta-tags": "^1.0.1",
     "react-redux": "^7.2.6",
     "react-router": "3",
