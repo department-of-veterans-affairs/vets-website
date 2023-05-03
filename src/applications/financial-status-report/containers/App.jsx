@@ -54,12 +54,7 @@ const App = ({
     ? user.data.attributes.vet360ContactInformation
     : profile?.vapContactInfo || {};
 
-  const {
-    email = {},
-    homePhone = {},
-    mobilePhone = {},
-    mailingAddress = {},
-  } = contactData;
+  const { email = {}, mobilePhone = {}, mailingAddress = {} } = contactData;
 
   const [wizardState, setWizardState] = useState(
     sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
@@ -82,18 +77,22 @@ const App = ({
     () => {
       if (isLoggedIn && showEnhancedFSR) {
         const { personalData = {} } = formData || {};
+        const { veteranContactInfo = {} } = personalData;
         if (
-          email?.emailAddress !== personalData.emailAddress ||
-          mobilePhone?.updatedAt !== personalData.telephoneNumber?.updatedAt ||
-          mailingAddress?.updatedAt !== personalData.address?.updatedAt
+          email?.emailAddress !== veteranContactInfo.email ||
+          mobilePhone?.updatedAt !==
+            veteranContactInfo.mobilePhone?.updatedAt ||
+          mailingAddress?.updatedAt !== veteranContactInfo.address?.updatedAt
         ) {
           setFormData({
             ...formData,
             personalData: {
               ...personalData,
-              emailAddress: email?.emailAddress,
-              telephoneNumber: mobilePhone,
-              address: mailingAddress,
+              veteranContactInfo: {
+                email: email?.emailAddress,
+                mobilePhone,
+                address: mailingAddress,
+              },
             },
           });
         }
@@ -102,7 +101,6 @@ const App = ({
     [
       email,
       formData,
-      homePhone,
       isLoggedIn,
       mobilePhone,
       mailingAddress,
