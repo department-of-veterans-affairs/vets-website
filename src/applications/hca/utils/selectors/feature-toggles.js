@@ -5,9 +5,6 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 const selectFeatureToggles = createSelector(
   state => ({
     isLoadingFeatureFlags: state?.featureToggles?.loading,
-    isAiqEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.hcaAmericanIndianEnabled
-    ],
     isBrowserMonitoringEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.hcaBrowserMonitoringEnabled
     ],
