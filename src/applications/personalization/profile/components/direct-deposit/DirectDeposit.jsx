@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import {
   cnpDirectDepositUiState,
   eduDirectDepositUiState,
-  selectHideDirectDepositCompAndPen,
 } from '@@profile/selectors';
 import { Prompt } from 'react-router-dom';
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
@@ -210,7 +210,7 @@ const mapStateToProps = state => {
     isVerifiedUser: isLOA3 && isUsingEligibleSignInService && is2faEnabled,
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
-    hideDirectDepositCompAndPen: selectHideDirectDepositCompAndPen(state),
+    hideDirectDepositCompAndPen: toggleValues(state)?.profileUseExperimental,
     useOAuth: isAuthenticatedWithOAuth(state),
   };
 };
