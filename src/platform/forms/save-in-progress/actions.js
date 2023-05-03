@@ -96,6 +96,7 @@ const validateSaveInProgressErrors = (status, trackingPrefix) => {
   if (status instanceof Error) {
     Sentry.captureException(status);
     Sentry.captureMessage('vets_sip_error_save');
+    recordEvent({ event: `${trackingPrefix}sip-form-save-failed` });
     return SAVE_STATUSES.clientFailure;
   }
 
@@ -262,6 +263,8 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
       submission,
     )
       .then(json => {
+        recordEvent({ event: `${trackingPrefix}sip-form-saved` });
+
         dispatch(
           setSaveFormStatus(
             saveType,
