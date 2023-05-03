@@ -109,9 +109,6 @@ const SearchForm = props => {
       <>
         in <strong>{folder.name}</strong> for "<strong>{keyword}</strong>"
         <ul>
-          {query.messageId && queryItem('Message ID', query.messageId)}
-          {query.sender && queryItem('From', query.sender)}
-          {query.subject && queryItem('Subject', query.subject)}
           {query.category && queryItem('Category', query.category)}
           {dateRangeDisplay()}
         </ul>

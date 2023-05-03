@@ -20,6 +20,7 @@ describe('Search form', () => {
     folder,
     keyword: 'test',
     resultsCount: searchResults.length,
+    query: {},
   };
 
   const setup = (props = defaultProps) => {
@@ -50,11 +51,17 @@ describe('Search form', () => {
   });
 
   it('renders displays a query summary containing the number of results, searched keyword, and folder', async () => {
+    const query = {
+      category: 'other',
+      fromDate: '2022-09-19T00:00:00-07:00',
+      toDate: '2022-12-19T21:55:17.766Z',
+    };
     const screen = renderWithStoreAndRouter(
       <SearchForm
         folder={folder}
         keyword="test"
         resultsCount={searchResults.length}
+        query={query}
       />,
       {
         initialState,
@@ -64,7 +71,7 @@ describe('Search form', () => {
     );
 
     const count = await screen.findByText('5', { exact: true });
-    const statement = await screen.findByText('results for', { exact: false });
+    const statement = await screen.findByText('results in', { exact: false });
     const keyword = await screen.findByText('test', { exact: true });
     const statementFolder = await screen.findByText('Inbox', { exact: true });
 
@@ -76,9 +83,6 @@ describe('Search form', () => {
 
   it('renders displays a query summary containing the number of results, folder, and query fields', async () => {
     const query = {
-      messageId: '7232799',
-      sender: 'islam',
-      subject: 'mess',
       category: 'other',
       fromDate: '2022-09-19T00:00:00-07:00',
       toDate: '2022-12-19T21:55:17.766Z',
@@ -97,19 +101,13 @@ describe('Search form', () => {
     );
 
     const queryItems = await screen.getAllByRole('listitem');
-    const messageId = await screen.findByText('7232799', { exact: true });
-    const sender = await screen.findByText('islam', { exact: true });
-    const subject = await screen.findByText('mess', { exact: true });
     const category = await screen.findByText('General', { exact: true });
     const dateRange = await screen.findByText(
       'September 19th 2022 to December 19th 2022',
       { exact: true },
     );
 
-    expect(queryItems.length).to.equal(5);
-    expect(messageId).to.exist;
-    expect(sender).to.exist;
-    expect(subject).to.exist;
+    expect(queryItems.length).to.equal(2);
     expect(category).to.exist;
     expect(dateRange).to.exist;
   });
