@@ -15,10 +15,7 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     cy.realPress(['Enter']);
     composePage.getMessageSubjectField().type('Test Attachment Focus');
     composePage.getMessageBodyField().type('Focus Attachment');
-    cy.get('[data-testid="attach-file-input"]').selectFile(
-      'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
-      { force: true },
-    );
+    composePage.attachMessageFromFile('test_image.jpg');
     composePage.verifyFocusonMessageAttachment();
     cy.injectAxe();
     cy.axeCheck();

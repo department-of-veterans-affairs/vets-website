@@ -6,7 +6,6 @@ describe('HCA Selectors', () => {
     featureToggles: {
       /* eslint-disable camelcase */
       caregiver_sigi_enabled: false,
-      hca_american_indian_enabled: true,
       hca_browser_monitoring_enabled: true,
       hca_enrollment_status_override_enabled: false,
       hca_household_v2_enabled: false,
@@ -20,7 +19,6 @@ describe('HCA Selectors', () => {
       const selectFeatureToggles = makeSelectFeatureToggles();
       expect(selectFeatureToggles(state)).to.eql({
         isLoadingFeatureFlags: false,
-        isAiqEnabled: true,
         isBrowserMonitoringEnabled: true,
         isESOverrideEnabled: false,
         isFacilitiesApiEnabled: false,

@@ -11,6 +11,7 @@ import {
 } from '@@profile/actions';
 import {
   cnpDirectDepositInformation,
+  profileUseLighthouseDirectDepositEndpoint,
   selectIsBlocked,
 } from '@@profile/selectors';
 import {
@@ -67,6 +68,7 @@ class Profile extends Component {
       shouldFetchTotalDisabilityRating,
       shouldFetchEDUDirectDepositInformation,
       connectDrupalSourceOfTruthCerner,
+      useLighthouseDirectDepositEndpoint,
     } = this.props;
     connectDrupalSourceOfTruthCerner();
     if (isLOA3 && isInMVI) {
@@ -75,7 +77,9 @@ class Profile extends Component {
       fetchMilitaryInformation();
     }
     if (shouldFetchCNPDirectDepositInformation) {
-      fetchCNPPaymentInformation();
+      fetchCNPPaymentInformation({
+        useLighthouseDirectDepositEndpoint,
+      });
     }
     if (shouldFetchTotalDisabilityRating) {
       fetchTotalDisabilityRating();
@@ -98,6 +102,7 @@ class Profile extends Component {
       shouldFetchEDUDirectDepositInformation,
       shouldFetchTotalDisabilityRating,
       isInMVI,
+      useLighthouseDirectDepositEndpoint,
     } = this.props;
     if (isLOA3 && !prevProps.isLOA3 && isInMVI) {
       fetchFullName();
@@ -114,7 +119,9 @@ class Profile extends Component {
       shouldFetchCNPDirectDepositInformation &&
       !prevProps.shouldFetchCNPDirectDepositInformation
     ) {
-      fetchCNPPaymentInformation();
+      fetchCNPPaymentInformation({
+        useLighthouseDirectDepositEndpoint,
+      });
     }
     if (
       shouldFetchEDUDirectDepositInformation &&
@@ -134,11 +141,8 @@ class Profile extends Component {
           dismissDowntimeWarning={this.props.dismissDowntimeWarning}
           initializeDowntimeWarnings={this.props.initializeDowntimeWarnings}
           messaging={{
-            title: (
-              <h3>
-                Some parts of the profile will be down for maintenance soon
-              </h3>
-            ),
+            title:
+              'Some parts of the profile will be down for maintenance soon',
           }}
           // default for className prop is `row-padded` and we do not want that
           // class applied to the wrapper div DowntimeApproaching renders
@@ -268,6 +272,7 @@ Profile.propTypes = {
   shouldFetchEDUDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
+  useLighthouseDirectDepositEndpoint: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
 };
 
@@ -346,6 +351,9 @@ const mapStateToProps = state => {
       'profile',
     ),
     isBlocked,
+    useLighthouseDirectDepositEndpoint: profileUseLighthouseDirectDepositEndpoint(
+      state,
+    ),
   };
 };
 

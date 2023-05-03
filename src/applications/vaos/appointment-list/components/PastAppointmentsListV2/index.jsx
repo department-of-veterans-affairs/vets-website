@@ -263,6 +263,7 @@ export default function PastAppointmentsListNew() {
             <h3
               id={`appointment_list_${monthDate.format('YYYY-MM')}`}
               data-cy="past-appointment-list-header"
+              className="vads-u-margin-top--0"
             >
               <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}

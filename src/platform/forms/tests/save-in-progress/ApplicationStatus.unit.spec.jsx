@@ -28,7 +28,7 @@ describe('schemaform <ApplicationStatus>', () => {
       />,
     );
 
-    expect(tree.subTree('LoadingIndicator')).to.not.be.false;
+    expect(tree.subTree('va-loading-indicator')).to.not.be.false;
   });
   it('should render apply button', () => {
     const tree = SkinDeep.shallowRender(
@@ -148,8 +148,11 @@ describe('schemaform <ApplicationStatus>', () => {
       />,
     );
 
-    const modal = tree.baseElement.querySelector('va-modal');
-    modal.__events.primaryButtonClick();
+    tree.container.querySelector('.usa-button-secondary').click(); // open modal
+
+    expect(tree.container.querySelector('.va-modal-body')).to.not.be.null;
+
+    tree.getByText('Start a new application').click();
 
     // remove form & reset wizard
     expect(sessionStorage.getItem(wizardStatus)).to.be.null;

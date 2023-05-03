@@ -9,6 +9,7 @@
 @import "./conditions";
 @import "./landing-page";
 @import "./labs-and-tests";
+@import "./chem-hem";
 
 // Your custom sass
 va-loading-indicator {
@@ -90,7 +91,12 @@ va-loading-indicator {
   .main-content {
     margin-left: 0;
     width: 100%;
+    max-width: 486;
     padding: 0;
+    @media print {
+      margin-right: 0;
+      max-width: none;
+    }
   }
   .medical-records-navigation {
     margin-right: 24px;

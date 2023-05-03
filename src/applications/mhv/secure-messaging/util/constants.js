@@ -129,6 +129,7 @@ export const Alerts = {
   },
   Thread: {
     GET_THREAD_ERROR: 'We’re sorry. Something went wrong on our end.',
+    THREAD_NOT_FOUND_ERROR: 'This conversation was not found.',
   },
 };
 
@@ -227,4 +228,9 @@ export const threadSortingOptions = {
   SORT_BY_RECEPIENT: 'RECIPIENT_NAME',
   SORT_BY_SENT_DATE: 'SENT_DATE',
   SORT_BY_DRAFT_DATE: 'DRAFT_DATE',
+};
+
+export const PrintMessageOptions = {
+  PRINT_MAIN: 'PRINT_MAIN',
+  PRINT_THREAD: 'PRINT_THREAD',
 };
