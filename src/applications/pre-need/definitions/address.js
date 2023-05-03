@@ -269,7 +269,8 @@ export function uiSchema(
 
         if (
           environment.isProduction() &&
-          modifiedData.application.claimant.address.country !== 'USA' &&
+          (modifiedData.application.claimant.address.country !== 'USA' ||
+            modifiedData.application.claimant.address.country !== 'CAN') &&
           !modifiedData.application.claimant.address.state
         ) {
           modifiedData.application.claimant.address.state = '';
