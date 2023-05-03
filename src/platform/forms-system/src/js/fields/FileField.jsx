@@ -158,12 +158,12 @@ class FileField extends React.Component {
           if (file.uploading) {
             document
               .querySelector('.schemaform-file-uploading')
-              .querySelector('button')
-              .focus();
+              ?.querySelector('button')
+              ?.focus();
           }
           // Focus on the file name input after the file has finished uploading
           if (!file.uploading) {
-            document.querySelector(`input[value="${file.name}"]`).focus();
+            document.querySelector(`input[value="${file.name}"]`)?.focus();
           }
           this.uploadRequest = null;
         },
