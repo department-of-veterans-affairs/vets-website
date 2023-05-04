@@ -1,22 +1,27 @@
 import React from 'react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import reducer from '../../reducer';
-
+import { expect } from 'chai';
+import { mount } from 'enzyme';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
 import MemorableDateOfBirthField from '../../components/MemorableDateOfBirthField';
 
-const initialState = {};
-
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 describe('<MemorableDateOfBirthField>', () => {
-  it('renders without crashing', () => {
-    const screen = renderInReduxProvider(<MemorableDateOfBirthField />, {
-      initialState,
-      reducers: reducer,
-    });
-
-    screen.getByText('Date of birth');
-    /*
-    expect(tree.find('va-memorable-date').length).to.equal(1);
-    tree.unmount();
-    */
+  it('should render', () => {
+    const initialState = {
+      form: {
+        data: { application: { claimant: { dateOfBirth: '1990-01-01' } } },
+      },
+    };
+    const store = mockStore(initialState);
+    const wrapper = mount(
+      <Provider store={store}>
+        <MemorableDateOfBirthField />
+      </Provider>,
+    );
+    expect(wrapper.find('va-memorable-date')).to.have.lengthOf(1);
+    wrapper.unmount();
   });
 });

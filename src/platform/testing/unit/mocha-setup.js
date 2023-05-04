@@ -12,10 +12,10 @@ import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
+import { configure } from '@testing-library/dom';
 import chaiAxe from './axe-plugin';
 
 import { sentryTransport } from './sentry';
-import { configure } from '@testing-library/dom';
 
 Sentry.init({
   autoSessionTracking: false,
@@ -77,7 +77,7 @@ function setupJSDom() {
     };
     console.warn = () => {};
   } else if (process.env.LOG_LEVEL === 'log') {
-    console.error = () => {};
+    // console.error = () => {};
     console.warn = () => {};
   }
   /* eslint-enable no-console */

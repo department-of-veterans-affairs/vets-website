@@ -8,37 +8,60 @@ import {
   fillData,
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils.jsx';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import formConfig from '../../config/form';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
 describe('Pre-need applicant information', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.applicantInformation.pages.applicantInformation;
-
   it('should render', () => {
+    const initialState = {
+      form: {
+        data: { application: { claimant: { dateOfBirth: '1990-01-01' } } },
+      },
+    };
+    const store = mockStore(initialState);
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
-    expect(form.find('input').length).to.equal(10);
-    expect(form.find('select').length).to.equal(3);
+    expect(form.find('input').length).to.equal(9);
+    expect(form.find('select').length).to.equal(1);
+    expect(form.find('va-memorable-date').length).to.equal(1);
     form.unmount();
   });
 
   it('should not submit empty form', () => {
+    const initialState = {
+      form: {
+        data: { application: { claimant: { dateOfBirth: '' } } },
+      },
+    };
+    const store = mockStore(initialState);
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+        ,
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -49,21 +72,39 @@ describe('Pre-need applicant information', () => {
   });
 
   it('should submit with required information', () => {
+    const initialState = {
+      form: {
+        data: {
+          application: {
+            claimant: {
+              name: { first: '', last: '' },
+              ssn: '',
+              dateOfBirth: '',
+              relationshipToVet: '',
+            },
+          },
+        },
+      },
+    };
+    const store = mockStore(initialState);
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+        ,
+      </Provider>,
     );
 
     fillData(form, 'input#root_application_claimant_name_first', 'test');
     fillData(form, 'input#root_application_claimant_name_last', 'test2');
     fillData(form, 'input#root_application_claimant_ssn', '234443344');
-    fillData(form, 'select#root_application_claimant_dateOfBirthMonth', '2');
-    fillData(form, 'select#root_application_claimant_dateOfBirthDay', '2');
+    fillData(form, 'input#root_application_claimant_dateOfBirthMonth', '2');
+    fillData(form, 'input#root_application_claimant_dateOfBirthDay', '2');
     fillData(form, 'input#root_application_claimant_dateOfBirthYear', '2001');
     selectRadio(form, 'root_application_claimant_relationshipToVet', '1');
 
@@ -74,14 +115,23 @@ describe('Pre-need applicant information', () => {
   });
 
   it('should reveal info message', () => {
+    const initialState = {
+      form: {
+        data: { application: { claimant: { dateOfBirth: '1990-01-01' } } },
+      },
+    };
+    const store = mockStore(initialState);
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+        ,
+      </Provider>,
     );
 
     expect(form.find('va-alert').exists()).to.be.false;
