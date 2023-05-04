@@ -13,7 +13,12 @@ export default {
       'ui:title':
         'I agree to receive electronic correspondence from VA in regards to my claim.', // hidden via styling
       'ui:widget': 'checkbox', // Need this widget to support error messages
-      'ui:required': formData => !!formData.claimantEmail,
+      'ui:required': formData =>
+        !!formData.claimantEmail &&
+        !(
+          formData.claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY &&
+          formData.claimantType === CLAIMANT_TYPES.NON_VETERAN
+        ),
       'ui:errorMessages': {
         required: 'Please agree to receive electronic correspondence.',
       },

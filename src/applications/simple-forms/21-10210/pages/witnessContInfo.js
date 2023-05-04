@@ -11,7 +11,7 @@ export default {
       'ui:title':
         'I agree to receive electronic correspondence from VA in regards to my claim.', // hidden via styling
       'ui:widget': 'checkbox', // Need this widget to support error messages
-      'ui:required': formData => !!formData.claimantEmail,
+      'ui:required': formData => !!formData.witnessEmail,
       'ui:errorMessages': {
         required: 'Please agree to receive electronic correspondence.',
       },
