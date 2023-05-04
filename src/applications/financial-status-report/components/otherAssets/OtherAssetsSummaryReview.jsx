@@ -9,16 +9,16 @@ const OtherAssetsSummaryReview = ({ data, title }) => {
   return (
     <div>
       <h4>{title}</h4>
-      {otherAssets.map((asset, index) => {
-        return (
-          <dl className="review" key={asset.name + asset.amount + index}>
-            <div className="review-row">
+      <dl className="review">
+        {otherAssets.map((asset, index) => {
+          return (
+            <div className="review-row" key={asset.name + asset.amount + index}>
               <dt>{asset.name}</dt>
               <dd>{currencyFormatter(asset.amount)}</dd>
             </div>
-          </dl>
-        );
-      })}
+          );
+        })}
+      </dl>
     </div>
   );
 };
