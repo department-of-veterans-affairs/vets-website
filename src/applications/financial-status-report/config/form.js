@@ -94,6 +94,9 @@ const formConfig = {
     reviewPageTitle: 'Review your request',
     submitButtonText: 'Submit your request',
   },
+  // when true, initial focus on page to H3s by default, and enable page
+  // scrollAndFocusTarget (selector string or function to scroll & focus)
+  useCustomScrollAndFocus: true,
   chapters: {
     veteranInformationChapter: {
       title: 'Veteran information',
