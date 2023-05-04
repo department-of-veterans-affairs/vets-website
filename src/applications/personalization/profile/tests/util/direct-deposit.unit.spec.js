@@ -30,7 +30,14 @@ describe('DirectDepositClient', () => {
       fields,
     );
 
-    expect(legacyOptions.body).to.equal(JSON.stringify(fields));
+    // IMPORTANT: The PPIU endpoint REQUIRES a financialInstitutionName field,
+    // it doesn't matter what the value is, but it must be present.
+    expect(legacyOptions.body).to.equal(
+      JSON.stringify({
+        ...fields,
+        financialInstitutionName: 'Hidden form field',
+      }),
+    );
 
     expect(lighthouseOptions.body).to.equal(
       JSON.stringify({
@@ -57,23 +64,26 @@ describe('DirectDepositClient', () => {
 
     expect(formattedResponse).to.deep.equal({
       paymentAccount: {
-        accountType: 'CHECKING',
+        accountType: 'Checking',
         accountNumber: '123456789',
         financialInstitutionRoutingNumber: '987654321',
-        routingNumber: '987654321',
         financialInstitutionName: 'Bank of America',
-        name: 'Bank of America',
       },
     });
   });
 
-  it('passes response back unformatted if keys do not exist', () => {
+  it('passes response back with undefined values if not present', () => {
     const response = {
-      test: true,
+      paymentAccount: {
+        financialInstitutionName: undefined,
+        financialInstitutionRoutingNumber: undefined,
+        accountNumber: undefined,
+        accountType: undefined,
+      },
     };
 
     const formattedResponse = lighthouseClient.formatDirectDepositResponseFromLighthouse(
-      response,
+      {},
     );
 
     expect(formattedResponse).to.deep.equal(response);

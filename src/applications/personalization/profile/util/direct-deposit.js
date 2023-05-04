@@ -1,5 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import set from 'lodash/set';
+import capitalize from 'lodash/capitalize';
 
 export class DirectDepositClient {
   #PPIU_ENDPOINT = '/ppiu/payment_information';
@@ -41,20 +42,15 @@ export class DirectDepositClient {
 
   formatDirectDepositResponseFromLighthouse = response => {
     const result = cloneDeep(response);
-    if (result?.paymentAccount?.name) {
-      set(
-        result,
-        'paymentAccount.financialInstitutionName',
-        result.paymentAccount.name,
-      );
-    }
-    if (result?.paymentAccount?.routingNumber) {
-      set(
-        result,
-        'paymentAccount.financialInstitutionRoutingNumber',
-        result.paymentAccount.routingNumber,
-      );
-    }
+    set(result, 'paymentAccount', {
+      financialInstitutionName: result?.paymentAccount?.name,
+      financialInstitutionRoutingNumber:
+        response?.paymentAccount?.routingNumber,
+      accountNumber: response?.paymentAccount?.accountNumber,
+      accountType:
+        capitalize(response?.paymentAccount?.accountType) || undefined,
+    });
+
     return result;
   };
 }
