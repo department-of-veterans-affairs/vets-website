@@ -220,12 +220,13 @@ const ComposeForm = props => {
     return messageValid;
   };
 
-  const saveDraftHandler = type => {
+  const saveDraftHandler = async type => {
     if (type === 'manual') {
       setUserSaved(true);
-      if (!checkMessageValidity()) {
-        setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE);
-        return;
+
+      await setMessageInvalid(false);
+      if (checkMessageValidity()) {
+        setNavigationError(null);
       }
       if (attachments.length) {
         setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT);
@@ -468,7 +469,7 @@ const ComposeForm = props => {
             data-testid="Save-Draft-Button"
             onClick={() => saveDraftHandler('manual')}
           />
-          <div className="vads-u-flex--1 vads-u-display--flex">
+          <div className="vads-u-flex--1">
             {draft && <DeleteDraft draft={draft} />}
           </div>
         </div>

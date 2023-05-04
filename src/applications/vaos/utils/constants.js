@@ -94,6 +94,7 @@ export const PURPOSE_TEXT_V2 = [
 
 export const PODIATRY_ID = 'tbd-podiatry';
 export const COVID_VACCINE_ID = 'covid';
+export const COMP_AND_PEN = 'COMPENSATION & PENSION';
 
 /**
  * @typedef TypeOfCare
@@ -425,6 +426,26 @@ export const SPACE_BAR = 32;
 
 export const ERROR_CODES = [
   {
+    code: 9002,
+    detail: 'Failure to fetch CC requests from HSRM',
+  },
+  {
+    code: 9003,
+    detail: 'Failure to fetch CC requests from HSRM',
+  },
+  {
+    code: 9006,
+    detail: 'Failure to fetch CC Appointments from HSRM',
+  },
+  {
+    code: 9007,
+    detail: 'Failure to fetch CC Appointments from HSRM',
+  },
+  {
+    code: 9008,
+    detail: 'Failure to fetch CC from HSRM - Generic Error',
+  },
+  {
     code: 10000,
     detail: 'Failure to fetch - Generic Error',
   },
@@ -435,5 +456,11 @@ export const ERROR_CODES = [
   {
     code: 10006,
     detail: 'Failure to fetch Requests',
+  },
+];
+export const SERVICE_CATEGORY = [
+  {
+    id: COMP_AND_PEN,
+    displayName: 'Compensation and pension exam',
   },
 ];

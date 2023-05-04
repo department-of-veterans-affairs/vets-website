@@ -84,7 +84,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
       </RoutedSavableApp>,
     );
 
-    expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
+    expect(tree.everySubTree('va-loading-indicator')).not.to.be.empty;
   });
   it('should route when prefill unfilled', () => {
     const formConfig = {

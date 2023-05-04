@@ -1,3 +1,5 @@
+import { parseISODate } from 'platform/forms-system/src/js/helpers';
+
 /** Replace "percent" with "%" - see va.gov-team/issues/34810
  * Include spacing in regexp so:
  *  "10 percent " => "10% "
@@ -45,3 +47,17 @@ export const replaceSubmittedData = text =>
     (resultingText, transformer) => transformer(resultingText),
     text || '',
   );
+
+/**
+ * Change a date string with no leading zeros (e.g. 2020-1-2) into a date with
+ * leading zeros (e.g. 2020-01-02) as expected in the schema
+ * @param {String} dateString YYYY-M-D or YYYY-MM-DD date string
+ * @returns {String} YYYY-MM-DD date string
+ */
+export const fixDateFormat = (dateString = '') => {
+  if (dateString.length === 10) {
+    return dateString;
+  }
+  const { day, month, year } = parseISODate(dateString);
+  return `${year}-${month.padStart(2, '0')}-${(day || '').padStart(2, '0')}`;
+};

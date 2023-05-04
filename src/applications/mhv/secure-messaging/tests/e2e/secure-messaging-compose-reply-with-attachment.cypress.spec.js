@@ -13,7 +13,7 @@ describe('Compose message With Attacments and Errors', () => {
     cy.injectAxe();
     cy.axeCheck();
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    cy.get('[name="COVID"]').click();
+    composePage.getCategory('COVID').click();
     composePage.attachMessageFromFile('test_video.mp4');
     composePage.verifyAttachmentErrorMessage(
       "We can't attach this file type. Try attaching a DOC, JPG, PDF, PNG, RTF, TXT, or XLS.",
@@ -50,5 +50,7 @@ describe('Compose message With Attacments and Errors', () => {
     composePage.getMessageSubjectField().type('Test Subject');
     composePage.getMessageBodyField().type('Test message body');
     composePage.sendMessage();
+    composePage.verifySendMessageConfirmationMessage();
+    composePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

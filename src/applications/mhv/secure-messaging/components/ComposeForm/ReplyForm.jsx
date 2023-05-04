@@ -20,7 +20,7 @@ import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
 
 const ReplyForm = props => {
-  const { draftToEdit, replyMessage, cannotReplyAlert } = props;
+  const { draftToEdit, replyMessage, cannotReply } = props;
   const dispatch = useDispatch();
 
   const defaultRecipientsList = [{ id: 0, name: ' ' }];
@@ -43,10 +43,19 @@ const ReplyForm = props => {
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
   const [messageInvalid, setMessageInvalid] = useState(false);
+  const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
 
-  const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
+  const draftDetails = useSelector(state => state.sm.draftDetails);
+  const { isSaving } = draftDetails;
+
+  // sendReply call requires an id for the message being replied to
+  // if a thread contains a saved draft, sendReply call will use the draft's id in params and in body
+  // otherwise it will be an id of a message being replied to
+  const replyToMessageId = draftDetails.replyToMessageId
+    ? draftDetails.replyToMessageId
+    : replyMessage.messageId;
   const history = useHistory();
-  let draft;
+  const [draft, setDraft] = useState(null);
 
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
@@ -61,6 +70,9 @@ const ReplyForm = props => {
         setSubject(replyMessage.subject);
         setMessageBody('');
         setCategory(replyMessage.category);
+      }
+      if (draftToEdit) {
+        setDraft(draftToEdit);
       }
     },
     [replyMessage, draftToEdit],
@@ -91,34 +103,46 @@ const ReplyForm = props => {
           category,
           body: messageBody,
           subject,
-          draftId: draft?.messageId,
         };
+        if (draft && replyToMessageId) {
+          messageData[`${'draft_id'}`] = replyToMessageId; // if replying to a thread that has a saved draft, set a draft_id field in a request body
+        }
         messageData[`${'recipient_id'}`] = selectedRecipient;
+        setIsAutosave(false);
         if (attachments.length) {
           const sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendReply(replyMessage.messageId, sendData, true)).then(
-            () => {
+
+          dispatch(sendReply(replyToMessageId, sendData, true))
+            .then(() => {
               navigateToFolderByFolderId(
-                draftToEdit.threadFolderId || replyMessage.folderId,
+                draftToEdit?.threadFolderId
+                  ? draftToEdit?.threadFolderId
+                  : replyMessage.folderId,
                 history,
               );
-            },
-          );
+            })
+            .catch(() => {
+              setSendMessageFlag(false);
+              setIsAutosave(true);
+            });
         } else {
           dispatch(
-            sendReply(
-              replyMessage.messageId,
-              JSON.stringify(messageData),
-              false,
-            ),
-          ).then(() => {
-            navigateToFolderByFolderId(
-              draftToEdit.threadFolderId || replyMessage.folderId,
-              history,
-            );
-          });
+            sendReply(replyToMessageId, JSON.stringify(messageData), false),
+          )
+            .then(() => {
+              navigateToFolderByFolderId(
+                draftToEdit?.threadFolderId
+                  ? draftToEdit?.threadFolderId
+                  : replyMessage.folderId,
+                history,
+              );
+            })
+            .catch(() => {
+              setSendMessageFlag(false);
+              setIsAutosave(true);
+            });
         }
       }
     },
@@ -158,10 +182,14 @@ const ReplyForm = props => {
     );
   };
 
-  if (draftToEdit && !formPopulated) {
-    draft = draftToEdit;
-    populateForm();
-  }
+  useEffect(
+    () => {
+      if (draft && !formPopulated) {
+        populateForm();
+      }
+    },
+    [draft],
+  );
 
   const setMessageTitle = () => {
     const casedCategory =
@@ -196,12 +224,13 @@ const ReplyForm = props => {
     }
   };
 
-  const saveDraftHandler = type => {
+  const saveDraftHandler = async type => {
     if (type === 'manual') {
       setUserSaved(true);
-      if (!checkMessageValidity()) {
-        setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE);
-        return;
+
+      await setMessageInvalid(false);
+      if (checkMessageValidity()) {
+        setNavigationError(null);
       }
       if (attachments.length) {
         setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT);
@@ -233,7 +262,7 @@ const ReplyForm = props => {
     if (!draftId) {
       dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
         newDraft => {
-          draft = newDraft;
+          setDraft(newDraft);
           setNewDraftId(newDraft.messageId);
         },
       );
@@ -249,7 +278,8 @@ const ReplyForm = props => {
         selectedRecipient &&
         category &&
         debouncedSubject &&
-        debouncedMessageBody
+        debouncedMessageBody &&
+        isAutosave
       ) {
         saveDraftHandler('auto');
       }
@@ -281,7 +311,7 @@ const ReplyForm = props => {
       <>
         <h1 className="page-title">{setMessageTitle()}</h1>
 
-        <div role="heading" aria-level="2">
+        <section aria-label="Reply draft edit mode">
           <form
             className="reply-form"
             data-testid="reply-form"
@@ -325,7 +355,7 @@ const ReplyForm = props => {
                   aria-hidden="true"
                 />
                 <span className="vads-u-color--secondary-darkest">(Draft)</span>
-                {` To:${draftToEdit?.replyToName ||
+                {` To: ${draftToEdit?.replyToName ||
                   replyMessage?.senderName}\n(Team: ${
                   replyMessage.triageGroupName
                 })`}
@@ -357,7 +387,7 @@ const ReplyForm = props => {
                 />
               </section>
               <div className="compose-form-actions vads-u-display--flex">
-                {!cannotReplyAlert && (
+                {!cannotReply && (
                   <button
                     type="button"
                     className="vads-u-flex--1"
@@ -390,12 +420,13 @@ const ReplyForm = props => {
               </p>
             </div>
           </form>
-        </div>
-        <main
+        </section>
+        <section
+          aria-label="Message you are replying to"
           className="vads-u-margin--0 message-replied-to"
           data-testid="message-replied-to"
         >
-          <section aria-label="message details.">
+          <div aria-label="message details.">
             <p className="vads-u-margin--0">
               <strong>From: </strong>
               {replyMessage.senderName}
@@ -412,7 +443,7 @@ const ReplyForm = props => {
               <strong>Message ID: </strong>
               {replyMessage.messageId}
             </p>
-          </section>
+          </div>
 
           <section aria-label="Message body." className="vads-u-margin-top--1">
             <MessageThreadBody text={replyMessage.body} />
@@ -430,7 +461,7 @@ const ReplyForm = props => {
                 />
               </>
             )}
-        </main>
+        </section>
       </>
     );
   }
@@ -438,7 +469,7 @@ const ReplyForm = props => {
 };
 
 ReplyForm.propTypes = {
-  cannotReplyAlert: PropTypes.bool,
+  cannotReply: PropTypes.bool,
   draftToEdit: PropTypes.object,
   recipients: PropTypes.array,
   replyMessage: PropTypes.object,

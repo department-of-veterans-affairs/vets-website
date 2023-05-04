@@ -7,6 +7,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import RadiologyDetails from '../components/LabsAndTests/RadiologyDetails';
 import MicroDetails from '../components/LabsAndTests/MicroDetails';
 import PathologyDetails from '../components/LabsAndTests/PathologyDetails';
+import ChemHemDetails from '../components/LabsAndTests/ChemHemDetails';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
@@ -51,7 +52,9 @@ const LabAndTestDetails = () => {
   if (labAndTestDetails?.name) {
     switch (labAndTestDetails?.category.toLowerCase()) {
       case 'chemistry and hematology':
-        return <p>chem and hem</p>;
+        return (
+          <ChemHemDetails results={labAndTestDetails} fullState={fullState} />
+        );
       case 'radiology':
         return (
           <RadiologyDetails results={labAndTestDetails} fullState={fullState} />

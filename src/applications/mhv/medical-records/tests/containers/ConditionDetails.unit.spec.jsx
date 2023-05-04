@@ -54,7 +54,7 @@ describe('Condition details container', () => {
       initialState.mr.conditions.conditionDetails.name.split(' (')[0],
       {
         exact: true,
-        selector: 'span',
+        selector: 'h1',
       },
     );
     expect(conditionName).to.exist;

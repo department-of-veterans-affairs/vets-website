@@ -47,11 +47,16 @@ export const transform = (formConfig, form) => {
         spouse: { spEmploymentRecords = [] },
       },
     },
-    expenses,
-    otherExpenses,
+    expenses: {
+      creditCardBills = [],
+      expenseRecords = [],
+      food = 0,
+      rentOrMortgage = 0,
+    },
+    otherExpenses = [],
     utilityRecords,
     assets,
-    installmentContracts,
+    installmentContracts = [],
     additionalData,
     selectedDebts,
     selectedDebtsAndCopays = [],
@@ -131,12 +136,40 @@ export const transform = (formConfig, form) => {
   const spOtherIncome = spAddlInc + spBenefits + spSocialSecAmt;
   const spNetIncome = spGrossSalary - spTotDeductions;
 
+  // === expenses ===
+  // rent & mortgage expenses for box 18
+  const rentOrMortgageExpenses = expenseRecords.filter(
+    expense => expense.name === 'Rent' || expense.name === 'Mortgage payment',
+  ) || { amount: 0 };
+
+  // food expenses for box 19
+  const foodExpenses = otherExpenses?.find(expense =>
+    expense.name.includes('Food'),
+  ) || { amount: 0 };
+
+  // other living expenses box 21
+  // Including options from expoenseRecords (living expenses) w/o rent & mortgage
+  const filteredExpenses = [
+    ...otherExpenses?.filter(
+      expense => !expense.name.toLowerCase().includes('food'),
+    ),
+    ...expenseRecords.filter(
+      expense => expense.name !== 'Rent' && expense.name !== 'Mortgage payment',
+    ),
+  ];
+
+  const installmentContractsAndCreditCards = [
+    ...installmentContracts,
+    ...creditCardBills,
+  ];
+
   // generate name strings
   const vetOtherName = nameStr(vetSocSecAmt, vetComp, vetEdu, addlIncRecords);
   const spOtherName = nameStr(spSocialSecAmt, spComp, spEdu, spAddlIncome);
   const vetOtherDeductionsName = otherDeductionsName(vetDeductions, allFilters);
   const spOtherDeductionsName = otherDeductionsName(spDeductions, allFilters);
 
+  // get monthly totals
   const totMonthlyNetIncome = getMonthlyIncome(form.data);
   const totMonthlyExpenses = getMonthlyExpenses(form.data);
   const employmentHistory = getEmploymentHistory(form.data);
@@ -262,17 +295,23 @@ export const transform = (formConfig, form) => {
       },
     ],
     expenses: {
-      rentOrMortgage: expenses.rentOrMortgage,
-      food: expenses.food,
+      rentOrMortgage: enhancedFSRActive
+        ? sumValues(rentOrMortgageExpenses, 'amount')
+        : rentOrMortgage,
+      food: enhancedFSRActive ? foodExpenses?.amount : food,
       utilities: enhancedFSRActive
         ? sumValues(utilityRecords, 'amount')
         : sumValues(utilityRecords, 'monthlyUtilityAmount'),
       otherLivingExpenses: {
-        name: otherExpenses?.map(expense => expense.name).join(', '),
-        amount: sumValues(otherExpenses, 'amount'),
+        name: enhancedFSRActive
+          ? filteredExpenses?.map(expense => expense.name).join(', ')
+          : otherExpenses?.map(expense => expense.name).join(', '),
+        amount: enhancedFSRActive
+          ? sumValues(filteredExpenses, 'amount')
+          : sumValues(otherExpenses, 'amount'),
       },
       expensesInstallmentContractsAndOtherDebts: sumValues(
-        installmentContracts,
+        installmentContractsAndCreditCards,
         'amountDueMonthly',
       ),
       totalMonthlyExpenses: totMonthlyExpenses,
@@ -300,28 +339,38 @@ export const transform = (formConfig, form) => {
       otherAssets: assets.otherAssets,
       totalAssets,
     },
-    installmentContractsAndOtherDebts: installmentContracts?.map(debt => ({
-      ...debt,
-      dateStarted: dateFormatter(debt.dateStarted),
-      creditorAddress: {
-        addresslineOne: '',
-        addresslineTwo: '',
-        addresslineThree: '',
-        city: '',
-        stateOrProvince: '',
-        zipOrPostalCode: '',
-        countryName: '',
-      },
-    })),
+    installmentContractsAndOtherDebts: installmentContractsAndCreditCards?.map(
+      debt => ({
+        ...debt,
+        dateStarted: dateFormatter(debt.dateStarted),
+        creditorAddress: {
+          addresslineOne: '',
+          addresslineTwo: '',
+          addresslineThree: '',
+          city: '',
+          stateOrProvince: '',
+          zipOrPostalCode: '',
+          countryName: '',
+        },
+      }),
+    ),
     totalOfInstallmentContractsAndOtherDebts: {
-      originalAmount: enhancedFSRActive
-        ? sumValues(installmentContracts, 'originalLoanAmount')
-        : sumValues(installmentContracts, 'originalAmount'),
-      unpaidBalance: sumValues(installmentContracts, 'unpaidBalance'),
-      amountDueMonthly: sumValues(installmentContracts, 'amountDueMonthly'),
-      amountPastDue: enhancedFSRActive
-        ? sumValues(installmentContracts, 'amountOverdue')
-        : sumValues(installmentContracts, 'amountPastDue'),
+      originalAmount: sumValues(
+        installmentContractsAndCreditCards,
+        'originalAmount',
+      ),
+      unpaidBalance: sumValues(
+        installmentContractsAndCreditCards,
+        'unpaidBalance',
+      ),
+      amountDueMonthly: sumValues(
+        installmentContractsAndCreditCards,
+        'amountDueMonthly',
+      ),
+      amountPastDue: sumValues(
+        installmentContractsAndCreditCards,
+        'amountPastDue',
+      ),
     },
     additionalData: {
       bankruptcy: {
@@ -332,7 +381,7 @@ export const transform = (formConfig, form) => {
       },
       additionalComments: mergeAdditionalComments(
         additionalData.additionalComments,
-        otherExpenses,
+        enhancedFSRActive ? filteredExpenses : otherExpenses,
       ),
     },
     applicantCertifications: {

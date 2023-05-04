@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
@@ -69,8 +68,8 @@ export class IntroductionPage extends React.Component {
           Follow these steps to request a Board Appeal
         </h2>
         <div className="process schemaform-process">
-          <ol>
-            <li className="process-step list-one">
+          <va-process-list>
+            <li>
               <h3 className="vads-u-font-size--h4">
                 Check to be sure you can request a Board Appeal
               </h3>
@@ -87,7 +86,7 @@ export class IntroductionPage extends React.Component {
                 for this same claim.
               </p>
             </li>
-            <li className="process-step list-two">
+            <li>
               <h3 className="vads-u-font-size--h4">Gather your information</h3>
               <p>Here’s what you’ll need to apply:</p>
               <ul>
@@ -99,7 +98,7 @@ export class IntroductionPage extends React.Component {
                 </li>
               </ul>
             </li>
-            <li className="process-step list-three">
+            <li>
               <h3 className="vads-u-font-size--h4">Start your request</h3>
               <p>
                 We’ll take you through each step of the process. It should take
@@ -120,7 +119,7 @@ export class IntroductionPage extends React.Component {
                 </p>
               </va-additional-info>
             </li>
-          </ol>
+          </va-process-list>
         </div>
         {showVerifyLink ? (
           <NeedsToVerify pathname={pathname} />
@@ -141,7 +140,11 @@ export class IntroductionPage extends React.Component {
         </p>
         <a href={GET_HELP_REQUEST_URL}>Get help requesting a Board Appeal</a>
         <div className="omb-info--container vads-u-padding-left--0 vads-u-margin-top--4">
-          <OMBInfo resBurden={30} ombNumber="2900-0674" expDate="2/28/2022" />
+          <va-omb-info
+            res-burden={30}
+            omb-number="2900-0674"
+            exp-date="2/28/2022"
+          />
         </div>
       </div>
     );
