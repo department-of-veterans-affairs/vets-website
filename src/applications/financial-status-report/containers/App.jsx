@@ -77,18 +77,19 @@ const App = ({
     () => {
       if (isLoggedIn && showEnhancedFSR) {
         const { personalData = {} } = formData || {};
-        const { veteranContactInfo = {} } = personalData;
+        const { veteranContactInformation = {} } = personalData;
         if (
-          email?.emailAddress !== veteranContactInfo.email ||
+          email?.emailAddress !== veteranContactInformation.email ||
           mobilePhone?.updatedAt !==
-            veteranContactInfo.mobilePhone?.updatedAt ||
-          mailingAddress?.updatedAt !== veteranContactInfo.address?.updatedAt
+            veteranContactInformation.mobilePhone?.updatedAt ||
+          mailingAddress?.updatedAt !==
+            veteranContactInformation.address?.updatedAt
         ) {
           setFormData({
             ...formData,
             personalData: {
               ...personalData,
-              veteranContactInfo: {
+              veteranContactInformation: {
                 email: email?.emailAddress,
                 mobilePhone,
                 address: mailingAddress,

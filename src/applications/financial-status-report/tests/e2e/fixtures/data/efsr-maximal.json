@@ -278,7 +278,7 @@
     "emailAddress": "test2@test1.net",
     "veteranContactInformation": {
         "email": "test@user.com",
-        "mailingAddress": {
+        "address": {
             "addressLine1": "1200 Park Ave",
             "addressLine2": "c/o Pixar",
             "addressLine3": null,

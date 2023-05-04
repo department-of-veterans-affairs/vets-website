@@ -40,7 +40,7 @@ const ContactInfo = ({
   const [editState] = useState(getReturnState());
 
   const { email = '', mobilePhone = {}, address = {} } =
-    data?.personalData?.veteranContactInfo || {};
+    data?.personalData?.veteranContactInformation || {};
 
   const missingInfo = [
     mobilePhone?.phoneNumber ? '' : content.homeOrMobile,
@@ -257,7 +257,7 @@ ContactInfo.propTypes = {
   contentBeforeButtons: PropTypes.element,
   data: PropTypes.shape({
     personalData: PropTypes.shape({
-      veteranContactInfo: PropTypes.shape({
+      veteranContactInformation: PropTypes.shape({
         mobilePhone: PropTypes.shape({
           countryCode: PropTypes.string,
           areaCode: PropTypes.string,

@@ -39,7 +39,7 @@ export const transform = (formConfig, form) => {
         state,
         postalCode,
         country,
-      },
+      } = {},
       telephoneNumber,
       dateOfBirth,
       dependents,
@@ -47,7 +47,7 @@ export const transform = (formConfig, form) => {
         veteran: { employmentRecords = [] },
         spouse: { spEmploymentRecords = [] },
       },
-      veteranContactInfo: { address = {}, mobilePhone = {} },
+      veteranContactInformation: { address = {}, mobilePhone = {} } = {},
     },
     expenses: {
       creditCardBills = [],

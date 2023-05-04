@@ -21,7 +21,7 @@ const contactInformation = {
       personalData: {
         type: 'object',
         properties: {
-          veteranContactInfo: {
+          veteranContactInformation: {
             type: 'object',
             properties: {
               address: {

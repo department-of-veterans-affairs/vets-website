@@ -26,10 +26,10 @@ const ContactInfoReview = ({ data, editPage }) => {
     [editRef],
   );
 
-  const { veteranContactInfo } = data.personalData;
+  const { veteranContactInformation } = data.personalData;
 
   const { email = '', mobilePhone = {}, address = {} } =
-    veteranContactInfo || {};
+    veteranContactInformation || {};
   const isUS = address.addressType !== ADDRESS_TYPES.international;
   const stateOrProvince = isUS ? 'state' : 'province';
 
@@ -95,7 +95,7 @@ const ContactInfoReview = ({ data, editPage }) => {
 ContactInfoReview.propTypes = {
   data: PropTypes.shape({
     personalData: PropTypes.shape({
-      veteranContactInfo: PropTypes.shape({
+      veteranContactInformation: PropTypes.shape({
         mobilePhone: PropTypes.shape({
           countryCode: PropTypes.string,
           areaCode: PropTypes.string,
