@@ -77,7 +77,7 @@ function setupJSDom() {
     };
     console.warn = () => {};
   } else if (process.env.LOG_LEVEL === 'log') {
-    // console.error = () => {};
+    console.error = () => {};
     console.warn = () => {};
   }
   /* eslint-enable no-console */
