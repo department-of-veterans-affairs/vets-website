@@ -58,6 +58,10 @@ const testConfig = createTestConfig(
                   : `${fullName.first} ${fullName.last}`,
               );
             cy.get(`input[name="veteran-certify"]`).check();
+            // cy.get('#veteran-certify')
+            //   .shadow()
+            //   .find('[type="checkbox"]')
+            //   .check();
             cy.findAllByText(/Submit application/i, {
               selector: 'button',
             }).click();
