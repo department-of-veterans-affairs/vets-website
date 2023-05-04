@@ -152,10 +152,8 @@ export const retrieveMessageThread = (
   if (!refresh) {
     dispatch(clearMessage());
   }
-  const response = await getMessageThread(messageId);
-  if (response.errors) {
-    // TODO Add error handling
-  } else {
+  try {
+    const response = await getMessageThread(messageId);
     const msgResponse = await getMessage(response.data[0].attributes.messageId);
     if (!msgResponse.errors) {
       // finding last sent message in a thread to check if it is not too old for replies
@@ -198,6 +196,13 @@ export const retrieveMessageThread = (
         response: { data: response.data.slice(1, response.data.length) },
       });
     }
+  } catch (e) {
+    const errorMessage =
+      e.errors[0].status === '404'
+        ? Constants.Alerts.Thread.THREAD_NOT_FOUND_ERROR
+        : e.errors[0]?.detail;
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', errorMessage));
+    throw e;
   }
 };
 

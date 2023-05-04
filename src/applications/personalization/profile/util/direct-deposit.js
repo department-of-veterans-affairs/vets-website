@@ -15,6 +15,11 @@ export class DirectDepositClient {
   }
 
   generateApiRequestOptions(fields) {
+    // The PPIU endpoint REQUIRES a financialInstitutionName field, but the
+    // Lighthouse endpoint does not. We set a dummy value here to avoid
+    // validation errors aka 500s from vets-api
+    set(fields, 'financialInstitutionName', 'Hidden form field');
+
     const options = {
       headers: {
         'Content-Type': 'application/json',

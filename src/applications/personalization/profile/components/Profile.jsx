@@ -151,11 +151,8 @@ class Profile extends Component {
           dismissDowntimeWarning={this.props.dismissDowntimeWarning}
           initializeDowntimeWarnings={this.props.initializeDowntimeWarnings}
           messaging={{
-            title: (
-              <h3>
-                Some parts of the profile will be down for maintenance soon
-              </h3>
-            ),
+            title:
+              'Some parts of the profile will be down for maintenance soon',
           }}
           // default for className prop is `row-padded` and we do not want that
           // class applied to the wrapper div DowntimeApproaching renders
