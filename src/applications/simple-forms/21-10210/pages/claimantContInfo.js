@@ -1,4 +1,6 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
+
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
 
 export default {
@@ -6,9 +8,7 @@ export default {
     claimantPhone: {
       'ui:title': 'Phone number',
     },
-    claimantEmail: {
-      'ui:title': 'Email address',
-    },
+    claimantEmail: emailUI(),
     claimantEmailConsent: {
       'ui:title':
         'I agree to receive electronic correspondence from VA in regards to my claim.', // hidden via styling

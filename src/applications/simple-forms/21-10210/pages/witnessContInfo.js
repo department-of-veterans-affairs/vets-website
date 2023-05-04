@@ -1,13 +1,12 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 export default {
   uiSchema: {
     witnessPhone: {
       'ui:title': 'Phone number',
     },
-    witnessEmail: {
-      'ui:title': 'Email address',
-    },
+    witnessEmail: emailUI(),
     witnessEmailConsent: {
       'ui:title':
         'I agree to receive electronic correspondence from VA in regards to my claim.', // hidden via styling

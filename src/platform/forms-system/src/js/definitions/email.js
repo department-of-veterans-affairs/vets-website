@@ -7,8 +7,7 @@ export default function uiSchema(title = 'Email address') {
   return {
     'ui:title': title,
     'ui:errorMessages': {
-      pattern:
-        'Please enter an email address using the format email@domain.com',
+      format: 'Please enter an email address using the format email@domain.com',
       required: 'Please enter an email address',
     },
     'ui:autocomplete': 'email',
