@@ -22,12 +22,17 @@ const AdmissionAndDischargeDetails = props => {
           <h1 className="vads-u-margin-bottom--0">{results.name}</h1>
           <div className="time-header">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Date:{' '}
+              Dates:{' '}
             </h2>
             <p>
               {admissionDate} to {dischargeDate}
             </p>
           </div>
+
+          <p className="vads-u-margin-bottom--0">
+            Review a summary of your stay at a hospital or other health facility
+            (called an admission and discharge summary).
+          </p>
 
           <div className="no-print">
             <div className="vads-u-display--flex vads-u-padding-y--3 vads-u-margin-y--0">
@@ -86,7 +91,7 @@ const AdmissionAndDischargeDetails = props => {
             </h3>
             <p>{results.admittingPhysician}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Discharge by
+              Discharged by
             </h3>
             <p>{results.dischargePhysician}</p>
           </div>
