@@ -98,7 +98,7 @@ const ResourcesAndSupportSearchApp = () => {
       <div className="usa-content vads-u-margin-bottom--0 medium-screen:vads-u-margin-bottom--3">
         {errorMessage && (
           <va-alert status="error">
-            <h3 slot="headline">"Something went wrong"</h3>
+            <h3 slot="headline">Something went wrong</h3>
             {errorMessage}
           </va-alert>
         )}

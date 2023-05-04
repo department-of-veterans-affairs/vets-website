@@ -111,7 +111,7 @@ export class CernerCallToAction extends Component {
       return (
         <div data-testid="cerner-cta-widget">
           <va-alert status="error">
-            <h3 slot="headline">"Something went wrong"</h3>
+            <h3 slot="headline">Something went wrong</h3>
             <p className="vads-u-margin-y--0">
               We’re sorry. Something went wrong on our end. Please try again
               later.

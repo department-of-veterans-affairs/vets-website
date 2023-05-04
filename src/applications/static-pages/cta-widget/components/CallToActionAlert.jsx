@@ -16,7 +16,6 @@ export default function CallToActionAlert({
     status === 'continue' ? 'va-button-primary' : 'usa-button-primary';
   const CustomHeaderLevel = `h${headerLevel}`;
   return (
-    // TODO fix this
     <va-alert visible status={status}>
       <CustomHeaderLevel slot="headline">{heading}</CustomHeaderLevel>
       <div>
