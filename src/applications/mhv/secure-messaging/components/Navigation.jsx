@@ -139,7 +139,7 @@ const Navigation = () => {
               />
             </div>
           )}
-          <div id="a1" className="sidebar-navigation-list" aria-hidden="false">
+          <div id="a1" className="sidebar-navigation-list">
             <ul className="usa-sidenav-list">
               <li className="sidebar-navigation-messages-list">
                 <div className="sidebar-navigation-messages-list-header">

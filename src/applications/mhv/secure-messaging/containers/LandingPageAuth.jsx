@@ -61,7 +61,7 @@ const LandingPageAuth = () => {
   });
 
   return (
-    <div className="messages-dashboard">
+    <div className="dashboard">
       <h1>Messages</h1>
       <p className="va-introtext">
         Communicate privately and securely with your VA health care team online.

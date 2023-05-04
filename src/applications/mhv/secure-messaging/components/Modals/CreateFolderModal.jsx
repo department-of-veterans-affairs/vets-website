@@ -22,13 +22,6 @@ const CreateFolderModal = props => {
     [nameWarning],
   );
 
-  useEffect(
-    () => {
-      focusElement(folderNameInput.current.shadowRoot.querySelector('input'));
-    },
-    [isModalVisible],
-  );
-
   const closeNewModal = () => {
     setFolderName('');
     setNameWarning('');

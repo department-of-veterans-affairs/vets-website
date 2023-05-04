@@ -65,13 +65,6 @@ const ManageFolderButtons = () => {
 
   useEffect(
     () => {
-      focusElement(folderNameInput.current.shadowRoot.querySelector('input'));
-    },
-    [renameModal],
-  );
-
-  useEffect(
-    () => {
       if (deleteModal) {
         focusElement(removeButton.current);
       }
@@ -114,10 +107,11 @@ const ManageFolderButtons = () => {
     setRenameModal(true);
   };
 
-  const closeRenameModal = () => {
+  const closeRenameModal = async () => {
     setFolderName('');
     setNameWarning('');
-    setRenameModal(false);
+    await setRenameModal(false);
+    focusElement(renameModalReference.current);
   };
 
   const confirmRenameFolder = async () => {

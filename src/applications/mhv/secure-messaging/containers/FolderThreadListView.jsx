@@ -79,11 +79,11 @@ const FolderThreadListView = props => {
 
   useEffect(
     () => {
-      if (threads !== undefined) {
+      if (folder !== undefined) {
         focusElement(document.querySelector('h1'));
       }
     },
-    [threads],
+    [folder],
   );
 
   useEffect(
