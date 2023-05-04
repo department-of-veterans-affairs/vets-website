@@ -1,7 +1,7 @@
 /**
  * @file Generic types for the form system
  *
- * Used for intellesense (autocompletion)
+ * Used for intellisense (autocompletion)
  */
 
 // Example 1:
