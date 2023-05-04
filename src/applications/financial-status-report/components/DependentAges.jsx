@@ -179,7 +179,7 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
         {isReviewMode &&
           !isEditing && (
             <ReviewControl
-              readOnly
+              // readOnly
               position="header"
               isEditing={false}
               onEditClick={toggleEditing}
@@ -196,7 +196,7 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
       {dependentAgeInputs}
       {isReviewMode && isEditing ? (
         <ReviewControl
-          readOnly
+          // readOnly
           position="footer"
           isEditing
           type="submit"

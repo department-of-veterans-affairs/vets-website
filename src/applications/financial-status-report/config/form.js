@@ -658,7 +658,7 @@ const formConfig = {
           path: 'dependent-ages',
           title: 'Dependents',
           uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          schema: pages.dependentRecords.schemaEnhanced,
           depends: formData =>
             formData['view:enhancedFinancialStatusReport'] &&
             formData.questions?.hasDependents,
