@@ -34,7 +34,7 @@ export const uiSchemaEnhanced = {
   'ui:title': 'Your dependents',
   questions: {
     'ui:options': {
-      hideOnReview: false, // change this to true to hide this question on review page
+      hideOnReview: true, // change this to true to hide this question on review page
     },
     hasDependents: {
       'ui:title':

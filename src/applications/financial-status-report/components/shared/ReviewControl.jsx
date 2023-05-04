@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
  * @param {Function} [onUpdateClick] - Optional. Callback function for the "Update" button click (used when position is 'footer').
  * @param {String} [ariaLabel] - Optional. ARIA label for the button.
  * @param {String} [buttonText] - Optional. Text for the button.
+ * @param {Boolean} [readOnly] - Optional. Whether the component is in read-only mode.
  * @return {React Component}
  */
 const ReviewControl = ({
@@ -23,6 +24,7 @@ const ReviewControl = ({
   onUpdateClick,
   ariaLabel,
   buttonText,
+  readOnly = false,
 }) => {
   // Determine whether to render the button and its type based on the position and editing state
   const renderButton =
@@ -38,7 +40,7 @@ const ReviewControl = ({
               {title}
             </h4>
           )}
-          {buttonText && (
+          {!readOnly && (
             <button
               type={position === 'footer' ? 'submit' : 'button'}
               className={`edit-btn ${
@@ -46,6 +48,7 @@ const ReviewControl = ({
               }`}
               onClick={position === 'header' ? onEditClick : onUpdateClick}
               aria-label={ariaLabel}
+              readOnly={readOnly}
             >
               {buttonText}
             </button>
@@ -60,6 +63,7 @@ ReviewControl.propTypes = {
   isEditing: PropTypes.bool.isRequired, // Whether the component is in editing mode
   position: PropTypes.oneOf(['header', 'footer']).isRequired, // Position of the control bar, either "header" or "footer"
   buttonText: PropTypes.string, // Text for the button
+  readOnly: PropTypes.bool, // Whether the component is in read only mode
   title: PropTypes.string, // Optional title for the header
   onEditClick: PropTypes.func, // Callback function for the "Edit" button click (optional if used as footer)
   onUpdateClick: PropTypes.func, // Callback function for the "Update" button click (optional if used as header)

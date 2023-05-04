@@ -179,11 +179,12 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
         {isReviewMode &&
           !isEditing && (
             <ReviewControl
+              readOnly
               position="header"
               isEditing={false}
               onEditClick={toggleEditing}
-              buttonText="Edit"
               ariaLabel={`Edit ${DEPENDENT_AGE_LABELS[1]}`}
+              buttonText="Edit"
             />
           )}
       </div>
@@ -195,6 +196,7 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
       {dependentAgeInputs}
       {isReviewMode && isEditing ? (
         <ReviewControl
+          readOnly
           position="footer"
           isEditing
           type="submit"
@@ -225,7 +227,6 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
 };
 
 DependentAges.propTypes = {
-  formData: PropTypes.object.isRequired,
   goToPath: PropTypes.func.isRequired,
   isReviewMode: PropTypes.bool.isRequired,
 };
