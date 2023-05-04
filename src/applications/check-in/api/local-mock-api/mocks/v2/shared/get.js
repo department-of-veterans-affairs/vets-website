@@ -7,7 +7,7 @@ const {
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
 const isoDateWithOffsetFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx";
 
-// check in UUIDSå
+// check in UUIDS
 const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
 const aboutToExpireUUID = '25165847-2c16-4c8b-8790-5de37a7f427f';
 const pacificTimezoneUUID = '6c72b801-74ac-47fe-82af-cfe59744b45f';
