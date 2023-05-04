@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -84,12 +84,31 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      if (!errors.some(error => error !== null)) {
-        if (isReviewMode) {
-          setIsEditing(false);
-        } else {
-          goToPath('/monetary-asset-checklist');
+      const hasEmptyInput = stateDependents.some(
+        dependent => dependent.dependentAge === '',
+      );
+
+      if (hasEmptyInput) {
+        const newErrors = stateDependents.map(
+          (dependent, i) =>
+            dependent.dependentAge === ''
+              ? 'Please enter your dependent(s) age.'
+              : errors[i],
+        );
+        setErrors(newErrors);
+
+        // Check if there are no errors after updating newErrors
+        if (!newErrors.some(error => error !== null)) {
+          if (isReviewMode) {
+            setIsEditing(false);
+          } else {
+            goToPath('/monetary-asset-checklist');
+          }
         }
+      } else if (isReviewMode) {
+        setIsEditing(false);
+      } else {
+        goToPath('/monetary-asset-checklist');
       }
     },
     onCancel: event => {
@@ -120,47 +139,48 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
   };
 
   // Determine whether to render inputs or plain text based on mode
-  const dependentAgeInputs = useMemo(
-    () =>
-      stateDependents.map((dependent, i) => (
-        <div key={`dependentAge-${i}`} className="vads-u-margin-bottom--1">
-          {isEditing ? (
-            <VaNumberInput
-              id={`dependentAge-${i}`}
-              label={DEPENDENT_AGE_LABELS[i + 1]}
-              name={`dependentAge-${i}`}
-              onInput={({ target }) => updateDependents(target, i)}
-              value={dependent.dependentAge}
-              className="no-wrap input-size-1"
-              onBlur={event => handleBlur(event, i)}
-              error={errors[i]}
-              required
-            />
-          ) : (
-            <>
-              <dl
-                className={`review vads-u-border-bottom--1 ${
-                  isEditing ? 'vads-u-border--0' : ''
-                }`}
-                key={`dependentAge-${i}`}
-              >
-                <div
-                  className={`review-row ${
-                    isEditing ? 'vads-u-padding--0' : ''
-                  } ${
-                    i > 0 ? 'vads-u-border-top--0 vads-u-margin-top--2 ' : ''
-                  }`}
-                >
-                  <dt>{DEPENDENT_AGE_LABELS[i + 1]}</dt>
-                  <dd>{dependent.dependentAge || ''}</dd>
-                </div>
-              </dl>
-            </>
-          )}
-        </div>
-      )),
-    [stateDependents, handleBlur, errors, updateDependents, isEditing],
+  const renderAgeInput = (dependent, i) => (
+    <div key={`dependentAge-${i}`}>
+      <VaNumberInput
+        id={`dependentAge-${i}`}
+        label={DEPENDENT_AGE_LABELS[i + 1]}
+        name={`dependentAge-${i}`}
+        onInput={({ target }) => updateDependents(target, i)}
+        value={dependent.dependentAge}
+        className="no-wrap input-size-1"
+        onBlur={event => handleBlur(event, i)}
+        error={errors[i]}
+        required
+      />
+    </div>
   );
+
+  const renderAgeText = (dependent, i) => (
+    <div
+      key={`dependentAge-${i}`}
+      className={`review-row ${i > 0 ? 'vads-u-border-top--1' : ''}`}
+    >
+      <dt>{DEPENDENT_AGE_LABELS[i + 1]}</dt>
+      <dd>{dependent.dependentAge || ''}</dd>
+    </div>
+  );
+
+  let dependentAgeInputs = stateDependents.map(
+    (dependent, i) =>
+      isEditing ? renderAgeInput(dependent, i) : renderAgeText(dependent, i),
+  );
+
+  if (!isEditing) {
+    dependentAgeInputs = (
+      <dl
+        className={`review vads-u-border-bottom--1 ${
+          isEditing ? 'vads-u-border--0' : ''
+        }`}
+      >
+        {dependentAgeInputs}
+      </dl>
+    );
+  }
 
   return (
     <form onSubmit={handlers.onSubmit}>
