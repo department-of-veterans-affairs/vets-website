@@ -38,11 +38,10 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
       mockMessagewithAttachment,
       mockThreadwithAttachment,
     );
-    cy.get('[data-testid="trash-button-text"]').click({
-      waitforanimations: true,
-    });
+    composePage.clickTrashButton();
 
     composePage.clickConfirmDeleteButton();
+    composePage.verifyDeleteDraftSuccessfulMessage();
 
     cy.wait('@deleteMessagewithAttachment');
     cy.injectAxe();

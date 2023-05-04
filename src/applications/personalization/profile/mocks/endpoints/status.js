@@ -52,11 +52,11 @@ module.exports = {
     data: [
       {
         id: '',
-        type: 'async_transaction_va_profile_address_transactions',
+        type: 'async_transaction_va_profile_telephone_transactions',
         attributes: {
           transactionId: '89747e43-d01b-4024-81fb-5e0361f9cf9f',
           transactionStatus: 'COMPLETED_SUCCESS',
-          type: 'AsyncTransaction::VAProfile::AddressTransaction',
+          type: 'AsyncTransaction::VAProfile::TelephoneTransaction',
           metadata: [],
         },
       },
@@ -67,7 +67,7 @@ module.exports = {
       id: '',
       type: 'async_transaction_va_profile_address_transactions',
       attributes: {
-        transactionId: '89747e43-d01b-4024-81fb-5e0361f9cf9f',
+        transactionId: 'success-test-id',
         transactionStatus: 'COMPLETED_SUCCESS',
         type: 'AsyncTransaction::VAProfile::AddressTransaction',
         metadata: [],

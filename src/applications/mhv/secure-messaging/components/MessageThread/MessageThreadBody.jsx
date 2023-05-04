@@ -3,29 +3,17 @@ import PropTypes from 'prop-types';
 import { urlRegex, httpRegex } from '../../util/helpers';
 
 const MessageThreadBody = props => {
-  const { expanded, text } = props;
+  const { text } = props;
   const words = text?.split(/[^\S\r\n]+/g);
 
   return (
-    <div
-      className={
-        expanded
-          ? 'message-list-body-expanded vads-u-margin-bottom--2'
-          : 'message-list-body-collapsed'
-      }
-    >
+    <div className="vads-u-padding-y--1 ">
       <>
-        <span className="vads-u-margin-y--0">
+        <span data-testid="message-body" className="vads-u-margin-y--0">
           {words?.map((word, i) => {
             return (word.match(urlRegex) || word.match(httpRegex)) &&
               words.length >= 1 ? (
-              <a
-                tabIndex={!expanded ? -1 : 0}
-                key={i}
-                href={word}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a key={i} href={word} target="_blank" rel="noreferrer">
                 {`${word} `}
               </a>
             ) : (

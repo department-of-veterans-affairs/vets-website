@@ -85,6 +85,21 @@ function currentlyBuriedPersonsMinItem() {
   return set('items.properties.cemeteryNumber', autosuggest.schema, copy);
 }
 
+const stateRequired = environment.isProduction()
+  ? {
+      country: { 'ui:required': isAuthorizedAgent },
+      street: { 'ui:required': isAuthorizedAgent },
+      city: { 'ui:required': isAuthorizedAgent },
+      state: { 'ui:required': isAuthorizedAgent },
+      postalCode: { 'ui:required': isAuthorizedAgent },
+    }
+  : {
+      country: { 'ui:required': isAuthorizedAgent },
+      street: { 'ui:required': isAuthorizedAgent },
+      city: { 'ui:required': isAuthorizedAgent },
+      postalCode: { 'ui:required': isAuthorizedAgent },
+    };
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -135,9 +150,7 @@ const formConfig = {
   },
   chapters: {
     applicantInformation: {
-      title: environment.isProduction()
-        ? 'Applicant Information'
-        : 'Applicant information',
+      title: 'Applicant information',
       pages: {
         applicantInformation: {
           title: 'Applicant information',
@@ -251,9 +264,7 @@ const formConfig = {
       },
     },
     sponsorInformation: {
-      title: environment.isProduction()
-        ? 'Sponsor Information'
-        : 'Sponsor information',
+      title: 'Sponsor information',
       pages: {
         sponsorInformation: {
           path: 'sponsor-information',
@@ -387,9 +398,7 @@ const formConfig = {
       },
     },
     militaryHistory: {
-      title: environment.isProduction()
-        ? 'Military History'
-        : 'Military history',
+      title: 'Military history',
       pages: {
         // Two sets of military history pages dependent on
         // whether the applicant is the veteran or not.
@@ -577,7 +586,7 @@ const formConfig = {
       },
     },
     burialBenefits: {
-      title: environment.isProduction() ? 'Burial Benefits' : 'Burial benefits',
+      title: 'Burial benefits',
       pages: {
         burialBenefits: {
           path: 'burial-benefits',
@@ -667,9 +676,7 @@ const formConfig = {
       },
     },
     supportingDocuments: {
-      title: environment.isProduction()
-        ? 'Supporting Documents'
-        : 'Supporting documents',
+      title: 'Supporting documents',
       pages: {
         supportingDocuments: {
           path: 'supporting-documents',
@@ -719,9 +726,7 @@ const formConfig = {
       },
     },
     contactInformation: {
-      title: environment.isProduction()
-        ? 'Contact Information'
-        : 'Contact information',
+      title: 'Contact information',
       pages: {
         applicantContactInformation: {
           title: 'Applicant’s contact information',
@@ -831,13 +836,7 @@ const formConfig = {
                   mailingAddress: merge(
                     {},
                     address.uiSchema('Mailing address'),
-                    {
-                      country: { 'ui:required': isAuthorizedAgent },
-                      street: { 'ui:required': isAuthorizedAgent },
-                      city: { 'ui:required': isAuthorizedAgent },
-                      state: { 'ui:required': isAuthorizedAgent },
-                      postalCode: { 'ui:required': isAuthorizedAgent },
-                    },
+                    stateRequired,
                   ),
                   'view:contactInfo': {
                     'ui:title': 'Contact information',
