@@ -6,6 +6,10 @@ export default {
     veteranSSN: ssnUI,
     vaFileNumber: {
       'ui:title': 'VA file number (if applicable)',
+      'ui:errorMessages': {
+        pattern:
+          "Please enter a valid VA file number.  All should have 7-9 digits; some may start with a 'C'",
+      },
     },
     vaInsuranceFileNumber: {
       'ui:title': 'VA Insurance File Number (if applicable)',
@@ -16,9 +20,7 @@ export default {
     required: ['veteranSSN'],
     properties: {
       veteranSSN: definitions.ssn,
-      vaFileNumber: {
-        type: 'string',
-      },
+      vaFileNumber: definitions.vaFileNumber,
       vaInsuranceFileNumber: {
         type: 'string',
       },
