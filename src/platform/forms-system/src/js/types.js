@@ -1,121 +1,202 @@
 /**
- * @typedef {{
- *   ariaDescribedBySubmit: string,
- *   chapters: Record<string, FormConfigChapter>,
- *   confirmation: (props: any) => JSX.Element,
- *   defaultDefinitions: Record<string, SchemaOptions>,
- *   errorText: () => JSX.Element,
- *   footerContent: (props: any) => JSX.Element,
- *   formId: string,
- *   getHelp: () => JSX.Element,
- *   introduction:(props: any) => JSX.Element,
- *   migrations: Array<Function>,
- *   prefillEnabled: boolean,
- *   prefillTransformer: Function,
- *   preSubmitInfo: {
- *     CustomComponent: (props: any) => JSX.Element,
- *     field: string,
- *     required: boolean,
- *     notice: string | JSX.Element,
- *     label: JSX.Element
- *     error: string
- *   },
- *   rootUrl: string,
- *   savedFormMessages: {
- *     notFound: string,
- *     noAuth: string
- *   },
- *   saveInProgress: {
- *     messages: {
- *       inProgress: string,
- *       expired: string,
- *       saved: string
- *     }
- *   },
- *   submit: (form: any, formConfig: any) => Promise<any>
- *   submitUrl: string,
- *   subTitle: string,
- *   title: string,
- *   trackingPrefix: string,
- *   transformForSubmit: (form: any, formConfig: any) => any,
- *   urlPrefix: string,
- *   version: number
- * }} FormConfig
+ * @file Generic types for the form system
+ *
+ * Used for intellesense (autocompletion)
+ */
+
+// Example 1:
+// /** @type {FormConfig} */
+// const formConfig = {...};
+
+// Example 2:
+// /** @type {PageSchema} */
+// export default {
+//   uiSchema: {...},
+//   schema: {...},
+// };
+
+// Use @typedef ({{}}) format to use [key: string]: Type
+// Use @typedef {Object} format to be able to add comments to properties
+
+/**
+ * @typedef {Object} FormConfig
+ * @property {Array<Object>} additionalRoutes
+ * @property {string} ariaDescribedBySubmit
+ * @property {Record<string, FormConfigChapter>} chapters
+ * @property {(props: any) => JSX.Element} confirmation
+ * @property {CustomText} customText
+ * @property {Record<string, SchemaOptions>} defaultDefinitions
+ * @property {Downtime} downtime
+ * @property {(props: any) => JSX.Element} errorText
+ * @property {(props: any) => JSX.Element} footerContent
+ * @property {string} formId
+ * @property {(props: any) => JSX.Element} formSavedPage
+ * @property {() => JSX.Element} getHelp
+ * @property {(props: any) => JSX.Element} introduction
+ * @property {Array<Function>} migrations
+ * @property {(formConfig: any) => void} onFormLoaded
+ * @property {boolean} prefillEnabled
+ * @property {Function} prefillTransformer
+ * @property {PreSubmitInfo} preSubmitInfo
+ * @property {Object} reviewErrors
+ * @property {string} rootUrl
+ * @property {SavedFormMessages} savedFormMessages
+ * @property {SaveInProgress} saveInProgress
+ * @property {boolean} showReviewErrors
+ * @property {(props: any) => JSX.Element} submissionError
+ * @property {(form: any, formConfig: any) => Promise<any>} submit
+ * @property {(props: any) => JSX.Element} submitErrorText
+ * @property {string} submitUrl
+ * @property {string} subTitle
+ * @property {string} title
+ * @property {string} trackingPrefix
+ * @property {(form: any, formConfig: any) => any} transformForSubmit
+ * @property {string} urlPrefix
+ * @property {boolean} useCustomScrollAndFocus
+ * @property {boolean} verifyRequiredPrefill
+ * @property {number} version
+ * @property {string} wizardStorageKey
+ */
+
+/**
+ * @typedef {Object} CustomText
+ * @property {string} appSavedSuccessfullyMessage
+ * @property {string} appType
+ * @property {string} continueAppButtonText
+ * @property {string} reviewPageTitle
+ * @property {string} startNewAppButtonText
+ * @property {string} submitButtonText
+ */
+
+/**
+ * @typedef {Object} SavedFormMessages
+ * @property {string} notFound
+ * @property {string} noAuth
+ */
+
+/**
+ * @typedef {Object} Downtime
+ * @property {Array<string>} dependnecies
+ * @property {string} endTime
+ * @property {string} message
+ * @property {boolean} requiredForPrefill
+ * @property {'down' |'downtimeApproaching' | 'ok'} status
+ * @property {string} startTime
+ */
+
+/**
+ * @typedef {Object} PreSubmitInfo
+ * @property {(props: any) => JSX.Element} CustomComponent
+ * @property {string} error
+ * @property {string} field
+ * @property {JSX.Element} label
+ * @property {string | JSX.Element} notice
+ * @property {boolean} required
+ */
+
+/**
+ * @typedef {Object} SaveInProgress
+ * @property {Object} messages
+ * @property {string} messages.inProgress
+ * @property {string} messages.expired
+ * @property {string} messages.saved
+ */
+
+/**
+ * @typedef {Object} FormConfigChapter
+ * @property {Record<string, FormConfigPage>} pages
+ * @property {string | Function} title
+ */
+
+/**
+ * @typedef {Object} FormConfigPage
+ * @property {string} arrayPath
+ * @property {(props: any) => JSX.Element} CustomPage
+ * @property {(props: any) => JSX.Element} CustomPageReview
+ * @property {(formData: Object) => boolean} depends
+ * @property {Object} initialData
+ * @property {(formData: any) => void} onContinue
+ * @property {(data: any) => boolean} itemFilter
+ * @property {string} path
+ * @property {SchemaOptions} schema
+ * @property {string | Function} scrollAndFocusTarget
+ * @property {boolean} showPagePerItem
+ * @property {string | Function} title
+ * @property {UISchemaOptions} uiSchema
+ * @property {(item, index) => void} updateFormData
+ */
+
+/**
+ * @typedef {Object} PageSchema - The schema for a page (only uiSchema and schema). If you want all the page properties, use FormConfigPage
+ * @property {UISchemaOptions} uiSchema
+ * @property {SchemaOptions} schema
  */
 
 /**
  * @typedef {{
- *   pages: Record<string, FormConfigPage>
- *   title: string
- * }} FormConfigChapter
- */
-
-/**
- * @typedef {{
- *   path: string,
- *   depends: (formData: Object) => boolean,
- *   initialData: Object,
- *   onContinue: (formData: any) => void,
- *   schema: SchemaOptions
- *   title: string,
- *   uiSchema: UISchemaOptions,
- * }} FormConfigPage
- */
-
-/**
- * @typedef {Object} PageSchema
- * @property {UISchemaOptions} uiSchema - The UI schema options for the form
- * @property {SchemaOptions} schema - The schema for the form
- */
-
-/**
- * @typedef {{
+ *    items: UISchemaOptions,
  *   'ui:autocomplete': string,
  *   'ui:description': string | JSX.Element,
  *   'ui:disabled': boolean,
- *   'ui:errorMessages': {
- *     enum: string,
- *     maxLength: string,
- *     minLength: string,
- *     pattern: string,
- *     required: string,
- *    },
+ *   'ui:errorMessages': UIErrorMessages,
  *   'ui:field': (props: any) => JSX.Element,
  *   'ui:hidden': boolean,
- *   'ui:inputmode': string,
- *   'ui:options': {
- *     ariaDescribedby: string,
- *     classNames: string,
- *     customTitle: string,
- *     expandUnder: string,
- *     expandUnderCondition: boolean,
- *     forceDivWrapper: boolean,
- *     hideEmptyValueInReview: boolean,
- *     hideIf: (formData: any) => boolean,
- *     hideTitle: boolean,
- *     hideOnReview: boolean,
- *     hint: string,
- *     itemName: string,
- *     keepInPageOnReview: boolean,
- *     replaceSchema: (formData: any) => any,
- *     reviewTitle: string,
- *     showFieldLabel: boolean,
- *     updateSchema: (formData, addressSchema, addressUiSchema, index, path) => any,
- *     viewComponent: (props: any) => JSX.Element,
- *     viewField: (props: any) => JSX.Element,
- *     widgetClassNames: string,
- *     widgetProps: Record<string, any>
- *   },
+ *   'ui:objectViewField': (props: any) => JSX.Element,
+ *   'ui:options': UIOptions,
  *   'ui:order': string[],
  *   'ui:required': (formData: any) => boolean,
  *   'ui:reviewField': (props: any) => JSX.Element,
  *   'ui:reviewWidget': (props: any) => JSX.Element,
  *   'ui:title': string | JSX.Element,
  *   'ui:validations': Array<((errors, value) => void)>,
- *   'ui:webComponentField': (props: any) => JSX.Element
- *   'ui:widget': 'yesNo' | 'radio' | 'email' | 'date' | 'textarea' | (props: any) => JSX.Element,
+ *   'ui:widget': 'yesNo' | 'checkbox' | 'radio' | 'select' | 'email' | 'date' | 'textarea' | (props: any) => JSX.Element,
  *   [key: string]: UISchemaOptions
  * }} UISchemaOptions
+ */
+
+/**
+ * @typedef {{
+ *   atLeastOne: string,
+ *   enum: string,
+ *   maxItems: string,
+ *   maxLength: string,
+ *   minItems: string,
+ *   minLength: string,
+ *   pattern: string,
+ *   required: string,
+ *   [key: string]: string
+ * }} UIErrorMessages
+ */
+
+/**
+ * @typedef {Object} UIOptions
+ * @property {string} ariaDescribedby - The id of the element that describes the field
+ * @property {string} classNames
+ * @property {string} customTitle
+ * @property {number} debounceRate
+ * @property {string} duplicateKey
+ * @property {string} expandUnder
+ * @property {boolean} expandUnderCondition
+ * @property {boolean} forceDivWrapper
+ * @property {boolean} freeInput
+ * @property {boolean} hideEmptyValueInReview
+ * @property {(formData: any) => boolean} hideIf
+ * @property {boolean} hideTitle
+ * @property {boolean} hideOnReview
+ * @property {string} hint
+ * @property {boolean} includeRequiredLabelInTitle
+ * @property {Array<(input) => string>} inputTransformers
+ * @property {(item: any) => string} itemAriaLabel
+ * @property {string} itemName
+ * @property {boolean} keepInPageOnReview
+ * @property {Record<string, string>} labels
+ * @property {(formData: any) => any} replaceSchema
+ * @property {(formData, addressSchema, addressUiSchema, index, path) => any} updateSchema
+ * @property {boolean} useDlWrap
+ * @property {(props: any) => JSX.Element} viewComponent
+ * @property {(props: any) => JSX.Element} viewField
+ * @property {string} widgetClassNames
+ * @property {Record<string, any>} widgetProps
  */
 
 /**
@@ -127,11 +208,13 @@
  *   items: SchemaOptions,
  *   maxLength: number,
  *   minItems: number,
+ *   maxItems: number,
  *   minLength: number,
- *   pattern : string,
+ *   pattern: string,
  *   properties: Record<string, SchemaOptions>,
- *   required: string[]
+ *   required: string[],
  *   type: 'string' | 'number' | 'integer' | 'boolean' | 'object' | 'array',
  *   uniqueItems: boolean,
+ *   [key: string]: SchemaOptions
  * }} SchemaOptions
  */
