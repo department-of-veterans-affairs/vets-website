@@ -191,7 +191,7 @@
  * @property {boolean} keepInPageOnReview
  * @property {Record<string, string>} labels
  * @property {(formData: any) => any} replaceSchema
- * @property {(formData, addressSchema, addressUiSchema, index, path) => any} updateSchema
+ * @property {(formData, schema, uiSchema, index, path) => any} updateSchema
  * @property {boolean} useDlWrap
  * @property {(props: any) => JSX.Element} viewComponent
  * @property {(props: any) => JSX.Element} viewField
