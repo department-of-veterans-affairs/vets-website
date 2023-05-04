@@ -5,6 +5,7 @@ import PrintHeader from '../shared/PrintHeader';
 import { getVaccinePdf } from '../../api/MrApi';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import PrintDownload from '../shared/PrintDownload';
 
 const PathologyDetails = props => {
   const { results, fullState } = props;
@@ -29,27 +30,7 @@ const PathologyDetails = props => {
           </div>
 
           <div className="no-print">
-            <div className="vads-u-display--flex vads-u-padding-y--3 vads-u-margin-y--0">
-              <button
-                className="link-button vads-u-margin-right--3"
-                type="button"
-                onClick={window.print}
-              >
-                <i
-                  aria-hidden="true"
-                  className="fas fa-print vads-u-margin-right--1"
-                  data-testid="print-records-button"
-                />
-                Print page
-              </button>
-              <button className="link-button" type="button" onClick={download}>
-                <i
-                  aria-hidden="true"
-                  className="fas fa-download vads-u-margin-right--1"
-                />
-                Download page
-              </button>
-            </div>
+            <PrintDownload list download={download} />
             <va-additional-info trigger="What to know about downloading records">
               <ul>
                 <li>
