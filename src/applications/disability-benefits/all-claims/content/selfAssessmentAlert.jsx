@@ -30,15 +30,13 @@ export const selfAssessmentAlert = () => {
   return (
     isShowBDDSHA && (
       <>
-        <div id="submit-str-asap" className="self-assessment-alert">
-          <va-alert status="warning">
-            <h3 slot="headline">
-              Please submit your Separation Health Assessment - Part A
-              Self-Assessment as soon as possible
-            </h3>
-            {alertContent}
-          </va-alert>
-        </div>
+        <va-alert status="warning">
+          <h3 slot="headline">
+            Please submit your Separation Health Assessment - Part A
+            Self-Assessment as soon as possible
+          </h3>
+          {alertContent}
+        </va-alert>
         <h3>Other documents or evidence</h3>
       </>
     )

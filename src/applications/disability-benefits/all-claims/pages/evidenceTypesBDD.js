@@ -24,11 +24,6 @@ export const uiSchema = {
         Y: 'Yes',
         N: 'No, I will submit more information later',
       },
-      widgetProps: {
-        N: {
-          'aria-describedby': 'submit-str-asap',
-        },
-      },
     },
   },
   'view:hasEvidenceFollowUp': {

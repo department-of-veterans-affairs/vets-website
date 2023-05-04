@@ -19,7 +19,7 @@ export const BddEvidenceSubmitLater = () => {
 
   return (
     isShowBDDSHA && (
-      <div id="submit-str-asap" className="bdd-evidence-submit-later">
+      <div aria-live="polite">
         <va-alert status="warning">
           <h3 slot="headline">
             Submit your Separation Health Assessment - Part A Self-Assessment as
