@@ -50,7 +50,7 @@ class SecureMessagingSite {
     cy.wait('@mockUser');
   };
 
-  loadVAPaginationNextMessages = (interceptedPage = 0, mockMessages) => {
+  loadVAPaginationNextMessages = (interceptedPage = 1, mockMessages) => {
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${interceptedPage}&sortField=SENT_DATE&sortOrder=DESC`,
@@ -63,7 +63,7 @@ class SecureMessagingSite {
     cy.wait(`@inboxMessagesessages${interceptedPage}`);
   };
 
-  getVAPaginationPreviousButton = (interceptedPage = 0, mockMessages) => {
+  loadVAPaginationPreviousMessages = (interceptedPage = 1, mockMessages) => {
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${interceptedPage}&sortField=SENT_DATE&sortOrder=DESC`,
@@ -72,6 +72,19 @@ class SecureMessagingSite {
     cy.get('[aria-label="Pagination"]')
       .shadow()
       .find('[aria-label="Previous page"')
+      .click();
+    cy.wait(`@inboxMessagesessages${interceptedPage}`);
+  };
+
+  loadVAPaginationPageMessages = (interceptedPage = 1, mockMessages) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${interceptedPage}&sortField=SENT_DATE&sortOrder=DESC`,
+      mockMessages,
+    ).as(`inboxMessagesessages${interceptedPage}`);
+    cy.get('[aria-label="Pagination"]')
+      .shadow()
+      .find(`[aria-label="Page ${interceptedPage}"]`)
       .click();
     cy.wait(`@inboxMessagesessages${interceptedPage}`);
   };

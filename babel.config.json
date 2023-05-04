@@ -301,7 +301,7 @@
   ],
   
   "env": {
-    "test": {
+    "development": {
       "presets": ["@babel/env", "@babel/preset-react"],
       "plugins": [
         "istanbul",

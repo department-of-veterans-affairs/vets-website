@@ -11,7 +11,7 @@ describe('Secure Messaging Reply', () => {
 
     landingPage.loadInboxMessages(mockMessagesPageOne);
     site.loadVAPaginationNextMessages(2, mockMessagesPageTwo);
-    site.getVAPaginationPreviousButton(1, mockMessagesPageOne);
+    site.loadVAPaginationPreviousMessages(1, mockMessagesPageOne);
 
     cy.injectAxe();
     cy.axeCheck();
