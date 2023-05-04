@@ -132,16 +132,15 @@ export function PreSubmitSection(props) {
               .
             </p>
             <VaTextInput
-              label={statementOfTruth.textInputLabel || 'Your full name'}
-              class="signature-input"
               id="veteran-signature"
               name="veteran-signature"
+              label={statementOfTruth.textInputLabel || 'Your full name'}
+              class="signature-input"
+              value={form?.data.statementOfTruthSignature}
               onInput={event =>
                 setPreSubmit('statementOfTruthSignature', event.target.value)
               }
-              value={form?.data.statementOfTruthSignature}
               type="text"
-              required
               error={
                 showPreSubmitError &&
                 form?.data.statementOfTruthSignature !==
@@ -153,14 +152,16 @@ export function PreSubmitSection(props) {
                 'Statement of truth'}: ${
                 statementOfTruth.messageAriaDescribedby
               }`}
+              required
             />
             <Checkbox
+              id="veteran-certify"
               name="veteran-certify"
+              label="I certify the information above is correct and true to the best of my knowledge and belief."
               checked={form?.data.statementOfTruthCertified}
               onValueChange={value =>
                 setPreSubmit('statementOfTruthCertified', value)
               }
-              label="I certify the information above is correct and true to the best of my knowledge and belief."
               errorMessage={
                 showPreSubmitError && !form?.data.statementOfTruthCertified
                   ? 'You must certify by checking the box'
@@ -169,12 +170,13 @@ export function PreSubmitSection(props) {
               required
             />
             {/* <VaCheckbox
+              id="veteran-certify"
               name="veteran-certify"
+              label="I certify the information above is correct and true to the best of my knowledge and belief."
               checked={form?.data.statementOfTruthCertified}
               onVaChange={event =>
                 setPreSubmit('statementOfTruthCertified', event.target.checked)
               }
-              label="I certify the information above is correct and true to the best of my knowledge and belief."
               error={
                 showPreSubmitError && !form?.data.statementOfTruthCertified
                   ? 'You must certify by checking the box'
