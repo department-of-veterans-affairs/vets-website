@@ -1,10 +1,36 @@
 #!/bin/sh
+echo "Creating directory structure"
+mkdir -p website
+cd website
+
+# Clone vagov-content
+git clone --depth 1 https://github.com/department-of-veterans-affairs/vagov-content
+
+# Clone vets-gov-json schema
+git clone --depth 1 https://github.com/department-of-veterans-affairs/vets-json-schema.git
+
+# Clone veteran-facing-services-tools
+git clone --depth 1 https://github.com/department-of-veterans-affairs/veteran-facing-services-tools
+
+# Clone content-build
+git clone --depth 1 https://github.com/department-of-veterans-affairs/content-build.git
+
+# Clone vets-website
+git clone --depth 1 https://github.com/department-of-veterans-affairs/vets-website.git
 
 
 echo "Download dev content-build to website dir"
 
-cd ..
-curl -LO ${AWS_URL}
+# if AWS_URL then use it
+# else use default cache URL
+if [ -z ${AWS_URL} ] ;
+then
+    echo "AWS_URL is NULL; using default" ;
+    curl -LO https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content-build/0008051ce15e731cc01289933dfb060d6f0d4df6/vagovdev.tar.bz2 ;
+else
+    echo "AWS_URL is not NULL; using workflow env var" ;
+    curl -LO ${AWS_URL} ;
+fi
 
 echo "Setup content-build and extract pre-built content into content-build/build/localhost"
 echo "make the build folder"
