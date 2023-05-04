@@ -23,10 +23,10 @@ describe('Secure Messaging Keyboard Nav Move Message from CustomFolder', () => {
       mockCustomFolderResponse,
       mockCustomMessagesResponse,
     );
-    folderPage.loadCustomFolderMessageDetails(
-      mockCustomDetails,
-      mockCustomMessagesResponse,
-    );
+    folderPage.loadCustomFolderMessageDetails(mockCustomDetails);
+    folderPage.selectFolderfromModal();
+    folderPage.moveCustomFolderMessageToDifferentFolder();
+    folderPage.verifyMoveMessageSuccessConfirmationFocus();
     cy.injectAxe();
     cy.axeCheck();
   });

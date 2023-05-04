@@ -1,5 +1,6 @@
 import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
+import mockMessageResponse from '../fixtures/message-custom-response.json';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -160,6 +161,51 @@ class FolderManagementPage {
       'have.text',
       'Folder was successfully created.',
     );
+  };
+
+  selectFolderfromModal = () => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockMessageResponse.data.at(1).attributes.messageId
+      }`,
+      mockMessageResponse,
+    );
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockMessageResponse.data.at(2).attributes.messageId
+      }`,
+      mockMessageResponse,
+    );
+    cy.get('[data-testid="move-button-text"]').click();
+    cy.get('[data-testid = "move-to-modal"')
+
+      .find('[class = "form-radio-buttons hydrated"]', {
+        includeShadowDom: true,
+      })
+      .find('[id = "radiobutton-Deleted"]', { includeShadowDom: true })
+      .click();
+  };
+
+  moveCustomFolderMessageToDifferentFolder = () => {
+    cy.intercept(
+      'PATCH',
+      `/my_health/v1/messaging/threads/${
+        mockCustomResponse.data.attributes.threadId
+      }/move?folder_id=-3`,
+      mockCustomResponse,
+    ).as('moveMockCustomResponse');
+    cy.get('[data-testid="move-to-modal"]')
+      .shadow()
+      .find('button')
+      .contains('Confirm')
+      .click();
+    // cy.wait('@mockCustomResponse');
+  };
+
+  verifyMoveMessageSuccessConfirmationFocus = () => {
+    cy.contains('Message conversation was successfully moved.').should('exist');
   };
 }
 export default FolderManagementPage;
