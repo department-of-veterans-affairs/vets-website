@@ -33,6 +33,9 @@ export const schema = {
 export const uiSchemaEnhanced = {
   'ui:title': 'Your dependents',
   questions: {
+    'ui:options': {
+      hideOnReview: false, // change this to true to hide this question on review page
+    },
     hasDependents: {
       'ui:title':
         'How many dependents do you have who rely on you for financial support?',
