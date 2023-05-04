@@ -17,19 +17,20 @@ export const MiniSummaryCard = ({
   body,
   onDelete,
   showDelete = false,
+  index,
 }) => {
   return (
     <div
       className="vads-u-border--1px vads-u-margin-y--2 vads-u-padding--0"
       data-testid="mini-summary-card"
     >
-      <div className="vads-u-padding--2 vads-u-display--flex vads-u-flex-direction--column">
+      <div className="vads-u-padding-x--2 vads-u-padding-top--2 vads-u-display--flex vads-u-flex-direction--column">
         <h4 className="vads-u-margin-y--0">{heading}</h4>
         {body}
       </div>
       <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center">
         <Link
-          aria-label={`Edit ${heading}`}
+          aria-label={`Edit ${heading} ${index}`}
           to={editDestination}
           className="vads-u-padding-y--1 vads-u-padding-x--2"
         >
@@ -45,7 +46,7 @@ export const MiniSummaryCard = ({
         {showDelete && (
           <button
             type="button"
-            aria-label={`Delete ${heading}`}
+            aria-label={`Delete ${heading} ${index}`}
             className="usa-button summary-card-delete-button vads-u-margin--1"
             onClick={onDelete}
           >
@@ -60,14 +61,17 @@ export const MiniSummaryCard = ({
     </div>
   );
 };
-
 MiniSummaryCard.propTypes = {
-  editDestination: Proptypes.shape({
-    pathname: Proptypes.string.isRequired,
-    search: Proptypes.string.isRequired,
-  }).isRequired,
+  editDestination: Proptypes.oneOfType([
+    Proptypes.shape({
+      pathname: Proptypes.string.isRequired,
+      search: Proptypes.string.isRequired,
+    }),
+    Proptypes.func,
+  ]).isRequired,
   heading: Proptypes.string.isRequired,
   body: Proptypes.object,
+  index: Proptypes.number,
   showDelete: Proptypes.bool,
   onDelete: Proptypes.func,
 };

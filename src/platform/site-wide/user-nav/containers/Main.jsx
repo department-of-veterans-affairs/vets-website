@@ -7,7 +7,6 @@ import URLSearchParams from 'url-search-params';
 // Relative imports.
 import localStorage from 'platform/utilities/storage/localStorage';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
-import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import AccountTransitionModal from 'platform/user/authentication/components/account-transition/TransitionModal';
 import AccountTransitionSuccessModal from 'platform/user/authentication/components/account-transition/TransitionSuccessModal';
@@ -318,12 +317,6 @@ export class Main extends Component {
         <AccountTransitionSuccessModal
           onClose={this.closeAccountTransitionSuccessModal}
           visible={this.props.showAccountTransitionSuccessModal}
-        />
-        <SessionTimeoutModal
-          isLoggedIn={this.props.currentlyLoggedIn}
-          onExtendSession={this.props.initializeProfile}
-          authenticatedWithOAuth={this.props.authenticatedWithOAuth}
-          serviceName={this.props.signInServiceName}
         />
         <AutoSSO />
       </div>

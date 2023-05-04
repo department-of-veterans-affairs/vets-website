@@ -73,9 +73,11 @@ export const content = {
   updateLabel: 'Update notice of evidence needed page',
 };
 
-export const reviewField = () => (
+export const reviewField = ({ children }) => (
   <div className="review-row">
     <dt>{content.label}</dt>
-    <dd>Yes, I certify</dd>
+    <dd>
+      {children?.props?.formData ? 'Yes, I certify' : 'No, I didn’t certify'}
+    </dd>
   </div>
 );

@@ -20,7 +20,7 @@ const ConditionListItem = props => {
             to={`/health-history/condition-details/${record.id}`}
             className="vads-u-margin--0 no-print"
           >
-            Details
+            <strong>Details</strong>
             <i
               className="fas fa-angle-right details-link-icon"
               aria-hidden="true"

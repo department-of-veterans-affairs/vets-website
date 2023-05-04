@@ -9,11 +9,28 @@ function displayType(errorCodes, location) {
   const isPast = location.pathname.endsWith('/past');
   const isUpcoming = location.pathname.endsWith('/');
 
-  if (errorCodes.some(code => code === 10000 || code === 10006) && isPending) {
+  if (
+    errorCodes.some(
+      code =>
+        code === 10000 ||
+        code === 10006 ||
+        code === 9002 ||
+        code === 9003 ||
+        code === 9008,
+    ) &&
+    isPending
+  ) {
     return 'requests';
   }
   if (
-    errorCodes.some(code => code === 10000 || code === 10005) &&
+    errorCodes.some(
+      code =>
+        code === 10000 ||
+        code === 10005 ||
+        code === 9006 ||
+        code === 9007 ||
+        code === 9008,
+    ) &&
     (isPast || isUpcoming)
   ) {
     return 'appointments';
