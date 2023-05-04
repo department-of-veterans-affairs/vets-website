@@ -6,6 +6,7 @@ import { providerFacilityFields } from '../definitions/constants';
 
 import RecordField from '../components/RecordField';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:title': (
