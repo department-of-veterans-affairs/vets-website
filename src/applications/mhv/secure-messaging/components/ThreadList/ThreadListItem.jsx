@@ -117,11 +117,7 @@ const ThreadListItem = props => {
         </div>
         <Link
           className="message-subject-link vads-u-margin-y--0p5"
-          to={`/${
-            activeFolder?.folderId === DefaultFolders.DRAFTS.id
-              ? 'draft'
-              : 'thread'
-          }/${messageId}`}
+          to={`/thread/${messageId}`}
         >
           {categoryLabel}: {getHighlightedText(subject)}
         </Link>

@@ -36,7 +36,7 @@ export default function FormNav(props) {
 
   const eligiblePageList = getActiveExpandedPages(pageList, formData);
 
-  const chapters = uniq(
+  const uniqueChapters = uniq(
     eligiblePageList.map(p => p.chapterKey).filter(key => !!key),
   );
 
@@ -53,15 +53,19 @@ export default function FormNav(props) {
   let current;
   let chapterName;
   let inProgressMessage = null;
+
   if (page) {
-    current = chapters.indexOf(page.chapterKey) + 1;
+    const onReviewPage = page.chapterKey === 'review';
+    current = uniqueChapters.indexOf(page.chapterKey) + 1;
+
     // The review page is always part of our forms, but isn’t listed in chapter list
-    chapterName =
-      page.chapterKey === 'review'
-        ? formConfig?.customText?.reviewPageTitle || REVIEW_APP_DEFAULT_MESSAGE
-        : formConfig.chapters[page.chapterKey].title;
-    if (typeof chapterName === 'function') {
-      chapterName = chapterName({ formData, formConfig });
+    chapterName = onReviewPage
+      ? formConfig?.customText?.reviewPageTitle || REVIEW_APP_DEFAULT_MESSAGE
+      : formConfig.chapters[page.chapterKey].title;
+    if (typeof chapterName === 'function' && !onReviewPage) {
+      // for FormNav, we only call chapter-config title-function if
+      // not on review-page.
+      chapterName = chapterName({ formData, formConfig, onReviewPage });
     }
   }
 
@@ -83,7 +87,10 @@ export default function FormNav(props) {
   // the correct number & total [with progress-hidden chapters discounted].
   // formConfig, current, & chapters.length should NOT be manipulated,
   // as they are likely used elsewhere in functional logic.
-  const chaptersLengthDisplay = getChaptersLengthDisplay(formConfig);
+  const chaptersLengthDisplay = getChaptersLengthDisplay({
+    uniqueChapters,
+    formConfig,
+  });
   const currentChapterDisplay = getCurrentChapterDisplay(formConfig, current);
   const stepText = `Step ${currentChapterDisplay} of ${chaptersLengthDisplay}: ${chapterName}`;
 
@@ -119,14 +126,23 @@ export default function FormNav(props) {
         }
       };
     },
-    [current, index],
+    [
+      current,
+      formConfig.useCustomScrollAndFocus,
+      index,
+      page.chapterKey,
+      page?.scrollAndFocusTarget,
+    ],
   );
 
   // show progress-bar and stepText only if hideFormNavProgress is falsy.
   return (
     <div>
       {!hideFormNavProgress && (
-        <va-segmented-progress-bar total={chapters.length} current={current} />
+        <va-segmented-progress-bar
+          total={chaptersLengthDisplay}
+          current={currentChapterDisplay}
+        />
       )}
       <div className="schemaform-chapter-progress">
         <div className="nav-header nav-header-schemaform">

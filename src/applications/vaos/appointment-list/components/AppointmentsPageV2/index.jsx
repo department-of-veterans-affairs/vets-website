@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import classNames from 'classnames';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
-import { selectFeatureStatusImprovement } from '../../../redux/selectors';
+import {
+  selectFeatureStatusImprovement,
+  selectFeatureAppointmentList,
+} from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsListV2 from '../PastAppointmentsListV2';
@@ -95,6 +99,9 @@ export default function AppointmentsPageV2() {
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   let [pageTitle] = useState('VA online scheduling');
 
+  const featureAppointmentList = useSelector(state =>
+    selectFeatureAppointmentList(state),
+  );
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
@@ -109,11 +116,14 @@ export default function AppointmentsPageV2() {
   } = getDropdownValueFromLocation(location.pathname);
 
   let prefix = 'Your';
+  const isPending = location.pathname.endsWith('/pending');
+  const isPast = location.pathname.endsWith('/past');
+
   if (featureStatusImprovement) {
-    if (location.pathname.endsWith('pending')) {
+    if (isPending) {
       prefix = 'Pending';
       pageTitle = `${prefix} appointments`;
-    } else if (location.pathname.endsWith('past')) {
+    } else if (isPast) {
       prefix = 'Past';
       pageTitle = `${prefix} appointments`;
     } else {
@@ -179,11 +189,33 @@ export default function AppointmentsPageV2() {
 
   const history = useHistory();
 
+  let paragraphText =
+    'Below is your list of appointment requests that haven’t been scheduled yet.';
+  if (featureAppointmentList) {
+    paragraphText = 'These appointment requests haven’t been scheduled yet.';
+  } else if (featureStatusImprovement) {
+    paragraphText =
+      'Your appointment requests that haven’t been scheduled yet.';
+  }
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
-      <h1 className="vads-u-flex--1 vads-u-margin-bottom--1p5 vaos-hide-for-print">
+      <h1
+        className={classNames(
+          `xsmall-screen:${
+            isPending ? 'vads-u-margin-bottom--1' : 'vads-u-margin-bottom--2'
+          } vads-u-flex--1 vaos-hide-for-print small-screen:${
+            isPending ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--4'
+          }`,
+        )}
+      >
         {pageTitle}
       </h1>
+      {/* change the order where message shows in pending list before nav menu */}
+      {pageTitle === 'Pending appointments' && (
+        <p className="xsmall-screen:vads-u-margin-top--0 vads-u-margin-bottom--2 vaos-hide-for-print small-screen:vads-u-margin-bottom--4">
+          {paragraphText}
+        </p>
+      )}
       <DowntimeNotification
         appTitle="VA online scheduling tool"
         isReady

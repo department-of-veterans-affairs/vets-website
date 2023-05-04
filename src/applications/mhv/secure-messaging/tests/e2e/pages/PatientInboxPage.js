@@ -299,7 +299,7 @@ class PatientInboxPage {
   loadComposeMessagePage = () => {
     cy.get('[data-testid="compose-message-link"]').click();
     const interstitialPage = new PatientInterstitialPage();
-    interstitialPage.getContinueButton().click();
+    interstitialPage.getContinueButton().click({ force: true });
   };
 
   navigatePrintCancelButton = () => {
@@ -329,6 +329,12 @@ class PatientInboxPage {
   navigateReply = () => {
     cy.tabToElement('[data-testid="reply-button-top"]');
     cy.realPress(['Enter']);
+  };
+
+  verifyDeleteConfirmMessage = () => {
+    cy.contains('successfully deleted')
+      .focused()
+      .should('have.text', 'Draft was successfully deleted.');
   };
 
   loadLandingPagebyTabbingandEnterKey = () => {

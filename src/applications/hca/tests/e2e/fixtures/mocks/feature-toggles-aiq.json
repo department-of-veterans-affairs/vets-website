@@ -7,10 +7,6 @@
         "value": false
       },
       {
-        "name": "hcaAmericanIndianEnabled",
-        "value": true
-      },
-      {
         "name": "hcaBrowserMonitoringEnabled",
         "value": false
       },

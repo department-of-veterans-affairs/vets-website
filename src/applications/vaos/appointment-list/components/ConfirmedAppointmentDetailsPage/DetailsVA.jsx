@@ -12,7 +12,7 @@ import PrintLink from './PrintLink';
 import VAInstructions from './VAInstructions';
 import NoOnlineCancelAlert from './NoOnlineCancelAlert';
 import PhoneInstructions from './PhoneInstructions';
-import { getTypeOfCareById } from '../../../utils/appointment';
+import { selectTypeOfCareName } from '../../redux/selectors';
 
 function formatHeader(appointment) {
   if (appointment.vaos.isCOVIDVaccine) {
@@ -24,27 +24,20 @@ function formatHeader(appointment) {
   return 'VA appointment';
 }
 
-export default function DetailsVA({
-  appointment,
-  facilityData,
-  useV2 = false,
-}) {
+export default function DetailsVA({ appointment, facilityData }) {
   const locationId = getVAAppointmentLocationId(appointment);
 
   const facility = facilityData?.[locationId];
   const isCovid = appointment.vaos.isCOVIDVaccine;
   const header = formatHeader(appointment);
   const isPhone = appointment.vaos.isPhoneAppointment;
-  const serviceType = useV2
-    ? appointment.vaos.apiData.serviceType
-    : appointment.vaos.apiData.vdsAppointments[0]?.clinic?.stopCode;
+
+  const typeOfCareName = selectTypeOfCareName(appointment);
 
   // v0 does not return a stopCode for covid as serviceType, instead we check for isCovid
   // remove the check for isCovid when we migrate entirely to v2
   const ShowTypeOfCare = () => {
-    const typeOfCare = isCovid
-      ? 'COVID-19 vaccine'
-      : getTypeOfCareById(serviceType)?.name;
+    const typeOfCare = isCovid ? 'COVID-19 vaccine' : typeOfCareName;
     return (
       !!typeOfCare && (
         <>

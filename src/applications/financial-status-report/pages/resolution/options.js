@@ -47,6 +47,7 @@ export const uiSchema = {
       resolution: {
         agreeToWaiver: {
           'ui:required': (formData, index) => {
+            if (formData['view:enhancedFinancialStatusReport']) return false;
             const { resolution, deductionCode } = formData.selectedDebts[index];
             const isCompAndPenDebt = deductionCode === '30';
             return (

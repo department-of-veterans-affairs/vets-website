@@ -32,7 +32,9 @@ const UtilityBillSummary = ({
   };
 
   const cardBody = text => (
-    <p className="vads-u-margin-y--2 vads-u-color--gray">{text}</p>
+    <p>
+      Value: <b>{currencyFormatter(text)}</b>
+    </p>
   );
 
   const emptyPrompt = `Select the 'Add additional utility bills' link to add another utility bill. Select the 'Continue' button to proceed to the next question.`;
@@ -53,7 +55,7 @@ const UtilityBillSummary = ({
           ) : (
             utilityRecords.map((utility, index) => (
               <MiniSummaryCard
-                body={cardBody(`Value: ${currencyFormatter(utility.amount)}`)}
+                body={cardBody(utility.amount)}
                 editDestination={{
                   pathname: '/add-utility-bill',
                   search: `?index=${index}`,
