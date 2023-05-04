@@ -21,7 +21,18 @@ const SearchForm = props => {
   const [dateRange, setDateRange] = useState('any');
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
+  const [customFilter, setCustomFilter] = useState(false);
 
+  useEffect(
+    () => {
+      if (dateRange !== 'any' || category) {
+        setCustomFilter(true);
+      } else {
+        setCustomFilter(false);
+      }
+    },
+    [dateRange, category, customFilter],
+  );
   useEffect(
     () => {
       setSearchTerm(keyword);
@@ -43,7 +54,7 @@ const SearchForm = props => {
     return dateFormat(today, 'yyyy-MM-DD');
   };
 
-  const handleSearch = (customFilter = false) => {
+  const handleSearch = () => {
     const todayDateTime = moment(new Date()).format();
     const offset = todayDateTime.substring(todayDateTime.length - 6);
     let relativeToDate;
@@ -63,6 +74,12 @@ const SearchForm = props => {
       toDateTime = `${toDate}T23:59:59${offset}`;
     }
 
+    if (searchTerm === '' && customFilter === false) {
+      setSearchTermError(null);
+      setSearchTermError(ErrorMessages.SearchForm.SEARCH_TERM_REQUIRED);
+      return;
+    }
+
     dispatch(
       runAdvancedSearch(
         folder,
@@ -74,11 +91,7 @@ const SearchForm = props => {
         searchTerm.toLowerCase(),
       ),
     );
-    if (searchTerm === '' && customFilter === false) {
-      setSearchTermError(null);
-      setSearchTermError(ErrorMessages.SearchForm.SEARCH_TERM_REQUIRED);
-      return;
-    }
+
     if (!resultsCount) {
       history.push('/search/results');
     }
