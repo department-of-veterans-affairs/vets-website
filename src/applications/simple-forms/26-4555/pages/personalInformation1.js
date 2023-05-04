@@ -12,6 +12,7 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [veteranFields.fullName, veteranFields.dateOfBirth];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:description': PrefillMessage,

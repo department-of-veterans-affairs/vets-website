@@ -10,6 +10,7 @@ const pageFields = [
   veteranFields.veteranServiceNumber,
 ];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {

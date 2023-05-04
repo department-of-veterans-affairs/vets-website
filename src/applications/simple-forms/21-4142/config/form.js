@@ -31,6 +31,7 @@ import {
   veteranIsSelfText,
 } from '../definitions/constants';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
