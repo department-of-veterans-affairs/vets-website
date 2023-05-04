@@ -19,9 +19,13 @@ describe('Secure Messaging Reply Message Details Thread', () => {
     messageDetailsPage.loadReplyPageDetails(testMessage);
     patientInterstitialPage.getContinueButton().click();
     messageDetailsPage.verifyExpandedMessageDateDisplay(testMessage);
-    cy.contains('expand').click();
+    cy.get(
+      `[data-testid='expand-message-button-${
+        testMessage.data.attributes.messageId
+      }']`,
+    ).click();
     messageDetailsPage.verifyExpandedMessageFromDisplay(testMessage);
-    messageDetailsPage.verifyExpandedMessageIDDisplay(testMessage);
+    // messageDetailsPage.verifyExpandedMessageIDDisplay(testMessage); // TODO: Pending UCD decision if message ID should be displayed
     messageDetailsPage.verifyExpandedMessageToDisplay(testMessage);
     messageDetailsPage.verifyUnexpandedMessageFromDisplay(testMessage);
     cy.injectAxe();

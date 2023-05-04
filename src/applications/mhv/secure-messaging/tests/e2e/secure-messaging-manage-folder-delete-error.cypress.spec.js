@@ -19,7 +19,7 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
     landingPage.loadInboxMessages();
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/7038175/threads?pageSize=100&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
+      '/my_health/v1/messaging/folders/7038175/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
       customFolderMessage,
     ).as('customFolder');
 

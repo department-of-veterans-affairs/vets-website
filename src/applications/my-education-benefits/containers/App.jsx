@@ -33,6 +33,7 @@ export const App = ({
   showMebDgi40Features,
   showMebDgi42Features,
   showMebCh33SelfForm,
+  showMebEnhancements,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
@@ -120,6 +121,12 @@ export const App = ({
           showMebCh33SelfForm,
         });
       }
+      if (showMebEnhancements !== formData.showMebEnhancements) {
+        setFormData({
+          ...formData,
+          showMebEnhancements,
+        });
+      }
     },
     [
       formData,
@@ -127,6 +134,7 @@ export const App = ({
       showMebDgi40Features,
       showMebDgi42Features,
       showMebCh33SelfForm,
+      showMebEnhancements,
     ],
   );
 
@@ -171,9 +179,10 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
+  showMebCh33SelfForm: PropTypes.bool,
   showMebDgi40Features: PropTypes.bool,
   showMebDgi42Features: PropTypes.bool,
-  showMebCh33SelfForm: PropTypes.bool,
+  showMebEnhancements: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

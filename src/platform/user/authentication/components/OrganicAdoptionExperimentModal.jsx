@@ -79,11 +79,15 @@ const OrganicAdoptionExperimentModal = ({ visible = false, onClose }) => {
           <li>A phone number where you can be reached</li>
         </ul>
         <div className="alert-actions">
-          <button type="button" onClick={onPrimaryButtonClick}>
+          <button
+            className="va-button usa-button"
+            type="button"
+            onClick={onPrimaryButtonClick}
+          >
             Get Login.gov now
           </button>
           <button
-            className="button-secondary"
+            className="va-button usa-button-secondary"
             onClick={onSecondaryButtonClick}
             type="button"
           >

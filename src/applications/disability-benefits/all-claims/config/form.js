@@ -189,7 +189,8 @@ const formConfig = {
   preSubmitInfo,
   chapters: {
     veteranDetails: {
-      title: isReviewPage => `${isReviewPage ? 'Review ' : ''}Veteran Details`,
+      title: ({ onReviewPage }) =>
+        `${onReviewPage ? 'Review ' : ''}Veteran Details`,
       pages: {
         veteranInformation: {
           title: 'Veteran information',

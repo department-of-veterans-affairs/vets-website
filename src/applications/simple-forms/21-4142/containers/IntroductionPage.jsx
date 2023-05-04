@@ -17,7 +17,7 @@ class IntroductionPage extends React.Component {
       <article className="schemaform-intro">
         <FormTitle
           title="Authorize the release of medical information to the VA"
-          subTitle="Authorization to disclose information to the Department of Veterans Affairs (VA) (VA Form 21-4142 & 21-4142a)"
+          subTitle="Authorization to disclose information to the Department of Veterans Affairs (VA) (VA Form 21-4142 and 21-4142a)"
         />
         <h2>Here&rsquo;s how to apply online</h2>
         <p>

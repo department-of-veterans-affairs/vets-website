@@ -25,5 +25,6 @@ export default {
         type: 'boolean',
       },
     },
+    required: [EVIDENCE_PRIVATE],
   },
 };

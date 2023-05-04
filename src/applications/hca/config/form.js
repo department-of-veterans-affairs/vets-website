@@ -1,6 +1,5 @@
 // platform imports
 import environment from 'platform/utilities/environment';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -13,6 +12,7 @@ import FormFooter from '../components/FormFooter';
 import GetHelp from '../components/GetHelp';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
 import { DowntimeWarning } from '../components/FormAlerts';
+import PreSubmitNotice from '../components/PreSubmitNotice';
 import IntroductionPage from '../containers/IntroductionPage';
 import {
   prefillTransformer,
@@ -29,7 +29,6 @@ import personalInformationSsn from './chapters/veteranInformation/personalInform
 import personalInformationDOB from './chapters/veteranInformation/personalInformationDob';
 import birthInformation from './chapters/veteranInformation/birthInformation';
 import maidenNameInformation from './chapters/veteranInformation/maidenNameInformation';
-import americanIndian from './chapters/veteranInformation/americanIndian';
 import birthSex from './chapters/veteranInformation/birthSex';
 import veteranInformation from './chapters/veteranInformation/personalnformation';
 import demographicInformation from './chapters/veteranInformation/demographicInformation';
@@ -121,7 +120,11 @@ const formConfig = {
   submissionError: SubmissionErrorAlert,
   title: 'Apply for VA health care',
   subTitle: 'Form 10-10EZ',
-  preSubmitInfo,
+  preSubmitInfo: {
+    required: true,
+    field: 'privacyAgreementAccepted',
+    CustomComponent: PreSubmitNotice,
+  },
   footerContent: FormFooter,
   getHelp: GetHelp,
   defaultDefinitions: {
@@ -214,14 +217,6 @@ const formConfig = {
           },
           uiSchema: demographicInformation.uiSchema,
           schema: demographicInformation.schema,
-        },
-        americanIndian: {
-          path: 'veteran-information/american-indian',
-          title: 'Recognition as an American Indian or Alaska Native',
-          initialData: {},
-          depends: formData => formData['view:isAiqEnabled'],
-          uiSchema: americanIndian.uiSchema,
-          schema: americanIndian.schema,
         },
         veteranAddress: {
           path: 'veteran-information/veteran-address',
