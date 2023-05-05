@@ -143,7 +143,7 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
         name={`dependentAge-${i}`}
         onInput={({ target }) => handlers.updateDependents(target, i)}
         value={dependent.dependentAge}
-        className="no-wrap input-size-2"
+        className="input-size-2 no-wrap"
         onBlur={event => handlers.handleBlur(event, i)}
         error={errors[i]}
         required
