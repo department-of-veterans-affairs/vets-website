@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { DEPENDENT_AGE_LABELS } from '../constants/dependentLabels';
 import { validateIsNumber } from '../utils/validations';
 import ButtonGroup from './shared/ButtonGroup';
@@ -239,8 +239,8 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
 };
 
 DependentAges.propTypes = {
-  goToPath: PropTypes.func.isRequired,
-  isReviewMode: PropTypes.bool.isRequired,
+  goToPath: PropTypes.func,
+  isReviewMode: PropTypes.bool,
 };
 
 export default DependentAges;
