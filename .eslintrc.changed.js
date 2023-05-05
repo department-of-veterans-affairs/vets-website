@@ -12,11 +12,6 @@ module.exports = {
     'deprecate/import': [
       'error',
       {
-        name:
-          '@department-of-veterans-affairs/component-library/SystemDownView',
-        use: 'HTML',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/TextInput',
         use: '<va-text-input>',
       },
