@@ -16,7 +16,9 @@ const Explainer = (
 );
 
 const RealEstateDescription = (
-  <p className="vads-u-color--gray">This includes properties with a mortage.</p>
+  <p className="vads-u-color--gray vads-u-margin--0">
+    This includes properties with a mortage.
+  </p>
 );
 
 export const uiSchema = {

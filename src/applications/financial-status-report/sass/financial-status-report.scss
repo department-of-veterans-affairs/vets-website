@@ -146,10 +146,16 @@
   }
 }
 
+// schemaform title override to match DS
+.schemaform-block-title {
+  font-size: $h3-font-size;
+  color: $color-base;
+}
+
 // form field subtitle
 .formfield-subtitle {
   margin: 4px 0 0;
-  font-size: 16px;
+  font-size: $base-font-size;
   max-width: 400px;
   color: $color-gray-medium;
 }
@@ -165,9 +171,6 @@
 }
 
 // resolution options
-.resolution-options-available .schemaform-block-title {
-  font-size: 20px;
-}
 .resolution-options-debt-title {
   font-size: 18px;
 }
@@ -218,12 +221,6 @@
   }
   .additional-info-button {
     margin: 10px 0 20px;
-  }
-}
-
-.repayments {
-  #root__title {
-    height: auto;
   }
 }
 
@@ -338,8 +335,7 @@
 .summary-card-delete-button {
   color: $color-secondary-dark;
   background-color: transparent;
-  width: 152px;
-  max-width: 152px;
+  width: auto !important;
   font-weight: bold;
   &:hover {
     color: $color-secondary-dark;

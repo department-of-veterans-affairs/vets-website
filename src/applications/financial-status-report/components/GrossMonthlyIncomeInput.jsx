@@ -127,40 +127,38 @@ const GrossMonthlyIncomeInput = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <div>
-        <h3 className="vads-u-margin-top--neg1p5">
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">
           Your job at {employerName}
-        </h3>
-      </div>
-      <p className="vads-u-margin-bottom--0">
-        What’s your gross <strong>monthly</strong> income at this job?{' '}
-        <span className="required vads-u-color--secondary-dark">
-          (*Required)
-        </span>
-      </p>
-      <p className="formfield-subtitle">
-        You’ll find this in your pay stub. It’s the amount of your pay before
-        taxes and deductions.
-      </p>
-      <br />
-      <div className="input vads-u-margin-top--neg3">
-        <va-number-input
-          inputmode="numeric"
-          id="gross-monthly-income"
-          currency
-          data-testid="gross-monthly-income"
-          name="gross-monthly-income"
-          onInput={setNewGrossMonthlyIncome}
-          type="text"
-          value={grossMonthlyIncome.value}
-          error={
-            incomeError && grossMonthlyIncome.dirty
-              ? `Please enter a valid number.`
-              : ''
-          }
-        />
-      </div>
-
+        </legend>
+        <p className="vads-u-margin-bottom--0">
+          What’s your gross <strong>monthly</strong> income at this job?{' '}
+          <span className="required vads-u-color--secondary-dark">
+            (*Required)
+          </span>
+        </p>
+        <p className="formfield-subtitle">
+          You’ll find this in your pay stub. It’s the amount of your pay before
+          taxes and deductions.
+        </p>
+        <div className="input vads-u-margin-top--neg3">
+          <va-number-input
+            inputmode="numeric"
+            id="gross-monthly-income"
+            currency
+            data-testid="gross-monthly-income"
+            name="gross-monthly-income"
+            onInput={setNewGrossMonthlyIncome}
+            type="text"
+            value={grossMonthlyIncome.value}
+            error={
+              incomeError && grossMonthlyIncome.dirty
+                ? `Please enter a valid number.`
+                : ''
+            }
+          />
+        </div>
+      </fieldset>
       {onReviewPage ? updateButton : navButtons}
     </form>
   );

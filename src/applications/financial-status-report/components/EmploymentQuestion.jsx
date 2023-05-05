@@ -57,26 +57,29 @@ const EmploymentQuestion = props => {
 
   return (
     <form>
-      <VaRadio
-        class="vads-u-margin-y--2"
-        label="Have you had another job in the last 2 years?"
-        onVaValueChange={onSelection}
-        required
-      >
-        <va-radio-option
-          id="has-job"
-          label="Yes"
-          value="true"
-          checked={hasJobToAdd}
-        />
-        <va-radio-option
-          id="has-no-job"
-          label="No"
-          value="false"
-          name="primary"
-          checked={!hasJobToAdd}
-        />
-      </VaRadio>
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">Your work history</legend>
+        <VaRadio
+          class="vads-u-margin-y--2"
+          label="Have you had any jobs in the last 2 years?"
+          onVaValueChange={onSelection}
+          required
+        >
+          <va-radio-option
+            id="has-job"
+            label="Yes"
+            value="true"
+            checked={hasJobToAdd}
+          />
+          <va-radio-option
+            id="has-no-job"
+            label="No"
+            value="false"
+            name="primary"
+            checked={!hasJobToAdd}
+          />
+        </VaRadio>
+      </fieldset>
       {contentBeforeButtons}
       <FormNavButtons goBack={goBack} goForward={goForward} submitToContinue />
       {contentAfterButtons}
