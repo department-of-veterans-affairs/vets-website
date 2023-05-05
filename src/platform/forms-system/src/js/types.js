@@ -229,6 +229,7 @@
  * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [replaceSchema]
  * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [updateSchema]
  * @property {boolean} [useDlWrap]
+ * @property {boolean} [uswds]
  * @property {React.ReactNode} [viewComponent]
  * @property {React.ReactNode} [viewField]
  * @property {string} [widgetClassNames]
