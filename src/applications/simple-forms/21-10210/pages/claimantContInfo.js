@@ -13,12 +13,12 @@ export default {
       'ui:title':
         'I agree to receive electronic correspondence from VA in regards to my claim.', // hidden via styling
       'ui:widget': 'checkbox', // Need this widget to support error messages
+      // TODO: Investigate why this only works once, though bug's arguably an edge-case:
+      // If User checks and the unchecks -- whether before Continuing or after Continuing and returning to this page -- Continue fails to block advancing even though the field still shows Required
       'ui:required': formData =>
         !!formData.claimantEmail &&
-        !(
-          formData.claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY &&
-          formData.claimantType === CLAIMANT_TYPES.NON_VETERAN
-        ),
+        formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
+        formData.claimantType === CLAIMANT_TYPES.NON_VETERAN,
       'ui:errorMessages': {
         required: 'Please agree to receive electronic correspondence.',
       },
