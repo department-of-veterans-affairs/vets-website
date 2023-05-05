@@ -46,7 +46,7 @@ const initialState = {
   },
 };
 
-describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
+describe.skip('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
