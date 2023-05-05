@@ -12,6 +12,10 @@ import { getSelected, getIssueName } from '../utils/helpers';
 import { validateDate } from './date';
 import { fixDateFormat } from '../utils/replace';
 
+// Needed for uniqueness string comparison
+const sortIssues = issues =>
+  issues.map(issue => (issue || '').toLowerCase()).sort();
+
 /* *** VA *** */
 export const validateVaLocation = (errors, data) => {
   const { locationAndName } = data || {};
@@ -61,7 +65,7 @@ export const validateVaToDate = (errors, data) => {
 const buildVaLocationString = (data, joiner = '') =>
   [
     data.locationAndName || '',
-    ...(data.issues || []),
+    ...sortIssues(data.issues || []),
     fixDateFormat(data.evidenceDates?.from || '').replace(REGEX_EMPTY_DATE, ''),
     fixDateFormat(data.evidenceDates?.to || '').replace(REGEX_EMPTY_DATE, ''),
   ].join(joiner);
@@ -94,7 +98,7 @@ export const validateVaUnique = (
       return firstIndex !== lastIndex && lastIndex === currentIndex;
     });
     if (hasDuplicate) {
-      errors.addError(errorMessages.evidence.unique);
+      errors.addError(errorMessages.evidence.uniqueVA);
     }
   }
 };
@@ -180,7 +184,7 @@ const buildPrivateString = (data, joiner = '') =>
   [
     data.providerFacilityName || '',
     ...Object.values(data.providerFacilityAddress || {}),
-    ...(data.issues || []),
+    ...sortIssues(data.issues || []),
     fixDateFormat(data.treatmentDateRange?.from || '').replace(
       REGEX_EMPTY_DATE,
       '',
@@ -222,7 +226,7 @@ export const validatePrivateUnique = (
       return firstIndex !== lastIndex && lastIndex === currentIndex;
     });
     if (hasDuplicate) {
-      errors.addError(errorMessages.evidence.unique);
+      errors.addError(errorMessages.evidence.uniquePrivate);
     }
   }
 };

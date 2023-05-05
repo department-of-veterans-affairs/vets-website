@@ -104,7 +104,8 @@ export const errorMessages = {
     locationMissing: 'You must enter a treatment location',
     locationMaxLength: 'You can enter a maximum of 255 characters',
     issuesMissing: 'You must select 1 or more conditions',
-    unique: 'You must enter a location you haven’t already entered',
+    uniqueVA:
+      'You must enter a location, condition and dates you haven’t already entered',
 
     // private evidence
     facilityMissing: 'You must add a provider or facility name',
@@ -114,6 +115,8 @@ export const errorMessages = {
     state: 'You must choose a state',
     postal: 'You must enter a postal code',
     overMaxLength: max => `You can enter a maximum of ${max} characters`,
+    uniquePrivate:
+      'You must enter a provider, address, condition and dates you haven’t already entered',
 
     upload: 'You must provide a password to decrypt this file',
   },

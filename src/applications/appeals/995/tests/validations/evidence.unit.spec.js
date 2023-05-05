@@ -170,13 +170,13 @@ describe('VA evidence', () => {
       locations: [
         {
           locationAndName: 'Location 1',
-          issues: ['Ankylosis of knee'],
+          issues: ['test 1', 'test 2'],
           evidenceDates: { from: '2001-01-01', to: '2011-01-01' },
         },
         {},
         {
           locationAndName: 'Location 2',
-          issues: ['Ankylosis of knees'],
+          issues: ['test 1', 'test 2'],
           evidenceDates: { from: '2002-02-02', to: '2012-02-02' },
         },
         {
@@ -186,8 +186,8 @@ describe('VA evidence', () => {
         },
         {
           locationAndName: name3,
-          issues: ['AnKyLoSiS of KNEE'],
-          evidenceDates: { from: '2001-01-01', to: '2011-01-01' },
+          issues: ['TeSt 2', 'tEsT 1'],
+          evidenceDates: { from: '2001-1-01', to: '2011-01-1' },
         },
       ],
     });
@@ -199,19 +199,19 @@ describe('VA evidence', () => {
     it('should NOT show an error for duplicate locations when on the first duplicate', () => {
       const errors = { addError: sinon.spy() };
       validateVaUnique(errors, {}, getLocations('LOCATION 1'), _, _, 0);
-      expect(errors.addError.calledWith(errorMessages.evidence.unique)).to.be
+      expect(errors.addError.calledWith(errorMessages.evidence.uniqueVA)).to.be
         .false;
     });
     it('should SHOW an error for duplicate locations when not on the first duplicate index', () => {
       const errors = { addError: sinon.spy() };
       validateVaUnique(errors, {}, getLocations('LOCATION 1'), _, _, 4);
-      expect(errors.addError.calledWith(errorMessages.evidence.unique)).to.be
+      expect(errors.addError.calledWith(errorMessages.evidence.uniqueVA)).to.be
         .true;
     });
     it('should NOT show an error for duplicate locations when on a different index', () => {
       const errors = { addError: sinon.spy() };
       validateVaUnique(errors, {}, getLocations('LOCATION 2'), _, _, 0);
-      expect(errors.addError.calledWith(errorMessages.evidence.unique)).to.be
+      expect(errors.addError.calledWith(errorMessages.evidence.uniqueVA)).to.be
         .false;
     });
 
@@ -549,14 +549,14 @@ describe('Private evidence', () => {
         {
           providerFacilityName: 'Facility 1',
           providerFacilityAddress,
-          issues: ['Ankylosis of knee'],
+          issues: ['test 1', 'test 2'],
           treatmentDateRange: { from: '2001-01-01', to: '2011-01-01' },
         },
         {},
         {
           providerFacilityName: 'Facility 2',
           providerFacilityAddress,
-          issues: ['Ankylosis of knee'],
+          issues: ['test 1', 'test 2'],
           treatmentDateRange: { from: '2002-02-02', to: '2012-02-02' },
         },
         {
@@ -568,7 +568,7 @@ describe('Private evidence', () => {
         {
           providerFacilityName: name3,
           providerFacilityAddress,
-          issues: ['AnKyLoSiS of KNEE'],
+          issues: ['TeSt 2', 'tEsT 1'],
           treatmentDateRange: { from: '2001-01-01', to: '2011-01-01' },
         },
       ],
@@ -586,8 +586,8 @@ describe('Private evidence', () => {
     it('should SHOW an error for duplicate Facilities on the indexed page', () => {
       const errors = { addError: sinon.spy() };
       validatePrivateUnique(errors, _, getFacilities('FACILITY 1'), _, _, 4);
-      expect(errors.addError.calledWith(errorMessages.evidence.unique)).to.be
-        .true;
+      expect(errors.addError.calledWith(errorMessages.evidence.uniquePrivate))
+        .to.be.true;
     });
     it('should NOT show a duplicate Facility error on a different index', () => {
       const errors = { addError: sinon.spy() };
