@@ -60,6 +60,7 @@ import * as resolutionOption from './resolution/resolutionOption';
 import * as resolutionComments from './resolution/comments';
 import * as resolutionComment from './resolution/resolutionComment';
 import * as resolutionWaiverAgreement from './resolution/resolutionWaiverAgreement';
+import * as resolutionCompromiseAgreement from './resolution/resolutionCompromiseAgreement';
 import * as bankruptcyHistory from './bankruptcy';
 import * as bankruptcyHistoryRecords from './bankruptcy/records';
 import * as enhancedBankruptcyHistoryRecords from './bankruptcy/enhancedRecords';
@@ -154,4 +155,5 @@ export {
   enhancedBankruptcyHistoryRecords,
   creditCardBills,
   installmentContracts,
+  resolutionCompromiseAgreement,
 };
