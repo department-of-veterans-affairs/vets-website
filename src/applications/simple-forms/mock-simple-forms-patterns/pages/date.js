@@ -2,7 +2,7 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import {
   currentOrPastDateUI as currentOrPastDateUIWC,
   currentOrPastDateSchema,
-} from 'platform/forms-system/src/js/web-component-schemas/dateSchemas';
+} from 'platform/forms-system/src/js/web-component-patterns/datePatterns';
 
 /** @type {PageSchema} */
 export default {
