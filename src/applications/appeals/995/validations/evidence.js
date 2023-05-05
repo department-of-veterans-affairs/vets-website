@@ -10,6 +10,7 @@ import {
 } from '../constants';
 import { getSelected, getIssueName } from '../utils/helpers';
 import { validateDate } from './date';
+import { fixDateFormat } from '../utils/replace';
 
 /* *** VA *** */
 export const validateVaLocation = (errors, data) => {
@@ -61,8 +62,8 @@ const buildVaLocationString = (data, joiner = '') =>
   [
     data.locationAndName || '',
     ...(data.issues || []),
-    (data.evidenceDates?.from || '').replace(REGEX_EMPTY_DATE, ''),
-    (data.evidenceDates?.to || '').replace(REGEX_EMPTY_DATE, ''),
+    fixDateFormat(data.evidenceDates?.from || '').replace(REGEX_EMPTY_DATE, ''),
+    fixDateFormat(data.evidenceDates?.to || '').replace(REGEX_EMPTY_DATE, ''),
   ].join(joiner);
 
 // Check if VA evidence object is empty
@@ -180,8 +181,14 @@ const buildPrivateString = (data, joiner = '') =>
     data.providerFacilityName || '',
     ...Object.values(data.providerFacilityAddress || {}),
     ...(data.issues || []),
-    (data.treatmentDateRange?.from || '').replace(REGEX_EMPTY_DATE, ''),
-    (data.treatmentDateRange?.to || '').replace(REGEX_EMPTY_DATE, ''),
+    fixDateFormat(data.treatmentDateRange?.from || '').replace(
+      REGEX_EMPTY_DATE,
+      '',
+    ),
+    fixDateFormat(data.treatmentDateRange?.to || '').replace(
+      REGEX_EMPTY_DATE,
+      '',
+    ),
   ].join(joiner);
 
 export const isEmptyPrivateEntry = (checkData = {}) => {

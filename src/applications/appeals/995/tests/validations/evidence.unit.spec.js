@@ -133,6 +133,10 @@ describe('VA evidence', () => {
       expect(isEmptyVaEntry({ evidenceDates: {} })).to.be.true;
       expect(isEmptyVaEntry({ evidenceDates: { from: '--', to: '--' } })).to.be
         .true;
+      expect(isEmptyVaEntry({ evidenceDates: { from: '-0-0', to: '-0-0' } })).to
+        .be.true;
+      expect(isEmptyVaEntry({ evidenceDates: { from: '-00-00', to: '--' } })).to
+        .be.true;
       expect(
         isEmptyVaEntry({
           locationAndName: '',
@@ -443,6 +447,18 @@ describe('Private evidence', () => {
       expect(
         isEmptyPrivateEntry({ treatmentDateRange: { from: '--', to: '--' } }),
       ).to.be.true;
+
+      expect(
+        isEmptyPrivateEntry({
+          treatmentDateRange: { from: '-0-0', to: '-0-0' },
+        }),
+      ).to.be.true;
+      expect(
+        isEmptyPrivateEntry({
+          treatmentDateRange: { from: '-00-00', to: '--' },
+        }),
+      ).to.be.true;
+
       expect(
         isEmptyPrivateEntry({
           providerFacilityName: '',
