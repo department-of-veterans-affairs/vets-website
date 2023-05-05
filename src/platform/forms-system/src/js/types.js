@@ -198,6 +198,7 @@
  * @property {boolean} freeInput
  * @property {boolean} hideEmptyValueInReview
  * @property {(formData: any) => boolean} hideIf
+ * @property {boolean} hideLabelText
  * @property {boolean} hideTitle
  * @property {boolean} hideOnReview
  * @property {string} hint
@@ -211,6 +212,7 @@
  * @property {(formData: any) => any} replaceSchema
  * @property {(formData, schema, uiSchema, index, path) => any} updateSchema
  * @property {boolean} useDlWrap
+ * @property {boolean} uswds
  * @property {(props: any) => JSX.Element} viewComponent
  * @property {(props: any) => JSX.Element} viewField
  * @property {string} widgetClassNames

@@ -1,8 +1,7 @@
 import React from 'react';
 import {
-  jsxSchema,
-  jsxUI,
   ssnUI as newSsnUI,
+  ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { ssnUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
@@ -11,103 +10,175 @@ import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/V
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    textInputOld: {
-      'ui:title': 'RJSF text input',
+    rjsf: {
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+          rjsf / widget
+        </h3>
+      ),
     },
-    textInputNewUswds: {
-      'ui:title': 'USWDS Web component text input',
-      'ui:webComponentField': VaTextInputField,
+    rjsfSimpleTextInput: {
+      'ui:title': 'text input',
+    },
+    rjsfRequiredCheckbox: {
+      'ui:title': 'required checkbox',
+      'ui:widget': 'checkbox',
       'ui:options': {
-        uswds: true,
+        hideLabelText: true,
+      },
+      'ui:errorMessages': {
+        enum: 'Please select a checkbox',
+        required: 'Checkbox required error',
       },
     },
-    textInputNew: {
-      'ui:title': 'Web component text input',
-      'ui:webComponentField': VaTextInputField,
-    },
-    oldCheckbox: {
-      'ui:title': 'RJSF checkbox',
-    },
-    checkboxWithJsx: {
-      'ui:title': 'Web component checkbox',
-      'ui:webComponentField': VaCheckboxField,
-      'ui:description': 'Web component description',
-    },
-    checkboxWithJsxUsdws: {
-      'ui:title': 'USWDS Web component checkbox',
-      'ui:webComponentField': VaCheckboxField,
-      'ui:options': {
-        uswds: true,
-      },
-    },
-    textInputOld2: {
-      ...ssnUI('RJSF - Social security number'),
-      'ui:title': 'RJSF - Social security number',
+    rjsfSsn: {
+      ...ssnUI('Social security number'),
+      'ui:title': 'Social security number',
       'ui:errorMessages': {
         required: 'Please enter a Social Security number',
       },
     },
-    checkboxWithLabelAndLegend: {
-      'ui:title': 'Web component',
+    rjsfCheckboxWithBackground: {
+      'ui:title': '',
+      'ui:description': (
+        <div className="vads-u-background-color--gray-light-alt">
+          <input type="checkbox" />
+          <label>checkbox with background</label>
+        </div>
+      ),
+    },
+    wc: {
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+          web component
+        </h3>
+      ),
+    },
+    wcSimpleText: {
+      'ui:title': 'text input',
+      'ui:webComponentField': VaTextInputField,
+    },
+    wcRequiredCheckbox: {
+      'ui:title': 'required checkbox',
       'ui:webComponentField': VaCheckboxField,
-      'ui:description': 'Web component description',
+      'ui:errorMessages': {
+        enum: 'Please select a checkbox',
+        required: 'Checkbox required error',
+      },
+    },
+    wcSsn: newSsnUI('Social Security number'),
+    wcCheckboxWithBackground: {
+      'ui:title': '',
+      'ui:description': (
+        <div className="vads-u-background-color--gray-light-alt">
+          <va-checkbox label="checkbox with background" />
+        </div>
+      ),
+    },
+    wcV3: {
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+          v3 web component
+        </h3>
+      ),
+    },
+    wcV3SimpleText: {
+      'ui:title': 'text input',
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         uswds: true,
       },
     },
-    textInput: newSsnUI('Web component - Social Security number'),
-    checkboxWithLabel: jsxUI(
-      <div className="vads-u-background-color--gray-light-alt">
-        <va-checkbox label="Web component" />
-      </div>,
-    ),
-    oldCheckboxExample: {
-      'ui:title': 'Old checkbox example',
-      'ui:description': 'Old checkbox description',
+    wcV3RequiredCheckbox: {
+      'ui:title': 'required checkbox',
+      'ui:webComponentField': VaCheckboxField,
+      'ui:errorMessages': {
+        enum: 'Please select a checkbox',
+        required: 'Checkbox required error',
+      },
+      'ui:options': {
+        uswds: true,
+      },
+    },
+    wcV3Ssn: {
+      ...newSsnUI('Social Security number'),
+      'ui:options': {
+        uswds: true,
+      },
+    },
+    wcV3CheckboxWithBackground: {
+      'ui:title': '',
+      'ui:description': (
+        <div className="vads-u-background-color--gray-light-alt">
+          <va-checkbox label="checkbox with background" uswds />
+        </div>
+      ),
     },
   },
   schema: {
     type: 'object',
     properties: {
-      textInputOld: {
+      rjsf: {
+        type: 'object',
+        properties: {},
+      },
+      rjsfSimpleTextInput: {
         type: 'string',
       },
-      textInputNewUswds: {
+      rjsfRequiredCheckbox: {
+        type: 'boolean',
+        enum: [true],
+      },
+      rjsfSsn: {
         type: 'string',
       },
-      textInputNew: {
+      rjsfCheckboxWithBackground: {
+        type: 'object',
+        properties: {},
+      },
+      wc: {
+        type: 'object',
+        properties: {},
+      },
+      wcSimpleText: {
         type: 'string',
       },
-      oldCheckbox: {
+      wcRequiredCheckbox: {
         type: 'boolean',
+        enum: [true],
       },
-      checkboxWithJsx: {
-        type: 'boolean',
+      wcSsn: ssnSchema(),
+      wcCheckboxWithBackground: {
+        type: 'object',
+        properties: {},
       },
-      checkboxWithJsxUsdws: {
-        type: 'boolean',
+      wcV3: {
+        type: 'object',
+        properties: {},
       },
-      textInputOld2: {
+      wcV3SimpleText: {
         type: 'string',
       },
-      checkboxWithLabelAndLegend: {
+      wcV3RequiredCheckbox: {
         type: 'boolean',
+        enum: [true],
       },
-      textInput: {
-        type: 'string',
-      },
-      checkboxWithLabel: jsxSchema(),
-      oldCheckboxExample: {
-        type: 'boolean',
+      wcV3Ssn: ssnSchema(),
+      wcV3CheckboxWithBackground: {
+        type: 'object',
+        properties: {},
       },
     },
     required: [
-      'textInput',
-      'checkboxWithLabel',
-      'textInputOld2',
-      'textInputOld',
-      'textInputNew',
-      'textInputNewUswds',
+      'rjsfSimpleTextInput',
+      'rjsfRequiredCheckbox',
+      'rjsfSsn',
+      'wcSimpleText',
+      'wcRequiredCheckbox',
+      'wcSsn',
+      'wcV3SimpleText',
+      'wcV3RequiredCheckbox',
+      'wcV3Ssn',
     ],
   },
 };
