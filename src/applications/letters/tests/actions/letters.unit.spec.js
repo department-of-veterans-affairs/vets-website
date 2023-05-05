@@ -46,32 +46,42 @@ const setup = () => {
   };
 };
 
+const migrationOptions = {
+  listEndpoint: {
+    method: 'GET',
+    path: '/v0/letters',
+  },
+  summaryEndpoint: {
+    method: 'GET',
+    path: '/v0/letters/beneficiary',
+  },
+  downloadEndpoint: {
+    method: 'POST',
+    path: '/v0/letters',
+  },
+  dataEntryPoint: ['data', 'attributes'],
+};
+
 const getState = () => ({});
 
 describe('getLettersList', () => {
   beforeEach(setup);
 
   const lettersResponse = {
-    data: {
-      attributes: {
-        letters: [
-          { name: 'Proof of Service Letter', letterType: 'proof_of_service' },
-          {
-            name: 'Civil Service Preference Letter',
-            letterType: 'civil_service',
-          },
-        ],
-        fullName: 'Mark Webb',
+    letters: [
+      { name: 'Proof of Service Letter', letterType: 'proof_of_service' },
+      {
+        name: 'Civil Service Preference Letter',
+        letterType: 'civil_service',
       },
-      id: null,
-      type: 'evss_letters_letters_response',
-    },
+    ],
+    fullName: 'Mark Webb',
   };
 
   it('dispatches GET_LETTERS_SUCCESS when GET succeeds', done => {
     setFetchJSONResponse(global.fetch.onCall(0), lettersResponse);
     const dispatch = sinon.spy();
-    getLetterList(dispatch)
+    getLetterList(dispatch, migrationOptions)
       .then(() => {
         const action = dispatch.firstCall.args[0];
         expect(action.type).to.equal(GET_LETTERS_SUCCESS);
@@ -83,7 +93,7 @@ describe('getLettersList', () => {
   it('dispatches GET_LETTERS_FAILURE when GET fails with generic error', done => {
     setFetchJSONFailure(global.fetch.onCall(0), Promise.reject('error'));
     const dispatch = sinon.spy();
-    getLetterList(dispatch)
+    getLetterList(dispatch, migrationOptions)
       .then(() => {
         done(
           new Error('getLetterList should have rejected but resolved instead'),
@@ -116,7 +126,7 @@ describe('getLettersList', () => {
       });
 
       const dispatch = sinon.spy();
-      getLetterList(dispatch)
+      getLetterList(dispatch, migrationOptions)
         // Just get to the test already!
         // Note: This could swallow unexpected errors
         .catch(() => Promise.resolve())
@@ -139,7 +149,7 @@ describe('getLetterListAndBSLOptions', () => {
   beforeEach(setup);
 
   it('should make the call to get the BSL options after the letter list call is complete', done => {
-    const thunk = getLetterListAndBSLOptions();
+    const thunk = getLetterListAndBSLOptions(migrationOptions);
     const dispatch = () => {};
 
     thunk(dispatch).then(() => {
@@ -154,7 +164,7 @@ describe('getLetterListAndBSLOptions', () => {
 
   it('should not make the call to get the BSL options if the letter list call fails', done => {
     setFetchJSONFailure(global.fetch.onCall(0), Promise.reject());
-    const thunk = getLetterListAndBSLOptions();
+    const thunk = getLetterListAndBSLOptions(migrationOptions);
     const dispatch = () => {};
 
     thunk(dispatch).then(() => {
@@ -168,41 +178,35 @@ describe('getBenefitSummaryOptions', () => {
   beforeEach(setup);
 
   const mockResponse = {
-    data: {
-      attributes: {
-        benefitInformation: {
-          hasNonServiceConnectedPension: true,
-          hasServiceConnectedDisabilities: true,
-          hasSurvivorsIndemnityCompensationAward: true,
-          hasSurvivorsPensionAward: true,
-          monthlyAwardAmount: 123.5,
-          serviceConnectedPercentage: 2,
-          awardEffectiveDate: true,
-          hasAdaptedHousing: true,
-          hasChapter35Eligibility: true,
-          hasDeathResultOfDisability: true,
-          hasIndividualUnemployabilityGranted: true,
-          hasSpecialMonthlyCompensation: true,
-        },
-        militaryService: [
-          {
-            branch: 'ARMY',
-            characterOfService: 'HONORABLE',
-            enteredDate: '1973-01-01T05:00:00.000+00:00',
-            releasedDate: '1977-10-01T04:00:00.000+00:00',
-          },
-        ],
-      },
-      id: null,
-      type: 'evss_letters_letter_beneficiary_response',
+    benefitInformation: {
+      hasNonServiceConnectedPension: true,
+      hasServiceConnectedDisabilities: true,
+      hasSurvivorsIndemnityCompensationAward: true,
+      hasSurvivorsPensionAward: true,
+      monthlyAwardAmount: 123.5,
+      serviceConnectedPercentage: 2,
+      awardEffectiveDate: true,
+      hasAdaptedHousing: true,
+      hasChapter35Eligibility: true,
+      hasDeathResultOfDisability: true,
+      hasIndividualUnemployabilityGranted: true,
+      hasSpecialMonthlyCompensation: true,
     },
+    militaryService: [
+      {
+        branch: 'ARMY',
+        characterOfService: 'HONORABLE',
+        enteredDate: '1973-01-01T05:00:00.000+00:00',
+        releasedDate: '1977-10-01T04:00:00.000+00:00',
+      },
+    ],
   };
 
   it('dispatches SUCCESS action with response when GET succeeds', done => {
     setFetchJSONResponse(global.fetch.onCall(0), mockResponse);
     const dispatch = sinon.spy();
 
-    getBenefitSummaryOptions(dispatch, getState)
+    getBenefitSummaryOptions(dispatch, migrationOptions)
       .then(() => {
         const action = dispatch.args[0][0]; // first call, first arg
         expect(action.type).to.equal(GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS);
@@ -215,7 +219,7 @@ describe('getBenefitSummaryOptions', () => {
     setFetchBlobFailure(global.fetch.onCall(0), Promise.reject('error'));
     const dispatch = sinon.spy();
 
-    getBenefitSummaryOptions(dispatch, getState)
+    getBenefitSummaryOptions(dispatch, migrationOptions)
       .then(() => {
         done(
           new Error(
@@ -262,7 +266,12 @@ describe('getLetterPdf', () => {
 
   it('dispatches download pending action first', done => {
     const { letterType, letterName, letterOptions } = benefitSLetter;
-    const thunk = getLetterPdf(letterType, letterName, letterOptions);
+    const thunk = getLetterPdf(
+      letterType,
+      letterName,
+      letterOptions,
+      migrationOptions,
+    );
     const dispatch = sinon.spy();
     thunk(dispatch, getState)
       .then(() => {
@@ -276,7 +285,12 @@ describe('getLetterPdf', () => {
   it('dispatches SUCCESS action when fetch succeeds for BSL', done => {
     setFetchBlobResponse(global.fetch.onCall(0), { test: '123 testing' });
     const { letterType, letterName, letterOptions } = benefitSLetter;
-    const thunk = getLetterPdf(letterType, letterName, letterOptions);
+    const thunk = getLetterPdf(
+      letterType,
+      letterName,
+      letterOptions,
+      migrationOptions,
+    );
     const dispatch = sinon.spy();
     thunk(dispatch, getState)
       .then(() => {
@@ -289,7 +303,12 @@ describe('getLetterPdf', () => {
   it('dispatches SUCCESS action when fetch succeeds for non-BSL', done => {
     setFetchBlobResponse(global.fetch.onCall(0), { test: '123 testing' });
     const { letterType, letterName, letterOptions } = civilSLetter;
-    const thunk = getLetterPdf(letterType, letterName, letterOptions);
+    const thunk = getLetterPdf(
+      letterType,
+      letterName,
+      letterOptions,
+      migrationOptions,
+    );
     const dispatch = sinon.spy();
     thunk(dispatch, getState)
       .then(() => {
@@ -305,7 +324,12 @@ describe('getLetterPdf', () => {
     global.window.navigator.msSaveOrOpenBlob = ieDownloadSpy; // fakes IE
     setFetchBlobResponse(global.fetch.onCall(0), blobObj);
     const { letterType, letterName, letterOptions } = civilSLetter;
-    const thunk = getLetterPdf(letterType, letterName, letterOptions);
+    const thunk = getLetterPdf(
+      letterType,
+      letterName,
+      letterOptions,
+      migrationOptions,
+    );
     const dispatch = sinon.spy();
     thunk(dispatch, getState)
       .then(() => {
@@ -320,7 +344,12 @@ describe('getLetterPdf', () => {
   it('dispatches FAILURE action if download fails', done => {
     setFetchJSONFailure(global.fetch.onCall(0), new Error('Oops, this failed'));
     const { letterType, letterName, letterOptions } = benefitSLetter;
-    const thunk = getLetterPdf(letterType, letterName, letterOptions);
+    const thunk = getLetterPdf(
+      letterType,
+      letterName,
+      letterOptions,
+      migrationOptions,
+    );
     const dispatch = sinon.spy();
     thunk(dispatch, getState)
       .then(() => {
