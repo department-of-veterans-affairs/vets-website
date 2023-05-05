@@ -6,22 +6,24 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
  * @param {string | UISchemaOptions} [options]
  * @returns {UISchemaOptions}
  */
-export const emailUI = options => {
-  const opts = typeof options === 'string' ? { 'ui:title': options } : options;
-
+export const emailUI = title => {
   return {
-    ...emailUIDefinition(opts['ui:title']),
+    ...emailUIDefinition,
+    'ui:title': title,
     'ui:webComponentField': VaTextInputField,
-    ...opts,
+    'ui:errorMessages': {
+      format:
+        'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
+    },
   };
 };
+
+const schema = commonDefinitions.email;
 
 /**
  * @param {SchemaOptions} [options]
  * @returns {SchemaOptions}
  */
-export const emailSchema = options => {
-  return options
-    ? { ...commonDefinitions.email, ...options }
-    : commonDefinitions.email;
+export const emailSchema = () => {
+  return schema;
 };

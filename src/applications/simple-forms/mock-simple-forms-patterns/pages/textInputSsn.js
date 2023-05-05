@@ -5,7 +5,7 @@ import {
   vaFileNumberUI,
   serviceNumberUI,
   serviceNumberSchema,
-} from 'platform/forms-system/src/js/web-component-schemas';
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
