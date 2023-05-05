@@ -171,7 +171,7 @@ const DependentInformation = props => {
   // construct cancel description for modal based on page mode and form data
   const cancelDescription = useMemo(
     () => {
-      const { fullName = {} } = localData;
+      const { fullName = {} } = localData || {};
       const normalizedFullName = `${fullName.first} ${
         fullName.last
       } ${fullName.suffix || ''}`.replace(/ +(?= )/g, '');
