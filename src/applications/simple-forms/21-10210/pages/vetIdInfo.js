@@ -4,7 +4,7 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 export default {
   uiSchema: {
     veteranSSN: ssnUI,
-    vaFileNumber: {
+    veteranVaFileNumber: {
       'ui:title': 'VA file number (if applicable)',
       'ui:errorMessages': {
         pattern:
@@ -20,8 +20,8 @@ export default {
     required: ['veteranSSN'],
     properties: {
       veteranSSN: definitions.ssn,
-      vaFileNumber: definitions.vaFileNumber,
-      vaInsuranceFileNumber: {
+      veteranVaFileNumber: definitions.vaFileNumber,
+      veteranVaInsuranceFileNumber: {
         type: 'string',
       },
     },
