@@ -32,6 +32,9 @@ function IntroductionLogin({
 
   const nextQuery = { next: window.location.pathname };
   const verifyUrl = appendQuery('/verify', nextQuery);
+  const headlineText = showMebEnhancements
+    ? 'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information and not your sponsor’s.'
+    : 'Save time-and save your work in progress-by signing in before starting your application.';
 
   return (
     <>
@@ -52,10 +55,7 @@ function IntroductionLogin({
               status="continue"
               visible
             >
-              <h2 slot="headline">
-                Save time—and save your work in progress—by signing in before
-                starting your application
-              </h2>
+              <h2 slot="headline">{headlineText}</h2>
               <div>
                 <p className="vads-u-margin-top--0">
                   When you’ve signed in to your verified VA.gov account:
