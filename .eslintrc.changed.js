@@ -34,10 +34,6 @@ module.exports = {
         use: '<va-additional-info>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/DropDownPanel',
-        use: 'HTML',
-      },
-      {
         name:
           '@department-of-veterans-affairs/component-library/LoadingIndicator',
         use: '<va-loading-indicator>',
@@ -45,11 +41,6 @@ module.exports = {
       {
         name: '@department-of-veterans-affairs/component-library/Pagination',
         use: '<va-pagination>',
-      },
-      {
-        name:
-          '@department-of-veterans-affairs/component-library/ProgressButton',
-        use: '<va-button-pair> or <va-button>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/Table',
