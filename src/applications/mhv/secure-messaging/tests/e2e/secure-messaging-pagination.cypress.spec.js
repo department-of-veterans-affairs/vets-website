@@ -8,16 +8,25 @@ describe('Secure Messaging Reply', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
+    const threadLength = 28;
 
+    mockMessagesPageOne.data.forEach(item => {
+      const currentItem = item;
+      currentItem.attributes.threadPageSize = threadLength;
+    });
+    mockMessagesPageTwo.data.forEach(item => {
+      const currentItem = item;
+      currentItem.attributes.threadPageSize = threadLength;
+    });
     landingPage.loadInboxMessages(mockMessagesPageOne);
     site.loadVAPaginationNextMessages(2, mockMessagesPageTwo);
-    cy.get('[data-testid="displaying-number-of-threads"]').should(
-      'have.text',
-      'Displaying 11 - 20 of 28 Conversations',
-    );
+    site.verifyPaginationMessagesDisplayed(11, 20, threadLength);
     site.loadVAPaginationPreviousMessages(1, mockMessagesPageOne);
+    site.verifyPaginationMessagesDisplayed(1, 10, threadLength);
     site.loadVAPaginationPageMessages(1, mockMessagesPageOne);
+    site.verifyPaginationMessagesDisplayed(1, 10, threadLength);
     site.loadVAPaginationPageMessages(2, mockMessagesPageTwo);
+    site.verifyPaginationMessagesDisplayed(11, 20, threadLength);
 
     cy.injectAxe();
     cy.axeCheck();

@@ -88,5 +88,16 @@ class SecureMessagingSite {
       .click();
     cy.wait(`@inboxMessagesessages${interceptedPage}`);
   };
+
+  verifyPaginationMessagesDisplayed = (
+    displayedStartNumber,
+    displayedEndNumber,
+    threadLength,
+  ) => {
+    cy.get('[data-testid="displaying-number-of-threads"]').should(
+      'have.text',
+      `Displaying ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} conversations`,
+    );
+  };
 }
 export default SecureMessagingSite;
