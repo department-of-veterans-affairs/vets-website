@@ -244,7 +244,7 @@ article[data-location="confirmation"] {
   }
 }
 
-/* Workaround issue using toggled component in ui:description for bdd evidence page */
+/* Workaround issue using component in ui:description for bdd evidence page */
 article[data-location="supporting-evidence/evidence-types-bdd"] {
   #root_view\:hasEvidence-label .schemaform-required-span {
     display: none

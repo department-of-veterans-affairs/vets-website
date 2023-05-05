@@ -11,7 +11,6 @@ import {
 } from './confirmation-poll';
 
 import { NULL_CONDITION_STRING } from '../constants';
-// import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { BddConfirmationAlert } from './bddConfirmationAlert';
 
 const template = (props, title, content, submissionMessage, messageType) => {

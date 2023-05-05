@@ -123,10 +123,7 @@ describe('526EZ document upload', () => {
 
   it('should display alert when BDD SHA enabled', () => {
     const fakeStore = createStore(() => ({
-      featureToggles: {
-        /* eslint-disable camelcase */
-        form526_bdd_sha: true,
-      },
+      featureToggles: {},
     }));
 
     const form = render(

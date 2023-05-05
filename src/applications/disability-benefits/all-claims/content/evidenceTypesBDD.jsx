@@ -50,13 +50,18 @@ export const evidenceTypeError =
 export const evidenceTypeHelp = (
   <va-additional-info trigger="Which evidence type should I choose?">
     <h4>Types of evidence</h4>
-    <h5 className="vads-u-padding-top--1p5">
-      Required Separation Health Assessment - Part A Self-Assessment
-    </h5>
-    <p>
-      You’ll need to submit your completed Separation Health Assessment - Part A
-      Self-Assessment so we can request your VA exams.
-    </p>
+
+    {!environment.isProduction() && (
+      <>
+        <h5 className="vads-u-padding-top--1p5">
+          Required Separation Health Assessment - Part A Self-Assessment
+        </h5>
+        <p>
+          You’ll need to submit your completed Separation Health Assessment -
+          Part A Self-Assessment so we can request your VA exams.
+        </p>
+      </>
+    )}
     <h5 className="vads-u-padding-top--1p5">Private medical records</h5>
     <p>
       If you were treated by a private doctor, including a Veteran’s Choice

@@ -1,7 +1,6 @@
 import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { DBQ_URL } from '../constants';
-// import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 const alertContent = (
   <>
