@@ -17,6 +17,7 @@ import {
   VaButtonPair,
   VaNumberInput,
   VaModal,
+  VaPrivacyAgreement,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V1V3Page() {
@@ -66,6 +67,24 @@ export default function V1V3Page() {
     }
     const display = document.getElementById(`${id}CheckboxValue`);
     if (display) display.innerText = valueStore.sort().join(', ');
+  };
+
+  const updatePrivacyAgreementValue = (e, id, agreementComponentId) => {
+    const { checked } = e.srcElement;
+    let valueString;
+    if (checked) {
+      valueString = `Agreement checked`;
+      document
+        .querySelector(`#${agreementComponentId}`)
+        .setAttribute('show-error', '');
+    } else {
+      valueString = `Agreement un-checked`;
+      document
+        .querySelector(`#${agreementComponentId}`)
+        .setAttribute('show-error', 'true');
+    }
+    const display = document.getElementById(id);
+    if (display) display.innerText = valueString;
   };
 
   const ValueDisplay = ({ id, label }) => {
@@ -419,9 +438,9 @@ export default function V1V3Page() {
 
         {/* Modal Comparison */}
         <div className="vads-l-row">
-          <h4>Modal</h4>
-          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
-            <div className="vads-l-col--6 vads-u-margin--1">
+          <h3>Modal</h3>
+          <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <va-button
                 onClick={openModalV1}
                 text="Click here to open V1 modal"
@@ -457,6 +476,46 @@ export default function V1V3Page() {
               >
                 <p>You have unsaved changes that will be lost.</p>
               </VaModal>
+            </div>
+          </div>
+        </div>
+        {/* Privacy Agreement Comparison */}
+        <div className="vads-l-row">
+          <h3>Privacy Agreement</h3>
+          <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
+              <VaPrivacyAgreement
+                id="v1PrivacyAgreement"
+                onVaChange={e =>
+                  updatePrivacyAgreementValue(
+                    e,
+                    'v1PrivacyAgreementValue',
+                    'v1PrivacyAgreement',
+                  )
+                }
+              />
+              <ValueDisplay
+                label="V1 Privacy Agreement"
+                id="v1PrivacyAgreementValue"
+              />
+            </div>
+
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
+              <VaPrivacyAgreement
+                id="v3PrivacyAgreement"
+                onVaChange={e =>
+                  updatePrivacyAgreementValue(
+                    e,
+                    'v3PrivacyAgreementValue',
+                    'v3PrivacyAgreement',
+                  )
+                }
+                uswds
+              />
+              <ValueDisplay
+                label="V3 Privacy Agreement"
+                id="v3PrivacyAgreementValue"
+              />
             </div>
           </div>
         </div>
