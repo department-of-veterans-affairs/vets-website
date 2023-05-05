@@ -3,7 +3,7 @@ import path from 'path';
 import formConfig from '../config/form';
 import { CONTESTABLE_ISSUES_API, WIZARD_STATUS } from '../constants';
 
-import { mockContestableIssues, fixDecisionDates } from './hlr.cypress.helpers';
+import { fixDecisionDates } from './hlr.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
@@ -26,12 +26,6 @@ describe('Higher-Level Review keyboard only navigation', () => {
     cy.intercept('GET', '/v0/profile/status', mockStatus);
     cy.intercept('POST', formConfig.submitUrl, mockSubmit);
 
-    cy.intercept(
-      'GET',
-      `/v1${CONTESTABLE_ISSUES_API}compensation`,
-      mockContestableIssues,
-    );
-
     cy.login(mockUser);
   });
   after(() => {
@@ -41,7 +35,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
   it('navigates through a maximal form', () => {
     cy.get('@testData').then(({ data }) => {
       const { chapters } = formConfig;
-      cy.intercept('GET', 'v1/notice_of_disagreements/contestable_issues', {
+      cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, {
         data: fixDecisionDates(data.contestableIssues),
       });
       cy.visit(
