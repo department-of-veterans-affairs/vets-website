@@ -81,40 +81,33 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
     [stateDependents, dispatch, formData],
   );
 
-  const handlers = {
-    onSubmit: event => {
-      event.preventDefault();
-      const hasEmptyInput = stateDependents.some(
-        dependent => dependent.dependentAge === '',
+  const onSubmit = event => {
+    event.preventDefault();
+    const hasEmptyInput = stateDependents.some(
+      dependent => dependent.dependentAge === '',
+    );
+    if (hasEmptyInput) {
+      const newErrors = stateDependents.map(
+        (dependent, i) =>
+          dependent.dependentAge === ''
+            ? 'Please enter your dependent(s) age.'
+            : errors[i],
       );
+      setErrors(newErrors);
+    } else if (isReviewMode) {
+      setIsEditing(false);
+    } else {
+      goToPath('/monetary-asset-checklist');
+    }
+  };
 
-      if (hasEmptyInput) {
-        const newErrors = stateDependents.map(
-          (dependent, i) =>
-            dependent.dependentAge === ''
-              ? 'Please enter your dependent(s) age.'
-              : errors[i],
-        );
-        setErrors(newErrors);
+  const onCancel = event => {
+    event.preventDefault();
+    goToPath('/dependent-count');
+  };
 
-        // Check if there are no errors after updating newErrors
-        if (!newErrors.some(error => error !== null)) {
-          if (isReviewMode) {
-            setIsEditing(false);
-          } else {
-            goToPath('/monetary-asset-checklist');
-          }
-        }
-      } else if (isReviewMode) {
-        setIsEditing(false);
-      } else {
-        goToPath('/monetary-asset-checklist');
-      }
-    },
-    onCancel: event => {
-      event.preventDefault();
-      goToPath('/dependent-count');
-    },
+  const toggleEditing = () => {
+    setIsEditing(!isEditing);
   };
 
   const handleBlur = useCallback(
@@ -133,9 +126,12 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
     [errors],
   );
 
-  // Toggle between review and editing mode
-  const toggleEditing = () => {
-    setIsEditing(!isEditing);
+  const handlers = {
+    onSubmit,
+    onCancel,
+    handleBlur,
+    toggleEditing,
+    updateDependents,
   };
 
   // Determine whether to render inputs or plain text based on mode
@@ -145,10 +141,10 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
         id={`dependentAge-${i}`}
         label={DEPENDENT_AGE_LABELS[i + 1]}
         name={`dependentAge-${i}`}
-        onInput={({ target }) => updateDependents(target, i)}
+        onInput={({ target }) => handlers.updateDependents(target, i)}
         value={dependent.dependentAge}
-        className="no-wrap input-size-1"
-        onBlur={event => handleBlur(event, i)}
+        className="no-wrap input-size-2"
+        onBlur={event => handlers.handleBlur(event, i)}
         error={errors[i]}
         required
       />
@@ -172,13 +168,7 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
 
   if (!isEditing) {
     dependentAgeInputs = (
-      <dl
-        className={`review vads-u-border-bottom--1 ${
-          isEditing ? 'vads-u-border--0' : ''
-        }`}
-      >
-        {dependentAgeInputs}
-      </dl>
+      <dl className="review vads-u-border-bottom--1">{dependentAgeInputs}</dl>
     );
   }
 
@@ -202,7 +192,7 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
               // readOnly
               position="header"
               isEditing={false}
-              onEditClick={toggleEditing}
+              onEditClick={handlers.toggleEditing}
               ariaLabel={`Edit ${DEPENDENT_AGE_LABELS[1]}`}
               buttonText="Edit"
             />
@@ -215,14 +205,16 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
       ) : null}
       {dependentAgeInputs}
       {isReviewMode && isEditing ? (
-        <ReviewControl
-          // readOnly
-          position="footer"
-          isEditing
-          type="submit"
-          ariaLabel={`Update ${DEPENDENT_AGE_LABELS[1]}`}
-          buttonText="Update"
-        />
+        <div className="vads-u-margin-top--2">
+          <ReviewControl
+            // readOnly
+            position="footer"
+            isEditing
+            type="submit"
+            ariaLabel={`Update ${DEPENDENT_AGE_LABELS[1]}`}
+            buttonText="Update"
+          />
+        </div>
       ) : (
         !isReviewMode && (
           <ButtonGroup
