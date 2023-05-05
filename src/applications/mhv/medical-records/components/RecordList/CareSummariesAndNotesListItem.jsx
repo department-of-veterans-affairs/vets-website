@@ -13,7 +13,7 @@ const CareSummariesAndNotesListItem = props => {
         'MMMM D, YYYY',
       )}`;
     }
-    return dateFormat(record.date, 'MMMM D, YYYY');
+    return dateFormat(record.dateSigned, 'MMMM D, YYYY');
   };
 
   const signedByOrAdmittingPhysician = () => {
