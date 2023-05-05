@@ -52,6 +52,8 @@ import {
   EditEmail,
   EditAddress,
 } from '../components/contactInfo/EditContactInfo';
+import DependentAges from '../components/DependentAges';
+import DependentAgesReview from '../components/DependentAgesReview';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -655,12 +657,14 @@ const formConfig = {
         dependentAges: {
           path: 'dependent-ages',
           title: 'Dependents',
-          uiSchema: pages.dependentRecords.uiSchemaEnhanced,
+          uiSchema: {},
           schema: pages.dependentRecords.schemaEnhanced,
           depends: formData =>
             formData['view:enhancedFinancialStatusReport'] &&
-            formData.questions?.hasDependents > 0,
-          editModeOnReviewPage: true,
+            formData.questions?.hasDependents,
+          CustomPage: DependentAges,
+          CustomPageReview: DependentAgesReview,
+          editModeOnReviewPage: false,
         },
       },
     },
