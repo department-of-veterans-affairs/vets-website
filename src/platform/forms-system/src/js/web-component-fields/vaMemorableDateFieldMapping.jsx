@@ -1,13 +1,11 @@
 import React from 'react';
+import commonFieldMapping from './commonFieldMapping';
 
 export default function vaMemorableDateFieldMapping(props) {
   const {
     description,
     textDescription,
     DescriptionField,
-    label,
-    required,
-    error,
     uiOptions,
     index,
     childrenProps,
@@ -21,21 +19,12 @@ export default function vaMemorableDateFieldMapping(props) {
   }
 
   return {
-    ...uiOptions,
-    name: childrenProps.idSchema.$id,
-    label,
-    // autocomplete: uiOptions?.autocomplete,
-    required,
-    error,
-    maxlength: childrenProps.schema.maxLength,
-    minlength: childrenProps.schema.minLength,
+    ...commonFieldMapping(props),
     value:
       typeof childrenProps.formData === 'undefined'
         ? ''
         : childrenProps.formData,
-    // inputmode: uiOptions?.inputmode,
     type: inputType,
-    // hint: uiOptions?.hint,
     onDateChange: (event, value) => {
       const newVal = value ?? event.target.value ?? undefined;
       childrenProps.onChange(newVal);
