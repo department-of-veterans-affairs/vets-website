@@ -3,7 +3,7 @@ import {
   jsxSchema,
   jsxUI,
   ssnUI as newSsnUI,
-} from 'platform/forms-system/src/js/web-component-schemas';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { ssnUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
@@ -31,6 +31,7 @@ export default {
     checkboxWithJsx: {
       'ui:title': 'Web component checkbox',
       'ui:webComponentField': VaCheckboxField,
+      'ui:description': 'Web component description',
     },
     checkboxWithJsxUsdws: {
       'ui:title': 'USWDS Web component checkbox',
@@ -49,7 +50,7 @@ export default {
     checkboxWithLabelAndLegend: {
       'ui:title': 'Web component',
       'ui:webComponentField': VaCheckboxField,
-      'ui:description': 'Web component description (legend)',
+      'ui:description': 'Web component description',
       'ui:options': {
         uswds: true,
       },

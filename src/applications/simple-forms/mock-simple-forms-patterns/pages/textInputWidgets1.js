@@ -7,7 +7,7 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import {
   ssnUI as ssnNewUI,
   ssnSchema as ssnNewSchema,
-} from 'platform/forms-system/src/js/web-component-schemas/personalIdSchemas';
+} from 'platform/forms-system/src/js/web-component-patterns/ssnPattern';
 
 /** @type {PageSchema} */
 export default {
