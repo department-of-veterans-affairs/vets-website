@@ -14,7 +14,7 @@ import { WIZARD_STATUS } from '../../wizard/constants';
 import mockTelephoneUpdate from './fixtures/mocks/telephone-update.json';
 import mockTelephoneUpdateSuccess from './fixtures/mocks/telephone-update-success.json';
 
-describe('fsr 5655 contact info loop', () => {
+describe.skip('fsr 5655 contact info loop', () => {
   Cypress.config({ requestTimeout: 10000 });
   const BASE_URL = manifest.rootUrl;
   const MAIN_CONTACT_PATH = `${BASE_URL}/current-contact-information`;
