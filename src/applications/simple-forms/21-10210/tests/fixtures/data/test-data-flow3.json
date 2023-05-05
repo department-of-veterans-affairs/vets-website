@@ -1,0 +1,35 @@
+{
+  "data": {
+    "claimOwnership": "self",
+    "claimantType": "non-veteran",
+    "claimantFullName": {
+      "first": "Joe",
+      "middle": "",
+      "last": "Claimant"
+    },
+    "claimantSSN": "123-45-6789",
+    "claimantMailingAddress": {
+      "street": "123 Main St",
+      "city": "Anytown",
+      "state": "CA",
+      "country": "USA",
+      "postalCode": "12345"
+    },
+    "claimantPhone": "555-555-5556",
+    "statement": "It was a dark and stormy night...",
+    "veteranFullName": {
+      "first": "John",
+      "middle": "",
+      "last": "Veteran"
+    },
+    "veteranSSN": "123-45-6790",
+    "veteranMailingAddress": {
+      "street": "124 Main St",
+      "city": "Anytown",
+      "state": "CA",
+      "country": "USA",
+      "postalCode": "12345"
+    },
+    "veteranPhone": "555-555-5557"
+  }
+}

@@ -23,6 +23,7 @@ const isNotThirdParty = formData => {
   );
 };
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [preparerIdentificationFields.parentObject]: {

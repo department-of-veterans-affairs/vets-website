@@ -70,7 +70,7 @@ const Navigation = () => {
   }
 
   function checkScreenSize() {
-    if (window.innerWidth <= 481 && setIsMobile !== false) {
+    if (window.innerWidth <= 768 && setIsMobile !== false) {
       setIsMobile(true);
     } else {
       setIsMobile(false);

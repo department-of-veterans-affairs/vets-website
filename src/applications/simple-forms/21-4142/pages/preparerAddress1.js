@@ -4,6 +4,7 @@ import {
   veteranFields,
 } from '../definitions/constants';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [preparerIdentificationFields.parentObject]: {

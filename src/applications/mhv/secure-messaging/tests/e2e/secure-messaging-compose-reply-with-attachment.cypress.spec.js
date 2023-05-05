@@ -50,5 +50,7 @@ describe('Compose message With Attacments and Errors', () => {
     composePage.getMessageSubjectField().type('Test Subject');
     composePage.getMessageBodyField().type('Test message body');
     composePage.sendMessage();
+    composePage.verifySendMessageConfirmationMessage();
+    composePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

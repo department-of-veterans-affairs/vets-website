@@ -110,10 +110,6 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
     );
     shortformHelpers.shortFormAdditionalHelpAssertion();
 
-    // shortformHelpers.goToNextPage('/veteran-information/american-indian');
-    // shortformHelpers.shortFormAdditionalHelpAssertion();
-    // cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
-
     shortformHelpers.goToNextPage('/veteran-information/veteran-address');
     shortformHelpers.shortFormAdditionalHelpAssertion();
     cy.get('[type=radio]').check('N');
@@ -248,9 +244,6 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
       '/veteran-information/demographic-information',
     );
 
-    // shortformHelpers.goToNextPage('/veteran-information/american-indian');
-    // cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
-
     shortformHelpers.goToNextPage('/veteran-information/veteran-address');
     cy.get('[type=radio]')
       .first()
@@ -326,9 +319,6 @@ describe('HCA-Shortform-UnAuthenticated', () => {
     shortformHelpers.goToNextPage(
       '/veteran-information/demographic-information',
     );
-
-    // shortformHelpers.goToNextPage('/veteran-information/american-indian');
-    // cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
 
     shortformHelpers.goToNextPage('/veteran-information/veteran-address');
     cy.get('#root_veteranAddress_street').type(testData.veteranAddress.street);

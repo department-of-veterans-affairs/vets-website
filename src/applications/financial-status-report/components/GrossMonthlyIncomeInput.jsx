@@ -39,9 +39,10 @@ const GrossMonthlyIncomeInput = props => {
       const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
 
       if (
-        grossMonthlyIncome.value &&
-        (!regex.test(grossMonthlyIncome.value) ||
-          Number(grossMonthlyIncome.value) < 0)
+        !grossMonthlyIncome.value ||
+        (grossMonthlyIncome.value &&
+          (!regex.test(grossMonthlyIncome.value) ||
+            Number(grossMonthlyIncome.value) < 0))
       ) {
         setIncomeError(true);
       } else {
@@ -60,6 +61,7 @@ const GrossMonthlyIncomeInput = props => {
 
   const updateFormData = e => {
     e.preventDefault();
+    setGrossMonthlyIncome({ ...grossMonthlyIncome, dirty: true });
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
       const updatedRecords = formData.personalData.employmentHistory.veteran.employmentRecords.map(
@@ -111,11 +113,12 @@ const GrossMonthlyIncomeInput = props => {
         },
       });
     }
-
-    if (employmentRecord.isCurrent) {
-      goToPath(`/deduction-checklist`);
-    } else {
-      goToPath(`/employment-history`);
+    if (grossMonthlyIncome.value) {
+      if (employmentRecord.isCurrent) {
+        goToPath(`/deduction-checklist`);
+      } else {
+        goToPath(`/employment-history`);
+      }
     }
   };
 
@@ -148,7 +151,6 @@ const GrossMonthlyIncomeInput = props => {
             onInput={setNewGrossMonthlyIncome}
             type="text"
             value={grossMonthlyIncome.value}
-            required
             error={
               incomeError && grossMonthlyIncome.dirty
                 ? `Please enter a valid number.`
