@@ -21,14 +21,8 @@ const alertContent = (
 );
 
 export const selfAssessmentAlert = () => {
-  // TODO: fix me. adding the toggle here breaks the unit tests :'(
-  // const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  // const isShowBDDSHA = useToggleValue(TOGGLE_NAMES.form526BddSha);
-
-  const isShowBDDSHA = !environment.isProduction();
-
   return (
-    isShowBDDSHA && (
+    !environment.isProduction() && (
       <>
         <va-alert status="warning">
           <h3 slot="headline">

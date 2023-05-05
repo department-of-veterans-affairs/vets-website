@@ -115,7 +115,7 @@ describe('<IntroductionPage/>', () => {
     wrapper.unmount();
   });
 
-  it('should display prepare overview when BDD SHA not enabled', () => {
+  it('should display default prepare overview when BDD SHA not enabled', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} showWizard />);
 
     expect(
@@ -127,7 +127,7 @@ describe('<IntroductionPage/>', () => {
 
   it('should display BDD prepare overview when BDD SHA enabled', () => {
     const wrapper = shallow(
-      <IntroductionPage {...defaultProps} showWizard isBDDForm isShowBDDSHA />,
+      <IntroductionPage {...defaultProps} showWizard isBDDForm />,
     );
 
     expect(

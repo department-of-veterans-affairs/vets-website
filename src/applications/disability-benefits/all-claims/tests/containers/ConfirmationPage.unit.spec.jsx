@@ -33,6 +33,20 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     tree.getByText('Claim ID number');
   });
 
+  it('should render success with BDD SHA alert', () => {
+    const tree = render(
+      <ConfirmationPage
+        submissionStatus={submissionStatuses.succeeded}
+        {...defaultProps}
+        isSubmittingBDD
+      />,
+    );
+    tree.getByText('Claim ID number');
+    tree.getByText(
+      'Submit your Separation Health Assessment - Part A Self-Assessment now if you haven’t already',
+    );
+  });
+
   it('should render retry status', () => {
     const tree = testPage(submissionStatuses.retry);
     tree.getByText(retryableErrorTitle);
@@ -46,6 +60,20 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
   it('should render apiFailure status', () => {
     const tree = testPage(submissionStatuses.apiFailure);
     tree.getByText(retryableErrorTitle);
+  });
+
+  it('should render retryable failure with BDD SHA alert', () => {
+    const tree = render(
+      <ConfirmationPage
+        submissionStatus={submissionStatuses.apiFailure}
+        {...defaultProps}
+        isSubmittingBDD
+      />,
+    );
+
+    tree.getByText(
+      'Submit your Separation Health Assessment - Part A Self-Assessment now if you haven’t already',
+    );
   });
 
   it('should render other status', () => {

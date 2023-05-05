@@ -1,23 +1,24 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import formConfig from '../../config/form';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import {
   EVIDENCE_LABEL,
   HasEvidenceLabel,
 } from '../../content/evidenceTypesBDD';
+import formConfig from '../../config/form';
 
 describe('evidenceTypes', () => {
-  let {
+  const {
     schema,
     uiSchema,
-  } = formConfig.chapters.supportingEvidence.pages.evidenceTypes;
+  } = formConfig.chapters.supportingEvidence.pages.evidenceTypesBDD;
 
   it('should render', () => {
     const form = mount(
@@ -103,50 +104,18 @@ describe('evidenceTypes', () => {
   });
 
   it('should display default evidence label when BDD SHA is not enabled', () => {
-    const fakeStore = createStore(() => ({
-      featureToggles: {
-        /* eslint-disable camelcase */
-        form526_bdd_sha: false,
-      },
-    }));
+    const screen = render(<HasEvidenceLabel />);
 
-    const screen = render(
-      <Provider store={fakeStore}>
-        <HasEvidenceLabel />
-      </Provider>,
-    );
-
-    screen.getByText(EVIDENCE_LABEL.default);
-  });
-
-  it('should display BDD evidence label when BDD SHA enabled', () => {
-    const fakeStore = createStore(() => ({
-      featureToggles: {
-        /* eslint-disable camelcase */
-        form526_bdd_sha: true,
-      },
-    }));
-
-    const screen = render(
-      <Provider store={fakeStore}>
-        <HasEvidenceLabel />
-      </Provider>,
-    );
-
-    screen.getByText(EVIDENCE_LABEL.bddSha);
+    if (environment.isProduction()) {
+      screen.getByText(EVIDENCE_LABEL.default);
+    } else {
+      screen.getByText(EVIDENCE_LABEL.bddSha);
+    }
   });
 
   it('should display alert when BDD SHA enabled and user selects no, submit info later', () => {
-    ({
-      schema,
-      uiSchema,
-    } = formConfig.chapters.supportingEvidence.pages.evidenceTypesBDD);
-
     const fakeStore = createStore(() => ({
-      featureToggles: {
-        /* eslint-disable camelcase */
-        form526_bdd_sha: true,
-      },
+      featureToggles: {},
     }));
 
     const screen = render(
@@ -161,12 +130,14 @@ describe('evidenceTypes', () => {
       </Provider>,
     );
 
-    userEvent.click(
-      screen.getByLabelText('No, I will submit more information later'),
-    );
+    if (!environment.isProduction()) {
+      userEvent.click(
+        screen.getByLabelText('No, I will submit more information later'),
+      );
 
-    screen.getByText(
-      'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
-    );
+      screen.getByText(
+        'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
+      );
+    }
   });
 });

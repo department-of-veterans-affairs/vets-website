@@ -1,15 +1,17 @@
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import _ from 'platform/utilities/data';
 import get from 'platform/utilities/data/get';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { validateIfHasEvidence } from '../validations';
 
 import {
-  HasEvidenceLabel,
   evidenceTypeTitle,
   privateMedicalRecords,
   evidenceTypeError,
   evidenceTypeHelp,
-  EvidenceLayStatements,
+  HasEvidenceLabel,
+  defaultOtherEvidence,
+  bddShaOtherEvidence,
 } from '../content/evidenceTypesBDD';
 
 import { BddEvidenceSubmitLater } from '../content/bddEvidenceSubmitLater';
@@ -23,6 +25,11 @@ export const uiSchema = {
       labels: {
         Y: 'Yes',
         N: 'No, I will submit more information later',
+      },
+      widgetProps: {
+        N: {
+          'aria-describedby': 'submit-evidence-later',
+        },
       },
     },
   },
@@ -47,7 +54,9 @@ export const uiSchema = {
         'ui:title': privateMedicalRecords,
       },
       'view:hasOtherEvidence': {
-        'ui:title': EvidenceLayStatements(),
+        'ui:title': environment.isProduction()
+          ? defaultOtherEvidence
+          : bddShaOtherEvidence,
       },
     },
     'view:evidenceTypeHelp': {

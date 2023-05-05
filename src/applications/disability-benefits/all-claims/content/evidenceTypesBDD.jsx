@@ -1,6 +1,5 @@
 import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 export const EVIDENCE_LABEL = {
   default:
@@ -9,9 +8,9 @@ export const EVIDENCE_LABEL = {
 };
 
 export const HasEvidenceLabel = () => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const isShowBDDSHA = useToggleValue(TOGGLE_NAMES.form526BddSha);
-  const content = isShowBDDSHA ? EVIDENCE_LABEL.bddSha : EVIDENCE_LABEL.default;
+  const content = environment.isProduction()
+    ? EVIDENCE_LABEL.default
+    : EVIDENCE_LABEL.bddSha;
 
   return (
     <>
@@ -28,30 +27,22 @@ export const evidenceTypeTitle = (
 
 export const privateMedicalRecords = 'Private medical records';
 
-export const EvidenceLayStatements = () => {
-  // TODO: use toggle
-  // const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  // const isShowBDDSHA = useToggleValue(TOGGLE_NAMES.form526BddSha);
+export const bddShaOtherEvidence = (
+  <>
+    <strong>
+      Required Separation Health Assessment - Part A Self-Assessment
+    </strong>{' '}
+    or other documents like your DD214, supporting (lay) statements, or other
+    evidence
+  </>
+);
 
-  // if (isShowBDDSHA) {
-  if (!environment.isProduction()) {
-    return (
-      <>
-        <strong>
-          Required Separation Health Assessment - Part A Self-Assessment
-        </strong>{' '}
-        or other documents like your DD214, supporting (lay) statements, or
-        other evidence
-      </>
-    );
-  }
-  return (
-    <>
-      Additional VA forms, medical records, separation documents (DD Form 214),
-      supporting (lay) statements, or other evidence
-    </>
-  );
-};
+export const defaultOtherEvidence = (
+  <>
+    Additional VA forms, medical records, separation documents (DD Form 214),
+    supporting (lay) statements, or other evidence
+  </>
+);
 
 export const evidenceTypeError =
   'Please select at least one type of supporting evidence';

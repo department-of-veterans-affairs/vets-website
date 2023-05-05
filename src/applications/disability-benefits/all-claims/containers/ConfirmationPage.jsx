@@ -50,16 +50,16 @@ export default class ConfirmationPage extends React.Component {
 
 ConfirmationPage.propTypes = {
   disabilities: PropTypes.array.isRequired,
-  submittedAt: PropTypes.string.isRequired,
-  claimId: PropTypes.string,
   fullName: PropTypes.shape({
     first: PropTypes.string,
     last: PropTypes.string,
     middle: PropTypes.string,
     suffix: PropTypes.string,
   }).isRequired,
+  submittedAt: PropTypes.string.isRequired,
+  claimId: PropTypes.string,
+  isSubmittingBDD: PropTypes.bool,
   jobId: PropTypes.string,
   submissionId: PropTypes.string,
-  isShowBDDSHA: PropTypes.bool,
   submissionStatus: PropTypes.oneOf(Object.values(submissionStatuses)),
 };

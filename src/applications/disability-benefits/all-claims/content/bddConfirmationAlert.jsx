@@ -1,6 +1,6 @@
 import React from 'react';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { DBQ_URL } from '../constants';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 const alertContent = (
   <>
@@ -22,11 +22,8 @@ const alertContent = (
 );
 
 export const BddConfirmationAlert = () => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const isShowBDDSHA = useToggleValue(TOGGLE_NAMES.form526BddSha);
-
   return (
-    isShowBDDSHA && (
+    !environment.isProduction() && (
       <div className="vads-u-margin-top--2">
         <va-alert status="warning">
           <h3 slot="headline">

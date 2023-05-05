@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
@@ -11,7 +10,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { pendingMessage } from '../content/confirmation-poll';
 
 import { submissionStatuses, terminalStatuses } from '../constants';
-import { isBDD, showBDDSHA } from '../utils';
+import { isBDD } from '../utils';
 
 export class ConfirmationPoll extends React.Component {
   // Using it as a prop for easy testing
@@ -123,7 +122,6 @@ export class ConfirmationPoll extends React.Component {
         disabilities={disabilities}
         submittedAt={submittedAt}
         isSubmittingBDD={isSubmittingBDD}
-        isShowBDDSHA={this.props.isShowBDDSHA}
       />
     );
   }
@@ -146,23 +144,7 @@ function mapStateToProps(state) {
     submittedAt: state.form.submission.timestamp,
     jobId: state.form.submission.response?.attributes?.jobId,
     isSubmittingBDD: isBDD(state.form.data) || true,
-    isShowBDDSHA: showBDDSHA(state),
   };
 }
-
-ConfirmationPoll.propTypes = {
-  delayFailure: PropTypes.number,
-  fullName: PropTypes.shape({
-    first: PropTypes.string,
-    last: PropTypes.string,
-    middle: PropTypes.string,
-    suffix: PropTypes.string,
-  }),
-  isSubmittingBDD: PropTypes.bool,
-  isShowBDDSHA: PropTypes.bool,
-  jobId: PropTypes.string,
-  longWaitTime: PropTypes.number,
-  pollRate: PropTypes.number,
-};
 
 export default connect(mapStateToProps)(ConfirmationPoll);

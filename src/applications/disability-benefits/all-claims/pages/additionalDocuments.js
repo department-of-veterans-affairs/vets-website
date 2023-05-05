@@ -8,7 +8,6 @@ const { attachments } = full526EZSchema.properties;
 
 export const uiSchema = {
   'view:selfAssessmentAlert': {
-    // TODO: fix me
     'ui:title': selfAssessmentAlert,
   },
   additionalDocuments: {

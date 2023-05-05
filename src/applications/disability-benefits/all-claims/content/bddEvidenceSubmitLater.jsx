@@ -1,6 +1,6 @@
 import React from 'react';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { DBQ_URL } from '../constants';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 const alertContent = (
   <p className="vads-u-font-size--base">
@@ -14,12 +14,9 @@ const alertContent = (
 );
 
 export const BddEvidenceSubmitLater = () => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const isShowBDDSHA = useToggleValue(TOGGLE_NAMES.form526BddSha);
-
   return (
-    isShowBDDSHA && (
-      <div aria-live="polite">
+    !environment.isProduction() && (
+      <div id="submit-evidence-later">
         <va-alert status="warning">
           <h3 slot="headline">
             Submit your Separation Health Assessment - Part A Self-Assessment as
