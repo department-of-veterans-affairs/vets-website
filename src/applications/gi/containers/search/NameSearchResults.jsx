@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
@@ -130,7 +130,10 @@ export function NameSearchResults({
             )}
             <div className="column small-12 medium-8 name-search-cards-padding">
               {inProgress && (
-                <LoadingIndicator message="Loading search results..." />
+                <VaLoadingIndicator
+                  data-testid="loading-indicator"
+                  message="Loading search results..."
+                />
               )}
 
               {!inProgress &&

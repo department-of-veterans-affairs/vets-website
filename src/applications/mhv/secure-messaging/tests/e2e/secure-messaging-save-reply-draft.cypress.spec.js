@@ -21,7 +21,7 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.loadReplyPageDetails(messageDetails);
     patientInterstitialPage.getContinueButton().click();
     const testMessageBody = 'Test message body';
-    replyPage.getMessageBodyField().type(testMessageBody);
+    replyPage.getMessageBodyField().type(testMessageBody, { force: true });
     cy.injectAxe();
     cy.axeCheck();
 
