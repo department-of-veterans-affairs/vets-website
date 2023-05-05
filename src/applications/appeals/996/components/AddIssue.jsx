@@ -148,7 +148,7 @@ const AddIssue = props => {
         >
           {issueNameHintText}
         </VaTextInput>
-        <br />
+
         <VaMemorableDate
           name="decision-date"
           label={dateOfDecisionLabel}
