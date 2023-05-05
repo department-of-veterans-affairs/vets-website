@@ -14,7 +14,7 @@ describe('Secure Messaging - Search Special Characters', () => {
   const messageDetailsPage = new PatientMessageDetailsPage();
   const site = new SecureMessagingSite();
 
-  it.skip('search for special characters', () => {
+  it('search for special characters', () => {
     site.login();
     mockSpeciaCharMessage.data.attributes.messageId = '2585370';
     mockSpeciaCharMessage.data.attributes.body = 'special %$#';
@@ -37,6 +37,7 @@ describe('Secure Messaging - Search Special Characters', () => {
       mockMessages,
     ).as('mockSpecialCharmessage');
     cy.get('[data-testid="sent-sidebar"]').click();
+    cy.reload();
 
     basicSearchPage.typeSearchInputFieldText('message%$#*');
 
@@ -46,7 +47,6 @@ describe('Secure Messaging - Search Special Characters', () => {
     messageDetailsPage.loadMessageDetails(
       mockSpeciaCharMessage,
       defaultMockThread,
-      0,
     );
     cy.get('span').should('contain', 'special %$#');
 

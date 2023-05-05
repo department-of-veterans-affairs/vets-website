@@ -26,13 +26,17 @@ describe('Pre-Check In Experience', () => {
 
       initializeSessionPost.withSuccess();
 
-      initializePreCheckInDataGet.withBadReload();
+      initializePreCheckInDataGet.withSuccess();
 
       initializePreCheckInDataPost.withSuccess();
       cy.visitPreCheckInWithUUID();
       ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      Introduction.validatePageLoaded();
+      Introduction.attemptToGoToNextPage();
+      Demographics.validatePageLoaded();
+      initializePreCheckInDataGet.withFailure();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -41,17 +45,11 @@ describe('Pre-Check In Experience', () => {
     });
 
     it('Demographics page', () => {
-      Introduction.validatePageLoaded();
-      Introduction.attemptToGoToNextPage();
-      Demographics.validatePageLoaded();
       cy.reload();
       Error.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
     it('emergency contact page', () => {
-      Introduction.validatePageLoaded();
-      Introduction.attemptToGoToNextPage();
-      Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       cy.reload();
@@ -59,9 +57,6 @@ describe('Pre-Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
     });
     it('next of kin page', () => {
-      Introduction.validatePageLoaded();
-      Introduction.attemptToGoToNextPage();
-      Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
@@ -72,9 +67,6 @@ describe('Pre-Check In Experience', () => {
     });
 
     it('confirmation page', () => {
-      Introduction.validatePageLoaded();
-      Introduction.attemptToGoToNextPage();
-      Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();

@@ -1,64 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { dateFormat, typeAndDose } from '../../util/helpers';
-import ItemList from '../shared/ItemList';
+import VaccinesListItem from './VaccinesListItem';
+import VitalListItem from './VitalListItem';
+import ConditionListItem from './ConditionListItem';
+import LabsAndTestsListItem from './LabsAndTestsListItem';
+import CareSummariesAndNotesListItem from './CareSummariesAndNotesListItem';
+import { RecordType } from '../../util/constants';
+import AllergyListItem from './AllergyListItem';
 
 const RecordListItem = props => {
-  const { record } = props;
-  const formattedDate = dateFormat(record.date, 'MMMM D, YYYY');
+  const { record, type } = props;
 
-  return (
-    <div
-      className="record-list-item vads-u-padding-y--2 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
-      data-testid="record-list-item"
-    >
-      <div className="max-80">
-        <h4>{record.name}</h4>
-        <div className="fields">
-          <div>
-            <span className="field-label">Date received:</span> {formattedDate}
-          </div>
-          <div className="print-only">
-            <span className="field-label">Type and dosage:</span>{' '}
-            {typeAndDose()}
-          </div>
-          <div className="print-only">
-            <span className="field-label">Series:</span>{' '}
-            {record.series || 'There is no series reported at this time'}
-          </div>
-          <div className="location-collapsed vads-u-line-height--3">
-            <span className="field-label">Location:</span> {record.facility}
-          </div>
-          <div className="print-only">
-            <span className="field-label">Reactions recorded by provider:</span>{' '}
-            <ItemList list={record.reactions} emptyMessage="None reported" />
-          </div>
-          <div className="print-only">
-            <span className="field-label">Provider comments:</span>{' '}
-            <ItemList
-              list={record.comments}
-              emptyMessage="No comments at this time"
-            />
-          </div>
-        </div>
-        <Link
-          to={`/vaccine-details/${record.id}`}
-          className="vads-u-margin-y--0p5 no-print"
-        >
-          Details
-          <i
-            className="fas fa-angle-right details-link-icon"
-            aria-hidden="true"
-          />
-        </Link>
-      </div>
-    </div>
-  );
+  switch (type) {
+    case RecordType.LABS_AND_TESTS:
+      return <LabsAndTestsListItem record={record} />;
+    case RecordType.CARE_SUMMARIES_AND_NOTES:
+      return <CareSummariesAndNotesListItem record={record} />;
+    case RecordType.VACCINES:
+      return <VaccinesListItem record={record} />;
+    case RecordType.VITALS:
+      return <VitalListItem record={record} />;
+    case RecordType.HEALTH_CONDITIONS:
+      return <ConditionListItem record={record} />;
+    case RecordType.ALLERGIES:
+      return <AllergyListItem record={record} />;
+    default:
+      return <p>Something went wrong, please try again.</p>;
+  }
 };
 
 export default RecordListItem;
 
 RecordListItem.propTypes = {
   record: PropTypes.object,
+  type: PropTypes.string,
 };

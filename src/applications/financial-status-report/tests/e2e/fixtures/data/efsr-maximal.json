@@ -3,12 +3,16 @@
   "view:enhancedFinancialStatusReport": true,
   "otherExpenses": [
     {
-      "name": "Pool service",
-      "amount": "200"
+      "name": "Clothing",
+      "amount": "10"
     },
     {
-      "name": "Lawn service",
-      "amount": "100.54"
+      "name": "Food",
+      "amount": "1000.54"
+    },
+    {
+      "name": "Veteran added",
+      "amount": "100"
     }
   ],
   "view:components": {
@@ -20,8 +24,23 @@
     "view:vaBenefitsOnFile": {}
   },
   "expenses": {
-    "rentOrMortgage": "1200.53",
-    "food": "4000.38"
+    "expenseRecords": [
+      {
+        "name": "Rent",
+        "amount": "1200.53"
+      }
+    ],
+    "creditCardBills": [
+      {
+        "purpose": "Credit card payment",
+        "creditorName": "",
+        "originalAmount": "",
+        "unpaidBalance": "300000",
+        "amountDueMonthly": "10000",
+        "dateStarted": "",
+        "amountPastDue": "7000"
+      }
+    ]
   },
   "assets": {
     "realEstateValue": "800000.81",
@@ -139,6 +158,7 @@
   },
   "questions": {
     "hasBeenAdjudicatedBankrupt": true,
+    "hasCreditCardBills": true,
     "hasOtherExpenses": true,
     "hasRepayments": true,
     "hasUtilities": true,
@@ -377,6 +397,7 @@
       "id": 0,
       "debtType": "DEBT",
       "resolutionOption": "waiver",
+      "resolutionComment": "",
       "resolutionWaiverCheck": true
     },
     {
@@ -1237,6 +1258,7 @@
       },
       "debtType": "COPAY",
       "resolutionOption": "waiver",
+      "resolutionComment": "",
       "resolutionWaiverCheck": true
     }
   ],

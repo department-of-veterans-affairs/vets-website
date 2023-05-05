@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { dateFormat, typeAndDose, downloadFile } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
-import { getVaccineDetails } from '../actions/vaccine';
+import { getVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import { getVaccinePdf } from '../api/MrApi';
+import PrintDownload from '../components/shared/PrintDownload';
 
 const VaccineDetails = () => {
   const vaccineDetails = useSelector(state => state.mr.vaccines.vaccineDetails);
@@ -33,12 +34,12 @@ const VaccineDetails = () => {
               label: 'Health history',
             },
             {
-              url: '/my-health/medical-records/vaccines',
+              url: '/my-health/medical-records/health-history/vaccines',
               label: 'VA vaccines',
             },
           ],
           {
-            url: `/my-health/medical-records/vaccine-details/${vaccineId}`,
+            url: `/my-health/medical-records/health-history/vaccines/${vaccineId}`,
             label: vaccineDetails?.name,
           },
         ),
@@ -57,31 +58,7 @@ const VaccineDetails = () => {
         <>
           <PrintHeader />
           <h1 className="vaccine-header">{vaccineDetails.name}</h1>
-          <div className="vads-u-display--flex vads-u-margin-y--3 no-print">
-            <button
-              className="link-button vads-u-margin-right--3 no-print"
-              type="button"
-              onClick={window.print}
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-print vads-u-margin-right--1"
-                data-testid="print-records-button"
-              />
-              Print page
-            </button>
-            <button
-              className="link-button no-print"
-              type="button"
-              onClick={download}
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-download vads-u-margin-right--1"
-              />
-              Download page
-            </button>
-          </div>
+          <PrintDownload list download={download} />
           <div className="detail-block max-80">
             <h2 className="vads-u-margin-top--0">Date received</h2>
             <p>{formattedDate}</p>

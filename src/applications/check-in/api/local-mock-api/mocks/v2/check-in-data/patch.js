@@ -18,8 +18,4 @@ const createMockSuccessResponse = _data => {
   };
 };
 
-const createMockFailedResponse = _data => {
-  return { data: { error: true } };
-};
-
-module.exports = { createMockSuccessResponse, createMockFailedResponse };
+module.exports = { createMockSuccessResponse };

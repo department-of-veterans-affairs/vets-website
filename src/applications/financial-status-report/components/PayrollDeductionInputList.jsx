@@ -101,7 +101,7 @@ const PayrollDeductionInputList = props => {
     <form onSubmit={updateFormData}>
       <h3 className="vads-u-margin-top--neg1p5">Your job at {employerName}</h3>{' '}
       <br />
-      <p>How much do you pay for each of your payroll deductions?</p>
+      <p>How much do you pay monthly for each of your payroll deductions?</p>
       {selectedDeductions?.map((deduction, key) => (
         <div key={deduction.name + key} className="vads-u-margin-y--2">
           <va-number-input
@@ -112,6 +112,7 @@ const PayrollDeductionInputList = props => {
             inputmode="decimal"
             onInput={onChange}
             required
+            currency
           />
         </div>
       ))}

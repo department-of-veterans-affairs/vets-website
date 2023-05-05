@@ -1,4 +1,3 @@
-import React from 'react';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
@@ -14,23 +13,26 @@ const pageFields = [
   veteranFields.email,
 ];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
-      'ui:title': (
-        <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-          Phone number and email address
-        </h3>
-      ),
-      'ui:description': (
-        <div className="vads-u-margin-bottom--4">
-          Enter your phone and email information so we can contact you if we
-          have questions about your application.
-        </div>
-      ),
-      [veteranFields.homePhone]: phoneUI('Home phone number'),
+      [veteranFields.homePhone]: {
+        ...phoneUI('Home phone number'),
+        'ui:errorMessages': {
+          ...phoneUI()['ui:errorMessages'],
+          required:
+            'Please enter a 10-digit phone number (with or without dashes)',
+        },
+      },
       [veteranFields.internationalPhone]: phoneUI('International phone number'),
-      [veteranFields.email]: emailUI(),
+      [veteranFields.email]: {
+        ...emailUI(),
+        'ui:errorMessages': {
+          format:
+            'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
+        },
+      },
     },
   },
   schema: {

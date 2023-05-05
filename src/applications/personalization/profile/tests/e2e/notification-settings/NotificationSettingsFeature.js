@@ -20,7 +20,7 @@ class NotificationSettingsFeature {
   confirmHearingReminderNotificationSanityCheck = () => {
     // check that hearing notification is rendering first
     cy.findByRole('radio', {
-      name: /^do not notify me of.*hearing reminder.*by email/i,
+      name: /^do not notify me of.*hearing reminder.*by text/i,
     }).should('exist');
   };
 

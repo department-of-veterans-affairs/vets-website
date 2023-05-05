@@ -20,6 +20,56 @@ export const DefaultFolders = {
   },
 };
 
+export const ErrorMessages = {
+  ComposeForm: {
+    RECIPIENT_REQUIRED: 'Please select a recipient.',
+    CATEGORY_REQUIRED: 'Please select a category.',
+    SUBJECT_REQUIRED: 'Subject cannot be blank.',
+    BODY_REQUIRED: 'Message body cannot be blank.',
+    UNABLE_TO_SAVE: {
+      title: "We can't save this message yet",
+      p1: 'We need more information from you before we can save this draft.',
+      p2:
+        "You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
+    },
+    UNABLE_TO_SAVE_DRAFT_ATTACHMENT: {
+      title: "We can't save attachments in a draft message",
+      p1:
+        "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
+    },
+    UNABLE_TO_SAVE_OTHER: 'Something went wrong... Failed to save message.',
+    ATTACHMENTS: {
+      FILE_EMPTY: 'Your file is empty. Try attaching a different file.',
+      INVALID_FILE_TYPE: `We can't attach this file type. Try attaching a DOC, JPG, PDF, PNG, RTF, TXT, or XLS.`,
+      FILE_DUPLICATE: 'You have already attached this file.',
+      FILE_TOO_LARGE:
+        'Your file is too large. Try attaching a file smaller than 6MB.',
+      TOTAL_MAX_FILE_SIZE_EXCEEDED:
+        'Your files are too large. The total size of all files must be smaller than 10MB.',
+    },
+  },
+  SearchForm: {
+    FOLDER_REQUIRED: 'Please select a folder',
+    KEYWORD_REQUIRED: 'Please enter a keyword',
+    START_DATE_REQUIRED: 'Please enter a start date',
+    END_DATE_REQUIRED: 'Please enter an end date',
+    START_DATE_AFTER_END_DATE: 'Start date must be on or before end date',
+    END_DATE_BEFORE_START_DATE: 'End date must be on or after start date',
+    NO_FIELDS_SELECTED_MODAL_HEADER:
+      "Please use at least one of the following search fields or choose a date range other than 'any'.",
+    SEARCH_TERM_REQUIRED: 'Please enter a search term',
+  },
+  MoveConversation: {
+    FOLDER_REQUIRED: 'Please select a folder to move the message to.',
+  },
+  ManageFolders: {
+    FOLDER_NAME_REQUIRED: 'Folder name cannot be blank',
+    FOLDER_NAME_EXISTS: 'Folder name already in use. Please use another name.',
+    FOLDER_NAME_INVALID_CHARACTERS:
+      'Folder name can only contain letters, numbers, and spaces.',
+  },
+};
+
 export const Alerts = {
   Message: {
     BLOCKED_MESSAGE_ERROR:
@@ -28,7 +78,8 @@ export const Alerts = {
       "The last message in this conversation is more than 45 days old. If you want to continue this conversation, you'll need to start a new message.",
     CANNOT_REPLY_INFO_HEADER: 'This conversation is too old for new replies',
     GET_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
-    DELETE_MESSAGE_SUCCESS: 'Message thread was successfully moved to Trash.',
+    DELETE_MESSAGE_SUCCESS:
+      'Message conversation was successfully moved to Trash.',
     DELETE_MESSAGE_ERROR:
       'Message could not be deleted. Try again later. If this problem persists, contact the help desk.',
     DRAFT_CANNOT_REPLY_INFO_HEADER:
@@ -37,14 +88,14 @@ export const Alerts = {
     MOVE_MESSAGE_SUCCESS: 'Message was successfully moved',
     MOVE_MESSAGE_ERROR:
       'Message could not be moved. Try again later. If this problem persists, contact the help desk.',
-    MOVE_MESSAGE_THREAD_SUCCESS: 'Message thread was successfully moved.',
+    MOVE_MESSAGE_THREAD_SUCCESS: 'Message conversation was successfully moved.',
     MOVE_MESSAGE_THREAD_ERROR:
-      'Message thread could not be moved. Try again later. If this problem persists, contact the help desk.',
+      'Message conversation could not be moved. Try again later. If this problem persists, contact the help desk.',
     NO_MESSAGES: 'There are no messages in this folder.',
     DELETE_DRAFT_SUCCESS: 'Draft was successfully deleted.',
     DELETE_DRAFT_ERROR:
       'Draft could not be deleted. Try again later. If this problem persists, contact the help desk.',
-    SEND_MESSAGE_SUCCESS: 'Message was successfully sent.',
+    SEND_MESSAGE_SUCCESS: 'Secure message was successfully sent.',
     SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
   },
 
@@ -78,6 +129,7 @@ export const Alerts = {
   },
   Thread: {
     GET_THREAD_ERROR: 'We’re sorry. Something went wrong on our end.',
+    THREAD_NOT_FOUND_ERROR: 'This conversation was not found.',
   },
 };
 
@@ -118,7 +170,7 @@ export const Prompts = {
 export const Breadcrumbs = {
   COMPOSE: {
     path: '/compose',
-    label: 'Compose message',
+    label: 'Start a new message',
   },
   INBOX: { path: '/inbox', label: 'Inbox' },
   DRAFTS: { path: '/drafts', label: 'Drafts' },
@@ -139,10 +191,12 @@ export const ALERT_TYPE_INFO = 'info';
 
 export const Categories = {
   OTHER: 'General',
+  OTHERS: 'General',
   COVID: 'COVID',
   APPOINTMENTS: 'Appointment',
   MEDICATIONS: 'Medication',
   TEST_RESULTS: 'Test',
+  TEST_RESULT: 'Test',
   EDUCATION: 'Education',
 };
 
@@ -174,4 +228,9 @@ export const threadSortingOptions = {
   SORT_BY_RECEPIENT: 'RECIPIENT_NAME',
   SORT_BY_SENT_DATE: 'SENT_DATE',
   SORT_BY_DRAFT_DATE: 'DRAFT_DATE',
+};
+
+export const PrintMessageOptions = {
+  PRINT_MAIN: 'PRINT_MAIN',
+  PRINT_THREAD: 'PRINT_THREAD',
 };

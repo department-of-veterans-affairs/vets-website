@@ -1,6 +1,6 @@
 import { range } from 'lodash';
-import { dateToMoment } from '../utilities/date';
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import { dateToMoment } from '../utilities/date';
 
 /**
  * General Validations *
@@ -208,18 +208,6 @@ function isValidRoutingNumber(value) {
   return false;
 }
 
-function getFileError(file) {
-  if (file.errorMessage) {
-    return file.errorMessage;
-  } else if (file.uploading) {
-    return 'Uploading file...';
-  } else if (!file.confirmationCode) {
-    return 'Something went wrong...';
-  }
-
-  return null;
-}
-
 // validator to prevent users from entering just whitespace on required fields
 function validateWhiteSpace(errors, input) {
   if (typeof input !== 'undefined' && !/\S/.test(input)) {
@@ -268,6 +256,5 @@ export {
   validateIfDirtyDate,
   validateLength,
   isValidRoutingNumber,
-  getFileError,
   validateWhiteSpace,
 };

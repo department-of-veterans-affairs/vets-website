@@ -5,9 +5,13 @@ import { isValidCurrency } from '../utils/validations';
 
 const defaultRecord = [
   {
+    purpose: 'Credit card payment',
+    creditorName: '',
+    originalAmount: '',
     unpaidBalance: '',
-    minMonthlyPayment: '',
-    amountOverdue: '',
+    amountDueMonthly: '',
+    dateStarted: '',
+    amountPastDue: '',
   },
 ];
 
@@ -44,14 +48,14 @@ const CreditCardBill = props => {
     : null;
 
   const minMonthlyPaymentError = !isValidCurrency(
-    creditCardBillRecord.minMonthlyPayment,
+    creditCardBillRecord.amountDueMonthly,
   )
     ? 'Please enter the minimum monthly payment amount'
     : null;
 
   const amountOverdueError =
-    !isValidCurrency(creditCardBillRecord.amountOverdue) &&
-    !creditCardBillRecord.amountOverdue === ''
+    !isValidCurrency(creditCardBillRecord.amountPastDue) &&
+    !creditCardBillRecord.amountPastDue === ''
       ? 'Please enter a valid dollar amount'
       : null;
 
@@ -67,11 +71,11 @@ const CreditCardBill = props => {
   };
 
   const handleMinMonthlyPaymentChange = event => {
-    handleChange('minMonthlyPayment', event.target.value);
+    handleChange('amountDueMonthly', event.target.value);
   };
 
   const handleAmountOverdueChange = event => {
-    handleChange('amountOverdue', event.target.value);
+    handleChange('amountPastDue', event.target.value);
   };
 
   const RETURN_PATH = '/credit-card-bills-summary';
@@ -82,12 +86,12 @@ const CreditCardBill = props => {
     const newCreditCardBillArray = [...creditCardBills];
     newCreditCardBillArray[index] = creditCardBillRecord;
     if (
-      creditCardBillRecord.minMonthlyPayment &&
+      creditCardBillRecord.amountDueMonthly &&
       creditCardBillRecord.unpaidBalance
     ) {
-      // if amountOverdue is NaN, set it to 0 in order to satisfy va-number-input
-      if (!isValidCurrency(creditCardBillRecord.amountOverdue)) {
-        creditCardBillRecord.amountOverdue = 0;
+      // if amountPastDue is NaN, set it to 0 in order to satisfy va-number-input
+      if (!isValidCurrency(creditCardBillRecord.amountPastDue)) {
+        creditCardBillRecord.amountPastDue = 0;
       }
 
       // update form data
@@ -133,6 +137,7 @@ const CreditCardBill = props => {
         <va-number-input
           error={(submitted && unpaidBalanceError) || null}
           hint={null}
+          currency
           required
           inputmode="numeric"
           label="Unpaid balance"
@@ -147,24 +152,26 @@ const CreditCardBill = props => {
           error={(submitted && minMonthlyPaymentError) || null}
           hint={null}
           required
+          currency
           inputmode="numeric"
           label="Minimum monthly payment amount"
-          name="minMonthlyPayment"
-          id="minMonthlyPayment"
+          name="amountDueMonthly"
+          id="amountDueMonthly"
           onInput={handleMinMonthlyPaymentChange}
-          value={creditCardBillRecord.minMonthlyPayment}
+          value={creditCardBillRecord.amountDueMonthly}
         />
       </div>
       <div className="input-size-5">
         <va-number-input
           error={(submitted && amountOverdueError) || null}
           hint={null}
+          currency
           inputmode="numeric"
           label="Amount overdue"
-          name="amountOverdue"
-          id="amountOverdue"
+          name="amountPastDue"
+          id="amountPastDue"
           onInput={handleAmountOverdueChange}
-          value={creditCardBillRecord.amountOverdue}
+          value={creditCardBillRecord.amountPastDue}
         />
       </div>
       <p>
@@ -179,7 +186,7 @@ const CreditCardBill = props => {
         <button
           type="button"
           id="submit"
-          className="vads-u-width--auto"
+          className="vads-u-width--auto usa-button-primary"
           onClick={handlers.onUpdate}
         >
           {`${

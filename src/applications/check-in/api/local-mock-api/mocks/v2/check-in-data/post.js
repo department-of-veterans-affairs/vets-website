@@ -2,10 +2,6 @@ const createMockSuccessResponse = _data => {
   return { data: 'Checkin successful', status: 200 };
 };
 
-const createMockFailedResponse = _data => {
-  return { data: { error: true } };
-};
-
 const createMockAddressValidationSuccessResponse = _data => {
   return {
     data: {
@@ -81,7 +77,6 @@ const createMockAddressValidationErrorResponse = _data => {
 
 module.exports = {
   createMockSuccessResponse,
-  createMockFailedResponse,
   createMockAddressValidationSuccessResponse,
   createMockAddressValidationErrorResponse,
 };

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import { getFolders, newFolder } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
@@ -31,6 +32,15 @@ const Folders = () => {
       dispatch(getFolders());
     },
     [dispatch, location, isModalVisible],
+  );
+
+  useEffect(
+    () => {
+      if (!isModalVisible) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [isModalVisible],
   );
 
   const openNewModal = () => {
