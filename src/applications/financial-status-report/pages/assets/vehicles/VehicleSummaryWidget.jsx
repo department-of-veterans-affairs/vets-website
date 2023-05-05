@@ -59,38 +59,42 @@ const VehicleSummaryWidget = ({
 
   return (
     <form onSubmit={handlers.onSubmit}>
-      <legend className="schemaform-block-title vads-u-margin-top--5">
-        Your cars or other vehicles
-      </legend>
-      <div className="vads-u-margin-top--3" data-testid="debt-list">
-        {!automobiles.length ? (
-          <EmptyMiniSummaryCard content={emptyPrompt} />
-        ) : (
-          automobiles.map((vehicle, index) => (
-            <MiniSummaryCard
-              editDestination={{
-                pathname: '/your-vehicle-records',
-                search: `?index=${index}`,
-              }}
-              heading={`${vehicle.year || ''} ${vehicle.make} ${vehicle.model}`}
-              key={vehicle.make + vehicle.model + vehicle.year}
-              onDelete={() => onDelete(index)}
-              showDelete
-              body={cardBody(vehicle.resaleValue)}
-              index={index}
-            />
-          ))
-        )}
-      </div>
-      <Link
-        className="vads-c-action-link--green"
-        to={{
-          pathname: '/your-vehicle-records',
-          search: `?index=${automobiles.length}`,
-        }}
-      >
-        Add additional vehicle
-      </Link>
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">
+          Your cars or other vehicles
+        </legend>
+        <div className="vads-u-margin-top--3" data-testid="debt-list">
+          {!automobiles.length ? (
+            <EmptyMiniSummaryCard content={emptyPrompt} />
+          ) : (
+            automobiles.map((vehicle, index) => (
+              <MiniSummaryCard
+                editDestination={{
+                  pathname: '/your-vehicle-records',
+                  search: `?index=${index}`,
+                }}
+                heading={`${vehicle.year || ''} ${vehicle.make} ${
+                  vehicle.model
+                }`}
+                key={vehicle.make + vehicle.model + vehicle.year}
+                onDelete={() => onDelete(index)}
+                showDelete
+                body={cardBody(vehicle.resaleValue)}
+                index={index}
+              />
+            ))
+          )}
+        </div>
+        <Link
+          className="vads-c-action-link--green"
+          to={{
+            pathname: '/your-vehicle-records',
+            search: `?index=${automobiles.length}`,
+          }}
+        >
+          Add additional vehicle
+        </Link>
+      </fieldset>
       {contentBeforeButtons}
       <FormNavButtons goBack={handlers.onBack} submitToContinue />
       {contentAfterButtons}
