@@ -143,7 +143,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  initializeProfile,
+  onExtendSession: initializeProfile,
 };
 
 export default connect(
@@ -152,8 +152,8 @@ export default connect(
 )(SessionTimeoutModal);
 
 SessionTimeoutModal.propTypes = {
-  isLoggedIn: PropTypes.bool,
-  initializeProfile: PropTypes.func.isRequired,
+  onExtendSession: PropTypes.func.isRequired,
   authenticatedWithOAuth: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
   serviceName: PropTypes.string,
 };
