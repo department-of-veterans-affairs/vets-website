@@ -79,6 +79,15 @@ const FolderThreadListView = props => {
 
   useEffect(
     () => {
+      if (folder !== undefined) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [folder],
+  );
+
+  useEffect(
+    () => {
       // clear out folder reducer to prevent from previous folder data flashing
       // when navigating between folders
       if (!testing) dispatch(clearFolder());
@@ -127,7 +136,7 @@ const FolderThreadListView = props => {
     }
   }, 60000);
 
-  const loadingIndicator = () => {
+  const LoadingIndicator = () => {
     return (
       <va-loading-indicator
         message="Loading your secure messages..."
@@ -139,8 +148,9 @@ const FolderThreadListView = props => {
 
   const content = () => {
     if (threads === undefined) {
-      return loadingIndicator();
+      return <LoadingIndicator />;
     }
+
     if (threads.length === 0) {
       return (
         <>
@@ -160,6 +170,7 @@ const FolderThreadListView = props => {
         </>
       );
     }
+
     if (error) {
       return (
         <va-alert status="error" visible>
@@ -171,6 +182,7 @@ const FolderThreadListView = props => {
         </va-alert>
       );
     }
+
     if (threads.length > 0) {
       return (
         <ThreadsList
@@ -181,14 +193,14 @@ const FolderThreadListView = props => {
         />
       );
     }
-    return '';
+    return null;
   };
 
   return (
     <div className="vads-l-grid-container vads-u-padding--0">
       <div className="main-content">
         <AlertBackgroundBox closeable />
-        {folder?.folderId === undefined && loadingIndicator()}
+        {folder?.folderId === undefined && <LoadingIndicator />}
         {folder?.folderId !== undefined && (
           <>
             <FolderHeader folder={folder} />
