@@ -1,8 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
-const ResolutionWaiverAgreement = props => {
-  const { formContext } = props;
+const ResolutionCompromiseAgreement = (
+  data,
+  goToPath,
+  setFormData,
+  contentBeforeButtons,
+  contentAfterButtons,
+  formContext,
+) => {
   const formData = useSelector(state => state.form.data);
 
   const { selectedDebtsAndCopays = [] } = formData;
@@ -45,13 +52,51 @@ const ResolutionWaiverAgreement = props => {
     [compromiseAmountError, compromiseAmount, validateCompromiseAmount],
   );
 
+  const goBack = () => {
+    return goToPath(`/resolution-option/${currentDebt.pagePerItemIndex}`);
+  };
+
+  const goForward = () => {
+    return goToPath('/resolution-comments');
+  };
+
   const getLabel =
     currentDebt.resolutionOption === 'monthly'
       ? 'How much can you afford to pay monthly on this debt?'
       : 'How much can you afford to pay as a one-time payment?';
 
+  const getParagraphText =
+    currentDebt.resolutionOption === 'monthly' ? (
+      <p className="vads-u-margin-y--0">
+        <p className="vads-u-display--block">
+          You selected:{' '}
+          <span className="vads-u-font-weight--bold">
+            Extended monthly payments
+          </span>
+        </p>
+
+        <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-bottom--1">
+          If we approve your request, you can make smaller monthly payments for
+          up to 5 years with either monthly offsets or a monthly payment plan.
+        </span>
+      </p>
+    ) : (
+      <p className="vads-u-margin-y--0">
+        <p className="vads-u-display--block">
+          You selected:{' '}
+          <span className="vads-u-font-weight--bold">Compromise</span>
+        </p>
+
+        <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-bottom--1">
+          If you can’t pay the debt in full or make smaller monthly payments, we
+          can consider a smaller, one-time payment to resolve your debt.
+        </span>
+      </p>
+    );
+
   return (
     <>
+      <p>{getParagraphText}</p>
       <va-number-input
         inputmode="numeric"
         id="compromise-amount"
@@ -70,8 +115,11 @@ const ResolutionWaiverAgreement = props => {
             : ''
         }
       />
+      {contentBeforeButtons}
+      <FormNavButtons goBack={goBack} goForward={goForward} submitToContinue />
+      {contentAfterButtons}
     </>
   );
 };
 
-export default ResolutionWaiverAgreement;
+export default ResolutionCompromiseAgreement;
