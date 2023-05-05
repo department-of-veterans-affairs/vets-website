@@ -12,10 +12,10 @@ const tableConfig = {
 };
 
 module.exports = async (on, config) => {
-  // if (process.env.CODE_COVERAGE === 'true') {
-  require('@cypress/code-coverage/task')(on, config);
-  on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'));
-  // }
+  if (process.env.CODE_COVERAGE === 'true') {
+    require('@cypress/code-coverage/task')(on, config);
+    on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'));
+  }
 
   let appRegistry;
   if (fs.existsSync('../content-build/src/applications/registry.json')) {

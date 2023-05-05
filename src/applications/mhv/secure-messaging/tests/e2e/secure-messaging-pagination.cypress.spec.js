@@ -11,7 +11,13 @@ describe('Secure Messaging Reply', () => {
 
     landingPage.loadInboxMessages(mockMessagesPageOne);
     site.loadVAPaginationNextMessages(2, mockMessagesPageTwo);
+    cy.get('[data-testid="displaying-number-of-threads"]').should(
+      'have.text',
+      'Displaying 11 - 20 of 28 Conversations',
+    );
     site.loadVAPaginationPreviousMessages(1, mockMessagesPageOne);
+    site.loadVAPaginationPageMessages(1, mockMessagesPageOne);
+    site.loadVAPaginationPageMessages(2, mockMessagesPageTwo);
 
     cy.injectAxe();
     cy.axeCheck();
