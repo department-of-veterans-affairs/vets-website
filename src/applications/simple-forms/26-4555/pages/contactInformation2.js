@@ -16,6 +16,7 @@ const pageFields = [
   veteranFields.email,
 ];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:description': PrefillMessage,

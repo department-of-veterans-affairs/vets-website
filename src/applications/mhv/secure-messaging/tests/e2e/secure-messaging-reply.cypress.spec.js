@@ -18,8 +18,10 @@ describe('Secure Messaging Reply', () => {
 
     messageDetailsPage.loadMessageDetails(testMessage);
     messageDetailsPage.loadReplyPageDetails(testMessage);
-    patientInterstitialPage.getContinueButton().click();
-    replyPage.getMessageBodyField().type('Test message body');
+    patientInterstitialPage
+      .getContinueButton()
+      .click({ waitforanimations: true });
+    replyPage.getMessageBodyField().type('Test message body', { force: true });
     cy.injectAxe();
     cy.axeCheck();
     replyPage.sendReplyMessageDetails(testMessage);

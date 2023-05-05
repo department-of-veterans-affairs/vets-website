@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
-// import FolderListView from './FolderListView';
 import Folders from './Folders';
 import FolderThreadListView from './FolderThreadListView';
 import LandingPageAuth from './LandingPageAuth';
@@ -13,7 +12,7 @@ import SearchResults from './SearchResults';
 
 const AuthorizedRoutes = () => {
   return (
-    <div className="vads-u-flex--fill">
+    <div className="vads-u-flex--fill" data-testid="secure-messaing">
       <ScrollToTop />
       <Switch>
         <Route exact path="/" key="App">
@@ -50,7 +49,6 @@ const AuthorizedRoutes = () => {
           path={['/inbox', '/sent', '/trash', '/drafts', '/folder/:folderId']}
           key="FolderListView"
         >
-          {/* <FolderListView /> */}
           <FolderThreadListView />
         </Route>
       </Switch>
