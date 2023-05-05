@@ -126,7 +126,12 @@ const SearchForm = props => {
     }
     return (
       <>
-        in <strong>{folderName}</strong> for "<strong>{keyword}</strong>"
+        in <strong>{folderName}</strong> for{' '}
+        {keyword && (
+          <>
+            "<strong>{keyword}</strong>"
+          </>
+        )}
         <ul>
           {query.category && queryItem('Category', query.category)}
           {dateRangeDisplay()}
