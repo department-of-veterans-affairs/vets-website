@@ -97,10 +97,7 @@ describe('<AddIssue>', () => {
     $('button#submit', container).click();
 
     const date = $('va-memorable-date', container);
-    expect(date.error).to.contain(
-      // partial match
-      issueErrorMessages.invalidDateRange('xxxx', '').split('xxxx')[0],
-    );
+    expect(date.error).to.contain(issueErrorMessages.pastDate);
   });
   it('should show an error when the issue date is > 1 year in the future', () => {
     const decisionDate = getDate({ offset: { months: +13 } });
