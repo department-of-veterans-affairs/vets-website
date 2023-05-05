@@ -214,6 +214,7 @@
  * @property {(formData: any) => any} [replaceSchema]
  * @property {(formData, schema, uiSchema, index, path) => any} [updateSchema]
  * @property {boolean} [useDlWrap]
+ * @property {boolean} [uswds]
  * @property {(props: any) => JSX.Element} [viewComponent]
  * @property {(props: any) => JSX.Element} [viewField]
  * @property {string} [widgetClassNames]
