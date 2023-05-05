@@ -170,7 +170,7 @@ export const Prompts = {
 export const Breadcrumbs = {
   COMPOSE: {
     path: '/compose',
-    label: 'Compose message',
+    label: 'Start a new message',
   },
   INBOX: { path: '/inbox', label: 'Inbox' },
   DRAFTS: { path: '/drafts', label: 'Drafts' },

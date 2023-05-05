@@ -24,9 +24,11 @@ describe('Secure Messaging Message Details Buttons Check', () => {
     messageDetailsPage.verifyTrashButtonModal();
     messageDetailsPage.verifyMoveToButtonModal();
     messageDetailsPage.loadReplyPageDetails(messageDetails, defaultMockThread);
-    patientInterstitialPage.getContinueButton().click();
-    replyPage.getMessageBodyField().should('be.visible');
+    patientInterstitialPage
+      .getContinueButton()
+      .click({ waitforanimations: true });
     cy.injectAxe();
     cy.axeCheck();
+    replyPage.getMessageBodyField().should('be.visible');
   });
 });
