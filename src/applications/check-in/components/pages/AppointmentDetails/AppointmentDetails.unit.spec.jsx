@@ -48,7 +48,8 @@ describe('check-in experience', () => {
       stationNo: '230',
     };
     delete initAppointments[0].clinicPhoneNumber;
-
+    delete initAppointments[0].doctorName;
+    delete initAppointments[0].clinicStopCodeName;
     const preCheckInStore = {
       app: 'preCheckIn',
       appointments: initAppointments,
