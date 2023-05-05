@@ -58,9 +58,7 @@ const fSRRecreationalVehicleUISchema = {
       <legend className="schemaform-block-title">
         Your trailers, campers, and boats
       </legend>
-      <p className="vads-u-padding-top--2">
-        Enter each of your trailers, campers, and boats separately below.
-      </p>
+      <p>Enter each of your trailers, campers, and boats separately below.</p>
     </>
   ),
   assets: {
