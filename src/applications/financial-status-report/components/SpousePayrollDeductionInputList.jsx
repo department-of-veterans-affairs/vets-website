@@ -104,7 +104,7 @@ const SpousePayrollDeductionInputList = props => {
           Your spouse’s job at {employerName}
         </legend>
         <p>
-          How much does your spouse pay monthly for each of your payroll
+          How much does your spouse pay monthly for each of their payroll
           deductions?
         </p>
         {selectedDeductions?.map((deduction, key) => (
