@@ -93,9 +93,10 @@ export default function V1V3Page() {
         </div>
 
         {/* Text Input Comparison */}
-        <div className="vads-l-row">
-          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
-            <div className="vads-l-col--6 vads-u-margin--1">
+        <div className="vads-l-row vads-u-padding-y--2">
+          <h3>Text input component</h3>
+          <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--gray-light-alt medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaTextInput
                 name="v1Input"
                 label="V1 Input"
@@ -105,7 +106,7 @@ export default function V1V3Page() {
               <ValueDisplay label="V1 Input" id="v1InputValue" />
             </div>
 
-            <div className="vads-l-col--6 vads-u-margin--1">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaTextInput
                 uswds
                 name="v3Input"
@@ -120,8 +121,9 @@ export default function V1V3Page() {
 
         {/* Number Input Comparison */}
         <div className="vads-l-row">
-          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
-            <div className="vads-l-col--6 vads-u-margin--1">
+          <h3>Number input component</h3>
+          <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--gray-light-alt medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaNumberInput
                 name="v1NumberInput"
                 label="V1 Number Input"
@@ -132,7 +134,7 @@ export default function V1V3Page() {
               <ValueDisplay label="V1 Number Input" id="v1NumberInputValue" />
             </div>
 
-            <div className="vads-l-col--6 vads-u-margin--1">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1 vads-u-border-color--primary">
               <VaNumberInput
                 uswds
                 name="v3NumberInput"
@@ -148,8 +150,9 @@ export default function V1V3Page() {
 
         {/* Select Comparison */}
         <div className="vads-l-row">
-          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
-            <div className="vads-l-col--6 vads-u-margin--1">
+          <h3>Select component</h3>
+          <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaSelect
                 name="v1Select"
                 label="V1 Select"
@@ -163,7 +166,7 @@ export default function V1V3Page() {
               <ValueDisplay label="V1 Select" id="v1SelectValue" />
             </div>
 
-            <div className="vads-l-col--6 vads-u-margin--1">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaSelect
                 uswds
                 name="v3Select"
@@ -181,8 +184,9 @@ export default function V1V3Page() {
 
         {/* Radio Comparison */}
         <div className="vads-l-row">
-          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
-            <div className="vads-l-col--6 vads-u-margin--1">
+          <h3>Radio component</h3>
+          <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaRadio
                 label="V1 Radio"
                 onVaValueChange={e => updateRadioValue(e.detail, 'v1')}
@@ -207,7 +211,7 @@ export default function V1V3Page() {
               <ValueDisplay label="V1 Radio" id="v1RadioValue" />
             </div>
 
-            <div className="vads-l-col--6 vads-u-margin--1">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaRadio
                 uswds
                 label="V3 Radio"
@@ -240,8 +244,9 @@ export default function V1V3Page() {
 
         {/* Checkbox Comparison */}
         <div className="vads-l-row">
-          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
-            <div className="vads-l-col--6 vads-u-margin--1">
+          <h3>Checkbox component</h3>
+          <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaCheckboxGroup
                 label="V1 Checkbox Group"
                 onVaChange={e => updateCheckboxValue(e, 'v1')}
@@ -265,7 +270,7 @@ export default function V1V3Page() {
               <ValueDisplay label="V1 Checkbox Group" id="v1CheckboxValue" />
             </div>
 
-            <div className="vads-l-col--6 vads-u-margin--1">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaCheckboxGroup
                 uswds
                 label="V3 Checkbox Group"
@@ -297,8 +302,9 @@ export default function V1V3Page() {
 
         {/* Memorable Date Comparison */}
         <div className="vads-l-row">
-          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
-            <div className="vads-l-col--6 vads-u-margin--1">
+          <h3>Memorable date component</h3>
+          <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaMemorableDate
                 name="v1MemorableDate"
                 label="V1 Memorable date"
@@ -312,7 +318,7 @@ export default function V1V3Page() {
               />
             </div>
 
-            <div className="vads-l-col--6 vads-u-margin--1">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaMemorableDate
                 name="v3MemorableDate"
                 label="V3 Memorable date"
@@ -330,8 +336,9 @@ export default function V1V3Page() {
 
         {/* TextArea Comparison */}
         <div className="vads-l-row">
-          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
-            <div className="vads-l-col--6 vads-u-margin--1">
+          <h3>Textarea component</h3>
+          <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaTextarea
                 name="v1TextArea"
                 label="V1 Text Area"
@@ -341,7 +348,7 @@ export default function V1V3Page() {
               <ValueDisplay label="V1 Text Area" id="v1TextAreaValue" />
             </div>
 
-            <div className="vads-l-col--6 vads-u-margin--1">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaTextarea
                 name="v3TextArea"
                 label="V3 Text Area"
@@ -356,9 +363,9 @@ export default function V1V3Page() {
 
         {/* Button pair Comparison */}
         <div className="vads-l-row">
-          <h4>Button pair</h4>
-          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
-            <div className="vads-l-col--6 vads-u-margin--1">
+          <h3>Button pair</h3>
+          <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaButtonPair
                 continue
                 onPrimaryClick={() =>
@@ -371,7 +378,7 @@ export default function V1V3Page() {
               <ValueDisplay label="V1 button pair" id="v1ButtonPairValue" />
             </div>
 
-            <div className="vads-l-col--6 vads-u-margin--1">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaButtonPair
                 continue
                 onPrimaryClick={() =>
@@ -389,9 +396,9 @@ export default function V1V3Page() {
 
         {/* Button Comparison */}
         <div className="vads-l-row">
-          <h4>Button</h4>
-          <div className="vads-u-display--flex vads-l-col--12 vads-u-align-items--center">
-            <div className="vads-l-col--6 vads-u-margin--1">
+          <h3>Button</h3>
+          <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <va-button
                 onClick={() => handleClick('v1ButtonValue', 'V1 edit')}
                 text="Edit"
@@ -399,7 +406,7 @@ export default function V1V3Page() {
               <ValueDisplay label="V1 button" id="v1ButtonValue" />
             </div>
 
-            <div className="vads-l-col--6 vads-u-margin--1">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <va-button
                 onClick={() => handleClick('v3ButtonValue', 'V3 edit')}
                 text="Edit"
