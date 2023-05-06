@@ -15,7 +15,7 @@ import {
   FSR_API_CALL_INITIATED,
   DEBTS_FETCH_SUCCESS,
 } from '../constants/actionTypes';
-import { DEBT_TYPES } from '../utils/helpers';
+import { DEBT_TYPES } from '../constants';
 
 export const fetchFormStatus = () => async dispatch => {
   dispatch({
