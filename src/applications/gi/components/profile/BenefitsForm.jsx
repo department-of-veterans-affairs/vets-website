@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { ariaLabels } from '../../constants';
@@ -186,19 +186,23 @@ const BenefitsForm = ({
                 onChange={eligibilityChange}
                 onFocus={handleInputFocus}
               />
-              <Dropdown
-                label="Is your spouse currently on active duty?"
-                name="spouseActiveDuty"
-                options={[
-                  { optionValue: 'yes', optionLabel: 'Yes' },
-                  { optionValue: 'no', optionLabel: 'No' },
-                ]}
-                value={spouseActiveDuty}
-                alt="Is your spouse on active duty?"
-                visible
-                onChange={eligibilityChange}
-                onFocus={handleInputFocus}
-              />
+              {militaryStatus === SPOUSE && (
+                <>
+                  <Dropdown
+                    label="Is your spouse currently on active duty?"
+                    name="spouseActiveDuty"
+                    options={[
+                      { optionValue: 'yes', optionLabel: 'Yes' },
+                      { optionValue: 'no', optionLabel: 'No' },
+                    ]}
+                    value={spouseActiveDuty}
+                    alt="Is your spouse on active duty?"
+                    visible
+                    onChange={eligibilityChange}
+                    onFocus={handleInputFocus}
+                  />
+                </>
+              )}
             </div>
           )}
 

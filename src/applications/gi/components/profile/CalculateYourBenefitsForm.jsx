@@ -786,7 +786,7 @@ function CalculateYourBenefitsForm({
             }}
           />
         </>
-        {amountInput}
+        {inputs.kickerEligible === 'yes' && <>{amountInput}</>}
       </>
     );
   };
@@ -899,10 +899,8 @@ function CalculateYourBenefitsForm({
 
     return (
       <>
-        open=
         {displayExtensionSelector ||
           displayExtensionBeneficiaryInternationalCheckbox()}
-        > */}
         <>
           <LearnMoreLabel
             text={radioButtonsLabelText}
