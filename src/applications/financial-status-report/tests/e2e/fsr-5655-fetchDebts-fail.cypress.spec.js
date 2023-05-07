@@ -57,7 +57,7 @@ describe('Fetch Debts Unsuccessfully', () => {
       window.sessionStorage.clear();
     });
   });
-  it.skip('Unsuccessful API Response', () => {
+  it('Unsuccessful API Response', () => {
     cy.get('#start-option-0').click();
     cy.get('#reconsider-option-2').click();
     cy.get('#recipients-option-1').click();
