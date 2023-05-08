@@ -1,5 +1,6 @@
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
+import { navigateToDebtSelection } from './fixtures/helpers';
 // import { deductionCodes } from '../../../debt-letters/const/deduction-codes';
 
 describe('Fetch Debts Unsuccessfully', () => {
@@ -58,18 +59,7 @@ describe('Fetch Debts Unsuccessfully', () => {
     });
   });
   it('Unsuccessful API Response', () => {
-    cy.get('#start-option-0').click();
-    cy.get('#reconsider-option-2').click();
-    cy.get('#recipients-option-1').click();
-    cy.get('[data-testid="start-button"]').click();
-
-    cy.get('a.vads-c-action-link--green')
-      .first()
-      .click();
-
-    cy.findAllByText(/continue/i, { selector: 'button' })
-      .first()
-      .click();
+    navigateToDebtSelection();
 
     cy.get('[data-testid="server-error"] > h3').should(
       'have.text',

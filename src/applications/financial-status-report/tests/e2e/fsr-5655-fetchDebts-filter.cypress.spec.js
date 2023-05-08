@@ -1,4 +1,5 @@
 import manifest from '../../manifest.json';
+import { navigateToDebtSelection } from './fixtures/helpers';
 import mockUser from './fixtures/mocks/mockUser.json';
 
 describe('Fetch Debts Successfully and Filter Out Invalid Debt', () => {
@@ -134,18 +135,7 @@ describe('Fetch Debts Successfully and Filter Out Invalid Debt', () => {
   });
 
   it('Successful API Response', () => {
-    cy.get('#start-option-0').click();
-    cy.get('#reconsider-option-2').click();
-    cy.get('#recipients-option-1').click();
-    cy.get('[data-testid="start-button"]').click();
-
-    cy.get('a.vads-c-action-link--green')
-      .first()
-      .click();
-
-    cy.findAllByText(/continue/i, { selector: 'button' })
-      .first()
-      .click();
+    navigateToDebtSelection();
 
     cy.get('.debt-card').should('have.length', 2);
 
