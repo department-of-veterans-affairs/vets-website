@@ -1,7 +1,7 @@
 // Dependencies.
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // Relative imports
 import recordEvent from 'platform/monitoring/record-event';
@@ -35,8 +35,8 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
         pointerEvents: 'all',
       }}
     >
-      <Modal
-        onClose={() => {
+      <VaModal
+        onCloseEvent={() => {
           toggleModalState();
           recordEvent({
             event: 'int-modal-click',
@@ -44,7 +44,7 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
             'modal-title': 'Download this PDF and open it in Acrobat Reader',
           });
         }}
-        title="Download this PDF and open it in Acrobat Reader"
+        modalTitle="Download this PDF and open it in Acrobat Reader"
         visible={isOpen}
       >
         <>
@@ -78,7 +78,7 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
             Download VA Form {pdfSelected}
           </a>
         </>
-      </Modal>
+      </VaModal>
     </div>
   );
 };

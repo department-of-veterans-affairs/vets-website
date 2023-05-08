@@ -17,7 +17,7 @@ const SELECTORS = {
   WIDGET: '[data-widget-type="find-va-forms"]',
   SEARCH_FORM: '[data-e2e-id="find-form-search-form"]',
   SEARCH_RESULT_TITLE: '[data-e2e-id="result-title"]',
-  NEXT_PAGE: '.va-pagination-next > a',
+  NEXT_PAGE: '.pagination-next > li > button',
   SORT_SELECT_WIDGET: 'select.find-forms-search--sort-select',
 };
 
@@ -108,6 +108,6 @@ describe('functionality of Find Forms', () => {
         .scrollIntoView()
         .click();
     });
-    cy.get('#va-modal-title').should('contain.text', 'PDF');
+    cy.get('.va-modal-title').should('contain.text', 'PDF');
   });
 });

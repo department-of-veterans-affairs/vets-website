@@ -15,9 +15,7 @@ export const uiSchema = {
       <legend className="schemaform-block-title">
         Your spouse information
       </legend>
-      <p className="vads-u-padding-top--2">
-        Tell us how much you get each month for each type of income.
-      </p>
+      <p>Tell us how much you get each month for each type of income.</p>
     </>
   ),
   additionalIncome: {

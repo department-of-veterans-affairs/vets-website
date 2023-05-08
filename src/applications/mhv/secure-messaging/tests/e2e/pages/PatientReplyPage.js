@@ -78,7 +78,9 @@ class PatientReplyPage {
     );
     cy.intercept(
       'POST',
-      `/my_health/v1/messaging/messages/7179970/reply`,
+      `/my_health/v1/messaging/messages/${
+        mockMessage.data.attributes.messageId
+      }/reply`,
       mockMessage,
     ).as('replyDraftMessage');
 

@@ -40,16 +40,18 @@ const OtherExpensesSummary = ({
   };
 
   const cardBody = text => (
-    <p className="vads-u-margin-y--2 vads-u-color--gray">{text}</p>
+    <p>
+      Monthly amount: <b>{currencyFormatter(text)}</b>
+    </p>
   );
   const emptyPrompt = `Select the 'Add additional living expenses' link to add another living expense. Select the 'Continue' button to proceed to the next question.`;
 
   return (
     <form>
-      <fieldset>
+      <fieldset className="vads-u-margin-y--2">
         <legend
           id="added-other-living-expenses-summary"
-          className="vads-u-font-family--serif"
+          className="schemaform-block-title"
           name="addedOtherLiviingExpensesSummary"
         >
           You have added these expenses
@@ -60,7 +62,7 @@ const OtherExpensesSummary = ({
           ) : (
             otherExpenses.map((expense, index) => (
               <MiniSummaryCard
-                body={cardBody(`Value: ${currencyFormatter(expense.amount)}`)}
+                body={cardBody(expense.amount)}
                 editDestination={{
                   pathname: '/add-other-expense',
                   search: `?index=${index}`,
