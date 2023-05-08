@@ -41,7 +41,7 @@ class Appointments {
       {
         timeout: Timeouts.slow,
       },
-    ).should('contain', 'You can check in starting at: 11:00 a.m.');
+    ).should('contain', 'You can check in starting at 11:00 a.m.');
   };
 
   validateEarlyStatusWithoutTime = (appointmentNumber = 2) => {

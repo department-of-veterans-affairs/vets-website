@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { dateFormat } from '../../../util/helpers';
 import mockMessage from '../fixtures/message-response.json';
 
 class PatientReplyPage {
@@ -77,7 +78,9 @@ class PatientReplyPage {
     );
     cy.intercept(
       'POST',
-      `/my_health/v1/messaging/messages/7179970/reply`,
+      `/my_health/v1/messaging/messages/${
+        mockMessage.data.attributes.messageId
+      }/reply`,
       mockMessage,
     ).as('replyDraftMessage');
 
@@ -108,6 +111,32 @@ class PatientReplyPage {
       'have.text',
       'Secure message was successfully sent.',
     );
+  };
+
+  verifyExpandedMessageDateDisplay = (messageDetails, messageIndex = 0) => {
+    cy.log(`messageIndex = ${messageIndex}`);
+    if (messageIndex === 0) {
+      cy.log('message index = 0');
+      cy.get('[data-testid="message-date"]')
+        .eq(messageIndex)
+        .should(
+          'have.text',
+          `Date: ${dateFormat(
+            messageDetails.data.attributes.sentDate,
+            'MMMM D, YYYY, h:mm a z',
+          )}`,
+        );
+    } else {
+      cy.get('[data-testid="message-date"]')
+        .eq(messageIndex)
+        .should(
+          'have.text',
+          `${dateFormat(
+            messageDetails.data.attributes.sentDate,
+            'MMMM D, YYYY [at] h:mm a z',
+          )}`,
+        );
+    }
   };
 }
 

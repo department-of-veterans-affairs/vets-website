@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   DefaultFolders as Folders,
   Alerts,
@@ -14,6 +16,7 @@ import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 import ThreadsList from '../components/ThreadList/ThreadsList';
 import { getListOfThreads, clearListOfThreads } from '../actions/threads';
+import ThreadListSort from '../components/ThreadList/ThreadListSort';
 
 const FolderThreadListView = props => {
   const { testing } = props;
@@ -21,7 +24,7 @@ const FolderThreadListView = props => {
   const [folderId, setFolderId] = useState(null);
   const error = null;
   // Currently the pagination has a bug that doesnt return the correct amount of results per page, as a temporary solution, the threadsPerPage is set to 100 to cover most folders without needing pagination.
-  const threadsPerPage = 100;
+  const threadsPerPage = 10;
   const threads = useSelector(state => state.sm.threads?.threadList);
   const folder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
@@ -30,33 +33,57 @@ const FolderThreadListView = props => {
   const [sortOrder, setSortOrder] = useState(threadSortingOptions.DESCENDING);
   const [sortBy, setSortBy] = useState(threadSortingOptions.SORT_BY_SENT_DATE);
 
-  const handleThreadApiCall = () => {
+  const MAX_PAGE_LIST_LENGTH = 5;
+
+  const handleSortCallback = () => {
+    setPageNum(1);
     dispatch(
-      getListOfThreads(folderId, threadsPerPage, pageNum, sortBy, sortOrder),
+      getListOfThreads(folderId, threadsPerPage, 1, sortBy, sortOrder),
       true,
     );
+  };
+
+  const handlePagination = page => {
+    setPageNum(page);
+    dispatch(
+      getListOfThreads(folderId, threadsPerPage, page, sortBy, sortOrder),
+    ).then(() => {
+      focusElement(
+        document.querySelector("[data-testid='displaying-number-of-threads']"),
+      );
+    });
   };
 
   useEffect(
     () => {
       if (folderId !== null) {
-        dispatch(retrieveFolder(folderId)).then(() => {
-          dispatch(
-            getListOfThreads(
-              folderId,
-              threadsPerPage,
-              pageNum,
-              sortBy,
-              sortOrder,
-            ),
-          );
-        });
+        setPageNum(1);
+        dispatch(retrieveFolder(folderId));
+        dispatch(
+          getListOfThreads(
+            folderId,
+            threadsPerPage,
+            1, // pageNum
+            sortBy,
+            sortOrder,
+            true,
+          ),
+        );
       }
       // on component unmount, clear out threads reducer to prevent from
       // previous threads results flashing when navigating between messages
       return () => dispatch(clearListOfThreads());
     },
-    [folderId, dispatch, pageNum],
+    [folderId, dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (folder !== undefined) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [folder],
   );
 
   useEffect(
@@ -109,7 +136,7 @@ const FolderThreadListView = props => {
     }
   }, 60000);
 
-  const loadingIndicator = () => {
+  const LoadingIndicator = () => {
     return (
       <va-loading-indicator
         message="Loading your secure messages..."
@@ -121,8 +148,9 @@ const FolderThreadListView = props => {
 
   const content = () => {
     if (threads === undefined) {
-      return loadingIndicator();
+      return <LoadingIndicator />;
     }
+
     if (threads.length === 0) {
       return (
         <>
@@ -142,6 +170,7 @@ const FolderThreadListView = props => {
         </>
       );
     }
+
     if (error) {
       return (
         <va-alert status="error" visible>
@@ -153,33 +182,44 @@ const FolderThreadListView = props => {
         </va-alert>
       );
     }
+
     if (threads.length > 0) {
       return (
         <ThreadsList
           threadList={threads}
           folder={folder}
-          folderId={folderId}
-          setPageNum={setPageNum}
           pageNum={pageNum}
-          setSortOrder={setSortOrder}
-          setSortBy={setSortBy}
-          handleThreadApiCall={handleThreadApiCall}
           threadsPerPage={threadsPerPage}
         />
       );
     }
-    return '';
+    return null;
   };
 
   return (
     <div className="vads-l-grid-container vads-u-padding--0">
       <div className="main-content">
         <AlertBackgroundBox closeable />
-        {folder?.folderId === undefined && loadingIndicator()}
+        {folder?.folderId === undefined && <LoadingIndicator />}
         {folder?.folderId !== undefined && (
           <>
             <FolderHeader folder={folder} />
+            <ThreadListSort
+              defaultSortOrder={threadSortingOptions.DESCENDING}
+              setSortOrder={setSortOrder}
+              setSortBy={setSortBy}
+              sortCallback={handleSortCallback}
+            />
             {content()}
+            {threads?.length > 1 && (
+              <VaPagination
+                onPageSelect={e => handlePagination(e.detail.page)}
+                page={pageNum}
+                pages={Math.ceil(threads[0]?.threadPageSize / threadsPerPage)}
+                maxPageListLength={MAX_PAGE_LIST_LENGTH}
+                showLastPage
+              />
+            )}
           </>
         )}
       </div>

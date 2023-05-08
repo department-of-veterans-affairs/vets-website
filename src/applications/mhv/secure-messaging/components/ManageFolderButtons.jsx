@@ -33,6 +33,8 @@ const ManageFolderButtons = () => {
   const [folderName, setFolderName] = useState('');
   const folderNameInput = useRef();
   const renameModalReference = useRef(null);
+  const removeButton = useRef(null);
+  const emptyFolderConfirmBtn = useRef(null);
   let folderMatch = null;
 
   useEffect(
@@ -61,6 +63,24 @@ const ManageFolderButtons = () => {
     [nameWarning],
   );
 
+  useEffect(
+    () => {
+      if (deleteModal) {
+        focusElement(removeButton.current);
+      }
+    },
+    [deleteModal],
+  );
+
+  useEffect(
+    () => {
+      if (isEmptyWarning) {
+        focusElement(emptyFolderConfirmBtn.current);
+      }
+    },
+    [isEmptyWarning],
+  );
+
   const openDelModal = () => {
     dispatch(closeAlert());
     if (messages?.length > 0) {
@@ -87,10 +107,11 @@ const ManageFolderButtons = () => {
     setRenameModal(true);
   };
 
-  const closeRenameModal = () => {
+  const closeRenameModal = async () => {
     setFolderName('');
     setNameWarning('');
-    setRenameModal(false);
+    await setRenameModal(false);
+    focusElement(renameModalReference.current);
   };
 
   const confirmRenameFolder = async () => {
@@ -154,6 +175,7 @@ const ManageFolderButtons = () => {
         >
           <p>{Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_BODY}</p>
           <va-button
+            ref={emptyFolderConfirmBtn}
             text="Ok"
             onClick={() => {
               setIsEmptyWarning(false);
@@ -171,7 +193,11 @@ const ManageFolderButtons = () => {
           status="warning"
         >
           <p>{Alerts.Folder.DELETE_FOLDER_CONFIRM_BODY}</p>
-          <va-button text="Remove" onClick={confirmDelFolder} />
+          <va-button
+            ref={removeButton}
+            text="Remove"
+            onClick={confirmDelFolder}
+          />
           <va-button secondary="true" text="Cancel" onClick={closeDelModal} />
         </VaModal>
       )}

@@ -14,6 +14,7 @@ const pageFields = [
   // omitted because unused, will be restored when vets-json-schema is changed
 ];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [livingSituationFields.parentObject]: {

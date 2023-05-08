@@ -33,13 +33,16 @@ export const schema = {
 export const uiSchemaEnhanced = {
   'ui:title': 'Your dependents',
   questions: {
+    'ui:options': {
+      hideOnReview: false, // change this to true to hide this question on review page
+    },
     hasDependents: {
       'ui:title':
         'How many dependents do you have who rely on you for financial support?',
       'ui:widget': 'TextWidget',
       'ui:required': () => true,
       'ui:options': {
-        classNames: 'no-wrap input-size-2',
+        classNames: 'input-size-2 dependent-count ',
       },
       'ui:errorMessages': {
         required: 'Please enter your dependent(s) information.',

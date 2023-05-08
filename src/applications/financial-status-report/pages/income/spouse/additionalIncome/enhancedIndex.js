@@ -1,14 +1,9 @@
-import React from 'react';
 import SpouseAdditionalIncomeCheckList from '../../../../components/SpouseAdditionalIncomeCheckList';
 
 export const uiSchema = {
   'ui:title': "Your spouse's other income",
   additionalIncomeChecklist: {
-    'ui:title': (
-      <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        Select any additional income your spouse receives:
-      </span>
-    ),
+    'ui:title': 'Select any additional income your spouse receives:',
     'ui:widget': SpouseAdditionalIncomeCheckList,
     'ui:options': {
       hideOnReview: true,

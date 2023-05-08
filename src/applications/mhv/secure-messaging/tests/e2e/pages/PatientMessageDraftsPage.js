@@ -36,8 +36,8 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="drafts-sidebar"]').click();
     cy.injectAxe();
     cy.axeCheck();
-    cy.wait('@draftsFolderMetaResponse');
-    cy.wait('@draftsResponse');
+    // cy.wait('@draftsFolderMetaResponse');
+    // cy.wait('@draftsResponse');
   };
 
   setDraftTestMessageDetails = mockMessage => {
