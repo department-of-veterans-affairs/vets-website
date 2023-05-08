@@ -222,6 +222,7 @@
 /**
  * @typedef {{
  *   $ref: string,
+ *   default: string,
  *   enum: string[],
  *   enumNames: string[],
  *   format: 'email' | 'date' | 'date-time' | 'uri' | 'data-url',
