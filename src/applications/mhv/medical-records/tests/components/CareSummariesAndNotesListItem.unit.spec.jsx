@@ -40,7 +40,7 @@ describe('CareSummariesAndNotesListItem component', () => {
     const recordName = screen.getByText('Primary care progress note', {
       exact: true,
     });
-    const recordDate = screen.getByText('June', { exact: false });
+    const recordDate = screen.getByText('April', { exact: false });
     expect(recordName).to.exist;
     expect(recordDate).to.exist;
   });
