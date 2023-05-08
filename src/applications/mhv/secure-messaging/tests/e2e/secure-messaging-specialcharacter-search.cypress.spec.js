@@ -48,7 +48,7 @@ describe('Secure Messaging - Search Special Characters', () => {
       mockSpeciaCharMessage,
       defaultMockThread,
     );
-    cy.get('span').should('contain', 'special %$#');
+    cy.get('pre').should('contain', 'special %$#');
 
     cy.injectAxe();
     cy.axeCheck();
