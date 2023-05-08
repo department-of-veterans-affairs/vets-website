@@ -40,7 +40,8 @@ describe('totalDisabilities reducer', () => {
       type: FETCH_TOTAL_RATING_SUCCEEDED,
       response: {
         disabilityDecisionTypeName: 'Service Connected',
-        userPercentOfDisability: 80,
+        // eslint-disable-next-line camelcase
+        user_percent_of_disability: 80,
       },
     });
     expect(state.loading).to.equal(false);

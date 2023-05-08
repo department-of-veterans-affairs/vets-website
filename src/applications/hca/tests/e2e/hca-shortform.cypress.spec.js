@@ -9,7 +9,6 @@ import minTestData from './fixtures/data/minimal-test.json';
 import * as shortformHelpers from './helpers';
 
 const testData = minTestData.data;
-
 const disabilityRating = 90;
 
 describe('HCA-Shortform-Authenticated-High-Disability', () => {
@@ -26,13 +25,14 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       statusCode: 200,
       body: prefillAiq,
     }).as('mockSip');
-    cy.intercept('/v0/disability_compensation_form/rating_info', {
+    cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'evss_disability_compensation_form_rating_info_responses',
-          attributes: { userPercentOfDisability: disabilityRating },
+          type: 'hash',
+          // eslint-disable-next-line camelcase
+          attributes: { user_percent_of_disability: disabilityRating },
         },
       },
     }).as('mockDisabilityRating');
@@ -183,13 +183,14 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
       statusCode: 404,
       body: mockEnrollmentStatus,
     }).as('mockEnrollmentStatus');
-    cy.intercept('/v0/disability_compensation_form/rating_info', {
+    cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'evss_disability_compensation_form_rating_info_responses',
-          attributes: { userPercentOfDisability: 40 },
+          type: 'hash',
+          // eslint-disable-next-line camelcase
+          attributes: { user_percent_of_disability: 40 },
         },
       },
     }).as('mockDisabilityRating');
