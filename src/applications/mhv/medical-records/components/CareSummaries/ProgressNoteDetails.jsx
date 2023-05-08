@@ -5,16 +5,14 @@ import PrintHeader from '../shared/PrintHeader';
 import { getVaccinePdf } from '../../api/MrApi';
 import PrintDownload from '../shared/PrintDownload';
 
-const AdmissionAndDischargeDetails = props => {
+const ProgressNoteDetails = props => {
   const { results } = props;
 
-  const admissionDate = dateFormat(results?.startDate, 'MMMM D, YYYY');
-  const dischargeDate = dateFormat(results?.endDate, 'MMMM D, YYYY');
+  const dateSigned = dateFormat(results?.dateSigned, 'MMMM D, YYYY');
+  const dateUpdated = dateFormat(results?.dateUpdated, 'MMMM D, YYYY');
 
   const download = () => {
-    getVaccinePdf(1).then(res =>
-      downloadFile('AdmissionDischarge.pdf', res.pdf),
-    );
+    getVaccinePdf(1).then(res => downloadFile('ProgressNote.pdf', res.pdf));
   };
 
   const content = () => {
@@ -25,17 +23,10 @@ const AdmissionAndDischargeDetails = props => {
           <h1 className="vads-u-margin-bottom--0">{results.name}</h1>
           <div className="time-header">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Dates:{' '}
+              Date:{' '}
             </h2>
-            <p>
-              {admissionDate} to {dischargeDate}
-            </p>
+            <p>{dateSigned}</p>
           </div>
-
-          <p className="vads-u-margin-bottom--0">
-            Review a summary of your stay at a hospital or other health facility
-            (called an admission and discharge summary).
-          </p>
 
           <div className="no-print">
             <PrintDownload download={download} />
@@ -62,26 +53,22 @@ const AdmissionAndDischargeDetails = props => {
             </h3>
             <p>{results.facility}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Admission date
+              Signed by
             </h3>
-            <p>{admissionDate}</p>
+            <p>{results.signedBy}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Discharge date
+              Last updated
             </h3>
-            <p>{dischargeDate}</p>
+            <p>{dateUpdated}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Admitted by
+              Date signed
             </h3>
-            <p>{results.admittingPhysician}</p>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Discharged by
-            </h3>
-            <p>{results.dischargePhysician}</p>
+            <p>{dateSigned}</p>
           </div>
 
           <div className="test-results-container">
-            <h2>Summary</h2>
-            <p>{results.summary}</p>
+            <h2>Note</h2>
+            <p>{results.note}</p>
           </div>
         </>
       );
@@ -96,8 +83,8 @@ const AdmissionAndDischargeDetails = props => {
   );
 };
 
-export default AdmissionAndDischargeDetails;
+export default ProgressNoteDetails;
 
-AdmissionAndDischargeDetails.propTypes = {
+ProgressNoteDetails.propTypes = {
   results: PropTypes.object,
 };
