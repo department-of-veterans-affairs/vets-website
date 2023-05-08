@@ -1,4 +1,4 @@
-import React, from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
