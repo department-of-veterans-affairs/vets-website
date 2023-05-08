@@ -3,6 +3,10 @@ import fs from 'fs';
 const knownFonts = {
   'Bitter-Bold': 'bitter-bold.ttf',
   'Bitter-Regular': 'bitter-regular.ttf',
+  'SourceSansPro-Bold': 'sourcesanspro-bold-webfont.ttf',
+  'SourceSansPro-Italic': 'sourcesanspro-italic-webfont.ttf',
+  'SourceSansPro-Light': 'sourcesanspro-light-webfont.ttf',
+  'SourceSansPro-Regular': 'sourcesanspro-regular-webfont.ttf',
 };
 
 export default async function registerFonts(doc, fonts) {
