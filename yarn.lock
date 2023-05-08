@@ -2525,13 +2525,13 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^15.0.0":
-  version "15.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-15.0.0.tgz#0488b0e04ff866720736b0a3c20e114b51f68e32"
-  integrity sha512-9KExUhu1C8HyBm3huhyvlJ7gmEMqnLV87isZG7W4jnzi040u3n8QHZls+XIO+EFiWmePphmmv+bECy5H6db2QA==
+"@department-of-veterans-affairs/component-library@^16.0.0":
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-16.0.0.tgz#eb4164f1445b00922f958e3a9ba4d82cb5dbc586"
+  integrity sha512-OOHopR9sq8gMxBnAHLSKffoftX8egCuOOrVXp+IHCZTzYJk2vKNZlKbrn4WdlXuZxjp3cYUoykGe14u1EERADw==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "10.0.0"
-    "@department-of-veterans-affairs/web-components" "4.31.1"
+    "@department-of-veterans-affairs/react-components" "11.0.0"
+    "@department-of-veterans-affairs/web-components" "4.36.3"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2563,10 +2563,10 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@10.0.0":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-10.0.0.tgz#b38eb1637d0e034541878e259b8621446f9602f2"
-  integrity sha512-IRebM0rLXOeAFTuawQC6+dA3zN5l3ibobKXjPKmKlTnLK2Ne7AN302TvxItvXkxInI73p2fOnnYw+u3OWS3Oxg==
+"@department-of-veterans-affairs/react-components@11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-11.0.0.tgz#0067780907ea71ad8853d6a5cc998557af953f51"
+  integrity sha512-hHRW7aGh/6qL9GwQbKYZNJm94CTToTZu4tLLXuP6XLV4Ukm4vaIUgFJklXcKvE3e5ZpIe/7nVov0v3nFUggJJg==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
@@ -2604,10 +2604,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.31.1":
-  version "4.31.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.31.1.tgz#6dc3c129feec1fef173f3a299f119788b5ff97ea"
-  integrity sha512-K/e7D9KsPbpoeFG1JRh3GPuFRVYUNr4tGaNcnxVogIvvp7IyYXB4p7KN+K0/HQ5qKU2zvmBV+LPYwBPd49AfRw==
+"@department-of-veterans-affairs/web-components@4.36.3":
+  version "4.36.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.36.3.tgz#029a16eba439f2c42d9818c7f254bc4bc82bb5d5"
+  integrity sha512-FGte2mvMqY/D4hqQqNF9O1UXIJ0lPIEvuiU1+ZRbhzI8OhNE9135kQdkmoVg/sOjxnBwZp0/3+bpOFZiN6/gIw==
   dependencies:
     "@stencil/core" "^2.19.2"
     aria-hidden "^1.1.3"
@@ -12260,6 +12260,13 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.npmjs.org/lines-and-columns/-/lines-and-columns-1.1.6.tgz"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
+linkify-it@^2.0.3:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-2.2.0.tgz#e3b54697e78bf915c70a38acd78fd09e0058b1cf"
+  integrity sha512-GnAl/knGn+i1U/wjBz3akz2stz+HrHLsxMwHQGofCDfPvlf+gDKN58UtfmUquTY4/MXeE2x7k19KQmeoZi94Iw==
+  dependencies:
+    uc.micro "^1.0.1"
+
 linkify-it@^3.0.1:
   version "3.0.2"
   resolved "https://registry.npmjs.org/linkify-it/-/linkify-it-3.0.2.tgz"
@@ -15790,6 +15797,14 @@ react-lifecycles-compat@^3.0.2:
   resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-linkify@^1.0.0-alpha:
+  version "1.0.0-alpha"
+  resolved "https://registry.yarnpkg.com/react-linkify/-/react-linkify-1.0.0-alpha.tgz#b391c7b88e3443752fafe76a95ca4434e82e70d5"
+  integrity sha512-7gcIUvJkAXXttt1fmBK9cwn+1jTa4hbKLGCZ9J1U6EOkyb2/+LKL1Z28d9rtDLMnpvImlNlLPdTPooorl5cpmg==
+  dependencies:
+    linkify-it "^2.0.3"
+    tlds "^1.199.0"
+
 react-meta-tags@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-meta-tags/-/react-meta-tags-1.0.1.tgz#be18e88adafca280d6bd12839b530f9cfb7edbab"
@@ -18317,6 +18332,11 @@ titleize@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/titleize/-/titleize-1.0.1.tgz"
   integrity sha512-rUwGDruKq1gX+FFHbTl5qjI7teVO7eOe+C8IcQ7QT+1BK3eEUXJqbZcBOeaRP4FwSC/C1A5jDoIVta0nIQ9yew==
+
+tlds@^1.199.0:
+  version "1.238.0"
+  resolved "https://registry.yarnpkg.com/tlds/-/tlds-1.238.0.tgz#ffe7c19c8940c35b497cda187a6927f9450325a4"
+  integrity sha512-lFPF9pZFhLrPodaJ0wt9QIN0l8jOxqmUezGZnm7BfkDSVd9q667oVIJukLVzhF+4oW7uDlrLlfJrL5yu9RWwew==
 
 tmp@^0.0.29:
   version "0.0.29"

@@ -11,7 +11,7 @@ export const DateRangeOptions = [
   { value: DateRangeValues.LAST3, label: 'Last 3 months' },
   { value: DateRangeValues.LAST6, label: 'Last 6 months' },
   { value: DateRangeValues.LAST12, label: 'Last 12 months' },
-  { value: DateRangeValues.CUSTOM, label: 'Custom date range' },
+  { value: DateRangeValues.CUSTOM, label: 'Custom' },
 ];
 
 export const SelectCategories = [
@@ -20,7 +20,7 @@ export const SelectCategories = [
     label: ' ',
   },
   {
-    value: 'other',
+    value: 'general',
     label: 'General',
   },
   {

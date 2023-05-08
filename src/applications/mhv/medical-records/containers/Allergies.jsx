@@ -9,6 +9,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getAllVaccinesPdf } from '../api/MrApi';
 import { downloadFile } from '../util/helpers';
+import PrintDownload from '../components/shared/PrintDownload';
 
 const Allergies = () => {
   const dispatch = useDispatch();
@@ -61,13 +62,16 @@ const Allergies = () => {
   };
 
   return (
-    <div id="labs-and-tests">
+    <div id="allergies">
       <PrintHeader />
       <h1 className="vads-u-margin--0">Allergies</h1>
       <p className="vads-u-margin-top--1">
         Review allergies and reactions in your VA medical records.
       </p>
-      <va-additional-info trigger="What to know about allergy records">
+      <va-additional-info
+        trigger="What to know about allergy records"
+        class="no-print"
+      >
         <ul>
           <li className="vads-u-margin-bottom--2">
             <p className="vads-u-margin--0">
@@ -105,29 +109,11 @@ const Allergies = () => {
           </li>
         </ul>
       </va-additional-info>
-
-      <div className="vads-u-display--flex vads-u-margin-y--1 no-print">
-        <button
-          className="link-button vads-u-margin-right--3"
-          type="button"
-          data-testid="print-records-button"
-          onClick={window.print}
-        >
-          <i
-            aria-hidden="true"
-            className="fas fa-print vads-u-margin-right--1"
-          />
-          Print page
-        </button>
-        <button className="link-button" type="button" onClick={download}>
-          <i
-            aria-hidden="true"
-            className="fas fa-download vads-u-margin-right--1"
-          />
-          Download page
-        </button>
-      </div>
-      <va-additional-info trigger="What to know about downloading records">
+      <PrintDownload list download={download} />
+      <va-additional-info
+        trigger="What to know about downloading records"
+        class="no-print"
+      >
         <ul>
           <li>
             <strong>If you’re on a public or shared computer,</strong> print

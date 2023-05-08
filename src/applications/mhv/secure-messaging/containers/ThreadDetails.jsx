@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
 import PropTypes from 'prop-types';
 import MessageThread from '../components/MessageThread/MessageThread';
 import { retrieveMessageThread } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
-import AlertBox from '../components/shared/AlertBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import EmergencyNote from '../components/EmergencyNote';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
@@ -15,43 +14,55 @@ import { getTriageTeams } from '../actions/triageTeams';
 import { clearDraft } from '../actions/draftDetails';
 import InterstitialPage from './InterstitialPage';
 import { PrintMessageOptions } from '../util/constants';
+import { closeAlert } from '../actions/alerts';
+import CannotReplyAlert from '../components/shared/CannotReplyAlert';
+import { navigateToFolderByFolderId } from '../util/helpers';
 
 const ThreadDetails = props => {
   const { threadId } = useParams();
   const { testing } = props;
   const dispatch = useDispatch();
-  const alert = useSelector(state => state.sm.alerts.alert);
+  const location = useLocation();
+  const history = useHistory();
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
-  const { message, messageHistory, printOption, threadViewCount } = useSelector(
-    state => state.sm.messageDetails,
-  );
+  const {
+    message,
+    messageHistory,
+    printOption,
+    threadViewCount,
+    cannotReply,
+  } = useSelector(state => state.sm.messageDetails);
   const { draftMessage, draftMessageHistory } = useSelector(
     state => state.sm.draftDetails,
   );
+  const { folder } = useSelector(state => state.sm.folders);
 
-  const [cannotReplyAlert, setcannotReplyAlert] = useState(false);
   const [isMessage, setIsMessage] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
   const [isReply, setIsReply] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
   const [acknowledged, setAcknowledged] = useState(false);
-  const header = useRef();
+  const [h1Focus, setH1Focus] = useState(false);
+  const header = useRef(h1Focus);
 
   useEffect(
     () => {
       if (threadId) {
         dispatch(getTriageTeams());
-        dispatch(retrieveMessageThread(threadId)).then(() => {
-          setIsLoaded(true);
-        });
+        dispatch(retrieveMessageThread(threadId))
+          .then(() => {
+            setIsLoaded(true);
+          })
+          .catch(() => {
+            navigateToFolderByFolderId(folder?.folderId || 0, history);
+          });
       }
       return () => {
-        return () => {
-          dispatch(clearDraft());
-        };
+        dispatch(clearDraft());
+        dispatch(closeAlert());
       };
     },
-    [dispatch, threadId],
+    [dispatch, threadId, location.pathname],
   );
 
   useEffect(
@@ -73,19 +84,17 @@ const ThreadDetails = props => {
 
   useEffect(
     () => {
-      if (alert?.header !== (null || undefined)) {
-        setcannotReplyAlert(true);
-      }
-    },
-    [cannotReplyAlert, alert?.header],
-  );
-
-  useEffect(
-    () => {
       focusElement(header.current);
     },
     [header],
   );
+
+  useEffect(() => {
+    if (isDraft || isReply) {
+      setH1Focus(true);
+      focusElement(header.current);
+    }
+  });
 
   const content = () => {
     if (!isLoaded) {
@@ -109,10 +118,12 @@ const ThreadDetails = props => {
     if (isReply) {
       return (
         <div className="compose-container">
+          <CannotReplyAlert visible={cannotReply} />
           <ReplyForm
             draftToEdit={draftMessage}
             replyMessage={draftMessageHistory[0]}
-            cannotReplyAlert={cannotReplyAlert}
+            cannotReply={cannotReply}
+            header={header}
           />
           <MessageThread
             messageHistory={draftMessageHistory.slice(1)}
@@ -138,7 +149,8 @@ const ThreadDetails = props => {
     if (isMessage) {
       return (
         <>
-          <MessageDetailBlock message={message} />
+          <CannotReplyAlert visible={cannotReply} />
+          <MessageDetailBlock message={message} cannotReply={cannotReply} />
           {messageHistory?.length > 0 && (
             <MessageThread
               messageHistory={messageHistory}
@@ -164,8 +176,8 @@ const ThreadDetails = props => {
 
   return (
     <div className="vads-l-grid-container message-detail-container">
-      {/* Only display this type of alert when it contains a header */}
-      {cannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
+      {/* Only display alerts after acknowledging the Interstitial page or if this thread does not contain drafts */}
+      <AlertBackgroundBox closeable />
 
       {content()}
     </div>

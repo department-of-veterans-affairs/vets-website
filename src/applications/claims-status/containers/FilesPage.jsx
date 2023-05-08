@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
-// START lighthouse_migration
-import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
-import FilesPageContent from '../components/evss/FilesPageContent';
-// END lighthouse_migration
 import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
 import AskVAToDecide from '../components/AskVAToDecide';
+// START lighthouse_migration
+import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
 import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
+import FilesPageContent from '../components/evss/FilesPageContent';
+// END lighthouse_migration
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 

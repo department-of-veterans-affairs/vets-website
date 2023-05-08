@@ -38,7 +38,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     ).as('customFolderID');
     cy.intercept(
       'GET',
-      `my_health/v1/messaging/folders/${folderID}/threads?pageSize=100&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC`,
+      `my_health/v1/messaging/folders/${folderID}/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC`,
       mockMessages,
     ).as('customFolderThreads');
     cy.contains(folderName).click();
@@ -59,7 +59,9 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
     folderPage.createANewFolderButton().click();
     const createFolderName = 'create folder test';
-    folderPage.createFolderTextBox().type(createFolderName);
+    folderPage
+      .createFolderTextBox()
+      .type(createFolderName, { waitforanimations: true, force: true });
     cy.intercept('POST', '/my_health/v1/messaging/folder', {
       statusCode: 400,
       body: {

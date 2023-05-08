@@ -6,8 +6,10 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import { clearNotification } from '../actions';
 import ClaimComplete from '../components/ClaimComplete';
-import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
+// START lighthouse_migration
 import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
+import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
+// END lighthouse_migration
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
@@ -175,9 +177,11 @@ class ClaimStatusPage extends React.Component {
       content = this.getPageContent();
     }
 
+    // START lighthouse_migration
     const ClaimDetailLayout = useLighthouse
       ? ClaimDetailLayoutLighthouse
       : ClaimDetailLayoutEVSS;
+    // END lighthouse_migration
 
     return (
       <ClaimDetailLayout

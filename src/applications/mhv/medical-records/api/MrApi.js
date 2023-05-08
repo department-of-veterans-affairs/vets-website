@@ -43,6 +43,15 @@ export const mockGetCareSummariesAndNotesList = () => {
   });
 };
 
+export const mockGetCareSummaryAndNotesDetails = summaryId => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const summary = careSummariesAndNotes.find(sum => +sum.id === +summaryId);
+      resolve(summary);
+    }, 1000);
+  });
+};
+
 export const mockGetVaccine = id => {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -88,7 +97,7 @@ export const mockGetAllergiesList = () => {
 export const mockGetAllergy = id => {
   return new Promise(resolve => {
     setTimeout(() => {
-      const allergy = allergies.find(cond => cond.id === id);
+      const allergy = allergies.find(alg => +alg.id === +id);
       resolve(allergy);
     }, 1000);
   });

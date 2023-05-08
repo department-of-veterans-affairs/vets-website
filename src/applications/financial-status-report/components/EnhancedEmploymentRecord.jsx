@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
@@ -43,6 +42,9 @@ const EmploymentRecord = props => {
 
   const [typeError, setTypeError] = useState('');
   const [employerNameError, setEmployerNameError] = useState(false);
+  const [doesNotCurrentlyWorkHere, setDoesNotCurrentlyWorkHere] = useState(
+    true,
+  );
 
   const handleChange = (key, value) => {
     setEmploymentRecord({
@@ -170,6 +172,11 @@ const EmploymentRecord = props => {
       handleChange(key, dateString);
     },
     handleCheckboxChange: (key, val) => {
+      setDoesNotCurrentlyWorkHere(!val);
+      if (val === true) {
+        // if box has become checked
+        setToDateError('');
+      }
       setEmploymentRecord({
         ...employmentRecord,
         [key]: val,
@@ -183,83 +190,83 @@ const EmploymentRecord = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <legend className="schemaform-block-title">Add a job</legend>
-      <p className="vads-u-padding-top--1">
-        Tell us about any jobs you’ve had in the past 2 years that you received
-        pay stubs for. You’ll need to provide your income information if it’s a
-        current job.
-      </p>
-      <div className="input-size-5">
-        <VaSelect
-          id="type"
-          name="type"
-          label="Type of work"
-          required
-          value={employmentRecord.type}
-          onVaSelect={handlers.onChange}
-          error={typeError}
-        >
-          <option value=""> </option>
-          <option value="Full time">Full time</option>
-          <option value="Part time">Part time</option>
-          <option value="Seasonal">Seasonal</option>
-          <option value="Temporary">Temporary</option>
-        </VaSelect>
-      </div>
-      <div className="vads-u-margin-top--3">
-        <VaDate
-          monthYearOnly
-          value={`${fromYear}-${fromMonth}`}
-          label="Date you started work at this job?"
-          name="from"
-          onDateChange={e => handlers.handleDateChange('from', e.target.value)}
-          onDateBlur={e =>
-            validateYear(e.target.value || '', setFromDateError, startError)
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">Add a job</legend>
+        <p>
+          Tell us about any jobs you’ve had in the past 2 years that you
+          received pay stubs for. You’ll need to provide your income information
+          if it’s a current job.
+        </p>
+        <div className="input-size-5">
+          <VaSelect
+            id="type"
+            name="type"
+            label="Type of work"
+            required
+            value={employmentRecord.type}
+            onVaSelect={handlers.onChange}
+            error={typeError}
+          >
+            <option value=""> </option>
+            <option value="Full time">Full time</option>
+            <option value="Part time">Part time</option>
+            <option value="Seasonal">Seasonal</option>
+            <option value="Temporary">Temporary</option>
+          </VaSelect>
+        </div>
+        <div className="vads-u-margin-top--3">
+          <VaDate
+            monthYearOnly
+            value={`${fromYear}-${fromMonth}`}
+            label="Date you started work at this job?"
+            name="from"
+            onDateChange={e =>
+              handlers.handleDateChange('from', e.target.value)
+            }
+            onDateBlur={e =>
+              validateYear(e.target.value || '', setFromDateError, startError)
+            }
+            required
+            error={fromDateError}
+          />
+        </div>
+        <Checkbox
+          name="current-employment"
+          label="I currently work here"
+          checked={employmentRecord.isCurrent || false}
+          onValueChange={value =>
+            handlers.handleCheckboxChange('isCurrent', value)
           }
-          required
-          error={fromDateError}
         />
-      </div>
-      <div
-        className={classNames('vads-u-margin-top--3', {
-          'field-disabled': employmentRecord.isCurrent,
-        })}
-      >
-        <VaDate
-          monthYearOnly
-          value={`${toYear}-${toMonth}`}
-          label="Date you stopped work at this job?"
-          name="to"
-          onDateChange={e => handlers.handleDateChange('to', e.target.value)}
-          onDateBlur={e =>
-            validateYear(
-              e.target.value || '',
-              setToDateError,
-              'Please enter your employment end date.',
-            )
-          }
-          required
-          error={toDateError}
-        />
-      </div>
-      <Checkbox
-        name="current-employment"
-        label="I currently work here"
-        checked={employmentRecord.isCurrent || false}
-        onValueChange={value =>
-          handlers.handleCheckboxChange('isCurrent', value)
-        }
-      />
-      <div className="input-size-6 vads-u-margin-bottom--2">
-        <va-text-input
-          label="Employer name"
-          name="employerName"
-          onInput={handleEmployerNameChange}
-          value={employmentRecord.employerName}
-          required
-          error={employerNameError ? 'Please enter your employer name.' : ''}
-        />
-      </div>
+        <div>
+          <VaDate
+            monthYearOnly
+            value={`${toYear}-${toMonth}`}
+            label="Date you stopped work at this job?"
+            name="to"
+            onDateChange={e => handlers.handleDateChange('to', e.target.value)}
+            onDateBlur={e =>
+              validateYear(
+                e.target.value || '',
+                setToDateError,
+                'Please enter your employment end date.',
+              )
+            }
+            required={doesNotCurrentlyWorkHere}
+            error={toDateError}
+          />
+        </div>
+        <div className="input-size-6 vads-u-margin-bottom--2">
+          <va-text-input
+            label="Employer name"
+            name="employerName"
+            onInput={handleEmployerNameChange}
+            value={employmentRecord.employerName}
+            required
+            error={employerNameError ? 'Please enter your employer name.' : ''}
+          />
+        </div>
+      </fieldset>
       {onReviewPage ? updateButton : navButtons}
     </form>
   );

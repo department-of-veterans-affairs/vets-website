@@ -37,10 +37,10 @@ export default function ClaimDetailLayout(props) {
     );
   } else if (claim !== null) {
     const claimTitle = `Your ${getClaimType(claim)} claim`;
-    const { contentions, status } = claim.attributes || {};
+    const { closeDate, contentions, status } = claim.attributes || {};
 
     const hasContentions = contentions && contentions.length;
-    const isOpen = status !== 'COMPLETE';
+    const isOpen = status !== 'COMPLETE' && closeDate === null;
 
     const contentionsText = hasContentions
       ? contentions

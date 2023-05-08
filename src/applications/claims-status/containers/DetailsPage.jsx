@@ -9,10 +9,10 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
 import DetailsPageContent from '../components/evss/DetailsPageContent';
 import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
+import { cstUseLighthouse } from '../selectors';
 // END lighthouse_migration
 import { getClaimType } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
-import { cstUseLighthouse } from '../selectors';
 
 class DetailsPage extends React.Component {
   componentDidMount() {
@@ -54,7 +54,8 @@ class DetailsPage extends React.Component {
       return <DetailsPageContent claim={claim} />;
     }
 
-    const { claimDate, claimType, contentions } = claim.attributes;
+    const { claimDate, claimType, contentions } = claim.attributes || {};
+    const hasContentions = contentions && contentions.length;
 
     return (
       <>
@@ -69,7 +70,7 @@ class DetailsPage extends React.Component {
             <h4>What you’ve claimed</h4>
           </dt>
           <dd>
-            {contentions && contentions.length ? (
+            {hasContentions ? (
               <ul className="claim-detail-list">
                 {contentions.map((contention, index) => (
                   <li key={index} className="claim-detail-list-item">
@@ -98,9 +99,11 @@ class DetailsPage extends React.Component {
       content = this.getPageContent();
     }
 
+    // START lighthouse_migration
     const ClaimDetailLayout = useLighthouse
       ? ClaimDetailLayoutLighthouse
       : ClaimDetailLayoutEVSS;
+    // END lighthouse_migration
 
     return (
       <ClaimDetailLayout

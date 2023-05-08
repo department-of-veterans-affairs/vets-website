@@ -39,11 +39,13 @@ export class ConfirmationPage extends React.Component {
           visible
         >
           <h2 slot="headline">
-            Thank you for completing your benefit application
+            Thank you for submitting your authorization request
           </h2>
           <p className="vads-u-margin-y--0">
-            After we review your application, we&rsquo;ll contact you to tell
-            you what happens next in the application process.
+            After we review your application, we will contact the private
+            provider or hospital to obtain the requested records. If we cannot
+            obtain the records within 15 days we will send you a follow up
+            letter.
           </p>
         </va-alert>
         <div className="inset">

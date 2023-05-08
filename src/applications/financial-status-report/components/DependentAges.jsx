@@ -1,11 +1,14 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { DEPENDENT_AGE_LABELS } from '../constants/dependentLabels';
 import { validateIsNumber } from '../utils/validations';
+import ButtonGroup from './shared/ButtonGroup';
+import ReviewControl from './shared/ReviewControl';
 
-const DependentAges = () => {
+const DependentAges = ({ goToPath, isReviewMode = false }) => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
   const {
@@ -17,6 +20,8 @@ const DependentAges = () => {
   const [errors, setErrors] = useState(
     Array(stateDependents.length).fill(null),
   );
+  const [isEditing, setIsEditing] = useState(!isReviewMode);
+  const [hasDependentsChanged, setHasDependentsChanged] = useState(false);
 
   useEffect(
     () => {
@@ -40,9 +45,21 @@ const DependentAges = () => {
             },
           }),
         );
+        if (isReviewMode) {
+          setHasDependentsChanged(true);
+        }
       }
     },
-    [stateDependents, dispatch, formData, hasDependents],
+    [dispatch, hasDependents, isReviewMode, formData, stateDependents],
+  );
+
+  useEffect(
+    () => {
+      if (isReviewMode) {
+        setIsEditing(hasDependentsChanged);
+      }
+    },
+    [isReviewMode, hasDependentsChanged],
   );
 
   const updateDependents = useCallback(
@@ -64,6 +81,35 @@ const DependentAges = () => {
     [stateDependents, dispatch, formData],
   );
 
+  const onSubmit = event => {
+    event.preventDefault();
+    const hasEmptyInput = stateDependents.some(
+      dependent => dependent.dependentAge === '',
+    );
+    if (hasEmptyInput) {
+      const newErrors = stateDependents.map(
+        (dependent, i) =>
+          dependent.dependentAge === ''
+            ? 'Please enter your dependent(s) age.'
+            : errors[i],
+      );
+      setErrors(newErrors);
+    } else if (isReviewMode) {
+      setIsEditing(false);
+    } else {
+      goToPath('/monetary-asset-checklist');
+    }
+  };
+
+  const onCancel = event => {
+    event.preventDefault();
+    goToPath('/dependent-count');
+  };
+
+  const toggleEditing = () => {
+    setIsEditing(!isEditing);
+  };
+
   const handleBlur = useCallback(
     (event, i) => {
       const { value } = event.target;
@@ -80,26 +126,121 @@ const DependentAges = () => {
     [errors],
   );
 
-  const dependentAgeInputs = useMemo(
-    () =>
-      stateDependents.map((dependent, i) => (
-        <div key={`dependentAge-${i}`} className="vads-u-margin-bottom--2">
-          <VaNumberInput
-            id={`dependentAge-${i}`}
-            label={DEPENDENT_AGE_LABELS[i + 1]}
-            name={`dependentAge-${i}`}
-            onInput={({ target }) => updateDependents(target, i)}
-            value={dependent.dependentAge}
-            className="no-wrap input-size-1"
-            onBlur={event => handleBlur(event, i)}
-            error={errors[i]}
-            required
+  const handlers = {
+    onSubmit,
+    onCancel,
+    handleBlur,
+    toggleEditing,
+    updateDependents,
+  };
+
+  // Determine whether to render inputs or plain text based on mode
+  const renderAgeInput = (dependent, i) => (
+    <div key={`dependentAge-${i}`}>
+      <VaNumberInput
+        id={`dependentAge-${i}`}
+        label={DEPENDENT_AGE_LABELS[i + 1]}
+        name={`dependentAge-${i}`}
+        onInput={({ target }) => handlers.updateDependents(target, i)}
+        value={dependent.dependentAge}
+        className="input-size-2 no-wrap"
+        onBlur={event => handlers.handleBlur(event, i)}
+        error={errors[i]}
+        required
+      />
+    </div>
+  );
+
+  const renderAgeText = (dependent, i) => (
+    <div
+      key={`dependentAge-${i}`}
+      className={`review-row ${i > 0 ? 'vads-u-border-top--1' : ''}`}
+    >
+      <dt>{DEPENDENT_AGE_LABELS[i + 1]}</dt>
+      <dd>{dependent.dependentAge || ''}</dd>
+    </div>
+  );
+
+  let dependentAgeInputs = stateDependents.map(
+    (dependent, i) =>
+      isEditing ? renderAgeInput(dependent, i) : renderAgeText(dependent, i),
+  );
+
+  if (!isEditing) {
+    dependentAgeInputs = (
+      <dl className="review vads-u-border-bottom--1">{dependentAgeInputs}</dl>
+    );
+  }
+
+  return (
+    <form onSubmit={handlers.onSubmit}>
+      <div
+        className={`${isReviewMode ? 'form-review-panel-page-header-row' : ''}`}
+      >
+        <h4
+          className={`${
+            isReviewMode
+              ? 'form-review-panel-page-header vads-u-font-size--h5'
+              : ''
+          }`}
+        >
+          Your dependents
+        </h4>
+        {isReviewMode &&
+          !isEditing && (
+            <ReviewControl
+              // readOnly
+              position="header"
+              isEditing={false}
+              onEditClick={handlers.toggleEditing}
+              ariaLabel={`Edit ${DEPENDENT_AGE_LABELS[1]}`}
+              buttonText="Edit"
+            />
+          )}
+      </div>
+      {!isReviewMode ? (
+        <p className="vads-u-padding-top--2">
+          Enter each dependent’s age separately.
+        </p>
+      ) : null}
+      {dependentAgeInputs}
+      {isReviewMode && isEditing ? (
+        <div className="vads-u-margin-top--2">
+          <ReviewControl
+            // readOnly
+            position="footer"
+            isEditing
+            type="submit"
+            ariaLabel={`Update ${DEPENDENT_AGE_LABELS[1]}`}
+            buttonText="Update"
           />
         </div>
-      )),
-    [stateDependents, handleBlur, errors, updateDependents],
+      ) : (
+        !isReviewMode && (
+          <ButtonGroup
+            buttons={[
+              {
+                label: 'Back',
+                onClick: handlers.onCancel,
+                secondary: true,
+                iconLeft: '«',
+              },
+              {
+                label: 'Continue',
+                type: 'submit',
+                iconRight: '»',
+              },
+            ]}
+          />
+        )
+      )}
+    </form>
   );
-  return <>{dependentAgeInputs}</>;
+};
+
+DependentAges.propTypes = {
+  goToPath: PropTypes.func,
+  isReviewMode: PropTypes.bool,
 };
 
 export default DependentAges;

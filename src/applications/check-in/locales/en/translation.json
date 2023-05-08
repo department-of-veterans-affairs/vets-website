@@ -158,7 +158,7 @@
   "work-phone": "Work phone",
   "yes": "Yes",
   "you-are-already-checked-in": "You are already checked in.",
-  "you-can-check-in-starting-at-this-time": "You can check in starting at: {{date, time}}",
+  "you-can-check-in-starting-at-this-time": "You can check in starting at {{date, time}}",
   "you-can-pre-check-in-online-until-date": "You can pre-check in online until {{date, mdY}}.",
   "you-can-still-check-in-once-you-arrive": "You can still check-in with your phone once you arrive at your appointment.",
   "you-can-sign-in-to-your-va-gov-profile": "You can <0>{{link}}</0> to your VA.gov profile to update your contact information online.",
