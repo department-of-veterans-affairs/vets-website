@@ -6,10 +6,11 @@ import {
   isContinuousDeploymentEnabled,
 } from './get-changed-apps';
 
-const createManifest = name => {
+const createManifest = (name, ungroup = false) => {
   return JSON.stringify({
     appName: name.toUpperCase(),
     entryFile: `./${name}-entry.jsx`,
+    ungroup,
     entryName: name,
     rootUrl: `/${name}`,
   });

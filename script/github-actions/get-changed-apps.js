@@ -15,7 +15,19 @@ const changedAppsConfig = require('../../config/changed-apps-build.json');
 const getManifests = filePath => {
   const root = path.join(__dirname, '../..');
   const rootAppFolderName = filePath.split('/')[2];
+
+  // const rootAppFolderNameArr = filePath.split('/');
+  // const sliceOffset =
+  //   rootAppFolderNameArr.length -
+  //   (rootAppFolderNameArr[rootAppFolderNameArr.length - 1].indexOf('.') < 0
+  //     ? 0
+  //     : 1);
+  // const rootAppFolderName = rootAppFolderNameArr
+  //   .slice(2, sliceOffset)
+  //   .join('/');
+
   const fullAppPath = path.join(root, './src/applications', rootAppFolderName);
+  // console.log(fullAppPath);
 
   if (!fs.existsSync(fullAppPath)) return [];
 
@@ -38,13 +50,22 @@ const getAllowedApps = (filePath, allowedApps) => {
   if (!filePath.startsWith(appsDirectory)) return [];
 
   const manifests = getManifests(filePath);
-  const rootAppFolderNameArr = filePath.split('/');
-  console.log(rootAppFolderNameArr, 'rootAppFolderArr');
-  const appIndex =
-    rootAppFolderNameArr[rootAppFolderNameArr.length - 1].indexOf('.') === -1
-      ? rootAppFolderNameArr.length - 1
-      : rootAppFolderNameArr.length - 2;
-  const rootAppFolderName = rootAppFolderNameArr[appIndex];
+  console.log(manifests);
+  const rootAppFolderName = filePath.split('/')[2];
+  // const rootAppFolderNameArr = filePath.split('/');
+  // const rootAppFolderNameArrIndex =
+  //   rootAppFolderNameArr[rootAppFolderNameArr.length - 1].indexOf('.') < 0
+  //     ? rootAppFolderNameArr.length - 1
+  //     : rootAppFolderNameArr.length - 2;
+  // const rootAppFolderName = rootAppFolderNameArr[rootAppFolderNameArrIndex];
+
+  //   rootAppFolderNameArr[2] +
+  //   (rootAppFolderNameArr[3] !== undefined &&
+  //   rootAppFolderNameArr[3].indexOf('.') < 0
+  //     ? `/${rootAppFolderNameArr[3]}`
+  //     : '');
+
+  // console.log(rootAppFolderName);
   const allowedApp = allowedApps.find(
     app => app.rootFolder === rootAppFolderName,
   );
