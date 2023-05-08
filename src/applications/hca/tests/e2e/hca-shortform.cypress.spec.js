@@ -28,12 +28,12 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       statusCode: 200,
       body: mockPrefill,
     }).as('mockSip');
-    cy.intercept('/v0/disability_compensation_form/rating_info', {
+    cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'evss_disability_compensation_form_rating_info_responses',
+          type: 'hash',
           attributes: { userPercentOfDisability: disabilityRating },
         },
       },
@@ -168,12 +168,12 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
       statusCode: 404,
       body: mockEnrollmentStatus,
     }).as('mockEnrollmentStatus');
-    cy.intercept('/v0/disability_compensation_form/rating_info', {
+    cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'evss_disability_compensation_form_rating_info_responses',
+          type: 'hash',
           attributes: { userPercentOfDisability: 40 },
         },
       },

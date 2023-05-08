@@ -33,12 +33,12 @@ describe('HCA-Household-V2-Non-Disclosure', () => {
       statusCode: 200,
       body: mockPrefill,
     }).as('mockSip');
-    cy.intercept('/v0/disability_compensation_form/rating_info', {
+    cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'evss_disability_compensation_form_rating_info_responses',
+          type: 'hash',
           attributes: { userPercentOfDisability: 0 },
         },
       },
@@ -184,12 +184,12 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
       statusCode: 200,
       body: mockPrefill,
     }).as('mockSip');
-    cy.intercept('/v0/disability_compensation_form/rating_info', {
+    cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'evss_disability_compensation_form_rating_info_responses',
+          type: 'hash',
           attributes: { userPercentOfDisability: 0 },
         },
       },
@@ -401,12 +401,12 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       statusCode: 200,
       body: mockPrefill,
     }).as('mockSip');
-    cy.intercept('/v0/disability_compensation_form/rating_info', {
+    cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'evss_disability_compensation_form_rating_info_responses',
+          type: 'hash',
           attributes: { userPercentOfDisability: 0 },
         },
       },
@@ -763,12 +763,12 @@ describe('HCA-Household-V2-Full-Disclosure', () => {
       statusCode: 200,
       body: mockPrefill,
     }).as('mockSip');
-    cy.intercept('/v0/disability_compensation_form/rating_info', {
+    cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'evss_disability_compensation_form_rating_info_responses',
+          type: 'hash',
           attributes: { userPercentOfDisability: 0 },
         },
       },
