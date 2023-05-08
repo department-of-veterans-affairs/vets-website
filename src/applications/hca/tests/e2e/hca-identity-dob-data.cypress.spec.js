@@ -16,13 +16,14 @@ describe('HCA-User-Authenticated-Identity-Without-DOB', () => {
       statusCode: 404,
       body: mockEnrollmentStatus,
     }).as('mockEnrollmentStatus');
-    cy.intercept('/v0/disability_compensation_form/rating_info', {
+    cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'evss_disability_compensation_form_rating_info_responses',
-          attributes: { userPercentOfDisability: 0 },
+          type: 'hash',
+          // eslint-disable-next-line camelcase
+          attributes: { user_percent_of_disability: 0 },
         },
       },
     }).as('mockDisabilityRating');
@@ -80,13 +81,14 @@ describe('HCA-User-Authenticated-Identity-With-DOB', () => {
       statusCode: 404,
       body: mockEnrollmentStatus,
     }).as('mockEnrollmentStatus');
-    cy.intercept('/v0/disability_compensation_form/rating_info', {
+    cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'evss_disability_compensation_form_rating_info_responses',
-          attributes: { userPercentOfDisability: 0 },
+          type: 'hash',
+          // eslint-disable-next-line camelcase
+          attributes: { user_percent_of_disability: 0 },
         },
       },
     }).as('mockDisabilityRating');
