@@ -54,6 +54,7 @@ import {
 } from '../components/contactInfo/EditContactInfo';
 import DependentAges from '../components/DependentAges';
 import DependentAgesReview from '../components/DependentAgesReview';
+import ResolutionCompromiseAgreement from '../components/ResolutionCompromiseAgreement';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -1116,18 +1117,6 @@ const formConfig = {
           uiSchema: pages.resolutionOption.uiSchema,
           schema: pages.resolutionOption.schema,
         },
-        resolutionComment: {
-          title: 'Resolution Amount',
-          depends: formData =>
-            formData.selectedDebtsAndCopays?.length > 0 &&
-            formData['view:combinedFinancialStatusReport'],
-          itemFilter: item => item.resolutionOption !== 'waiver',
-          path: 'resolution-comment/:index',
-          showPagePerItem: true,
-          arrayPath: 'selectedDebtsAndCopays',
-          uiSchema: pages.resolutionComment.uiSchema,
-          schema: pages.resolutionComment.schema,
-        },
         resolutionWaiverCheck: {
           title: 'Resolution Waiver Agreement',
           depends: formData =>
@@ -1139,6 +1128,22 @@ const formConfig = {
           arrayPath: 'selectedDebtsAndCopays',
           uiSchema: pages.resolutionWaiverAgreement.uiSchema,
           schema: pages.resolutionWaiverAgreement.schema,
+        },
+        resolutionCompromiseAmount: {
+          title: 'Resolution Compromise Amount',
+          depends: formData =>
+            formData.selectedDebtsAndCopays?.length > 0 &&
+            formData['view:combinedFinancialStatusReport'],
+          itemFilter: item =>
+            item.resolutionOption === 'compromise' ||
+            item.resolutionOption === 'monthly',
+          path: 'resolution-compromise-monthly/:index',
+          showPagePerItem: true,
+          arrayPath: 'selectedDebtsAndCopays',
+          CustomPage: ResolutionCompromiseAgreement,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
         resolutionComments: {
           path: 'resolution-comments',
