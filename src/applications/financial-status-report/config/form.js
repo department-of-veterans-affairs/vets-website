@@ -1143,7 +1143,22 @@ const formConfig = {
           CustomPage: ResolutionCompromiseAgreement,
           CustomPageReview: null,
           uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          schema: {
+            type: 'object',
+            properties: {
+              selectedDebtsAndCopays: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    resolutionComment: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         resolutionComments: {
           path: 'resolution-comments',

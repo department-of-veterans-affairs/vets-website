@@ -2,14 +2,12 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
-const ResolutionCompromiseAgreement = (
-  data,
+const ResolutionCompromiseAgreement = ({
   goToPath,
-  setFormData,
   contentBeforeButtons,
   contentAfterButtons,
   formContext,
-) => {
+}) => {
   const formData = useSelector(state => state.form.data);
 
   const { selectedDebtsAndCopays = [] } = formData;
@@ -23,6 +21,7 @@ const ResolutionCompromiseAgreement = (
 
   const setNewCompromiseAmount = event => {
     setCompromiseAmount({ value: event.target.value, dirty: true });
+    currentDebt.resolutionComment = event.target.value;
   };
 
   const [compromiseAmountError, setCompromiseAmountError] = useState(false);
