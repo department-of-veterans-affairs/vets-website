@@ -79,8 +79,8 @@ describe('Advanced search form', () => {
     fireEvent.click(searchButton);
     const startDate = screen.getByTestId('date-start');
     const endDate = screen.getByTestId('date-end');
-    expect(startDate.error).to.equal('Please enter a start date');
-    expect(endDate.error).to.equal('Please enter an end date');
+    expect(startDate.error).to.equal('Please enter a start date.');
+    expect(endDate.error).to.equal('Please enter an end date.');
   });
 
   it('displays an error if date range is set to custom but "Start date" is before "End date"', () => {
@@ -94,9 +94,9 @@ describe('Advanced search form', () => {
     const startDate = screen.getByTestId('date-start');
     const endDate = screen.getByTestId('date-end');
     expect(startDate.error).to.equal(
-      'Start date must be on or before end date',
+      'Start date must be on or before end date.',
     );
-    expect(endDate.error).to.equal('End date must be on or after start date');
+    expect(endDate.error).to.equal('End date must be on or after start date.');
   });
 
   it('submits search form when submit button is clicked', () => {
