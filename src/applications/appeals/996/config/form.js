@@ -36,7 +36,9 @@ import informalConferenceTime from '../pages/informalConferenceTimeV2';
 import {
   errorMessages,
   WIZARD_STATUS,
-  contestableIssuesPath,
+  CONTESTABLE_ISSUES_PATH,
+  CONTACT_INFO_PATH,
+  ADD_ISSUE_PATH,
 } from '../constants';
 import { appStateSelector, mayHaveLegacyAppeals } from '../utils/helpers';
 import { getIssueTitle } from '../content/areaOfDisagreement';
@@ -118,7 +120,7 @@ const formConfig = {
         },
         confirmContactInformation: {
           title: 'Contact information',
-          path: 'contact-information',
+          path: CONTACT_INFO_PATH,
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
         },
@@ -157,7 +159,7 @@ const formConfig = {
         // v2 - show contested + added issues
         contestableIssues: {
           title: ' ',
-          path: contestableIssuesPath,
+          path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssuesPage.uiSchema,
           schema: contestableIssuesPage.schema,
           appStateSelector,
@@ -165,7 +167,7 @@ const formConfig = {
         // v2 - add issue. Accessed from contestableIssues page only
         addIssue: {
           title: 'Add issues for review',
-          path: 'add-issue',
+          path: ADD_ISSUE_PATH,
           depends: () => false,
           // showPagePerItem: true,
           // arrayPath: 'additionalIssues',
