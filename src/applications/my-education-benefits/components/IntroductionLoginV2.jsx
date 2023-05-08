@@ -27,7 +27,7 @@ function IntroductionLoginV2({
   const nextQuery = { next: window.location.pathname };
   const verifyUrl = appendQuery('/verify', nextQuery);
   const headlineText = showMebEnhancements
-    ? 'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information and not your sponsor’s.'
+    ? 'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information.'
     : 'Save time-and save your work in progress-by signing in before starting your application.';
   return (
     <>
