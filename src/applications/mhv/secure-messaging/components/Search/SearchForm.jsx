@@ -151,16 +151,16 @@ const SearchForm = props => {
           <strong className="search-results-count">
             {resultsCount?.toLocaleString()}
           </strong>{' '}
-          results {displayQuery()}
+          matches {displayQuery()}
         </>
       );
     return (
       <span
         ref={resultsCountRef}
         data-testid="search-message-folder-input-label"
-        className={
+        className={`vads-u-margin-top--4 ${
           resultsCount === undefined ? null : 'filter-results-in-folder'
-        }
+        }`}
       >
         {results}
       </span>
