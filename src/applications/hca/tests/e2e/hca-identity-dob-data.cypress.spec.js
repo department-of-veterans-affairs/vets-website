@@ -22,8 +22,7 @@ describe('HCA-User-Authenticated-Identity-Without-DOB', () => {
         data: {
           id: '',
           type: 'hash',
-          // eslint-disable-next-line camelcase
-          attributes: { user_percent_of_disability: 0 },
+          attributes: { userPercentOfDisability: 0 },
         },
       },
     }).as('mockDisabilityRating');
@@ -87,8 +86,7 @@ describe('HCA-User-Authenticated-Identity-With-DOB', () => {
         data: {
           id: '',
           type: 'hash',
-          // eslint-disable-next-line camelcase
-          attributes: { user_percent_of_disability: 0 },
+          attributes: { userPercentOfDisability: 0 },
         },
       },
     }).as('mockDisabilityRating');
