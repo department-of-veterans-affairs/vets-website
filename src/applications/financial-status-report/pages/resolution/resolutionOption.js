@@ -1,16 +1,19 @@
+import React from 'react';
 import ResolutionOptions from '../../components/ResolutionOptions';
 import CustomResolutionOptionReview from '../../components/CustomResolutionOptionReview';
-import {
-  CurrentDebtTitle,
-  CurrentDebtDescription,
-} from '../../components/CurrentDebtTitle';
+import { CurrentDebtTitle } from '../../components/CurrentDebtTitle';
 import { validateResolutionOption } from '../../utils/validations';
 
 export const uiSchema = {
   selectedDebtsAndCopays: {
     items: {
       'ui:title': CurrentDebtTitle,
-      'ui:description': CurrentDebtDescription,
+      'ui:description': () => (
+        <>
+          Select relief option:{' '}
+          <span className="required-text">(*Required)</span>
+        </>
+      ),
       'ui:validations': [validateResolutionOption],
       resolutionOption: {
         'ui:title': ' ',
