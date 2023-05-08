@@ -47,6 +47,8 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
         );
         if (isReviewMode) {
           setHasDependentsChanged(true);
+        } else {
+          setHasDependentsChanged(false); // Reset the hasDependentsChanged state variable
         }
       }
     },
