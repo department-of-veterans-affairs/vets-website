@@ -16,8 +16,14 @@ git clone --depth 1 https://github.com/department-of-veterans-affairs/veteran-fa
 git clone --depth 1 https://github.com/department-of-veterans-affairs/content-build.git
 
 # Clone vets-website
-git clone --depth 1 https://github.com/department-of-veterans-affairs/vets-website.git
-
+if [ -z ${SOURCE_REF} ] ;
+then
+    echo "SOURCE_REF is NULL; using main" ;
+    git clone --depth 1 https://github.com/department-of-veterans-affairs/vets-website.git ;
+else
+    echo "AWS_URL is not NULL; using workflow env var" ;
+    git clone -b ${SOURCE_REF} --single-branch https://github.com/department-of-veterans-affairs/vets-website.git
+fi
 
 echo "Download dev content-build to website dir"
 
