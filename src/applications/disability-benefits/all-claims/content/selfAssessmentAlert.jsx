@@ -1,17 +1,10 @@
 import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { DBQ_URL } from '../constants';
+import { bddAlertBegin } from './common';
 
 const alertContent = (
   <>
-    <p className="vads-u-font-size--base">
-      You’ll need to upload your completed{' '}
-      <a href={DBQ_URL} target="_blank" rel="noreferrer">
-        Separation Health Assessment - Part A Self-Assessment
-      </a>{' '}
-      so we can request your VA exams. Use a desktop computer or laptop to
-      download and fill out the form.
-    </p>
+    {bddAlertBegin}
     <p>
       When you upload your Separation Health Assessment, select this for
       document type: <strong>Disability Benefits Questionaire</strong>
