@@ -1,9 +1,14 @@
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import {
+  titleSchema,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    rjsf: titleUI('RJSF'),
     selectDefault: {
       'ui:title': 'title - select rjsf',
       'ui:description': 'description',
@@ -12,7 +17,6 @@ export default {
         required: 'This is a custom error message.',
       },
       'ui:options': {
-        classNames: 'vads-u-background-color--gray-light-alt',
         disabled: true,
         uswds: true,
         labels: {
@@ -24,13 +28,11 @@ export default {
     selectDisabled: {
       'ui:title': 'title - select rjsf',
       'ui:description': 'description',
-      'ui:required': () => true,
       'ui:errorMessages': {
         required: 'This is a custom error message.',
       },
       'ui:disabled': 'true',
       'ui:options': {
-        classNames: 'vads-u-background-color--gray-light-alt',
         disabled: true,
         uswds: true,
         labels: {
@@ -39,6 +41,9 @@ export default {
         },
       },
     },
+    wc: titleUI('Web component', {
+      classNames: 'vads-u-margin-top--4',
+    }),
     selectWC: {
       'ui:title': 'title - select web component',
       'ui:webComponentField': VaSelectField,
@@ -50,7 +55,6 @@ export default {
       },
       'ui:disabled': 'true',
       'ui:options': {
-        classNames: 'vads-u-background-color--primary-alt-lightest',
         disabled: true,
         uswds: false,
         labels: {
@@ -67,9 +71,6 @@ export default {
       'ui:errorMessages': {
         required: 'This is a custom error message.',
       },
-      'ui:options': {
-        classNames: 'vads-u-background-color--primary-alt-lightest',
-      },
     },
     selectWC2: {
       'ui:title': 'title - select web component 2',
@@ -81,9 +82,41 @@ export default {
       },
       'ui:disabled': 'true',
       'ui:options': {
-        classNames: 'vads-u-background-color--primary-alt-lightest',
         disabled: true,
         uswds: false,
+        labels: {
+          option1: 'Option 1',
+          option2: 'Option 2',
+        },
+      },
+    },
+    wcv3: titleUI('Web component v3', {
+      classNames: 'vads-u-margin-top--4',
+    }),
+    textWCV3: {
+      'ui:title': 'title - text web component',
+      'ui:webComponentField': VaTextInputField,
+      'ui:description': 'description',
+      'ui:hint': 'hint',
+      'ui:errorMessages': {
+        required: 'This is a custom error message.',
+      },
+      'ui:options': {
+        uswds: true,
+      },
+    },
+    selectWC2V3: {
+      'ui:title': 'title - select web component 2',
+      'ui:webComponentField': VaSelectField,
+      'ui:description': 'description',
+      'ui:required': () => true,
+      'ui:errorMessages': {
+        required: 'This is a custom error message.',
+      },
+      'ui:disabled': 'true',
+      'ui:options': {
+        disabled: true,
+        uswds: true,
         labels: {
           option1: 'Option 1',
           option2: 'Option 2',
@@ -97,7 +130,6 @@ export default {
       'ui:disabled': 'true',
       'ui:options': {
         uswds: true,
-        classNames: 'vads-u-background-color--primary-alt-lightest',
         hint: 'This is a hint',
         labels: {
           option1: 'Option 1',
@@ -109,6 +141,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      rjsf: titleSchema(),
       selectDefault: {
         type: 'string',
         enum: ['option1', 'option2'],
@@ -117,6 +150,7 @@ export default {
         type: 'string',
         enum: ['option1', 'option2'],
       },
+      wc: titleSchema(),
       selectWC: {
         type: 'string',
         enum: ['option1', 'option2'],
@@ -126,6 +160,15 @@ export default {
         enum: ['option1', 'option2'],
       },
       selectWC2: {
+        type: 'string',
+        enum: ['option1', 'option2'],
+      },
+      wcv3: titleSchema(),
+      textWCV3: {
+        type: 'string',
+        enum: ['option1', 'option2'],
+      },
+      selectWC2V3: {
         type: 'string',
         enum: ['option1', 'option2'],
       },

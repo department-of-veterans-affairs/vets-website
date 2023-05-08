@@ -1,13 +1,38 @@
 {
   "data": {
+    "rjsf": {},
+    "dateDefault": "2000-01-01",
+    "wc": {},
+    "dateWC": "2000-01-01",
+    "wcv3": {},
+    "dateWCV3": "2000-01-01",
+    "selectDefault": "option1",
+    "selectWC": "option2",
+    "selectWC2": "option2",
+    "selectWC2V3": "option1",
+    "rjsfSimpleTextInput": "test",
+    "rjsfRequiredCheckbox": true,
+    "rjsfSsn": "343434343",
+    "rjsfCheckboxWithBackground": {},
+    "wcSimpleText": "test",
+    "wcRequiredCheckbox": true,
+    "wcSsn": "343434343",
+    "wcCheckboxWithBackground": {},
+    "wcV3": {},
+    "wcV3SimpleText": "test",
+    "wcV3RequiredCheckbox": true,
+    "wcV3Ssn": "343434343",
+    "wcV3CheckboxWithBackground": {},
     "ssn": "343434343",
+    "ssnNew": "343434343",
+    "ssnNewV3": "343434343",
     "addressOld": {
       "view:militaryBaseDescription": {},
       "country": "USA",
       "street": "test",
       "city": "test",
       "state": "AL",
-      "postalCode": "12345"
+      "postalCode": "34343"
     },
     "spouseFullNameOld": {
       "first": "test",
@@ -17,14 +42,12 @@
       "first": "test",
       "last": "test"
     },
+    "spouseFullNameNewV3": {
+      "first": "test",
+      "last": "test"
+    },
     "requiredOld": "test",
     "requiredNew": "test",
-    "textInputOld": "test",
-    "textInputNew": "test",
-    "oldCheckbox": true,
-    "checkboxWithJsx": true,
-    "textInputOld2": "343434343",
-    "checkboxWithLabelAndLegend": false,
-    "textInput": "343434343"
+    "requiredNewV3": "test"
   }
 }

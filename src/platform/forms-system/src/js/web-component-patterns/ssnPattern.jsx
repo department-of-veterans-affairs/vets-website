@@ -95,3 +95,20 @@ export const serviceNumberSchema = options => {
     ? { ...commonDefinitions.veteranServiceNumber, ...options }
     : commonDefinitions.veteranServiceNumber;
 };
+
+export const ssnOrVaFileNumberUI = personPrefix => ({
+  socialSecurityNumber: ssnUI(`${personPrefix}'s Social Security number`),
+  vaFileNumber: vaFileNumberUI(`${personPrefix}'s VA file number`),
+});
+
+export const ssnOrVaFileNumberOrServiceNumberUI = personPrefix => ({
+  socialSecurityNumber: ssnUI(
+    personPrefix ? `${personPrefix}'s Social Security number` : null,
+  ),
+  vaFileNumber: vaFileNumberUI(
+    personPrefix ? `${personPrefix}'s VA file number` : null,
+  ),
+  serviceNumber: serviceNumberUI(
+    personPrefix ? `${personPrefix}'s service number` : null,
+  ),
+});

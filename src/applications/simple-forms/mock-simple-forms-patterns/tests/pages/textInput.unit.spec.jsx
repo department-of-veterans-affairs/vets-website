@@ -19,7 +19,7 @@ describe('web component vs regular text inputs', () => {
       />,
     );
 
-    expect(form.find('va-text-input').length).to.equal(5);
+    expect(form.find('va-text-input').length).to.equal(10);
     expect(form.find('input').length).to.equal(3);
 
     form.unmount();
@@ -46,7 +46,7 @@ describe('web component vs regular text inputs', () => {
       form.findWhere(node => {
         return node.is('va-text-input') && node.prop('error');
       }).length,
-    ).to.equal(1);
+    ).to.equal(2);
 
     // regular input errors
     expect(form.find('.usa-input-error').length).to.equal(1);

@@ -20,8 +20,8 @@ describe('ssn web component', () => {
       />,
     );
 
-    expect(form.find('va-text-input').length).to.equal(3);
-    expect(form.find('input').length).to.equal(0);
+    expect(form.find('va-text-input').length).to.equal(6);
+    expect(form.find('input').length).to.equal(3);
 
     form.unmount();
   });
@@ -49,10 +49,10 @@ describe('ssn web component', () => {
       form.findWhere(node => {
         return node.is('va-text-input') && node.prop('error');
       }).length,
-    ).to.equal(1);
+    ).to.equal(2);
 
     // regular input errors
-    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(form.find('.usa-input-error').length).to.equal(1);
 
     expect(onSubmit.called).to.be.false;
 
