@@ -18,11 +18,15 @@ export default function VaSelectField(props) {
   const labels = props.uiOptions?.labels || {};
 
   return (
-    <VaSelect {...mappedProps}>
+    <VaSelect
+      {...mappedProps}
+      value={props.childrenProps.schema.default || null}
+    >
+      {/* {!props.childrenProps.schema.default && <option value="" />} */}
       {enumOptions.map((option, index) => {
         return (
           <option key={index} value={option.value}>
-            {labels[option.value]}
+            {labels[option.value] || option.label}
           </option>
         );
       })}
@@ -32,7 +36,7 @@ export default function VaSelectField(props) {
 
 VaSelectField.propTypes = {
   DescriptionField: PropTypes.func,
-  childrenProps: {},
+  childrenProps: PropTypes.object,
   description: PropTypes.string,
   error: PropTypes.string,
   index: PropTypes.number,
