@@ -1,61 +1,61 @@
-import path from 'path';
-
 import formConfig from '../config/form';
 import { CONTESTABLE_ISSUES_API, WIZARD_STATUS } from '../constants';
 
-import { mockContestableIssues, fixDecisionDates } from './hlr.cypress.helpers';
+import { fixDecisionDates } from './hlr.cypress.helpers';
+import mockV2Data from './fixtures/data/maximal-test-v2.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
+import mockPrefill from './fixtures/mocks/prefill.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
+import mockUserAvail from './fixtures/mocks/user_transition_availabilities.json';
+import mockVamc from './fixtures/mocks/vamc-ehr.json';
 import mockUser from './fixtures/mocks/user.json';
 
 describe('Higher-Level Review keyboard only navigation', () => {
-  before(() => {
+  after(() => {
+    window.sessionStorage.removeItem(WIZARD_STATUS);
+  });
+
+  it('keyboard navigates through a maximal form', () => {
     window.sessionStorage.removeItem(WIZARD_STATUS);
 
-    cy.fixture(path.join(__dirname, 'fixtures/data/maximal-test-v2.json')).as(
-      'testData',
-    );
+    cy.wrap(mockV2Data.data).as('testData');
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
         features: [],
       },
     });
-    cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
+    cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockPrefill);
+    cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
+    cy.intercept('GET', '/v0/user_transition_availabilities', mockUserAvail);
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamc);
     cy.intercept('GET', '/v0/profile/status', mockStatus);
     cy.intercept('POST', formConfig.submitUrl, mockSubmit);
 
-    cy.intercept(
-      'GET',
-      `/v1${CONTESTABLE_ISSUES_API}compensation`,
-      mockContestableIssues,
-    );
-
     cy.login(mockUser);
-  });
-  after(() => {
-    window.sessionStorage.removeItem(WIZARD_STATUS);
-  });
 
-  it('navigates through a maximal form', () => {
-    cy.get('@testData').then(({ data }) => {
+    cy.get('@testData').then(data => {
       const { chapters } = formConfig;
-      cy.intercept('GET', 'v1/notice_of_disagreements/contestable_issues', {
-        data: fixDecisionDates(data.contestableIssues),
+      cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, {
+        data: fixDecisionDates(data.contestedIssues, { unselected: true }),
       });
       cy.visit(
-        '/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996',
+        '/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996/start',
       );
       cy.injectAxeThenAxeCheck();
 
       // Wizard
+      cy.url().should('include', '/start');
       cy.tabToElement('va-radio-option');
       cy.realPress('Space');
-      cy.tabToStartForm();
+      cy.tabToElement('.vads-c-action-link--green');
+      cy.realPress('Enter');
 
       // Intro page
-      cy.tabToStartForm();
+      cy.url().should('include', '/introduction');
+      cy.tabToElement('.vads-c-action-link--green');
+      cy.realPress('Enter');
 
       // Veteran details
       cy.url().should(
