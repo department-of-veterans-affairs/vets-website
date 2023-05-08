@@ -31,8 +31,7 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
         data: {
           id: '',
           type: 'hash',
-          // eslint-disable-next-line camelcase
-          attributes: { user_percent_of_disability: disabilityRating },
+          attributes: { userPercentOfDisability: disabilityRating },
         },
       },
     }).as('mockDisabilityRating');
@@ -189,8 +188,7 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
         data: {
           id: '',
           type: 'hash',
-          // eslint-disable-next-line camelcase
-          attributes: { user_percent_of_disability: 40 },
+          attributes: { userPercentOfDisability: 40 },
         },
       },
     }).as('mockDisabilityRating');
