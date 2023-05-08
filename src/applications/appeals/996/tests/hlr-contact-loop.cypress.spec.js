@@ -18,7 +18,6 @@ import {
 import mockUser from './fixtures/mocks/user.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockV2Data from './fixtures/data/maximal-test-v2.json';
-import { mockContestableIssues } from './hlr.cypress.helpers';
 
 // Telephone specific responses
 import mockTelephoneUpdate from './fixtures/mocks/telephone-update.json';
@@ -41,11 +40,7 @@ describe('HLR contact info loop', () => {
       },
     });
 
-    cy.intercept(
-      'GET',
-      `/v1${CONTESTABLE_ISSUES_API}compensation`,
-      mockContestableIssues(mockV2Data.data),
-    );
+    cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, []);
     cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockV2Data);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockV2Data);
 
@@ -125,7 +120,7 @@ describe('HLR contact info loop', () => {
 
     // Mobile phone
     cy.get('a[href$="mobile-phone"]').click();
-    cy.contains('Edit mobile phone number').should('be.visible');
+    cy.contains('Edit mobile phone').should('be.visible');
     cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
 
     cy.findByLabelText(/mobile phone/i)

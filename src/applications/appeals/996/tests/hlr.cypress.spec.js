@@ -5,11 +5,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import {
-  // mockContestableIssues,
-  getRandomDate,
-  fixDecisionDates,
-} from './hlr.cypress.helpers';
+import { getRandomDate, fixDecisionDates } from './hlr.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
@@ -30,7 +26,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    dataSets: ['maximal-test-v2'], // , 'minimal-test-v2'],
+    dataSets: ['maximal-test-v2', 'minimal-test-v2'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
