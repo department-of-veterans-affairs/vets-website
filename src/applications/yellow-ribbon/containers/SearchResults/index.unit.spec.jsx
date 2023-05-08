@@ -99,7 +99,7 @@ describe('Yellow Ribbon container <SearchResults>', () => {
 
     const tree = mount(<SearchResults results={results} />);
     expect(tree.find('[data-e2e-id="search-results"]')).to.have.lengthOf(1);
-    expect(tree.find('Pagination')).to.have.lengthOf(1);
+    expect(tree.find('VaPagination')).to.have.lengthOf(1);
     tree.unmount();
   });
 });

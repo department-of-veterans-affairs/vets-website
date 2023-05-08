@@ -8,7 +8,6 @@ import AuthContent from '.';
 describe('View Test + Lab Results Page <AuthContent>', () => {
   it('renders what we expect', () => {
     const wrapper = shallow(<AuthContent />);
-
     const text = wrapper.text();
     expect(text).to.include('CernerCallToAction');
     expect(text).to.include(

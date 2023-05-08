@@ -13,6 +13,7 @@ describe('Search results', () => {
         searchResults,
         folder,
         keyword: 'covid',
+        query: {},
       },
     },
   };
@@ -51,16 +52,15 @@ describe('Search results', () => {
         search: {
           searchResults: [],
           folder,
-          keyword: 'covid',
+          keyword: 'messagenotfound',
+          query: {},
         },
       },
     };
     const screen = setup(state);
-    const staticText = screen.queryByText('We didn’t find any results for ', {
-      exact: false,
-    });
-    const keyword = await screen.getAllByText('covid');
-    expect(staticText).to.exist;
+    const noMessagesFoundModal = screen.findByText('No messages found');
+    const keyword = await screen.getAllByText('messagenotfound');
+    expect(noMessagesFoundModal).to.exist;
     expect(keyword.length).to.equal(2);
   });
 

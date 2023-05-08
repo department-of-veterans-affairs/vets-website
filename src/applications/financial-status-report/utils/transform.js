@@ -14,6 +14,7 @@ import {
   mergeAdditionalComments,
   filterReduceByName,
 } from './helpers';
+import { getFormattedPhone } from './contactInformation';
 
 export const transform = (formConfig, form) => {
   const {
@@ -38,7 +39,7 @@ export const transform = (formConfig, form) => {
         state,
         postalCode,
         country,
-      },
+      } = {},
       telephoneNumber,
       dateOfBirth,
       dependents,
@@ -46,6 +47,7 @@ export const transform = (formConfig, form) => {
         veteran: { employmentRecords = [] },
         spouse: { spEmploymentRecords = [] },
       },
+      veteranContactInformation: { address = {}, mobilePhone = {} } = {},
     },
     expenses: {
       creditCardBills = [],
@@ -218,6 +220,20 @@ export const transform = (formConfig, form) => {
       : [];
   const standardDependents = dependents?.map(dep => dep.dependentAge) ?? [];
 
+  // Contact Information
+  const submitAddress = {
+    addresslineOne: enhancedFSRActive ? address.addressLine1 : street,
+    addresslineTwo: enhancedFSRActive ? address.addressLine2 : street2,
+    addresslineThree: enhancedFSRActive ? address.addressLine3 || '' : street3,
+    city: enhancedFSRActive ? address.city : city,
+    stateOrProvince: enhancedFSRActive ? address.stateCode : state,
+    zipOrPostalCode: enhancedFSRActive ? address.zipCode : postalCode,
+    countryName: enhancedFSRActive ? address.countryCodeIso2 : country,
+  };
+  const submitPhone = enhancedFSRActive
+    ? getFormattedPhone(mobilePhone)
+    : telephoneNumber;
+
   const submissionObj = {
     personalIdentification: {
       ssn: personalIdentification.ssn,
@@ -231,15 +247,15 @@ export const transform = (formConfig, form) => {
         last: vetLast,
       },
       address: {
-        addresslineOne: street,
-        addresslineTwo: street2,
-        addresslineThree: street3,
-        city,
-        stateOrProvince: state,
-        zipOrPostalCode: postalCode,
-        countryName: country,
+        addresslineOne: submitAddress.addresslineOne,
+        addresslineTwo: submitAddress.addresslineTwo,
+        addresslineThree: submitAddress.addresslineThree,
+        city: submitAddress.city,
+        stateOrProvince: submitAddress.stateOrProvince,
+        zipOrPostalCode: submitAddress.zipOrPostalCode,
+        countryName: submitAddress.countryName,
       },
-      telephoneNumber,
+      telephoneNumber: submitPhone,
       dateOfBirth: moment(dateOfBirth, 'YYYY-MM-DD').format('MM/DD/YYYY'),
       married: questions.isMarried,
       spouseFullName: {
