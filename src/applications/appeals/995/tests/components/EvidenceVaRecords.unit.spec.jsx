@@ -548,7 +548,7 @@ describe('<EvidenceVaRecords>', () => {
       fireEvent.blur(input);
 
       await waitFor(() => {
-        expect(input.error).to.contain(errorMessages.evidence.unique);
+        expect(input.error).to.contain(errorMessages.evidence.uniqueVA);
       });
     });
   });

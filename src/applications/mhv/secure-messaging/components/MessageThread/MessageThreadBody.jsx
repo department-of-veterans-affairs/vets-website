@@ -1,26 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { urlRegex, httpRegex } from '../../util/helpers';
+import Linkify from 'react-linkify';
 
 const MessageThreadBody = props => {
   const { text } = props;
-  const words = text?.split(/[^\S\r\n]+/g);
+
+  const componentDecorator = (href, linkText) => (
+    <a href={href} target="_blank" rel="noreferrer">
+      {linkText}
+    </a>
+  );
 
   return (
     <div className="vads-u-padding-y--1 ">
       <>
-        <span data-testid="message-body" className="vads-u-margin-y--0">
-          {words?.map((word, i) => {
-            return (word.match(urlRegex) || word.match(httpRegex)) &&
-              words.length >= 1 ? (
-              <a key={i} href={word} target="_blank" rel="noreferrer">
-                {`${word} `}
-              </a>
-            ) : (
-              `${word} `
-            );
-          })}
-        </span>
+        <pre data-testid="message-body" className="vads-u-margin-y--0">
+          <Linkify componentDecorator={componentDecorator}>{text}</Linkify>
+        </pre>
       </>
     </div>
   );

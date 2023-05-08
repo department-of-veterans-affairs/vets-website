@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
@@ -460,7 +460,12 @@ export function FilterYourResults({
           expanded={expanded}
           onClick={onAccordionChange}
         >
-          {search.inProgress && <LoadingIndicator />}
+          {search.inProgress && (
+            <VaLoadingIndicator
+              data-testid="loading-indicator"
+              message="Loading..."
+            />
+          )}
           {!search.inProgress && controls}
         </SearchAccordion>
       )}
@@ -468,7 +473,12 @@ export function FilterYourResults({
         <div className="modal-wrapper">
           <div>
             <h1>Filter your results</h1>
-            {search.inProgress && <LoadingIndicator />}
+            {search.inProgress && (
+              <VaLoadingIndicator
+                data-testid="loading-indicator"
+                message="Loading..."
+              />
+            )}
             {!search.inProgress && controls}
           </div>
           <div className="modal-button-wrapper">

@@ -8,16 +8,19 @@ const UtilityBillSummaryReview = ({ data, title }) => {
   return (
     <div>
       <h4>{title}</h4>
-      {utilityRecords.map((utility, index) => {
-        return (
-          <dl className="review" key={utility.name + utility.amount + index}>
-            <div className="review-row">
+      <dl className="review">
+        {utilityRecords.map((utility, index) => {
+          return (
+            <div
+              className="review-row"
+              key={utility.name + utility.amount + index}
+            >
               <dt>{utility.name}</dt>
               <dd>{currencyFormatter(utility.amount)}</dd>
             </div>
-          </dl>
-        );
-      })}
+          );
+        })}
+      </dl>
     </div>
   );
 };

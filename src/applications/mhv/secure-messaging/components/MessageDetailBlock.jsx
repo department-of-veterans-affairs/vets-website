@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory, useLocation } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
 import { useDispatch } from 'react-redux';
@@ -59,6 +60,10 @@ const MessageDetailBlock = props => {
     },
     [location.pathname, dispatch],
   );
+
+  useEffect(() => {
+    focusElement(document.querySelector('h2'));
+  });
 
   const categoryLabel = Categories[category];
 

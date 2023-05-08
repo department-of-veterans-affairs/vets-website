@@ -27,7 +27,7 @@ function totalRating(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        totalDisabilityRating: action.response.userPercentOfDisability,
+        totalDisabilityRating: action.response.user_percent_of_disability,
         disabilityDecisionTypeName: action.response.disabilityDecisionTypeName,
       };
     default:

@@ -43,6 +43,15 @@ export const mockGetCareSummariesAndNotesList = () => {
   });
 };
 
+export const mockGetCareSummaryAndNotesDetails = summaryId => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const summary = careSummariesAndNotes.find(sum => +sum.id === +summaryId);
+      resolve(summary);
+    }, 1000);
+  });
+};
+
 export const mockGetVaccine = id => {
   return new Promise(resolve => {
     setTimeout(() => {
