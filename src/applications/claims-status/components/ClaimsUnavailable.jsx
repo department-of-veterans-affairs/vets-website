@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function ClaimsUnavailable({ headerLevel = '4' }) {
+function ClaimsUnavailable({ headerLevel = 4 }) {
   const Tag = `h${headerLevel}`;
 
   return (
@@ -21,7 +21,7 @@ function ClaimsUnavailable({ headerLevel = '4' }) {
 }
 
 ClaimsUnavailable.propTypes = {
-  headerLevel: PropTypes.string,
+  headerLevel: PropTypes.number,
 };
 
 export default ClaimsUnavailable;
