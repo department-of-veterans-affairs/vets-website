@@ -42,8 +42,8 @@ export default {
       'ui:title': '',
       'ui:description': (
         <div className="vads-u-background-color--gray-light-alt">
-          <input type="checkbox" />
-          <label>checkbox with background</label>
+          <input type="checkbox" id="checkbox1" />
+          <label htmlFor="checkbox1">checkbox with background</label>
         </div>
       ),
     },

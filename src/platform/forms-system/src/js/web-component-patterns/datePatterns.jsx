@@ -11,7 +11,9 @@ export const currentOrPastDateUI = title => {
     'ui:title': title,
     'ui:webComponentField': VaMemorableDateField,
     'ui:validations': [validateCurrentOrPastDate],
-    uswds: true,
+    'ui:options': {
+      uswds: true,
+    },
     'ui:errorMessages': {
       pattern: 'Please enter a valid current or past date',
       required: 'Please enter a date',

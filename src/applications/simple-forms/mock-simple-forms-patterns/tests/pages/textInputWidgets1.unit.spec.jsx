@@ -22,7 +22,7 @@ describe('web component vs regular text inputs for widgets 1', () => {
       />,
     );
 
-    expect(form.find('va-text-input').length).to.equal(3);
+    expect(form.find('va-text-input').length).to.equal(6);
     expect(form.find('input').length).to.equal(3);
 
     form.unmount();
