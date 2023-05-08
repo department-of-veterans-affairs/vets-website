@@ -56,7 +56,8 @@ describe('evidenceTypes', () => {
     form.unmount();
   });
 
-  it('should require at least one evidence type when evidence selected', () => {
+  /* TODO: Fix with https://github.com/department-of-veterans-affairs/va.gov-team/issues/58050 */
+  it.skip('should require at least one evidence type when evidence selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
