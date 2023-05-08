@@ -12,7 +12,7 @@
 //    any tracked items. These items should already be
 //    embedded in their respective tracked items anyways,
 //    so they are no longer needed
-const isEVSSClaim = claim => claim.type === 'evss_claims';
+const isLighthouseClaim = claim => claim.type === 'claim';
 
 const isAssociatedWithAnyTrackedItem = doc => doc.trackedItemId !== null;
 
@@ -40,7 +40,7 @@ const filterAssociatedDocs = docs =>
   docs.filter(doc => !isAssociatedWithAnyTrackedItem(doc));
 
 export const serializeClaim = claim => {
-  if (isEVSSClaim(claim)) return claim;
+  if (!claim || !isLighthouseClaim(claim)) return claim;
 
   const { supportingDocuments, trackedItems } = claim.attributes;
 
