@@ -125,7 +125,7 @@ class IntroductionPage extends React.Component {
               {isShowBDDSHA && (
                 <>
                   <p data-testid="process-step1-prepare">
-                    When you file a BDD claim online, we'll ask you to upload
+                    When you file a BDD claim online, we’ll ask you to upload
                     this required form:{' '}
                     <a href={DBQ_URL} target="_blank" rel="noreferrer">
                       Separation Health Assessment - Part A Self-Assessment
@@ -139,7 +139,7 @@ class IntroductionPage extends React.Component {
                     least 30 minutes to complete this form.
                   </p>
                   <p>
-                    You'll also have a chance to provide this type of evidence
+                    You’ll also have a chance to provide this type of evidence
                     to support your claim:
                   </p>
                 </>

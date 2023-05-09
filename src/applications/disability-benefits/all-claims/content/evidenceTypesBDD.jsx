@@ -32,8 +32,8 @@ export const bddShaOtherEvidence = (
     <strong>
       Required Separation Health Assessment - Part A Self-Assessment
     </strong>{' '}
-    or other documents like your DD214, supporting (lay) statements, or other
-    evidence
+    or other documents like your DD Form 214, supporting (lay) statements, or
+    other evidence
   </>
 );
 
