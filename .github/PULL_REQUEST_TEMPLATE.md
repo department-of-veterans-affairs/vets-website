@@ -35,7 +35,7 @@ _Note: This field is mandatory for UI changes (non-component work should NOT hav
 
 ## What areas of the site does it impact?
 
-*(Describe what parts of the site are impacted and*if*code touched other areas)*
+*(Describe what parts of the site are impacted **if** code touched other areas)*
 
 ## Acceptance criteria
 
@@ -43,6 +43,7 @@ _Note: This field is mandatory for UI changes (non-component work should NOT hav
 
 - [ ] I fixed|updated|added unit tests and integration tests for each feature (if applicable).
 - [ ] No sensitive information (i.e. PII/credentials/internal URLs/etc.) is captured in logging, hardcoded, or specs
+- [ ] Linting warnings have been addressed
 - [ ] Documentation has been updated ([link to documentation](#) \*if necessary)
 - [ ] Screenshot of the developed feature is added
 - [ ] [Accessibility testing](https://depo-platform-documentation.scrollhelp.site/developer-docs/wcag-2-1-success-criteria-and-foundational-testing) has been performed
@@ -57,7 +58,7 @@ _Note: This field is mandatory for UI changes (non-component work should NOT hav
 
 - [ ] Did you login to a local build and verify all authenticated routes work as expected with a test user
 
-### :warning: Team Sites (only applies to modifications made to the VA.go header) :warning:
+### :warning: Team Sites (only applies to modifications made to the VA.gov header) :warning:
 
 - [ ] The vets-website header does not contain any web-components
 - [ ] I used the [proxy-rewrite steps](https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/applications/proxy-rewrite#local-dev) to test the injected header scenario
@@ -65,4 +66,4 @@ _Note: This field is mandatory for UI changes (non-component work should NOT hav
 
 ## Requested Feedback
 
-(OPTIONAL)_What should the reviewers know in addition to the above. Is there anything specific you wish the reviewer to assist with. Do you have any concerns with this PR, why?_
+(OPTIONAL) _What should the reviewers know in addition to the above. Is there anything specific you wish the reviewer to assist with. Do you have any concerns with this PR, why?_
