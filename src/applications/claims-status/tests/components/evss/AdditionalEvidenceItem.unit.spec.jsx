@@ -2,14 +2,15 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import AdditionalEvidenceItem from '../../components/AdditionalEvidenceItem';
+import AdditionalEvidenceItem from '../../../components/evss/AdditionalEvidenceItem';
 
 describe('<AdditionalEvidenceItem>', () => {
   it('should render additional evidence item', () => {
     const item = {
       uploadDate: '2010-01-01',
-      documentTypeLabel: 'Test Type',
-      originalFileName: 'testfile.pdf',
+      type: 'other_documents_list',
+      fileType: 'Test Type',
+      filename: 'testfile.pdf',
     };
 
     const tree = SkinDeep.shallowRender(<AdditionalEvidenceItem item={item} />);
@@ -28,9 +29,11 @@ describe('<AdditionalEvidenceItem>', () => {
 
   it('should render additional evidence item without date', () => {
     const item = {
+      date: null,
       uploadDate: null,
-      documentTypeLabel: 'Test Type',
-      originalFileName: 'testfile.pdf',
+      type: 'other_documents_list',
+      fileType: 'Test Type',
+      filename: 'testfile.pdf',
     };
 
     const tree = SkinDeep.shallowRender(<AdditionalEvidenceItem item={item} />);
