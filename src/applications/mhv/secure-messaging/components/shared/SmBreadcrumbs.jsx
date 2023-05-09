@@ -103,7 +103,9 @@ const SmBreadcrumbs = () => {
               }
             }
           } else if (locationBasePath === 'search') {
-            arr.push({ path: '/', label: 'Dashboard' });
+            arr.push({ path: '/', label: 'Back' });
+          } else if (locationBasePath === 'thread' && activeFolder) {
+            arr.push({ path: '/', label: activeFolder.name });
           }
         });
         dispatch(setBreadcrumbs(arr, location));
@@ -130,13 +132,13 @@ const SmBreadcrumbs = () => {
               if (crumb.path.includes('https://')) {
                 return (
                   <a key={i} href={crumb.path}>
-                    Return to {crumb.label}
+                    Return to {crumb.label.toLowerCase()}
                   </a>
                 );
               }
               return (
                 <Link key={i} to={crumb.path}>
-                  Return to {crumb.label}
+                  Return to {crumb.label.toLowerCase()}
                 </Link>
               );
             })
@@ -150,7 +152,14 @@ const SmBreadcrumbs = () => {
                     key={1}
                     to={crumbs[crumbs.length - 2]?.path}
                   >
-                    Return to {crumbs[crumbs.length - 2]?.label?.toLowerCase()}
+                    {location.pathname === '/search/results' ? (
+                      <>{crumbs[crumbs.length - 2]?.label}</>
+                    ) : (
+                      <>
+                        Return to{' '}
+                        {crumbs[crumbs.length - 2]?.label?.toLowerCase()}
+                      </>
+                    )}
                   </Link>
                 </>
               )}
