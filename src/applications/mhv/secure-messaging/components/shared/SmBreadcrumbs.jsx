@@ -105,7 +105,17 @@ const SmBreadcrumbs = () => {
           } else if (locationBasePath === 'search') {
             arr.push({ path: '/', label: 'Back' });
           } else if (locationBasePath === 'thread' && activeFolder) {
-            arr.push({ path: '/', label: activeFolder.name });
+            if (activeFolder.folderId === 0) {
+              arr.push({
+                path: `${Constants.Breadcrumbs.INBOX.path}`,
+                label: activeFolder.name,
+              });
+            } else {
+              arr.push({
+                path: `/folder/${activeFolder.folderId}`,
+                label: activeFolder.name,
+              });
+            }
           }
         });
         dispatch(setBreadcrumbs(arr, location));
