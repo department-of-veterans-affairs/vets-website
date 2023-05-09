@@ -29,6 +29,7 @@ echo "Download dev content-build to website dir"
 
 # if AWS_URL then use it
 # else use default cache URL
+# To-do -- change the fallback cache to something that is not hardcoded to a file that will eventually be cleaned up
 if [ -z ${AWS_URL} ] ;
 then
     echo "AWS_URL is NULL; using default" ;
@@ -59,4 +60,4 @@ echo "Install and serve content-build"
 cd ../content-build
 yarn install
 ln -s /app/website/vets-website/build/localhost/generated /app/website/content-build/build/localhost/generated
-yarn serve
+yarn watch --env api="http://vets-api-web:3004"
