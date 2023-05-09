@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import SubmittedTrackedItem from '../../components/evss/SubmittedTrackedItem';
+import SubmittedTrackedItem from '../../components/SubmittedTrackedItem';
 
 describe('<SubmittedTrackedItem>', () => {
   it('should render submitted item with no docs', () => {
