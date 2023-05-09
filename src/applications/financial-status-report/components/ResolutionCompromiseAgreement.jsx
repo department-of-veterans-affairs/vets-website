@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { CurrentDebtTitle } from './CurrentDebtTitle';
@@ -7,9 +8,9 @@ const ResolutionCompromiseAgreement = ({
   goToPath,
   contentBeforeButtons,
   contentAfterButtons,
-  formContext,
 }) => {
   const formData = useSelector(state => state.form.data);
+  const formContext = useSelector(state => state.fsr.formContext);
 
   const { selectedDebtsAndCopays = [] } = formData;
 
@@ -54,11 +55,21 @@ const ResolutionCompromiseAgreement = ({
   );
 
   const goBack = () => {
-    return goToPath(`/resolution-option/${currentDebt.pagePerItemIndex}`);
+    const currentIndex = Number(formContext.pagePerItemIndex);
+    if (currentIndex > 0) {
+      goToPath(`/resolution-option/${currentIndex - 1}`);
+    } else {
+      goToPath('/other-expenses-summary');
+    }
   };
 
   const goForward = () => {
-    return goToPath('/resolution-comments');
+    const currentIndex = Number(formContext.pagePerItemIndex);
+    if (currentIndex < selectedDebtsAndCopays.length - 1) {
+      goToPath(`/resolution-option/${currentIndex + 1}`);
+    } else {
+      goToPath('/resolution-comments');
+    }
   };
 
   const getLabel =
@@ -132,6 +143,12 @@ const ResolutionCompromiseAgreement = ({
       {contentAfterButtons}
     </>
   );
+};
+
+ResolutionCompromiseAgreement.propTypes = {
+  goToPath: PropTypes.func.isRequired,
+  contentAfterButtons: PropTypes.node,
+  contentBeforeButtons: PropTypes.node,
 };
 
 export default ResolutionCompromiseAgreement;

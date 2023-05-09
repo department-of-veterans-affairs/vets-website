@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -11,6 +11,13 @@ const ResolutionOptions = ({ formContext }) => {
 
   const { selectedDebtsAndCopays = [] } = formData;
   const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
+
+  useEffect(
+    () => {
+      dispatch({ type: 'SET_FORM_CONTEXT', payload: formContext });
+    },
+    [formContext, dispatch],
+  );
 
   const onResolutionChange = ({ target }) => {
     const newlySelectedDebtsAndCopays = selectedDebtsAndCopays.map(debt => {

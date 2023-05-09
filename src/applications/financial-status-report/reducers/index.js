@@ -21,10 +21,16 @@ const initialState = {
   pendingCopays: true,
   debts: [],
   statements: [],
+  formContext: {},
 };
 
 const fsrApi = (state = initialState, action) => {
   switch (action.type) {
+    case 'SET_FORM_CONTEXT':
+      return {
+        ...state,
+        formContext: action.payload,
+      };
     case FSR_API_ERROR:
       return {
         ...state,
