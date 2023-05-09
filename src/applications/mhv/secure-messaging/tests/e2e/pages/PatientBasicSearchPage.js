@@ -10,7 +10,7 @@ class PatientBasicSearchPage {
     cy.get('[data-testid="keyword-search-input"]')
       .shadow()
       .find('[id="va-search-input"]')
-      .type(text, { waitforanimations: false });
+      .type(text, { force: true });
   };
 
   // This method clicks the Search button.

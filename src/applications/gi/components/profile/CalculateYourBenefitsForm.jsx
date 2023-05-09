@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import recordEvent from 'platform/monitoring/record-event';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
@@ -372,7 +371,7 @@ function CalculateYourBenefitsForm({
         : 'inStateWithoutLink';
 
     return (
-      <ExpandingGroup open={displayedInputs.tuition && inputs.inState === 'no'}>
+      <>
         <>
           <LearnMoreLabel
             text={radioButtonsLabelText}
@@ -389,8 +388,8 @@ function CalculateYourBenefitsForm({
             }
           />
         </>
-        {renderInStateTuition()}
-      </ExpandingGroup>
+        {inputs.inState === 'no' && <>{renderInStateTuition()}</>}
+      </>
     );
   };
 
@@ -470,7 +469,7 @@ function CalculateYourBenefitsForm({
     const yellowRibbonFieldId = 'yellowRibbonField';
 
     return (
-      <ExpandingGroup open={inputs.yellowRibbonRecipient === 'yes'}>
+      <>
         <>
           <LearnMoreLabel
             text="Will you be a Yellow Ribbon recipient?"
@@ -550,7 +549,7 @@ function CalculateYourBenefitsForm({
             </div>
           </AlertBox>
         </div>
-      </ExpandingGroup>
+      </>
     );
   };
 
@@ -715,7 +714,7 @@ function CalculateYourBenefitsForm({
 
     return (
       <div>
-        <ExpandingGroup open={inputs.calendar === 'nontraditional'}>
+        <>
           <Dropdown
             label={learnMoreLabel({
               text: 'School Calendar',
@@ -737,9 +736,8 @@ function CalculateYourBenefitsForm({
             onBlur={handleInputBlur}
             onFocus={handleEYBInputFocus}
           />
-
-          {dependentDropdowns}
-        </ExpandingGroup>
+          {inputs.calendar === 'nontraditional' && <>{dependentDropdowns}</>}
+        </>
       </div>
     );
   };
@@ -771,7 +769,7 @@ function CalculateYourBenefitsForm({
     );
 
     return (
-      <ExpandingGroup open={inputs.kickerEligible === 'yes'}>
+      <>
         <>
           <LearnMoreLabel
             text={radioButtonsLabelText}
@@ -788,8 +786,8 @@ function CalculateYourBenefitsForm({
             }}
           />
         </>
-        {amountInput}
-      </ExpandingGroup>
+        {inputs.kickerEligible === 'yes' && <>{amountInput}</>}
+      </>
     );
   };
 
@@ -900,12 +898,9 @@ function CalculateYourBenefitsForm({
       : profile.attributes.name;
 
     return (
-      <ExpandingGroup
-        open={
-          displayExtensionSelector ||
-          displayExtensionBeneficiaryInternationalCheckbox()
-        }
-      >
+      <>
+        {displayExtensionSelector ||
+          displayExtensionBeneficiaryInternationalCheckbox()}
         <>
           <LearnMoreLabel
             text={radioButtonsLabelText}
@@ -928,7 +923,7 @@ function CalculateYourBenefitsForm({
           {zipcodeLocation}
           {internationalCheckbox}
         </div>
-      </ExpandingGroup>
+      </>
     );
   };
 
@@ -957,7 +952,7 @@ function CalculateYourBenefitsForm({
     );
 
     return (
-      <ExpandingGroup open={inputs.buyUp === 'yes'}>
+      <>
         <VARadioButton
           radioLabel="Participate in buy-up program?"
           name="buyUp"
@@ -971,7 +966,7 @@ function CalculateYourBenefitsForm({
           }
         />
         {amountInput}
-      </ExpandingGroup>
+      </>
     );
   };
 
