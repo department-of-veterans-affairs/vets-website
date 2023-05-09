@@ -185,6 +185,43 @@ const generate = async data => {
   });
   results.end();
 
+  // Global Edits to All Pages (Header/Footer, etc)
+  let pages = doc.bufferedPageRange();
+  for (let i = 0; i < pages.count; i++) {
+    doc.switchToPage(i);
+  
+    // Footer: Add page number
+    // let oldBottomMargin = doc.page.margins.bottom;
+    doc.page.margins.bottom = 0;
+    doc.page.margins.right = 16;
+    const footer = doc.struct('Sect', {
+      title: 'Footer',
+    });
+    let footer_right_text = data.footer_right.replace('%PAGE_NUMBER%', i + 1);
+    footer_right_text = footer_right_text.replace('%TOTAL_PAGES%', pages.count);
+    console.log(footer_right_text);
+    footer.add(
+      doc.struct('P', () => {
+        doc
+          .font('SourceSansPro-Regular')
+          .fontSize(16)
+          .text(data.footer_left, 16, 766, { continued: true });
+      }),
+    );
+    footer.add(
+      doc.struct('P', () => {
+        doc
+          .font('SourceSansPro-Regular')
+          .fontSize(16)
+          .text(footer_right_text, { align: 'right' });
+      }),
+    );
+    footer.end();
+    doc.addStructure(footer);
+    // doc.page.margins.bottom = oldBottomMargin; // ReProtect bottom margin
+  }
+  
+  
   doc.flushPages();
   return doc;
 };
