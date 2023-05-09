@@ -10,6 +10,10 @@ import { ADDRESS_TYPES_ALTERNATE } from '@@vap-svc/constants';
 import { BENEFIT_OPTIONS } from './constants';
 
 export function LH_MIGRATION__getEntryPoint(topLevelObject, entryPointKeys) {
+  if (Object.keys(topLevelObject).length === 0) {
+    return {};
+  }
+
   return entryPointKeys.reduce((acc, key) => {
     return acc[key];
   }, topLevelObject);
@@ -451,10 +455,11 @@ export function resetDisallowedAddressFields(address) {
  * @param {Object} response error response object from vets-api
  * @returns {string} status code or 'unknown'
  */
-export const getStatus = response =>
-  response.errors && response.errors.length
+export const getStatus = response => {
+  return response.errors && response.errors.length
     ? response.errors[0].status
     : 'unknown';
+};
 
 // NOTE: It "shouldn't" ever happen...but it did. In production.
 export function isAddressEmpty(address) {

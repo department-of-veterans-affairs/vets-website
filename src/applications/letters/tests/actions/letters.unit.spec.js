@@ -68,18 +68,27 @@ describe('getLettersList', () => {
   beforeEach(setup);
 
   const lettersResponse = {
-    letters: [
-      { name: 'Proof of Service Letter', letterType: 'proof_of_service' },
-      {
-        name: 'Civil Service Preference Letter',
-        letterType: 'civil_service',
+    data: {
+      attributes: {
+        letters: [
+          { name: 'Proof of Service Letter', letterType: 'proof_of_service' },
+          {
+            name: 'Civil Service Preference Letter',
+            letterType: 'civil_service',
+          },
+        ],
+        fullName: 'Mark Webb',
       },
-    ],
-    fullName: 'Mark Webb',
+    },
   };
 
   it('dispatches GET_LETTERS_SUCCESS when GET succeeds', done => {
-    setFetchJSONResponse(global.fetch.onCall(0), lettersResponse);
+    setFetchJSONResponse(
+      global.fetch.onCall(0),
+      // LH_MIGRATION: EVSS wraps the meat of the response in data -> attributs
+      // This can be unwrapped to just `mockResponse` when migration is complete
+      { data: { attributes: lettersResponse } },
+    );
     const dispatch = sinon.spy();
     getLetterList(dispatch, migrationOptions)
       .then(() => {
@@ -152,14 +161,19 @@ describe('getLetterListAndBSLOptions', () => {
     const thunk = getLetterListAndBSLOptions(migrationOptions);
     const dispatch = () => {};
 
-    thunk(dispatch).then(() => {
-      expect(global.fetch.callCount).to.equal(2);
-      expect(global.fetch.firstCall.args[0].endsWith('/v0/letters')).to.be.true;
-      expect(
-        global.fetch.secondCall.args[0].endsWith('/v0/letters/beneficiary'),
-      ).to.be.true;
-      done();
-    });
+    thunk(dispatch)
+      .then(() => {
+        expect(global.fetch.callCount).to.equal(2);
+        expect(global.fetch.firstCall.args[0].endsWith('/v0/letters')).to.be
+          .true;
+        expect(
+          global.fetch.secondCall.args[0].endsWith('/v0/letters/beneficiary'),
+        ).to.be.true;
+        done();
+      })
+      .catch(e => {
+        done(e);
+      });
   });
 
   it('should not make the call to get the BSL options if the letter list call fails', done => {
@@ -203,7 +217,12 @@ describe('getBenefitSummaryOptions', () => {
   };
 
   it('dispatches SUCCESS action with response when GET succeeds', done => {
-    setFetchJSONResponse(global.fetch.onCall(0), mockResponse);
+    setFetchJSONResponse(
+      global.fetch.onCall(0),
+      // LH_MIGRATION: EVSS wraps the meat of the response in data -> attributs
+      // This can be unwrapped to just `mockResponse` when migration is complete
+      { data: { attributes: mockResponse } },
+    );
     const dispatch = sinon.spy();
 
     getBenefitSummaryOptions(dispatch, migrationOptions)

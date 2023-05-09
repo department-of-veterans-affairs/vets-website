@@ -87,17 +87,13 @@ describe('letters reducer', () => {
     const state = reduce({
       type: GET_LETTERS_SUCCESS,
       data: {
-        data: {
-          attributes: {
-            letters: [
-              {
-                letterType: LETTER_TYPES.commissary,
-                name: 'Commissary Letter',
-              },
-            ],
-            fullName: 'Johann Bach',
+        letters: [
+          {
+            letterType: LETTER_TYPES.commissary,
+            name: 'Commissary Letter',
           },
-        },
+        ],
+        fullName: 'Johann Bach',
       },
     });
 
