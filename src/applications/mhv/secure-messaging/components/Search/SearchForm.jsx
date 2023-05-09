@@ -87,6 +87,7 @@ const SearchForm = props => {
       setSearchTermError(ErrorMessages.SearchForm.SEARCH_TERM_REQUIRED);
       return;
     }
+    setSearchTermError(null);
 
     dispatch(
       runAdvancedSearch(
