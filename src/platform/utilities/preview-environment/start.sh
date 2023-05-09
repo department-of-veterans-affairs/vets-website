@@ -52,11 +52,11 @@ echo "Install, build, and watch vets-website"
 cd vets-website
 yarn install
 yarn build:webpack:local
-yarn watch --env api="http://vets-api-web.preview-environment:3000" &
+yarn watch --env api="http://vets-api-web:3004" &
 
 # Serve the content-build
 echo "Install and serve content-build"
 cd ../content-build
 yarn install
-ln -s /website/vets-website/build/localhost/generated /website/content-build/build/localhost/generated
+ln -s /app/website/vets-website/build/localhost/generated /app/website/content-build/build/localhost/generated
 yarn serve
