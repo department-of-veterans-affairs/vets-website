@@ -5,6 +5,7 @@ import {
   SET_CLAIM_DETAIL,
   SET_CLAIMS_UNAVAILABLE,
 } from '../actions/types';
+import { serializeClaim } from './serialize';
 
 // NOTE: I think that in the long term it will make sense to move
 // this logic into the backend, but doing it here for now makes it
