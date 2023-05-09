@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import {
   replaceDescriptionContent,
   replaceSubmittedData,
+  fixDateFormat,
 } from '../../utils/replace';
 
 describe('replaceDescriptionContent', () => {
@@ -45,5 +46,18 @@ describe('replaceSubmittedData', () => {
       "don't won't can't you'll",
     );
     expect(replaceSubmittedData('’100’ times')).to.eq("'100' times");
+  });
+});
+
+describe('fixDateFormat', () => {
+  it('should return already properly formatted date string', () => {
+    expect(fixDateFormat('2020-01-02')).to.eq('2020-01-02');
+    expect(fixDateFormat('2023-12-31')).to.eq('2023-12-31');
+    expect(fixDateFormat('2000-06-30')).to.eq('2000-06-30');
+  });
+  it('should return properly formatted date string when passed dates with no leading zero', () => {
+    expect(fixDateFormat('2020-1-2')).to.eq('2020-01-02');
+    expect(fixDateFormat('2023-10-1')).to.eq('2023-10-01');
+    expect(fixDateFormat('2000-6-30')).to.eq('2000-06-30');
   });
 });
