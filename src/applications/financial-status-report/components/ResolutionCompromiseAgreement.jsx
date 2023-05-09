@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { CurrentDebtTitle } from './CurrentDebtTitle';
 
 const ResolutionCompromiseAgreement = ({
   goToPath,
@@ -11,6 +12,7 @@ const ResolutionCompromiseAgreement = ({
   const formData = useSelector(state => state.form.data);
 
   const { selectedDebtsAndCopays = [] } = formData;
+
   const currentDebt =
     selectedDebtsAndCopays[formContext?.pagePerItemIndex || 0];
 
@@ -66,31 +68,42 @@ const ResolutionCompromiseAgreement = ({
 
   const getParagraphText =
     currentDebt.resolutionOption === 'monthly' ? (
-      <p className="vads-u-margin-y--0">
-        <p className="vads-u-display--block">
-          You selected:{' '}
-          <span className="vads-u-font-weight--bold">
-            Extended monthly payments
+      <div>
+        <CurrentDebtTitle
+          formContext={formContext || { pagePerItemIndex: 0 }}
+        />
+        <div className="vads-u-margin-y--0">
+          <p className="vads-u-display--block">
+            You selected:{' '}
+            <span className="vads-u-font-weight--bold">
+              Extended monthly payments
+            </span>
+          </p>
+
+          <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-bottom--1">
+            If we approve your request, you can make smaller monthly payments
+            for up to 5 years with either monthly offsets or a monthly payment
+            plan.
           </span>
-        </p>
-
-        <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-bottom--1">
-          If we approve your request, you can make smaller monthly payments for
-          up to 5 years with either monthly offsets or a monthly payment plan.
-        </span>
-      </p>
+        </div>
+      </div>
     ) : (
-      <p className="vads-u-margin-y--0">
-        <p className="vads-u-display--block">
-          You selected:{' '}
-          <span className="vads-u-font-weight--bold">Compromise</span>
-        </p>
+      <div>
+        <CurrentDebtTitle
+          formContext={formContext || { pagePerItemIndex: 0 }}
+        />
+        <div className="vads-u-margin-y--0">
+          <p className="vads-u-display--block">
+            You selected:{' '}
+            <span className="vads-u-font-weight--bold">Compromise</span>
+          </p>
 
-        <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-bottom--1">
-          If you can’t pay the debt in full or make smaller monthly payments, we
-          can consider a smaller, one-time payment to resolve your debt.
-        </span>
-      </p>
+          <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-bottom--1">
+            If you can’t pay the debt in full or make smaller monthly payments,
+            we can consider a smaller, one-time payment to resolve your debt.
+          </span>
+        </div>
+      </div>
     );
 
   return (
