@@ -95,6 +95,35 @@ export const mockGetAllergy = id => {
 };
 
 /**
+ * Get a patient's vaccines
+ * @returns list of patient's vaccines in FHIR format
+ */
+export const getVaccineList = () => {
+  return apiRequest(
+    // Temporarily hard-coding a patient ID for development.
+    `${apiBasePath}/medical_records/vaccines?patient_id=49006`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
+
+/**
+ * Get details for a single vaccine
+ * @param {Long} vaccineId
+ * @returns vaccine details in FHIR format
+ */
+export const getVaccine = vaccineId => {
+  return apiRequest(`${apiBasePath}/medical_records/vaccines/${vaccineId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+/**
  * Get a pdf of a single vaccine
  * @param {Long} folderId
  * @returns json with base64 of a pdf
