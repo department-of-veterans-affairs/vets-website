@@ -1,6 +1,5 @@
 // Dependencies.
 import React, { Component } from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';

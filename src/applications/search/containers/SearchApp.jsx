@@ -14,7 +14,6 @@ import { focusElement } from 'platform/utilities/ui';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
