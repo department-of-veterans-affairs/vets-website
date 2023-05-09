@@ -147,7 +147,7 @@ function CalculateYourBenefitsForm({
 
   const handleBeneficiaryZIPCodeChanged = event => {
     const { value } = event.target;
-    if (!zipDirty && value.length <= 5) {
+    if (!zipDirty || value.length <= 5) {
       onBeneficiaryZIPCodeChanged(value);
       if (value.length === 5) {
         recordEvent({
@@ -164,6 +164,7 @@ function CalculateYourBenefitsForm({
     if (value.length < 5) {
       setInvalidZip('Postal code must be a 5-digit number');
     }
+    setZipDirty(false);
   };
 
   const handleInputChange = (event, target, name) => {
