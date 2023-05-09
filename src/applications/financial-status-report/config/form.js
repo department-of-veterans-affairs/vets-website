@@ -55,6 +55,7 @@ import {
 import DependentAges from '../components/DependentAges';
 import DependentAgesReview from '../components/DependentAgesReview';
 import ResolutionCompromiseAgreement from '../components/ResolutionCompromiseAgreement';
+import CustomResolutionReview from '../components/CustomResolutionReview';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -1142,7 +1143,7 @@ const formConfig = {
           showPagePerItem: true,
           arrayPath: 'selectedDebtsAndCopays',
           CustomPage: ResolutionCompromiseAgreement,
-          CustomPageReview: null,
+          CustomPageReview: CustomResolutionReview, // this causes a loop on the review page, and null actually breaks the entire section
           uiSchema: {},
           schema: {
             type: 'object',
