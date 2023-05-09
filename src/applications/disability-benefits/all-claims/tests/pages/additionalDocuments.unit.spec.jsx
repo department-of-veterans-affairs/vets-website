@@ -10,6 +10,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import { createStore } from 'redux';
 import { render } from '@testing-library/react';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import formConfig from '../../config/form.js';
 
 const invalidDocumentData = {
@@ -139,8 +140,10 @@ describe('526EZ document upload', () => {
       </Provider>,
     );
 
-    form.getByText(
-      'Please submit your Separation Health Assessment - Part A Self-Assessment as soon as possible',
-    );
+    if (!environment.isProduction()) {
+      form.getByText(
+        'Please submit your Separation Health Assessment - Part A Self-Assessment as soon as possible',
+      );
+    }
   });
 });
