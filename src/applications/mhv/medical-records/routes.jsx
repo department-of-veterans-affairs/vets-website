@@ -16,6 +16,7 @@ import LabAndTestDetails from './containers/LabAndTestDetails';
 import Allergies from './containers/Allergies';
 import ScrollToTop from './components/shared/ScrollToTop';
 import AllergyDetails from './containers/AllergyDetails';
+import CareSummariesDetails from './containers/CareSummariesDetails';
 
 const routes = (
   <div className="vads-l-grid-container">
@@ -53,6 +54,13 @@ const routes = (
             key="CareSummariesAndNotes"
           >
             <CareSummariesAndNotes />
+          </Route>
+          <Route
+            exact
+            path="/health-history/care-summaries-and-notes/:summaryId"
+            key="CareSummaryAndNotesDetails"
+          >
+            <CareSummariesDetails />
           </Route>
           <Route exact path="/health-history/vaccines" key="Vaccines">
             <Vaccines />

@@ -1,8 +1,6 @@
 // Node modules.
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 // Relative imports.
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
@@ -367,7 +365,7 @@ export const AuthContent = ({
                 <li>
                   Call the My HealtheVet help desk at{' '}
                   <va-telephone contact="8773270022" /> (TTY:{' '}
-                  <Telephone contact={CONTACTS.HELP_TTY} />
+                  <va-telephone contact={CONTACTS.HELP_TTY} />
                   ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
                   ET.
                 </li>

@@ -12,6 +12,7 @@ then additional functionality will need to be added to account for this.
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getAllMessages } from '../actions';
 import { getTriageTeams } from '../actions/triageTeams';
 import { retrieveFolder } from '../actions/folders';
@@ -54,6 +55,10 @@ const LandingPageAuth = () => {
     },
     [dispatch],
   );
+
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  });
 
   return (
     <div className="dashboard">

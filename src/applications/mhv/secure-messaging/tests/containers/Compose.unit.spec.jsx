@@ -87,7 +87,7 @@ describe('Compose container', () => {
     });
     const headingText = waitFor(() => {
       screen.getByRole('heading', {
-        name: 'Compose message',
+        name: 'Start a new message',
       });
     });
 

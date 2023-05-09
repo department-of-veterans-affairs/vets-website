@@ -9,6 +9,7 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [previousSahApplicationFields.hasPreviousSahApplication];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [previousSahApplicationFields.parentObject]: {

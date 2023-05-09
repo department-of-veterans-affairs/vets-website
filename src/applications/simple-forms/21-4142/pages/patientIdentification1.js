@@ -8,6 +8,7 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [patientIdentificationFields.isRequestingOwnMedicalRecords];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [patientIdentificationFields.parentObject]: {

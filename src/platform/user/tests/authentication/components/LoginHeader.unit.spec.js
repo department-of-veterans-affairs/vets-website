@@ -27,14 +27,4 @@ describe('LoginHeader', () => {
     expect(screen.queryByText(/You have successfully signed out/i)).to.not.be
       .null;
   });
-
-  it('should display direct deposit error', () => {
-    const screen = renderInReduxProvider(<LoginHeader />, {
-      initialState: generateState({ toggledOn: true }),
-    });
-
-    const directDepositDesc = /We’re sorry. Disability and pension direct deposit information isn’t available right now. We’re doing some maintenance work on this system./i;
-
-    expect(screen.queryByText(directDepositDesc)).to.not.be.null;
-  });
 });

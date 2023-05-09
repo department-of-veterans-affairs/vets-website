@@ -19,7 +19,7 @@ const ItemList = props => {
   if (list?.length === 1) {
     return list[0];
   }
-  return <p>{emptyMessage}</p>;
+  return <p className="vads-u-margin-top--0">{emptyMessage}</p>;
 };
 
 export default ItemList;

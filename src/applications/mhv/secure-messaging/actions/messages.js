@@ -185,8 +185,10 @@ export const retrieveMessageThread = (
             replyToName,
             threadFolderId,
             replyToMessageId: msgResponse.data.attributes.messageId,
-            ...msgResponse.data,
-            ...response.data[0],
+            attributes: {
+              ...response.data[0].attributes,
+              ...msgResponse.data.attributes,
+            },
           },
           included: msgResponse.included,
         },

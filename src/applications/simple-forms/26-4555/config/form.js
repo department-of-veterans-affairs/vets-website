@@ -2,7 +2,6 @@ import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
-import preSubmitInfo from '../containers/PreSubmitSignature';
 import transformForSubmit from './submit-transformer';
 import prefillTransformer from './prefill-transformer';
 import getHelp from '../../shared/components/GetFormHelp';
@@ -31,6 +30,7 @@ import {
   livingSituationFields,
 } from '../definitions/constants';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -39,7 +39,14 @@ const formConfig = {
   transformForSubmit,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  preSubmitInfo,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I certify that I am applying for assistance in acquiring specially adapted housing or special home adaptation grant because of the nature of my service-connected disability. I understand that there are medical and economic features yet to be considered before I am eligible for this benefit, and that I will be notified of the action taken on this application as soon as possible.',
+      messageAriaDescribedby:
+        'I certify that I am applying for assistance in acquiring specially adapted housing or special home adaptation grant because of the nature of my service-connected disability. I understand that there are medical and economic features yet to be considered before I am eligible for this benefit, and that I will be notified of the action taken on this application as soon as possible.',
+    },
+  },
   formId: '26-4555',
   saveInProgress: {
     messages: {

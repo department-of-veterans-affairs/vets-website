@@ -158,7 +158,7 @@ const ContestableIssuesWidget = props => {
         <>
           <dl className="review vads-u-border-bottom--1px">{content}</dl>
           <Link
-            className="add-new-issue"
+            className="add-new-issue vads-c-action-link--green"
             to={{ pathname: '/add-issue', search: `?index=${items.length}` }}
           >
             Add a new issue

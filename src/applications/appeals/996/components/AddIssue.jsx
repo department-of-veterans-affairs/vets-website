@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-  VaDate,
+  VaMemorableDate,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -148,19 +148,18 @@ const AddIssue = props => {
         >
           {issueNameHintText}
         </VaTextInput>
-        <br />
-        <VaDate
+
+        <VaMemorableDate
           name="decision-date"
           label={dateOfDecisionLabel}
+          hint={dateOfDecisionHintText}
           required
           onDateChange={handlers.onDateChange}
           onDateBlur={handlers.onDateBlur}
           value={issueDate}
           error={((submitted || dateDirty) && dateErrorMessage[0]) || null}
           aria-describedby="decision-date-description"
-        >
-          {dateOfDecisionHintText}
-        </VaDate>
+        />
         <p>
           <button
             type="button"

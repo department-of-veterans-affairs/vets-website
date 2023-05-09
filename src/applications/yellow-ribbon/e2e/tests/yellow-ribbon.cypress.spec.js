@@ -73,8 +73,8 @@ describe('functionality of Yellow Ribbons', () => {
       .should('contain', 'www.concordia.edu');
 
     // Ensure Tool Tip exists
-    cy.get(`${SELECTORS.APP} .form-expanding-group`).click();
-    cy.get(`${SELECTORS.APP} .form-expanding-group-open`).should(
+    cy.get(`${SELECTORS.APP} va-additional-info`).click();
+    cy.get(`${SELECTORS.APP} va-additional-info`).should(
       'contain',
       TOOL_TIP_CONTENT,
     );

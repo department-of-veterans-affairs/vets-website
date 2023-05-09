@@ -17,7 +17,9 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     site.login();
     inboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
+    cy.reload();
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
+    cy.reload();
     patientInterstitialPage.getContinueButton().click();
     composePage
       .getMessageBodyField()
@@ -26,7 +28,7 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     composePage.attachMessageFromFile('sample_docx.docx');
 
     mockDraftResponse.data.attributes.body =
-      'ststASertTesting Autosave Drafts with Attachments\n';
+      'ststASertTesting Autosave Drafts with Attachments\nTesting Autosave Drafts with Attachments\n';
     cy.intercept(
       'PUT',
       `/my_health/v1/messaging/message_drafts/${
@@ -39,7 +41,8 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     cy.get('@saveDraftwithAttachment')
       .its('request.body')
       .should('deep.equal', {
-        body: 'ststASertTesting Autosave Drafts with Attachments\n',
+        body:
+          'ststASertTesting Autosave Drafts with Attachments\nTesting Autosave Drafts with Attachments\n',
         category: mockDraftResponse.data.attributes.category,
         recipientId: mockDraftResponse.data.attributes.recipientId,
         subject: mockDraftResponse.data.attributes.subject,
