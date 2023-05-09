@@ -4,7 +4,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import { connect } from 'react-redux';
 import OnState from './On';
 import OffState from './Off';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 const copy = {
   en: {
@@ -66,7 +65,7 @@ function CovidVaccineUpdatesCTA({ lang, showLinkToOnlineForm }) {
     return <OffState copy={copy[lang]} />;
   }
 
-  return <LoadingIndicator message="Loading..." />;
+  return <va-loading-indicator message="Loading..." />;
 }
 
 const mapStateToProps = store => ({

@@ -19,6 +19,7 @@ const contactInfo = {
     properties: {
       veteran: {
         type: 'object',
+        required: ['address', 'email'],
         properties: {
           address: {
             type: 'object',
