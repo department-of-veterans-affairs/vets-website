@@ -453,7 +453,9 @@ const ComposeForm = props => {
             setAttachments={setAttachments}
           />
         </section>
-        <DraftSavedInfo userSaved={userSaved} />
+        {messageInvalid === false ? (
+          <DraftSavedInfo userSaved={userSaved} />
+        ) : null}
         <div className="compose-form-actions vads-u-display--flex">
           <va-button
             text="Send"

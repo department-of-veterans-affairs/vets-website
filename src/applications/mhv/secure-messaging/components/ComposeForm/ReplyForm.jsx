@@ -411,7 +411,9 @@ const ReplyForm = props => {
                 <DeleteDraft draftId={newDraftId} />
               </div>
             </div>
-            <DraftSavedInfo userSaved={userSaved} />
+            {messageInvalid === false ? (
+              <DraftSavedInfo userSaved={userSaved} />
+            ) : null}
             <div className="message-detail-note vads-u-text-align--center">
               <p>
                 <i>
