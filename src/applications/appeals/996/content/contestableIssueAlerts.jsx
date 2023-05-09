@@ -42,7 +42,7 @@ export const showContestableIssueError = ({ error, status } = {}, delay) => {
   // Not using platform debounce function since it doesn't behave as expected
   clearTimeout(timeoutId);
   if (delay) {
-    timeoutId = setTimeout(record(), delay);
+    timeoutId = setTimeout(record, delay);
   } else {
     record(); // no delay in unit tests
   }

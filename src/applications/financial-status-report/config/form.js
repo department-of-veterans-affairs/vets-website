@@ -662,7 +662,8 @@ const formConfig = {
           schema: pages.dependentRecords.schemaEnhanced,
           depends: formData =>
             formData['view:enhancedFinancialStatusReport'] &&
-            formData.questions?.hasDependents,
+            formData.questions?.hasDependents &&
+            formData.questions.hasDependents !== '0',
           CustomPage: DependentAges,
           CustomPageReview: DependentAgesReview,
           editModeOnReviewPage: false,
