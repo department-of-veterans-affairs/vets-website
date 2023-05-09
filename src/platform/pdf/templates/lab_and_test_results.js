@@ -19,7 +19,6 @@ const addHorizontalRule = (doc, spaceFromEdge = 0, linesAboveAndBelow = 0.5) => 
     .stroke();
 
   doc.moveDown(linesAboveAndBelow);
-  
   return doc;
 };
 
@@ -185,21 +184,43 @@ const generate = async data => {
   });
   results.end();
 
-  // Global Edits to All Pages (Header/Footer, etc)
+  // Add header & footer.
   let pages = doc.bufferedPageRange();
   for (let i = 0; i < pages.count; i++) {
     doc.switchToPage(i);
   
-    // Footer: Add page number
-    // let oldBottomMargin = doc.page.margins.bottom;
+    // Adjust page margins.
+    doc.page.margins.top = 0;
     doc.page.margins.bottom = 0;
     doc.page.margins.right = 16;
+
+    const header = doc.struct('Sect', {
+      title: 'Header',
+    });
+    header.add(
+      doc.struct('P', () => {
+        doc
+          .font('SourceSansPro-Regular')
+          .fontSize(16)
+          .text(data.header_left, 16, 12, { continued: true });
+      }),
+    );
+    header.add(
+      doc.struct('P', () => {
+        doc
+          .font('SourceSansPro-Regular')
+          .fontSize(16)
+          .text(data.header_right, { align: 'right' });
+      }),
+    );
+    header.end();
+    doc.addStructure(header);
+
     const footer = doc.struct('Sect', {
       title: 'Footer',
     });
     let footer_right_text = data.footer_right.replace('%PAGE_NUMBER%', i + 1);
     footer_right_text = footer_right_text.replace('%TOTAL_PAGES%', pages.count);
-    console.log(footer_right_text);
     footer.add(
       doc.struct('P', () => {
         doc
@@ -218,7 +239,6 @@ const generate = async data => {
     );
     footer.end();
     doc.addStructure(footer);
-    // doc.page.margins.bottom = oldBottomMargin; // ReProtect bottom margin
   }
   
   
