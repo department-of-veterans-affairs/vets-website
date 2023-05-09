@@ -150,7 +150,7 @@ const SmBreadcrumbs = () => {
                     key={1}
                     to={crumbs[crumbs.length - 2]?.path}
                   >
-                    Return to {crumbs[crumbs.length - 2]?.label}
+                    Return to {crumbs[crumbs.length - 2]?.label?.toLowerCase()}
                   </Link>
                 </>
               )}
