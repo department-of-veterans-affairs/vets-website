@@ -14,8 +14,8 @@ import { focusElement } from 'platform/utilities/ui';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import {
@@ -416,8 +416,8 @@ class SearchApp extends React.Component {
         <div className="va-flex results-footer">
           {results &&
             results.length > 0 && (
-              <Pagination
-                onPageSelect={this.handlePageChange}
+              <VaPagination
+                onPageSelect={e => this.handlePageChange(e.detail.page)}
                 page={currentPage}
                 pages={totalPages}
                 maxPageListLength={5}

@@ -1,7 +1,9 @@
 // Node modules.
 import React, { useEffect, useState, useCallback } from 'react';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import URLSearchParams from 'url-search-params';
 import { focusElement } from 'platform/utilities/ui';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
@@ -125,9 +127,9 @@ const ResourcesAndSupportSearchApp = () => {
               totalResults={results.length}
               page={page}
             />
-            <Pagination
+            <VaPagination
               maxPageListLength={RESULTS_PER_PAGE}
-              onPageSelect={onPageSelect}
+              onPageSelect={e => onPageSelect(e.detail.page)}
               page={page}
               pages={totalPages}
               showLastPage

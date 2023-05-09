@@ -6,7 +6,6 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import { validateIdString } from '../utils/helpers';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
 class FacilityLocatorApp extends React.Component {
   renderBreadcrumbs(location, selectedResult) {
@@ -42,18 +41,22 @@ class FacilityLocatorApp extends React.Component {
 
     if (validateIdString(location.pathname, '/facility') && selectedResult) {
       crumbs.push(
-        <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
-          {selectedResult.attributes?.name}
-        </Link>,
+        <li>
+          <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
+            {selectedResult.attributes?.name}
+          </Link>
+        </li>,
       );
     } else if (
       validateIdString(location.pathname, '/provider') &&
       selectedResult
     ) {
       crumbs.push(
-        <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
-          Provider Details
-        </Link>,
+        <li>
+          <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
+            Provider Details
+          </Link>
+        </li>,
       );
     }
 
@@ -65,9 +68,9 @@ class FacilityLocatorApp extends React.Component {
 
     return (
       <div>
-        <Breadcrumbs selectedFacility={selectedResult}>
+        <va-breadcrumbs>
           {this.renderBreadcrumbs(location, selectedResult)}
-        </Breadcrumbs>
+        </va-breadcrumbs>
         <div className="row">
           <DowntimeNotification
             appTitle="facility locator tool"

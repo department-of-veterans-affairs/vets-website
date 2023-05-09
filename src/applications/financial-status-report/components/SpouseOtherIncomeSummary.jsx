@@ -53,10 +53,10 @@ const SpouseOtherIncomeSummary = ({
 
   return (
     <form>
-      <fieldset>
+      <fieldset className="vads-u-margin-y--2">
         <legend
           id="added-income-summary"
-          className="vads-u-font-family--serif"
+          className="schemaform-block-title"
           name="addedIncomeSummary"
         >
           You have added these other sources of income

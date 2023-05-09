@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { object } from 'prop-types';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { vetCenterServices } from '../config';
 import { formatServiceName } from '../utils/formatServiceName';
 import { FacilityType } from '../constants';
@@ -91,11 +90,6 @@ class ServicesAtFacility extends Component {
       return null;
     }
 
-    const alertHeading =
-      'This list may not include all of the services available at this location.';
-    const alertContent =
-      'Please check on the facility’s website or call them for this information.';
-
     return (
       <div>
         <p style={{ margin: '0 0 0.5em' }}>
@@ -104,12 +98,18 @@ class ServicesAtFacility extends Component {
         </p>
 
         <div className="vads-u-margin-bottom--4">
-          <AlertBox
-            isVisible
-            status="warning"
-            headline={alertHeading}
-            content={alertContent}
-          />
+          <va-alert visible status="warning">
+            <h2 slot="headline">
+              This list may not include all of the services available at this
+              location
+            </h2>
+            <div>
+              <p>
+                Please check on the facility’s website or call them for this
+                information.
+              </p>
+            </div>
+          </va-alert>
         </div>
 
         <div className="vads-u-margin-bottom--4">

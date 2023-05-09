@@ -16,6 +16,7 @@ const pageFields = [
   veteranFields.email,
 ];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:description': PrefillMessage,
@@ -51,7 +52,7 @@ export default {
         ...emailUI(),
         'ui:errorMessages': {
           format:
-            'Enter a valid email address. Your address can only have letters, numbers, the @ symbol, and a period, with no spaces.',
+            'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
         },
       },
     },

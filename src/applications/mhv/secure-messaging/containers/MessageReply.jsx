@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { retrieveMessageThread } from '../actions/messages';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
@@ -24,6 +25,10 @@ const MessageReply = () => {
     },
     [replyId, dispatch],
   );
+
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  });
 
   const content = () => {
     if (replyMessage === undefined) {

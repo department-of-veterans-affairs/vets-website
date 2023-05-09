@@ -1,8 +1,6 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import CallToActionAlert from '../CallToActionAlert';
 
 const NeedsSSNResolution = () => {
@@ -27,8 +25,7 @@ const NeedsSSNResolution = () => {
           <p>
             Please call us at <va-telephone contact="8008271000" />. We’re here
             Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have
-            hearing loss, call TTY:{' '}
-            <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
+            hearing loss, call <va-telephone contact={CONTACTS['711']} tty />.
           </p>
           <p>
             When the system prompts you to give a reason for your call, say,

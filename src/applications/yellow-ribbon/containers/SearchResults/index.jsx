@@ -1,6 +1,7 @@
 // Dependencies.
 import React, { Component } from 'react';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { connect } from 'react-redux';
@@ -248,9 +249,9 @@ export class SearchResults extends Component {
         </ul>
 
         {/* Pagination */}
-        <Pagination
+        <VaPagination
           className="vads-u-border-top--0"
-          onPageSelect={onPageSelect}
+          onPageSelect={e => onPageSelect(e.detail.page)}
           page={page}
           pages={Math.ceil(totalResults / perPage)}
           maxPageListLength={perPage}
