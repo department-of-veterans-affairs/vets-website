@@ -73,3 +73,7 @@
     margin: 3px;
   }
 }
+
+#sort-order-dropdown::part(label) {
+  margin-top: 12px;
+}
