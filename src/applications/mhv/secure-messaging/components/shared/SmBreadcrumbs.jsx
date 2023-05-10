@@ -104,7 +104,17 @@ const SmBreadcrumbs = () => {
             }
           } else if (locationBasePath === 'search') {
             arr.push({ path: '/', label: 'Back' });
-          } else if (locationBasePath === 'thread' && activeFolder) {
+          } else if (
+            locationBasePath === 'reply' &&
+            activeFolder?.folderId === 0
+          ) {
+            arr.push(Constants.Breadcrumbs.INBOX);
+          } else if (
+            (locationBasePath === 'thread' ||
+              locationBasePath === 'reply' ||
+              locationBasePath === 'compose') &&
+            activeFolder
+          ) {
             if (activeFolder.folderId === 0) {
               arr.push({
                 path: `${Constants.Breadcrumbs.INBOX.path}`,
