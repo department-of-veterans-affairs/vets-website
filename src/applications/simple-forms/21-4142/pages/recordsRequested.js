@@ -24,6 +24,8 @@ export default {
         itemName: 'Treatment record',
         viewField: RecordField,
         keepInPageOnReview: true,
+        useDlWrap: true,
+        customTitle: ' ',
       },
       items: {
         'ui:order': [
