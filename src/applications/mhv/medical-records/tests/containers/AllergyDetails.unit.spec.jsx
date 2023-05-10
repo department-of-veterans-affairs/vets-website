@@ -3,23 +3,14 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import AllergyDetails from '../../containers/AllergyDetails';
 import reducer from '../../reducers';
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, getAllergyNames } from '../../util/helpers';
+import allergy from '../fixtures/allergyFHIR.json';
 
 describe('Allergy details container', () => {
   const initialState = {
     mr: {
       allergies: {
-        allergyDetails: {
-          id: 123,
-          name: 'Penicillin',
-          dateEntered: '2022-04-01T17:42:46.000Z',
-          reaction: 'Urticaria',
-          allergyType: 'Drug allergy',
-          drugClass: 'Penicillin-G related penicillins',
-          location: 'Washington DC VA medical center',
-          observed: true,
-          notes: [],
-        },
+        allergyDetails: allergy,
       },
     },
   };
@@ -28,7 +19,7 @@ describe('Allergy details container', () => {
     return renderWithStoreAndRouter(<AllergyDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/allergies/123',
+      path: '/allergies/30242',
     });
   };
 
@@ -52,7 +43,7 @@ describe('Allergy details container', () => {
     const screen = setup();
 
     const allergyName = screen.getByText(
-      `Allergy: ${initialState.mr.allergies.allergyDetails.name}`,
+      `Allergy: ${getAllergyNames(initialState.mr.allergies.allergyDetails)}`,
       {
         exact: true,
         selector: 'h1',
@@ -76,15 +67,16 @@ describe('Allergy details container', () => {
     expect(formattedDate).to.exist;
   });
 
-  it('displays the location', () => {
-    const screen = setup();
-    const location = screen.getByText(
-      initialState.mr.allergies.allergyDetails.location,
-      {
-        exact: true,
-        selector: 'p',
-      },
-    );
-    expect(location).to.exist;
-  });
+  // reinstate if location turns out to be part of the actual data
+  // it('displays the location', () => {
+  //   const screen = setup();
+  //   const location = screen.getByText(
+  //     initialState.mr.allergies.allergyDetails.location,
+  //     {
+  //       exact: true,
+  //       selector: 'p',
+  //     },
+  //   );
+  //   expect(location).to.exist;
+  // });
 });
