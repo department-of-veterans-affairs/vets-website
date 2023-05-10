@@ -31,20 +31,28 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     cy.realPress(['Enter']);
   });
 });
-describe('Draft page Message Sort', () => {
+describe(' Draft page Message Sort', () => {
   beforeEach(() => {
-    const landingPage = new PatientInboxPage();
+    const inboxPage = new PatientInboxPage();
+    const draftsPage = new PatientMessageDraftsPage();
     const site = new SecureMessagingSite();
+    const patientInterstitialPage = new PatientInterstitialPage();
     site.login();
+    inboxPage.loadInboxMessages();
     cy.reload(true);
-    landingPage.loadInboxMessages();
+    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
+    draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
+    patientInterstitialPage.getContinueButton().click();
+    draftsPage.clickDeleteButton();
+    draftsPage.confirmDeleteDraft(mockDraftResponse);
+    inboxPage.verifyDeleteConfirmMessage();
     cy.get('.sidebar-navigation-messages-list-header > a');
   });
   it('Sort Inbox Messages from Newest to Oldest', () => {
     cy.get('#sort-order-dropdown')
       .shadow()
       .find('select')
-      .should('contain', 'Newest');
+      .should('contain', 'Newest to oldest');
     cy.injectAxe();
     cy.axeCheck();
   });
@@ -62,7 +70,7 @@ describe('Draft page Message Sort', () => {
     cy.get('#sort-order-dropdown')
       .shadow()
       .find('select')
-      .select('sender-alpha-asc', { force: true })
+      .select('ASC', { force: true })
       .should('contain', 'A to Z');
     cy.injectAxe();
     cy.axeCheck();
@@ -72,7 +80,6 @@ describe('Draft page Message Sort', () => {
     cy.get('#sort-order-dropdown')
       .shadow()
       .find('select')
-      .select('sender-alpha-desc', { force: true })
       .should('contain', 'Z to A');
     cy.injectAxe();
     cy.axeCheck();
