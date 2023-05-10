@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { runAdvancedSearch } from '../../actions/search';
 import FilterBox from './FilterBox';
 import { ErrorMessages } from '../../util/constants';
@@ -13,7 +14,6 @@ const SearchForm = props => {
   const { folder, keyword, resultsCount, query } = props;
   const dispatch = useDispatch();
   const location = useLocation();
-  const history = useHistory();
   const folders = useSelector(state => state.sm.folders.folderList);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTermError, setSearchTermError] = useState(null);
@@ -22,6 +22,7 @@ const SearchForm = props => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [customFilter, setCustomFilter] = useState(false);
+  const resultsCountRef = useRef();
 
   useEffect(
     () => {
@@ -38,6 +39,13 @@ const SearchForm = props => {
       setSearchTerm(keyword);
     },
     [keyword],
+  );
+
+  useEffect(
+    () => {
+      if (resultsCount > 0) focusElement(resultsCountRef.current);
+    },
+    [resultsCount],
   );
 
   const getRelativeDate = range => {
@@ -79,6 +87,7 @@ const SearchForm = props => {
       setSearchTermError(ErrorMessages.SearchForm.SEARCH_TERM_REQUIRED);
       return;
     }
+    setSearchTermError(null);
 
     dispatch(
       runAdvancedSearch(
@@ -91,10 +100,6 @@ const SearchForm = props => {
         searchTerm.toLowerCase(),
       ),
     );
-
-    if (!resultsCount) {
-      history.push('/search/results');
-    }
   };
 
   const queryItem = (key, value) => {
@@ -142,23 +147,24 @@ const SearchForm = props => {
 
   const FilterResults = () => {
     const results =
-      resultsCount === undefined ? null : (
+      resultsCount === undefined || !resultsCount ? null : (
         <>
           <strong className="search-results-count">
             {resultsCount?.toLocaleString()}
           </strong>{' '}
-          results {displayQuery()}
+          matches {displayQuery()}
         </>
       );
     return (
-      <label
+      <span
+        ref={resultsCountRef}
         data-testid="search-message-folder-input-label"
-        className={
+        className={`vads-u-margin-top--4 ${
           resultsCount === undefined ? null : 'filter-results-in-folder'
-        }
+        }`}
       >
         {results}
-      </label>
+      </span>
     );
   };
 
