@@ -29,27 +29,28 @@ import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
 import submissionError from '../content/submissionError';
+import reviewErrors from '../content/reviewErrors';
 
+import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInformation';
 import primaryPhone from '../pages/primaryPhone';
 import contestableIssues from '../pages/contestableIssues';
+import issueSummary from '../pages/issueSummary';
+import optIn from '../pages/optIn';
+import notice5103 from '../pages/notice5103';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
 import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
-import issueSummary from '../pages/issueSummary';
-import notice5103 from '../pages/notice5103';
-import optIn from '../pages/optIn';
-import veteranInfo from '../pages/veteranInfo';
+import evidenceSummary from '../pages/evidenceSummary';
 
+import { appStateSelector, mayHaveLegacyAppeals } from '../utils/helpers';
 import {
-  appStateSelector,
-  mayHaveLegacyAppeals,
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
-} from '../utils/helpers';
+} from '../utils/evidence';
 import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
 import manifest from '../manifest.json';
@@ -111,6 +112,8 @@ const formConfig = {
   defaultDefinitions: fullSchema.definitions,
   preSubmitInfo,
   submissionError,
+  // showReviewErrors: true,
+  reviewErrors,
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
@@ -308,8 +311,8 @@ const formConfig = {
           path: 'supporting-evidence/summary',
           CustomPage: EvidenceSummary,
           CustomPageReview: EvidenceSummaryReview,
-          uiSchema: {},
-          schema: blankSchema,
+          uiSchema: evidenceSummary.uiSchema,
+          schema: evidenceSummary.schema,
         },
       },
     },

@@ -1,22 +1,38 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { runBasicSearch } from '../../actions/search';
-import AdvancedSearchExpander from './AdvancedSearchExpander';
+import { runAdvancedSearch } from '../../actions/search';
+import FilterBox from './FilterBox';
+import { ErrorMessages } from '../../util/constants';
+import { DateRangeValues } from '../../util/inputContants';
+import { dateFormat } from '../../util/helpers';
 
 const SearchForm = props => {
   const { folder, keyword, resultsCount, query } = props;
   const dispatch = useDispatch();
+  const location = useLocation();
   const history = useHistory();
-  const nodeRef = useRef(null);
   const folders = useSelector(state => state.sm.folders.folderList);
   const [searchTerm, setSearchTerm] = useState('');
-  const [advancedOpen, setAdvancedOpen] = useState(false);
   const [searchTermError, setSearchTermError] = useState(null);
+  const [category, setCategory] = useState('');
+  const [dateRange, setDateRange] = useState('any');
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
+  const [customFilter, setCustomFilter] = useState(false);
 
+  useEffect(
+    () => {
+      if (dateRange !== 'any' || category) {
+        setCustomFilter(true);
+      } else {
+        setCustomFilter(false);
+      }
+    },
+    [dateRange, category, customFilter],
+  );
   useEffect(
     () => {
       setSearchTerm(keyword);
@@ -24,14 +40,58 @@ const SearchForm = props => {
     [keyword],
   );
 
-  const handleSearch = e => {
-    setSearchTermError(null);
+  const getRelativeDate = range => {
+    const today = new Date();
 
-    if (!searchTerm) {
-      setSearchTermError('Please enter a search term');
+    if (range === DateRangeValues.LAST3) {
+      today.setMonth(today.getMonth() - 3);
+    } else if (range === DateRangeValues.LAST6) {
+      today.setMonth(today.getMonth() - 6);
+    } else if (range === DateRangeValues.LAST12) {
+      today.setMonth(today.getMonth() - 12);
+    }
+
+    return dateFormat(today, 'yyyy-MM-DD');
+  };
+
+  const handleSearch = () => {
+    const todayDateTime = moment(new Date()).format();
+    const offset = todayDateTime.substring(todayDateTime.length - 6);
+    let relativeToDate;
+    let relativeFromDate;
+    let fromDateTime;
+    let toDateTime;
+
+    if (
+      dateRange === DateRangeValues.LAST3 ||
+      dateRange === DateRangeValues.LAST6 ||
+      dateRange === DateRangeValues.LAST12
+    ) {
+      relativeToDate = moment(new Date());
+      relativeFromDate = `${getRelativeDate(dateRange)}T00:00:00${offset}`;
+    } else if (dateRange === DateRangeValues.CUSTOM) {
+      fromDateTime = `${fromDate}T00:00:00${offset}`;
+      toDateTime = `${toDate}T23:59:59${offset}`;
+    }
+
+    if (searchTerm === '' && customFilter === false) {
+      setSearchTermError(null);
+      setSearchTermError(ErrorMessages.SearchForm.SEARCH_TERM_REQUIRED);
       return;
     }
-    dispatch(runBasicSearch(folder.folderId, e.target.value.toLowerCase()));
+
+    dispatch(
+      runAdvancedSearch(
+        folder,
+        {
+          category,
+          fromDate: relativeFromDate || fromDateTime,
+          toDate: relativeToDate || toDateTime,
+        },
+        searchTerm.toLowerCase(),
+      ),
+    );
+
     if (!resultsCount) {
       history.push('/search/results');
     }
@@ -45,7 +105,7 @@ const SearchForm = props => {
     );
   };
 
-  const dateRange = () => {
+  const dateRangeDisplay = () => {
     if (query.fromDate && query.toDate) {
       return queryItem(
         null,
@@ -58,72 +118,70 @@ const SearchForm = props => {
   };
 
   const displayQuery = () => {
-    if (keyword) {
-      return (
-        <>
-          for "<strong>{keyword}</strong>" in <strong>{folder.name}</strong>
-        </>
-      );
+    let folderName;
+    if (folder.name === 'Deleted') {
+      folderName = 'Trash';
+    } else {
+      folderName = folder.name;
     }
     return (
       <>
-        in <strong>{folder.name}</strong> for
+        in <strong>{folderName}</strong> for{' '}
+        {keyword && (
+          <>
+            "<strong>{keyword}</strong>"
+          </>
+        )}
         <ul>
-          {query.messageId && queryItem('Message ID', query.messageId)}
-          {query.sender && queryItem('From', query.sender)}
-          {query.subject && queryItem('Subject', query.subject)}
           {query.category && queryItem('Category', query.category)}
-          {dateRange()}
+          {dateRangeDisplay()}
         </ul>
       </>
     );
   };
 
-  const label = () => {
-    const labelString =
-      resultsCount === undefined ? (
-        <>
-          <div>
-            Search your <strong>{folder.name}</strong> messages folder
-          </div>
-          <div className="keyword-help-text">
-            Keyword (Sender, subject line, or category)
-          </div>
-        </>
-      ) : (
+  const FilterResults = () => {
+    const results =
+      resultsCount === undefined ? null : (
         <>
           <strong className="search-results-count">
-            {resultsCount.toLocaleString()}
+            {resultsCount?.toLocaleString()}
           </strong>{' '}
           results {displayQuery()}
         </>
       );
-    if (advancedOpen)
-      return (
-        <p className="vads-u-margin--0">
-          <strong>Search messages</strong>
-        </p>
-      );
     return (
       <label
-        htmlFor="search-message-folder-input"
         data-testid="search-message-folder-input-label"
         className={
-          resultsCount === undefined
-            ? 'keyword-search-label'
-            : 'search-in-description'
+          resultsCount === undefined ? null : 'filter-results-in-folder'
         }
       >
-        {labelString}
+        {results}
       </label>
     );
   };
 
-  return (
-    <div className="search-form">
-      {label()}
+  const handleFolderName = () => {
+    if (folder.name === 'Deleted') {
+      return 'Trash';
+    }
+    return folder.name;
+  };
+  const filterLabelHeading = `Filter messages in ${handleFolderName()} `;
+  let filterLabelBody;
+  if (location.pathname.includes('/drafts')) {
+    filterLabelBody =
+      'Enter information from one of these fields: to, from, or subject';
+  } else {
+    filterLabelBody =
+      'Enter information from one of these fields: to, from, message ID, or subject';
+  }
 
-      {!advancedOpen && (
+  return (
+    <>
+      <div className="search-form">
+        <h3>{filterLabelHeading}</h3>
         <>
           {searchTermError && (
             <div className="error-message" role="alert">
@@ -131,26 +189,63 @@ const SearchForm = props => {
               {searchTermError}
             </div>
           )}
-          <VaSearchInput
-            buttonText={window.innerWidth <= 481 ? null : 'Search'}
-            onInput={e => setSearchTerm(e.target.value)}
-            onSubmit={handleSearch}
-            value={searchTerm}
-            label="search-message-folder-input"
-            data-testid="keyword-search-input"
-          />
+          <div className="filter-input-box-container">
+            <div className="filter-text-input">
+              <va-text-input
+                id="filter-input"
+                label={filterLabelBody}
+                className="filter-input-box"
+                message-aria-describedby="filter text input"
+                value={searchTerm}
+                onInput={e => setSearchTerm(e.target.value)}
+                aria-label={filterLabelHeading + filterLabelBody}
+                data-testid="keyword-search-input"
+              />
+            </div>
+            <div className="basic-filter-button">
+              <button
+                type="button"
+                className="usa-button-primary filter-button"
+                onClick={e => {
+                  e.preventDefault();
+                  handleSearch();
+                }}
+              >
+                Filter
+              </button>
+            </div>
+          </div>
         </>
-      )}
-
-      {folders && (
-        <AdvancedSearchExpander
-          advancedOpen={advancedOpen}
-          setAdvancedOpen={setAdvancedOpen}
-          nodeRef={nodeRef}
-          folders={folders}
-        />
-      )}
-    </div>
+        {!location.pathname.includes('/drafts') && (
+          <va-additional-info
+            trigger="What's a message ID?"
+            class="message-id-info"
+          >
+            A message ID is a number we assign to each message. If you sign up
+            for email notifications, we’ll send you an email each time you get a
+            new message. These emails include the message ID.
+          </va-additional-info>
+        )}
+        {folders && (
+          <div>
+            <FilterBox
+              folders={folders}
+              keyword={keyword}
+              handleSearch={handleSearch}
+              category={category}
+              setCategory={setCategory}
+              dateRange={dateRange}
+              setDateRange={setDateRange}
+              fromDate={fromDate}
+              setFromDate={setFromDate}
+              toDate={toDate}
+              setToDate={setToDate}
+            />
+          </div>
+        )}
+      </div>
+      <FilterResults />
+    </>
   );
 };
 

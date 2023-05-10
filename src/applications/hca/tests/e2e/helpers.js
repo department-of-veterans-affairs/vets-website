@@ -12,69 +12,11 @@ export const goToNextPage = pagePath => {
     cy.location('pathname').should('include', pagePath);
   }
 };
-export const advanceToAiqPage = () => {
-  // cy.findAllByText(/start.+application/i, { selector: 'button' })
-  //   .first()
-  //   .click();
-
-  // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
-  cy.get('#1-continueButton').click();
-
-  cy.wait('@mockSip');
-  cy.location('pathname').should(
-    'include',
-    '/veteran-information/personal-information',
-  );
-  goToNextPage('/veteran-information/birth-information');
-  goToNextPage('/veteran-information/maiden-name-information');
-  goToNextPage('/veteran-information/birth-sex');
-  goToNextPage('/veteran-information/demographic-information');
-  goToNextPage('/veteran-information/american-indian');
-};
-export const advanceFromAiqToReviewPage = () => {
-  goToNextPage('/veteran-information/veteran-address');
-  cy.get('[type=radio]')
-    .first()
-    .scrollIntoView()
-    .check('Y');
-  goToNextPage('/veteran-information/contact-information');
-  cy.wait('@mockSip');
-  goToNextPage('/va-benefits/basic-information');
-  cy.get('[name="root_vaCompensationType"]').check('none');
-  goToNextPage('/va-benefits/pension-information');
-  cy.get('[name="root_vaPensionType"]').check('No');
-  goToNextPage('/military-service/service-information');
-  goToNextPage('/military-service/additional-information');
-  goToNextPage('/household-information/financial-disclosure');
-  cy.get('[name="root_discloseFinancialInformation"]').check('N');
-  goToNextPage('/household-information/marital-status');
-  cy.get('select#root_maritalStatus').select(testData.maritalStatus);
-  goToNextPage('/insurance-information/medicaid');
-  cy.get('[name="root_isMedicaidEligible"]').check('N');
-  goToNextPage('/insurance-information/medicare');
-  cy.get('[name="root_isEnrolledMedicarePartA"]').check('N');
-  goToNextPage('/insurance-information/general');
-  cy.get('[name="root_isCoveredByHealthInsurance"]').check('N');
-  goToNextPage('/insurance-information/va-facility');
-  cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
-    testData['view:preferredFacility']['view:facilityState'],
-  );
-  cy.wait(['@mockSip', '@getFacilities']);
-  cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]')
-    .shadow()
-    .find('select')
-    .select(testData['view:preferredFacility'].vaMedicalFacility);
-  goToNextPage('review-and-submit');
-};
 
 export const advanceToServiceInfoPage = () => {
-  // cy.findAllByText(/start.+application/i, { selector: 'button' })
-  //   .first()
-  //   .click();
-
-  // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
-  cy.get('#1-continueButton').click();
-
+  cy.get('[href="#start"]')
+    .first()
+    .click();
   cy.wait('@mockSip');
   cy.location('pathname').should(
     'include',
@@ -88,9 +30,6 @@ export const advanceToServiceInfoPage = () => {
   goToNextPage('/veteran-information/birth-sex');
 
   goToNextPage('/veteran-information/demographic-information');
-
-  goToNextPage('/veteran-information/american-indian');
-  cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
 
   goToNextPage('/veteran-information/veteran-address');
   cy.get('[type=radio]')
@@ -182,6 +121,8 @@ export const shortFormSelfDisclosureToSubmit = () => {
 
   cy.get('[name="privacyAgreementAccepted"]')
     .scrollIntoView()
+    .shadow()
+    .find('[type="checkbox"]')
     .check();
   cy.findByText(/submit/i, { selector: 'button' }).click();
   cy.wait('@mockSubmit').then(interception => {

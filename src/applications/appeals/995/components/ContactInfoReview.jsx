@@ -37,8 +37,16 @@ const ContactInfoReview = ({ data, editPage }) => {
   const display = [
     [content.home, () => getFormattedPhone(homePhone)],
     [content.mobile, () => getFormattedPhone(mobilePhone)],
-    [content.email, () => email],
-    [content.country, () => (isUS ? '' : address.countryName)],
+    [
+      content.email,
+      () =>
+        email || (
+          <span className="usa-input-error-message">
+            {content.missingEmail}
+          </span>
+        ),
+    ],
+    [content.country, () => address.countryName],
     [content.address1, () => address.addressLine1],
     [content.address2, () => address.addressLine2],
     [content.address3, () => address.addressLine3],
@@ -81,7 +89,7 @@ const ContactInfoReview = ({ data, editPage }) => {
           type="button"
           ref={editRef}
           id="confirmContactInformationEdit"
-          className="float-right edit-page usa-button-secondary"
+          className="edit-page usa-button-secondary"
           onClick={handlers.onEditPage}
           aria-label={content.editLabel}
         >

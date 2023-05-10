@@ -52,16 +52,27 @@ export function getUserPhase(phase) {
 }
 
 export function getItemDate(item) {
+  // Tracked item that has been marked received.
+  // status is either INITIAL_REVIEW_COMPLETE,
+  // or ACCEPTED
   if (item.receivedDate) {
     return item.receivedDate;
   }
+
+  // Tracked item that has documents but has not been marked received.
+  // status is SUBMITTED_AWAITING_REVIEW
   if (item.documents && item.documents.length) {
     return item.documents[item.documents.length - 1].uploadDate;
   }
+
+  // Supporting document.
+  // uploadDate is sometimes null
   if (item.type === 'other_documents_list' && item.uploadDate) {
     return item.uploadDate;
   }
 
+  // Most likely this is a tracked item that has a status
+  // of NEEDED
   return item.date;
 }
 
@@ -201,19 +212,12 @@ export function getDocTypeDescription(docType) {
   return DOC_TYPES.filter(type => type.value === docType)[0].label;
 }
 
-export function isPopulatedClaim({ attributes }) {
-  return (
-    !!attributes.claimType &&
-    (attributes.contentionList && !!attributes.contentionList.length) &&
-    !!attributes.dateFiled
-  );
-}
+export const isPopulatedClaim = ({ claimDate, claimType, contentions }) =>
+  !!claimType && (contentions && !!contentions.length) && !!claimDate;
 
 export function hasBeenReviewed(trackedItem) {
-  return (
-    trackedItem.type.startsWith('received_from') &&
-    trackedItem.status !== 'SUBMITTED_AWAITING_REVIEW'
-  );
+  const reviewedStatuses = ['INITIAL_REVIEW_COMPLETE', 'ACCEPTED'];
+  return reviewedStatuses.includes(trackedItem.status);
 }
 
 // Adapted from http://stackoverflow.com/a/26230989/487883

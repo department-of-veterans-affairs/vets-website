@@ -31,19 +31,18 @@ describe('Opt Out Test', () => {
       '/claimant-information',
     );
 
-    cy.get('label[name="privacyAgreementAccepted-label"]', {
-      timeout: Timeouts.slow,
-    })
-      .should('be.visible')
-      .then(() => {
-        cy.get('input[type="checkbox"]')
-          .should('exist')
-          .then(checkbox => {
-            cy.wrap(checkbox).click();
-          });
-        cy.axeCheck();
-        cy.get('.form-progress-buttons .usa-button-primary').click();
+    cy.get('[name="privacyAgreementAccepted"]')
+      .find('label[for="checkbox-element"]')
+      .should('be.visible');
+
+    cy.get('[name="privacyAgreementAccepted"]')
+      .find('[type="checkbox"]')
+      .check({
+        force: true,
       });
+
+    cy.axeCheck();
+    cy.get('.form-progress-buttons .usa-button-primary').click();
     cy.wait('@optOutClaim');
     cy.url({ timeout: Timeouts.submission }).should(
       'not.contain',

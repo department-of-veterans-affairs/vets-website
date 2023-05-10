@@ -31,12 +31,12 @@ const VitalListItem = props => {
             />
           </div>
           <Link
-            to={`/vital-details/${record.name
+            to={`/health-history/vitals/${record.name
               .toLowerCase()
               .replace(/\s+/g, '')}`}
             className="vads-u-margin-y--0p5 no-print"
           >
-            View {record.name} over time
+            <strong>View {record.name} over time</strong>
             <i
               className="fas fa-angle-right details-link-icon"
               aria-hidden="true"

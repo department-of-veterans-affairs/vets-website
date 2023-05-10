@@ -96,7 +96,7 @@ export function getAppointmentInfoFromComments(comments, key) {
   if (key === 'reasonCode') {
     const reasonCode = appointmentInfo
       ? appointmentInfo
-          .filter(item => item.includes('preferred dates:'))[0]
+          .filter(item => item.includes('reason code:'))[0]
           ?.split(':')[1]
       : null;
     const transformedReasonCode = { code: reasonCode };

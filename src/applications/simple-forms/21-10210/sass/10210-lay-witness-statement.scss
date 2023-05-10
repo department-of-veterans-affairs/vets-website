@@ -1,0 +1,40 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+.schemaform-label[for="root_witnessRelationshipToClaimant_family-or-friend"] {
+  margin-top: 0.8rem;
+}
+.schemaform-label[for="root_witnessRelationshipToClaimant_coworker-or-supervisor"] {
+  margin-top: 0;
+}
+
+#root_veteranEmailConsent-label,
+#root_witnessEmailConsent-label,
+#root_claimantEmailConsent-label {
+  display: none !important;
+
+  & + .schemaform-widget-wrapper {
+    margin-top: 3rem;
+  }
+}
+
+.schemaform-label[for="root_witnessRelationshipToVeteran_served-with"] {
+  margin-top: 1rem;
+}
+
+.schemaform-label[for="root_witnessRelationshipToVeteran_family-or-friend"],
+.schemaform-label[for="root_witnessRelationshipToVeteran_coworker-or-supervisor"] {
+  margin-top: 0.75rem;
+}
+
+.form-review-panel[data-chapter="statementInfoChapter"] .review-row dt > span {
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", Arial,
+    sans-serif !important;
+  font-size: 1.6rem !important;
+  font-weight: 400 !important;
+}

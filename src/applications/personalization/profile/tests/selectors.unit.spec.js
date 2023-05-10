@@ -27,16 +27,12 @@ describe('profile selectors', () => {
       state = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [
-              {
-                paymentAccount: {
-                  accountType: '',
-                  financialInstitutionName: null,
-                  accountNumber: '123123123',
-                  financialInstitutionRoutingNumber: '',
-                },
-              },
-            ],
+            paymentAccount: {
+              accountType: '',
+              financialInstitutionName: null,
+              accountNumber: '123123123',
+              financialInstitutionRoutingNumber: '',
+            },
           },
         },
       };
@@ -53,8 +49,7 @@ describe('profile selectors', () => {
       expect(selectors.cnpDirectDepositIsSetUp(state)).to.be.false;
     });
     it('returns `false` when the account number is not set', () => {
-      state.vaProfile.cnpPaymentInformation.responses[0].paymentAccount.accountNumber =
-        '';
+      state.vaProfile.cnpPaymentInformation.paymentAccount.accountNumber = '';
       expect(selectors.cnpDirectDepositIsSetUp(state)).to.be.false;
     });
     it('returns `false` when the payment info endpoint failed to get data', () => {
@@ -86,16 +81,12 @@ describe('profile selectors', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [
-              {
-                paymentAccount: {
-                  accountType: '',
-                  financialInstitutionName: null,
-                  accountNumber: '123123123',
-                  financialInstitutionRoutingNumber: '',
-                },
-              },
-            ],
+            paymentAccount: {
+              accountType: '',
+              financialInstitutionName: null,
+              accountNumber: '123123123',
+              financialInstitutionRoutingNumber: '',
+            },
           },
         },
       };
@@ -115,15 +106,11 @@ describe('profile selectors', () => {
       state = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [
-              {
-                paymentAddress: {
-                  addressOne: '123 Main',
-                  city: 'San Francisco',
-                  stateCode: 'CA',
-                },
-              },
-            ],
+            paymentAddress: {
+              addressOne: '123 Main',
+              city: 'San Francisco',
+              stateCode: 'CA',
+            },
           },
         },
       };
@@ -132,18 +119,15 @@ describe('profile selectors', () => {
       expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.true;
     });
     it('returns `false` if the street address is missing', () => {
-      state.vaProfile.cnpPaymentInformation.responses[0].paymentAddress.addressOne =
-        '';
+      state.vaProfile.cnpPaymentInformation.paymentAddress.addressOne = '';
       expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.false;
     });
     it('returns `false` if the city is missing', () => {
-      state.vaProfile.cnpPaymentInformation.responses[0].paymentAddress.city =
-        '';
+      state.vaProfile.cnpPaymentInformation.paymentAddress.city = '';
       expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.false;
     });
     it('returns `false` if the state is missing', () => {
-      state.vaProfile.cnpPaymentInformation.responses[0].paymentAddress.stateCode =
-        '';
+      state.vaProfile.cnpPaymentInformation.paymentAddress.stateCode = '';
       expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.false;
     });
 
@@ -164,15 +148,11 @@ describe('profile selectors', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [
-              {
-                controlInformation: {
-                  isCompetentIndicator: true,
-                  noFiduciaryAssignedIndicator: true,
-                  notDeceasedIndicator: true,
-                },
-              },
-            ],
+            controlInformation: {
+              isCompetentIndicator: true,
+              noFiduciaryAssignedIndicator: true,
+              notDeceasedIndicator: true,
+            },
           },
         },
       };
@@ -181,9 +161,7 @@ describe('profile selectors', () => {
     it('returns `false` if the control information is not set', () => {
       const state = {
         vaProfile: {
-          cnpPaymentInformation: {
-            responses: [{ cnpPaymentInformation: {} }],
-          },
+          cnpPaymentInformation: {},
         },
       };
       expect(selectors.cnpDirectDepositIsBlocked(state)).to.be.false;
@@ -192,14 +170,9 @@ describe('profile selectors', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [
-              {
-                controlInformation: {
-                  isCompetentIndicator: null,
-                  noFiduciaryAssignedIndicator: true,
-                },
-              },
-            ],
+            controlInformation: {
+              isCompetentIndicator: false,
+            },
           },
         },
       };
@@ -209,13 +182,9 @@ describe('profile selectors', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [
-              {
-                controlInformation: {
-                  isCompetentIndicator: true,
-                },
-              },
-            ],
+            controlInformation: {
+              noFiduciaryAssignedIndicator: false,
+            },
           },
         },
       };
@@ -225,14 +194,9 @@ describe('profile selectors', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [
-              {
-                controlInformation: {
-                  isCompetentIndicator: true,
-                  noFiduciaryAssignedIndicator: true,
-                },
-              },
-            ],
+            controlInformation: {
+              notDeceasedIndicator: false,
+            },
           },
         },
       };

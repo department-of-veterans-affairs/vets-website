@@ -100,6 +100,11 @@ export const NOTIFICATION_GROUPS = Object.freeze({
   QUICK_SUBMIT: 'group5',
 });
 
+export const NOTIFICATION_CHANNEL_IDS = Object.freeze({
+  TEXT: '1',
+  EMAIL: '2',
+});
+
 /**
  * These notification item IDs are not currently supported by the VA Profile
  * they are blocked via feature toggle 'profile_show_mhv_notification_settings'

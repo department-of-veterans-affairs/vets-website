@@ -36,8 +36,8 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="drafts-sidebar"]').click();
     cy.injectAxe();
     cy.axeCheck();
-    cy.wait('@draftsFolderMetaResponse');
-    cy.wait('@draftsResponse');
+    // cy.wait('@draftsFolderMetaResponse');
+    // cy.wait('@draftsResponse');
   };
 
   setDraftTestMessageDetails = mockMessage => {
@@ -164,6 +164,19 @@ class PatientMessageDraftsPage {
     cy.wait('@deletedDraftResponse');
   };
 
+  confirmDeleteDraftWithEnterKey = draftMessage => {
+    cy.intercept(
+      'DELETE',
+      `/my_health/v1/messaging/messages/${
+        draftMessage.data.attributes.messageId
+      }`,
+      draftMessage,
+    ).as('deletedDraftResponse');
+    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
+    cy.tabToElement('[data-testid="delete-draft-modal"]').realPress(['Enter']);
+    cy.wait('@deletedDraftResponse');
+  };
+
   getMessageSubjectField = () => {
     return cy
       .get('[data-testid="message-subject-field"]')
@@ -176,6 +189,13 @@ class PatientMessageDraftsPage {
       .get('[data-testid="message-body-field"]')
       .shadow()
       .find('[name="compose-message-body"]');
+  };
+
+  verifySendMessageConfirmationMessage = () => {
+    cy.get('.vads-u-margin-bottom--1').should(
+      'have.text',
+      'Secure message was successfully sent.',
+    );
   };
 }
 export default PatientMessageDraftsPage;

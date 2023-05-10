@@ -6,7 +6,7 @@ import Error from '../pages/Error';
 describe('Check In Experience -- Error page is translated - Spanish', () => {
   beforeEach(() => {
     const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
-    initializeFeatureToggle.withDayOfTranslationEnabled();
+    initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withFailure();
     // Verifies that browser language detection is working.
     cy.visitWithUUID(null, 'es');
@@ -26,7 +26,7 @@ describe('Check In Experience -- Error page is translated - Spanish', () => {
 describe('Check In Experience -- Error page is translated - Tagalog', () => {
   beforeEach(() => {
     const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
-    initializeFeatureToggle.withDayOfTranslationEnabled();
+    initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withFailure();
     // Verifies that browser language detection is working.
     cy.visitWithUUID(null, 'tl');

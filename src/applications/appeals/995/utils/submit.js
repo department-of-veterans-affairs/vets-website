@@ -7,7 +7,11 @@ import {
   EVIDENCE_PRIVATE,
   EVIDENCE_OTHER,
 } from '../constants';
-import { hasHomeAndMobilePhone, hasMobilePhone } from './contactInfo';
+import {
+  hasHomeAndMobilePhone,
+  hasHomePhone,
+  hasMobilePhone,
+} from './contactInfo';
 import { replaceSubmittedData, fixDateFormat } from './replace';
 
 /**
@@ -230,23 +234,29 @@ export const getAddress = formData => {
  * @returns {Object} submittable address
  */
 export const getPhone = formData => {
-  const { veteran } = formData || {};
+  const data = formData || {};
+  const { veteran = {} } = data;
+  const primary = data[PRIMARY_PHONE] || '';
   // we shouldn't ever get to this point without a home or mobile phone
-  let phone = 'homePhone';
-  if (hasHomeAndMobilePhone(formData)) {
-    phone = `${formData[PRIMARY_PHONE]}Phone`;
-  } else if (hasMobilePhone(formData)) {
+  let phone;
+  if (hasHomeAndMobilePhone(data) && primary) {
+    phone = `${primary}Phone`;
+  } else if (hasMobilePhone(data)) {
     phone = 'mobilePhone';
+  } else if (hasHomePhone(data)) {
+    phone = 'homePhone';
   }
 
   const truncate = (value, max) =>
-    replaceSubmittedData(veteran?.[phone]?.[value] || '').substring(0, max);
-  return removeEmptyEntries({
-    countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
-    areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
-    phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
-    phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
-  });
+    replaceSubmittedData(veteran[phone]?.[value] || '').substring(0, max);
+  return phone
+    ? removeEmptyEntries({
+        countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
+        areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
+        phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
+        phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
+      })
+    : {};
 };
 
 /**

@@ -7,16 +7,11 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { dateFormat } from '../util/helpers';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getVitalDetails } from '../actions/vitals';
+import PrintHeader from '../components/shared/PrintHeader';
 
 const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = () => {
   const filteredVitals = useSelector(state => state.mr.vitals.vitalDetails);
-  const user = useSelector(state => state.user.profile);
-  const { first, last, middle, suffix } = user.userFullName;
-  const name = user.first
-    ? `${last}, ${first} ${middle}, ${suffix}`
-    : 'Doe, John R., Jr.';
-  const { dob } = user;
   const { vitalType } = useParams();
   const dispatch = useDispatch();
 
@@ -35,10 +30,13 @@ const VitalDetails = () => {
               url: '/my-health/medical-records/health-history',
               label: 'Health history',
             },
-            { url: '/my-health/medical-records/vitals', label: 'VA vitals' },
+            {
+              url: '/my-health/medical-records/health-history/vitals',
+              label: 'VA vitals',
+            },
           ],
           {
-            url: `/my-health/medical-records/vital-details/${vitalType}`,
+            url: `/my-health/medical-records/health-history/vitals/${vitalType}`,
             label: filteredVitals[0].name,
           },
         ),
@@ -117,19 +115,19 @@ const VitalDetails = () => {
             {currentVitals?.length > 0 &&
               currentVitals?.map((vital, idx) => (
                 <li key={idx}>
-                  <strong>Measurement:</strong>
+                  <h2>Measurement:</h2>
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                     {vital.measurement}
                   </p>
-                  <strong>{idx === 0 ? 'Most recent date:' : 'Date:'}</strong>
+                  <h2>{idx === 0 ? 'Most recent date:' : 'Date:'}</h2>
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                     {dateFormat(vital.date, 'MMMM D, YYYY')}
                   </p>
-                  <strong>Location:</strong>
+                  <h2>Location:</h2>
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                     {vital.facility}
                   </p>
-                  <strong>Provider comments:</strong>
+                  <h2>Provider comments:</h2>
                   {vital?.comments?.length > 0 ? (
                     <ul className="comment-list">
                       {vital.comments.map((comment, commentIdx) => (
@@ -146,13 +144,13 @@ const VitalDetails = () => {
             {filteredVitals?.length > 0 &&
               filteredVitals?.map((vital, idx) => (
                 <li key={idx}>
-                  <strong>Measurement:</strong>
+                  <h2>Measurement:</h2>
                   <p>{vital.measurement}</p>
-                  <strong>{idx === 0 ? 'Most recent date:' : 'Date:'}</strong>
+                  <h2>{idx === 0 ? 'Most recent date:' : 'Date:'}</h2>
                   <p>{dateFormat(vital.date, 'MMMM D, YYYY')}</p>
-                  <strong>Location:</strong>
+                  <h2>Location:</h2>
                   <p>{vital.facility}</p>
-                  <strong>Provider comments:</strong>
+                  <h2>Provider comments:</h2>
                   {vital?.comments?.length > 0 ? (
                     <ul className="comment-list">
                       {vital.comments.map((comment, commentIdx) => (
@@ -188,12 +186,7 @@ const VitalDetails = () => {
 
   return (
     <>
-      <div className="print-only print-header">
-        <span>
-          {name} - {dob}
-        </span>
-        <h4>CONFIDENTIAL</h4>
-      </div>
+      <PrintHeader />
 
       {content()}
     </>

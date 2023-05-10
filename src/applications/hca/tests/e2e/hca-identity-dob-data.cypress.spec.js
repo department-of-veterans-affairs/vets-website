@@ -16,12 +16,12 @@ describe('HCA-User-Authenticated-Identity-Without-DOB', () => {
       statusCode: 404,
       body: mockEnrollmentStatus,
     }).as('mockEnrollmentStatus');
-    cy.intercept('/v0/disability_compensation_form/rating_info', {
+    cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'evss_disability_compensation_form_rating_info_responses',
+          type: 'hash',
           attributes: { userPercentOfDisability: 0 },
         },
       },
@@ -46,7 +46,9 @@ describe('HCA-User-Authenticated-Identity-Without-DOB', () => {
       .first()
       .should('exist');
 
-    cy.get('#1-continueButton').click();
+    cy.get('a.vads-c-action-link--green')
+      .first()
+      .click();
 
     cy.wait('@mockSip');
 
@@ -78,12 +80,12 @@ describe('HCA-User-Authenticated-Identity-With-DOB', () => {
       statusCode: 404,
       body: mockEnrollmentStatus,
     }).as('mockEnrollmentStatus');
-    cy.intercept('/v0/disability_compensation_form/rating_info', {
+    cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'evss_disability_compensation_form_rating_info_responses',
+          type: 'hash',
           attributes: { userPercentOfDisability: 0 },
         },
       },
@@ -113,7 +115,9 @@ describe('HCA-User-Authenticated-Identity-With-DOB', () => {
     //   .click();
 
     // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
-    cy.get('#1-continueButton').click();
+    cy.get('a.vads-c-action-link--green')
+      .first()
+      .click();
 
     cy.wait('@mockSip');
 

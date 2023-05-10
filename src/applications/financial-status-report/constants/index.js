@@ -35,3 +35,7 @@ export const SCHEMA_DEFINITIONS = {
     pattern: '^\\d{5}(?:([-\\s]?)\\d{4})?$',
   },
 };
+
+export const CONTACT_INFO_PATH = 'current-contact-information';
+export const CONTACT_EDIT = 'edit-contact-info'; // contact info focusing
+export const REVIEW_CONTACT = 'onReviewPageContact';

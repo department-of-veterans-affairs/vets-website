@@ -31,6 +31,7 @@ import Headline from '../ProfileSectionHeadline';
 import HealthCareGroupSupportingText from './HealthCareGroupSupportingText';
 import MissingContactInfoAlert from './MissingContactInfoAlert';
 import NotificationGroup from './NotificationGroup';
+import { FieldHasBeenUpdated as FieldHasBeenUpdatedAlert } from '../alerts/FieldHasBeenUpdated';
 
 const NotificationSettings = ({
   allContactInfoOnFile,
@@ -91,21 +92,22 @@ const NotificationSettings = ({
   return (
     <>
       <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
-      {shouldShowLoadingIndicator ? (
+      {shouldShowLoadingIndicator && (
         <VaLoadingIndicator
           data-testid="loading-indicator"
           message="We’re loading your information."
         />
-      ) : null}
-      {shouldShowAPIError ? <LoadFail /> : null}
-      {showMissingContactInfoAlert ? (
+      )}
+      {shouldShowAPIError && <LoadFail />}
+      {showMissingContactInfoAlert && (
         <MissingContactInfoAlert
           missingMobilePhone={!mobilePhoneNumber}
           missingEmailAddress={!emailAddress}
         />
-      ) : null}
-      {showNotificationOptions ? (
+      )}
+      {showNotificationOptions && (
         <>
+          <FieldHasBeenUpdatedAlert />
           <ContactInfoOnFile
             emailAddress={emailAddress}
             mobilePhoneNumber={mobilePhoneNumber}
@@ -131,7 +133,7 @@ const NotificationSettings = ({
             time. Check back for more options in the future.
           </p>
         </>
-      ) : null}
+      )}
     </>
   );
 };
@@ -196,3 +198,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(NotificationSettings);
+
+export const NotificationSettingsUnconnected = NotificationSettings;

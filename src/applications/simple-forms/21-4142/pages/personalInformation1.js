@@ -1,4 +1,3 @@
-import React from 'react';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
@@ -10,14 +9,10 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [veteranFields.fullName, veteranFields.dateOfBirth];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
-      'ui:title': (
-        <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-          Name and date of birth
-        </h3>
-      ),
       [veteranFields.fullName]: fullNameUI,
       [veteranFields.dateOfBirth]: dateUI('Date of birth'),
     },

@@ -137,3 +137,15 @@
     clear: inherit;
   }
 }
+
+// hides the extension field on the single field editing page
+// for mobile phone number specifically, for now
+#profile-edit-field-page [data-field-name="mobilePhone"] {
+  #root_extension {
+    display: none;
+  }
+
+  #root_extension-label {
+    display: none !important;
+  }
+}
