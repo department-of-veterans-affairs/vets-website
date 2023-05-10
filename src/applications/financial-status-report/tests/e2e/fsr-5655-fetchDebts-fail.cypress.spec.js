@@ -1,10 +1,12 @@
+import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
-import { navigateToDebtSelection } from './fixtures/helpers';
+import { WIZARD_STATUS } from '../../wizard/constants';
 // import { deductionCodes } from '../../../debt-letters/const/deduction-codes';
 
 describe('Fetch Debts Unsuccessfully', () => {
   before(() => {
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         features: [
@@ -59,7 +61,13 @@ describe('Fetch Debts Unsuccessfully', () => {
     });
   });
   it('Unsuccessful API Response', () => {
-    navigateToDebtSelection();
+    cy.get('.vads-c-action-link--green')
+      .first()
+      .click();
+
+    cy.findAllByText(/continue/i, { selector: 'button' })
+      .first()
+      .click();
 
     cy.get('[data-testid="server-error"] > h3').should(
       'have.text',
