@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getDebtName, currency } from '../utils/helpers';
 
@@ -13,6 +14,9 @@ export const CustomResolutionReviewContent = ({ debt }) => {
       <dd>{currency(compromiseAmount)}</dd>
     </div>
   );
+};
+CustomResolutionReviewContent.propTypes = {
+  debt: PropTypes.object.isRequired,
 };
 
 const CustomResolutionReview = () => {
