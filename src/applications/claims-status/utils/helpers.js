@@ -51,6 +51,11 @@ export function getUserPhase(phase) {
   return phase - 3;
 }
 
+// START lighthouse_migration
+export const getTrackedItemId = trackedItem =>
+  trackedItem.trackedItemId || trackedItem.id;
+// END lighthouse_migration
+
 export function getItemDate(item) {
   // Tracked item that has been marked received.
   // status is either INITIAL_REVIEW_COMPLETE,
