@@ -25,7 +25,7 @@ export default {
         'ui:title': 'Coworker/Supervisor of Veteran',
       },
     },
-    withnessOtherRelationshipToVeteran: {
+    witnessOtherRelationshipToVeteran: {
       'ui:title':
         'If your relationship with the Veteran is not listed, you can write it here (255 characters maximum)',
     },
@@ -43,7 +43,7 @@ export default {
           'coworker-or-supervisor': { type: 'boolean' },
         },
       },
-      withnessOtherRelationshipToVeteran: {
+      witnessOtherRelationshipToVeteran: {
         type: 'string',
         maxLength: 255,
       },
