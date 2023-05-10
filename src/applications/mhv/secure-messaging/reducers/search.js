@@ -31,7 +31,7 @@ export const searchReducer = (state = initialState, action) => {
           return { ...msgAttr };
         }),
         folder: action.response.folder,
-        keyword: '',
+        keyword: action.response.keyword,
         query: action.response.query,
         awaitingResults: false,
       };

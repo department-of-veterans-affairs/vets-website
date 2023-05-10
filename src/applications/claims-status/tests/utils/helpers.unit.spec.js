@@ -193,40 +193,39 @@ describe('Disability benefits helpers: ', () => {
       const claim = {
         attributes: {
           claimType: 'something',
-          contentionList: ['thing'],
-          dateFiled: '',
+          closeDate: null,
+          contentions: [{ name: 'Condition 1' }],
         },
       };
 
-      expect(isPopulatedClaim(claim)).to.be.false;
+      expect(isPopulatedClaim(claim.attributes)).to.be.false;
     });
 
     it('should return true if no field is empty', () => {
       const claim = {
         attributes: {
+          claimDate: '2023-04-28',
           claimType: 'something',
-          contentionList: ['thing'],
-          dateFiled: 'asdf',
-          vaRepresentative: null,
+          contentions: [{ name: 'Condition 1' }],
         },
       };
 
-      expect(isPopulatedClaim(claim)).to.be.true;
+      expect(isPopulatedClaim(claim.attributes)).to.be.true;
     });
 
     it('should return false if contention list is empty', () => {
       const claim = {
         attributes: {
+          claimDate: '2023-04-28',
           claimType: 'something',
-          contentionList: [],
-          dateFiled: 'asdf',
-          vaRepresentative: 'test',
+          contentions: [],
         },
       };
 
-      expect(isPopulatedClaim(claim)).to.be.false;
+      expect(isPopulatedClaim(claim.attributes)).to.be.false;
     });
   });
+
   describe('truncateDescription', () => {
     it('should truncate text longer than 120 characters', () => {
       const userText =
@@ -494,12 +493,13 @@ describe('Disability benefits helpers: ', () => {
   describe('getStatusContents', () => {
     it('returns an object with correct title & description', () => {
       const expectedTitle = 'The Board made a decision on your appeal';
-      const expectedDescSnippet =
-        'The judge granted the following issue:Reasonableness of attorney fees';
+      const expectedDescSnippet = 'Reasonableness of attorney fees';
       const contents = getStatusContents(mockData.data[6]);
       expect(contents.title).to.equal(expectedTitle);
+
       const descText = shallow(contents.description);
-      expect(descText.render().text()).to.contain(expectedDescSnippet);
+      const decision = descText.find('Decision');
+      expect(decision.dive().text()).to.contain(expectedDescSnippet);
       descText.unmount();
     });
 
@@ -511,6 +511,52 @@ describe('Disability benefits helpers: ', () => {
       expect(contents.description.props.children).to.eql(
         'We’re sorry, VA.gov will soon be updated to show your status.',
       );
+    });
+
+    describe('appeal decision DDL link', () => {
+      let appeal;
+      beforeEach(() => {
+        appeal = mockData.data.find(a => a.id === 'A106');
+      });
+
+      it('returns a link to DDL for a BVA-decided appeal', () => {
+        const contents = getStatusContents(appeal);
+        const descText = shallow(contents.description);
+        const linkToDDL = descText
+          .find('Toggler')
+          .find('Enabled')
+          .find('Link');
+
+        expect(linkToDDL.length).to.equal(1);
+        expect(linkToDDL.props().to).to.equal('your-claim-letters');
+
+        descText.unmount();
+      });
+
+      it('returns a link to DDL for a BVA-post-decided appeal', () => {
+        const postDecisionAppeal = {
+          ...appeal,
+          attributes: {
+            ...appeal.attributes,
+            status: {
+              ...appeal.attributes.status,
+              type: 'post_bva_dta_decision',
+            },
+          },
+        };
+
+        const contents = getStatusContents(postDecisionAppeal);
+        const descText = shallow(contents.description);
+        const linkToDDL = descText
+          .find('Toggler')
+          .find('Enabled')
+          .find('Link');
+
+        expect(linkToDDL.length).to.equal(1);
+        expect(linkToDDL.props().to).to.equal('your-claim-letters');
+
+        descText.unmount();
+      });
     });
   });
 

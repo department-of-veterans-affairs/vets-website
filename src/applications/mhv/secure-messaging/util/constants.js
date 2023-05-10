@@ -49,15 +49,17 @@ export const ErrorMessages = {
     },
   },
   SearchForm: {
-    FOLDER_REQUIRED: 'Please select a folder',
-    KEYWORD_REQUIRED: 'Please enter a keyword',
-    START_DATE_REQUIRED: 'Please enter a start date',
-    END_DATE_REQUIRED: 'Please enter an end date',
-    START_DATE_AFTER_END_DATE: 'Start date must be on or before end date',
-    END_DATE_BEFORE_START_DATE: 'End date must be on or after start date',
+    FOLDER_REQUIRED: 'Please select a folder.',
+    KEYWORD_REQUIRED: 'Please enter a keyword.',
+    START_DATE_REQUIRED: 'Please enter a start date.',
+    END_DATE_REQUIRED: 'Please enter an end date.',
+    START_DATE_AFTER_END_DATE: 'Start date must be on or before end date.',
+    END_DATE_BEFORE_START_DATE: 'End date must be on or after start date.',
+    END_YEAR_GREATER_THAN_CURRENT_YEAR:
+      'End year must not be greater than current year.',
     NO_FIELDS_SELECTED_MODAL_HEADER:
       "Please use at least one of the following search fields or choose a date range other than 'any'.",
-    SEARCH_TERM_REQUIRED: 'Please enter a search term',
+    SEARCH_TERM_REQUIRED: 'Please enter a search term.',
   },
   MoveConversation: {
     FOLDER_REQUIRED: 'Please select a folder to move the message to.',
@@ -129,6 +131,7 @@ export const Alerts = {
   },
   Thread: {
     GET_THREAD_ERROR: 'We’re sorry. Something went wrong on our end.',
+    THREAD_NOT_FOUND_ERROR: 'This conversation was not found.',
   },
 };
 
@@ -169,7 +172,7 @@ export const Prompts = {
 export const Breadcrumbs = {
   COMPOSE: {
     path: '/compose',
-    label: 'Compose message',
+    label: 'Start a new message',
   },
   INBOX: { path: '/inbox', label: 'Inbox' },
   DRAFTS: { path: '/drafts', label: 'Drafts' },

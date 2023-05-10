@@ -14,6 +14,7 @@ const pageFields = [
   patientIdentificationFields.patientVaFileNumber,
 ];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [patientIdentificationFields.parentObject]: {

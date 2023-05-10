@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -10,9 +9,6 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { isEmptyAddress } from 'platform/forms/address/helpers';
-import { selectVAPContactInfoField } from '@@vap-svc/selectors';
-import { FIELD_NAMES } from '@@vap-svc/constants';
 import { WIZARD_STATUS_NOT_STARTED } from 'platform/site-wide/wizard';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
@@ -25,10 +21,7 @@ import {
   FACILITY_LOCATOR_URL,
   GET_HELP_REVIEW_REQUEST_URL,
 } from '../constants';
-import {
-  showContestableIssueError,
-  showHasEmptyAddress,
-} from '../content/contestableIssueAlerts';
+import { showContestableIssueError } from '../content/contestableIssueAlerts';
 import NeedsToVerify from '../components/NeedsToVerify';
 import { checkContestableIssueError } from '../utils/helpers';
 
@@ -92,19 +85,8 @@ export class IntroductionPage extends React.Component {
   };
 
   render() {
-    const { loggedIn, hasEmptyAddress } = this.props;
     const pageTitle = 'Request a Higher-Level Review with VA Form 20-0996';
     const subTitle = 'VA Form 20-0996 (Higher-Level Review)';
-
-    // check if user has address
-    if (loggedIn && hasEmptyAddress) {
-      return (
-        <article className="schemaform-intro">
-          <FormTitle title={pageTitle} subTitle={subTitle} />
-          {showHasEmptyAddress}
-        </article>
-      );
-    }
 
     return (
       <article className="schemaform-intro">
@@ -145,8 +127,8 @@ export class IntroductionPage extends React.Component {
             </a>
             .
           </p>
-          <ol>
-            <li className="process-step list-one">
+          <va-process-list>
+            <li>
               <h3 className="vads-u-font-size--h4">Prepare</h3>
               <p>To fill out this application, you’ll need your:</p>
               <ul>
@@ -180,7 +162,7 @@ export class IntroductionPage extends React.Component {
               </a>
               .
             </li>
-            <li className="process-step list-two">
+            <li>
               <h3 className="vads-u-font-size--h4">Apply</h3>
               <p>
                 Complete this Higher-Level Review form. After submitting the
@@ -188,7 +170,7 @@ export class IntroductionPage extends React.Component {
                 your records.
               </p>
             </li>
-            <li className="process-step list-three">
+            <li>
               <h3 className="vads-u-font-size--h4">VA Review</h3>
               <p>
                 Our goal for completing a Higher-Level Review is 125 days. A
@@ -196,20 +178,24 @@ export class IntroductionPage extends React.Component {
                 new exam to correct an error.
               </p>
             </li>
-            <li className="process-step list-four">
+            <li>
               <h3 className="vads-u-font-size--h4">Decision</h3>
               <p>
                 Once we’ve processed your claim, you’ll get a notice in the mail
                 with our decision.
               </p>
             </li>
-          </ol>
+          </va-process-list>
         </div>
 
         {this.getCallToActionContent({ last: true })}
 
         <div className="omb-info--container vads-u-padding-left--0">
-          <OMBInfo resBurden={15} ombNumber="2900-0862" expDate="04/30/2024" />
+          <va-omb-info
+            res-burden={15}
+            omb-number="2900-0862"
+            exp-date="04/30/2024"
+          />
         </div>
       </article>
     );
@@ -225,7 +211,6 @@ IntroductionPage.propTypes = {
     benefitType: PropTypes.string,
   }),
   delay: PropTypes.number,
-  hasEmptyAddress: PropTypes.bool,
   isVerified: PropTypes.bool,
   location: PropTypes.shape({
     basename: PropTypes.string,
@@ -251,9 +236,6 @@ function mapStateToProps(state) {
     savedForms: profile.savedForms,
     isVerified: profile.verified,
     contestableIssues,
-    hasEmptyAddress: isEmptyAddress(
-      selectVAPContactInfoField(state, FIELD_NAMES.MAILING_ADDRESS),
-    ),
   };
 }
 

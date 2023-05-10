@@ -9,7 +9,6 @@ import minTestData from './fixtures/data/minimal-test.json';
 import * as shortformHelpers from './helpers';
 
 const testData = minTestData.data;
-
 const disabilityRating = 90;
 
 describe('HCA-Shortform-Authenticated-High-Disability', () => {
@@ -26,12 +25,12 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       statusCode: 200,
       body: prefillAiq,
     }).as('mockSip');
-    cy.intercept('/v0/disability_compensation_form/rating_info', {
+    cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'evss_disability_compensation_form_rating_info_responses',
+          type: 'hash',
           attributes: { userPercentOfDisability: disabilityRating },
         },
       },
@@ -110,10 +109,6 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
     );
     shortformHelpers.shortFormAdditionalHelpAssertion();
 
-    // shortformHelpers.goToNextPage('/veteran-information/american-indian');
-    // shortformHelpers.shortFormAdditionalHelpAssertion();
-    // cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
-
     shortformHelpers.goToNextPage('/veteran-information/veteran-address');
     shortformHelpers.shortFormAdditionalHelpAssertion();
     cy.get('[type=radio]').check('N');
@@ -187,12 +182,12 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
       statusCode: 404,
       body: mockEnrollmentStatus,
     }).as('mockEnrollmentStatus');
-    cy.intercept('/v0/disability_compensation_form/rating_info', {
+    cy.intercept('/v0/health_care_applications/rating_info', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'evss_disability_compensation_form_rating_info_responses',
+          type: 'hash',
           attributes: { userPercentOfDisability: 40 },
         },
       },
@@ -247,9 +242,6 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
     shortformHelpers.goToNextPage(
       '/veteran-information/demographic-information',
     );
-
-    // shortformHelpers.goToNextPage('/veteran-information/american-indian');
-    // cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
 
     shortformHelpers.goToNextPage('/veteran-information/veteran-address');
     cy.get('[type=radio]')
@@ -326,9 +318,6 @@ describe('HCA-Shortform-UnAuthenticated', () => {
     shortformHelpers.goToNextPage(
       '/veteran-information/demographic-information',
     );
-
-    // shortformHelpers.goToNextPage('/veteran-information/american-indian');
-    // cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
 
     shortformHelpers.goToNextPage('/veteran-information/veteran-address');
     cy.get('#root_veteranAddress_street').type(testData.veteranAddress.street);

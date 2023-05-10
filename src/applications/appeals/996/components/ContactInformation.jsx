@@ -5,43 +5,25 @@ import { Link } from 'react-router';
 
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
-import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
-import VAPServicePendingTransactionCategory from '@@vap-svc/containers/VAPServicePendingTransactionCategory';
-import PhoneField from '@@vap-svc/components/PhoneField/PhoneField';
-import EmailField from '@@vap-svc/components/EmailField/EmailField';
-import AddressField from '@@vap-svc/components/AddressField/AddressField';
-import { TRANSACTION_CATEGORY_TYPES, FIELD_NAMES } from '@@vap-svc/constants';
-
-import { selectProfile } from 'platform/user/selectors';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
 import { readableList } from '../utils/helpers';
 
-export const ContactInfoDescription = ({
-  formContext,
-  profile,
-  homeless,
-  loopPages,
-}) => {
+export const ContactInfoDescription = ({ formContext, formData, homeless }) => {
   const [hadError, setHadError] = useState(false);
-  const { email = {}, mobilePhone = {}, mailingAddress = {} } =
-    profile?.vapContactInfo || {};
+  const { email = '', phone = {}, address = {} } = formData.veteran || {};
   const { submitted } = formContext || {};
 
   // Don't require an address if the Veteran is homeless
   const requireAddress = homeless ? '' : 'address';
   const missingInfo = [
-    email?.emailAddress ? '' : 'email',
-    mobilePhone?.phoneNumber ? '' : 'phone',
-    mailingAddress?.addressLine1 ? '' : requireAddress,
+    email ? '' : 'email',
+    phone?.phoneNumber ? '' : 'phone',
+    address?.addressLine1 ? '' : requireAddress,
   ].filter(Boolean);
 
   const list = readableList(missingInfo);
   const plural = missingInfo.length > 1;
-  const phoneNumber = `${mobilePhone?.areaCode ||
-    ''}${mobilePhone?.phoneNumber || ''}`;
-  const phoneExt = mobilePhone?.extension;
+  const phoneNumber = `${phone?.areaCode || ''}${phone?.phoneNumber || ''}`;
+  const phoneExt = phone?.extension;
 
   const handler = {
     onSubmit: event => {
@@ -61,8 +43,8 @@ export const ContactInfoDescription = ({
     [missingInfo],
   );
 
-  // loop to separate pages vs profile contact modals
-  const contactSection = loopPages ? (
+  // loop to separate pages
+  const contactSection = (
     <>
       <h4 className="vads-u-font-size--h3">Mobile phone number</h4>
       <va-telephone contact={phoneNumber} extension={phoneExt} not-clickable />
@@ -72,51 +54,20 @@ export const ContactInfoDescription = ({
         </Link>
       </p>
       <h4 className="vads-u-font-size--h3">Email address</h4>
-      <span>{email?.emailAddress || ''}</span>
+      <span>{email || ''}</span>
       <p>
         <Link to="/edit-email-address" aria-label="Edit email address">
           Edit
         </Link>
       </p>
       <h4 className="vads-u-font-size--h3">Mailing address</h4>
-      <AddressView data={mailingAddress} />
+      <AddressView data={address} />
       <p>
         <Link to="/edit-mailing-address" aria-label="Edit mailing address">
           Edit
         </Link>
       </p>
     </>
-  ) : (
-    <InitializeVAPServiceID>
-      <VAPServicePendingTransactionCategory
-        categoryType={TRANSACTION_CATEGORY_TYPES.PHONE}
-      >
-        <PhoneField
-          title="Mobile phone number"
-          fieldName={FIELD_NAMES.MOBILE_PHONE}
-          deleteDisabled
-          alertClosingDisabled
-        />
-      </VAPServicePendingTransactionCategory>
-      <VAPServicePendingTransactionCategory
-        categoryType={TRANSACTION_CATEGORY_TYPES.EMAIL}
-      >
-        <EmailField
-          title="Email address"
-          fieldName={FIELD_NAMES.EMAIL}
-          deleteDisabled
-        />
-      </VAPServicePendingTransactionCategory>
-      <VAPServicePendingTransactionCategory
-        categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}
-      >
-        <AddressField
-          title="Mailing address"
-          fieldName={FIELD_NAMES.MAILING_ADDRESS}
-          deleteDisabled
-        />
-      </VAPServicePendingTransactionCategory>
-    </InitializeVAPServiceID>
   );
 
   return (
@@ -178,12 +129,10 @@ export const ContactInfoDescription = ({
 };
 
 ContactInfoDescription.propTypes = {
-  profile: PropTypes.shape({
-    vapContactInfo: PropTypes.shape({
-      email: PropTypes.shape({
-        emailAddress: PropTypes.string,
-      }),
-      mobilePhone: PropTypes.shape({
+  formData: PropTypes.shape({
+    veteran: PropTypes.shape({
+      email: PropTypes.string,
+      phone: PropTypes.shape({
         countryCode: PropTypes.string,
         areaCode: PropTypes.string,
         phoneNumber: PropTypes.string,
@@ -206,13 +155,10 @@ ContactInfoDescription.propTypes = {
     submitted: PropTypes.bool,
   }),
   homeless: PropTypes.bool,
-  loopPages: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   homeless: state.form.data.homeless,
-  profile: selectProfile(state),
-  loopPages: toggleValues(state)[FEATURE_FLAG_NAMES.loopPages],
 });
 
 export default connect(mapStateToProps)(ContactInfoDescription);

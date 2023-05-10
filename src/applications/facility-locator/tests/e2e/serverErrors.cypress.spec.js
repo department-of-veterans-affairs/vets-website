@@ -45,6 +45,8 @@ describe('Facility Locator error handling', () => {
     cy.get('h4.usa-alert-heading').contains(
       'Find VA locations isn’t working right now',
     );
-    cy.get('#search-result-emergency-care-info').contains('call 911');
+    cy.get('#search-result-emergency-care-info')
+      .contains('call')
+      .contains('911');
   });
 });

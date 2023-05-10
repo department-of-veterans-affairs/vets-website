@@ -8,16 +8,19 @@ const OtherExpensesSummaryReview = ({ data, title }) => {
   return (
     <div>
       <h4>{title}</h4>
-      {otherExpenses.map((expense, index) => {
-        return (
-          <dl className="review" key={expense.name + expense.amount + index}>
-            <div className="review-row">
+      <dl className="review">
+        {otherExpenses.map((expense, index) => {
+          return (
+            <div
+              className="review-row"
+              key={expense.name + expense.amount + index}
+            >
               <dt>{expense.name}</dt>
               <dd>{currencyFormatter(expense.amount)}</dd>
             </div>
-          </dl>
-        );
-      })}
+          );
+        })}
+      </dl>
     </div>
   );
 };

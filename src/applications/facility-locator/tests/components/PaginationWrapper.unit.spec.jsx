@@ -1,7 +1,7 @@
-import { PaginationWrapper } from '../../components/PaginationWrapper';
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import { PaginationWrapper } from '../../components/PaginationWrapper';
 
 const handlePageSelect = () => {};
 
@@ -22,7 +22,7 @@ describe('PaginationWrapper', () => {
       />,
     );
 
-    expect(wrapper.find('Pagination').length).to.equal(1);
+    expect(wrapper.find('ForwardRef(VaPagination)').length).to.equal(1);
     wrapper.unmount();
   });
 
@@ -42,7 +42,7 @@ describe('PaginationWrapper', () => {
       />,
     );
 
-    expect(wrapper.find('Pagination').length).to.equal(0);
+    expect(wrapper.find('ForwardRef(VaPagination)').length).to.equal(0);
     wrapper.unmount();
   });
 
@@ -62,7 +62,7 @@ describe('PaginationWrapper', () => {
       />,
     );
 
-    expect(wrapper.find('Pagination').length).to.equal(0);
+    expect(wrapper.find('ForwardRef(VaPagination)').length).to.equal(0);
     wrapper.unmount();
   });
 
@@ -80,7 +80,7 @@ describe('PaginationWrapper', () => {
       />,
     );
 
-    expect(wrapper.find('Pagination').length).to.equal(0);
+    expect(wrapper.find('ForwardRef(VaPagination)').length).to.equal(0);
     wrapper.unmount();
   });
 
@@ -100,7 +100,7 @@ describe('PaginationWrapper', () => {
       />,
     );
 
-    expect(wrapper.find('Pagination').length).to.equal(0);
+    expect(wrapper.find('ForwardRef(VaPagination)').length).to.equal(0);
     wrapper.unmount();
   });
 
@@ -118,7 +118,7 @@ describe('PaginationWrapper', () => {
       />,
     );
 
-    expect(wrapper.find('Pagination').length).to.equal(0);
+    expect(wrapper.find('ForwardRef(VaPagination)').length).to.equal(0);
     wrapper.unmount();
   });
 });

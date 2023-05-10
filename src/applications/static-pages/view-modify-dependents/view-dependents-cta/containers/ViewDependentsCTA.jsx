@@ -4,14 +4,13 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import { connect } from 'react-redux';
 
 import CallToActionWidget from 'applications/static-pages/cta-widget';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 const ViewDependentsCTA = props => {
   let content;
   if (props.includedInFlipper === undefined) {
-    content = <LoadingIndicator message="Loading..." />;
+    content = <va-loading-indicator message="Loading..." />;
   } else if (props.includedInFlipper === false) {
     content = (
       <EbenefitsLink

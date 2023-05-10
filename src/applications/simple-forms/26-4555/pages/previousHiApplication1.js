@@ -9,6 +9,7 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [previousHiApplicationFields.hasPreviousHiApplication];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [previousHiApplicationFields.parentObject]: {

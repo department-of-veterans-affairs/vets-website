@@ -37,6 +37,10 @@ export default {
         [providerFacilityFields.providerFacilityName]: {
           'ui:title': 'Name of private provider or hospital',
           'ui:required': () => true,
+          'ui:errorMessages': {
+            required:
+              'Please provide the name of the private provider or hospital',
+          },
         },
         [providerFacilityFields.providerFacilityAddress]: address.uiSchema(
           null,
@@ -47,6 +51,10 @@ export default {
           'ui:title':
             'List the conditions the patient was treated for at this facility',
           'ui:widget': 'textarea',
+          'ui:required': () => true,
+          'ui:errorMessages': {
+            required: 'Please list at least one condition',
+          },
         },
         [providerFacilityFields.treatmentDateRange]: {
           from: dateUI('First treatment date (you can estimate)'),

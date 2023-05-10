@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory, useLocation } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
 import { useDispatch } from 'react-redux';
@@ -11,6 +12,7 @@ import MessageThreadBody from './MessageThread/MessageThreadBody';
 import { closeAlert } from '../actions/alerts';
 
 const MessageDetailBlock = props => {
+  const { message, cannotReply } = props;
   const {
     threadId,
     messageId,
@@ -22,7 +24,7 @@ const MessageDetailBlock = props => {
     recipientName,
     triageGroupName,
     attachments,
-  } = props.message;
+  } = message;
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -59,6 +61,10 @@ const MessageDetailBlock = props => {
     [location.pathname, dispatch],
   );
 
+  useEffect(() => {
+    focusElement(document.querySelector('h2'));
+  });
+
   const categoryLabel = Categories[category];
 
   return (
@@ -75,7 +81,7 @@ const MessageDetailBlock = props => {
         id={messageId}
         threadId={threadId}
         onReply={handleReplyButton}
-        hideReplyButton={hideReplyButton}
+        hideReplyButton={cannotReply}
       />
       <main
         className="message-detail-content"
@@ -134,6 +140,7 @@ const MessageDetailBlock = props => {
   );
 };
 MessageDetailBlock.propTypes = {
+  cannotReply: PropTypes.bool,
   message: PropTypes.object,
 };
 
