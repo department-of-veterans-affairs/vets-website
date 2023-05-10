@@ -68,7 +68,7 @@ describe('fetching communication preferences', () => {
           expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
           expect(state.loadingErrors).to.be.null;
           const communicationGroups = selectGroups(state);
-          expect(communicationGroups.ids.length).to.equal(4);
+          expect(communicationGroups.ids.length).to.equal(5);
           // The first group is the Health Care group
           expect(communicationGroups.ids[0]).to.equal('group3');
           const rxTrackingItem = selectItemById(state, 'item4');
@@ -96,7 +96,7 @@ describe('fetching communication preferences', () => {
           expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
           expect(state.loadingErrors).to.be.null;
           const communicationGroups = selectGroups(state);
-          expect(communicationGroups.ids.length).to.equal(4);
+          expect(communicationGroups.ids.length).to.equal(5);
           // The first group is the Health Care group
           expect(communicationGroups.ids[0]).to.equal('group3');
           // The Rx-tracking item exists
@@ -120,7 +120,7 @@ describe('fetching communication preferences', () => {
           expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
           expect(state.loadingErrors).to.be.null;
           const communicationGroups = selectGroups(state);
-          expect(communicationGroups.ids.length).to.equal(4);
+          expect(communicationGroups.ids.length).to.equal(5);
           // The first group is the Health Care group
           expect(communicationGroups.ids[0]).to.equal('group3');
           // The Rx-tracking item does not exist
@@ -145,7 +145,7 @@ describe('fetching communication preferences', () => {
         expect(state.loadingErrors).to.be.null;
         const communicationGroups = selectGroups(state);
         // The Health Care group is not in the state
-        expect(communicationGroups.ids.length).to.equal(3);
+        expect(communicationGroups.ids.length).to.equal(4);
         expect(selectGroupById(state, 'group3')).to.not.exist;
         // The first group is the Applications, claims, etc group
         expect(communicationGroups.ids[0]).to.equal('group1');
