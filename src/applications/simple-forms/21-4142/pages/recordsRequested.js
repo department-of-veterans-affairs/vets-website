@@ -22,9 +22,11 @@ export default {
     ),
     [providerFacilityFields.parentObject]: {
       'ui:options': {
-        itemName: 'Provider facility',
+        itemName: 'Treatment record',
         viewField: RecordField,
         keepInPageOnReview: true,
+        useDlWrap: true,
+        customTitle: ' ',
       },
       items: {
         'ui:order': [
