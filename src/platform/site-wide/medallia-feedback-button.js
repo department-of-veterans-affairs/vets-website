@@ -62,7 +62,7 @@ window.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', function() {
   const modalLiveFormAncestor = document.querySelector('.modal-live-form');
   const phoneNumberSpan = modalLiveFormAncestor.querySelector(
-    'div>div>div>p>ul>li>span',
+    'div>div>div>div>div>p>ul>li>span',
   );
   const phoneNumberText = phoneNumberSpan.firstChild;
 
