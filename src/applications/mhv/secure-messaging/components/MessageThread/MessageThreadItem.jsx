@@ -76,7 +76,7 @@ const MessageThreadItem = props => {
       <h6 slot="headline">{dateFormat(sentDate, 'MMMM D [at] h:mm a z')}</h6>
       {!isRead && (
         <i
-          className="vads-u-padding--0p25 vads-u-margin-right--1 fas fa-solid fa-circle fa-xs"
+          className="vads-u-color--primary vads-u-padding--0p25 vads-u-margin-right--1 fas fa-solid fa-circle fa-xs"
           slot="icon"
           aria-hidden
         />
