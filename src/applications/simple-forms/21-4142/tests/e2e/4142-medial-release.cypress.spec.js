@@ -5,6 +5,7 @@ import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-tog
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
+import { fillProviderFacility } from './helpers';
 
 const testConfig = createTestConfig(
   {
@@ -44,24 +45,62 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'patient-identification-1': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.get('.form-radio-buttons') // get the radio container
+              .find('input[type="radio"]')
+              .eq(
+                data.patientIdentification.isRequestingOwnMedicalRecords
+                  ? 0
+                  : 1,
+              ) // Select the first (0) for true and the second (1) for false
+              .check();
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'records-requested': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            for (
+              let facilityIndex = 0;
+              facilityIndex < data.providerFacility.length;
+              facilityIndex++
+            ) {
+              fillProviderFacility(data, facilityIndex);
+              if (facilityIndex < data.providerFacility.length - 1) {
+                cy.findByText(/add another/i, {
+                  selector: 'button',
+                }).click();
+              }
+            }
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const { fullName } = data.veteran;
+            const signerName =
+              data.preparerIdentification?.preparerFullName ??
+              data.veteran.fullName;
             cy.get('#veteran-signature')
               .shadow()
               .find('input')
               .first()
               .type(
-                fullName.middle
-                  ? `${fullName.first} ${fullName.middle} ${fullName.last}`
-                  : `${fullName.first} ${fullName.last}`,
+                signerName.middle
+                  ? `${signerName.first} ${signerName.middle} ${
+                      signerName.last
+                    }`
+                  : `${signerName.first} ${signerName.last}`,
               );
             cy.get(`input[name="veteran-certify"]`).check();
-            // cy.get('#veteran-certify')
-            //   .shadow()
-            //   .find('[type="checkbox"]')
-            //   .check();
             cy.findAllByText(/Submit application/i, {
               selector: 'button',
             }).click();
