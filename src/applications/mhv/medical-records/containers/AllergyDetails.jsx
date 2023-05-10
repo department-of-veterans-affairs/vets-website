@@ -2,7 +2,12 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { dateFormat, downloadFile } from '../util/helpers';
+import {
+  dateFormat,
+  downloadFile,
+  getAllergyNames,
+  getAllergyReactions,
+} from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getAllergyDetails } from '../actions/allergies';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -24,10 +29,11 @@ const AllergyDetails = () => {
     [allergyId, dispatch],
   );
   const formattedDate = dateFormat(allergyDetails?.dateEntered, 'MMMM D, YYYY');
+  const allergyName = getAllergyNames(allergyDetails);
 
   useEffect(
     () => {
-      if (allergyDetails?.name) {
+      if (allergyName) {
         dispatch(
           setBreadcrumbs(
             [
@@ -43,7 +49,7 @@ const AllergyDetails = () => {
             ],
             {
               url: `/my-health/medical-records/health-history/allergies/${allergyId}`,
-              label: allergyDetails?.name,
+              label: allergyName,
             },
           ),
         );
@@ -61,9 +67,7 @@ const AllergyDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0p5">
-            Allergy: {allergyDetails.name}
-          </h1>
+          <h1 className="vads-u-margin-bottom--0p5">Allergy: {allergyName}</h1>
           <div className="condition-subheader vads-u-margin-bottom--3">
             <div className="time-header">
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -95,11 +99,14 @@ const AllergyDetails = () => {
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Reaction
             </h2>
-            <p>{allergyDetails.reaction || 'None noted'}</p>
+            <ItemList
+              list={getAllergyReactions(allergyDetails)}
+              emptyMessage="None noted"
+            />
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Type of allergy
             </h2>
-            <p>{allergyDetails.allergyType || 'None noted'}</p>
+            <p>{allergyDetails.type || 'None noted'}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               VA drug class
             </h2>

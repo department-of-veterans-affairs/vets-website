@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { dateFormat } from '../../util/helpers';
+import {
+  dateFormat,
+  getAllergyNames,
+  getAllergyReactions,
+} from '../../util/helpers';
 import ItemList from '../shared/ItemList';
 
 const AllergyListItem = props => {
   const { record } = props;
-  const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
+  const formattedDate = dateFormat(record?.meta?.lastUpdated, 'MMMM D, YYYY');
 
   const content = () => {
     if (record) {
@@ -15,7 +19,7 @@ const AllergyListItem = props => {
           className="record-list-item vads-u-padding--3 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
           data-testid="record-list-item"
         >
-          <h4>{record.name}</h4>
+          <h4>{getAllergyNames(record)}</h4>
 
           <div className="fields">
             <div>
@@ -23,11 +27,14 @@ const AllergyListItem = props => {
             </div>
             <div className="print-only">
               <span className="field-label">Reaction:</span>{' '}
-              {record.reaction || 'None noted'}
+              <ItemList
+                list={getAllergyReactions(record)}
+                emptyMessage="None noted"
+              />
             </div>
             <div className="print-only">
               <span className="field-label">Type of allergy:</span>{' '}
-              {record.allergyType || 'None noted'}
+              {record.type || 'None noted'}
             </div>
             <div className="print-only">
               <span className="field-label">VA drug class:</span>{' '}
