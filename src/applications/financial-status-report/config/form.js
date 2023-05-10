@@ -1137,8 +1137,7 @@ const formConfig = {
             formData.selectedDebtsAndCopays?.length > 0 &&
             formData['view:combinedFinancialStatusReport'],
           itemFilter: item =>
-            item.resolutionOption === 'compromise' ||
-            item.resolutionOption === 'monthly',
+            ['compromise', 'monthly'].includes(item.resolutionOption),
           path: 'resolution-compromise-monthly/:index',
           showPagePerItem: true,
           arrayPath: 'selectedDebtsAndCopays',

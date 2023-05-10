@@ -27,9 +27,13 @@ const ResolutionOptions = ({ formContext }) => {
           resolutionOption: target.value,
           resolutionWaiverCheck: false,
           resolutionComment: '',
+          isSelected: true, // Setting isSelected to true for the selected debt
         };
       }
-      return debt;
+      return {
+        ...debt,
+        isSelected: false, // Setting isSelected to false for all other debts
+      };
     });
 
     return dispatch(
