@@ -7,17 +7,13 @@ import noChangesTransaction from '@@profile/tests/fixtures/transactions/no-chang
 import { createAddressValidationResponse } from './addressValidation';
 import { createUserResponse } from './user';
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
+import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
+import { generateFeatureToggles } from '~/applications/personalization/profile/mocks/endpoints/feature-toggles';
 
 export const setUp = type => {
   disableFTUXModals();
 
   cy.login(mockUser);
-  cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
-  cy.injectAxe();
-
-  cy.findByRole('button', { name: /edit mailing address/i }).click({
-    force: true,
-  });
 
   cy.intercept('POST', '/v0/profile/address_validation', {
     statusCode: 200,
@@ -41,5 +37,19 @@ export const setUp = type => {
   cy.intercept('GET', '/v0/user?*', {
     statusCode: 200,
     body: createUserResponse(type),
+  });
+
+  cy.intercept('GET', '/v0/feature_toggles?*', {
+    statusCode: 200,
+    body: generateFeatureToggles(),
+  });
+
+  cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
+  cy.injectAxe();
+
+  checkForLegacyLoadingIndicator();
+
+  cy.findByRole('button', { name: /edit mailing address/i }).click({
+    force: true,
   });
 };
