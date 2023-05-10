@@ -17,17 +17,17 @@ describe('hca DependentInformation config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.householdInformation.pages.v1DependentInformation;
+  const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
-
     expect(formDOM.querySelectorAll('input').length).to.equal(2);
   });
 
@@ -36,13 +36,12 @@ describe('hca DependentInformation config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
-
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
@@ -54,14 +53,12 @@ describe('hca DependentInformation config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-
     const formDOM = findDOMNode(form);
-
     expect(formDOM.querySelectorAll('input, select').length).to.equal(2);
 
     const reportDependents = Array.from(formDOM.querySelectorAll('input')).find(
@@ -90,7 +87,7 @@ describe('hca DependentInformation config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,

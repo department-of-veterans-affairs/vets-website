@@ -16,14 +16,14 @@ describe('hca VaFacilityLighthouse config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.insuranceInformation.pages.vaFacilityJson;
-  const definitions = formConfig.defaultDefinitions;
+  const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        uiSchema={uiSchema}
         definitions={definitions}
+        uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
@@ -41,9 +41,9 @@ describe('hca VaFacilityLighthouse config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        uiSchema={uiSchema}
         definitions={definitions}
         onSubmit={onSubmit}
+        uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
@@ -58,9 +58,9 @@ describe('hca VaFacilityLighthouse config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        uiSchema={uiSchema}
         definitions={definitions}
         onSubmit={onSubmit}
+        uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
@@ -86,9 +86,9 @@ describe('hca VaFacilityLighthouse config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        uiSchema={uiSchema}
         definitions={definitions}
         onSubmit={onSubmit}
+        uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);

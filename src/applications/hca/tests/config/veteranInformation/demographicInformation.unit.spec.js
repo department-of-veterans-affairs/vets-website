@@ -15,14 +15,14 @@ describe('hca VeteranDemographicInformation config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.veteranInformation.pages.demographicInformation;
-  const definitions = formConfig.defaultDefinitions;
+  const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        uiSchema={uiSchema}
         definitions={definitions}
+        uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);

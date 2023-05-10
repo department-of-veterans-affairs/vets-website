@@ -16,17 +16,17 @@ describe('hca DeductibleExpenses config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.householdInformation.pages.v1DeductibleExpenses;
+  const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
-
     expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
   });
 
@@ -35,13 +35,12 @@ describe('hca DeductibleExpenses config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
-
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
@@ -53,8 +52,7 @@ describe('hca DeductibleExpenses config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        data={{}}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,

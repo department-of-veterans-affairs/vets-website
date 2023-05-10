@@ -16,7 +16,7 @@ describe('hca Medicaid config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.insuranceInformation.pages.medicaid;
-  const definitions = formConfig.defaultDefinitions;
+  const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(

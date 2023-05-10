@@ -16,14 +16,14 @@ describe('hca VeteranHomeAddress config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.veteranInformation.pages.veteranHomeAddress;
-  const definitions = formConfig.defaultDefinitions;
+  const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        uiSchema={uiSchema}
         definitions={definitions}
+        uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);

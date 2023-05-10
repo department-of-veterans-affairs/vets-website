@@ -16,18 +16,17 @@ describe('hca FinancialDisclosure config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.householdInformation.pages.v1FinancialDisclosure;
-  const definitions = formConfig.defaultDefinitions;
+  const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        uiSchema={uiSchema}
         definitions={definitions}
+        uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
-
     expect(formDOM.querySelectorAll('input').length).to.equal(2);
   });
 
@@ -41,9 +40,7 @@ describe('hca FinancialDisclosure config', () => {
         uiSchema={uiSchema}
       />,
     );
-
     const formDOM = findDOMNode(form);
-
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
@@ -83,7 +80,6 @@ describe('hca FinancialDisclosure config', () => {
     expect(Array.from(formDOM.querySelectorAll('va-alert')).length).to.equal(1);
 
     simulateInputChange(formDOM, '#root_discloseFinancialInformationNo', 'N');
-
     expect(Array.from(formDOM.querySelectorAll('va-alert')).length).to.equal(2);
   });
 });

@@ -15,6 +15,7 @@ describe('hca AnnualIncome config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.householdInformation.pages.v1AnnualIncome;
+  const { defaultDefinitions: definitions } = formConfig;
   const formData = {
     maritalStatus: 'Married',
     'view:reportDependents': true,
@@ -40,13 +41,11 @@ describe('hca AnnualIncome config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         uiSchema={uiSchema}
-        data={{}}
       />,
     );
     const formDOM = findDOMNode(form);
-
     expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
   });
 
@@ -54,13 +53,12 @@ describe('hca AnnualIncome config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         uiSchema={uiSchema}
         data={{ maritalStatus: 'Married' }}
       />,
     );
     const formDOM = findDOMNode(form);
-
     expect(formDOM.querySelectorAll('input, select').length).to.equal(6);
   });
 
@@ -68,29 +66,27 @@ describe('hca AnnualIncome config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         uiSchema={uiSchema}
         data={formData}
       />,
     );
     const formDOM = findDOMNode(form);
-
     expect(formDOM.querySelectorAll('input, select').length).to.equal(12);
   });
 
-  it('should not submit an empty form', () => {
+  it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
         data={formData}
       />,
     );
     const formDOM = findDOMNode(form);
-
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(12);

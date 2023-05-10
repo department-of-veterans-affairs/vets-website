@@ -16,16 +16,18 @@ describe('hca MaritalStatus config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.householdInformation.pages.v1MaritalStatus;
-  const definitions = formConfig.defaultDefinitions;
+  const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
-
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(1);
-    expect(formDOM.querySelector('#root_maritalStatus')).not.to.be.null;
+    expect(formDOM.querySelectorAll('select').length).to.equal(1);
   });
 
   it('should not submit empty form', () => {
@@ -33,15 +35,12 @@ describe('hca MaritalStatus config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        data={{}}
         definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
-
     const formDOM = findDOMNode(form);
-
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);

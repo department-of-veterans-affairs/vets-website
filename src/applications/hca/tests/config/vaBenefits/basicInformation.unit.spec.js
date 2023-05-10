@@ -13,14 +13,14 @@ import { simulateInputChange } from '../../helpers';
 
 describe('hca VaCompensationType config', () => {
   const { schema, uiSchema } = formConfig.chapters.vaBenefits.pages.vaBenefits;
-  const definitions = formConfig.defaultDefinitions;
+  const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        uiSchema={uiSchema}
         definitions={definitions}
+        uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);

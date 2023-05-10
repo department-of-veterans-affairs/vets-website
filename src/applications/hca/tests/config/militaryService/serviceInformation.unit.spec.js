@@ -16,13 +16,13 @@ describe('hca MilitaryServiceInformation config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.militaryService.pages.serviceInformation;
-  const definitions = formConfig.defaultDefinitions;
+  const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        definitions={definitions}
         schema={schema}
+        definitions={definitions}
         uiSchema={uiSchema}
       />,
     );
@@ -34,8 +34,8 @@ describe('hca MilitaryServiceInformation config', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        definitions={definitions}
         schema={schema}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
@@ -51,8 +51,8 @@ describe('hca MilitaryServiceInformation config', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        definitions={definitions}
         schema={schema}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
@@ -77,8 +77,8 @@ describe('hca MilitaryServiceInformation config', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        definitions={definitions}
         schema={schema}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
@@ -103,8 +103,8 @@ describe('hca MilitaryServiceInformation config', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        definitions={definitions}
         schema={schema}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
@@ -129,8 +129,8 @@ describe('hca MilitaryServiceInformation config', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        definitions={definitions}
         schema={schema}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
@@ -168,8 +168,8 @@ describe('hca MilitaryServiceInformation config', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-        definitions={definitions}
         schema={schema}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
         data={{

@@ -11,17 +11,18 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('hca spouse information', () => {
+describe('hca SpouseInformation config', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.householdInformation.pages.v1SpouseInformation;
+  const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         uiSchema={uiSchema}
       />,
     );
@@ -38,13 +39,12 @@ describe('hca spouse information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
     const formDOM = findDOMNode(form);
-
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(6);
@@ -56,8 +56,7 @@ describe('hca spouse information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        data={{}}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
@@ -92,7 +91,7 @@ describe('hca spouse information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,

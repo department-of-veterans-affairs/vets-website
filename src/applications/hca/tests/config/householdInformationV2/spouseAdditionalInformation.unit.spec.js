@@ -16,12 +16,13 @@ describe('hca SpouseAdditionalInformation config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.householdInformationV2.pages.v2SpouseAdditionalInformation;
+  const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         uiSchema={uiSchema}
       />,
     );
@@ -34,7 +35,7 @@ describe('hca SpouseAdditionalInformation config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
@@ -51,7 +52,7 @@ describe('hca SpouseAdditionalInformation config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,

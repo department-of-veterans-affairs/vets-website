@@ -6,22 +6,21 @@ import sinon from 'sinon';
 import DependentsReviewPage from '../../../components/FormReview/DependentsReviewPage';
 
 describe('hca DependentsReviewPage', () => {
+  const defaultProps = { data: { dependents: [] }, editPage: sinon.spy() };
+
   it('should render', () => {
-    const props = { data: { dependents: [] }, editPage: sinon.spy() };
-    const view = render(<DependentsReviewPage {...props} />);
+    const view = render(<DependentsReviewPage {...defaultProps} />);
     expect(view.container.querySelector('.form-review-panel-page')).to.exist;
   });
 
   describe('when no dependents are declared', () => {
-    const props = { data: { dependents: [] }, editPage: sinon.spy() };
-
     it('should not render edit button', () => {
-      const view = render(<DependentsReviewPage {...props} />);
+      const view = render(<DependentsReviewPage {...defaultProps} />);
       expect(view.container.querySelector('.edit-btn')).to.not.exist;
     });
 
     it('should render dependents declaration question', () => {
-      const view = render(<DependentsReviewPage {...props} />);
+      const view = render(<DependentsReviewPage {...defaultProps} />);
       const selector = view.container.querySelectorAll('.review-row');
       expect(selector).to.have.lengthOf(1);
       expect(view.container.querySelector('.review-row')).to.contain.text(
@@ -32,6 +31,7 @@ describe('hca DependentsReviewPage', () => {
 
   describe('when dependents are declared', () => {
     const props = {
+      ...defaultProps,
       data: {
         dependents: [
           {
@@ -44,7 +44,6 @@ describe('hca DependentsReviewPage', () => {
           },
         ],
       },
-      editPage: sinon.spy(),
     };
 
     it('should render edit button', () => {

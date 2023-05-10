@@ -16,7 +16,7 @@ describe('hca Medicare config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.insuranceInformation.pages.medicare;
-  const definitions = formConfig.defaultDefinitions;
+  const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(

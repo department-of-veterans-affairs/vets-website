@@ -16,7 +16,7 @@ describe('hca GeneralInsurance config', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.insuranceInformation.pages.general;
-  const definitions = formConfig.defaultDefinitions;
+  const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
