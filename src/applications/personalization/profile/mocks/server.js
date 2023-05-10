@@ -68,6 +68,7 @@ const responses = {
     profileUseFieldEditingPage: true,
     profileShowMhvNotificationSettings: false,
     profileLighthouseDirectDeposit: true,
+    profileShowQuickSubmitNotificationSetting: false,
   }),
   'GET /v0/ppiu/payment_information': (_req, res) => {
     // 47841 - Below are the three cases where all of Profile should be gated off

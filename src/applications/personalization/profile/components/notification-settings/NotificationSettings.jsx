@@ -32,6 +32,7 @@ import HealthCareGroupSupportingText from './HealthCareGroupSupportingText';
 import MissingContactInfoAlert from './MissingContactInfoAlert';
 import NotificationGroup from './NotificationGroup';
 import { FieldHasBeenUpdated as FieldHasBeenUpdatedAlert } from '../alerts/FieldHasBeenUpdated';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const NotificationSettings = ({
   allContactInfoOnFile,
@@ -46,6 +47,11 @@ const NotificationSettings = ({
   shouldShowLoadingIndicator,
 }) => {
   const location = useLocation();
+
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const showQuickSubmitGroup = useToggleValue(
+    TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting,
+  );
 
   React.useEffect(() => {
     // issue: 48011
@@ -114,7 +120,10 @@ const NotificationSettings = ({
           />
           {notificationGroups.ids.map(groupId => {
             // filtering out the quick submit group for now until it is ready
-            if (groupId === NOTIFICATION_GROUPS.QUICK_SUBMIT) {
+            if (
+              groupId === NOTIFICATION_GROUPS.QUICK_SUBMIT &&
+              !showQuickSubmitGroup
+            ) {
               return null;
             }
             // we handle the health care group a little differently
