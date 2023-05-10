@@ -17,6 +17,7 @@ const MessageThreadItem = props => {
   const {
     attachment,
     attachments,
+    hasAttachments,
     body,
     messageId,
     preloaded,
@@ -47,32 +48,6 @@ const MessageThreadItem = props => {
     setIsExpanded(!isExpanded);
   };
 
-  // const header = () => {
-  //   return (
-  //     <>
-  //       <i
-  //         className="unread-icon fas fa-circle"
-  //         aria-hidden
-  //         style={{ visibility: isRead === true ? 'hidden' : '' }}
-  //       />
-  //       {dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
-  //     </>
-  //   );
-  // };
-
-  // const subheader = () => {
-  //   return (
-  //     <>
-  //       <i
-  //         className="fas fa-paperclip"
-  //         aria-hidden
-  //         style={{ visibility: attachments !== true ? 'hidden' : '' }}
-  //       />
-  //       {from}
-  //     </>
-  //   );
-  // };
-
   const accordionAriaLabel = useMemo(
     () => {
       return `${!isRead ? 'New' : ''} message ${
@@ -88,20 +63,32 @@ const MessageThreadItem = props => {
   return (
     <VaAccordionItem
       aria-label={accordionAriaLabel}
-      className="older-message"
+      className={`older-message ${
+        !isRead ? 'accordion-unread' : 'accordion-read'
+      }`}
       ref={accordionItemRef}
-      header={`${!isRead ? '[UNREAD] ' : ''}${dateFormat(
-        sentDate,
-        'MMMM D, YYYY [at] h:mm a z',
-      )}`}
       subheader={from}
-      // header={header()}
-      // subheader={subheader()}
       onAccordionItemToggled={() => {
         handleExpand(preloaded);
       }}
       data-testid={`expand-message-button-${messageId}`}
     >
+      <h6 slot="headline">{dateFormat(sentDate, 'MMMM D [at] h:mm a z')}</h6>
+      {!isRead && (
+        <i
+          className="vads-u-padding--0p25 vads-u-margin-right--1 fas fa-solid fa-circle fa-xs"
+          slot="icon"
+          aria-hidden
+        />
+      )}
+      {(hasAttachments || attachment) && (
+        <i
+          className="vads-u-margin-right--1p5 fas fa-paperclip vads-u-color--base"
+          slot="subheader-icon"
+          aria-hidden
+        />
+      )}
+
       <div>
         <MessageThreadMeta message={message} fromMe={fromMe} />
         <HorizontalRule />

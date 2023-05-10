@@ -13,10 +13,7 @@ import { VaAccordion } from '@department-of-veterans-affairs/component-library/d
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import HorizontalRule from '../shared/HorizontalRule';
 import MessageThreadItem from './MessageThreadItem';
-import {
-  clearMessageHistory,
-  markMessageAsReadInThread,
-} from '../../actions/messages';
+import { clearMessageHistory } from '../../actions/messages';
 import { Actions } from '../../util/actionTypes';
 
 const MessageThread = props => {
@@ -47,13 +44,13 @@ const MessageThread = props => {
 
   useEffect(
     () => {
-      if (messageHistory?.length) {
-        messageHistory.forEach((m, i) => {
-          if (i < viewCount && !m.preloaded) {
-            dispatch(markMessageAsReadInThread(m.messageId));
-          }
-        });
-      }
+      // if (messageHistory?.length) {
+      //   messageHistory.forEach((m, i) => {
+      //     if (i < viewCount && !m.preloaded) {
+      //       dispatch(markMessageAsReadInThread(m.messageId));
+      //     }
+      //   });
+      // }
       if (viewCount > 5) {
         focusElement(
           `[data-testid="expand-message-button-${
