@@ -42,18 +42,15 @@ describe('Enhanced FSR debt and copay alerts', () => {
     'Combined alerts; debts and copays both 404, or veteran has no debts or copays',
     () => {
       describe('Both /v0/medical_copays and /v0/debts APIs 404', () => {
-        before(() => {
-          cy.intercept('GET', '/v0/medical_copays', req => reply404(req)).as(
+        it('should show combined failure alert message', () => {
+          cy.intercept('GET', '/v0/medical_copays', req => reply500(req)).as(
             'copaysA1',
           );
           cy.intercept('GET', '/v0/debts', req => reply404(req)).as('debtsA1');
 
           cy.visit(manifest.rootUrl);
-        });
-
-        it('should show combined failure alert message', () => {
           navigateToDebtSelection();
-          // cy.wait(['@copaysA1', '@debtsA1']);
+          cy.wait(['@copaysA1', '@debtsA1']);
 
           cy.findByTestId('balance-card-combo-alert-error').should('exist');
 
@@ -64,16 +61,13 @@ describe('Enhanced FSR debt and copay alerts', () => {
       });
 
       describe('Veteran has no debts or copays', () => {
-        before(() => {
+        it('should show combined empty alert message', () => {
           cy.intercept('GET', '/v0/medical_copays', mockCopaysEmpty).as(
             'copaysA2',
           );
           cy.intercept('GET', '/v0/debts', mockDebtsEmpty).as('debtsA2');
 
           cy.visit(manifest.rootUrl);
-        });
-
-        it('should show combined empty alert message', () => {
           navigateToDebtSelection();
           cy.wait(['@copaysA2', '@debtsA2']);
 
@@ -91,15 +85,13 @@ describe('Enhanced FSR debt and copay alerts', () => {
     'No alerts necessary Veteran has a mix of debts/copays and no debts/copays but no errors',
     () => {
       describe('has debts and copays', () => {
-        beforeEach(() => {
+        it('should show page content, list of debts and copays for selection', () => {
           cy.intercept('GET', '/v0/medical_copays', copayResponse).as(
             'copaysB1',
           );
           cy.intercept('GET', '/v0/debts', debtResponse).as('debtsB1');
-          cy.visit(manifest.rootUrl);
-        });
 
-        it('should show page content, list of debts and copays for selection', () => {
+          cy.visit(manifest.rootUrl);
           navigateToDebtSelection();
           cy.wait(['@copaysB1', '@debtsB1']);
 
@@ -121,16 +113,13 @@ describe('Enhanced FSR debt and copay alerts', () => {
       });
 
       describe('has debts and no available copays', () => {
-        beforeEach(() => {
+        it('should show page content, list of debts, but no copays and no error messages', () => {
           cy.intercept('GET', '/v0/medical_copays', mockCopaysEmpty).as(
             'copaysB2',
           );
           cy.intercept('GET', '/v0/debts', debtResponse).as('debtsB2');
 
           cy.visit(manifest.rootUrl);
-        });
-
-        it('should show page content, list of debts, but no copays and no error messages', () => {
           navigateToDebtSelection();
           cy.wait(['@copaysB2', '@debtsB2']);
 
@@ -151,16 +140,13 @@ describe('Enhanced FSR debt and copay alerts', () => {
       });
 
       describe('has copays and no available debts', () => {
-        beforeEach(() => {
+        it('should show page content, list of copays, but no debts and no error messages', () => {
           cy.intercept('GET', '/v0/medical_copays', copayResponse).as(
             'copaysB3',
           );
           cy.intercept('GET', '/v0/debts', mockDebtsEmpty).as('debtsB3');
 
           cy.visit(manifest.rootUrl);
-        });
-
-        it('should show page content, list of copays, but no debts and no error messages', () => {
           navigateToDebtSelection();
           cy.wait(['@copaysB3', '@debtsB3']);
 
@@ -185,16 +171,13 @@ describe('Enhanced FSR debt and copay alerts', () => {
     'Unsuccessful `/v0/medical_copay` API Response mixed with successful and no debt response',
     () => {
       describe('/v0/medical_copays 404 and no available debts', () => {
-        beforeEach(() => {
-          cy.intercept('GET', '/v0/medical_copays', req => reply404(req)).as(
+        it('should show medical copay failure alert message, and no page content', () => {
+          cy.intercept('GET', '/v0/medical_copays', req => reply500(req)).as(
             'copaysC1',
           );
           cy.intercept('GET', '/v0/debts', mockDebtsEmpty).as('debtsC1');
 
           cy.visit(manifest.rootUrl);
-        });
-
-        it('should show medical copay failure alert message, and no page content', () => {
           navigateToDebtSelection();
           cy.wait(['@copaysC1', '@debtsC1']);
 
@@ -206,16 +189,13 @@ describe('Enhanced FSR debt and copay alerts', () => {
       });
 
       describe('/v0/medical_copays 404 and has available debts', () => {
-        beforeEach(() => {
-          cy.intercept('GET', '/v0/medical_copays', req => reply404(req)).as(
+        it('should show medical copay failure alert message, and page content with debts availalbe for selection', () => {
+          cy.intercept('GET', '/v0/medical_copays', req => reply500(req)).as(
             'copaysC2',
           );
           cy.intercept('GET', '/v0/debts', debtResponse).as('debtsC2');
 
           cy.visit(manifest.rootUrl);
-        });
-
-        it('should show medical copay failure alert message, and page content with debts availalbe for selection', () => {
           navigateToDebtSelection();
           cy.wait(['@copaysC2', '@debtsC2']);
 
@@ -237,15 +217,13 @@ describe('Enhanced FSR debt and copay alerts', () => {
     'Unsuccessful `/v0/debts` API Response mixed with successful and no copay response',
     () => {
       describe('/v0/debts 404 and no available copays', () => {
-        before(() => {
+        it('should show debt failure alert message, and no page content', () => {
           cy.intercept('GET', '/v0/medical_copays', mockCopaysEmpty).as(
             'copaysD1',
           );
           cy.intercept('GET', '/v0/debts', req => reply500(req)).as('debtsD1');
-          cy.visit(manifest.rootUrl);
-        });
 
-        it('should show debt failure alert message, and no page content', () => {
+          cy.visit(manifest.rootUrl);
           navigateToDebtSelection();
           cy.wait(['@copaysD1', '@debtsD1']);
 
@@ -256,15 +234,13 @@ describe('Enhanced FSR debt and copay alerts', () => {
         });
       });
       describe('/v0/debts 404 and has available copays', () => {
-        before(() => {
+        it('should show debt failure alert message, and page content with medical copays available for selection', () => {
           cy.intercept('GET', '/v0/medical_copays', copayResponse).as(
             'copaysD2',
           );
           cy.intercept('GET', '/v0/debts', req => reply500(req)).as('debtsD2');
-          cy.visit(manifest.rootUrl);
-        });
 
-        it('should show debt failure alert message, and page content with medical copays available for selection', () => {
+          cy.visit(manifest.rootUrl);
           navigateToDebtSelection();
           cy.wait(['@copaysD2', '@debtsD2']);
 
