@@ -8,7 +8,7 @@ import mockDeletedFolder from './fixtures/folder-deleted-metadata.json';
 import mockCustomFolder from './fixtures/folder-custom-metadata.json';
 import mockInboxFolder from './fixtures/folder-inbox-response.json';
 
-describe.skip('Secure Messaging Basic Search Tests', () => {
+describe('Secure Messaging Basic Search Tests', () => {
   const basicSearchPage = new PatientBasicSearchPage();
   beforeEach(() => {
     const landingPage = new PatientInboxPage();
@@ -45,7 +45,7 @@ describe.skip('Secure Messaging Basic Search Tests', () => {
     cy.axeCheck();
   });
 
-  it('Basic Search Drafts Check', () => {
+  it.skip('Basic Search Drafts Check', () => {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-2',
@@ -89,7 +89,7 @@ describe.skip('Secure Messaging Basic Search Tests', () => {
     cy.axeCheck();
   });
 
-  it('Basic Search Trash Folder Check', () => {
+  it.skip('Basic Search Trash Folder Check', () => {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-3',
@@ -111,7 +111,7 @@ describe.skip('Secure Messaging Basic Search Tests', () => {
     cy.axeCheck();
   });
 
-  it('Basic Search Custom Folder Check', () => {
+  it.skip('Basic Search Custom Folder Check', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
     cy.intercept(
       'GET',

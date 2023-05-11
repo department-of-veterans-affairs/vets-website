@@ -157,7 +157,7 @@
     "copy-webpack-plugin": "^9.1.0",
     "css-loader": "3.6.0",
     "cssnano": "^5.0.8",
-    "cypress": "^10.8.0",
+    "cypress": "^12.12.0",
     "cypress-axe": "^1.0.0",
     "cypress-multi-reporters": "^1.5.0",
     "dd-trace": "^2.4.2",
@@ -367,7 +367,6 @@
       "src/platform/forms",
       "src/platform/forms-system",
       "src/platform/monitoring",
-
       "src/applications/check-in",
       "src/applications/vaos"
     ],
@@ -376,7 +375,6 @@
       "**/applications-check-in/react-i18next",
       "**/applications-vaos/simple-guid",
       "**/applications-vaos/mocker-api",
-
       "**/platform-polyfills/@formatjs/intl-datetimeformat",
       "**/platform-polyfills/@formatjs/intl-getcanonicallocales",
       "**/platform-polyfills/@formatjs/intl-locale",
