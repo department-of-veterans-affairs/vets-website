@@ -6,20 +6,25 @@ for each individual <va-accordion-item> event. Prelaoding all messages on the fi
 is not an option since it will mark all messages as read. 
 */
 
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropType from 'prop-types';
 import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import HorizontalRule from '../shared/HorizontalRule';
 import MessageThreadItem from './MessageThreadItem';
-import { clearMessageHistory } from '../../actions/messages';
+import {
+  clearMessageHistory,
+  markMessageAsReadInThread,
+} from '../../actions/messages';
 import { Actions } from '../../util/actionTypes';
+import useInterval from '../../hooks/use-interval';
 
 const MessageThread = props => {
   const dispatch = useDispatch();
   const { messageHistory, isDraftThread, isForPrint, viewCount } = props;
   const accordionRef = useRef();
+  const [hasListener, setHasListener] = useState(false);
 
   // value for screen readers to indicate how many messages are being loaded
   const messagesLoaded = useMemo(
@@ -33,6 +38,28 @@ const MessageThread = props => {
     [viewCount, messageHistory],
   );
 
+  // shadow dom is not available on the first render, so we need to wait for it to be available
+  // before we can add the event listener
+  // event listener is requried as it is not handled by native event handler in <va-accordion>
+  // this is a temporary solution until the <va-accordion> component is updated to handle this event
+  useInterval(() => {
+    if (!hasListener && accordionRef) {
+      const button = accordionRef.current?.shadowRoot?.querySelector('button');
+      if (button) {
+        button.addEventListener('click', () => {
+          if (messageHistory?.length) {
+            messageHistory.forEach((m, i) => {
+              if (i < viewCount && !m.preloaded) {
+                dispatch(markMessageAsReadInThread(m.messageId));
+              }
+            });
+          }
+        });
+        setHasListener(true);
+      }
+    }
+  }, 500);
+
   useEffect(
     () => {
       return () => {
@@ -44,13 +71,6 @@ const MessageThread = props => {
 
   useEffect(
     () => {
-      // if (messageHistory?.length) {
-      //   messageHistory.forEach((m, i) => {
-      //     if (i < viewCount && !m.preloaded) {
-      //       dispatch(markMessageAsReadInThread(m.messageId));
-      //     }
-      //   });
-      // }
       if (viewCount > 5) {
         focusElement(
           `[data-testid="expand-message-button-${
