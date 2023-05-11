@@ -11,7 +11,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['claimantFullName'],
+    required: ['claimantFullName', 'claimantDateOfBirth'],
     properties: {
       claimantFullName: definitions.fullNameNoSuffix,
       claimantDateOfBirth: definitions.date,

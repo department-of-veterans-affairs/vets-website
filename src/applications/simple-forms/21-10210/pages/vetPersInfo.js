@@ -11,7 +11,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['veteranFullName'],
+    required: ['veteranFullName', 'veteranDateOfBirth'],
     properties: {
       veteranFullName: definitions.fullNameNoSuffix,
       veteranDateOfBirth: definitions.date,
