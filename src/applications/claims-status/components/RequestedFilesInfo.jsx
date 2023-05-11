@@ -3,7 +3,11 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import AdditionalEvidencePage from '../containers/AdditionalEvidencePage';
-import { truncateDescription, stripHtml } from '../utils/helpers';
+import {
+  getTrackedItemId,
+  truncateDescription,
+  stripHtml,
+} from '../utils/helpers';
 import DueDate from './DueDate';
 
 export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
@@ -21,7 +25,7 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
         {filesNeeded.map(item => (
           <div
             className="file-request-list-item usa-alert usa-alert-warning background-color-only alert-with-details"
-            key={item.trackedItemId}
+            key={getTrackedItemId(item)}
           >
             <div className="item-container">
               <h3 className="file-request-title">{item.displayName}</h3>
@@ -35,7 +39,9 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
                 aria-label={`View Details for ${item.displayName}`}
                 title={`View Details for ${item.displayName}`}
                 className="usa-button usa-button-secondary view-details-button"
-                to={`your-claims/${id}/document-request/${item.trackedItemId}`}
+                to={`your-claims/${id}/document-request/${getTrackedItemId(
+                  item,
+                )}`}
               >
                 View Details
               </Link>
@@ -46,7 +52,7 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
         {optionalFiles.map(item => (
           <div
             className="file-request-list-item usa-alert file-request-list-item-optional background-color-only alert-with-details"
-            key={item.trackedItemId}
+            key={getTrackedItemId(item)}
           >
             <div className="item-container">
               <h3 className="file-request-title">{item.displayName}</h3>
@@ -63,7 +69,9 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
                 aria-label={`View Details for ${item.displayName}`}
                 title={`View Details for ${item.displayName}`}
                 className="usa-button usa-button-secondary view-details-button"
-                to={`your-claims/${id}/document-request/${item.trackedItemId}`}
+                to={`your-claims/${id}/document-request/${getTrackedItemId(
+                  item,
+                )}`}
               >
                 View Details
               </Link>

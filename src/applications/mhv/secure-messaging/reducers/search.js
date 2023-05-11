@@ -8,6 +8,7 @@ const initialState = {
   searchResults: undefined,
   awaitingResults: false,
   keyword: '',
+  searchFolder: undefined,
 };
 
 export const searchReducer = (state = initialState, action) => {
@@ -19,7 +20,7 @@ export const searchReducer = (state = initialState, action) => {
           const msgAttr = message.attributes;
           return { ...msgAttr };
         }),
-        folder: action.response.folder,
+        searchFolder: action.response.folder,
         keyword: action.response.keyword,
         awaitingResults: false,
       };
@@ -30,7 +31,7 @@ export const searchReducer = (state = initialState, action) => {
           const msgAttr = message.attributes;
           return { ...msgAttr };
         }),
-        folder: action.response.folder,
+        searchFolder: action.response.folder,
         keyword: action.response.keyword,
         query: action.response.query,
         awaitingResults: false,
@@ -40,6 +41,11 @@ export const searchReducer = (state = initialState, action) => {
         ...state,
         searchResults: initialState.searchResults,
         awaitingResults: true,
+      };
+    case Actions.Search.CLEAR:
+      return {
+        ...state,
+        ...initialState,
       };
     default:
       return state;

@@ -58,7 +58,7 @@ export class ConfirmationPoll extends React.Component {
         }
 
         // Check status
-        const status = response.data.attributes.status;
+        const { status } = response.data.attributes;
         if (terminalStatuses.has(status)) {
           this.setState({
             submissionStatus: status,

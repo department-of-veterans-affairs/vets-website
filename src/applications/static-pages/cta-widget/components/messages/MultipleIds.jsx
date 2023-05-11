@@ -1,5 +1,4 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import CallToActionAlert from '../CallToActionAlert';
 
@@ -12,7 +11,7 @@ const MultipleIds = () => {
         <p>
           <strong>You can fix this issue in one of these ways: </strong>
         </p>
-        <AdditionalInfo triggerText="Call the My HealtheVet help desk">
+        <va-additional-info trigger="Call the My HealtheVet help desk">
           <p>
             Call us at <va-telephone contact="8773270022" />. We’re here Monday
             through Friday, 8:00 a.m. to 8:00 p.m. ET. If you have hearing loss,
@@ -23,9 +22,9 @@ const MultipleIds = () => {
             tools on VA.gov, but received an error message telling you that you
             have more than one My HealtheVet account.
           </p>
-        </AdditionalInfo>
+        </va-additional-info>
         <div className="vads-u-margin-top--1p5">
-          <AdditionalInfo triggerText="Or submit an online help request to My HealtheVet">
+          <va-additional-info trigger="Or submit an online help request to My HealtheVet">
             <p>
               Use the My HealtheVet contact form to submit an online request for
               help online.
@@ -65,7 +64,7 @@ const MultipleIds = () => {
                 Go to the My HealtheVet contact form
               </a>
             </p>
-          </AdditionalInfo>
+          </va-additional-info>
         </div>
       </div>
     ),
