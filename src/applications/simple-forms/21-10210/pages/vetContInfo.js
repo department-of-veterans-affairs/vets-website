@@ -46,7 +46,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['veteranPhone'],
+    required: ['veteranPhone', 'veteranEmail'],
     properties: {
       veteranPhone: definitions.phone,
       veteranEmail: definitions.email,

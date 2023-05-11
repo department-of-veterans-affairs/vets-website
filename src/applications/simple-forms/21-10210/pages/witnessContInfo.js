@@ -19,7 +19,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['witnessPhone'],
+    required: ['witnessPhone', 'witnessEmail'],
     properties: {
       witnessPhone: definitions.phone,
       witnessEmail: definitions.email,
