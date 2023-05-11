@@ -39,6 +39,8 @@ describe(manifest.appName, () => {
     draftAdvancedSearch.selectAdvancedSearchCategory();
     draftAdvancedSearch.submitSearchButton();
 
+    // Following assertion could be turned to the POM style
+
     cy.get('[data-testid="message-list-item"]')
       .should('contain', 'COVID')
       .and('have.length', mockDraftsSearchMessages.data.length);
