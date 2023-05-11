@@ -350,7 +350,7 @@ export function selectTypeOfCareName(appointment) {
   const { name } =
     getTypeOfCareById(appointment.vaos.apiData?.serviceType) || {};
   const serviceCategoryName =
-    appointment.vaos.apiData?.serviceCategory?.[0].text || {};
+    appointment.vaos.apiData?.serviceCategory?.[0]?.text || {};
   if (serviceCategoryName === COMP_AND_PEN) {
     const { displayName } = getTypeOfCareById(serviceCategoryName);
     return displayName;

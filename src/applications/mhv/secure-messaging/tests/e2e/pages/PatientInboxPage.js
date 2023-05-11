@@ -77,7 +77,7 @@ class PatientInboxPage {
     }
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/threads*',
+      '/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
       this.mockInboxMessages,
     ).as('inboxMessages');
     cy.intercept(
@@ -329,6 +329,12 @@ class PatientInboxPage {
   navigateReply = () => {
     cy.tabToElement('[data-testid="reply-button-top"]');
     cy.realPress(['Enter']);
+  };
+
+  verifyDeleteConfirmMessage = () => {
+    cy.contains('successfully deleted')
+      .focused()
+      .should('have.text', 'Draft was successfully deleted.');
   };
 
   loadLandingPagebyTabbingandEnterKey = () => {

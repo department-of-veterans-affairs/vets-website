@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import _ from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -193,7 +193,12 @@ export function ComparePage({
   }
 
   if (!allLoaded) {
-    return <LoadingIndicator message="Loading..." />;
+    return (
+      <VaLoadingIndicator
+        data-testid="loading-indicator"
+        message="Loading..."
+      />
+    );
   }
 
   const loadedInstitutions = [];

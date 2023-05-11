@@ -8,7 +8,7 @@ describe('facilities <FacilityMapWidget>', () => {
   it('should render loading', () => {
     const tree = shallow(<FacilityMapWidget loading />);
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    expect(tree.find('va-loading-indicator').exists()).to.be.true;
     tree.unmount();
   });
 

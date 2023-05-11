@@ -6,7 +6,11 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 
 import { getFormattedPhone } from '../utils/contactInfo';
 import { checkValidations, missingPrimaryPhone } from '../validations';
-import { PRIMARY_PHONE, errorMessages } from '../constants';
+import {
+  PRIMARY_PHONE,
+  PRIMARY_PHONE_TYPES,
+  errorMessages,
+} from '../constants';
 import { content } from '../content/primaryPhone';
 
 export const PrimaryPhone = ({
@@ -22,7 +26,7 @@ export const PrimaryPhone = ({
   const [primary, setPrimary] = useState(data?.[PRIMARY_PHONE] || '');
   const [hasError, setHasError] = useState(null);
 
-  const { homePhone = {}, mobilePhone = {} } = data?.veteran || {};
+  const { veteran } = data || {};
 
   const checkErrors = (formData = data) => {
     const error = checkValidations([missingPrimaryPhone], primary, formData);
@@ -74,22 +78,17 @@ export const PrimaryPhone = ({
           onVaValueChange={handlers.onSelection}
           required
         >
-          <va-radio-option
-            id="home-phone"
-            label={content.homeLabel}
-            value="home"
-            name="primary"
-            checked={primary === 'home'}
-            description={getFormattedPhone(homePhone)}
-          />
-          <va-radio-option
-            id="mobile-phone"
-            label={content.mobileLabel}
-            value="mobile"
-            name="primary"
-            checked={primary === 'mobile'}
-            description={getFormattedPhone(mobilePhone)}
-          />
+          {PRIMARY_PHONE_TYPES.map(type => (
+            <va-radio-option
+              key={type}
+              id={`${type}-phone`}
+              label={content[`${type}Label`]}
+              value={type}
+              name="primary"
+              checked={primary === type}
+              description={getFormattedPhone(veteran?.[`${type}Phone`])}
+            />
+          ))}
         </VaRadio>
         {navButtons}
       </form>

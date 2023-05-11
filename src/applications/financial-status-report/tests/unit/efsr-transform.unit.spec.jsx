@@ -442,7 +442,9 @@ describe('efsr-fsr transform information', () => {
     it('has valid data', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj).haveOwnProperty('personalData');
-      expect(submissionObj.personalData.telephoneNumber).to.equal('4445551212');
+      expect(submissionObj.personalData.telephoneNumber).to.equal(
+        '(510) 922-4444',
+      );
       expect(submissionObj.personalData.dateOfBirth).to.equal('04/05/1933');
       expect(submissionObj.personalData.married).to.equal(true);
       expect(submissionObj.personalData.agesOfOtherDependents[0]).to.equal(
@@ -537,20 +539,22 @@ describe('efsr-fsr transform information', () => {
       it('has valid data', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj.personalData.address.addresslineOne).to.equal(
-          '123 Fake Street',
+          '1200 Park Ave',
         );
-        expect(submissionObj.personalData.address.addresslineTwo).to.equal('');
+        expect(submissionObj.personalData.address.addresslineTwo).to.equal(
+          'c/o Pixar',
+        );
         expect(submissionObj.personalData.address.addresslineThree).to.equal(
           '',
         );
-        expect(submissionObj.personalData.address.city).to.equal('Tampa');
+        expect(submissionObj.personalData.address.city).to.equal('Emeryville');
         expect(submissionObj.personalData.address.stateOrProvince).to.equal(
-          'FL',
+          'CA',
         );
         expect(submissionObj.personalData.address.zipOrPostalCode).to.equal(
-          '33543',
+          '94608',
         );
-        expect(submissionObj.personalData.address.countryName).to.equal('USA');
+        expect(submissionObj.personalData.address.countryName).to.equal('US');
       });
     });
     describe('efsr-employment history', () => {

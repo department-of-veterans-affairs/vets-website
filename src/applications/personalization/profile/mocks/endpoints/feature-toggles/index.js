@@ -11,6 +11,9 @@ const defaultToggleValues = {
   profileUseInfoCard: true,
   profileUseFieldEditingPage: true,
   profileShowMhvNotificationSettings: false,
+  profileLighthouseDirectDeposit: false,
+  profileUseExperimental: false,
+  profileShowQuickSubmitNotificationSetting: false,
 };
 
 const generateFeatureToggles = (values = defaultToggleValues) => {

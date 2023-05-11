@@ -6,7 +6,10 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import { clearNotification } from '../actions';
 import ClaimComplete from '../components/ClaimComplete';
-import ClaimDetailLayout from '../components/ClaimDetailLayout';
+// START lighthouse_migration
+import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
+import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
+// END lighthouse_migration
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
@@ -69,7 +72,7 @@ class ClaimStatusPage extends React.Component {
 
     const { decisionLetterSent, eventsTimeline, phase } = attributes;
 
-    const isOpen = attributes.open;
+    const isOpen = attributes.closeDate === null;
     const filesNeeded = itemsNeedingAttentionFromVet(eventsTimeline);
     const showDocsNeeded =
       !decisionLetterSent &&
@@ -111,12 +114,18 @@ class ClaimStatusPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced } = this.props;
+    const { claim, loading, message, synced, useLighthouse } = this.props;
 
     let content = null;
     if (!loading) {
       content = this.getPageContent();
     }
+
+    // START lighthouse_migration
+    const ClaimDetailLayout = useLighthouse
+      ? ClaimDetailLayoutLighthouse
+      : ClaimDetailLayoutEVSS;
+    // END lighthouse_migration
 
     return (
       <ClaimDetailLayout

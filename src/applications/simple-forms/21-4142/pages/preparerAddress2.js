@@ -9,6 +9,7 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [preparerIdentificationFields.preparerAddress];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [preparerIdentificationFields.parentObject]: {

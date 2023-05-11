@@ -1,6 +1,7 @@
 // prettier-ignore
 
 export default Object.freeze({
+  bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
   caregiverSigiEnabled: 'caregiver_sigi_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
@@ -72,7 +73,6 @@ export default Object.freeze({
   gibctEybBottomSheet: 'gibct_eyb_bottom_sheet',
   gibctSchoolRatings: 'gibct_school_ratings',
   giSandboxComparisonToolToggle: 'gi_sandbox_comparision_tool_toggle',
-  hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
   hcaBrowserMonitoringEnabled: 'hca_browser_monitoring_enabled',
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
   hcaHouseholdV2Enabled: 'hca_household_v2_enabled',
@@ -88,12 +88,14 @@ export default Object.freeze({
   omniChannelLink: 'omni_channel_link',
   pdfWarningBanner: 'pdf_warning_banner',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
-  profileNotificationSettings: 'profile_notification_settings',
-  profileHideDirectDepositCompAndPen: 'profile_hide_direct_deposit_comp_and_pen',
   profileDoNotRequireInternationalZipCode: 'profile_do_not_require_international_zip_code',
+  profileHideDirectDepositCompAndPen: 'profile_hide_direct_deposit_comp_and_pen',
+  profileLighthouseDirectDeposit: 'profile_lighthouse_direct_deposit',
+  profileNotificationSettings: 'profile_notification_settings',
   profileShowMhvNotificationSettings: 'profile_show_mhv_notification_settings',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
   profileShowPaymentsNotificationSetting: 'profile_show_payments_notification_setting',
+  profileShowQuickSubmitNotificationSetting: 'profile_show_quick_submit_notification_setting',
   profileUseExperimental: 'profile_use_experimental',
   profileUseInfoCard: 'profile_use_info_card',
   profileUseFieldEditingPage: 'profile_use_field_editing_page',
