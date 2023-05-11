@@ -33,7 +33,7 @@ echo "Download dev content-build to website dir"
 if [ -z ${AWS_URL} ] ;
 then
     echo "AWS_URL is NULL; using default" ;
-    curl -LO https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content-build/0008051ce15e731cc01289933dfb060d6f0d4df6/vagovdev.tar.bz2 ;
+    curl -LO https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content-build/0008051ce15e731cc01289933dfb060d6f0d4df6/vagovprod.tar.bz2 ;
 else
     echo "AWS_URL is not NULL; using workflow env var" ;
     curl -LO ${AWS_URL} ;
