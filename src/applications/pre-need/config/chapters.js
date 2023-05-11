@@ -10,6 +10,7 @@ import * as supportingDocuments from './pages/supportingDocuments';
 import * as applicantContactInformation from './pages/applicantContactInformation';
 import * as sponsorMailingAddress from './pages/sponsorMailingAddress';
 import * as preparer from './pages/preparer';
+import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 
 import { isVeteran } from '../utils/helpers';
 
@@ -82,6 +83,11 @@ export const chapters = {
         path: 'burial-benefits',
         uiSchema: burialBenefits.uiSchema,
         schema: burialBenefits.schema,
+      },
+      currentlyBuriedPersons: {
+        path: 'current-burial-benefits',
+        uiSchema: currentlyBuriedPersons.uiSchema,
+        schema: currentlyBuriedPersons.schema,
       },
     },
   },
