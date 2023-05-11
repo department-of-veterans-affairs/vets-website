@@ -10,14 +10,12 @@ export default function prefillTransformer(pages, formData, metadata) {
   return {
     pages,
     formData: {
-      veteran: {
-        fullName,
-        dateOfBirth,
-        ssn,
-        mailingAddress: address,
-        mobilePhone: homePhone,
-        email,
-      },
+      veteranFullName: fullName,
+      veteranDateOfBirth: dateOfBirth,
+      veteranSSN: ssn,
+      veteranMailingAddress: address,
+      veteranPhone: homePhone,
+      veteranEmail: email,
     },
     metadata,
   };

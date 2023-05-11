@@ -20,6 +20,9 @@ import vetAddrInfo from '../pages/vetAddrInfo';
 import vetContInfo from '../pages/vetContInfo';
 import statement from '../pages/statement';
 
+import prefillTransformer from './prefill-transformer';
+import transformForSubmit from '../../shared/config/submit-transformer';
+
 // "Flows" in comments below map to "Stories" in the mockups:
 // https://www.sketch.com/s/a11421d3-c148-41a2-a34f-3d7821ea676f
 
@@ -50,6 +53,8 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
+  transformForSubmit,
   savedFormMessages: {
     notFound: 'Please start over to apply.',
     noAuth: 'Please sign in again to continue your application.',
