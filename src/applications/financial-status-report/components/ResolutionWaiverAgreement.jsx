@@ -78,7 +78,9 @@ const ResolutionWaiverAgreement = ({ formContext }) => {
       <label className="vads-u-margin--0" htmlFor={currentDebt.id}>
         <div className="vads-u-margin-left--4 vads-u-margin-top--neg3">
           <p className="vads-u-margin--0">
-            {checkboxLabel}
+            By checking this box, I’m agreeing that I understand that waiving
+            education debt will reduce any remaining education benefit I may
+            have.
             <span className="required-text vads-u-margin-left--1">
               (*Required)
             </span>
