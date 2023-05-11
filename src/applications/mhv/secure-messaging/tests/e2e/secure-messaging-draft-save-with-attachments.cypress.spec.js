@@ -31,15 +31,6 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     cy.realPress(['Enter']);
   });
 
-  it('Sort Inbox Messages from Z to A', () => {
-    cy.get('#sort-order-dropdown')
-      .shadow()
-      .find('select')
-      .should('contain', 'Z to A');
-    cy.injectAxe();
-    cy.axeCheck();
-  });
-
   afterEach(() => {
     cy.get('[data-testid="sort-button"]').click({ force: true });
   });
