@@ -136,7 +136,7 @@ describe('VAOS direct schedule flow using VAOS service', () => {
 
   it('should submit form with an eye care type of care', () => {
     mockEligibilityApi({ typeOfCare: 'optometry', isEligible: true });
-    mockGetEligibilityCC('optometry');
+    mockGetEligibilityCC('Optometry');
     mockLoginApi();
     mockSchedulingConfigurationApi({
       facilityIds: ['983', '984'],

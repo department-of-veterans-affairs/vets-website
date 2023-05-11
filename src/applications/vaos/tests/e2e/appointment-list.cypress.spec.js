@@ -11,7 +11,9 @@ import {
   mockFacilitiesApi,
   mockCancelReasonsApi,
   mockUserTransitionAvailabilities,
+  mockClinicApi,
 } from './vaos-cypress-helpers';
+import { mockVamcEhr } from './vaos-cypress-v2-helpers';
 
 describe('VAOS appointment list', () => {
   describe('appointments details', () => {
@@ -23,6 +25,7 @@ describe('VAOS appointment list', () => {
       mockFeatureToggles({ v2DirectSchedule: true });
       mockLoginApi();
       mockUserTransitionAvailabilities();
+      mockVamcEhr();
     });
 
     it('community care appointment', () => {
@@ -115,6 +118,7 @@ describe('VAOS appointment list', () => {
       ];
 
       mockAppointmentsApi({ data, apiVersion: 2 });
+      mockClinicApi({ clinicId: '308', locations: ['983'] });
       mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
@@ -463,6 +467,7 @@ describe('VAOS appointment list', () => {
     });
 
     it('should render past appointments list', () => {
+      cy.wait('@v2:get:appointments');
       cy.get('#date-dropdown')
         .shadow()
         .findByLabelText(/Select a date range/i)
