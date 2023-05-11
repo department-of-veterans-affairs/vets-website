@@ -1,6 +1,6 @@
 import React from 'react';
 import { CurrentDebtTitle } from '../../components/CurrentDebtTitle';
-import ResolutionCompromiseAgreement from '../../components/ResolutionCompromiseAgreement';
+import ResolutionAmount from '../../components/ResolutionAmount';
 
 export const uiSchema = {
   selectedDebtsAndCopays: {
@@ -22,7 +22,7 @@ export const uiSchema = {
       resolutionCompromiseCheck: {
         'ui:title': 'How much can you afford to pay as a one-time payment?',
         'ui:reviewField': null,
-        'ui:widget': ResolutionCompromiseAgreement,
+        'ui:widget': ResolutionAmount,
       },
     },
   },

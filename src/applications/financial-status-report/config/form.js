@@ -54,7 +54,7 @@ import {
 } from '../components/contactInfo/EditContactInfo';
 import DependentAges from '../components/DependentAges';
 import DependentAgesReview from '../components/DependentAgesReview';
-import ResolutionCompromiseAgreement from '../components/ResolutionCompromiseAgreement';
+import ResolutionAmount from '../components/ResolutionAmount';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -1118,18 +1118,6 @@ const formConfig = {
           uiSchema: pages.resolutionOption.uiSchema,
           schema: pages.resolutionOption.schema,
         },
-        resolutionWaiverCheck: {
-          title: 'Resolution Waiver Agreement',
-          depends: formData =>
-            formData.selectedDebtsAndCopays?.length > 0 &&
-            formData['view:combinedFinancialStatusReport'],
-          itemFilter: item => item.resolutionOption === 'waiver',
-          path: 'resolution-waiver-agreement/:index',
-          showPagePerItem: true,
-          arrayPath: 'selectedDebtsAndCopays',
-          uiSchema: pages.resolutionWaiverAgreement.uiSchema,
-          schema: pages.resolutionWaiverAgreement.schema,
-        },
         resolutionCompromiseAmount: {
           title: 'Resolution Compromise Amount',
           depends: formData =>
@@ -1141,7 +1129,7 @@ const formConfig = {
           path: 'resolution-compromise-monthly/:index',
           showPagePerItem: true,
           arrayPath: 'selectedDebtsAndCopays',
-          CustomPage: ResolutionCompromiseAgreement,
+          CustomPage: ResolutionAmount,
           CustomPageReview: null,
           uiSchema: {},
           schema: {
@@ -1151,6 +1139,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['resolutionComment'],
                   properties: {
                     resolutionComment: {
                       type: 'string',
@@ -1160,6 +1149,18 @@ const formConfig = {
               },
             },
           },
+        },
+        resolutionWaiverCheck: {
+          title: 'Resolution Waiver Agreement',
+          depends: formData =>
+            formData.selectedDebtsAndCopays?.length > 0 &&
+            formData['view:combinedFinancialStatusReport'],
+          itemFilter: item => item.resolutionOption === 'waiver',
+          path: 'resolution-waiver-agreement/:index',
+          showPagePerItem: true,
+          arrayPath: 'selectedDebtsAndCopays',
+          uiSchema: pages.resolutionWaiverAgreement.uiSchema,
+          schema: pages.resolutionWaiverAgreement.schema,
         },
         resolutionComments: {
           path: 'resolution-comments',
