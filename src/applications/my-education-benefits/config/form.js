@@ -31,9 +31,10 @@ import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
+import CustomEmailField from '../components/CustomEmailField';
+import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
 import DateReviewField from '../components/DateReviewField';
 // import DirectDepositViewField from '../components/DirectDepositViewField';
-import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
 import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -44,6 +45,7 @@ import PhoneViewField from '../components/PhoneViewField';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
 import TextNotificationsDisclaimer from '../components/TextNotificationsDisclaimer';
 import YesNoReviewField from '../components/YesNoReviewField';
+import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 
 import { ELIGIBILITY } from '../actions';
 import { formFields } from '../constants';
@@ -164,7 +166,7 @@ function titleCase(str) {
 }
 
 function phoneUISchema(category) {
-  return {
+  const schema = {
     'ui:options': {
       hideLabelText: true,
       showFieldLabel: false,
@@ -196,6 +198,13 @@ function phoneUISchema(category) {
       },
     },
   };
+
+  // use custom component if mobile phone
+  if (category === 'mobile') {
+    schema.phone['ui:widget'] = CustomPhoneNumberField;
+  }
+
+  return schema;
 }
 
 function phoneSchema() {
@@ -568,6 +577,7 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
+                  {/* @NOTE: LOOK TO HAVE ALERT IN THIS AREA */}
                   <h3>Review your phone numbers and email address</h3>
                   <div className="meb-list-label">
                     <strong>We’ll use this information to:</strong>
@@ -621,7 +631,7 @@ const formConfig = {
               email: {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
-                'ui:reviewField': EmailReviewField,
+                'ui:widget': CustomEmailField,
               },
               confirmEmail: {
                 ...emailUI('Confirm email address'),
@@ -639,6 +649,9 @@ const formConfig = {
                   }
                 },
               ],
+            },
+            'view:confirmDuplicateData': {
+              'ui:description': DuplicateContactInfoModal,
             },
           },
           schema: {
@@ -662,6 +675,10 @@ const formConfig = {
                   email,
                   confirmEmail: email,
                 },
+              },
+              'view:confirmDuplicateData': {
+                type: 'object',
+                properties: {},
               },
             },
           },
