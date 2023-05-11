@@ -26,7 +26,7 @@ const getTestResultBlockHeight = (doc, item) => {
   // Account for height of horizontal rule.
   let height = 16;
 
-  height += doc.heightOfString(item.header, { font: 'SourceSansPro-Bold', fontSize: 18 });
+  height += doc.heightOfString(item.header, { font: 'SourceSansPro-Bold', fontSize: 18, paragraphGap: 10 });
   item.items.forEach(resultItem => {
     height += doc.heightOfString(`${resultItem.title}: `, { font: 'SourceSansPro-Bold', fontSize: 16, continued: true });
     height += doc.heightOfString(resultItem.value, { font: 'SourceSansPro-Regular', fontSize: 16 });
@@ -37,7 +37,7 @@ const getTestResultBlockHeight = (doc, item) => {
 
 const generate = async data => {
   const doc = new PDFDocument({
-    pdfVersion: '1.5',
+    pdfVersion: '1.7',
     lang: 'en-US',
     tagged: true,
     displayTitle: true,
@@ -74,13 +74,13 @@ const generate = async data => {
         doc
           .font('Bitter-Bold')
           .fontSize(30)
-          .text(data.title);
+          .text(data.title, { paragraphGap: 20 });
       }),
       doc.struct('P', () => {
         doc
           .font('Bitter-Regular')
           .fontSize(16)
-          .text(data.preface);
+          .text(data.preface, { paragraphGap: 20 });
       }),
     ],
   );
@@ -95,19 +95,22 @@ const generate = async data => {
       doc
         .font('Bitter-Bold')
         .fontSize(24)
-        .text(data.details.header, 30);
+        .text(data.details.header, { x: 30, paragraphGap: 10 });
     }),
   );
-  if (data.details.items.length > 0) {
-    data.details.items.forEach(item => {
+  const detailsItemsCount = data.details.items.length;
+  if (detailsItemsCount > 0) {
+    data.details.items.forEach((item, idx) => {
       details.add(
         doc.struct('P', () => {
+	  const paragraphOptions = { continued: true };
+          if (idx === (detailsItemsCount - 1)) {
+	    paragraphOptions.paragraphGap = 20;
+	  }
           doc
             .font('SourceSansPro-Bold')
             .fontSize(16)
-            .text(`${item.title}: `, {
-              continued: true,
-            });
+            .text(`${item.title}: `, paragraphOptions);
         }),
       );
       details.add(
@@ -133,7 +136,7 @@ const generate = async data => {
       doc
         .font('Bitter-Bold')
         .fontSize(24)
-        .text(data.results.header, 34);
+        .text(data.results.header, { x: 34, paragraphGap: 20 });
     }),
   );
   const resultItemCount = data.results.items.length;
@@ -156,7 +159,7 @@ const generate = async data => {
         doc
           .font('SourceSansPro-Bold')
           .fontSize(18)
-          .text(item.header, 34);
+          .text(item.header, { x: 34, paragraphGap: 10 });
       }),
     );
     
@@ -170,10 +173,6 @@ const generate = async data => {
               continued: true,
               x: 44,
             });
-        }),
-      );
-      results.add(
-        doc.struct('P', () => {
           doc
             .font('SourceSansPro-Regular')
             .fontSize(16)
