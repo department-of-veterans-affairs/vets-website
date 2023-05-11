@@ -1,11 +1,28 @@
 {
   "data": {
     "rjsf": {},
-    "dateDefault": "2000-01-01",
+    "dateDefault": "1999-01-01",
     "wc": {},
-    "dateWC": "2000-01-01",
+    "dateWC": "1999-12-12",
     "wcv3": {},
-    "dateWCV3": "2000-01-01",
+    "dateWCV3": "1999-12-12",
+    "vaCompensationType": "highDisability",
+    "currentlyActiveDuty": {
+      "yes": true,
+      "onTerminalLeave": false
+    },
+    "wcVaCompensationType": "highDisability",
+    "wcVaTileCompensationType": "none",
+    "wcCurrentlyActiveDuty": {
+      "yes": true,
+      "onTerminalLeave": false
+    },
+    "wcv3VaCompensationType": "lowDisability",
+    "wcv3VaTileCompensationType": "highDisability",
+    "wcv3CurrentlyActiveDuty": {
+      "yes": true,
+      "onTerminalLeave": false
+    },
     "selectDefault": "option1",
     "selectWC": "option2",
     "selectWC2": "option2",
@@ -25,7 +42,7 @@
     "wcV3CheckboxWithBackground": {},
     "ssn": "343434343",
     "ssnNew": "343434343",
-    "ssnNewV3": "343434343",
+    "ssnNewV3": "343433434",
     "addressOld": {
       "view:militaryBaseDescription": {},
       "country": "USA",
