@@ -1,14 +1,22 @@
 export default function prefillTransformer(pages, formData, metadata) {
+  const {
+    fullName,
+    ssn,
+    dateOfBirth,
+    homePhone,
+    email,
+    address,
+  } = formData?.veteran;
   return {
     pages,
     formData: {
       veteran: {
-        fullName: formData?.veteranFullName,
-        dateOfBirth: formData?.veteranDateOfBirth,
-        ssn: formData?.veteranSSN,
-        mailingAddress: formData?.veteranMailingAddress,
-        mobilePhone: formData?.veteranPhone,
-        email: formData?.veteranEmail,
+        fullName,
+        dateOfBirth,
+        ssn,
+        mailingAddress: address,
+        mobilePhone: homePhone,
+        email,
       },
     },
     metadata,
