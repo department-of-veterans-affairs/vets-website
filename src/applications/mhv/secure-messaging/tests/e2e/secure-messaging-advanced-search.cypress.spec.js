@@ -36,16 +36,15 @@ describe(manifest.appName, () => {
       mockDraftsSearchMessages,
     ).as('advancedSearchRequest');
     draftAdvancedSearch.openAdvancedSearch();
-    draftAdvancedSearch.selectCategory();
+    draftAdvancedSearch.selectAdvancedSearchCategory();
     draftAdvancedSearch.submitSearchButton();
 
     cy.get('[data-testid="message-list-item"]')
       .should('contain', 'COVID')
       .and('have.length', mockDraftsSearchMessages.data.length);
-    cy.get('[data-testid="search-message-folder-input-label"]').should(
-      'contain',
-      '4',
-    );
+    cy.get('[data-testid="search-message-folder-input-label"]')
+      .should('contain', '4')
+      .and('contain', 'Category: "covid"');
     cy.injectAxe();
     cy.axeCheck();
   });

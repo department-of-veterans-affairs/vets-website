@@ -202,7 +202,7 @@ class PatientMessageDraftsPage {
     cy.get('#first').click();
   };
 
-  selectCategory = () => {
+  selectAdvancedSearchCategory = () => {
     cy.get('#category-dropdown')
       .find('#select')
       .select('COVID');
