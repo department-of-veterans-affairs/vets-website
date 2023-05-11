@@ -165,7 +165,7 @@ export async function getAppointmentRequests({
         requestsWithoutAppointments,
       );
 
-      transformRequests.push(transformRequests, {
+      transformRequests.push({
         meta: appointments.backendSystemFailures,
       });
 
