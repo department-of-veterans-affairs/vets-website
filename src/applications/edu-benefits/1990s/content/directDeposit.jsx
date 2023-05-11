@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -15,7 +15,7 @@ export const directDepositAlert = () => (
 );
 
 export const bankInfoHelpText = (
-  <AdditionalInfo triggerText="What if I don’t have a bank account?">
+  <VaAdditionalInfo trigger="What if I don’t have a bank account?">
     <p>
       The{' '}
       <a
@@ -46,7 +46,7 @@ export const bankInfoHelpText = (
       about waiver requests. They can answer any questions or concerns you may
       have.
     </p>
-  </AdditionalInfo>
+  </VaAdditionalInfo>
 );
 
 export const paymentText = (

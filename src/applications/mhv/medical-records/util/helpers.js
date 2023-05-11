@@ -39,3 +39,27 @@ export const downloadFile = (name, base64Str) => {
   link.click();
   link.parentNode.removeChild(link);
 };
+
+/**
+ * @param {Object} record
+ * @returns {Array of Strings} array of reactions
+ */
+export const getReactions = record => {
+  const reactions = [];
+  if (!record || !record.reaction) return reactions;
+  record.reaction.forEach(rea => {
+    rea.manifestation.forEach(man => {
+      man.coding.forEach(cod => reactions.push(cod.display));
+    });
+  });
+  return reactions;
+};
+
+/**
+ * @param {Object} record
+ * @returns {Array of Strings} array of names, separated by a comma
+ */
+export const getNames = record => {
+  if (!record) return '';
+  return record.code.coding.map(code => code.display).join(', ');
+};
