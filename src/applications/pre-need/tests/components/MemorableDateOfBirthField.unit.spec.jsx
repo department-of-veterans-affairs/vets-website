@@ -4,12 +4,19 @@ import { mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
+import sinon from 'sinon';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import MemorableDateOfBirthField from '../../components/MemorableDateOfBirthField';
+import formConfig from '../../config/form';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 describe('<MemorableDateOfBirthField>', () => {
   let store;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.applicantInformation.pages.applicantInformation;
   beforeEach(() => {
     const initialState = {
       form: {
@@ -28,38 +35,23 @@ describe('<MemorableDateOfBirthField>', () => {
     wrapper.unmount();
   });
   it('should be required', () => {
-    const wrapper = mount(
+    const onSubmit = sinon.spy();
+    const form = mount(
       <Provider store={store}>
-        <MemorableDateOfBirthField />
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+        ,
       </Provider>,
     );
-    const memorableDate = wrapper.find('va-memorable-date');
-    const errorPropValue = memorableDate.prop('required');
-    expect(errorPropValue).to.equal(true);
-    wrapper.unmount();
-  });
-  it('should throw error if date is in the future', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <MemorableDateOfBirthField dob="2070-01-01" />
-      </Provider>,
-    );
-    const memorableDate = wrapper.find('va-memorable-date');
-    const errorPropValue = memorableDate.prop('error');
-    expect(errorPropValue).to.equal(
-      'Please enter a valid current or past date',
-    );
-    wrapper.unmount();
-  });
-  it('should not throw an error if a date is a valid current or past date', () => {
-    const wrapper = mount(
-      <Provider store={store}>
-        <MemorableDateOfBirthField dob="2020-01-01" />
-      </Provider>,
-    );
-    const memorableDate = wrapper.find('va-memorable-date');
-    const errorPropValue = memorableDate.prop('error');
-    expect(errorPropValue).to.equal('');
-    wrapper.unmount();
+
+    const theMagic = form
+      .find('label#root_application_claimant_dateOfBirth-label')
+      .find('span');
+    expect(theMagic.exists()).to.be.true;
+    form.unmount();
   });
 });

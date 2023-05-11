@@ -19,6 +19,7 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation.js';
 import MemorableDateOfBirthField from '../components/MemorableDateOfBirthField';
 import * as address from '../definitions/address';
 import Footer from '../components/Footer';
@@ -149,8 +150,13 @@ const formConfig = {
                 dateOfBirth: environment.isProduction()
                   ? currentOrPastDateUI('Date of birth')
                   : {
-                      'ui:title': ' ',
+                      'ui:title': 'Date of birth',
                       'ui:field': MemorableDateOfBirthField,
+                      'ui:validations': [validateCurrentOrPastDate],
+                      'ui:errorMessages': {
+                        pattern: 'Please enter a valid current or past date',
+                        required: 'Please enter a date',
+                      },
                     },
                 relationshipToVet: {
                   'ui:title': 'Relationship to service member',
@@ -187,7 +193,12 @@ const formConfig = {
                 properties: {
                   claimant: {
                     type: 'object',
-                    required: ['name', 'ssn', 'relationshipToVet'],
+                    required: [
+                      'name',
+                      'ssn',
+                      'dateOfBirth',
+                      'relationshipToVet',
+                    ],
                     properties: pick(claimant.properties, [
                       'name',
                       'ssn',
