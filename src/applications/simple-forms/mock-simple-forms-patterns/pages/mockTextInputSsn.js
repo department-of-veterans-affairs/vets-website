@@ -5,12 +5,18 @@ import {
   vaFileNumberUI as vaFileNumberNewUI,
   serviceNumberUI as serviceNumberNewUI,
   serviceNumberSchema as serviceNumberNewSchema,
+  ssnOrVaFileNumberOrServiceNumberUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import { ssnUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
+import { skipPageSchema, skipPageUI } from '../../shared/definitions/skipPage';
+
+const v3WCUI = ssnOrVaFileNumberOrServiceNumberUI(title => `V3 - ${title}`, {
+  uswds: true,
+});
 
 /** @type {PageSchema} */
 export default {
@@ -38,24 +44,10 @@ export default {
     wcv3: titleUI('Web component v3', {
       classNames: 'vads-u-margin-top--4',
     }),
-    ssnNewV3: {
-      ...ssnNewUI(),
-      'ui:options': {
-        uswds: true,
-      },
-    },
-    vaFileNumberNewV3: {
-      ...vaFileNumberNewUI(),
-      'ui:options': {
-        uswds: true,
-      },
-    },
-    serviceNumberNewV3: {
-      ...serviceNumberNewUI(),
-      'ui:options': {
-        uswds: true,
-      },
-    },
+    ssnNewV3: v3WCUI.socialSecurityNumber,
+    vaFileNumberNewV3: v3WCUI.vaFileNumber,
+    serviceNumberNewV3: v3WCUI.serviceNumber,
+    skip: skipPageUI(),
   },
   schema: {
     type: 'object',
@@ -78,6 +70,7 @@ export default {
       ssnNewV3: ssnNewSchema(),
       vaFileNumberNewV3: vaFileNumberNewSchema(),
       serviceNumberNewV3: serviceNumberNewSchema(),
+      skip: skipPageSchema(),
     },
     required: ['ssn', 'ssnNew', 'ssnNewV3'],
   },
