@@ -9,6 +9,7 @@ import formConfig from '../config/form';
 import {
   fetchPersonalInformation,
   fetchEligibility,
+  fetchDuplicateContactInfo,
   // fetchDirectDeposit, Commenting out until we update the component to handle astrisks see TOE app
 } from '../actions';
 import { formFields } from '../constants';
@@ -26,6 +27,7 @@ export const App = ({
   // getDirectDeposit,
   getEligibility,
   getPersonalInfo,
+  getDuplicateContactInfo,
   isLOA3,
   isLoggedIn,
   location,
@@ -33,9 +35,13 @@ export const App = ({
   showMebDgi40Features,
   showMebDgi42Features,
   showMebCh33SelfForm,
+  email,
+  mobilePhone,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
+  const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
+
   // Commenting out next line until component can handle astrisks (See TOE app)
   // const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
@@ -45,9 +51,11 @@ export const App = ({
         return;
       }
 
-      if (!fetchedPersonalInfo) {
+      if (!fetchedPersonalInfo || !fetchedContactInfo) {
         setFetchedPersonalInfo(true);
+        setFetchedContactInfo(true);
         getPersonalInfo(showMebCh33SelfForm);
+        getDuplicateContactInfo(claimantInfo?.claimantId);
       } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
@@ -61,6 +69,7 @@ export const App = ({
       fetchedPersonalInfo,
       formData,
       getPersonalInfo,
+      getDuplicateContactInfo,
       isLOA3,
       isLoggedIn,
       setFormData,
@@ -120,6 +129,23 @@ export const App = ({
           showMebCh33SelfForm,
         });
       }
+
+      if (email && email !== formData?.email?.email) {
+        setFormData({
+          ...formData,
+          email: {
+            ...formData?.email,
+            email,
+          },
+        });
+      }
+
+      if (mobilePhone !== formData.mobilePhone) {
+        setFormData({
+          ...formData,
+          mobilePhone,
+        });
+      }
     },
     [
       formData,
@@ -127,6 +153,7 @@ export const App = ({
       showMebDgi40Features,
       showMebDgi42Features,
       showMebCh33SelfForm,
+      email,
     ],
   );
 
@@ -174,6 +201,8 @@ App.propTypes = {
   showMebDgi40Features: PropTypes.bool,
   showMebDgi42Features: PropTypes.bool,
   showMebCh33SelfForm: PropTypes.bool,
+  email: PropTypes.string,
+  mobilePhone: PropTypes.string,
 };
 
 const mapStateToProps = state => {
@@ -181,11 +210,18 @@ const mapStateToProps = state => {
   const firstName = state.data?.formData?.data?.attributes?.claimant?.firstName;
   const transformedClaimantInfo = prefillTransformer(null, null, null, state);
   const claimantInfo = transformedClaimantInfo.formData;
+  const email = state?.data?.email;
+  const mobilePhone =
+    state?.data?.formData?.data?.attributes?.claimant?.contactInfo
+      ?.mobilePhoneNumber;
+
   return {
     ...getAppData(state),
     formData,
     firstName,
     claimantInfo,
+    email,
+    mobilePhone,
   };
 };
 
@@ -194,6 +230,7 @@ const mapDispatchToProps = {
   getEligibility: fetchEligibility,
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,
+  getDuplicateContactInfo: fetchDuplicateContactInfo,
 };
 
 export default connect(
