@@ -11,8 +11,11 @@ export default {
           "Please enter a valid VA file number.  All should have 7-9 digits; some may start with a 'C'",
       },
     },
-    vaInsuranceFileNumber: {
+    veteranVaInsuranceFileNumber: {
       'ui:title': 'VA Insurance File Number (if applicable)',
+      'ui:errorMessages': {
+        maxLength: 'Please enter a number with fewer than 20 digits.',
+      },
     },
   },
   schema: {
@@ -23,6 +26,7 @@ export default {
       veteranVaFileNumber: definitions.vaFileNumber,
       veteranVaInsuranceFileNumber: {
         type: 'string',
+        maxLength: 20,
       },
     },
   },

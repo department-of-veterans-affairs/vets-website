@@ -13,6 +13,9 @@ export default {
     },
     claimantVaInsuranceFileNumber: {
       'ui:title': 'VA Insurance File Number (if applicable)',
+      'ui:errorMessages': {
+        maxLength: 'Please enter a number with fewer than 20 digits.',
+      },
     },
   },
   schema: {
@@ -23,6 +26,7 @@ export default {
       claimantVaFileNumber: definitions.vaFileNumber,
       claimantVaInsuranceFileNumber: {
         type: 'string',
+        maxLength: 20,
       },
     },
   },
