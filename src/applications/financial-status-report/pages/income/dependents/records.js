@@ -7,9 +7,7 @@ export const uiSchema = {
   'ui:title': () => (
     <>
       <legend className="schemaform-block-title">Your dependents</legend>
-      <p className="vads-u-padding-top--2">
-        Enter each dependent’s age separately.
-      </p>
+      <p>Enter each dependent’s age separately.</p>
     </>
   ),
   personalData: {
@@ -65,9 +63,7 @@ export const uiSchemaEnhanced = {
   'ui:title': () => (
     <>
       <legend className="schemaform-block-title">Your dependents</legend>
-      <p className="vads-u-padding-top--2">
-        Enter each dependent’s age separately.
-      </p>
+      <p>Enter each dependent’s age separately.</p>
     </>
   ),
   personalData: {

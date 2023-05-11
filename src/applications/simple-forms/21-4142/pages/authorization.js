@@ -2,6 +2,7 @@ import React from 'react';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import { schemaFields } from '../definitions/constants';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     'view:legalText': {
@@ -30,14 +31,13 @@ export default {
                 <li>
                   Psychological, psychiatric, or other mental impairment(s)
                   excluding “psychotherapy notes” as defined in 45 C.F.R.
-                  §164.501,
+                  §164.501
                 </li>
-                <li>Drug abuse, alcoholism, or other substance abuse,</li>
-                <li>Sickle cell anemia,</li>
+                <li>Drug abuse, alcoholism, or other substance abuse</li>
+                <li>Sickle cell anemia</li>
                 <li>
                   Records which may indicate the presence of a communicable or
-                  non-communicable disease; and tests for or records of
-                  HIV/AIDS,
+                  non-communicable disease; and tests for or records of HIV/AIDS
                 </li>
                 <li>
                   Gene-related impairments (including genetic test results)
@@ -48,11 +48,11 @@ export default {
             <li>
               Information about how my impairment(s) affects my ability to
               complete tasks and activities of daily living, and affects my
-              ability to work.{' '}
+              ability to work.
             </li>
             <li>
               Information created within 12 months after the date this
-              authorization is signed in Item 11, as well as past information.
+              authorization is signed, as well as past information.
             </li>
           </ol>
           <p>
@@ -69,7 +69,7 @@ export default {
           </p>
           <h4 className="vads-u-color--gray-dark">Acknowledgment</h4>
           <p>
-            I hereby authorize the sources listed in Section IV, to release any
+            I hereby authorize the sources listed in this form, to release any
             information that may have been obtained in connection with a
             physical, psychological or psychiatric examination or treatment,
             with the understanding that VA will use this information in

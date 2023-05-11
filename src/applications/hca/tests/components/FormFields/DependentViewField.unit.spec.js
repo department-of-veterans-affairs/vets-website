@@ -10,9 +10,7 @@ describe('hca <DependentViewField>', () => {
       fullName: { first: 'John', last: 'Smith' },
       dependentRelation: 'son',
     };
-
     const { getByText } = render(<DependentViewField formData={formData} />);
-
     expect(getByText(/john smith/i)).to.exist;
     expect(getByText(/son/i)).to.exist;
   });

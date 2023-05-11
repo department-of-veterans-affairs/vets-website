@@ -64,6 +64,12 @@
   }
 
   .message-action-buttons {
+    @media (max-width: $xsmall-screen) {
+      flex-direction: column;
+      button {
+        margin: 0;
+      }
+    }
     list-style-type: none;
     display: flex;
     flex-direction: row;

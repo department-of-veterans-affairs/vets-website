@@ -23,7 +23,7 @@ describe('<SchoolSelectField>', () => {
     expect(tree.find('#root_school_view:manualSchoolEntry_name').exists()).to.be
       .false;
     expect(tree.find('.institution-name').exists()).to.be.false;
-    expect(tree.find('.loading-indicator-container').exists()).to.be.false;
+    expect(tree.find('va-loading-indicator').exists()).to.be.false;
     expect(tree.find('.va-pagination').exists()).to.be.false;
     tree.unmount();
   });
@@ -63,8 +63,8 @@ describe('<SchoolSelectField>', () => {
       'testCity, testState',
     );
     expect(tree.find('.institution-address').length).to.eql(3);
-    expect(tree.find('.va-pagination').exists()).to.be.true;
-    expect(tree.find('.loading-indicator-container').exists()).to.be.false;
+    expect(tree.find('va-pagination').exists()).to.be.true;
+    expect(tree.find('va-loading-indicator').exists()).to.be.false;
     expect(tree.find('#root_school_view:manualSchoolEntry_name').exists()).to.be
       .false;
     tree.unmount();
@@ -148,12 +148,13 @@ describe('<SchoolSelectField>', () => {
       />,
     );
 
+    const vaLoadingIndicatorMessage = tree.find('va-loading-indicator');
     expect(tree.find('.search-controls').exists()).to.be.true;
     expect(tree.find('.institution-name').exists()).to.be.false;
     expect(tree.find('.institution-city-state').exists()).to.be.false;
-    expect(tree.find('.va-pagination').exists()).to.be.false;
-    expect(tree.find('.loading-indicator-container').exists()).to.be.true;
-    expect(tree.find('.loading-indicator-container').text()).to.eql(
+    expect(tree.find('va-pagination').exists()).to.be.false;
+    expect(vaLoadingIndicatorMessage.exists()).to.be.true;
+    expect(vaLoadingIndicatorMessage.prop('message')).to.eql(
       'Searching test...',
     );
     expect(tree.find('#root_school_view:manualSchoolEntry_name').exists()).to.be
@@ -181,9 +182,9 @@ describe('<SchoolSelectField>', () => {
     expect(tree.find('.search-controls').exists()).to.be.true;
     expect(tree.find('.institution-name').exists()).to.be.false;
     expect(tree.find('.institution-city-state').exists()).to.be.false;
-    expect(tree.find('.va-pagination').exists()).to.be.true;
-    expect(tree.find('.loading-indicator-container').exists()).to.be.true;
-    expect(tree.find('.loading-indicator-container').text()).to.eql(
+    expect(tree.find('va-pagination').exists()).to.be.true;
+    expect(tree.find('va-loading-indicator').exists()).to.be.true;
+    expect(tree.find('va-loading-indicator').prop('message')).to.eql(
       'Loading page 1 results for test...',
     );
     expect(tree.find('#root_school_view:manualSchoolEntry_name').exists()).to.be
@@ -252,7 +253,7 @@ describe('<SchoolSelectField>', () => {
     expect(tree.find('.institution-name').exists()).to.be.false;
     expect(tree.find('.institution-city-state').exists()).to.be.false;
     expect(tree.find('.va-pagination').exists()).to.be.false;
-    expect(tree.find('.loading-indicator-container').exists()).to.be.false;
+    expect(tree.find('va-loading-indicator').exists()).to.be.false;
     expect(tree.find('#root_school_view:manualSchoolEntry_name').exists()).to.be
       .false;
     tree.unmount();

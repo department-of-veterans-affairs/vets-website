@@ -9,6 +9,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getAllVaccinesPdf } from '../api/MrApi';
 import { downloadFile } from '../util/helpers';
+import PrintDownload from '../components/shared/PrintDownload';
 
 const Allergies = () => {
   const dispatch = useDispatch();
@@ -108,28 +109,7 @@ const Allergies = () => {
           </li>
         </ul>
       </va-additional-info>
-
-      <div className="vads-u-display--flex vads-u-margin-y--1 no-print">
-        <button
-          className="link-button vads-u-margin-right--3"
-          type="button"
-          data-testid="print-records-button"
-          onClick={window.print}
-        >
-          <i
-            aria-hidden="true"
-            className="fas fa-print vads-u-margin-right--1"
-          />
-          Print page
-        </button>
-        <button className="link-button" type="button" onClick={download}>
-          <i
-            aria-hidden="true"
-            className="fas fa-download vads-u-margin-right--1"
-          />
-          Download page
-        </button>
-      </div>
+      <PrintDownload list download={download} />
       <va-additional-info
         trigger="What to know about downloading records"
         class="no-print"

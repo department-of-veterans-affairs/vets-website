@@ -43,6 +43,17 @@ import OtherIncomeSummary from '../components/OtherIncomeSummary';
 import AddIncome from '../components/AddIncome';
 import SpouseOtherIncomeSummary from '../components/SpouseOtherIncomeSummary';
 import SpouseAddIncome from '../components/SpouseAddIncome';
+import ContactInfo, {
+  customContactFocus,
+} from '../components/contactInfo/ContactInfo';
+import ContactInfoReview from '../components/contactInfo/ContactInfoReview';
+import {
+  EditMobilePhone,
+  EditEmail,
+  EditAddress,
+} from '../components/contactInfo/EditContactInfo';
+import DependentAges from '../components/DependentAges';
+import DependentAgesReview from '../components/DependentAgesReview';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -85,6 +96,9 @@ const formConfig = {
     reviewPageTitle: 'Review your request',
     submitButtonText: 'Submit your request',
   },
+  // when true, initial focus on page to H3s by default, and enable page
+  // scrollAndFocusTarget (selector string or function to scroll & focus)
+  useCustomScrollAndFocus: true,
   chapters: {
     veteranInformationChapter: {
       title: 'Veteran information',
@@ -156,6 +170,45 @@ const formConfig = {
           title: 'Contact Information',
           uiSchema: pages.contactInfo.uiSchema,
           schema: pages.contactInfo.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
+        currentContactInformation: {
+          title: 'Contact information',
+          path: 'current-contact-information',
+          CustomPage: ContactInfo,
+          CustomPageReview: ContactInfoReview,
+          uiSchema: pages.contactInformation.uiSchema,
+          schema: pages.contactInformation.schema,
+          // needs useCustomScrollAndFocus: true to work
+          scrollAndFocusTarget: customContactFocus,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        editMobilePhone: {
+          title: 'Edit mobile phone number',
+          path: 'edit-mobile-phone',
+          CustomPage: EditMobilePhone,
+          CustomPageReview: EditMobilePhone,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editEmailAddress: {
+          title: 'Edit email address',
+          path: 'edit-email-address',
+          CustomPage: EditEmail,
+          CustomPageReview: EditEmail,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editMailingAddress: {
+          title: 'Edit mailing address',
+          path: 'edit-mailing-address',
+          CustomPage: EditAddress,
+          CustomPageReview: EditAddress,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },
@@ -604,12 +657,15 @@ const formConfig = {
         dependentAges: {
           path: 'dependent-ages',
           title: 'Dependents',
-          uiSchema: pages.dependentRecords.uiSchemaEnhanced,
+          uiSchema: {},
           schema: pages.dependentRecords.schemaEnhanced,
           depends: formData =>
             formData['view:enhancedFinancialStatusReport'] &&
-            formData.questions?.hasDependents > 0,
-          editModeOnReviewPage: true,
+            formData.questions?.hasDependents &&
+            formData.questions.hasDependents !== '0',
+          CustomPage: DependentAges,
+          CustomPageReview: DependentAgesReview,
+          editModeOnReviewPage: false,
         },
       },
     },

@@ -2,6 +2,7 @@ import React from 'react';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import { schemaFields } from '../definitions/constants';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [schemaFields.limitedConsent]: {

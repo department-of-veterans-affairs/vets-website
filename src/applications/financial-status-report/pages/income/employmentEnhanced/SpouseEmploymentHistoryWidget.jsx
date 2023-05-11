@@ -37,34 +37,35 @@ const SpouseEmploymentHistoryWidget = props => {
 
   return (
     <form>
-      <legend className="schemaform-block-title">
-        Your spouse’s work history
-      </legend>
-      <div className="vads-u-margin-top--3" data-testid="debt-list">
-        {employmentHistory.length === 0 ? (
-          <EmptyMiniSummaryCard content={emptyPrompt} />
-        ) : (
-          employmentHistory.map((job, index) => (
-            <EmploymentHistorySummaryCard
-              key={`${index}-${job.employername}`}
-              job={job}
-              index={index}
-              isSpouse
-            />
-          ))
-        )}
-      </div>
-      <Link
-        className="vads-c-action-link--green"
-        to={
-          efsrFeatureFlag
-            ? '/enhanced-spouse-employment-records'
-            : '/spouse-employment-records'
-        }
-      >
-        Add another job from the last 2 years
-      </Link>
-
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">
+          Your spouse’s work history
+        </legend>
+        <div className="vads-u-margin-top--3" data-testid="debt-list">
+          {employmentHistory.length === 0 ? (
+            <EmptyMiniSummaryCard content={emptyPrompt} />
+          ) : (
+            employmentHistory.map((job, index) => (
+              <EmploymentHistorySummaryCard
+                key={`${index}-${job.employername}`}
+                job={job}
+                index={index}
+                isSpouse
+              />
+            ))
+          )}
+        </div>
+        <Link
+          className="vads-c-action-link--green"
+          to={
+            efsrFeatureFlag
+              ? '/enhanced-spouse-employment-records'
+              : '/spouse-employment-records'
+          }
+        >
+          Add another job from the last 2 years
+        </Link>
+      </fieldset>
       {onReviewPage ? updateButton : navButtons}
     </form>
   );

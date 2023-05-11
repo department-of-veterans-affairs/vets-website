@@ -85,10 +85,10 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
   return (
     <>
       <form onSubmit={handlers.onSubmit}>
-        <fieldset>
+        <fieldset className="vads-u-margin-y--2">
           <legend
             id="decision-date-description"
-            className="vads-u-font-family--serif"
+            className="schemaform-block-title"
             name="addOrUpdateIncome"
           >
             Add your spouse’s additional sources of income

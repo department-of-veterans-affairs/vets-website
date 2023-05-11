@@ -6,7 +6,6 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
 import VaMedicalCenter from '../../../components/FormFields/VaMedicalCenter';
 
 const apiRequestWithUrl = `${environment.API_URL}/v1/facilities/va`;
@@ -47,6 +46,7 @@ describe('hca <VaMedicalCenter>', () => {
     after(() => {
       server.close();
     });
+
     it('should render VaMedicalCenter component as an empty select element', () => {
       const mockStore = {
         getState: () => ({
@@ -187,6 +187,7 @@ describe('hca <VaMedicalCenter>', () => {
     after(() => {
       server.close();
     });
+
     it('should render a server error alert', async () => {
       const mockStore = {
         getState: () => ({

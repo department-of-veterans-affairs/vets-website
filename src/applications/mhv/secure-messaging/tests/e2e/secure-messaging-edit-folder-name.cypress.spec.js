@@ -24,12 +24,18 @@ describe('Secure Messaging Custom Folder Edit Folder Name Message Validation', (
     cy.get('[data-testid="my-folders-sidebar"]').click();
     cy.contains('TEST2').click();
     cy.wait('@customFolder');
-    cy.get('.left-button').click({ force: true });
+    cy.get('[data-testid="edit-folder-button"]').click({ force: true });
     cy.get('[name="new-folder-name"]')
       .shadow()
       .find('[id="inputField"]')
       .type('Testing');
     cy.get('[visible=""] > [secondary=""]').click();
+    cy.focused({ timeout: 5000 }).should(
+      'have.attr',
+      'data-testid',
+      'edit-folder-button',
+    );
+
     cy.injectAxe();
     cy.axeCheck();
   });
