@@ -60,4 +60,4 @@ echo "Install and serve content-build"
 cd ../content-build
 yarn install
 ln -s /app/website/vets-website/build/localhost/generated /app/website/content-build/build/localhost/generated
-yarn watch --env api="http://vets-api-web:3004"
+yarn serve
