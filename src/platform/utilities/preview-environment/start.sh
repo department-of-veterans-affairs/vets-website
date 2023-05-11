@@ -21,7 +21,7 @@ then
     echo "SOURCE_REF is NULL; using main" ;
     git clone --depth 1 https://github.com/department-of-veterans-affairs/vets-website.git ;
 else
-    echo "AWS_URL is not NULL; using workflow env var" ;
+    echo "SOURCE_REF is not NULL; using workflow env var" ;
     git clone -b ${SOURCE_REF} --single-branch https://github.com/department-of-veterans-affairs/vets-website.git
 fi
 
@@ -43,7 +43,7 @@ echo "Setup content-build and extract pre-built content into content-build/build
 echo "make the build folder"
 mkdir -p content-build/build/localhost
 echo "untar the build into content-build/build/localhost/"
-tar -xf vagovdev.tar.bz2 -C content-build/build/localhost/
+tar -xf vagovprod.tar.bz2 -C content-build/build/localhost/
 
 echo "set yarn to allow self-signed cert for install"
 yarn config set "strict-ssl" false
