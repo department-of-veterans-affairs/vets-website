@@ -1,4 +1,5 @@
 import mockMessage from '../fixtures/message-clickableUrl-response.json';
+import messageResponseForThread from '../fixtures/message-response-for-thread.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import { dateFormat } from '../../../util/helpers';
 
@@ -9,7 +10,8 @@ class PatientMessageDetailsPage {
     mockParentMessageDetails,
     mockThread = defaultMockThread,
     previousMessageIndex = 1,
-    mockPreviousMessageDetails = mockMessage,
+    // mockPreviousMessageDetails = mockMessage,
+    mockPreviousMessageDetails = messageResponseForThread,
   ) => {
     this.currentThread = mockThread;
 
