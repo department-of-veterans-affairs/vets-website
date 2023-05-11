@@ -13,9 +13,16 @@ import {
   FETCH_ELIGIBILITY_FAILURE,
   ELIGIBILITY,
   FETCH_PERSONAL_INFORMATION,
+  FETCH_DUPLICATE_CONTACT_INFO_SUCCESS,
+  FETCH_DUPLICATE_CONTACT_INFO_FAILURE,
+  UPDATE_GLOBAL_EMAIL,
+  UPDATE_GLOBAL_PHONE_NUMBER,
+  ACKNOWLEDGE_DUPLICATE,
+  TOGGLE_MODAL,
 } from '../actions';
 
 const initialState = {
+  openModal: false,
   formData: {},
   form: {
     data: {},
@@ -87,6 +94,34 @@ export default {
                   benefit.chapter !== ELIGIBILITY.CHAPTER33,
               )
               .map(benefit => benefit.chapter) || [],
+        };
+      case FETCH_DUPLICATE_CONTACT_INFO_SUCCESS:
+        return {
+          ...state,
+          duplicateEmail: action?.response?.data?.attributes?.email,
+          duplicatePhone: action?.response?.data?.attributes?.phone,
+        };
+      case FETCH_DUPLICATE_CONTACT_INFO_FAILURE:
+      case UPDATE_GLOBAL_EMAIL:
+        return {
+          ...state,
+          email: action?.email,
+        };
+      case UPDATE_GLOBAL_PHONE_NUMBER:
+        return {
+          ...state,
+          mobilePhone: action?.mobilePhone,
+        };
+      case ACKNOWLEDGE_DUPLICATE:
+        return {
+          ...state,
+          duplicateEmail: action?.contactInfo?.email,
+          duplicatePhone: action?.contactInfo?.phone,
+        };
+      case TOGGLE_MODAL:
+        return {
+          ...state,
+          openModal: action.toggle,
         };
       default:
         return state;
