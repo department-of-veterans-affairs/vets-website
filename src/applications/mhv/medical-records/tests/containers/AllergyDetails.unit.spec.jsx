@@ -3,8 +3,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import AllergyDetails from '../../containers/AllergyDetails';
 import reducer from '../../reducers';
-import { dateFormat, getAllergyNames } from '../../util/helpers';
-import allergy from '../fixtures/allergyFHIR.json';
+import allergy from '../fixtures/allergy.json';
 
 describe('Allergy details container', () => {
   const initialState = {
@@ -42,28 +41,19 @@ describe('Allergy details container', () => {
   it('displays the allergy name as an h1', () => {
     const screen = setup();
 
-    const allergyName = screen.getByText(
-      `Allergy: ${getAllergyNames(initialState.mr.allergies.allergyDetails)}`,
-      {
-        exact: true,
-        selector: 'h1',
-      },
-    );
+    const allergyName = screen.getByText(`Allergy: ${allergy.name}`, {
+      exact: true,
+      selector: 'h1',
+    });
     expect(allergyName).to.exist;
   });
 
   it('displays the formatted received date', () => {
     const screen = setup();
-    const formattedDate = screen.getByText(
-      dateFormat(
-        initialState.mr.allergies.allergyDetails.dateEntered,
-        'MMMM D, YYYY',
-      ),
-      {
-        exact: true,
-        selector: 'p',
-      },
-    );
+    const formattedDate = screen.getByText(allergy.date, {
+      exact: true,
+      selector: 'p',
+    });
     expect(formattedDate).to.exist;
   });
 

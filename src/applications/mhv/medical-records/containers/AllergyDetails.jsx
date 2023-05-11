@@ -2,12 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import {
-  dateFormat,
-  downloadFile,
-  getAllergyNames,
-  getAllergyReactions,
-} from '../util/helpers';
+import { downloadFile } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getAllergyDetails } from '../actions/allergies';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -16,9 +11,7 @@ import { getVaccinePdf } from '../api/MrApi';
 import PrintDownload from '../components/shared/PrintDownload';
 
 const AllergyDetails = () => {
-  const allergyDetails = useSelector(
-    state => state.mr.allergies.allergyDetails,
-  );
+  const allergy = useSelector(state => state.mr.allergies.allergyDetails);
   const { allergyId } = useParams();
   const dispatch = useDispatch();
 
@@ -28,12 +21,10 @@ const AllergyDetails = () => {
     },
     [allergyId, dispatch],
   );
-  const formattedDate = dateFormat(allergyDetails?.dateEntered, 'MMMM D, YYYY');
-  const allergyName = getAllergyNames(allergyDetails);
 
   useEffect(
     () => {
-      if (allergyName) {
+      if (allergy) {
         dispatch(
           setBreadcrumbs(
             [
@@ -49,13 +40,13 @@ const AllergyDetails = () => {
             ],
             {
               url: `/my-health/medical-records/health-history/allergies/${allergyId}`,
-              label: allergyName,
+              label: allergy.name,
             },
           ),
         );
       }
     },
-    [allergyDetails, dispatch],
+    [allergy],
   );
 
   const download = () => {
@@ -63,17 +54,17 @@ const AllergyDetails = () => {
   };
 
   const content = () => {
-    if (allergyDetails) {
+    if (allergy) {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0p5">Allergy: {allergyName}</h1>
+          <h1 className="vads-u-margin-bottom--0p5">Allergy: {allergy.name}</h1>
           <div className="condition-subheader vads-u-margin-bottom--3">
             <div className="time-header">
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Date entered:{' '}
               </h2>
-              <p>{formattedDate}</p>
+              <p>{allergy.date}</p>
             </div>
             <PrintDownload list download={download} />
             <va-additional-info
@@ -99,34 +90,31 @@ const AllergyDetails = () => {
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Reaction
             </h2>
-            <ItemList
-              list={getAllergyReactions(allergyDetails)}
-              emptyMessage="None noted"
-            />
+            <ItemList list={allergy.reaction} emptyMessage="None noted" />
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Type of allergy
             </h2>
-            <p>{allergyDetails.type || 'None noted'}</p>
+            <p>{allergy.type || 'None noted'}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               VA drug class
             </h2>
-            <p>{allergyDetails.drugClass || 'None noted'}</p>
+            <p>{allergy.drugClass || 'None noted'}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h2>
-            <p>{allergyDetails.location || 'None noted'}</p>
+            <p>{allergy.location || 'None noted'}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Observed or reported
             </h2>
             <p>
-              {allergyDetails.observed
+              {allergy.observed
                 ? 'Observed (your provider observed the reaction in person)'
                 : 'Reported (you told your provider about the reaction)'}
             </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider notes
             </h2>
-            <ItemList list={allergyDetails.notes} emptyMessage="None noted" />
+            <ItemList list={allergy.notes} emptyMessage="None noted" />
           </div>
         </>
       );

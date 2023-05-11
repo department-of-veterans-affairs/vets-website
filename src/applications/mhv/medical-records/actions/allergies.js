@@ -3,8 +3,7 @@ import { getAllergies, getAllergy } from '../api/MrApi';
 
 export const getAllergiesList = () => async dispatch => {
   const response = await getAllergies();
-  const allergies = response.entry.map(item => item.resource);
-  dispatch({ type: Actions.Allergies.GET_LIST, response: allergies });
+  dispatch({ type: Actions.Allergies.GET_LIST, response });
 };
 
 export const getAllergyDetails = conditionId => async dispatch => {
