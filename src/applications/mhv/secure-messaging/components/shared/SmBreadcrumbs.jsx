@@ -103,7 +103,10 @@ const SmBreadcrumbs = () => {
               }
             }
           } else if (locationBasePath === 'search') {
-            arr.push({ path: '/', label: 'Back' });
+            arr.push({
+              path: `/folder/${activeFolder.folderId}`,
+              label: 'Back',
+            });
           } else if (
             locationBasePath === 'reply' &&
             activeFolder?.folderId === 0
