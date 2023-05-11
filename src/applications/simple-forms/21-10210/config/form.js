@@ -20,7 +20,6 @@ import vetAddrInfo from '../pages/vetAddrInfo';
 import vetContInfo from '../pages/vetContInfo';
 import statement from '../pages/statement';
 
-import prefillTransformer from './prefill-transformer';
 import transformForSubmit from '../../shared/config/submit-transformer';
 
 // "Flows" in comments below map to "Stories" in the mockups:
@@ -29,7 +28,7 @@ import transformForSubmit from '../../shared/config/submit-transformer';
 // mock-data import for local development
 // import the appropriate file [...-flow?.json] for the flow you're working on, or
 // test-data-no-stmtinfo.json for all flows [select claimOwnership & claimantType via UI]
-import testData from '../tests/fixtures/data/test-data.json';
+import testData from '../tests/fixtures/data/test-data-no-stmtinfo.json';
 
 const mockData = testData.data;
 const formConfig = {
@@ -52,8 +51,6 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
-  prefillTransformer,
   transformForSubmit,
   savedFormMessages: {
     notFound: 'Please start over to apply.',
