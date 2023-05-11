@@ -39,6 +39,17 @@ class PatientBasicSearchPage {
     cy.get('.usa-button-primary').click({ force: true });
   };
 
+  submitCustomFolderSearch = () => {
+    cy.intercept(
+      'POST',
+      `/my_health/v1/messaging/folders/${
+        folderResponse.data.at(4).attributes.folderId
+      }/search`,
+      mockMessageResponse,
+    ).as('CustomSearchResults');
+    cy.get('.usa-button-primary').click({ force: true });
+  };
+
   // This method verifies the highlighted text in the messages returned after clicking the search button.
 
   verifyHighlightedText = text => {
