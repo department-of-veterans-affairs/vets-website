@@ -1,33 +1,46 @@
+import React from 'react';
+
+import { omit } from 'lodash';
+
 import definitions from 'vets-json-schema/dist/definitions.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import { CLAIMANT_TYPES, CLAIM_OWNERSHIPS } from '../definitions/constants';
+
+const partialEmailUi = omit(emailUI(), ['ui:title', 'ui:options']);
 
 export default {
   uiSchema: {
     veteranPhone: {
       'ui:title': 'Phone number',
     },
-    veteranEmail: emailUI(),
-    veteranEmailConsent: {
-      'ui:title':
-        'I agree to receive electronic correspondence from VA in regards to my claim.', // hidden via styling
-      'ui:widget': 'checkbox', // Need this widget to support error messages
-      'ui:required': formData =>
-        !!formData.veteranEmail &&
-        !(
-          formData.claimantType === CLAIMANT_TYPES.NON_VETERAN ||
-          (formData.claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY &&
-            formData.claimantType === CLAIMANT_TYPES.VETERAN)
-        ),
-      'ui:errorMessages': {
-        required: 'Please agree to receive electronic correspondence.',
-      },
+    veteranEmail: {
+      ...partialEmailUi,
       'ui:options': {
-        hideIf: formData =>
-          formData.claimantType === CLAIMANT_TYPES.NON_VETERAN ||
-          (formData.claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY &&
-            formData.claimantType === CLAIMANT_TYPES.VETERAN),
+        inputType: 'email',
+        updateSchema: formData => {
+          const { claimOwnership, claimantType } = formData;
+
+          if (
+            claimOwnership === CLAIM_OWNERSHIPS.SELF &&
+            claimantType === CLAIMANT_TYPES.VETERAN
+          ) {
+            return {
+              title: (
+                <span>
+                  Email address
+                  <br />
+                  By providing an email address, I agree to receive electronic
+                  correspondence from VA regarding my application
+                </span>
+              ),
+            };
+          }
+
+          return {
+            title: 'Email address',
+          };
+        },
       },
     },
   },
@@ -37,9 +50,6 @@ export default {
     properties: {
       veteranPhone: definitions.phone,
       veteranEmail: definitions.email,
-      veteranEmailConsent: {
-        type: 'boolean',
-      },
     },
   },
 };

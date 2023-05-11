@@ -1,31 +1,46 @@
+import React from 'react';
+
+import { omit } from 'lodash';
+
 import definitions from 'vets-json-schema/dist/definitions.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
+
+const partialEmailUi = omit(emailUI(), ['ui:title', 'ui:options']);
 
 export default {
   uiSchema: {
     claimantPhone: {
       'ui:title': 'Phone number',
     },
-    claimantEmail: emailUI(),
-    claimantEmailConsent: {
-      'ui:title':
-        'I agree to receive electronic correspondence from VA in regards to my claim.', // hidden via styling
-      'ui:widget': 'checkbox', // Need this widget to support error messages
-      // TODO: Investigate why this only works once, though bug's arguably an edge-case:
-      // If User checks and the unchecks -- whether before Continuing or after Continuing and returning to this page -- Continue fails to block advancing even though the field still shows Required
-      'ui:required': formData =>
-        !!formData.claimantEmail &&
-        formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
-        formData.claimantType === CLAIMANT_TYPES.NON_VETERAN,
-      'ui:errorMessages': {
-        required: 'Please agree to receive electronic correspondence.',
-      },
+    claimantEmail: {
+      ...partialEmailUi,
       'ui:options': {
-        hideIf: formData =>
-          formData.claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY &&
-          formData.claimantType === CLAIMANT_TYPES.NON_VETERAN,
+        inputType: 'email',
+        updateSchema: formData => {
+          const { claimOwnership, claimantType } = formData;
+
+          if (
+            claimOwnership === CLAIM_OWNERSHIPS.SELF &&
+            claimantType === CLAIMANT_TYPES.NON_VETERAN
+          ) {
+            return {
+              title: (
+                <span>
+                  Email address
+                  <br />
+                  By providing an email address, I agree to receive electronic
+                  correspondence from VA regarding my application
+                </span>
+              ),
+            };
+          }
+
+          return {
+            title: 'Email address',
+          };
+        },
       },
     },
   },
@@ -35,9 +50,6 @@ export default {
     properties: {
       claimantPhone: definitions.phone,
       claimantEmail: definitions.email,
-      claimantEmailConsent: {
-        type: 'boolean',
-      },
     },
   },
 };
