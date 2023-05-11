@@ -5,16 +5,16 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
-import textInput from '../pages/textInput';
-import textInputWidgets1 from '../pages/textInputWidgets1';
-import textInputFullName from '../pages/textInputFullName';
-import textInputAddress from '../pages/textInputAddress';
-import textInputSsn from '../pages/textInputSsn';
-import checkboxAndTextInput from '../pages/checkboxAndTextInput';
+import textInput from '../pages/mockTextInput';
+import textInputWidgets1 from '../pages/mockTextInputWidgets1';
+import textInputFullName from '../pages/mockTextInputFullName';
+import textInputAddress from '../pages/mockTextInputAddress';
+import textInputSsn from '../pages/mockTextInputSsn';
+import checkboxAndTextInput from '../pages/mockCheckboxAndTextInput';
 // import checkboxGroup from '../pages/checkboxGroup';
-// import radio from '../pages/radio';
-import select from '../pages/select';
-import date from '../pages/date';
+import radio from '../pages/mockRadio';
+import select from '../pages/mockSelect';
+import date from '../pages/mockDate';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -72,6 +72,11 @@ const formConfig = {
           uiSchema: textInputSsn.uiSchema,
           schema: textInputSsn.schema,
         },
+      },
+    },
+    checkbox: {
+      title: 'Checkbox',
+      pages: {
         checkboxAndTextInput: {
           path: 'checkbox-and-text-input',
           title: 'Checkbox and text input',
@@ -97,17 +102,17 @@ const formConfig = {
         },
       },
     },
-    // radio: {
-    //   title: 'Radio',
-    //   pages: {
-    //     checkbox: {
-    //       path: 'radio',
-    //       title: 'Radio',
-    //       uiSchema: radio.uiSchema,
-    //       schema: radio.schema,
-    //     },
-    //   },
-    // },
+    radio: {
+      title: 'Radio',
+      pages: {
+        radio: {
+          path: 'radio',
+          title: 'Radio',
+          uiSchema: radio.uiSchema,
+          schema: radio.schema,
+        },
+      },
+    },
     date: {
       title: 'Date',
       pages: {

@@ -190,6 +190,7 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             cy.fillPage();
 
+            // unstable tests
             let [year, month, day] = data.dateWC.split('-');
             cy.get(`va-memorable-date[name="root_dateWC"]`)
               .shadow()
@@ -237,6 +238,41 @@ const testConfig = createTestConfig(
                       .type(year);
                   });
               });
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      radio: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+
+            cy.get(
+              `va-radio-option[name="root_wcVaCompensationType"][value="${
+                data.wcVaCompensationType
+              }"]`,
+            ).click();
+
+            cy.get(
+              `va-radio-option[name="root_wcVaTileCompensationType"][value="${
+                data.wcVaTileCompensationType
+              }"]`,
+            ).click();
+
+            cy.get(
+              `va-radio-option[name="root_wcv3VaCompensationType"][value="${
+                data.wcv3VaCompensationType
+              }"]`,
+            ).click();
+
+            cy.get(
+              `va-radio-option[name="root_wcv3VaTileCompensationType"][value="${
+                data.wcv3VaTileCompensationType
+              }"]`,
+            ).click();
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();

@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.textInput.pages.checkboxAndTextInput;
+} = formConfig.chapters.checkbox.pages.checkboxAndTextInput;
 
 describe('web component vs regular text inputs', () => {
   it('should have appropriate number of fields', () => {
