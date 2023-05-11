@@ -63,9 +63,9 @@ export const MissingId = ({ title }) => {
         We don’t have all of your ID information for your account. We need this
         information before you can {titleLowerCase(title)}. To update your
         account, please call Veterans Benefits Assistance at{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
+        <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
         <va-telephone contact={CONTACTS['711']} />
-        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        ). We’re here 24 hours a day, 7 days a week.
       </p>
       <p className="vads-u-font-size--base">
         Tell the representative that you may be missing your{' '}
