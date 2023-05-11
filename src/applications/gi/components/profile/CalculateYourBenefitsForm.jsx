@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
@@ -25,6 +25,12 @@ import BenefitsForm from './BenefitsForm';
 import LearnMoreLabel from '../LearnMoreLabel';
 import VARadioButton from '../VARadioButton';
 
+export const issueZipCodeHintText = (
+  <p className="vads-u-font-weight--normal label-description">
+    Postal code must be a 5-digit number
+  </p>
+);
+
 function CalculateYourBenefitsForm({
   calculatorInputChange,
   displayedInputs,
@@ -39,6 +45,13 @@ function CalculateYourBenefitsForm({
   focusHandler,
 }) {
   const [invalidZip, setInvalidZip] = useState('');
+  const [zipDirty, setZipDirty] = useState(false);
+  const handlers = {
+    onZipBlur: () => {
+      setZipDirty(true);
+    },
+  };
+
   const [expanded, setExpanded] = useState({
     yourBenefits: true,
     aboutYourSchool: false,
@@ -133,21 +146,25 @@ function CalculateYourBenefitsForm({
   };
 
   const handleBeneficiaryZIPCodeChanged = event => {
-    if (!event.dirty) {
-      onBeneficiaryZIPCodeChanged(event.value);
-      if (event.value.length === 5) {
+    const { value } = event.target;
+    if (!zipDirty || value.length <= 5) {
+      onBeneficiaryZIPCodeChanged(value);
+      if (value.length === 5) {
         recordEvent({
           event: 'gibct-form-change',
           'gibct-form-field': 'gibctExtensionSearchZipCode',
-          'gibct-form-value': event.value,
+          'gibct-form-value': value,
         });
       }
       setInvalidZip('');
 
       recalculateBenefits();
-    } else if (inputs.beneficiaryZIP.length < 5) {
+    }
+
+    if (value.length < 5) {
       setInvalidZip('Postal code must be a 5-digit number');
     }
+    setZipDirty(false);
   };
 
   const handleInputChange = (event, target, name) => {
@@ -264,7 +281,8 @@ function CalculateYourBenefitsForm({
   };
 
   const handleHasClassesOutsideUSChange = e => {
-    handleBeneficiaryZIPCodeChanged({ value: '' });
+    handleBeneficiaryZIPCodeChanged({ target: { value: '' } });
+    // handleBeneficiaryZIPCodeChanged({ value: '' });
     handleCheckboxChange(e);
 
     recordEvent({
@@ -860,14 +878,17 @@ function CalculateYourBenefitsForm({
 
         zipcodeInput = (
           <div name="beneficiary-zip-question">
-            <TextInput
-              autoFocus
-              errorMessage={errorMessageCheck}
-              label={label}
+            <VaTextInput
+              id="beneficiaryZIPCode"
               name="beneficiaryZIPCode"
-              field={{ value: inputs.beneficiaryZIP }}
-              onValueChange={handleBeneficiaryZIPCodeChanged}
-              charMax={5}
+              type="text"
+              label={label}
+              required
+              value={inputs.beneficiaryZIP}
+              onInput={handleBeneficiaryZIPCodeChanged}
+              onBlur={handlers.onZipBlur}
+              maxlength="5"
+              error={errorMessageCheck}
             />
           </div>
         );

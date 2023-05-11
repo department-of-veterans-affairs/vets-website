@@ -12,7 +12,7 @@ const initialState = {
   disabilityDecisionTypeName: null,
 };
 
-describe('totalDisabilities reducer', () => {
+describe('hca TotalDisabilities reducer', () => {
   it('should return the initial state', () => {
     const state = totalRating(initialState, {});
     expect(state.loading).to.equal(true);

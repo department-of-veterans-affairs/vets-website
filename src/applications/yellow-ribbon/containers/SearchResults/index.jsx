@@ -1,6 +1,5 @@
 // Dependencies.
 import React, { Component } from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
@@ -156,7 +155,9 @@ export class SearchResults extends Component {
 
     // Show loading indicator if we are fetching.
     if (fetching) {
-      return <LoadingIndicator setFocus message="Loading search results..." />;
+      return (
+        <va-loading-indicator setFocus message="Loading search results..." />
+      );
     }
 
     // Show the error alert box if there was an error.
