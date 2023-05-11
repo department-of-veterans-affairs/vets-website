@@ -585,7 +585,7 @@ export const MedicareClaimNumberDescription = (
           paid for services if they could.
         </p>
         <p>
-          We may need to bill medicare supplimental insurance or a private
+          We may need to bill medicare supplemental insurance or a private
           insurance provider for certain services. And some providers must have
           this explanation before they’ll pay the bill.
         </p>
@@ -610,9 +610,9 @@ export const MedicareEffectiveDateDescription = (
 export const MedicarePartADescription = (
   <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
     Medicare is a federal health insurance program providing coverage for people
-    who are 65 years or older or who meet who meet special criteria. Part A
-    insurance covers hospital care, skilled nursing and nursing home care,
-    hospice, and home health services.
+    who are 65 years or older or who meet special criteria. Part A insurance
+    covers hospital care, skilled nursing and nursing home care, hospice, and
+    home health services.
   </p>
 );
 

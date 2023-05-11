@@ -157,6 +157,7 @@ const IDPage = props => {
               {isSubmittingIDForm && (
                 <va-loading-indicator
                   message="Reviewing your information..."
+                  class="vads-u-margin-bottom--4"
                   set-focus
                 />
               )}
