@@ -59,7 +59,11 @@ const ShareRecordsPage = () => {
             </li>
           </ul>
         </va-additional-info>
-        <a href="https://www.va.gov/resources/the-veterans-health-information-exchange-vhie/">
+        <a
+          href="https://www.va.gov/resources/the-veterans-health-information-exchange-vhie/"
+          target="_blank"
+          rel="noreferrer"
+        >
           Learn more about VHIE
         </a>
         <p>
@@ -192,7 +196,11 @@ const ShareRecordsPage = () => {
           office. It may take up to <strong>30 days</strong> to get your records
           this way.{' '}
         </p>
-        <a href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/">
+        <a
+          href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/"
+          target="_blank"
+          rel="noreferrer"
+        >
           Learn how to get records from your VA health facility
         </a>
       </section>
