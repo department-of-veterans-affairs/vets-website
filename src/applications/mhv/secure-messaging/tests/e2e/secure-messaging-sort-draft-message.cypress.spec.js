@@ -1,26 +1,18 @@
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
-import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import mockThreadResponse from './fixtures/single-draft-response.json';
 
 describe(' Draft page Message Sort', () => {
   beforeEach(() => {
     const inboxPage = new PatientInboxPage();
     const draftsPage = new PatientMessageDraftsPage();
     const site = new SecureMessagingSite();
-    const patientInterstitialPage = new PatientInterstitialPage();
     site.login();
     inboxPage.loadInboxMessages();
     cy.reload(true);
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
-    draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
-    patientInterstitialPage.getContinueButton().click();
-    draftsPage.clickDeleteButton();
-    draftsPage.confirmDeleteDraft(mockDraftResponse);
-    inboxPage.verifyDeleteConfirmMessage();
     cy.get('.sidebar-navigation-messages-list-header > a');
   });
   it('Sort Inbox Messages from Newest to Oldest', () => {
