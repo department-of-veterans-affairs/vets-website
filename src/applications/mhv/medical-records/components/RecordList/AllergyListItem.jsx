@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { dateFormat } from '../../util/helpers';
 import ItemList from '../shared/ItemList';
 
 const AllergyListItem = props => {
   const { record } = props;
-  const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
 
   const content = () => {
     if (record) {
@@ -19,15 +17,15 @@ const AllergyListItem = props => {
 
           <div className="fields">
             <div>
-              <span className="field-label">Date entered:</span> {formattedDate}
+              <span className="field-label">Date entered:</span> {record.date}
             </div>
             <div className="print-only">
               <span className="field-label">Reaction:</span>{' '}
-              {record.reaction || 'None noted'}
+              <ItemList list={record.reactions} emptyMessage="None noted" />
             </div>
             <div className="print-only">
               <span className="field-label">Type of allergy:</span>{' '}
-              {record.allergyType || 'None noted'}
+              {record.type || 'None noted'}
             </div>
             <div className="print-only">
               <span className="field-label">VA drug class:</span>{' '}

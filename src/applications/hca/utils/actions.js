@@ -32,7 +32,7 @@ export const SET_DISMISSED_HCA_NOTIFICATION = 'SET_DISMISSED_HCA_NOTIFICATION';
 
 export const SHOW_HCA_REAPPLY_CONTENT = 'SHOW_HCA_REAPPLY_CONTENT';
 
-// action types related to calling GET health_care_applications/rating_info'
+// action types related to calling GET /health_care_applications/rating_info'
 export const FETCH_TOTAL_RATING_STARTED = 'FETCH_TOTAL_RATING_STARTED';
 export const FETCH_TOTAL_RATING_SUCCEEDED = 'FETCH_TOTAL_RATING_SUCCEEDED';
 export const FETCH_TOTAL_RATING_FAILED = 'FETCH_TOTAL_RATING_FAILED';
