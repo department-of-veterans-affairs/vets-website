@@ -6,7 +6,7 @@ const { pciuStates: PCIU_STATES } = constants;
 import {
   VA_FORM_IDS,
   VA_FORM_IDS_IN_PROGRESS_FORMS_API,
-} from 'platform/forms/constants';
+} from '@department-of-veterans-affairs/platform-forms/constants';
 
 import disabilityLabels from './content/disabilityLabels';
 
@@ -312,6 +312,10 @@ export const EBEN_526_PATH =
 
 export const BDD_INFO_URL =
   '/disability/how-to-file-claim/when-to-file/pre-discharge-claim/';
+
+/** Public Disability Benefits Questionnaires (DBQs) page which links to the Separation Helth Assessment Part A */
+export const DBQ_URL =
+  'https://www.benefits.va.gov/compensation/dbq_publicdbqs.asp';
 
 // maxLength from schema
 export const CHAR_LIMITS = [
