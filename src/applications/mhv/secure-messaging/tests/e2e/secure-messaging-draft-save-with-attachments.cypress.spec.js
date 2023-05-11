@@ -30,8 +30,4 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     cy.axeCheck();
     cy.realPress(['Enter']);
   });
-
-  afterEach(() => {
-    cy.get('[data-testid="sort-button"]').click({ force: true });
-  });
 });
