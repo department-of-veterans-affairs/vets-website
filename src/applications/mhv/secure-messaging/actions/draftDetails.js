@@ -132,7 +132,6 @@ export const deleteDraft = messageId => async dispatch => {
     );
     dispatch(clearDraft());
   } catch (e) {
-    // const error = e.errors[0].detail;
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_ERROR,

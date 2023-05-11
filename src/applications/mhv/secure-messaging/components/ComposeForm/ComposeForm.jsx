@@ -255,7 +255,9 @@ const ComposeForm = props => {
       body: messageBody,
     };
 
-    dispatch(saveDraft(formData, type, draftId));
+    if (checkMessageValidity() === true) {
+      dispatch(saveDraft(formData, type, draftId));
+    }
     if (!attachments.length) setNavigationError(null);
   };
 
@@ -453,9 +455,7 @@ const ComposeForm = props => {
             setAttachments={setAttachments}
           />
         </section>
-        {messageInvalid === false ? (
-          <DraftSavedInfo userSaved={userSaved} />
-        ) : null}
+        <DraftSavedInfo userSaved={userSaved} />
         <div className="compose-form-actions vads-u-display--flex">
           <va-button
             text="Send"

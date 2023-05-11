@@ -260,13 +260,15 @@ const ReplyForm = props => {
     };
 
     if (!draftId) {
-      dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
-        newDraft => {
-          setDraft(newDraft);
-          setNewDraftId(newDraft.messageId);
-        },
-      );
-    } else {
+      if (checkMessageValidity() === true) {
+        dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
+          newDraft => {
+            setDraft(newDraft);
+            setNewDraftId(newDraft.messageId);
+          },
+        );
+      }
+    } else if (checkMessageValidity() === true) {
       dispatch(saveReplyDraft(replyMessage.messageId, formData, type, draftId));
     }
     if (!attachments.length) setNavigationError(null);
@@ -411,9 +413,7 @@ const ReplyForm = props => {
                 <DeleteDraft draftId={newDraftId} />
               </div>
             </div>
-            {messageInvalid === false ? (
-              <DraftSavedInfo userSaved={userSaved} />
-            ) : null}
+            <DraftSavedInfo userSaved={userSaved} />
             <div className="message-detail-note vads-u-text-align--center">
               <p>
                 <i>
