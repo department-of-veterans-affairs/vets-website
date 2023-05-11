@@ -7,8 +7,9 @@ import { inbox } from '../fixtures/folder-inbox-response.json';
 import reducer from '../../reducers';
 import * as Constants from '../../util/constants';
 
+let initialState;
 describe('Breadcrumbs', () => {
-  const initialState = {
+  initialState = {
     sm: {
       messageDetails: { message: messageResponse },
       folders: { folder: inbox },
@@ -19,9 +20,9 @@ describe('Breadcrumbs', () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
-      path: `/message/${messageResponse.messageId}`,
+      path: `/thread/${messageResponse.messageId}`,
     });
-    expect(await screen.findByText('Return to Dashboard', { exact: true }));
+    expect(await screen.findByText('Return to inbox', { exact: true }));
   });
 
   it('on Compose renders without errors', async () => {
@@ -31,79 +32,115 @@ describe('Breadcrumbs', () => {
       path: Constants.Breadcrumbs.COMPOSE.path,
     });
     expect(
-      await screen.findByText('Return to Dashboard', {
+      await screen.findByText('Return to inbox', {
+        exact: true,
+      }),
+    );
+  });
+
+  it('filter results only displays the breadcrumb labeled "back"', async () => {
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialState,
+      reducers: reducer,
+      path: `${Constants.Breadcrumbs.SEARCH.path}${
+        Constants.Breadcrumbs.SEARCH_RESULTS.path
+      }`,
+    });
+    expect(
+      await screen.findByText('Back', {
         exact: true,
       }),
     );
   });
 
   it('on Drafts Folder renders without errors', async () => {
+    const initialStateDrafts = {
+      sm: {
+        messageDetails: { message: messageResponse },
+        folders: {
+          folder: {
+            folderId: -2,
+            name: 'Drafts',
+            count: 49,
+            unreadCount: 49,
+            systemFolder: true,
+          },
+        },
+        breadcrumbs: {
+          list: [],
+          location: {},
+        },
+      },
+    };
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
-      initialState,
+      initialState: initialStateDrafts,
       reducers: reducer,
-      path: Constants.Breadcrumbs.DRAFTS.path,
+      path: '/thread/7155731',
     });
     expect(
-      await screen.findByText('Return to Dashboard', {
+      await screen.findByText('Return to drafts', {
         exact: true,
       }),
     );
   });
 
   it('on Sent Folder renders without errors', async () => {
+    const initialStateSent = {
+      sm: {
+        messageDetails: { message: messageResponse },
+        folders: {
+          folder: {
+            folderId: -1,
+            name: 'Sent',
+            count: 20,
+            unreadCount: 0,
+            systemFolder: true,
+          },
+        },
+        breadcrumbs: {
+          list: [],
+          location: {},
+        },
+      },
+    };
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
-      initialState,
+      initialState: initialStateSent,
       reducers: reducer,
-      path: Constants.Breadcrumbs.SENT.path,
+      path: '/thread/7155731',
     });
     expect(
-      await screen.findByText('Return to Dashboard', {
+      await screen.findByText('Return to sent', {
         exact: true,
       }),
     );
   });
 
   it('on Trash Folder renders without errors', async () => {
+    const initialStateTrash = {
+      sm: {
+        messageDetails: { message: messageResponse },
+        folders: {
+          folder: {
+            folderId: -3,
+            name: 'Trash',
+            count: 0,
+            unreadCount: 0,
+            systemFolder: true,
+          },
+        },
+        breadcrumbs: {
+          list: [],
+          location: {},
+        },
+      },
+    };
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
-      initialState,
+      initialState: initialStateTrash,
       reducers: reducer,
-      path: Constants.Breadcrumbs.TRASH.path,
+      path: `/thread/7155731`,
     });
     expect(
-      await screen.findByText('Return to Dashboard', {
-        exact: true,
-      }),
-    );
-  });
-
-  it('on Search Folder renders without errors', async () => {
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
-      initialState,
-      reducers: reducer,
-      path: Constants.Breadcrumbs.SEARCH.path,
-    });
-    expect(
-      await screen.findByText('Return to Dashboard', {
-        exact: true,
-      }),
-    );
-  });
-
-  it('on Advanced Search Folder renders without errors', async () => {
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
-      initialState,
-      reducers: reducer,
-      path: `${Constants.Breadcrumbs.SEARCH.path}${
-        Constants.Breadcrumbs.SEARCH_ADVANCED.path
-      }`,
-    });
-    expect(
-      await screen.findByText('Return to Dashboard', {
-        exact: true,
-      }),
-    );
-    expect(
-      await screen.findByText('Return to Dashboard', {
+      await screen.findByText('Return to trash', {
         exact: true,
       }),
     );

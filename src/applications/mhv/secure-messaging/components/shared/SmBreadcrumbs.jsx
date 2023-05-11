@@ -152,13 +152,13 @@ const SmBreadcrumbs = () => {
               if (crumb.path.includes('https://')) {
                 return (
                   <a key={i} href={crumb.path}>
-                    Return to {crumb.label.toLowerCase()}
+                    Return to {crumbs[crumbs.length - 2]?.label.toLowerCase()}
                   </a>
                 );
               }
               return (
                 <Link key={i} to={crumb.path}>
-                  Return to {crumb.label.toLowerCase()}
+                  Return to {crumbs[crumbs.length - 2]?.label.toLowerCase()}
                 </Link>
               );
             })

@@ -32,7 +32,24 @@ export const getFolders = () => async dispatch => {
 
 export const retrieveFolder = folderId => async dispatch => {
   // dispatch({ type: Actions.Folder.CLEAR });
-  const response = await getFolder(folderId);
+  let response;
+  const folder = await getFolder(folderId);
+  if (folder.data.attributes.folderId === -3) {
+    response = {
+      data: {
+        attributes: {
+          count: folder.data.attributes.count,
+          folderId: folder.data.attributes.folderId,
+          name: 'Trash',
+          systemFolder: folder.data.attributes.systemFolder,
+          unreadCount: folder.data.attributes.unreadCount,
+        },
+      },
+    };
+  } else {
+    response = folder;
+  }
+
   if (response.errors) {
     dispatch({
       type: Actions.Alert.ADD_ALERT,
