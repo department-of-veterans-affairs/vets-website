@@ -47,8 +47,7 @@ function DuplicateContactInfoModal(props) {
   function modalTitle() {
     let modalText;
 
-    // if (props.duplicateEmail?.length > 0 && props.duplicatePhone?.length > 0) {
-    if (true) {
+    if (props.duplicateEmail?.length > 0 && props.duplicatePhone?.length > 0) {
       modalText =
         'We have this mobile phone number and email on file for another person with education benefits';
     } else if (props.duplicateEmail?.length > 0) {
