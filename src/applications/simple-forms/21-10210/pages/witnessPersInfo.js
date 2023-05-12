@@ -1,11 +1,17 @@
 import React from 'react';
 
+import { cloneDeep } from 'lodash';
+
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import formDefinitions from '../definitions/form-definitions';
 
+const fullNameUiSchema = cloneDeep(fullNameUI);
+// PDF only has 1 box for Middle name, so we need to override the title
+fullNameUiSchema.middle['ui:title'] = 'Middle initial';
+
 export default {
   uiSchema: {
-    witnessFullName: fullNameUI,
+    witnessFullName: fullNameUiSchema,
     witnessRelationshipToVeteran: {
       'ui:description': (
         <p className="vads-u-margin-bottom--0 vads-u-margin-top--4">
