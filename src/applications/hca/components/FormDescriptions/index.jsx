@@ -116,12 +116,12 @@ export const SIGIGenderDescription = (
 
 /** CHAPTER 2: Military Service */
 export const ServiceHistoryTitle = (
-  <legend className="schemaform-block-title" id="root__title">
+  <>
     Service history
     <span className="vads-u-display--block vads-u-margin-y--2 vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-color--base">
       Check all that apply to you.
     </span>
-  </legend>
+  </>
 );
 
 /** CHAPTER 3: VA Benefits */
