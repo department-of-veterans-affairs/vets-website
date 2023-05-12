@@ -18,9 +18,12 @@ const ApplicantIdentityView = ({ formData }) => {
   }
   function formatDateString(dateString) {
     const dateObj = new Date(dateString);
-    const year = dateObj.getFullYear();
-    const month = dateObj.toLocaleString('en-US', { month: 'long' });
-    const day = ordinalSuffix(dateObj.getDate());
+    const year = dateObj.getUTCFullYear();
+    const month = dateObj.toLocaleString('en-US', {
+      month: 'long',
+      timeZone: 'UTC',
+    });
+    const day = ordinalSuffix(dateObj.getUTCDate());
     return `${month} ${day}, ${year}`;
   }
 
