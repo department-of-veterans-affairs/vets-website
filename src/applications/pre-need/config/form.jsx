@@ -16,10 +16,11 @@ import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation';
 
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
+
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
-import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation.js';
 import MemorableDateOfBirthField from '../components/MemorableDateOfBirthField';
 import * as address from '../definitions/address';
 import Footer from '../components/Footer';
@@ -85,6 +86,21 @@ function currentlyBuriedPersonsMinItem() {
   copy.minItems = 1;
   return set('items.properties.cemeteryNumber', autosuggest.schema, copy);
 }
+
+const stateRequired = environment.isProduction()
+  ? {
+      country: { 'ui:required': isAuthorizedAgent },
+      street: { 'ui:required': isAuthorizedAgent },
+      city: { 'ui:required': isAuthorizedAgent },
+      state: { 'ui:required': isAuthorizedAgent },
+      postalCode: { 'ui:required': isAuthorizedAgent },
+    }
+  : {
+      country: { 'ui:required': isAuthorizedAgent },
+      street: { 'ui:required': isAuthorizedAgent },
+      city: { 'ui:required': isAuthorizedAgent },
+      postalCode: { 'ui:required': isAuthorizedAgent },
+    };
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -832,13 +848,7 @@ const formConfig = {
                   mailingAddress: merge(
                     {},
                     address.uiSchema('Mailing address'),
-                    {
-                      country: { 'ui:required': isAuthorizedAgent },
-                      street: { 'ui:required': isAuthorizedAgent },
-                      city: { 'ui:required': isAuthorizedAgent },
-                      state: { 'ui:required': isAuthorizedAgent },
-                      postalCode: { 'ui:required': isAuthorizedAgent },
-                    },
+                    stateRequired,
                   ),
                   'view:contactInfo': {
                     'ui:title': 'Contact information',
