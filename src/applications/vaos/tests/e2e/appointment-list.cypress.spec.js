@@ -131,6 +131,9 @@ describe('VAOS appointment list', () => {
         .contains(/Phone call/i)
         .first()
         .click();
+
+      cy.wait(['@v1:get:facility', '@v2:get:clinic']);
+
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
