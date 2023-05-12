@@ -4,6 +4,7 @@ import { omit } from 'lodash';
 
 import definitions from 'vets-json-schema/dist/definitions.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import formDefinitions from '../definitions/form-definitions';
 
 import { CLAIMANT_TYPES, CLAIM_OWNERSHIPS } from '../definitions/constants';
 
@@ -49,7 +50,7 @@ export default {
     required: ['veteranPhone', 'veteranEmail'],
     properties: {
       veteranPhone: definitions.phone,
-      veteranEmail: definitions.email,
+      veteranEmail: formDefinitions.pdfEmail,
     },
   },
 };
