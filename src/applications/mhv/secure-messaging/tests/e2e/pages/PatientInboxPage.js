@@ -100,6 +100,7 @@ class PatientInboxPage {
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     cy.wait('@inboxMessages');
+    cy.get('.thread-list').should('exist');
   };
 
   setInboxTestMessageDetails = mockMessage => {

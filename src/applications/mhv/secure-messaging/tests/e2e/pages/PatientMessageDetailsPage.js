@@ -104,16 +104,8 @@ class PatientMessageDetailsPage {
       this.currentThread,
     ).as('full-thread');
 
-    /*
-    cy.contains(
-      `${mockParentMessageDetails.data.attributes.category}: ${
-        mockParentMessageDetails.data.attributes.subject
-      }`,
-    ).click();
-    */
     cy.contains(`${mockParentMessageDetails.data.attributes.subject}`).click();
 
-    // cy.wait('@last_message');
     cy.location('pathname', { timeout: 5000 }).should('include', '/thread');
     cy.wait('@full-thread');
   };
@@ -129,7 +121,7 @@ class PatientMessageDetailsPage {
   ) => {
     cy.log(`mock Message Details--------${JSON.stringify(mockMessageDetails)}`);
     this.currentThread = mockThread;
-    cy.log('loading message details.');
+    cy.log('loading reply message details.');
     this.currentThread.data.at(index).attributes.sentDate =
       mockMessageDetails.data.attributes.sentDate;
     this.currentThread.data.at(index).id =
@@ -146,7 +138,13 @@ class PatientMessageDetailsPage {
       mockMessageDetails.data.attributes.recipientId;
     this.currentThread.data.at(index).attributes.triageGroupName =
       mockMessageDetails.data.attributes.triageGroupName;
-    cy.get('[data-testid="reply-button-top"]').click();
+    cy.get('[data-testid="reply-button-top"]')
+      .should('be.visible')
+      .click();
+
+    // cy.get('[data-testid="reply-button-top"]').click({
+    //   waitforanimations: true,
+    // });
     cy.log('loading message reply details.');
 
     cy.intercept(
@@ -170,6 +168,7 @@ class PatientMessageDetailsPage {
         mockMessageDetails.data.attributes.messageId
       }/replydraft`,
     ).as('replyDraftSave');
+
     // cy.wait('@message2');
   };
 
@@ -226,7 +225,9 @@ class PatientMessageDetailsPage {
   };
 
   verifyTrashButtonModal = () => {
-    cy.get('[data-testid=trash-button-text]').click();
+    cy.get('[data-testid=trash-button-text]')
+      .should('be.visible')
+      .click();
 
     cy.get('[data-testid=delete-message-confirm-note] p', { timeout: 8000 })
       .contains('Messages in the trash folder')
@@ -310,7 +311,7 @@ class PatientMessageDetailsPage {
       }`,
       messageDetails,
     );
-    cy.get('[class="older-message hydrated"]')
+    cy.get('.older-message')
       .eq(messageIndex)
       .should('contain', `From: ${messageDetails.data.attributes.senderName}`);
   };

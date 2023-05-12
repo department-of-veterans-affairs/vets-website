@@ -53,7 +53,7 @@ describe('Thread Details container', () => {
     expect(
       await screen.findByText(`${category}: ${subject}`, {
         exact: false,
-        selector: 'h2',
+        selector: 'h1',
       }),
     ).to.exist;
     expect(screen.getByTestId('message-metadata').textContent).to.contain(
@@ -104,7 +104,7 @@ describe('Thread Details container', () => {
     expect(
       await screen.findByText(`${category}: ${subject}`, {
         exact: false,
-        selector: 'h2',
+        selector: 'h1',
       }),
     ).to.exist;
 
