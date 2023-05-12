@@ -257,6 +257,10 @@ const testConfig = createTestConfig(
             ).click();
 
             cy.get(
+              `va-radio-option[name="root_wcCurrentlyActiveDuty_yes"][value="N"]`,
+            ).click();
+
+            cy.get(
               `va-radio-option[name="root_wcVaTileCompensationType"][value="${
                 data.wcVaTileCompensationType
               }"]`,

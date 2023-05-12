@@ -1,5 +1,7 @@
 import React from 'react';
 import { isReactComponent } from '../../../../utilities/ui';
+import VaMemorableDateField from '../web-component-fields/VaMemorableDateField';
+import VaRadioField from '../web-component-fields/VaRadioField';
 /*
  * This is the template for each field (which in the schema library means label + widget)
  */
@@ -38,6 +40,28 @@ export default function ReviewFieldTemplate(props) {
     }
   }
   const Tag = uiSchema?.['ui:options']?.useDlWrap ? 'dl' : 'div';
+
+  /**
+   * Web components field handling
+   *
+   * RJSF uses widget types to determine how to render the field
+   * ui:webComponentFields won't be detected as a widget by the schema library
+   * so we need to manually set the widget type here.
+   * This only affects the read format, not edit format.
+   *
+   * Optionally, we can also set the reviewField to use for the field.
+   */
+  if (
+    uiSchema?.['ui:webComponentField'] &&
+    !uiSchema?.['ui:widget'] &&
+    !uiSchema?.['ui:reviewField']
+  ) {
+    if (uiSchema?.['ui:webComponentField'] === VaMemorableDateField) {
+      uiSchema['ui:widget'] = 'date';
+    } else if (uiSchema?.['ui:webComponentField'] === VaRadioField) {
+      uiSchema['ui:widget'] = 'radio';
+    }
+  }
 
   return (
     <Tag className="review-row">

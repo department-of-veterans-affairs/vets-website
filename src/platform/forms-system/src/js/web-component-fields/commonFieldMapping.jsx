@@ -1,3 +1,4 @@
+/** @param {WebComponentFieldProps} props */
 export default function commonFieldMapping(props) {
   const { label, required, error, uiOptions, childrenProps } = props;
 
