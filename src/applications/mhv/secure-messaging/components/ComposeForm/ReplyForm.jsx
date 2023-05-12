@@ -260,7 +260,7 @@ const ReplyForm = props => {
     };
 
     if (!draftId) {
-      if (checkMessageValidity() === true) {
+      if (checkMessageValidity()) {
         dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
           newDraft => {
             setDraft(newDraft);
@@ -268,7 +268,7 @@ const ReplyForm = props => {
           },
         );
       }
-    } else if (checkMessageValidity() === true) {
+    } else if (checkMessageValidity()) {
       dispatch(saveReplyDraft(replyMessage.messageId, formData, type, draftId));
     }
     if (!attachments.length) setNavigationError(null);
