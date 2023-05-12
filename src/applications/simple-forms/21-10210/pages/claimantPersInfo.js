@@ -1,5 +1,6 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import formDefinitions from '../definitions/form-definitions';
 
 export default {
   uiSchema: {
@@ -13,7 +14,7 @@ export default {
     type: 'object',
     required: ['claimantFullName', 'claimantDateOfBirth'],
     properties: {
-      claimantFullName: definitions.fullNameNoSuffix,
+      claimantFullName: formDefinitions.pdfFullNameNoSuffix,
       claimantDateOfBirth: definitions.date,
     },
   },

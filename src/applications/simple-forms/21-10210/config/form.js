@@ -54,7 +54,8 @@ const formConfig = {
   transformForSubmit,
   // we're setting prefillEnable to true here JUST to enable Intro-page's
   // SaveInProgressInfo content to display.
-  // prefill's actually NOT functionally implemented in this form.
+  // we're actually NOT functionally implementing prefill in this form,
+  // so there's no prefillTransformer prop.
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply.',

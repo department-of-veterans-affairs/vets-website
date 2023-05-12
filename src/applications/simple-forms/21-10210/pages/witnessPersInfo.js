@@ -1,7 +1,7 @@
 import React from 'react';
 
-import definitions from 'vets-json-schema/dist/definitions.json';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import formDefinitions from '../definitions/form-definitions';
 
 export default {
   uiSchema: {
@@ -68,7 +68,7 @@ export default {
     type: 'object',
     required: ['witnessFullName'],
     properties: {
-      witnessFullName: definitions.fullNameNoSuffix,
+      witnessFullName: formDefinitions.pdfFullNameNoSuffix,
       witnessRelationshipToVeteran: {
         type: 'object',
         properties: {
