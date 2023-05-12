@@ -48,10 +48,10 @@ describe('<MemorableDateOfBirthField>', () => {
       </Provider>,
     );
 
-    const theMagic = form
+    const requiredTag = form
       .find('label#root_application_claimant_dateOfBirth-label')
       .find('span');
-    expect(theMagic.exists()).to.be.true;
+    expect(requiredTag.exists()).to.be.true;
     form.unmount();
   });
 });
