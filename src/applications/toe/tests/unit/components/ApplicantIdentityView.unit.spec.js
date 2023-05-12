@@ -17,7 +17,7 @@ describe('ApplicantIdentityView', () => {
   it('should render the user full name and formatted date of birth', () => {
     const wrapper = mount(<ApplicantIdentityView formData={formData} />);
     expect(wrapper.text()).to.include('John M Doe');
-    expect(wrapper.text()).to.include('January 1st, 1990');
+    expect(wrapper.text()).to.include('Date of birth: January 1st, 1990');
     wrapper.unmount();
   });
   it('should not render the component if formData is missing required data', () => {

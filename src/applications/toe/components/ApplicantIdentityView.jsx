@@ -35,13 +35,25 @@ const ApplicantIdentityView = ({ formData }) => {
         We have this personal information on file for you. Any updates you make
         will change the information for your education benefits only. If you
         want to update your personal information for other VA benefits,{' '}
-        <a href={YOUR_PROFILE_URL}>update your information on your profile</a>.
+        <a href={YOUR_PROFILE_URL} target="_blank" rel="noopener noreferrer">
+          update your information on your profile
+        </a>
+        .
       </p>
       <p>
         <strong>Note:</strong> If you want to request that we change your name
         or date of birth, you will need to send additional information. Learn
-        more on how to <a href={CHANGE_YOUR_NAME}>change your legal name</a> on
-        file with VA.
+        more on how to{' '}
+        <a href={CHANGE_YOUR_NAME} target="_blank" rel="noopener noreferrer">
+          change your legal name
+        </a>{' '}
+        on file with VA.
+      </p>
+      <h4>Your Personal Information</h4>
+      <p className="va-address-block">
+        {userFullName.first} {userFullName.middle} {userFullName.last}
+        <br />
+        Date of birth: {formattedDateOfBirth}
       </p>
       <h4>Your Personal Information</h4>
       <p className="va-address-block">
