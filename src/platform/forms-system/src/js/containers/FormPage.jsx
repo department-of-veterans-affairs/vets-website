@@ -21,7 +21,7 @@ import {
   getPreviousPagePath,
   checkValidPagePath,
 } from '../routing';
-import { applyDevModeNavLinks } from '../utilities/dev/applyDevModeNavLinks';
+import { DevModeNavLinks } from '../components/dev/DevModeNavLinks';
 
 function focusForm(route, index) {
   // Check main toggle to enable custom focus
@@ -150,13 +150,6 @@ class FormPage extends React.Component {
 
     let { schema, uiSchema } = form.pages[route.pageConfig.pageKey];
 
-    if (environment.isLocalhost() && formConfig.dev?.showNavLinks) {
-      ({ schema, uiSchema } = applyDevModeNavLinks(
-        route.pageList,
-        schema,
-        uiSchema,
-      ));
-    }
     const pageClasses = classNames('form-panel', route.pageConfig.pageClass);
     const data = this.formData();
 
@@ -178,6 +171,9 @@ class FormPage extends React.Component {
         route.pageConfig.onContinue(data);
       }
     }
+
+    const showNavLinks =
+      environment.isLocalhost() && formConfig.dev?.showNavLinks;
 
     // Bypass the SchemaForm and render the custom component
     // NOTE: I don't think FormPage is rendered on the review page, so I believe
@@ -206,6 +202,7 @@ class FormPage extends React.Component {
 
     return (
       <div className={pageClasses}>
+        {showNavLinks && <DevModeNavLinks pageList={route.pageList} />}
         <SchemaForm
           name={route.pageConfig.pageKey}
           title={route.pageConfig.title}
