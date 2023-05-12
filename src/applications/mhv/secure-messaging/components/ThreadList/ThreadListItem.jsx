@@ -94,7 +94,9 @@ const ThreadListItem = props => {
             <>
               <span>
                 {unsentDrafts && (
-                  <span className="thread-list-draft">(Draft)</span>
+                  <>
+                    <span className="thread-list-draft">(Draft)</span> -{' '}
+                  </>
                 )}
               </span>{' '}
               <span>
