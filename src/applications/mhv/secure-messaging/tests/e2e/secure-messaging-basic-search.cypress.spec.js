@@ -6,7 +6,7 @@ import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
 import mockSentFolder from './fixtures/folder-sent-metadata.json';
 import mockDeletedFolder from './fixtures/folder-deleted-metadata.json';
 import mockCustomFolder from './fixtures/folder-custom-metadata.json';
-import mockInboxFolder from './fixtures/folder-inbox-response.json';
+import mockInboxFolder from './fixtures/folder-inbox-metadata.json';
 
 describe('Secure Messaging Basic Search Tests', () => {
   const basicSearchPage = new PatientBasicSearchPage();

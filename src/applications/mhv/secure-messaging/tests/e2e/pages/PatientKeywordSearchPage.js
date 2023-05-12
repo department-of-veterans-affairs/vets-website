@@ -1,6 +1,6 @@
 import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
-import mockInboxFolder from '../fixtures/folder-inbox-response.json';
+import mockInboxFolder from '../fixtures/folder-inbox-metadata.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 
