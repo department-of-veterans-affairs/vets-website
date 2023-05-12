@@ -53,13 +53,14 @@ export default {
     witnessOtherRelationshipToVeteran: {
       'ui:title':
         'If your relationship with the Veteran is not listed, you can write it here (255 characters maximum)',
+      // '(* Required)' span hidden via styling
       'ui:required': formData =>
         !formData.witnessRelationshipToVeteran['served-with'] &&
         !formData.witnessRelationshipToVeteran['family-or-friend'] &&
         !formData.witnessRelationshipToVeteran['coworker-or-supervisor'],
       'ui:errorMessages': {
         required:
-          'Please provide an unlisted relationship here, or select at least one option above',
+          'Please select at least one option above, or provide an unlisted relationship here',
       },
     },
   },

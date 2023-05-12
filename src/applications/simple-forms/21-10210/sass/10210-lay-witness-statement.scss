@@ -6,7 +6,8 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
-.schemaform-label[for*="root_witnessRelationship"] > .form-required-span {
+.schemaform-label[for*="root_witnessRelationship"] > .form-required-span,
+#root_witnessOtherRelationshipToVeteran-label > .schemaform-required-span {
   display: none;
 }
 .schemaform-label[for="root_witnessRelationshipToClaimant_family-or-friend"] {
