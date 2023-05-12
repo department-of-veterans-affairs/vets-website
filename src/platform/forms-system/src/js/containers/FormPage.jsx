@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import classNames from 'classnames';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   isReactComponent,
   focusElement,
@@ -20,6 +21,7 @@ import {
   getPreviousPagePath,
   checkValidPagePath,
 } from '../routing';
+import { applyDevModeNavLinks } from '../utilities/dev/applyDevModeNavLinks';
 
 function focusForm(route, index) {
   // Check main toggle to enable custom focus
@@ -141,12 +143,20 @@ class FormPage extends React.Component {
       form,
       contentBeforeButtons,
       contentAfterButtons,
+      formConfig,
       formContext,
       appStateData,
     } = this.props;
 
     let { schema, uiSchema } = form.pages[route.pageConfig.pageKey];
 
+    if (environment.isLocalhost() && formConfig.dev?.showNavLinks) {
+      ({ schema, uiSchema } = applyDevModeNavLinks(
+        route.pageList,
+        schema,
+        uiSchema,
+      ));
+    }
     const pageClasses = classNames('form-panel', route.pageConfig.pageClass);
     const data = this.formData();
 
@@ -243,6 +253,7 @@ FormPage.propTypes = {
   blockScrollOnMount: PropTypes.bool,
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
+  formConfig: PropTypes.object,
   formContext: PropTypes.shape({
     onReviewPage: PropTypes.bool,
   }),
