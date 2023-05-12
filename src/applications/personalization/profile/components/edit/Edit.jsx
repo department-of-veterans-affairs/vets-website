@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
 import PropTypes from 'prop-types';
@@ -8,20 +8,22 @@ import ProfileInformationFieldController from '~/platform/user/profile/vap-svc/c
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import { PROFILE_PATHS } from '../../constants';
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
+import { EditFallbackContent } from './EditFallbackContent';
+import getRoutes from '../../routes';
 
 const useQuery = () => {
   const { search } = useLocation();
   return useMemo(() => new URLSearchParams(search), [search]);
 };
 
-const getReturnPath = path => {
-  const pathKey = Object.entries(PROFILE_PATHS).find(
-    ([_, value]) => value === path,
-  )?.[0];
-  if (!pathKey) {
+const getReturnPath = (path, routes) => {
+  const returnRouteInfo = routes.find(({ path: routePath }) => {
+    return routePath === path;
+  });
+  if (!returnRouteInfo) {
     return null;
   }
-  return PROFILE_PATHS[pathKey];
+  return returnRouteInfo.path;
 };
 
 const getFieldInfo = fieldName => {
@@ -39,19 +41,13 @@ const getFieldInfo = fieldName => {
   };
 };
 
-const FallbackContent = () => (
-  <>
-    <h1>Sorry, this page is unavailable</h1>
-    <Link to={PROFILE_PATHS.PROFILE_ROOT}>Return to your profile</Link>
-  </>
-);
-
 export const Edit = ({ children }) => {
+  const routes = getRoutes();
   const history = useHistory();
   const query = useQuery();
 
   const fieldInfo = getFieldInfo(query.get('fieldName'));
-  const validReturnPath = getReturnPath(query.get('returnPath'));
+  const validReturnPath = getReturnPath(query.get('returnPath'), routes);
 
   const hasVAPServiceError = useSelector(state =>
     hasVAPServiceConnectionError(state),
@@ -93,12 +89,12 @@ export const Edit = ({ children }) => {
             )}
           </div>
         ) : (
-          <FallbackContent />
+          <EditFallbackContent routes={routes} />
         )}
       </Toggler.Enabled>
 
       <Toggler.Disabled>
-        <FallbackContent />
+        <EditFallbackContent routes={routes} />
       </Toggler.Disabled>
     </Toggler>
   );
