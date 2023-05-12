@@ -44,4 +44,4 @@ const multipleAppointments = [
   },
 ];
 
-export { singleAppointment, multipleAppointments };
+module.exports = { singleAppointment, multipleAppointments };
