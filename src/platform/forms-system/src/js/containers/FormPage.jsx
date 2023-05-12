@@ -143,7 +143,6 @@ class FormPage extends React.Component {
       form,
       contentBeforeButtons,
       contentAfterButtons,
-      formConfig,
       formContext,
       appStateData,
     } = this.props;
@@ -173,7 +172,7 @@ class FormPage extends React.Component {
     }
 
     const showNavLinks =
-      environment.isLocalhost() && formConfig.dev?.showNavLinks;
+      environment.isLocalhost() && route.formConfig?.dev?.showNavLinks;
 
     // Bypass the SchemaForm and render the custom component
     // NOTE: I don't think FormPage is rendered on the review page, so I believe
@@ -250,7 +249,6 @@ FormPage.propTypes = {
   blockScrollOnMount: PropTypes.bool,
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
-  formConfig: PropTypes.object,
   formContext: PropTypes.shape({
     onReviewPage: PropTypes.bool,
   }),
@@ -276,6 +274,11 @@ FormPage.propTypes = {
       title: PropTypes.string,
       uiSchema: PropTypes.object.isRequired,
       updateFormData: PropTypes.func,
+    }),
+    formConfig: PropTypes.shape({
+      dev: PropTypes.shape({
+        showNavLinks: PropTypes.bool,
+      }),
     }),
     pageList: PropTypes.arrayOf(
       PropTypes.shape({
