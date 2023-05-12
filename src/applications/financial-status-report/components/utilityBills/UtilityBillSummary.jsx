@@ -32,17 +32,19 @@ const UtilityBillSummary = ({
   };
 
   const cardBody = text => (
-    <p className="vads-u-margin-y--2 vads-u-color--gray">{text}</p>
+    <p>
+      Monthly payment amount: <b>{currencyFormatter(text)}</b>
+    </p>
   );
 
   const emptyPrompt = `Select the 'Add additional utility bills' link to add another utility bill. Select the 'Continue' button to proceed to the next question.`;
 
   return (
     <form>
-      <fieldset>
+      <fieldset className="vads-u-margin-y--2">
         <legend
           id="added-utility-bills-summary"
-          className="vads-u-font-family--serif"
+          className="schemaform-block-title"
           name="addedUtilityBillsSummary"
         >
           You have added these utility bills
@@ -53,7 +55,7 @@ const UtilityBillSummary = ({
           ) : (
             utilityRecords.map((utility, index) => (
               <MiniSummaryCard
-                body={cardBody(`Value: ${currencyFormatter(utility.amount)}`)}
+                body={cardBody(utility.amount)}
                 editDestination={{
                   pathname: '/add-utility-bill',
                   search: `?index=${index}`,

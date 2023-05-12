@@ -54,7 +54,7 @@ describe('Vital details container', () => {
       initialState.mr.vitals.vitalDetails[0].name,
       {
         exact: true,
-        selector: 'span',
+        selector: 'h1',
       },
     );
     expect(vitalName).to.exist;

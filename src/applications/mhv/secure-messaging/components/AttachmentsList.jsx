@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const AttachmentsList = props => {
-  const { attachments, setAttachments, editingEnabled, compose } = props;
+  const { attachments, setAttachments, editingEnabled } = props;
   const attachmentReference = useRef(null);
 
   const getSize = num => {
@@ -18,11 +19,15 @@ const AttachmentsList = props => {
 
   useEffect(
     () => {
-      if (attachments?.length > 0 && compose) {
-        attachmentReference.current?.focus();
+      if (
+        attachments?.length > 0 &&
+        editingEnabled &&
+        attachmentReference.current
+      ) {
+        focusElement(attachmentReference.current);
       }
     },
-    [attachments, compose],
+    [attachments, editingEnabled],
   );
 
   const removeAttachment = file => {
@@ -33,6 +38,11 @@ const AttachmentsList = props => {
       return item.size !== file.size;
     });
     setAttachments(newAttArr);
+    focusElement(
+      document
+        .querySelector('.attach-file-button')
+        .shadowRoot.querySelector('button'),
+    );
   };
 
   return (
@@ -43,20 +53,27 @@ const AttachmentsList = props => {
           attachments.map(file => (
             <li key={file.name + file.size}>
               {editingEnabled && (
-                <div className="editable-attachment">
-                  <span>
+                <div className="editable-attachment vads-u-display--flex vads-u-flex-direction--row">
+                  <span
+                    ref={attachmentReference}
+                    className="vads-u-flex--1"
+                    role="alert"
+                    aria-label={`${file.name}, ${getSize(
+                      file.size || file.attachmentSize,
+                    )}, file successfully attached. Button available: Remove ${
+                      file.name
+                    }`}
+                  >
                     <i className="fas fa-paperclip" aria-hidden="true" />
-                    <span ref={attachmentReference} tabIndex={-1}>
-                      {file.name}{' '}
-                    </span>
-                    ({getSize(file.size || file.attachmentSize)})
+                    <span>{file.name} </span>(
+                    {getSize(file.size || file.attachmentSize)})
                   </span>
                   <va-button
                     onClick={() => removeAttachment(file)}
                     secondary
-                    text="Remove"
+                    text="REMOVE"
                     aria-label={`remove ${file.name}`}
-                    class="remove-attachment-button"
+                    class="remove-attachment-button vads-u-flex--auto"
                   />
                 </div>
               )}
@@ -76,10 +93,8 @@ const AttachmentsList = props => {
                       });
                     }}
                   >
-                    <span ref={attachmentReference} tabIndex={-1}>
-                      {file.name}{' '}
-                    </span>
-                    ({getSize(file.size || file.attachmentSize)})
+                    <span ref={attachmentReference}>{file.name} </span>(
+                    {getSize(file.size || file.attachmentSize)})
                   </a>
                 </>
               )}
@@ -92,7 +107,6 @@ const AttachmentsList = props => {
 
 AttachmentsList.propTypes = {
   attachments: PropTypes.array,
-  compose: PropTypes.bool,
   editingEnabled: PropTypes.bool,
   setAttachments: PropTypes.func,
 };

@@ -35,6 +35,7 @@ export const App = ({
   showMebDgi40Features,
   showMebDgi42Features,
   showMebCh33SelfForm,
+  showMebEnhancements,
   email,
   mobilePhone,
 }) => {
@@ -144,6 +145,11 @@ export const App = ({
         setFormData({
           ...formData,
           mobilePhone,
+
+      if (showMebEnhancements !== formData.showMebEnhancements) {
+        setFormData({
+          ...formData,
+          showMebEnhancements,
         });
       }
     },
@@ -153,6 +159,7 @@ export const App = ({
       showMebDgi40Features,
       showMebDgi42Features,
       showMebCh33SelfForm,
+      showMebEnhancements,
       email,
     ],
   );
@@ -198,11 +205,13 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
+  showMebCh33SelfForm: PropTypes.bool,
   showMebDgi40Features: PropTypes.bool,
   showMebDgi42Features: PropTypes.bool,
   showMebCh33SelfForm: PropTypes.bool,
   email: PropTypes.string,
   mobilePhone: PropTypes.string,
+  showMebEnhancements: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

@@ -11,8 +11,16 @@ describe('Print button', () => {
   beforeEach(() => {
     const id = 7155731;
     const handlePrint = () => {};
+    // const initialState = {
+    //   message: { message: { messageResponse }, messages: null },
+    // };
     const initialState = {
-      message: { message: { messageResponse }, messages: null },
+      sm: {
+        messageDetails: {
+          message: messageResponse,
+          messageHistory: null,
+        },
+      },
     };
 
     screen = renderInReduxProvider(

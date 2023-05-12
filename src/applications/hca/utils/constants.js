@@ -1,5 +1,27 @@
-// declare the minimum percentage value to be considered high disability
-export const HIGH_DISABILITY_MINIMUM = 50;
+// declare alert types for enrollment status helpers
+export const DASHBOARD_ALERT_TYPES = Object.freeze({
+  closed: 'closed', // Black, exclamation mark
+  decision: 'decision', // Red, exclamation mark
+  enrolled: 'enrolled', // Green, checkmark
+  inProgress: 'in-progress', // Blue, pause (TBD)
+  update: 'update', // Gold, exclamation
+});
+
+// declare view fields for use in household section
+export const DEPENDENT_VIEW_FIELDS = {
+  report: 'view:reportDependents',
+  skip: 'view:skipDependentInfo',
+};
+
+// declare labels for discharge type select box
+export const DISCHARGE_TYPE_LABELS = {
+  honorable: 'Honorable',
+  general: 'General',
+  other: 'Other Than Honorable',
+  'bad-conduct': 'Bad Conduct',
+  dishonorable: 'Dishonorable',
+  undesirable: 'Undesirable',
+};
 
 // declare enrollment status strings
 export const HCA_ENROLLMENT_STATUSES = Object.freeze({
@@ -32,27 +54,8 @@ export const HCA_ENROLLMENT_STATUSES = Object.freeze({
   rejectedRightEntry: 'rejected_rightentry',
 });
 
-// declare alert types for enrollment status helpers
-export const DASHBOARD_ALERT_TYPES = Object.freeze({
-  closed: 'closed', // Black, exclamation mark
-  decision: 'decision', // Red, exclamation mark
-  enrolled: 'enrolled', // Green, checkmark
-  inProgress: 'in-progress', // Blue, pause (TBD)
-  update: 'update', // Gold, exclamation
-});
-
-// declare states without medical care serivces
-export const STATES_WITHOUT_MEDICAL = ['AA', 'AE', 'AP', 'FM', 'MH', 'PW'];
-
-// declare labels for discharge type select box
-export const DISCHARGE_TYPE_LABELS = {
-  honorable: 'Honorable',
-  general: 'General',
-  other: 'Other Than Honorable',
-  'bad-conduct': 'Bad Conduct',
-  dishonorable: 'Dishonorable',
-  undesirable: 'Undesirable',
-};
+// declare the minimum percentage value to be considered high disability
+export const HIGH_DISABILITY_MINIMUM = 50;
 
 // declare labels for last service branch select box
 export const SERVICE_BRANCH_LABELS = {
@@ -71,3 +74,20 @@ export const SERVICE_BRANCH_LABELS = {
   'f.scouts old': 'Filipino Old Scout',
   other: 'Other',
 };
+
+// declare name to use for window session storage item
+export const SESSION_ITEM_NAME = 'hcaDependentIndex';
+
+/**
+ * declare routes that are shared between custom form pages
+ * NOTE: for household v2 routes, these need renamed when v2 is fully-adopted
+ */
+export const SHARED_PATHS = {
+  dependents: {
+    summary: 'household-information-v2/dependents',
+    info: 'household-information-v2/dependent-information',
+  },
+};
+
+// declare states without medical care serivces
+export const STATES_WITHOUT_MEDICAL = ['AA', 'AE', 'AP', 'FM', 'MH', 'PW'];

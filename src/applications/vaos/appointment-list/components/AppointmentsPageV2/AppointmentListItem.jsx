@@ -1,11 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import classNames from 'classnames';
+import { selectFeatureAppointmentList } from '../../../redux/selectors';
 
 export default function AppointmentListItem({ children, className, id }) {
+  const featureAppointmentList = useSelector(state =>
+    selectFeatureAppointmentList(state),
+  );
   return (
     <li
       id={`id-${id.replace('.', '\\.')}`}
-      className={`vaos-appts__listItem--lineHeight ${className}`}
+      className={classNames(
+        featureAppointmentList && `vaos-appts__listItem--lineHeight`,
+        `${className}`,
+      )}
       data-request-id={id}
       data-cy="appointment-list-item"
     >

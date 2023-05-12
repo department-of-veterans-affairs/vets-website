@@ -42,6 +42,15 @@ export const mockGetCareSummariesAndNotesList = () => {
   });
 };
 
+export const mockGetCareSummaryAndNotesDetails = summaryId => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const summary = careSummariesAndNotes.find(sum => +sum.id === +summaryId);
+      resolve(summary);
+    }, 1000);
+  });
+};
+
 export const mockGetVaccine = id => {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -73,6 +82,54 @@ export const mockGetCondition = id => {
       const condition = conditions.find(cond => cond.id === id);
       resolve(condition);
     }, 1000);
+  });
+};
+
+export const getAllergies = () => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/allergies?patient_id=30163`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
+
+export const getAllergy = id => {
+  return apiRequest(`${apiBasePath}/medical_records/allergies/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+/**
+ * Get a patient's vaccines
+ * @returns list of patient's vaccines in FHIR format
+ */
+export const getVaccineList = () => {
+  return apiRequest(
+    // Temporarily hard-coding a patient ID for development.
+    `${apiBasePath}/medical_records/vaccines?patient_id=49006`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
+
+/**
+ * Get details for a single vaccine
+ * @param {Long} vaccineId
+ * @returns vaccine details in FHIR format
+ */
+export const getVaccine = vaccineId => {
+  return apiRequest(`${apiBasePath}/medical_records/vaccines/${vaccineId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 };
 

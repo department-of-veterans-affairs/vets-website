@@ -1,17 +1,18 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory, useLocation } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
 import { useDispatch } from 'react-redux';
 import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
-import PrintMessageThread from './PrintMessageThread';
 import { Categories } from '../util/constants';
 import { dateFormat } from '../util/helpers';
 import MessageThreadBody from './MessageThread/MessageThreadBody';
 import { closeAlert } from '../actions/alerts';
 
 const MessageDetailBlock = props => {
+  const { message, cannotReply } = props;
   const {
     threadId,
     messageId,
@@ -21,16 +22,17 @@ const MessageDetailBlock = props => {
     sentDate,
     senderName,
     recipientName,
+    triageGroupName,
     attachments,
-  } = props.message;
+  } = message;
 
   const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation();
   const sentReplyDate = format(new Date(sentDate), 'MM-dd-yyyy');
   const cannotReplyDate = addDays(new Date(sentReplyDate), 45);
-  const [printThread, setPrintThread] = useState('dont-print-thread');
   const [hideReplyButton, setReplyButton] = useState(false);
+  const fromMe = recipientName === triageGroupName;
 
   const handleReplyButton = useCallback(
     () => {
@@ -59,14 +61,9 @@ const MessageDetailBlock = props => {
     [location.pathname, dispatch],
   );
 
-  const handlePrintThreadStyleClass = option => {
-    if (option === 'print thread') {
-      setPrintThread('print-thread');
-    }
-    if (option !== 'print thread') {
-      setPrintThread('dont-print-thread');
-    }
-  };
+  useEffect(() => {
+    focusElement(document.querySelector('h2'));
+  });
 
   const categoryLabel = Categories[category];
 
@@ -83,9 +80,8 @@ const MessageDetailBlock = props => {
       <MessageActionButtons
         id={messageId}
         threadId={threadId}
-        handlePrintThreadStyleClass={handlePrintThreadStyleClass}
         onReply={handleReplyButton}
-        hideReplyButton={hideReplyButton}
+        hideReplyButton={cannotReply}
       />
       <main
         className="message-detail-content"
@@ -100,7 +96,7 @@ const MessageDetailBlock = props => {
         >
           <p>
             <strong>From: </strong>
-            {senderName}
+            {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
           </p>
           <p>
             <strong>To: </strong>
@@ -140,13 +136,11 @@ const MessageDetailBlock = props => {
           </p>
         </div>
       </main>
-      <div className={printThread}>
-        <PrintMessageThread messageId={messageId} />
-      </div>
     </section>
   );
 };
 MessageDetailBlock.propTypes = {
+  cannotReply: PropTypes.bool,
   message: PropTypes.object,
 };
 

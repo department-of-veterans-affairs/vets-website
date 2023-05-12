@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import moment from 'moment';
-import { dateFormat } from '../util/helpers';
+import { dateFormat, downloadFile } from '../util/helpers';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
+import PrintDownload from '../components/shared/PrintDownload';
+import { getVaccinePdf } from '../api/MrApi';
 
 const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = () => {
@@ -81,41 +82,18 @@ const VitalDetails = () => {
     [vitalType],
   );
 
+  const download = () => {
+    getVaccinePdf(1).then(res =>
+      downloadFile('AdmissionDischarge.pdf', res.pdf),
+    );
+  };
+
   const content = () => {
     if (filteredVitals?.length) {
       return (
         <>
-          <h1>
-            <span className="no-print">{filteredVitals[0].name}</span>
-            <span className="print-title print-only">
-              <div className="vads-u-margin-right--1">Vitals: </div>
-              <div className="vads-u-margin-right--1">
-                {filteredVitals[0].name.toLowerCase()},{' '}
-              </div>
-              <div>{moment().format('LL')}</div>
-            </span>
-          </h1>
-          <div className="vads-u-display--flex vads-u-margin-y--3 no-print">
-            <button
-              className="link-button vads-u-margin-right--3"
-              type="button"
-              data-testid="print-records-button"
-              onClick={window.print}
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-print vads-u-margin-right--1"
-              />
-              Print list
-            </button>
-            <button className="link-button" type="button">
-              <i
-                aria-hidden="true"
-                className="fas fa-download vads-u-margin-right--1"
-              />
-              Download list
-            </button>
-          </div>
+          <h1>{filteredVitals[0].name}</h1>
+          <PrintDownload list download={download} />
           <div className="vads-u-padding-y--1 vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
             Displaying {displayNums[0]}
             &#8211;

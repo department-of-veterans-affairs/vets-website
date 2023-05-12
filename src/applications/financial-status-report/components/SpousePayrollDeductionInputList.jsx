@@ -99,25 +99,29 @@ const SpousePayrollDeductionInputList = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <h3 className="vads-u-margin-top--neg1p5">
-        Your spouse’s job at {employerName}
-      </h3>{' '}
-      <br />
-      <p>How much does your spouse pay for each of their payroll deductions?</p>
-      {selectedDeductions?.map((deduction, key) => (
-        <div key={deduction.name + key} className="vads-u-margin-y--2">
-          <va-number-input
-            label={deduction.name}
-            name={deduction.name}
-            value={deduction.amount}
-            id={deduction.name + key}
-            inputmode="decimal"
-            onInput={onChange}
-            required
-            currency
-          />
-        </div>
-      ))}
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">
+          Your spouse’s job at {employerName}
+        </legend>
+        <p>
+          How much does your spouse pay monthly for each of their payroll
+          deductions?
+        </p>
+        {selectedDeductions?.map((deduction, key) => (
+          <div key={deduction.name + key} className="vads-u-margin-y--2">
+            <va-number-input
+              label={deduction.name}
+              name={deduction.name}
+              value={deduction.amount}
+              id={deduction.name + key}
+              inputmode="decimal"
+              onInput={onChange}
+              required
+              currency
+            />
+          </div>
+        ))}
+      </fieldset>
       {onReviewPage ? updateButton : navButtons}
     </form>
   );

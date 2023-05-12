@@ -20,8 +20,7 @@ const InstallmentContractSummary = ({
   const dispatch = useDispatch();
 
   const formData = useSelector(state => state.form.data);
-  const { expenses } = formData;
-  const { installmentContracts = [] } = expenses;
+  const { installmentContracts = [] } = formData;
 
   useEffect(() => {
     clearJobIndex();
@@ -46,12 +45,9 @@ const InstallmentContractSummary = ({
           ...data.questions,
           hasRepayments: deleteIndex !== 0,
         },
-        expenses: {
-          ...expenses,
-          installmentContracts: installmentContracts.filter(
-            (source, index) => index !== deleteIndex,
-          ),
-        },
+        installmentContracts: installmentContracts.filter(
+          (source, index) => index !== deleteIndex,
+        ),
       }),
     );
   };
@@ -61,10 +57,14 @@ const InstallmentContractSummary = ({
     return (
       <>
         <p>
-          Creditor: <strong>{bill.creditorName} </strong>
-          <br />
+          {bill.creditorName.length > 0 ? (
+            <>
+              Creditor: <strong>{bill.creditorName} </strong>
+              <br />
+            </>
+          ) : null}
           Original Loan Amount:{' '}
-          <strong>{currencyFormatter(bill.originalLoanAmount)}</strong>
+          <strong>{currencyFormatter(bill.originalAmount)}</strong>
           <br />
           Unpaid balance:{' '}
           <strong>{currencyFormatter(bill.unpaidBalance)}</strong>
@@ -72,10 +72,10 @@ const InstallmentContractSummary = ({
           Minimum monthly payment amount:{' '}
           <strong>{currencyFormatter(bill.amountDueMonthly)}</strong>
           <br />
-          Date received: <strong>{bill.from}</strong>
+          Date received: <strong>{bill.dateStarted}</strong>
           <br />
           Amount overdue:{' '}
-          <strong>{currencyFormatter(bill.amountOverdue)}</strong>
+          <strong>{currencyFormatter(bill.amountPastDue)}</strong>
         </p>
       </>
     );
@@ -83,49 +83,54 @@ const InstallmentContractSummary = ({
 
   return (
     <form onSubmit={handlers.onSubmit}>
-      <div className="vads-u-margin-top--3" data-testid="debt-list">
-        {!installmentContracts.length ? (
-          <EmptyMiniSummaryCard content={emptyPrompt} />
-        ) : (
-          installmentContracts.map((bill, index) => (
-            <MiniSummaryCard
-              editDestination={{
-                pathname: '/your-installment-contracts',
-                search: `?index=${index}`,
-              }}
-              heading={bill.contractType}
-              key={bill.minPaymentAmount + bill.unpaidBalance}
-              onDelete={() => onDelete(index)}
-              showDelete
-              body={billBody(bill)}
-              index={index}
-            />
-          ))
-        )}
-      </div>
-      <Link
-        className="vads-c-action-link--green"
-        to={{
-          pathname: '/your-installment-contracts',
-          search: `?index=${installmentContracts.length}`,
-        }}
-      >
-        Add additional installment contract or other debt
-      </Link>
-      <va-additional-info
-        class="vads-u-margin-top--4"
-        trigger="What are examples of installment contracts or other debt?"
-      >
-        Examples of installment contracts or other debt include:
-        <br />
-        <ul>
-          <li>Medical bills</li>
-          <li>Student loans</li>
-          <li>Auto loans</li>
-          <li>Home loans</li>
-          <li>Personal debts</li>
-        </ul>
-      </va-additional-info>
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">
+          Your installment contracts and other debts
+        </legend>
+        <div className="vads-u-margin-top--3" data-testid="debt-list">
+          {!installmentContracts.length ? (
+            <EmptyMiniSummaryCard content={emptyPrompt} />
+          ) : (
+            installmentContracts.map((bill, index) => (
+              <MiniSummaryCard
+                editDestination={{
+                  pathname: '/your-installment-contracts',
+                  search: `?index=${index}`,
+                }}
+                heading={bill.purpose}
+                key={bill.minPaymentAmount + bill.unpaidBalance}
+                onDelete={() => onDelete(index)}
+                showDelete
+                body={billBody(bill)}
+                index={index}
+              />
+            ))
+          )}
+        </div>
+        <Link
+          className="vads-c-action-link--green"
+          to={{
+            pathname: '/your-installment-contracts',
+            search: `?index=${installmentContracts.length}`,
+          }}
+        >
+          Add additional installment contract or other debt
+        </Link>
+        <va-additional-info
+          class="vads-u-margin-top--4"
+          trigger="What are examples of installment contracts or other debt?"
+        >
+          Examples of installment contracts or other debt include:
+          <br />
+          <ul>
+            <li>Medical bills</li>
+            <li>Student loans</li>
+            <li>Auto loans</li>
+            <li>Home loans</li>
+            <li>Personal debts</li>
+          </ul>
+        </va-additional-info>
+      </fieldset>
       {contentBeforeButtons}
       <FormNavButtons goBack={handlers.onBack} submitToContinue />
       {contentAfterButtons}{' '}
