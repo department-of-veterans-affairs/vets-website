@@ -1,11 +1,13 @@
+import React from 'react';
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 import set from 'platform/utilities/data/set';
 import { merge } from 'lodash';
-
-import fullNameUI from 'platform/forms/definitions/fullName';
-
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import fullNameUI from '../../definitions/fullName';
+
 import EligibleBuriedView from '../../components/EligibleBuriedView';
+
+import { getCemeteries } from '../../utils/helpers';
 
 const {
   currentlyBuriedPersons,
@@ -25,8 +27,16 @@ export const uiSchema = {
       },
       items: {
         name: merge({}, fullNameUI, {
-          'ui:title': 'Name of deceased',
+          'ui:title': (
+            <span>
+              <h3 className="name-of-deceased-text">Name of deceased</h3>
+            </span>
+          ),
         }),
+        cemeteryNumber: autosuggest.uiSchema(
+          'VA national cemetery where they’re buried',
+          getCemeteries,
+        ),
       },
     },
   },
