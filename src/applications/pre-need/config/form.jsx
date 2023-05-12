@@ -18,8 +18,9 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
-
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation.js';
+import MemorableDateOfBirthField from '../components/MemorableDateOfBirthField';
 import * as address from '../definitions/address';
 import Footer from '../components/Footer';
 
@@ -85,21 +86,6 @@ function currentlyBuriedPersonsMinItem() {
   return set('items.properties.cemeteryNumber', autosuggest.schema, copy);
 }
 
-const stateRequired = environment.isProduction()
-  ? {
-      country: { 'ui:required': isAuthorizedAgent },
-      street: { 'ui:required': isAuthorizedAgent },
-      city: { 'ui:required': isAuthorizedAgent },
-      state: { 'ui:required': isAuthorizedAgent },
-      postalCode: { 'ui:required': isAuthorizedAgent },
-    }
-  : {
-      country: { 'ui:required': isAuthorizedAgent },
-      street: { 'ui:required': isAuthorizedAgent },
-      city: { 'ui:required': isAuthorizedAgent },
-      postalCode: { 'ui:required': isAuthorizedAgent },
-    };
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -161,7 +147,17 @@ const formConfig = {
               claimant: {
                 name: fullMaidenNameUI,
                 ssn: ssnDashesUI,
-                dateOfBirth: currentOrPastDateUI('Date of birth'),
+                dateOfBirth: environment.isProduction()
+                  ? currentOrPastDateUI('Date of birth')
+                  : {
+                      'ui:title': 'Date of birth',
+                      'ui:field': MemorableDateOfBirthField,
+                      'ui:validations': [validateCurrentOrPastDate],
+                      'ui:errorMessages': {
+                        pattern: 'Please enter a valid current or past date',
+                        required: 'Please enter a date',
+                      },
+                    },
                 relationshipToVet: {
                   'ui:title': 'Relationship to service member',
                   'ui:widget': 'radio',
@@ -836,7 +832,13 @@ const formConfig = {
                   mailingAddress: merge(
                     {},
                     address.uiSchema('Mailing address'),
-                    stateRequired,
+                    {
+                      country: { 'ui:required': isAuthorizedAgent },
+                      street: { 'ui:required': isAuthorizedAgent },
+                      city: { 'ui:required': isAuthorizedAgent },
+                      state: { 'ui:required': isAuthorizedAgent },
+                      postalCode: { 'ui:required': isAuthorizedAgent },
+                    },
                   ),
                   'view:contactInfo': {
                     'ui:title': 'Contact information',
