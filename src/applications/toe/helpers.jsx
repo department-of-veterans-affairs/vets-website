@@ -194,14 +194,16 @@ export function prefillTransformer(pages, formData, metadata, state) {
     sponsors,
     formId: state.data?.formData?.data?.id,
     claimantId: claimant.claimantId,
-    [formFields.viewUserFullName]: {
-      [formFields.userFullName]: {
-        first: firstName || undefined,
-        middle: middleName || undefined,
-        last: lastName || undefined,
+    'view:applicantInformation': {
+      [formFields.viewUserFullName]: {
+        [formFields.userFullName]: {
+          first: firstName || undefined,
+          middle: middleName || undefined,
+          last: lastName || undefined,
+        },
+        [formFields.dateOfBirth]: profile?.dob || claimant?.dateOfBirth,
       },
     },
-    dateOfBirth: profile?.dob || claimant?.dateOfBirth,
     [formFields.email]: {
       email: emailAddress,
       confirmEmail: emailAddress,

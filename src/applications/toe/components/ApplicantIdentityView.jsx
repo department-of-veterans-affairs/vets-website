@@ -3,10 +3,28 @@ import PropTypes from 'prop-types';
 import { formFields, YOUR_PROFILE_URL, CHANGE_YOUR_NAME } from '../constants';
 
 const ApplicantIdentityView = ({ formData }) => {
-  const fullName =
+  const userFullName =
     formData[formFields.viewUserFullName]?.[formFields.userFullName];
   const dateOfBirth = formData[formFields.dateOfBirth];
+  if (!userFullName || !dateOfBirth) {
+    return null;
+  }
+  function ordinalSuffix(num) {
+    const suffixes = ['th', 'st', 'nd', 'rd'];
+    const mod100 = num % 100;
+    return (
+      num + (suffixes[(mod100 - 20) % 10] || suffixes[mod100] || suffixes[0])
+    );
+  }
+  function formatDateString(dateString) {
+    const dateObj = new Date(dateString);
+    const year = dateObj.getFullYear();
+    const month = dateObj.toLocaleString('en-US', { month: 'long' });
+    const day = ordinalSuffix(dateObj.getDate());
+    return `${month} ${day}, ${year}`;
+  }
 
+  const formattedDateOfBirth = formatDateString(dateOfBirth);
   return (
     <>
       <h3>Review your personal information</h3>
@@ -24,16 +42,22 @@ const ApplicantIdentityView = ({ formData }) => {
       </p>
       <h4>Your Personal Information</h4>
       <p className="va-address-block">
-        {fullName} <br />
-        Date of birth: {dateOfBirth}
+        {userFullName.first} {userFullName.middle} {userFullName.last}
+        <br />
+        {formattedDateOfBirth}
       </p>
     </>
   );
 };
+
 ApplicantIdentityView.propTypes = {
   formData: PropTypes.shape({
     [formFields.viewUserFullName]: PropTypes.shape({
-      [formFields.userFullName]: PropTypes.string,
+      [formFields.userFullName]: PropTypes.shape({
+        first: PropTypes.string,
+        middle: PropTypes.string,
+        last: PropTypes.string,
+      }),
     }),
     [formFields.dateOfBirth]: PropTypes.string,
   }),
