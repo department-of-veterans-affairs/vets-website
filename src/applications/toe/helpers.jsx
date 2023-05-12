@@ -201,8 +201,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
           middle: middleName || undefined,
           last: lastName || undefined,
         },
-        [formFields.dateOfBirth]: profile?.dob || claimant?.dateOfBirth,
       },
+      [formFields.dateOfBirth]: profile?.dob || claimant?.dateOfBirth,
     },
     [formFields.email]: {
       email: emailAddress,
@@ -248,7 +248,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
         equalsAlphaOnlyIgnoreCase(e, suffix),
       ) || undefined;
   }
-
   return {
     metadata,
     formData: newData,

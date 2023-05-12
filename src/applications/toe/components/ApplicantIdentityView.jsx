@@ -52,14 +52,14 @@ const ApplicantIdentityView = ({ formData }) => {
 
 ApplicantIdentityView.propTypes = {
   formData: PropTypes.shape({
-    [formFields.viewUserFullName]: PropTypes.shape({
-      [formFields.userFullName]: PropTypes.shape({
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-      }),
+    [formFields.viewUserFullName]: PropTypes.object.isRequired,
+    [formFields.userFullName]: PropTypes.shape({
+      first: PropTypes.string,
+      middle: PropTypes.string,
+      last: PropTypes.string,
     }),
-    [formFields.dateOfBirth]: PropTypes.string,
+    [formFields.dateOfBirth]: PropTypes.string.isRequired,
   }),
 };
+
 export default ApplicantIdentityView;
