@@ -179,7 +179,7 @@ const SmBreadcrumbs = () => {
                       <>{crumbs[crumbs.length - 2]?.label}</>
                     ) : (
                       <>
-                        Return to{' '}
+                        Back to{' '}
                         {crumbs[crumbs.length - 2]?.label?.toLowerCase()}
                       </>
                     )}

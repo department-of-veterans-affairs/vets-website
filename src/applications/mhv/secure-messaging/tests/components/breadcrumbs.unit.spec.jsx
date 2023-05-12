@@ -22,7 +22,7 @@ describe('Breadcrumbs', () => {
       reducers: reducer,
       path: `/thread/${messageResponse.messageId}`,
     });
-    expect(await screen.findByText('Return to inbox', { exact: true }));
+    expect(await screen.findByText('Back to inbox', { exact: true }));
   });
 
   it('on Compose renders without errors', async () => {
@@ -32,7 +32,7 @@ describe('Breadcrumbs', () => {
       path: Constants.Breadcrumbs.COMPOSE.path,
     });
     expect(
-      await screen.findByText('Return to inbox', {
+      await screen.findByText('Back to inbox', {
         exact: true,
       }),
     );
@@ -78,7 +78,7 @@ describe('Breadcrumbs', () => {
       path: '/thread/7155731',
     });
     expect(
-      await screen.findByText('Return to drafts', {
+      await screen.findByText('Back to drafts', {
         exact: true,
       }),
     );
@@ -109,7 +109,7 @@ describe('Breadcrumbs', () => {
       path: '/thread/7155731',
     });
     expect(
-      await screen.findByText('Return to sent', {
+      await screen.findByText('Back to sent', {
         exact: true,
       }),
     );
@@ -140,7 +140,7 @@ describe('Breadcrumbs', () => {
       path: `/thread/7155731`,
     });
     expect(
-      await screen.findByText('Return to trash', {
+      await screen.findByText('Back to trash', {
         exact: true,
       }),
     );
