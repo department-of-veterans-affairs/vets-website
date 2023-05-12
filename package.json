@@ -131,7 +131,6 @@
     "@babel/plugin-proposal-throw-expressions": "^7.16.7",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-syntax-import-meta": "^7.10.4",
-    "@babel/plugin-transform-runtime": "^7.21.4",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@babel/register": "^7.17.7",
@@ -264,7 +263,7 @@
   },
   "private": true,
   "dependencies": {
-    "@babel/runtime": "^7.21.0",
+    "@babel/runtime": "^7.15.4",
     "@department-of-veterans-affairs/component-library": "^15.0.0",
     "@department-of-veterans-affairs/formation": "^7.0.5",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
