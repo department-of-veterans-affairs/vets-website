@@ -112,7 +112,9 @@ class PatientMessageDetailsPage {
     ).click();
     */
     cy.contains(`${mockParentMessageDetails.data.attributes.subject}`).click();
-    cy.wait('@last_message');
+
+    // cy.wait('@last_message');
+    cy.location('pathname', { timeout: 5000 }).should('include', '/thread');
     cy.wait('@full-thread');
   };
 
