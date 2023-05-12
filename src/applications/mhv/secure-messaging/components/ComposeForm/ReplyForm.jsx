@@ -260,13 +260,15 @@ const ReplyForm = props => {
     };
 
     if (!draftId) {
-      dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
-        newDraft => {
-          setDraft(newDraft);
-          setNewDraftId(newDraft.messageId);
-        },
-      );
-    } else {
+      if (checkMessageValidity()) {
+        dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
+          newDraft => {
+            setDraft(newDraft);
+            setNewDraftId(newDraft.messageId);
+          },
+        );
+      }
+    } else if (checkMessageValidity()) {
       dispatch(saveReplyDraft(replyMessage.messageId, formData, type, draftId));
     }
     if (!attachments.length) setNavigationError(null);
