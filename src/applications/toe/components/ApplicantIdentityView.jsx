@@ -55,12 +55,6 @@ const ApplicantIdentityView = ({ formData }) => {
         <br />
         Date of birth: {formattedDateOfBirth}
       </p>
-      <h4>Your Personal Information</h4>
-      <p className="va-address-block">
-        {userFullName.first} {userFullName.middle} {userFullName.last}
-        <br />
-        {formattedDateOfBirth}
-      </p>
     </>
   );
 };
