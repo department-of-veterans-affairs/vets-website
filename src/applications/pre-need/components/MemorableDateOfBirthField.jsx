@@ -23,6 +23,7 @@ function MemorableDateOfBirth({ formData, dob }) {
     <div data-testid="dob-input">
       <VaMemorableDate
         value={dateVal}
+        error=""
         onDateBlur={handleClick}
         onDateChange={handleClick}
         style={{ 'margin-top': '0px' }}
