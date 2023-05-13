@@ -131,7 +131,7 @@ import Subtask, {
   resetStoredSubTask,
 } from './sub-task';
 
-export default {
+export {
   Subtask,
   SUBTASK_SESSION_STORAGE,
   getStoredSubTask,
