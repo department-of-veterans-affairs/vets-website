@@ -9,7 +9,7 @@ import set from 'platform/utilities/data/set';
 import {
   mockFetch,
   setFetchJSONResponse,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+} from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 
 import moment from 'moment';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';

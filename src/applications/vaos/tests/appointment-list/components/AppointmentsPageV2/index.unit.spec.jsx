@@ -7,7 +7,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import {
   mockFetch,
   setFetchJSONResponse,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+} from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 import userEvent from '@testing-library/user-event';
 import {
   createTestStore,

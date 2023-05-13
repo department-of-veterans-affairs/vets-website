@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';

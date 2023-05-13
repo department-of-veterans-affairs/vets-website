@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   mockFetch,
   setFetchJSONResponse,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+} from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 
 import { mapToFHIRErrors, fhirSearch } from '../../services/utils';
 import mockData from '../../services/mocks/fhir/mock_organizations.json';

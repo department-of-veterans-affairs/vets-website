@@ -4,7 +4,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import {
   mockFetch,
   setFetchJSONResponse,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+} from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import backendServices from 'platform/user/profile/constants/backendServices';

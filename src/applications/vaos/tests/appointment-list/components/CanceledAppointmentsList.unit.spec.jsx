@@ -6,7 +6,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import {
   mockFetch,
   setFetchJSONFailure,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+} from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 import reducers from '../../../redux/reducer';
 import { mockAppointmentInfo } from '../../mocks/helpers';
 import {

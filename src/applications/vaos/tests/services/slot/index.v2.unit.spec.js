@@ -4,7 +4,7 @@ import { diff } from 'just-diff';
 import {
   mockFetch,
   setFetchJSONResponse,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+} from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 
 import moment from 'moment';
 import { getSlots } from '../../../services/slot';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import { Route } from 'react-router-dom';

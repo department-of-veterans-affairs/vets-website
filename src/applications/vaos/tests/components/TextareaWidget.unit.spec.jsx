@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 
 import userEvent from '@testing-library/user-event';
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 import TextareaWidget from '../../components/TextareaWidget';
 
 describe('VAOS <TextareaWidget>', () => {

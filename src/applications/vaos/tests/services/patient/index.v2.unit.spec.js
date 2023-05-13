@@ -4,7 +4,7 @@ import { diff } from 'just-diff';
 import {
   mockFetch,
   setFetchJSONFailure,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+} from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 
 import { fetchFlowEligibilityAndClinics } from '../../../services/patient';
 import { mockEligibilityFetchesByVersion } from '../../mocks/fetch';

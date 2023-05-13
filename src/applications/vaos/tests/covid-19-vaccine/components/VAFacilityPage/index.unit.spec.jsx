@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import {
   mockFetch,
   setFetchJSONFailure,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+} from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';

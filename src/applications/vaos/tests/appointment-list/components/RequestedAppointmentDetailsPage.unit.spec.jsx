@@ -3,7 +3,7 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 
 import {
   mockMessagesFetch,
