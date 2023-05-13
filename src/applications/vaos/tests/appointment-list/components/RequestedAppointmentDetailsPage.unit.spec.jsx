@@ -23,11 +23,7 @@ import {
   getTimezoneTestDate,
   renderWithStoreAndRouter,
 } from '../../mocks/setup';
-import {
-  getVARequestMock,
-  getCCRequestMock,
-  getMessageMock,
-} from '../../mocks/v0';
+import { getVARequestMock, getCCRequestMock } from '../../mocks/v0';
 import { getVAOSRequestMock } from '../../mocks/v2';
 import { createMockFacilityByVersion } from '../../mocks/data';
 import { mockFacilityFetchByVersion } from '../../mocks/fetch';
@@ -108,12 +104,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     });
 
     mockFacilityFetchByVersion({ facility, version: 0 });
-    const message = getMessageMock();
-    message.attributes = {
-      ...message.attributes,
-      messageText: 'A message from the patient',
-    };
-    mockMessagesFetch('1234', [message]);
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
@@ -183,7 +173,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     ).to.be.ok;
 
     expect(screen.baseElement).to.contain.text('New issue');
-    expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text('patient.test@va.gov');
     expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Call morning');
@@ -215,7 +204,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       .ok;
     expect(
       screen.getByText('VA online scheduling').getAttribute('href'),
-    ).to.equal('/health-care/schedule-view-va-appointments/appointments');
+    ).to.equal('/');
   });
 
   it('should render CC request details', async () => {
@@ -244,13 +233,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     mockAppointmentInfo({
       requests: [ccAppointmentRequest],
     });
-
-    const message = getMessageMock();
-    message.attributes = {
-      ...message.attributes,
-      messageText: 'A message from the patient',
-    };
-    mockMessagesFetch('1234', [message]);
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
@@ -303,8 +285,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-
-    expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
 
     expect(
       screen.getByRole('heading', {

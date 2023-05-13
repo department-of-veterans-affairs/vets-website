@@ -49,8 +49,6 @@ const getFormConfig = (options = {}) => ({
     required: true,
     field: 'privacyAgreementAccepted',
     notice: '<div>Notice</div>',
-    label: 'I accept the privacy agreement',
-    error: 'You must accept the privacy agreement',
   },
   chapters: {
     chapter1: {
@@ -86,18 +84,15 @@ describe('Review PreSubmitSection component', () => {
     const store = createStore();
     store.injectReducer('form', formReducer);
 
-    const tree = render(
+    const { container } = render(
       <Provider store={store}>
         <PreSubmitSection formConfig={formConfig} />
       </Provider>,
     );
 
-    expect(tree.getByText('I accept the privacy agreement')).to.not.be.null;
-    // disabled for now due to dynamic input id's
-    // expect(tree.container.innerHTML).to.matchSnapshot();
-
-    tree.unmount();
+    expect(container.querySelector('va-privacy-agreement')).does.exist;
   });
+
   it('should render save link', () => {
     const form = createForm();
     const formConfig = getFormConfig();
@@ -164,8 +159,6 @@ describe('Review PreSubmitSection component', () => {
         required: true,
         field: 'privacyAgreementAccepted',
         notice: '<div>Notice</div>',
-        label: 'I accept the privacy agreement',
-        error: 'You must accept the privacy agreement',
         CustomComponent: () => (
           <div data-testid="12345">i am custom component</div>
         ),
@@ -214,9 +207,48 @@ describe('Review PreSubmitSection component', () => {
       </Provider>,
     );
 
-    expect(tree.getByText('Error')).to.not.be.null;
-    // disabled for now due to dynamic input id's
-    // expect(tree.container.innerHTML).to.matchSnapshot();
+    expect(
+      tree.container
+        .querySelector('va-privacy-agreement')
+        .getAttribute('show-error'),
+    ).to.equal('You must accept the agreement before submitting.');
+  });
+
+  it('should render statement of truth', () => {
+    const form = createForm({
+      data: {
+        veteran: {
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
+        },
+      },
+    });
+    const formConfig = getFormConfig({
+      preSubmitInfo: {
+        statementOfTruth: {
+          body: 'Test',
+        },
+      },
+    });
+
+    const formReducer = createformReducer({
+      formConfig: form,
+    });
+
+    const store = createStore();
+    store.injectReducer('form', formReducer);
+
+    const tree = render(
+      <Provider store={store}>
+        <PreSubmitSection formConfig={formConfig} />
+      </Provider>,
+    );
+
+    expect(tree.container.querySelector('h3').innerHTML).to.equal(
+      'Statement of truth',
+    );
 
     tree.unmount();
   });

@@ -25,7 +25,7 @@ describe('Check In Experience', () => {
           appointmentIen: '0001',
         },
       ];
-      initializeFeatureToggle.withDetailsPage();
+      initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
 
       initializeSessionPost.withSuccess();

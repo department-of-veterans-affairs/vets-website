@@ -1,5 +1,4 @@
 import path from 'path';
-
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
@@ -18,7 +17,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start.+without signing in/i, { selector: 'a' })
+          cy.get('.schemaform-start-button')
             .first()
             .click();
         });
@@ -49,6 +48,16 @@ const testConfig = createTestConfig(
             .find('select')
             .select('631');
           cy.get('.usa-button-primary').click();
+        });
+      },
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[name="privacyAgreementAccepted"]')
+            .scrollIntoView()
+            .shadow()
+            .find('[type="checkbox"]')
+            .check();
+          cy.findByText(/submit/i, { selector: 'button' }).click();
         });
       },
     },

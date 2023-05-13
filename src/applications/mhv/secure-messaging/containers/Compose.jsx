@@ -1,30 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearDraft } from '../actions/draftDetails';
 import { retrieveMessageThread } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
-import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
-import ReplyForm from '../components/ComposeForm/ReplyForm';
-import MessageThread from '../components/MessageThread/MessageThread';
 import EmergencyNote from '../components/EmergencyNote';
-import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import AlertBox from '../components/shared/AlertBox';
-import { addAlert, closeAlert } from '../actions/alerts';
-import { isOlderThan } from '../util/helpers';
-import * as Constants from '../util/constants';
+import InterstitialPage from './InterstitialPage';
+import { closeAlert } from '../actions/alerts';
 
 const Compose = () => {
   const dispatch = useDispatch();
   const { draftMessage, error } = useSelector(state => state.sm.draftDetails);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const { draftId } = useParams();
-  const messageHistory = useSelector(
-    state => state.sm.draftDetails.draftMessageHistory,
-  );
-  const [cannotReplyAlert, setcannotReplyAlert] = useState(false);
-  const [replyMessage, setReplyMessage] = useState(undefined);
+
+  const [acknowledged, setAcknowledged] = useState(false);
+  const [draftType, setDraftType] = useState('');
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
@@ -32,22 +26,19 @@ const Compose = () => {
 
   useEffect(
     () => {
-      // to prevent users from accessing draft edit view if directly hitting url path with messageId
-      // in case that message no longer is a draft
-      if (isDraftPage && draftMessage === undefined) {
-        dispatch(retrieveMessageThread(draftId));
-      }
+      dispatch(getTriageTeams());
+
       if (location.pathname === '/compose') {
         dispatch(clearDraft());
-        setReplyMessage(null);
+        setDraftType('compose');
+      } else {
+        dispatch(retrieveMessageThread(draftId));
       }
-
-      dispatch(getTriageTeams());
       return () => {
         dispatch(clearDraft());
       };
     },
-    [dispatch, location.pathname],
+    [dispatch, draftId, location.pathname],
   );
 
   useEffect(
@@ -64,48 +55,17 @@ const Compose = () => {
     [isDraftPage, draftMessage, history, dispatch],
   );
 
-  useEffect(
-    () => {
-      // wait until messageHistory is retrieved to determine if we should show a ReplyForm
-      // To prevent from Edit Draft Title falshing on screen
-      if (messageHistory !== undefined) {
-        if (messageHistory?.length > 0) {
-          // TODO filter history to grab only received messages.
-          setReplyMessage(messageHistory[0]);
-        } else {
-          setReplyMessage(null);
-        }
-      }
-    },
-    [messageHistory],
-  );
-
-  useEffect(
-    () => {
-      if (replyMessage && isOlderThan(replyMessage.sentDate, 45)) {
-        dispatch(
-          addAlert(
-            Constants.ALERT_TYPE_INFO,
-            Constants.Alerts.Message.DRAFT_CANNOT_REPLY_INFO_HEADER,
-            Constants.Alerts.Message.DRAFT_CANNOT_REPLY_INFO_BODY,
-            Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
-            Constants.Links.Link.CANNOT_REPLY.TO,
-            Constants.Links.Link.CANNOT_REPLY.TITLE,
-          ),
-        );
-        setcannotReplyAlert(true);
-      }
-    },
-    [replyMessage],
-  );
-
   let pageTitle;
 
   if (isDraftPage) {
     pageTitle = 'Edit draft';
   } else {
-    pageTitle = 'Compose message';
+    pageTitle = 'Start a new message';
   }
+
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  });
 
   const content = () => {
     if (!isDraftPage && triageTeams) {
@@ -114,10 +74,7 @@ const Compose = () => {
           <h1 className="page-title" ref={header}>
             {pageTitle}
           </h1>
-          <EmergencyNote />
-          <div>
-            <BeforeMessageAddlInfo />
-          </div>
+          <EmergencyNote dropDownFlag />
           <ComposeForm draft={draftMessage} recipients={triageTeams} />
         </>
       );
@@ -143,45 +100,38 @@ const Compose = () => {
       );
     }
 
-    if (replyMessage !== undefined) {
-      return (
-        <>
-          {replyMessage === null ? (
-            <>
-              <h1 className="page-title" ref={header}>
-                {pageTitle}
-              </h1>
-              <EmergencyNote />
-              <div>
-                <BeforeMessageAddlInfo />
-              </div>
-              <ComposeForm draft={draftMessage} recipients={triageTeams} />
-            </>
-          ) : (
-            <>
-              <ReplyForm
-                draftToEdit={draftMessage}
-                replyMessage={replyMessage}
-                cannotReplyAlert={cannotReplyAlert}
-              />
-              {replyMessage &&
-                messageHistory?.length > 1 && (
-                  <MessageThread messageHistory={messageHistory.slice(1)} />
-                )}
-            </>
-          )}
-        </>
-      );
-    }
     return null;
   };
 
   return (
-    <div className="vads-l-grid-container compose-container">
-      {cannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
+    <>
+      {!draftType && (
+        <va-loading-indicator
+          message="Loading your secure message..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      )}
 
-      {content()}
-    </div>
+      {draftType && !acknowledged ? (
+        <InterstitialPage
+          acknowledge={() => {
+            setAcknowledged(true);
+          }}
+          type={draftType}
+        />
+      ) : (
+        <>
+          {draftType && (
+            <div className="vads-l-grid-container compose-container">
+              <AlertBox />
+
+              {content()}
+            </div>
+          )}
+        </>
+      )}
+    </>
   );
 };
 

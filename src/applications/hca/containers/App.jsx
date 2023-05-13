@@ -27,7 +27,6 @@ const App = props => {
   } = props;
 
   const {
-    isAiqEnabled = false,
     isFacilitiesApiEnabled = false,
     isHouseholdV2Enabled = false,
     isSigiEnabled = false,
@@ -64,7 +63,6 @@ const App = props => {
       const defaultViewFields = {
         'view:isLoggedIn': isLoggedIn,
         'view:isSigiEnabled': isSigiEnabled,
-        'view:isAiqEnabled': isAiqEnabled,
         'view:isFacilitiesApiEnabled': isFacilitiesApiEnabled,
         'view:totalDisabilityRating': parseInt(totalDisabilityRating, 10) || 0,
       };
@@ -96,7 +94,6 @@ const App = props => {
       user.dob,
       isLoggedIn,
       hasSavedForm,
-      isAiqEnabled,
       isSigiEnabled,
       isHouseholdV2Enabled,
       isFacilitiesApiEnabled,
@@ -156,7 +153,6 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   features: {
-    isAiqEnabled: state.featureToggles.hcaAmericanIndianEnabled,
     isFacilitiesApiEnabled: state.featureToggles.hcaUseFacilitiesApi,
     isHouseholdV2Enabled: state.featureToggles.hcaHouseholdV2Enabled,
     isSigiEnabled: state.featureToggles.caregiverSigiEnabled,

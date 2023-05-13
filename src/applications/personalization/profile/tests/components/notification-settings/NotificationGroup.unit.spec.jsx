@@ -248,7 +248,7 @@ const mockCommunicationPreferencesState = {
 const baseState = {
   featureToggles: {
     [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: true,
-    [TOGGLE_NAMES.profileShowMhvNotificaionSettings]: true,
+    [TOGGLE_NAMES.profileShowMhvNotificationSettings]: true,
   },
   communicationPreferences: mockCommunicationPreferencesState,
 };
@@ -288,7 +288,7 @@ describe('NotificationGroup component', () => {
     const initialState = cloneDeep(baseState);
     set(
       initialState,
-      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificaionSettings}]`,
+      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificationSettings}]`,
       false,
     );
 

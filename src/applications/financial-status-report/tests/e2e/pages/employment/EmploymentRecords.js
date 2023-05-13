@@ -1,6 +1,9 @@
 class EmploymentRecords {
   employerFill = employer => {
-    cy.findByLabelText(/Type of work/).select(employer.type);
+    cy.get('#type')
+      .shadow()
+      .find('select')
+      .select(employer.type);
     cy.fillDate(
       'from',
       `${employer.from.split('-')[0]}-${employer.from.split('-')[1]}`,
@@ -13,7 +16,10 @@ class EmploymentRecords {
         `${employer.to.split('-')[0]}-${employer.to.split('-')[1]}`,
       );
     }
-    cy.get(`input[name="employerName"]`).type(employer.employerName);
+    cy.get('#employer-name')
+      .shadow()
+      .find('input')
+      .type(employer.employerName);
     cy.findAllByText(/Continue/i, { selector: 'button' })
       .first()
       .click();

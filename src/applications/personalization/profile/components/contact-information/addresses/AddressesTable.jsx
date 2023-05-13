@@ -14,45 +14,60 @@ import { formatAddressTitle } from '@@profile/util/contact-information/addressUt
 import CopyAddressModalController from './CopyAddressModalController';
 
 import ProfileInfoTable from '../../ProfileInfoTable';
+import { ProfileInfoCard } from '../../ProfileInfoCard';
 import BadAddressAlert from '../../alerts/bad-address/FormAlert';
+import { Toggler } from '~/platform/utilities/feature-toggles';
+
+const generateRows = showBadAddress => [
+  {
+    title: formatAddressTitle(FIELD_TITLES[FIELD_NAMES.MAILING_ADDRESS]),
+    description: FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.MAILING_ADDRESS],
+    id: FIELD_IDS[FIELD_NAMES.MAILING_ADDRESS],
+    value: (
+      <ProfileInformationFieldController
+        fieldName={FIELD_NAMES.MAILING_ADDRESS}
+        ariaDescribedBy={`described-by-${FIELD_NAMES.MAILING_ADDRESS}`}
+      />
+    ),
+    alertMessage: showBadAddress ? <BadAddressAlert /> : null,
+  },
+  {
+    title: formatAddressTitle(FIELD_TITLES[FIELD_NAMES.RESIDENTIAL_ADDRESS]),
+    description: FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.RESIDENTIAL_ADDRESS],
+    id: FIELD_IDS[FIELD_NAMES.RESIDENTIAL_ADDRESS],
+    value: (
+      <ProfileInformationFieldController
+        fieldName={FIELD_NAMES.RESIDENTIAL_ADDRESS}
+      />
+    ),
+  },
+];
 
 const AddressesTable = ({ className, showBadAddress }) => (
   <>
     <CopyAddressModalController />
-    <ProfileInfoTable
-      title="Addresses"
-      level={2}
-      namedAnchor="addresses"
-      data={[
-        {
-          title: formatAddressTitle(FIELD_TITLES[FIELD_NAMES.MAILING_ADDRESS]),
-          description: FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.MAILING_ADDRESS],
-          id: FIELD_IDS[FIELD_NAMES.MAILING_ADDRESS],
-          value: (
-            <ProfileInformationFieldController
-              fieldName={FIELD_NAMES.MAILING_ADDRESS}
-              ariaDescribedBy={`described-by-${FIELD_NAMES.MAILING_ADDRESS}`}
-            />
-          ),
-          alertMessage: showBadAddress ? <BadAddressAlert /> : null,
-        },
-        {
-          title: formatAddressTitle(
-            FIELD_TITLES[FIELD_NAMES.RESIDENTIAL_ADDRESS],
-          ),
-          description:
-            FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.RESIDENTIAL_ADDRESS],
-          id: FIELD_IDS[FIELD_NAMES.RESIDENTIAL_ADDRESS],
-          value: (
-            <ProfileInformationFieldController
-              fieldName={FIELD_NAMES.RESIDENTIAL_ADDRESS}
-            />
-          ),
-        },
-      ]}
-      className={className}
-      list
-    />
+
+    <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
+      <Toggler.Enabled>
+        <ProfileInfoCard
+          title="Addresses"
+          level={2}
+          namedAnchor="addresses"
+          data={generateRows(showBadAddress)}
+          className={className}
+        />
+      </Toggler.Enabled>
+      <Toggler.Disabled>
+        <ProfileInfoTable
+          title="Addresses"
+          level={2}
+          namedAnchor="addresses"
+          data={generateRows(showBadAddress)}
+          className={className}
+          list
+        />
+      </Toggler.Disabled>
+    </Toggler>
   </>
 );
 

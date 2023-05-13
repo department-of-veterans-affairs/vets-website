@@ -27,6 +27,9 @@ export default {
     },
     'view:prefillMessage': {
       'ui:description': PrefillMessage,
+      'ui:options': {
+        hideIf: formData => !formData['view:isLoggedIn'],
+      },
     },
     'view:demographicCategories': {
       'ui:title': ' ',

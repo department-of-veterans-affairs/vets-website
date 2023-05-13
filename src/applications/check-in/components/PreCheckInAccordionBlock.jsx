@@ -116,48 +116,57 @@ const PreCheckInAccordionBlock = ({
   }
   const accordions = [];
   if (appointments && !errorPage) {
-    accordions.unshift(
-      {
-        header: t('why-do-i-need-to-make-sure-my-information-is-up-to-date'),
-        body: (
-          <p>
-            {t(
-              'we-can-better-prepare-for-your-appointment-and-contact-you-more-easily',
-            )}
-          </p>
-        ),
-        open: false,
-      },
-      {
+    accordions.unshift({
+      header: t('why-do-i-need-to-make-sure-my-information-is-up-to-date'),
+      body: (
+        <p>
+          {t(
+            'we-can-better-prepare-for-your-appointment-and-contact-you-more-easily',
+          )}
+        </p>
+      ),
+      open: false,
+    });
+    if (
+      appointments.some(
+        appointment =>
+          appointment.clinicPhoneNumber && appointment.clinicPhoneNumber.length,
+      )
+    ) {
+      accordions.push({
         header: t('what-if-i-have-questions-about-my-appointment'),
         body: (
           <>
             <p>{t('call-your-va-health-care-team')}:</p>
             {appointments.map((appointment, index) => {
               return (
-                <p key={index}>
-                  <Trans
-                    i18nKey="facility-name-at-phone"
-                    components={[
-                      <va-telephone
-                        key={appointment.clinicPhoneNumber}
-                        contact={appointment.clinicPhoneNumber}
-                      />,
-                    ]}
-                    values={{
-                      facility:
-                        appointment.clinicFriendlyName ||
-                        appointment.clinicName,
-                    }}
-                  />
-                </p>
+                <React.Fragment key={index}>
+                  {appointment.clinicPhoneNumber && (
+                    <p>
+                      <Trans
+                        i18nKey="facility-name-at-phone"
+                        components={[
+                          <va-telephone
+                            key={appointment.clinicPhoneNumber}
+                            contact={appointment.clinicPhoneNumber}
+                          />,
+                        ]}
+                        values={{
+                          facility:
+                            appointment.clinicFriendlyName ||
+                            appointment.clinicName,
+                        }}
+                      />
+                    </p>
+                  )}
+                </React.Fragment>
               );
             })}
           </>
         ),
         open: false,
-      },
-    );
+      });
+    }
   }
 
   if (hasUpdates) {
@@ -214,7 +223,6 @@ const PreCheckInAccordionBlock = ({
         return (
           <va-accordion-item
             header={accordion.header}
-            id={index}
             key={index}
             open={accordion.open}
           >

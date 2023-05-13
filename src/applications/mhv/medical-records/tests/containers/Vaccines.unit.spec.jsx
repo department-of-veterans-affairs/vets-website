@@ -8,7 +8,7 @@ describe('Vaccines list container', () => {
   const initialState = {
     mr: {
       vaccines: {
-        vaccineList: null,
+        vaccinesList: null,
       },
     },
   };
@@ -26,24 +26,14 @@ describe('Vaccines list container', () => {
     expect(screen.getByText('Vaccines', { exact: true })).to.exist;
   });
 
-  it('displays CONFIDENTIAL header for print view', () => {
+  it('displays Date of birth for the print view', () => {
     const screen = setup();
-    const printHeading = screen.getByRole('heading', {
-      name: 'CONFIDENTIAL',
-      level: 4,
-    });
-    expect(printHeading).to.exist;
+    expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
   });
 
   it('displays a print button', () => {
     const screen = setup();
     const printButton = screen.getByTestId('print-records-button');
-    expect(printButton).to.exist;
-  });
-
-  it('contains an iframe for printing content', () => {
-    const screen = setup();
-    const printButton = screen.getByTitle('contentsToPrint');
     expect(printButton).to.exist;
   });
 });

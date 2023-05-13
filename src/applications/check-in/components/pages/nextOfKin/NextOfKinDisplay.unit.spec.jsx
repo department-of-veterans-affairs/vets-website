@@ -2,40 +2,17 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import configureStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
-import { I18nextProvider } from 'react-i18next';
-import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
-import i18n from '../../../utils/i18n/i18n';
+import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import NextOfKinDisplay from './NextOfKinDisplay';
 
 describe('pre-check-in experience', () => {
   describe('shared components', () => {
     describe('NextOfKinDisplay', () => {
-      let store;
-      beforeEach(() => {
-        const middleware = [];
-        const mockStore = configureStore(middleware);
-        const initState = {
-          checkInData: {
-            context: {
-              token: '',
-            },
-            form: {
-              pages: [],
-            },
-          },
-          ...scheduledDowntimeState,
-        };
-        store = mockStore(initState);
-      });
       it('renders with default values', () => {
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <NextOfKinDisplay />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <NextOfKinDisplay />
+          </CheckInProvider>,
         );
 
         expect(getByText('Is this your current next of kin information?')).to
@@ -43,21 +20,17 @@ describe('pre-check-in experience', () => {
       });
       it('renders custom header', () => {
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <NextOfKinDisplay header="foo" />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <NextOfKinDisplay header="foo" />
+          </CheckInProvider>,
         );
         expect(getByText('foo')).to.exist;
       });
       it('renders custom subtitle', () => {
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <NextOfKinDisplay subtitle="foo" />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <NextOfKinDisplay subtitle="foo" />
+          </CheckInProvider>,
         );
         expect(getByText('foo')).to.exist;
       });
@@ -80,11 +53,9 @@ describe('pre-check-in experience', () => {
           },
         };
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <NextOfKinDisplay nextOfKin={nextOfKinData} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <NextOfKinDisplay nextOfKin={nextOfKinData} />
+          </CheckInProvider>,
         );
         expect(getByText('Name')).to.exist;
         expect(getByText('Relationship')).to.exist;
@@ -111,11 +82,9 @@ describe('pre-check-in experience', () => {
           },
         };
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <NextOfKinDisplay nextOfKin={nextOfKinData} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <NextOfKinDisplay nextOfKin={nextOfKinData} />
+          </CheckInProvider>,
         );
         expect(getByText('VETERAN,JONAH')).to.exist;
         expect(getByText('BROTHER')).to.exist;
@@ -128,11 +97,9 @@ describe('pre-check-in experience', () => {
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
         const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <NextOfKinDisplay yesAction={yesClick} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <NextOfKinDisplay yesAction={yesClick} />
+          </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('yes-button'));
         expect(yesClick.calledOnce).to.be.true;
@@ -140,22 +107,18 @@ describe('pre-check-in experience', () => {
       it('fires the no function', () => {
         const noClick = sinon.spy();
         const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <NextOfKinDisplay noAction={noClick} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <NextOfKinDisplay noAction={noClick} />
+          </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('no-button'));
         expect(noClick.calledOnce).to.be.true;
       });
       it('renders the buttons', () => {
         const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <NextOfKinDisplay isLoading={false} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <NextOfKinDisplay isLoading={false} />
+          </CheckInProvider>,
         );
         expect(screen.getByTestId('no-button')).to.exist;
         expect(screen.getByTestId('yes-button')).to.exist;

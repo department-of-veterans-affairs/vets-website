@@ -23,12 +23,12 @@ describe('SIP Autosave Test', () => {
     cy.visit('/mock-sip-form');
     cy.get('body').should('be.visible');
     cy.title().should('contain', 'Mock SIP Form');
-    cy.get('.main .usa-button-primary', { timeout: Timeouts.slow }).should(
-      'be.visible',
-    );
+    cy.get('va-button', { timeout: Timeouts.slow }).should('be.visible');
     cy.injectAxeThenAxeCheck();
-    cy.get('.main .usa-button-primary')
+    cy.get('va-button')
       .first()
+      .shadow()
+      .find('button')
       .click();
 
     cy.url().should('not.contain', '/introduction');

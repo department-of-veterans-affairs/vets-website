@@ -41,7 +41,6 @@ class SaveInProgressIntro extends React.Component {
         isExpired={isExpired}
         messages={this.props.messages}
         startText={this.props.startText}
-        testActionLink={this.props.testActionLink}
         startPage={startPage}
         formId={this.props.formId}
         returnUrl={this.props.returnUrl}
@@ -224,7 +223,8 @@ class SaveInProgressIntro extends React.Component {
         <div className="usa-alert usa-alert-info schemaform-sip-alert">
           <div className="usa-alert-body">
             <H className="usa-alert-heading">
-              Sign in now to save your work in progress
+              {this.props.customHeading ||
+                'Sign in now to save your work in progress'}
             </H>
             <div className="usa-alert-text">
               <p>Here&rsquo;s how signing in now helps you:</p>
@@ -254,7 +254,8 @@ class SaveInProgressIntro extends React.Component {
                     aria-label={ariaLabel}
                     aria-describedby={ariaDescribedby}
                   >
-                    Start your {appType} without signing in
+                    {this.props.unauthStartLinkText ||
+                      `Start your ${appType} without signing in`}
                   </Link>
                 </p>
               )}
@@ -406,6 +407,7 @@ SaveInProgressIntro.propTypes = {
   formData: PropTypes.object,
   gaStartEventName: PropTypes.string,
   headingLevel: PropTypes.number,
+  customHeading: PropTypes.string,
   hideUnauthedStartLink: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   lastSavedDate: PropTypes.number,
@@ -420,8 +422,8 @@ SaveInProgressIntro.propTypes = {
   returnUrl: PropTypes.string,
   startMessageOnly: PropTypes.bool,
   startText: PropTypes.string,
-  testActionLink: PropTypes.bool,
   unauthStartText: PropTypes.string,
+  unauthStartLinkText: PropTypes.string,
   unverifiedPrefillAlert: PropTypes.element,
   verifiedPrefillAlert: PropTypes.element,
   verifyRequiredPrefill: PropTypes.bool,
@@ -430,7 +432,6 @@ SaveInProgressIntro.propTypes = {
 SaveInProgressIntro.defaultProps = {
   retentionPeriod: '60 days',
   unauthStartText: '',
-  testActionLink: false,
   formConfig: {
     customText: {
       appType: '',

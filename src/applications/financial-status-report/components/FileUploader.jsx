@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Scroll from 'react-scroll';
-import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 import PropTypes from 'prop-types';
 import {
   readAndCheckFile,
@@ -9,6 +8,7 @@ import {
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
 import { getScrollOptions } from 'platform/utilities/ui';
+import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   isValidFile,
   isValidFileSize,
@@ -27,8 +27,8 @@ const FileUploader = ({ files, onAddFile }) => {
     Scroll.scroller.scrollTo(`documentScroll${position}`, options);
   };
 
-  const handleChange = async uploadedFile => {
-    const file = uploadedFile[0];
+  const handleChange = async event => {
+    const file = event?.detail?.files[0];
     const extraData = {};
 
     const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
@@ -78,12 +78,12 @@ const FileUploader = ({ files, onAddFile }) => {
         <strong>Maximum file size: </strong>
       </div>
       <div>50MB</div>
-      <FileInput
-        errorMessage={errorMessage}
-        onChange={handleChange}
-        buttonText="Add files"
-        name="fileUpload"
+      <VaFileInput
         accept={acceptedFileTypes}
+        button-text="Add files"
+        error={errorMessage}
+        name="fileUpload"
+        onVaChange={handleChange}
       />
     </>
   );
