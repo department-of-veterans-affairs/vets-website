@@ -4,13 +4,14 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setVaccineFacility,
   setVaccineClinic,
 } from '../../mocks/setup';
-import userEvent from '@testing-library/user-event';
 
 import SelectDate1Page from '../../../covid-19-vaccine/components/SelectDate1Page';
 import {
@@ -18,7 +19,6 @@ import {
   mockAppointmentSlotFetch,
 } from '../../mocks/helpers';
 import { getClinicMock, getAppointmentSlotMock } from '../../mocks/v0';
-import { mockFetch } from 'platform/testing/unit/helpers';
 import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
 
 const initialState = {

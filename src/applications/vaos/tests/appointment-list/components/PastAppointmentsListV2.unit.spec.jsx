@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import { within, waitFor } from '@testing-library/dom';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 import { getVideoAppointmentMock } from '../../mocks/v0';
 import {
   mockPastAppointmentInfo,

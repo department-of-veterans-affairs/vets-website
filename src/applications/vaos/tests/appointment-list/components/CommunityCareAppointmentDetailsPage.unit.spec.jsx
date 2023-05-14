@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { fireEvent } from '@testing-library/react';

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 import { within } from '@testing-library/react';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 import { waitFor } from '@testing-library/dom';
 import {
   createTestStore,

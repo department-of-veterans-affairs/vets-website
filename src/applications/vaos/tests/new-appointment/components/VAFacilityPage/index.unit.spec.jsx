@@ -2,8 +2,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 
-// eslint-disable-next-line import/no-unresolved
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '../../../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
