@@ -31,14 +31,14 @@ import Headline from '../ProfileSectionHeadline';
 import HealthCareGroupSupportingText from './HealthCareGroupSupportingText';
 import MissingContactInfoAlert from './MissingContactInfoAlert';
 import NotificationGroup from './NotificationGroup';
-import { selectShowPaymentsNotificationSetting } from '../../selectors';
+import { FieldHasBeenUpdated as FieldHasBeenUpdatedAlert } from '../alerts/FieldHasBeenUpdated';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const NotificationSettings = ({
   allContactInfoOnFile,
   emailAddress,
   facilities,
   fetchNotificationSettings,
-  shouldShowPaymentsNotificationSetting,
   mobilePhoneNumber,
   noContactInfoOnFile,
   notificationGroups,
@@ -47,6 +47,11 @@ const NotificationSettings = ({
   shouldShowLoadingIndicator,
 }) => {
   const location = useLocation();
+
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const showQuickSubmitGroup = useToggleValue(
+    TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting,
+  );
 
   React.useEffect(() => {
     // issue: 48011
@@ -93,33 +98,34 @@ const NotificationSettings = ({
   return (
     <>
       <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
-      {shouldShowLoadingIndicator ? (
+      {shouldShowLoadingIndicator && (
         <VaLoadingIndicator
           data-testid="loading-indicator"
           message="We’re loading your information."
         />
-      ) : null}
-      {shouldShowAPIError ? <LoadFail /> : null}
-      {showMissingContactInfoAlert ? (
+      )}
+      {shouldShowAPIError && <LoadFail />}
+      {showMissingContactInfoAlert && (
         <MissingContactInfoAlert
           missingMobilePhone={!mobilePhoneNumber}
           missingEmailAddress={!emailAddress}
         />
-      ) : null}
-      {showNotificationOptions ? (
+      )}
+      {showNotificationOptions && (
         <>
+          <FieldHasBeenUpdatedAlert />
           <ContactInfoOnFile
             emailAddress={emailAddress}
             mobilePhoneNumber={mobilePhoneNumber}
           />
           {notificationGroups.ids.map(groupId => {
+            // filtering out the quick submit group for now until it is ready
             if (
-              groupId === NOTIFICATION_GROUPS.PAYMENTS &&
-              !shouldShowPaymentsNotificationSetting
+              groupId === NOTIFICATION_GROUPS.QUICK_SUBMIT &&
+              !showQuickSubmitGroup
             ) {
               return null;
             }
-
             // we handle the health care group a little differently
             if (groupId === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
               return (
@@ -136,7 +142,7 @@ const NotificationSettings = ({
             time. Check back for more options in the future.
           </p>
         </>
-      ) : null}
+      )}
     </>
   );
 };
@@ -145,7 +151,6 @@ NotificationSettings.propTypes = {
   fetchNotificationSettings: PropTypes.func.isRequired,
   noContactInfoOnFile: PropTypes.bool.isRequired,
   shouldShowLoadingIndicator: PropTypes.bool.isRequired,
-  shouldShowPaymentsNotificationSetting: PropTypes.bool.isRequired,
   allContactInfoOnFile: PropTypes.object,
   emailAddress: PropTypes.string,
   facilities: PropTypes.arrayOf(
@@ -167,9 +172,6 @@ const mapStateToProps = state => {
   const communicationPreferencesState = selectCommunicationPreferences(state);
   const hasVAPServiceError = hasVAPServiceConnectionError(state);
   const hasLoadingError = !!communicationPreferencesState.loadingErrors;
-  const shouldShowPaymentsNotificationSetting = selectShowPaymentsNotificationSetting(
-    state,
-  );
 
   // TODO: uncomment when email is a supported notification channel
   // const emailAddress = selectVAPEmailAddress(state);
@@ -194,7 +196,6 @@ const mapStateToProps = state => {
     shouldShowAPIError,
     shouldShowLoadingIndicator:
       communicationPreferencesState.loadingStatus === LOADING_STATES.pending,
-    shouldShowPaymentsNotificationSetting,
   };
 };
 
@@ -206,3 +207,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(NotificationSettings);
+
+export const NotificationSettingsUnconnected = NotificationSettings;

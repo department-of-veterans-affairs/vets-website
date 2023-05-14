@@ -221,15 +221,6 @@ div.review {
   }
 }
 
-/* Introduction page */
-article[data-location="introduction"]
-{
-  a.vads-c-action-link--green {
-    display: block;
-    line-height: 1em;
-  }
-}
-
 /* Confirmation page */
 article[data-location="confirmation"] {
   h1[tabindex="-1"] {
@@ -250,5 +241,12 @@ article[data-location="confirmation"] {
   .schemaform-title,
   .schemaform-subtitle {
     display: none;
+  }
+}
+
+/* Workaround issue using component in ui:description for bdd evidence page */
+article[data-location="supporting-evidence/evidence-types-bdd"] {
+  #root_view\:hasEvidence-label .schemaform-required-span {
+    display: none
   }
 }

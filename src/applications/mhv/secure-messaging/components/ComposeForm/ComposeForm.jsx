@@ -15,12 +15,14 @@ import useDebounce from '../../hooks/use-debounce';
 import DeleteDraft from '../Draft/DeleteDraft';
 import { sortRecipients } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
+import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import HowToAttachFiles from '../HowToAttachFiles';
 import {
   draftAutoSaveTimeout,
   Categories,
   Prompts,
+  ErrorMessages,
 } from '../../util/constants';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -46,6 +48,7 @@ const ComposeForm = props => {
   const [formPopulated, setFormPopulated] = useState(false);
   const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
+  const [messageInvalid, setMessageInvalid] = useState(false);
   const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
@@ -121,6 +124,15 @@ const ComposeForm = props => {
     [sendMessageFlag, isSaving],
   );
 
+  useEffect(
+    () => {
+      if (messageInvalid) {
+        focusOnErrorField();
+      }
+    },
+    [messageInvalid],
+  );
+
   const recipientExists = recipientId => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
   };
@@ -183,44 +195,41 @@ const ComposeForm = props => {
 
   const checkMessageValidity = () => {
     let messageValid = true;
-    if (!selectedRecipient || selectedRecipient === '') {
-      setRecipientError('Please select a recipient.');
+    if (
+      selectedRecipient === '0' ||
+      selectedRecipient === '' ||
+      !selectedRecipient
+    ) {
+      setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+
       messageValid = false;
     }
     if (!subject || subject === '') {
-      setSubjectError('Subject cannot be blank.');
+      setSubjectError(ErrorMessages.ComposeForm.SUBJECT_REQUIRED);
       messageValid = false;
     }
     if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-      setBodyError('Message body cannot be blank.');
+      setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
       messageValid = false;
     }
     if (!category || category === '') {
-      setCategoryError('Please select a category.');
+      setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
       messageValid = false;
     }
+    setMessageInvalid(!messageValid);
     return messageValid;
   };
 
-  const saveDraftHandler = type => {
+  const saveDraftHandler = async type => {
     if (type === 'manual') {
       setUserSaved(true);
-      if (!checkMessageValidity()) {
-        setSaveError({
-          title: "We can't save this message yet",
-          p1:
-            'We need more information from you before we can save this draft.',
-          p2:
-            "You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
-        });
-        return;
+
+      await setMessageInvalid(false);
+      if (checkMessageValidity()) {
+        setNavigationError(null);
       }
       if (attachments.length) {
-        setSaveError({
-          title: "We can't save attachments in a draft message",
-          p1:
-            "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
-        });
+        setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT);
         setNavigationError(null);
       }
     }
@@ -246,12 +255,15 @@ const ComposeForm = props => {
       body: messageBody,
     };
 
-    dispatch(saveDraft(formData, type, draftId));
+    if (checkMessageValidity() === true) {
+      dispatch(saveDraft(formData, type, draftId));
+    }
     if (!attachments.length) setNavigationError(null);
   };
 
-  const sendMessageHandler = () => {
+  const sendMessageHandler = async () => {
     // TODO add GA event
+    await setMessageInvalid(false);
     if (checkMessageValidity()) {
       setSendMessageFlag(true);
       setNavigationError(null);
@@ -281,10 +293,7 @@ const ComposeForm = props => {
 
   const setUnsavedNavigationError = () => {
     setNavigationError({
-      title: "We can't save this message yet",
-      p1: 'We need more information from you before we can save this draft.',
-      p2:
-        "You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
+      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
       confirmButtonText: 'Continue editing',
       cancelButtonText: 'Delete draft',
     });
@@ -292,8 +301,10 @@ const ComposeForm = props => {
 
   const recipientHandler = e => {
     setSelectedRecipient(e.detail.value);
-    if (e.detail.value) setRecipientError('');
-    setUnsavedNavigationError();
+    if (e.detail.value !== '0') {
+      if (e.detail.value) setRecipientError('');
+      setUnsavedNavigationError();
+    }
   };
 
   const subjectHandler = e => {
@@ -420,8 +431,8 @@ const ComposeForm = props => {
           <va-textarea
             label="Message"
             required
-            id="message-body"
-            name="message-body"
+            id="compose-message-body"
+            name="compose-message-body"
             className="message-body"
             data-testid="message-body-field"
             onInput={messageBodyHandler}
@@ -460,7 +471,7 @@ const ComposeForm = props => {
             data-testid="Save-Draft-Button"
             onClick={() => saveDraftHandler('manual')}
           />
-          <div className="vads-u-flex--1 vads-u-display--flex">
+          <div className="vads-u-flex--1">
             {draft && <DeleteDraft draft={draft} />}
           </div>
         </div>

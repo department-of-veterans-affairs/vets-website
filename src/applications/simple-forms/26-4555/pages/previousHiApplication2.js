@@ -15,29 +15,38 @@ const pageFields = [
   // omitted because unused, will be restored when vets-json-schema is changed
 ];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [previousHiApplicationFields.parentObject]: {
-      'ui:description': (
-        <h3>
-          Details about your past application for a special home adaptation
-          grant
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+          Past SHA grant application details
         </h3>
       ),
+      'ui:description': (
+        <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
+          Tell us about your last SHA application
+        </p>
+      ),
       [previousHiApplicationFields.previousHiApplicationDate]: dateUI(
-        'Date of previous application',
+        'Date you last applied',
       ),
-      'view:addressDescription': {
-        'ui:description': 'Address connected to your past application',
+      [previousHiApplicationFields.previousHiApplicationAddress]: {
+        'ui:description': (
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--4">
+            Address connected to your past application
+          </p>
+        ),
+        ...address.uiSchema(
+          '',
+          false,
+          formData =>
+            formData[previousHiApplicationFields.parentObject][
+              previousHiApplicationFields.hasPreviousHiApplication
+            ],
+        ),
       },
-      [previousHiApplicationFields.previousHiApplicationAddress]: address.uiSchema(
-        '',
-        false,
-        formData =>
-          formData[previousHiApplicationFields.parentObject][
-            previousHiApplicationFields.hasPreviousHiApplication
-          ],
-      ),
     },
   },
   schema: {
@@ -48,10 +57,6 @@ export default {
         required: intersection(required, pageFields),
         properties: {
           ...pick(properties, pageFields),
-          'view:addressDescription': {
-            type: 'object',
-            properties: {},
-          },
           [previousHiApplicationFields.previousHiApplicationAddress]: address.schema(
             fullSchema,
             formData =>

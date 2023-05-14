@@ -26,7 +26,7 @@ describe('LocationPhoneLink', () => {
     const wrapper = shallow(
       <LocationPhoneLink location={locationWithGoodPhone} />,
     );
-    expect(wrapper.find('Telephone').length).to.equal(1);
+    expect(wrapper.find('va-telephone').length).to.equal(1);
     expect(wrapper.find('strong').text()).to.equal('Main number: ');
     wrapper.unmount();
   });

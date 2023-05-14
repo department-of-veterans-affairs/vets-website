@@ -11,6 +11,7 @@ import {
 } from '@@profile/actions';
 import {
   cnpDirectDepositInformation,
+  profileUseLighthouseDirectDepositEndpoint,
   selectIsBlocked,
 } from '@@profile/selectors';
 import {
@@ -36,14 +37,12 @@ import backendServices from '~/platform/user/profile/constants/backendServices';
 import {
   createIsServiceAvailableSelector,
   isMultifactorEnabled,
-  selectProfile,
   isLOA1 as isLOA1Selector,
   isLOA3 as isLOA3Selector,
   isInMPI as isInMVISelector,
   isLoggedIn,
 } from '~/platform/user/selectors';
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
-import { fetchMHVAccount as fetchMHVAccountAction } from '~/platform/user/profile/actions';
 import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
@@ -52,6 +51,7 @@ import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 class Profile extends Component {
   componentDidMount() {
@@ -59,7 +59,6 @@ class Profile extends Component {
       fetchCNPPaymentInformation,
       fetchEDUPaymentInformation,
       fetchFullName,
-      fetchMHVAccount,
       fetchMilitaryInformation,
       fetchPersonalInformation,
       fetchTotalDisabilityRating,
@@ -69,8 +68,8 @@ class Profile extends Component {
       shouldFetchTotalDisabilityRating,
       shouldFetchEDUDirectDepositInformation,
       connectDrupalSourceOfTruthCerner,
+      useLighthouseDirectDepositEndpoint,
     } = this.props;
-    fetchMHVAccount();
     connectDrupalSourceOfTruthCerner();
     if (isLOA3 && isInMVI) {
       fetchFullName();
@@ -78,7 +77,9 @@ class Profile extends Component {
       fetchMilitaryInformation();
     }
     if (shouldFetchCNPDirectDepositInformation) {
-      fetchCNPPaymentInformation();
+      fetchCNPPaymentInformation({
+        useLighthouseDirectDepositEndpoint,
+      });
     }
     if (shouldFetchTotalDisabilityRating) {
       fetchTotalDisabilityRating();
@@ -101,6 +102,7 @@ class Profile extends Component {
       shouldFetchEDUDirectDepositInformation,
       shouldFetchTotalDisabilityRating,
       isInMVI,
+      useLighthouseDirectDepositEndpoint,
     } = this.props;
     if (isLOA3 && !prevProps.isLOA3 && isInMVI) {
       fetchFullName();
@@ -117,7 +119,9 @@ class Profile extends Component {
       shouldFetchCNPDirectDepositInformation &&
       !prevProps.shouldFetchCNPDirectDepositInformation
     ) {
-      fetchCNPPaymentInformation();
+      fetchCNPPaymentInformation({
+        useLighthouseDirectDepositEndpoint,
+      });
     }
     if (
       shouldFetchEDUDirectDepositInformation &&
@@ -137,11 +141,8 @@ class Profile extends Component {
           dismissDowntimeWarning={this.props.dismissDowntimeWarning}
           initializeDowntimeWarnings={this.props.initializeDowntimeWarnings}
           messaging={{
-            title: (
-              <h3>
-                Some parts of the profile will be down for maintenance soon
-              </h3>
-            ),
+            title:
+              'Some parts of the profile will be down for maintenance soon',
           }}
           // default for className prop is `row-padded` and we do not want that
           // class applied to the wrapper div DowntimeApproaching renders
@@ -155,64 +156,70 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const routes = getRoutes();
     return (
-      <BrowserRouter>
-        <LastLocationProvider>
-          <ProfileWrapper
-            routes={routes}
-            isInMVI={this.props.isInMVI}
-            isLOA3={this.props.isLOA3}
-            isBlocked={this.props.isBlocked}
-          >
-            <Switch>
-              {/* Redirect users to Account Security to upgrade their account if they need to */}
-              {routes.map(route => {
-                if (
-                  (route.requiresLOA3 && !this.props.isLOA3) ||
-                  (route.requiresMVI && !this.props.isInMVI) ||
-                  (route.requiresLOA3 && this.props.isBlocked)
-                ) {
-                  return (
+      <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.profileUseFieldEditingPage}>
+        {useFieldEditingPage => {
+          const routes = getRoutes({ useFieldEditingPage });
+          return (
+            <BrowserRouter>
+              <LastLocationProvider>
+                <ProfileWrapper
+                  routes={routes}
+                  isInMVI={this.props.isInMVI}
+                  isLOA3={this.props.isLOA3}
+                  isBlocked={this.props.isBlocked}
+                >
+                  <Switch>
+                    {/* Redirect users to Account Security to upgrade their account if they need to */}
+                    {routes.map(route => {
+                      if (
+                        (route.requiresLOA3 && !this.props.isLOA3) ||
+                        (route.requiresMVI && !this.props.isInMVI) ||
+                        (route.requiresLOA3 && this.props.isBlocked)
+                      ) {
+                        return (
+                          <Redirect
+                            from={route.path}
+                            to={PROFILE_PATHS.ACCOUNT_SECURITY}
+                            key={route.path}
+                          />
+                        );
+                      }
+
+                      return (
+                        <Route
+                          component={route.component}
+                          exact
+                          key={route.path}
+                          path={route.path}
+                        />
+                      );
+                    })}
+
                     <Redirect
-                      from={route.path}
-                      to={PROFILE_PATHS.ACCOUNT_SECURITY}
-                      key={route.path}
+                      exact
+                      from="/profile#contact-information"
+                      to={PROFILE_PATHS.CONTACT_INFORMATION}
                     />
-                  );
-                }
 
-                return (
-                  <Route
-                    component={route.component}
-                    exact
-                    key={route.path}
-                    path={route.path}
-                  />
-                );
-              })}
+                    <Redirect
+                      exact
+                      from={PROFILE_PATHS.PROFILE_ROOT}
+                      to={PROFILE_PATHS.PERSONAL_INFORMATION}
+                    />
 
-              <Redirect
-                exact
-                from="/profile#contact-information"
-                to={PROFILE_PATHS.CONTACT_INFORMATION}
-              />
-
-              <Redirect
-                exact
-                from={PROFILE_PATHS.PROFILE_ROOT}
-                to={PROFILE_PATHS.PERSONAL_INFORMATION}
-              />
-
-              {/* fallback handling: redirect to root route */}
-              {/* Should we consider making a 404 page for this instead? */}
-              <Route path="*">
-                <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
-              </Route>
-            </Switch>
-          </ProfileWrapper>
-        </LastLocationProvider>
-      </BrowserRouter>
+                    {/* fallback handling: redirect to root route */}
+                    {/* Should we consider making a 404 page for this instead? */}
+                    <Route path="*">
+                      <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
+                    </Route>
+                  </Switch>
+                </ProfileWrapper>
+              </LastLocationProvider>
+            </BrowserRouter>
+          );
+        }}
+      </Toggler.Hoc>
     );
   };
 
@@ -253,7 +260,6 @@ Profile.propTypes = {
   fetchCNPPaymentInformation: PropTypes.func.isRequired,
   fetchEDUPaymentInformation: PropTypes.func.isRequired,
   fetchFullName: PropTypes.func.isRequired,
-  fetchMHVAccount: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
   fetchTotalDisabilityRating: PropTypes.func.isRequired,
@@ -266,6 +272,7 @@ Profile.propTypes = {
   shouldFetchEDUDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
+  useLighthouseDirectDepositEndpoint: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
 };
 
@@ -300,13 +307,6 @@ const mapStateToProps = state => {
   const hasLoadedMilitaryInformation =
     isLOA1 || !isInMVI || state.vaProfile?.militaryInformation;
 
-  // when the call to load MHV fails, `errors` will be set to a non-null value
-  // when the call succeeds, the `accountState` will be set to a non-null value
-  const hasLoadedMHVInformation =
-    !isInMVI ||
-    selectProfile(state)?.mhvAccount?.errors ||
-    selectProfile(state)?.mhvAccount?.accountState;
-
   // this piece of state will be set if the call to load personal info succeeds
   // or fails:
   const hasLoadedPersonalInformation =
@@ -327,7 +327,6 @@ const mapStateToProps = state => {
   const hasLoadedAllData =
     !isInMVI ||
     (hasLoadedFullName &&
-      hasLoadedMHVInformation &&
       hasLoadedPersonalInformation &&
       hasLoadedMilitaryInformation &&
       (shouldFetchTotalDisabilityRating
@@ -352,12 +351,14 @@ const mapStateToProps = state => {
       'profile',
     ),
     isBlocked,
+    useLighthouseDirectDepositEndpoint: profileUseLighthouseDirectDepositEndpoint(
+      state,
+    ),
   };
 };
 
 const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
-  fetchMHVAccount: fetchMHVAccountAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchCNPPaymentInformation: fetchCNPPaymentInformationAction,

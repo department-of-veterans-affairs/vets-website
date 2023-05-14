@@ -17,7 +17,11 @@ const generateInitState = ({
   profileLoading = false,
   currentlyLoggedIn = true,
   isCernerPatient = false,
+  hasFacilities = true,
 }) => {
+  const facilities = hasFacilities
+    ? [{ facilityId: '123', isCerner: false }]
+    : [];
   return {
     featureToggles: {
       loading,
@@ -49,7 +53,7 @@ const generateInitState = ({
         },
         facilities: isCernerPatient
           ? [{ facilityId: '757', isCerner: true }]
-          : [],
+          : facilities,
       },
     },
   };
@@ -187,6 +191,25 @@ describe('MHV landing page', () => {
         mhvLandingPageEnabled: true,
         serviceName: CSP_IDS.MHV,
         isCerner: true,
+      });
+      const store = mockStore(initState);
+      const replace = sinon.spy();
+      global.window.location = { ...global.window.location, replace };
+      const { container } = render(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+      );
+      expect(container.querySelector('h1')).to.not.exist;
+      expect(replace.called).to.be.true;
+    });
+    it('user is authenticated with feature enabled but has no facilities -- should not show the landing page', () => {
+      const middleware = [];
+      const mockStore = configureStore(middleware);
+      const initState = generateInitState({
+        loading: false,
+        mhvLandingPageEnabled: true,
+        hasFacilities: false,
       });
       const store = mockStore(initState);
       const replace = sinon.spy();

@@ -98,7 +98,7 @@ export function CautionaryInformation({ institution, showModal }) {
       <LearnMoreLabel
         id="typeAccredited-button"
         bold
-        text={'All campuses'}
+        text="All campuses"
         onClick={() => {
           showModal('allCampuses');
         }}
@@ -277,7 +277,7 @@ export function CautionaryInformation({ institution, showModal }) {
           rel="noopener noreferrer"
           id="submit-a-complaint"
         >
-          Submit a complaint through our Feedback System
+          Submit a complaint through our Feedback Tool
         </a>
       </div>
     </div>

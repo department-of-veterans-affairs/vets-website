@@ -1,8 +1,8 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
-import mockSubmit from './fixtures/mocks/application-submit.json';
+import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
+import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
@@ -41,6 +41,30 @@ const testConfig = createTestConfig(
             }
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { fullName } = data.veteran;
+            cy.get('#veteran-signature')
+              .shadow()
+              .find('input')
+              .first()
+              .type(
+                fullName.middle
+                  ? `${fullName.first} ${fullName.middle} ${fullName.last}`
+                  : `${fullName.first} ${fullName.last}`,
+              );
+            cy.get(`input[name="veteran-certify"]`).check();
+            // cy.get('#veteran-certify')
+            //   .shadow()
+            //   .find('[type="checkbox"]')
+            //   .check();
+            cy.findAllByText(/Submit application/i, {
+              selector: 'button',
+            }).click();
           });
         });
       },

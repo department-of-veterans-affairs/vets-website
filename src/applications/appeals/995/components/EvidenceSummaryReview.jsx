@@ -7,7 +7,7 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
-} from '../utils/helpers';
+} from '../utils/evidence';
 
 import { content } from '../content/evidenceSummary';
 
@@ -16,8 +16,7 @@ import {
   PrivateContent,
   UploadContent,
 } from './EvidenceSummaryLists';
-
-const editKey = 'evidence-summary-edit';
+import { SUMMARY_EDIT } from '../constants';
 
 const EvidenceSummaryReview = ({ data, editPage }) => {
   const { limitedConsent = '' } = data;
@@ -27,11 +26,11 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   useEffect(
     () => {
       if (
-        window.sessionStorage.getItem(editKey) === 'true' &&
+        window.sessionStorage.getItem(SUMMARY_EDIT) === 'true' &&
         editRef?.current
       ) {
         // focus on edit button _after_ editing and returning
-        window.sessionStorage.removeItem(editKey);
+        window.sessionStorage.removeItem(SUMMARY_EDIT);
         setTimeout(() => focusElement(editRef.current));
       }
     },
@@ -39,9 +38,13 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   );
 
   // on review & submit in review mode (not editing)
-  const vaEvidence = hasVAEvidence(data) ? data.locations : [];
-  const privateEvidence = hasPrivateEvidence(data) ? data.providerFacility : [];
-  const otherEvidence = hasOtherEvidence(data) ? data.additionalDocuments : [];
+  const vaEvidence = hasVAEvidence(data) ? data?.locations || [] : [];
+  const privateEvidence = hasPrivateEvidence(data)
+    ? data?.providerFacility || []
+    : [];
+  const otherEvidence = hasOtherEvidence(data)
+    ? data?.additionalDocuments || []
+    : [];
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
@@ -50,7 +53,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   const handlers = {
     onEditPage: () => {
       // maintain state using session storage
-      window.sessionStorage.setItem(editKey, 'true');
+      window.sessionStorage.setItem(SUMMARY_EDIT, 'true');
       editPage();
     },
   };

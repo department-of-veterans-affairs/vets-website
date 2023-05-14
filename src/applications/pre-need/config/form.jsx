@@ -74,7 +74,6 @@ const {
   phone,
   files,
   centralMailVaFile,
-  militaryServiceNumber,
   race,
 } = fullSchemaPreNeed.definitions;
 
@@ -85,6 +84,21 @@ function currentlyBuriedPersonsMinItem() {
   copy.minItems = 1;
   return set('items.properties.cemeteryNumber', autosuggest.schema, copy);
 }
+
+const stateRequired = environment.isProduction()
+  ? {
+      country: { 'ui:required': isAuthorizedAgent },
+      street: { 'ui:required': isAuthorizedAgent },
+      city: { 'ui:required': isAuthorizedAgent },
+      state: { 'ui:required': isAuthorizedAgent },
+      postalCode: { 'ui:required': isAuthorizedAgent },
+    }
+  : {
+      country: { 'ui:required': isAuthorizedAgent },
+      street: { 'ui:required': isAuthorizedAgent },
+      city: { 'ui:required': isAuthorizedAgent },
+      postalCode: { 'ui:required': isAuthorizedAgent },
+    };
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -133,11 +147,10 @@ const formConfig = {
     phone,
     files,
     centralMailVaFile,
-    militaryServiceNumber,
   },
   chapters: {
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         applicantInformation: {
           title: 'Applicant information',
@@ -219,7 +232,12 @@ const formConfig = {
                 properties: {
                   veteran: {
                     type: 'object',
-                    required: ['gender', 'maritalStatus', 'militaryStatus'],
+                    required: [
+                      'race',
+                      'gender',
+                      'maritalStatus',
+                      'militaryStatus',
+                    ],
                     properties: set(
                       'militaryStatus.enum',
                       veteran.properties.militaryStatus.enum.filter(
@@ -246,7 +264,7 @@ const formConfig = {
       },
     },
     sponsorInformation: {
-      title: 'Sponsor Information',
+      title: 'Sponsor information',
       pages: {
         sponsorInformation: {
           path: 'sponsor-information',
@@ -278,7 +296,7 @@ const formConfig = {
                     'Sponsor’s Military Service number (if they have one that’s different than their Social Security number)',
                   'ui:errorMessages': {
                     pattern:
-                      'Sponsor’s Military Service number must be between 4 to 10 characters',
+                      'Sponsor’s Military Service number must be between 4 to 9 characters',
                   },
                 },
                 vaClaimNumber: {
@@ -355,6 +373,7 @@ const formConfig = {
                       'maritalStatus',
                       'militaryStatus',
                       'isDeceased',
+                      'race',
                     ],
                     properties: pick(veteran.properties, [
                       'currentName',
@@ -379,7 +398,7 @@ const formConfig = {
       },
     },
     militaryHistory: {
-      title: 'Military History',
+      title: 'Military history',
       pages: {
         // Two sets of military history pages dependent on
         // whether the applicant is the veteran or not.
@@ -567,7 +586,7 @@ const formConfig = {
       },
     },
     burialBenefits: {
-      title: 'Burial Benefits',
+      title: 'Burial benefits',
       pages: {
         burialBenefits: {
           path: 'burial-benefits',
@@ -666,6 +685,7 @@ const formConfig = {
             'ui:description': SupportingDocumentsDescription,
             application: {
               preneedAttachments: fileUploadUI('Select files to upload', {
+                addAnotherLabel: 'Add another',
                 fileUploadUrl: `${
                   environment.API_URL
                 }/v0/preneeds/preneed_attachments`,
@@ -706,7 +726,7 @@ const formConfig = {
       },
     },
     contactInformation: {
-      title: 'Contact Information',
+      title: 'Contact information',
       pages: {
         applicantContactInformation: {
           title: 'Applicant’s contact information',
@@ -816,13 +836,7 @@ const formConfig = {
                   mailingAddress: merge(
                     {},
                     address.uiSchema('Mailing address'),
-                    {
-                      country: { 'ui:required': isAuthorizedAgent },
-                      street: { 'ui:required': isAuthorizedAgent },
-                      city: { 'ui:required': isAuthorizedAgent },
-                      state: { 'ui:required': isAuthorizedAgent },
-                      postalCode: { 'ui:required': isAuthorizedAgent },
-                    },
+                    stateRequired,
                   ),
                   'view:contactInfo': {
                     'ui:title': 'Contact information',

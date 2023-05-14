@@ -70,7 +70,7 @@ const Navigation = () => {
   }
 
   function checkScreenSize() {
-    if (window.innerWidth <= 481 && setIsMobile !== false) {
+    if (window.innerWidth <= 768 && setIsMobile !== false) {
       setIsMobile(true);
     } else {
       setIsMobile(false);
@@ -139,7 +139,7 @@ const Navigation = () => {
               />
             </div>
           )}
-          <div id="a1" className="sidebar-navigation-list" aria-hidden="false">
+          <div id="a1" className="sidebar-navigation-list">
             <ul className="usa-sidenav-list">
               <li className="sidebar-navigation-messages-list">
                 <div className="sidebar-navigation-messages-list-header">

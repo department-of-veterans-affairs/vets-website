@@ -9,7 +9,6 @@ import {
   mockFacilitiesApi,
   mockSupportedSitesApi,
   mockCCEligibilityApi,
-  mockAppointmentRequestMessagesApi,
   mockFacilityApi,
   mockSchedulingConfigurationApi,
 } from './vaos-cypress-helpers';
@@ -18,7 +17,6 @@ describe('VAOS community care flow', () => {
   beforeEach(() => {
     vaosSetup();
 
-    mockAppointmentRequestMessagesApi();
     mockAppointmentRequestsApi();
     mockAppointmentsApi({ apiVersion: 0 });
     mockCCEligibilityApi();
@@ -243,15 +241,6 @@ describe('VAOS community care flow', () => {
       expect(body).to.have.property('phoneNumber', '5035551234');
     });
 
-    // Check messages requestBody is as expected
-    cy.wait('@v0:get:messages').should(xhr => {
-      const { body } = xhr.response;
-      expect(body.data).to.have.property(
-        'messageText',
-        'This is a very good reason.',
-      );
-    });
-
     // Your appointment request has been submitted step
     cy.url().should('include', '/requests/testing');
     cy.findByText('Preferred community care provider');
@@ -471,15 +460,6 @@ describe('VAOS community care flow', () => {
       expect(body).to.have.property('phoneNumber', '5035551234');
     });
 
-    // Check messages requestBody is as expected
-    cy.wait('@v0:get:messages').should(xhr => {
-      const { body } = xhr.response;
-      expect(body.data).to.have.property(
-        'messageText',
-        'This is a very good reason.',
-      );
-    });
-
     // Your appointment request has been submitted step
     cy.url().should('include', '/requests/testing');
     cy.findByText('Preferred community care provider');
@@ -493,7 +473,6 @@ describe('VAOS community care flow using VAOS service', () => {
     vaosSetup();
 
     mockAppointmentRequestsApi({ apiVersion: 2 });
-    mockAppointmentsApi({ apiVersion: 0 });
     mockAppointmentsApi({ apiVersion: 2 });
     mockCCEligibilityApi();
     mockCCProvidersApi();

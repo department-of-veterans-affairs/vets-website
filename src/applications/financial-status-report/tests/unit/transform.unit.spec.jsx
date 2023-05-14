@@ -131,16 +131,6 @@ describe('fsr transform helper functions', () => {
     it('should return a number which is the sum total monthly expenses', () => {
       const expenses = {
         expenses: {
-          expenseRecords: [
-            {
-              name: 'Rent',
-              amount: '100',
-            },
-            {
-              name: 'Food',
-              amount: '100',
-            },
-          ],
           rentOrMortgage: '100',
           food: '100',
         },
@@ -169,7 +159,7 @@ describe('fsr transform helper functions', () => {
           },
         ],
       };
-      expect(getMonthlyExpenses(expenses)).to.equal(1000);
+      expect(getMonthlyExpenses(expenses)).to.equal(800);
     });
   });
 
@@ -278,6 +268,9 @@ describe('fsr transform helper functions', () => {
   describe('getTotalAssets helper', () => {
     it('should return total value of assets', () => {
       const totalAssets = {
+        questions: {
+          hasVehicle: true,
+        },
         assets: {
           otherAssets: [
             {
@@ -768,10 +761,13 @@ describe('fsr transform information', () => {
       expect(submissionObj.expenses.rentOrMortgage).to.equal('1200.53');
       expect(submissionObj.expenses.food).to.equal('4000.38');
       expect(submissionObj.expenses.utilities).to.equal('701.35');
+      expect(submissionObj.expenses.otherLivingExpenses.amount).to.equal(
+        '300.54',
+      );
       expect(
         submissionObj.expenses.expensesInstallmentContractsAndOtherDebts,
       ).to.equal('2000.64');
-      expect(submissionObj.expenses.totalMonthlyExpenses).to.equal('13404.35');
+      expect(submissionObj.expenses.totalMonthlyExpenses).to.equal('8203.44');
     });
     describe('other living expenses', () => {
       it('has valid structure', () => {
@@ -810,7 +806,7 @@ describe('fsr transform information', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(
         submissionObj.discretionaryIncome.netMonthlyIncomeLessExpenses,
-      ).to.equal('7193.50');
+      ).to.equal('12394.41');
       expect(
         submissionObj.discretionaryIncome.amountCanBePaidTowardDebt,
       ).to.equal('800.97');
@@ -1131,16 +1127,20 @@ describe('fsr transform information', () => {
         const submissionObj = JSON.parse(transform(null, cfsrInputObject));
         expect(
           submissionObj.discretionaryIncome.netMonthlyIncomeLessExpenses,
-        ).to.equal('7193.50');
+        ).to.equal('12394.41');
         expect(
           submissionObj.discretionaryIncome.amountCanBePaidTowardDebt,
         ).to.equal('61.02');
       });
     });
     describe('cFSR - getTotalAssets helper', () => {
-      it('should return total value of assets', () => {
+      it('should return total value of assets excluding vehicles', () => {
         const totalAssets = {
+          questions: {
+            hasVehicle: false,
+          },
           assets: {
+            realEstateValue: '2000',
             otherAssets: [
               {
                 amount: '10',
@@ -1159,14 +1159,35 @@ describe('fsr transform information', () => {
               },
             ],
           },
-          realEstateRecords: [
-            {
-              realEstateAmount: '1000',
-            },
-            {
-              realEstateAmount: '1000',
-            },
-          ],
+        };
+        expect(getTotalAssets(totalAssets)).to.equal(2120);
+      });
+
+      it('should return total value of assets including vehicles', () => {
+        const totalAssets = {
+          questions: {
+            hasVehicle: true,
+          },
+          assets: {
+            realEstateValue: '2000',
+            otherAssets: [
+              {
+                amount: '10',
+              },
+              {
+                amount: '10',
+              },
+            ],
+            recVehicleAmount: '100',
+            automobiles: [
+              {
+                resaleValue: '100',
+              },
+              {
+                resaleValue: '100',
+              },
+            ],
+          },
         };
         expect(getTotalAssets(totalAssets)).to.equal(2320);
       });

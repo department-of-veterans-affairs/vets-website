@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { getSelected } from '../utils/helpers';
 import { getDate } from '../utils/dates';
-import { SELECTED, FORMAT_READABLE } from '../constants';
+import { SELECTED, FORMAT_READABLE, NO_ISSUES_SELECTED } from '../constants';
 
 const legendClassNames = [
   'vads-u-margin-top--0',
@@ -25,27 +25,33 @@ const IssueSummary = ({ formData }) => {
     <fieldset>
       <legend className={legendClassNames}>
         <h3 className="vads-u-margin-y--0">
-          Confirm the issues you’re asking to receive a Supplemental Claim for.
+          You’ve selected these issues for review
         </h3>
       </legend>
       <ul className="issues-summary vads-u-margin-bottom--0">
-        {issues.map((issue, index) => (
-          <li key={index} className={listClassNames}>
-            <h4 className="capitalize vads-u-margin-top--0">
-              {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}
-            </h4>
-            <div>
-              Decision date:{' '}
-              {getDate({
-                date:
-                  issue.attributes?.approxDecisionDate ||
-                  issue.decisionDate ||
-                  '',
-                pattern: FORMAT_READABLE,
-              })}
-            </div>
+        {issues.length ? (
+          issues.map((issue, index) => (
+            <li key={index} className={listClassNames}>
+              <h4 className="capitalize vads-u-margin-top--0 vads-u-padding-right--2">
+                {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}
+              </h4>
+              <div>
+                Decision date:{' '}
+                {getDate({
+                  date:
+                    issue.attributes?.approxDecisionDate ||
+                    issue.decisionDate ||
+                    '',
+                  pattern: FORMAT_READABLE,
+                })}
+              </div>
+            </li>
+          ))
+        ) : (
+          <li>
+            <strong>{NO_ISSUES_SELECTED}</strong>
           </li>
-        ))}
+        )}
       </ul>
     </fieldset>
   );

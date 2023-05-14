@@ -1,0 +1,174 @@
+.sidebar-navigation {
+  height: 450px;
+  width: 232px;
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  .sidebar-navigation-header {
+    display: flex;
+    flex-direction: row;
+    margin-left: 0px;
+    height: 54px;
+    i.fa-medkit {
+      color: $color-white;
+      background-color: $color-primary;
+      margin-top: 9px;
+      margin-bottom: 11px;
+      height: 34px;
+      width: 32px;
+      padding: 8px 8px 10px;
+      border-radius: 100%;
+    }
+    h4 {
+      color: $color-gray-dark;
+      width: 88px;
+      height: 20px;
+      margin-left: 5px;
+      margin-top: 15px;
+      margin-right: 61px;
+    }
+    .no-close-btn {
+      position: absolute;
+      left: -3000;
+    }
+  }
+  .usa-sidenav-list {
+    border: 0px;
+  }
+  a {
+    font-size: 17px;
+    margin: 2px 0px;
+    color: $color-link-default;
+    &:active,
+    &:focus,
+    &:hover {
+      background-color: $color-primary-alt-lightest;
+      border-left: 4px solid $color-link-default;
+      transition: background-color 0.1s ease-in-out,
+        border-color 0.1s ease-in-out, padding 0.1s ease-in-out;
+    }
+    &.is-active {
+      background-color: $color-gray-lightest;
+      border-left: 4px solid $color-base;
+      color: $color-black;
+      font-weight: bold;
+      padding-left: units-px(1.5);
+      span {
+        margin-left: -4px;
+      }
+    }
+  }
+  ul {
+    list-style-type: none;
+  }
+  li {
+    border: 0px;
+  }
+  .sidebar-navigation-mr-list {
+    .sidebar-navigation-mr-list-header {
+      &.is-active {
+        background-color: $color-gray-lightest;
+        border-left: 4px solid $color-base;
+      }
+      a {
+        padding-top: 7px;
+        color: $color-link-default;
+        &.is-active {
+          color: $color-black;
+        }
+        &:active {
+          color: $color-gray-dark;
+          text-decoration: underline;
+        }
+      }
+    }
+    .sidebar-navigation-mr-list-menu {
+      ul {
+        li {
+          a {
+            padding-left: 3rem;
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: $small-screen) {
+  .va-btn-sidebarnav-trigger {
+    z-index: 0;
+    .button-wrapper {
+      position: static;
+      padding: 0px;
+    }
+  }
+  .sidebar-navigation {
+    padding: 0px;
+    width: 264px;
+    height: 1925px;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    border: 1px solid $color-gray;
+    background-color: $color-white;
+    a {
+      font-size: 15px;
+    }
+    .sidebar-navigation-header {
+      height: 50px;
+      margin-left: 20rem;
+      i.fa-medkit {
+        padding-bottom: 4px;
+      }
+    }
+    button {
+      background-color: $color-gray-lightest;
+      height: 46.64px;
+    }
+    .fa-times {
+      width: 14px;
+      color: $color-black;
+    }
+    ul {
+      margin: 0px;
+      padding: 0px;
+    }
+    .sidebar-navigation-list {
+      padding-left: 15px;
+      padding-right: 15px;
+      .sidebar-navigation-mr-list-header {
+        a {
+          color: $color-link-default;
+        }
+      }
+      .usa-sidenav-list {
+        border-top: 1px solid $color-gray;
+        padding-top: 4px;
+        li {
+          display: none;
+          ul {
+            .usa-sidenav-list {
+              border: 0px;
+            }
+          }
+        }
+        .sidebar-navigation-mr-list {
+          display: contents;
+          ul {
+            border: 0px;
+          }
+          .sidebar-navigation-mr-list-menu {
+            background-color: $color-white;
+            display: block;
+            .sub-list li {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
+}

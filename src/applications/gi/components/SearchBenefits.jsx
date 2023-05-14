@@ -24,6 +24,12 @@ const SearchBenefits = ({
 }) => {
   const [isDisabled, setIsDisabled] = useState(true);
   const chapter33Check = giBillChapter === '33a' || giBillChapter === '33b';
+  /*
+    ***toggleCumulativeDropDown***
+    Hide Cumulative Post 9/11 active-duty service drop down if applicant selects 'Fry Scholarship'
+    as their GI Bill Benefit
+  */
+  const toggleCumulativeDropDown = () => giBillChapter !== '33b';
   const handleChange = e => {
     const field = e.target.name;
     const { value } = e.target;
@@ -171,10 +177,6 @@ const SearchBenefits = ({
           { optionValue: '0.6', optionLabel: '6 months: 60%' },
           { optionValue: '0.5', optionLabel: '90 days: 50%' },
           {
-            optionValue: '1.00',
-            optionLabel: 'GYSGT Fry Scholarship: 100%',
-          }, // notice not 1.0
-          {
             optionValue: 'service discharge',
             optionLabel: 'Service-Connected Discharge: 100%',
           },
@@ -185,7 +187,7 @@ const SearchBenefits = ({
         ]}
         value={cumulativeService}
         alt="Cumulative Post-9/11 active-duty service"
-        visible={chapter33Check}
+        visible={chapter33Check && toggleCumulativeDropDown()}
         onChange={e => {
           recordEvent({
             event: 'gibct-form-change',

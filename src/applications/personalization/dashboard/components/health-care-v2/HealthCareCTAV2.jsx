@@ -19,7 +19,6 @@ const HealthCareCTAV2 = ({
         <IconCTALink
           text="Apply for VA health care"
           icon="file-medical"
-          newTab
           href="/health-care/apply/application/introduction"
           testId="apply-va-healthcare-link-from-cta"
           onClick={() =>
@@ -33,29 +32,26 @@ const HealthCareCTAV2 = ({
       )}
       {isVAPatient && (
         <>
-          {hasInboxError ||
-            (unreadMessagesCount === 0 && (
-              <IconCTALink
-                text="Send a secure message to your health care team"
-                icon="comments"
-                newTab
-                href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-                testId="view-your-messages-link-from-cta"
-                onClick={() =>
-                  recordEvent({
-                    event: 'nav-linkslist',
-                    'links-list-header': 'View your messages',
-                    'links-list-section-header': 'Health care',
-                  })
-                }
-              />
-            ))}
+          {(hasInboxError || unreadMessagesCount === 0) && (
+            <IconCTALink
+              text="Send a secure message to your health care team"
+              icon="comments"
+              href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+              testId="view-your-messages-link-from-cta"
+              onClick={() =>
+                recordEvent({
+                  event: 'nav-linkslist',
+                  'links-list-header': 'View your messages',
+                  'links-list-section-header': 'Health care',
+                })
+              }
+            />
+          )}
           {!hasUpcomingAppointment &&
             !hasAppointmentsError && (
               <IconCTALink
                 href="/health-care/schedule-view-va-appointments/appointments"
-                icon="calendar-check"
-                newTab
+                icon="calendar"
                 text="Schedule and manage your appointments"
                 testId="view-manage-appointments-link-from-cta"
                 onClick={() => {
@@ -76,7 +72,6 @@ const HealthCareCTAV2 = ({
               'web/myhealthevet/refill-prescriptions',
             )}
             icon="prescription-bottle"
-            newTab
             text="Refill and track your prescriptions"
             testId="refill-prescriptions-link-from-cta"
             onClick={() => {
@@ -92,7 +87,6 @@ const HealthCareCTAV2 = ({
           <IconCTALink
             href="/health-care/get-reimbursed-for-travel-pay/"
             icon="suitcase"
-            newTab
             text="Request travel reimbursement"
             testId="request-travel-reimbursement-link-from-cta"
             onClick={() => {
@@ -108,7 +102,6 @@ const HealthCareCTAV2 = ({
           <IconCTALink
             href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
             icon="file-medical"
-            newTab
             text="Get your VA medical records and lab and test results"
             testId="get-medical-records-link-from-cta"
             onClick={() => {

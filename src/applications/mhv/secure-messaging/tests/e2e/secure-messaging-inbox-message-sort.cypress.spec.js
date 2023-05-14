@@ -6,6 +6,7 @@ describe('Secure Messaging Inbox Message Sort', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
+    cy.reload(true);
     landingPage.loadInboxMessages();
     cy.get('.sidebar-navigation-messages-list-header > a');
   });
@@ -22,7 +23,7 @@ describe('Secure Messaging Inbox Message Sort', () => {
     cy.get('#sort-order-dropdown')
       .shadow()
       .find('select')
-      .select('asc', { force: true })
+      .select('ASC', { force: true })
       .should('contain', 'newest');
     cy.injectAxe();
     cy.axeCheck();

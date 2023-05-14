@@ -73,13 +73,13 @@ describe('SearchControls', () => {
       geocodeError: 1,
     };
     const wrapper = shallow(<SearchControls currentQuery={query} />);
-    const modal = wrapper.find('Modal');
+    const modal = wrapper.find('ForwardRef(VaModal)');
     expect(modal.prop('visible')).to.be.true;
-    expect(modal.prop('title')).to.equal('We need to use your location');
+    expect(modal.prop('modalTitle')).to.equal('We need to use your location');
     expect(
       modal
         .dive()
-        .find('.usa-alert-text')
+        .find('p')
         .text(),
     ).to.equal(
       'Please enable location sharing in your browser to use this feature.',
@@ -92,13 +92,13 @@ describe('SearchControls', () => {
       geocodeError: 2,
     };
     const wrapper = shallow(<SearchControls currentQuery={query} />);
-    const modal = wrapper.find('Modal');
+    const modal = wrapper.find('ForwardRef(VaModal)');
     expect(modal.prop('visible')).to.be.true;
-    expect(modal.prop('title')).to.equal("We couldn't locate you");
+    expect(modal.prop('modalTitle')).to.equal("We couldn't locate you");
     expect(
       modal
         .dive()
-        .find('.usa-alert-text')
+        .find('p')
         .text(),
     ).to.equal(
       'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.',
@@ -111,7 +111,7 @@ describe('SearchControls', () => {
       geocodeError: 0,
     };
     const wrapper = shallow(<SearchControls currentQuery={query} />);
-    expect(wrapper.find('Modal').prop('visible')).to.be.false;
+    expect(wrapper.find('ForwardRef(VaModal)').prop('visible')).to.be.false;
     wrapper.unmount();
   });
 });

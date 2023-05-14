@@ -32,6 +32,7 @@ import {
 } from '../../redux/selectors';
 import AppointmentCard from './AppointmentsPageV2/AppointmentCard';
 import UpcomingAppointmentLayout from './AppointmentsPageV2/UpcomingAppointmentLayout';
+import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
 
 function handleClick({ history, link, idClickable }) {
   return () => {
@@ -115,6 +116,7 @@ export default function UpcomingAppointmentsList() {
 
   return (
     <>
+      <BackendAppointmentServiceAlert />
       <div aria-live="assertive" className="sr-only">
         {hasTypeChanged && 'Showing upcoming appointments'}
       </div>
@@ -148,7 +150,7 @@ export default function UpcomingAppointmentsList() {
                 'usa-unstyled-list',
                 'vads-u-padding-left--0',
                 {
-                  'vads-u-border-bottom--1px': featureAppointmentList,
+                  'vads-u-border-bottom--1px vads-u-border-color--gray-medium': featureAppointmentList,
                 },
               )}
               data-cy="upcoming-appointment-list"

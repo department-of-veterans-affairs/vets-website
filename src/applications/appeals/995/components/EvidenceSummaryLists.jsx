@@ -14,6 +14,7 @@ import {
   EVIDENCE_LIMITATION_PATH,
   EVIDENCE_UPLOAD_PATH,
   ATTACHMENTS_OTHER,
+  LIMITATION_KEY,
 } from '../constants';
 
 const listClassNames = [
@@ -23,10 +24,24 @@ const listClassNames = [
   'vads-u-padding-x--0',
 ].join(' ');
 
-const formatDateRange = ({ from, to }) => {
-  const fromDate = getDate({ date: from || '', pattern: FORMAT_COMPACT });
-  const toDate = getDate({ date: to || '', pattern: FORMAT_COMPACT });
-  return `${fromDate}${fromDate && toDate ? ' \u2013 ' : ''}${toDate}`;
+const errorClassNames = [
+  'usa-input-error',
+  'vads-u-padding-x--2',
+  'vads-u-padding-y--0',
+  'vads-u-margin-left--2',
+  'vads-u-margin-top--0',
+].join(' ');
+
+const removeButtonClass = [
+  'remove-item',
+  'vads-u-width--auto',
+  'vads-u-margin-left--2',
+  'vads-u-margin-top--0',
+].join(' ');
+
+const formatDate = date => {
+  const result = getDate({ date, pattern: FORMAT_COMPACT });
+  return result.includes(',') ? result : '';
 };
 
 /**
@@ -39,9 +54,14 @@ const formatDateRange = ({ from, to }) => {
  * by one, but when edit mode (opposite of reviewMode) is entered, the page
  * header (h4) disappears, so we match the other page header levels
  */
-const getHeaderLevel = ({ onReviewPage, reviewMode }) =>
+
+// on summary page -- titles render as h4 and evidence as h5
+const getHeaderLevelH5toH4 = ({ onReviewPage, reviewMode }) =>
   onReviewPage || reviewMode ? 'h5' : 'h4';
 
+// on review and submit page -- titles render as h5 and evidence as h6
+const getHeaderLevelH6toH5 = ({ onReviewPage, reviewMode }) =>
+  onReviewPage || reviewMode ? 'h6' : 'h5';
 /**
  * Build VA evidence list
  * @param {Object[]} vaEvidence - VA evidence array
@@ -58,42 +78,61 @@ export const VaContent = ({
   handlers = {},
   testing,
 }) => {
-  const Header = getHeaderLevel({ onReviewPage, reviewMode });
+  const Header6 = getHeaderLevelH6toH5({ onReviewPage, reviewMode });
+  const Header5 = getHeaderLevelH5toH4({ onReviewPage, reviewMode });
   return list?.length ? (
     <>
-      <Header>{content.vaTitle}</Header>
+      <Header5>{content.vaTitle}</Header5>
       <ul className="evidence-summary">
         {list.map((location, index) => {
-          const { locationAndName, issues, evidenceDates = {} } =
+          const { locationAndName, issues = [], evidenceDates = {} } =
             location || {};
           const path = `/${EVIDENCE_VA_PATH}?index=${index}`;
+          const fromDate = formatDate(evidenceDates.from);
+          const toDate = formatDate(evidenceDates.to);
+          const errors = {
+            name: locationAndName ? '' : content.missing.location,
+            issues: issues.length ? '' : content.missing.condition,
+            from: fromDate ? '' : content.missing.from,
+            to: toDate ? '' : content.missing.to,
+            dates: !fromDate && !toDate ? content.missing.dates : '',
+          };
+          const hasErrors = Object.values(errors).join('');
+
           return (
             <li key={locationAndName + index} className={listClassNames}>
-              {!reviewMode && (
-                <Link
-                  key={`edit-va-${index}`}
-                  id={`edit-va-${index}`}
-                  className="float-right edit-item"
-                  to={path}
-                  aria-label={`${content.edit} ${locationAndName}`}
-                  data-link={testing ? path : null}
-                >
-                  {content.edit}
-                </Link>
-              )}
-              <strong>{locationAndName}</strong>
-              <div>{readableList(issues)}</div>
-              {formatDateRange(evidenceDates)}
-              {!reviewMode && (
-                <va-button
-                  data-index={index}
-                  onClick={handlers.removeVaLocation}
-                  class="vads-u-display--block remove-item"
-                  label={`${content.remove} ${locationAndName}`}
-                  text={content.remove}
-                  secondary
-                />
-              )}
+              <div className={hasErrors ? errorClassNames : ''}>
+                {errors.name || <Header6>{locationAndName}</Header6>}
+                <div>{errors.issues || readableList(issues)}</div>
+                {errors.dates || (
+                  <>
+                    {errors.from || fromDate} – {errors.to || toDate}
+                  </>
+                )}
+                {!reviewMode && (
+                  <div>
+                    <Link
+                      key={`edit-va-${index}`}
+                      id={`edit-va-${index}`}
+                      className="edit-item"
+                      to={path}
+                      aria-label={`${content.edit} ${locationAndName}`}
+                      data-link={testing ? path : null}
+                    >
+                      {content.edit}
+                    </Link>
+                    <va-button
+                      data-index={index}
+                      data-type="va"
+                      onClick={handlers.showModal}
+                      class={removeButtonClass}
+                      label={`${content.remove} ${locationAndName}`}
+                      text={content.remove}
+                      secondary
+                    />
+                  </div>
+                )}
+              </div>
             </li>
           );
         })}
@@ -127,69 +166,103 @@ export const PrivateContent = ({
   handlers = {},
   testing,
 }) => {
-  const Header = getHeaderLevel({ onReviewPage, reviewMode });
+  const Header6 = getHeaderLevelH6toH5({ onReviewPage, reviewMode });
+  const Header5 = getHeaderLevelH5toH4({ onReviewPage, reviewMode });
   return list?.length ? (
     <>
-      <Header>{content.privateTitle}</Header>
+      <Header5>{content.privateTitle}</Header5>
       <ul className="evidence-summary">
         {list.map((facility, index) => {
-          const { providerFacilityName, issues, treatmentDateRange = {} } =
-            facility || {};
+          const {
+            providerFacilityName,
+            issues = [],
+            providerFacilityAddress = {},
+            treatmentDateRange = {},
+          } = facility || {};
           const path = `/${EVIDENCE_PRIVATE_PATH}?index=${index}`;
+
+          const fromDate = formatDate(treatmentDateRange.from);
+          const toDate = formatDate(treatmentDateRange.to);
+          const errors = {
+            name: providerFacilityName ? '' : content.missing.facility,
+            issues: issues.length ? '' : content.missing.condition,
+            address:
+              providerFacilityAddress.country &&
+              providerFacilityAddress.street &&
+              providerFacilityAddress.city &&
+              providerFacilityAddress.state &&
+              providerFacilityAddress.postalCode
+                ? ''
+                : content.missing.address,
+            from: fromDate ? '' : content.missing.from,
+            to: toDate ? '' : content.missing.to,
+            dates: !fromDate && !toDate ? content.missing.dates : '',
+          };
+          const hasErrors = Object.values(errors).join('');
+
           return (
             <li key={providerFacilityName + index} className={listClassNames}>
-              {!reviewMode && (
-                <Link
-                  id={`edit-private-${index}`}
-                  className="float-right edit-item"
-                  to={path}
-                  aria-label={`${content.edit} ${providerFacilityName}`}
-                  data-link={testing ? path : null}
-                >
-                  {content.edit}
-                </Link>
-              )}
-              <strong>{providerFacilityName}</strong>
-              <div>{readableList(issues)}</div>
-              {formatDateRange(treatmentDateRange)}
-              {!reviewMode && (
-                <va-button
-                  data-index={index}
-                  onClick={handlers.removePrivateFacility}
-                  class="vads-u-display--block remove-item"
-                  label={`${content.remove} ${providerFacilityName}`}
-                  text={content.remove}
-                  secondary
-                />
-              )}
+              <div className={hasErrors ? errorClassNames : ''}>
+                {errors.name || <Header6>{providerFacilityName}</Header6>}
+                <div>{errors.issues || readableList(issues)}</div>
+                {errors.address}
+                {errors.dates || (
+                  <>
+                    {errors.from || fromDate} – {errors.to || toDate}
+                  </>
+                )}
+                {!reviewMode && (
+                  <div>
+                    <Link
+                      id={`edit-private-${index}`}
+                      className="edit-item"
+                      to={path}
+                      aria-label={`${content.edit} ${providerFacilityName}`}
+                      data-link={testing ? path : null}
+                    >
+                      {content.edit}
+                    </Link>
+                    <va-button
+                      data-index={index}
+                      data-type="private"
+                      onClick={handlers.showModal}
+                      class={removeButtonClass}
+                      label={`${content.remove} ${providerFacilityName}`}
+                      text={content.remove}
+                      secondary
+                    />
+                  </div>
+                )}
+              </div>
             </li>
           );
         })}
-        <li key="limitation" className={listClassNames}>
+        <li key={LIMITATION_KEY} className={listClassNames}>
+          <Header6>{limitContent.title}</Header6>
+          <p>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</p>
           {!reviewMode && (
-            <Link
-              id="edit-limitation"
-              className="float-right edit-item"
-              to={`/${EVIDENCE_LIMITATION_PATH}`}
-              aria-label={`${content.edit} ${limitContent.name} `}
-              data-link={testing ? EVIDENCE_LIMITATION_PATH : null}
-            >
-              {content.edit}
-            </Link>
+            <div>
+              <Link
+                id="edit-limitation"
+                className="edit-item"
+                to={`/${EVIDENCE_LIMITATION_PATH}`}
+                aria-label={`${content.edit} ${limitContent.name} `}
+                data-link={testing ? EVIDENCE_LIMITATION_PATH : null}
+              >
+                {content.edit}
+              </Link>
+              {limitedConsent.length ? (
+                <va-button
+                  data-type={LIMITATION_KEY}
+                  onClick={handlers.showModal}
+                  class={removeButtonClass}
+                  label={`${content.remove} ${limitContent.name}`}
+                  text={content.remove}
+                  secondary
+                />
+              ) : null}
+            </div>
           )}
-          <div>{limitContent.title}</div>
-          <strong>
-            {limitContent.review[limitedConsent.length ? 'y' : 'n']}
-          </strong>
-          {!reviewMode && limitedConsent.length ? (
-            <va-button
-              onClick={handlers.removePrivateLimitation}
-              class="vads-u-display--block remove-item"
-              label={`${content.remove} ${limitContent.name}`}
-              text={content.remove}
-              secondary
-            />
-          ) : null}
         </li>
       </ul>
     </>
@@ -221,35 +294,37 @@ export const UploadContent = ({
   handlers = {},
   testing,
 }) => {
-  const Header = getHeaderLevel({ onReviewPage, reviewMode });
+  const Header6 = getHeaderLevelH6toH5({ onReviewPage, reviewMode });
+  const Header5 = getHeaderLevelH5toH4({ onReviewPage, reviewMode });
   return list?.length ? (
     <>
-      <Header>{content.otherTitle}</Header>
+      <Header5>{content.otherTitle}</Header5>
       <ul className="evidence-summary">
         {list.map((upload, index) => (
           <li key={upload.name + index} className={listClassNames}>
-            {!reviewMode && (
-              <Link
-                id={`edit-upload-${index}`}
-                className="float-right edit-item"
-                to={`/${EVIDENCE_UPLOAD_PATH}`}
-                aria-label={`${content.edit} ${upload.name}`}
-                data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
-              >
-                {content.edit}
-              </Link>
-            )}
-            <strong>{upload.name}</strong>
+            <Header6>{upload.name}</Header6>
             <div>{ATTACHMENTS_OTHER[upload.attachmentId] || ''}</div>
             {!reviewMode && (
-              <va-button
-                data-index={index}
-                onClick={handlers.removeUpload}
-                class="vads-u-display--block remove-item"
-                label={`${content.remove} ${upload.name}`}
-                text={content.remove}
-                secondary
-              />
+              <div>
+                <Link
+                  id={`edit-upload-${index}`}
+                  className="edit-item"
+                  to={`/${EVIDENCE_UPLOAD_PATH}#${index}`}
+                  aria-label={`${content.editLinkAria} ${upload.name}`}
+                  data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
+                >
+                  {content.edit}
+                </Link>
+                <va-button
+                  data-index={index}
+                  data-type="upload"
+                  onClick={handlers.showModal}
+                  class={removeButtonClass}
+                  label={`${content.remove} ${upload.name}`}
+                  text={content.remove}
+                  secondary
+                />
+              </div>
             )}
           </li>
         ))}

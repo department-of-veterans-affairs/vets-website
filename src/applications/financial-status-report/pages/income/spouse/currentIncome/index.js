@@ -21,7 +21,7 @@ export const uiSchema = {
         'ui:title': 'Gross monthly income',
         'ui:description': (
           <p className="formfield-subtitle">
-            You’ll find this in your spouse’s paycheck. It’s the amount of your
+            You’ll find this in your spouse’s pay stub. It’s the amount of your
             spouse’s pay before taxes and deductions.
           </p>
         ),

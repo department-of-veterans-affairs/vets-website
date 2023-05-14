@@ -7,6 +7,7 @@ import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
+  COMP_AND_PEN,
 } from '../../utils/constants';
 import {
   getVAAppointmentLocationId,
@@ -157,12 +158,6 @@ export const selectCanceledAppointments = createSelector(
   },
 );
 
-export function selectFirstRequestMessage(state, id) {
-  const { requestMessages } = state.appointments;
-
-  return requestMessages?.[id]?.[0]?.attributes?.messageText || null;
-}
-
 /*
  * V2 Past appointments state selectors
  */
@@ -236,7 +231,6 @@ export function selectRequestedAppointmentDetails(state, id) {
     ]),
     appointmentDetailsStatus,
     facilityData,
-    message: selectFirstRequestMessage(state, id),
     cancelInfo: getCancelInfo(state),
     useV2: featureVAOSServiceCCAppointments,
   };
@@ -318,6 +312,8 @@ export function selectCommunityCareDetailsInfo(state, id) {
 export function selectBackendServiceFailuresInfo(state) {
   const { backendServiceFailures } = state.appointments;
   return {
+    pastStatus: state.appointments.pastStatus,
+    pendingStatus: state.appointments.pendingStatus,
     futureStatus: selectFutureStatus(state),
     backendServiceFailures,
   };
@@ -353,6 +349,12 @@ export function selectIsVideo(appointment) {
 export function selectTypeOfCareName(appointment) {
   const { name } =
     getTypeOfCareById(appointment.vaos.apiData?.serviceType) || {};
+  const serviceCategoryName =
+    appointment.vaos.apiData?.serviceCategory?.[0]?.text || {};
+  if (serviceCategoryName === COMP_AND_PEN) {
+    const { displayName } = getTypeOfCareById(serviceCategoryName);
+    return displayName;
+  }
   return name;
 }
 
@@ -366,8 +368,19 @@ export function selectIsInPerson(appointment) {
 
 export function selectPractitionerName(appointment) {
   if (selectIsCommunityCare(appointment)) {
-    const { providerName, name } = appointment.communityCareProvider || {};
-    return providerName || name || null;
+    // NOTE: appointment.communityCareProvider is populated for booked CC only
+    const { providerName, name } = appointment.communityCareProvider || {
+      providerName: null,
+      name: null,
+    };
+
+    // NOTE: appointment.preferredProviderName is populated for CC request only
+    const {
+      // rename since 'providerName' is defined above
+      providerName: preferredProviderName,
+    } = appointment.preferredProviderName || { providerName: null };
+
+    return providerName || name || preferredProviderName || '';
   }
 
   // TODO: Refactor!!! This logic is a rewrite of the function 'getPractitionerName'
@@ -377,24 +390,57 @@ export function selectPractitionerName(appointment) {
   // layer. See the following link for details.
   //
   // https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/health-care/appointments/va-online-scheduling/engineering/architecture/front_end_architecture.md
-  let { practitioners } = appointment || {};
-  if (practitioners === null || typeof practitioners === 'undefined')
-    practitioners = [];
+  let { practitioners } = appointment;
   practitioners = practitioners.map(practitioner => {
-    const { name } = practitioner;
+    const { name = { given: '', family: '' } } = practitioner;
     return `${name.given.toString().replaceAll(',', ' ')} ${name.family}`;
   });
 
-  return practitioners.length > 0 ? practitioners[0] : null;
+  return practitioners.length > 0 ? practitioners[0] : '';
 }
 
-export function selectAppointmentLocality(appointment) {
+export function selectIsPending(appointment) {
+  return (
+    appointment.status === APPOINTMENT_STATUS.proposed ||
+    appointment.status === APPOINTMENT_STATUS.pending
+  );
+}
+
+export function selectIsPendingAppointment(appt) {
+  return (
+    !appt.vaos.isExpressCare &&
+    (appt.status === APPOINTMENT_STATUS.proposed ||
+      appt.status === APPOINTMENT_STATUS.pending)
+  );
+}
+
+export function selectIsCancelledAppointment(appt) {
+  return (
+    !appt.vaos.isExpressCare && appt.status === APPOINTMENT_STATUS.cancelled
+  );
+}
+
+export function selectAppointmentLocality(
+  appointment,
+  isPendingAppointment = false,
+) {
   const practitioner = selectPractitionerName(appointment);
   const typeOfCareName = selectTypeOfCareName(appointment);
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideo = selectIsVideo(appointment);
   const isInPerson = selectIsInPerson(appointment);
+
+  if (isPendingAppointment) {
+    const { name: facilityName } = appointment.vaos.facilityData || {
+      name: '',
+    };
+    if (isCommunityCare) {
+      return practitioner;
+    }
+
+    return facilityName;
+  }
 
   if (isInPerson || isVideo || isPhone || isCommunityCare) {
     if (typeOfCareName && practitioner) {
@@ -442,7 +488,7 @@ export function selectTimeZoneAbbr(appointment) {
   return abbreviation;
 }
 
-export function selectModalityText(appointment) {
+export function selectModalityText(appointment, isPendingAppointment = false) {
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isInPerson = selectIsInPerson(appointment);
   const isPhone = selectIsPhone(appointment);
@@ -450,14 +496,32 @@ export function selectModalityText(appointment) {
   const isVideoClinic = selectIsClinicVideo(appointment);
   const isVideoHome = selectIsHomeVideo(appointment);
   const isVideoVADevice = selectIsGFEVideo(appointment);
-  const { name: facilityName } = appointment.vaos.facilityData || {};
+  const { name: facilityName } = appointment.vaos.facilityData || {
+    name: '',
+  };
+
+  if (isPendingAppointment) {
+    if (isInPerson) {
+      return 'In person';
+    }
+    if (isCommunityCare) {
+      return 'Community care';
+    }
+  }
 
   // NOTE: Did confirm that you can't create an Atlas appointment without a
   // facility but we will check anyway.
   //
   // TODO: What default should be displayed if the data is corrupt an there is
   // no facility name?
-  if (facilityName && isVideoAtlas) return `At ${facilityName}`;
+  if (selectIsVideo(appointment)) {
+    if (isVideoAtlas) {
+      const { line, city, state } = appointment.videoData.atlasLocation.address;
+      return `At ${line} ${city}, ${state}`;
+    }
+
+    if (isVideoHome || isVideoVADevice) return 'Video';
+  }
 
   if (isInPerson || isVideoClinic) {
     return facilityName ? `At ${facilityName}` : 'At VA facility';
@@ -465,7 +529,7 @@ export function selectModalityText(appointment) {
 
   if (isPhone) return 'Phone';
   if (isCommunityCare) return 'Community care';
-  if (isVideoHome || isVideoVADevice) return 'Video';
+  // if (facilityName) return `At ${facilityName}`;
 
   return '';
 }

@@ -243,9 +243,9 @@ describe('VAOS <AppointmentsPageV2>', () => {
       expect(
         screen.getByRole('navigation', { name: 'Appointment list navigation' }),
       ).to.be.ok;
-      expect(screen.getByTestId('pending-link', { name: /Pending \(\d\)/ })).to
-        .be.ok;
-      expect(screen.getByTestId('past-link', { name: 'Past' })).to.be.ok;
+      expect(screen.getByRole('link', { name: 'Upcoming' })).to.be.ok;
+      expect(screen.getByRole('link', { name: /Pending \(\d\)/ })).to.be.ok;
+      expect(screen.getByRole('link', { name: 'Past' })).to.be.ok;
 
       // and status dropdown should not be displayed
       expect(screen.queryByLabelText('Show by status')).not.to.exists;
@@ -285,13 +285,15 @@ describe('VAOS <AppointmentsPageV2>', () => {
       await screen.findByRole('heading', { name: 'Your appointments' });
 
       // When the veteran clicks the Pending button
-      let navigation = await screen.findByTestId('pending-link', {
+      let navigation = await screen.findByRole('link', {
         name: /^Pending \(1\)/,
       });
       userEvent.click(navigation);
-      await waitFor(() =>
-        expect(screen.history.push.lastCall.args[0]).to.equal('/pending'),
-      );
+      await waitFor(() => {
+        expect(screen.history.push.lastCall.args[0].pathname).to.equal(
+          '/pending',
+        );
+      });
 
       // Then it should display the requested appointments
       await waitFor(() => {
@@ -364,10 +366,10 @@ describe('VAOS <AppointmentsPageV2>', () => {
       await screen.findByRole('heading', { name: 'Your appointments' });
 
       // When the veteran clicks the Past button
-      let navigation = screen.getByTestId('past-link');
+      let navigation = screen.getByRole('link', { name: 'Past' });
       userEvent.click(navigation);
       await waitFor(() =>
-        expect(screen.history.push.lastCall.args[0]).to.equal('/past'),
+        expect(screen.history.push.lastCall.args[0].pathname).to.equal('/past'),
       );
 
       // Then it should display the past appointments

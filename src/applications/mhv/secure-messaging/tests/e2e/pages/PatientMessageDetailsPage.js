@@ -64,14 +64,38 @@ class PatientMessageDetailsPage {
         mockParentMessageDetails.data.attributes.messageId,
       )}`,
     );
+
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
         this.currentThread.data.at(0).attributes.messageId
       }`,
       mockParentMessageDetails,
-    ).as('message1');
+    ).as(`message1`);
 
+    cy.log(` thread size = ${this.currentThread.data.length}`);
+    //  mockParentMessageDetails.data.attributes.messageId= this.currentThread.data.at(this.currentThread.data.length-1).attributes.messageId;
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        this.currentThread.data.at(this.currentThread.data.length - 1)
+          .attributes.messageId
+      }`,
+      mockParentMessageDetails,
+    ).as('last_message');
+
+    /*
+    for (let i = 0; i < this.currentThread.length; i++) {
+      cy.log("intercepting thread "+ i);
+      cy.intercept(
+        'GET',
+        `/my_health/v1/messaging/messages/${
+          this.currentThread.data.at(i).attributes.messageId
+        }`,
+        mockParentMessageDetails,
+      ).as(`message${i}`);
+    }
+*/
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
@@ -80,8 +104,16 @@ class PatientMessageDetailsPage {
       this.currentThread,
     ).as('full-thread');
 
-    cy.contains(mockParentMessageDetails.data.attributes.subject).click();
-    cy.wait('@message1');
+    /*
+    cy.contains(
+      `${mockParentMessageDetails.data.attributes.category}: ${
+        mockParentMessageDetails.data.attributes.subject
+      }`,
+    ).click();
+    */
+    cy.contains(`${mockParentMessageDetails.data.attributes.subject}`).click();
+    cy.wait('@last_message');
+    cy.wait('@full-thread');
   };
 
   getCurrentThread() {
@@ -136,6 +168,7 @@ class PatientMessageDetailsPage {
         mockMessageDetails.data.attributes.messageId
       }/replydraft`,
     ).as('replyDraftSave');
+    // cy.wait('@message2');
   };
 
   expandThreadMessageDetails = (mockThread, index = 1) => {
@@ -180,7 +213,12 @@ class PatientMessageDetailsPage {
       }`,
       threadMessageDetails,
     ).as('messageDetails');
-    cy.get('[aria-label="Expand message"]')
+    cy.get('.older-messages')
+      .find(
+        `[data-testid="expand-message-button-${
+          threadMessageDetails.data.attributes.messageId
+        }"]`,
+      )
       .eq(index - 1)
       .click({ waitforanimations: true });
   };
@@ -262,6 +300,19 @@ class PatientMessageDetailsPage {
     cy.log('message does not have attachment');
   };
 
+  verifyUnexpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        messageDetails.data.attributes.messageId
+      }`,
+      messageDetails,
+    );
+    cy.get('[class="older-message hydrated"]')
+      .eq(messageIndex)
+      .should('contain', `From: ${messageDetails.data.attributes.senderName}`);
+  };
+
   verifyExpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
     cy.get('[data-testid="from"]')
       .eq(messageIndex)
@@ -292,15 +343,86 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageDateDisplay = (messageDetails, messageIndex = 0) => {
+    if (messageIndex > 0) {
+      cy.get('[data-testid="message-date"]')
+        .eq(messageIndex)
+        .should(
+          'have.text',
+          `Date: ${dateFormat(
+            messageDetails.data.attributes.sentDate,
+            'MMMM D, YYYY, h:mm a z',
+          )}`,
+        );
+    } else {
+      cy.get('[data-testid="message-date"]')
+        .eq(messageIndex)
+        .should(
+          'have.text',
+          `${dateFormat(
+            messageDetails.data.attributes.sentDate,
+            'MMMM D, YYYY [at] h:mm a z',
+          )}`,
+        );
+    }
+  };
+
+  ReplyToMessageTO = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="reply-form"] > :nth-child(3) > :nth-child(1)')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `(Draft) To: ${messageDetails.data.attributes.senderName}\n(Team: ${
+          messageDetails.data.attributes.triageGroupName
+        })`,
+      );
+  };
+
+  ReplyToMessagesenderName = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="from"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `From: ${messageDetails.data.attributes.senderName} (${
+          messageDetails.data.attributes.triageGroupName
+        })`,
+      );
+  };
+
+  ReplyToMessagerecipientName = (messageDetails, messageIndex = 0) => {
+    cy.get('[aria-label="message details."] > :nth-child(2)')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `To: ${messageDetails.data.attributes.recipientName}`,
+      );
+  };
+
+  ReplyToMessageDate = (messageDetails, messageIndex = 0) => {
     cy.get('[data-testid="message-date"]')
       .eq(messageIndex)
       .should(
         'have.text',
-        dateFormat(
+        `Date: ${dateFormat(
           messageDetails.data.attributes.sentDate,
-          'MMMM D, YYYY [at] h:mm a z',
-        ),
+          'MMMM D, YYYY, h:mm a z',
+        )}`,
       );
   };
+
+  ReplyToMessageId = messageDetails => {
+    cy.get('[aria-label="message details."] > :nth-child(4)').should(
+      'have.text',
+      `Message ID: ${messageDetails.data.attributes.messageId}`,
+    );
+  };
+
+  ReplyToMessagebody = messageBody => {
+    cy.get('[data-testid="message-replied-to"]')
+      .find('[data-testid="message-body"]')
+      .should($mbody => {
+        expect($mbody.text()).to.contain(messageBody);
+      });
+  };
 }
+
 export default PatientMessageDetailsPage;

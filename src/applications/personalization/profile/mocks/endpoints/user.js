@@ -1,3 +1,5 @@
+const set = require('lodash/set');
+const cloneDeep = require('lodash/cloneDeep');
 /**
  * Loops through the claims array and adds the claims to the user object
  *
@@ -6,14 +8,14 @@
  * @returns user with claims added to the profile.claims object with boolean values
  */
 const createUserWithDataClaims = (user, claims) => {
-  const result = { ...user };
+  const result = cloneDeep(user);
   claims.forEach(claim => {
     result.data.attributes.profile.claims[claim.name] = claim.value;
   });
   return result;
 };
 
-const mockUserData = {
+const baseUserResponses = {
   loa1User: {
     data: {
       id: '',
@@ -48,8 +50,8 @@ const mockUserData = {
           loa: {
             current: 1,
           },
-          multifactor: true,
-          verified: true,
+          multifactor: false,
+          verified: false,
           signIn: {
             serviceName: 'idme',
             accountType: 'N/A',
@@ -1303,6 +1305,9 @@ const mockUserData = {
       errors: null,
     },
   },
+};
+
+const mockErrorResponses = {
   externalServiceError: {
     data: {
       id: '',
@@ -1399,13 +1404,22 @@ const mockUserData = {
   },
 };
 
-// example of creating a user with data claims
-// eslint-disable-next-line no-unused-vars
-const loa3UserWithoutMilitaryHistoryClaim = () =>
-  createUserWithDataClaims(mockUserData.loa3User72, [
-    { name: 'militaryHistory', value: false },
-    { name: 'ratingInfo', value: false },
-  ]);
+const allMockResponses = {
+  ...baseUserResponses,
+  ...mockErrorResponses,
+  loa3UserWithNoMobilePhone: set(
+    cloneDeep(baseUserResponses.loa3User72),
+    'data.attributes.vet360ContactInformation.mobilePhone',
+    null,
+  ),
+  loa3UserWithoutMilitaryHistoryClaim: createUserWithDataClaims(
+    baseUserResponses.loa3User72,
+    [
+      { name: 'militaryHistory', value: false },
+      { name: 'ratingInfo', value: false },
+    ],
+  ),
+};
 
 const handleUserRequest = (req, res) => {
   // here we can customize the return of the user request
@@ -1413,17 +1427,24 @@ const handleUserRequest = (req, res) => {
 
   // handle test case of BAI being cleared on user request
   if (req?.query?.bai === 'clear') {
-    return res.json(mockUserData.loa3User72);
+    return res.json(allMockResponses.loa3User72);
   }
-  // default response
-  // example user data cases
-  // return res.json(mockUserData.loa3User72); // control user (success)
-  // return res.json(mockUserData.badAddress); // user with bad address
-  // return res.json(mockUserData.loa3User); // user with loa3
-  // return res.json(mockUserData.nonVeteranUser); // non-veteran user
-  // return res.json(mockUserData.externalServiceError); // external service error
 
-  return res.json(mockUserData.loa3User72);
+  // the now query string is used to get the current user data right after an update to a field
+  if (req?.query?.now) {
+    return res.json(allMockResponses.loa3User72);
+  }
+
+  // example user data cases
+  // return res.json(allMockResponses.loa3User72); // default user (success)
+  // return res.json(allMockResponses.loa1User); // user with loa1
+  // return res.json(allMockResponses.badAddress); // user with bad address
+  // return res.json(allMockResponses.loa3User); // user with loa3
+  // return res.json(allMockResponses.nonVeteranUser); // non-veteran user
+  // return res.json(allMockResponses.externalServiceError); // external service error
+  // return res.json(allMockResponses.loa3UserWithNoMobilePhone); // user with no mobile phone number
+
+  return res.json(allMockResponses.loa3User72);
 };
 
-module.exports = { ...mockUserData, handleUserRequest };
+module.exports = { ...allMockResponses, handleUserRequest };

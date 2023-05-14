@@ -18,8 +18,8 @@ class IntroductionPage extends React.Component {
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="Apply for a Specially Adapted Housing Grant"
-          subTitle="Equal to Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555)"
+          title="Apply for an adapted housing grant"
+          subTitle="Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555)"
         />
         <h2>Here&rsquo;s how to apply online</h2>
         <p>
@@ -31,7 +31,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the Application"
+          startText="Start the housing grant application"
         >
           Please complete the 26-4555 form to apply for adapted housing.
         </SaveInProgressIntro>

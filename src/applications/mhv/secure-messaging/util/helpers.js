@@ -1,10 +1,11 @@
 import moment from 'moment-timezone';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { DefaultFolders as Folders } from './constants';
 
 export const folderPathByFolderId = folderId => {
   let path = '';
   if (folderId !== null) {
-    switch (folderId) {
+    switch (parseInt(folderId, 10)) {
       case Folders.INBOX.id:
         path = '/inbox';
         break;
@@ -94,11 +95,19 @@ export const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-
  * @param {*} days
  * @returns {Boolean} true if timestamp is older than days
  */
-
 export const isOlderThan = (timestamp, days) => {
   const now = moment();
   const then = moment(timestamp);
   return now.diff(then, 'days') > days;
+};
+
+export const getLastSentMessage = messages => {
+  return messages.find(
+    m =>
+      m.attributes !== undefined
+        ? m.attributes.sentDate !== null
+        : m.sentDate !== null,
+  );
 };
 
 // Opens the veterans Crisis modal (the modal that appears when clicking the red banner in the header (or footer on mobile) to connect to the crisis line)
@@ -108,4 +117,48 @@ export const openCrisisModal = () => {
     'class',
     `${modal.getAttribute('class')} va-overlay--open`,
   );
+  focusElement(document.querySelector('a[href="tel:988"]'));
+};
+
+export const handleHeader = (folderId, folder) => {
+  switch (folderId) {
+    case Folders.INBOX.id: // Inbox
+      return Folders.INBOX.header;
+    case Folders.SENT.id: // Sent
+      return Folders.SENT.header;
+    case Folders.DRAFTS.id: // Drafts
+      return Folders.DRAFTS.header;
+    case Folders.DELETED.id: // Trash
+      return Folders.DELETED.header;
+    default:
+      return folder.name;
+  }
+};
+
+export const updateMessageInThread = (thread, response) => {
+  const { data, included } = response;
+  const updatedMessage = data.attributes;
+  return thread.map(message => {
+    if (message.messageId === updatedMessage.messageId) {
+      const msgAttachments =
+        included &&
+        included.map(item => ({
+          id: item.id,
+          link: item.links.download,
+          ...item.attributes,
+        }));
+      return {
+        // some fields in the thread object are not returned in the /read message response
+        // so we need to preserve them for the thread
+        threadId: message.threadId,
+        folderId: message.folderId,
+        draftDate: message.draftDate,
+        toDate: message.toDate,
+        ...updatedMessage,
+        attachments: msgAttachments,
+        preloaded: true, // this is used to determine if we need to fetch the message body again on expand
+      };
+    }
+    return message;
+  });
 };

@@ -13,6 +13,7 @@ import {
   selectFeatureVAOSServiceRequests,
   selectRegisteredCernerFacilityIds,
   selectFeatureFacilitiesServiceV2,
+  selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureAcheronService,
@@ -27,7 +28,7 @@ import {
 import {
   submitRequest,
   submitAppointment,
-  sendRequestMessage,
+  getCommunityCare,
 } from '../../services/var';
 import {
   getLocation,
@@ -689,6 +690,7 @@ export function checkCommunityCareEligibility() {
     const state = getState();
     const communityCareEnabled = selectFeatureCommunityCare(state);
     const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(state);
+    const useV2 = selectFeatureVAOSServiceCCAppointments(state);
 
     if (!communityCareEnabled) {
       return false;
@@ -715,8 +717,11 @@ export function checkCommunityCareEligibility() {
       // Reroute to VA facility page if none of the user's registered systems support community care.
       if (ccEnabledSystems.length) {
         let response = null;
-        response = await getCommunityCareV2(getCCEType(state));
-
+        if (useV2) {
+          response = await getCommunityCareV2(getCCEType(state));
+        } else {
+          response = await getCommunityCare(getCCEType(state));
+        }
         dispatch({
           type: FORM_UPDATE_CC_ELIGIBILITY,
           isEligible: response.eligible,
@@ -887,27 +892,6 @@ export function submitAppointmentOrRequest(history) {
         } else {
           requestBody = transformFormToVARequest(getState());
           requestData = await submitRequest('va', requestBody);
-        }
-
-        if (!featureVAOSServiceRequests) {
-          try {
-            const requestMessage = data.reasonAdditionalInfo;
-            if (requestMessage) {
-              await sendRequestMessage(requestData.id, requestMessage);
-            }
-          } catch (error) {
-            // These are ancillary updates, the request went through if the first submit
-            // succeeded
-            captureError(error, false, 'Request message failure', {
-              messageLength: newAppointment?.data?.reasonAdditionalInfo?.length,
-              hasLineBreak: newAppointment?.data?.reasonAdditionalInfo?.includes(
-                '\r\n',
-              ),
-              hasNewLine: newAppointment?.data?.reasonAdditionalInfo?.includes(
-                '\n',
-              ),
-            });
-          }
         }
 
         dispatch({

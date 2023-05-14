@@ -259,36 +259,45 @@ export const getMonthlyExpenses = ({
   otherExpenses,
   utilityRecords,
   installmentContracts,
+  'view:enhancedFinancialStatusReport': enhancedFSRActive = false,
 }) => {
-  const utilities = sumValues(utilityRecords, 'monthlyUtilityAmount');
+  const utilities = enhancedFSRActive
+    ? sumValues(utilityRecords, 'amount')
+    : sumValues(utilityRecords, 'monthlyUtilityAmount');
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
-  const expVals = Object.values(expenses).filter(Boolean);
+  const creditCardBills = sumValues(
+    expenses.creditCardBills,
+    'amountDueMonthly',
+  );
+
+  // efsr note: food is included in otherExpenses
   const food = Number(get(expenses, 'food', 0));
+  // efsr note: Rent & Mortgage is included in expenseRecords
   const rentOrMortgage = Number(get(expenses, 'rentOrMortgage', 0));
 
-  let totalExp = 0;
-
-  if (expenses.expenseRecords && expenses.expenseRecords.length > 0) {
-    totalExp = expenses.expenseRecords.reduce(
+  const calculatedExpenseRecords =
+    expenses?.expenseRecords?.reduce(
       (acc, expense) =>
         acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
       0,
-    );
-  } else {
-    totalExp = expVals.reduce(
-      (acc, expense) =>
-        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
-      0,
-    );
-  }
+    ) ?? 0;
 
-  return utilities + installments + otherExp + totalExp + food + rentOrMortgage;
+  return (
+    utilities +
+    installments +
+    otherExp +
+    calculatedExpenseRecords +
+    food +
+    rentOrMortgage +
+    creditCardBills
+  );
 };
 
 export const getTotalAssets = ({
   assets,
   realEstateRecords,
+  questions,
   'view:combinedFinancialStatusReport': combinedFSRActive,
   'view:enhancedFinancialStatusReport': enhancedFSRActive,
 }) => {
@@ -299,7 +308,9 @@ export const getTotalAssets = ({
   const totRecVehicles = !combinedFSRActive
     ? sumValues(assets.recVehicles, 'recVehicleAmount')
     : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
-  const totVehicles = sumValues(assets.automobiles, 'resaleValue');
+  const totVehicles = questions?.hasVehicle
+    ? sumValues(assets.automobiles, 'resaleValue')
+    : 0;
   const realEstate = !enhancedFSRActive
     ? sumValues(realEstateRecords, 'realEstateAmount')
     : formattedREValue;

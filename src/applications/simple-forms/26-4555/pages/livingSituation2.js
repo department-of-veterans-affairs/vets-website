@@ -14,26 +14,39 @@ const pageFields = [
   // omitted because unused, will be restored when vets-json-schema is changed
 ];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [livingSituationFields.parentObject]: {
-      'ui:description': <h3>Details about your current living situation</h3>,
-      [livingSituationFields.careFacilityName]: {
-        'ui:title':
-          'What is the name of the nursing home or medical care facility?',
-      },
-      'view:addressDescription': {
-        'ui:description':
-          'What is the address of the nursing home or medical care facility you are living in?',
-      },
-      [livingSituationFields.careFacilityAddress]: address.uiSchema(
-        '',
-        false,
-        formData =>
-          formData[livingSituationFields.parentObject][
-            livingSituationFields.isInCareFacility
-          ],
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+          Facility details
+        </h3>
       ),
+      'ui:description': (
+        <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
+          Tell us more about the nursing home or medical care facility you live
+          in
+        </p>
+      ),
+      [livingSituationFields.careFacilityName]: {
+        'ui:title': 'Facility name',
+      },
+      [livingSituationFields.careFacilityAddress]: {
+        'ui:description': (
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--4">
+            Facility address
+          </p>
+        ),
+        ...address.uiSchema(
+          '',
+          false,
+          formData =>
+            formData[livingSituationFields.parentObject][
+              livingSituationFields.isInCareFacility
+            ],
+        ),
+      },
     },
   },
   schema: {
@@ -44,10 +57,6 @@ export default {
         required: intersection(required, pageFields),
         properties: {
           ...pick(properties, pageFields),
-          'view:addressDescription': {
-            type: 'object',
-            properties: {},
-          },
           [livingSituationFields.careFacilityAddress]: address.schema(
             fullSchema,
             formData =>

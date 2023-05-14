@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setData } from 'platform/forms-system/src/js/actions';
 import {
   VaTextInput,
   VaNumberInput,
@@ -9,11 +7,9 @@ import {
 import { isValidCurrency } from '../../utils/validations';
 import { MAX_ASSET_NAME_LENGTH } from '../../constants/checkboxSelections';
 
-const AddAsset = props => {
-  const { data, goToPath } = props;
+const AddAsset = ({ data, goToPath, setFormData }) => {
   const { assets } = data;
   const { otherAssets = [] } = assets;
-  const dispatch = useDispatch();
 
   const RETURN_PATH = '/other-assets-summary';
 
@@ -54,15 +50,13 @@ const AddAsset = props => {
         amount: assetAmount,
       };
 
-      dispatch(
-        setData({
-          ...data,
-          assets: {
-            ...assets,
-            otherAssets: newAssets,
-          },
-        }),
-      );
+      setFormData({
+        ...data,
+        assets: {
+          ...assets,
+          otherAssets: newAssets,
+        },
+      });
       goToPath(RETURN_PATH);
     }
   };
@@ -88,10 +82,10 @@ const AddAsset = props => {
   return (
     <>
       <form onSubmit={handlers.onSubmit}>
-        <fieldset>
+        <fieldset className="vads-u-margin-y--2">
           <legend
             id="decision-date-description"
-            className="vads-u-font-family--serif"
+            className="schemaform-block-title"
             name="addOrUpdateAsset"
           >
             Add your additional assets
@@ -181,8 +175,6 @@ AddAsset.propTypes = {
   }),
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
-  testingIndex: PropTypes.number,
-  onReviewPage: PropTypes.bool,
 };
 
 export default AddAsset;

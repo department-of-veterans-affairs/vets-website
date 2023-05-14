@@ -73,6 +73,25 @@ describe('apiRequest', () => {
       expect(error).to.deep.equal(JSON.parse(expected.response.body));
     });
   });
+
+  it('should return JSON on (status: 403)', async () => {
+    server.use(
+      rest.get('*', (req, res, ctx) =>
+        res(
+          ctx.status(403),
+          ctx.json({ errors: [{ status: '403', title: 'Forbidden' }] }),
+        ),
+      ),
+    );
+
+    await apiRequest('/status', {
+      headers: { 'Content-Type': 'application/json' },
+    }).catch(error => {
+      expect(expected.response.body).to.not.be.null;
+      expect(error).to.deep.equal(JSON.parse(expected.response.body));
+    });
+  });
+
   it('should not fail when downloading a file', async () => {
     const benefitLetterOptions = {
       letterName: 'Benefit Summary Letter',

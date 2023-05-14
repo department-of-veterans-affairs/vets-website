@@ -1,19 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { VaAccordionItem } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import HorizontalRule from '../shared/HorizontalRule';
 import MessageThreadMeta from './MessageThreadMeta';
 import MessageThreadBody from './MessageThreadBody';
 import MessageThreadAttachments from './MessageThreadAttachments';
 import { markMessageAsReadInThread } from '../../actions/messages';
+import { dateFormat } from '../../util/helpers';
 
 const MessageThreadItem = props => {
   const dispatch = useDispatch();
+  const accordionItemRef = useRef();
   const [isExpanded, setIsExpanded] = useState(false);
-  const { message } = props;
-  // TODO currently setting isRead to true due to a bug in the backend. This will need to be reverted once the backend is fixed.
-  const isRead = true;
-  // const isRead = message.readReceipt === 'READ';
+  const { message, isDraftThread } = props;
+  const {
+    attachment,
+    attachments,
+    body,
+    messageId,
+    preloaded,
+    readReceipt,
+    recipientName,
+    senderName,
+    sentDate,
+    triageGroupName,
+  } = message;
+
+  const isRead = readReceipt === 'READ';
+  const fromMe = recipientName === triageGroupName;
+  const from = fromMe ? 'Me' : `${senderName}`;
 
   useEffect(
     () => {
@@ -24,104 +40,83 @@ const MessageThreadItem = props => {
     [props.printView],
   );
 
-  const handleExpand = e => {
-    if (e.keyCode === 32) {
-      e.preventDefault(); // prevent from scrolling to the footer
+  const handleExpand = isPreloaded => {
+    if (!isPreloaded) {
+      dispatch(markMessageAsReadInThread(messageId, isDraftThread));
     }
-    if (!e.shiftKey && e.key !== 'Tab') {
-      // prevent from expanding/collapsing on Tab key press for accessibility
-      setIsExpanded(!isExpanded);
-    }
-    if (!isExpanded) {
-      // TODO replace line above with a line below once readReceipt is fixed in the backend
-      // if (!isRead && !isExpanded) {
-      dispatch(markMessageAsReadInThread(message.messageId));
-    }
+    setIsExpanded(!isExpanded);
   };
 
+  // const header = () => {
+  //   return (
+  //     <>
+  //       <i
+  //         className="unread-icon fas fa-circle"
+  //         aria-hidden
+  //         style={{ visibility: isRead === true ? 'hidden' : '' }}
+  //       />
+  //       {dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
+  //     </>
+  //   );
+  // };
+
+  // const subheader = () => {
+  //   return (
+  //     <>
+  //       <i
+  //         className="fas fa-paperclip"
+  //         aria-hidden
+  //         style={{ visibility: attachments !== true ? 'hidden' : '' }}
+  //       />
+  //       {from}
+  //     </>
+  //   );
+  // };
+
+  const accordionAriaLabel = useMemo(
+    () => {
+      return `${!isRead ? 'New' : ''} message ${
+        attachment ? 'with attachment' : ''
+      } from ${senderName}, ${dateFormat(
+        sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}. ${isExpanded ? 'Collapse message' : 'Expand message'}`;
+    },
+    [attachment, isExpanded, isRead, senderName, sentDate],
+  );
+
   return (
-    message && (
-      <>
-        <div
-          className="older-message vads-u-padding-top--0p5 vads-u-padding-bottom--2 vads-u-display--flex vads-u-flex-direction--row"
-          data-testid="expand-message-button-parent"
-        >
-          <div
-            className="vads-u-flex--auto"
-            role="img"
-            aria-label={!isRead ? 'Unread message' : 'Previously read message'}
-          >
-            <i
-              className="unread-icon fas fa-circle"
-              aria-hidden
-              style={{ visibility: isRead === true ? 'hidden' : '' }}
-            />
-          </div>
-
-          <div className="vads-u-flex--fill " data-testid={message.messageId}>
-            <div
-              role="button"
-              data-testid="expand-message-button"
-              aria-expanded={isExpanded}
-              tabIndex={0}
-              onClick={e => {
-                handleExpand(e);
-              }}
-              onKeyDown={e => {
-                handleExpand(e);
-              }}
-            >
-              <MessageThreadMeta
-                expanded={isExpanded}
-                message={message}
-                isRead={isRead}
-              />
-              <MessageThreadBody expanded={isExpanded} text={message.body} />
-            </div>
-
-            {isExpanded &&
-              message.attachments?.length > 0 && (
-                <MessageThreadAttachments
-                  expanded={isExpanded}
-                  // TODO check how backend can return attachments list
-                  attachments={message.attachments}
-                />
-              )}
-          </div>
-
-          <div className="vads-u-flex--auto">
-            <div
-              role="button"
-              tabIndex={0}
-              aria-label={isExpanded ? 'Collapse message' : 'Expand message'}
-              onClick={e => {
-                handleExpand(e);
-              }}
-              onKeyDown={e => {
-                handleExpand(e);
-              }}
-            >
-              {isExpanded ? (
-                <i
-                  className="fas fa-angle-up vads-u-margin--0p5"
-                  aria-hidden="true"
-                />
-              ) : (
-                <i
-                  className="fas fa-angle-down vads-u-margin--0p5"
-                  aria-hidden="true"
-                />
-              )}
-            </div>
-          </div>
-        </div>
+    <VaAccordionItem
+      aria-label={accordionAriaLabel}
+      className="older-message"
+      ref={accordionItemRef}
+      header={`${!isRead ? '[UNREAD] ' : ''}${dateFormat(
+        sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}`}
+      subheader={from}
+      // header={header()}
+      // subheader={subheader()}
+      onAccordionItemToggled={() => {
+        handleExpand(preloaded);
+      }}
+      data-testid={`expand-message-button-${messageId}`}
+    >
+      <div>
+        <MessageThreadMeta message={message} fromMe={fromMe} />
         <HorizontalRule />
-      </>
-    )
+        <MessageThreadBody text={body} />
+
+        {attachments?.length > 0 && (
+          <MessageThreadAttachments attachments={attachments} />
+        )}
+      </div>
+    </VaAccordionItem>
   );
 };
 
 MessageThreadItem.propTypes = {
+  isDraftThread: PropTypes.bool,
   message: PropTypes.object,
   printView: PropTypes.bool,
 };

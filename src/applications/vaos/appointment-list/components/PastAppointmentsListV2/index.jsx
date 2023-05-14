@@ -33,6 +33,7 @@ import {
 } from '../../../redux/selectors';
 import AppointmentCard from '../AppointmentsPageV2/AppointmentCard';
 import UpcomingAppointmentLayout from '../AppointmentsPageV2/UpcomingAppointmentLayout';
+import BackendAppointmentServiceAlert from '../BackendAppointmentServiceAlert';
 
 function handleClick({ history, link, idClickable }) {
   return () => {
@@ -237,6 +238,7 @@ export default function PastAppointmentsListNew() {
 
   return (
     <>
+      <BackendAppointmentServiceAlert />
       {dropdown}
       <div aria-live="assertive" className="sr-only">
         {(hasTypeChanged || !isInitialMount) &&
@@ -258,6 +260,7 @@ export default function PastAppointmentsListNew() {
             <h3
               id={`appointment_list_${monthDate.format('YYYY-MM')}`}
               data-cy="past-appointment-list-header"
+              className="vads-u-margin-top--0"
             >
               <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}
@@ -270,7 +273,10 @@ export default function PastAppointmentsListNew() {
               className={classNames(
                 'usa-unstyled-list',
                 'vads-u-padding-left--0',
-                { 'vads-u-border-bottom--1px': featureAppointmentList },
+                {
+                  'vads-u-border-bottom--1px': featureAppointmentList,
+                  'vads-u-border-color--gray-medium': featureAppointmentList,
+                },
               )}
               data-cy="past-appointment-list"
               role="list"

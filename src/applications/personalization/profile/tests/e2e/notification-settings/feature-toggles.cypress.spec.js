@@ -7,6 +7,7 @@ import {
 } from '../helpers';
 
 import NotificationSettingsFeature from './NotificationSettingsFeature';
+import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 
 // tests anything that relies on feature toggles within the notifications settings page
 
@@ -21,7 +22,7 @@ describe('Notification Settings Feature Toggles', () => {
     });
   });
 
-  describe('Shows/Hides payment notification settings via feature toggles', () => {
+  describe('Shows/Hides payment notification settings via feature toggle', () => {
     it('should SHOW the payment notification when toggle profileShowPaymentsNotificationSetting is TRUE', () => {
       cy.intercept(
         'GET',
@@ -33,13 +34,10 @@ describe('Notification Settings Feature Toggles', () => {
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
 
-      // sanity check
-      // check that hearing notification is rendering first
-      cy.findByRole('radio', {
-        name: /^do not notify me of.*hearing reminder.*by email/i,
-      }).should('exist');
+      checkForLegacyLoadingIndicator();
 
-      // check that payment options display
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
       NotificationSettingsFeature.confirmPaymentNotificationSetting({
         exists: true,
       });
@@ -58,11 +56,122 @@ describe('Notification Settings Feature Toggles', () => {
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
 
+      checkForLegacyLoadingIndicator();
+
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
       NotificationSettingsFeature.confirmPaymentNotificationSetting({
         exists: false,
       });
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('Shows/Hides QuickSubmit settings via feature toggle', () => {
+    it('should SHOW the QuickSubmit notif setting when toggle is TRUE', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profileShowQuickSubmitNotificationSetting: true,
+        }),
+      );
+
+      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
+
+      checkForLegacyLoadingIndicator();
+
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
+      NotificationSettingsFeature.confirmQuickSubmitNotificationSetting({
+        exists: true,
+      });
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should NOT SHOW the QuickSubmit notif setting when toggle is FALSE', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profileShowQuickSubmitNotificationSetting: false,
+        }),
+      );
+
+      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
+
+      checkForLegacyLoadingIndicator();
+
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
+      NotificationSettingsFeature.confirmQuickSubmitNotificationSetting({
+        exists: false,
+      });
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('Shows/Hides MHV settings via feature toggle', () => {
+    it('should SHOW the MHV settings when profileShowMhvNotificationSettings toggle is TRUE', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profileShowMhvNotificationSettings: true,
+          profileShowPaymentsNotificationSetting: true,
+        }),
+      );
+
+      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
+      checkForLegacyLoadingIndicator();
+
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
+      NotificationSettingsFeature.confirmPaymentNotificationSetting({
+        exists: true,
+      });
+
+      cy.findByText('General VA Updates and Information').should('exist');
+      cy.findByText('Biweekly MHV newsletter').should('exist');
+
+      cy.findByText('RX refill shipment notification').should('exist');
+      cy.findByText('VA Appointment reminders').should('exist');
+      cy.findByText('Secure messaging alert').should('exist');
+      cy.findByText('Medical images and reports available').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should NOT SHOW the payment notification setting when profileShowMhvNotificationSettings toggle is FALSE', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profileShowMhvNotificationSettings: false,
+          profileShowPaymentsNotificationSetting: false,
+        }),
+      );
+
+      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
+
+      checkForLegacyLoadingIndicator();
+
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
+      NotificationSettingsFeature.confirmPaymentNotificationSetting({
+        exists: false,
+      });
+
+      cy.findByText('General VA Updates and Information').should('not.exist');
+      cy.findByText('Biweekly MHV newsletter').should('not.exist');
+
+      cy.findByText('RX refill shipment notification').should('not.exist');
+      cy.findByText('VA Appointment reminders').should('not.exist');
+      cy.findByText('Secure messaging alert').should('not.exist');
+      cy.findByText('Medical images and reports available').should('not.exist');
 
       cy.injectAxeThenAxeCheck();
     });

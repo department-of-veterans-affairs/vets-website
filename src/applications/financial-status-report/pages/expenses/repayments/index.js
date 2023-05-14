@@ -1,8 +1,5 @@
 export const uiSchema = {
   'ui:title': 'Your installment contracts and other debts',
-  'ui:options': {
-    classNames: 'repayments',
-  },
   questions: {
     hasRepayments: {
       'ui:title':

@@ -7,7 +7,6 @@ import {
   isInMPI as isInMPISelector,
   hasMPIConnectionError as hasMPIConnectionErrorSelector,
   isMultifactorEnabled as isMultifactorEnabledSelector,
-  selectProfile,
 } from '~/platform/user/selectors';
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 
@@ -22,8 +21,6 @@ import { recordCustomProfileEvent } from '../../util';
 export const AccountSecurityContent = ({
   isIdentityVerified,
   isMultifactorEnabled,
-  mhvAccount,
-  showMHVTermsAndConditions,
   showMPIConnectionError,
   showNotInMPIError,
   signInServiceName,
@@ -36,10 +33,7 @@ export const AccountSecurityContent = ({
       )}
       {!isIdentityVerified && <IdentityNotVerified />}
       {showMPIConnectionError && (
-        <MPIConnectionError
-          level={2}
-          className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4"
-        />
+        <MPIConnectionError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />
       )}
       {showNotInMPIError && (
         <NotInMPIError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />
@@ -48,8 +42,6 @@ export const AccountSecurityContent = ({
         signInServiceName={signInServiceName}
         isIdentityVerified={isIdentityVerified}
         isMultifactorEnabled={isMultifactorEnabled}
-        showMHVTermsAndConditions={showMHVTermsAndConditions}
-        mhvAccount={mhvAccount}
       />
     </>
   );
@@ -59,28 +51,13 @@ AccountSecurityContent.propTypes = {
   isBlocked: PropTypes.bool.isRequired,
   isIdentityVerified: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
-  showMHVTermsAndConditions: PropTypes.bool.isRequired,
   showMPIConnectionError: PropTypes.bool.isRequired,
   showNotInMPIError: PropTypes.bool.isRequired,
   showWeHaveVerifiedYourID: PropTypes.bool.isRequired,
   signInServiceName: PropTypes.string.isRequired,
-  isInMPI: PropTypes.bool,
-  mhvAccount: PropTypes.shape({
-    accountLevel: PropTypes.string,
-    accountState: PropTypes.string,
-    errors: PropTypes.array,
-    loading: PropTypes.bool,
-    termsAndConditionsAccepted: PropTypes.bool.isRequired,
-  }),
 };
 
 export const mapStateToProps = state => {
-  const profile = selectProfile(state);
-  const { verified, mhvAccount } = profile;
-  const showMHVTermsAndConditions =
-    verified &&
-    (mhvAccount.termsAndConditionsAccepted ||
-      mhvAccount.accountState === 'needs_terms_acceptance');
   const isInMPI = isInMPISelector(state);
   const isIdentityVerified = isLOA3Selector(state);
   const hasMPIConnectionError = hasMPIConnectionErrorSelector(state);
@@ -91,15 +68,13 @@ export const mapStateToProps = state => {
   const isBlocked = selectIsBlocked(state);
 
   return {
+    isBlocked,
     isIdentityVerified,
     isMultifactorEnabled: isMultifactorEnabledSelector(state),
-    mhvAccount,
-    showWeHaveVerifiedYourID,
     showMPIConnectionError,
     showNotInMPIError,
-    showMHVTermsAndConditions,
+    showWeHaveVerifiedYourID,
     signInServiceName: signInServiceNameSelector(state),
-    isBlocked,
   };
 };
 

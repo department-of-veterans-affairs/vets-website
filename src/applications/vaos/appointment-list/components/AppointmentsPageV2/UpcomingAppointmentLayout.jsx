@@ -5,6 +5,7 @@ import { getLink } from '../../../services/appointment';
 import AppointmentColumnLayout from './AppointmentColumnLayout';
 import AppointmentFlexGrid from './AppointmentFlexGrid';
 import AppointmentListItem from './AppointmentListItem';
+import AppointmentRow from './AppointmentRow';
 
 export default function UpcomingAppointmentLayout({
   featureStatusImprovement,
@@ -22,11 +23,10 @@ export default function UpcomingAppointmentLayout({
           key={key}
           className={classNames(
             'small-screen:vads-u-border-top--0',
-            'small-desktop-screen:vads-u-padding-left--1p5',
-            'small-desktop-screen:vads-u-padding-right--1p5',
             'vaos-appts__listItem',
             {
               'vads-u-border-bottom--1px': !isLastInMonth,
+              'vads-u-border-color--gray-medium': !isLastInMonth,
             },
           )}
         >
@@ -45,13 +45,40 @@ export default function UpcomingAppointmentLayout({
                   id={appt.id}
                   className="vaos-appts__listItem--clickable"
                 >
-                  <AppointmentFlexGrid idClickable={idClickable} link={link}>
-                    <AppointmentColumnLayout
-                      data={appt}
-                      first={isFirstInDay}
-                      grouped
-                      link={link}
-                    />
+                  <AppointmentFlexGrid
+                    idClickable={idClickable}
+                    link={link}
+                    className="vaos-appts__column-gap--2"
+                  >
+                    <AppointmentRow
+                      className={classNames(
+                        'xsmall-screen:vads-u-flex-direction--row',
+                        'xsmall-screen:vads-u-margin-x--0p5',
+                        'xsmall-screen:vads-u-margin-y--1',
+                        'xsmall-screen:vaos-appts__column-gap--2',
+
+                        'small-screen:vads-u-padding-left--1',
+
+                        'medium-screen:vads-u-margin-x--1p5',
+                        'medium-screen:vads-u-margin-y--0',
+                        'medium-screen:vads-u-padding--0',
+
+                        'small-desktop-screen:vads-u-margin-x--1',
+                        'small-desktop-screen:vads-u-margin-y--0',
+                        'small-desktop-screen:vads-u-padding-y--0',
+                        {
+                          'xsmall-screen:vads-u-margin-y--1': !isFirstInDay,
+                          // 'medium-screen:vads-u-padding-y--2': isFirstInDay,
+                        },
+                      )}
+                    >
+                      <AppointmentColumnLayout
+                        data={appt}
+                        first={isFirstInDay}
+                        grouped
+                        link={link}
+                      />
+                    </AppointmentRow>
                   </AppointmentFlexGrid>
                 </AppointmentListItem>
               );
@@ -75,17 +102,36 @@ export default function UpcomingAppointmentLayout({
           id={appt.id}
           className={classNames(
             'small-screen:vads-u-border-top--0',
-            'small-desktop-screen:vads-u-padding-left--1p5',
-            'small-desktop-screen:vads-u-padding-right--1p5',
             'vaos-appts__listItem',
             'vaos-appts__listItem--clickable',
             {
               'vads-u-border-bottom--1px': !isLastInMonth,
+              'vads-u-border-color--gray-medium': !isLastInMonth,
             },
           )}
         >
           <AppointmentFlexGrid idClickable={idClickable} link={link}>
-            <AppointmentColumnLayout first data={appt} link={link} />
+            <AppointmentRow
+              className={classNames(
+                'xsmall-screen:vads-u-flex-direction--row',
+                'xsmall-screen:vads-u-margin-x--0p5',
+                'xsmall-screen:vads-u-margin-y--1',
+                'xsmall-screen:vaos-appts__column-gap--2',
+
+                'small-screen:vads-u-padding-x--1',
+                'small-screen:vads-u-padding-y--2p5',
+
+                'medium-screen:vads-u-margin-x--1p5',
+                'medium-screen:vads-u-margin-y--0',
+                'medium-screen:vads-u-padding--0',
+
+                'small-desktop-screen:vads-u-margin-x--1',
+                'small-desktop-screen:vads-u-margin-y--0',
+                'small-desktop-screen:vads-u-padding--0',
+              )}
+            >
+              <AppointmentColumnLayout first data={appt} link={link} />
+            </AppointmentRow>
           </AppointmentFlexGrid>
         </AppointmentListItem>
       );

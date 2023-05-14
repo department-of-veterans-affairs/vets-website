@@ -7,6 +7,7 @@ import mockSpecialCharsMessage from '../fixtures/message-response-specialchars.j
 import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
+import PatientInterstitialPage from './PatientInterstitialPage';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -29,12 +30,16 @@ class PatientInboxPage {
 
   mockDetailedMessage = mockSpecialCharsMessage;
 
+  mockRecipients = mockRecipients;
+
   loadInboxMessages = (
     inboxMessages = mockMessages,
     detailedMessage = mockSpecialCharsMessage,
+    recipients = mockRecipients,
     getFoldersStatus = 200,
   ) => {
     this.mockInboxMessages = inboxMessages;
+    this.mockRecipients = recipients;
     this.setInboxTestMessageDetails(detailedMessage);
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -72,7 +77,7 @@ class PatientInboxPage {
     }
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/messages*',
+      '/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
       this.mockInboxMessages,
     ).as('inboxMessages');
     cy.intercept(
@@ -83,7 +88,7 @@ class PatientInboxPage {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/recipients?useCache=false',
-      mockRecipients,
+      this.mockRecipients,
     ).as('recipients');
     cy.visit('my-health/secure-messages/inbox', {
       onBeforeLoad: win => {
@@ -278,16 +283,23 @@ class PatientInboxPage {
   };
 
   verifySentSuccessMessage = () => {
-    cy.contains('Message was successfully sent.').should('be.visible');
+    cy.contains('Secure message was successfully sent.').should('be.visible');
   };
 
   verifyMoveMessagewithAttachmentSuccessMessage = () => {
-    cy.get('[data-testid="expired-alert-message"]').contains('Success');
-    cy.get('p').contains('Message was successfully moved');
+    cy.get('p').contains('Message conversation was successfully moved');
+  };
+
+  interstitialStartMessage = type => {
+    return cy
+      .get('a')
+      .contains(`Continue to ${!type ? 'start message' : type} `);
   };
 
   loadComposeMessagePage = () => {
     cy.get('[data-testid="compose-message-link"]').click();
+    const interstitialPage = new PatientInterstitialPage();
+    interstitialPage.getContinueButton().click({ force: true });
   };
 
   navigatePrintCancelButton = () => {
@@ -318,6 +330,19 @@ class PatientInboxPage {
     cy.tabToElement('[data-testid="reply-button-top"]');
     cy.realPress(['Enter']);
   };
-}
 
+  verifyDeleteConfirmMessage = () => {
+    cy.contains('successfully deleted')
+      .focused()
+      .should('have.text', 'Draft was successfully deleted.');
+  };
+
+  loadLandingPagebyTabbingandEnterKey = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
+      mockFolders,
+    ).as('folders');
+  };
+}
 export default PatientInboxPage;

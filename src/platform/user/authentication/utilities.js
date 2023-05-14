@@ -233,7 +233,6 @@ export function sessionTypeUrl({
       },
     });
   }
-
   return appendQuery(
     API_SESSION_URL({
       version,
@@ -285,6 +284,23 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
   window.location = redirectUrl;
 }
 
+export async function mockLogin({
+  clickedEvent = AUTH_EVENTS.MOCK_LOGIN,
+  type = '',
+}) {
+  if (!type) {
+    throw new Error('Attempted to call mockLogin without a type');
+  }
+  const url = await createOAuthRequest({
+    clientId: 'vamock',
+    type,
+  });
+  if (!isExternalRedirect()) {
+    setLoginAttempted();
+  }
+  return redirect(url, clickedEvent);
+}
+
 export async function login({
   policy,
   version = API_VERSION,
@@ -292,11 +308,9 @@ export async function login({
   clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
 }) {
   const url = await sessionTypeUrl({ type: policy, version, queryParams });
-
   if (!isExternalRedirect()) {
     setLoginAttempted();
   }
-
   return redirect(url, clickedEvent);
 }
 

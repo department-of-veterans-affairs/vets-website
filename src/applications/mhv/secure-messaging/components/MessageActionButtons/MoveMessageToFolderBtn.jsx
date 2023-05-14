@@ -6,14 +6,18 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch } from 'react-redux';
-import { moveMessage } from '../../actions/messages';
+import { useHistory } from 'react-router-dom';
+import { moveMessageThread } from '../../actions/messages';
 import { getFolders, newFolder } from '../../actions/folders';
+import { navigateToFolderByFolderId } from '../../util/helpers';
 import * as Constants from '../../util/constants';
+import { addAlert } from '../../actions/alerts';
 import CreateFolderModal from '../Modals/CreateFolderModal';
 
 const MoveMessageToFolderBtn = props => {
-  const { messageId, allFolders, isVisible, activeFolder } = props;
+  const { threadId, allFolders, isVisible, activeFolder } = props;
   const dispatch = useDispatch();
+  const history = useHistory();
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isNewModalVisible, setIsNewModalVisible] = useState(false);
@@ -45,12 +49,28 @@ const MoveMessageToFolderBtn = props => {
 
   const handleConfirmMoveFolderTo = () => {
     if (selectedFolder === null) {
-      setFolderInputError('Please select a folder to move the message to.');
+      setFolderInputError(
+        Constants.ErrorMessages.MoveConversation.FOLDER_REQUIRED,
+      );
     } else {
       if (selectedFolder === 'newFolder') {
         setIsNewModalVisible(true);
       } else if (selectedFolder !== null) {
-        dispatch(moveMessage(messageId, selectedFolder));
+        dispatch(moveMessageThread(threadId, selectedFolder)).then(() => {
+          navigateToFolderByFolderId(
+            activeFolder
+              ? activeFolder.folderId
+              : Constants.DefaultFolders.INBOX.id,
+            history,
+          );
+          dispatch(
+            addAlert(
+              Constants.ALERT_TYPE_SUCCESS,
+              '',
+              Constants.Alerts.Message.MOVE_MESSAGE_THREAD_SUCCESS,
+            ),
+          );
+        });
       }
       closeModal();
     }
@@ -136,7 +156,7 @@ const MoveMessageToFolderBtn = props => {
   const confirmCreateFolder = (folderName, closeNewModal) => {
     dispatch(newFolder(folderName))
       .then(createdFolder =>
-        dispatch(moveMessage(messageId, createdFolder.folderId)),
+        dispatch(moveMessageThread(threadId, createdFolder.folderId)),
       )
       .finally(() => closeNewModal());
   };
@@ -178,7 +198,7 @@ MoveMessageToFolderBtn.propTypes = {
   activeFolder: PropTypes.object,
   allFolders: PropTypes.array,
   isVisible: PropTypes.bool,
-  messageId: PropTypes.number,
+  threadId: PropTypes.number,
 };
 
 export default MoveMessageToFolderBtn;

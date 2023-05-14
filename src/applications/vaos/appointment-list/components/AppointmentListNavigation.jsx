@@ -1,79 +1,72 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { selectFeatureStatusImprovement } from '../../redux/selectors';
 import { GA_PREFIX } from '../../utils/constants';
 
-function handleClick({ history, callback }) {
-  return event => {
-    if (event.target.id === 'pending') {
-      history.push('/pending');
-      callback(true);
-      recordEvent({
-        event: `${GA_PREFIX}-status-pending-link-clicked`,
-      });
-    }
-    if (event.target.id === 'past') {
-      recordEvent({
-        event: `${GA_PREFIX}-status-past-link-clicked`,
-      });
-      history.push('/past');
-      callback(true);
-    }
-  };
-}
-
 export default function AppointmentListNavigation({ count, callback }) {
-  const history = useHistory();
   const location = useLocation();
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
 
   if (featureStatusImprovement) {
-    // Only display navigation on upcoming appointments page
-    if (
-      location.pathname.endsWith('pending') ||
-      location.pathname.endsWith('past')
-    ) {
-      return null;
-    }
+    const isPending = location.pathname.endsWith('/pending');
+    const isPast = location.pathname.endsWith('/past');
+    const isUpcoming = location.pathname.endsWith('/');
 
     return (
       <nav
         aria-label="Appointment list navigation"
-        className="vaos-appts__breadcrumb"
+        className={`vaos-appts__breadcrumb xsmall-screen:${
+          isPast ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--3'
+        } small-screen:vads-u-margin-bottom--4`}
       >
         <ul>
           <li>
-            <va-link
-              id="pending"
-              className="vaos-appts__focus--hide-outline"
-              href="#"
-              onClick={handleClick({
-                history,
-                callback,
-              })}
-              text={`Pending (${count})`}
-              data-testid="pending-link"
-              role="link"
-            />
+            <NavLink
+              id="upcoming"
+              to="/"
+              onClick={() => callback(true)}
+              // eslint-disable-next-line jsx-a11y/aria-proptypes
+              aria-current={isUpcoming}
+            >
+              Upcoming
+            </NavLink>
           </li>
           <li>
-            <va-link
+            <NavLink
+              id="pending"
+              to="/pending"
+              onClick={() => {
+                callback(true);
+                recordEvent({
+                  event: `${GA_PREFIX}-status-pending-link-clicked`,
+                });
+              }}
+              // eslint-disable-next-line jsx-a11y/aria-proptypes
+              aria-current={isPending}
+            >
+              {`Pending (${count})`}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               id="past"
-              className="vaos-appts__focus--hide-outline"
-              href="#"
-              onClick={handleClick({
-                history,
-                callback,
-              })}
-              text="Past"
-              data-testid="past-link"
-              role="link"
-            />
+              to="/past"
+              onClick={() => {
+                callback(true);
+                recordEvent({
+                  event: `${GA_PREFIX}-status-past-link-clicked`,
+                });
+              }}
+              // eslint-disable-next-line jsx-a11y/aria-proptypes
+              aria-current={isPast}
+            >
+              Past
+            </NavLink>
           </li>
         </ul>
       </nav>

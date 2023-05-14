@@ -6,10 +6,9 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { setData } from 'platform/forms-system/src/js/actions';
-import {
-  getContestableIssues as getContestableIssuesAction,
-  FETCH_CONTESTABLE_ISSUES_INIT,
-} from '../actions';
+import environment from 'platform/utilities/environment';
+
+import user from '../tests/fixtures/mocks/user.json';
 
 import formConfig from '../config/form';
 import { SAVED_CLAIM_TYPE } from '../constants';
@@ -22,6 +21,11 @@ import {
 } from '../utils/helpers';
 import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
 import forcedMigrations from '../migrations/forceMigrations';
+
+import {
+  getContestableIssues as getContestableIssuesAction,
+  FETCH_CONTESTABLE_ISSUES_INIT,
+} from '../actions';
 
 export const Form0996App = ({
   loggedIn,
@@ -36,8 +40,13 @@ export const Form0996App = ({
   contestableIssues = {},
   legacyCount,
 }) => {
-  const { email = {}, mobilePhone = {}, mailingAddress = {} } =
-    profile?.vapContactInfo || {};
+  // vapContactInfo is an empty object locally, so mock it
+  const contactInfo = environment.isLocalhost()
+    ? user.data.attributes.vet360ContactInformation
+    : profile?.vapContactInfo || {};
+
+  const { email = {}, mobilePhone = {}, mailingAddress = {} } = contactInfo;
+
   // Make sure we're only loading issues once - see
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
   const [isLoadingIssues, setIsLoadingIssues] = useState(false);

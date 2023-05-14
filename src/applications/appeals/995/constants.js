@@ -38,6 +38,7 @@ export const SUBMIT_URL = '/v1/supplemental_claims';
 export const SELECTED = 'view:selected';
 
 export const PRIMARY_PHONE = 'view:primaryPhone';
+export const PRIMARY_PHONE_TYPES = ['home', 'mobile'];
 
 export const EVIDENCE_VA = 'view:hasVaEvidence';
 export const EVIDENCE_PRIVATE = 'view:hasPrivateEvidence';
@@ -74,6 +75,9 @@ export const MAX_LENGTH = {
   EVIDENCE_LOCATION_AND_NAME: 255,
 };
 
+export const REGEX_COMMA = /[, ]/g;
+export const REGEX_EMPTY_DATE = /(--|-00-00)/;
+
 export const errorMessages = {
   contestedIssue: 'You must select an eligible issue',
   missingIssue: 'You must add an issue',
@@ -86,12 +90,9 @@ export const errorMessages = {
   // endDateInPast: 'The end date must be in the future',
   endDateBeforeStart: 'The end date must be after the start date',
 
-  invalidDateRange: (min, max) =>
-    `You must enter a year between ${min} and ${max}`,
   decisions: {
     missingDate: 'You must enter a decision date',
-    pastDate:
-      'You must add an issue with a decision date that’s less than 100 years old',
+    pastDate: 'You must add a decision date that’s in the past',
     newerDate: 'You must add a more recent decision date',
   },
   evidence: {
@@ -103,7 +104,8 @@ export const errorMessages = {
     locationMissing: 'You must enter a treatment location',
     locationMaxLength: 'You can enter a maximum of 255 characters',
     issuesMissing: 'You must select 1 or more conditions',
-    unique: 'You must enter a location you haven’t already entered',
+    uniqueVA:
+      'You must enter a location, condition and dates you haven’t already entered',
 
     // private evidence
     facilityMissing: 'You must add a provider or facility name',
@@ -113,6 +115,8 @@ export const errorMessages = {
     state: 'You must choose a state',
     postal: 'You must enter a postal code',
     overMaxLength: max => `You can enter a maximum of ${max} characters`,
+    uniquePrivate:
+      'You must enter a provider, address, condition and dates you haven’t already entered',
 
     upload: 'You must provide a password to decrypt this file',
   },
@@ -126,6 +130,7 @@ export const errorMessages = {
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
+export const NO_ISSUES_SELECTED = 'No issues were selected';
 
 // contested issue dates
 export const FORMAT_YMD = 'YYYY-MM-DD';
@@ -134,10 +139,14 @@ export const FORMAT_COMPACT = 'MMM DD, YYYY';
 
 export const LAST_SC_ITEM = 'lastScItem'; // focus management across pages
 export const CONTACT_EDIT = 'edit-contact-info'; // contact info focusing
+export const SUMMARY_EDIT = 'edit-evidence-summary'; // evidence summary focus
+export const REVIEW_CONTACT = 'onReviewPageContact';
+export const REVIEW_ISSUES = 'onReviewPageIssues';
+export const LIMITATION_KEY = 'limitation';
 
 // Values from benefitTypes in Lighthouse 0995 schema
 // schema.definitions.scCreate.properties.data.properties.attributes.properties.benefitType.emum;
-const supportedBenefitTypes = [
+export const SUPPORTED_BENEFIT_TYPES_LIST = [
   'compensation', // Phase 1
   // 'pensionSurvivorsBenefits',
   // 'fiduciary',
@@ -150,10 +159,11 @@ const supportedBenefitTypes = [
 ];
 
 export const LEGACY_TYPE = 'legacyAppeal';
+export const AMA_DATE = '2019-02-19'; // Appeals Modernization Act in effect
 
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,
-  isSupported: supportedBenefitTypes.includes(type.value),
+  isSupported: SUPPORTED_BENEFIT_TYPES_LIST.includes(type.value),
 }));
 
 // Once we include the 'pensionSurvivorsBenefits' type, we will need to know

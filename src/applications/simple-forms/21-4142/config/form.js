@@ -1,33 +1,60 @@
-// import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
-
+import environment from 'platform/utilities/environment';
+import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
+import footerContent from 'platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
+import preSubmitInfo from '../containers/PreSubmitSignature';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import getHelp from '../../shared/components/GetFormHelp';
+import prefillTransformer from './prefill-transformer';
+import transformForSubmit from '../../shared/config/submit-transformer';
 
-// const { } = fullSchema.properties;
+// pages
+import personalInformation1 from '../pages/personalInformation1';
+import personalInformation2 from '../pages/personalInformation2';
+import contactInformation1 from '../pages/contactInformation1';
+import contactInformation2 from '../pages/contactInformation2';
+import patientIdentification1 from '../pages/patientIdentification1';
+import patientIdentification2 from '../pages/patientIdentification2';
+import authorization from '../pages/authorization';
+import recordsRequested from '../pages/recordsRequested';
+import limitations from '../pages/limitations';
+import preparerIdentification from '../pages/preparerIdentification';
+import preparerPersonalInformation from '../pages/preparerPersonalInformation';
+import preparerAddress1 from '../pages/preparerAddress1';
+import preparerAddress2 from '../pages/preparerAddress2';
+import {
+  patientIdentificationFields,
+  preparerIdentificationFields,
+  veteranDirectRelative,
+  veteranIsSelfText,
+} from '../definitions/constants';
 
-// const { } = fullSchema.definitions;
-
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
   trackingPrefix: 'medical-release-4142-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo,
   formId: '21-4142',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your authorize release of medical information application (21-4142) is in progress.',
-    //   expired: 'Your saved authorize release of medical information application (21-4142) has expired. If you want to apply for authorize release of medical information, please start a new application.',
-    //   saved: 'Your authorize release of medical information application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your authorize release of medical information application (21-4142) is in progress.',
+      expired:
+        'Your saved authorize release of medical information application (21-4142) has expired. If you want to apply for authorize release of medical information, please start a new application.',
+      saved:
+        'Your authorize release of medical information application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
+  transformForSubmit,
   savedFormMessages: {
     notFound:
       'Please start over to apply for authorize release of medical information.',
@@ -35,23 +62,172 @@ const formConfig = {
       'Please sign in again to continue your application for authorize release of medical information.',
   },
   title: 'Authorize the release of medical information to the VA',
-  defaultDefinitions: {},
+  subTitle:
+    'Authorization to disclose information to the Department of Veterans Affairs (VA) (VA Form 21-4142 & 21-4142a)',
+  defaultDefinitions: fullSchema.definitions,
   chapters: {
-    chapter1: {
-      title: 'Chapter 1',
+    personalInformation1Chapter: {
+      title: "Veteran's personal information",
       pages: {
-        page1: {
-          path: 'first-page',
-          title: 'First Page',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+        personalInformation1: {
+          path: 'personal-information-1',
+          title: 'Personal Information',
+          uiSchema: personalInformation1.uiSchema,
+          schema: personalInformation1.schema,
+        },
+      },
+    },
+    personalInformation2Chapter: {
+      title: "Veteran's identification information",
+      pages: {
+        personalInformation2: {
+          path: 'personal-information-2',
+          title: "Personal Information (cont'd)",
+          uiSchema: personalInformation2.uiSchema,
+          schema: personalInformation2.schema,
+        },
+      },
+    },
+    contactInformation1Chapter: {
+      title: "Veteran's mailing address",
+      pages: {
+        contactInformation1: {
+          path: 'contact-information-1',
+          title: 'Contact Information',
+          uiSchema: contactInformation1.uiSchema,
+          schema: contactInformation1.schema,
+        },
+      },
+    },
+    contactInformation2Chapter: {
+      title: "Veteran's contact information",
+      pages: {
+        contactInformation2: {
+          path: 'contact-information-2',
+          title: 'Additional contact information',
+          uiSchema: contactInformation2.uiSchema,
+          schema: contactInformation2.schema,
+        },
+      },
+    },
+    patientIdentificationChapter: {
+      title: 'Patient identification',
+      pages: {
+        patientIdentification1: {
+          path: 'patient-identification-1',
+          title: 'Are you requesting year own medical records?',
+          uiSchema: patientIdentification1.uiSchema,
+          schema: patientIdentification1.schema,
+        },
+        patientIdentification2: {
+          path: 'patient-identification-2',
+          title: 'Whose records are you granting authorization to release?',
+          depends: formData =>
+            !formData[patientIdentificationFields.parentObject][
+              [patientIdentificationFields.isRequestingOwnMedicalRecords]
+            ],
+          uiSchema: patientIdentification2.uiSchema,
+          schema: patientIdentification2.schema,
+        },
+      },
+    },
+    authorizationChapter: {
+      title: 'Authorization',
+      pages: {
+        authorization: {
+          path: 'authorization',
+          title: 'Authorization',
+          uiSchema: authorization.uiSchema,
+          schema: authorization.schema,
+        },
+      },
+    },
+    recordsRequested: {
+      title: 'Treatment records',
+      pages: {
+        recordsRequested: {
+          path: 'records-requested',
+          title: 'Records requested',
+          uiSchema: recordsRequested.uiSchema,
+          schema: recordsRequested.schema,
+        },
+      },
+    },
+    limitations: {
+      title: 'Limitations',
+      pages: {
+        limitations: {
+          path: 'limitations',
+          title: 'Do you want to limit the information we can request?',
+          uiSchema: limitations.uiSchema,
+          schema: limitations.schema,
+        },
+      },
+    },
+    preparerIdentification: {
+      title: 'Preparer identification',
+      pages: {
+        preparerIdentification: {
+          path: 'preparer-identification',
+          title: 'Preparer identification',
+          uiSchema: preparerIdentification.uiSchema,
+          schema: preparerIdentification.schema,
+        },
+      },
+    },
+    preparerPersonalInformation: {
+      title: 'Preparer personal information',
+      pages: {
+        preparerPersonalInformation: {
+          path: 'preparer-personal-information',
+          title: 'Preparer personal information',
+          depends: formData =>
+            formData[preparerIdentificationFields.parentObject][
+              [preparerIdentificationFields.relationshipToVeteran]
+            ] !== veteranIsSelfText,
+          uiSchema: preparerPersonalInformation.uiSchema,
+          schema: preparerPersonalInformation.schema,
+        },
+      },
+    },
+    preparerAddress: {
+      title: 'Preparer address',
+      pages: {
+        preparerAddress1: {
+          path: 'preparer-address-1',
+          title: 'Preparer address 1',
+          depends: formData =>
+            veteranDirectRelative.includes(
+              formData[preparerIdentificationFields.parentObject][
+                [preparerIdentificationFields.relationshipToVeteran]
+              ],
+            ),
+          uiSchema: preparerAddress1.uiSchema,
+          schema: preparerAddress1.schema,
+        },
+        preparerAddress2: {
+          path: 'preparer-address-2',
+          title: 'Preparer address 2',
+          depends: formData =>
+            (!formData[preparerIdentificationFields.parentObject][
+              [preparerIdentificationFields.preparerHasSameAddressAsVeteran]
+            ] ||
+              !veteranDirectRelative.includes(
+                formData[preparerIdentificationFields.parentObject][
+                  [preparerIdentificationFields.relationshipToVeteran]
+                ],
+              )) &&
+            formData[preparerIdentificationFields.parentObject][
+              [preparerIdentificationFields.relationshipToVeteran]
+            ] !== veteranIsSelfText,
+          uiSchema: preparerAddress2.uiSchema,
+          schema: preparerAddress2.schema,
         },
       },
     },
   },
+  footerContent,
+  getHelp,
 };
 
 export default formConfig;
