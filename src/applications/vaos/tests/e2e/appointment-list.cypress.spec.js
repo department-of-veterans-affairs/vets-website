@@ -14,6 +14,7 @@ import {
   mockClinicApi,
 } from './vaos-cypress-helpers';
 import { mockVamcEhr } from './vaos-cypress-v2-helpers';
+import { getRealFacilityId } from '../../utils/appointment';
 
 describe('VAOS appointment list', () => {
   describe('appointments details', () => {
@@ -106,10 +107,22 @@ describe('VAOS appointment list', () => {
             clinic: '308',
             id: 1,
             kind: 'phone',
-            location: {
-              id: '983',
-              name: 'Cheyenne VA Medical Center',
-            },
+            // Uncomment to remove 'v1/facilities/va/vha_442' api call to get
+            // location information.
+            // location: {
+            //   id: '983',
+            //   type: 'location',
+            //   attributes: {
+            //     id: '983',
+            //     name: 'Cheyenne VA Medical Center',
+            //     physicalAddress: {
+            //       city: 'Cheyenne',
+            //       line: [''],
+            //       postalCode: '82001-5356',
+            //       state: 'WY',
+            //     },
+            //   },
+            // },
             locationId: '983',
             start: moment().format('YYYY-MM-DDTHH:mm:ss'),
             status: 'booked',
@@ -119,7 +132,13 @@ describe('VAOS appointment list', () => {
 
       mockAppointmentsApi({ data, apiVersion: 2 });
       mockClinicApi({ clinicId: '308', locations: ['983'] });
-      mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
+
+      // NOTE: Mock not needed if location information is included with the
+      // appointment
+      mockFacilityApi({
+        id: getRealFacilityId(`vha_${data[0].attributes.locationId}`),
+        apiVersion: 1,
+      });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
@@ -132,15 +151,15 @@ describe('VAOS appointment list', () => {
         .first()
         .click();
 
-      cy.wait(['@v1:get:facility', '@v2:get:clinic']);
+      cy.wait(['@v2:get:clinic']);
 
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
         .contains('VA appointment over the phone');
-      // cy.get('h2', { timeout: Timeouts.slow })
-      //   .should('be.visible')
-      //   .and('contain', 'Cheyenne VA Medical Center');
+      cy.get('h2', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'Cheyenne VA Medical Center');
 
       cy.axeCheckBestPractice();
     });
@@ -156,7 +175,16 @@ describe('VAOS appointment list', () => {
             kind: 'telehealth',
             location: {
               id: '983',
-              name: 'Cheyenne VA Medical Center',
+              type: 'location',
+              attributes: {
+                name: 'Cheyenne VA Medical Center',
+                physicalAddress: {
+                  city: 'Cheyenne',
+                  line: [''],
+                  postalCode: '82001-5356',
+                  state: 'WY',
+                },
+              },
             },
             locationId: '983',
             start: moment().format('YYYY-MM-DDTHH:mm:ss'),
