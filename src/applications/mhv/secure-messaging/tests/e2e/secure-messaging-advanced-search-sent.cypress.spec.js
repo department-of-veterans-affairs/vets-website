@@ -2,43 +2,43 @@ import manifest from '../../manifest.json';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockMessages from './fixtures/drafts-search-results.json';
-import mockDraftsSearchMessages from './fixtures/drafts-search-COVID-results.json';
-import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
-import draftResponce from './fixtures/drafts-response.json';
+import mockSentSearchMessages from './fixtures/drafts-search-COVID-results.json';
+import mockSentFolder from './fixtures/folder-sent-metadata.json';
+import sentResponce from './fixtures/drafts-response.json';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 
 describe(manifest.appName, () => {
-  describe('Advanced search in Drafts', () => {
+  describe('Advanced search in Sent', () => {
     beforeEach(() => {
-      const draftAdvancedSearch = new PatientMessageDraftsPage();
+      const sentAdvancedSearch = new PatientMessageDraftsPage();
       const site = new SecureMessagingSite();
       site.login();
       const landingPage = new PatientInboxPage();
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/-2',
-        mockDraftsFolder,
+        '/my_health/v1/messaging/folders/-1',
+        mockSentFolder,
       ).as('basicSearchRequestDraftsMeta');
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/-2/threads?**',
-        draftResponce,
+        '/my_health/v1/messaging/folders/-1/threads?**',
+        sentResponce,
       );
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/-2/messages?per_page=-1',
+        '/my_health/v1/messaging/folders/-1/messages?per_page=-1',
         mockMessages,
       ).as('basicSearchRequestDrafts');
-      cy.get('[data-testid="drafts-sidebar"]').click();
+      cy.get('[data-testid="sent-sidebar"]').click();
       cy.intercept(
         'POST',
         '/my_health/v1/messaging/folders/*/search',
-        mockDraftsSearchMessages,
+        mockSentSearchMessages,
       ).as('advancedSearchRequest');
-      draftAdvancedSearch.openAdvancedSearch();
-      draftAdvancedSearch.selectAdvancedSearchCategory();
-      draftAdvancedSearch.submitSearchButton();
+      sentAdvancedSearch.openAdvancedSearch();
+      sentAdvancedSearch.selectAdvancedSearchCategory();
+      sentAdvancedSearch.submitSearchButton();
     });
     // Following assertion could be turned to the POM style
     it('Axe check ', () => {
@@ -48,9 +48,9 @@ describe(manifest.appName, () => {
     it('Check all messages contain the serached category', () => {
       cy.get('[data-testid="message-list-item"]')
         .should('contain', 'COVID')
-        .and('have.length', mockDraftsSearchMessages.data.length);
+        .and('have.length', mockSentSearchMessages.data.length);
     });
-    it('Check the search message label', () => {
+    it('Check the search message label', function() {
       cy.get('[data-testid="search-message-folder-input-label"]')
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
