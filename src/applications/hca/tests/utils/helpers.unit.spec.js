@@ -7,6 +7,7 @@ import {
   prefillTransformer,
   isShortFormEligible,
   includeSpousalInformation,
+  getInsuranceAriaLabel,
 } from '../../utils/helpers';
 import { HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
 
@@ -230,6 +231,31 @@ describe('hca helpers', () => {
           maritalStatus: 'separated',
         }),
       ).to.equal(true);
+    });
+  });
+
+  describe('getInsuranceAriaLabel', () => {
+    it('returns a generic label if the provider name is not provided', () => {
+      const formData = {};
+      expect(getInsuranceAriaLabel(formData)).to.equal('insurance policy');
+    });
+    it('returns the provider name with the policy number when provided', () => {
+      const formData = {
+        insuranceName: 'Aetna',
+        insurancePolicyNumber: '005588',
+      };
+      expect(getInsuranceAriaLabel(formData)).to.equal(
+        'Aetna, Policy number 005588',
+      );
+    });
+    it('returns the provider name with the group code when provided', () => {
+      const formData = {
+        insuranceName: 'Aetna',
+        insuranceGroupCode: '005588',
+      };
+      expect(getInsuranceAriaLabel(formData)).to.equal(
+        'Aetna, Group code 005588',
+      );
     });
   });
 
