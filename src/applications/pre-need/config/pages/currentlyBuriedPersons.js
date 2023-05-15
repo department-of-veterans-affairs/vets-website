@@ -31,6 +31,7 @@ export const uiSchema = {
         'Please provide the details of the person(s) currently buried in a VA national cemetery under your eligibility',
       'ui:options': {
         viewField: EligibleBuriedView,
+        keepInPageOnReview: true,
       },
       items: {
         name: merge({}, fullNameUI, {
