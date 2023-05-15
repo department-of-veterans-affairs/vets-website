@@ -22,7 +22,9 @@ describe('Secure Messaging - Print Functionality', () => {
     );
   });
   it('print all messages', () => {
-    cy.get('[data-testid=print-button]').click();
+    cy.get('[data-testid=print-button]')
+      .should('be.visible')
+      .click();
     cy.get('[data-testid=radio-print-one-message]')
       .shadow()
       .find('label')
