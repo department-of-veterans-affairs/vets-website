@@ -89,7 +89,7 @@ export const saveReplyDraft = (
     else if (type === 'manual') dispatch({ type: Actions.Draft.SAVE_STARTED });
 
     const response = await sendReplyDraft(replyToId, messageData, id);
-    if (id) {
+    if (id && response.url) {
       dispatch({
         type: Actions.Draft.UPDATE_SUCCEEDED,
         response: messageData,
@@ -100,15 +100,14 @@ export const saveReplyDraft = (
         response,
       });
     }
-    return response.data.attributes;
+    return response;
   } catch (e) {
-    if (e.errors) {
-      const error = e.errors[0];
-      dispatch({
-        type: Actions.Draft.SAVE_FAILED,
-        response: error,
-      });
-    }
+    const response = await sendReplyDraft(replyToId, messageData, id);
+    const error = response.errors[0];
+    dispatch({
+      type: Actions.Draft.SAVE_FAILED,
+      response: error,
+    });
     throw e;
   }
 };
@@ -133,7 +132,6 @@ export const deleteDraft = messageId => async dispatch => {
     );
     dispatch(clearDraft());
   } catch (e) {
-    // const error = e.errors[0].detail;
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_ERROR,

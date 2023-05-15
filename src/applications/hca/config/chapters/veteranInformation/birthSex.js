@@ -18,6 +18,9 @@ export default {
     },
     'view:prefillMessage': {
       'ui:description': PrefillMessage,
+      'ui:options': {
+        hideIf: formData => !formData['view:isLoggedIn'],
+      },
     },
     gender: {
       'ui:title': 'What sex were you assigned at birth?',
