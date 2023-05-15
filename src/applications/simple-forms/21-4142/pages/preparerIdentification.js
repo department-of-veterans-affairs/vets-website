@@ -28,6 +28,9 @@ export default {
             it here
           </p>
         ),
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
       },
     },
   },

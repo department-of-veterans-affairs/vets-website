@@ -96,7 +96,7 @@ const mapStateToProps = state => ({
 });
 
 Footer.propTypes = {
-  footerData: PropTypes.object.isRequired,
+  footerData: PropTypes.arrayOf(PropTypes.object).isRequired,
   minimalFooter: PropTypes.bool.isRequired,
   dispatchLanguageSelection: PropTypes.func,
   languageCode: PropTypes.string,
