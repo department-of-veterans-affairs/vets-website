@@ -6,7 +6,13 @@ import { setData } from 'platform/forms-system/src/js/actions';
 
 function MemorableDateOfBirth({ formData, dob }) {
   const [dateVal, setDateVal] = useState(dob);
+  const [errorVal, setErrorVal] = useState('');
   const dispatch = useDispatch();
+
+  const handleBlur = () => {
+    setErrorVal(' ');
+    setErrorVal('');
+  };
 
   const handleClick = event => {
     const content = event.target.value;
@@ -23,8 +29,8 @@ function MemorableDateOfBirth({ formData, dob }) {
     <div data-testid="dob-input">
       <VaMemorableDate
         value={dateVal}
-        error=""
-        onDateBlur={handleClick}
+        error={errorVal}
+        onDateBlur={handleBlur}
         onDateChange={handleClick}
         style={{ 'margin-top': '0px' }}
       />
