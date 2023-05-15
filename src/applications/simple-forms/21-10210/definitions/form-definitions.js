@@ -18,7 +18,8 @@ export default {
       },
       middle: {
         type: 'string',
-        maxLength: 1, // PDF-specific override
+        // we're letting b/e extract the first initial
+        // instead of setting maxLength to 1
       },
       last: {
         type: 'string',
