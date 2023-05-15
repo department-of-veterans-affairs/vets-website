@@ -22,6 +22,13 @@ function currentlyBuriedPersonsMinItem() {
 export const uiSchema = {
   application: {
     currentlyBuriedPersons: {
+      'ui:title': (
+        <span>
+          <h3 className="name-of-deceased-text">Name of deceased</h3>
+        </span>
+      ),
+      'ui:description':
+        'Please provide the details of the person(s) currently buried in a VA national cemetery under your eligibility',
       'ui:options': {
         viewField: EligibleBuriedView,
       },

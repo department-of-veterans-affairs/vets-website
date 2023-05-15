@@ -12,7 +12,7 @@ import * as sponsorMailingAddress from './pages/sponsorMailingAddress';
 import * as preparer from './pages/preparer';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 
-import { isVeteran } from '../utils/helpers';
+import { buriedWSponsorsEligibility, isVeteran } from '../utils/helpers';
 
 export const chapters = {
   applicantInformation: {
@@ -86,6 +86,7 @@ export const chapters = {
       },
       currentlyBuriedPersons: {
         path: 'current-burial-benefits',
+        depends: formData => buriedWSponsorsEligibility(formData),
         uiSchema: currentlyBuriedPersons.uiSchema,
         schema: currentlyBuriedPersons.schema,
       },
