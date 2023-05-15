@@ -59,7 +59,7 @@ const MessageThread = props => {
       if (messageHistoryRef.current?.length) {
         messageHistoryRef.current.forEach((m, i) => {
           if (i < viewCountRef.current && !m.preloaded) {
-            dispatch(markMessageAsReadInThread(m.messageId));
+            dispatch(markMessageAsReadInThread(m.messageId, isDraftThread));
           }
         });
       }

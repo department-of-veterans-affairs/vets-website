@@ -473,7 +473,7 @@ const ReplyForm = props => {
 ReplyForm.propTypes = {
   cannotReply: PropTypes.bool,
   draftToEdit: PropTypes.object,
-  header: PropTypes.bool,
+  header: PropTypes.object,
   recipients: PropTypes.array,
   replyMessage: PropTypes.object,
 };
