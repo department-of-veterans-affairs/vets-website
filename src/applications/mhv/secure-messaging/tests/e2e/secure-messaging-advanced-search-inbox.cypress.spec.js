@@ -1,8 +1,8 @@
 import manifest from '../../manifest.json';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import mockInboxFolder from './fixtures/folder-inbox-metadata.json';
-import inboxResponse from './fixtures/messages-response.json';
+// import mockInboxFolder from './fixtures/folder-inbox-metadata.json';
+// import inboxResponse from './fixtures/messages-response.json';
 // import mockMessages from './fixtures/drafts-search-results.json';
 import mockInboxSearchMessages from './fixtures/inbox-search-EDUCATION-results.json';
 
@@ -13,17 +13,17 @@ describe(manifest.appName, () => {
       const inboxPage = new PatientInboxPage();
       site.login();
       inboxPage.loadInboxMessages();
-      cy.intercept('GET', '/my_health/v1/messaging/folders/0', mockInboxFolder);
-      cy.intercept(
-        'GET',
-        '/my_health/v1/messaging/folders/0/threads?**',
-        inboxResponse,
-      );
-      cy.intercept(
-        'GET',
-        '/my_health/v1/messaging/folders/0/messages?per_page=-1',
-        inboxResponse,
-      ).as('basicSearchRequestDrafts');
+      // cy.intercept('GET', '/my_health/v1/messaging/folders/0', mockInboxFolder);
+      // cy.intercept(
+      //   'GET',
+      //   '/my_health/v1/messaging/folders/0/threads?**',
+      //   inboxResponse,
+      // );
+      // cy.intercept(
+      //   'GET',
+      //   '/my_health/v1/messaging/folders/0/messages?per_page=-1',
+      //   inboxResponse,
+      // ).as('basicSearchRequestDrafts');
       cy.intercept(
         'POST',
         '/my_health/v1/messaging/folders/*/search',

@@ -1,7 +1,7 @@
 import manifest from '../../manifest.json';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import mockMessages from './fixtures/drafts-search-results.json';
+// import mockMessages from './fixtures/drafts-search-results.json';
 import mockSentSearchMessages from './fixtures/drafts-search-COVID-results.json';
 import mockSentFolder from './fixtures/folder-sent-metadata.json';
 import sentResponce from './fixtures/drafts-response.json';
@@ -25,11 +25,11 @@ describe(manifest.appName, () => {
         '/my_health/v1/messaging/folders/-1/threads?**',
         sentResponce,
       );
-      cy.intercept(
-        'GET',
-        '/my_health/v1/messaging/folders/-1/messages?per_page=-1',
-        mockMessages,
-      ).as('basicSearchRequestDrafts');
+      // cy.intercept(
+      //   'GET',
+      //   '/my_health/v1/messaging/folders/-1/messages?per_page=-1',
+      //   mockMessages,
+      // ).as('basicSearchRequestDrafts');
       cy.get('[data-testid="sent-sidebar"]').click();
       cy.intercept(
         'POST',
