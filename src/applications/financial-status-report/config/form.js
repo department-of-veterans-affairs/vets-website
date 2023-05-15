@@ -55,6 +55,7 @@ import {
 import DependentAges from '../components/DependentAges';
 import DependentAgesReview from '../components/DependentAgesReview';
 import ResolutionAmount from '../components/ResolutionAmount';
+import CustomResolutionOptionReview from '../components/CustomResolutionOptionReview';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -1116,6 +1117,7 @@ const formConfig = {
           showPagePerItem: true,
           arrayPath: 'selectedDebtsAndCopays',
           uiSchema: pages.resolutionOption.uiSchema,
+          CustomPageReview: CustomResolutionOptionReview,
           schema: pages.resolutionOption.schema,
         },
         resolutionCompromiseAmount: {
@@ -1131,7 +1133,15 @@ const formConfig = {
           arrayPath: 'selectedDebtsAndCopays',
           CustomPage: ResolutionAmount,
           CustomPageReview: null,
-          uiSchema: {},
+          uiSchema: {
+            selectedDebtsAndCopays: {
+              items: {
+                resolutionComment: {
+                  'ui:options': { hideOnReview: true },
+                },
+              },
+            },
+          },
           schema: {
             type: 'object',
             properties: {

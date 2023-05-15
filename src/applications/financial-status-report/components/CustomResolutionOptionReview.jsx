@@ -1,25 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 import { fsrReasonDisplay, getDebtName } from '../utils/helpers';
 
-const CustomResolutionOptionReview = ({ children }) => {
-  const formData = useSelector(state => state.form.data);
-  const { selectedDebtsAndCopays = [] } = formData;
-  const { formContext } = children.props;
-  const currentDebt =
-    selectedDebtsAndCopays[formContext?.pagePerItemIndex || 0];
+const CustomResolutionOptionReview = props => {
+  const { data, pagePerItemIndex } = props;
+  const { selectedDebtsAndCopays = [] } = data;
+  const [debtIndex] = useState(pagePerItemIndex);
+  const [currentDebt] = useState(selectedDebtsAndCopays[debtIndex || 0]);
 
   return (
-    <div className="review-row">
-      <dt>{getDebtName(currentDebt)}</dt>
-      <dd>{fsrReasonDisplay(currentDebt.resolutionOption)}</dd>
+    <div>
+      <div className="form-review-panel-page-header-row">
+        <h4 className="vads-u-font-size--h5">{getDebtName(currentDebt)} </h4>
+      </div>
+      <dt>
+        Resolution Option: {fsrReasonDisplay(currentDebt.resolutionOption)}{' '}
+        <br />{' '}
+      </dt>
+      <dd>
+        {currentDebt.resolutionOption === 'waiver'
+          ? ''
+          : `Amount: $${currentDebt.resolutionComment}`}
+      </dd>
+      <br />
     </div>
   );
 };
 
 CustomResolutionOptionReview.propTypes = {
-  children: PropTypes.object,
+  selectedDebtsAndCopays: PropTypes.array,
 };
 
 export default CustomResolutionOptionReview;

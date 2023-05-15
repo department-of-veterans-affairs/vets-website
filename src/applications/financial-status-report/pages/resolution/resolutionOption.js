@@ -1,6 +1,6 @@
 import React from 'react';
 import ResolutionOptions from '../../components/ResolutionOptions';
-import CustomResolutionOptionReview from '../../components/CustomResolutionOptionReview';
+// import CustomResolutionOptionReview from '../../components/CustomResolutionOptionReview';
 import { CurrentDebtTitle } from '../../components/CurrentDebtTitle';
 import { validateResolutionOption } from '../../utils/validations';
 
@@ -17,7 +17,7 @@ export const uiSchema = {
       'ui:validations': [validateResolutionOption],
       resolutionOption: {
         'ui:title': ' ',
-        'ui:reviewField': CustomResolutionOptionReview,
+        // 'ui:reviewField': CustomResolutionOptionReview,
         'ui:widget': ResolutionOptions,
       },
     },
