@@ -1,24 +1,25 @@
 import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 import manifest from '../../manifest.json';
+
 import mockUser from './fixtures/mocks/mockUser.json';
+import mockStatus from './fixtures/mocks/profile-status.json';
+
 import copayResponse from './fixtures/mocks/copays.json';
 import debtResponse from './fixtures/mocks/debts.json';
-import {
-  mockDebtsEmpty,
-  mockCopaysEmpty,
-  reply404,
-  reply500,
-} from './fixtures/helpers';
+import { mockDebtsEmpty, mockCopaysEmpty, reply500 } from './fixtures/helpers';
+
 import saveInProgressData from './fixtures/mocks/saveInProgress.json';
 import { WIZARD_STATUS } from '../../wizard/constants';
 
 describe('Enhanced FSR debt and copay alerts', () => {
-  beforeEach(() => {
+  afterEach(() => {
     cy.window().then(win => {
       win.sessionStorage.clear();
     });
+  });
 
-    cy.intercept('GET', '/v0/feature_toggles*', {
+  beforeEach(() => {
+    cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         features: [
           { name: 'show_financial_status_report_wizard', value: true },
@@ -30,27 +31,31 @@ describe('Enhanced FSR debt and copay alerts', () => {
           },
         ],
       },
-    });
+    }).as('features');
 
     cy.intercept('GET', '/v0/maintenance_windows', []);
+    cy.intercept('GET', 'v0/user_transition_availabilities', {
+      statusCode: 200,
+    });
     cy.login(mockUser);
+    cy.intercept('GET', '/v0/profile/status', mockStatus);
 
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgressData);
     cy.visit(manifest.rootUrl);
+    cy.wait('@features');
   });
 
   context(
     'Combined alerts; debts and copays both 404, or veteran has no debts or copays',
     () => {
-      describe('Both /v0/medical_copays and /v0/debts APIs 404', () => {
+      describe('Both /v0/medical_copays and /v0/debts* APIs 404', () => {
         it('should show combined failure alert message', () => {
-          sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
           cy.intercept('GET', '/v0/medical_copays', req => reply500(req)).as(
             'copaysA1',
           );
-          cy.intercept('GET', '/v0/debts', req => reply404(req)).as('debtsA1');
+          cy.intercept('GET', '/v0/debts*', req => reply500(req)).as('debtsA1');
 
-          cy.visit(manifest.rootUrl);
           cy.get('a.vads-c-action-link--green')
             .first()
             .click();
@@ -58,6 +63,8 @@ describe('Enhanced FSR debt and copay alerts', () => {
           cy.findAllByText(/continue/i, { selector: 'button' })
             .first()
             .click();
+
+          // on debt selection page, wait for loading spinner to disappear
           cy.wait(['@copaysA1', '@debtsA1']);
 
           cy.findByTestId('balance-card-combo-alert-error').should('exist');
@@ -70,13 +77,11 @@ describe('Enhanced FSR debt and copay alerts', () => {
 
       describe('Veteran has no debts or copays', () => {
         it('should show combined empty alert message', () => {
-          sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
           cy.intercept('GET', '/v0/medical_copays', mockCopaysEmpty).as(
             'copaysA2',
           );
-          cy.intercept('GET', '/v0/debts', mockDebtsEmpty).as('debtsA2');
+          cy.intercept('GET', '/v0/debts*', mockDebtsEmpty).as('debtsA2');
 
-          cy.visit(manifest.rootUrl);
           cy.get('a.vads-c-action-link--green')
             .first()
             .click();
@@ -84,6 +89,8 @@ describe('Enhanced FSR debt and copay alerts', () => {
           cy.findAllByText(/continue/i, { selector: 'button' })
             .first()
             .click();
+
+          // on debt selection page, wait for loading spinner to disappear
           cy.wait(['@copaysA2', '@debtsA2']);
 
           cy.findByTestId('balance-card-combo-alert-zero').should('exist');
@@ -101,13 +108,11 @@ describe('Enhanced FSR debt and copay alerts', () => {
     () => {
       describe('has debts and copays', () => {
         it('should show page content, list of debts and copays for selection', () => {
-          sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
           cy.intercept('GET', '/v0/medical_copays', copayResponse).as(
             'copaysB1',
           );
-          cy.intercept('GET', '/v0/debts', debtResponse).as('debtsB1');
+          cy.intercept('GET', '/v0/debts*', debtResponse).as('debtsB1');
 
-          cy.visit(manifest.rootUrl);
           cy.get('a.vads-c-action-link--green')
             .first()
             .click();
@@ -136,13 +141,11 @@ describe('Enhanced FSR debt and copay alerts', () => {
 
       describe('has debts and no available copays', () => {
         it('should show page content, list of debts, but no copays and no error messages', () => {
-          sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
           cy.intercept('GET', '/v0/medical_copays', mockCopaysEmpty).as(
             'copaysB2',
           );
-          cy.intercept('GET', '/v0/debts', debtResponse).as('debtsB2');
+          cy.intercept('GET', '/v0/debts*', debtResponse).as('debtsB2');
 
-          cy.visit(manifest.rootUrl);
           cy.get('a.vads-c-action-link--green')
             .first()
             .click();
@@ -170,13 +173,11 @@ describe('Enhanced FSR debt and copay alerts', () => {
 
       describe('has copays and no available debts', () => {
         it('should show page content, list of copays, but no debts and no error messages', () => {
-          sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
           cy.intercept('GET', '/v0/medical_copays', copayResponse).as(
             'copaysB3',
           );
-          cy.intercept('GET', '/v0/debts', mockDebtsEmpty).as('debtsB3');
+          cy.intercept('GET', '/v0/debts*', mockDebtsEmpty).as('debtsB3');
 
-          cy.visit(manifest.rootUrl);
           cy.get('a.vads-c-action-link--green')
             .first()
             .click();
@@ -208,13 +209,11 @@ describe('Enhanced FSR debt and copay alerts', () => {
     () => {
       describe('/v0/medical_copays 404 and no available debts', () => {
         it('should show medical copay failure alert message, and no page content', () => {
-          sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
           cy.intercept('GET', '/v0/medical_copays', req => reply500(req)).as(
             'copaysC1',
           );
-          cy.intercept('GET', '/v0/debts', mockDebtsEmpty).as('debtsC1');
+          cy.intercept('GET', '/v0/debts*', mockDebtsEmpty).as('debtsC1');
 
-          cy.visit(manifest.rootUrl);
           cy.get('a.vads-c-action-link--green')
             .first()
             .click();
@@ -233,13 +232,11 @@ describe('Enhanced FSR debt and copay alerts', () => {
 
       describe('/v0/medical_copays 404 and has available debts', () => {
         it('should show medical copay failure alert message, and page content with debts availalbe for selection', () => {
-          sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
           cy.intercept('GET', '/v0/medical_copays', req => reply500(req)).as(
             'copaysC2',
           );
-          cy.intercept('GET', '/v0/debts', debtResponse).as('debtsC2');
+          cy.intercept('GET', '/v0/debts*', debtResponse).as('debtsC2');
 
-          cy.visit(manifest.rootUrl);
           cy.get('a.vads-c-action-link--green')
             .first()
             .click();
@@ -264,17 +261,15 @@ describe('Enhanced FSR debt and copay alerts', () => {
   );
 
   context(
-    'Unsuccessful `/v0/debts` API Response mixed with successful and no copay response',
+    'Unsuccessful `/v0/debts*` API Response mixed with successful and no copay response',
     () => {
-      describe('/v0/debts 404 and no available copays', () => {
+      describe('/v0/debts* 404 and no available copays', () => {
         it('should show debt failure alert message, and no page content', () => {
-          sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
           cy.intercept('GET', '/v0/medical_copays', mockCopaysEmpty).as(
             'copaysD1',
           );
-          cy.intercept('GET', '/v0/debts', req => reply500(req)).as('debtsD1');
+          cy.intercept('GET', '/v0/debts*', req => reply500(req)).as('debtsD1');
 
-          cy.visit(manifest.rootUrl);
           cy.get('a.vads-c-action-link--green')
             .first()
             .click();
@@ -290,15 +285,13 @@ describe('Enhanced FSR debt and copay alerts', () => {
           cy.injectAxeThenAxeCheck();
         });
       });
-      describe('/v0/debts 404 and has available copays', () => {
+      describe('/v0/debts* 404 and has available copays', () => {
         it('should show debt failure alert message, and page content with medical copays available for selection', () => {
-          sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
           cy.intercept('GET', '/v0/medical_copays', copayResponse).as(
             'copaysD2',
           );
-          cy.intercept('GET', '/v0/debts', req => reply500(req)).as('debtsD2');
+          cy.intercept('GET', '/v0/debts*', req => reply500(req)).as('debtsD2');
 
-          cy.visit(manifest.rootUrl);
           cy.get('a.vads-c-action-link--green')
             .first()
             .click();
