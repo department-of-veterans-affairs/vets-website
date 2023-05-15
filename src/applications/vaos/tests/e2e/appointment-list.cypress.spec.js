@@ -14,7 +14,6 @@ import {
   mockClinicApi,
 } from './vaos-cypress-helpers';
 import { mockVamcEhr } from './vaos-cypress-v2-helpers';
-import { getRealFacilityId } from '../../utils/appointment';
 
 describe('VAOS appointment list', () => {
   describe('appointments details', () => {
@@ -136,7 +135,7 @@ describe('VAOS appointment list', () => {
       // NOTE: Mock not needed if location information is included with the
       // appointment
       mockFacilityApi({
-        id: getRealFacilityId(`vha_${data[0].attributes.locationId}`),
+        id: `vha_${data[0].attributes.locationId}`,
         apiVersion: 1,
       });
 

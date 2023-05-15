@@ -24,6 +24,7 @@ import schedulingConfigurations from '../../services/mocks/v2/scheduling_configu
 import clinicsV2 from '../../services/mocks/v2/clinics.json';
 import confirmedV2 from '../../services/mocks/v2/confirmed.json';
 import requestsV2 from '../../services/mocks/v2/requests.json';
+import { getRealFacilityId } from '../../utils/appointment';
 
 const mockUser = {
   data: {
@@ -657,7 +658,11 @@ export function mockFacilityApi({ id, apiVersion = 1 } = {}) {
           pathname: `/v1/facilities/va/${facilityId}`,
         },
         req => {
-          req.reply({ data: facilityData.data.find(f => f.id === facilityId) });
+          req.reply({
+            data: facilityData.data.find(
+              f => f.id === getRealFacilityId(facilityId),
+            ),
+          });
         },
       ).as('v1:get:facility');
     }
