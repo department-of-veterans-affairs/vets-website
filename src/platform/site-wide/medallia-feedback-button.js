@@ -59,13 +59,25 @@ window.addEventListener('DOMContentLoaded', () => {
   bodyObserver.observe(body, observeConfig);
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-  const modalLiveFormAncestor = document.querySelector('.modal-live-form');
-  const phoneNumberSpan = modalLiveFormAncestor.querySelector(
-    'div>div>div>div>div>p>ul>li>span',
-  );
-  const phoneNumberText = phoneNumberSpan.firstChild;
+document.addEventListener('DOMContentLoaded', () => {
+  const medalliaModal = document.querySelector('.modal-live-form');
 
-  phoneNumberText.textContent = '1 (877) 424-3838';
-  phoneNumberText.setAttribute('aria-label', '8 7 7. 4 2 4. 3 8 3 8.');
+  function addAriaLabelToTextContent(element) {
+    if (
+      element.childNodes.length === 0 &&
+      element.textContent.trim() === '988'
+    ) {
+      element.setAttribute('aria-label', '9 8 8');
+    } else {
+      Array.from(element.childNodes).forEach(childNode => {
+        if (childNode.nodeType === Node.ELEMENT_NODE) {
+          addAriaLabelToTextContent(childNode);
+        }
+      });
+    }
+  }
+
+  if (medalliaModal) {
+    addAriaLabelToTextContent(medalliaModal);
+  }
 });
