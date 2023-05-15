@@ -65,7 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function addAriaLabelToTextContent(element) {
     if (
       element.childNodes.length === 0 &&
-      element.textContent.trim() === '988'
+      element.textContent
+        .trim()
+        .split(' ')
+        .includes('988.')
     ) {
       element.setAttribute('aria-label', '9 8 8');
     } else {
