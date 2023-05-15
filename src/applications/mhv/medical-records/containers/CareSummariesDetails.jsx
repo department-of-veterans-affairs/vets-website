@@ -49,7 +49,7 @@ const CareSummariesDetails = () => {
 
   if (careSummary?.name) {
     switch (careSummary?.name.toLowerCase()) {
-      case 'admission and discharge summary':
+      case 'discharge summary':
         return <AdmissionAndDischargeDetails results={careSummary} />;
       case 'primary care progress note':
         return <ProgressNoteDetails results={careSummary} />;
