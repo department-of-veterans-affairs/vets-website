@@ -67,8 +67,8 @@ export function fetchPersonalInformation(showMebCh33SelfForm) {
     return apiRequest(CLAIMANT_INFO_ENDPOINT)
       .then(response => {
         if (!showMebCh33SelfForm || !response?.data?.attributes?.claimant) {
-          // window.location.href =
-          //   '/education/apply-for-education-benefits/application/1990/';
+          window.location.href =
+            '/education/apply-for-education-benefits/application/1990/';
         }
         dispatch({
           type: FETCH_PERSONAL_INFORMATION_SUCCESS,
@@ -80,8 +80,8 @@ export function fetchPersonalInformation(showMebCh33SelfForm) {
           type: FETCH_PERSONAL_INFORMATION_FAILED,
           errors,
         });
-        // window.location.href =
-        //   '/education/apply-for-education-benefits/application/1990/';
+        window.location.href =
+          '/education/apply-for-education-benefits/application/1990/';
       });
   };
 }

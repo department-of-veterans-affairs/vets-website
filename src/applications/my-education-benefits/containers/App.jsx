@@ -38,6 +38,8 @@ export const App = ({
   showMebEnhancements,
   email,
   mobilePhone,
+  duplicateEmail,
+  duplicatePhone,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
@@ -141,10 +143,26 @@ export const App = ({
         });
       }
 
-      if (mobilePhone !== formData.mobilePhone) {
+      if (mobilePhone !== formData?.mobilePhone) {
         setFormData({
           ...formData,
           mobilePhone,
+        });
+      }
+
+      if (duplicateEmail !== formData?.duplicateEmail) {
+        setFormData({
+          ...formData,
+          duplicateEmail,
+        });
+      }
+
+      if (duplicatePhone !== formData?.duplicatePhone) {
+        setFormData({
+          ...formData,
+          duplicatePhone,
+        });
+      }
 
       if (showMebEnhancements !== formData.showMebEnhancements) {
         setFormData({
@@ -205,13 +223,13 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
-  showMebCh33SelfForm: PropTypes.bool,
   showMebDgi40Features: PropTypes.bool,
-  showMebDgi42Features: PropTypes.bool,
   showMebCh33SelfForm: PropTypes.bool,
   email: PropTypes.string,
   mobilePhone: PropTypes.string,
   showMebEnhancements: PropTypes.bool,
+  duplicateEmail: PropTypes.array,
+  duplicatePhone: PropTypes.array,
 };
 
 const mapStateToProps = state => {
@@ -223,6 +241,8 @@ const mapStateToProps = state => {
   const mobilePhone =
     state?.data?.formData?.data?.attributes?.claimant?.contactInfo
       ?.mobilePhoneNumber;
+  const duplicateEmail = state.data?.duplicateEmail;
+  const duplicatePhone = state.data?.duplicatePhone;
 
   return {
     ...getAppData(state),
@@ -231,6 +251,8 @@ const mapStateToProps = state => {
     claimantInfo,
     email,
     mobilePhone,
+    duplicateEmail,
+    duplicatePhone,
   };
 };
 

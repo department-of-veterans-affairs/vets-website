@@ -577,7 +577,6 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  {/* @NOTE: LOOK TO HAVE ALERT IN THIS AREA */}
                   <h3>Review your phone numbers and email address</h3>
                   <div className="meb-list-label">
                     <strong>We’ll use this information to:</strong>
@@ -925,13 +924,32 @@ const formConfig = {
                     form =>
                       form[formFields.viewPhoneNumbers].mobilePhoneNumber.phone,
                     form => form[formFields.viewPhoneNumbers].phoneNumber.phone,
-                    (mobilePhoneNumber, homePhoneNumber) => {
+                    form => form?.duplicateEmail,
+                    form => form?.duplicatephone,
+                    (
+                      mobilePhoneNumber,
+                      homePhoneNumber,
+                      duplicateEmail,
+                      duplicatePhone,
+                    ) => {
                       const invalidContactMethods = [];
-                      if (!mobilePhoneNumber) {
+
+                      const dupePhonePresent = duplicatePhone?.filter(
+                        entry => entry.isDupe,
+                      );
+                      if (!mobilePhoneNumber || dupePhonePresent?.length > 0) {
                         invalidContactMethods.push('Mobile Phone');
                       }
                       if (!homePhoneNumber) {
                         invalidContactMethods.push('Home Phone');
+                      }
+
+                      const dupeEmailPresent = duplicateEmail?.filter(
+                        entry => entry.isDupe,
+                      );
+
+                      if (dupeEmailPresent?.length > 0) {
+                        invalidContactMethods.push('Email');
                       }
 
                       return {
@@ -941,6 +959,7 @@ const formConfig = {
                       };
                     },
                   );
+
                   return form => filterContactMethods(form);
                 })(),
               },
@@ -985,6 +1004,26 @@ const formConfig = {
                           "You can't select that response because you have an international mobile phone number",
                         );
                       }
+                    }
+
+                    const hasDupePhone = formData?.duplicatePhone?.filter(
+                      entry => entry?.isDupe,
+                    );
+
+                    if (hasDupePhone?.length > 0) {
+                      errors.addError(
+                        "You can't select that response because your mobile phone number is on file for another person",
+                      );
+                    }
+
+                    const hasDupeEmail = formData?.duplicateEmail?.filter(
+                      entry => entry?.isDupe,
+                    );
+
+                    if (hasDupeEmail?.length > 0 && !isYes) {
+                      errors.addError(
+                        "You cant' select that response because your email is on file for another person",
+                      );
                     }
                   },
                 ],
@@ -1070,6 +1109,66 @@ const formConfig = {
                   ].isInternational,
               },
             },
+            'view:emailOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get email notifications because your
+                    email is on file for another person with education benefits.
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  !formData.duplicateEmail?.some(
+                    entry => entry?.isDupe === 'true',
+                  ),
+              },
+            },
+            'view:mobilePhoneOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get text notifications because your
+                    mobile phone number is on file for another person with
+                    education benefits.
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  !formData.duplicatePhone?.some(
+                    entry => entry?.isDupe === 'true',
+                  ),
+              },
+            },
+            'view:duplicateEmailAndPhoneAndNoHomePhone': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get text or email notifications because
+                    your mobile phone number and email address is on file for
+                    another person with education benefits.
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment/"
+                      rel="noreferrer"
+                    >
+                      Learn about other ways to verify your enrollment
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  !formData.duplicatePhone?.some(
+                    entry => entry?.isDupe === 'true',
+                  ) &&
+                  !formData?.duplicateEmail?.some(
+                    entry => entry?.isDupe === 'true',
+                  ),
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -1104,6 +1203,18 @@ const formConfig = {
                 properties: {},
               },
               'view:internationalTextMessageAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:emailOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:mobilePhoneOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:duplicateEmailAndPhoneAndNoHomePhone': {
                 type: 'object',
                 properties: {},
               },
