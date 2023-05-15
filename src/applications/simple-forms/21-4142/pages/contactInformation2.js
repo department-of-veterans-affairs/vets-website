@@ -24,8 +24,31 @@ export default {
           required:
             'Please enter a 10-digit phone number (with or without dashes)',
         },
+        'ui:options': {
+          ...phoneUI()['ui:options'],
+          updateSchema: () => ({
+            type: 'string',
+            maxLength: 10,
+          }),
+        },
       },
-      [veteranFields.internationalPhone]: phoneUI('International phone number'),
+      [veteranFields.internationalPhone]: {
+        ...phoneUI('International phone number'),
+        'ui:errorMessages': {
+          ...phoneUI()['ui:errorMessages'],
+          pattern:
+            'Please enter a valid international phone number (with or without dashes)',
+          minLength:
+            'Please enter a valid international phone number (with or without dashes)',
+        },
+        'ui:options': {
+          ...phoneUI()['ui:options'],
+          updateSchema: () => ({
+            type: 'string',
+            maxLength: 15,
+          }),
+        },
+      },
       [veteranFields.email]: {
         ...emailUI(),
         'ui:errorMessages': {
