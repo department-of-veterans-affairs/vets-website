@@ -82,5 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (medalliaModal) {
     addAriaLabelToTextContent(medalliaModal);
+    // eslint-disable-next-line no-console
+    console.log('found vcl number!');
+  } else {
+    // eslint-disable-next-line no-console
+    console.log('vcl number not found');
   }
 });
