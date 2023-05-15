@@ -77,6 +77,9 @@ const profileContactInfo = ({
 
   // must use same keys as above
   included = ['mobilePhone', 'homePhone', 'mailingAddress', 'email'],
+
+  // depends callback for contact info page
+  depends = null,
 } = {}) => {
   const config = {};
   const wrapperProperties = {};
@@ -178,6 +181,7 @@ const profileContactInfo = ({
           },
         },
       },
+      depends,
     },
     // edit pages; only accessible via ContactInfo component links
     ...config,

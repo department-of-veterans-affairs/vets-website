@@ -15,6 +15,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import applicantInformation from '../pages/applicantInformation';
 import serviceHistory from '../pages/serviceHistory';
+import contactInfoSettings from '../pages/contactInfoSettings';
 import contactInformation1 from '../pages/contactInformation1';
 import contactInformation2 from '../pages/contactInformation2';
 import directDeposit from '../pages/directDeposit';
@@ -69,9 +70,19 @@ const formConfig = {
     contactInfo: {
       title: 'Contact info',
       pages: {
-        // ** Contact info example
+        contactInfoSettings: {
+          title: 'Section Title: Required contact info',
+          path: 'contact-info-required',
+          uiSchema: contactInfoSettings.uiSchema,
+          schema: contactInfoSettings.schema,
+        },
+
+        // ** Contact info example; none required, but show all entries
         ...profileContactInfo({
-          contactInfoRequiredKeys: [], // nothing required for this demo
+          contactPath: 'contact-information', // default path
+          contactInfoRequiredKeys: [], // nothing required
+          included: ['mobilePhone', 'homePhone', 'mailingAddress', 'email'], // default
+          depends: formData => formData.contactInfoSettings === 'none',
           /* * /
           // ** These are ALL default values **
           contactPath: 'contact-information',
@@ -223,9 +234,48 @@ const formConfig = {
 
             // ** Error on review & submit **
             missingEmailError: 'Missing email address',
+
+            // ** contact info depends callback
+            depends = null,
           },
           /* */
         }),
+
+        // show & require email
+        confirmContactInfoEmail: profileContactInfo({
+          contactPath: 'contact-info-email',
+          contactInfoRequiredKeys: ['email'],
+          included: ['email'],
+          depends: formData => formData.contactInfoSettings === 'email',
+        }).confirmContactInformation, // skip edit pages (already added)
+
+        // show & require email, mailing address & home phone
+        confirmContactInfoHome: profileContactInfo({
+          contactPath: 'contact-info-with-home-phone',
+          contactInfoRequiredKeys: ['mailingAddress', 'email', 'homePhone'],
+          included: ['homePhone', 'mailingAddress', 'email'],
+          depends: formData => formData.contactInfoSettings === 'home',
+        }).confirmContactInformation, // skip edit pages (already added)
+
+        // show & require email, mailing address & mobile phone
+        confirmContactInfoMobile: profileContactInfo({
+          contactPath: 'contact-info-with-mobile-phone',
+          contactInfoRequiredKeys: ['mailingAddress', 'email', 'mobilePhone'],
+          included: ['mobilePhone', 'mailingAddress', 'email'],
+          depends: formData => formData.contactInfoSettings === 'mobile',
+        }).confirmContactInformation, // skip edit pages (already added)
+
+        // show all & require all
+        confirmContactInfoAll: profileContactInfo({
+          contactPath: 'contact-info-all',
+          contactInfoRequiredKeys: [
+            'mailingAddress',
+            'email',
+            'homePhone|mobilePhone',
+          ],
+          included: ['mobilePhone', 'homePhone', 'mailingAddress', 'email'],
+          depends: formData => formData.contactInfoSettings === 'all',
+        }).confirmContactInformation, // skip edit pages (already added)
       },
     },
 
