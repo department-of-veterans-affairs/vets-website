@@ -107,7 +107,7 @@ const generateTrackedItems = claim => {
   const { trackedItems } = claim.attributes;
 
   return trackedItems.map(item => ({
-    trackedItemId: item.id,
+    id: item.id,
     displayName: item.displayName,
     date: getTrackedItemDate(item),
     type: 'tracked_item',
