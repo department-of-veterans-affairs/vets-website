@@ -7,7 +7,8 @@
       "middle": "",
       "last": "Claimant"
     },
-    "claimantSSN": "123-45-6789",
+    "claimantDateOfBirth": "1980-01-01",
+    "claimantSSN": "321540988",
     "claimantMailingAddress": {
       "street": "123 Main St",
       "city": "Anytown",
@@ -16,13 +17,14 @@
       "postalCode": "12345"
     },
     "claimantPhone": "555-555-5556",
-    "statement": "It was a dark and stormy night...",
+    "claimantEmail": "joe.claimant@exammple.com",
     "veteranFullName": {
       "first": "John",
       "middle": "",
       "last": "Veteran"
     },
-    "veteranSSN": "123-45-6790",
+    "veteranDateOfBirth": "1970-01-01",
+    "veteranSSN": "321540987",
     "veteranMailingAddress": {
       "street": "124 Main St",
       "city": "Anytown",
@@ -30,6 +32,7 @@
       "country": "USA",
       "postalCode": "12345"
     },
-    "veteranPhone": "555-555-5557"
+    "veteranPhone": "555-555-5557",
+    "veteranEmail": "john.veteran@example.com"
   }
 }
