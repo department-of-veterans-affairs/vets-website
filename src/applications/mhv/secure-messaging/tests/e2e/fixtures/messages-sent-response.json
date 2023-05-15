@@ -1,0 +1,328 @@
+{
+    "data": [
+      {
+        "id": "1913609",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 1913609,
+          "folderId": -1,
+          "messageId": 1916050,
+          "threadPageSize": 366,
+          "messageCount": 4,
+          "category": "OTHER",
+          "subject": "General Inquiry",
+          "triageGroupName": "SM_CERNER_SLC10",
+          "sentDate": "2021-04-19T20:09:03.000Z",
+          "draftDate": null,
+          "senderId": 406227,
+          "senderName": "MHVTP, SAFARI ",
+          "recipientName": "SM_CERNER_DAYT3",
+          "recipientId": 1899698,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": true,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1913609"
+        }
+      },
+      {
+        "id": "1757671",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 1757671,
+          "folderId": -1,
+          "messageId": 1757672,
+          "threadPageSize": 366,
+          "messageCount": 2,
+          "category": "OTHER",
+          "subject": "REASSIGN OUTSIDE FACILITY",
+          "triageGroupName": "DISPLAY PATIENT MIDDLE NAME_SLC10",
+          "sentDate": "2021-02-08T20:08:42.000Z",
+          "draftDate": null,
+          "senderId": 406227,
+          "senderName": "MHVTP, SAFARI ",
+          "recipientName": "DISPLAY PATIENT MIDDLE NAME_SLC10",
+          "recipientId": 665325,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": false,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1757671"
+        }
+      },
+      {
+        "id": "1520121",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 1520121,
+          "folderId": -1,
+          "messageId": 1520134,
+          "threadPageSize": 366,
+          "messageCount": 2,
+          "category": "MEDICATIONS",
+          "subject": "Medication Inquiry",
+          "triageGroupName": "TOMCAT UPGARDE TESTING_SLC10",
+          "sentDate": "2020-10-02T20:50:01.000Z",
+          "draftDate": null,
+          "senderId": 406227,
+          "senderName": "MHVTP, SAFARI ",
+          "recipientName": "TOMCAT UPGARDE TESTING_SLC10",
+          "recipientId": 966715,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": false,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1520121"
+        }
+      },
+      {
+        "id": "1520113",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 1520113,
+          "folderId": -1,
+          "messageId": 1520114,
+          "threadPageSize": 366,
+          "messageCount": 1,
+          "category": "OTHER",
+          "subject": "TEST1 ",
+          "triageGroupName": "***CERNER IOC TESTING TG 001_SEP 2020_SLC 10",
+          "sentDate": "2020-10-02T20:45:38.000Z",
+          "draftDate": null,
+          "senderId": 406227,
+          "senderName": "MHVTP, SAFARI ",
+          "recipientName": "***CERNER IOC TESTING TG 001_SEP 2020_SLC 10",
+          "recipientId": 1476015,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": false,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1520113"
+        }
+      },
+      {
+        "id": "1486535",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 1486535,
+          "folderId": -1,
+          "messageId": 1486536,
+          "threadPageSize": 366,
+          "messageCount": 2,
+          "category": "COVID",
+          "subject": "SAFARI - CERNER TEST MESSAGE 2",
+          "triageGroupName": "***CERNER IOC TESTING TG 002_SEP 2020_SLC 10",
+          "sentDate": "2020-09-18T13:27:12.000Z",
+          "draftDate": null,
+          "senderId": 406227,
+          "senderName": "MHVTP, SAFARI ",
+          "recipientName": "***CERNER IOC TESTING TG 002_SEP 2020_SLC 10",
+          "recipientId": 1476025,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": false,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1486535"
+        }
+      },
+      {
+        "id": "1486527",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 1486527,
+          "folderId": -1,
+          "messageId": 1486528,
+          "threadPageSize": 366,
+          "messageCount": 2,
+          "category": "OTHER",
+          "subject": "SAFARI - CERNER TEST MESSAGE 1",
+          "triageGroupName": "***CERNER IOC TESTING TG 001_SEP 2020_SLC 10",
+          "sentDate": "2020-09-18T13:26:05.000Z",
+          "draftDate": null,
+          "senderId": 406227,
+          "senderName": "MHVTP, SAFARI ",
+          "recipientName": "***CERNER IOC TESTING TG 001_SEP 2020_SLC 10",
+          "recipientId": 1476015,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": false,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1486527"
+        }
+      },
+      {
+        "id": "1419556",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 1419556,
+          "folderId": -1,
+          "messageId": 1419581,
+          "threadPageSize": 366,
+          "messageCount": 3,
+          "category": "OTHER",
+          "subject": "SAVE TO CPRS- DENTAL",
+          "triageGroupName": "DISPLAY PATIENT MIDDLE NAME_SLC10",
+          "sentDate": "2020-08-14T16:28:52.000Z",
+          "draftDate": null,
+          "senderId": 406227,
+          "senderName": "MHVTP, SAFARI ",
+          "recipientName": "DISPLAY PATIENT MIDDLE NAME_SLC10",
+          "recipientId": 665325,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": false,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1419556"
+        }
+      },
+      {
+        "id": "1417705",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 1417705,
+          "folderId": -1,
+          "messageId": 1417706,
+          "threadPageSize": 366,
+          "messageCount": 1,
+          "category": "COVID",
+          "subject": "PT2CL MESSAGE/ SM-DENTAL",
+          "triageGroupName": "DISPLAY PATIENT MIDDLE NAME_SLC10",
+          "sentDate": "2020-08-13T21:12:32.000Z",
+          "draftDate": null,
+          "senderId": 406227,
+          "senderName": "MHVTP, SAFARI ",
+          "recipientName": "DISPLAY PATIENT MIDDLE NAME_SLC10",
+          "recipientId": 665325,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": false,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1417705"
+        }
+      },
+      {
+        "id": "1357519",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 1357519,
+          "folderId": -1,
+          "messageId": 1357520,
+          "threadPageSize": 366,
+          "messageCount": 1,
+          "category": "COVID",
+          "subject": "COVID Inquiry",
+          "triageGroupName": "CHRISTY TG 001_SLC10",
+          "sentDate": "2020-07-17T20:42:12.000Z",
+          "draftDate": null,
+          "senderId": 406227,
+          "senderName": "MHVTP, SAFARI ",
+          "recipientName": "CHRISTY TG 001_SLC10",
+          "recipientId": 1357446,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": false,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1357519"
+        }
+      },
+      {
+        "id": "874811",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 874811,
+          "folderId": -1,
+          "messageId": 874839,
+          "threadPageSize": 366,
+          "messageCount": 2,
+          "category": "OTHER",
+          "subject": "General Inquiry",
+          "triageGroupName": "API TEST TRIAGE_SLC10_AARON READ",
+          "sentDate": "2019-02-01T18:10:38.000Z",
+          "draftDate": null,
+          "senderId": 406227,
+          "senderName": "MHVTP, SAFARI",
+          "recipientName": "API TEST TRIAGE_SLC10_AARON READ",
+          "recipientId": 280500,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": false,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/874811"
+        }
+      },
+      {
+        "id": "874828",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 874828,
+          "folderId": -1,
+          "messageId": 874829,
+          "threadPageSize": 366,
+          "messageCount": 1,
+          "category": "OTHER",
+          "subject": "For Delete Test",
+          "triageGroupName": "API TEST TRIAGE_SLC10_AARON READ",
+          "sentDate": "2019-02-01T18:10:36.000Z",
+          "draftDate": null,
+          "senderId": 406227,
+          "senderName": "MHVTP, SAFARI",
+          "recipientName": "API TEST TRIAGE_SLC10_AARON READ",
+          "recipientId": 280500,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": false,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/874828"
+        }
+      },
+      {
+        "id": "874822",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 874822,
+          "folderId": -1,
+          "messageId": 874823,
+          "threadPageSize": 366,
+          "messageCount": 2,
+          "category": "OTHER",
+          "subject": "General Inquiry",
+          "triageGroupName": "API TEST TRIAGE_SLC10_AARON READ",
+          "sentDate": "2019-02-01T18:10:36.000Z",
+          "draftDate": null,
+          "senderId": 406227,
+          "senderName": "MHVTP, SAFARI",
+          "recipientName": "API TEST TRIAGE_SLC10_AARON READ",
+          "recipientId": 280500,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": false,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/874822"
+        }
+      }
+    ]
+  }
