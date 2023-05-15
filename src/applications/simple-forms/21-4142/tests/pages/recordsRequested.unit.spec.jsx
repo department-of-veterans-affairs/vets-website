@@ -2,6 +2,7 @@ import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
 } from '../../../shared/tests/pages/pageTests.spec';
+import { patientIdentificationFields } from '../../definitions/constants';
 import formConfig from '../../config/form';
 
 const {
@@ -11,6 +12,12 @@ const {
 
 const pageTitle = 'records requested';
 
+const mockDataForVeteranIsSelf = {
+  [patientIdentificationFields.parentObject]: {
+    [patientIdentificationFields.isRequestingOwnMedicalRecords]: true,
+  },
+};
+
 const expectedNumberOfFields = 14;
 testNumberOfFields(
   formConfig,
@@ -18,6 +25,7 @@ testNumberOfFields(
   uiSchema,
   expectedNumberOfFields,
   pageTitle,
+  mockDataForVeteranIsSelf,
 );
 
 const expectedNumberOfErrors = 8;
@@ -27,4 +35,5 @@ testNumberOfErrorsOnSubmit(
   uiSchema,
   expectedNumberOfErrors,
   pageTitle,
+  mockDataForVeteranIsSelf,
 );

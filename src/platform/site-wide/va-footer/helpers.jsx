@@ -83,57 +83,8 @@ function generateSuperLinks(groupedList) {
   );
 }
 
-const FOOTER_SECTIONS = {
-  BOTTOM_RAIL: 'bottomRailFooterData',
-  FOOTER_COLUMNS: 'footerColumnsData',
-  HARD_CODED: 'hardCodedFooterData',
-};
-
-export const formatLink = (link, linkIndex, columnNumber = null) => {
-  return {
-    column: columnNumber,
-    href: link?.url?.path,
-    order: linkIndex + 1,
-    target: null,
-    title: link?.description,
-  };
-};
-
-/**
- * We're getting columns 1 - 3 and the bottom rail footer data from Drupal
- * Column 4 (Need help column) is still coming hardcoded from content-build
- * This utility helps consistently format the data for consumption
- */
-export const reformatDrupalFooterData = sections => {
-  const formattedData = [];
-
-  Object.keys(sections).forEach(section => {
-    const sectionData = sections[section];
-
-    // Format columns 1 - 3 of data
-    if (section === FOOTER_SECTIONS.FOOTER_COLUMNS) {
-      sectionData?.links?.forEach((column, columnIndex) => {
-        column?.links?.forEach((link, linkIndex) => {
-          formattedData.push(formatLink(link, linkIndex, columnIndex + 1));
-        });
-      });
-      // Format bottom rail of data
-    } else if (section === FOOTER_SECTIONS.BOTTOM_RAIL) {
-      sectionData?.links?.forEach((link, linkIndex) => {
-        formattedData.push(formatLink(link, linkIndex, 'bottom_rail'));
-      });
-      // Format column 4 of data
-    } else {
-      formattedData.push(...sectionData);
-    }
-  });
-
-  return formattedData;
-};
-
 export function createLinkGroups(links) {
-  const formattedList = reformatDrupalFooterData(links);
-  const groupedList = groupBy(replaceDomainsInData(formattedList), 'column');
+  const groupedList = groupBy(replaceDomainsInData(links), 'column');
 
   return {
     [FOOTER_COLUMNS.PROGRAMS]: generateLinkItems(
