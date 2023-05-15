@@ -9,7 +9,7 @@ import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 
 describe(manifest.appName, () => {
   describe('Advanced search in Drafts', () => {
-    before(() => {
+    beforeEach(() => {
       const draftAdvancedSearch = new PatientMessageDraftsPage();
       const site = new SecureMessagingSite();
       site.login();
@@ -45,13 +45,13 @@ describe(manifest.appName, () => {
       cy.get('[data-testid="message-list-item"]')
         .should('contain', 'COVID')
         .and('have.length', mockDraftsSearchMessages.data.length);
-      it('Check the search message label', function() {
-        cy.get('[data-testid="search-message-folder-input-label"]')
-          .should('contain', '4')
-          .and('contain', 'Category: "covid"');
-        cy.injectAxe();
-        cy.axeCheck();
-      });
+    });
+    it('Check the search message label', function() {
+      cy.get('[data-testid="search-message-folder-input-label"]')
+        .should('contain', '4')
+        .and('contain', 'Category: "covid"');
+      cy.injectAxe();
+      cy.axeCheck();
     });
   });
 });
