@@ -1,554 +1,325 @@
 {
-  "footerData": {
-    "footerColumnsData": {
-      "description": "Displayed in VA.gov global & injected footer; 3-column list of footer links.",
-      "links": [
-        {
-          "description": "Column 1",
-          "entity": {
-            "parent": null,
-            "linkedEntity": null,
-            "expanded": true,
-            "label": "Column 1",
-            "links": [
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.va.gov/homeless/"
-                },
-                "description": "Homeless Veterans",
-                "label": "Homeless Veterans"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.va.gov/womenvet/"
-                },
-                "description": "Women Veterans",
-                "label": "Women Veterans"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.va.gov/centerforminorityveterans/"
-                },
-                "description": "Minority Veterans",
-                "label": "Minority Veterans"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.patientcare.va.gov/lgbt/"
-                },
-                "description": "LGBTQ+ Veterans",
-                "label": "LGBTQ+ Veterans"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.ptsd.va.gov"
-                },
-                "description": "PTSD",
-                "label": "PTSD"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.mentalhealth.va.gov"
-                },
-                "description": "Mental health",
-                "label": "Mental health"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.va.gov/adaptivesports/"
-                },
-                "description": "Adaptive sports and special events",
-                "label": "Adaptive sports and special events"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.va.gov/outreach-and-events/events/"
-                },
-                "description": "VA outreach events",
-                "label": "VA outreach events"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.nrd.gov"
-                },
-                "description": "National Resource Directory",
-                "label": "National Resource Directory"
-              }
-            ],
-            "url": {
-              "path": ""
-            }
-          }
-        },
-        {
-          "description": "Column 2",
-          "entity": {
-            "parent": null,
-            "linkedEntity": null,
-            "expanded": true,
-            "label": "Column 2",
-            "links": [
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.va.gov/find-forms/"
-                },
-                "description": "VA forms"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.accesstocare.va.gov/"
-                },
-                "description": "VA health care access and quality",
-                "label": "VA health care access and quality"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.va.gov/ogc/accreditation.asp"
-                },
-                "description": "Accredited claims representatives",
-                "label": "Accredited claims representatives"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.mobile.va.gov/appstore/"
-                },
-                "description": "VA mobile apps",
-                "label": "VA mobile apps"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.va.gov/statedva.htm"
-                },
-                "description": "State Veterans Affairs offices",
-                "label": "State Veterans Affairs offices"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.va.gov/landing2_business.htm"
-                },
-                "description": "Doing business with VA",
-                "label": "Doing business with VA"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.va.gov/jobs/"
-                },
-                "description": "Careers at VA",
-                "label": "Careers at VA"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.va.gov/outreach-and-events/outreach-materials/"
-                },
-                "description": "VA outreach materials",
-                "label": "VA outreach materials"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.va.gov/welcome-kit/"
-                },
-                "description": "Your VA welcome kit",
-                "label": "Your VA welcome kit"
-              }
-            ],
-            "url": {
-              "path": ""
-            }
-          }
-        },
-        {
-          "description": "Column 3",
-          "entity": {
-            "parent": null,
-            "linkedEntity": null,
-            "expanded": true,
-            "label": "Column 3",
-            "links": [
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.news.va.gov/"
-                },
-                "description": "VA news",
-                "label": "VA news"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.va.gov/opa/pressrel/"
-                },
-                "description": "Press releases",
-                "label": "Press releases"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://public.govdelivery.com/accounts/USVA/subscriber/new/"
-                },
-                "description": "Email updates",
-                "label": "Email updates"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.facebook.com/VeteransAffairs"
-                },
-                "description": "Facebook",
-                "label": "Facebook"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.instagram.com/deptvetaffairs/"
-                },
-                "description": "Instagram",
-                "label": "Instagram"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.twitter.com/DeptVetAffairs/"
-                },
-                "description": "Twitter",
-                "label": "Twitter"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.flickr.com/photos/VeteransAffairs/"
-                },
-                "description": "Flickr",
-                "label": "Flickr"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.youtube.com/user/DeptVetAffairs"
-                },
-                "description": "YouTube",
-                "label": "YouTube"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.va.gov/opa/socialmedia.asp"
-                },
-                "description": "All VA social media",
-                "label": "All VA social media"
-              },
-              {
-                "entity": {
-                  "parent": null,
-                  "linkedEntity": null
-                },
-                "expanded": false,
-                "url": {
-                  "path": "https://www.va.gov/performance-dashboard/"
-                },
-                "description": "VA performance dashboard",
-                "label": "VA performance dashboard"
-              }
-            ],
-            "url": {
-              "path": ""
-            }
-          }
-        }
-      ],
-      "name": "VA.gov Footer"
+  "footerData": [
+    {
+      "column": 1,
+      "href": "https://www.va.gov/homeless/",
+      "order": 1,
+      "target": "",
+      "title": "Homeless Veterans"
     },
-    "hardCodedFooterData": [
-      {
-        "column": 4,
-        "href": "https://www.va.gov/resources/",
-        "order": 1,
-        "target": null,
-        "title": "Resources and support"
-      },
-      {
-        "column": 4,
-        "href": "https://www.va.gov/contact-us/",
-        "order": 2,
-        "target": null,
-        "title": "Contact us"
-      },
-      {
-        "column": 4,
-        "label": "Call us",
-        "href": "tel:18006982411",
-        "order": 3,
-        "target": null,
-        "title": "800-698-2411"
-      },
-      {
-        "ariaLabel": "TTY: 7 1 1.",
-        "column": 4,
-        "href": "tel:+1711",
-        "order": 4,
-        "target": null,
-        "title": "TTY: 711"
-      },
-      {
-        "column": 4,
-        "label": "Visit a medical center or regional office",
-        "href": "https://www.va.gov/find-locations/",
-        "order": 5,
-        "target": null,
-        "title": "Find a VA location"
-      }
-    ],
-    "bottomRailFooterData": {
-      "description": "Displayed in VA.gov global & injected footer; horizontal list of links at the bottom of the page.",
-      "links": [
-        {
-          "url": {
-            "path": "https://www.va.gov/accessibility-at-va"
-          },
-          "entity": {
-            "parent": null,
-            "linkedEntity": null
-          },
-          "expanded": false,
-          "links": [],
-          "description": "Accessibility"
-        },
-        {
-          "url": {
-            "path": "https://www.va.gov/resources/your-civil-rights-and-how-to-file-a-discrimination-complaint/"
-          },
-          "entity": {
-            "parent": null,
-            "linkedEntity": null
-          },
-          "expanded": false,
-          "links": [],
-          "description": "Civil Rights"
-        },
-        {
-          "url": {
-            "path": "https://www.va.gov/foia/"
-          },
-          "entity": {
-            "parent": null,
-            "linkedEntity": null
-          },
-          "expanded": false,
-          "links": [],
-          "description": "Freedom of Information Act (FOIA)"
-        },
-        {
-          "url": {
-            "path": "https://www.va.gov/oig/"
-          },
-          "entity": {
-            "parent": null,
-            "linkedEntity": null
-          },
-          "expanded": false,
-          "links": [],
-          "description": "Office of Inspector General"
-        },
-        {
-          "url": {
-            "path": "https://www.va.gov/opa/Plain_Language.asp"
-          },
-          "entity": {
-            "parent": null,
-            "linkedEntity": null
-          },
-          "expanded": false,
-          "links": [],
-          "description": "Plain language"
-        },
-        {
-          "url": {
-            "path": "https://www.va.gov/privacy-policy/"
-          },
-          "entity": {
-            "parent": null,
-            "linkedEntity": null
-          },
-          "expanded": false,
-          "links": [],
-          "description": "Privacy, policies, and legal information"
-        },
-        {
-          "url": {
-            "path": "https://www.va.gov/privacy/"
-          },
-          "entity": {
-            "parent": null,
-            "linkedEntity": null
-          },
-          "expanded": false,
-          "links": [],
-          "description": "VA Privacy Service"
-        },
-        {
-          "url": {
-            "path": "https://www.va.gov/ormdi/NOFEAR_Select.asp"
-          },
-          "entity": {
-            "parent": null,
-            "linkedEntity": null
-          },
-          "expanded": false,
-          "links": [],
-          "description": "No FEAR Act Data"
-        },
-        {
-          "url": {
-            "path": "https://www.usa.gov/"
-          },
-          "entity": {
-            "parent": null,
-            "linkedEntity": null
-          },
-          "expanded": false,
-          "links": [],
-          "description": "USA.gov"
-        },
-        {
-          "url": {
-            "path": "https://www.va.gov/veterans-portrait-project/"
-          },
-          "entity": {
-            "parent": null,
-            "linkedEntity": null
-          },
-          "expanded": false,
-          "links": [],
-          "description": "Veterans Portrait Project"
-        }
-      ]
+    {
+      "column": 1,
+      "href": "https://www.va.gov/womenvet/",
+      "order": 2,
+      "target": "",
+      "title": "Women Veterans"
+    },
+    {
+      "column": 1,
+      "href": "https://www.va.gov/centerforminorityveterans/",
+      "order": 3,
+      "target": "",
+      "title": "Minority Veterans"
+    },
+    {
+      "column": 1,
+      "href": "https://www.patientcare.va.gov/lgbt/",
+      "order": 4,
+      "target": "",
+      "title": "LGBTQ+ Veterans",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 1,
+      "href": "https://www.ptsd.va.gov",
+      "order": 5,
+      "target": "",
+      "title": "PTSD",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 1,
+      "href": "https://www.mentalhealth.va.gov",
+      "order": 6,
+      "target": "",
+      "title": "Mental health",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 1,
+      "href": "https://www.va.gov/adaptivesports/",
+      "order": 7,
+      "target": "",
+      "title": "Adaptive sports and special events"
+    },
+    {
+      "column": 1,
+      "href": "https://www.va.gov/outreach-and-events/events/",
+      "order": 8,
+      "target": null,
+      "title": "VA outreach events"
+    },
+    {
+      "column": 1,
+      "href": "https://www.nrd.gov",
+      "order": 9,
+      "target": "_blank",
+      "title": "National Resource Directory",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 2,
+      "href": "https://www.va.gov/find-forms/",
+      "order": 1,
+      "target": null,
+      "title": "VA forms"
+    },
+    {
+      "column": 2,
+      "href": "https://www.accesstocare.va.gov/",
+      "order": 2,
+      "target": "_blank",
+      "title": "VA health care access and quality",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 2,
+      "href": "https://www.va.gov/ogc/accreditation.asp",
+      "order": 3,
+      "target": null,
+      "title": "Accredited claims representatives"
+    },
+    {
+      "column": 2,
+      "href": "https://www.mobile.va.gov/appstore/",
+      "order": 4,
+      "target": "_blank",
+      "title": "VA mobile apps",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 2,
+      "href": "https://www.va.gov/statedva.htm",
+      "order": 5,
+      "target": null,
+      "title": "State Veterans Affairs offices"
+    },
+    {
+      "column": 2,
+      "href": "https://www.va.gov/landing2_business.htm",
+      "order": 6,
+      "target": null,
+      "title": "Doing business with VA"
+    },
+    {
+      "column": 2,
+      "href": "https://www.va.gov/jobs/",
+      "order": 7,
+      "target": null,
+      "title": "Careers at VA"
+    },
+    {
+      "column": 2,
+      "href": "https://www.va.gov/outreach-and-events/outreach-materials/",
+      "order": 8,
+      "target": null,
+      "title": "VA outreach materials"
+    },
+    {
+      "column": 2,
+      "href": "https://www.va.gov/welcome-kit/",
+      "order": 9,
+      "target": null,
+      "title": "Your VA welcome kit"
+    },
+    {
+      "column": 3,
+      "href": "https://www.news.va.gov/",
+      "order": 1,
+      "target": "_blank",
+      "title": "VA news",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 3,
+      "href": "https://www.va.gov/opa/pressrel/",
+      "order": 2,
+      "target": null,
+      "title": "Press releases"
+    },
+    {
+      "column": 3,
+      "href": "https://public.govdelivery.com/accounts/USVA/subscriber/new/",
+      "order": 3,
+      "target": "_blank",
+      "title": "Email updates",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 3,
+      "href": "https://www.facebook.com/VeteransAffairs",
+      "order": 4,
+      "target": "_blank",
+      "title": "Facebook",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 3,
+      "href": "https://www.instagram.com/deptvetaffairs/",
+      "order": 5,
+      "target": "_blank",
+      "title": "Instagram",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 3,
+      "href": "https://www.twitter.com/DeptVetAffairs/",
+      "order": 6,
+      "target": "_blank",
+      "title": "Twitter",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 3,
+      "href": "https://www.flickr.com/photos/VeteransAffairs/",
+      "order": 7,
+      "target": "_blank",
+      "title": "Flickr",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 3,
+      "href": "https://www.youtube.com/user/DeptVetAffairs",
+      "order": 8,
+      "target": "_blank",
+      "title": "YouTube",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 3,
+      "href": "https://www.va.gov/opa/socialmedia.asp",
+      "order": 9,
+      "target": null,
+      "title": "All VA social media"
+    },
+    {
+      "column": 3,
+      "href": "https://www.va.gov/performance-dashboard/",
+      "order": 10,
+      "target": null,
+      "title": "VA performance dashboard"
+    },
+    {
+      "column": 4,
+      "href": "https://www.va.gov/resources/",
+      "order": 1,
+      "target": null,
+      "title": "Resources and support"
+    },
+    {
+      "column": 4,
+      "href": "https://www.va.gov/contact-us/",
+      "order": 2,
+      "target": null,
+      "title": "Contact us"
+    },
+    {
+      "column": 4,
+      "label": "Call us",
+      "href": "tel:18006982411",
+      "order": 3,
+      "target": null,
+      "title": "800-698-2411"
+    },
+    {
+      "ariaLabel": "TTY: 7 1 1.",
+      "column": 4,
+      "href": "tel:+1711",
+      "order": 4,
+      "target": null,
+      "title": "TTY: 711"
+    },
+    {
+      "column": 4,
+      "label": "Visit a medical center or regional office",
+      "href": "https://www.va.gov/find-locations/",
+      "order": 5,
+      "target": null,
+      "title": "Find a VA location"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://www.va.gov/accessibility-at-va",
+      "order": 1,
+      "target": null,
+      "title": "Accessibility",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://www.va.gov/resources/your-civil-rights-and-how-to-file-a-discrimination-complaint/",
+      "order": 2,
+      "target": null,
+      "title": "Civil Rights"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://www.va.gov/foia/",
+      "order": 3,
+      "target": null,
+      "title": "Freedom of Information Act (FOIA)"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://www.va.gov/oig/",
+      "order": 4,
+      "target": null,
+      "title": "Office of Inspector General"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://www.va.gov/opa/Plain_Language.asp",
+      "order": 5,
+      "target": null,
+      "title": "Plain language"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://www.va.gov/privacy-policy/",
+      "order": 6,
+      "target": null,
+      "title": "Privacy, policies, and legal information"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://www.va.gov/privacy/",
+      "order": 7,
+      "target": null,
+      "title": "VA Privacy Service"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://www.va.gov/ormdi/NOFEAR_Select.asp",
+      "order": 8,
+      "target": null,
+      "title": "No FEAR Act Data"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://www.usa.gov/",
+      "order": 9,
+      "target": "_blank",
+      "title": "USA.gov",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://www.va.gov/veterans-portrait-project/",
+      "order": 10,
+      "target": null,
+      "title": "Veterans Portrait Project"
     }
-  },
+  ],
   "megaMenuData": [
     {
       "title": "VA benefits and health care",
