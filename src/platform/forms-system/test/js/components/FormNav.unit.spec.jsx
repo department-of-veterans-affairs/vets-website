@@ -78,7 +78,7 @@ describe('Schemaform FormNav', () => {
     );
 
     expect(tree.queryAllByRole('progressbar')).to.have.lengthOf(0);
-    expect(tree.getByTestId('navFormHeader')).to.be.empty;
+    expect(tree.queryByTestId('navFormHeader')).to.be.null;
   });
 
   it('should render dynamic chapter-title stepText', () => {
