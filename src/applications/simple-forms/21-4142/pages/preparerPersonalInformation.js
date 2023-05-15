@@ -22,6 +22,7 @@ const isNotThirdParty = formData => {
     ],
   );
 };
+const isThirdParty = formData => !isNotThirdParty(formData);
 
 /** @type {PageSchema} */
 export default {
@@ -33,12 +34,14 @@ export default {
         'ui:options': {
           hideIf: isNotThirdParty,
         },
+        'ui:required': formData => isThirdParty(formData),
       },
       [preparerIdentificationFields.preparerOrganization]: {
         'ui:title': 'Organization',
         'ui:options': {
           hideIf: isNotThirdParty,
         },
+        'ui:required': formData => isThirdParty(formData),
       },
       [preparerIdentificationFields.courtAppointmentInfo]: {
         'ui:title':

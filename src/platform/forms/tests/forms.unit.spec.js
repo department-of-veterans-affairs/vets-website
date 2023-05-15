@@ -32,6 +32,7 @@ const root = path.join(__dirname, '../../../');
 
 const formConfigKeys = [
   'ariaDescribedBySubmit',
+  'dev',
   'rootUrl',
   'formId',
   'version',
@@ -292,6 +293,7 @@ describe('form:', () => {
         // Dynamically import the module and perform tests on its default export
         import(configFilePath).then(({ default: formConfig }) => {
           validStringProperty(formConfig, 'ariaDescribedBySubmit', false);
+          validObjectProperty(formConfig, 'dev', false);
           validFormConfigKeys(formConfig);
           validFormId(formConfig);
           validStringProperty(formConfig, 'rootUrl', true);
