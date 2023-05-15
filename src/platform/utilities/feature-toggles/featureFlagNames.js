@@ -95,6 +95,7 @@ export default Object.freeze({
   profileShowMhvNotificationSettings: 'profile_show_mhv_notification_settings',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
   profileShowPaymentsNotificationSetting: 'profile_show_payments_notification_setting',
+  profileShowQuickSubmitNotificationSetting: 'profile_show_quick_submit_notification_setting',
   profileUseExperimental: 'profile_use_experimental',
   profileUseInfoCard: 'profile_use_info_card',
   profileUseFieldEditingPage: 'profile_use_field_editing_page',

@@ -77,3 +77,7 @@ export const runAdvancedSearch = (folder, query, keyword) => async dispatch => {
     }
   }
 };
+
+export const clearSearchResults = () => {
+  return { type: Actions.Search.CLEAR };
+};
