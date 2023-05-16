@@ -40,4 +40,14 @@ module.exports = {
       ? `http://${process.env.API_HOST}:3000`
       : `http://${location.hostname || 'localhost'}:3000`,
   },
+
+  [ENVIRONMENTS.PREVIEW]: {
+    BUILDTYPE: ENVIRONMENTS.LOCALHOST,
+    BASE_URL: isNode
+      ? 'https://localhost:3001'
+      : `http://${location.hostname || 'localhost'}:${
+          location.port ? location.port : '3001'
+        }`,
+    API_URL: `http://vets-api-web:3004`,
+  },
 };

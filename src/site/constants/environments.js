@@ -4,6 +4,9 @@
  */
 
 module.exports = {
+  /** Preview environements */
+  PREVIEW: 'preview',
+
   /** The local-dev environment. */
   LOCALHOST: 'localhost',
 
