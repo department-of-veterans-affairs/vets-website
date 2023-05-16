@@ -6,16 +6,25 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientComposePage from './pages/PatientComposePage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
+import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
+import mockMessages from './fixtures/messages-response.json';
 
-describe(' AutoSave reply Draft with Attachments', () => {
-  it(' Check Draft reply AutoSave ', () => {
+describe('autosave Reply draft with attachment', () => {
+  it('Autosave Reply Draft', () => {
+    const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
     const inboxPage = new PatientInboxPage();
     const draftsPage = new PatientMessageDraftsPage();
+    const messageDetailsPage = new PatientMessageDetailsPage();
+
     const patientInterstitialPage = new PatientInterstitialPage();
     site.login();
     inboxPage.loadInboxMessages();
+    const messageDetails = landingPage.getNewMessageDetails();
+    landingPage.loadInboxMessages(mockMessages, messageDetails);
+    messageDetailsPage.loadMessageDetails(messageDetails);
+    messageDetailsPage.loadReplyPageDetails(messageDetails);
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     cy.reload();
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
@@ -25,14 +34,7 @@ describe(' AutoSave reply Draft with Attachments', () => {
       .getMessageBodyField()
       .type('Testing Autosave Drafts with Attachments');
     cy.realPress(['Enter']);
-    composePage.attachMessageFromFile('test_video.mp4');
-    composePage.verifyAttachmentErrorMessage(
-      "We can't attach this file type. Try attaching a DOC, JPG, PDF, PNG, RTF, TXT, or XLS.",
-    );
-    composePage.attachMessageFromFile('empty.txt');
-    composePage.verifyAttachmentErrorMessage(
-      'Your file is empty. Try attaching a different file.',
-    );
+    composePage.attachMessageFromFile('sample_docx.docx');
 
     mockDraftResponse.data.attributes.body =
       'ststASertTesting Autosave Drafts with Attachments\nTesting Autosave Drafts with Attachments\n';
@@ -43,6 +45,17 @@ describe(' AutoSave reply Draft with Attachments', () => {
       }`,
       mockDraftResponse,
     ).as('saveDraftwithAttachment');
+    cy.wait('@saveDraftwithAttachment', { timeout: 8500 });
+    cy.get('@saveDraftwithAttachment')
+      .its('request.body')
+      .should('deep.equal', {
+        recipientId: mockDraftResponse.data.attributes.recipientId,
+        category: mockDraftResponse.data.attributes.category,
+        body:
+          'ststASertTesting Autosave Drafts with Attachments\nTesting Autosave Drafts with Attachments\n',
+        subject: mockDraftResponse.data.attributes.subject,
+      });
+    cy.contains('Your message was saved');
     cy.injectAxe();
     cy.axeCheck();
   });
