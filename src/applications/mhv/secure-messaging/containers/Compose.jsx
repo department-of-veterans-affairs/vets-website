@@ -63,9 +63,12 @@ const Compose = () => {
     pageTitle = 'Start a new message';
   }
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-  });
+  useEffect(
+    () => {
+      if (acknowledged && header) focusElement(document.querySelector('h1'));
+    },
+    [header, acknowledged],
+  );
 
   const content = () => {
     if (!isDraftPage && triageTeams) {
