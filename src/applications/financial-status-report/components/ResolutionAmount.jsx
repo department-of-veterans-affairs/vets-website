@@ -46,7 +46,7 @@ const ResolutionAmount = ({ formContext }) => {
   const currentDebt =
     selectedDebtsAndCopays[formContext?.pagePerItemIndex || 0];
 
-  const resolutionAmount = currentDebt.resolutionComment;
+  const resolutionAmount = currentDebt?.resolutionComment ?? 0;
   const { resolutionOption } = currentDebt;
 
   const onAmountChange = ({ target }) => {
@@ -76,7 +76,7 @@ const ResolutionAmount = ({ formContext }) => {
 
   return (
     <div>
-      <p className="vads-u-margin-y--0">
+      <div className="vads-u-margin-y--0">
         <p className="vads-u-display--block">
           You selected:{' '}
           <span className="vads-u-font-weight--bold">
@@ -90,7 +90,7 @@ const ResolutionAmount = ({ formContext }) => {
             ? content.debtMonthly.description
             : content.debtCompromise.description}
         </span>
-      </p>
+      </div>
       <VaNumberInput
         className="no-wrap input-size-3"
         error={errorMessage}
