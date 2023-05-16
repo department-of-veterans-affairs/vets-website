@@ -102,12 +102,6 @@ export function getFacilitiesBySystemAndTypeOfCare(
   ).then(parseApiList);
 }
 
-// export function getCommunityCare(typeOfCare) {
-//   return apiRequestWithUrl(
-//     `/vaos/v0/community_care/eligibility/${typeOfCare}`,
-//   ).then(parseApiObject);
-// }
-
 export function checkPastVisits(
   systemId,
   facilityId,
