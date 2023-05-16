@@ -2,14 +2,14 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import ClaimsTimeline from '../../components/ClaimsTimeline';
+import ClaimTimeline from '../../components/ClaimTimeline';
 
-describe('<ClaimsTimeline>', () => {
+describe('<ClaimTimeline>', () => {
   it('should render 5 phases', () => {
     const events = [];
 
     const tree = SkinDeep.shallowRender(
-      <ClaimsTimeline events={events} phase={6} />,
+      <ClaimTimeline events={events} phase={6} />,
     );
 
     expect(tree.everySubTree('ClaimPhase').length).to.equal(5);
@@ -19,7 +19,7 @@ describe('<ClaimsTimeline>', () => {
     const events = [];
 
     const tree = SkinDeep.shallowRender(
-      <ClaimsTimeline events={events} everPhaseBack phase={6} />,
+      <ClaimTimeline events={events} everPhaseBack phase={6} />,
     );
 
     expect(
@@ -31,7 +31,7 @@ describe('<ClaimsTimeline>', () => {
     const events = [];
 
     const tree = SkinDeep.shallowRender(
-      <ClaimsTimeline
+      <ClaimTimeline
         events={events}
         everPhaseBack
         currentPhaseBack
@@ -46,7 +46,7 @@ describe('<ClaimsTimeline>', () => {
     const events = [];
 
     const tree = SkinDeep.shallowRender(
-      <ClaimsTimeline
+      <ClaimTimeline
         events={events}
         everPhaseBack
         currentPhaseBack
@@ -59,7 +59,7 @@ describe('<ClaimsTimeline>', () => {
 
   it('should render CompleteDetails for phase 5', () => {
     const tree = SkinDeep.shallowRender(
-      <ClaimsTimeline events={[]} phase={5} />,
+      <ClaimTimeline events={[]} phase={5} />,
     );
     expect(tree.everySubTree('CompleteDetails')).not.to.be.false;
   });

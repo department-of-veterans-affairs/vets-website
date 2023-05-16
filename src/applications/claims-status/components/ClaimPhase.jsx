@@ -1,9 +1,10 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
+
 import { getUserPhaseDescription } from '../utils/helpers';
 
 const stepClasses = {

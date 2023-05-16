@@ -9,19 +9,18 @@ import ClaimComplete from '../components/ClaimComplete';
 // START lighthouse_migration
 import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
 import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
+import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 // END lighthouse_migration
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
 import {
-  itemsNeedingAttentionFromVet,
   getClaimType,
   getCompletedDate,
+  itemsNeedingAttentionFromVet,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
-
-import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 
 class ClaimStatusPage extends React.Component {
   componentDidMount() {
