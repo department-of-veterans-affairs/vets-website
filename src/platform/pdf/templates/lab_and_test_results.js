@@ -18,6 +18,8 @@ const addHorizontalRule = (
 ) => {
   doc.moveDown(linesAboveAndBelow);
 
+  // TODO add alternative text.
+  doc.markContent('Artifact', { type: 'Layout' });
   doc
     .moveTo(0 + spaceFromEdge, doc.y)
     .lineTo(doc.page.width - spaceFromEdge, doc.y)
@@ -82,6 +84,9 @@ const generate = async data => {
     lang: 'en-US',
     tagged: true,
     displayTitle: true,
+    info: {
+      Title: data.title,
+    },
     autoFirstPage: false,
     bufferPages: true,
   });
@@ -92,8 +97,6 @@ const generate = async data => {
     'SourceSansPro-Bold',
     'SourceSansPro-Regular',
   ]);
-
-  doc.info.Title = data.title;
 
   doc.addPage({
     margins: {
@@ -204,7 +207,7 @@ const generate = async data => {
       } else if (idx > 0) {
         initialBlock = false;
         results.add(
-          doc.struct('P', () => {
+          doc.struct('NonStruct', () => {
             addHorizontalRule(doc, 30, 0.5);
           }),
         );
@@ -256,11 +259,13 @@ const generate = async data => {
     doc.page.margins.bottom = 0;
     doc.page.margins.right = 16;
 
-    const header = doc.struct('Sect', {
+    const header = doc.struct('Artifact', {
+      type: 'Pagination',
       title: 'Header',
+      attached: 'Top',
     });
     header.add(
-      doc.struct('P', () => {
+      doc.struct('Span', () => {
         doc
           .font('SourceSansPro-Regular')
           .fontSize(16)
@@ -268,7 +273,7 @@ const generate = async data => {
       }),
     );
     header.add(
-      doc.struct('P', () => {
+      doc.struct('Span', () => {
         doc
           .font('SourceSansPro-Regular')
           .fontSize(16)
@@ -278,13 +283,15 @@ const generate = async data => {
     header.end();
     doc.addStructure(header);
 
-    const footer = doc.struct('Sect', {
+    const footer = doc.struct('Artifact', {
+      type: 'Pagination',
       title: 'Footer',
+      attached: 'Bottom',
     });
     let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
     footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
     footer.add(
-      doc.struct('P', () => {
+      doc.struct('Span', () => {
         doc
           .font('SourceSansPro-Regular')
           .fontSize(16)
@@ -292,7 +299,7 @@ const generate = async data => {
       }),
     );
     footer.add(
-      doc.struct('P', () => {
+      doc.struct('Span', () => {
         doc
           .font('SourceSansPro-Regular')
           .fontSize(16)
