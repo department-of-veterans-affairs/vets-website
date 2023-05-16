@@ -3,37 +3,11 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
+import vapProfile from '../../../../user/profile/vap-svc/tests/e2e/mockVapProfile.json';
+
 import { $, $$ } from '../../../src/js/utilities/ui';
 import ContactInfoReview from '../../../src/js/components/ContactInfoReview';
 import { getContent } from '../../../src/js/utilities/data/profile';
-
-const vapProfile = {
-  email: {
-    emailAddress: 'no@no.com',
-  },
-  mailingAddress: {
-    addressLine1: '123 Main',
-    addressLine2: 'Apt 2',
-    addressLine3: null,
-    addressType: 'DOMESTIC',
-    city: 'City',
-    countryName: 'United States',
-    internationalPostalCode: null,
-    province: null,
-    stateCode: 'AK',
-    zipCode: '90210',
-  },
-  mobilePhone: {
-    areaCode: '717',
-    countryCode: '1',
-    phoneNumber: '4241234',
-  },
-  homePhone: {
-    areaCode: '703',
-    countryCode: '1',
-    phoneNumber: '3218526',
-  },
-};
 
 const getData = ({
   home = true,
