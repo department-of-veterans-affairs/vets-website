@@ -11,6 +11,7 @@ import startHeader from 'platform/site-wide/header';
 import startMegaMenuWidget from 'platform/site-wide/mega-menu';
 import startMobileMenuButton from 'platform/site-wide/mobile-menu-button';
 import startUserNavWidget from 'platform/site-wide/user-nav';
+import 'platform/site-wide/wc-loader';
 import startVAFooter, { footerElemementId } from 'platform/site-wide/va-footer';
 import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
 import { getAssetPath } from '~/platform/site-wide/helpers/team-sites/get-asset-path';

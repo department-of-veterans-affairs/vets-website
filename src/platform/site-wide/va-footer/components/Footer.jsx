@@ -41,6 +41,10 @@ class Footer extends Component {
   render() {
     return (
       <div>
+        <va-loading-indicator
+          label="Loading"
+          message="Loading your application..."
+        />
         <div className="footer-inner">
           <DesktopLinks
             visible={!this.props.minimalFooter && !this.state.isMobile}
