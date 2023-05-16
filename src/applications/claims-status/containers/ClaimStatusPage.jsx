@@ -63,6 +63,15 @@ const generatePhases = claim => {
     date: claim.attributes.claimDate,
   });
 
+  // Add 'phase1' event (this is equivalent to the filed event,
+  // but activity is group by 'phase_entered' events so we need this
+  // one as well)
+  phases.push({
+    type: 'phase_entered',
+    phase: 1,
+    date: claim.attributes.claimDate,
+  });
+
   const regex = /\d+/;
 
   // Add other phase events
@@ -115,8 +124,6 @@ const generateTrackedItems = claim => {
 };
 
 const generateEventTimeline = claim => {
-  let activity = [];
-
   const phases = generatePhases(claim);
   const supportingDocuments = generateSupportingDocuments(claim);
   const trackedItems = generateTrackedItems(claim);
@@ -130,10 +137,13 @@ const generateEventTimeline = claim => {
     return dateB - dateA; // Compare the dates in reverse order
   });
 
+  let activity = [];
+  const eventPhases = {};
+
   events.forEach(event => {
     if (event.type.startsWith('phase')) {
       activity.push(event);
-      phases[getUserPhase(event.phase)] = activity;
+      eventPhases[getUserPhase(event.phase)] = activity;
       activity = [];
     } else {
       activity.push(event);
@@ -141,10 +151,10 @@ const generateEventTimeline = claim => {
   });
 
   if (activity.length > 0) {
-    phases[1] = activity;
+    eventPhases[1] = activity;
   }
 
-  return phases;
+  return eventPhases;
 };
 
 class ClaimStatusPage extends React.Component {
