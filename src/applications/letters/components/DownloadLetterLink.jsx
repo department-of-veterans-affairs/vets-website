@@ -22,6 +22,7 @@ export class DownloadLetterLink extends React.Component {
       this.props.letterType,
       this.props.letterName,
       this.props.letterOptions,
+      this.props.LH_MIGRATION__options,
     );
   };
 
@@ -110,6 +111,7 @@ function mapStateToProps(state, ownProps) {
     letterName: ownProps.letterName,
     downloadStatus: ownProps.downloadStatus,
     letterOptions: state.letters.requestOptions,
+    shouldUseLighthouse: state.shouldUseLighthouse,
   };
 }
 
