@@ -57,7 +57,6 @@ describe('Pre-need burial benefits', () => {
         uiSchema={uiSchema}
       />,
     );
-
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(1);
