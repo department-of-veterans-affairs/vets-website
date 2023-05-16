@@ -21,10 +21,6 @@ const testConfig = createTestConfig(
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
-      cy.window().then(win => {
-        win.sessionStorage.clear();
-      });
-
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
@@ -41,6 +37,9 @@ const testConfig = createTestConfig(
       });
 
       cy.intercept('GET', '/v0/maintenance_windows', []);
+      cy.intercept('GET', 'v0/user_transition_availabilities', {
+        statusCode: 200,
+      });
       cy.login(mockUser);
       cy.intercept('GET', '/v0/profile/status', mockStatus);
 
@@ -62,8 +61,6 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.get('.skip-wizard-link').click();
-
         cy.get('a.vads-c-action-link--green')
           .first()
           .click();
