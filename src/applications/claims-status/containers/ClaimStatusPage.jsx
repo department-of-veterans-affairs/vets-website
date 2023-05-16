@@ -63,7 +63,9 @@ const generatePhases = claim => {
     date: claim.attributes.claimDate,
   });
 
-  // Grouping for phase1 activity
+  // Add 'phase1' event (this is equivalent to the filed event,
+  // but activity is group by 'phase_entered' events so we need this
+  // one as well)
   phases.push({
     type: 'phase_entered',
     phase: 1,
