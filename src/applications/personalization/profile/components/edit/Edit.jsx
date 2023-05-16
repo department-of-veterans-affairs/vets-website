@@ -9,7 +9,7 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 import { PROFILE_PATHS } from '../../constants';
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 import { EditFallbackContent } from './EditFallbackContent';
-import getRoutes from '../../routes';
+import { routesForNav } from '../../routesForNav';
 
 const useQuery = () => {
   const { search } = useLocation();
@@ -42,12 +42,11 @@ const getFieldInfo = fieldName => {
 };
 
 export const Edit = ({ children }) => {
-  const routes = getRoutes();
   const history = useHistory();
   const query = useQuery();
 
   const fieldInfo = getFieldInfo(query.get('fieldName'));
-  const validReturnPath = getReturnPath(query.get('returnPath'), routes);
+  const validReturnPath = getReturnPath(query.get('returnPath'), routesForNav);
 
   const hasVAPServiceError = useSelector(state =>
     hasVAPServiceConnectionError(state),
@@ -89,12 +88,12 @@ export const Edit = ({ children }) => {
             )}
           </div>
         ) : (
-          <EditFallbackContent routes={routes} />
+          <EditFallbackContent />
         )}
       </Toggler.Enabled>
 
       <Toggler.Disabled>
-        <EditFallbackContent routes={routes} />
+        <EditFallbackContent />
       </Toggler.Disabled>
     </Toggler>
   );
