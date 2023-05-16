@@ -655,7 +655,7 @@ export function mockFacilityApi({ id, apiVersion = 1 } = {}) {
       cy.intercept(
         {
           method: 'GET',
-          pathname: `/v1/facilities/va/${facilityId}`,
+          pathname: `/v1/facilities/va/${getRealFacilityId(facilityId)}`,
         },
         req => {
           req.reply({
