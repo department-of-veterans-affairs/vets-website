@@ -1,4 +1,6 @@
-@import "../../../../../node_modules/@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "./user-profile";
+@import "./dashboard-alert";
 
 [tabindex="-1"]:focus {
   outline: 0;
