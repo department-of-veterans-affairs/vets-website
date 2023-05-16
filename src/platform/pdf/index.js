@@ -7,7 +7,7 @@ import './registerStaticFiles';
 const blobStream = require('blob-stream');
 const fileSaver = require('file-saver');
 
-export default async function generatePdf(templateId, data) {
+export default async function generatePdf(templateId, fileName, data) {
   // eslint-disable-next-line import/no-dynamic-require
   const template = require(`./templates/${templateId}`);
 
@@ -18,6 +18,6 @@ export default async function generatePdf(templateId, data) {
 
   stream.on('finish', () => {
     const pdf = stream.toBlob('application/pdf');
-    fileSaver.saveAs(pdf, `${templateId}.pdf`);
+    fileSaver.saveAs(pdf, `${fileName}.pdf`);
   });
 }
