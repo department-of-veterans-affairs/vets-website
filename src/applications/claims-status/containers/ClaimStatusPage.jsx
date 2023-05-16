@@ -71,15 +71,16 @@ const generatePhases = claim => {
     phases.push({
       type: 'phase_entered',
       // We are assuming here that each phaseKey is of the format:
-      // phaseXCompleteDate, where X corresponds to an integer
+      // phaseXCompleteDate, where X is some integer between 1 and 7
       phase: Number(phaseKey.match(regex)[0]) + 1,
       date: previousPhases[phaseKey],
     });
   });
 
-  if (claim.closeDate !== null) {
+  if (claim.attributes.closeDate !== null) {
     phases.push({
       type: 'complete',
+      phase: 8,
       date: claim.closeDate,
     });
   }

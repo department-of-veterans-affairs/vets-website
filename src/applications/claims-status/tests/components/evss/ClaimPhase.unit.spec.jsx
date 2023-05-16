@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import ClaimPhase from '../../components/ClaimPhase';
+import ClaimPhase from '../../../components/evss/ClaimPhase';
 
 describe('<ClaimPhase>', () => {
   it('should render activity when on current phase', () => {
@@ -20,7 +20,6 @@ describe('<ClaimPhase>', () => {
     );
     expect(tree.everySubTree('.claims-evidence').length).to.equal(1);
   });
-
   it('should not render activity when on current phase', () => {
     const activity = {
       1: [
@@ -36,7 +35,6 @@ describe('<ClaimPhase>', () => {
     );
     expect(tree.everySubTree('.claims-evidence').length).to.equal(0);
   });
-
   it('should display filed message', () => {
     const activity = {
       1: [
@@ -54,15 +52,13 @@ describe('<ClaimPhase>', () => {
       'Thank you. VA received your claim',
     );
   });
-
   it('should display requested message', () => {
     const activity = {
       1: [
         {
-          type: 'tracked_item',
+          type: 'still_need_from_you_list',
           date: '2010-05-04',
           displayName: 'Needed file',
-          status: 'NEEDED_FROM_YOU',
         },
       ],
     };
@@ -74,45 +70,38 @@ describe('<ClaimPhase>', () => {
       'We added a notice for: <Link />',
     );
   });
-
   it('should display show older updates button', () => {
     const activity = {
       1: [
         {
-          type: 'tracked_item',
+          type: 'still_need_from_you_list',
           date: '2010-05-04',
           displayName: 'Needed file',
-          status: 'NEEDED_FROM_YOU',
         },
         {
-          type: 'tracked_item',
+          type: 'still_need_from_you_list',
           date: '2010-05-04',
           displayName: 'Needed file',
-          status: 'NEEDED_FROM_YOU',
         },
         {
-          type: 'tracked_item',
+          type: 'still_need_from_you_list',
           date: '2010-05-04',
           displayName: 'Needed file',
-          status: 'NEEDED_FROM_YOU',
         },
         {
-          type: 'tracked_item',
+          type: 'still_need_from_you_list',
           date: '2010-05-04',
           displayName: 'Needed file',
-          status: 'NEEDED_FROM_YOU',
         },
         {
-          type: 'tracked_item',
+          type: 'still_need_from_you_list',
           date: '2010-05-04',
           displayName: 'Needed file',
-          status: 'NEEDED_FROM_YOU',
         },
         {
-          type: 'tracked_item',
+          type: 'still_need_from_you_list',
           date: '2010-05-04',
           displayName: 'Needed file',
-          status: 'NEEDED_FROM_YOU',
         },
       ],
     };
@@ -122,15 +111,13 @@ describe('<ClaimPhase>', () => {
     );
     expect(tree.everySubTree('button').length).to.equal(2);
   });
-
   describe('event descriptions', () => {
     const activity = {
       1: [
         {
-          type: 'tracked_item',
+          type: 'still_need_from_you_list',
           date: '2010-05-04',
           displayName: 'Needed file',
-          status: 'NEEDED_FROM_YOU',
         },
       ],
     };
@@ -150,7 +137,6 @@ describe('<ClaimPhase>', () => {
 
       expect(descTree.text()).to.equal('Your claim moved to Claim received');
     });
-
     it('should show file description', () => {
       const output = instance.getEventDescription({
         type: 'filed',
@@ -161,7 +147,6 @@ describe('<ClaimPhase>', () => {
 
       expect(descTree.text()).to.equal('Thank you. VA received your claim');
     });
-
     it('should show completed description', () => {
       const output = instance.getEventDescription({
         type: 'completed',
@@ -172,12 +157,11 @@ describe('<ClaimPhase>', () => {
 
       expect(descTree.text()).to.equal('Your claim is closed');
     });
-
     it('should show received from you reviewed description', () => {
       const output = instance.getEventDescription({
-        type: 'tracked_item',
+        type: 'received_from_you_list',
         displayName: 'Request 1',
-        status: 'INITIAL_REVIEW_COMPLETE',
+        status: 'WHATEVER',
         date: '2010-01-04',
       });
 
@@ -187,10 +171,9 @@ describe('<ClaimPhase>', () => {
         'We have reviewed your submitted evidence for Request 1. We will notify you if we need additional information.',
       );
     });
-
     it('should show received from you not reviewed description', () => {
       const output = instance.getEventDescription({
-        type: 'tracked_item',
+        type: 'received_from_you_list',
         displayName: 'Request 1',
         status: 'SUBMITTED_AWAITING_REVIEW',
         date: '2010-01-04',
@@ -202,12 +185,11 @@ describe('<ClaimPhase>', () => {
         'You or someone else submitted Request 1.',
       );
     });
-
     it('should show received from others reviewed description', () => {
       const output = instance.getEventDescription({
-        type: 'tracked_item',
+        type: 'received_from_others_list',
         displayName: 'Request 1',
-        status: 'ACCEPTED',
+        status: 'WHATEVER',
         date: '2010-01-04',
       });
 
@@ -217,23 +199,9 @@ describe('<ClaimPhase>', () => {
         'We have reviewed your submitted evidence for Request 1. We will notify you if we need additional information.',
       );
     });
-
-    it('should show still need from you not reviewed description', () => {
+    it('should show received from others not reviewed description', () => {
       const output = instance.getEventDescription({
-        type: 'tracked_item',
-        displayName: 'Request 1',
-        status: 'NEEDED_FROM_YOU',
-        date: '2010-01-04',
-      });
-
-      const descTree = SkinDeep.shallowRender(output);
-
-      expect(descTree.text()).to.equal('We added a notice for: <Link />');
-    });
-
-    it('should show still need from you reviewed description', () => {
-      const output = instance.getEventDescription({
-        type: 'tracked_item',
+        type: 'received_from_others_list',
         displayName: 'Request 1',
         status: 'SUBMITTED_AWAITING_REVIEW',
         date: '2010-01-04',
@@ -245,12 +213,11 @@ describe('<ClaimPhase>', () => {
         'You or someone else submitted Request 1.',
       );
     });
-
-    it('should show still need from others not reviewed description', () => {
+    it('should show still need from you not reviewed description', () => {
       const output = instance.getEventDescription({
-        type: 'tracked_item',
+        type: 'still_need_from_you_list',
         displayName: 'Request 1',
-        status: 'NEEDED_FROM_OTHERS',
+        status: 'WHATEVER',
         date: '2010-01-04',
       });
 
@@ -258,12 +225,63 @@ describe('<ClaimPhase>', () => {
 
       expect(descTree.text()).to.equal('We added a notice for: <Link />');
     });
+    it('should show still need from you reviewed description', () => {
+      const output = instance.getEventDescription({
+        type: 'still_need_from_you_list',
+        displayName: 'Request 1',
+        status: 'SUBMITTED_AWAITING_REVIEW',
+        date: '2010-01-04',
+      });
 
+      const descTree = SkinDeep.shallowRender(output);
+
+      expect(descTree.text()).to.equal(
+        'You or someone else submitted Request 1.',
+      );
+    });
+    it('should show still need from others reviewed description', () => {
+      const output = instance.getEventDescription({
+        type: 'still_need_from_others_list',
+        displayName: 'Request 1',
+        status: 'SUBMITTED_AWAITING_REVIEW',
+        date: '2010-01-04',
+      });
+
+      const descTree = SkinDeep.shallowRender(output);
+
+      expect(descTree.text()).to.equal(
+        'You or someone else submitted Request 1.',
+      );
+    });
+    it('should show still need from others not reviewed description', () => {
+      const output = instance.getEventDescription({
+        type: 'still_need_from_others_list',
+        displayName: 'Request 1',
+        status: 'WHATEVER',
+        date: '2010-01-04',
+      });
+
+      const descTree = SkinDeep.shallowRender(output);
+
+      expect(descTree.text()).to.equal('We added a notice for: <Link />');
+    });
+    it('should show never received from others description', () => {
+      const output = instance.getEventDescription({
+        type: 'never_received_from_others_list',
+        displayName: 'Request 1',
+        status: 'WHATEVER',
+        date: '2010-01-04',
+      });
+
+      const descTree = SkinDeep.shallowRender(output);
+
+      expect(descTree.text()).to.equal('We closed the notice for Request 1');
+    });
     it('should show never received from you description', () => {
       const output = instance.getEventDescription({
-        type: 'tracked_item',
+        type: 'never_received_from_you_list',
         displayName: 'Request 1',
-        status: 'NO_LONGER_REQUIRED',
+        status: 'WHATEVER',
         date: '2010-01-04',
       });
 
