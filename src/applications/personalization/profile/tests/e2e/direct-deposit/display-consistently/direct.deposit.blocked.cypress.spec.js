@@ -4,12 +4,14 @@ import { loa3User72 } from '@@profile/mocks/endpoints/user';
 import { data } from '@@profile/mocks/endpoints/mhvAccount';
 
 import DirectDeposit from '../DirectDeposit';
+import { mockFeatureToggles } from '../../helpers';
 
 describe('Direct Deposit Consistently', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {});
     cy.intercept('GET', '/v0/mhv_account', { data });
     cy.intercept('GET', '/v0/profile/ch33_bank_accounts', anAccount);
+    mockFeatureToggles();
     cy.login(loa3User72);
   });
 

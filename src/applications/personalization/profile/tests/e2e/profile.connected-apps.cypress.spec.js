@@ -1,6 +1,8 @@
 import { PROFILE_PATHS } from '../../constants';
 import mockUser from '../fixtures/users/user-36.json';
 import mockConnectedApps from '../fixtures/connected-apps/mock-connected-apps.json';
+import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
+import { mockFeatureToggles } from './helpers';
 
 /**
  *
@@ -8,6 +10,7 @@ import mockConnectedApps from '../fixtures/connected-apps/mock-connected-apps.js
  */
 
 function disconnectApps(mobile = false, error = false) {
+  mockFeatureToggles();
   cy.intercept('GET', 'v0/profile/connected_applications', mockConnectedApps);
 
   cy.intercept(
@@ -33,11 +36,7 @@ function disconnectApps(mobile = false, error = false) {
     cy.viewport('iphone-4');
   }
 
-  // should show a loading indicator
-  cy.findByRole('progressbar').should('exist');
-  cy.findByText(/loading your information/i).should('exist');
-  cy.findByText(/loading your information/i).should('not.exist');
-  cy.findByRole('progressbar').should('not.exist');
+  checkForLegacyLoadingIndicator();
 
   cy.get('.connected-app').should('have.length', 2);
 
