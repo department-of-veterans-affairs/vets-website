@@ -1,5 +1,6 @@
 import * as veteranInfo from './veteran/veteranInfo';
 import * as contactInfo from './veteran/contact';
+import contactInformation from './veteran/contactInformation';
 import * as availableDebts from './veteran/debts';
 import * as combinedDebts from './veteran/combinedDebts';
 import * as employment from './income/employment';
@@ -13,6 +14,7 @@ import * as additionalIncome from './income/additionalIncome';
 import * as additionalIncomeChecklist from './income/additionalIncome/additionalIncomeChecklist';
 import * as additionalIncomeValues from './income/additionalIncome/additionalIncomeValues';
 import * as spouseInformation from './income/spouse/spouseInfo';
+import * as spouseName from './income/spouse/spouseName';
 import * as spouseSocialSecurity from './income/spouse/socialSecurity';
 import * as spouseSocialSecurityRecords from './income/spouse/socialSecurity/records';
 import * as spouseAdditionalIncome from './income/spouse/additionalIncome';
@@ -86,6 +88,7 @@ export {
   socialSecurity,
   socialSecurityRecords,
   additionalIncome,
+  spouseName,
   additionalIncomeRecords,
   additionalIncomeChecklist,
   additionalIncomeValues,
@@ -139,6 +142,7 @@ export {
   bankruptcyHistory,
   bankruptcyHistoryRecords,
   contactInfo,
+  contactInformation,
   addIssue,
   employmentHistory,
   payrollDeductionChecklist,

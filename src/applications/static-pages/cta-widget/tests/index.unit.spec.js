@@ -86,7 +86,7 @@ describe('<CallToActionWidget>', () => {
       />,
     );
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    expect(tree.find('va-loading-indicator').exists()).to.be.true;
     tree.unmount();
   });
   it('should show loading state when loading feature toggles', () => {
@@ -107,7 +107,7 @@ describe('<CallToActionWidget>', () => {
       />,
     );
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    expect(tree.find('va-loading-indicator').exists()).to.be.true;
     tree.unmount();
   });
   it('should show sign in state', () => {

@@ -4,6 +4,7 @@ import {
   veteranFields,
 } from '../definitions/constants';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [preparerIdentificationFields.parentObject]: {
@@ -14,6 +15,7 @@ export default {
       ),
       [preparerIdentificationFields.preparerHasSameAddressAsVeteran]: {
         'ui:widget': 'yesNo',
+        'ui:required': () => true,
         'ui:options': {
           labels: {
             Y: 'Yes, this is my mailing address',

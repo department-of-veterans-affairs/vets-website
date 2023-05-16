@@ -5,7 +5,6 @@ import appendQuery from 'append-query';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 // Relative imports.
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 import { fetchMHVAccount } from 'platform/user/profile/actions';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
@@ -472,7 +471,7 @@ export class CallToActionWidget extends Component {
     // Show spinner if loading.
     if (profile.loading || mhvAccount.loading || featureToggles.loading) {
       return (
-        <LoadingIndicator
+        <va-loading-indicator
           setFocus={setFocus}
           message="Loading your information..."
         />

@@ -7,6 +7,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
+import PrintDownload from '../shared/PrintDownload';
 
 const ChemHemDetails = props => {
   const { results, fullState } = props;
@@ -32,32 +33,8 @@ const ChemHemDetails = props => {
             <p>{formattedDate}</p>
           </div>
 
-          <div>
-            <div className="vads-u-display--flex vads-u-padding-y--3 vads-u-margin-y--0 no-print">
-              <button
-                className="link-button vads-u-margin-right--3 no-print"
-                type="button"
-                onClick={window.print}
-              >
-                <i
-                  aria-hidden="true"
-                  className="fas fa-print vads-u-margin-right--1"
-                  data-testid="print-records-button"
-                />
-                Print page
-              </button>
-              <button
-                className="link-button no-print"
-                type="button"
-                onClick={download}
-              >
-                <i
-                  aria-hidden="true"
-                  className="fas fa-download vads-u-margin-right--1"
-                />
-                Download page
-              </button>
-            </div>
+          <div className="no-print">
+            <PrintDownload list download={download} />
             <va-additional-info trigger="What to know about downloading records">
               <ul>
                 <li>
@@ -107,7 +84,10 @@ const ChemHemDetails = props => {
           {/*         RESULTS CARDS            */}
           <div className="test-results-container">
             <h2>Results</h2>
-            <va-additional-info trigger="Need help understanding your results?">
+            <va-additional-info
+              trigger="Need help understanding your results?"
+              class="no-print"
+            >
               <p>
                 Your provider will review your results and explain what they
                 mean for your health. To ask a question now, send a secure
@@ -126,8 +106,24 @@ const ChemHemDetails = props => {
                 </a>
               </p>
             </va-additional-info>
+            <div className="print-only">
+              <p>
+                Your provider will review your results and explain what they
+                mean for your health. To ask a question now, send a secure
+                message to your care team.
+              </p>
+              <h4 className="vads-u-margin--0 vads-u-font-size--base vads-u-font-family--sans">
+                Standard range
+              </h4>
+              <p className="vads-u-margin-top--0">
+                The standard range is one tool your providers use to understand
+                your results. If your results are outside the standard range,
+                this doesn’t automatically mean you have a health problem. Your
+                provider will explain what your results mean for your health.
+              </p>
+            </div>
             <ChemHemResults results={results.labResults} />
-            <va-back-to-top />
+            <va-back-to-top class="no-print" />
           </div>
         </>
       );
@@ -145,6 +141,6 @@ const ChemHemDetails = props => {
 export default ChemHemDetails;
 
 ChemHemDetails.propTypes = {
-  results: PropTypes.object,
   fullState: PropTypes.object,
+  results: PropTypes.object,
 };

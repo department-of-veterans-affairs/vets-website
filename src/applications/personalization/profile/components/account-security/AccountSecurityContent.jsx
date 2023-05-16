@@ -33,10 +33,7 @@ export const AccountSecurityContent = ({
       )}
       {!isIdentityVerified && <IdentityNotVerified />}
       {showMPIConnectionError && (
-        <MPIConnectionError
-          level={2}
-          className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4"
-        />
+        <MPIConnectionError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />
       )}
       {showNotInMPIError && (
         <NotInMPIError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />

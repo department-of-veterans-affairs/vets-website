@@ -6,6 +6,8 @@
  * @testrailinfo runName HLR-e2e-Wizard
  */
 import Timeouts from 'platform/testing/e2e/timeouts';
+import mockUserAvail from './fixtures/mocks/user_transition_availabilities.json';
+import mockVamc from './fixtures/mocks/vamc-ehr.json';
 
 import {
   BASE_URL,
@@ -50,6 +52,9 @@ describe('HLR wizard', () => {
     window.dataLayer = [];
     cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}*`, []);
+    cy.intercept('GET', '/v0/user_transition_availabilities', mockUserAvail);
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamc);
+
     sessionStorage.removeItem(WIZARD_STATUS);
     cy.visit(BASE_URL);
     cy.injectAxe();

@@ -40,7 +40,7 @@ const AddressBlock = ({ address, showDirections = false, placeName }) => {
   };
 
   return (
-    <>
+    <div data-testid="address-block">
       <span data-testid="address-line-street1">{address.street1}</span>
       {lineTwo}
       {lineThree}
@@ -68,7 +68,7 @@ const AddressBlock = ({ address, showDirections = false, placeName }) => {
             </a>
           </div>
         )}
-    </>
+    </div>
   );
 };
 AddressBlock.propTypes = {

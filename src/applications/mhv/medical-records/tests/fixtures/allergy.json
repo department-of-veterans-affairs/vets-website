@@ -1,0 +1,11 @@
+{
+  "id": 123,
+  "name": "Penicillin",
+  "date": "May 10, 2023",
+  "reaction": ["Urticaria"],
+  "type": "Drug allergy",
+  "drugClass": "Penicillin-G related penicillins",
+  "location": "Washington DC VA medical center",
+  "observed": true,
+  "notes": []
+}

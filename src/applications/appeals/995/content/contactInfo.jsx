@@ -35,6 +35,8 @@ export const content = {
   province: 'Province',
   postal: 'Postal code',
 
+  missingEmail: 'Missing email address',
+
   alertContent:
     'The missing information has been added to your application. You may continue.',
 };

@@ -20,7 +20,7 @@ import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
 
 const ReplyForm = props => {
-  const { draftToEdit, replyMessage, cannotReplyAlert } = props;
+  const { draftToEdit, replyMessage, cannotReply, header } = props;
   const dispatch = useDispatch();
 
   const defaultRecipientsList = [{ id: 0, name: ' ' }];
@@ -309,9 +309,11 @@ const ReplyForm = props => {
   if (replyMessage) {
     return (
       <>
-        <h1 className="page-title">{setMessageTitle()}</h1>
+        <h1 ref={header} className="page-title">
+          {setMessageTitle()}
+        </h1>
 
-        <div role="heading" aria-level="2">
+        <section aria-label="Reply draft edit mode">
           <form
             className="reply-form"
             data-testid="reply-form"
@@ -355,7 +357,7 @@ const ReplyForm = props => {
                   aria-hidden="true"
                 />
                 <span className="vads-u-color--secondary-darkest">(Draft)</span>
-                {` To:${draftToEdit?.replyToName ||
+                {` To: ${draftToEdit?.replyToName ||
                   replyMessage?.senderName}\n(Team: ${
                   replyMessage.triageGroupName
                 })`}
@@ -387,7 +389,7 @@ const ReplyForm = props => {
                 />
               </section>
               <div className="compose-form-actions vads-u-display--flex">
-                {!cannotReplyAlert && (
+                {!cannotReply && (
                   <button
                     type="button"
                     className="vads-u-flex--1"
@@ -420,29 +422,30 @@ const ReplyForm = props => {
               </p>
             </div>
           </form>
-        </div>
-        <main
+        </section>
+        <section
+          aria-label="Message you are replying to"
           className="vads-u-margin--0 message-replied-to"
           data-testid="message-replied-to"
         >
-          <section aria-label="message details.">
+          <div aria-label="message details.">
             <p className="vads-u-margin--0">
               <strong>From: </strong>
               {replyMessage.senderName}
             </p>
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-testid="message-to">
               <strong>To: </strong>
               {replyMessage.recipientName}
             </p>
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-testid="message-date">
               <strong>Date: </strong>
               {dateFormat(replyMessage.sentDate)}
             </p>
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-testid="message-id">
               <strong>Message ID: </strong>
               {replyMessage.messageId}
             </p>
-          </section>
+          </div>
 
           <section aria-label="Message body." className="vads-u-margin-top--1">
             <MessageThreadBody text={replyMessage.body} />
@@ -460,7 +463,7 @@ const ReplyForm = props => {
                 />
               </>
             )}
-        </main>
+        </section>
       </>
     );
   }
@@ -468,8 +471,9 @@ const ReplyForm = props => {
 };
 
 ReplyForm.propTypes = {
-  cannotReplyAlert: PropTypes.bool,
+  cannotReply: PropTypes.bool,
   draftToEdit: PropTypes.object,
+  header: PropTypes.bool,
   recipients: PropTypes.array,
   replyMessage: PropTypes.object,
 };

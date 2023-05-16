@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import CompensationTypeReviewPage from '../../../components/FormReview/CompensationTypeReviewPage';
 
-describe('hca <CompensationTypeReviewPage>', () => {
+describe('hca CompensationTypeReviewPage', () => {
   it('should render compensation type as no disability', () => {
     const data = { vaCompensationType: 'none' };
     const { getByText } = render(<CompensationTypeReviewPage data={data} />);
