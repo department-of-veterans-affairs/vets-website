@@ -6,6 +6,7 @@ import {
   VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -53,8 +54,10 @@ const ComposeForm = props => {
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
   const [editListModal, setEditListModal] = useState(false);
+  const [lastFocusableElement, setLastFocusableElement] = useState(null);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
+  const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const fullState = useSelector(state => state);
 
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
@@ -131,6 +134,15 @@ const ComposeForm = props => {
       }
     },
     [messageInvalid],
+  );
+
+  useEffect(
+    () => {
+      if (alertStatus) {
+        focusElement(lastFocusableElement);
+      }
+    },
+    [alertStatus],
   );
 
   const recipientExists = recipientId => {
@@ -220,12 +232,13 @@ const ComposeForm = props => {
     return messageValid;
   };
 
-  const saveDraftHandler = async type => {
+  const saveDraftHandler = async (type, e) => {
     if (type === 'manual') {
       setUserSaved(true);
 
       await setMessageInvalid(false);
       if (checkMessageValidity()) {
+        setLastFocusableElement(e.target);
         setNavigationError(null);
       }
       if (attachments.length) {
@@ -261,12 +274,16 @@ const ComposeForm = props => {
     if (!attachments.length) setNavigationError(null);
   };
 
-  const sendMessageHandler = async () => {
+  const sendMessageHandler = async e => {
     // TODO add GA event
     await setMessageInvalid(false);
+    await setSendMessageFlag(false);
     if (checkMessageValidity()) {
       setSendMessageFlag(true);
       setNavigationError(null);
+      setLastFocusableElement(e.target);
+    } else {
+      setSendMessageFlag(false);
     }
   };
 
@@ -469,7 +486,7 @@ const ComposeForm = props => {
             secondary
             class="vads-u-flex--1 save-draft-button"
             data-testid="Save-Draft-Button"
-            onClick={() => saveDraftHandler('manual')}
+            onClick={e => saveDraftHandler('manual', e)}
           />
           <div className="vads-u-flex--1">
             {draft && <DeleteDraft draft={draft} />}

@@ -4,6 +4,7 @@ import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FileInput from './FileInput';
 import AttachmentsList from '../AttachmentsList';
 import { clearDraft, saveReplyDraft } from '../../actions/draftDetails';
@@ -22,6 +23,8 @@ import MessageThreadBody from '../MessageThread/MessageThreadBody';
 const ReplyForm = props => {
   const { draftToEdit, replyMessage, cannotReply, header } = props;
   const dispatch = useDispatch();
+  const [lastFocusableElement, setLastFocusableElement] = useState(null);
+  const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
 
   const defaultRecipientsList = [{ id: 0, name: ' ' }];
   const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
@@ -94,6 +97,15 @@ const ReplyForm = props => {
       }
     },
     [messageInvalid],
+  );
+
+  useEffect(
+    () => {
+      if (alertStatus) {
+        focusElement(lastFocusableElement);
+      }
+    },
+    [alertStatus],
   );
 
   useEffect(
@@ -216,20 +228,22 @@ const ReplyForm = props => {
     return messageValid;
   };
 
-  const sendMessageHandler = async () => {
+  const sendMessageHandler = async e => {
     await setMessageInvalid(false);
     if (checkMessageValidity()) {
       setSendMessageFlag(true);
       setNavigationError(null);
+      setLastFocusableElement(e.target);
     }
   };
 
-  const saveDraftHandler = async type => {
+  const saveDraftHandler = async (type, e) => {
     if (type === 'manual') {
       setUserSaved(true);
 
       await setMessageInvalid(false);
       if (checkMessageValidity()) {
+        setLastFocusableElement(e.target);
         setNavigationError(null);
       }
       if (attachments.length) {
@@ -405,7 +419,7 @@ const ReplyForm = props => {
                   type="button"
                   className="usa-button-secondary vads-u-flex--1"
                   data-testid="Save-Draft-Button"
-                  onClick={() => saveDraftHandler('manual')}
+                  onClick={e => saveDraftHandler('manual', e)}
                 >
                   Save draft
                 </button>
