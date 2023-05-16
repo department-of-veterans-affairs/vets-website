@@ -11,8 +11,10 @@ const RECEPIENT_ALPHA_ASCENDING = 'recepient-alpha-asc';
 const RECEPIENT_ALPHA_DESCENDING = 'recepient-alpha-desc';
 
 const ThreadListSort = props => {
-  const { defaultSortOrder, setSortOrder, setSortBy, sortCallback } = props;
+  const { defaultSortOrder, sortCallback } = props;
   const location = useLocation();
+  const [sortBy, setSortBy] = useState();
+  const [sortOrder, setSortOrder] = useState();
   const [sortOrderValue, setSortOrderValue] = useState(defaultSortOrder);
 
   useEffect(
@@ -58,6 +60,15 @@ const ThreadListSort = props => {
     [sortOrderValue, setSortBy, setSortOrder, location],
   );
 
+  const handleSortButtonClick = async () => {
+    sortCallback({ sortBy, sortOrder });
+    recordEvent({
+      event: 'cta-button-click',
+      'button-type': 'primary',
+      'button-click-label': 'Sort messages',
+    });
+  };
+
   return (
     <div className="thread-list-sort">
       <VaSelect
@@ -99,14 +110,7 @@ const ThreadListSort = props => {
         text="Sort"
         label="Sort"
         data-testid="sort-button"
-        onClick={() => {
-          sortCallback();
-          recordEvent({
-            event: 'cta-button-click',
-            'button-type': 'primary',
-            'button-click-label': 'Sort messages',
-          });
-        }}
+        onClick={handleSortButtonClick}
       />
     </div>
   );
@@ -114,8 +118,6 @@ const ThreadListSort = props => {
 
 ThreadListSort.propTypes = {
   defaultSortOrder: PropTypes.string.isRequired,
-  setSortBy: PropTypes.func.isRequired,
-  setSortOrder: PropTypes.func.isRequired,
   sortCallback: PropTypes.func.isRequired,
 };
 

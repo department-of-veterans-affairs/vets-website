@@ -4,18 +4,18 @@ import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import {
-  DefaultFolders as Folders,
-  Alerts,
-  threadSortingOptions,
-} from '../util/constants';
+import { DefaultFolders as Folders, Alerts } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import FolderHeader from '../components/MessageList/FolderHeader';
 import { clearFolder, retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 import ThreadsList from '../components/ThreadList/ThreadsList';
-import { getListOfThreads, clearListOfThreads } from '../actions/threads';
+import {
+  getListOfThreads,
+  setThreadSortOrder,
+  resetThreadSortOrder,
+} from '../actions/threads';
 import ThreadListSort from '../components/ThreadList/ThreadListSort';
 
 const FolderThreadListView = props => {
@@ -25,21 +25,26 @@ const FolderThreadListView = props => {
   const error = null;
   // Currently the pagination has a bug that doesnt return the correct amount of results per page, as a temporary solution, the threadsPerPage is set to 100 to cover most folders without needing pagination.
   const threadsPerPage = 10;
-  const threads = useSelector(state => state.sm.threads?.threadList);
-  const folder = useSelector(state => state.sm.folders.folder);
+  const { threadList, threadSort } = useSelector(state => state.sm.threads);
+  const folder = useSelector(state => state.sm.folders?.folder);
   const location = useLocation();
   const params = useParams();
   const [pageNum, setPageNum] = useState(1);
-  const [sortOrder, setSortOrder] = useState(threadSortingOptions.DESCENDING);
-  const [sortBy, setSortBy] = useState(threadSortingOptions.SORT_BY_SENT_DATE);
+  const { sortOrder, sortBy } = threadSort;
 
   const MAX_PAGE_LIST_LENGTH = 5;
 
-  const handleSortCallback = () => {
+  const handleSortCallback = order => {
+    dispatch(setThreadSortOrder(order));
     setPageNum(1);
     dispatch(
-      getListOfThreads(folderId, threadsPerPage, 1, sortBy, sortOrder),
-      true,
+      getListOfThreads(
+        folderId,
+        threadsPerPage,
+        1,
+        order.sortBy,
+        order.sortOrder,
+      ),
     );
   };
 
@@ -70,9 +75,6 @@ const FolderThreadListView = props => {
           ),
         );
       }
-      // on component unmount, clear out threads reducer to prevent from
-      // previous threads results flashing when navigating between messages
-      return () => dispatch(clearListOfThreads());
     },
     [folderId, dispatch],
   );
@@ -112,6 +114,7 @@ const FolderThreadListView = props => {
       return () => {
         if (location.pathname) {
           dispatch(closeAlert());
+          dispatch(resetThreadSortOrder());
         }
       };
     },
@@ -119,10 +122,16 @@ const FolderThreadListView = props => {
   );
 
   useInterval(() => {
-    if (folderId) {
+    if (folderId !== null) {
       dispatch(
-        getListOfThreads(folderId, threadsPerPage, pageNum, sortBy, sortOrder),
-        true,
+        getListOfThreads(
+          folderId,
+          threadsPerPage,
+          pageNum,
+          sortBy,
+          sortOrder,
+          true,
+        ),
       );
     }
   }, 60000);
@@ -138,10 +147,10 @@ const FolderThreadListView = props => {
   };
 
   const content = () => {
-    if (threads === undefined) {
+    if (threadList === undefined) {
       return loadingIndicator();
     }
-    if (threads.length === 0) {
+    if (threadList.length === 0) {
       return (
         <>
           <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
@@ -171,10 +180,10 @@ const FolderThreadListView = props => {
         </va-alert>
       );
     }
-    if (threads.length > 0) {
+    if (threadList.length > 0) {
       return (
         <ThreadsList
-          threadList={threads}
+          threadList={threadList}
           folder={folder}
           pageNum={pageNum}
           threadsPerPage={threadsPerPage}
@@ -193,17 +202,17 @@ const FolderThreadListView = props => {
           <>
             <FolderHeader folder={folder} />
             <ThreadListSort
-              defaultSortOrder={threadSortingOptions.DESCENDING}
-              setSortOrder={setSortOrder}
-              setSortBy={setSortBy}
+              defaultSortOrder={threadSort}
               sortCallback={handleSortCallback}
             />
             {content()}
-            {threads?.length > 1 && (
+            {threadList?.length > 1 && (
               <VaPagination
                 onPageSelect={e => handlePagination(e.detail.page)}
                 page={pageNum}
-                pages={Math.ceil(threads[0]?.threadPageSize / threadsPerPage)}
+                pages={Math.ceil(
+                  threadList[0]?.threadPageSize / threadsPerPage,
+                )}
                 maxPageListLength={MAX_PAGE_LIST_LENGTH}
                 showLastPage
               />

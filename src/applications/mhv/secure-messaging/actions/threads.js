@@ -51,6 +51,19 @@ export const getListOfThreads = (
   }
 };
 
+export const setThreadSortOrder = sortObject => async dispatch => {
+  dispatch({
+    type: Actions.Thread.SET_SORT_ORDER,
+    payload: sortObject,
+  });
+};
+
+export const resetThreadSortOrder = () => async dispatch => {
+  dispatch({
+    type: Actions.Thread.RESET_SORT_ORDER,
+  });
+};
+
 export const clearListOfThreads = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_LIST });
 };
