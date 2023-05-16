@@ -6,6 +6,7 @@ import { WIZARD_STATUS } from '../../wizard/constants';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
+import mockStatus from './fixtures/mocks/profile-status.json';
 import saveInProgress from './fixtures/mocks/saveInProgress.json';
 import debts from './fixtures/mocks/debts.json';
 import copays from './fixtures/mocks/copays.json';
@@ -41,6 +42,7 @@ const testConfig = createTestConfig(
 
       cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.login(mockUser);
+      cy.intercept('GET', '/v0/profile/status', mockStatus);
 
       cy.get('@testData').then(testData => {
         cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
