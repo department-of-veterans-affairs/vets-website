@@ -93,7 +93,7 @@ const generateSupportingDocuments = claim => {
 
   return supportingDocuments
     .map(doc => ({
-      trackedItemId: doc.trackedItemId,
+      ...doc,
       date: doc.uploadDate,
       type: 'supporting_document',
     }))
@@ -108,11 +108,9 @@ const generateTrackedItems = claim => {
   const { trackedItems } = claim.attributes;
 
   return trackedItems.map(item => ({
-    id: item.id,
-    displayName: item.displayName,
+    ...item,
     date: getTrackedItemDate(item),
     type: 'tracked_item',
-    status: item.status,
   }));
 };
 
@@ -124,6 +122,8 @@ const generateEventTimeline = claim => {
   const trackedItems = generateTrackedItems(claim);
 
   const events = [...phases, ...supportingDocuments, ...trackedItems];
+
+  // Sort events from most recent to least recent
   events.sort((a, b) => {
     const dateA = new Date(a.date);
     const dateB = new Date(b.date);
