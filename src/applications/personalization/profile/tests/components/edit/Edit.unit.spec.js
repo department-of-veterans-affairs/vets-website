@@ -34,10 +34,8 @@ describe('<Edit>', () => {
         '/profile/edit?fieldName=someFakeField&returnPath=%2Fprofile%2Fnotifications',
     });
 
-    expect(view.queryByText(/Sorry, this page is unavailable/i)).to.exist;
-
-    // renders the link to return to previous page
-    expect(view.getByText(/Return to your profile/i)).to.exist;
+    expect(view.queryByText(/Edit your profile information/i)).to.exist;
+    expect(view.getByText(/Choose a section to get started/i)).to.exist;
   });
 
   // this should never happen, but just in case, we want to have some fallback behavior
@@ -52,9 +50,7 @@ describe('<Edit>', () => {
         '/profile/edit?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications',
     });
 
-    expect(view.queryByText(/Sorry, this page is unavailable/i)).to.exist;
-
-    // renders the link to return to previous page
-    expect(view.queryByText(/Return to Notification settings/i)).to.not.exist;
+    expect(view.queryByText(/Edit your profile information/i)).to.exist;
+    expect(view.getByText(/Choose a section to get started/i)).to.exist;
   });
 });
