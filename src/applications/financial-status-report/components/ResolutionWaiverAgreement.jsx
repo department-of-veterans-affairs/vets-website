@@ -45,9 +45,9 @@ const ResolutionWaiverAgreement = ({ formContext }) => {
   const checkboxLabel =
     currentDebt.debtType === 'COPAY'
       ? `By checking this box, I understand that I’m requesting forgiveness for my copay debt.`
-      : `By checking this box, I’m agreeing that I understand that
-  forgiveness of education debt will reduce any remaining education
-  benefit I may have.`;
+      : `By checking this box, I’m agreeing that I understand that waiving
+      education debt will reduce any remaining education benefit I may
+      have.`;
 
   return (
     <div
