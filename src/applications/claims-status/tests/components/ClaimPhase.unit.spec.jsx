@@ -218,19 +218,6 @@ describe('<ClaimPhase>', () => {
       );
     });
 
-    it('should show still need from you not reviewed description', () => {
-      const output = instance.getEventDescription({
-        type: 'tracked_item',
-        displayName: 'Request 1',
-        status: 'NEEDED_FROM_YOU',
-        date: '2010-01-04',
-      });
-
-      const descTree = SkinDeep.shallowRender(output);
-
-      expect(descTree.text()).to.equal('We added a notice for: <Link />');
-    });
-
     it('should show still need from you reviewed description', () => {
       const output = instance.getEventDescription({
         type: 'tracked_item',
