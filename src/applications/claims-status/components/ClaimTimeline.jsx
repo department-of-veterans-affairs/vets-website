@@ -6,7 +6,7 @@ import PhaseBackWarning from './PhaseBackWarning';
 import CompleteDetails from './CompleteDetails';
 import { getUserPhase } from '../utils/helpers';
 
-const LAST_EVIDENCE_GATHERING_PHASE = 'PENDING_DECISION_APPROVAL';
+const LAST_EVIDENCE_GATHERING_PHASE = 6;
 
 export default function ClaimTimeline({ currentPhaseBack, id, events, phase }) {
   const userPhase = getUserPhase(phase);
