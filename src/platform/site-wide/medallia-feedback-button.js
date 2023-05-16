@@ -59,7 +59,7 @@ window.addEventListener('DOMContentLoaded', () => {
   bodyObserver.observe(body, observeConfig);
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
   const medalliaModal = document.querySelector('.modal-live-form');
 
   function addAriaLabelToTextContent(element) {
