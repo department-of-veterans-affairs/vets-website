@@ -21,7 +21,7 @@ import {
  * @typedef ContactInfoSettings
  * @type {Object}
  * @property {import('../utilities/data/profile').ContactInfoContent} content
- * @property {String} [contactPath=contact-information] - Contact info path of
+ * @property {String} contactPath=contact-information - Contact info path of
  *  formConfig page
  * @property {String} addressSchema=standardAddressSchema - Address schema
  *  object that includes military base checkbox
@@ -40,10 +40,12 @@ import {
  * @property {String} emailKey=email - email key value set in ContactInfoKeys
  * @property {String[]} contactInfoRequiredKeys - array of key values in
  *  ContactInfoKeys that are to be required before proceeding
- * @property {String[]} contactInfoRequiredKeys=['mailingAddress', 'email',
- *  'homePhone|mobilePhone'] - makes the fields required & enables validation
+ * @property {String[]} contactInfoPageKey=confirmContactInfo - set page key
+ *  within the form config chapter
  * @property {String[]} included=['mobilePhone', 'homePhone', 'mailingAddress',
  *  'email'] - array of ContactInfoKeys to show on the contact info page
+ * @property {Function} depends=null - depends callback function; return true to
+ *  make the main confirmation page visible
  */
 /**
  * Add contact information page with 3-4 edit pages to config/form - spread the
@@ -74,6 +76,8 @@ const profileContactInfo = ({
     // 'homePhone', // homePhone is required
     // 'mobilePhone', // mobilePhone is required
   ],
+  // Page key used within the chapter
+  contactInfoPageKey = 'confirmContactInfo',
 
   // must use same keys as above
   included = ['mobilePhone', 'homePhone', 'mailingAddress', 'email'],
@@ -90,9 +94,9 @@ const profileContactInfo = ({
     wrapperProperties[addressKey] =
       addressSchema ||
       standardAddressSchema(contactInfoRequiredKeys.includes(keys.address));
-    config.editMailingAddress = {
+    config[`${contactInfoPageKey}EditMailingAddress`] = {
       title: content.editMailingAddress,
-      path: 'edit-mailing-address',
+      path: `edit-${contactPath}-mailing-address`,
       CustomPage: props => EditAddress({ ...props, content, contactPath }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -108,9 +112,9 @@ const profileContactInfo = ({
       standardPhoneSchema(
         contactInfoRequiredKeys.join().includes(keys.homePhone),
       );
-    config.editHomePhone = {
+    config[`${contactInfoPageKey}EditHomePhone`] = {
       title: content.editHomePhone,
-      path: 'edit-home-phone',
+      path: `edit-${contactPath}-home-phone`,
       CustomPage: props => EditHomePhone({ ...props, content, contactPath }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -125,9 +129,9 @@ const profileContactInfo = ({
       standardPhoneSchema(
         contactInfoRequiredKeys.join().includes(keys.mobilePhone),
       );
-    config.editMobilePhone = {
+    config[`${contactInfoPageKey}EditMobilePhone`] = {
       title: content.editMobilePhone,
-      path: 'edit-mobile-phone',
+      path: `edit-${contactPath}-mobile-phone`,
       CustomPage: props => EditMobilePhone({ ...props, content, contactPath }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -138,9 +142,9 @@ const profileContactInfo = ({
   if (included.includes(emailKey)) {
     keys.email = emailKey;
     wrapperProperties[emailKey] = emailSchema || standardEmailSchema;
-    config.editEmailAddress = {
+    config[`${contactInfoPageKey}EditEmailAddress`] = {
       title: content.editEmail,
-      path: 'edit-email-address',
+      path: `edit-${contactPath}-email-address`,
       CustomPage: props => EditEmail({ ...props, content, contactPath }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -150,13 +154,14 @@ const profileContactInfo = ({
   }
 
   return {
-    confirmContactInformation: {
+    [contactInfoPageKey]: {
       title: content.title,
       path: contactPath,
       CustomPage: props =>
         ContactInfo({
           ...props,
           content,
+          contactPath,
           keys,
           requiredKeys: contactInfoRequiredKeys,
         }),
@@ -165,8 +170,6 @@ const profileContactInfo = ({
           ...props,
           content,
           keys,
-          contactPath,
-          requiredKeys: contactInfoRequiredKeys,
         }),
       uiSchema: {},
       schema: {

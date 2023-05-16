@@ -34,7 +34,7 @@ import {
   getPhoneString,
   getMissingInfo,
   REVIEW_CONTACT,
-  propTypes,
+  contactInfoPropTypes,
 } from '../utilities/data/profile';
 
 /**
@@ -48,6 +48,7 @@ import {
  * @param {Element} contentAfterButtons - CustomPage param
  * @param {Function} setFormData - CustomPage param
  * @param {Object} content - Contact info page content
+ * @param {String} contactPath - Contact info path; used in edit page path
  * @parma {import('../utilities/data/profile').ContactInfoKeys} keys - contact info data key
  * @param {String[]} requiredKeys - list of keys of required fields
  * @returns
@@ -62,6 +63,7 @@ const ContactInfo = ({
   contentAfterButtons,
   setFormData,
   content,
+  contactPath,
   keys,
   requiredKeys,
 }) => {
@@ -228,7 +230,7 @@ const ContactInfo = ({
           <p className="vads-u-margin-top--0p5">
             <Link
               id="edit-home-phone"
-              to="/edit-home-phone"
+              to={`/edit-${contactPath}-home-phone`}
               aria-label={content.editHomePhone}
             >
               {editText}
@@ -247,7 +249,7 @@ const ContactInfo = ({
           <p className="vads-u-margin-top--0p5">
             <Link
               id="edit-mobile-phone"
-              to="/edit-mobile-phone"
+              to={`/edit-${contactPath}-mobile-phone`}
               aria-label={content.editMobilePhone}
             >
               {editText}
@@ -266,7 +268,7 @@ const ContactInfo = ({
           <p className="vads-u-margin-top--0p5">
             <Link
               id="edit-email"
-              to="/edit-email-address"
+              to={`/edit-${contactPath}-email-address`}
               aria-label={content.editEmail}
             >
               {editText}
@@ -287,7 +289,7 @@ const ContactInfo = ({
           <p className="vads-u-margin-top--0p5">
             <Link
               id="edit-address"
-              to="/edit-mailing-address"
+              to={`/edit-${contactPath}-mailing-address`}
               aria-label={content.editMailingAddress}
             >
               {editText}
@@ -378,13 +380,14 @@ const ContactInfo = ({
 };
 
 ContactInfo.propTypes = {
-  content: propTypes.content, // content passed in from profileContactInfo
+  contactPath: PropTypes.string,
+  content: contactInfoPropTypes.content, // content passed in from profileContactInfo
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
-  data: propTypes.data,
+  data: contactInfoPropTypes.data,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  keys: propTypes.keys,
+  keys: contactInfoPropTypes.keys,
   requiredKeys: PropTypes.shape([PropTypes.string]),
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,

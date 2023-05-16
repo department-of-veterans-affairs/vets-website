@@ -79,6 +79,7 @@ const formConfig = {
 
         // ** Contact info example; none required, but show all entries
         ...profileContactInfo({
+          contactInfoPageKey: 'confirmContactInfo',
           contactPath: 'contact-information', // default path
           contactInfoRequiredKeys: [], // nothing required
           included: ['mobilePhone', 'homePhone', 'mailingAddress', 'email'], // default
@@ -242,31 +243,35 @@ const formConfig = {
         }),
 
         // show & require email
-        confirmContactInfoEmail: profileContactInfo({
-          contactPath: 'contact-info-email',
+        ...profileContactInfo({
+          contactInfoPageKey: 'confirmContactInfo2',
+          contactPath: 'contact-info-with-email',
           contactInfoRequiredKeys: ['email'],
           included: ['email'],
           depends: formData => formData.contactInfoSettings === 'email',
-        }).confirmContactInformation, // skip edit pages (already added)
+        }),
 
         // show & require email, mailing address & home phone
-        confirmContactInfoHome: profileContactInfo({
+        ...profileContactInfo({
+          contactInfoPageKey: 'confirmContactInfo3',
           contactPath: 'contact-info-with-home-phone',
           contactInfoRequiredKeys: ['mailingAddress', 'email', 'homePhone'],
           included: ['homePhone', 'mailingAddress', 'email'],
           depends: formData => formData.contactInfoSettings === 'home',
-        }).confirmContactInformation, // skip edit pages (already added)
+        }),
 
         // show & require email, mailing address & mobile phone
-        confirmContactInfoMobile: profileContactInfo({
+        ...profileContactInfo({
+          contactInfoPageKey: 'confirmContactInfo4',
           contactPath: 'contact-info-with-mobile-phone',
           contactInfoRequiredKeys: ['mailingAddress', 'email', 'mobilePhone'],
           included: ['mobilePhone', 'mailingAddress', 'email'],
           depends: formData => formData.contactInfoSettings === 'mobile',
-        }).confirmContactInformation, // skip edit pages (already added)
+        }),
 
         // show all & require all
-        confirmContactInfoAll: profileContactInfo({
+        ...profileContactInfo({
+          contactInfoPageKey: 'confirmContactInfo5',
           contactPath: 'contact-info-all',
           contactInfoRequiredKeys: [
             'mailingAddress',
@@ -275,7 +280,7 @@ const formConfig = {
           ],
           included: ['mobilePhone', 'homePhone', 'mailingAddress', 'email'],
           depends: formData => formData.contactInfoSettings === 'all',
-        }).confirmContactInformation, // skip edit pages (already added)
+        }),
       },
     },
 

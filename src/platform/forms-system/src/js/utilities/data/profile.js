@@ -302,7 +302,7 @@ export const getReturnState = () =>
 export const clearReturnState = () =>
   window.sessionStorage.removeItem(CONTACT_EDIT);
 
-export const propTypes = {
+export const contactInfoPropTypes = {
   content: PropTypes.shape({
     address1: PropTypes.string, // review & submit address line 1 entry
     address2: PropTypes.string, // review & submit address line 2 entry

@@ -11,7 +11,7 @@ import { ADDRESS_TYPES } from '../../../../forms/address/helpers';
 import {
   CONTACT_EDIT,
   renderTelephone,
-  propTypes,
+  contactInfoPropTypes,
 } from '../utilities/data/profile';
 
 /**
@@ -117,10 +117,10 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
 };
 
 ContactInfoReview.propTypes = {
-  content: propTypes.content,
-  data: propTypes.data,
+  content: contactInfoPropTypes.content,
+  data: contactInfoPropTypes.data,
   editPage: PropTypes.func,
-  keys: propTypes.keys,
+  keys: contactInfoPropTypes.keys,
 };
 
 export default ContactInfoReview;
