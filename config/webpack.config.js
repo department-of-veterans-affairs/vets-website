@@ -260,7 +260,7 @@ module.exports = async (env = {}) => {
     destination: buildtype,
     ...env,
   };
-
+  console.log(buildtype);
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = { ...apps, ...globalEntryFiles };
   const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
