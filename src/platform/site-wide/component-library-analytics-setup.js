@@ -120,11 +120,31 @@ const analyticsEvents = {
       action: 'expand',
       event: 'int-additional-info-expand',
       prefix: 'additional-info',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-additional-info',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'additional-info-triggerText': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
     {
       action: 'collapse',
       event: 'int-additional-info-collapse',
       prefix: 'additional-info',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-additional-info',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'additional-info-triggerText': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-alert': [
@@ -132,6 +152,18 @@ const analyticsEvents = {
       action: 'linkClick',
       event: 'nav-alert-box-link-click',
       prefix: 'alert-box',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-alert',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'alert-box-clickLabel': 'custom_string_2',
+          'alert-box-headline': 'heading_1',
+          'alert-box-status': 'status',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-alert-expandable': [
@@ -139,11 +171,31 @@ const analyticsEvents = {
       action: 'expand',
       event: 'int-alert-expandable-expand',
       prefix: 'alert-expandable',
+      ga4: {
+        event: 'interaction',
+        component_name: 'alert-expandable',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'alert-expandable-triggerText': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
     {
       action: 'collapse',
       event: 'int-alert-expandable-collapse',
       prefix: 'alert-expandable',
+      ga4: {
+        event: 'interaction',
+        component_name: 'alert-expandable',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'alert-expandable-triggerText': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-breadcrumbs': [
