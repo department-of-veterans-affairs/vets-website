@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
-import PropTypes from 'prop-types';
 import InitializeVAPServiceIDContainer from '~/platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
 import ProfileInformationFieldController from '~/platform/user/profile/vap-svc/components/ProfileInformationFieldController';
 import { Toggler } from '~/platform/utilities/feature-toggles';
@@ -41,7 +40,7 @@ const getFieldInfo = fieldName => {
   };
 };
 
-export const Edit = ({ children }) => {
+export const Edit = () => {
   const history = useHistory();
   const query = useQuery();
 
@@ -74,18 +73,17 @@ export const Edit = ({ children }) => {
             <h1 className="vads-u-font-size--h2 vads-u-margin-top--2p5">
               {`Add or update your ${fieldInfo.title.toLowerCase()}`}
             </h1>
-            {children || (
-              <InitializeVAPServiceIDContainer>
-                <ProfileInformationFieldController
-                  fieldName={fieldInfo.fieldName}
-                  forceEditView
-                  isDeleteDisabled
-                  cancelCallback={handlers.cancel}
-                  cancelButtonText="Cancel and go back to last page"
-                  successCallback={handlers.success}
-                />
-              </InitializeVAPServiceIDContainer>
-            )}
+
+            <InitializeVAPServiceIDContainer>
+              <ProfileInformationFieldController
+                fieldName={fieldInfo.fieldName}
+                forceEditView
+                isDeleteDisabled
+                cancelCallback={handlers.cancel}
+                cancelButtonText="Cancel and go back to last page"
+                successCallback={handlers.success}
+              />
+            </InitializeVAPServiceIDContainer>
           </div>
         ) : (
           <EditFallbackContent />
@@ -97,8 +95,4 @@ export const Edit = ({ children }) => {
       </Toggler.Disabled>
     </Toggler>
   );
-};
-
-Edit.propTypes = {
-  children: PropTypes.node,
 };
