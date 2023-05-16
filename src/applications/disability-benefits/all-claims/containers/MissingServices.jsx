@@ -30,8 +30,8 @@ export const MissingServices = ({ title }) => {
       <p className="vads-u-font-size--base">
         We need more information from you before you can {titleLowerCase(title)}
         . Please call Veterans Benefits Assistance at{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
-        <va-telephone contact={CONTACTS['711']} />
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <va-telephone contact={CONTACTS['711']} tty />
         ), Monday through Friday, 8:00 a.m. to 9:00 p.m. ET to update your
         account.
       </p>
@@ -63,8 +63,8 @@ export const MissingId = ({ title }) => {
         We don’t have all of your ID information for your account. We need this
         information before you can {titleLowerCase(title)}. To update your
         account, please call Veterans Benefits Assistance at{' '}
-        <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
-        <va-telephone contact={CONTACTS['711']} />
+        <va-telephone contact={CONTACTS.HELP_DESK} /> (
+        <va-telephone contact={CONTACTS['711']} tty />
         ). We’re here 24 hours a day, 7 days a week.
       </p>
       <p className="vads-u-font-size--base">
@@ -109,8 +109,8 @@ export const MissingDob = ({ title }) => {
       </p>
       <p className="vads-u-font-size--base">
         Please call us at
-        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
-        <va-telephone contact={CONTACTS['711']} />) to update your account.
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <va-telephone contact={CONTACTS['711']} tty />) to update your account.
         We’re here Monday through Friday, 8:00 a.m. to 9:00 9:00 p.m. ET.
       </p>
     </>
