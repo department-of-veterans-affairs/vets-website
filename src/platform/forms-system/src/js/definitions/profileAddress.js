@@ -253,6 +253,9 @@ export default function addressUiSchema(
       'ui:required': uiRequiredCallback,
       'ui:title': 'Country',
       'ui:autocomplete': 'country',
+      'ui:errorMessages': {
+        required: 'Country is required',
+      },
       'ui:options': {
         /**
          * This is needed because the country dropdown needs to be set to USA and disabled if a

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import {
+  VaLoadingIndicator,
+  VaPagination,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import { fetchSearchByNameResults } from '../../actions/index';
@@ -88,7 +90,8 @@ export function NameSearchResults({
     [results, name, totalPages, count],
   );
 
-  const fetchPage = page => {
+  const fetchPage = e => {
+    const { page } = e.detail;
     dispatchFetchSearchByNameResults(name, page, filters, version);
     updateUrlParams(
       history,
@@ -159,7 +162,7 @@ export function NameSearchResults({
                 )}
 
               {!inProgress && (
-                <Pagination
+                <VaPagination
                   className="vads-u-border-top--0"
                   onPageSelect={fetchPage}
                   page={currentPage}

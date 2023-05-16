@@ -6,7 +6,11 @@ export default {
   uiSchema: {
     claimOwnership: {
       'ui:title': (
-        <span className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
+        <span
+          className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold"
+          role="heading"
+          aria-level="2"
+        >
           Are you submitting this statement to support your claim or someone
           else’s claim?
         </span>

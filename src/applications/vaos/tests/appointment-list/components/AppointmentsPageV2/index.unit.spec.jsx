@@ -215,12 +215,12 @@ describe('VAOS <AppointmentsPageV2>', () => {
       expect(
         await screen.findByRole('heading', {
           level: 1,
-          name: 'Your appointments',
+          name: 'Appointments',
         }),
       );
       await waitFor(() => {
         expect(global.document.title).to.equal(
-          `Your appointments | VA online scheduling | Veterans Affairs`,
+          `Appointments | VA online scheduling | Veterans Affairs`,
         );
       });
 
@@ -282,7 +282,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       });
 
       // Then it should display upcoming appointments
-      await screen.findByRole('heading', { name: 'Your appointments' });
+      await screen.findByRole('heading', { name: 'Appointments' });
 
       // When the veteran clicks the Pending button
       let navigation = await screen.findByRole('link', {
@@ -363,7 +363,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       });
 
       // Then it should display the upcoming appointments
-      await screen.findByRole('heading', { name: 'Your appointments' });
+      await screen.findByRole('heading', { name: 'Appointments' });
 
       // When the veteran clicks the Past button
       let navigation = screen.getByRole('link', { name: 'Past' });

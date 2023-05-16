@@ -83,6 +83,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
         key,
         value,
         isVeteran,
+        // LH_MIGRATION Change this to awardEffectiveDateTime when migration is final
         benefitInfo.awardEffectiveDate,
       );
       if (optionText && displayOption) {

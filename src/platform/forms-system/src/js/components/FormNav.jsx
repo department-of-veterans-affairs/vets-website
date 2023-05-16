@@ -146,22 +146,24 @@ export default function FormNav(props) {
       )}
       <div className="schemaform-chapter-progress">
         <div className="nav-header nav-header-schemaform">
-          {showHeader && (
-            <h2
-              id="nav-form-header"
-              data-testid="navFormHeader"
-              className="vads-u-font-size--h4"
-            >
-              {!hideFormNavProgress && stepText}
-              {inProgressMessage}
-            </h2>
-          )}
-          {!showHeader && (
-            <div data-testid="navFormDiv" className="vads-u-font-size--h4">
-              {!hideFormNavProgress && stepText}
-              {inProgressMessage}
-            </div>
-          )}
+          {showHeader &&
+            !hideFormNavProgress && (
+              <h2
+                id="nav-form-header"
+                data-testid="navFormHeader"
+                className="vads-u-font-size--h4"
+              >
+                {stepText}
+                {inProgressMessage}
+              </h2>
+            )}
+          {!showHeader &&
+            !hideFormNavProgress && (
+              <div data-testid="navFormDiv" className="vads-u-font-size--h4">
+                {stepText}
+                {inProgressMessage}
+              </div>
+            )}
         </div>
       </div>
     </div>
