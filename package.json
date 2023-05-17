@@ -369,7 +369,8 @@
       "src/platform/monitoring",
 
       "src/applications/check-in",
-      "src/applications/vaos"
+      "src/applications/vaos",
+      "src/applications/lgy/coe"
     ],
     "nohoist": [
       "**/applications-check-in/i18next-resources-to-backend",
