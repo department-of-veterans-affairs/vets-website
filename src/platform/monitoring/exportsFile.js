@@ -1,27 +1,17 @@
-export { MVI_ERROR_STATES } from './RequiresMVI/constants';
-export { default as recordEvent, recordEventOnce } from './record-event';
+import { MVI_ERROR_STATES } from './RequiresMVI/constants';
+import recordEvent, { recordEventOnce } from './record-event';
 
-export {
-  default as externalServiceStatus,
+import externalServiceStatus, {
   externalServices,
   DowntimeNotification,
 } from './DowntimeNotification/index';
 
-export {
-  default as DowntimeBanner,
-} from './DowntimeNotification/components/Banner';
-export {
-  default as Down,
-  DownMessaging,
-} from './DowntimeNotification/components/Down';
-export {
-  default as DowntimeApproaching,
-} from './DowntimeNotification/components/DowntimeApproaching';
-export {
-  default as DowntimeNotificationWrapper,
-} from './DowntimeNotification/components/Wrapper';
+import DowntimeBanner from './DowntimeNotification/components/Banner';
+import Down, { DownMessaging } from './DowntimeNotification/components/Down';
+import DowntimeApproaching from './DowntimeNotification/components/DowntimeApproaching';
+import DowntimeNotificationWrapper from './DowntimeNotification/components/Wrapper';
 
-export {
+import {
   getStatusForTimeframe,
   createGlobalMaintenanceWindow,
   createServiceMap,
@@ -29,6 +19,24 @@ export {
   getCurrentGlobalDowntime,
 } from './DowntimeNotification/util/helpers';
 
+import { ExternalServicesError } from './external-services/ExternalServicesError';
+
 export {
+  MVI_ERROR_STATES,
+  recordEvent,
+  recordEventOnce,
+  externalServiceStatus,
+  externalServices,
+  DowntimeNotification,
+  DowntimeBanner,
+  Down,
+  DownMessaging,
+  DowntimeApproaching,
+  DowntimeNotificationWrapper,
+  getStatusForTimeframe,
+  createGlobalMaintenanceWindow,
+  createServiceMap,
+  getSoonestDowntime,
+  getCurrentGlobalDowntime,
   ExternalServicesError,
-} from './external-services/ExternalServicesError';
+};
