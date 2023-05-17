@@ -1,94 +1,80 @@
-export {
-  default as AddressViewField,
-} from './src/js/components/AddressViewField';
+import AddressViewField from './src/js/components/AddressViewField';
 
-export { default as FormNavButtons } from './src/js/components/FormNavButtons';
+import FormNavButtons from './src/js/components/FormNavButtons';
 
-export { default as FormTitle } from './src/js/components/FormTitle';
+import FormTitle from './src/js/components/FormTitle';
 
-export { default as ProgressButton } from './src/js/components/ProgressButton';
+import ProgressButton from './src/js/components/ProgressButton';
 
-export {
-  default as ReviewCardField,
-} from './src/js/components/ReviewCardField';
+import ReviewCardField from './src/js/components/ReviewCardField';
 
-export { default as SchemaForm } from './src/js/components/SchemaForm';
+import SchemaForm from './src/js/components/SchemaForm';
 
-export {
+import {
   directDepositDescription,
   directDepositAlert,
   bankInfoHelpText,
 } from './src/js/definitions/content/directDeposit';
 
-export {
+import {
   stateRequiredCountries,
   schema,
   uiSchema,
 } from './src/js/definitions/address';
 
-export {
+import {
   schema as autosuggestSchema,
   uiSchema as autosuggestUiSchema,
 } from './src/js/definitions/autosuggest';
 
-export {
-  default as confirmationEmail,
-} from './src/js/definitions/confirmationEmail';
+import confirmationEmail from './src/js/definitions/confirmationEmail';
 
-export { default as currency } from './src/js/definitions/currency';
+import currency from './src/js/definitions/currency';
 
-export {
-  default as currentOrPastDate,
-} from './src/js/definitions/currentOrPastDate';
+import currentOrPastDate from './src/js/definitions/currentOrPastDate';
 
-export {
-  default as currentOrPastMonthYear,
-} from './src/js/definitions/currentOrPastMonthYear';
+import currentOrPastMonthYear from './src/js/definitions/currentOrPastMonthYear';
 
-export { default as date } from './src/js/definitions/date';
+import date from './src/js/definitions/date';
 
-export { default as dateRange } from './src/js/definitions/dateRange';
+import dateRange from './src/js/definitions/dateRange';
 
-export {
-  default as directDeposit,
+import directDeposit, {
   defaultFieldNames,
   prefillBankInformation,
 } from './src/js/definitions/directDeposit';
 
-export { default as email } from './src/js/definitions/email';
+import email from './src/js/definitions/email';
 
-export { default as fileUiSchema, fileSchema } from './src/js/definitions/file';
+import fileUiSchema, { fileSchema } from './src/js/definitions/file';
 
-export { default as fullName } from './src/js/definitions/fullName';
+import fullName from './src/js/definitions/fullName';
 
-export { default as monthYear } from './src/js/definitions/monthYear';
+import monthYear from './src/js/definitions/monthYear';
 
-export { default as monthYearRange } from './src/js/definitions/monthYearRange';
+import monthYearRange from './src/js/definitions/monthYearRange';
 
-export { default as phone } from './src/js/definitions/phone';
+import phone from './src/js/definitions/phone';
 
-export { default as profileAddres } from './src/js/definitions/profileAddress';
+import profileAddres from './src/js/definitions/profileAddress';
 
-export { default as ssn } from './src/js/definitions/ssn';
+import ssn from './src/js/definitions/ssn';
 
-export { default as year } from './src/js/definitions/year';
+import year from './src/js/definitions/year';
 
-export { default as FullNameField } from './src/js/fields/FullNameField';
+import FullNameField from './src/js/fields/FullNameField';
 
-export { default as ObjectField } from './src/js/fields/ObjectField';
+import ObjectField from './src/js/fields/ObjectField';
 
-export {
-  default as ReviewPhoneNumberWidget,
-} from './src/js/review/PhoneNumberWidget';
+import ReviewPhoneNumberWidget from './src/js/review/PhoneNumberWidget';
 
-export {
+import ReviewChapters, {
   mapStateToProps,
-  default as ReviewChapters,
 } from './src/js/review/ReviewChapters';
 
-export { default as SubmitController } from './src/js/review/SubmitController';
+import SubmitController from './src/js/review/SubmitController';
 
-export {
+import {
   updateRequiredFields,
   isContentExpanded,
   setHiddenFields,
@@ -102,9 +88,9 @@ export {
   createInitialState,
 } from './src/js/state/helpers';
 
-export { default as reducers } from './src/js/state/reducers';
+import reducers from './src/js/state/reducers';
 
-export {
+import {
   getFormData,
   getFormPages,
   getSubmission,
@@ -112,19 +98,15 @@ export {
   getViewedPages,
 } from './src/js/state/selectors';
 
-export {
-  default as numberToWords,
-} from './src/js/utilities/data/numberToWords';
+import numberToWords from './src/js/utilities/data/numberToWords';
 
-export {
-  default as findDuplicateIndexes,
-} from './src/js/utilities/data/findDuplicateIndexes';
+import findDuplicateIndexes from './src/js/utilities/data/findDuplicateIndexes';
 
-export { default as get } from './src/js/utilities/data/get';
+import get from './src/js/utilities/data/get';
 
-export { default as set } from './src/js/utilities/data/set';
+import set from './src/js/utilities/data/set';
 
-export {
+import {
   readAndCheckFile,
   checkTypeAndExtensionMatches,
   arrayIncludesArray,
@@ -136,12 +118,9 @@ export {
   PasswordSuccess,
 } from './src/js/utilities/file';
 
-export {
-  default as maskString,
-  srSubstitute,
-} from './src/js/utilities/ui/mask-string';
+import maskString, { srSubstitute } from './src/js/utilities/ui/mask-string';
 
-export {
+import {
   $,
   focusElement,
   getFocusableElements,
@@ -152,7 +131,7 @@ export {
   scrollToFirstError,
 } from './src/js/utilities/ui/index';
 
-export {
+import {
   isValidSSN,
   isValidYear,
   isValidPartialDate,
@@ -165,25 +144,23 @@ export {
   isValidRoutingNumber,
 } from './src/js/utilities/validations/index';
 
-export { default as fuzzyMatching } from './src/js/utilities/fuzzy-matching';
+import fuzzyMatching from './src/js/utilities/fuzzy-matching';
 
-export {
+import {
   inProgressMessage,
   expiredMessage,
   savedMessage,
 } from './src/js/utilities/save-in-progress-messages';
 
-export { default as viewifyFields } from './src/js/utilities/viewify-fields';
+import viewifyFields from './src/js/utilities/viewify-fields';
 
-export {
-  default as PhoneNumberWidget,
-} from './src/js/widgets/PhoneNumberWidget';
+import PhoneNumberWidget from './src/js/widgets/PhoneNumberWidget';
 
-export { default as TextWidget } from './src/js/widgets/TextWidget';
+import TextWidget from './src/js/widgets/TextWidget';
 
-export { default as ArrayCountWidget } from './src/js/widgets/ArrayCountWidget';
+import ArrayCountWidget from './src/js/widgets/ArrayCountWidget';
 
-export {
+import {
   closeReviewChapter,
   openReviewChapter,
   setData,
@@ -195,7 +172,7 @@ export {
   setFormErrors,
 } from './src/js/actions';
 
-export {
+import {
   START_NEW_APP_DEFAULT_MESSAGE,
   CONTINUE_APP_DEFAULT_MESSAGE,
   APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE,
@@ -208,7 +185,7 @@ export {
   accountTitleLabels,
 } from './src/js/constants';
 
-export {
+import {
   minYear,
   maxYear,
   isActivePage,
@@ -240,7 +217,7 @@ export {
   showReviewField,
 } from './src/js/helpers';
 
-export {
+import {
   getEligiblePages,
   getNextPagePath,
   getPreviousPagePath,
@@ -248,7 +225,7 @@ export {
   createRoutes,
 } from './src/js/routing';
 
-export {
+import {
   transformErrors,
   uiSchemaValidate,
   errorSchemaIsValid,
@@ -271,3 +248,177 @@ export {
   validateBooleanGroup,
   validateAutosuggestOption,
 } from './src/js/validation';
+
+export {
+  AddressViewField,
+  FormNavButtons,
+  FormTitle,
+  ProgressButton,
+  ReviewCardField,
+  SchemaForm,
+  directDepositDescription,
+  directDepositAlert,
+  bankInfoHelpText,
+  stateRequiredCountries,
+  schema,
+  uiSchema,
+  autosuggestSchema,
+  autosuggestUiSchema,
+  confirmationEmail,
+  currency,
+  currentOrPastDate,
+  currentOrPastMonthYear,
+  date,
+  dateRange,
+  directDeposit,
+  defaultFieldNames,
+  prefillBankInformation,
+  email,
+  fileUiSchema,
+  fileSchema,
+  fullName,
+  monthYear,
+  monthYearRange,
+  phone,
+  profileAddres,
+  ssn,
+  year,
+  FullNameField,
+  ObjectField,
+  ReviewPhoneNumberWidget,
+  ReviewChapters,
+  mapStateToProps,
+  SubmitController,
+  updateRequiredFields,
+  isContentExpanded,
+  setHiddenFields,
+  removeHiddenData,
+  updateSchemaFromUiSchema,
+  updateUiSchema,
+  replaceRefSchemas,
+  updateItemsSchema,
+  updateSchemaAndData,
+  recalculateSchemaAndData,
+  createInitialState,
+  reducers,
+  getFormData,
+  getFormPages,
+  getSubmission,
+  getReviewPageOpenChapters,
+  getViewedPages,
+  numberToWords,
+  findDuplicateIndexes,
+  get,
+  set,
+  readAndCheckFile,
+  checkTypeAndExtensionMatches,
+  arrayIncludesArray,
+  fileTypeSignatures,
+  FILE_TYPE_MISMATCH_ERROR,
+  checkIsEncryptedPdf,
+  ShowPdfPassword,
+  PasswordLabel,
+  PasswordSuccess,
+  maskString,
+  srSubstitute,
+  $,
+  focusElement,
+  getFocusableElements,
+  scrollElementName,
+  focusOnChange,
+  scrollToElement,
+  setGlobalScroll,
+  scrollToFirstError,
+  isValidSSN,
+  isValidYear,
+  isValidPartialDate,
+  isValidCurrentOrPastDate,
+  isValidCurrentOrFutureDate,
+  isValidCurrentOrPastYear,
+  isValidCurrentOrFutureMonthYear,
+  dateToMoment,
+  isValidDateRange,
+  isValidRoutingNumber,
+  fuzzyMatching,
+  inProgressMessage,
+  expiredMessage,
+  savedMessage,
+  viewifyFields,
+  PhoneNumberWidget,
+  TextWidget,
+  ArrayCountWidget,
+  closeReviewChapter,
+  openReviewChapter,
+  setData,
+  setEditMode,
+  setSubmission,
+  setPreSubmit,
+  setSubmitted,
+  setViewedPages,
+  setFormErrors,
+  START_NEW_APP_DEFAULT_MESSAGE,
+  CONTINUE_APP_DEFAULT_MESSAGE,
+  APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE,
+  FINISH_APP_LATER_DEFAULT_MESSAGE,
+  UNAUTH_SIGN_IN_DEFAULT_MESSAGE,
+  APP_TYPE_DEFAULT,
+  APP_ACTION_DEFAULT,
+  REVIEW_APP_DEFAULT_MESSAGE,
+  FILE_UPLOAD_NETWORK_ERROR_MESSAGE,
+  accountTitleLabels,
+  minYear,
+  maxYear,
+  isActivePage,
+  getActiveProperties,
+  getInactivePages,
+  createFormPageList,
+  createPageListByChapter,
+  createPageList,
+  formatISOPartialDate,
+  formatReviewDate,
+  parseISODate,
+  filterViewFields,
+  filterInactivePageData,
+  stringifyFormReplacer,
+  isInProgress,
+  getArrayFields,
+  hasFieldsOtherThanArray,
+  getNonArraySchema,
+  pureWithDeepEquals,
+  checkValidSchema,
+  setArrayRecordTouched,
+  createUSAStateLabels,
+  expandArrayPages,
+  getActiveExpandedPages,
+  getPageKeys,
+  getActiveChapters,
+  omitRequired,
+  transformForSubmit,
+  showReviewField,
+  getEligiblePages,
+  getNextPagePath,
+  getPreviousPagePath,
+  checkValidPagePath,
+  createRoutes,
+  transformErrors,
+  uiSchemaValidate,
+  errorSchemaIsValid,
+  isValidForm,
+  validateSSN,
+  validateDate,
+  validateMonthYear,
+  validateCurrentOrPastDate,
+  validateCurrentOrFutureDate,
+  validateCurrentOrPastMonthYear,
+  validateFutureDateIfExpectedGrad,
+  validateCurrentOrPastYear,
+  validateMatch,
+  validateRoutingNumber,
+  convertToDateField,
+  validateDateRange,
+  validateDateRangeAllowSameMonth,
+  getFileError,
+  validateFileField,
+  validateBooleanGroup,
+  validateAutosuggestOption,
+};
