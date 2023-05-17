@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
 const defaultRecord = {
   make: '',
@@ -14,7 +13,7 @@ const defaultRecord = {
 const MAX_VEHICLE_MAKE_LENGTH = 32;
 
 const EnhancedVehicleRecord = props => {
-  const { data, goToPath, onReviewPage, setFormData } = props;
+  const { data, goToPath, setFormData } = props;
 
   const { assets } = data;
   const { automobiles = [] } = assets;
@@ -116,9 +115,6 @@ const EnhancedVehicleRecord = props => {
     }
   };
 
-  const navButtons = <FormNavButtons goBack={handleBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
-
   return (
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
@@ -210,8 +206,25 @@ const EnhancedVehicleRecord = props => {
             <li>Websites or forums that appraise the value of vehicles</li>
           </ul>
         </va-additional-info>
+        <p>
+          <button
+            type="button"
+            id="cancel"
+            className="usa-button-secondary vads-u-width--auto"
+            onClick={handleBack}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            id="submit"
+            className="vads-u-width--auto"
+            onClick={updateFormData}
+          >
+            {`${automobiles.length === editIndex ? 'Add' : 'Update'} vehicle`}
+          </button>
+        </p>
       </fieldset>
-      {onReviewPage ? updateButton : navButtons}
     </form>
   );
 };
