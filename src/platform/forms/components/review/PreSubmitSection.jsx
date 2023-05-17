@@ -97,13 +97,13 @@ export function PreSubmitSection(props) {
 
     const fullName = get(form?.data, fullNamePath || 'veteran.fullName');
 
-    statementOfTruthFullName = fullName.first;
+    statementOfTruthFullName = fullName.first || '';
 
     if (fullName.middle) {
       statementOfTruthFullName += ` ${fullName.middle}`;
     }
 
-    statementOfTruthFullName += ` ${fullName.last}`;
+    statementOfTruthFullName += ` ${fullName.last || ''}`;
   }
 
   return (
