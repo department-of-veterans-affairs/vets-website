@@ -4,7 +4,7 @@ import { fireEvent } from '@testing-library/react';
 
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
-import vapProfile from '../../../../user/profile/vap-svc/tests/e2e/mockVapProfile.json';
+import vapProfile from '../../../../user/profile/vap-svc/tests/fixtures/mockVapProfile.json';
 import vapService from '../../../../user/profile/vap-svc/reducers';
 
 import { EditHomePhone } from '../../../src/js/components/EditContactInfo';

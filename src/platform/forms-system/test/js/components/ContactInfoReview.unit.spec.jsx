@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
-import vapProfile from '../../../../user/profile/vap-svc/tests/e2e/mockVapProfile.json';
+import vapProfile from '../../../../user/profile/vap-svc/tests/fixtures/mockVapProfile.json';
 
 import { $, $$ } from '../../../src/js/utilities/ui';
 import ContactInfoReview from '../../../src/js/components/ContactInfoReview';
