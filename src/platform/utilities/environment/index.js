@@ -26,18 +26,11 @@ if (!isPort80) {
   // where we're testing the vagovprod (production) build-type by serving the production-compiled files,
   // but on a server running under localhost. This would also be the case if we're testing the
   // production environment on our local machines.
-  let LOCALHOST_ENV = ENVIRONMENT_CONFIGURATIONS[ENVIRONMENTS.LOCALHOST];
-
-  if (BUILDTYPE === 'preview') {
-    LOCALHOST_ENV = ENVIRONMENT_CONFIGURATIONS[ENVIRONMENTS.PREVIEW];
-  }
+  const LOCALHOST_ENV = ENVIRONMENT_CONFIGURATIONS[ENVIRONMENTS.LOCALHOST];
   environment.API_URL = LOCALHOST_ENV.API_URL;
   environment.BASE_URL = LOCALHOST_ENV.BASE_URL;
 }
-if (
-  environment.BUILDTYPE === ENVIRONMENTS.LOCALHOST ||
-  environment.BUILDTYPE === ENVIRONMENTS.PREVIEW
-) {
+if (environment.BUILDTYPE === ENVIRONMENTS.LOCALHOST) {
   // __API__ is defined the same way as __BUILDTYPE__, and is used to indicate the URL of the VA API. The main use
   // case for this at the moment is for internal review instances to pass configuration during the build.
   const CUSTOM_API = __API__;
