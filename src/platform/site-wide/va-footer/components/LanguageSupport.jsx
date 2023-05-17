@@ -16,7 +16,7 @@ function LanguagesListTemplate({ dispatchLanguageSelection }) {
     <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-bottom--0">
       {[
         {
-          label: 'Español',
+          label: 'Test',
           lang: 'es',
           href: 'https://www.va.gov/asistencia-y-recursos-en-espanol',
         },
