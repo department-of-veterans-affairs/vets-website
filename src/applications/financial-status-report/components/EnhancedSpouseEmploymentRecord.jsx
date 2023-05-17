@@ -9,7 +9,6 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
 
 const defaultRecord = [
@@ -22,8 +21,10 @@ const defaultRecord = [
   },
 ];
 
+const RETURN_PATH = '/spouse-employment-history';
+
 const EmploymentRecord = props => {
-  const { data, goToPath, goBack, onReviewPage, setFormData } = props;
+  const { data, goToPath, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -31,10 +32,17 @@ const EmploymentRecord = props => {
 
   const index = isEditing ? Number(editIndex) : 0;
 
+  const {
+    personalData: {
+      employmentHistory: {
+        spouse: { employmentRecords = [] },
+      },
+    },
+  } = data;
+
   // if we have employment history and plan to edit, we need to get it from the employmentRecords
-  const specificRecord = data.personalData.employmentHistory.spouse
-    .employmentRecords
-    ? data.personalData.employmentHistory.spouse.employmentRecords[index]
+  const specificRecord = employmentRecords
+    ? employmentRecords[index]
     : defaultRecord[0];
 
   const [employmentRecord, setEmploymentRecord] = useState({
@@ -67,6 +75,10 @@ const EmploymentRecord = props => {
       // detail.value from va-select & target.value from va-text-input
       const value = event.detail?.value || target.value;
       handleChange(fieldName, value);
+    },
+    onCancel: event => {
+      event.preventDefault();
+      goToPath(RETURN_PATH);
     },
     handleDateChange: (key, monthYear) => {
       const dateString = `${monthYear}-XX`;
@@ -110,11 +122,9 @@ const EmploymentRecord = props => {
 
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
-      const updatedRecords = data.personalData.employmentHistory.spouse.employmentRecords.map(
-        (item, arrayIndex) => {
-          return arrayIndex === index ? employmentRecord : item;
-        },
-      );
+      const updatedRecords = employmentRecords.map((item, arrayIndex) => {
+        return arrayIndex === index ? employmentRecord : item;
+      });
       // update form data
       setFormData({
         ...data,
@@ -131,12 +141,7 @@ const EmploymentRecord = props => {
         },
       });
     } else {
-      const records = [
-        employmentRecord,
-        ...(data.personalData.employmentHistory.spouse.employmentRecords
-          ? data.personalData.employmentHistory.spouse.employmentRecords
-          : []),
-      ];
+      const records = [employmentRecord, ...(employmentRecords || [])];
 
       setFormData({
         ...data,
@@ -176,9 +181,6 @@ const EmploymentRecord = props => {
       errorSetter(null);
     }
   };
-
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
 
   return (
     <form onSubmit={updateFormData}>
@@ -260,7 +262,6 @@ const EmploymentRecord = props => {
           }
         />
       </fieldset>
-      {onReviewPage ? updateButton : navButtons}
     </form>
   );
 };
