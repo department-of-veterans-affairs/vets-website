@@ -59,29 +59,66 @@ window.addEventListener('DOMContentLoaded', () => {
   bodyObserver.observe(body, observeConfig);
 });
 
-window.addEventListener('DOMContentLoaded', () => {
-  const medalliaModal = document.querySelector('.modal-live-form');
+// window.addEventListener('DOMContentLoaded', () => {
+//   const medalliaModal = document.querySelector('.modal-live-form');
 
-  function addAriaLabelToTextContent(element) {
-    if (
-      element.childNodes.length === 0 &&
-      element.textContent
-        .trim()
-        .split(' ')
-        .includes('988.')
-    ) {
-      element.setAttribute('aria-label', '9 8 8');
-    } else {
-      Array.from(element.childNodes).forEach(childNode => {
-        if (childNode.nodeType === Node.ELEMENT_NODE) {
-          addAriaLabelToTextContent(childNode);
-        }
-      });
+//   function addAriaLabelToTextContent(element) {
+//     if (
+//       element.childNodes.length === 0 &&
+//       element.textContent
+//         .trim()
+//         .split(' ')
+//         .includes('988.')
+//     ) {
+//       element.setAttribute('aria-label', '9 8 8');
+//     } else {
+//       Array.from(element.childNodes).forEach(childNode => {
+//         if (childNode.nodeType === Node.ELEMENT_NODE) {
+//           addAriaLabelToTextContent(childNode);
+//         }
+//       });
+//     }
+//   }
+
+//   if (medalliaModal) {
+//     addAriaLabelToTextContent(medalliaModal);
+//     // eslint-disable-next-line no-console
+//     console.log('found vcl number!');
+//   } else {
+//     // eslint-disable-next-line no-console
+//     console.log('vcl number not found');
+//   }
+// });
+
+window.addEventListener('load', () => {
+  const medalliaModal = document.querySelector('.modal-live-form');
+  const vclNumber = medalliaModal
+    .querySelector('.pageRepeater')
+    .querySelector('.neb-component')
+    .querySelector('ul')
+    .querySelector('li:nth-child(1)')
+    .querySelector('span');
+
+  function addAriaLabel(spanElement) {
+    // Get the text of the span element.
+    const text = spanElement.innerHTML;
+
+    // Find the index of the text "988.".
+    const index = text.indexOf('988.');
+
+    // If the text "988." is found, add an aria label to the span element.
+    if (index > -1) {
+      const ariaLabel = '9 8 8';
+      const spanText = `${text.slice(
+        0,
+        index,
+      )}<span aria-label="${ariaLabel}">988.</span>${text.slice(index + 5)}`;
+      // eslint-disable-next-line no-param-reassign
+      spanElement.innerHTML = spanText;
     }
   }
-
   if (medalliaModal) {
-    addAriaLabelToTextContent(medalliaModal);
+    addAriaLabel(vclNumber);
     // eslint-disable-next-line no-console
     console.log('found vcl number!');
   } else {
