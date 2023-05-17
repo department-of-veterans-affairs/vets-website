@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import get from 'platform/utilities/data/get';
-import { apiRequest } from 'platform/utilities/api';
-import { focusElement } from 'platform/utilities/ui';
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { pendingMessage } from '../content/confirmation-poll';
@@ -13,13 +14,6 @@ import { submissionStatuses, terminalStatuses } from '../constants';
 import { isBDD } from '../utils';
 
 export class ConfirmationPoll extends React.Component {
-  // Using it as a prop for easy testing
-  static defaultProps = {
-    pollRate: 5000,
-    delayFailure: 6000, // larger than pollRate
-    longWaitTime: 30000,
-  };
-
   constructor(props) {
     super(props);
 
@@ -146,5 +140,19 @@ function mapStateToProps(state) {
     isSubmittingBDD: isBDD(state.form.data) || false,
   };
 }
+
+ConfirmationPoll.propTypes = {
+  delayFailure: PropTypes.number,
+  jobId: PropTypes.string,
+  longWaitTime: PropTypes.number,
+  pollRate: PropTypes.number,
+};
+
+// Using it as a prop for easy testing
+ConfirmationPoll.defaultProps = {
+  pollRate: 5000,
+  delayFailure: 6000, // larger than pollRate
+  longWaitTime: 30000,
+};
 
 export default connect(mapStateToProps)(ConfirmationPoll);
