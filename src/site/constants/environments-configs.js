@@ -42,7 +42,7 @@ module.exports = {
   },
 
   [ENVIRONMENTS.PREVIEW]: {
-    BUILDTYPE: ENVIRONMENTS.LOCALHOST,
+    BUILDTYPE: ENVIRONMENTS.PREVIEW,
     BASE_URL: isNode
       ? 'https://localhost:3001'
       : `http://${location.hostname || 'localhost'}:${
