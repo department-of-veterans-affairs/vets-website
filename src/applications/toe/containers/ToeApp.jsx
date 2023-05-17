@@ -73,7 +73,7 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
+      if (showMebEnhancements06 !== formData.showMebEnhancements) {
         setFormData({
           ...formData,
           showMebEnhancements06,
