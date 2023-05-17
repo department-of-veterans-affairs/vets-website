@@ -89,10 +89,13 @@ export function PreSubmitSection(props) {
   let statementOfTruthFullName;
 
   if (statementOfTruth) {
-    const fullName = get(
-      form?.data,
-      statementOfTruth.fullNamePath || 'veteran.fullName',
-    );
+    // use a function for conditionally changing fullName validation
+    const fullNamePath =
+      typeof statementOfTruth.fullNamePath === 'function'
+        ? statementOfTruth.fullNamePath(form?.data)
+        : statementOfTruth.fullNamePath;
+
+    const fullName = get(form?.data, fullNamePath || 'veteran.fullName');
 
     statementOfTruthFullName = fullName.first;
 
