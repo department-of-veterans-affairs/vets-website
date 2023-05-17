@@ -4,7 +4,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import mockMessages from './fixtures/drafts-search-results.json';
 import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
 import mockSentFolder from './fixtures/folder-sent-metadata.json';
-import mockDeletedFolder from './fixtures/folder-deleted-metadata.json';
+import mockDeletedFolder from './fixtures/folder-trash-metadata.json';
 import mockCustomFolder from './fixtures/folder-custom-metadata.json';
 import mockInboxFolder from './fixtures/folder-inbox-metadata.json';
 

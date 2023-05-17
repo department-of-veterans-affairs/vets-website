@@ -1,51 +1,32 @@
 import manifest from '../../manifest.json';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-// import mockMessages from './fixtures/drafts-search-results.json';
-import mockDraftsSearchMessages from './fixtures/drafts-search-COVID-results.json';
 import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
-import draftResponce from './fixtures/drafts-response.json';
-import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
+import mockSentFolder from './fixtures/folder-sent-metadata.json';
+import particularFolderResponse from './fixtures/drafts-response.json';
+import mockSearchMessages from './fixtures/search-COVID-results.json';
+import mockTrashFolder from './fixtures/folder-trash-metadata.json';
 
 describe(manifest.appName, () => {
-  describe('Advanced search in Drafts', () => {
+  describe('Advanced search in Inbox', () => {
     beforeEach(() => {
-      const draftAdvancedSearch = new PatientMessageDraftsPage();
       const site = new SecureMessagingSite();
-      site.login();
       const landingPage = new PatientInboxPage();
+      site.login();
       landingPage.loadInboxMessages();
-      cy.intercept(
-        'GET',
-        '/my_health/v1/messaging/folders/-2',
-        mockDraftsFolder,
-      );
-      cy.intercept(
-        'GET',
-        '/my_health/v1/messaging/folders/-2/threads?**',
-        draftResponce,
-      );
-      // cy.intercept(
-      //   'GET',
-      //   '/my_health/v1/messaging/folders/-2/messages?per_page=-1',
-      //   mockMessages,
-      // ).as('basicSearchRequestDrafts');
-      cy.get('[data-testid="drafts-sidebar"]').click();
       cy.intercept(
         'POST',
         '/my_health/v1/messaging/folders/*/search',
-        mockDraftsSearchMessages,
+        mockSearchMessages,
       );
-      draftAdvancedSearch.openAdvancedSearch();
-      draftAdvancedSearch.selectAdvancedSearchCategory();
-      draftAdvancedSearch.submitSearchButton();
+      landingPage.openAdvancedSearch();
+      landingPage.selectAdvancedSearchCategory();
+      landingPage.submitSearchButton();
     });
-    // Following assertion could be turned to the POM style
-    it('Axe check ', () => {});
-    it('Check all messages contain the serached category', () => {
+    it('Check all inbox messages contain the searched category', () => {
       cy.get('[data-testid="message-list-item"]')
         .should('contain', 'COVID')
-        .and('have.length', mockDraftsSearchMessages.data.length);
+        .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
       cy.axeCheck();
     });
@@ -56,5 +37,173 @@ describe(manifest.appName, () => {
       cy.injectAxe();
       cy.axeCheck();
     });
+  });
+  describe('Advanced search in Drafts', () => {
+    beforeEach(() => {
+      const site = new SecureMessagingSite();
+      const landingPage = new PatientInboxPage();
+      site.login();
+      landingPage.loadInboxMessages();
+      cy.intercept(
+        'GET',
+        '/my_health/v1/messaging/folders/-2',
+        mockDraftsFolder,
+      );
+      cy.intercept(
+        'GET',
+        '/my_health/v1/messaging/folders/-2/threads?**',
+        particularFolderResponse,
+      );
+      cy.get('[data-testid="drafts-sidebar"]').click();
+      cy.intercept(
+        'POST',
+        '/my_health/v1/messaging/folders/*/search',
+        mockSearchMessages,
+      );
+      landingPage.openAdvancedSearch();
+      landingPage.selectAdvancedSearchCategory();
+      landingPage.submitSearchButton();
+    });
+    it('Check all draft messages contain the searched category', () => {
+      cy.get('[data-testid="message-list-item"]')
+        .should('contain', 'COVID')
+        .and('have.length', mockSearchMessages.data.length);
+      cy.injectAxe();
+      cy.axeCheck();
+    });
+    it('Check the search message label', () => {
+      cy.get('[data-testid="search-message-folder-input-label"]')
+        .should('contain', '4')
+        .and('contain', 'Category: "covid"');
+      cy.injectAxe();
+      cy.axeCheck();
+    });
+  });
+  describe('Advanced search in Sent', () => {
+    beforeEach(() => {
+      const site = new SecureMessagingSite();
+      site.login();
+      const landingPage = new PatientInboxPage();
+      landingPage.loadInboxMessages();
+      cy.intercept(
+        'GET',
+        '/my_health/v1/messaging/folders/-1',
+        mockSentFolder,
+      ).as('basicSearchRequestDraftsMeta');
+      cy.intercept(
+        'GET',
+        '/my_health/v1/messaging/folders/-1/threads?**',
+        particularFolderResponse,
+      );
+      cy.get('[data-testid="sent-sidebar"]').click();
+      cy.intercept(
+        'POST',
+        '/my_health/v1/messaging/folders/*/search',
+        mockSearchMessages,
+      ).as('advancedSearchRequest');
+      landingPage.openAdvancedSearch();
+      landingPage.selectAdvancedSearchCategory();
+      landingPage.submitSearchButton();
+    });
+    it('Check all sent messages contain the searched category', () => {
+      cy.get('[data-testid="message-list-item"]')
+        .should('contain', 'COVID')
+        .and('have.length', mockSearchMessages.data.length);
+      cy.injectAxe();
+      cy.axeCheck();
+    });
+    it('Check the search message label', () => {
+      cy.get('[data-testid="search-message-folder-input-label"]')
+        .should('contain', '4')
+        .and('contain', 'Category: "covid"');
+      cy.injectAxe();
+      cy.axeCheck();
+    });
+  });
+  describe('Advanced search in Trash', () => {
+    beforeEach(() => {
+      const site = new SecureMessagingSite();
+      site.login();
+      const landingPage = new PatientInboxPage();
+      landingPage.loadInboxMessages();
+      cy.intercept(
+        'GET',
+        '/my_health/v1/messaging/folders/-3',
+        mockTrashFolder,
+      );
+      cy.intercept(
+        'GET',
+        '/my_health/v1/messaging/folders/-3/threads?**',
+        particularFolderResponse,
+      );
+      cy.get('[data-testid="trash-sidebar"]').click();
+      cy.intercept(
+        'POST',
+        '/my_health/v1/messaging/folders/*/search',
+        mockSearchMessages,
+      );
+      landingPage.openAdvancedSearch();
+      landingPage.selectAdvancedSearchCategory();
+      landingPage.submitSearchButton();
+    });
+    it('Check all messages contain the searched category', () => {
+      cy.get('[data-testid="message-list-item"]')
+        .should('contain', 'COVID')
+        .and('have.length', mockSearchMessages.data.length);
+      cy.injectAxe();
+      cy.axeCheck();
+    });
+    it('Check the search message label', () => {
+      cy.get('[data-testid="search-message-folder-input-label"]')
+        .should('contain', '4')
+        .and('contain', 'Category: "covid"');
+      cy.injectAxe();
+      cy.axeCheck();
+    });
+  });
+  describe('Advanced search in Custom folder', () => {
+    beforeEach(() => {
+      const site = new SecureMessagingSite();
+      site.login();
+      const landingPage = new PatientInboxPage();
+      landingPage.loadInboxMessages();
+      //   cy.intercept(
+      //     'GET',
+      //     '/my_health/v1/messaging/folders/-3',
+      //     mockTrashFolder,
+      //   );
+      //   cy.intercept(
+      //     'GET',
+      //     '/my_health/v1/messaging/folders/-3/threads?**',
+      //     particularFolderResponse,
+      //   );
+      //   cy.get('[data-testid="trash-sidebar"]').click();
+      //   cy.intercept(
+      //     'POST',
+      //     '/my_health/v1/messaging/folders/*/search',
+      //     mockSearchMessages,
+      //   );
+      //   landingPage.openAdvancedSearch();
+      //   landingPage.selectAdvancedSearchCategory();
+      //   landingPage.submitSearchButton();
+    });
+    it('axechek', () => {
+      cy.injectAxe();
+      cy.axeCheck();
+    });
+    // it('Check all messages contain the searched category', () => {
+    //   cy.get('[data-testid="message-list-item"]')
+    //     .should('contain', 'COVID')
+    //     .and('have.length', mockSearchMessages.data.length);
+    //   cy.injectAxe();
+    //   cy.axeCheck();
+    // });
+    // it('Check the search message label', function() {
+    //   cy.get('[data-testid="search-message-folder-input-label"]')
+    //     .should('contain', '4')
+    //     .and('contain', 'Category: "covid"');
+    //   cy.injectAxe();
+    //   cy.axeCheck();
+    // });
   });
 });

@@ -352,7 +352,7 @@ class PatientInboxPage {
   selectAdvancedSearchCategory = () => {
     cy.get('#category-dropdown')
       .find('#select')
-      .select('Education');
+      .select('COVID');
   };
 
   submitSearchButton = () => {
