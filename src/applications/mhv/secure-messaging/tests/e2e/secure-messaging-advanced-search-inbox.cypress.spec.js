@@ -33,20 +33,19 @@ describe(manifest.appName, () => {
       inboxPage.selectAdvancedSearchCategory();
       inboxPage.submitSearchButton();
     });
-    // Following assertion could be turned to the POM style
-    it('Axe check', () => {
-      cy.injectAxe();
-      cy.axeCheck();
-    });
     it('Check all messages contain the searched category', () => {
       cy.get('[data-testid="message-list-item"]')
         .should('contain', 'Education')
         .and('have.length', mockInboxSearchMessages.data.length);
+      cy.injectAxe();
+      cy.axeCheck();
     });
     it('Check the search message label', function() {
       cy.get('[data-testid="search-message-folder-input-label"]')
         .should('contain', '4')
         .and('contain', 'Category: "education"');
+      cy.injectAxe();
+      cy.axeCheck();
     });
   });
 });
