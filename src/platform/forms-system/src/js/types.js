@@ -26,6 +26,7 @@
  * @property {(props: any) => JSX.Element} confirmation
  * @property {CustomText} customText
  * @property {Record<string, SchemaOptions>} defaultDefinitions
+ * @property {Dev} dev - object of dev-only options
  * @property {Downtime} downtime
  * @property {(props: any) => JSX.Element} errorText
  * @property {(props: any) => JSX.Element} footerContent
@@ -69,6 +70,11 @@
  */
 
 /**
+ * @typedef {Object} Dev
+ * @property {boolean} showNavLinks
+ */
+
+/**
  * @typedef {Object} SavedFormMessages
  * @property {string} notFound
  * @property {string} noAuth
@@ -92,6 +98,7 @@
  * @property {JSX.Element} label
  * @property {string | JSX.Element} notice
  * @property {boolean} required
+ * @property {StatementOfTruth} statementOfTruth
  */
 
 /**
@@ -100,6 +107,15 @@
  * @property {string} messages.inProgress
  * @property {string} messages.expired
  * @property {string} messages.saved
+ */
+
+/**
+ * @typedef {Object} StatementOfTruth
+ * @property {string | JSX.Element} body
+ * @property {string} fullNamePath - defaults to 'veteran.fullName'
+ * @property {string} heading - defaults to 'Statement of truth'
+ * @property {string} messageAriaDescribedby - defaults to 'Statement of truth'
+ * @property {string} textInputLabel - defaults to 'Your full name'
  */
 
 /**

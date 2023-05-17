@@ -5,8 +5,11 @@ import FolderHeader from '../../../components/MessageList/FolderHeader';
 import folders from '../../fixtures/folder-inbox-response.json';
 import { DefaultFolders as Folder } from '../../../util/constants';
 
+const searchProps = { searchResults: [], awaitingResults: false };
 describe('FolderHeader component in Inbox', () => {
-  const tree = SkinDeep.shallowRender(<FolderHeader folder={folders.inbox} />);
+  const tree = SkinDeep.shallowRender(
+    <FolderHeader folder={folders.inbox} searchProps={{ ...searchProps }} />,
+  );
 
   it('must display valid folder name', async () => {
     const folderHeader = tree.props.children[0];
@@ -25,7 +28,9 @@ describe('FolderHeader component in Inbox', () => {
 });
 
 describe('FolderHeader component in Sent folder', () => {
-  const tree = SkinDeep.shallowRender(<FolderHeader folder={folders.sent} />);
+  const tree = SkinDeep.shallowRender(
+    <FolderHeader folder={folders.sent} searchProps={{ ...searchProps }} />,
+  );
   it('must display valid folder name', () => {
     expect(tree.subTree('h1').text()).to.equal(Folder.SENT.header);
   });
@@ -40,7 +45,9 @@ describe('FolderHeader component in Sent folder', () => {
 });
 
 describe('FolderHeader component in Drafts folder', () => {
-  const tree = SkinDeep.shallowRender(<FolderHeader folder={folders.drafts} />);
+  const tree = SkinDeep.shallowRender(
+    <FolderHeader folder={folders.drafts} searchProps={{ ...searchProps }} />,
+  );
   it('must display valid folder name', () => {
     expect(tree.subTree('h1').text()).to.equal(Folder.DRAFTS.header);
   });
@@ -55,7 +62,9 @@ describe('FolderHeader component in Drafts folder', () => {
 });
 
 describe('FolderHeader component in Trash folder', () => {
-  const tree = SkinDeep.shallowRender(<FolderHeader folder={folders.trash} />);
+  const tree = SkinDeep.shallowRender(
+    <FolderHeader folder={folders.trash} searchProps={{ ...searchProps }} />,
+  );
   it('must display valid folder name', () => {
     expect(tree.subTree('h1').text()).to.equal(Folder.DELETED.header);
   });

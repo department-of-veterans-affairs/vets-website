@@ -74,6 +74,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['preferredProviderName'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'remove', path: ['vaos', 'isCompAndPenAppointment'] },
           { op: 'replace', path: ['description'], value: 'FUTURE' },
           { op: 'replace', path: ['comment'], value: null },
           {
@@ -133,6 +134,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['preferredProviderName'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'remove', path: ['vaos', 'isCompAndPenAppointment'] },
           {
             op: 'replace',
             path: ['description'],
@@ -192,6 +194,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['preferredProviderName'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'remove', path: ['vaos', 'isCompAndPenAppointment'] },
           { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
           { op: 'replace', path: ['comment'], value: null },
         ],
@@ -246,6 +249,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['preferredProviderName'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'remove', path: ['vaos', 'isCompAndPenAppointment'] },
           { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
           { op: 'replace', path: ['comment'], value: null },
         ],
@@ -301,6 +305,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['preferredProviderName'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'remove', path: ['vaos', 'isCompAndPenAppointment'] },
           { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
           { op: 'replace', path: ['comment'], value: null },
         ],
@@ -366,6 +371,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['preferredProviderName'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'remove', path: ['vaos', 'isCompAndPenAppointment'] },
           { op: 'replace', path: ['description'], value: 'FUTURE' },
           {
             op: 'replace',
@@ -458,6 +464,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['preferredProviderName'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'remove', path: ['vaos', 'isCompAndPenAppointment'] },
           { op: 'replace', path: ['description'], value: 'FUTURE' },
           {
             op: 'replace',
@@ -530,6 +537,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['preferredProviderName'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'remove', path: ['vaos', 'isCompAndPenAppointment'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -586,6 +594,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['preferredProviderName'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'remove', path: ['vaos', 'isCompAndPenAppointment'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -641,6 +650,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['preferredProviderName'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'remove', path: ['vaos', 'isCompAndPenAppointment'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -696,6 +706,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['preferredProviderName'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'remove', path: ['vaos', 'isCompAndPenAppointment'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -771,6 +782,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['preferredProviderName'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'remove', path: ['vaos', 'isCompAndPenAppointment'] },
           { op: 'replace', path: ['comment'], value: null },
           {
             op: 'replace',
@@ -949,6 +961,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['preferredProviderName'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'remove', path: ['vaos', 'isCompAndPenAppointment'] },
           { op: 'replace', path: ['reason'], value: undefined },
           { op: 'replace', path: ['comment'], value: null },
         ],
@@ -1049,6 +1062,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['preferredProviderName'] },
           { op: 'remove', path: ['description'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'remove', path: ['vaos', 'isCompAndPenAppointment'] },
           { op: 'replace', path: ['reason'], value: undefined },
           { op: 'replace', path: ['comment'], value: null },
 
@@ -1159,6 +1173,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['preferredProviderName'] },
           { op: 'remove', path: ['description'] },
+          { op: 'remove', path: ['vaos', 'isCompAndPenAppointment'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
           { op: 'replace', path: ['reason'], value: undefined },
           { op: 'replace', path: ['comment'], value: null },

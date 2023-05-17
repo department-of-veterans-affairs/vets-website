@@ -1,19 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { dateFormat } from '../../util/helpers';
 
 const CareSummariesAndNotesListItem = props => {
   const { record } = props;
 
   const dateOrDates = () => {
     if (record.startDate && record.endDate) {
-      return `${dateFormat(record.startDate, 'MMMM D, YYYY')} to ${dateFormat(
-        record.endDate,
-        'MMMM D, YYYY',
-      )}`;
+      return `${record.startDate} to ${record.endDate}`;
     }
-    return dateFormat(record.dateSigned, 'MMMM D, YYYY');
+    return record.dateSigned;
   };
 
   const signedByOrAdmittingPhysician = () => {

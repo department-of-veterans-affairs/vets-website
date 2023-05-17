@@ -177,6 +177,25 @@ const maximalSetOfPreferences = {
             },
           ],
         },
+        {
+          id: 5,
+          name: 'QuickSubmit',
+          description: 'QuickSubmit Notifications',
+          communicationItems: [
+            {
+              id: 12,
+              name: 'QuickSubmit Upload Status',
+              communicationChannels: [
+                {
+                  id: 1,
+                  name: 'Text',
+                  description: 'SMS Notification',
+                  defaultSendIndicator: true,
+                },
+              ],
+            },
+          ],
+        },
       ],
     },
   },

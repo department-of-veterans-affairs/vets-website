@@ -22,7 +22,7 @@ import {
 
 let dispatch;
 
-describe('HCA actions', () => {
+describe('hca actions', () => {
   describe('getEnrollmentStatus', () => {
     beforeEach(() => {
       dispatch = sinon.spy();

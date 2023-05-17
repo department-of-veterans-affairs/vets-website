@@ -20,6 +20,8 @@ import vetAddrInfo from '../pages/vetAddrInfo';
 import vetContInfo from '../pages/vetContInfo';
 import statement from '../pages/statement';
 
+import transformForSubmit from '../../shared/config/submit-transformer';
+
 // "Flows" in comments below map to "Stories" in the mockups:
 // https://www.sketch.com/s/a11421d3-c148-41a2-a34f-3d7821ea676f
 
@@ -33,25 +35,29 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'lay-witness-10210-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21-10210',
   saveInProgress: {
     messages: {
-      inProgress: 'Your claims application (21-10210) is in progress.',
+      inProgress:
+        'Your Lay/Witness Statement application (21-10210) is in progress.',
       expired:
-        'Your saved claims application (21-10210) has expired. If you want to apply for claims, please start a new application.',
-      saved: 'Your claims application has been saved.',
+        'Your saved Lay/Witness Statement application (21-10210) has expired. If you want to apply, please start a new application.',
+      saved: 'Your Lay/Witness Statement application has been saved.',
     },
   },
   version: 0,
+  transformForSubmit,
+  // we're setting prefillEnable to true here JUST to enable Intro-page's
+  // SaveInProgressInfo content to display.
+  // we're actually NOT functionally implementing prefill in this form,
+  // so there's no prefillTransformer prop.
   prefillEnabled: true,
   savedFormMessages: {
-    // notFound: 'Please start over to apply for claims.',
-    // noAuth: 'Please sign in again to continue your application for claims.',
+    notFound: 'Please start over to apply.',
+    noAuth: 'Please sign in again to continue your application.',
   },
   title: 'Submit a Lay/Witness Statement',
   subTitle: 'Equal to submitting a Lay/Witness Statement (VA Form 21-10210)',
@@ -71,7 +77,7 @@ const formConfig = {
         claimOwnershipPage: {
           path: 'claim-ownership',
           title: 'Who is submitting this statement?',
-          // we want req'd fields prefilled for testing/previewing
+          // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
             !!mockData && environment.isLocalhost() ? mockData : undefined,
