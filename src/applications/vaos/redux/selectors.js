@@ -77,3 +77,6 @@ export const selectFeatureRequestFlowUpdate = state =>
 
 export const selectFeaturePocTypeOfCare = state =>
   toggleValues(state).vaOnlineSchedulingPocTypeOfCare;
+
+export const selectFeatureConvertUtcToLocaL = state =>
+  toggleValues(state).vaOnlineSchedulingConvertUtcToLocal;
