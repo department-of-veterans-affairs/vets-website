@@ -11,8 +11,8 @@ import {
 import { createStore } from 'redux';
 import { render } from '@testing-library/react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import formConfig from '../../config/form.js';
-import { SAVED_SEPARATION_DATE } from '../../constants.js';
+import formConfig from '../../config/form';
+import { SAVED_SEPARATION_DATE } from '../../constants';
 
 const invalidDocumentData = {
   additionalDocuments: [
