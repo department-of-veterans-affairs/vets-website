@@ -28,7 +28,7 @@ export const CurrentDebtDescription = ({ formContext }) => {
   const { selectedDebtsAndCopays = [] } = formData;
   const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
   const showRequiredText =
-    formContext?.pageTitle === 'Resolution Waiver Agreement' ? null : (
+    formContext?.pageTitle !== 'Resolution Option' ? null : (
       <span className="required-text">(*Required)</span>
     );
 
