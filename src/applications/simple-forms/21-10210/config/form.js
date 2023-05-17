@@ -35,8 +35,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'lay-witness-10210-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

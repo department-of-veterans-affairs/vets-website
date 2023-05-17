@@ -2,41 +2,24 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import ClaimsTimeline from '../../components/ClaimsTimeline';
+import ClaimTimeline from '../../components/ClaimTimeline';
 
-describe('<ClaimsTimeline>', () => {
+describe('<ClaimTimeline>', () => {
   it('should render 5 phases', () => {
     const events = [];
 
     const tree = SkinDeep.shallowRender(
-      <ClaimsTimeline events={events} phase={6} />,
+      <ClaimTimeline events={events} phase={6} />,
     );
 
     expect(tree.everySubTree('ClaimPhase').length).to.equal(5);
-  });
-
-  it('should render phase back warning text', () => {
-    const events = [];
-
-    const tree = SkinDeep.shallowRender(
-      <ClaimsTimeline events={events} everPhaseBack phase={6} />,
-    );
-
-    expect(
-      tree.everySubTree('ClaimPhase')[2].props.children[0].props.children[1],
-    ).to.contain('may be times when a claim moves forward');
   });
 
   it('should render phase back warning box for phase 6', () => {
     const events = [];
 
     const tree = SkinDeep.shallowRender(
-      <ClaimsTimeline
-        events={events}
-        everPhaseBack
-        currentPhaseBack
-        phase={6}
-      />,
+      <ClaimTimeline events={events} currentPhaseBack phase={6} />,
     );
 
     expect(tree.subTree('PhaseBackWarning')).not.to.be.false;
@@ -46,12 +29,7 @@ describe('<ClaimsTimeline>', () => {
     const events = [];
 
     const tree = SkinDeep.shallowRender(
-      <ClaimsTimeline
-        events={events}
-        everPhaseBack
-        currentPhaseBack
-        phase={4}
-      />,
+      <ClaimTimeline events={events} currentPhaseBack phase={4} />,
     );
 
     expect(tree.subTree('PhaseBackWarning')).to.be.false;
@@ -59,7 +37,7 @@ describe('<ClaimsTimeline>', () => {
 
   it('should render CompleteDetails for phase 5', () => {
     const tree = SkinDeep.shallowRender(
-      <ClaimsTimeline events={[]} phase={5} />,
+      <ClaimTimeline events={[]} phase={5} />,
     );
     expect(tree.everySubTree('CompleteDetails')).not.to.be.false;
   });
