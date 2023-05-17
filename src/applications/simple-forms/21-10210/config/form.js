@@ -38,6 +38,26 @@ const formConfig = {
   trackingPrefix: 'lay-witness-10210-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I certify that I have completed this statement and that its information is true and correct to the best of my knowledge and belief.',
+      messageAriaDescribedby:
+        'I certify that I have completed this statement and that its information is true and correct to the best of my knowledge and belief.',
+      fullNamePath: formData => {
+        if (formData.claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY) {
+          return 'witnessFullName';
+        }
+        if (
+          formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
+          formData.claimantType === CLAIMANT_TYPES.NON_VETERAN
+        ) {
+          return 'claimantFullName';
+        }
+        return 'veteranFullName';
+      },
+    },
+  },
   formId: '21-10210',
   saveInProgress: {
     messages: {
