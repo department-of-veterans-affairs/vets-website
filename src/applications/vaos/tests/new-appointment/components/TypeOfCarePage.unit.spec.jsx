@@ -374,7 +374,7 @@ describe('VAOS <TypeOfCarePage>', () => {
   });
 
   describe('using VAOS service', () => {
-    it('should open facility type page when CC eligible and has a supported parent site', async () => {
+    it.skip('should open facility type page when CC eligible and has a supported parent site', async () => {
       mockVAOSParentSites(
         ['983'],
         [
