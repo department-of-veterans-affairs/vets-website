@@ -13,6 +13,7 @@ import {
   cnpDirectDepositInformation,
   profileUseLighthouseDirectDepositEndpoint,
   selectIsBlocked,
+  togglesAreLoaded,
 } from '@@profile/selectors';
 import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
@@ -69,6 +70,7 @@ class Profile extends Component {
       shouldFetchEDUDirectDepositInformation,
       connectDrupalSourceOfTruthCerner,
       useLighthouseDirectDepositEndpoint,
+      togglesLoaded,
     } = this.props;
     connectDrupalSourceOfTruthCerner();
     if (isLOA3 && isInMVI) {
@@ -76,7 +78,7 @@ class Profile extends Component {
       fetchPersonalInformation();
       fetchMilitaryInformation();
     }
-    if (shouldFetchCNPDirectDepositInformation) {
+    if (togglesLoaded && shouldFetchCNPDirectDepositInformation) {
       fetchCNPPaymentInformation({
         useLighthouseDirectDepositEndpoint,
       });
@@ -103,26 +105,34 @@ class Profile extends Component {
       shouldFetchTotalDisabilityRating,
       isInMVI,
       useLighthouseDirectDepositEndpoint,
+      togglesLoaded,
     } = this.props;
     if (isLOA3 && !prevProps.isLOA3 && isInMVI) {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
     }
+
     if (
       shouldFetchTotalDisabilityRating &&
       !prevProps.shouldFetchTotalDisabilityRating
     ) {
       fetchTotalDisabilityRating();
     }
+
     if (
-      shouldFetchCNPDirectDepositInformation &&
-      !prevProps.shouldFetchCNPDirectDepositInformation
+      (togglesLoaded &&
+        !prevProps.togglesLoaded &&
+        shouldFetchCNPDirectDepositInformation) ||
+      (togglesLoaded &&
+        shouldFetchCNPDirectDepositInformation &&
+        !prevProps.shouldFetchCNPDirectDepositInformation)
     ) {
       fetchCNPPaymentInformation({
         useLighthouseDirectDepositEndpoint,
       });
     }
+
     if (
       shouldFetchEDUDirectDepositInformation &&
       !prevProps.shouldFetchEDUDirectDepositInformation
@@ -272,11 +282,13 @@ Profile.propTypes = {
   shouldFetchEDUDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
-  useLighthouseDirectDepositEndpoint: PropTypes.bool.isRequired,
+  togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
+  useLighthouseDirectDepositEndpoint: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
+  const togglesLoaded = togglesAreLoaded(state);
   const signInServicesEligibleForDD = new Set([
     CSP_IDS.ID_ME,
     CSP_IDS.LOGIN_GOV,
@@ -316,8 +328,6 @@ const mapStateToProps = state => {
   // fails:
   const hasLoadedFullName = isLOA1 || !isInMVI || state.vaProfile?.hero;
 
-  // this piece of state will be set if the call to load name info succeeds or
-  // fails:
   const hasLoadedCNPPaymentInformation =
     !isInMVI || cnpDirectDepositInformation(state);
 
@@ -354,6 +364,7 @@ const mapStateToProps = state => {
     useLighthouseDirectDepositEndpoint: profileUseLighthouseDirectDepositEndpoint(
       state,
     ),
+    togglesLoaded,
   };
 };
 

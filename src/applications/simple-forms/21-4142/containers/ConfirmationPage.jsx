@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import FormFooter from 'platform/forms/components/FormFooter';
+
+import GetFormHelp from '../../shared/components/GetFormHelp';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -41,7 +44,7 @@ export class ConfirmationPage extends React.Component {
           <h2 slot="headline">
             Thank you for submitting your authorization request
           </h2>
-          <p className="vads-u-margin-y--0">
+          <p>
             After we review your application, we will contact the private
             provider or hospital to obtain the requested records. If we cannot
             obtain the records within 15 days we will send you a follow up
@@ -84,6 +87,15 @@ export class ConfirmationPage extends React.Component {
           >
             Print this page
           </button>
+        </div>
+        <a
+          className="vads-c-action-link--green vads-u-margin-bottom--4"
+          href="/"
+        >
+          Go back to VA.gov
+        </a>
+        <div>
+          <FormFooter formConfig={{ getHelp: GetFormHelp }} />
         </div>
       </div>
     );
