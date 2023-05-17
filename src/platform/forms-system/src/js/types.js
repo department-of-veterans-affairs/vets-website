@@ -174,14 +174,14 @@
 
 /**
  * @typedef {{
- *   atLeastOne:? string,
- *   enum:? string,
- *   maxItems:? string,
- *   maxLength:? string,
- *   minItems:? string,
- *   minLength:? string,
- *   pattern:? string,
- *   required:? string,
+ *   atLeastOne?: string,
+ *   enum?: string,
+ *   maxItems?: string,
+ *   maxLength?: string,
+ *   minItems?: string,
+ *   minLength?: string,
+ *   pattern?: string,
+ *   required?: string,
  * } | {
  *   [key: string]: string
  * }} UIErrorMessages
