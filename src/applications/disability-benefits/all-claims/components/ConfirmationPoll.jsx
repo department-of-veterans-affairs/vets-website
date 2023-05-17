@@ -143,7 +143,7 @@ function mapStateToProps(state) {
     disabilities: selectAllDisabilityNames(state),
     submittedAt: state.form.submission.timestamp,
     jobId: state.form.submission.response?.attributes?.jobId,
-    isSubmittingBDD: isBDD(state.form.data) || true,
+    isSubmittingBDD: isBDD(state.form.data) || false,
   };
 }
 
