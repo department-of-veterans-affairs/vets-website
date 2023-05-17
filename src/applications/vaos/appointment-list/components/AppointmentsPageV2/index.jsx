@@ -6,7 +6,6 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
 import {
   selectFeatureStatusImprovement,
   selectFeatureAppointmentList,
@@ -20,7 +19,7 @@ import Select from '../../../components/Select';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
 import PageLayout from '../PageLayout';
 import { selectPendingAppointments } from '../../redux/selectors';
-import { APPOINTMENT_STATUS, GA_PREFIX } from '../../../utils/constants';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import AppointmentListNavigation from '../AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
