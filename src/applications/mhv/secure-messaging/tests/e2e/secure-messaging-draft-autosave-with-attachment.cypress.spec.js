@@ -42,7 +42,7 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
       .its('request.body')
       .should('deep.equal', {
         body:
-          'ststASertTesting Autosave Drafts with Attachments\nTesting Autosave Drafts with Attachments\n',
+          'ststASertTesting Autosave Drafts with Attachments\nTesting Autosave Drafts with Attachments\nTesting Autosave Drafts with Attachments\n',
         category: mockDraftResponse.data.attributes.category,
         recipientId: mockDraftResponse.data.attributes.recipientId,
         subject: mockDraftResponse.data.attributes.subject,
