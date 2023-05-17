@@ -11,6 +11,7 @@
 @import "./labs-and-tests";
 @import "./chem-hem";
 @import "./print-download";
+@import "./radiology-images";
 
 // Your custom sass
 va-loading-indicator {
@@ -92,7 +93,6 @@ va-loading-indicator {
   .main-content {
     margin-left: 0px;
     width: 100%;
-    max-width: 486px;
     padding: 0px;
     @media print {
       margin-right: 0px;
