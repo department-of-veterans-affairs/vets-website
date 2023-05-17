@@ -139,9 +139,6 @@ export default function AppointmentsPageV2() {
         document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
         scrollAndFocus('h1');
       }
-      recordEvent({
-        event: `${GA_PREFIX}-new-appointment-list`,
-      });
     },
     [
       subPageTitle,
