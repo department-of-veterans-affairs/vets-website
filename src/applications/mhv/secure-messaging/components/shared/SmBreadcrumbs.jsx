@@ -1,16 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 // temporarily using deprecated Breadcrumbs React component due to issues with VaBreadcrumbs that are pending resolution
 // import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 // import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
+import { retrieveFolder } from '../../actions/folders';
 
 const SmBreadcrumbs = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const history = useHistory();
   const messageDetails = useSelector(state => state.sm.messageDetails.message);
   const activeFolder = useSelector(state => state.sm.folders.folder);
   const breadcrumbsRef = useRef();
@@ -31,12 +33,38 @@ const SmBreadcrumbs = () => {
     [isMobile],
   );
 
+  const redirectToNavigationFolderPath = () => {
+    switch (location.pathname) {
+      case '/folder/0':
+        history.push(Constants.Breadcrumbs.INBOX.path);
+        break;
+      case '/folder/-1':
+        history.push(Constants.Breadcrumbs.SENT.path);
+        break;
+      case '/folder/-2':
+        history.push(Constants.Breadcrumbs.DRAFTS.path);
+        break;
+      case '/folder/-3':
+        history.push(Constants.Breadcrumbs.TRASH.path);
+        break;
+      default:
+        break;
+    }
+  };
+
+  useEffect(
+    () => {
+      redirectToNavigationFolderPath();
+    },
+    [location.pathname],
+  );
+
   window.addEventListener('resize', checkScreenSize);
 
   useEffect(
     () => {
-      const arr = [{ path: '/', label: 'Dashboard' }];
-      let paths = [
+      const arr = [];
+      const paths = [
         { path: `/message`, label: messageDetails?.subject },
         { path: '/reply', label: messageDetails?.subject },
         Constants.Breadcrumbs.COMPOSE,
@@ -48,32 +76,6 @@ const SmBreadcrumbs = () => {
         Constants.Breadcrumbs.TRASH,
         Constants.Breadcrumbs.FAQ,
       ];
-
-      // Displays folder path with child path
-      if (activeFolder?.folderId > 0) {
-        const foldersParent = paths.find(({ path }) => path === '/folders');
-        const foldersChild = {
-          children: [
-            {
-              path: `/folder/${activeFolder?.folderId}`,
-              label: activeFolder?.name,
-            },
-          ],
-        };
-        const childPath = foldersChild.children.find(({ path }) => path);
-        paths = [...paths];
-        Object.assign(foldersParent, foldersChild);
-
-        if (childPath.path !== location.pathname) {
-          delete foldersParent.children;
-        }
-        if (childPath.path === location.pathname) {
-          arr.push(foldersParent);
-          if (childPath) {
-            arr.push(childPath);
-          }
-        }
-      }
 
       const handleBreadCrumbs = () => {
         // arr.push({
@@ -102,6 +104,11 @@ const SmBreadcrumbs = () => {
                 arr.push(child);
               }
             }
+          } else if (locationBasePath === 'folder') {
+            arr.push({
+              path: Constants.Breadcrumbs.FOLDERS.path,
+              label: Constants.Breadcrumbs.FOLDERS.label,
+            });
           } else if (locationBasePath === 'search') {
             arr.push({
               path: `/folder/${activeFolder.folderId}`,
@@ -144,6 +151,15 @@ const SmBreadcrumbs = () => {
     ],
   );
 
+  useEffect(
+    () => {
+      if (messageDetails && !activeFolder) {
+        dispatch(retrieveFolder(messageDetails?.threadFolderId));
+      }
+    },
+    [messageDetails],
+  );
+
   return (
     <div className="vads-l-row breadcrumbs">
       {crumbs.length > 0 && (
@@ -155,13 +171,13 @@ const SmBreadcrumbs = () => {
               if (crumb.path.includes('https://')) {
                 return (
                   <a key={i} href={crumb.path}>
-                    Return to {crumbs[crumbs.length - 2]?.label.toLowerCase()}
+                    Back to {crumbs[crumbs.length - 2]?.label.toLowerCase()}
                   </a>
                 );
               }
               return (
                 <Link key={i} to={crumb.path}>
-                  Return to {crumbs[crumbs.length - 2]?.label.toLowerCase()}
+                  Back to {crumbs[crumbs.length - 2]?.label.toLowerCase()}
                 </Link>
               );
             })

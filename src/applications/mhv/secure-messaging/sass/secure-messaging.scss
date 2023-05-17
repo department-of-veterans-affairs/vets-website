@@ -3,10 +3,13 @@
 @import "./folders-list";
 @import "./folder-thread-list-view";
 @forward "usa-button-group";
-
+.breadcrumb-replacement-space {
+  margin-top: 78px;
+}
 .secure-messaging-container {
   display: flex;
   flex-direction: row;
+
   .main-content {
     display: flex;
     flex-direction: column;

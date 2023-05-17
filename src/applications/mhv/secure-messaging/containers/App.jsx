@@ -11,6 +11,8 @@ import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
 
+const REPLACE_BREADCRUMB_WITH_MARGIN_SPACE = 'breadcrumb-replacement-space';
+
 const App = () => {
   const user = useSelector(selectUser);
   const userServices = user.profile.services;
@@ -18,6 +20,14 @@ const App = () => {
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingToVaGovRelease],
   );
+  const crumbs = useSelector(state => state.sm.breadcrumbs.list);
+
+  const noBreadcrumbStyleClassToggle = () => {
+    if (crumbs.length === 0) {
+      return REPLACE_BREADCRUMB_WITH_MARGIN_SPACE;
+    }
+    return '';
+  };
 
   return (
     <RequiredLoginView
@@ -44,7 +54,9 @@ const App = () => {
           <>
             <SmBreadcrumbs />
 
-            <div className="secure-messaging-container vads-u-display--flex">
+            <div
+              className={`secure-messaging-container vads-u-display--flex ${noBreadcrumbStyleClassToggle()}`}
+            >
               <Navigation />
               <ScrollToTop />
               <Switch>
