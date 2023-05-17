@@ -261,6 +261,24 @@ const EmploymentRecord = props => {
             handlers.handleCheckboxChange('isCurrent', value)
           }
         />
+        <p>
+          <button
+            type="button"
+            id="cancel"
+            className="usa-button-secondary vads-u-width--auto"
+            onClick={handlers.onCancel}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            id="submit"
+            className="vads-u-width--auto"
+            onClick={updateFormData}
+          >
+            {`${editIndex ? 'Update' : 'Add'} employment record`}
+          </button>
+        </p>
       </fieldset>
     </form>
   );
