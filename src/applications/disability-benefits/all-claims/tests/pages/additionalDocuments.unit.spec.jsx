@@ -7,7 +7,7 @@ import moment from 'moment';
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester, // selectCheckbox
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { createStore } from 'redux';
 import { render } from '@testing-library/react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';

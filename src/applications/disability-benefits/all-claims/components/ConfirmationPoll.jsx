@@ -143,9 +143,16 @@ function mapStateToProps(state) {
 
 ConfirmationPoll.propTypes = {
   delayFailure: PropTypes.number,
+  disabilities: PropTypes.array,
+  fullName: PropTypes.shape({
+    first: PropTypes.string,
+    last: PropTypes.string,
+  }),
+  isSubmittingBDD: PropTypes.bool,
   jobId: PropTypes.string,
   longWaitTime: PropTypes.number,
   pollRate: PropTypes.number,
+  submittedAt: PropTypes.object,
 };
 
 // Using it as a prop for easy testing
