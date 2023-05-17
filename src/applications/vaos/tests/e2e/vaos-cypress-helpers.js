@@ -24,7 +24,7 @@ import schedulingConfigurations from '../../services/mocks/v2/scheduling_configu
 import clinicsV2 from '../../services/mocks/v2/clinics.json';
 import confirmedV2 from '../../services/mocks/v2/confirmed.json';
 import requestsV2 from '../../services/mocks/v2/requests.json';
-import { getRealFacilityId } from '../../utils/appointment';
+import { getStagingId } from '../../services/var';
 
 const mockUser = {
   data: {
@@ -655,13 +655,16 @@ export function mockFacilityApi({ id, apiVersion = 1 } = {}) {
       cy.intercept(
         {
           method: 'GET',
-          pathname: `/v1/facilities/va/${getRealFacilityId(facilityId)}`,
+          pathname: `/v1/facilities/va/vha_${getStagingId(facilityId)}`,
         },
         req => {
           req.reply({
-            data: facilityData.data.find(
-              f => f.id === getRealFacilityId(facilityId),
-            ),
+            data: facilityData.data.find(f => {
+              return f.id
+                .replace('442', '983')
+                .replace('552', '984')
+                .includes(facilityId);
+            }),
           });
         },
       ).as('v1:get:facility');

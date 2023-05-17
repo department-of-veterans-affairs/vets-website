@@ -135,7 +135,7 @@ describe('VAOS appointment list', () => {
       // NOTE: Mock not needed if location information is included with the
       // appointment
       mockFacilityApi({
-        id: `vha_${data[0].attributes.locationId}`,
+        id: data[0].attributes.locationId,
         apiVersion: 1,
       });
 

@@ -1,12 +1,18 @@
 import environment from 'platform/utilities/environment';
 import { apiRequestWithUrl, parseApiList, parseApiObject } from '../utils';
 
-function getStagingId(facilityId) {
-  if (!environment.isProduction() && facilityId.startsWith('983')) {
+export function getStagingId(facilityId) {
+  if (
+    (!environment.isProduction() && facilityId.startsWith('983')) ||
+    window.Cypress
+  ) {
     return facilityId.replace('983', '442');
   }
 
-  if (!environment.isProduction() && facilityId.startsWith('984')) {
+  if (
+    (!environment.isProduction() && facilityId.startsWith('984')) ||
+    window.Cypress
+  ) {
     return facilityId.replace('984', '552');
   }
 
