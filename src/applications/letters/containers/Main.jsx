@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 
 import { selectVAPContactInfo } from 'platform/user/selectors';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
-import { recordsNotFound, isAddressEmpty } from '../utils/helpers';
+import {
+  recordsNotFound,
+  isAddressEmpty,
+  // eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__getOptions,
+} from '../utils/helpers';
 import noAddressBanner from '../components/NoAddressBanner';
 import systemDownMessage from '../components/systemDownMessage';
 
@@ -12,6 +17,8 @@ import {
   getLetterListAndBSLOptions,
   profileHasEmptyAddress,
 } from '../actions/letters';
+
+import { lettersUseLighthouse } from '../selectors';
 
 const {
   awaitingResponse,
@@ -25,8 +32,14 @@ const {
 
 export class Main extends React.Component {
   componentDidMount() {
+    const { shouldUseLighthouse } = this.props;
+
+    // eslint-disable-next-line -- LH_MIGRATION
+    const LH_MIGRATION__options = LH_MIGRATION__getOptions(shouldUseLighthouse);
+
     if (!this.props.emptyAddress) {
-      return this.props.getLetterListAndBSLOptions();
+      // eslint-disable-next-line -- LH_MIGRATION
+      return this.props.getLetterListAndBSLOptions(LH_MIGRATION__options);
     }
     return this.props.profileHasEmptyAddress();
   }
@@ -62,6 +75,7 @@ Main.propTypes = {
   getLetterListAndBSLOptions: PropTypes.func,
   lettersAvailability: PropTypes.string,
   profileHasEmptyAddress: PropTypes.func,
+  useLighthouse: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -75,6 +89,8 @@ function mapStateToProps(state) {
     },
     optionsAvailable: letterState.optionsAvailable,
     emptyAddress: isAddressEmpty(selectVAPContactInfo(state)?.mailingAddress),
+    // TODO: change to conform to LH_MIGRATION style
+    shouldUseLighthouse: lettersUseLighthouse(state),
   };
 }
 
