@@ -52,7 +52,7 @@ export default {
     },
     witnessOtherRelationshipToClaimant: {
       'ui:title':
-        'If your relationship with the Claimant is not listed, you can write it here (255 characters maximum)',
+        'If your relationship with the Claimant is not listed, you can write it here (30 characters maximum)',
       // '(* Required)' span hidden via styling
       'ui:required': formData =>
         !formData.witnessRelationshipToClaimant['served-with'] &&
@@ -79,7 +79,7 @@ export default {
       },
       witnessOtherRelationshipToClaimant: {
         type: 'string',
-        maxLength: 255,
+        maxLength: 30,
       },
     },
   },
