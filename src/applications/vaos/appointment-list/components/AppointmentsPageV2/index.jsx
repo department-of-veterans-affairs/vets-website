@@ -135,13 +135,13 @@ export default function AppointmentsPageV2() {
       if (featureStatusImprovement) {
         document.title = `${pageTitle} | VA online scheduling | Veterans Affairs`;
         scrollAndFocus('h1');
-        recordEvent({
-          event: `${GA_PREFIX}-new-appointment-list`,
-        });
       } else {
         document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
         scrollAndFocus('h1');
       }
+      recordEvent({
+        event: `${GA_PREFIX}-new-appointment-list`,
+      });
     },
     [
       subPageTitle,
