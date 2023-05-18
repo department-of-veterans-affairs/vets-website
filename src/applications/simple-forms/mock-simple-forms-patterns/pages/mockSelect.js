@@ -157,7 +157,6 @@ export default {
       },
       textWC: {
         type: 'string',
-        enum: ['option1', 'option2'],
       },
       selectWC2: {
         type: 'string',
@@ -166,7 +165,6 @@ export default {
       wcv3: titleSchema(),
       textWCV3: {
         type: 'string',
-        enum: ['option1', 'option2'],
       },
       selectWC2V3: {
         type: 'string',

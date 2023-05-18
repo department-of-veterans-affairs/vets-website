@@ -71,8 +71,6 @@ export default {
       emailOld: {
         type: 'string',
         pattern: '^\\S+@\\S+$',
-        minLength: 3,
-        maxLength: 10,
       },
       phoneOld: {
         type: 'string',
@@ -86,8 +84,6 @@ export default {
       emailNew: {
         type: 'string',
         pattern: '^\\S+@\\S+$',
-        minLength: 3,
-        maxLength: 10,
       },
       phoneNew: {
         type: 'string',
@@ -98,8 +94,6 @@ export default {
       emailNewV3: {
         type: 'string',
         pattern: '^\\S+@\\S+$',
-        minLength: 3,
-        maxLength: 10,
       },
       phoneNewV3: {
         type: 'string',

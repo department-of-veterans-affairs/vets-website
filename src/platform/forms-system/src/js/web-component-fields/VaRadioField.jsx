@@ -9,6 +9,7 @@ function optionsList(schema) {
   });
 }
 
+/** @param {WebComponentFieldProps} props */
 export default function VaRadioField(props) {
   const mappedProps = vaRadioFieldMapping(props);
   const enumOptions =
@@ -16,10 +17,12 @@ export default function VaRadioField(props) {
     optionsList(props.childrenProps.schema);
   const labels = props.uiOptions?.labels || {};
 
+  const selectedValue =
+    props.childrenProps.formData ?? props.childrenProps.schema.default ?? null;
+
   return (
     <VaRadio
       {...mappedProps}
-      value={props.childrenProps.schema.default || null}
       onVaValueChange={event => {
         const newVal = event.detail.value ?? undefined;
         props.childrenProps.onChange(newVal);
@@ -31,6 +34,7 @@ export default function VaRadioField(props) {
             name={props.childrenProps.idSchema.$id}
             key={index}
             value={option.value}
+            checked={selectedValue === option.value}
             label={labels[option.value] || option.label}
             uswds={mappedProps?.uswds}
             tile={props.uiOptions?.tile}

@@ -9,6 +9,7 @@ import YesNoField from '../web-component-fields/YesNoField';
 export const yesNoUI = (title, uiOptions) => {
   return {
     'ui:title': title,
+    'ui:widget': 'yesNo', // This is required for the review page to render the field properly
     'ui:webComponentField': YesNoField,
     'ui:options': {
       labels: {
