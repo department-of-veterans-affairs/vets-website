@@ -258,3 +258,22 @@
  *   [key: string]: SchemaOptions | {}
  * }} SchemaOptions
  */
+
+/**
+ * @typedef {Object} WebComponentFieldProps
+ * @property {string | JSX.Element | Function} description
+ * @property {string} textDescription
+ * @property {string | JSX.Element} label
+ * @property {boolean} required
+ * @property {string} error
+ * @property {UIOptions} uiOptions
+ * @property {number} index
+ * @property {{
+ *  schema: SchemaOptions,
+ *  uiSchema: UISchemaOptions,
+ *  formData: any,
+ * } | {
+ *  [key: string]: any
+ * }} childrenProps
+ * @property {any} DescriptionField
+ */

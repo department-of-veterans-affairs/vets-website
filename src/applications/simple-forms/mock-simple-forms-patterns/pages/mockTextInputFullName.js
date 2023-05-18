@@ -53,7 +53,7 @@ export default {
         'ui:title': 'TextWidget - Spouse\u2019s middle name',
       },
       suffix: {
-        'ui:title': 'TextWidget - Spouse\u2019s suffix',
+        'ui:title': 'Select - Spouse\u2019s suffix',
       },
     },
     wc: titleUI('Web component', {
@@ -81,7 +81,7 @@ export default {
       },
       suffix: {
         'ui:webComponentField': VaSelectField,
-        'ui:title': 'VaTextInputField - Spouse\u2019s suffix',
+        'ui:title': 'VaSelect - Spouse\u2019s suffix',
       },
     },
     wcv3: titleUI('Web component v3', {
@@ -117,7 +117,7 @@ export default {
         },
       },
       suffix: {
-        'ui:title': 'VaTextInputField - Spouse\u2019s suffix',
+        'ui:title': 'VaSelect - Spouse\u2019s suffix',
         'ui:webComponentField': VaSelectField,
         'ui:options': {
           uswds: true,

@@ -45,7 +45,6 @@ export default {
       'ui:title': 'Do you receive VA disability compensation?',
       'ui:description': CompensationTypeDescription,
       'ui:webComponentField': VaRadioField,
-      'ui:widget': 'radio',
       'ui:options': {
         labels: {
           lowDisability:
@@ -60,7 +59,6 @@ export default {
       'ui:title': 'Do you receive VA disability compensation?',
       'ui:description': CompensationTypeDescription,
       'ui:webComponentField': VaRadioField,
-      'ui:widget': 'radio',
       'ui:options': {
         tile: true,
         labels: {
@@ -73,12 +71,9 @@ export default {
       },
     },
     wcCurrentlyActiveDuty: {
-      yes: yesNoUI('Are you on active duty now?', {
-        // uswds: false,
-      }),
+      yes: yesNoUI('Are you on active duty now?'),
       onTerminalLeave: yesNoUI('Are you on terminal leave now?', {
         expandUnder: 'yes',
-        // uswds: false,
       }),
     },
     wcv3: titleUI('Web component v3', {

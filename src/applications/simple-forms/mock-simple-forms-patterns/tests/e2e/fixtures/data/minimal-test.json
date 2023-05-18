@@ -13,6 +13,7 @@
     },
     "wcVaCompensationType": "highDisability",
     "wcVaTileCompensationType": "none",
+    "wcCurrentlyActiveDuty_yes": false,
     "wcCurrentlyActiveDuty": {
       "yes": true,
       "onTerminalLeave": false

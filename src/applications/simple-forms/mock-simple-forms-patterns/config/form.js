@@ -20,6 +20,9 @@ import date from '../pages/mockDate';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
+  dev: {
+    showNavLinks: true,
+  },
   submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
   trackingPrefix: 'mock-simple-forms-patterns-',
   introduction: IntroductionPage,
