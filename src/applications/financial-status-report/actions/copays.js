@@ -42,11 +42,10 @@ export const getStatements = async dispatch => {
         statements: transformStatementData(data),
       });
     })
-    .catch(({ errors }) => {
-      const [error] = errors;
+    .catch(error => {
       Sentry.withScope(scope => {
         scope.setExtra('error', error);
-        Sentry.captureMessage(`medical_copays failed: ${error.detail}`);
+        Sentry.captureMessage(`medical_copays failed: ${error}`);
       });
       return dispatch({
         type: MCP_STATEMENTS_FETCH_FAILURE,
