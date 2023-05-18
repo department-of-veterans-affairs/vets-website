@@ -15,7 +15,7 @@ const content = {
   },
   debtCompromise: {
     type: 'Compromise',
-    description: `If you can't pay the debt in full or make smaller monthly payments, we can consider a smaller, one-time payment to resolve your debt`,
+    description: `If you can't pay the debt in full or make smaller monthly payments, we can consider a smaller, one-time payment to resolve your debt.`,
     label: 'How much can you afford to pay as a one-time payment?',
   },
 };
@@ -74,6 +74,17 @@ const ResolutionAmount = ({ formContext }) => {
     formContext.submitted,
   );
 
+  const getResolutionText = () => {
+    if (currentDebt.debtType === 'COPAY') {
+      return `If you can't pay the debt in full, we can consider a smaller, one-time payment to resolve your debt.`;
+    }
+    if (currentDebt.debtType === 'DEBT' && resolutionOption === 'monthly') {
+      return content.debtMonthly.description;
+    }
+
+    return content.debtCompromise.description;
+  };
+
   return (
     <div>
       <div className="vads-u-margin-y--0">
@@ -86,9 +97,7 @@ const ResolutionAmount = ({ formContext }) => {
           </span>
         </p>
         <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-bottom--1">
-          {resolutionOption === 'monthly'
-            ? content.debtMonthly.description
-            : content.debtCompromise.description}
+          {getResolutionText()}
         </span>
       </div>
       <VaNumberInput
