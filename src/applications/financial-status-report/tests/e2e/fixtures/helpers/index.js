@@ -1,4 +1,4 @@
-export const mockDebtsEmpty = { debts: [] };
+export const mockDebtsEmpty = { debts: [], hasDependentDebts: false };
 export const mockCopaysEmpty = { data: [] };
 
 export const reply500 = req => {
@@ -7,6 +7,10 @@ export const reply500 = req => {
 
 export const reply404 = req => {
   return req.reply(404, { errors: ['404 error'] });
+};
+
+export const copayReply404 = req => {
+  return req.reply(404, { message: 'Resource not found' });
 };
 
 export const reply403 = req => {
