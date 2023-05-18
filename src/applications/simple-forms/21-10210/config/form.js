@@ -31,11 +31,15 @@ import transformForSubmit from '../../shared/config/submit-transformer';
 import testData from '../tests/e2e/fixtures/data/noStmtInfo.json';
 
 const mockData = testData.data;
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
   trackingPrefix: 'lay-witness-10210-',
+  dev: {
+    showNavLinks: true,
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: {

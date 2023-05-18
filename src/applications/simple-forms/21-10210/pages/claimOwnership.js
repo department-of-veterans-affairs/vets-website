@@ -2,6 +2,7 @@ import React from 'react';
 
 import { CLAIM_OWNERSHIPS } from '../definitions/constants';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     claimOwnership: {
