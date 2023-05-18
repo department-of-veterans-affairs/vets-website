@@ -128,22 +128,64 @@
 //   }
 // });
 
-window.addEventListener('DOMContentLoaded', () => {
-  const body = document.querySelector('body');
+// window.addEventListener('DOMContentLoaded', () => {
+//   const medalliaWrapper = document.querySelector('#MDigitalLightboxWrapper');
 
-  const observer = new MutationObserver(mutationList => {
-    mutationList.forEach(mutation => {
-      mutation.addedNodes.forEach(addedNode => {
-        if (addedNode.id === 'MDigitalLightboxWrapper') {
-          console.log('medallia has been added');
-          observer.disconnect();
-        }
-      });
-    });
+//   const observer = new MutationObserver(mutationList => {
+//     mutationList.forEach(mutation => {
+//       mutation.addedNodes.forEach(addedNode => {
+//         if (addedNode.id === 'MDigitalLightboxWrapper') {
+//           console.log('medallia has been added');
+//           observer.disconnect();
+//         }
+//       });
+//     });
+//   });
+
+//   observer.observe(medalliaWrapper, {
+//     subtree: false,
+//     childList: true,
+//   });
+// });
+window.addEventListener('DOMContentLoaded', () => {
+  function addAriaLabel(spanElement) {
+    // Get the text of the span element.
+    const text = spanElement.innerHTML;
+    // Find the index of the text "988.".
+    const index = text.indexOf('988.');
+    // If the text "988." is found, add an aria label to the span element.
+    if (index > -1) {
+      const ariaLabel = '9 8 8';
+      const spanText = `${text.slice(
+        0,
+        index,
+      )}<span aria-label="${ariaLabel}">988.</span>${text.slice(index + 5)}`;
+      // eslint-disable-next-line no-param-reassign
+      spanElement.innerHTML = spanText;
+    }
+  }
+  const medalliaWrapper = document.querySelector('#MDigitalLightboxWrapper');
+
+  const observer = new MutationObserver(() => {
+    const medalliaModal = document.querySelector('.modal-live-form');
+    const vclNumber = medalliaModal
+      .querySelector('.pageRepeater')
+      .querySelector('.neb-component')
+      .querySelector('ul')
+      .querySelector('li:nth-child(1)')
+      .querySelector('span');
+
+    if (medalliaModal) {
+      addAriaLabel(vclNumber);
+      console.log('medallia modal found!');
+      observer.disconnect();
+    } else {
+      console.log('medallia modal NOT found!');
+    }
   });
 
-  observer.observe(body, {
-    subtree: false,
+  observer.observe(medalliaWrapper, {
+    subtree: true,
     childList: true,
   });
 });
