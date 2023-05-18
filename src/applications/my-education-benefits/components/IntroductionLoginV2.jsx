@@ -18,6 +18,7 @@ function IntroductionLoginV2({
   showHideLoginModal,
   user,
   showMebEnhancements, // Add showMebEnhancements as a prop
+  showMebEnhancements06, // Add showMebEnhancements06 as a prop
 }) {
   const apiCallsComplete =
     isLOA3 === false || (isClaimantCallComplete && isEligibilityCallComplete);
@@ -26,6 +27,9 @@ function IntroductionLoginV2({
   };
   const nextQuery = { next: window.location.pathname };
   const verifyUrl = appendQuery('/verify', nextQuery);
+  const headlineText = showMebEnhancements06
+    ? 'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information.'
+    : 'Save time-and save your work in progress-by signing in before starting your application.';
   return (
     <>
       {((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) ||
@@ -43,10 +47,7 @@ function IntroductionLoginV2({
               status="continue"
               visible
             >
-              <h2 slot="headline">
-                Save time—and save your work in progress—by signing in before
-                starting your application
-              </h2>
+              <h2 slot="headline"> {headlineText}</h2>
               <div>
                 <p className="vads-u-margin-top--0">
                   When you’re signed in to your verified VA.gov account:
@@ -161,6 +162,7 @@ IntroductionLoginV2.propTypes = {
   isLoggedIn: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
   showMebEnhancements: PropTypes.bool, // Add showMebEnhancements to propTypes
+  showMebEnhancements06: PropTypes.bool, // Add showMebEnhancements06 to propTypes
   user: PropTypes.object,
 };
 const mapStateToProps = state => ({
