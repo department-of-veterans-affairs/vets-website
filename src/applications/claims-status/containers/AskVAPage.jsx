@@ -49,7 +49,14 @@ class AskVAPage extends React.Component {
   }
 
   goToStatusPage() {
-    this.props.router.push(`your-claims/${this.props.params.id}`);
+    const { location, params } = this.props;
+    const { query } = location;
+
+    const toUrl = {
+      pathname: `your-claims/${params.id}`,
+      query,
+    };
+    this.props.router.push(toUrl);
   }
 
   render() {
@@ -140,14 +147,14 @@ class AskVAPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   return {
     loadingDecisionRequest: claimsState.claimAsk.loadingDecisionRequest,
     decisionRequested: claimsState.claimAsk.decisionRequested,
     decisionRequestError: claimsState.claimAsk.decisionRequestError,
     // START lighthouse_migration
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse: cstUseLighthouse(state, ownProps.location.query),
     // END lighthouse_migration
   };
 }
@@ -175,6 +182,7 @@ AskVAPage.propTypes = {
   getClaimLighthouse: PropTypes.func,
   // END lighthouse_migration
   loadingDecisionRequest: PropTypes.bool,
+  location: PropTypes.object,
   params: PropTypes.object,
   router: PropTypes.object,
   submitRequest: PropTypes.func,

@@ -73,6 +73,15 @@ class AdditionalEvidencePage extends React.Component {
     }
   }
 
+  getToUrl(pathname) {
+    const { query } = this.props.location;
+
+    return {
+      pathname,
+      query,
+    };
+  }
+
   goToFilesPage() {
     // START lighthouse_migration
     if (this.props.useLighthouse) {
@@ -80,12 +89,15 @@ class AdditionalEvidencePage extends React.Component {
     } else {
       this.props.getClaimEVSS(this.props.claim.id);
     }
+    const toUrl = this.getToUrl(`your-claims/${this.props.params.id}/files`);
+    this.props.router.push(toUrl);
     // END lighthouse_migration
-    this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
 
   render() {
-    const filesPath = `your-claims/${this.props.params.id}/additional-evidence`;
+    const toUrl = this.getToUrl(
+      this.props.lastPage || `your-claims/${this.props.params.id}/files`,
+    );
     let content;
 
     if (this.props.loading) {
@@ -116,7 +128,7 @@ class AdditionalEvidencePage extends React.Component {
             progress={this.props.progress}
             uploading={this.props.uploading}
             files={this.props.files}
-            backUrl={this.props.lastPage || filesPath}
+            backUrl={toUrl}
             onSubmit={() =>
               this.props.submitFiles(
                 this.props.claim.id,
@@ -143,7 +155,7 @@ class AdditionalEvidencePage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   return {
     loading: claimsState.claimDetail.loading,
@@ -157,7 +169,7 @@ function mapStateToProps(state) {
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.additionalEvidenceMessage,
     // START lighthouse_migration
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse: cstUseLighthouse(state, ownProps.location.query),
     // END lighthouse_migration
   };
 }
@@ -189,6 +201,7 @@ AdditionalEvidencePage.propTypes = {
   // END lighthouse_migration
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
+  location: PropTypes.object,
   message: PropTypes.object,
   params: PropTypes.object,
   progress: PropTypes.number,

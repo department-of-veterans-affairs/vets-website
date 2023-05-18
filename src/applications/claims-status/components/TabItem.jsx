@@ -20,7 +20,14 @@ class TabItem extends React.Component {
   };
 
   render() {
-    const { className, id, tabpath, title } = this.props;
+    const { className, id, location, tabpath, title } = this.props;
+    const { query } = location;
+
+    const toUrl = {
+      pathname: tabpath,
+      query: { ...query },
+    };
+
     const activeTab = this.trimCurrentUrl();
     return (
       <li className={className} role="presentation">
@@ -33,7 +40,7 @@ class TabItem extends React.Component {
           role="tab"
           className="va-tab-trigger"
           activeClassName="va-tab-trigger--current"
-          to={tabpath}
+          to={toUrl}
         >
           {title}
         </IndexLink>

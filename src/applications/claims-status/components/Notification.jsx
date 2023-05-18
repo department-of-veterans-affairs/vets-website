@@ -19,6 +19,7 @@ export default function Notification({ title, body, onClose, type }) {
           className="va-alert-close notification-close"
           onClick={onClose}
           aria-label="Close notification"
+          type="button"
         >
           <i className="fas fa-times-circle" aria-hidden="true" />
         </button>
@@ -32,10 +33,10 @@ export default function Notification({ title, body, onClose, type }) {
 }
 
 Notification.propTypes = {
+  body: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
-  body: PropTypes.string.isRequired,
-  onClose: PropTypes.func,
   type: PropTypes.string,
+  onClose: PropTypes.func,
 };
 
 Notification.defaultProps = {

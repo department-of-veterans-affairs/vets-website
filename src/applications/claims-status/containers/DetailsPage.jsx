@@ -9,7 +9,6 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
 import DetailsPageContent from '../components/evss/DetailsPageContent';
 import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
-import { cstUseLighthouse } from '../selectors';
 // END lighthouse_migration
 import { getClaimType } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
@@ -123,7 +122,6 @@ function mapStateToProps(state) {
     claim: claimsState.claimDetail.detail,
     lastPage: claimsState.routing.lastPage,
     synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state),
   };
 }
 
@@ -132,7 +130,9 @@ DetailsPage.propTypes = {
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   synced: PropTypes.bool,
+  // START lighthouse_migration
   useLighthouse: PropTypes.bool,
+  // END lighthouse_migration
 };
 
 export default connect(mapStateToProps)(DetailsPage);

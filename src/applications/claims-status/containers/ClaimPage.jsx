@@ -31,14 +31,19 @@ class ClaimPage extends React.Component {
   }
 
   render() {
-    return this.props.children;
+    const { children, useLighthouse } = this.props;
+
+    // Injecting the 'useLighthouse' prop into each page
+    return React.Children.map(children, child =>
+      React.cloneElement(child, { useLighthouse }),
+    );
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
     // START lighthouse_migration
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse: cstUseLighthouse(state, ownProps.location.query),
     // END lighthouse_migration
   };
 }

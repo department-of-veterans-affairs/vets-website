@@ -1,6 +1,16 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
+
+const getToUrl = claimId => {
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const query = Object.fromEntries(urlSearchParams.entries());
+
+  return {
+    pathname: `your-claims/${claimId}/ask-va-to-decide`,
+    query,
+  };
+};
 
 export default function AskVAToDecide({ id }) {
   return (
@@ -17,7 +27,7 @@ export default function AskVAToDecide({ id }) {
           aria-label="View details about asking VA for a claim decision"
           title="View details about asking VA for a claim decision"
           className="usa-button usa-button-secondary view-details-button"
-          to={`/your-claims/${id}/ask-va-to-decide`}
+          to={getToUrl(id)}
         >
           View Details
         </Link>

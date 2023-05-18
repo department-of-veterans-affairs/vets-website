@@ -106,14 +106,29 @@ class DocumentRequestPage extends React.Component {
   }
 
   goToFilesPage() {
+    const {
+      claim,
+      getClaimEVSS,
+      getClaimLighthouse,
+      location,
+      router,
+      useLighthouse,
+    } = this.props;
+
     // START lighthouse_migration
-    if (this.props.useLighthouse) {
-      this.props.getClaimLighthouse(this.props.claim.id);
+    if (useLighthouse) {
+      getClaimLighthouse(claim.id);
     } else {
-      this.props.getClaimEVSS(this.props.claim.id);
+      getClaimEVSS(claim.id);
     }
     // END lighthouse_migration
-    this.props.router.push(`your-claims/${this.props.claim.id}/files`);
+
+    const { query } = location;
+    const toUrl = {
+      pathname: `your-claims/${claim.id}/files`,
+      query,
+    };
+    router.push(toUrl);
   }
 
   render() {
@@ -129,7 +144,13 @@ class DocumentRequestPage extends React.Component {
         />
       );
     } else {
-      const { message } = this.props;
+      const { location, message } = this.props;
+      const { query } = location;
+
+      const toUrl = {
+        pathname: this.props.lastPage || filesPath,
+        query,
+      };
 
       content = (
         <>
@@ -149,7 +170,7 @@ class DocumentRequestPage extends React.Component {
             progress={this.props.progress}
             uploading={this.props.uploading}
             files={this.props.files}
-            backUrl={this.props.lastPage || filesPath}
+            backUrl={toUrl}
             onSubmit={() =>
               this.props.submitFiles(
                 this.props.claim.id,
@@ -208,7 +229,7 @@ class DocumentRequestPage extends React.Component {
 function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   const { claimDetail, uploads } = claimsState;
-  const useLighthouse = cstUseLighthouse(state);
+  const useLighthouse = cstUseLighthouse(state, ownProps.location.query);
 
   let trackedItems = [];
   let trackedItem = null;
@@ -280,6 +301,7 @@ DocumentRequestPage.propTypes = {
   // END lighthouse_migration
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
+  location: PropTypes.object,
   message: PropTypes.object,
   params: PropTypes.object,
   removeFile: PropTypes.func,

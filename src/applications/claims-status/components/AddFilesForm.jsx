@@ -2,13 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
-import Select from '@department-of-veterans-affairs/component-library/Select';
+
 import {
+  VaFileInput,
   VaModal,
+  VaSelect,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 
 import {
   readAndCheckFile,
@@ -186,17 +187,12 @@ class AddFilesForm extends React.Component {
         </va-additional-info>
         <Element name="filesList" />
         <div>
-          <FileInput
-            errorMessage={this.getErrorMessage()}
-            label={
-              // eslint-disable-next-line react/jsx-wrap-multilines
-              <span className="claims-upload-input-title">
-                Select files to upload
-              </span>
-            }
+          <VaFileInput
+            error={this.getErrorMessage()}
+            label="Select files to upload"
             accept={FILE_TYPES.map(type => `.${type}`).join(', ')}
-            onChange={this.add}
-            buttonText="Add Files"
+            onVaChange={e => this.add(e.detail.files)}
+            button-text="Add Files"
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
             aria-describedby="file-requirements"
@@ -259,23 +255,29 @@ class AddFilesForm extends React.Component {
                     />
                   </>
                 )}
-                <div className="clearfix" />
-                <Select
+                <VaSelect
                   required
-                  errorMessage={
+                  error={
                     validateIfDirty(docType, isNotBlank)
                       ? undefined
                       : 'Please provide a response'
                   }
                   name="docType"
                   label="What type of document is this?"
-                  options={DOC_TYPES}
                   value={docType}
-                  emptyDescription="Select a description"
-                  onValueChange={update =>
-                    this.props.onFieldChange(`files[${index}].docType`, update)
+                  onVaSelect={e =>
+                    this.handleDocTypeChange(e.detail.value, index)
                   }
-                />
+                >
+                  <option disabled value="">
+                    Select a description
+                  </option>
+                  {DOC_TYPES.map(doc => (
+                    <option key={doc.value} value={doc.value}>
+                      {doc.label}
+                    </option>
+                  ))}
+                </VaSelect>
               </div>
             </div>
           ),
@@ -340,7 +342,7 @@ AddFilesForm.propTypes = {
   onFieldChange: PropTypes.func.isRequired,
   onRemoveFile: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  backUrl: PropTypes.string,
+  backUrl: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   mockReadAndCheckFile: PropTypes.bool,
   progress: PropTypes.number,
   uploading: PropTypes.bool,

@@ -10,6 +10,17 @@ import {
 } from '../utils/helpers';
 import DueDate from './DueDate';
 
+const getToUrl = (claimId, trackedItem) => {
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const query = Object.fromEntries(urlSearchParams.entries());
+
+  const pathname = `your-claims/${claimId}/document-request/${getTrackedItemId(
+    trackedItem,
+  )}`;
+
+  return { pathname, query };
+};
+
 export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
   return (
     <div className="claims-requested-files-container">
@@ -39,9 +50,7 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
                 aria-label={`View Details for ${item.displayName}`}
                 title={`View Details for ${item.displayName}`}
                 className="usa-button usa-button-secondary view-details-button"
-                to={`your-claims/${id}/document-request/${getTrackedItemId(
-                  item,
-                )}`}
+                to={getToUrl(id, item)}
               >
                 View Details
               </Link>
@@ -69,9 +78,7 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
                 aria-label={`View Details for ${item.displayName}`}
                 title={`View Details for ${item.displayName}`}
                 className="usa-button usa-button-secondary view-details-button"
-                to={`your-claims/${id}/document-request/${getTrackedItemId(
-                  item,
-                )}`}
+                to={getToUrl(id, item)}
               >
                 View Details
               </Link>

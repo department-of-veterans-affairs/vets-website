@@ -14,7 +14,7 @@ import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
-import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
+import { showClaimLettersFeature } from '../selectors';
 import {
   getClaimType,
   getCompletedDate,
@@ -279,7 +279,6 @@ function mapStateToProps(state) {
     lastPage: claimsState.routing.lastPage,
     showClaimLettersLink: showClaimLettersFeature(state),
     synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state),
   };
 }
 

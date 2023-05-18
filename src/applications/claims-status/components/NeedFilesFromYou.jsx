@@ -2,7 +2,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
-function NeedFilesFromYou({ files, claimId }) {
+const getToUrl = claimId => {
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const query = Object.fromEntries(urlSearchParams.entries());
+
+  return {
+    pathname: `your-claims/${claimId}/files`,
+    query,
+  };
+};
+
+function NeedFilesFromYou({ claimId, files }) {
   return (
     <div className="usa-alert usa-alert-warning claims-alert claims-alert-status need-files-alert">
       <div className="usa-alert-body alert-with-details">
@@ -15,7 +25,7 @@ function NeedFilesFromYou({ files, claimId }) {
           <Link
             aria-label="View details about items that need your attention"
             title="View details about items that need your attention"
-            to={`your-claims/${claimId}/files`}
+            to={getToUrl(claimId)}
             className="usa-button usa-button-secondary view-details-button"
           >
             View Details
@@ -27,6 +37,7 @@ function NeedFilesFromYou({ files, claimId }) {
 }
 
 NeedFilesFromYou.propTypes = {
+  claimId: PropTypes.string.isRequired,
   files: PropTypes.number.isRequired,
 };
 

@@ -57,6 +57,7 @@ export default function ClaimsListItem({ claim }) {
   const inProgress = !isClaimComplete(claim);
   const formattedReceiptDate = formatDate(claimDate);
   const humanStatus = getStatusDescription(status);
+
   // lighthouse_migration: Remove `vads-u-border-left--7px` and `vads-u-border-color--primary`
   // CSS classes from `claim-list-item-container` element
   return (

@@ -17,7 +17,6 @@ import RequestedFilesInfo from '../components/RequestedFilesInfo';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 
 import { clearNotification } from '../actions';
-import { cstUseLighthouse } from '../selectors';
 import { getClaimType } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
@@ -178,7 +177,6 @@ function mapStateToProps(state) {
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
     synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state),
   };
 }
 
@@ -192,7 +190,7 @@ FilesPage.propTypes = {
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.shape({
-    body: PropTypes.string,
+    body: PropTypes.node,
     title: PropTypes.string,
     type: PropTypes.string,
   }),
