@@ -89,18 +89,21 @@ export function PreSubmitSection(props) {
   let statementOfTruthFullName;
 
   if (statementOfTruth) {
-    const fullName = get(
-      form?.data,
-      statementOfTruth.fullNamePath || 'veteran.fullName',
-    );
+    // use a function for conditionally changing fullName validation
+    const fullNamePath =
+      typeof statementOfTruth.fullNamePath === 'function'
+        ? statementOfTruth.fullNamePath(form?.data)
+        : statementOfTruth.fullNamePath;
 
-    statementOfTruthFullName = fullName.first;
+    const fullName = get(form?.data, fullNamePath || 'veteran.fullName');
+
+    statementOfTruthFullName = fullName.first || '';
 
     if (fullName.middle) {
       statementOfTruthFullName += ` ${fullName.middle}`;
     }
 
-    statementOfTruthFullName += ` ${fullName.last}`;
+    statementOfTruthFullName += ` ${fullName.last || ''}`;
   }
 
   return (

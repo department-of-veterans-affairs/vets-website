@@ -203,7 +203,10 @@ export function updateFacilityType(facilityType) {
 }
 
 export function startDirectScheduleFlow() {
-  recordEvent({ event: 'vaos-direct-path-started' });
+  recordEvent({
+    event: 'interaction',
+    action: 'vaos-direct-path-started',
+  });
 
   return {
     type: START_DIRECT_SCHEDULE_FLOW,
@@ -765,7 +768,8 @@ export function submitAppointmentOrRequest(history) {
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
       const flow = GA_FLOWS.DIRECT;
       recordEvent({
-        event: `${GA_PREFIX}-direct-submission`,
+        event: 'interaction',
+        action: `${GA_PREFIX}-direct-submission`,
         flow,
         ...additionalEventData,
       });
