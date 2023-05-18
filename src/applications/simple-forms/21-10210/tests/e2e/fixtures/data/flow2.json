@@ -1,23 +1,18 @@
 {
   "data": {
-    "claimOwnership": "self",
-    "claimantType": "non-veteran",
-    "claimantFullName": {
-      "first": "Joe",
+    "claimOwnership": "third-party",
+    "claimantType": "veteran",
+    "witnessFullName": {
+      "first": "Jack",
       "middle": "",
-      "last": "Claimant"
+      "last": "Witness"
     },
-    "claimantDateOfBirth": "1980-01-01",
-    "claimantSSN": "321540988",
-    "claimantMailingAddress": {
-      "street": "123 Main St",
-      "city": "Anytown",
-      "state": "CA",
-      "country": "USA",
-      "postalCode": "12345"
+    "witnessRelationshipToVeteran": {
+      "served-with": true
     },
-    "claimantPhone": "555-555-5556",
-    "claimantEmail": "joe.claimant@exammple.com",
+    "witnessPhone": "555-555-5555",
+    "witnessEmail": "jack.witness@example.com",
+    "statement": "It was a dark and stormy night...",
     "veteranFullName": {
       "first": "John",
       "middle": "",

@@ -10,12 +10,14 @@ export const getSignerFullName = data => {
   ) {
     signerFullName = data.claimantFullName;
   } else if (claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY) {
-    if (claimantType === CLAIMANT_TYPES.VETERAN) {
-      signerFullName = data.claimantFullName;
-    } else {
-      signerFullName = data.witnessFullName;
-    }
+    signerFullName = data.witnessFullName;
   }
 
-  return signerFullName;
+  if (signerFullName?.middle !== '' && signerFullName?.middle !== undefined) {
+    return `${signerFullName.first} ${signerFullName.middle} ${
+      signerFullName.last
+    }`;
+  }
+
+  return `${signerFullName.first} ${signerFullName.last}`;
 };

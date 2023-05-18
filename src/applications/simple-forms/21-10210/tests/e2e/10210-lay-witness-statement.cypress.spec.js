@@ -16,7 +16,7 @@ const testConfig = createTestConfig(
     dataDir: path.join(__dirname, 'fixtures', 'data'),
 
     // Rename and modify the test data as needed.
-    dataSets: ['test-data'],
+    dataSets: ['flow1', 'flow2', 'flow3', 'flow4'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -36,13 +36,7 @@ const testConfig = createTestConfig(
               .shadow()
               .find('input')
               .first()
-              .type(
-                signerFullName.middle
-                  ? `${signerFullName.first} ${signerFullName.middle} ${
-                      signerFullName.last
-                    }`
-                  : `${signerFullName.first} ${signerFullName.last}`,
-              );
+              .type(signerFullName);
             cy.get(`input[name="veteran-certify"]`).check();
             cy.findAllByText(/Submit application/i, {
               selector: 'button',

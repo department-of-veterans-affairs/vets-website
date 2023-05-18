@@ -26,9 +26,9 @@ import transformForSubmit from '../../shared/config/submit-transformer';
 // https://www.sketch.com/s/a11421d3-c148-41a2-a34f-3d7821ea676f
 
 // mock-data import for local development
-// import the appropriate file [...-flow?.json] for the flow you're working on, or
-// test-data-no-stmtinfo.json for all flows [select claimOwnership & claimantType via UI]
-import testData from '../tests/e2e/fixtures/data/test-data-no-stmtinfo.json';
+// import the appropriate file [flow?.json] for the flow you're working on, or
+// noStmtInfo.json for all flows [select claimOwnership & claimantType via UI]
+import testData from '../tests/e2e/fixtures/data/noStmtInfo.json';
 
 const mockData = testData.data;
 const formConfig = {
