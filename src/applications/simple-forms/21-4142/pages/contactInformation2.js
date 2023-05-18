@@ -37,9 +37,9 @@ export default {
         'ui:errorMessages': {
           ...phoneUI()['ui:errorMessages'],
           pattern:
-            'Please enter a valid international phone number (with or without dashes)',
+            'Please enter a valid 10 to 15 digit international phone number (with or without dashes)',
           minLength:
-            'Please enter a valid international phone number (with or without dashes)',
+            'Please enter a valid 10 to 15 digit international phone number (with or without dashes)',
         },
         'ui:options': {
           ...phoneUI()['ui:options'],
