@@ -139,7 +139,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
           You’ll find this in your spouse’s pay stub. It’s the amount of your
           spouse’s pay before taxes and deductions.
         </p>
-        <div className="input">
+        <div className="input input-size-3">
           <va-number-input
             inputmode="numeric"
             currency

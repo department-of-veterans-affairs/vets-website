@@ -108,7 +108,10 @@ const SpousePayrollDeductionInputList = props => {
           deductions?
         </p>
         {selectedDeductions?.map((deduction, key) => (
-          <div key={deduction.name + key} className="vads-u-margin-y--2">
+          <div
+            key={deduction.name + key}
+            className="vads-u-margin-y--2 input-size-3"
+          >
             <va-number-input
               label={deduction.name}
               name={deduction.name}
