@@ -52,14 +52,23 @@ export function UnifiedSigninPage({ router, location }) {
     [isSiSEnabled],
   );
 
+  const css = `
+  #legacy-header > div:nth-child(3) > div.menu-rule.usa-one-whole {
+    display: none;
+  }
+`;
+
   return (
     <>
-      <AutoSSO />
-      <LoginContainer
-        isUnifiedSignIn
-        externalApplication={externalApplication}
-        loggedOut={loggedOut}
-      />
+      <style>{css}</style>
+      <div>
+        <AutoSSO />
+        <LoginContainer
+          isUnifiedSignIn
+          externalApplication={externalApplication}
+          loggedOut={loggedOut}
+        />
+      </div>
     </>
   );
 }
