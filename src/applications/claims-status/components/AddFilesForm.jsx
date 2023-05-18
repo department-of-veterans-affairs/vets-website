@@ -342,7 +342,7 @@ AddFilesForm.propTypes = {
   onFieldChange: PropTypes.func.isRequired,
   onRemoveFile: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  backUrl: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  backUrl: PropTypes.string,
   mockReadAndCheckFile: PropTypes.bool,
   progress: PropTypes.number,
   uploading: PropTypes.bool,
