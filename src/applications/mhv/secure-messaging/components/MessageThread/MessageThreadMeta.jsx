@@ -26,6 +26,10 @@ const MessageThreadMeta = props => {
           <strong>To: </strong>
           {recipientName}
         </p>
+        <p data-testid="message-id">
+          <strong>Message ID: </strong>
+          {message.messageId}
+        </p>
       </div>
     </div>
   );

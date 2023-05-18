@@ -48,7 +48,12 @@ const OrganicAdoptionExperimentModal = ({ visible = false, onClose }) => {
       clickToClose
       onClose={() => {
         setDismissalCookie();
-        recordEvent({ event: 'organic-experiment-dismiss-modal' });
+        recordEvent({
+          event: 'int-modal-click',
+          'modal-status': 'closed',
+          'modal-title':
+            'Use one account and password for secure, private access to government agencies',
+        });
         onClose();
       }}
     >

@@ -20,7 +20,7 @@ const WizardContainer = ({ setWizardStatus, showFSR }) => {
       <div className="usa-width-two-thirds medium-8 columns">
         <FormTitle
           title="Request help with VA debt for overpayments and copay bills"
-          subTitle="Financial Status Report"
+          subTitle="Financial Status Report (VA Form 5655)"
         />
         <div className="wizard-container">
           <DowntimeNotification

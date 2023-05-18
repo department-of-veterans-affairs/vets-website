@@ -48,7 +48,10 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
           'ststASertTesting Autosave Drafts with Attachments\nTesting Autosave Drafts with Attachments\nTesting Autosave Drafts with Attachments\n',
         category: mockDraftResponse.data.attributes.category,
         recipientId: mockDraftResponse.data.attributes.recipientId,
+        category: mockDraftResponse.data.attributes.category,
         subject: mockDraftResponse.data.attributes.subject,
+        body:
+          'ststASertTesting Autosave Drafts with Attachments\nTesting Autosave Drafts with Attachments\nTesting Autosave Drafts with Attachments\n',
       });
 
     cy.contains('Your message was saved');

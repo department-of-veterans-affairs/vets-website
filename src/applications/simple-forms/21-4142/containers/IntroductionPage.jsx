@@ -29,7 +29,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the Application"
+          startText="Start the medical release authorization"
         >
           Please complete the 21-4142 form to apply for authorize release of
           medical information.

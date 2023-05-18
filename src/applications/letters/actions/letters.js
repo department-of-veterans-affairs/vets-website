@@ -1,7 +1,12 @@
 import * as Sentry from '@sentry/browser';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { apiRequest, getStatus } from '../utils/helpers.jsx';
+import {
+  apiRequest,
+  getStatus,
+  // eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__getEntryPoint
+} from '../utils/helpers.jsx';
 import {
   BACKEND_AUTHENTICATION_ERROR,
   BACKEND_SERVICE_ERROR,
@@ -19,14 +24,18 @@ import {
   LETTER_HAS_EMPTY_ADDRESS,
 } from '../utils/constants';
 
-export function getLetterList(dispatch) {
-  return apiRequest('/v0/letters')
+// eslint-disable-next-line -- LH_MIGRATION
+export function getLetterList(dispatch, LH_MIGRATION__options) {
+  // eslint-disable-next-line -- LH_MIGRATION
+  return apiRequest(LH_MIGRATION__options.listEndpoint.path)
     .then(response => {
+      // eslint-disable-next-line -- LH_MIGRATION
+      const LH_MIGRATION__entryPointKeys = LH_MIGRATION__options.dataEntryPoint;
+      // eslint-disable-next-line -- LH_MIGRATION
+      const data = LH_MIGRATION__getEntryPoint(response, LH_MIGRATION__entryPointKeys)
+
       recordEvent({ event: 'letter-list-success' });
-      return dispatch({
-        type: GET_LETTERS_SUCCESS,
-        data: response,
-      });
+      return dispatch({ type: GET_LETTERS_SUCCESS, data });
     })
     .catch(response => {
       recordEvent({ event: 'letter-list-failure' });
@@ -58,14 +67,18 @@ export function getLetterList(dispatch) {
     });
 }
 
-export function getBenefitSummaryOptions(dispatch) {
-  return apiRequest('/v0/letters/beneficiary')
+// eslint-disable-next-line -- LH_MIGRATION
+export function getBenefitSummaryOptions(dispatch, LH_MIGRATION__options) {
+  // eslint-disable-next-line -- LH_MIGRATION
+  return apiRequest(LH_MIGRATION__options.summaryEndpoint.path)
     .then(response => {
+      // eslint-disable-next-line -- LH_MIGRATION
+      const LH_MIGRATION__entryPointKeys = LH_MIGRATION__options.dataEntryPoint;
+      // eslint-disable-next-line -- LH_MIGRATION
+      const data = LH_MIGRATION__getEntryPoint(response, LH_MIGRATION__entryPointKeys)
+
       recordEvent({ event: 'letter-get-bsl-success' });
-      return dispatch({
-        type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
-        data: response,
-      });
+      return dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS, data });
     })
     .catch(response => {
       recordEvent({ event: 'letter-get-bsl-failure' });
@@ -76,10 +89,13 @@ export function getBenefitSummaryOptions(dispatch) {
 }
 
 // Call getLetterList then getBenefitSummaryOptions
-export function getLetterListAndBSLOptions() {
+// eslint-disable-next-line -- LH_MIGRATION
+export function getLetterListAndBSLOptions(LH_MIGRATION__options) {
   return dispatch =>
-    getLetterList(dispatch)
-      .then(() => getBenefitSummaryOptions(dispatch))
+    // eslint-disable-next-line -- LH_MIGRATION
+    getLetterList(dispatch, LH_MIGRATION__options)
+      // eslint-disable-next-line -- LH_MIGRATION
+      .then(() => getBenefitSummaryOptions(dispatch, LH_MIGRATION__options))
       .catch(() => {});
 }
 
@@ -91,17 +107,20 @@ export function getLetterPdfFailure(letterType) {
   return { type: GET_LETTER_PDF_FAILURE, data: letterType };
 }
 
-export function getLetterPdf(letterType, letterName, letterOptions) {
+// eslint-disable-next-line -- LH_MIGRATION
+export function getLetterPdf(letterType, letterName, letterOptions, LH_MIGRATION__options) {
   let settings;
   if (letterType === LETTER_TYPES.benefitSummary) {
     settings = {
-      method: 'POST',
+      // eslint-disable-next-line -- LH_MIGRATION
+      method: LH_MIGRATION__options.downloadEndpoint.method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(letterOptions),
     };
   } else {
     settings = {
-      method: 'POST',
+      // eslint-disable-next-line -- LH_MIGRATION
+      method: LH_MIGRATION__options.downloadEndpoint.method,
     };
   }
 
@@ -132,7 +151,8 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
       //  a user interaction.
       downloadWindow = window.open();
     }
-    return apiRequest(`/v0/letters/${letterType}`, settings)
+    // eslint-disable-next-line -- LH_MIGRATION
+    return apiRequest(`${LH_MIGRATION__options.downloadEndpoint.path}/${letterType}`, settings)
       .then(response => {
         let downloadUrl;
         response.blob().then(blob => {

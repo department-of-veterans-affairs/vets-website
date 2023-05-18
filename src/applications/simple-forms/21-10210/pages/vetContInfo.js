@@ -1,5 +1,14 @@
+import React from 'react';
+
+import { omit } from 'lodash';
+
 import definitions from 'vets-json-schema/dist/definitions.json';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
+import formDefinitions from '../definitions/form-definitions';
+
 import { CLAIMANT_TYPES, CLAIM_OWNERSHIPS } from '../definitions/constants';
+
+const partialEmailUi = omit(emailUI(), ['ui:title', 'ui:options']);
 
 export default {
   uiSchema: {
@@ -7,33 +16,41 @@ export default {
       'ui:title': 'Phone number',
     },
     veteranEmail: {
-      'ui:title': 'Email address',
-    },
-    veteranEmailConsent: {
-      'ui:title':
-        'I agree to receive electronic correspondence from VA in regards to my claim.', // hidden via styling
-      'ui:widget': 'checkbox', // Need this widget to support error messages
-      'ui:required': formData => !!formData.veteranEmail,
-      'ui:errorMessages': {
-        required: 'Please agree to receive electronic correspondence.',
-      },
+      ...partialEmailUi,
       'ui:options': {
-        hideIf: formData =>
-          formData.claimantType === CLAIMANT_TYPES.NON_VETERAN ||
-          (formData.claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY &&
-            formData.claimantType === CLAIMANT_TYPES.VETERAN),
+        inputType: 'email',
+        updateSchema: formData => {
+          const { claimOwnership, claimantType } = formData;
+
+          if (
+            claimOwnership === CLAIM_OWNERSHIPS.SELF &&
+            claimantType === CLAIMANT_TYPES.VETERAN
+          ) {
+            return {
+              title: (
+                <span>
+                  Email address
+                  <br />
+                  By providing an email address, I agree to receive electronic
+                  correspondence from VA regarding my application
+                </span>
+              ),
+            };
+          }
+
+          return {
+            title: 'Email address',
+          };
+        },
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['veteranPhone'],
+    required: ['veteranPhone', 'veteranEmail'],
     properties: {
       veteranPhone: definitions.phone,
-      veteranEmail: definitions.email,
-      veteranEmailConsent: {
-        type: 'boolean',
-      },
+      veteranEmail: formDefinitions.pdfEmail,
     },
   },
 };
