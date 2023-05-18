@@ -69,6 +69,7 @@ const ContactInfo = ({
 }) => {
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
+  const [hasInitialized, setHasInitialized] = useState(false);
   const [hadError, setHadError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [editState] = useState(getReturnState());
@@ -139,9 +140,6 @@ const ContactInfo = ({
           contactInfo.mailingAddress?.updatedAt !== address?.updatedAt)
       ) {
         const wrapper = { ...data[keys.wrapper] };
-        if (keys.email) {
-          wrapper[keys.email] = contactInfo.email?.emailAddress;
-        }
         if (keys.address) {
           wrapper[keys.address] = contactInfo.mailingAddress;
         }
@@ -184,8 +182,11 @@ const ContactInfo = ({
         // page had an error flag, so we know when to show a success alert
         setHadError(true);
       }
+      setTimeout(() => {
+        setHasInitialized(true);
+      });
     },
-    [missingInfo],
+    [missingInfo, hasInitialized],
   );
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
@@ -194,30 +195,27 @@ const ContactInfo = ({
     ' ',
   );
 
-  const showSuccessAlert = (id, text) => {
-    // keep alerts in DOM, so we don't have to delay focus; but keep the 100ms
-    // delay to move focus away from the h3
-    const isHidden =
-      editState === `${id},updated` ? '' : 'vads-u-display--none';
-    return (
-      <va-alert
-        id={`updated-${id}`}
-        class={`vads-u-margin-y--1 ${isHidden}`}
-        status="success"
-        background-only
-        role="alert"
-      >
-        {`${text} ${content.updated}`}
-      </va-alert>
-    );
-  };
+  // keep alerts in DOM, so we don't have to delay focus; but keep the 100ms
+  // delay to move focus away from the h3
+  const showSuccessAlert = (id, text) => (
+    <va-alert
+      id={`updated-${id}`}
+      visible={editState === `${id},updated`}
+      class="vads-u-margin-y--1"
+      status="success"
+      background-only
+      role="alert"
+    >
+      {`${text} ${content.updated}`}
+    </va-alert>
+  );
 
   const homePhoneString = getPhoneString(dataWrap[keys.homePhone]);
   const mobilePhoneString = getPhoneString(dataWrap[keys.mobilePhone]);
   const editText = content.edit.toLowerCase();
 
   // Loop to separate pages when editing
-  // Each Link includes an ID for focus managements on the review & submit page
+  // Each Link includes an ID for focus management on the review & submit page
   const contactSection = [
     keys.homePhone ? (
       <React.Fragment key="home">
