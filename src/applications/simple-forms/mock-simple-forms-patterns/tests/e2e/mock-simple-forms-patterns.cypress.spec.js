@@ -197,21 +197,27 @@ const testConfig = createTestConfig(
               .find('va-text-input.input-month')
               .shadow()
               .find('input')
-              .type(month)
+              .type(month, {
+                delay: 200,
+              })
               .then(() => {
                 cy.get(`va-memorable-date[name="root_dateWC"]`)
                   .shadow()
                   .find('va-text-input.input-day')
                   .shadow()
                   .find('input')
-                  .type(day)
+                  .type(day, {
+                    delay: 200,
+                  })
                   .then(() => {
                     cy.get(`va-memorable-date[name="root_dateWC"]`)
                       .shadow()
                       .find('va-text-input.input-year')
                       .shadow()
                       .find('input')
-                      .type(year);
+                      .type(year, {
+                        delay: 200,
+                      });
                   });
               });
 
@@ -221,21 +227,27 @@ const testConfig = createTestConfig(
               .find('va-text-input.input-month')
               .shadow()
               .find('input')
-              .type(month)
+              .type(month, {
+                delay: 200,
+              })
               .then(() => {
                 cy.get(`va-memorable-date[name="root_dateWCV3"]`)
                   .shadow()
                   .find('va-text-input.input-day')
                   .shadow()
                   .find('input')
-                  .type(day)
+                  .type(day, {
+                    delay: 200,
+                  })
                   .then(() => {
                     cy.get(`va-memorable-date[name="root_dateWCV3"]`)
                       .shadow()
                       .find('va-text-input.input-year')
                       .shadow()
                       .find('input')
-                      .type(year);
+                      .type(year, {
+                        delay: 200,
+                      });
                   });
               });
 

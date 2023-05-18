@@ -1,7 +1,5 @@
 import React from 'react';
 import { isReactComponent } from '../../../../utilities/ui';
-import VaMemorableDateField from '../web-component-fields/VaMemorableDateField';
-import VaRadioField from '../web-component-fields/VaRadioField';
 /*
  * This is the template for each field (which in the schema library means label + widget)
  */
@@ -44,21 +42,25 @@ export default function ReviewFieldTemplate(props) {
   /**
    * Web components field handling
    *
-   * RJSF uses widget types to determine how to render the field
-   * ui:webComponentFields won't be detected as a widget by the schema library
-   * so we need to manually set the widget type here.
-   * This only affects the read format, not edit format.
+   * For the review page, widgets are chosen based on their schema type
+   * (boolean, string, etc) or if ui:widget is defined, then it will look
+   * up a review widget based on that same name. See ./widgets.jsx or
+   * ./StringField.jsx for examples.
    *
-   * Optionally, we can also set the reviewField to use for the field.
+   * Easiest solution is to just leverage the widget logic and choose an
+   * appropriate widget for the review page, or we can also choose to
+   * set the ui:reviewField or define a ui:reviewWidget
    */
   if (
     uiSchema?.['ui:webComponentField'] &&
     !uiSchema?.['ui:widget'] &&
     !uiSchema?.['ui:reviewField']
   ) {
-    if (uiSchema?.['ui:webComponentField'] === VaMemorableDateField) {
+    // console.log(uiSchema?.['ui:webComponentField'].name, 'web component field');
+    alert(uiSchema?.['ui:webComponentField'].name);
+    if (uiSchema?.['ui:webComponentField'].name === 'VaMemorableDateField') {
       uiSchema['ui:widget'] = 'date';
-    } else if (uiSchema?.['ui:webComponentField'] === VaRadioField) {
+    } else if (uiSchema?.['ui:webComponentField'].name === 'VaRadioField') {
       uiSchema['ui:widget'] = 'radio';
     }
   }
