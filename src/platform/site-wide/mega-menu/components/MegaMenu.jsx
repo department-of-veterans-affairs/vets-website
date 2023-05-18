@@ -18,6 +18,9 @@ export default class MegaMenu extends React.Component {
 
     this.mobileMediaQuery.addListener(this.resetDefaultState);
     document.body.addEventListener('click', this.handleDocumentClick, false);
+
+    this.signInVis =
+      window.location.pathname === '/sign-in/' ? 'hidden' : 'visibile';
   }
 
   /**
@@ -131,7 +134,11 @@ export default class MegaMenu extends React.Component {
     const hasOpenSubMenu = currentSection !== '';
 
     return (
-      <div className="login-container" {...display}>
+      <div
+        className="login-container"
+        {...display}
+        style={{ visibility: this.signInVis }}
+      >
         <div
           className="row va-flex"
           ref={el => {

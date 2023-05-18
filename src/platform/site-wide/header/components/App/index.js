@@ -44,6 +44,14 @@ export const App = ({ megaMenuData, show, showMegaMenu, showNavLogin }) => {
   }
 
   hideLegacyHeader();
+
+  const signInVis =
+    window.location.pathname === '/sign-in/' ? 'hidden' : 'visibile';
+
+  const line = document.querySelector('.menu-rule.usa-one-whole');
+
+  line.style.visibility = signInVis;
+
   return (
     <Header
       megaMenuData={megaMenuData}

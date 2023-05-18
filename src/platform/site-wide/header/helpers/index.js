@@ -29,6 +29,12 @@ export const showLegacyHeader = () => {
   if (!legacyHeader) {
     return;
   }
+  const signInVis = window.location.pathname === '/sign-in/';
+
+  if (signInVis) {
+    const line = document.querySelector('.menu-rule.usa-one-whole');
+    line.style.borderBottom = 'none';
+  }
 
   // Add `vads-u-display--none` to the legacy header if it doesn't already have it.
   if (legacyHeader.classList.contains('vads-u-display--none')) {
