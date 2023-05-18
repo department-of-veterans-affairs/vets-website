@@ -148,9 +148,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
       getState(),
     );
-    const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-      getState(),
-    );
     const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
       getState(),
     );
@@ -182,8 +179,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           endDate: moment()
             .add(395, 'days')
             .format('YYYY-MM-DD'),
-          useV2VA: featureVAOSServiceVAAppointments,
-          useV2CC: featureVAOSServiceCCAppointments,
           useAcheron: featureAcheronVAOSServiceRequests,
         }),
       ];
@@ -394,9 +389,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
       getState(),
     );
-    const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-      getState(),
-    );
     const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
       getState(),
     );
@@ -414,8 +406,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       const results = await fetchAppointments({
         startDate,
         endDate,
-        useV2VA: featureVAOSServiceVAAppointments,
-        useV2CC: featureVAOSServiceCCAppointments,
         useAcheron: featureAcheronVAOSServiceRequests,
       });
 

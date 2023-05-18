@@ -94,8 +94,6 @@ function apptRequestSort(a, b) {
 export async function fetchAppointments({
   startDate,
   endDate,
-  useV2VA = false,
-  useV2CC = false,
   useAcheron = false,
 }) {
   try {
@@ -108,12 +106,6 @@ export async function fetchAppointments({
     );
 
     const filteredAppointments = allAppointments.data.filter(appt => {
-      if (
-        (!useV2VA && appt.kind !== 'cc') ||
-        (!useV2CC && appt.kind === 'cc')
-      ) {
-        return false;
-      }
       return !appt.requestedPeriods;
     });
 
