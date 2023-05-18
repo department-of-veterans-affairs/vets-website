@@ -100,24 +100,24 @@
 //     .querySelector('li:nth-child(1)')
 //     .querySelector('span');
 
-//   function addAriaLabel(spanElement) {
-//     // Get the text of the span element.
-//     const text = spanElement.innerHTML;
+// function addAriaLabel(spanElement) {
+//   // Get the text of the span element.
+//   const text = spanElement.innerHTML;
 
-//     // Find the index of the text "988.".
-//     const index = text.indexOf('988.');
+//   // Find the index of the text "988.".
+//   const index = text.indexOf('988.');
 
-//     // If the text "988." is found, add an aria label to the span element.
-//     if (index > -1) {
-//       const ariaLabel = '9 8 8';
-//       const spanText = `${text.slice(
-//         0,
-//         index,
-//       )}<span aria-label="${ariaLabel}">988.</span>${text.slice(index + 5)}`;
-//       // eslint-disable-next-line no-param-reassign
-//       spanElement.innerHTML = spanText;
-//     }
+//   // If the text "988." is found, add an aria label to the span element.
+//   if (index > -1) {
+//     const ariaLabel = '9 8 8';
+//     const spanText = `${text.slice(
+//       0,
+//       index,
+//     )}<span aria-label="${ariaLabel}">988.</span>${text.slice(index + 5)}`;
+//     // eslint-disable-next-line no-param-reassign
+//     spanElement.innerHTML = spanText;
 //   }
+// }
 //   if (medalliaModal) {
 //     addAriaLabel(vclNumber);
 //     // eslint-disable-next-line no-console
@@ -216,6 +216,24 @@
 //   });
 // });
 window.addEventListener('DOMContentLoaded', () => {
+  function addAriaLabel(spanElement) {
+    // Get the text of the span element.
+    const text = spanElement.innerHTML;
+
+    // Find the index of the text "988.".
+    const index = text.indexOf('988.');
+
+    // If the text "988." is found, add an aria label to the span element.
+    if (index > -1) {
+      const ariaLabel = '9 8 8';
+      const spanText = `${text.slice(
+        0,
+        index,
+      )}<span aria-label="${ariaLabel}">988.</span>${text.slice(index + 5)}`;
+      // eslint-disable-next-line no-param-reassign
+      spanElement.innerHTML = spanText;
+    }
+  }
   const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
       if (mutation.addedNodes.length > 0) {
@@ -223,7 +241,11 @@ window.addEventListener('DOMContentLoaded', () => {
         if (addedNode.id === 'MDigitalLightboxWrapper') {
           const medalliaForm = addedNode.querySelector('.modal-live-form');
           if (medalliaForm) {
+            const vclNumber = document.querySelector(
+              '#liveForm > div > div.live-form-content > div.modal-live-form.ng-scope > div > div > div:nth-child(1) > div > div > p > ul > li:nth-child(1) > span',
+            );
             console.log('Medallia form found!');
+            addAriaLabel(vclNumber);
             observer.disconnect();
           }
         }
