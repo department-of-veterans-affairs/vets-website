@@ -209,6 +209,19 @@ const EmploymentRecord = props => {
             <option value="Temporary">Temporary</option>
           </VaSelect>
         </div>
+        <div className="input-size-7 vads-u-margin-bottom--2">
+          <VaTextInput
+            className="no-wrap"
+            error={(submitted && nameError) || null}
+            id="employer-name"
+            label="Employer name"
+            name="employer-name"
+            onInput={handleEmployerNameChange}
+            required
+            type="text"
+            value={employerName || ''}
+          />
+        </div>
         <div className="vads-u-margin-top--3">
           <VaDate
             monthYearOnly
@@ -226,14 +239,6 @@ const EmploymentRecord = props => {
             error={fromDateError}
           />
         </div>
-        <Checkbox
-          name="current-employment"
-          label="My spouse currently works here"
-          checked={employmentRecord.isCurrent || false}
-          onValueChange={value =>
-            handlers.handleCheckboxChange('isCurrent', value)
-          }
-        />
         <div>
           <VaDate
             monthYearOnly
@@ -248,19 +253,14 @@ const EmploymentRecord = props => {
             // error={toDateError}
           />
         </div>
-        <div className="input-size-6 vads-u-margin-bottom--2">
-          <VaTextInput
-            className="no-wrap input-size-6"
-            error={(submitted && nameError) || null}
-            id="employer-name"
-            label="Employer name"
-            name="employer-name"
-            onInput={handleEmployerNameChange}
-            required
-            type="text"
-            value={employerName || ''}
-          />
-        </div>
+        <Checkbox
+          name="current-employment"
+          label="My spouse currently works here"
+          checked={employmentRecord.isCurrent || false}
+          onValueChange={value =>
+            handlers.handleCheckboxChange('isCurrent', value)
+          }
+        />
         <p>
           <button
             type="button"
