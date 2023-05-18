@@ -28,7 +28,7 @@ import transformForSubmit from '../../shared/config/submit-transformer';
 // mock-data import for local development
 // import the appropriate file [...-flow?.json] for the flow you're working on, or
 // test-data-no-stmtinfo.json for all flows [select claimOwnership & claimantType via UI]
-import testData from '../tests/fixtures/data/test-data-no-stmtinfo.json';
+import testData from '../tests/e2e/fixtures/data/test-data-no-stmtinfo.json';
 
 const mockData = testData.data;
 const formConfig = {
