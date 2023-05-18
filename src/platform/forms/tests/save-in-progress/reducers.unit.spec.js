@@ -1,5 +1,5 @@
-import set from '../../../utilities/data/set';
 import { expect } from 'chai';
+import set from '../../../utilities/data/set';
 
 import {
   SET_SAVE_FORM_STATUS,
@@ -107,7 +107,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
       );
 
       expect(state.savedStatus).to.equal(SAVE_STATUSES.success);
-      expect(state.startingOver).to.be.false;
+      expect(state.isStartingOver).to.be.false;
       expect(state.prefillStatus).to.equal(PREFILL_STATUSES.notAttempted);
     });
 
