@@ -247,6 +247,11 @@ class PatientInboxPage {
     this.loadedMessagesData = mockMessages;
     cy.intercept(
       'GET',
+      '/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
+      this.mockInboxMessages,
+    ).as('inboxMessages');
+    cy.intercept(
+      'GET',
       '/my_health/v1/messaging/folders/0*',
       mockInboxFolder,
     ).as('inboxFolderMetaData');

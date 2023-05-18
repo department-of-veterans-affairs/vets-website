@@ -13,7 +13,7 @@ describe('Secure Messaging Compose with No Provider', () => {
     site.login();
     landingPage.loadPageForNoProvider();
     cy.get('[data-testid="compose-message-link"]').click();
-    patientInterstitialPage.getContinueButton().click();
+    patientInterstitialPage.getContinueButton().click({ force: true });
 
     composePage.selectRecipient('');
     composePage.getCategory('COVID').click();
