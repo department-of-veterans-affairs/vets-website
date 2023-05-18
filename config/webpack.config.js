@@ -376,6 +376,7 @@ module.exports = async (env = {}) => {
       extensions: ['.js', '.jsx'],
       fallback: {
         path: require.resolve('path-browserify'),
+        fs: false,
       },
       symlinks: false,
     },

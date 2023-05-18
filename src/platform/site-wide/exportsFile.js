@@ -55,11 +55,11 @@ import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
 
 import startSitewideComponents from './index';
 
-// const userNavScss = require('./user-nav/sass/user-nav.scss');
+const userNavScss = require('./user-nav/sass/user-nav.scss');
 
-// const style = require('./sass/style.scss');
+const style = require('./sass/style.scss');
 
-// const vaMedalliaStyle = require('./sass/va-medallia-style.scss');
+const vaMedalliaStyle = require('./sass/va-medallia-style.scss');
 
 // const mOverrides = require('./sass/modules/_m-overrides.scss');
 // const mHeader = require('./sass/modules/_m-header.scss');
@@ -68,6 +68,7 @@ import startSitewideComponents from './index';
 // const mDowntimeNotification = require('./sass/modules/_m-downtime-notification.scss');
 // const mLayers = require('./sass/modules/_m-layers.scss');
 // const iconography = require('./sass/iconography.scss');
+const vaMinimalStyle = require('./sass/minimal.scss');
 
 export {
   showVaExpandableAlert,
@@ -105,4 +106,8 @@ export {
   restartShouldRedirect,
   addFocusBehaviorToCrisisLineModal,
   startSitewideComponents,
+  userNavScss,
+  style,
+  vaMedalliaStyle,
+  vaMinimalStyle,
 };
