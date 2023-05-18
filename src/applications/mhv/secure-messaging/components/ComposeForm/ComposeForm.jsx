@@ -235,10 +235,9 @@ const ComposeForm = props => {
   const saveDraftHandler = async (type, e) => {
     if (type === 'manual') {
       setUserSaved(true);
-
+      setLastFocusableElement(e.target);
       await setMessageInvalid(false);
       if (checkMessageValidity()) {
-        setLastFocusableElement(e.target);
         setNavigationError(null);
       }
       if (attachments.length) {
@@ -342,7 +341,10 @@ const ComposeForm = props => {
         <VaModal
           modalTitle={saveError.title}
           onPrimaryButtonClick={() => setSaveError(null)}
-          onCloseEvent={() => setSaveError(null)}
+          onCloseEvent={() => {
+            setSaveError(null);
+            focusElement(lastFocusableElement);
+          }}
           primaryButtonText="Continue editing"
           status="warning"
           data-testid="quit-compose-double-dare"
@@ -489,7 +491,12 @@ const ComposeForm = props => {
             onClick={e => saveDraftHandler('manual', e)}
           />
           <div className="vads-u-flex--1">
-            {draft && <DeleteDraft draft={draft} />}
+            {draft && (
+              <DeleteDraft
+                draft={draft}
+                setLastFocusableElement={setLastFocusableElement}
+              />
+            )}
           </div>
         </div>
       </div>
