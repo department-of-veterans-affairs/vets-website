@@ -60,7 +60,7 @@ testNumberOfErrorsOnSubmit(
   mockDataForDirectRelative,
 );
 
-const expectedNumberOfErrorsForThirdParty = 2;
+const expectedNumberOfErrorsForThirdParty = 4;
 testNumberOfErrorsOnSubmit(
   formConfig,
   schema,

@@ -594,7 +594,8 @@ async function cancelRequestedAppointment(request) {
   };
 
   recordEvent({
-    event: eventPrefix,
+    event: 'interaction',
+    action: eventPrefix,
     ...additionalEventData,
   });
 

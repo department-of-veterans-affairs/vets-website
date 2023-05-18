@@ -6,7 +6,13 @@ for each individual <va-accordion-item> event. Prelaoding all messages on the fi
 is not an option since it will mark all messages as read. 
 */
 
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useDispatch } from 'react-redux';
 import PropType from 'prop-types';
 import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -18,11 +24,15 @@ import {
   markMessageAsReadInThread,
 } from '../../actions/messages';
 import { Actions } from '../../util/actionTypes';
+import useInterval from '../../hooks/use-interval';
 
 const MessageThread = props => {
   const dispatch = useDispatch();
   const { messageHistory, isDraftThread, isForPrint, viewCount } = props;
   const accordionRef = useRef();
+  const [hasListener, setHasListener] = useState(false);
+  const messageHistoryRef = useRef([]);
+  const viewCountRef = useRef();
 
   // value for screen readers to indicate how many messages are being loaded
   const messagesLoaded = useMemo(
@@ -38,6 +48,43 @@ const MessageThread = props => {
 
   useEffect(
     () => {
+      messageHistoryRef.current = messageHistory;
+      viewCountRef.current = viewCount;
+    },
+    [messageHistory, viewCount],
+  );
+
+  const expandListener = useCallback(
+    () => {
+      if (messageHistoryRef.current?.length) {
+        messageHistoryRef.current.forEach((m, i) => {
+          if (i < viewCountRef.current && !m.preloaded) {
+            dispatch(markMessageAsReadInThread(m.messageId, isDraftThread));
+          }
+        });
+      }
+    },
+    [messageHistoryRef.current, viewCountRef.current, dispatch],
+  );
+
+  // shadow dom is not available on the first render, so we need to wait for it to be available
+  // before we can add the event listener
+  // event listener is requried as it is not handled by native event handler in <va-accordion>
+  // this is a temporary solution until the <va-accordion> component is updated to handle this event
+  useInterval(() => {
+    if (!hasListener && accordionRef) {
+      const button = accordionRef.current?.shadowRoot?.querySelector('button');
+      if (button) {
+        button.addEventListener('click', () => {
+          expandListener();
+        });
+        setHasListener(true);
+      }
+    }
+  }, 500);
+
+  useEffect(
+    () => {
       return () => {
         dispatch(clearMessageHistory());
       };
@@ -47,13 +94,6 @@ const MessageThread = props => {
 
   useEffect(
     () => {
-      if (messageHistory?.length) {
-        messageHistory.forEach((m, i) => {
-          if (i < viewCount && !m.preloaded) {
-            dispatch(markMessageAsReadInThread(m.messageId));
-          }
-        });
-      }
       if (viewCount > 5) {
         focusElement(
           `[data-testid="expand-message-button-${
@@ -107,6 +147,7 @@ const MessageThread = props => {
                       key={m.messageId}
                       message={m}
                       isDraftThread={isDraftThread}
+                      preloaded={m.preloaded}
                       expanded
                     />
                   )

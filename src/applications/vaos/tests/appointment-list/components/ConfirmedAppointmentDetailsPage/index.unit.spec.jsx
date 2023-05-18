@@ -391,7 +391,8 @@ describe.skip('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     userEvent.click(screen.getByText(/cancel appointment/i));
     await screen.findByRole('alertdialog');
     expect(window.dataLayer[15]).to.deep.equal({
-      event: 'vaos-cancel-booked-clicked',
+      event: 'interaction',
+      action: 'vaos-cancel-booked-clicked',
     });
     //  And clicks on 'yes, cancel this appointment' to confirm
     userEvent.click(screen.getByText(/yes, cancel this appointment/i));
@@ -1634,7 +1635,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     await screen.findByRole('alertdialog');
 
     expect(window.dataLayer[0]).to.deep.equal({
-      event: 'vaos-cancel-booked-clicked',
+      event: 'interaction',
+      action: 'vaos-cancel-booked-clicked',
     });
     // And click on 'yes, cancel this appointment' to confirm
     userEvent.click(screen.getByText(/yes, cancel this appointment/i));

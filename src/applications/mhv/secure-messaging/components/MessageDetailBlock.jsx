@@ -61,21 +61,24 @@ const MessageDetailBlock = props => {
     [location.pathname, dispatch],
   );
 
-  useEffect(() => {
-    focusElement(document.querySelector('h2'));
-  });
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+    },
+    [message],
+  );
 
   const categoryLabel = Categories[category];
 
   return (
     <section className="message-detail-block">
       <header className="message-detail-header">
-        <h2
+        <h1
           className="vads-u-margin-bottom--2"
           aria-label={`Message subject. ${categoryLabel}: ${subject}`}
         >
           {categoryLabel}: {subject}
-        </h2>
+        </h1>
       </header>
       <MessageActionButtons
         id={messageId}
