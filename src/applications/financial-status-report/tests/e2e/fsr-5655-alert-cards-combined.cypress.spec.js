@@ -80,7 +80,8 @@ describe('Enhanced FSR debt and copay alerts', () => {
             .click({ waitForAnimations: true });
 
           // on debt selection page, wait for loading spinner to disappear
-          cy.wait(['@copaysA1', '@debtsA1']);
+          cy.wait('@copaysA1', { timeout: 10000 });
+          cy.wait('@debtsA1', { timeout: 10000 });
 
           cy.get('[data-testid="balance-card-combo-alert-error"]').should(
             'exist',
@@ -116,7 +117,8 @@ describe('Enhanced FSR debt and copay alerts', () => {
             .click({ waitForAnimations: true });
 
           // on debt selection page, wait for loading spinner to disappear
-          cy.wait(['@copaysA2', '@debtsA2']);
+          cy.wait('@copaysA2', { timeout: 10000 });
+          cy.wait('@debtsA2', { timeout: 10000 });
 
           cy.findByTestId('balance-card-combo-alert-zero').should('exist');
           cy.findByTestId('debt-selection-content').should('not.exist');
@@ -152,7 +154,8 @@ describe('Enhanced FSR debt and copay alerts', () => {
           cy.findAllByText(/continue/i, { selector: 'button' })
             .first()
             .click({ waitForAnimations: true });
-          cy.wait(['@copaysB1', '@debtsB1']);
+          cy.wait('@copaysB1', { timeout: 10000 });
+          cy.wait('@debtsB1', { timeout: 10000 });
 
           cy.get('[data-testid="debt-selection-checkbox"]').should(
             'have.length.greaterThan',
@@ -193,7 +196,8 @@ describe('Enhanced FSR debt and copay alerts', () => {
           cy.findAllByText(/continue/i, { selector: 'button' })
             .first()
             .click({ waitForAnimations: true });
-          cy.wait(['@copaysB2', '@debtsB2']);
+          cy.wait('@copaysB2', { timeout: 10000 });
+          cy.wait('@debtsB2', { timeout: 10000 });
 
           cy.get('[data-testid="debt-selection-checkbox"]').should(
             'have.length.greaterThan',
@@ -233,7 +237,8 @@ describe('Enhanced FSR debt and copay alerts', () => {
           cy.findAllByText(/continue/i, { selector: 'button' })
             .first()
             .click();
-          cy.wait(['@copaysB3', '@debtsB3']);
+          cy.wait('@copaysB3', { timeout: 10000 });
+          cy.wait('@debtsB3', { timeout: 10000 });
 
           cy.get('[data-testid="debt-selection-checkbox"]').should('not.exist');
 
