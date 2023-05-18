@@ -122,6 +122,7 @@
  * @typedef {Object} FormConfigChapter
  * @property {Record<string, FormConfigPage>} [pages]
  * @property {string | Function} [title]
+ * @property {boolean | undefined} [hideFormNavProgress]
  */
 
 /**
