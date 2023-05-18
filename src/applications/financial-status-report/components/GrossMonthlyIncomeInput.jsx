@@ -141,7 +141,7 @@ const GrossMonthlyIncomeInput = props => {
           You’ll find this in your pay stub. It’s the amount of your pay before
           taxes and deductions.
         </p>
-        <div className="input vads-u-margin-top--neg3">
+        <div className="input-size-2 input vads-u-margin-top--neg3">
           <va-number-input
             inputmode="numeric"
             id="gross-monthly-income"

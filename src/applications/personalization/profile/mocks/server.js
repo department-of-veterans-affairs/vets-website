@@ -64,15 +64,17 @@ const responses = {
     return res.json(maintenanceWindows.noDowntime);
   },
   'GET /v0/feature_toggles': (_req, res) => {
-    delaySingleResponse(() =>
-      res.json(
-        generateFeatureToggles({
-          profileUseInfoCard: true,
-          profileUseFieldEditingPage: true,
-          profileShowMhvNotificationSettings: false,
-          profileLighthouseDirectDeposit: true,
-        }),
-      ),
+    delaySingleResponse(
+      () =>
+        res.json(
+          generateFeatureToggles({
+            profileUseInfoCard: true,
+            profileUseFieldEditingPage: true,
+            profileShowMhvNotificationSettings: false,
+            profileLighthouseDirectDeposit: true,
+          }),
+        ),
+      0,
     );
   },
   'GET /v0/ppiu/payment_information': (_req, res) => {
