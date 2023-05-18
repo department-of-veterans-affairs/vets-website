@@ -1,6 +1,7 @@
 import React from 'react';
 import commonFieldMapping from './commonFieldMapping';
 
+/** @param {WebComponentFieldProps} props */
 export default function vaMemorableDateFieldMapping(props) {
   const {
     description,
