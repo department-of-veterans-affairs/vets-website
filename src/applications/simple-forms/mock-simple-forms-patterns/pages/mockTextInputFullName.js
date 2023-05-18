@@ -1,12 +1,14 @@
+// @ts-check
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-import fullNameUI from 'platform/forms/definitions/fullName';
+import fullNameOldUI from 'platform/forms/definitions/fullName';
 import {
   titleSchema,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+  fullNameUI,
+  fullNameSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 
-/** @type {PageSchema} */
 const fullNameDef = {
   type: 'object',
   properties: {
@@ -36,7 +38,7 @@ export default {
   uiSchema: {
     rjsf: titleUI('RJSF'),
     spouseFullNameOld: {
-      ...fullNameUI,
+      ...fullNameOldUI,
       first: {
         'ui:title': 'TextWidget - Spouse\u2019s first name',
         'ui:errorMessages': {
@@ -60,70 +62,34 @@ export default {
       classNames: 'vads-u-margin-top--4',
     }),
     spouseFullNameNew: {
-      ...fullNameUI,
+      ...fullNameOldUI,
       first: {
-        'ui:title': 'VaTextInputField - Spouse\u2019s first name',
+        'ui:title': 'TextWidget - Spouse\u2019s first name',
         'ui:webComponentField': VaTextInputField,
         'ui:errorMessages': {
           required: 'Please enter a first name',
         },
       },
       last: {
-        'ui:title': 'VaTextInputField - Spouse\u2019s last name',
+        'ui:title': 'TextWidget - Spouse\u2019s last name',
         'ui:webComponentField': VaTextInputField,
         'ui:errorMessages': {
           required: 'Please enter a last name',
         },
       },
       middle: {
-        'ui:title': 'VaTextInputField - Spouse\u2019s middle name',
+        'ui:title': 'TextWidget - Spouse\u2019s middle name',
         'ui:webComponentField': VaTextInputField,
       },
       suffix: {
+        'ui:title': 'Select - Spouse\u2019s suffix',
         'ui:webComponentField': VaSelectField,
-        'ui:title': 'VaSelect - Spouse\u2019s suffix',
       },
     },
     wcv3: titleUI('Web component v3', {
       classNames: 'vads-u-margin-top--4',
     }),
-    spouseFullNameNewV3: {
-      ...fullNameUI,
-      first: {
-        'ui:title': 'VaTextInputField - Spouse\u2019s first name',
-        'ui:webComponentField': VaTextInputField,
-        'ui:errorMessages': {
-          required: 'Please enter a first name',
-        },
-        'ui:options': {
-          uswds: true,
-        },
-      },
-      last: {
-        'ui:title': 'VaTextInputField - Spouse\u2019s last name',
-        'ui:webComponentField': VaTextInputField,
-        'ui:errorMessages': {
-          required: 'Please enter a last name',
-        },
-        'ui:options': {
-          uswds: true,
-        },
-      },
-      middle: {
-        'ui:title': 'VaTextInputField - Spouse\u2019s middle name',
-        'ui:webComponentField': VaTextInputField,
-        'ui:options': {
-          uswds: true,
-        },
-      },
-      suffix: {
-        'ui:title': 'VaSelect - Spouse\u2019s suffix',
-        'ui:webComponentField': VaSelectField,
-        'ui:options': {
-          uswds: true,
-        },
-      },
-    },
+    spouseFullNameNewV3: fullNameUI(),
   },
   schema: {
     type: 'object',
@@ -131,9 +97,9 @@ export default {
       rjsf: titleSchema(),
       spouseFullNameOld: fullNameDef,
       wc: titleSchema(),
-      spouseFullNameNew: fullNameDef,
+      spouseFullNameNew: fullNameSchema,
       wcv3: titleSchema(),
-      spouseFullNameNewV3: fullNameDef,
+      spouseFullNameNewV3: fullNameSchema,
     },
     required: [],
   },
