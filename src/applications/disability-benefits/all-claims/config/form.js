@@ -205,6 +205,21 @@ const formConfig = {
           schema: contactInformation.schema,
           updateFormData: contactInformation.updateFormData,
         },
+        homelessOrAtRisk1: {
+          title: 'Housing situation',
+          path: 'housing-situation-1',
+          depends: formData => !isBDD(formData) && !environment.isProduction(),
+          uiSchema: homelessOrAtRisk.uiSchema,
+          schema: homelessOrAtRisk.schema,
+          onContinue: captureEvents.homelessOrAtRisk,
+        },
+        terminallyIll1: {
+          title: 'Terminally ill',
+          path: 'terminally-ill-1',
+          depends: formData => !isBDD(formData) && !environment.isProduction(),
+          uiSchema: terminallyIll.uiSchema,
+          schema: terminallyIll.schema,
+        },
         alternateNames: {
           title: 'Service under another name',
           path: 'alternate-names',
@@ -530,6 +545,7 @@ const formConfig = {
         ancillaryFormsWizardIntro: {
           title: 'Additional disability benefits',
           path: 'additional-disability-benefits',
+          depends: () => environment.isProduction(),
           uiSchema: {
             'ui:title': 'Additional disability benefits',
             'ui:description': ancillaryFormsWizardDescription,
@@ -569,7 +585,8 @@ const formConfig = {
         individualUnemployability: {
           title: 'Individual Unemployability',
           path: 'individual-unemployability',
-          depends: formData => formData['view:ancillaryFormsWizard'],
+          depends: formData =>
+            formData['view:ancillaryFormsWizard'] && environment.isProduction(),
           uiSchema: individualUnemployability.uiSchema,
           schema: individualUnemployability.schema,
         },
@@ -696,7 +713,7 @@ const formConfig = {
         homelessOrAtRisk: {
           title: 'Housing situation',
           path: 'housing-situation',
-          depends: formData => !isBDD(formData),
+          depends: formData => !isBDD(formData) && environment.isProduction(),
           uiSchema: homelessOrAtRisk.uiSchema,
           schema: homelessOrAtRisk.schema,
           onContinue: captureEvents.homelessOrAtRisk,
@@ -704,7 +721,7 @@ const formConfig = {
         terminallyIll: {
           title: 'Terminally ill',
           path: 'terminally-ill',
-          depends: formData => !isBDD(formData),
+          depends: formData => !isBDD(formData) && environment.isProduction(),
           uiSchema: terminallyIll.uiSchema,
           schema: terminallyIll.schema,
         },
@@ -734,12 +751,19 @@ const formConfig = {
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
         },
+        individualUnemployability1: {
+          title: 'Individual Unemployability',
+          path: 'individual-unemployability-1',
+          depends: () => !environment.isProduction(),
+          uiSchema: individualUnemployability.uiSchema,
+          schema: individualUnemployability.schema,
+        },
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',
           path: 'fully-developed-claim',
           uiSchema: fullyDevelopedClaim.uiSchema,
           schema: fullyDevelopedClaim.schema,
-          depends: formData => !isBDD(formData),
+          depends: formData => !isBDD(formData) && environment.isProduction(),
         },
       },
     },
