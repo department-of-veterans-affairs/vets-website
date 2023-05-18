@@ -174,7 +174,6 @@ class Profile extends Component {
             <BrowserRouter>
               <LastLocationProvider>
                 <ProfileWrapper
-                  routes={routes}
                   isInMVI={this.props.isInMVI}
                   isLOA3={this.props.isLOA3}
                   isBlocked={this.props.isBlocked}
