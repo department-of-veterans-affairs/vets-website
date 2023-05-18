@@ -3,11 +3,7 @@
  * @module services/Patient
  */
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import {
-  checkPastVisits,
-  getLongTermAppointmentHistory,
-  getRequestLimits,
-} from '../var';
+import { checkPastVisits, getRequestLimits } from '../var';
 import { recordEligibilityFailure, recordVaosError } from '../../utils/events';
 import { captureError } from '../../utils/error';
 import { ELIGIBILITY_REASONS } from '../../utils/constants';
@@ -404,15 +400,9 @@ export async function fetchFlowEligibilityAndClinics({
       : typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
 
     if (isDirectAppointmentHistoryRequired) {
-      if (useV2) {
-        apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
-          useAcheron,
-        ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
-      } else {
-        apiCalls.pastAppointments = getLongTermAppointmentHistory().catch(
-          createErrorHandler('direct-no-matching-past-clinics-error'),
-        );
-      }
+      apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
+        useAcheron,
+      ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
     }
   }
 

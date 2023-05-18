@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
@@ -147,9 +148,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
       getState(),
     );
-    const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-      getState(),
-    );
     const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
       getState(),
     );
@@ -181,8 +179,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           endDate: moment()
             .add(395, 'days')
             .format('YYYY-MM-DD'),
-          useV2VA: featureVAOSServiceVAAppointments,
-          useV2CC: featureVAOSServiceCCAppointments,
           useAcheron: featureAcheronVAOSServiceRequests,
         }),
       ];
@@ -222,9 +218,12 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             }),
         );
       }
+
       const results = await Promise.all(promises);
-      const data = results[0]?.filter(appt => !appt.meta);
-      const backendSystemFailures = results[0]?.filter(appt => appt.meta);
+      const data = results[0]?.filter(appt => !appt.hasOwnProperty('meta'));
+      const backendServiceFailures = results[0]?.find(
+        appt => appt.hasOwnProperty('meta') || null,
+      );
 
       recordEvent({
         event: `${GA_PREFIX}-get-future-appointments-retrieved`,
@@ -259,7 +258,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       dispatch({
         type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
         data,
-        backendServiceFailures: backendSystemFailures[0],
+        backendServiceFailures,
       });
 
       try {
@@ -332,14 +331,17 @@ export function fetchPendingAppointments() {
         useAcheron: featureAcheronVAOSServiceRequests,
       });
 
-      const backendSystemFailures = pendingAppointments.filter(
-        appt => appt.meta,
+      const data = pendingAppointments?.filter(
+        appt => !appt.hasOwnProperty('meta'),
+      );
+      const backendServiceFailures = pendingAppointments.find(
+        appt => appt.hasOwnProperty('meta') || null,
       );
 
       dispatch({
         type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-        data: pendingAppointments,
-        backendServiceFailures: backendSystemFailures[0],
+        data,
+        backendServiceFailures,
       });
 
       recordEvent({
@@ -349,10 +351,10 @@ export function fetchPendingAppointments() {
       try {
         let facilityData;
         if (featureVAOSServiceRequests) {
-          facilityData = getAdditionalFacilityInfoV2(pendingAppointments);
+          facilityData = getAdditionalFacilityInfoV2(data);
         } else {
           facilityData = await getAdditionalFacilityInfo(
-            pendingAppointments,
+            data,
             featureFacilitiesServiceV2,
           );
         }
@@ -366,7 +368,7 @@ export function fetchPendingAppointments() {
         captureError(error);
       }
 
-      return pendingAppointments;
+      return data;
     } catch (error) {
       recordEvent({
         event: `${GA_PREFIX}-get-pending-appointments-failed`,
@@ -387,9 +389,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
       getState(),
     );
-    const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-      getState(),
-    );
     const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
       getState(),
     );
@@ -404,28 +403,22 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     });
 
     try {
-      const promises = [
-        fetchAppointments({
-          startDate,
-          endDate,
-          useV2VA: featureVAOSServiceVAAppointments,
-          useV2CC: featureVAOSServiceCCAppointments,
-          useAcheron: featureAcheronVAOSServiceRequests,
-        }),
-      ];
+      const results = await fetchAppointments({
+        startDate,
+        endDate,
+        useAcheron: featureAcheronVAOSServiceRequests,
+      });
 
-      const results = await Promise.all(promises);
-      const appointments = results[0]?.filter(appt => !appt.meta);
-      const requests = [];
-      const backendSystemFailures = results[0]?.filter(appt => appt.meta);
+      const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
+      const backendServiceFailures =
+        results.find(appt => appt.hasOwnProperty('meta')) || null;
 
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
         appointments,
-        requests,
         startDate,
         endDate,
-        backendServiceFailures: backendSystemFailures[0],
+        backendServiceFailures,
       });
 
       recordEvent({

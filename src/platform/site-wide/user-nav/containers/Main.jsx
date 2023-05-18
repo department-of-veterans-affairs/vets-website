@@ -253,14 +253,6 @@ export class Main extends Component {
   render() {
     const { mhvTransition, mhvTransitionModal, currentlyLoggedIn } = this.props;
 
-    // Check if displaying login is disabled.
-    if (
-      typeof this.props.showNavLogin !== 'undefined' &&
-      !this.props.showNavLogin
-    ) {
-      return null;
-    }
-
     // only show the modal to users who are part of the organic adoption experiment,
     // logged in with an outdated credential, do not have IDME/LoginGov linked credentials,
     // and have not dismissed the modal in the past 24 hours
