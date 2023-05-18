@@ -105,15 +105,20 @@ ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
       fullName: {
-        first: PropTypes.string,
+        first: PropTypes.string.isRequired,
         middle: PropTypes.string,
-        last: PropTypes.string,
+        last: PropTypes.string.isRequired,
         suffix: PropTypes.string,
       },
     }),
     formId: PropTypes.string,
     submission: PropTypes.shape({
-      timestamp: PropTypes.string,
+      response: PropTypes.shape({
+        attributes: PropTypes.shape({
+          confirmationNumber: PropTypes.string.isRequired,
+        }).isRequired,
+      }).isRequired,
+      timestamp: PropTypes.string.isRequired,
     }),
   }),
   name: PropTypes.string,

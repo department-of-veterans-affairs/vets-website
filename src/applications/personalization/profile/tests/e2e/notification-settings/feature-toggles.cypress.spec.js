@@ -68,6 +68,52 @@ describe('Notification Settings Feature Toggles', () => {
     });
   });
 
+  describe('Shows/Hides QuickSubmit settings via feature toggle', () => {
+    it('should SHOW the QuickSubmit notif setting when toggle is TRUE', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profileShowQuickSubmitNotificationSetting: true,
+        }),
+      );
+
+      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
+
+      checkForLegacyLoadingIndicator();
+
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
+      NotificationSettingsFeature.confirmQuickSubmitNotificationSetting({
+        exists: true,
+      });
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should NOT SHOW the QuickSubmit notif setting when toggle is FALSE', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profileShowQuickSubmitNotificationSetting: false,
+        }),
+      );
+
+      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
+
+      checkForLegacyLoadingIndicator();
+
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
+      NotificationSettingsFeature.confirmQuickSubmitNotificationSetting({
+        exists: false,
+      });
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
   describe('Shows/Hides MHV settings via feature toggle', () => {
     it('should SHOW the MHV settings when profileShowMhvNotificationSettings toggle is TRUE', () => {
       cy.intercept(

@@ -20,7 +20,7 @@ import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
 
 const ReplyForm = props => {
-  const { draftToEdit, replyMessage, cannotReply } = props;
+  const { draftToEdit, replyMessage, cannotReply, header } = props;
   const dispatch = useDispatch();
 
   const defaultRecipientsList = [{ id: 0, name: ' ' }];
@@ -260,13 +260,15 @@ const ReplyForm = props => {
     };
 
     if (!draftId) {
-      dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
-        newDraft => {
-          setDraft(newDraft);
-          setNewDraftId(newDraft.messageId);
-        },
-      );
-    } else {
+      if (checkMessageValidity()) {
+        dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
+          newDraft => {
+            setDraft(newDraft);
+            setNewDraftId(newDraft.messageId);
+          },
+        );
+      }
+    } else if (checkMessageValidity()) {
       dispatch(saveReplyDraft(replyMessage.messageId, formData, type, draftId));
     }
     if (!attachments.length) setNavigationError(null);
@@ -309,7 +311,9 @@ const ReplyForm = props => {
   if (replyMessage) {
     return (
       <>
-        <h1 className="page-title">{setMessageTitle()}</h1>
+        <h1 ref={header} className="page-title">
+          {setMessageTitle()}
+        </h1>
 
         <section aria-label="Reply draft edit mode">
           <form
@@ -431,15 +435,15 @@ const ReplyForm = props => {
               <strong>From: </strong>
               {replyMessage.senderName}
             </p>
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-testid="message-to">
               <strong>To: </strong>
               {replyMessage.recipientName}
             </p>
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-testid="message-date">
               <strong>Date: </strong>
               {dateFormat(replyMessage.sentDate)}
             </p>
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0" data-testid="message-id">
               <strong>Message ID: </strong>
               {replyMessage.messageId}
             </p>
@@ -471,6 +475,7 @@ const ReplyForm = props => {
 ReplyForm.propTypes = {
   cannotReply: PropTypes.bool,
   draftToEdit: PropTypes.object,
+  header: PropTypes.object,
   recipients: PropTypes.array,
   replyMessage: PropTypes.object,
 };

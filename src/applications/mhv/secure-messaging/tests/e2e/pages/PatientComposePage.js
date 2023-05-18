@@ -279,7 +279,7 @@ class PatientComposePage {
       mockThreadResponse,
     ).as('mockThreadResponse');
     cy.get('[data-testid="trash-button-text"]').click({
-      waitforanimations: true,
+      force: true,
     });
   };
 
@@ -289,7 +289,7 @@ class PatientComposePage {
       .find('button')
       .contains('Confirm')
       .should('be.visible')
-      .click();
+      .click({ force: true });
   };
 
   verifyDeleteDraftSuccessfulMessage = () => {

@@ -4,10 +4,8 @@ import footerContent from 'platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
-import preSubmitInfo from '../containers/PreSubmitSignature';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
-import prefillTransformer from './prefill-transformer';
 import transformForSubmit from '../../shared/config/submit-transformer';
 
 // pages
@@ -31,6 +29,7 @@ import {
   veteranIsSelfText,
 } from '../definitions/constants';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -38,7 +37,20 @@ const formConfig = {
   trackingPrefix: 'medical-release-4142-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  preSubmitInfo,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I certify that the identifying information in this form has been correctly represented.',
+      messageAriaDescribedby:
+        'I certify that the identifying information in this form has been correctly represented.',
+      fullNamePath: formData =>
+        formData[preparerIdentificationFields.parentObject][
+          preparerIdentificationFields.relationshipToVeteran
+        ] === veteranIsSelfText
+          ? 'veteran.fullName'
+          : 'preparerIdentification.preparerFullName',
+    },
+  },
   formId: '21-4142',
   saveInProgress: {
     messages: {
@@ -51,8 +63,8 @@ const formConfig = {
     },
   },
   version: 0,
+  // Note: this is enabled for Save In Progress functionality. We are not using prefill and thus do not have a prefill transformer
   prefillEnabled: true,
-  prefillTransformer,
   transformForSubmit,
   savedFormMessages: {
     notFound:
@@ -62,7 +74,7 @@ const formConfig = {
   },
   title: 'Authorize the release of medical information to the VA',
   subTitle:
-    'Authorization to disclose information to the Department of Veterans Affairs (VA) (VA Form 21-4142 & 21-4142a)',
+    'Authorization to disclose information to the Department of Veterans Affairs (VA) (VA Form 21-4142 and 21-4142a)',
   defaultDefinitions: fullSchema.definitions,
   chapters: {
     personalInformation1Chapter: {

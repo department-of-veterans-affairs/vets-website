@@ -255,7 +255,9 @@ const ComposeForm = props => {
       body: messageBody,
     };
 
-    dispatch(saveDraft(formData, type, draftId));
+    if (checkMessageValidity() === true) {
+      dispatch(saveDraft(formData, type, draftId));
+    }
     if (!attachments.length) setNavigationError(null);
   };
 

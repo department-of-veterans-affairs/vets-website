@@ -7,13 +7,14 @@
     box-shadow: none;
   }
   button * {
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-right: 0;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 0px;
   }
   button:active,
   button:focus {
     outline: none;
+    background-color: var(--color-gray-cool-light);
   }
   button:hover {
     background-color: var(--color-gray-cool-light);
@@ -45,16 +46,16 @@
     display: none;
     flex-direction: column;
     button {
-      margin: 0;
+      margin: 0px;
       padding: 1rem 2rem;
       border-top: none;
       border-right: 2px solid var(--color-primary);
       border-bottom: 1px solid var(--color-primary);
       border-left: 2px solid var(--color-primary);
-      border-radius: 0;
+      border-radius: 0px;
     }
     button:last-child {
-      border-radius: 0 0 5px 5px;
+      border-radius: 0px 0px 5px 5px;
       border-top: none;
       border-right: 2px solid var(--color-primary);
       border-bottom: 2px solid var(--color-primary);

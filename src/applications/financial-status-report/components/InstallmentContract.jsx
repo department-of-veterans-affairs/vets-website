@@ -178,7 +178,7 @@ const InstallmentContract = props => {
           installmentContracts.length === index ? 'Add' : 'Update'
         } an installment contract or other debt`}
       </legend>
-      <p className="vads-u-padding-top--2">
+      <p>
         If you have more than one installment contract or other debt, enter the
         information for one contract or debt below.
       </p>

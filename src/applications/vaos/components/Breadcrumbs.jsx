@@ -63,7 +63,7 @@ export default function VAOSBreadcrumbs({ children }) {
       )}
       {featureStatusImprovement && (
         <NavLink to="/" id="vaos-home">
-          Your appointments
+          Appointments
         </NavLink>
       )}
 

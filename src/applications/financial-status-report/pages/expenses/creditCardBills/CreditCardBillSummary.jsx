@@ -30,7 +30,7 @@ const CreditCardBillSummary = ({
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      goToPath(`/other-expenses-checklist`);
+      goToPath(`/installment-contracts`);
     },
     onBack: event => {
       event.preventDefault();
@@ -76,35 +76,40 @@ const CreditCardBillSummary = ({
 
   return (
     <form onSubmit={handlers.onSubmit}>
-      <div className="vads-u-margin-top--3" data-testid="debt-list">
-        {!creditCardBills.length ? (
-          <EmptyMiniSummaryCard content={emptyPrompt} />
-        ) : (
-          creditCardBills.map((bill, index) => (
-            <MiniSummaryCard
-              editDestination={{
-                pathname: '/your-credit-card-bills',
-                search: `?index=${index}`,
-              }}
-              heading="Credit card bill"
-              key={bill.minPaymentAmount + bill.unpaidBalance}
-              onDelete={() => onDelete(index)}
-              showDelete
-              body={billBody(bill)}
-              index={index}
-            />
-          ))
-        )}
-      </div>
-      <Link
-        className="vads-c-action-link--green"
-        to={{
-          pathname: '/your-credit-card-bills',
-          search: `?index=${creditCardBills.length}`,
-        }}
-      >
-        Add additional credit card bill
-      </Link>
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">
+          Your credit card bills
+        </legend>
+        <div className="vads-u-margin-top--3" data-testid="debt-list">
+          {!creditCardBills.length ? (
+            <EmptyMiniSummaryCard content={emptyPrompt} />
+          ) : (
+            creditCardBills.map((bill, index) => (
+              <MiniSummaryCard
+                editDestination={{
+                  pathname: '/your-credit-card-bills',
+                  search: `?index=${index}`,
+                }}
+                heading="Credit card bill"
+                key={bill.minPaymentAmount + bill.unpaidBalance}
+                onDelete={() => onDelete(index)}
+                showDelete
+                body={billBody(bill)}
+                index={index}
+              />
+            ))
+          )}
+        </div>
+        <Link
+          className="vads-c-action-link--green"
+          to={{
+            pathname: '/your-credit-card-bills',
+            search: `?index=${creditCardBills.length}`,
+          }}
+        >
+          Add additional credit card bill
+        </Link>
+      </fieldset>
       {contentBeforeButtons}
       <FormNavButtons goBack={handlers.onBack} submitToContinue />
       {contentAfterButtons}{' '}

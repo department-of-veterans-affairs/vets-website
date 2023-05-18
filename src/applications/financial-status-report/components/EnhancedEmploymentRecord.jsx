@@ -8,7 +8,6 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
 
 const defaultRecord = [
@@ -21,8 +20,10 @@ const defaultRecord = [
   },
 ];
 
+const RETURN_PATH = '/employment-history';
+
 const EmploymentRecord = props => {
-  const { data, goToPath, goBack, onReviewPage, setFormData } = props;
+  const { data, goToPath, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -30,10 +31,17 @@ const EmploymentRecord = props => {
 
   const index = isEditing ? Number(editIndex) : 0;
 
+  const {
+    personalData: {
+      employmentHistory: {
+        veteran: { employmentRecords = [] },
+      },
+    },
+  } = data;
+
   // if we have employment history and plan to edit, we need to get it from the employmentRecords
-  const specificRecord = data.personalData.employmentHistory.veteran
-    .employmentRecords
-    ? data.personalData.employmentHistory.veteran.employmentRecords[index]
+  const specificRecord = employmentRecords
+    ? employmentRecords[index]
     : defaultRecord[0];
 
   const [employmentRecord, setEmploymentRecord] = useState({
@@ -92,11 +100,9 @@ const EmploymentRecord = props => {
     }
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
-      const updatedRecords = data.personalData.employmentHistory.veteran.employmentRecords.map(
-        (item, arrayIndex) => {
-          return arrayIndex === index ? employmentRecord : item;
-        },
-      );
+      const updatedRecords = employmentRecords.map((item, arrayIndex) => {
+        return arrayIndex === index ? employmentRecord : item;
+      });
       // update form data
       setFormData({
         ...data,
@@ -113,12 +119,7 @@ const EmploymentRecord = props => {
         },
       });
     } else {
-      const records = [
-        employmentRecord,
-        ...(data.personalData.employmentHistory.veteran.employmentRecords
-          ? data.personalData.employmentHistory.veteran.employmentRecords
-          : []),
-      ];
+      const records = [employmentRecord, ...(employmentRecords || [])];
 
       setFormData({
         ...data,
@@ -138,7 +139,7 @@ const EmploymentRecord = props => {
     if (employmentRecord.isCurrent) {
       goToPath(`/gross-monthly-income`);
     } else {
-      goToPath(`/employment-history`);
+      goToPath(`${RETURN_PATH}`);
     }
   };
 
@@ -167,6 +168,10 @@ const EmploymentRecord = props => {
       const value = event.detail?.value || target.value;
       handleChange(fieldName, value);
     },
+    onCancel: event => {
+      event.preventDefault();
+      goToPath(RETURN_PATH);
+    },
     handleDateChange: (key, monthYear) => {
       const dateString = `${monthYear}-XX`;
       handleChange(key, dateString);
@@ -185,85 +190,103 @@ const EmploymentRecord = props => {
     },
   };
 
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
-
   return (
     <form onSubmit={updateFormData}>
-      <legend className="schemaform-block-title">Add a job</legend>
-      <p className="vads-u-padding-top--1">
-        Tell us about any jobs you’ve had in the past 2 years that you received
-        pay stubs for. You’ll need to provide your income information if it’s a
-        current job.
-      </p>
-      <div className="input-size-5">
-        <VaSelect
-          id="type"
-          name="type"
-          label="Type of work"
-          required
-          value={employmentRecord.type}
-          onVaSelect={handlers.onChange}
-          error={typeError}
-        >
-          <option value=""> </option>
-          <option value="Full time">Full time</option>
-          <option value="Part time">Part time</option>
-          <option value="Seasonal">Seasonal</option>
-          <option value="Temporary">Temporary</option>
-        </VaSelect>
-      </div>
-      <div className="vads-u-margin-top--3">
-        <VaDate
-          monthYearOnly
-          value={`${fromYear}-${fromMonth}`}
-          label="Date you started work at this job?"
-          name="from"
-          onDateChange={e => handlers.handleDateChange('from', e.target.value)}
-          onDateBlur={e =>
-            validateYear(e.target.value || '', setFromDateError, startError)
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">Add a job</legend>
+        <p>
+          Tell us about any jobs you’ve had in the past 2 years that you
+          received pay stubs for. You’ll need to provide your income information
+          if it’s a current job.
+        </p>
+        <div className="input-size-5">
+          <VaSelect
+            id="type"
+            name="type"
+            label="Type of work"
+            required
+            value={employmentRecord.type}
+            onVaSelect={handlers.onChange}
+            error={typeError}
+          >
+            <option value=""> </option>
+            <option value="Full time">Full time</option>
+            <option value="Part time">Part time</option>
+            <option value="Seasonal">Seasonal</option>
+            <option value="Temporary">Temporary</option>
+          </VaSelect>
+        </div>
+        <div className="input-size-7 vads-u-margin-bottom--2">
+          <va-text-input
+            label="Employer name"
+            name="employerName"
+            onInput={handleEmployerNameChange}
+            value={employmentRecord.employerName}
+            required
+            error={employerNameError ? 'Please enter your employer name.' : ''}
+          />
+        </div>
+        <div className="vads-u-margin-top--3">
+          <VaDate
+            monthYearOnly
+            value={`${fromYear}-${fromMonth}`}
+            label="Date you started work at this job?"
+            name="from"
+            onDateChange={e =>
+              handlers.handleDateChange('from', e.target.value)
+            }
+            onDateBlur={e =>
+              validateYear(e.target.value || '', setFromDateError, startError)
+            }
+            required
+            error={fromDateError}
+          />
+        </div>
+        <div>
+          <VaDate
+            monthYearOnly
+            value={`${toYear}-${toMonth}`}
+            label="Date you stopped work at this job?"
+            name="to"
+            onDateChange={e => handlers.handleDateChange('to', e.target.value)}
+            onDateBlur={e =>
+              validateYear(
+                e.target.value || '',
+                setToDateError,
+                'Please enter your employment end date.',
+              )
+            }
+            required={doesNotCurrentlyWorkHere}
+            error={toDateError}
+          />
+        </div>
+        <Checkbox
+          name="current-employment"
+          label="I currently work here"
+          checked={employmentRecord.isCurrent || false}
+          onValueChange={value =>
+            handlers.handleCheckboxChange('isCurrent', value)
           }
-          required
-          error={fromDateError}
         />
-      </div>
-      <Checkbox
-        name="current-employment"
-        label="I currently work here"
-        checked={employmentRecord.isCurrent || false}
-        onValueChange={value =>
-          handlers.handleCheckboxChange('isCurrent', value)
-        }
-      />
-      <div>
-        <VaDate
-          monthYearOnly
-          value={`${toYear}-${toMonth}`}
-          label="Date you stopped work at this job?"
-          name="to"
-          onDateChange={e => handlers.handleDateChange('to', e.target.value)}
-          onDateBlur={e =>
-            validateYear(
-              e.target.value || '',
-              setToDateError,
-              'Please enter your employment end date.',
-            )
-          }
-          required={doesNotCurrentlyWorkHere}
-          error={toDateError}
-        />
-      </div>
-      <div className="input-size-6 vads-u-margin-bottom--2">
-        <va-text-input
-          label="Employer name"
-          name="employerName"
-          onInput={handleEmployerNameChange}
-          value={employmentRecord.employerName}
-          required
-          error={employerNameError ? 'Please enter your employer name.' : ''}
-        />
-      </div>
-      {onReviewPage ? updateButton : navButtons}
+        <p>
+          <button
+            type="button"
+            id="cancel"
+            className="usa-button-secondary vads-u-width--auto"
+            onClick={handlers.onCancel}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            id="submit"
+            className="vads-u-width--auto"
+            onClick={updateFormData}
+          >
+            {`${editIndex ? 'Update' : 'Add'} employment record`}
+          </button>
+        </p>
+      </fieldset>
     </form>
   );
 };

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -128,8 +127,8 @@ export class IntroductionPage extends React.Component {
             </a>
             .
           </p>
-          <ol>
-            <li className="process-step list-one">
+          <va-process-list>
+            <li>
               <h3 className="vads-u-font-size--h4">Prepare</h3>
               <p>To fill out this application, you’ll need your:</p>
               <ul>
@@ -163,7 +162,7 @@ export class IntroductionPage extends React.Component {
               </a>
               .
             </li>
-            <li className="process-step list-two">
+            <li>
               <h3 className="vads-u-font-size--h4">Apply</h3>
               <p>
                 Complete this Higher-Level Review form. After submitting the
@@ -171,7 +170,7 @@ export class IntroductionPage extends React.Component {
                 your records.
               </p>
             </li>
-            <li className="process-step list-three">
+            <li>
               <h3 className="vads-u-font-size--h4">VA Review</h3>
               <p>
                 Our goal for completing a Higher-Level Review is 125 days. A
@@ -179,20 +178,24 @@ export class IntroductionPage extends React.Component {
                 new exam to correct an error.
               </p>
             </li>
-            <li className="process-step list-four">
+            <li>
               <h3 className="vads-u-font-size--h4">Decision</h3>
               <p>
                 Once we’ve processed your claim, you’ll get a notice in the mail
                 with our decision.
               </p>
             </li>
-          </ol>
+          </va-process-list>
         </div>
 
         {this.getCallToActionContent({ last: true })}
 
         <div className="omb-info--container vads-u-padding-left--0">
-          <OMBInfo resBurden={15} ombNumber="2900-0862" expDate="04/30/2024" />
+          <va-omb-info
+            res-burden={15}
+            omb-number="2900-0862"
+            exp-date="04/30/2024"
+          />
         </div>
       </article>
     );

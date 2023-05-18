@@ -113,6 +113,10 @@ export const profileDoNotRequireInternationalZipCode = state =>
 export const profileUseLighthouseDirectDepositEndpoint = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileLighthouseDirectDeposit];
 
+export const togglesAreLoaded = state => {
+  return !toggleValues(state)?.loading;
+};
+
 export function selectVAProfilePersonalInformation(state, fieldName) {
   const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
 

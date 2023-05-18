@@ -10,6 +10,11 @@ import {
 } from '../constants';
 import { getSelected, getIssueName } from '../utils/helpers';
 import { validateDate } from './date';
+import { fixDateFormat } from '../utils/replace';
+
+// Needed for uniqueness string comparison
+const sortIssues = issues =>
+  issues.map(issue => (issue || '').toLowerCase()).sort();
 
 /* *** VA *** */
 export const validateVaLocation = (errors, data) => {
@@ -60,9 +65,9 @@ export const validateVaToDate = (errors, data) => {
 const buildVaLocationString = (data, joiner = '') =>
   [
     data.locationAndName || '',
-    ...(data.issues || []),
-    (data.evidenceDates?.from || '').replace(REGEX_EMPTY_DATE, ''),
-    (data.evidenceDates?.to || '').replace(REGEX_EMPTY_DATE, ''),
+    ...sortIssues(data.issues || []),
+    fixDateFormat(data.evidenceDates?.from || '').replace(REGEX_EMPTY_DATE, ''),
+    fixDateFormat(data.evidenceDates?.to || '').replace(REGEX_EMPTY_DATE, ''),
   ].join(joiner);
 
 // Check if VA evidence object is empty
@@ -93,7 +98,7 @@ export const validateVaUnique = (
       return firstIndex !== lastIndex && lastIndex === currentIndex;
     });
     if (hasDuplicate) {
-      errors.addError(errorMessages.evidence.unique);
+      errors.addError(errorMessages.evidence.uniqueVA);
     }
   }
 };
@@ -179,9 +184,15 @@ const buildPrivateString = (data, joiner = '') =>
   [
     data.providerFacilityName || '',
     ...Object.values(data.providerFacilityAddress || {}),
-    ...(data.issues || []),
-    (data.treatmentDateRange?.from || '').replace(REGEX_EMPTY_DATE, ''),
-    (data.treatmentDateRange?.to || '').replace(REGEX_EMPTY_DATE, ''),
+    ...sortIssues(data.issues || []),
+    fixDateFormat(data.treatmentDateRange?.from || '').replace(
+      REGEX_EMPTY_DATE,
+      '',
+    ),
+    fixDateFormat(data.treatmentDateRange?.to || '').replace(
+      REGEX_EMPTY_DATE,
+      '',
+    ),
   ].join(joiner);
 
 export const isEmptyPrivateEntry = (checkData = {}) => {
@@ -215,7 +226,7 @@ export const validatePrivateUnique = (
       return firstIndex !== lastIndex && lastIndex === currentIndex;
     });
     if (hasDuplicate) {
-      errors.addError(errorMessages.evidence.unique);
+      errors.addError(errorMessages.evidence.uniquePrivate);
     }
   }
 };

@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory, useLocation } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
 import { useDispatch } from 'react-redux';
@@ -60,17 +61,24 @@ const MessageDetailBlock = props => {
     [location.pathname, dispatch],
   );
 
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+    },
+    [message],
+  );
+
   const categoryLabel = Categories[category];
 
   return (
     <section className="message-detail-block">
       <header className="message-detail-header">
-        <h2
+        <h1
           className="vads-u-margin-bottom--2"
           aria-label={`Message subject. ${categoryLabel}: ${subject}`}
         >
           {categoryLabel}: {subject}
-        </h2>
+        </h1>
       </header>
       <MessageActionButtons
         id={messageId}

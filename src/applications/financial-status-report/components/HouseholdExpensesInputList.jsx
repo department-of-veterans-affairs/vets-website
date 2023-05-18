@@ -35,11 +35,15 @@ const HouseholdExpensesInputList = props => {
       }),
     );
   };
+  const title = 'Monthly housing expenses';
+  const prompt = 'How much do you pay for each housing expense every month?';
 
   return (
     <InputList
       errorList={errorList}
       inputs={expenseRecords}
+      title={title}
+      prompt={prompt}
       submitted={submitted}
       onChange={event => onChange(event)}
     />

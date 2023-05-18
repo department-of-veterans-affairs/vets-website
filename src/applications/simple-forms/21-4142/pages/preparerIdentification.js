@@ -4,6 +4,7 @@ import {
   relationshipToVeteranEnum,
 } from '../definitions/constants';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [preparerIdentificationFields.parentObject]: {
@@ -27,6 +28,9 @@ export default {
             it here
           </p>
         ),
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
       },
     },
   },
