@@ -188,6 +188,7 @@ class AddFilesForm extends React.Component {
         <Element name="filesList" />
         <div>
           <VaFileInput
+            id="file-upload"
             error={this.getErrorMessage()}
             label="Select files to upload"
             accept={FILE_TYPES.map(type => `.${type}`).join(', ')}
