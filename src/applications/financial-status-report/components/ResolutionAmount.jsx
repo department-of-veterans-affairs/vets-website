@@ -18,6 +18,11 @@ const content = {
     description: `If you can't pay the debt in full or make smaller monthly payments, we can consider a smaller, one-time payment to resolve your debt.`,
     label: 'How much can you afford to pay as a one-time payment?',
   },
+  copayCompromise: {
+    type: 'Compromise',
+    description: `If you can't pay the debt in full, we can consider a smaller, one-time payment to resolve your debt.`,
+    label: 'How much can you afford to pay as a one-time payment?',
+  },
 };
 
 const getError = (debt, resolutionAmount, submitted) => {
@@ -76,7 +81,7 @@ const ResolutionAmount = ({ formContext }) => {
 
   const getResolutionText = () => {
     if (currentDebt.debtType === 'COPAY') {
-      return `If you can't pay the debt in full, we can consider a smaller, one-time payment to resolve your debt.`;
+      return content.copayCompromise.description;
     }
     if (currentDebt.debtType === 'DEBT' && resolutionOption === 'monthly') {
       return content.debtMonthly.description;
