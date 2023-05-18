@@ -1,50 +1,34 @@
-export {
-  default as showVaExpandableAlert,
-} from './alerts/showVaAlertExpandable';
+import showVaExpandableAlert from './alerts/showVaAlertExpandable';
 
-export { default as EbenefitsLink } from './ebenefits/containers/EbenefitsLink';
+import EbenefitsLink from './ebenefits/containers/EbenefitsLink';
 
-export { toggleValues, isProduction } from './feature-toggles/selectors';
+import { toggleValues, isProduction } from './feature-toggles/selectors';
 
-export {
+import {
   FETCH_TOGGLE_VALUES_STARTED,
   FETCH_TOGGLE_VALUES_SUCCEEDED,
   TOGGLE_VALUES_SET,
 } from './feature-toggles/actionTypes';
 
-export { FeatureToggleReducer } from './feature-toggles/reducers';
+import { FeatureToggleReducer } from './feature-toggles/reducers';
 
-export { default as header } from './header';
+import header from './header';
 
-export { addOverlayTriggers } from './legacy/menu';
+import { addOverlayTriggers } from './legacy/menu';
 
-export { default as LoadingButton } from './loading-button/LoadingButton';
+import LoadingButton from './loading-button/LoadingButton';
 
-export { default as MegaMenu, initNavMenu } from './legacy/mega-menu';
+import MegaMenu, { initNavMenu } from './legacy/mega-menu';
 
-export { default as startMegaMenuWidget } from './mega-menu/reducers';
+import startMegaMenuWidget from './mega-menu/reducers';
 
-export { mhvUrl, mhvBaseUrl } from './mhv/utilities';
+import { mhvUrl, mhvBaseUrl } from './mhv/utilities';
 
-export { default as startMobileMenuButton } from './mobile-menu-button';
+import startMobileMenuButton from './mobile-menu-button';
 
-export { default as style } from './sass/style.scss';
+import { sitemapURLs } from './tests/sitemap/sitemap-helpers';
 
-export { default as vaMedalliaStyle } from './sass/va-medallia-style.scss';
-
-export { default as mOverrides } from './sass/modules/_m-overrides.scss';
-export { default as mHeader } from './sass/modules/_m-header.scss';
-export { default as mFooter } from './sass/modules/_m-footer.scss';
-export { default as mCrisisLine } from './sass/modules/_m-crisis-line.scss';
-export {
-  default as mDowntimeNotification,
-} from './sass/modules/_m-downtime-notification.scss';
-export { default as mLayers } from './sass/modules/_m-layers.scss';
-export { default as iconography } from './sass/iconography.scss';
-
-export { sitemapURLs } from './tests/sitemap/sitemap-helpers';
-
-export {
+import {
   TOGGLE_FORM_SIGN_IN_MODAL,
   TOGGLE_LOGIN_MODAL,
   UPDATE_SEARCH_HELP_USER_MENU,
@@ -57,20 +41,68 @@ export {
   toggleSearchHelpUserMenu,
 } from './user-nav/actions';
 
-export { default as AutoSSO } from './user-nav/containers/AutoSSO';
+import AutoSSO from './user-nav/containers/AutoSSO';
 
-export { default as startUserNavWidget } from './user-nav';
+import startUserNavWidget from './user-nav';
 
-export { default as userNavScss } from './user-nav/sass/user-nav.scss';
+import userNavReducer from './user-nav/reducers';
 
-export { default as userNavReducer } from './user-nav/reducers';
+import startVAFooter from './va-footer';
 
-export { default as startVAFooter } from './va-footer';
+import { restartShouldRedirect } from './wizard';
 
-export { restartShouldRedirect } from './wizard';
+import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
+
+import startSitewideComponents from './index';
+
+// const userNavScss = require('./user-nav/sass/user-nav.scss');
+
+// const style = require('./sass/style.scss');
+
+// const vaMedalliaStyle = require('./sass/va-medallia-style.scss');
+
+// const mOverrides = require('./sass/modules/_m-overrides.scss');
+// const mHeader = require('./sass/modules/_m-header.scss');
+// const mFooter = require('./sass/modules/_m-footer.scss');
+// const mCrisisLine = require('./sass/modules/_m-crisis-line.scss');
+// const mDowntimeNotification = require('./sass/modules/_m-downtime-notification.scss');
+// const mLayers = require('./sass/modules/_m-layers.scss');
+// const iconography = require('./sass/iconography.scss');
 
 export {
-  default as addFocusBehaviorToCrisisLineModal,
-} from './accessible-VCL-modal';
-
-export { default as startSitewideComponents } from './index';
+  showVaExpandableAlert,
+  EbenefitsLink,
+  toggleValues,
+  isProduction,
+  FETCH_TOGGLE_VALUES_STARTED,
+  FETCH_TOGGLE_VALUES_SUCCEEDED,
+  TOGGLE_VALUES_SET,
+  FeatureToggleReducer,
+  header,
+  addOverlayTriggers,
+  LoadingButton,
+  MegaMenu,
+  initNavMenu,
+  startMegaMenuWidget,
+  mhvUrl,
+  mhvBaseUrl,
+  startMobileMenuButton,
+  sitemapURLs,
+  TOGGLE_FORM_SIGN_IN_MODAL,
+  TOGGLE_LOGIN_MODAL,
+  UPDATE_SEARCH_HELP_USER_MENU,
+  TOGGLE_ACCOUNT_TRANSITION_MODAL,
+  TOGGLE_ACCOUNT_TRANSITION_SUCCESS_MODAL,
+  toggleFormSignInModal,
+  toggleAccountTransitionModal,
+  toggleAccountTransitionSuccessModal,
+  toggleLoginModal,
+  toggleSearchHelpUserMenu,
+  AutoSSO,
+  startUserNavWidget,
+  userNavReducer,
+  startVAFooter,
+  restartShouldRedirect,
+  addFocusBehaviorToCrisisLineModal,
+  startSitewideComponents,
+};
