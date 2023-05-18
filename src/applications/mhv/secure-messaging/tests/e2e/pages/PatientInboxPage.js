@@ -355,6 +355,12 @@ class PatientInboxPage {
       .select('COVID');
   };
 
+  selectAdvancedSearchCategoryCustomFolder = () => {
+    cy.get('#category-dropdown')
+      .find('#select')
+      .select('Medication');
+  };
+
   submitSearchButton = () => {
     cy.get('[data-testid="filter-messages-button"]').click();
   };
