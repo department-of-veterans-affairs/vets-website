@@ -6,6 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 export const VeteranCrisisLine = props => (
   <div className="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
     <button
+      type="button"
       className="va-button-link vads-u-color--white vads-u-text-decoration--none va-overlay-trigger"
       data-show="#modal-crisisline"
       id={props.id}

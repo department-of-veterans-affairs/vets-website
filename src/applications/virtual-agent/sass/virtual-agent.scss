@@ -97,3 +97,22 @@ button.webchat__suggested-actions__button:active {
 #corner-bot {
   z-index: 999;
 }
+
+.webchat-virtual-agent-breadcrumbs {
+  height: 1.2em;
+  line-height: 1.2em;
+  // overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  white-space: nowrap;
+}
+
+
+.webchat-virtual-agent-skill-name-container {
+  white-space: nowrap;
+}
+
+.webchat-virtual-agent-skill-name {
+  font-weight: bolder;
+}

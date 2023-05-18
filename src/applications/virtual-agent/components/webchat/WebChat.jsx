@@ -14,7 +14,7 @@ import {
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
-const WebChat = ({ token, WebChatFramework, apiSession }) => {
+const WebChat = ({ token, WebChatFramework, apiSession, skillName }) => {
   const { ReactWebChat, createDirectLine, createStore } = WebChatFramework;
   const csrfToken = localStorage.getItem('csrfToken');
   const userFirstName = useSelector(state =>
@@ -30,6 +30,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
         StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
           csrfToken,
           apiSession,
+          skillName,
           process.env.VIRTUAL_AGENT_BACKEND_URL || environment.API_URL,
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
@@ -100,6 +101,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     suggestedActionTextColor: 'white',
     suggestedActionBorderRadius: 5,
     suggestedActionBorderWidth: 0,
+    placeholderText: 'Type your Rx question here 2',
   };
 
   const handleTelemetry = event => {
@@ -116,6 +118,13 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     }
   };
 
+  // export const store = window.WebChat.createStore( {}, ( { dispatch } ) => next => async action => {
+  //   store.dispatch({
+  //     type: 'WEB_CHAT/SET_SEND_BOX',
+  //     payload: { text: 'You got this!'}
+  //   });
+  // });
+
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
@@ -124,6 +133,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
         store={store}
         renderMarkdown={renderMarkdown}
         onTelemetry={handleTelemetry}
+        placeholderText="This is a placeholder for Rx 3"
       />
     </div>
   );

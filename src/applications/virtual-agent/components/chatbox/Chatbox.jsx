@@ -6,7 +6,9 @@ import ChatbotError from '../chatbot-error/ChatbotError';
 import useWebChatFramework from './useWebChatFramework';
 import useVirtualAgentToken from './useVirtualAgentToken';
 import WebChat from '../webchat/WebChat';
-import ChatboxDisclaimer from './ChatboxDisclaimer.jsx';
+import ChatboxDisclaimer, {
+  ChatboxDisclaimerForSkills,
+} from './ChatboxDisclaimer';
 import {
   combineLoadingStatus,
   COMPLETE,
@@ -31,12 +33,14 @@ function useWebChat(props) {
     WebChatFramework: webchatFramework.WebChatFramework,
     loadingStatus,
     apiSession: token.apiSession,
+    skillName: props.currentSkillName,
   };
 }
 
 function showBot(
   loggedIn,
   accepted,
+  acceptedSkill,
   minute,
   isAuthTopic,
   setIsAuthTopic,
@@ -44,6 +48,11 @@ function showBot(
 ) {
   if (!accepted && !sessionStorage.getItem(IN_AUTH_EXP)) {
     return <ChatboxDisclaimer />;
+  }
+
+  if (!acceptedSkill && !sessionStorage.getItem(IN_AUTH_EXP)) {
+    // return <ChatboxDisclaimerForSkills skillName={props.currentSkillName} />;
+    return <ChatboxDisclaimerForSkills skillName="Rx Skill" />;
   }
 
   if (!loggedIn && isAuthTopic) {
@@ -58,12 +67,14 @@ function showBot(
     );
   }
 
-  return <App timeout={props.timeout || minute} />;
+  return <App timeout={props.timeout || minute} skillName="Joe's Skill" />;
 }
 
 export default function Chatbox(props) {
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
   const isAccepted = useSelector(state => state.virtualAgentData.termsAccepted);
+  const isAcceptedSkill = useSelector(state => state.virtualAgentData.termsAcceptedSkill);
+  const currentSkillName = useSelector(state => state.virtualAgentData.currentSkillName);
   const [isAuthTopic, setIsAuthTopic] = useState(false);
   const [lastMessageTime, setLastMessageTime] = useState(0);
   const [chatBotLoadTime] = useState(Date.now());
@@ -95,13 +106,36 @@ export default function Chatbox(props) {
     });
   });
 
+  const foo = event => {
+    // console.log('message activity event fired!');
+    // console.log(JSON.stringify(event, null, 2));
+    // console.log('event name: ' + event.data.name);
+    if (event.data.name === 'startConversation') {
+
+      if (currentSkillName) {
+        document
+          .querySelectorAll('div.virtual-agent-header')[0]
+          .classList.add('vads-u-background-color--secondary-darkest');
+        document.querySelectorAll('div.virtual-agent-header h2')[0].textContent = `VA chatbot: ${currentSkillName} (beta)`;
+        document.querySelectorAll('.webchat__send-box-text-box__input')[0].placeholder = `Type your message for ${currentSkillName.toLowerCase()}`;
+      } else {
+        document
+          .querySelectorAll('div.virtual-agent-header')[0]
+          .classList.add('vads-u-background-color--primary-darkest');
+        document.querySelectorAll('div.virtual-agent-header h2')[0].textContent = 'VA chatbot (beta)';
+        document.querySelectorAll('.webchat__send-box-text-box__input')[0].placeholder = 'Type your message';
+      }
+    }
+    storeUtterances(event);
+  };
+
   useEffect(() => {
     // initiate the event handler
-    window.addEventListener('webchat-message-activity', storeUtterances);
+    window.addEventListener('webchat-message-activity', foo); // storeUtterances);
 
     // this will clean up the event every time the component is re-rendered
     return function cleanup() {
-      window.removeEventListener('webchat-message-activity', storeUtterances);
+      window.removeEventListener('webchat-message-activity', foo); // storeUtterances);
     };
   });
 
@@ -112,15 +146,19 @@ export default function Chatbox(props) {
 
   const ONE_MINUTE = 60 * 1000;
   return (
-    <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
-      <div className="vads-u-background-color--primary-darkest vads-u-padding--1p5">
+    <div className="virtual-agent-container vads-u-padding--1p5 vads-u-background-color--gray-lightest">
+      <div className="virtual-agent-header vads-u-background-color--primary-darkest vads-u-padding--1p5">
         <h2 className="vads-u-font-size--lg vads-u-color--white vads-u-margin--0">
           VA chatbot (beta)
         </h2>
       </div>
+      <div className='webchat-virtual-agent-breadcrumbs'>
+        VA chatbot<span className="webchat-virtual-agent-skill-name-container"> &raquo; <span className="webchat-virtual-agent-skill-name">{ currentSkillName }</span></span>
+      </div>
       {showBot(
         isLoggedIn,
         isAccepted,
+        isAcceptedSkill,
         ONE_MINUTE,
         isAuthTopic,
         setIsAuthTopic,
@@ -131,7 +169,7 @@ export default function Chatbox(props) {
 }
 
 function App(props) {
-  const { token, WebChatFramework, loadingStatus, apiSession } = useWebChat(
+  const { token, WebChatFramework, loadingStatus, apiSession, skillName } = useWebChat(
     props,
   );
 
@@ -146,6 +184,7 @@ function App(props) {
           token={token}
           WebChatFramework={WebChatFramework}
           apiSession={apiSession}
+          skillName={skillName}
         />
       );
     default:

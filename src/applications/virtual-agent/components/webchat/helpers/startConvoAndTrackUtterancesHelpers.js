@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import {
   joinActivity,
+  setSendBoxPromptActivity,
   startConversationActivity,
 } from '../../../actions/index';
 import piiReplace from '../piiReplace';
@@ -34,7 +35,16 @@ export const processActionConnectFulfilled = ({
   dispatch(startConversationActivity(options));
 
   dispatch(joinActivity);
+  //dispatch(setSendBoxPromptActivity);
 };
+
+export const processSetPlaceholderTextActivity = ({ action }) => () => {
+         _.assign(action.payload, {
+           text: 'This is a test prompt.',
+         });
+         const outgoingActivityEvent = new Event('bot-outgoing-activity');
+         window.dispatchEvent(outgoingActivityEvent);
+       };
 
 export const processSendMessageActivity = ({ action }) => () => {
   _.assign(action.payload, { text: piiReplace(action.payload.text) });

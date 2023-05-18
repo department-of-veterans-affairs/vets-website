@@ -6,7 +6,7 @@ import ChatbotError from '../chatbot-error/ChatbotError';
 import useWebChatFramework from '../chatbox/useWebChatFramework';
 import useVirtualAgentToken from '../chatbox/useVirtualAgentToken';
 import WebChat from '../webchat/WebChat';
-import ChatboxDisclaimer from '../chatbox/ChatboxDisclaimer';
+import ChatboxDisclaimer, { ChatboxDisclaimerForSkills } from '../chatbox/ChatboxDisclaimer';
 import {
   combineLoadingStatus,
   COMPLETE,
@@ -37,6 +37,7 @@ function useWebChat(props) {
 function showBot(
   loggedIn,
   accepted,
+  acceptedSkill,
   minute,
   isAuthTopic,
   setIsAuthTopic,
@@ -44,6 +45,10 @@ function showBot(
 ) {
   if (!accepted && !sessionStorage.getItem(IN_AUTH_EXP)) {
     return <ChatboxDisclaimer />;
+  }
+
+  if (!acceptedSkill && !sessionStorage.getItem(IN_AUTH_EXP)) {
+    return <ChatboxDisclaimerForSkills skillName="Rx Skill" />;
   }
 
   if (!loggedIn && isAuthTopic) {
@@ -64,6 +69,8 @@ function showBot(
 export default function FloatingChatbox(props) {
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
   const isAccepted = useSelector(state => state.virtualAgentData.termsAccepted);
+  const isAcceptedSkill = useSelector(state => state.virtualAgentData.termsAcceptedSkill);
+  const currentSkillName = useSelector(state => state.virtualAgentData.currentSkillName);
   const [isAuthTopic, setIsAuthTopic] = useState(false);
   const [lastMessageTime, setLastMessageTime] = useState(0);
   const [chatBotLoadTime] = useState(Date.now());
@@ -121,6 +128,7 @@ export default function FloatingChatbox(props) {
       {showBot(
         isLoggedIn,
         isAccepted,
+        isAcceptedSkill,
         ONE_MINUTE,
         isAuthTopic,
         setIsAuthTopic,
