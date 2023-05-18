@@ -224,6 +224,7 @@ window.addEventListener('DOMContentLoaded', () => {
           const medalliaForm = addedNode.querySelector('.modal-live-form');
           if (medalliaForm) {
             console.log('Medallia form found!');
+            observer.disconnect();
           }
         }
       }
