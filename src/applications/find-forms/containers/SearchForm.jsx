@@ -80,6 +80,7 @@ export const SearchForm = ({ fetchForms }) => {
   return (
     <div
       role="search"
+      aria-label="Searh VA Forms"
       className="vads-l-grid-container vads-u-padding--3 vads-u-background-color--gray-lightest vads-u-margin-bottom--4"
       data-e2e-id="find-form-search-form"
     >
