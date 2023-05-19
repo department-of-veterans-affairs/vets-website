@@ -45,6 +45,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_XX_123: 'XX-123',
   FORM_MOCK: '00-1234',
   FORM_MOCK_SF_PATTERNS: 'FORM_MOCK_SF_PATTERNS',
+  FORM_MOCK_VA_PATTERNS: 'FORM_MOCK_PATTERNS_V3',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
