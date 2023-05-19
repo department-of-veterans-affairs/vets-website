@@ -60,6 +60,36 @@ class PatientReplyPage {
       });
   };
 
+  autosaveReplyDraft = (repliedToMessage, replyMessageBody) => {
+    cy.log(
+      `messageSubjectParameter = ${repliedToMessage.data.attributes.subject}`,
+    );
+    cy.log(`messageBodyMockMessage = ${repliedToMessage.data.attributes.body}`);
+    const replyMessage = repliedToMessage;
+    replyMessage.data.attributes.body = replyMessageBody;
+    cy.intercept(
+      'PUT',
+      `/my_health/v1/messaging/message_drafts/${
+        repliedToMessage.data.attributes.messageId
+      }`,
+      replyMessage,
+    ).as('saveDraftwithAttachment');
+    cy.wait('@saveDraftwithAttachment').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
+    cy.get('@saveDraftwithAttachment')
+      .its('request.body')
+      .then(message => {
+        cy.log(JSON.stringify(message));
+        expect(message.recipientId).to.eq(
+          replyMessage.data.attributes.recipientId,
+        );
+        expect(message.category).to.eq(replyMessage.data.attributes.category);
+        expect(message.subject).to.eq(replyMessage.data.attributes.subject);
+        expect(message.body).to.eq(replyMessage.data.attributes.body);
+      });
+  };
+
   sendReplyDraft = (
     messageId,
     testRecipientId,

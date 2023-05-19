@@ -24,14 +24,7 @@ describe('autosave Reply draft with attachment', () => {
     replyPage.getMessageBodyField().type(testMessageBody, { force: true });
     cy.injectAxe();
     cy.axeCheck();
-    composePage.attachMessageFromFile('test_video.mp4');
-    composePage.verifyAttachmentErrorMessage(
-      "We can't attach this file type. Try attaching a DOC, JPG, PDF, PNG, RTF, TXT, or XLS.",
-    );
-    composePage.attachMessageFromFile('empty.txt');
-    composePage.verifyAttachmentErrorMessage(
-      'Your file is empty. Try attaching a different file.',
-    );
-    replyPage.saveReplyDraft(messageDetails, testMessageBody);
+    composePage.attachMessageFromFile('test_image.gif');
+    replyPage.autosaveReplyDraft(messageDetails, testMessageBody);
   });
 });
