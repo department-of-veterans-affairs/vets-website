@@ -24,23 +24,18 @@ export const uiSchema = {
     currentlyBuriedPersons: {
       'ui:title': (
         <span>
-          <h3 className="name-of-deceased-text">Name of deceased</h3>
+          <h3 className="name-of-deceased-text">Name of deceased person</h3>
         </span>
       ),
       'ui:description':
-        'Please provide the details of the person(s) currently buried in a VA national cemetery under your eligibility',
+        'Please provide the details of the person(s) currently buried in a VA national cemetery under your eligibility.',
       'ui:options': {
         viewField: EligibleBuriedView,
         keepInPageOnReview: true,
+        itemName: 'Name of deceased',
       },
       items: {
-        name: merge({}, fullNameUI, {
-          'ui:title': (
-            <span>
-              <h3 className="name-of-deceased-text">Name of deceased</h3>
-            </span>
-          ),
-        }),
+        name: merge({}, fullNameUI),
         cemeteryNumber: autosuggest.uiSchema(
           'VA national cemetery where they’re buried',
           getCemeteries,
@@ -57,6 +52,7 @@ export const schema = {
       properties: {
         currentlyBuriedPersons: currentlyBuriedPersonsMinItem(),
       },
+      currentlyBuriedPersons,
     },
   },
 };
