@@ -7,7 +7,7 @@ import {
   countries,
   states,
   mockUserData,
-} from './e2e/fixtures/mocks/letters.js';
+} from './e2e/fixtures/mocks/letters';
 import featureToggleDisabled from './e2e/fixtures/mocks/featureToggleDisabled.json';
 
 describe('Authed Letter Test', () => {

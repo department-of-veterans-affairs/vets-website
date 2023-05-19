@@ -50,7 +50,11 @@ export class AppContent extends React.Component {
     }
 
     if (!this.props.featureFlagsLoading) {
-      return <div className="usa-grid">{this.props.children}</div>;
+      return (
+        <div data-testid="appContentChildren" className="usa-grid">
+          {this.props.children}
+        </div>
+      );
     }
     return (
       <div className="vads-u-margin-y--5">
