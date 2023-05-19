@@ -4,20 +4,20 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-// import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
+  VaButton,
+  VaButtonPair,
+  VaCheckbox,
+  VaCheckboxGroup,
+  VaMemorableDate,
+  VaModal,
+  VaNumberInput,
+  VaPrivacyAgreement,
   VaRadio,
   VaRadioOption,
   VaSelect,
-  VaTextInput,
-  VaCheckboxGroup,
-  VaCheckbox,
-  VaMemorableDate,
   VaTextarea,
-  VaButtonPair,
-  VaNumberInput,
-  VaModal,
-  VaPrivacyAgreement,
+  VaTextInput,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V1V3Page() {
@@ -39,21 +39,18 @@ export default function V1V3Page() {
   updateRadioValue({ value: 'Radio One' }, 'v1');
   updateRadioValue({ value: 'Radio One' }, 'v3');
 
-  const checkboxValueStore = {
-    v1: [],
-    v3: [],
-  };
+  const checkboxValueStore = { v1: [], v3: [] };
 
   /**
    * @param {string} id
-   * @param {{value: string}} value
+   * @param {string} value
    */
   const handleClick = (id, value) => {
-    document.getElementById(id).innerHTML = `${value} button was clicked!`;
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = `${value} button was clicked!`;
   };
 
   /**
-   * @param {{value: string}} value
    * @param {string} id
    */
   const updateCheckboxValue = (e, id) => {
@@ -69,19 +66,21 @@ export default function V1V3Page() {
     if (display) display.innerText = valueStore.sort().join(', ');
   };
 
+  /**
+   * @param {string} id
+   * @param {string} agreementComponentId
+   */
   const updatePrivacyAgreementValue = (e, id, agreementComponentId) => {
     const { checked } = e.srcElement;
-    let valueString;
-    if (checked) {
-      valueString = `Agreement checked`;
-      document
-        .querySelector(`#${agreementComponentId}`)
-        .setAttribute('show-error', '');
-    } else {
-      valueString = `Agreement un-checked`;
-      document
-        .querySelector(`#${agreementComponentId}`)
-        .setAttribute('show-error', 'true');
+    let valueString = `Agreement checked`;
+    const el = document.querySelector(`#${agreementComponentId}`);
+    if (el) {
+      if (checked) {
+        el.setAttribute('show-error', '');
+      } else {
+        valueString = `Agreement un-checked`;
+        el.setAttribute('show-error', 'true');
+      }
     }
     const display = document.getElementById(id);
     if (display) display.innerText = valueString;
@@ -96,11 +95,11 @@ export default function V1V3Page() {
   };
   ValueDisplay.propTypes = { id: PropTypes.string, label: PropTypes.string };
 
-  const [isVisibleV1, setIsVisibleV1] = useState();
+  const [isVisibleV1, setIsVisibleV1] = useState(false);
   const onCloseEventV1 = () => setIsVisibleV1(!isVisibleV1);
   const openModalV1 = () => setIsVisibleV1(true);
 
-  const [isVisibleV3, setIsVisibleV3] = useState();
+  const [isVisibleV3, setIsVisibleV3] = useState(false);
   const onCloseEventV3 = () => setIsVisibleV3(!isVisibleV3);
   const openModalV3 = () => setIsVisibleV3(true);
 
@@ -270,21 +269,9 @@ export default function V1V3Page() {
                 label="V1 Checkbox Group"
                 onVaChange={e => updateCheckboxValue(e, 'v1')}
               >
-                <VaCheckbox
-                  label="Checkbox 1"
-                  name="v1Checkbox"
-                  value="Checkbox 1"
-                />
-                <VaCheckbox
-                  label="Checkbox 2"
-                  name="v1Checkbox"
-                  value="Checkbox 2"
-                />
-                <VaCheckbox
-                  label="Checkbox 3"
-                  name="v1Checkbox"
-                  value="Checkbox 3"
-                />
+                <VaCheckbox label="Checkbox 1" value="Checkbox 1" />
+                <VaCheckbox label="Checkbox 2" value="Checkbox 2" />
+                <VaCheckbox label="Checkbox 3" value="Checkbox 3" />
               </VaCheckboxGroup>
               <ValueDisplay label="V1 Checkbox Group" id="v1CheckboxValue" />
             </div>
@@ -295,24 +282,9 @@ export default function V1V3Page() {
                 label="V3 Checkbox Group"
                 onVaChange={e => updateCheckboxValue(e, 'v3')}
               >
-                <VaCheckbox
-                  uswds
-                  label="Checkbox 1"
-                  name="v3Checkbox"
-                  value="Checkbox 1"
-                />
-                <VaCheckbox
-                  uswds
-                  label="Checkbox 2"
-                  name="v3Checkbox"
-                  value="Checkbox 2"
-                />
-                <VaCheckbox
-                  uswds
-                  label="Checkbox 3"
-                  name="v3Checkbox"
-                  value="Checkbox 3"
-                />
+                <VaCheckbox uswds label="Checkbox 1" value="Checkbox 1" />
+                <VaCheckbox uswds label="Checkbox 2" value="Checkbox 2" />
+                <VaCheckbox uswds label="Checkbox 3" value="Checkbox 3" />
               </VaCheckboxGroup>
               <ValueDisplay label="V3 Checkbox Group" id="v3CheckboxValue" />
             </div>
@@ -341,6 +313,7 @@ export default function V1V3Page() {
               <VaMemorableDate
                 name="v3MemorableDate"
                 label="V3 Memorable date"
+                hint="This is a hint"
                 onDateBlur={e => updateValue(e)}
                 onDateChange={e => updateValue(e)}
                 uswds
@@ -418,7 +391,7 @@ export default function V1V3Page() {
           <h3>Button</h3>
           <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
             <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
-              <va-button
+              <VaButton
                 onClick={() => handleClick('v1ButtonValue', 'V1 edit')}
                 text="Edit"
               />
@@ -426,7 +399,7 @@ export default function V1V3Page() {
             </div>
 
             <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
-              <va-button
+              <VaButton
                 onClick={() => handleClick('v3ButtonValue', 'V3 edit')}
                 text="Edit"
                 uswds
@@ -441,7 +414,7 @@ export default function V1V3Page() {
           <h3>Modal</h3>
           <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
             <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
-              <va-button
+              <VaButton
                 onClick={openModalV1}
                 text="Click here to open V1 modal"
               />
@@ -459,7 +432,7 @@ export default function V1V3Page() {
             </div>
 
             <div className="vads-l-col--6 vads-u-margin--1">
-              <va-button
+              <VaButton
                 onClick={openModalV3}
                 text="Click here to open V3 modal"
                 uswds
