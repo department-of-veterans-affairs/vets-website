@@ -6,7 +6,7 @@ import PatientReplyPage from './pages/PatientReplyPage';
 import mockMessages from './fixtures/messages-response.json';
 
 describe('Secure Messaging Reply', () => {
-  it.skip('Axe Check Message Reply', () => {
+  it('Axe Check Message Reply', () => {
     const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
     const patientInterstitialPage = new PatientInterstitialPage();
@@ -47,7 +47,7 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.ReplyToMessageId(messageDetails);
 
     messageDetails.data.attributes.body = messageDetailsBody;
-    messageDetailsPage.ReplyToMessagebody(messageDetailsBody);
+    messageDetailsPage.ReplyToMessagebody(testMessageBody);
 
     replyPage.sendReplyDraft(
       messageDetails.data.attributes.messageId,

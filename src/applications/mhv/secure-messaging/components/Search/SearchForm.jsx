@@ -187,7 +187,7 @@ const SearchForm = props => {
   return (
     <>
       <div className="search-form">
-        <h3>{filterLabelHeading}</h3>
+        <h2>{filterLabelHeading}</h2>
         <>
           {searchTermError && (
             <div className="error-message" role="alert">
