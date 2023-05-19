@@ -21,6 +21,9 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     cy.reload();
     patientInterstitialPage.getContinueButton().click({ force: true });
+    composePage.getMessageBodyField().then($el => {
+      Cypress.dom.isFocused($el);
+    });
     composePage
       .getMessageBodyField()
       .type('Testing Autosave Drafts with Attachments');
