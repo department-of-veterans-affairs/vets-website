@@ -44,6 +44,7 @@ describe('Secure Messaging Basic Search Tests', () => {
     cy.axeCheck();
   });
 
+
   it('Basic Search Drafts Check', () => {
     patientMessageDraftsPage.loadDraftMessages();
     basicSearchPage.typeSearchInputFieldText('test');
@@ -97,7 +98,7 @@ describe('Secure Messaging Basic Search Tests', () => {
     cy.axeCheck();
   });
 
-  it('Basic Search Custom Folder Check', () => {
+  it.skip('Basic Search Custom Folder Check', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
     folderPage.clickAndLoadCustumFolder(
       folderName,

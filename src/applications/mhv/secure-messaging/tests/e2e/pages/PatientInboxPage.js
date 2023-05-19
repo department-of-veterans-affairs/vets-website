@@ -1,6 +1,6 @@
 import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
-import mockInboxFolder from '../fixtures/folder-inbox-response.json';
+import mockInboxFolder from '../fixtures/folder-inbox-metadata.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 import mockSpecialCharsMessage from '../fixtures/message-response-specialchars.json';
@@ -350,5 +350,26 @@ class PatientInboxPage {
       mockFolders,
     ).as('folders');
   };
+
+  openAdvancedSearch = () => {
+    cy.get('#first').click();
+  };
+
+  selectAdvancedSearchCategory = () => {
+    cy.get('#category-dropdown')
+      .find('#select')
+      .select('COVID');
+  };
+
+  selectAdvancedSearchCategoryCustomFolder = () => {
+    cy.get('#category-dropdown')
+      .find('#select')
+      .select('Medication');
+  };
+
+  submitSearchButton = () => {
+    cy.get('[data-testid="filter-messages-button"]').click();
+  };
 }
+
 export default PatientInboxPage;

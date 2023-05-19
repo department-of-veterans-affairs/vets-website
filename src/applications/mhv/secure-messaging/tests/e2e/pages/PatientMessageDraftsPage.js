@@ -197,5 +197,20 @@ class PatientMessageDraftsPage {
       'Secure message was successfully sent.',
     );
   };
+
+  openAdvancedSearch = () => {
+    cy.get('#first').click();
+  };
+
+  selectAdvancedSearchCategory = () => {
+    cy.get('#category-dropdown')
+      .find('#select')
+      .select('COVID');
+  };
+
+  submitSearchButton = () => {
+    cy.get('[data-testid="filter-messages-button"]').click();
+  };
 }
+
 export default PatientMessageDraftsPage;
