@@ -44,9 +44,6 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     cy.get('@saveDraftwithAttachment')
       .its('request.body')
       .should('deep.equal', {
-        body:
-          'ststASertTesting Autosave Drafts with Attachments\nTesting Autosave Drafts with Attachments\nTesting Autosave Drafts with Attachments\n',
-        category: mockDraftResponse.data.attributes.category,
         recipientId: mockDraftResponse.data.attributes.recipientId,
         category: mockDraftResponse.data.attributes.category,
         subject: mockDraftResponse.data.attributes.subject,
