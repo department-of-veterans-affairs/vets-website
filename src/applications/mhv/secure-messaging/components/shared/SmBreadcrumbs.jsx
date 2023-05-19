@@ -33,30 +33,26 @@ const SmBreadcrumbs = () => {
     [isMobile],
   );
 
-  const redirectToNavigationFolderPath = () => {
-    switch (location.pathname) {
-      case '/folder/0':
-        history.push(Constants.Breadcrumbs.INBOX.path);
-        break;
-      case '/folder/-1':
-        history.push(Constants.Breadcrumbs.SENT.path);
-        break;
-      case '/folder/-2':
-        history.push(Constants.Breadcrumbs.DRAFTS.path);
-        break;
-      case '/folder/-3':
-        history.push(Constants.Breadcrumbs.TRASH.path);
-        break;
-      default:
-        break;
-    }
-  };
-
   useEffect(
     () => {
-      redirectToNavigationFolderPath();
+      switch (location.pathname) {
+        case '/folder/0':
+          history.push(Constants.Breadcrumbs.INBOX.path);
+          break;
+        case '/folder/-1':
+          history.push(Constants.Breadcrumbs.SENT.path);
+          break;
+        case '/folder/-2':
+          history.push(Constants.Breadcrumbs.DRAFTS.path);
+          break;
+        case '/folder/-3':
+          history.push(Constants.Breadcrumbs.TRASH.path);
+          break;
+        default:
+          break;
+      }
     },
-    [location.pathname],
+    [location.pathname, history],
   );
 
   window.addEventListener('resize', checkScreenSize);
@@ -142,13 +138,7 @@ const SmBreadcrumbs = () => {
       };
       handleBreadCrumbs();
     },
-    [
-      activeFolder?.folderId,
-      activeFolder?.name,
-      dispatch,
-      location,
-      messageDetails?.subject,
-    ],
+    [activeFolder, dispatch, location, messageDetails?.subject],
   );
 
   useEffect(
@@ -157,7 +147,7 @@ const SmBreadcrumbs = () => {
         dispatch(retrieveFolder(messageDetails?.threadFolderId));
       }
     },
-    [messageDetails],
+    [messageDetails, activeFolder, dispatch],
   );
 
   return (
