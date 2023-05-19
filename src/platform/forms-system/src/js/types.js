@@ -33,7 +33,7 @@
  * @property {string} [formId]
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]
- * @property {(props: any) => any} [introduction]
+ * @property {React.ReactNode | (props: any) => any} [introduction]
  * @property {Array<Function>} [migrations]
  * @property {(formConfig: any) => void} [onFormLoaded]
  * @property {boolean} [prefillEnabled]
@@ -122,7 +122,7 @@
 /**
  * @typedef {Object} StatementOfTruth
  * @property {string | JSX.Element} [body]
- * @property {string} [fullNamePath] - defaults to 'veteran.fullName'
+ * @property {string | (formData) => string} [fullNamePath] - defaults to 'veteran.fullName'
  * @property {string} [heading] - defaults to 'Statement of truth'
  * @property {string} [messageAriaDescribedby] - defaults to 'Statement of truth'
  * @property {string} [textInputLabel] - defaults to 'Your full name'
@@ -234,7 +234,7 @@
  * @typedef {{
  *   $ref?: string,
  *   default?: string,
- *   enum?: string[],
+ *   enum?: string[] | boolean[],
  *   enumNames?: string[],
  *   format?: 'email' | 'date' | 'date-time' | 'uri' | 'data-url' | OrAnyString,
  *   items?: SchemaOptions,
@@ -242,6 +242,7 @@
  *   minItems?: number,
  *   maxItems?: number,
  *   minLength?: number,
+ *   oneOf?: SchemaOptions[],
  *   pattern?: string,
  *   properties?: Record<string, SchemaOptions>,
  *   required?: string[],
