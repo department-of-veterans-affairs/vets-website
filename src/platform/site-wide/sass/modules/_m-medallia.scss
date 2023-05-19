@@ -217,7 +217,7 @@
 a {
   cursor: pointer;
   text-decoration: underline;
-  color: #004795 !important;
+  color: $color-link-default !important;
   text-decoration: underline;
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
