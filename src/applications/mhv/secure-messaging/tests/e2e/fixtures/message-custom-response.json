@@ -61,7 +61,7 @@
             "type": "messages",
             "attributes": {
                 "messageId": 7161879,
-                "category": "MEDICATIONS",
+                "category": "COVID",
                 "subject": "Medication-Inquiry",
                 "body": "Send message Api testing 27",
                 "attachment": null,
