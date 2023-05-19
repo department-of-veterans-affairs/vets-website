@@ -219,6 +219,7 @@ export function transformVAOSAppointment(appt) {
   const start = timezone ? moment(appt.start).tz(timezone) : moment(appt.start);
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
   const isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
+  const isCancellable = appt.cancellable;
 
   let videoData = { isVideo };
   if (isVideo) {
@@ -385,6 +386,7 @@ export function transformVAOSAppointment(appt) {
       isVideo,
       isPastAppointment: isPast,
       isCompAndPenAppointment: isCompAndPen,
+      isCancellable,
       appointmentType,
       isCommunityCare: isCC,
       isExpressCare: false,
