@@ -19078,6 +19078,7 @@ verror@1.10.0:
 "vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#e541bb903ff854b2babd686de4107faf18188466":
   version "20.26.10"
   resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#e541bb903ff854b2babd686de4107faf18188466"
+
   dependencies:
     minimist "^1.2.3"
 

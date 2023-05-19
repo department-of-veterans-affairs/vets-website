@@ -60,23 +60,23 @@ const AdmissionAndDischargeDetails = props => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h3>
-            <p>{results.facility}</p>
+            <p>{results.facility || 'Not noted'}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Admission date
             </h3>
-            <p>{admissionDate}</p>
+            <p>{admissionDate || 'Not noted'}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Discharge date
             </h3>
-            <p>{dischargeDate}</p>
+            <p>{dischargeDate || 'Not noted'}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Admitted by
             </h3>
-            <p>{results.admittingPhysician}</p>
+            <p>{results.admittingPhysician || 'Not noted'}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Discharged by
             </h3>
-            <p>{results.dischargePhysician}</p>
+            <p>{results.dischargePhysician || 'Not noted'}</p>
           </div>
 
           <div className="test-results-container">

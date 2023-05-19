@@ -35,11 +35,29 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'lay-witness-10210-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I certify that I have completed this statement and that its information is true and correct to the best of my knowledge and belief.',
+      messageAriaDescribedby:
+        'I certify that I have completed this statement and that its information is true and correct to the best of my knowledge and belief.',
+      fullNamePath: formData => {
+        if (formData.claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY) {
+          return 'witnessFullName';
+        }
+        if (
+          formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
+          formData.claimantType === CLAIMANT_TYPES.NON_VETERAN
+        ) {
+          return 'claimantFullName';
+        }
+        return 'veteranFullName';
+      },
+    },
+  },
   formId: '21-10210',
   saveInProgress: {
     messages: {
@@ -52,6 +70,11 @@ const formConfig = {
   },
   version: 0,
   transformForSubmit,
+  // we're setting prefillEnable to true here JUST to enable Intro-page's
+  // SaveInProgressInfo content to display.
+  // we're actually NOT functionally implementing prefill in this form,
+  // so there's no prefillTransformer prop.
+  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply.',
     noAuth: 'Please sign in again to continue your application.',
@@ -74,7 +97,7 @@ const formConfig = {
         claimOwnershipPage: {
           path: 'claim-ownership',
           title: 'Who is submitting this statement?',
-          // we want req'd fields prefilled for testing/previewing
+          // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
             !!mockData && environment.isLocalhost() ? mockData : undefined,
