@@ -81,14 +81,14 @@ export const SearchForm = ({ fetchForms }) => {
     <div
       role="search"
       aria-label="Searh VA Forms"
-      className="vads-l-grid-container vads-u-padding--3 vads-u-background-color--gray-lightest vads-u-margin-bottom--4"
+      className={`vads-l-grid-container vads-u-padding--3 vads-u-background-color--gray-lightest vads-u-margin-bottom--4 ${
+        showQueryError ? 'usa-input-error' : ''
+      }`}
       data-e2e-id="find-form-search-form"
     >
       <p
-        data-e2e-id={showQueryError ? 'find-form-error-body' : ''}
-        className={`vads-u-margin--0 vads-u-margin-bottom--1 ${
-          showQueryError ? 'usa-input-error' : ''
-        }`}
+        data-e2e-id={showQueryError ? "'find-form-error-body'" : ''}
+        className="vads-u-margin--0 vads-u-margin-bottom--1"
       >
         Enter a keyword, form name, or number
         {showQueryError && (
