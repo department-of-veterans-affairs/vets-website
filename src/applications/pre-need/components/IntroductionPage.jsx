@@ -124,8 +124,8 @@ class IntroductionPage extends React.Component {
                 </li>
               </ul>
               <p>
-                <h4>What if I need help filling out my application?</h4> An
-                accredited representative, like a Veterans Service Officer
+                <h4>What if I need help filling out my application?</h4>
+                An accredited representative, like a Veterans Service Officer
                 (VSO), can help you fill out your claim.
                 <br />
                 <a href="/disability/get-help-filing-claim/">
