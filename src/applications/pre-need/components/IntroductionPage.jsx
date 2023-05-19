@@ -123,8 +123,8 @@ class IntroductionPage extends React.Component {
                   </ul>
                 </li>
               </ul>
+              <h4>What if I need help filling out my application?</h4>
               <p>
-                <h4>What if I need help filling out my application?</h4>
                 An accredited representative, like a Veterans Service Officer
                 (VSO), can help you fill out your claim.
                 <br />
@@ -140,13 +140,15 @@ class IntroductionPage extends React.Component {
                 After submitting the form, you’ll get a confirmation message.
                 You can print this for your records.
               </p>
-              <SaveInProgressIntro
-                buttonOnly
-                prefillEnabled={this.props.route.formConfig.prefillEnabled}
-                messages={this.props.route.formConfig.savedFormMessages}
-                pageList={this.props.route.pageList}
-                startText="Start the pre-need eligibility application"
-              />
+              <div style={{ marginBottom: '-25px' }}>
+                <SaveInProgressIntro
+                  buttonOnly
+                  prefillEnabled={this.props.route.formConfig.prefillEnabled}
+                  messages={this.props.route.formConfig.savedFormMessages}
+                  pageList={this.props.route.pageList}
+                  startText="Start the pre-need eligibility application"
+                />
+              </div>
             </li>
             <li className="process-step list-three">
               <h3>VA review</h3>
