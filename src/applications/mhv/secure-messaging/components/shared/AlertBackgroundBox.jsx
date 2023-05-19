@@ -45,30 +45,33 @@ const AlertBackgroundBox = props => {
     dispatch(focusOutAlert());
   };
 
-  return activeAlert ? (
-    <VaAlert
-      ref={alertRef}
-      background-only
-      closeable={props.closeable}
-      className="vads-u-margin-bottom--1 va-alert"
-      close-btn-aria-label="Close notification"
-      disable-analytics="false"
-      full-width="false"
-      show-icon={handleShowIcon()}
-      status={activeAlert.alertType}
-      onCloseEvent={
-        closeAlertBox // success, error, warning, info, continue
-      }
-      onVa-component-did-load={() => {
-        focusElement(alertRef.current);
-      }}
-    >
-      <div>
-        <p className="vads-u-margin-y--0">{activeAlert.content}</p>
-      </div>
-    </VaAlert>
-  ) : (
-    <></>
+  return (
+    <>
+      {activeAlert && (
+        <VaAlert
+          ref={alertRef}
+          aria-live="polite"
+          background-only
+          closeable={props.closeable}
+          className="vads-u-margin-bottom--1 va-alert"
+          close-btn-aria-label="Close notification"
+          disable-analytics="false"
+          full-width="false"
+          show-icon={handleShowIcon()}
+          status={activeAlert.alertType}
+          onCloseEvent={
+            closeAlertBox // success, error, warning, info, continue
+          }
+          onVa-component-did-load={() => {
+            focusElement(alertRef.current);
+          }}
+        >
+          <div>
+            <p className="vads-u-margin-y--0">{activeAlert.content}</p>
+          </div>
+        </VaAlert>
+      )}
+    </>
   );
 };
 

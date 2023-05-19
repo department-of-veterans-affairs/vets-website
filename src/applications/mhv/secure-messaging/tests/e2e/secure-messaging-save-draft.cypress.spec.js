@@ -21,14 +21,20 @@ describe('Secure Messaging Save Draft', () => {
     cy.injectAxe();
     cy.axeCheck();
     // composePage.getMessageSubjectField().type('message Test');
-    composePage.getMessageBodyField().then($el => {
-      Cypress.dom.isFocusable($el); // true
-      mockDraftResponse.data.attributes.body = 'ststASertTest message body\n';
-      composePage.getMessageBodyField().type('Test message body');
-      cy.realPress(['Enter']);
-    });
+    composePage.getMessageBodyField().type('Test message body');
+    cy.realPress(['Enter']);
 
-    composePage.saveDraft(mockDraftResponse);
-    composePage.sendDraft(mockDraftResponse);
+    const mockDraftResponseUpdated = {
+      ...mockDraftResponse,
+      data: {
+        ...mockDraftResponse.data,
+        attributes: {
+          ...mockDraftResponse.data.attributes,
+          body: 'ststASertTest message body\n',
+        },
+      },
+    };
+    composePage.saveDraft(mockDraftResponseUpdated);
+    composePage.sendDraft(mockDraftResponseUpdated);
   });
 });
