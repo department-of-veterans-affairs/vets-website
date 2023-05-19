@@ -3,7 +3,10 @@
  */
 import registerFonts from '../registerFonts';
 
-const PDFDocument = require('pdfkit').default;
+const pdfkit = require('pdfkit');
+
+// Handle both node and browser environments.
+const PDFDocument = pdfkit.default ?? pdfkit;
 
 // TODO: add to utils file.
 /**
@@ -162,6 +165,8 @@ const generate = async data => {
         if (item.inline === true) {
           paragraphOptions.continued = true;
           titleText += ': ';
+        } else {
+          titleText += ' ';
         }
         doc
           .font('SourceSansPro-Bold')
@@ -231,6 +236,8 @@ const generate = async data => {
         if (resultItem.inline === true) {
           paragraphOptions.continued = true;
           titleText += ': ';
+        } else {
+          titleText += ' ';
         }
         doc
           .font('SourceSansPro-Bold')
