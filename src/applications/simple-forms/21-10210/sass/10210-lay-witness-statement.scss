@@ -6,6 +6,15 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
+.schemaform-sip-alert .usa-alert-text > ul > li:first-child {
+  // we needed to set form.js prefillEnabled to true just to get
+  // SIP-alert content to display, even though we're not implementing
+  // prefill in this form.
+  // BUT, with prefillEnabled true, the 1st bullet-point mentions
+  // the pre-fill benefit, so we're hiding it via styling here.
+  display: none;
+}
+
 .schemaform-label[for*="root_witnessRelationship"] > .form-required-span,
 #root_witnessOtherRelationshipToVeteran-label > .schemaform-required-span {
   display: none;

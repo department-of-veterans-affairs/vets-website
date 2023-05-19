@@ -20,7 +20,7 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     cy.reload();
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     cy.reload();
-    patientInterstitialPage.getContinueButton().click();
+    patientInterstitialPage.getContinueButton().click({ force: true });
     composePage
       .getMessageBodyField()
       .type('Testing Autosave Drafts with Attachments');
@@ -41,11 +41,11 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
     cy.get('@saveDraftwithAttachment')
       .its('request.body')
       .should('deep.equal', {
+        recipientId: mockDraftResponse.data.attributes.recipientId,
+        category: mockDraftResponse.data.attributes.category,
+        subject: mockDraftResponse.data.attributes.subject,
         body:
           'ststASertTesting Autosave Drafts with Attachments\nTesting Autosave Drafts with Attachments\nTesting Autosave Drafts with Attachments\n',
-        category: mockDraftResponse.data.attributes.category,
-        recipientId: mockDraftResponse.data.attributes.recipientId,
-        subject: mockDraftResponse.data.attributes.subject,
       });
 
     cy.contains('Your message was saved');
