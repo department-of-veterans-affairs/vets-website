@@ -202,8 +202,8 @@ const formConfig = {
       // for Flows 3 & 4: non-vet claimant
       title: ({ formData } = {}) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF
-          ? 'Your mailing address'
-          : 'Claimant’s mailing address',
+          ? 'Your mailing address' // Flow 3
+          : 'Claimant’s mailing address', // Flow 4
       pages: {
         claimantAddrInfoPage: {
           path: 'claimant-address-information',
