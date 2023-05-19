@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.veteranPersonalInfo.pages.veteranPersonalInfo1;
+} = formConfig.chapters.veteranMailingAddressInfo.pages.veteranMailingAddressInfo1;
 const pageTitle = 'Veteran’s mailing address';
 const mockData = {
   claimOwnership: CLAIM_OWNERSHIPS.SELF,
@@ -32,7 +32,7 @@ testNumberOfFields(
   mockData,
 );
 
-const expectedNumberOfErrors = 3;
+const expectedNumberOfErrors = 4;
 testNumberOfErrorsOnSubmit(
   formConfig,
   schema,
