@@ -29,7 +29,7 @@ const InstallmentContractSummary = ({
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      goToPath(`/credit-card-bills`);
+      goToPath(`/other-expenses-checklist`);
     },
     onBack: event => {
       event.preventDefault();

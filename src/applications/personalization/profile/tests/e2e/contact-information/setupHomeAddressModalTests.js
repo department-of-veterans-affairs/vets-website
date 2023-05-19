@@ -5,9 +5,12 @@ import receivedTransaction from '@@profile/tests/fixtures/transactions/received-
 import finishedTransaction from '@@profile/tests/fixtures/transactions/finished-transaction.json';
 import errorTransaction from '@@profile/tests/fixtures/transactions/error-transaction.json';
 import set from 'lodash/set';
+import personalInfo from '@@profile/tests/fixtures/personal-information-success-enhanced.json';
+import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import { createAddressValidationResponse } from '../address-validation/addressValidation';
 import { createUserResponse } from '../address-validation/user';
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
+import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 
 export const setupHomeAddressModalBase = type => {
   disableFTUXModals();
@@ -19,7 +22,20 @@ export const setupHomeAddressModalBase = type => {
     body: createAddressValidationResponse(type),
   });
 
-  cy.intercept('GET', 'v0/feature_toggles*', {});
+  cy.intercept('GET', '/v0/feature_toggles?*', {
+    statusCode: 200,
+    body: generateFeatureToggles(),
+  });
+
+  cy.intercept('GET', '/v0/profile/full_name', {
+    statusCode: 200,
+    body: fullName,
+  });
+
+  cy.intercept('GET', '/v0/profile/personal_information', {
+    statusCode: 200,
+    body: personalInfo,
+  });
 
   // for when the mailing address is being checked from the home address modal prompt and should succeed saving
   cy.intercept('GET', '/v0/profile/status/willSucceedTest', req => {
