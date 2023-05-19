@@ -1,8 +1,5 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
-import {
-  uiSchema,
-  schema,
-} from 'platform/forms-system/src/js/definitions/address';
+import { uiSchema, schema } from '../definitions/form-address';
 
 export default {
   uiSchema: {
