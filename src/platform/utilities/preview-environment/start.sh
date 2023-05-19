@@ -36,17 +36,15 @@ echo "Download dev content-build to website dir"
 if [ -z ${AWS_URL} ] ;
 then
     echo "AWS_URL is NULL; using default" ;
-    curl -LO https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content-build/8ec12e9c7b3cda7a437ff4ed3818713504c9dd0c/vagovprod.tar.bz2 ;
+    curl -LO https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content/vagovdev_dd03cdd3eb98417b247b1a61d54651a1.tar.bz2 ;
 else
     echo "AWS_URL is not NULL; using workflow env var" ;
     curl -LO ${AWS_URL} ;
 fi
 
-echo "Setup content-build and extract pre-built content into content-build/build/localhost"
-echo "make the build folder"
-mkdir -p content-build/build/localhost
-echo "untar the build into content-build/build/localhost/"
-tar -xf vagovprod.tar.bz2 -C content-build/build/localhost/
+mkdir -p content-build/.cache/localhost/drupal
+echo "untar the build into content-build/.cache/localhost/drupal"
+tar -xf vagovdev_dd03cdd3eb98417b247b1a61d54651a1.tar.bz2 -C content-build/.cache/localhost/drupal
 
 echo "set yarn to allow self-signed cert for install"
 yarn config set "strict-ssl" false
@@ -61,5 +59,6 @@ yarn watch --env buildtype=preview,api=http://vets-api-web:3004 &
 echo "Install and serve content-build"
 cd ../content-build
 yarn install
+yarn build --use-cached-assets --api=http://vets-api-web:3004
 ln -s /app/website/vets-website/build/localhost/generated /app/website/content-build/build/localhost/generated
 yarn serve
