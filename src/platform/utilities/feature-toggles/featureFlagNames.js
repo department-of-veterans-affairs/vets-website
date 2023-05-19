@@ -101,7 +101,6 @@ export default Object.freeze({
   profileUseExperimental: 'profile_use_experimental',
   profileUseInfoCard: 'profile_use_info_card',
   profileUseFieldEditingPage: 'profile_use_field_editing_page',
-  profileUseVaosV2Api: 'profile_use_vaos_v2_api',
   profileUseVAFSC: 'profile_use_vafsc',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
