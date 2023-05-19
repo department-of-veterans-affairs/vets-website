@@ -121,8 +121,6 @@ export const SearchForm = ({ fetchForms }) => {
 SearchForm.propTypes = {
   // From mapDispatchToProps.
   fetchForms: PropTypes.func.isRequired,
-  // From mapStateToProps.
-  fetching: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
