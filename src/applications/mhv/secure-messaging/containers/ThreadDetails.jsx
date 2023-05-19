@@ -53,7 +53,7 @@ const ThreadDetails = props => {
         dispatch(retrieveFolder(draftMessage?.threadFolderId));
       }
     },
-    [draftMessage],
+    [draftMessage, dispatch, folder],
   );
   useEffect(
     () => {
