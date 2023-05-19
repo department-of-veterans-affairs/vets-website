@@ -68,10 +68,10 @@ class PatientReplyPage {
     const replyMessage = repliedToMessage;
     replyMessage.data.attributes.body = replyMessageBody;
     cy.intercept(
-      'PUT',
+      'POST',
       `/my_health/v1/messaging/message_drafts/${
         repliedToMessage.data.attributes.messageId
-      }`,
+      }/replydraft`,
       replyMessage,
     ).as('saveDraftwithAttachment');
     cy.wait('@saveDraftwithAttachment').then(xhr => {
