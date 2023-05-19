@@ -60,10 +60,7 @@ class FindFormComponent {
 
   isErrorDisplayed = () => {
     // Find the error body on the page
-    cy.get(SELECTORS.FINDFORM_ERROR_BODY).should(
-      'have.class',
-      'usa-input-error',
-    );
+    cy.get(SELECTORS.APP).should('have.class', 'usa-input-error');
 
     // Find the error message on the page
     cy.get(SELECTORS.FINDFORM_ERROR_MSG)
@@ -85,7 +82,7 @@ class FindFormComponent {
 
 // Tests for find-forms application
 describe('Find a VA form smoke test', () => {
-  beforeEach(function() {
+  beforeEach(() => {
     cy.server();
   });
 
