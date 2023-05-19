@@ -58,5 +58,27 @@ describe('<LettersApp>', () => {
       );
       expect(text).to.not.contain('Rendered!');
     });
+
+    it('should render loading indicator if feature toggles are not available', () => {
+      const tree = SkinDeep.shallowRender(
+        <AppContent featureFlagsLoading>
+          <span>Rendered!</span>
+        </AppContent>,
+      );
+
+      expect(tree.subTree('va-loading-indicator')).to.exist;
+      expect(tree.text()).to.not.contain('Rendered');
+    });
+
+    it('should render children if feature toggles are available', () => {
+      const tree = SkinDeep.shallowRender(
+        <AppContent featureFlagsLoading={false}>
+          <span>Rendered!</span>
+        </AppContent>,
+      );
+
+      expect(tree.subTree('va-loading-indicator')).to.equal(false);
+      expect(tree.text()).to.contain('Rendered');
+    });
   });
 });
