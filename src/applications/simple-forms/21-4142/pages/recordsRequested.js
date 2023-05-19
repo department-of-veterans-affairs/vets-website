@@ -17,8 +17,8 @@ export default {
   uiSchema: {
     'ui:description': (
       <div className="vads-u-margin-bottom--4">
-        Let us know where and when treatment was received. We'll request the
-        private medical records for you.
+        Let us know where the person you're requesting medical records for
+        received treatment.
       </div>
     ),
     'ui:options': {
@@ -31,8 +31,8 @@ export default {
         )
           patientId = 'Veteran';
         const title = (
-          <h3 className="vads-u-color--gray-dark">
-            Where did the {patientId} receive treatment?
+          <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
+            Tell us where the {patientId} received treatment
           </h3>
         );
         return { title };
@@ -68,7 +68,7 @@ export default {
         ),
         [providerFacilityFields.conditionsTreated]: {
           'ui:title':
-            'List the conditions the patient was treated for at this facility',
+            'List the conditions the person received treatment for at this facility',
           'ui:widget': 'textarea',
           'ui:required': () => true,
           'ui:errorMessages': {
