@@ -29,9 +29,9 @@ class IntroductionPage extends React.Component {
           confirmation message. You can print this page for your records.
         </p>
         <p>
-          A Veteran may submit a Lay/Witness statement on their own.
-          Alternatively, a claimant or witness may submit on behalf on a
-          Veteran.
+          A Veteran or a claimant may submit a lay/witness statement on their
+          own behalf. Alternatively, a witness may submit on behalf of a Veteran
+          or claimant.
         </p>
         <SaveInProgressIntro
           customHeading="Sign in now to save time and save your work in progress"

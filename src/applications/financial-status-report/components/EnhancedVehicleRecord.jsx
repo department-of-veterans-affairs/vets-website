@@ -124,7 +124,7 @@ const EnhancedVehicleRecord = props => {
         <p>Enter your vehicle’s information below.</p>
         <div className="input-size-5">
           <VaTextInput
-            className="no-wrap input-size-3"
+            className="no-wrap input-size-5"
             error={(vehicleRecordIsDirty && makeIsDirty && makeError) || null}
             id="add-make-name"
             label="Vehicle make"
@@ -139,7 +139,7 @@ const EnhancedVehicleRecord = props => {
 
         <div className="input-size-5">
           <VaTextInput
-            className="no-wrap input-size-3"
+            className="no-wrap input-size-5"
             error={(vehicleRecordIsDirty && modelIsDirty && modelError) || null}
             id="add-model-name"
             label="Vehicle Model"
@@ -165,7 +165,7 @@ const EnhancedVehicleRecord = props => {
           />
         </div>
 
-        <div className="input-size-5">
+        <div className="input-size-4">
           <va-number-input
             error={
               (vehicleRecordIsDirty &&
