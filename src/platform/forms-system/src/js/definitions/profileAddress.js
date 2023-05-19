@@ -14,8 +14,8 @@ import set from 'platform/utilities/data/set';
  * STREET_PATTERN - rejects white space only
  * US_POSTAL_CODE_PATTERN - Matches 5 digit zipcodes
  */
-const STREET_PATTERN = '^.*\\S.*';
-const US_POSTAL_CODE_PATTERN = '^\\d{5}$';
+export const STREET_PATTERN = '^.*\\S.*';
+export const US_POSTAL_CODE_PATTERN = '^\\d{5}$';
 
 export const MILITARY_CITY_VALUES = constants.militaryCities.map(
   city => city.value,
@@ -253,6 +253,9 @@ export default function addressUiSchema(
       'ui:required': uiRequiredCallback,
       'ui:title': 'Country',
       'ui:autocomplete': 'country',
+      'ui:errorMessages': {
+        required: 'Country is required',
+      },
       'ui:options': {
         /**
          * This is needed because the country dropdown needs to be set to USA and disabled if a

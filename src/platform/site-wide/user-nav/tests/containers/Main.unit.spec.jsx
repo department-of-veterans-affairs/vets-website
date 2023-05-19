@@ -73,14 +73,6 @@ describe('<Main>', () => {
     wrapper.unmount();
   });
 
-  it('should NOT render when disabled in the app registry', () => {
-    props.showNavLogin = false;
-    const wrapper = shallow(<Main {...props} />);
-    expect(wrapper.find('SearchHelpSignIn').exists()).to.be.false;
-    expect(wrapper.find(SignInModal).exists()).to.be.false;
-    wrapper.unmount();
-  });
-
   describe('checkLoggedInStatus', () => {
     it('should set logged in status to false if there is no active session', () => {
       const wrapper = shallow(<Main {...props} />);

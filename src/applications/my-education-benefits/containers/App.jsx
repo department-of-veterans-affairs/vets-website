@@ -127,6 +127,12 @@ export const App = ({
           showMebEnhancements,
         });
       }
+      if (showMebEnhancements !== formData.showMebEnhancements) {
+        setFormData({
+          ...formData,
+          showMebEnhancements,
+        });
+      }
     },
     [
       formData,

@@ -24,7 +24,7 @@ export const uiSchema = {
           'ui:title': 'Dependent’s age',
           'ui:options': {
             classNames: 'vads-u-margin-bottom--3 vads-u-margin-top--3',
-            widgetClassNames: 'input-size-3',
+            widgetClassNames: 'input-size-1',
           },
           'ui:errorMessages': {
             required: 'Please enter your dependent(s) age.',

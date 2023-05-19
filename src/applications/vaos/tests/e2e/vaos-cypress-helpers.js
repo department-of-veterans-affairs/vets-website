@@ -24,7 +24,7 @@ import schedulingConfigurations from '../../services/mocks/v2/scheduling_configu
 import clinicsV2 from '../../services/mocks/v2/clinics.json';
 import confirmedV2 from '../../services/mocks/v2/confirmed.json';
 import requestsV2 from '../../services/mocks/v2/requests.json';
-import { getRealFacilityId } from '../../utils/appointment';
+import { getStagingId } from '../../services/var';
 
 const mockUser = {
   data: {
@@ -260,6 +260,12 @@ export function mockFeatureToggles({
             {
               name: 'vaOnlineSchedulingFacilitiesServiceV2',
               value: v2Facilities,
+            },
+            { name: 'vaOnlineSchedulingStatusImprovement', value: false },
+            { name: 'vaOnlineSchedulingClinicFilter', value: true },
+            {
+              name: 'vaOnlineSchedulingVAOSServiceCCAppointments',
+              value: true,
             },
           ],
         },
@@ -542,6 +548,14 @@ export function mockAppointmentsApi({
 
     cy.intercept(
       {
+        method: 'PUT',
+        url: '/vaos/v2/appointments/1',
+      },
+      req => req.reply({ data: '' }),
+    ).as('v2:cancel:appointment');
+
+    cy.intercept(
+      {
         method: 'POST',
         pathname: '/vaos/v2/appointments',
       },
@@ -641,10 +655,17 @@ export function mockFacilityApi({ id, apiVersion = 1 } = {}) {
       cy.intercept(
         {
           method: 'GET',
-          pathname: `/v1/facilities/va/${facilityId}`,
+          pathname: `/v1/facilities/va/vha_${getStagingId(facilityId)}`,
         },
         req => {
-          req.reply({ data: facilityData.data.find(f => f.id === facilityId) });
+          req.reply({
+            data: facilityData.data.find(f => {
+              return f.id
+                .replace('442', '983')
+                .replace('552', '984')
+                .includes(facilityId);
+            }),
+          });
         },
       ).as('v1:get:facility');
     }
@@ -746,7 +767,8 @@ export function mockSchedulingConfigurationApi({
         data = schedulingConfigurations.data
           .filter(facility =>
             facilityIds.some(id => {
-              return id === getRealFacilityId(facility.id);
+              return id === facility.id;
+              // return id === getRealFacilityId(facility.id);
             }),
           )
           .map(facility => {
@@ -766,10 +788,13 @@ export function mockSchedulingConfigurationApi({
 
             return {
               ...facility,
-              id: getRealFacilityId(facility.id),
+              id: facility.id,
+              // id: getRealFacilityId(facility.id),
               attributes: {
+                communityCare: true,
                 ...facility.attributes,
-                facililtyId: getRealFacilityId(facility.id),
+                facilityId: facility.id,
+                // facililtyId: getRealFacilityId(facility.id),
                 services,
               },
             };
@@ -984,7 +1009,10 @@ export function mockDirectScheduleSlotsApi({
   }
 }
 
-export function mockLoginApi({ facilityId, withoutAddress = false } = {}) {
+export function mockLoginApi({
+  facilityId = '983',
+  withoutAddress = false,
+} = {}) {
   if (facilityId) {
     const user = {
       ...mockUser,
@@ -1011,6 +1039,25 @@ export function mockLoginApi({ facilityId, withoutAddress = false } = {}) {
     cy.login(mockUserWithoutAddress);
   } else {
     cy.login(mockUser);
+  }
+}
+
+export function mockUserTransitionAvailabilities({ version = 0 } = {}) {
+  if (version === 0) {
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: `/v0/user_transition_availabilities`,
+      },
+      req => {
+        req.reply({
+          data: {
+            organicModal: false,
+            credentialType: 'idme',
+          },
+        });
+      },
+    ).as('v0:get:user_transition');
   }
 }
 

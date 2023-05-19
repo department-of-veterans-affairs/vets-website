@@ -107,6 +107,7 @@ export function mockNotificationSettingsAPIs() {
   cy.intercept('/v0/profile/service_history', serviceHistory);
   cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
   cy.intercept('/v0/ppiu/payment_information', mockPaymentInfoNotEligible);
+  mockFeatureToggles();
 }
 
 export function registerCypressHelpers() {

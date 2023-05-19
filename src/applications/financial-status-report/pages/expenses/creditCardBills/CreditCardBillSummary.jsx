@@ -30,7 +30,7 @@ const CreditCardBillSummary = ({
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      goToPath(`/other-expenses-checklist`);
+      goToPath(`/installment-contracts`);
     },
     onBack: event => {
       event.preventDefault();
