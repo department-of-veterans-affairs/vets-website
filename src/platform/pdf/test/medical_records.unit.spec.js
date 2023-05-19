@@ -9,7 +9,7 @@ navigator.platform = '';
 
 const pdfjs = require('pdfjs-dist/legacy/build/pdf');
 
-describe('medical records template', () => {
+describe('Medical records PDF template', () => {
   const data = require('./fixtures/lab_test_blood_count.json');
 
   after(() => {
@@ -24,7 +24,7 @@ describe('medical records template', () => {
     return getStream.buffer(doc);
   };
 
-  describe('toggleValues selector', () => {
+  describe('PDF Semantics', () => {
     it('places the title in an H1', async () => {
       const pdfData = await generatePdf();
       const pdf = await pdfjs.getDocument(pdfData).promise;
