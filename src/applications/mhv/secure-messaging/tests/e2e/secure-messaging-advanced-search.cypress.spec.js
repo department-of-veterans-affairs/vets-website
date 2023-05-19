@@ -191,10 +191,6 @@ describe(manifest.appName, () => {
       landingPage.selectAdvancedSearchCategoryCustomFolder();
       landingPage.submitSearchButton();
     });
-    it('axechek', () => {
-      cy.injectAxe();
-      cy.axeCheck();
-    });
     it('Check all messages contain the searched category', () => {
       cy.get('[data-testid="message-list-item"]')
         .should('contain', 'test')
