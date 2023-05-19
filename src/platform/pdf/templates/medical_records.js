@@ -156,10 +156,7 @@ const generate = async data => {
     }
     const detailsItemsCount = data.details.items.length;
     if (detailsItemsCount > 0) {
-      const list = doc.struct('L');
       data.details.items.forEach(item => {
-        const listItem = doc.struct('LI');
-        const listItemBody = doc.markStructureContent('LBody');
         const paragraphOptions = { lineGap: 0 };
         let titleText = item.title;
         if (item.inline === true) {
@@ -168,19 +165,19 @@ const generate = async data => {
         } else {
           titleText += ' ';
         }
-        doc
-          .font('SourceSansPro-Bold')
-          .fontSize(16)
-          .text(titleText, 30, doc.y, paragraphOptions);
-        doc
-          .font('SourceSansPro-Regular')
-          .fontSize(16)
-          .text(`${item.value}`);
-        doc.endMarkedContent();
-        listItem.add(listItemBody);
-        list.add(listItem);
+        details.add(
+          doc.struct('P', () => {
+            doc
+              .font('SourceSansPro-Bold')
+              .fontSize(16)
+              .text(titleText, 30, doc.y, paragraphOptions);
+            doc
+              .font('SourceSansPro-Regular')
+              .fontSize(16)
+              .text(`${item.value}`);
+          }),
+        );
       });
-      details.add(list);
     }
     details.end();
   }
@@ -227,10 +224,7 @@ const generate = async data => {
         }),
       );
 
-      const list = doc.struct('L');
       item.items.forEach(resultItem => {
-        const listItem = doc.struct('LI');
-        const listItemBody = doc.markStructureContent('LBody');
         const paragraphOptions = { lineGap: 0 };
         let titleText = resultItem.title;
         if (resultItem.inline === true) {
@@ -239,19 +233,19 @@ const generate = async data => {
         } else {
           titleText += ' ';
         }
-        doc
-          .font('SourceSansPro-Bold')
-          .fontSize(16)
-          .text(titleText, 44, doc.y, paragraphOptions);
-        doc
-          .font('SourceSansPro-Regular')
-          .fontSize(16)
-          .text(`${resultItem.value}`);
-        doc.endMarkedContent();
-        listItem.add(listItemBody);
-        list.add(listItem);
+        results.add(
+          doc.struct('P', () => {
+            doc
+              .font('SourceSansPro-Bold')
+              .fontSize(16)
+              .text(titleText, 44, doc.y, paragraphOptions);
+            doc
+              .font('SourceSansPro-Regular')
+              .fontSize(16)
+              .text(`${resultItem.value}`);
+          }),
+        );
       });
-      results.add(list);
     });
     results.end();
   }
