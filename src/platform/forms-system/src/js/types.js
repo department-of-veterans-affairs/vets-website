@@ -91,6 +91,16 @@
  */
 
 /**
+ * Add this to a union so that the literal types are not enforced
+ * but we will still get intellisense for the union type.
+ * (since all existing definitions will be interpretted as strings)
+ *
+ * This is a common TypeScript trick when you have a union + any string
+ * {} defaults to mostly everything for types, including string
+ * @typedef {string & {}} OrAnyString
+ */
+
+/**
  * @typedef {Object} PreSubmitInfo
  * @property {(props: any) => JSX.Element} [CustomComponent]
  * @property {string} [error]
@@ -167,9 +177,9 @@
  *   'ui:title'?: string | JSX.Element,
  *   'ui:validations'?: Array<((errors, value) => void)>,
  *   'ui:webComponentField'?: (props: any) => JSX.Element,
- *   'ui:widget'?: 'yesNo' | 'checkbox' | 'radio' | 'select' | 'email' | 'date' | 'textarea' | ((props: any) => JSX.Element),
- * } | {
- *  [key: string]: UISchemaOptions
+ *   'ui:widget'?: 'yesNo' | 'checkbox' | 'radio' | 'select' | 'email' | 'date' | 'textarea'  | OrAnyString | ((props: any) => JSX.Element),
+ * } & {
+ *  [key: string]: UISchemaOptions | {}
  * }} UISchemaOptions
  */
 
@@ -226,7 +236,7 @@
  *   default?: string,
  *   enum?: string[],
  *   enumNames?: string[],
- *   format?: 'email' | 'date' | 'date-time' | 'uri' | 'data-url',
+ *   format?: 'email' | 'date' | 'date-time' | 'uri' | 'data-url' | OrAnyString,
  *   items?: SchemaOptions,
  *   maxLength?: number,
  *   minItems?: number,
@@ -235,9 +245,9 @@
  *   pattern?: string,
  *   properties?: Record<string, SchemaOptions>,
  *   required?: string[],
- *   type?: 'string' | 'number' | 'integer' | 'boolean' | 'object' | 'array',
+ *   type?: 'string' | 'number' | 'integer' | 'boolean' | 'object' | 'array' | OrAnyString,
  *   uniqueItems?: boolean,
- * } | {
- *   [key: string]: SchemaOptions
+ * } & {
+ *   [key: string]: SchemaOptions | {}
  * }} SchemaOptions
  */
