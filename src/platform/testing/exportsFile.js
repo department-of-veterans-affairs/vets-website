@@ -1,15 +1,15 @@
-export { default as formTester } from './e2e/cypress/support/form-tester/index';
+import formTester from './e2e/cypress/support/form-tester/index';
 
-export {
+import {
   createArrayPageObjects,
   createTestConfig,
 } from './e2e/cypress/support/form-tester/utilities';
 
-export { default as mockHelpers } from './e2e/mock-helpers';
+import mockHelpers from './e2e/mock-helpers';
 
-export { default as common } from './local-dev-mock-api/common';
+import common from './local-dev-mock-api/common';
 
-export {
+import {
   changeDropdown,
   mockFetch,
   chai,
@@ -28,12 +28,12 @@ export {
   wrapWithRouterContext,
 } from './unit/helpers';
 
-export {
+import {
   renderInReduxProvider,
   renderWithStoreAndRouter,
 } from './unit/react-testing-library-helpers';
 
-export {
+import {
   DefinitionTester,
   submitForm,
   getFormDOM,
@@ -43,4 +43,39 @@ export {
   fillDate,
 } from './unit/schemaform-utils';
 
-export { testkit, sentryTransport } from './unit/sentry';
+import { testkit, sentryTransport } from './unit/sentry';
+
+export {
+  formTester,
+  createArrayPageObjects,
+  createTestConfig,
+  mockHelpers,
+  common,
+  changeDropdown,
+  mockFetch,
+  chai,
+  setFetchJSONResponse,
+  setFetchJSONFailure,
+  setFetchBlobResponse,
+  setFetchBlobFailure,
+  resetFetch,
+  mockApiRequest,
+  mockMultipleApiRequests,
+  createTestHistory,
+  expect,
+  fillDateHelper,
+  mockEventListeners,
+  wrapWithContext,
+  wrapWithRouterContext,
+  renderInReduxProvider,
+  renderWithStoreAndRouter,
+  DefinitionTester,
+  submitForm,
+  getFormDOM,
+  fillData,
+  selectCheckbox,
+  selectRadio,
+  fillDate,
+  testkit,
+  sentryTransport,
+};
