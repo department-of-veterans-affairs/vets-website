@@ -36,7 +36,6 @@ const ReplyForm = props => {
   const [messageBody, setMessageBody] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [formPopulated, setFormPopulated] = useState(false);
-  const [fieldsString, setFieldsString] = useState('');
   const [bodyError, setBodyError] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [newDraftId, setNewDraftId] = useState(
@@ -184,14 +183,6 @@ const ReplyForm = props => {
       setAttachments(draft.attachments);
     }
     setFormPopulated(true);
-    setFieldsString(
-      JSON.stringify({
-        rec: draft.recipientId,
-        cat: draft.category,
-        sub: draft.subject,
-        bod: draft.body,
-      }),
-    );
   };
 
   useEffect(
@@ -253,18 +244,6 @@ const ReplyForm = props => {
     }
 
     const draftId = draft && draft.messageId;
-    const newFieldsString = JSON.stringify({
-      rec: selectedRecipient,
-      cat: category,
-      sub: subject,
-      bod: messageBody,
-    });
-
-    if (newFieldsString === fieldsString) {
-      return;
-    }
-
-    setFieldsString(newFieldsString);
 
     const formData = {
       recipientId: selectedRecipient,

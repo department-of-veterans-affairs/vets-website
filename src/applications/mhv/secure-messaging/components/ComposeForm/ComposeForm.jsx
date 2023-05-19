@@ -47,7 +47,6 @@ const ComposeForm = props => {
   const [messageBody, setMessageBody] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [formPopulated, setFormPopulated] = useState(false);
-  const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [messageInvalid, setMessageInvalid] = useState(false);
   const [userSaved, setUserSaved] = useState(false);
@@ -169,14 +168,6 @@ const ComposeForm = props => {
       setAttachments(draft.attachments);
     }
     setFormPopulated(true);
-    setFieldsString(
-      JSON.stringify({
-        rec: draft.recipientId,
-        cat: draft.category,
-        sub: draft.subject,
-        bod: draft.body,
-      }),
-    );
   };
 
   if (draft && recipients && !formPopulated) populateForm();
@@ -235,7 +226,7 @@ const ComposeForm = props => {
   const saveDraftHandler = async (type, e) => {
     if (type === 'manual') {
       setUserSaved(true);
-      setLastFocusableElement(e.target);
+      setLastFocusableElement(e.target.shadowRoot.querySelector('button'));
       await setMessageInvalid(false);
       if (checkMessageValidity()) {
         setNavigationError(null);
@@ -247,18 +238,6 @@ const ComposeForm = props => {
     }
 
     const draftId = draft && draft.messageId;
-    const newFieldsString = JSON.stringify({
-      rec: selectedRecipient,
-      cat: category,
-      sub: subject,
-      bod: messageBody,
-    });
-
-    if (newFieldsString === fieldsString) {
-      return;
-    }
-
-    setFieldsString(newFieldsString);
 
     const formData = {
       recipientId: selectedRecipient,
