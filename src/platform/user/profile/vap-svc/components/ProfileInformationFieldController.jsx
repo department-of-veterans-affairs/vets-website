@@ -130,6 +130,7 @@ class ProfileInformationFieldController extends React.Component {
           successCallback();
         }
       } else {
+        // focusElement did not work here on iphone or safari, so using waitForRenderThenFocus
         waitForRenderThenFocus(`#${getEditButtonId(fieldName)}`, document, 50);
       }
     } else if (
