@@ -22,19 +22,7 @@ const SELECTORS = {
   SORT_SELECT_WIDGET: 'select.find-forms-search--sort-select',
 };
 
-function axeTestPage() {
-  cy.injectAxe();
-  cy.axeCheck('main', {
-    rules: {
-      'aria-roles': {
-        enabled: false,
-      },
-    },
-  });
-}
-
 describe('functionality of Find Forms', () => {
-  /* eslint-disable @department-of-veterans-affairs/axe-check-required */
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
@@ -53,7 +41,6 @@ describe('functionality of Find Forms', () => {
   it('search the form and expect dom to have elements - C3994', () => {
     // navigate to find-forms and make axe check on browser
     cy.visit('/find-forms/');
-    axeTestPage();
 
     // Ensure form is present
     cy.get(SELECTORS.SEARCH_FORM);
@@ -79,6 +66,9 @@ describe('functionality of Find Forms', () => {
     // Ensure at least 1 title is present
     cy.get(`${SELECTORS.SEARCH_RESULT_TITLE}`).should('exist');
 
+    cy.injectAxe();
+    cy.axeCheck();
+
     // iterate through all pages and ensure each form download link is present on each form result.
     const validForms = stub.data
       .filter(form => form.attributes.validPdf)
@@ -98,7 +88,7 @@ describe('functionality of Find Forms', () => {
       if (hasNextPage) {
         cy.get(SELECTORS.NEXT_PAGE)
           .click()
-          .then(() => axeTestPage());
+          .then(() => cy.axeCheck());
       }
     });
 
@@ -113,18 +103,21 @@ describe('functionality of Find Forms', () => {
       .should('contain', FAF_SORT_OPTIONS[0]);
   });
 
-  // it('opens PDF modal - C12431', () => {
-  //   cy.visit('/find-forms/?q=health');
-  //   cy.get('a[data-testid^="pdf-link"]').then($links => {
-  //     const randomIndex = Math.floor(Math.random() * $links.length);
-  //     cy.wrap($links)
-  //       .eq(randomIndex)
-  //       .scrollIntoView()
-  //       .click({ force: true });
-  //   });
-  //   cy.get('va-modal', { timeout: 25000 })
-  //     .shadow()
-  //     .get('.va-modal-title')
-  //     .should('contain.text', 'PDF');
-  // });
+  it('opens PDF modal - C12431', () => {
+    cy.visit('/find-forms/?q=health');
+    cy.get('a[data-testid^="pdf-link"]').then($links => {
+      const randomIndex = Math.floor(Math.random() * $links.length);
+      cy.wrap($links)
+        .eq(randomIndex)
+        .scrollIntoView()
+        .click({ force: true });
+    });
+    cy.get('va-modal', { timeout: 25000 })
+      .shadow()
+      .get('.va-modal-title')
+      .should('contain.text', 'PDF');
+
+    cy.injectAxe();
+    cy.axeCheck();
+  });
 });
