@@ -59,7 +59,7 @@ const App = () => {
           window.location.replace('/health-care/secure-messaging')}
       </div>
       <div className="vads-u-padding-right--1">
-        <va-back-to-top />
+        <va-back-to-top aria-label="Back to top" />
       </div>
     </RequiredLoginView>
   );

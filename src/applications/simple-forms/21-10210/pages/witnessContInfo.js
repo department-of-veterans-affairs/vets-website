@@ -1,32 +1,29 @@
+import React from 'react';
+
 import definitions from 'vets-json-schema/dist/definitions.json';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
+import formDefinitions from '../definitions/form-definitions';
 
 export default {
   uiSchema: {
     witnessPhone: {
       'ui:title': 'Phone number',
     },
-    witnessEmail: {
-      'ui:title': 'Email address',
-    },
-    witnessEmailConsent: {
-      'ui:title':
-        'I agree to receive electronic correspondence from VA in regards to my claim.', // hidden via styling
-      'ui:widget': 'checkbox', // Need this widget to support error messages
-      'ui:required': formData => !!formData.claimantEmail,
-      'ui:errorMessages': {
-        required: 'Please agree to receive electronic correspondence.',
-      },
-    },
+    witnessEmail: emailUI(
+      <span>
+        Email address
+        <br />
+        By providing an email address, I agree to receive electronic
+        correspondence from VA regarding my application
+      </span>,
+    ),
   },
   schema: {
     type: 'object',
-    required: ['witnessPhone'],
+    required: ['witnessPhone', 'witnessEmail'],
     properties: {
       witnessPhone: definitions.phone,
-      witnessEmail: definitions.email,
-      witnessEmailConsent: {
-        type: 'boolean',
-      },
+      witnessEmail: formDefinitions.pdfEmail,
     },
   },
 };

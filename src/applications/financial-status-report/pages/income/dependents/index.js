@@ -41,7 +41,7 @@ export const uiSchemaEnhanced = {
         'How many dependents do you have who rely on you for financial support?',
       'ui:widget': 'TextWidget',
       'ui:options': {
-        classNames: 'input-size-2 dependent-count ',
+        classNames: 'input-size-1 dependent-count ',
       },
       'ui:required': () => true,
       'ui:errorMessages': {

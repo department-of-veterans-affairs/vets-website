@@ -127,13 +127,13 @@ export default function AppointmentsPageV2() {
       prefix = 'Past';
       pageTitle = `${prefix} appointments`;
     } else {
-      pageTitle = 'Your appointments';
+      pageTitle = 'Appointments';
     }
   }
   useEffect(
     () => {
       if (featureStatusImprovement) {
-        document.title = `${prefix} appointments | VA online scheduling | Veterans Affairs`;
+        document.title = `${pageTitle} | VA online scheduling | Veterans Affairs`;
         scrollAndFocus('h1');
       } else {
         document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
@@ -153,7 +153,7 @@ export default function AppointmentsPageV2() {
   useEffect(
     () => {
       function handleBeforePrint(_event) {
-        document.title = `Your appointments | VA online scheduling | Veterans Affairs`;
+        document.title = `Appointments | VA online scheduling | Veterans Affairs`;
       }
 
       function handleAfterPrint(_event) {
