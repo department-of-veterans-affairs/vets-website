@@ -1,7 +1,7 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-// import {maritalStatuses} from '@department-of-veterans-affairs/platform-startup/exportsFile';
+// import { months } from '@department-of-veterans-affairs/platform-static-data/exports';
 
 export const GetFormHelp = () => (
   <p className="help-talk">
