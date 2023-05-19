@@ -1,12 +1,21 @@
 // duplicated vat name: startApp, in platform, adjusted to startAppFromIndex
-export { default as startAppFromIndex } from './index'; // used outside platform
+import startAppFromIndex from './index'; // used outside platform
 
 // duplicated vat name: startApp, in platform, adjusted to startAppFromRouter
-export { default as startAppFromRouter } from './router'; // used outside platform
+import startAppFromRouter from './router'; // used outside platform
 
-export { default as createCommonStore } from './store'; // used outside platform
+import createCommonStore from './store'; // used outside platform
 
 // tentative
-export { default as createAnalyticsMiddleware } from './analytics-middleware';
-export { default as startReactApp } from './react';
-export { default as setUpCommonFunctionality } from './setup';
+import createAnalyticsMiddleware from './analytics-middleware';
+import startReactApp from './react';
+import setUpCommonFunctionality from './setup';
+
+export {
+  startAppFromIndex,
+  startAppFromRouter,
+  createCommonStore,
+  createAnalyticsMiddleware,
+  startReactApp,
+  setUpCommonFunctionality,
+};

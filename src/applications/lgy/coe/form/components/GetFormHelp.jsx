@@ -1,8 +1,7 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { preESModulesPolyfills } from '@department-of-veterans-affairs/platform-polyfills/exports';
 
-export const temp = preESModulesPolyfills;
+// import {maritalStatuses} from '@department-of-veterans-affairs/platform-startup/exportsFile';
 
 export const GetFormHelp = () => (
   <p className="help-talk">
