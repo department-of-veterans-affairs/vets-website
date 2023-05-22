@@ -1,5 +1,3 @@
-import React from 'react';
-
 import cloanDeep from 'lodash/cloneDeep';
 
 import { CLAIMANT_TYPES, CLAIM_OWNERSHIPS } from '../definitions/constants';
@@ -16,45 +14,22 @@ export default {
           let title;
           switch (claimOwnership) {
             case CLAIM_OWNERSHIPS.SELF:
-              title = (
-                <span
-                  className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold"
-                  role="heading"
-                  aria-level="2"
-                >
-                  Which of these descriptions best describes you?
-                </span>
-              );
+              title = 'Which of these descriptions best describes you?';
               uiSchemaCopy['ui:options'].labels = {
                 veteran: 'I’m a Veteran',
                 'non-veteran': 'I’m a non-Veteran claimant',
               };
               break;
             case CLAIM_OWNERSHIPS.THIRD_PARTY:
-              title = (
-                <span
-                  className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold"
-                  role="heading"
-                  aria-level="2"
-                >
-                  Which of these individuals are you submitting a statement for?
-                </span>
-              );
+              title =
+                'Which of these individuals are you submitting a statement for?';
               uiSchemaCopy['ui:options'].labels = {
                 veteran: 'A Veteran',
                 'non-veteran': 'A non-Veteran claimant',
               };
               break;
             default:
-              title = (
-                <span
-                  className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold"
-                  role="heading"
-                  aria-level="2"
-                >
-                  Claimant type:
-                </span>
-              );
+              title = 'Claimant type:';
           }
 
           return {
