@@ -99,11 +99,7 @@ class SearchHelpSignIn extends Component {
     return (
       <div className="sign-in-links">
         {!isSubdomain && (
-          <button
-            className="sign-in-link"
-            onClick={this.handleSignInSignUp}
-            type="button"
-          >
+          <button className="sign-in-link" onClick={this.handleSignInSignUp}>
             Sign in
           </button>
         )}
