@@ -215,6 +215,7 @@
   margin-right: 10px !important
 }
 
+/* styling for modal header */
 a {
   cursor: pointer;
   text-decoration: underline;
@@ -223,4 +224,9 @@ a {
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
   transition-property: color, background-color, border-color;
+}
+
+.modal-live-form .ng-scope>div>div>div>p>ul {
+  padding: 0 0 0 1.5em !important;
+  list-style: square !important;
 }
