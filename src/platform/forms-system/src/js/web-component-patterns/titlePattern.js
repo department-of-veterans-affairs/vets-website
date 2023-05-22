@@ -4,7 +4,7 @@ import React from 'react';
  * @param {string | import("react").JSXElementConstructor} [title]
  * @param {UIOptions} [uiOptions]
  *
- * @returns {JSXElementConstructor}
+ * @returns {JSX.Element}
  */
 export const titleUI = (title, uiOptions) => {
   return {
@@ -17,14 +17,10 @@ export const titleUI = (title, uiOptions) => {
   };
 };
 
-const schema = {
-  type: 'object',
-  properties: {},
-};
-
 /**
  * @returns {SchemaOptions}
  */
-export const titleSchema = () => {
-  return schema;
+export const titleSchema = {
+  type: 'object',
+  properties: {},
 };

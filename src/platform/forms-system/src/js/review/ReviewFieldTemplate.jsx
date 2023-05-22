@@ -56,8 +56,6 @@ export default function ReviewFieldTemplate(props) {
     !uiSchema?.['ui:widget'] &&
     !uiSchema?.['ui:reviewField']
   ) {
-    // console.log(uiSchema?.['ui:webComponentField'].name, 'web component field');
-    alert(uiSchema?.['ui:webComponentField'].name);
     if (uiSchema?.['ui:webComponentField'].name === 'VaMemorableDateField') {
       uiSchema['ui:widget'] = 'date';
     } else if (uiSchema?.['ui:webComponentField'].name === 'VaRadioField') {

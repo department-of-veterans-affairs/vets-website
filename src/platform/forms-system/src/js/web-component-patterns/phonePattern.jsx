@@ -3,30 +3,30 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 
 /**
- * @param {string | UISchemaOptions} [options]
+ * Web component uiSchema for phone number
+ *
+ * ```js
+ * examplePhone: phoneUI() // Phone number
+ * examplePhone: phoneUI('Cell phone number')
+ * examplePhone: {
+ *  ...phoneUI('Main phone number')
+ * }
+ * ```
+ * @param {string} [title] - optional title to override default
  * @returns {UISchemaOptions}
  */
 export const phoneUI = title => {
   return {
     ...phoneUIDefinition,
-    'ui:title': title,
+    'ui:title': title ?? 'Phone number',
     'ui:webComponentField': VaTextInputField,
-    'ui:errorMessages': {
-      format:
-        'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
-    },
     'ui:options': {
       inputType: 'tel',
     },
   };
 };
 
-const schema = commonDefinitions.phone;
-
 /**
- * @param {SchemaOptions} [options]
- * @returns {SchemaOptions}
+ * @returns `commonDefinitions.phone`
  */
-export const phoneSchema = () => {
-  return schema;
-};
+export const phoneSchema = commonDefinitions.phone;

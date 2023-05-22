@@ -37,6 +37,9 @@ export default {
       'ui:title': 'VaTextInputField - with string description',
       'ui:webComponentField': VaTextInputField,
       'ui:description': 'Text description',
+      'ui:options': {
+        uswds: false,
+      },
     },
     requiredNew: {
       'ui:title': 'VaTextInputField - with JSX description',
@@ -54,6 +57,7 @@ export default {
       'ui:options': {
         hideIf: formData => formData.hide,
         hideOnReview: true,
+        uswds: false,
       },
     },
     hintNew: {
@@ -61,6 +65,7 @@ export default {
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         hint: 'This is a hint',
+        uswds: false,
       },
     },
     inputmodeDecimalNew: {
@@ -68,12 +73,16 @@ export default {
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         inputmode: 'decimal',
+        uswds: false,
       },
     },
     disabledNew: {
       'ui:title': 'VaTextInputField - disabled',
       'ui:webComponentField': VaTextInputField,
       'ui:disabled': true,
+      'ui:options': {
+        uswds: false,
+      },
     },
     wcv3: titleUI('Web component v3', {
       classNames: 'vads-u-margin-top--4',
@@ -82,9 +91,6 @@ export default {
       'ui:title': 'VaTextInputField - with string description',
       'ui:webComponentField': VaTextInputField,
       'ui:description': 'Text description',
-      'ui:options': {
-        uswds: true,
-      },
     },
     requiredNewV3: {
       'ui:title': 'VaTextInputField - with JSX description',
@@ -102,7 +108,6 @@ export default {
       'ui:options': {
         hideIf: formData => formData.hide,
         hideOnReview: true,
-        uswds: true,
       },
     },
     hintNewV3: {
@@ -110,7 +115,6 @@ export default {
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         hint: 'This is a hint',
-        uswds: true,
       },
     },
     inputmodeDecimalNewV3: {
@@ -118,22 +122,18 @@ export default {
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         inputmode: 'decimal',
-        uswds: true,
       },
     },
     disabledNewV3: {
       'ui:title': 'VaTextInputField - disabled',
       'ui:webComponentField': VaTextInputField,
       'ui:disabled': true,
-      'ui:options': {
-        uswds: true,
-      },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema(),
+      rjsf: titleSchema,
       simpleOld: {
         type: 'string',
       },
@@ -143,7 +143,7 @@ export default {
       disabledOld: {
         type: 'string',
       },
-      wc: titleSchema(),
+      wc: titleSchema,
       simpleNew: {
         type: 'string',
       },
@@ -160,7 +160,7 @@ export default {
       disabledNew: {
         type: 'string',
       },
-      wcv3: titleSchema(),
+      wcv3: titleSchema,
       simpleNewV3: {
         type: 'string',
       },

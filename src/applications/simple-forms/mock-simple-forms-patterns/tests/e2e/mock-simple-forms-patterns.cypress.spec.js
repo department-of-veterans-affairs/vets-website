@@ -197,57 +197,45 @@ const testConfig = createTestConfig(
               .find('va-text-input.input-month')
               .shadow()
               .find('input')
-              .type(month, {
-                delay: 200,
-              })
+              .type(month)
               .then(() => {
                 cy.get(`va-memorable-date[name="root_dateWC"]`)
                   .shadow()
                   .find('va-text-input.input-day')
                   .shadow()
                   .find('input')
-                  .type(day, {
-                    delay: 200,
-                  })
+                  .type(day)
                   .then(() => {
                     cy.get(`va-memorable-date[name="root_dateWC"]`)
                       .shadow()
                       .find('va-text-input.input-year')
                       .shadow()
                       .find('input')
-                      .type(year, {
-                        delay: 200,
-                      });
+                      .type(year);
                   });
               });
 
             [year, month, day] = data.dateWCV3.split('-');
             cy.get(`va-memorable-date[name="root_dateWCV3"]`)
               .shadow()
-              .find('va-text-input.input-month')
+              .find('va-text-input.usa-form-group--month-input')
               .shadow()
               .find('input')
-              .type(month, {
-                delay: 200,
-              })
+              .type(month)
               .then(() => {
                 cy.get(`va-memorable-date[name="root_dateWCV3"]`)
                   .shadow()
-                  .find('va-text-input.input-day')
+                  .find('va-text-input.usa-form-group--day-input')
                   .shadow()
                   .find('input')
-                  .type(day, {
-                    delay: 200,
-                  })
+                  .type(day)
                   .then(() => {
                     cy.get(`va-memorable-date[name="root_dateWCV3"]`)
                       .shadow()
-                      .find('va-text-input.input-year')
+                      .find('va-text-input.usa-form-group--year-input')
                       .shadow()
                       .find('input')
-                      .type(year, {
-                        delay: 200,
-                      });
+                      .type(year);
                   });
               });
 

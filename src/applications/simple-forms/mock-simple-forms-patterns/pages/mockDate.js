@@ -36,7 +36,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema(),
+      rjsf: titleSchema,
       dateDefault: {
         $ref: '#/definitions/date',
       },

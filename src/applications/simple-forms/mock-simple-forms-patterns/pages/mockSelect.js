@@ -141,7 +141,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema(),
+      rjsf: titleSchema,
       selectDefault: {
         type: 'string',
         enum: ['option1', 'option2'],
@@ -150,7 +150,7 @@ export default {
         type: 'string',
         enum: ['option1', 'option2'],
       },
-      wc: titleSchema(),
+      wc: titleSchema,
       selectWC: {
         type: 'string',
         enum: ['option1', 'option2'],
@@ -162,7 +162,7 @@ export default {
         type: 'string',
         enum: ['option1', 'option2'],
       },
-      wcv3: titleSchema(),
+      wcv3: titleSchema,
       textWCV3: {
         type: 'string',
       },
