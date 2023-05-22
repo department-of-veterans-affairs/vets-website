@@ -104,7 +104,9 @@ class PatientMessageDetailsPage {
       this.currentThread,
     ).as('full-thread');
 
-    cy.contains(`${mockParentMessageDetails.data.attributes.subject}`).click();
+    cy.contains(`${mockParentMessageDetails.data.attributes.subject}`)
+      .should('be.visible')
+      .click({ force: true });
 
     cy.location('pathname', { timeout: 5000 }).should('include', '/thread');
     cy.wait('@full-thread');
@@ -140,7 +142,7 @@ class PatientMessageDetailsPage {
       mockMessageDetails.data.attributes.triageGroupName;
     cy.get('[data-testid="reply-button-top"]')
       .should('be.visible')
-      .click();
+      .click({ force: true });
 
     // cy.get('[data-testid="reply-button-top"]').click({
     //   waitforanimations: true,

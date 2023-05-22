@@ -84,9 +84,36 @@ describe('<ContactInfo>', () => {
     expect($('.blue-bar-block', container)).to.exist;
     expect($$('va-alert[status="error"]', container).length).to.equal(0);
     expect($$('va-alert[status="warning"]', container).length).to.equal(0);
+    expect(
+      $$('va-alert[status="success"][visible="true"]', container).length,
+    ).to.equal(0);
     expect($$('h3', container).length).to.equal(1);
     expect($$('h4', container).length).to.equal(4);
     expect($$('h5', container).length).to.equal(0);
+  });
+
+  it('should render contact data w/no success messages', () => {
+    const props = getData();
+    // data exists (no error) & shouldn't show success message after updating
+    const data = {
+      veteran: {
+        email: 'x@x.com',
+        mobilePhone: { ...vapProfile.mobilePhone, updatedAt: '' },
+        homePhone: { ...vapProfile.homePhone, updatedAt: '' },
+        mailingAddress: { ...vapProfile.mailingAddress, updatedAt: '' },
+      },
+    };
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ContactInfo {...props} data={data} />
+      </Provider>,
+    );
+
+    expect($$('va-alert[status="error"]', container).length).to.equal(0);
+    expect($$('va-alert[status="warning"]', container).length).to.equal(0);
+    expect(
+      $$('va-alert[status="success"][visible="true"]', container).length,
+    ).to.equal(0);
   });
 
   describe('Successful edit', () => {
@@ -152,6 +179,28 @@ describe('<ContactInfo>', () => {
       expect(alert.innerHTML).to.contain('Mailing address updated');
       await waitFor(() => {
         expect(document.activeElement).to.eq(alert);
+      });
+    });
+
+    it('should render a success alert stating that missing info was added & user may continue', async () => {
+      const data = getData({ email: false });
+      const { container, rerender } = render(
+        <Provider store={mockStore}>
+          <ContactInfo {...data} />
+        </Provider>,
+      );
+
+      expect($('va-alert[status="warning"]', container)).to.exist;
+      setReturnState('email', 'updated');
+      rerender(
+        <Provider store={mockStore}>
+          <ContactInfo {...getData()} testContinueAlert />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        const alert = $('va-alert[status="success"]', container);
+        expect(alert.innerHTML).to.contain('You may continue');
       });
     });
   });

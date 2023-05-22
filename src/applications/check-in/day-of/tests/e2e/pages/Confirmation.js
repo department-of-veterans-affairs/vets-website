@@ -31,10 +31,7 @@ class Confirmation {
     cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
     cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and(
-        'include.text',
-        'We’re processing your travel reimbursement claim request.',
-      );
+      .and('include.text', 'We’re processing your travel reimbursement claim.');
   };
 
   validatePageLoadedWithBtsssIneligible = () => {

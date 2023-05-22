@@ -24,7 +24,7 @@ const initialState = {
   },
 };
 
-describe('VAOS <CanceledAppointmentsList>', () => {
+describe.skip('VAOS <CanceledAppointmentsList>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());

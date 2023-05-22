@@ -40,9 +40,9 @@ const formConfig = {
   preSubmitInfo: {
     statementOfTruth: {
       body:
-        'I certify that the identifying information in this form has been correctly represented.',
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
-        'I certify that the identifying information in this form has been correctly represented.',
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       fullNamePath: formData =>
         formData[preparerIdentificationFields.parentObject][
           preparerIdentificationFields.relationshipToVeteran
@@ -55,11 +55,11 @@ const formConfig = {
   saveInProgress: {
     messages: {
       inProgress:
-        'Your authorize release of medical information application (21-4142) is in progress.',
+        'Your authorization to release non-VA medical records to the VA (21-4142) is in progress.',
       expired:
-        'Your saved authorize release of medical information application (21-4142) has expired. If you want to apply for authorize release of medical information, please start a new application.',
+        'Your saved authorization to release non-VA medical records to the VA (21-4142) has expired. If you want to authorize release of non-VA medical records to the VA, please start a new authorization.',
       saved:
-        'Your authorize release of medical information application has been saved.',
+        'Your authorization to release of non-VA medical records to the VA has been saved.',
     },
   },
   version: 0,
@@ -68,11 +68,11 @@ const formConfig = {
   transformForSubmit,
   savedFormMessages: {
     notFound:
-      'Please start over to apply for authorize release of medical information.',
+      'Please start over to authorize the release of non-VA medical records to the VA.',
     noAuth:
-      'Please sign in again to continue your application for authorize release of medical information.',
+      'Please sign in again to continue your authorization to release non-VA medical records to the VA.',
   },
-  title: 'Authorize the release of medical information to the VA',
+  title: 'Authorize the release of non-VA medical records to the VA',
   subTitle:
     'Authorization to disclose information to the Department of Veterans Affairs (VA) (VA Form 21-4142 and 21-4142a)',
   defaultDefinitions: fullSchema.definitions,
