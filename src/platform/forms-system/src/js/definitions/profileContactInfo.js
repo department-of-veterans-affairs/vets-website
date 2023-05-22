@@ -46,6 +46,8 @@ import {
  *  'email'] - array of ContactInfoKeys to show on the contact info page
  * @property {Function} depends=null - depends callback function; return true to
  *  make the main confirmation page visible
+ * @property {Object} contactInfoUiSchema={} - custom uiSchema for the contact
+ *  info page
  */
 /**
  * Add contact information page with 3-4 edit pages to config/form - spread the
@@ -84,6 +86,7 @@ const profileContactInfo = ({
 
   // depends callback for contact info page
   depends = null,
+  contactInfoUiSchema = {},
 } = {}) => {
   const config = {};
   const wrapperProperties = {};
@@ -171,7 +174,7 @@ const profileContactInfo = ({
           content,
           keys,
         }),
-      uiSchema: {},
+      uiSchema: contactInfoUiSchema,
       schema: {
         type: 'object',
         properties: {
