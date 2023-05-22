@@ -1378,55 +1378,6 @@ $marker-text-width: 9rem;
   display: none;
 }
 
-@media all and (min-width: 30em) {
-  .usa-button {
-    width: auto;
-  }
-}
-.usa-button:visited {
-  color: $color-white;
-}
-.usa-button:hover,
-.usa-button.usa-button--hover {
-  color: $color-white;
-  background-color: $color-primary-darker;
-  border-bottom: 0;
-  text-decoration: none;
-}
-.usa-button:active,
-.usa-button.usa-button--active {
-  color: $color-white;
-  background-color: $color-primary-darker;
-}
-.usa-button:not([disabled]):focus,
-.usa-button:not([disabled]).usa-focus {
-  outline-offset: 0.25rem;
-}
-.usa-button:disabled,
-.usa-button[aria-disabled="true"] {
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  background-color: $color-gray-light;
-  color: $color-white;
-  cursor: auto;
-}
-.usa-button:disabled:hover,
-.usa-button:disabled.usa-button--hover,
-.usa-button:disabled:active,
-.usa-button:disabled.usa-button--active,
-.usa-button:disabled:focus,
-.usa-button:disabled.usa-focus,
-.usa-button[aria-disabled="true"]:hover,
-.usa-button[aria-disabled="true"].usa-button--hover,
-.usa-button[aria-disabled="true"]:active,
-.usa-button[aria-disabled="true"].usa-button--active,
-.usa-button[aria-disabled="true"]:focus,
-.usa-button[aria-disabled="true"].usa-focus {
-  background-color: $color-gray-light;
-  border: 0;
-  box-shadow: none;
-}
-
 .usa-button--outline {
   background-color: transparent;
   box-shadow: inset 0 0 0 2px $color-primary;
