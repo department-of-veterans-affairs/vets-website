@@ -1437,7 +1437,7 @@ $marker-text-width: 9rem;
 .usa-button--outline:hover,
 .usa-button--outline.usa-button--hover {
   background-color: transparent;
-  box-shadow: inset 0 0 0 2px $color-primary;
+  box-shadow: inset 0 0 0 2px $color-primary-darker;
   color: $color-primary-darker;
 }
 .usa-button--outline:active,

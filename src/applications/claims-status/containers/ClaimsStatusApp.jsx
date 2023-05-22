@@ -94,14 +94,15 @@ function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
       {isAppReady && (
         <>
           <div className="row">
-            <div className="usa-width-two-thirds medium-8 columns" />
-            {showFlipperOverrideControls && (
-              <VaButtonGroupSegmented
-                options={flipperOverrideModes}
-                selected={flipperOverrideMode}
-                onOptionClick={onOptionClick}
-              />
-            )}
+            <div className="usa-width-two-thirds medium-8 columns">
+              {showFlipperOverrideControls && (
+                <VaButtonGroupSegmented
+                  options={flipperOverrideModes}
+                  selected={flipperOverrideMode}
+                  onOptionClick={onOptionClick}
+                />
+              )}
+            </div>
           </div>
           {children}
         </>
