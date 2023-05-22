@@ -35,6 +35,14 @@ export default {
           pattern:
             'Your Veteran service number must start with 0, 1, or 2 letters followed by 5 to 8 digits',
         },
+        'ui:options': {
+          replaceSchema: () => {
+            return {
+              type: 'string',
+              pattern: '^[a-zA-Z]{0,2}\\d{5,8}$',
+            };
+          },
+        },
       },
     },
   },

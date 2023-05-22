@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import '../../sass/user-profile.scss';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import environment from '~/platform/utilities/environment';
+import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 import DebtNotification from './DebtNotification';
 import TestNotification from './TestNotification';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import { fetchNotifications } from '../../actions/notifications';
-import environment from '~/platform/utilities/environment';
-import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 
 const debtTemplateId = environment.isProduction()
   ? '7efc2b8b-e59a-4571-a2ff-0fd70253e973'

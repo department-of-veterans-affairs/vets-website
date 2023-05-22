@@ -21,8 +21,8 @@ const Copays = ({ setWizardStatus }) => {
           id="wizard-results"
         >
           <strong>
-            If you want to request debt forgiveness or a compromise offer for a
-            VA copay bill
+            If you want to request a waiver or compromise offer for a VA copay
+            bill
           </strong>
           , you can use our online Financial Status Report (VA Form 5655) to
           request help with your debt.

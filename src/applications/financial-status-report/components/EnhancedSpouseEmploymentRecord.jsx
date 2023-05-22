@@ -9,7 +9,6 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
 
 const defaultRecord = [
@@ -22,8 +21,10 @@ const defaultRecord = [
   },
 ];
 
+const RETURN_PATH = '/spouse-employment-history';
+
 const EmploymentRecord = props => {
-  const { data, goToPath, goBack, onReviewPage, setFormData } = props;
+  const { data, goToPath, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -31,10 +32,17 @@ const EmploymentRecord = props => {
 
   const index = isEditing ? Number(editIndex) : 0;
 
+  const {
+    personalData: {
+      employmentHistory: {
+        spouse: { employmentRecords = [] },
+      },
+    },
+  } = data;
+
   // if we have employment history and plan to edit, we need to get it from the employmentRecords
-  const specificRecord = data.personalData.employmentHistory.spouse
-    .employmentRecords
-    ? data.personalData.employmentHistory.spouse.employmentRecords[index]
+  const specificRecord = employmentRecords
+    ? employmentRecords[index]
     : defaultRecord[0];
 
   const [employmentRecord, setEmploymentRecord] = useState({
@@ -67,6 +75,10 @@ const EmploymentRecord = props => {
       // detail.value from va-select & target.value from va-text-input
       const value = event.detail?.value || target.value;
       handleChange(fieldName, value);
+    },
+    onCancel: event => {
+      event.preventDefault();
+      goToPath(RETURN_PATH);
     },
     handleDateChange: (key, monthYear) => {
       const dateString = `${monthYear}-XX`;
@@ -110,11 +122,9 @@ const EmploymentRecord = props => {
 
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
-      const updatedRecords = data.personalData.employmentHistory.spouse.employmentRecords.map(
-        (item, arrayIndex) => {
-          return arrayIndex === index ? employmentRecord : item;
-        },
-      );
+      const updatedRecords = employmentRecords.map((item, arrayIndex) => {
+        return arrayIndex === index ? employmentRecord : item;
+      });
       // update form data
       setFormData({
         ...data,
@@ -131,12 +141,7 @@ const EmploymentRecord = props => {
         },
       });
     } else {
-      const records = [
-        employmentRecord,
-        ...(data.personalData.employmentHistory.spouse.employmentRecords
-          ? data.personalData.employmentHistory.spouse.employmentRecords
-          : []),
-      ];
+      const records = [employmentRecord, ...(employmentRecords || [])];
 
       setFormData({
         ...data,
@@ -177,9 +182,6 @@ const EmploymentRecord = props => {
     }
   };
 
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
-
   return (
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
@@ -207,6 +209,19 @@ const EmploymentRecord = props => {
             <option value="Temporary">Temporary</option>
           </VaSelect>
         </div>
+        <div className="input-size-7 vads-u-margin-bottom--2">
+          <VaTextInput
+            className="no-wrap"
+            error={(submitted && nameError) || null}
+            id="employer-name"
+            label="Employer name"
+            name="employer-name"
+            onInput={handleEmployerNameChange}
+            required
+            type="text"
+            value={employerName || ''}
+          />
+        </div>
         <div className="vads-u-margin-top--3">
           <VaDate
             monthYearOnly
@@ -224,14 +239,6 @@ const EmploymentRecord = props => {
             error={fromDateError}
           />
         </div>
-        <Checkbox
-          name="current-employment"
-          label="My spouse currently works here"
-          checked={employmentRecord.isCurrent || false}
-          onValueChange={value =>
-            handlers.handleCheckboxChange('isCurrent', value)
-          }
-        />
         <div>
           <VaDate
             monthYearOnly
@@ -246,21 +253,33 @@ const EmploymentRecord = props => {
             // error={toDateError}
           />
         </div>
-        <div className="input-size-6 vads-u-margin-bottom--2">
-          <VaTextInput
-            className="no-wrap input-size-6"
-            error={(submitted && nameError) || null}
-            id="employer-name"
-            label="Employer name"
-            name="employer-name"
-            onInput={handleEmployerNameChange}
-            required
-            type="text"
-            value={employerName || ''}
-          />
-        </div>
+        <Checkbox
+          name="current-employment"
+          label="My spouse currently works here"
+          checked={employmentRecord.isCurrent || false}
+          onValueChange={value =>
+            handlers.handleCheckboxChange('isCurrent', value)
+          }
+        />
+        <p>
+          <button
+            type="button"
+            id="cancel"
+            className="usa-button-secondary vads-u-width--auto"
+            onClick={handlers.onCancel}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            id="submit"
+            className="vads-u-width--auto"
+            onClick={updateFormData}
+          >
+            {`${editIndex ? 'Update' : 'Add'} employment record`}
+          </button>
+        </p>
       </fieldset>
-      {onReviewPage ? updateButton : navButtons}
     </form>
   );
 };

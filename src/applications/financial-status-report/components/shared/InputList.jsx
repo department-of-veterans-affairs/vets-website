@@ -14,7 +14,7 @@ const InputList = ({
       {title && <legend className="schemaform-block-title">{title}</legend>}
       {prompt && <p>{prompt}</p>}
       {inputs?.map((input, key) => (
-        <div key={input.name + key}>
+        <div key={input.name + key} className="input-size-3">
           <va-number-input
             className="no-wrap input-size-3"
             error={
