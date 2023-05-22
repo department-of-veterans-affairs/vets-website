@@ -571,14 +571,16 @@ const formConfig = {
         adaptiveBenefits: {
           title: 'Automobile allowance and adaptive benefits',
           path: 'adaptive-benefits',
-          depends: formData => formData['view:ancillaryFormsWizard'],
+          depends: formData =>
+            formData['view:ancillaryFormsWizard'] && environment.isProduction(),
           uiSchema: adaptiveBenefits.uiSchema,
           schema: adaptiveBenefits.schema,
         },
         aidAndAttendance: {
           title: 'Aid and attendance benefits',
           path: 'aid-and-attendance',
-          depends: formData => formData['view:ancillaryFormsWizard'],
+          depends: formData =>
+            formData['view:ancillaryFormsWizard'] && environment.isProduction(),
           uiSchema: aidAndAttendance.uiSchema,
           schema: aidAndAttendance.schema,
         },
@@ -590,11 +592,11 @@ const formConfig = {
           uiSchema: individualUnemployability.uiSchema,
           schema: individualUnemployability.schema,
         },
-        ...createformConfig8940(),
         ancillaryFormsWizardSummary: {
           title: 'Summary of additional benefits',
           path: 'additional-disability-benefits-summary',
-          depends: ancillaryFormsWizardSummary.depends,
+          depends:
+            ancillaryFormsWizardSummary.depends && environment.isProduction(),
           uiSchema: ancillaryFormsWizardSummary.uiSchema,
           schema: ancillaryFormsWizardSummary.schema,
         },
@@ -758,6 +760,7 @@ const formConfig = {
           uiSchema: individualUnemployability.uiSchema,
           schema: individualUnemployability.schema,
         },
+        ...createformConfig8940(),
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',
           path: 'fully-developed-claim',
