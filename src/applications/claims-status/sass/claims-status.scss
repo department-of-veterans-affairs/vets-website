@@ -6,6 +6,8 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-tabs";
 
+@use "sass:math";
+
 .claim-list {
   margin-bottom: 2em;
 }
@@ -1240,4 +1242,386 @@ $marker-text-width: 9rem;
 }
 .stem-ad-list-item {
   padding-left: 14px;
+}
+
+// Default styles
+// .usa-button-group {
+//   @include u-margin-y(0);
+//   display: flex;
+//   flex-direction: column;
+//   flex-wrap: wrap;
+//   list-style-type: none;
+//   margin-left: units(-0.5);
+//   margin-right: units(-0.5);
+//   padding-left: 0;
+
+//   @include at-media("mobile-lg") {
+//     align-items: center;
+//     flex-direction: row;
+//   }
+// }
+
+// .usa-button-group__item {
+//   margin: units(0.5);
+
+//   &:last-child {
+//     @include at-media("mobile-lg") {
+//       margin-right: 0;
+//     }
+//   }
+
+//   .usa-button {
+//     margin-left: 0;
+//     margin-right: 0;
+//   }
+// }
+
+// // Segemented styles
+// .usa-button-group--segmented {
+//   flex-direction: row;
+//   flex-wrap: nowrap;
+//   justify-content: space-between;
+//   margin-left: 0;
+//   margin-right: 0;
+
+//   @include at-media("mobile-lg") {
+//     justify-content: flex-start;
+//   }
+
+//   .usa-button {
+//     position: relative;
+//     width: calc(100% + #{units($theme-button-stroke-width)});
+
+//     @include at-media("mobile-lg") {
+//       width: auto;
+//     }
+
+//     // Ensures edges are not cut off when interacting with outline buttons
+//     &:hover,
+//     &:active {
+//       z-index: 2;
+//     }
+
+//     &:focus {
+//       z-index: 3;
+//     }
+//   }
+
+//   .usa-button-group__item {
+//     margin-left: 0;
+//     margin-right: 0;
+//     width: 100%;
+
+//     @include at-media("mobile-lg") {
+//       width: auto;
+//     }
+
+//     &:first-child > .usa-button {
+//       border-top-right-radius: 0;
+//       border-bottom-right-radius: 0;
+//       margin-right: -(math.div(units($theme-button-stroke-width), 2));
+//     }
+
+//     &:last-child > .usa-button {
+//       border-top-left-radius: 0;
+//       border-bottom-left-radius: 0;
+//       margin-right: 0;
+//       margin-left: -(units($theme-button-stroke-width));
+//       width: calc(100% + #{units($theme-button-stroke-width)});
+
+//       @include at-media("mobile-lg") {
+//         margin-left: -(math.div(units($theme-button-stroke-width), 2));
+//         width: auto;
+//       }
+//     }
+
+//     &:where(:not(:first-child):not(:last-child)) > .usa-button {
+//       border-radius: 0;
+//       margin-right: -(math.div(units($theme-button-stroke-width), 2));
+//       margin-left: -(math.div(units($theme-button-stroke-width), 2));
+//     }
+
+//     // Creates separators
+//     &:where(:not(:last-child)) {
+//       .usa-button::before {
+//         border-right: 1px solid color("primary-dark");
+//         bottom: 0;
+//         content: "";
+//         display: block;
+//         height: 100%;
+//         position: absolute;
+//         right: 1px;
+//         top: 0;
+//         width: 1px;
+//         z-index: 3;
+//       }
+
+//       .usa-button--secondary::before {
+//         border-right-color: color("secondary-dark");
+//       }
+
+//       .usa-button--accent-cool::before {
+//         border-right-color: color("accent-cool-dark");
+//       }
+
+//       .usa-button--base::before {
+//         border-right-color: color("base-dark");
+//       }
+
+//       [class*="usa-button"]:disabled::before,
+//       [class*="usa-button"][aria-disabled="true"]::before {
+//         border-right-color: color($theme-body-background-color);
+//       }
+
+//       .usa-button:active::before,
+//       .usa-button--outline::before {
+//         display: none;
+//       }
+//     }
+//   }
+// }
+
+
+.usa-button-group{
+  margin-bottom: 0;
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  list-style-type: none;
+  margin-left: -0.25rem;
+  margin-right: -0.25rem;
+  padding-left: 0;
+}
+@media all and (min-width: 30em){
+  .usa-button-group{
+    align-items: center;
+    flex-direction: row;
+  }
+}
+
+.usa-button-group__item{
+  margin: 0.25rem;
+}
+@media all and (min-width: 30em){
+  .usa-button-group__item:last-child{
+    margin-right: 0;
+    margin-bottom: 0.25rem;
+  }
+}
+.usa-button-group__item .usa-button{
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.usa-button-group--segmented{
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  margin-left: 0;
+  margin-right: 0;
+}
+@media all and (min-width: 30em){
+  .usa-button-group--segmented{
+    justify-content: flex-start;
+  }
+}
+.usa-button-group--segmented .usa-button{
+  position: relative;
+  width: calc(100% + 2px);
+}
+@media all and (min-width: 30em){
+  .usa-button-group--segmented .usa-button{
+    width: auto;
+  }
+}
+.usa-button-group--segmented .usa-button:hover, .usa-button-group--segmented .usa-button:active{
+  z-index: 2;
+}
+.usa-button-group--segmented .usa-button:focus{
+  z-index: 3;
+}
+.usa-button-group--segmented .usa-button-group__item{
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+}
+@media all and (min-width: 30em){
+  .usa-button-group--segmented .usa-button-group__item{
+    width: auto;
+  }
+}
+.usa-button-group--segmented .usa-button-group__item:first-child > .usa-button{
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-right: -1px;
+}
+.usa-button-group--segmented .usa-button-group__item:last-child > .usa-button{
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-right: 0;
+  margin-left: -2px;
+  width: calc(100% + 2px);
+}
+@media all and (min-width: 30em){
+  .usa-button-group--segmented .usa-button-group__item:last-child > .usa-button{
+    margin-left: -1px;
+    width: auto;
+  }
+}
+.usa-button-group--segmented .usa-button-group__item:where(:not(:first-child):not(:last-child)) > .usa-button{
+  border-radius: 0;
+  margin-right: -1px;
+  margin-left: -1px;
+}
+.usa-button-group--segmented .usa-button-group__item:where(:not(:last-child)) .usa-button::before{
+  border-right: 1px solid $color-primary;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 100%;
+  position: absolute;
+  right: 1px;
+  top: 0;
+  width: 1px;
+  z-index: 3;
+}
+.usa-button-group--segmented .usa-button-group__item:where(:not(:last-child)) .usa-button--secondary::before{
+  border-right-color: $color-red;
+}
+.usa-button-group--segmented .usa-button-group__item:where(:not(:last-child)) .usa-button--accent-cool::before{
+  border-right-color: $color-primary;
+}
+.usa-button-group--segmented .usa-button-group__item:where(:not(:last-child)) .usa-button--base::before{
+  border-right-color: $color-gray;
+}
+.usa-button-group--segmented .usa-button-group__item:where(:not(:last-child)) [class*=usa-button]:disabled::before,
+.usa-button-group--segmented .usa-button-group__item:where(:not(:last-child)) [class*=usa-button][aria-disabled=true]::before{
+  border-right-color: $color-white;
+}
+.usa-button-group--segmented .usa-button-group__item:where(:not(:last-child)) .usa-button:active::before,
+.usa-button-group--segmented .usa-button-group__item:where(:not(:last-child)) .usa-button--outline::before{
+  display: none;
+}
+
+@media all and (min-width: 30em){
+  .usa-button{
+    width: auto;
+  }
+}
+.usa-button:visited{
+  color: $color-white;
+}
+.usa-button:hover, .usa-button.usa-button--hover{
+  color: $color-white;
+  background-color: $color-primary-darker;
+  border-bottom: 0;
+  text-decoration: none;
+}
+.usa-button:active, .usa-button.usa-button--active{
+  color: $color-white;
+  background-color: $color-primary-darker;
+}
+.usa-button:not([disabled]):focus, .usa-button:not([disabled]).usa-focus{
+  outline-offset: 0.25rem;
+}
+.usa-button:disabled, .usa-button[aria-disabled=true]{
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  background-color: $color-gray-light;
+  color: $color-white;
+  cursor: auto;
+}
+.usa-button:disabled:hover, .usa-button:disabled.usa-button--hover, .usa-button:disabled:active, .usa-button:disabled.usa-button--active, .usa-button:disabled:focus, .usa-button:disabled.usa-focus, .usa-button[aria-disabled=true]:hover, .usa-button[aria-disabled=true].usa-button--hover, .usa-button[aria-disabled=true]:active, .usa-button[aria-disabled=true].usa-button--active, .usa-button[aria-disabled=true]:focus, .usa-button[aria-disabled=true].usa-focus{
+  background-color: $color-gray-light;
+  border: 0;
+  box-shadow: none;
+}
+
+.usa-button--outline{
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px $color-primary;
+  color: $color-primary;
+}
+.usa-button--outline:visited{
+  color: $color-primary;
+}
+.usa-button--outline:hover, .usa-button--outline.usa-button--hover{
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px $color-primary;
+  color: $color-primary-darker;
+}
+.usa-button--outline:active, .usa-button--outline.usa-button--active{
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px $color-primary-darkest;
+  color: $color-primary-darkest;
+}
+.usa-button--outline.usa-button--inverse{
+  box-shadow: inset 0 0 0 2px $color-white;
+  color: $color-white;
+}
+.usa-button--outline.usa-button--inverse:visited{
+  color: $color-white;
+}
+.usa-button--outline.usa-button--inverse:hover, .usa-button--outline.usa-button--inverse.usa-button--hover{
+  box-shadow: inset 0 0 0 2px $color-white;
+  color: $color-white;
+}
+.usa-button--outline.usa-button--inverse:active, .usa-button--outline.usa-button--inverse.usa-button--active{
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px $color-white;
+  color: $color-white;
+}
+.usa-button--outline.usa-button--inverse.usa-button--unstyled{
+  -moz-osx-font-smoothing: inherit;
+  -webkit-font-smoothing: inherit;
+  color: $color-primary;
+  text-decoration: underline;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  color: $color-white;
+}
+.usa-button--outline.usa-button--inverse.usa-button--unstyled:visited{
+  color: $color-primary-darkest;
+}
+.usa-button--outline.usa-button--inverse.usa-button--unstyled:hover{
+  color: $color-primary-darker;
+}
+.usa-button--outline.usa-button--inverse.usa-button--unstyled:active{
+  color: $color-primary-darkest;
+}
+.usa-button--outline.usa-button--inverse.usa-button--unstyled:focus{
+  outline: 0.25rem solid $color-primary;
+  outline-offset: 0;
+}
+.usa-button--outline.usa-button--inverse.usa-button--unstyled:hover, .usa-button--outline.usa-button--inverse.usa-button--unstyled.usa-button--hover, .usa-button--outline.usa-button--inverse.usa-button--unstyled:disabled:hover, .usa-button--outline.usa-button--inverse.usa-button--unstyled[aria-disabled=true]:hover, .usa-button--outline.usa-button--inverse.usa-button--unstyled:disabled.usa-button--hover, .usa-button--outline.usa-button--inverse.usa-button--unstyled[aria-disabled=true].usa-button--hover, .usa-button--outline.usa-button--inverse.usa-button--unstyled.usa-button--disabled:hover, .usa-button--outline.usa-button--inverse.usa-button--unstyled.usa-button--disabled.usa-button--hover, .usa-button--outline.usa-button--inverse.usa-button--unstyled:active, .usa-button--outline.usa-button--inverse.usa-button--unstyled.usa-button--active, .usa-button--outline.usa-button--inverse.usa-button--unstyled:disabled:active, .usa-button--outline.usa-button--inverse.usa-button--unstyled[aria-disabled=true]:active, .usa-button--outline.usa-button--inverse.usa-button--unstyled:disabled.usa-button--active, .usa-button--outline.usa-button--inverse.usa-button--unstyled[aria-disabled=true].usa-button--active, .usa-button--outline.usa-button--inverse.usa-button--unstyled.usa-button--disabled:active, .usa-button--outline.usa-button--inverse.usa-button--unstyled.usa-button--disabled.usa-button--active, .usa-button--outline.usa-button--inverse.usa-button--unstyled:disabled:focus, .usa-button--outline.usa-button--inverse.usa-button--unstyled[aria-disabled=true]:focus, .usa-button--outline.usa-button--inverse.usa-button--unstyled:disabled.usa-focus, .usa-button--outline.usa-button--inverse.usa-button--unstyled[aria-disabled=true].usa-focus, .usa-button--outline.usa-button--inverse.usa-button--unstyled.usa-button--disabled:focus, .usa-button--outline.usa-button--inverse.usa-button--unstyled.usa-button--disabled.usa-focus, .usa-button--outline.usa-button--inverse.usa-button--unstyled:disabled, .usa-button--outline.usa-button--inverse.usa-button--unstyled[aria-disabled=true], .usa-button--outline.usa-button--inverse.usa-button--unstyled.usa-button--disabled{
+  -moz-osx-font-smoothing: inherit;
+  -webkit-font-smoothing: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  text-decoration: underline;
+}
+.usa-button--outline.usa-button--inverse.usa-button--unstyled.usa-button--hover{
+  color: $color-primary;
+}
+.usa-button--outline.usa-button--inverse.usa-button--unstyled.usa-button--active{
+  color: $color-primary-darker;
+}
+.usa-button--outline.usa-button--inverse.usa-button--unstyled:disabled, .usa-button--outline.usa-button--inverse.usa-button--unstyled[aria-disabled=true], .usa-button--outline.usa-button--inverse.usa-button--unstyled.usa-button--disabled{
+  color: $color-white;
+}
+.usa-button--outline.usa-button--inverse.usa-button--unstyled:visited{
+  color: $color-white;
+}
+.usa-button--outline.usa-button--inverse.usa-button--unstyled:hover, .usa-button--outline.usa-button--inverse.usa-button--unstyled.usa-button--hover{
+  color: $color-white;
+}
+.usa-button--outline.usa-button--inverse.usa-button--unstyled:active, .usa-button--outline.usa-button--inverse.usa-button--unstyled.usa-button--active{
+  color: $color-white;
 }
