@@ -42,6 +42,14 @@
     margin-bottom: 7px;
   }
 
+  .accordion-read::part(accordion-header) {
+    font-weight: 500;
+  }
+
+  .accordion-unread::part(accordion-header) {
+    font-weight: 700;
+  }
+
   .older-message {
     hr {
       border-width: 0.5px;

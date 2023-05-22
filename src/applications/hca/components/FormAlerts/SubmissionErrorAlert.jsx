@@ -55,6 +55,7 @@ const SubmissionErrorAlert = () => {
           aria-label="Download VA Form 10-10EZ - Opens in new window"
           target="_blank"
           rel="noopener noreferrer"
+          data-testid="hca-fillable-pdf-link"
         >
           <i
             className="fas fa-download vads-u-margin-right--1"

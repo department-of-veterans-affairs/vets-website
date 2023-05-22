@@ -2,7 +2,6 @@
 const chalk = require('chalk');
 
 // the next few functions are just for logging out messages
-// and should be moved to a separate util file at some point
 const warn = message => {
   console.log(chalk.hex('#FFA500')(message));
 };
@@ -26,10 +25,23 @@ const debug = message => {
   }
 };
 
+/**
+ * delays a response by a given amount of seconds
+ *
+ * @param {!function} cb - callback function to fire after delay
+ * @param {?number} delay - time to delay response in seconds (default: 3)
+ */
+const delaySingleResponse = (cb, delay = 3) => {
+  setTimeout(() => {
+    cb();
+  }, delay * 1000);
+};
+
 module.exports = {
   warn,
   error,
   info,
   success,
   debug,
+  delaySingleResponse,
 };

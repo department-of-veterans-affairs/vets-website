@@ -1,19 +1,29 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
-
 .search-form {
   background-color: var(--color-gray-lightest);
-  padding: 16px;
+  padding: 10px 16px;
+  margin-top: 24px;
+
+  h2 {
+    margin-top: 0;
+    font-size: 20px;
+    font-weight: 700;
+    font-style: normal;
+    letter-spacing: 0px;
+    text-align: left;
+    line-height: 26px;
+  }
 
   va-accordion {
     margin-left: -16px;
     width: 90%;
     @media (max-width: $small-screen) {
-    width: 106%;
+      width: 106%;
     }
   }
 
-  .filter-input-box-container  {
+  .filter-input-box-container {
     margin-top: -30px;
     position: relative;
     display: flex;
@@ -23,7 +33,6 @@
 
   .basic-filter-button-container {
     margin-top: -5px;
-
   }
   .filter-button {
     position: absolute;
@@ -39,7 +48,7 @@
     margin-bottom: 3.2px;
     border-radius: 0 5px 5px 0;
   }
-  .filter-text-input{
+  .filter-text-input {
     width: 70%;
     margin: 0px;
   }
@@ -51,7 +60,7 @@
   .custom-filter-button {
     @media (max-width: $small-screen) {
       width: 80%;
-      }
+    }
   }
 
   .advanced-search-field {
@@ -73,7 +82,6 @@
   }
   .headline-text {
     margin-left: -20px;
-
   }
 
   h3 {
@@ -85,10 +93,6 @@
     @media (min-width: $medium-screen) {
       margin: 0 0 24px;
     }
-  }
-  .filter-box{
-    margin-top: -10px;
-    margin-bottom: -20px;
   }
 
   .keyword-search-label {
@@ -185,7 +189,7 @@
   }
 }
 
-  .advanced-search-form {
+.advanced-search-form {
   background-color: var(--color-gray-lightest);
   margin-bottom: 0;
   padding: 0px;

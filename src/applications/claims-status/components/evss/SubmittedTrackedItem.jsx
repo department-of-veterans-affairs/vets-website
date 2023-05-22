@@ -2,11 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import {
-  truncateDescription,
-  hasBeenReviewed,
-  getItemDate,
-} from '../../utils/helpers';
+import { getItemDate, truncateDescription } from '../../utils/helpers';
+
+export function hasBeenReviewed(trackedItem) {
+  return (
+    trackedItem.type.startsWith('received_from') &&
+    trackedItem.status !== 'SUBMITTED_AWAITING_REVIEW'
+  );
+}
 
 export default function SubmittedTrackedItem({ item }) {
   const closed =

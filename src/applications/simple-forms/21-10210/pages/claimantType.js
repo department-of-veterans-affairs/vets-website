@@ -17,7 +17,11 @@ export default {
           switch (claimOwnership) {
             case CLAIM_OWNERSHIPS.SELF:
               title = (
-                <span className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
+                <span
+                  className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold"
+                  role="heading"
+                  aria-level="2"
+                >
                   Which of these descriptions best describes you?
                 </span>
               );
@@ -28,7 +32,11 @@ export default {
               break;
             case CLAIM_OWNERSHIPS.THIRD_PARTY:
               title = (
-                <span className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
+                <span
+                  className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold"
+                  role="heading"
+                  aria-level="2"
+                >
                   Which of these individuals are you submitting a statement for?
                 </span>
               );
@@ -39,7 +47,11 @@ export default {
               break;
             default:
               title = (
-                <span className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
+                <span
+                  className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold"
+                  role="heading"
+                  aria-level="2"
+                >
                   Claimant type:
                 </span>
               );

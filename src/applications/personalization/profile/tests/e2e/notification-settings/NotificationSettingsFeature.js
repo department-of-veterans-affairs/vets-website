@@ -39,6 +39,16 @@ class NotificationSettingsFeature {
       name: /^Do not notify me of Disability and pension deposit notifications by text/i,
     }).should(generateExistenceCheck(exists));
   };
+
+  confirmQuickSubmitNotificationSetting = ({ exists }) => {
+    cy.findByRole('radio', {
+      name: /^Notify me of QuickSubmit Upload Status by text/i,
+    }).should(generateExistenceCheck(exists));
+
+    cy.findByRole('radio', {
+      name: /^Do not notify me of QuickSubmit Upload Status by text/i,
+    }).should(generateExistenceCheck(exists));
+  };
 }
 
 export default new NotificationSettingsFeature();

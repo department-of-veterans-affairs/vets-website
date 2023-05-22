@@ -47,7 +47,7 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.ReplyToMessageId(messageDetails);
 
     messageDetails.data.attributes.body = messageDetailsBody;
-    messageDetailsPage.ReplyToMessagebody(messageDetailsBody);
+    messageDetailsPage.ReplyToMessagebody(testMessageBody);
 
     replyPage.sendReplyDraft(
       messageDetails.data.attributes.messageId,

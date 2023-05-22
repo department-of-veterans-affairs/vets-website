@@ -88,7 +88,7 @@ const formConfig = {
     },
   },
   title: 'Request help with VA debt for overpayments and copay bills',
-  subTitle: 'Financial Status Report',
+  subTitle: 'Financial Status Report (VA Form 5655)',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   customText: {
@@ -661,7 +661,8 @@ const formConfig = {
           schema: pages.dependentRecords.schemaEnhanced,
           depends: formData =>
             formData['view:enhancedFinancialStatusReport'] &&
-            formData.questions?.hasDependents,
+            formData.questions?.hasDependents &&
+            formData.questions.hasDependents !== '0',
           CustomPage: DependentAges,
           CustomPageReview: DependentAgesReview,
           editModeOnReviewPage: false,
@@ -963,38 +964,6 @@ const formConfig = {
             !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
-        installmentContracts: {
-          path: 'installment-contracts',
-          title: 'Installment Contracts',
-          uiSchema: pages.installmentContracts.uiSchema,
-          schema: pages.installmentContracts.schema,
-          depends: formData => formData['view:enhancedFinancialStatusReport'],
-        },
-        addEditInstallmentContract: {
-          path: 'your-installment-contracts',
-          title: 'Installment contracts',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-          depends: formData =>
-            formData.questions.hasRepayments &&
-            !formData.expenses?.installmentContracts?.length &&
-            formData['view:enhancedFinancialStatusReport'],
-          editModeOnReviewPage: true,
-          CustomPage: InstallmentContract,
-          CustomPageReview: null,
-        },
-        installmentContractSummary: {
-          path: 'installment-contracts-summary',
-          title: 'Installment contracts',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-          depends: formData =>
-            formData.questions.hasRepayments &&
-            formData['view:enhancedFinancialStatusReport'],
-          editModeOnReviewPage: true,
-          CustomPage: InstallmentContractSummary,
-          CustomPageReview: null,
-        },
         creditCardBills: {
           path: 'credit-card-bills',
           title: 'Credit card bills',
@@ -1025,6 +994,38 @@ const formConfig = {
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: CreditCardBillSummary,
+          CustomPageReview: null,
+        },
+        installmentContracts: {
+          path: 'installment-contracts',
+          title: 'Installment Contracts',
+          uiSchema: pages.installmentContracts.uiSchema,
+          schema: pages.installmentContracts.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        addEditInstallmentContract: {
+          path: 'your-installment-contracts',
+          title: 'Installment contracts',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasRepayments &&
+            !formData.expenses?.installmentContracts?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: InstallmentContract,
+          CustomPageReview: null,
+        },
+        installmentContractSummary: {
+          path: 'installment-contracts-summary',
+          title: 'Installment contracts',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.hasRepayments &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: InstallmentContractSummary,
           CustomPageReview: null,
         },
         otherExpenses: {

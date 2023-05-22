@@ -27,7 +27,9 @@ describe('Thread List Sort component', () => {
     const sortSelectDropdown = document.querySelector('va-select');
     const sortButton = document.querySelector('va-button');
 
-    expect(sortSelectDropdown.label).to.equal('Sort by');
+    expect(sortSelectDropdown.label).to.equal(
+      'Show conversations in this order',
+    );
     expect(sortSelectDropdown.value).to.equal('DESC');
     expect(sortButton.getAttribute('label')).to.equal('Sort');
 
@@ -48,7 +50,9 @@ describe('Thread List Sort component', () => {
     const sortSelectDropdown = document.querySelector('va-select');
     const sortButton = document.querySelector('va-button');
 
-    expect(sortSelectDropdown.label).to.equal('Sort by');
+    expect(sortSelectDropdown.label).to.equal(
+      'Show conversations in this order',
+    );
     expect(sortSelectDropdown.value).to.equal('DESC');
     expect(sortButton.getAttribute('label')).to.equal('Sort');
 
@@ -69,7 +73,9 @@ describe('Thread List Sort component', () => {
     const sortSelectDropdown = document.querySelector('va-select');
     const sortButton = document.querySelector('va-button');
 
-    expect(sortSelectDropdown.label).to.equal('Sort by');
+    expect(sortSelectDropdown.label).to.equal(
+      'Show conversations in this order',
+    );
     expect(sortSelectDropdown.value).to.equal('DESC');
     expect(sortButton.getAttribute('label')).to.equal('Sort');
 
@@ -90,7 +96,9 @@ describe('Thread List Sort component', () => {
     const sortSelectDropdown = document.querySelector('va-select');
     const sortButton = document.querySelector('va-button');
 
-    expect(sortSelectDropdown.label).to.equal('Sort by');
+    expect(sortSelectDropdown.label).to.equal(
+      'Show conversations in this order',
+    );
     expect(sortSelectDropdown.value).to.equal('DESC');
     expect(sortButton.getAttribute('label')).to.equal('Sort');
 
@@ -111,7 +119,9 @@ describe('Thread List Sort component', () => {
     const sortSelectDropdown = document.querySelector('va-select');
     const sortButton = document.querySelector('va-button');
 
-    expect(sortSelectDropdown.label).to.equal('Sort by');
+    expect(sortSelectDropdown.label).to.equal(
+      'Show conversations in this order',
+    );
     expect(sortSelectDropdown.value).to.equal('DESC');
     expect(sortButton.getAttribute('label')).to.equal('Sort');
 
