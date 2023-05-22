@@ -53,7 +53,8 @@ yarn config set "strict-ssl" false
 echo "Install, build, and watch vets-website"
 cd vets-website
 yarn install
-yarn watch --env buildtype=localhost --env api=http://vets-api-web:3004 &
+yarn build:webpack:local --env api=http://vets-api-web:3004
+# yarn watch --env buildtype=localhost --env api=http://vets-api-web:3004 &
 
 wait
 
