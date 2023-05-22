@@ -54,6 +54,7 @@ export default {
     witnessOtherRelationshipToClaimant: {
       'ui:title':
         'If your relationship with the Claimant is not listed, you can write it here (30 characters maximum)',
+      'ui:autocomplete': 'off',
       // '(* Required)' span hidden via styling
       'ui:required': formData =>
         !formData.witnessRelationshipToClaimant['served-with'] &&

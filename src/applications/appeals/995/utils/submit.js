@@ -259,6 +259,14 @@ export const getPhone = formData => {
     : {};
 };
 
+export const hasDuplicateLocation = (list, locationAndName, evidenceDates) =>
+  !!list.find(
+    ({ attributes }) =>
+      attributes.locationAndName === locationAndName &&
+      attributes.evidenceDates[0].startDate === evidenceDates.from &&
+      attributes.evidenceDates[0].endDate === evidenceDates.to,
+  );
+
 /**
  * Truncate long email addresses
  * @param {Veteran} veteran - Veteran formData object
@@ -333,22 +341,30 @@ export const getEvidence = formData => {
   // Add VA evidence data
   if (formData[EVIDENCE_VA] && formData.locations.length) {
     evidenceSubmission.evidenceType.push('retrieval');
-    evidenceSubmission.retrieveFrom = formData.locations.map(location => ({
-      type: 'retrievalEvidence',
-      attributes: {
-        // we're not including the issues here - it's only in the form to make
-        // the UX consistent with the private records location pages
-        locationAndName: location.locationAndName,
-        // Lighthouse wants between 1 and 4 evidenceDates, but we're only
-        // providing one
-        evidenceDates: [
-          {
-            startDate: fixDateFormat(location.evidenceDates.from),
-            endDate: fixDateFormat(location.evidenceDates.to),
-          },
-        ],
+    evidenceSubmission.retrieveFrom = formData.locations.reduce(
+      (list, { locationAndName, evidenceDates }) => {
+        if (!hasDuplicateLocation(list, locationAndName, evidenceDates)) {
+          list.push({
+            type: 'retrievalEvidence',
+            attributes: {
+              // we're not including the issues here - it's only in the form to make
+              // the UX consistent with the private records location pages
+              locationAndName,
+              // Lighthouse wants between 1 and 4 evidenceDates, but we're only
+              // providing one
+              evidenceDates: [
+                {
+                  startDate: fixDateFormat(evidenceDates.from),
+                  endDate: fixDateFormat(evidenceDates.to),
+                },
+              ],
+            },
+          });
+        }
+        return list;
       },
-    }));
+      [],
+    );
   }
   // additionalDocuments added in submit-transformer
   if (formData[EVIDENCE_OTHER] && formData.additionalDocuments.length) {

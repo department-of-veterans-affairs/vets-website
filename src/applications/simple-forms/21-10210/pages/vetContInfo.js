@@ -15,6 +15,7 @@ export default {
   uiSchema: {
     veteranPhone: {
       'ui:title': 'Phone number',
+      'ui:autocomplete': 'tel-national',
     },
     veteranEmail: {
       ...partialEmailUi,
