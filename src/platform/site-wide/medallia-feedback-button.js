@@ -83,11 +83,17 @@ window.addEventListener('DOMContentLoaded', () => {
       if (mutation.addedNodes.length > 0) {
         const addedNode = mutation.addedNodes[0];
         if (addedNode.id === 'MDigitalLightboxWrapper') {
+          // eslint-disable-next-line no-console
+          console.log('MDigitalLightboxWrapper found!');
           const medalliaForm = addedNode.querySelector('.modal-live-form');
           if (medalliaForm) {
-            const vclNumber = document.querySelector(
-              '#liveForm > div > div.live-form-content > div.modal-live-form.ng-scope > div > div > div:nth-child(1) > div > div > p > ul > li:nth-child(1) > span',
-            );
+            const vclNumber = document
+              .querySelector('.modal-live-form')
+              .querySelector('.pageRepeater')
+              .querySelector('.neb-component')
+              .querySelector('ul')
+              .querySelector('li:nth-child(1)')
+              .querySelector('span');
             // eslint-disable-next-line no-console
             console.log('Medallia form found!');
             addAriaLabel(vclNumber);
