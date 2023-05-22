@@ -12,32 +12,40 @@ import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import VaButtonGroupSegmented from '../components/VaButtonGroupSegmented';
 import { isLoadingFeatures } from '../selectors';
 
+const flipperOverrideModes = [
+  { label: 'EVSS', value: 'evss' },
+  { label: 'Lighthouse', value: 'lighthouse' },
+  { label: 'Feature toggle', value: 'featureToggle' },
+];
+
+const shouldShowFlipperOverride = showFlipperOverride => {
+  const canShow = !environment.isProduction();
+  const shouldShow = showFlipperOverride;
+  return canShow && shouldShow;
+};
+
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
 function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
   const canUseApp =
     isDataAvailable === true || typeof isDataAvailable === 'undefined';
   const isAppReady = canUseApp && !featureFlagsLoading;
-  const defaultFlipperOverride =
-    sessionStorage.getItem('cstFlipperOverride') || 'featureToggle';
+
+  // Mode to use when overriding feature toggle
+  // Options are: evss, lighthouse, featureToggle
+  const defaultFlipperOverrideMode =
+    sessionStorage.getItem('cstFlipperOverrideMode') || 'featureToggle';
+  const [flipperOverrideMode, setFlipperOverrideMode] = useState(
+    defaultFlipperOverrideMode,
+  );
+
+  // Whether flipper override controls should be shown or not
+  // Can be toggled with key combination: Ctrl + Shift + k
   const defaultShowFlipperOverrideState =
     sessionStorage.getItem('showFlipperOverride') === 'true' || false;
-  const [selectedOption, setSelectedOption] = useState(defaultFlipperOverride);
   const [showFlipperOverride, setShowFlipperOverride] = useState(
     defaultShowFlipperOverrideState,
   );
-
-  const buttons = [
-    { label: 'EVSS', value: 'evss' },
-    { label: 'Lighthouse', value: 'lighthouse' },
-    { label: 'Feature toggle', value: 'featureToggle' },
-  ];
-
-  const canShowFlipperOverride = () => {
-    const canShow = !environment.isProduction();
-    const shouldShow = showFlipperOverride;
-    return canShow && shouldShow;
-  };
 
   const handleKeydown = event => {
     // `metaKey` is associated with the 'Command' key on macOS
@@ -61,8 +69,8 @@ function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
   }, []);
 
   const onOptionClick = option => {
-    setSelectedOption(option);
-    sessionStorage.setItem('cstFlipperOverride', option);
+    setFlipperOverrideMode(option);
+    sessionStorage.setItem('cstFlipperOverrideMode', option);
   };
 
   if (!isAppReady) {
@@ -76,6 +84,10 @@ function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
     );
   }
 
+  const showFlipperOverrideControls = shouldShowFlipperOverride(
+    showFlipperOverride,
+  );
+
   return (
     <div className="claims-status-content">
       {!canUseApp && <ClaimsAppealsUnavailable />}
@@ -83,10 +95,10 @@ function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
         <>
           <div className="row">
             <div className="usa-width-two-thirds medium-8 columns" />
-            {canShowFlipperOverride() && (
+            {showFlipperOverrideControls && (
               <VaButtonGroupSegmented
-                options={buttons}
-                selected={selectedOption}
+                options={flipperOverrideModes}
+                selected={flipperOverrideMode}
                 onOptionClick={onOptionClick}
               />
             )}
