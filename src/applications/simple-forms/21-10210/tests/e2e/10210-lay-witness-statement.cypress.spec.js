@@ -5,7 +5,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
+import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import { getSignerFullName } from './helpers';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 
@@ -47,9 +47,6 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
-      // Log in if the form requires an authenticated session.
-      // cy.login();
-
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     },
