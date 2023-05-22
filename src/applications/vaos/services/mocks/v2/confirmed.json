@@ -1293,7 +1293,7 @@
         "start": "2023-06-22T13:00:00Z",
         "end": "2023-06-22T14:00:00Z",
         "created": "2023-03-17T00:00:00Z",
-        "cancellable": true,
+        "cancellable": false,
         "extension": {
           "ccLocation": {
             "address": {}
