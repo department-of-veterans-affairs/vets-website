@@ -214,3 +214,24 @@
   background-color: $color-blue !important;
   margin-right: 10px !important
 }
+
+// header styling
+a {
+  cursor: pointer;
+  text-decoration: underline;
+  color: color-link-default !important;
+  text-decoration: underline;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  transition-property: color, background-color, border-color;
+}
+
+.modal-live-form .ng-scope>div>div>div>p>ul {
+  padding: 0 0 0 1.5em !important;
+  list-style: square !important;
+}
+
+.modal-live-form .ng-scope>div>div>div>p>ul>li {
+  line-height: 1.5 !important;
+  margin-bottom: 0.5em !important;
+}
