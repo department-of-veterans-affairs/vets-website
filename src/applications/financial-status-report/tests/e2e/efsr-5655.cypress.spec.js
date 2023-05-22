@@ -16,7 +16,6 @@ Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
-    skip: true,
     dataPrefix: 'data',
     dataSets: ['efsr-maximal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
@@ -226,7 +225,9 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('1500');
-          cy.get('.usa-button-primary').click();
+          cy.findAllByText(/Add vehicle/i, { selector: 'button' })
+            .first()
+            .click({ waitForAnimations: true });
         });
       },
       'vehicles-summary': ({ afterHook }) => {
@@ -465,7 +466,11 @@ const testConfig = createTestConfig(
       },
       'resolution-comment/0': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`#root_resolutionComment`).type('10.00');
+          cy.get('[data-testid="resolution-amount"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('10.00');
           cy.get('.usa-button-primary').click();
         });
       },

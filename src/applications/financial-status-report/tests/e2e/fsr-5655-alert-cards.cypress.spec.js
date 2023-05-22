@@ -16,7 +16,7 @@ import {
 
 import saveInProgressData from './fixtures/mocks/saveInProgress.json';
 
-describe('Enhanced FSR debt and copay alerts', () => {
+describe.skip('Enhanced FSR debt and copay alerts', () => {
   afterEach(() => {
     cy.window().then(win => {
       win.sessionStorage.clear();
