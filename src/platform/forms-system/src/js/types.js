@@ -33,7 +33,7 @@
  * @property {string} [formId]
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]
- * @property {(props: any) => any} [introduction]
+ * @property {React.ReactNode | (props: any) => any} [introduction]
  * @property {Array<Function>} [migrations]
  * @property {(formConfig: any) => void} [onFormLoaded]
  * @property {boolean} [prefillEnabled]
@@ -91,6 +91,16 @@
  */
 
 /**
+ * Add this to a union so that the literal types are not enforced
+ * but we will still get intellisense for the union type.
+ * (since all existing definitions will be interpretted as strings)
+ *
+ * This is a common TypeScript trick when you have a union + any string
+ * {} defaults to mostly everything for types, including string
+ * @typedef {string & {}} OrAnyString
+ */
+
+/**
  * @typedef {Object} PreSubmitInfo
  * @property {(props: any) => JSX.Element} [CustomComponent]
  * @property {string} [error]
@@ -112,7 +122,7 @@
 /**
  * @typedef {Object} StatementOfTruth
  * @property {string | JSX.Element} [body]
- * @property {string} [fullNamePath] - defaults to 'veteran.fullName'
+ * @property {string | (formData) => string} [fullNamePath] - defaults to 'veteran.fullName'
  * @property {string} [heading] - defaults to 'Statement of truth'
  * @property {string} [messageAriaDescribedby] - defaults to 'Statement of truth'
  * @property {string} [textInputLabel] - defaults to 'Your full name'
@@ -167,9 +177,9 @@
  *   'ui:title'?: string | JSX.Element,
  *   'ui:validations'?: Array<((errors, value) => void)>,
  *   'ui:webComponentField'?: (props: any) => JSX.Element,
- *   'ui:widget'?: 'yesNo' | 'checkbox' | 'radio' | 'select' | 'email' | 'date' | 'textarea' | ((props: any) => JSX.Element),
- * } | {
- *  [key: string]: UISchemaOptions
+ *   'ui:widget'?: 'yesNo' | 'checkbox' | 'radio' | 'select' | 'email' | 'date' | 'textarea'  | OrAnyString | ((props: any) => JSX.Element),
+ * } & {
+ *  [key: string]: UISchemaOptions | {}
  * }} UISchemaOptions
  */
 
@@ -224,20 +234,21 @@
  * @typedef {{
  *   $ref?: string,
  *   default?: string,
- *   enum?: string[],
+ *   enum?: string[] | boolean[],
  *   enumNames?: string[],
- *   format?: 'email' | 'date' | 'date-time' | 'uri' | 'data-url',
+ *   format?: 'email' | 'date' | 'date-time' | 'uri' | 'data-url' | OrAnyString,
  *   items?: SchemaOptions,
  *   maxLength?: number,
  *   minItems?: number,
  *   maxItems?: number,
  *   minLength?: number,
+ *   oneOf?: SchemaOptions[],
  *   pattern?: string,
  *   properties?: Record<string, SchemaOptions>,
  *   required?: string[],
- *   type?: 'string' | 'number' | 'integer' | 'boolean' | 'object' | 'array',
+ *   type?: 'string' | 'number' | 'integer' | 'boolean' | 'object' | 'array' | OrAnyString,
  *   uniqueItems?: boolean,
- * } | {
- *   [key: string]: SchemaOptions
+ * } & {
+ *   [key: string]: SchemaOptions | {}
  * }} SchemaOptions
  */

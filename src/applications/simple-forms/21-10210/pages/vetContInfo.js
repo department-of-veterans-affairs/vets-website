@@ -10,6 +10,7 @@ import { CLAIMANT_TYPES, CLAIM_OWNERSHIPS } from '../definitions/constants';
 
 const partialEmailUi = omit(emailUI(), ['ui:title', 'ui:options']);
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     veteranPhone: {

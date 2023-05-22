@@ -1,3 +1,4 @@
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:title': 'Please indicate the claimed issue that you are addressing',
