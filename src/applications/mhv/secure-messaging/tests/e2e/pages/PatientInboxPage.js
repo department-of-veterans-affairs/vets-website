@@ -350,5 +350,25 @@ class PatientInboxPage {
       mockFolders,
     ).as('folders');
   };
+
+  openAdvancedSearch = () => {
+    cy.get('#first').click();
+  };
+
+  selectAdvancedSearchCategory = () => {
+    cy.get('#category-dropdown')
+      .find('#select')
+      .select('COVID');
+  };
+
+  selectAdvancedSearchCategoryCustomFolder = () => {
+    cy.get('#category-dropdown')
+      .find('#select')
+      .select('Medication');
+  };
+
+  submitSearchButton = () => {
+    cy.get('[data-testid="filter-messages-button"]').click();
+  };
 }
 export default PatientInboxPage;

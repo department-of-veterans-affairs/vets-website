@@ -1,7 +1,12 @@
 // eslint-disable-next-line no-restricted-imports
 import { merge } from 'lodash';
-import set from '../../utilities/data/set';
 
+import createSchemaFormReducer from 'platform/forms-system/src/js/state';
+import {
+  createInitialState,
+  recalculateSchemaAndData,
+} from 'platform/forms-system/src/js/state/helpers';
+import reducers from 'platform/forms-system/src/js/state/reducers';
 import {
   SET_SAVE_FORM_STATUS,
   SET_AUTO_SAVE_FORM_STATUS,
@@ -15,18 +20,12 @@ import {
   PREFILL_STATUSES,
   saveErrors,
 } from './actions';
-
-import createSchemaFormReducer from 'platform/forms-system/src/js/state';
-import {
-  createInitialState,
-  recalculateSchemaAndData,
-} from 'platform/forms-system/src/js/state/helpers';
-import reducers from 'platform/forms-system/src/js/state/reducers';
+import set from '../../utilities/data/set';
 
 export const saveInProgressReducers = {
   [SET_SAVE_FORM_STATUS]: (state, action) => {
     const newState = set('savedStatus', action.status, state);
-    newState.startingOver = false;
+    newState.isStartingOver = false;
     newState.prefillStatus = PREFILL_STATUSES.notAttempted;
 
     if (action.status === SAVE_STATUSES.success) {
@@ -98,22 +97,23 @@ export const saveInProgressReducers = {
 
     return recalculateSchemaAndData(newState);
   },
-  [SET_START_OVER]: state =>
-    Object.assign({}, state, {
-      isStartingOver: true,
-      data: state.initialData,
-      loadedStatus: LOAD_STATUSES.pending,
-    }),
-  [SET_PREFILL_UNFILLED]: state =>
-    Object.assign({}, state, {
-      prefillStatus: PREFILL_STATUSES.unfilled,
-      data: state.initialData,
-      loadedStatus: LOAD_STATUSES.notAttempted,
-    }),
+  [SET_START_OVER]: state => ({
+    ...state,
+    isStartingOver: true,
+    data: state.initialData,
+    loadedStatus: LOAD_STATUSES.pending,
+  }),
+  [SET_PREFILL_UNFILLED]: state => ({
+    ...state,
+    prefillStatus: PREFILL_STATUSES.unfilled,
+    data: state.initialData,
+    loadedStatus: LOAD_STATUSES.notAttempted,
+  }),
 };
 
 export function createSaveInProgressInitialState(formConfig, initialState) {
-  return Object.assign({}, initialState, {
+  return {
+    ...initialState,
     initialData: initialState.data,
     savedStatus: SAVE_STATUSES.notAttempted,
     autoSavedStatus: SAVE_STATUSES.notAttempted,
@@ -133,7 +133,7 @@ export function createSaveInProgressInitialState(formConfig, initialState) {
     prefillTransformer: formConfig.prefillTransformer,
     trackingPrefix: formConfig.trackingPrefix,
     additionalRoutes: formConfig.additionalRoutes,
-  });
+  };
 }
 
 export function createSaveInProgressFormReducer(formConfig) {
@@ -141,7 +141,7 @@ export function createSaveInProgressFormReducer(formConfig) {
   let initialState = createInitialState(formConfig);
 
   if (!formConfig.disableSave) {
-    formReducers = Object.assign({}, formReducers, saveInProgressReducers);
+    formReducers = { ...formReducers, ...saveInProgressReducers };
     initialState = createSaveInProgressInitialState(formConfig, initialState);
   }
 
