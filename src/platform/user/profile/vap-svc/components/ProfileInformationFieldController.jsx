@@ -12,7 +12,10 @@ import { isFieldEmpty } from 'applications/personalization/profile/util';
 import getProfileInfoFieldAttributes from 'applications/personalization/profile/util/getProfileInfoFieldAttributes';
 
 import { isVAPatient } from '@department-of-veterans-affairs/platform-user/selectors';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  focusElement,
+  waitForRenderThenFocus,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
@@ -127,7 +130,8 @@ class ProfileInformationFieldController extends React.Component {
           successCallback();
         }
       } else {
-        focusElement(`#${getEditButtonId(fieldName)}`);
+        // focusElement did not work here on iphone or safari, so using waitForRenderThenFocus
+        waitForRenderThenFocus(`#${getEditButtonId(fieldName)}`, document, 50);
       }
     } else if (
       forceEditView &&

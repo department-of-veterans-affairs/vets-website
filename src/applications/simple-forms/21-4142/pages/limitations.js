@@ -14,10 +14,10 @@ export default {
       'ui:description': (
         <p>
           If you want to limit what we can request from the private medical
-          provider(s), describe the limits here (for example, you want the
-          doctor to release only treatment dates or certain types of
-          disabilities). It may take us longer to get the private medical
-          records if you limit consent.
+          providers, describe the limits here. For example, you may want the
+          provider to release only treatment dates or certain types of
+          disabilities. If you limit consent, it may take us longer to get the
+          private medical records.
         </p>
       ),
       'ui:widget': 'textarea',

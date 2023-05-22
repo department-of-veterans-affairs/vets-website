@@ -1,6 +1,7 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     claimantSSN: ssnUI,
