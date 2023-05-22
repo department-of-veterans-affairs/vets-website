@@ -26,5 +26,6 @@ describe('autosave Reply draft with attachment', () => {
     cy.axeCheck();
     composePage.attachMessageFromFile('test_image.gif');
     replyPage.autosaveReplyDraft(messageDetails, testMessageBody);
+    cy.contains('Your message was saved');
   });
 });
