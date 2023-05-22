@@ -1274,6 +1274,7 @@ $marker-text-width: 9rem;
 .usa-button-group__item .usa-button {
   margin-left: 0;
   margin-right: 0;
+  white-space: nowrap;
 }
 
 .usa-button-group--segmented {
