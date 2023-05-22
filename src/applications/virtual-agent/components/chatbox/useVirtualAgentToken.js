@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { apiRequest } from 'platform/utilities/api';
 import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
+import axios from 'axios';
 import retryOnce from './retryOnce';
 import { COMPLETE, ERROR, LOADING } from './loadingStatus';
 import {
@@ -9,6 +10,8 @@ import {
   CONVERSATION_ID_KEY,
   TOKEN_KEY,
 } from './utils';
+
+const JWT_TOKEN = 'JWT_TOKEN';
 
 function useWaitForCsrfToken(props) {
   // Once the feature toggles have loaded, the csrf token updates
@@ -37,7 +40,7 @@ export default function useVirtualAgentToken(props) {
   const [apiSession, setApiSession] = useState('');
   const [csrfTokenLoading, csrfTokenLoadingError] = useWaitForCsrfToken(props);
   const [loadingStatus, setLoadingStatus] = useState(LOADING);
-
+  const shouldFetchJwtToken = props.virtualAgentFetchJwtToken;
   useEffect(
     () => {
       if (csrfTokenLoadingError) {
@@ -54,11 +57,27 @@ export default function useVirtualAgentToken(props) {
       clearBotSessionStorage();
 
       async function getToken() {
+        const fetchJwtTokenAndSaveToSessionStorage = async () => {
+          try {
+            const JwtResponse = await axios.get(
+              'https://sqa.eauth.va.gov/MAP/users/v2/session/jwt',
+              { withCredentials: true },
+            );
+            sessionStorage.setItem(JWT_TOKEN, JwtResponse.data);
+          } catch (error) {
+            sessionStorage.setItem(JWT_TOKEN, error.message);
+          }
+        };
+
         try {
           const response = await retryOnce(callVirtualAgentTokenApi);
 
           sessionStorage.setItem(CONVERSATION_ID_KEY, response.conversationId);
           sessionStorage.setItem(TOKEN_KEY, response.token);
+
+          if (shouldFetchJwtToken) {
+            await fetchJwtTokenAndSaveToSessionStorage();
+          }
 
           setToken(response.token);
           setApiSession(response.apiSession);

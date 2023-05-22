@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import { useSelector } from 'react-redux';
+import { useSelector, connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import ChatbotError from '../chatbot-error/ChatbotError';
 import useWebChatFramework from './useWebChatFramework';
@@ -58,10 +60,15 @@ function showBot(
     );
   }
 
-  return <App timeout={props.timeout || minute} />;
+  return (
+    <App
+      timeout={props.timeout || minute}
+      virtualAgentFetchJwtToken={props.virtualAgentFetchJwtToken}
+    />
+  );
 }
 
-export default function Chatbox(props) {
+function Chatbox(props) {
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
   const isAccepted = useSelector(state => state.virtualAgentData.termsAccepted);
   const [isAuthTopic, setIsAuthTopic] = useState(false);
@@ -139,7 +146,7 @@ function App(props) {
     case ERROR:
       return <ChatbotError />;
     case LOADING:
-      return <LoadingIndicator message="Loading Chatbot" />;
+      return <va-loading-indicator message="Loading Chatbot" />;
     case COMPLETE:
       return (
         <WebChat
@@ -152,3 +159,18 @@ function App(props) {
       throw new Error(`Invalid loading status: ${loadingStatus}`);
   }
 }
+
+useVirtualAgentToken.propTypes = {
+  virtualAgentFetchJwtToken: PropTypes.bool,
+};
+
+const fetchVirtualAgentJwtToken = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.virtualAgentFetchJwtToken];
+
+// const virtualAgentFetchJwtToken = () => true;
+
+const mapStateToProps = state => ({
+  virtualAgentFetchJwtToken: fetchVirtualAgentJwtToken(state),
+});
+
+export default connect(mapStateToProps)(Chatbox);
