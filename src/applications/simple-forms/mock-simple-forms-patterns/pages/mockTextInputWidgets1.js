@@ -1,24 +1,24 @@
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
-  emailUI,
+  emailUI as emailOldUI,
   ssnUI,
 } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import {
   ssnUI as ssnNewUI,
   ssnSchema as ssnNewSchema,
-} from 'platform/forms-system/src/js/web-component-patterns/ssnPattern';
-import {
   titleSchema,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+  emailUI,
+  emailSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     rjsf: titleUI('RJSF'),
     emailOld: {
-      ...emailUI(),
+      ...emailOldUI(),
       'ui:title': 'TextWidget - emailUI',
     },
     phoneOld: phoneUI('TextWidget - phoneUI'),
@@ -30,7 +30,7 @@ export default {
       classNames: 'vads-u-margin-top--4',
     }),
     emailNew: {
-      ...emailUI(),
+      ...emailOldUI(),
       'ui:title': 'VaTextInputField - emailUI',
       'ui:webComponentField': VaTextInputField,
     },
@@ -42,14 +42,7 @@ export default {
     wcv3: titleUI('Web component v3', {
       classNames: 'vads-u-margin-top--4',
     }),
-    emailNewV3: {
-      ...emailUI(),
-      'ui:title': 'VaTextInputField - emailUI',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        uswds: true,
-      },
-    },
+    emailNewV3: emailUI(null, true),
     phoneNewV3: {
       ...phoneUI('VaTextInputField - phoneUI'),
       'ui:webComponentField': VaTextInputField,
@@ -91,10 +84,7 @@ export default {
       },
       ssnNew: ssnNewSchema(),
       wcv3: titleSchema(),
-      emailNewV3: {
-        type: 'string',
-        pattern: '^\\S+@\\S+$',
-      },
+      emailNewV3: emailSchema,
       phoneNewV3: {
         type: 'string',
         minLength: 10,
