@@ -1,5 +1,3 @@
-import cloanDeep from 'lodash/cloneDeep';
-
 import { CLAIMANT_TYPES, CLAIM_OWNERSHIPS } from '../definitions/constants';
 
 export default {
@@ -10,12 +8,13 @@ export default {
         hideIf: formData => formData.claimOwnership === undefined,
         updateSchema: (formData, schema, uiSchema) => {
           const { claimOwnership } = formData;
-          const uiSchemaCopy = cloanDeep(uiSchema);
+          let labels = { veteran: 'Veteran', 'non-veteran': 'Non-Veteran' };
           let title;
+
           switch (claimOwnership) {
             case CLAIM_OWNERSHIPS.SELF:
               title = 'Which of these descriptions best describes you?';
-              uiSchemaCopy['ui:options'].labels = {
+              labels = {
                 veteran: 'I’m a Veteran',
                 'non-veteran': 'I’m a non-Veteran claimant',
               };
@@ -23,7 +22,7 @@ export default {
             case CLAIM_OWNERSHIPS.THIRD_PARTY:
               title =
                 'Which of these individuals are you submitting a statement for?';
-              uiSchemaCopy['ui:options'].labels = {
+              labels = {
                 veteran: 'A Veteran',
                 'non-veteran': 'A non-Veteran claimant',
               };
@@ -32,9 +31,12 @@ export default {
               title = 'Claimant type:';
           }
 
+          // eslint-disable-next-line no-param-reassign
+          uiSchema['ui:options'].labels = labels;
+
           return {
             title,
-            uiSchemaCopy,
+            uiSchema,
           };
         },
         labels: {
