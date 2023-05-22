@@ -1,10 +1,10 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import FormFooter from 'platform/forms/components/FormFooter';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
