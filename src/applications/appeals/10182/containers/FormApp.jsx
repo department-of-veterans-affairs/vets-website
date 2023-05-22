@@ -35,7 +35,6 @@ export const FormApp = ({
   showNod,
   location,
   children,
-  profile,
   formData,
   setFormData,
   getContestableIssues,
@@ -79,14 +78,10 @@ export const FormApp = ({
   useEffect(
     () => {
       if (showNod && loggedIn) {
-        const { veteran = {} } = formData || {};
         const areaOfDisagreement = getSelected(formData);
         if (!contestableIssues?.status) {
           getContestableIssues();
         } else if (
-          email?.emailAddress !== veteran.email ||
-          mobilePhone?.updatedAt !== veteran.phone?.updatedAt ||
-          mailingAddress?.updatedAt !== veteran.address?.updatedAt ||
           issuesNeedUpdating(
             contestableIssues?.issues,
             formData.contestableIssues,
@@ -94,12 +89,6 @@ export const FormApp = ({
         ) {
           setFormData({
             ...formData,
-            veteran: {
-              ...veteran,
-              address: mailingAddress,
-              phone: mobilePhone,
-              email: email?.emailAddress,
-            },
             contestableIssues: processContestableIssues(
               contestableIssues?.issues,
             ),
@@ -126,9 +115,6 @@ export const FormApp = ({
     [
       showNod,
       loggedIn,
-      email,
-      mobilePhone,
-      mailingAddress,
       formData,
       setFormData,
       contestableIssues,
