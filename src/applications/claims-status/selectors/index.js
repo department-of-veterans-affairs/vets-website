@@ -11,9 +11,9 @@ export const showClaimLettersFeature = state =>
 
 // 'cst_use_lighthouse'
 export const cstUseLighthouse = state => {
-  const cstFlipperOverride = sessionStorage.getItem('cstFlipperOverride');
-  if (cstFlipperOverride) {
-    switch (cstFlipperOverride) {
+  const flipperOverrideMode = sessionStorage.getItem('cstFlipperOverrideMode');
+  if (flipperOverrideMode) {
+    switch (flipperOverrideMode) {
       case 'featureToggle':
         break;
       case 'evss':

@@ -47,20 +47,20 @@ function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
     defaultShowFlipperOverrideState,
   );
 
-  const handleKeydown = event => {
-    // `metaKey` is associated with the 'Command' key on macOS
-    const ctrlPressed = event.ctrlKey || event.metaKey;
-
-    if (ctrlPressed && event.shiftKey && event.key === 'k') {
-      setShowFlipperOverride(prevState => {
-        const nextState = !prevState;
-        sessionStorage.setItem('showFlipperOverride', nextState);
-        return nextState;
-      });
-    }
-  };
-
   useEffect(() => {
+    const handleKeydown = event => {
+      // `metaKey` is associated with the 'Command' key on macOS
+      const ctrlPressed = event.ctrlKey || event.metaKey;
+
+      if (ctrlPressed && event.shiftKey && event.key === 'k') {
+        setShowFlipperOverride(prevState => {
+          const nextState = !prevState;
+          sessionStorage.setItem('showFlipperOverride', nextState);
+          return nextState;
+        });
+      }
+    };
+
     document.addEventListener('keydown', handleKeydown);
 
     return () => {
