@@ -8,6 +8,7 @@ export default {
   uiSchema: {
     witnessPhone: {
       'ui:title': 'Phone number',
+      'ui:autocomplete': 'tel-national',
     },
     witnessEmail: emailUI(
       <span>
