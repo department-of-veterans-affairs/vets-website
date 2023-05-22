@@ -1,9 +1,8 @@
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
   emailUI as emailOldUI,
   ssnUI,
 } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import phoneOldUI from 'platform/forms-system/src/js/definitions/phone';
 import {
   ssnUI as ssnNewUI,
   ssnSchema as ssnNewSchema,
@@ -11,6 +10,8 @@ import {
   titleUI,
   emailUI,
   emailSchema,
+  phoneSchema,
+  phoneUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
@@ -21,7 +22,7 @@ export default {
       ...emailOldUI(),
       'ui:title': 'TextWidget - emailUI',
     },
-    phoneOld: phoneUI('TextWidget - phoneUI'),
+    phoneOld: phoneOldUI('TextWidget - phoneUI'),
     ssnOld: {
       ...ssnUI(),
       'ui:title': 'TextWidget - ssnUI',
@@ -30,37 +31,34 @@ export default {
       classNames: 'vads-u-margin-top--4',
     }),
     emailNew: {
-      ...emailOldUI(),
-      'ui:title': 'VaTextInputField - emailUI',
-      'ui:webComponentField': VaTextInputField,
+      ...emailUI('VaTextInputField - emailUI'),
+      'ui:options': {
+        uswds: false,
+      },
     },
     phoneNew: {
       ...phoneUI('VaTextInputField - phoneUI'),
-      'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        uswds: false,
+      },
     },
-    ssnNew: ssnNewUI(),
+    ssnNew: {
+      ...ssnNewUI(),
+      'ui:options': {
+        uswds: false,
+      },
+    },
     wcv3: titleUI('Web component v3', {
       classNames: 'vads-u-margin-top--4',
     }),
     emailNewV3: emailUI(null, true),
-    phoneNewV3: {
-      ...phoneUI('VaTextInputField - phoneUI'),
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        uswds: true,
-      },
-    },
-    ssnNewV3: {
-      ...ssnNewUI(),
-      'ui:options': {
-        uswds: true,
-      },
-    },
+    phoneNewV3: phoneUI('VaTextInputField - phoneUI'),
+    ssnNewV3: ssnNewUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema(),
+      rjsf: titleSchema,
       emailOld: {
         type: 'string',
         pattern: '^\\S+@\\S+$',
@@ -73,23 +71,14 @@ export default {
         type: 'string',
         pattern: '^[0-9]{9}$',
       },
-      wc: titleSchema(),
-      emailNew: {
-        type: 'string',
-        pattern: '^\\S+@\\S+$',
-      },
-      phoneNew: {
-        type: 'string',
-        minLength: 10,
-      },
-      ssnNew: ssnNewSchema(),
-      wcv3: titleSchema(),
+      wc: titleSchema,
+      emailNew: emailSchema,
+      phoneNew: phoneSchema,
+      ssnNew: ssnNewSchema,
+      wcv3: titleSchema,
       emailNewV3: emailSchema,
-      phoneNewV3: {
-        type: 'string',
-        minLength: 10,
-      },
-      ssnNewV3: ssnNewSchema(),
+      phoneNewV3: phoneSchema,
+      ssnNewV3: ssnNewSchema,
     },
     required: [],
   },

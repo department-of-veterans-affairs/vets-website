@@ -5,7 +5,6 @@ import {
 import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
 import { CompensationTypeDescription } from 'applications/hca/components/FormDescriptions';
 import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns/yesNoPattern';
-import { skipPageSchema, skipPageUI } from '../../shared/definitions/skipPage';
 
 /** @type {PageSchema} */
 export default {
@@ -46,6 +45,7 @@ export default {
       'ui:description': CompensationTypeDescription,
       'ui:webComponentField': VaRadioField,
       'ui:options': {
+        uswds: false,
         labels: {
           lowDisability:
             'Yes, for a service-connected disability rating of up to 40%',
@@ -60,6 +60,7 @@ export default {
       'ui:description': CompensationTypeDescription,
       'ui:webComponentField': VaRadioField,
       'ui:options': {
+        uswds: false,
         tile: true,
         labels: {
           lowDisability:
@@ -71,10 +72,19 @@ export default {
       },
     },
     wcCurrentlyActiveDuty: {
-      yes: yesNoUI('Are you on active duty now?'),
-      onTerminalLeave: yesNoUI('Are you on terminal leave now?', {
-        expandUnder: 'yes',
-      }),
+      yes: {
+        ...yesNoUI('Are you on active duty now?'),
+        'ui:options': {
+          uswds: false,
+        },
+      },
+      onTerminalLeave: {
+        ...yesNoUI('Are you on terminal leave now?'),
+        'ui:options': {
+          expandUnder: 'yes',
+          uswds: false,
+        },
+      },
     },
     wcv3: titleUI('Web component v3', {
       classNames: 'vads-u-margin-top--4',
@@ -85,7 +95,6 @@ export default {
       'ui:webComponentField': VaRadioField,
       'ui:widget': 'radio',
       'ui:options': {
-        uswds: true,
         labels: {
           lowDisability:
             'Yes, for a service-connected disability rating of up to 40%',
@@ -101,7 +110,6 @@ export default {
       'ui:webComponentField': VaRadioField,
       'ui:widget': 'radio',
       'ui:options': {
-        uswds: true,
         tile: true,
         labels: {
           lowDisability:
@@ -113,20 +121,19 @@ export default {
       },
     },
     wcv3CurrentlyActiveDuty: {
-      yes: yesNoUI('Are you on active duty now?', {
-        uswds: true,
-      }),
-      onTerminalLeave: yesNoUI('Are you on terminal leave now?', {
-        expandUnder: 'yes',
-        uswds: true,
-      }),
+      yes: yesNoUI('Are you on active duty now?'),
+      onTerminalLeave: {
+        ...yesNoUI('Are you on terminal leave now?'),
+        'ui:options': {
+          expandUnder: 'yes',
+        },
+      },
     },
-    skip: skipPageUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema(),
+      rjsf: titleSchema,
       vaCompensationType: {
         type: 'string',
         enum: ['lowDisability', 'highDisability', 'none'],
@@ -142,7 +149,7 @@ export default {
           },
         },
       },
-      wc: titleSchema(),
+      wc: titleSchema,
       wcVaCompensationType: {
         type: 'string',
         enum: ['lowDisability', 'highDisability', 'none'],
@@ -162,7 +169,7 @@ export default {
           },
         },
       },
-      wcv3: titleSchema(),
+      wcv3: titleSchema,
       wcv3VaCompensationType: {
         type: 'string',
         enum: ['lowDisability', 'highDisability', 'none'],
@@ -182,7 +189,6 @@ export default {
           },
         },
       },
-      skip: skipPageSchema(),
     },
     required: [
       'vaCompensationType',

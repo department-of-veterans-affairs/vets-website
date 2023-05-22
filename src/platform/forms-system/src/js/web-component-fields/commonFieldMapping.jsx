@@ -15,6 +15,8 @@ export default function commonFieldMapping(props) {
     name: childrenProps.idSchema.$id,
     required,
     success: uiOptions?.success,
-    uswds: uiOptions?.uswds,
+    // returning false results in bugs, so use undefined or true instead
+    // default uswds to true (v3 web component)
+    uswds: uiOptions?.uswds === false ? undefined : true,
   };
 }

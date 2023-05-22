@@ -217,7 +217,7 @@
  * @property {string} [hint]
  * @property {boolean} [includeRequiredLabelInTitle]
  * @property {Array<(input) => string>} [inputTransformers]
- * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url'} [inputType]
+ * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType]
  * @property {(item: any) => string} [itemAriaLabel]
  * @property {string} [itemName]
  * @property {boolean} [keepInPageOnReview]

@@ -69,6 +69,9 @@ export default {
         'ui:errorMessages': {
           required: 'Please enter a first name',
         },
+        'ui:options': {
+          uswds: false,
+        },
       },
       last: {
         'ui:title': 'TextWidget - Spouse\u2019s last name',
@@ -76,14 +79,23 @@ export default {
         'ui:errorMessages': {
           required: 'Please enter a last name',
         },
+        'ui:options': {
+          uswds: false,
+        },
       },
       middle: {
         'ui:title': 'TextWidget - Spouse\u2019s middle name',
         'ui:webComponentField': VaTextInputField,
+        'ui:options': {
+          uswds: false,
+        },
       },
       suffix: {
         'ui:title': 'Select - Spouse\u2019s suffix',
         'ui:webComponentField': VaSelectField,
+        'ui:options': {
+          uswds: false,
+        },
       },
     },
     wcv3: titleUI('Web component v3', {
@@ -94,11 +106,11 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema(),
+      rjsf: titleSchema,
       spouseFullNameOld: fullNameDef,
-      wc: titleSchema(),
+      wc: titleSchema,
       spouseFullNameNew: fullNameSchema,
-      wcv3: titleSchema(),
+      wcv3: titleSchema,
       spouseFullNameNewV3: fullNameSchema,
     },
     required: [],

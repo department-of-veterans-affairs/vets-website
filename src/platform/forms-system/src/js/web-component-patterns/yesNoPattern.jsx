@@ -1,12 +1,18 @@
-// import VaRadioField from '../web-component-fields/VaRadioField';
 import YesNoField from '../web-component-fields/YesNoField';
 
 /**
+ * Web component uiSchema for yes or no questions
+ *
+ * ```js
+ * hasHealthInsurance: yesNoUI('Do you have health insurance coverage?')
+ * hasHealthInsurance: {
+ *  ...yesNoUI('Do you have health insurance coverage?'),
+ * }
+ * ```
  * @param {string} title
- * @param {UIOptions} uiOptions - 'ui:options' object
  * @returns {UISchemaOptions}
  */
-export const yesNoUI = (title, uiOptions) => {
+export const yesNoUI = title => {
   return {
     'ui:title': title,
     'ui:widget': 'yesNo', // This is required for the review page to render the field properly
@@ -16,13 +22,13 @@ export const yesNoUI = (title, uiOptions) => {
         yes: 'Yes',
         no: 'No',
       },
-      ...uiOptions,
     },
   };
 };
 
-const schema = {
+/**
+ * @returns `type: 'boolean'`
+ */
+export const yesNoSchema = {
   type: 'boolean',
 };
-
-export const yesNoSchema = () => schema;

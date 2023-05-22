@@ -57,6 +57,9 @@ export default {
     wcSimpleText: {
       'ui:title': 'text input',
       'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        uswds: false,
+      },
     },
     wcRequiredCheckbox: {
       'ui:title': 'required checkbox',
@@ -65,8 +68,16 @@ export default {
         enum: 'Please select a checkbox',
         required: 'Checkbox required error',
       },
+      'ui:options': {
+        uswds: false,
+      },
     },
-    wcSsn: newSsnUI('Social Security number'),
+    wcSsn: {
+      ...newSsnUI('Social Security number'),
+      'ui:options': {
+        uswds: false,
+      },
+    },
     wcCheckboxWithBackground: {
       'ui:title': '',
       'ui:description': (
@@ -85,9 +96,6 @@ export default {
     wcV3SimpleText: {
       'ui:title': 'text input',
       'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        uswds: true,
-      },
     },
     wcV3RequiredCheckbox: {
       'ui:title': 'required checkbox',
@@ -96,16 +104,8 @@ export default {
         enum: 'Please select a checkbox',
         required: 'Checkbox required error',
       },
-      'ui:options': {
-        uswds: true,
-      },
     },
-    wcV3Ssn: {
-      ...newSsnUI('Social Security number'),
-      'ui:options': {
-        uswds: true,
-      },
-    },
+    wcV3Ssn: newSsnUI('Social Security number'),
     wcV3CheckboxWithBackground: {
       'ui:title': '',
       'ui:description': (
@@ -147,7 +147,7 @@ export default {
         type: 'boolean',
         enum: [true],
       },
-      wcSsn: ssnSchema(),
+      wcSsn: ssnSchema,
       wcCheckboxWithBackground: {
         type: 'object',
         properties: {},
@@ -163,7 +163,7 @@ export default {
         type: 'boolean',
         enum: [true],
       },
-      wcV3Ssn: ssnSchema(),
+      wcV3Ssn: ssnSchema,
       wcV3CheckboxWithBackground: {
         type: 'object',
         properties: {},

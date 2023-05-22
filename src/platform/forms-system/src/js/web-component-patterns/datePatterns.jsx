@@ -7,18 +7,18 @@ import { validateCurrentOrPastDate } from '../validation';
  *
  * ```js
  * exampleDate: currentOrPastDateUI('Date of event')
+ * exampleDate: {
+ *  ...currentOrPastDateUI('Date of event')
+ * }
  * ```
  * @param {string} title
  * @returns {UISchemaOptions} uiSchema
  */
 const currentOrPastDateUI = title => {
   return {
-    'ui:title': title,
+    'ui:title': title ?? 'Date',
     'ui:webComponentField': VaMemorableDateField,
     'ui:validations': [validateCurrentOrPastDate],
-    'ui:options': {
-      uswds: true,
-    },
     'ui:errorMessages': {
       pattern: 'Please enter a valid current or past date',
       required: 'Please enter a date',
@@ -26,6 +26,7 @@ const currentOrPastDateUI = title => {
   };
 };
 
+/** @type {UISchemaOptions} */
 const DATE_OF_BIRTH_UI = {
   ...currentOrPastDateUI('Date of birth'),
   'ui:errorMessages': {
