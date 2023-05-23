@@ -16,7 +16,6 @@ Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
-    skip: true,
     dataPrefix: 'data',
     dataSets: ['cfsr-maximal', 'cfsr-minimal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
@@ -135,7 +134,11 @@ const testConfig = createTestConfig(
       },
       'resolution-comment/0': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`#root_resolutionComment`).type('10.00');
+          cy.get('[data-testid="resolution-amount"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('10.00');
           cy.get('.usa-button-primary').click();
         });
       },

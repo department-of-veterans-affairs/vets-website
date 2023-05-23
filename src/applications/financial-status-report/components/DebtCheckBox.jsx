@@ -70,7 +70,10 @@ const DebtCheckBox = ({ debt }) => {
   const checkboxSubText = dateby ? `Pay or request help by ${dateby}` : '';
 
   return (
-    <div className="vads-u-display--flex vads-u-margin-y--2">
+    <div
+      className="vads-u-display--flex vads-u-margin-y--2"
+      data-testid="debt-selection-checkbox"
+    >
       <input
         name="request-help-with-debt"
         id={debtIdentifier}
