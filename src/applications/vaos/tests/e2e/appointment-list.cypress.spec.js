@@ -326,6 +326,7 @@ describe('VAOS appointment list', () => {
             kind: 'clinic',
             status: 'booked',
             start: moment().format('YYYY-MM-DDTHH:mm:ss'),
+            cancellable: true,
           },
         },
       ];

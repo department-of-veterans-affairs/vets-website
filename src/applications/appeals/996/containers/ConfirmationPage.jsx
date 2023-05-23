@@ -72,13 +72,11 @@ export class ConfirmationPage extends React.Component {
                 {issues.length > 1 ? 's' : ''} submitted
               </strong>
               <ul className="vads-u-margin-top--0">{issues}</ul>
-              <button
-                type="button"
-                className="usa-button screen-only"
+              <va-button
+                class="screen-only"
                 onClick={handlers.print}
-              >
-                Print for your records
-              </button>
+                text="Print for your records"
+              />
             </>
           )}
         </div>

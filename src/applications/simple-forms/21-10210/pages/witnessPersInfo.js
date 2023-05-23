@@ -3,6 +3,7 @@ import React from 'react';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import formDefinitions from '../definitions/form-definitions';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     witnessFullName: fullNameUI,
@@ -53,6 +54,7 @@ export default {
     witnessOtherRelationshipToClaimant: {
       'ui:title':
         'If your relationship with the Claimant is not listed, you can write it here (30 characters maximum)',
+      'ui:autocomplete': 'off',
       // '(* Required)' span hidden via styling
       'ui:required': formData =>
         !formData.witnessRelationshipToClaimant['served-with'] &&

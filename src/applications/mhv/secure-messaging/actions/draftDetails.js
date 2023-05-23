@@ -48,20 +48,22 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
   else if (type === 'manual') dispatch({ type: Actions.Draft.SAVE_STARTED });
 
   const response = await sendSaveDraft(messageData, id);
+  if (response.data) {
+    dispatch({
+      type: Actions.Draft.CREATE_SUCCEEDED,
+      response,
+    });
+  }
   if (response.errors) {
     const error = response.errors[0];
     dispatch({
       type: Actions.Draft.SAVE_FAILED,
       response: error,
     });
-  } else if (id) {
+  }
+  if (response.ok) {
     dispatch({
       type: Actions.Draft.UPDATE_SUCCEEDED,
-      response,
-    });
-  } else {
-    dispatch({
-      type: Actions.Draft.CREATE_SUCCEEDED,
       response,
     });
   }
@@ -84,32 +86,32 @@ export const saveReplyDraft = (
     'secure-messaging-save-draft': type,
     'secure-messaging-save-draft-id': id,
   });
-  try {
-    if (type === 'auto') dispatch({ type: Actions.Draft.AUTO_SAVE_STARTED });
-    else if (type === 'manual') dispatch({ type: Actions.Draft.SAVE_STARTED });
 
-    const response = await sendReplyDraft(replyToId, messageData, id);
-    if (id && response.url) {
-      dispatch({
-        type: Actions.Draft.UPDATE_SUCCEEDED,
-        response: messageData,
-      });
-    } else {
-      dispatch({
-        type: Actions.Draft.CREATE_SUCCEEDED,
-        response,
-      });
-    }
-    return response;
-  } catch (e) {
-    const response = await sendReplyDraft(replyToId, messageData, id);
-    const error = response.errors[0];
+  if (type === 'auto') dispatch({ type: Actions.Draft.AUTO_SAVE_STARTED });
+  else if (type === 'manual') dispatch({ type: Actions.Draft.SAVE_STARTED });
+
+  const response = await sendReplyDraft(replyToId, messageData, id);
+  if (response.data) {
+    dispatch({
+      type: Actions.Draft.CREATE_SUCCEEDED,
+      response,
+    });
+    return response.data.attributes;
+  }
+  if (response.ok) {
+    dispatch({
+      type: Actions.Draft.UPDATE_SUCCEEDED,
+      response: messageData,
+    });
+  }
+  if (response.errors) {
     dispatch({
       type: Actions.Draft.SAVE_FAILED,
-      response: error,
+      response: response.errors[0],
     });
-    throw e;
+    throw response.errors[0];
   }
+  return null;
 };
 
 export const clearDraft = () => dispatch => {

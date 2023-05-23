@@ -9,11 +9,8 @@ import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/med
 import GetFormHelp from '../components/GetFormHelp';
 import { deductionCodes } from '../constants/deduction-codes';
 import DownloadFormPDF from '../components/DownloadFormPDF';
-import {
-  fsrConfirmationEmailToggle,
-  DEBT_TYPES,
-  fsrReasonDisplay,
-} from '../utils/helpers';
+import { fsrConfirmationEmailToggle, fsrReasonDisplay } from '../utils/helpers';
+import { DEBT_TYPES } from '../constants';
 
 const { scroller } = Scroll;
 const scrollToTop = () => {

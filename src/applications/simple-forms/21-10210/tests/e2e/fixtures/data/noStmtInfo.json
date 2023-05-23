@@ -5,7 +5,7 @@
       "middle": "",
       "last": "Witness"
     },
-    "witnessRelationshipToVeteran": {
+    "witnessRelationshipToClaimant": {
       "served-with": true
     },
     "witnessPhone": "555-555-5555",

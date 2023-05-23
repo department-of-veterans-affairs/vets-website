@@ -1,18 +1,7 @@
 {
   "data": {
-    "claimOwnership": "third-party",
+    "claimOwnership": "self",
     "claimantType": "non-veteran",
-    "witnessFullName": {
-      "first": "Jack",
-      "middle": "",
-      "last": "Witness"
-    },
-    "witnessRelationshipToVeteran": {
-      "served-with": true
-    },
-    "witnessPhone": "555-555-5555",
-    "witnessEmail": "jack.witness@example.com",
-    "statement": "It was a dark and stormy night...",
     "claimantFullName": {
       "first": "Joe",
       "middle": "",
@@ -29,6 +18,7 @@
     },
     "claimantPhone": "555-555-5556",
     "claimantEmail": "joe.claimant@exammple.com",
+    "statement": "It was a dark and stormy night...",
     "veteranFullName": {
       "first": "John",
       "middle": "",
