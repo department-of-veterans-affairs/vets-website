@@ -5,9 +5,9 @@
         "sign_in": {
           "service_name": "idme"
         },
-        "email": "joe.veteran@example.com",
+        "email": "john.veteran@example.com",
         "loa": { "current": 3 },
-        "first_name": "Joe",
+        "first_name": "John",
         "middle_name": "",
         "last_name": "Veteran",
         "gender": "M",
@@ -38,7 +38,7 @@
           "lastUpdated": 1681760746
         }
       ],
-      "prefills_available": ["21-10210"],
+      "prefills_available": [],
       "services": [
         "hca",
         "edu-benefits",
@@ -54,7 +54,7 @@
         "birth_date": "20000101",
         "family_name": "Veteran",
         "gender": "M",
-        "given_names": ["Joe", ""],
+        "given_names": ["John", ""],
         "active_status": "active",
         "facilities": []
       }
