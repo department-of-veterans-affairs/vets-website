@@ -1,4 +1,5 @@
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import { RELATIONSHIP_TO_CLAIMANT_OPTIONS } from '../definitions/constants';
 import formDefinitions from '../definitions/form-definitions';
 import GroupCheckboxWidget from '../components/GroupCheckboxWidget';
 
@@ -23,11 +24,7 @@ export default {
       'ui:options': {
         showFieldLabel: true,
         forceDivWrapper: true,
-        labels: [
-          'Served with Claimant',
-          'Family/Friend of Claimant',
-          'Coworker/Supervisor of Claimant',
-        ],
+        labels: RELATIONSHIP_TO_CLAIMANT_OPTIONS,
       },
     },
     witnessOtherRelationshipToClaimant: {

@@ -20,7 +20,7 @@ import vetAddrInfo from '../pages/vetAddrInfo';
 import vetContInfo from '../pages/vetContInfo';
 import statement from '../pages/statement';
 
-import transformForSubmit from '../../shared/config/submit-transformer';
+import transformForSubmit from './submit-transformer';
 
 // "Flows" in comments below map to "Stories" in the mockups:
 // https://www.sketch.com/s/a11421d3-c148-41a2-a34f-3d7821ea676f
