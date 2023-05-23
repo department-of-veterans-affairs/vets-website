@@ -18,6 +18,7 @@ import {
   VaSelect,
   VaTextarea,
   VaTextInput,
+  VaAlert,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V1V3Page() {
@@ -489,6 +490,184 @@ export default function V1V3Page() {
                 label="V3 Privacy Agreement"
                 id="v3PrivacyAgreementValue"
               />
+            </div>
+          </div>
+        </div>
+
+        {/* Alert Comparison */}
+        <div className="vads-l-row">
+          <h3>Alert</h3>
+          <div className="vads-l-col--12 vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
+              <h4>Statuses</h4>
+              <VaAlert
+                status="info"
+                showIcon="true"
+                closeBtnAriaLabel="Close"
+                closeable="true"
+              >
+                <h2 slot="headline">Info Alert</h2>
+                <div>
+                  <p>This is an info alert</p>
+                </div>
+              </VaAlert>
+              <br />
+              <VaAlert
+                status="error"
+                showIcon="true"
+                closeBtnAriaLabel="Close"
+                closeable="true"
+              >
+                <h2 slot="headline">Error Alert</h2>
+                <div>
+                  <p>This is an error alert</p>
+                </div>
+              </VaAlert>
+              <br />
+              <VaAlert
+                status="success"
+                showIcon="true"
+                closeBtnAriaLabel="Close"
+                closeable="true"
+              >
+                <h2 slot="headline">Success Alert</h2>
+                <div>
+                  <p>This is a success alert</p>
+                </div>
+              </VaAlert>
+              <br />
+              <VaAlert
+                status="warning"
+                showIcon="true"
+                closeBtnAriaLabel="Close"
+                closeable="true"
+              >
+                <h2 slot="headline">Warning Alert</h2>
+                <div>
+                  <p>This is a warning alert</p>
+                </div>
+              </VaAlert>
+              <br />
+              <VaAlert
+                status="continue"
+                showIcon="true"
+                closeBtnAriaLabel="Close"
+                closeable="true"
+              >
+                <h2 slot="headline">Continue Alert</h2>
+                <div>
+                  <p>This is a continue alert</p>
+                </div>
+              </VaAlert>
+              <br />
+              <h4>Not Closable</h4>
+              <VaAlert status="continue" showIcon="true">
+                <h2 slot="headline">Alert - Not Closable</h2>
+                <div>
+                  <p>This is an alert that cannot be closed</p>
+                </div>
+              </VaAlert>
+            </div>
+
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
+              <h4>Statuses</h4>
+              <VaAlert
+                status="info"
+                showIcon="true"
+                closeBtnAriaLabel="Close"
+                closeable="true"
+                uswds="true"
+              >
+                <h2 slot="headline">Info Alert</h2>
+                <div>
+                  <p>This is an info alert</p>
+                </div>
+              </VaAlert>
+              <br />
+              <VaAlert
+                status="error"
+                showIcon="true"
+                closeBtnAriaLabel="Close"
+                closeable="true"
+                uswds="true"
+              >
+                <h2 slot="headline">Error Alert</h2>
+                <div>
+                  <p>This is an error alert</p>
+                </div>
+              </VaAlert>
+              <br />
+              <VaAlert
+                status="success"
+                showIcon="true"
+                closeBtnAriaLabel="Close"
+                closeable="true"
+                uswds="true"
+              >
+                <h2 slot="headline">Success Alert</h2>
+                <div>
+                  <p>This is a success alert</p>
+                </div>
+              </VaAlert>
+              <br />
+              <VaAlert
+                status="warning"
+                showIcon="true"
+                closeBtnAriaLabel="Close"
+                closeable="true"
+                uswds="true"
+              >
+                <h2 slot="headline">Warning Alert</h2>
+                <div>
+                  <p>This is a warning alert</p>
+                </div>
+              </VaAlert>
+              <br />
+              <VaAlert
+                status="continue"
+                showIcon="true"
+                closeBtnAriaLabel="Close"
+                closeable="true"
+                uswds="true"
+              >
+                <h2 slot="headline">Continue Alert</h2>
+                <div>
+                  <p>This is a continue alert</p>
+                </div>
+              </VaAlert>
+              <br />
+              <VaAlert status="continue" showIcon="true" uswds="true">
+                <h2 slot="headline">Alert - Not Closable</h2>
+                <div>
+                  <p>This is an alert that cannot be closed</p>
+                </div>
+              </VaAlert>
+              <br />
+              <VaAlert status="info" slim="true" uswds="true">
+                <p className="vads-u-margin-y--0">This is a slim info alert</p>
+              </VaAlert>
+              <br />
+              <VaAlert status="error" slim="true" uswds="true">
+                <p className="vads-u-margin-y--0">This is a slim error alert</p>
+              </VaAlert>
+              <br />
+              <VaAlert status="success" slim="true" uswds="true">
+                <p className="vads-u-margin-y--0">
+                  This is a slim success alert
+                </p>
+              </VaAlert>
+              <br />
+              <VaAlert status="warning" slim="true" uswds="true">
+                <p className="vads-u-margin-y--0">
+                  This is a slim warning alert
+                </p>
+              </VaAlert>
+              <br />
+              <VaAlert status="continue" slim="true" uswds="true">
+                <p className="vads-u-margin-y--0">
+                  This is a slim continue alert
+                </p>
+              </VaAlert>
             </div>
           </div>
         </div>
