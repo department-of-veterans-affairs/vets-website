@@ -55,8 +55,8 @@ const CernerAlertBox = ({
       <h2 slot="headline">Choose your health management portal</h2>
       <div>
         <p>
-          Your care team may now use our new My VA Health portal. Choose your
-          portal based on the facility for your appointment:
+          Your care team may now use our My VA Health portal. Choose your portal
+          based on the facility for your appointment:
         </p>
         <p className="vads-u-font-family--sans" data-testid="facilities">
           For{' '}
