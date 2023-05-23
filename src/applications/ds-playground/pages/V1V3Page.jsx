@@ -18,6 +18,7 @@ import {
   VaSelect,
   VaTextarea,
   VaTextInput,
+  VaSegmentedProgressBar,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V1V3Page() {
@@ -488,6 +489,33 @@ export default function V1V3Page() {
               <ValueDisplay
                 label="V3 Privacy Agreement"
                 id="v3PrivacyAgreementValue"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Progress bar - segmented */}
+        <div className="vads-l-row">
+          <h3>Progress bar - segmented</h3>
+          <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
+              <VaSegmentedProgressBar
+                current={2}
+                heading-text="V1 VA Benefits"
+                total={5}
+                uswds
+              />
+            </div>
+
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
+              <VaSegmentedProgressBar
+                centered-labels="true"
+                current={2}
+                heading-text="V3 VA Benefits"
+                label="Label is here"
+                labels="Personal Information;Household Status;Supporting Documents;Signature;Review and Submit"
+                total={5}
+                uswds
               />
             </div>
           </div>
