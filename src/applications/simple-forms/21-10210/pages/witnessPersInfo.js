@@ -12,15 +12,6 @@ export default {
       'ui:description': 'Check all that apply',
       'ui:widget': GroupCheckboxWidget,
       'ui:required': formData => !formData.witnessOtherRelationshipToClaimant,
-      'ui:validations': [
-        (errors, value) => {
-          if ((value || '').trim() === '') {
-            errors.addError(
-              'Please select at least one option here, or input a relationship in text-box below',
-            );
-          }
-        },
-      ],
       'ui:options': {
         showFieldLabel: true,
         forceDivWrapper: true,
@@ -31,13 +22,19 @@ export default {
       'ui:title':
         'If your relationship with the Claimant is not listed, you can write it here (30 characters maximum)',
       'ui:autocomplete': 'off',
-      // '(* Required)' span hidden via styling
-      'ui:required': formData => !formData.witnessRelationshipToClaimant,
-      'ui:errorMessages': {
-        required:
-          'Please input a relationship in text-box here, or select at least 1 option above',
-      },
     },
+    'ui:validations': [
+      (errors, fields) => {
+        if (
+          (fields.witnessRelationshipToClaimant || '').trim() === '' &&
+          (fields.witnessOtherRelationshipToClaimant || '').trim() === ''
+        ) {
+          errors.witnessRelationshipToClaimant.addError(
+            'Please select at least one option here, or input a relationship in text-box below',
+          );
+        }
+      },
+    ],
   },
   schema: {
     type: 'object',
@@ -45,12 +42,6 @@ export default {
     properties: {
       witnessFullName: formDefinitions.pdfFullNameNoSuffix,
       witnessRelationshipToClaimant: {
-        // type: 'object',
-        // properties: {
-        //   'served-with': { type: 'boolean' },
-        //   'family-or-friend': { type: 'boolean' },
-        //   'coworker-or-supervisor': { type: 'boolean' },
-        // },
         type: 'string',
       },
       witnessOtherRelationshipToClaimant: {

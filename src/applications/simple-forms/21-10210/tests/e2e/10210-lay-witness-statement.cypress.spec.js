@@ -1,4 +1,5 @@
 import path from 'path';
+import cloneDeep from 'lodash/cloneDeep';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
@@ -10,8 +11,9 @@ import { getSignerFullName } from './helpers';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 
 // Disable formConfig props that were meant for local-dev only.
-formConfig.dev = {};
-formConfig.chapters.statementInfoChapter.pages.claimOwnershipPage.initialData = {
+const testFormConfig = cloneDeep(formConfig);
+testFormConfig.dev = {};
+testFormConfig.chapters.statementInfoChapter.pages.claimOwnershipPage.initialData = {
   data: {},
 };
 
@@ -40,8 +42,7 @@ const testConfig = createTestConfig(
 
             cy.get('#veteran-signature')
               .shadow()
-              .find('input')
-              .first()
+              .get('#inputField')
               .type(signerFullName);
             cy.get(`input[name="veteran-certify"]`).check();
             cy.findAllByText(/Submit application/i, {
@@ -54,7 +55,7 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-      cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+      cy.intercept('POST', testFormConfig.submitUrl, mockSubmit);
     },
 
     // Skip tests in CI until the form is released.
@@ -62,7 +63,7 @@ const testConfig = createTestConfig(
     skip: Cypress.env('CI'),
   },
   manifest,
-  formConfig,
+  testFormConfig,
 );
 
 testForm(testConfig);

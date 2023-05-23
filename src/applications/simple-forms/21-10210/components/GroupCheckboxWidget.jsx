@@ -49,7 +49,6 @@ const GroupCheckboxWidget = props => {
       onVaChange={onGroupChange}
       error={null} // form system validation handles this
       className="custom-va-checkbox-group"
-      required
     >
       {labels.map((label, index) => (
         <va-checkbox

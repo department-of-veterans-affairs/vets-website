@@ -11,24 +11,26 @@ export default function transformForSubmit(formConfig, form) {
   const witnessRelationshipToClaimantAnswers =
     transformedData.witnessRelationshipToClaimant;
 
-  const booleanWitnessRelationshipToClaimant = {
-    'served-with': witnessRelationshipToClaimantAnswers.includes(
-      SERVED_WITH_CLAIMANT,
-    ),
-    'family-or-friend': witnessRelationshipToClaimantAnswers.includes(
-      FAMILY_OR_FRIEND_OF_CLAIMANT,
-    ),
-    'coworker-or-supervisor': witnessRelationshipToClaimantAnswers.includes(
-      COWORKER_OR_SUPERVISOR_OF_CLAIMANT,
-    ),
-  };
+  if (witnessRelationshipToClaimantAnswers) {
+    const booleanWitnessRelationshipToClaimant = {
+      'served-with': witnessRelationshipToClaimantAnswers.includes(
+        SERVED_WITH_CLAIMANT,
+      ),
+      'family-or-friend': witnessRelationshipToClaimantAnswers.includes(
+        FAMILY_OR_FRIEND_OF_CLAIMANT,
+      ),
+      'coworker-or-supervisor': witnessRelationshipToClaimantAnswers.includes(
+        COWORKER_OR_SUPERVISOR_OF_CLAIMANT,
+      ),
+    };
 
-  transformedData = {
-    ...transformedData,
-    witnessRelationshipToClaimant: {
-      ...booleanWitnessRelationshipToClaimant,
-    },
-  };
+    transformedData = {
+      ...transformedData,
+      witnessRelationshipToClaimant: {
+        ...booleanWitnessRelationshipToClaimant,
+      },
+    };
+  }
 
   return JSON.stringify(transformedData);
 }

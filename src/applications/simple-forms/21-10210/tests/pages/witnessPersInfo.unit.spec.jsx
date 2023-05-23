@@ -21,7 +21,7 @@ const mockData = {
 };
 
 // Expect 4 fields instead of 7 fields.
-// witnessRelationshipToClaimant checkbox-group's 3 fields are
+// witnessRelationshipToClaimant GroupCheckboxWidget's 3 fields are
 // in shadow-DOM and thus unselectable by test.
 const expectedNumberOfFields = 4;
 testNumberOfFields(
@@ -33,10 +33,10 @@ testNumberOfFields(
   mockData,
 );
 
-// Expect 4 instead of 7 errors.
-// witnessRelationshipToClaimant checkbox-group only displays
-// 1 error-message for its 3 shadow-DOM fields.
-const expectedNumberOfErrors = 4;
+// Expect 3 instead of 7 errors.
+// witnessRelationshipToClaimant GroupCheckboxWidget displays
+// only 1 error-message for its 3 shadow-DOM fields.
+const expectedNumberOfErrors = 3;
 testNumberOfErrorsOnSubmit(
   formConfig,
   schema,
