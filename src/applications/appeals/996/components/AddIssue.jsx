@@ -165,6 +165,7 @@ const AddIssue = props => {
             id="cancel"
             class="vads-u-width--auto"
             onClick={handlers.onCancel}
+            secondary
             text="Cancel"
           />
           <va-button
