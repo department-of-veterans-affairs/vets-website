@@ -4,6 +4,8 @@
 import {
   createAccessibleDoc,
   addHorizontalRule,
+  createHeading,
+  createSubHeading,
   getTestResultBlockHeight,
   registerVaGovFonts,
 } from './utils';
@@ -15,25 +17,39 @@ const config = {
     left: 20,
     right: 20,
   },
+  headings: {
+    H1: {
+      font: 'Bitter-Bold',
+      size: 30,
+    },
+    H2: {
+      font: 'Bitter-Bold',
+      size: 24,
+    },
+    H3: {
+      font: 'Bitter-Bold',
+      size: 18,
+    },
+  },
+  subHeading: {
+    font: 'Bitter-Regular',
+    size: 16,
+  },
+  text: {
+    font: 'SourceSansPro-Regular',
+    size: 16,
+  },
 };
 
 const generateIntroductionContent = async (doc, data) => {
+  const headOptions = { paragraphGap: 16 };
+  const subHeadOptions = { paragraphGap: 24 };
   const introductionContent = [
-    doc.struct('H1', () => {
-      doc
-        .font('Bitter-Bold')
-        .fontSize(30)
-        .text(data.title, { paragraphGap: 16 });
-    }),
+    createHeading(doc, 'H1', config, data.title, headOptions),
   ];
   if (data.preface) {
     introductionContent.push(
-      doc.struct('P', () => {
-        doc
-          .font('Bitter-Regular')
-          .fontSize(16)
-          .text(data.preface, { paragraphGap: 24 });
-      }),
+      createSubHeading(doc, config, data.preface, subHeadOptions),
     );
   }
   const introduction = doc.struct(

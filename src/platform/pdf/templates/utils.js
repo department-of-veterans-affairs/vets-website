@@ -1,6 +1,7 @@
 /**
  * Template utils.
  */
+import { unset } from 'lodash';
 import registerFonts from '../registerFonts';
 
 const pdfkit = require('pdfkit');
@@ -9,9 +10,38 @@ const pdfkit = require('pdfkit');
 const PDFDocument = pdfkit.default ?? pdfkit;
 
 /**
- * @param doc - pdfkit document
- * @param spaceFromEdge - how far the right and left sides should be away from the edge (in px)
- * @param linesAboveAndBelow - how much space should be above and below the HR (in lines)
+ * Add a structure to the given PDFKit document.
+ *
+ * @param {Object} doc
+ * @param {string} struct
+ * @param {string} font
+ * @param {int} fontSize
+ * @param {string} text
+ * @param {Object} options
+ *
+ * @returns {Object} doc
+ */
+const createStruct = (doc, struct, font, fontSize, text, options) => {
+  const x = options.x ?? doc.x;
+  const y = options.y ?? doc.y;
+  unset(options.x);
+  unset(options.y);
+  return doc.struct(struct, () => {
+    doc
+      .font(font)
+      .fontSize(fontSize)
+      .text(text, x, y, options);
+  });
+};
+
+/**
+ * Add a horizontal rule to the given PDFKit document.
+ *
+ * @param {Object} doc
+ * @param {int} spaceFromEdge How far the right and left sides should be away from the edge (in px)
+ * @param {int} linesAboveAndBelow How much space should be above and below the HR (in lines)
+ *
+ * @returns {Object}
  */
 const addHorizontalRule = (
   doc,
@@ -31,6 +61,58 @@ const addHorizontalRule = (
   return doc;
 };
 
+/**
+ * Add a heading struct to the given PDFKit document.
+ *
+ * @param {Object} doc
+ * @param {string} headingLevel
+ * @param {Object} config
+ * @param {string} text
+ * @param {Object} options
+ *
+ * @returns {Object} doc
+ */
+const createHeading = (doc, headingLevel, config, text, options) => {
+  return createStruct(
+    doc,
+    headingLevel,
+    config.headings[headingLevel].font,
+    config.headings[headingLevel].size,
+    text,
+    options,
+  );
+};
+
+/**
+ * Add a subHeading struct to the given PDFKit document.
+ *
+ * @param {Object} doc
+ * @param {Object} config
+ * @param {string} text
+ * @param {Object} options
+ *
+ * @returns {Object} doc
+ */
+const createSubHeading = (doc, config, text, options) => {
+  return createStruct(
+    doc,
+    'P',
+    config.subHeading.font,
+    config.subHeading.size,
+    text,
+    options,
+  );
+};
+
+/**
+ * Estimate a text block's height.
+ *
+ * @param {Object} doc
+ * @param {Object} item
+ * @param {boolean} initialBlock Whether or not this is the first block in the list.
+ *
+ * @returns {int}
+ */
 const getTestResultBlockHeight = (doc, item, initialBlock = false) => {
   let height = 0;
 
@@ -80,6 +162,13 @@ const getTestResultBlockHeight = (doc, item, initialBlock = false) => {
   return height;
 };
 
+/**
+ * Create a PDFKit document with the correct parameters set for accessibility.
+ *
+ * @param {string} title
+ *
+ * @returns {Object}
+ */
 const createAccessibleDoc = title => {
   return new PDFDocument({
     pdfVersion: '1.7',
@@ -94,6 +183,13 @@ const createAccessibleDoc = title => {
   });
 };
 
+/**
+ * Register the custom fonts used for VA.gov to the given PDFKit document.
+ *
+ * @param {Object} doc
+ *
+ * @returns {void}
+ */
 const registerVaGovFonts = async doc => {
   await registerFonts(doc, [
     'Bitter-Bold',
@@ -106,6 +202,8 @@ const registerVaGovFonts = async doc => {
 export {
   addHorizontalRule,
   createAccessibleDoc,
+  createHeading,
+  createSubHeading,
   getTestResultBlockHeight,
   registerVaGovFonts,
 };
