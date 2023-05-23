@@ -161,18 +161,22 @@ const AddIssue = props => {
           aria-describedby="decision-date-description"
         />
         <p>
-          <va-button
+          <button
+            type="button"
             id="cancel"
-            class="vads-u-width--auto"
+            className="usa-button-secondary vads-u-width--auto"
             onClick={handlers.onCancel}
-            text="Cancel"
-          />
-          <va-button
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
             id="submit"
-            class="vads-u-width--auto"
+            className="vads-u-width--auto"
             onClick={handlers.onUpdate}
-            text={`${currentData.issue ? 'Update' : 'Add'} issue`}
-          />
+          >
+            {`${currentData.issue ? 'Update' : 'Add'} issue`}
+          </button>
         </p>
       </fieldset>
     </form>

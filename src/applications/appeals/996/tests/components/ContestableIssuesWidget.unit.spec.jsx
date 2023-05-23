@@ -42,13 +42,13 @@ describe('<ContestableIssuesWidget>', () => {
     ).to.equal('issue-1');
     wrapper.unmount();
   });
-  it('should render edit link & remove button', () => {
+  it('should render change link & remove button', () => {
     const props = getProps();
     const wrapper = mount(<ContestableIssuesWidget {...props} />);
     const addLength = props.additionalIssues.length;
-    const link = wrapper.find('a.edit-issue-link');
+    const link = wrapper.find('a.change-issue-link');
     expect(link.length).to.equal(addLength);
-    expect(wrapper.find('va-button').length).to.equal(
+    expect(wrapper.find('button.remove-issue').length).to.equal(
       props.additionalIssues.length,
     );
     wrapper.unmount();
@@ -131,7 +131,7 @@ describe('<ContestableIssuesWidget>', () => {
     expect(props.additionalIssues.length).to.equal(1);
 
     wrapper
-      .find('va-button')
+      .find('button.remove-issue')
       .props()
       .onClick({ preventDefault: () => {} });
 

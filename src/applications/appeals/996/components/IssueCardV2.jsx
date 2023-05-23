@@ -137,6 +137,7 @@ export const IssueCard = ({
 
   const removeButtonClass = [
     'remove-issue',
+    'usa-button-secondary',
     'vads-u-width--auto',
     'vads-u-margin-left--2',
     'vads-u-margin-top--0',
@@ -158,17 +159,19 @@ export const IssueCard = ({
             pathname: '/add-issue',
             search: `?index=${index}`,
           }}
-          className="edit-issue-link"
-          aria-label={`Edit ${issueName}`}
+          className="change-issue-link"
+          aria-label={`Change ${issueName}`}
         >
-          Edit
+          Change
         </Link>
-        <va-button
-          class={removeButtonClass}
-          label={`remove ${issueName}`}
+        <button
+          type="button"
+          className={removeButtonClass}
+          aria-label={`remove ${issueName}`}
           onClick={handlers.onRemove}
-          text="Remove"
-        />
+        >
+          Remove
+        </button>
       </div>
     ) : null;
 

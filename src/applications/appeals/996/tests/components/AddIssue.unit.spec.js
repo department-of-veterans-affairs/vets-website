@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { AddIssue } from '../../components/AddIssue';
@@ -58,7 +58,7 @@ describe('<AddIssue>', () => {
   it('should prevent submission when empty', () => {
     const goToPathSpy = sinon.spy();
     const { container } = render(setup({ goToPath: goToPathSpy }));
-    fireEvent.click($('#submit', container));
+    $('button#submit', container).click();
     const elems = $$('va-text-input, va-memorable-date', container);
 
     expect(elems[0].error).to.contain(issueErrorMessages.missingIssue);
@@ -68,7 +68,7 @@ describe('<AddIssue>', () => {
   it('should navigate on cancel', () => {
     const goToPathSpy = sinon.spy();
     const { container } = render(setup({ goToPath: goToPathSpy }));
-    fireEvent.click($('#cancel', container));
+    $('button#cancel', container).click();
 
     expect(goToPathSpy.called).to.be.true;
   });
@@ -81,7 +81,7 @@ describe('<AddIssue>', () => {
         index: 1,
       }),
     );
-    fireEvent.click($('#submit', container));
+    $('button#submit', container).click();
 
     const textInput = $('va-text-input', container);
     expect(textInput.error).to.contain(issueErrorMessages.maxLength);
@@ -94,7 +94,7 @@ describe('<AddIssue>', () => {
         index: 1,
       }),
     );
-    fireEvent.click($('#submit', container));
+    $('button#submit', container).click();
 
     const date = $('va-memorable-date', container);
     expect(date.error).to.contain(issueErrorMessages.pastDate);
@@ -107,7 +107,7 @@ describe('<AddIssue>', () => {
         index: 1,
       }),
     );
-    fireEvent.click($('#submit', container));
+    $('button#submit', container).click();
 
     const date = $('va-memorable-date', container);
     expect(date.error).to.contain(issueErrorMessages.pastDate);
@@ -120,7 +120,7 @@ describe('<AddIssue>', () => {
         index: 1,
       }),
     );
-    fireEvent.click($('#submit', container));
+    $('button#submit', container).click();
 
     const date = $('va-memorable-date', container);
     expect(date.error).to.contain(issueErrorMessages.newerDate);
@@ -136,7 +136,7 @@ describe('<AddIssue>', () => {
         index: 1,
       }),
     );
-    fireEvent.click($('#submit', container));
+    $('button#submit', container).click();
 
     const textInput = $('va-text-input', container);
     expect(textInput.error).to.contain(issueErrorMessages.uniqueIssue);
@@ -154,7 +154,7 @@ describe('<AddIssue>', () => {
         index: 1,
       }),
     );
-    fireEvent.click($('#submit', container));
+    $('button#submit', container).click();
 
     expect($('va-text-input', container).error).to.be.null;
     expect($('va-memorable-date', container).error).to.be.null;
