@@ -1,6 +1,8 @@
 /**
  * Template utils.
  */
+import registerFonts from '../registerFonts';
+
 const pdfkit = require('pdfkit');
 
 // Handle both node and browser environments.
@@ -92,4 +94,18 @@ const createAccessibleDoc = title => {
   });
 };
 
-export { addHorizontalRule, createAccessibleDoc, getTestResultBlockHeight };
+const registerVaGovFonts = async doc => {
+  await registerFonts(doc, [
+    'Bitter-Bold',
+    'Bitter-Regular',
+    'SourceSansPro-Bold',
+    'SourceSansPro-Regular',
+  ]);
+};
+
+export {
+  addHorizontalRule,
+  createAccessibleDoc,
+  getTestResultBlockHeight,
+  registerVaGovFonts,
+};
