@@ -1120,9 +1120,15 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  !formData.duplicateEmail?.some(
+                  formData.duplicateEmail?.some(
+                    entry => entry?.isDupe === 'false',
+                  ) ||
+                  (formData.duplicateEmail?.some(
                     entry => entry?.isDupe === 'true',
-                  ),
+                  ) &&
+                    formData.duplicatePhone?.some(
+                      entry => entry?.isDupe === 'true',
+                    )),
               },
             },
             'view:mobilePhoneOnFileWithSomeoneElse': {
@@ -1137,9 +1143,15 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  !formData.duplicatePhone?.some(
+                  formData.duplicatePhone?.some(
+                    entry => entry?.isDupe === 'false',
+                  ) ||
+                  (formData.duplicateEmail?.some(
                     entry => entry?.isDupe === 'true',
-                  ),
+                  ) &&
+                    formData.duplicatePhone?.some(
+                      entry => entry?.isDupe === 'true',
+                    )),
               },
             },
             'view:duplicateEmailAndPhoneAndNoHomePhone': {
@@ -1161,11 +1173,11 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  !formData.duplicatePhone?.some(
-                    entry => entry?.isDupe === 'true',
+                  formData.duplicatePhone?.some(
+                    entry => entry?.isDupe === 'false',
                   ) &&
-                  !formData?.duplicateEmail?.some(
-                    entry => entry?.isDupe === 'true',
+                  formData?.duplicateEmail?.some(
+                    entry => entry?.isDupe === 'false',
                   ),
               },
             },

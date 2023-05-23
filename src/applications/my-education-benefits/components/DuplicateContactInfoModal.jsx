@@ -47,13 +47,23 @@ function DuplicateContactInfoModal(props) {
   function modalTitle() {
     let modalText;
 
-    if (props.duplicateEmail?.length > 0 && props.duplicatePhone?.length > 0) {
+    const filteredPotentialDuplicateEmails = props?.duplicateEmail?.filter(
+      entry => entry?.isDupe === 'true' && entry.acknowledged === undefined,
+    );
+    const filteredPotentialDuplicatesMobile = props?.duplicatePhone?.filter(
+      entry => entry?.isDupe === 'true' && entry.acknowledged === undefined,
+    );
+
+    if (
+      filteredPotentialDuplicateEmails?.length > 0 &&
+      filteredPotentialDuplicatesMobile.length > 0
+    ) {
       modalText =
         'We have this mobile phone number and email on file for another person with education benefits';
-    } else if (props.duplicateEmail?.length > 0) {
+    } else if (filteredPotentialDuplicateEmails?.length > 0) {
       modalText =
         'We have this email on file for another person with education benefits';
-    } else {
+    } else if (filteredPotentialDuplicatesMobile?.length > 0) {
       modalText =
         'We have this mobile phone number on file for another person with education benefits';
     }
@@ -69,8 +79,8 @@ function DuplicateContactInfoModal(props) {
         onCloseEvent={secondaryClick}
         onPrimaryButtonClick={primaryClick}
         onSecondaryButtonClick={secondaryClick}
-        primaryButtonText="Go back and edit"
-        secondaryButtonText="Continue anyway"
+        primaryButtonText="Back"
+        secondaryButtonText="Continue"
         status="warning"
       >
         <p>
