@@ -109,7 +109,7 @@ const mapStateToProps = state => ({
   ...state,
   email: state?.form?.data?.email?.email,
   duplicateEmail: state?.data?.duplicateEmail,
-  duplicatePhone: state?.data?.duplicateEmail,
+  duplicatePhone: state?.data?.duplicatePhone,
   openModal: state?.data?.openModal,
 });
 
