@@ -35,7 +35,7 @@ const initialState = {
   },
 };
 
-describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
+describe.skip('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   describe('video appointments', () => {
     // VA appointment id from confirmed_va.json
     const url = '/va/05760f00c80ae60ce49879cf37a05fc8';

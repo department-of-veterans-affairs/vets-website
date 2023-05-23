@@ -73,7 +73,7 @@ const MessageThreadItem = props => {
       }}
       data-testid={`expand-message-button-${messageId}`}
     >
-      <h6 slot="headline">{dateFormat(sentDate, 'MMMM D [at] h:mm a z')}</h6>
+      <h3 slot="headline">{dateFormat(sentDate, 'MMMM D [at] h:mm a z')}</h3>
       {!isRead && (
         <i
           data-testid="unread-icon"

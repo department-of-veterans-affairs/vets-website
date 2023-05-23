@@ -9,6 +9,7 @@ const SENDER_ALPHA_ASCENDING = 'sender-alpha-asc';
 const SENDER_ALPHA_DESCENDING = 'sender-alpha-desc';
 const RECEPIENT_ALPHA_ASCENDING = 'recepient-alpha-asc';
 const RECEPIENT_ALPHA_DESCENDING = 'recepient-alpha-desc';
+const SORT_CONVERSATIONS_LABEL = 'Show conversations in this order';
 
 const ThreadListSort = props => {
   const { defaultSortOrder, setSortOrder, setSortBy, sortCallback } = props;
@@ -62,7 +63,7 @@ const ThreadListSort = props => {
     <div className="thread-list-sort">
       <VaSelect
         id="sort-order-dropdown"
-        label="Sort by"
+        label={SORT_CONVERSATIONS_LABEL}
         name="sort-order"
         value={defaultSortOrder}
         onVaSelect={e => {
