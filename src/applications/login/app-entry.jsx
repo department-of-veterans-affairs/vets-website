@@ -1,4 +1,4 @@
-import 'platform/polyfills';
+import '@department-of-veterans-affairs/platform-polyfills';
 
 import startApp from 'platform/startup';
 

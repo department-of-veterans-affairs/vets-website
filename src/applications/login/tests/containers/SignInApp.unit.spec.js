@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { cleanup } from '@testing-library/react';
 import SignInPage from 'applications/login/containers/SignInApp';
 import sinon from 'sinon';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 const generateProps = ({ push = sinon.spy(), query = {} } = {}) => ({
   router: { push },

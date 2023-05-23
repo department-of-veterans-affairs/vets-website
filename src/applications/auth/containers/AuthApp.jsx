@@ -4,8 +4,8 @@ import appendQuery from 'append-query';
 
 import * as Sentry from '@sentry/browser';
 
-import recordEvent from 'platform/monitoring/record-event';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
@@ -13,20 +13,20 @@ import {
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
   FORCE_NEEDED,
-} from 'platform/user/authentication/constants';
+} from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import {
   AUTH_LEVEL,
   AUTH_ERRORS,
   SENTRY_TAGS,
   getAuthError,
-} from 'platform/user/authentication/errors';
+} from '@department-of-veterans-affairs/platform-user/exports';
 import {
   hasSession,
   setupProfileSession,
-} from 'platform/user/profile/utilities';
-import { apiRequest } from 'platform/utilities/api';
-import { requestToken } from 'platform/utilities/oauth/utilities';
-import { generateReturnURL } from 'platform/user/authentication/utilities';
+} from '@department-of-veterans-affairs/platform-user/profile/utilities';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { requestToken } from '@department-of-veterans-affairs/platform-utilities/oauth/utilities';
+import { generateReturnURL } from '@department-of-veterans-affairs/platform-user/authentication/utilities';
 import {
   OAUTH_ERRORS,
   OAUTH_ERROR_RESPONSES,

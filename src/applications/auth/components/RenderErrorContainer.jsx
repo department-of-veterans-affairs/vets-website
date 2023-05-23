@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AUTH_ERRORS, AUTH_LEVEL } from 'platform/user/authentication/errors';
+import {
+  AUTH_ERRORS,
+  AUTH_LEVEL,
+} from '@department-of-veterans-affairs/platform-user/exports';
 import Helpdesk from './HelpdeskContact';
 
 export default function RenderErrorContainer({

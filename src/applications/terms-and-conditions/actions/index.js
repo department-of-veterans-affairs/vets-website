@@ -1,4 +1,4 @@
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { apiRequest } from 'platform/utilities/api';
 
 export const FETCHING_LATEST_TERMS = 'FETCHING_LATEST_TERMS';

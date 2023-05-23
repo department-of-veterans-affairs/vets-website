@@ -131,7 +131,12 @@ export {
   LINK_TYPES,
   AUTH_PARAMS,
 } from './authentication/constants';
-export { AUTH_LEVEL, AUTH_ERRORS } from './authentication/errors';
+export {
+  AUTH_LEVEL,
+  AUTH_ERRORS,
+  getAuthError,
+  SENTRY_TAGS,
+} from './authentication/errors';
 export {
   hasCheckedKeepAlive,
   signInServiceName,

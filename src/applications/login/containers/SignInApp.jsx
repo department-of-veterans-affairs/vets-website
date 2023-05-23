@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
 
-import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
+import AutoSSO from '@department-of-veterans-affairs/platform-site-wide/AutoSSO';
 import LoginContainer from 'platform/user/authentication/components/LoginContainer';
 import { isLoggedIn } from 'platform/user/selectors';
 import { signInServiceEnabled } from 'platform/user/authentication/selectors';

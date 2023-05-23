@@ -1,4 +1,4 @@
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import SignInApp from './containers/SignInApp';
 import SignInWrapper from './components/SignInWrapper';
 import MockAuth from './containers/MockAuth';

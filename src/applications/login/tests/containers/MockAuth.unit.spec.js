@@ -2,9 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import environments from 'site/constants/environments';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { SERVICE_PROVIDERS, GA } from 'platform/user/authentication/constants';
-import LoginButton from 'platform/user/authentication/components/LoginButton';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/exports';
+import {
+  SERVICE_PROVIDERS,
+  GA,
+} from '@department-of-veterans-affairs/platform-user/authentication/constants';
+import LoginButton from '@department-of-veterans-affairs/platform-user/LoginButton';
 import sinon from 'sinon';
 import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';

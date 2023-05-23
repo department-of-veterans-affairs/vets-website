@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import environments from 'site/constants/environments';
 import { mockLogin } from 'platform/user/authentication/utilities';
 import {
   CSP_IDS,
   SERVICE_PROVIDERS,
 } from 'platform/user/authentication/constants';
-import Select from '@department-of-veterans-affairs/component-library/Select';
 
 export default function MockAuthButton() {
   const [authType, setAuthType] = useState(CSP_IDS.LOGIN_GOV);
@@ -15,7 +14,7 @@ export default function MockAuthButton() {
     environment.getRawBuildtype(),
   ) ? (
     <>
-      <Select
+      <va-select
         label="Credential Service Provider"
         name="authType"
         includeBlankOption={false}
