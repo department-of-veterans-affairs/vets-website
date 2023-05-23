@@ -8,11 +8,6 @@ import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { setData } from 'platform/forms-system/src/js/actions';
 import environment from 'platform/utilities/environment';
 
-// **** temporary code ****
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-// **** end temporary code ****
-
 import user from '../tests/fixtures/mocks/user.json';
 
 import formConfig from '../config/form';
@@ -44,9 +39,6 @@ export const Form0996App = ({
   getContestableIssues,
   contestableIssues = {},
   legacyCount,
-  // **** temporary code ****
-  disableSubmit,
-  // **** end temporary code ****
 }) => {
   // vapContactInfo is an empty object locally, so mock it
   const contactInfo = environment.isLocalhost()
@@ -58,26 +50,6 @@ export const Form0996App = ({
   // Make sure we're only loading issues once - see
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
   const [isLoadingIssues, setIsLoadingIssues] = useState(false);
-
-  // **** temporary code ****
-  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/58229
-  useEffect(
-    () => {
-      if (loggedIn && location?.pathname === '/review-and-submit') {
-        const timer = setInterval(() => {
-          const submit = document.querySelector(
-            '.form-progress-buttons .usa-button-primary',
-          );
-          if (submit) {
-            submit.disabled = true;
-            clearInterval(timer);
-          }
-        }, 50);
-      }
-    },
-    [loggedIn, disableSubmit, location?.pathname],
-  );
-  // **** end temporary code ****
 
   useEffect(
     () => {
@@ -208,9 +180,6 @@ Form0996App.propTypes = {
   setFormData: PropTypes.func.isRequired,
   children: PropTypes.any,
   contestableIssues: PropTypes.shape({}),
-  // **** temporary code ****
-  disableSubmit: PropTypes.bool,
-  // **** end temporary code ****
   formData: PropTypes.shape({
     additionalIssues: PropTypes.array,
     areaOfDisagreement: PropTypes.array,
@@ -240,10 +209,6 @@ const mapStateToProps = state => ({
   savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
   legacyCount: state.legacyCount || 0,
-  // **** temporary code ****
-  disableSubmit:
-    toggleValues(state)[FEATURE_FLAG_NAMES.hlrDisableSubmit] || false,
-  // **** end temporary code ****
 });
 
 const mapDispatchToProps = {
