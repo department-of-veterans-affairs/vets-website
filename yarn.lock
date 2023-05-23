@@ -2525,13 +2525,13 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^16.1.1":
-  version "16.1.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-16.1.1.tgz#3e6fad3c642547f600fcf72165e169aec98b23c4"
-  integrity sha512-bNerKtqS4btkPY+r211s+QhXFzDqJZPsszSOHliQCDeTRwT98otg2exsLVkHani0ExvwQASMh/P7Xw9fN6T/OQ==
+"@department-of-veterans-affairs/component-library@^16.2.0":
+  version "16.2.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-16.2.0.tgz#9c7c1d5e7c1ab7760c7e28fa1a965144958e5138"
+  integrity sha512-zT1M2gckohTqG9fvtZ0xTxcFAqnfFTTB01rLSPqPMDM34wtO+F9d/8SbYmFNxFdQBq/yCxF+0IkiS8LUUtCQ8Q==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "11.0.0"
-    "@department-of-veterans-affairs/web-components" "4.38.3"
+    "@department-of-veterans-affairs/react-components" "11.0.1"
+    "@department-of-veterans-affairs/web-components" "4.39.2"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2563,10 +2563,10 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@11.0.0":
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-11.0.0.tgz#0067780907ea71ad8853d6a5cc998557af953f51"
-  integrity sha512-hHRW7aGh/6qL9GwQbKYZNJm94CTToTZu4tLLXuP6XLV4Ukm4vaIUgFJklXcKvE3e5ZpIe/7nVov0v3nFUggJJg==
+"@department-of-veterans-affairs/react-components@11.0.1":
+  version "11.0.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-11.0.1.tgz#062eeb04c0e156670003e4d5426ff943b649eaaa"
+  integrity sha512-BdIrtd77ePAZ40Pn02jHMsKUZbB7b/wmcTMpZMKOuJISu2+IRtyS+v6+9dcITrsMrOGt6u5qX0c3KpoMdJKI5w==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
@@ -2604,10 +2604,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.38.3":
-  version "4.38.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.38.3.tgz#77945c08d4ed21d783947d5b617fc8cdc4d41be9"
-  integrity sha512-YUWHphQF0VIDDF5e9PkgxEMIhMbE+kYtITtrEcH1i7vAQrSQS6fpygC0ke/DY2KAGceoNkxqUDSQd445hyIi9g==
+"@department-of-veterans-affairs/web-components@4.39.2":
+  version "4.39.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.39.2.tgz#92851f9b3cb64219bd7025674206325776f40f82"
+  integrity sha512-yIcxVZDQf3HDON3PkoQmMhkToeiE40m3QhwWeIAPB75ihJeFRUKS7Na/8qifgs/9EqTFVTVsXqC0b9VbPk4HjA==
   dependencies:
     "@stencil/core" "^2.19.2"
     aria-hidden "^1.1.3"
@@ -19075,9 +19075,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#5f1a5943ac7771e21469e2fd14c0d0b72e5c5cab":
-  version "20.26.9"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#5f1a5943ac7771e21469e2fd14c0d0b72e5c5cab"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#f098d1e9d2a5f74514aa4e3770d88f565dde84da":
+  version "20.26.10"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#f098d1e9d2a5f74514aa4e3770d88f565dde84da"
   dependencies:
     minimist "^1.2.3"
 
