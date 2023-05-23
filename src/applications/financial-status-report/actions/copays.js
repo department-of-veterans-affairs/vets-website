@@ -42,7 +42,8 @@ export const getStatements = async dispatch => {
         statements: transformStatementData(data),
       });
     })
-    .catch(error => {
+    .catch(({ errors = [] }) => {
+      const error = errors[0] || 'Unknown error';
       Sentry.withScope(scope => {
         scope.setExtra('error', error);
         Sentry.captureMessage(`medical_copays failed: ${error}`);
