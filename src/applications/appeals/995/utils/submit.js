@@ -260,12 +260,14 @@ export const getPhone = formData => {
 };
 
 export const hasDuplicateLocation = (list, locationAndName, evidenceDates) =>
-  !!list.find(
-    ({ attributes }) =>
+  !!list.find(({ attributes }) => {
+    const { startDate, endDate } = attributes.evidenceDates[0];
+    return (
       attributes.locationAndName === locationAndName &&
-      attributes.evidenceDates[0].startDate === evidenceDates.from &&
-      attributes.evidenceDates[0].endDate === evidenceDates.to,
-  );
+      fixDateFormat(startDate) === fixDateFormat(evidenceDates.from) &&
+      fixDateFormat(endDate) === fixDateFormat(evidenceDates.to)
+    );
+  });
 
 /**
  * Truncate long email addresses

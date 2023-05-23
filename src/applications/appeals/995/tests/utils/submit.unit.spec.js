@@ -308,6 +308,12 @@ describe('hasDuplicateLocation', () => {
     expect(
       hasDuplicateLocation(list, second.locationAndName, second.evidenceDates),
     ).to.be.true;
+
+    // check date format without leading zeros
+    const first2 = getLocation({ from: '2022-1-1', to: '2022-2-2' });
+    expect(
+      hasDuplicateLocation(list, first2.locationAndName, first2.evidenceDates),
+    ).to.be.true;
   });
 });
 
