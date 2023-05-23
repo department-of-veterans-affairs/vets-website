@@ -1,5 +1,5 @@
 import {
-  // testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmit,
   testNumberOfFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../../definitions/constants';
@@ -17,14 +17,13 @@ const mockData = {
     first: 'Jack',
     last: 'Witness',
   },
-  witnessRelationshipToClaimant: {
-    'served-with': true,
-    'family-or-friend': false,
-    'coworker-or-supervisor': false,
-  },
+  witnessRelationshipToClaimant: 'Served with Claimant',
 };
 
-const expectedNumberOfFields = 7;
+// Expect 4 fields instead of 7 fields.
+// witnessRelationshipToClaimant checkbox-group's 3 fields are
+// in shadow-DOM and thus unselectable by test.
+const expectedNumberOfFields = 4;
 testNumberOfFields(
   formConfig,
   schema,
@@ -34,6 +33,18 @@ testNumberOfFields(
   mockData,
 );
 
-// TODO: Once Relationship checkboxes validation error-messaging is fixed,
-// add testNumberOfErrorsOnSubmit().
-// GitHub bug: https://github.com/department-of-veterans-affairs/va.gov-team-forms/issues/255
+// Expect 4 instead of 7 errors.
+// witnessRelationshipToClaimant checkbox-group only displays
+// 1 error-message for its 3 shadow-DOM fields.
+const expectedNumberOfErrors = 4;
+testNumberOfErrorsOnSubmit(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfErrors,
+  pageTitle,
+  {
+    claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+    claimantType: CLAIMANT_TYPES.VETERAN,
+  },
+);
