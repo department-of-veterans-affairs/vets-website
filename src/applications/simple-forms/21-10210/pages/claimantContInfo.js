@@ -15,6 +15,7 @@ export default {
   uiSchema: {
     claimantPhone: {
       'ui:title': 'Phone number',
+      'ui:autocomplete': 'tel-national',
     },
     claimantEmail: {
       ...partialEmailUi,

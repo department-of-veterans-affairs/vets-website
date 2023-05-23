@@ -6,6 +6,7 @@ export default {
       'ui:title':
         'Describe what you yourself know or have observed about the facts or circumstances relevant to this claim before VA',
       'ui:widget': 'textarea',
+      'ui:autocomplete': 'off',
     },
   },
   schema: {

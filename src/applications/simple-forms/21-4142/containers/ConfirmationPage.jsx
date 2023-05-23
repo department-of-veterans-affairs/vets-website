@@ -45,10 +45,9 @@ export class ConfirmationPage extends React.Component {
             Thank you for submitting your authorization request
           </h2>
           <p>
-            After we review your application, we will contact the private
-            provider or hospital to obtain the requested records. If we cannot
-            obtain the records within 15 days we will send you a follow up
-            letter.
+            After we review your application, we'll contact the private provider
+            or hospital to get the requested records. If we can't get the
+            records within 15 days we'll send you a follow-up letter by mail.
           </p>
         </va-alert>
         <div className="inset">
