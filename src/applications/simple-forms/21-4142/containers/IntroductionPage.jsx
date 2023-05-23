@@ -50,6 +50,7 @@ class IntroductionPage extends React.Component {
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the medical release authorization"
+          displayNonVeteranMessaging
         >
           Please complete the 21-4142 form Authorize the release of non-VA
           medical records to the VA.
