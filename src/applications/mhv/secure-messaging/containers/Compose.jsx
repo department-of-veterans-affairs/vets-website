@@ -7,9 +7,9 @@ import { retrieveMessageThread } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import EmergencyNote from '../components/EmergencyNote';
-import AlertBox from '../components/shared/AlertBox';
 import InterstitialPage from './InterstitialPage';
 import { closeAlert } from '../actions/alerts';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 
 const Compose = () => {
   const dispatch = useDispatch();
@@ -63,9 +63,12 @@ const Compose = () => {
     pageTitle = 'Start a new message';
   }
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-  });
+  useEffect(
+    () => {
+      if (acknowledged && header) focusElement(document.querySelector('h1'));
+    },
+    [header, acknowledged],
+  );
 
   const content = () => {
     if (!isDraftPage && triageTeams) {
@@ -124,7 +127,7 @@ const Compose = () => {
         <>
           {draftType && (
             <div className="vads-l-grid-container compose-container">
-              <AlertBox />
+              <AlertBackgroundBox closeable />
 
               {content()}
             </div>

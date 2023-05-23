@@ -1,6 +1,6 @@
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { DEBT_TYPES } from '../utils/helpers';
+import { DEBT_TYPES } from '../constants';
 
 // Analytics event
 export const buildEventData = ({ selectedDebtsAndCopays }) => {

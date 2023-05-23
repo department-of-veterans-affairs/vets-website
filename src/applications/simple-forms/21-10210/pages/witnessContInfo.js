@@ -4,10 +4,12 @@ import definitions from 'vets-json-schema/dist/definitions.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import formDefinitions from '../definitions/form-definitions';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     witnessPhone: {
       'ui:title': 'Phone number',
+      'ui:autocomplete': 'tel-national',
     },
     witnessEmail: emailUI(
       <span>

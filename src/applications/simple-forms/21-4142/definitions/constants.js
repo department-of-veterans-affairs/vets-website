@@ -48,7 +48,7 @@ export const schemaFields = {
   privacyAgreementAccepted: 'privacyAgreementAccepted',
 };
 
-export const veteranIsSelfText = 'I am the service member/Veteran';
+export const veteranIsSelfText = 'I am the Veteran';
 
 export const veteranDirectRelative = ['Spouse', 'Child'];
 
@@ -57,6 +57,6 @@ export const relationshipToVeteranEnum = [
   ...veteranDirectRelative,
   'Fiduciary',
   'Veteran Service Officer',
-  'Alternate Signer',
+  'Alternate signer (a person certified to file a claim forms for the Veteran or non-Veteran) ',
   'Third-party',
 ];

@@ -68,6 +68,18 @@ export default function UpcomingAppointmentsList() {
   const featureAppointmentList = useSelector(state =>
     selectFeatureAppointmentList(state),
   );
+
+  useEffect(
+    () => {
+      if (featureAppointmentList) {
+        recordEvent({
+          event: `${GA_PREFIX}-new-appointment-list`,
+        });
+      }
+    },
+    [featureAppointmentList],
+  );
+
   useEffect(
     () => {
       if (futureStatus === FETCH_STATUS.notStarted) {

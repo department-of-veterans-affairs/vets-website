@@ -26,20 +26,42 @@ import transformForSubmit from '../../shared/config/submit-transformer';
 // https://www.sketch.com/s/a11421d3-c148-41a2-a34f-3d7821ea676f
 
 // mock-data import for local development
-// import the appropriate file [...-flow?.json] for the flow you're working on, or
-// test-data-no-stmtinfo.json for all flows [select claimOwnership & claimantType via UI]
-import testData from '../tests/fixtures/data/test-data-no-stmtinfo.json';
+// import the appropriate file [flow?.json] for the flow you're working on, or
+// noStmtInfo.json for all flows [select claimOwnership & claimantType via UI]
+import testData from '../tests/e2e/fixtures/data/noStmtInfo.json';
 
 const mockData = testData.data;
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'lay-witness-10210-',
+  dev: {
+    showNavLinks: true,
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I certify that I have completed this statement and that its information is true and correct to the best of my knowledge and belief.',
+      messageAriaDescribedby:
+        'I certify that I have completed this statement and that its information is true and correct to the best of my knowledge and belief.',
+      fullNamePath: formData => {
+        if (formData.claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY) {
+          return 'witnessFullName';
+        }
+        if (
+          formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
+          formData.claimantType === CLAIMANT_TYPES.NON_VETERAN
+        ) {
+          return 'claimantFullName';
+        }
+        return 'veteranFullName';
+      },
+    },
+  },
   formId: '21-10210',
   saveInProgress: {
     messages: {
@@ -180,8 +202,8 @@ const formConfig = {
       // for Flows 3 & 4: non-vet claimant
       title: ({ formData } = {}) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF
-          ? 'Your mailing address'
-          : 'Claimant’s mailing address',
+          ? 'Your mailing address' // Flow 3
+          : 'Claimant’s mailing address', // Flow 4
       pages: {
         claimantAddrInfoPage: {
           path: 'claimant-address-information',
