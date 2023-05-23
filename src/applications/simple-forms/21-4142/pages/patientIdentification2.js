@@ -14,12 +14,14 @@ const pageFields = [
   patientIdentificationFields.patientVaFileNumber,
 ];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [patientIdentificationFields.parentObject]: {
       'ui:title': (
         <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-          Identify the person whose records you are authorizing the release of
+          Tell us about the person whose records you're authorizing the release
+          of
         </h3>
       ),
       [patientIdentificationFields.patientFullName]: fullNameUI,

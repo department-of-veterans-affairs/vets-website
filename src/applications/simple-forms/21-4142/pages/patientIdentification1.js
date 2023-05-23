@@ -8,6 +8,7 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [patientIdentificationFields.isRequestingOwnMedicalRecords];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [patientIdentificationFields.parentObject]: {
@@ -21,7 +22,7 @@ export default {
         'ui:widget': 'yesNo',
         'ui:options': {
           labels: {
-            Y: 'Veteran',
+            Y: 'The Veteran',
             N: 'Someone else connected to the Veteran',
           },
         },

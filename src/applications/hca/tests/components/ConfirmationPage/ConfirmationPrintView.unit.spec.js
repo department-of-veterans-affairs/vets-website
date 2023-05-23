@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import ConfirmationPrintView from '../../../components/ConfirmationPage/ConfirmationPrintView';
 
-describe('hca <ConfirmationScreenView>', () => {
+describe('hca <ConfirmationPrintView>', () => {
   it('should render Confirmation Screen View with name and timestamp', () => {
     const name = {
       first: 'John',

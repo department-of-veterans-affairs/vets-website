@@ -130,4 +130,6 @@ export const SUBMITTED_DISAGREEMENTS = {
   evaluation: 'disability evaluation',
 };
 
-export const contestableIssuesPath = 'contestable-issues'; // v2
+export const CONTESTABLE_ISSUES_PATH = 'contestable-issues'; // v2
+export const CONTACT_INFO_PATH = 'contact-information';
+export const ADD_ISSUE_PATH = 'add-issue';

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { retrieveMessageThread } from '../actions/messages';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
@@ -23,6 +24,13 @@ const MessageReply = () => {
       dispatch(retrieveMessageThread(replyId));
     },
     [replyId, dispatch],
+  );
+
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+    },
+    [acknowledged, replyMessage],
   );
 
   const content = () => {
@@ -54,7 +62,6 @@ const MessageReply = () => {
         {messageHistory?.length > 0 && (
           <MessageThread
             messageHistory={messageHistory}
-            isDraftThread
             isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
             viewCount={threadViewCount}
           />

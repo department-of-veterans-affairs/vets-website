@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearDraft } from '../actions/draftDetails';
 import { retrieveMessageThread } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import EmergencyNote from '../components/EmergencyNote';
-import AlertBox from '../components/shared/AlertBox';
 import InterstitialPage from './InterstitialPage';
 import { closeAlert } from '../actions/alerts';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 
 const Compose = () => {
   const dispatch = useDispatch();
@@ -23,19 +24,22 @@ const Compose = () => {
   const isDraftPage = location.pathname.includes('/draft');
   const header = useRef();
 
-  useEffect(() => {
-    dispatch(getTriageTeams());
+  useEffect(
+    () => {
+      dispatch(getTriageTeams());
 
-    if (location.pathname === '/compose') {
-      dispatch(clearDraft());
-      setDraftType('compose');
-    } else {
-      dispatch(retrieveMessageThread(draftId));
-    }
-    return () => {
-      dispatch(clearDraft());
-    };
-  }, []);
+      if (location.pathname === '/compose') {
+        dispatch(clearDraft());
+        setDraftType('compose');
+      } else {
+        dispatch(retrieveMessageThread(draftId));
+      }
+      return () => {
+        dispatch(clearDraft());
+      };
+    },
+    [dispatch, draftId, location.pathname],
+  );
 
   useEffect(
     () => {
@@ -56,8 +60,15 @@ const Compose = () => {
   if (isDraftPage) {
     pageTitle = 'Edit draft';
   } else {
-    pageTitle = 'Compose message';
+    pageTitle = 'Start a new message';
   }
+
+  useEffect(
+    () => {
+      if (acknowledged && header) focusElement(document.querySelector('h1'));
+    },
+    [header, acknowledged],
+  );
 
   const content = () => {
     if (!isDraftPage && triageTeams) {
@@ -116,7 +127,7 @@ const Compose = () => {
         <>
           {draftType && (
             <div className="vads-l-grid-container compose-container">
-              <AlertBox />
+              <AlertBackgroundBox closeable />
 
               {content()}
             </div>

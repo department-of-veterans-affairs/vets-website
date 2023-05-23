@@ -69,7 +69,7 @@ const LOA1UserState = {
   },
 };
 
-describe('simple top-level selectors', () => {
+describe('hca top-level selectors', () => {
   describe('isLoggedOut', () => {
     it('is `true` if the profile is not loading and the user is not logged in', () => {
       const state = {
@@ -258,7 +258,7 @@ describe('simple top-level selectors', () => {
   });
 });
 
-describe('compound selectors', () => {
+describe('hca compound selectors', () => {
   describe('isLoading', () => {
     it('returns true if the enrollment status is loading', () => {
       const state = {

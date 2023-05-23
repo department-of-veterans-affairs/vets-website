@@ -2,12 +2,13 @@ import React from 'react';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import { schemaFields } from '../definitions/constants';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     'view:legalText': {
       'ui:title': (
         <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-          We need your authorization to request your private medical records
+          Provide your authorization to request the medical records
         </h3>
       ),
       'ui:description': (
@@ -112,9 +113,9 @@ export default {
       },
       'ui:errorMessages': {
         enum:
-          'Please authorize the release so we can request your private medical records from your doctor.',
+          'Please authorize the release so we can request your private medical records from your non-VA provider or hopsital.',
         required:
-          'Please authorize the release so we can request your private medical records from your doctor.',
+          'Please authorize the release so we can request your private medical records from your non-VA provider or hopsital.',
       },
     },
   },

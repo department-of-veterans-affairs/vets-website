@@ -86,7 +86,7 @@ describe('<CallToActionWidget>', () => {
       />,
     );
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    expect(tree.find('va-loading-indicator').exists()).to.be.true;
     tree.unmount();
   });
   it('should show loading state when loading feature toggles', () => {
@@ -107,7 +107,7 @@ describe('<CallToActionWidget>', () => {
       />,
     );
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    expect(tree.find('va-loading-indicator').exists()).to.be.true;
     tree.unmount();
   });
   it('should show sign in state', () => {
@@ -199,7 +199,9 @@ describe('<CallToActionWidget>', () => {
     expect(tree.find('Verify').exists()).to.be.false;
     expect(tree.find('a').props().href).to.contain('track-claims');
     expect(tree.find('a').props().target).to.equal('_self');
-    expect(tree.find('a').text()).to.contain('claim or appeal status');
+    expect(tree.find('a').text()).to.contain(
+      'claim, decision review, or appeal status',
+    );
     tree.unmount();
   });
   describe('health tools', () => {

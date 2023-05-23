@@ -3,13 +3,10 @@ import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
-import '../sass/dashboard.scss';
-
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
-import { API_NAMES } from '../../common/constants';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
@@ -39,6 +36,7 @@ import NotInMPIError from '~/applications/personalization/components/NotInMPIErr
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
+import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
 
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';

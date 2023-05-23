@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
+// START lighthouse_migration
 import FilesPageContent from '../components/evss/FilesPageContent';
+// END lighthouse_migration
 import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
 import AskVAToDecide from '../components/AskVAToDecide';
 // START lighthouse_migration
@@ -19,8 +21,26 @@ import { cstUseLighthouse } from '../selectors';
 import { getClaimType } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
-const NEED_ITEMS_STATUS = 'NEEDED';
-const FIRST_GATHERING_EVIDENCE_PHASE = 3;
+const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
+const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
+
+// Using a Map instead of the typical Object because
+// we want to guarantee that the key insertion order
+// is maintained when converting to an array of keys
+const getStatusMap = () => {
+  const map = new Map();
+  map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
+  map.set('INITIAL_REVIEW', 'INITIAL_REVIEW');
+  map.set(
+    'EVIDENCE_GATHERING_REVIEW_DECISION',
+    'EVIDENCE_GATHERING_REVIEW_DECISION',
+  );
+  map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
+  map.set('COMPLETE', 'COMPLETE');
+  return map;
+};
+
+const STATUSES = getStatusMap();
 
 class FilesPage extends React.Component {
   componentDidMount() {
@@ -59,28 +79,29 @@ class FilesPage extends React.Component {
       return <FilesPageContent claim={claim} params={params} />;
     }
 
-    const { eventsTimeline, open, phase, waiverSubmitted } = claim.attributes;
-    const isOpen = open;
+    const {
+      closeDate,
+      status,
+      supportingDocuments,
+      trackedItems,
+    } = claim.attributes;
+    const isOpen = status !== STATUSES.COMPLETE && closeDate === null;
+    const waiverSubmitted = claim.attributes.evidenceWaiverSubmitted5103;
     const showDecision =
-      phase === FIRST_GATHERING_EVIDENCE_PHASE && !waiverSubmitted;
-    const trackedItems = eventsTimeline.filter(event =>
-      event.type.endsWith('_list'),
-    );
+      claim.attributes.claimPhaseDates.latestPhaseType ===
+        FIRST_GATHERING_EVIDENCE_PHASE && !waiverSubmitted;
+
     const filesNeeded = trackedItems.filter(
-      event =>
-        event.status === NEED_ITEMS_STATUS &&
-        event.type === 'still_need_from_you_list',
+      item => item.status === 'NEEDED_FROM_YOU',
     );
     const optionalFiles = trackedItems.filter(
-      event =>
-        event.status === NEED_ITEMS_STATUS &&
-        event.type === 'still_need_from_others_list',
+      item => item.status === 'NEEDED_FROM_OTHERS',
     );
     const documentsTurnedIn = trackedItems.filter(
-      event =>
-        event.status !== NEED_ITEMS_STATUS ||
-        !event.type.startsWith('still_need_from'),
+      item => !item.status.startsWith(NEED_ITEMS_STATUS),
     );
+
+    documentsTurnedIn.push(...supportingDocuments);
 
     return (
       <div>
@@ -102,7 +123,7 @@ class FilesPage extends React.Component {
 
           {documentsTurnedIn.map(
             (item, itemIndex) =>
-              (item.status || item.trackedItemStatus) && item.trackedItemId ? (
+              item.status && item.id ? (
                 <SubmittedTrackedItem item={item} key={itemIndex} />
               ) : (
                 <AdditionalEvidenceItem item={item} key={itemIndex} />
@@ -150,6 +171,7 @@ class FilesPage extends React.Component {
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
+
   return {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,

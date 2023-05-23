@@ -14,16 +14,7 @@ import NoOnlineCancelAlert from './NoOnlineCancelAlert';
 import PhoneInstructions from './PhoneInstructions';
 import { selectTypeOfCareName } from '../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
-
-function formatHeader(appointment) {
-  if (appointment.vaos.isCOVIDVaccine) {
-    return 'COVID-19 vaccine';
-  }
-  if (appointment.vaos.isPhoneAppointment) {
-    return 'VA appointment over the phone';
-  }
-  return 'VA appointment';
-}
+import { formatHeader } from './DetailsVA.util';
 
 export default function DetailsVA({ appointment, facilityData }) {
   const locationId = getVAAppointmentLocationId(appointment);
@@ -31,11 +22,15 @@ export default function DetailsVA({ appointment, facilityData }) {
   const isCovid = appointment.vaos.isCOVIDVaccine;
   const header = formatHeader(appointment);
   const isPhone = appointment.vaos.isPhoneAppointment;
-  const { isPastAppointment } = appointment.vaos;
+  const { isPastAppointment, isCompAndPenAppointment } = appointment.vaos;
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+  const isAppointmentCancellable = appointment.vaos.isCancellable;
 
   const typeOfCareName = selectTypeOfCareName(appointment);
-  const isCompAndPen = typeOfCareName === 'Compensation and pension exam';
+  // we don't want to display the appointment type header for upcoming C&P appointments.
+  const displayTypeHeader =
+    !isCompAndPenAppointment ||
+    (isCompAndPenAppointment && (isPastAppointment || canceled));
 
   // v0 does not return a stopCode for covid as serviceType, instead we check for isCovid
   // remove the check for isCovid when we migrate entirely to v2
@@ -44,27 +39,26 @@ export default function DetailsVA({ appointment, facilityData }) {
     return (
       !!typeOfCare && (
         <>
-          {isCompAndPen ? (
+          {isCompAndPenAppointment && !isPastAppointment && !canceled ? (
             <>
               <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
                 {typeOfCare}
               </h2>
-              {!isPastAppointment &&
-                !canceled && (
-                  <p className="vads-l-col--12 medium-screen:vads-l-col--8">
-                    This appointment is for rating purposes only and will not
-                    include treatment. If you have any medical evidence to
-                    claim, please bring copies to your exam.
-                  </p>
-                )}
+              <p className="vads-l-col--12 vads-u-margin-top--0 medium-screen:vads-l-col--8">
+                This appointment is for rating purposes only and will not
+                include treatment. If you have any medical evidence to claim,
+                please bring copies to your exam.
+              </p>
             </>
           ) : (
-            <>
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
-                Type of care:
-              </h2>
-              <div className="vads-u-display--inline"> {typeOfCare}</div>
-            </>
+            !isCompAndPenAppointment && (
+              <>
+                <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
+                  Type of care:
+                </h2>
+                <div className="vads-u-display--inline"> {typeOfCare}</div>
+              </>
+            )
           )}
         </>
       )
@@ -87,7 +81,7 @@ export default function DetailsVA({ appointment, facilityData }) {
       </h1>
       <StatusAlert appointment={appointment} facility={facility} />
       <ShowTypeOfCare />
-      <TypeHeader>{header}</TypeHeader>
+      {displayTypeHeader && <TypeHeader>{header}</TypeHeader>}
       <PhoneInstructions appointment={appointment} />
       <VAFacilityLocation
         facility={facility}
@@ -100,9 +94,13 @@ export default function DetailsVA({ appointment, facilityData }) {
       <VAInstructions appointment={appointment} />
       <CalendarLink appointment={appointment} facility={facility} />
       <PrintLink appointment={appointment} />
-      {!isCovid && <CancelLink appointment={appointment} />}
-      {isCovid && (
-        <NoOnlineCancelAlert appointment={appointment} facility={facility} />
+      {isAppointmentCancellable && <CancelLink appointment={appointment} />}
+      {!isAppointmentCancellable && (
+        <NoOnlineCancelAlert
+          appointment={appointment}
+          facility={facility}
+          isCompAndPenAppointment={isCompAndPenAppointment}
+        />
       )}
     </>
   );

@@ -7,9 +7,7 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
     const landingPage = new PatientInboxPage();
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadLandingPagebyTabbingandEnterKey();
-    cy.tabToElement('.sidebar-navigation-messages-list-header > a');
-    cy.realPress(['Enter']);
+    cy.get('[class="sidebar-navigation-messages-list-header"]').click();
     cy.tabToElement('[data-testid="compose-message-link"]').should(
       'have.focus',
     );
