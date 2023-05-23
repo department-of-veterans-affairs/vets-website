@@ -509,7 +509,8 @@ export default function V1V3Page() {
 
             <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaSegmentedProgressBar
-                centered-labels="true"
+                centered-labels
+                counters="small"
                 current={2}
                 heading-text="V3 VA Benefits"
                 label="Label is here"
