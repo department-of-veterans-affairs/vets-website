@@ -501,10 +501,25 @@ export default function V1V3Page() {
             <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
               <VaSegmentedProgressBar
                 current={2}
-                heading-text="V1 VA Benefits"
+                label="V1 VA Benefits"
                 total={5}
-                uswds
               />
+              <div
+                className="schemaform-chapter-progress"
+                style={{
+                  paddingLeft: '2rem',
+                }}
+              >
+                <div className="nav-header nav-header-schemaform">
+                  <h2
+                    className="vads-u-font-size--h4"
+                    id="nav-form-header"
+                    tabIndex="-1"
+                  >
+                    Step 2 of 6: VA Benefits
+                  </h2>
+                </div>
+              </div>
             </div>
 
             <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
