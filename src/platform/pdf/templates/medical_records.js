@@ -1,132 +1,58 @@
 /**
  * Lab and Test Results PDF template.
  */
-import registerFonts from '../registerFonts';
+import {
+  createAccessibleDoc,
+  addHorizontalRule,
+  // createDetailItem,
+  createHeading,
+  createSpan,
+  createSubHeading,
+  getTestResultBlockHeight,
+  registerVaGovFonts,
+} from './utils';
 
-const pdfkit = require('pdfkit');
-
-// Handle both node and browser environments.
-const PDFDocument = pdfkit.default ?? pdfkit;
-
-// TODO: add to utils file.
-/**
- * @param doc - pdfkit document
- * @param spaceFromEdge - how far the right and left sides should be away from the edge (in px)
- * @param linesAboveAndBelow - how much space should be above and below the HR (in lines)
- */
-const addHorizontalRule = (
-  doc,
-  spaceFromEdge = 0,
-  linesAboveAndBelow = 0.5,
-) => {
-  doc.moveDown(linesAboveAndBelow);
-
-  // TODO add alternative text.
-  doc.markContent('Artifact', { type: 'Layout' });
-  doc
-    .moveTo(0 + spaceFromEdge, doc.y)
-    .lineTo(doc.page.width - spaceFromEdge, doc.y)
-    .stroke();
-
-  doc.moveDown(linesAboveAndBelow);
-  return doc;
+const config = {
+  margins: {
+    top: 40,
+    bottom: 40,
+    left: 20,
+    right: 20,
+  },
+  headings: {
+    H1: {
+      font: 'Bitter-Bold',
+      size: 30,
+    },
+    H2: {
+      font: 'Bitter-Bold',
+      size: 24,
+    },
+    H3: {
+      font: 'Bitter-Bold',
+      size: 18,
+    },
+  },
+  subHeading: {
+    font: 'Bitter-Regular',
+    size: 16,
+  },
+  text: {
+    boldFont: 'SourceSansPro-Bold',
+    font: 'SourceSansPro-Regular',
+    size: 16,
+  },
 };
 
-const getTestResultBlockHeight = (doc, item, initialBlock = false) => {
-  let height = 0;
-
-  // Account for height of horizontal rule.
-  if (!initialBlock) {
-    height += 16;
-  }
-
-  if (item.header) {
-    height += 36;
-  }
-
-  item.items.forEach(resultItem => {
-    // This is a gross hack that's necessary because the heightOfString doesn't always
-    // return the correct height. See e.g. https://github.com/foliojs/pdfkit/issues/1438
-    // TODO: account for longer lines.
-    height += 24;
-    if (resultItem.inline === false) {
-      height += 24;
-    }
-    /**
-     * Potential improved solution if issues with heightOfString are fixed:
-     * 
-    if (resultItem.inline === true) {
-      height += doc.heightOfString(`${resultItem.title}: ${resultItem.value}`, 44, 0, {
-        // Using regular weight is a bit of a fudge but should be
-        // more accurate than using bold for the whole string.
-        font: 'SourceSansPro-Regular',
-        fontSize: 16,
-        lineGap: 0,
-      });
-    } else {
-      height += doc.heightOfString(`${resultItem.title}`, 44, 0, {
-        font: 'SourceSansPro-Bold',
-        fontSize: 16,
-        lineGap: 0,
-      });
-      height += doc.heightOfString(resultItem.value, 44, 0, {
-        font: 'SourceSansPro-Regular',
-        fontSize: 16,
-        lineGap: 0,
-      });
-    }
-    */
-  });
-
-  return height;
-};
-
-const generate = async data => {
-  const doc = new PDFDocument({
-    pdfVersion: '1.7',
-    lang: 'en-US',
-    tagged: true,
-    displayTitle: true,
-    info: {
-      Title: data.title,
-    },
-    autoFirstPage: false,
-    bufferPages: true,
-  });
-
-  await registerFonts(doc, [
-    'Bitter-Bold',
-    'Bitter-Regular',
-    'SourceSansPro-Bold',
-    'SourceSansPro-Regular',
-  ]);
-
-  doc.addPage({
-    margins: {
-      top: 40,
-      bottom: 40,
-      left: 20,
-      right: 20,
-    },
-  });
-
-  // Introduction section.
+const generateIntroductionContent = async (doc, data) => {
+  const headOptions = { paragraphGap: 16 };
+  const subHeadOptions = { paragraphGap: 24 };
   const introductionContent = [
-    doc.struct('H1', () => {
-      doc
-        .font('Bitter-Bold')
-        .fontSize(30)
-        .text(data.title, { paragraphGap: 16 });
-    }),
+    createHeading(doc, 'H1', config, data.title, headOptions),
   ];
   if (data.preface) {
     introductionContent.push(
-      doc.struct('P', () => {
-        doc
-          .font('Bitter-Regular')
-          .fontSize(16)
-          .text(data.preface, { paragraphGap: 24 });
-      }),
+      createSubHeading(doc, config, data.preface, subHeadOptions),
     );
   }
   const introduction = doc.struct(
@@ -137,150 +63,127 @@ const generate = async data => {
     introductionContent,
   );
   doc.addStructure(introduction);
+};
 
-  // Details section.
-  if (data.details) {
-    const details = doc.struct('Sect', {
-      title: 'Details',
-    });
-    doc.addStructure(details);
-    if (data.details.header) {
-      details.add(
-        doc.struct('H2', () => {
-          doc
-            .font('Bitter-Bold')
-            .fontSize(24)
-            .text(data.details.header, { x: 30, paragraphGap: 16 });
-        }),
-      );
-    }
-    const detailsItemsCount = data.details.items.length;
-    if (detailsItemsCount > 0) {
-      data.details.items.forEach(item => {
-        const paragraphOptions = { lineGap: 0 };
-        let titleText = item.title;
-        if (item.inline === true) {
-          paragraphOptions.continued = true;
-          titleText += ': ';
-        } else {
-          titleText += ' ';
-        }
-        details.add(
-          doc.struct('P', () => {
-            doc
-              .font('SourceSansPro-Bold')
-              .fontSize(16)
-              .text(titleText, 30, doc.y, paragraphOptions);
-            doc
-              .font('SourceSansPro-Regular')
-              .fontSize(16)
-              .text(`${item.value}`);
-          }),
-        );
-      });
-    }
-    details.end();
+const generateDetailsContent = async (doc, data) => {
+  const details = doc.struct('Sect', {
+    title: 'Details',
+  });
+  doc.addStructure(details);
+  if (data.details.header) {
+    const headOptions = { x: 30, paragraphGap: 16 };
+    details.add(createHeading(doc, 'H2', config, data.title, headOptions));
   }
-
-  // Results section.
-  if (data.results) {
-    const results = doc.struct('Sect', {
-      title: 'Results',
-    });
-    doc.addStructure(results);
-    if (data.results.header) {
-      results.add(
-        doc.struct('H2', () => {
+  const detailsItemsCount = data.details.items.length;
+  if (detailsItemsCount > 0) {
+    data.details.items.forEach(item => {
+      // details.add(createDetailItem(doc, config, 30, item));
+      const paragraphOptions = { lineGap: 0 };
+      let titleText = item.title;
+      if (item.inline === true) {
+        paragraphOptions.continued = true;
+        titleText += ': ';
+      } else {
+        titleText += ' ';
+      }
+      details.add(
+        doc.struct('P', () => {
           doc
-            .font('Bitter-Bold')
-            .fontSize(24)
-            .text(data.results.header, 34, doc.y, { paragraphGap: 20 });
+            .font(config.text.boldFont)
+            .fontSize(config.text.fontSize)
+            .text(titleText, 30, doc.y, paragraphOptions);
+          doc
+            .font(config.text.font)
+            .fontSize(config.text.fontSize)
+            .text(item.value);
+        }),
+      );
+    });
+  }
+  details.end();
+};
+
+const generateResultsContent = async (doc, data) => {
+  const results = doc.struct('Sect', {
+    title: 'Results',
+  });
+  doc.addStructure(results);
+  if (data.results.header) {
+    const headingOptions = { paragraphGap: 20, x: 34 };
+    results.add(
+      createHeading(doc, 'H2', config, data.results.header, headingOptions),
+    );
+  }
+  let initialBlock = true;
+  data.results.items.forEach((item, idx) => {
+    // Insert a pagebreak if the next block will not fit on the current page,
+    // taking the footer height into account.
+    const blockHeight = getTestResultBlockHeight(doc, item, initialBlock);
+    if (doc.y + blockHeight > 750) {
+      initialBlock = true;
+      doc.addPage();
+    } else if (idx > 0) {
+      initialBlock = false;
+      results.add(
+        doc.struct('NonStruct', () => {
+          addHorizontalRule(doc, 30, 0.5);
         }),
       );
     }
-    let initialBlock = true;
-    data.results.items.forEach((item, idx) => {
-      // Insert a pagebreak if the next block will not fit on the current page,
-      // taking the footer height into account.
-      const blockHeight = getTestResultBlockHeight(doc, item, initialBlock);
-      if (doc.y + blockHeight > 750) {
-        initialBlock = true;
-        doc.addPage();
-      } else if (idx > 0) {
-        initialBlock = false;
-        results.add(
-          doc.struct('NonStruct', () => {
-            addHorizontalRule(doc, 30, 0.5);
-          }),
-        );
-      }
 
+    const headingOptions = { paragraphGap: 10, x: 34 };
+    results.add(createHeading(doc, 'H3', config, item.header, headingOptions));
+
+    item.items.forEach(resultItem => {
+      // results.add(createDetailItem(doc, config, 44, resultItem));
+      const paragraphOptions = { lineGap: 0 };
+      let titleText = resultItem.title;
+      if (resultItem.inline === true) {
+        paragraphOptions.continued = true;
+        titleText += ': ';
+      } else {
+        titleText += ' ';
+      }
       results.add(
-        doc.struct('H3', () => {
+        doc.struct('P', () => {
           doc
             .font('SourceSansPro-Bold')
-            .fontSize(18)
-            .text(item.header, 34, doc.y, { paragraphGap: 10 });
+            .fontSize(16)
+            .text(titleText, 44, doc.y, paragraphOptions);
+          doc
+            .font('SourceSansPro-Regular')
+            .fontSize(16)
+            .text(`${resultItem.value}`);
         }),
       );
-
-      item.items.forEach(resultItem => {
-        const paragraphOptions = { lineGap: 0 };
-        let titleText = resultItem.title;
-        if (resultItem.inline === true) {
-          paragraphOptions.continued = true;
-          titleText += ': ';
-        } else {
-          titleText += ' ';
-        }
-        results.add(
-          doc.struct('P', () => {
-            doc
-              .font('SourceSansPro-Bold')
-              .fontSize(16)
-              .text(titleText, 44, doc.y, paragraphOptions);
-            doc
-              .font('SourceSansPro-Regular')
-              .fontSize(16)
-              .text(`${resultItem.value}`);
-          }),
-        );
-      });
     });
-    results.end();
-  }
+  });
+  results.end();
+};
 
-  // Add header & footer.
+const generateHeaderAndFooterContent = async (doc, data) => {
   const pages = doc.bufferedPageRange();
   for (let i = 0; i < pages.count; i += 1) {
     doc.switchToPage(i);
 
-    // Adjust page margins.
-    doc.page.margins.top = 0;
-    doc.page.margins.bottom = 0;
-    doc.page.margins.right = 16;
+    // Adjust page margins so that we can write in the header/footer area.
+    // eslint-disable-next-line no-param-reassign
+    doc.page.margins = {
+      top: 0,
+      bottom: 0,
+      left: 20,
+      right: 16,
+    };
 
     const header = doc.struct('Artifact', {
       type: 'Pagination',
       title: 'Header',
       attached: 'Top',
     });
-    header.add(
-      doc.struct('Span', () => {
-        doc
-          .font('SourceSansPro-Regular')
-          .fontSize(16)
-          .text(data.headerLeft, 16, 12, { continued: true });
-      }),
-    );
-    header.add(
-      doc.struct('Span', () => {
-        doc
-          .font('SourceSansPro-Regular')
-          .fontSize(16)
-          .text(data.headerRight, { align: 'right' });
-      }),
-    );
+    const leftOptions = { continued: true, x: 16, y: 12 };
+    header.add(createSpan(doc, config, data.headerLeft, leftOptions));
+    const rightOptions = { align: 'right' };
+    header.add(createSpan(doc, config, data.headerRight, rightOptions));
     header.end();
     doc.addStructure(header);
 
@@ -291,25 +194,36 @@ const generate = async data => {
     });
     let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
     footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
-    footer.add(
-      doc.struct('Span', () => {
-        doc
-          .font('SourceSansPro-Regular')
-          .fontSize(16)
-          .text(data.footerLeft, 16, 766, { continued: true });
-      }),
-    );
-    footer.add(
-      doc.struct('Span', () => {
-        doc
-          .font('SourceSansPro-Regular')
-          .fontSize(16)
-          .text(footerRightText, { align: 'right' });
-      }),
-    );
+    const footerLeftOptions = { continued: true, x: 16, y: 766 };
+    footer.add(createSpan(doc, config, data.footerLeft, footerLeftOptions));
+    const footerRightOptions = { align: 'right' };
+    footer.add(createSpan(doc, config, footerRightText, footerRightOptions));
     footer.end();
     doc.addStructure(footer);
   }
+};
+
+const generate = async data => {
+  const doc = createAccessibleDoc(data.title);
+
+  await registerVaGovFonts(doc);
+
+  doc.addPage({ margins: config.margins });
+
+  // Add content synchronously to ensure that reading order
+  // is left intact for screen reader users.
+
+  await generateIntroductionContent(doc, data);
+
+  if (data.details) {
+    await generateDetailsContent(doc, data);
+  }
+
+  if (data.results) {
+    await generateResultsContent(doc, data);
+  }
+
+  await generateHeaderAndFooterContent(doc, data);
 
   doc.flushPages();
   return doc;
