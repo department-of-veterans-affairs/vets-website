@@ -260,7 +260,6 @@ module.exports = async (env = {}) => {
     destination: buildtype,
     ...env,
   };
-  console.log(env);
 
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = { ...apps, ...globalEntryFiles };
