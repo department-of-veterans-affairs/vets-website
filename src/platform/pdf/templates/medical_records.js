@@ -5,8 +5,17 @@ import {
   createAccessibleDoc,
   addHorizontalRule,
   getTestResultBlockHeight,
+  registerVaGovFonts,
 } from './utils';
-import registerFonts from '../registerFonts';
+
+const config = {
+  margins: {
+    top: 40,
+    bottom: 40,
+    left: 20,
+    right: 20,
+  },
+};
 
 const generateIntroductionContent = async (doc, data) => {
   const introductionContent = [
@@ -216,21 +225,9 @@ const generateHeaderAndFooterContent = async (doc, data) => {
 const generate = async data => {
   const doc = createAccessibleDoc(data.title);
 
-  await registerFonts(doc, [
-    'Bitter-Bold',
-    'Bitter-Regular',
-    'SourceSansPro-Bold',
-    'SourceSansPro-Regular',
-  ]);
+  await registerVaGovFonts(doc);
 
-  doc.addPage({
-    margins: {
-      top: 40,
-      bottom: 40,
-      left: 20,
-      right: 20,
-    },
-  });
+  doc.addPage({ margins: config.margins });
 
   // Add content synchronously to ensure that reading order
   // is left intact for screen reader users.
