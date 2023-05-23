@@ -5,23 +5,14 @@
 import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
-import {
-  getCancelReasons,
-  getPendingAppointment,
-  getPendingAppointments,
-  updateAppointment,
-  updateRequest,
-} from '../var';
+import { getCancelReasons, updateAppointment, updateRequest } from '../var';
 import {
   getAppointment,
   getAppointments,
   postAppointment,
   putAppointment,
 } from '../vaos';
-import {
-  transformPendingAppointment,
-  transformPendingAppointments,
-} from './transformers';
+import { transformPendingAppointment } from './transformers';
 import { mapToFHIRErrors } from '../utils';
 import {
   APPOINTMENT_TYPES,
@@ -135,38 +126,31 @@ export async function fetchAppointments({
 export async function getAppointmentRequests({
   startDate,
   endDate,
-  useV2 = false,
   useAcheron = false,
 }) {
   try {
-    if (useV2) {
-      const appointments = await getAppointments(
-        startDate,
-        endDate,
-        ['proposed', 'cancelled'],
-        useAcheron,
-      );
+    const appointments = await getAppointments(
+      startDate,
+      endDate,
+      ['proposed', 'cancelled'],
+      useAcheron,
+    );
 
-      const requestsWithoutAppointments = appointments.data.filter(
-        appt => !!appt.requestedPeriods,
-      );
+    const requestsWithoutAppointments = appointments.data.filter(
+      appt => !!appt.requestedPeriods,
+    );
 
-      requestsWithoutAppointments.sort(apptRequestSort);
+    requestsWithoutAppointments.sort(apptRequestSort);
 
-      const transformRequests = transformVAOSAppointments(
-        requestsWithoutAppointments,
-      );
+    const transformRequests = transformVAOSAppointments(
+      requestsWithoutAppointments,
+    );
 
-      transformRequests.push({
-        meta: appointments.backendSystemFailures,
-      });
+    transformRequests.push({
+      meta: appointments.backendSystemFailures,
+    });
 
-      return transformRequests;
-    }
-
-    const appointments = await getPendingAppointments(startDate, endDate);
-
-    return transformPendingAppointments(appointments);
+    return transformRequests;
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -184,17 +168,11 @@ export async function getAppointmentRequests({
  * @param {string} id Appointment request id
  * @returns {Appointment} An Appointment object for the given request id
  */
-export async function fetchRequestById({ id, useV2, useAcheron }) {
+export async function fetchRequestById({ id, useAcheron }) {
   try {
-    if (useV2) {
-      const appointment = await getAppointment(id, useAcheron);
+    const appointment = await getAppointment(id, useAcheron);
 
-      return transformVAOSAppointment(appointment);
-    }
-
-    const appointment = await getPendingAppointment(id);
-
-    return transformPendingAppointment(appointment);
+    return transformVAOSAppointment(appointment);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
