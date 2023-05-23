@@ -15,7 +15,7 @@ describe('Income Details Questions', () => {
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.disabilities.pages.incomeDetails;
+  } = formConfig.chapters.additionalInformation.pages.incomeDetails;
 
   it('should render income details form', () => {
     const form = mount(

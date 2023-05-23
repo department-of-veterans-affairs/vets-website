@@ -13,7 +13,7 @@ import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('8940 supporting documents upload', () => {
   const page =
-    formConfig.chapters.disabilities.pages
+    formConfig.chapters.additionalInformation.pages
       .uploadUnemployabilitySupportingDocuments;
   const { schema, uiSchema, arrayPath } = page;
 

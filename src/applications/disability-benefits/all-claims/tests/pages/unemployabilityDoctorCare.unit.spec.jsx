@@ -16,7 +16,7 @@ describe("Doctor's care unemployability", () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.unemployabilityDoctorCare;
+  } = formConfig.chapters.additionalInformation.pages.unemployabilityDoctorCare;
 
   it("renders the add doctor's care", () => {
     const form = mount(

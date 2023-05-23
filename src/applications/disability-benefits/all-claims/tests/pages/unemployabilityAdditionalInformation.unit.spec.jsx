@@ -9,7 +9,7 @@ describe('Unemployability Additional Information form', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.unemployabilityAdditionalInformation;
+  } = formConfig.chapters.additionalInformation.pages.unemployabilityAdditionalInformation;
 
   it('should render textarea', () => {
     const form = mount(

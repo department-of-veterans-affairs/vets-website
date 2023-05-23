@@ -12,7 +12,8 @@ import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('Recent earned income', () => {
-  const page = formConfig.chapters.disabilities.pages.recentEarnedIncome;
+  const page =
+    formConfig.chapters.additionalInformation.pages.recentEarnedIncome;
   const { schema, uiSchema } = page;
 
   it('should render', () => {

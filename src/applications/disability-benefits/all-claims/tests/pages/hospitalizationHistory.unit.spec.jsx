@@ -15,7 +15,7 @@ describe('Hospitalization Interview Questions', () => {
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.disabilities.pages.hospitalizationHistory;
+  } = formConfig.chapters.additionalInformation.pages.hospitalizationHistory;
 
   it('should render hospital info form', () => {
     const form = mount(

@@ -13,7 +13,8 @@ import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('Recent Job Applications', () => {
-  const page = formConfig.chapters.disabilities.pages.pastEducationTraining;
+  const page =
+    formConfig.chapters.additionalInformation.pages.pastEducationTraining;
   const { schema, uiSchema } = page;
 
   it('should render', () => {

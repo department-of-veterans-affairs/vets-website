@@ -13,7 +13,7 @@ describe('Disability benefits 4192 Download', () => {
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.disabilities.pages.pastEmploymentFormDownload;
+  } = formConfig.chapters.additionalInformation.pages.pastEmploymentFormDownload;
 
   it('renders 4192 form download', () => {
     const onSubmit = sinon.spy();

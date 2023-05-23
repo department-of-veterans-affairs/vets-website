@@ -25,7 +25,7 @@ describe('Select related disabilities for unemployability', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.unemployabilityDisabilities;
+  } = formConfig.chapters.additionalInformation.pages.unemployabilityDisabilities;
 
   it('renders the rated disabilities selection field', () => {
     const disabilitiesLength =

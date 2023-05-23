@@ -12,7 +12,8 @@ import formConfig from '../../config/form.js';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('4192 form upload', () => {
-  const page = formConfig.chapters.disabilities.pages.pastEmploymentFormUpload;
+  const page =
+    formConfig.chapters.additionalInformation.pages.pastEmploymentFormUpload;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {

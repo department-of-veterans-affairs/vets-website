@@ -12,7 +12,7 @@ describe('Disability benefits 4192', () => {
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.disabilities.pages.pastEmploymentFormIntro;
+  } = formConfig.chapters.additionalInformation.pages.pastEmploymentFormIntro;
 
   it('renders 4192 form intro choices', () => {
     const onSubmit = sinon.spy();
