@@ -29,7 +29,10 @@
   }
 }
 
-.schemaform-label[for*="root_witnessRelationship"] > .form-required-span,
+#root_witnessRelationshipToClaimant-label.usa-input-error-label {
+  font-weight: bold;
+}
+
 #root_witnessOtherRelationshipToVeteran-label > .schemaform-required-span {
   display: none;
 }
