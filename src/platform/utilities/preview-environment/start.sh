@@ -42,26 +42,28 @@ else
     curl -LO ${AWS_URL} ;
 fi
 
-mkdir -p content-build/.cache/localhost/drupal
-echo "untar the build into content-build/.cache/localhost/drupal"
-tar -xf vagovdev_dd03cdd3eb98417b247b1a61d54651a1.tar.bz2 -C content-build/.cache/localhost/drupal
-
 echo "set yarn to allow self-signed cert for install"
 yarn config set "strict-ssl" false
 
 # Build and watch vets-website
 echo "Install, build, and watch vets-website"
 cd vets-website
-yarn install
+yarn install --production=false
 yarn build:webpack:local --env api=http://vets-api-web:3004
 # yarn watch --env buildtype=localhost --env api=http://vets-api-web:3004 &
 
 wait
+cd .. 
+
+mkdir -p content-build/.cache/localhost/drupal
+echo "untar the build into content-build/.cache/localhost/drupal"
+tar -xf vagovdev_dd03cdd3eb98417b247b1a61d54651a1.tar.bz2 -C content-build/.cache/localhost/drupal
 
 # Serve the content-build
 echo "Install and serve content-build"
-cd ../content-build
-yarn install
-yarn build --use-cached-assets --api=http://vets-api-web:3004
-ln -s /app/website/vets-website/build/localhost/generated /app/website/content-build/build/localhost/generated
-yarn serve
+cd content-build
+cp .env.example .env && yarn install --production=false
+echo "Build content-build with custom api (hardcoded)"
+npm run build -- --buildtype=localhost --use-cached-assets --api=vets-api-web:3004 --host=localhost --port=3002
+echo "Serve up content-build"
+npm run heroku-serve -- build/localhost -p 3002
