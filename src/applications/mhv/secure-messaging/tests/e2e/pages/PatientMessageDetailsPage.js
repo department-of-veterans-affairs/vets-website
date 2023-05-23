@@ -64,14 +64,38 @@ class PatientMessageDetailsPage {
         mockParentMessageDetails.data.attributes.messageId,
       )}`,
     );
+
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
         this.currentThread.data.at(0).attributes.messageId
       }`,
       mockParentMessageDetails,
-    ).as('message1');
+    ).as(`message1`);
 
+    cy.log(` thread size = ${this.currentThread.data.length}`);
+    //  mockParentMessageDetails.data.attributes.messageId= this.currentThread.data.at(this.currentThread.data.length-1).attributes.messageId;
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        this.currentThread.data.at(this.currentThread.data.length - 1)
+          .attributes.messageId
+      }`,
+      mockParentMessageDetails,
+    ).as('last_message');
+
+    /*
+    for (let i = 0; i < this.currentThread.length; i++) {
+      cy.log("intercepting thread "+ i);
+      cy.intercept(
+        'GET',
+        `/my_health/v1/messaging/messages/${
+          this.currentThread.data.at(i).attributes.messageId
+        }`,
+        mockParentMessageDetails,
+      ).as(`message${i}`);
+    }
+*/
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
@@ -80,8 +104,12 @@ class PatientMessageDetailsPage {
       this.currentThread,
     ).as('full-thread');
 
-    cy.contains(mockParentMessageDetails.data.attributes.subject).click();
-    cy.wait('@message1');
+    cy.contains(`${mockParentMessageDetails.data.attributes.subject}`)
+      .should('be.visible')
+      .click({ force: true });
+
+    cy.location('pathname', { timeout: 5000 }).should('include', '/thread');
+    cy.wait('@full-thread');
   };
 
   getCurrentThread() {
@@ -95,7 +123,7 @@ class PatientMessageDetailsPage {
   ) => {
     cy.log(`mock Message Details--------${JSON.stringify(mockMessageDetails)}`);
     this.currentThread = mockThread;
-    cy.log('loading message details.');
+    cy.log('loading reply message details.');
     this.currentThread.data.at(index).attributes.sentDate =
       mockMessageDetails.data.attributes.sentDate;
     this.currentThread.data.at(index).id =
@@ -112,7 +140,13 @@ class PatientMessageDetailsPage {
       mockMessageDetails.data.attributes.recipientId;
     this.currentThread.data.at(index).attributes.triageGroupName =
       mockMessageDetails.data.attributes.triageGroupName;
-    cy.get('[data-testid="reply-button-top"]').click();
+    cy.get('[data-testid="reply-button-top"]')
+      .should('be.visible')
+      .click({ force: true });
+
+    // cy.get('[data-testid="reply-button-top"]').click({
+    //   waitforanimations: true,
+    // });
     cy.log('loading message reply details.');
 
     cy.intercept(
@@ -136,6 +170,8 @@ class PatientMessageDetailsPage {
         mockMessageDetails.data.attributes.messageId
       }/replydraft`,
     ).as('replyDraftSave');
+
+    // cy.wait('@message2');
   };
 
   expandThreadMessageDetails = (mockThread, index = 1) => {
@@ -191,7 +227,9 @@ class PatientMessageDetailsPage {
   };
 
   verifyTrashButtonModal = () => {
-    cy.get('[data-testid=trash-button-text]').click();
+    cy.get('[data-testid=trash-button-text]')
+      .should('be.visible')
+      .click();
 
     cy.get('[data-testid=delete-message-confirm-note] p', { timeout: 8000 })
       .contains('Messages in the trash folder')
@@ -267,6 +305,19 @@ class PatientMessageDetailsPage {
     cy.log('message does not have attachment');
   };
 
+  verifyUnexpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        messageDetails.data.attributes.messageId
+      }`,
+      messageDetails,
+    );
+    cy.get('.older-message')
+      .eq(messageIndex)
+      .should('contain', `From: ${messageDetails.data.attributes.senderName}`);
+  };
+
   verifyExpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
     cy.get('[data-testid="from"]')
       .eq(messageIndex)
@@ -297,15 +348,27 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageDateDisplay = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-date"]')
-      .eq(messageIndex)
-      .should(
-        'have.text',
-        dateFormat(
-          messageDetails.data.attributes.sentDate,
-          'MMMM D, YYYY [at] h:mm a z',
-        ),
-      );
+    if (messageIndex > 0) {
+      cy.get('[data-testid="message-date"]')
+        .eq(messageIndex)
+        .should(
+          'have.text',
+          `Date: ${dateFormat(
+            messageDetails.data.attributes.sentDate,
+            'MMMM D, YYYY, h:mm a z',
+          )}`,
+        );
+    } else {
+      cy.get('[data-testid="message-date"]')
+        .eq(messageIndex)
+        .should(
+          'have.text',
+          `${dateFormat(
+            messageDetails.data.attributes.sentDate,
+            'MMMM D, YYYY [at] h:mm a z',
+          )}`,
+        );
+    }
   };
 
   ReplyToMessageTO = (messageDetails, messageIndex = 0) => {
@@ -313,7 +376,9 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `(Draft) To: ${messageDetails.data.attributes.recipientName}`,
+        `(Draft) To: ${messageDetails.data.attributes.senderName}\n(Team: ${
+          messageDetails.data.attributes.triageGroupName
+        })`,
       );
   };
 
@@ -322,7 +387,9 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName}`,
+        `From: ${messageDetails.data.attributes.senderName} (${
+          messageDetails.data.attributes.triageGroupName
+        })`,
       );
   };
 
@@ -340,10 +407,10 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        dateFormat(
+        `Date: ${dateFormat(
           messageDetails.data.attributes.sentDate,
-          'MMMM D, YYYY [at] h:mm a z',
-        ),
+          'MMMM D, YYYY, h:mm a z',
+        )}`,
       );
   };
 
@@ -354,12 +421,12 @@ class PatientMessageDetailsPage {
     );
   };
 
-  ReplyToMessagebody = messageDetails => {
-    cy.get(
-      '.vads-u-margin-top--1 > .message-list-body-collapsed > .vads-u-margin-y--0',
-    ).should($mbody => {
-      expect($mbody.text()).to.contain(messageDetails.data.attributes.body);
-    });
+  ReplyToMessagebody = messageBody => {
+    cy.get('[data-testid="message-replied-to"]')
+      .find('[data-testid="message-body"]')
+      .should($mbody => {
+        expect($mbody.text()).to.contain(messageBody);
+      });
   };
 }
 

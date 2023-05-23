@@ -36,16 +36,18 @@ const OtherAssetsSummary = ({
   };
 
   const cardBody = text => (
-    <p className="vads-u-margin-y--2 vads-u-color--gray">{text}</p>
+    <p>
+      Value: <b>{currencyFormatter(text)}</b>
+    </p>
   );
   const emptyPrompt = `Select the ‘add additional assets’ link to add another asset. Select the continue button to move on to the next question.`;
 
   return (
     <form>
-      <fieldset>
+      <fieldset className="vads-u-margin-y--2">
         <legend
           id="added-assets-summary"
-          className="vads-u-font-family--serif"
+          className="schemaform-block-title"
           name="addedAssetsSummary"
         >
           You have added these assets
@@ -56,7 +58,7 @@ const OtherAssetsSummary = ({
           ) : (
             otherAssets.map((asset, index) => (
               <MiniSummaryCard
-                body={cardBody(`Value: ${currencyFormatter(asset.amount)}`)}
+                body={cardBody(asset.amount)}
                 editDestination={{
                   pathname: '/add-other-asset',
                   search: `?index=${index}`,
@@ -65,6 +67,7 @@ const OtherAssetsSummary = ({
                 key={asset.name + asset.amount}
                 onDelete={() => onDelete(index)}
                 showDelete
+                index={index}
               />
             ))
           )}

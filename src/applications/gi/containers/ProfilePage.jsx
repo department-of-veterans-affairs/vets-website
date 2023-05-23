@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
@@ -73,7 +73,12 @@ export function ProfilePage({
 
   const loadingProfile = profile.inProgress || _.isEmpty(profile.attributes);
   if (loadingProfile) {
-    content = <LoadingIndicator message="Loading your profile..." />;
+    content = (
+      <VaLoadingIndicator
+        data-testid="loading-indicator"
+        message="Loading your profile..."
+      />
+    );
   } else {
     const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
 

@@ -7,19 +7,19 @@ import { selectCommunicationPreferences } from '@@profile/reducers';
 
 import NotificationItem from './NotificationItem';
 import { BLOCKED_NOTIFICATION_IDS, NOTIFICATION_GROUPS } from '../../constants';
-import { useFeatureToggle } from '~/applications/personalization/hooks/useFeatureToggle';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 const shouldRenderGroup = ({
   groupId,
   profileShowPaymentsNotificationSetting,
-  profileShowMhvNotificaionSettings,
+  profileShowMhvNotificationSettings,
 }) => {
   if (groupId === NOTIFICATION_GROUPS.PAYMENTS) {
     return profileShowPaymentsNotificationSetting;
   }
 
   if (groupId === NOTIFICATION_GROUPS.GENERAL) {
-    return profileShowMhvNotificaionSettings;
+    return profileShowMhvNotificationSettings;
   }
 
   return true;
@@ -33,7 +33,7 @@ const NotificationGroup = ({ children, groupName, itemIds, groupId }) => {
   );
 
   const showMhvNotificaionSettings = useToggleValue(
-    TOGGLE_NAMES.profileShowMhvNotificaionSettings,
+    TOGGLE_NAMES.profileShowMhvNotificationSettings,
   );
 
   const shouldRender = useMemo(
@@ -41,7 +41,7 @@ const NotificationGroup = ({ children, groupName, itemIds, groupId }) => {
       return shouldRenderGroup({
         groupId,
         profileShowPaymentsNotificationSetting: showPaymentsNotificationSetting,
-        profileShowMhvNotificaionSettings: showMhvNotificaionSettings,
+        profileShowMhvNotificationSettings: showMhvNotificaionSettings,
       });
     },
     [groupId, showPaymentsNotificationSetting, showMhvNotificaionSettings],
@@ -88,6 +88,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 NotificationGroup.propTypes = {
+  groupId: PropTypes.string.isRequired,
   groupName: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),

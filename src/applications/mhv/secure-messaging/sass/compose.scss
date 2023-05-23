@@ -41,7 +41,7 @@
     va-text-input#message-subject::part(input) {
       max-width: 100%;
     }
-    va-textarea#message-body::part(textarea) {
+    va-textarea#compose-message-body::part(textarea) {
       max-width: 100%;
       resize: vertical;
       box-sizing: border-box;
@@ -111,7 +111,7 @@
       max-width: 100%;
       // background-color: $color-gray-dark;
     }
-    va-textarea#message-body {
+    va-textarea#reply-message-body::part(textarea) {
       max-width: 100%;
     }
 
@@ -152,18 +152,29 @@
       margin-top: 12px;
     }
   }
+
+  .message-replied-to {
+    .message-list-body-collapsed {
+      word-break: break-word;
+    }
+  }
 }
 
 .file-input {
   .attach-file-button {
     display: block;
-    margin: 16px 0 24px 0;
+    margin: 16px 0px 24px 0;
+    width: 100%;
+
+    @media (min-width: $medium-screen) {
+      width: 32.5%;
+    }
   }
   .attach-file-button::part(button) {
     box-shadow: inset 0 0 0 2px $color-gray-dark;
     color: $color-gray-dark;
     height: 36px;
-    width: 140px;
+    width: 100%;
   }
 
   .how-to-attach-files {
@@ -179,27 +190,34 @@
   margin-top: 15px;
   display: flex;
   flex-direction: column;
+  va-button {
+    display: block;
+    height: 36px;
+    padding: 0;
+    width: 100%;
+  }
+
+  button {
+    margin-right: 0;
+  }
 
   @media (min-width: $medium-screen) {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-  }
-
-  va-button {
-    display: block;
-    height: 36px;
-    padding: 0;
+    va-button {
+      width: 33.33%;
+    }
+    button {
+      margin-right: 6px;
+    }
   }
 
   va-button::part(button) {
     height: 36px;
     width: 100%;
     margin: 0;
-    @media (min-width: $medium-screen) {
-      width: 197px;
-    }
   }
 
   .send-button {

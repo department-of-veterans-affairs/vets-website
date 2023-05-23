@@ -28,7 +28,7 @@ const App = ({ formEnabled }) => {
     <>
       <p>You can apply online right now on eBenefits.</p>
       <p>
-        When you go to the eBenefits website, you may need to sign in with your
+        When you go to the eBenefits website, you may need to sign in with your{' '}
         <strong>DS Logon</strong> account to access the application. If you
         don’t have a <strong>DS Logon</strong> account, you can register for one
         there.

@@ -61,6 +61,7 @@ const EnhancedBenefits = ({ pending, income }) => {
             search: `?type=compensationAndPension`,
           }}
           body={<BenefitCard received={compReceived} />}
+          index={0}
         />
       )}
       {eduReceived && (
@@ -72,6 +73,7 @@ const EnhancedBenefits = ({ pending, income }) => {
           }}
           showDelete={false}
           body={<BenefitCard received={eduReceived} />}
+          index={1}
         />
       )}
       <HotlineInfo />

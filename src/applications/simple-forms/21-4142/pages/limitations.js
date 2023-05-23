@@ -2,6 +2,7 @@ import React from 'react';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import { schemaFields } from '../definitions/constants';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [schemaFields.limitedConsent]: {
@@ -12,11 +13,11 @@ export default {
       ),
       'ui:description': (
         <p>
-          If you want to limit what we can request from your private medical
-          provider(s), describe the limits here (for example, you want your
-          doctor to release only treatment dates or certain types of
-          disability), it may take us longer to get your private medical
-          recordsif you limit consent.
+          If you want to limit what we can request from the private medical
+          providers, describe the limits here. For example, you may want the
+          provider to release only treatment dates or certain types of
+          disabilities. If you limit consent, it may take us longer to get the
+          private medical records.
         </p>
       ),
       'ui:widget': 'textarea',

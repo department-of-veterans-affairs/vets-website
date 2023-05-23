@@ -5,6 +5,9 @@ import MetaTags from 'react-meta-tags';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { connect, useDispatch } from 'react-redux';
+import { selectProfile } from 'platform/user/selectors';
+import environment from 'platform/utilities/environment';
+
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
   WIZARD_STATUS_NOT_STARTED,
@@ -12,6 +15,7 @@ import {
   WIZARD_STATUS_RESTARTED,
   restartShouldRedirect,
 } from 'platform/site-wide/wizard';
+
 import formConfig from '../config/form';
 import { fetchDebts, fetchFormStatus } from '../actions';
 import { getStatements } from '../actions/copays';
@@ -24,6 +28,7 @@ import {
   combinedFSRFeatureToggle,
   enhancedFSRFeatureToggle,
 } from '../utils/helpers';
+import user from '../mocks/user.json';
 
 const App = ({
   children,
@@ -35,6 +40,7 @@ const App = ({
   isStartingOver,
   location,
   pending,
+  profile,
   router,
   setFormData,
   showFSR,
@@ -43,6 +49,13 @@ const App = ({
   showWizard,
   statements,
 }) => {
+  // vapContactInfo is an empty object locally, so mock it
+  const contactData = environment.isLocalhost()
+    ? user.data.attributes.vet360ContactInformation
+    : profile?.vapContactInfo || {};
+
+  const { email = {}, mobilePhone = {}, mailingAddress = {} } = contactData;
+
   const [wizardState, setWizardState] = useState(
     sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
   );
@@ -58,6 +71,44 @@ const App = ({
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_RESTARTED);
     router.push('/');
   };
+
+  // Contact information data
+  useEffect(
+    () => {
+      if (isLoggedIn && showEnhancedFSR) {
+        const { personalData = {} } = formData || {};
+        const { veteranContactInformation = {} } = personalData;
+        if (
+          email?.emailAddress !== veteranContactInformation.email ||
+          mobilePhone?.updatedAt !==
+            veteranContactInformation.mobilePhone?.updatedAt ||
+          mailingAddress?.updatedAt !==
+            veteranContactInformation.address?.updatedAt
+        ) {
+          setFormData({
+            ...formData,
+            personalData: {
+              ...personalData,
+              veteranContactInformation: {
+                email: email?.emailAddress,
+                mobilePhone,
+                address: mailingAddress,
+              },
+            },
+          });
+        }
+      }
+    },
+    [
+      email,
+      formData,
+      isLoggedIn,
+      mobilePhone,
+      mailingAddress,
+      setFormData,
+      showEnhancedFSR,
+    ],
+  );
 
   useEffect(() => {
     if (restartShouldRedirect(WIZARD_STATUS)) {
@@ -132,7 +183,7 @@ const App = ({
           <>
             <FormTitle
               title="Request help with VA debt for overpayments and copay bills"
-              subTitle="Financial Status Report"
+              subTitle="Financial Status Report (VA Form 5655)"
             />
             <ZeroDebtAlert />
           </>
@@ -173,6 +224,9 @@ App.propTypes = {
   isStartingOver: PropTypes.bool,
   location: PropTypes.object,
   pending: PropTypes.bool,
+  profile: PropTypes.shape({
+    vapContactInfo: PropTypes.shape({}),
+  }),
   router: PropTypes.object,
   setFormData: PropTypes.func,
   showCombinedFSR: PropTypes.bool,
@@ -188,6 +242,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.fsr.isError,
   pending: state.fsr.pending,
+  profile: selectProfile(state) || {},
   showWizard: fsrWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
   showCombinedFSR: combinedFSRFeatureToggle(state),

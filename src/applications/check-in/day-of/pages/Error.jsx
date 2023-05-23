@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 
 import { makeSelectError, makeSelectForm } from '../../selectors';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 import Wrapper from '../../components/layout/Wrapper';
 import { phoneNumbers } from '../../utils/appConstants';
 import ExternalLink from '../../components/ExternalLink';
@@ -15,11 +16,18 @@ const Error = () => {
   const selectForm = useMemo(makeSelectForm, []);
   const form = useSelector(selectForm);
 
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const featureToggles = useSelector(selectFeatureToggles);
+  const { isTravelReimbursementEnabled } = featureToggles;
+
   let alerts = [];
   let header = '';
 
   const getTravelMessage = () => {
-    if (form.data['travel-question'] === 'no') {
+    if (
+      form.data['travel-question'] === 'no' ||
+      !isTravelReimbursementEnabled
+    ) {
       return (
         <>
           <p className="vads-u-margin-top--0">
@@ -134,7 +142,11 @@ const Error = () => {
           ),
         },
         {
-          type: form.data['travel-question'] === 'no' ? 'info' : 'warning',
+          type:
+            form.data['travel-question'] === 'no' ||
+            !isTravelReimbursementEnabled
+              ? 'info'
+              : 'warning',
           message: getTravelMessage(),
         },
       ];

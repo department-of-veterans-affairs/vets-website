@@ -32,7 +32,7 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the pre-need eligibility application"
         />
-        <h2 className="vads-u-font-size--h4">
+        <h2 className="vads-u-font-size--h3">
           Follow the steps below to apply for a pre-need eligibility
           determination
         </h2>
@@ -40,16 +40,14 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <h3>Prepare</h3>
-              <strong>When you apply, be sure to have these on hand:</strong>
+              <h4>When you apply, be sure to have these on hand:</h4>
               <ul>
                 <li>
                   The name of the VA national cemetery where you’d prefer to be
                   buried.
                   <br />
                   <a href={getAppUrl('facilities')}>
-                    {environment.isProduction()
-                      ? 'Find a VA national cemetery.'
-                      : 'Find a VA national cemetery'}
+                    Find a VA national cemetery
                   </a>
                 </li>
                 <li>
@@ -58,9 +56,8 @@ class IntroductionPage extends React.Component {
                   your or your sponsor’s:
                   <ul>
                     <li>
-                      {environment.isProduction()
-                        ? 'Social Security number (and Military Service Number if it’s different than the Social Security number)'
-                        : 'Social Security number (and Military Service number if it’s different than the Social Security number)'}
+                      Social Security number (and Military Service number if
+                      it’s different than the Social Security number)
                     </li>
                     <li>VA claim number (if you know it)</li>
                     <li>Date and place of birth</li>
@@ -72,12 +69,10 @@ class IntroductionPage extends React.Component {
                 </li>
               </ul>
               <h4>You’ll need to upload:</h4>
-              <ul>
-                <li>
-                  A copy of your or your sponsor’s DD214 or other separation
-                  documents
-                </li>
-              </ul>
+              <p>
+                A copy of your or your sponsor’s DD214 or other separation
+                documents
+              </p>
               <h4>
                 Additional information and documents needed for certain
                 applicants:
@@ -128,8 +123,8 @@ class IntroductionPage extends React.Component {
                   </ul>
                 </li>
               </ul>
+              <h4>What if I need help filling out my application?</h4>
               <p>
-                <strong>What if I need help filling out my application?</strong>{' '}
                 An accredited representative, like a Veterans Service Officer
                 (VSO), can help you fill out your claim.
                 <br />
@@ -145,6 +140,15 @@ class IntroductionPage extends React.Component {
                 After submitting the form, you’ll get a confirmation message.
                 You can print this for your records.
               </p>
+              <div style={{ marginBottom: '-25px' }}>
+                <SaveInProgressIntro
+                  buttonOnly
+                  prefillEnabled={this.props.route.formConfig.prefillEnabled}
+                  messages={this.props.route.formConfig.savedFormMessages}
+                  pageList={this.props.route.pageList}
+                  startText="Start the pre-need eligibility application"
+                />
+              </div>
             </li>
             <li className="process-step list-three">
               <h3>VA review</h3>
@@ -159,13 +163,6 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <SaveInProgressIntro
-          buttonOnly
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Start the pre-need eligibility application"
-        />
         <div className="omb-info--container">
           {environment.isProduction() ? (
             <OMBInfo

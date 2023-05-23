@@ -33,6 +33,11 @@ const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
 const confirmedV2 = require('./v2/confirmed.json');
+
+// Uncomment to produce backend service errors
+// const meta = require('./v2/meta_failures.json');
+
+// Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
@@ -618,6 +623,7 @@ const responses = {
         { name: 'vaOnlineSchedulingAcheronService', value: true },
         { name: 'vaOnlineSchedulingUseDsot', value: true },
         { name: 'vaOnlineSchedulingRequestFlowUpdate', value: true },
+        { name: 'vaOnlineSchedulingConvertUtcToLocal', value: false },
         { name: 'selectFeaturePocTypeOfCare', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },

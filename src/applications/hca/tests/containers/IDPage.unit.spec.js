@@ -18,7 +18,7 @@ import {
 } from '../../definitions/idForm';
 import IDPage from '../../containers/IDPage';
 
-describe('Hca IDPage', () => {
+describe('hca IDPage', () => {
   const mockStore = {
     getState: () => ({
       hcaEnrollmentStatus: {

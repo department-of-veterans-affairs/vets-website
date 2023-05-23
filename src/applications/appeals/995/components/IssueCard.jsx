@@ -135,7 +135,7 @@ export const IssueCard = ({
   const handlers = {
     onRemove: event => {
       event.preventDefault();
-      onRemove(index, item);
+      onRemove(index);
     },
     onChange: event => onChange(index, event),
   };

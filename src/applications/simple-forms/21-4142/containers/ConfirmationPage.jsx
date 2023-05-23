@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import FormFooter from 'platform/forms/components/FormFooter';
+
+import GetFormHelp from '../../shared/components/GetFormHelp';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -13,20 +16,16 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    // const { form } = this.props;
-    // const { submission, formId, data } = form;
-    // const { fullName } = data;
-    // TODO: use backend data instead of placeholders
-    const fullName = {
-      first: 'John',
-      middle: '',
-      last: 'Doe',
-      suffix: '',
-    };
-    // TODO: use backend data instead of placeholders
-    const confirmationNumber = '---';
-    // TODO: use backend data instead of placeholders
-    const submitDate = new Date();
+    const { form } = this.props;
+    const { submission, data } = form;
+    const preparerNameDefined =
+      data.preparerIdentification?.preparerFullName?.first &&
+      data.preparerIdentification?.preparerFullName?.last;
+    const { first, middle, last, suffix } = preparerNameDefined
+      ? data.preparerIdentification.preparerFullName
+      : data.veteran.fullName;
+    const submitDate = submission.timestamp;
+    const confirmationNumber = submission.response?.confirmationNumber;
 
     return (
       <div>
@@ -37,31 +36,29 @@ export class ConfirmationPage extends React.Component {
             width="300"
           />
         </div>
-        <p className="vads-u-font-size--h3">
-          Equal to Authorization to disclose information to the Department of
-          Veterans Affairs (VA) (VA Form 21-4142 & 4142a)
-        </p>
         <va-alert
           close-btn-aria-label="Close notification"
           status="success"
           visible
         >
           <h2 slot="headline">
-            Thank you for completing your benefit application
+            Thank you for submitting your authorization request
           </h2>
-          <p className="vads-u-margin-y--0">
-            Once we’ve successfully received your application, we’ll contact you
-            to tell you what happens next in the application process.
+          <p>
+            After we review your application, we'll contact the private provider
+            or hospital to get the requested records. If we can't get the
+            records within 15 days we'll send you a follow-up letter by mail.
           </p>
         </va-alert>
         <div className="inset">
           <h3 className="vads-u-margin-top--0">Your application information</h3>
-          {fullName ? (
+          {first && last ? (
             <>
               <h4>Applicant</h4>
               <p>
-                {fullName.first} {fullName.middle} {fullName.last}
-                {fullName.suffix ? `, ${fullName.suffix}` : null}
+                {first} {middle ? `${middle} ` : ''}
+                {last}
+                {suffix ? `, ${suffix}` : null}
               </p>
             </>
           ) : null}
@@ -90,6 +87,15 @@ export class ConfirmationPage extends React.Component {
             Print this page
           </button>
         </div>
+        <a
+          className="vads-c-action-link--green vads-u-margin-bottom--4"
+          href="/"
+        >
+          Go back to VA.gov
+        </a>
+        <div>
+          <FormFooter formConfig={{ getHelp: GetFormHelp }} />
+        </div>
       </div>
     );
   }
@@ -98,12 +104,10 @@ export class ConfirmationPage extends React.Component {
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
+      first: PropTypes.string,
+      middle: PropTypes.string,
+      last: PropTypes.string,
+      suffix: PropTypes.string,
     }),
     formId: PropTypes.string,
     submission: PropTypes.shape({

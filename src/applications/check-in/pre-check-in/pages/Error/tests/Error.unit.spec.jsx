@@ -1,7 +1,4 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { I18nextProvider } from 'react-i18next';
-import configureStore from 'redux-mock-store';
 import { add, sub } from 'date-fns';
 
 import { expect } from 'chai';
@@ -9,43 +6,29 @@ import { render } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 import MockDate from 'mockdate';
 
-import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
-import i18n from '../../../../utils/i18n/i18n';
+import CheckInProvider from '../../../../tests/unit/utils/CheckInProvider';
 import { singleAppointment } from '../../../../tests/unit/mocks/mock-appointments';
 import Error from '../index';
 
 describe('check-in', () => {
   describe('Pre-check-in Error page', () => {
+    afterEach(() => {
+      MockDate.reset();
+    });
     describe('redux store with appointments but pre-check-in-post-error', () => {
-      let store;
-      beforeEach(() => {
-        const middleware = [];
-        const mockStore = configureStore(middleware);
-        const initState = {
-          checkInData: {
-            appointments: singleAppointment,
-            veteranData: {},
-            form: {
-              pages: [],
-            },
-            error: 'pre-check-in-post-error',
-          },
-        };
-        afterEach(() => {
-          MockDate.reset();
-        });
-        store = mockStore({ ...initState, ...scheduledDowntimeState });
-      });
       it('renders appointments date', () => {
         MockDate.set('2022-01-01T14:00:00.000-05:00');
         const component = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <Error />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider
+            store={{
+              error: 'pre-check-in-post-error',
+              appointments: singleAppointment,
+            }}
+          >
+            <Error />
+          </CheckInProvider>,
         );
-        expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
+        expect(component.getByText('Sorry, we can’t complete pre-check-in.')).to
           .exist;
         const dateMessage = component.getByTestId('date-message');
         expect(dateMessage).to.exist;
@@ -54,30 +37,33 @@ describe('check-in', () => {
         );
       });
     });
-    describe('uuid-not-found error', () => {
-      let store;
-      beforeEach(() => {
-        const middleware = [];
-        const mockStore = configureStore(middleware);
-        const initState = {
-          checkInData: {
-            appointments: [],
-            veteranData: {},
-            form: {
-              pages: [],
-            },
-            error: 'uuid-not-found',
-          },
-        };
-        store = mockStore({ ...initState, ...scheduledDowntimeState });
-      });
+    describe('max-validation error', () => {
       it('renders correct message', () => {
         const component = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <Error />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider store={{ error: 'max-validation' }}>
+            <Error />
+          </CheckInProvider>,
+        );
+        expect(
+          component.getByText(
+            'We’re sorry. We couldn’t match your information to our records.',
+          ),
+        ).to.exist;
+        const expiredMessage = component.getByTestId('error-message');
+        expect(expiredMessage).to.exist;
+        expect(
+          within(expiredMessage).getByText(
+            'You can still check-in with your phone on the day of your appointment.',
+          ),
+        ).to.exist;
+      });
+    });
+    describe('uuid-not-found error', () => {
+      it('renders correct message', () => {
+        const component = render(
+          <CheckInProvider store={{ error: 'uuid-not-found' }}>
+            <Error />
+          </CheckInProvider>,
         );
         expect(component.getByText('We’re sorry. This link has expired.')).to
           .exist;
@@ -90,36 +76,57 @@ describe('check-in', () => {
         ).to.exist;
       });
     });
-    describe('redux store with appointments but error-completing-pre-check-in', () => {
-      let store;
-      beforeEach(() => {
-        const middleware = [];
-        const mockStore = configureStore(middleware);
-        const initState = {
-          checkInData: {
-            appointments: singleAppointment,
-            veteranData: {},
-            form: {
-              pages: [],
-            },
-            error: 'error-completing-pre-check-in',
-          },
-        };
-        afterEach(() => {
-          MockDate.reset();
-        });
-        store = mockStore({ ...initState, ...scheduledDowntimeState });
+    describe('pre-check-in-past-appointment error', () => {
+      it('renders correct message', () => {
+        const component = render(
+          <CheckInProvider store={{ error: 'pre-check-in-past-appointment' }}>
+            <Error />
+          </CheckInProvider>,
+        );
+        expect(
+          component.getByText('Sorry, pre-check-in is no longer available.'),
+        ).to.exist;
+        const expiredMessage = component.getByTestId('error-message');
+        expect(expiredMessage).to.exist;
+        expect(
+          within(expiredMessage).getByText(
+            'We’re sorry. Pre-check-in is no longer available for your appointment time. Ask a staff member for help to check in.',
+          ),
+        ).to.exist;
       });
+    });
+    describe('session-error error', () => {
+      it('renders correct message', () => {
+        const component = render(
+          <CheckInProvider store={{ error: 'session-error' }}>
+            <Error />
+          </CheckInProvider>,
+        );
+        expect(component.getByText('Sorry, we can’t complete pre-check-in.')).to
+          .exist;
+        const expiredMessage = component.getByTestId('error-message');
+        expect(expiredMessage).to.exist;
+        expect(
+          within(expiredMessage).getByText(
+            'You can still check-in with your phone on the day of your appointment.',
+          ),
+        ).to.exist;
+      });
+    });
+    describe('redux store with appointments but error-completing-pre-check-in', () => {
       it('renders appointments date', () => {
         MockDate.set('2022-01-01T14:00:00.000-05:00');
         const component = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <Error />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider
+            store={{
+              error: 'error-completing-pre-check-in',
+              appointments: singleAppointment,
+            }}
+          >
+            <Error />
+          </CheckInProvider>,
         );
-        expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
+        expect(component.getByText('Sorry, we can’t complete pre-check-in.')).to
           .exist;
         const dateMessage = component.getByTestId('date-message');
         expect(dateMessage).to.exist;
@@ -129,45 +136,32 @@ describe('check-in', () => {
       });
     });
     describe('store with expired appointment (between midnight and 15 min after appt start time)', () => {
-      let store;
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      const initState = {
-        checkInData: {
-          appointments: [
-            {
-              facility: 'LOMA LINDA VA CLINIC',
-              clinicPhoneNumber: '5551234567',
-              clinicFriendlyName: 'TEST CLINIC',
-              clinicName: 'LOM ACC CLINIC TEST',
-              appointmentIen: 'some-ien',
-              startTime: new Date(),
-              eligibility: 'ELIGIBLE',
-              facilityId: 'some-facility',
-              checkInWindowStart: new Date(),
-              checkInWindowEnd: add(new Date(), { minutes: 14.9 }),
-              checkedInTime: '',
-            },
-          ],
-          form: {
-            pages: [],
-          },
-          veteranData: {},
-          error: 'pre-check-in-expired',
+      const appointments = [
+        {
+          facility: 'LOMA LINDA VA CLINIC',
+          clinicPhoneNumber: '5551234567',
+          clinicFriendlyName: 'TEST CLINIC',
+          clinicName: 'LOM ACC CLINIC TEST',
+          appointmentIen: 'some-ien',
+          startTime: new Date(),
+          eligibility: 'ELIGIBLE',
+          facilityId: 'some-facility',
+          checkInWindowStart: new Date(),
+          checkInWindowEnd: add(new Date(), { minutes: 14.9 }),
+          checkedInTime: '',
         },
-      };
+      ];
 
       it('renders correct error message and how-to link when in person pre-checkin is expired', () => {
-        store = mockStore({ ...initState, ...scheduledDowntimeState });
         const component = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <Error />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider
+            store={{ error: 'pre-check-in-expired', appointments }}
+          >
+            <Error />
+          </CheckInProvider>,
         );
         expect(
-          component.getByText('Sorry, pre-check-in is no longer available'),
+          component.getByText('Sorry, pre-check-in is no longer available.'),
         ).to.exist;
         expect(component.queryByTestId('how-to-link')).to.exist;
         const expiredMessage = component.getByTestId('error-message');
@@ -179,19 +173,21 @@ describe('check-in', () => {
         ).to.exist;
       });
       it('renders correct error message when phone pre-checkin is expired', () => {
-        const phoneInitState = JSON.parse(JSON.stringify(initState));
-        phoneInitState.checkInData.appointments[0].kind = 'phone';
-        store = mockStore({ ...phoneInitState, ...scheduledDowntimeState });
+        const phoneAppointments = JSON.parse(JSON.stringify(appointments));
+        phoneAppointments[0].kind = 'phone';
 
         const component = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <Error />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider
+            store={{
+              error: 'pre-check-in-expired',
+              appointments: phoneAppointments,
+            }}
+          >
+            <Error />
+          </CheckInProvider>,
         );
         expect(
-          component.getByText('Sorry, pre-check-in is no longer available'),
+          component.getByText('Sorry, pre-check-in is no longer available.'),
         ).to.exist;
         const expiredMessage = component.getByTestId('error-message');
         expect(component.queryByTestId('how-to-link')).to.not.exist;
@@ -205,48 +201,33 @@ describe('check-in', () => {
     });
 
     describe('store with canceled appointment', () => {
-      let store;
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      let initState = {};
-      beforeEach(() => {
-        initState = {
-          checkInData: {
-            appointments: [
-              {
-                facility: 'LOMA LINDA VA CLINIC',
-                clinicPhoneNumber: '5551234567',
-                clinicFriendlyName: 'TEST CLINIC',
-                clinicName: 'LOM ACC CLINIC TEST',
-                appointmentIen: 'some-ien',
-                startTime: '2022-01-03T14:56:04.788',
-                eligibility: 'ELIGIBLE',
-                facilityId: 'some-facility',
-                checkInWindowStart: '2022-01-03T14:56:04.788Z',
-                checkInWindowEnd: '2022-01-03T14:56:04.788Z',
-                checkedInTime: '',
-                status: 'CANCELLED BY CLINIC',
-              },
-            ],
-            form: {
-              pages: [],
-            },
-            veteranData: {},
-            error: 'appointment-canceled',
-          },
-        };
-        store = mockStore({ ...initState, ...scheduledDowntimeState });
-      });
+      const appointments = [
+        {
+          facility: 'LOMA LINDA VA CLINIC',
+          clinicPhoneNumber: '5551234567',
+          clinicFriendlyName: 'TEST CLINIC',
+          clinicName: 'LOM ACC CLINIC TEST',
+          appointmentIen: 'some-ien',
+          startTime: '2022-01-03T14:56:04.788',
+          eligibility: 'ELIGIBLE',
+          facilityId: 'some-facility',
+          checkInWindowStart: '2022-01-03T14:56:04.788Z',
+          checkInWindowEnd: '2022-01-03T14:56:04.788Z',
+          checkedInTime: '',
+          status: 'CANCELLED BY CLINIC',
+        },
+      ];
+
       it('renders correct error message and no how-to link for an in-person canceled appointment', () => {
         const component = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <Error />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider
+            store={{ error: 'appointment-canceled', appointments }}
+          >
+            <Error />
+          </CheckInProvider>,
         );
         expect(
-          component.getByText('Sorry, pre-check-in is no longer available'),
+          component.getByText('Sorry, pre-check-in is no longer available.'),
         ).to.exist;
         expect(component.queryByTestId('how-to-link')).to.not.exist;
         const canceledMessage = component.getByTestId('error-message');
@@ -263,18 +244,20 @@ describe('check-in', () => {
         ).to.exist;
       });
       it('renders correct error message for a canceled phone appointment', () => {
-        const phoneInitState = JSON.parse(JSON.stringify(initState));
-        phoneInitState.checkInData.appointments[0].kind = 'phone';
-        store = mockStore({ ...phoneInitState, ...scheduledDowntimeState });
+        const phoneAppointments = JSON.parse(JSON.stringify(appointments));
+        phoneAppointments[0].kind = 'phone';
         const component = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <Error />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider
+            store={{
+              error: 'appointment-canceled',
+              appointments: phoneAppointments,
+            }}
+          >
+            <Error />
+          </CheckInProvider>,
         );
         expect(
-          component.getByText('Sorry, pre-check-in is no longer available'),
+          component.getByText('Sorry, pre-check-in is no longer available.'),
         ).to.exist;
         expect(component.queryByTestId('how-to-link')).to.not.exist;
         const canceledMessage = component.getByTestId('error-message');
@@ -293,72 +276,39 @@ describe('check-in', () => {
     });
 
     describe('store with appointment more than 15 minutes past its start time', () => {
-      let store;
-      beforeEach(() => {
-        const middleware = [];
-        const mockStore = configureStore(middleware);
-        const initState = {
-          checkInData: {
-            appointments: [
-              {
-                facility: 'LOMA LINDA VA CLINIC',
-                clinicPhoneNumber: '5551234567',
-                clinicFriendlyName: 'TEST CLINIC',
-                clinicName: 'LOM ACC CLINIC TEST',
-                appointmentIen: 'some-ien',
-                startTime: sub(new Date(), { minutes: 16 }),
-                eligibility: 'INELIGIBLE_TOO_LATE',
-                facilityId: 'some-facility',
-                checkInWindowStart: sub(new Date(), { minutes: 16 }),
-                checkInWindowEnd: sub(new Date(), { minutes: 16 }),
-                checkedInTime: '',
-              },
-            ],
-            form: {
-              pages: [],
-            },
-            veteranData: {},
-          },
-        };
-        store = mockStore({ ...initState, ...scheduledDowntimeState });
-      });
+      const appointments = [
+        {
+          facility: 'LOMA LINDA VA CLINIC',
+          clinicPhoneNumber: '5551234567',
+          clinicFriendlyName: 'TEST CLINIC',
+          clinicName: 'LOM ACC CLINIC TEST',
+          appointmentIen: 'some-ien',
+          startTime: sub(new Date(), { minutes: 16 }),
+          eligibility: 'INELIGIBLE_TOO_LATE',
+          facilityId: 'some-facility',
+          checkInWindowStart: sub(new Date(), { minutes: 16 }),
+          checkInWindowEnd: sub(new Date(), { minutes: 16 }),
+          checkedInTime: '',
+        },
+      ];
       it('renders properly when appointment started more than 15 minutes ago', () => {
         const component = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <Error />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider store={{ appointments }}>
+            <Error />
+          </CheckInProvider>,
         );
         expect(component.queryByTestId('error-message')).to.exist;
         expect(component.queryByTestId('how-to-link')).to.not.exist;
       });
     });
     describe('empty redux store', () => {
-      let store;
-      beforeEach(() => {
-        const middleware = [];
-        const mockStore = configureStore(middleware);
-        const initState = {
-          checkInData: {
-            appointments: [],
-            veteranData: {},
-            form: {
-              pages: [],
-            },
-          },
-        };
-        store = mockStore({ ...initState, ...scheduledDowntimeState });
-      });
       it('renders error page', () => {
         const component = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <Error />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider store={{ appointments: [], formPages: [] }}>
+            <Error />
+          </CheckInProvider>,
         );
-        expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
+        expect(component.getByText('Sorry, we can’t complete pre-check-in.')).to
           .exist;
         expect(component.getByTestId('error-message')).to.exist;
       });

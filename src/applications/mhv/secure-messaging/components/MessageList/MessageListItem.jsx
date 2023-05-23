@@ -82,18 +82,24 @@ const MessageListItem = props => {
             <span>From: {getHighlightedText(senderName)}</span>
           ) : (
             <div>
-              <div>To: {recipientName}</div>
+              <div>
+                {location.pathname === '/drafts' && (
+                  <>
+                    <span className="thread-list-draft">(Draft)</span> -{' '}
+                  </>
+                )}
+                To: {recipientName}
+              </div>
               <div>From: {senderName}</div>
             </div>
           )}
         </div>
         <Link
           className="message-subject-link vads-u-margin-y--0p5"
-          to={`/${
-            activeFolder?.folderId === DefaultFolders.DRAFTS.id
-              ? 'draft'
-              : 'thread'
-          }/${messageId}`}
+          aria-label={`${categoryLabel}: ${getHighlightedText(
+            subject,
+          )}, ${formattedDate}`}
+          to={`/thread/${messageId}`}
         >
           {categoryLabel}: {getHighlightedText(subject)}
         </Link>

@@ -1,28 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DefaultFolders as Folders } from '../../util/constants';
-import EmergencyNote from '../EmergencyNote';
+import { handleHeader } from '../../util/helpers';
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 
 const FolderHeader = props => {
-  const { folder } = props;
-
-  const handleHeader = () => {
-    switch (folder.folderId) {
-      case Folders.INBOX.id: // Inbox
-        return Folders.INBOX.header;
-      case Folders.SENT.id: // Sent
-        return Folders.SENT.header;
-      case Folders.DRAFTS.id: // Drafts
-        return Folders.DRAFTS.header;
-      case Folders.DELETED.id: // Trash
-        return Folders.DELETED.header;
-      default:
-        return folder.name;
-    }
-  };
+  const { folder, searchProps } = props;
 
   const handleFolderDescription = () => {
     let text = '';
@@ -55,22 +40,27 @@ const FolderHeader = props => {
 
   return (
     <>
-      <h1 data-testid="folder-header">{handleHeader()}</h1>
+      <h1 data-testid="folder-header">
+        {handleHeader(folder.folderId, folder)}
+      </h1>
       <>{handleFolderDescription()}</>
-      {folder.folderId === Folders.INBOX.id && (
-        <>
-          <EmergencyNote dropDownFlag />
-          <ComposeMessageButton />
-        </>
-      )}
+      {folder.folderId === Folders.INBOX.id && <ComposeMessageButton />}
       <ManageFolderButtons />
-      {folder.count > 0 && <SearchForm folder={folder} keyword="" />}
+      {folder.count > 0 && (
+        <SearchForm
+          folder={folder}
+          keyword=""
+          resultsCount={searchProps.searchResults?.length}
+          {...searchProps}
+        />
+      )}
     </>
   );
 };
 
 FolderHeader.propTypes = {
   folder: PropTypes.object,
+  searchProps: PropTypes.object,
 };
 
 export default FolderHeader;

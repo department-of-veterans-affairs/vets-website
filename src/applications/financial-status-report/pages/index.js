@@ -1,5 +1,6 @@
 import * as veteranInfo from './veteran/veteranInfo';
 import * as contactInfo from './veteran/contact';
+import contactInformation from './veteran/contactInformation';
 import * as availableDebts from './veteran/debts';
 import * as combinedDebts from './veteran/combinedDebts';
 import * as employment from './income/employment';
@@ -13,6 +14,7 @@ import * as additionalIncome from './income/additionalIncome';
 import * as additionalIncomeChecklist from './income/additionalIncome/additionalIncomeChecklist';
 import * as additionalIncomeValues from './income/additionalIncome/additionalIncomeValues';
 import * as spouseInformation from './income/spouse/spouseInfo';
+import * as spouseName from './income/spouse/spouseName';
 import * as spouseSocialSecurity from './income/spouse/socialSecurity';
 import * as spouseSocialSecurityRecords from './income/spouse/socialSecurity/records';
 import * as spouseAdditionalIncome from './income/spouse/additionalIncome';
@@ -52,11 +54,13 @@ import * as utilityBillPages from './expenses/utilities/utilityBillsEnhanced';
 import * as repayments from './expenses/repayments';
 import * as repaymentRecords from './expenses/repayments/records';
 import * as otherExpenses from './expenses/other';
+import * as otherExpensesPages from './expenses/other/otherExpensesPages';
 import * as otherExpenseRecords from './expenses/other/records';
 import * as resolutionOptions from './resolution/options';
 import * as resolutionOption from './resolution/resolutionOption';
 import * as resolutionComments from './resolution/comments';
 import * as resolutionComment from './resolution/resolutionComment';
+import * as resolutionWaiverAgreement from './resolution/resolutionWaiverAgreement';
 import * as bankruptcyHistory from './bankruptcy';
 import * as bankruptcyHistoryRecords from './bankruptcy/records';
 import * as enhancedBankruptcyHistoryRecords from './bankruptcy/enhancedRecords';
@@ -70,6 +74,8 @@ import * as resolutionExplainer from './resolution/resolutionExplainer';
 import * as householdExpensesChecklist from './expenses/householdExpensesChecklist';
 import * as householdExpensesInputList from './expenses/householdExpensesValues';
 import * as expensesExplainer from './expenses/expensesExplainer';
+import * as creditCardBills from './expenses/creditCardBills';
+import * as installmentContracts from './expenses/repayments/installmentContracts';
 
 export {
   veteranInfo,
@@ -82,6 +88,7 @@ export {
   socialSecurity,
   socialSecurityRecords,
   additionalIncome,
+  spouseName,
   additionalIncomeRecords,
   additionalIncomeChecklist,
   additionalIncomeValues,
@@ -126,13 +133,16 @@ export {
   repaymentRecords,
   otherExpenses,
   otherExpenseRecords,
+  otherExpensesPages,
   resolutionOptions,
   resolutionOption,
   resolutionComments,
   resolutionComment,
+  resolutionWaiverAgreement,
   bankruptcyHistory,
   bankruptcyHistoryRecords,
   contactInfo,
+  contactInformation,
   addIssue,
   employmentHistory,
   payrollDeductionChecklist,
@@ -144,4 +154,6 @@ export {
   householdExpensesInputList,
   expensesExplainer,
   enhancedBankruptcyHistoryRecords,
+  creditCardBills,
+  installmentContracts,
 };

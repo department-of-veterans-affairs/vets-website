@@ -3,13 +3,17 @@ const { snakeCase } = require('lodash');
 const defaultToggleValues = {
   profileDoNotRequireInternationalZipCode: true,
   profileNotificationSettings: true,
-  profileShowPronounsAndSexualOrientation: true,
+  profileShowPronounsAndSexualOrientation: false,
   profileShowReceiveTextNotifications: true,
   profileUseVAFSC: false,
   profileHideDirectDepositCompAndPen: false,
   profileShowPaymentsNotificationSetting: true,
   profileUseInfoCard: true,
   profileUseFieldEditingPage: true,
+  profileShowMhvNotificationSettings: false,
+  profileLighthouseDirectDeposit: false,
+  profileUseExperimental: false,
+  profileShowQuickSubmitNotificationSetting: false,
 };
 
 const generateFeatureToggles = (values = defaultToggleValues) => {

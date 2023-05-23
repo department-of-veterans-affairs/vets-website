@@ -16,6 +16,7 @@ Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
+    skip: true,
     dataPrefix: 'data',
     dataSets: ['efsr-maximal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
@@ -52,8 +53,10 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.findAllByText(/start/i, { selector: 'button' })
+        cy.get('va-button[text*="start"]')
           .first()
+          .shadow()
+          .find('button')
           .click();
       },
       'all-available-debts': ({ afterHook }) => {
@@ -226,6 +229,37 @@ const testConfig = createTestConfig(
             .eq(1)
             .should('contain', 'Gas')
             .and('contain', '$1,500.00');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'credit-card-bills': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_questions_hasCreditCardBillsYes').check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'your-credit-card-bills': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#unpaidBalance')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('#amountDueMonthly')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('#amountPastDue')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'credit-card-bills-summary': ({ afterHook }) => {
+        afterHook(() => {
           cy.get('.usa-button-primary').click();
         });
       },

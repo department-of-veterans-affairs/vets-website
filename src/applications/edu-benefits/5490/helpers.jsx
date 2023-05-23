@@ -44,6 +44,28 @@ export const relationshipLabels = {
   ),
 };
 
+export const relationshipAndChildTypeLabels = {
+  step: 'Step Child',
+  biological: 'Biological Child',
+  adopted: 'Adopted Child',
+  spouse: (
+    <p>
+      Spouse or surviving spouse
+      <>
+        <br />
+        <a
+          aria-label="Learn more about VA requirements for marriage certification"
+          rel="noopener noreferrer"
+          target="_blank"
+          href="http://www.va.gov/opa/marriage/"
+        >
+          Learn more
+        </a>
+      </>
+    </p>
+  ),
+};
+
 export const highSchoolStatusLabels = {
   graduated: 'Graduated from high school',
   graduationExpected: 'Expect to graduate from high school',
@@ -112,7 +134,8 @@ export const ageWarning = (
       <p className="vads-u-font-size--base">
         Applicants under the age of 18 can’t legally make a benefits election.
         Based on your date of birth, please have a parent, guardian, or
-        custodian review the information on this application and click the
+        custodian review the information on this application, provide their
+        contact information in the Guardian Section of this form, and click the
         "Submit application" button at the end of this form.
       </p>
     </div>

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { errorMessages, MAX_LENGTH } from '../../constants';
+import { errorMessages, SELECTED, MAX_LENGTH } from '../../constants';
 import { getDate } from '../../utils/dates';
 
 import {
@@ -51,21 +51,10 @@ describe('VA evidence', () => {
   describe('validateVaIssues', () => {
     it('should not show an error for included issues', () => {
       const errors = { addError: sinon.spy() };
-      validateVaIssues(errors, { issues: ['ok'] });
-      expect(errors.addError.called).to.be.false;
-    });
-    it('should show an error for a missing issues', () => {
-      const errors = { addError: sinon.spy() };
-      validateVaIssues(errors, { issues: [] });
-      expect(errors.addError.calledWith(errorMessages.evidence.issuesMissing))
-        .to.be.true;
-    });
-  });
-
-  describe('validateVaIssues', () => {
-    it('should not show an error for included issues', () => {
-      const errors = { addError: sinon.spy() };
-      validateVaIssues(errors, { issues: ['ok'] });
+      validateVaIssues(errors, null, {
+        additionalIssues: [{ issue: 'ok', [SELECTED]: true }],
+        locations: [{ issues: ['ok'] }],
+      });
       expect(errors.addError.called).to.be.false;
     });
     it('should show an error for a missing issues', () => {
@@ -142,6 +131,12 @@ describe('VA evidence', () => {
       expect(isEmptyVaEntry({ issues: [] })).to.be.true;
       expect(isEmptyVaEntry({ evidenceDates: null })).to.be.true;
       expect(isEmptyVaEntry({ evidenceDates: {} })).to.be.true;
+      expect(isEmptyVaEntry({ evidenceDates: { from: '--', to: '--' } })).to.be
+        .true;
+      expect(isEmptyVaEntry({ evidenceDates: { from: '-0-0', to: '-0-0' } })).to
+        .be.true;
+      expect(isEmptyVaEntry({ evidenceDates: { from: '-00-00', to: '--' } })).to
+        .be.true;
       expect(
         isEmptyVaEntry({
           locationAndName: '',
@@ -170,42 +165,62 @@ describe('VA evidence', () => {
   });
 
   describe('validateVaUnique', () => {
-    const getLocations = (name3 = 'location 2') => ({
+    const _ = null;
+    const getLocations = (name3 = 'location 3') => ({
       locations: [
         {
           locationAndName: 'Location 1',
-          issues: ['Ankylosis of knee'],
+          issues: ['test 1', 'test 2'],
           evidenceDates: { from: '2001-01-01', to: '2011-01-01' },
         },
+        {},
         {
           locationAndName: 'Location 2',
-          issues: ['Ankylosis of knees'],
+          issues: ['test 1', 'test 2'],
           evidenceDates: { from: '2002-02-02', to: '2012-02-02' },
         },
         {
+          locationAndName: '',
+          issues: [''],
+          evidenceDates: { from: '', to: '' },
+        },
+        {
           locationAndName: name3,
-          issues: ['AnKyLoSiS of KNEE'],
-          evidenceDates: { from: '2001-01-01', to: '2011-01-01' },
+          issues: ['TeSt 2', 'tEsT 1'],
+          evidenceDates: { from: '2001-1-01', to: '2011-01-1' },
         },
       ],
     });
-    it('should not show an error for unique locations', () => {
+    it('should NOT show an error for unique locations', () => {
       const errors = { addError: sinon.spy() };
-      validateVaUnique(errors, {}, getLocations());
+      validateVaUnique(errors, {}, getLocations(), _, _, 0);
       expect(errors.addError.called).to.be.false;
     });
-    it('should show an error for duplicate locations', () => {
+    it('should NOT show an error for duplicate locations when on the first duplicate', () => {
       const errors = { addError: sinon.spy() };
-      validateVaUnique(errors, {}, getLocations('LOCATION 1'));
-      expect(errors.addError.calledWith(errorMessages.evidence.unique)).to.be
+      validateVaUnique(errors, {}, getLocations('LOCATION 1'), _, _, 0);
+      expect(errors.addError.calledWith(errorMessages.evidence.uniqueVA)).to.be
+        .false;
+    });
+    it('should SHOW an error for duplicate locations when not on the first duplicate index', () => {
+      const errors = { addError: sinon.spy() };
+      validateVaUnique(errors, {}, getLocations('LOCATION 1'), _, _, 4);
+      expect(errors.addError.calledWith(errorMessages.evidence.uniqueVA)).to.be
         .true;
     });
-    it('should not show an error for empty duplicates', () => {
+    it('should NOT show an error for duplicate locations when on a different index', () => {
+      const errors = { addError: sinon.spy() };
+      validateVaUnique(errors, {}, getLocations('LOCATION 2'), _, _, 0);
+      expect(errors.addError.calledWith(errorMessages.evidence.uniqueVA)).to.be
+        .false;
+    });
+
+    it('should NOT show an error for empty duplicates', () => {
       const errors = { addError: sinon.spy() };
       const data = [
         ...getLocations().locations,
         {},
-        { issues: [], evidenceData: {} },
+        { issues: [], evidenceDates: {} },
       ];
       validateVaUnique(errors, {}, data);
       expect(errors.addError.called).to.be.false;
@@ -317,7 +332,10 @@ describe('Private evidence', () => {
   describe('validatePrivateIssues', () => {
     it('should not show an error for an added facility issues', () => {
       const errors = { addError: sinon.spy() };
-      validatePrivateIssues(errors, { issues: ['ok'] });
+      validatePrivateIssues(errors, null, {
+        additionalIssues: [{ issue: 'ok', [SELECTED]: true }],
+        providerFacility: [{ issues: ['ok'] }],
+      });
       expect(errors.addError.called).to.be.false;
     });
     it('should show an error for a missing facility issues', () => {
@@ -427,6 +445,21 @@ describe('Private evidence', () => {
       expect(isEmptyPrivateEntry({ treatmentDateRange: null })).to.be.true;
       expect(isEmptyPrivateEntry({ treatmentDateRange: {} })).to.be.true;
       expect(
+        isEmptyPrivateEntry({ treatmentDateRange: { from: '--', to: '--' } }),
+      ).to.be.true;
+
+      expect(
+        isEmptyPrivateEntry({
+          treatmentDateRange: { from: '-0-0', to: '-0-0' },
+        }),
+      ).to.be.true;
+      expect(
+        isEmptyPrivateEntry({
+          treatmentDateRange: { from: '-00-00', to: '--' },
+        }),
+      ).to.be.true;
+
+      expect(
         isEmptyPrivateEntry({
           providerFacilityName: '',
           providerFacilityAddress: {
@@ -516,38 +549,61 @@ describe('Private evidence', () => {
         {
           providerFacilityName: 'Facility 1',
           providerFacilityAddress,
-          issues: ['Ankylosis of knee'],
+          issues: ['test 1', 'test 2'],
           treatmentDateRange: { from: '2001-01-01', to: '2011-01-01' },
         },
+        {},
         {
           providerFacilityName: 'Facility 2',
           providerFacilityAddress,
-          issues: ['Ankylosis of knee'],
+          issues: ['test 1', 'test 2'],
           treatmentDateRange: { from: '2002-02-02', to: '2012-02-02' },
+        },
+        {
+          providerFacilityName: '',
+          providerFacilityAddress: { city: '' },
+          issues: [''],
+          treatmentDateRange: { from: '', to: '' },
         },
         {
           providerFacilityName: name3,
           providerFacilityAddress,
-          issues: ['AnKyLoSiS of KNEE'],
+          issues: ['TeSt 2', 'tEsT 1'],
           treatmentDateRange: { from: '2001-01-01', to: '2011-01-01' },
         },
       ],
     });
-    it('should not show an error for unique facility', () => {
+    it('should NOT show an error for unique facilities', () => {
       const errors = { addError: sinon.spy() };
       validatePrivateUnique(errors, _, getFacilities(), _, _, 0);
       expect(errors.addError.called).to.be.false;
     });
-    it('should not show a duplicate Facility error on the initial duplicate entry', () => {
+    it('should NOT show a duplicate Facility error on the initial duplicate entry', () => {
       const errors = { addError: sinon.spy() };
       validatePrivateUnique(errors, _, getFacilities('FACILITY 1'), _, _, 0);
       expect(errors.addError.called).to.be.false;
     });
-    it('should show an error for duplicate Facilities on the indexed page', () => {
+    it('should SHOW an error for duplicate Facilities on the indexed page', () => {
       const errors = { addError: sinon.spy() };
-      validatePrivateUnique(errors, _, getFacilities('FACILITY 1'), _, _, 2);
-      expect(errors.addError.calledWith(errorMessages.evidence.unique)).to.be
-        .true;
+      validatePrivateUnique(errors, _, getFacilities('FACILITY 1'), _, _, 4);
+      expect(errors.addError.calledWith(errorMessages.evidence.uniquePrivate))
+        .to.be.true;
+    });
+    it('should NOT show a duplicate Facility error on a different index', () => {
+      const errors = { addError: sinon.spy() };
+      validatePrivateUnique(errors, _, getFacilities('FACILITY 2'), _, _, 0);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should NOT show an error for empty duplicates', () => {
+      const errors = { addError: sinon.spy() };
+      const data = [
+        ...getFacilities().providerFacility,
+        {},
+        { issues: [], treatmentDateRange: {} },
+      ];
+      validatePrivateUnique(errors, _, data);
+      expect(errors.addError.called).to.be.false;
     });
   });
 });

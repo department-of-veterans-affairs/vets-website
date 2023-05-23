@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import get from 'platform/utilities/data/get';
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { apiRequest } from 'platform/utilities/api';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { pendingMessage } from '../content/confirmation-poll';
@@ -13,13 +14,6 @@ import { submissionStatuses, terminalStatuses } from '../constants';
 import { isBDD } from '../utils';
 
 export class ConfirmationPoll extends React.Component {
-  // Using it as a prop for easy testing
-  static defaultProps = {
-    pollRate: 5000,
-    delayFailure: 6000, // larger than pollRate
-    longWaitTime: 30000,
-  };
-
   constructor(props) {
     super(props);
 
@@ -58,7 +52,7 @@ export class ConfirmationPoll extends React.Component {
         }
 
         // Check status
-        const status = response.data.attributes.status;
+        const { status } = response.data.attributes;
         if (terminalStatuses.has(status)) {
           this.setState({
             submissionStatus: status,
@@ -143,8 +137,29 @@ function mapStateToProps(state) {
     disabilities: selectAllDisabilityNames(state),
     submittedAt: state.form.submission.timestamp,
     jobId: state.form.submission.response?.attributes?.jobId,
-    isSubmittingBDD: isBDD(state.form.data) || true,
+    isSubmittingBDD: isBDD(state.form.data) || false,
   };
 }
+
+ConfirmationPoll.propTypes = {
+  delayFailure: PropTypes.number,
+  disabilities: PropTypes.array,
+  fullName: PropTypes.shape({
+    first: PropTypes.string,
+    last: PropTypes.string,
+  }),
+  isSubmittingBDD: PropTypes.bool,
+  jobId: PropTypes.string,
+  longWaitTime: PropTypes.number,
+  pollRate: PropTypes.number,
+  submittedAt: PropTypes.object,
+};
+
+// Using it as a prop for easy testing
+ConfirmationPoll.defaultProps = {
+  pollRate: 5000,
+  delayFailure: 6000, // larger than pollRate
+  longWaitTime: 30000,
+};
 
 export default connect(mapStateToProps)(ConfirmationPoll);

@@ -40,7 +40,6 @@ export const IntroductionPage = ({
         isLOA3 && (
           <SaveInProgressIntro
             buttonOnly
-            testActionLink
             user={user}
             prefillEnabled={route.formConfig.prefillEnabled}
             messages={route.formConfig.savedFormMessages}
@@ -120,7 +119,7 @@ export const IntroductionPage = ({
         <va-omb-info
           res-burden="15"
           omb-number="2900-0154"
-          exp-date="02/28/2023"
+          exp-date="03/31/2026"
         />
       </div>
     </div>

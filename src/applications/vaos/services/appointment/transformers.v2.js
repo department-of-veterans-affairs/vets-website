@@ -96,7 +96,7 @@ export function getAppointmentInfoFromComments(comments, key) {
   if (key === 'reasonCode') {
     const reasonCode = appointmentInfo
       ? appointmentInfo
-          .filter(item => item.includes('preferred dates:'))[0]
+          .filter(item => item.includes('reason code:'))[0]
           ?.split(':')[1]
       : null;
     const transformedReasonCode = { code: reasonCode };
@@ -217,6 +217,9 @@ export function transformVAOSAppointment(appt) {
   const timezone = getTimezoneByFacilityId(appt.locationId);
 
   const start = timezone ? moment(appt.start).tz(timezone) : moment(appt.start);
+  const serviceCategoryName = appt.serviceCategory?.[0]?.text;
+  const isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
+  const isCancellable = appt.cancellable;
 
   let videoData = { isVideo };
   if (isVideo) {
@@ -382,6 +385,8 @@ export function transformVAOSAppointment(appt) {
     vaos: {
       isVideo,
       isPastAppointment: isPast,
+      isCompAndPenAppointment: isCompAndPen,
+      isCancellable,
       appointmentType,
       isCommunityCare: isCC,
       isExpressCare: false,

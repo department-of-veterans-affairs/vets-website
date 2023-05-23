@@ -1,30 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
-const MPIConnectionError = ({ className, level }) => {
-  const content = (
-    <p>
-      We’re sorry. Something went wrong when we tried to connect to your
-      records. Please refresh this page or try again later.
-    </p>
-  );
-
+const MPIConnectionError = ({ className }) => {
   return (
-    <div className={className}>
-      <AlertBox
-        headline="We can’t access your records right now"
-        content={content}
-        status="warning"
-        level={level}
-      />
-    </div>
+    <va-alert class={className} status="warning">
+      <h2 slot="headline">We can’t access your records right now</h2>
+      <p className="vads-u-margin-bottom--0">
+        We’re sorry. Something went wrong when we tried to connect to your
+        records. Please refresh this page or try again later.
+      </p>
+    </va-alert>
   );
 };
 
 MPIConnectionError.propTypes = {
   className: PropTypes.string,
-  level: PropTypes.number.isRequired,
 };
 
 export default MPIConnectionError;

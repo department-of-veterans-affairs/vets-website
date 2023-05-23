@@ -1,5 +1,4 @@
 import React from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { formatDateLong } from 'platform/utilities/date';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -28,7 +27,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
   render() {
     if (this.props.loading || !Object.keys(this.props.facility).length) {
       return (
-        <LoadingIndicator
+        <va-loading-indicator
           message={`Loading facility's ${
             this.props.service
           } appointment wait times...`}

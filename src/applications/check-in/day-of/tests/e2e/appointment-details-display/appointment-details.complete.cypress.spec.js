@@ -25,7 +25,7 @@ describe('Check In Experience', () => {
           appointmentIen: '0001',
         },
       ];
-      initializeFeatureToggle.withDetailsPage();
+      initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
 
       initializeSessionPost.withSuccess();
@@ -58,6 +58,7 @@ describe('Check In Experience', () => {
       AppointmentDetails.validatePageLoadedInPerson();
       AppointmentDetails.validateCheckedInMessage();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--Appointment-detail-checked-in');
     });
   });
 });

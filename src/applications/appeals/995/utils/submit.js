@@ -7,7 +7,11 @@ import {
   EVIDENCE_PRIVATE,
   EVIDENCE_OTHER,
 } from '../constants';
-import { hasHomeAndMobilePhone, hasMobilePhone } from './contactInfo';
+import {
+  hasHomeAndMobilePhone,
+  hasHomePhone,
+  hasMobilePhone,
+} from './contactInfo';
 import { replaceSubmittedData, fixDateFormat } from './replace';
 
 /**
@@ -230,24 +234,38 @@ export const getAddress = formData => {
  * @returns {Object} submittable address
  */
 export const getPhone = formData => {
-  const { veteran } = formData || {};
+  const data = formData || {};
+  const { veteran = {} } = data;
+  const primary = data[PRIMARY_PHONE] || '';
   // we shouldn't ever get to this point without a home or mobile phone
-  let phone = 'homePhone';
-  if (hasHomeAndMobilePhone(formData)) {
-    phone = `${formData[PRIMARY_PHONE]}Phone`;
-  } else if (hasMobilePhone(formData)) {
+  let phone;
+  if (hasHomeAndMobilePhone(data) && primary) {
+    phone = `${primary}Phone`;
+  } else if (hasMobilePhone(data)) {
     phone = 'mobilePhone';
+  } else if (hasHomePhone(data)) {
+    phone = 'homePhone';
   }
 
   const truncate = (value, max) =>
-    replaceSubmittedData(veteran?.[phone]?.[value] || '').substring(0, max);
-  return removeEmptyEntries({
-    countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
-    areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
-    phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
-    phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
-  });
+    replaceSubmittedData(veteran[phone]?.[value] || '').substring(0, max);
+  return phone
+    ? removeEmptyEntries({
+        countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
+        areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
+        phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
+        phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
+      })
+    : {};
 };
+
+export const hasDuplicateLocation = (list, locationAndName, evidenceDates) =>
+  !!list.find(
+    ({ attributes }) =>
+      attributes.locationAndName === locationAndName &&
+      attributes.evidenceDates[0].startDate === evidenceDates.from &&
+      attributes.evidenceDates[0].endDate === evidenceDates.to,
+  );
 
 /**
  * Truncate long email addresses
@@ -323,22 +341,30 @@ export const getEvidence = formData => {
   // Add VA evidence data
   if (formData[EVIDENCE_VA] && formData.locations.length) {
     evidenceSubmission.evidenceType.push('retrieval');
-    evidenceSubmission.retrieveFrom = formData.locations.map(location => ({
-      type: 'retrievalEvidence',
-      attributes: {
-        // we're not including the issues here - it's only in the form to make
-        // the UX consistent with the private records location pages
-        locationAndName: location.locationAndName,
-        // Lighthouse wants between 1 and 4 evidenceDates, but we're only
-        // providing one
-        evidenceDates: [
-          {
-            startDate: fixDateFormat(location.evidenceDates.from),
-            endDate: fixDateFormat(location.evidenceDates.to),
-          },
-        ],
+    evidenceSubmission.retrieveFrom = formData.locations.reduce(
+      (list, { locationAndName, evidenceDates }) => {
+        if (!hasDuplicateLocation(list, locationAndName, evidenceDates)) {
+          list.push({
+            type: 'retrievalEvidence',
+            attributes: {
+              // we're not including the issues here - it's only in the form to make
+              // the UX consistent with the private records location pages
+              locationAndName,
+              // Lighthouse wants between 1 and 4 evidenceDates, but we're only
+              // providing one
+              evidenceDates: [
+                {
+                  startDate: fixDateFormat(evidenceDates.from),
+                  endDate: fixDateFormat(evidenceDates.to),
+                },
+              ],
+            },
+          });
+        }
+        return list;
       },
-    }));
+      [],
+    );
   }
   // additionalDocuments added in submit-transformer
   if (formData[EVIDENCE_OTHER] && formData.additionalDocuments.length) {

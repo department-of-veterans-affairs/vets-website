@@ -4,12 +4,14 @@ import mockMessagewithAttachment from './fixtures/message-response-withattachmen
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import mockThreadwithAttachment from './fixtures/thread-attachment-response.json';
+import PatientComposePage from './pages/PatientComposePage';
 
 describe('Secure Messaging - Delete Message with Attachment', () => {
   it('delete message with attachment', () => {
     const site = new SecureMessagingSite();
     const landingPage = new PatientInboxPage();
     const detailsPage = new PatientMessageDetailsPage();
+    const composePage = new PatientComposePage();
 
     site.login();
     mockMessagewithAttachment.data.id = '7192838';
@@ -17,10 +19,16 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
     mockMessagewithAttachment.data.attributes.attachment = true;
     mockMessagewithAttachment.data.attributes.body = 'attachment';
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
-
     cy.intercept(
-      'DELETE',
-      '/my_health/v1/messaging/messages/7192838',
+      'GET',
+      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
+      mockMessages,
+    ).as('messagesFolder');
+    cy.intercept(
+      'PATCH',
+      `/my_health/v1/messaging/threads/${
+        mockThreadwithAttachment.data.at(0).attributes.threadId
+      }/move?folder_id=-3`,
       mockMessagewithAttachment,
     ).as('deleteMessagewithAttachment');
 
@@ -30,16 +38,10 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
       mockMessagewithAttachment,
       mockThreadwithAttachment,
     );
-    cy.get('[data-testid="trash-button-text"]').click({
-      waitforanimations: true,
-    });
+    composePage.clickTrashButton();
 
-    cy.get('[data-testid=delete-message-modal]')
-      .shadow()
-      .find('button')
-      .contains('Confirm')
-      .should('be.visible')
-      .click();
+    composePage.clickConfirmDeleteButton();
+    composePage.verifyDeleteDraftSuccessfulMessage();
 
     cy.wait('@deleteMessagewithAttachment');
     cy.injectAxe();
