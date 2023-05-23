@@ -1,16 +1,15 @@
 // Dependencies.
 import React, { Component } from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+
 import PropTypes from 'prop-types';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import URLSearchParams from 'url-search-params';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 // Relative imports.
-import recordEvent from 'platform/monitoring/record-event';
 import constants from 'vets-json-schema/dist/constants.json';
-import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
 import { fetchResultsThunk } from '../../actions';
 import { getYellowRibbonAppState } from '../../helpers/selectors';
 
@@ -109,25 +108,8 @@ export class SearchForm extends Component {
     scrollToTop();
   };
 
-  onClickToolTipHandler = () => {
-    const nextStateOfToolTip = !this.state.isToolTipOpen;
-    return this.setState({ isToolTipOpen: nextStateOfToolTip }, () =>
-      recordEvent({
-        event: nextStateOfToolTip
-          ? 'int-additionalInfo-expand'
-          : 'int-additionalInfo-collapse',
-        'additionalInfo-click-label': TOOL_TIP_LABEL,
-      }),
-    );
-  };
-
   render() {
-    const {
-      onCheckboxChange,
-      onReactStateChange,
-      onSubmitHandler,
-      onClickToolTipHandler,
-    } = this;
+    const { onCheckboxChange, onReactStateChange, onSubmitHandler } = this;
     const { fetching, showMobileForm } = this.props;
     const {
       city,
@@ -173,13 +155,9 @@ export class SearchForm extends Component {
               value={name}
             />
           </div>
-          <AdditionalInfo
-            triggerText={TOOL_TIP_LABEL}
-            onClick={onClickToolTipHandler}
-            disableAnalytics
-          >
+          <va-additional-info trigger={TOOL_TIP_LABEL} disable-analytics>
             <p>{TOOL_TIP_CONTENT}</p>
-          </AdditionalInfo>
+          </va-additional-info>
           {/* State Field */}
           <label htmlFor="yr-search-state" className="vads-u-margin-top--3">
             State or territory

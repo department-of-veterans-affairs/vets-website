@@ -32,6 +32,8 @@ const SENDER_ALPHA_ASCENDING = 'sender-alpha-asc';
 const SENDER_ALPHA_DESCENDING = 'sender-alpha-desc';
 const RECEPIENT_ALPHA_ASCENDING = 'recepient-alpha-asc';
 const RECEPIENT_ALPHA_DESCENDING = 'recepient-alpha-desc';
+const SORT_MESSAGES_LABEL = 'Show messages in this order';
+
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
@@ -146,7 +148,7 @@ const MessageList = props => {
       <div className="message-list-sort">
         <VaSelect
           id="sort-order-dropdown"
-          label="Sort by"
+          label={SORT_MESSAGES_LABEL}
           name="sort-order"
           value={sortOrderSelection}
           onVaSelect={e => {
@@ -194,7 +196,7 @@ const MessageList = props => {
       <div className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
         Displaying {displayNums[0]}
         &#8211;
-        {displayNums[1]} of {totalEntries} conversations
+        {displayNums[1]} of {totalEntries} messages
       </div>
       {currentMessages?.length > 0 &&
         currentMessages.map((message, idx) => (

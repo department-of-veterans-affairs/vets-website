@@ -7,8 +7,6 @@ import CTALink from '../CTALink';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import { dismissNotificationById } from '../../actions/notifications';
 
-import './TestNotification.scss';
-
 function handleNotification() {
   recordEvent({
     event: 'dashboard-navigation',

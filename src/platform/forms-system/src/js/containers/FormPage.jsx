@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import classNames from 'classnames';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   isReactComponent,
   focusElement,
@@ -20,6 +21,7 @@ import {
   getPreviousPagePath,
   checkValidPagePath,
 } from '../routing';
+import { DevModeNavLinks } from '../components/dev/DevModeNavLinks';
 
 function focusForm(route, index) {
   // Check main toggle to enable custom focus
@@ -169,6 +171,9 @@ class FormPage extends React.Component {
       }
     }
 
+    const showNavLinks =
+      environment.isLocalhost() && route.formConfig?.dev?.showNavLinks;
+
     // Bypass the SchemaForm and render the custom component
     // NOTE: I don't think FormPage is rendered on the review page, so I believe
     // onReviewPage will always be false here
@@ -196,6 +201,7 @@ class FormPage extends React.Component {
 
     return (
       <div className={pageClasses}>
+        {showNavLinks && <DevModeNavLinks pageList={route.pageList} />}
         <SchemaForm
           name={route.pageConfig.pageKey}
           title={route.pageConfig.title}
@@ -268,6 +274,11 @@ FormPage.propTypes = {
       title: PropTypes.string,
       uiSchema: PropTypes.object.isRequired,
       updateFormData: PropTypes.func,
+    }),
+    formConfig: PropTypes.shape({
+      dev: PropTypes.shape({
+        showNavLinks: PropTypes.bool,
+      }),
     }),
     pageList: PropTypes.arrayOf(
       PropTypes.shape({

@@ -1,15 +1,7 @@
-import React from 'react';
 import AvailableDebtsAndCopays from '../../components/AvailableDebtsAndCopays';
 
 export const uiSchema = {
-  'ui:title': (
-    <span
-      className="vads-u-font-size--h4 vads-u-font-weight--bold vads-u-font-family--sans"
-      data-testid="debt-title"
-    >
-      What debt do you need help with?
-    </span>
-  ),
+  'ui:title': 'What debt do you need help with?',
   selectedDebtsAndCopays: {
     'ui:field': AvailableDebtsAndCopays,
     'ui:options': {

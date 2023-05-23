@@ -21,6 +21,16 @@ describe('validateDate & isValidDate', () => {
     expect(errorMessage).to.equal('');
     expect(isValidDate(date)).to.be.true;
   });
+  it('should allow valid dates without a leading zero', () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    // getMonth => zero based month; we're trying to process a single digit
+    // month and day here
+    const date = today.getMonth() > 9 ? `${year}-1-1` : `${year - 1}-8-1`;
+    validateDate(errors, date);
+    expect(errorMessage).to.equal('');
+    expect(isValidDate(date)).to.be.true;
+  });
   it('should throw a invalid date error', () => {
     validateDate(errors, '200');
     expect(errorMessage).to.contain('provide a valid date');
@@ -28,7 +38,7 @@ describe('validateDate & isValidDate', () => {
   });
   it('should throw a range error for dates too old', () => {
     validateDate(errors, '1899-01-01');
-    expect(errorMessage).to.contain('enter a year between');
+    expect(errorMessage).to.contain('date less than a year');
     expect(isValidDate('1899')).to.be.false;
   });
   it('should throw an error for dates in the future', () => {

@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
@@ -344,20 +343,22 @@ export function FilterYourResults({
           <div className="vads-u-margin-bottom--4">
             {specializedMissionAttributes()}
           </div>
-          <ExpandingGroup open={schools}>
-            <Checkbox
-              checked={schools}
-              name="schools"
-              label="Schools"
-              onChange={handleSchoolChange}
-              className="expanding-header-checkbox"
-              inputAriaLabelledBy={legendId}
-            />
-            <div className="school-types expanding-group-children">
-              {excludedSchoolTypesGroup()}
-              {schoolAttributes()}
-            </div>
-          </ExpandingGroup>
+          <Checkbox
+            checked={schools}
+            name="schools"
+            label="Schools"
+            onChange={handleSchoolChange}
+            className="expanding-header-checkbox"
+            inputAriaLabelledBy={legendId}
+          />
+          <div className="school-types expanding-group-children">
+            {schools && (
+              <>
+                {excludedSchoolTypesGroup()}
+                {schoolAttributes()}
+              </>
+            )}
+          </div>
         </div>
         <Checkbox
           checked={employers}
@@ -367,16 +368,16 @@ export function FilterYourResults({
           className="vads-u-margin-bottom--4"
           inputAriaLabelledBy={legendId}
         />
-        <ExpandingGroup open={vettec}>
-          <Checkbox
-            checked={vettec}
-            name="vettec"
-            label="VET TEC providers"
-            onChange={handleVetTecChange}
-            className="expanding-header-checkbox"
-            inputAriaLabelledBy={legendId}
-          />
-          <div className="expanding-group-children">
+        <Checkbox
+          checked={vettec}
+          name="vettec"
+          label="VET TEC providers"
+          onChange={handleVetTecChange}
+          className="expanding-header-checkbox"
+          inputAriaLabelledBy={legendId}
+        />
+        <div className="expanding-group-children">
+          {vettec && (
             <Checkbox
               checked={preferredProvider}
               name="preferredProvider"
@@ -385,8 +386,8 @@ export function FilterYourResults({
               labelAriaLabel="VET TEC Preferred providers"
               inputAriaLabelledBy={legendId}
             />
-          </div>
-        </ExpandingGroup>
+          )}
+        </div>
       </>
     );
   };

@@ -29,7 +29,7 @@ const InstallmentContractSummary = ({
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      goToPath(`/credit-card-bills`);
+      goToPath(`/other-expenses-checklist`);
     },
     onBack: event => {
       event.preventDefault();
@@ -83,49 +83,54 @@ const InstallmentContractSummary = ({
 
   return (
     <form onSubmit={handlers.onSubmit}>
-      <div className="vads-u-margin-top--3" data-testid="debt-list">
-        {!installmentContracts.length ? (
-          <EmptyMiniSummaryCard content={emptyPrompt} />
-        ) : (
-          installmentContracts.map((bill, index) => (
-            <MiniSummaryCard
-              editDestination={{
-                pathname: '/your-installment-contracts',
-                search: `?index=${index}`,
-              }}
-              heading={bill.purpose}
-              key={bill.minPaymentAmount + bill.unpaidBalance}
-              onDelete={() => onDelete(index)}
-              showDelete
-              body={billBody(bill)}
-              index={index}
-            />
-          ))
-        )}
-      </div>
-      <Link
-        className="vads-c-action-link--green"
-        to={{
-          pathname: '/your-installment-contracts',
-          search: `?index=${installmentContracts.length}`,
-        }}
-      >
-        Add additional installment contract or other debt
-      </Link>
-      <va-additional-info
-        class="vads-u-margin-top--4"
-        trigger="What are examples of installment contracts or other debt?"
-      >
-        Examples of installment contracts or other debt include:
-        <br />
-        <ul>
-          <li>Medical bills</li>
-          <li>Student loans</li>
-          <li>Auto loans</li>
-          <li>Home loans</li>
-          <li>Personal debts</li>
-        </ul>
-      </va-additional-info>
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">
+          Your installment contracts and other debts
+        </legend>
+        <div className="vads-u-margin-top--3" data-testid="debt-list">
+          {!installmentContracts.length ? (
+            <EmptyMiniSummaryCard content={emptyPrompt} />
+          ) : (
+            installmentContracts.map((bill, index) => (
+              <MiniSummaryCard
+                editDestination={{
+                  pathname: '/your-installment-contracts',
+                  search: `?index=${index}`,
+                }}
+                heading={bill.purpose}
+                key={bill.minPaymentAmount + bill.unpaidBalance}
+                onDelete={() => onDelete(index)}
+                showDelete
+                body={billBody(bill)}
+                index={index}
+              />
+            ))
+          )}
+        </div>
+        <Link
+          className="vads-c-action-link--green"
+          to={{
+            pathname: '/your-installment-contracts',
+            search: `?index=${installmentContracts.length}`,
+          }}
+        >
+          Add additional installment contract or other debt
+        </Link>
+        <va-additional-info
+          class="vads-u-margin-top--4"
+          trigger="What are examples of installment contracts or other debt?"
+        >
+          Examples of installment contracts or other debt include:
+          <br />
+          <ul>
+            <li>Medical bills</li>
+            <li>Student loans</li>
+            <li>Auto loans</li>
+            <li>Home loans</li>
+            <li>Personal debts</li>
+          </ul>
+        </va-additional-info>
+      </fieldset>
       {contentBeforeButtons}
       <FormNavButtons goBack={handlers.onBack} submitToContinue />
       {contentAfterButtons}{' '}

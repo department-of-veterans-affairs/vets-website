@@ -32,7 +32,7 @@ export const SET_DISMISSED_HCA_NOTIFICATION = 'SET_DISMISSED_HCA_NOTIFICATION';
 
 export const SHOW_HCA_REAPPLY_CONTENT = 'SHOW_HCA_REAPPLY_CONTENT';
 
-// action types related to calling GET /disability_compensation_form/rating_info'
+// action types related to calling GET /health_care_applications/rating_info'
 export const FETCH_TOTAL_RATING_STARTED = 'FETCH_TOTAL_RATING_STARTED';
 export const FETCH_TOTAL_RATING_SUCCEEDED = 'FETCH_TOTAL_RATING_SUCCEEDED';
 export const FETCH_TOTAL_RATING_FAILED = 'FETCH_TOTAL_RATING_FAILED';
@@ -225,7 +225,7 @@ export function fetchTotalDisabilityRating() {
     dispatch({
       type: FETCH_TOTAL_RATING_STARTED,
     });
-    const response = await getData('/disability_compensation_form/rating_info');
+    const response = await getData('/health_care_applications/rating_info');
 
     const error = getResponseError(response);
     if (error) {

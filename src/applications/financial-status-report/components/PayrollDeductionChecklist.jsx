@@ -106,16 +106,17 @@ const PayrollDeductionChecklist = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <h3 className="vads-u-margin-top--neg1p5">Your job at {employerName}</h3>{' '}
-      <br />
-      <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        Which of these payroll deductions do you pay for?
-      </span>
-      <Checklist
-        options={payrollDeductionOptions}
-        onChange={event => onChange(event)}
-        isBoxChecked={isBoxChecked}
-      />
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">
+          Your job at {employerName}
+        </legend>
+        <p>Which of these payroll deductions do you pay for?</p>
+        <Checklist
+          options={payrollDeductionOptions}
+          onChange={event => onChange(event)}
+          isBoxChecked={isBoxChecked}
+        />
+      </fieldset>
       {onReviewPage ? updateButton : navButtons}
     </form>
   );
