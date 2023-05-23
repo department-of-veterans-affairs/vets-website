@@ -257,27 +257,15 @@ font-style: normal !important;
     font-style: normal !important;
 }
 
-a {
-  cursor: pointer;
-  text-decoration: underline;
-  color: #004795 !important;
-  text-decoration: underline;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-in-out;
-  transition-property: color, background-color, border-color;
-}
-
 // footer OMB and legal text
 #liveForm > div > div.live-form-content > div.modal-live-form.ng-scope > div > div > div:nth-child(31) > div > div > p > p:nth-child(2) > span[style] {
-  background-color: yellow !important;
-    font-size: 14px !important;
-   color: color-gray-dark !important;
-   font-style: normal !important; 
+  font-size: 14px !important;
+  color: color-gray-dark !important;
+  font-style: normal !important;
  }
- 
+
  #liveForm > div > div.live-form-content > div.modal-live-form.ng-scope > div > div > div:nth-child(31) > div > div > p > p:nth-child(1) > span[style] {
-  background-color: yellow !important;
-    font-size: 14px !important;
-   color: color-gray-dark !important;
-   font-style: normal !important;   
+  font-size: 14px !important;
+  color: color-gray-dark !important;
+  font-style: normal !important;
  }
