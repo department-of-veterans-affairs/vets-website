@@ -4,7 +4,9 @@
 import {
   createAccessibleDoc,
   addHorizontalRule,
+  // createDetailItem,
   createHeading,
+  createSpan,
   createSubHeading,
   getTestResultBlockHeight,
   registerVaGovFonts,
@@ -36,6 +38,7 @@ const config = {
     size: 16,
   },
   text: {
+    boldFont: 'SourceSansPro-Bold',
     font: 'SourceSansPro-Regular',
     size: 16,
   },
@@ -68,18 +71,13 @@ const generateDetailsContent = async (doc, data) => {
   });
   doc.addStructure(details);
   if (data.details.header) {
-    details.add(
-      doc.struct('H2', () => {
-        doc
-          .font('Bitter-Bold')
-          .fontSize(24)
-          .text(data.details.header, { x: 30, paragraphGap: 16 });
-      }),
-    );
+    const headOptions = { x: 30, paragraphGap: 16 };
+    details.add(createHeading(doc, 'H2', config, data.title, headOptions));
   }
   const detailsItemsCount = data.details.items.length;
   if (detailsItemsCount > 0) {
     data.details.items.forEach(item => {
+      // details.add(createDetailItem(doc, config, 30, item));
       const paragraphOptions = { lineGap: 0 };
       let titleText = item.title;
       if (item.inline === true) {
@@ -91,13 +89,13 @@ const generateDetailsContent = async (doc, data) => {
       details.add(
         doc.struct('P', () => {
           doc
-            .font('SourceSansPro-Bold')
-            .fontSize(16)
+            .font(config.text.boldFont)
+            .fontSize(config.text.fontSize)
             .text(titleText, 30, doc.y, paragraphOptions);
           doc
-            .font('SourceSansPro-Regular')
-            .fontSize(16)
-            .text(`${item.value}`);
+            .font(config.text.font)
+            .fontSize(config.text.fontSize)
+            .text(item.value);
         }),
       );
     });
@@ -111,13 +109,9 @@ const generateResultsContent = async (doc, data) => {
   });
   doc.addStructure(results);
   if (data.results.header) {
+    const headingOptions = { paragraphGap: 20, x: 34 };
     results.add(
-      doc.struct('H2', () => {
-        doc
-          .font('Bitter-Bold')
-          .fontSize(24)
-          .text(data.results.header, 34, doc.y, { paragraphGap: 20 });
-      }),
+      createHeading(doc, 'H2', config, data.results.header, headingOptions),
     );
   }
   let initialBlock = true;
@@ -137,16 +131,11 @@ const generateResultsContent = async (doc, data) => {
       );
     }
 
-    results.add(
-      doc.struct('H3', () => {
-        doc
-          .font('SourceSansPro-Bold')
-          .fontSize(18)
-          .text(item.header, 34, doc.y, { paragraphGap: 10 });
-      }),
-    );
+    const headingOptions = { paragraphGap: 10, x: 34 };
+    results.add(createHeading(doc, 'H3', config, item.header, headingOptions));
 
     item.items.forEach(resultItem => {
+      // results.add(createDetailItem(doc, config, 44, resultItem));
       const paragraphOptions = { lineGap: 0 };
       let titleText = resultItem.title;
       if (resultItem.inline === true) {
@@ -191,22 +180,10 @@ const generateHeaderAndFooterContent = async (doc, data) => {
       title: 'Header',
       attached: 'Top',
     });
-    header.add(
-      doc.struct('Span', () => {
-        doc
-          .font('SourceSansPro-Regular')
-          .fontSize(16)
-          .text(data.headerLeft, 16, 12, { continued: true });
-      }),
-    );
-    header.add(
-      doc.struct('Span', () => {
-        doc
-          .font('SourceSansPro-Regular')
-          .fontSize(16)
-          .text(data.headerRight, { align: 'right' });
-      }),
-    );
+    const leftOptions = { continued: true, x: 16, y: 12 };
+    header.add(createSpan(doc, config, data.headerLeft, leftOptions));
+    const rightOptions = { align: 'right' };
+    header.add(createSpan(doc, config, data.headerRight, rightOptions));
     header.end();
     doc.addStructure(header);
 
@@ -217,22 +194,10 @@ const generateHeaderAndFooterContent = async (doc, data) => {
     });
     let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
     footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
-    footer.add(
-      doc.struct('Span', () => {
-        doc
-          .font('SourceSansPro-Regular')
-          .fontSize(16)
-          .text(data.footerLeft, 16, 766, { continued: true });
-      }),
-    );
-    footer.add(
-      doc.struct('Span', () => {
-        doc
-          .font('SourceSansPro-Regular')
-          .fontSize(16)
-          .text(footerRightText, { align: 'right' });
-      }),
-    );
+    const footerLeftOptions = { continued: true, x: 16, y: 766 };
+    footer.add(createSpan(doc, config, data.footerLeft, footerLeftOptions));
+    const footerRightOptions = { align: 'right' };
+    footer.add(createSpan(doc, config, footerRightText, footerRightOptions));
     footer.end();
     doc.addStructure(footer);
   }

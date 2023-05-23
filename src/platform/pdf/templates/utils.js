@@ -62,6 +62,38 @@ const addHorizontalRule = (
 };
 
 /**
+ * Add a details item to the given PDFKit structure element.
+ *
+ * @param {Object} doc
+ * @param {Object} config
+ * @param {int} X position
+ * @param {int} Y position
+ * @param {Object} item
+ *
+ * @returns {Object} doc
+ */
+const createDetailItem = (doc, config, x, y, item) => {
+  const paragraphOptions = { lineGap: 0 };
+  let titleText = item.title;
+  if (item.inline === true) {
+    paragraphOptions.continued = true;
+    titleText += ': ';
+  } else {
+    titleText += ' ';
+  }
+  return doc.struct('P', () => {
+    doc
+      .font(config.text.boldFont)
+      .fontSize(config.text.fontSize)
+      .text(titleText, x, y, paragraphOptions);
+    doc
+      .font(config.text.font)
+      .fontSize(config.text.fontSize)
+      .text(item.value);
+  });
+};
+
+/**
  * Add a heading struct to the given PDFKit document.
  *
  * @param {Object} doc
@@ -78,6 +110,27 @@ const createHeading = (doc, headingLevel, config, text, options) => {
     headingLevel,
     config.headings[headingLevel].font,
     config.headings[headingLevel].size,
+    text,
+    options,
+  );
+};
+
+/**
+ * Add a span struct to the given PDFKit document.
+ *
+ * @param {Object} doc
+ * @param {Object} config
+ * @param {string} text
+ * @param {Object} options
+ *
+ * @returns {Object} doc
+ */
+const createSpan = (doc, config, text, options) => {
+  return createStruct(
+    doc,
+    'Span',
+    config.text.font,
+    config.text.size,
     text,
     options,
   );
@@ -202,7 +255,9 @@ const registerVaGovFonts = async doc => {
 export {
   addHorizontalRule,
   createAccessibleDoc,
+  createDetailItem,
   createHeading,
+  createSpan,
   createSubHeading,
   getTestResultBlockHeight,
   registerVaGovFonts,
