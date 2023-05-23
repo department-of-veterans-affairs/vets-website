@@ -9,6 +9,12 @@ import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-tog
 import { getSignerFullName } from './helpers';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 
+// Disable formConfig props that were meant for local-dev only.
+formConfig.dev = {};
+formConfig.chapters.statementInfoChapter.pages.claimOwnershipPage.initialData = {
+  data: {},
+};
+
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
