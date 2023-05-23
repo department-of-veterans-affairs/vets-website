@@ -12,8 +12,8 @@ import {
   mockFacilityApi,
   mockSchedulingConfigurationApi,
   mockUserTransitionAvailabilities,
+  mockGetEligibilityCC,
 } from './vaos-cypress-helpers';
-import { mockGetEligibilityCC } from './vaos-cypress-v2-helpers';
 
 describe('VAOS community care flow using VAOS service', () => {
   beforeEach(() => {

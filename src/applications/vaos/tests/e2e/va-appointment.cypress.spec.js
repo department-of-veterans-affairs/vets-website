@@ -12,9 +12,9 @@ import {
   vaosSetup,
   mockFacilitiesApi,
   mockUserTransitionAvailabilities,
+  mockGetEligibilityCC,
 } from './vaos-cypress-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
-import { mockGetEligibilityCC } from './vaos-cypress-v2-helpers';
 
 describe('VAOS direct schedule flow using VAOS service', () => {
   const start = moment()

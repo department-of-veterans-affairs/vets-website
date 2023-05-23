@@ -12,9 +12,9 @@ import {
   mockSchedulingConfigurationApi,
   mockUserTransitionAvailabilities,
   mockEligibilityApi,
+  mockVamcEhr,
 } from './vaos-cypress-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
-import { mockVamcEhr } from './vaos-cypress-v2-helpers';
 
 function fillOutForm(facilitySelection) {
   cy.visit('health-care/schedule-view-va-appointments/appointments/');
