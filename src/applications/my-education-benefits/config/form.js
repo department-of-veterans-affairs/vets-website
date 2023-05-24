@@ -1067,7 +1067,10 @@ const formConfig = {
                   ) ||
                   formData[formFields.viewPhoneNumbers][
                     formFields.mobilePhoneNumber
-                  ].isInternational,
+                  ].isInternational ||
+                  formData?.duplicatePhone?.some(
+                    entry => entry?.isDupe === 'true',
+                  ),
               },
             },
             'view:noMobilePhoneAlert': {
@@ -1120,13 +1123,13 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  formData.duplicateEmail?.some(
+                  formData?.duplicateEmail?.some(
                     entry => entry?.isDupe === 'false',
                   ) ||
-                  (formData.duplicateEmail?.some(
+                  (formData?.duplicateEmail?.some(
                     entry => entry?.isDupe === 'true',
                   ) &&
-                    formData.duplicatePhone?.some(
+                    formData?.duplicatePhone?.some(
                       entry => entry?.isDupe === 'true',
                     )),
               },
@@ -1143,13 +1146,13 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  formData.duplicatePhone?.some(
+                  formData?.duplicatePhone?.some(
                     entry => entry?.isDupe === 'false',
                   ) ||
-                  (formData.duplicateEmail?.some(
+                  (formData?.duplicateEmail?.some(
                     entry => entry?.isDupe === 'true',
                   ) &&
-                    formData.duplicatePhone?.some(
+                    formData?.duplicatePhone?.some(
                       entry => entry?.isDupe === 'true',
                     )),
               },
@@ -1173,9 +1176,9 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  formData.duplicatePhone?.some(
+                  formData?.duplicatePhone?.some(
                     entry => entry?.isDupe === 'false',
-                  ) &&
+                  ) ||
                   formData?.duplicateEmail?.some(
                     entry => entry?.isDupe === 'false',
                   ),
