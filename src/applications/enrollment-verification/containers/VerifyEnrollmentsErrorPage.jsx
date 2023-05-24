@@ -22,7 +22,7 @@ export const VerifyEnrollmentsErrorPage = ({
 
   useEffect(
     () => {
-      if (hasCheckedKeepAlive && !loggedIn) {
+      if (hasCheckedKeepAlive && !isLoggedIn) {
         window.location.href = STATIC_CONTENT_ENROLLMENT_URL;
       }
     },
