@@ -54,7 +54,7 @@ cd ..
 
 mkdir -p content-build/.cache/localhost/drupal
 echo "untar the build into content-build/.cache/localhost/drupal"
-tar -xf vagovdev_dd03cdd3eb98417b247b1a61d54651a1.tar.bz2 -C content-build/.cache/localhost/drupal
+tar -xf ${AWS_FILENAME} -C content-build/.cache/localhost/drupal
 
 # Serve the content-build
 echo "Install and serve content-build"
