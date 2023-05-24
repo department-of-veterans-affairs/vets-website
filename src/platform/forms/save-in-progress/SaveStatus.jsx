@@ -23,7 +23,7 @@ function SaveStatus({
   let savedAtMessage;
   if (lastSavedDate) {
     const savedAt = new Date(lastSavedDate);
-    savedAtMessage = ` It was last saved on ${format(
+    savedAtMessage = ` We saved it on ${format(
       savedAt,
       "MMMM d, yyyy', at' h:mm aaaa z.",
     )}`;
