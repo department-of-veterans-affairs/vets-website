@@ -112,11 +112,27 @@ const requiredFields = ['street', 'city', 'country', 'state', 'postalCode'];
  * @param {boolean} isRequired - If the address is required or not, defaults to false
  * @param {string} addressProperty - The name of the address definition to use from the common
  *   definitions in currentSchema
+ * @param {object.<string, number>} maxLengths - An optional object with schema-property keys and custom max-lengths
+ * 
+ * @example
+ * schema(
+ *  fullSchema,
+ *  true, // optional [default: false]
+ *  'veteranAddress',  // optional [default: 'address']
+ *  {
+ *    street: 20,
+ *    street2: 20,
+ *    city: 20,
+ *    state: 2,
+ *    postalCode: 5,
+ *  }, // optional (max-length overrides) [default: {}]
+ * );
  */
 export function schema(
   currentSchema,
   isRequired = false,
   addressProperty = 'address',
+  maxLengths = {},
 ) {
   const addressSchema = currentSchema.definitions[addressProperty];
   return {
@@ -124,6 +140,18 @@ export function schema(
     required: isRequired ? requiredFields : [],
     properties: {
       ...addressSchema.properties,
+      street: {
+        ...addressSchema.properties.street,
+        maxLength: maxLengths?.street || 50,
+      },
+      street2: {
+        ...addressSchema.properties?.street2,
+        maxLength: maxLengths?.street2 || 50,
+      },
+      city: {
+        ...addressSchema.properties.city,
+        maxLength: maxLengths?.city || 30,
+      },
       country: {
         default: 'USA',
         type: 'string',
@@ -133,11 +161,11 @@ export function schema(
       state: {
         title: 'State',
         type: 'string',
-        maxLength: 51,
+        maxLength: maxLengths?.state || 51,
       },
       postalCode: {
         type: 'string',
-        maxLength: 10,
+        maxLength: maxLengths?.postalCode || 10,
       },
     },
   };
