@@ -72,7 +72,7 @@ const addHorizontalRule = (
  *
  * @returns {Object} doc
  */
-const createDetailItem = (doc, config, x, y, item) => {
+const createDetailItem = (doc, config, x, item) => {
   const paragraphOptions = { lineGap: 0 };
   let titleText = item.title;
   if (item.inline === true) {
@@ -85,7 +85,7 @@ const createDetailItem = (doc, config, x, y, item) => {
     doc
       .font(config.text.boldFont)
       .fontSize(config.text.fontSize)
-      .text(titleText, x, y, paragraphOptions);
+      .text(titleText, x, doc.y, paragraphOptions);
     doc
       .font(config.text.font)
       .fontSize(config.text.fontSize)

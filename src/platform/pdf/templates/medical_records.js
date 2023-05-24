@@ -4,7 +4,7 @@
 import {
   createAccessibleDoc,
   addHorizontalRule,
-  // createDetailItem,
+  createDetailItem,
   createHeading,
   createSpan,
   createSubHeading,
@@ -57,6 +57,7 @@ const generateIntroductionContent = async (doc, data) => {
       createSubHeading(doc, config, data.preface, subHeadOptions),
     );
   }
+  introduction.end();
 };
 
 const generateDetailsContent = async (doc, data) => {
@@ -71,27 +72,7 @@ const generateDetailsContent = async (doc, data) => {
   const detailsItemsCount = data.details.items.length;
   if (detailsItemsCount > 0) {
     data.details.items.forEach(item => {
-      // details.add(createDetailItem(doc, config, 30, item));
-      const paragraphOptions = { lineGap: 0 };
-      let titleText = item.title;
-      if (item.inline === true) {
-        paragraphOptions.continued = true;
-        titleText += ': ';
-      } else {
-        titleText += ' ';
-      }
-      details.add(
-        doc.struct('P', () => {
-          doc
-            .font(config.text.boldFont)
-            .fontSize(config.text.fontSize)
-            .text(titleText, 30, doc.y, paragraphOptions);
-          doc
-            .font(config.text.font)
-            .fontSize(config.text.fontSize)
-            .text(item.value);
-        }),
-      );
+      details.add(createDetailItem(doc, config, 30, item));
     });
   }
   details.end();
@@ -129,6 +110,7 @@ const generateResultsContent = async (doc, data) => {
     results.add(createHeading(doc, 'H3', config, item.header, headingOptions));
 
     item.items.forEach(resultItem => {
+      // TODO: figure out why this approach messes with the document position.
       // results.add(createDetailItem(doc, config, 44, resultItem));
       const paragraphOptions = { lineGap: 0 };
       let titleText = resultItem.title;
