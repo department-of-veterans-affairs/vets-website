@@ -191,9 +191,10 @@ describe('<ContactInfo>', () => {
       );
 
       expect($('va-alert[status="warning"]', container)).to.exist;
+      setReturnState('email', 'updated');
       rerender(
         <Provider store={mockStore}>
-          <ContactInfo {...getData()} />
+          <ContactInfo {...getData()} testContinueAlert />
         </Provider>,
       );
 

@@ -6,6 +6,7 @@ import {
   VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -46,15 +47,16 @@ const ComposeForm = props => {
   const [messageBody, setMessageBody] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [formPopulated, setFormPopulated] = useState(false);
-  const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [messageInvalid, setMessageInvalid] = useState(false);
   const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
   const [editListModal, setEditListModal] = useState(false);
+  const [lastFocusableElement, setLastFocusableElement] = useState(null);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
+  const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const fullState = useSelector(state => state);
 
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
@@ -133,6 +135,15 @@ const ComposeForm = props => {
     [messageInvalid],
   );
 
+  useEffect(
+    () => {
+      if (alertStatus) {
+        focusElement(lastFocusableElement);
+      }
+    },
+    [alertStatus],
+  );
+
   const recipientExists = recipientId => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
   };
@@ -157,14 +168,6 @@ const ComposeForm = props => {
       setAttachments(draft.attachments);
     }
     setFormPopulated(true);
-    setFieldsString(
-      JSON.stringify({
-        rec: draft.recipientId,
-        cat: draft.category,
-        sub: draft.subject,
-        bod: draft.body,
-      }),
-    );
   };
 
   if (draft && recipients && !formPopulated) populateForm();
@@ -220,10 +223,10 @@ const ComposeForm = props => {
     return messageValid;
   };
 
-  const saveDraftHandler = async type => {
+  const saveDraftHandler = async (type, e) => {
     if (type === 'manual') {
       setUserSaved(true);
-
+      setLastFocusableElement(e.target.shadowRoot.querySelector('button'));
       await setMessageInvalid(false);
       if (checkMessageValidity()) {
         setNavigationError(null);
@@ -235,18 +238,6 @@ const ComposeForm = props => {
     }
 
     const draftId = draft && draft.messageId;
-    const newFieldsString = JSON.stringify({
-      rec: selectedRecipient,
-      cat: category,
-      sub: subject,
-      bod: messageBody,
-    });
-
-    if (newFieldsString === fieldsString) {
-      return;
-    }
-
-    setFieldsString(newFieldsString);
 
     const formData = {
       recipientId: selectedRecipient,
@@ -261,12 +252,16 @@ const ComposeForm = props => {
     if (!attachments.length) setNavigationError(null);
   };
 
-  const sendMessageHandler = async () => {
+  const sendMessageHandler = async e => {
     // TODO add GA event
     await setMessageInvalid(false);
+    await setSendMessageFlag(false);
     if (checkMessageValidity()) {
       setSendMessageFlag(true);
       setNavigationError(null);
+      setLastFocusableElement(e.target);
+    } else {
+      setSendMessageFlag(false);
     }
   };
 
@@ -325,7 +320,10 @@ const ComposeForm = props => {
         <VaModal
           modalTitle={saveError.title}
           onPrimaryButtonClick={() => setSaveError(null)}
-          onCloseEvent={() => setSaveError(null)}
+          onCloseEvent={() => {
+            setSaveError(null);
+            focusElement(lastFocusableElement);
+          }}
           primaryButtonText="Continue editing"
           status="warning"
           data-testid="quit-compose-double-dare"
@@ -469,10 +467,15 @@ const ComposeForm = props => {
             secondary
             class="vads-u-flex--1 save-draft-button"
             data-testid="Save-Draft-Button"
-            onClick={() => saveDraftHandler('manual')}
+            onClick={e => saveDraftHandler('manual', e)}
           />
           <div className="vads-u-flex--1">
-            {draft && <DeleteDraft draft={draft} />}
+            {draft && (
+              <DeleteDraft
+                draft={draft}
+                setLastFocusableElement={setLastFocusableElement}
+              />
+            )}
           </div>
         </div>
       </div>

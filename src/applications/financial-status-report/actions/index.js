@@ -14,8 +14,9 @@ import {
   FSR_RESET_ERRORS,
   FSR_API_CALL_INITIATED,
   DEBTS_FETCH_SUCCESS,
+  DEBTS_FETCH_FAILURE,
 } from '../constants/actionTypes';
-import { DEBT_TYPES } from '../utils/helpers';
+import { DEBT_TYPES } from '../constants';
 
 export const fetchFormStatus = () => async dispatch => {
   dispatch({
@@ -101,7 +102,7 @@ export const fetchDebts = async dispatch => {
       Sentry.captureMessage(`FSR fetchDebts failed: ${error.detail}`);
     });
     dispatch({
-      type: FSR_API_ERROR,
+      type: DEBTS_FETCH_FAILURE,
       error,
     });
     throw new Error(error);
