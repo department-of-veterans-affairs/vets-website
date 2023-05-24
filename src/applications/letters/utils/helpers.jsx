@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import * as Sentry from '@sentry/browser';
 
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { apiRequest as commonApiClient } from 'platform/utilities/api';
@@ -20,13 +19,6 @@ export function LH_MIGRATION__getEntryPoint(topLevelObject, entryPointKeys) {
 }
 
 export function LH_MIGRATION__getOptions(shouldUseLighthouse) {
-  Sentry.withScope(() => {
-    Sentry.captureMessage(
-      'Remove LH_MIGRATION__getOptions after Lighthouse migration',
-      'warn',
-    );
-  });
-
   const migrationOptions = {
     listEndpoint: {
       method: 'GET',

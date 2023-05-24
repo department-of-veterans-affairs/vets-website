@@ -53,7 +53,13 @@ const RadiologyDetails = props => {
               Images
             </h3>
             <p className="no-print">
-              <va-link active href="/" text="See all 44 images" />
+              <va-link
+                active
+                href={`/my-health/medical-records/labs-and-tests/radiology-images/${
+                  results.id
+                }`}
+                text={`See all ${results.images.length} images`}
+              />
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Reason for test

@@ -34,6 +34,25 @@ export const mockGetVaccinesList = () => {
   });
 };
 
+export const getNotes = () => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/clinical_notes?patient_id=1174378`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
+
+export const getNote = id => {
+  return apiRequest(`${apiBasePath}/medical_records/clinical_notes/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
 export const mockGetCareSummariesAndNotesList = () => {
   return new Promise(resolve => {
     setTimeout(() => {

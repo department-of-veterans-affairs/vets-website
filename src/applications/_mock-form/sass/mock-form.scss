@@ -5,3 +5,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+
+/* edit contact info save & cancel buttons */
+@media screen and (min-width: 481px) {
+  .va-profile-wrapper button {
+    width: auto;
+  }
+}
