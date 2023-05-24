@@ -47,22 +47,16 @@ const config = {
 const generateIntroductionContent = async (doc, data) => {
   const headOptions = { paragraphGap: 16 };
   const subHeadOptions = { paragraphGap: 24 };
-  const introductionContent = [
-    createHeading(doc, 'H1', config, data.title, headOptions),
-  ];
+  const introduction = doc.struct('Sect', {
+    title: 'Introduction',
+  });
+  doc.addStructure(introduction);
+  introduction.add(createHeading(doc, 'H1', config, data.title, headOptions));
   if (data.preface) {
-    introductionContent.push(
+    introduction.add(
       createSubHeading(doc, config, data.preface, subHeadOptions),
     );
   }
-  const introduction = doc.struct(
-    'Sect',
-    {
-      title: 'Introduction',
-    },
-    introductionContent,
-  );
-  doc.addStructure(introduction);
 };
 
 const generateDetailsContent = async (doc, data) => {
@@ -180,18 +174,19 @@ const generateHeaderAndFooterContent = async (doc, data) => {
       title: 'Header',
       attached: 'Top',
     });
+    doc.addStructure(header);
     const leftOptions = { continued: true, x: 16, y: 12 };
     header.add(createSpan(doc, config, data.headerLeft, leftOptions));
     const rightOptions = { align: 'right' };
     header.add(createSpan(doc, config, data.headerRight, rightOptions));
     header.end();
-    doc.addStructure(header);
 
     const footer = doc.struct('Artifact', {
       type: 'Pagination',
       title: 'Footer',
       attached: 'Bottom',
     });
+    doc.addStructure(footer);
     let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
     footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
     const footerLeftOptions = { continued: true, x: 16, y: 766 };
@@ -199,7 +194,6 @@ const generateHeaderAndFooterContent = async (doc, data) => {
     const footerRightOptions = { align: 'right' };
     footer.add(createSpan(doc, config, footerRightText, footerRightOptions));
     footer.end();
-    doc.addStructure(footer);
   }
 };
 
