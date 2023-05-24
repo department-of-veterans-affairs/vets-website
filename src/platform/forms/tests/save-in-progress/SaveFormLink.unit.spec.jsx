@@ -123,6 +123,44 @@ describe('Schemaform <SaveFormLink>', () => {
     expect(tree.text()).to.contain('Sorry, you’re signed out.');
     expect(tree.subTree('a')).not.to.be.null;
   });
+  it('should call saveAndRedirectToReturnUrl and include returnUrl from page config if logged in', () => {
+    const saveAndRedirectToReturnUrl = sinon.spy();
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: '',
+        returnUrl: '/testing2',
+      },
+      pageList: [
+        {
+          path: 'testing',
+        },
+      ],
+    };
+    const tree = ReactTestUtils.renderIntoDocument(
+      <div>
+        <SaveFormLink
+          user={loggedInUser}
+          form={form}
+          route={route}
+          saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
+          toggleLoginModal={toggleLoginModalSpy}
+          formConfig={formConfig}
+        />
+      </div>,
+    );
+    const findDOM = findDOMNode(tree);
+
+    // "Save" the form
+    findDOM.querySelector('.schemaform-sip-save-link').click();
+
+    expect(saveAndRedirectToReturnUrl.called);
+    expect(saveAndRedirectToReturnUrl.args[0][3]).to.eq('/testing2');
+  });
+
   it.skip('should call saveInProgressForm if logged in', () => {
     saveInProgressForm.reset(); // Just because it's good practice for a shared spy
     const tree = ReactTestUtils.renderIntoDocument(
@@ -133,7 +171,7 @@ describe('Schemaform <SaveFormLink>', () => {
           user={loggedInUser}
           form={form}
           saveInProgressForm={saveInProgressForm}
-          toggleLoginModal={toggleLoginModalSpy}
+          toggleLoginModal={() => {}}
           formConfig={formConfig}
         />
       </div>,
