@@ -2,7 +2,11 @@ import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
 } from '../../../shared/tests/pages/pageTests.spec';
-import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../../definitions/constants';
+import {
+  CLAIM_OWNERSHIPS,
+  CLAIMANT_TYPES,
+  SERVED_WITH_CLAIMANT,
+} from '../../definitions/constants';
 import formConfig from '../../config/form';
 
 const {
@@ -17,7 +21,7 @@ const mockData = {
     first: 'Jack',
     last: 'Witness',
   },
-  witnessRelationshipToClaimant: 'Served with Claimant',
+  witnessRelationshipToClaimant: SERVED_WITH_CLAIMANT,
 };
 
 // Expect 4 fields instead of 7 fields.

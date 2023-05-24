@@ -9,7 +9,7 @@ export default function transformForSubmit(formConfig, form) {
   let transformedData = JSON.parse(sharedTransformForSubmit(formConfig, form));
 
   const witnessRelationshipToClaimantAnswers =
-    transformedData.witnessRelationshipToClaimant;
+    transformedData?.witnessRelationshipToClaimant;
 
   if (witnessRelationshipToClaimantAnswers) {
     const booleanWitnessRelationshipToClaimant = {
