@@ -20,7 +20,9 @@ const NoDebts = () => (
 );
 
 const AvailableDebts = () => {
-  const { debts, pending, isError } = useSelector(state => state.fsr);
+  const { debts, pending, isError, debtError = false } = useSelector(
+    state => state.fsr,
+  );
 
   const dispatch = useDispatch();
   useEffect(
@@ -30,7 +32,7 @@ const AvailableDebts = () => {
     [dispatch],
   );
 
-  if (isError) return <ErrorAlert />;
+  if (isError || debtError) return <ErrorAlert />;
 
   if (pending) {
     return (

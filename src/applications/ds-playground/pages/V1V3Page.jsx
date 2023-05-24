@@ -19,6 +19,7 @@ import {
   VaTextarea,
   VaTextInput,
   VaAlert,
+  VaSegmentedProgressBar,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V1V3Page() {
@@ -703,6 +704,48 @@ export default function V1V3Page() {
                   This is a slim continue alert
                 </p>
               </VaAlert>
+            </div>
+          </div>
+        </div>
+        {/* Progress bar - segmented */}
+        <div className="vads-l-row">
+          <h3>Progress bar - segmented</h3>
+          <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
+              <VaSegmentedProgressBar
+                current={2}
+                label="V1 VA Benefits"
+                total={5}
+              />
+              <div
+                className="schemaform-chapter-progress"
+                style={{
+                  paddingLeft: '2rem',
+                }}
+              >
+                <div className="nav-header nav-header-schemaform">
+                  <h2
+                    className="vads-u-font-size--h4"
+                    id="nav-form-header"
+                    tabIndex="-1"
+                  >
+                    Step 2 of 6: VA Benefits
+                  </h2>
+                </div>
+              </div>
+            </div>
+
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
+              <VaSegmentedProgressBar
+                centered-labels
+                counters="small"
+                current={2}
+                heading-text="V3 VA Benefits"
+                label="Label is here"
+                labels="Personal Information;Household Status;Supporting Documents;Signature;Review and Submit"
+                total={5}
+                uswds
+              />
             </div>
           </div>
         </div>

@@ -79,9 +79,7 @@ export const chapters = {
       dependents: {
         title: 'Dependents',
         path: 'personal-information/dependents',
-        depends: form => {
-          return form['view:hasServiceBefore1978'] === true;
-        },
+        depends: form => form['view:hasServiceBefore1978'] === true,
         uiSchema: dependents.uiSchema,
         schema: dependents.schema,
       },
