@@ -4,7 +4,7 @@
 import {
   createAccessibleDoc,
   addHorizontalRule,
-  // createDetailItem,
+  createDetailItem,
   createHeading,
   createSpan,
   createSubHeading,
@@ -47,22 +47,17 @@ const config = {
 const generateIntroductionContent = async (doc, data) => {
   const headOptions = { paragraphGap: 16 };
   const subHeadOptions = { paragraphGap: 24 };
-  const introductionContent = [
-    createHeading(doc, 'H1', config, data.title, headOptions),
-  ];
+  const introduction = doc.struct('Sect', {
+    title: 'Introduction',
+  });
+  doc.addStructure(introduction);
+  introduction.add(createHeading(doc, 'H1', config, data.title, headOptions));
   if (data.preface) {
-    introductionContent.push(
+    introduction.add(
       createSubHeading(doc, config, data.preface, subHeadOptions),
     );
   }
-  const introduction = doc.struct(
-    'Sect',
-    {
-      title: 'Introduction',
-    },
-    introductionContent,
-  );
-  doc.addStructure(introduction);
+  introduction.end();
 };
 
 const generateDetailsContent = async (doc, data) => {
@@ -77,27 +72,7 @@ const generateDetailsContent = async (doc, data) => {
   const detailsItemsCount = data.details.items.length;
   if (detailsItemsCount > 0) {
     data.details.items.forEach(item => {
-      // details.add(createDetailItem(doc, config, 30, item));
-      const paragraphOptions = { lineGap: 0 };
-      let titleText = item.title;
-      if (item.inline === true) {
-        paragraphOptions.continued = true;
-        titleText += ': ';
-      } else {
-        titleText += ' ';
-      }
-      details.add(
-        doc.struct('P', () => {
-          doc
-            .font(config.text.boldFont)
-            .fontSize(config.text.fontSize)
-            .text(titleText, 30, doc.y, paragraphOptions);
-          doc
-            .font(config.text.font)
-            .fontSize(config.text.fontSize)
-            .text(item.value);
-        }),
-      );
+      details.add(createDetailItem(doc, config, 30, item));
     });
   }
   details.end();
@@ -135,6 +110,7 @@ const generateResultsContent = async (doc, data) => {
     results.add(createHeading(doc, 'H3', config, item.header, headingOptions));
 
     item.items.forEach(resultItem => {
+      // TODO: figure out why this approach messes with the document position.
       // results.add(createDetailItem(doc, config, 44, resultItem));
       const paragraphOptions = { lineGap: 0 };
       let titleText = resultItem.title;
@@ -180,18 +156,19 @@ const generateHeaderAndFooterContent = async (doc, data) => {
       title: 'Header',
       attached: 'Top',
     });
+    doc.addStructure(header);
     const leftOptions = { continued: true, x: 16, y: 12 };
     header.add(createSpan(doc, config, data.headerLeft, leftOptions));
     const rightOptions = { align: 'right' };
     header.add(createSpan(doc, config, data.headerRight, rightOptions));
     header.end();
-    doc.addStructure(header);
 
     const footer = doc.struct('Artifact', {
       type: 'Pagination',
       title: 'Footer',
       attached: 'Bottom',
     });
+    doc.addStructure(footer);
     let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
     footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
     const footerLeftOptions = { continued: true, x: 16, y: 766 };
@@ -199,7 +176,6 @@ const generateHeaderAndFooterContent = async (doc, data) => {
     const footerRightOptions = { align: 'right' };
     footer.add(createSpan(doc, config, footerRightText, footerRightOptions));
     footer.end();
-    doc.addStructure(footer);
   }
 };
 
