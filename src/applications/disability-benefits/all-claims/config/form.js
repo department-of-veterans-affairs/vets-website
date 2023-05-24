@@ -595,8 +595,10 @@ const formConfig = {
         ancillaryFormsWizardSummary: {
           title: 'Summary of additional benefits',
           path: 'additional-disability-benefits-summary',
-          depends:
-            ancillaryFormsWizardSummary.depends && environment.isProduction(),
+          depends: formData =>
+            formData['view:ancillaryFormsWizard'] &&
+            ancillaryFormsWizardSummary.depends &&
+            environment.isProduction(),
           uiSchema: ancillaryFormsWizardSummary.uiSchema,
           schema: ancillaryFormsWizardSummary.schema,
         },
