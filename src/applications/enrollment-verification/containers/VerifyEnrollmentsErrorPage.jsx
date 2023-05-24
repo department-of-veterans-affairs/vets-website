@@ -16,7 +16,6 @@ export const VerifyEnrollmentsErrorPage = ({
   enrollmentVerification,
   getPost911GiBillEligibility,
   hasCheckedKeepAlive,
-  loggedIn,
 }) => {
   const history = useHistory();
 
@@ -31,7 +30,7 @@ export const VerifyEnrollmentsErrorPage = ({
       getPost911GiBillEligibility,
       hasCheckedKeepAlive,
       history,
-      loggedIn,
+      isLoggedIn,
     ],
   );
 
@@ -67,7 +66,7 @@ VerifyEnrollmentsErrorPage.propTypes = {
   enrollmentVerification: ENROLLMENT_VERIFICATION_TYPE,
   getPost911GiBillEligibility: PropTypes.func,
   hasCheckedKeepAlive: PropTypes.bool,
-  loggedIn: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
 };
 
 const mapStateToProps = state => getEVData(state);
