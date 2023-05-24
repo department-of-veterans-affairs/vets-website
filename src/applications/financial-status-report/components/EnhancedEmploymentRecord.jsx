@@ -4,10 +4,8 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
   VaSelect,
-  VaDate,
+  VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import { getJobIndex } from '../utils/session';
 
 const defaultRecord = [
@@ -50,8 +48,9 @@ const EmploymentRecord = props => {
 
   const [typeError, setTypeError] = useState('');
   const [employerNameError, setEmployerNameError] = useState(false);
-  const [doesNotCurrentlyWorkHere, setDoesNotCurrentlyWorkHere] = useState(
-    true,
+
+  const [currentlyWorksHere, setCurrentlyWorksHere] = useState(
+    employmentRecord.isCurrent ?? true,
   );
 
   const handleChange = (key, value) => {
@@ -65,18 +64,9 @@ const EmploymentRecord = props => {
     handleChange('employerName', event.target.value);
     setEmployerNameError(false);
   };
-  const [toDateError, setToDateError] = useState();
-  const [fromDateError, setFromDateError] = useState();
 
   const userType = 'veteran';
   const userArray = 'currEmployment';
-
-  const { from, to } = employmentRecord;
-
-  const { month: fromMonth, year: fromYear } = parseISODate(from);
-  const { month: toMonth, year: toYear } = parseISODate(to);
-
-  const startError = 'Please enter your employment start date.';
 
   const updateFormData = e => {
     e.preventDefault();
@@ -136,28 +126,7 @@ const EmploymentRecord = props => {
         },
       });
     }
-    if (employmentRecord.isCurrent) {
-      goToPath(`/gross-monthly-income`);
-    } else {
-      goToPath(`${RETURN_PATH}`);
-    }
-  };
-
-  const validateYear = (monthYear, errorSetter, requiredMessage) => {
-    const [year] = monthYear.split('-');
-    const todayYear = new Date().getFullYear();
-    const isComplete = /\d{4}-\d{1,2}/.test(monthYear);
-    if (!isComplete) {
-      // This allows a custom required error message to be used
-      errorSetter(requiredMessage);
-    } else if (
-      !!year &&
-      (parseInt(year, 10) > todayYear || parseInt(year, 10) < 1900)
-    ) {
-      errorSetter(`Please enter a year between 1900 and ${todayYear}`);
-    } else {
-      errorSetter(null);
-    }
+    goToPath(`/employment-work-dates`);
   };
 
   const handlers = {
@@ -176,17 +145,11 @@ const EmploymentRecord = props => {
       const dateString = `${monthYear}-XX`;
       handleChange(key, dateString);
     },
-    handleCheckboxChange: (key, val) => {
-      setDoesNotCurrentlyWorkHere(!val);
-      if (val === true) {
-        // if box has become checked
-        setToDateError('');
-      }
-      setEmploymentRecord({
-        ...employmentRecord,
-        [key]: val,
-        to: '',
-      });
+    onRadioSelect: event => {
+      const { value } = event?.detail || {};
+      if (value === undefined) return;
+      handleChange('isCurrent', value === 'true');
+      setCurrentlyWorksHere(value === 'true');
     },
   };
 
@@ -226,48 +189,26 @@ const EmploymentRecord = props => {
             error={employerNameError ? 'Please enter your employer name.' : ''}
           />
         </div>
-        <div className="vads-u-margin-top--3">
-          <VaDate
-            monthYearOnly
-            value={`${fromYear}-${fromMonth}`}
-            label="Date you started work at this job?"
-            name="from"
-            onDateChange={e =>
-              handlers.handleDateChange('from', e.target.value)
-            }
-            onDateBlur={e =>
-              validateYear(e.target.value || '', setFromDateError, startError)
-            }
-            required
-            error={fromDateError}
+        <VaRadio
+          class="vads-u-margin-y--2"
+          label="Do you currently work at this job?"
+          onVaValueChange={handlers.onRadioSelect}
+          required
+        >
+          <va-radio-option
+            id="works-here"
+            label="Yes"
+            value="true"
+            checked={currentlyWorksHere}
           />
-        </div>
-        <div>
-          <VaDate
-            monthYearOnly
-            value={`${toYear}-${toMonth}`}
-            label="Date you stopped work at this job?"
-            name="to"
-            onDateChange={e => handlers.handleDateChange('to', e.target.value)}
-            onDateBlur={e =>
-              validateYear(
-                e.target.value || '',
-                setToDateError,
-                'Please enter your employment end date.',
-              )
-            }
-            required={doesNotCurrentlyWorkHere}
-            error={toDateError}
+          <va-radio-option
+            id="does-not-work-here"
+            label="No"
+            value="false"
+            name="primary"
+            checked={!currentlyWorksHere}
           />
-        </div>
-        <Checkbox
-          name="current-employment"
-          label="I currently work here"
-          checked={employmentRecord.isCurrent || false}
-          onValueChange={value =>
-            handlers.handleCheckboxChange('isCurrent', value)
-          }
-        />
+        </VaRadio>
         <p>
           <button
             type="button"
