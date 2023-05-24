@@ -90,9 +90,19 @@ Results.propTypes = {
     // eslint-disable-next-line camelcase
     gmt_threshold: PropTypes.number,
     // eslint-disable-next-line camelcase
-    national_threshold: PropTypes.number,
+    national_threshold: PropTypes.shape({
+      '0_dependent': PropTypes.number,
+      '1_dependent': PropTypes.number,
+      // eslint-disable-next-line camelcase
+      additional_dependents: PropTypes.number,
+    }),
     // eslint-disable-next-line camelcase
-    pension_threshold: PropTypes.number,
+    pension_threshold: PropTypes.shape({
+      '0_dependent': PropTypes.number,
+      '1_dependent': PropTypes.number,
+      // eslint-disable-next-line camelcase
+      additional_dependents: PropTypes.number,
+    }),
   }).isRequired,
 };
 
