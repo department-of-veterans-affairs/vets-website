@@ -107,7 +107,11 @@ const generateResultsContent = async (doc, data) => {
     }
 
     const headingOptions = { paragraphGap: 10, x: 34 };
-    results.add(createHeading(doc, 'H3', config, item.header, headingOptions));
+    if (item.header) {
+      results.add(
+        createHeading(doc, 'H3', config, item.header, headingOptions),
+      );
+    }
 
     item.items.forEach(resultItem => {
       // TODO: figure out why this approach messes with the document position.
