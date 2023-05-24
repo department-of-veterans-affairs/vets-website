@@ -208,7 +208,7 @@ describe('Forms library address definition', () => {
   }).timeout(4000);
 });
 
-describe.skip('Forms library address validation', () => {
+describe('Forms library address validation', () => {
   describe('requireStateWithCountry', () => {
     const validationTest = (requiredFields, country, errorFound) => {
       const s = schema(addressSchema, requiredFields);
