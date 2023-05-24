@@ -1,7 +1,12 @@
-import { IL_UPDATE_ZIP, IL_UPDATE_DEPENDENTS } from '../constants';
+import {
+  IL_EDIT_MODE,
+  IL_UPDATE_DEPENDENTS,
+  IL_UPDATE_ZIP,
+} from '../constants';
 
 /* eslint-disable camelcase */
 const initialState = {
+  editMode: false,
   form: {
     dependents: null,
     zipCode: null,
@@ -42,6 +47,11 @@ const incomeLimits = (state = initialState, action) => {
           ...state.form,
           zipCode: action.payload,
         },
+      };
+    case IL_EDIT_MODE:
+      return {
+        ...state,
+        editMode: action.payload,
       };
     default:
       return state;
