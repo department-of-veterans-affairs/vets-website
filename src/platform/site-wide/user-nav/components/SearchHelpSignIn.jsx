@@ -18,6 +18,7 @@ class SearchHelpSignIn extends Component {
     isMenuOpen: PropTypes.objectOf(PropTypes.bool).isRequired,
     isProfileLoading: PropTypes.bool.isRequired,
     onSignInSignUp: PropTypes.func.isRequired,
+    showNavLogin: PropTypes.bool,
     toggleMenu: PropTypes.func.isRequired,
     userGreeting: PropTypes.oneOfType([
       PropTypes.node,
@@ -141,17 +142,19 @@ class SearchHelpSignIn extends Component {
         )}
 
         {/* Sign in | First name (if logged in) */}
-        <div
-          className="sign-in-nav"
-          onClick={() =>
-            recordEvent({
-              event: 'nav-header-sign-in',
-              'header-sign-in-action': 'Header - Sign in',
-            })
-          }
-        >
-          {this.renderSignInContent()}
-        </div>
+        {this.props.showNavLogin && (
+          <div
+            className="sign-in-nav"
+            onClick={() =>
+              recordEvent({
+                event: 'nav-header-sign-in',
+                'header-sign-in-action': 'Header - Sign in',
+              })
+            }
+          >
+            {this.renderSignInContent()}
+          </div>
+        )}
       </div>
     );
   }
