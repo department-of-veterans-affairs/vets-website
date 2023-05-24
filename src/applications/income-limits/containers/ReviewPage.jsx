@@ -19,24 +19,6 @@ const ReviewPage = ({ router }) => {
         <tbody>
           <tr>
             <td>
-              <strong>Curabitur dictum:</strong>
-              <br aria-hidden="true" /> Yes
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <strong>Nulla at mauris non:</strong>
-              <br aria-hidden="true" /> No
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <strong>Class aptent:</strong>
-              <br aria-hidden="true" /> No
-            </td>
-          </tr>
-          <tr>
-            <td>
               <strong>Nisci orci:</strong>
               <br aria-hidden="true" /> 00000
             </td>
