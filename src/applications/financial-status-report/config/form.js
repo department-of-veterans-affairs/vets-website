@@ -10,38 +10,7 @@ import { transform } from '../utils/transform';
 import { SubmissionAlert } from '../components/Alerts';
 import { WIZARD_STATUS } from '../wizard/constants';
 import submitForm from './submitForm';
-import veteranInformationChapter from './chapters/veteranInformationChapter';
-import householdIncomeChapter from './chapters/householdIncomeChapter';
-import householdAssetsChapter from './chapters/householdAssetsChapter';
-import householdExpensesChapter from './chapters/householdExpensesChapter';
-import resolutionOptionsChapter from './chapters/resolutionOptionsChapter';
-import bankruptcyAttestationChapter from './chapters/bankruptcyAttestationChapter';
-
-const APPLICATION_NAME = 'Your application for financial hardship assistance';
-const messagesConfig = {
-  savedFormMessages: {
-    notFound: `Please start over to submit an application for ${APPLICATION_NAME}.`,
-    noAuth: `Please sign in again to continue ${APPLICATION_NAME}.`,
-  },
-  saveInProgress: {
-    messages: {
-      inProgress: `${APPLICATION_NAME} is in progress.`,
-      expired: `${APPLICATION_NAME} has expired. If you want to submit a application for ${APPLICATION_NAME}, please start a new application.`,
-      saved: `${APPLICATION_NAME} has been saved.`,
-    },
-  },
-};
-
-const chaptersConfig = {
-  chapters: {
-    veteranInformationChapter,
-    householdIncomeChapter,
-    householdAssetsChapter,
-    householdExpensesChapter,
-    resolutionOptionsChapter,
-    bankruptcyAttestationChapter,
-  },
-};
+import { buildFormConfig } from './buildFormConfig';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -71,8 +40,7 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
-  ...messagesConfig,
-  ...chaptersConfig,
+  ...buildFormConfig(),
 };
 
 export default formConfig;
