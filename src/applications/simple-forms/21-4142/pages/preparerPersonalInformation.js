@@ -45,7 +45,7 @@ export default {
       },
       [preparerIdentificationFields.courtAppointmentInfo]: {
         'ui:title':
-          'If you represent a court appointment, you must include docket number, county, and State.',
+          "If you represent a court appointment, you must include the docket number (or case number), county, and state. You can find the docket number on your case files, on the court's website, or by calling the court clerk",
         'ui:widget': 'textarea',
         'ui:options': {
           hideIf: isNotThirdParty,

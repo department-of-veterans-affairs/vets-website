@@ -134,7 +134,7 @@ export class CernerCallToAction extends Component {
       >
         <div className="usa-alert-body">
           <h3 className="usa-alert-heading">
-            Your VA health care team may be using our new My VA Health portal
+            Your VA health care team may be using our My VA Health portal
           </h3>
           <h4 className="vads-u-margin-y--3">
             Our records show that you&apos;re registered at:
