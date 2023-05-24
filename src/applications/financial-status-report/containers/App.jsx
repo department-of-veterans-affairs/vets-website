@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { uniqBy } from 'lodash';
 import PropTypes from 'prop-types';
 import MetaTags from 'react-meta-tags';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { selectProfile } from 'platform/user/selectors';
 import environment from 'platform/utilities/environment';
 
@@ -17,9 +15,8 @@ import {
 } from 'platform/site-wide/wizard';
 
 import formConfig from '../config/form';
-import { fetchDebts, fetchFormStatus } from '../actions';
-import { getStatements } from '../actions/copays';
-import { ZeroDebtAlert, ErrorAlert } from '../components/Alerts';
+import { fetchFormStatus } from '../actions';
+import { ErrorAlert } from '../components/Alerts';
 import WizardContainer from '../wizard/WizardContainer';
 import { WIZARD_STATUS } from '../wizard/constants';
 import {
@@ -32,7 +29,6 @@ import user from '../mocks/user.json';
 
 const App = ({
   children,
-  debts,
   formData,
   getFormStatus,
   isError,
@@ -47,7 +43,6 @@ const App = ({
   showCombinedFSR,
   showEnhancedFSR,
   showWizard,
-  statements,
 }) => {
   // vapContactInfo is an empty object locally, so mock it
   const contactData = environment.isLocalhost()
@@ -59,7 +54,6 @@ const App = ({
   const [wizardState, setWizardState] = useState(
     sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
   );
-  const statementsByUniqueFacility = uniqBy(statements, 'pSFacilityNum');
 
   const setWizardStatus = value => {
     sessionStorage.setItem(WIZARD_STATUS, value);
@@ -145,17 +139,6 @@ const App = ({
     [showCombinedFSR, showEnhancedFSR, setFormData, isStartingOver],
   );
 
-  const dispatch = useDispatch();
-  useEffect(
-    () => {
-      if (isLoggedIn && showCombinedFSR) {
-        fetchDebts(dispatch);
-        getStatements(dispatch);
-      }
-    },
-    [dispatch, isLoggedIn, showCombinedFSR],
-  );
-
   if (pending) {
     return (
       <va-loading-indicator
@@ -168,28 +151,6 @@ const App = ({
 
   if (isLoggedIn && isError) {
     return <ErrorAlert />;
-  }
-
-  if (
-    !isError &&
-    isLoggedIn &&
-    showCombinedFSR &&
-    !debts.length &&
-    !statementsByUniqueFacility.length
-  ) {
-    return (
-      <div className="row vads-u-margin-bottom--5">
-        <div className="medium-9 columns">
-          <>
-            <FormTitle
-              title="Request help with VA debt for overpayments and copay bills"
-              subTitle="Financial Status Report"
-            />
-            <ZeroDebtAlert />
-          </>
-        </div>
-      </div>
-    );
   }
 
   if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
@@ -216,7 +177,6 @@ const App = ({
 
 App.propTypes = {
   children: PropTypes.object,
-  debts: PropTypes.array,
   formData: PropTypes.object,
   getFormStatus: PropTypes.func,
   isError: PropTypes.bool,
@@ -233,11 +193,9 @@ App.propTypes = {
   showEnhancedFSR: PropTypes.bool,
   showFSR: PropTypes.bool,
   showWizard: PropTypes.bool,
-  statements: PropTypes.array,
 };
 
 const mapStateToProps = state => ({
-  debts: state.fsr.debts,
   formData: state.form.data,
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.fsr.isError,
@@ -248,7 +206,6 @@ const mapStateToProps = state => ({
   showCombinedFSR: combinedFSRFeatureToggle(state),
   showEnhancedFSR: enhancedFSRFeatureToggle(state),
   isStartingOver: state.form.isStartingOver,
-  statements: state.fsr.statements,
 });
 
 const mapDispatchToProps = dispatch => ({

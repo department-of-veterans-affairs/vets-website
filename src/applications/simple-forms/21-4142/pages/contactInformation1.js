@@ -1,3 +1,4 @@
+import React from 'react';
 import { intersection, pick } from 'lodash';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
@@ -12,6 +13,9 @@ const pageFields = [veteranFields.address];
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
+      'ui:description': (
+        <p>We’ll send any updates about your authorization to this address</p>
+      ),
       [veteranFields.address]: addressUiSchema(
         `${[veteranFields.parentObject]}.${[veteranFields.address]}`,
         'The Veteran lives on a United States military base outside of the U.S.',

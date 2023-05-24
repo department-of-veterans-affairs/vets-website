@@ -29,18 +29,17 @@ class IntroductionPage extends React.Component {
           confirmation message. You can print this page for your records.
         </p>
         <p>
-          A Veteran may submit a Lay/Witness statement on their own.
-          Alternatively, a claimant or witness may submit on behalf on a
-          Veteran.
+          A Veteran or a claimant may submit a lay/witness statement on their
+          own behalf. Alternatively, a witness may submit on behalf of a Veteran
+          or claimant.
         </p>
         <SaveInProgressIntro
-          customHeading="Sign in now to save time and save your work in progress"
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the Application"
-          unauthStartLinkText="Start your application without signing in - or if you are not a Veteran"
+          displayNonVeteranMessaging
         >
           <p>Please complete the 21-10210 form to apply for claims.</p>
         </SaveInProgressIntro>
