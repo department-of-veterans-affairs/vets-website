@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 import AppointmentColumn from './AppointmentColumn';
 import AppointmentRow from './AppointmentRow';
 import {
@@ -32,6 +33,7 @@ export default function AppointmentColumnLayout({
   const modalityText = useSelector(() => selectModalityText(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
   const startDate = useSelector(() => selectStartDate(data));
+  const parsedDate = moment.parseZone(startDate);
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
 
   const detailAriaLabel = useSelector(() => selectApptDetailAriaText(data));
@@ -79,7 +81,7 @@ export default function AppointmentColumnLayout({
                 { 'vads-u-display--none': !first },
               )}
             >
-              <span aria-hidden="true">{startDate.format('D')}</span>
+              <span aria-hidden="true">{parsedDate.format('D')}</span>
             </h3>
           </AppointmentColumn>
           <AppointmentColumn
@@ -95,7 +97,7 @@ export default function AppointmentColumnLayout({
               className={classNames({ 'vads-u-display--none': !first })}
               aria-hidden="true"
             >
-              {startDate.format('ddd')}
+              {parsedDate.format('ddd')}
             </span>
           </AppointmentColumn>
         </AppointmentRow>
@@ -129,7 +131,7 @@ export default function AppointmentColumnLayout({
             style={{ minWidth: '95px', maxWidth: '95px' }}
           >
             <span aria-hidden="true">
-              {`${startDate.format('h:mm')} ${startDate.format(
+              {`${parsedDate.format('h:mm')} ${parsedDate.format(
                 'a',
               )} ${timezoneAbbr}`}{' '}
             </span>

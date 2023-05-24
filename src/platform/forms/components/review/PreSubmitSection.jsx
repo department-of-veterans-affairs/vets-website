@@ -1,5 +1,5 @@
 // libs
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -26,6 +26,25 @@ import { FINISH_APP_LATER_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/c
 import { saveAndRedirectToReturnUrl as saveAndRedirectToReturnUrlAction } from 'platform/forms/save-in-progress/actions';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 
+export function statementOfTruthFullName(formData, fullNamePath) {
+  const fullName = get(
+    formData,
+    typeof fullNamePath === 'function'
+      ? fullNamePath(formData)
+      : fullNamePath || 'veteran.fullName',
+  );
+
+  let fullNameString = fullName.first || '';
+
+  if (fullName.middle) {
+    fullNameString += ` ${fullName.middle}`;
+  }
+
+  fullNameString += ` ${fullName.last || ''}`;
+
+  return fullNameString;
+}
+
 /*
 *  RenderPreSubmitSection - renders PreSubmitSection by default or presubmit.CustomComponent
 *  PreSubmitSection - ~Default component that renders if no CustomComponent is provided~ (this describes a decision in RenderPreSubmitSection- describe what PreSubmitSection is, remove this since it's not a prop, or add it as a prop with a default value)
@@ -50,6 +69,10 @@ export function PreSubmitSection(props) {
   const checked = form?.data[preSubmit?.field] || false;
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
+  const [
+    statementOfTruthSignatureBlurred,
+    setStatementOfTruthSignatureBlurred,
+  ] = useState(false);
 
   const finishAppLaterMessage =
     formConfig?.customText?.finishAppLaterMessage ||
@@ -84,23 +107,6 @@ export function PreSubmitSection(props) {
         {saveFormLink}
       </>
     );
-  }
-
-  let statementOfTruthFullName;
-
-  if (statementOfTruth) {
-    const fullName = get(
-      form?.data,
-      statementOfTruth.fullNamePath || 'veteran.fullName',
-    );
-
-    statementOfTruthFullName = fullName.first;
-
-    if (fullName.middle) {
-      statementOfTruthFullName += ` ${fullName.middle}`;
-    }
-
-    statementOfTruthFullName += ` ${fullName.last}`;
   }
 
   return (
@@ -140,12 +146,19 @@ export function PreSubmitSection(props) {
               onInput={event =>
                 setPreSubmit('statementOfTruthSignature', event.target.value)
               }
+              onBlur={() => setStatementOfTruthSignatureBlurred(true)}
               type="text"
               error={
-                showPreSubmitError &&
+                (showPreSubmitError || statementOfTruthSignatureBlurred) &&
                 form?.data.statementOfTruthSignature !==
-                  statementOfTruthFullName
-                  ? `Please enter your name exactly as it appears on your application: ${statementOfTruthFullName}`
+                  statementOfTruthFullName(
+                    form?.data,
+                    statementOfTruth.fullNamePath,
+                  )
+                  ? `Please enter your name exactly as it appears on your application: ${statementOfTruthFullName(
+                      form?.data,
+                      statementOfTruth.fullNamePath,
+                    )}`
                   : undefined
               }
               message-aria-describedby={`${statementOfTruth.heading ||

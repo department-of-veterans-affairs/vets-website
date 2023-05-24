@@ -209,7 +209,7 @@ const ContestableIssuesWidget = props => {
         />
         <VaModal
           clickToClose
-          status="info"
+          status="warning"
           modalTitle={removeModalContent.title}
           primaryButtonText={removeModalContent.yesButton}
           secondaryButtonText={removeModalContent.noButton}

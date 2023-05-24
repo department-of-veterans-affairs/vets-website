@@ -5,6 +5,7 @@
 }
 .thread-list-draft {
   color: $color-secondary-darkest;
+  font-weight: 700;
 }
 .thread-list {
   width: 100%;
@@ -72,4 +73,8 @@
     min-width: 78px;
     margin: 3px;
   }
+}
+
+#sort-order-dropdown::part(label) {
+  margin-top: 12px;
 }

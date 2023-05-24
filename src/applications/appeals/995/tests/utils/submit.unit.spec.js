@@ -16,6 +16,7 @@ import {
   // addIncludedIssues,
   getAddress,
   getPhone,
+  hasDuplicateLocation,
   getEvidence,
   getForm4142,
 } from '../../utils/submit';
@@ -268,6 +269,48 @@ describe('getTimeZone', () => {
   });
 });
 
+describe('hasDuplicateLocation', () => {
+  const getLocation = ({
+    wrap = false,
+    name = 'test 1',
+    from = '2022-01-01',
+    to = '2022-02-02',
+  } = {}) => {
+    const location = {
+      locationAndName: name,
+      issues: ['1', '2'],
+      evidenceDates: wrap ? [{ startDate: from, endDate: to }] : { from, to },
+    };
+    return wrap ? { attributes: location } : location;
+  };
+  const list = [
+    getLocation({ wrap: true }),
+    getLocation({ name: 'test 2', wrap: true }),
+  ];
+
+  it('should not find any duplicates', () => {
+    const name = getLocation({ name: 'test 3' });
+    expect(hasDuplicateLocation(list, name.locationAndName, name.evidenceDates))
+      .to.be.false;
+    const to = getLocation({ to: '2022-03-03' });
+    expect(hasDuplicateLocation(list, to.locationAndName, to.evidenceDates)).to
+      .be.false;
+    const from = getLocation({ from: '2022-03-03' });
+    expect(hasDuplicateLocation(list, from.locationAndName, from.evidenceDates))
+      .to.be.false;
+  });
+  it('should report duplicate location', () => {
+    const first = getLocation();
+    expect(
+      hasDuplicateLocation(list, first.locationAndName, first.evidenceDates),
+    ).to.be.true;
+    const second = getLocation({ name: 'test 2' });
+    expect(
+      hasDuplicateLocation(list, second.locationAndName, second.evidenceDates),
+    ).to.be.true;
+  });
+});
+
 describe('getEvidence', () => {
   const getData = ({ hasVa = true } = {}) => ({
     data: {
@@ -348,6 +391,14 @@ describe('getEvidence', () => {
     expect(getEvidence(evidence).evidenceSubmission.evidenceType).to.deep.equal(
       ['upload'],
     );
+  });
+  it('should combine duplicate VA locations & dates', () => {
+    const evidence = getData();
+    evidence.data.locations.push(evidence.data.locations[0]);
+    evidence.data.locations.push(evidence.data.locations[1]);
+
+    expect(evidence.data.locations.length).to.eq(4);
+    expect(getEvidence(evidence.data)).to.deep.equal(evidence.result);
   });
 });
 

@@ -8,7 +8,13 @@ import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
-import { makeAuthRequest, roundToNearest } from '../utils/helpers';
+import {
+  // START lighthouse_migration
+  getTrackedItemId,
+  // END lighthouse_migration
+  makeAuthRequest,
+  roundToNearest,
+} from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 
 import {
@@ -473,7 +479,9 @@ export function submitFiles(claimId, trackedItem, files) {
   let hasError = false;
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
-  const trackedItemId = trackedItem ? trackedItem.trackedItemId : null;
+  // START lighthouse_migration
+  const trackedItemId = trackedItem ? getTrackedItemId(trackedItem) : null;
+  // END lighthouse_migration
   recordEvent({
     event: 'claims-upload-start',
   });
