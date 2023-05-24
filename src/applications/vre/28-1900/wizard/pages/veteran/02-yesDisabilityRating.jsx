@@ -38,7 +38,7 @@ const YesDisabilityRating = props => {
           sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
         }}
         to="/"
-        className="vads-c-action-link--green vads-u-padding-left--0"
+        className="vads-c-action-link--green"
       >
         Apply for Veteran Readiness and Employment with VA Form 28-1900
       </Link>
