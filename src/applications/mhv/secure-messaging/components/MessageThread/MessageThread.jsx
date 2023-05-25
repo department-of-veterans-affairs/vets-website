@@ -63,7 +63,7 @@ const MessageThread = props => {
         });
       }
     },
-    [messageHistoryRef.current, viewCountRef.current, dispatch],
+    [messageHistoryRef, viewCountRef, dispatch, isDraftThread],
   );
 
   // shadow dom is not available on the first render, so we need to wait for it to be available
@@ -101,7 +101,7 @@ const MessageThread = props => {
         );
       }
     },
-    [viewCount],
+    [viewCount, messageHistory],
   );
 
   const setViewCount = count => {
