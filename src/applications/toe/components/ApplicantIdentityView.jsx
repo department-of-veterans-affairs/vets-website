@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { formFields, YOUR_PROFILE_URL, CHANGE_YOUR_NAME } from '../constants';
+import { YOUR_PROFILE_URL, CHANGE_YOUR_NAME } from '../constants';
 
 function ordinalSuffix(num) {
   const suffixes = ['th', 'st', 'nd', 'rd'];
@@ -68,9 +68,8 @@ ApplicantIdentityView.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  userFullName:
-    state.data.formData[formFields.viewUserFullName]?.[formFields.userFullName],
-  dateOfBirth: state.data.formData[formFields.dateOfBirth],
+  userFullName: state.user.profile?.userFullName,
+  dateOfBirth: state.user.profile?.dob,
 });
 
 export default connect(mapStateToProps)(ApplicantIdentityView);
