@@ -97,7 +97,7 @@ const formConfig = {
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your survivor dependent benefits application (22-1990E) is in progress.',
-    //   expireIded: 'Your saved survivor dependent benefits application (22-1990E) has expired. If you want to apply for survivor dependent benefits, please start a new application.',
+    //   expired: 'Your saved survivor dependent benefits application (22-1990E) has expired. If you want to apply for survivor dependent benefits, please start a new application.',
     //   saved: 'Your survivor dependent benefits application has been saved.',
     // },
   },
