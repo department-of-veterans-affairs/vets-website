@@ -79,7 +79,6 @@ const AttachmentsList = props => {
               )}
               {!editingEnabled && (
                 <>
-                  <i className="fas fa-paperclip" aria-hidden="true" />
                   <a
                     className="attachment"
                     href={file.link}
@@ -93,6 +92,7 @@ const AttachmentsList = props => {
                       });
                     }}
                   >
+                    <i className="fas fa-paperclip" aria-hidden="true" />
                     <span ref={attachmentReference}>{file.name} </span>(
                     {getSize(file.size || file.attachmentSize)})
                   </a>
