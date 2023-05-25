@@ -41,7 +41,9 @@ const EmploymentWorkDates = props => {
     : defaultRecord;
 
   const [employmentRecord, setEmploymentRecord] = useState({
-    ...(isEditing ? specificRecord : defaultRecord),
+    ...(specificRecord.employerName.length > 0
+      ? specificRecord
+      : defaultRecord),
   });
 
   const { employerName = '', from, to } = employmentRecord;
@@ -56,44 +58,26 @@ const EmploymentWorkDates = props => {
 
   const updateFormData = e => {
     e.preventDefault();
-    if (isEditing) {
-      // find the one we are editing in the employeeRecords array
-      const updatedRecords = employmentRecords.map((item, arrayIndex) => {
-        return arrayIndex === index ? employmentRecord : item;
-      });
-      // update form data
-      setFormData({
-        ...props.data,
-        [`${userArray}`]: employmentRecord.isCurrent ? [employmentRecord] : [],
-        personalData: {
-          ...props.data.personalData,
-          employmentHistory: {
-            ...props.data.personalData.employmentHistory,
-            [`${userType}`]: {
-              ...props.data.personalData.employmentHistory[`${userType}`],
-              employmentRecords: updatedRecords,
-            },
+    // find the one we are editing in the employeeRecords array
+    const updatedRecords = employmentRecords.map((item, arrayIndex) => {
+      return arrayIndex === index ? employmentRecord : item;
+    });
+    // update form data
+    setFormData({
+      ...props.data,
+      [`${userArray}`]: employmentRecord.isCurrent ? [employmentRecord] : [],
+      personalData: {
+        ...props.data.personalData,
+        employmentHistory: {
+          ...props.data.personalData.employmentHistory,
+          [`${userType}`]: {
+            ...props.data.personalData.employmentHistory[`${userType}`],
+            employmentRecords: updatedRecords,
           },
         },
-      });
-    } else {
-      const records = [employmentRecord, ...(employmentRecords || [])];
+      },
+    });
 
-      setFormData({
-        ...props.data,
-        [`${userArray}`]: employmentRecord.isCurrent ? [employmentRecord] : [],
-        personalData: {
-          ...props.data.personalData,
-          employmentHistory: {
-            ...props.data.personalData.employmentHistory,
-            [`${userType}`]: {
-              ...props.data.personalData.employmentHistory[`${userType}`],
-              employmentRecords: records,
-            },
-          },
-        },
-      });
-    }
     if (from) {
       if (employmentRecord.isCurrent) {
         goToPath(`/gross-monthly-income`);
