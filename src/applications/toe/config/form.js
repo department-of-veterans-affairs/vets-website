@@ -12,8 +12,8 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import get from 'platform/utilities/data/get';
-import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
 
