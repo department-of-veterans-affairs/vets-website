@@ -12,8 +12,6 @@ export const getAppData = state => ({
   isSponsorsFetchComplete: state.data?.fetchedSponsorsComplete,
   isLOA1: isLOA1Selector(state),
   isLOA3: isLOA3Selector(state),
-  // isLOA3: true,
-
   savedForms: state?.user?.profile?.savedForms,
   // Add the new feature flag: showMebEnhancements
   showMebEnhancements: !!toggleValues(state)[
@@ -23,7 +21,5 @@ export const getAppData = state => ({
   // showMebEnhancements06: !!toggleValues(state)[
   //   FEATURE_FLAG_NAMES.showMebEnhancements06
   // ],
-
-  showMebEnhancements06: true,
-  user: state.user || {},
+  showMebEnhancements06: state.featureToggles.showMebEnhancements06,
 });

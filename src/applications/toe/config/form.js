@@ -151,10 +151,14 @@ const formConfig = {
               },
             },
             'view:applicantInformation': {
-              'ui:description': <ApplicantIdentityView />,
+              'ui:description': (
+                <>
+                  <ApplicantIdentityView />
+                </>
+              ),
               'ui:options': {
                 hideIf: formData =>
-                  !formData.showMebEnhancements06 && !formData.isLOA3,
+                  !formData.showMebEnhancements06 || !formData.isLOA3,
               },
             },
             [formFields.viewUserFullName]: {
