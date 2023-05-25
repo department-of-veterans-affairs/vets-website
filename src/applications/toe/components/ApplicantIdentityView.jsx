@@ -1,30 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { formFields, YOUR_PROFILE_URL, CHANGE_YOUR_NAME } from '../constants';
 
-const ApplicantIdentityView = ({ formData }) => {
-  const userFullName =
-    formData[formFields.viewUserFullName]?.[formFields.userFullName];
-  const dateOfBirth = formData[formFields.dateOfBirth];
+function ordinalSuffix(num) {
+  const suffixes = ['th', 'st', 'nd', 'rd'];
+  const mod100 = num % 100;
+  return (
+    num + (suffixes[(mod100 - 20) % 10] || suffixes[mod100] || suffixes[0])
+  );
+}
+
+function formatDateString(dateString) {
+  const dateObj = new Date(dateString);
+  const year = dateObj.getUTCFullYear();
+  const month = dateObj.toLocaleString('en-US', {
+    month: 'long',
+    timeZone: 'UTC',
+  });
+  const day = ordinalSuffix(dateObj.getUTCDate());
+  return `${month} ${day}, ${year}`;
+}
+const ApplicantIdentityView = ({ userFullName, dateOfBirth }) => {
   if (!userFullName || !dateOfBirth) {
-    return null;
-  }
-  function ordinalSuffix(num) {
-    const suffixes = ['th', 'st', 'nd', 'rd'];
-    const mod100 = num % 100;
-    return (
-      num + (suffixes[(mod100 - 20) % 10] || suffixes[mod100] || suffixes[0])
-    );
-  }
-  function formatDateString(dateString) {
-    const dateObj = new Date(dateString);
-    const year = dateObj.getUTCFullYear();
-    const month = dateObj.toLocaleString('en-US', {
-      month: 'long',
-      timeZone: 'UTC',
-    });
-    const day = ordinalSuffix(dateObj.getUTCDate());
-    return `${month} ${day}, ${year}`;
+    return <></>;
   }
 
   const formattedDateOfBirth = formatDateString(dateOfBirth);
@@ -60,15 +59,18 @@ const ApplicantIdentityView = ({ formData }) => {
 };
 
 ApplicantIdentityView.propTypes = {
-  formData: PropTypes.shape({
-    [formFields.viewUserFullName]: PropTypes.object.isRequired,
-    [formFields.userFullName]: PropTypes.shape({
-      first: PropTypes.string,
-      middle: PropTypes.string,
-      last: PropTypes.string,
-    }),
-    [formFields.dateOfBirth]: PropTypes.string.isRequired,
+  dateOfBirth: PropTypes.string,
+  userFullName: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
   }),
 };
 
-export default ApplicantIdentityView;
+const mapStateToProps = state => ({
+  userFullName:
+    state.data.formData[formFields.viewUserFullName]?.[formFields.userFullName],
+  dateOfBirth: state.data.formData[formFields.dateOfBirth],
+});
+
+export default connect(mapStateToProps)(ApplicantIdentityView);
