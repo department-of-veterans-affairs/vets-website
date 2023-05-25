@@ -13,6 +13,7 @@ import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import get from 'platform/utilities/data/get';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
+import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
 
@@ -45,6 +46,7 @@ import preSubmitInfo from '../components/preSubmitInfo';
 import {
   addWhitespaceOnlyError,
   applicantIsChildOfSponsor,
+  hideUnder18Field,
   isOnlyWhitespace,
   prefillTransformer,
 } from '../helpers';
@@ -53,12 +55,19 @@ import { transformTOEForm } from '../utils/form-submit-transform';
 
 import { phoneSchema, phoneUISchema } from '../schema';
 import {
+  isValidGivenName,
   isValidPhoneField,
+  isValidLastName,
+  nameErrorMessage,
   validateAccountNumber,
   validateEmail,
   validateRoutingNumber,
 } from '../utils/validation';
-import { formFields, SPONSOR_RELATIONSHIP } from '../constants';
+import {
+  formFields,
+  SPONSOR_RELATIONSHIP,
+  YOUR_PROFILE_URL,
+} from '../constants';
 import ObfuscateReviewField from '../ObfuscateReviewField';
 
 const { fullName, date, email } = commonDefinitions;
@@ -88,7 +97,7 @@ const formConfig = {
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your survivor dependent benefits application (22-1990E) is in progress.',
-    //   expired: 'Your saved survivor dependent benefits application (22-1990E) has expired. If you want to apply for survivor dependent benefits, please start a new application.',
+    //   expireIded: 'Your saved survivor dependent benefits application (22-1990E) has expired. If you want to apply for survivor dependent benefits, please start a new application.',
     //   saved: 'Your survivor dependent benefits application has been saved.',
     // },
   },
@@ -114,33 +123,189 @@ const formConfig = {
           subTitle: 'Your information',
           instructions:
             'This is the personal information we have on file for you.',
+
           uiSchema: {
-            'view:applicantInformation': {
-              'ui:field': props => (
-                <ApplicantIdentityView formData={props.formData} />
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Review your personal information</h3>
+                  <p>
+                    We have this personal information on file for you. If you
+                    notice any errors, please correct them now. Any updates you
+                    make will change the information for your education benefits
+                    only.
+                  </p>
+                  <p>
+                    <strong>Note:</strong> If you want to update your personal
+                    information for other VA benefits,{' '}
+                    <a href={YOUR_PROFILE_URL}>
+                      update your information on your profile
+                    </a>
+                    .
+                  </p>
+                </>
               ),
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
               'view:applicantInformation': {
-                type: 'object',
-                properties: {
-                  [formFields.viewUserFullName]: {
-                    type: 'object',
+                'ui:field': props => (
+                  <ApplicantIdentityView formData={props.formData} />
+                ),
+              },
+              [formFields.viewUserFullName]: {
+                [formFields.userFullName]: {
+                  ...fullNameUI,
+                  first: {
+                    ...fullNameUI.first,
+                    'ui:title': 'Your first name',
+                    'ui:validations': [
+                      (errors, field) => {
+                        if (!isValidGivenName(field)) {
+                          errors.addError(nameErrorMessage(20));
+                        }
+                      },
+                    ],
+                  },
+                  middle: {
+                    ...fullNameUI.middle,
+                    'ui:title': 'Your middle name',
+                    'ui:validations': [
+                      (errors, field) => {
+                        if (!isValidGivenName(field)) {
+                          errors.addError(nameErrorMessage(20));
+                        }
+                      },
+                    ],
+                  },
+                  last: {
+                    ...fullNameUI.last,
+                    'ui:title': 'Your last name',
+                    'ui:validations': [
+                      (errors, field) => {
+                        if (!isValidLastName(field)) {
+                          errors.addError(nameErrorMessage(26));
+                        }
+                      },
+                    ],
+                  },
+                },
+              },
+              [formFields.dateOfBirth]: {
+                ...currentOrPastDateUI('Your date of birth'),
+              },
+              'view:dateOfBirthUnder18Alert': {
+                'ui:description': (
+                  <va-alert
+                    background-only
+                    close-btn-aria-label="Close notification"
+                    show-icon
+                    status="warning"
+                    visible
+                  >
+                    <>
+                      Since you’re under 18 years old, a parent or guardian will
+                      have to sign this application when you submit it.
+                    </>
+                  </va-alert>
+                ),
+                'ui:options': {
+                  hideIf: formData => {
+                    if (!formData || !formData[formFields.dateOfBirth]) {
+                      return true;
+                    }
+
+                    const dateParts =
+                      formData && formData[formFields.dateOfBirth].split('-');
+
+                    if (!dateParts || dateParts.length !== 3) {
+                      return true;
+                    }
+                    const birthday = new Date(
+                      dateParts[0],
+                      dateParts[1] - 1,
+                      dateParts[2],
+                    );
+                    const today18YearsAgo = new Date(
+                      new Date(
+                        new Date().setFullYear(new Date().getFullYear() - 18),
+                      ).setHours(0, 0, 0, 0),
+                    );
+
+                    return (
+                      !isValidCurrentOrPastDate(
+                        dateParts[2],
+                        dateParts[1],
+                        dateParts[0],
+                      ) || birthday.getTime() <= today18YearsAgo.getTime()
+                    );
+                  },
+                },
+              },
+              [formFields.parentGuardianSponsor]: {
+                'ui:title': 'Parent / Guardian signature',
+                'ui:options': {
+                  hideIf: formData =>
+                    hideUnder18Field(formData, formFields.dateOfBirth),
+                },
+                'ui:required': formData =>
+                  !hideUnder18Field(formData, formFields.dateOfBirth),
+                'ui:validations': [
+                  (errors, field) =>
+                    addWhitespaceOnlyError(
+                      field,
+                      errors,
+                      'Please enter a parent/guardian signature',
+                    ),
+                ],
+                'ui:errorMessages': {
+                  required: 'Please enter a parent/guardian signature',
+                },
+              },
+            },
+            schema: {
+              type: 'object',
+              required: [formFields.dateOfBirth],
+              properties: {
+                'view:subHeadings': {
+                  type: 'object',
+                  properties: {},
+                },
+                [formFields.viewUserFullName]: {
+                  [formFields.userFullName]: {
+                    ...fullName,
                     properties: {
-                      [formFields.userFullName]: {
-                        type: 'object',
-                        properties: {
-                          first: { type: 'string' },
-                          middle: { type: 'string' },
-                          last: { type: 'string' },
-                        },
+                      ...fullName.properties,
+                      middle: {
+                        ...fullName.properties.middle,
+                        maxLength: 30,
                       },
                     },
                   },
-                  [formFields.dateOfBirth]: { type: 'string' },
+                },
+                [formFields.dateOfBirth]: date,
+                'view:dateOfBirthUnder18Alert': {
+                  type: 'object',
+                  properties: {},
+                },
+                'view:applicantInformation': {
+                  type: 'object',
+                  properties: {
+                    // [formFields.viewUserFullName]: {
+                    //   type: 'object',
+                    //   properties: {
+                    //     [formFields.userFullName]: {
+                    //       type: 'object',
+                    //       properties: {
+                    //         first: { type: 'string' },
+                    //         middle: { type: 'string' },
+                    //         last: { type: 'string' },
+                    //       },
+                    //     },
+                    //   },
+                    // },
+                    // [formFields.dateOfBirth]: { type: 'string' },
+                  },
+                },
+                [formFields.parentGuardianSponsor]: {
+                  type: 'string',
                 },
               },
             },
