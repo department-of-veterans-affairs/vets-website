@@ -123,7 +123,6 @@ const formConfig = {
           subTitle: 'Your information',
           instructions:
             'This is the personal information we have on file for you.',
-
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
