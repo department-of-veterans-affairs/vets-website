@@ -69,9 +69,10 @@ describe('Forms library address definition', () => {
   }).timeout(4000);
 
   it('should optionally set maxLengths', () => {
-    // not setting state maxLength here because it's a select box.
-    // the definition still supports state maxLength, in case
-    // a form-schema renders a text-input for state.
+    // not setting state maxLength here because we're rendering
+    // a <select> here, where maxlength attribute's not active.
+    // the definition still supports state maxLength overrides, in case
+    // a form-schema renders a text input for state.
     const expectedMaxLengths = {
       street: 18,
       street2: 12,
@@ -88,7 +89,7 @@ describe('Forms library address definition', () => {
       postalCode: form.find('input#root_postalCode').props().maxLength,
     };
 
-    expect(actualMaxLengths).to.eql(expectedMaxLengths);
+    expect(actualMaxLengths).to.deep.equal(expectedMaxLengths);
     form.unmount();
   }).timeout(4000);
 
