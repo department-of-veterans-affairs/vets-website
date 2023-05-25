@@ -67,7 +67,9 @@ const generateDetailsContent = async (doc, parent, data) => {
   parent.add(details);
   if (data.details.header) {
     const headOptions = { x: 30, paragraphGap: 16 };
-    details.add(createHeading(doc, 'H2', config, data.title, headOptions));
+    details.add(
+      createHeading(doc, 'H2', config, data.details.header, headOptions),
+    );
   }
   const detailsItemsCount = data.details.items.length;
   if (detailsItemsCount > 0) {
