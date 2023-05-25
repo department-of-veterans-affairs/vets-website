@@ -177,7 +177,7 @@ describe('Schemaform FormNav', () => {
       />,
     );
     expect(
-      tree.getByText('Your application will be saved on every change', {
+      tree.getByText('We’ll save your application on every change.', {
         exact: false,
       }),
     ).to.not.be.null;
