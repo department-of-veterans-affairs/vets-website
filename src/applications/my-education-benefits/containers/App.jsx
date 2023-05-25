@@ -34,6 +34,7 @@ export const App = ({
   showMebDgi42Features,
   showMebCh33SelfForm,
   showMebEnhancements,
+  showMebEnhancements06,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
@@ -127,7 +128,7 @@ export const App = ({
           showMebEnhancements,
         });
       }
-      if (showMebEnhancements !== formData.showMebEnhancements) {
+      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
         setFormData({
           ...formData,
           showMebEnhancements,
@@ -141,6 +142,7 @@ export const App = ({
       showMebDgi42Features,
       showMebCh33SelfForm,
       showMebEnhancements,
+      showMebEnhancements06,
     ],
   );
 
@@ -189,6 +191,7 @@ App.propTypes = {
   showMebDgi40Features: PropTypes.bool,
   showMebDgi42Features: PropTypes.bool,
   showMebEnhancements: PropTypes.bool,
+  showMebEnhancements06: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
