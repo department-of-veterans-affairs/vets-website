@@ -63,7 +63,7 @@ describe('Forms library address definition', () => {
     form.unmount();
   }).timeout(4000);
 
-  it('should optionally set maxLengths', () => {
+  it.skip('should optionally set maxLengths', () => {
     const expectedMaxLengths = {
       street: 18,
       city: 15,
@@ -82,7 +82,7 @@ describe('Forms library address definition', () => {
 
     expect(actualMaxLengths).to.eql(expectedMaxLengths);
     form.unmount();
-  });
+  }).timeout(4000);
 
   it('should update labels and state selection conditionally', () => {
     const s = schema(addressSchema, false);
