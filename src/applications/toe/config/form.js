@@ -56,8 +56,8 @@ import { transformTOEForm } from '../utils/form-submit-transform';
 import { phoneSchema, phoneUISchema } from '../schema';
 import {
   isValidGivenName,
-  isValidPhoneField,
   isValidLastName,
+  isValidPhoneField,
   nameErrorMessage,
   validateAccountNumber,
   validateEmail,
