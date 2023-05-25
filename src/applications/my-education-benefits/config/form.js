@@ -1118,6 +1118,13 @@ const formConfig = {
                   <>
                     You can’t choose to get email notifications because your
                     email is on file for another person with education benefits.
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollmentLearn"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
                   </>
                 </va-alert>
               ),
