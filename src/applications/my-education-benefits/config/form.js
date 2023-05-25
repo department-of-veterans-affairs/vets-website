@@ -1010,7 +1010,7 @@ const formConfig = {
                       entry => entry?.isDupe,
                     );
 
-                    if (hasDupePhone?.length > 0) {
+                    if (hasDupePhone?.length > 0 && isYes) {
                       errors.addError(
                         "You can't select that response because your mobile phone number is on file for another person",
                       );
@@ -1120,7 +1120,7 @@ const formConfig = {
                     email is on file for another person with education benefits.
                     <a
                       target="_blank"
-                      href="https://www.va.gov/education/verify-school-enrollmentLearn"
+                      href="https://www.va.gov/education/verify-school-enrollment"
                       rel="noreferrer"
                     >
                       Learn more about the Enrollment Verifications
