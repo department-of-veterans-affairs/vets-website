@@ -1007,7 +1007,7 @@ const formConfig = {
                     }
 
                     const hasDupePhone = formData?.duplicatePhone?.filter(
-                      entry => entry?.isDupe,
+                      entry => entry?.isDupe === 'true',
                     );
 
                     if (hasDupePhone?.length > 0 && isYes) {
@@ -1017,7 +1017,7 @@ const formConfig = {
                     }
 
                     const hasDupeEmail = formData?.duplicateEmail?.filter(
-                      entry => entry?.isDupe,
+                      entry => entry?.isDupe === 'true',
                     );
 
                     if (hasDupeEmail?.length > 0 && !isYes) {
