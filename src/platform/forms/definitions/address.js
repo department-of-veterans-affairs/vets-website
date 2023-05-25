@@ -119,6 +119,7 @@ export function schema(
   addressProperty = 'address',
 ) {
   const addressSchema = currentSchema.definitions[addressProperty];
+
   return {
     type: 'object',
     required: isRequired ? requiredFields : [],

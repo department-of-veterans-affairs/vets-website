@@ -20,7 +20,7 @@ export default function VaSelectField(props) {
     optionsList(props.childrenProps.schema);
   const labels = props.uiOptions?.labels || {};
 
-  if (!props.uiOptions?.uswds) {
+  if (!mappedProps?.uswds) {
     // uswds=true adds a -Select- option by default
     // uswds=false only shows the options so we should add a default option
     addDefaultEntry = true;
