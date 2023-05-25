@@ -39,7 +39,9 @@ const SpouseEmploymentWorkDates = props => {
     : defaultRecord;
 
   const [employmentRecord, setEmploymentRecord] = useState({
-    ...(specificRecord.employerName ? specificRecord : defaultRecord),
+    ...(specificRecord.employerName.length > 0
+      ? specificRecord
+      : defaultRecord),
   });
 
   const { employerName = '', from, to } = employmentRecord;
