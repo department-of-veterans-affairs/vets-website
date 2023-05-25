@@ -44,13 +44,13 @@ const config = {
   },
 };
 
-const generateIntroductionContent = async (doc, data) => {
+const generateIntroductionContent = async (doc, parent, data) => {
   const headOptions = { paragraphGap: 16 };
   const subHeadOptions = { paragraphGap: 24 };
   const introduction = doc.struct('Sect', {
     title: 'Introduction',
   });
-  doc.addStructure(introduction);
+  parent.add(introduction);
   introduction.add(createHeading(doc, 'H1', config, data.title, headOptions));
   if (data.preface) {
     introduction.add(
@@ -60,11 +60,11 @@ const generateIntroductionContent = async (doc, data) => {
   introduction.end();
 };
 
-const generateDetailsContent = async (doc, data) => {
+const generateDetailsContent = async (doc, parent, data) => {
   const details = doc.struct('Sect', {
     title: 'Details',
   });
-  doc.addStructure(details);
+  parent.add(details);
   if (data.details.header) {
     const headOptions = { x: 30, paragraphGap: 16 };
     details.add(createHeading(doc, 'H2', config, data.title, headOptions));
@@ -78,11 +78,11 @@ const generateDetailsContent = async (doc, data) => {
   details.end();
 };
 
-const generateResultsContent = async (doc, data) => {
+const generateResultsContent = async (doc, parent, data) => {
   const results = doc.struct('Sect', {
     title: 'Results',
   });
-  doc.addStructure(results);
+  parent.add(results);
   if (data.results.header) {
     const headingOptions = { paragraphGap: 20, x: 34 };
     results.add(
@@ -141,7 +141,7 @@ const generateResultsContent = async (doc, data) => {
   results.end();
 };
 
-const generateHeaderAndFooterContent = async (doc, data) => {
+const generateHeaderAndFooterContent = async (doc, parent, data) => {
   const pages = doc.bufferedPageRange();
   for (let i = 0; i < pages.count; i += 1) {
     doc.switchToPage(i);
@@ -160,7 +160,7 @@ const generateHeaderAndFooterContent = async (doc, data) => {
       title: 'Header',
       attached: 'Top',
     });
-    doc.addStructure(header);
+    parent.add(header);
     const leftOptions = { continued: true, x: 16, y: 12 };
     header.add(createSpan(doc, config, data.headerLeft, leftOptions));
     const rightOptions = { align: 'right' };
@@ -172,7 +172,7 @@ const generateHeaderAndFooterContent = async (doc, data) => {
       title: 'Footer',
       attached: 'Bottom',
     });
-    doc.addStructure(footer);
+    parent.add(footer);
     let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
     footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
     const footerLeftOptions = { continued: true, x: 16, y: 766 };
@@ -190,20 +190,25 @@ const generate = async data => {
 
   doc.addPage({ margins: config.margins });
 
+  const wrapper = doc.struct('Document');
+  doc.addStructure(wrapper);
+
   // Add content synchronously to ensure that reading order
   // is left intact for screen reader users.
 
-  await generateIntroductionContent(doc, data);
+  await generateIntroductionContent(doc, wrapper, data);
 
   if (data.details) {
-    await generateDetailsContent(doc, data);
+    await generateDetailsContent(doc, wrapper, data);
   }
 
   if (data.results) {
-    await generateResultsContent(doc, data);
+    await generateResultsContent(doc, wrapper, data);
   }
 
-  await generateHeaderAndFooterContent(doc, data);
+  await generateHeaderAndFooterContent(doc, wrapper, data);
+
+  wrapper.end();
 
   doc.flushPages();
   return doc;
