@@ -215,46 +215,91 @@
 //     childList: true,
 //   });
 // });
+// window.addEventListener('DOMContentLoaded', () => {
+//   function addAriaLabel(spanElement) {
+//     // Get the text of the span element.
+//     const text = spanElement.innerHTML;
+
+//     // Find the index of the text "988.".
+//     const index = text.indexOf('988.');
+
+//     // If the text "988." is found, add an aria label to the span element.
+//     if (index > -1) {
+//       const ariaLabel = '9 8 8';
+//       const spanText = `${text.slice(
+//         0,
+//         index,
+//       )}<span aria-label="${ariaLabel}">988.</span>${text.slice(index + 5)}`;
+//       // eslint-disable-next-line no-param-reassign
+//       spanElement.innerHTML = spanText;
+//     }
+//   }
+//   const observer = new MutationObserver(mutations => {
+//     mutations.forEach(mutation => {
+//       if (mutation.addedNodes.length > 0) {
+//         const addedNode = mutation.addedNodes[0];
+//         if (addedNode.id === 'MDigitalLightboxWrapper') {
+//           const medalliaForm = addedNode.querySelector('.modal-live-form');
+//           if (medalliaForm) {
+//             const vclNumber = document.querySelector(
+//               '#liveForm > div > div.live-form-content > div.modal-live-form.ng-scope > div > div > div:nth-child(1) > div > div > p > ul > li:nth-child(1) > span',
+//             );
+//             console.log('Medallia form found!');
+//             addAriaLabel(vclNumber);
+//             observer.disconnect();
+//           }
+//         }
+//       }
+//     });
+//   });
+
+//   observer.observe(document.body, {
+//     childList: true,
+//     subtree: true,
+//   });
+// });
 window.addEventListener('DOMContentLoaded', () => {
-  function addAriaLabel(spanElement) {
-    // Get the text of the span element.
-    const text = spanElement.innerHTML;
-
-    // Find the index of the text "988.".
-    const index = text.indexOf('988.');
-
-    // If the text "988." is found, add an aria label to the span element.
-    if (index > -1) {
-      const ariaLabel = '9 8 8';
-      const spanText = `${text.slice(
-        0,
-        index,
-      )}<span aria-label="${ariaLabel}">988.</span>${text.slice(index + 5)}`;
-      // eslint-disable-next-line no-param-reassign
-      spanElement.innerHTML = spanText;
+  function findModalLiveForm(element) {
+    if (element.classList && element.classList.contains('modal-live-form')) {
+      return element;
     }
+
+    const childElements = Array.from(element.children);
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < childElements.length; i++) {
+      const childElement = childElements[i];
+      const modalLiveForm = findModalLiveForm(childElement);
+      if (modalLiveForm) {
+        return modalLiveForm;
+      }
+    }
+
+    return null;
   }
-  const observer = new MutationObserver(mutations => {
-    mutations.forEach(mutation => {
-      if (mutation.addedNodes.length > 0) {
-        const addedNode = mutation.addedNodes[0];
-        if (addedNode.id === 'MDigitalLightboxWrapper') {
-          const medalliaForm = addedNode.querySelector('.modal-live-form');
-          if (medalliaForm) {
-            const vclNumber = document.querySelector(
-              '#liveForm > div > div.live-form-content > div.modal-live-form.ng-scope > div > div > div:nth-child(1) > div > div > p > ul > li:nth-child(1) > span',
-            );
-            console.log('Medallia form found!');
-            addAriaLabel(vclNumber);
-            observer.disconnect();
+
+  const observer = new MutationObserver(mutationsList => {
+    // eslint-disable-next-line consistent-return
+    mutationsList.forEach(mutation => {
+      if (mutation.type === 'childList') {
+        const addedNodes = Array.from(mutation.addedNodes);
+        for (let i = 0; i < addedNodes.length; i++) {
+          const addedNode = addedNodes[i];
+
+          if (
+            addedNode.nodeType === Node.ELEMENT_NODE &&
+            addedNode.id === 'MDigitalLightboxWrapper'
+          ) {
+            console.log('MDigitalLightboxWrapper found!');
+            const modalLiveForm = findModalLiveForm(addedNode);
+            if (modalLiveForm) {
+              console.log('.modal-live-form found:', modalLiveForm);
+              return modalLiveForm;
+            }
           }
         }
       }
     });
   });
 
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-  });
+  observer.observe(document.body, { childList: true, subtree: true });
 });
