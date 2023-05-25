@@ -2,22 +2,20 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store'; // You'll need to add this package
+import configureStore from 'redux-mock-store';
 import ApplicantIdentityView from '../../../components/ApplicantIdentityView';
 
 describe('ApplicantIdentityView', () => {
   const mockStore = configureStore();
   const initialState = {
-    data: {
-      formData: {
-        'view:userFullName': {
-          userFullName: {
-            first: 'John',
-            middle: 'M',
-            last: 'Doe',
-          },
+    user: {
+      profile: {
+        userFullName: {
+          first: 'John',
+          middle: 'M',
+          last: 'Doe',
         },
-        dateOfBirth: '1990-01-01',
+        dob: '1990-01-01',
       },
     },
   };
@@ -26,19 +24,18 @@ describe('ApplicantIdentityView', () => {
     const wrapper = mount(
       <Provider store={store}>
         <ApplicantIdentityView />
-      </Provider>,
+      </Provider>
     );
     expect(wrapper.text()).to.include('John M Doe');
     expect(wrapper.text()).to.include('Date of birth: January 1st, 1990');
     wrapper.unmount();
   });
-
   it('should render the paragraph content correctly', () => {
     const store = mockStore(initialState);
     const wrapper = mount(
       <Provider store={store}>
         <ApplicantIdentityView />
-      </Provider>,
+      </Provider>
     );
     expect(
       wrapper
