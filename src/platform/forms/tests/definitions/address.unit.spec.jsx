@@ -15,10 +15,15 @@ import {
   requireStateWithData,
 } from '../../definitions/address';
 
-const { address } = definitions;
+const { address, usAddress } = definitions;
 const addressSchema = {
   definitions: {
     address,
+  },
+};
+const usAddressSchema = {
+  definitions: {
+    address: usAddress,
   },
 };
 
@@ -63,21 +68,24 @@ describe('Forms library address definition', () => {
     form.unmount();
   }).timeout(4000);
 
-  it.skip('should optionally set maxLengths', () => {
+  it('should optionally set maxLengths', () => {
+    // not setting state maxLength here because it's a select box.
+    // the definition still supports state maxLength, in case
+    // a form-schema renders a text-input for state.
     const expectedMaxLengths = {
       street: 18,
+      street2: 12,
       city: 15,
-      state: 2,
       postalCode: 5,
     };
-    const s = schema(addressSchema, true, 'address', expectedMaxLengths);
+    const s = schema(usAddressSchema, true, 'address', expectedMaxLengths);
     const uis = uiSchema();
     const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
     const actualMaxLengths = {
-      street: form.find('input#root_street').props('maxlength'),
-      city: form.find('input#root_city').props('maxlength'),
-      state: form.find('select#root_state').props('maxlength'),
-      postalCode: form.find('input#root_postalCode').props('maxlength'),
+      street: form.find('input#root_street').props().maxLength,
+      street2: form.find('input#root_street2').props().maxLength,
+      city: form.find('input#root_city').props().maxLength,
+      postalCode: form.find('input#root_postalCode').props().maxLength,
     };
 
     expect(actualMaxLengths).to.eql(expectedMaxLengths);
