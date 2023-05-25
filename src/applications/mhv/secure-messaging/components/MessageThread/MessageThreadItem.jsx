@@ -50,14 +50,13 @@ const MessageThreadItem = props => {
 
   const accordionAriaLabel = useMemo(
     () => {
-      return `${!isRead ? 'New' : ''} message ${
+      return `${!isRead ? 'New ' : ''}message ${
+        fromMe ? 'sent' : 'received'
+      } ${dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}, ${
         attachment ? 'with attachment' : ''
-      } from ${senderName}, ${dateFormat(
-        sentDate,
-        'MMMM D, YYYY [at] h:mm a z',
-      )}. ${isExpanded ? 'Collapse message' : 'Expand message'}`;
+      } from ${senderName}. ${isExpanded ? 'Expanded' : 'Collapsed'}."`;
     },
-    [attachment, isExpanded, isRead, senderName, sentDate],
+    [attachment, fromMe, isExpanded, isRead, senderName, sentDate],
   );
 
   return (
