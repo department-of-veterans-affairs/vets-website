@@ -1016,7 +1016,7 @@ const formConfig = {
                       }
                     } else if (hasDupeEmail?.length > 0 && !isYes) {
                       errors.addError(
-                        "You cant' select that response because your email is on file for another person",
+                        "You can't select that response because your email is on file for another person",
                       );
                     }
                   },
