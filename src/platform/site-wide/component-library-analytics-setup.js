@@ -364,7 +364,7 @@ const analyticsEvents = {
         mapping: {
           'promo-banner-type': 'type',
           'promo-banner-href': 'href',
-          'promo-banner-text': 'text',
+          'promo-banner-text': 'custom_string_2',
           version: 'component_version',
         },
       },
@@ -373,6 +373,17 @@ const analyticsEvents = {
       action: 'close',
       event: 'int-promo-banner-close',
       prefix: 'promo-banner',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-promo-banner',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'promo-banner-type': 'type',
+          'promo-banner-text': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-radio': [
