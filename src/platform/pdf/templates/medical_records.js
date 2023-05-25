@@ -184,7 +184,7 @@ const generateHeaderAndFooterContent = async (doc, parent, data) => {
 };
 
 const generate = async data => {
-  const doc = createAccessibleDoc(data.title);
+  const doc = createAccessibleDoc(data);
 
   await registerVaGovFonts(doc);
 

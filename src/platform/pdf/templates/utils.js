@@ -222,14 +222,14 @@ const getTestResultBlockHeight = (doc, item, initialBlock = false) => {
  *
  * @returns {Object}
  */
-const createAccessibleDoc = title => {
+const createAccessibleDoc = data => {
   return new PDFDocument({
     pdfVersion: '1.7',
-    lang: 'en-US',
+    lang: data.lang ?? 'en-US',
     tagged: true,
     displayTitle: true,
     info: {
-      Title: title,
+      Title: data.title,
     },
     autoFirstPage: false,
     bufferPages: true,
