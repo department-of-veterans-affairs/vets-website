@@ -107,7 +107,7 @@ const PreSubmitCheckboxGroup = ({
     [setFormData, signatures],
   );
 
-  // when there is no unsigned signatures and unchecked signature checkboxes set AGREED (onSectionComplete) to true
+  // when there is no unsigned signatures or unchecked signature checkboxes set AGREED (onSectionComplete) to true
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
   useEffect(
     () => {
