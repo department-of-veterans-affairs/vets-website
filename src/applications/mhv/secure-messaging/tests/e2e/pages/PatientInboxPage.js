@@ -303,7 +303,7 @@ class PatientInboxPage {
   };
 
   loadComposeMessagePage = () => {
-    cy.get('[data-testid="compose-message-link"]').click();
+    cy.get('[data-testid="compose-message-link"]').click({ force: true });
     const interstitialPage = new PatientInterstitialPage();
     interstitialPage.getContinueButton().click({ force: true });
   };

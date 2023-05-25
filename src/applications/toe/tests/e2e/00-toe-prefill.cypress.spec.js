@@ -35,9 +35,7 @@ describe('All Field prefilled tests for TOE app', () => {
       toeFormTestData,
     ).as('toeFormTestData');
 
-    cy.get(
-      'div a.vads-c-action-link--green.vads-u-padding-left--0:nth-child(2)',
-    )
+    cy.get('div a.vads-c-action-link--green:nth-child(2)')
       .contains('Start your benefit application')
       .click();
   });
