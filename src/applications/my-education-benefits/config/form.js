@@ -993,6 +993,12 @@ const formConfig = {
                     const { isInternational } = formData[
                       formFields.viewPhoneNumbers
                     ].mobilePhoneNumber;
+                    const hasDupePhone = formData?.duplicatePhone?.filter(
+                      entry => entry?.isDupe === 'true',
+                    );
+                    const hasDupeEmail = formData?.duplicateEmail?.filter(
+                      entry => entry?.isDupe === 'true',
+                    );
 
                     if (isYes) {
                       if (!phoneExist) {
@@ -1003,24 +1009,12 @@ const formConfig = {
                         errors.addError(
                           "You can't select that response because you have an international mobile phone number",
                         );
+                      } else if (hasDupePhone?.length > 0) {
+                        errors.addError(
+                          "You can't select that response because your mobile phone number is on file for another person",
+                        );
                       }
-                    }
-
-                    const hasDupePhone = formData?.duplicatePhone?.filter(
-                      entry => entry?.isDupe === 'true',
-                    );
-
-                    if (hasDupePhone?.length > 0 && isYes) {
-                      errors.addError(
-                        "You can't select that response because your mobile phone number is on file for another person",
-                      );
-                    }
-
-                    const hasDupeEmail = formData?.duplicateEmail?.filter(
-                      entry => entry?.isDupe === 'true',
-                    );
-
-                    if (hasDupeEmail?.length > 0 && !isYes) {
+                    } else if (hasDupeEmail?.length > 0 && !isYes) {
                       errors.addError(
                         "You cant' select that response because your email is on file for another person",
                       );
