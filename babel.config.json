@@ -1,5 +1,5 @@
 {
-  
+
   "presets": [
     [
       "@babel/env",
@@ -29,12 +29,12 @@
   ],
   "plugins": [
     "lodash",
-     
+
     "@babel/plugin-proposal-function-sent",
     "@babel/plugin-proposal-export-namespace-from",
     "@babel/plugin-proposal-numeric-separator",
     "@babel/plugin-proposal-throw-expressions",
-    
+
     "@babel/plugin-proposal-nullish-coalescing-operator",
     "@babel/plugin-proposal-optional-chaining",
     "@babel/plugin-syntax-dynamic-import",
@@ -141,7 +141,7 @@
           "@department-of-veterans-affairs/platform-user/profile/utilities": "./src/platform/user/profile/utilities/index.js",
           "@department-of-veterans-affairs/platform-user/local-vapsvc": "./src/platform/user/profile/vap-svc/util/local-vapsvc.js",
           "@department-of-veterans-affairs/platform-user/disableFTUXModals": "./src/platform/user/tests/disableFTUXModals.js",
-          
+
           "@department-of-veterans-affairs/platform-testing/exports" : "./src/platform/testing/exportsFile.js",
           "@department-of-veterans-affairs/platform-testing/contract": "./src/platform/testing/contract/index.js",
           "@department-of-veterans-affairs/platform-testing/form-tester": "./src/platform/testing/e2e/cypress/support/form-tester/index.js",
@@ -153,7 +153,7 @@
           "@department-of-veterans-affairs/platform-testing/schemaform-utils": "./src/platform/testing/unit/schemaform-utils.jsx",
           "@department-of-veterans-affairs/platform-testing/sentry": "./src/platform/testing/unit/sentry.js",
           "@department-of-veterans-affairs/platform-testing/unit/react-testing-library-helpers": "./src/platform/testing/unit/react-testing-library-helpers",
- 
+
           "@department-of-veterans-affairs/platform-site-wide/exports": "./src/platform/site-wide/exportsFile.js",
           "@department-of-veterans-affairs/platform-site-wide/showVaAlertExpandable": "./src/platform/site-wide/alerts/showVaAlertExpandable.js",
           "@department-of-veterans-affairs/platform-site-wide/EbenefitsLink": "./src/platform/site-wide/ebenefits/containers/EbenefitsLink.jsx",
@@ -256,6 +256,7 @@
           "@department-of-veterans-affairs/platform-forms-system/monthYearRange": "./src/platform/forms-system/src/js/definitions/monthYearRange.js",
           "@department-of-veterans-affairs/platform-forms-system/phone": "./src/platform/forms-system/src/js/definitions/phone.js",
           "@department-of-veterans-affairs/platform-forms-system/profileAddress": "./src/platform/forms-system/src/js/definitions/profileAddress.js",
+          "@department-of-veterans-affairs/platform-forms-system/profileContactInfo": "./src/platform/forms-system/src/js/definitions/profileContactInfo.js",
           "@department-of-veterans-affairs/platform-forms-system/ssn": "./src/platform/forms-system/src/js/definitions/ssn.js",
           "@department-of-veterans-affairs/platform-forms-system/year": "./src/platform/forms-system/src/js/definitions/year.js",
           "@department-of-veterans-affairs/platform-forms-system/FullNameField": "./src/platform/forms-system/src/js/fields/FullNameField.jsx",
@@ -299,7 +300,7 @@
       }
     ]
   ],
-  
+
   "env": {
     "test": {
       "presets": ["@babel/env", "@babel/preset-react"],
@@ -308,12 +309,12 @@
         "transform-class-properties",
         "dynamic-import-node",
         "transform-react-remove-prop-types",
-        
+
         "@babel/plugin-proposal-function-sent",
         "@babel/plugin-proposal-export-namespace-from",
         "@babel/plugin-proposal-numeric-separator",
         "@babel/plugin-proposal-throw-expressions",
-         
+
         "@babel/plugin-syntax-dynamic-import",
         "@babel/plugin-syntax-import-meta",
         ["@babel/plugin-proposal-class-properties", { "loose": false }],

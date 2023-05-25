@@ -72,7 +72,7 @@ export default function FormNav(props) {
   if (isLoggedIn) {
     inProgressMessage = (
       <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
-        Your application will be saved on every change.{' '}
+        We&rsquo;ll save your application on every change.{' '}
         {inProgressFormId &&
           `Your application ID number is ${inProgressFormId}.`}
       </span>
