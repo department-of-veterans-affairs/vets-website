@@ -37,11 +37,10 @@ const ResolutionOptions = ({ formContext }) => {
     return (
       <>
         <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg2p5">
-          Debt forgiveness (waiver)
+          Waiver
         </span>
         <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-left--3">
-          If we approve your request, we’ll stop collection on and forgive (or
-          "waive") the debt.
+          If we approve your request, we’ll stop collection and waive the debt.
         </span>
       </>
     );

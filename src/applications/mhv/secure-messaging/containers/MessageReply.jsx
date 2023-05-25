@@ -26,9 +26,12 @@ const MessageReply = () => {
     [replyId, dispatch],
   );
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-  });
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+    },
+    [acknowledged, replyMessage],
+  );
 
   const content = () => {
     if (replyMessage === undefined) {
@@ -59,7 +62,6 @@ const MessageReply = () => {
         {messageHistory?.length > 0 && (
           <MessageThread
             messageHistory={messageHistory}
-            isDraftThread
             isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
             viewCount={threadViewCount}
           />

@@ -78,7 +78,7 @@ describe('Schemaform FormNav', () => {
     );
 
     expect(tree.queryAllByRole('progressbar')).to.have.lengthOf(0);
-    expect(tree.getByTestId('navFormHeader')).to.be.empty;
+    expect(tree.queryByTestId('navFormHeader')).to.be.null;
   });
 
   it('should render dynamic chapter-title stepText', () => {
@@ -177,7 +177,7 @@ describe('Schemaform FormNav', () => {
       />,
     );
     expect(
-      tree.getByText('Your application will be saved on every change', {
+      tree.getByText('We’ll save your application on every change.', {
         exact: false,
       }),
     ).to.not.be.null;

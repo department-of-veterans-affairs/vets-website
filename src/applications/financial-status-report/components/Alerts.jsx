@@ -67,36 +67,3 @@ export const ErrorAlert = () => (
     </p>
   </va-alert>
 );
-
-export const ZeroDebtAlert = () => (
-  <va-alert close-btn-aria-label="Close notification" status="info" visible>
-    <h2 id="all-zero-alert" className="vads-u-font-size--h3" slot="headline">
-      You don’t have any current VA debt or copay bills
-    </h2>
-    <div>
-      <p className="vads-u-font-size--base vads-u-font-family--sans">
-        Our records show you don’t have any current VA benefit debt and you
-        haven’t received a copay bill in the past 6 months.
-      </p>
-    </div>
-    <div>
-      <h3 className="vads-u-font-size--h4">
-        What to do if you think you have a VA debt or copay bill
-      </h3>
-      <ul>
-        <li className="vads-u-font-family--sans">
-          <strong>For benefit debts</strong>, call the Debt Management Center
-          (DMC) at <va-telephone contact="8008270648" /> (TTY:{' '}
-          <va-telephone contact="711" />
-          ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-        </li>
-        <li className="vads-u-font-family--sans">
-          <strong>For health care copay bills</strong>, call the VA Health
-          Resource Center at <va-telephone contact="8664001238" /> (TTY:{' '}
-          <va-telephone contact="711" />
-          ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-        </li>
-      </ul>
-    </div>
-  </va-alert>
-);

@@ -20,38 +20,68 @@ import vetAddrInfo from '../pages/vetAddrInfo';
 import vetContInfo from '../pages/vetContInfo';
 import statement from '../pages/statement';
 
+import transformForSubmit from './submit-transformer';
+
 // "Flows" in comments below map to "Stories" in the mockups:
 // https://www.sketch.com/s/a11421d3-c148-41a2-a34f-3d7821ea676f
 
 // mock-data import for local development
-// import the appropriate file [...-flow?.json] for the flow you're working on, or
-// test-data-no-stmtinfo.json for all flows [select claimOwnership & claimantType via UI]
-import testData from '../tests/fixtures/data/test-data-no-stmtinfo.json';
+// import the appropriate file [flow?.json] for the flow you're working on, or
+// noStmtInfo.json for all flows [select claimOwnership & claimantType via UI]
+import testData from '../tests/e2e/fixtures/data/noStmtInfo.json';
 
 const mockData = testData.data;
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'lay-witness-10210-',
+  dev: {
+    showNavLinks: true,
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I certify that I have completed this statement and that its information is true and correct to the best of my knowledge and belief.',
+      messageAriaDescribedby:
+        'I certify that I have completed this statement and that its information is true and correct to the best of my knowledge and belief.',
+      fullNamePath: formData => {
+        if (formData.claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY) {
+          return 'witnessFullName';
+        }
+        if (
+          formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
+          formData.claimantType === CLAIMANT_TYPES.NON_VETERAN
+        ) {
+          return 'claimantFullName';
+        }
+        return 'veteranFullName';
+      },
+    },
+  },
   formId: '21-10210',
   saveInProgress: {
     messages: {
-      inProgress: 'Your claims application (21-10210) is in progress.',
+      inProgress:
+        'Your Lay/Witness Statement application (21-10210) is in progress.',
       expired:
-        'Your saved claims application (21-10210) has expired. If you want to apply for claims, please start a new application.',
-      saved: 'Your claims application has been saved.',
+        'Your saved Lay/Witness Statement application (21-10210) has expired. If you want to apply, please start a new application.',
+      saved: 'Your Lay/Witness Statement application has been saved.',
     },
   },
   version: 0,
+  transformForSubmit,
+  // we're setting prefillEnable to true here JUST to enable Intro-page's
+  // SaveInProgressInfo content to display.
+  // we're actually NOT functionally implementing prefill in this form,
+  // so there's no prefillTransformer prop.
   prefillEnabled: true,
   savedFormMessages: {
-    // notFound: 'Please start over to apply for claims.',
-    // noAuth: 'Please sign in again to continue your application for claims.',
+    notFound: 'Please start over to apply.',
+    noAuth: 'Please sign in again to continue your application.',
   },
   title: 'Submit a Lay/Witness Statement',
   subTitle: 'Equal to submitting a Lay/Witness Statement (VA Form 21-10210)',
@@ -71,7 +101,7 @@ const formConfig = {
         claimOwnershipPage: {
           path: 'claim-ownership',
           title: 'Who is submitting this statement?',
-          // we want req'd fields prefilled for testing/previewing
+          // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
             !!mockData && environment.isLocalhost() ? mockData : undefined,
@@ -125,7 +155,7 @@ const formConfig = {
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
           },
-          path: 'statement',
+          path: 'statement-a',
           title: 'Please indicate the claimed issue that you are addressing',
           uiSchema: statement.uiSchema,
           schema: statement.schema,
@@ -172,8 +202,8 @@ const formConfig = {
       // for Flows 3 & 4: non-vet claimant
       title: ({ formData } = {}) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF
-          ? 'Your mailing address'
-          : 'Claimant’s mailing address',
+          ? 'Your mailing address' // Flow 3
+          : 'Claimant’s mailing address', // Flow 4
       pages: {
         claimantAddrInfoPage: {
           path: 'claimant-address-information',
@@ -214,7 +244,7 @@ const formConfig = {
             claimOwnership: CLAIM_OWNERSHIPS.SELF,
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
-          path: 'statement',
+          path: 'statement-b',
           title: 'Please indicate the claimed issue that you are addressing',
           uiSchema: statement.uiSchema,
           schema: statement.schema,
@@ -295,7 +325,7 @@ const formConfig = {
             claimOwnership: CLAIM_OWNERSHIPS.SELF,
             claimantType: CLAIMANT_TYPES.VETERAN,
           },
-          path: 'statement',
+          path: 'statement-c',
           title: 'Please indicate the claimed issue that you are addressing',
           uiSchema: statement.uiSchema,
           schema: statement.schema,

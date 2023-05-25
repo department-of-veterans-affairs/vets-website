@@ -85,9 +85,9 @@ const FilterBox = props => {
 
       <va-accordion open-single>
         <va-accordion-item id="first">
-          <h6 slot="headline" className="headline-text">
+          <h3 slot="headline" className="headline-text">
             Additional filters
-          </h6>
+          </h3>
           <div className="filter-content">
             <VaSelect
               id="category-dropdown"

@@ -1,16 +1,11 @@
-import React from 'react';
-
 import { CLAIM_OWNERSHIPS } from '../definitions/constants';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     claimOwnership: {
-      'ui:title': (
-        <span className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
-          Are you submitting this statement to support your claim or someone
-          else’s claim?
-        </span>
-      ),
+      'ui:title':
+        'Are you submitting this statement to support your claim or someone else’s claim?',
       'ui:widget': 'radio',
       'ui:options': {
         labels: {

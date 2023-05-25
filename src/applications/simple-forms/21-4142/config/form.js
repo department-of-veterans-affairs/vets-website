@@ -4,10 +4,8 @@ import footerContent from 'platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
-import preSubmitInfo from '../containers/PreSubmitSignature';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
-import prefillTransformer from './prefill-transformer';
 import transformForSubmit from '../../shared/config/submit-transformer';
 
 // pages
@@ -39,31 +37,44 @@ const formConfig = {
   trackingPrefix: 'medical-release-4142-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  preSubmitInfo,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: formData =>
+        formData[preparerIdentificationFields.parentObject][
+          preparerIdentificationFields.relationshipToVeteran
+        ] === veteranIsSelfText
+          ? 'veteran.fullName'
+          : 'preparerIdentification.preparerFullName',
+    },
+  },
   formId: '21-4142',
   saveInProgress: {
     messages: {
       inProgress:
-        'Your authorize release of medical information application (21-4142) is in progress.',
+        'Your authorization to release non-VA medical information to VA (21-4142) is in progress.',
       expired:
-        'Your saved authorize release of medical information application (21-4142) has expired. If you want to apply for authorize release of medical information, please start a new application.',
+        'Your saved authorization to release non-VA medical information to VA (21-4142) has expired. If you want to authorize release of non-VA medical information to VA, please start a new authorization.',
       saved:
-        'Your authorize release of medical information application has been saved.',
+        'Your authorization to release of non-VA medical information to VA has been saved.',
     },
   },
   version: 0,
+  // Note: this is enabled for Save In Progress functionality. We are not using prefill and thus do not have a prefill transformer
   prefillEnabled: true,
-  prefillTransformer,
   transformForSubmit,
   savedFormMessages: {
     notFound:
-      'Please start over to apply for authorize release of medical information.',
+      'Please start over to authorize the release of non-VA medical information to VA.',
     noAuth:
-      'Please sign in again to continue your application for authorize release of medical information.',
+      'Please sign in again to continue your authorization to release non-VA medical information to VA.',
   },
-  title: 'Authorize the release of medical information to the VA',
+  title: 'Authorize the release of non-VA medical information to VA',
   subTitle:
-    'Authorization to disclose information to the Department of Veterans Affairs (VA) (VA Form 21-4142 & 21-4142a)',
+    'Authorization to disclose information to the Department of Veterans Affairs (VA Form 21-4142 and 21-4142a)',
   defaultDefinitions: fullSchema.definitions,
   chapters: {
     personalInformation1Chapter: {
@@ -115,7 +126,7 @@ const formConfig = {
       pages: {
         patientIdentification1: {
           path: 'patient-identification-1',
-          title: 'Are you requesting year own medical records?',
+          title: 'Are you requesting your own medical records?',
           uiSchema: patientIdentification1.uiSchema,
           schema: patientIdentification1.schema,
         },

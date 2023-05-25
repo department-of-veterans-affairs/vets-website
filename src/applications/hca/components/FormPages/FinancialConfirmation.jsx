@@ -30,7 +30,6 @@ const DisabilityConfirmation = props => {
         <div className="small-5 medium-4 columns">
           {goBack && (
             <ProgressButton
-              aria-describedby="nav-form-header"
               buttonClass="hca-progress-button usa-button-secondary"
               onButtonClick={goBack}
               buttonText="Back"
@@ -40,7 +39,6 @@ const DisabilityConfirmation = props => {
         </div>
         <div className="small-5 medium-4 end columns">
           <ProgressButton
-            aria-describedby="nav-form-header"
             buttonClass="hca-progress-button usa-button-primary"
             onButtonClick={goForward}
             buttonText="Confirm"

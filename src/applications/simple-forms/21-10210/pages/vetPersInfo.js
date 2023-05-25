@@ -1,6 +1,8 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import formDefinitions from '../definitions/form-definitions';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     veteranFullName: fullNameUI,
@@ -11,9 +13,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['veteranFullName'],
+    required: ['veteranFullName', 'veteranDateOfBirth'],
     properties: {
-      veteranFullName: definitions.fullNameNoSuffix,
+      veteranFullName: formDefinitions.pdfFullNameNoSuffix,
       veteranDateOfBirth: definitions.date,
     },
   },
