@@ -74,10 +74,10 @@ describe('Forms library address definition', () => {
     const uis = uiSchema();
     const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
     const actualMaxLengths = {
-      street: form.find('input#root_street').props('maxLength'),
-      city: form.find('input#root_city').props('maxLength'),
-      state: form.find('select#root_state').props('maxLength'),
-      postalCode: form.find('input#root_postalCode').props('maxLength'),
+      street: form.find('input#root_street').props('maxlength'),
+      city: form.find('input#root_city').props('maxlength'),
+      state: form.find('select#root_state').props('maxlength'),
+      postalCode: form.find('input#root_postalCode').props('maxlength'),
     };
 
     expect(actualMaxLengths).to.eql(expectedMaxLengths);
