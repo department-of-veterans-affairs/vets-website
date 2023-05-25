@@ -131,7 +131,7 @@ export const App = ({
       if (showMebEnhancements06 !== formData.showMebEnhancements06) {
         setFormData({
           ...formData,
-          showMebEnhancements,
+          showMebEnhancements06,
         });
       }
     },
