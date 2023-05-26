@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { some } from 'lodash';
 import { connect } from 'react-redux';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 
 import DowntimeNotification, {
   externalServices,
