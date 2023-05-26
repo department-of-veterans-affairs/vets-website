@@ -219,20 +219,23 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       {
         text: 'PACT Act Special Enrollment Period',
         href: null,
-        oldHref: mhvUrl(false, 'ss20230428-pact-act-special-enrollment'),
+        oldHref: mhvUrl(
+          authdWithSSOe,
+          'ss20230428-pact-act-special-enrollment',
+        ),
         toggle: null,
       },
       {
         text: 'My HealtheVet on VA.gov',
         href: null,
-        oldHref: mhvUrl(false, 'ss20230412-my-healthevet-on-va-gov'),
+        oldHref: mhvUrl(authdWithSSOe, 'ss20230412-my-healthevet-on-va-gov'),
         toggle: null,
       },
       {
         text: 'Get the New Toxic Exposure Screening',
         href: null,
         oldHref: mhvUrl(
-          false,
+          authdWithSSOe,
           'ss20221110-get-the-new-toxic-exposure-screening',
         ),
         toggle: null,
