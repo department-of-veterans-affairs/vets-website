@@ -134,9 +134,16 @@ export const App = ({
           showMebEnhancements06,
         });
       }
+      if (isLOA3 !== formData.isLOA3) {
+        setFormData({
+          ...formData,
+          isLOA3, // ES6 Syntax
+        });
+      }
     },
     [
       formData,
+      isLOA3,
       setFormData,
       showMebDgi40Features,
       showMebDgi42Features,
