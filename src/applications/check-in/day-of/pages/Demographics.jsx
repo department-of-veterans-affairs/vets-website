@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useLayoutEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -18,6 +18,13 @@ const Demographics = props => {
   const { router } = props;
   const { goToNextPage, jumpToPage } = useFormRouting(router);
   const { setShouldSendDemographicsFlags } = useSessionStorage(false);
+
+  const { getCheckinComplete } = useSessionStorage(false);
+  useLayoutEffect(() => {
+    if (getCheckinComplete(window)) {
+      jumpToPage(URLS.DETAILS);
+    }
+  });
 
   const updateSeeStaffMessage = useCallback(
     seeStaffMessage => {
