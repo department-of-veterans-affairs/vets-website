@@ -925,7 +925,7 @@ const formConfig = {
                       form[formFields.viewPhoneNumbers].mobilePhoneNumber.phone,
                     form => form[formFields.viewPhoneNumbers].phoneNumber.phone,
                     form => form?.duplicateEmail,
-                    form => form?.duplicatephone,
+                    form => form?.duplicatePhone,
                     (
                       mobilePhoneNumber,
                       homePhoneNumber,
