@@ -43,12 +43,6 @@ export function getParentFacilities(systemIds) {
   return apiRequestWithUrl(`/vaos/v0/facilities?${idList}`).then(parseApiList);
 }
 
-export function getCommunityCare(typeOfCare) {
-  return apiRequestWithUrl(
-    `/vaos/v0/community_care/eligibility/${typeOfCare}`,
-  ).then(parseApiObject);
-}
-
 export function checkPastVisits(
   systemId,
   facilityId,
