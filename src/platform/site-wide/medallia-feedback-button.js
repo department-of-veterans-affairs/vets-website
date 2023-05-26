@@ -284,7 +284,6 @@ window.addEventListener('DOMContentLoaded', () => {
         const addedNodes = Array.from(mutation.addedNodes);
         for (let i = 0; i < addedNodes.length; i++) {
           const addedNode = addedNodes[i];
-
           if (
             addedNode.nodeType === Node.ELEMENT_NODE &&
             addedNode.id === 'MDigitalLightboxWrapper'
