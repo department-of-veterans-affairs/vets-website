@@ -7,6 +7,7 @@ export default function commonFieldMapping(props) {
     class: uiOptions?.classNames || '',
     error,
     hint: uiOptions?.hint,
+    inert: uiOptions?.inert,
     inputmode: uiOptions?.inputmode,
     label,
     maxlength: childrenProps.schema.maxLength,

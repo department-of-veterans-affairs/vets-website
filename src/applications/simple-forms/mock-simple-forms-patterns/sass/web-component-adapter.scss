@@ -24,3 +24,12 @@
 //         font-weight: 600;
 //     }
 // }
+
+// Temporary styling to try styles that DST could apply
+// TODO - remove
+va-select[inert] {
+    &::part(select) {
+        border: 0;
+        background: none;
+    }
+}
