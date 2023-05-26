@@ -158,20 +158,20 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
 
       <div className="vads-u-margin-top--4">
         <va-additional-info trigger="What if I don't think my military service information is correct?">
-          <p>
+          <p className="vads-u-padding-bottom--2">
             Some Veterans have reported that their military service information
             in their VA.gov profiles doesn’t seem right. When this happens, it’s
             because there’s an error in the information we’re pulling into
             VA.gov from the Defense Enrollment Eligibility Reporting System
             (DEERS).
           </p>
-          <br />
-          <p>
+
+          <p className="vads-u-padding-bottom--2">
             If you don’t think your military service information is correct
             here, call the Defense Manpower Data Center (DMDC). They’ll work
             with you to update your information in DEERS.
           </p>
-          <br />
+
           <p>
             You can call the DMDC at{' '}
             <va-telephone contact={CONTACTS.DS_LOGON} /> (
