@@ -935,7 +935,7 @@ const formConfig = {
                       const invalidContactMethods = [];
 
                       const dupePhonePresent = duplicatePhone?.filter(
-                        entry => entry.isDupe,
+                        entry => entry.isDupe === 'true',
                       );
                       if (!mobilePhoneNumber || dupePhonePresent?.length > 0) {
                         invalidContactMethods.push('Mobile Phone');
@@ -945,7 +945,7 @@ const formConfig = {
                       }
 
                       const dupeEmailPresent = duplicateEmail?.filter(
-                        entry => entry.isDupe,
+                        entry => entry.isDupe === 'true',
                       );
 
                       if (dupeEmailPresent?.length > 0) {
@@ -1142,6 +1142,13 @@ const formConfig = {
                     You can’t choose to get text notifications because your
                     mobile phone number is on file for another person with
                     education benefits.
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
                   </>
                 </va-alert>
               ),
