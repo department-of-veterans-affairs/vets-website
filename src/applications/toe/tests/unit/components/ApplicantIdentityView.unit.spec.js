@@ -24,7 +24,7 @@ describe('ApplicantIdentityView', () => {
     const wrapper = mount(
       <Provider store={store}>
         <ApplicantIdentityView />
-      </Provider>
+      </Provider>,
     );
     expect(wrapper.text()).to.include('John M Doe');
     expect(wrapper.text()).to.include('Date of birth: January 1st, 1990');
@@ -35,7 +35,7 @@ describe('ApplicantIdentityView', () => {
     const wrapper = mount(
       <Provider store={store}>
         <ApplicantIdentityView />
-      </Provider>
+      </Provider>,
     );
     expect(
       wrapper
