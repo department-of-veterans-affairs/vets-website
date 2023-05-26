@@ -1,8 +1,8 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
+import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
-import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
 import {
   benefitSelection,
