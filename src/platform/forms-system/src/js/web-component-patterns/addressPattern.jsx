@@ -327,6 +327,7 @@ export function addressUI(options) {
           const addressFormData = get(addressPath, formData) ?? {};
           const { isMilitary } = addressFormData;
           if (isMilitary) {
+            ui['ui:webComponentField'] = VaSelectField;
             return {
               type: 'string',
               title: 'APO/FPO/DPO',
