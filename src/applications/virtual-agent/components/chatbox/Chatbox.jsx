@@ -90,6 +90,13 @@ export default function Chatbox(props) {
     }, 2000);
   });
 
+  window.addEventListener('webchat-spy-activity', (event) => {
+    console.log("made it to the spy activity");
+    console.log("type: " + (event?.data?.type || event?.data?.activity?.type));
+    console.log(event.data);
+    console.log("====================================")
+  });
+
   useEffect(() => {
     window.addEventListener('bot-outgoing-activity', () => {
       const currentTime = Date.now();
@@ -118,12 +125,18 @@ export default function Chatbox(props) {
           .classList.add('vads-u-background-color--secondary-darkest');
         document.querySelectorAll('div.virtual-agent-header h2')[0].textContent = `VA chatbot: ${currentSkillName} (beta)`;
         document.querySelectorAll('.webchat__send-box-text-box__input')[0].placeholder = `Type your message for ${currentSkillName.toLowerCase()}`;
+        document
+          .querySelectorAll('.webchat-virtual-agent-breadcrumbs')[0]
+          .classList.remove('hidden');
       } else {
         document
           .querySelectorAll('div.virtual-agent-header')[0]
           .classList.add('vads-u-background-color--primary-darkest');
         document.querySelectorAll('div.virtual-agent-header h2')[0].textContent = 'VA chatbot (beta)';
         document.querySelectorAll('.webchat__send-box-text-box__input')[0].placeholder = 'Type your message';
+        document
+          .querySelectorAll('.webchat-virtual-agent-breadcrumbs')[0]
+          .classList.add('hidden');
       }
     }
     storeUtterances(event);
@@ -152,7 +165,8 @@ export default function Chatbox(props) {
           VA chatbot (beta)
         </h2>
       </div>
-      <div className='webchat-virtual-agent-breadcrumbs'>
+      <div className='webchat-virtual-agent-breadcrumbs hidden'>
+        <button type="button" className="btn btn-primary btn-sm">Exit</button>
         VA chatbot<span className="webchat-virtual-agent-skill-name-container"> &raquo; <span className="webchat-virtual-agent-skill-name">{ currentSkillName }</span></span>
       </div>
       {showBot(

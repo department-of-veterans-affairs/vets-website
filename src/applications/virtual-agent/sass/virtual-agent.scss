@@ -99,17 +99,27 @@ button.webchat__suggested-actions__button:active {
 }
 
 .webchat-virtual-agent-breadcrumbs {
-  height: 1.2em;
-  line-height: 1.2em;
   // overflow: hidden;
   text-overflow: ellipsis;
   background-color: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
+  border-bottom: 1px solid rgb(0, 0, 0);
   white-space: nowrap;
+  padding: 0.5em;
 }
 
+.webchat-virtual-agent-breadcrumbs.hidden {
+  display: none;
+}
+
+.webchat-virtual-agent-breadcrumbs button {
+  float: right;
+  margin: 0 0 0 0;
+}
 
 .webchat-virtual-agent-skill-name-container {
+  height: 2.4em;
+  line-height: 2.4em;
   white-space: nowrap;
 }
 

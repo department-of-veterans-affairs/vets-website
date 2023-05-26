@@ -72,15 +72,15 @@ export const ChatboxDisclaimerForSkills = props => {
 
   return (
     <va-alert status="info">
-      <h3 slot="headline">About the {props.skillName} Bot</h3>
+      <h3 slot="headline">About the {currentSkillName} Bot</h3>
 
       <div data-testid="disclaimerForSkill" style={{ width: '100%' }}>
         <ul>
           <li>
             This area of the chatbot is specialized to handle your questions
-            about viewing your prescriptions, tracking them, and requesting
+            about viewing {currentSkillName}, tracking them, and requesting
             refills. When you are finished exploring this topic, click the
-            "Done" button at the top of the chat to return to the main chatbot.
+            "Exit" button at the top of the chat to return to the main chatbot.
           </li>
         </ul>
         <button

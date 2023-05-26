@@ -38,13 +38,38 @@ export const processActionConnectFulfilled = ({
   //dispatch(setSendBoxPromptActivity);
 };
 
-export const processSetPlaceholderTextActivity = ({ action }) => () => {
-         _.assign(action.payload, {
-           text: 'This is a test prompt.',
-         });
-         const outgoingActivityEvent = new Event('bot-outgoing-activity');
-         window.dispatchEvent(outgoingActivityEvent);
-       };
+// export const processSetPlaceholderTextActivity = ({ action }) => () => {
+//   _.assign(action.payload, {
+//     text: 'This is a test prompt.',
+//   });
+//   const outgoingActivityEvent = new Event('bot-outgoing-activity');
+//   window.dispatchEvent(outgoingActivityEvent);
+// };
+
+const seen = [];
+
+export const processAnyActivity = action => {
+
+  const sendWindowEvent = eventType => {
+    const event = new Event(eventType);
+    event.data = action; // action?.payload || action?.type || action?.data;
+    window.dispatchEvent(event);
+  };
+
+  // // // console.log(JSON.stringify(action, null, 2));
+  // _.assign(action.payload, { text: action.payload });
+
+  const hash = `${action.type}-${action.timestamp}-${action.id}`;
+  console.log("HASH = ", hash);
+
+  if (["WEB_CHAT/SET_SEND_BOX"].indexOf(action.type) === -1) { // && seen.indexOf(hash) === -1) {
+    seen.push(hash);
+    sendWindowEvent('webchat-spy-activity');
+  }
+
+  // const spyActivityEvent = new Event('bot-spy-activity');
+  // window.dispatchEvent(spyActivityEvent);
+};
 
 export const processSendMessageActivity = ({ action }) => () => {
   _.assign(action.payload, { text: piiReplace(action.payload.text) });

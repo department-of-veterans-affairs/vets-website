@@ -2,7 +2,8 @@ import {
   processActionConnectFulfilled,
   processSendMessageActivity,
   processIncomingActivity,
-//  processSetPlaceholderTextActivity,
+  //  processSetPlaceholderTextActivity,
+  processAnyActivity,
 } from './helpers/startConvoAndTrackUtterancesHelpers';
 
 const StartConvoAndTrackUtterances = {
@@ -37,6 +38,10 @@ const StartConvoAndTrackUtterances = {
 
     const canProcessAction = processActionType[action.type];
     if (canProcessAction) processActionType[action.type]();
+
+    // spy on all activities
+    processAnyActivity(action);
+
     return next(action);
   },
 };
