@@ -57,5 +57,5 @@ VaSelectField.propTypes = {
   label: PropTypes.string,
   required: PropTypes.bool,
   textDescription: PropTypes.string,
-  uiOptions: {},
+  uiOptions: PropTypes.object,
 };
