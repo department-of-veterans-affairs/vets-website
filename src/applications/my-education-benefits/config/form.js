@@ -1022,6 +1022,13 @@ const formConfig = {
                   },
                 ],
                 'ui:options': {
+                  hideIf: formData =>
+                    formData?.duplicateEmail?.filter(
+                      entry => entry?.isDupe === 'true',
+                    )?.length > 0 &&
+                    formData?.duplicatePhone?.filter(
+                      entry => entry?.isDupe === 'true',
+                    )?.length > 0,
                   widgetProps: {
                     Yes: { 'data-info': 'yes' },
                     No: { 'data-info': 'no' },
@@ -1169,9 +1176,12 @@ const formConfig = {
               'ui:description': (
                 <va-alert status="warning">
                   <>
-                    You can’t choose to get text or email notifications because
-                    your mobile phone number and email address is on file for
-                    another person with education benefits.
+                    You can’t choose to get text notifications because your
+                    mobile phone number is on file for another person with
+                    education benefits. You will not be able to take full
+                    advantage of VA’s electronic notifications and enrollment
+                    verifications available. If you cannot, certain electronic
+                    services will be limited or unavailable.
                     <a
                       target="_blank"
                       href="https://www.va.gov/education/verify-school-enrollment/"
