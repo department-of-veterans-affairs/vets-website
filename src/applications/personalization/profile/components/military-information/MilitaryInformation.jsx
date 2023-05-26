@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
-import recordEvent from '~/platform/monitoring/record-event';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
@@ -158,16 +157,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
       />
 
       <div className="vads-u-margin-top--4">
-        <va-additional-info
-          trigger="What if I don't think my military service information is correct?"
-          onClick={() => {
-            recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': 'update-military-information',
-            });
-          }}
-        >
+        <va-additional-info trigger="What if I don't think my military service information is correct?">
           <p>
             Some Veterans have reported that their military service information
             in their VA.gov profiles doesn’t seem right. When this happens, it’s
