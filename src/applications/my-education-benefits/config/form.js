@@ -985,6 +985,13 @@ const formConfig = {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
                 'ui:widget': 'radio',
+                'ui:required': formData =>
+                  formData?.duplicatePhone?.some(
+                    entry => entry?.isDupe === 'false',
+                  ) ||
+                  formData?.duplicateEmail?.some(
+                    entry => entry?.isDupe === 'false',
+                  ),
                 'ui:validations': [
                   (errors, field, formData) => {
                     const isYes = field.slice(0, 4).includes('Yes');
@@ -1000,8 +1007,6 @@ const formConfig = {
                       entry => entry?.isDupe === 'true',
                     );
 
-                    if (hasDupePhone?.length > 0 && hasDupeEmail?.length > 0)
-                      return;
                     if (isYes) {
                       if (!phoneExist) {
                         errors.addError(
@@ -1025,12 +1030,12 @@ const formConfig = {
                 ],
                 'ui:options': {
                   hideIf: formData =>
-                    formData?.duplicateEmail?.filter(
+                    formData?.duplicateEmail?.some(
                       entry => entry?.isDupe === 'true',
-                    )?.length > 0 &&
-                    formData?.duplicatePhone?.filter(
+                    ) &&
+                    formData?.duplicatePhone?.some(
                       entry => entry?.isDupe === 'true',
-                    )?.length > 0,
+                    ),
                   widgetProps: {
                     Yes: { 'data-info': 'yes' },
                     No: { 'data-info': 'no' },
@@ -1183,7 +1188,7 @@ const formConfig = {
                     education benefits. You will not be able to take full
                     advantage of VA’s electronic notifications and enrollment
                     verifications available. If you cannot, certain electronic
-                    services will be limited or unavailable.
+                    services will be limited or unavailable.{' '}
                     <a
                       target="_blank"
                       href="https://www.va.gov/education/verify-school-enrollment/"
@@ -1218,7 +1223,7 @@ const formConfig = {
               },
               [formFields.viewReceiveTextMessages]: {
                 type: 'object',
-                required: [formFields.receiveTextMessages],
+                // required: [formFields.receiveTextMessages],
                 properties: {
                   [formFields.receiveTextMessages]: {
                     type: 'string',
