@@ -1000,6 +1000,8 @@ const formConfig = {
                       entry => entry?.isDupe === 'true',
                     );
 
+                    if (hasDupePhone?.length > 0 && hasDupeEmail?.length > 0)
+                      return;
                     if (isYes) {
                       if (!phoneExist) {
                         errors.addError(
