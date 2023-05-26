@@ -103,12 +103,12 @@ const mapDispatchToProps = {
 
 DependentsPage.propTypes = {
   editMode: PropTypes.bool.isRequired,
-  updateDependentsField: PropTypes.func.isRequired,
-  dependents: PropTypes.string,
   router: PropTypes.shape({
     push: PropTypes.func,
-  }),
-  toggleEditMode: PropTypes.func,
+  }).isRequired,
+  toggleEditMode: PropTypes.func.isRequired,
+  updateDependentsField: PropTypes.func.isRequired,
+  dependents: PropTypes.string,
 };
 
 export default connect(
