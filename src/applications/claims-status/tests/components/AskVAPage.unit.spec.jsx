@@ -180,7 +180,7 @@ describe('<AskVAPage>', () => {
       expect(props.submit5103.called).to.be.false;
     });
 
-    it('calls submitRequest when disabled', () => {
+    it('calls submit5103 when enabled', () => {
       props.submitRequest = sinon.spy();
       props.submit5103 = sinon.spy();
       props.useLighthouse = true;
