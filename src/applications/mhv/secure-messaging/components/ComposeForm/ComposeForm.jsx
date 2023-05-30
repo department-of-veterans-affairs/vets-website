@@ -474,6 +474,7 @@ const ComposeForm = props => {
               <DeleteDraft
                 draft={draft}
                 setLastFocusableElement={setLastFocusableElement}
+                setNavigationError={setNavigationError}
               />
             )}
           </div>
