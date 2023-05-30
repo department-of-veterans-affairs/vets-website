@@ -206,6 +206,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: {},
           schema: blankSchema,
+          returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         issueSummary: {
           title: 'Issue summary',

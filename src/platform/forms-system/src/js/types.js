@@ -147,6 +147,7 @@
  * @property {(formData: any) => void} [onContinue]
  * @property {(data: any) => boolean} [itemFilter]
  * @property {string} [path]
+ * @property {string} [returnUrl]
  * @property {SchemaOptions} [schema]
  * @property {string | Function} [scrollAndFocusTarget]
  * @property {boolean} [showPagePerItem]
