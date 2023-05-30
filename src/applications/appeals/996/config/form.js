@@ -174,6 +174,7 @@ const formConfig = {
           CustomPage: AddIssue,
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
+          returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         areaOfDisagreementFollowUp: {
           title: getIssueTitle,

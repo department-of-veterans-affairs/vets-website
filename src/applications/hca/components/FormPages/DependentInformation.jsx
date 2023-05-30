@@ -157,7 +157,7 @@ const DependentInformation = props => {
   const currentUISchema = useMemo(
     () => {
       const name =
-        currentPage.id !== 'basic'
+        currentPage.id !== 'basic' && localData
           ? `${localData.fullName.first} ${localData.fullName.last}`
           : 'Dependent';
       return {

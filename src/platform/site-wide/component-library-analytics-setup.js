@@ -173,7 +173,7 @@ const analyticsEvents = {
       prefix: 'alert-expandable',
       ga4: {
         event: 'interaction',
-        component_name: 'alert-expandable',
+        component_name: 'va-alert-expandable',
         custom_string_1: 'component-library',
         /* Component to GA4 parameters */
         mapping: {
@@ -203,6 +203,18 @@ const analyticsEvents = {
       action: 'linkClick',
       event: 'nav-breadcrumb-link-click',
       prefix: 'breadcrumbs',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-breadcrumbs',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'breadcrumbs-clickLabel': 'custom_string_2',
+          'breadcrumbs-clickLevel': 'custom_number_1',
+          'breadcrumbs-totalLevels': 'custom_number_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-banner': [
@@ -210,6 +222,16 @@ const analyticsEvents = {
       action: 'close',
       event: 'int-banner-close',
       prefix: 'banner',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-banner',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'banner-headline': 'heading_1',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-button': [
@@ -217,6 +239,17 @@ const analyticsEvents = {
       action: 'click',
       event: 'cta-button-click',
       prefix: 'button',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-button',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'button-type': 'type',
+          'button-label': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-button-pair': [
@@ -224,6 +257,17 @@ const analyticsEvents = {
       action: 'click',
       event: 'int-button-pair-click',
       prefix: 'button-pair',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-button-pair',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'button-pair-type': 'type',
+          'button-pair-label': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-checkbox': [
@@ -294,11 +338,29 @@ const analyticsEvents = {
       action: 'expand',
       event: 'int-official-gov-banner-expand',
       prefix: 'official-gov-banner',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-official-gov-banner',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          version: 'component_version',
+        },
+      },
     },
     {
       action: 'collapse',
       event: 'int-official-gov-banner-collapse',
       prefix: 'official-gov-banner',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-official-gov-banner',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-on-this-page': [
@@ -336,7 +398,7 @@ const analyticsEvents = {
         mapping: {
           'promo-banner-type': 'type',
           'promo-banner-href': 'href',
-          'promo-banner-text': 'text',
+          'promo-banner-text': 'custom_string_2',
           version: 'component_version',
         },
       },
@@ -345,6 +407,17 @@ const analyticsEvents = {
       action: 'close',
       event: 'int-promo-banner-close',
       prefix: 'promo-banner',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-promo-banner',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'promo-banner-type': 'type',
+          'promo-banner-text': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-radio': [
