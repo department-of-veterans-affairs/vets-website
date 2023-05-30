@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getLabAndTest } from '../actions/labsAndTests';
+import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import EkgDetails from '../components/LabsAndTests/EkgDetails';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import RadiologyDetails from '../components/LabsAndTests/RadiologyDetails';
@@ -43,7 +43,7 @@ const LabAndTestDetails = () => {
   useEffect(
     () => {
       if (labId) {
-        dispatch(getLabAndTest(labId));
+        dispatch(getlabsAndTestsDetails(labId));
       }
     },
     [labId, dispatch],
@@ -51,9 +51,9 @@ const LabAndTestDetails = () => {
 
   if (labAndTestDetails?.name) {
     switch (labAndTestDetails?.category.toLowerCase()) {
-      case 'chemistry and hematology':
+      case 'laboratory':
         return (
-          <ChemHemDetails results={labAndTestDetails} fullState={fullState} />
+          <ChemHemDetails record={labAndTestDetails} fullState={fullState} />
         );
       case 'radiology':
         return (
