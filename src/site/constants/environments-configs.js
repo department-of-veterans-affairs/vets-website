@@ -4,27 +4,17 @@
  */
 const ENVIRONMENTS = require('./environments');
 
-const localHostname = encodeURIComponent(location.hostname);
 let isNode = false;
 
 if (typeof window === 'undefined') {
   isNode = true;
 }
 
-function isHostnameAllowed(hostname) {
-  // Escape special characters in the hostname
-  const allowList = '*.preview.va.gov';
-
-  const escapedHostname = hostname.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-  // Create a regular expression pattern from the allow list
-  const pattern = allowList.replace(/\*/g, '[a-z0-9]+(-[a-z0-9]+)*');
-
-  // Create a regular expression object with the pattern and 'i' flag for case-insensitive matching
+function isHostnameAllowed(hostname, allowedHostname) {
+  const sanitizedHostname = hostname.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = allowedHostname.replace(/\*/g, '[a-z0-9]+(-[a-z0-9]+)*');
   const regex = new RegExp(`^${pattern}$`, 'i');
-
-  // Check if the hostname matches the allow list pattern
-  return regex.test(escapedHostname);
+  return regex.test(sanitizedHostname);
 }
 
 module.exports = {
@@ -57,7 +47,8 @@ module.exports = {
         }`,
     API_URL: isNode
       ? `http://${process.env.API_HOST}:3000`
-      : localHostname && isHostnameAllowed(localHostname)
+      : location.hostname &&
+        isHostnameAllowed(location.hostname, '*.preview.va.gov')
         ? `http://${location.hostname.split('.')[0]}-api.${location.hostname
             .split('.')
             .slice(1)
