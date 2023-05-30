@@ -102,7 +102,7 @@ const generateResultsContent = async (doc, parent, data) => {
     } else if (idx > 0) {
       initialBlock = false;
       results.add(
-        doc.struct('NonStruct', () => {
+        doc.struct('Artifact', () => {
           addHorizontalRule(doc, 30, 0.5);
         }),
       );
