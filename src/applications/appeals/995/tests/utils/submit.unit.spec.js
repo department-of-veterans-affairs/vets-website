@@ -18,6 +18,7 @@ import {
   getPhone,
   hasDuplicateLocation,
   getEvidence,
+  hasDuplicateFacility,
   getForm4142,
 } from '../../utils/submit';
 
@@ -290,24 +291,21 @@ describe('hasDuplicateLocation', () => {
 
   it('should not find any duplicates', () => {
     const name = getLocation({ name: 'test 3' });
-    expect(hasDuplicateLocation(list, name.locationAndName, name.evidenceDates))
-      .to.be.false;
+    expect(hasDuplicateLocation(list, name)).to.be.false;
     const to = getLocation({ to: '2022-03-03' });
-    expect(hasDuplicateLocation(list, to.locationAndName, to.evidenceDates)).to
-      .be.false;
+    expect(hasDuplicateLocation(list, to)).to.be.false;
     const from = getLocation({ from: '2022-03-03' });
-    expect(hasDuplicateLocation(list, from.locationAndName, from.evidenceDates))
-      .to.be.false;
+    expect(hasDuplicateLocation(list, from)).to.be.false;
   });
   it('should report duplicate location', () => {
     const first = getLocation();
-    expect(
-      hasDuplicateLocation(list, first.locationAndName, first.evidenceDates),
-    ).to.be.true;
+    expect(hasDuplicateLocation(list, first)).to.be.true;
     const second = getLocation({ name: 'test 2' });
-    expect(
-      hasDuplicateLocation(list, second.locationAndName, second.evidenceDates),
-    ).to.be.true;
+    expect(hasDuplicateLocation(list, second)).to.be.true;
+
+    // check date format without leading zeros
+    const first2 = getLocation({ from: '2022-1-1', to: '2022-2-2' });
+    expect(hasDuplicateLocation(list, first2)).to.be.true;
   });
 });
 
@@ -399,6 +397,58 @@ describe('getEvidence', () => {
 
     expect(evidence.data.locations.length).to.eq(4);
     expect(getEvidence(evidence.data)).to.deep.equal(evidence.result);
+  });
+});
+
+describe('hasDuplicateFacility', () => {
+  const getFacility = ({
+    name = 'test 1',
+    from = '2022-01-01',
+    to = '2022-02-02',
+    country = 'USA',
+    street = '123 Main',
+    city = 'Anywhere',
+    state = 'Confusion',
+    postalCode = '55555',
+  } = {}) => ({
+    providerFacilityName: name,
+    providerFacilityAddress: { country, street, city, state, postalCode },
+    issues: ['1', '2'],
+    treatmentDateRange: { from, to },
+  });
+  const list = [
+    getFacility({ wrap: true }),
+    getFacility({ name: 'test 2', wrap: true }),
+  ];
+  it('should not find any duplicates', () => {
+    const name = getFacility({ name: 'test 3' });
+    expect(hasDuplicateFacility(list, name)).to.be.false;
+
+    const country = getFacility({ country: 'UK' });
+    expect(hasDuplicateFacility(list, country)).to.be.false;
+    const street = getFacility({ street: '456 Second St' });
+    expect(hasDuplicateFacility(list, street)).to.be.false;
+    const city = getFacility({ city: 'Here' });
+    expect(hasDuplicateFacility(list, city)).to.be.false;
+    const state = getFacility({ state: 'There' });
+    expect(hasDuplicateFacility(list, state)).to.be.false;
+    const postalCode = getFacility({ postalCode: '90210' });
+    expect(hasDuplicateFacility(list, postalCode)).to.be.false;
+
+    const to = getFacility({ to: '2022-03-03' });
+    expect(hasDuplicateFacility(list, to)).to.be.false;
+    const from = getFacility({ from: '2022-03-03' });
+    expect(hasDuplicateFacility(list, from)).to.be.false;
+  });
+  it('should report duplicate location', () => {
+    const first = getFacility();
+    expect(hasDuplicateFacility(list, first)).to.be.true;
+    const second = getFacility({ name: 'test 2' });
+    expect(hasDuplicateFacility(list, second)).to.be.true;
+
+    // check date format without leading zeros
+    const first2 = getFacility({ from: '2022-1-1', to: '2022-2-2' });
+    expect(hasDuplicateFacility(list, first2)).to.be.true;
   });
 });
 
