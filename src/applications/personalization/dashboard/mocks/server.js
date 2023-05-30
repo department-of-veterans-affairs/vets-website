@@ -20,7 +20,6 @@ const responses = {
     myVaUseExperimental: true,
     profileUseVaosV2Api: true,
     showMyVADashboardV2: true,
-    showPaymentAndDebtSection: true,
   }),
   'GET /v0/user': user.cernerUser,
   'OPTIONS /v0/maintenance_windows': 'OK',

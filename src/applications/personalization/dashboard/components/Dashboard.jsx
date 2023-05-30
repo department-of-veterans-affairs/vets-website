@@ -45,7 +45,6 @@ import ClaimsAndAppealsV2 from './claims-and-appeals-v2/ClaimsAndAppealsV2';
 import HealthCare from './health-care/HealthCare';
 import HealthCareV2 from './health-care-v2/HealthCareV2';
 import CTALink from './CTALink';
-import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
 import BenefitPaymentsV2 from './benefit-payments-v2/BenefitPaymentsV2';
 import DebtsV2 from './debts-v2/DebtsV2';
 import { getAllPayments } from '../actions/payments';
@@ -102,8 +101,6 @@ const Dashboard = ({
   showMPIConnectionError,
   showNameTag,
   showNotInMPIError,
-  showBenefitPaymentsAndDebt,
-  showBenefitPaymentsAndDebtV2,
   showNotifications,
   isVAPatient,
   ...props
@@ -256,15 +253,7 @@ const Dashboard = ({
                 <HealthCareV2 isVAPatient={isVAPatient} />
               ) : null}
 
-              {canAccessPaymentHistory &&
-              showBenefitPaymentsAndDebt &&
-              !showBenefitPaymentsAndDebtV2 ? (
-                <BenefitPaymentsAndDebt
-                  payments={payments}
-                  showNotifications={showNotifications}
-                />
-              ) : null}
-              {showBenefitPaymentsAndDebtV2 ? (
+              {isLOA3 && shouldShowV2Dashboard ? (
                 <>
                   <DebtsV2 />
                   <BenefitPaymentsV2
@@ -344,11 +333,6 @@ const mapStateToProps = state => {
     !showNotInMPIError &&
     isLOA3 &&
     isVAPatient;
-  const showBenefitPaymentsAndDebt =
-    !showMPIConnectionError && !showNotInMPIError && isLOA3;
-  const showBenefitPaymentsAndDebtV2 =
-    showBenefitPaymentsAndDebt &&
-    toggleValues(state)[FEATURE_FLAG_NAMES.showPaymentAndDebtSection];
 
   const shouldShowV2Dashboard = toggleValues(state)[
     FEATURE_FLAG_NAMES.showMyVADashboardV2
@@ -375,8 +359,6 @@ const mapStateToProps = state => {
     shouldShowV2Dashboard,
     showMPIConnectionError,
     showNotInMPIError,
-    showBenefitPaymentsAndDebt,
-    showBenefitPaymentsAndDebtV2,
     showNotifications,
     payments: state.allPayments.payments || [],
   };
@@ -405,8 +387,6 @@ Dashboard.propTypes = {
     }),
   ),
   shouldShowV2Dashboard: PropTypes.bool,
-  showBenefitPaymentsAndDebt: PropTypes.bool,
-  showBenefitPaymentsAndDebtV2: PropTypes.bool,
   showClaimsAndAppeals: PropTypes.bool,
   showHealthCare: PropTypes.bool,
   showLoader: PropTypes.bool,

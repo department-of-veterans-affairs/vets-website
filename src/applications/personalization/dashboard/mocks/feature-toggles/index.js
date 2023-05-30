@@ -3,7 +3,6 @@ const generateFeatureToggles = (toggles = {}) => {
     myVaUseExperimental = true,
     profileUseVaosV2Api = true,
     showMyVADashboardV2 = true,
-    showPaymentAndDebtSection = true,
   } = toggles;
 
   return {
@@ -21,10 +20,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'show_myva_dashboard_2_0',
           value: showMyVADashboardV2,
-        },
-        {
-          name: 'show_payment_and_debt_section',
-          value: showPaymentAndDebtSection,
         },
       ],
     },
