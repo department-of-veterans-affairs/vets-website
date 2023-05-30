@@ -152,7 +152,6 @@
           "@department-of-veterans-affairs/platform-testing/react-testing-library-helpers": "./src/platform/testing/unit/react-testing-library-helpers.js",
           "@department-of-veterans-affairs/platform-testing/schemaform-utils": "./src/platform/testing/unit/schemaform-utils.jsx",
           "@department-of-veterans-affairs/platform-testing/sentry": "./src/platform/testing/unit/sentry.js",
-          "@department-of-veterans-affairs/platform-testing/unit/react-testing-library-helpers": "./src/platform/testing/unit/react-testing-library-helpers",
  
           "@department-of-veterans-affairs/platform-site-wide/exports": "./src/platform/site-wide/exportsFile.js",
           "@department-of-veterans-affairs/platform-site-wide/showVaAlertExpandable": "./src/platform/site-wide/alerts/showVaAlertExpandable.js",
