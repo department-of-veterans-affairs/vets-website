@@ -286,7 +286,7 @@ export class Main extends Component {
           onSignInSignUp={this.signInSignUp}
           toggleMenu={this.props.toggleSearchHelpUserMenu}
           userGreeting={this.props.userGreeting}
-          showNavLogin={this.props.showNavLogin}
+          showNavLogin={this.props.showNavLogin !== 'false'}
         />
         <FormSignInModal
           onClose={this.closeFormSignInModal}
