@@ -8,6 +8,7 @@
 
 import {
   createAccessibleDoc,
+  createArtifactText,
   addHorizontalRule,
   createDetailItem,
   createHeading,
@@ -130,9 +131,35 @@ const generateResultsContent = async (doc, parent, data) => {
   results.end();
 };
 
-const generateHeaderAndFooterContent = async (doc, parent, data) => {
+const generateInitialHeaderContent = async (doc, parent, data) => {
+  // Adjust page margins so that we can write in the header/footer area.
+  // eslint-disable-next-line no-param-reassign
+  doc.page.margins = {
+    top: 0,
+    bottom: 0,
+    left: 20,
+    right: 16,
+  };
+
+  const header = doc.struct('Sect', {
+    type: 'Pagination',
+    title: 'Header',
+    attached: 'Top',
+  });
+  parent.add(header);
+  const leftOptions = { continued: true, x: 16, y: 12 };
+  header.add(createSpan(doc, config, data.headerLeft, leftOptions));
+  const rightOptions = { align: 'right' };
+  header.add(createSpan(doc, config, data.headerRight, rightOptions));
+  header.end();
+
+  // eslint-disable-next-line no-param-reassign
+  doc.page.margins = config.margins;
+};
+
+const generateFinalHeaderContent = async (doc, parent, data) => {
   const pages = doc.bufferedPageRange();
-  for (let i = 0; i < pages.count; i += 1) {
+  for (let i = 1; i < pages.count; i += 1) {
     doc.switchToPage(i);
 
     // Adjust page margins so that we can write in the header/footer area.
@@ -151,23 +178,52 @@ const generateHeaderAndFooterContent = async (doc, parent, data) => {
     });
     parent.add(header);
     const leftOptions = { continued: true, x: 16, y: 12 };
-    header.add(createSpan(doc, config, data.headerLeft, leftOptions));
+    header.add(createArtifactText(doc, config, data.headerLeft, leftOptions));
     const rightOptions = { align: 'right' };
-    header.add(createSpan(doc, config, data.headerRight, rightOptions));
+    header.add(createArtifactText(doc, config, data.headerRight, rightOptions));
     header.end();
+  }
+};
 
-    const footer = doc.struct('Artifact', {
+const generateFooterContent = async (doc, parent, data) => {
+  const pages = doc.bufferedPageRange();
+  for (let i = 0; i < pages.count; i += 1) {
+    doc.switchToPage(i);
+
+    // Adjust page margins so that we can write in the header/footer area.
+    // eslint-disable-next-line no-param-reassign
+    doc.page.margins = {
+      top: 0,
+      bottom: 0,
+      left: 20,
+      right: 16,
+    };
+
+    const groupingStruct = i === pages.count - 1 ? 'Struct' : 'Artifact';
+    const footer = doc.struct(groupingStruct, {
       type: 'Pagination',
       title: 'Footer',
       attached: 'Bottom',
     });
     parent.add(footer);
+
     let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
     footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
     const footerLeftOptions = { continued: true, x: 16, y: 766 };
-    footer.add(createSpan(doc, config, data.footerLeft, footerLeftOptions));
     const footerRightOptions = { align: 'right' };
-    footer.add(createSpan(doc, config, footerRightText, footerRightOptions));
+
+    // Only allow the last footer element to be read by screen readers.
+    if (i === pages.count - 1) {
+      footer.add(createSpan(doc, config, data.footerLeft, footerLeftOptions));
+      footer.add(createSpan(doc, config, footerRightText, footerRightOptions));
+    } else {
+      footer.add(
+        createArtifactText(doc, config, data.footerLeft, footerLeftOptions),
+      );
+      footer.add(
+        createArtifactText(doc, config, footerRightText, footerRightOptions),
+      );
+    }
     footer.end();
   }
 };
@@ -185,6 +241,8 @@ const generate = async data => {
   // Add content synchronously to ensure that reading order
   // is left intact for screen reader users.
 
+  await generateInitialHeaderContent(doc, wrapper, data);
+
   await generateIntroductionContent(doc, wrapper, data);
 
   if (data.details) {
@@ -195,7 +253,8 @@ const generate = async data => {
     await generateResultsContent(doc, wrapper, data);
   }
 
-  await generateHeaderAndFooterContent(doc, wrapper, data);
+  await generateFinalHeaderContent(doc, wrapper, data);
+  await generateFooterContent(doc, wrapper, data);
 
   wrapper.end();
 

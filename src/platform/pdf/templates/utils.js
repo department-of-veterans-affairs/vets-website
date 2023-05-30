@@ -137,6 +137,27 @@ const createHeading = (doc, headingLevel, config, text, options) => {
 };
 
 /**
+ * Add a text artifact struct to the given PDFKit document.
+ *
+ * @param {Object} doc
+ * @param {Object} config
+ * @param {string} text
+ * @param {Object} options
+ *
+ * @returns {Object} doc
+ */
+const createArtifactText = (doc, config, text, options) => {
+  return createStruct(
+    doc,
+    'Artifact',
+    config.text.font,
+    config.text.size,
+    text,
+    options,
+  );
+};
+
+/**
  * Add a span struct to the given PDFKit document.
  *
  * @param {Object} doc
@@ -276,6 +297,7 @@ const registerVaGovFonts = async doc => {
 export {
   addHorizontalRule,
   createAccessibleDoc,
+  createArtifactText,
   createDetailItem,
   createHeading,
   createSpan,
