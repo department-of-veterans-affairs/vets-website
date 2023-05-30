@@ -84,11 +84,11 @@ const createDetailItem = (doc, config, x, item) => {
   return doc.struct('P', () => {
     doc
       .font(config.text.boldFont)
-      .fontSize(config.text.fontSize)
+      .fontSize(config.text.size)
       .text(titleText, x, doc.y, paragraphOptions);
     doc
       .font(config.text.font)
-      .fontSize(config.text.fontSize)
+      .fontSize(config.text.size)
       .text(item.value);
   });
 };
@@ -188,7 +188,7 @@ const getTestResultBlockHeight = (doc, item, initialBlock = false) => {
     }
     /**
      * Potential improved solution if issues with heightOfString are fixed:
-     * 
+     *
     if (resultItem.inline === true) {
       height += doc.heightOfString(`${resultItem.title}: ${resultItem.value}`, 44, 0, {
         // Using regular weight is a bit of a fudge but should be
