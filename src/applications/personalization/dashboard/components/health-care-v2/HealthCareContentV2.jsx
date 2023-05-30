@@ -295,6 +295,8 @@ HealthCareContentV2.propTypes = {
   useVaosV2Api: PropTypes.bool,
 };
 
+export const UnconnectedHealthCareContentV2 = HealthCareContentV2;
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
