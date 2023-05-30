@@ -239,6 +239,17 @@ const analyticsEvents = {
       action: 'click',
       event: 'cta-button-click',
       prefix: 'button',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-button',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'button-type': 'type',
+          'button-label': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-button-pair': [
@@ -246,6 +257,17 @@ const analyticsEvents = {
       action: 'click',
       event: 'int-button-pair-click',
       prefix: 'button-pair',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-button-pair',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'button-pair-type': 'type',
+          'button-pair-label': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-checkbox': [
