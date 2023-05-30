@@ -5,6 +5,8 @@ import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
+import Appointments from '../pages/Appointments';
+import Confirmation from '../pages/Confirmation';
 
 describe('Check In Experience', () => {
   describe('happy path', () => {
@@ -21,7 +23,12 @@ describe('Check In Experience', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
-      initializeCheckInDataGet.withSuccess();
+      initializeCheckInDataGet.withSuccess({
+        appointments: [
+          { startTime: '2021-08-19T03:00:00' },
+          { startTime: '2021-08-19T03:30:00' },
+        ],
+      });
       initializeCheckInDataPost.withSuccess();
     });
     afterEach(() => {
@@ -29,7 +36,7 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('happy path', () => {
+    it('should have a functional back button', () => {
       cy.visitWithUUID();
 
       ValidateVeteran.validatePage.dayOf();
@@ -64,6 +71,40 @@ describe('Check In Experience', () => {
       NextOfKin.validatePageLoaded(
         'Is this your current next of kin information?',
       );
+    });
+    it('removes back button from appointment list when check in is complete', () => {
+      cy.visitWithUUID();
+
+      ValidateVeteran.validatePage.dayOf();
+      cy.injectAxeThenAxeCheck();
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+
+      Demographics.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Demographics.attemptToGoToNextPage();
+
+      EmergencyContact.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      EmergencyContact.attemptToGoToNextPage();
+
+      NextOfKin.validatePageLoaded(
+        'Is this your current next of kin information?',
+      );
+      cy.injectAxeThenAxeCheck();
+      NextOfKin.attemptToGoToNextPage();
+
+      Appointments.validatePageLoaded();
+      Appointments.validateAppointmentLength(2);
+      cy.injectAxeThenAxeCheck();
+
+      Appointments.attemptCheckIn(2);
+      Confirmation.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+
+      Confirmation.attemptGoBackToAppointments();
+      Appointments.validatePageLoaded();
+      cy.get('[data-testid="back-button"]').should('not.exist');
     });
   });
 });
