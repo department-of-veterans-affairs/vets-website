@@ -77,7 +77,10 @@ const generateDetailsContent = async (doc, parent, data) => {
     );
   }
   for (const item of data.details.items) {
-    details.add(await createDetailItem(doc, config, 30, item));
+    const structs = await createDetailItem(doc, config, 30, item);
+    for (const struct of structs) {
+      details.add(struct);
+    }
   }
   details.end();
 };
@@ -118,7 +121,10 @@ const generateResultsContent = async (doc, parent, data) => {
     }
 
     for (const resultItem of item.items) {
-      results.add(await createDetailItem(doc, config, 44, resultItem));
+      const structs = await createDetailItem(doc, config, 44, resultItem);
+      for (const struct of structs) {
+        results.add(struct);
+      }
     }
   }
   results.end();
