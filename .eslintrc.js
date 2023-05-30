@@ -17,6 +17,15 @@ module.exports = {
       node: {
         moduleDirectory: ['node_modules', 'src/'],
       },
+      alias: {
+        map: [
+          [
+            '@department-of-veterans-affairs/platform-monitoring/exports',
+            './src/platform/monitoring/exportsFile',
+          ],
+        ],
+        extensions: ['.js', '.ts', '.tsx', '.jsx', '.json'],
+      },
       'babel-module': {},
     },
   },
