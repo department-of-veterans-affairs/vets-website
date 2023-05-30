@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
+import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
 
 const EmailAddressNotification = ({ signInServiceName }) => {
   const { link, label } = SERVICE_PROVIDERS[signInServiceName];
