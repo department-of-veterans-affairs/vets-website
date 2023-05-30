@@ -121,7 +121,7 @@ const DependentInformation = props => {
       showModal(false);
       // When the modal is closed, redirect focus back to the cancel confirmation modal trigger button
       document
-        .getElementById('cancel-adding-dependent')
+        .getElementById('hca-modal-cancel')
         .shadowRoot.children[0].focus();
     },
     onChange: formData => {
@@ -272,7 +272,7 @@ const DependentInformation = props => {
               text={`Cancel ${action.label} this dependent`}
               onClick={handlers.showConfirm}
               secondary
-              id="cancel-adding-dependent"
+              id="hca-modal-cancel"
             />
           </div>
 
