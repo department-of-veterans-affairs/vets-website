@@ -36,6 +36,7 @@ module.exports = {
     API_URL: 'https://dev-api.va.gov',
   },
 
+  /* eslint-disable no-restricted-globals */
   /* eslint-disable no-nested-ternary */
 
   [ENVIRONMENTS.LOCALHOST]: {
@@ -56,5 +57,6 @@ module.exports = {
         : `http://${location.hostname || 'localhost'}:3000`,
   },
 
+  /* eslint-enable no-restricted-globals */
   /* eslint-enable no-nested-ternary */
 };
