@@ -57,5 +57,40 @@ describe('Medical records PDF template', () => {
       const text = content.items[15].str;
       expect(text).to.equal(data.results.items[0].items[0].value);
     });
+
+    it('All sections are contained by a root level Document element', async () => {
+      const data = require('./fixtures/single_vital.json');
+      const pdfData = await generatePdf(data);
+      const pdf = await pdfjs.getDocument(pdfData).promise;
+
+      // Fetch the first page
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+      const structure = await page.getStructTree();
+      const rootElement = structure.children[0];
+
+      // There should be one and only one root element.
+      expect(structure.children.length).to.equal(1);
+      expect(rootElement.role).to.equal('Document');
+      expect(rootElement.children.length).to.equal(4);
+      expect(rootElement.children[0].children[0].role).to.equal('H1');
+    });
+
+    it('Has a default language (english)', async () => {
+      const data = require('./fixtures/single_vital.json');
+      const pdfData = await generatePdf(data);
+      const pdf = await pdfjs.getDocument(pdfData).promise;
+      const documentMetadata = await pdf.getMetadata();
+      expect(documentMetadata.info.Language).to.equal('en-US');
+    });
+
+    it('Can customize the document language', async () => {
+      const data = require('./fixtures/single_vital.json');
+      data.lang = 'es';
+      const pdfData = await generatePdf(data);
+      const pdf = await pdfjs.getDocument(pdfData).promise;
+      const documentMetadata = await pdf.getMetadata();
+      expect(documentMetadata.info.Language).to.equal('es');
+    });
   });
 });
