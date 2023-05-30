@@ -72,7 +72,7 @@ const addHorizontalRule = (
  *
  * @returns {Object} doc
  */
-const createDetailItem = (doc, config, x, item) => {
+const createDetailItem = async (doc, config, x, item) => {
   const paragraphOptions = { lineGap: 0 };
   let titleText = item.title;
   if (item.inline === true) {

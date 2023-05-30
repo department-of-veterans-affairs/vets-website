@@ -1,6 +1,11 @@
 /**
  * Lab and Test Results PDF template.
+ *
+ * NB: The order in which items are added to the document is important,
+ * and thus PDFKit requires performing operations synchronously.
  */
+/* eslint-disable no-await-in-loop */
+
 import {
   createAccessibleDoc,
   addHorizontalRule,
@@ -71,11 +76,8 @@ const generateDetailsContent = async (doc, parent, data) => {
       createHeading(doc, 'H2', config, data.details.header, headOptions),
     );
   }
-  const detailsItemsCount = data.details.items.length;
-  if (detailsItemsCount > 0) {
-    data.details.items.forEach(item => {
-      details.add(createDetailItem(doc, config, 30, item));
-    });
+  for (const item of data.details.items) {
+    details.add(await createDetailItem(doc, config, 30, item));
   }
   details.end();
 };
@@ -92,13 +94,13 @@ const generateResultsContent = async (doc, parent, data) => {
     );
   }
   let initialBlock = true;
-  data.results.items.forEach((item, idx) => {
+  for (const [idx, item] of data.results.items.entries()) {
     // Insert a pagebreak if the next block will not fit on the current page,
     // taking the footer height into account.
     const blockHeight = getTestResultBlockHeight(doc, item, initialBlock);
     if (doc.y + blockHeight > 750) {
       initialBlock = true;
-      doc.addPage();
+      await doc.addPage();
     } else if (idx > 0) {
       initialBlock = false;
       results.add(
@@ -111,35 +113,14 @@ const generateResultsContent = async (doc, parent, data) => {
     const headingOptions = { paragraphGap: 10, x: 34 };
     if (item.header) {
       results.add(
-        createHeading(doc, 'H3', config, item.header, headingOptions),
+        await createHeading(doc, 'H3', config, item.header, headingOptions),
       );
     }
 
-    item.items.forEach(resultItem => {
-      // TODO: figure out why this approach messes with the document position.
-      // results.add(createDetailItem(doc, config, 44, resultItem));
-      const paragraphOptions = { lineGap: 0 };
-      let titleText = resultItem.title;
-      if (resultItem.inline === true) {
-        paragraphOptions.continued = true;
-        titleText += ': ';
-      } else {
-        titleText += ' ';
-      }
-      results.add(
-        doc.struct('P', () => {
-          doc
-            .font('SourceSansPro-Bold')
-            .fontSize(16)
-            .text(titleText, 44, doc.y, paragraphOptions);
-          doc
-            .font('SourceSansPro-Regular')
-            .fontSize(16)
-            .text(`${resultItem.value}`);
-        }),
-      );
-    });
-  });
+    for (const resultItem of item.items) {
+      results.add(await createDetailItem(doc, config, 44, resultItem));
+    }
+  }
   results.end();
 };
 
