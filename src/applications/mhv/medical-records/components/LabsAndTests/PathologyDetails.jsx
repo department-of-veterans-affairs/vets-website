@@ -8,20 +8,20 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import PrintDownload from '../shared/PrintDownload';
 
 const PathologyDetails = props => {
-  const { results, fullState } = props;
+  const { record, fullState } = props;
 
-  const formattedDate = dateFormat(results?.date, 'MMMM D, YYYY');
+  const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
 
   const download = () => {
     getVaccinePdf(1).then(res => downloadFile('pathology.pdf', res.pdf));
   };
 
   const content = () => {
-    if (results) {
+    if (record) {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">{results.name}</h1>
+          <h1 className="vads-u-margin-bottom--0">{record.name}</h1>
           <div className="time-header">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Date:{' '}
@@ -52,11 +52,11 @@ const PathologyDetails = props => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Sample tested
             </h3>
-            <p>{results.sampleTested}</p>
+            <p>{record.sampleTested}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Lab location
             </h3>
-            <p>{results.labLocation}</p>
+            <p>{record.labLocation}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Date completed
             </h3>
@@ -87,7 +87,7 @@ const PathologyDetails = props => {
                 </a>
               </p>
             </va-additional-info>
-            <p>{results.labResults}</p>
+            <p>{record.results}</p>
           </div>
         </>
       );
@@ -105,5 +105,6 @@ const PathologyDetails = props => {
 export default PathologyDetails;
 
 PathologyDetails.propTypes = {
-  results: PropTypes.object,
+  fullState: PropTypes.object,
+  record: PropTypes.object,
 };
