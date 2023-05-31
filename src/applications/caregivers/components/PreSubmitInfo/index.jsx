@@ -41,6 +41,12 @@ const PreSubmitCheckboxGroup = ({
   const unSignedLength = Object.values(signatures).filter(
     signature => Boolean(signature) === false,
   ).length;
+  // Get the count of unchecked signature checkboxes
+  const signatureCheckboxes = document.querySelectorAll('.signature-checkbox');
+  const uncheckedSignatureCheckboxesLength = [...signatureCheckboxes].filter(
+    checkbox =>
+      !checkbox.shadowRoot?.querySelector('#checkbox-element')?.checked,
+  )?.length;
 
   const transformSignatures = signature => {
     const keys = Object.keys(signature);
@@ -101,11 +107,11 @@ const PreSubmitCheckboxGroup = ({
     [setFormData, signatures],
   );
 
-  // when there is no unsigned signatures set AGREED (onSectionComplete) to true
+  // when there is no unsigned signatures or unchecked signature checkboxes set AGREED (onSectionComplete) to true
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
   useEffect(
     () => {
-      onSectionComplete(!unSignedLength);
+      onSectionComplete(!unSignedLength && !uncheckedSignatureCheckboxesLength);
 
       return () => {
         onSectionComplete(false);
@@ -113,7 +119,7 @@ const PreSubmitCheckboxGroup = ({
     },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [unSignedLength],
+    [unSignedLength, uncheckedSignatureCheckboxesLength],
   );
 
   // remove party signature box if yes/no question is answered falsy

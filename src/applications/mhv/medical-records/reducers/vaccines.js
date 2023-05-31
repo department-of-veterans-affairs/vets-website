@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import { Actions } from '../util/actionTypes';
 
 const initialState = {
@@ -38,25 +39,40 @@ export const vaccineReducer = (state = initialState, action) => {
     case Actions.Vaccines.GET: {
       // The server returns a bundle which includes ancillary data. Filter to
       // isolate the vaccine. There will only ever be one.
-      const vaccine = action.response?.entry
-        ? action.response.entry.filter(
-            entry => entry.resource.resourceType === 'Immunization',
-          )[0].resource
-        : null;
-      // const vaccine = action.response;
+      let vaccine;
+      if (environment.BUILDTYPE === 'localhost') {
+        vaccine = action.response?.entry
+          ? action.response.entry.filter(
+              entry => entry.resource.resourceType === 'Immunization',
+            )[0].resource
+          : null;
+      } else {
+        vaccine = action.response;
+      }
       return {
         ...state,
-        vaccineDetails: convertVaccine(vaccine),
+        vaccineDetails:
+          environment.BUILDTYPE === 'localhost'
+            ? convertVaccine(vaccine)
+            : vaccine,
       };
     }
     case Actions.Vaccines.GET_LIST: {
-      const vaccineList = action.response.entry;
+      const vaccineList =
+        environment.BUILDTYPE === 'localhost'
+          ? action.response.entry
+          : action.response;
       return {
         ...state,
-        vaccinesList: vaccineList.map(record => {
-          const vaccine = record.resource;
-          return convertVaccine(vaccine);
-        }),
+        vaccinesList:
+          environment.BUILDTYPE === 'localhost'
+            ? vaccineList.map(record => {
+                const vaccine = record.resource;
+                return convertVaccine(vaccine);
+              })
+            : vaccineList.map(vaccine => {
+                return { ...vaccine };
+              }),
       };
     }
     default:

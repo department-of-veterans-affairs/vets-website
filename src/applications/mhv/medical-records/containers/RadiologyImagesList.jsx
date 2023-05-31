@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { getLabAndTest } from '../actions/labsAndTests';
+import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintDownload from '../components/shared/PrintDownload';
 import PrintHeader from '../components/shared/PrintHeader';
 import { dateFormat, downloadFile } from '../util/helpers';
@@ -53,7 +53,7 @@ const RadiologyImagesList = () => {
   useEffect(
     () => {
       if (labId) {
-        dispatch(getLabAndTest(labId));
+        dispatch(getlabsAndTestsDetails(labId));
       }
     },
     [labId, dispatch],

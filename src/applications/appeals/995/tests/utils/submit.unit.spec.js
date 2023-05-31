@@ -402,6 +402,7 @@ describe('getEvidence', () => {
 
 describe('hasDuplicateFacility', () => {
   const getFacility = ({
+    wrap = false,
     name = 'test 1',
     from = '2022-01-01',
     to = '2022-02-02',
@@ -414,7 +415,7 @@ describe('hasDuplicateFacility', () => {
     providerFacilityName: name,
     providerFacilityAddress: { country, street, city, state, postalCode },
     issues: ['1', '2'],
-    treatmentDateRange: { from, to },
+    treatmentDateRange: wrap ? [{ from, to }] : { from, to },
   });
   const list = [
     getFacility({ wrap: true }),
@@ -459,13 +460,15 @@ describe('getForm4142', () => {
     // Move treatementDateRange entry into an array
     providerFacility: [
       {
-        test: 'foo',
+        providerFacilityName: 'foo',
+        providerFacilityAddress: 'bar',
         treatmentDateRange: wrap
           ? [{ from: '2000-01-01', to: '2000-02-02' }]
           : { from: '2000-1-1', to: '2000-2-2' },
       },
       {
-        test: 'bar',
+        providerFacilityName: 'bar',
+        providerFacilityAddress: 'foo',
         treatmentDateRange: wrap
           ? [{ from: '2001-03-03', to: '2001-04-04' }]
           : { from: '2001-3-3', to: '2001-4-4' },
@@ -486,5 +489,14 @@ describe('getForm4142', () => {
       ...getData(),
     };
     expect(getForm4142(data)).to.deep.equal(null);
+  });
+  it('should combine duplicate facilities', () => {
+    const data = {
+      [EVIDENCE_PRIVATE]: true,
+      ...getData(),
+    };
+    data.providerFacility.push(data.providerFacility[0]); // add duplicate
+    expect(data.providerFacility.length).to.eq(3);
+    expect(getForm4142(data)).to.deep.equal(getData(true));
   });
 });
