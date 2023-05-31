@@ -5,14 +5,11 @@ import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
-import environment from 'platform/utilities/environment';
 
 // **** temporary code ****
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 // **** end temporary code ****
-
-import user from '../tests/fixtures/mocks/user.json';
 
 import formConfig from '../config/form';
 import {
@@ -43,13 +40,6 @@ export const FormApp = ({
   disableSubmit,
   // **** end temporary code ****
 }) => {
-  // vapContactInfo is an empty object locally, so mock it
-  const data = environment.isLocalhost()
-    ? user.data.attributes.vet360ContactInformation
-    : profile?.vapContactInfo || {};
-
-  const { email = {}, mobilePhone = {}, mailingAddress = {} } = data;
-
   // **** temporary code ****
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/58229
   useEffect(
@@ -124,10 +114,7 @@ export const FormApp = ({
 
   let content = isLoading ? (
     <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-      <va-loading-indicator
-        set-focus
-        message="Loading your previous decisions..."
-      />
+      <va-loading-indicator set-focus message="Loading application..." />
     </h1>
   ) : (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
