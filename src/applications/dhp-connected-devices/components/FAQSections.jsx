@@ -309,7 +309,9 @@ export const ThirdFAQSection = () => {
             </li>
             <li>
               <strong>ID.me</strong> - Go to the ID.me help center at{' '}
-              <va-telephone contact="8559274363" international />
+              <a href="https://help.id.me/" target="_blank" rel="noreferrer">
+                https://help.id.me
+              </a>
             </li>
             <li>
               <strong>DS Logon</strong> - Call the DMDC Support Office at{' '}
