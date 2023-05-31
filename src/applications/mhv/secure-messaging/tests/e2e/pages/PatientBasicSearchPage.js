@@ -1,5 +1,5 @@
 import mockMessageResponse from '../fixtures/drafts-response.json';
-import folderResponse from '../fixtures/folder-response.json';
+// import folderResponse from '../fixtures/folder-response.json';
 
 class PatientBasicSearchPage {
   // This method clicks the Search messages on the side navigation bar.
@@ -16,7 +16,9 @@ class PatientBasicSearchPage {
       .type(text, { force: true });
   };
 
+  // All commented methods below temporarily replaced by the submitSearch method with folderId as a function parameter (see below)
   // This method clicks the Filter button on the Inbox page.
+  /*
   submitInboxSearch = () => {
     cy.intercept(
       'POST',
@@ -39,6 +41,28 @@ class PatientBasicSearchPage {
     cy.get('.usa-button-primary').click({ force: true });
   };
 
+  submitSentSearch = () => {
+    cy.intercept(
+      'POST',
+      `/my_health/v1/messaging/folders/${
+        folderResponse.data.at(2).attributes.folderId
+      }/search`,
+      mockMessageResponse,
+    ).as('SentSearchResults');
+    cy.get('.usa-button-primary').click({ force: true });
+  };
+
+  submitTrashSearch = () => {
+    cy.intercept(
+      'POST',
+      `/my_health/v1/messaging/folders/${
+        folderResponse.data.at(3).attributes.folderId
+      }/search`,
+      mockMessageResponse,
+    ).as('TrashSearchResults');
+    cy.get('.usa-button-primary').click({ force: true });
+  };
+
   submitCustomFolderSearch = () => {
     cy.intercept(
       'POST',
@@ -47,6 +71,16 @@ class PatientBasicSearchPage {
       }/search`,
       mockMessageResponse,
     ).as('CustomSearchResults');
+    cy.get('.usa-button-primary').click({ force: true });
+  };
+  */
+
+  submitSearch = folderId => {
+    cy.intercept(
+      'POST',
+      `/my_health/v1/messaging/folders/${folderId}/search`,
+      mockMessageResponse,
+    ).as('CommonSearchResults');
     cy.get('.usa-button-primary').click({ force: true });
   };
 
@@ -81,4 +115,5 @@ class PatientBasicSearchPage {
   //   ).as('basicSearchInboxRequest');
   // }
 }
-export default PatientBasicSearchPage;
+
+export default new PatientBasicSearchPage();
