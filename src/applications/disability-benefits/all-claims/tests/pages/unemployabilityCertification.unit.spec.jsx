@@ -12,8 +12,7 @@ import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('Recent Job Applications', () => {
   const page =
-    formConfig.chapters.additionalInformation.pages
-      .unemployabilityCertification;
+    formConfig.chapters.disabilities.pages.unemployabilityCertification;
   const { schema, uiSchema } = page;
 
   it('should render', () => {

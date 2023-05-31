@@ -14,7 +14,7 @@ describe('Unemployability affective Dates', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.unemployabilityDates;
+  } = formConfig.chapters.disabilities.pages.unemployabilityDates;
 
   it('should render', () => {
     const form = mount(

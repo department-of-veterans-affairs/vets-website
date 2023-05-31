@@ -12,7 +12,7 @@ describe('Unemployability 8940 Walkthrough', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.unemployabilityFormIntro;
+  } = formConfig.chapters.disabilities.pages.unemployabilityFormIntro;
 
   it('should render', () => {
     const form = mount(

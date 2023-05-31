@@ -11,7 +11,7 @@ describe('Supplmental Benefits 8940', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.supplementalBenefits;
+  } = formConfig.chapters.disabilities.pages.supplementalBenefits;
 
   it('should render', () => {
     const form = mount(

@@ -545,7 +545,6 @@ const formConfig = {
         ancillaryFormsWizardIntro: {
           title: 'Additional disability benefits',
           path: 'additional-disability-benefits',
-          depends: () => environment.isProduction(),
           uiSchema: {
             'ui:title': 'Additional disability benefits',
             'ui:description': ancillaryFormsWizardDescription,
@@ -571,34 +570,29 @@ const formConfig = {
         adaptiveBenefits: {
           title: 'Automobile allowance and adaptive benefits',
           path: 'adaptive-benefits',
-          depends: formData =>
-            formData['view:ancillaryFormsWizard'] && environment.isProduction(),
+          depends: formData => formData['view:ancillaryFormsWizard'],
           uiSchema: adaptiveBenefits.uiSchema,
           schema: adaptiveBenefits.schema,
         },
         aidAndAttendance: {
           title: 'Aid and attendance benefits',
           path: 'aid-and-attendance',
-          depends: formData =>
-            formData['view:ancillaryFormsWizard'] && environment.isProduction(),
+          depends: formData => formData['view:ancillaryFormsWizard'],
           uiSchema: aidAndAttendance.uiSchema,
           schema: aidAndAttendance.schema,
         },
         individualUnemployability: {
           title: 'Individual Unemployability',
           path: 'individual-unemployability',
-          depends: formData =>
-            formData['view:ancillaryFormsWizard'] && environment.isProduction(),
+          depends: formData => formData['view:ancillaryFormsWizard'],
           uiSchema: individualUnemployability.uiSchema,
           schema: individualUnemployability.schema,
         },
+        ...createformConfig8940(),
         ancillaryFormsWizardSummary: {
           title: 'Summary of additional benefits',
           path: 'additional-disability-benefits-summary',
-          depends: formData =>
-            formData['view:ancillaryFormsWizard'] &&
-            ancillaryFormsWizardSummary.depends &&
-            environment.isProduction(),
+          depends: ancillaryFormsWizardSummary.depends,
           uiSchema: ancillaryFormsWizardSummary.uiSchema,
           schema: ancillaryFormsWizardSummary.schema,
         },
@@ -755,14 +749,6 @@ const formConfig = {
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
         },
-        individualUnemployability1: {
-          title: 'Individual Unemployability',
-          path: 'individual-unemployability-1',
-          depends: () => !environment.isProduction(),
-          uiSchema: individualUnemployability.uiSchema,
-          schema: individualUnemployability.schema,
-        },
-        ...createformConfig8940(),
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',
           path: 'fully-developed-claim',
