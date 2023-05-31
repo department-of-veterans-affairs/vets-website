@@ -275,6 +275,7 @@ const ComposeForm = props => {
         !sendMessageFlag
       ) {
         saveDraftHandler('auto');
+        setNavigationError(null);
       }
     },
     [
