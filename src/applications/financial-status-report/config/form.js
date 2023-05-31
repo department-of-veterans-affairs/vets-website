@@ -858,6 +858,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           depends: () => false, // accessed from otherAssetsSummary
+          returnUrl: '/other-assets-summary',
         },
       },
     },
