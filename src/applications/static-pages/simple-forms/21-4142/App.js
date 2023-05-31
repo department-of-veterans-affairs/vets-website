@@ -29,7 +29,7 @@ const App = ({ formEnabled }) => {
       <p>We’re still working on this feature</p>
       <p>
         We’re rolling out the Authorization to the release non-VA medical
-        information to VA (VA Form 21-4142 and 21-4142a) in stages. It’s not
+        information to VA (VA Forms 21-4142 and 21-4142a) in stages. It’s not
         quite ready yet. Please check back again soon.
       </p>
       <a className="vads-c-action-link--green" href="/">
