@@ -6,15 +6,15 @@ import { Formik, Form } from 'formik';
 import {
   updateFormFieldWithSchema,
   clearTransactionRequest,
-} from '@@vap-svc/actions';
+} from '~/platform/user/profile/vap-svc/actions';
 
-import * as VAP_SERVICE from '@@vap-svc/constants';
+import * as VAP_SERVICE from '~/platform/user/profile/vap-svc/constants';
 
-import { selectEditedFormField } from '@@vap-svc/selectors';
+import { selectEditedFormField } from '~/platform/user/profile/vap-svc/selectors';
 
-import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
+import VAPServiceEditModalErrorMessage from '~/platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
 
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { useProfileTransaction } from '../hooks';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
