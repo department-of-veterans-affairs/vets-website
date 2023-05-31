@@ -4,9 +4,7 @@ import App from './containers/App';
 
 const routes = (
   <Switch>
-    <Route path="/" key="App">
-      <App />
-    </Route>
+    <Route path="*" component={App} key="App" />
   </Switch>
 );
 
