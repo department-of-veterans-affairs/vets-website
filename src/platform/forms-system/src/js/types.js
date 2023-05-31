@@ -25,7 +25,7 @@
  * @property {Record<string, FormConfigChapter>} [chapters]
  * @property {(props: any) => JSX.Element} [confirmation]
  * @property {CustomText} [customText]
- * @property {Record<string, SchemaOptions>} [defaultDefinitions]
+ * @property {Record<string, SchemaOptions> | Record<string, any>} [defaultDefinitions]
  * @property {Dev} [dev] - object of dev-only options
  * @property {Downtime} [downtime]
  * @property {(props: any) => JSX.Element} [errorText]
@@ -33,7 +33,7 @@
  * @property {string} [formId]
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]
- * @property {(props: any) => any} [introduction]
+ * @property {React.ReactNode | (props: any) => any} [introduction]
  * @property {Array<Function>} [migrations]
  * @property {(formConfig: any) => void} [onFormLoaded]
  * @property {boolean} [prefillEnabled]
@@ -82,12 +82,22 @@
 
 /**
  * @typedef {Object} Downtime
- * @property {Array<string>} [dependnecies]
+ * @property {Array<string>} [dependencies]
  * @property {string} [endTime]
  * @property {string} [message]
  * @property {boolean} [requiredForPrefill]
  * @property {'down' |'downtimeApproaching' | 'ok'} [status]
  * @property {string} [startTime]
+ */
+
+/**
+ * Add this to a union so that the literal types are not enforced
+ * but we will still get intellisense for the union type.
+ * (since all existing definitions will be interpretted as strings)
+ *
+ * This is a common TypeScript trick when you have a union + any string
+ * {} defaults to mostly everything for types, including string
+ * @typedef {string & {}} OrAnyString
  */
 
 /**
@@ -107,12 +117,13 @@
  * @property {string} [messages.inProgress]
  * @property {string} [messages.expired]
  * @property {string} [messages.saved]
+ * @property {() => string} [restartFormCallback] - return restart destination url
  */
 
 /**
  * @typedef {Object} StatementOfTruth
  * @property {string | JSX.Element} [body]
- * @property {string} [fullNamePath] - defaults to 'veteran.fullName'
+ * @property {string | (formData) => string} [fullNamePath] - defaults to 'veteran.fullName'
  * @property {string} [heading] - defaults to 'Statement of truth'
  * @property {string} [messageAriaDescribedby] - defaults to 'Statement of truth'
  * @property {string} [textInputLabel] - defaults to 'Your full name'
@@ -121,8 +132,9 @@
 /**
  * @typedef {Object} FormConfigChapter
  * @property {Record<string, FormConfigPage>} [pages]
- * @property {string | Function} [title]
+ * @property {string | ({ formData }: { formData?: Object }) => string} [title]
  * @property {boolean} [hideFormNavProgress]
+ * @property {React.ReactNode} [reviewDescription]
  */
 
 /**
@@ -130,46 +142,48 @@
  * @property {string} [arrayPath]
  * @property {(props: any) => JSX.Element} [CustomPage]
  * @property {(props: any) => JSX.Element} [CustomPageReview]
- * @property {(formData: Object) => boolean} [depends]
+ * @property {((formData: Object) => boolean) | {}} [depends]
  * @property {Object} [initialData]
  * @property {(formData: any) => void} [onContinue]
  * @property {(data: any) => boolean} [itemFilter]
  * @property {string} [path]
+ * @property {string} [returnUrl]
  * @property {SchemaOptions} [schema]
  * @property {string | Function} [scrollAndFocusTarget]
  * @property {boolean} [showPagePerItem]
- * @property {string | Function} [title]
+ * @property {string | ({ formData }: { formData?: Object }) => string} [title]
  * @property {UISchemaOptions} [uiSchema]
  * @property {(item, index) => void} [updateFormData]
  */
 
 /**
- * @typedef {Object} PageSchema - The schema for a page (only uiSchema and schema). If you want all the page properties, use FormConfigPage
- * @property {UISchemaOptions} uiSchema
- * @property {SchemaOptions} schema
+ * @typedef {{
+ *  uiSchema: UISchemaOptions,
+ *  schema: SchemaOptions,
+ * } & Partial<FormConfigPage>} PageSchema - The schema for a page (uiSchema and schema).
  */
 
 /**
  * @typedef {{
  *    items?: UISchemaOptions,
  *   'ui:autocomplete'?: string,
- *   'ui:description'?: string | JSX.Element | ((props: any) => JSX.Element),
+ *   'ui:description'?: string | JSX.Element | React.ReactNode,
  *   'ui:disabled'?: boolean,
  *   'ui:errorMessages'?: UIErrorMessages,
- *   'ui:field'?: (props: any) => JSX.Element,
+ *   'ui:field'?: React.ReactNode,
  *   'ui:hidden'?: boolean,
- *   'ui:objectViewField'?: (props: any) => JSX.Element,
+ *   'ui:objectViewField'?: React.ReactNode,
  *   'ui:options'?: UIOptions,
  *   'ui:order'?: string[],
  *   'ui:required'?: (formData: any) => boolean,
- *   'ui:reviewField'?: (props: any) => JSX.Element,
- *   'ui:reviewWidget'?: (props: any) => JSX.Element,
- *   'ui:title'?: string | JSX.Element,
+ *   'ui:reviewField'?: React.ReactNode,
+ *   'ui:reviewWidget'?: React.ReactNode,
+ *   'ui:title'?: string | JSX.Element | React.ReactNode,
  *   'ui:validations'?: Array<((errors, value) => void)>,
- *   'ui:webComponentField'?: (props: any) => JSX.Element,
- *   'ui:widget'?: 'yesNo' | 'checkbox' | 'radio' | 'select' | 'email' | 'date' | 'textarea' | ((props: any) => JSX.Element),
- * } | {
- *  [key: string]: UISchemaOptions
+ *   'ui:webComponentField'?: React.ReactNode,
+ *   'ui:widget'?: 'yesNo' | 'checkbox' | 'radio' | 'select' | 'email' | 'date' | 'textarea'  | OrAnyString | ((props: any) => JSX.Element),
+ * } & {
+ *  [key: string]: UISchemaOptions | {}
  * }} UISchemaOptions
  */
 
@@ -211,11 +225,11 @@
  * @property {string} [itemName]
  * @property {boolean} [keepInPageOnReview]
  * @property {Record<string, string>} [labels]
- * @property {(formData: any) => any} [replaceSchema]
- * @property {(formData, schema, uiSchema, index, path) => any} [updateSchema]
+ * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [replaceSchema]
+ * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [updateSchema]
  * @property {boolean} [useDlWrap]
- * @property {(props: any) => JSX.Element} [viewComponent]
- * @property {(props: any) => JSX.Element} [viewField]
+ * @property {React.ReactNode} [viewComponent]
+ * @property {React.ReactNode} [viewField]
  * @property {string} [widgetClassNames]
  * @property {Record<string, any>} [widgetProps]
  */
@@ -224,20 +238,21 @@
  * @typedef {{
  *   $ref?: string,
  *   default?: string,
- *   enum?: string[],
+ *   enum?: string[] | boolean[],
  *   enumNames?: string[],
- *   format?: 'email' | 'date' | 'date-time' | 'uri' | 'data-url',
+ *   format?: 'email' | 'date' | 'date-time' | 'uri' | 'data-url' | OrAnyString,
  *   items?: SchemaOptions,
  *   maxLength?: number,
  *   minItems?: number,
  *   maxItems?: number,
  *   minLength?: number,
+ *   oneOf?: SchemaOptions[],
  *   pattern?: string,
  *   properties?: Record<string, SchemaOptions>,
  *   required?: string[],
- *   type?: 'string' | 'number' | 'integer' | 'boolean' | 'object' | 'array',
+ *   type?: 'string' | 'number' | 'integer' | 'boolean' | 'object' | 'array' | OrAnyString,
  *   uniqueItems?: boolean,
- * } | {
- *   [key: string]: SchemaOptions
+ * } & {
+ *   [key: string]: SchemaOptions | {}
  * }} SchemaOptions
  */

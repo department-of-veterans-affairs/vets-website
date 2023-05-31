@@ -187,6 +187,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       serviceType: 'primaryCare',
       start: futureDate.add(1, 'days').format(),
       status: 'booked',
+      cancellable: true,
     };
 
     mockSingleClinicFetchByVersion({
@@ -424,6 +425,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       serviceType: 'primaryCare',
       start: futureDate.format(),
       status: 'booked',
+      cancellable: true,
     };
 
     mockSingleVAOSAppointmentFetch({ appointment });
@@ -493,6 +495,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       serviceType: 'primaryCare',
       start: futureDate.format(),
       status: 'booked',
+      cancellable: true,
     };
 
     mockSingleClinicFetchByVersion({
