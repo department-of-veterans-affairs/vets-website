@@ -60,7 +60,7 @@ const ProfileInformationView = props => {
         <va-telephone
           contact={contact}
           extension={data.extension}
-          notClickable
+          not-clickable
         />
       </div>
     );
