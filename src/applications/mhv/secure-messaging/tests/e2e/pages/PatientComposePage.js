@@ -320,4 +320,4 @@ class PatientComposePage {
       .should('be.visible');
   };
 }
-export default PatientComposePage;
+export default new PatientComposePage();

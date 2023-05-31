@@ -304,8 +304,7 @@ class PatientInboxPage {
 
   loadComposeMessagePage = () => {
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
-    const interstitialPage = new PatientInterstitialPage();
-    interstitialPage.getContinueButton().click({ force: true });
+    PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 
   navigatePrintCancelButton = () => {
@@ -371,4 +370,4 @@ class PatientInboxPage {
     cy.get('[data-testid="filter-messages-button"]').click();
   };
 }
-export default PatientInboxPage;
+export default new PatientInboxPage();

@@ -212,4 +212,4 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="filter-messages-button"]').click();
   };
 }
-export default PatientMessageDraftsPage;
+export default new PatientMessageDraftsPage();

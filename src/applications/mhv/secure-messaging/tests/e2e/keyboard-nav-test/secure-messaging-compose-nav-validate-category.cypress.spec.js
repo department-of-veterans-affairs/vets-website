@@ -4,13 +4,10 @@ import PatientInterstitialPage from '../pages/PatientInterstitialPage';
 
 describe('Validate the category', () => {
   it('selects a category', () => {
-    const landingPage = new PatientInboxPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
     cy.get('[data-testid="compose-message-link"]').click();
-    patientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getContinueButton().click();
     cy.tabToElement('.link-button').should('have.focus');
     cy.realPress(['Tab']);
     cy.realPress(['ArrowDown']);

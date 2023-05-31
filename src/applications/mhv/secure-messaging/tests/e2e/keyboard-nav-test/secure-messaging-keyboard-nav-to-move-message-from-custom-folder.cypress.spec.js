@@ -8,25 +8,22 @@ import mockCustomDetails from '../fixtures/custom-response.json';
 
 describe('Secure Messaging Keyboard Nav Move Message from CustomFolder', () => {
   it('move message', () => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    const folderPage = new FolderManagementPage();
     const folderName = mockFoldersResponse.data.at(4).attributes.name;
     const { folderId } = mockFoldersResponse.data.at(4).attributes;
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
     cy.get('[data-testid ="my-folders-sidebar"]').click();
 
-    folderPage.clickAndLoadCustumFolder(
+    FolderManagementPage.clickAndLoadCustumFolder(
       folderName,
       folderId,
       mockCustomFolderResponse,
       mockCustomMessagesResponse,
     );
-    folderPage.loadCustomFolderMessageDetails(mockCustomDetails);
-    folderPage.selectFolderfromModal();
-    folderPage.moveCustomFolderMessageToDifferentFolder();
-    folderPage.verifyMoveMessageSuccessConfirmationFocus();
+    FolderManagementPage.loadCustomFolderMessageDetails(mockCustomDetails);
+    FolderManagementPage.selectFolderfromModal();
+    FolderManagementPage.moveCustomFolderMessageToDifferentFolder();
+    FolderManagementPage.verifyMoveMessageSuccessConfirmationFocus();
     cy.injectAxe();
     cy.axeCheck();
   });

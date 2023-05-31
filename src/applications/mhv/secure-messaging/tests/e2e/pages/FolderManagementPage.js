@@ -208,4 +208,4 @@ class FolderManagementPage {
     cy.contains('Message conversation was successfully moved.').should('exist');
   };
 }
-export default FolderManagementPage;
+export default new FolderManagementPage();

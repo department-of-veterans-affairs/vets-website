@@ -4,21 +4,18 @@ import PatientComposePage from '../pages/PatientComposePage';
 
 describe('Secure Messaging Compose', () => {
   it('can send message', () => {
-    const landingPage = new PatientInboxPage();
-    const composePage = new PatientComposePage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     cy.get('[name="COVID"]').click();
-    composePage.attachMessageFromFile('test_image.jpg');
-    composePage.getMessageSubjectField().type('Test Subject');
-    composePage.getMessageBodyField().type('Test message body');
-    composePage.pushSendMessageWithKeyboardPress();
-    composePage.verifySendMessageConfirmationMessage();
-    composePage.verifySendMessageConfirmationMessageHasFocus();
+    PatientComposePage.attachMessageFromFile('test_image.jpg');
+    PatientComposePage.getMessageSubjectField().type('Test Subject');
+    PatientComposePage.getMessageBodyField().type('Test message body');
+    PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.verifySendMessageConfirmationMessage();
+    PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

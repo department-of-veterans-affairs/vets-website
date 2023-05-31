@@ -3,50 +3,47 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
 
 describe('Secure Messaging Compose Errors Keyboard Nav', () => {
-  const landingPage = new PatientInboxPage();
-  const composePage = new PatientComposePage();
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadComposeMessagePage();
   });
 
   it('focus on error message for no provider', () => {
-    composePage.getCategory('COVID');
+    PatientComposePage.getCategory('COVID');
 
-    composePage.getMessageSubjectField().type('Test Subject');
-    composePage.getMessageBodyField().type('Test Message Body');
-    composePage.pushSendMessageWithKeyboardPress();
-    composePage.verifyFocusOnErrorMessageToSelectRecipient();
+    PatientComposePage.getMessageSubjectField().type('Test Subject');
+    PatientComposePage.getMessageBodyField().type('Test Message Body');
+    PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.verifyFocusOnErrorMessageToSelectRecipient();
     cy.injectAxe();
     cy.axeCheck();
   });
   it('focus on error message for empty category', () => {
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
 
-    composePage.getMessageSubjectField().type('Test Subject');
-    composePage.getMessageBodyField().type('Test Message Body');
-    composePage.pushSendMessageWithKeyboardPress();
-    composePage.verifyFocusOnErrorMessageToSelectCategory();
+    PatientComposePage.getMessageSubjectField().type('Test Subject');
+    PatientComposePage.getMessageBodyField().type('Test Message Body');
+    PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.verifyFocusOnErrorMessageToSelectCategory();
     cy.injectAxe();
     cy.axeCheck();
   });
   it('focus on error message for empty message subject', () => {
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    composePage.selectCategory();
-    composePage.getMessageBodyField().type('Test Message Body');
-    composePage.pushSendMessageWithKeyboardPress();
-    composePage.verifyFocusOnErrorEmptyMessageSubject();
+    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.selectCategory();
+    PatientComposePage.getMessageBodyField().type('Test Message Body');
+    PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.verifyFocusOnErrorEmptyMessageSubject();
     cy.injectAxe();
     cy.axeCheck();
   });
   it('focus on error message for empty message body', () => {
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    composePage.selectCategory();
-    composePage.getMessageSubjectField().type('Test Subject');
-    composePage.pushSendMessageWithKeyboardPress();
-    composePage.verifyFocusOnErrorEmptyMessageBody();
+    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.selectCategory();
+    PatientComposePage.getMessageSubjectField().type('Test Subject');
+    PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.verifyFocusOnErrorEmptyMessageBody();
     cy.injectAxe();
     cy.axeCheck();
   });

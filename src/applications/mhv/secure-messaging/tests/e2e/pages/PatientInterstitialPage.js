@@ -3,4 +3,4 @@ class PatientInterstitialPage {
     return cy.get('[data-testid="continue-button"]');
   };
 }
-export default PatientInterstitialPage;
+export default new PatientInterstitialPage();

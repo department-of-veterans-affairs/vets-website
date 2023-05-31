@@ -430,4 +430,4 @@ class PatientMessageDetailsPage {
   };
 }
 
-export default PatientMessageDetailsPage;
+export default new PatientMessageDetailsPage();

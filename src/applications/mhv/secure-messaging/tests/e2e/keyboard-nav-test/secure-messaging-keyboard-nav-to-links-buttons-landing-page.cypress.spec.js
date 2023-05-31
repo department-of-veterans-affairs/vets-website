@@ -3,10 +3,8 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 
 describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
   it('Tab to Links and Buttons on the Landing Page', () => {
-    const site = new SecureMessagingSite();
-    const landingPage = new PatientInboxPage();
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
     cy.get('[class="sidebar-navigation-messages-list-header"]').click();
     cy.tabToElement('[data-testid="compose-message-link"]').should(
       'have.focus',
