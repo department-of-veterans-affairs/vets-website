@@ -8,19 +8,19 @@ export default {
   uiSchema: {
     witnessFullName: fullNameUI,
     witnessRelationshipToClaimant: {
-      'ui:title': 'What is your relationship to the Claimant?',
+      'ui:title': 'What is your relationship to the Veteran/Claimant?',
       'ui:description': 'Check all that apply',
       'ui:widget': GroupCheckboxWidget,
       'ui:required': formData => !formData.witnessOtherRelationshipToClaimant,
       'ui:options': {
-        showFieldLabel: true,
         forceDivWrapper: true,
+        showFieldLabel: true,
         labels: RELATIONSHIP_TO_CLAIMANT_OPTIONS,
       },
     },
     witnessOtherRelationshipToClaimant: {
       'ui:title':
-        'If your relationship with the Claimant is not listed, you can write it here (30 characters maximum)',
+        'If your relationship with the Veteran/Claimant is not listed, you can write it here (30 characters maximum)',
       'ui:autocomplete': 'off',
     },
     'ui:validations': [

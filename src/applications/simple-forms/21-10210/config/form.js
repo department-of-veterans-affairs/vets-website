@@ -10,16 +10,21 @@ import claimOwnership from '../pages/claimOwnership';
 import claimantType from '../pages/claimantType';
 import witnessPersInfo from '../pages/witnessPersInfo';
 import witnessContInfo from '../pages/witnessContInfo';
-import claimantPersInfo from '../pages/claimantPersInfo';
+import claimantPersInfoA from '../pages/claimantPersInfoA';
+import claimantPersInfoB from '../pages/claimantPersInfoB';
 import claimantIdInfo from '../pages/claimantIdInfo';
 import claimantAddrInfo from '../pages/claimantAddrInfo';
 import claimantContInfo from '../pages/claimantContInfo';
-import vetPersInfo from '../pages/vetPersInfo';
+import vetPersInfoA from '../pages/vetPersInfoA';
+import vetPersInfoB from '../pages/vetPersInfoB';
+import vetPersInfoC from '../pages/vetPersInfoC';
 import vetIdInfo from '../pages/vetIdInfo';
 import vetAddrInfo from '../pages/vetAddrInfo';
 import vetContInfo from '../pages/vetContInfo';
-import statement from '../pages/statement';
-
+import statementA from '../pages/statementA';
+import statementB from '../pages/statementB';
+import statementC from '../pages/statementC';
+import statementD from '../pages/statementD';
 import transformForSubmit from './submit-transformer';
 
 // "Flows" in comments below map to "Stories" in the mockups:
@@ -45,9 +50,9 @@ const formConfig = {
   preSubmitInfo: {
     statementOfTruth: {
       body:
-        'I certify that I have completed this statement and that its information is true and correct to the best of my knowledge and belief.',
+        'I confirm that I have completed this statement. The information is true and correct to the best of my knowledge and belief.',
       messageAriaDescribedby:
-        'I certify that I have completed this statement and that its information is true and correct to the best of my knowledge and belief.',
+        'I confirm that I have completed this statement. The information is true and correct to the best of my knowledge and belief.',
       fullNamePath: formData => {
         if (formData.claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY) {
           return 'witnessFullName';
@@ -60,9 +65,14 @@ const formConfig = {
         }
         return 'veteranFullName';
       },
+      checkboxLabel:
+        'I confirm that the information in this statement is correct and true to the best of my knowledge and belief.',
     },
   },
   formId: '21-10210',
+  customText: {
+    appType: 'statement',
+  },
   saveInProgress: {
     messages: {
       inProgress:
@@ -83,8 +93,8 @@ const formConfig = {
     notFound: 'Please start over to apply.',
     noAuth: 'Please sign in again to continue your application.',
   },
-  title: 'Submit a Lay/Witness Statement',
-  subTitle: 'Equal to submitting a Lay/Witness Statement (VA Form 21-10210)',
+  title: 'Submit a lay witness statement to support a VA claim',
+  subTitle: 'Lay/Witness Statement (VA Form 21-10210)',
   defaultDefinitions: {
     privacyAgreementAccepted: {
       type: 'boolean',
@@ -147,18 +157,37 @@ const formConfig = {
       },
     },
     statementChapterA: {
-      // for Flows 2 & 4: 3rd-party claim
+      // for Flow 2: 3rd-party claim, vet claimant
       // populates SAME statement field as the other statementChapters
       title: 'Your statement',
       pages: {
-        statementPage: {
+        statementPageA: {
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+            claimantType: CLAIMANT_TYPES.VETERAN,
           },
           path: 'statement-a',
+          title:
+            'Tell us about the claimed issue that you’re addressing on behalf of the Veteran',
+          uiSchema: statementA.uiSchema,
+          schema: statementA.schema,
+        },
+      },
+    },
+    statementChapterB: {
+      // for Flow 4: 3rd-party claim, not-vet claimant
+      // populates SAME statement field as the other statementChapters
+      title: 'Your statement',
+      pages: {
+        statementPageB: {
+          depends: {
+            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+            claimantType: CLAIMANT_TYPES.NON_VETERAN,
+          },
+          path: 'statement-b',
           title: 'Please indicate the claimed issue that you are addressing',
-          uiSchema: statement.uiSchema,
-          schema: statement.schema,
+          uiSchema: statementB.uiSchema,
+          schema: statementB.schema,
         },
       },
     },
@@ -169,14 +198,23 @@ const formConfig = {
           ? 'Your personal information'
           : 'Claimant’s personal information',
       pages: {
-        claimantPersInfoPage: {
-          path: 'claimant-personal-information',
+        claimantPersInfoPageA: {
+          path: 'claimant-personal-information-a',
           title: 'Your personal information',
           depends: {
-            claimantType: CLAIMANT_TYPES.NON_VETERAN,
+            claimOwnership: CLAIM_OWNERSHIPS.SELF,
           },
-          uiSchema: claimantPersInfo.uiSchema,
-          schema: claimantPersInfo.schema,
+          uiSchema: claimantPersInfoA.uiSchema,
+          schema: claimantPersInfoA.schema,
+        },
+        claimantPersInfoPageB: {
+          path: 'claimant-personal-information-b',
+          title: 'Claimant’s personal information',
+          depends: {
+            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+          },
+          uiSchema: claimantPersInfoB.uiSchema,
+          schema: claimantPersInfoB.schema,
         },
       },
     },
@@ -234,20 +272,20 @@ const formConfig = {
         },
       },
     },
-    statementChapterB: {
-      // for Flow 3: self claim, non-veteran claimant
+    statementChapterC: {
+      // for Flow 3: self claim, non-vet claimant
       // populates SAME statement field as the other statementChapters
       title: 'Your statement',
       pages: {
-        statementPage: {
+        statementPageC: {
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.SELF,
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
-          path: 'statement-b',
-          title: 'Please indicate the claimed issue that you are addressing',
-          uiSchema: statement.uiSchema,
-          schema: statement.schema,
+          path: 'statement-c',
+          title: 'Tell us about the claimed issue that you’re addressing',
+          uiSchema: statementC.uiSchema,
+          schema: statementC.schema,
         },
       },
     },
@@ -259,16 +297,39 @@ const formConfig = {
           ? 'Your personal information'
           : 'Veteran’s personal information',
       pages: {
-        veteranPersonalInfo1: {
-          path: 'veteran-personal-information',
+        veteranPersonalInfoA: {
+          path: 'veteran-personal-information-a',
           title: 'Veteran personal information',
-          uiSchema: vetPersInfo.uiSchema,
-          schema: vetPersInfo.schema,
+          depends: {
+            claimantType: CLAIMANT_TYPES.VETERAN,
+          },
+          uiSchema: vetPersInfoA.uiSchema,
+          schema: vetPersInfoA.schema,
+        },
+        veteranPersonalInfoB: {
+          path: 'veteran-personal-information-b',
+          title: 'Veteran personal information',
+          depends: {
+            claimOwnership: CLAIM_OWNERSHIPS.SELF,
+            claimantType: CLAIMANT_TYPES.NON_VETERAN,
+          },
+          uiSchema: vetPersInfoB.uiSchema,
+          schema: vetPersInfoB.schema,
+        },
+        veteranPersonalInfoC: {
+          path: 'veteran-personal-information-c',
+          title: 'Veteran personal information',
+          depends: {
+            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+            claimantType: CLAIMANT_TYPES.NON_VETERAN,
+          },
+          uiSchema: vetPersInfoC.uiSchema,
+          schema: vetPersInfoC.schema,
         },
       },
     },
     veteranIdentificationInfo: {
-      // for all claimOwnership/claimantType combos
+      // for all Flows
       title: ({ formData } = {}) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
         formData.claimantType === CLAIMANT_TYPES.VETERAN
@@ -284,7 +345,7 @@ const formConfig = {
       },
     },
     veteranMailingAddressInfo: {
-      // for all claimOwnership/claimantType combos
+      // for all Flows
       title: ({ formData } = {}) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
         formData.claimantType === CLAIMANT_TYPES.VETERAN
@@ -300,7 +361,7 @@ const formConfig = {
       },
     },
     veteranContactInfo: {
-      // for all claimOwnership/claimantType combos
+      // for all Flows
       title: ({ formData } = {}) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
         formData.claimantType === CLAIMANT_TYPES.VETERAN
@@ -315,20 +376,20 @@ const formConfig = {
         },
       },
     },
-    statementChapterC: {
-      // for Flow 1: self claim, veteran claimant
+    statementChapterD: {
+      // for Flow 1: self claim, vet claimant
       // populates SAME statement field as the other statementChapters
       title: 'Your statement',
       pages: {
-        statementPage: {
+        statementPageD: {
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.SELF,
             claimantType: CLAIMANT_TYPES.VETERAN,
           },
-          path: 'statement-c',
-          title: 'Please indicate the claimed issue that you are addressing',
-          uiSchema: statement.uiSchema,
-          schema: statement.schema,
+          path: 'statement-d',
+          title: 'Provide your supporting statement',
+          uiSchema: statementD.uiSchema,
+          schema: statementD.schema,
         },
       },
     },

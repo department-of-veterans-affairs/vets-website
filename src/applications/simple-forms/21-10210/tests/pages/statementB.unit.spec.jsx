@@ -8,11 +8,11 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.statementChapterA.pages.statementPage;
+} = formConfig.chapters.statementChapterA.pages.statementPageB;
 const pageTitle = 'Your statement';
 const mockData = {
-  claimOwnership: CLAIM_OWNERSHIPS.SELF,
-  claimantType: CLAIMANT_TYPES.VETERAN,
+  claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+  claimantType: CLAIMANT_TYPES.NON_VETERAN,
   statement: 'It was a dark and stormy night...',
 };
 

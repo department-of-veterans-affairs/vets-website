@@ -8,10 +8,19 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.veteranPersonalInfo.pages.veteranPersonalInfo1;
+} = formConfig.chapters.veteranPersonalInfo.pages.veteranPersonalInfoA;
 const pageTitle = 'Veteran’s personal information';
-const mockData = {
+const mockDataSelf = {
   claimOwnership: CLAIM_OWNERSHIPS.SELF,
+  claimantType: CLAIMANT_TYPES.VETERAN,
+  veteranFullName: {
+    first: 'John',
+    last: 'Veteran',
+  },
+  veteranDateOfBirth: '1980-01-01',
+};
+const mockData3rdParty = {
+  claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
   claimantType: CLAIMANT_TYPES.VETERAN,
   veteranFullName: {
     first: 'John',
@@ -27,7 +36,15 @@ testNumberOfFields(
   uiSchema,
   expectedNumberOfFields,
   pageTitle,
-  mockData,
+  mockDataSelf,
+);
+testNumberOfFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfFields,
+  pageTitle,
+  mockData3rdParty,
 );
 
 const expectedNumberOfErrors = 3;

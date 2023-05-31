@@ -32,9 +32,7 @@ export default {
               title: (
                 <span>
                   Email address
-                  <br />
-                  By providing an email address, I agree to receive electronic
-                  correspondence from VA regarding my application
+                  <br />I agree to receive emails from VA about my claim.
                 </span>
               ),
             };
@@ -42,6 +40,7 @@ export default {
 
           return {
             title: 'Email address',
+            description: 'testing',
           };
         },
       },

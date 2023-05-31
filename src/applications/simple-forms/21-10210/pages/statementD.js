@@ -1,10 +1,11 @@
+// for Flow 1: self claim, vet claimant
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Please indicate the claimed issue that you are addressing',
+    'ui:title': 'Provide your supporting statement',
     statement: {
       'ui:title':
-        'Describe what you yourself know or have observed about the facts or circumstances relevant to this claim before VA',
+        'Tell us what you think we need to know about the facts or circumstances relevant to your claim. Include any information that we don’t already have and that you think may support your claim.',
       'ui:widget': 'textarea',
       'ui:autocomplete': 'off',
     },

@@ -66,6 +66,9 @@ export function PreSubmitSection(props) {
   } = props;
 
   const { CustomComponent, statementOfTruth } = preSubmit;
+  const sotCheckboxLabel =
+    statementOfTruth?.checkboxLabel ||
+    'I certify the information above is correct and true to the best of my knowledge and belief.';
   const checked = form?.data[preSubmit?.field] || false;
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
@@ -170,7 +173,7 @@ export function PreSubmitSection(props) {
             <Checkbox
               id="veteran-certify"
               name="veteran-certify"
-              label="I certify the information above is correct and true to the best of my knowledge and belief."
+              label={sotCheckboxLabel}
               checked={form?.data.statementOfTruthCertified}
               onValueChange={value =>
                 setPreSubmit('statementOfTruthCertified', value)
