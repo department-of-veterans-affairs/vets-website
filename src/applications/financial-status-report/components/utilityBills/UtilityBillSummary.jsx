@@ -10,7 +10,6 @@ import { currency as currencyFormatter } from '../../utils/helpers';
 
 const UtilityBillSummary = ({
   data,
-  goBack,
   goToPath,
   setFormData,
   contentBeforeButtons,
@@ -29,6 +28,13 @@ const UtilityBillSummary = ({
 
   const goForward = () => {
     goToPath('/credit-card-bills');
+  };
+
+  const goBack = () => {
+    if (utilityRecords.length === 0) {
+      return goToPath('/utility-bill-checklist');
+    }
+    return goToPath('/utility-bill-values');
   };
 
   const cardBody = text => (
