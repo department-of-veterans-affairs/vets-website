@@ -80,7 +80,7 @@ export const SearchForm = ({ fetchForms }) => {
   return (
     <div
       role="search"
-      aria-label="Searh VA Forms"
+      aria-label="Search VA Forms"
       className={`vads-l-grid-container vads-u-padding--3 vads-u-background-color--gray-lightest vads-u-margin-bottom--4 ${
         showQueryError ? 'usa-input-error' : ''
       }`}
