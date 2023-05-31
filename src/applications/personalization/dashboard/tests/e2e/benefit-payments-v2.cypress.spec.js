@@ -30,6 +30,17 @@ describe('The My VA Dashboard - Benefit Payments', () => {
   beforeEach(() => {
     mockLocalStorage();
     cy.login(mockUser);
+    cy.intercept('/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: featureFlagNames.showMyVADashboardV2,
+            value: true,
+          },
+        ],
+      },
+    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/evss_claims_async', claimsSuccess());
@@ -63,17 +74,6 @@ describe('The My VA Dashboard - Benefit Payments', () => {
 
   describe('when the feature is not hidden', () => {
     beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: featureFlagNames.showPaymentAndDebtSection,
-              value: true,
-            },
-          ],
-        },
-      }).as('featuresB');
       cy.intercept('GET', '/v0/debts', debtsSuccessEmpty()).as('noDebtsB');
       cy.intercept('GET', '/v0/medical_copays', copaysSuccessEmpty()).as(
         'noCopaysB',
@@ -91,12 +91,7 @@ describe('The My VA Dashboard - Benefit Payments', () => {
           ).as('recentPayments1');
 
           cy.visit('my-va/');
-          cy.wait([
-            '@featuresB',
-            '@noDebtsB',
-            '@noCopaysB',
-            '@recentPayments1',
-          ]);
+          cy.wait(['@noDebtsB', '@noCopaysB', '@recentPayments1']);
           cy.findByTestId('dashboard-section-payment-v2').should('exist');
 
           cy.findByText(/Deposited/i).should('exist');
@@ -118,12 +113,7 @@ describe('The My VA Dashboard - Benefit Payments', () => {
             paymentsSuccess(true, 'Paper Check'),
           ).as('recentPayments2');
           cy.visit('my-va/');
-          cy.wait([
-            '@featuresB',
-            '@noDebtsB',
-            '@noCopaysB',
-            '@recentPayments2',
-          ]);
+          cy.wait(['@noDebtsB', '@noCopaysB', '@recentPayments2']);
           cy.findByTestId('dashboard-section-payment-v2').should('exist');
 
           cy.findByText(/Check mailed/i).should('exist');
@@ -148,7 +138,7 @@ describe('The My VA Dashboard - Benefit Payments', () => {
           paymentsSuccess(),
         ).as('oldPayments1');
         cy.visit('my-va/');
-        cy.wait(['@featuresB', '@noDebtsB', '@noCopaysB', '@oldPayments1']);
+        cy.wait(['@noDebtsB', '@noCopaysB', '@oldPayments1']);
         cy.findByTestId('dashboard-section-payment-v2').should('exist');
 
         cy.findByTestId('no-recent-payments-paragraph-v2').should('exist');
@@ -173,7 +163,7 @@ describe('The My VA Dashboard - Benefit Payments', () => {
           paymentsSuccessEmpty(),
         ).as('emptyPayments1');
         cy.visit('my-va/');
-        cy.wait(['@featuresB', '@noDebtsB', '@noCopaysB', '@emptyPayments1']);
+        cy.wait(['@noDebtsB', '@noCopaysB', '@emptyPayments1']);
         cy.findByTestId('dashboard-section-payment-v2').should('exist');
 
         cy.findByTestId('no-recent-payments-paragraph-v2').should('exist');
@@ -214,6 +204,17 @@ describe('when the payment history claims does not exist', () => {
       },
     });
     cy.login(mockUser1);
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: featureFlagNames.showMyVADashboardV2,
+            value: true,
+          },
+        ],
+      },
+    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/evss_claims_async', claimsSuccess());
@@ -224,17 +225,6 @@ describe('when the payment history claims does not exist', () => {
     );
     cy.intercept('vaos/v0/appointments*', appointmentsEmpty);
     cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: featureFlagNames.showPaymentAndDebtSection,
-            value: true,
-          },
-        ],
-      },
-    }).as('featuresC');
     cy.intercept('GET', '/v0/debts', debtsSuccessEmpty()).as('noDebtsC');
     cy.intercept('GET', '/v0/medical_copays', copaysSuccessEmpty()).as(
       'noCopaysC',
@@ -245,7 +235,7 @@ describe('when the payment history claims does not exist', () => {
     // should show a loading indicator
     cy.findByRole('progressbar').should('exist');
     cy.findByText(/loading your information/i).should('exist');
-    cy.wait(['@featuresC', '@noDebtsC', '@noCopaysC']);
+    cy.wait(['@noDebtsC', '@noCopaysC']);
     // and then the loading indicator should be removed
     cy.findByRole('progressbar').should('not.exist');
     cy.findByText(/loading your information/i).should('not.exist');
@@ -283,6 +273,17 @@ describe('when the payment history claims is false', () => {
       },
     });
     cy.login(mockUser2);
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: featureFlagNames.showMyVADashboardV2,
+            value: true,
+          },
+        ],
+      },
+    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/evss_claims_async', claimsSuccess());
@@ -293,17 +294,6 @@ describe('when the payment history claims is false', () => {
     );
     cy.intercept('vaos/v0/appointments*', appointmentsEmpty);
     cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: featureFlagNames.showPaymentAndDebtSection,
-            value: true,
-          },
-        ],
-      },
-    }).as('featuresD');
     cy.intercept('GET', '/v0/debts', debtsSuccessEmpty()).as('noDebtsD');
     cy.intercept('GET', '/v0/medical_copays', copaysSuccessEmpty()).as(
       'noCopaysD',
@@ -315,7 +305,7 @@ describe('when the payment history claims is false', () => {
     // should show a loading indicator
     cy.findByRole('progressbar').should('exist');
     cy.findByText(/loading your information/i).should('exist');
-    cy.wait(['@featuresD', '@noDebtsD', '@noCopaysD']);
+    cy.wait(['@noDebtsD', '@noCopaysD']);
     // and then the loading indicator should be removed
     cy.findByRole('progressbar').should('not.exist');
     cy.findByText(/loading your information/i).should('not.exist');
