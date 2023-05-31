@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.statementChapterA.pages.statementPageC;
+} = formConfig.chapters.statementChapterD.pages.statementPageD;
 const pageTitle = 'Your statement';
 const mockData = {
   claimOwnership: CLAIM_OWNERSHIPS.SELF,
