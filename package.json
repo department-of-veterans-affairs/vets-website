@@ -258,6 +258,7 @@
     "date-fns-tz": "^1.1.1",
     "dotenv": "^10.0.0",
     "downshift": "^1.22.5",
+    "eslint-import-resolver-alias": "^1.1.2",
     "express": "^4.17.1",
     "fast-levenshtein": "^2.0.6",
     "fine-uploader": "^5.16.2",
@@ -367,7 +368,6 @@
       "src/platform/forms",
       "src/platform/forms-system",
       "src/platform/monitoring",
-
       "src/applications/check-in",
       "src/applications/vaos"
     ],
@@ -376,7 +376,6 @@
       "**/applications-check-in/react-i18next",
       "**/applications-vaos/simple-guid",
       "**/applications-vaos/mocker-api",
-
       "**/platform-polyfills/@formatjs/intl-datetimeformat",
       "**/platform-polyfills/@formatjs/intl-getcanonicallocales",
       "**/platform-polyfills/@formatjs/intl-locale",
