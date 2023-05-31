@@ -34,9 +34,9 @@ describe('Medical records PDF template', () => {
       const page = await pdf.getPage(pageNumber);
 
       const content = await page.getTextContent({ includeMarkedContent: true });
-      const { tag } = content.items[0];
+      const { tag } = content.items[7];
       expect(tag).to.equal('H1');
-      const text = content.items[1].str;
+      const text = content.items[8].str;
       expect(text).to.equal(data.title.substring(0, text.length));
     });
 
@@ -52,9 +52,9 @@ describe('Medical records PDF template', () => {
       const content = await page.getTextContent({ includeMarkedContent: true });
 
       // Get first details struct.
-      const { tag } = content.items[11];
+      const { tag } = content.items[19];
       expect(tag).to.equal('P');
-      const text = content.items[15].str;
+      const text = content.items[23].str;
       expect(text).to.equal(data.results.items[0].items[0].value);
     });
 
@@ -73,7 +73,7 @@ describe('Medical records PDF template', () => {
       expect(structure.children.length).to.equal(1);
       expect(rootElement.role).to.equal('Document');
       expect(rootElement.children.length).to.equal(4);
-      expect(rootElement.children[0].children[0].role).to.equal('H1');
+      expect(rootElement.children[1].children[0].role).to.equal('H1');
     });
 
     it('Has a default language (english)', async () => {
