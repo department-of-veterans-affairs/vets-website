@@ -408,6 +408,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           depends: () => false, // accessed from otherIncomeSummary
+          returnUrl: '/other-income-summary',
         },
         spouseInformation: {
           path: 'spouse-information',
@@ -629,6 +630,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           depends: () => false, // accessed from spouseOtherIncomeSummary
+          returnUrl: '/spouse-other-income-summary',
         },
         dependents: {
           path: 'dependents',
