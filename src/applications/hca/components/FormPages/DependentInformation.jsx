@@ -119,6 +119,10 @@ const DependentInformation = props => {
   const handlers = {
     onCancel: () => {
       showModal(false);
+      // When the modal is closed, redirect focus back to the cancel confirmation modal trigger button
+      document
+        .getElementById('hca-modal-cancel')
+        .shadowRoot.children[0].focus();
     },
     onChange: formData => {
       setLocalData({ ...localData, ...formData });
@@ -268,6 +272,7 @@ const DependentInformation = props => {
               text={`Cancel ${action.label} this dependent`}
               onClick={handlers.showConfirm}
               secondary
+              id="hca-modal-cancel"
             />
           </div>
 
