@@ -1,4 +1,4 @@
-import _ from 'platform/utilities/data';
+import _ from '@department-of-veterans-affairs/platform-utilities/data';
 import some from 'lodash/some';
 import moment from 'moment';
 
@@ -146,6 +146,28 @@ export const validateIfHasEvidence = (
 ) => {
   const { wrappedValidator } = options;
   if (_.get('view:hasEvidence', formData, true)) {
+    wrappedValidator(errors, fieldData, formData, schema, messages, index);
+  }
+};
+// BDD flow has a mandatory evidence upload before reaching Supporting Evidence;
+// need to validate using a specific reference to form inputs instead.
+export const validateIfHasEvidenceBDD = (
+  errors,
+  fieldData,
+  formData,
+  schema,
+  messages,
+  options,
+  index,
+) => {
+  const { wrappedValidator } = options;
+  const selectedEvidence = _.get('view:hasEvidenceFollowUp', formData, {})[
+    'view:selectableEvidenceTypes'
+  ];
+  const privateMedicalRecords =
+    selectedEvidence['view:hasPrivateMedicalRecords'] ?? false;
+  const hasOtherEvidence = selectedEvidence['view:hasOtherEvidence'] ?? false;
+  if (privateMedicalRecords || hasOtherEvidence) {
     wrappedValidator(errors, fieldData, formData, schema, messages, index);
   }
 };

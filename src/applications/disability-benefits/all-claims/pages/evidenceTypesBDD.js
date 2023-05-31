@@ -1,8 +1,8 @@
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import _ from 'platform/utilities/data';
-import get from 'platform/utilities/data/get';
+import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import _ from '@department-of-veterans-affairs/platform-utilities/data';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { validateIfHasEvidence } from '../validations';
+import { validateIfHasEvidenceBDD } from '../validations';
 
 import {
   evidenceTypeTitle,
@@ -37,12 +37,12 @@ export const uiSchema = {
     'ui:options': {
       expandUnder: 'view:hasEvidence',
     },
-    'ui:required': formData => get('view:hasEvidence', formData, false),
+    'ui:required': () => false,
     'view:selectableEvidenceTypes': {
       'ui:title': evidenceTypeTitle,
       'ui:validations': [
         {
-          validator: validateIfHasEvidence,
+          validator: validateIfHasEvidenceBDD,
           options: { wrappedValidator: validateBooleanGroup },
         },
       ],

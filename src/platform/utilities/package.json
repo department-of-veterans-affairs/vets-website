@@ -10,6 +10,8 @@
         "./feature-toggles/helpers": "./feature-toggles/helpers.js",
         "./flipper-client": "./feature-toggles/flipper-client.js",
         "./featureFlagNames": "./feature-toggles/featureFlagNames.js",
+        "./data": "./data",
+        "./data/get": "./data/get.js",
         "./medical-centers": "./medical-centers/medical-centers.js",
         "./sso/constants": "./sso/constants.js",
         "./sso": "./sso/index.js",
