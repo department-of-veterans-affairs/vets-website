@@ -13,13 +13,12 @@ const App = ({ formEnabled }) => {
   if (formEnabled) {
     return (
       <>
-        <p>You can apply online right now.</p>
+        <p>You can start your authorization right now.</p>
         <a
           className="vads-c-action-link--green"
           href="/supporting-forms-for-claims/release-records-to-va-form-21-4142"
         >
-          Apply for an Authorization to Disclose Information to the department
-          of VA
+          Authorize the release of non-VA medical information to VA
         </a>
       </>
     );
@@ -27,18 +26,14 @@ const App = ({ formEnabled }) => {
 
   return (
     <>
-      <p>You can apply online right now on eBenefits.</p>
+      <h1>We’re still working on this feature</h1>
       <p>
-        When you go to the eBenefits website, you may need to sign in with your{' '}
-        <strong>DS Logon</strong> account to access the application. If you
-        don’t have a <strong>DS Logon</strong> account, you can register for one
-        there.
+        We’re rolling out the Authorization to the release non-VA medical
+        information to VA (VA Form 21-4142 and 21-4142a) in stages. It’s not
+        quite ready yet. Please check back again soon.
       </p>
-      <a
-        className="vads-c-action-link--green"
-        href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=sah-grant"
-      >
-        Apply now on eBenefits
+      <a className="vads-c-action-link--green" href="/">
+        Return to VA home page
       </a>
     </>
   );
