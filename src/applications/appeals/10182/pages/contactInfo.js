@@ -1,5 +1,5 @@
-import profileContactInfo from '@department-of-veterans-affairs/platform-forms-system/profileContactInfo';
-import { set } from '@department-of-veterans-affairs/platform-forms-system/exports';
+import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
+import set from 'platform/utilities/data/set';
 
 import { contactInfoValidation } from '../validations';
 
