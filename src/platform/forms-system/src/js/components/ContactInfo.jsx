@@ -66,6 +66,7 @@ const ContactInfo = ({
   contactPath,
   keys,
   requiredKeys,
+  testContinueAlert = false,
 }) => {
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
@@ -178,7 +179,7 @@ const ContactInfo = ({
 
   useEffect(
     () => {
-      if (missingInfo.length) {
+      if ((hasInitialized && missingInfo.length) || testContinueAlert) {
         // page had an error flag, so we know when to show a success alert
         setHadError(true);
       }
@@ -186,7 +187,7 @@ const ContactInfo = ({
         setHasInitialized(true);
       });
     },
-    [missingInfo, hasInitialized],
+    [missingInfo, hasInitialized, testContinueAlert],
   );
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';

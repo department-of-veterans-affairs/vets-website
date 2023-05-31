@@ -7,6 +7,11 @@ import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 import environment from 'platform/utilities/environment';
 
+// **** temporary code ****
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+// **** end temporary code ****
+
 import user from '../tests/fixtures/mocks/user.json';
 
 import formConfig from '../config/form';
@@ -35,6 +40,9 @@ export const FormApp = ({
   setFormData,
   getContestableIssues,
   contestableIssues = {},
+  // **** temporary code ****
+  disableSubmit,
+  // **** end temporary code ****
 }) => {
   // vapContactInfo is an empty object locally, so mock it
   const data = environment.isLocalhost()
@@ -42,6 +50,30 @@ export const FormApp = ({
     : profile?.vapContactInfo || {};
 
   const { email = {}, mobilePhone = {}, mailingAddress = {} } = data;
+
+  // **** temporary code ****
+  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/58229
+  useEffect(
+    () => {
+      if (
+        loggedIn &&
+        disableSubmit &&
+        location?.pathname === '/review-and-submit'
+      ) {
+        const timer = setInterval(() => {
+          const submit = document.querySelector(
+            '.form-progress-buttons .usa-button-primary',
+          );
+          if (submit) {
+            submit.disabled = true;
+            clearInterval(timer);
+          }
+        }, 50);
+      }
+    },
+    [loggedIn, disableSubmit, location?.pathname],
+  );
+  // **** end temporary code ****
 
   // Update profile data changes in the form data dynamically
   useEffect(
@@ -134,6 +166,9 @@ FormApp.propTypes = {
     issues: PropTypes.array,
     status: PropTypes.string,
   }),
+  // **** temporary code ****
+  disableSubmit: PropTypes.bool,
+  // **** end temporary code ****
   formData: PropTypes.shape({
     areaOfDisagreement: PropTypes.array,
     contestableIssues: PropTypes.array,
@@ -158,7 +193,21 @@ const mapStateToProps = state => {
   const isLoading = state.featureToggles?.loading;
   const loggedIn = isLoggedIn(state);
   const { contestableIssues } = state;
-  return { profile, formData, showNod, contestableIssues, isLoading, loggedIn };
+  // **** temporary code ****
+  // accidently named the feature flag with HLR instead of NOD
+  const disableSubmit =
+    toggleValues(state)[FEATURE_FLAG_NAMES.hlrDisableSubmit] || false;
+  return {
+    disableSubmit,
+    profile,
+    formData,
+    showNod,
+    contestableIssues,
+    isLoading,
+    loggedIn,
+  };
+  // **** end temporary code ****
+  // return { profile, formData, showNod, contestableIssues, isLoading, loggedIn };
 };
 
 const mapDispatchToProps = {

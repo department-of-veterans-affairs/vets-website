@@ -27,7 +27,7 @@ describe('Fetch Form Status Unsuccessfully', () => {
       win.localStorage.removeItem('sessionExpiration');
     });
   });
-  it.skip('Unsuccessful API Response', () => {
+  it('Unsuccessful API Response', () => {
     cy.get('[data-testid="server-error"] > h3').should(
       'have.text',
       'We’re sorry. Something went wrong on our end.',

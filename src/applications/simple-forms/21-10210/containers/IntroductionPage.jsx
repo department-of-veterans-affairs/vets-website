@@ -34,13 +34,12 @@ class IntroductionPage extends React.Component {
           or claimant.
         </p>
         <SaveInProgressIntro
-          customHeading="Sign in now to save time and save your work in progress"
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the Application"
-          unauthStartLinkText="Start your application without signing in - or if you are not a Veteran"
+          displayNonVeteranMessaging
         >
           <p>Please complete the 21-10210 form to apply for claims.</p>
         </SaveInProgressIntro>
