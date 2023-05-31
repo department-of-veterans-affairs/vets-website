@@ -74,7 +74,7 @@ const formConfig = {
   },
   title: 'Authorize the release of non-VA medical information to VA',
   subTitle:
-    'Authorization to disclose information to the Department of Veterans Affairs (VA Form 21-4142 and 21-4142a)',
+    'Authorization to disclose information to the Department of Veterans Affairs (VA Forms 21-4142 and 21-4142a)',
   defaultDefinitions: fullSchema.definitions,
   chapters: {
     personalInformation1Chapter: {
