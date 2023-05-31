@@ -88,7 +88,7 @@ export const SearchForm = ({ fetchForms }) => {
     >
       <p
         data-e2e-id={showQueryError ? "'find-form-error-body'" : ''}
-        className="vads-u-margin--0 vads-u-margin-bottom--1"
+        className="vads-u-margin--0"
       >
         Enter a keyword, form name, or number
         {showQueryError && (
@@ -109,7 +109,7 @@ export const SearchForm = ({ fetchForms }) => {
       )}
       <VaSearchInput
         value={queryState}
-        label="Search VA Forms"
+        label="Search for a VA form by keyword, form name, or form number"
         onInput={handleQueryChange}
         onSubmit={onSubmitHandler}
         buttonText="Search"
