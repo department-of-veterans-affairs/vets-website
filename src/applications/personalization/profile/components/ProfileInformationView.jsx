@@ -1,22 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-import { FIELD_NAMES } from '@@vap-svc/constants';
-import * as VAP_SERVICE from '@@vap-svc/constants';
-import { isFieldEmpty } from '@@profile/util';
+import { FIELD_NAMES } from '~/platform/user/profile/vap-svc/constants';
+import * as VAP_SERVICE from '~/platform/user/profile/vap-svc/constants';
+import { formatAddress } from '~/platform/forms/address/helpers';
+
+import { isFieldEmpty } from '../util';
 
 import {
   addresses,
   phoneNumbers,
   personalInformation,
-} from '@@profile/util/getProfileInfoFieldAttributes';
+} from '../util/getProfileInfoFieldAttributes';
 
 import {
   formatMultiSelectAndText,
   formatGenderIdentity,
-} from '@@profile/util/personal-information/personalInformationUtils';
-import { formatAddress } from '~/platform/forms/address/helpers';
+} from '../util/personal-information/personalInformationUtils';
 
 const ProfileInformationView = props => {
   const { data, fieldName, title, id } = props;
@@ -54,10 +54,11 @@ const ProfileInformationView = props => {
   }
 
   if (phoneNumbers.includes(fieldName)) {
+    const contact = `${data.areaCode}${data.phoneNumber}`;
     return (
       <div>
-        <Telephone
-          contact={`${data.areaCode}${data.phoneNumber}`}
+        <va-telephone
+          contact={contact}
           extension={data.extension}
           notClickable
         />

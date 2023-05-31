@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { createPersonalInfoUpdate } from '@@profile/actions/personalInformation';
-
 import {
   createTransaction,
   refreshTransaction,
@@ -11,23 +9,23 @@ import {
   openModal,
   updateFormFieldWithSchema,
   validateAddress,
-} from '@@vap-svc/actions';
+} from '~/platform/user/profile/vap-svc/actions';
 
-import * as VAP_SERVICE from '@@vap-svc/constants';
+import * as VAP_SERVICE from '~/platform/user/profile/vap-svc/constants';
 import {
   ACTIVE_EDIT_VIEWS,
   FIELD_NAMES,
   USA,
   PERSONAL_INFO_FIELD_NAMES,
-} from '@@vap-svc/constants';
+} from '~/platform/user/profile/vap-svc/constants';
 
 import {
   isFailedTransaction,
   isPendingTransaction,
   isSuccessfulTransaction,
-} from '@@vap-svc/util/transactions';
-import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
-import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
+} from '~/platform/user/profile/vap-svc/util/transactions';
+import VAPServiceEditModalErrorMessage from '~/platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
+import CopyMailingAddress from '~/platform/user/profile/vap-svc/containers/CopyMailingAddress';
 
 import {
   selectCurrentlyOpenEditModal,
@@ -35,16 +33,18 @@ import {
   selectVAPContactInfoField,
   selectVAPServiceTransaction,
   selectEditViewData,
-} from '@@vap-svc/selectors';
+} from '~/platform/user/profile/vap-svc/selectors';
 
-import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
-import { getEditButtonId } from '@@vap-svc/util/id-factory';
+import { getEditButtonId } from '~/platform/user/profile/vap-svc/util/id-factory';
 
 import { focusElement } from '~/platform/utilities/ui';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import recordEvent from '~/platform/monitoring/record-event';
 import { isEmptyAddress } from '~/platform/forms/address/helpers';
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
+
+import { createPersonalInfoUpdate } from '../actions/personalInformation';
+import { transformInitialFormValues } from '../util/contact-information/formValues';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
