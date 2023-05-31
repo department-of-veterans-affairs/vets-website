@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useField } from 'formik';
 
+import { FIELD_TITLES } from 'platform/user/profile/vap-svc/constants';
 import { selectEditedFormField } from '~/platform/user/profile/vap-svc/selectors';
 import { updateFormFieldWithSchema } from '~/platform/user/profile/vap-svc/actions';
-import { FIELD_TITLES } from '~/platform/user/profile/vap-svc/constants';
 
 import { phoneConvertNextValueToCleanData } from '../../../../util/contact-information/phoneUtils';
 

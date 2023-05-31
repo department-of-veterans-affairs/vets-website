@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-import { FIELD_NAMES } from '~/platform/user/profile/vap-svc/constants';
-import * as VAP_SERVICE from '~/platform/user/profile/vap-svc/constants';
+import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 import { formatAddress } from '~/platform/forms/address/helpers';
 
 import { isFieldEmpty } from '../util';
@@ -100,7 +99,7 @@ const ProfileInformationView = props => {
 };
 
 ProfileInformationView.propTypes = {
-  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
+  fieldName: PropTypes.oneOf(Object.values(FIELD_NAMES)).isRequired,
   data: PropTypes.object,
   id: PropTypes.string,
   title: PropTypes.string,

@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 
+import * as VAP_SERVICE from 'platform/user/profile/vap-svc/constants';
 import {
   updateFormFieldWithSchema,
   clearTransactionRequest,
 } from '~/platform/user/profile/vap-svc/actions';
-
-import * as VAP_SERVICE from '~/platform/user/profile/vap-svc/constants';
 
 import { selectEditedFormField } from '~/platform/user/profile/vap-svc/selectors';
 

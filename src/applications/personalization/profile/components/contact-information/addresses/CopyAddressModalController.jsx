@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import set from 'lodash/set';
 
 // vap-svc deps
+import * as VAP_SERVICE from 'platform/user/profile/vap-svc/constants';
 import {
   updateCopyAddressModal,
   createTransaction,
 } from '~/platform/user/profile/vap-svc/actions';
-import * as VAP_SERVICE from '~/platform/user/profile/vap-svc/constants';
 import { areAddressesEqual } from '~/platform/user/profile/vap-svc/util';
 import {
   selectCopyAddressModal,

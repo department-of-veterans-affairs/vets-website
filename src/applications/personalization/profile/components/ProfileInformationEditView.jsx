@@ -3,6 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
+  ACTIVE_EDIT_VIEWS,
+  FIELD_NAMES,
+  USA,
+  PERSONAL_INFO_FIELD_NAMES,
+  ANALYTICS_FIELD_MAP,
+  API_ROUTES,
+} from 'platform/user/profile/vap-svc/constants';
+import {
   createTransaction,
   refreshTransaction,
   clearTransactionRequest,
@@ -10,14 +18,6 @@ import {
   updateFormFieldWithSchema,
   validateAddress,
 } from '~/platform/user/profile/vap-svc/actions';
-
-import * as VAP_SERVICE from '~/platform/user/profile/vap-svc/constants';
-import {
-  ACTIVE_EDIT_VIEWS,
-  FIELD_NAMES,
-  USA,
-  PERSONAL_INFO_FIELD_NAMES,
-} from '~/platform/user/profile/vap-svc/constants';
 
 import {
   isFailedTransaction,
@@ -367,15 +367,14 @@ export class ProfileInformationEditView extends Component {
 }
 
 ProfileInformationEditView.propTypes = {
-  analyticsSectionName: PropTypes.oneOf(
-    Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
-  ).isRequired,
-  apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
+  analyticsSectionName: PropTypes.oneOf(Object.values(ANALYTICS_FIELD_MAP))
+    .isRequired,
+  apiRoute: PropTypes.oneOf(Object.values(API_ROUTES)).isRequired,
   clearTransactionRequest: PropTypes.func.isRequired,
   convertCleanDataToPayload: PropTypes.func.isRequired,
   createPersonalInfoUpdate: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
-  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
+  fieldName: PropTypes.oneOf(Object.values(FIELD_NAMES)).isRequired,
   formSchema: PropTypes.object.isRequired,
   getInitialFormValues: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
@@ -431,7 +430,7 @@ export const mapStateToProps = (state, ownProps) => {
         : selectCurrentlyOpenEditModal(state),
     data,
     fieldName,
-    analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
+    analyticsSectionName: ANALYTICS_FIELD_MAP[fieldName],
     field: selectEditedFormField(state, fieldName),
     transaction,
     transactionRequest,
