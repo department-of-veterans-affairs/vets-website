@@ -20,14 +20,6 @@ import {
 } from '../../mocks/data';
 import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 
-// Setup date for initial page display which displays appointments for the past
-// 3 months.
-const now = moment().startOf('day');
-const start = moment(now).subtract(3, 'months');
-const end = moment(now)
-  .minutes(0)
-  .add(30, 'minutes');
-
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
@@ -49,6 +41,12 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   });
 
   it('should show select date range dropdown', async () => {
+    const now = moment().startOf('day');
+    const start = moment(now).subtract(3, 'months');
+    const end = moment(now)
+      .minutes(0)
+      .add(30, 'minutes');
+
     mockVAOSAppointmentsFetch({
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
@@ -68,6 +66,12 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
 
   // TODO: Skipping since RTL doesn't work with web components va-select.
   it.skip('should update range on dropdown change', async () => {
+    const now = moment().startOf('day');
+    const start = moment(now).subtract(3, 'months');
+    const end = moment(now)
+      .minutes(0)
+      .add(30, 'minutes');
+
     const url = '/va/1234';
 
     const pastDate = moment().subtract(3, 'months');
@@ -131,7 +135,13 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   });
 
   it('should show information without facility name', async () => {
-    const pastDate = moment().subtract(3, 'days');
+    const now = moment().startOf('day');
+    const start = moment(now).subtract(3, 'months');
+    const end = moment(now)
+      .minutes(0)
+      .add(30, 'minutes');
+    const pastDate = moment(now).subtract(3, 'days');
+
     const data = {
       id: '1234',
       kind: 'clinic',
@@ -175,7 +185,13 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   });
 
   it('should show information with facility name', async () => {
-    const pastDate = moment().subtract(3, 'days');
+    const now = moment().startOf('day');
+    const start = moment(now).subtract(3, 'months');
+    const end = moment(now)
+      .minutes(0)
+      .add(30, 'minutes');
+    const pastDate = moment(now).subtract(3, 'days');
+
     const data = {
       id: '1234',
       currentStatus: 'CHECKED OUT',
@@ -281,6 +297,12 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   // TODO: Not sure if this test is still valid for v2 appointments. See
   // ../appointment/transformers.v2.js:338
   it.skip('should not display when they have hidden statuses', () => {
+    const now = moment().startOf('day');
+    const start = moment(now).subtract(3, 'months');
+    const end = moment(now)
+      .minutes(0)
+      .add(30, 'minutes');
+
     const data = {
       id: '1234',
       currentStatus: 'NO-SHOW',
@@ -314,7 +336,13 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
 
   // TODO: Skipping since RTL doesn't work with web components va-select.
   it.skip('should not display when over 2 years away', () => {
-    const pastDate = moment().subtract(2, 'years');
+    const now = moment().startOf('day');
+    const start = moment(now).subtract(3, 'months');
+    const end = moment(now)
+      .minutes(0)
+      .add(30, 'minutes');
+    const pastDate = moment(now).subtract(2, 'years');
+
     const data = {
       id: '1234',
       currentStatus: 'FUTURE',
@@ -345,7 +373,13 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   });
 
   it('should show expected video information', async () => {
-    const pastDate = moment().subtract(3, 'days');
+    const now = moment().startOf('day');
+    const start = moment(now).subtract(3, 'months');
+    const end = moment(now)
+      .minutes(0)
+      .add(30, 'minutes');
+    const pastDate = moment(now).subtract(3, 'days');
+
     const appointment = getVAOSAppointmentMock();
     appointment.id = '1';
     appointment.attributes = {
@@ -400,7 +434,16 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   });
 
   it('should display past appointments using V2 api call', async () => {
-    const yesterday = moment.utc().subtract(1, 'day');
+    const now = moment().startOf('day');
+    const start = moment(now).subtract(3, 'months');
+    const end = moment(now)
+      .minutes(0)
+      .add(30, 'minutes');
+
+    const yesterday = moment(now)
+      .utc()
+      .subtract(1, 'day');
+
     const appointment = getVAOSAppointmentMock();
     appointment.id = '1';
     appointment.attributes = {
