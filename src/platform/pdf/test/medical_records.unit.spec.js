@@ -9,10 +9,16 @@ navigator.platform = '';
 
 const pdfjs = require('pdfjs-dist/legacy/build/pdf');
 
-// TODO: fix sequence issues.
 describe('Medical records PDF template', () => {
   after(() => {
     navigator.platform = originalPlatform;
+  });
+
+  afterEach(() => {
+    for (const path of Object.keys(require.cache)) {
+      // Delete require cache for fixtures so that we get a fresh copy each time.
+      path.includes('pdf/test/fixtures') && delete require.cache[path];
+    }
   });
 
   const generatePdf = async data => {
@@ -78,9 +84,7 @@ describe('Medical records PDF template', () => {
       const text = content.items[23].str;
       expect(text).to.equal(data.results.items[0].items[0].value);
     });
-  });
 
-  describe('Document metadata', () => {
     it('Has a default language (english)', async () => {
       const data = require('./fixtures/single_vital.json');
       const pdfData = await generatePdf(data);
