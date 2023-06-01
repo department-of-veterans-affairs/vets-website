@@ -86,13 +86,11 @@ const ReviewPage = ({
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    dependentsInput: state?.incomeLimits?.form?.dependents,
-    editMode: state?.incomeLimits?.editMode,
-    zipCodeInput: state?.incomeLimits?.form?.zipCode,
-  };
-};
+const mapStateToProps = state => ({
+  dependentsInput: state?.incomeLimits?.form?.dependents,
+  editMode: state?.incomeLimits?.editMode,
+  zipCodeInput: state?.incomeLimits?.form?.zipCode,
+});
 
 const mapDispatchToProps = {
   toggleEditMode: updateEditMode,
