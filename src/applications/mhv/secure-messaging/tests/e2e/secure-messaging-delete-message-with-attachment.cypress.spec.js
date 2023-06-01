@@ -8,17 +8,12 @@ import PatientComposePage from './pages/PatientComposePage';
 
 describe('Secure Messaging - Delete Message with Attachment', () => {
   it('delete message with attachment', () => {
-    const site = new SecureMessagingSite();
-    const landingPage = new PatientInboxPage();
-    const detailsPage = new PatientMessageDetailsPage();
-    const composePage = new PatientComposePage();
-
-    site.login();
+    SecureMessagingSite.login();
     mockMessagewithAttachment.data.id = '7192838';
     mockMessagewithAttachment.data.attributes.messageId = '7192838';
     mockMessagewithAttachment.data.attributes.attachment = true;
     mockMessagewithAttachment.data.attributes.body = 'attachment';
-    landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
+    PatientInboxPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
@@ -34,14 +29,14 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
 
     cy.get('[data-testid="inbox-sidebar"] > a').click();
 
-    detailsPage.loadMessageDetails(
+    PatientMessageDetailsPage.loadMessageDetails(
       mockMessagewithAttachment,
       mockThreadwithAttachment,
     );
-    composePage.clickTrashButton();
+    PatientComposePage.clickTrashButton();
 
-    composePage.clickConfirmDeleteButton();
-    composePage.verifyDeleteDraftSuccessfulMessage();
+    PatientComposePage.clickConfirmDeleteButton();
+    PatientComposePage.verifyDeleteDraftSuccessfulMessage();
 
     cy.wait('@deleteMessagewithAttachment');
     cy.injectAxe();

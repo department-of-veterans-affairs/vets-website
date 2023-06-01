@@ -5,20 +5,16 @@ import PatientInterstitialPage from './pages/PatientInterstitialPage';
 
 describe('Secure Messaging Compose', () => {
   it('can send message', () => {
-    const landingPage = new PatientInboxPage();
-    const composePage = new PatientComposePage();
-    const patientInterstitialPage = new PatientInterstitialPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
     cy.get('[data-testid="compose-message-link"]').click();
-    patientInterstitialPage.getContinueButton().click();
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    composePage.getCategory('COVID').click();
-    composePage.attachMessageFromFile('test_image.jpg');
-    composePage.getMessageSubjectField().type('Test Subject');
-    composePage.getMessageBodyField().type('Test message body');
-    composePage.sendMessage();
+    PatientInterstitialPage.getContinueButton().click();
+    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.getCategory('COVID').click();
+    PatientComposePage.attachMessageFromFile('test_image.jpg');
+    PatientComposePage.getMessageSubjectField().type('Test Subject');
+    PatientComposePage.getMessageBodyField().type('Test message body');
+    PatientComposePage.sendMessage();
     cy.injectAxe();
     cy.axeCheck();
   });

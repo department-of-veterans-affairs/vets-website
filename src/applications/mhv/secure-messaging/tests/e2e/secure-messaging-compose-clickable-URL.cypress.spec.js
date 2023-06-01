@@ -5,24 +5,22 @@ import PatientInterstitialPage from './pages/PatientInterstitialPage';
 
 describe('Secure Messaging - Compose with Clickable URL', () => {
   it('search for clickable URL', () => {
-    const site = new SecureMessagingSite();
-    const landingPage = new PatientInboxPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
-    const composePage = new PatientComposePage();
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
     cy.injectAxe();
     cy.axeCheck();
     cy.get('[data-testid="compose-message-link"]').click();
-    patientInterstitialPage.getContinueButton().click();
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    composePage.getCategory('COVID').click();
-    composePage.getMessageSubjectField().type('Message with Clickable URL');
-    composePage.getMessageBodyField().type('https://www.va.gov/');
-    composePage.verifyClickableURLinMessageBody('https://www.va.gov/');
-    composePage.sendMessage();
+    PatientInterstitialPage.getContinueButton().click();
+    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.getCategory('COVID').click();
+    PatientComposePage.getMessageSubjectField().type(
+      'Message with Clickable URL',
+    );
+    PatientComposePage.getMessageBodyField().type('https://www.va.gov/');
+    PatientComposePage.verifyClickableURLinMessageBody('https://www.va.gov/');
+    PatientComposePage.sendMessage();
     cy.injectAxe();
     cy.axeCheck();
-    composePage.verifySendMessageConfirmationMessage();
+    PatientComposePage.verifySendMessageConfirmationMessage();
   });
 });

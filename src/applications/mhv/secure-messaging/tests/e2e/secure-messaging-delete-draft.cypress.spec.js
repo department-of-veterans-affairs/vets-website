@@ -7,21 +7,23 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import mockThreadResponse from './fixtures/single-draft-response.json';
 
 describe('Secure Messaging Delete Draft', () => {
-  const site = new SecureMessagingSite();
-  const inboxPage = new PatientInboxPage();
-  const draftsPage = new PatientMessageDraftsPage();
-  const patientInterstitialPage = new PatientInterstitialPage();
   it(' Delete Drafts', () => {
-    site.login();
-    inboxPage.loadInboxMessages();
-    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
-    draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
-    patientInterstitialPage.getContinueButton().click({ force: true });
-    draftsPage.clickDeleteButton();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientMessageDraftsPage.loadDraftMessages(
+      mockDraftMessages,
+      mockDraftResponse,
+    );
+    PatientMessageDraftsPage.loadMessageDetails(
+      mockDraftResponse,
+      mockThreadResponse,
+    );
+    PatientInterstitialPage.getContinueButton().click({ force: true });
+    PatientMessageDraftsPage.clickDeleteButton();
     cy.injectAxe();
     cy.axeCheck();
-    draftsPage.confirmDeleteDraft(mockDraftResponse);
-    inboxPage.verifyDeleteConfirmMessage();
+    PatientMessageDraftsPage.confirmDeleteDraft(mockDraftResponse);
+    PatientInboxPage.verifyDeleteConfirmMessage();
     cy.injectAxe();
     cy.axeCheck();
   });

@@ -16,7 +16,7 @@ class PatientBasicSearchPage {
       .type(text, { force: true });
   };
 
-  // All commented methods below temporarily replaced by the submitSearch method with folderId as a function parameter (see below)
+  // All commented methods temporarily replaced by the submitSearch method with folderId as a function parameter (see below)
   // This method clicks the Filter button on the Inbox page.
   /*
   submitInboxSearch = () => {

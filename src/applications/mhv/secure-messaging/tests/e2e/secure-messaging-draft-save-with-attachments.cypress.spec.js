@@ -9,25 +9,25 @@ import mockThreadResponse from './fixtures/single-draft-response.json';
 
 describe('Secure Messaging Draft Save with Attachments', () => {
   it('Axe Check Draft Save with Attachments', () => {
-    const landingPage = new PatientInboxPage();
-    const composePage = new PatientComposePage();
-    const site = new SecureMessagingSite();
-    const draftsPage = new PatientMessageDraftsPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
-
-    site.login();
-    landingPage.loadInboxMessages();
-    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
-    draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
-    patientInterstitialPage.getContinueButton().click();
-    composePage.attachMessageFromFile('sample_docx.docx');
-    composePage.saveDraftButton().click();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientMessageDraftsPage.loadDraftMessages(
+      mockDraftMessages,
+      mockDraftResponse,
+    );
+    PatientMessageDraftsPage.loadMessageDetails(
+      mockDraftResponse,
+      mockThreadResponse,
+    );
+    PatientInterstitialPage.getContinueButton().click();
+    PatientComposePage.attachMessageFromFile('sample_docx.docx');
+    PatientComposePage.saveDraftButton().click();
     cy.get('[visible=""] > p').should(
       'contain',
       'If you save this message as a draft',
     );
     cy.injectAxe();
     cy.axeCheck();
-    cy.realPress(['Enter']);
+    // cy.realPress(['Enter']);   // useless action ?
   });
 });

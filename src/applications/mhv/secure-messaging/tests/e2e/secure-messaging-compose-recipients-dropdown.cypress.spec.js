@@ -55,22 +55,19 @@ const recipientsResponseFalse = {
 };
 
 describe('recipients dropdown box', () => {
-  it.skip('preferredTriageTeam selcet dropdown default ', () => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    const patientInterstitialPage = new PatientInterstitialPage();
-    site.login();
-    landingPage.loadInboxMessages(
+  it('preferredTriageTeam select dropdown default ', () => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSpecialCharsMessage,
       recipientsResponseDefault,
     );
 
     cy.get('[data-testid="compose-message-link"]').click();
-    patientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getContinueButton().click();
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('[data-testid="compose-recipient-select"]').should('exist');
+    // cy.get('[data-testid="compose-recipient-select"]').should('exist');
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('option')
@@ -78,26 +75,19 @@ describe('recipients dropdown box', () => {
       .should('equal', 3);
     cy.get('[name="COVID"]').click();
   });
-  it.skip('preferredTriageTeam selcet dropdown false', () => {
-    const landingPage = new PatientInboxPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages(
+  it('preferredTriageTeam select dropdown false', () => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSpecialCharsMessage,
       recipientsResponseFalse,
     );
     cy.get('[data-testid="compose-message-link"]').click();
-    patientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getContinueButton().click();
     cy.injectAxe();
     cy.axeCheck();
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/recipients?useCache=false',
-      recipientsResponseFalse,
-    ).as('recipients');
     cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
       .find('option')
       .its('length')
       .should('equal', 1);
