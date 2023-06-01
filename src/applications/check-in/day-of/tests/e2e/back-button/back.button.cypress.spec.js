@@ -30,13 +30,6 @@ describe('Check In Experience', () => {
         ],
       });
       initializeCheckInDataPost.withSuccess();
-    });
-    afterEach(() => {
-      cy.window().then(window => {
-        window.sessionStorage.clear();
-      });
-    });
-    it('should have a functional back button', () => {
       cy.visitWithUUID();
 
       ValidateVeteran.validatePage.dayOf();
@@ -56,6 +49,13 @@ describe('Check In Experience', () => {
         'Is this your current next of kin information?',
       );
       cy.injectAxeThenAxeCheck();
+    });
+    afterEach(() => {
+      cy.window().then(window => {
+        window.sessionStorage.clear();
+      });
+    });
+    it('should have a functional back button', () => {
       NextOfKin.validateBackButton();
       NextOfKin.attemptToGoToNextPage();
 
@@ -73,25 +73,6 @@ describe('Check In Experience', () => {
       );
     });
     it('removes back button from appointment list when check in is complete', () => {
-      cy.visitWithUUID();
-
-      ValidateVeteran.validatePage.dayOf();
-      cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validateVeteran();
-      ValidateVeteran.attemptToGoToNextPage();
-
-      Demographics.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-      Demographics.attemptToGoToNextPage();
-
-      EmergencyContact.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-      EmergencyContact.attemptToGoToNextPage();
-
-      NextOfKin.validatePageLoaded(
-        'Is this your current next of kin information?',
-      );
-      cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 
       Appointments.validatePageLoaded();
@@ -105,6 +86,41 @@ describe('Check In Experience', () => {
       Confirmation.attemptGoBackToAppointments();
       Appointments.validatePageLoaded();
       cy.get('[data-testid="back-button"]').should('not.exist');
+    });
+    it('prevents users from navigating to any of the question pages when check in is complete', () => {
+      NextOfKin.attemptToGoToNextPage();
+
+      Appointments.validatePageLoaded();
+      Appointments.validateAppointmentLength(2);
+      cy.injectAxeThenAxeCheck();
+
+      Appointments.attemptCheckIn(2);
+      Confirmation.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+
+      Confirmation.attemptGoBackToAppointments();
+      Appointments.validatePageLoaded();
+
+      cy.visit('/health-care/appointment-check-in/contact-information');
+      Appointments.validatePageLoaded();
+
+      cy.visit('/health-care/appointment-check-in/emergency-contact');
+      Appointments.validatePageLoaded();
+
+      cy.visit('/health-care/appointment-check-in/next-of-kin');
+      Appointments.validatePageLoaded();
+
+      cy.visit('/health-care/appointment-check-in/travel-pay');
+      Appointments.validatePageLoaded();
+
+      cy.visit('/health-care/appointment-check-in/travel-vehicle');
+      Appointments.validatePageLoaded();
+
+      cy.visit('/health-care/appointment-check-in/travel-address');
+      Appointments.validatePageLoaded();
+
+      cy.visit('/health-care/appointment-check-in/travel-mileage');
+      Appointments.validatePageLoaded();
     });
   });
 });
