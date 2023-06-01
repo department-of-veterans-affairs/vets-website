@@ -15,32 +15,6 @@ import { SELECTED } from '../../constants';
 import maximalTestV1 from '../fixtures/data/maximal-test-v1.json';
 import migratedMaximalTestV1 from '../fixtures/data/migrated/maximal-test-v1-to-v2.json';
 
-const profile = {
-  vapContactInfo: {
-    email: {
-      emailAddress: 'test@user.com',
-    },
-    mobilePhone: {
-      countryCode: '2',
-      areaCode: '345',
-      phoneNumber: '6789012',
-      phoneNumberExt: '34',
-      updatedAt: '2021-01-01',
-    },
-    mailingAddress: {
-      addressLine1: '123 test',
-      addressLine2: 'c/o foo',
-      addressLine3: 'suite 99',
-      city: 'Big City',
-      stateCode: 'NV',
-      zipCode: '10101',
-      countryName: 'USA',
-      internationalPostalCode: '12345',
-      updatedAt: '2021-01-01',
-    },
-  },
-};
-
 const savedHlr = [
   {
     form: VA_FORM_IDS.FORM_20_0996,
@@ -48,16 +22,11 @@ const savedHlr = [
   },
 ];
 
-const getData = ({
-  loggedIn = true,
-  mockProfile = profile,
-  savedForms = [],
-} = {}) => ({
+const getData = ({ loggedIn = true, savedForms = [] } = {}) => ({
   props: {
     loggedIn,
     location: { pathname: '/introduction', search: '' },
     children: <h1>Intro</h1>,
-    profile: mockProfile,
     formData: { benefitType: 'compensation' },
     setFormData: () => {},
     getContestableIssues: () => {},
@@ -69,7 +38,7 @@ const getData = ({
         login: {
           currentlyLoggedIn: loggedIn,
         },
-        profile: { ...mockProfile, savedForms },
+        profile: { savedForms },
       },
       form: {
         loadedStatus: 'success',
@@ -142,7 +111,7 @@ describe('Form0996App', () => {
 
     tree.setProps();
     expect(tree.find('va-loading-indicator').html()).to.contain(
-      'Loading your previous decision',
+      'Loading application',
     );
     expect(getIssues.calledOnce).to.be.true;
     tree.unmount();
@@ -159,38 +128,6 @@ describe('Form0996App', () => {
 
     tree.setProps();
     expect(getIssues.notCalled).to.be.true;
-
-    tree.unmount();
-  });
-
-  it('should not throw an error if profile is null', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
-    const getIssues = sinon.spy();
-    const mockProfile = {
-      vapContactInfo: {
-        email: null,
-        mobilePhone: null,
-        mailingAddress: null,
-      },
-    };
-    const { props, mockStore } = getData({ mockProfile, savedForms: savedHlr });
-    const tree = mount(
-      <Provider store={mockStore}>
-        <Form0996App
-          {...props}
-          getContestableIssues={getIssues}
-          contestableIssues={{
-            issues: [],
-            status: '',
-            error: '',
-            benefitType: 'compensation',
-          }}
-        />
-      </Provider>,
-    );
-
-    tree.setProps();
-    expect(getIssues.calledOnce).to.be.true;
 
     tree.unmount();
   });
@@ -240,12 +177,6 @@ describe('Form0996App', () => {
     expect(setFormData.called).to.be.true;
 
     const formData = setFormData.args[0][0];
-    const result = {
-      address: profile.vapContactInfo.mailingAddress,
-      phone: profile.vapContactInfo.mobilePhone,
-      email: profile.vapContactInfo.email.emailAddress,
-    };
-    expect(formData.veteran).to.deep.equal(result);
     expect(formData.contestedIssues).to.deep.equal([
       contestableIssues.issues[1],
       contestableIssues.issues[0],
@@ -278,11 +209,6 @@ describe('Form0996App', () => {
       benefitType: 'compensation',
       contestedIssues: contestableIssues.issues,
       additionalIssues: [{ issue: 'other issue', [SELECTED]: true }],
-      veteran: {
-        email: profile.vapContactInfo.email.emailAddress,
-        phone: profile.vapContactInfo.mobilePhone,
-        address: profile.vapContactInfo.mailingAddress,
-      },
     };
     const tree = mount(
       <Provider store={mockStore}>
@@ -333,6 +259,9 @@ describe('Form0996App', () => {
     expect(setFormData.called).to.be.true;
 
     const formData = setFormData.args[0][0];
+    delete migratedMaximalTestV1.veteran.address;
+    delete migratedMaximalTestV1.veteran.email;
+    delete migratedMaximalTestV1.veteran.phone;
     expect(formData).to.deep.equal(migratedMaximalTestV1);
 
     tree.unmount();
