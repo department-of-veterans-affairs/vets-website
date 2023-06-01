@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -26,13 +26,6 @@ const EmergencyContact = props => {
     getPreviousPageFromRouter,
   } = useFormRouting(router);
   const { setShouldSendDemographicsFlags } = useSessionStorage(false);
-
-  const { getCheckinComplete } = useSessionStorage(false);
-  useLayoutEffect(() => {
-    if (getCheckinComplete(window)) {
-      jumpToPage(URLS.DETAILS);
-    }
-  });
 
   const seeStaffMessage = t(
     'our-staff-can-help-you-update-your-emergency-contact-information',
@@ -81,6 +74,7 @@ const EmergencyContact = props => {
         emergencyContact={emergencyContact}
         yesAction={yesClick}
         noAction={noClick}
+        router={router}
       />
     </>
   );

@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import DemographicItem from '../../DemographicItem';
 import Wrapper from '../../layout/Wrapper';
 import { toCamelCase } from '../../../utils/formatters';
+import { URLS } from '../../../utils/navigation';
 
 const ConfirmablePage = ({
   header,
@@ -19,8 +22,17 @@ const ConfirmablePage = ({
   noAction = () => {},
   withBackButton = false,
   pageType,
+  router,
 }) => {
   const { t } = useTranslation();
+
+  const { jumpToPage } = useFormRouting(router);
+  const { getCheckinComplete } = useSessionStorage(false);
+  useLayoutEffect(() => {
+    if (getCheckinComplete(window)) {
+      jumpToPage(URLS.DETAILS);
+    }
+  });
 
   const onYesClick = () => {
     recordEvent({
@@ -108,9 +120,10 @@ ConfirmablePage.propTypes = {
   ).isRequired,
   header: PropTypes.string.isRequired,
   noAction: PropTypes.func.isRequired,
-  yesAction: PropTypes.func.isRequired,
   pageType: PropTypes.string,
   subtitle: PropTypes.string,
+  router: PropTypes.object,
   withBackButton: PropTypes.bool,
+  yesAction: PropTypes.func.isRequired,
 };
 export default ConfirmablePage;
