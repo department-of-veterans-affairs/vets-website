@@ -35,9 +35,10 @@
 }
 
 .dependent-count {
-  label,
-  .usa-input-error-message {
-    width: $usa-form-width;
+  @include media($medium-screen) {
+    input {
+      max-width: fit-content;
+    }
   }
 }
 
