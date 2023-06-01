@@ -14,13 +14,6 @@ describe('Medical records PDF template', () => {
     navigator.platform = originalPlatform;
   });
 
-  afterEach(() => {
-    for (const path of Object.keys(require.cache)) {
-      // Delete require cache for fixtures so that we get a fresh copy each time.
-      path.includes('pdf/test/fixtures') && delete require.cache[path];
-    }
-  });
-
   const generatePdf = async data => {
     const template = require('../templates/medical_records');
 
@@ -94,12 +87,11 @@ describe('Medical records PDF template', () => {
     });
 
     it('Can customize the document language', async () => {
-      const data = require('./fixtures/single_vital.json');
-      data.lang = 'es';
+      const data = require('./fixtures/single_vital_es.json');
       const pdfData = await generatePdf(data);
       const pdf = await pdfjs.getDocument(pdfData).promise;
       const documentMetadata = await pdf.getMetadata();
-      expect(documentMetadata.info.Language).to.equal('es');
+      expect(documentMetadata.info.Language).to.equal(data.lang);
     });
 
     it('Provides defaults', async () => {
@@ -114,16 +106,12 @@ describe('Medical records PDF template', () => {
     });
 
     it('Metadata may be customized', async () => {
-      const data = require('./fixtures/single_vital.json');
-      const subject = 'test subject';
-      data.subject = subject;
-      const author = 'test author';
-      data.author = author;
+      const data = require('./fixtures/single_vital_custom_metadata.json');
       const pdfData = await generatePdf(data);
       const pdf = await pdfjs.getDocument(pdfData).promise;
       const documentMetadata = await pdf.getMetadata();
-      expect(documentMetadata.info.Author).to.equal(author);
-      expect(documentMetadata.info.Subject).to.equal(subject);
+      expect(documentMetadata.info.Author).to.equal(data.author);
+      expect(documentMetadata.info.Subject).to.equal(data.subject);
       expect(documentMetadata.info.Title).to.equal(data.title);
     });
   });
