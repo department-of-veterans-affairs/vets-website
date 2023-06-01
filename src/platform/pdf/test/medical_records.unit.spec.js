@@ -9,6 +9,7 @@ navigator.platform = '';
 
 const pdfjs = require('pdfjs-dist/legacy/build/pdf');
 
+// TODO: fix sequence issues.
 describe('Medical records PDF template', () => {
   after(() => {
     navigator.platform = originalPlatform;
@@ -40,24 +41,6 @@ describe('Medical records PDF template', () => {
       expect(text).to.equal(data.title.substring(0, text.length));
     });
 
-    it('Only outputs detail headers when present in JSON', async () => {
-      const data = require('./fixtures/single_vital.json');
-      const pdfData = await generatePdf(data);
-      const pdf = await pdfjs.getDocument(pdfData).promise;
-
-      // Fetch the first page
-      const pageNumber = 1;
-      const page = await pdf.getPage(pageNumber);
-
-      const content = await page.getTextContent({ includeMarkedContent: true });
-
-      // Get first details struct.
-      const { tag } = content.items[19];
-      expect(tag).to.equal('P');
-      const text = content.items[23].str;
-      expect(text).to.equal(data.results.items[0].items[0].value);
-    });
-
     it('All sections are contained by a root level Document element', async () => {
       const data = require('./fixtures/single_vital.json');
       const pdfData = await generatePdf(data);
@@ -75,7 +58,29 @@ describe('Medical records PDF template', () => {
       expect(rootElement.children.length).to.equal(4);
       expect(rootElement.children[1].children[0].role).to.equal('H1');
     });
+  });
 
+  describe('Document section customization', () => {
+    it('Only outputs detail headers when present in JSON', async () => {
+      const data = require('./fixtures/single_vital.json');
+      const pdfData = await generatePdf(data);
+      const pdf = await pdfjs.getDocument(pdfData).promise;
+
+      // Fetch the first page
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+
+      // Get first details struct.
+      const { tag } = content.items[19];
+      expect(tag).to.equal('P');
+      const text = content.items[23].str;
+      expect(text).to.equal(data.results.items[0].items[0].value);
+    });
+  });
+
+  describe('Document metadata', () => {
     it('Has a default language (english)', async () => {
       const data = require('./fixtures/single_vital.json');
       const pdfData = await generatePdf(data);
@@ -91,6 +96,31 @@ describe('Medical records PDF template', () => {
       const pdf = await pdfjs.getDocument(pdfData).promise;
       const documentMetadata = await pdf.getMetadata();
       expect(documentMetadata.info.Language).to.equal('es');
+    });
+
+    it('Provides defaults', async () => {
+      const data = require('./fixtures/single_vital.json');
+      const pdfData = await generatePdf(data);
+      const pdf = await pdfjs.getDocument(pdfData).promise;
+      const documentMetadata = await pdf.getMetadata();
+      expect(documentMetadata.info.Author).to.equal(
+        'Department of Veterans Affairs',
+      );
+      expect(documentMetadata.info.Subject).to.equal('');
+    });
+
+    it('Metadata may be customized', async () => {
+      const data = require('./fixtures/single_vital.json');
+      const subject = 'test subject';
+      data.subject = subject;
+      const author = 'test author';
+      data.author = author;
+      const pdfData = await generatePdf(data);
+      const pdf = await pdfjs.getDocument(pdfData).promise;
+      const documentMetadata = await pdf.getMetadata();
+      expect(documentMetadata.info.Author).to.equal(author);
+      expect(documentMetadata.info.Subject).to.equal(subject);
+      expect(documentMetadata.info.Title).to.equal(data.title);
     });
   });
 });
