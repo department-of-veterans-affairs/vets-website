@@ -22,12 +22,18 @@ describe('Medical records PDF template', () => {
     return getStream.buffer(doc);
   };
 
+  const generateAndParsePdf = async data => {
+    const pdfData = await generatePdf(data);
+    const pdf = await pdfjs.getDocument(pdfData).promise;
+    const metadata = await pdf.getMetadata();
+
+    return { metadata, pdf };
+  };
+
   describe('PDF Semantics', () => {
     it('places the title in an H1', async () => {
       const data = require('./fixtures/lab_test_blood_count.json');
-
-      const pdfData = await generatePdf(data);
-      const pdf = await pdfjs.getDocument(pdfData).promise;
+      const { pdf } = await generateAndParsePdf(data);
 
       // Fetch the first page
       const pageNumber = 1;
@@ -42,8 +48,7 @@ describe('Medical records PDF template', () => {
 
     it('All sections are contained by a root level Document element', async () => {
       const data = require('./fixtures/single_vital.json');
-      const pdfData = await generatePdf(data);
-      const pdf = await pdfjs.getDocument(pdfData).promise;
+      const { pdf } = await generateAndParsePdf(data);
 
       // Fetch the first page
       const pageNumber = 1;
@@ -62,8 +67,7 @@ describe('Medical records PDF template', () => {
   describe('Document section customization', () => {
     it('Only outputs detail headers when present in JSON', async () => {
       const data = require('./fixtures/single_vital.json');
-      const pdfData = await generatePdf(data);
-      const pdf = await pdfjs.getDocument(pdfData).promise;
+      const { pdf } = await generateAndParsePdf(data);
 
       // Fetch the first page
       const pageNumber = 1;
@@ -80,39 +84,29 @@ describe('Medical records PDF template', () => {
 
     it('Has a default language (english)', async () => {
       const data = require('./fixtures/single_vital.json');
-      const pdfData = await generatePdf(data);
-      const pdf = await pdfjs.getDocument(pdfData).promise;
-      const documentMetadata = await pdf.getMetadata();
-      expect(documentMetadata.info.Language).to.equal('en-US');
+      const { metadata } = await generateAndParsePdf(data);
+      expect(metadata.info.Language).to.equal('en-US');
     });
 
     it('Can customize the document language', async () => {
       const data = require('./fixtures/single_vital_es.json');
-      const pdfData = await generatePdf(data);
-      const pdf = await pdfjs.getDocument(pdfData).promise;
-      const documentMetadata = await pdf.getMetadata();
-      expect(documentMetadata.info.Language).to.equal(data.lang);
+      const { metadata } = await generateAndParsePdf(data);
+      expect(metadata.info.Language).to.equal(data.lang);
     });
 
     it('Provides defaults', async () => {
       const data = require('./fixtures/single_vital.json');
-      const pdfData = await generatePdf(data);
-      const pdf = await pdfjs.getDocument(pdfData).promise;
-      const documentMetadata = await pdf.getMetadata();
-      expect(documentMetadata.info.Author).to.equal(
-        'Department of Veterans Affairs',
-      );
-      expect(documentMetadata.info.Subject).to.equal('');
+      const { metadata } = await generateAndParsePdf(data);
+      expect(metadata.info.Author).to.equal('Department of Veterans Affairs');
+      expect(metadata.info.Subject).to.equal('');
     });
 
     it('Metadata may be customized', async () => {
       const data = require('./fixtures/single_vital_custom_metadata.json');
-      const pdfData = await generatePdf(data);
-      const pdf = await pdfjs.getDocument(pdfData).promise;
-      const documentMetadata = await pdf.getMetadata();
-      expect(documentMetadata.info.Author).to.equal(data.author);
-      expect(documentMetadata.info.Subject).to.equal(data.subject);
-      expect(documentMetadata.info.Title).to.equal(data.title);
+      const { metadata } = await generateAndParsePdf(data);
+      expect(metadata.info.Author).to.equal(data.author);
+      expect(metadata.info.Subject).to.equal(data.subject);
+      expect(metadata.info.Title).to.equal(data.title);
     });
   });
 });
