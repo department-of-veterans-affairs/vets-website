@@ -10,8 +10,7 @@ import claimOwnership from '../pages/claimOwnership';
 import claimantType from '../pages/claimantType';
 import witnessPersInfo from '../pages/witnessPersInfo';
 import witnessContInfo from '../pages/witnessContInfo';
-import claimantPersInfoA from '../pages/claimantPersInfoA';
-import claimantPersInfoB from '../pages/claimantPersInfoB';
+import claimantPersInfo from '../pages/claimantPersInfo';
 import claimantIdInfo from '../pages/claimantIdInfo';
 import claimantAddrInfo from '../pages/claimantAddrInfo';
 import claimantContInfo from '../pages/claimantContInfo';
@@ -198,23 +197,14 @@ const formConfig = {
           ? 'Your personal information'
           : 'Claimant’s personal information',
       pages: {
-        claimantPersInfoPageA: {
-          path: 'claimant-personal-information-a',
-          title: 'Your personal information',
+        claimantPersInfoPage: {
+          path: 'claimant-personal-information',
+          title: 'Claimant personal information',
           depends: {
-            claimOwnership: CLAIM_OWNERSHIPS.SELF,
+            claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
-          uiSchema: claimantPersInfoA.uiSchema,
-          schema: claimantPersInfoA.schema,
-        },
-        claimantPersInfoPageB: {
-          path: 'claimant-personal-information-b',
-          title: 'Claimant’s personal information',
-          depends: {
-            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
-          },
-          uiSchema: claimantPersInfoB.uiSchema,
-          schema: claimantPersInfoB.schema,
+          uiSchema: claimantPersInfo.uiSchema,
+          schema: claimantPersInfo.schema,
         },
       },
     },

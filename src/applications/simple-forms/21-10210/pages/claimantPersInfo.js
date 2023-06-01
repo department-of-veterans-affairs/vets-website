@@ -1,10 +1,13 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import formDefinitions from '../definitions/form-definitions';
+// import { CLAIM_OWNERSHIPS } from '../definitions/constants';
+import ClaimantUiTitle from '../components/ClaimantUiTitle';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    'ui:title': ClaimantUiTitle,
     claimantFullName: fullNameUI,
     claimantDateOfBirth: {
       'ui:title': 'Date of birth',
