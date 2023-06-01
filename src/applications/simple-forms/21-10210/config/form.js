@@ -14,9 +14,7 @@ import claimantPersInfo from '../pages/claimantPersInfo';
 import claimantIdInfo from '../pages/claimantIdInfo';
 import claimantAddrInfo from '../pages/claimantAddrInfo';
 import claimantContInfo from '../pages/claimantContInfo';
-import vetPersInfoA from '../pages/vetPersInfoA';
-import vetPersInfoB from '../pages/vetPersInfoB';
-import vetPersInfoC from '../pages/vetPersInfoC';
+import vetPersInfo from '../pages/vetPersInfo';
 import vetIdInfo from '../pages/vetIdInfo';
 import vetAddrInfo from '../pages/vetAddrInfo';
 import vetContInfo from '../pages/vetContInfo';
@@ -279,7 +277,7 @@ const formConfig = {
         },
       },
     },
-    veteranPersonalInfo: {
+    veteranPersonalInfoChapter: {
       // for All flows
       title: ({ formData } = {}) =>
         formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
@@ -287,34 +285,11 @@ const formConfig = {
           ? 'Your personal information'
           : 'Veteran’s personal information',
       pages: {
-        veteranPersonalInfoA: {
-          path: 'veteran-personal-information-a',
+        vetPersInfoPage: {
+          path: 'veteran-personal-information',
           title: 'Veteran personal information',
-          depends: {
-            claimantType: CLAIMANT_TYPES.VETERAN,
-          },
-          uiSchema: vetPersInfoA.uiSchema,
-          schema: vetPersInfoA.schema,
-        },
-        veteranPersonalInfoB: {
-          path: 'veteran-personal-information-b',
-          title: 'Veteran personal information',
-          depends: {
-            claimOwnership: CLAIM_OWNERSHIPS.SELF,
-            claimantType: CLAIMANT_TYPES.NON_VETERAN,
-          },
-          uiSchema: vetPersInfoB.uiSchema,
-          schema: vetPersInfoB.schema,
-        },
-        veteranPersonalInfoC: {
-          path: 'veteran-personal-information-c',
-          title: 'Veteran personal information',
-          depends: {
-            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
-            claimantType: CLAIMANT_TYPES.NON_VETERAN,
-          },
-          uiSchema: vetPersInfoC.uiSchema,
-          schema: vetPersInfoC.schema,
+          uiSchema: vetPersInfo.uiSchema,
+          schema: vetPersInfo.schema,
         },
       },
     },
