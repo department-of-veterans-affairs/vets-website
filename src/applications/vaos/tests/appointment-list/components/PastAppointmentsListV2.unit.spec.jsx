@@ -29,6 +29,20 @@ const initialState = {
   },
 };
 
+const testDates = () => {
+  const now = moment().startOf('day');
+  const start = moment(now).subtract(3, 'months');
+  const end = moment(now)
+    .minutes(0)
+    .add(30, 'minutes');
+
+  return {
+    now,
+    start,
+    end,
+  };
+};
+
 describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   beforeEach(() => {
     mockFetch();
@@ -41,15 +55,9 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   });
 
   it('should show select date range dropdown', async () => {
-    const now = moment().startOf('day');
-    const start = moment(now).subtract(3, 'months');
-    const end = moment(now)
-      .minutes(0)
-      .add(30, 'minutes');
-
     mockVAOSAppointmentsFetch({
-      start: start.format('YYYY-MM-DD'),
-      end: end.format('YYYY-MM-DD'),
+      start: testDates().start.format('YYYY-MM-DD'),
+      end: testDates().end.format('YYYY-MM-DD'),
       requests: [],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
@@ -66,15 +74,10 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
 
   // TODO: Skipping since RTL doesn't work with web components va-select.
   it.skip('should update range on dropdown change', async () => {
-    const now = moment().startOf('day');
-    const start = moment(now).subtract(3, 'months');
-    const end = moment(now)
-      .minutes(0)
-      .add(30, 'minutes');
-
     const url = '/va/1234';
 
-    const pastDate = moment().subtract(3, 'months');
+    const pastDate = moment(testDates().now).subtract(3, 'months');
+
     const data = {
       id: '1234',
       kind: 'clinic',
@@ -94,8 +97,8 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       .format('MMMM YYYY')}`;
 
     mockVAOSAppointmentsFetch({
-      start: start.format('YYYY-MM-DD'),
-      end: end.format('YYYY-MM-DD'),
+      start: testDates().start.format('YYYY-MM-DD'),
+      end: testDates().end.format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
@@ -107,8 +110,8 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     await screen.findByText(/You don’t have any past appointments/i);
 
     mockVAOSAppointmentsFetch({
-      start: start.format('YYYY-MM-DD'),
-      end: end.format('YYYY-MM-DD'),
+      start: testDates().format('YYYY-MM-DD'),
+      end: testDates().format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
@@ -135,12 +138,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   });
 
   it('should show information without facility name', async () => {
-    const now = moment().startOf('day');
-    const start = moment(now).subtract(3, 'months');
-    const end = moment(now)
-      .minutes(0)
-      .add(30, 'minutes');
-    const pastDate = moment(now).subtract(3, 'days');
+    const pastDate = moment(testDates().now).subtract(3, 'days');
 
     const data = {
       id: '1234',
@@ -156,8 +154,8 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     });
 
     mockVAOSAppointmentsFetch({
-      start: start.format('YYYY-MM-DD'),
-      end: end.format('YYYY-MM-DD'),
+      start: testDates().start.format('YYYY-MM-DD'),
+      end: testDates().end.format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
@@ -185,12 +183,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   });
 
   it('should show information with facility name', async () => {
-    const now = moment().startOf('day');
-    const start = moment(now).subtract(3, 'months');
-    const end = moment(now)
-      .minutes(0)
-      .add(30, 'minutes');
-    const pastDate = moment(now).subtract(3, 'days');
+    const pastDate = moment(testDates().now).subtract(3, 'days');
 
     const data = {
       id: '1234',
@@ -246,8 +239,8 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     });
 
     mockVAOSAppointmentsFetch({
-      start: start.format('YYYY-MM-DD'),
-      end: end.format('YYYY-MM-DD'),
+      start: testDates().start.format('YYYY-MM-DD'),
+      end: testDates().end.format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
@@ -297,12 +290,6 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   // TODO: Not sure if this test is still valid for v2 appointments. See
   // ../appointment/transformers.v2.js:338
   it.skip('should not display when they have hidden statuses', () => {
-    const now = moment().startOf('day');
-    const start = moment(now).subtract(3, 'months');
-    const end = moment(now)
-      .minutes(0)
-      .add(30, 'minutes');
-
     const data = {
       id: '1234',
       currentStatus: 'NO-SHOW',
@@ -320,8 +307,8 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     });
 
     mockVAOSAppointmentsFetch({
-      start: start.format('YYYY-MM-DD'),
-      end: end.format('YYYY-MM-DD'),
+      start: testDates().start.format('YYYY-MM-DD'),
+      end: testDates().end.format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
@@ -336,12 +323,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
 
   // TODO: Skipping since RTL doesn't work with web components va-select.
   it.skip('should not display when over 2 years away', () => {
-    const now = moment().startOf('day');
-    const start = moment(now).subtract(3, 'months');
-    const end = moment(now)
-      .minutes(0)
-      .add(30, 'minutes');
-    const pastDate = moment(now).subtract(2, 'years');
+    const pastDate = moment(testDates().now).subtract(2, 'years');
 
     const data = {
       id: '1234',
@@ -358,8 +340,8 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     });
 
     mockVAOSAppointmentsFetch({
-      start: start.format('YYYY-MM-DD'),
-      end: end.format('YYYY-MM-DD'),
+      start: testDates().start.format('YYYY-MM-DD'),
+      end: testDates().end.format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
@@ -373,12 +355,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   });
 
   it('should show expected video information', async () => {
-    const now = moment().startOf('day');
-    const start = moment(now).subtract(3, 'months');
-    const end = moment(now)
-      .minutes(0)
-      .add(30, 'minutes');
-    const pastDate = moment(now).subtract(3, 'days');
+    const pastDate = moment(testDates().now).subtract(3, 'days');
 
     const appointment = getVAOSAppointmentMock();
     appointment.id = '1';
@@ -399,8 +376,8 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     };
 
     mockVAOSAppointmentsFetch({
-      start: start.format('YYYY-MM-DD'),
-      end: end.format('YYYY-MM-DD'),
+      start: testDates().start.format('YYYY-MM-DD'),
+      end: testDates().end.format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
@@ -434,13 +411,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   });
 
   it('should display past appointments using V2 api call', async () => {
-    const now = moment().startOf('day');
-    const start = moment(now).subtract(3, 'months');
-    const end = moment(now)
-      .minutes(0)
-      .add(30, 'minutes');
-
-    const yesterday = moment(now)
+    const yesterday = moment(testDates().now)
       .utc()
       .subtract(1, 'day');
 
@@ -472,8 +443,8 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       },
     };
     mockVAOSAppointmentsFetch({
-      start: start.format('YYYY-MM-DD'),
-      end: end.format('YYYY-MM-DD'),
+      start: testDates().start.format('YYYY-MM-DD'),
+      end: testDates().end.format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
