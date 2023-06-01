@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import clone from 'lodash/clone';
 import set from 'lodash/set';
 
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-
 import vapService from '@@vap-svc/reducers';
+import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
+
 import EmailInformationSection from '../../../components/contact-information/email-addresses/EmailInformationSection';
 import {
   CSP_IDS,
