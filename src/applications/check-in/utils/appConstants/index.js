@@ -237,7 +237,9 @@ const travelAllowList = {
     clinics: ['0001'],
   },
   '500': {},
-  '530': {},
+  '530': {
+    clinics: ['195'],
+  },
 };
 
 const isInAllowList = appointment => {
