@@ -34,14 +34,6 @@
   }
 }
 
-.dependent-count {
-  @include media($medium-screen) {
-    input {
-      max-width: fit-content;
-    }
-  }
-}
-
 .selected-debt {
   border: 4px solid $color-blue;
   padding: 20px;
