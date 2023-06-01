@@ -7,9 +7,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { ROUTES } from '../constants';
-import { updateZipCode } from '../actions';
+import { updateEditMode, updateZipCode } from '../actions';
 
-const ZipCodePage = ({ router, updateZipCodeField, zipCode }) => {
+const ZipCodePage = ({
+  editMode,
+  router,
+  toggleEditMode,
+  updateZipCodeField,
+  zipCode,
+}) => {
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -24,6 +30,10 @@ const ZipCodePage = ({ router, updateZipCodeField, zipCode }) => {
 
     if (!validZip) {
       setError(true);
+    } else if (editMode) {
+      setError(false);
+      toggleEditMode(false);
+      router.push(ROUTES.REVIEW);
     } else {
       setError(false);
       router.push(ROUTES.DEPENDENTS);
@@ -41,6 +51,10 @@ const ZipCodePage = ({ router, updateZipCodeField, zipCode }) => {
   };
 
   const onBackClick = () => {
+    if (editMode) {
+      toggleEditMode(false);
+    }
+
     router.push('/');
   };
 
@@ -78,18 +92,22 @@ const ZipCodePage = ({ router, updateZipCodeField, zipCode }) => {
 };
 
 const mapStateToProps = state => ({
+  editMode: state?.incomeLimits?.editMode,
   zipCode: state?.incomeLimits?.form?.zipCode,
 });
 
 const mapDispatchToProps = {
+  toggleEditMode: updateEditMode,
   updateZipCodeField: updateZipCode,
 };
 
 ZipCodePage.propTypes = {
+  editMode: PropTypes.bool.isRequired,
   updateZipCodeField: PropTypes.func.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
+  toggleEditMode: PropTypes.func,
   zipCode: PropTypes.string,
 };
 
