@@ -7,9 +7,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { ROUTES } from '../constants';
-import { updateDependents } from '../actions';
+import { updateDependents, updateEditMode } from '../actions';
 
-const DependentsPage = ({ dependents, router, updateDependentsField }) => {
+const DependentsPage = ({
+  dependents,
+  editMode,
+  router,
+  toggleEditMode,
+  updateDependentsField,
+}) => {
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -24,9 +30,12 @@ const DependentsPage = ({ dependents, router, updateDependentsField }) => {
 
     if (!validDependents) {
       setError(true);
+    } else if (editMode) {
+      setError(false);
+      toggleEditMode(false);
+      router.push(ROUTES.REVIEW);
     } else {
       setError(false);
-      updateDependentsField(dependents);
       router.push(ROUTES.REVIEW);
     }
   };
@@ -42,6 +51,10 @@ const DependentsPage = ({ dependents, router, updateDependentsField }) => {
   };
 
   const onBackClick = () => {
+    if (editMode) {
+      toggleEditMode(false);
+    }
+
     router.push(ROUTES.ZIPCODE);
   };
 
@@ -80,18 +93,22 @@ const DependentsPage = ({ dependents, router, updateDependentsField }) => {
 
 const mapStateToProps = state => ({
   dependents: state?.incomeLimits?.form?.dependents,
+  editMode: state?.incomeLimits?.editMode,
 });
 
 const mapDispatchToProps = {
+  toggleEditMode: updateEditMode,
   updateDependentsField: updateDependents,
 };
 
 DependentsPage.propTypes = {
+  editMode: PropTypes.bool.isRequired,
   updateDependentsField: PropTypes.func.isRequired,
   dependents: PropTypes.string,
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
+  toggleEditMode: PropTypes.func,
 };
 
 export default connect(

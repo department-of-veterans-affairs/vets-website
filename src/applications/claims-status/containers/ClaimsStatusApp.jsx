@@ -52,7 +52,7 @@ function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
       // `metaKey` is associated with the 'Command' key on macOS
       const ctrlPressed = event.ctrlKey || event.metaKey;
 
-      if (ctrlPressed && event.shiftKey && event.key === 'k') {
+      if (ctrlPressed && event.shiftKey && event.key.toLowerCase() === 'k') {
         setShowFlipperOverride(prevState => {
           const nextState = !prevState;
           sessionStorage.setItem('showFlipperOverride', nextState);
