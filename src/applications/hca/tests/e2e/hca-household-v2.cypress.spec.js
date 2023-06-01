@@ -16,10 +16,6 @@ import {
 const { data: testData } = maxTestData;
 
 describe('HCA-Household-V2-Non-Disclosure', () => {
-  before(function skipInCI() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -167,10 +163,6 @@ describe('HCA-Household-V2-Non-Disclosure', () => {
 });
 
 describe('HCA-Household-V2-Spousal-Disclosure', () => {
-  before(function skipInCI() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -227,7 +219,6 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
     cy.get('[name="root_cohabitedLastYear"]').check('Y');
     cy.get('[name="root_sameAddress"]').check('Y');
 
-    goToNextPage('/household-information-v2/spouse-financial-support');
     goToNextPage('/household-information-v2/dependents');
     cy.get('[type="radio"]')
       .last()
@@ -384,10 +375,6 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
 });
 
 describe('HCA-Household-V2-Dependent-Disclosure', () => {
-  before(function skipInCI() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -746,10 +733,6 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
 });
 
 describe('HCA-Household-V2-Full-Disclosure', () => {
-  before(function skipInCI() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -805,8 +788,6 @@ describe('HCA-Household-V2-Full-Disclosure', () => {
     goToNextPage('/household-information-v2/spouse-additional-information');
     cy.get('[name="root_cohabitedLastYear"]').check('Y');
     cy.get('[name="root_sameAddress"]').check('Y');
-
-    goToNextPage('/household-information-v2/spouse-financial-support');
 
     goToNextPage('/household-information-v2/dependents');
     cy.get('[name="root_view:reportDependents"]').check('Y');
