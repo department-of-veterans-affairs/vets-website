@@ -18,7 +18,8 @@ export default {
     'ui:description': (
       <div className="vads-u-margin-bottom--2">
         Let us know where the person you're requesting medical records for
-        received treatment. You may add up to 5 medical record requests.
+        received treatment. You may add up to 5 medical record or information
+        requests.
       </div>
     ),
     'ui:options': {
@@ -40,7 +41,7 @@ export default {
     },
     [providerFacilityFields.parentObject]: {
       'ui:options': {
-        itemName: 'Treatment record',
+        itemName: 'treatment record',
         viewField: RecordField,
         keepInPageOnReview: true,
         useDlWrap: true,
