@@ -11,6 +11,7 @@ import { updateEditMode, updateZipCode } from '../actions';
 
 const ZipCodePage = ({
   editMode,
+  pastMode,
   router,
   toggleEditMode,
   updateZipCodeField,
@@ -55,7 +56,11 @@ const ZipCodePage = ({
       toggleEditMode(false);
     }
 
-    router.push('/');
+    if (pastMode) {
+      router.push(ROUTES.YEAR);
+    } else {
+      router.push(ROUTES.HOME);
+    }
   };
 
   return (
@@ -93,6 +98,7 @@ const ZipCodePage = ({
 
 const mapStateToProps = state => ({
   editMode: state?.incomeLimits?.editMode,
+  pastMode: state?.incomeLimits?.pastMode,
   zipCode: state?.incomeLimits?.form?.zipCode,
 });
 
@@ -103,6 +109,7 @@ const mapDispatchToProps = {
 
 ZipCodePage.propTypes = {
   editMode: PropTypes.bool.isRequired,
+  pastMode: PropTypes.bool.isRequired,
   updateZipCodeField: PropTypes.func.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,

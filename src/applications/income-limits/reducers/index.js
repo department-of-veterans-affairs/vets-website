@@ -1,6 +1,8 @@
 import {
   IL_EDIT_MODE,
   IL_UPDATE_DEPENDENTS,
+  IL_PAST_MODE,
+  IL_UPDATE_YEAR,
   IL_UPDATE_ZIP,
 } from '../constants';
 
@@ -27,8 +29,10 @@ const initialState = {
   editMode: false,
   form: {
     dependents: null,
+    year: null,
     zipCode: null,
   },
+  pastMode: true,
   results: {
     county_name: 'Some County, XX',
     income_year: 2023,
@@ -50,6 +54,14 @@ const incomeLimits = (state = initialState, action) => {
           dependents: action.payload,
         },
       };
+    case IL_UPDATE_YEAR:
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          year: action.payload,
+        },
+      };
     case IL_UPDATE_ZIP:
       return {
         ...state,
@@ -62,6 +74,11 @@ const incomeLimits = (state = initialState, action) => {
       return {
         ...state,
         editMode: action.payload,
+      };
+    case IL_PAST_MODE:
+      return {
+        ...state,
+        pastMode: action.payload,
       };
     default:
       return state;
