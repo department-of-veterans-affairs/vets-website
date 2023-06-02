@@ -64,10 +64,15 @@ describe('Message thread item', () => {
     };
     const screen = setup(message);
     const accordion = document.querySelector('va-accordion-item');
+    expect(accordion.getAttribute('aria-label')).to.equal(
+      `message sent July 15, 2022 at 11:11 a.m. EDT, with attachment from ${
+        message.senderName
+      }. Collapsed."`,
+    );
     expect(
-      screen.findByText(
+      screen.getByText(
         dateFormat(messageResponse.sentDate, 'MMMM D [at] h:mm a z'),
-        { selector: 'h6' },
+        { selector: 'h3' },
       ),
     ).to.exist;
 
@@ -100,13 +105,15 @@ describe('Message thread item', () => {
     };
     const screen = setup(messageNoAttachment);
     expect(screen.queryByTestId('attachment-icon')).to.not.exist;
-    waitFor(
-      fireEvent.click(
-        screen.getByTestId(
-          `expand-message-button-${messageResponse.messageId}`,
-        ),
-      ),
+    const accordionButton = screen.getByTestId(
+      `expand-message-button-${messageResponse.messageId}`,
     );
+    expect(accordionButton.getAttribute('aria-label')).to.equal(
+      `message received July 15, 2022 at 11:11 a.m. EDT,  from ${
+        messageNoAttachment.senderName
+      }. Collapsed."`,
+    );
+    waitFor(fireEvent.click(accordionButton));
     expect(screen.queryByTestId('attachment-icon')).to.not.exist;
   });
 
@@ -117,13 +124,15 @@ describe('Message thread item', () => {
     };
     const screen = setup(messageNoAttachment);
     expect(screen.getByTestId('unread-icon')).to.exist;
-    waitFor(
-      fireEvent.click(
-        screen.getByTestId(
-          `expand-message-button-${messageResponse.messageId}`,
-        ),
-      ),
+    const accordionButton = screen.getByTestId(
+      `expand-message-button-${messageResponse.messageId}`,
     );
+    expect(accordionButton.getAttribute('aria-label')).to.equal(
+      `New message received July 15, 2022 at 11:11 a.m. EDT, with attachment from ${
+        messageNoAttachment.senderName
+      }. Collapsed."`,
+    );
+    waitFor(fireEvent.click(accordionButton));
     const icon = screen.getByTestId('unread-icon');
     expect(icon).to.exist;
     expect(icon.getAttribute('slot')).to.equal('icon');
