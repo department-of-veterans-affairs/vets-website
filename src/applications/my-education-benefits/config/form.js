@@ -14,7 +14,6 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import get from 'platform/utilities/data/get';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import constants from 'vets-json-schema/dist/constants.json';
@@ -27,6 +26,7 @@ import manifest from '../manifest.json';
 import toursOfDutyUI from '../definitions/toursOfDuty';
 
 import AccordionField from '../components/AccordionField';
+import ApplicantIdentityView from '../components/ApplicantIdentityView';
 import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -42,6 +42,7 @@ import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilit
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import PhoneViewField from '../components/PhoneViewField';
+import CustomPreSubmitInfo from '../components/PreSubmitInfo';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
 import TextNotificationsDisclaimer from '../components/TextNotificationsDisclaimer';
 import YesNoReviewField from '../components/YesNoReviewField';
@@ -390,8 +391,12 @@ const formConfig = {
     usaPhone,
   },
   footerContent: FormFooter,
-  getHelp: () => <GetFormHelp />, // Wrapping in a funciton to skirt failing platform unit test
-  preSubmitInfo,
+  getHelp: () => <GetFormHelp />, // Wrapping in a function to skirt failing platform unit test
+  preSubmitInfo: {
+    CustomComponent: CustomPreSubmitInfo,
+    required: false,
+    field: 'privacyAgreementAccepted',
+  },
   chapters: {
     applicantInformationChapter: {
       title: 'Your information',
@@ -425,6 +430,10 @@ const formConfig = {
                   </p>
                 </>
               ),
+              'ui:options': {
+                hideIf: formData =>
+                  formData.showMebEnhancements06 && formData.isLOA3,
+              },
             },
             [formFields.formId]: {
               'ui:title': 'Form ID',
@@ -438,6 +447,17 @@ const formConfig = {
               'ui:disabled': true,
               'ui:options': {
                 hideOnReview: true,
+              },
+            },
+            'view:applicantInformation': {
+              'ui:description': (
+                <>
+                  <ApplicantIdentityView />
+                </>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  !formData.showMebEnhancements06 || !formData.isLOA3,
               },
             },
             [formFields.viewUserFullName]: {
@@ -516,11 +536,19 @@ const formConfig = {
                     },
                   ],
                 },
+                'ui:options': {
+                  hideIf: formData =>
+                    formData.showMebEnhancements06 && formData.isLOA3,
+                },
               },
             },
             [formFields.dateOfBirth]: {
               ...currentOrPastDateUI('Your date of birth'),
               'ui:reviewField': CustomReviewDOBField,
+              'ui:options': {
+                hideIf: formData =>
+                  formData.showMebEnhancements06 && formData.isLOA3,
+              },
             },
           },
           schema: {
@@ -562,6 +590,10 @@ const formConfig = {
                 },
               },
               [formFields.dateOfBirth]: date,
+              'view:applicantInformation': {
+                type: 'object',
+                properties: {},
+              },
             },
           },
         },

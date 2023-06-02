@@ -10,12 +10,14 @@ import formConfig from '../config/form';
 import { fetchPersonalInformation, fetchDirectDeposit } from '../actions';
 import { mapFormSponsors } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
+import { getAppData } from '../selectors';
 
 function ToeApp({
   children,
   formData,
   getDirectDeposit,
   getPersonalInformation,
+  isLOA3,
   location,
   setFormData,
   sponsors,
@@ -23,6 +25,7 @@ function ToeApp({
   sponsorsSavedState,
   user,
   showMebEnhancements,
+  showMebEnhancements06,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -60,6 +63,18 @@ function ToeApp({
 
   useEffect(
     () => {
+      if (isLOA3 !== formData.isLOA3) {
+        setFormData({
+          ...formData,
+          isLOA3, // ES6 Syntax
+        });
+      }
+    },
+    [formData, setFormData, isLOA3],
+  );
+
+  useEffect(
+    () => {
       if (showMebEnhancements !== formData.showMebEnhancements) {
         setFormData({
           ...formData,
@@ -68,6 +83,18 @@ function ToeApp({
       }
     },
     [formData, setFormData, showMebEnhancements],
+  );
+
+  useEffect(
+    () => {
+      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
+        setFormData({
+          ...formData,
+          showMebEnhancements06,
+        });
+      }
+    },
+    [formData, setFormData, showMebEnhancements06],
   );
 
   useEffect(
@@ -107,9 +134,11 @@ ToeApp.propTypes = {
   formData: PropTypes.object,
   getDirectDeposit: PropTypes.func,
   getPersonalInformation: PropTypes.func,
+  isLOA3: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showMebEnhancements: PropTypes.bool,
+  showMebEnhancements06: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
@@ -118,6 +147,7 @@ ToeApp.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  ...getAppData(state),
   formData: state.form?.data || {},
   claimant: state.data?.formData?.data?.attributes?.claimant,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,

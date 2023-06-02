@@ -42,6 +42,7 @@ const DraftSavedInfo = props => {
     return (
       <>
         <va-alert
+          aria-live="polite"
           background-only
           class="last-save-time"
           full-width="false"
@@ -54,6 +55,7 @@ const DraftSavedInfo = props => {
         </va-alert>
         {userSaved === false && (
           <va-alert
+            aria-live="polite"
             background-only
             class="last-save-time"
             full-width="false"

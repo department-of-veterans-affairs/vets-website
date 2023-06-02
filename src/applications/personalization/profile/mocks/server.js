@@ -32,8 +32,8 @@ const maintenanceWindows = require('./endpoints/maintenance-windows');
 // seed data for VAMC drupal source of truth json file
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
-// some node script utils
-const { debug } = require('./script/utils');
+// utils
+const { debug, delaySingleResponse } = require('./script/utils');
 
 // uncomment if using status retries
 // let retries = 0;
@@ -63,13 +63,20 @@ const responses = {
 
     return res.json(maintenanceWindows.noDowntime);
   },
-  'GET /v0/feature_toggles': generateFeatureToggles({
-    profileUseInfoCard: true,
-    profileUseFieldEditingPage: true,
-    profileShowMhvNotificationSettings: false,
-    profileLighthouseDirectDeposit: true,
-    profileShowQuickSubmitNotificationSetting: false,
-  }),
+  'GET /v0/feature_toggles': (_req, res) => {
+    delaySingleResponse(
+      () =>
+        res.json(
+          generateFeatureToggles({
+            profileUseInfoCard: true,
+            profileUseFieldEditingPage: true,
+            profileShowMhvNotificationSettings: false,
+            profileLighthouseDirectDeposit: true,
+          }),
+        ),
+      0,
+    );
+  },
   'GET /v0/ppiu/payment_information': (_req, res) => {
     // 47841 - Below are the three cases where all of Profile should be gated off
     // paymentInformation.isFiduciary

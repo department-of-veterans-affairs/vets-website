@@ -72,7 +72,7 @@ export default function FormNav(props) {
   if (isLoggedIn) {
     inProgressMessage = (
       <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
-        Your application will be saved on every change.{' '}
+        We&rsquo;ll save your application on every change.{' '}
         {inProgressFormId &&
           `Your application ID number is ${inProgressFormId}.`}
       </span>
@@ -146,22 +146,24 @@ export default function FormNav(props) {
       )}
       <div className="schemaform-chapter-progress">
         <div className="nav-header nav-header-schemaform">
-          {showHeader && (
-            <h2
-              id="nav-form-header"
-              data-testid="navFormHeader"
-              className="vads-u-font-size--h4"
-            >
-              {!hideFormNavProgress && stepText}
-              {inProgressMessage}
-            </h2>
-          )}
-          {!showHeader && (
-            <div data-testid="navFormDiv" className="vads-u-font-size--h4">
-              {!hideFormNavProgress && stepText}
-              {inProgressMessage}
-            </div>
-          )}
+          {showHeader &&
+            !hideFormNavProgress && (
+              <h2
+                id="nav-form-header"
+                data-testid="navFormHeader"
+                className="vads-u-font-size--h4"
+              >
+                {stepText}
+                {inProgressMessage}
+              </h2>
+            )}
+          {!showHeader &&
+            !hideFormNavProgress && (
+              <div data-testid="navFormDiv" className="vads-u-font-size--h4">
+                {stepText}
+                {inProgressMessage}
+              </div>
+            )}
         </div>
       </div>
     </div>

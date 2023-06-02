@@ -1,5 +1,7 @@
 import React from 'react';
 
+import PropTypes from 'prop-types';
+
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 // import SaveInProgressIntro from '../components/SaveInProgressIntro';
@@ -27,18 +29,17 @@ class IntroductionPage extends React.Component {
           confirmation message. You can print this page for your records.
         </p>
         <p>
-          A Veteran may submit a Lay/Witness statement on their own.
-          Alternatively, a claimant or witness may submit on behalf on a
-          Veteran.
+          A Veteran or a claimant may submit a lay/witness statement on their
+          own behalf. Alternatively, a witness may submit on behalf of a Veteran
+          or claimant.
         </p>
         <SaveInProgressIntro
-          customHeading="Sign in now to save time and save your work in progress"
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the Application"
-          unauthStartLinkText="Start your application without signing in - or if you are not a Veteran"
+          displayNonVeteranMessaging
         >
           <p>Please complete the 21-10210 form to apply for claims.</p>
         </SaveInProgressIntro>
@@ -46,12 +47,22 @@ class IntroductionPage extends React.Component {
 
         <va-omb-info
           res-burden={10}
-          omb-number="2900-z"
+          omb-number="2900-0881"
           exp-date="06/30/2024"
         />
       </article>
     );
   }
 }
+
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool.isRequired,
+      savedFormMessages: PropTypes.object.isRequired,
+    }).isRequired,
+    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }).isRequired,
+};
 
 export default IntroductionPage;

@@ -5,10 +5,7 @@ import {
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
 
-import {
-  getAvailableHealthcareServices,
-  getSupportedHealthcareServicesAndLocations,
-} from '../../../services/healthcare-service';
+import { getAvailableHealthcareServices } from '../../../services/healthcare-service';
 import clinicList983 from '../../../services/mocks/var/clinicList983.json';
 
 describe('VAOS Healthcare service', () => {
@@ -111,42 +108,6 @@ describe('VAOS Healthcare service', () => {
 
       expect(global.fetch.firstCall.args[0]).to.contain(
         `/vaos/v0/facilities/983/clinics?type_of_care_id=123&system_id=456`,
-      );
-      expect(error?.resourceType).to.equal('OperationOutcome');
-    });
-  });
-
-  describe('getSupportedHealthcareServicesAndLocations', () => {
-    it('should make successful request', async () => {
-      await getSupportedHealthcareServicesAndLocations({
-        siteId: '983',
-        parentId: '983GC',
-        typeOfCareId: '123',
-      });
-
-      expect(global.fetch.firstCall.args[0]).to.contain(
-        '/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983GC',
-      );
-    });
-
-    it('should return OperationOutcome error', async () => {
-      setFetchJSONFailure(global.fetch, {
-        errors: [],
-      });
-
-      let error;
-      try {
-        await getSupportedHealthcareServicesAndLocations({
-          siteId: '983',
-          parentId: '983GC',
-          typeOfCareId: '123',
-        });
-      } catch (e) {
-        error = e;
-      }
-
-      expect(global.fetch.firstCall.args[0]).to.contain(
-        '/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983GC',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });

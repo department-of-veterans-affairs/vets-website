@@ -1,0 +1,22 @@
+.image-div {
+    @media (max-width: $small-screen) {
+        min-width: 100%;
+        padding: 0px;
+    }
+
+    @media (min-width: $medium-screen) {
+        min-width: none;
+        padding-right: 24px;
+    }
+}
+
+.load-more-button {
+    @media (max-width: $small-screen) {
+        min-width: 100%;
+        padding: 8px, 0px, 8px, 0px;
+    }
+
+    @media (min-width: $medium-screen) {
+        width: 50%;
+    }
+}

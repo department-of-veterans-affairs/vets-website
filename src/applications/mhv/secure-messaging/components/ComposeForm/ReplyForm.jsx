@@ -4,6 +4,7 @@ import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FileInput from './FileInput';
 import AttachmentsList from '../AttachmentsList';
 import { clearDraft, saveReplyDraft } from '../../actions/draftDetails';
@@ -22,6 +23,8 @@ import MessageThreadBody from '../MessageThread/MessageThreadBody';
 const ReplyForm = props => {
   const { draftToEdit, replyMessage, cannotReply, header } = props;
   const dispatch = useDispatch();
+  const [lastFocusableElement, setLastFocusableElement] = useState(null);
+  const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
 
   const defaultRecipientsList = [{ id: 0, name: ' ' }];
   const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
@@ -33,7 +36,6 @@ const ReplyForm = props => {
   const [messageBody, setMessageBody] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [formPopulated, setFormPopulated] = useState(false);
-  const [fieldsString, setFieldsString] = useState('');
   const [bodyError, setBodyError] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [newDraftId, setNewDraftId] = useState(
@@ -94,6 +96,15 @@ const ReplyForm = props => {
       }
     },
     [messageInvalid],
+  );
+
+  useEffect(
+    () => {
+      if (alertStatus) {
+        focusElement(lastFocusableElement);
+      }
+    },
+    [alertStatus],
   );
 
   useEffect(
@@ -172,14 +183,6 @@ const ReplyForm = props => {
       setAttachments(draft.attachments);
     }
     setFormPopulated(true);
-    setFieldsString(
-      JSON.stringify({
-        rec: draft.recipientId,
-        cat: draft.category,
-        sub: draft.subject,
-        bod: draft.body,
-      }),
-    );
   };
 
   useEffect(
@@ -216,20 +219,22 @@ const ReplyForm = props => {
     return messageValid;
   };
 
-  const sendMessageHandler = async () => {
+  const sendMessageHandler = async e => {
     await setMessageInvalid(false);
     if (checkMessageValidity()) {
       setSendMessageFlag(true);
       setNavigationError(null);
+      setLastFocusableElement(e.target);
     }
   };
 
-  const saveDraftHandler = async type => {
+  const saveDraftHandler = async (type, e) => {
     if (type === 'manual') {
       setUserSaved(true);
 
       await setMessageInvalid(false);
       if (checkMessageValidity()) {
+        setLastFocusableElement(e.target);
         setNavigationError(null);
       }
       if (attachments.length) {
@@ -239,18 +244,6 @@ const ReplyForm = props => {
     }
 
     const draftId = draft && draft.messageId;
-    const newFieldsString = JSON.stringify({
-      rec: selectedRecipient,
-      cat: category,
-      sub: subject,
-      bod: messageBody,
-    });
-
-    if (newFieldsString === fieldsString) {
-      return;
-    }
-
-    setFieldsString(newFieldsString);
 
     const formData = {
       recipientId: selectedRecipient,
@@ -260,13 +253,15 @@ const ReplyForm = props => {
     };
 
     if (!draftId) {
-      dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
-        newDraft => {
-          setDraft(newDraft);
-          setNewDraftId(newDraft.messageId);
-        },
-      );
-    } else {
+      if (checkMessageValidity()) {
+        dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
+          newDraft => {
+            setDraft(newDraft);
+            setNewDraftId(newDraft.messageId);
+          },
+        );
+      }
+    } else if (checkMessageValidity()) {
       dispatch(saveReplyDraft(replyMessage.messageId, formData, type, draftId));
     }
     if (!attachments.length) setNavigationError(null);
@@ -403,7 +398,7 @@ const ReplyForm = props => {
                   type="button"
                   className="usa-button-secondary vads-u-flex--1"
                   data-testid="Save-Draft-Button"
-                  onClick={() => saveDraftHandler('manual')}
+                  onClick={e => saveDraftHandler('manual', e)}
                 >
                   Save draft
                 </button>
@@ -412,15 +407,6 @@ const ReplyForm = props => {
               </div>
             </div>
             <DraftSavedInfo userSaved={userSaved} />
-            <div className="message-detail-note vads-u-text-align--center">
-              <p>
-                <i>
-                  Note: This message may not be from the person you intially
-                  contacted. It may have been reassigned to efficiently address
-                  your original message
-                </i>
-              </p>
-            </div>
           </form>
         </section>
         <section
@@ -473,7 +459,7 @@ const ReplyForm = props => {
 ReplyForm.propTypes = {
   cannotReply: PropTypes.bool,
   draftToEdit: PropTypes.object,
-  header: PropTypes.bool,
+  header: PropTypes.object,
   recipients: PropTypes.array,
   replyMessage: PropTypes.object,
 };

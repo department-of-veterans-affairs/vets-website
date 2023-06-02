@@ -30,6 +30,9 @@ export const START_APPLICATION_TEXT = 'Start your benefit application';
 
 export const YOUR_PROFILE_URL = '/profile';
 
+export const CHANGE_YOUR_NAME =
+  'https://www.va.gov/resources/how-to-change-your-legal-name-on-file-with-va/';
+
 export const formFields = {
   accountNumber: 'accountNumber',
   accountType: 'accountType',

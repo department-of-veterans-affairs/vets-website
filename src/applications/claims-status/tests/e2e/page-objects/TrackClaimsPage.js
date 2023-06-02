@@ -284,14 +284,16 @@ class TrackClaimsPage {
     cy.get('[data-cy="submit-files-button"]')
       .click()
       .then(() => {
-        cy.get('.usa-input-error');
+        cy.get('va-file-input')
+          .shadow()
+          .find('#error-message');
         cy.injectAxeThenAxeCheck();
       });
 
-    cy.get('.usa-input-error-message').should(
-      'contain',
-      'Please select a file first',
-    );
+    cy.get('va-file-input')
+      .shadow()
+      .find('#error-message')
+      .should('contain', 'Please select a file first');
     // File uploads don't appear to work in Nightwatch/PhantomJS
     // TODO: switch to something that does support uploads or figure out the problem
     // The above comment lifted from the old Nightwatch test.  Cypress can test file uploads, however this would need to be written in a future effort after our conversion effort is complete.

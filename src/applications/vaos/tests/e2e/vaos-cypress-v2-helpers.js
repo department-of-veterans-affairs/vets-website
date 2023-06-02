@@ -424,10 +424,10 @@ export function mockGetFacilities() {
 }
 
 export function mockGetEligibilityCC(typeOfCare = 'PrimaryCare') {
-  cy.intercept(`/vaos/v0/community_care/eligibility/${typeOfCare}`, req => {
+  cy.intercept(`/vaos/v2/community_care/eligibility/${typeOfCare}`, req => {
     req.reply({
       data: {
-        id: 'PrimaryCare',
+        id: typeOfCare,
         type: 'cc_eligibility',
         attributes: { eligible: true },
       },
@@ -486,7 +486,7 @@ export function mockVamcEhr({ isCerner = false } = {}) {
             count: 2,
             entities: [
               {
-                fieldFacilityLocatorApiId: 'vha_442',
+                fieldFacilityLocatorApiId: 'vha_983',
                 title: 'Cheyenne VA Medical Center',
                 fieldRegionPage: {
                   entity: {
@@ -496,7 +496,7 @@ export function mockVamcEhr({ isCerner = false } = {}) {
                 },
               },
               {
-                fieldFacilityLocatorApiId: 'vha_552',
+                fieldFacilityLocatorApiId: 'vha_984',
                 title: 'Dayton VA Medical Center',
                 fieldRegionPage: {
                   entity: {

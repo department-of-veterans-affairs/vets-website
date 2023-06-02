@@ -15,19 +15,17 @@ export const uiSchema = {
       'ui:validations': [validateWaiverCheckbox],
       resolutionWaiverCheck: {
         'ui:title': (
-          <p className="vads-u-margin-y--0">
+          <div className="vads-u-margin-y--0">
             <p className="vads-u-display--block">
               You selected:{' '}
-              <span className="vads-u-font-weight--bold">
-                Debt forgiveness (waiver)
-              </span>
+              <span className="vads-u-font-weight--bold">Waiver</span>
             </p>
 
             <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-bottom--1">
-              If we approve your request, we’ll stop collection on and forgive
-              (or "waive") the debt.
+              If we approve your request, we’ll stop collection on and waive the
+              debt.
             </span>
-          </p>
+          </div>
         ),
         'ui:reviewField': CustomResolutionWaiverReview,
         'ui:widget': ResolutionWaiverAgreement,

@@ -40,6 +40,7 @@ export const App = ({
   mobilePhone,
   duplicateEmail,
   duplicatePhone,
+  showMebEnhancements06,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
@@ -170,15 +171,29 @@ export const App = ({
           showMebEnhancements,
         });
       }
+      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
+        setFormData({
+          ...formData,
+          showMebEnhancements06,
+        });
+      }
+      if (isLOA3 !== formData.isLOA3) {
+        setFormData({
+          ...formData,
+          isLOA3, // ES6 Syntax
+        });
+      }
     },
     [
       formData,
+      isLOA3,
       setFormData,
       showMebDgi40Features,
       showMebDgi42Features,
       showMebCh33SelfForm,
       showMebEnhancements,
       email,
+      showMebEnhancements06,
     ],
   );
 
@@ -230,6 +245,7 @@ App.propTypes = {
   showMebEnhancements: PropTypes.bool,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
+  showMebEnhancements06: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

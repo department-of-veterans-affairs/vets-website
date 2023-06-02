@@ -185,6 +185,7 @@ const InstallmentContract = props => {
       <div className="input-size-6">
         <VaTextInput
           className="no-wrap input-size-6"
+          id="contractType"
           error={(submitted && typeError) || null}
           label="Type of contract or debt"
           name="contract-type"
@@ -197,6 +198,7 @@ const InstallmentContract = props => {
       <div className="input-size-6">
         <VaTextInput
           className="no-wrap input-size-6"
+          id="creditorName"
           label="Name of creditor who holds the contract or debt"
           name="creditor-name"
           onInput={handleCreditorNameChange}
@@ -245,6 +247,7 @@ const InstallmentContract = props => {
       <div>
         <VaDate
           monthYearOnly
+          data-testid="loanBegan"
           value={`${fromYear}-${fromMonth}`}
           label="Date the loan began"
           name="loanBegan"
