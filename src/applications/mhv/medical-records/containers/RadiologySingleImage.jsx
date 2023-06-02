@@ -103,11 +103,17 @@ const RadiologySingleImage = () => {
               type="button"
               className="link-button vads-u-margin-right--4 vads-u-margin-y--0"
             >
-              <i className="fas fa-download vads-u-margin-right--0p5" />
+              <i
+                className="fas fa-download vads-u-margin-right--0p5"
+                aria-hidden="true"
+              />
               Download JPG
             </button>
             <button type="button" className="link-button  vads-u-margin-y--0">
-              <i className="fas fa-download vads-u-margin-right--0p5" />
+              <i
+                className="fas fa-download vads-u-margin-right--0p5"
+                aria-hidden="true"
+              />
               Download DICOM
             </button>
           </div>
@@ -127,7 +133,10 @@ const RadiologySingleImage = () => {
                         }/${labAndTestDetails.images.length}`
                   }
                 >
-                  <i className="fas fa-angle-double-left vads-u-margin-right--1" />
+                  <i
+                    className="fas fa-angle-double-left vads-u-margin-right--1"
+                    aria-hidden="true"
+                  />
                   Previous
                 </a>
               )}
@@ -146,7 +155,10 @@ const RadiologySingleImage = () => {
                   }
                 >
                   Next
-                  <i className="fas fa-angle-double-right vads-u-margin-left--1" />
+                  <i
+                    className="fas fa-angle-double-right vads-u-margin-left--1"
+                    aria-hidden="true"
+                  />
                 </a>
               )}
             </div>
