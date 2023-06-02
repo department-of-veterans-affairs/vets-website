@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 import { selectProfile } from 'platform/user/selectors';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import { resetStoredSubTask } from 'platform/forms/sub-task';
 
 import { FORMAT_READABLE } from '../constants';
@@ -22,10 +22,8 @@ export const ConfirmationPage = () => {
     () => {
       if (alertRef?.current) {
         scrollTo('topScrollElement');
-        setTimeout(() => {
-          // delay focus for Safari
-          focusElement('h2', {}, alertRef.current);
-        }, 250);
+        // delay focus for Safari
+        waitForRenderThenFocus('h2', alertRef.current);
       }
     },
     [alertRef],
