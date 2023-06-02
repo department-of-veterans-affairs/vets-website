@@ -91,7 +91,10 @@ const RadiologySingleImage = () => {
             Image {imageId} of {labAndTestDetails.images.length}
           </h1>
 
-          <div className="vads-u-padding--7 vads-u-background-color--black">
+          <div
+            className="vads-u-padding--7 vads-u-background-color--black"
+            data-testid="image-div"
+          >
             <br className="vads-u-margin--7" />
           </div>
 
