@@ -43,7 +43,7 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Check dependabot
+      - name: Get is dependabot triggered
         id: check-dependabot
         uses: ./.github/workflows/dependabot-check
 
