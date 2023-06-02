@@ -1,0 +1,15 @@
+name: Dependabot Check
+description: returns boolean whether the workflow is running because dependabot triggered it
+
+outputs:
+  dependabot_triggered:
+    description: boolean flag
+    value: ${{steps.check_agent.outputs.IS_DEPENDABOT}}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Check agent
+      id: check_agent
+      shell: bash
+      run: echo IS_DEPENDABOT=$(github.event.sender.login == 'dependabot[bot]') >> $GITHUB_OUTPUT

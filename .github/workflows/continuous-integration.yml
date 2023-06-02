@@ -43,6 +43,14 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: Check dependabot
+        id: check-dependabot
+        uses: ./.github/workflows/dependabot-check
+
+      - name: Check action
+        run: |
+          echo ${{steps.check-dependabot.outputs.IS_DEPENDABOT}}
+
       - name: Get changed applications
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
