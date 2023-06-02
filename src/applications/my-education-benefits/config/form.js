@@ -459,6 +459,10 @@ const formConfig = {
                 </p>
               ),
               [formFields.userFullName]: {
+                'ui:options': {
+                  hideIf: formData =>
+                    formData.showMebEnhancements06 && formData.isLOA3,
+                },
                 ...fullNameUI,
                 first: {
                   ...fullNameUI.first,
@@ -480,6 +484,8 @@ const formConfig = {
                       }
                     },
                   ],
+                  'ui:required': formData =>
+                    !formData?.showMebEnhancements06 && !formData.isLOA3,
                 },
                 last: {
                   ...fullNameUI.last,
@@ -505,6 +511,8 @@ const formConfig = {
                       }
                     },
                   ],
+                  'ui:required': formData =>
+                    !formData?.showMebEnhancements06 && !formData.isLOA3,
                 },
                 middle: {
                   ...fullNameUI.middle,
@@ -526,10 +534,8 @@ const formConfig = {
                       }
                     },
                   ],
-                },
-                'ui:options': {
-                  hideIf: formData =>
-                    formData.showMebEnhancements06 && formData.isLOA3,
+                  'ui:required': formData =>
+                    !formData?.showMebEnhancements06 && !formData.isLOA3,
                 },
               },
             },
@@ -557,7 +563,7 @@ const formConfig = {
                 properties: {},
               },
               [formFields.viewUserFullName]: {
-                required: [formFields.userFullName],
+                // required: [formFields.userFullName],
                 type: 'object',
                 properties: {
                   [formFields.userFullName]: {

@@ -173,6 +173,8 @@ const formConfig = {
                       }
                     },
                   ],
+                  'ui:required': formData =>
+                    !formData?.showMebEnhancements06 && !formData.isLOA3,
                 },
                 middle: {
                   ...fullNameUI.middle,
@@ -184,6 +186,8 @@ const formConfig = {
                       }
                     },
                   ],
+                  'ui:required': formData =>
+                    !formData?.showMebEnhancements06 && !formData.isLOA3,
                 },
                 last: {
                   ...fullNameUI.last,
@@ -195,6 +199,8 @@ const formConfig = {
                       }
                     },
                   ],
+                  'ui:required': formData =>
+                    !formData?.showMebEnhancements06 && !formData.isLOA3,
                 },
               },
               'ui:options': {
