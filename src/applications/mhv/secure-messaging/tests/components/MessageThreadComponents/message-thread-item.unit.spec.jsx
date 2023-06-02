@@ -65,9 +65,10 @@ describe('Message thread item', () => {
     const screen = setup(message);
     const accordion = document.querySelector('va-accordion-item');
     expect(accordion.getAttribute('aria-label')).to.equal(
-      `message sent July 15, 2022 at 11:11 a.m. EDT, with attachment from ${
-        message.senderName
-      }. Collapsed."`,
+      `message sent ${dateFormat(
+        message.sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}, with attachment from ${message.senderName}. Collapsed."`,
     );
     expect(
       screen.getByText(
@@ -109,9 +110,10 @@ describe('Message thread item', () => {
       `expand-message-button-${messageResponse.messageId}`,
     );
     expect(accordionButton.getAttribute('aria-label')).to.equal(
-      `message received July 15, 2022 at 11:11 a.m. EDT,  from ${
-        messageNoAttachment.senderName
-      }. Collapsed."`,
+      `message received ${dateFormat(
+        messageNoAttachment.sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )},  from ${messageNoAttachment.senderName}. Collapsed."`,
     );
     waitFor(fireEvent.click(accordionButton));
     expect(screen.queryByTestId('attachment-icon')).to.not.exist;
@@ -128,9 +130,10 @@ describe('Message thread item', () => {
       `expand-message-button-${messageResponse.messageId}`,
     );
     expect(accordionButton.getAttribute('aria-label')).to.equal(
-      `New message received July 15, 2022 at 11:11 a.m. EDT, with attachment from ${
-        messageNoAttachment.senderName
-      }. Collapsed."`,
+      `New message received ${dateFormat(
+        messageNoAttachment.sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}, with attachment from ${messageNoAttachment.senderName}. Collapsed."`,
     );
     waitFor(fireEvent.click(accordionButton));
     const icon = screen.getByTestId('unread-icon');
