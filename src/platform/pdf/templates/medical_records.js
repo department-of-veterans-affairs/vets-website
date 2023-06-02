@@ -73,7 +73,7 @@ const generateDetailsContent = async (doc, parent, data) => {
   });
   parent.add(details);
   if (data.details.header) {
-    const headOptions = { x: 20, paragraphGap: 16 };
+    const headOptions = { x: 20, paragraphGap: 12 };
     details.add(
       createHeading(doc, 'H2', config, data.details.header, headOptions),
     );
@@ -85,6 +85,7 @@ const generateDetailsContent = async (doc, parent, data) => {
       details.add(struct);
     }
   }
+  doc.moveDown();
   details.end();
 };
 
@@ -94,9 +95,15 @@ const generateResultsContent = async (doc, parent, data) => {
   });
   parent.add(results);
   if (data.results.header) {
-    const headingOptions = { paragraphGap: 20, x: 34 };
+    const headingOptions = { paragraphGap: 12, x: 20 };
     results.add(
       createHeading(doc, 'H2', config, data.results.header, headingOptions),
+    );
+  }
+  if (data.results.preface) {
+    const prefaceOptions = { paragraphGap: 12, x: 20 };
+    results.add(
+      createSubHeading(doc, config, data.results.preface, prefaceOptions),
     );
   }
   let initialBlock = true;
@@ -111,12 +118,12 @@ const generateResultsContent = async (doc, parent, data) => {
       initialBlock = false;
       results.add(
         doc.struct('Artifact', () => {
-          addHorizontalRule(doc, 30, 0.5);
+          addHorizontalRule(doc, 20, 0.5);
         }),
       );
     }
 
-    const headingOptions = { paragraphGap: 10, x: 34 };
+    const headingOptions = { paragraphGap: 10, x: 30 };
     if (item.header) {
       results.add(
         await createHeading(doc, 'H3', config, item.header, headingOptions),
@@ -124,7 +131,7 @@ const generateResultsContent = async (doc, parent, data) => {
     }
 
     for (const resultItem of item.items) {
-      const structs = await createDetailItem(doc, config, 44, resultItem);
+      const structs = await createDetailItem(doc, config, 40, resultItem);
       for (const struct of structs) {
         results.add(struct);
       }
