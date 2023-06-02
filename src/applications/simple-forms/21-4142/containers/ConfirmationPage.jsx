@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import FormFooter from 'platform/forms/components/FormFooter';
 
 import GetFormHelp from '../../shared/components/GetFormHelp';
 
@@ -94,8 +93,9 @@ export class ConfirmationPage extends React.Component {
         >
           Go back to VA.gov
         </a>
-        <div>
-          <FormFooter formConfig={{ getHelp: GetFormHelp }} />
+        <div className="help-footer-box">
+          <h2 className="help-heading">Need help?</h2>
+          <GetFormHelp />
         </div>
       </div>
     );
