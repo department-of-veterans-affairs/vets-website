@@ -49,7 +49,7 @@ jobs:
 
       - name: Check action
         run: |
-          echo ${{steps.check-dependabot.outputs.IS_DEPENDABOT}}
+          echo ${{steps.check-dependabot.outputs.dependabot_triggered}}
 
       - name: Get changed applications
         id: get-changed-apps
