@@ -396,12 +396,17 @@ export const getEvidence = formData => {
   };
 };
 
-export const hasDuplicateFacility = (list, currentFacility) =>
-  !!list.find(
+// Backend still works if we pass along duplicate issues
+export const hasDuplicateFacility = (list, currentFacility) => {
+  const current = buildPrivateString(currentFacility, ',');
+  return !!list.find(
     facility =>
-      buildPrivateString(facility, ',', { includeIssues: false }) ===
-      buildPrivateString(currentFacility, ',', { includeIssues: false }),
+      buildPrivateString(
+        { ...facility, treatmentDateRange: facility.treatmentDateRange[0] },
+        ',',
+      ) === current,
   );
+};
 
 /**
  * The backend is filling out form 4142/4142a (March 2021) which doesn't include
