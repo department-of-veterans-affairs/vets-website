@@ -27,6 +27,7 @@ import toursOfDutyUI from '../definitions/toursOfDuty';
 
 import AccordionField from '../components/AccordionField';
 import ApplicantIdentityView from '../components/ApplicantIdentityView';
+import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
 import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -396,6 +397,8 @@ const formConfig = {
           title: 'Your information',
           path: 'applicant-information/personal-information',
           subTitle: 'Your information',
+          CustomPageReview: ApplicantInformationReviewPage,
+          depends: formData => formData.showMebEnhancements06,
           instructions:
             'This is the personal information we have on file for you.',
           uiSchema: {
@@ -440,15 +443,15 @@ const formConfig = {
                 hideOnReview: true,
               },
             },
-            'view:applicantInformation': {
+            applicantInformation: {
+              // 'ui:title': 'Your Personal Information',
               'ui:description': (
                 <>
                   <ApplicantIdentityView />
                 </>
               ),
               'ui:options': {
-                hideIf: formData =>
-                  !formData.showMebEnhancements06 || !formData.isLOA3,
+                hideIf: formData => !formData.showMebEnhancements06,
               },
             },
             [formFields.viewUserFullName]: {
@@ -460,13 +463,13 @@ const formConfig = {
               ),
               [formFields.userFullName]: {
                 'ui:options': {
-                  hideIf: formData =>
-                    formData.showMebEnhancements06 && formData.isLOA3,
+                  hideIf: formData => formData.showMebEnhancements06,
                 },
                 ...fullNameUI,
                 first: {
                   ...fullNameUI.first,
                   'ui:title': 'Your first name',
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidName(field)) {
@@ -485,15 +488,13 @@ const formConfig = {
                     },
                   ],
                   'ui:options': {
-                    hideIf: formData =>
-                      formData.showMebEnhancements06 && formData.isLOA3,
+                    hideIf: formData => formData.showMebEnhancements06,
                   },
-                  'ui:required': formData =>
-                    !formData?.showMebEnhancements06 && !formData.isLOA3,
                 },
                 last: {
                   ...fullNameUI.last,
                   'ui:title': 'Your last name',
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidLastName(field)) {
@@ -516,15 +517,13 @@ const formConfig = {
                     },
                   ],
                   'ui:options': {
-                    hideIf: formData =>
-                      formData.showMebEnhancements06 && formData.isLOA3,
+                    hideIf: formData => formData.showMebEnhancements06,
                   },
-                  'ui:required': formData =>
-                    !formData?.showMebEnhancements06 && !formData.isLOA3,
                 },
                 middle: {
                   ...fullNameUI.middle,
                   'ui:title': 'Your middle name',
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidName(field)) {
@@ -543,21 +542,18 @@ const formConfig = {
                     },
                   ],
                   'ui:options': {
-                    hideIf: formData =>
-                      formData.showMebEnhancements06 && formData.isLOA3,
+                    hideIf: formData => formData.showMebEnhancements06,
                   },
-                  'ui:required': formData =>
-                    !formData?.showMebEnhancements06 && !formData.isLOA3,
                 },
               },
             },
             [formFields.dateOfBirth]: {
+              'ui:required': formData => !formData?.showMebEnhancements06,
+              'ui:options': {
+                hideIf: formData => formData.showMebEnhancements06,
+              },
               ...currentOrPastDateUI('Your date of birth'),
               'ui:reviewField': CustomReviewDOBField,
-              'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
-              },
             },
           },
           schema: {
@@ -575,7 +571,7 @@ const formConfig = {
                 properties: {},
               },
               [formFields.viewUserFullName]: {
-                // required: [formFields.userFullName],
+                required: [formFields.userFullName],
                 type: 'object',
                 properties: {
                   [formFields.userFullName]: {
@@ -599,7 +595,7 @@ const formConfig = {
                 },
               },
               [formFields.dateOfBirth]: date,
-              'view:applicantInformation': {
+              applicantInformation: {
                 type: 'object',
                 properties: {},
               },
