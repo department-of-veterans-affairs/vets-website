@@ -253,15 +253,17 @@ const Dashboard = ({
                 <HealthCareV2 isVAPatient={isVAPatient} />
               ) : null}
 
-              {isLOA3 && shouldShowV2Dashboard ? (
-                <>
-                  <DebtsV2 />
-                  <BenefitPaymentsV2
-                    payments={payments}
-                    showNotifications={showNotifications}
-                  />
-                </>
-              ) : null}
+              {isLOA3 &&
+                shouldShowV2Dashboard &&
+                canAccessPaymentHistory && (
+                  <>
+                    <DebtsV2 />
+                    <BenefitPaymentsV2
+                      payments={payments}
+                      showNotifications={showNotifications}
+                    />
+                  </>
+                )}
               {isLOA3 && shouldShowV2Dashboard ? (
                 <EducationAndTraining />
               ) : null}
