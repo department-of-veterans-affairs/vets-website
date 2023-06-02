@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import { recordAnswer } from '../../../actions/universal';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { URLS } from '../../../utils/navigation';
 
@@ -34,6 +35,12 @@ const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
       goToNextPage();
     }
   };
+  const { getCheckinComplete } = useSessionStorage(false);
+  useLayoutEffect(() => {
+    if (getCheckinComplete(window)) {
+      jumpToPage(URLS.DETAILS);
+    }
+  });
   return (
     <>
       <BackButton
