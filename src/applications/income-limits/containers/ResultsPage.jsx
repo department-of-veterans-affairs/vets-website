@@ -16,7 +16,7 @@ import {
  * 1) Standard: GMT > NMT
  * 2) Non-standard: GMT < NMT  In some rural areas, the Geographic Means Test is lower than the National Means Test
  */
-const Results = ({ limits }) => {
+const Results = ({ limits, yearInput }) => {
   const {
     gmt_threshold: gmt,
     national_threshold: national,
@@ -24,10 +24,11 @@ const Results = ({ limits }) => {
   } = limits;
 
   const isStandard = gmt > national;
+  const currentYear = new Date().getFullYear();
 
   return (
     <>
-      <h1>Vivamus varius sem eget</h1>
+      <h1>Your income limits for {yearInput || currentYear}</h1>
       <p>
         In posuere, sem in ornare mattis, urna libero vulputate quam, a dictum
         justo nisl non tortor. Nulla at mauris non dolor dignissim pharetra. Nam
@@ -41,7 +42,7 @@ const Results = ({ limits }) => {
         Donec scelerisque lectus a eros pellentesque rutrum. Sed sit amet varius
         ipsum, ut rutrum lacus. Aliquam ut pulvinar sapien, eu gravida nisi.
       </p>
-      <h3>Fusce risus lacus efficitur ac magna vitae</h3>
+      <h2>Fusce risus lacus efficitur ac magna vitae</h2>
       <va-accordion bordered data-testid="il-results">
         <va-accordion-item
           data-testid="il-results-1"
@@ -97,6 +98,7 @@ const Results = ({ limits }) => {
 
 const mapStateToProps = state => ({
   limits: state?.incomeLimits?.results?.limits,
+  yearInput: state?.incomeLimits?.form?.year,
 });
 
 Results.propTypes = {
@@ -108,6 +110,7 @@ Results.propTypes = {
     // eslint-disable-next-line camelcase
     pension_threshold: PropTypes.number,
   }).isRequired,
+  yearInput: PropTypes.string,
 };
 
 export default connect(mapStateToProps)(Results);
