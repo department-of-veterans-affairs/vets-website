@@ -13,7 +13,6 @@ import submitForm from './submitForm';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
-import ReviewDescription from '../components/ReviewDescription';
 import AddIssue from '../components/AddIssue';
 
 import {
@@ -92,7 +91,6 @@ const formConfig = {
   chapters: {
     infoPages: {
       title: 'Veteran details',
-      reviewDescription: ReviewDescription,
       pages: {
         veteranInformation: {
           title: 'Veteran details',
