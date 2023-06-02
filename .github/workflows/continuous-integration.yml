@@ -563,7 +563,7 @@ jobs:
       # the job to always run, and skips each step if no tests are selected.
       # Previously, the above conditional was included in the job's if statement.
       - name: Configure AWS credentials
-        if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' 
+        if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
