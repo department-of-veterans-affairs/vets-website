@@ -47,6 +47,18 @@ module.exports = {
             '@department-of-veterans-affairs/platform-user/exports',
             './src/platform/user/exportsFile.js',
           ],
+          [
+            '@department-of-veterans-affairs/platform-testing/exports',
+            './src/platform/testing/exportsFile.js',
+          ],
+          [
+            '@department-of-veterans-affairs/platform-site-wide/exports',
+            './src/platform/site-wide/exportsFile.js',
+          ],
+          [
+            '@department-of-veterans-affairs/platform-landing-pages/exports',
+            './src/platform/landing-pages/exportsFile.js',
+          ],
         ],
         extensions: ['.js', '.ts', '.tsx', '.jsx', '.json'],
       },
