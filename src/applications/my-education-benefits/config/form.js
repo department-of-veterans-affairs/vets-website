@@ -484,6 +484,10 @@ const formConfig = {
                       }
                     },
                   ],
+                  'ui:options': {
+                    hideIf: formData =>
+                      formData.showMebEnhancements06 && formData.isLOA3,
+                  },
                   'ui:required': formData =>
                     !formData?.showMebEnhancements06 && !formData.isLOA3,
                 },
@@ -511,6 +515,10 @@ const formConfig = {
                       }
                     },
                   ],
+                  'ui:options': {
+                    hideIf: formData =>
+                      formData.showMebEnhancements06 && formData.isLOA3,
+                  },
                   'ui:required': formData =>
                     !formData?.showMebEnhancements06 && !formData.isLOA3,
                 },
@@ -534,6 +542,10 @@ const formConfig = {
                       }
                     },
                   ],
+                  'ui:options': {
+                    hideIf: formData =>
+                      formData.showMebEnhancements06 && formData.isLOA3,
+                  },
                   'ui:required': formData =>
                     !formData?.showMebEnhancements06 && !formData.isLOA3,
                 },
