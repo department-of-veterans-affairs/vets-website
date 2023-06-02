@@ -1,5 +1,4 @@
 import React from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { bddAlertBegin } from './common';
 
 const alertContent = (
@@ -16,16 +15,14 @@ const alertContent = (
 
 export const BddConfirmationAlert = () => {
   return (
-    !environment.isProduction() && (
-      <div className="vads-u-margin-top--2">
-        <va-alert status="warning">
-          <h3 slot="headline">
-            Submit your Separation Health Assessment - Part A Self-Assessment
-            now if you haven’t already
-          </h3>
-          {alertContent}
-        </va-alert>
-      </div>
-    )
+    <div className="vads-u-margin-top--2">
+      <va-alert status="warning">
+        <h3 slot="headline">
+          Submit your Separation Health Assessment - Part A Self-Assessment now
+          if you haven’t already
+        </h3>
+        {alertContent}
+      </va-alert>
+    </div>
   );
 };

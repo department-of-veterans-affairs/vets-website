@@ -12,7 +12,6 @@ import { isLoggedIn } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { itfNotice } from '../content/introductionPage';
 import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
 import {
@@ -62,7 +61,6 @@ class IntroductionPage extends React.Component {
       retentionPeriod: '1 year',
       ariaDescribedby: 'main-content',
     };
-    const isShowBDDSHA = isBDDForm && !environment.isProduction();
 
     return (
       <div className="schemaform-intro">
@@ -115,14 +113,14 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <h3 className="vads-u-font-size--h4">Prepare</h3>
-              {!isShowBDDSHA && (
+              {!isBDDForm && (
                 <p data-testid="process-step1-prepare">
                   When you file a disability claim, you’ll have a chance to
                   provide evidence to support your claim. Evidence could
                   include:
                 </p>
               )}
-              {isShowBDDSHA && (
+              {isBDDForm && (
                 <>
                   <p data-testid="process-step1-prepare">
                     When you file a BDD claim online, we’ll ask you to upload

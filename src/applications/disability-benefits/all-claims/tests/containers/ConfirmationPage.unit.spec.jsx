@@ -33,6 +33,22 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     tree.getByText('Claim ID number');
   });
 
+  it('should not render success with BDD SHA alert when not submitting BDD claim', () => {
+    const { queryByText } = render(
+      <ConfirmationPage
+        submissionStatus={submissionStatuses.succeeded}
+        {...defaultProps}
+        isSubmittingBDD={false}
+      />,
+    );
+
+    expect(
+      queryByText(
+        'Submit your Separation Health Assessment - Part A Self-Assessment now if you haven’t already',
+      ),
+    ).to.not.exist;
+  });
+
   it('should render success with BDD SHA alert', () => {
     const tree = render(
       <ConfirmationPage
