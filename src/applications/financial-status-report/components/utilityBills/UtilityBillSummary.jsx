@@ -33,7 +33,7 @@ const UtilityBillSummary = ({
 
   const cardBody = text => (
     <p>
-      Monthly payment amount: <b>{currencyFormatter(text)}</b>
+      Monthly amount: <b>{currencyFormatter(text)}</b>
     </p>
   );
 
