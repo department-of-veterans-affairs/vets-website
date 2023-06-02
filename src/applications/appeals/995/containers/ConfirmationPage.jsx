@@ -14,8 +14,10 @@ import GetFormHelp from '../content/GetFormHelp';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('h2');
     scrollTo('topScrollElement');
+    setTimeout(() => {
+      focusElement('va-alert h2');
+    });
   }
 
   render() {
