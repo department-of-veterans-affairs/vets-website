@@ -1,5 +1,5 @@
-import React, { useLayoutEffect } from 'react';
-import { useMemo, useSelector } from 'react-redux';
+import React, { useMemo, useLayoutEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-unresolved
