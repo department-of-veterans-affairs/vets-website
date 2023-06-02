@@ -542,7 +542,7 @@ jobs:
       needs.build.result == 'success' &&
       needs.cypress-tests-prep.result == 'success' &&
       needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' &&
-      github.actor =! 'dependabot[bot]'
+      github.actor != 'dependabot[bot]'
     container:
       image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
       options: -u 1001:1001 -v /usr/local/share:/share
