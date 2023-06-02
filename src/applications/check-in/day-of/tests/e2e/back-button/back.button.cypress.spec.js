@@ -48,7 +48,6 @@ describe('Check In Experience', () => {
       NextOfKin.validatePageLoaded(
         'Is this your current next of kin information?',
       );
-      cy.injectAxeThenAxeCheck();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -56,6 +55,7 @@ describe('Check In Experience', () => {
       });
     });
     it('should have a functional back button', () => {
+      cy.injectAxeThenAxeCheck();
       NextOfKin.validateBackButton();
       NextOfKin.attemptToGoToNextPage();
 
@@ -73,6 +73,7 @@ describe('Check In Experience', () => {
       );
     });
     it('removes back button from appointment list when check in is complete', () => {
+      cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 
       Appointments.validatePageLoaded();
@@ -88,6 +89,7 @@ describe('Check In Experience', () => {
       cy.get('[data-testid="back-button"]').should('not.exist');
     });
     it('prevents users from navigating to any of the question pages when check in is complete', () => {
+      cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 
       Appointments.validatePageLoaded();

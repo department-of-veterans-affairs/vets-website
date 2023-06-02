@@ -127,10 +127,10 @@ ConfirmablePage.propTypes = {
   ).isRequired,
   header: PropTypes.string.isRequired,
   noAction: PropTypes.func.isRequired,
+  yesAction: PropTypes.func.isRequired,
   pageType: PropTypes.string,
   router: PropTypes.object,
   subtitle: PropTypes.string,
   withBackButton: PropTypes.bool,
-  yesAction: PropTypes.func.isRequired,
 };
 export default ConfirmablePage;
