@@ -28,31 +28,31 @@ const config = {
   headings: {
     H1: {
       font: 'Bitter-Bold',
-      size: 30,
+      size: 24,
     },
     H2: {
       font: 'Bitter-Bold',
-      size: 24,
+      size: 18,
     },
     H3: {
       font: 'Bitter-Bold',
-      size: 18,
+      size: 16,
     },
   },
   subHeading: {
     font: 'Bitter-Regular',
-    size: 16,
+    size: 12,
   },
   text: {
     boldFont: 'SourceSansPro-Bold',
     font: 'SourceSansPro-Regular',
-    size: 16,
+    size: 12,
   },
 };
 
 const generateIntroductionContent = async (doc, parent, data) => {
   const headOptions = { x: 20, paragraphGap: 16 };
-  const subHeadOptions = { paragraphGap: 24 };
+  const subHeadOptions = { paragraphGap: 12 };
   const introduction = doc.struct('Sect', {
     title: 'Introduction',
   });
@@ -63,6 +63,7 @@ const generateIntroductionContent = async (doc, parent, data) => {
       createSubHeading(doc, config, data.preface, subHeadOptions),
     );
   }
+  doc.moveDown();
   introduction.end();
 };
 
@@ -72,13 +73,14 @@ const generateDetailsContent = async (doc, parent, data) => {
   });
   parent.add(details);
   if (data.details.header) {
-    const headOptions = { x: 30, paragraphGap: 16 };
+    const headOptions = { x: 20, paragraphGap: 16 };
     details.add(
       createHeading(doc, 'H2', config, data.details.header, headOptions),
     );
   }
+  const itemIndent = data.details.header ? 30 : 20;
   for (const item of data.details.items) {
-    const structs = await createDetailItem(doc, config, 30, item);
+    const structs = await createDetailItem(doc, config, itemIndent, item);
     for (const struct of structs) {
       details.add(struct);
     }
@@ -147,7 +149,7 @@ const generateInitialHeaderContent = async (doc, parent, data) => {
     attached: 'Top',
   });
   parent.add(header);
-  const leftOptions = { continued: true, x: 16, y: 12 };
+  const leftOptions = { continued: true, x: 20, y: 12 };
   header.add(createSpan(doc, config, data.headerLeft, leftOptions));
   const rightOptions = { align: 'right' };
   header.add(createSpan(doc, config, data.headerRight, rightOptions));
@@ -156,28 +158,51 @@ const generateInitialHeaderContent = async (doc, parent, data) => {
     doc.moveDown(1);
     const currentHeight = doc.y;
 
+    // Calculate text width
+    let width = 0;
     for (let i = 0; i < data.headerBanner.length; i += 1) {
       const element = data.headerBanner[i];
       const font =
         element.weight === 'bold' ? config.text.boldFont : config.text.font;
-      const paragraphOptions =
-        i < data.headerBanner.length ? { continued: true } : {};
+
+      doc.font(font);
+      doc.fontSize(config.text.size);
+      width += doc.widthOfString(element.text);
+    }
+    const leftMargin = (612 - 32 - width) / 2 + 20;
+
+    for (let i = 0; i < data.headerBanner.length; i += 1) {
+      const element = data.headerBanner[i];
+      const font =
+        element.weight === 'bold' ? config.text.boldFont : config.text.font;
+      const paragraphOptions = {};
+      if (i < data.headerBanner.length) {
+        paragraphOptions.continued = true;
+      }
 
       header.add(
         doc.struct('Span', () => {
           doc
             .font(font)
             .fontSize(config.text.size)
-            .text(element.text, 20, doc.y, paragraphOptions);
+            .text(element.text, leftMargin, doc.y, paragraphOptions);
         }),
       );
     }
 
-    const height = doc.y - currentHeight + 20;
+    const height = doc.y - currentHeight + 25;
 
-    doc.rect(16, currentHeight, 580, height).stroke();
+    doc.rect(20, currentHeight - 4, 580, height).stroke();
 
-    doc.moveDown(2);
+    doc.moveDown(3);
+
+    // This is an ugly hack that resets the document X position
+    // so that the document header is shown correctly.
+    header.add(
+      doc.struct('Artifact', () => {
+        doc.text('', 20, doc.y);
+      }),
+    );
   }
 
   header.end();
@@ -238,7 +263,7 @@ const generateFooterContent = async (doc, parent, data) => {
 
     let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
     footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
-    const footerLeftOptions = { continued: true, x: 16, y: 766 };
+    const footerLeftOptions = { continued: true, x: 20, y: 766 };
     const footerRightOptions = { align: 'right' };
 
     // Only allow the last footer element to be read by screen readers.
