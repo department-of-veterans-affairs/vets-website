@@ -148,7 +148,44 @@ describe('FormApp', () => {
     });
   });
 
-  it('should update areaOfDisagreement from selected issues', () => {
+  it('should set form data', async () => {
+    const issues = [
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'test1',
+          approxDecisionDate: '2023-06-06',
+        },
+        [SELECTED]: true,
+      },
+    ];
+    const { props, data } = getData({
+      contestableIssues: {
+        status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+        issues,
+      },
+      formData: {
+        contestableIssues: [],
+        areaOfDisagreement: [],
+        additionalIssues: [{ issue: 'test2', [SELECTED]: true }],
+      },
+    });
+    const store = mockStore(data);
+
+    render(
+      <Provider store={store}>
+        <FormApp {...props} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const action = store.getActions()[0];
+      expect(action.type).to.eq(SET_DATA);
+      expect(action.data.contestableIssues.length).to.eq(1);
+    });
+  });
+
+  it('should update areaOfDisagreement from selected issues', async () => {
     const issues = [
       {
         type: 'contestableIssue',
@@ -178,8 +215,10 @@ describe('FormApp', () => {
       </Provider>,
     );
 
-    const action = store.getActions()[0];
-    expect(action.type).to.eq(SET_DATA);
-    expect(action.data.areaOfDisagreement.length).to.eq(2);
+    await waitFor(() => {
+      const action = store.getActions()[0];
+      expect(action.type).to.eq(SET_DATA);
+      expect(action.data.areaOfDisagreement.length).to.eq(2);
+    });
   });
 });
