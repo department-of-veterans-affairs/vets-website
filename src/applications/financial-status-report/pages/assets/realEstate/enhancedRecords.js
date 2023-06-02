@@ -4,13 +4,13 @@ export const uiSchema = {
   'ui:title': 'Your real estate assets',
   assets: {
     realEstateValue: {
-      'ui:title': 'What is the estimated value of your property?',
+      'ui:title': 'What is the estimated value of all your properties?',
       'ui:options': {
         classNames: 'schemaform-currency-input',
         widgetClassNames: 'input-size-3',
       },
       'ui:errorMessages': {
-        required: 'Please enter your property value.',
+        required: 'Please enter the value of all your properties.',
       },
       'ui:validations': [validateCurrency],
     },

@@ -28,7 +28,6 @@ import {
 import {
   submitRequest,
   submitAppointment,
-  sendRequestMessage,
   getCommunityCare,
 } from '../../services/var';
 import {
@@ -209,7 +208,10 @@ export function updateFacilityType(facilityType) {
 }
 
 export function startDirectScheduleFlow() {
-  recordEvent({ event: 'vaos-direct-path-started' });
+  recordEvent({
+    event: 'interaction',
+    action: 'vaos-direct-path-started',
+  });
 
   return {
     type: START_DIRECT_SCHEDULE_FLOW,
@@ -775,7 +777,8 @@ export function submitAppointmentOrRequest(history) {
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
       const flow = GA_FLOWS.DIRECT;
       recordEvent({
-        event: `${GA_PREFIX}-direct-submission`,
+        event: 'interaction',
+        action: `${GA_PREFIX}-direct-submission`,
         flow,
         ...additionalEventData,
       });
@@ -893,27 +896,6 @@ export function submitAppointmentOrRequest(history) {
         } else {
           requestBody = transformFormToVARequest(getState());
           requestData = await submitRequest('va', requestBody);
-        }
-
-        if (!featureVAOSServiceRequests) {
-          try {
-            const requestMessage = data.reasonAdditionalInfo;
-            if (requestMessage) {
-              await sendRequestMessage(requestData.id, requestMessage);
-            }
-          } catch (error) {
-            // These are ancillary updates, the request went through if the first submit
-            // succeeded
-            captureError(error, false, 'Request message failure', {
-              messageLength: newAppointment?.data?.reasonAdditionalInfo?.length,
-              hasLineBreak: newAppointment?.data?.reasonAdditionalInfo?.includes(
-                '\r\n',
-              ),
-              hasNewLine: newAppointment?.data?.reasonAdditionalInfo?.includes(
-                '\n',
-              ),
-            });
-          }
         }
 
         dispatch({

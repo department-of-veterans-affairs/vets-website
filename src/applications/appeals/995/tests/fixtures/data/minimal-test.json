@@ -27,6 +27,7 @@
       },
       "email": "user@example.com"
     },
+    "view:primaryPhone": "home",
     "benefitType": "compensation",
     "contestedIssues": [
       {
@@ -49,7 +50,7 @@
       {
         "locationAndName": "VAMC Location",
         "issues": [
-          "PTSD"
+          "Headaches"
         ],
         "evidenceDates": {
           "from": "2022-01-01",
@@ -63,6 +64,9 @@
           "from": "2022-01-01",
           "to": "2022-02-01"
         },
+        "issues": [
+          "Headaches"
+        ],
         "providerFacilityAddress": {
           "country": "USA",
           "street": "123 main",

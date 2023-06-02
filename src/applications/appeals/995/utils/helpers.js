@@ -1,12 +1,6 @@
 import moment from 'moment';
 
-import {
-  SELECTED,
-  LEGACY_TYPE,
-  EVIDENCE_VA,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_OTHER,
-} from '../constants';
+import { SELECTED, LEGACY_TYPE, FORMAT_YMD, AMA_DATE } from '../constants';
 
 /**
  * @typedef ContestableIssues
@@ -45,17 +39,16 @@ import {
  * @returns
  */
 /** Filter out ineligible contestable issues:
- * - remove issues more than one year past their decision date
+ * - remove issues with an invalid decision date
  * - remove issues that are deferred
  * @prop {ContestableIssues} - Array of both eligible & ineligible contestable
  *  issues, plus legacy issues
  * @return {ContestableIssues} - filtered list
  */
 export const getEligibleContestableIssues = issues => {
-  const today = moment().startOf('day');
   return (issues || []).filter(issue => {
     const {
-      approxDecisionDate = '',
+      approxDecisionDate,
       ratingIssueSubjectText = '',
       description = '',
     } = issue?.attributes || {};
@@ -63,11 +56,12 @@ export const getEligibleContestableIssues = issues => {
     const isDeferred = [ratingIssueSubjectText, description]
       .join(' ')
       .includes('deferred');
-    const date = moment(approxDecisionDate);
-    if (isDeferred || !date.isValid() || !ratingIssueSubjectText) {
-      return false;
-    }
-    return date.add(1, 'years').isAfter(today);
+    return (
+      !isDeferred &&
+      ratingIssueSubjectText &&
+      approxDecisionDate &&
+      moment(approxDecisionDate, FORMAT_YMD).isValid()
+    );
   });
 };
 
@@ -108,6 +102,7 @@ export const getLegacyAppealsLength = issues =>
     return count;
   }, 0);
 
+const amaCutoff = moment(AMA_DATE).startOf('day');
 /**
  * Are there any legacy appeals in the API, or did the Veteran manually add an
  * issue of unknown legacy status?
@@ -116,8 +111,19 @@ export const getLegacyAppealsLength = issues =>
  */
 export const mayHaveLegacyAppeals = ({
   legacyCount = 0,
-  additionalIssues,
-} = {}) => legacyCount > 0 || additionalIssues?.length > 0;
+  contestedIssues = [],
+  additionalIssues = [],
+} = {}) => {
+  if (legacyCount > 0 || additionalIssues?.length > 0) {
+    return true;
+  }
+  return contestedIssues?.some(issue => {
+    const decisionDate = moment(issue.attributes.approxDecisionDate).startOf(
+      'day',
+    );
+    return decisionDate.isBefore(amaCutoff);
+  });
+};
 
 export const someSelected = issues =>
   (issues || []).some(issue => issue[SELECTED]);
@@ -277,28 +283,3 @@ export const calculateIndexOffset = (index, contestableIssuesLength) =>
  */
 export const checkContestableIssueError = error =>
   (error && error?.errors?.[0]?.status !== '404') || false;
-
-export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
-export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
-export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
-
-// Update evidence issues if they change
-export const evidenceNeedsUpdating = formData => {
-  if (hasVAEvidence(formData)) {
-    const validIssues = getSelected(formData).map(getIssueName);
-    return !formData.locations?.every(({ issues }) =>
-      (issues || []).every(issue => validIssues.includes(issue)),
-    );
-  }
-  return false;
-};
-
-export const cleanupLocationIssues = formData => {
-  const validIssues = getSelected(formData).map(getIssueName);
-  return (formData.locations || []).map(location => ({
-    ...location,
-    issues: (location.issues || []).filter(issue =>
-      validIssues.includes(issue),
-    ),
-  }));
-};

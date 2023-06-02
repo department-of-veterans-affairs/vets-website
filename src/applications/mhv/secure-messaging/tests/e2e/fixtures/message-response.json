@@ -10,10 +10,11 @@
             "attachment": false,
             "sentDate": "2022-09-12T15:10:13.000Z",
             "senderId": 20029,
-            "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+            "senderName": "ISLAM, MOHAMMAD RAFIQ",
             "recipientId": 6820911,
             "recipientName": "ECSTEN, THOMAS ",
-            "readReceipt": "READ"
+            "readReceipt": null,
+            "triageGroupName": "Jeasmitha-Cardio-Clinic"
         },
         "relationships": {
             "attachments": {

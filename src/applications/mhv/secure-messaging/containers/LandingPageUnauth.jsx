@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import { useDispatch } from 'react-redux';
 
@@ -7,6 +8,10 @@ const LandingPageUnauth = () => {
   const handleSignIn = () => {
     dispatch(toggleLoginModal(true, 'mhv-sm-landing-page'));
   };
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  });
+
   return (
     <div className="main-content vads-u-flex--fill">
       <h1>Messages</h1>
@@ -31,7 +36,11 @@ const LandingPageUnauth = () => {
           </p>
           {/* va-button component from design library has a bug which affects the styling */}
           {/* However, toggleLoginModal function has appropriate analytic tags */}
-          <button className="va-button-primary" onClick={handleSignIn}>
+          <button
+            type="button"
+            className="va-button-primary"
+            onClick={handleSignIn}
+          >
             Sign in or create an account
           </button>
         </div>
@@ -51,7 +60,7 @@ const LandingPageUnauth = () => {
           className="vads-c-action-link--blue compose-message-link"
           href="/my-health/secure-messages"
         >
-          Compose a new message
+          Start a new message
         </a>
       </p>
       <p>

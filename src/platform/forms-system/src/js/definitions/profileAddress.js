@@ -14,8 +14,8 @@ import set from 'platform/utilities/data/set';
  * STREET_PATTERN - rejects white space only
  * US_POSTAL_CODE_PATTERN - Matches 5 digit zipcodes
  */
-const STREET_PATTERN = '^.*\\S.*';
-const US_POSTAL_CODE_PATTERN = '^\\d{5}$';
+export const STREET_PATTERN = '^.*\\S.*';
+export const US_POSTAL_CODE_PATTERN = '^\\d{5}$';
 
 export const MILITARY_CITY_VALUES = constants.militaryCities.map(
   city => city.value,
@@ -114,10 +114,14 @@ const USA = {
 };
 
 const MilitaryBaseInfo = () => (
-  <p className="vads-u-margin-top--3">
-    U.S. military bases are considered a domestic address and a part of the
-    United States.
-  </p>
+  <div className="vads-u-padding-x--2p5">
+    <va-additional-info trigger="Learn more about military base addresses">
+      <span>
+        The United States is automatically chosen as your country if you live on
+        a military base outside of the country.
+      </span>
+    </va-additional-info>
+  </div>
 );
 
 /**
@@ -249,6 +253,9 @@ export default function addressUiSchema(
       'ui:required': uiRequiredCallback,
       'ui:title': 'Country',
       'ui:autocomplete': 'country',
+      'ui:errorMessages': {
+        required: 'Country is required',
+      },
       'ui:options': {
         /**
          * This is needed because the country dropdown needs to be set to USA and disabled if a

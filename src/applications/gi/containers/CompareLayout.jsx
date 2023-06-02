@@ -51,6 +51,9 @@ const CompareLayout = ({
     let institutionRatingIsNotNull = false;
     let institutionCountIsNotNull = false;
     let institutionOverallAvgIsNotNull = false;
+    const ratingsAriaLabel = `Overall rating for ${
+      institution.name
+    } has not yet been rated by veterans`;
     /** ***CHECK IF INSTITUTION.INSTITUTIONRATING IS NULL**** */
     if (institution.institutionRating != null) {
       institutionRatingIsNotNull = true;
@@ -86,7 +89,13 @@ const CompareLayout = ({
       const stars = convertRatingToStars(ratingAverage);
       return (
         <div>
-          <div>{stars.display} out of a possible 4 stars</div>
+          <div
+            aria-label={`Overall Rating for ${institution.name} is ${
+              stars.display
+            } out of 4.`}
+          >
+            {stars.display} out of a possible 4 stars
+          </div>
           <div>
             <RatingsStars rating={ratingAverage} />{' '}
           </div>
@@ -94,10 +103,16 @@ const CompareLayout = ({
       );
     }
     if (type.toUpperCase() === 'OJT') {
-      return 'N/A';
+      return (
+        <div
+          aria-label={`Overall rating not applicable for ${institution.name}`}
+        >
+          N/A
+        </div>
+      );
     }
 
-    return 'Not yet rated by Veterans';
+    return <div aria-label={ratingsAriaLabel}>Not yet rated by Veterans</div>;
   };
 
   const formatEstimate = ({ qualifier, value }) => {

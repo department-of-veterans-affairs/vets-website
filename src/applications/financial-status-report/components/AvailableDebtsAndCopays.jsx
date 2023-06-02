@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import PropTypes from 'prop-types';
 import { uniqBy } from 'lodash';
 import Scroll from 'react-scroll';
-import { ErrorAlert } from './Alerts';
 import { fetchDebts } from '../actions';
 import { getStatements } from '../actions/copays';
 import DebtCheckBox from './DebtCheckBox';
@@ -12,18 +10,9 @@ import CopayCheckBox from './CopayCheckBox';
 import { sortStatementsByDate } from '../utils/helpers';
 import { setFocus } from '../utils/fileValidation';
 
-const NoDebts = () => (
-  <div className="usa-alert background-color-only">
-    <div className="vads-u-margin-bottom--1">
-      <h4 className="vads-u-margin--0">You don’t have any VA debt</h4>
-    </div>
-    <p>
-      Our records show you don’t have any debt related to VA benefits. If you
-      think this is an error, please contact the Debt Management Center at{' '}
-      <va-telephone contact={CONTACTS.DMC} />
-    </p>
-  </div>
-);
+import ComboAlerts from './alerts/ComboAlerts';
+import AlertCard from './alerts/AlertCard';
+import { ALERT_TYPES, DEBT_TYPES } from '../constants';
 
 const { scroller } = Scroll;
 const scrollToTop = () => {
@@ -35,9 +24,17 @@ const scrollToTop = () => {
 };
 
 const AvailableDebtsAndCopays = ({ formContext }) => {
-  const { debts, statements, pending, isError, pendingCopays } = useSelector(
-    state => state.fsr,
-  );
+  const {
+    debts,
+    statements,
+    pending,
+    debtError = false,
+    pendingCopays,
+    copayError = false,
+  } = useSelector(state => state.fsr);
+  // const { debts, statements, pending, isError, pendingCopays } = useSelector(
+  //   state => state.fsr,
+  // );
   const { data } = useSelector(state => state.form);
 
   // copays
@@ -73,8 +70,6 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
     [dispatch],
   );
 
-  if (isError) return <ErrorAlert />;
-
   if (pending || pendingCopays) {
     return (
       <div className="vads-u-margin--5">
@@ -86,13 +81,29 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
       </div>
     );
   }
+  const debtZero = !debts.length;
+  const copayZero = !statementsByUniqueFacility.length;
 
-  if (!debts.length && !statementsByUniqueFacility.length) {
-    return <NoDebts />;
+  const bothErr = debtError && copayError;
+  const bothZero = debtZero && copayZero && !debtError && !copayError;
+
+  // cobmined error and empty state combos:
+  if (bothErr || bothZero) {
+    return (
+      <ComboAlerts alertType={bothErr ? ALERT_TYPES.ERROR : ALERT_TYPES.ZERO} />
+    );
+  }
+
+  // special case, one errors and one is empty
+  // nothing to actually display so we short circuit and return just the error (no question info)
+  if ((debtError && copayZero) || (copayError && debtZero)) {
+    return (
+      <AlertCard debtType={debtError ? DEBT_TYPES.DEBT : DEBT_TYPES.COPAY} />
+    );
   }
 
   return (
-    <>
+    <div data-testid="debt-selection-content">
       <p className="vads-u-margin-bottom--3">
         Select one or more debts you want to request relief for{' '}
         <span className="required-text">(*Required)</span>
@@ -121,13 +132,16 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
           <CopayCheckBox copay={copay} key={copay.id} />
         ))}
       </div>
+      {(debtError || copayError) && (
+        <AlertCard debtType={debtError ? DEBT_TYPES.DEBT : DEBT_TYPES.COPAY} />
+      )}
       <va-additional-info trigger="What if my debt isn’t listed here?">
         If you received a letter about a VA benefit debt that isn’t listed here,
         call us at <va-telephone contact="8008270648" /> (or{' '}
         <va-telephone contact="6127136415" international /> from overseas).
         We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </va-additional-info>
-    </>
+    </div>
   );
 };
 

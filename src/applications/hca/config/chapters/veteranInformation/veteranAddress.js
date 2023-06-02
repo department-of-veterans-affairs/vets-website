@@ -21,6 +21,9 @@ export default {
     },
     'view:prefillMessage': {
       'ui:description': PrefillMessage,
+      'ui:options': {
+        hideIf: formData => !formData['view:isLoggedIn'],
+      },
     },
     veteranAddress: merge({}, addressUI('Mailing address', true), {
       'ui:description': MailingAddressDescription,

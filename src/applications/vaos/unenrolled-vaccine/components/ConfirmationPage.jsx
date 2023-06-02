@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event.js';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -36,17 +35,16 @@ export default function ConfirmationPage() {
         <br />
       </div>
       <div className="vads-u-margin-y--2">
-        <Link
-          to="/"
+        <va-link
+          href="/health-care/schedule-view-va-appointments/appointments/"
+          text="Review your appointments"
           className="usa-button vads-u-padding-right--2"
           onClick={() => {
             recordEvent({
               event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
             });
           }}
-        >
-          Review your appointments
-        </Link>
+        />
       </div>
     </div>
   );

@@ -40,7 +40,12 @@ describe('Global check in', () => {
           emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
         };
         const isTravelReimbursementEnabled = true;
-        const appointments = [{ stationNo: '0001' }];
+        const appointments = [
+          {
+            stationNo: '0001',
+            clinicIen: '0001',
+          },
+        ];
         const form = updateFormPages(
           patientDemographicsStatus,
           testPages,
@@ -190,7 +195,12 @@ describe('Global check in', () => {
           emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
         };
         const isTravelReimbursementEnabled = true;
-        const appointments = [{ stationNo: '0001' }];
+        const appointments = [
+          {
+            stationNo: '0001',
+            clinicIen: '0001',
+          },
+        ];
         expect(appointments).to.have.lengthOf(1);
         const form = updateFormPages(
           patientDemographicsStatus,

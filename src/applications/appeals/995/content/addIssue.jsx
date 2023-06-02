@@ -5,6 +5,18 @@ export const content = {
     add: 'Add an issue',
     edit: 'Edit an issue',
   },
+  description: (
+    <div>
+      If you’re filing a Supplemental Claim within 1 year of receiving a
+      decision from 1 of these courts, provide the date listed on your decision
+      notice and upload a copy of your decision notice as evidence:
+      <ul>
+        <li>The United States Court of Appeals for Veterans Claims</li>
+        <li>The United States Court of Appeals for the Federal Circuit</li>
+        <li>The Supreme Court of the United States</li>
+      </ul>
+    </div>
+  ),
   button: {
     cancel: 'Cancel',
     add: 'Add issue',
@@ -20,11 +32,7 @@ export const content = {
   },
   date: {
     label: 'Date of decision',
-    hint: (
-      <p className="vads-u-font-weight--normal label-description">
-        Enter the date on your decision notice (the letter you received in the
-        mail from us).
-      </p>
-    ),
+    hint:
+      'Enter the date on your decision notice (the letter you received in the mail from us).',
   },
 };

@@ -18,8 +18,8 @@
 
 src/applications/_mock-form @department-of-veterans-affairs/platform-design-system-fe
 src/applications/burial-poc-v6 @department-of-veterans-affairs/platform-design-system-fe
-src/platform/forms        @department-of-veterans-affairs/platform-design-system-fe
-src/platform/forms-system @department-of-veterans-affairs/platform-design-system-fe
+src/platform/forms        @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
+src/platform/forms-system @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
 script/component-migration @department-of-veterans-affairs/platform-design-system-fe
 
 # VSP-Identity authentication
@@ -52,7 +52,6 @@ src/applications/letters @department-of-veterans-affairs/benefits-team-1-fronten
 src/applications/disability-benefits @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/claims-status @department-of-veterans-affairs/benefits-team-1-frontend
 src/applications/appeals @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/pre-need @department-of-veterans-affairs/benefits-team-1-frontend
 src/applications/vre @department-of-veterans-affairs/benefits-team-1-frontend
 src/applications/lgy @department-of-veterans-affairs/benefits-team-1-frontend
 src/applications/sah @department-of-veterans-affairs/benefits-team-1-frontend

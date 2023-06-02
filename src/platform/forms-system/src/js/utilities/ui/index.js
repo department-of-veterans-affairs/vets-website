@@ -1,5 +1,9 @@
 import Scroll from 'react-scroll';
-import { focusElement, getScrollOptions } from 'platform/utilities/ui';
+import {
+  focusElement,
+  focusByOrder,
+  getScrollOptions,
+} from 'platform/utilities/ui';
 
 export const $ = (selectorOrElement, root) =>
   typeof selectorOrElement === 'string'
@@ -10,7 +14,7 @@ export const $$ = (selector, root) => [
   ...(root || document).querySelectorAll(selector),
 ];
 
-export { focusElement };
+export { focusElement, focusByOrder };
 
 // List from https://html.spec.whatwg.org/dev/dom.html#interactive-content
 const focusableElements = [
@@ -90,8 +94,12 @@ export function setGlobalScroll() {
   };
 }
 
+// Duplicate of function in platform/utilities/ui/scroll
 export function scrollToFirstError() {
-  const errorEl = $('.usa-input-error, .input-error-date');
+  // [error] will focus any web-components with an error message
+  const errorEl = document.querySelector(
+    '.usa-input-error, .input-error-date, [error]',
+  );
   if (errorEl) {
     // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
     const currentPosition =

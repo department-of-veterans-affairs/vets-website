@@ -2,21 +2,20 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import {
+  VaButtonPair,
   VaCheckboxGroup,
   VaMemorableDate,
   VaModal,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import environment from 'platform/utilities/environment';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
-import { focusElement } from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import debounce from 'platform/utilities/data/debounce';
 
-import { EVIDENCE_VA_PATH } from '../constants';
+import { EVIDENCE_VA_PATH, NO_ISSUES_SELECTED } from '../constants';
 
 import { content } from '../content/evidenceVaRecords';
 import { getSelected, getIssueName } from '../utils/helpers';
+import { getIndex } from '../utils/evidence';
 
 import { checkValidations } from '../validations';
 import {
@@ -27,11 +26,11 @@ import {
   validateVaUnique,
   isEmptyVaEntry,
 } from '../validations/evidence';
+import { focusEvidence } from '../utils/focus';
 
 const VA_PATH = `/${EVIDENCE_VA_PATH}`;
 // const REVIEW_AND_SUBMIT = '/review-and-submit';
-// Directions to go after modal shows
-const NAV_PATHS = { add: 'add', back: 'back', forward: 'forward' };
+
 const defaultData = {
   locationAndName: '',
   issues: [],
@@ -44,10 +43,7 @@ const defaultState = {
     from: false,
     to: false,
   },
-  modal: {
-    show: false,
-    direction: '',
-  },
+  showModal: false,
   submitted: false,
 };
 
@@ -58,34 +54,29 @@ const EvidenceVaRecords = ({
   goToPath,
   setFormData,
   testingIndex,
-  testingMethod,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
   const { locations = [] } = data || {};
-  const getIndex = () => {
-    // get index from url '/va-medical-records?index={index}' or testingIndex
-    const searchIndex = new URLSearchParams(window.location.search);
-    let index = parseInt(searchIndex.get('index') || testingIndex || '0', 10);
-    if (Number.isNaN(index) || index > locations.length) {
-      index = locations.length;
-    }
-    return index;
-  };
 
   // *** state ***
-  const [currentIndex, setCurrentIndex] = useState(getIndex()); // zero-based
+  // currentIndex is zero-based
+  const [currentIndex, setCurrentIndex] = useState(
+    getIndex(locations, testingIndex),
+  );
   const [currentData, setCurrentData] = useState(
     locations?.[currentIndex] || defaultData,
   );
   // force a useEffect call when currentIndex doesn't change
   const [forceReload, setForceReload] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
 
   const [currentState, setCurrentState] = useState(defaultState);
 
-  const availableIssues = getSelected(data).map(getIssueName);
+  const getPageType = entry => (isEmptyVaEntry(entry) ? 'add' : 'edit');
+  const [addOrEdit, setAddOrEdit] = useState(getPageType(currentData));
 
-  const addOrEdit = isEmptyVaEntry(currentData) ? 'add' : 'edit';
+  const availableIssues = getSelected(data).map(getIssueName);
 
   // *** validations ***
   const errors = {
@@ -96,26 +87,27 @@ const EvidenceVaRecords = ({
       currentIndex,
     )[0],
     name: checkValidations([validateVaLocation], currentData, data)[0],
-    issues: checkValidations([validateVaIssues], currentData)[0],
+    issues: checkValidations(
+      [validateVaIssues],
+      currentData,
+      data,
+      currentIndex,
+    )[0],
     from: checkValidations([validateVaFromDate], currentData)[0],
     to: checkValidations([validateVaToDate], currentData)[0],
   };
 
   const hasErrors = () => Object.values(errors).filter(Boolean).length;
 
-  const focusErrors = () => {
-    if (hasErrors()) {
-      focusElement('[error]');
-    }
-  };
-
   useEffect(
     () => {
-      setCurrentData(locations?.[currentIndex] || defaultData);
+      const entry = locations?.[currentIndex] || defaultData;
+      setCurrentData(entry);
+      setAddOrEdit(getPageType(entry));
       setCurrentState(defaultState);
-      focusElement(hasErrors() ? '[error]' : 'va-text-input');
-      scrollTo('topPageElement');
+      focusEvidence();
       setForceReload(false);
+      debounce(() => setIsBusy(false));
     },
     // don't include locations or we clear state & move focus every time
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -151,10 +143,10 @@ const EvidenceVaRecords = ({
 
   const updateState = ({
     dirty = currentState.dirty,
-    modal = currentState.modal,
+    showModal = currentState.showModal,
     submitted = currentState.submitted,
   } = {}) => {
-    setCurrentState({ dirty, modal, submitted });
+    setCurrentState({ dirty, showModal, submitted });
   };
 
   const goToPageIndex = index => {
@@ -167,7 +159,7 @@ const EvidenceVaRecords = ({
     const newLocations = [...locations];
     if (!isEmptyVaEntry(locations[index])) {
       // only insert a new entry if the existing entry isn't empty
-      newLocations.splice(index, 0, {});
+      newLocations.splice(index, 0, defaultData);
     }
     setFormData({ ...data, locations: newLocations });
     goToPageIndex(index);
@@ -175,14 +167,19 @@ const EvidenceVaRecords = ({
 
   const handlers = {
     onBlur: event => {
-      const fieldName = event.target.getAttribute('name');
-      updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
+      // we're switching pages, don't set a field to dirty otherwise the next
+      // page may set this and focus on an error without blurring a field
+      if (!isBusy) {
+        // event.detail from testing
+        const fieldName = event.target?.getAttribute('name') || event.detail;
+        updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
+      }
     },
     onChange: event => {
       const { target = {} } = event;
       const fieldName = target.name;
-      // detail.value from va-select & target.value from va-text-input
-      const value = event.detail?.value || target.value;
+      // target.value from va-text-input & va-memorable-date
+      const value = target.value || '';
       updateCurrentLocation({ [fieldName]: value });
     },
 
@@ -208,11 +205,9 @@ const EvidenceVaRecords = ({
     onAddAnother: event => {
       event.preventDefault();
       if (hasErrors()) {
-        updateState({
-          submitted: true,
-          modal: { show: currentIndex !== 0, direction: NAV_PATHS.add },
-        });
-        focusElement('[error]');
+        // don't show modal
+        updateState({ submitted: true });
+        focusEvidence();
         return;
       }
       // clear state and insert a new entry after the current index (previously
@@ -223,15 +218,14 @@ const EvidenceVaRecords = ({
     },
     onGoForward: event => {
       event.preventDefault();
+      updateState({ submitted: true });
+      // non-empty entry, focus on error
       if (hasErrors()) {
-        updateState({
-          submitted: true,
-          modal: { show: currentIndex !== 0, direction: NAV_PATHS.forward },
-        });
-        focusElement('[error]');
+        focusEvidence();
         return;
       }
-      updateState({ submitted: true });
+
+      setIsBusy(true);
       const nextIndex = currentIndex + 1;
       if (currentIndex < locations.length - 1) {
         goToPageIndex(nextIndex);
@@ -241,13 +235,16 @@ const EvidenceVaRecords = ({
       }
     },
     onGoBack: () => {
-      if (hasErrors() && currentIndex !== 0) {
-        updateState({
-          submitted: true,
-          modal: { show: true, direction: NAV_PATHS.back },
-        });
+      // show modal if there are errors; don't show _immediately after_ adding
+      // a new empty entry
+      if (isEmptyVaEntry(currentData)) {
+        updateCurrentLocation({ remove: true });
+      } else if (hasErrors()) {
+        updateState({ submitted: true, showModal: true });
         return;
       }
+
+      setIsBusy(true);
       const prevIndex = currentIndex - 1;
       if (currentIndex > 0) {
         goToPageIndex(prevIndex);
@@ -260,55 +257,33 @@ const EvidenceVaRecords = ({
     onModalClose: event => {
       // For unit testing only
       event.stopPropagation();
-      updateState({ submitted: true, modal: { show: false, direction: '' } });
-      focusErrors();
+      updateState({ submitted: true, showModal: false });
+      focusEvidence();
     },
     onModalYes: () => {
-      // Yes, keep location; do nothing for forward & add
-      const { direction } = currentState.modal;
-      updateState({ submitted: true, modal: { show: false, direction: '' } });
-      if (direction === NAV_PATHS.back) {
-        const prevIndex = currentIndex - 1;
-        // index only passed here for testing purposes
-        if (prevIndex < 0) {
-          goBack(prevIndex);
-        } else {
-          goToPageIndex(prevIndex);
-        }
+      // Yes, keep location
+      updateState({ submitted: true, showModal: false });
+      const prevIndex = currentIndex - 1;
+      // index only passed here for testing purposes
+      if (prevIndex < 0) {
+        goBack(prevIndex);
+      } else {
+        goToPageIndex(prevIndex);
       }
-      focusErrors();
+      focusEvidence();
     },
     onModalNo: () => {
       // No, clear current data and navigate
-      const { direction } = currentState.modal;
       setCurrentData(defaultData);
-      // Using returned locations value to block going forward if the locations
-      // array has a zero length - the `locations` value is not updated in time
-      const updatedLocations = updateCurrentLocation({ remove: true });
-      updateState({ submitted: true, modal: { show: false, direction: '' } });
-      if (direction === NAV_PATHS.back) {
-        const prevIndex = currentIndex - 1;
-        if (prevIndex >= 0) {
-          goToPageIndex(prevIndex);
-        } else {
-          // index only passed here for testing purposes
-          goBack(prevIndex);
-        }
-      } else if (direction === NAV_PATHS.forward) {
-        if (updatedLocations.length > 0) {
-          if (currentIndex < updatedLocations.length) {
-            goToPageIndex(currentIndex);
-          } else {
-            setForceReload(true);
-            goForward(data, currentIndex);
-          }
-        } else {
-          goToPageIndex(currentIndex);
-        }
+      updateCurrentLocation({ remove: true });
+
+      updateState({ submitted: true, showModal: false });
+      const prevIndex = currentIndex - 1;
+      if (prevIndex >= 0) {
+        goToPageIndex(prevIndex);
       } else {
-        // restart this current page with empty fields (they chose No)
-        setCurrentState(defaultState);
-        goToPageIndex(currentIndex);
+        // index only passed here for testing purposes
+        goBack(prevIndex);
       }
     },
   };
@@ -316,23 +291,6 @@ const EvidenceVaRecords = ({
   const showError = name =>
     ((currentState.submitted || currentState.dirty[name]) && errors[name]) ||
     null;
-
-  // for testing only; testing-library can't close modal by clicking shadow dom
-  // so this adds a clickable button for testing, adding a color + attr name
-  // will allow simulating a field name, e.g. "onBlur:from" blurs the from date
-  const [testMethod, testName = 'test'] = (testingMethod || '').split(':');
-  const testMethodButton =
-    testingMethod && !environment.isProduction() ? (
-      <button
-        id="test-method"
-        className="sr-only"
-        type="button"
-        name={testName}
-        onClick={handlers[testMethod]}
-      >
-        test
-      </button>
-    ) : null;
 
   return (
     <form onSubmit={handlers.onGoForward}>
@@ -346,13 +304,13 @@ const EvidenceVaRecords = ({
         <VaModal
           clickToClose
           status="info"
-          modalTitle={content.modalTitle}
+          modalTitle={content.modalTitle(currentData)}
           primaryButtonText={content.modalYes}
           secondaryButtonText={content.modalNo}
           onCloseEvent={handlers.onModalClose}
           onPrimaryButtonClick={handlers.onModalYes}
           onSecondaryButtonClick={handlers.onModalNo}
-          visible={currentState.modal.show}
+          visible={currentState.showModal}
         >
           <p>{content.modalDescription}</p>
         </VaModal>
@@ -369,7 +327,9 @@ const EvidenceVaRecords = ({
           error={showError('name') || errors.unique || null}
           autocomplete="section-facility name"
         />
-        <br />
+
+        <br role="presentation" />
+
         <VaCheckboxGroup
           label={content.conditions}
           name="issues"
@@ -378,8 +338,8 @@ const EvidenceVaRecords = ({
           error={showError('issues')}
           required
         >
-          {availableIssues.map((issue, index) => {
-            return (
+          {availableIssues.length ? (
+            availableIssues.map((issue, index) => (
               <va-checkbox
                 key={index}
                 name="issues"
@@ -387,8 +347,10 @@ const EvidenceVaRecords = ({
                 value={issue}
                 checked={(currentData?.issues || []).includes(issue)}
               />
-            );
-          })}
+            ))
+          ) : (
+            <strong>{NO_ISSUES_SELECTED}</strong>
+          )}
         </VaCheckboxGroup>
 
         <VaMemorableDate
@@ -423,30 +385,13 @@ const EvidenceVaRecords = ({
 
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}
-          {testMethodButton}
-          <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-            <div className="small-6 medium-5 columns">
-              {goBack && (
-                <ProgressButton
-                  onButtonClick={handlers.onGoBack}
-                  buttonText="Back"
-                  buttonClass="usa-button-secondary"
-                  beforeText="«"
-                  // This button is described by the current form's header ID
-                  aria-describedby="nav-form-header"
-                />
-              )}
-            </div>
-            <div className="small-6 medium-5 end columns">
-              <ProgressButton
-                onButtonClick={handlers.onGoForward}
-                buttonText="Continue"
-                buttonClass="usa-button-primary"
-                afterText="»"
-                // This button is described by the current form's header ID
-                aria-describedby="nav-form-header"
-              />
-            </div>
+          <div className="form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+            <VaButtonPair
+              continue
+              onPrimaryClick={handlers.onGoForward}
+              onSecondaryClick={handlers.onGoBack}
+              aria-describedby="nav-form-header"
+            />
           </div>
           {contentAfterButtons}
         </div>
@@ -464,7 +409,6 @@ EvidenceVaRecords.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
-  testingMethod: PropTypes.string,
 };
 
 export default EvidenceVaRecords;

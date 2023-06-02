@@ -28,8 +28,8 @@ describe('Check In Experience -- ', () => {
       ValidateVeteran.validateVeteran('Sith', '4321');
       ValidateVeteran.attemptToGoToNextPage();
 
-      Error.validatePageLoaded(true);
-      cy.createScreenshots('Day-of-check-in--validation-error');
+      Error.validatePageLoaded('max-validation');
+      cy.createScreenshots('Day-of-check-in--Error-validation-error');
     });
   });
 });

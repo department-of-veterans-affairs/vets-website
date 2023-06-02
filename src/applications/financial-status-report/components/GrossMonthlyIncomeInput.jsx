@@ -39,9 +39,10 @@ const GrossMonthlyIncomeInput = props => {
       const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
 
       if (
-        grossMonthlyIncome.value &&
-        (!regex.test(grossMonthlyIncome.value) ||
-          Number(grossMonthlyIncome.value) < 0)
+        !grossMonthlyIncome.value ||
+        (grossMonthlyIncome.value &&
+          (!regex.test(grossMonthlyIncome.value) ||
+            Number(grossMonthlyIncome.value) < 0))
       ) {
         setIncomeError(true);
       } else {
@@ -60,6 +61,7 @@ const GrossMonthlyIncomeInput = props => {
 
   const updateFormData = e => {
     e.preventDefault();
+    setGrossMonthlyIncome({ ...grossMonthlyIncome, dirty: true });
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
       const updatedRecords = formData.personalData.employmentHistory.veteran.employmentRecords.map(
@@ -111,11 +113,12 @@ const GrossMonthlyIncomeInput = props => {
         },
       });
     }
-
-    if (employmentRecord.isCurrent) {
-      goToPath(`/deduction-checklist`);
-    } else {
-      goToPath(`/employment-history`);
+    if (grossMonthlyIncome.value) {
+      if (employmentRecord.isCurrent) {
+        goToPath(`/deduction-checklist`);
+      } else {
+        goToPath(`/employment-history`);
+      }
     }
   };
 
@@ -124,36 +127,38 @@ const GrossMonthlyIncomeInput = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <div>
-        <h3 className="vads-u-margin-top--neg1p5">
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">
           Your job at {employerName}
-        </h3>{' '}
-      </div>
-      <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        What’s your gross monthly income at this job?
-      </span>
-      <p className="formfield-subtitle">
-        You’ll find this in your paycheck. It’s the amount of your pay before
-        taxes and deductions.
-      </p>
-      <div className="input">
-        <va-number-input
-          inputmode="numeric"
-          id="gross-monthly-income"
-          data-testid="gross-monthly-income"
-          name="gross-monthly-income"
-          onInput={setNewGrossMonthlyIncome}
-          type="text"
-          value={grossMonthlyIncome.value}
-          required
-          error={
-            incomeError && grossMonthlyIncome.dirty
-              ? `Please enter a valid number.`
-              : ''
-          }
-        />
-      </div>
-
+        </legend>
+        <p className="vads-u-margin-bottom--0">
+          What’s your gross <strong>monthly</strong> income at this job?{' '}
+          <span className="required vads-u-color--secondary-dark">
+            (*Required)
+          </span>
+        </p>
+        <p className="formfield-subtitle">
+          You’ll find this in your pay stub. It’s the amount of your pay before
+          taxes and deductions.
+        </p>
+        <div className="input-size-2 input vads-u-margin-top--neg3">
+          <va-number-input
+            inputmode="numeric"
+            id="gross-monthly-income"
+            currency
+            data-testid="gross-monthly-income"
+            name="gross-monthly-income"
+            onInput={setNewGrossMonthlyIncome}
+            type="text"
+            value={grossMonthlyIncome.value}
+            error={
+              incomeError && grossMonthlyIncome.dirty
+                ? `Please enter a valid number.`
+                : ''
+            }
+          />
+        </div>
+      </fieldset>
       {onReviewPage ? updateButton : navButtons}
     </form>
   );

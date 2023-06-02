@@ -46,7 +46,7 @@ describe('<IssueCard>', () => {
     expect(wrapper.find('.widget-content').text()).to.contain(
       'Decision date: January 10, 2021',
     );
-    expect(wrapper.find('a.change-issue-link').length).to.equal(0);
+    expect(wrapper.find('a.edit-issue-link').length).to.equal(0);
     wrapper.unmount();
   });
   it('should render an Additional issue', () => {
@@ -58,7 +58,7 @@ describe('<IssueCard>', () => {
     expect(wrapper.find('.widget-content').text()).to.contain(
       'Decision date: February 22, 2021',
     );
-    const link = wrapper.find('a.change-issue-link');
+    const link = wrapper.find('a.edit-issue-link');
     expect(link.length).to.equal(1);
     wrapper.unmount();
   });
@@ -78,7 +78,7 @@ describe('<IssueCard>', () => {
     const issue = getAdditionalIssue('03', true);
     const wrapper = mount(<IssueCard {...props} item={issue} />);
     expect(wrapper.find('input[type="checkbox"]').length).to.equal(0);
-    expect(wrapper.find('.change-issue-link').length).to.equal(0);
+    expect(wrapper.find('.edit-issue-link').length).to.equal(0);
     wrapper.unmount();
   });
 
@@ -121,7 +121,7 @@ describe('<IssueCardContent>', () => {
     expect(wrapper.find('.widget-content-wrap').text()).to.contain(
       'Decision date: January 20, 2021',
     );
-    expect(wrapper.find('a.change-issue-link').length).to.equal(0);
+    expect(wrapper.find('a.edit-issue-link').length).to.equal(0);
     wrapper.unmount();
   });
   it('should render AdditionalIssue content', () => {

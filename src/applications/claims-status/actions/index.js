@@ -8,7 +8,13 @@ import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
-import { makeAuthRequest, roundToNearest } from '../utils/helpers';
+import {
+  // START lighthouse_migration
+  getTrackedItemId,
+  // END lighthouse_migration
+  makeAuthRequest,
+  roundToNearest,
+} from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 
 import {
@@ -124,6 +130,13 @@ function fetchClaimsSuccessEVSS(response) {
   };
 }
 // END lighthouse_migration
+
+function fetchClaimsSuccess(claims) {
+  return {
+    type: FETCH_CLAIMS_SUCCESS,
+    claims,
+  };
+}
 
 export function pollRequest(options) {
   const {
@@ -273,9 +286,48 @@ export function getClaimsV2(options = {}) {
   };
 }
 
-export const getClaims = getClaimsV2;
+export const getClaims = () => {
+  return dispatch => {
+    const startTimeMillis = Date.now();
+    dispatch({ type: FETCH_CLAIMS_PENDING });
+
+    return apiRequest('/benefits_claims')
+      .then(res => {
+        recordClaimsAPIEvent({
+          startTime: startTimeMillis,
+          success: true,
+        });
+
+        dispatch(fetchClaimsSuccess(res.data));
+      })
+      .catch(error => {
+        const errorCode = getErrorStatus(error);
+        if (errorCode && errorCode !== UNKNOWN_STATUS) {
+          Sentry.withScope(scope => {
+            scope.setFingerprint(['{{default}}', errorCode]);
+            Sentry.captureException(
+              `lighthouse_claims_err_get_claims ${errorCode}`,
+            );
+          });
+        }
+
+        // This onError callback will be called with a null response arg when
+        // the API takes too long to return data
+        const errorDetail =
+          error === null ? '504 Timed out - API took too long' : errorCode;
+        recordClaimsAPIEvent({
+          startTime: startTimeMillis,
+          success: false,
+          error: errorDetail,
+        });
+
+        return dispatch({ type: FETCH_CLAIMS_ERROR });
+      });
+  };
+};
 // END lighthouse_migration
 
+// START lighthouse_migration
 export function getClaimDetail(id, router, poll = pollRequest) {
   return dispatch => {
     dispatch({
@@ -314,11 +366,50 @@ export function getClaimDetail(id, router, poll = pollRequest) {
   };
 }
 
+export const getClaim = (id, router) => {
+  return dispatch => {
+    dispatch({ type: GET_CLAIM_DETAIL });
+
+    return apiRequest(`/benefits_claims/${id}`)
+      .then(res => {
+        dispatch({
+          type: SET_CLAIM_DETAIL,
+          claim: res.data,
+          meta: { syncStatus: 'SUCCESS' },
+        });
+      })
+      .catch(error => {
+        if (error.status !== 404 || !router) {
+          return dispatch({
+            type: SET_CLAIMS_UNAVAILABLE,
+            error: error.message,
+          });
+        }
+
+        return router.replace('your-claims');
+      });
+  };
+};
+// END lighthouse_migration
+
 export function submitRequest(id) {
   return dispatch => {
     dispatch({
       type: SUBMIT_DECISION_REQUEST,
     });
+
+    if (USE_MOCKS) {
+      dispatch({ type: SET_DECISION_REQUESTED });
+      dispatch(
+        setNotification({
+          title: 'Request received',
+          body:
+            'Thank you. We have your claim request and will make a decision.',
+        }),
+      );
+      return;
+    }
+
     makeAuthRequest(
       `/v0/evss_claims/${id}/request_decision`,
       { method: 'POST' },
@@ -388,7 +479,9 @@ export function submitFiles(claimId, trackedItem, files) {
   let hasError = false;
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
-  const trackedItemId = trackedItem ? trackedItem.trackedItemId : null;
+  // START lighthouse_migration
+  const trackedItemId = trackedItem ? getTrackedItemId(trackedItem) : null;
+  // END lighthouse_migration
   recordEvent({
     event: 'claims-upload-start',
   });
@@ -427,6 +520,32 @@ export function submitFiles(claimId, trackedItem, files) {
           multiple: false,
           callbacks: {
             onAllComplete: () => {
+              if (USE_MOCKS) {
+                dispatch({ type: DONE_UPLOADING });
+                dispatch(
+                  setNotification({
+                    title: 'We have your evidence',
+                    body: (
+                      <span>
+                        Thank you for sending us{' '}
+                        {trackedItem
+                          ? trackedItem.displayName
+                          : 'additional evidence'}
+                        . We will associate it with your record in a matter of
+                        days. If the submitted evidence impacts the status of
+                        your claim, then you will see that change within 30 days
+                        of submission.
+                        <br />
+                        Note: It may take a few minutes for your uploaded file
+                        to show here. If you don’t see your file, please try
+                        refreshing the page.
+                      </span>
+                    ),
+                  }),
+                );
+                return;
+              }
+
               if (!hasError) {
                 recordEvent({
                   event: 'claims-upload-success',

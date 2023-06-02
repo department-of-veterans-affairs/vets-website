@@ -1,16 +1,20 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { useHistory, useLocation } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
+import { useDispatch } from 'react-redux';
 import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
-import PrintMessageThread from './PrintMessageThread';
 import { Categories } from '../util/constants';
 import { dateFormat } from '../util/helpers';
 import MessageThreadBody from './MessageThread/MessageThreadBody';
+import { closeAlert } from '../actions/alerts';
 
 const MessageDetailBlock = props => {
+  const { message, cannotReply } = props;
   const {
+    threadId,
     messageId,
     category,
     subject,
@@ -18,14 +22,17 @@ const MessageDetailBlock = props => {
     sentDate,
     senderName,
     recipientName,
+    triageGroupName,
     attachments,
-  } = props.message;
+  } = message;
 
   const history = useHistory();
+  const dispatch = useDispatch();
+  const location = useLocation();
   const sentReplyDate = format(new Date(sentDate), 'MM-dd-yyyy');
   const cannotReplyDate = addDays(new Date(sentReplyDate), 45);
-  const [printThread, setPrintThread] = useState('dont-print-thread');
   const [hideReplyButton, setReplyButton] = useState(false);
+  const fromMe = recipientName === triageGroupName;
 
   const handleReplyButton = useCallback(
     () => {
@@ -43,38 +50,56 @@ const MessageDetailBlock = props => {
     [cannotReplyDate, hideReplyButton, sentReplyDate, sentDate],
   );
 
-  const handlePrintThreadStyleClass = option => {
-    if (option === 'print thread') {
-      setPrintThread('print-thread');
-    }
-    if (option !== 'print thread') {
-      setPrintThread('dont-print-thread');
-    }
-  };
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
+  );
+
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+    },
+    [message],
+  );
 
   const categoryLabel = Categories[category];
 
   return (
     <section className="message-detail-block">
       <header className="message-detail-header">
-        <h2
+        <h1
           className="vads-u-margin-bottom--2"
           aria-label={`Message subject. ${categoryLabel}: ${subject}`}
         >
           {categoryLabel}: {subject}
-        </h2>
+        </h1>
       </header>
       <MessageActionButtons
         id={messageId}
-        handlePrintThreadStyleClass={handlePrintThreadStyleClass}
+        threadId={threadId}
         onReply={handleReplyButton}
-        hideReplyButton={hideReplyButton}
+        hideReplyButton={cannotReply}
       />
-      <main className="message-detail-content">
-        <section className="message-metadata" aria-label="message details.">
+      <main
+        className="message-detail-content"
+        role="heading"
+        aria-level="2"
+        aria-label="Most recent message in this conversation"
+      >
+        <section
+          className="message-metadata"
+          data-testid="message-metadata"
+          aria-label="message details."
+        >
           <p>
             <strong>From: </strong>
-            {senderName}
+            {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
           </p>
           <p>
             <strong>To: </strong>
@@ -91,7 +116,7 @@ const MessageDetailBlock = props => {
         </section>
 
         <section className="message-body" aria-label="Message body.">
-          <MessageThreadBody text={body} />
+          <MessageThreadBody expanded text={body} />
         </section>
 
         {!!attachments &&
@@ -114,13 +139,11 @@ const MessageDetailBlock = props => {
           </p>
         </div>
       </main>
-      <div className={printThread}>
-        <PrintMessageThread messageId={messageId} />
-      </div>
     </section>
   );
 };
 MessageDetailBlock.propTypes = {
+  cannotReply: PropTypes.bool,
   message: PropTypes.object,
 };
 

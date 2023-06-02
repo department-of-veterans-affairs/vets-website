@@ -6,11 +6,7 @@ import { expect } from 'chai';
 import SignatureInput from '../../../components/PreSubmitInfo/SignatureInput';
 
 describe('CG <SignatureInput>', () => {
-  const fullName = {
-    first: 'John',
-    middle: '',
-    last: 'Smith',
-  };
+  const fullName = 'John Smith';
 
   it('should render Signature Input for representative', () => {
     const view = render(
@@ -90,14 +86,10 @@ describe('CG <SignatureInput>', () => {
       'Mary Jane',
     );
 
-    // Note: when testing, the literal string seems to put an extra space for no middleName,
-    // hence John  Smith in the test and not John Smith.
-    // When running the application it shows with only one space.
-
     await waitFor(() => {
       expect(view.container.querySelector('va-text-input')).to.have.attribute(
         'error',
-        'Your signature must match previously entered name: John  Smith',
+        `Your signature must match previously entered name: ${fullName}`,
       );
     });
   });

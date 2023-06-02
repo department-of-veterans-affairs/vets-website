@@ -214,7 +214,9 @@ const FacilitiesMap = props => {
     });
   };
 
-  const handlePageSelect = page => {
+  const handlePageSelect = e => {
+    const { page } = e.detail;
+
     resetMapElements();
     const { currentQuery } = props;
     const coords = currentQuery.position;
@@ -438,11 +440,8 @@ const FacilitiesMap = props => {
           <div id="search-result-emergency-care-info">
             <p className="search-result-emergency-care-subheader">
               <strong>Note:</strong> If you think your life or health is in
-              danger, call{' '}
-              <a aria-label="9 1 1" href="tel:911">
-                911
-              </a>{' '}
-              or go to the nearest emergency department right away.
+              danger, call <va-telephone contact="911" /> or go to the nearest
+              emergency department right away.
             </p>
           </div>
         )}

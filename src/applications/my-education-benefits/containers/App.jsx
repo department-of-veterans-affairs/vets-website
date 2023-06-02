@@ -31,6 +31,9 @@ export const App = ({
   location,
   setFormData,
   showMebDgi40Features,
+  showMebDgi42Features,
+  showMebCh33SelfForm,
+  showMebEnhancements,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
@@ -45,7 +48,7 @@ export const App = ({
 
       if (!fetchedPersonalInfo) {
         setFetchedPersonalInfo(true);
-        getPersonalInfo();
+        getPersonalInfo(showMebCh33SelfForm);
       } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
@@ -62,6 +65,7 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
+      showMebCh33SelfForm,
     ],
   );
 
@@ -105,8 +109,39 @@ export const App = ({
           showMebDgi40Features,
         });
       }
+      if (showMebDgi42Features !== formData.showMebDgi42Features) {
+        setFormData({
+          ...formData,
+          showMebDgi42Features,
+        });
+      }
+      if (showMebCh33SelfForm !== formData.showMebCh33SelfForm) {
+        setFormData({
+          ...formData,
+          showMebCh33SelfForm,
+        });
+      }
+      if (showMebEnhancements !== formData.showMebEnhancements) {
+        setFormData({
+          ...formData,
+          showMebEnhancements,
+        });
+      }
+      if (showMebEnhancements !== formData.showMebEnhancements) {
+        setFormData({
+          ...formData,
+          showMebEnhancements,
+        });
+      }
     },
-    [formData, setFormData, showMebDgi40Features],
+    [
+      formData,
+      setFormData,
+      showMebDgi40Features,
+      showMebDgi42Features,
+      showMebCh33SelfForm,
+      showMebEnhancements,
+    ],
   );
 
   // Commenting out until Direct Deposit component is updated
@@ -150,7 +185,10 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
+  showMebCh33SelfForm: PropTypes.bool,
   showMebDgi40Features: PropTypes.bool,
+  showMebDgi42Features: PropTypes.bool,
+  showMebEnhancements: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

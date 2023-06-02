@@ -9,25 +9,23 @@ import { selectProfile } from 'platform/user/selectors';
 
 import { readableList } from '../utils/helpers';
 
-export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
+export const ContactInfoDescription = ({ formContext, formData, homeless }) => {
   const [hadError, setHadError] = useState(false);
-  const { email = {}, mobilePhone = {}, mailingAddress = {} } =
-    profile?.vapContactInfo || {};
+  const { email = '', phone = {}, address = {} } = formData.veteran || {};
   const { submitted } = formContext || {};
 
   // Don't require an address if the Veteran is homeless
   const requireAddress = homeless ? '' : 'address';
   const missingInfo = [
-    email?.emailAddress ? '' : 'email',
-    mobilePhone?.phoneNumber ? '' : 'phone',
-    mailingAddress?.addressLine1 ? '' : requireAddress,
+    email ? '' : 'email',
+    phone?.phoneNumber ? '' : 'phone',
+    address?.addressLine1 ? '' : requireAddress,
   ].filter(Boolean);
 
   const list = readableList(missingInfo);
   const plural = missingInfo.length > 1;
-  const phoneNumber = `${mobilePhone?.areaCode ||
-    ''}${mobilePhone?.phoneNumber || ''}`;
-  const phoneExt = mobilePhone?.extension;
+  const phoneNumber = `${phone?.areaCode || ''}${phone?.phoneNumber || ''}`;
+  const phoneExt = phone?.extension;
 
   const handler = {
     onSubmit: event => {
@@ -58,14 +56,14 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
         </Link>
       </p>
       <h4 className="vads-u-font-size--h3">Email address</h4>
-      <span>{email?.emailAddress || ''}</span>
+      <span>{email || ''}</span>
       <p>
         <Link to="/edit-email-address" aria-label="Edit email address">
           Edit
         </Link>
       </p>
       <h4 className="vads-u-font-size--h3">Mailing address</h4>
-      <AddressView data={mailingAddress} />
+      <AddressView data={address} />
       <p>
         <Link to="/edit-mailing-address" aria-label="Edit mailing address">
           Edit
@@ -133,12 +131,10 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
 };
 
 ContactInfoDescription.propTypes = {
-  profile: PropTypes.shape({
-    vapContactInfo: PropTypes.shape({
-      email: PropTypes.shape({
-        emailAddress: PropTypes.string,
-      }),
-      mobilePhone: PropTypes.shape({
+  formData: PropTypes.shape({
+    veteran: PropTypes.shape({
+      email: PropTypes.string,
+      phone: PropTypes.shape({
         countryCode: PropTypes.string,
         areaCode: PropTypes.string,
         phoneNumber: PropTypes.string,

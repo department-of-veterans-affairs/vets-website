@@ -1,6 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "./navigation";
 @import "./folders-list";
+@import "./folder-thread-list-view";
 @forward "usa-button-group";
 
 .secure-messaging-container {
@@ -178,7 +179,7 @@ va-alert button {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-@media (max-width: $small-screen) {
+@media (max-width: $medium-screen) {
   .secure-messaging-container {
     flex-direction: column;
     .main-content {
@@ -211,15 +212,14 @@ va-alert button {
       }
     }
     .editable-attachment {
-      border-top: 1px solid $color-gray-medium;
+      border: 1px solid $color-gray-medium;
       display: flex;
       flex-direction: column;
       width: 100%;
+      box-shadow: 1px 1px 8px $color-gray-medium;
+      padding-left: 12px;
       span {
-        margin-top: 16px;
-        @media (min-width: $medium-screen) {
-          margin-top: 0px;
-        }
+        margin: auto;
       }
       @media (min-width: $medium-screen) {
         flex-direction: row;
@@ -249,13 +249,11 @@ va-alert button {
     }
   }
   .remove-attachment-button::part(button) {
-    box-shadow: inset 0 0 0 2px $color-gray-dark;
-    color: $color-gray-dark;
+    box-shadow: none !important;
+    color: $color-secondary-dark;
     height: 36px;
-    margin: 8px 0 16px;
-    @media (min-width: $medium-screen) {
-      margin-top: 16px;
-    }
+    margin: 6px 0;
+    padding-right: 12px;
   }
   .remove-attachment-button::part(button)::before {
     display: inline-block;
@@ -279,4 +277,25 @@ pre {
 
 va-loading-indicator {
   margin: 200px auto;
+}
+
+.interstitial-page {
+  h1 {
+    color: $color-gray-dark;
+  }
+  strong {
+    color: $color-gray-dark;
+  }
+  ul {
+    padding-left: 15px;
+  }
+  .no-word-wrap {
+    white-space: nowrap;
+  }
+  ul {
+    margin-top: 32px;
+  }
+  .link:visited {
+    color: $color-primary;
+  }
 }

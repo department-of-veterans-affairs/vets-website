@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { SaveInProgressErrorPage } from '../../save-in-progress/SaveInProgressErrorPage';
@@ -32,10 +33,10 @@ describe('<SaveInProgressErrorPage>', () => {
   };
 
   it('should render the no auth error', () => {
-    const tree = ReactTestUtils.renderIntoDocument(
+    const tree = render(
       <SaveInProgressErrorPage
         updateLogInUrls={f => f}
-        isLoggedIn
+        isLoggedIn={false}
         router={router}
         loginUrls={mockLoginUrl}
         route={route}
@@ -43,20 +44,18 @@ describe('<SaveInProgressErrorPage>', () => {
         formConfig={formConfigDefaultData}
       />,
     );
-    const findDOM = findDOMNode(tree);
 
-    expect(findDOM.querySelector('.usa-alert').textContent).to.contain(
+    expect(tree.baseElement.querySelector('.usa-alert').textContent).to.contain(
       'You’re signed out of your account.',
     );
-    expect(
-      findDOM.querySelector('.usa-button-secondary').textContent,
-    ).to.contain('Back');
-    expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain(
+    const buttonPair = tree.baseElement.querySelector('va-button-pair');
+    expect(buttonPair.getAttribute('secondary-label')).to.contain('Back');
+    expect(tree.baseElement.querySelector('button').textContent).to.contain(
       'Sign In',
     );
   });
   it('should render the unrecoverable failure error', () => {
-    const tree = ReactTestUtils.renderIntoDocument(
+    const tree = render(
       <SaveInProgressErrorPage
         updateLogInUrls={f => f}
         isLoggedIn
@@ -67,17 +66,14 @@ describe('<SaveInProgressErrorPage>', () => {
         formConfig={formConfigDefaultData}
       />,
     );
-    const findDOM = findDOMNode(tree);
-
-    expect(findDOM.querySelector('.usa-alert').textContent).to.contain(
+    expect(tree.baseElement.querySelector('.usa-alert').textContent).to.contain(
       'We’re sorry. Something went wrong when we tried to find your application',
     );
-    expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain(
-      'Back',
-    );
+    const buttonPair = tree.baseElement.querySelector('va-button-pair');
+    expect(buttonPair.getAttribute('primary-label')).to.contain('Back');
   });
   it('should render the recoverable failure error', () => {
-    const tree = ReactTestUtils.renderIntoDocument(
+    const tree = render(
       <SaveInProgressErrorPage
         updateLogInUrls={f => f}
         isLoggedIn
@@ -88,17 +84,14 @@ describe('<SaveInProgressErrorPage>', () => {
         formConfig={formConfigDefaultData}
       />,
     );
-    const findDOM = findDOMNode(tree);
-
-    expect(findDOM.querySelector('.usa-alert').textContent).to.contain(
+    expect(tree.baseElement.querySelector('.usa-alert').textContent).to.contain(
       'We’re sorry. We’re having some server issues',
     );
+    const buttonPair = tree.baseElement.querySelector('va-button-pair');
+    expect(buttonPair.getAttribute('secondary-label')).to.contain('Back');
     expect(
-      findDOM.querySelector('.usa-button-secondary').textContent,
-    ).to.contain('Back');
-    expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain(
-      'Continue your application',
-    );
+      tree.baseElement.querySelector('.usa-button-primary').textContent,
+    ).to.contain('Continue your application');
   });
   it('should render the forbidden failure error', () => {
     const tree = ReactTestUtils.renderIntoDocument(
@@ -120,7 +113,7 @@ describe('<SaveInProgressErrorPage>', () => {
   });
   it('should go back', () => {
     const fetchFormStatusSpy = sinon.spy();
-    const tree = ReactTestUtils.renderIntoDocument(
+    const tree = render(
       <SaveInProgressErrorPage
         updateLogInUrls={f => f}
         setFetchFormStatus={fetchFormStatusSpy}
@@ -132,9 +125,8 @@ describe('<SaveInProgressErrorPage>', () => {
         formConfig={formConfigDefaultData}
       />,
     );
-    const findDOM = findDOMNode(tree);
-    const button = findDOM.querySelector('.usa-button-secondary');
-    ReactTestUtils.Simulate.click(button);
+    const buttonPair = tree.baseElement.querySelector('va-button-pair');
+    buttonPair.__events.secondaryClick();
     expect(router.goBack.called).to.be.true;
     expect(fetchFormStatusSpy.calledWith(LOAD_STATUSES.notAttempted));
   });

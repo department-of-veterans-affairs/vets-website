@@ -69,9 +69,12 @@ const validateLogin = async (
     }
   } catch (e) {
     setIsLoading(false);
-    if (e?.errors[0]?.status !== '401') {
+    if (e.errors && e.errors[0]?.status !== '401') {
       let errorType = 'lorota-fail';
-      if (e?.errors[0]?.status === '410') {
+      if (e.errors && e.errors[0]?.status === '404') {
+        errorType = 'uuid-not-found';
+      }
+      if (e.errors && e.errors[0]?.status === '410') {
         errorType = 'max-validation';
       }
       updateError(errorType);

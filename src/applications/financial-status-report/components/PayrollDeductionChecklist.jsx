@@ -4,7 +4,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { payrollDeductionOptions } from '../constants/checkboxSelections';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
-import Checklist from './utils/CheckList';
+import Checklist from './shared/CheckList';
 
 const PayrollDeductionChecklist = props => {
   const { goToPath, goBack, onReviewPage, setFormData } = props;
@@ -94,7 +94,11 @@ const PayrollDeductionChecklist = props => {
         },
       });
     }
-    goToPath(`/deduction-values`);
+    if (selectedDeductions.length > 0) {
+      goToPath(`/deduction-values`);
+    } else {
+      goToPath(`/employment-history`);
+    }
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
@@ -102,16 +106,17 @@ const PayrollDeductionChecklist = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <h3 className="vads-u-margin-top--neg1p5">Your job at {employerName}</h3>{' '}
-      <br />
-      <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        Which of these payroll deductions do you pay for?
-      </span>
-      <Checklist
-        options={payrollDeductionOptions}
-        onChange={event => onChange(event)}
-        isBoxChecked={isBoxChecked}
-      />
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">
+          Your job at {employerName}
+        </legend>
+        <p>Which of these payroll deductions do you pay for?</p>
+        <Checklist
+          options={payrollDeductionOptions}
+          onChange={event => onChange(event)}
+          isBoxChecked={isBoxChecked}
+        />
+      </fieldset>
       {onReviewPage ? updateButton : navButtons}
     </form>
   );

@@ -5,7 +5,7 @@ export const RatingHeading = ({ ratingCount, displayStars, ratingAverage }) => {
   return (
     <div className="vads-l-grid-container main-rating">
       <div className="vads-l-row">
-        <div className="vads-l-col--1 vads-u-margin-right--1p5 vads-u-margin-top--0p5 ratings-star-block">
+        <div className="vads-l-col--1 vads-u-margin-right--1p5 ratings-star-block">
           <RatingsStars rating={ratingAverage} />
         </div>
 

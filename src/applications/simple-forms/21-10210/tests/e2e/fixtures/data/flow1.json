@@ -1,0 +1,23 @@
+{
+  "data": {
+    "claimOwnership": "self",
+    "claimantType": "veteran",
+    "veteranFullName": {
+      "first": "John",
+      "middle": "",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "2000-01-01",
+    "veteranSSN": "321540987",
+    "veteranMailingAddress": {
+      "street": "124 Main St",
+      "city": "Anytown",
+      "state": "CA",
+      "country": "USA",
+      "postalCode": "12345"
+    },
+    "veteranPhone": "555-555-5557",
+    "veteranEmail": "john.veteran@example.com",
+    "statement": "It was a dark and stormy night..."
+  }
+}

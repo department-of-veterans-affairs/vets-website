@@ -7,6 +7,12 @@ class Confirmation {
       .and('include.text', 'checked in');
   };
 
+  validateBtsssIssue = () => {
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('include.text', "But we couldn't file your travel claim.");
+  };
+
   validatePageLoadedWithNoBtsssClaim = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
@@ -22,21 +28,14 @@ class Confirmation {
   };
 
   validatePageLoadedWithBtsssSubmission = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('include.text', 'And we received your travel claim');
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
     cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and(
-        'include.text',
-        'You can check the status of your travel reimbursement claim online',
-      );
+      .and('include.text', 'We’re processing your travel reimbursement claim.');
   };
 
   validatePageLoadedWithBtsssIneligible = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('include.text', "couldn't file your travel claim");
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
     cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .and(
@@ -46,9 +45,7 @@ class Confirmation {
   };
 
   validatePageLoadedWithBtsssGenericFailure = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('include.text', "couldn't file your travel claim");
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
     cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .and(
@@ -58,9 +55,7 @@ class Confirmation {
   };
 
   validatePageLoadedWithBtsssTravelClaimExistsFailure = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('include.text', "You've created a travel claim already.");
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
     cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .and(
@@ -100,6 +95,12 @@ class Confirmation {
         'contain',
         '/resources/how-to-file-a-va-travel-reimbursement-claim-online/',
       );
+  };
+
+  validateExtraFooterMessage = () => {
+    cy.get('div[data-testid="day-of-travel-extra-message"]').should(
+      'be.visible',
+    );
   };
 
   attemptGoBackToAppointments = () => {

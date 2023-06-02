@@ -2,6 +2,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 
+// eslint-disable-next-line import/no-unresolved
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
@@ -781,10 +782,7 @@ describe('VAOS <VAFacilityPage>', () => {
       expect(await screen.findAllByRole('radio')).to.have.length(2);
     });
 
-    // 1) VAOS <VAFacilityPage>
-    //    when there are multiple facilities to choose from
-    //      should display Cerner sites in the facility list :
-    //  Unable to find an element with the text: /Vista facility/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
     it.skip('should display Cerner sites in the facility list ', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, [
@@ -913,9 +911,6 @@ describe('VAOS <VAFacilityPage>', () => {
       });
       const store = createTestStore({
         ...initialState,
-        featureToggles: {
-          vaOnlineSchedulingVariantTesting: true,
-        },
       });
       await setTypeOfCare(store, /primary care/i);
 
@@ -987,9 +982,6 @@ describe('VAOS <VAFacilityPage>', () => {
       });
       const store = createTestStore({
         ...initialState,
-        featureToggles: {
-          vaOnlineSchedulingVariantTesting: true,
-        },
         user: {
           ...initialState.user,
           profile: {
@@ -1052,9 +1044,6 @@ describe('VAOS <VAFacilityPage>', () => {
       mockGetCurrentPosition();
       const store = createTestStore({
         ...initialState,
-        featureToggles: {
-          vaOnlineSchedulingVariantTesting: true,
-        },
         user: {
           ...initialState.user,
           profile: {
@@ -1127,9 +1116,6 @@ describe('VAOS <VAFacilityPage>', () => {
       mockGetCurrentPosition();
       const store = createTestStore({
         ...initialState,
-        featureToggles: {
-          vaOnlineSchedulingVariantTesting: true,
-        },
         user: {
           ...initialState.user,
           profile: {
@@ -1186,9 +1172,6 @@ describe('VAOS <VAFacilityPage>', () => {
       mockGetCurrentPosition();
       const store = createTestStore({
         ...initialState,
-        featureToggles: {
-          vaOnlineSchedulingVariantTesting: true,
-        },
         user: {
           ...initialState.user,
           profile: {
@@ -1209,9 +1192,6 @@ describe('VAOS <VAFacilityPage>', () => {
     it('should fire variant shown and default sort method events when variant shown', async () => {
       const store = createTestStore({
         ...initialState,
-        featureToggles: {
-          vaOnlineSchedulingVariantTesting: true,
-        },
         newAppointment: {
           ...initialState.newAppointment,
           facilityPageSortMethod: 'alphabetical',

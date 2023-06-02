@@ -11,11 +11,8 @@ dt{
   a {
     display: inline-block;
     padding: 0.5em 0.5em 0.5em .25em;
-
-    &::before {
-      content: " \2039 ";
-      display: inline-block;
-      padding: 0 0.15em;
+    i {
+      font-size: 10px;
     }
   }
 }
@@ -57,23 +54,6 @@ ol.check-in--appointment-list {
 
 ol.appointment-list{
   list-style: none;
-  .appointment-item{
-    background-color: $color-gray-lightest;
-    width: 100%;
-    @include media($medium-screen) {
-      width: 60%;
-    }
-    div.appointment-summary{
-      h2.appointment-time {
-        font-size: 2.4rem;
-        line-height: 36px;
-      }
-      span.item-value::after {
-        content: "";
-        display: block;
-      }
-    }
-  }
 }// DS removes label margin now, this maintains it.
 va-text-input[error]:not([error=""])::part(label) ,
 va-text-input[error]:not([error=""])::part(span)  {

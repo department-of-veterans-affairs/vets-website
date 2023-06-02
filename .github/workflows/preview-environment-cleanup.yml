@@ -62,5 +62,16 @@ jobs:
           author_email: devops@va.gov
           branch: main
           cwd: manifests/apps/preview-environment/dev/
-          add: 'environment-values'
+          add: 'pe-envs'
           message: 'Remove values file(s) in accordance with Preview Environment cleanup policies'
+
+      - name: Add and Commit change(s)
+        if: ${{ env.ENVS_TO_DELETE == 'true'}}
+        uses: EndBug/add-and-commit@v7
+        with:
+          author_name: va-vsp-bot
+          author_email: devops@va.gov
+          branch: main
+          cwd: manifests/apps/preview-environment/dev/
+          add: 'argocd-apps'
+          message: 'Remove envronment listing(s) in accordance with Preview Environment cleanup policies'

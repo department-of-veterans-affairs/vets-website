@@ -5,14 +5,14 @@ import mockDeletedFolderMetaResponse from './fixtures/folder-deleted-metadata.js
 import mockSentFolderMetaResponse from './fixtures/folder-sent-metadata.json';
 import PatientComposePage from './pages/PatientComposePage';
 
-describe('Secure Messaging Navigate Away From Compose Message', () => {
+describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   const composePage = new PatientComposePage();
-  it('Navigate Away From Compose To Inbox', () => {
+
+  it('Navigate Away From `Start a new message` To Inbox', () => {
     site.login();
-    landingPage.loadPage();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     landingPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
@@ -23,14 +23,13 @@ describe('Secure Messaging Navigate Away From Compose Message', () => {
 
     composePage.selectSideBarMenuOption('Inbox');
     composePage.clickOnDeleteDraftButton();
-    composePage.verifyExpectedPageOpened('Messages');
+    composePage.verifyExpectedPageOpened('Inbox');
     cy.get('[data-testid="compose-message-link"]').should('be.visible');
   });
 
-  it('Navigate Away From Compose To Draft', () => {
+  it('Navigate Away From `Start a new message` To Draft', () => {
     site.login();
-    landingPage.loadPage();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     landingPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
@@ -49,10 +48,9 @@ describe('Secure Messaging Navigate Away From Compose Message', () => {
     composePage.verifyExpectedPageOpened('Drafts');
   });
 
-  it('Navigate Away From Compose To Sent', () => {
+  it('Navigate Away From `Start a new message` To Sent', () => {
     site.login();
-    landingPage.loadPage();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     landingPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
@@ -71,10 +69,9 @@ describe('Secure Messaging Navigate Away From Compose Message', () => {
     composePage.verifyExpectedPageOpened('Sent messages');
   });
 
-  it('Navigate Away From Compose To Trash', () => {
+  it('Navigate Away From `Start a new message` To Trash', () => {
     site.login();
-    landingPage.loadPage();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     landingPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
@@ -93,10 +90,9 @@ describe('Secure Messaging Navigate Away From Compose Message', () => {
     composePage.verifyExpectedPageOpened('Trash');
   });
 
-  it('Navigate Away From Compose To MY Folders', () => {
+  it('Navigate Away From `Start a new message` To MY Folders', () => {
     site.login();
-    landingPage.loadPage();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     landingPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();

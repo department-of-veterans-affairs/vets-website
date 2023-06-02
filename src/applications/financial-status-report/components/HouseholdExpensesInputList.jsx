@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
-import InputList from './utils/InputList';
+import InputList from './shared/InputList';
 
 const HouseholdExpensesInputList = props => {
   const { submitted } = props.formContext;
@@ -35,11 +35,15 @@ const HouseholdExpensesInputList = props => {
       }),
     );
   };
+  const title = 'Monthly housing expenses';
+  const prompt = 'How much do you pay for each housing expense every month?';
 
   return (
     <InputList
       errorList={errorList}
       inputs={expenseRecords}
+      title={title}
+      prompt={prompt}
       submitted={submitted}
       onChange={event => onChange(event)}
     />

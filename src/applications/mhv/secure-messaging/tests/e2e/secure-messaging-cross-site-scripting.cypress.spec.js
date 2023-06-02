@@ -9,22 +9,17 @@ describe('Secure Messaging - Cross Site Scripting', () => {
 
   it('search for script', () => {
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('[data-testid="compose-message-link"]').click();
-    cy.get('[data-testid="compose-recipient-select"]')
-      .shadow()
-      .find('[id="select"]')
-      .select('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    landingPage.loadComposeMessagePage();
+    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     cy.get('[name="COVID"]').click();
-    cy.get('[data-testid="message-subject-field"]')
-      .shadow()
-      .find('[name="message-subject"]')
+    composePage
+      .getMessageSubjectField()
       .type('Test Cross Scripting - ><script>alert(1);</script>');
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[name="message-body"]')
+    composePage
+      .getMessageBodyField()
       .type('Test message body- ><script>alert(1);</script>');
     composePage.sendMessage();
     cy.get('@message')
@@ -34,6 +29,6 @@ describe('Secure Messaging - Cross Site Scripting', () => {
         body: 'Test message body- >\x3Cscript>alert(1);\x3C/script>',
         subject: 'Test Cross Scripting - >\x3Cscript>alert(1);\x3C/script>',
       });
-    cy.contains('Message was successfully sent.');
+    composePage.verifySendMessageConfirmationMessage();
   });
 });

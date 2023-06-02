@@ -5,7 +5,7 @@ import { VaCheckbox } from '@department-of-veterans-affairs/component-library/di
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 import {
@@ -42,6 +42,11 @@ const EvidencePrivateRecordsAuthorization = ({
     [hasError],
   );
 
+  const focusOnAlert = () => {
+    scrollTo('topScrollElement');
+    waitForRenderThenFocus('va-alert h3');
+  };
+
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
@@ -49,14 +54,16 @@ const EvidencePrivateRecordsAuthorization = ({
       event.stopPropagation();
     },
     onAnchorClick: () => {
-      scrollAndFocus($('va-checkbox'));
+      const checkbox = $('va-checkbox');
+      scrollTo(checkbox);
+      waitForRenderThenFocus('input', checkbox.shadowRoot);
     },
     onChange: event => {
       const { checked } = event.target;
       setFormData({ ...data, privacyAgreementAccepted: checked });
       setHasError(!checked);
       if (!checked) {
-        scrollAndFocus($('va-alert'));
+        focusOnAlert();
       }
     },
     onGoForward: () => {
@@ -66,7 +73,7 @@ const EvidencePrivateRecordsAuthorization = ({
         goForward(data);
       } else {
         setHasError(true);
-        scrollAndFocus($('va-alert'));
+        focusOnAlert();
       }
     },
   };
@@ -74,7 +81,7 @@ const EvidencePrivateRecordsAuthorization = ({
   return (
     <>
       <form>
-        <va-alert status="warning" visible={hasError}>
+        <va-alert status="error" visible={hasError}>
           {hasError && authorizationAlertContent(handlers.onAnchorClick)}
         </va-alert>
         {authorizationInfo}
@@ -83,6 +90,7 @@ const EvidencePrivateRecordsAuthorization = ({
           label={authorizationLabel}
           checked={data.privacyAgreementAccepted}
           onVaChange={handlers.onChange}
+          aria-describedby="authorize-text"
           required
           enable-analytics
         />

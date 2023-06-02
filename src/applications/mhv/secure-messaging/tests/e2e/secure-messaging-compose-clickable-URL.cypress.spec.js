@@ -1,37 +1,28 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientBasicSearchPage from './pages/PatientBasicSearchPage';
-import mockMessages from './fixtures/drafts-search-results.json';
-import mockSentFolder from './fixtures/folder-sent-metadata.json';
-import mockSpeciaCharMessage from './fixtures/message-response-specialchars.json';
+import PatientComposePage from './pages/PatientComposePage';
+import PatientInboxPage from './pages/PatientInboxPage';
+import PatientInterstitialPage from './pages/PatientInterstitialPage';
 
 describe('Secure Messaging - Compose with Clickable URL', () => {
-  const basicSearchPage = new PatientBasicSearchPage();
-  const site = new SecureMessagingSite();
-
   it('search for clickable URL', () => {
+    const site = new SecureMessagingSite();
+    const landingPage = new PatientInboxPage();
+    const patientInterstitialPage = new PatientInterstitialPage();
+    const composePage = new PatientComposePage();
     site.login();
-    site.loadPage();
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/-1',
-      mockSentFolder,
-    ).as('basicSearchRequestSentMeta');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/-1/messages?per_page=-1',
-      mockMessages,
-    ).as('basicSearchRequestSentFolder');
-    cy.get('[data-testid="sent-sidebar"]').click();
-    basicSearchPage.typeSearchInputFieldText('message%$#*');
-    basicSearchPage.submitSearch();
-
-    cy.wait('@basicSearchRequestSentFolder');
-    mockSpeciaCharMessage.data.attributes.messageId = '2585370';
-    mockSpeciaCharMessage.data.attributes.body =
-      'clickable URL  https://www.va.gov/';
-    site.loadMessageDetailsWithData(mockSpeciaCharMessage);
+    landingPage.loadInboxMessages();
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('pre > a').click();
+    cy.get('[data-testid="compose-message-link"]').click();
+    patientInterstitialPage.getContinueButton().click();
+    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    composePage.getCategory('COVID').click();
+    composePage.getMessageSubjectField().type('Message with Clickable URL');
+    composePage.getMessageBodyField().type('https://www.va.gov/');
+    composePage.verifyClickableURLinMessageBody('https://www.va.gov/');
+    composePage.sendMessage();
+    cy.injectAxe();
+    cy.axeCheck();
+    composePage.verifySendMessageConfirmationMessage();
   });
 });

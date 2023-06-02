@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import { isEmptyAddress } from 'platform/forms/address/helpers';
-
 import { createPersonalInfoUpdate } from '@@profile/actions/personalInformation';
 
 import {
@@ -43,11 +40,14 @@ import {
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
 import { getEditButtonId } from '@@vap-svc/util/id-factory';
 
-import { focusElement } from 'platform/utilities/ui';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import { focusElement } from '~/platform/utilities/ui';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import recordEvent from '~/platform/monitoring/record-event';
+import { isEmptyAddress } from '~/platform/forms/address/helpers';
+import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
 
-import recordEvent from 'platform/monitoring/record-event';
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
+
 import {
   getErrorsFromDom,
   handleUpdateButtonClick,
@@ -254,6 +254,10 @@ export class ProfileInformationEditView extends Component {
   }
 
   focusOnFirstFormElement() {
+    if (this.props.forceEditView) {
+      // Showing the edit view on its own page, so let the app handle focus
+      return;
+    }
     const focusableElement = this.editForm?.querySelector(
       'button, input, select, a, textarea',
     );
@@ -273,6 +277,8 @@ export class ProfileInformationEditView extends Component {
         title,
         transaction,
         transactionRequest,
+        cancelButtonText,
+        saveButtonText,
       },
       onClickUpdateHandler,
     } = this;
@@ -337,7 +343,7 @@ export class ProfileInformationEditView extends Component {
                     className="vads-u-margin-top--0"
                     onClick={onClickUpdateHandler}
                   >
-                    Save
+                    {saveButtonText || 'Save'}
                   </LoadingButton>
 
                   {!isLoading && (
@@ -347,7 +353,7 @@ export class ProfileInformationEditView extends Component {
                       className="usa-button-secondary small-screen:vads-u-margin-top--0"
                       onClick={onCancel}
                     >
-                      Cancel
+                      {cancelButtonText || 'Cancel'}
                     </button>
                   )}
                 </div>
@@ -380,6 +386,7 @@ ProfileInformationEditView.propTypes = {
   validateAddress: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   activeEditView: PropTypes.string,
+  cancelButtonText: PropTypes.string,
   data: PropTypes.object,
   editViewData: PropTypes.object,
   field: PropTypes.shape({
@@ -388,6 +395,8 @@ ProfileInformationEditView.propTypes = {
     formSchema: PropTypes.object,
     uiSchema: PropTypes.object,
   }),
+  forceEditView: PropTypes.bool,
+  saveButtonText: PropTypes.string,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,

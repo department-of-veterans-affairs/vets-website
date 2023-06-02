@@ -7,7 +7,9 @@ import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUser from './fixtures/mocks/user.json';
 
-describe.skip('Notice of Disagreement keyboard only navigation', () => {
+import { CONTESTABLE_ISSUES_API } from '../constants';
+
+describe('Notice of Disagreement keyboard only navigation', () => {
   before(() => {
     cy.fixture(path.join(__dirname, 'fixtures/data/minimal-test.json')).as(
       'testData',
@@ -21,7 +23,7 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
   it('navigates through a maximal form', () => {
     cy.get('@testData').then(({ data }) => {
       const { chapters } = formConfig;
-      cy.intercept('GET', 'v0/notice_of_disagreements/contestable_issues', {
+      cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {
         data: fixDecisionDates(data.contestableIssues),
       });
       cy.visit(
@@ -105,7 +107,7 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
 
       // Review & submit page
       cy.url().should('include', 'review-and-submit');
-      cy.tabToElement('[name="privacyAgreementAccepted"]');
+      cy.tabToElement('input[type="checkbox"]');
       cy.realPress('Space');
       cy.tabToSubmitForm();
 

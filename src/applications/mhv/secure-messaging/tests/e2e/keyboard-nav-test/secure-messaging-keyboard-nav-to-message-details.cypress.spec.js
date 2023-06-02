@@ -1,21 +1,30 @@
-import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
+import PatientMessageDetailsPage from '../pages/PatientMessageDetailsPage';
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import mockMessagewithAttachment from '../fixtures/message-response-withattachments.json';
+import mockMessages from '../fixtures/messages-response.json';
 
-describe('Secure Messaging Keyboard Nav to Message Details', () => {
-  const site = new SecureMessagingSite();
-  beforeEach(() => {
-    site.login();
-    site.loadPage();
-  });
-  it('Keyboard Nav from Welcome Page to Message Details', () => {
+describe('Navigate to Message Details ', () => {
+  it('Keyboard Navigation to Print Button', () => {
     const landingPage = new PatientInboxPage();
-    cy.realPress(['Tab']);
-    cy.tabToElement('a[href*="/my-health/secure-messages/inbox"]');
-    cy.realPress(['Enter']);
+    const messageDetailsPage = new PatientMessageDetailsPage();
+    const site = new SecureMessagingSite();
+    site.login();
+    mockMessagewithAttachment.data.id = '7192838';
+    mockMessagewithAttachment.data.attributes.attachment = true;
+    mockMessagewithAttachment.data.attributes.body = 'attachment';
+    landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
+    messageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
 
-    landingPage.loadPage();
-    const message = landingPage.getLoadedMessages().data.at(1);
-    landingPage.loadMessageDetailsByTabbingAndEnterKey(message);
+    cy.tabToElement('[class="usa-button-secondary"]').should(
+      'contain',
+      'Print',
+    );
+    cy.tabToElement('[class="usa-button-secondary"]').should(
+      'contain',
+      'Trash',
+    );
+    cy.tabToElement('[class="usa-button-secondary"]').should('contain', 'Move');
     cy.injectAxe();
     cy.axeCheck();
   });

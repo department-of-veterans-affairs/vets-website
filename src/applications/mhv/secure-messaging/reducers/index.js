@@ -9,6 +9,7 @@ import { messagesReducer } from './messages';
 import { searchReducer } from './search';
 import { triageTeamsReducer } from './triageTeams';
 import { breadcrumbsReducer } from './breadcrumbs';
+import { threadsReducer } from './threads';
 
 const rootReducer = {
   sm: combineReducers({
@@ -20,6 +21,7 @@ const rootReducer = {
     messageDetails: messageDetailsReducer,
     messages: messagesReducer,
     search: searchReducer,
+    threads: threadsReducer,
     triageTeams: triageTeamsReducer,
   }),
 };

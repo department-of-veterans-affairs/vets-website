@@ -21,10 +21,6 @@ class SpouseEmploymentHistory {
   fillEmployerInfo = () => {
     // Employer One - Current Employment
     EmploymentRecords.employerFill(this.employers[0]);
-    // Add job link
-    EmploymentRecords.addEmployer();
-    // Employer Two - Previous Employment
-    EmploymentRecords.employerFill(this.employers[1]);
   };
 
   attemptNextPage = () => {

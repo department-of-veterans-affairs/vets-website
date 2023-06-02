@@ -64,13 +64,6 @@ const analyticsEvents = {
       prefix: 'loading-indicator',
     },
   ],
-  RadioButtons: [
-    {
-      action: 'change',
-      event: 'int-radio-button-option-click',
-      prefix: 'radio-button',
-    },
-  ],
   Select: [
     {
       action: 'change',
@@ -82,16 +75,6 @@ const analyticsEvents = {
     { action: 'blur', event: 'int-text-area-blur', prefix: 'text-area' },
   ],
   TextInput: [
-    { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
-  ],
-  'va-checkbox': [
-    {
-      action: 'change',
-      event: 'int-checkbox-option-click',
-      prefix: 'checkbox',
-    },
-  ],
-  'va-text-input': [
     { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
   ],
   'va-accordion': [
@@ -137,11 +120,31 @@ const analyticsEvents = {
       action: 'expand',
       event: 'int-additional-info-expand',
       prefix: 'additional-info',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-additional-info',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'additional-info-triggerText': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
     {
       action: 'collapse',
       event: 'int-additional-info-collapse',
       prefix: 'additional-info',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-additional-info',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'additional-info-triggerText': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-alert': [
@@ -149,6 +152,18 @@ const analyticsEvents = {
       action: 'linkClick',
       event: 'nav-alert-box-link-click',
       prefix: 'alert-box',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-alert',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'alert-box-clickLabel': 'custom_string_2',
+          'alert-box-headline': 'heading_1',
+          'alert-box-status': 'status',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-alert-expandable': [
@@ -156,11 +171,31 @@ const analyticsEvents = {
       action: 'expand',
       event: 'int-alert-expandable-expand',
       prefix: 'alert-expandable',
+      ga4: {
+        event: 'interaction',
+        component_name: 'alert-expandable',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'alert-expandable-triggerText': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
     {
       action: 'collapse',
       event: 'int-alert-expandable-collapse',
       prefix: 'alert-expandable',
+      ga4: {
+        event: 'interaction',
+        component_name: 'alert-expandable',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'alert-expandable-triggerText': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-breadcrumbs': [
@@ -191,6 +226,13 @@ const analyticsEvents = {
       prefix: 'button-pair',
     },
   ],
+  'va-checkbox': [
+    {
+      action: 'change',
+      event: 'int-checkbox-option-click',
+      prefix: 'checkbox',
+    },
+  ],
   'va-checkbox-group': [
     {
       action: 'change',
@@ -203,6 +245,13 @@ const analyticsEvents = {
       action: 'blur',
       event: 'int-date-blur',
       prefix: 'date',
+    },
+  ],
+  'va-file-input': [
+    {
+      action: 'change',
+      event: 'int-file-input-change',
+      prefix: 'file-input',
     },
   ],
   'va-link': [
@@ -252,6 +301,28 @@ const analyticsEvents = {
       prefix: 'official-gov-banner',
     },
   ],
+  'va-on-this-page': [
+    {
+      action: 'click',
+      event: 'nav-jumplink-click',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-on-this-page',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          version: 'component_version',
+        },
+      },
+    },
+  ],
+  'va-privacy-agreement': [
+    {
+      action: 'click',
+      event: 'nav-privacy-agreement-checkbox-click',
+      prefix: 'privacy-agreement',
+    },
+  ],
   'va-promo-banner': [
     {
       action: 'linkClick',
@@ -281,6 +352,18 @@ const analyticsEvents = {
       action: 'change',
       event: 'int-radio-button-option-click',
       prefix: 'radio-button',
+    },
+  ],
+  'va-search-input': [
+    {
+      action: 'click',
+      event: 'int-search-input-click',
+      prefix: 'search-input',
+    },
+    {
+      action: 'blur',
+      event: 'int-search-input-blur',
+      prefix: 'search-input',
     },
   ],
   'va-select': [
@@ -321,20 +404,18 @@ const analyticsEvents = {
       prefix: 'segmented-progress-bar',
     },
   ],
-  'va-on-this-page': [
+  'va-telephone': [
     {
       action: 'click',
-      event: 'nav-jumplink-click',
-      ga4: {
-        event: 'interaction',
-        component_name: 'va-on-this-page',
-        custom_string_1: 'component-library',
-        /* Component to GA4 parameters */
-        mapping: {
-          version: 'component_version',
-        },
-      },
+      event: 'int-telephone-link-click',
+      prefix: 'telephone',
     },
+  ],
+  'va-text-input': [
+    { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
+  ],
+  'va-textarea': [
+    { action: 'blur', event: 'int-textarea-blur', prefix: 'textarea' },
   ],
 };
 

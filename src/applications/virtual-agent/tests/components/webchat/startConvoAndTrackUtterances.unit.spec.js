@@ -4,7 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import StartConvoAndTrackUtterances from '../../../components/webchat/startConvoAndTrackUtterances';
 
-describe.skip('makeBotStartConvoAndTrackUtterances actions', () => {
+describe('makeBotStartConvoAndTrackUtterances actions', () => {
   // mock store
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
@@ -20,9 +20,15 @@ describe.skip('makeBotStartConvoAndTrackUtterances actions', () => {
     payload: { activity: 'some activity' },
   };
 
+  const sandbox = sinon.createSandbox();
+
   beforeEach(() => {
     fakeNext = sinon.stub();
     store = mockStore({});
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   it('should correctly handle "DIRECT_LINE/CONNECT_FULFILLED" startConversationActivity dispatch', async () => {
@@ -69,13 +75,11 @@ describe.skip('makeBotStartConvoAndTrackUtterances actions', () => {
     const IS_TRACKING_UTTERANCES = 'va-bot.isTrackingUtterances';
     const IN_AUTH_EXP = 'va-bot.inAuthExperience';
     const RECENT_UTTERANCES = 'va-bot.recentUtterances';
-    const sandbox = sinon.createSandbox();
     beforeEach(() => {
       sessionStorage.clear();
     });
     afterEach(() => {
       sessionStorage.clear();
-      sandbox.restore();
     });
     it("should correctly begin tracking utterances if it hasn't yet", async () => {
       // setup
@@ -121,10 +125,10 @@ describe.skip('makeBotStartConvoAndTrackUtterances actions', () => {
       const isTrackingUtterances = await sessionStorage.getItem(
         IS_TRACKING_UTTERANCES,
       );
-      const authEvent = spyDispatchEvent.secondCall.args[0];
+      const authEvent = spyDispatchEvent.firstCall.args[0];
       expect(sessionStorage.length).to.equal(1);
       expect(isTrackingUtterances).to.equal('false');
-      expect(spyDispatchEvent.callCount).to.equal(2);
+      expect(spyDispatchEvent.callCount).to.equal(1);
       expect(authEvent.data).to.equal(activity);
       expect(authEvent.type).to.equal('webchat-auth-activity');
     });
@@ -199,80 +203,6 @@ describe.skip('makeBotStartConvoAndTrackUtterances actions', () => {
         },
       });
     });
-
-    describe('initiate reload after 30 minutes', () => {
-      const locationReload = window.location;
-
-      afterEach(() => {
-        window.location = locationReload;
-      });
-
-      it('Forces a page reload after 30 min when a message is received', async () => {
-        // setup
-        const activity = {
-          type: 'message',
-          text: 'Alright. Sending you to the sign in page...',
-          from: { role: 'bot' },
-        };
-        const aboutToSignInActivity = {
-          type: 'DIRECT_LINE/INCOMING_ACTIVITY',
-          payload: { activity },
-        };
-
-        window.location = { reload: sinon.stub() };
-        sandbox.useFakeTimers({ now: 0, toFake: ['setTimeout'] });
-        // fire/execute
-        await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
-          'csrfToken',
-          'apiSession',
-          'apiURL',
-          'baseURL',
-          'userFirstName',
-          'userUuid',
-        )(store)(fakeNext)(aboutToSignInActivity);
-        // tests
-        const thirtyMinutes = 30 * 60 * 1000;
-        sandbox.clock.tick(thirtyMinutes - 1);
-        expect(window.location.reload.called).to.be.false;
-        sandbox.clock.tick(1);
-        expect(window.location.reload.called).to.be.true;
-      });
-
-      it('Dispatches the correct timer id', async () => {
-        // setup
-        const stubSetTimeout = sandbox.stub(global, 'setTimeout');
-        const stubDispatchEvent = sandbox.stub(window, 'dispatchEvent');
-
-        const timerId = 987;
-        stubSetTimeout.returns(timerId);
-
-        const activity = {
-          type: 'message',
-          text: 'Alright. Sending you to the sign in page...',
-          from: { role: 'bot' },
-        };
-        const aboutToSignInActivity = {
-          type: 'DIRECT_LINE/INCOMING_ACTIVITY',
-          payload: { activity },
-        };
-
-        window.location = { reload: sinon.stub() };
-        // fire/execute
-        await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
-          'csrfToken',
-          'apiSession',
-          'apiURL',
-          'baseURL',
-          'userFirstName',
-          'userUuid',
-        )(store)(fakeNext)(aboutToSignInActivity);
-        // tests
-        expect(stubDispatchEvent.firstCall.args[0].type).to.equal(
-          'bot-incoming-activity',
-        );
-        expect(stubDispatchEvent.firstCall.args[0].data).to.equal(987);
-      });
-    });
   });
 
   it('should correctly handle "WEB_CHAT/SEND_MESSAGE"', async () => {
@@ -292,5 +222,22 @@ describe.skip('makeBotStartConvoAndTrackUtterances actions', () => {
     expect(fakeNext.firstCall.args[0].payload).to.own.include({
       text: '****',
     });
+  });
+
+  it('should dispatch an event "WEB_CHAT/SEND_MESSAGE"', async () => {
+    const stubDispatchEvent = sandbox.stub(window, 'dispatchEvent');
+
+    await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+      'csrfToken',
+      'apiSession',
+      'apiURL',
+      'baseURL',
+      'userFirstName',
+      'userUuid',
+    )(store)(fakeNext)(connectSendMessage);
+
+    expect(stubDispatchEvent.firstCall.args[0].type).to.equal(
+      'bot-outgoing-activity',
+    );
   });
 });

@@ -32,7 +32,7 @@
     }],
     "view:issueNotListed": {},
     "view:primaryPhone": "home",
-    "socOptIn": false,
+    "socOptIn": true,
     "view:hasPrivateEvidence": false,
     "benefitType": "compensation",
     "veteran": {

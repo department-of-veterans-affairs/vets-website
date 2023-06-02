@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-  VaDate,
+  VaMemorableDate,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -149,7 +149,7 @@ const AddIssue = props => {
           {issueNameHintText}
         </VaTextInput>
         <br />
-        <VaDate
+        <VaMemorableDate
           name="decision-date"
           label={dateOfDecisionLabel}
           required
@@ -160,24 +160,21 @@ const AddIssue = props => {
           aria-describedby="decision-date-description"
         >
           {dateOfDecisionHintText}
-        </VaDate>
+        </VaMemorableDate>
         <p>
-          <button
-            type="button"
+          <va-button
             id="cancel"
-            className="usa-button-secondary vads-u-width--auto"
+            secondary
+            class="vads-u-width--auto"
             onClick={handlers.onCancel}
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
+            text="Cancel"
+          />
+          <va-button
             id="submit"
-            className="vads-u-width--auto"
+            class="vads-u-width--auto"
             onClick={handlers.onUpdate}
-          >
-            {`${currentData.issue ? 'Update' : 'Add'} issue`}
-          </button>
+            text={`${currentData.issue ? 'Update' : 'Add'} issue`}
+          />
         </p>
       </fieldset>
     </form>
