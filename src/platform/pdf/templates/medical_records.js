@@ -133,6 +133,57 @@ const generateResultsContent = async (doc, parent, data) => {
   results.end();
 };
 
+const generateHeaderBanner = async (doc, header, data) => {
+  doc.moveDown(1);
+  const currentHeight = doc.y;
+
+  // Calculate text width
+  let width = 0;
+  for (let i = 0; i < data.headerBanner.length; i += 1) {
+    const element = data.headerBanner[i];
+    const font =
+      element.weight === 'bold' ? config.text.boldFont : config.text.font;
+
+    doc.font(font);
+    doc.fontSize(config.text.size);
+    width += doc.widthOfString(element.text);
+  }
+  const leftMargin = (612 - 32 - width) / 2 + 20;
+
+  for (let i = 0; i < data.headerBanner.length; i += 1) {
+    const element = data.headerBanner[i];
+    const font =
+      element.weight === 'bold' ? config.text.boldFont : config.text.font;
+    const paragraphOptions = {};
+    if (i < data.headerBanner.length) {
+      paragraphOptions.continued = true;
+    }
+
+    header.add(
+      doc.struct('Span', () => {
+        doc
+          .font(font)
+          .fontSize(config.text.size)
+          .text(element.text, leftMargin, doc.y, paragraphOptions);
+      }),
+    );
+  }
+
+  const height = doc.y - currentHeight + 25;
+
+  doc.rect(20, currentHeight - 4, 580, height).stroke();
+
+  doc.moveDown(3);
+
+  // This is an ugly hack that resets the document X position
+  // so that the document header is shown correctly.
+  header.add(
+    doc.struct('Artifact', () => {
+      doc.text('', 20, doc.y);
+    }),
+  );
+};
+
 const generateInitialHeaderContent = async (doc, parent, data) => {
   // Adjust page margins so that we can write in the header/footer area.
   // eslint-disable-next-line no-param-reassign
@@ -155,54 +206,7 @@ const generateInitialHeaderContent = async (doc, parent, data) => {
   header.add(createSpan(doc, config, data.headerRight, rightOptions));
 
   if (data.headerBanner) {
-    doc.moveDown(1);
-    const currentHeight = doc.y;
-
-    // Calculate text width
-    let width = 0;
-    for (let i = 0; i < data.headerBanner.length; i += 1) {
-      const element = data.headerBanner[i];
-      const font =
-        element.weight === 'bold' ? config.text.boldFont : config.text.font;
-
-      doc.font(font);
-      doc.fontSize(config.text.size);
-      width += doc.widthOfString(element.text);
-    }
-    const leftMargin = (612 - 32 - width) / 2 + 20;
-
-    for (let i = 0; i < data.headerBanner.length; i += 1) {
-      const element = data.headerBanner[i];
-      const font =
-        element.weight === 'bold' ? config.text.boldFont : config.text.font;
-      const paragraphOptions = {};
-      if (i < data.headerBanner.length) {
-        paragraphOptions.continued = true;
-      }
-
-      header.add(
-        doc.struct('Span', () => {
-          doc
-            .font(font)
-            .fontSize(config.text.size)
-            .text(element.text, leftMargin, doc.y, paragraphOptions);
-        }),
-      );
-    }
-
-    const height = doc.y - currentHeight + 25;
-
-    doc.rect(20, currentHeight - 4, 580, height).stroke();
-
-    doc.moveDown(3);
-
-    // This is an ugly hack that resets the document X position
-    // so that the document header is shown correctly.
-    header.add(
-      doc.struct('Artifact', () => {
-        doc.text('', 20, doc.y);
-      }),
-    );
+    generateHeaderBanner(doc, header, data);
   }
 
   header.end();
