@@ -201,6 +201,26 @@ const maximalSetOfPreferences = {
   },
 };
 
+const generateSuccess = () => ({
+  txAuditId: 'a9987d62-28f8-4b02-b020-b7f17c13c124',
+  status: 'COMPLETED_SUCCESS',
+  bio: {
+    createDate: '2023-01-05T20:05:25Z',
+    updateDate: '2023-06-01T20:55:51Z',
+    txAuditId: 'a9987d62-28f8-4b02-b020-b7f17c13c124',
+    sourceSystem: 'VETSGOV',
+    sourceDate: '2023-06-01T20:55:50Z',
+    communicationPermissionId: 18955,
+    vaProfileId: 1134122,
+    communicationChannelId: 1,
+    communicationItemId: 3,
+    communicationChannelName: 'Text',
+    communicationItemCommonName: 'Appointment reminders',
+    allowed: true,
+  },
+});
+
 module.exports = {
   maximalSetOfPreferences,
+  generateSuccess,
 };
