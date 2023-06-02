@@ -10,6 +10,7 @@ import EmergencyNote from '../components/EmergencyNote';
 import InterstitialPage from './InterstitialPage';
 import { closeAlert } from '../actions/alerts';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import { Paths } from '../util/constants';
 
 const Compose = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const Compose = () => {
     () => {
       dispatch(getTriageTeams());
 
-      if (location.pathname === '/compose') {
+      if (location.pathname === Paths.COMPOSE) {
         dispatch(clearDraft());
         setDraftType('compose');
       } else {

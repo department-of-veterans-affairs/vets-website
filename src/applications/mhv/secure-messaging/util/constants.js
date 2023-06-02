@@ -1,6 +1,14 @@
 /** time to wait (in ms) after the user stops typing before initiating draft auto-save */
 export const draftAutoSaveTimeout = 5000;
 
+export const Paths = {
+  INBOX: '/inbox/',
+  SENT: '/sent/',
+  DRAFTS: '/drafts/',
+  DELETED: '/trash/',
+  COMPOSE: '/new-message/',
+};
+
 export const DefaultFolders = {
   INBOX: {
     id: 0,
@@ -146,7 +154,7 @@ export const Links = {
     CANNOT_REPLY: {
       CLASSNAME: 'fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1',
       TITLE: 'Start a new message',
-      TO: '/compose',
+      TO: Paths.COMPOSE,
     },
   },
 };
@@ -171,7 +179,7 @@ export const Prompts = {
 };
 export const Breadcrumbs = {
   COMPOSE: {
-    path: '/compose',
+    path: Paths.COMPOSE,
     label: 'Start a new message',
   },
   INBOX: { path: '/inbox', label: 'Inbox' },

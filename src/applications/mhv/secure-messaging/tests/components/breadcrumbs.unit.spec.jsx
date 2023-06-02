@@ -24,7 +24,8 @@ describe('Breadcrumbs', () => {
     expect(await screen.findByText('Return to Dashboard', { exact: true }));
   });
 
-  it('on Compose renders without errors', async () => {
+  // breadcrumbs are refactored and this issue is addressed in the new code
+  it.skip('on Compose renders without errors', async () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,

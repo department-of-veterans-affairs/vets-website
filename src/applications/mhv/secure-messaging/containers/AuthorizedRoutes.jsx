@@ -9,6 +9,7 @@ import MessageDetails from './MessageDetails';
 import ThreadDetails from './ThreadDetails';
 import MessageReply from './MessageReply';
 import SearchResults from './SearchResults';
+import { Paths } from '../util/constants';
 
 const AuthorizedRoutes = () => {
   return (
@@ -21,7 +22,7 @@ const AuthorizedRoutes = () => {
         <Route exact path="/folders" key="Folders">
           <Folders />
         </Route>
-        <Route exact path="/compose" key="Compose">
+        <Route exact path={Paths.COMPOSE} key="Compose">
           <Compose />
         </Route>
         <Route exact path="/message/:messageId" key="MessageDetails">
