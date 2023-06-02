@@ -6,103 +6,99 @@ import mockSentFolderMetaResponse from './fixtures/folder-sent-metadata.json';
 import PatientComposePage from './pages/PatientComposePage';
 
 describe('Secure Messaging Navigate Away From `Start a new message`', () => {
-  const landingPage = new PatientInboxPage();
-  const site = new SecureMessagingSite();
-  const composePage = new PatientComposePage();
-
   it('Navigate Away From `Start a new message` To Inbox', () => {
-    site.login();
-    landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
-    composePage.enterComposeMessageDetails('General');
-    composePage.selectSideBarMenuOption('Inbox');
-    composePage.clickOnContinueEditingButton();
-    composePage.verifyComosePageValuesRetainedAfterContinueEditing();
+    PatientComposePage.enterComposeMessageDetails('General');
+    PatientComposePage.selectSideBarMenuOption('Inbox');
+    PatientComposePage.clickOnContinueEditingButton();
+    PatientComposePage.verifyComosePageValuesRetainedAfterContinueEditing();
 
-    composePage.selectSideBarMenuOption('Inbox');
-    composePage.clickOnDeleteDraftButton();
-    composePage.verifyExpectedPageOpened('Inbox');
+    PatientComposePage.selectSideBarMenuOption('Inbox');
+    PatientComposePage.clickOnDeleteDraftButton();
+    PatientComposePage.verifyExpectedPageOpened('Inbox');
     cy.get('[data-testid="compose-message-link"]').should('be.visible');
   });
 
   it('Navigate Away From `Start a new message` To Draft', () => {
-    site.login();
-    landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
-    composePage.enterComposeMessageDetails('General');
-    composePage.selectSideBarMenuOption('Drafts');
-    composePage.clickOnContinueEditingButton();
-    composePage.verifyComosePageValuesRetainedAfterContinueEditing();
+    PatientComposePage.enterComposeMessageDetails('General');
+    PatientComposePage.selectSideBarMenuOption('Drafts');
+    PatientComposePage.clickOnContinueEditingButton();
+    PatientComposePage.verifyComosePageValuesRetainedAfterContinueEditing();
 
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-2',
       mockDraftFolderMetaResponse,
     ).as('draftsFolderMetaResponse');
-    composePage.selectSideBarMenuOption('Drafts');
-    composePage.clickOnDeleteDraftButton();
-    composePage.verifyExpectedPageOpened('Drafts');
+    PatientComposePage.selectSideBarMenuOption('Drafts');
+    PatientComposePage.clickOnDeleteDraftButton();
+    PatientComposePage.verifyExpectedPageOpened('Drafts');
   });
 
   it('Navigate Away From `Start a new message` To Sent', () => {
-    site.login();
-    landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
-    composePage.enterComposeMessageDetails('General');
-    composePage.selectSideBarMenuOption('Sent');
-    composePage.clickOnContinueEditingButton();
-    composePage.verifyComosePageValuesRetainedAfterContinueEditing();
+    PatientComposePage.enterComposeMessageDetails('General');
+    PatientComposePage.selectSideBarMenuOption('Sent');
+    PatientComposePage.clickOnContinueEditingButton();
+    PatientComposePage.verifyComosePageValuesRetainedAfterContinueEditing();
 
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-1',
       mockSentFolderMetaResponse,
     ).as('sentResponse');
-    composePage.selectSideBarMenuOption('Sent');
-    composePage.clickOnDeleteDraftButton();
-    composePage.verifyExpectedPageOpened('Sent messages');
+    PatientComposePage.selectSideBarMenuOption('Sent');
+    PatientComposePage.clickOnDeleteDraftButton();
+    PatientComposePage.verifyExpectedPageOpened('Sent messages');
   });
 
   it('Navigate Away From `Start a new message` To Trash', () => {
-    site.login();
-    landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
-    composePage.enterComposeMessageDetails('General');
-    composePage.selectSideBarMenuOption('Trash');
-    composePage.clickOnContinueEditingButton();
-    composePage.verifyComosePageValuesRetainedAfterContinueEditing();
+    PatientComposePage.enterComposeMessageDetails('General');
+    PatientComposePage.selectSideBarMenuOption('Trash');
+    PatientComposePage.clickOnContinueEditingButton();
+    PatientComposePage.verifyComosePageValuesRetainedAfterContinueEditing();
 
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-3',
       mockDeletedFolderMetaResponse,
     ).as('trashResponse');
-    composePage.selectSideBarMenuOption('Trash');
-    composePage.clickOnDeleteDraftButton();
-    composePage.verifyExpectedPageOpened('Trash');
+    PatientComposePage.selectSideBarMenuOption('Trash');
+    PatientComposePage.clickOnDeleteDraftButton();
+    PatientComposePage.verifyExpectedPageOpened('Trash');
   });
 
   it('Navigate Away From `Start a new message` To MY Folders', () => {
-    site.login();
-    landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();
-    composePage.enterComposeMessageDetails('General');
-    composePage.selectSideBarMenuOption('My folders');
-    composePage.clickOnContinueEditingButton();
-    composePage.verifyComosePageValuesRetainedAfterContinueEditing();
+    PatientComposePage.enterComposeMessageDetails('General');
+    PatientComposePage.selectSideBarMenuOption('My folders');
+    PatientComposePage.clickOnContinueEditingButton();
+    PatientComposePage.verifyComosePageValuesRetainedAfterContinueEditing();
 
-    composePage.selectSideBarMenuOption('My folders');
-    composePage.clickOnDeleteDraftButton();
-    composePage.verifyExpectedPageOpened('My folders');
+    PatientComposePage.selectSideBarMenuOption('My folders');
+    PatientComposePage.clickOnDeleteDraftButton();
+    PatientComposePage.verifyExpectedPageOpened('My folders');
   });
 });

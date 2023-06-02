@@ -140,4 +140,4 @@ class PatientReplyPage {
   };
 }
 
-export default PatientReplyPage;
+export default new PatientReplyPage();

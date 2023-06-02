@@ -5,18 +5,14 @@ import customFolderMessage from './fixtures/messages-response.json';
 import customFolder from './fixtures/folder-custom-metadata.json';
 
 describe('Secure Messaging Custom Folder Delete Error Message Validation', () => {
-  const landingPage = new PatientInboxPage();
-  const site = new SecureMessagingSite();
-  const folderPage = new FolderManagementPage();
-
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/7038175',
       customFolder,
     ).as('test2Folder');
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/7038175/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
@@ -43,9 +39,10 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
   });
 
   it('Edit Folder Name check error on blank input', () => {
-    folderPage
-      .editFolderNameButton()
-      .click({ force: true, waitforanimations: false });
+    FolderManagementPage.editFolderNameButton().click({
+      force: true,
+      waitforanimations: false,
+    });
 
     cy.injectAxe();
     cy.axeCheck();

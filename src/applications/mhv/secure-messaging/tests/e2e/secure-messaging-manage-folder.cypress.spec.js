@@ -6,26 +6,25 @@ import MockCustomFolderResponse from './fixtures/folder-custom-metadata.json';
 import mockCustomFolderNoMessages from './fixtures/empty-thread-response.json';
 
 describe('Secure Messaging Manage Folder AXE check', () => {
-  const folderPage = new FolderManagementPage();
   beforeEach(() => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
   });
   it('Create Folder Success Check', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
-    folderPage.createANewFolderButton().click();
+    FolderManagementPage.createANewFolderButton().click();
     const createFolderName = 'create folder test';
-    folderPage.createFolderTextBox().type(createFolderName, { force: true });
+    FolderManagementPage.createFolderTextBox().type(createFolderName, {
+      force: true,
+    });
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/folders',
       MockCustomFolderResponse,
     ).as('createFolder');
-    folderPage.createFolderModalButton().click();
+    FolderManagementPage.createFolderModalButton().click();
     cy.wait('@createFolder');
-    folderPage.verifyCreateFolderSuccessMessage();
+    FolderManagementPage.verifyCreateFolderSuccessMessage();
     cy.injectAxe();
     cy.axeCheck();
   });
@@ -37,7 +36,7 @@ describe('Secure Messaging Manage Folder AXE check', () => {
     cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderId}`, {
       statusCode: 204,
     }).as('deleteFolder');
-    folderPage.clickAndLoadCustumFolder(
+    FolderManagementPage.clickAndLoadCustumFolder(
       folderName,
       folderId,
       MockCustomFolderResponse,
@@ -48,7 +47,7 @@ describe('Secure Messaging Manage Folder AXE check', () => {
       .shadow()
       .find('[type="button"]')
       .click();
-    folderPage.verifyDeleteSuccessMessage();
+    FolderManagementPage.verifyDeleteSuccessMessage();
     cy.injectAxe();
     cy.axeCheck();
   });

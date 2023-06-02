@@ -7,16 +7,13 @@ import MockCustomFolderResponse from './fixtures/folder-custom-metadata.json';
 import FolderManagementPage from './pages/FolderManagementPage';
 
 describe('Secure Messaging Manage Folder Errors check', () => {
-  const folderPage = new FolderManagementPage();
-  const landingPage = new PatientInboxPage();
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
   });
   it('Axe Check Get Folders Error', () => {
-    const testMessage = landingPage.getNewMessageDetails();
-    landingPage.loadInboxMessages(
+    const testMessage = PatientInboxPage.getNewMessageDetails();
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       testMessage,
       mockRecipients,
@@ -57,11 +54,12 @@ describe('Secure Messaging Manage Folder Errors check', () => {
 
   it('Create Folder Network Error Check', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
-    folderPage.createANewFolderButton().click();
+    FolderManagementPage.createANewFolderButton().click();
     const createFolderName = 'create folder test';
-    folderPage
-      .createFolderTextBox()
-      .type(createFolderName, { waitforanimations: true, force: true });
+    FolderManagementPage.createFolderTextBox().type(createFolderName, {
+      waitforanimations: true,
+      force: true,
+    });
     cy.intercept('POST', '/my_health/v1/messaging/folder', {
       statusCode: 400,
       body: {
@@ -74,16 +72,16 @@ describe('Secure Messaging Manage Folder Errors check', () => {
         },
       },
     }).as('folder');
-    folderPage.createFolderModalButton().click();
-    folderPage.verifyCreateFolderNetworkFailureMessage();
+    FolderManagementPage.createFolderModalButton().click();
+    FolderManagementPage.verifyCreateFolderNetworkFailureMessage();
     cy.injectAxe();
     cy.axeCheck();
   });
 
   it('Create Folder Input Field Error check on blank value submit', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
-    folderPage.createANewFolderButton().click();
-    folderPage.createFolderModalButton().click();
+    FolderManagementPage.createANewFolderButton().click();
+    FolderManagementPage.createFolderModalButton().click();
     cy.injectAxe();
     cy.axeCheck();
     cy.get('[name="folder-name"]')

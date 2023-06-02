@@ -3,11 +3,9 @@ import PatientInboxPage from './pages/PatientInboxPage';
 
 describe('Secure Messaging Inbox Message Sort', () => {
   beforeEach(() => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     cy.reload(true);
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     cy.get('.sidebar-navigation-messages-list-header > a');
   });
   it('Sort Inbox Messages from Newest to Oldest', () => {
