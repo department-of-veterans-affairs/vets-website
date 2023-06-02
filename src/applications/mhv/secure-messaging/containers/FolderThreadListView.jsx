@@ -8,6 +8,7 @@ import {
   DefaultFolders as Folders,
   Alerts,
   threadSortingOptions,
+  Paths,
 } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import FolderHeader from '../components/MessageList/FolderHeader';
@@ -103,7 +104,7 @@ const FolderThreadListView = props => {
       // clear out folder reducer to prevent from previous folder data flashing
       // when navigating between folders
       if (!testing) dispatch(clearFolder());
-      if (location.pathname.includes('/folder')) {
+      if (location.pathname.includes(Paths.FOLDERS)) {
         setFolderId(params.folderId);
       } else {
         switch (location.pathname) {

@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { DefaultFolders as Folders } from './constants';
+import { DefaultFolders as Folders, Paths } from './constants';
 
 export const folderPathByFolderId = folderId => {
   let path = '';
@@ -19,7 +19,7 @@ export const folderPathByFolderId = folderId => {
         path = '/trash';
         break;
       default:
-        path = `/folder/${folderId}`;
+        path = `${Paths.FOLDERS}${folderId}`;
         break;
     }
   } else {

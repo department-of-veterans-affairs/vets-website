@@ -55,7 +55,7 @@ const SmBreadcrumbs = () => {
         const foldersChild = {
           children: [
             {
-              path: `/folder/${activeFolder?.folderId}`,
+              path: `${Constants.Paths.FOLDERS}${activeFolder?.folderId}`,
               label: activeFolder?.name,
             },
           ],

@@ -7,6 +7,7 @@ export const Paths = {
   DRAFTS: '/drafts/',
   DELETED: '/trash/',
   COMPOSE: '/new-message/',
+  FOLDERS: '/folders/',
 };
 
 export const DefaultFolders = {

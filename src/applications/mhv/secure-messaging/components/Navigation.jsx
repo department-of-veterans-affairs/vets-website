@@ -110,7 +110,7 @@ const Navigation = () => {
       // To ensure other nav links are not bolded when landed on "/folders"
       isActive = location.pathname === path.path;
     } else if (location.pathname.split('/')[1] === 'folder') {
-      // Highlight "My Folders" when landed on "/folder/:id"
+      // Highlight "My Folders" when landed on "/folders/:id"
       isActive = path.path === '/folders';
     } else if (location.pathname === path.path) {
       isActive = true;

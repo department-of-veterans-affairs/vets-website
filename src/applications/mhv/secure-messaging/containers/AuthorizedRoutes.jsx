@@ -47,7 +47,13 @@ const AuthorizedRoutes = () => {
           <MessageDetails />
         </Route>
         <Route
-          path={['/inbox', '/sent', '/trash', '/drafts', '/folder/:folderId']}
+          path={[
+            '/inbox',
+            '/sent',
+            '/trash',
+            '/drafts',
+            `${Paths.FOLDERS}:folderId`,
+          ]}
           key="FolderListView"
         >
           <FolderThreadListView />
