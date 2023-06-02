@@ -51,7 +51,7 @@ const config = {
 };
 
 const generateIntroductionContent = async (doc, parent, data) => {
-  const headOptions = { paragraphGap: 16 };
+  const headOptions = { x: 20, paragraphGap: 16 };
   const subHeadOptions = { paragraphGap: 24 };
   const introduction = doc.struct('Sect', {
     title: 'Introduction',
@@ -151,6 +151,35 @@ const generateInitialHeaderContent = async (doc, parent, data) => {
   header.add(createSpan(doc, config, data.headerLeft, leftOptions));
   const rightOptions = { align: 'right' };
   header.add(createSpan(doc, config, data.headerRight, rightOptions));
+
+  if (data.headerBanner) {
+    doc.moveDown(1);
+    const currentHeight = doc.y;
+
+    for (let i = 0; i < data.headerBanner.length; i += 1) {
+      const element = data.headerBanner[i];
+      const font =
+        element.weight === 'bold' ? config.text.boldFont : config.text.font;
+      const paragraphOptions =
+        i < data.headerBanner.length ? { continued: true } : {};
+
+      header.add(
+        doc.struct('Span', () => {
+          doc
+            .font(font)
+            .fontSize(config.text.size)
+            .text(element.text, 20, doc.y, paragraphOptions);
+        }),
+      );
+    }
+
+    const height = doc.y - currentHeight + 20;
+
+    doc.rect(16, currentHeight, 580, height).stroke();
+
+    doc.moveDown(2);
+  }
+
   header.end();
 
   // eslint-disable-next-line no-param-reassign

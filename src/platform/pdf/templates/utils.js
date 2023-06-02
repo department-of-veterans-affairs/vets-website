@@ -271,6 +271,8 @@ const createAccessibleDoc = data => {
     tagged: true,
     displayTitle: true,
     info: {
+      Author: data.author ?? 'Department of Veterans Affairs',
+      Subject: data.subject ?? '',
       Title: data.title,
     },
     autoFirstPage: false,
