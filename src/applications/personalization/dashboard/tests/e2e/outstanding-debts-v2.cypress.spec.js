@@ -53,7 +53,7 @@ describe('The My VA Dashboard - Outstanding Debts', () => {
     cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
   });
 
-  describe('when the feature is not hidden', () => {
+  describe('when the section renders correctly', () => {
     beforeEach(() => {
       cy.intercept('/v0/profile/payment_history', paymentsSuccessEmpty()).as(
         'noPaymentsB',

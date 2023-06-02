@@ -53,26 +53,7 @@ describe('The My VA Dashboard - Benefit Payments', () => {
     cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
   });
 
-  describe('when the feature is hidden', () => {
-    beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          type: 'feature_toggles',
-          features: [],
-        },
-      }).as('featuresA');
-    });
-    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('the v2 dashboard does not show up - C30414', () => {
-      cy.visit('my-va/');
-      // make sure that the Benefit Payments section is not shown
-      cy.findByTestId('dashboard-section-payment-v2').should('not.exist');
-
-      // not checking A11y -- feature is hidden.
-    });
-  });
-
-  describe('when the feature is not hidden', () => {
+  describe('when the section renders correctly', () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/debts', debtsSuccessEmpty()).as('noDebtsB');
       cy.intercept('GET', '/v0/medical_copays', copaysSuccessEmpty()).as(

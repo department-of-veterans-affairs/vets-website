@@ -72,15 +72,12 @@ describe('My VA - Outstanding debts error-states', () => {
       cy.wait(['@debtsErrorA', '@recentCopays1']);
       cy.findByTestId('dashboard-section-debts-v2').should('exist');
 
-      // findByTestId for the commented out elements are flakey (for this test spec only...)
-      // cy.findByTestId('outstanding-debts-error').should('exist');
-      cy.get('[data-testid="outstanding-debts-error"]').should('exist');
+      cy.findAllByTestId('outstanding-debts-error').should('exist');
       cy.findByTestId('debt-card-v2').should('not.exist');
       cy.findByTestId('copay-card-v2').should('exist');
       cy.findByTestId('copay-due-header-v2').should('exist');
       cy.findByTestId('manage-va-copays-link-v2').should('exist');
-      // cy.findByTestId('learn-va-debt-link-v2').should('exist');
-      cy.get('[data-testid="learn-va-debt-link-v2"]').should('exist');
+      cy.findAllByTestId('learn-va-debt-link-v2').should('exist');
 
       // make the a11y check
       cy.injectAxeThenAxeCheck('[data-testid="dashboard-section-debts-v2"]');
