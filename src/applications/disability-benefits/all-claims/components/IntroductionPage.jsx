@@ -5,11 +5,11 @@ import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { isLoggedIn } from 'platform/user/selectors';
-import recordEvent from 'platform/monitoring/record-event';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
 import { itfNotice } from '../content/introductionPage';

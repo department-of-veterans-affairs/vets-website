@@ -1,6 +1,6 @@
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import _ from 'platform/utilities/data';
-import get from 'platform/utilities/data/get';
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { validateIfHasEvidence } from '../validations';
 
 import {
