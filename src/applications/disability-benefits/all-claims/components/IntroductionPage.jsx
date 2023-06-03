@@ -9,7 +9,7 @@ import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scro
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
 import { itfNotice } from '../content/introductionPage';
