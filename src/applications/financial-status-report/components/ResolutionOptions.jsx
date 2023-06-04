@@ -36,10 +36,10 @@ const ResolutionOptions = ({ formContext }) => {
   const renderWaiverText = useMemo(() => {
     return (
       <>
-        <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg2p5">
+        <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-padding-left--0p25 vads-u-margin-top--neg2p5">
           Waiver
         </span>
-        <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-left--3">
+        <span className="vads-u-display--block vads-u-margin-left--3 vads-u-padding-left--0p25">
           If we approve your request, we’ll stop collection and waive the debt.
         </span>
       </>
@@ -49,10 +49,10 @@ const ResolutionOptions = ({ formContext }) => {
   const renderCompromiseText = useMemo(() => {
     return (
       <>
-        <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg2p5">
+        <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-padding-left--0p25 vads-u-margin-top--neg2p5">
           Compromise
         </span>
-        <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-left--3">
+        <span className="vads-u-display--block vads-u-margin-left--3 vads-u-padding-left--0p25">
           If you can’t pay the debt in full or make smaller monthly payments, we
           can consider a smaller, one-time payment to resolve your debt.
         </span>
@@ -63,10 +63,10 @@ const ResolutionOptions = ({ formContext }) => {
   const renderMonthlyText = useMemo(() => {
     return (
       <>
-        <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg2p5">
+        <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-padding-left--0p25 vads-u-margin-top--neg2p5">
           Extended monthly payments
         </span>
-        <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-left--3">
+        <span className="vads-u-display--block vads-u-margin-left--3 vads-u-padding-left--0p25">
           If we approve your request, you can make smaller monthly payments for
           up to 5 years with either monthly offsets or a monthly payment plan.
         </span>

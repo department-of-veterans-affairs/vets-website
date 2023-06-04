@@ -4,15 +4,14 @@ import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
-import FormFooter from 'platform/forms/components/FormFooter';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 import GetFormHelp from '../../shared/components/GetFormHelp';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('h2');
     scrollToTop('topScrollElement');
+    waitForRenderThenFocus('va-alert h2');
   }
 
   render() {
@@ -36,11 +35,7 @@ export class ConfirmationPage extends React.Component {
             width="300"
           />
         </div>
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="success"
-          visible
-        >
+        <va-alert status="success">
           <h2 slot="headline">
             Thank you for submitting your authorization request
           </h2>
@@ -94,8 +89,9 @@ export class ConfirmationPage extends React.Component {
         >
           Go back to VA.gov
         </a>
-        <div>
-          <FormFooter formConfig={{ getHelp: GetFormHelp }} />
+        <div className="help-footer-box">
+          <h2 className="help-heading">Need help?</h2>
+          <GetFormHelp />
         </div>
       </div>
     );
