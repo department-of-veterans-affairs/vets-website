@@ -32,10 +32,32 @@ const MessageThreadItem = props => {
   const fromMe = recipientName === triageGroupName;
   const from = fromMe ? 'Me' : `${senderName}`;
 
+  // Callback function to execute when mutations are observed
+  const accordionOpenCallback = mutationList => {
+    for (const mutation of mutationList) {
+      if (mutation.attributeName === 'open') {
+        setIsExpanded(accordionItemRef.current.open);
+      }
+    }
+  };
+
+  if (accordionItemRef.current) {
+    // to handle tracking the state of accordion expanded/collapsed in order to update aria label accordinlgy
+    // when Expand all button is clicked
+
+    const config = { attributes: true };
+
+    // Create an observer instance linked to the callback function
+    const observer = new MutationObserver(accordionOpenCallback);
+
+    // Start observing the target node for configured mutations
+    observer.observe(accordionItemRef.current, config);
+  }
+
   useEffect(
     () => {
       if (props.printView) {
-        setIsExpanded(true);
+        // setIsExpanded(true);
       }
     },
     [props.printView],
@@ -45,7 +67,7 @@ const MessageThreadItem = props => {
     if (!isPreloaded) {
       dispatch(markMessageAsReadInThread(messageId, isDraftThread));
     }
-    setIsExpanded(!isExpanded);
+    // setIsExpanded(!isExpanded);
   };
 
   const accordionAriaLabel = useMemo(
