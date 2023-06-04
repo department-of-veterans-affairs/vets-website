@@ -1,3 +1,12 @@
+const babbleConfig = require('./babel.config.json');
+
+const moduleResolverAlias =
+  babbleConfig.plugins.find(plug => plug[0] === 'module-resolver')?.alias || {};
+const aliasMap = Object.keys(moduleResolverAlias).map(alias => [
+  alias,
+  moduleResolverAlias[alias],
+]);
+
 module.exports = {
   // All rules should be disabled or they should produce errors. No warnings.
   parser: 'babel-eslint',
@@ -18,48 +27,7 @@ module.exports = {
         moduleDirectory: ['node_modules', 'src/'],
       },
       alias: {
-        map: [
-          [
-            '@department-of-veterans-affairs/platform-startup/exports',
-            './src/platform/startup/exportsFile.js',
-          ],
-          [
-            '@department-of-veterans-affairs/platform-forms/exports',
-            './src/platform/forms/exportsFile.js',
-          ],
-          [
-            '@department-of-veterans-affairs/platform-forms-system/exports',
-            './src/platform/forms-system/exportsFile.js',
-          ],
-          [
-            '@department-of-veterans-affairs/platform-utilities/exports',
-            './src/platform/utilities/exportsFile.js',
-          ],
-          [
-            '@department-of-veterans-affairs/platform-monitoring/exports',
-            './src/platform/monitoring/exportsFile.js',
-          ],
-          [
-            '@department-of-veterans-affairs/platform-static-data/exports',
-            './src/platform/static-data/exportsFile.js',
-          ],
-          [
-            '@department-of-veterans-affairs/platform-user/exports',
-            './src/platform/user/exportsFile.js',
-          ],
-          [
-            '@department-of-veterans-affairs/platform-testing/exports',
-            './src/platform/testing/exportsFile.js',
-          ],
-          [
-            '@department-of-veterans-affairs/platform-site-wide/exports',
-            './src/platform/site-wide/exportsFile.js',
-          ],
-          [
-            '@department-of-veterans-affairs/platform-landing-pages/exports',
-            './src/platform/landing-pages/exportsFile.js',
-          ],
-        ],
+        map: [aliasMap],
         extensions: ['.js', '.ts', '.tsx', '.jsx', '.json'],
       },
       'babel-module': {},
