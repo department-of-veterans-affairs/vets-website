@@ -127,13 +127,26 @@ const formConfig = {
       // for Flows 2 & 4: 3rd-party claim
       title: 'Your personal information',
       pages: {
-        witnessPersonalInfoPage: {
+        witnessPersInfoPageA: {
+          // for Flow 2: 3rd-party claim, vet claimant
           path: 'witness-personal-information',
+          title: 'Your personal information-a',
+          depends: {
+            claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+            claimantType: CLAIMANT_TYPES.VETERAN,
+          },
+          uiSchema: witnessPersInfo.uiSchemaA,
+          schema: witnessPersInfo.schema,
+        },
+        witnessPersInfoPageB: {
+          // for Flow 2: 3rd-party claim, non-vet claimant
+          path: 'witness-personal-information-b',
           title: 'Your personal information',
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+            claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
-          uiSchema: witnessPersInfo.uiSchema,
+          uiSchema: witnessPersInfo.uiSchemaB,
           schema: witnessPersInfo.schema,
         },
       },
