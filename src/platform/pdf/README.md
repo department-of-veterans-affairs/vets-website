@@ -84,6 +84,12 @@ const generateVitals = async () => {
 
 When called, the PDF will be generated and the end user's browser will prompt download with the filename `vitals_report.pdf`. Be sure to catch, log and gracefully handle errors to provide the best end user experience possible.
 
+### Limitations
+
+#### Character set support
+
+As of June 2023, PDFKit [does not support font fallback](https://github.com/foliojs/pdfkit/issues/201), meaning that any character that doesn't have a glyph in the selected font will not render. In practice, this means that non-roman characters and multibyte characters (such as emoji) will not render without using a template and font built to support your use case. To see if a specific character is supported, you can use a tool such as [Oh My Glyph](https://www.ohmyglyph.com/glyphview.htm) to load a font and see supported glyphs.
+
 ### PDF Metadata
 
 The following fields must be provided by the caller in the JSON data:
