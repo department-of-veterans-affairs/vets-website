@@ -57,13 +57,6 @@ const generatePhases = claim => {
   const { previousPhases } = claim.attributes.claimPhaseDates;
   const phases = [];
 
-  // Add 'filed' event
-  phases.push({
-    type: 'filed',
-    phase: 1,
-    date: claim.attributes.claimDate,
-  });
-
   // Add 'phase1' event (this is equivalent to the filed event,
   // but activity is group by 'phase_entered' events so we need this
   // one as well)
@@ -95,9 +88,7 @@ const generatePhases = claim => {
     });
   }
 
-  return phases.filter(isEventOrPrimaryPhase).sort((a, b) => {
-    return a.phase - b.phase;
-  });
+  return phases.filter(isEventOrPrimaryPhase);
 };
 
 const generateSupportingDocuments = claim => {
@@ -127,19 +118,22 @@ const generateEventTimeline = claim => {
   const supportingDocuments = generateSupportingDocuments(claim);
   const trackedItems = generateTrackedItems(claim);
 
-  let events = [...phases, ...supportingDocuments, ...trackedItems];
+  const events = [...trackedItems, ...supportingDocuments, ...phases];
 
   // Sort events from least to most recent
   events.sort((a, b) => {
-    if (a.date === b.date) return 0;
-    return a.date > b.date ? 1 : -1;
+    if (a.date === b.date) {
+      if (a.phase && b.phase) {
+        return b.phase - a.phase;
+      }
+      return 0;
+    }
+
+    return b.date > a.date ? 1 : -1;
   });
 
   let activity = [];
   const eventPhases = {};
-
-  // Reverse the whole list of events
-  events = events.reverse();
 
   events.forEach(event => {
     if (event.type.startsWith('phase')) {
