@@ -594,7 +594,7 @@ describe('VAOS appointment list', () => {
             id: 1,
             status: 'cancelled',
             start: moment()
-              .subtract(1, 'month')
+              .subtract(30, 'days')
               .format('YYYY-MM-DDTHH:mm:ss'),
           },
         },
@@ -632,7 +632,7 @@ describe('VAOS appointment list', () => {
             id: 1,
             status: 'cancelled',
             start: moment()
-              .subtract(1, 'month')
+              .subtract(30, 'days')
               .format('YYYY-MM-DDTHH:mm:ss'),
           },
         },
