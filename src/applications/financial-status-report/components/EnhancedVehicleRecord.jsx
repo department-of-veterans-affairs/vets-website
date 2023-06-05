@@ -152,7 +152,7 @@ const EnhancedVehicleRecord = props => {
           />
         </div>
 
-        <div className="input-size-1">
+        <div className="input-size-2">
           <va-number-input
             error={(vehicleRecordIsDirty && yearIsDirty && yearError) || null}
             hint={null}
@@ -165,7 +165,7 @@ const EnhancedVehicleRecord = props => {
           />
         </div>
 
-        <div className="input-size-4">
+        <div className="input-size-2 no-wrap">
           <va-number-input
             error={
               (vehicleRecordIsDirty &&

@@ -42,7 +42,7 @@ export const focusRadioH3 = () => {
   }
 };
 
-export const focusAlertH3 = () => {
+export const focusH3 = () => {
   scrollToTop();
   // va-alert header is not in the shadow DOM, but still the content doesn't
   // immediately render

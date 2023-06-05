@@ -55,7 +55,11 @@ export const FormApp = ({
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/58229
   useEffect(
     () => {
-      if (loggedIn && location?.pathname === '/review-and-submit') {
+      if (
+        loggedIn &&
+        disableSubmit &&
+        location?.pathname === '/review-and-submit'
+      ) {
         const timer = setInterval(() => {
           const submit = document.querySelector(
             '.form-progress-buttons .usa-button-primary',
