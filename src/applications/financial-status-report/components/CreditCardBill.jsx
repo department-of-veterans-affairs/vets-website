@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { isValidCurrency } from '../utils/validations';
@@ -85,13 +86,17 @@ const CreditCardBill = props => {
     e.preventDefault();
     const newCreditCardBillArray = [...creditCardBills];
     newCreditCardBillArray[index] = creditCardBillRecord;
+
     if (
       creditCardBillRecord.amountDueMonthly &&
       creditCardBillRecord.unpaidBalance
     ) {
       // if amountPastDue is NaN, set it to 0 in order to satisfy va-number-input
       if (!isValidCurrency(creditCardBillRecord.amountPastDue)) {
-        creditCardBillRecord.amountPastDue = 0;
+        setCreditCardBillRecord(prevRecord => ({
+          ...prevRecord,
+          amountPastDue: 0,
+        }));
       }
 
       // update form data
@@ -209,7 +214,24 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreditCardBill);
+CreditCardBill.propTypes = {
+  data: PropTypes.shape({
+    expenses: PropTypes.shape({
+      creditCardBills: PropTypes.arrayOf(
+        PropTypes.shape({
+          purpose: PropTypes.string,
+          creditorName: PropTypes.string,
+          originalAmount: PropTypes.string,
+          unpaidBalance: PropTypes.string,
+          amountDueMonthly: PropTypes.string,
+          dateStarted: PropTypes.string,
+          amountPastDue: PropTypes.string,
+        }),
+      ),
+    }),
+  }).isRequired,
+  goToPath: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreditCardBill);
