@@ -57,13 +57,6 @@ const generatePhases = claim => {
   const { previousPhases } = claim.attributes.claimPhaseDates;
   const phases = [];
 
-  // Add 'filed' event
-  phases.push({
-    type: 'filed',
-    phase: 1,
-    date: claim.attributes.claimDate,
-  });
-
   // Add 'phase1' event (this is equivalent to the filed event,
   // but activity is group by 'phase_entered' events so we need this
   // one as well)
@@ -125,13 +118,18 @@ const generateEventTimeline = claim => {
   const supportingDocuments = generateSupportingDocuments(claim);
   const trackedItems = generateTrackedItems(claim);
 
-  const events = [...phases, ...supportingDocuments, ...trackedItems];
+  const events = [...trackedItems, ...supportingDocuments, ...phases];
 
-  // Sort events from most recent to least recent
+  // Sort events from least to most recent
   events.sort((a, b) => {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-    return dateB - dateA; // Compare the dates in reverse order
+    if (a.date === b.date) {
+      if (a.phase && b.phase) {
+        return b.phase - a.phase;
+      }
+      return 0;
+    }
+
+    return b.date > a.date ? 1 : -1;
   });
 
   let activity = [];
@@ -210,7 +208,7 @@ class ClaimStatusPage extends React.Component {
 
     const isOpen =
       status !== STATUSES.COMPLETE && attributes.closeDate === null;
-    const filesNeeded = itemsNeedingAttentionFromVet(attributes.eventsTimeline);
+    const filesNeeded = itemsNeedingAttentionFromVet(attributes.trackedItems);
     const showDocsNeeded =
       !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
 
