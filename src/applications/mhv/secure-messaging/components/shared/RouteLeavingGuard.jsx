@@ -75,7 +75,11 @@ export const RouteLeavingGuard = ({
         status="warning"
         visible={modalVisible}
       >
-        <p>{p1}</p>
+        <p>
+          {cancelButtonText !==
+            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+              .saveDraft && p1}
+        </p>
         {p2 && <p>{p2}</p>}
       </VaModal>
     </>
