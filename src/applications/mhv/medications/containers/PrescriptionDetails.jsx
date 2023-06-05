@@ -28,6 +28,7 @@ const PrescriptionDetails = () => {
             <button
               type="button"
               className="link-button vads-u-display--block vads-u-margin-bottom--2"
+              data-testid="print-records-button"
             >
               <i
                 aria-hidden="true"
