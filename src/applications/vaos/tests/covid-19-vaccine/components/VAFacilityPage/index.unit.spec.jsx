@@ -6,10 +6,7 @@ import environment from 'platform/utilities/environment';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '../../../../covid-19-vaccine/components/VAFacilityPage';
-import {
-  getDirectBookingEligibilityCriteriaMock,
-  getClinicMock,
-} from '../../../mocks/v0';
+import { getDirectBookingEligibilityCriteriaMock } from '../../../mocks/v0';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -21,8 +18,14 @@ import {
   mockGetCurrentPosition,
 } from '../../../mocks/helpers';
 import { TYPE_OF_CARE_ID } from '../../../../covid-19-vaccine/utils';
-import { createMockFacilityByVersion } from '../../../mocks/data';
-import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
+import {
+  createMockClinicByVersion,
+  createMockFacilityByVersion,
+} from '../../../mocks/data';
+import {
+  mockEligibilityFetchesByVersion,
+  mockFacilitiesFetchByVersion,
+} from '../../../mocks/fetch';
 
 const initialState = {
   user: {
@@ -559,10 +562,12 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       facilities: facilities.slice(0, 1),
       version: 0,
     });
-    const clinic = getClinicMock();
-    clinic.attributes.siteCode = '983';
-    mockEligibilityFetches({
-      siteId: '983',
+    const clinic = createMockClinicByVersion({
+      id: '1',
+      stationId: '983',
+      name: '',
+    });
+    mockEligibilityFetchesByVersion({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
       clinics: [clinic, clinic],
@@ -601,10 +606,13 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       facilities: facilities.slice(0, 1),
       version: 0,
     });
-    const clinic = getClinicMock();
-    clinic.attributes.siteCode = '983';
-    mockEligibilityFetches({
-      siteId: '983',
+    const clinic = createMockClinicByVersion({
+      id: '1',
+      stationId: '983',
+      name: '',
+    });
+
+    mockEligibilityFetchesByVersion({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
       clinics: [clinic],
@@ -643,11 +651,11 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       facilities: facilities.slice(0, 1),
       version: 0,
     });
-    mockEligibilityFetches({
-      siteId: '983',
+    mockEligibilityFetchesByVersion({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
       clinics: [],
+      version: 2,
     });
 
     const store = createTestStore(initialState);
