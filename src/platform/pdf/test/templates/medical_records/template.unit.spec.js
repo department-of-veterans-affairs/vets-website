@@ -82,6 +82,14 @@ describe('Medical records PDF template', () => {
       expect(text).to.equal(data.results.items[0].items[0].value);
     });
 
+    it('Outputs document sections in the correct order', async () => {
+      // Ensure document section order matches template order.
+    });
+
+    it('Special characters are rendered correctly', async () => {
+      // e.g. apostrophes in people's names, multi-byte characters, etc.
+    });
+
     it('Has a default language (english)', async () => {
       const data = require('./fixtures/single_vital.json');
       const { metadata } = await generateAndParsePdf(data);
