@@ -12,6 +12,7 @@ import {
   mockCancelReasonsApi,
   mockUserTransitionAvailabilities,
   mockClinicApi,
+  mockAppointmentApi,
 } from './vaos-cypress-helpers';
 import { mockVamcEhr } from './vaos-cypress-v2-helpers';
 
@@ -407,23 +408,49 @@ describe('VAOS appointment list', () => {
             start: moment().format('YYYY-MM-DDTHH:mm:ss'),
           },
         },
+        {
+          id: '1',
+          type: 'Appointment',
+          attributes: {
+            id: 1,
+            contact: {
+              telecom: [
+                {
+                  type: 'phone',
+                  value: '2125551212',
+                },
+                {
+                  type: 'email',
+                  value: 'veteranemailtest@va.gov',
+                },
+              ],
+            },
+            kind: 'clinic',
+            locationId: '983',
+            requestedPeriods: [
+              {
+                start: '2022-07-16T01:30:00Z',
+              },
+            ],
+            serviceType: '408',
+            status: 'proposed',
+            start: moment().format('YYYY-MM-DDTHH:mm:ss'),
+          },
+        },
       ];
 
       vaosSetup();
 
-      mockAppointmentRequestsApi();
-      mockAppointmentsApi({ apiVersion: 0 });
       mockAppointmentsApi({ data, apiVersion: 2 });
       mockFacilitiesApi({ apiVersion: 1 });
-      mockAppointmentRequestsApi({ id: '8a4886886e4c8e22016e6613216d001g' });
       mockFeatureToggles({ v2DirectSchedule: true });
       mockLoginApi();
       mockUserTransitionAvailabilities();
+      mockVamcEhr();
 
-      cy.visit('health-care/schedule-view-va-appointments/appointments/');
-      cy.injectAxe();
-
+      cy.visit('health-care/schedule-view-va-appointments/appointments');
       cy.wait(['@v2:get:appointments']);
+      cy.injectAxe();
 
       cy.get('h2', { timeout: Timeouts.slow })
         .should('be.visible')
@@ -439,6 +466,10 @@ describe('VAOS appointment list', () => {
     });
 
     it('should render requested appointments list', () => {
+      cy.get('h2', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'Requested appointments');
+
       cy.get('[data-cy=requested-appointment-list]').should('exist');
       cy.get('[data-cy=requested-appointment-list-item]')
         .first()
@@ -448,14 +479,18 @@ describe('VAOS appointment list', () => {
     });
 
     it('should navigate to requested appointment details', () => {
-      cy.get('[data-testid="appointment-detail-link"]')
-        .first()
-        .shadow()
-        .find('a')
-        .click();
+      mockAppointmentApi({ id: '1' });
+      mockFacilityApi({ id: '983' });
 
-      cy.findByText(/Request detail/i).should('exist');
-      cy.injectAxe();
+      cy.get('h2', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'Requested appointments');
+      cy.get('[data-cy=requested-appointment-list]').should('exist');
+
+      cy.get('[data-cy=requested-appointment-list-item]')
+        .first()
+        .click({ waitForAnimations: true });
+
       cy.axeCheckBestPractice();
     });
   });
