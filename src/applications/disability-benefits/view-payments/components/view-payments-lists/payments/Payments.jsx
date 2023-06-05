@@ -27,7 +27,6 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
   // updated
   const totalPages = useRef(0);
   const paginatedData = useRef([]);
-
   useEffect(() => {
     paginatedData.current = paginateData(data);
 
@@ -42,6 +41,8 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
 
   const fromToNums = getFromToNums(currentPage, data.length);
 
+  const tableRows = () => <>{generateTableChildren(currentData, fields)}</>;
+
   if (currentData) {
     return (
       <>
@@ -49,7 +50,7 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
         <p className="vads-u-font-size--lg vads-u-font-family--serif">
           Displaying {fromToNums[0]} - {fromToNums[1]} of {data.length}
         </p>
-        <va-table>{generateTableChildren(currentData, fields)}</va-table>
+        <va-table>{tableRows}</va-table>
         <VaPagination
           onPageSelect={e => onPageChange(e.detail.page)}
           page={currentPage}
