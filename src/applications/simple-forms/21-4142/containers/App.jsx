@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import environment from 'platform/utilities/environment';
 
 import formConfig from '../config/form';
 import { workInProgressContent } from '../definitions/constants';
@@ -12,7 +13,7 @@ import { workInProgressContent } from '../definitions/constants';
 import { WIP } from '../../shared/components/WIP';
 
 export function App({ location, children, show214142 }) {
-  if (!show214142) {
+  if (!show214142 && !environment.isLocalhost()) {
     return <WIP content={workInProgressContent} />;
   }
   return (
