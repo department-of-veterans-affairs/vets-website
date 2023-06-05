@@ -9,6 +9,7 @@ import {
   FORM_STATUS_BDD,
   SAVED_SEPARATION_DATE,
 } from '../../constants';
+import { bddConfirmationHeadline } from '../../content/bddConfirmationAlert';
 
 const retryableErrorTitle =
   "It's taking us longer than expected to submit your claim.";
@@ -42,11 +43,7 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
       />,
     );
 
-    expect(
-      queryByText(
-        'Submit your Separation Health Assessment - Part A Self-Assessment now if you haven’t already',
-      ),
-    ).to.not.exist;
+    expect(queryByText(bddConfirmationHeadline)).to.not.exist;
   });
 
   it('should render success with BDD SHA alert', () => {
@@ -58,9 +55,7 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
       />,
     );
     tree.getByText('Claim ID number');
-    tree.getByText(
-      'Submit your Separation Health Assessment - Part A Self-Assessment now if you haven’t already',
-    );
+    tree.getByText(bddConfirmationHeadline);
   });
 
   it('should render retry status', () => {

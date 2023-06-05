@@ -12,6 +12,7 @@ import { createStore } from 'redux';
 import { render } from '@testing-library/react';
 import formConfig from '../../config/form';
 import { SAVED_SEPARATION_DATE } from '../../constants';
+import { selfAssessmentHeadline } from '../../content/selfAssessmentAlert';
 
 const invalidDocumentData = {
   additionalDocuments: [
@@ -136,11 +137,7 @@ describe('526EZ document upload', () => {
       </Provider>,
     );
 
-    expect(
-      queryByText(
-        'Please submit your Separation Health Assessment - Part A Self-Assessment as soon as possible',
-      ),
-    ).to.not.exist;
+    expect(queryByText(selfAssessmentHeadline)).to.not.exist;
   });
 
   it('should display alert when BDD SHA enabled', () => {
