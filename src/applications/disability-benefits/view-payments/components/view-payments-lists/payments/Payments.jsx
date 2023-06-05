@@ -9,11 +9,6 @@ import { clientServerErrorContent } from '../helpers';
 const MAX_PAGE_LIST_LENGTH = 10;
 const MAX_ROWS = 6;
 
-const getAriaLabelledBy = tableVersion =>
-  tableVersion === 'received'
-    ? 'paymentsReceivedHeader paymentsReceivedContent'
-    : 'paymentsReturnedHeader paymentsReturnedContent';
-
 const paginateData = data => {
   return chunk(data, MAX_ROWS);
 };
@@ -45,7 +40,6 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
     setCurrentPage(page);
   };
 
-  const tableAriaLabelledBy = getAriaLabelledBy(tableVersion);
   const fromToNums = getFromToNums(currentPage, data.length);
 
   if (currentData) {
