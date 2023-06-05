@@ -15,7 +15,7 @@ describe('Medical records PDF template', () => {
   });
 
   const generatePdf = async data => {
-    const template = require('../templates/medical_records');
+    const template = require('../../../templates/medical_records');
 
     const doc = await template.generate(data);
     doc.end();
@@ -76,9 +76,9 @@ describe('Medical records PDF template', () => {
       const content = await page.getTextContent({ includeMarkedContent: true });
 
       // Get first details struct.
-      const { tag } = content.items[19];
+      const { tag } = content.items[17];
       expect(tag).to.equal('P');
-      const text = content.items[23].str;
+      const text = content.items[21].str;
       expect(text).to.equal(data.results.items[0].items[0].value);
     });
 
