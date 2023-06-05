@@ -74,6 +74,7 @@ const EmergencyContact = props => {
         emergencyContact={emergencyContact}
         yesAction={yesClick}
         noAction={noClick}
+        router={router}
       />
     </>
   );

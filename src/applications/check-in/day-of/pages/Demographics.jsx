@@ -63,6 +63,7 @@ const Demographics = props => {
         subtitle={t(
           'we-can-better-follow-up-with-when-we-have-your-current-information',
         )}
+        router={router}
       />
     </>
   );
