@@ -127,17 +127,19 @@ const generateEventTimeline = claim => {
   const supportingDocuments = generateSupportingDocuments(claim);
   const trackedItems = generateTrackedItems(claim);
 
-  const events = [...phases, ...supportingDocuments, ...trackedItems];
+  let events = [...phases, ...supportingDocuments, ...trackedItems];
 
-  // Sort events from most to least recent
+  // Sort events from least to most recent
   events.sort((a, b) => {
-    // When 2 items have the same date, reverse them
-    if (a.date === b.date) return -1;
-    return b.date > a.date ? 1 : -1;
+    if (a.date === b.date) return 0;
+    return a.date > b.date ? 1 : -1;
   });
 
   let activity = [];
   const eventPhases = {};
+
+  // Reverse the whole list of events
+  events = events.reverse();
 
   events.forEach(event => {
     if (event.type.startsWith('phase')) {
