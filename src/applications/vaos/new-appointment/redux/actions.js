@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 
@@ -770,8 +771,10 @@ export function submitAppointmentOrRequest(history) {
     });
 
     let additionalEventData = {
-      'health-TypeOfCare': typeOfCare,
-      'health-ReasonForAppointment': data?.reasonForAppointment,
+      custom_string_1: `health-TypeOfCare: ${typeOfCare}`,
+      custom_string_2: `health-ReasonForAppointment: ${
+        data?.reasonForAppointment
+      }`,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {

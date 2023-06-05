@@ -19,18 +19,6 @@ export function getStagingId(facilityId) {
   return facilityId;
 }
 
-export function getPendingAppointments(startDate, endDate) {
-  return apiRequestWithUrl(
-    `/vaos/v0/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
-  ).then(parseApiList);
-}
-
-export function getPendingAppointment(id) {
-  return apiRequestWithUrl(`/vaos/v0/appointment_requests/${id}`).then(
-    parseApiObject,
-  );
-}
-
 export function getConfirmedAppointment(id, type) {
   return apiRequestWithUrl(`/vaos/v0/appointments/${type}/${id}`).then(
     parseApiObject,

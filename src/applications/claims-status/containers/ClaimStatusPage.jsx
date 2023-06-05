@@ -127,11 +127,11 @@ const generateEventTimeline = claim => {
 
   const events = [...phases, ...supportingDocuments, ...trackedItems];
 
-  // Sort events from most recent to least recent
+  // Sort events from most to least recent
   events.sort((a, b) => {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-    return dateB - dateA; // Compare the dates in reverse order
+    // When 2 items have the same date, reverse them
+    if (a.date === b.date) return -1;
+    return b.date > a.date ? 1 : -1;
   });
 
   let activity = [];

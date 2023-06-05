@@ -327,7 +327,6 @@ export function fetchPendingAppointments() {
         endDate: moment()
           .add(featureVAOSServiceRequests ? 1 : 0, 'days')
           .format('YYYY-MM-DD'),
-        useV2: featureVAOSServiceRequests,
         useAcheron: featureAcheronVAOSServiceRequests,
       });
 
@@ -464,9 +463,6 @@ export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
-      const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
-        state,
-      );
       const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
         state,
       );
@@ -489,7 +485,6 @@ export function fetchRequestDetails(id) {
       if (!request) {
         request = await fetchRequestById({
           id,
-          useV2: featureVAOSServiceRequests,
           useAcheron: featureAcheronVAOSServiceRequests,
         });
         facilityId = getVAAppointmentLocationId(request);
