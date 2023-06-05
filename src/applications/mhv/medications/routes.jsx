@@ -6,7 +6,7 @@ import PrescriptionDetails from './containers/PrescriptionDetails';
 const routes = (
   <div className="vads-l-grid-container">
     <Switch>
-      <Route exact path="*" key="App">
+      <Route exact path="/" key="App">
         <App />
       </Route>
       <Route

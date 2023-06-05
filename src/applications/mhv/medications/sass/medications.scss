@@ -1,0 +1,19 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "./prescription-details";
+
+.link-button,
+.link-button:hover,
+.link-button:active {
+  background-color: transparent;
+  color: $color-link-default;
+  font-weight: normal;
+  text-decoration: underline;
+  border: none;
+  border-radius: 0px;
+  transition-duration: 0.3s;
+  padding: 0px;
+  width: fit-content;
+}
+.link-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
