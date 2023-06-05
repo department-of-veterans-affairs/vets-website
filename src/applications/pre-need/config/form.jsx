@@ -135,7 +135,7 @@ const formConfig = {
   },
   chapters: {
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         applicantInformation: {
           title: 'Applicant information',
@@ -156,6 +156,12 @@ const formConfig = {
                       2: 'Spouse or surviving spouse',
                       3: 'Unmarried adult child',
                       4: 'Other',
+                    },
+                    widgetProps: {
+                      1: { 'aria-describedby': 'veteran-relationship' },
+                      2: { 'aria-describedby': 'spouse-relationship' },
+                      3: { 'aria-describedby': 'child-relationship' },
+                      4: { 'aria-describedby': 'other-relationship' },
                     },
                     nestedContent: {
                       1: veteranRelationshipDescription,
@@ -196,7 +202,9 @@ const formConfig = {
         },
         veteranInformation: {
           path: 'veteran-applicant-information',
-          title: 'Veteran Information',
+          title: environment.isProduction()
+            ? 'Veteran Information'
+            : 'Veteran information',
           depends: isVeteran,
           uiSchema: {
             application: {
@@ -211,7 +219,12 @@ const formConfig = {
                 properties: {
                   veteran: {
                     type: 'object',
-                    required: ['gender', 'maritalStatus', 'militaryStatus'],
+                    required: [
+                      'race',
+                      'gender',
+                      'maritalStatus',
+                      'militaryStatus',
+                    ],
                     properties: set(
                       'militaryStatus.enum',
                       veteran.properties.militaryStatus.enum.filter(
@@ -238,7 +251,7 @@ const formConfig = {
       },
     },
     sponsorInformation: {
-      title: 'Sponsor Information',
+      title: 'Sponsor information',
       pages: {
         sponsorInformation: {
           path: 'sponsor-information',
@@ -268,11 +281,15 @@ const formConfig = {
                 militaryServiceNumber: {
                   'ui:title':
                     'Sponsor’s Military Service number (if they have one that’s different than their Social Security number)',
+                  'ui:errorMessages': {
+                    pattern:
+                      'Sponsor’s Military Service number must be between 4 to 9 characters',
+                  },
                 },
                 vaClaimNumber: {
                   'ui:title': 'Sponsor’s VA claim number (if known)',
                   'ui:errorMessages': {
-                    pattern: 'Your VA claim number must be 8 or 9 digits',
+                    pattern: 'Sponsor’s VA claim number must be 8 or 9 digits',
                   },
                 },
                 ssn: {
@@ -287,6 +304,10 @@ const formConfig = {
                 gender: {
                   'ui:title':
                     "Sponsor's sex (information will be used for statistical purposes only)",
+                },
+                race: {
+                  'ui:title':
+                    'Which categories best describe your sponsor? (You may check more than one)',
                 },
                 maritalStatus: {
                   'ui:title': 'Sponsor’s marital status',
@@ -339,6 +360,7 @@ const formConfig = {
                       'maritalStatus',
                       'militaryStatus',
                       'isDeceased',
+                      'race',
                     ],
                     properties: pick(veteran.properties, [
                       'currentName',
@@ -363,7 +385,7 @@ const formConfig = {
       },
     },
     militaryHistory: {
-      title: 'Military History',
+      title: 'Military history',
       pages: {
         // Two sets of military history pages dependent on
         // whether the applicant is the veteran or not.
@@ -551,7 +573,7 @@ const formConfig = {
       },
     },
     burialBenefits: {
-      title: 'Burial Benefits',
+      title: 'Burial benefits',
       pages: {
         burialBenefits: {
           path: 'burial-benefits',
@@ -650,6 +672,7 @@ const formConfig = {
             'ui:description': SupportingDocumentsDescription,
             application: {
               preneedAttachments: fileUploadUI('Select files to upload', {
+                addAnotherLabel: 'Add another',
                 fileUploadUrl: `${
                   environment.API_URL
                 }/v0/preneeds/preneed_attachments`,
@@ -690,7 +713,7 @@ const formConfig = {
       },
     },
     contactInformation: {
-      title: 'Contact Information',
+      title: 'Contact information',
       pages: {
         applicantContactInformation: {
           title: 'Applicant’s contact information',
@@ -804,7 +827,6 @@ const formConfig = {
                       country: { 'ui:required': isAuthorizedAgent },
                       street: { 'ui:required': isAuthorizedAgent },
                       city: { 'ui:required': isAuthorizedAgent },
-                      state: { 'ui:required': isAuthorizedAgent },
                       postalCode: { 'ui:required': isAuthorizedAgent },
                     },
                   ),

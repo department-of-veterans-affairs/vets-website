@@ -229,20 +229,26 @@ describe('form submit transform', () => {
       );
       expect(relinquishedBenefit.effRelinquishDate).to.eql('2021-02-02');
     });
-    it('should return empty object if no relinquishment', () => {
-      mockSubmissionForm['view:benefitSelection'] = undefined;
+
+    it('should return empty object if no relinquishment AND feature flag is false', () => {
+      mockSubmissionForm[
+        'view:benefitSelection'
+      ].benefitRelinquished = undefined;
+      mockSubmissionForm.showMebDgi40Features = false;
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
       const objectIsEmpty = Object.keys(relinquishedBenefit).length === 0;
       expect(objectIsEmpty).to.eql(true);
     });
 
-    it('should return empty object if no relinquishment', () => {
+    it('should return CannotRelinquish if no relinquishment AND feature flag is true', () => {
       mockSubmissionForm[
         'view:benefitSelection'
       ].benefitRelinquished = undefined;
+      mockSubmissionForm.showMebDgi42Features = true;
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
-      const objectIsEmpty = Object.keys(relinquishedBenefit).length === 0;
-      expect(objectIsEmpty).to.eql(true);
+      expect(relinquishedBenefit.relinquishedBenefit).to.eql(
+        'CannotRelinquish',
+      );
     });
   });
 

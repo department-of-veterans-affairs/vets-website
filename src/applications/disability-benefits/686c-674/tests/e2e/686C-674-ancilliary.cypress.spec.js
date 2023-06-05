@@ -1,10 +1,10 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import mockVaFileNumber from './fixtures/va-file-number.json';
 
 import formConfig from 'applications/disability-benefits/686c-674/config/form';
 import manifest from 'applications/disability-benefits/686c-674/manifest.json';
+import mockVaFileNumber from './fixtures/va-file-number.json';
 
 Cypress.config('waitForAnimations', true);
 
@@ -51,7 +51,7 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
-          cy.findAllByText(/Add or remove a dependent/i, { selector: 'button' })
+          cy.get('a.vads-c-action-link--green')
             .first()
             .click();
         });

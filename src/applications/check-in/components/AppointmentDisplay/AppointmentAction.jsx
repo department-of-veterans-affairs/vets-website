@@ -1,28 +1,39 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import { parseISO } from 'date-fns';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { api } from '../../api';
+import { makeSelectCurrentContext } from '../../selectors';
 
+import { createAnalyticsSlug } from '../../utils/analytics';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
 
 import { CheckInButton } from './CheckInButton';
 import { useUpdateError } from '../../hooks/useUpdateError';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { getAppointmentId } from '../../utils/appointment';
 
 const AppointmentAction = props => {
-  const { appointment, router, token } = props;
-  const { t } = useTranslation();
+  const { appointment, router, event } = props;
+
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectCurrentContext);
+
+  const { setCheckinComplete } = useSessionStorage(false);
 
   const { updateError } = useUpdateError();
 
-  const defaultMessage = t(
-    'online-check-in-isnt-available-check-in-with-a-staff-member',
-  );
   const { jumpToPage } = useFormRouting(router);
   const onClick = useCallback(
     async () => {
+      if (event) {
+        recordEvent({
+          event: createAnalyticsSlug(event, 'nav'),
+        });
+      }
       try {
         const json = await api.v2.postCheckInData({
           uuid: token,
@@ -31,6 +42,7 @@ const AppointmentAction = props => {
         });
         const { status } = json;
         if (status === 200) {
+          setCheckinComplete(window, true);
           jumpToPage(`complete/${getAppointmentId(appointment)}`);
         } else {
           updateError('check-in-post-error');
@@ -39,107 +51,30 @@ const AppointmentAction = props => {
         updateError('error-completing-check-in');
       }
     },
-    [appointment, updateError, jumpToPage, token],
+    [appointment, updateError, jumpToPage, token, event, setCheckinComplete],
   );
-
-  if (appointment.eligibility) {
-    // Disable check-in 10 seconds before the end of the eligibility window.
-    // This helps prevent Veterans from getting an error if they click the
-    // button and it takes too long to make the API call.
-    if (
-      (areEqual(appointment.eligibility, ELIGIBILITY.ELIGIBLE) &&
-        parseISO(appointment.checkInWindowEnd).getTime() - Date.now() <
-          10000) ||
-      areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_TOO_LATE)
-    ) {
-      return (
-        <p data-testid="too-late-message">
-          {t('your-appointment-started-more-than-15-minutes-ago-ask-for-help')}
-        </p>
-      );
-    }
-    if (areEqual(appointment.eligibility, ELIGIBILITY.ELIGIBLE)) {
-      return (
-        <CheckInButton
-          checkInWindowEnd={parseISO(appointment.checkInWindowEnd)}
-          appointmentTime={
-            appointment.startTime ? parseISO(appointment.startTime) : null
-          }
-          onClick={onClick}
-          router={router}
-        />
-      );
-    }
-    if (areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_BAD_STATUS)) {
-      return (
-        <p data-testid="ineligible-bad-status-message">{defaultMessage}</p>
-      );
-    }
-    if (areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_TOO_EARLY)) {
-      if (appointment.checkInWindowStart) {
-        const appointmentDateTime = parseISO(appointment.checkInWindowStart);
-        return (
-          <p data-testid="too-early-message">
-            {t('you-can-check-in-starting-at-this-time', {
-              date: appointmentDateTime,
-            })}
-          </p>
-        );
-      }
-      return (
-        <p data-testid="no-time-too-early-reason-message">
-          {t('this-appointment-isnt-eligible-check-in-with-a-staff-member')}
-        </p>
-      );
-    }
-    if (
-      areEqual(
-        appointment.eligibility,
-        ELIGIBILITY.INELIGIBLE_UNSUPPORTED_LOCATION,
-      )
-    ) {
-      return <p data-testid="unsupported-location-message">{defaultMessage}</p>;
-    }
-    if (
-      areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_UNKNOWN_REASON)
-    ) {
-      return <p data-testid="unknown-reason-message">{defaultMessage}</p>;
-    }
-    if (
-      areEqual(
-        appointment.eligibility,
-        ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN,
-      )
-    ) {
-      if (appointment.checkedInTime) {
-        const appointmentDateTime = new Date(appointment.checkedInTime);
-        if (Number.isNaN(appointmentDateTime.getTime())) {
-          return (
-            <p data-testid="already-checked-in-no-time-message">
-              {t('you-are-already-checked-in')}
-            </p>
-          );
+  if (
+    appointment.eligibility &&
+    areEqual(appointment.eligibility, ELIGIBILITY.ELIGIBLE)
+  ) {
+    return (
+      <CheckInButton
+        checkInWindowEnd={parseISO(appointment.checkInWindowEnd)}
+        appointmentTime={
+          appointment.startTime ? parseISO(appointment.startTime) : null
         }
-        return (
-          <p data-testid="already-checked-in-message">
-            {t('you-checked-in-at', { date: appointmentDateTime })}
-          </p>
-        );
-      }
-      return (
-        <p data-testid="already-checked-in-no-time-message">
-          {t('you-are-already-checked-in')}
-        </p>
-      );
-    }
+        onClick={onClick}
+        router={router}
+      />
+    );
   }
-  return <p data-testid="no-status-given-message">{defaultMessage}</p>;
+  return <></>;
 };
 
 AppointmentAction.propTypes = {
   appointment: PropTypes.object,
+  event: PropTypes.string,
   router: PropTypes.object,
-  token: PropTypes.string,
 };
 
 export default AppointmentAction;

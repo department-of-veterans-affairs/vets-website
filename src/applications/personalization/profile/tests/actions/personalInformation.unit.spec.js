@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import * as mockPersonalInfo from '@@profile/mocks/personal-information';
+import * as mockPersonalInfo from '@@profile/mocks/endpoints/personal-information';
 import * as vapSvcActions from '@@vap-svc/actions';
 
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';

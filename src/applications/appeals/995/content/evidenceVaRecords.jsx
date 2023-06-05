@@ -5,7 +5,7 @@ import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToW
 export const content = {
   title: (addOrEdit, index) =>
     `${addOrEdit === 'add' ? 'Add' : 'Edit'} the ${numberToWords(
-      index,
+      index || 1,
     )} VA facility that treated you`,
   description: 'We’ll request your VA medical records from this facility',
   locationAndName:
@@ -15,8 +15,9 @@ export const content = {
   dateStart: 'First treatment date (you can estimate)',
   dateEnd: 'Last treatment date (you can estimate)',
   addAnother: 'Add another location',
-  modalTitle: 'Do you want to keep this location?',
+  modalTitle: ({ locationAndName }) =>
+    `Do you want to keep ${locationAndName || 'this location'}?`,
   modalDescription: 'We’ve saved your current information.',
-  modalYes: 'Yes',
-  modalNo: 'No, remove this location',
+  modalYes: 'Yes, keep location',
+  modalNo: 'No, remove location',
 };

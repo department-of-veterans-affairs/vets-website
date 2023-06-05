@@ -38,7 +38,10 @@ import {
 import { getSlots } from '../../services/slot';
 import { transformFormToAppointment } from './helpers/formSubmitTransformers';
 import { submitAppointment } from '../../services/var';
-import { VACCINE_FORM_SUBMIT_SUCCEEDED } from '../../redux/sitewide';
+import {
+  VACCINE_FORM_SUBMIT_SUCCEEDED,
+  STARTED_NEW_APPOINTMENT_FLOW,
+} from '../../redux/sitewide';
 import { createAppointment } from '../../services/appointment';
 import { transformFormToVAOSAppointment } from './helpers/formSubmitTransformers.v2';
 
@@ -94,6 +97,12 @@ export const FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED =
 export const GA_FLOWS = {
   DIRECT: 'direct',
 };
+
+export function startNewAppointmentFlow() {
+  return {
+    type: STARTED_NEW_APPOINTMENT_FLOW,
+  };
+}
 
 export function openFormPage(page, uiSchema, schema) {
   return {

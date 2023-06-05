@@ -11,13 +11,13 @@ describe('Secure Messaging Manage Folder AXE check', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
   });
   it('Create Folder Success Check', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
     folderPage.createANewFolderButton().click();
     const createFolderName = 'create folder test';
-    folderPage.createFolderTextBox().type(createFolderName);
+    folderPage.createFolderTextBox().type(createFolderName, { force: true });
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/folders',

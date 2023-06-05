@@ -1,10 +1,10 @@
 import React from 'react';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import FeedbackEmail from './shared/FeedbackEmail';
+import { openCrisisModal } from '../util/helpers';
 
-const FrequentlyAskedQuestions = state => {
+const FrequentlyAskedQuestions = ({ prefLink }) => {
   return (
-    <div className="secure-messaging-faq vads-u-padding-bottom--9">
+    <div className="secure-messaging-faq">
       <h2 className="vads-u-margin-top--1">Questions about using messages</h2>
 
       <va-accordion open-single>
@@ -54,31 +54,27 @@ const FrequentlyAskedQuestions = state => {
             Only use messages for non-urgent needs. After you send a message, it
             can take up to 3 business days to get a reply.
           </p>
-          <p>
-            Here’s how to get help for urgent needs:
-            <ul>
-              <li>
-                <strong>If you think your life or health is in danger, </strong>{' '}
-                call <va-telephone contact="911" /> or go to the nearest
-                emergency room.
-              </li>
-              <li>
-                <strong>
-                  If you’re in crisis or having thoughts of suicide,{' '}
-                </strong>{' '}
-                our Veterans Crisis Line offers confidential support anytime day
-                or night.
-                <br />
-                <a
-                  href="https://988lifeline.org/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Connect with the Veterans Crisis Line
-                </a>
-              </li>
-            </ul>
-          </p>
+          <p>Here’s how to get help for urgent needs:</p>
+          <ul>
+            <li>
+              <strong>
+                If you’re in crisis or having thoughts of suicide,{' '}
+              </strong>{' '}
+              our Veterans Crisis Line offers confidential support anytime day
+              or night.
+              <br />
+              <va-button
+                secondary="true"
+                text="Connect with the Veterans Crisis Line"
+                onClick={openCrisisModal}
+              />
+            </li>
+            <li>
+              <strong>If you think your life or health is in danger, </strong>{' '}
+              call <va-telephone contact="911" /> or go to the nearest emergency
+              room.
+            </li>
+          </ul>
         </va-accordion-item>
 
         <va-accordion-item>
@@ -120,11 +116,7 @@ const FrequentlyAskedQuestions = state => {
             changes.
           </p>
           <p>
-            <a
-              href={mhvUrl(isAuthenticatedWithSSOe(state), 'preferences')}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={prefLink} target="_blank" rel="noreferrer">
               Go to the My HealtheVet website
             </a>
           </p>
@@ -133,8 +125,7 @@ const FrequentlyAskedQuestions = state => {
             you have questions about your settings, you can send us an email.
           </p>
           <p>
-            Email us at{' '}
-            <a href="mailto: mhvfeedback@va.gov">mhvfeedback@va.gov</a>
+            Email us at <FeedbackEmail />
           </p>
         </va-accordion-item>
       </va-accordion>

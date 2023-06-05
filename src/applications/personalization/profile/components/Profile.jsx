@@ -11,13 +11,15 @@ import {
 } from '@@profile/actions';
 import {
   cnpDirectDepositInformation,
+  profileUseLighthouseDirectDepositEndpoint,
   selectIsBlocked,
+  togglesAreLoaded,
 } from '@@profile/selectors';
 import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
 } from '@@profile/actions/paymentInformation';
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 import DowntimeNotification, {
   externalServices,
   externalServiceStatus,
@@ -36,14 +38,13 @@ import backendServices from '~/platform/user/profile/constants/backendServices';
 import {
   createIsServiceAvailableSelector,
   isMultifactorEnabled,
-  selectProfile,
   isLOA1 as isLOA1Selector,
   isLOA3 as isLOA3Selector,
   isInMPI as isInMVISelector,
   isLoggedIn,
 } from '~/platform/user/selectors';
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
-import { fetchMHVAccount as fetchMHVAccountAction } from '~/platform/user/profile/actions';
+import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 
@@ -51,6 +52,7 @@ import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 class Profile extends Component {
   componentDidMount() {
@@ -58,7 +60,6 @@ class Profile extends Component {
       fetchCNPPaymentInformation,
       fetchEDUPaymentInformation,
       fetchFullName,
-      fetchMHVAccount,
       fetchMilitaryInformation,
       fetchPersonalInformation,
       fetchTotalDisabilityRating,
@@ -67,15 +68,20 @@ class Profile extends Component {
       shouldFetchCNPDirectDepositInformation,
       shouldFetchTotalDisabilityRating,
       shouldFetchEDUDirectDepositInformation,
+      connectDrupalSourceOfTruthCerner,
+      useLighthouseDirectDepositEndpoint,
+      togglesLoaded,
     } = this.props;
-    fetchMHVAccount();
+    connectDrupalSourceOfTruthCerner();
     if (isLOA3 && isInMVI) {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
     }
-    if (shouldFetchCNPDirectDepositInformation) {
-      fetchCNPPaymentInformation();
+    if (togglesLoaded && shouldFetchCNPDirectDepositInformation) {
+      fetchCNPPaymentInformation({
+        useLighthouseDirectDepositEndpoint,
+      });
     }
     if (shouldFetchTotalDisabilityRating) {
       fetchTotalDisabilityRating();
@@ -98,24 +104,35 @@ class Profile extends Component {
       shouldFetchEDUDirectDepositInformation,
       shouldFetchTotalDisabilityRating,
       isInMVI,
+      useLighthouseDirectDepositEndpoint,
+      togglesLoaded,
     } = this.props;
     if (isLOA3 && !prevProps.isLOA3 && isInMVI) {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
     }
+
     if (
       shouldFetchTotalDisabilityRating &&
       !prevProps.shouldFetchTotalDisabilityRating
     ) {
       fetchTotalDisabilityRating();
     }
+
     if (
-      shouldFetchCNPDirectDepositInformation &&
-      !prevProps.shouldFetchCNPDirectDepositInformation
+      (togglesLoaded &&
+        !prevProps.togglesLoaded &&
+        shouldFetchCNPDirectDepositInformation) ||
+      (togglesLoaded &&
+        shouldFetchCNPDirectDepositInformation &&
+        !prevProps.shouldFetchCNPDirectDepositInformation)
     ) {
-      fetchCNPPaymentInformation();
+      fetchCNPPaymentInformation({
+        useLighthouseDirectDepositEndpoint,
+      });
     }
+
     if (
       shouldFetchEDUDirectDepositInformation &&
       !prevProps.shouldFetchEDUDirectDepositInformation
@@ -134,11 +151,8 @@ class Profile extends Component {
           dismissDowntimeWarning={this.props.dismissDowntimeWarning}
           initializeDowntimeWarnings={this.props.initializeDowntimeWarnings}
           messaging={{
-            title: (
-              <h3>
-                Some parts of the profile will be down for maintenance soon
-              </h3>
-            ),
+            title:
+              'Some parts of the profile will be down for maintenance soon',
           }}
           // default for className prop is `row-padded` and we do not want that
           // class applied to the wrapper div DowntimeApproaching renders
@@ -152,64 +166,69 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const routes = getRoutes();
     return (
-      <BrowserRouter>
-        <LastLocationProvider>
-          <ProfileWrapper
-            routes={routes}
-            isInMVI={this.props.isInMVI}
-            isLOA3={this.props.isLOA3}
-            isBlocked={this.props.isBlocked}
-          >
-            <Switch>
-              {/* Redirect users to Account Security to upgrade their account if they need to */}
-              {routes.map(route => {
-                if (
-                  (route.requiresLOA3 && !this.props.isLOA3) ||
-                  (route.requiresMVI && !this.props.isInMVI) ||
-                  (route.requiresLOA3 && this.props.isBlocked)
-                ) {
-                  return (
+      <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.profileUseFieldEditingPage}>
+        {useFieldEditingPage => {
+          const routes = getRoutes({ useFieldEditingPage });
+          return (
+            <BrowserRouter>
+              <LastLocationProvider>
+                <ProfileWrapper
+                  isInMVI={this.props.isInMVI}
+                  isLOA3={this.props.isLOA3}
+                  isBlocked={this.props.isBlocked}
+                >
+                  <Switch>
+                    {/* Redirect users to Account Security to upgrade their account if they need to */}
+                    {routes.map(route => {
+                      if (
+                        (route.requiresLOA3 && !this.props.isLOA3) ||
+                        (route.requiresMVI && !this.props.isInMVI) ||
+                        (route.requiresLOA3 && this.props.isBlocked)
+                      ) {
+                        return (
+                          <Redirect
+                            from={route.path}
+                            to={PROFILE_PATHS.ACCOUNT_SECURITY}
+                            key={route.path}
+                          />
+                        );
+                      }
+
+                      return (
+                        <Route
+                          component={route.component}
+                          exact
+                          key={route.path}
+                          path={route.path}
+                        />
+                      );
+                    })}
+
                     <Redirect
-                      from={route.path}
-                      to={PROFILE_PATHS.ACCOUNT_SECURITY}
-                      key={route.path}
+                      exact
+                      from="/profile#contact-information"
+                      to={PROFILE_PATHS.CONTACT_INFORMATION}
                     />
-                  );
-                }
 
-                return (
-                  <Route
-                    component={route.component}
-                    exact
-                    key={route.path}
-                    path={route.path}
-                  />
-                );
-              })}
+                    <Redirect
+                      exact
+                      from={PROFILE_PATHS.PROFILE_ROOT}
+                      to={PROFILE_PATHS.PERSONAL_INFORMATION}
+                    />
 
-              <Redirect
-                exact
-                from="/profile#contact-information"
-                to={PROFILE_PATHS.CONTACT_INFORMATION}
-              />
-
-              <Redirect
-                exact
-                from={PROFILE_PATHS.PROFILE_ROOT}
-                to={PROFILE_PATHS.PERSONAL_INFORMATION}
-              />
-
-              {/* fallback handling: redirect to root route */}
-              {/* Should we consider making a 404 page for this instead? */}
-              <Route path="*">
-                <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
-              </Route>
-            </Switch>
-          </ProfileWrapper>
-        </LastLocationProvider>
-      </BrowserRouter>
+                    {/* fallback handling: redirect to root route */}
+                    {/* Should we consider making a 404 page for this instead? */}
+                    <Route path="*">
+                      <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
+                    </Route>
+                  </Switch>
+                </ProfileWrapper>
+              </LastLocationProvider>
+            </BrowserRouter>
+          );
+        }}
+      </Toggler.Hoc>
     );
   };
 
@@ -245,11 +264,11 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
+  connectDrupalSourceOfTruthCerner: PropTypes.func.isRequired,
   dismissDowntimeWarning: PropTypes.func.isRequired,
   fetchCNPPaymentInformation: PropTypes.func.isRequired,
   fetchEDUPaymentInformation: PropTypes.func.isRequired,
   fetchFullName: PropTypes.func.isRequired,
-  fetchMHVAccount: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
   fetchTotalDisabilityRating: PropTypes.func.isRequired,
@@ -262,10 +281,13 @@ Profile.propTypes = {
   shouldFetchEDUDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
+  togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
+  useLighthouseDirectDepositEndpoint: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
+  const togglesLoaded = togglesAreLoaded(state);
   const signInServicesEligibleForDD = new Set([
     CSP_IDS.ID_ME,
     CSP_IDS.LOGIN_GOV,
@@ -296,13 +318,6 @@ const mapStateToProps = state => {
   const hasLoadedMilitaryInformation =
     isLOA1 || !isInMVI || state.vaProfile?.militaryInformation;
 
-  // when the call to load MHV fails, `errors` will be set to a non-null value
-  // when the call succeeds, the `accountState` will be set to a non-null value
-  const hasLoadedMHVInformation =
-    !isInMVI ||
-    selectProfile(state)?.mhvAccount?.errors ||
-    selectProfile(state)?.mhvAccount?.accountState;
-
   // this piece of state will be set if the call to load personal info succeeds
   // or fails:
   const hasLoadedPersonalInformation =
@@ -312,8 +327,6 @@ const mapStateToProps = state => {
   // fails:
   const hasLoadedFullName = isLOA1 || !isInMVI || state.vaProfile?.hero;
 
-  // this piece of state will be set if the call to load name info succeeds or
-  // fails:
   const hasLoadedCNPPaymentInformation =
     !isInMVI || cnpDirectDepositInformation(state);
 
@@ -323,7 +336,6 @@ const mapStateToProps = state => {
   const hasLoadedAllData =
     !isInMVI ||
     (hasLoadedFullName &&
-      hasLoadedMHVInformation &&
       hasLoadedPersonalInformation &&
       hasLoadedMilitaryInformation &&
       (shouldFetchTotalDisabilityRating
@@ -348,12 +360,15 @@ const mapStateToProps = state => {
       'profile',
     ),
     isBlocked,
+    useLighthouseDirectDepositEndpoint: profileUseLighthouseDirectDepositEndpoint(
+      state,
+    ),
+    togglesLoaded,
   };
 };
 
 const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
-  fetchMHVAccount: fetchMHVAccountAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchCNPPaymentInformation: fetchCNPPaymentInformationAction,
@@ -361,6 +376,8 @@ const mapDispatchToProps = {
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
+  connectDrupalSourceOfTruthCerner: () =>
+    dispatchConnectDrupalSourceOfTruthCerner,
 };
 
 export { Profile as ProfileUnconnected, mapStateToProps };

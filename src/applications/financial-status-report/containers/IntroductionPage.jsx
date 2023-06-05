@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -23,7 +21,7 @@ const IntroductionPage = ({ route, formId }) => {
     <div className="fsr-introduction schemaform-intro">
       <FormTitle
         title="Request help with VA debt for overpayments and copay bills"
-        subTitle="Equal to VA Form 5655 (Financial Status Report)"
+        subTitle="Financial Status Report (VA Form 5655)"
       />
       <SaveInProgressIntro
         startText="Start your request now"
@@ -74,7 +72,7 @@ const IntroductionPage = ({ route, formId }) => {
                 <strong>Income. </strong>
                 This includes money you earn from a job, VA or Social Security
                 benefits, or other sources. You’ll find the details you’ll need
-                on a recent paycheck.
+                on a recent pay stub.
               </li>
               <li>
                 <strong>Assets. </strong>
@@ -110,23 +108,20 @@ const IntroductionPage = ({ route, formId }) => {
                 contact a local Veterans Service Organization (VSO).
               </a>
             </p>
-            <AdditionalInfo
-              status="info"
-              triggerText="Why does VA need all this information?"
-            >
+            <va-additional-info trigger="Why does VA need all this information?">
               <span>
                 We want to make sure we fully understand your financial
                 situation. If you’re married, we also need to understand your
                 spouse’s financial situation. This helps us make the best
                 decision on your request.
               </span>
-            </AdditionalInfo>
+            </va-additional-info>
           </li>
           <li className="process-step list-two">
             <h3 className="vads-u-font-size--h4">Submit your request</h3>
             <p>
               We’ll take you through each step of the process. It should take
-              about 30 minutes.
+              about 60 minutes.
             </p>
 
             <p>
@@ -167,7 +162,11 @@ const IntroductionPage = ({ route, formId }) => {
         />
       </div>
       <div className="omb-info--container">
-        <OMBInfo resBurden={60} ombNumber="2900-0862" expDate="02/28/2022" />
+        <va-omb-info
+          res-burden={60}
+          omb-number="2900-0165"
+          exp-date="10/31/2023"
+        />
       </div>
     </div>
   );

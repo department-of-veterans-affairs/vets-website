@@ -33,7 +33,7 @@ const Landing = props => {
     setShouldSendDemographicsFlags,
     setShouldSendTravelPayClaim,
     setCurrentToken,
-    setTravelClaimData,
+    setCheckinComplete,
   } = useSessionStorage(false);
   const dispatch = useDispatch();
 
@@ -54,6 +54,9 @@ const Landing = props => {
   useEffect(
     () => {
       const token = getTokenFromLocation(location);
+
+      setCheckinComplete(window, false);
+
       if (!token) {
         updateError('no-token');
       } else if (!isUUID(token)) {
@@ -74,7 +77,6 @@ const Landing = props => {
               // if session with read.full exists, go to check in page
               setShouldSendDemographicsFlags(window, true);
               setShouldSendTravelPayClaim(window, true);
-              setTravelClaimData(window, null);
               setCurrentToken(window, token);
               const pages = createForm();
               const firstPage = pages[0];
@@ -88,9 +90,13 @@ const Landing = props => {
               }
             }
           })
-          .catch(() => {
+          .catch(e => {
             clearCurrentSession(window);
-            updateError('error-fromlocation-landing');
+            if (e.errors && e.errors[0]?.status === '404') {
+              updateError('uuid-not-found');
+            } else {
+              updateError('error-fromlocation-landing');
+            }
           });
       }
     },
@@ -105,7 +111,7 @@ const Landing = props => {
       setSession,
       setShouldSendDemographicsFlags,
       setShouldSendTravelPayClaim,
-      setTravelClaimData,
+      setCheckinComplete,
     ],
   );
   return (

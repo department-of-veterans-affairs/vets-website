@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
 const IdentityNotVerified = ({
-  additionalInfoClickHandler = null,
   headline = 'Verify your identity to view your complete profile',
 }) => {
   return (
@@ -38,12 +37,11 @@ const IdentityNotVerified = ({
       </va-alert>
 
       <p className="vads-u-margin-y--4">
-        <a
-          onClick={additionalInfoClickHandler}
+        <va-link
           href="/resources/verifying-your-identity-on-vagov/"
-        >
-          Learn how to verify your identity on VA.gov
-        </a>
+          text="Learn how to verify your identity on VA.gov"
+          data-testid="verify-identity-link"
+        />
       </p>
     </>
   );

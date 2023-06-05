@@ -1,27 +1,39 @@
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import fullNameUI from 'platform/forms-system/src/js/definitions//fullName';
+import React from 'react';
+import { intersection, pick } from 'lodash';
 
-const { fullName } = commonDefinitions;
-const personalInformation1 = {
+import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
+import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
+import { veteranFields } from '../definitions/constants';
+
+const { required, properties } = fullSchema.properties[
+  veteranFields.parentObject
+];
+const pageFields = [veteranFields.fullName, veteranFields.dateOfBirth];
+
+/** @type {PageSchema} */
+export default {
   uiSchema: {
-    fullName: fullNameUI,
-    dateOfBirth: {
-      'ui:title': 'Your date of birth',
-      'ui:widget': 'date',
+    'ui:description': PrefillMessage,
+    [veteranFields.parentObject]: {
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+          Name and date of birth
+        </h3>
+      ),
+      [veteranFields.fullName]: fullNameUI,
+      [veteranFields.dateOfBirth]: dateUI('Date of birth'),
     },
   },
   schema: {
     type: 'object',
-    required: ['fullName'],
     properties: {
-      fullName,
-      dateOfBirth: {
-        pattern:
-          '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
-        type: 'string',
+      [veteranFields.parentObject]: {
+        type: 'object',
+        required: intersection(required, pageFields),
+        properties: pick(properties, pageFields),
       },
     },
   },
 };
-
-export default personalInformation1;

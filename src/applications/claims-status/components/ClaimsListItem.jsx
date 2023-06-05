@@ -3,62 +3,92 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-import {
-  getPhaseDescription,
-  isClaimComplete,
-  getClaimType,
-} from '../utils/helpers';
+import { getClaimType } from '../utils/helpers';
 
-const listPhase = phase =>
-  phase === 8 ? 'Closed' : getPhaseDescription(phase);
+const statusMap = {
+  CLAIM_RECEIVED: 'Claim received',
+  INITIAL_REVIEW: 'Initial review',
+  EVIDENCE_GATHERING_REVIEW_DECISION:
+    'Evidence gathering, review, and decision',
+  PREPARATION_FOR_NOTIFICATION: 'Preparation for notification',
+  COMPLETE: 'Closed',
+};
+
+function getStatusDescription(status) {
+  return statusMap[status];
+}
+
+const formatDate = date => moment(date).format('MMMM D, YYYY');
 
 const getTitle = claim => {
-  const updatedOn = moment(claim.attributes.phaseChangeDate).format(
-    'MMMM D, YYYY',
+  const updatedOn = formatDate(
+    claim.attributes.claimPhaseDates?.phaseChangeDate,
   );
 
   return `Claim for ${getClaimType(claim)}\n updated on ${updatedOn}`;
 };
 
-export default function ClaimsListItem({ claim }) {
-  const inProgress = !isClaimComplete(claim);
-  const formattedReceiptDate = moment(claim.attributes.dateFiled).format(
-    'MMMM D, YYYY',
-  );
+const isClaimComplete = claim => {
+  const { decisionLetterSent, status } = claim.attributes;
 
+  return decisionLetterSent || status === 'COMPLETE';
+};
+
+const CommunicationsItem = ({ children, icon }) => {
+  return (
+    <li className="vads-u-margin--0">
+      <i
+        className={`fa fa-${icon} vads-u-margin-right--1`}
+        aria-hidden="true"
+      />
+      {children}
+    </li>
+  );
+};
+
+export default function ClaimsListItem({ claim }) {
+  const {
+    claimDate,
+    decisionLetterSent,
+    developmentLetterSent,
+    documentsNeeded,
+    status,
+  } = claim.attributes;
+  const inProgress = !isClaimComplete(claim);
+  const formattedReceiptDate = formatDate(claimDate);
+  const humanStatus = getStatusDescription(status);
   // lighthouse_migration: Remove `vads-u-border-left--7px` and `vads-u-border-color--primary`
   // CSS classes from `claim-list-item-container` element
   return (
     <div className="claim-list-item-container vads-u-border-left--7px vads-u-border-color--primary">
       <h3 className="claim-list-item-header-v2">{getTitle(claim)}</h3>
-      <div className="card-status">
-        <div
-          className={`status-circle ${
-            claim.attributes.open ? 'open-claim' : 'closed-claim'
-          }`}
-        />
-        <p>
-          <strong>Status:</strong> {listPhase(claim.attributes.phase)}
-        </p>
-      </div>
+      {humanStatus && (
+        <div className="card-status">
+          <div
+            className={`status-circle ${
+              status === 'COMPLETE' ? 'closed-claim' : 'open-claim'
+            }`}
+          />
+          <p>
+            <strong>Status:</strong> {humanStatus}
+          </p>
+        </div>
+      )}
       <ul className="communications">
-        {inProgress && claim.attributes.developmentLetterSent ? (
-          <li className="claim-list-item-text">
-            <i className="fa fa-envelope claim-list-item-icon" />
+        {inProgress && developmentLetterSent ? (
+          <CommunicationsItem icon="envelope">
             We sent you a development letter
-          </li>
+          </CommunicationsItem>
         ) : null}
-        {claim.attributes.decisionLetterSent && (
-          <li className="claim-list-item-text">
-            <i className="fa fa-envelope claim-list-item-icon" />
+        {decisionLetterSent && (
+          <CommunicationsItem icon="envelope">
             You have a decision letter ready
-          </li>
+          </CommunicationsItem>
         )}
-        {inProgress && claim.attributes.documentsNeeded ? (
-          <li className="claim-list-item-text">
-            <i className="fa fa-exclamation-triangle claim-list-item-icon" />
+        {inProgress && documentsNeeded ? (
+          <CommunicationsItem icon="exclamation-triangle">
             Items need attention
-          </li>
+          </CommunicationsItem>
         ) : null}
       </ul>
       <div className="card-status">

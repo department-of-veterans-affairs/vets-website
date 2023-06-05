@@ -3,8 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
@@ -19,7 +18,6 @@ import { showModal, filterChange } from '../actions';
 import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
-import VARadioButton from '../components/VARadioButton';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -40,12 +38,21 @@ export function FilterYourResults({
     accredited,
     studentVeteran,
     yellowRibbonScholarship,
-    specialMission,
     employers,
     vettec,
     preferredProvider,
     country,
     state,
+    specialMissionHbcu,
+    specialMissionMenonly,
+    specialMissionWomenonly,
+    specialMissionRelaffil,
+    specialMissionHSI,
+    specialMissionNANTI,
+    specialMissionANNHI,
+    specialMissionAANAPII,
+    specialMissionPBI,
+    specialMissionTRIBAL,
   } = filters;
 
   const facets =
@@ -250,75 +257,72 @@ export function FilterYourResults({
     );
   };
 
-  const handleInputChange = (event, target, name) => {
-    const { value } = event ? event.target : target.detail;
-    const field = event ? event.target.name : name;
-    recordEvent({
-      event: 'gibct-form-change',
-      'gibct-form-field': field,
-      'gibct-form-value': value,
-    });
-    updateInstitutionFilters(field, value);
-  };
-
-  const specialMissionsWithRadioButtons = () => {
+  const specializedMissionAttributes = () => {
     const options = [
       {
-        value: 'ALL',
-        label: 'All',
+        name: 'specialMissionHbcu',
+        checked: specialMissionHbcu,
+        optionLabel: 'Historically Black college or university',
       },
       {
-        value: 'hbcu',
-        label: 'Historically Black college or university',
+        name: 'specialMissionMenonly',
+        checked: specialMissionMenonly,
+        optionLabel: 'Men-only',
       },
       {
-        value: 'menonly',
-        label: 'Men-only',
+        name: 'specialMissionWomenonly',
+        checked: specialMissionWomenonly,
+        optionLabel: 'Women-only',
       },
       {
-        value: 'womenonly',
-        label: 'Women-only',
+        name: 'specialMissionRelaffil',
+        checked: specialMissionRelaffil,
+        optionLabel: 'Religious affiliation',
       },
       {
-        value: 'relaffil',
-        label: 'Religious affiliation',
+        name: 'specialMissionHSI',
+        checked: specialMissionHSI,
+        optionLabel: 'Hispanic-serving institutions',
       },
       {
-        value: 'HSI',
-        label: 'Hispanic-serving institutions',
+        name: 'specialMissionNANTI',
+        checked: specialMissionNANTI,
+        optionLabel: 'Native American-serving institutions',
       },
       {
-        value: 'NANTI',
-        label: 'Native American-serving institutions',
+        name: 'specialMissionANNHI',
+        checked: specialMissionANNHI,
+        optionLabel: 'Alaska Native-serving institutions',
       },
       {
-        value: 'ANNHI',
-        label: 'Alaska Native-serving institutions',
-      },
-      {
-        value: 'AANAPII',
-        label:
+        name: 'specialMissionAANAPII',
+        checked: specialMissionAANAPII,
+        optionLabel:
           'Asian American Native American Pacific Islander-serving institutions',
       },
       {
-        value: 'PBI',
-        label: 'Predominantly Black institutions',
+        name: 'specialMissionPBI',
+        checked: specialMissionPBI,
+        optionLabel: 'Predominantly Black institutions',
       },
       {
-        value: 'TRIBAL',
-        label: 'Tribal college and university',
+        name: 'specialMissionTRIBAL',
+        checked: specialMissionTRIBAL,
+        optionLabel: 'Tribal college and university',
       },
     ];
 
     return (
-      <VARadioButton
-        radioLabel="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
-        name="specialMission"
-        initialValue={specialMission}
-        options={options}
-        onVaValueChange={(target, name) =>
-          handleInputChange(null, target, name)
+      <CheckboxGroup
+        class="vads-u-margin-y--4"
+        label={
+          <div className="vads-u-margin-left--neg0p25">
+            Specialized mission (i.e., Single-gender, Religious affiliation,
+            HBCU)
+          </div>
         }
+        onChange={onChangeCheckbox}
+        options={options}
       />
     );
   };
@@ -337,22 +341,24 @@ export function FilterYourResults({
             {name}
           </h3>
           <div className="vads-u-margin-bottom--4">
-            {specialMissionsWithRadioButtons()}
+            {specializedMissionAttributes()}
           </div>
-          <ExpandingGroup open={schools}>
-            <Checkbox
-              checked={schools}
-              name="schools"
-              label="Schools"
-              onChange={handleSchoolChange}
-              className="expanding-header-checkbox"
-              inputAriaLabelledBy={legendId}
-            />
-            <div className="school-types expanding-group-children">
-              {excludedSchoolTypesGroup()}
-              {schoolAttributes()}
-            </div>
-          </ExpandingGroup>
+          <Checkbox
+            checked={schools}
+            name="schools"
+            label="Schools"
+            onChange={handleSchoolChange}
+            className="expanding-header-checkbox"
+            inputAriaLabelledBy={legendId}
+          />
+          <div className="school-types expanding-group-children">
+            {schools && (
+              <>
+                {excludedSchoolTypesGroup()}
+                {schoolAttributes()}
+              </>
+            )}
+          </div>
         </div>
         <Checkbox
           checked={employers}
@@ -362,16 +368,16 @@ export function FilterYourResults({
           className="vads-u-margin-bottom--4"
           inputAriaLabelledBy={legendId}
         />
-        <ExpandingGroup open={vettec}>
-          <Checkbox
-            checked={vettec}
-            name="vettec"
-            label="VET TEC providers"
-            onChange={handleVetTecChange}
-            className="expanding-header-checkbox"
-            inputAriaLabelledBy={legendId}
-          />
-          <div className="expanding-group-children">
+        <Checkbox
+          checked={vettec}
+          name="vettec"
+          label="VET TEC providers"
+          onChange={handleVetTecChange}
+          className="expanding-header-checkbox"
+          inputAriaLabelledBy={legendId}
+        />
+        <div className="expanding-group-children">
+          {vettec && (
             <Checkbox
               checked={preferredProvider}
               name="preferredProvider"
@@ -380,8 +386,8 @@ export function FilterYourResults({
               labelAriaLabel="VET TEC Preferred providers"
               inputAriaLabelledBy={legendId}
             />
-          </div>
-        </ExpandingGroup>
+          )}
+        </div>
       </>
     );
   };
@@ -454,7 +460,12 @@ export function FilterYourResults({
           expanded={expanded}
           onClick={onAccordionChange}
         >
-          {search.inProgress && <LoadingIndicator />}
+          {search.inProgress && (
+            <VaLoadingIndicator
+              data-testid="loading-indicator"
+              message="Loading..."
+            />
+          )}
           {!search.inProgress && controls}
         </SearchAccordion>
       )}
@@ -462,7 +473,12 @@ export function FilterYourResults({
         <div className="modal-wrapper">
           <div>
             <h1>Filter your results</h1>
-            {search.inProgress && <LoadingIndicator />}
+            {search.inProgress && (
+              <VaLoadingIndicator
+                data-testid="loading-indicator"
+                message="Loading..."
+              />
+            )}
             {!search.inProgress && controls}
           </div>
           <div className="modal-button-wrapper">

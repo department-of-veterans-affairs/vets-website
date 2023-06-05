@@ -1,12 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import CallToActionAlert from '../CallToActionAlert';
 
-const RegisterFailed = ({ createAndUpgradeMHVAccount }) => {
+const RegisterFailed = () => {
   const content = {
     heading: 'We couldn’t create a MyHealtheVet account for you',
     alertText: (
@@ -16,33 +12,20 @@ const RegisterFailed = ({ createAndUpgradeMHVAccount }) => {
           use our online health tools, you’ll need to create an account.
         </p>
         <h5>What you can do</h5>
-        <p className="vads-u-margin-top--0">Please try again.</p>
-        <button
-          className="usa-button-primary"
-          onClick={createAndUpgradeMHVAccount}
-        >
-          Try again to create your account
-        </button>
-        <p>
-          <strong>
-            If you try again and continue to see this error, you can create a My
-            HealtheVet account in one of these ways:
-          </strong>
-        </p>
-        <AdditionalInfo triggerText="Call the My HealtheVet help desk">
+        <va-additional-info trigger="Call the My HealtheVet help desk">
           <p>
-            Call us at <a href="tel:877-327-0022">877-327-0022</a>. We’re here
-            Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you have
-            hearing loss, call TTY: <Telephone contact={CONTACTS.HELP_TTY} />.
+            Call us at <va-telephone contact="8773270022" />. We’re here Monday
+            through Friday, 8:00 a.m. to 8:00 p.m. ET. If you have hearing loss,
+            call <va-telephone contact={CONTACTS.HELP_TTY} tty />.
           </p>
           <p>
             Tell the representative that you tried to sign in to use the online
             health tools on VA.gov, but received an error messaging telling you
             that we couldn’t create an account for you.
           </p>
-        </AdditionalInfo>
+        </va-additional-info>
         <div className="vads-u-margin-top--1p5">
-          <AdditionalInfo triggerText="Or submit an online help request to My HealtheVet">
+          <va-additional-info trigger="Or submit an online help request to My HealtheVet">
             <p>
               Use the My HealtheVet contact form to submit an online request for
               help.
@@ -82,7 +65,7 @@ const RegisterFailed = ({ createAndUpgradeMHVAccount }) => {
                 Go to the My HealtheVet contact form
               </a>
             </p>
-          </AdditionalInfo>
+          </va-additional-info>
         </div>
       </>
     ),
@@ -90,10 +73,6 @@ const RegisterFailed = ({ createAndUpgradeMHVAccount }) => {
   };
 
   return <CallToActionAlert {...content} />;
-};
-
-RegisterFailed.propTypes = {
-  createAndUpgradeMHVAccount: PropTypes.func.isRequired,
 };
 
 export default RegisterFailed;

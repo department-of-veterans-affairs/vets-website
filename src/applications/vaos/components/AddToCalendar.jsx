@@ -166,8 +166,8 @@ export default function AddToCalendar({
 }
 
 AddToCalendar.propTypes = {
-  description: PropTypes.string,
-  duration: PropTypes.string,
+  description: PropTypes.object,
+  duration: PropTypes.number,
   location: PropTypes.string,
   startDateTime: PropTypes.string,
   summary: PropTypes.string,

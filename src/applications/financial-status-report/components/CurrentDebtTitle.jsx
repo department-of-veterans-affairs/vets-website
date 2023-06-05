@@ -6,7 +6,6 @@ import { currency } from '../utils/helpers';
 
 export const CurrentDebtTitle = ({ formContext }) => {
   const formData = useSelector(state => state.form.data);
-
   const { selectedDebtsAndCopays = [] } = formData;
   const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
   const { deductionCode, benefitType } = currentDebt;
@@ -26,9 +25,12 @@ export const CurrentDebtTitle = ({ formContext }) => {
 
 export const CurrentDebtDescription = ({ formContext }) => {
   const formData = useSelector(state => state.form.data);
-
   const { selectedDebtsAndCopays = [] } = formData;
   const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
+  const showRequiredText =
+    formContext?.pageTitle !== 'Resolution Option' ? null : (
+      <span className="required-text">(*Required)</span>
+    );
 
   const formattedDebtTitle =
     currentDebt.debtType === 'COPAY'
@@ -42,20 +44,23 @@ export const CurrentDebtDescription = ({ formContext }) => {
   return (
     <p>
       Which repayment or relief option would you like for your{' '}
-      <strong>{formattedDebtTitle}</strong>?{' '}
-      <span className="required-text">(*Required)</span>
+      <strong>{formattedDebtTitle}</strong>? {showRequiredText}
     </p>
   );
 };
 
+// pagePerItemIndex is string in form, and populates as number in reivew page edit mode
 CurrentDebtTitle.propTypes = {
   formContext: PropTypes.shape({
-    pagePerItemIndex: PropTypes.number.isRequired,
+    pagePerItemIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
   }),
 };
 
 CurrentDebtDescription.propTypes = {
   formContext: PropTypes.shape({
-    pagePerItemIndex: PropTypes.number.isRequired,
+    pagePerItemIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
+    pageTitle: PropTypes.string.isRequired,
   }),
 };

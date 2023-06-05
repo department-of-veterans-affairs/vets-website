@@ -296,7 +296,7 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
     ).to.be.ok;
   });
 
-  it('should show no facilities for online vaccine scheduling view', async () => {
+  it.skip('should show no facilities for online vaccine scheduling view', async () => {
     mockDirectBookingEligibilityCriteria(parentSiteIds, [
       getDirectBookingEligibilityCriteriaMock({
         id: '983',

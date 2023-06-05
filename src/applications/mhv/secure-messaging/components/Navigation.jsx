@@ -70,7 +70,7 @@ const Navigation = () => {
   }
 
   function checkScreenSize() {
-    if (window.innerWidth <= 481 && setIsMobile !== false) {
+    if (window.innerWidth <= 768 && setIsMobile !== false) {
       setIsMobile(true);
     } else {
       setIsMobile(false);
@@ -123,7 +123,7 @@ const Navigation = () => {
   };
 
   return (
-    <div className="secure-messaging-navigation vads-u-padding-bottom--7 vads-u-flex--auto">
+    <div className="secure-messaging-navigation vads-u-flex--auto vads-u-padding-bottom--7 medium-screen:vads-u-padding-bottom--0">
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div className="sidebar-navigation">
@@ -139,7 +139,7 @@ const Navigation = () => {
               />
             </div>
           )}
-          <div id="a1" className="sidebar-navigation-list" aria-hidden="false">
+          <div id="a1" className="sidebar-navigation-list">
             <ul className="usa-sidenav-list">
               <li className="sidebar-navigation-messages-list">
                 <div className="sidebar-navigation-messages-list-header">

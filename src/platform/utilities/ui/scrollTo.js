@@ -1,8 +1,3 @@
-import Scroll from 'react-scroll';
-import { getScrollOptions } from 'platform/utilities/ui';
+import { scrollTo } from './scroll';
 
-const scroller = Scroll.scroller;
-
-export default function scrollTo(elem, options = getScrollOptions()) {
-  scroller.scrollTo(elem, options);
-}
+export default scrollTo;

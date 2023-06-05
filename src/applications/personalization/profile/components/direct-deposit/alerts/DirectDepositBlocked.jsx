@@ -14,12 +14,10 @@ export default function DirectDepositBlocked() {
         We’re sorry. Based on our records, we can't show your financial
         information in your VA.gov profile.
       </p>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         If you think this is an error, you can call the VA.gov help desk at{' '}
-        <va-telephone contact="855-574-7286" /> (
-        <a href="tel:711" aria-label="TTY: 7 1 1.">
-          TTY: 711
-        </a>
+        <va-telephone contact="8555747286" /> (
+        <va-telephone tty contact="711" />
         ). We're here Monday - Friday, 8 a.m. - 8 p.m. ET.
       </p>
     </va-alert>

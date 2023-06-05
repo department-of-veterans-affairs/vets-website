@@ -1,6 +1,9 @@
 import set from 'lodash/set';
+import has from 'lodash/has';
+
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+
 import {
   cnpDirectDepositBankInfo,
   isEligibleForCNPDirectDeposit,
@@ -52,20 +55,34 @@ export const eduDirectDepositLoadError = state => {
 };
 
 export const cnpDirectDepositAddressInformation = state =>
-  cnpDirectDepositInformation(state)?.responses?.[0]?.paymentAddress;
+  cnpDirectDepositInformation(state)?.paymentAddress;
 
 export const cnpDirectDepositAddressIsSetUp = state => {
   return isEligibleForCNPDirectDeposit(cnpDirectDepositInformation(state));
 };
 
 export const cnpDirectDepositIsBlocked = state => {
-  const controlInfo = cnpDirectDepositInformation(state)?.responses?.[0]
-    ?.controlInformation;
+  const controlInfo = cnpDirectDepositInformation(state)?.controlInformation;
+
   if (!controlInfo) return false;
-  return (
-    !controlInfo.isCompetentIndicator ||
-    !controlInfo.noFiduciaryAssignedIndicator ||
-    !controlInfo.notDeceasedIndicator
+
+  // 2 sets of flags are used to determine if the user is blocked from
+  // setting up direct deposit. Remove the first set once the
+  // lighthouse based feature flag is removed.
+  const controlInfoFlags = [
+    'isCompetentIndicator',
+    'noFiduciaryAssignedIndicator',
+    'notDeceasedIndicator',
+
+    'isCompetent',
+    'hasNoFiduciaryAssigned',
+    'isNotDeceased',
+  ];
+
+  // if any flag is false, the user is blocked
+  // but first we have to determine if that particular flag property exists
+  return controlInfoFlags.some(
+    flag => has(controlInfo, flag) && !controlInfo[flag],
   );
 };
 
@@ -83,10 +100,6 @@ export const militaryInformationLoadError = state => {
 export const hasBadAddress = state =>
   state.user?.profile?.vapContactInfo?.mailingAddress?.badAddress;
 
-export const profileShowAddressChangeModal = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowAddressChangeModal] ||
-  false;
-
 export const profileShowPronounsAndSexualOrientation = state =>
   toggleValues(state)?.[
     FEATURE_FLAG_NAMES.profileShowPronounsAndSexualOrientation
@@ -96,6 +109,13 @@ export const profileDoNotRequireInternationalZipCode = state =>
   toggleValues(state)?.[
     FEATURE_FLAG_NAMES.profileDoNotRequireInternationalZipCode
   ];
+
+export const profileUseLighthouseDirectDepositEndpoint = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileLighthouseDirectDeposit];
+
+export const togglesAreLoaded = state => {
+  return !toggleValues(state)?.loading;
+};
 
 export function selectVAProfilePersonalInformation(state, fieldName) {
   const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
@@ -117,18 +137,4 @@ export function selectVAProfilePersonalInformation(state, fieldName) {
 export const selectHideDirectDepositCompAndPen = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileHideDirectDepositCompAndPen];
 
-export const selectShowPaymentsNotificationSetting = state =>
-  toggleValues(state)?.[
-    FEATURE_FLAG_NAMES.profileShowPaymentsNotificationSetting
-  ];
-
-// toggle used for 47841
-export const selectToggleProfileBlockForFiduciaryDeceasedOrIncompetent = state =>
-  toggleValues(state)?.[
-    FEATURE_FLAG_NAMES.profileBlockForFiduciaryDeceasedOrIncompetent
-  ];
-
-// remove the feature flag reliance once 47841 is live
-export const selectIsBlocked = state =>
-  cnpDirectDepositIsBlocked(state) &&
-  selectToggleProfileBlockForFiduciaryDeceasedOrIncompetent(state);
+export const selectIsBlocked = state => cnpDirectDepositIsBlocked(state);

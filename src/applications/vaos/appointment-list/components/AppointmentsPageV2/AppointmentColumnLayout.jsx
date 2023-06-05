@@ -1,17 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 import AppointmentColumn from './AppointmentColumn';
 import AppointmentRow from './AppointmentRow';
 import {
   selectAppointmentLocality,
   selectIsCanceled,
-  selectModality,
+  selectModalityText,
   selectModalityIcon,
   selectStartDate,
   selectTimeZoneAbbr,
+  selectApptDetailAriaText,
+  selectApptDateAriaText,
+  selectTypeOfCareAriaText,
+  selectModalityAriaText,
+  selectIsCommunityCare,
 } from '../../redux/selectors';
 
 export default function AppointmentColumnLayout({
@@ -20,122 +25,179 @@ export default function AppointmentColumnLayout({
   grouped,
   link,
 }) {
-  const appointmentDate = useSelector(() => selectStartDate(data));
   const appointmentLocality = useSelector(() =>
     selectAppointmentLocality(data),
   );
   const isCanceled = useSelector(() => selectIsCanceled(data));
-  const modality = useSelector(() => selectModality(data));
+  const isCommunityCare = useSelector(() => selectIsCommunityCare(data));
+  const modalityText = useSelector(() => selectModalityText(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
   const startDate = useSelector(() => selectStartDate(data));
+  const parsedDate = moment.parseZone(startDate);
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
 
-  const detailAriaLabel = `Details for ${
-    isCanceled ? 'canceled ' : ''
-  }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`;
+  const detailAriaLabel = useSelector(() => selectApptDetailAriaText(data));
+  const dateAriaLabel = useSelector(() => selectApptDateAriaText(data));
+  const typeOfCareAriaLabel = useSelector(() => selectTypeOfCareAriaText(data));
+  const modalityAriaLabel = useSelector(() => selectModalityAriaText(data));
 
   return (
     <>
+      {/* Column 1 */}
       <AppointmentColumn
-        id="vaos-appts__column--1"
         size="1"
-        className="vads-u-flex--auto vads-u-padding-y--2"
-      >
-        {first && (
-          <AppointmentRow className="xsmall-screen:vads-u-text-align--center small-screen:vads-u-flex-direction--row">
-            <AppointmentColumn
-              size="1"
-              className="small-screen:vads-u-flex--auto small-screen:vads-u-order--first small-screen:vads-u-padding-top--0"
-              style={{ minWidth: '25px', maxWidth: '25px' }}
-            >
-              <h3 className="vads-u-display--inline-block vads-u-text-align--center vads-u-margin-top--0 vads-u-margin-bottom--0">
-                {startDate.format('D')}
-              </h3>
-            </AppointmentColumn>
-            <AppointmentColumn
-              className="xsmall-screen:vads-u-order--first small-screen:vads-u-margin-left--1"
-              size="1"
-              style={{ minWidth: '25px', maxWidth: '25px' }}
-            >
-              <span>{startDate.format('ddd')}</span>
-              <span className="sr-only"> {timezoneAbbr}</span>
-            </AppointmentColumn>
-          </AppointmentRow>
+        className={classNames(
+          'vads-u-flex--auto',
+          'xsmall-screen:vads-u-padding-top--1',
+          'medium-screen:vads-u-padding-y--0',
         )}
+        aria-label={dateAriaLabel}
+      >
+        <AppointmentRow
+          className={classNames(
+            'vaos-appts__column--alignItems',
+            'vaos-appts__column-gap--1',
+            'xsmall-screen:vads-u-text-align--center',
+            'small-screen:vads-u-flex-direction--row',
+            'medium-screen:vads-u-padding-y--2',
+            'small-desktop-screen:vads-u-padding-y--0',
+          )}
+        >
+          <AppointmentColumn
+            size="1"
+            className={classNames(
+              'small-screen:vads-u-flex--auto',
+              'small-screen:vads-u-order--first',
+              'small-screen:vads-u-padding-top--0',
+              'medium-screen:vaos-appts__minWidth',
+              'medium-screen:vaos-appts__maxWidth',
+            )}
+          >
+            <h3
+              className={classNames(
+                'vads-u-text-align--center',
+                'vads-u-margin-top--0',
+                'vads-u-margin-bottom--0',
+                { 'vads-u-display--none': !first },
+              )}
+            >
+              <span aria-hidden="true">{parsedDate.format('D')}</span>
+            </h3>
+          </AppointmentColumn>
+          <AppointmentColumn
+            className={classNames(
+              'vads-u-text-align--left',
+              'xsmall-screen:vads-u-order--first',
+              'xsmall-screen:margin-top--1',
+            )}
+            size="1"
+            style={{ minWidth: '30px', maxWidth: '30px', alignSelf: 'center' }}
+          >
+            <span
+              className={classNames({ 'vads-u-display--none': !first })}
+              aria-hidden="true"
+            >
+              {parsedDate.format('ddd')}
+            </span>
+          </AppointmentColumn>
+        </AppointmentRow>
       </AppointmentColumn>
 
+      {/* Column 2 */}
       <AppointmentColumn
-        id="vaos-appts__column--2"
         className={classNames(
-          'vads-u-border-color--gray-lighter',
-          'vads-u-margin-left--2',
-          'vads-u-padding-y--2',
-          'small-screen:vads-u-margin-left--4',
+          'vads-u-padding-right--1',
+          'vads-u-border-color--gray-medium',
+          'xsmall-screen:vads-u-padding-top--1',
+          'medium-screen:vads-u-padding-top--0',
           {
             'vads-u-border-top--1px': grouped && !first,
           },
         )}
         size="1"
       >
-        <AppointmentRow className="small-screen:vads-u-flex-direction--row">
+        <AppointmentRow
+          className={classNames(
+            'vaos-appts__column--alignItems',
+            'small-screen:vads-u-flex-direction--row',
+            'small-screen:vaos-appts__column-gap--3',
+            'medium-screen:vads-u-padding-y--2',
+            'small-desktop-screen:vads-u-padding-y--0',
+          )}
+        >
           <AppointmentColumn
             size="1"
             canceled={isCanceled}
-            style={{ minWidth: '108px', maxWidth: '108px' }}
+            style={{ minWidth: '95px', maxWidth: '95px' }}
           >
-            {`${startDate.format('h:mm')} ${startDate
-              .format('a')
-              .replace(/\./g, '')} ${timezoneAbbr}`}{' '}
+            <span aria-hidden="true">
+              {`${parsedDate.format('h:mm')} ${parsedDate.format(
+                'a',
+              )} ${timezoneAbbr}`}{' '}
+            </span>
           </AppointmentColumn>
 
           <AppointmentColumn size="1" className="vads-u-flex--4">
-            <AppointmentRow className="medium-screen:vads-u-flex-direction--column small-desktop-screen:vads-u-flex-direction--row">
+            <AppointmentRow
+              className={classNames(
+                'vaos-appts__column-gap--3',
+                'small-screen:vads-u-flex-direction--column',
+                'small-desktop-screen:vads-u-flex-direction--row',
+              )}
+            >
               <AppointmentColumn
                 padding="0"
-                size="1"
-                className="vaos-appts__text--truncate"
+                size="2"
+                className="vads-u-font-weight--bold vaos-appts__display--table vaos-appts__text--truncate"
                 canceled={isCanceled}
+                aria-label={typeOfCareAriaLabel}
               >
-                {appointmentLocality}
+                <span className={classNames('vaos-appts__display--table-cell')}>
+                  {appointmentLocality}
+                </span>
               </AppointmentColumn>
 
               <AppointmentColumn
                 padding="0"
-                size="1"
-                className="vaos-appts__text--truncate small-desktop-screen:vads-u-margin-left--5"
+                size="3"
+                className="vaos-appts__display--table vaos-appts__text--truncate"
                 canceled={isCanceled}
+                aria-label={modalityAriaLabel}
               >
-                <>
+                <span className="vaos-appts__display--table-cell">
                   <i
                     aria-hidden="true"
                     className={classNames(
                       'fas',
                       'vads-u-margin-right--1',
+                      'vads-u-color--gray',
                       modalityIcon,
+                      {
+                        'vaos-appts__text--line-through':
+                          isCanceled && !isCommunityCare,
+                      },
                     )}
                   />
-
-                  {`${modality}`}
-                </>
+                  {`${modalityText}`}
+                </span>
               </AppointmentColumn>
             </AppointmentRow>
           </AppointmentColumn>
 
           <AppointmentColumn
-            id="vaos-appts__detail"
+            id={`vaos-appts__detail-${data.id}`}
             className="vaos-hide-for-print"
-            // className="vads-u-display--flex vads-u-flex--auto vads-u-justify-content--right vads-u-align-items--center vads-u-text-align--right vaos-hide-for-print"
             padding="0"
             size="1"
           >
-            <Link
+            <a
               className="vaos-appts__focus--hide-outline"
               aria-label={detailAriaLabel}
-              to={link}
+              href={link}
               onClick={e => e.preventDefault()}
             >
               Details
-            </Link>
+            </a>
           </AppointmentColumn>
         </AppointmentRow>
       </AppointmentColumn>

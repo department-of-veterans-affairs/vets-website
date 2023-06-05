@@ -85,9 +85,11 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
     expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(screen.getByTestId('add-to-calendar-link')).to.exist;
 
-    expect(screen.getByText(/Review your appointments/i)).to.have.attribute(
+    expect(
+      screen.getByTestId('review-your-appointments-link'),
+    ).to.have.attribute(
       'href',
-      '/',
+      '/health-care/schedule-view-va-appointments/appointments/',
     );
   });
 

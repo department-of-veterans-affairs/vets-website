@@ -34,6 +34,7 @@ import facilityReducer from './facilities/reducers';
 // Other widgets.
 import createAskVAWidget from './ask-va';
 import createApplicationStatus from './widget-creators/createApplicationStatus';
+import createBTSSSLogin from './BTSSS-login/createBTSSSLogin';
 import createCOEAccess from './coe-access/createCOEAccess';
 import createCallToActionWidget from './widget-creators/createCallToActionWidget';
 import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
@@ -79,6 +80,8 @@ import create1095BDownloadCTA from './download-1095b';
 
 import createEnrollmentVerificationLoginWidget from './view-enrollment-verification-login/createEnrollmentVerificationLoginWidget';
 import createEducationLettersLoginWidget from './view-education-letters-login/createEducationLettersLoginWidget';
+import create214142Access from './simple-forms/21-4142/entry';
+import create264555Access from './simple-forms/26-4555/entry';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -128,6 +131,7 @@ createApplicationStatus(store, {
   applyText: 'Apply for health care benefits',
   widgetType: widgetTypes.HEALTH_CARE_APP_STATUS,
 });
+createBTSSSLogin(store);
 createCallToActionWidget(store, widgetTypes.CTA);
 createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
@@ -211,6 +215,8 @@ createEducationLettersLoginWidget(
   store,
   widgetTypes.VIEW_EDUCATION_LETTERS_LOGIN,
 );
+create214142Access(store, widgetTypes.FORM_214142_CTA);
+create264555Access(store, widgetTypes.FORM_264555_CTA);
 
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {

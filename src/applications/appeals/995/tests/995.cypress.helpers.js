@@ -9,6 +9,41 @@ export const getRandomDate = () =>
     },
   });
 
+export const fetchItf = () => ({
+  data: {
+    id: '',
+    type: 'evss_intent_to_file_intent_to_files_responses',
+    attributes: {
+      intentToFile: [
+        {
+          id: '1',
+          creationDate: '2022-07-28T19:53:45.810+00:00',
+          // pattern null = ISO8601 format
+          expirationDate: getDate({ offset: { months: 3 }, pattern: null }),
+          participantId: 1,
+          source: 'EBN',
+          status: 'active',
+          type: 'compensation',
+        },
+      ],
+    },
+  },
+});
+
+export const getPastItf = cy => {
+  cy.get('.itf-inner')
+    .should('be.visible')
+    .then(() => {
+      // Click past the ITF message
+      cy.get('va-button-pair')
+        .shadow()
+        .find('va-button[continue]')
+        .shadow()
+        .find('button')
+        .click();
+    });
+};
+
 export const fixDecisionDates = (data = []) => {
   return data.map(issue => {
     const newDate = getRandomDate();
@@ -63,10 +98,9 @@ const twoIssues = [
       ratingIssueReferenceId: '142927',
       ratingIssueProfileDate: date,
       ratingIssueDiagnosticCode: '9411',
-      ratingIssueSubjectText: 'PTSD',
+      ratingIssueSubjectText: 'Headaches',
       ratingIssuePercentNumber: '30',
-      description:
-        'Service connection for PTSD is granted with an evaluation of 30 percent effective March 5, 2019.',
+      description: 'Acute chronic head pain',
       isRating: true,
       latestIssuesInChain: [{ id: null, approxDecisionDate: date }],
       decisionIssueId: null,

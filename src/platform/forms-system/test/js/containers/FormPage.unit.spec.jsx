@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import { mount } from 'enzyme';
@@ -519,6 +519,54 @@ describe('Schemaform <FormPage>', () => {
       expect(
         tree.everySubTree('CustomPage')[0].getRenderOutput().props.data,
       ).to.deep.equal({ arrayProp: [{}], someOtherProp: 'asdf' });
+    });
+
+    it('should focus on ".nav-header > h2" when useCustomScrollAndFocus is not set in form config', async () => {
+      const CustomPage = () => (
+        <div id="main" className="nav-header">
+          <div name="topScrollElement" />
+          <h2>H2</h2>
+          <h3>H3</h3>
+        </div>
+      );
+      render(
+        <FormPage
+          form={makeBypassForm(CustomPage)()}
+          route={{
+            ...makeBypassRoute(CustomPage)(),
+            formConfig: { useCustomScrollAndFocus: false },
+          }}
+          location={location}
+        />,
+      );
+
+      await waitFor(() => {
+        expect(document.activeElement.tagName).to.eq('H2');
+      });
+    });
+
+    it('should focus on "#main h3" when useCustomScrollAndFocus is set in form config', async () => {
+      const CustomPage = () => (
+        <div id="main">
+          <div name="topScrollElement" />
+          <h2>H2</h2>
+          <h3>H3</h3>
+        </div>
+      );
+      render(
+        <FormPage
+          form={makeBypassForm(CustomPage)()}
+          route={{
+            ...makeBypassRoute(CustomPage)(),
+            formConfig: { useCustomScrollAndFocus: true },
+          }}
+          location={location}
+        />,
+      );
+
+      await waitFor(() => {
+        expect(document.activeElement.tagName).to.eq('H3');
+      });
     });
   });
 });

@@ -2,19 +2,37 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import * as VAP_SERVICE from 'platform/user/profile/vap-svc/constants';
+import { selectVAProfilePersonalInformation } from 'applications/personalization/profile/selectors';
+import { recordCustomProfileEvent } from 'applications/personalization/profile/util/analytics';
+import ProfileInformationEditView from 'applications/personalization/profile/components/ProfileInformationEditView';
+import ProfileInformationEditViewVAFSC from 'applications/personalization/profile/components/ProfileInformationEditViewVAFSC';
+import ProfileInformationView from 'applications/personalization/profile/components/ProfileInformationView';
+import { getInitialFormValues } from 'applications/personalization/profile/util/contact-information/formValues';
+import { isFieldEmpty } from 'applications/personalization/profile/util';
+import getProfileInfoFieldAttributes from 'applications/personalization/profile/util/getProfileInfoFieldAttributes';
+
+import { isVAPatient } from '@department-of-veterans-affairs/platform-user/selectors';
+import {
+  focusElement,
+  waitForRenderThenFocus,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+
+import prefixUtilityClasses from '../../../../utilities/prefix-utility-classes';
+import * as VAP_SERVICE from '../constants';
 
 import {
   isFailedTransaction,
   isPendingTransaction,
-} from 'platform/user/profile/vap-svc/util/transactions';
+} from '../util/transactions';
 
 import {
   createTransaction,
   refreshTransaction,
   clearTransactionRequest,
   openModal,
-} from 'platform/user/profile/vap-svc/actions';
+} from '../actions';
 
 import {
   selectAddressValidationType,
@@ -24,31 +42,11 @@ import {
   selectEditViewData,
   selectMostRecentlyUpdatedField,
   selectUseInformationEditViewVAFSC,
-} from 'platform/user/profile/vap-svc/selectors';
+} from '../selectors';
 
-import { selectVAProfilePersonalInformation } from 'applications/personalization/profile/selectors';
-import { recordCustomProfileEvent } from 'applications/personalization/profile/util/analytics';
-
-import {
-  ACTIVE_EDIT_VIEWS,
-  FIELD_NAMES,
-} from 'platform/user/profile/vap-svc/constants';
-import VAPServiceTransaction from 'platform/user/profile/vap-svc/components/base/VAPServiceTransaction';
-import AddressValidationView from 'platform/user/profile/vap-svc/containers/AddressValidationView';
-
-import ProfileInformationEditView from 'applications/personalization/profile/components/ProfileInformationEditView';
-import ProfileInformationEditViewVAFSC from 'applications/personalization/profile/components/ProfileInformationEditViewVAFSC';
-import ProfileInformationView from 'applications/personalization/profile/components/ProfileInformationView';
-
-import { getInitialFormValues } from 'applications/personalization/profile/util/contact-information/formValues';
-import { isFieldEmpty } from 'applications/personalization/profile/util';
-
-import { isVAPatient } from 'platform/user/selectors';
-import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
-import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
-
-import getProfileInfoFieldAttributes from 'applications/personalization/profile/util/getProfileInfoFieldAttributes';
+import { ACTIVE_EDIT_VIEWS, FIELD_NAMES } from '../constants';
+import VAPServiceTransaction from './base/VAPServiceTransaction';
+import AddressValidationView from '../containers/AddressValidationView';
 
 import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
 import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';
@@ -132,7 +130,8 @@ class ProfileInformationFieldController extends React.Component {
           successCallback();
         }
       } else {
-        focusElement(`#${getEditButtonId(fieldName)}`);
+        // focusElement did not work here on iphone or safari, so using waitForRenderThenFocus
+        waitForRenderThenFocus(`#${getEditButtonId(fieldName)}`, document, 50);
       }
     } else if (
       forceEditView &&
@@ -411,6 +410,7 @@ class ProfileInformationFieldController extends React.Component {
               this.props.formSchema,
             )}
             title={title}
+            forceEditView={forceEditView}
           />
         </>
       ) : (
@@ -432,6 +432,9 @@ class ProfileInformationFieldController extends React.Component {
           )}
           title={title}
           recordCustomProfileEvent={recordCustomProfileEvent}
+          forceEditView={forceEditView}
+          cancelButtonText={this.props?.cancelButtonText}
+          saveButtonText={this.props?.saveButtonText}
         />
       );
     }
@@ -521,6 +524,7 @@ ProfileInformationFieldController.propTypes = {
   uiSchema: PropTypes.object.isRequired,
   activeEditView: PropTypes.string,
   ariaDescribedBy: PropTypes.string,
+  cancelButtonText: PropTypes.string,
   cancelCallback: PropTypes.func,
   data: PropTypes.object,
   editViewData: PropTypes.object,
@@ -528,6 +532,7 @@ ProfileInformationFieldController.propTypes = {
   isDeleteDisabled: PropTypes.bool,
   refreshTransaction: PropTypes.func,
   refreshTransactionRequest: PropTypes.func,
+  saveButtonText: PropTypes.string,
   showRemoveModal: PropTypes.bool,
   showUpdateSuccessAlert: PropTypes.bool,
   successCallback: PropTypes.func,

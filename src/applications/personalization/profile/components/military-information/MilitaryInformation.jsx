@@ -3,19 +3,19 @@ import PropTypes from 'prop-types';
 import { some } from 'lodash';
 import { connect } from 'react-redux';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import recordEvent from 'platform/monitoring/record-event';
 import DowntimeNotification, {
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
-import { focusElement } from 'platform/utilities/ui';
-import { selectVeteranStatus } from 'platform/user/selectors';
+} from '~/platform/monitoring/DowntimeNotification';
+import { focusElement } from '~/platform/utilities/ui';
+import { selectVeteranStatus } from '~/platform/user/selectors';
+
 import LoadFail from '../alerts/LoadFail';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
-import ProfileInfoTable from '../ProfileInfoTable';
 import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
+import { ProfileInfoCard } from '../ProfileInfoCard';
 
 // Alert to show when a user does not appear to be a Veteran
 const NotAVeteranAlert = () => {
@@ -74,33 +74,6 @@ const NotInDEERSAlert = () => {
     </>
   );
 };
-
-// Request DD214
-const RequestMilServiceRecordsAlert = () => {
-  return (
-    <>
-      <va-alert
-        background-only
-        class="vads-u-margin-y--0"
-        close-btn-aria-label="Close notification"
-        disable-analytics="false"
-        status="info"
-        full-width="false"
-        visible="true"
-      >
-        <p className="vads-u-margin-y--0">
-          <h3 className="vads-u-margin-top--0" slot="headline">
-            Request your military records (DD214)
-          </h3>
-          <a href="/records/get-military-service-records">
-            Learn how to request your DD214 and other military records
-          </a>
-        </p>
-      </va-alert>
-    </>
-  );
-};
-
 // Alert to show if `GET service_history` returned an empty service history array
 const NoServiceHistoryAlert = () => {
   return (
@@ -174,39 +147,31 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
 
   return (
     <>
-      <ProfileInfoTable
-        data={serviceHistory}
-        dataTransformer={transformServiceHistoryEntryIntoTableRow}
-        title="Period of service"
-        fieldName="serviceHistory"
-        list
+      <ProfileInfoCard
+        data={serviceHistory.map(item =>
+          transformServiceHistoryEntryIntoTableRow(item),
+        )}
+        title="Period of Service"
         level={2}
+        asList
       />
+
       <div className="vads-u-margin-top--4">
-        <va-additional-info
-          trigger="What if I don't think my military service information is correct?"
-          onClick={() => {
-            recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': 'update-military-information',
-            });
-          }}
-        >
-          <p>
+        <va-additional-info trigger="What if I don't think my military service information is correct?">
+          <p className="vads-u-padding-bottom--2">
             Some Veterans have reported that their military service information
             in their VA.gov profiles doesn’t seem right. When this happens, it’s
             because there’s an error in the information we’re pulling into
             VA.gov from the Defense Enrollment Eligibility Reporting System
             (DEERS).
           </p>
-          <br />
-          <p>
+
+          <p className="vads-u-padding-bottom--2">
             If you don’t think your military service information is correct
             here, call the Defense Manpower Data Center (DMDC). They’ll work
             with you to update your information in DEERS.
           </p>
-          <br />
+
           <p>
             You can call the DMDC at{' '}
             <va-telephone contact={CONTACTS.DS_LOGON} /> (
@@ -243,8 +208,17 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           veteranStatus={veteranStatus}
         />
       </DowntimeNotification>
-      <br />
-      <RequestMilServiceRecordsAlert />
+
+      <va-featured-content>
+        <div className="vads-u-margin-y--0">
+          <h3 className="vads-u-margin-top--0" slot="headline">
+            Request your military records (DD214)
+          </h3>
+          <a href="/records/get-military-service-records">
+            Learn how to request your DD214 and other military records
+          </a>
+        </div>
+      </va-featured-content>
     </>
   );
 };

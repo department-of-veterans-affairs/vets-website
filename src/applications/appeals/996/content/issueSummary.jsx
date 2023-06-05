@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { getSelected } from '../utils/helpers';
 import { ShowIssuesList } from '../components/ShowIssuesList';
-import { contestableIssuesPath } from '../constants';
+import { CONTESTABLE_ISSUES_PATH } from '../constants';
 
 export const SummaryTitle = ({ formData }) => {
   const issues = getSelected(formData);
@@ -20,7 +20,7 @@ export const SummaryTitle = ({ formData }) => {
         <Link
           aria-label="go back and add any missing issues for review"
           to={{
-            pathname: contestableIssuesPath,
+            pathname: CONTESTABLE_ISSUES_PATH,
             search: '?redirect',
           }}
         >

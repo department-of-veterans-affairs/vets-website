@@ -1,0 +1,45 @@
+[
+    {
+        "id": 123,
+        "name": "Penicillin",
+        "date": "April 1, 2022",
+        "reaction": ["Urticaria"],
+        "type": "Drug allergy",
+        "drugClass": "Penicillin-G related penicillins",
+        "location": "Washington DC VA medical center",
+        "observed": true,
+        "notes": []
+    },
+    {
+        "id": 124,
+        "name": "Aspirin related medications",
+        "date": "June 30, 2021",
+        "reaction": ["Urticaria"],
+        "type": "Drug allergy",
+        "drugClass": "Penicillin-G related penicillins",
+        "location": "Washington DC VA medical center",
+        "observed": true,
+        "notes": [
+            "This is a note",
+            "This is another note"
+        ]
+    },
+    {
+        "id": 125,
+        "name": "Adhesive tape",
+        "date": "June 8, 2019",
+        "reaction": ["Rash"],
+        "type": "Contact allergy",
+        "drugClass": "Penicillin-G related penicillins",
+        "location": "Washington DC VA medical center",
+        "observed": false,
+        "notes": [
+            "This is a single note"
+        ]
+    },
+    {
+        "id": 126,
+        "name": "Prazosin",
+        "dateEntered": "March 15, 2018"
+    }
+]

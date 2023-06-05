@@ -106,7 +106,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     // expect(screen.baseElement).to.contain.text('1234567890');
     // expect(screen.baseElement).to.contain.text('Call anytime during the day');
 
-    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
+    const editLinks = screen.getAllByTestId('edit-contact-information-link');
     const uniqueLinks = new Set();
     editLinks.forEach(link => {
       expect(link).to.have.attribute('aria-label');

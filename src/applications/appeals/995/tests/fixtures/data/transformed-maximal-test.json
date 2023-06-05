@@ -8,7 +8,7 @@
         "address": {
           "addressLine1": "123 Main St",
           "addressLine2": "Suite #1200",
-          "addressLine3": "Box 4567890",
+          "addressLine3": "Box 456789",
           "city": "New York",
           "countryCodeISO2": "US",
           "stateCode": "NY",
@@ -74,7 +74,7 @@
       "attributes": {
         "decisionDate": "2021-06-01",
         "decisionIssueId": 42,
-        "issue": "Being green - 50% - Chronic greenness",
+        "issue": "Tinnitus - 0% - Service connection for Tinnitus is granted with an evaluation of 0 percent effective September 25, 2019.",
         "ratingDecisionReferenceId": "999",
         "ratingIssueReferenceId": "52"
       }
@@ -108,8 +108,8 @@
           "postalCode": "90210"
         },
         "issues": [
-          "PTSD",
-          "Test"
+          "Test",
+          "Test 2"
         ],
         "treatmentDateRange": [{
           "from": "2022-01-01",

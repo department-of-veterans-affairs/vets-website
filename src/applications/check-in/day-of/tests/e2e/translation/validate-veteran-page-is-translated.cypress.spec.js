@@ -10,7 +10,7 @@ const checkInUUID = sharedData.get.defaultUUID;
 describe('Check In Experience -- ', () => {
   beforeEach(() => {
     const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
-    initializeFeatureToggle.withDayOfTranslationEnabled();
+    initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
     // Verifies that browser language detection is working.
     cy.visitWithUUID(checkInUUID, 'es');
@@ -37,7 +37,7 @@ describe('Check In Experience -- ', () => {
 describe('Check In Experience - Tagalog', () => {
   beforeEach(() => {
     const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
-    initializeFeatureToggle.withDayOfTranslationEnabled();
+    initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
     // Verifies that browser language detection is working.
     cy.visitWithUUID(checkInUUID, 'tl');

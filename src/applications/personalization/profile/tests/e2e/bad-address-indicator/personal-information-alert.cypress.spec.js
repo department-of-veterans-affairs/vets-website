@@ -1,6 +1,6 @@
-import { loa3User72, badAddress } from '../../../mocks/user';
+import { loa3User72, badAddress } from '../../../mocks/endpoints/user';
 
-import { generateFeatureToggles } from '../../../mocks/feature-toggles';
+import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 
 import BadAddressFeature from './BadAddressFeature';
 

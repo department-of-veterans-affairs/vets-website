@@ -1,0 +1,39 @@
+{
+  "data": {
+    "livingSituation": {
+      "isInCareFacility": false,
+      "careFacilityAddress": {
+        "country": "USA"
+      }
+    },
+    "previousHiApplication": {
+      "hasPreviousHiApplication": false,
+      "previousHiApplicationAddress": {
+        "country": "USA"
+      }
+    },
+    "previousSahApplication": {
+      "hasPreviousSahApplication": false,
+      "previousSahApplicationAddress": {
+        "country": "USA"
+      }
+    },
+    "veteran": {
+      "homePhone": "1111111111",
+      "address": {
+        "isMilitary": false,
+        "country": "USA",
+        "view:militaryBaseDescription": {},
+        "street": "1111 Rock st.",
+        "city": "Rocktown",
+        "state": "IN",
+        "postalCode": "11111"
+      },
+      "ssn": "345456789",
+      "fullName": {
+        "first": "Barnie",
+        "last": "Rubble"
+      }
+    }
+  }
+}

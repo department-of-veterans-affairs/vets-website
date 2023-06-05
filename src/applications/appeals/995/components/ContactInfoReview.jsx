@@ -7,6 +7,7 @@ import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
 
 import { getFormattedPhone } from '../utils/contactInfo';
 import { content } from '../content/contactInfo';
+import { CONTACT_EDIT } from '../constants';
 
 const ContactInfoReview = ({ data, editPage }) => {
   const editRef = useRef(null);
@@ -14,11 +15,11 @@ const ContactInfoReview = ({ data, editPage }) => {
   useEffect(
     () => {
       if (
-        window.sessionStorage.getItem('contact-info-edit') === 'true' &&
+        window.sessionStorage.getItem(CONTACT_EDIT) === 'true' &&
         editRef?.current
       ) {
         // focus on edit button _after_ editing and returning
-        window.sessionStorage.removeItem('contact-info-edit');
+        window.sessionStorage.removeItem(CONTACT_EDIT);
         setTimeout(() => focusElement(editRef.current));
       }
     },
@@ -36,8 +37,16 @@ const ContactInfoReview = ({ data, editPage }) => {
   const display = [
     [content.home, () => getFormattedPhone(homePhone)],
     [content.mobile, () => getFormattedPhone(mobilePhone)],
-    [content.email, () => email],
-    [content.country, () => (isUS ? '' : address.countryName)],
+    [
+      content.email,
+      () =>
+        email || (
+          <span className="usa-input-error-message">
+            {content.missingEmail}
+          </span>
+        ),
+    ],
+    [content.country, () => address.countryName],
     [content.address1, () => address.addressLine1],
     [content.address2, () => address.addressLine2],
     [content.address3, () => address.addressLine3],
@@ -52,7 +61,7 @@ const ContactInfoReview = ({ data, editPage }) => {
   const handlers = {
     onEditPage: () => {
       // maintain state using session storage
-      window.sessionStorage.setItem('contact-info-edit', 'true');
+      window.sessionStorage.setItem(CONTACT_EDIT, 'true');
       editPage();
     },
   };
@@ -80,7 +89,7 @@ const ContactInfoReview = ({ data, editPage }) => {
           type="button"
           ref={editRef}
           id="confirmContactInformationEdit"
-          className="float-right edit-page usa-button-secondary"
+          className="edit-page usa-button-secondary"
           onClick={handlers.onEditPage}
           aria-label={content.editLabel}
         >

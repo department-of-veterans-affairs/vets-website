@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import SignatureInput from './SignatureInput';
 
@@ -15,21 +15,35 @@ const SignatureCheckbox = ({
   submission,
   isRepresentative,
 }) => {
-  const [hasError, setError] = useState(null);
+  const [hasError, setError] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const hasSubmittedForm = !!submission.status;
+  const normalizedFullName = `${fullName?.first} ${fullName?.middle || ''} ${
+    fullName?.last
+  }`.replace(/ +(?= )/g, '');
   const representativeLabelId = isRepresentative
     ? `${label}-signature-label`
     : undefined;
   const ariaDescribedbyMessage = isRepresentative
-    ? `on behalf of ${fullName.first} ${fullName.middle} ${fullName.last}`
+    ? `on behalf of ${normalizedFullName}`
     : undefined;
+
+  const handleCheck = event => {
+    setIsChecked(
+      event.target.shadowRoot.querySelector('#checkbox-element').checked,
+    );
+    recordEvent({
+      'caregivers-poa-certification-checkbox-checked': event.target.value,
+      fullName,
+      label,
+      isRepresentative,
+    });
+  };
 
   useEffect(
     () => {
-      setError(showError);
-
-      if (isChecked === true || hasSubmittedForm) setError(false);
+      const error = isChecked === true || hasSubmittedForm ? false : showError;
+      setError(error);
     },
     [showError, isChecked, hasSubmittedForm],
   );
@@ -39,12 +53,12 @@ const SignatureCheckbox = ({
       data-testid={label}
       className="signature-box vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--5"
     >
-      {!!children && <>{children}</>}
+      {children ? <>{children}</> : null}
 
       <SignatureInput
         ariaDescribedBy={ariaDescribedbyMessage}
         label={label}
-        fullName={fullName}
+        fullName={normalizedFullName}
         required={isRequired}
         showError={showError}
         hasSubmittedForm={hasSubmittedForm}
@@ -56,25 +70,16 @@ const SignatureCheckbox = ({
       {isRepresentative && (
         <p className="signature-box--representative" id={representativeLabelId}>
           On behalf of
-          <strong className="vads-u-font-size--lg">
-            {fullName.first} {fullName.middle} {fullName.last}
-          </strong>
+          <strong className="vads-u-font-size--lg">{normalizedFullName}</strong>
         </p>
       )}
 
-      <Checkbox
-        onValueChange={value => {
-          setIsChecked(value);
-          recordEvent({
-            'caregivers-poa-certification-checkbox-checked': value,
-            fullName,
-            label,
-            isRepresentative,
-          });
-        }}
-        label="I certify the information above is correct and true to the best of my knowledge and belief."
-        errorMessage={hasError && 'Must certify by checking box'}
+      <VaCheckbox
         required={isRequired}
+        onVaChange={handleCheck}
+        class="signature-checkbox"
+        error={hasError ? 'Must certify by checking box' : undefined}
+        label="I certify the information above is correct and true to the best of my knowledge and belief."
       />
     </fieldset>
   );

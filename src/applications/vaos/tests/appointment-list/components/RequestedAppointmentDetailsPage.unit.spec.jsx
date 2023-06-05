@@ -15,7 +15,6 @@ import {
 import {
   mockSingleVAOSRequestFetch,
   mockAppointmentCancelFetch,
-  mockNpiProviderFetch,
 } from '../../mocks/helpers.v2';
 
 import { AppointmentList } from '../../../appointment-list';
@@ -24,11 +23,7 @@ import {
   getTimezoneTestDate,
   renderWithStoreAndRouter,
 } from '../../mocks/setup';
-import {
-  getVARequestMock,
-  getCCRequestMock,
-  getMessageMock,
-} from '../../mocks/v0';
+import { getVARequestMock, getCCRequestMock } from '../../mocks/v0';
 import { getVAOSRequestMock } from '../../mocks/v2';
 import { createMockFacilityByVersion } from '../../mocks/data';
 import { mockFacilityFetchByVersion } from '../../mocks/fetch';
@@ -109,12 +104,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     });
 
     mockFacilityFetchByVersion({ facility, version: 0 });
-    const message = getMessageMock();
-    message.attributes = {
-      ...message.attributes,
-      messageText: 'A message from the patient',
-    };
-    mockMessagesFetch('1234', [message]);
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
@@ -184,7 +173,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     ).to.be.ok;
 
     expect(screen.baseElement).to.contain.text('New issue');
-    expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text('patient.test@va.gov');
     expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Call morning');
@@ -214,9 +202,9 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     expect(await screen.findByText('Pending primary care appointment')).to.be
       .ok;
-
-    fireEvent.click(screen.getByText('VA online scheduling'));
-    expect(screen.history.push.lastCall.args[0]).to.equal('/');
+    expect(
+      screen.getByText('VA online scheduling').getAttribute('href'),
+    ).to.equal('/');
   });
 
   it('should render CC request details', async () => {
@@ -245,13 +233,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     mockAppointmentInfo({
       requests: [ccAppointmentRequest],
     });
-
-    const message = getMessageMock();
-    message.attributes = {
-      ...message.attributes,
-      messageText: 'A message from the patient',
-    };
-    mockMessagesFetch('1234', [message]);
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
@@ -304,8 +285,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-
-    expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
 
     expect(
       screen.getByRole('heading', {
@@ -531,7 +510,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       initialState,
       path: `/requests/${appointment.id}?confirmMsg=true`,
     });
-
     await waitFor(() => {
       expect(global.document.title).to.equal(
         `Pending VA primary care appointment`,
@@ -920,6 +898,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       id: '1234',
       practitioners: [{ identifier: [{ value: '1801312053' }] }],
       preferredTimesForPhoneCall: ['Morning'],
+      preferredProviderName: 'AJADI, ADEDIWURA',
       reasonCode: {
         coding: [{ code: 'New Problem' }],
         text: 'A message from the patient',
@@ -942,7 +921,6 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     };
 
     mockSingleVAOSRequestFetch({ request: ccAppointmentRequest });
-    mockNpiProviderFetch({ id: '1801312053' });
     const facility = {
       ...createMockFacilityByVersion({ version: 0 }),
       id: 'vha_442GC',
@@ -964,7 +942,6 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       expect(store.getState().appointments.appointmentDetailsStatus).to.equal(
         'succeeded',
       );
-      expect(store.getState().appointments.providerData).not.to.be.null;
       // expect(document.activeElement).to.have.tagName('h1');
     });
 

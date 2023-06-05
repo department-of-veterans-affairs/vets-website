@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, Redirect } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { FETCH_STATUS } from '../../utils/constants';
@@ -16,6 +16,12 @@ import { confirmAppointment } from '../redux/actions';
 import AppointmentDate from '../../new-appointment/components/ReviewPage/AppointmentDate';
 
 const pageTitle = 'Review your appointment details';
+
+function handleClick(history) {
+  return () => {
+    history.push(flow.contactInfo.url);
+  };
+}
 
 export default function ReviewPage() {
   const {
@@ -94,9 +100,12 @@ export default function ReviewPage() {
               />
             </div>
           </div>
-          <Link to={flow.contactInfo.url} aria-label="Edit contact information">
-            Edit
-          </Link>
+          <va-link
+            onClick={handleClick(history)}
+            aria-label="Edit contact information"
+            text="Edit"
+            data-testid="edit-contact-information-link"
+          />
         </div>
       </div>
       <hr aria-hidden="true" className="vads-u-margin-y--2" />

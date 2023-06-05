@@ -1,8 +1,8 @@
 import moment from 'moment';
 
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
-import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 
+import { fixDateFormat } from '../utils/replace';
 import { errorMessages, FORMAT_YMD, MAX_YEARS_PAST } from '../constants';
 
 export const minDate = moment()
@@ -12,13 +12,10 @@ export const minDate = moment()
 const maxDate = moment().startOf('day');
 
 export const validateDate = (errors, rawString = '', fullData) => {
-  const { day, month, year } = parseISODate(rawString);
+  const dateString = fixDateFormat(rawString);
+  const { day, month, year } = parseISODate(dateString);
   const date = moment(rawString, FORMAT_YMD);
   const dateType = fullData?.dateType || 'decisions';
-  const dateString = `${year}-${month.padStart(2, '0')}-${(day || '').padStart(
-    2,
-    '0',
-  )})`;
 
   if (
     !year ||
@@ -34,10 +31,6 @@ export const validateDate = (errors, rawString = '', fullData) => {
     errors.addError(errorMessages[dateType].missingDate);
   } else if (!date.isValid()) {
     errors.addError(errorMessages.invalidDate);
-  } else if (year?.length >= 4 && !isValidYear(year)) {
-    errors.addError(
-      errorMessages.invalidDateRange(minDate.year(), maxDate.year()),
-    );
   } else if (date.isSameOrAfter(maxDate)) {
     // Lighthouse won't accept same day (as submission) decision date
     errors.addError(errorMessages[dateType].pastDate);

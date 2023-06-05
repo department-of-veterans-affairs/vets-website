@@ -27,6 +27,9 @@ There are several different mock UUIDs that can be used as a value for the `id` 
   - aboutToExpireUUID: `25165847-2c16-4c8b-8790-5de37a7f427f`
   - pacificTimezoneUUID: `6c72b801-74ac-47fe-82af-cfe59744b45f`
   - allAppointmentTypesUUID: `bb48c558-7b35-44ec-8ab7-32b7d49364fc`
+  - missingUUID: `a5895713-ca42-4244-9f38-f8b5db020d04`
+  - noFacilityAddressUUID: `5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3`
+
 ### Pre-check-in
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
   - phoneApptUUID: `258d753c-262a-4ab2-b618-64b645884daf`
@@ -36,6 +39,9 @@ There are several different mock UUIDs that can be used as a value for the `id` 
   - expiredUUID: `354d5b3a-b7b7-4e5c-99e4-8d563f15c521`
   - expiredPhoneUUID: `08ba56a7-68b7-4b9f-b779-53ba609140ef`
   - missingUUID: `a5895713-ca42-4244-9f38-f8b5db020d04`
+  - noFacilityAddressUUID: `5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3`
+  - allDemographicsCurrentUUID: `e544c217-6fe8-44c5-915f-6c3d9908a678`
+  - onlyDemographicsCurrentUUID: `7397abc0-fb4d-4238-a3e2-32b0e47a1527` (NoK and Emergency Contact not current)
 
 ## Design system
 99% of the styling comes from the VA design system [component library](https://design.va.gov/components/) and [utility classes](https://design.va.gov/foundation/utilities/). For the remaining 1% of styling there is an scss file in the `sass` directory in the project root.
@@ -52,6 +58,10 @@ Internal page routing is defined in `utils\navigation`. Within this directory th
 Unit tests for both check-in and pre-check-in can be run using this command: `yarn test:unit --app-folder check-in`. To get detailed errors, run this command with `--log-level=error`
 
 Cypress tests can be run with the GUI using this command: `yarn cy:open`. From there you can filter by `check-in` to run just check-in and pre-check-in end to end tests.
+
+## Writing tests
+### Unit tests
+Components that need to access data from redux (or have children that do) require a provider wrapper to initialize a mock store. Also needed for most components is a provider wrapper to import the i18n translations. To help reduce the repatative boiler plate a new provider has been created that incorporates both of these providers with default data. Located in `tests\unit\utilsCheckInProvider.jsx` the file exports the `CheckInProvider` component that can be imported into a unit test and wrapped around the component you are testing. This provider also sets up a basic router prop the will be automatically passed to its children. Also included is the requred `scheduledDowntimeState` redux store via the `createStore` util used within the provider. You can pass overrides to both the store and the router for the custom data needs of your component or test.
 
 ## Translations
 This application uses i18next to translate text to Spanish and Tagalog. Translation files for English, Spanish, and Tagalog are located in `/locals` at the root of the check-in application. All text is contained in the `translation.json` file for each language. The application should only reference the unique key for each text string with a `<Trans />` component or a `t()` function. Never hard code text within the application.
@@ -96,7 +106,11 @@ Current features day-of only: `yarn cy:run --env with_screenshots=true --spec sr
 
 Phone appointments PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-phone.pci.cypress.spec.js`
 
-Travel Pay PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-pay.day-of.cypress.spec.js`
+Travel Pay day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-pay.day-of.cypress.spec.js`
+
+Errors only day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-errors.day-of.cypress.spec.js`
+
+Errors only PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-errors.pci.cypress.spec.js`
 
 ### Adding additional screenshots
 There is a cypress command that gets imported in our local commands named `createScreenshots`. It is best used after an axe check on the page you wish to capture. Add cy.createScreenshots([filename]) and also make sure that the test is imported in one of the screenshot scripts listed above. Filename syntax should be `application--page-name` example: `Pre-check-in--Validate-with-DOB`. The command will automatically get screenshots for translated versions of the page.

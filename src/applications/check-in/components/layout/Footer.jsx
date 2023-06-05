@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import ExternalLink from '../ExternalLink';
 import BackToHome from '../BackToHome';
+import { phoneNumbers } from '../../utils/appConstants';
 
 const Footer = ({ router, isPreCheckIn }) => {
   const { t } = useTranslation();
@@ -40,13 +41,11 @@ const Footer = ({ router, isPreCheckIn }) => {
               {t('for-questions-or-help-with-pre-check-in')}
             </span>{' '}
             {t('please-call-our-myva411-main-information-line-at')}{' '}
-            <va-telephone contact="8006982411" />{' '}
+            <va-telephone contact={phoneNumbers.mainInfo} />{' '}
             {t('and-select-0-were-here-24-7')}
           </p>
           <p>
-            {t('if-you-have-hearing-loss-call')}{' '}
-            {/* Not using the va-telephone component due to issues with 711 link. To re-evaluate after component is fixed. */}
-            <va-telephone contact="711" />
+            {t('if-you-have-hearing-loss-call')} <va-telephone contact="711" />.
           </p>
         </div>
       ) : (
@@ -72,7 +71,8 @@ const Footer = ({ router, isPreCheckIn }) => {
           <va-telephone contact="988" /> {t('and-select-1')}
         </p>
       )}
-      {currentPage === 'complete' &&
+      {currentPage &&
+        currentPage.includes('complete') &&
         !isPreCheckIn && (
           <div data-testid="day-of-travel-extra-message">
             <p>
@@ -95,7 +95,10 @@ const Footer = ({ router, isPreCheckIn }) => {
               <Trans
                 i18nKey="or-call-our-BTSSS-toll-free-call-center"
                 components={[
-                  <va-telephone contact="8555747292" key="8555747292" />,
+                  <va-telephone
+                    contact={phoneNumbers.btsssCallCenter}
+                    key={phoneNumbers.btsssCallCenter}
+                  />,
                   <va-telephone contact="711" tty key="711" />,
                 ]}
               />

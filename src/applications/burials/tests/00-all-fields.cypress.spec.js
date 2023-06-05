@@ -249,12 +249,16 @@ describe('Burial claim test', () => {
 
     // Review and Submit
 
-    cy.get('label[name="privacyAgreementAccepted-label"]', {
-      timeout: Timeouts.slow,
-    }).should('be.visible');
-    cy.get('input[type="checkbox"]').click({
-      force: true,
-    });
+    cy.get('[name="privacyAgreementAccepted"]')
+      .find('label[for="checkbox-element"]')
+      .should('be.visible');
+
+    cy.get('[name="privacyAgreementAccepted"]')
+      .find('[type="checkbox"]')
+      .check({
+        force: true,
+      });
+
     cy.axeCheck();
     cy.get('.form-progress-buttons .usa-button-primary').click();
     cy.url().should('not.contain', '/review-and-submit');

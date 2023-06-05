@@ -31,9 +31,7 @@ describe('COVID-19 SAVE LIVES Act sign up', () => {
         body: {},
       }).as('submitForm');
 
-      cy.get('label')
-        .contains('No')
-        .click({ force: true });
+      cy.get('va-radio-option[label="No"]').click({ force: true });
 
       cy.get('button')
         .contains('Continue')
@@ -87,7 +85,7 @@ describe('COVID-19 SAVE LIVES Act sign up', () => {
 
       cy.wait('@getWashingtonDCFacilities');
 
-      cy.get('.form-radio-buttons')
+      cy.get('va-radio-option')
         .first()
         .click();
 

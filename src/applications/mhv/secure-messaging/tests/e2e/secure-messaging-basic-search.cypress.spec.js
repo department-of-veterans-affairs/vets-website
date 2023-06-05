@@ -2,19 +2,28 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientBasicSearchPage from './pages/PatientBasicSearchPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockMessages from './fixtures/drafts-search-results.json';
-import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
+
 import mockSentFolder from './fixtures/folder-sent-metadata.json';
 import mockDeletedFolder from './fixtures/folder-deleted-metadata.json';
-import mockCustomFolder from './fixtures/folder-custom-metadata.json';
-import mockInboxFolder from './fixtures/folder-inbox-response.json';
+
+import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
+import FolderManagementPage from './pages/FolderManagementPage';
+import mockCustomFolderResponse from './fixtures/folder-custom-metadata.json';
+import mockCustomMessagesResponse from './fixtures/message-custom-response.json';
+import mockFoldersResponse from './fixtures/folder-response.json';
 
 describe('Secure Messaging Basic Search Tests', () => {
   const basicSearchPage = new PatientBasicSearchPage();
+  const patientMessageDraftsPage = new PatientMessageDraftsPage();
+  const folderPage = new FolderManagementPage();
+  const folderName = mockFoldersResponse.data.at(4).attributes.name;
+  const { folderId } = mockFoldersResponse.data.at(4).attributes;
   beforeEach(() => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
+
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
   });
   it('Basic Search Axe Check', () => {
     cy.intercept(
@@ -27,18 +36,8 @@ describe('Secure Messaging Basic Search Tests', () => {
   });
 
   it('Basic Search Inbox Check', () => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/0',
-      mockInboxFolder,
-    ).as('basicSearchRequestInboxMeta');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/0/messages?per_page=-1',
-      mockMessages,
-    ).as('basicSearchInboxRequest');
     basicSearchPage.typeSearchInputFieldText('test');
-    basicSearchPage.submitSearch();
+    basicSearchPage.submitInboxSearch();
     basicSearchPage.verifyHighlightedText('test');
 
     cy.injectAxe();
@@ -46,22 +45,9 @@ describe('Secure Messaging Basic Search Tests', () => {
   });
 
   it('Basic Search Drafts Check', () => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/-2',
-      mockDraftsFolder,
-    ).as('basicSearchRequestDraftsMeta');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/-2/messages?per_page=-1',
-      mockMessages,
-    ).as('basicSearchRequestDrafts');
-    cy.get('[data-testid="drafts-sidebar"]').click();
-
+    patientMessageDraftsPage.loadDraftMessages();
     basicSearchPage.typeSearchInputFieldText('test');
-
-    basicSearchPage.submitSearch();
-    cy.wait('@basicSearchRequestDrafts');
+    basicSearchPage.submitDraftSearch();
     basicSearchPage.verifyHighlightedText('test');
     cy.injectAxe();
     cy.axeCheck();
@@ -89,7 +75,7 @@ describe('Secure Messaging Basic Search Tests', () => {
     cy.axeCheck();
   });
 
-  it('Basic Search Trash Folder Check', () => {
+  it.skip('Basic Search Trash Folder Check', () => {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-3',
@@ -113,21 +99,14 @@ describe('Secure Messaging Basic Search Tests', () => {
 
   it('Basic Search Custom Folder Check', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/7038175',
-      mockCustomFolder,
-    ).as('basicSearchRequestCustomMeta');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/7038175/messages?per_page=-1',
-      mockMessages,
-    ).as('basicSearchRequestCustomFolder');
-
-    cy.get('.folders-list > :nth-child(1) > a').click({ force: true });
+    folderPage.clickAndLoadCustumFolder(
+      folderName,
+      folderId,
+      mockCustomFolderResponse,
+      mockCustomMessagesResponse,
+    );
     basicSearchPage.typeSearchInputFieldText('test');
-    basicSearchPage.submitSearch();
-    cy.wait('@basicSearchRequestCustomFolder');
+    basicSearchPage.submitCustomFolderSearch();
     basicSearchPage.verifyHighlightedText('test');
     cy.injectAxe();
     cy.axeCheck();

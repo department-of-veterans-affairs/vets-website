@@ -9,7 +9,6 @@ export const otherIncome = [
   'Irregular or “gig” income',
   'Retirement or non-VA pension payments',
   'Employment bonus',
-  'Other',
 ];
 
 export const monetaryAssets = [
@@ -43,4 +42,37 @@ export const householdExpensesOptions = [
   'Property tax',
   `Homeowner's Association (HOA) fees`,
   'Community Development District (CDD) fees',
+];
+
+export const MAX_ASSET_NAME_LENGTH = 32;
+export const otherAssetOptions = [
+  'Antiques',
+  'Collectibles, or collection(s)',
+  'Fine art',
+  'Jewelry and gems',
+  'Precious metals and coins',
+  'Specialty equipment or technology',
+];
+
+export const MAX_UTILITY_NAME_LENGTH = 32;
+export const utilityBillOptions = [
+  'Electricity',
+  'Gas',
+  'Water',
+  'Trash',
+  'Sewer',
+  'Coal',
+];
+
+export const MAX_OTHER_LIVING_NAME_LENGTH = 32;
+export const otherLivingExpensesOptions = [
+  'Clothing',
+  'Entertainment',
+  'Family and child care',
+  'Food',
+  'Health expenses',
+  'Household maintenance',
+  'Legal fees',
+  'Pet care',
+  'Transportation and car expenses',
 ];

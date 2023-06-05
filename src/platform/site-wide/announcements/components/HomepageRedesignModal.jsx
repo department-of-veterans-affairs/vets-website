@@ -6,7 +6,6 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import { useStaggeredFeatureRelease } from 'platform/utilities/react-hooks';
 
 function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
   const noscriptElements = document.getElementsByTagName('noscript');
@@ -20,16 +19,11 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
     const searchParams = new URLSearchParams(window.location.search);
     hasRedirectParam = searchParams.has('next');
   }
-  const isAllowed = useStaggeredFeatureRelease(
-    25,
-    'show-homepage-soft-launch-modal',
-  );
 
   return (
     <>
       {vaHomePreviewModal &&
-        !hasRedirectParam &&
-        isAllowed && (
+        !hasRedirectParam && (
           <VaModal
             role="dialog"
             cssClass="va-modal announcement-brand-consolidation"
@@ -57,7 +51,11 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
               dismiss();
             }}
           >
-            <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
+            <img
+              src="/img/design/logo/va-logo.png"
+              alt="VA logo and Seal, U.S. Department of Veterans Affairs"
+              width="300"
+            />
             <h1
               id="homepage-modal-label-title"
               className="vads-u-font-size--lg vads-u-margin-top--2p5"

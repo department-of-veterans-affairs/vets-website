@@ -55,7 +55,7 @@
       color: $color-black;
       font-weight: bold;
       padding-left: units-px(1.5);
-      span{
+      span {
         margin-left: -4px;
       }
     }
@@ -75,7 +75,7 @@
       a {
         padding-top: 7px;
         color: $color-link-default;
-        &.is-active{
+        &.is-active {
           color: $color-black;
         }
         &:active {
@@ -95,7 +95,7 @@
     }
   }
 }
-@media (max-width: $small-screen) {
+@media (max-width: $medium-screen) {
   .va-btn-sidebarnav-trigger {
     z-index: 0;
     .button-wrapper {

@@ -49,13 +49,6 @@ const createMockSuccessResponse = (
   return rv;
 };
 
-const createMockFailedResponse = _data => {
-  return {
-    error: true,
-  };
-};
-
 module.exports = {
   createMockSuccessResponse,
-  createMockFailedResponse,
 };

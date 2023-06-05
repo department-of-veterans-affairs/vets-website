@@ -14,14 +14,6 @@ export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
     toggleLoginModal,
   ]);
 
-  const onVerifyEnrollmentsClick = useCallback(
-    event => {
-      event.preventDefault();
-      history.push(REVIEW_ENROLLMENTS_RELATIVE_URL);
-    },
-    [history],
-  );
-
   const visitorUI = (
     <va-alert status="continue" visible>
       <h1
@@ -64,11 +56,7 @@ export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
   );
 
   const loggedInUserUI = (
-    <a
-      className="vads-c-action-link--green"
-      href={REVIEW_ENROLLMENTS_URL}
-      onClick={onVerifyEnrollmentsClick}
-    >
+    <a className="vads-c-action-link--green" href={REVIEW_ENROLLMENTS_URL}>
       Verify your enrollments for Post-9/11 GI Bill
     </a>
   );
@@ -78,7 +66,6 @@ export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
       <va-loading-indicator
         label="Loading"
         message="Please wait while we load the application for you."
-        set-focus
       />
     </div>
   );
