@@ -29,7 +29,8 @@ import transformForSubmit from './submit-transformer';
 
 // mock-data import for local development
 // import the appropriate file [flow?.json] for the flow you're working on, or
-// noStmtInfo.json for all flows [select claimOwnership & claimantType via UI]
+// noStmtInfo.json for all flows [manually select claimOwnership, claimantType,
+// & witnessRelationshipWithClaimant via UI]
 import testData from '../tests/e2e/fixtures/data/noStmtInfo.json';
 
 const mockData = testData.data;
