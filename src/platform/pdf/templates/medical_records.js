@@ -6,6 +6,8 @@
  */
 /* eslint-disable no-await-in-loop */
 
+import { MissingFieldsException } from '../utils/exceptions/MissingFieldsException';
+
 import {
   createAccessibleDoc,
   createArtifactText,
@@ -155,6 +157,9 @@ const generateHeaderBanner = async (doc, header, data) => {
     doc.fontSize(config.text.size);
     width += doc.widthOfString(element.text);
   }
+
+  // This math is based on US Letter page size and will have to be adjusted
+  // if we ever offer document size as a parameter.
   const leftMargin = (612 - 32 - width) / 2 + 20;
 
   for (let i = 0; i < data.headerBanner.length; i += 1) {
@@ -293,7 +298,24 @@ const generateFooterContent = async (doc, parent, data) => {
   }
 };
 
+const validate = data => {
+  const requiredFields = [
+    'title',
+    'headerLeft',
+    'headerRight',
+    'footerLeft',
+    'footerRight',
+  ];
+
+  const missingFields = requiredFields.filter(field => !data[field]);
+  if (missingFields.length) {
+    throw new MissingFieldsException(missingFields);
+  }
+};
+
 const generate = async data => {
+  validate(data);
+
   const doc = createAccessibleDoc(data);
 
   await registerVaGovFonts(doc);
