@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Table from '@department-of-veterans-affairs/component-library/Table';
+import { generateTableChildren } from '@department-of-veterans-affairs/component-library';
 import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -55,13 +55,7 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
         <p className="vads-u-font-size--lg vads-u-font-family--serif">
           Displaying {fromToNums[0]} - {fromToNums[1]} of {data.length}
         </p>
-        <Table
-          ariaLabelledBy={tableAriaLabelledBy}
-          className="va-table"
-          fields={fields}
-          data={currentData}
-          maxRows={MAX_ROWS}
-        />
+        <va-table>{generateTableChildren(currentData, fields)}</va-table>
         <VaPagination
           onPageSelect={e => onPageChange(e.detail.page)}
           page={currentPage}
