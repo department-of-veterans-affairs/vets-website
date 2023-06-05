@@ -74,6 +74,33 @@ const ComposeForm = props => {
     EDUCATION,
   } = Categories;
 
+  const setUnsavedNavigationError = typeOfError => {
+    if (typeOfError === 'attachment') {
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+        confirmButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
+        cancelButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
+      });
+    } else {
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+        confirmButtonText: 'Continue editing',
+        cancelButtonText: 'Delete draft',
+      });
+    }
+  };
+
+  useEffect(
+    () => {
+      if (attachments.length > 0) {
+        setUnsavedNavigationError('attachment');
+      }
+    },
+    [attachments],
+  );
+
   useEffect(
     () => {
       if (recipients?.length) {
@@ -275,7 +302,6 @@ const ComposeForm = props => {
         !sendMessageFlag
       ) {
         saveDraftHandler('auto');
-        setNavigationError(null);
       }
     },
     [
@@ -286,14 +312,6 @@ const ComposeForm = props => {
       selectedRecipient,
     ],
   );
-
-  const setUnsavedNavigationError = () => {
-    setNavigationError({
-      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-      confirmButtonText: 'Continue editing',
-      cancelButtonText: 'Delete draft',
-    });
-  };
 
   const recipientHandler = e => {
     setSelectedRecipient(e.detail.value);
@@ -347,6 +365,7 @@ const ComposeForm = props => {
         p2={navigationError?.p2}
         confirmButtonText={navigationError?.confirmButtonText}
         cancelButtonText={navigationError?.cancelButtonText}
+        saveDraftHandler={saveDraftHandler}
       />
       <div className="compose-form-header" data-testid="compose-form-header">
         <h3>{setMessageTitle()}</h3>
