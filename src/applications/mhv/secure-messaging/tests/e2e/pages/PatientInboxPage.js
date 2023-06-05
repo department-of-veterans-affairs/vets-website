@@ -361,6 +361,18 @@ class PatientInboxPage {
       .select('COVID');
   };
 
+  NavigateAdvancedSearch = () => {
+    cy.tabToElement('#first');
+    cy.realPress(['Enter']);
+  };
+
+  NavigateAdvancedSearchCategory = () => {
+    cy.tabToElement('#category-dropdown').should('have.focus');
+    cy.realPress(['ArrowDown']);
+    cy.realPress(['ArrowDown']);
+    cy.realPress(['Enter']);
+  };
+
   selectAdvancedSearchCategoryCustomFolder = () => {
     cy.get('#category-dropdown')
       .find('#select')
@@ -369,6 +381,11 @@ class PatientInboxPage {
 
   submitSearchButton = () => {
     cy.get('[data-testid="filter-messages-button"]').click();
+  };
+
+  KeyboardNavsubmitSearchButton = () => {
+    cy.tabToElement('[data-testid="filter-messages-button"]');
+    cy.realPress(['Enter']);
   };
 }
 export default PatientInboxPage;
