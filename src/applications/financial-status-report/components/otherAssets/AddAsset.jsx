@@ -7,11 +7,12 @@ import {
 import { isValidCurrency } from '../../utils/validations';
 import { MAX_ASSET_NAME_LENGTH } from '../../constants/checkboxSelections';
 
+const SUMMARY_PATH = '/other-assets-summary';
+const CHECKLIST_PATH = '/other-assets-checklist';
+
 const AddAsset = ({ data, goToPath, setFormData }) => {
   const { assets } = data;
   const { otherAssets = [] } = assets;
-
-  const RETURN_PATH = '/other-assets-summary';
 
   // Borrowed from 995 AddIssue
   // get index from url '/add-issue?index={index}'
@@ -36,33 +37,16 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
   // shared fun
   const [submitted, setSubmitted] = useState(false);
 
-  // submit issue with validation
-  const addOrUpdateAsset = () => {
-    setSubmitted(true);
-
-    // Check for errors
-    if (!nameError && !amountError) {
-      // Update form data
-      const newAssets = [...otherAssets];
-      // update new or existing index
-      newAssets[index] = {
-        name: assetName,
-        amount: assetAmount,
-      };
-
-      setFormData({
-        ...data,
-        assets: {
-          ...assets,
-          otherAssets: newAssets,
-        },
-      });
-      goToPath(RETURN_PATH);
-    }
-  };
-
   const handlers = {
-    onSubmit: event => event.preventDefault(),
+    onSubmit: event => {
+      // handle page navigation
+      // goToPath needs to be encapsulated separately from setFormData
+      // or data updates won't be reflected when page navigation occurs
+      event.preventDefault();
+      if (!nameError && !amountError) {
+        goToPath(SUMMARY_PATH);
+      }
+    },
     onAssetNameChange: ({ target }) => {
       setAssetName(target.value);
     },
@@ -71,11 +55,35 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
     },
     onCancel: event => {
       event.preventDefault();
-      goToPath(RETURN_PATH);
+
+      if (otherAssets.length) {
+        return goToPath(SUMMARY_PATH);
+      }
+
+      return goToPath(CHECKLIST_PATH);
     },
-    onUpdate: event => {
-      event.preventDefault();
-      addOrUpdateAsset();
+    onUpdate: () => {
+      // handle validation, update form data
+      setSubmitted(true);
+
+      // Check for errors
+      if (!nameError && !amountError) {
+        // Update form data
+        const newAssets = [...otherAssets];
+        // update new or existing index
+        newAssets[index] = {
+          name: assetName,
+          amount: assetAmount,
+        };
+
+        setFormData({
+          ...data,
+          assets: {
+            ...assets,
+            otherAssets: newAssets,
+          },
+        });
+      }
     },
   };
 
@@ -148,7 +156,7 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
               Cancel
             </button>
             <button
-              type="button"
+              type="submit"
               id="submit"
               className="vads-u-width--auto"
               onClick={handlers.onUpdate}

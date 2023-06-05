@@ -605,7 +605,8 @@ async function cancelV2Appointment(appointment, useAcheron) {
   };
 
   recordEvent({
-    event: eventPrefix,
+    event: 'interaction',
+    action: eventPrefix,
     ...additionalEventData,
   });
 

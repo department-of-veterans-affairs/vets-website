@@ -128,16 +128,6 @@ const MessageDetailBlock = props => {
               <AttachmentsList attachments={attachments} />
             </>
           )}
-
-        <div className="message-detail-note vads-u-text-align--center">
-          <p>
-            <i>
-              Note: This message may not be from the person you intially
-              contacted. It may have been reassigned to efficiently address your
-              original message
-            </i>
-          </p>
-        </div>
       </main>
     </section>
   );

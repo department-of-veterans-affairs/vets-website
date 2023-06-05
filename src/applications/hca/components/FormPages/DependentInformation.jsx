@@ -7,7 +7,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
-import { createLiteralMap } from '../../utils/helpers';
+import { createLiteralMap, isOfCollegeAge } from '../../utils/helpers';
 import {
   DEPENDENT_VIEW_FIELDS,
   SESSION_ITEM_NAME,
@@ -30,6 +30,7 @@ const SUB_PAGES = [
   {
     id: 'education',
     title: 'educational expenses',
+    depends: { key: 'dateOfBirth', value: isOfCollegeAge },
   },
   {
     id: 'additional',
@@ -119,6 +120,10 @@ const DependentInformation = props => {
   const handlers = {
     onCancel: () => {
       showModal(false);
+      // When the modal is closed, redirect focus back to the cancel confirmation modal trigger button
+      document
+        .getElementById('hca-modal-cancel')
+        .shadowRoot.children[0].focus();
     },
     onChange: formData => {
       setLocalData({ ...localData, ...formData });
@@ -157,7 +162,7 @@ const DependentInformation = props => {
   const currentUISchema = useMemo(
     () => {
       const name =
-        currentPage.id !== 'basic'
+        currentPage.id !== 'basic' && localData
           ? `${localData.fullName.first} ${localData.fullName.last}`
           : 'Dependent';
       return {
@@ -236,7 +241,11 @@ const DependentInformation = props => {
         const pagesToSet = SUB_PAGES.reduce((acc, page) => {
           if ('depends' in page) {
             const { key, value } = page.depends;
-            if (localData[key] === value) {
+            if (value instanceof Function) {
+              if (value(localData[key])) {
+                acc.push(page);
+              }
+            } else if (localData[key] === value) {
               acc.push(page);
             }
           } else {
@@ -268,6 +277,7 @@ const DependentInformation = props => {
               text={`Cancel ${action.label} this dependent`}
               onClick={handlers.showConfirm}
               secondary
+              id="hca-modal-cancel"
             />
           </div>
 

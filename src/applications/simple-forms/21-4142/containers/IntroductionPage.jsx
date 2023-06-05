@@ -16,17 +16,37 @@ class IntroductionPage extends React.Component {
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="Authorize the release of non-VA medical records to the VA"
-          subTitle="Authorization to disclose information to the Department of Veterans Affairs (VA) (VA Form 21-4142 and 21-4142a)"
+          title="Authorize the release of non-VA medical information to VA"
+          subTitle="Authorization to disclose information to the Department of Veterans Affairs (VA Forms 21-4142 and 21-4142a)"
         />
         <p>
           Complete this form if you want to give us permission to request your
-          private medical records from a non-VA health care provider or
-          hospital. You can use this form to authorize the release of records on
-          behalf of a Veteran you support.
+          medical records and information from non-VA sources to support your
+          benefit claim. You can use this form to authorize the release of
+          information on behalf of a Veteran you support.
         </p>
         <h2 className="vads-u-font-size--h3">
-          What to know before you submit this form
+          Non-VA sources we may request your medical records and information
+          from
+        </h2>
+        <ul className="vads-u-margin-bottom--4">
+          <li>
+            All sources of medical information (like hospitals, clinics, labs,
+            physicians, and psychologists)
+          </li>
+          <li>Social workers and rehabilitation counselors</li>
+          <li>Health care providers who conduct claim exams for us</li>
+          <li>
+            Employers, insurance companies, or workers’ compensation programs
+          </li>
+          <li>
+            People who may know about your condition (like family, neighbors,
+            friends, and public officials)
+          </li>
+        </ul>
+
+        <h2 className="vads-u-font-size--h3">
+          What to know before you fill out this form
         </h2>
         <ul className="vads-u-margin-bottom--4">
           <li>
@@ -39,8 +59,9 @@ class IntroductionPage extends React.Component {
             You don't need to submit this form to request VA medical records.
           </li>
           <li>
-            By law, we can't pay any fees that may come from requesting your
-            medical records.
+            By law, we can't pay any fees that a source may charge to release
+            your medical records. If a source charges a fee, we'll contact you
+            to tell you how to get the records.
           </li>
         </ul>
 
@@ -49,11 +70,11 @@ class IntroductionPage extends React.Component {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the medical release authorization"
+          startText="Start the medical records authorization"
           displayNonVeteranMessaging
         >
-          Please complete the 21-4142 form Authorize the release of non-VA
-          medical records to the VA.
+          Please complete the 21-4142 form to authorize the release of non-VA
+          medical records to VA.
         </SaveInProgressIntro>
 
         <p />

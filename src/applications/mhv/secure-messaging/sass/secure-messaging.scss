@@ -207,6 +207,7 @@ va-alert button {
     }
     i {
       margin: 5px 8px 0 0;
+      color: $color-link-default;
       @media (min-width: $medium-screen) {
         margin-top: 0;
       }
