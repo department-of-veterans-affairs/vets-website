@@ -266,11 +266,8 @@ export function isClaimComplete(claim) {
   return claim.attributes.decisionLetterSent || claim.attributes.phase === 8;
 }
 
-export function itemsNeedingAttentionFromVet(events) {
-  return events?.filter(
-    event =>
-      event.status === 'NEEDED' && event.type === 'still_need_from_you_list',
-  ).length;
+export function itemsNeedingAttentionFromVet(items) {
+  return items?.filter(item => item.status === 'NEEDED_FROM_YOU').length;
 }
 
 export function makeAuthRequest(

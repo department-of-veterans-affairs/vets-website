@@ -210,7 +210,7 @@ class ClaimStatusPage extends React.Component {
 
     const isOpen =
       status !== STATUSES.COMPLETE && attributes.closeDate === null;
-    const filesNeeded = itemsNeedingAttentionFromVet(attributes.eventsTimeline);
+    const filesNeeded = itemsNeedingAttentionFromVet(attributes.trackedItems);
     const showDocsNeeded =
       !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
 
