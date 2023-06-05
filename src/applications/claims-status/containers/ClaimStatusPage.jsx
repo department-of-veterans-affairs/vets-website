@@ -95,7 +95,9 @@ const generatePhases = claim => {
     });
   }
 
-  return phases.filter(isEventOrPrimaryPhase);
+  return phases.filter(isEventOrPrimaryPhase).sort((a, b) => {
+    return a.phase - b.phase;
+  });
 };
 
 const generateSupportingDocuments = claim => {
