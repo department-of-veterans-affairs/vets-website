@@ -33,6 +33,7 @@ const Landing = props => {
     setShouldSendDemographicsFlags,
     setShouldSendTravelPayClaim,
     setCurrentToken,
+    setCheckinComplete,
   } = useSessionStorage(false);
   const dispatch = useDispatch();
 
@@ -53,6 +54,9 @@ const Landing = props => {
   useEffect(
     () => {
       const token = getTokenFromLocation(location);
+
+      setCheckinComplete(window, false);
+
       if (!token) {
         updateError('no-token');
       } else if (!isUUID(token)) {
@@ -107,6 +111,7 @@ const Landing = props => {
       setSession,
       setShouldSendDemographicsFlags,
       setShouldSendTravelPayClaim,
+      setCheckinComplete,
     ],
   );
   return (

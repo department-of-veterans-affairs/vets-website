@@ -42,7 +42,6 @@ import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderM
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import ClaimsAndAppealsV2 from './claims-and-appeals-v2/ClaimsAndAppealsV2';
-import HealthCare from './health-care/HealthCare';
 import HealthCareV2 from './health-care-v2/HealthCareV2';
 import CTALink from './CTALink';
 import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
@@ -249,9 +248,6 @@ const Dashboard = ({
                 </DowntimeNotification>
               ) : null}
 
-              {props.showHealthCare && !shouldShowV2Dashboard ? (
-                <HealthCare />
-              ) : null}
               {isLOA3 && shouldShowV2Dashboard ? (
                 <HealthCareV2 isVAPatient={isVAPatient} />
               ) : null}

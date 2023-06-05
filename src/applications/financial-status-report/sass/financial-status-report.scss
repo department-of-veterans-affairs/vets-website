@@ -34,13 +34,6 @@
   }
 }
 
-.dependent-count {
-  label,
-  .usa-input-error-message {
-    width: $usa-form-width;
-  }
-}
-
 .selected-debt {
   border: 4px solid $color-blue;
   padding: 20px;
@@ -338,11 +331,7 @@
   background-color: transparent;
   width: auto !important;
   font-weight: bold;
-  &:hover {
-    color: $color-secondary-dark;
-    background-color: $color-secondary-lightest;
-  }
-  &:active {
+  &:hover, &:active {
     color: $color-secondary-darkest;
     background-color: $color-secondary-lightest;
   }
