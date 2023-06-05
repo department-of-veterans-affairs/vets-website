@@ -241,17 +241,25 @@ export function getTopPosition(elem) {
   return Math.round(box.top + scrollTop - clientTop);
 }
 
+export function stripEscapedChars(text) {
+  return text && text.replace(/\\(n|r|t)/gm, '');
+}
+
+// strip escaped html entities that have made its way into the desc
+export function stripHtml(text) {
+  return text && text.replace(/[<>]|&\w+;/g, '');
+}
+
+export function scrubDescription(text) {
+  return stripEscapedChars(stripHtml(text));
+}
+
 export function truncateDescription(text) {
   const maxLength = 120;
   if (text && text.length > maxLength) {
     return `${text.substr(0, maxLength)}…`;
   }
-  return text;
-}
-
-// strip escaped html entities that have made its way into the desc
-export function stripHtml(text) {
-  return text && text.replace(/&\w+;/g, '');
+  return scrubDescription(text);
 }
 
 export function isClaimComplete(claim) {
