@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /**
  * Functions related to fetching Apppointment data and pulling information from that data
  * @module services/Appointment
@@ -619,11 +620,13 @@ async function cancelRequestedAppointment(request) {
 
 async function cancelV2Appointment(appointment, useAcheron) {
   const additionalEventData = {
-    appointmentType:
+    custom_string_1:
       appointment.status === APPOINTMENT_STATUS.proposed
-        ? 'pending'
-        : 'confirmed',
-    facilityType: appointment.vaos?.isCommunityCare ? 'cc' : 'va',
+        ? 'appointmentType: pending'
+        : 'appointmentType: confirmed',
+    custom_string_2: appointment.vaos?.isCommunityCare
+      ? 'facilityType: cc'
+      : 'facilityType: va',
   };
 
   recordEvent({

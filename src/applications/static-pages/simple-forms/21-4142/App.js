@@ -16,7 +16,7 @@ const App = ({ formEnabled }) => {
         <p>You can start your authorization right now.</p>
         <a
           className="vads-c-action-link--green"
-          href="/supporting-forms-for-claims/release-records-to-va-form-21-4142"
+          href="/supporting-forms-for-claims/release-information-to-va-form-21-4142"
         >
           Authorize the release of non-VA medical information to VA
         </a>
