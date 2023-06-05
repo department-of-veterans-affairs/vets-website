@@ -8,7 +8,7 @@ export const WIP = () => (
           We’re still working on this feature
         </h1>
         <p>
-          We’re rolling out the Authorization to the release non-VA medical
+          We’re rolling out the Authorize the release of non-VA medical
           information to VA (VA Forms 21-4142 and 21-4142a) in stages. It’s not
           quite ready yet. Please check back again soon.
         </p>
