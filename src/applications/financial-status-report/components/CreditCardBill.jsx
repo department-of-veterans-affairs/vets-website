@@ -15,6 +15,8 @@ const defaultRecord = [
     amountPastDue: '',
   },
 ];
+export const SUMMARY_PATH = '/credit-card-bills-summary';
+export const START_PATH = '/credit-card-bills';
 
 const CreditCardBill = props => {
   const { data, goToPath, setFormData } = props;
@@ -79,8 +81,6 @@ const CreditCardBill = props => {
     handleChange('amountPastDue', event.target.value);
   };
 
-  const RETURN_PATH = '/credit-card-bills-summary';
-
   const updateFormData = e => {
     setSubmitted(true);
     e.preventDefault();
@@ -108,7 +108,7 @@ const CreditCardBill = props => {
         },
       });
 
-      goToPath(RETURN_PATH);
+      goToPath(SUMMARY_PATH);
     }
   };
 
@@ -116,7 +116,11 @@ const CreditCardBill = props => {
     onSubmit: event => event.preventDefault(),
     onCancel: event => {
       event.preventDefault();
-      goToPath(RETURN_PATH);
+      if (creditCardBills.length === 0) {
+        goToPath(START_PATH);
+      } else {
+        goToPath(SUMMARY_PATH);
+      }
     },
     onUpdate: event => {
       event.preventDefault();
@@ -124,7 +128,7 @@ const CreditCardBill = props => {
     },
     onBack: event => {
       event.preventDefault();
-      goToPath(RETURN_PATH);
+      goToPath(SUMMARY_PATH);
     },
   };
 
