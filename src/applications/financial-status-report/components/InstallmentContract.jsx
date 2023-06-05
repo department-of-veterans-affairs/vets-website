@@ -22,7 +22,7 @@ const defaultRecord = [
 ];
 
 export const SUMMARY_PATH = '/installment-contracts-summary';
-export const START_PATH = '/installment-contracts-summary';
+export const START_PATH = '/installment-contracts';
 
 const InstallmentContract = props => {
   const { data, goToPath, setFormData } = props;
