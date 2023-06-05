@@ -19,6 +19,7 @@ import {
   getClaimType,
   getCompletedDate,
   getItemDate,
+  getTrackedItemDate,
   getUserPhase,
   itemsNeedingAttentionFromVet,
 } from '../utils/helpers';
@@ -107,10 +108,6 @@ const generateSupportingDocuments = claim => {
       type: 'supporting_document',
     }))
     .filter(isEventOrPrimaryPhase);
-};
-
-const getTrackedItemDate = item => {
-  return item.closedDate || item.receivedDate || item.requestedDate;
 };
 
 const generateTrackedItems = claim => {

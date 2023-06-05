@@ -54,6 +54,10 @@ export function getUserPhase(phase) {
 // START lighthouse_migration
 export const getTrackedItemId = trackedItem =>
   trackedItem.trackedItemId || trackedItem.id;
+
+export const getTrackedItemDate = item => {
+  return item.closedDate || item.receivedDate || item.requestedDate;
+};
 // END lighthouse_migration
 
 export function getItemDate(item) {
