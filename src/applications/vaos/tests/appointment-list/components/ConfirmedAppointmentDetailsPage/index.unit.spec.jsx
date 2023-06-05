@@ -93,7 +93,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Cheyenne VA Medical Center',
         phone: '970-224-1550',
         address: {
@@ -102,9 +102,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
           state: 'WY',
           line: ['2360 East Pershing Boulevard'],
         },
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -200,7 +198,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Cheyenne VA Medical Center',
         phone: '970-224-1550',
         address: {
@@ -209,9 +207,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
           state: 'WY',
           line: ['2360 East Pershing Boulevard'],
         },
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -320,7 +316,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Cheyenne VA Medical Center',
         phone: '970-224-1550',
         address: {
@@ -329,9 +325,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
           state: 'WY',
           line: ['2360 East Pershing Boulevard'],
         },
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -432,7 +426,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Cheyenne VA Medical Center',
         phone: '970-224-1550',
         address: {
@@ -441,9 +435,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
           state: 'WY',
           line: ['2360 East Pershing Boulevard'],
         },
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -640,12 +632,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
         phone: '970-224-1550',
-        version: 0,
       }),
-      version: 0,
     });
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
@@ -731,11 +721,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
-        version: 0,
       }),
-      version: 0,
     });
 
     const cancelReason = getCancelReasonMock();
@@ -832,11 +820,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -879,11 +865,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -925,11 +909,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -980,11 +962,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1075,11 +1055,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1124,11 +1102,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1169,12 +1145,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
         phone: '970-224-1550',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1278,12 +1252,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Cheyenne VA Medical Center',
         phone: '970-224-1550',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1389,9 +1361,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
         id: '437GJ',
         name: 'Facility in Denver time',
         phone: '970-224-1550',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {

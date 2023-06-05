@@ -46,20 +46,23 @@ const directFacilities = facilityIds.map(id =>
   }),
 );
 
-const vhaIds = facilityIds.map(
-  id => `vha_${id.replace('983', '442').replace('984', '552')}`,
-);
+// TODO: Make sure this works in staging before removal
+// const vhaIds = facilityIds.map(
+//   id => `vha_${id.replace('983', '442').replace('984', '552')}`,
+// );
 
-const facilities = vhaIds.map((id, index) =>
+const facilities = facilityIds.map((id, index) =>
   createMockFacilityByVersion({
     id: id.replace('vha_', ''),
     name: `Fake facility name ${index + 1}`,
     lat: Math.random() * 90,
     long: Math.random() * 180,
     address: {
+      line: [`Fake street ${index + 1}`],
       city: `Fake city ${index + 1}`,
+      state: `Fake state ${index + 1}`,
+      postalCode: `Fake zip ${index + 1}`,
     },
-    version: 0,
   }),
 );
 
@@ -76,7 +79,6 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     mockRequestEligibilityCriteria(parentSiteIds, []);
     mockFacilitiesFetchByVersion({
       facilities,
-      version: 0,
     });
     mockEligibilityFetches({
       siteId: '983',
@@ -122,8 +124,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
 
     // Should show 6th facility
     expect(screen.baseElement).to.contain.text('Fake facility name 6');
-    expect(screen.baseElement).to.contain.text('Fake street');
-    expect(screen.baseElement).to.contain.text('Fake city 6, FA fake zip');
+    expect(screen.baseElement).to.contain.text('Fake street 6');
+    expect(screen.baseElement).to.contain.text(
+      'Fake city 6, Fake state 6 Fake zip 6',
+    );
     await waitFor(() =>
       expect(document.activeElement.id).to.equal('root_vaFacility_6'),
     );
@@ -145,7 +149,6 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     mockRequestEligibilityCriteria(parentSiteIds, []);
     mockFacilitiesFetchByVersion({
       facilities,
-      version: 0,
     });
     mockEligibilityFetches({
       siteId: '983',
@@ -217,7 +220,6 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     mockRequestEligibilityCriteria(parentSiteIds, []);
     mockFacilitiesFetchByVersion({
       facilities,
-      version: 0,
     });
     mockEligibilityFetches({
       siteId: '983',
@@ -284,7 +286,6 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     mockRequestEligibilityCriteria(parentSiteIds, []);
     mockFacilitiesFetchByVersion({
       facilities,
-      version: 0,
     });
     mockEligibilityFetches({
       siteId: '983',
@@ -335,7 +336,6 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     mockRequestEligibilityCriteria(parentSiteIds, []);
     mockFacilitiesFetchByVersion({
       facilities: facilities.slice(0, 5),
-      version: 0,
     });
     mockEligibilityFetches({
       siteId: '983',
@@ -371,7 +371,6 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     mockRequestEligibilityCriteria(parentSiteIds, []);
     mockFacilitiesFetchByVersion({
       facilities,
-      version: 0,
     });
     mockEligibilityFetches({
       siteId: '983',
@@ -419,21 +418,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       name: 'Bozeman VA medical center',
       lat: 39.1362562,
       long: -85.6804804,
-      version: 0,
     });
-    facilityDetails.attributes.address = {
-      physical: {
-        zip: 'fake',
-        city: 'Bozeman',
-        state: 'MT',
-        address1: 'fake',
-        address2: null,
-        address3: null,
-      },
-    };
-    facilityDetails.attributes.phone = {
-      main: '4065555858',
-    };
     mockDirectBookingEligibilityCriteria(parentSiteIds, [
       facilityConfig,
       getDirectBookingEligibilityCriteriaMock({
@@ -451,10 +436,8 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
           name: 'Facility 124',
           lat: 39.1362562,
           long: -85.6804804,
-          version: 0,
         }),
       ],
-      version: 0,
     });
 
     const state = {
@@ -496,7 +479,6 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     mockRequestEligibilityCriteria(parentSiteIds, []);
     mockFacilitiesFetchByVersion({
       facilities: facilities.slice(0, 5),
-      version: 0,
     });
     mockEligibilityFetches({
       siteId: '983',
@@ -524,7 +506,6 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     mockRequestEligibilityCriteria(parentSiteIds, []);
     mockFacilitiesFetchByVersion({
       facilities,
-      version: 0,
     });
     const store = createTestStore(initialState);
 
@@ -557,7 +538,6 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     mockRequestEligibilityCriteria(parentSiteIds, []);
     mockFacilitiesFetchByVersion({
       facilities: facilities.slice(0, 1),
-      version: 0,
     });
     const clinic = getClinicMock();
     clinic.attributes.siteCode = '983';
@@ -599,7 +579,6 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     mockRequestEligibilityCriteria(parentSiteIds, []);
     mockFacilitiesFetchByVersion({
       facilities: facilities.slice(0, 1),
-      version: 0,
     });
     const clinic = getClinicMock();
     clinic.attributes.siteCode = '983';
@@ -641,7 +620,6 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     mockRequestEligibilityCriteria(parentSiteIds, []);
     mockFacilitiesFetchByVersion({
       facilities: facilities.slice(0, 1),
-      version: 0,
     });
     mockEligibilityFetches({
       siteId: '983',
@@ -679,7 +657,6 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     mockRequestEligibilityCriteria(parentSiteIds, []);
     mockFacilitiesFetchByVersion({
       facilities: facilities.slice(0, 1),
-      version: 0,
     });
     mockEligibilityFetches({
       siteId: '983',
@@ -714,7 +691,6 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     mockRequestEligibilityCriteria(parentSiteIds, []);
     mockFacilitiesFetchByVersion({
       facilities: facilities.slice(0, 5),
-      version: 0,
     });
     mockEligibilityFetches({
       siteId: '983',

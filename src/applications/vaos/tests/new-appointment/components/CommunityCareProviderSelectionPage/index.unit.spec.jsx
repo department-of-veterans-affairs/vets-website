@@ -326,13 +326,11 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GJ',
+        id: '983GJ',
         name: 'Facility that is enabled',
         lat: 39.1362562,
         long: -83.1804804,
-        version: 0,
       }),
-      version: 0,
     });
 
     await setTypeOfCare(store, /primary care/i);
