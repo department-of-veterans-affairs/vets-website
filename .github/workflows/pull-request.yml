@@ -11,6 +11,7 @@ env:
 jobs:
   check-cross-app-imports:
     name: Check Cross App Imports
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,6 +32,7 @@ jobs:
 
   eslint-disable-check:
     name: ESLint Disable Check
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.draft == false }}
     steps:
@@ -88,7 +90,7 @@ jobs:
   icon-check:
     name: Icon Check
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.draft == false }}
+    if: ${{ github.event.pull_request.draft == false && github.actor != 'dependabot[bot]'}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -145,7 +147,7 @@ jobs:
   sentry-check:
     name: Sentry Check
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.draft == false }}
+    if: ${{ github.event.pull_request.draft == false && github.actor != 'dependabot[bot]'}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -201,6 +203,7 @@ jobs:
 
   linting:
     name: Linting (Files Changed)
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
