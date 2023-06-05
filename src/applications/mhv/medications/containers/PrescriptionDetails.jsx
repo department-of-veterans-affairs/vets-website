@@ -74,7 +74,7 @@ const PrescriptionDetails = () => {
 
           <div className="medication-details-div vads-u-margin-y--2 vads-u-padding-bottom--3">
             <h2 className="vads-u-margin-y--2">Medication details</h2>
-            <button type="button">Refill medication</button>
+            <va-button text="Refill medication" />
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescription number
             </h3>
@@ -152,7 +152,7 @@ const PrescriptionDetails = () => {
             </h3>
             <p>{prescription.source}</p>
           </div>
-          <div>
+          <div className="vads-u-margin-bottom--8">
             <h2 className="vads-u-margin-top--3">
               Refill history and medication images
             </h2>
