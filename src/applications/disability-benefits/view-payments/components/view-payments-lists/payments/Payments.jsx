@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { generateTableChildren } from '@department-of-veterans-affairs/component-library';
 import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -29,7 +28,6 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
   const paginatedData = useRef([]);
   useEffect(() => {
     paginatedData.current = paginateData(data);
-
     setCurrentData(paginatedData.current[currentPage - 1]);
     totalPages.current = paginatedData.current.length;
   }, []);
@@ -41,8 +39,6 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
 
   const fromToNums = getFromToNums(currentPage, data.length);
 
-  const tableRows = () => <>{generateTableChildren(currentData, fields)}</>;
-
   if (currentData) {
     return (
       <>
@@ -50,7 +46,22 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
         <p className="vads-u-font-size--lg vads-u-font-family--serif">
           Displaying {fromToNums[0]} - {fromToNums[1]} of {data.length}
         </p>
-        <va-table>{tableRows}</va-table>
+        <va-table>
+          <va-table-row slot="headers">
+            {fields.map(col => (
+              <span key={col.label}>{col.label}</span>
+            ))}
+          </va-table-row>
+          {currentData.map((row, index) => {
+            return (
+              <va-table-row key={index}>
+                {fields.map(field => (
+                  <span key={field.value}>{row[field.value]}</span>
+                ))}
+              </va-table-row>
+            );
+          })}
+        </va-table>
         <VaPagination
           onPageSelect={e => onPageChange(e.detail.page)}
           page={currentPage}
