@@ -5,11 +5,8 @@ import PatientInboxPage from './pages/PatientInboxPage';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     const threadLength = 28;
-
     mockMessagesPageOne.data.forEach(item => {
       const currentItem = item;
       currentItem.attributes.threadPageSize = threadLength;
@@ -18,15 +15,18 @@ describe('Secure Messaging Reply', () => {
       const currentItem = item;
       currentItem.attributes.threadPageSize = threadLength;
     });
-    landingPage.loadInboxMessages(mockMessagesPageOne);
-    site.loadVAPaginationNextMessages(2, mockMessagesPageTwo);
-    site.verifyPaginationMessagesDisplayed(11, 20, threadLength);
-    site.loadVAPaginationPreviousMessages(1, mockMessagesPageOne);
-    site.verifyPaginationMessagesDisplayed(1, 10, threadLength);
-    site.loadVAPaginationPageMessages(1, mockMessagesPageOne);
-    site.verifyPaginationMessagesDisplayed(1, 10, threadLength);
-    site.loadVAPaginationPageMessages(2, mockMessagesPageTwo);
-    site.verifyPaginationMessagesDisplayed(11, 20, threadLength);
+    PatientInboxPage.loadInboxMessages(mockMessagesPageOne);
+    SecureMessagingSite.loadVAPaginationNextMessages(2, mockMessagesPageTwo);
+    SecureMessagingSite.verifyPaginationMessagesDisplayed(11, 20, threadLength);
+    SecureMessagingSite.loadVAPaginationPreviousMessages(
+      1,
+      mockMessagesPageOne,
+    );
+    SecureMessagingSite.verifyPaginationMessagesDisplayed(1, 10, threadLength);
+    SecureMessagingSite.loadVAPaginationPageMessages(1, mockMessagesPageOne);
+    SecureMessagingSite.verifyPaginationMessagesDisplayed(1, 10, threadLength);
+    SecureMessagingSite.loadVAPaginationPageMessages(2, mockMessagesPageTwo);
+    SecureMessagingSite.verifyPaginationMessagesDisplayed(11, 20, threadLength);
 
     cy.injectAxe();
     cy.axeCheck();

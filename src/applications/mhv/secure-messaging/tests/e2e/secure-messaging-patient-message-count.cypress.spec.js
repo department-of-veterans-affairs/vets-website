@@ -1,17 +1,17 @@
-import FolderResponse from './fixtures/folder-response.json';
+// import FolderResponse from './fixtures/folder-response.json';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 
-describe.skip('Secure Messaging Patient Message Count', () => {
+describe('Secure Messaging Patient Message Count', () => {
   it('Patient Message Count', () => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('[data-testid=message-list-item]').should('have.length', 10);
+    cy.get('[data-testid="thread-list-item"]').should('have.length', 10);
     cy.visit('/my-health/secure-messages/');
+    // Unknown tests (check the goal of testing)
+    /*
     cy.get('[data-testid=Sent] a')
       .invoke('text')
       .should(
@@ -24,5 +24,6 @@ describe.skip('Secure Messaging Patient Message Count', () => {
         'contain',
         `${FolderResponse.data[4].attributes.unreadCount} unread messages`,
       );
+     */
   });
 });

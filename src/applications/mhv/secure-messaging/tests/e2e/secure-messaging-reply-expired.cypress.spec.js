@@ -6,16 +6,13 @@ import defaultMockThread from './fixtures/thread-response.json';
 
 describe('Secure Messaging Reply to Expired Mesage', () => {
   it('reply expired messages', () => {
-    const landingPage = new PatientInboxPage();
-    const messageDetailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages(
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
-      landingPage.getExpired46DayOldMessageDetails(),
+      PatientInboxPage.getExpired46DayOldMessageDetails(),
     );
-    messageDetailsPage.loadMessageDetails(
-      landingPage.getExpired46DayOldMessageDetails(),
+    PatientMessageDetailsPage.loadMessageDetails(
+      PatientInboxPage.getExpired46DayOldMessageDetails(),
       defaultMockThread,
       0,
     );

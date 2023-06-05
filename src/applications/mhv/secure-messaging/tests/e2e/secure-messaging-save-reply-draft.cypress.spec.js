@@ -7,25 +7,22 @@ import mockMessages from './fixtures/messages-response.json';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
-    const landingPage = new PatientInboxPage();
-    const messageDetailsPage = new PatientMessageDetailsPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
-    const replyPage = new PatientReplyPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    const messageDetails = landingPage.getNewMessageDetails();
+    SecureMessagingSite.login();
+    const messageDetails = PatientInboxPage.getNewMessageDetails();
     const messageDetailsBody = messageDetails.data.attributes.body;
 
-    landingPage.loadInboxMessages(mockMessages, messageDetails);
-    messageDetailsPage.loadMessageDetails(messageDetails);
-    messageDetailsPage.loadReplyPageDetails(messageDetails);
-    patientInterstitialPage.getContinueButton().click();
+    PatientInboxPage.loadInboxMessages(mockMessages, messageDetails);
+    PatientMessageDetailsPage.loadMessageDetails(messageDetails);
+    PatientMessageDetailsPage.loadReplyPageDetails(messageDetails);
+    PatientInterstitialPage.getContinueButton().click();
     const testMessageBody = 'Test message body';
-    replyPage.getMessageBodyField().type(testMessageBody, { force: true });
+    PatientReplyPage.getMessageBodyField().type(testMessageBody, {
+      force: true,
+    });
     cy.injectAxe();
     cy.axeCheck();
 
-    replyPage.saveReplyDraft(messageDetails, testMessageBody);
+    PatientReplyPage.saveReplyDraft(messageDetails, testMessageBody);
     cy.log(
       `the message details after saveReplyDraft ${JSON.stringify(
         messageDetails,
@@ -40,16 +37,16 @@ describe('Secure Messaging Reply', () => {
         messageDetails.data.attributes.body
       }`,
     );
-    messageDetailsPage.ReplyToMessageTO(messageDetails);
-    messageDetailsPage.ReplyToMessagesenderName(messageDetails);
-    messageDetailsPage.ReplyToMessagerecipientName(messageDetails);
-    messageDetailsPage.ReplyToMessageDate(messageDetails);
-    messageDetailsPage.ReplyToMessageId(messageDetails);
+    PatientMessageDetailsPage.ReplyToMessageTO(messageDetails);
+    PatientMessageDetailsPage.ReplyToMessagesenderName(messageDetails);
+    PatientMessageDetailsPage.ReplyToMessagerecipientName(messageDetails);
+    PatientMessageDetailsPage.ReplyToMessageDate(messageDetails);
+    PatientMessageDetailsPage.ReplyToMessageId(messageDetails);
 
     messageDetails.data.attributes.body = messageDetailsBody;
-    messageDetailsPage.ReplyToMessagebody(testMessageBody);
+    PatientMessageDetailsPage.ReplyToMessagebody(testMessageBody);
 
-    replyPage.sendReplyDraft(
+    PatientReplyPage.sendReplyDraft(
       messageDetails.data.attributes.messageId,
       messageDetails.data.attributes.senderId,
       messageDetails.data.attributes.category,

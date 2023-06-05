@@ -4,10 +4,8 @@ import mockMessages from '../fixtures/messages-response.json';
 
 describe('Secure Messaging Sent Folder AXE Check', () => {
   it('Axe Check Sent Folder', () => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
     cy.intercept('GET', '/my_health/v1/messaging/folders/-1', mockMessages);
     cy.intercept(
       'GET',
