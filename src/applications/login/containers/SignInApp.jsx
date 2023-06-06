@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
 
-import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
 import LoginContainer from 'platform/user/authentication/components/LoginContainer';
 import { isLoggedIn } from 'platform/user/selectors';
 import { signInServiceEnabled } from 'platform/user/authentication/selectors';
@@ -75,7 +74,6 @@ export function UnifiedSigninPage({ router, location }) {
     <>
       <style>{css}</style>
       <div>
-        <AutoSSO />
         <LoginContainer
           isUnifiedSignIn
           externalApplication={externalApplication}
