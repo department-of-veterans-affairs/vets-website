@@ -108,4 +108,17 @@ describe('profileContactInfo', () => {
     expect(veteran.properties.mobilePhone).to.be.undefined;
     expect(veteran.properties.email).to.be.undefined;
   });
+
+  it('should add custom uiSchema', () => {
+    const result = profileContactInfo({
+      contactInfoUiSchema: {
+        'ui:required': ['test1'],
+        'ui:options': { test2: true },
+      },
+    });
+    const { uiSchema } = result[pageKey];
+
+    expect(uiSchema['ui:required']).to.deep.equal(['test1']);
+    expect(uiSchema['ui:options'].test2).to.be.true;
+  });
 });

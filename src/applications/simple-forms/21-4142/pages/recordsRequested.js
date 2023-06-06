@@ -16,9 +16,10 @@ import RecordField from '../components/RecordField';
 export default {
   uiSchema: {
     'ui:description': (
-      <div className="vads-u-margin-bottom--4">
-        Let us know where and when treatment was received. We'll request the
-        private medical records for you.
+      <div className="vads-u-margin-bottom--2">
+        Let us know where the person you're requesting medical records for
+        received treatment. You may add up to 5 medical record or information
+        requests.
       </div>
     ),
     'ui:options': {
@@ -31,8 +32,8 @@ export default {
         )
           patientId = 'Veteran';
         const title = (
-          <h3 className="vads-u-color--gray-dark">
-            Where did the {patientId} receive treatment?
+          <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
+            Tell us where the {patientId} received treatment
           </h3>
         );
         return { title };
@@ -40,13 +41,16 @@ export default {
     },
     [providerFacilityFields.parentObject]: {
       'ui:options': {
-        itemName: 'Treatment record',
+        itemName: 'treatment record',
         viewField: RecordField,
         keepInPageOnReview: true,
         useDlWrap: true,
         customTitle: ' ',
       },
       items: {
+        'ui:options': {
+          classNames: 'vads-u-margin-left--1p5',
+        },
         'ui:order': [
           providerFacilityFields.providerFacilityName,
           providerFacilityFields.providerFacilityAddress,
@@ -68,7 +72,7 @@ export default {
         ),
         [providerFacilityFields.conditionsTreated]: {
           'ui:title':
-            'List the conditions the patient was treated for at this facility',
+            'List the conditions the person received treatment for at this facility',
           'ui:widget': 'textarea',
           'ui:required': () => true,
           'ui:errorMessages': {

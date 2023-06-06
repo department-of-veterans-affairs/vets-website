@@ -36,6 +36,8 @@ export const ErrorMessages = {
       title: "We can't save attachments in a draft message",
       p1:
         "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
+      saveDraft: 'Save draft without attachments',
+      editDraft: 'Keep editing',
     },
     UNABLE_TO_SAVE_OTHER: 'Something went wrong... Failed to save message.',
     ATTACHMENTS: {

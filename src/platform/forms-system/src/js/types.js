@@ -25,7 +25,7 @@
  * @property {Record<string, FormConfigChapter>} [chapters]
  * @property {(props: any) => JSX.Element} [confirmation]
  * @property {CustomText} [customText]
- * @property {Record<string, SchemaOptions>} [defaultDefinitions]
+ * @property {Record<string, SchemaOptions> | Record<string, any>} [defaultDefinitions]
  * @property {Dev} [dev] - object of dev-only options
  * @property {Downtime} [downtime]
  * @property {(props: any) => JSX.Element} [errorText]
@@ -82,7 +82,7 @@
 
 /**
  * @typedef {Object} Downtime
- * @property {Array<string>} [dependnecies]
+ * @property {Array<string>} [dependencies]
  * @property {string} [endTime]
  * @property {string} [message]
  * @property {boolean} [requiredForPrefill]
@@ -117,6 +117,7 @@
  * @property {string} [messages.inProgress]
  * @property {string} [messages.expired]
  * @property {string} [messages.saved]
+ * @property {() => string} [restartFormCallback] - return restart destination url
  */
 
 /**
@@ -131,8 +132,9 @@
 /**
  * @typedef {Object} FormConfigChapter
  * @property {Record<string, FormConfigPage>} [pages]
- * @property {string | Function} [title]
+ * @property {string | ({ formData }: { formData?: Object }) => string} [title]
  * @property {boolean} [hideFormNavProgress]
+ * @property {React.ReactNode} [reviewDescription]
  */
 
 /**
@@ -140,43 +142,45 @@
  * @property {string} [arrayPath]
  * @property {(props: any) => JSX.Element} [CustomPage]
  * @property {(props: any) => JSX.Element} [CustomPageReview]
- * @property {(formData: Object) => boolean} [depends]
+ * @property {((formData: Object) => boolean) | {}} [depends]
  * @property {Object} [initialData]
  * @property {(formData: any) => void} [onContinue]
  * @property {(data: any) => boolean} [itemFilter]
  * @property {string} [path]
+ * @property {string} [returnUrl]
  * @property {SchemaOptions} [schema]
  * @property {string | Function} [scrollAndFocusTarget]
  * @property {boolean} [showPagePerItem]
- * @property {string | Function} [title]
+ * @property {string | ({ formData }: { formData?: Object }) => string} [title]
  * @property {UISchemaOptions} [uiSchema]
  * @property {(item, index) => void} [updateFormData]
  */
 
 /**
- * @typedef {Object} PageSchema - The schema for a page (only uiSchema and schema). If you want all the page properties, use FormConfigPage
- * @property {UISchemaOptions} uiSchema
- * @property {SchemaOptions} schema
+ * @typedef {{
+ *  uiSchema: UISchemaOptions,
+ *  schema: SchemaOptions,
+ * } & Partial<FormConfigPage>} PageSchema - The schema for a page (uiSchema and schema).
  */
 
 /**
  * @typedef {{
  *    items?: UISchemaOptions,
  *   'ui:autocomplete'?: string,
- *   'ui:description'?: string | JSX.Element | ((props: any) => JSX.Element),
+ *   'ui:description'?: string | JSX.Element | React.ReactNode,
  *   'ui:disabled'?: boolean,
  *   'ui:errorMessages'?: UIErrorMessages,
- *   'ui:field'?: (props: any) => JSX.Element,
+ *   'ui:field'?: React.ReactNode,
  *   'ui:hidden'?: boolean,
- *   'ui:objectViewField'?: (props: any) => JSX.Element,
+ *   'ui:objectViewField'?: React.ReactNode,
  *   'ui:options'?: UIOptions,
  *   'ui:order'?: string[],
  *   'ui:required'?: (formData: any) => boolean,
- *   'ui:reviewField'?: (props: any) => JSX.Element,
- *   'ui:reviewWidget'?: (props: any) => JSX.Element,
- *   'ui:title'?: string | JSX.Element,
+ *   'ui:reviewField'?: React.ReactNode,
+ *   'ui:reviewWidget'?: React.ReactNode,
+ *   'ui:title'?: string | JSX.Element | React.ReactNode,
  *   'ui:validations'?: Array<((errors, value) => void)>,
- *   'ui:webComponentField'?: (props: any) => JSX.Element,
+ *   'ui:webComponentField'?: React.ReactNode,
  *   'ui:widget'?: 'yesNo' | 'checkbox' | 'radio' | 'select' | 'email' | 'date' | 'textarea'  | OrAnyString | ((props: any) => JSX.Element),
  * } & {
  *  [key: string]: UISchemaOptions | {}
@@ -221,11 +225,11 @@
  * @property {string} [itemName]
  * @property {boolean} [keepInPageOnReview]
  * @property {Record<string, string>} [labels]
- * @property {(formData: any) => any} [replaceSchema]
- * @property {(formData, schema, uiSchema, index, path) => any} [updateSchema]
+ * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [replaceSchema]
+ * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [updateSchema]
  * @property {boolean} [useDlWrap]
- * @property {(props: any) => JSX.Element} [viewComponent]
- * @property {(props: any) => JSX.Element} [viewField]
+ * @property {React.ReactNode} [viewComponent]
+ * @property {React.ReactNode} [viewField]
  * @property {string} [widgetClassNames]
  * @property {Record<string, any>} [widgetProps]
  */

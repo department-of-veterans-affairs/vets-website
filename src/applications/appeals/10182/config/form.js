@@ -13,12 +13,6 @@ import submitForm from './submitForm';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
-import ReviewDescription from '../components/ReviewDescription';
-import {
-  EditPhone,
-  EditEmail,
-  EditAddress,
-} from '../components/EditContactInfo';
 import AddIssue from '../components/AddIssue';
 
 import {
@@ -33,8 +27,8 @@ import { CONTESTABLE_ISSUES_PATH } from '../constants';
 
 // Pages
 import veteranInfo from '../pages/veteranInfo';
-import contactInfo from '../pages/contactInfo';
 import homeless from '../pages/homeless';
+import contactInfo from '../pages/contactInfo';
 import contestableIssues from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
@@ -97,7 +91,6 @@ const formConfig = {
   chapters: {
     infoPages: {
       title: 'Veteran details',
-      reviewDescription: ReviewDescription,
       pages: {
         veteranInformation: {
           title: 'Veteran details',
@@ -112,39 +105,7 @@ const formConfig = {
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
         },
-        confirmContactInformation: {
-          title: 'Contact information',
-          path: 'contact-information',
-          uiSchema: contactInfo.uiSchema,
-          schema: contactInfo.schema,
-        },
-        editMobilePhone: {
-          title: 'Edit mobile phone',
-          path: 'edit-mobile-phone',
-          CustomPage: EditPhone,
-          CustomPageReview: EditPhone,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-        editEmailAddress: {
-          title: 'Edit email address',
-          path: 'edit-email-address',
-          CustomPage: EditEmail,
-          CustomPageReview: EditEmail,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-        editMailingAddress: {
-          title: 'Edit mailing address',
-          path: 'edit-mailing-address',
-          CustomPage: EditAddress,
-          CustomPageReview: EditAddress,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
+        ...contactInfo,
       },
     },
     conditions: {
@@ -172,6 +133,7 @@ const formConfig = {
           CustomPage: AddIssue,
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
+          returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         areaOfDisagreementFollowUp: {
           title: getIssueName,

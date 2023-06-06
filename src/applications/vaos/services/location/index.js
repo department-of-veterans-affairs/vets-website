@@ -7,7 +7,6 @@
  */
 
 import {
-  getFacilitiesBySystemAndTypeOfCare,
   getFacilityInfo,
   getFacilitiesInfo,
   getDirectBookingEligibilityCriteria,
@@ -19,7 +18,6 @@ import {
 } from '../var';
 import { mapToFHIRErrors } from '../utils';
 import {
-  transformDSFacilities,
   transformFacilities,
   transformFacility,
   setSupportedSchedulingMethods,
@@ -42,44 +40,6 @@ import {
   transformFacilityV2,
 } from './transformers.v2';
 import { getRealFacilityId } from '../../utils/appointment';
-
-/**
- * Fetch facility information for the facilities in the given site, based on type of care
- *
- * @export
- * @async
- * @param {Object} locationParams Parameters needed for fetching locations
- * @param {String} locationParams.siteId A VistA site id for the locations being pulled
- * @param {String} locationParams.parentId An id for the parent organization of the facilities being pulled
- * @param {String} locationParams.typeOfCareId An id for the type of care to check for the chosen organization
- * @returns {Array<Location>} A FHIR searchset of Location resources
- */
-export async function getSupportedLocationsByTypeOfCare({
-  siteId,
-  parentId,
-  typeOfCareId,
-}) {
-  try {
-    const parentFacilities = await getFacilitiesBySystemAndTypeOfCare(
-      siteId,
-      parentId,
-      typeOfCareId,
-    );
-
-    return transformDSFacilities(
-      // Doing this here because the FHIR service will return only supported facilities
-      parentFacilities.filter(
-        f => f.directSchedulingSupported || f.requestSupported,
-      ),
-    ).sort((a, b) => (a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1));
-  } catch (e) {
-    if (e.errors) {
-      throw mapToFHIRErrors(e.errors);
-    }
-
-    throw e;
-  }
-}
 
 /**
  * Fetch list of facilities
