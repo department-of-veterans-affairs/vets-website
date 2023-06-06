@@ -6,6 +6,14 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import { getJobIndex } from '../utils/session';
 import Checklist from './shared/CheckList';
 
+const defaultRecord = {
+  type: '',
+  from: '',
+  to: '',
+  isCurrent: false,
+  employerName: '',
+};
+
 const PayrollDeductionChecklist = props => {
   const { goToPath, goBack, onReviewPage, setFormData } = props;
 
@@ -16,10 +24,18 @@ const PayrollDeductionChecklist = props => {
   const userType = 'veteran';
 
   const index = isEditing ? Number(editIndex) : 0;
-
   const formData = useSelector(state => state.form.data);
-  const employmentRecord =
-    formData.personalData.employmentHistory.veteran.employmentRecords[index];
+
+  const {
+    personalData: {
+      employmentHistory: {
+        newRecord = {},
+        spouse: { employmentRecords = [] },
+      },
+    },
+  } = formData;
+
+  const employmentRecord = isEditing ? employmentRecords[index] : newRecord;
 
   const { employerName } = employmentRecord;
 
@@ -47,16 +63,14 @@ const PayrollDeductionChecklist = props => {
     e.preventDefault();
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
-      const updatedRecords = formData.personalData.employmentHistory.veteran.employmentRecords.map(
-        (item, arrayIndex) => {
-          return arrayIndex === index
-            ? {
-                ...employmentRecord,
-                deductions: selectedDeductions,
-              }
-            : item;
-        },
-      );
+      const updatedRecords = employmentRecords.map((item, arrayIndex) => {
+        return arrayIndex === index
+          ? {
+              ...employmentRecord,
+              deductions: selectedDeductions,
+            }
+          : item;
+      });
       // deductions: deductions.filter(source => source.name !== value)
       // update form data
       setFormData({
@@ -72,23 +86,31 @@ const PayrollDeductionChecklist = props => {
           },
         },
       });
-    } else {
-      const records = [
-        { ...employmentRecord, deductions: selectedDeductions },
-        ...formData.personalData.employmentHistory.veteran.employmentRecords.slice(
-          1,
-        ),
-      ];
-
+    } else if (selectedDeductions.length > 0) {
       setFormData({
         ...formData,
         personalData: {
           ...formData.personalData,
           employmentHistory: {
             ...formData.personalData.employmentHistory,
+            newRecord: { ...employmentRecord, deductions: selectedDeductions },
+          },
+        },
+      });
+    } else {
+      setFormData({
+        ...formData,
+        personalData: {
+          ...formData.personalData,
+          employmentHistory: {
+            ...formData.personalData.employmentHistory,
+            newRecord: { ...defaultRecord },
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
-              employmentRecords: records,
+              employmentRecords: [
+                { ...employmentRecord },
+                ...employmentRecords,
+              ],
             },
           },
         },

@@ -16,8 +16,17 @@ const GrossMonthlyIncomeInput = props => {
   const userType = 'veteran';
 
   const formData = useSelector(state => state.form.data);
-  const employmentRecord =
-    formData.personalData.employmentHistory.veteran.employmentRecords[index];
+
+  const {
+    personalData: {
+      employmentHistory: {
+        newRecord = {},
+        spouse: { employmentRecords = [] },
+      },
+    },
+  } = formData;
+
+  const employmentRecord = isEditing ? employmentRecords[index] : newRecord;
 
   const {
     employerName = '',
@@ -61,19 +70,16 @@ const GrossMonthlyIncomeInput = props => {
 
   const updateFormData = e => {
     e.preventDefault();
-    setGrossMonthlyIncome({ ...grossMonthlyIncome, dirty: true });
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
-      const updatedRecords = formData.personalData.employmentHistory.veteran.employmentRecords.map(
-        (item, arrayIndex) => {
-          return arrayIndex === index
-            ? {
-                ...employmentRecord,
-                grossMonthlyIncome: grossMonthlyIncome.value,
-              }
-            : item;
-        },
-      );
+      const updatedRecords = employmentRecords.map((item, arrayIndex) => {
+        return arrayIndex === index
+          ? {
+              ...employmentRecord,
+              grossMonthlyIncome: grossMonthlyIncome.value,
+            }
+          : item;
+      });
       // update form data
       setFormData({
         ...formData,
@@ -89,37 +95,22 @@ const GrossMonthlyIncomeInput = props => {
         },
       });
     } else {
-      const records = [
-        {
-          ...employmentRecord,
-          grossMonthlyIncome: grossMonthlyIncome.value,
-        },
-        ...formData.personalData.employmentHistory.veteran.employmentRecords.slice(
-          1,
-        ),
-      ];
-
       setFormData({
         ...formData,
         personalData: {
           ...formData.personalData,
           employmentHistory: {
             ...formData.personalData.employmentHistory,
-            [`${userType}`]: {
-              ...formData.personalData.employmentHistory[`${userType}`],
-              employmentRecords: records,
+            newRecord: {
+              ...employmentRecord,
+              grossMonthlyIncome: grossMonthlyIncome.value,
             },
           },
         },
       });
     }
-    if (grossMonthlyIncome.value) {
-      if (employmentRecord.isCurrent) {
-        goToPath(`/deduction-checklist`);
-      } else {
-        goToPath(`/employment-history`);
-      }
-    }
+
+    goToPath(`/deduction-checklist`);
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;

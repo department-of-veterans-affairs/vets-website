@@ -9,15 +9,13 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getJobIndex } from '../utils/session';
 
-const defaultRecord = [
-  {
-    type: '',
-    from: '',
-    to: '',
-    isCurrent: false,
-    employerName: '',
-  },
-];
+const defaultRecord = {
+  type: '',
+  from: '',
+  to: '',
+  isCurrent: false,
+  employerName: '',
+};
 
 const RETURN_PATH = '/spouse-employment-history';
 
@@ -34,17 +32,13 @@ const EmploymentRecord = props => {
     personalData: {
       employmentHistory: {
         spouse: { employmentRecords = [] },
+        newRecord = { ...defaultRecord },
       },
     },
   } = data;
 
-  // if we have employment history and plan to edit, we need to get it from the employmentRecords
-  const specificRecord = employmentRecords
-    ? employmentRecords[index]
-    : defaultRecord[0];
-
   const [employmentRecord, setEmploymentRecord] = useState({
-    ...(isEditing ? specificRecord : defaultRecord[0]),
+    ...(isEditing ? employmentRecords[index] : newRecord),
   });
   const [employerName, setEmployerName] = useState(
     employmentRecord.employerName || null,
@@ -76,6 +70,10 @@ const EmploymentRecord = props => {
     },
     onCancel: event => {
       event.preventDefault();
+      if (editIndex === null) {
+        goToPath('/enhanced-spouse-employment-question');
+        return;
+      }
       goToPath(RETURN_PATH);
     },
     handleDateChange: (key, monthYear) => {
@@ -100,7 +98,6 @@ const EmploymentRecord = props => {
   const [typeError, setTypeError] = useState('');
 
   const userType = 'spouse';
-  const userArray = 'currEmployment';
 
   const nameError = !employerName ? 'Please enter your employer name.' : null;
 
@@ -124,7 +121,6 @@ const EmploymentRecord = props => {
       // update form data
       setFormData({
         ...data,
-        [`${userArray}`]: employmentRecord.isCurrent ? [employmentRecord] : [],
         personalData: {
           ...data.personalData,
           employmentHistory: {
@@ -137,24 +133,18 @@ const EmploymentRecord = props => {
         },
       });
     } else {
-      const records = [employmentRecord, ...(employmentRecords || [])];
-
       setFormData({
         ...data,
-        [`${userArray}`]: employmentRecord.isCurrent ? [employmentRecord] : [],
         personalData: {
           ...data.personalData,
           employmentHistory: {
             ...data.personalData.employmentHistory,
-            [`${userType}`]: {
-              ...data.personalData.employmentHistory[`${userType}`],
-              employmentRecords: records,
-            },
+            newRecord: { ...employmentRecord },
           },
         },
       });
     }
-    goToPath(`/spouse-employment-work-dates`);
+    goToPath('/spouse-employment-work-dates');
   };
 
   return (

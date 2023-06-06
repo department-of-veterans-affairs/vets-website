@@ -469,7 +469,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           depends: formData =>
-            formData.questions.vetIsEmployed &&
+            formData.questions.spouseIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: SpouseEmploymentWorkDates,

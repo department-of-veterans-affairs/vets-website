@@ -15,7 +15,7 @@ const defaultRecord = {
 };
 
 const SpouseEmploymentWorkDates = props => {
-  const { goToPath, onReviewPage, setFormData } = props;
+  const { goToPath, onReviewPage, setFormData, data } = props;
 
   const RETURN_PATH = '/enhanced-spouse-employment-records';
 
@@ -23,25 +23,21 @@ const SpouseEmploymentWorkDates = props => {
 
   const index = Number(editIndex) ?? 0;
 
+  const isEditing = editIndex && !Number.isNaN(editIndex);
+
   const userType = 'spouse';
-  const userArray = 'currEmployment';
 
   const {
     personalData: {
       employmentHistory: {
+        newRecord = {},
         spouse: { employmentRecords = [] },
       },
     },
-  } = props.data;
-
-  const specificRecord = employmentRecords
-    ? employmentRecords[index]
-    : defaultRecord;
+  } = data;
 
   const [employmentRecord, setEmploymentRecord] = useState({
-    ...(specificRecord.employerName.length > 0
-      ? specificRecord
-      : defaultRecord),
+    ...(isEditing ? employmentRecords[index] : newRecord),
   });
 
   const { employerName = '', from, to } = employmentRecord;
@@ -56,32 +52,67 @@ const SpouseEmploymentWorkDates = props => {
 
   const updateFormData = e => {
     e.preventDefault();
-    // find the one we are editing in the employeeRecords array
-    const updatedRecords = employmentRecords.map((item, arrayIndex) => {
-      return arrayIndex === index ? employmentRecord : item;
-    });
-    // update form data
-    setFormData({
-      ...props.data,
-      [`${userArray}`]: employmentRecord.isCurrent ? [employmentRecord] : [],
-      personalData: {
-        ...props.data.personalData,
-        employmentHistory: {
-          ...props.data.personalData.employmentHistory,
-          [`${userType}`]: {
-            ...props.data.personalData.employmentHistory[`${userType}`],
-            employmentRecords: updatedRecords,
+    if (from) {
+      if (isEditing) {
+        // find the one we are editing in the employeeRecords array
+        const updatedRecords = employmentRecords.map((item, arrayIndex) => {
+          return arrayIndex === index ? employmentRecord : item;
+        });
+        // update form data
+        setFormData({
+          ...data,
+          personalData: {
+            ...data.personalData,
+            employmentHistory: {
+              ...data.personalData.employmentHistory,
+              [`${userType}`]: {
+                ...data.personalData.employmentHistory[`${userType}`],
+                employmentRecords: updatedRecords,
+              },
+            },
+          },
+        });
+        if (employmentRecord.isCurrent) {
+          return goToPath(`/spouse-gross-monthly-income`);
+        }
+        return goToPath(`/spouse-employment-history`);
+      }
+
+      // we are not editing a record, so we are adding a new one
+      if (employmentRecord.isCurrent) {
+        setFormData({
+          ...data,
+          personalData: {
+            ...data.personalData,
+            employmentHistory: {
+              ...data.personalData.employmentHistory,
+              newRecord: { ...employmentRecord },
+            },
+          },
+        });
+        return goToPath(`/spouse-gross-monthly-income`);
+      }
+
+      setFormData({
+        ...data,
+        personalData: {
+          ...data.personalData,
+          employmentHistory: {
+            ...data.personalData.employmentHistory,
+            newRecord: { ...defaultRecord },
+            [`${userType}`]: {
+              ...data.personalData.employmentHistory[`${userType}`],
+              employmentRecords: [
+                { ...employmentRecord },
+                ...employmentRecords,
+              ],
+            },
           },
         },
-      },
-    });
-    if (from) {
-      if (employmentRecord.isCurrent) {
-        goToPath(`/spouse-gross-monthly-income`);
-      } else {
-        goToPath(`/spouse-employment-history`);
-      }
+      });
+      return goToPath(`/spouse-employment-history`);
     }
+    return setFromDateError(startError);
   };
 
   const handleChange = (key, value) => {

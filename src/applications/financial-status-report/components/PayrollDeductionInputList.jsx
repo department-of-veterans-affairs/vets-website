@@ -4,6 +4,14 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
 
+const defaultRecord = {
+  type: '',
+  from: '',
+  to: '',
+  isCurrent: false,
+  employerName: '',
+};
+
 const PayrollDeductionInputList = props => {
   const { goToPath, goBack, onReviewPage, setFormData } = props;
 
@@ -16,8 +24,17 @@ const PayrollDeductionInputList = props => {
   const index = isEditing ? Number(editIndex) : 0;
 
   const formData = useSelector(state => state.form.data);
-  const employmentRecord =
-    formData.personalData.employmentHistory.veteran.employmentRecords[index];
+
+  const {
+    personalData: {
+      employmentHistory: {
+        newRecord = {},
+        spouse: { employmentRecords = [] },
+      },
+    },
+  } = formData;
+
+  const employmentRecord = isEditing ? employmentRecords[index] : newRecord;
 
   const { employerName, deductions } = employmentRecord;
 
@@ -45,7 +62,7 @@ const PayrollDeductionInputList = props => {
     e.preventDefault();
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
-      const updatedRecords = formData.personalData.employmentHistory.veteran.employmentRecords.map(
+      const updatedRecords = formData.personalData.employmentHistory.spouse.employmentRecords.map(
         (item, arrayIndex) => {
           return arrayIndex === index
             ? {
@@ -70,22 +87,19 @@ const PayrollDeductionInputList = props => {
         },
       });
     } else {
-      const records = [
-        { ...employmentRecord, deductions: selectedDeductions },
-        ...formData.personalData.employmentHistory.veteran.employmentRecords.slice(
-          1,
-        ),
-      ];
-
       setFormData({
         ...formData,
         personalData: {
           ...formData.personalData,
           employmentHistory: {
             ...formData.personalData.employmentHistory,
+            newRecord: { ...defaultRecord },
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
-              employmentRecords: records,
+              employmentRecords: [
+                { ...employmentRecord, deductions: selectedDeductions },
+                ...employmentRecords,
+              ],
             },
           },
         },

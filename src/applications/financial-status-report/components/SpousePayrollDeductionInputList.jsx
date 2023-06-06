@@ -4,6 +4,14 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
 
+const defaultRecord = {
+  type: '',
+  from: '',
+  to: '',
+  isCurrent: false,
+  employerName: '',
+};
+
 const SpousePayrollDeductionInputList = props => {
   const { goToPath, goBack, onReviewPage, setFormData } = props;
 
@@ -16,8 +24,17 @@ const SpousePayrollDeductionInputList = props => {
   const index = isEditing ? Number(editIndex) : 0;
 
   const formData = useSelector(state => state.form.data);
-  const employmentRecord =
-    formData.personalData.employmentHistory.spouse.employmentRecords[index];
+
+  const {
+    personalData: {
+      employmentHistory: {
+        newRecord = {},
+        spouse: { employmentRecords = [] },
+      },
+    },
+  } = formData;
+
+  const employmentRecord = isEditing ? employmentRecords[index] : newRecord;
 
   const { employerName, deductions } = employmentRecord;
 
@@ -70,22 +87,19 @@ const SpousePayrollDeductionInputList = props => {
         },
       });
     } else {
-      const records = [
-        { ...employmentRecord, deductions: selectedDeductions },
-        ...formData.personalData.employmentHistory.spouse.employmentRecords.slice(
-          1,
-        ),
-      ];
-
       setFormData({
         ...formData,
         personalData: {
           ...formData.personalData,
           employmentHistory: {
             ...formData.personalData.employmentHistory,
+            newRecord: { ...defaultRecord },
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
-              employmentRecords: records,
+              employmentRecords: [
+                { ...employmentRecord, deductions: selectedDeductions },
+                ...employmentRecords,
+              ],
             },
           },
         },
