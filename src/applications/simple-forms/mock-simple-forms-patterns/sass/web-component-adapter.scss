@@ -1,5 +1,5 @@
-// This is a hack - don't use in production without consulting with design system team
-// Can use this scss file to align web component styles to our existing styles
+// These are CSS overrides for web components to align/adjust styles with existing styles
+// don't use in production without consulting with design system team
 
 // va-text-input::part(input) {
 //     // same as usa-input-medium
@@ -26,10 +26,9 @@
 // }
 
 // Temporary styling to try styles that DST could apply
-// TODO - remove
-va-select[inert] {
-    &::part(select) {
-        border: 0;
-        background: none;
-    }
-}
+// va-select[inert] {
+//     &::part(select) {
+//         border: 0;
+//         background: none;
+//     }
+// }

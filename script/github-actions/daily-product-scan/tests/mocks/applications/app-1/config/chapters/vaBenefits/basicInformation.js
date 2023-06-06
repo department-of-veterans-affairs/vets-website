@@ -63,7 +63,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['vaCompensationType', 'wcVaCompensationType'],
+    required: ['vaCompensationType'],
     properties: {
       'view:compDesc': {
         type: 'object',
