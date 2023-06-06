@@ -19,39 +19,43 @@ const AuthorizedRoutes = () => {
         <Route exact path="/" key="App">
           <LandingPageAuth />
         </Route>
-        <Route exact path="/folders/" key="Folders">
+        <Route exact path={Paths.FOLDERS} key="Folders">
           <Folders />
         </Route>
         <Route exact path={Paths.COMPOSE} key="Compose">
           <Compose />
         </Route>
-        <Route exact path="/message/:messageId/" key="MessageDetails">
+        <Route exact path={`${Paths.MESSAGE}:messageId/`} key="MessageDetails">
           <MessageDetails />
         </Route>
-        <Route exact path="/thread/:threadId/" key="ThreadDetails">
+        <Route
+          exact
+          path={`${Paths.MESSAGE_THREAD}:threadId/`}
+          key="ThreadDetails"
+        >
           <ThreadDetails />
         </Route>
-        <Route exact path="/reply/:replyId/" key="MessageReply">
+        <Route exact path={`${Paths.REPLY}:replyId/`} key="MessageReply">
           <MessageReply />
         </Route>
-        <Route exact path="/search/results/" key="SearchResults">
+        <Route exact path={Paths.SEARCH_RESULTS} key="SearchResults">
           <SearchResults />
         </Route>
-        <Route path="/draft/:draftId/" key="Compose">
+        <Route path={`${Paths.DRAFT}:draftId/`} key="Compose">
           <Compose />
         </Route>
-        <Route path="/sent/:messageId/" key="MessageDetails">
+        <Route path={`${Paths.SENT}:messageId/`} key="MessageDetails">
           <MessageDetails />
         </Route>
-        <Route path="/trash/:messageId/" key="MessageDetails">
+        <Route path={`${Paths.DELETED}:messageId/`} key="MessageDetails">
           <MessageDetails />
         </Route>
         <Route
           path={[
-            '/inbox/',
-            '/sent/',
-            '/trash/',
-            '/drafts/',
+            Paths.INBOX,
+            Paths.SENT,
+            Paths.DELETED,
+            Paths.DRAFTS,
             `${Paths.FOLDERS}:folderId/`,
           ]}
           key="FolderListView"

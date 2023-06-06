@@ -5,9 +5,15 @@ export const Paths = {
   INBOX: '/inbox/',
   SENT: '/sent/',
   DRAFTS: '/drafts/',
+  DRAFT: '/draft/',
   DELETED: '/trash/',
   COMPOSE: '/new-message/',
+  MESSAGE: '/message/',
+  MESSAGE_THREAD: '/thread/',
   FOLDERS: '/folders/',
+  SEARCH: '/search/',
+  SEARCH_RESULTS: '/search/results/',
+  REPLY: '/reply/',
 };
 
 export const DefaultFolders = {
