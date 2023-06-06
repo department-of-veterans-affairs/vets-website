@@ -83,7 +83,50 @@ describe('Medical records PDF template', () => {
     });
 
     it('Outputs document sections in the correct order', async () => {
-      // Ensure document section order matches template order.
+      const data = require('./fixtures/all_sections.json');
+      const { pdf } = await generateAndParsePdf(data);
+
+      // Fetch the first page
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+
+      let headerPosition = 0;
+      let titlePosition = 0;
+      let detailsPosition = 0;
+      let resultsPosition = 0;
+      let footerPosition = 0;
+
+      for (const [index, item] of content.items.entries()) {
+        if (item.str) {
+          switch (item.str) {
+            case data.headerLeft:
+              headerPosition = index;
+              break;
+            case data.title:
+              titlePosition = index;
+              break;
+            case data.details.header:
+              detailsPosition = index;
+              break;
+            case data.results.header:
+              resultsPosition = index;
+              break;
+            case data.footerLeft:
+              footerPosition = index;
+              break;
+            default:
+              break;
+          }
+        }
+      }
+
+      expect(headerPosition).to.be.gt(0);
+      expect(headerPosition).to.be.lt(titlePosition);
+      expect(titlePosition).to.be.lt(detailsPosition);
+      expect(detailsPosition).to.be.lt(resultsPosition);
+      expect(resultsPosition).to.be.lt(footerPosition);
     });
 
     it('Special characters are rendered correctly', async () => {
