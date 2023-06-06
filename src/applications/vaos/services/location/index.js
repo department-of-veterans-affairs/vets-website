@@ -14,7 +14,6 @@ import {
   getCommunityCareFacilities,
   getCommunityCareFacility,
   getParentFacilities,
-  getSitesSupportingVAR,
 } from '../var';
 import { mapToFHIRErrors } from '../utils';
 import {
@@ -369,29 +368,16 @@ export async function fetchParentLocations({ siteIds, useV2 }) {
  *   to get the CC supported locations
  * @returns {Array<Location>} A list of locations that support CC requests
  */
-export async function fetchCommunityCareSupportedSites({
-  locations,
-  useV2 = false,
-}) {
-  if (useV2) {
-    const facilityConfigs = await getSchedulingConfigurations(
-      locations.map(location => location.id),
-      true,
-    );
-
-    return locations.filter(location =>
-      facilityConfigs.some(
-        facilityConfig => facilityConfig.facilityId === location.id,
-      ),
-    );
-  }
-
-  const ccSites = await getSitesSupportingVAR(
+export async function fetchCommunityCareSupportedSites({ locations }) {
+  const facilityConfigs = await getSchedulingConfigurations(
     locations.map(location => location.id),
+    true,
   );
 
   return locations.filter(location =>
-    ccSites.some(site => site.id === location.id),
+    facilityConfigs.some(
+      facilityConfig => facilityConfig.facilityId === location.id,
+    ),
   );
 }
 

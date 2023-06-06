@@ -104,14 +104,6 @@ export function getCommunityCareFacility(id) {
   }).then(parseApiObject);
 }
 
-export function getSitesSupportingVAR(systemIds) {
-  return apiRequestWithUrl(
-    `/vaos/v0/community_care/supported_sites?${systemIds
-      .map(id => `site_codes[]=${id}`)
-      .join('&')}`,
-  ).then(parseApiList);
-}
-
 export function getAvailableSlots(
   facilityId,
   typeOfCareId,
