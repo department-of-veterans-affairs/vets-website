@@ -34,7 +34,10 @@ const StatementCharges = ({ copay }) => {
         This statement shows charges you received between{' '}
         {previousCopaysStartDate} and {today}
       </p>
-      <va-table class="statement-charges-table">
+      <va-table
+        data-testid="statement-charges-table"
+        class="statement-charges-table"
+      >
         <va-table-row slot="headers">
           {fields.map(field => (
             <span key={field.value}>{field.label}</span>
