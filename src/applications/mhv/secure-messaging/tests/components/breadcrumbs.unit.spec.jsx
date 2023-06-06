@@ -16,6 +16,18 @@ describe('Breadcrumbs', () => {
     },
   };
 
+  it('finds parent breadcrumb that displays the label "Back to messages"', async () => {
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialState,
+      reducers: reducer,
+      path: `${Constants.Breadcrumbs.INBOX.path}`,
+    });
+    const breadcrumb = await screen.findByText('Back to messages', {
+      exact: true,
+    });
+    expect(breadcrumb);
+  });
+
   it('on Message Details renders without errors', async () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
@@ -33,21 +45,6 @@ describe('Breadcrumbs', () => {
     });
     expect(
       await screen.findByText('Back to inbox', {
-        exact: true,
-      }),
-    );
-  });
-
-  it('filter results only displays the breadcrumb labeled "back"', async () => {
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
-      initialState,
-      reducers: reducer,
-      path: `${Constants.Breadcrumbs.SEARCH.path}${
-        Constants.Breadcrumbs.SEARCH_RESULTS.path
-      }`,
-    });
-    expect(
-      await screen.findByText('Back', {
         exact: true,
       }),
     );
