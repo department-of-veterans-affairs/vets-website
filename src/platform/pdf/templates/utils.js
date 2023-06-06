@@ -74,7 +74,7 @@ const addHorizontalRule = (
  */
 const createDetailItem = async (doc, config, x, item) => {
   const paragraphOptions = { lineGap: 6 };
-  let titleText = item.title;
+  let titleText = item.title ?? '';
   const content = [];
   if (item.inline === true) {
     paragraphOptions.continued = true;
@@ -92,21 +92,23 @@ const createDetailItem = async (doc, config, x, item) => {
       }),
     );
   } else {
-    titleText += ' ';
-    content.push(
-      doc.struct('P', () => {
-        doc
-          .font(config.text.boldFont)
-          .fontSize(config.text.size)
-          .text(titleText, x, doc.y, paragraphOptions);
-      }),
-    );
+    if (titleText) {
+      titleText += ' ';
+      content.push(
+        doc.struct('P', () => {
+          doc
+            .font(config.text.boldFont)
+            .fontSize(config.text.size)
+            .text(titleText, x, doc.y, paragraphOptions);
+        }),
+      );
+    }
     content.push(
       doc.struct('P', () => {
         doc
           .font(config.text.font)
           .fontSize(config.text.size)
-          .text(item.value);
+          .text(item.value, x);
       }),
     );
   }

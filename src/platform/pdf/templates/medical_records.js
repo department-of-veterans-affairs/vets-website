@@ -118,11 +118,13 @@ const generateResultsContent = async (doc, parent, data) => {
       await doc.addPage();
     } else if (idx > 0) {
       initialBlock = false;
-      results.add(
-        doc.struct('Artifact', () => {
-          addHorizontalRule(doc, 20, 0.5);
-        }),
-      );
+      if (data.results.sectionSeparators !== false) {
+        results.add(
+          doc.struct('Artifact', () => {
+            addHorizontalRule(doc, 20, 0.5);
+          }),
+        );
+      }
     }
 
     const headingOptions = { paragraphGap: 10, x: 30 };
