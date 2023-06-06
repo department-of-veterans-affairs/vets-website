@@ -54,8 +54,21 @@ export function UnifiedSigninPage({ router, location }) {
 
   const css = `
   #legacy-header > div:nth-child(3) > div.menu-rule.usa-one-whole {
-    display: none;
+    visibility:hidden;
   }
+
+      .hidden-header {
+    visibility:hidden;
+  }
+
+  .menu-rule.usa-one-whole { 
+    visibility: hidden;
+  }
+
+  div .profile-nav-container {
+    visibility: hidden;
+  }
+
 `;
 
   return (

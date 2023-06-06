@@ -29,8 +29,6 @@ class SearchHelpSignIn extends Component {
     this.showHomepageCreateAccountBlock();
   }
 
-  signInVis = window.location.pathname === '/sign-in/' ? 'hidden' : 'visibile';
-
   componentDidUpdate(prevProps) {
     if (
       prevProps.isLoggedIn === this.props.isLoggedIn &&
@@ -119,10 +117,9 @@ class SearchHelpSignIn extends Component {
   render() {
     return (
       <div
-        className={`vads-u-display--flex vads-u-align-items--center${
+        className={`hidden-header vads-u-display--flex vads-u-align-items--center${
           this.props.isHeaderV2 ? '' : ' vads-u-padding-top--1'
         }`}
-        style={{ visibility: this.signInVis }}
       >
         {/* Search */}
         {!this.props.isHeaderV2 && (
