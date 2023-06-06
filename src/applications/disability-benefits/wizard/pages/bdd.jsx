@@ -112,7 +112,7 @@ const BDDPage = ({ setPageState, state = '' }) => {
         name="discharge-date"
         value={state}
         error={errorMessage}
-        ariaDescribedby={ariaDescribedby}
+        aria-describedby={ariaDescribedby}
       />
     </div>
   );

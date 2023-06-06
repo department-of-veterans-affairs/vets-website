@@ -14,24 +14,21 @@ import {
   TricarePolicyDescription,
 } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import { NotHighDisabilityOrNotCompensationTypeHigh } from '../../../utils/helpers';
+import {
+  getInsuranceAriaLabel,
+  isShortFormEligible,
+} from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 
 const { provider } = fullSchemaHca.definitions;
 const { isCoveredByHealthInsurance } = fullSchemaHca.properties;
-
-const ariaLabelfunc = data => {
-  const INSURANCE_TITLE = `${data.insuranceName} ${data.insurancePolicyNumber ??
-    data.insuranceGroupCode}`;
-  return data.insuranceName ? INSURANCE_TITLE : 'insurance policy';
-};
 
 export default {
   uiSchema: {
     'view:generalShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: NotHighDisabilityOrNotCompensationTypeHigh,
+        hideIf: formData => !isShortFormEligible(formData),
       },
     },
     'view:healthInsuranceDescription': {
@@ -49,14 +46,14 @@ export default {
         itemName: 'insurance policy',
         hideTitle: true,
         viewField: InsuranceProviderViewField,
-        itemAriaLabel: ariaLabelfunc,
+        itemAriaLabel: formData => getInsuranceAriaLabel(formData),
       },
       'ui:errorMessages': {
         minItems: 'You need to at least one provider.',
       },
       items: {
         'ui:options': {
-          itemAriaLabel: ariaLabelfunc,
+          itemAriaLabel: formData => getInsuranceAriaLabel(formData),
         },
         insuranceName: {
           'ui:title': 'Name of insurance provider',

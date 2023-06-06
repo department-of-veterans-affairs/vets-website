@@ -6,7 +6,9 @@ const StatementOfTruth = ({ content }) => {
   const { label = '', text = [] } = content;
   return (
     <>
-      <h3 className="vads-u-margin-top--4">{`${label} statement of truth`}</h3>
+      <legend className="signature-box--legend vads-u-display--block vads-u-width--full vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
+        {`${label} statement of truth`}
+      </legend>
 
       {text.map((copy, idx) => {
         return <p key={`${label}-${idx}`}>{copy}</p>;

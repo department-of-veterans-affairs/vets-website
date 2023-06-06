@@ -1,5 +1,5 @@
 import React from 'react';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -20,28 +20,41 @@ const options = [
   },
 ];
 
-const AppealsPage = ({ setPageState, state = {} }) => (
-  <div id={pageNames.appeals} className="vads-u-margin-top--2">
-    <RadioButtons
-      name={`${pageNames.appeals}-option`}
-      label={label}
-      id={`${pageNames.appeals}-option`}
-      options={options}
-      onValueChange={({ value }) => {
-        recordEvent({
-          event: 'howToWizard-formChange',
-          'form-field-type': 'form-radio-buttons',
-          'form-field-label': label,
-          'form-field-value':
-            value === pageNames.fileClaim ? 'new-worse' : 'disagreeing',
-        });
-        setPageState({ selected: value }, value);
-      }}
-      value={{ value: state.selected }}
-      ariaDescribedby={[pageNames.fileClaim, pageNames.disagreeFileClaim]}
-    />
-  </div>
-);
+const AppealsPage = ({ setPageState, state = {} }) => {
+  const onValueChange = ({ detail } = {}) => {
+    const { value } = detail;
+    recordEvent({
+      event: 'howToWizard-formChange',
+      'form-field-type': 'form-radio-buttons',
+      'form-field-label': label,
+      'form-field-value':
+        value === pageNames.fileClaim ? 'new-worse' : 'disagreeing',
+    });
+    setPageState({ selected: value }, value);
+  };
+  return (
+    <div id={pageNames.appeals} className="vads-u-margin-top--2">
+      <VaRadio
+        class="vads-u-margin-y--2"
+        label={label}
+        onVaValueChange={onValueChange}
+      >
+        {options.map(option => (
+          <va-radio-option
+            key={option.value}
+            name="appeal-type"
+            label={option.label}
+            value={option.value}
+            checked={state.selected === option.value}
+            aria-describedby={
+              state.selected === option.value ? option.value : null
+            }
+          />
+        ))}
+      </VaRadio>
+    </div>
+  );
+};
 
 export default {
   name: pageNames.appeals,

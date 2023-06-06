@@ -1,8 +1,11 @@
 import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-
-import { selectProfile } from '~/platform/user/selectors';
+import PropTypes from 'prop-types';
+import {
+  isLOA3 as isLOA3Selector,
+  selectProfile,
+} from '~/platform/user/selectors';
 
 import {
   filterOutExpiredForms,
@@ -15,7 +18,7 @@ import {
 
 import ApplicationInProgress from './ApplicationInProgress';
 
-const ApplicationsInProgress = ({ savedForms }) => {
+const ApplicationsInProgress = ({ savedForms, hideH3, isLOA3 }) => {
   // Filter out non-SIP-enabled applications and expired applications
   const verifiedSavedForms = useMemo(
     () =>
@@ -26,11 +29,18 @@ const ApplicationsInProgress = ({ savedForms }) => {
     [savedForms],
   );
 
+  // if LOA3 then show 'You have no benefit application drafts to show.', otherwise show 'You have no applications in progress.'
+  const emptyStateText = isLOA3
+    ? 'You have no benefit application drafts to show.'
+    : 'You have no applications in progress.';
+
   return (
     <>
-      <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
-        Applications in progress
-      </h3>
+      {!hideH3 && (
+        <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
+          Applications in progress
+        </h3>
+      )}
 
       {verifiedSavedForms.length > 0 ? (
         <div className="vads-l-row">
@@ -60,14 +70,25 @@ const ApplicationsInProgress = ({ savedForms }) => {
           })}
         </div>
       ) : (
-        <p>You have no applications in progress.</p>
+        <p>{emptyStateText}</p>
       )}
     </>
   );
 };
 
-const mapStateToProps = state => ({
-  savedForms: selectProfile(state).savedForms || [],
-});
+ApplicationsInProgress.propTypes = {
+  hideH3: PropTypes.bool,
+  isLOA3: PropTypes.bool,
+  savedForms: PropTypes.object,
+};
+
+const mapStateToProps = state => {
+  const isLOA3 = isLOA3Selector(state);
+
+  return {
+    savedForms: selectProfile(state).savedForms || [],
+    isLOA3,
+  };
+};
 
 export default connect(mapStateToProps)(ApplicationsInProgress);

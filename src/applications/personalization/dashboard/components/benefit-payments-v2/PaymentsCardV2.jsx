@@ -23,7 +23,7 @@ export const PaymentsV2 = ({ lastPayment }) => {
           on {format(paymentDate, 'MMMM d, yyyy')}
         </p>
         <CTALink
-          text="View your payment history"
+          text="Review your payment history"
           href="/va-payment-history/payments/"
           testId="payment-card-view-history-link-v2"
           className="vads-u-font-weight--bold"
@@ -31,7 +31,7 @@ export const PaymentsV2 = ({ lastPayment }) => {
           onClick={() => {
             recordEvent({
               event: 'nav-linkslist',
-              'links-list-header': 'View your payment history',
+              'links-list-header': 'Review your payment history',
               'links-list-section-header': 'Benefit payments',
             });
           }}

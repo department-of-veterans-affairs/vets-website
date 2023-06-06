@@ -1,12 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
-
-import {
-  mockFetch,
-  setFetchJSONFailure,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 
 import {
   groupTimelineActivity,
@@ -14,6 +10,7 @@ import {
   hasBeenReviewed,
   getDocTypeDescription,
   displayFileSize,
+  getTrackedItemId,
   getUserPhase,
   getUserPhaseDescription,
   getPhaseDescription,
@@ -54,6 +51,7 @@ describe('Disability benefits helpers: ', () => {
 
       expect(phaseActivity[1][0].type).to.equal('filed');
     });
+
     it('should filter out events without a date', () => {
       const events = [
         {
@@ -66,6 +64,7 @@ describe('Disability benefits helpers: ', () => {
 
       expect(phaseActivity).to.be.empty;
     });
+
     it('should group events after phase 1 into phase 2', () => {
       const events = [
         {
@@ -91,6 +90,7 @@ describe('Disability benefits helpers: ', () => {
       expect(phaseActivity[1][0].type).to.equal('filed');
       expect(phaseActivity[2].length).to.equal(3);
     });
+
     it('should discard micro phases', () => {
       const events = [
         {
@@ -124,6 +124,7 @@ describe('Disability benefits helpers: ', () => {
       expect(phaseActivity[3].length).to.equal(1);
       expect(phaseActivity[3][0].type).to.equal('phase_entered');
     });
+
     it('should group events into correct bucket', () => {
       const events = [
         {
@@ -192,45 +193,45 @@ describe('Disability benefits helpers: ', () => {
       expect(phaseActivity[1].length).to.equal(1);
     });
   });
+
   describe('isPopulatedClaim', () => {
     it('should return false if any field is empty', () => {
       const claim = {
         attributes: {
           claimType: 'something',
-          contentionList: ['thing'],
-          dateFiled: '',
+          closeDate: null,
+          contentions: [{ name: 'Condition 1' }],
         },
       };
 
-      expect(isPopulatedClaim(claim)).to.be.false;
+      expect(isPopulatedClaim(claim.attributes)).to.be.false;
     });
 
     it('should return true if no field is empty', () => {
       const claim = {
         attributes: {
+          claimDate: '2023-04-28',
           claimType: 'something',
-          contentionList: ['thing'],
-          dateFiled: 'asdf',
-          vaRepresentative: null,
+          contentions: [{ name: 'Condition 1' }],
         },
       };
 
-      expect(isPopulatedClaim(claim)).to.be.true;
+      expect(isPopulatedClaim(claim.attributes)).to.be.true;
     });
 
     it('should return false if contention list is empty', () => {
       const claim = {
         attributes: {
+          claimDate: '2023-04-28',
           claimType: 'something',
-          contentionList: [],
-          dateFiled: 'asdf',
-          vaRepresentative: 'test',
+          contentions: [],
         },
       };
 
-      expect(isPopulatedClaim(claim)).to.be.false;
+      expect(isPopulatedClaim(claim.attributes)).to.be.false;
     });
   });
+
   describe('truncateDescription', () => {
     it('should truncate text longer than 120 characters', () => {
       const userText =
@@ -242,6 +243,7 @@ describe('Disability benefits helpers: ', () => {
       expect(text).to.equal(userTextEllipsed);
     });
   });
+
   describe('hasBeenReviewed', () => {
     it('should check that item is reviewed', () => {
       const result = hasBeenReviewed({
@@ -251,6 +253,7 @@ describe('Disability benefits helpers: ', () => {
 
       expect(result).to.be.true;
     });
+
     it('should check that item has not been reviewed', () => {
       const result = hasBeenReviewed({
         type: 'received_from_you_list',
@@ -260,6 +263,7 @@ describe('Disability benefits helpers: ', () => {
       expect(result).to.be.false;
     });
   });
+
   describe('getDocTypeDescription', () => {
     it('should get description by type', () => {
       const result = getDocTypeDescription('L070');
@@ -267,23 +271,70 @@ describe('Disability benefits helpers: ', () => {
       expect(result).to.equal('Photographs');
     });
   });
+
   describe('displayFileSize', () => {
     it('should show size in bytes', () => {
       const size = displayFileSize(2);
 
       expect(size).to.equal('2B');
     });
+
     it('should show size in kilobytes', () => {
       const size = displayFileSize(1026);
 
       expect(size).to.equal('1KB');
     });
+
     it('should show size in megabytes', () => {
       const size = displayFileSize(2097152);
 
       expect(size).to.equal('2MB');
     });
   });
+
+  // START lighthouse_migration
+  describe('getTrackedItemId', () => {
+    it('should return the value of the id key for Lighthouse claims', () => {
+      const trackedItem = {
+        id: 1,
+        documents: [],
+      };
+
+      const id = getTrackedItemId(trackedItem);
+      expect(id).to.equal(1);
+    });
+
+    it('should return the value of the trackedItemId key for EVSS claims', () => {
+      const trackedItem = {
+        trackedItemId: 1,
+        documents: [],
+      };
+
+      const id = getTrackedItemId(trackedItem);
+      expect(id).to.equal(1);
+    });
+
+    it('should return null if both the id and trackedItemId keys are not present', () => {
+      const trackedItem = {
+        documents: [],
+      };
+
+      const id = getTrackedItemId(trackedItem);
+      expect(id).to.equal(undefined);
+    });
+
+    it('should return null if either the id or trackedItemId keys are null', () => {
+      const trackedItem = {
+        trackedItemId: null,
+        documents: [],
+      };
+
+      const id = getTrackedItemId(trackedItem);
+      expect(id).to.equal(undefined);
+    });
+  });
+  // END lighthouse_migration
+
   describe('getUserPhase', () => {
     it('should get phase 3 desc for 4-6', () => {
       const phase = getUserPhase(5);
@@ -291,6 +342,7 @@ describe('Disability benefits helpers: ', () => {
       expect(phase).to.equal(3);
     });
   });
+
   describe('getUserPhaseDescription', () => {
     it('should get description for 3', () => {
       const desc = getUserPhaseDescription(3);
@@ -298,6 +350,7 @@ describe('Disability benefits helpers: ', () => {
       expect(desc).to.equal('Evidence gathering, review, and decision');
     });
   });
+
   describe('getPhaseDescription', () => {
     it('should display description from map', () => {
       const desc = getPhaseDescription(2);
@@ -305,6 +358,7 @@ describe('Disability benefits helpers: ', () => {
       expect(desc).to.equal('Initial review');
     });
   });
+
   describe('getItemDate', () => {
     it('should use the received date', () => {
       const date = getItemDate({
@@ -315,6 +369,7 @@ describe('Disability benefits helpers: ', () => {
 
       expect(date).to.equal('2010-01-01');
     });
+
     it('should use the last document upload date', () => {
       const date = getItemDate({
         receivedDate: null,
@@ -324,6 +379,7 @@ describe('Disability benefits helpers: ', () => {
 
       expect(date).to.equal('2012-01-01');
     });
+
     it('should use the date', () => {
       const date = getItemDate({
         receivedDate: null,
@@ -333,6 +389,7 @@ describe('Disability benefits helpers: ', () => {
 
       expect(date).to.equal('2013-01-01');
     });
+
     it('should use the upload date', () => {
       const date = getItemDate({
         uploadDate: '2014-01-01',
@@ -343,6 +400,7 @@ describe('Disability benefits helpers: ', () => {
       expect(date).to.equal('2014-01-01');
     });
   });
+
   describe('isClaimComplete', () => {
     it('should check if claim is in complete phase', () => {
       const isComplete = isClaimComplete({
@@ -353,6 +411,7 @@ describe('Disability benefits helpers: ', () => {
 
       expect(isComplete).to.be.true;
     });
+
     it('should check if claim has decision letter', () => {
       const isComplete = isClaimComplete({
         attributes: {
@@ -363,20 +422,21 @@ describe('Disability benefits helpers: ', () => {
       expect(isComplete).to.be.true;
     });
   });
+
   describe('itemsNeedingAttentionFromVet', () => {
     it('should return number of needed items from vet', () => {
       const itemsNeeded = itemsNeedingAttentionFromVet([
         {
-          type: 'still_need_from_you_list',
-          status: 'NEEDED',
+          id: 1,
+          status: 'NEEDED_FROM_YOU',
         },
         {
-          type: 'still_need_from_you_list',
+          id: 2,
           status: 'SUBMITTED_AWAITING_REVIEW',
         },
         {
-          type: 'still_need_from_others_list',
-          status: 'NEEDED',
+          id: 3,
+          status: 'NEEDED_FROM_OTHERS',
         },
       ]);
 
@@ -393,6 +453,7 @@ describe('Disability benefits helpers: ', () => {
       };
       expect(getClaimType(claim)).to.equal('awesome');
     });
+
     it('should return the default claim type', () => {
       const claim = {
         attributes: {
@@ -404,41 +465,79 @@ describe('Disability benefits helpers: ', () => {
   });
 
   describe('makeAuthRequest', () => {
-    beforeEach(() => {
-      mockFetch();
+    let expectedUrl;
+    const server = setupServer();
+
+    before(() => {
+      server.listen();
+      server.events.on('request:start', req => {
+        expectedUrl = req.url.href;
+      });
     });
 
-    it('should make a fetch request', done => {
-      setFetchJSONResponse(global.fetch.onCall(0), 'test');
+    afterEach(() => {
+      server.resetHandlers();
+      expectedUrl = undefined;
+    });
+
+    after(() => server.close());
+
+    it('should make an apiRequest request', done => {
+      server.use(
+        rest.get(
+          'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
+          (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json({}));
+          },
+        ),
+      );
 
       const onSuccess = () => done();
-      makeAuthRequest('/testing', null, sinon.spy(), onSuccess);
+      makeAuthRequest(
+        '/v0/education_benefits_claims/stem_claim_status',
+        null,
+        sinon.spy(),
+        onSuccess,
+      );
 
-      expect(global.fetch.called).to.be.true;
-      expect(global.fetch.firstCall.args[0]).to.contain('/testing');
-      expect(global.fetch.firstCall.args[1].method).to.equal('GET');
+      expect(expectedUrl).to.contain(
+        '/v0/education_benefits_claims/stem_claim_status',
+      );
     });
+
     it('should reject promise when there is an error', done => {
-      setFetchJSONFailure(global.fetch.onCall(0));
+      server.use(
+        rest.get(
+          'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
+          (req, res) => res.networkError('Claims Status Failed'),
+        ),
+      );
 
       const onError = resp => {
-        expect(resp.ok).to.be.false;
+        expect(resp instanceof Error).to.be.true;
         done();
       };
-      makeAuthRequest('/testing', null, sinon.spy(), sinon.spy(), onError);
+      const dispatch = sinon.spy();
+      const onSuccess = sinon.spy();
+      makeAuthRequest(
+        '/v0/education_benefits_claims/stem_claim_status',
+        null,
+        dispatch,
+        onSuccess,
+        onError,
+      );
 
-      expect(global.fetch.called).to.be.true;
-      expect(global.fetch.firstCall.args[0]).to.contain('/testing');
-      expect(global.fetch.firstCall.args[1].method).to.equal('GET');
+      expect(onSuccess.called).to.be.false;
+      expect(dispatch.called).to.be.false;
     });
-    it('should dispatch auth error', done => {
-      global.fetch.returns({
-        catch: () => ({
-          then: fn =>
-            fn({ ok: false, status: 401, json: () => Promise.resolve() }),
-        }),
-      });
 
+    it('should dispatch auth error', done => {
+      server.use(
+        rest.get(
+          'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
+          (req, res, ctx) => res(ctx.status(401), ctx.json({ status: 401 })),
+        ),
+      );
       const onError = sinon.spy();
       const onSuccess = sinon.spy();
       const dispatch = action => {
@@ -448,19 +547,26 @@ describe('Disability benefits helpers: ', () => {
         done();
       };
 
-      makeAuthRequest('/testing', null, dispatch, onSuccess, onError);
+      makeAuthRequest(
+        '/v0/education_benefits_claims/stem_claim_status',
+        null,
+        dispatch,
+        onSuccess,
+        onError,
+      );
     });
   });
 
   describe('getStatusContents', () => {
     it('returns an object with correct title & description', () => {
       const expectedTitle = 'The Board made a decision on your appeal';
-      const expectedDescSnippet =
-        'The judge granted the following issue:Reasonableness of attorney fees';
+      const expectedDescSnippet = 'Reasonableness of attorney fees';
       const contents = getStatusContents(mockData.data[6]);
       expect(contents.title).to.equal(expectedTitle);
+
       const descText = shallow(contents.description);
-      expect(descText.render().text()).to.contain(expectedDescSnippet);
+      const decision = descText.find('Decision');
+      expect(decision.dive().text()).to.contain(expectedDescSnippet);
       descText.unmount();
     });
 
@@ -472,6 +578,52 @@ describe('Disability benefits helpers: ', () => {
       expect(contents.description.props.children).to.eql(
         'We’re sorry, VA.gov will soon be updated to show your status.',
       );
+    });
+
+    describe('appeal decision DDL link', () => {
+      let appeal;
+      beforeEach(() => {
+        appeal = mockData.data.find(a => a.id === 'A106');
+      });
+
+      it('returns a link to DDL for a BVA-decided appeal', () => {
+        const contents = getStatusContents(appeal);
+        const descText = shallow(contents.description);
+        const linkToDDL = descText
+          .find('Toggler')
+          .find('Enabled')
+          .find('Link');
+
+        expect(linkToDDL.length).to.equal(1);
+        expect(linkToDDL.props().to).to.equal('your-claim-letters');
+
+        descText.unmount();
+      });
+
+      it('returns a link to DDL for a BVA-post-decided appeal', () => {
+        const postDecisionAppeal = {
+          ...appeal,
+          attributes: {
+            ...appeal.attributes,
+            status: {
+              ...appeal.attributes.status,
+              type: 'post_bva_dta_decision',
+            },
+          },
+        };
+
+        const contents = getStatusContents(postDecisionAppeal);
+        const descText = shallow(contents.description);
+        const linkToDDL = descText
+          .find('Toggler')
+          .find('Enabled')
+          .find('Link');
+
+        expect(linkToDDL.length).to.equal(1);
+        expect(linkToDDL.props().to).to.equal('your-claim-letters');
+
+        descText.unmount();
+      });
     });
   });
 

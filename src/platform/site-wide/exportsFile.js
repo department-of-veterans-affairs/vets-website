@@ -16,8 +16,6 @@ export { FeatureToggleReducer } from './feature-toggles/reducers';
 
 export { default as header } from './header';
 
-export { default as useStaticDrupalData } from './hooks/static-drupal-data';
-
 export { addOverlayTriggers } from './legacy/menu';
 
 export { default as LoadingButton } from './loading-button/LoadingButton';

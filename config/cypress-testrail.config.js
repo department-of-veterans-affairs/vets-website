@@ -7,7 +7,7 @@ const cypressConfig = {
   fixturesFolder: 'src',
   waitForAnimations: false,
   chromeWebSecurity: false,
-  reporter: 'cy-tr-reporter',
+  reporter: '@tlei123/vagov-cy-tr-reporter',
   reporterOptions: {
     host: 'https://dsvavsp.testrail.io/',
     username: 'TR_USER',
@@ -30,6 +30,7 @@ const cypressConfig = {
     specPattern: 'src/**/tests/**/*.cypress.spec.js?(x)',
     supportFile: 'src/platform/testing/e2e/cypress/support/index.js',
   },
+  video: false,
 };
 
 module.exports = defineConfig(cypressConfig);

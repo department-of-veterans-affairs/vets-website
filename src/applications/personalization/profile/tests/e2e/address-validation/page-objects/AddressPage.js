@@ -104,14 +104,17 @@ class AddressPage {
     !secondSave &&
       cy
         .findByTestId('mailingAddress')
-        .should('contain', 'Please confirm your address');
+        .should(
+          'contain',
+          'We can’t confirm the address you entered with the U.S. Postal Service.',
+        );
     alternateSuggestions.forEach(field =>
       cy.findByTestId('mailingAddress').should('contain', field),
     );
     missingUnit &&
       cy
         .findByTestId('mailingAddress')
-        .should('contain', 'Please add a unit number');
+        .should('contain', 'Confirm your address');
     cy.findByTestId('confirm-address-button').click({
       force: true,
     });
@@ -125,23 +128,23 @@ class AddressPage {
   };
 
   editAddress = (labels, fields) => {
-    cy.findByRole('button', { name: /edit your address/i }).click();
+    cy.findByRole('button', { name: /go back to edit/i }).click();
     this.confirmAddressFields(labels, fields);
-    cy.findByRole('button', { name: /^Update$/i }).click({ force: true });
+    cy.findByRole('button', { name: /^Save$/i }).click({ force: true });
     cy.findByRole('button', { name: /^use this address$/i }).click({
       force: true,
     });
   };
 
   updateWithoutChanges = () => {
-    cy.findByRole('button', { name: /^update$/i }).should(
+    cy.findByRole('button', { name: /^save$/i }).should(
       'not.have.attr',
       'disabled',
     );
-    cy.findByRole('button', { name: /^update$/i }).click({
+    cy.findByRole('button', { name: /^save$/i }).click({
       force: true,
     });
-    cy.findByRole('button', { name: /^update$/i, timeout: 10 }).should(
+    cy.findByRole('button', { name: /^save$/i, timeout: 10 }).should(
       'not.exist',
     );
   };

@@ -3,14 +3,22 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
+import classNames from 'classnames';
+import { focusElement } from 'platform/utilities/ui';
+import { useHistory } from 'react-router-dom';
 import InfoAlert from '../../components/InfoAlert';
 import { getUpcomingAppointmentListInfo } from '../redux/selectors';
 import {
   FETCH_STATUS,
   GA_PREFIX,
   APPOINTMENT_TYPES,
+  SPACE_BAR,
 } from '../../utils/constants';
-import { getVAAppointmentLocationId } from '../../services/appointment';
+import {
+  getLink,
+  getVAAppointmentLocationId,
+  groupAppointmentByDay,
+} from '../../services/appointment';
 import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
 import NoAppointments from './NoAppointments';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -18,9 +26,34 @@ import {
   fetchFutureAppointments,
   startNewAppointmentFlow,
 } from '../redux/actions';
-import { selectFeatureStatusImprovement } from '../../redux/selectors';
+import {
+  selectFeatureAppointmentList,
+  selectFeatureStatusImprovement,
+} from '../../redux/selectors';
+import AppointmentCard from './AppointmentsPageV2/AppointmentCard';
+import UpcomingAppointmentLayout from './AppointmentsPageV2/UpcomingAppointmentLayout';
+import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
+
+function handleClick({ history, link, idClickable }) {
+  return () => {
+    if (!window.getSelection().toString()) {
+      focusElement(`#${idClickable}`);
+      history.push(link);
+    }
+  };
+}
+
+function handleKeyDown({ history, link, idClickable }) {
+  return event => {
+    if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
+      focusElement(`#${idClickable}`);
+      history.push(link);
+    }
+  };
+}
 
 export default function UpcomingAppointmentsList() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const {
     showScheduleButton,
@@ -31,6 +64,20 @@ export default function UpcomingAppointmentsList() {
   } = useSelector(state => getUpcomingAppointmentListInfo(state), shallowEqual);
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
+  );
+  const featureAppointmentList = useSelector(state =>
+    selectFeatureAppointmentList(state),
+  );
+
+  useEffect(
+    () => {
+      if (featureAppointmentList) {
+        recordEvent({
+          event: `${GA_PREFIX}-new-appointment-list`,
+        });
+      }
+    },
+    [featureAppointmentList],
   );
 
   useEffect(
@@ -47,7 +94,7 @@ export default function UpcomingAppointmentsList() {
         scrollAndFocus('h3');
       }
     },
-    [fetchFutureAppointments, futureStatus, hasTypeChanged],
+    [dispatch, featureStatusImprovement, futureStatus, hasTypeChanged],
   );
 
   if (
@@ -76,54 +123,101 @@ export default function UpcomingAppointmentsList() {
     );
   }
 
+  const keys = Object.keys(appointmentsByMonth);
+  const Heading = featureAppointmentList ? 'h2' : 'h3';
+
   return (
     <>
+      <BackendAppointmentServiceAlert />
       <div aria-live="assertive" className="sr-only">
         {hasTypeChanged && 'Showing upcoming appointments'}
       </div>
-      {appointmentsByMonth.map((monthBucket, monthIndex) => {
-        const monthDate = moment(monthBucket[0].start);
+
+      {keys.map((key, index) => {
+        const monthDate = moment(key, 'YYYY-MM');
+
+        let hashTable = appointmentsByMonth;
+        if (featureAppointmentList) {
+          hashTable = groupAppointmentByDay(hashTable[key]);
+        }
+
         return (
-          <React.Fragment key={monthIndex}>
-            <h3
+          <React.Fragment key={key}>
+            <Heading
+              className={classNames('vads-u-font-size--h3', {
+                'vads-u-margin-top--0': index === 0,
+              })}
               id={`appointment_list_${monthDate.format('YYYY-MM')}`}
               data-cy="upcoming-appointment-list-header"
             >
               <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}
-            </h3>
+            </Heading>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
               aria-labelledby={`appointment_list_${monthDate.format(
                 'YYYY-MM',
               )}`}
-              className="vads-u-padding-left--0"
+              className={classNames(
+                'usa-unstyled-list',
+                'vads-u-padding-left--0',
+                {
+                  'vads-u-border-bottom--1px vads-u-border-color--gray-medium': featureAppointmentList,
+                },
+              )}
               data-cy="upcoming-appointment-list"
               role="list"
             >
-              {monthBucket.map((appt, index) => {
-                const facilityId = getVAAppointmentLocationId(appt);
+              {featureAppointmentList &&
+                UpcomingAppointmentLayout({
+                  featureStatusImprovement,
+                  hashTable,
+                  history,
+                })}
 
-                if (
-                  appt.vaos.appointmentType ===
-                    APPOINTMENT_TYPES.vaAppointment ||
-                  appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment
-                ) {
-                  return (
-                    <AppointmentListItem
-                      key={index}
-                      appointment={appt}
-                      facility={facilityData[facilityId]}
-                    />
-                  );
-                }
-                return null;
-              })}
+              {!featureAppointmentList &&
+                hashTable[key].map(appt => {
+                  const facilityId = getVAAppointmentLocationId(appt);
+                  const idClickable = `id-${appt.id.replace('.', '\\.')}`;
+                  const link = getLink({
+                    featureStatusImprovement,
+                    appointment: appt,
+                  });
+
+                  if (
+                    appt.vaos.appointmentType ===
+                      APPOINTMENT_TYPES.vaAppointment ||
+                    appt.vaos.appointmentType ===
+                      APPOINTMENT_TYPES.ccAppointment
+                  ) {
+                    return (
+                      <AppointmentListItem
+                        key={key}
+                        id={idClickable}
+                        className="vaos-appts__card--clickable vads-u-margin-bottom--3"
+                      >
+                        <AppointmentCard
+                          appointment={appt}
+                          facility={facilityData[facilityId]}
+                          link={link}
+                          handleClick={() =>
+                            handleClick({ history, link, idClickable })
+                          }
+                          handleKeyDown={() =>
+                            handleKeyDown({ history, link, idClickable })
+                          }
+                        />
+                      </AppointmentListItem>
+                    );
+                  }
+                  return null;
+                })}
             </ul>
           </React.Fragment>
         );
       })}
-      {!appointmentsByMonth?.length && (
+
+      {!keys?.length && (
         <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
             description="upcoming appointments"

@@ -3,7 +3,10 @@ import { MemoryRouter } from 'react-router-dom';
 import chai, { expect } from 'chai';
 import chaiDom from 'chai-dom';
 import set from 'lodash/set';
-import { COPY_ADDRESS_MODAL_STATUS } from '@@vap-svc/constants';
+import {
+  COPY_ADDRESS_MODAL_STATUS,
+  DEFAULT_ERROR_MESSAGE,
+} from '@@vap-svc/constants';
 
 import CopyAddressModal from '@@profile/components/contact-information/addresses/CopyAddressModalController';
 
@@ -33,11 +36,7 @@ describe('Copy Address Modal', () => {
         },
       },
       ...{
-        featureToggles: {
-          profileShowAddressChangeModal: true,
-          // eslint-disable-next-line camelcase
-          profile_show_address_change_modal: true,
-        },
+        featureToggles: {},
       },
     };
 
@@ -77,11 +76,7 @@ describe('Copy Address Modal', () => {
         },
       },
       ...{
-        featureToggles: {
-          profileShowAddressChangeModal: true,
-          // eslint-disable-next-line camelcase
-          profile_show_address_change_modal: true,
-        },
+        featureToggles: {},
       },
     };
 
@@ -106,11 +101,7 @@ describe('Copy Address Modal', () => {
         },
       },
       ...{
-        featureToggles: {
-          profileShowAddressChangeModal: true,
-          // eslint-disable-next-line camelcase
-          profile_show_address_change_modal: true,
-        },
+        featureToggles: {},
       },
     };
 
@@ -148,11 +139,7 @@ describe('Copy Address Modal', () => {
         },
       },
       ...{
-        featureToggles: {
-          profileShowAddressChangeModal: true,
-          // eslint-disable-next-line camelcase
-          profile_show_address_change_modal: true,
-        },
+        featureToggles: {},
       },
     };
 
@@ -160,12 +147,9 @@ describe('Copy Address Modal', () => {
       initialState,
     });
 
-    // should show generic error message
+    // should show default generic error message
     const errorMessage = await view.findByText(
-      new RegExp(
-        `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please check back later.`,
-        'i',
-      ),
+      new RegExp(DEFAULT_ERROR_MESSAGE, 'i'),
     );
     expect(errorMessage).to.exist;
   });

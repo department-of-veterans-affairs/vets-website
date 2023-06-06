@@ -1,17 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Linkify from 'react-linkify';
 
 const MessageThreadBody = props => {
+  const { text } = props;
+
+  const componentDecorator = (href, linkText) => (
+    <a href={href} target="_blank" rel="noreferrer">
+      {linkText}
+    </a>
+  );
+
   return (
-    <div
-      className={
-        props.expanded
-          ? 'message-list-body-expanded vads-u-margin-bottom--2'
-          : 'message-list-body-collapsed'
-      }
-    >
+    <div className="vads-u-padding-y--1 ">
       <>
-        <p>{props.text}</p>
+        <pre data-testid="message-body" className="vads-u-margin-y--0">
+          <Linkify componentDecorator={componentDecorator}>{text}</Linkify>
+        </pre>
       </>
     </div>
   );

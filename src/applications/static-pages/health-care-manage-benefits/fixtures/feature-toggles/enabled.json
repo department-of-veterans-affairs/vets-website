@@ -79,10 +79,6 @@
         "value": true
       },
       {
-        "name": "vaGlobalDowntimeNotification",
-        "value": true
-      },
-      {
         "name": "eduBenefitsStemScholarship",
         "value": true
       },
@@ -144,10 +140,6 @@
       },
       {
         "name": "stem_sco_email",
-        "value": true
-      },
-      {
-        "name": "show_healthcare_experience_questionnaire",
         "value": true
       },
       {

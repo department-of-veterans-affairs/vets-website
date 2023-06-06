@@ -35,10 +35,6 @@ export default function CalendarLink({ appointment, facility }) {
 
   return (
     <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-      <i
-        aria-hidden="true"
-        className="far fa-calendar vads-u-margin-right--1 vads-u-color--link-default"
-      />
       <AddToCalendar
         summary={summary}
         description={description}

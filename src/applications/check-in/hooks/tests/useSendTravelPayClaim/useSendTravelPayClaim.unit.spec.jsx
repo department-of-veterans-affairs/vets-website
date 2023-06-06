@@ -34,7 +34,11 @@ describe('check-in', () => {
             },
             pages: [],
           },
-          appointments: [],
+          appointments: [
+            {
+              startTime: '2022-08-12T15:15:00',
+            },
+          ],
           veteranData: {},
         },
       };

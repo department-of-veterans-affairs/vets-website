@@ -48,8 +48,8 @@ export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
 
 Menu.propTypes = {
   isMenuOpen: PropTypes.bool.isRequired,
-  megaMenuData: PropTypes.arrayOf(PropTypes.object),
   showMegaMenu: PropTypes.bool.isRequired,
+  megaMenuData: PropTypes.arrayOf(PropTypes.object),
   // From mapStateToProps.
   subMenu: PropTypes.shape({
     id: PropTypes.string.isRequired,

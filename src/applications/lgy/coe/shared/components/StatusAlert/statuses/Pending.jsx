@@ -34,7 +34,7 @@ const Pending = ({ referenceNumber, requestDate, origin, status, testUrl }) => {
   const linkText = getLinkText(status);
 
   return (
-    <va-alert status="warning">
+    <va-alert status="warning" class="vads-u-margin-bottom--2">
       <h2 slot="headline" className="vads-u-font-size--h3">
         {headline}
       </h2>

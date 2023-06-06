@@ -1,28 +1,74 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
-import NavigationLinks from '../components/NavigationLinks';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
 import MessageThread from '../components/MessageThread/MessageThread';
-import { retrieveMessage } from '../actions/messages';
+import { retrieveMessageThread } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import AlertBox from '../components/shared/AlertBox';
+import { closeAlert } from '../actions/alerts';
 
 const MessageDetail = () => {
-  const { messageId } = useParams();
+  const { messageId, threadId } = useParams();
   const dispatch = useDispatch();
+  const alert = useSelector(state => state.sm.alerts.alert);
   const message = useSelector(state => state.sm.messageDetails.message);
+  const { draftMessage } = useSelector(state => state.sm.draftDetails);
+  const messageHistory = useSelector(
+    state => state.sm.messageDetails.messageHistory,
+  );
   const isTrash = window.location.pathname.includes('/trash');
   const isSent = window.location.pathname.includes('/sent');
   const location = useLocation();
-  const [id, setid] = useState(null);
+  const history = useHistory();
+  const [cannotReplyAlert, setcannotReplyAlert] = useState(true);
+  const header = useRef();
 
   useEffect(
     () => {
-      setid(messageId);
-      if (id) {
-        dispatch(retrieveMessage(id));
+      if (threadId) {
+        dispatch(closeAlert());
+        dispatch(retrieveMessageThread(threadId));
       }
     },
-    [dispatch, location, messageId, id],
+    [dispatch, threadId],
+  );
+
+  useEffect(
+    () => {
+      if (draftMessage?.messageId && message?.draftDate !== null) {
+        history.push(`/draft/${threadId}`);
+      }
+    },
+    [draftMessage, history, message, threadId],
+  );
+
+  useEffect(
+    () => {
+      if (alert?.header !== null) {
+        setcannotReplyAlert(cannotReplyAlert);
+      }
+    },
+    [cannotReplyAlert, alert?.header],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
+  );
+
+  useEffect(
+    () => {
+      focusElement(header.current);
+    },
+    [header],
   );
 
   let pageTitle;
@@ -35,41 +81,47 @@ const MessageDetail = () => {
     pageTitle = 'Message';
   }
 
-  const content = () => {
-    if (message === undefined) {
-      return (
+  return (
+    <div className="vads-l-grid-container message-detail-container">
+      {/* Only display this type of alert when it contains a header */}
+      {cannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
+      {pageTitle === 'Message' ? null : (
+        <h1 className="vads-u-margin-top--2" ref={header}>
+          {pageTitle}
+        </h1>
+      )}
+
+      {message === undefined && (
         <va-loading-indicator
           message="Loading your secure message..."
           setFocus
         />
-      );
-    }
-    if (message === null || message === false) {
-      return (
-        <va-alert status="error" visible class="vads-u-margin-y--9">
-          <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
-          <p>
-            You can’t view your secure message because something went wrong on
-            our end. Please check back soon.
-          </p>
-        </va-alert>
-      );
-    }
-    return (
-      <>
-        <MessageDetailBlock message={message} />
-        <MessageThread />
-      </>
-    );
-  };
+      )}
 
-  return (
-    <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
-      <h1 className="vads-u-margin-top--2">{pageTitle}</h1>
+      {message === null ||
+        (message === false && (
+          <va-alert status="error" visible class="vads-u-margin-y--9">
+            <h2 slot="headline">
+              We’re sorry. Something went wrong on our end
+            </h2>
+            <p>
+              You can’t view your secure message because something went wrong on
+              our end. Please check back soon.
+            </p>
+          </va-alert>
+        ))}
 
-      <NavigationLinks messageId={id} />
-
-      {content()}
+      {message &&
+        (messageId || threadId) && (
+          <>
+            {/* <NavigationLinks messageId={messageId} /> */}
+            <MessageDetailBlock message={message} />
+            <MessageThread
+              messageHistory={messageHistory}
+              threadId={threadId}
+            />
+          </>
+        )}
     </div>
   );
 };

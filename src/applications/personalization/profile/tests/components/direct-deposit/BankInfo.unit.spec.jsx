@@ -53,12 +53,8 @@ function createBasicInitialState() {
     },
     vaProfile: {
       cnpPaymentInformation: {
-        responses: [
-          {
-            paymentAccount,
-            paymentAddress,
-          },
-        ],
+        paymentAccount,
+        paymentAddress,
       },
       cnpPaymentInformationUiState: {},
     },
@@ -75,7 +71,7 @@ function fillOutAndSubmitBankInfoForm(view) {
   const accountTypeSelect = view.container.querySelector(
     '#root_CNPAccountType',
   );
-  const submitButton = view.getByText('Update', { selector: 'button' });
+  const submitButton = view.getByText('Save', { selector: 'button' });
 
   userEvent.type(routingNumberField, '456456456');
   userEvent.type(accountNumberField, '123123123');
@@ -130,21 +126,27 @@ describe('DirectDepositCNP', () => {
       },
     };
 
-    const { container } = renderWithProfileReducers(ui, {
+    const view = renderWithProfileReducers(ui, {
       initialState,
     });
-    expect(container).to.be.empty;
+
+    // nothing should be rendered
+    expect(view.container.innerHTML).to.be.empty;
   });
   describe('when bank info is not set up but payment address is', () => {
     let view;
     beforeEach(() => {
       initialState = createBasicInitialState();
-      initialState.vaProfile.cnpPaymentInformation.responses[0].paymentAccount = emptyPaymentAccount;
+      initialState.vaProfile.cnpPaymentInformation.paymentAccount = emptyPaymentAccount;
       // Using queries on RTL `screen` does not work for some reason. So I'm just
       // storing the entire response from `render` as `view` so I can treat `view`
       // like I would `screen`
       view = renderWithProfileReducers(ui, {
         initialState,
+      });
+
+      it('should render', () => {
+        expect(view.container.innerHTML).not.to.be.empty;
       });
     });
     it('should not show the view payment history link', () => {
@@ -239,9 +241,8 @@ describe('DirectDepositCNP', () => {
       ).to.exist;
 
       // does not show save succeeded alert
-      expect(view.container).to.not.contain.text(
-        /We’ve updated your bank account information/i,
-      );
+      expect(view.queryByText(/We’ve updated your bank account information/i))
+        .to.not.exist;
     });
   });
 });

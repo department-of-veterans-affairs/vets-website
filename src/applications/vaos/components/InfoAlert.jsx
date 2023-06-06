@@ -57,11 +57,11 @@ export default function InfoAlert({
 }
 
 InfoAlert.propTypes = {
+  status: PropTypes.oneOf(['info', 'error', 'success', 'warning', 'continue'])
+    .isRequired,
   backgroundOnly: PropTypes.bool,
   children: PropTypes.node,
   className: PropTypes.string,
   headline: PropTypes.string,
   level: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  status: PropTypes.oneOf(['info', 'error', 'success', 'warning', 'continue'])
-    .isRequired,
 };

@@ -1,7 +1,9 @@
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import MockDate from 'mockdate';
 import {
   appointmentWasCanceled,
+  allAppointmentsCanceled,
   hasMoreAppointmentsToCheckInto,
   intervalUntilNextAppointmentIneligibleForCheckin,
   preCheckinAlreadyCompleted,
@@ -9,6 +11,11 @@ import {
   removeTimeZone,
   preCheckinExpired,
   locationShouldBeDisplayed,
+  hasPhoneAppointments,
+  appointmentIcon,
+  clinicName,
+  getAppointmentId,
+  findAppointment,
 } from './index';
 
 import { get } from '../../api/local-mock-api/mocks/v2/shared';
@@ -19,7 +26,7 @@ describe('check in', () => {
     MockDate.reset();
   });
 
-  const { createAppointment, createMultipleAppointments } = get;
+  const { createAppointment, createAppointments } = get;
 
   describe('appointment navigation utils', () => {
     describe('hasMoreAppointmentsToCheckInto', () => {
@@ -35,7 +42,7 @@ describe('check in', () => {
         ).to.equal(false);
       });
       it('returns true if selected Appointment is undefined and more eligible appointments found', () => {
-        const response = createMultipleAppointments();
+        const response = createAppointments();
         const { appointments } = response.payload;
 
         expect(
@@ -126,6 +133,48 @@ describe('check in', () => {
         ).to.equal(false);
       });
     });
+    describe('allAppointmentsCanceled', () => {
+      const generateAppointments = () => {
+        const earliest = createAppointment();
+        earliest.startTime = '2018-01-01T00:00:00.000Z';
+        const midday = createAppointment();
+        midday.startTime = '2018-01-01T12:00:00.000Z';
+        const latest = createAppointment();
+        latest.startTime = '2018-01-01T23:59:59.000Z';
+
+        return [latest, earliest, midday];
+      };
+
+      it('returns false when no appointment was canceled', () => {
+        const appointments = generateAppointments();
+        expect(allAppointmentsCanceled(appointments)).to.deep.equal(false);
+      });
+      it('returns false when appointments are not set', () => {
+        expect(allAppointmentsCanceled(null)).to.deep.equal(false);
+      });
+      it('returns false when there are no appointments', () => {
+        expect(allAppointmentsCanceled([])).to.deep.equal(false);
+      });
+      it('returns false when some appointments have been canceled', () => {
+        const appointments = generateAppointments();
+        appointments[0].status = 'CANCELLED BY CLINIC';
+        expect(allAppointmentsCanceled(appointments)).to.deep.equal(false);
+      });
+      it('returns false when status is undefined', () => {
+        const appointments = generateAppointments();
+        appointments.forEach((appt, idx) => {
+          delete appointments[idx].status;
+        });
+        expect(allAppointmentsCanceled(appointments)).to.deep.equal(false);
+      });
+      it('returns true when all appointments have been canceled', () => {
+        const appointments = generateAppointments();
+        appointments.forEach((appointment, index) => {
+          appointments[index].status = 'CANCELLED BY CLINIC';
+        });
+        expect(allAppointmentsCanceled(appointments)).to.deep.equal(true);
+      });
+    });
     describe('appointmentWasCanceled', () => {
       const generateAppointments = () => {
         const earliest = createAppointment();
@@ -148,7 +197,7 @@ describe('check in', () => {
       it('returns false when there are no appointments', () => {
         expect(appointmentWasCanceled([])).to.deep.equal(false);
       });
-      it('returns true when any appointment has been canceled', () => {
+      it('returns true when some appointments have been canceled', () => {
         const appointments = generateAppointments();
         appointments[0].status = 'CANCELLED BY CLINIC';
         expect(appointmentWasCanceled(appointments)).to.deep.equal(true);
@@ -160,12 +209,12 @@ describe('check in', () => {
         });
         expect(appointmentWasCanceled(appointments)).to.deep.equal(false);
       });
-      it('returns true when all appointments have been canceled', () => {
+      it('returns false when all appointments have been canceled', () => {
         const appointments = generateAppointments();
-        appointments[0].status = 'CANCELLED BY CLINIC';
-        appointments[1].status = 'CANCELLED BY PATIENT';
-        appointments[0].status = 'CANCELLED BY CLINIC';
-        expect(appointmentWasCanceled(appointments)).to.deep.equal(true);
+        appointments.forEach((appointment, index) => {
+          appointments[index].status = 'CANCELLED BY CLINIC';
+        });
+        expect(appointmentWasCanceled(appointments)).to.deep.equal(false);
       });
     });
     describe('intervalUntilNextAppointmentIneligibleForCheckin', () => {
@@ -370,6 +419,63 @@ describe('check in', () => {
           createAppointment({ preCheckInValid: true }),
         ];
         expect(preCheckinExpired(appointments)).to.be.false;
+      });
+    });
+    describe('hasPhoneAppointments', () => {
+      it('finds phone appointment', () => {
+        const appointments = [createAppointment({ kind: 'phone' })];
+        expect(hasPhoneAppointments(appointments)).to.be.true;
+      });
+      it("doesn't find phone appointment", () => {
+        const appointments = [createAppointment()];
+        expect(hasPhoneAppointments(appointments)).to.be.false;
+      });
+    });
+    describe('appointmentIcon', () => {
+      it('finds phone appointment', () => {
+        const appointment = createAppointment({ kind: 'phone' });
+        const icon = render(appointmentIcon(appointment));
+
+        expect(icon.getByTestId('appointment-icon')).to.have.class('fa-phone');
+      });
+    });
+    describe('clinicName', () => {
+      it('returns clinic friendly name', () => {
+        const appointment = createAppointment({
+          clinicFriendlyName: 'test clinic',
+        });
+        expect(clinicName(appointment)).to.equal('test clinic');
+      });
+      it('returns the fallback if friendly name missing', () => {
+        const appointment = createAppointment({ clinicFriendlyName: '' });
+        expect(clinicName(appointment)).to.equal('LOM ACC CLINIC TEST');
+      });
+    });
+    describe('getAppointmentId', () => {
+      it('returns unique appointment ID of ien and station', () => {
+        const appointment = createAppointment({
+          appointmentIen: 24354,
+          stationNo: '4343',
+        });
+        expect(getAppointmentId(appointment)).to.equal('24354-4343');
+      });
+    });
+    describe('findAppointment', () => {
+      it('finds the appointment in array based on ID', () => {
+        const appointments = [
+          {
+            appointmentIen: 24354,
+            stationNo: '4343',
+          },
+          {
+            appointmentIen: '2222',
+            stationNo: '7780',
+          },
+        ];
+        const appointmentId = '2222-7780';
+        expect(findAppointment(appointmentId, appointments)).to.deep.equal(
+          appointments[1],
+        );
       });
     });
   });

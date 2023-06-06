@@ -2,19 +2,19 @@
 
 ## Table of Contents
 
-- [What is this?](#what-is-this)	
-- [Common commands](#common-commands)	
-- [Building `vets-website`](#building-vets-website)	
-  - [Building applications](#building-applications)	
-  - [Building static content](#building-static-content)	
-  - [Building both together](#building-both-together)	
-- [Working in GitHub Codespaces](#working-in-github-codespaces)	
-- [Running tests](#running-tests)	
-  - [Unit tests](#unit-tests)	
-  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)	
-  - [Contract tests](#contract-tests)	
-- [Running a mock API for local development](#running-a-mock-api-for-local-development)	
-- [More commands](#more-commands)	
+- [What is this?](#what-is-this)
+- [Common commands](#common-commands)
+- [Building `vets-website`](#building-vets-website)
+  - [Building applications](#building-applications)
+  - [Building static content](#building-static-content)
+  - [Building both together](#building-both-together)
+- [Working in GitHub Codespaces](#working-in-github-codespaces)
+- [Running tests](#running-tests)
+  - [Unit tests](#unit-tests)
+  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
+- [Changing Virtual Agent backend URL](#changing-virtual-agent-backend-url)
+- [Running a mock API for local development](#running-a-mock-api-for-local-development)
+- [More commands](#more-commands)
 - [Supported Browsers](#supported-browsers)
 - [API Keys](#api-keys)
 - [Additional Resources](#additional-resources)
@@ -192,18 +192,13 @@ yarn cy:run --browser firefox
 
 **For other options with `yarn cy:run`,** [the same options for `cypress run` are applicable](https://docs.cypress.io/guides/guides/command-line.html#Commands).
 
-### Contract tests
+## Changing Virtual Agent backend URL
 
-To run all contract tests locally:
+If not already create a `.env` file in the root of the project and add
+the following while updating the URL
 
-```sh
-yarn test:contract
 ```
-
-To run a specific contract test:
-
-```sh
-BUILDTYPE=localhost yarn test:unit src/applications/my-app/tests/example.pact.spec.js
+VIRTUAL_AGENT_BACKEND_URL=https://some.url.com
 ```
 
 ## Running a mock API for local development
@@ -261,7 +256,7 @@ for doing very specific things.
 | run lint on JS and fix anything that changed                                                                | `yarn lint:js:changed:fix`                                                                                                                                                                                                                |
 | run visual regression testing                                                                               | Start the site. Generate your baseline image set using `yarn test:visual:baseline`. Make your changes. Then run `yarn test:visual`.                                                                                                       |
 | add new npm modules                                                                                         | `yarn add my-module`. Use the `--dev` flag for modules that are build or test related.                                                                                                                                                    |
-| get the latest json schema                                                                                  | `yarn update:schema`. This updates our [`vets-json-schema`](https://github.com/department-of-veterans-affairs/vets-json-schema) to the most recent commit.              |
+| get the latest json schema                                                                                  | `yarn update:schema`. This updates our [`vets-json-schema`](https://github.com/department-of-veterans-affairs/vets-json-schema) to the most recent commit.                                                                                |
 | check test coverage                                                                                         | `yarn test:coverage`                                                                                                                                                                                                                      |
 | run bundle analyzer on our production JS bundles                                                            | `yarn build-analyze`                                                                                                                                                                                                                      |
 | generate a stats file for analysis by bundle analyzer                                                       | `NODE_ENV=production yarn build:webpack --env buildtype=vagovprod --env analyzer`.                                                                                                                                                        |
@@ -280,9 +275,9 @@ for doing very specific things.
 
 ## API Keys
 
-In order to work with the Facility Locator locally, you will need a Mapbox API key with dev access.  see [this link](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/working-with-vsp/policies-work-norms/sensitive-guidance.md) for details on handling non public keys and tokens.  You will need to access the paramater store within AWS Systems manager, and get the dev mapbox token from this location: /dsva-vagov/vets-website/dev/mapbox_token.
+In order to work with the Facility Locator locally, you will need a Mapbox API key with dev access. see [this link](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/working-with-vsp/policies-work-norms/sensitive-guidance.md) for details on handling non public keys and tokens. You will need to access the paramater store within AWS Systems manager, and get the dev mapbox token from this location: /dsva-vagov/vets-website/dev/mapbox_token.
 
-Create a .env file in the root of vets-website, and assign the above token to a variable called MAPBOX_TOKEN.  The .env file should already be configured to work with dotenv for webpack.  Ensure that the .env file is in .gitigore and take care not to expose this token in any public commits.  See [this link](https://github.com/department-of-veterans-affairs/va.gov-team/issues/new?assignees=&labels=external-request%2Coperations%2Cops-access-request&template=aws-access-request.yml&title=AWS+access+for+%5Bindividual%5D) for instructions on requesting AWS access.
+Create a .env file in the root of vets-website, and assign the above token to a variable called MAPBOX_TOKEN. The .env file should already be configured to work with dotenv for webpack. Ensure that the .env file is in .gitigore and take care not to expose this token in any public commits. See [this link](https://github.com/department-of-veterans-affairs/va.gov-team/issues/new?assignees=&labels=external-request%2Coperations%2Cops-access-request&template=aws-access-request.yml&title=AWS+access+for+%5Bindividual%5D) for instructions on requesting AWS access.
 
 ## Additional Resources
 

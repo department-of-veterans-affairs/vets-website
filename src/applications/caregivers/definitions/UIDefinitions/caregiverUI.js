@@ -1,4 +1,4 @@
-import { shouldHideAlert } from '../../helpers';
+import { shouldHideAlert } from '../../utils/helpers';
 import {
   AdditionalCaregiverDescription,
   HeathCareCoverageDescription,

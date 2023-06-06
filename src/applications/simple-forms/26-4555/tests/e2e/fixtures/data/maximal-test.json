@@ -1,0 +1,75 @@
+{
+  "data": {
+    "remarks": {
+      "respiratoryIllness": true,
+      "blindness": true,
+      "lossOfHands": true,
+      "lossOfLimbs": true,
+      "lossOfLegs": true,
+      "lossOfExtremity": true,
+      "burns": true,
+      "otherConditions": "This really weird fungus thing"
+    },
+    "livingSituation": {
+      "careFacilityName": "One Stone Facility Care",
+      "careFacilityAddress": {
+        "street": "1 Stone st",
+        "street2": "behind the mcdonalds",
+        "city": "Stoneville",
+        "country": "USA",
+        "state": "ID",
+        "postalCode": "11111"
+      },
+      "isInCareFacility": true
+    },
+    "previousHiApplication": {
+      "previousHiApplicationDate": "1999-02-04",
+      "previousHiApplicationAddress": {
+        "street": "2222 Stone st",
+        "street2": "Behind the big rock",
+        "city": "Stoneville",
+        "country": "USA",
+        "state": "ID",
+        "postalCode": "11111"
+      },
+      "hasPreviousHiApplication": true
+    },
+    "previousSahApplication": {
+      "previousSahApplicationDate": "2000-06-10",
+      "previousSahApplicationAddress": {
+        "street": "2222 Stone st.",
+        "street2": "Behind the big rock",
+        "city": "Stoneville",
+        "country": "USA",
+        "state": "ID",
+        "postalCode": "11111"
+      },
+      "hasPreviousSahApplication": true
+    },
+    "veteran": {
+      "homePhone": "1111111111",
+      "mobilePhone": "1111111111",
+      "email": "barnierubble@rockstreet.com",
+      "address": {
+        "isMilitary": true,
+        "country": "USA",
+        "view:militaryBaseDescription": {},
+        "street": "1111 Rock st.",
+        "street2": "Apartment 2",
+        "street3": "Left door on the right",
+        "city": "APO",
+        "state": "AA",
+        "postalCode": "11111"
+      },
+      "ssn": "345345678",
+      "vaFileNumber": "123456789",
+      "fullName": {
+        "first": "Barnie",
+        "middle": "Stone",
+        "last": "Rubble",
+        "suffix": "II"
+      },
+      "dateOfBirth": "2000-07-10"
+    }
+  }
+}

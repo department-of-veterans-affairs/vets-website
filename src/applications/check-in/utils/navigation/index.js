@@ -1,4 +1,5 @@
 import { differenceInCalendarDays } from 'date-fns';
+import { isInAllowList } from '../appConstants';
 
 const isWithInDays = (days, pageLastUpdated) => {
   const daysAgo = differenceInCalendarDays(Date.now(), pageLastUpdated);
@@ -10,6 +11,7 @@ const updateFormPages = (
   pages,
   URLS,
   isTravelReimbursementEnabled = false,
+  appointments = [],
 ) => {
   const skippedPages = [];
   const {
@@ -38,12 +40,6 @@ const updateFormPages = (
       needsUpdate: emergencyContactNeedsUpdate,
     },
   ];
-  const travelPayPages = [
-    URLS.TRAVEL_QUESTION,
-    URLS.TRAVEL_VEHICLE,
-    URLS.TRAVEL_ADDRESS,
-    URLS.TRAVEL_MILEAGE,
-  ];
   skippablePages.forEach(page => {
     const pageLastUpdated = page.confirmedAt
       ? new Date(page.confirmedAt)
@@ -56,8 +52,21 @@ const updateFormPages = (
       skippedPages.push(page.url);
     }
   });
-  // Skip travel pay if not enabled.
-  if (!isTravelReimbursementEnabled) {
+
+  const travelPayPages = [
+    URLS.TRAVEL_QUESTION,
+    URLS.TRAVEL_VEHICLE,
+    URLS.TRAVEL_ADDRESS,
+    URLS.TRAVEL_MILEAGE,
+  ];
+
+  // Skip travel pay if not enabled, if veteran has more than one appointment for the day, or station if not in the allow list.
+  // The allowlist currently only looks at the first appointment in the array, if we support multiple appointments later, this will need to get updated to a loop.
+  if (
+    !isTravelReimbursementEnabled ||
+    appointments.length > 1 ||
+    !isInAllowList(appointments[0])
+  ) {
     skippedPages.push(...travelPayPages);
   }
   return pages.filter(page => !skippedPages.includes(page));
@@ -81,6 +90,7 @@ const URLS = Object.freeze({
   TRAVEL_VEHICLE: 'travel-vehicle',
   TRAVEL_ADDRESS: 'travel-address',
   TRAVEL_MILEAGE: 'travel-mileage',
+  APPOINTMENT_DETAILS: 'appointment-details',
 });
 
 export { updateFormPages, URLS };

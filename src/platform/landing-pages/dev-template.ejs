@@ -59,9 +59,9 @@
       <!-- Mobile Layout -->
       <div
         data-widget-type="header"
-        data-show="{{ !noHeader }}"
-        data-show-nav-login="{{ !noNavOrLogin }}"
-        data-show-mega-menu="{{ !noMegamenu }}"
+        data-show="<%= typeof noHeader !== 'undefined' ? !noHeader : true %>"
+        data-show-nav-login="<%= typeof noNavOrLogin !== 'undefined' ? !noNavOrLogin : true %>"
+        data-show-mega-menu="<%= typeof noMegamenu !== 'undefined' ? !noMegamenu : true %>"
         id="header-v2"
       ></div>
 
@@ -120,7 +120,7 @@
         <div class="row va-flex usa-grid usa-grid-full" id="va-header-logo-menu">
           <div class="va-header-logo-wrapper">
             <a href="/" class="va-header-logo">
-              <img src="/img/header-logo.png" alt="Go to VA.gov"/>
+              <img src="/img/header-logo.png" alt="VA logo and Seal, U.S. Department of Veterans Affairs"/>
             </a>
           </div>
           <div id="va-nav-controls"></div>
@@ -212,7 +212,9 @@
     <!-- Footer -->
     <div id="announcement-root"></div>
     <footer class="footer" role="contentinfo">
-      <div id="footerNav"></div> <!-- let's try this React thing -->
+      <div id="footerNav"
+        data-minimal-footer="<%= typeof minimalFooter !== 'undefined' ? minimalFooter : false %>"
+      ></div>
     </footer>
 
     <!--

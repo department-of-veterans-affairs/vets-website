@@ -2,11 +2,10 @@
   "name": "@department-of-veterans-affairs/platform-testing",
   "version": "1.0.0",
   "scripts": {
-    "demo":"echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+    "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
   },
   "exports": {
-    "." :"./exportsFile.js",
-    "./contract": "./contract/index.js",
+    ".": "./exportsFile.js",
     "./form-tester": "./e2e/cypress/support/form-tester/index.js",
     "./form-tester/utilities": "./e2e/cypress/support/form-tester/utilities.js",
     "./mock-helpers": "./e2e/mock-helpers.js",
@@ -44,7 +43,6 @@
   },
   "peerDependencies": {
     "node-fetch": "*",
-    "@pact-foundation/pact": "*",
     "axe-core": "*",
     "mochawesome": "*",
     "command-line-args": "*",

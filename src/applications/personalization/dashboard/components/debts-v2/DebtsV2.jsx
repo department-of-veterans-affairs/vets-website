@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -10,6 +12,8 @@ import {
 } from '~/applications/personalization/dashboard/actions/debts';
 import DebtsCardV2 from './DebtsCardV2';
 import CopaysCardV2 from './CopaysCardV2';
+import { canAccess } from '../../../common/selectors';
+import { API_NAMES } from '../../../common/constants';
 
 const NoOutstandingDebtsText = () => {
   return (
@@ -25,12 +29,11 @@ const NoOutstandingDebtsText = () => {
 const OutstandingDebtsError = () => {
   return (
     <div className="vads-u-margin-bottom--2p5">
-      <va-alert
-        status="warning"
-        show-icon
-        data-testid="outstanding-debts-error"
-      >
-        <div className="vads-u-margin-top--0">
+      <va-alert status="error" show-icon data-testid="outstanding-debts-error">
+        <h2 slot="headline">
+          We can’t access some of your financial information.
+        </h2>
+        <div>
           We’re sorry. We can’t access some of your financial information right
           now. We’re working to fix this problem. Please check back later.
         </div>
@@ -61,6 +64,7 @@ const PopularActionsForDebts = () => {
 };
 
 const BenefitPaymentsAndDebtV2 = ({
+  canAccessCopays,
   debts,
   copays,
   hasDebtError,
@@ -68,13 +72,16 @@ const BenefitPaymentsAndDebtV2 = ({
   getDebts,
   getCopays,
   shouldShowLoadingIndicator,
+  shouldShowV2Dashboard,
 }) => {
   useEffect(
     () => {
       getDebts();
-      getCopays();
+      if (canAccessCopays) {
+        getCopays();
+      }
     },
-    [getDebts, getCopays],
+    [canAccessCopays, getDebts, getCopays],
   );
 
   const debtsCount = debts?.length || 0;
@@ -90,48 +97,87 @@ const BenefitPaymentsAndDebtV2 = ({
     );
   }
 
+  const hasNoOutstandingDebts = () => {
+    return !hasDebtError && !hasCopayError && debtsCount < 1 && copaysCount < 1;
+  };
+
   return (
     <div
-      className="health-care-wrapper vads-u-margin-y--6"
+      className="health-care-wrapper vads-u-margin-top--6 vads-u-margin-bottom-3"
       data-testid="dashboard-section-debts-v2"
     >
       <h2>Outstanding debts</h2>
-      <div className="vads-l-row">
-        <DashboardWidgetWrapper>
-          {(hasDebtError || hasCopayError) && (
-            <>
-              <OutstandingDebtsError />
-              {((hasDebtError && copaysCount < 1) ||
-                (hasCopayError && debtsCount < 1)) && (
-                <PopularActionsForDebts />
-              )}
-            </>
-          )}
-          {!hasDebtError &&
-            !hasCopayError &&
-            debtsCount < 1 &&
-            copaysCount < 1 && (
+      {shouldShowV2Dashboard && (
+        <>
+          <div className="vads-l-row">
+            {(hasDebtError || hasCopayError) && (
               <>
-                <NoOutstandingDebtsText />
-                <PopularActionsForDebts />
+                <DashboardWidgetWrapper>
+                  <OutstandingDebtsError />
+                </DashboardWidgetWrapper>
+                <DashboardWidgetWrapper>
+                  {hasDebtError &&
+                    copaysCount > 0 && <PopularActionsForDebts />}
+                </DashboardWidgetWrapper>
               </>
             )}
-          {debtsCount > 0 && <DebtsCardV2 debts={debts} />}
-          {copaysCount > 0 && <CopaysCardV2 copays={copays} />}
+            {hasNoOutstandingDebts() && (
+              <>
+                <DashboardWidgetWrapper>
+                  <NoOutstandingDebtsText />
+                </DashboardWidgetWrapper>
+              </>
+            )}
+            {debtsCount > 0 && (
+              <DashboardWidgetWrapper>
+                <DebtsCardV2 debts={debts} />
+              </DashboardWidgetWrapper>
+            )}
+            {copaysCount > 0 && (
+              <>
+                <DashboardWidgetWrapper>
+                  {hasDebtError && <OutstandingDebtsError />}
+                  <CopaysCardV2 copays={copays} />
+                </DashboardWidgetWrapper>
+                <DashboardWidgetWrapper>
+                  <PopularActionsForDebts />
+                </DashboardWidgetWrapper>
+              </>
+            )}
+          </div>
+        </>
+      )}
+      {!shouldShowV2Dashboard && (
+        <>
+          <DashboardWidgetWrapper>
+            {(hasDebtError || hasCopayError) && (
+              <>
+                <OutstandingDebtsError />
+              </>
+            )}
+            {!hasDebtError &&
+              !hasCopayError &&
+              debtsCount < 1 &&
+              copaysCount < 1 && <NoOutstandingDebtsText />}
+            {debtsCount > 0 && <DebtsCardV2 debts={debts} />}
+            {copaysCount > 0 && <CopaysCardV2 copays={copays} />}
+            {copaysCount > 0 && hasDebtError && <PopularActionsForDebts />}
+          </DashboardWidgetWrapper>
+        </>
+      )}
+      {((debtsCount === 0 && copaysCount === 0) ||
+        (hasCopayError && debtsCount === 0) ||
+        (hasDebtError && copaysCount === 0)) && (
+        <DashboardWidgetWrapper>
+          <PopularActionsForDebts />
         </DashboardWidgetWrapper>
-        {hasDebtError &&
-          !hasCopayError &&
-          copaysCount > 0 && (
-            <DashboardWidgetWrapper>
-              <PopularActionsForDebts />
-            </DashboardWidgetWrapper>
-          )}
-      </div>
+      )}
     </div>
   );
 };
 
 BenefitPaymentsAndDebtV2.propTypes = {
+  canAccessCopays: PropTypes.bool,
   copays: PropTypes.array,
   copaysError: PropTypes.bool,
   debts: PropTypes.arrayOf(
@@ -161,18 +207,25 @@ BenefitPaymentsAndDebtV2.propTypes = {
   hasCopayError: PropTypes.bool,
   hasDebtError: PropTypes.bool,
   shouldShowLoadingIndicator: PropTypes.bool,
+  shouldShowV2Dashboard: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
+  const canAccessCopays = canAccess(state)[API_NAMES.MEDICAL_COPAYS];
   const debtsIsLoading = state.allDebts.isLoading;
   const debts = state.allDebts.debts || [];
   const copays = state.allDebts.copays || [];
+  const shouldShowV2Dashboard = toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMyVADashboardV2
+  ];
   return {
+    canAccessCopays,
     debts,
     copays,
     hasDebtError: state.allDebts.debtsErrors.length > 0,
     hasCopayError: state.allDebts.copaysErrors.length > 0,
     shouldShowLoadingIndicator: debtsIsLoading,
+    shouldShowV2Dashboard,
   };
 };
 

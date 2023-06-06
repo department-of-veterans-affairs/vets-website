@@ -3,8 +3,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import classNames from 'classnames';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { isReactComponent, getScrollOptions } from 'platform/utilities/ui';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import {
+  isReactComponent,
+  focusElement,
+  customScrollAndFocus,
+  defaultFocusSelector,
+} from 'platform/utilities/ui';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
@@ -16,17 +21,21 @@ import {
   getPreviousPagePath,
   checkValidPagePath,
 } from '../routing';
-import { focusElement } from '../utilities/ui';
+import { DevModeNavLinks } from '../components/dev/DevModeNavLinks';
 
-function focusForm() {
-  focusElement('.nav-header > h2');
+function focusForm(route, index) {
+  // Check main toggle to enable custom focus
+  if (route.formConfig?.useCustomScrollAndFocus) {
+    customScrollAndFocus(route.pageConfig?.scrollAndFocusTarget, index);
+  } else {
+    focusElement(defaultFocusSelector);
+  }
 }
 
 class FormPage extends React.Component {
   componentDidMount() {
     if (!this.props.blockScrollOnMount) {
-      scrollToTop('topScrollElement', getScrollOptions());
-      focusForm();
+      focusForm(this.props.route, this.props?.params?.index);
     }
   }
 
@@ -36,8 +45,7 @@ class FormPage extends React.Component {
         this.props.route.pageConfig.pageKey ||
       get('params.index', prevProps) !== get('params.index', this.props)
     ) {
-      scrollToTop('topScrollElement', getScrollOptions());
-      focusForm();
+      focusForm(this.props.route, this.props?.params?.index);
     }
   }
 
@@ -163,6 +171,9 @@ class FormPage extends React.Component {
       }
     }
 
+    const showNavLinks =
+      environment.isLocalhost() && route.formConfig?.dev?.showNavLinks;
+
     // Bypass the SchemaForm and render the custom component
     // NOTE: I don't think FormPage is rendered on the review page, so I believe
     // onReviewPage will always be false here
@@ -180,6 +191,9 @@ class FormPage extends React.Component {
             goBack={this.goBack}
             goForward={this.onSubmit}
             goToPath={this.goToPath}
+            setFormData={this.props.setData}
+            contentBeforeButtons={contentBeforeButtons}
+            contentAfterButtons={contentAfterButtons}
           />
         </div>
       );
@@ -187,6 +201,7 @@ class FormPage extends React.Component {
 
     return (
       <div className={pageClasses}>
+        {showNavLinks && <DevModeNavLinks pageList={route.pageList} />}
         <SchemaForm
           name={route.pageConfig.pageKey}
           title={route.pageConfig.title}
@@ -230,13 +245,40 @@ const mapDispatchToProps = {
 
 FormPage.propTypes = {
   form: PropTypes.object.isRequired,
+  appStateData: PropTypes.shape({}),
+  blockScrollOnMount: PropTypes.bool,
+  contentAfterButtons: PropTypes.element,
+  contentBeforeButtons: PropTypes.element,
+  formContext: PropTypes.shape({
+    onReviewPage: PropTypes.bool,
+  }),
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  params: PropTypes.shape({
+    index: PropTypes.number, // for testing only?
+  }),
   route: PropTypes.shape({
     pageConfig: PropTypes.shape({
+      arrayPath: PropTypes.string,
+      CustomPage: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+      onContinue: PropTypes.func,
+      pageClass: PropTypes.string,
       pageKey: PropTypes.string.isRequired,
       schema: PropTypes.object.isRequired,
+      scrollAndFocusTarget: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func,
+      ]),
+      showPagePerItem: PropTypes.bool,
+      title: PropTypes.string,
       uiSchema: PropTypes.object.isRequired,
-      onContinue: PropTypes.func,
       updateFormData: PropTypes.func,
+    }),
+    formConfig: PropTypes.shape({
+      dev: PropTypes.shape({
+        showNavLinks: PropTypes.bool,
+      }),
     }),
     pageList: PropTypes.arrayOf(
       PropTypes.shape({
@@ -244,9 +286,11 @@ FormPage.propTypes = {
       }),
     ),
   }),
-  contentBeforeButtons: PropTypes.element,
-  contentAfterButtons: PropTypes.element,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   setData: PropTypes.func,
+  uploadFile: PropTypes.func,
 };
 
 export default withRouter(

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { LETTER_URL, LETTER_ENDPOINT } from '../../constants';
 
 export default function ApprovedConfirmation({ user, dateReceived }) {
   return (
@@ -25,7 +26,7 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
             <a
               className="vads-u-font-weight--bold vads-u-flex--1 vads-u-margin-bottom--6"
               download
-              href="/demo"
+              href={LETTER_ENDPOINT}
             >
               <i
                 className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
@@ -47,7 +48,7 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
             <h3 slot="headline" style={{ marginTop: '1rem' }}>
               Application for VA education benefits (Form 22-1990e)
             </h3>
-            For {user?.fullName}
+            For {user}
             <div className="vads-u-display--flex vads-u-flex-direction--column">
               <strong>Date received</strong>
               {dateReceived}
@@ -67,11 +68,7 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
         <ul>
           <li>
             Download a copy of your decision letter. This can also be found at{' '}
-            <a
-              href="/education/download-letters/letters/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={LETTER_URL} target="_blank" rel="noopener noreferrer">
               Download VA education letter
             </a>
             .
@@ -93,7 +90,11 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
             of eligibility.
           </li>
           <li>
-            <a href="/profile" target="_blank" rel="noopener noreferrer">
+            <a
+              href="/profile/direct-deposit"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Review and/or update your direct deposit information on your
               VA.gov profile
             </a>
@@ -129,5 +130,5 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
 
 ApprovedConfirmation.propTypes = {
   dateReceived: PropTypes.string,
-  user: PropTypes.object,
+  user: PropTypes.string,
 };

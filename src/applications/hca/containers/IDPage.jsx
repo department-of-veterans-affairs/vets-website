@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import recordEvent from 'platform/monitoring/record-event';
@@ -127,13 +127,12 @@ const IDPage = props => {
             type="button"
             className="va-button-link"
             onClick={showSignInModal}
+            data-testid="idform-login-button"
           >
             Sign in to start your application.
           </button>
           <div className="vads-u-margin-top--2p5">
             <SchemaForm
-              // `name` and `title` are required by SchemaForm, but are only used
-              // internally in the component
               name="ID Form"
               title="ID Form"
               schema={schema}
@@ -142,26 +141,25 @@ const IDPage = props => {
               onChange={formChange}
               data={idFormData}
             >
-              {
-                // NOTE: these components are nested in the SchemaForm component to
-                // prevent it from rendering its default SUBMIT button
-              }
               {showServerError && <ServerErrorAlert />}
-              {loginRequired ? (
+              {loginRequired && (
                 <LoginRequiredAlert handleLogin={showSignInModal} />
-              ) : (
-                <LoadingButton
-                  // override the `width: 100%` given to SchemaForm submit buttons
-                  className="vads-u-width--auto"
-                  isLoading={isSubmittingIDForm}
-                  disabled={false}
-                  type="submit"
-                >
-                  Continue to the application
-                  <span className="button-icon" aria-hidden="false">
-                    &nbsp;»
-                  </span>
-                </LoadingButton>
+              )}
+              {!loginRequired &&
+                !isSubmittingIDForm && (
+                  <ProgressButton
+                    buttonClass="vads-u-width--auto idform-submit-button"
+                    buttonText="Continue to the application"
+                    afterText="»"
+                    submitButton
+                  />
+                )}
+              {isSubmittingIDForm && (
+                <va-loading-indicator
+                  message="Reviewing your information..."
+                  class="vads-u-margin-bottom--4"
+                  set-focus
+                />
               )}
             </SchemaForm>
           </div>
@@ -199,7 +197,7 @@ const mapStateToProps = state => {
   const {
     enrollmentStatus,
     hasServerError,
-    isLoading,
+    isLoadingApplicationStatus,
     isUserInMVI,
     loginRequired,
     noESRRecordFound,
@@ -207,7 +205,7 @@ const mapStateToProps = state => {
   return {
     enrollmentStatus,
     form: state.form,
-    isSubmittingIDForm: isLoading,
+    isSubmittingIDForm: isLoadingApplicationStatus,
     isUserInMVI,
     loginRequired,
     noESRRecordFound,

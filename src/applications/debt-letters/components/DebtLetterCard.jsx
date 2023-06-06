@@ -76,6 +76,7 @@ const DebtLetterCard = ({ debt, setActiveDebt }) => {
         onClick={onDetailLinkClick}
         to={`/debt-detail/${debt.fileNumber + debt.deductionCode}`}
         data-testclass="debt-details-button"
+        data-cy="debt-details-button"
       >
         Go to debt details
         <i

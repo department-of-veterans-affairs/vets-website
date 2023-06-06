@@ -72,8 +72,10 @@ class StayInformedPage {
       status: 200,
     }).as('response');
 
-    cy.get('.usa-button').contains('Submit form');
-    cy.get('.usa-button').click();
+    cy.get('.usa-button')
+      .contains('Submit form')
+      .click();
+
     cy.wait('@response');
 
     // Confirmation page

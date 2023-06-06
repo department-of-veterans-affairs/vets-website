@@ -8,9 +8,9 @@ export default function DemographicsDisplay({
   header = '',
   subtitle = '',
   demographics = {},
-  isLoading = false,
   yesAction = () => {},
   noAction = () => {},
+  router,
 }) {
   const { t } = useTranslation();
 
@@ -47,10 +47,10 @@ export default function DemographicsDisplay({
         subtitle={subtitle}
         dataFields={demographicFields}
         data={demographics}
-        isLoading={isLoading}
         yesAction={yesAction}
         noAction={noAction}
         pageType="demographic-information"
+        router={router}
       />
     </>
   );
@@ -59,8 +59,8 @@ export default function DemographicsDisplay({
 DemographicsDisplay.propTypes = {
   demographics: PropTypes.object,
   header: PropTypes.string,
-  isLoading: PropTypes.bool,
   noAction: PropTypes.func,
+  router: PropTypes.object,
   subtitle: PropTypes.string,
   yesAction: PropTypes.func,
 };

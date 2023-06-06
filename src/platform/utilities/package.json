@@ -2,7 +2,7 @@
     "name": "@department-of-veterans-affairs/platform-utilities",
     "version": "1.0.0",
     "exports": {
-        "." : "./exportsFile.js",
+        ".": "./exportsFile.js",
         "./environment": "./environment/index.js",
         "./stagingDomains": "./environment/stagingDomains.js",
         "./va-subdomain": "./environment/va-subdomain.js",
@@ -24,27 +24,29 @@
         "./scrollToTop": "./ui/scrollToTop.js"
     },
     "scripts": {
-        "demo":"for (( c=5; c>0; c-- ))\ndo echo $c\n done \n echo It’s alive!!!\n echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES.",
-        "local":"node demo-script/local-demo.js"
+        "demo": "for (( c=5; c>0; c-- ))\ndo echo $c\n done \n echo It’s alive!!!\n echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES.",
+        "local": "node demo-script/local-demo.js"
     },
     "peerDependencies": {
-        "moment": "*",
-        "js-cookie": "*",
+        "@department-of-veterans-affairs/component-library": "*",
+        "@sentry/browser": "*",
+        "chai": "*",
+        "date-fns": "*",
         "fast-levenshtein": "*",
-        "react" : "*",
-        "url-search-params-polyfill": "*",
+        "js-cookie": "*",
         "local-storage-fallback": "*",
         "lodash": "*",
+        "moment": "*",
+        "react": "*",
         "react-dom": "*",
-        "react-scroll": "*",
         "react-is": "*",
-        "date-fns": "*",
-        "@department-of-veterans-affairs/component-library": "*",
-        "@sentry/browser": "*", 
-        "chai": "*", 
-        "sinon": "*" 
+        "react-scroll": "*",
+        "sinon": "*",
+        "url-search-params-polyfill": "*"
     },
     "license": "MIT",
-    "private": true
-   }
-  
+    "private": true,
+    "dependencies": {
+        "fetch-retry": "^5.0.3"
+    }
+}

@@ -34,4 +34,28 @@ export default {
     es: '/resources/the-pact-act-and-your-va-benefits-esp',
     tl: '/resources/the-pact-act-and-your-va-benefits-tag',
   },
+  disability: {
+    en: '/disability/eligibility/',
+    es: '/disability/eligibility-esp/',
+  },
+  fileDisability: {
+    en: '/disability/how-to-file-claim/',
+    es: '/disability/how-to-file-claim-esp/',
+  },
+  afterFileDisability: {
+    en: '/disability/after-you-file-claim/',
+    es: '/disability/after-you-file-claim-esp/',
+  },
+  healthCareEligibility: {
+    en: '/health-care/eligibility/',
+    es: '/health-care/eligibility-esp/',
+  },
+  healthCareHowToApply: {
+    en: '/health-care/how-to-apply/',
+    es: '/health-care/how-to-apply-esp/',
+  },
+  healthCareAfterAppy: {
+    en: '/health-care/after-you-apply/',
+    es: '/health-care/after-you-apply-esp/',
+  },
 };

@@ -7,6 +7,7 @@ import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
 import { SERVICE_BADGE_IMAGE_PATHS } from '../profile/constants';
 import { getServiceBranchDisplayName } from '../profile/helpers';
+import { formatFullName } from '../common/helpers';
 
 const DisabilityRatingContent = ({ rating }) => {
   const disabilityRatingClasses = prefixUtilityClasses([
@@ -68,6 +69,10 @@ const DisabilityRatingContent = ({ rating }) => {
   );
 };
 
+DisabilityRatingContent.propTypes = {
+  rating: PropTypes.number,
+};
+
 const DisabilityRating = ({ rating, showFallbackLink }) => {
   if (showFallbackLink) {
     return <DisabilityRatingContent />;
@@ -80,6 +85,11 @@ const DisabilityRating = ({ rating, showFallbackLink }) => {
   return null;
 };
 
+DisabilityRating.propTypes = {
+  rating: PropTypes.number,
+  showFallbackLink: PropTypes.bool,
+};
+
 const NameTag = ({
   userFullName: { first, middle, last, suffix },
   latestBranchOfService,
@@ -87,9 +97,7 @@ const NameTag = ({
   totalDisabilityRating,
   totalDisabilityRatingServerError,
 }) => {
-  const fullName = [first, middle, last, suffix]
-    .filter(name => !!name)
-    .join(' ');
+  const fullName = formatFullName({ first, middle, last, suffix });
 
   const updatedWrapperClasses = prefixUtilityClasses([
     'background-color--primary',
@@ -183,6 +191,7 @@ const NameTag = ({
       aria-label={ariaLabel}
       className={classes.wrapper}
       data-testid="name-tag"
+      role="banner"
     >
       <div className={classes.innerWrapper}>
         <div className={classes.serviceBadge}>
@@ -243,16 +252,16 @@ NameTag.defaultProps = {
 };
 
 NameTag.propTypes = {
+  latestBranchOfService: PropTypes.string,
   showBadgeImage: PropTypes.bool,
+  totalDisabilityRating: PropTypes.number,
+  totalDisabilityRatingServerError: PropTypes.bool,
   userFullName: PropTypes.shape({
     first: PropTypes.string,
     middle: PropTypes.string,
     last: PropTypes.string,
     suffix: PropTypes.string,
-  }).isRequired,
-  latestBranchOfService: PropTypes.string.isRequired,
-  totalDisabilityRating: PropTypes.number,
-  totalDisabilityRatingServerError: PropTypes.bool,
+  }),
 };
 
 export default connect(mapStateToProps)(NameTag);

@@ -29,9 +29,9 @@ jobs:
         id: check-environment
         run: |
           if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
-            echo ::set-output name=env_name::'production'
+            echo env_name='production' >> $GITHUB_OUTPUT
           else
-            echo ::set-output name=env_name::''
+            echo env_name='' >> $GITHUB_OUTPUT
           fi
   set-env:
     name: Set Env Variables
@@ -53,7 +53,7 @@ jobs:
 
       - name: Get latest tag
         id: get-latest-tag
-        run: echo ::set-output name=LATEST_TAG_VERSION::$(git describe --tags --abbrev=0)
+        run: echo LATEST_TAG_VERSION=$(git describe --tags --abbrev=0) >> $GITHUB_OUTPUT
 
       - name: Get release wait time (scheduled release)
         if: ${{ github.event.schedule != '' }}

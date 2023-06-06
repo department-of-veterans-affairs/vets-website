@@ -11,9 +11,14 @@ import {
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import FormButtons from '../../../components/FormButtons';
 import CalendarWidget from '../../../components/calendar/CalendarWidget';
-import { getFormPageInfo } from '../../redux/selectors';
+import {
+  getFlowType,
+  getFormPageInfo,
+  selectAppointmentSlotsStatus,
+} from '../../redux/selectors';
 import DateTimeRequestOptions from './DateTimeRequestOptions';
 import SelectedIndicator, { getSelectedLabel } from './SelectedIndicator';
+import { FETCH_STATUS, FLOW_TYPES } from '../../../utils/constants';
 
 const pageKey = 'requestDateTime';
 const pageTitle = 'Choose an appointment day and time';
@@ -50,6 +55,10 @@ export default function DateTimeRequestPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [submitted, setSubmitted] = useState(false);
+  const appointmentSlotsStatus = useSelector(state =>
+    selectAppointmentSlotsStatus(state),
+  );
+  const flowType = useSelector(state => getFlowType(state));
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -92,9 +101,21 @@ export default function DateTimeRequestPage() {
         showValidation={submitted && !userSelectedSlot(selectedDates)}
       />
       <FormButtons
-        onBack={() =>
-          dispatch(routeToPreviousAppointmentPage(history, pageKey))
-        }
+        onBack={() => {
+          // If error occurred retrieving open slots for the current clinic
+          // send the user back to the clinic choice page. Maybe there are
+          // open slots at a different clinic.
+          if (
+            flowType === FLOW_TYPES.REQUEST &&
+            appointmentSlotsStatus === FETCH_STATUS.failed
+          ) {
+            return dispatch(
+              routeToPreviousAppointmentPage(history, 'clinicChoice'),
+            );
+          }
+
+          return dispatch(routeToPreviousAppointmentPage(history, pageKey));
+        }}
         onSubmit={() =>
           goForward({
             dispatch,

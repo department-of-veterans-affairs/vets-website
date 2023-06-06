@@ -8,12 +8,12 @@ import {
   hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
-} from '../helpers';
+} from '../utils/helpers';
 import { secondaryTwoChapterTitle } from '../definitions/UIDefinitions/caregiverUI';
 import { addressWithoutCountryUI } from '../definitions/UIDefinitions/sharedUI';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import GetHelpFooter from '../components/GetHelpFooter';
+import GetHelpFooter from '../components/GetHelp';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
 import manifest from '../manifest.json';

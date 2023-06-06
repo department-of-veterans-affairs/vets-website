@@ -18,6 +18,7 @@ describe('<Main>', () => {
     userGreeting: null,
     showFormSignInModal: false,
     showLoginModal: false,
+    showNavLogin: true,
     showTransitionSuccessModal: false,
     showTransitionModal: false,
     utilitiesMenuIsOpen: { search: false, help: false, account: false },
@@ -60,6 +61,7 @@ describe('<Main>', () => {
     props.toggleSearchHelpUserMenu.reset();
     props.updateLoggedInStatus.reset();
     props.initializeProfile.reset();
+    props.showNavLogin = true;
     global.window = oldWindow;
     localStorage.clear();
   });
@@ -68,14 +70,6 @@ describe('<Main>', () => {
     const wrapper = shallow(<Main {...props} />, { context: { store: {} } });
     expect(wrapper.find('SearchHelpSignIn').exists()).to.be.true;
     expect(wrapper.find(SignInModal).exists()).to.be.true;
-    wrapper.unmount();
-  });
-
-  it('should NOT render on the Unified Sign in Page (USiP)', () => {
-    global.window.location.pathname = '/sign-in';
-    const wrapper = shallow(<Main {...props} />);
-    expect(wrapper.find('SearchHelpSignIn').exists()).to.be.false;
-    expect(wrapper.find(SignInModal).exists()).to.be.false;
     wrapper.unmount();
   });
 

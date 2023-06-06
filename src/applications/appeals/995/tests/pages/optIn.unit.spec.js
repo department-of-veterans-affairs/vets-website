@@ -1,20 +1,18 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
-import sinon from 'sinon';
+import { render } from '@testing-library/react';
 
-import {
-  DefinitionTester,
-  selectCheckbox,
-} from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
 
 describe('Supplemental Claims opt-in page', () => {
   const { schema, uiSchema } = formConfig.chapters.issues.pages.optIn;
 
+  // Custom page is rendered, so this only renders a submit button
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={{}}
         schema={schema}
@@ -24,26 +22,6 @@ describe('Supplemental Claims opt-in page', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(1);
-    form.unmount();
-  });
-
-  it('should allow submit', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    selectCheckbox(form, 'root_socOptIn', true);
-    form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+    expect($('button[type="submit"]', container)).to.exist;
   });
 });

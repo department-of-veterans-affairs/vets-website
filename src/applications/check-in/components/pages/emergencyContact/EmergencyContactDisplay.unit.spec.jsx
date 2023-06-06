@@ -2,50 +2,17 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import configureStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
-import { I18nextProvider } from 'react-i18next';
-import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
-import i18n from '../../../utils/i18n/i18n';
+import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import EmergencyContactDisplay from './EmergencyContactDisplay';
 
 describe('pre-check-in experience', () => {
   describe('shared components', () => {
     describe('EmergencyContactDisplay', () => {
-      let store;
-      beforeEach(() => {
-        const middleware = [];
-        const mockStore = configureStore(middleware);
-        const initState = {
-          checkInData: {
-            context: {
-              token: '',
-            },
-            form: {
-              pages: [],
-            },
-          },
-          ...scheduledDowntimeState,
-        };
-        store = mockStore(initState);
-      });
-      it('passes axeCheck', () => {
-        axeCheck(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <EmergencyContactDisplay />
-            </I18nextProvider>
-          </Provider>,
-        );
-      });
       it('renders with default values', () => {
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <EmergencyContactDisplay />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <EmergencyContactDisplay />
+          </CheckInProvider>,
         );
         expect(getByText('Is this your current emergency contact?')).to.exist;
       });
@@ -66,11 +33,9 @@ describe('pre-check-in experience', () => {
           phone: '5552223333',
         };
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <EmergencyContactDisplay emergencyContact={emergencyContact} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <EmergencyContactDisplay emergencyContact={emergencyContact} />
+          </CheckInProvider>,
         );
         expect(getByText('Address')).to.exist;
         expect(getByText('Phone')).to.exist;
@@ -87,11 +52,9 @@ describe('pre-check-in experience', () => {
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
         const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <EmergencyContactDisplay yesAction={yesClick} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <EmergencyContactDisplay yesAction={yesClick} />
+          </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('yes-button'));
         expect(yesClick.calledOnce).to.be.true;
@@ -99,11 +62,9 @@ describe('pre-check-in experience', () => {
       it('fires the no function', () => {
         const noClick = sinon.spy();
         const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <EmergencyContactDisplay noAction={noClick} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <EmergencyContactDisplay noAction={noClick} />
+          </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('no-button'));
         expect(noClick.calledOnce).to.be.true;

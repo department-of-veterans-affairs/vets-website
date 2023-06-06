@@ -34,24 +34,28 @@ export const PURPOSE_TEXT = [
   {
     id: 'routine-follow-up',
     short: 'Follow-up/Routine',
+    commentShort: 'ROUTINEVISIT',
     label: 'This is a routine or follow-up visit.',
     serviceName: 'Routine Follow-up',
   },
   {
     id: 'new-issue',
     short: 'New issue',
+    commentShort: 'MEDICALISSUE',
     label: 'I have a new medical issue.',
     serviceName: 'New Issue',
   },
   {
     id: 'medication-concern',
     short: 'Medication concern',
+    commentShort: 'QUESTIONMEDS',
     label: 'I have a concern or question about my medication.',
     serviceName: 'Medication Concern',
   },
   {
     id: 'other',
     short: 'My reason isn’t listed',
+    commentShort: 'OTHER_REASON',
     label: 'My reason isn’t listed here.',
     serviceName: 'Other',
   },
@@ -61,24 +65,28 @@ export const PURPOSE_TEXT_V2 = [
   {
     id: 'routine-follow-up',
     short: 'Routine Follow-up',
+    commentShort: 'ROUTINEVISIT',
     label: 'This is a routine or follow-up visit.',
     serviceName: 'Routine Follow-up',
   },
   {
     id: 'new-issue',
     short: 'New problem',
+    commentShort: 'MEDICALISSUE',
     label: 'I have a new medical problem.',
     serviceName: 'New Problem',
   },
   {
     id: 'medication-concern',
     short: 'Medication concern',
+    commentShort: 'QUESTIONMEDS',
     label: 'I have a concern or question about my medication.',
     serviceName: 'Medication Concern',
   },
   {
     id: 'other',
     short: 'My reason isn’t listed',
+    commentShort: 'OTHER_REASON',
     label: 'My reason isn’t listed here.',
     serviceName: 'Other',
   },
@@ -86,6 +94,7 @@ export const PURPOSE_TEXT_V2 = [
 
 export const PODIATRY_ID = 'tbd-podiatry';
 export const COVID_VACCINE_ID = 'covid';
+export const COMP_AND_PEN = 'COMPENSATION & PENSION';
 
 /**
  * @typedef TypeOfCare
@@ -323,16 +332,19 @@ export const TYPE_OF_VISIT = [
     id: 'clinic',
     name: 'Office visit',
     serviceName: 'Office Visit',
+    vsGUI: 'FACE TO FACE',
   },
   {
     id: 'phone',
     name: 'Phone call',
     serviceName: 'Phone Call',
+    vsGUI: 'TELEPHONE',
   },
   {
     id: 'telehealth',
     name: 'Telehealth (through VA Video Connect)',
     serviceName: 'Video Conference',
+    vsGUI: 'VIDEO',
   },
 ];
 
@@ -411,3 +423,44 @@ export const CANCELLATION_REASONS = {
 };
 
 export const SPACE_BAR = 32;
+
+export const ERROR_CODES = [
+  {
+    code: 9002,
+    detail: 'Failure to fetch CC requests from HSRM',
+  },
+  {
+    code: 9003,
+    detail: 'Failure to fetch CC requests from HSRM',
+  },
+  {
+    code: 9006,
+    detail: 'Failure to fetch CC Appointments from HSRM',
+  },
+  {
+    code: 9007,
+    detail: 'Failure to fetch CC Appointments from HSRM',
+  },
+  {
+    code: 9008,
+    detail: 'Failure to fetch CC from HSRM - Generic Error',
+  },
+  {
+    code: 10000,
+    detail: 'Failure to fetch - Generic Error',
+  },
+  {
+    code: 10005,
+    detail: 'Failure to fetch Booked Appointments',
+  },
+  {
+    code: 10006,
+    detail: 'Failure to fetch Requests',
+  },
+];
+export const SERVICE_CATEGORY = [
+  {
+    id: COMP_AND_PEN,
+    displayName: 'Compensation and pension exam',
+  },
+];

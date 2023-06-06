@@ -28,7 +28,6 @@ import UrgentCareResult from './search-results-items/UrgentCareResult';
 import EmergencyCareResult from './search-results-items/EmergencyCareResult';
 import Covid19Result from './search-results-items/Covid19Result';
 import SearchResultMessage from './SearchResultMessage';
-import { covidVaccineSchedulingFrontend } from '../utils/featureFlagSelectors';
 
 export const ResultsList = ({
   facilityTypeName,
@@ -88,9 +87,6 @@ export const ResultsList = ({
                 location={result}
                 key={result.id}
                 index={index}
-                showCovidVaccineSchedulingLinks={
-                  props.showCovidVaccineSchedulingLinks
-                }
                 showCovidVaccineWalkInAvailabilityText={
                   (walkInsAccepted || '').toLowerCase() === 'true'
                 }
@@ -278,7 +274,6 @@ ResultsList.propTypes = {
   results: PropTypes.array,
   searchError: PropTypes.object,
   searchString: PropTypes.string,
-  showCovidVaccineSchedulingLinks: PropTypes.string,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -314,7 +309,6 @@ function mapStateToProps(state) {
     searchString,
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
-    showCovidVaccineSchedulingLinks: covidVaccineSchedulingFrontend(state),
     facilityLocatorShowHealthConnectNumber: toggleValues(state)[
       FEATURE_FLAG_NAMES.facilityLocatorShowHealthConnectNumber
     ],

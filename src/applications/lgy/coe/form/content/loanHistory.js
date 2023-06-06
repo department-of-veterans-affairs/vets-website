@@ -1,6 +1,8 @@
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import get from 'platform/utilities/data/get';
 
+import { getLoanIntent } from '../config/helpers';
+
 export default {
   loanClose: {
     title: 'Closing date of your loan',
@@ -49,8 +51,8 @@ export default {
     title: 'Do you still own this property?',
     value: data => (get('propertyOwned', data, '') ? 'Yes' : 'No'),
   },
-  refinance: {
-    title: 'Do you want to refinance this loan?',
-    value: data => (get('willRefinance', data, '') ? 'Yes' : 'No'),
+  intent: {
+    title: 'How will you use your Certificate of Eligibility?',
+    value: data => getLoanIntent(get('intent', data, ''))?.shortLabel || '',
   },
 };

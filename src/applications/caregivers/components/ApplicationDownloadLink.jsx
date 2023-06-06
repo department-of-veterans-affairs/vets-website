@@ -7,7 +7,7 @@ import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { downloadErrorsByCode } from '../definitions/content';
-import { submitTransform } from '../helpers';
+import { submitTransform } from '../utils/helpers';
 import formConfig from '../config/form';
 
 const apiURL = `${

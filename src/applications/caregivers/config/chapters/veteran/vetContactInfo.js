@@ -1,5 +1,4 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
 import {
   veteranFields,
   emptyObjectSchema,
@@ -31,10 +30,6 @@ const vetContactInfoPage = {
     ),
     [veteranFields.emailEncouragementMessage]: emailEncouragementUI(),
     [veteranFields.email]: emailUI(vetInputLabel),
-    [veteranFields.verifyEmail]: confirmationEmailUI(
-      vetInputLabel,
-      veteranFields.email,
-    ),
   },
   schema: {
     type: 'object',
@@ -45,7 +40,6 @@ const vetContactInfoPage = {
       [veteranFields.alternativePhoneNumber]: phone,
       [veteranFields.emailEncouragementMessage]: emptyObjectSchema,
       [veteranFields.email]: veteranProps.email,
-      [veteranFields.verifyEmail]: veteranProps.email,
     },
   },
 };

@@ -2,8 +2,10 @@ import manifest from '../manifest.json';
 
 export const BASE_URL = `${manifest.rootUrl}/`;
 export const REVIEW_ENROLLMENTS_URL_SEGMENT = 'enrollment-verifications';
-export const REVIEW_ENROLLMENTS_URL = `${BASE_URL}${REVIEW_ENROLLMENTS_URL_SEGMENT}/`;
-export const REVIEW_ENROLLMENTS_RELATIVE_URL = `/${REVIEW_ENROLLMENTS_URL_SEGMENT}/`;
+export const REVIEW_ENROLLMENTS_URL = `${BASE_URL}`;
+export const REVIEW_ENROLLMENTS_RELATIVE_URL = `/`;
+export const STATIC_CONTENT_ENROLLMENT_URL =
+  '/education/verify-school-enrollment';
 
 export const VERIFY_ENROLLMENTS_URL_SEGMENT = 'verify';
 export const VERIFY_ENROLLMENTS_URL = `${REVIEW_ENROLLMENTS_URL}${VERIFY_ENROLLMENTS_URL_SEGMENT}/`;
@@ -26,4 +28,5 @@ export const VERIFICATION_RESPONSE = {
 };
 export const CERTIFICATION_METHOD = 'MEB';
 
-export const PAYMENT_PAUSED_DAY_OF_MONTH = 25;
+export const PAYMENT_PAUSED_NUMBER_OF_MONTHS = 2;
+export const PAYMENT_PAUSED_DAY_OF_MONTH = 26;

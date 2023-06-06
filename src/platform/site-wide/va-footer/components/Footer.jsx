@@ -1,5 +1,6 @@
 // Node modules.
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { debounce } from 'lodash';
 // Relative imports.
@@ -41,7 +42,10 @@ class Footer extends Component {
     return (
       <div>
         <div className="footer-inner">
-          <DesktopLinks visible={!this.state.isMobile} links={this.linkObj} />
+          <DesktopLinks
+            visible={!this.props.minimalFooter && !this.state.isMobile}
+            links={this.linkObj}
+          />
           <MobileLinks
             visible={this.state.isMobile}
             links={this.linkObj}
@@ -49,14 +53,16 @@ class Footer extends Component {
               dispatchLanguageSelection: this.props.dispatchLanguageSelection,
               languageCode: this.props.languageCode,
             }}
+            minimalFooter={this.props.minimalFooter}
           />
-          {!this.state.isMobile && (
-            <LanguageSupport
-              isDesktop
-              dispatchLanguageSelection={this.props.dispatchLanguageSelection}
-              languageCode={this.props.languageCode}
-            />
-          )}
+          {!this.props.minimalFooter &&
+            !this.state.isMobile && (
+              <LanguageSupport
+                isDesktop
+                dispatchLanguageSelection={this.props.dispatchLanguageSelection}
+                languageCode={this.props.languageCode}
+              />
+            )}
 
           <div className="usa-grid usa-grid-full footer-banner">
             <a href="/" title="Go to VA.gov">
@@ -64,15 +70,17 @@ class Footer extends Component {
                 src={replaceWithStagingDomain(
                   'https://www.va.gov/img/homepage/va-logo-white.png',
                 )}
-                alt="VA logo"
+                alt="VA logo and Seal, U.S. Department of Veterans Affairs"
                 width="200"
                 className="vads-u-height--auto"
               />
             </a>
           </div>
-          <div className="usa-grid usa-grid-full va-footer-links-bottom">
-            {this.linkObj.bottomLinks}
-          </div>
+          {!this.props.minimalFooter && (
+            <div className="usa-grid usa-grid-full va-footer-links-bottom">
+              {this.linkObj.bottomLinks}
+            </div>
+          )}
         </div>
         <CrisisPanel />
       </div>
@@ -86,6 +94,14 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   languageCode: state.i18State.lang,
 });
+
+Footer.propTypes = {
+  footerData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  minimalFooter: PropTypes.bool.isRequired,
+  dispatchLanguageSelection: PropTypes.func,
+  languageCode: PropTypes.string,
+  onFooterLoad: PropTypes.func,
+};
 
 export default connect(
   mapStateToProps,

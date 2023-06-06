@@ -1,5 +1,7 @@
 import formConfig from '../config/form';
 
+import mockPrefill from './fixtures/mocks/prefill.json';
+import mockProgress from './fixtures/mocks/in-progress-forms.json';
 import mockUser from './fixtures/mocks/user.json';
 import mockStatus from './fixtures/mocks/status.json';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
@@ -8,8 +10,8 @@ import data from './fixtures/data/maximal-test.json';
 describe('Certificate of Eligibility keyboard only navigation', () => {
   it('should navigate through a maximal form', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
-    cy.intercept('GET', 'v0/in_progress_forms/26-1880', {});
-    cy.intercept('PUT', 'v0/in_progress_forms/26-1880', {});
+    cy.intercept('GET', 'v0/in_progress_forms/26-1880', mockPrefill);
+    cy.intercept('PUT', 'v0/in_progress_forms/26-1880', mockProgress);
     cy.intercept('GET', '/v0/coe/status', mockStatus);
     cy.intercept('POST', formConfig.submitUrl, { status: 200 });
 
@@ -37,8 +39,6 @@ describe('Certificate of Eligibility keyboard only navigation', () => {
       'include',
       chapters.contactInformationChapter.pages.mailingAddress.path,
     );
-    cy.tabToElement('#root_applicantAddress_country');
-    cy.chooseSelectOptionUsingValue(data.applicantAddress.country);
     cy.typeInIfDataExists(
       '#root_applicantAddress_street',
       data.applicantAddress.street,
@@ -119,12 +119,6 @@ describe('Certificate of Eligibility keyboard only navigation', () => {
     cy.chooseRadio(data.vaLoanIndicator ? 'Y' : 'N');
     cy.tabToContinueForm();
 
-    // Loan intent
-    cy.url().should('include', chapters.loansChapter.pages.loanIntent.path);
-    cy.tabToElement('[name="root_intent"]');
-    cy.chooseRadio(data.intent);
-    cy.tabToContinueForm();
-
     // Loan history
     // Only adding one loan because tabbing takes a lot of time
     cy.url().should('include', chapters.loansChapter.pages.loanHistory.path);
@@ -136,6 +130,7 @@ describe('Certificate of Eligibility keyboard only navigation', () => {
       const from = firstLoan.dateRange.from
         .split('-')
         .map(v => parseInt(v, 10).toString());
+
       cy.tabToElement(`#${root}dateRange_fromMonth`);
       cy.chooseSelectOptionUsingValue(from[1]);
       cy.tabToElement(`input[name="${root}dateRange_fromYear"]`);
@@ -171,8 +166,11 @@ describe('Certificate of Eligibility keyboard only navigation', () => {
       cy.typeInIfDataExists(`#${root}vaLoanNumber`, firstLoan.vaLoanNumber);
       cy.tabToElement(`[name="${root}propertyOwned"]`);
       cy.chooseRadio(firstLoan.propertyOwned ? 'Y' : 'N');
-      cy.tabToElement(`[name="${root}willRefinance"]`);
-      cy.chooseRadio(firstLoan.willRefinance ? 'Y' : 'N');
+
+      if (firstLoan.propertyOwned) {
+        cy.tabToElement(`[name="${root}intent"]`);
+        cy.chooseRadio(firstLoan.intent);
+      }
     }
 
     cy.tabToContinueForm();
@@ -183,7 +181,7 @@ describe('Certificate of Eligibility keyboard only navigation', () => {
 
     // Review & submit page
     cy.url().should('include', 'review-and-submit');
-    cy.tabToElement('[name="privacyAgreementAccepted"]');
+    cy.tabToElement('input[type="checkbox"]');
     cy.realPress('Space');
     cy.tabToSubmitForm();
 

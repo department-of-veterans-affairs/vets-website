@@ -20,10 +20,9 @@ import {
 import {
   CANCELLED_APPOINTMENT_SET,
   FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
+  getTypeOfCareById,
   PAST_APPOINTMENTS_HIDE_STATUS_SET,
-} from './index';
-
-import { getTypeOfCareById } from '../../utils/appointment';
+} from '../../utils/appointment';
 
 /**
  * Determines what type of appointment a VAR appointment object is depending on
@@ -201,7 +200,7 @@ function getAppointmentDuration(appt) {
       appt.vvsAppointments?.[0]?.duration,
     10,
   );
-  return isNaN(appointmentLength) ? 60 : appointmentLength;
+  return Number.isNaN(appointmentLength) ? 60 : appointmentLength;
 }
 
 /**

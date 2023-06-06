@@ -43,10 +43,12 @@ import {
   showSeparationLocation,
   isExpired,
   truncateDescriptions,
+  hasNewPtsdDisability,
   showPtsdCombat,
   showPtsdNonCombat,
   skip781,
 } from '../../utils';
+import { testBranches } from '../../utils/serviceBranches';
 
 describe('526 helpers', () => {
   describe('hasGuardOrReservePeriod', () => {
@@ -54,7 +56,7 @@ describe('526 helpers', () => {
       const formData = {
         servicePeriods: [
           {
-            serviceBranch: 'Air Force Reserve',
+            serviceBranch: 'Air Force Reserves',
             dateRange: {
               to: '2011-05-06',
               from: '2015-05-06',
@@ -118,14 +120,14 @@ describe('526 helpers', () => {
               },
             },
             {
-              serviceBranch: 'Air Force Reserve',
+              serviceBranch: 'Air Force Reserves',
               dateRange: {
                 from: '2000-05-08',
                 to: '2011-10-08',
               },
             },
             {
-              serviceBranch: 'Marine Corps Reserve',
+              serviceBranch: 'Marine Corps Reserves',
               dateRange: {
                 from: '2000-05-08',
                 to: '2018-10-08',
@@ -136,7 +138,7 @@ describe('526 helpers', () => {
       };
 
       const renderedText = shallow(ReservesGuardDescription(form));
-      expect(renderedText.render().text()).to.contain('Marine Corps Reserve');
+      expect(renderedText.render().text()).to.contain('Marine Corps Reserves');
       renderedText.unmount();
     });
 
@@ -412,6 +414,26 @@ describe('526 helpers', () => {
         needsToEnter781({
           ...formData,
           skip781ForNonCombatReason: true,
+        }),
+      ).to.be.false;
+    });
+    it('should return false if in BDD flow', () => {
+      expect(
+        needsToEnter781({
+          'view:isBddData': true,
+          serviceInformation: {
+            servicePeriods: [
+              {
+                dateRange: {
+                  to: moment()
+                    .add(90, 'days')
+                    .format('YYYY-MM-DD'),
+                },
+              },
+            ],
+          },
+          'view:claimType': { 'view:claimingnew': true },
+          newDisabilities: [{ condition: 'PTSD' }],
         }),
       ).to.be.false;
     });
@@ -1011,18 +1033,21 @@ describe('526 v2 depends functions', () => {
     const check = (serviceBranch, from, to) =>
       isValidServicePeriod({ serviceBranch, dateRange: { from, to } });
     it('should return true when a service period data is valid', () => {
-      expect(check('a', '2020-01-31', '2020-02-14')).to.be.true;
-      expect(check('a', `${minYear}-01-31`, `${maxYear}-02-14`)).to.be.true;
+      testBranches();
+      expect(check('Army', '2020-01-31', '2020-02-14')).to.be.true;
+      expect(check('Army Reserves', '2020-01-31', '2020-02-14')).to.be.true;
+      expect(check('Army', `${minYear}-01-31`, `${maxYear}-02-14`)).to.be.true;
     });
     it('should return false when a service period data is invalid', () => {
-      expect(check('', '2020-01-31', '2020-02-14')).to.be.false;
-      expect(check('a', 'XXXX-01-31', '2020-02-14')).to.be.false;
-      expect(check('a', '2020-XX-31', '2020-02-14')).to.be.false;
-      expect(check('a', '2020-01-XX', '2020-02-14')).to.be.false;
-      expect(check('a', '2020-01-31', 'XXXX-02-14')).to.be.false;
-      expect(check('a', '2020-01-31', '2020-XX-14')).to.be.false;
-      expect(check('a', '2020-01-31', '2020-02-XX')).to.be.false;
-      expect(check('a', '2020-02-14', '2020-01-31')).to.be.false;
+      testBranches();
+      expect(check('civilian', '2020-01-31', '2020-02-14')).to.be.false;
+      expect(check('Army', 'XXXX-01-31', '2020-02-14')).to.be.false;
+      expect(check('Army', '2020-XX-31', '2020-02-14')).to.be.false;
+      expect(check('Army', '2020-01-XX', '2020-02-14')).to.be.false;
+      expect(check('Army', '2020-01-31', 'XXXX-02-14')).to.be.false;
+      expect(check('Army', '2020-01-31', '2020-XX-14')).to.be.false;
+      expect(check('Army', '2020-01-31', '2020-02-XX')).to.be.false;
+      expect(check('Army', '2020-02-14', '2020-01-31')).to.be.false;
     });
   });
 
@@ -1197,6 +1222,30 @@ describe('skip PTSD questions', () => {
     },
     skip781ForCombatReason: skipCombat,
     skip781ForNonCombatReason: skipNonCombat,
+  });
+
+  describe('hasNewPtsdDisability', () => {
+    const getPtsdData = (date, bddState = true) => ({
+      'view:isBddData': bddState,
+      serviceInformation: {
+        servicePeriods: [{ dateRange: { to: date } }],
+      },
+      'view:claimType': { 'view:claimingnew': true },
+      newDisabilities: [{ condition: 'PTSD' }],
+    });
+
+    it('should return true for PTSD in non-BDD flow', () => {
+      expect(hasNewPtsdDisability(getPtsdData('2020-01-01', false))).to.be.true;
+      // invalid BDD separation date negates BDD flow
+      const today = moment().format('YYYY-MM-DD');
+      expect(hasNewPtsdDisability(getPtsdData(today, true))).to.be.true;
+    });
+    it('should return false for PTSD in BDD flow', () => {
+      const date = moment()
+        .add(90, 'days')
+        .format('YYYY-MM-DD');
+      expect(hasNewPtsdDisability(getPtsdData(date, true))).to.be.false;
+    });
   });
 
   describe('showPtsdCombat', () => {

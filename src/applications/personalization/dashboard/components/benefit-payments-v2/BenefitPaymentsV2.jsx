@@ -6,8 +6,8 @@ import PaymentsCardV2 from './PaymentsCardV2';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
-import { canAccess } from '../../selectors';
-import API_NAMES from '../../utils/apiNames';
+import { canAccess } from '../../../common/selectors';
+import { API_NAMES } from '../../../common/constants';
 
 const NoRecentPaymentText = () => {
   return (
@@ -44,12 +44,12 @@ const PopularActionsForPayments = ({ showPaymentHistoryLink = false }) => {
         <IconCTALink
           href="/va-payment-history/payments/"
           icon="user-check"
-          text="View your payment history"
+          text="Review your payment history"
           /* eslint-disable react/jsx-no-bind */
           onClick={() => {
             recordEvent({
               event: 'nav-linkslist',
-              'links-list-header': 'View your payment history',
+              'links-list-header': 'Review your payment history',
               'links-list-section-header': 'Benefit payments',
             });
           }}
@@ -68,8 +68,9 @@ PopularActionsForPayments.propTypes = {
 const PaymentsError = () => {
   return (
     <div className="vads-u-margin-bottom--2p5">
-      <va-alert status="warning" show-icon data-testid="payments-v2-error">
-        <div className="vads-u-margin-top--0">
+      <va-alert status="error" show-icon data-testid="payments-v2-error">
+        <h2 slot="headline">We can’t access your payment history</h2>
+        <div>
           We’re sorry. We can’t access your payment history right now. We’re
           working to fix this problem. Please check back later.
         </div>

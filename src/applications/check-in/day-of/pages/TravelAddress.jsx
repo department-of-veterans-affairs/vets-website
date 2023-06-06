@@ -16,7 +16,7 @@ const TravelAddress = props => {
   const bodyText = (
     <>
       <p>{t('answer-yes-if-you-traveled-from-the-address')}</p>
-      <div className="vads-u-font-weight--bold vads-u-border-top--1px vads-u-padding-top--2 vads-u-margin-top--4 vads-u-margin-top--3 vads-u-border-color--gray-light vads-u-font-family--sans vads-u-border-bottom--1px vads-u-padding-bottom--2">
+      <div className="vads-u-font-weight--bold vads-u-border-top--1px vads-u-padding-top--2 vads-u-margin-top--4 vads-u-border-color--gray-light vads-u-font-family--sans vads-u-border-bottom--1px vads-u-padding-bottom--2">
         {t('home-address')}
         <div className="vads-u-font-weight--normal">
           <AddressBlock address={demographics.homeAddress} />

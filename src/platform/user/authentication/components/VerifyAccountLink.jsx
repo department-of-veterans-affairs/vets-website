@@ -10,21 +10,20 @@ export default function VerifyAccountLink({
   children,
 }) {
   const [href, setHref] = useState('');
-  useEffect(
-    () => {
-      (async () => {
-        const url = await authUtilities.signupOrVerify({
-          policy,
-          allowVerification: true,
-          isSignup: false,
-          isLink: true,
-          useOAuth,
-        });
-        setHref(url);
-      })();
-    },
-    [policy, useOAuth],
-  );
+  useEffect(() => {
+    async function generateURL() {
+      const url = await authUtilities.signupOrVerify({
+        policy,
+        allowVerification: true,
+        isSignup: false,
+        isLink: true,
+        useOAuth,
+      });
+      setHref(url);
+    }
+
+    generateURL();
+  }, []);
 
   return (
     <a

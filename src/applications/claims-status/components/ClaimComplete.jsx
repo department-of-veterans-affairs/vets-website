@@ -9,9 +9,9 @@ function ClaimComplete({ completedDate }) {
     <>
       <div className="usa-alert usa-alert-info background-color-only claims-alert-status">
         <h3 className="claims-alert-header vads-u-font-size--h4">
-          Your claim was closed{' '}
+          We decided your claim{' '}
           {completedDate
-            ? `on ${moment(completedDate).format('MMM D, YYYY')}`
+            ? `on ${moment(completedDate).format('MMMM D, YYYY')}`
             : null}
         </h3>
       </div>

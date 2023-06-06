@@ -1,27 +1,23 @@
-import { badAddress, user72Success } from '../../../mocks/user';
+import { badAddress, loa3User72 } from '../../../mocks/endpoints/user';
 
-import { generateFeatureToggles } from '../../../mocks/feature-toggles';
+import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 import {
   addressValidation,
   mailingAddresUpdateNoChangeDetected,
-} from '../../../mocks/address';
+} from '../../../mocks/endpoints/address';
 
 import BadAddressFeature from './BadAddressFeature';
 
 describe('Bad Address Alert -- Contact Page -- Form alert', () => {
   beforeEach(() => {
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({ profileShowBadAddressIndicator: true }),
-    );
+    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
 
     cy.intercept('GET', '/v0/user', req => {
       req.reply(200, badAddress);
     });
 
     cy.intercept('GET', '/v0/user*', req => {
-      req.reply(200, user72Success);
+      req.reply(200, loa3User72);
     });
   });
 

@@ -11,7 +11,7 @@ class TravelPages {
         title = 'Did you travel from your home address?';
         break;
       case 'mileage':
-        title = 'Are you claiming only mileage for your trip?';
+        title = 'Are you claiming only mileage and no other expenses today?';
         break;
       default:
         break;
@@ -27,10 +27,37 @@ class TravelPages {
     });
   };
 
+  validateBackButton = page => {
+    cy.get('a[data-testid="back-button').should(
+      'have.text',
+      'Back to last screen',
+    );
+    if (page === 'travel-pay') {
+      cy.get('a[data-testid="back-button"]')
+        .should('have.attr', 'href')
+        .and('contain', 'next-of-kin');
+    }
+    if (page === 'vehicle') {
+      cy.get('a[data-testid="back-button"]')
+        .should('have.attr', 'href')
+        .and('contain', 'travel-pay');
+    }
+    if (page === 'address') {
+      cy.get('a[data-testid="back-button"]')
+        .should('have.attr', 'href')
+        .and('contain', 'travel-vehicle');
+    }
+    if (page === 'mileage') {
+      cy.get('a[data-testid="back-button"]')
+        .should('have.attr', 'href')
+        .and('contain', 'travel-address');
+    }
+  };
+
   validateContent = page => {
     let body = true;
     const helpText = true;
-    if (page === 'vehicle') {
+    if (page === 'vehicle' || page === 'mileage') {
       body = false;
     }
     if (helpText) {

@@ -1,10 +1,11 @@
 import merge from 'lodash/merge';
-import * as Sentry from '@sentry/browser';
+// import * as Sentry from '@sentry/browser';
 
 import environment from 'platform/utilities/environment';
-import localStorage from 'platform/utilities/storage/localStorage';
-import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
-import { SET_UNAUTHORIZED } from '../actions/index';
+// import localStorage from 'platform/utilities/storage/localStorage';
+import { apiRequest } from 'platform/utilities/api';
+// import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import { SET_UNAUTHORIZED } from '../actions/types';
 
 const evidenceGathering = 'Evidence gathering, review, and decision';
 
@@ -50,17 +51,37 @@ export function getUserPhase(phase) {
   return phase - 3;
 }
 
+// START lighthouse_migration
+export const getTrackedItemId = trackedItem =>
+  trackedItem.trackedItemId || trackedItem.id;
+
+export const getTrackedItemDate = item => {
+  return item.closedDate || item.receivedDate || item.requestedDate;
+};
+// END lighthouse_migration
+
 export function getItemDate(item) {
+  // Tracked item that has been marked received.
+  // status is either INITIAL_REVIEW_COMPLETE,
+  // or ACCEPTED
   if (item.receivedDate) {
     return item.receivedDate;
   }
+
+  // Tracked item that has documents but has not been marked received.
+  // status is SUBMITTED_AWAITING_REVIEW
   if (item.documents && item.documents.length) {
     return item.documents[item.documents.length - 1].uploadDate;
   }
+
+  // Supporting document.
+  // uploadDate is sometimes null
   if (item.type === 'other_documents_list' && item.uploadDate) {
     return item.uploadDate;
   }
 
+  // Most likely this is a tracked item that has a status
+  // of NEEDED
   return item.date;
 }
 
@@ -200,19 +221,12 @@ export function getDocTypeDescription(docType) {
   return DOC_TYPES.filter(type => type.value === docType)[0].label;
 }
 
-export function isPopulatedClaim({ attributes }) {
-  return (
-    !!attributes.claimType &&
-    (attributes.contentionList && !!attributes.contentionList.length) &&
-    !!attributes.dateFiled
-  );
-}
+export const isPopulatedClaim = ({ claimDate, claimType, contentions }) =>
+  !!claimType && (contentions && !!contentions.length) && !!claimDate;
 
 export function hasBeenReviewed(trackedItem) {
-  return (
-    trackedItem.type.startsWith('received_from') &&
-    trackedItem.status !== 'SUBMITTED_AWAITING_REVIEW'
-  );
+  const reviewedStatuses = ['INITIAL_REVIEW_COMPLETE', 'ACCEPTED'];
+  return reviewedStatuses.includes(trackedItem.status);
 }
 
 // Adapted from http://stackoverflow.com/a/26230989/487883
@@ -227,28 +241,33 @@ export function getTopPosition(elem) {
   return Math.round(box.top + scrollTop - clientTop);
 }
 
+export function stripEscapedChars(text) {
+  return text && text.replace(/\\(n|r|t)/gm, '');
+}
+
+// strip escaped html entities that have made its way into the desc
+export function stripHtml(text) {
+  return text && text.replace(/[<>]|&\w+;/g, '');
+}
+
+export function scrubDescription(text) {
+  return stripEscapedChars(stripHtml(text));
+}
+
 export function truncateDescription(text) {
   const maxLength = 120;
   if (text && text.length > maxLength) {
     return `${text.substr(0, maxLength)}…`;
   }
-  return text;
-}
-
-// strip escaped html entities that have made its way into the desc
-export function stripHtml(text) {
-  return text && text.replace(/&\w+;/g, '');
+  return scrubDescription(text);
 }
 
 export function isClaimComplete(claim) {
   return claim.attributes.decisionLetterSent || claim.attributes.phase === 8;
 }
 
-export function itemsNeedingAttentionFromVet(events) {
-  return events?.filter(
-    event =>
-      event.status === 'NEEDED' && event.type === 'still_need_from_you_list',
-  ).length;
+export function itemsNeedingAttentionFromVet(items) {
+  return items?.filter(item => item.status === 'NEEDED_FROM_YOU').length;
 }
 
 export function makeAuthRequest(
@@ -258,42 +277,18 @@ export function makeAuthRequest(
   onSuccess,
   onError,
 ) {
-  const csrfTokenStored = localStorage.getItem('csrfToken');
   const options = merge(
     {},
     {
       method: 'GET',
       credentials: 'include',
       mode: 'cors',
-      headers: {
-        'X-Key-Inflection': 'camel',
-        'Source-App-Name': window.appName,
-        'X-CSRF-Token': csrfTokenStored,
-      },
       responseType: 'json',
     },
     userOptions,
   );
 
-  fetch(`${environment.API_URL}${url}`, options)
-    .catch(err => {
-      Sentry.withScope(scope => {
-        scope.setExtra('error', err);
-        Sentry.captureMessage(`vets_client_error: ${err.message}`);
-      });
-
-      return Promise.reject(err);
-    })
-    .then(resp => {
-      if (resp.ok) {
-        if (options.responseType) {
-          return resp[options.responseType]();
-        }
-        return Promise.resolve();
-      }
-
-      return Promise.reject(resp);
-    })
+  apiRequest(`${environment.API_URL}${url}`, options)
     .then(onSuccess)
     .catch(resp => {
       if (resp.status === 401) {

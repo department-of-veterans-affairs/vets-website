@@ -13,13 +13,20 @@ import IntroductionPage from '../../containers/IntroductionPage';
 const getData = ({
   loggedIn = true,
   status = CALLSTATUS.skip,
+  isVerified = false,
+  canApply = false,
   coeStatus = '',
 } = {}) => ({
   props: {
     loggedIn,
+    isVerified,
+    canApply,
     route: {
       formConfig,
       pageList: [{ path: '/introduction' }, { path: '/next', formConfig }],
+    },
+    location: {
+      basename: '/foo',
     },
   },
   mockStore: {
@@ -31,6 +38,10 @@ const getData = ({
         profile: {
           savedForms: [],
           prefillsAvailable: [],
+          verified: isVerified,
+          claims: {
+            coe: canApply,
+          },
         },
       },
       form: {
@@ -70,6 +81,8 @@ describe('IntroductionPage', () => {
     const { props, mockStore } = getData({
       loggedIn: false,
       status: CALLSTATUS.skip,
+      isVerified: false,
+      canApply: false,
     });
     const { container } = render(
       <Provider store={mockStore}>
@@ -81,11 +94,47 @@ describe('IntroductionPage', () => {
     );
   });
 
+  it('prompts the vet to verify their account if they are still at loa1', () => {
+    const { props, mockStore } = getData({
+      loggedIn: true,
+      status: CALLSTATUS.skip,
+      isVerified: false,
+      canApply: false,
+    });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />,
+      </Provider>,
+    );
+    expect($('h2', container).textContent).to.contain(
+      'verify your identity to access',
+    );
+  });
+
+  it('prompts the vet to inquire about their EDIPI if they are missing one', () => {
+    const { props, mockStore } = getData({
+      loggedIn: true,
+      status: CALLSTATUS.skip,
+      isVerified: true,
+      canApply: false,
+    });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />,
+      </Provider>,
+    );
+    expect($('h2', container).textContent).to.contain(
+      'We need more information for your application',
+    );
+  });
+
   it('should show denied logged in content', () => {
     const { props, mockStore } = getData({
       loggedIn: true,
       status: CALLSTATUS.success,
       coeStatus: COE_ELIGIBILITY_STATUS.denied,
+      isVerified: true,
+      canApply: true,
     });
     const { container } = render(
       <Provider store={mockStore}>
@@ -98,11 +147,14 @@ describe('IntroductionPage', () => {
       'We denied your request for a COE', // va-alert Denied status
     );
   });
+
   it('should show available logged in content', () => {
     const { props, mockStore } = getData({
       loggedIn: true,
       status: CALLSTATUS.success,
       coeStatus: COE_ELIGIBILITY_STATUS.available,
+      isVerified: true,
+      canApply: true,
     });
     const { container } = render(
       <Provider store={mockStore}>

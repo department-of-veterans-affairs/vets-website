@@ -12,11 +12,11 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const form = this.props.form;
+    const { form } = this.props;
     const response = this.props.form.submission.response
       ? this.props.form.submission.response.attributes
       : {};
-    const name = form.data.application.claimant.name;
+    const { name } = form.data.application.claimant;
     const submittedAt = moment(form.submission.submittedAt);
 
     return (
@@ -63,13 +63,17 @@ class ConfirmationPage extends React.Component {
             Make sure you write your name and confirmation number on every page.
           </li>
           <li className="mail-or-fax-step">
-            Mail or fax them to:
+            <p>Submit application and Support Documentation to the VA by:</p>
+            <p>Mail:</p>
             <div className="mail-fax-address">
-              <div>National Cemetery Scheduling Office</div>
-              <div>PO Box 510543</div>
-              <div>St. Louis, MO 63151</div>
+              <div>NCA Intake Center</div>
+              <div>P.O. Box 5237</div>
+              <div>Janesville, WI 53547</div>
             </div>
-            <p>Fax (toll-free): 855-840-8299</p>
+            <p>
+              Fax: the National Cemetery Scheduling Office at{' '}
+              <va-telephone contact="8558408299" not-clickable />
+            </p>
           </li>
         </ol>
         <div className="confirmation-guidance-container">
@@ -86,9 +90,10 @@ class ConfirmationPage extends React.Component {
           <div>
             <p className="confirmation-guidance-message">
               If you have questions, please call{' '}
-              <a className="help-phone-number-link" href="tel:1-877-222-8387">
-                877-222-8387
-              </a>
+              <va-telephone
+                className="help-phone-number-link"
+                contact="8772228387"
+              />
               , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
           </div>

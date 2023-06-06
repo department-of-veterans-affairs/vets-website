@@ -1,9 +1,53 @@
 import DirectDeposit from '../DirectDeposit';
-import { paymentHistory } from '../../../../mocks/payment-history';
-import { noAccount } from '../../../../mocks/bank-accounts';
-import { user72Success } from '../../../../mocks/user';
+import { noAccount } from '../../../../mocks/endpoints/bank-accounts';
+import { loa3User72 } from '../../../../mocks/endpoints/user';
 
-import { generateFeatureToggles } from '../../../../mocks/feature-toggles';
+import { generateFeatureToggles } from '../../../../mocks/endpoints/feature-toggles';
+
+const notEligible = {
+  data: {
+    id: '',
+    type: 'evss_ppiu_payment_information_responses',
+    attributes: {
+      responses: [
+        {
+          controlInformation: {
+            canUpdateAddress: true,
+            corpAvailIndicator: true,
+            corpRecFoundIndicator: true,
+            hasNoBdnPaymentsIndicator: true,
+            identityIndicator: true,
+            isCompetentIndicator: true,
+            indexIndicator: true,
+            noFiduciaryAssignedIndicator: true,
+            notDeceasedIndicator: true,
+          },
+          paymentAccount: {
+            accountType: null,
+            financialInstitutionName: null,
+            accountNumber: null,
+            financialInstitutionRoutingNumber: null,
+          },
+          paymentAddress: {
+            type: null,
+            addressEffectiveDate: null,
+            addressOne: null,
+            addressTwo: null,
+            addressThree: null,
+            city: null,
+            stateCode: null,
+            zipCode: null,
+            zipSuffix: null,
+            countryName: null,
+            militaryPostOfficeTypeCode: null,
+            militaryStateCode: null,
+          },
+          paymentType: 'CNP',
+        },
+      ],
+    },
+  },
+};
 
 describe('Direct Deposit Consistently', () => {
   beforeEach(() => {
@@ -11,12 +55,8 @@ describe('Direct Deposit Consistently', () => {
   });
 
   it('should display the ineligible message', () => {
-    cy.login(user72Success);
-    cy.intercept(
-      'GET',
-      'v0/ppiu/payment_information',
-      paymentHistory.notEligible,
-    );
+    cy.login(loa3User72);
+    cy.intercept('GET', 'v0/ppiu/payment_information', notEligible);
     cy.intercept('GET', '/v0/profile/ch33_bank_accounts', noAccount);
 
     DirectDeposit.visitPage();

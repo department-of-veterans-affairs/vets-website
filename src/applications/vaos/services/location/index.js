@@ -1,15 +1,12 @@
 /**
  * @module services/Location
  */
-import environment from 'platform/utilities/environment';
-
 /*
  * Functions in here should map a var-resources API request to a similar response from
  * a FHIR resource request
  */
 
 import {
-  getFacilitiesBySystemAndTypeOfCare,
   getFacilityInfo,
   getFacilitiesInfo,
   getDirectBookingEligibilityCriteria,
@@ -21,7 +18,6 @@ import {
 } from '../var';
 import { mapToFHIRErrors } from '../utils';
 import {
-  transformDSFacilities,
   transformFacilities,
   transformFacility,
   setSupportedSchedulingMethods,
@@ -43,44 +39,7 @@ import {
   transformSettingsV2,
   transformFacilityV2,
 } from './transformers.v2';
-
-/**
- * Fetch facility information for the facilities in the given site, based on type of care
- *
- * @export
- * @async
- * @param {Object} locationParams Parameters needed for fetching locations
- * @param {String} locationParams.siteId A VistA site id for the locations being pulled
- * @param {String} locationParams.parentId An id for the parent organization of the facilities being pulled
- * @param {String} locationParams.typeOfCareId An id for the type of care to check for the chosen organization
- * @returns {Array<Location>} A FHIR searchset of Location resources
- */
-export async function getSupportedLocationsByTypeOfCare({
-  siteId,
-  parentId,
-  typeOfCareId,
-}) {
-  try {
-    const parentFacilities = await getFacilitiesBySystemAndTypeOfCare(
-      siteId,
-      parentId,
-      typeOfCareId,
-    );
-
-    return transformDSFacilities(
-      // Doing this here because the FHIR service will return only supported facilities
-      parentFacilities.filter(
-        f => f.directSchedulingSupported || f.requestSupported,
-      ),
-    ).sort((a, b) => (a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1));
-  } catch (e) {
-    if (e.errors) {
-      throw mapToFHIRErrors(e.errors);
-    }
-
-    throw e;
-  }
-}
+import { getRealFacilityId } from '../../utils/appointment';
 
 /**
  * Fetch list of facilities
@@ -265,22 +224,6 @@ export function getSiteIdFromFacilityId(id) {
 }
 
 /**
- * Converts back from a real facility id to our test facility ids
- * in lower environments
- *
- * @export
- * @param {string} facilityId - facility id to convert
- * @returns {string} A facility id with either 442 or 552 replaced with 983 or 984
- */
-export function getTestFacilityId(facilityId) {
-  if (!environment.isProduction() && facilityId) {
-    return facilityId.replace('442', '983').replace('552', '984');
-  }
-
-  return facilityId;
-}
-
-/**
  * Returns formatted address from facility details object
  *
  * @param {Location} facility A location, or object with an Address field
@@ -293,9 +236,9 @@ export function formatFacilityAddress(facility) {
     facility?.address?.state &&
     facility?.address?.postalCode
   ) {
-    return `${facility.address.line.join(', ')}, ${facility.address.city}, ${
-      facility.address.state
-    } ${facility.address.postalCode}`;
+    return `${facility.address.line.filter(Boolean).join(', ')}, ${
+      facility.address.city
+    }, ${facility.address.state} ${facility.address.postalCode}`;
   }
 
   return '';
@@ -462,7 +405,11 @@ export async function fetchCommunityCareSupportedSites({
  * @returns {Boolean} Returns true if locationId starts with any of the Cerner site ids
  */
 export function isCernerLocation(locationId, cernerSiteIds = []) {
-  return cernerSiteIds.some(cernerId => locationId?.startsWith(cernerId));
+  return cernerSiteIds.some(cernerId => {
+    return getRealFacilityId(locationId)?.startsWith(
+      getRealFacilityId(cernerId),
+    );
+  });
 }
 
 /**

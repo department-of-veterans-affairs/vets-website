@@ -13,7 +13,7 @@ import {
   UPDATE_FIELD,
   CANCEL_UPLOAD,
   SET_FIELDS_DIRTY,
-} from '../../actions';
+} from '../../actions/types';
 
 describe('Uploads reducer', () => {
   it('should reset uploads state', () => {

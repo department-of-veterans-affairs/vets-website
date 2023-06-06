@@ -37,7 +37,12 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
         return (
           <>
             Update saved. Now you can{' '}
-            <Link to={PROFILE_PATHS.NOTIFICATION_SETTINGS}>
+            <Link
+              to={{
+                pathname: PROFILE_PATHS.NOTIFICATION_SETTINGS,
+                state: { scrollToTop: true },
+              }}
+            >
               manage text notifications
             </Link>
             .

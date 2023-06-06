@@ -5,7 +5,6 @@ import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import { isVAProfileServiceConfigured } from 'platform/user/profile/vap-svc/util/local-vapsvc';
 import { updateLoggedInStatus } from '../../authentication/actions';
-import { infoTokenExists, refresh } from '../../../utilities/oauth/utilities';
 import { teardownProfileSession } from '../utilities';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
@@ -13,6 +12,7 @@ export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
 export const REMOVING_SAVED_FORM = 'REMOVING_SAVED_FORM';
 export const REMOVING_SAVED_FORM_SUCCESS = 'REMOVING_SAVED_FORM_SUCCESS';
 export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
+export const PROFILE_ERROR = 'PROFILE_ERROR';
 
 export * from './mhv';
 
@@ -31,20 +31,15 @@ export function profileLoadingFinished() {
   };
 }
 
-async function saveAndRefresh(payload) {
-  const newPayloadObject = { payload };
-  if (payload.errors === 'Access token has expired' && infoTokenExists()) {
-    const refreshResponse = await refresh();
-    if (!refreshResponse.ok) {
-      throw new Error('Could not refresh AT');
-    }
-
-    const newPayload = await apiRequest(baseUrl);
-    return { payload: newPayload };
-  }
-
-  return newPayloadObject;
+export function profileError() {
+  return {
+    type: PROFILE_ERROR,
+  };
 }
+
+// check for errors from main response body, or from meta object (aka external service errors)
+const hasError = dataPayload =>
+  dataPayload?.errors?.length > 0 || dataPayload?.meta?.errors?.length > 0;
 
 export function refreshProfile(
   forceCacheClear = false,
@@ -56,18 +51,27 @@ export function refreshProfile(
   };
   return async dispatch => {
     const url = forceCacheClear ? appendQuery(baseUrl, query) : baseUrl;
-
     const payload = await apiRequest(url);
-    const saved = await saveAndRefresh(payload);
 
-    recordEvent({
+    if (!payload.errors) {
+      sessionStorage.setItem(
+        'serviceName',
+        payload.data.attributes.profile?.signIn?.serviceName,
+      );
+    }
+
+    const eventApiStatus = hasError(payload) ? 'failed' : 'successful';
+
+    const eventData = {
       event: 'api_call',
       'api-name': 'GET /v0/user',
-      'api-status': 'successful',
-    });
+      'api-status': eventApiStatus,
+    };
 
-    dispatch(updateProfileFields(saved.payload));
-    return saved.payload;
+    recordEvent(eventData);
+
+    dispatch(updateProfileFields(payload));
+    return payload;
   };
 }
 
@@ -84,6 +88,8 @@ export function initializeProfile() {
       ) {
         dispatch(updateLoggedInStatus(false));
         teardownProfileSession();
+      } else {
+        dispatch(profileError());
       }
     }
   };

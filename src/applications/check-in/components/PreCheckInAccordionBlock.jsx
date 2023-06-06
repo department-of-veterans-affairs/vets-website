@@ -1,11 +1,9 @@
-import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
-
 import ExternalLink from './ExternalLink';
+import { phoneNumbers } from '../utils/appConstants';
 
 const PreCheckInAccordionBlock = ({
   demographicsUpToDate = 'no',
@@ -14,14 +12,11 @@ const PreCheckInAccordionBlock = ({
   appointments = null,
   errorPage = false,
 }) => {
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
-
   const { t } = useTranslation();
   let hasUpdates = false;
   let updateBody = '';
   let appointmentType = 'clinic';
-  if (isPhoneAppointmentsEnabled && appointments && appointments.length) {
+  if (appointments && appointments.length) {
     appointmentType = appointments[0]?.kind;
   }
   if (demographicsUpToDate === 'no') {
@@ -36,7 +31,7 @@ const PreCheckInAccordionBlock = ({
             </p>
             <p>
               <Trans
-                i18nKey="or-you-can-login-to-your-va-account-to-update-your-contact-information-online"
+                i18nKey="or-you-can-login-to-your-va-gov-profile-to-update-your-contact-info-online"
                 components={[
                   <ExternalLink
                     key="link"
@@ -56,7 +51,7 @@ const PreCheckInAccordionBlock = ({
           <>
             <p>
               <Trans
-                i18nKey="you-can-sign-in-to-your-va-account"
+                i18nKey="you-can-sign-in-to-your-va-gov-profile"
                 components={[
                   <ExternalLink
                     key="link"
@@ -69,15 +64,15 @@ const PreCheckInAccordionBlock = ({
                 values={{ link: t('sign-in') }}
               />
             </p>
-            <p>
+            <p data-testid="or-you-can-call">
               <Trans
                 i18nKey="or-you-can-call"
                 components={[
-                  <va-telephone key="or-you-can-call" contact="8006982411">
-                    link
-                  </va-telephone>,
+                  <va-telephone
+                    key={phoneNumbers.mainInfo}
+                    contact={phoneNumbers.mainInfo}
+                  />,
                 ]}
-                values={{ link: '800-698-2411' }}
               />
             </p>
           </>
@@ -99,71 +94,79 @@ const PreCheckInAccordionBlock = ({
       <>
         {updateBody}
         <strong>{title}</strong>
-        <p>
-          {appointmentType === 'clinic' ? (
-            t('a-staff-member-will-help-you-on-the-day-of-your-appointment')
-          ) : (
+        {appointmentType === 'clinic' ? (
+          <p>
+            {t('a-staff-member-will-help-you-on-the-day-of-your-appointment')}
+          </p>
+        ) : (
+          <p data-testid="please-call">
             <Trans
               i18nKey="please-call"
               components={[
-                <va-telephone key="please call" contact="8006982411">
-                  link
-                </va-telephone>,
+                <va-telephone
+                  key={phoneNumbers.mainInfo}
+                  contact={phoneNumbers.mainInfo}
+                />,
               ]}
-              values={{ link: '800-698-2411' }}
             />
-          )}
-        </p>
+          </p>
+        )}
       </>
     );
   }
   const accordions = [];
   if (appointments && !errorPage) {
-    accordions.unshift(
-      {
-        header: t('why-do-i-need-to-make-sure-my-information-is-up-to-date'),
-        body: (
-          <p>
-            {t(
-              'we-can-better-prepare-for-your-appointment-and-contact-you-more-easily',
-            )}
-          </p>
-        ),
-        open: false,
-      },
-      {
+    accordions.unshift({
+      header: t('why-do-i-need-to-make-sure-my-information-is-up-to-date'),
+      body: (
+        <p>
+          {t(
+            'we-can-better-prepare-for-your-appointment-and-contact-you-more-easily',
+          )}
+        </p>
+      ),
+      open: false,
+    });
+    if (
+      appointments.some(
+        appointment =>
+          appointment.clinicPhoneNumber && appointment.clinicPhoneNumber.length,
+      )
+    ) {
+      accordions.push({
         header: t('what-if-i-have-questions-about-my-appointment'),
         body: (
           <>
             <p>{t('call-your-va-health-care-team')}:</p>
             {appointments.map((appointment, index) => {
               return (
-                <p key={index}>
-                  <Trans
-                    i18nKey="facility-name-at-phone"
-                    components={[
-                      <va-telephone
-                        key="facility-name-at-phone"
-                        contact={appointment.clinicPhoneNumber}
-                      >
-                        phone
-                      </va-telephone>,
-                    ]}
-                    values={{
-                      facility:
-                        appointment.clinicFriendlyName ||
-                        appointment.clinicName,
-                      phone: appointment.clinicPhoneNumber,
-                    }}
-                  />
-                </p>
+                <React.Fragment key={index}>
+                  {appointment.clinicPhoneNumber && (
+                    <p>
+                      <Trans
+                        i18nKey="facility-name-at-phone"
+                        components={[
+                          <va-telephone
+                            key={appointment.clinicPhoneNumber}
+                            contact={appointment.clinicPhoneNumber}
+                          />,
+                        ]}
+                        values={{
+                          facility:
+                            appointment.clinicFriendlyName ||
+                            appointment.clinicName,
+                        }}
+                      />
+                    </p>
+                  )}
+                </React.Fragment>
               );
             })}
           </>
         ),
         open: false,
-      },
-    );
+      });
+    }
   }
 
   if (hasUpdates) {
@@ -180,13 +183,11 @@ const PreCheckInAccordionBlock = ({
       body: (
         <>
           <p>
-            {t(
-              'during-pre-check-in-you-can-review-your-personal-emergency-contact-and-next-of-kin-information-and-confirm-its-up-to-date-this-helps-us-better-prepare-for-your-appointment',
-            )}
+            {t('during-pre-check-in-you-can-review-your-contact-information')}
           </p>
           <p>
             <Trans
-              i18nKey="you-can-also-sign-in-to-your-va-account-to-review-your-information"
+              i18nKey="you-can-also-sign-in-to-your-va-gov-profile-to-review-your-information"
               components={[
                 <ExternalLink
                   key="link"
@@ -222,7 +223,6 @@ const PreCheckInAccordionBlock = ({
         return (
           <va-accordion-item
             header={accordion.header}
-            id={index}
             key={index}
             open={accordion.open}
           >

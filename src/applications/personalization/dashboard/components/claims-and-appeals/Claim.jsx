@@ -6,7 +6,7 @@ import {
   getPhaseDescription,
   isClaimComplete,
   getClaimType,
-} from '~/applications/claims-status/utils/helpers';
+} from '../../utils/claims-helpers';
 
 import CTALink from '../CTALink';
 
@@ -43,7 +43,7 @@ const Claim = ({ claim }) => {
       <div className="vads-u-display--flex">
         <i
           aria-hidden="true"
-          className={`fas fa-fw fa-check-circle vads-u-margin-right--1 vads-u-margin-top--0p5 vads-u-color--green`}
+          className="fas fa-fw fa-check-circle vads-u-margin-right--1 vads-u-margin-top--0p5 vads-u-color--green"
         />
         <div>
           <p className="vads-u-margin-y--0">

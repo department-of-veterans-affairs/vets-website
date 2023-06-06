@@ -3,19 +3,12 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "../../../platform/forms/sass/m-schemaform";
 
 // adds spacing to form titles
 #root__title {
   min-height: 40px;
-}
-
-.schemaform-title > h1 {
-  @include media($small-desktop-screen) {
-    white-space: nowrap;
-  }
 }
 
 .form-review-panel-page tr td:last-child {
@@ -147,10 +140,16 @@
   }
 }
 
+// schemaform title override to match DS
+.schemaform-block-title {
+  font-size: $h3-font-size;
+  color: $color-base;
+}
+
 // form field subtitle
 .formfield-subtitle {
-  margin: 4px 0 8px;
-  font-size: 15px;
+  margin: 4px 0 0;
+  font-size: $base-font-size;
   max-width: 400px;
   color: $color-gray-medium;
 }
@@ -166,9 +165,6 @@
 }
 
 // resolution options
-.resolution-options-available .schemaform-block-title {
-  font-size: 20px;
-}
 .resolution-options-debt-title {
   font-size: 18px;
 }
@@ -222,12 +218,6 @@
   }
 }
 
-.repayments {
-  #root__title {
-    height: auto;
-  }
-}
-
 .overview-container {
   display: flex;
   justify-content: space-between;
@@ -243,6 +233,7 @@
     white-space: nowrap;
   }
 }
+
 
 .field-disabled {
   pointer-events: none;
@@ -332,6 +323,21 @@
 
 .error-line {
   border-left: 4px solid var(--color-secondary-dark);
-  padding-left: 0.75rem;
   position: relative;
+}
+
+.summary-card-delete-button {
+  color: $color-secondary-dark;
+  background-color: transparent;
+  width: auto !important;
+  font-weight: bold;
+  &:hover, &:active {
+    color: $color-secondary-darkest;
+    background-color: $color-secondary-lightest;
+  }
+}
+
+/* Hide mobile phone extension entry, per design */
+form[name="Contact Info Form"] .schemaform-field-template:not(.schemaform-first-field) {
+  display: none;
 }

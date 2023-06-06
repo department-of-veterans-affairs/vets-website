@@ -157,7 +157,7 @@ jobs:
 
       - name: Set Allow List Output
         id: allow-list-output
-        run: echo ::set-output name=list::$ALLOW_LIST
+        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
@@ -196,19 +196,19 @@ jobs:
 
       - name: Set output of TESTS_TO_STRESS_TEST
         id: tests
-        run: echo ::set-output name=selected::$TESTS_TO_STRESS_TEST
+        run: echo selected=$TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
 
       - name: Set output of TEST_SELECTION_DISALLOWED_TESTS
         id: test_selection_disallowed_tests
-        run: echo ::set-output name=test_selection_disallowed_tests::$TEST_SELECTION_DISALLOWED_TESTS
+        run: echo test_selection_disallowed_tests=$TEST_SELECTION_DISALLOWED_TESTS >> $GITHUB_OUTPUT
 
       - name: Set output of NUM_CONTAINERS
         id: containers
-        run: echo ::set-output name=num::$NUM_CONTAINERS
+        run: echo num=$NUM_CONTAINERS >> $GITHUB_OUTPUT
 
       - name: Set output of CI_NODE_INDEX
         id: matrix
-        run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
+        run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
 
   stress-test-cypress-tests:
     name: Stress Test Cypress Tests

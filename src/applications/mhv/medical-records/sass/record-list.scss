@@ -1,0 +1,42 @@
+.record-list-item {
+  line-height: 2;
+  max-width: 486px;
+
+  .details-link-icon {
+    margin-left: 8px;
+    text-decoration: none;
+  }
+  .location-collapsed {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+  }
+  .field-label {
+    display: inline-block;
+  }
+}
+
+@media print {
+  .record-list-item {
+    break-inside: avoid;
+    border-bottom: 2px solid $color-black !important;
+    border-radius: 0px;
+    background-color: $color-white !important;
+  }
+  .fields {
+    * {
+      line-height: 2;
+    }
+    padding: 0px 16px;
+    .field-label {
+      font-weight: 600;
+    }
+  }
+}
+
+.pagination {
+  max-width: 486px;
+}

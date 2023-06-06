@@ -29,7 +29,7 @@ describe('Pre-Check In Experience', () => {
       ValidateVeteran.validateVeteran('Sith', '4321');
       ValidateVeteran.attemptToGoToNextPage();
 
-      Error.validatePageLoaded(true, true);
+      Error.validatePageLoaded();
       cy.createScreenshots('Pre-check-in--validation-error');
     });
   });

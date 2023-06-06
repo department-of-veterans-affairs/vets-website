@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import { currency } from '../utils/helpers';
 
 const BenefitCard = ({ received, title }) => {
@@ -37,18 +34,10 @@ const NoBenefits = () => {
       </div>
 
       <p>
-        If this information isn’t right, call our VA benefits hotline at
-        <Telephone
-          contact={CONTACTS.VA_BENEFITS}
-          className="vads-u-margin-x--0p5"
-        />
-        (TTY:
-        <Telephone
-          contact={CONTACTS[711]}
-          pattern={PATTERNS['3_DIGIT']}
-          className="vads-u-margin-x--0p5"
-        />
-        ) , Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        If this information isn’t right, you can call our VA benefits hotline at{' '}
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <va-telephone contact={CONTACTS[711]} />
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </section>
   );
@@ -74,19 +63,10 @@ const Benefits = ({ pending, income }) => {
         <BenefitCard title="Education benefits" received={eduReceived} />
       )}
       <p>
-        <strong>Note:</strong> If this information isn’t right, call our VA
-        benefits hotline at
-        <Telephone
-          contact={CONTACTS.VA_BENEFITS}
-          className="vads-u-margin-x--0p5"
-        />
-        (TTY:
-        <Telephone
-          contact={CONTACTS[711]}
-          pattern={PATTERNS['3_DIGIT']}
-          className="vads-u-margin-left--0p5"
-        />
-        ) , Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        <strong>Note:</strong> If this information isn’t right, you can call our
+        VA benefits hotline at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <va-telephone contact={CONTACTS[711]} />
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
   ) : (

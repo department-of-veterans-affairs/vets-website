@@ -14,6 +14,7 @@ export const ELIGIBILITY = {
 
 export const VETERAN_NOT_LISTED_LABEL = 'Someone not listed here';
 export const VETERAN_NOT_LISTED_VALUE = 'VETERAN_NOT_LISTED';
+export const VETERAN_VALUE_PREFIX = 'veteran-';
 
 export const VETERANS_TYPE = PropTypes.arrayOf(
   PropTypes.shape({

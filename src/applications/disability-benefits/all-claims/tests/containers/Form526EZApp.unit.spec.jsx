@@ -8,6 +8,7 @@ import { combineReducers, createStore } from 'redux';
 import { commonReducer } from 'platform/startup/store';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
+import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers.js';
 
 import Form526Entry, { serviceRequired, idRequired } from '../../Form526EZApp';
 import reducers from '../../reducers';
@@ -16,7 +17,8 @@ import {
   MVI_ADD_SUCCEEDED,
   MVI_ADD_FAILED,
 } from '../../actions';
-import { WIZARD_STATUS } from '../../constants';
+import { WIZARD_STATUS, SERVICE_BRANCHES } from '../../constants';
+import { getBranches, clearBranches } from '../../utils/serviceBranches';
 import formConfig from '../../config/form';
 
 const fakeSipsIntro = user => {
@@ -44,6 +46,7 @@ describe('Form 526EZ Entry Page', () => {
     dob = '2000-01-01',
     pathname = '/introduction',
     router = [],
+    addBranches = true,
   } = {}) => {
     const initialState = {
       form: {
@@ -88,6 +91,10 @@ describe('Form 526EZ Entry Page', () => {
     );
     window.dataLayer = [];
     gaData = global.window.dataLayer;
+    if (addBranches && currentlyLoggedIn) {
+      // stop fetchBranches call
+      sessionStorage.setItem(SERVICE_BRANCHES, '["1","2","3"]');
+    }
     return mount(
       <Provider store={fakeStore}>
         <Form526Entry
@@ -105,8 +112,13 @@ describe('Form 526EZ Entry Page', () => {
     );
   };
 
+  const mockBranches = {
+    items: [{ description: '1' }, { description: '2' }, { description: '3' }],
+  };
+
   beforeEach(() => {
     sessionStorage.removeItem(WIZARD_STATUS);
+    clearBranches();
   });
 
   // Not logged in
@@ -189,16 +201,24 @@ describe('Form 526EZ Entry Page', () => {
   });
 
   // Logged in & verified & has services
-  it('should render form app content', () => {
+  it('should render form app content', done => {
+    mockApiRequest(mockBranches);
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     const tree = testPage({
       currentlyLoggedIn: true,
       verified: true,
       services: serviceRequired,
+      addBranches: false,
     });
     expect(tree.find('main')).to.have.lengthOf(1);
     expect(tree.find('h1').text()).to.contain('Start the form');
-    tree.unmount();
+    setTimeout(() => {
+      expect(getBranches().length).to.eq(3);
+      resetFetch();
+      clearBranches();
+      tree.unmount();
+      done();
+    });
   });
 
   // Logged in & not verified (has services to allow proceeding)

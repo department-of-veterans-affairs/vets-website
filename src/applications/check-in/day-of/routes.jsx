@@ -15,13 +15,16 @@ import TravelQuestion from './pages/TravelQuestion';
 import TravelVehicle from './pages/TravelVehicle';
 import TravelAddress from './pages/TravelAddress';
 import TravelMileage from './pages/TravelMileage';
+import AppointmentDetails from '../components/pages/AppointmentDetails';
 
 import withFeatureFlip from '../containers/withFeatureFlip';
 import withForm from '../containers/withForm';
 import withAuthorization from '../containers/withAuthorization';
+import { withError } from '../containers/withError';
 import { withAppSet } from '../containers/withAppSet';
 import { URLS } from '../utils/navigation';
 
+import ReloadWrapper from '../components/layout/ReloadWrapper';
 import ErrorBoundary from '../components/errors/ErrorBoundary';
 
 const routes = [
@@ -43,6 +46,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.NEXT_OF_KIN,
@@ -51,6 +55,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.EMERGENCY_CONTACT,
@@ -59,6 +64,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.DETAILS,
@@ -67,14 +73,16 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
-    path: URLS.COMPLETE,
+    path: `${URLS.COMPLETE}/:appointmentId`,
     component: Confirmation,
     permissions: {
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.SEE_STAFF,
@@ -84,6 +92,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.LOADING,
@@ -100,6 +109,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_VEHICLE,
@@ -108,6 +118,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_ADDRESS,
@@ -116,6 +127,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_MILEAGE,
@@ -124,10 +136,20 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.ERROR,
     component: Error,
+  },
+  {
+    path: `${URLS.APPOINTMENT_DETAILS}/:appointmentId`,
+    component: AppointmentDetails,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
   },
 ];
 
@@ -136,7 +158,7 @@ const createRoutesWithStore = () => {
     <Switch>
       {routes.map((route, i) => {
         const options = { isPreCheckIn: false };
-        let component = props => (
+        let Component = props => (
           /* eslint-disable react/jsx-props-no-spreading */
           <ErrorBoundary {...props}>
             <route.component {...props} />
@@ -146,18 +168,35 @@ const createRoutesWithStore = () => {
         if (route.permissions) {
           const { requiresForm, requireAuthorization } = route.permissions;
           if (requiresForm) {
-            component = withForm(component, options);
+            Component = withForm(Component, options);
           }
           if (requireAuthorization) {
-            component = withAuthorization(component, options);
+            Component = withAuthorization(Component, options);
           }
         }
         // Add feature flip
-        component = withFeatureFlip(component, options);
+        Component = withFeatureFlip(Component, options);
         // Add app name
-        component = withAppSet(component, options);
+        Component = withAppSet(Component, options);
+        // Catch Errors
+        Component = withError(Component);
 
-        return <Route path={`/${route.path}`} component={component} key={i} />;
+        const WrappedComponent = props => {
+          /* eslint-disable react/jsx-props-no-spreading */
+          if (route.reloadable) {
+            // If the page is able to restore state on reload add the wrapper.
+            return (
+              <ReloadWrapper isPreCheckIn={false} {...props}>
+                <Component {...props} />
+              </ReloadWrapper>
+            );
+          }
+          return <Component {...props} />;
+          /* eslint-disable react/jsx-props-no-spreading */
+        };
+        return (
+          <Route path={`/${route.path}`} key={i} component={WrappedComponent} />
+        );
       })}
       <Route path="*" component={Error} />
     </Switch>

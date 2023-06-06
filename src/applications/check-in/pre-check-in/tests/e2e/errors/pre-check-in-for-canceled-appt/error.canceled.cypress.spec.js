@@ -6,6 +6,7 @@ import Error from '../../pages/Error';
 import Confirmation from '../../pages/Confirmation';
 
 describe('Pre-Check In Experience ', () => {
+  let apiData;
   beforeEach(() => {
     const {
       initializeFeatureToggle,
@@ -18,14 +19,14 @@ describe('Pre-Check In Experience ', () => {
 
     initializeSessionPost.withSuccess();
 
-    initializePreCheckInDataGet.withCanceledAppointment();
+    apiData = initializePreCheckInDataGet.withCanceledAppointment();
   });
   afterEach(() => {
     cy.window().then(window => {
       window.sessionStorage.clear();
     });
   });
-  it('Canceled Appointments are taken to Error Page', () => {
+  it('Every appointment is cancelled should result in an appointment cancelled Error Page', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
     ValidateVeteran.validatePage.preCheckIn();
@@ -36,7 +37,26 @@ describe('Pre-Check In Experience ', () => {
     // UUID with canceled appointments should navigate to the error page.
     Error.validateCanceledPageLoaded();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots(
+      'Pre-check-in--canceled-appointment--default-accordions',
+    );
     Confirmation.expandAllAccordions();
-    cy.createScreenshots('Pre-check-in--canceled-error');
+    cy.createScreenshots(
+      'Pre-check-in--canceled-appointment--expanded-accordions',
+    );
+  });
+  it('Not every appointment is cancelled should result in a generic Error Page', () => {
+    apiData.payload.appointments[1].status = '';
+    cy.visitPreCheckInWithUUID();
+    // page: Validate
+    ValidateVeteran.validatePage.preCheckIn();
+    ValidateVeteran.validateVeteran();
+    cy.injectAxeThenAxeCheck();
+    ValidateVeteran.attemptToGoToNextPage();
+
+    // UUID with canceled appointments should navigate to the error page.
+    Error.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Pre-check-in--possible-canceled-appointment');
   });
 });

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import sinon from 'sinon';
 
 import createCommonStore from 'platform/startup/store';
@@ -51,8 +51,6 @@ const getFormConfig = (options = {}) => ({
     required: true,
     field: 'privacyAgreementAccepted',
     notice: '<div>Notice</div>',
-    label: 'I accept the privacy agreement',
-    error: 'You must accept the privacy agreement',
   },
   chapters: {
     chapter1: {
@@ -100,9 +98,7 @@ describe('Schemaform review: <GenericError />', () => {
       </Provider>,
     );
 
-    expect(tree.getByText('I accept the privacy agreement')).to.not.be.null;
-
-    tree.unmount();
+    expect(tree.container.querySelector('va-privacy-agreement')).does.exist;
   });
 
   it('the "submit again" button appears in dev mode', () => {

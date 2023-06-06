@@ -23,12 +23,12 @@ describe('SIP Autosave Test', () => {
     cy.visit('/mock-sip-form');
     cy.get('body').should('be.visible');
     cy.title().should('contain', 'Mock SIP Form');
-    cy.get('.main .usa-button-primary', { timeout: Timeouts.slow }).should(
-      'be.visible',
-    );
+    cy.get('va-button', { timeout: Timeouts.slow }).should('be.visible');
     cy.injectAxeThenAxeCheck();
-    cy.get('.main .usa-button-primary')
+    cy.get('va-button')
       .first()
+      .shadow()
+      .find('button')
       .click();
 
     cy.url().should('not.contain', '/introduction');
@@ -46,7 +46,6 @@ describe('SIP Autosave Test', () => {
     cy.get('.schemaform-sip-save-link').should('be.visible');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
       statusCode: 500,
-      body: {},
     });
 
     cy.fill('input[name="root_veteranFullName_first"]', 'Steve');
@@ -89,7 +88,6 @@ describe('SIP Autosave Test', () => {
     cy.get('.main .usa-button-primary').click();
     cy.get('.schemaform-sip-save-link');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
-      body: {},
       statusCode: 401,
     });
     cy.fill('input[name="root_veteranFullName_first"]', 'Bob');

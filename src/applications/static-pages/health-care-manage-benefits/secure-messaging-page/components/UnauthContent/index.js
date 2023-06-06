@@ -102,11 +102,7 @@ export const UnauthContent = () => (
     </p>
     <ul>
       <li>
-        Call{' '}
-        <a href="tel:988" aria-label="9 8 8">
-          988
-        </a>
-        , then select 1.
+        Call <va-telephone contact="988" />, then select 1.
       </li>
       <li>
         Start a{' '}
@@ -119,11 +115,7 @@ export const UnauthContent = () => (
         .
       </li>
       <li>
-        Text{' '}
-        <a href="tel:838255" aria-label="8 3 8 2 5 5">
-          838255
-        </a>
-        .
+        Text: <va-telephone contact="838255" sms />.
       </li>
     </ul>
     <h2>Can I use secure messaging with community (non-VA) providers?</h2>
@@ -156,13 +148,8 @@ export const UnauthContent = () => (
       </li>
       <li>
         Call the My HealtheVet help desk at{' '}
-        <a href="tel:18773270022" aria-label="8 7 7. 3 2 7. 0 0 2 2.">
-          877-327-0022
-        </a>{' '}
-        (
-        <a href=" tel:18008778339." aria-label=" TTY. 8 0 0. 8 7 7. 8 3 3 9.">
-          TTY: 800-877-8339
-        </a>
+        <va-telephone contact="8773270022" /> (
+        <va-telephone contact="8008778339" tty />
         ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </li>
       <li>

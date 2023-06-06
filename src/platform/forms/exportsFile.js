@@ -2,11 +2,12 @@ import dataImports from './address/data/index';
 
 const { states, militaryStates, militaryCities } = dataImports;
 import {
-  branchCodeLabels,
+  militaryBranches,
   countryValues,
   countryLabels,
   states as statesLabels,
 } from './address/data/labels';
+
 import {
   ADDRESS_TYPES,
   isEmptyAddress,
@@ -85,6 +86,7 @@ import { createRoutesWithSaveInProgress } from './save-in-progress/helpers';
 
 import MilitaryPrefillMessage from './save-in-progress/MilitaryPrefillMessage';
 import PrefillMessage from './save-in-progress/PrefillMessage';
+
 import {
   saveInProgressReducers,
   createSaveInProgressFormReducer,
@@ -123,11 +125,23 @@ import {
   getCurrentPageName,
 } from './helpers';
 
-export default {
+import Subtask, {
+  SUBTASK_SESSION_STORAGE,
+  getStoredSubTask,
+  setStoredSubTask,
+  resetStoredSubTask,
+} from './sub-task';
+
+export {
+  Subtask,
+  SUBTASK_SESSION_STORAGE,
+  getStoredSubTask,
+  setStoredSubTask,
+  resetStoredSubTask,
   states,
   militaryStates,
   militaryCities,
-  branchCodeLabels,
+  militaryBranches,
   countryValues,
   countryLabels,
   statesLabels,

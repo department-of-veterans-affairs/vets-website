@@ -4,12 +4,15 @@ const createSessionStorageKeys = ({ isPreCheckIn = true }) => {
     : 'health.care.check-in';
   const sessionStorageKeys = {
     CURRENT_UUID: `${namespace}.current.uuid`,
-    VALIDATE_ATTEMPTS: `${namespace}.validate.attempts`,
     COMPLETE: `${namespace}.complete`,
+    CHECK_IN_COMPLETE: `${namespace}.check.in.complete`,
     SHOULD_SEND_DEMOGRAPHICS_FLAGS: `${namespace}.should.send.demographics.flags`,
+    PROGRESS_STATE: `${namespace}.progress`,
+    PERMISSIONS: `${namespace}.permissions`,
   };
   if (!isPreCheckIn) {
     sessionStorageKeys.SHOULD_SEND_TRAVEL_PAY_CLAIM = `${namespace}.should.send.travel.pay.claim`;
+    sessionStorageKeys.TRAVEL_CLAIM_DATA = `${namespace}.travel.claim.data`;
   }
   return sessionStorageKeys;
 };

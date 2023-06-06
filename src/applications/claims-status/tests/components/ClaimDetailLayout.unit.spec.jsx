@@ -13,7 +13,7 @@ describe('<ClaimDetailLayout>', () => {
   it('should render sync warning', () => {
     const claim = {
       attributes: {
-        contentionList: ['Condition 1', 'Condition 2'],
+        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
       },
     };
 
@@ -33,7 +33,7 @@ describe('<ClaimDetailLayout>', () => {
   it('should render contention list', () => {
     const claim = {
       attributes: {
-        contentionList: ['Condition 1', 'Condition 2'],
+        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
       },
     };
 
@@ -47,12 +47,12 @@ describe('<ClaimDetailLayout>', () => {
     const claim = {
       id: 5,
       attributes: {
-        contentionList: [
-          'Condition 1',
-          'Condition 2',
-          'Condition 3',
-          'Condition 4',
-          'Condition 5',
+        contentions: [
+          { name: 'Condition 1' },
+          { name: 'Condition 2' },
+          { name: 'Condition 3' },
+          { name: 'Condition 4' },
+          { name: 'Condition 5' },
         ],
       },
     };
@@ -69,7 +69,7 @@ describe('<ClaimDetailLayout>', () => {
   it('should render not available if no contention list', () => {
     const claim = {
       attributes: {
-        contentionList: [],
+        contentions: [],
       },
     };
 
@@ -82,8 +82,9 @@ describe('<ClaimDetailLayout>', () => {
   it('should render adding details info if open', () => {
     const claim = {
       attributes: {
-        open: true,
-        contentionList: ['Condition 1', 'Condition 2'],
+        closeDate: null,
+        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
+        status: 'INITIAL_REVIEW',
       },
     };
 
@@ -96,8 +97,9 @@ describe('<ClaimDetailLayout>', () => {
   it('should not render adding details info if closed', () => {
     const claim = {
       attributes: {
-        open: false,
-        contentionList: ['Condition 1', 'Condition 2'],
+        closeDate: '2023-04-28',
+        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
+        status: 'COMPLETE',
       },
     };
 
@@ -111,9 +113,8 @@ describe('<ClaimDetailLayout>', () => {
     const claim = {
       attributes: {
         claimType: 'Compensation',
-        dateFiled: '2010-05-05',
-        vaRepresentative: 'Somebody',
-        contentionList: ['Condition 1', 'Condition 2'],
+        claimDate: '2010-05-05',
+        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
       },
     };
 
@@ -129,7 +130,7 @@ describe('<ClaimDetailLayout>', () => {
   it('should render message', () => {
     const claim = {
       attributes: {
-        contentionList: ['Condition 1', 'Condition 2'],
+        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
       },
     };
     const message = {

@@ -1,21 +1,21 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 
-import { user72Success } from '../../../mocks/user';
+import { loa3User72 } from 'applications/personalization/profile/mocks/endpoints/user';
 
-import { generateFeatureToggles } from '../../../mocks/feature-toggles';
+import { generateFeatureToggles } from 'applications/personalization/profile/mocks/endpoints/feature-toggles';
 import {
   addressValidation,
   mailingAddressStatusSuccess,
   mailingAddressUpdateReceived,
-} from '../../../mocks/address';
+} from 'applications/personalization/profile/mocks/endpoints/address';
 
-import phoneNumber from '../../../mocks/phone-number';
+import phoneNumber from 'applications/personalization/profile/mocks/endpoints/phone-number';
 
 describe('focus after editing fields', () => {
   describe('Contact info fields', () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
-      cy.login(user72Success);
+      cy.login(loa3User72);
       cy.intercept('POST', '/v0/profile/address_validation', addressValidation);
       cy.intercept('PUT', '/v0/profile/addresses', req => {
         req.reply(200, mailingAddressUpdateReceived.response);
@@ -23,7 +23,7 @@ describe('focus after editing fields', () => {
       cy.intercept('GET', '/v0/profile/status/*', req => {
         req.reply(200, mailingAddressStatusSuccess);
       });
-      cy.intercept('GET', '/v0/user*', user72Success);
+      cy.intercept('GET', '/v0/user*', loa3User72);
     });
 
     it('should focus on mailing address button when editing is complete', () => {
@@ -49,9 +49,9 @@ describe('focus after editing fields', () => {
   describe('Phone number fields with SCHEMA form system', () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
-      cy.login(user72Success);
+      cy.login(loa3User72);
 
-      cy.intercept('GET', '/v0/user*', user72Success);
+      cy.intercept('GET', '/v0/user*', loa3User72);
       cy.intercept('PUT', '/v0/profile/telephones', req => {
         req.reply(200, phoneNumber.transactions.received);
       });
@@ -86,9 +86,9 @@ describe('focus after editing fields', () => {
         '/v0/feature_toggles*',
         generateFeatureToggles({ profileUseVAFSC: true }),
       );
-      cy.login(user72Success);
+      cy.login(loa3User72);
 
-      cy.intercept('GET', '/v0/user*', user72Success);
+      cy.intercept('GET', '/v0/user*', loa3User72);
       cy.intercept('PUT', '/v0/profile/telephones', req => {
         req.reply(200, phoneNumber.transactions.received);
       });

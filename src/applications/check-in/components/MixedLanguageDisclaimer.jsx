@@ -5,18 +5,20 @@ import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
 const MixedLanguageDisclaimer = () => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isTranslationDisclaimerSpanishEnabled } = useSelector(
-    selectFeatureToggles,
-  );
+  const {
+    isTranslationDisclaimerSpanishEnabled,
+    isTranslationDisclaimerTagalogEnabled,
+  } = useSelector(selectFeatureToggles);
 
   const { t, i18n } = useTranslation();
   const { language } = i18n;
 
   const displaySpanish =
     language === 'es' && isTranslationDisclaimerSpanishEnabled;
-  // const displayTagalog = (language === 'tz' || tagalogDisclaimer)
+  const displayTagalog =
+    language === 'tl' && isTranslationDisclaimerTagalogEnabled;
 
-  return displaySpanish ? (
+  return displaySpanish || displayTagalog ? (
     <div className="vads-u-margin-bottom--2">
       <va-alert status="info" show-icon data-testid="mixed-language-disclaimer">
         <div className="vads-u-margin-top--0">

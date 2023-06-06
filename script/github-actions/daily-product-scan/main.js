@@ -62,7 +62,7 @@ async function main({ octokit }) {
     lastUpdated.setLastUpdated();
   }
 
-  let response = await octokit.getProductJson();
+  const response = await octokit.getProductJson();
 
   if (response?.status !== 200) {
     return handleFailure({ response });
@@ -108,13 +108,10 @@ async function main({ octokit }) {
     });
   }
 
-  response = await octokit.createPull({
-    content: updatedProductDirectory,
-  });
-
-  if (response?.status !== 201) {
-    return handleFailure({ response });
-  }
+  fs.writeFileSync(
+    'product-directory/product-directory.json',
+    updatedProductDirectory,
+  );
 
   return handleSuccess({
     changeDetected,

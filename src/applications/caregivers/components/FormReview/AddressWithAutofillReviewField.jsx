@@ -22,23 +22,23 @@ export const AddressWithAutofillReviewField = ({
         )}
       <div className="review-row">
         <dt>{inputLabel} current street address</dt>
-        <dd>{formData.street}</dd>
+        <dd data-testid="cg-address-street">{formData.street}</dd>
       </div>
       <div className="review-row">
         <dt>Street address line 2</dt>
-        <dd>{formData.street2}</dd>
+        <dd data-testid="cg-address-street2">{formData.street2}</dd>
       </div>
       <div className="review-row">
         <dt>City</dt>
-        <dd>{formData.city}</dd>
+        <dd data-testid="cg-address-city">{formData.city}</dd>
       </div>
       <div className="review-row">
         <dt>State</dt>
-        <dd>{stateLabel}</dd>
+        <dd data-testid="cg-address-state">{stateLabel}</dd>
       </div>
       <div className="review-row">
         <dt>Postal code</dt>
-        <dd>{formData.postalCode}</dd>
+        <dd data-testid="cg-address-postalcode">{formData.postalCode}</dd>
       </div>
     </>
   );

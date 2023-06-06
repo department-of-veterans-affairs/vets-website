@@ -6,7 +6,7 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 
 const HealthCareGroupSupportingText = ({ authenticatedWithSSOe }) => {
   return (
-    <p className="vads-u-margin-top--0">
+    <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
       <a
         href={mhvUrl(authenticatedWithSSOe, 'home')}
         rel="noreferrer noopener"

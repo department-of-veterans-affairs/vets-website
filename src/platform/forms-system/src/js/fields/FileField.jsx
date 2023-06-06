@@ -107,14 +107,15 @@ class FileField extends React.Component {
       if (currentFile.type === 'testing') {
         // Skip read file for Cypress testing
         checkResults = {
-          checkTypeAndExtensionMatches: () => true,
-          checkIsEncryptedPdf: () => false,
+          checkTypeAndExtensionMatches: true,
+          checkIsEncryptedPdf: false,
         };
       } else {
         // read file mock for unit testing
-        checkResults = uiOptions.mockReadAndCheckFile
-          ? mockReadAndCheckFile()
-          : await readAndCheckFile(currentFile, checks);
+        checkResults =
+          typeof mockReadAndCheckFile === 'function'
+            ? mockReadAndCheckFile()
+            : await readAndCheckFile(currentFile, checks);
       }
 
       if (!checkResults.checkTypeAndExtensionMatches) {
@@ -153,6 +154,17 @@ class FileField extends React.Component {
           const { formData = [] } = this.props;
           formData[idx] = { ...file, isEncrypted: !!password };
           onChange(formData);
+          // Focus on the 'Cancel' button when a file is being uploaded
+          if (file.uploading) {
+            document
+              .querySelector('.schemaform-file-uploading')
+              ?.querySelector('button')
+              ?.focus();
+          }
+          // Focus on the file name input after the file has finished uploading
+          if (!file.uploading) {
+            document.querySelector(`input[value="${file.name}"]`)?.focus();
+          }
           this.uploadRequest = null;
         },
         () => {
@@ -210,7 +222,10 @@ class FileField extends React.Component {
 
     // When other actions follow removeFile, we do not want to apply this focus
     if (focusAddButton) {
-      this.focusAddAnotherButton();
+      // Add a timeout to allow for the upload button to reappear in the DOM before trying to focus on it
+      setTimeout(() => {
+        this.focusAddAnotherButton();
+      }, 0);
     }
   };
 
@@ -537,15 +552,28 @@ class FileField extends React.Component {
 
 FileField.propTypes = {
   schema: PropTypes.object.isRequired,
-  uiSchema: PropTypes.object,
-  errorSchema: PropTypes.object,
-  requiredSchema: PropTypes.object,
-  idSchema: PropTypes.object,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func,
-  formData: PropTypes.array,
   disabled: PropTypes.bool,
+  enableShortWorkflow: PropTypes.bool,
+  errorSchema: PropTypes.object,
+  formContext: PropTypes.shape({
+    onReviewPage: PropTypes.bool,
+    reviewMode: PropTypes.bool,
+    trackingPrefix: PropTypes.string,
+    uploadFile: PropTypes.func,
+  }),
+  formData: PropTypes.array,
+  idSchema: PropTypes.object,
   readonly: PropTypes.bool,
+  registry: PropTypes.shape({
+    fields: PropTypes.shape({
+      SchemaField: PropTypes.func,
+    }),
+    formContext: PropTypes.shape({}),
+  }),
+  requiredSchema: PropTypes.object,
+  uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

@@ -52,7 +52,10 @@ const CopayCheckBox = ({ copay }) => {
   const checkboxSubText = dateby ? `Pay or request help by ${dateby}` : '';
 
   return (
-    <div className="vads-u-display--flex vads-u-margin-y--2">
+    <div
+      className="vads-u-display--flex vads-u-margin-y--2"
+      data-testid="copay-selection-checkbox"
+    >
       <input
         name="request-help-with-copay"
         id={copay.id}
@@ -62,8 +65,10 @@ const CopayCheckBox = ({ copay }) => {
         onChange={() => onChange(copay)}
       />
       <label className="vads-u-margin--0" htmlFor={copay.id}>
-        <div className="vads-u-margin-left--4 vads-u-margin-top--neg3">
-          <p className="vads-u-margin--0">{checkboxMainText}</p>
+        <div className="vads-u-margin-left--4 vads-u-margin-top--neg3 vads-u-padding-top--0p25">
+          <p className="vads-u-margin--0 vads-u-font-weight--bold">
+            {checkboxMainText}
+          </p>
           <p className="vads-u-margin--0 vads-u-font-size--sm vads-u-color--gray">
             {checkboxSubText}
           </p>

@@ -21,6 +21,7 @@ const ReviewAndDownload = () => (
         filetype="PDF"
         pages="1"
         href={downloadUrl}
+        filename={downloadUrl}
         text="Download your COE"
       />
     </div>

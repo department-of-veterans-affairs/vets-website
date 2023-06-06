@@ -23,7 +23,6 @@ describe('Check In Experience -- ', () => {
       initializeSessionPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
       initializeCheckInDataGet.withSuccess({
-        numberOfCheckInAbledAppointments: 1,
         demographicsNeedsUpdate: false,
         demographicsConfirmedAt: today.toISOString(),
         nextOfKinNeedsUpdate: true,

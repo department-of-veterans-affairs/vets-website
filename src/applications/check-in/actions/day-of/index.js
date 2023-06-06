@@ -13,15 +13,6 @@ export const receivedMultipleAppointmentDetails = payload => {
   };
 };
 
-export const APPOINTMENT_WAS_CHECKED_INTO = 'APPOINTMENT_WAS_CHECKED_INTO';
-
-export const appointmentWasCheckedInto = appointment => {
-  return {
-    type: APPOINTMENT_WAS_CHECKED_INTO,
-    payload: { appointment },
-  };
-};
-
 export const RECEIVED_DEMOGRAPHICS_DATA = 'RECEIVED_DEMOGRAPHICS_DATA';
 
 export const receivedDemographicsData = demographics => {
@@ -56,10 +47,12 @@ export const UPDATE_DAY_OF_CHECK_IN_FORM = 'UPDATE_DAY_OF_CHECK_IN_FORM';
 export const updateFormAction = ({
   patientDemographicsStatus,
   isTravelReimbursementEnabled,
+  appointments,
 }) => {
   const pages = updateForm(
     patientDemographicsStatus,
     isTravelReimbursementEnabled,
+    appointments,
   );
   return {
     type: UPDATE_DAY_OF_CHECK_IN_FORM,

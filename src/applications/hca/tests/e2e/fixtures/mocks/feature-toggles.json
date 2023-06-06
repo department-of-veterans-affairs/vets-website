@@ -4,15 +4,19 @@
     "features": [
       {
         "name": "caregiverSigiEnabled",
-        "value": true
+        "value": false
       },
       {
-        "name": "hcaMedicareClaimNumberEnabled",
-        "value": true
+        "name": "hcaBrowserMonitoringEnabled",
+        "value": false
       },
       {
         "name": "hcaUseFacilitiesApi",
-        "value": true
+        "value": false
+      },
+      {
+        "name": "hcaHouseholdV2Enabled",
+        "value": false
       }
     ]
   }

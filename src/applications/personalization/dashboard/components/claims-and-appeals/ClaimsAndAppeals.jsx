@@ -11,11 +11,11 @@ import {
 import {
   getAppealsV2 as getAppealsAction,
   getClaimsV2 as getClaimsAction,
-} from '~/applications/claims-status/actions';
+} from '../../actions/claims';
 import {
   appealsAvailability,
   claimsAvailability,
-} from '~/applications/claims-status/utils/appeals-v2-helpers';
+} from '../../utils/appeals-v2-helpers';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import ClaimsAndAppealsCTA from './ClaimsAndAppealsCTA';
@@ -170,7 +170,7 @@ const isAppealsAvailableSelector = createIsServiceAvailableSelector(
 // returns true if claimsV2.v2Availability is set to a value other than
 // appealsAvailability.AVAILABLE or appealsAvailability.RECORD_NOT_FOUND_ERROR
 const hasAppealsErrorSelector = state => {
-  const claimsV2Root = state.disability.status.claimsV2;
+  const claimsV2Root = state.claims;
   return (
     claimsV2Root.v2Availability &&
     claimsV2Root.v2Availability !== appealsAvailability.AVAILABLE &&
@@ -179,17 +179,16 @@ const hasAppealsErrorSelector = state => {
 };
 
 const mapStateToProps = state => {
-  const claimsState = state.disability.status;
-  const claimsV2Root = claimsState.claimsV2;
-  const { appealsLoading, claimsLoading } = claimsV2Root;
+  const claimsState = state.claims;
+  const { appealsLoading, claimsLoading } = claimsState;
   const hasAppealsError = hasAppealsErrorSelector(state);
   const hasClaimsError =
-    claimsV2Root.claimsAvailability === claimsAvailability.UNAVAILABLE;
+    claimsState.claimsAvailability === claimsAvailability.UNAVAILABLE;
   const hasAPIError = !!hasAppealsError || !!hasClaimsError;
 
   return {
-    appealsData: claimsV2Root.appeals,
-    claimsData: claimsV2Root.claims,
+    appealsData: claimsState.appeals,
+    claimsData: claimsState.claims,
     hasAPIError,
     shouldLoadAppeals: isAppealsAvailableSelector(state),
     shouldLoadClaims: isClaimsAvailableSelector(state),

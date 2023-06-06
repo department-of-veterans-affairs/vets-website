@@ -63,14 +63,17 @@ const DebtCheckBox = ({ debt }) => {
     );
   };
 
-  const checkboxMainText = `${currency(debt?.currentAr)} for ${deductionCodes[
-    debt.deductionCode
-  ] || debt.benefitType}`;
+  const checkboxMainText = `${currency(
+    debt?.currentAr,
+  )} overpayment for ${deductionCodes[debt.deductionCode] || debt.benefitType}`;
   const dateby = endDate(mostRecentDate, 30);
   const checkboxSubText = dateby ? `Pay or request help by ${dateby}` : '';
 
   return (
-    <div className="vads-u-display--flex vads-u-margin-y--2">
+    <div
+      className="vads-u-display--flex vads-u-margin-y--2"
+      data-testid="debt-selection-checkbox"
+    >
       <input
         name="request-help-with-debt"
         id={debtIdentifier}
@@ -80,8 +83,10 @@ const DebtCheckBox = ({ debt }) => {
         onChange={() => onChange(debt)}
       />
       <label className="vads-u-margin--0" htmlFor={debtIdentifier}>
-        <div className="vads-u-margin-left--4 vads-u-margin-top--neg3">
-          <p className="vads-u-margin--0">{checkboxMainText}</p>
+        <div className="vads-u-margin-left--4 vads-u-margin-top--neg3 vads-u-padding-top--0p25">
+          <p className="vads-u-margin--0 vads-u-font-weight--bold">
+            {checkboxMainText}
+          </p>
           <p className="vads-u-margin--0 vads-u-font-size--sm vads-u-color--gray">
             {checkboxSubText}
           </p>

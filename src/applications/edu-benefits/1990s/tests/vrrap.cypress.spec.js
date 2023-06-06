@@ -36,7 +36,8 @@ const testConfig = createTestConfig(
 
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
+    skip: true, // program has expired as of Dec 10 2022 for new applicants. Code remains incase program is extended
   },
   manifest,
   formConfig,

@@ -5,7 +5,8 @@ import {
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 import moment from 'moment';
-import providers from '../../services/mocks/v2/providers.json';
+import metaWithFailures from '../../services/mocks/v2/meta_failures.json';
+import metaWithoutFailures from '../../services/mocks/v2/meta.json';
 
 /**
  * Mocks the api call that submits an appointment or request to the VAOS service
@@ -73,8 +74,8 @@ export function mockSingleVAOSAppointmentFetch({ appointment, error = null }) {
  * @param {string} end End date for list of appointments
  * @param {Array<string>} statuses An array of appointment statuses
  * @param {Array<VAOSRequest>} params.request Request to be returned from the mock
- * @param {boolean} [params.error=null] Whether or not to return an error from the mock
- * }
+ * @param {boolean} [params.error=null] Whether or not to return a fetch error from the mock
+ * @param {boolean} [params.backendServiceFailures=null] Whether or not to return a backend service error with the mock
  */
 export function mockVAOSAppointmentsFetch({
   start,
@@ -82,6 +83,7 @@ export function mockVAOSAppointmentsFetch({
   statuses = [],
   requests,
   error = null,
+  backendServiceFailures = null,
 }) {
   const baseUrl = `${
     environment.API_URL
@@ -89,10 +91,17 @@ export function mockVAOSAppointmentsFetch({
     .map(status => `statuses[]=${status}`)
     .join('&')}`;
 
+  const meta = backendServiceFailures ? metaWithFailures : metaWithoutFailures;
+
   if (error) {
+    // General fetching error, no appointments returned
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
   } else {
-    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: requests });
+    // Returns a meta object within the response with or without any backendServiceFailures
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+      data: requests,
+      meta,
+    });
   }
 }
 
@@ -261,16 +270,6 @@ export function mockAppointmentSlotFetch({
           },
         },
       ],
-    },
-  );
-}
-
-export function mockNpiProviderFetch({ id }) {
-  const data = providers.data.find(provider => provider.id === id);
-  setFetchJSONResponse(
-    global.fetch.withArgs(`${environment.API_URL}/vaos/v2/providers/${id}`),
-    {
-      data,
     },
   );
 }

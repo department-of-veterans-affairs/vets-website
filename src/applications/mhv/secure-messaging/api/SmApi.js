@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
+import { DefaultFolders } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -8,11 +9,14 @@ const apiBasePath = `${environment.API_URL}/my_health/v1`;
  * @returns
  */
 export const getFolderList = () => {
-  return apiRequest(`${apiBasePath}/messaging/folders`, {
-    headers: {
-      'Content-Type': 'application/json',
+  return apiRequest(
+    `${apiBasePath}/messaging/folders?page=1&per_page=999&useCache=false`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     },
-  });
+  );
 };
 
 /**
@@ -39,7 +43,23 @@ export const createFolder = folderName => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: { name: folderName },
+    body: JSON.stringify({ name: folderName }),
+  });
+};
+
+/**
+ * Update a folder's name.
+ * @param {Long} folderId
+ * @param {String} folderName
+ * @returns
+ */
+export const updateFolderName = (folderId, folderName) => {
+  return apiRequest(`${apiBasePath}/messaging/folders/${folderId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name: folderName }),
   });
 };
 
@@ -50,7 +70,7 @@ export const createFolder = folderName => {
  */
 export const deleteFolder = folderId => {
   return apiRequest(`${apiBasePath}/messaging/folders/${folderId}`, {
-    method: 'DEL',
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -65,6 +85,7 @@ export const getMessageCategoryList = () => {
   return apiRequest(`${apiBasePath}/messaging/messages/categories`, {
     headers: {
       'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
   });
 };
@@ -75,11 +96,30 @@ export const getMessageCategoryList = () => {
  * @returns
  */
 export const getMessageList = folderId => {
-  return apiRequest(`${apiBasePath}/messaging/folders/${folderId}/messages`, {
-    headers: {
-      'Content-Type': 'application/json',
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}/messages?per_page=-1&useCache=false`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     },
-  });
+  );
+};
+
+/**
+ * Get the list of messages in the specified folder.
+ * @param {Long} folderId
+ * @returns
+ */
+export const getMessageListAll = folderId => {
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}/messages?per_page=-1`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
 };
 
 /**
@@ -122,8 +162,9 @@ export const createDraft = message => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
-    body: message,
+    body: JSON.stringify(message),
   });
 };
 
@@ -141,7 +182,7 @@ export const updateDraft = (draftMessageId, message) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: message,
+      body: JSON.stringify(message),
     },
   );
 };
@@ -160,7 +201,7 @@ export const createReplyDraft = (replyToId, message) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: message,
+      body: JSON.stringify(message),
     },
   );
 };
@@ -180,23 +221,30 @@ export const updateReplyDraft = (replyToId, draftMessageId, message) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: message,
+      body: JSON.stringify(message),
     },
   );
 };
 
 /**
  * Create a new message.
- * @param {*} message
+ * @param {*} sendData
+ * @param {Boolean} attachmentFlag
  * @returns
  */
-export const createMessage = message => {
+export const createMessage = (sendData, attachmentFlag) => {
+  if (attachmentFlag === false) {
+    return apiRequest(`${apiBasePath}/messaging/messages`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: sendData,
+    });
+  }
   return apiRequest(`${apiBasePath}/messaging/messages`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: message,
+    body: sendData,
   });
 };
 
@@ -205,13 +253,19 @@ export const createMessage = message => {
  * @param {*} message
  * @returns
  */
-export const createReplyToMessage = message => {
-  return apiRequest(`${apiBasePath}/messaging/messages/reply`, {
+export const createReplyToMessage = (replyToId, sendData, attachmentFlag) => {
+  if (attachmentFlag === false) {
+    return apiRequest(`${apiBasePath}/messaging/messages/${replyToId}/reply`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: sendData,
+    });
+  }
+  return apiRequest(`${apiBasePath}/messaging/messages/${replyToId}/reply`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: message,
+    body: sendData,
   });
 };
 
@@ -225,7 +279,7 @@ export const deleteMessage = messageId => {
     headers: {
       'Content-Type': 'application/json',
     },
-    method: 'DEL',
+    method: 'DELETE',
   });
 };
 
@@ -243,14 +297,72 @@ export const getMessageHistory = messageId => {
 };
 
 /**
- * Move a message.
- * @param {Long} messageId
+ * Get message thread.
+ * @param {Long} threadId
+ * @returns
+ */
+export const getMessageThread = messageId => {
+  return apiRequest(`${apiBasePath}/messaging/messages/${messageId}/thread`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+/**
+ * Gets a list of threads in a folder.
+ * @param {Long} folderId
+ * @returns
+ */
+export const getThreadList = (
+  folderId = 0,
+  pageSize = 10,
+  pageNumber = 1,
+  sortField = 'SENDER_NAME',
+  sortOrder = 'ASC',
+) => {
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}/threads?pageSize=${pageSize}&pageNumber=${pageNumber}&sortField=${sortField}&sortOrder=${sortOrder}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+      },
+    },
+  );
+};
+
+/**
+ * Move message thread.
+ * @param {Long} threadId
  * @param {Long} toFolderId
  * @returns
  */
-export const moveMessage = (messageId, toFolderId) => {
+export const moveMessageThread = (threadId, toFolderId) => {
   return apiRequest(
-    `${apiBasePath}/messaging/messages/${messageId}/move/${toFolderId}`,
+    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${toFolderId}
+   `,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
+/**
+ * Delete message thread (i.g. move to Trash folder).
+ * @param {Long} threadId
+ * @returns
+ */
+export const deleteMessageThread = threadId => {
+  return apiRequest(
+    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${
+      DefaultFolders.DELETED.id
+    }
+  `,
     {
       method: 'PATCH',
       headers: {
@@ -265,9 +377,26 @@ export const moveMessage = (messageId, toFolderId) => {
  * @returns
  */
 export const getTriageTeamList = () => {
-  return apiRequest(`${apiBasePath}/messaging/recipients`, {
+  return apiRequest(`${apiBasePath}/messaging/recipients?useCache=false`, {
     headers: {
       'Content-Type': 'application/json',
     },
+  });
+};
+
+/**
+ * Search a folder for messages based on criteria
+ * @param {Int} folderId
+ * @param {Object} query
+ * @returns
+ */
+export const searchFolderAdvanced = (folderId = 0, query) => {
+  return apiRequest(`${apiBasePath}/messaging/folders/${folderId}/search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(query),
   });
 };

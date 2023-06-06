@@ -2,50 +2,29 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import { I18nextProvider } from 'react-i18next';
-import configureStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
-import i18n from '../../utils/i18n/i18n';
+import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 import BackButton from '../BackButton';
 
 describe('check-in', () => {
   describe('BackButton', () => {
-    let store;
-    beforeEach(() => {
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      const initState = {
-        checkInData: {
-          context: {
-            token: '',
-          },
-          form: {
-            pages: [
-              'loading-appointments',
-              'second-page',
-              'third-page',
-              'fourth-page',
-            ],
-          },
-        },
-      };
-      store = mockStore(initState);
-    });
+    const store = {
+      formPages: [
+        'loading-appointments',
+        'second-page',
+        'third-page',
+        'fourth-page',
+      ],
+    };
     const mockRouterThirdPage = {
-      location: {
-        pathname: '/third-page',
-      },
+      currentPage: '/third-page',
     };
     it('Renders', () => {
       const goBack = sinon.spy();
       const screen = render(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <BackButton action={goBack} router={mockRouterThirdPage} />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider store={store} router={mockRouterThirdPage}>
+          <BackButton action={goBack} />
+        </CheckInProvider>,
       );
-
       expect(screen.getByTestId('back-button')).to.exist;
       expect(screen.getByTestId('back-button')).to.have.text(
         'Back to last screen',
@@ -54,11 +33,9 @@ describe('check-in', () => {
     it('click fires router goBack', () => {
       const goBack = sinon.spy();
       const screen = render(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <BackButton action={goBack} router={mockRouterThirdPage} />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider store={store} router={mockRouterThirdPage}>
+          <BackButton action={goBack} />
+        </CheckInProvider>,
       );
 
       expect(screen.getByTestId('back-button')).to.exist;
@@ -66,20 +43,24 @@ describe('check-in', () => {
       expect(goBack.calledOnce).to.be.true;
     });
     it("doesn't render if it is the first confirmation", () => {
-      const mockRouter = {
-        location: {
-          pathname: '/second-page',
-        },
+      const mockRouterSecondPage = {
+        currentPage: '/second-page',
       };
       const goBack = sinon.spy();
       const screen = render(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <BackButton action={goBack} router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider store={store} router={mockRouterSecondPage}>
+          <BackButton action={goBack} />
+        </CheckInProvider>,
       );
       expect(screen.queryByTestId('back-button')).to.not.exist;
+    });
+    it('renders custom text', () => {
+      const screen = render(
+        <CheckInProvider store={store}>
+          <BackButton action={() => {}} text="go back test" />
+        </CheckInProvider>,
+      );
+      expect(screen.getByTestId('back-button')).to.have.text('go back test');
     });
   });
 });

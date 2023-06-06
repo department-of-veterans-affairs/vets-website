@@ -3,16 +3,27 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
-import { isLoggedIn } from 'platform/user/selectors';
+import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import COEIntroPageBox from '../content/COEIntroPageBox';
 import LoggedInContent from '../content/LoggedInContent';
 import NotLoggedInContent from '../content/NotLoggedInContent';
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
+import NeedsToVerify from '../components/NeedsToVerify';
+import MissingEDIPI from '../components/MissingEDIPI';
 
-const IntroductionPage = ({ coe, loggedIn, route, status }) => {
+const IntroductionPage = ({
+  canApply,
+  coe,
+  isVerified,
+  location,
+  loggedIn,
+  route,
+  status,
+}) => {
   let content;
+  const pathname = location.basename;
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -23,22 +34,27 @@ const IntroductionPage = ({ coe, loggedIn, route, status }) => {
   // Once the coe call is done, render the rest of the content
   const coeCallEnded = [CALLSTATUS.failed, CALLSTATUS.success, CALLSTATUS.skip];
 
-  if (!loggedIn && coeCallEnded.includes(status)) {
-    content = <NotLoggedInContent route={route} />;
-  }
-  if (loggedIn && coeCallEnded.includes(status)) {
-    content = (
-      <div className="vads-u-margin-bottom--2">
-        <COEIntroPageBox
-          referenceNumber={coe.referenceNumber}
-          requestDate={coe.applicationCreateDate}
-          status={coe.status}
-        />
-        {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
-          <LoggedInContent route={route} status={coe.status} />
-        )}
-      </div>
-    );
+  if (coeCallEnded.includes(status)) {
+    if (!loggedIn) {
+      content = <NotLoggedInContent route={route} />;
+    } else if (!isVerified) {
+      content = <NeedsToVerify pathname={pathname} />;
+    } else if (!canApply) {
+      content = <MissingEDIPI />;
+    } else {
+      content = (
+        <div className="vads-u-margin-bottom--2">
+          <COEIntroPageBox
+            referenceNumber={coe.referenceNumber}
+            requestDate={coe.applicationCreateDate}
+            status={coe.status}
+          />
+          {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
+            <LoggedInContent route={route} status={coe.status} />
+          )}
+        </div>
+      );
+    }
   }
 
   return (
@@ -56,10 +72,17 @@ const mapStateToProps = state => ({
   coe: state.certificateOfEligibility.coe || {},
   loggedIn: isLoggedIn(state),
   status: state.certificateOfEligibility.generateAutoCoeStatus,
+  isVerified: selectProfile(state)?.verified || false,
+  canApply: selectProfile(state).claims?.coe,
 });
 
 IntroductionPage.propTypes = {
+  canApply: PropTypes.bool,
   coe: PropTypes.object,
+  isVerified: PropTypes.bool,
+  location: PropTypes.shape({
+    basename: PropTypes.string,
+  }),
   loggedIn: PropTypes.bool,
   route: PropTypes.object,
   status: PropTypes.string,

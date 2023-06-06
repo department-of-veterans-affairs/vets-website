@@ -1,5 +1,4 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
 import {
   secondaryOneFields,
   emptyObjectSchema,
@@ -19,9 +18,9 @@ import {
 } from '../../../definitions/UIDefinitions/caregiverUI';
 import SecondaryCaregiverDescription from '../../../components/FormDescriptions/SecondaryCaregiverDescription';
 
+const { address } = fullSchema.definitions;
 const { secondaryCaregiverOne } = fullSchema.properties;
 const secondaryCaregiverOneProps = secondaryCaregiverOne.properties;
-const { address } = fullSchema.definitions;
 
 const secondaryCaregiverContactPage = {
   uiSchema: {
@@ -41,10 +40,6 @@ const secondaryCaregiverContactPage = {
     ),
     [secondaryOneFields.emailEncouragementMessage]: emailEncouragementUI(),
     [secondaryOneFields.email]: emailUI(secondaryOneInputLabel),
-    [secondaryOneFields.verifyEmail]: confirmationEmailUI(
-      secondaryOneInputLabel,
-      secondaryOneFields.email,
-    ),
     [secondaryOneFields.vetRelationship]: vetRelationshipUI(
       secondaryOneInputLabel,
     ),
@@ -71,7 +66,6 @@ const secondaryCaregiverContactPage = {
         secondaryCaregiverOneProps.alternativePhoneNumber,
       [secondaryOneFields.emailEncouragementMessage]: emptyObjectSchema,
       [secondaryOneFields.email]: secondaryCaregiverOneProps.email,
-      [secondaryOneFields.verifyEmail]: secondaryCaregiverOneProps.email,
       [secondaryOneFields.vetRelationship]:
         secondaryCaregiverOneProps.vetRelationship,
       [secondaryOneFields.hasSecondaryCaregiverTwo]: {

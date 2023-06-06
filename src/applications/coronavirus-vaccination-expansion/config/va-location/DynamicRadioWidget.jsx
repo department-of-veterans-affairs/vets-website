@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import environment from 'platform/utilities/environment';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import {
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { apiRequest } from 'platform/utilities/api';
 
@@ -22,11 +25,11 @@ export function DynamicRadioWidget(props) {
   const alertContent = (
     <>
       <p>
-        We're sorry. We're having trouble finding medical centers for you to
+        We’re sorry. We’re having trouble finding medical centers for you to
         choose from right now.
       </p>
       <p>
-        We'll match you with the closest medical center based on the address you
+        We’ll match you with the closest medical center based on the address you
         provided. They’ll contact you when they have a vaccine for you.
       </p>
     </>
@@ -73,31 +76,26 @@ export function DynamicRadioWidget(props) {
         </p>
       </>
     );
-    const optionsList = locations.map(location => ({
-      label: (
-        <>
-          <p className="vads-u-padding-left--4 vads-u-margin-top--neg3">
-            {location.attributes.name}
-          </p>
-          <p className="vads-u-padding-left--4 vads-u-margin-top--neg2">{`${
-            location.attributes.city
-          } ${location.attributes.state}`}</p>
-        </>
-      ),
-      value: `${location.attributes.name}|${location.id}`,
-    }));
-
     locationsList = (
-      <RadioButtons
-        options={optionsList}
+      <VaRadio
         label="Select your medical center"
-        required
         value={selected}
-        onValueChange={value => {
-          onChange(value.value);
-          setSelected(value);
+        onVaValueChange={event => {
+          onChange(event.detail.value);
+          setSelected(event.detail.value);
         }}
-      />
+      >
+        {locations.map((location, index) => (
+          <VaRadioOption
+            key={`${location.value}-${index}`}
+            label={`${location.attributes.name}`}
+            description={`${location.attributes.city} ${
+              location.attributes.state
+            }`}
+            value={`${location.attributes.name}|${location.id}`}
+          />
+        ))}
+      </VaRadio>
     );
   } else if (
     (locations.length === 0 && loading === false && error === false) ||

@@ -1,44 +1,93 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getMessage, loadingComplete } from '../actions';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { clearDraft } from '../actions/draftDetails';
+import { retrieveMessageThread } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
-import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import EmergencyNote from '../components/EmergencyNote';
+import InterstitialPage from './InterstitialPage';
+import { closeAlert } from '../actions/alerts';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 
 const Compose = () => {
   const dispatch = useDispatch();
-  const { message, error } = useSelector(state => state.message);
+  const { draftMessage, error } = useSelector(state => state.sm.draftDetails);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
-  const isDraft = window.location.pathname.includes('/draft');
+  const { draftId } = useParams();
+
+  const [acknowledged, setAcknowledged] = useState(false);
+  const [draftType, setDraftType] = useState('');
+  const location = useLocation();
+  const history = useHistory();
+  const isDraftPage = location.pathname.includes('/draft');
+  const header = useRef();
 
   useEffect(
     () => {
-      const messageId = window.location.pathname.split('/').pop();
       dispatch(getTriageTeams());
-      if (isDraft) {
-        dispatch(getMessage('draft', messageId));
+
+      if (location.pathname === '/compose') {
+        dispatch(clearDraft());
+        setDraftType('compose');
       } else {
-        dispatch(loadingComplete());
+        dispatch(retrieveMessageThread(draftId));
       }
+      return () => {
+        dispatch(clearDraft());
+      };
     },
-    [isDraft, dispatch],
+    [dispatch, draftId, location.pathname],
+  );
+
+  useEffect(
+    () => {
+      if (draftMessage?.messageId && draftMessage.draftDate === null) {
+        history.push('/inbox');
+      }
+      return () => {
+        if (isDraftPage) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [isDraftPage, draftMessage, history, dispatch],
   );
 
   let pageTitle;
 
-  if (isDraft) {
+  if (isDraftPage) {
     pageTitle = 'Edit draft';
   } else {
-    pageTitle = 'Compose message';
+    pageTitle = 'Start a new message';
   }
 
+  useEffect(
+    () => {
+      if (acknowledged && header) focusElement(document.querySelector('h1'));
+    },
+    [header, acknowledged],
+  );
+
   const content = () => {
-    if ((isDraft && !message) || !triageTeams) {
+    if (!isDraftPage && triageTeams) {
+      return (
+        <>
+          <h1 className="page-title" ref={header}>
+            {pageTitle}
+          </h1>
+          <EmergencyNote dropDownFlag />
+          <ComposeForm draft={draftMessage} recipients={triageTeams} />
+        </>
+      );
+    }
+    if ((isDraftPage && !draftMessage) || (!isDraftPage && !triageTeams)) {
       return (
         <va-loading-indicator
           message="Loading your secure message..."
           setFocus
+          data-testid="loading-indicator"
         />
       );
     }
@@ -53,19 +102,39 @@ const Compose = () => {
         </va-alert>
       );
     }
-    return <ComposeForm message={message} recipients={triageTeams} />;
+
+    return null;
   };
 
   return (
-    <div className="vads-l-grid-container compose-container">
-      <h1 className="page-title">{pageTitle}</h1>
-      <EmergencyNote />
-      <div>
-        <BeforeMessageAddlInfo />
-      </div>
+    <>
+      {!draftType && (
+        <va-loading-indicator
+          message="Loading your secure message..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      )}
 
-      {content()}
-    </div>
+      {draftType && !acknowledged ? (
+        <InterstitialPage
+          acknowledge={() => {
+            setAcknowledged(true);
+          }}
+          type={draftType}
+        />
+      ) : (
+        <>
+          {draftType && (
+            <div className="vads-l-grid-container compose-container">
+              <AlertBackgroundBox closeable />
+
+              {content()}
+            </div>
+          )}
+        </>
+      )}
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const fs = require('fs');
+const core = require('@actions/core');
 
 const args = process.argv.slice(2);
 const files = args[0]
@@ -12,5 +13,5 @@ const filteredSCSSFiles = files
   .filter(file => /.+\.s?css$/.test(file))
   .join(' ');
 
-console.log(`::set-output name=JSFILES::${filteredJSFiles}`);
-console.log(`::set-output name=SCSSFILES::${filteredSCSSFiles}`);
+core.setOutput('JSFILES', filteredJSFiles);
+core.setOutput('SCSSFILES', filteredSCSSFiles);

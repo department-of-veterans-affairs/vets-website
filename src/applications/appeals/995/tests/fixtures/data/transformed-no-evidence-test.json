@@ -1,0 +1,43 @@
+{
+  "data": {
+    "type": "supplementalClaim",
+    "attributes": {
+      "benefitType": "compensation",
+      "claimantType": "veteran",
+      "veteran": {
+        "timezone": "America/Los_Angeles",
+        "address": {
+          "addressLine1": "1200 Park Ave",
+          "addressLine2": "c/o Pixar",
+          "city": "Emeryville",
+          "stateCode": "CA",
+          "countryCodeISO2": "US",
+          "zipCode5": "94608"
+        },
+        "phone": {
+          "countryCode": "1",
+          "areaCode": "510",
+          "phoneNumber": "9223333"
+        },
+        "email": "test@user.com"
+      },
+      "form5103Acknowledged": true,
+      "socOptIn": true,
+      "evidenceSubmission": {
+        "evidenceType": [
+          "none"
+        ]
+      }
+    }
+  },
+  "included": [{
+    "type": "contestableIssue",
+    "attributes": {
+      "issue": "Ankylosis of knee - 10% - Service connection for Ankylosis of knee is granted with an evaluation of 10 percent effective December 2, 2020.",
+      "decisionDate": "2022-03-12",
+      "ratingIssueReferenceId": "142894"
+    }
+  }],
+  "form4142": null,
+  "additionalDocuments": null
+}

@@ -36,11 +36,28 @@ export const getQueryParams = () => {
   }, {});
 };
 
-export const reduceAllowedProviders = obj =>
+export const reduceProviders = obj =>
   Object.entries(obj).reduce((acc, [key, value]) => {
     if (value) acc.push(key);
     return acc;
   }, []);
+
+export const reduceAllowedProviders = (obj, type) => {
+  if (!type || type === '') return reduceProviders(obj);
+
+  if (
+    Object.keys(obj).includes('registeredApps') &&
+    type === 'registeredApps'
+  ) {
+    return reduceProviders(obj.registeredApps);
+  }
+
+  if (Object.keys(obj).includes('default') && type === 'default') {
+    return reduceProviders(obj.default);
+  }
+
+  return reduceProviders(obj);
+};
 
 export const isExternalRedirect = () => {
   const { application } = getQueryParams();
@@ -216,7 +233,6 @@ export function sessionTypeUrl({
       },
     });
   }
-
   return appendQuery(
     API_SESSION_URL({
       version,
@@ -268,6 +284,23 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
   window.location = redirectUrl;
 }
 
+export async function mockLogin({
+  clickedEvent = AUTH_EVENTS.MOCK_LOGIN,
+  type = '',
+}) {
+  if (!type) {
+    throw new Error('Attempted to call mockLogin without a type');
+  }
+  const url = await createOAuthRequest({
+    clientId: 'vamock',
+    type,
+  });
+  if (!isExternalRedirect()) {
+    setLoginAttempted();
+  }
+  return redirect(url, clickedEvent);
+}
+
 export async function login({
   policy,
   version = API_VERSION,
@@ -275,11 +308,9 @@ export async function login({
   clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
 }) {
   const url = await sessionTypeUrl({ type: policy, version, queryParams });
-
   if (!isExternalRedirect()) {
     setLoginAttempted();
   }
-
   return redirect(url, clickedEvent);
 }
 

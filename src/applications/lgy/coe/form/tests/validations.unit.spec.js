@@ -54,6 +54,14 @@ describe('validateUniqueVALoanNumber', () => {
     expect(spy1.notCalled).to.be.true;
     expect(spy2.notCalled).to.be.true;
   });
+  it('should not return an error for "duplicate" empty loan numbers', () => {
+    const spy1 = sinon.spy();
+    const spy2 = sinon.spy();
+    const data = getData('', '12-34-5-6789011', '');
+    validateUniqueVALoanNumber(errors(spy1, spy2), data);
+    expect(spy1.notCalled).to.be.true;
+    expect(spy2.notCalled).to.be.true;
+  });
   it('should return errors for non-unique 12-digit numbers', () => {
     const spy1 = sinon.spy();
     const spy2 = sinon.spy();

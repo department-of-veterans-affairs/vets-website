@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import { ConnectedApps } from '../../../components/connected-apps/ConnectedApps';
 
@@ -114,10 +115,10 @@ describe('<ConnectedApps>', () => {
       dismissDeletedAppAlert: () => {},
     };
 
-    const wrapper = mount(<ConnectedApps {...defaultProps} />);
+    const wrapper = render(<ConnectedApps {...defaultProps} />);
 
-    const text = wrapper.text();
-    expect(text).to.include(loadingAppsText);
+    // making sure the loading indicator web component is present
+    expect(wrapper.getByTestId('connected-apps-loading-indicator')).to.exist;
 
     wrapper.unmount();
   });

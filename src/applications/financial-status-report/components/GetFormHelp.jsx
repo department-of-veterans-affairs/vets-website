@@ -1,21 +1,14 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 const GetFormHelp = () => {
   return (
     <div>
       <p>
         If you have trouble using this online form, call our MyVA411 main
-        information line at <Telephone contact="800-698-2411" /> (TTY:
-        <Telephone
-          contact={CONTACTS[711]}
-          pattern={PATTERNS['3_DIGIT']}
-          className="vads-u-margin-left--0p5"
-        />
-        )
+        information line at <va-telephone contact="8006982411" /> (
+        <va-telephone contact={CONTACTS[711]} tty />
+        ).
       </p>
       <p>
         If you need help to gather your information or fill out your form,
@@ -25,18 +18,19 @@ const GetFormHelp = () => {
         .
       </p>
       <p>
-        If you have questions about your VA debt, call our Debt Management
-        Center at
-        <span className="vads-u-margin-x--0p5">
-          <Telephone contact={CONTACTS.DMC || '800-827-0648'} /> (or
-          <Telephone
-            contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
-            pattern={PATTERNS.OUTSIDE_US}
-            className="vads-u-margin-x--0p5"
-          />
-          from overseas).
-        </span>
-        We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+        If you have questions about your benefit overpayments, call us at{' '}
+        <va-telephone contact={CONTACTS.DMC || '8008270648'} /> (or{' '}
+        <va-telephone
+          contact={CONTACTS.DMC_OVERSEAS || '6127136415'}
+          international
+        />{' '}
+        from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m.
+        ET.
+      </p>
+      <p>
+        If you have questions about your copay bills, call us at{' '}
+        <va-telephone contact="8664001238" />. We’re here Monday through Friday,
+        8:00 a.m. to 8:00 p.m. ET.
       </p>
     </div>
   );

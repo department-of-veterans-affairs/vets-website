@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Scroll from 'react-scroll';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // Relative Imports
 import { shouldShowQuestion } from '../../helpers';
 import { questionLabels } from '../../constants';
 
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 const Intention = ({
   formValues,
@@ -25,37 +25,40 @@ const Intention = ({
     return null;
   }
 
-  const label = (
-    <h4 className={`${key}_header`}>
-      Do you want to change your name, discharge date, or anything written in
-      the “other remarks” section of your DD214?
-    </h4>
-  );
   const options = [
     { label: `Yes, ${questionLabels[key][1]}`, value: '1' },
     { label: `No, ${questionLabels[key][2]}`, value: '2' },
   ];
+
   const radioButtonProps = {
     name: key,
-    label,
-    options,
+    label:
+      'Do you want to change your name, discharge date, or anything written in the “other remarks” section of your DD214?',
     key,
-    onValueChange: v => {
-      if (v.dirty) {
-        updateField(key, v.value);
+    value: formValues[key],
+    onVaValueChange: e => {
+      if (e.returnValue) {
+        updateField(key, e.detail.value);
       }
     },
     onMouseDown: scrollToLast,
     onKeyDown: handleKeyDown,
-    value: {
-      value: formValues[key],
-    },
   };
 
   return (
-    <div>
+    <div className="vads-u-margin-top--6">
       <Element name={key} />
-      <RadioButtons {...radioButtonProps} />
+      <VaRadio {...radioButtonProps}>
+        {options.map((option, index) => (
+          <va-radio-option
+            key={index}
+            label={option.label}
+            name={key}
+            value={option.value}
+            checked={formValues[key] === option.value}
+          />
+        ))}
+      </VaRadio>
     </div>
   );
 };

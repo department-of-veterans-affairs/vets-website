@@ -18,12 +18,12 @@ export default {
   evss: 'evss',
   // global downtime, for scheduled downtime on apps that don't have specific dependencies documented
   global: 'global',
-  // Health care questionnaire
-  hcq: 'hcq',
   // Intake, conversion, and mail handling services (central mail)
   icmhs: 'icmhs',
   // ID.me, identity provider
   idme: 'idme',
+  // COE, Certificate of Eligibility form and LGY Eligibility Manager API
+  coe: 'coe',
   // Login.gov, identity provider
   logingov: 'logingov',
   // Master Veteran Index (source of veteran profile info)

@@ -1,3 +1,6 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-restricted-syntax */
+
 export const PAGE_TITLE = 'GI Bill® CT Redesign Sandbox';
 
 export const NAV_WIDTH = 951;
@@ -14,7 +17,7 @@ export const QUERY_LIFESPAN = 3600000;
 // SMALL_SCREEN_WIDTH is in pixels
 export const SMALL_SCREEN_WIDTH = 481;
 
-export const MINIMUM_RATING_COUNT = 3;
+export const MINIMUM_RATING_COUNT = 5;
 
 // Max search area distance in miles
 export const MAX_SEARCH_AREA_DISTANCE = 150;
@@ -115,3 +118,147 @@ export const ariaLabels = Object.freeze({
       'Learn more about what is covered by the Yellow Ribbon program and who can use it',
   },
 });
+
+const CTRatingsHeaders = {
+  m1: 'Learning Experience',
+  m2: 'GI Bill Support',
+  m3: 'Veteran Community',
+  m4: 'Overall Experience',
+  m5: 'for furture use',
+  m6: 'for furture use',
+  m7: 'for furture use',
+};
+
+const CTRatingsQuestions = {
+  q1Long: `Instructors' knowledge in the subject being taught`,
+  q1: 'Instructor knowledge',
+  q2Long: `Instructors' ability to engage with students around course content`,
+  q2: 'Instructor engagement',
+  q3Long: `Support of course materials in meeting learning objectives`,
+  q3: 'Course material support',
+  q4Long: `Contribution of school-supplied technology and/or facilities to successful learning experience`,
+  q4: 'Successful learning experience',
+  q5Long: `Contribution of learning experience to skills needed for career journey`,
+  q5: 'Contribution career learning experience',
+  q6Long: `Did you interact with the School Certifying Officials `,
+  q7Long: `Supportiveness of School Certifying Officials `,
+  q7: 'Support of school officials',
+  q8Long: `Availability of School Certifying Officials`,
+  q8: 'Availability of school officials',
+  q9Long: `School's timely completion of VA enrollment documentation`,
+  q9: 'Timely completion of VA documents',
+  q10Long: `Helpfulness of school-provided information about GI Bill, other VA benefits`,
+  q10: 'Helpfulness of school',
+  q11Long: `Extent of school's support for its Veteran community`,
+  q11: 'Extent support school',
+  q12Long: `Extent of support from others in the school's Veteran community`,
+  q12: 'Extent support others',
+  q13: `Overall learning experience`,
+  q14: `Overall school experience`,
+  q15: `for future use`,
+  q16: `for future use`,
+  q17: `for future use`,
+  q18: `for future use`,
+  q19: `for future use`,
+  q20: `for future use`,
+};
+
+export const CTRatingsHeaderQuestions = [
+  {
+    title: {
+      heading: CTRatingsHeaders.m1,
+      m1Avg: '0',
+    },
+    questions: [
+      {
+        question: CTRatingsQuestions.q1,
+        q1Avg: '0',
+        q1Count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q2,
+        q2Avg: '0',
+        q2Count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q3,
+        q3Avg: '0',
+        q3Count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q4,
+        q4Avg: '0',
+        q4Count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q5,
+        q5Avg: '0',
+        q5Count: 0,
+      },
+    ],
+  },
+  {
+    title: {
+      heading: CTRatingsHeaders.m2,
+      m2Avg: '0',
+    },
+    questions: [
+      {
+        question: CTRatingsQuestions.q7,
+        q7Avg: '0',
+        q7Count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q8,
+        q7Avg: '0',
+        q7Count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q9,
+        q9Avg: '0',
+        q9Count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q10,
+        q10Avg: '0',
+        q10Count: 0,
+      },
+    ],
+  },
+  {
+    title: {
+      heading: CTRatingsHeaders.m3,
+      m3Avg: '0',
+    },
+    questions: [
+      {
+        question: CTRatingsQuestions.q11,
+        q11Avg: '0',
+        q11Count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q12,
+        q12Avg: '0',
+        q12Count: 0,
+      },
+    ],
+  },
+  {
+    title: {
+      heading: CTRatingsHeaders.m4,
+      m4Avg: '0',
+    },
+    questions: [
+      {
+        question: CTRatingsQuestions.q13,
+        q13Avg: '0',
+        q13Count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q14,
+        q14Avg: '0',
+        q14Count: 0,
+      },
+    ],
+  },
+];

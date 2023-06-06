@@ -1,11 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import environment from 'platform/utilities/environment';
+import { TermsAndConditions } from './TermsAndConditions';
 
 export const DeviceConnectionCard = ({ device }) => {
   return (
     <div className="connect-device">
-      <h3 className="vads-u-margin-y--0">{device.name}</h3>
+      <h3
+        className="vads-u-margin-y--0"
+        data-testid={`${device.key}-name-header`}
+      >
+        {device.name}
+      </h3>
+      <TermsAndConditions device={device} />
       <p className="vads-u-margin-y--0">
         <va-link
           active

@@ -14,7 +14,11 @@ import RequestListItem from './AppointmentsPageV2/RequestListItem';
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { selectFeatureStatusImprovement } from '../../redux/selectors';
+import {
+  selectFeatureAppointmentList,
+  selectFeatureStatusImprovement,
+} from '../../redux/selectors';
+import RequestAppointmentLayout from './AppointmentsPageV2/RequestAppointmentLayout';
 
 export default function RequestedAppointmentsList({ hasTypeChanged }) {
   const {
@@ -28,6 +32,9 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
   );
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
+  );
+  const featureAppointmentList = useSelector(state =>
+    selectFeatureAppointmentList(state),
   );
 
   const dispatch = useDispatch();
@@ -71,30 +78,44 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
     );
   }
 
+  let paragraphText =
+    'Below is your list of appointment requests that haven’t been scheduled yet.';
+  if (featureAppointmentList) {
+    paragraphText = 'These appointment requests haven’t been scheduled yet.';
+  } else if (featureStatusImprovement) {
+    paragraphText =
+      'Your appointment requests that haven’t been scheduled yet.';
+  }
+
   return (
     <>
       <div aria-live="polite" className="sr-only">
         {hasTypeChanged && 'Showing requested appointments'}
       </div>
+
       {pendingAppointments?.length > 0 && (
         <>
-          <p className="vaos-hide-for-print">
-            {featureStatusImprovement
-              ? 'Your appointment requests that haven’t been scheduled yet.'
-              : 'Below is your list of appointment requests that haven’t been scheduled yet.'}
-          </p>
+          <p className="vaos-hide-for-print">{paragraphText}</p>
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul
             className="vads-u-padding-left--0"
             data-cy="requested-appointment-list"
           >
-            {pendingAppointments.map((appt, index) => (
-              <RequestListItem
-                key={index}
-                appointment={appt}
-                facility={facilityData[getVAAppointmentLocationId(appt)]}
-              />
-            ))}
+            {pendingAppointments.map((appt, index) => {
+              if (featureAppointmentList) {
+                return (
+                  <RequestAppointmentLayout key={index} appointment={appt} />
+                );
+              }
+
+              return (
+                <RequestListItem
+                  key={index}
+                  appointment={appt}
+                  facility={facilityData[getVAAppointmentLocationId(appt)]}
+                />
+              );
+            })}
           </ul>
         </>
       )}

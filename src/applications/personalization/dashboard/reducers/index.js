@@ -1,6 +1,6 @@
 import profile from '@@profile/reducers';
 import { combineReducers } from 'redux';
-import claimsAppeals from '~/applications/claims-status/reducers';
+import claimsV2 from './claimsV2';
 import prescriptions from './prescriptions';
 import recipients from './recipients';
 import folders from './folders';
@@ -11,8 +11,8 @@ import payments from './payments';
 import notifications from './notifications';
 
 export default {
-  ...claimsAppeals,
   ...profile,
+  claims: claimsV2,
   notifications,
   allPayments: payments,
   allDebts: debts,

@@ -23,5 +23,5 @@ metadata:
       title: Test User Dashboard
       icon: dashboard
 spec:
-  owner: platform-release-tools
+  owner: va-platform-cop-frontend
   domain: vfs

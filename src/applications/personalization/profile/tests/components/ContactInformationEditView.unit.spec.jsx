@@ -3,11 +3,11 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-
 import { ProfileInformationEditView } from '@@profile/components/ProfileInformationEditView';
 
-describe('<ProfileInformationEditView/>', () => {
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+
+describe('<ProfileInformationEditView/> - Email Address', () => {
   let props = null;
   let component = null;
 
@@ -43,6 +43,7 @@ describe('<ProfileInformationEditView/>', () => {
       data: null,
       editViewData: null,
       fieldName: 'email',
+      forceEditView: false,
       formSchema: {},
       getInitialFormValues() {},
       field: {
@@ -66,6 +67,7 @@ describe('<ProfileInformationEditView/>', () => {
       updateFormFieldWithSchema() {},
       validateAddress() {},
       refreshTransaction() {},
+      recordEvent: sinon.spy(),
     };
   });
 

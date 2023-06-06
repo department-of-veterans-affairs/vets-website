@@ -34,7 +34,7 @@ describe('<ConnectedAppDeleteModal>', () => {
         .find('button')
         .at(2)
         .text(),
-    ).to.include('Cancel');
+    ).to.include('No, cancel this change');
 
     expect(text).to.not.include('Processing update...');
 
@@ -55,7 +55,7 @@ describe('<ConnectedAppDeleteModal>', () => {
     const text = wrapper.text();
     expect(text).to.include(disconnectTitle);
     expect(text).to.include(disconnectText);
-    expect(text).to.not.include('Cancel');
+    expect(text).to.not.include('No, cancel this change');
     expect(text).to.not.include('Disconnect');
     expect(text).to.include('Processing update...');
 
@@ -76,7 +76,7 @@ describe('<ConnectedAppDeleteModal>', () => {
     const text = wrapper.text();
     expect(text).to.not.include(disconnectTitle);
     expect(text).to.not.include(disconnectText);
-    expect(text).to.not.include('Cancel');
+    expect(text).to.not.include('No, cancel this change');
     expect(text).to.not.include('Disconnect');
     expect(text).to.not.include('Processing update...');
 

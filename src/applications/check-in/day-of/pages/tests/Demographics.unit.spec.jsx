@@ -1,66 +1,41 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { I18nextProvider } from 'react-i18next';
 
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
-import i18n from '../../../utils/i18n/i18n';
-import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
+import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import Demographics from '../Demographics';
-
-import { createMockRouter } from '../../../tests/unit/mocks/router';
 
 describe('check in', () => {
   describe('Demographics', () => {
-    let store;
-    const initState = {
-      checkInData: {
-        context: {
-          token: '',
+    const veteranData = {
+      demographics: {
+        mailingAddress: {
+          street1: '123 Turtle Trail',
+          city: 'Treetopper',
+          state: 'Tennessee',
+          zip: '101010',
         },
-        form: {
-          pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+        homeAddress: {
+          street1: '445 Fine Finch Fairway',
+          street2: 'Apt 201',
+          city: 'Fairfence',
+          state: 'Florida',
+          zip: '445545',
         },
-        veteranData: {
-          demographics: {
-            mailingAddress: {
-              street1: '123 Turtle Trail',
-              city: 'Treetopper',
-              state: 'Tennessee',
-              zip: '101010',
-            },
-            homeAddress: {
-              street1: '445 Fine Finch Fairway',
-              street2: 'Apt 201',
-              city: 'Fairfence',
-              state: 'Florida',
-              zip: '445545',
-            },
-            homePhone: '5552223333',
-            mobilePhone: '5553334444',
-            workPhone: '5554445555',
-            emailAddress: 'kermit.frog@sesameenterprises.us',
-          },
-        },
+        homePhone: '5552223333',
+        mobilePhone: '5553334444',
+        workPhone: '5554445555',
+        emailAddress: 'kermit.frog@sesameenterprises.us',
       },
-      ...scheduledDowntimeState,
     };
-    const middleware = [];
-    const mockStore = configureStore(middleware);
-    beforeEach(() => {
-      store = mockStore(initState);
-    });
+    const push = sinon.spy();
 
     it('renders', () => {
       const component = render(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <Demographics />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider store={{ veteranData }}>
+          <Demographics />
+        </CheckInProvider>,
       );
 
       expect(component.getByText('Is this your current contact information?'))
@@ -70,34 +45,18 @@ describe('check in', () => {
     });
 
     it('shows "Not available" for unavailable fields', () => {
-      const updatedStore = {
-        checkInData: {
-          context: {
-            token: '',
-          },
-          form: {
-            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
-          },
-          veteranData: {
-            demographics: {
-              homeAddress:
-                initState.checkInData.veteranData.demographics.homeAddress,
-              homePhone:
-                initState.checkInData.veteranData.demographics.homePhone,
-              workPhone:
-                initState.checkInData.veteranData.demographics.workPhone,
-            },
-          },
+      const noDataVeteranData = {
+        demographics: {
+          homeAddress: veteranData.demographics.homeAddress,
+          homePhone: veteranData.demographics.homePhone,
+          workPhone: veteranData.demographics.workPhone,
         },
-        ...scheduledDowntimeState,
       };
+
       const component = render(
-        <Provider store={mockStore(updatedStore)}>
-          <I18nextProvider i18n={i18n}>
-            <Demographics />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider store={{ veteranData: noDataVeteranData }}>
+          <Demographics />
+        </CheckInProvider>,
       );
 
       expect(component.getByText('Is this your current contact information?'))
@@ -109,64 +68,11 @@ describe('check in', () => {
       expect(component.getAllByText('Not available')).to.exist;
     });
 
-    it('passes axeCheck', () => {
-      axeCheck(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <Demographics />
-          </I18nextProvider>
-        </Provider>,
-      );
-    });
-
-    it('goes to the error page when the demographics data is unavailable', () => {
-      const push = sinon.spy();
-
-      const updatedStore = {
-        checkInData: {
-          context: {
-            token: '',
-          },
-          form: {
-            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
-          },
-          veteranData: {},
-        },
-        ...scheduledDowntimeState,
-      };
-
-      render(
-        <Provider store={mockStore(updatedStore)}>
-          <I18nextProvider i18n={i18n}>
-            <Demographics
-              router={createMockRouter({
-                push,
-                params: {},
-              })}
-            />
-          </I18nextProvider>
-        </Provider>,
-      );
-
-      sinon.assert.calledOnce(push);
-    });
-
     it('has a clickable no button', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        params: {
-          token: 'token-123',
-        },
-      });
-
       const component = render(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <Demographics router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider store={{ veteranData }} router={{ push }}>
+          <Demographics />
+        </CheckInProvider>,
       );
 
       expect(component.getByText('Is this your current contact information?'))
@@ -175,20 +81,10 @@ describe('check in', () => {
     });
 
     it('has a clickable yes button', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        params: {
-          token: 'token-123',
-        },
-      });
-
       const component = render(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <Demographics router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider store={{ veteranData }} router={{ push }}>
+          <Demographics />
+        </CheckInProvider>,
       );
 
       expect(component.getByText('Is this your current contact information?'))
@@ -197,20 +93,10 @@ describe('check in', () => {
     });
 
     it('has a clickable yes button with update page enabled', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        params: {
-          token: 'token-123',
-        },
-      });
-
       const component = render(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <Demographics router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider store={{ veteranData }} router={{ push }}>
+          <Demographics />
+        </CheckInProvider>,
       );
 
       expect(component.getByText('Is this your current contact information?'))
@@ -218,20 +104,10 @@ describe('check in', () => {
       component.getByTestId('yes-button').click();
     });
     it('has a clickable yes button', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        params: {
-          token: 'token-123',
-        },
-      });
-
       const component = render(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <Demographics router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
+        <CheckInProvider store={{ veteranData }} router={{ push }}>
+          <Demographics />
+        </CheckInProvider>,
       );
 
       expect(component.getByText('Is this your current contact information?'))

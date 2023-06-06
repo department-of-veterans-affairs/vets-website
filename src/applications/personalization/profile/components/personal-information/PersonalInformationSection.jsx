@@ -7,14 +7,20 @@ import { profileShowPronounsAndSexualOrientation } from '@@profile/selectors';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import { renderDOB } from '@@profile/util/personal-information/personalInformationUtils';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import ProfileInfoTable from '../ProfileInfoTable';
+import { ProfileInfoCard } from '../ProfileInfoCard';
 import GenderIdentityAdditionalInfo from './GenderIdentityAdditionalInfo';
+import LegalName from './LegalName';
+import DisabilityRating from './DisabilityRating';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 const PersonalInformationSection = ({
   dob,
   shouldShowPronounsAndSexualOrientation,
 }) => {
   const tableFields = [
+    { title: 'Legal name', value: <LegalName /> },
     { title: 'Date of birth', value: renderDOB(dob) },
     {
       title: 'Preferred name',
@@ -67,6 +73,10 @@ const PersonalInformationSection = ({
           },
         ]
       : []),
+    {
+      title: 'Disability rating',
+      value: <DisabilityRating />,
+    },
   ];
 
   return (
@@ -105,15 +115,21 @@ const PersonalInformationSection = ({
             <span className="vads-u-font-weight--bold vads-u-display--block">
               If you receive VA benefits, but aren’t enrolled in VA health care
             </span>
-            Call us at <va-telephone contact="800-827-1000" /> (
-            <a href="tel:711" aria-label="TTY: 7 1 1.">
-              TTY: +711
-            </a>
+            Call us at <va-telephone contact="8008271000" /> (
+            <va-telephone contact={CONTACTS['711']} tty />
             ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
           </p>
         </va-additional-info>
       </div>
-      <ProfileInfoTable data={tableFields} level={2} />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
+        <Toggler.Enabled>
+          <ProfileInfoCard data={tableFields} level={1} />
+        </Toggler.Enabled>
+
+        <Toggler.Disabled>
+          <ProfileInfoTable data={tableFields} level={2} />
+        </Toggler.Disabled>
+      </Toggler>
     </div>
   );
 };

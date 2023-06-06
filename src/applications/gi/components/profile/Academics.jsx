@@ -10,12 +10,12 @@ export default function Academics({ institution, onShowModal }) {
     <div aria-live="off">
       <strong>
         <LearnMoreLabel
-          text={'Accreditation'}
+          text="Accreditation"
           onClick={() => {
             onShowModal('accreditation');
           }}
           ariaLabel={ariaLabels.learnMore.accreditation}
-          buttonId={'accreditation-button'}
+          buttonId="accreditation-button"
           buttonClassName="small-screen-font"
         />
         :
@@ -45,12 +45,12 @@ export default function Academics({ institution, onShowModal }) {
     <div aria-live="off">
       <strong>
         <LearnMoreLabel
-          text={'Credit for military training'}
+          text="Credit for military training"
           onClick={() => {
             onShowModal('militaryTrainingCredit');
           }}
           ariaLabel={ariaLabels.learnMore.militaryTrainingCredit}
-          buttonId={'creditTraining-button'}
+          buttonId="creditTraining-button"
           buttonClassName="small-screen-font"
         />
         :
@@ -64,12 +64,12 @@ export default function Academics({ institution, onShowModal }) {
     <div aria-live="off">
       <strong>
         <LearnMoreLabel
-          text={'Independent study'}
+          text="Independent study"
           onClick={() => {
             onShowModal('independentStudy');
           }}
           ariaLabel={ariaLabels.learnMore.independentStudy}
-          buttonId={'independentStudy-button'}
+          buttonId="independentStudy-button"
           buttonClassName="small-screen-font"
         />
         :
@@ -83,7 +83,7 @@ export default function Academics({ institution, onShowModal }) {
     <div aria-live="off">
       <strong>
         <LearnMoreLabel
-          text={'Priority Enrollment'}
+          text="Priority Enrollment"
           onClick={() => {
             onShowModal('priorityEnrollment');
           }}
@@ -111,22 +111,21 @@ export default function Academics({ institution, onShowModal }) {
 
   const careerScope = (
     <div className="small-screen-font">
-      <h3 className="small-screen-font">Get started with CareerScope</h3>
+      <h3 className="small-screen-font">Looking for career options?</h3>
       <hr />
       <p>
-        CareerScope&reg; take career and educational planning to a new level.
-        The proven career assessment and reporting system from the Vocational
-        Research Institute is a powerful, yet easy-to-use program.
+        The O*NET Interest Profiler career assessment tool lets you explore
+        options that match your interests.
       </p>
       <p>
         <a
-          href="https://va.careerscope.net/gibill"
+          href="https://www.va.gov/resources/onet-interest-profiler-career-assessment/"
           target="_blank"
           rel="noopener noreferrer"
           className="vads-c-action-link--blue"
-          id="get-started-with-careerscope"
+          id="get-started-with-onet"
         >
-          Get started with CareerScope
+          Get started with the O*NET Interest Profiler
         </a>
       </p>
     </div>

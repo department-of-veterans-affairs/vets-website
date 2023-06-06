@@ -1,12 +1,20 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { capitalize } from 'lodash';
-import { useHistory } from 'react-router-dom';
-import MessageActionButtons from './MessageActionsButtons';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { useHistory, useLocation } from 'react-router-dom';
+import { format, addDays } from 'date-fns';
+import { useDispatch } from 'react-redux';
+import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
+import { Categories } from '../util/constants';
+import { dateFormat } from '../util/helpers';
+import MessageThreadBody from './MessageThread/MessageThreadBody';
+import { closeAlert } from '../actions/alerts';
 
 const MessageDetailBlock = props => {
+  const { message, cannotReply } = props;
   const {
+    threadId,
     messageId,
     category,
     subject,
@@ -14,43 +22,84 @@ const MessageDetailBlock = props => {
     sentDate,
     senderName,
     recipientName,
+    triageGroupName,
     attachments,
-  } = props.message;
+  } = message;
 
   const history = useHistory();
-  const casedCategory = capitalize(category);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const sentReplyDate = format(new Date(sentDate), 'MM-dd-yyyy');
+  const cannotReplyDate = addDays(new Date(sentReplyDate), 45);
+  const [hideReplyButton, setReplyButton] = useState(false);
+  const fromMe = recipientName === triageGroupName;
 
   const handleReplyButton = useCallback(
     () => {
-      history.push('/reply');
+      history.push(`/reply/${messageId}`);
     },
-    [history],
+    [history, messageId],
   );
+
+  useEffect(
+    () => {
+      if (new Date() > cannotReplyDate) {
+        setReplyButton(true);
+      }
+    },
+    [cannotReplyDate, hideReplyButton, sentReplyDate, sentDate],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
+  );
+
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+    },
+    [message],
+  );
+
+  const categoryLabel = Categories[category];
 
   return (
     <section className="message-detail-block">
-      <header className="vads-u-display--flex vads-u-flex-direction--row message-detail-header">
-        <h2
-          className="vads-u-margin-top--1 vads-u-margin-bottom--2"
-          aria-label={`Message subject. ${casedCategory}: ${subject}`}
+      <header className="message-detail-header">
+        <h1
+          className="vads-u-margin-bottom--2"
+          aria-label={`Message subject. ${categoryLabel}: ${subject}`}
         >
-          {casedCategory}: {subject}
-        </h2>
-        <button
-          type="button"
-          onClick={handleReplyButton}
-          className="send-button-top medium-screen:vads-u-padding-right--2"
-        >
-          <i className="fas fa-reply" aria-hidden="true" />
-          <span className="reply-button-top-text">Reply</span>
-        </button>
+          {categoryLabel}: {subject}
+        </h1>
       </header>
-
-      <main className="message-detail-content">
-        <section className="message-metadata" aria-label="message details.">
+      <MessageActionButtons
+        id={messageId}
+        threadId={threadId}
+        onReply={handleReplyButton}
+        hideReplyButton={cannotReply}
+      />
+      <main
+        className="message-detail-content"
+        role="heading"
+        aria-level="2"
+        aria-label="Most recent message in this conversation"
+      >
+        <section
+          className="message-metadata"
+          data-testid="message-metadata"
+          aria-label="message details."
+        >
           <p>
             <strong>From: </strong>
-            {senderName}
+            {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
           </p>
           <p>
             <strong>To: </strong>
@@ -58,7 +107,7 @@ const MessageDetailBlock = props => {
           </p>
           <p>
             <strong>Date: </strong>
-            {sentDate}
+            {dateFormat(sentDate)}
           </p>
           <p>
             <strong>Message ID: </strong>
@@ -67,7 +116,7 @@ const MessageDetailBlock = props => {
         </section>
 
         <section className="message-body" aria-label="Message body.">
-          <pre>{body}</pre>
+          <MessageThreadBody expanded text={body} />
         </section>
 
         {!!attachments &&
@@ -79,24 +128,12 @@ const MessageDetailBlock = props => {
               <AttachmentsList attachments={attachments} />
             </>
           )}
-
-        <div className="message-detail-note vads-u-text-align--center">
-          <p>
-            <i>
-              Note: This message may not be from the person you intially
-              contacted. It may have been reassigned to efficiently address your
-              original message
-            </i>
-          </p>
-        </div>
-
-        <MessageActionButtons id={messageId} />
       </main>
     </section>
   );
 };
-
 MessageDetailBlock.propTypes = {
+  cannotReply: PropTypes.bool,
   message: PropTypes.object,
 };
 

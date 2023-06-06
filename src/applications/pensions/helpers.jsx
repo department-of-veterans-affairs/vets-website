@@ -2,11 +2,10 @@ import React from 'react';
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
 import titleCase from 'platform/utilities/data/titleCase';
-import localStorage from 'platform/utilities/storage/localStorage';
 
 function replacer(key, value) {
   // if the containing object has a name, we’re in the national guard object
@@ -35,37 +34,21 @@ function replacer(key, value) {
 }
 
 function checkStatus(guid) {
-  const headers = {
-    'Content-Type': 'application/json',
-    'X-Key-Inflection': 'camel',
-    'Source-App-Name': window.appName,
-  };
-
-  return fetch(`${environment.API_URL}/v0/pension_claims/${guid}`, {
-    credentials: 'include',
-    headers,
+  return apiRequest(`${environment.API_URL}/v0/pension_claims/${guid}`, {
     mode: 'cors',
-  })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
+  }).catch(res => {
+    if (res instanceof Error) {
+      Sentry.captureException(res);
+      Sentry.captureMessage('vets_pension_poll_client_error');
 
-      return Promise.reject(res);
-    })
-    .catch(res => {
-      if (res instanceof Error) {
-        Sentry.captureException(res);
-        Sentry.captureMessage('vets_pension_poll_client_error');
+      // keep polling because we know they submitted earlier
+      // and this is likely a network error
+      return Promise.resolve();
+    }
 
-        // keep polling because we know they submitted earlier
-        // and this is likely a network error
-        return Promise.resolve();
-      }
-
-      // if we get here, it's likely that we hit a server error
-      return Promise.reject(res);
-    });
+    // if we get here, it's likely that we hit a server error
+    return Promise.reject(res);
+  });
 }
 
 const POLLING_INTERVAL = 1000;
@@ -113,30 +96,15 @@ function transform(formConfig, form) {
 }
 
 export function submit(form, formConfig) {
-  // This item should have been set in any previous API calls
-  const csrfTokenStored = localStorage.getItem('csrfToken');
-  const headers = {
-    'Content-Type': 'application/json',
-    'X-Key-Inflection': 'camel',
-    'Source-App-Name': window.appName,
-    'X-CSRF-Token': csrfTokenStored,
-  };
-
+  const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
 
-  return fetch(`${environment.API_URL}/v0/pension_claims`, {
+  return apiRequest(`${environment.API_URL}/v0/pension_claims`, {
     body,
-    credentials: 'include',
     headers,
     method: 'POST',
     mode: 'cors',
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(res);
-    })
     .then(resp => {
       const { guid, confirmationNumber, regionalOffice } = resp.data.attributes;
       return new Promise((resolve, reject) => {
@@ -286,10 +254,10 @@ export const directDepositWarning = (
     >
       www.usdirectexpress.com
     </a>{' '}
-    or by telephone at <a href="tel:8003331795">800-333-1795</a>. If you chose
-    not to enroll, you must contact representatives handling waiver requests for
-    the Department of Treasury at <a href="tel:8882242950">888-224-2950</a>.
-    They will address any questions or concerns you may have and encourage your
+    or by telephone at <va-telephone contact="8003331795" />. If you chose not
+    to enroll, you must contact representatives handling waiver requests for the
+    Department of Treasury at <va-telephone contact="8882242950" />. They will
+    address any questions or concerns you may have and encourage your
     participation in EFT.
   </div>
 );

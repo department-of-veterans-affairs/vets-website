@@ -24,8 +24,11 @@ import {
   eduDirectDepositIsSetUp,
   eduDirectDepositLoadError,
   eduDirectDepositUiState as eduDirectDepositUiStateSelector,
+  profileUseLighthouseDirectDepositEndpoint,
 } from '@@profile/selectors';
 import UpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
+import { kebabCase } from 'lodash';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
@@ -44,6 +47,7 @@ import { benefitTypes } from '~/applications/personalization/common/constants';
 
 import NotEligible from './alerts/NotEligible';
 import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
+import { ProfileInfoCard } from '../ProfileInfoCard';
 
 export const BankInfo = ({
   isLOA3,
@@ -59,6 +63,7 @@ export const BankInfo = ({
   setFormIsDirty,
   setViewingPayments,
   showSuccessMessage,
+  useLighthouseDirectDepositEndpoint,
 }) => {
   const formPrefix = type;
   const editBankInfoButton = useRef();
@@ -74,6 +79,19 @@ export const BankInfo = ({
     formPrefix,
   );
 
+  const sectionTitle = typeIsCNP
+    ? 'Disability compensation and pension benefits'
+    : 'Education benefits';
+
+  const sectionTitleId = kebabCase(sectionTitle);
+
+  const focusOnMainHeading = headingId => {
+    const mainHeading = document.querySelector(`#${headingId}`);
+    if (mainHeading) {
+      mainHeading.setAttribute('tabindex', '-1');
+      mainHeading.focus();
+    }
+  };
   // Using computed properties that I got from the `makeFormProperties` call to
   // destructure the form data object. I learned that this was even possible
   // here: https://stackoverflow.com/a/37040344/585275
@@ -107,12 +125,7 @@ export const BankInfo = ({
   useEffect(
     () => {
       if (isEditingBankInfo && !wasEditingBankInfo) {
-        const focusableElement = editBankInfoForm.current?.querySelector(
-          'button, input, select, a, textarea',
-        );
-        if (focusableElement) {
-          focusableElement.focus();
-        }
+        focusOnMainHeading(sectionTitleId);
       }
       if (wasEditingBankInfo && !isEditingBankInfo) {
         // clear the form data when exiting edit mode so it's blank when the
@@ -122,21 +135,24 @@ export const BankInfo = ({
         editBankInfoButton.current.focus();
       }
     },
-    [isEditingBankInfo, wasEditingBankInfo],
+    [isEditingBankInfo, wasEditingBankInfo, sectionTitleId],
   );
 
   const saveBankInfo = () => {
-    const payload = {
+    const fields = {
       financialInstitutionRoutingNumber: formData[routingNumber],
       accountNumber: formData[accountNumber],
       accountType: formData[accountType],
     };
     if (typeIsCNP) {
       // NOTE: You can trigger a save error by sending undefined values in the payload
-      payload.financialInstitutionName = 'Hidden form field';
-      saveBankInformation(payload, isDirectDepositSetUp);
+      saveBankInformation({
+        fields,
+        isEnrollingInDirectDeposit: isDirectDepositSetUp,
+        useLighthouseDirectDepositEndpoint,
+      });
     } else {
-      saveBankInformation(payload);
+      saveBankInformation({ fields });
     }
   };
 
@@ -163,9 +179,6 @@ export const BankInfo = ({
     ? 'disability compensation and pension'
     : 'education';
 
-  const sectionTitle = typeIsCNP
-    ? 'Disability compensation and pension benefits'
-    : 'Education benefits';
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
     <div>
@@ -264,39 +277,28 @@ export const BankInfo = ({
       </p>
       <div className="vads-u-margin-bottom--2">
         <va-additional-info trigger="Where can I find these numbers?">
-          <figure
-            className="vads-u-margin-x--0"
-            role="figure"
-            aria-labelledby={`${type}-check-caption`}
-          >
-            {/* eslint-disable jsx-a11y/no-redundant-roles */}
-            <img
-              src="/img/direct-deposit-check-guide.svg"
-              role="img"
-              alt="A personal check"
-            />
-            {/* eslint-enable jsx-a11y/no-redundant-roles */}
-            <figcaption
-              id={`${type}-check-caption`}
-              className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-width--auto vads-u-color--gray-dark"
-            >
-              <p>
-                The bank routing number is the first 9 digits on the bottom left
-                corner of a printed check. Your account number is the second set
-                of numbers on the bottom of a check, just to the right of the
-                bank routing number.
-              </p>
-              <p>If you don’t have a printed check, you can:</p>
-              <ul>
-                <li>
-                  Sign in to your online bank account and check your account
-                  details, or
-                </li>
-                <li>Check your bank statement, or</li>
-                <li>Call your bank</li>
-              </ul>
-            </figcaption>
-          </figure>
+          <img
+            src="/img/direct-deposit-check-guide.svg"
+            alt="A personal check"
+          />
+
+          <p className="vads-u-padding-top--2">
+            The bank routing number is the first 9 digits on the bottom left
+            corner of a printed check. Your account number is the second set of
+            numbers on the bottom of a check, just to the right of the bank
+            routing number.
+          </p>
+          <p className="vads-u-padding-y--2">
+            If you don’t have a printed check, you can:
+          </p>
+          <ul>
+            <li>
+              Sign in to your online bank account and check your account
+              details, or
+            </li>
+            <li>Check your bank statement, or</li>
+            <li>Call your bank</li>
+          </ul>
         </va-additional-info>
       </div>
       <div data-testid={`${formPrefix}-bank-info-form`} ref={editBankInfoForm}>
@@ -307,13 +309,13 @@ export const BankInfo = ({
           formSubmit={saveBankInfo}
         >
           <LoadingButton
-            aria-label={`update your bank information for ${benefitTypeLong} benefits`}
+            aria-label={`save your bank information for ${benefitTypeLong} benefits`}
             type="submit"
             loadingText="saving bank information"
             className="usa-button-primary vads-u-margin-top--0 medium-screen:vads-u-width--auto"
             isLoading={directDepositUiState.isSaving}
           >
-            Update
+            Save
           </LoadingButton>
           <button
             aria-label={`cancel updating your bank information for ${benefitTypeLong} benefits`}
@@ -385,7 +387,7 @@ export const BankInfo = ({
           {`You haven't finished editing and saving the changes to your direct deposit information. If you cancel now, we won't save your changes.`}
         </p>
         <button
-          className="usa-button-secondary"
+          className="usa-button-primary"
           type="button"
           onClick={() => {
             setShowConfirmCancelModal(false);
@@ -394,6 +396,7 @@ export const BankInfo = ({
           Continue Editing
         </button>
         <button
+          className="usa-button-secondary"
           type="button"
           onClick={() => {
             setShowConfirmCancelModal(false);
@@ -403,12 +406,26 @@ export const BankInfo = ({
           Cancel
         </button>
       </VaModal>
-      <ProfileInfoTable
-        className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-        title={sectionTitle}
-        data={directDepositData()}
-        level={2}
-      />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
+        <Toggler.Enabled>
+          <ProfileInfoCard
+            className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+            title={sectionTitle}
+            data={directDepositData()}
+            namedAnchor={sectionTitleId}
+            level={2}
+          />
+        </Toggler.Enabled>
+        <Toggler.Disabled>
+          <ProfileInfoTable
+            className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+            title={sectionTitle}
+            data={directDepositData()}
+            namedAnchor={sectionTitleId}
+            level={2}
+          />
+        </Toggler.Disabled>
+      </Toggler>
     </>
   );
 };
@@ -423,6 +440,7 @@ BankInfo.propTypes = {
   setViewingPayments: PropTypes.func.isRequired,
   toggleEditState: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
+  useLighthouseDirectDepositEndpoint: PropTypes.bool.isRequired,
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string,
     accountType: PropTypes.string,
@@ -461,11 +479,15 @@ export const mapStateToProps = (state, ownProps) => {
     directDepositUiState: typeIsCNP
       ? cnpDirectDepositUiStateSelector(state)
       : eduDirectDepositUiStateSelector(state),
+    useLighthouseDirectDepositEndpoint: profileUseLighthouseDirectDepositEndpoint(
+      state,
+    ),
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const typeIsCNP = ownProps.type === benefitTypes.CNP;
+
   return {
     ...bindActionCreators(
       {

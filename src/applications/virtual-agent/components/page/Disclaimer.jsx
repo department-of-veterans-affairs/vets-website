@@ -1,4 +1,5 @@
-/* eslint-disable @department-of-veterans-affairs/telephone-contact-3-or-10-digits */
+/* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
+/* eslint-disable @department-of-veterans-affairs/telephone-contact-digits */
 import React from 'react';
 
 export default function Disclaimer() {
@@ -28,6 +29,9 @@ export default function Disclaimer() {
             <a href="/resources/helpful-va-phone-numbers/">
               Call us at one of our helpful VA phone numbers
             </a>
+          </li>
+          <li>
+            <a href="https://ask.va.gov/">Contact us online through Ask VA</a>
           </li>
           <li>
             <a href="/resources/">Explore our resources and support content</a>
@@ -82,7 +86,8 @@ export default function Disclaimer() {
       <h3>More about our chatbot</h3>
 
       <va-accordion>
-        <va-accordion-item header="What to expect when using our chatbot">
+        <va-accordion-item>
+          <h4 slot="headline">What to expect when using our chatbot</h4>
           <p>
             Our chatbot is a resource to help you quickly find information about
             VA benefits and services. You won’t communicate with an actual
@@ -135,7 +140,8 @@ export default function Disclaimer() {
           </p>
         </va-accordion-item>
 
-        <va-accordion-item header="How to use our chatbot with a screen reader">
+        <va-accordion-item>
+          <h4 slot="headline">How to use our chatbot with a screen reader</h4>
           <p>
             If you’re blind or have low vision, follow these steps to use our
             chatbot on a desktop computer with a screen reader:
@@ -181,7 +187,10 @@ export default function Disclaimer() {
           </p>
         </va-accordion-item>
 
-        <va-accordion-item header="What information we collect when you use the chatbot">
+        <va-accordion-item>
+          <h4 slot="headline">
+            What information we collect when you use the chatbot
+          </h4>
           <p>
             We use certain information you’ve provided to build better tools for
             Veterans, service members, and their families.

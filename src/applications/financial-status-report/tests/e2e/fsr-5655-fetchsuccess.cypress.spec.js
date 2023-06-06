@@ -44,7 +44,7 @@ describe('Fetch Form Status Successfully', () => {
   it('Successful API Response', () => {
     cy.get('h1').should(
       'have.text',
-      'Request help with VA debt (VA Form 5655)',
+      'Request help with VA debt for overpayments and copay bills',
     );
 
     cy.injectAxeThenAxeCheck();

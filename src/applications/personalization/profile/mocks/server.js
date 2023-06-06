@@ -1,29 +1,39 @@
 const _ = require('lodash');
 const delay = require('mocker-api/lib/delay');
+const { set } = require('lodash');
 
-const user = require('./user');
-const mhvAcccount = require('./mhvAccount');
-const address = require('./address');
-const phoneNumber = require('./phone-number');
-const status = require('./status');
+// endpoint data or generator functions
+const user = require('./endpoints/user');
+const mhvAcccount = require('./endpoints/mhvAccount');
+const address = require('./endpoints/address');
+const phoneNumber = require('./endpoints/phone-number');
+const status = require('./endpoints/status');
+const ratingInfo = require('./endpoints/rating-info');
 const {
   handlePutGenderIdentitiesRoute,
   handleGetPersonalInformationRoute,
   handlePutPreferredNameRoute,
-} = require('./personal-information');
-const { createNotificationSuccess } = require('./notifications');
+} = require('./endpoints/personal-information');
+const {
+  maximalSetOfPreferences,
+} = require('./endpoints/communication-preferences');
+const { generateFeatureToggles } = require('./endpoints/feature-toggles');
+const paymentInformation = require('./endpoints/payment-information');
+const disabilityComps = require('./endpoints/disability-compensations');
+const bankAccounts = require('./endpoints/bank-accounts');
+const serviceHistory = require('./endpoints/service-history');
+const fullName = require('./endpoints/full-name');
+const {
+  baseUserTransitionAvailabilities,
+} = require('./endpoints/user-transition-availabilities');
 
-const { generateFeatureToggles } = require('./feature-toggles');
+const maintenanceWindows = require('./endpoints/maintenance-windows');
 
-const payments = require('./payment-history');
+// seed data for VAMC drupal source of truth json file
+const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
-const bankAccounts = require('./bank-accounts');
-
-const serviceHistory = require('./service-history');
-const fullName = require('./full-name');
-
-// set DELAY=1000 to add 1 sec delay to all responses
-const responseDelay = process?.env?.DELAY || 0;
+// utils
+const { debug, delaySingleResponse } = require('./script/utils');
 
 // uncomment if using status retries
 // let retries = 0;
@@ -31,28 +41,82 @@ const responseDelay = process?.env?.DELAY || 0;
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/user': user.handleUserRequest,
-  'GET /v0/profile/status': status,
+  'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
-  'GET /v0/maintenance_windows': { data: [] },
-  'GET /v0/feature_toggles': generateFeatureToggles({
-    profileHideDirectDepositCompAndPen: true,
-  }),
+  'GET /v0/maintenance_windows': (_req, res) => {
+    // three different scenarios for testing downtime banner
+    // all service names/keys are available in src/platform/monitoring/DowntimeNotification/config/externalService.js
+    // but couldn't be directly imported due to export default vs module.exports
+
+    // return res.json(
+    //   maintenanceWindows.createDowntimeApproachingNotification([
+    //     maintenanceWindows.SERVICES.EMIS,
+    //   ]),
+    // );
+
+    // return res.json(
+    //   maintenanceWindows.createDowntimeActiveNotification([
+    //     maintenanceWindows.SERVICES.MVI,
+    //     maintenanceWindows.SERVICES.EMIS,
+    //   ]),
+    // );
+
+    return res.json(maintenanceWindows.noDowntime);
+  },
+  'GET /v0/feature_toggles': (_req, res) => {
+    delaySingleResponse(
+      () =>
+        res.json(
+          generateFeatureToggles({
+            profileUseInfoCard: true,
+            profileUseFieldEditingPage: true,
+            profileShowMhvNotificationSettings: false,
+            profileLighthouseDirectDeposit: true,
+          }),
+        ),
+      0,
+    );
+  },
   'GET /v0/ppiu/payment_information': (_req, res) => {
-    return res.status(200).json(payments.paymentHistory.simplePaymentHistory);
+    // 47841 - Below are the three cases where all of Profile should be gated off
+    // paymentInformation.isFiduciary
+    // paymentInformation.isDeceased
+    // paymentInformation.isNotCompetent
+
+    // This is a 'normal' payment history / control case data
+    // paymentInformation.base
+
+    return res.status(200).json(paymentInformation.base);
   },
   'PUT /v0/ppiu/payment_information': (_req, res) => {
-    return res
-      .status(200)
-      .json(
-        _.set(
-          payments.paymentInformation.saved.success,
-          'data.attributes.error',
-          payments.paymentInformation.errors.routingNumberInvalid,
-        ),
-      );
+    // substitute the various errors arrays to test various update error responses
+    // Examples:
+    // paymentInformation.updates.errors.fraud
+    // paymentsInformation.updates.errors.phoneNumber
+    // paymentsInformation.updates.errors.address
+    // return res
+    //   .status(200)
+    //   .json(
+    //     _.set(
+    //       _.cloneDeep(paymentInformation.base),
+    //       'data.attributes.error',
+    //       paymentInformation.updates.errors.invalidAddress,
+    //     ),
+    //   );
+
+    // successful update response
+    return res.status(200).json(paymentInformation.updates.success);
+  },
+  'GET /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
+    // Lighthouse based API endpoint for direct deposit CNP
+    // alternate to the PPIU endpoint above: /v0/ppiu/payment_information
+    return res.json(disabilityComps.base);
+  },
+  'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
+    return res.status(400).json(disabilityComps.errors.invalidRoutingNumber);
   },
   'POST /v0/profile/address_validation': address.addressValidation,
-  'GET /v0/mhv_account': mhvAcccount,
+  'GET /v0/mhv_account': mhvAcccount.needsPatient,
   'GET /v0/profile/personal_information': handleGetPersonalInformationRoute,
   'PUT /v0/profile/preferred_names': handlePutPreferredNameRoute,
   'PUT /v0/profile/gender_identities': handlePutGenderIdentitiesRoute,
@@ -65,39 +129,50 @@ const responses = {
   },
   'GET /v0/profile/service_history': (_req, res) => {
     return res.status(200).json(serviceHistory.airForce);
+    // return res
+    //   .status(200)
+    //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
-  'GET /v0/disability_compensation_form/rating_info': {
-    data: {
-      id: '',
-      type: 'evss_disability_compensation_form_rating_info_responses',
-      attributes: {
-        userPercentOfDisability: 40,
-      },
-    },
-  },
+  'GET /v0/disability_compensation_form/rating_info':
+    ratingInfo.success.serviceConnected40,
   'PUT /v0/profile/telephones': (_req, res) => {
     return res.status(200).json(phoneNumber.transactions.received);
   },
+  'POST /v0/profile/telephones': (_req, res) => {
+    return res.status(200).json(phoneNumber.transactions.received);
+  },
   'PUT /v0/profile/addresses': (req, res) => {
-    if (
-      req?.body?.id === address.homeAddressUpdateReceived.payload.id &&
-      req?.body?.addressPou ===
-        address.mailingAddressUpdateReceived.request.payload.addressPou
-    ) {
+    // return res.status(401).json(require('../tests/fixtures/401.json'));
+
+    // to test the update that comes from the 'yes' action on the address change modal prompt,
+    // we can create a success response with a transactionId that is unique using date timestamp
+    if (req.body.addressPou === 'CORRESPONDENCE') {
       return res.json(
-        _.set(
-          address.mailingAddressUpdateReceived.response,
+        set(
+          { ...address.mailingAddressUpdateReceived.response },
           'data.attributes.transactionId',
-          'erroredId',
+          `mailingUpdateId-${new Date().getTime()}`,
         ),
       );
     }
 
+    // simulate a initial request returning a transactionId that is
+    // subsequently used for triggereing error from GET v0/profile/status
+    // return res.json(
+    //   _.set(
+    //     address.mailingAddressUpdateReceived.response,
+    //     'data.attributes.transactionId',
+    //     'erroredId',
+    //   ),
+    // );
+
     // trigger NO_CHANGES_DETECTED response
+    // based on the text 'same' being put into address line 1 of ui
     if (req?.body?.addressLine1 === 'same') {
       return res.json(address.mailingAddresUpdateNoChangeDetected);
     }
 
+    // default response
     return res.json(address.homeAddressUpdateReceived.response);
   },
   'POST /v0/profile/addresses': (req, res) => {
@@ -112,23 +187,53 @@ const responses = {
     // }
 
     // uncomment to conditionally provide a failure error code based on transaction id
-    // if (
-    //   req?.params?.id === 'erroredId' ||
-    //   req?.params?.id === '06880455-a2e2-4379-95ba-90aa53fdb273'
-    // ) {
-    //   return res.json(
-    //     _.set(status.failure, 'data.attributes.transactionId', req.params.id),
-    //   );
-    // }
+    if (req?.params?.id === 'erroredId') {
+      return res.json(
+        _.set(status.failure, 'data.attributes.transactionId', req.params.id),
+      );
+    }
 
     return res.json(
       _.set(status.success, 'data.attributes.transactionId', req.params.id),
     );
   },
   'GET /v0/profile/communication_preferences': (_req, res) => {
-    return res.json(createNotificationSuccess());
+    return res.json(maximalSetOfPreferences);
   },
+  'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
 };
 
-module.exports =
-  responseDelay > 0 ? delay(responses, responseDelay) : responses;
+function terminationHandler(signal) {
+  debug(`\nReceived ${signal}`);
+  process.env.HAS_RUN_AE_MOCKSERVER = false;
+  process.exit();
+}
+
+const boot = cb => {
+  // this runs once when the mock server starts up
+  // uses a environment variable to prevent this from running more than once
+  if (!process.env.HAS_RUN_AE_MOCKSERVER) {
+    debug('BOOT');
+    process.env.HAS_RUN_AE_MOCKSERVER = true;
+    cb();
+
+    process.on('SIGINT', terminationHandler);
+    process.on('SIGTERM', terminationHandler);
+    process.on('SIGQUIT', terminationHandler);
+  }
+};
+
+// here we can run anything that needs to happen before the mock server starts up
+// this runs every time a file is mocked
+// but the single boot function will only run once
+const generateMockResponses = () => {
+  boot(mockLocalDSOT);
+
+  // set DELAY=1000 when running mock server script
+  // to add 1 sec delay to all responses
+  const responseDelay = process?.env?.DELAY || 0;
+
+  return responseDelay > 0 ? delay(responses, responseDelay) : responses;
+};
+
+module.exports = generateMockResponses();

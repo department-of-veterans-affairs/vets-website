@@ -177,6 +177,22 @@ describe('Schemaform routing', () => {
       };
       expect(checkValidPagePath(pageList, data, pathname)).to.be.true;
     });
+    it('should return true for paths with a search parameter', () => {
+      const pageList = getPageList();
+      const pathname = '/testing/last-page?index=3';
+      const data = {
+        arrayProp: [{}],
+      };
+      expect(checkValidPagePath(pageList, data, pathname)).to.be.true;
+    });
+    it('should return false for undefined or empty paths', () => {
+      const pageList = getPageList();
+      const data = {
+        arrayProp: [{}],
+      };
+      expect(checkValidPagePath(pageList, data)).to.be.false;
+      expect(checkValidPagePath(pageList, data, '')).to.be.false;
+    });
     it('should return false for paths that are conditionally not met', () => {
       const pathname = '/testing/0/conditional-page';
       const data = {

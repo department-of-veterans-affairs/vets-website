@@ -107,6 +107,7 @@ export const schema = {
           },
           creditorName: {
             type: 'string',
+            default: '',
           },
           originalAmount: {
             type: 'string',

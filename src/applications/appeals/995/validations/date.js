@@ -1,42 +1,41 @@
 import moment from 'moment';
 
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
-import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 
-import { FORMAT_YMD } from '../constants';
-
-import { issueErrorMessages } from '../content/addIssue';
+import { fixDateFormat } from '../utils/replace';
+import { errorMessages, FORMAT_YMD, MAX_YEARS_PAST } from '../constants';
 
 export const minDate = moment()
-  .subtract(1, 'year')
+  .subtract(MAX_YEARS_PAST, 'year')
   .startOf('day');
 
 const maxDate = moment().startOf('day');
 
-export const validateDate = (errors, dateString) => {
+export const validateDate = (errors, rawString = '', fullData) => {
+  const dateString = fixDateFormat(rawString);
   const { day, month, year } = parseISODate(dateString);
-  const date = moment(dateString, FORMAT_YMD);
+  const date = moment(rawString, FORMAT_YMD);
+  const dateType = fullData?.dateType || 'decisions';
 
   if (
-    dateString === 'XXXX-XX-XX' ||
-    dateString === '' ||
+    !year ||
+    year === '' ||
+    !day ||
+    day === '0' ||
+    !month ||
+    month === '0' ||
     dateString?.length < FORMAT_YMD.length
   ) {
-    // errors.addError(issueErrorMessages.missingDecisionDate);
-    // The va-date component currently overrides the error message when the
-    // value is blank
-    errors.addError(issueErrorMessages.invalidDate);
-  } else if (!day || day === 'XX' || !month || month === 'XX') {
-    errors.addError(issueErrorMessages.invalidDate);
-  } else if (year?.length >= 4 && !isValidYear(year)) {
-    errors.addError(
-      issueErrorMessages.invalidDateRange(minDate.year(), maxDate.year()),
-    );
+    // The va-memorable-date component currently overrides the error message
+    // when the value is blank
+    errors.addError(errorMessages[dateType].missingDate);
+  } else if (!date.isValid()) {
+    errors.addError(errorMessages.invalidDate);
   } else if (date.isSameOrAfter(maxDate)) {
     // Lighthouse won't accept same day (as submission) decision date
-    errors.addError(issueErrorMessages.pastDate);
+    errors.addError(errorMessages[dateType].pastDate);
   } else if (date.isBefore(minDate)) {
-    errors.addError(issueErrorMessages.newerDate);
+    errors.addError(errorMessages[dateType].newerDate);
   }
 };
 

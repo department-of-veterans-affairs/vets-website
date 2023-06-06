@@ -10,6 +10,7 @@ import TravelPages from '../../../../tests/e2e/pages/TravelPages';
 describe('Check In Experience', () => {
   describe('travel address display', () => {
     beforeEach(() => {
+      const appointments = [{ startTime: '2021-08-19T03:00:00' }];
       const {
         initializeFeatureToggle,
         initializeSessionGet,
@@ -23,7 +24,7 @@ describe('Check In Experience', () => {
       initializeSessionPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
       initializeCheckInDataGet.withSuccess({
-        numberOfCheckInAbledAppointments: 1,
+        appointments,
       });
       initializeCheckInDataPost.withSuccess();
       cy.visitWithUUID();
@@ -51,6 +52,7 @@ describe('Check In Experience', () => {
     });
     it('renders the travel vehicle page with content', () => {
       TravelPages.validatePageLoaded('address');
+      TravelPages.validateBackButton('address');
       TravelPages.validateContent();
       cy.injectAxeThenAxeCheck();
     });

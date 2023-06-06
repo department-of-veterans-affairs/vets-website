@@ -1,5 +1,8 @@
 const dateFns = require('date-fns');
 const { utcToZonedTime, format } = require('date-fns-tz');
+const {
+  singleAppointment,
+} = require('../../../../../tests/unit/mocks/mock-appointments');
 
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
 const isoDateWithOffsetFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx";
@@ -8,6 +11,10 @@ const isoDateWithOffsetFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx";
 const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
 const aboutToExpireUUID = '25165847-2c16-4c8b-8790-5de37a7f427f';
 const pacificTimezoneUUID = '6c72b801-74ac-47fe-82af-cfe59744b45f';
+const allAppointmentTypesUUID = 'bb48c558-7b35-44ec-8ab7-32b7d49364fc';
+
+// Minutes before start time that the window for check-in starts.
+const checkInStartWindowMinutes = 45;
 
 const mockDemographics = {
   emergencyContact: {
@@ -86,21 +93,26 @@ const getAppointmentStartTime = (
 };
 
 const createAppointment = ({
-  eligibility = 'ELIGIBLE',
-  facilityId = 'some-facility',
+  facility = singleAppointment[0].facility,
+  eligibility = singleAppointment[0].eligibility,
+  facilityId = singleAppointment[0].facilityId,
   appointmentIen = Math.floor(Math.random() * 100000),
   clinicFriendlyName = 'HEART CLINIC 1',
+  clinicName = singleAppointment[0].clinicName,
   preCheckInValid = false,
   uuid = defaultUUID,
   timezone = 'browser',
-  stationNo = '0001',
-  clinicLocation = 'SECOND FLOOR ROOM 2',
-  kind = 'clinic',
-  status = '',
+  stationNo = singleAppointment[0].stationNo,
+  clinicLocation = singleAppointment[0].clinicLocation,
+  kind = singleAppointment[0].kind,
+  status = singleAppointment[0].status,
   startTime = getAppointmentStartTime(eligibility, preCheckInValid, uuid),
-  checkInSteps = [],
-  clinicStopCodeName = 'Mental health',
-  doctorName = 'Dr. Jones',
+  checkInSteps = singleAppointment[0].checkInSteps,
+  clinicStopCodeName = singleAppointment[0].clinicStopCodeName,
+  doctorName = singleAppointment[0].doctorName,
+  clinicIen = singleAppointment[0].clinicIen,
+  facilityAddress = singleAppointment[0].facilityAddress,
+  clinicPhoneNumber = singleAppointment[0].clinicPhoneNumber,
 } = {}) => {
   const formattedStartTime = dateFns.format(
     startTime,
@@ -108,7 +120,10 @@ const createAppointment = ({
   );
 
   // C.f. CHECKIN_MINUTES_BEFORE in {chip repo}/infra/template.yml
-  let checkInWindowStart = dateFns.subMinutes(new Date(startTime), 30);
+  let checkInWindowStart = dateFns.subMinutes(
+    new Date(startTime),
+    checkInStartWindowMinutes,
+  );
   let formattedCheckInWindowStart = format(
     checkInWindowStart,
     isoDateWithOffsetFormat,
@@ -123,7 +138,7 @@ const createAppointment = ({
   if (timezone !== 'browser') {
     checkInWindowStart = dateFns.subMinutes(
       utcToZonedTime(new Date(startTime), timezone),
-      30,
+      checkInStartWindowMinutes,
     );
     formattedCheckInWindowStart = format(
       checkInWindowStart,
@@ -142,12 +157,12 @@ const createAppointment = ({
   }
 
   return {
-    facility: 'LOMA LINDA VA CLINIC',
+    facility,
     kind,
     checkInSteps,
-    clinicPhoneNumber: '5551234567',
+    clinicPhoneNumber,
     clinicFriendlyName,
-    clinicName: 'LOM ACC CLINIC TEST',
+    clinicName,
     appointmentIen,
     startTime: formattedStartTime,
     eligibility,
@@ -160,31 +175,75 @@ const createAppointment = ({
     clinicLocation,
     clinicStopCodeName,
     doctorName,
+    clinicIen,
+    facilityAddress,
   };
 };
 
-const createMultipleAppointments = (
-  token,
-  numberOfCheckInAbledAppointments = 2,
+const createAppointments = (
+  token = defaultUUID,
   demographicsNeedsUpdate = false,
   demographicsConfirmedAt = null,
   nextOfKinNeedsUpdate = false,
   nextOfKinConfirmedAt = null,
   emergencyContactNeedsUpdate = false,
   emergencyContactConfirmedAt = null,
+  number = 3,
 ) => {
-  const rv = {
-    id: token || defaultUUID,
+  const timezone =
+    token === pacificTimezoneUUID ? 'America/Los_Angeles' : 'browser';
+
+  let appointments = [
+    createAppointment({
+      eligibility: 'ELIGIBLE',
+      facilityId: 'ABC_123',
+      clinicIen: '0001',
+      appointmentIen: `0001`,
+      clinicFriendlyName: `HEART CLINIC-1`,
+      uuid: token,
+      timezone,
+    }),
+  ];
+
+  if (token === allAppointmentTypesUUID) {
+    appointments = [
+      createAppointment({
+        eligibility: 'INELIGIBLE_TOO_LATE',
+        facilityId: 'ABC_123',
+        clinicIen: '0001',
+        appointmentIen: '0000',
+        clinicFriendlyName: `HEART CLINIC-1`,
+      }),
+    ];
+    for (let i = 0; i < number; i += 1) {
+      appointments.push(
+        createAppointment({
+          eligibility: 'ELIGIBLE',
+          facilityId: 'ABC_123',
+          clinicIen: '0001',
+          appointmentIen: `000${i + 1}`,
+          clinicFriendlyName: `HEART CLINIC-${i}`,
+          uuid: token,
+          timezone,
+        }),
+      );
+    }
+    appointments.push(
+      createAppointment({
+        eligibility: 'INELIGIBLE_TOO_EARLY',
+        facilityId: 'ABC_123',
+        clinicIen: '0001',
+        appointmentIen: `0050`,
+        clinicFriendlyName: `HEART CLINIC-E`,
+      }),
+    );
+  }
+
+  return {
+    id: token,
     payload: {
       demographics: mockDemographics,
-      appointments: [
-        createAppointment({
-          eligibility: 'INELIGIBLE_TOO_LATE',
-          facilityId: 'ABC_123',
-          appointmentIen: '0000',
-          clinicFriendlyName: `HEART CLINIC-1`,
-        }),
-      ],
+      appointments,
       patientDemographicsStatus: {
         demographicsNeedsUpdate,
         demographicsConfirmedAt,
@@ -195,39 +254,30 @@ const createMultipleAppointments = (
       },
     },
   };
+};
 
-  let timezone = 'browser';
-  if (token === pacificTimezoneUUID) {
-    timezone = 'America/Los_Angeles';
-  }
-  for (let i = 0; i < numberOfCheckInAbledAppointments; i += 1) {
-    rv.payload.appointments.push(
-      createAppointment({
-        eligibility: 'ELIGIBLE',
-        facilityId: 'ABC_123',
-        appointmentIen: `000${i + 1}`,
-        clinicFriendlyName: `HEART CLINIC-${i}`,
-        uuid: token,
-        timezone,
-      }),
-    );
-  }
-  rv.payload.appointments.push(
-    createAppointment({
-      eligibility: 'INELIGIBLE_TOO_EARLY',
-      facilityId: 'ABC_123',
-      appointmentIen: `0050`,
-      clinicFriendlyName: `HEART CLINIC-E`,
-    }),
-  );
+const createMockFailedResponse = _data => {
+  return {
+    error: true,
+  };
+};
 
-  return rv;
+const createMockNotFoundResponse = () => {
+  return {
+    errors: [
+      {
+        status: '404',
+      },
+    ],
+  };
 };
 
 module.exports = {
   aboutToExpireUUID,
-  createMultipleAppointments,
+  createAppointments,
   createAppointment,
   defaultUUID,
   mockDemographics,
+  createMockFailedResponse,
+  createMockNotFoundResponse,
 };

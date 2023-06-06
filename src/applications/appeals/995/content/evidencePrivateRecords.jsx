@@ -1,32 +1,31 @@
-import React from 'react';
+import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
 
-export const limitedConsentTitle = (
-  <p>
-    I want to limit my consent for VA to retrieve only specific information from
-    my private medical provider(s).
-  </p>
-);
-
-export const limitedConsentTextTitle = (
-  <p>Describe the limitation below (treatment dates, disability type, etc.).</p>
-);
-
-export const limitedConsentDescription = (
-  <va-additional-info trigger="What does this mean?">
-    <p>
-      If you choose to limit consent, your doctor will follow the limitation you
-      specify. Limiting consent could add to the time it takes to get your
-      private medical records.
-    </p>
-  </va-additional-info>
-);
-
-export const recordReleaseDescription = () => (
-  <div>
-    <p>
-      Please let us know where and when you received treatment. We’ll request
-      your private medical records for you. If you have records available, you
-      can upload them later in the application.
-    </p>
-  </div>
-);
+export const content = {
+  title: (addOrEdit, index) =>
+    `${addOrEdit === 'add' ? 'Add' : 'Edit'} the ${numberToWords(
+      index || 1,
+    )} provider where you received treatment`,
+  description:
+    'We’ll request your private medical records from this provider or hospital.',
+  nameLabel: 'Name of private provider or hospital',
+  addressLabels: {
+    country: 'Country',
+    street: 'Street address',
+    street2: 'Street address line 2',
+    city: 'City',
+    state: 'State',
+    postal: 'Postal code',
+  },
+  issuesLabel:
+    'Choose the conditions you received treatment for at this facility.',
+  fromLabel: 'First treatment date (you can estimate)',
+  toLabel: 'Last treatment date (you can estimate)',
+  modal: {
+    title: ({ providerFacilityName }) =>
+      `Do you want to keep ${providerFacilityName || 'this location'}?`,
+    description: 'We’ve saved your current information',
+    yes: 'Yes, keep location',
+    no: 'No, remove location',
+  },
+  addAnotherLink: 'Add another location',
+};

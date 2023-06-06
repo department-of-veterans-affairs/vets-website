@@ -1,15 +1,14 @@
 import { PROFILE_PATHS } from '@@profile/constants';
-import { paymentHistory } from '../../../../mocks/payment-history';
-import { user72Success } from '../../../../mocks/user';
-import { basicUserPersonalInfo } from '../../../../mocks/personal-information';
-
-import { generateFeatureToggles } from '../../../../mocks/feature-toggles';
-import { airForce } from '../../../../mocks/service-history';
+import * as paymentInfo from '@@profile/mocks/endpoints/payment-information';
+import { loa3User72 } from 'applications/personalization/profile/mocks/endpoints/user';
+import { basicUserPersonalInfo } from 'applications/personalization/profile/mocks/endpoints/personal-information';
+import { generateFeatureToggles } from 'applications/personalization/profile/mocks/endpoints/feature-toggles';
+import { airForce } from 'applications/personalization/profile/mocks/endpoints/service-history';
 
 describe('Direct Deposit Consistently', () => {
   describe('alert is hidden', () => {
     beforeEach(() => {
-      cy.login(user72Success);
+      cy.login(loa3User72);
       cy.intercept(
         'GET',
         'v0/profile/personal_information',
@@ -20,7 +19,7 @@ describe('Direct Deposit Consistently', () => {
       cy.intercept(
         'GET',
         'v0/ppiu/payment_information',
-        paymentHistory.isFiduciary,
+        paymentInfo.isFiduciary,
       );
     });
     it('should not display the paymentInformation message on the personal information page', () => {

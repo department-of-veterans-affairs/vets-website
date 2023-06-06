@@ -3,16 +3,14 @@ import featureTogglesEnabled from './fixtures/toggle-covid-feature.json';
 
 describe('COVID-19 Research Form', () => {
   describe('when entering valid information and submitting', () => {
-    before(() => {
+    beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
         'feature',
       );
-    });
-
-    before(() => {
       cy.visit('coronavirus-research/volunteer/update/update-form?id=abc123');
       cy.injectAxe();
     });
+
     // Skipping tests until routing is in place
     it('should load form page', () => {
       cy.url().should('include', 'coronavirus-research/volunteer/update');
@@ -92,7 +90,11 @@ describe('COVID-19 Research Form', () => {
         });
       });
 
-      cy.get('[name="consentAgreementAccepted"]').check();
+      cy.get('[name="consentAgreementAccepted"]')
+        .find('[type="checkbox"]')
+        .check({
+          force: true,
+        });
 
       cy.intercept('POST', '**/covid-research/volunteer/update', {
         status: 200,

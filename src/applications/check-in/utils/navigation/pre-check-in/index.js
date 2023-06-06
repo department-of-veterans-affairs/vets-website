@@ -33,6 +33,10 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
     url: URLS.CONFIRMATION,
     order: 5,
   },
+  {
+    url: URLS.APPOINTMENT_DETAILS,
+    order: 6,
+  },
 ]);
 
 const getPagesInOrder = () =>

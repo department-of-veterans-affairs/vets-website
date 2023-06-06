@@ -1,24 +1,35 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import differenceInSeconds from 'date-fns/differenceInSeconds';
-
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-
 import recordEvent from 'platform/monitoring/record-event';
 import { logout as IAMLogout } from 'platform/user/authentication/utilities';
 import { refresh, logoutUrlSiS } from 'platform/utilities/oauth/utilities';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+
+import { initializeProfile } from 'platform/user/profile/actions';
+import {
+  signInServiceName as signInServiceNameSelector,
+  isAuthenticatedWithOAuth,
+} from 'platform/user/authentication/selectors';
+import { isLoggedIn } from 'platform/user/selectors';
 
 const MODAL_DURATION = 30; // seconds
 
-class SessionTimeoutModal extends React.Component {
+export class SessionTimeoutModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = { countdown: null };
     this.expirationInterval = null;
+    this.serviceName = '';
   }
 
   componentDidUpdate() {
+    this.serviceName =
+      this.props.serviceName === undefined ? '' : this.props.serviceName;
     if (this.props.isLoggedIn && !this.expirationInterval) {
       this.clearInterval();
       this.expirationInterval = setInterval(this.checkExpiration, 1000);
@@ -68,7 +79,7 @@ class SessionTimeoutModal extends React.Component {
     localStorage.removeItem('sessionExpiration');
     this.setState({ countdown: null });
     if (this.props.authenticatedWithOAuth) {
-      refresh();
+      refresh({ type: this.serviceName });
     } else {
       this.props.onExtendSession();
     }
@@ -123,4 +134,26 @@ class SessionTimeoutModal extends React.Component {
   }
 }
 
-export default SessionTimeoutModal;
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: isLoggedIn(state),
+    authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
+    serviceName: signInServiceNameSelector(state),
+  };
+};
+
+const mapDispatchToProps = {
+  onExtendSession: initializeProfile,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SessionTimeoutModal);
+
+SessionTimeoutModal.propTypes = {
+  onExtendSession: PropTypes.func.isRequired,
+  authenticatedWithOAuth: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  serviceName: PropTypes.string,
+};

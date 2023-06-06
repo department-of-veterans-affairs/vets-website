@@ -37,9 +37,6 @@ export default function useVirtualAgentToken(props) {
   const [apiSession, setApiSession] = useState('');
   const [csrfTokenLoading, csrfTokenLoadingError] = useWaitForCsrfToken(props);
   const [loadingStatus, setLoadingStatus] = useState(LOADING);
-  const requireAuth = useSelector(
-    state => state.featureToggles.virtualAgentAuth,
-  );
 
   useEffect(
     () => {
@@ -54,22 +51,14 @@ export default function useVirtualAgentToken(props) {
         });
       }
 
-      if (requireAuth) {
-        clearBotSessionStorage();
-      }
+      clearBotSessionStorage();
 
       async function getToken() {
         try {
           const response = await retryOnce(callVirtualAgentTokenApi);
 
-          if (!sessionStorage.getItem(CONVERSATION_ID_KEY)) {
-            sessionStorage.setItem(
-              CONVERSATION_ID_KEY,
-              response.conversationId,
-            );
-
-            sessionStorage.setItem(TOKEN_KEY, response.token);
-          }
+          sessionStorage.setItem(CONVERSATION_ID_KEY, response.conversationId);
+          sessionStorage.setItem(TOKEN_KEY, response.token);
 
           setToken(response.token);
           setApiSession(response.apiSession);

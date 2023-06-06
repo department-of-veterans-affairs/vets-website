@@ -1,13 +1,13 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import constants from 'vets-json-schema/dist/constants.json';
-import { statesWithoutService } from '../../../utils/constants';
+import { STATES_WITHOUT_MEDICAL } from '../../../utils/constants';
 import {
   EssentialCoverageDescription,
   FacilityLocatorDescription,
 } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
 import VaMedicalCenter from '../../../components/FormFields/VaMedicalCenter';
-import { NotHighDisabilityOrNotCompensationTypeHigh } from '../../../utils/helpers';
+import { isShortFormEligible } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 
 // define default schema properties
@@ -18,7 +18,7 @@ const {
 
 // define states/territories with health care facilities
 const healthcareStates = constants.states.USA.filter(state => {
-  return !statesWithoutService.includes(state.value);
+  return !STATES_WITHOUT_MEDICAL.includes(state.value);
 });
 
 export default {
@@ -26,7 +26,7 @@ export default {
     'view:facilityShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: NotHighDisabilityOrNotCompensationTypeHigh,
+        hideIf: formData => !isShortFormEligible(formData),
       },
     },
     'view:vaFacilityTitle': {

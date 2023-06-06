@@ -15,6 +15,7 @@ export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
   `${environment.API_URL}/${version}/sessions/${type}/new`;
 
 export const AUTH_EVENTS = {
+  MOCK_LOGIN: 'mock-login-link-clicked-modal',
   MODAL_LOGIN: 'login-link-clicked-modal',
   LOGIN: 'login-link-clicked',
   SSO_LOGIN: 'sso-automatic-login',
@@ -38,6 +39,7 @@ export const CSP_IDS = {
   ID_ME: 'idme',
   DS_LOGON: 'dslogon',
   LOGIN_GOV: 'logingov',
+  VAMOCK: 'vamock',
 };
 
 export const SERVICE_PROVIDERS = {
@@ -129,6 +131,7 @@ export const POLICY_TYPES = {
   SLO: 'slo',
   CUSTOM: 'custom',
   SIGNUP: 'signup',
+  MHV_VERIFIED: 'mhv_verified',
 };
 
 export const SIGNUP_TYPES = {
@@ -153,7 +156,25 @@ export const AUTH_PARAMS = {
   codeChallengeMethod: 'code_challenge_method',
   clientId: 'client_id',
   to: 'to',
+  redirectUri: 'redirect_uri',
 };
+
+export const OCC_MOBILE = {
+  REGISTERED_APPS: 'registeredApps',
+  DEFAULT: 'default',
+};
+
+export const OCC_MOBILE_DSLOGON_ONLY = [
+  'ahburnpitregistry',
+  '/ahburnpitregistry/',
+  '%2Fahburnpitregistry%2F',
+  'AHburnpitregistry',
+  '/AHburnpitregistry/',
+  '%2FAHburnpitregistry%2F',
+  'AHBurnPitRegistry',
+  '/AHBurnPitRegistry/',
+  '%2FAHBurnPitRegistry%2F',
+];
 
 export const AUTH_DEPENDENCIES = [
   EXTERNAL_SERVICES.idme,

@@ -7,34 +7,37 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
-import { fetchSponsors, fetchPersonalInformation } from '../actions';
+import { fetchPersonalInformation, fetchDirectDeposit } from '../actions';
 import { mapFormSponsors } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
+import { getAppData } from '../selectors';
 
 function ToeApp({
   children,
   formData,
-  getSponsors,
+  getDirectDeposit,
   getPersonalInformation,
+  isLOA3,
   location,
   setFormData,
   sponsors,
   sponsorsInitial,
   sponsorsSavedState,
   user,
+  showMebEnhancements,
+  showMebEnhancements06,
 }) {
-  const [fetchedSponsors, setFetchedSponsors] = useState(false);
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
+  const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
   useEffect(
     () => {
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
-
-      if (!fetchedSponsors) {
-        setFetchedSponsors(true);
-        getSponsors();
+      if (!fetchedUserInfo) {
+        setFetchedUserInfo(true);
+        getPersonalInformation();
       }
 
       if (
@@ -47,16 +50,51 @@ function ToeApp({
       }
     },
     [
-      fetchedSponsors,
+      fetchedUserInfo,
       formData,
-      getSponsors,
-      location,
+      getPersonalInformation,
+      user?.login?.currentlyLoggedIn,
       setFormData,
       sponsors,
       sponsorsInitial,
       sponsorsSavedState,
-      user?.login?.currentlyLoggedIn,
     ],
+  );
+
+  useEffect(
+    () => {
+      if (isLOA3 !== formData.isLOA3) {
+        setFormData({
+          ...formData,
+          isLOA3, // ES6 Syntax
+        });
+      }
+    },
+    [formData, setFormData, isLOA3],
+  );
+
+  useEffect(
+    () => {
+      if (showMebEnhancements !== formData.showMebEnhancements) {
+        setFormData({
+          ...formData,
+          showMebEnhancements,
+        });
+      }
+    },
+    [formData, setFormData, showMebEnhancements],
+  );
+
+  useEffect(
+    () => {
+      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
+        setFormData({
+          ...formData,
+          showMebEnhancements06,
+        });
+      }
+    },
+    [formData, setFormData, showMebEnhancements06],
   );
 
   useEffect(
@@ -64,12 +102,12 @@ function ToeApp({
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
-      if (!fetchedUserInfo) {
-        setFetchedUserInfo(true);
-        getPersonalInformation();
+      if (!fetchedDirectDeposit) {
+        setFetchedDirectDeposit(true);
+        getDirectDeposit();
       }
     },
-    [fetchedUserInfo, getPersonalInformation, user?.login?.currentlyLoggedIn],
+    [fetchedDirectDeposit, getDirectDeposit, user?.login?.currentlyLoggedIn],
   );
 
   return (
@@ -77,6 +115,9 @@ function ToeApp({
       <va-breadcrumbs>
         <a href="/">Home</a>
         <a href="/education">Education and training</a>
+        <a href="/education/survivor-dependent-benefits/transferred-benefits/">
+          VA education benefits for survivors and dependents
+        </a>
         <a href="/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e">
           Apply to use transferred education benefits
         </a>
@@ -91,10 +132,13 @@ function ToeApp({
 ToeApp.propTypes = {
   children: PropTypes.object,
   formData: PropTypes.object,
+  getDirectDeposit: PropTypes.func,
   getPersonalInformation: PropTypes.func,
-  getSponsors: PropTypes.func,
+  isLOA3: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
+  showMebEnhancements: PropTypes.bool,
+  showMebEnhancements06: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
@@ -103,9 +147,9 @@ ToeApp.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  ...getAppData(state),
   formData: state.form?.data || {},
   claimant: state.data?.formData?.data?.attributes?.claimant,
-  fetchedSponsors: state.data?.fetchedSponsors,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
   sponsors: state.form?.data?.sponsors,
   sponsorsInitial: state?.data?.sponsors,
@@ -114,7 +158,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getSponsors: fetchSponsors,
+  getDirectDeposit: fetchDirectDeposit,
   getPersonalInformation: fetchPersonalInformation,
   setFormData: setData,
 };

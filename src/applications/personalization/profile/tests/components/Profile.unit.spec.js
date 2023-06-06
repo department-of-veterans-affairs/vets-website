@@ -3,10 +3,10 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import backendServices from 'platform/user/profile/constants/backendServices';
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import backendServices from '~/platform/user/profile/constants/backendServices';
+import { RequiredLoginView } from '~/platform/user/authorization/components/RequiredLoginView';
 
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 import {
   ProfileUnconnected as Profile,
   mapStateToProps,
@@ -16,22 +16,22 @@ describe('Profile', () => {
   let defaultProps;
   let fetchFullNameSpy;
   let fetchMilitaryInfoSpy;
-  let fetchMHVAccountSpy;
   let fetchCNPPaymentInfoSpy;
   let fetchPersonalInfoSpy;
   let fetchTotalDisabilityRatingSpy;
+  let connectDrupalSourceOfTruthCernerSpy;
 
   beforeEach(() => {
     fetchFullNameSpy = sinon.spy();
     fetchMilitaryInfoSpy = sinon.spy();
-    fetchMHVAccountSpy = sinon.spy();
     fetchCNPPaymentInfoSpy = sinon.spy();
     fetchPersonalInfoSpy = sinon.spy();
     fetchTotalDisabilityRatingSpy = sinon.spy();
+    connectDrupalSourceOfTruthCernerSpy = sinon.spy();
 
     defaultProps = {
+      connectDrupalSourceOfTruthCerner: connectDrupalSourceOfTruthCernerSpy,
       fetchFullName: fetchFullNameSpy,
-      fetchMHVAccount: fetchMHVAccountSpy,
       fetchMilitaryInformation: fetchMilitaryInfoSpy,
       fetchCNPPaymentInformation: fetchCNPPaymentInfoSpy,
       fetchPersonalInformation: fetchPersonalInfoSpy,
@@ -45,6 +45,8 @@ describe('Profile', () => {
       location: {
         pathname: '/profile/personal-information',
       },
+      useLighthouseDirectDepositEndpoint: false,
+      togglesLoaded: true,
     };
   });
 
@@ -115,12 +117,6 @@ describe('Profile', () => {
       });
     });
 
-    it('should fetch the My HealtheVet data', () => {
-      const wrapper = shallow(<Profile {...defaultProps} />);
-      expect(fetchMHVAccountSpy.called).to.be.true;
-      wrapper.unmount();
-    });
-
     describe('when `shouldFetchCNPDirectDepositInformation` is `true`', () => {
       it('should fetch the payment information data', () => {
         const wrapper = shallow(<Profile {...defaultProps} />);
@@ -189,6 +185,9 @@ describe('mapStateToProps', () => {
     },
     loa: {
       current: 3,
+    },
+    featureToggles: {
+      loading: false,
     },
   });
   const makeDefaultVaProfileState = () => ({
@@ -286,6 +285,9 @@ describe('mapStateToProps', () => {
       'shouldFetchEDUDirectDepositInformation',
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',
+      'isBlocked',
+      'useLighthouseDirectDepositEndpoint',
+      'togglesLoaded',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
   });
@@ -375,17 +377,6 @@ describe('mapStateToProps', () => {
         const props = mapStateToProps(state);
         expect(props.showLoader).to.be.true;
       });
-
-      it('is `true` when the call to fetch MHV info has not resolved but all others have', () => {
-        const state = makeDefaultState();
-        state.user.profile.mhvAccount = {
-          accountState: null,
-          errors: null,
-          loading: false,
-        };
-        const props = mapStateToProps(state);
-        expect(props.showLoader).to.be.true;
-      });
     });
 
     describe('when direct deposit info should not be fetched because the user has not set up 2FA', () => {
@@ -426,16 +417,6 @@ describe('mapStateToProps', () => {
 
       it('is `true` when the call to fetch the full name has not resolved', () => {
         delete state.vaProfile.hero;
-        const props = mapStateToProps(state);
-        expect(props.showLoader).to.be.true;
-      });
-
-      it('is `true` when the call to fetch MHV info has not resolved', () => {
-        state.user.profile.mhvAccount = {
-          accountState: null,
-          errors: null,
-          loading: false,
-        };
         const props = mapStateToProps(state);
         expect(props.showLoader).to.be.true;
       });

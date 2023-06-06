@@ -55,10 +55,13 @@ describe('Discharge Wizard <FormQuestions />', () => {
       'Do you want to change your name, discharge date, or anything written in the “other remarks” section of your DD214?',
     );
     expect(html).to.include(
-      `Was your discharge the outcome of a <strong>general</strong> court-martial?`,
+      `Was your discharge the outcome of a general court-martial?`,
     );
     expect(html).to.include(
-      'Have you previously applied for and been denied a discharge upgrade for this period of service? Note: You can still apply. Your answer to this question simply changes where you send your application.',
+      'Have you previously applied for and been denied a discharge upgrade for this period of service?',
+    );
+    expect(html).to.include(
+      'Note: You can still apply. Your answer to this question simply changes where you send your application.',
     );
     expect(html).to.include('What year did you apply for a discharge upgrade?');
     expect(html).to.include(
@@ -112,8 +115,12 @@ describe('Discharge Wizard <FormQuestions />', () => {
       />,
     );
 
-    expect(wrapper.find('input[name="1_branchOfService"]')).to.have.lengthOf(5);
-    expect(wrapper.find('select[name="2_dischargeYear"]')).to.have.lengthOf(1);
+    expect(
+      wrapper.find('va-radio[name="1_branchOfService"] va-radio-option'),
+    ).to.have.lengthOf(5);
+    expect(wrapper.find('va-select[name="2_dischargeYear"]')).to.have.lengthOf(
+      1,
+    );
     expect(wrapper.find('select[name="4_reason"]')).to.have.lengthOf(0);
 
     wrapper.unmount();

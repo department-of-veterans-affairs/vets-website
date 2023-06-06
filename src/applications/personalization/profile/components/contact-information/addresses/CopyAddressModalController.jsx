@@ -4,19 +4,21 @@ import { connect } from 'react-redux';
 import set from 'lodash/set';
 
 // vap-svc deps
-import { updateCopyAddressModal, createTransaction } from '@@vap-svc/actions';
-import * as VAP_SERVICE from '@@vap-svc/constants';
-import { areAddressesEqual } from '@@vap-svc/util';
+import * as VAP_SERVICE from 'platform/user/profile/vap-svc/constants';
+import {
+  updateCopyAddressModal,
+  createTransaction,
+} from '~/platform/user/profile/vap-svc/actions';
+import { areAddressesEqual } from '~/platform/user/profile/vap-svc/util';
 import {
   selectCopyAddressModal,
   selectVAPContactInfoField,
   selectVAPServiceTransaction,
-} from '@@vap-svc/selectors';
-import { isPendingTransaction } from '@@vap-svc/util/transactions';
+} from '~/platform/user/profile/vap-svc/selectors';
+import { isPendingTransaction } from '~/platform/user/profile/vap-svc/util/transactions';
 
 // profile deps
-import { profileShowAddressChangeModal } from '@@profile/selectors';
-import { getProfileInfoFieldAttributes } from '@@profile/util/getProfileInfoFieldAttributes';
+import { getProfileInfoFieldAttributes } from '../../../util/getProfileInfoFieldAttributes';
 
 // platform deps
 import { focusElement } from '~/platform/utilities/ui';
@@ -29,7 +31,6 @@ const CopyAddressModal = props => {
   const {
     mailingAddress = null,
     homeAddress,
-    shouldProfileShowAddressChangeModal,
     transaction,
     transactionRequest,
     copyAddressModal,
@@ -107,35 +108,33 @@ const CopyAddressModal = props => {
     },
   };
 
+  // TODO: make this logic for showing the modal more straightforward
   return (
     <>
       {(copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PROMPT ||
-        copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PENDING) &&
-        shouldProfileShowAddressChangeModal && (
-          <CopyAddressModalPrompt
-            isLoading={isLoading}
-            homeAddress={homeAddress}
-            mailingAddress={mailingAddress}
-            onClose={handlers.onCloseModal}
-            onYes={handlers.onYes}
-            visible
-          />
-        )}
-      {copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.SUCCESS &&
-        shouldProfileShowAddressChangeModal && (
-          <CopyAddressModalSuccess
-            address={homeAddress}
-            onClose={handlers.onCloseSuccessModal}
-            visible
-          />
-        )}
-      {copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.FAILURE &&
-        shouldProfileShowAddressChangeModal && (
-          <CopyAddressModalFailure
-            onClose={handlers.onCloseFailureModal}
-            visible
-          />
-        )}
+        copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PENDING) && (
+        <CopyAddressModalPrompt
+          isLoading={isLoading}
+          homeAddress={homeAddress}
+          mailingAddress={mailingAddress}
+          onClose={handlers.onCloseModal}
+          onYes={handlers.onYes}
+          visible
+        />
+      )}
+      {copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.SUCCESS && (
+        <CopyAddressModalSuccess
+          address={homeAddress}
+          onClose={handlers.onCloseSuccessModal}
+          visible
+        />
+      )}
+      {copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.FAILURE && (
+        <CopyAddressModalFailure
+          onClose={handlers.onCloseFailureModal}
+          visible
+        />
+      )}
     </>
   );
 };
@@ -149,7 +148,6 @@ CopyAddressModal.propTypes = {
   updateCopyAddressModalAction: PropTypes.func.isRequired,
   copyAddressModal: PropTypes.string,
   mailingAddress: PropTypes.object,
-  shouldProfileShowAddressChangeModal: PropTypes.bool,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
 };
@@ -183,7 +181,6 @@ export const mapStateToProps = state => {
       state,
       VAP_SERVICE.FIELD_NAMES.RESIDENTIAL_ADDRESS,
     ),
-    shouldProfileShowAddressChangeModal: profileShowAddressChangeModal(state),
     copyAddressModal: selectCopyAddressModal(state),
     transaction,
     transactionRequest,

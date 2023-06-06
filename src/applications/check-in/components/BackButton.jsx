@@ -1,15 +1,17 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router';
 
-import recordEvent from 'platform/monitoring/record-event';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import { createAnalyticsSlug } from '../utils/analytics';
 import { useFormRouting } from '../hooks/useFormRouting';
 import { URLS } from '../utils/navigation';
 
 const BackButton = props => {
-  const { action, router } = props;
+  const { action, prevUrl, router, text = null } = props;
   const {
     getCurrentPageFromRouter,
     getPreviousPageFromRouter,
@@ -39,15 +41,15 @@ const BackButton = props => {
       <nav
         aria-label={t('breadcrumb')}
         aria-live="polite"
-        className="va-nav-breadcrumbs va-nav-breadcrumbs--mobile"
+        className="row check-in-back-button columns"
       >
-        <ul className="row va-nav-breadcrumbs-list columns">
-          <li>
-            <a onClick={handleClick} href="#back" data-testid="back-button">
-              {t('back-to-last-screen')}
-            </a>
-          </li>
-        </ul>
+        <Link onClick={handleClick} to={prevUrl} data-testid="back-button">
+          <i
+            aria-hidden="true"
+            className="fas fa-angle-left vads-u-margin-right--0p25"
+          />
+          {text || t('back-to-last-screen')}
+        </Link>
       </nav>
     </>
   );
@@ -55,7 +57,9 @@ const BackButton = props => {
 
 BackButton.propTypes = {
   action: PropTypes.func,
+  prevUrl: PropTypes.string,
   router: PropTypes.object,
+  text: PropTypes.string,
 };
 
 export default BackButton;

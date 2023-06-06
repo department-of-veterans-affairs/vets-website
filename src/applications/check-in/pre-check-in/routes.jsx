@@ -10,13 +10,16 @@ import Confirmation from './pages/Confirmation';
 import Landing from './pages/Landing';
 import Error from './pages/Error';
 import ErrorTest from './pages/ErrorTest';
+import AppointmentDetails from '../components/pages/AppointmentDetails';
 import { URLS } from '../utils/navigation';
 
 import withFeatureFlip from '../containers/withFeatureFlip';
 import withAuthorization from '../containers/withAuthorization';
 import withForm from '../containers/withForm';
 import { withAppSet } from '../containers/withAppSet';
+import { withError } from '../containers/withError';
 
+import ReloadWrapper from '../components/layout/ReloadWrapper';
 import ErrorBoundary from '../components/errors/ErrorBoundary';
 
 const routes = [
@@ -38,6 +41,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.NEXT_OF_KIN,
@@ -46,6 +50,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.EMERGENCY_CONTACT,
@@ -54,6 +59,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.INTRODUCTION,
@@ -70,10 +76,20 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.ERROR,
     component: Error,
+  },
+  {
+    path: `${URLS.APPOINTMENT_DETAILS}/:appointmentId`,
+    component: AppointmentDetails,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
   },
 ];
 
@@ -82,7 +98,7 @@ const createRoutesWithStore = () => {
     <Switch>
       {routes.map((route, i) => {
         const options = { isPreCheckIn: true };
-        let component = props => (
+        let Component = props => (
           /* eslint-disable react/jsx-props-no-spreading */
           <ErrorBoundary {...props}>
             <route.component {...props} />
@@ -92,18 +108,35 @@ const createRoutesWithStore = () => {
         if (route.permissions) {
           const { requiresForm, requireAuthorization } = route.permissions;
           if (requiresForm) {
-            component = withForm(component, options);
+            Component = withForm(Component, options);
           }
           if (requireAuthorization) {
-            component = withAuthorization(component, options);
+            Component = withAuthorization(Component, options);
           }
         }
         // Add feature flip
-        component = withFeatureFlip(component, options);
+        Component = withFeatureFlip(Component, options);
         // Add app name
-        component = withAppSet(component, options);
+        Component = withAppSet(Component, options);
+        // Catch Errors
+        Component = withError(Component);
 
-        return <Route path={`/${route.path}`} component={component} key={i} />;
+        const WrappedComponent = props => {
+          /* eslint-disable react/jsx-props-no-spreading */
+          if (route.reloadable) {
+            return (
+              <ReloadWrapper isPreCheckIn {...props}>
+                <Component {...props} />
+              </ReloadWrapper>
+            );
+          }
+          return <Component {...props} />;
+          /* eslint-disable react/jsx-props-no-spreading */
+        };
+
+        return (
+          <Route path={`/${route.path}`} component={WrappedComponent} key={i} />
+        );
       })}
       {!environment.isProduction() && (
         <Route

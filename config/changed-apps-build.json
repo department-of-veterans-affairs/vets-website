@@ -76,6 +76,10 @@
     {
       "rootFolder": "lgy",
       "slackGroup": "@benefits-app-builds"
+    },
+    {
+      "rootFolder": "claims-status",
+      "slackGroup": "@benefits-app-builds"
     }
   ]
 }

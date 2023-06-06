@@ -7,42 +7,81 @@ class Confirmation {
       .and('include.text', 'checked in');
   };
 
-  validatePageLoadedWithBtsssSubmission = () => {
+  validateBtsssIssue = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('include.text', 'And we received your reimbursement claim');
+      .and('include.text', "But we couldn't file your travel claim.");
+  };
+
+  validatePageLoadedWithNoBtsssClaim = () => {
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('include.text', 'You’re checked in');
+    cy.get('[data-testid="travel-pay-info-message"]', {
+      timeout: Timeouts.slow,
+    })
+      .should('be.visible')
+      .and(
+        'include.text',
+        'VA travel pay reimbursement pays eligible Veterans',
+      );
+  };
+
+  validatePageLoadedWithBtsssSubmission = () => {
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
     cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('include.text', 'Reimbursement claim number');
+      .and('include.text', 'We’re processing your travel reimbursement claim.');
   };
 
   validatePageLoadedWithBtsssIneligible = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('include.text', "couldn't file your travel claim");
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
     cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .and(
         'include.text',
-        "We can't file this type of reimbursement claim for you",
+        'We’re sorry. We can’t file this type of travel reimbursement claim for you',
       );
   };
 
-  validatePageLoadedWithBtsssSubmissionFailure = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('include.text', "couldn't file your travel claim");
+  validatePageLoadedWithBtsssGenericFailure = () => {
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
     cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('include.text', 'TRAVEL CLAIM ERROR PLACEHOLDER');
+      .and(
+        'include.text',
+        "We’re sorry, something went wrong on our end. We can't file a travel reimbursement claim for you now. But you can still file within 30 days of the appointment.",
+      );
   };
 
-  validateBackButton = () => {
-    cy.get('[data-testid=go-to-appointments-button]', {
-      timeout: Timeouts.slow,
-    })
+  validatePageLoadedWithBtsssTravelClaimExistsFailure = () => {
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
+    cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('include.text', 'Go to another appointment');
+      .and(
+        'include.text',
+        'You can check the status of your travel reimbursement claim online 24/7 on the Beneficiary Travel Self Service System (BTSSS). You can access BTSSS through the AccessVA travel claim portal.',
+      );
+  };
+
+  validateBackButton = appointmentCount => {
+    if (appointmentCount > 1) {
+      cy.get('[data-testid=go-to-appointments-button]', {
+        timeout: Timeouts.slow,
+      })
+        .should('be.visible')
+        .and('include.text', "Back to today's appointments");
+    } else {
+      cy.get('[data-testid=go-to-appointments-button]', {
+        timeout: Timeouts.slow,
+      }).should('not.exist');
+    }
+  };
+
+  validateConfirmationAlert = () => {
+    cy.get('[data-testid="confirmation-alert"]')
+      .invoke('text')
+      .should('have.length.gt', 0);
   };
 
   validateBTSSSLink = () => {
@@ -52,11 +91,24 @@ class Confirmation {
     );
     cy.get('div[data-testid="btsss-link"] a:first')
       .invoke('attr', 'href')
-      .should('contain', '/health-care/get-reimbursed-for-travel-pay/');
+      .should(
+        'contain',
+        '/resources/how-to-file-a-va-travel-reimbursement-claim-online/',
+      );
+  };
+
+  validateExtraFooterMessage = () => {
+    cy.get('div[data-testid="day-of-travel-extra-message"]').should(
+      'be.visible',
+    );
   };
 
   attemptGoBackToAppointments = () => {
     cy.get('[data-testid=go-to-appointments-button]').click();
+  };
+
+  clickDetails = () => {
+    cy.get('[data-testid=details-link]').click();
   };
 }
 

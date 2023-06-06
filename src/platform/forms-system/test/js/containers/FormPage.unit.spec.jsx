@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import { mount } from 'enzyme';
@@ -173,7 +173,7 @@ describe('Schemaform <FormPage>', () => {
             type="button"
             onClick={e => {
               e.preventDefault();
-              goToPath('/testing');
+              goToPath('/testing?index=3');
             }}
           >
             go
@@ -192,7 +192,7 @@ describe('Schemaform <FormPage>', () => {
     );
 
     fireEvent.click(getByText(/go/));
-    expect(router.push.calledWith('/testing')).to.be.true;
+    expect(router.push.calledWith('/testing?index=3')).to.be.true;
   });
   it('should go back to the previous page if the custom path is invalid', () => {
     const router = {
@@ -477,16 +477,23 @@ describe('Schemaform <FormPage>', () => {
 
     it('should render a custom component instead of SchemaForm', () => {
       const CustomPage = () => <div>Hello, world!</div>;
+      const contentBeforeButtons = 'before';
+      const contentAfterButtons = 'after';
       const tree = SkinDeep.shallowRender(
         <FormPage
           form={makeBypassForm(CustomPage)()}
           route={makeBypassRoute(CustomPage)()}
           location={location}
+          contentBeforeButtons={contentBeforeButtons}
+          contentAfterButtons={contentAfterButtons}
         />,
       );
 
       expect(tree.everySubTree('SchemaForm')).to.be.empty;
       expect(tree.everySubTree('CustomPage')).not.to.be.empty;
+      const { props } = tree.everySubTree('CustomPage')[0].getRenderOutput();
+      expect(props.contentBeforeButtons).to.equal(contentBeforeButtons);
+      expect(props.contentAfterButtons).to.equal(contentAfterButtons);
     });
 
     it('should return the entire form data to the CustomPage when showPagePerIndex is true', () => {
@@ -512,6 +519,54 @@ describe('Schemaform <FormPage>', () => {
       expect(
         tree.everySubTree('CustomPage')[0].getRenderOutput().props.data,
       ).to.deep.equal({ arrayProp: [{}], someOtherProp: 'asdf' });
+    });
+
+    it('should focus on ".nav-header > h2" when useCustomScrollAndFocus is not set in form config', async () => {
+      const CustomPage = () => (
+        <div id="main" className="nav-header">
+          <div name="topScrollElement" />
+          <h2>H2</h2>
+          <h3>H3</h3>
+        </div>
+      );
+      render(
+        <FormPage
+          form={makeBypassForm(CustomPage)()}
+          route={{
+            ...makeBypassRoute(CustomPage)(),
+            formConfig: { useCustomScrollAndFocus: false },
+          }}
+          location={location}
+        />,
+      );
+
+      await waitFor(() => {
+        expect(document.activeElement.tagName).to.eq('H2');
+      });
+    });
+
+    it('should focus on "#main h3" when useCustomScrollAndFocus is set in form config', async () => {
+      const CustomPage = () => (
+        <div id="main">
+          <div name="topScrollElement" />
+          <h2>H2</h2>
+          <h3>H3</h3>
+        </div>
+      );
+      render(
+        <FormPage
+          form={makeBypassForm(CustomPage)()}
+          route={{
+            ...makeBypassRoute(CustomPage)(),
+            formConfig: { useCustomScrollAndFocus: true },
+          }}
+          location={location}
+        />,
+      );
+
+      await waitFor(() => {
+        expect(document.activeElement.tagName).to.eq('H3');
+      });
     });
   });
 });

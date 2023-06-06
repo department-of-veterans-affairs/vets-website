@@ -1,12 +1,14 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
 import { isPlainObject } from 'lodash';
-
-import { VA_FORM_IDS } from 'platform/forms/constants';
-import recordEvent from 'platform/monitoring/record-event';
-import { getAppUrl } from 'platform/utilities/registry-helpers';
+import { isAfter, parse } from 'date-fns';
+import { VA_FORM_IDS } from '~/platform/forms/constants';
+import recordEvent from '~/platform/monitoring/record-event';
+import { getAppUrl } from '~/platform/utilities/registry-helpers';
 
 export const formBenefits = {
+  [VA_FORM_IDS.FORM_21_10210]: 'lay/witness statement',
+  [VA_FORM_IDS.FORM_21_4142]: 'authorization to release medical information',
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability compensation',
   [VA_FORM_IDS.FORM_21P_527EZ]: 'Veterans pension benefits',
   [VA_FORM_IDS.FORM_21P_530]: 'burial benefits',
@@ -21,6 +23,7 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_22_5490]: 'education benefits',
   [VA_FORM_IDS.FORM_22_5495]: 'education benefits',
   [VA_FORM_IDS.FORM_22_10203]: 'Rogers STEM Scholarship',
+  [VA_FORM_IDS.FORM_26_4555]: 'specially adapted housing grant',
   [VA_FORM_IDS.FORM_40_10007]:
     'pre-need determination of eligibility in a VA national cemetery',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
@@ -69,6 +72,8 @@ export const formLinks = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: `${getAppUrl('feedback-tool')}/`,
   [VA_FORM_IDS.FORM_10_10EZ]: `${getAppUrl('hca')}/`,
   [VA_FORM_IDS.FORM_20_0996]: `${getAppUrl('0996-higher-level-review')}/`,
+  [VA_FORM_IDS.FORM_21_10210]: `${getAppUrl('10210-lay-witness-statement')}/`,
+  [VA_FORM_IDS.FORM_21_4142]: `${getAppUrl('21-4142-medical-release')}/`,
   [VA_FORM_IDS.FORM_21_526EZ]: `${getAppUrl('526EZ-all-claims')}/`,
   [VA_FORM_IDS.FORM_21_686C]: `${getAppUrl('686C-674')}/`,
   [VA_FORM_IDS.FORM_21P_527EZ]: `${getAppUrl('pensions')}/`,
@@ -83,12 +88,15 @@ export const formLinks = {
   [VA_FORM_IDS.FORM_22_5490]: `${getAppUrl('5490-edu-benefits')}/`,
   [VA_FORM_IDS.FORM_22_5495]: `${getAppUrl('5495-edu-benefits')}/`,
   [VA_FORM_IDS.FORM_22_10203]: `${getAppUrl('10203-edu-benefits')}/`,
+  [VA_FORM_IDS.FORM_26_4555]: `${getAppUrl('4555-adapted-housing')}/`,
   [VA_FORM_IDS.FORM_40_10007]: `${getAppUrl('pre-need')}/`,
   [VA_FORM_IDS.FORM_5655]: `${getAppUrl('request-debt-help-form-5655')}/`,
   [VA_FORM_IDS.FORM_VA_2346A]: `${getAppUrl('order-form-2346')}/`,
 };
 
 export const trackingPrefixes = {
+  [VA_FORM_IDS.FORM_21_10210]: 'lay-witness-10210-',
+  [VA_FORM_IDS.FORM_21_4142]: 'medical-release-4142-',
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability-526EZ-',
   [VA_FORM_IDS.FORM_21P_527EZ]: 'pensions-527EZ-',
   [VA_FORM_IDS.FORM_21P_530]: 'burials-530-',
@@ -103,6 +111,7 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_22_5490]: 'edu-5490-',
   [VA_FORM_IDS.FORM_22_5495]: 'edu-5495-',
   [VA_FORM_IDS.FORM_22_10203]: 'edu-10203-',
+  [VA_FORM_IDS.FORM_26_4555]: 'adapted-housing-4555-',
   [VA_FORM_IDS.FORM_40_10007]: 'preneed-',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'gi_bill_feedback',
   [VA_FORM_IDS.FORM_21_686C]: '686-',
@@ -113,6 +122,8 @@ export const trackingPrefixes = {
 
 export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_10_10EZ,
+  VA_FORM_IDS.FORM_21_10210,
+  VA_FORM_IDS.FORM_21_4142,
   VA_FORM_IDS.FORM_21_686C,
   VA_FORM_IDS.FORM_21_526EZ,
   VA_FORM_IDS.FORM_21P_527EZ,
@@ -127,6 +138,7 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_22_5490,
   VA_FORM_IDS.FORM_22_5495,
   VA_FORM_IDS.FORM_22_10203,
+  VA_FORM_IDS.FORM_26_4555,
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FEEDBACK_TOOL,
   VA_FORM_IDS.FORM_20_0996,
@@ -224,25 +236,48 @@ export const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
     return (
       <div>
         <h2>{sectionTitle}</h2>
-        <va-alert
-          content={
-            <div>
-              <h4 className="usa-alert-heading">
-                {appName} is down for maintenance
-              </h4>
-              <p>
-                We’re making some updates to our {appName.toLowerCase()} tool.
-                We’re sorry it’s not working right now and hope to be finished
-                by {downtime.startTime.format('MMMM Do')},{' '}
-                {downtime.endTime.format('LT')}. Please check back soon.
-              </p>
-            </div>
-          }
-          isVisible
-          status="warning"
-        />
+        <va-alert status="warning" isVisible>
+          <h4 className="usa-alert-heading">
+            {appName} is down for maintenance
+          </h4>
+          <div>
+            We’re making some updates to our {appName.toLowerCase()} tool. We’re
+            sorry it’s not working right now and hope to be finished by{' '}
+            {downtime.startTime.format('MMMM Do')},{' '}
+            {downtime.endTime.format('LT')}. Please check back soon.
+          </div>
+        </va-alert>
       </div>
     );
   }
   return children;
+};
+
+// sort by parsing the date string into a date object
+export const sortStatementsByDate = statements => {
+  const dateFormat = 'MM/dd/yyyy';
+  return statements.sort(
+    (a, b) =>
+      parse(b.pSStatementDateOutput, dateFormat, new Date()) -
+      parse(a.pSStatementDateOutput, dateFormat, new Date()),
+  );
+};
+
+export const getLatestCopay = statements => {
+  return statements
+    ? statements.reduce((acc, currentCopay) => {
+        if (currentCopay.pSStatementDateOutput) {
+          if (!acc) {
+            return currentCopay;
+          }
+          return isAfter(
+            new Date(acc.pSStatementDateOutput),
+            new Date(currentCopay.pSStatementDateOutput),
+          )
+            ? acc
+            : currentCopay;
+        }
+        return acc;
+      }, null)
+    : null;
 };

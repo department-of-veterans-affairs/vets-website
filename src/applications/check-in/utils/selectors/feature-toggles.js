@@ -15,20 +15,17 @@ const selectFeatureToggles = createSelector(
     isTranslationDisclaimerSpanishEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceTranslationDisclaimerSpanishEnabled
     ],
-    isDayOfDemographicsFlagsEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceDayOfDemographicsFlagsEnabled
-    ],
-    isLorotaSecurityUpdatesEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceLorotaSecurityUpdatesEnabled
-    ],
-    isPhoneAppointmentsEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperiencePhoneAppointmentsEnabled
-    ],
-    isLorotaDeletionEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceLorotaDeletionEnabled
+    isTranslationDisclaimerTagalogEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceTranslationDisclaimerTagalogEnabled
     ],
     isTravelReimbursementEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceTravelReimbursement
+    ],
+    isBrowserMonitoringEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceBrowserMonitoring
+    ],
+    isPreCheckInActionLinkTopPlacementEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperiencePreCheckInActionLinkTopPlacement
     ],
   }),
   toggles => toggles,

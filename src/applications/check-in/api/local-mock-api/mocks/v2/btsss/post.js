@@ -1,9 +1,22 @@
 const createMockSuccessResponse = _data => {
-  return { data: { claimId: 'BT10934849' }, status: 200 };
+  return {
+    data: {
+      statusCode: 202,
+    },
+    status: 202,
+  };
 };
 
-const createMockFailedResponse = _data => {
-  return { data: { error: true } };
+const createMockFailedResponse = () => {
+  return {
+    data: {
+      error: true,
+    },
+    status: 500,
+  };
 };
 
-module.exports = { createMockSuccessResponse, createMockFailedResponse };
+module.exports = {
+  createMockSuccessResponse,
+  createMockFailedResponse,
+};

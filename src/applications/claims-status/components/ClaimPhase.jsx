@@ -1,9 +1,10 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
+
 import { getUserPhaseDescription } from '../utils/helpers';
 
 const stepClasses = {
@@ -41,10 +42,8 @@ export default class ClaimPhase extends React.Component {
 
   getEventDescription(event) {
     const { id, phase } = this.props;
-    const filesPath = `your-claims/${id}/document-request/${
-      event.trackedItemId
-    }`;
-    const file = event.filename || event.fileType || '';
+    const filesPath = `your-claims/${id}/document-request/${event.id}`;
+    const file = event.originalFileName || event.documentTypeLabel || '';
 
     switch (event.type) {
       case 'phase_entered':
@@ -64,46 +63,41 @@ export default class ClaimPhase extends React.Component {
       case 'completed':
         return <div className="claims-evidence-item">Your claim is closed</div>;
 
-      case 'still_need_from_you_list':
-      case 'still_need_from_others_list':
-        if (event.uploaded || event.status === 'SUBMITTED_AWAITING_REVIEW') {
-          return (
-            <div className="claims-evidence-item">
-              You or someone else submitted {event.displayName}.
-            </div>
-          );
+      case 'tracked_item':
+        switch (event.status) {
+          case 'NEEDED_FROM_YOU':
+          case 'NEEDED_FROM_OTHERS':
+            return (
+              <div className="claims-evidence-item">
+                We added a notice for:{' '}
+                <Link to={filesPath}>{event.displayName}</Link>
+              </div>
+            );
+          case 'SUBMITTED_AWAITING_REVIEW':
+            return (
+              <div className="claims-evidence-item">
+                You or someone else submitted {event.displayName}.
+              </div>
+            );
+          case 'INITIAL_REVIEW_COMPLETE':
+          case 'ACCEPTED':
+            return (
+              <div className="claims-evidence-item">
+                We have reviewed your submitted evidence for {event.displayName}
+                . We will notify you if we need additional information.
+              </div>
+            );
+          case 'NO_LONGER_REQUIRED':
+            return (
+              <div className="claims-evidence-item">
+                We closed the notice for {event.displayName}
+              </div>
+            );
+          default:
+            return null;
         }
-        return (
-          <div className="claims-evidence-item">
-            We added a notice for:{' '}
-            <Link to={filesPath}>{event.displayName}</Link>
-          </div>
-        );
 
-      case 'received_from_you_list':
-      case 'received_from_others_list':
-        if (event.status === 'SUBMITTED_AWAITING_REVIEW') {
-          return (
-            <div className="claims-evidence-item">
-              You or someone else submitted {event.displayName}.
-            </div>
-          );
-        }
-        return (
-          <div className="claims-evidence-item">
-            We have reviewed your submitted evidence for {event.displayName}. We
-            will notify you if we need additional information.
-          </div>
-        );
-      case 'never_received_from_you_list':
-      case 'never_received_from_others_list':
-        return (
-          <div className="claims-evidence-item">
-            We closed the notice for {event.displayName}
-          </div>
-        );
-
-      case 'other_documents_list':
+      case 'supporting_document':
         return (
           <div className="claims-evidence-item">
             You or someone else submitted {file ? `"${file}"` : 'a file'}.
@@ -189,7 +183,7 @@ export default class ClaimPhase extends React.Component {
   }
 
   render() {
-    const { phase, current, children } = this.props;
+    const { children, current, phase } = this.props;
     const { open } = this.state;
     const expandCollapseIcon =
       phase <= current ? (
@@ -221,6 +215,7 @@ export default class ClaimPhase extends React.Component {
           aria-expanded={open}
           onClick={handler.getDescriptionClick}
         >
+          {expandCollapseIcon}
           {titleText}
         </button>
       );
@@ -228,7 +223,6 @@ export default class ClaimPhase extends React.Component {
     return (
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
       <li className={`${getClasses(phase, current)}`}>
-        {expandCollapseIcon}
         <h4 className="section-header vads-u-font-size--h4">{title}</h4>
         {open || (current !== COMPLETE_PHASE && phase === COMPLETE_PHASE) ? (
           <div>

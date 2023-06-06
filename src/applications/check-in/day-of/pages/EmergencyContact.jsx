@@ -9,11 +9,10 @@ import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
 import { makeSelectVeteranData } from '../../selectors';
-
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../../utils/navigation';
 
 const EmergencyContact = props => {
-  const { isDayOfDemographicsFlagsEnabled } = props;
   const { router } = props;
   const { t } = useTranslation();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
@@ -23,9 +22,11 @@ const EmergencyContact = props => {
   const {
     goToNextPage,
     jumpToPage,
-    goToErrorPage,
     goToPreviousPage,
+    getPreviousPageFromRouter,
   } = useFormRouting(router);
+  const { setShouldSendDemographicsFlags } = useSessionStorage(false);
+
   const seeStaffMessage = t(
     'our-staff-can-help-you-update-your-emergency-contact-information',
   );
@@ -39,49 +40,47 @@ const EmergencyContact = props => {
 
   const yesClick = useCallback(
     () => {
-      if (isDayOfDemographicsFlagsEnabled) {
-        dispatch(recordAnswer({ emergencyContactUpToDate: 'yes' }));
-      }
+      dispatch(recordAnswer({ emergencyContactUpToDate: 'yes' }));
+      setShouldSendDemographicsFlags(window, true);
       goToNextPage();
     },
-    [dispatch, goToNextPage, isDayOfDemographicsFlagsEnabled],
+    [dispatch, goToNextPage, setShouldSendDemographicsFlags],
   );
 
   const noClick = useCallback(
     () => {
-      if (isDayOfDemographicsFlagsEnabled) {
-        dispatch(recordAnswer({ emergencyContactUpToDate: 'no' }));
-      }
+      dispatch(recordAnswer({ emergencyContactUpToDate: 'no' }));
+      setShouldSendDemographicsFlags(window, true);
       updateSeeStaffMessage(seeStaffMessage);
       jumpToPage(URLS.SEE_STAFF);
     },
     [
-      isDayOfDemographicsFlagsEnabled,
       dispatch,
       updateSeeStaffMessage,
       jumpToPage,
       seeStaffMessage,
+      setShouldSendDemographicsFlags,
     ],
   );
 
-  if (!emergencyContact) {
-    goToErrorPage('?error=no-emergency-contact');
-    return <></>;
-  }
   return (
     <>
-      <BackButton router={router} action={goToPreviousPage} />
+      <BackButton
+        router={router}
+        action={goToPreviousPage}
+        prevUrl={getPreviousPageFromRouter()}
+      />
       <EmergencyContactDisplay
         emergencyContact={emergencyContact}
         yesAction={yesClick}
         noAction={noClick}
+        router={router}
       />
     </>
   );
 };
 
 EmergencyContact.propTypes = {
-  isDayOfDemographicsFlagsEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 

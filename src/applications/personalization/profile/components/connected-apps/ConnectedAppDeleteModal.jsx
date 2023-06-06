@@ -41,7 +41,7 @@ export function ConnectedAppDeleteModal({
             Disconnect
           </button>
           <button className="usa-button-secondary" onClick={closeModal}>
-            Cancel
+            No, cancel this change
           </button>
         </>
       )}

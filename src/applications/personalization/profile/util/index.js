@@ -1,5 +1,7 @@
-import { apiRequest } from 'platform/utilities/api';
 import { FIELD_NAMES } from '@@vap-svc/constants';
+import { apiRequest } from '~/platform/utilities/api';
+
+export * from './analytics';
 
 // possible values for the `key` property on error messages we get from the server
 const ACCOUNT_FLAGGED_FOR_FRAUD_KEY = 'cnp.payment.flashes.on.record.message';
@@ -34,16 +36,25 @@ export async function getData(apiRoute, options) {
 
 const hasErrorMessage = (errors, errorKey, errorText) => {
   if (errorText) {
-    return errors.some(err =>
-      err.meta?.messages?.some(
-        message =>
-          message.key === errorKey &&
-          message.text?.toLowerCase().includes(errorText.toLowerCase()),
-      ),
+    return (
+      errors.some(err =>
+        err.meta?.messages?.some(
+          message =>
+            message.key === errorKey &&
+            message.text?.toLowerCase().includes(errorText.toLowerCase()),
+        ),
+      ) ||
+      errors.some(
+        err =>
+          err?.code === errorKey &&
+          err?.detail?.toLowerCase().includes(errorText.toLowerCase()),
+      )
     );
   }
-  return errors.some(err =>
-    err.meta?.messages?.some(message => message.key === errorKey),
+  return (
+    errors.some(err =>
+      err.meta?.messages?.some(message => message.key === errorKey),
+    ) || errors.some(err => err?.code === errorKey)
   );
 };
 
@@ -72,7 +83,7 @@ export const hasPaymentRestrictionIndicatorsError = errors =>
   hasErrorMessage(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY);
 
 export const cnpDirectDepositBankInfo = apiData => {
-  return apiData?.responses?.[0]?.paymentAccount;
+  return apiData?.paymentAccount;
 };
 
 export const eduDirectDepositAccountNumber = apiData => {
@@ -80,7 +91,7 @@ export const eduDirectDepositAccountNumber = apiData => {
 };
 
 const cnpDirectDepositAddressInfo = apiData => {
-  return apiData?.responses?.[0]?.paymentAddress;
+  return apiData?.paymentAddress;
 };
 
 export const isEligibleForCNPDirectDeposit = apiData => {

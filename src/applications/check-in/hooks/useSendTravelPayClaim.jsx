@@ -5,10 +5,10 @@ import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { useSessionStorage } from './useSessionStorage';
 import { useTravelPayFlags } from './useTravelPayFlags';
 
-const useSendTravelPayClaim = () => {
+const useSendTravelPayClaim = appointment => {
   const [isLoading, setIsLoading] = useState(false);
-  const [travelPayClaimData, setTravelPayClaimData] = useState(null);
   const [travelPayClaimError, setTravelPayClaimError] = useState(false);
+  const [travelPayClaimRequested, setTravelPayClaimRequested] = useState();
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
@@ -19,15 +19,20 @@ const useSendTravelPayClaim = () => {
     travelPayClaimSent,
     setTravelPayClaimSent,
     travelPayEligible,
-  } = useTravelPayFlags();
+  } = useTravelPayFlags(appointment);
 
   useEffect(
     () => {
+      if (travelPayData.travelQuestion) {
+        setTravelPayClaimRequested(true);
+      }
+
       if (
         isLoading ||
         !isTravelReimbursementEnabled ||
         travelPayClaimSent ||
         !travelPayEligible ||
+        !travelPayData.travelQuestion ||
         !getShouldSendTravelPayClaim(window)
       ) {
         return;
@@ -36,9 +41,6 @@ const useSendTravelPayClaim = () => {
       setIsLoading(true);
       api.v2
         .postDayOfTravelPayClaim(travelPayData)
-        .then(json => {
-          setTravelPayClaimData(json.data);
-        })
         .catch(() => {
           setTravelPayClaimError(true);
         })
@@ -62,7 +64,8 @@ const useSendTravelPayClaim = () => {
     travelPayClaimError,
     travelPayEligible,
     isLoading,
-    travelPayClaimData,
+    travelPayClaimRequested,
+    travelPayClaimSent,
   };
 };
 

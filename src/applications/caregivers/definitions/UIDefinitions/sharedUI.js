@@ -5,7 +5,7 @@ import platformSsnUI from 'platform/forms-system/src/js/definitions/ssn';
 import email from 'platform/forms-system/src/js/definitions/email';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
-import { validateSSNIsUnique } from '../../helpers';
+import { validateSSNIsUnique } from '../../utils/helpers';
 import { EmailEncouragementDescription } from '../../components/FormDescriptions';
 import AddressWithAutofill from '../../components/FormFields/AddressWithAutofill';
 

@@ -1,4 +1,3 @@
-
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .homepage-hero {
@@ -19,7 +18,7 @@
   &__welcome-headline {
     max-width: 100%;
     @media (min-width: $small-desktop-screen) {
-       max-width: 50%;
+      max-width: 50%;
     }
   }
 
@@ -57,8 +56,8 @@
   &__wrapper {
     background: linear-gradient(
       to bottom,
-      $color-primary-alt-lightest 0 50%,
-      $color-white 50% 100%
+      $color-white 0 40%,
+      $color-primary-alt-lightest 40% 100%
     );
   }
 
@@ -70,8 +69,8 @@
     &__wrapper {
       background: linear-gradient(
         to right,
-        $color-primary-alt-lightest 0 50%,
-        $color-white 50% 100%
+        $color-white 0 50%,
+        $color-primary-alt-lightest 50% 100%
       );
     }
     &__list {
@@ -80,7 +79,6 @@
       -moz-columns: 2;
     }
   }
-
 
   &__search-tools {
     ul {
@@ -92,6 +90,14 @@
 .homepage-blog {
   &__image {
     height: 100%;
+
+    // remove when moving away from prototype image
+    &.demo-image-adjustments {
+      overflow: hidden;
+      img {
+        transform: scale(170%) translateY(-35px);
+      }
+    }
 
     img {
       width: 100%;

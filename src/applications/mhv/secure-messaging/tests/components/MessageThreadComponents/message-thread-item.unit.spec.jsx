@@ -1,17 +1,131 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import messages from '../../fixtures/messages-response.json';
+import reducer from '../../../reducers';
+import messageResponse from '../../fixtures/message-response.json';
 import MessageThreadItem from '../../../components/MessageThread/MessageThreadItem';
+import { dateFormat } from '../../../util/helpers';
 
-describe('Meesage thread item', () => {
+describe('Message thread item', () => {
+  const setup = (message = messageResponse) => {
+    return renderWithStoreAndRouter(<MessageThreadItem message={message} />, {
+      reducers: reducer,
+    });
+  };
+
   it('renders without errors', () => {
-    const message = messages.data[0];
-    const screen = render(<MessageThreadItem message={message} />);
-    fireEvent.click(screen.getByTestId('expand-message-button'));
+    const screen = setup();
+
+    const accordion = document.querySelector('va-accordion-item');
     expect(
-      screen.getByTestId('message-body-attachments-label').textContent,
-    ).to.equal('Attachments');
+      screen.findByText(
+        dateFormat(messageResponse.sentDate, 'MMMM D [at] h:mm a z'),
+        { selector: 'h6' },
+      ),
+    ).to.exist;
+
+    expect(screen.queryByTestId('attachment-icon')).to.exist;
+
+    waitFor(
+      fireEvent.click(
+        screen.getByTestId(
+          `expand-message-button-${messageResponse.messageId}`,
+        ),
+      ),
+    );
+    expect(screen.getByTestId('message-date').textContent).to.equal(
+      dateFormat(messageResponse.sentDate, 'MMMM D, YYYY [at] h:mm a z'),
+    );
+    const attachmentIcon = screen.getByTestId('attachment-icon');
+    expect(attachmentIcon).to.exist;
+    expect(attachmentIcon.getAttribute('slot')).to.equal('subheader-icon');
+    expect(screen.getByTestId('from').textContent).to.equal(
+      `From: ${messageResponse.senderName} (${
+        messageResponse.triageGroupName
+      })`,
+    );
+    expect(screen.getByTestId('to').textContent).to.equal(
+      `To: ${messageResponse.recipientName}`,
+    );
+    expect(
+      accordion
+        .querySelector('[data-testid="message-body"]')
+        .textContent.trim(),
+    ).to.equal(messageResponse.body);
+    expect(screen.getByText(messageResponse.attachments[0].name)).to.exist;
+  });
+
+  it('message from patient renders without errors', () => {
+    const message = {
+      ...messageResponse,
+      recipientName: messageResponse.triageGroupName,
+    };
+    const screen = setup(message);
+    const accordion = document.querySelector('va-accordion-item');
+    expect(
+      screen.findByText(
+        dateFormat(messageResponse.sentDate, 'MMMM D [at] h:mm a z'),
+        { selector: 'h6' },
+      ),
+    ).to.exist;
+
+    expect(
+      document.querySelector('va-accordion-item').getAttribute('subheader'),
+    ).to.equal('Me');
+    expect(screen.getByTestId('message-date').textContent).to.equal(
+      dateFormat(messageResponse.sentDate, 'MMMM D, YYYY [at] h:mm a z'),
+    );
+    // message from patient, no triage group name in 'from' field
+    expect(screen.getByTestId('from').textContent).to.equal(
+      `From: ${messageResponse.senderName} `,
+    );
+    expect(screen.getByTestId('to').textContent).to.equal(
+      `To: ${messageResponse.triageGroupName}`,
+    );
+    expect(
+      accordion
+        .querySelector('[data-testid="message-body"]')
+        .textContent.trim(),
+    ).to.equal(messageResponse.body);
+    expect(screen.getByText(messageResponse.attachments[0].name)).to.exist;
+  });
+
+  it('message without attachment does not render attachment icon', () => {
+    const messageNoAttachment = {
+      ...messageResponse,
+      attachments: [],
+      attachment: false,
+    };
+    const screen = setup(messageNoAttachment);
+    expect(screen.queryByTestId('attachment-icon')).to.not.exist;
+    waitFor(
+      fireEvent.click(
+        screen.getByTestId(
+          `expand-message-button-${messageResponse.messageId}`,
+        ),
+      ),
+    );
+    expect(screen.queryByTestId('attachment-icon')).to.not.exist;
+  });
+
+  it('unread message render "unread" circle icon', () => {
+    const messageNoAttachment = {
+      ...messageResponse,
+      readReceipt: null,
+    };
+    const screen = setup(messageNoAttachment);
+    expect(screen.getByTestId('unread-icon')).to.exist;
+    waitFor(
+      fireEvent.click(
+        screen.getByTestId(
+          `expand-message-button-${messageResponse.messageId}`,
+        ),
+      ),
+    );
+    const icon = screen.getByTestId('unread-icon');
+    expect(icon).to.exist;
+    expect(icon.getAttribute('slot')).to.equal('icon');
   });
 });

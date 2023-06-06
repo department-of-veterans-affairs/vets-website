@@ -1,25 +1,84 @@
 import React from 'react';
-import recordEvent from 'platform/monitoring/record-event';
-import { FOOTER_EVENTS } from 'platform/site-wide/va-footer/helpers';
+import PropTypes from 'prop-types';
+import { openCrisisModal } from '../util/helpers';
 
-const EmergencyNote = () => (
-  <section className="emergency-note">
-    <p className="medium-screen:vads-u-margin-top--0">
-      <strong>Note:</strong> Call <va-telephone contact="911" /> if you have a
-      medical emergency. If you’re in crisis and need to talk with someone now,
-      call the{' '}
-      <button
-        onClick={() => recordEvent({ event: FOOTER_EVENTS.CRISIS_LINE })}
-        className="va-button-link va-overlay-trigger"
-        data-show="#modal-crisisline"
-        type="button"
-      >
-        Veterans Crisis Line
-      </button>
-      . To speak with a VA health care team member right away, contact your
-      local VA call center.
-    </p>
-  </section>
-);
+const EmergencyNote = props => {
+  const { dropDownFlag } = props;
+
+  const content = () => (
+    <>
+      <div className="vads-u-margin-bottom--2">
+        <p>
+          Your care team may take up to <strong>3 business days</strong> to
+          reply.
+        </p>
+        <p>
+          If you need help sooner, use one of these urgent communication
+          options:
+        </p>
+        <ul>
+          <li>
+            <strong>If you’re in crisis or having thoughts of suicide,</strong>{' '}
+            connect with our Veterans Crisis Line. We offer confidential support
+            anytime, day or night.
+          </li>
+          <va-button
+            className="vads-u-margin-top--1"
+            // style={{ position: 'relative', left: '-25px' }}
+            secondary
+            onClick={openCrisisModal}
+            text="Connect with the Veterans Crisis Line"
+          />
+          <li>
+            <strong>If you think your life or health is in danger,</strong> Call{' '}
+            <va-telephone contact="911" /> or go to the nearest emergency room.
+          </li>
+        </ul>
+      </div>
+    </>
+  );
+
+  return (
+    <>
+      {dropDownFlag ? (
+        <va-alert-expandable
+          status="info"
+          trigger="Only use messages for non-urgent needs"
+        >
+          <div className="vads-u-padding-x--1 vads-u-padding-bottom--1">
+            {content()}
+          </div>
+        </va-alert-expandable>
+      ) : (
+        <va-alert
+          background-only
+          class="vads-u-margin-bottom--1"
+          close-btn-aria-label="Close notification"
+          disable-analytics="false"
+          full-width="false"
+          status="warning"
+          visible="true"
+          show-icon={dropDownFlag}
+        >
+          <p>
+            {' '}
+            <i
+              className="fas fa-exclamation-triangle vads-u-margin-right--1p5"
+              aria-hidden="true"
+            />
+            <strong className="vads-u-margin-left--0p25">
+              Don’t use messages for emergencies
+            </strong>
+          </p>
+          {content()}
+        </va-alert>
+      )}
+    </>
+  );
+};
+
+EmergencyNote.propTypes = {
+  dropDownFlag: PropTypes.bool,
+};
 
 export default EmergencyNote;

@@ -1,40 +1,23 @@
-import React from 'react';
+// import React from 'react';
 
-import { formatDateRange } from '../utils/dates';
+import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
 
 export const content = {
-  page:
-    'First we’ll ask you about your VA medical records for your claimed disability.',
-  intro: (
-    <>
-      <h3>VA medical records</h3>
-      <p>Please tell us which VA treated you for your disability.</p>
-    </>
-  ),
-  locations: 'Locations',
+  title: (addOrEdit, index) =>
+    `${addOrEdit === 'add' ? 'Add' : 'Edit'} the ${numberToWords(
+      index || 1,
+    )} VA facility that treated you`,
+  description: 'We’ll request your VA medical records from this facility',
   locationAndName:
     'Name of VA medical center, VA treatment facility, or Federal department or agency',
-  dates: 'Date(s) of record',
-  dateStart: 'Start date',
-  dateEnd: 'End date',
+  conditions:
+    'Choose the conditions you received treatment for at this facility.',
+  dateStart: 'First treatment date (you can estimate)',
+  dateEnd: 'Last treatment date (you can estimate)',
+  addAnother: 'Add another location',
+  modalTitle: ({ locationAndName }) =>
+    `Do you want to keep ${locationAndName || 'this location'}?`,
+  modalDescription: 'We’ve saved your current information.',
+  modalYes: 'Yes, keep location',
+  modalNo: 'No, remove location',
 };
-
-export const locationView = props => {
-  const { formData } = props;
-  const { locationAndName, evidenceDates } = formData;
-  const name = locationAndName || 'Unknown location';
-  const dates =
-    evidenceDates?.map(dateRange => {
-      const range = formatDateRange(dateRange);
-      return range ? <li key={range}>{range}</li> : null;
-    }) || null;
-
-  return (
-    <div key={`${name}`}>
-      <h3 className="vads-u-font-size--h5 vads-u-margin-top--0">{name}</h3>
-      <ul>{dates}</ul>
-    </div>
-  );
-};
-
-export const datesView = ({ formData }) => formatDateRange(formData);

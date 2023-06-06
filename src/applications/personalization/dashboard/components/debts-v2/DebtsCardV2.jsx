@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
-import { currency } from '../../utils/helpers';
 
 export const DebtsV2 = ({ debts }) => {
-  const totalDebt = debts.reduce((acc, d) => acc + d.currentAr, 0);
   const debtHistory = debts.reduce(
     (acc, debt) => (debt.debtHistory ? acc.concat(debt.debtHistory) : acc),
     [],
@@ -42,30 +40,28 @@ export const DebtsV2 = ({ debts }) => {
   }
 
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
+    <div className="vads-u-display--flex vads-u-margin-bottom--3">
       <div
-        className="vads-u-background-color--gray-lightest vads-u-padding-y--2p5 vads-u-padding-x--2p5"
+        className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-background-color--gray-lightest vads-u-padding--2p5"
         data-testid="debt-card-v2"
       >
         <h3 className="vads-u-margin-top--0" data-testid="debt-total-header-v2">
-          ({currency(totalDebt)})
-        </h3>
-        <h4 className="vads-u-margin-top--0">
           {debtsCount} overpayment debt
           {debtsCount > 1 ? 's' : ''}
-        </h4>
+        </h3>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-          Last updated {formattedLastUpdatedDate}
+          Updated on {formattedLastUpdatedDate}
         </p>
         <CTALink
           text="Manage your VA debt"
           href="/manage-va-debt/your-debt"
           showArrow
+          className="vads-u-font-weight--bold"
           onClick={() =>
             recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': 'view-manage-va-debt',
+              event: 'dashboard-navigation',
+              'dashboard-action': 'view-link',
+              'dashboard-product': 'view-manage-va-debt',
             })
           }
           testId="manage-va-debt-link-v2"

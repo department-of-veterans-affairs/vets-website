@@ -1,3 +1,29 @@
+// declare alert types for enrollment status helpers
+export const DASHBOARD_ALERT_TYPES = Object.freeze({
+  closed: 'closed', // Black, exclamation mark
+  decision: 'decision', // Red, exclamation mark
+  enrolled: 'enrolled', // Green, checkmark
+  inProgress: 'in-progress', // Blue, pause (TBD)
+  update: 'update', // Gold, exclamation
+});
+
+// declare view fields for use in household section
+export const DEPENDENT_VIEW_FIELDS = {
+  report: 'view:reportDependents',
+  skip: 'view:skipDependentInfo',
+};
+
+// declare labels for discharge type select box
+export const DISCHARGE_TYPE_LABELS = {
+  honorable: 'Honorable',
+  general: 'General',
+  other: 'Other Than Honorable',
+  'bad-conduct': 'Bad Conduct',
+  dishonorable: 'Dishonorable',
+  undesirable: 'Undesirable',
+};
+
+// declare enrollment status strings
 export const HCA_ENROLLMENT_STATUSES = Object.freeze({
   activeDuty: 'activeduty',
   canceledDeclined: 'canceled_declined',
@@ -28,39 +54,11 @@ export const HCA_ENROLLMENT_STATUSES = Object.freeze({
   rejectedRightEntry: 'rejected_rightentry',
 });
 
-// declare alert types for enrollment status helpers
-export const DASHBOARD_ALERT_TYPES = Object.freeze({
-  closed: 'closed', // Black, exclamation mark
-  decision: 'decision', // Red, exclamation mark
-  enrolled: 'enrolled', // Green, checkmark
-  inProgress: 'in-progress', // Blue, pause (TBD)
-  update: 'update', // Gold, exclamation
-});
-
-export const IS_LOGGED_IN = 'isVeteranLoggedIn';
-export const USER_DOB = 'veteranDOB';
-export const IS_GTE_HIGH_DISABILITY =
-  'isVetetanDisabilityRatingGreaterThanOrEqualToHighDisability';
-export const IS_COMPENSATION_TYPE_HIGH =
-  'isCompensationTypeHighDisabilitySelected';
-export const IS_VETERAN_IN_MVI = 'isVeteranDataInMPI';
-export const IS_SHORT_FORM_ENABLED = 'isShortFormFeatureToggleEnabled';
-
-// declare states without medical care serivces
-export const statesWithoutService = ['AA', 'AE', 'AP', 'FM', 'MH', 'PW'];
-
-// declare labels for discharge type select box
-export const dischargeTypeLabels = {
-  honorable: 'Honorable',
-  general: 'General',
-  other: 'Other Than Honorable',
-  'bad-conduct': 'Bad Conduct',
-  dishonorable: 'Dishonorable',
-  undesirable: 'Undesirable',
-};
+// declare the minimum percentage value to be considered high disability
+export const HIGH_DISABILITY_MINIMUM = 50;
 
 // declare labels for last service branch select box
-export const lastServiceBranchLabels = {
+export const SERVICE_BRANCH_LABELS = {
   'air force': 'Air Force',
   army: 'Army',
   'coast guard': 'Coast Guard',
@@ -76,3 +74,20 @@ export const lastServiceBranchLabels = {
   'f.scouts old': 'Filipino Old Scout',
   other: 'Other',
 };
+
+// declare name to use for window session storage item
+export const SESSION_ITEM_NAME = 'hcaDependentIndex';
+
+/**
+ * declare routes that are shared between custom form pages
+ * NOTE: for household v2 routes, these need renamed when v2 is fully-adopted
+ */
+export const SHARED_PATHS = {
+  dependents: {
+    summary: 'household-information-v2/dependents',
+    info: 'household-information-v2/dependent-information',
+  },
+};
+
+// declare states without medical care serivces
+export const STATES_WITHOUT_MEDICAL = ['AA', 'AE', 'AP', 'FM', 'MH', 'PW'];
