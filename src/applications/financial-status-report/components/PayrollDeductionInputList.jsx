@@ -29,7 +29,7 @@ const PayrollDeductionInputList = props => {
     personalData: {
       employmentHistory: {
         newRecord = {},
-        spouse: { employmentRecords = [] },
+        veteran: { employmentRecords = [] },
       },
     },
   } = formData;
@@ -62,7 +62,7 @@ const PayrollDeductionInputList = props => {
     e.preventDefault();
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
-      const updatedRecords = formData.personalData.employmentHistory.spouse.employmentRecords.map(
+      const updatedRecords = formData.personalData.employmentHistory.veteran.employmentRecords.map(
         (item, arrayIndex) => {
           return arrayIndex === index
             ? {
