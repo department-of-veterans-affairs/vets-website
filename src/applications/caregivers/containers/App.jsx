@@ -43,7 +43,7 @@ const mapStateToProps = state => ({
 App.propTypes = {
   loading: PropTypes.bool.isRequired,
   children: PropTypes.any,
-  location: PropTypes.string,
+  location: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 };
 
 export default connect(mapStateToProps)(App);

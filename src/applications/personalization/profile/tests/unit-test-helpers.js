@@ -1,7 +1,13 @@
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+/* eslint-disable camelcase */
+import React from 'react';
+import { Formik } from 'formik';
 
 import profile from '@@profile/reducers';
 import connectedApps from '@@profile/components/connected-apps/reducers/connectedApps';
+import {
+  renderInReduxProvider,
+  renderWithStoreAndRouter,
+} from '~/platform/testing/unit/react-testing-library-helpers';
 
 export function wait(timeout) {
   return new Promise(resolve => {
@@ -23,6 +29,18 @@ export function renderWithProfileReducers(
     reducers: { ...profile, connectedApps, ...reducers },
     initialState,
     ...renderOptions,
+  });
+}
+
+export function renderWithProfileReducersAndRouter(
+  ui,
+  { initialState = {}, reducers = {}, history = null, path = '/' } = {},
+) {
+  return renderWithStoreAndRouter(ui, {
+    reducers: { ...profile, connectedApps, ...reducers },
+    initialState,
+    path,
+    history,
   });
 }
 
@@ -193,3 +211,118 @@ export function createBasicInitialState() {
     },
   };
 }
+
+export function createFeatureTogglesState(customToggles = {}) {
+  return {
+    featureToggles: {
+      loading: false,
+      ...customToggles,
+    },
+  };
+}
+
+export function createVapServiceState(customState = {}) {
+  return {
+    vapService: {
+      hasUnsavedEdits: false,
+      formFields: {
+        homePhone: {
+          value: {
+            areaCode: '989',
+            countryCode: '1',
+            createdAt: '2018-04-20T17:22:56.000Z',
+            extension: '',
+            effectiveEndDate: null,
+            effectiveStartDate: '2022-03-11T16:31:55.000Z',
+            id: 2272982,
+            isInternational: false,
+            isTextable: null,
+            isTextPermitted: null,
+            isTty: null,
+            isVoicemailable: null,
+            phoneNumber: '8981233',
+            phoneType: 'HOME',
+            sourceDate: '2022-03-11T16:31:55.000Z',
+            sourceSystemUser: null,
+            transactionId: '2814cdf6-7f2c-431b-95f3-d37f3837215d',
+            updatedAt: '2022-03-11T16:31:56.000Z',
+            vet360Id: '1273766',
+            inputPhoneNumber: '9898981233',
+          },
+          formSchema: {
+            type: 'object',
+            properties: {
+              'view:noInternationalNumbers': {
+                type: 'object',
+                properties: {},
+              },
+              inputPhoneNumber: {
+                type: 'string',
+                pattern: '^\\d{10}$',
+              },
+              extension: {
+                type: 'string',
+                pattern: '^\\s*[a-zA-Z0-9]{0,10}\\s*$',
+              },
+            },
+            required: ['inputPhoneNumber'],
+          },
+          uiSchema: {
+            inputPhoneNumber: {
+              'ui:title': 'Home phone number (U.S. numbers only)',
+              'ui:errorMessages': {
+                pattern: 'Please enter a valid 10-digit U.S. phone number.',
+              },
+              'ui:options': {
+                ariaDescribedby: 'error-message-details',
+              },
+            },
+            extension: {
+              'ui:title': 'Extension',
+              'ui:errorMessages': {
+                pattern: 'Please enter a valid extension.',
+              },
+            },
+          },
+        },
+      },
+      ...customState,
+    },
+  };
+}
+
+const noop = () => {};
+
+export const buildRenderFormikFormWithRedux = (
+  initialValues = {},
+  initialState = {},
+) => {
+  return (ui, props) => {
+    let injected;
+    const { rerender, ...rest } = renderWithProfileReducers(
+      <Formik onSubmit={noop} initialValues={initialValues} {...props}>
+        {formikProps => {
+          injected = formikProps;
+          return ui;
+        }}
+      </Formik>,
+      initialState,
+    );
+
+    return {
+      getFormProps: () => {
+        return injected;
+      },
+      ...rest,
+      rerender: () =>
+        rerender(
+          <Formik onSubmit={noop} initialValues={initialValues} {...props}>
+            {formikProps => {
+              injected = formikProps;
+              return ui;
+            }}
+          </Formik>,
+        ),
+    };
+  };
+};

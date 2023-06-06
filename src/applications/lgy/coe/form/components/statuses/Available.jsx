@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import ReviewAndDownload from '../../../shared/components/ReviewAndDownload';
 import StatusAlert from '../../../shared/components/StatusAlert';
 
-const Available = ({ downloadUrl, referenceNumber, requestDate }) => (
+const Available = ({ referenceNumber, requestDate }) => (
   <>
     <StatusAlert.Available
       referenceNumber={referenceNumber}
       requestDate={requestDate}
     />
-    <ReviewAndDownload downloadUrl={downloadUrl} />
+    <ReviewAndDownload />
     <div>
       <h2>What if I need to make changes to my COE?</h2>
       <p>
@@ -29,7 +29,6 @@ const Available = ({ downloadUrl, referenceNumber, requestDate }) => (
 );
 
 Available.propTypes = {
-  downloadUrl: PropTypes.string.isRequired,
   referenceNumber: PropTypes.string.isRequired,
   requestDate: PropTypes.number.isRequired,
 };

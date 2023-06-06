@@ -1,76 +1,28 @@
 import { expect } from 'chai';
 import * as selectors from '../../cerner-dsot/selectors';
 
+const drupalStaticData = {
+  vamcEhrData: {
+    data: {
+      cernerFacilities: [
+        {
+          vhaId: '757',
+          vamcFacilityName: 'Chalmers P. Wylie Veterans Outpatient Clinic',
+          vamcSystemName: 'VA Central Ohio health care',
+          ehr: 'cerner',
+        },
+        {
+          vhaId: '687',
+          vamcFacilityName: 'Jonathan M. Wainwright Memorial VA Medical Center',
+          vamcSystemName: 'VA Walla Walla health care',
+          ehr: 'cerner',
+        },
+      ],
+    },
+  },
+};
+
 describe('cerner-dsot user selectors', () => {
-  describe('selectCernerFacilities', () => {
-    it('pulls out state.drupalStaticData.cernerFacilities.data when set on state', () => {
-      const state = {
-        drupalStaticData: {
-          cernerFacilities: {
-            data: [
-              {
-                vhaId: '757',
-                vamcFacilityName:
-                  'Chalmers P. Wylie Veterans Outpatient Clinic',
-                vamcSystemName: 'VA Central Ohio health care',
-                ehr: 'cerner',
-              },
-              {
-                vhaId: '687',
-                vamcFacilityName:
-                  'Jonathan M. Wainwright Memorial VA Medical Center',
-                vamcSystemName: 'VA Walla Walla health care',
-                ehr: 'cerner',
-              },
-            ],
-          },
-        },
-      };
-      expect(selectors.selectCernerFacilities(state)).to.deep.equal(
-        state.drupalStaticData.cernerFacilities.data,
-      );
-    });
-    it('returns empty array when Cerner facilities not set on state', () => {
-      const state = {};
-      expect(selectors.selectCernerFacilities(state)).to.deep.equal([]);
-    });
-  });
-
-  describe('selectCernerFacilityIds', () => {
-    it('returns non-empty, flat array of ids when Cerner facilities set on state', () => {
-      const state = {
-        drupalStaticData: {
-          cernerFacilities: {
-            data: [
-              {
-                vhaId: '757',
-                vamcFacilityName:
-                  'Chalmers P. Wylie Veterans Outpatient Clinic',
-                vamcSystemName: 'VA Central Ohio health care',
-                ehr: 'cerner',
-              },
-              {
-                vhaId: '687',
-                vamcFacilityName:
-                  'Jonathan M. Wainwright Memorial VA Medical Center',
-                vamcSystemName: 'VA Walla Walla health care',
-                ehr: 'cerner',
-              },
-            ],
-          },
-        },
-      };
-      expect(selectors.selectCernerFacilityIds(state)).to.deep.equal([
-        '757',
-        '687',
-      ]);
-    });
-    it('returns empty array when Cerner facilities not set on state', () => {
-      const state = {};
-      expect(selectors.selectCernerFacilityIds(state)).to.deep.equal([]);
-    });
-  });
-
   describe('selectPatientFacilities', () => {
     it('returns null when there are no facilities on the profile', () => {
       const state = {
@@ -125,26 +77,7 @@ describe('cerner-dsot user selectors', () => {
             ],
           },
         },
-        drupalStaticData: {
-          cernerFacilities: {
-            data: [
-              {
-                vhaId: '757',
-                vamcFacilityName:
-                  'Chalmers P. Wylie Veterans Outpatient Clinic',
-                vamcSystemName: 'VA Central Ohio health care',
-                ehr: 'cerner',
-              },
-              {
-                vhaId: '687',
-                vamcFacilityName:
-                  'Jonathan M. Wainwright Memorial VA Medical Center',
-                vamcSystemName: 'VA Walla Walla health care',
-                ehr: 'cerner',
-              },
-            ],
-          },
-        },
+        drupalStaticData,
       };
       const expected = [
         { facilityId: '984', isCerner: false },
@@ -197,26 +130,7 @@ describe('cerner-dsot user selectors', () => {
             ],
           },
         },
-        drupalStaticData: {
-          cernerFacilities: {
-            data: [
-              {
-                vhaId: '757',
-                vamcFacilityName:
-                  'Chalmers P. Wylie Veterans Outpatient Clinic',
-                vamcSystemName: 'VA Central Ohio health care',
-                ehr: 'cerner',
-              },
-              {
-                vhaId: '687',
-                vamcFacilityName:
-                  'Jonathan M. Wainwright Memorial VA Medical Center',
-                vamcSystemName: 'VA Walla Walla health care',
-                ehr: 'cerner',
-              },
-            ],
-          },
-        },
+        drupalStaticData,
       };
       const expected = [
         {
@@ -252,26 +166,7 @@ describe('cerner-dsot user selectors', () => {
             facilities: [{ facilityId: '757' }, { facilityId: '687' }],
           },
         },
-        drupalStaticData: {
-          cernerFacilities: {
-            data: [
-              {
-                vhaId: '757',
-                vamcFacilityName:
-                  'Chalmers P. Wylie Veterans Outpatient Clinic',
-                vamcSystemName: 'VA Central Ohio health care',
-                ehr: 'cerner',
-              },
-              {
-                vhaId: '687',
-                vamcFacilityName:
-                  'Jonathan M. Wainwright Memorial VA Medical Center',
-                vamcSystemName: 'VA Walla Walla health care',
-                ehr: 'cerner',
-              },
-            ],
-          },
-        },
+        drupalStaticData,
       };
       expect(selectors.selectIsCernerOnlyPatient(state)).to.be.true;
     });
@@ -282,26 +177,7 @@ describe('cerner-dsot user selectors', () => {
             facilities: [{ facilityId: '757' }, { facilityId: '123' }],
           },
         },
-        drupalStaticData: {
-          cernerFacilities: {
-            data: [
-              {
-                vhaId: '757',
-                vamcFacilityName:
-                  'Chalmers P. Wylie Veterans Outpatient Clinic',
-                vamcSystemName: 'VA Central Ohio health care',
-                ehr: 'cerner',
-              },
-              {
-                vhaId: '687',
-                vamcFacilityName:
-                  'Jonathan M. Wainwright Memorial VA Medical Center',
-                vamcSystemName: 'VA Walla Walla health care',
-                ehr: 'cerner',
-              },
-            ],
-          },
-        },
+        drupalStaticData,
       };
       expect(selectors.selectIsCernerOnlyPatient(state)).to.be.false;
     });
@@ -315,26 +191,7 @@ describe('cerner-dsot user selectors', () => {
             facilities: [{ facilityId: '757' }],
           },
         },
-        drupalStaticData: {
-          cernerFacilities: {
-            data: [
-              {
-                vhaId: '757',
-                vamcFacilityName:
-                  'Chalmers P. Wylie Veterans Outpatient Clinic',
-                vamcSystemName: 'VA Central Ohio health care',
-                ehr: 'cerner',
-              },
-              {
-                vhaId: '687',
-                vamcFacilityName:
-                  'Jonathan M. Wainwright Memorial VA Medical Center',
-                vamcSystemName: 'VA Walla Walla health care',
-                ehr: 'cerner',
-              },
-            ],
-          },
-        },
+        drupalStaticData,
       };
       expect(selectors.selectIsCernerPatient(state)).to.be.true;
     });
@@ -345,26 +202,7 @@ describe('cerner-dsot user selectors', () => {
             facilities: [{ facilityId: '757' }, { facilityId: '123' }],
           },
         },
-        drupalStaticData: {
-          cernerFacilities: {
-            data: [
-              {
-                vhaId: '757',
-                vamcFacilityName:
-                  'Chalmers P. Wylie Veterans Outpatient Clinic',
-                vamcSystemName: 'VA Central Ohio health care',
-                ehr: 'cerner',
-              },
-              {
-                vhaId: '687',
-                vamcFacilityName:
-                  'Jonathan M. Wainwright Memorial VA Medical Center',
-                vamcSystemName: 'VA Walla Walla health care',
-                ehr: 'cerner',
-              },
-            ],
-          },
-        },
+        drupalStaticData,
       };
       expect(selectors.selectIsCernerPatient(state)).to.be.true;
     });
@@ -375,26 +213,7 @@ describe('cerner-dsot user selectors', () => {
             facilities: [{ facilityId: '123' }, { facilityId: '124' }],
           },
         },
-        drupalStaticData: {
-          cernerFacilities: {
-            data: [
-              {
-                vhaId: '757',
-                vamcFacilityName:
-                  'Chalmers P. Wylie Veterans Outpatient Clinic',
-                vamcSystemName: 'VA Central Ohio health care',
-                ehr: 'cerner',
-              },
-              {
-                vhaId: '687',
-                vamcFacilityName:
-                  'Jonathan M. Wainwright Memorial VA Medical Center',
-                vamcSystemName: 'VA Walla Walla health care',
-                ehr: 'cerner',
-              },
-            ],
-          },
-        },
+        drupalStaticData,
       };
       expect(selectors.selectIsCernerPatient(state)).to.be.false;
     });

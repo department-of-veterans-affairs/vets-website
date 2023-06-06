@@ -8,7 +8,7 @@ class SeeStaff {
   };
 
   validateMessage = (
-    message = 'Our staff can help you update your contact information.If you don’t live at a fixed address right now, we’ll help you find the best way to stay connected with us.',
+    message = 'Our staff can help you update your contact information.',
   ) => {
     cy.get('h1')
       .next()
@@ -29,7 +29,10 @@ class SeeStaff {
     );
     cy.get('div[data-testid="btsss-link"] a:first')
       .invoke('attr', 'href')
-      .should('contain', '/health-care/get-reimbursed-for-travel-pay/');
+      .should(
+        'contain',
+        '/resources/how-to-file-a-va-travel-reimbursement-claim-online/',
+      );
   };
 
   selectBackButton = () => {

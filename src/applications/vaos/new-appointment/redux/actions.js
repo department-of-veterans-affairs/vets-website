@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 
@@ -13,7 +14,10 @@ import {
   selectFeatureVAOSServiceRequests,
   selectRegisteredCernerFacilityIds,
   selectFeatureFacilitiesServiceV2,
+  selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceVAAppointments,
+  selectFeatureClinicFilter,
+  selectFeatureAcheronService,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -23,11 +27,8 @@ import {
   getCCEType,
 } from './selectors';
 import {
-  getPreferences,
-  updatePreferences,
   submitRequest,
   submitAppointment,
-  sendRequestMessage,
   getCommunityCare,
 } from '../../services/var';
 import {
@@ -48,7 +49,6 @@ import {
   FLOW_TYPES,
   GA_PREFIX,
 } from '../../utils/constants';
-import { createPreferenceBody } from '../../utils/data';
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
@@ -76,6 +76,7 @@ import {
 } from '../../redux/sitewide';
 import { fetchFlowEligibilityAndClinics } from '../../services/patient';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
+import { getCommunityCareV2 } from '../../services/vaos/index';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -208,7 +209,10 @@ export function updateFacilityType(facilityType) {
 }
 
 export function startDirectScheduleFlow() {
-  recordEvent({ event: 'vaos-direct-path-started' });
+  recordEvent({
+    event: 'interaction',
+    action: 'vaos-direct-path-started',
+  });
 
   return {
     type: START_DIRECT_SCHEDULE_FLOW,
@@ -263,6 +267,7 @@ export function checkEligibility({ location, showModal }) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       state,
     );
+    const featureClinicFilter = selectFeatureClinicFilter(state);
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -280,6 +285,7 @@ export function checkEligibility({ location, showModal }) {
         typeOfCare,
         directSchedulingEnabled,
         useV2: featureVAOSServiceVAAppointments,
+        featureClinicFilter,
       });
 
       if (showModal) {
@@ -519,6 +525,7 @@ export function openReasonForAppointment(
   uiSchema,
   schema,
   useV2 = false,
+  useAcheron = false,
 ) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
@@ -526,6 +533,7 @@ export function openReasonForAppointment(
     uiSchema,
     schema,
     useV2,
+    useAcheron,
   };
 }
 
@@ -534,6 +542,7 @@ export function updateReasonForAppointmentData(
   uiSchema,
   data,
   useV2 = false,
+  useAcheron = false,
 ) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
@@ -541,6 +550,7 @@ export function updateReasonForAppointmentData(
     uiSchema,
     data,
     useV2,
+    useAcheron,
   };
 }
 
@@ -684,6 +694,7 @@ export function checkCommunityCareEligibility() {
     const state = getState();
     const communityCareEnabled = selectFeatureCommunityCare(state);
     const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(state);
+    const useV2 = selectFeatureVAOSServiceCCAppointments(state);
 
     if (!communityCareEnabled) {
       return false;
@@ -709,8 +720,12 @@ export function checkCommunityCareEligibility() {
 
       // Reroute to VA facility page if none of the user's registered systems support community care.
       if (ccEnabledSystems.length) {
-        const response = await getCommunityCare(getCCEType(state));
-
+        let response = null;
+        if (useV2) {
+          response = await getCommunityCareV2(getCCEType(state));
+        } else {
+          response = await getCommunityCare(getCCEType(state));
+        }
         dispatch({
           type: FORM_UPDATE_CC_ELIGIBILITY,
           isEligible: response.eligible,
@@ -737,17 +752,14 @@ export function checkCommunityCareEligibility() {
   };
 }
 
-async function buildPreferencesDataAndUpdate(email) {
-  const preferenceData = await getPreferences();
-  const preferenceBody = createPreferenceBody(preferenceData, email);
-  return updatePreferences(preferenceBody);
-}
-
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
     const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      state,
+    );
+    const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
       state,
     );
     const newAppointment = getNewAppointment(state);
@@ -759,14 +771,17 @@ export function submitAppointmentOrRequest(history) {
     });
 
     let additionalEventData = {
-      'health-TypeOfCare': typeOfCare,
-      'health-ReasonForAppointment': data?.reasonForAppointment,
+      custom_string_1: `health-TypeOfCare: ${typeOfCare}`,
+      custom_string_2: `health-ReasonForAppointment: ${
+        data?.reasonForAppointment
+      }`,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
       const flow = GA_FLOWS.DIRECT;
       recordEvent({
-        event: `${GA_PREFIX}-direct-submission`,
+        event: 'interaction',
+        action: `${GA_PREFIX}-direct-submission`,
         flow,
         ...additionalEventData,
       });
@@ -776,21 +791,11 @@ export function submitAppointmentOrRequest(history) {
         if (featureVAOSServiceVAAppointments) {
           appointment = await createAppointment({
             appointment: transformFormToVAOSAppointment(getState()),
+            useAcheron: featureAcheronVAOSServiceRequests,
           });
         } else {
           const appointmentBody = transformFormToAppointment(getState());
           await submitAppointment(appointmentBody);
-        }
-
-        // BG 3/29/2022: This logic is to resolve issue:
-        // https://app.zenhub.com/workspaces/vaos-team-603fdef281af6500110a1691/issues/department-of-veterans-affairs/va.gov-team/39301
-        // This will need to be removed once var resources is sunset.
-        try {
-          await buildPreferencesDataAndUpdate(data.email);
-        } catch (error) {
-          // These are ancillary updates, the request went through if the first submit
-          // succeeded
-          captureError(error);
         }
 
         dispatch({
@@ -880,47 +885,20 @@ export function submitAppointmentOrRequest(history) {
           requestBody = transformFormToVAOSCCRequest(getState());
           requestData = await createAppointment({ appointment: requestBody });
         } else if (featureVAOSServiceRequests) {
-          requestBody = transformFormToVAOSVARequest(getState());
-          requestData = await createAppointment({ appointment: requestBody });
+          requestBody = transformFormToVAOSVARequest(
+            getState(),
+            featureAcheronVAOSServiceRequests,
+          );
+          requestData = await createAppointment({
+            appointment: requestBody,
+            useAcheron: featureAcheronVAOSServiceRequests,
+          });
         } else if (isCommunityCare) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);
         } else {
           requestBody = transformFormToVARequest(getState());
           requestData = await submitRequest('va', requestBody);
-        }
-
-        if (!featureVAOSServiceRequests) {
-          try {
-            const requestMessage = data.reasonAdditionalInfo;
-            if (requestMessage) {
-              await sendRequestMessage(requestData.id, requestMessage);
-            }
-            await buildPreferencesDataAndUpdate(data.email);
-          } catch (error) {
-            // These are ancillary updates, the request went through if the first submit
-            // succeeded
-            captureError(error, false, 'Request message failure', {
-              messageLength: newAppointment?.data?.reasonAdditionalInfo?.length,
-              hasLineBreak: newAppointment?.data?.reasonAdditionalInfo?.includes(
-                '\r\n',
-              ),
-              hasNewLine: newAppointment?.data?.reasonAdditionalInfo?.includes(
-                '\n',
-              ),
-            });
-          }
-        } else {
-          // // BG 3/29/2022: This logic is to resolve issue:
-          // // https://app.zenhub.com/workspaces/vaos-team-603fdef281af6500110a1691/issues/department-of-veterans-affairs/va.gov-team/39301
-          // // This will need to be removed once var resources is sunset.
-          try {
-            await buildPreferencesDataAndUpdate(data.email);
-          } catch (error) {
-            // These are ancillary updates, the request went through if the first submit
-            // succeeded
-            captureError(error);
-          }
         }
 
         dispatch({

@@ -7,7 +7,6 @@ import URLSearchParams from 'url-search-params';
 // Relative imports.
 import localStorage from 'platform/utilities/storage/localStorage';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
-import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import AccountTransitionModal from 'platform/user/authentication/components/account-transition/TransitionModal';
 import AccountTransitionSuccessModal from 'platform/user/authentication/components/account-transition/TransitionSuccessModal';
@@ -38,7 +37,6 @@ import {
   toggleSearchHelpUserMenu,
 } from 'platform/site-wide/user-nav/actions';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
-import { loginAppUrlRE } from 'platform/user/authentication/utilities';
 import { ACCOUNT_TRANSITION_DISMISSED } from 'platform/user/authentication/constants';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import AutoSSO from './AutoSSO';
@@ -69,7 +67,6 @@ export class Main extends Component {
     if (currentlyLoggedIn) {
       this.executeRedirect();
       this.closeModals();
-
       if (
         this.props.signInServiceName === 'mhv' &&
         mhvTransitionEligible &&
@@ -116,7 +113,10 @@ export class Main extends Component {
     const location = window.location.toString();
     const nextQuery = {
       next: url,
-      ...(useSiS && this.props.useSignInService && { oauth: true }),
+      ...(useSiS &&
+        this.props.useSignInService && {
+          oauth: true,
+        }),
     };
     const path = useSiS ? location : location.replace('&oauth=true', '');
     const nextPath = appendQuery(path, nextQuery);
@@ -167,7 +167,7 @@ export class Main extends Component {
           e.preventDefault();
           const linkHref = el.getAttribute('href');
           const pageTitle = el.textContent;
-          this.appendOrRemoveParameter({ linkHref, pageTitle });
+          this.appendOrRemoveParameter({ url: linkHref, pageTitle });
           this.openLoginModal();
         }
       });
@@ -223,10 +223,7 @@ export class Main extends Component {
 
   render() {
     const { mhvTransition, mhvTransitionModal } = this.props;
-    // checks if on Unified Sign in Page
-    if (loginAppUrlRE.test(window.location.pathname)) {
-      return null;
-    }
+
     return (
       <div className="profile-nav-container">
         <SearchHelpSignIn
@@ -262,11 +259,6 @@ export class Main extends Component {
           onClose={this.closeAccountTransitionSuccessModal}
           visible={this.props.showAccountTransitionSuccessModal}
         />
-        <SessionTimeoutModal
-          isLoggedIn={this.props.currentlyLoggedIn}
-          onExtendSession={this.props.initializeProfile}
-          authenticatedWithOAuth={this.props.authenticatedWithOAuth}
-        />
         <AutoSSO />
       </div>
     );
@@ -277,6 +269,7 @@ export const mapStateToProps = state => {
   let formAutoSavedStatus;
   let additionalRoutes;
   let additionalSafePaths;
+
   const { form } = state;
   if (typeof form === 'object') {
     formAutoSavedStatus = form.autoSavedStatus;
@@ -326,6 +319,7 @@ Main.propTypes = {
   // From mapDispatchToProps.
   getBackendStatuses: PropTypes.func.isRequired,
   initializeProfile: PropTypes.func.isRequired,
+  showNavLogin: PropTypes.bool,
   toggleAccountTransitionModal: PropTypes.func.isRequired,
   toggleAccountTransitionSuccessModal: PropTypes.func.isRequired,
   toggleFormSignInModal: PropTypes.func.isRequired,

@@ -6,12 +6,12 @@ Mission: Make it easier for Veterans and Caregivers to apply for, track, and man
 
 ## Slack Channels
 
-- [vsa-caregiver](https://slack.com/app_redirect?channel=CMJ2V70UV)
+- [1010-health-apps](https://slack.com/app_redirect?channel=CMJ2V70UV)
 
 ## Approval Groups
 
-- [VSA BAM 1](https://github.com/orgs/department-of-veterans-affairs/teams/vsa-bam-1-frontend)
-- [VSA Caregiver](https://github.com/orgs/department-of-veterans-affairs/teams/vsa-caregiver-frontend)
+- [Benefits Team 1](https://github.com/orgs/department-of-veterans-affairs/teams/benefits-team-1-frontend)
+- [1010 Health Apps](https://github.com/orgs/department-of-veterans-affairs/teams/1010-health-apps-frontend)
 
 ## Project Documentation
 
@@ -46,10 +46,6 @@ We are using version 1 of the forms library, Formation. This is a straight forwa
 ### What API(s) does this use?
 
 This uses the Caregivers API, the main controller is [here](https://github.com/department-of-veterans-affairs/vets-api/blob/master/app/controllers/v0/caregivers_assistance_claims_controller.rb).
-
-### Feature toggles
-
-We currently have a feature toggle for document uploads, `can_upload_10_10cg_poa`. Its currently conditional enabled for a `Percentage Of Actors`.
 
 ### How to test new features?
 

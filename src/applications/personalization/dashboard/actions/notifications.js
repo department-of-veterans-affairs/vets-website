@@ -1,4 +1,4 @@
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 import environment from '~/platform/utilities/environment';
 
@@ -45,14 +45,22 @@ export const fetchNotifications = () => async dispatch => {
         errors: response.errors,
       });
     }
-    recordEvent({
-      event: `api_call`,
-      'api-name': 'GET on-site notifications',
-      'api-status': 'successful',
-    });
     const filteredNotifications = response.data.filter(
       n => !n.attributes?.dismissed,
     );
+    if (filteredNotifications && filteredNotifications.length) {
+      recordEvent({
+        event: `api_call`,
+        'api-name': 'GET on-site notifications',
+        'api-status': 'successful with notifications',
+      });
+    } else {
+      recordEvent({
+        event: `api_call`,
+        'api-name': 'GET on-site notifications',
+        'api-status': 'successful no notifications',
+      });
+    }
     return dispatch({
       type: NOTIFICATIONS_RECEIVED_SUCCEEDED,
       notifications: filteredNotifications,
@@ -125,6 +133,10 @@ export const dismissNotificationById = id => async dispatch => {
       'api-name': 'PATCH dismiss on-site notification',
       'api-status': 'failed',
     });
-    throw new Error(error);
+    return dispatch({
+      type: NOTIFICATION_DISMISSAL_FAILED,
+      dismissalError: true,
+      errors: error,
+    });
   }
 };

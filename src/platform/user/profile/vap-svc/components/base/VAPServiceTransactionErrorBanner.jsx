@@ -11,7 +11,7 @@ import {
   hasMVIError,
   hasMVINotFoundError,
   hasVAProfileInitError,
-} from '@@vap-svc/util/transactions';
+} from 'platform/user/profile/vap-svc/util/transactions';
 
 export function GenericUpdateError(props) {
   return (

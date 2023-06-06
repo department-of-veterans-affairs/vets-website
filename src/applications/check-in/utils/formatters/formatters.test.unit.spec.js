@@ -1,9 +1,5 @@
 import { expect } from 'chai';
-import {
-  formatPhone,
-  formatDemographicString,
-  extractDateFromVaDateComponent,
-} from './index';
+import { formatPhone, formatDemographicString, toCamelCase } from './index';
 
 describe('check in', () => {
   describe('format helpers', () => {
@@ -36,24 +32,11 @@ describe('check in', () => {
         expect(formatedEmail).to.equal('email@email.com');
       });
     });
-    describe('format date picker object to 8601', () => {
-      it('formats to 8601', () => {
-        const testDateObject = {
-          year: {
-            value: '1999',
-            dirty: false,
-          },
-          month: {
-            value: '5',
-            dirty: false,
-          },
-          day: {
-            value: '20',
-            dirty: false,
-          },
-        };
-        const formatted = extractDateFromVaDateComponent(testDateObject);
-        expect(formatted).to.equal('1999-05-20');
+    describe('toCamelCase', () => {
+      it('formats string to camel case', () => {
+        const str = 'Mailing Address';
+        const transformedString = toCamelCase(str);
+        expect(transformedString).to.equal('mailingAddress');
       });
     });
   });

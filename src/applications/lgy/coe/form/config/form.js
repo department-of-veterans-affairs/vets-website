@@ -19,7 +19,7 @@ import {
 
 import { serviceStatus, serviceHistory } from './chapters/service';
 
-import { loanScreener, loanIntent, loanHistory } from './chapters/loans';
+import { loanScreener, loanHistory } from './chapters/loans';
 
 import { fileUpload } from './chapters/documents';
 
@@ -85,6 +85,7 @@ const formConfig = {
           title: mailingAddress.title,
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
+          updateFormData: mailingAddress.updateFormData,
         },
         additionalInformation: {
           path: 'additional-contact-information',
@@ -119,13 +120,6 @@ const formConfig = {
           title: 'Existing loans',
           uiSchema: loanScreener.uiSchema,
           schema: loanScreener.schema,
-        },
-        loanIntent: {
-          path: 'loan-intent',
-          title: 'Certificate of Eligibility intent',
-          uiSchema: loanIntent.uiSchema,
-          schema: loanIntent.schema,
-          depends: formData => formData?.vaLoanIndicator,
         },
         loanHistory: {
           path: 'loan-history',

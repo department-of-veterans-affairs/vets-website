@@ -24,18 +24,6 @@ const selectVeteranData = createSelector(
 
 const makeSelectVeteranData = () => selectVeteranData;
 
-const selectConfirmationData = createSelector(
-  state => {
-    return {
-      appointments: state.checkInData?.appointments,
-      selectedAppointment: state.checkInData?.context?.appointment,
-    };
-  },
-  data => (data.appointments || data.selectedAppointment ? data : {}),
-);
-
-const makeSelectConfirmationData = () => selectConfirmationData;
-
 const selectSeeStaffMessage = createSelector(
   state => {
     return {
@@ -58,11 +46,22 @@ const selectApp = createSelector(
 
 const makeSelectApp = () => selectApp;
 
+const selectError = createSelector(
+  state => {
+    return {
+      error: state?.checkInData?.error,
+    };
+  },
+  app => app,
+);
+
+const makeSelectError = () => selectError;
+
 export {
   makeSelectCurrentContext,
   makeSelectForm,
   makeSelectVeteranData,
-  makeSelectConfirmationData,
   makeSelectSeeStaffMessage,
   makeSelectApp,
+  makeSelectError,
 };

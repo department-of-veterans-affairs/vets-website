@@ -19,7 +19,7 @@ const deriveIsHostMatch = (redirect, currentWindow) => {
 const redirectIfNecessary = currentWindow => {
   // Check if the route matches an absolute cross-domain redirect.
   const absoluteCrossDomainRedirects = crossDomainRedirects?.filter(
-    redirect => !redirect?.catchAll,
+    redirect => !redirect?.catchAll && !redirect?.isToSubdomain,
   );
   const absoluteRedirectMatch = absoluteCrossDomainRedirects?.find(redirect => {
     const isHostMatch = deriveIsHostMatch(redirect, currentWindow);
@@ -57,6 +57,25 @@ const redirectIfNecessary = currentWindow => {
     currentWindow.location.href = `${environment.BASE_URL}${
       catchAllRedirectMatch.dest
     }`;
+  }
+
+  // Check if redirect destination is to a subdomain
+  const toSubdomainRedirects = crossDomainRedirects?.filter(
+    redirect => redirect?.isToSubdomain,
+  );
+
+  const toSubdomainRedirectMatch = toSubdomainRedirects?.find(redirect => {
+    const isHostMatch = deriveIsHostMatch(redirect, currentWindow);
+    const currentPathMatchesSubdomainSrc =
+      currentWindow.location.pathname.toLowerCase() ===
+      redirect.src.toLowerCase();
+    return isHostMatch && currentPathMatchesSubdomainSrc;
+  });
+
+  // Redirect if there is a to subdomain match
+  if (toSubdomainRedirectMatch) {
+    // eslint-disable-next-line no-param-reassign
+    currentWindow.location.href = `${toSubdomainRedirectMatch.dest}`;
   }
 };
 

@@ -2,109 +2,38 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
-import configureStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
-import { I18nextProvider } from 'react-i18next';
 import sinon from 'sinon';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import ConfirmablePage from './index';
-import i18n from '../../../utils/i18n/i18n';
+import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 
 describe('pre-check-in experience', () => {
   describe('shared components', () => {
-    let store;
-    const middleware = [];
-    const mockStore = configureStore(middleware);
-    const initState = {
-      checkInData: {
-        context: {
-          token: '',
-        },
-      },
-      featureToggles: {
-        check_in_experience_translation_pre_check_in_enabled: true,
-        check_in_experience_translation_day_of_enabled: true,
-      },
-    };
-    beforeEach(() => {
-      store = mockStore(initState);
-    });
     describe('ConfirmablePage', () => {
-      it('passes axeCheck', () => {
-        axeCheck(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage />
-            </I18nextProvider>
-          </Provider>,
-        );
-      });
-      it('renders the footer if footer is supplied', () => {
-        const { getByText } = render(
-          // eslint-disable-next-line react/jsx-no-bind
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage Footer={() => <div>foo</div>} />,
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByText('foo')).to.exist;
-      });
       it('renders custom header', () => {
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage header="foo" />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <ConfirmablePage header="foo" />
+          </CheckInProvider>,
         );
         expect(getByText('foo')).to.exist;
       });
       it('renders custom subtitle', () => {
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage subtitle="foo" />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <ConfirmablePage subtitle="foo" />
+          </CheckInProvider>,
         );
         expect(getByText('foo')).to.exist;
       });
-      it('renders custom loading message when loading', () => {
-        const { getByText } = render(
-          // eslint-disable-next-line react/jsx-no-bind
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage
-                isLoading
-                loadingMessageOverride={() => <div>foo</div>}
-              />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByText('foo')).to.exist;
-      });
-      it('renders buttons when loading is false', () => {
-        const { getByTestId } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage isLoading={false} />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByTestId('yes-button')).to.exist;
-        expect(getByTestId('no-button')).to.exist;
-      });
+
       it('renders the data passed in, with label and data', () => {
         const dataFields = [{ key: 'foo', title: 'foo-title' }];
         const data = { foo: 'bar' };
 
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage data={data} dataFields={dataFields} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <ConfirmablePage data={data} dataFields={dataFields} />
+          </CheckInProvider>,
         );
         expect(getByText('foo-title')).to.exist;
         expect(getByText('bar')).to.exist;
@@ -117,11 +46,9 @@ describe('pre-check-in experience', () => {
         const data = { foo: 'bar', baz: 'qux' };
 
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage data={data} dataFields={dataFields} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <ConfirmablePage data={data} dataFields={dataFields} />
+          </CheckInProvider>,
         );
         expect(getByText('foo-title')).to.exist;
         expect(getByText('bar')).to.exist;
@@ -133,22 +60,18 @@ describe('pre-check-in experience', () => {
         const data = { notFoo: 'bar' };
 
         const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage data={data} dataFields={dataFields} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <ConfirmablePage data={data} dataFields={dataFields} />
+          </CheckInProvider>,
         );
         expect(getByText('foo-title')).to.exist;
         expect(getByText('Not available')).to.exist;
       });
       it('renders the yes and no buttons with the usa-button-big css class', () => {
         const { getByTestId } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <ConfirmablePage />
+          </CheckInProvider>,
         );
         expect(getByTestId('yes-button')).to.have.class('usa-button-big');
         expect(getByTestId('no-button')).to.have.class('usa-button-big');
@@ -156,11 +79,9 @@ describe('pre-check-in experience', () => {
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
         const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage yesAction={yesClick} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <ConfirmablePage yesAction={yesClick} />
+          </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('yes-button'));
         expect(yesClick.calledOnce).to.be.true;
@@ -168,11 +89,9 @@ describe('pre-check-in experience', () => {
       it('fires the no function', () => {
         const noClick = sinon.spy();
         const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage noAction={noClick} />
-            </I18nextProvider>
-          </Provider>,
+          <CheckInProvider>
+            <ConfirmablePage noAction={noClick} />
+          </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('no-button'));
         expect(noClick.calledOnce).to.be.true;

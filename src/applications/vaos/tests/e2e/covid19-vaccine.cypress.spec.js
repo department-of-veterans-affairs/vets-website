@@ -1,18 +1,48 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 import Timeouts from 'platform/testing/e2e/timeouts';
+
 import {
-  initAppointmentListMock,
-  initVaccineAppointmentMock,
+  mockAppointmentsApi,
+  mockClinicApi,
+  mockDirectScheduleSlotsApi,
+  mockFacilitiesApi,
   mockFeatureToggles,
+  mockLoginApi,
+  mockSchedulingConfigurationApi,
+  mockUserTransitionAvailabilities,
+  vaosSetup,
 } from './vaos-cypress-helpers';
 
-describe('VAOS COVID-19 vaccine appointment flow', () => {
+describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
+  const start = moment()
+    // Adding number months to account for the test clicking the 'next' button to
+    // advance to the next month.
+    .add(1, 'days')
+    .add(1, 'months')
+    .startOf('month')
+    .day(9);
+  const end = moment(start).add(60, 'minutes');
+
   it('should submit form', () => {
-    initAppointmentListMock();
-    initVaccineAppointmentMock();
-    mockFeatureToggles();
+    vaosSetup();
+
+    mockFeatureToggles({
+      v2Requests: true,
+      v2Facilities: true,
+      v2DirectSchedule: true,
+    });
+    mockLoginApi();
+    mockAppointmentsApi({ apiVersion: 0 });
+    mockAppointmentsApi({ apiVersion: 2 });
+    mockSchedulingConfigurationApi();
+    mockFacilitiesApi({ apiVersion: 2 });
+    mockClinicApi({ locations: ['983'], apiVersion: 2 });
+
+    mockDirectScheduleSlotsApi({ clinicId: '455', start, end, apiVersion: 2 });
+
     cy.visit('health-care/schedule-view-va-appointments/appointments');
     cy.injectAxe();
+    cy.axeCheckBestPractice();
 
     // Start flow
     cy.findByText('Start scheduling', { waitForAnimations: true }).click({
@@ -90,23 +120,15 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.findByText('Confirm appointment').click();
 
     // Check form requestBody is as expected
-    cy.wait('@appointmentSubmission').should(xhr => {
-      const request = xhr.requestBody;
+    cy.wait('@v2:create:appointment').should(xhr => {
+      const { body } = xhr.request;
 
-      expect(request.clinic.siteCode).to.eq('983');
-      expect(request.clinic.clinicId).to.eq('455');
-      expect(request).to.have.property(
+      expect(body.locationId).to.eq('983');
+      expect(body.clinic).to.eq('455');
+      expect(body.extension).to.have.property(
         'desiredDate',
-        `${moment()
-          .add(1, 'day')
-          .add(1, 'months')
-          .startOf('month')
-          .day(9)
-          .startOf('day')
-          .format('YYYY-MM-DD')}T00:00:00+00:00`,
+        `${start.utc().format()}`,
       );
-      expect(request).to.have.property('dateTime');
-      expect(request).to.have.property('preferredEmail', 'veteran@gmail.com');
     });
 
     // Confirmation page
@@ -117,10 +139,30 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
   });
 
   it('should show facility contact page on second dose selection', () => {
-    initAppointmentListMock();
-    initVaccineAppointmentMock();
+    vaosSetup();
+
+    mockFeatureToggles({
+      v2Requests: true,
+      v2Facilities: true,
+      v2DirectSchedule: true,
+    });
+    mockLoginApi();
+    mockAppointmentsApi({ apiVersion: 0 });
+    mockAppointmentsApi({ apiVersion: 2 });
+    mockSchedulingConfigurationApi();
+    mockFacilitiesApi({ apiVersion: 2 });
+    mockClinicApi({ locations: ['983'], apiVersion: 2 });
+
+    mockDirectScheduleSlotsApi({ clinicId: '455', start, end, apiVersion: 2 });
+    mockUserTransitionAvailabilities();
+
     cy.visit('health-care/schedule-view-va-appointments/appointments');
     cy.injectAxe();
+
+    cy.wait(['@v2:get:appointments']);
+
+    cy.axeCheckBestPractice();
+
     // Start flow
     cy.findByText('Start scheduling', { waitForAnimations: true }).click({
       waitForAnimations: true,
@@ -148,37 +190,10 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.get('#root_hasReceivedDoseYes')
       .focus()
       .click();
-    cy.findByText(/Continue/).click();
+    cy.contains('button', /Continue/i).click();
 
     // Contact Facility Page
     cy.url().should('include', '/contact-facility');
-    cy.findByText(/Continue/i).should('not.exist');
-    cy.axeCheckBestPractice();
-  });
-
-  it('should show facility contact page when vaccine schedule is not available', () => {
-    initAppointmentListMock();
-    initVaccineAppointmentMock({ unableToScheduleCovid: true });
-
-    cy.visit('health-care/schedule-view-va-appointments/appointments');
-    cy.injectAxe();
-    // Start flow
-    cy.findByText('Start scheduling', { waitForAnimations: true }).click({
-      waitForAnimations: true,
-    });
-
-    // Select COVID-19 vaccine appointment type
-    cy.get('input[value="covid"]')
-      .focus()
-      .check();
-
-    // Start vaccine flow
-    cy.findByText(/Continue/).click();
-
-    // Contact Facility Page
-    cy.url().should('include', '/contact-facility');
-    cy.findByText('Your facilities');
-    cy.axeCheckBestPractice();
-    cy.findByText(/Continue/i).should('not.exist');
+    cy.contains('button', /Continue/i).should('not.exist');
   });
 });

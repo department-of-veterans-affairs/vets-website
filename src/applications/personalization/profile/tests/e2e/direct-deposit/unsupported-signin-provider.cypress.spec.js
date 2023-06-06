@@ -1,6 +1,10 @@
 import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
 
-import { user72Success, dsLogonUser, mvhUser } from '../../../mocks/user';
+import {
+  loa3User72,
+  dsLogonUser,
+  mvhUser,
+} from '../../../mocks/endpoints/user';
 import DirectDeposit from './DirectDeposit';
 
 let getDD4CNPBankInfoStub;
@@ -40,8 +44,8 @@ describe('Direct Deposit', () => {
     must set up 2FA when you verify your ID with ID.me, so a user should never
     be LOA3 _without_ also having 2FA set up. */
     beforeEach(() => {
-      user72Success.data.attributes.profile.multifactor = false;
-      cy.intercept('GET', 'v0/user', user72Success);
+      loa3User72.data.attributes.profile.multifactor = false;
+      cy.intercept('GET', 'v0/user', loa3User72);
     });
     it('should show a single "verify your account" alert and not call direct deposit APIs', () => {
       DirectDeposit.visitPage();

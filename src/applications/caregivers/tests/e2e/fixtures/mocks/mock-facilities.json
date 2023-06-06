@@ -1,0 +1,1046 @@
+{
+  "data": [
+    {
+      "id": "vha_516",
+      "type": "facility",
+      "attributes": {
+        "access": {
+          "health": [
+            {
+              "service": "Audiology",
+              "new": 14.741379,
+              "established": 0.819245
+            },
+            {
+              "service": "Cardiology",
+              "new": 60.929515,
+              "established": 20.590638
+            },
+            {
+              "service": "Dermatology",
+              "new": 8.783333,
+              "established": 8.938725
+            },
+            {
+              "service": "Gastroenterology",
+              "new": 50.458333,
+              "established": 10.052401
+            },
+            {
+              "service": "Gynecology",
+              "new": 20.722222,
+              "established": 5.715909
+            },
+            {
+              "service": "MentalHealthCare",
+              "new": 17.166666,
+              "established": 14.073641
+            },
+            {
+              "service": "Ophthalmology",
+              "new": 105.888888,
+              "established": 16.295893
+            },
+            {
+              "service": "Optometry",
+              "new": 55.168498,
+              "established": 23.487916
+            },
+            {
+              "service": "Orthopedics",
+              "new": 53.722727,
+              "established": 10.873694
+            },
+            {
+              "service": "PrimaryCare",
+              "new": 17.167247,
+              "established": 4.251045
+            },
+            {
+              "service": "Urology",
+              "new": 21.113207,
+              "established": 5.373397
+            },
+            {
+              "service": "WomensHealth",
+              "new": 16.055555,
+              "established": 4.958904
+            }
+          ],
+          "effectiveDate": "2022-08-19"
+        },
+        "activeStatus": "A",
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "33744-8200",
+            "city": "Bay Pines",
+            "state": "FL",
+            "address1": "10000 Bay Pines Boulevard",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "classification": "VA Medical Center (VAMC)",
+        "detailedServices": [
+          {
+            "name": "COVID-19 vaccines",
+            "descriptionFacility": null,
+            "appointmentLeadin": "Your VA health care team will contact you if you’re eligible to get a vaccine during this time. As the supply of vaccine increases, we'll work with our care teams to let Veterans know their options.",
+            "appointmentPhones": [
+              {
+                "extension": null,
+                "label": "Main phone",
+                "number": "727-398-6661",
+                "type": "tel"
+              }
+            ],
+            "onlineSchedulingAvailable": null,
+            "referralRequired": "true",
+            "walkInsAccepted": "false",
+            "serviceLocations": null,
+            "path": "https://www.va.gov/bay-pines-health-care/programs/covid-19-vaccines/"
+          }
+        ],
+        "facilityType": "va_health_facility",
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.8199999928474426,
+            "primaryCareRoutine": 0.9200000166893005,
+            "specialtyCareUrgent": 0.7599999904632568,
+            "specialtyCareRoutine": 0.8399999737739563
+          },
+          "effectiveDate": "2022-06-28"
+        },
+        "hours": {
+          "friday": "24/7",
+          "monday": "24/7",
+          "sunday": "24/7",
+          "tuesday": "24/7",
+          "saturday": "24/7",
+          "thursday": "24/7",
+          "wednesday": "24/7"
+        },
+        "id": "vha_516",
+        "lat": 27.81385653,
+        "long": -82.77938903,
+        "mobile": false,
+        "name": "C.W. Bill Young Department of Veterans Affairs Medical Center",
+        "operatingStatus": {
+          "code": "NORMAL",
+          "supplementalStatus": [
+            {
+              "id": "COVID_HIGH",
+              "label": "COVID-19 health protection: Levels high"
+            }
+          ]
+        },
+        "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+        "phone": {
+          "fax": "727-398-9442",
+          "main": "727-398-6661",
+          "pharmacy": "888-820-0230",
+          "afterHours": "888-820-0230",
+          "patientAdvocate": "727-398-9524",
+          "mentalHealthClinic": "727-398-6661 x 14680",
+          "enrollmentCoordinator": "727-398-6661 x5684",
+          "healthConnect": "877-741-3400"
+        },
+        "services": {
+          "other": [],
+          "health": [
+            "Audiology",
+            "Cardiology",
+            "CaregiverSupport",
+            "Covid19Vaccine",
+            "DentalServices",
+            "Dermatology",
+            "EmergencyCare",
+            "Gastroenterology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "Podiatry",
+            "PrimaryCare",
+            "Urology",
+            "WomensHealth"
+          ],
+          "lastUpdated": "2022-08-19"
+        },
+        "uniqueId": "516",
+        "visn": "8",
+        "website": "https://www.va.gov/bay-pines-health-care/locations/cw-bill-young-department-of-veterans-affairs-medical-center/"
+      }
+    },
+    {
+      "id": "vha_546",
+      "type": "facility",
+      "attributes": {
+        "access": {
+          "health": [
+            {
+              "service": "Audiology",
+              "new": 18.369863,
+              "established": 3.756055
+            },
+            {
+              "service": "Cardiology",
+              "new": 25.17647,
+              "established": 13.111788
+            },
+            {
+              "service": "Dermatology",
+              "new": 27.237569,
+              "established": 10.159525
+            },
+            {
+              "service": "Gastroenterology",
+              "new": 50.68421,
+              "established": 10.284182
+            },
+            {
+              "service": "Gynecology",
+              "new": 22,
+              "established": 7.113207
+            },
+            {
+              "service": "MentalHealthCare",
+              "new": 24.494117,
+              "established": 6.501149
+            },
+            {
+              "service": "Ophthalmology",
+              "new": 49.051282,
+              "established": 18.711498
+            },
+            {
+              "service": "Optometry",
+              "new": 17.570469,
+              "established": 11.162943
+            },
+            {
+              "service": "Orthopedics",
+              "new": 30.358974,
+              "established": 10.820689
+            },
+            {
+              "service": "PrimaryCare",
+              "new": 26.283422,
+              "established": 6.574699
+            },
+            {
+              "service": "Urology",
+              "new": 62.605633,
+              "established": 15.143135
+            },
+            {
+              "service": "WomensHealth",
+              "new": 29.25,
+              "established": 4.750656
+            }
+          ],
+          "effectiveDate": "2022-08-19"
+        },
+        "activeStatus": "A",
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "33125-1624",
+            "city": "Miami",
+            "state": "FL",
+            "address1": "1201 Northwest 16th Street",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "classification": "VA Medical Center (VAMC)",
+        "detailedServices": [
+          {
+            "name": "COVID-19 vaccines",
+            "descriptionFacility": null,
+            "appointmentLeadin": "Veterans can receive their COVID-19 Vaccines at all locations with no appointment needed during regular business hours. Contact your care team for more information or to make an appointment.",
+            "appointmentPhones": [
+              {
+                "extension": null,
+                "label": "Main phone",
+                "number": "305-575-7000",
+                "type": "tel"
+              }
+            ],
+            "onlineSchedulingAvailable": null,
+            "referralRequired": "false",
+            "walkInsAccepted": "true",
+            "serviceLocations": null,
+            "path": "https://www.va.gov/miami-health-care/programs/covid-19-vaccines/"
+          }
+        ],
+        "facilityType": "va_health_facility",
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.9399999976158142,
+            "primaryCareRoutine": 0.9100000262260437,
+            "specialtyCareUrgent": 0.75,
+            "specialtyCareRoutine": 0.800000011920929
+          },
+          "effectiveDate": "2022-06-28"
+        },
+        "hours": {
+          "friday": "24/7",
+          "monday": "24/7",
+          "sunday": "24/7",
+          "tuesday": "24/7",
+          "saturday": "24/7",
+          "thursday": "24/7",
+          "wednesday": "24/7"
+        },
+        "id": "vha_546",
+        "lat": 25.79096193,
+        "long": -80.21812557,
+        "mobile": false,
+        "name": "Bruce W. Carter Department of Veterans Affairs Medical Center",
+        "operatingStatus": {
+          "code": "NORMAL",
+          "supplementalStatus": [
+            {
+              "id": "COVID_HIGH",
+              "label": "COVID-19 health protection: Levels high"
+            }
+          ]
+        },
+        "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+        "phone": {
+          "fax": "305-575-3266",
+          "main": "305-575-7000",
+          "pharmacy": "305-575-3376",
+          "afterHours": "305-575-7000",
+          "patientAdvocate": "305-575-7000 x7007",
+          "mentalHealthClinic": "305-575-7000 x 3914",
+          "enrollmentCoordinator": "305-575-7000 x3175",
+          "healthConnect": "877-741-3400"
+        },
+        "services": {
+          "other": [],
+          "health": [
+            "Audiology",
+            "Cardiology",
+            "CaregiverSupport",
+            "Covid19Vaccine",
+            "DentalServices",
+            "Dermatology",
+            "EmergencyCare",
+            "Gastroenterology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "Podiatry",
+            "PrimaryCare",
+            "Urology",
+            "WomensHealth"
+          ],
+          "lastUpdated": "2022-08-19"
+        },
+        "uniqueId": "546",
+        "visn": "8",
+        "website": "https://www.va.gov/miami-health-care/locations/bruce-w-carter-department-of-veterans-affairs-medical-center/"
+      }
+    },
+    {
+      "id": "vha_548",
+      "type": "facility",
+      "attributes": {
+        "access": {
+          "health": [
+            {
+              "service": "Audiology",
+              "new": 20.960396,
+              "established": 6.182857
+            },
+            {
+              "service": "Cardiology",
+              "new": 32.634782,
+              "established": 10.054121
+            },
+            {
+              "service": "Dermatology",
+              "new": 31.373271,
+              "established": 11.12034
+            },
+            {
+              "service": "Gastroenterology",
+              "new": 55.184466,
+              "established": 38.936605
+            },
+            {
+              "service": "Gynecology",
+              "new": 21.461538,
+              "established": 10.096153
+            },
+            {
+              "service": "MentalHealthCare",
+              "new": 19.857142,
+              "established": 23.922267
+            },
+            {
+              "service": "Ophthalmology",
+              "new": 39.122807,
+              "established": 8.725197
+            },
+            {
+              "service": "Optometry",
+              "new": 44.013029,
+              "established": 10.443587
+            },
+            {
+              "service": "Orthopedics",
+              "new": 32.718562,
+              "established": 10.542068
+            },
+            {
+              "service": "PrimaryCare",
+              "new": 28.827361,
+              "established": 8.437384
+            },
+            {
+              "service": "Urology",
+              "new": 28.074074,
+              "established": 6.218855
+            },
+            {
+              "service": "WomensHealth",
+              "new": 30.956521,
+              "established": 11.475524
+            }
+          ],
+          "effectiveDate": "2022-08-19"
+        },
+        "activeStatus": "A",
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "33410-6400",
+            "city": "West Palm Beach",
+            "state": "FL",
+            "address1": "7305 North Military Trail",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "classification": "VA Medical Center (VAMC)",
+        "detailedServices": [
+          {
+            "name": "COVID-19 vaccines",
+            "descriptionFacility": null,
+            "appointmentLeadin": "Your VA health care team will contact you if you’re eligible to get a vaccine during this time. As the supply of vaccine increases, we'll work with our care teams to let Veterans know their options.",
+            "appointmentPhones": [
+              {
+                "extension": null,
+                "label": "Main phone",
+                "number": "561-422-8262",
+                "type": "tel"
+              }
+            ],
+            "onlineSchedulingAvailable": null,
+            "referralRequired": "true",
+            "walkInsAccepted": "false",
+            "serviceLocations": null,
+            "path": "https://www.va.gov/west-palm-beach-health-care/programs/covid-19-vaccines/"
+          }
+        ],
+        "facilityType": "va_health_facility",
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.8999999761581421,
+            "primaryCareRoutine": 0.9399999976158142,
+            "specialtyCareUrgent": 0.8100000023841858,
+            "specialtyCareRoutine": 0.8799999952316284
+          },
+          "effectiveDate": "2022-06-28"
+        },
+        "hours": {
+          "friday": "24/7",
+          "monday": "24/7",
+          "sunday": "24/7",
+          "tuesday": "24/7",
+          "saturday": "24/7",
+          "thursday": "24/7",
+          "wednesday": "24/7"
+        },
+        "id": "vha_548",
+        "lat": 26.786079,
+        "long": -80.1117675,
+        "mobile": false,
+        "name": "West Palm Beach VA Medical Center",
+        "operatingStatus": {
+          "code": "NORMAL",
+          "supplementalStatus": [
+            {
+              "id": "COVID_HIGH",
+              "label": "COVID-19 health protection: Levels high"
+            }
+          ]
+        },
+        "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+        "phone": {
+          "fax": "561-422-1396",
+          "main": "561-422-8262",
+          "pharmacy": "800-317-8387",
+          "afterHours": "877-741-3400",
+          "patientAdvocate": "561-422-8600",
+          "mentalHealthClinic": "561-422-8234",
+          "enrollmentCoordinator": "561-422-6838",
+          "healthConnect": "877-741-3400"
+        },
+        "services": {
+          "other": [],
+          "health": [
+            "Audiology",
+            "Cardiology",
+            "CaregiverSupport",
+            "Covid19Vaccine",
+            "DentalServices",
+            "Dermatology",
+            "EmergencyCare",
+            "Gastroenterology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "Podiatry",
+            "PrimaryCare",
+            "Urology",
+            "WomensHealth"
+          ],
+          "lastUpdated": "2022-08-19"
+        },
+        "uniqueId": "548",
+        "visn": "8",
+        "website": "https://www.va.gov/west-palm-beach-health-care/locations/west-palm-beach-va-medical-center/"
+      }
+    },
+    {
+      "id": "vha_573",
+      "type": "facility",
+      "attributes": {
+        "access": {
+          "health": [
+            {
+              "service": "Audiology",
+              "new": 47.122641,
+              "established": 6.888636
+            },
+            {
+              "service": "Cardiology",
+              "new": 44.4,
+              "established": 8.5351
+            },
+            {
+              "service": "Gastroenterology",
+              "new": 114.375,
+              "established": 32.248847
+            },
+            {
+              "service": "Gynecology",
+              "new": 22.361111,
+              "established": 4.183333
+            },
+            {
+              "service": "MentalHealthCare",
+              "new": 25.625,
+              "established": 4.307286
+            },
+            {
+              "service": "Ophthalmology",
+              "new": 14.307692,
+              "established": 5.778443
+            },
+            {
+              "service": "Orthopedics",
+              "new": 25.203883,
+              "established": 5.859195
+            },
+            {
+              "service": "PrimaryCare",
+              "new": 30.409326,
+              "established": 5.60606
+            },
+            {
+              "service": "Urology",
+              "new": 38.462365,
+              "established": 13.90693
+            },
+            {
+              "service": "WomensHealth",
+              "new": 22.333333,
+              "established": 5.945876
+            }
+          ],
+          "effectiveDate": "2022-08-19"
+        },
+        "activeStatus": "A",
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "32608-1135",
+            "city": "Gainesville",
+            "state": "FL",
+            "address1": "1601 Southwest Archer Road",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "classification": "VA Medical Center (VAMC)",
+        "detailedServices": [
+          {
+            "name": "COVID-19 vaccines",
+            "descriptionFacility": null,
+            "appointmentLeadin": "VA is providing COVID-19 vaccines and Pfizer-BioNTech COVID-19 vaccine booster to Veterans/spouses/caregivers who have received a full series of the Pfizer-BioNTech vaccine at least six months ago.",
+            "appointmentPhones": [
+              {
+                "extension": "103755",
+                "label": "Appointment preferred; Vaccines received in Primary Care Clinics",
+                "number": "352-548-6000",
+                "type": "tel"
+              }
+            ],
+            "onlineSchedulingAvailable": null,
+            "referralRequired": "false",
+            "walkInsAccepted": "true",
+            "serviceLocations": null,
+            "path": "https://www.va.gov/north-florida-health-care/programs/covid-19-vaccines/"
+          }
+        ],
+        "facilityType": "va_health_facility",
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.6299999952316284,
+            "primaryCareRoutine": 0.8199999928474426,
+            "specialtyCareUrgent": 0.699999988079071,
+            "specialtyCareRoutine": 0.8600000143051147
+          },
+          "effectiveDate": "2022-06-28"
+        },
+        "hours": {
+          "friday": "24/7",
+          "monday": "24/7",
+          "sunday": "24/7",
+          "tuesday": "24/7",
+          "saturday": "24/7",
+          "thursday": "24/7",
+          "wednesday": "24/7"
+        },
+        "id": "vha_573",
+        "lat": 29.63851539,
+        "long": -82.34491086,
+        "mobile": false,
+        "name": "Malcom Randall Department of Veterans Affairs Medical Center",
+        "operatingStatus": {
+          "code": "NORMAL",
+          "supplementalStatus": [
+            {
+              "id": "COVID_HIGH",
+              "label": "COVID-19 health protection: Levels high"
+            }
+          ]
+        },
+        "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+        "phone": {
+          "fax": "352-379-7477",
+          "main": "352-376-1611",
+          "pharmacy": "800-349-9457",
+          "afterHours": "877-741-3400",
+          "patientAdvocate": "352-458-6000 x106019",
+          "mentalHealthClinic": "352-376-1611 x 106456",
+          "enrollmentCoordinator": "352-376-1611 x107084",
+          "healthConnect": "877-741-3400"
+        },
+        "services": {
+          "other": [],
+          "health": [
+            "Audiology",
+            "Cardiology",
+            "CaregiverSupport",
+            "Covid19Vaccine",
+            "DentalServices",
+            "EmergencyCare",
+            "Gastroenterology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Orthopedics",
+            "Podiatry",
+            "PrimaryCare",
+            "Urology",
+            "WomensHealth"
+          ],
+          "lastUpdated": "2022-08-19"
+        },
+        "uniqueId": "573",
+        "visn": "8",
+        "website": "https://www.va.gov/north-florida-health-care/locations/malcom-randall-department-of-veterans-affairs-medical-center/"
+      }
+    },
+    {
+      "id": "vha_673",
+      "type": "facility",
+      "attributes": {
+        "access": {
+          "health": [
+            {
+              "service": "Audiology",
+              "new": 9.305555,
+              "established": 2.461538
+            },
+            {
+              "service": "Cardiology",
+              "new": 26.645161,
+              "established": 10.687154
+            },
+            {
+              "service": "Gastroenterology",
+              "new": 46.762906,
+              "established": 12.138606
+            },
+            {
+              "service": "Gynecology",
+              "new": 17.896551,
+              "established": 1.663265
+            },
+            {
+              "service": "MentalHealthCare",
+              "new": 8,
+              "established": 4.124401
+            },
+            {
+              "service": "Ophthalmology",
+              "new": 2,
+              "established": 10.35
+            },
+            {
+              "service": "Optometry",
+              "new": 76.084507,
+              "established": 6.570175
+            },
+            {
+              "service": "Orthopedics",
+              "new": 61.155279,
+              "established": 14.378397
+            },
+            {
+              "service": "PrimaryCare",
+              "new": 32.453608,
+              "established": 3.555703
+            },
+            {
+              "service": "Urology",
+              "new": 40.578947,
+              "established": 5.672259
+            }
+          ],
+          "effectiveDate": "2022-08-19"
+        },
+        "activeStatus": "A",
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "33612-4745",
+            "city": "Tampa",
+            "state": "FL",
+            "address1": "13000 Bruce B. Downs Boulevard",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "classification": "VA Medical Center (VAMC)",
+        "detailedServices": [
+          {
+            "name": "COVID-19 vaccines",
+            "descriptionFacility": null,
+            "appointmentLeadin": "Your VA health care team will contact you if you’re eligible to get a vaccine during this time. As the supply of vaccine increases, we'll work with our care teams to let Veterans know their options.",
+            "appointmentPhones": [
+              {
+                "extension": null,
+                "label": "Main phone",
+                "number": "813-972-2000",
+                "type": "tel"
+              }
+            ],
+            "onlineSchedulingAvailable": null,
+            "referralRequired": "true",
+            "walkInsAccepted": "false",
+            "serviceLocations": null,
+            "path": "https://www.va.gov/tampa-health-care/programs/covid-19-vaccines/"
+          }
+        ],
+        "facilityType": "va_health_facility",
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.8299999833106995,
+            "primaryCareRoutine": 0.9200000166893005,
+            "specialtyCareUrgent": 0.7900000214576721,
+            "specialtyCareRoutine": 0.8999999761581421
+          },
+          "effectiveDate": "2022-06-28"
+        },
+        "hours": {
+          "friday": "630AM-530PM",
+          "monday": "630AM-530PM",
+          "sunday": "Closed",
+          "tuesday": "630AM-530PM",
+          "saturday": "800AM-1200PM",
+          "thursday": "630AM-530PM",
+          "wednesday": "630AM-530PM"
+        },
+        "id": "vha_673",
+        "lat": 28.064718,
+        "long": -82.4295825,
+        "mobile": false,
+        "name": "James A. Haley Veterans' Hospital",
+        "operatingStatus": {
+          "code": "NORMAL",
+          "supplementalStatus": [
+            {
+              "id": "COVID_HIGH",
+              "label": "COVID-19 health protection: Levels high"
+            }
+          ]
+        },
+        "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+        "phone": {
+          "fax": "813-972-7673",
+          "main": "813-972-2000",
+          "pharmacy": "813-972-7630",
+          "afterHours": "813-903-3600 x3650",
+          "patientAdvocate": "813-978-5856",
+          "mentalHealthClinic": "813-631-7100",
+          "enrollmentCoordinator": "813-972-2000 x5577",
+          "healthConnect": "877-741-3400"
+        },
+        "services": {
+          "other": [],
+          "health": [
+            "Audiology",
+            "Cardiology",
+            "CaregiverSupport",
+            "Covid19Vaccine",
+            "DentalServices",
+            "EmergencyCare",
+            "Gastroenterology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "Podiatry",
+            "PrimaryCare",
+            "UrgentCare",
+            "Urology"
+          ],
+          "lastUpdated": "2022-08-19"
+        },
+        "uniqueId": "673",
+        "visn": "8",
+        "website": "https://www.va.gov/tampa-health-care/locations/james-a-haley-veterans-hospital/"
+      }
+    },
+    {
+      "id": "vha_675",
+      "type": "facility",
+      "attributes": {
+        "access": {
+          "health": [
+            {
+              "service": "Audiology",
+              "new": 30.339506,
+              "established": 6.746759
+            },
+            {
+              "service": "Cardiology",
+              "new": 38.515463,
+              "established": 6.954827
+            },
+            {
+              "service": "Dermatology",
+              "new": 47.555023,
+              "established": 8.052701
+            },
+            {
+              "service": "Gastroenterology",
+              "new": 46.877162,
+              "established": 6.639969
+            },
+            {
+              "service": "Gynecology",
+              "new": 40.834862,
+              "established": 6.042194
+            },
+            {
+              "service": "MentalHealthCare",
+              "new": 9.302395,
+              "established": 11.337558
+            },
+            {
+              "service": "Ophthalmology",
+              "new": 22.477272,
+              "established": 8.088362
+            },
+            {
+              "service": "Optometry",
+              "new": 93.195195,
+              "established": 15.064516
+            },
+            {
+              "service": "Orthopedics",
+              "new": 42.435114,
+              "established": 8.829383
+            },
+            {
+              "service": "PrimaryCare",
+              "new": 12.485207,
+              "established": 3.001698
+            },
+            {
+              "service": "Urology",
+              "new": 30.904545,
+              "established": 2.656277
+            },
+            {
+              "service": "WomensHealth",
+              "new": 11.148936,
+              "established": 4.802452
+            }
+          ],
+          "effectiveDate": "2022-08-19"
+        },
+        "activeStatus": "A",
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "32827-5812",
+            "city": "Orlando",
+            "state": "FL",
+            "address1": "13800 Veterans Way",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "classification": "VA Medical Center (VAMC)",
+        "detailedServices": [
+          {
+            "name": "COVID-19 vaccines",
+            "descriptionFacility": null,
+            "appointmentLeadin": "Your VA health care team will contact you if you’re eligible to get a vaccine during this time. As the supply of vaccine increases, we'll work with our care teams to let Veterans know their options.",
+            "appointmentPhones": [
+              {
+                "extension": null,
+                "label": "Main phone",
+                "number": "407-631-1000",
+                "type": "tel"
+              }
+            ],
+            "onlineSchedulingAvailable": null,
+            "referralRequired": "true",
+            "walkInsAccepted": "false",
+            "serviceLocations": null,
+            "path": "https://www.va.gov/orlando-health-care/programs/covid-19-vaccines/"
+          }
+        ],
+        "facilityType": "va_health_facility",
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.6600000262260437,
+            "primaryCareRoutine": 0.800000011920929,
+            "specialtyCareUrgent": 0.6899999976158142,
+            "specialtyCareRoutine": 0.800000011920929
+          },
+          "effectiveDate": "2022-06-28"
+        },
+        "hours": {
+          "friday": "24/7",
+          "monday": "24/7",
+          "sunday": "24/7",
+          "tuesday": "24/7",
+          "saturday": "24/7",
+          "thursday": "24/7",
+          "wednesday": "24/7"
+        },
+        "id": "vha_675",
+        "lat": 28.36668938,
+        "long": -81.27646415,
+        "mobile": false,
+        "name": "Orlando VA Medical Center",
+        "operatingStatus": {
+          "code": "NORMAL",
+          "supplementalStatus": [
+            {
+              "id": "COVID_HIGH",
+              "label": "COVID-19 health protection: Levels high"
+            }
+          ]
+        },
+        "operationalHoursSpecialInstructions": null,
+        "phone": {
+          "fax": "407-631-0100",
+          "main": "407-631-1000",
+          "pharmacy": "407-646-4500",
+          "afterHours": "877-741-3400",
+          "patientAdvocate": "407-631-1187",
+          "mentalHealthClinic": "407-631-2050",
+          "enrollmentCoordinator": "407-631-1060",
+          "healthConnect": "877-741-3400"
+        },
+        "services": {
+          "other": [],
+          "health": [
+            "Audiology",
+            "Cardiology",
+            "CaregiverSupport",
+            "Covid19Vaccine",
+            "DentalServices",
+            "Dermatology",
+            "Gastroenterology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "Podiatry",
+            "PrimaryCare",
+            "UrgentCare",
+            "Urology",
+            "WomensHealth"
+          ],
+          "lastUpdated": "2022-08-19"
+        },
+        "uniqueId": "675",
+        "visn": "8",
+        "website": "https://www.va.gov/orlando-health-care/locations/orlando-va-medical-center/"
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "current_page": 1,
+      "prev_page": null,
+      "next_page": null,
+      "total_pages": 1
+    }
+  },
+  "links": {
+    "self": "https://platform-api.va.gov/v1/facilities/va?page=1&per_page=10&services%5B%5D=CaregiverSupport&state=FL",
+    "first": "https://platform-api.va.gov/v1/facilities/va?per_page=10&services%5B%5D=CaregiverSupport&state=FL",
+    "prev": null,
+    "next": null,
+    "last": "https://platform-api.va.gov/v1/facilities/va?page=1&per_page=10&services%5B%5D=CaregiverSupport&state=FL"
+  }
+}

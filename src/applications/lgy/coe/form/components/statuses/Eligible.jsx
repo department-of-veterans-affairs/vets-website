@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import ReviewAndDownload from '../../../shared/components/ReviewAndDownload';
 import StatusAlert from '../../../shared/components/StatusAlert';
 
-const Eligible = ({ downloadUrl, referenceNumber }) => (
+const Eligible = ({ referenceNumber }) => (
   <>
     <StatusAlert.Eligible referenceNumber={referenceNumber} />
-    <ReviewAndDownload downloadUrl={downloadUrl} />
+    <ReviewAndDownload />
     <div>
       <h2>What if my COE has errors?</h2>
       <p>
@@ -26,7 +26,6 @@ const Eligible = ({ downloadUrl, referenceNumber }) => (
 );
 
 Eligible.propTypes = {
-  downloadUrl: PropTypes.string.isRequired,
   referenceNumber: PropTypes.string.isRequired,
 };
 

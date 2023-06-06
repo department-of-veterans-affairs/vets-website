@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import environment from 'platform/utilities/environment';
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -614,11 +615,14 @@ function LocationSearchResults({
     });
     const isMobileDevice = smallScreen || landscape;
     return (
-      <div className={containerClassNames}>
+      <div
+        tabIndex="0"
+        role="region"
+        className={containerClassNames}
+        aria-label="Find VA locations on an interactive map. Tab again to interact with map"
+      >
         <map
           id="mapbox-gl-container"
-          aria-label="Find VA locations on an interactive map"
-          aria-describedby="map-instructions"
           className="desktop-map-container"
           role="region"
         >

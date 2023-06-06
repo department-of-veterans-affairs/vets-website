@@ -411,9 +411,7 @@ describe('<ReviewCollapsibleChapter>', () => {
       />,
     );
 
-    expect(wrapper.find('.schemaform-review-chapter-warning').length).to.equal(
-      1,
-    );
+    expect(wrapper.find('.schemaform-review-chapter-error').length).to.equal(1);
     expect(wrapper.find('.schemaform-review-page-warning').length).to.equal(1);
     wrapper.unmount();
   });
@@ -578,6 +576,66 @@ describe('<ReviewCollapsibleChapter>', () => {
     const titleDiv = wrapper.find('.form-review-panel-page-header');
     // Title is not rendered if it contains an empty string
     expect(titleDiv.length).to.equal(0);
+
+    wrapper.unmount();
+  });
+
+  it('should show dynamic chapter title', () => {
+    const testChapterTitle = 'test chapter title';
+    const testChapterTitleFromFunction = `${testChapterTitle} [from function]`;
+
+    const onEdit = sinon.spy();
+    const pages = [
+      {
+        pageKey: 'test',
+        title: testChapterTitleFromFunction,
+        updateFormData: (oldData, newData) => ({ ...newData, bar: 'baz' }),
+      },
+    ];
+    const chapterKey = 'test';
+    const chapter = {
+      title: ({ formData, formConfig, onReviewPage }) => {
+        if (formData && formConfig && onReviewPage) {
+          return testChapterTitleFromFunction;
+        }
+
+        return testChapterTitle;
+      },
+    };
+    const form = {
+      pages: {
+        test: {
+          title: testChapterTitleFromFunction,
+          schema: {
+            type: 'object',
+            properties: {
+              foo: { type: 'string' },
+            },
+          },
+          uiSchema: {},
+          editMode: false,
+        },
+      },
+      data: {},
+    };
+    const setPagesViewed = sinon.spy();
+
+    const wrapper = mount(
+      <ReviewCollapsibleChapter
+        setPagesViewed={setPagesViewed}
+        viewedPages={new Set()}
+        onEdit={onEdit}
+        open
+        expandedPages={pages}
+        chapterKey={chapterKey}
+        chapterFormConfig={chapter}
+        form={form}
+      />,
+    );
+
+    expect(wrapper.find('h3.accordion-header').text()).to.equal(
+      testChapterTitleFromFunction,
+    );
 
     wrapper.unmount();
   });
@@ -1217,6 +1275,39 @@ describe('<ReviewCollapsibleChapter>', () => {
       );
 
       expect(getByTestId('foo-value').innerHTML).to.equal('bar');
+    });
+
+    it('should pass the setFormData function to the custom page component', () => {
+      const onSetData = sinon.spy();
+      const CustomPage = ({ setFormData }) => (
+        <div data-testid="custom-page-review">
+          <button
+            type="button"
+            onClick={setFormData}
+            data-testid="set-form-data-button"
+          >
+            setFormData
+          </button>
+        </div>
+      );
+      const { pages, chapterKey, chapter, form } = getProps();
+      form.pages.test.editMode = true;
+      pages[0].CustomPage = CustomPage;
+      form.pages.test.CustomPage = CustomPage;
+      const { getByTestId } = render(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+          setData={onSetData}
+        />,
+      );
+
+      userEvent.click(getByTestId('set-form-data-button'));
+      expect(onSetData.callCount).to.equal(1);
     });
   });
 });

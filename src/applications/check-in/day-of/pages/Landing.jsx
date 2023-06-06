@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import recordEvent from 'platform/monitoring/record-event';
 import { api } from '../../api';
 import {
   getTokenFromLocation,
@@ -14,24 +13,27 @@ import { URLS } from '../../utils/navigation';
 import { createInitFormAction } from '../../actions/navigation';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { createAnalyticsSlug } from '../../utils/analytics';
+import { useUpdateError } from '../../hooks/useUpdateError';
 import { isUUID, SCOPES } from '../../utils/token-format-validator';
 
 import { createSetSession } from '../../actions/authentication';
-import { setApp } from '../../actions/universal';
-import { APP_NAMES } from '../../utils/appConstants';
 
 const Landing = props => {
   const { location, router } = props;
-  const { jumpToPage, goToErrorPage } = useFormRouting(router);
+  const { jumpToPage } = useFormRouting(router);
   const { t } = useTranslation();
 
+  const { updateError } = useUpdateError();
+
   const [loadMessage] = useState(t('finding-your-appointment-information'));
+  const [sessionCallMade, setSessionCallMade] = useState(false);
+
   const {
     clearCurrentSession,
     setShouldSendDemographicsFlags,
+    setShouldSendTravelPayClaim,
     setCurrentToken,
-    resetAttempts,
+    setCheckinComplete,
   } = useSessionStorage(false);
   const dispatch = useDispatch();
 
@@ -51,37 +53,30 @@ const Landing = props => {
 
   useEffect(
     () => {
-      dispatch(setApp(APP_NAMES.CHECK_IN));
-    },
-    [dispatch],
-  );
-  useEffect(
-    () => {
       const token = getTokenFromLocation(location);
+
+      setCheckinComplete(window, false);
+
       if (!token) {
-        recordEvent({
-          event: createAnalyticsSlug('landing-page-launched-no-token'),
-        });
-        goToErrorPage();
+        updateError('no-token');
+      } else if (!isUUID(token)) {
+        updateError('bad-token');
       }
 
-      if (!isUUID(token)) {
-        recordEvent({
-          event: createAnalyticsSlug('malformed-token'),
-        });
-        goToErrorPage();
-      }
-
-      if (token) {
+      if (token && !sessionCallMade) {
+        setSessionCallMade(true);
         api.v2
-          .getSession({ token })
+          .getSession({
+            token,
+          })
           .then(session => {
             if (session.errors || session.error) {
               clearCurrentSession(window);
-              goToErrorPage();
+              updateError('session-error');
             } else {
               // if session with read.full exists, go to check in page
               setShouldSendDemographicsFlags(window, true);
+              setShouldSendTravelPayClaim(window, true);
               setCurrentToken(window, token);
               const pages = createForm();
               const firstPage = pages[0];
@@ -95,9 +90,13 @@ const Landing = props => {
               }
             }
           })
-          .catch(() => {
+          .catch(e => {
             clearCurrentSession(window);
-            goToErrorPage();
+            if (e.errors && e.errors[0]?.status === '404') {
+              updateError('uuid-not-found');
+            } else {
+              updateError('error-fromlocation-landing');
+            }
           });
       }
     },
@@ -106,17 +105,19 @@ const Landing = props => {
       clearCurrentSession,
       setCurrentToken,
       jumpToPage,
-      goToErrorPage,
+      updateError,
       initForm,
+      sessionCallMade,
       setSession,
       setShouldSendDemographicsFlags,
-      resetAttempts,
+      setShouldSendTravelPayClaim,
+      setCheckinComplete,
     ],
   );
   return (
-    <>
+    <div>
       <va-loading-indicator message={loadMessage} />
-    </>
+    </div>
   );
 };
 

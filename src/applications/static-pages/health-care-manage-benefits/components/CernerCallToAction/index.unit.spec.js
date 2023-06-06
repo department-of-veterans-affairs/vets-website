@@ -9,8 +9,11 @@ describe('<CernerCallToAction>', () => {
   it('renders what we expect on its initial render', () => {
     const wrapper = shallow(<CernerCallToAction />);
 
-    const text = wrapper.text();
-    expect(text).to.include('<LoadingIndicator />');
+    expect(
+      wrapper.contains(
+        <va-loading-indicator message="Loading your information..." />,
+      ),
+    ).to.equal(true);
 
     wrapper.unmount();
   });
@@ -20,7 +23,7 @@ describe('<CernerCallToAction>', () => {
     wrapper.setState({ fetching: false, error: 'Some error' });
 
     const text = wrapper.text();
-    expect(text).to.include('<AlertBox />');
+    expect(text).to.include('Something went wrong');
 
     wrapper.unmount();
   });
@@ -30,7 +33,7 @@ describe('<CernerCallToAction>', () => {
     wrapper.setState({ fetching: false });
 
     const text = wrapper.text();
-    expect(text).to.include('<AlertBox />');
+    expect(text).to.include('Something went wrong');
 
     wrapper.unmount();
   });
@@ -47,7 +50,7 @@ describe('<CernerCallToAction>', () => {
 
     const text = wrapper.text();
     expect(text).to.include(
-      'Please choose a health management portal below, depending on your provider',
+      'Choose a health management portal, depending on your provider',
     );
 
     wrapper.unmount();

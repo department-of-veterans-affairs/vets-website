@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+// eslint-disable-next-line import/no-unresolved
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import { getLongTermAppointmentHistory } from '../../../services/var';
 import FormButtons from '../../../components/FormButtons';
 import PodiatryAppointmentUnavailableModal from './PodiatryAppointmentUnavailableModal';
 import UpdateAddressAlert from './UpdateAddressAlert';
@@ -20,7 +20,7 @@ import { resetDataLayer } from '../../../utils/events';
 
 import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
-import { getLongTermAppointmentHistoryV2 } from '../../../services/vaos';
+import { getLongTermAppointmentHistoryV2 } from '../../../services/appointment';
 
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
@@ -35,7 +35,7 @@ export default function TypeOfCarePage() {
     showCommunityCare,
     showDirectScheduling,
     showPodiatryApptUnavailableModal,
-    useV2,
+    useAcheron,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
 
   const history = useHistory();
@@ -116,8 +116,7 @@ export default function TypeOfCarePage() {
             // This could get called multiple times, but the function is memoized
             // and returns the previous promise if it eixsts
             if (showDirectScheduling) {
-              if (useV2) getLongTermAppointmentHistoryV2();
-              else getLongTermAppointmentHistory();
+              getLongTermAppointmentHistoryV2(useAcheron);
             }
 
             setData(newData);

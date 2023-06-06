@@ -22,9 +22,7 @@ describe('Check In Experience -- ', () => {
     initializeSessionGet.withSuccessfulNewSession();
     initializeSessionPost.withSuccess();
     initializeDemographicsPatch.withSuccess();
-    initializeCheckInDataGet.withSuccess({
-      numberOfCheckInAbledAppointments: 1,
-    });
+    initializeCheckInDataGet.withSuccess();
     initializeCheckInDataPost.withFailure(200);
 
     cy.visitWithUUID();
@@ -42,9 +40,10 @@ describe('Check In Experience -- ', () => {
     });
   });
   it('C5722 - Check in failed with a 200 and error message in the body', () => {
-    Appointments.attemptCheckIn(2);
-    Error.validatePageLoaded();
+    Appointments.attemptCheckIn(1);
+    Error.validatePageLoaded('check-in-failed-find-out');
     cy.injectAxe();
     cy.axeCheck();
+    cy.createScreenshots('Day-of-check-in--Error-on-check-in-no-travel-claim');
   });
 });

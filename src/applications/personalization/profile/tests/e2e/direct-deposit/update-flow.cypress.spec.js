@@ -4,6 +4,7 @@ import mockUserInEVSS from '@@profile/tests/fixtures/users/user-36.json';
 import mockDD4CNPNotEnrolled from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-set-up.json';
 import mockDD4CNPEnrolled from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-set-up.json';
 import mockDD4EDUEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-enrolled.json';
+import { mockFeatureToggles } from '../helpers';
 
 const TEST_ACCOUNT = {
   NUMBER: '123123123',
@@ -38,17 +39,19 @@ function exitBankInfoForm(type) {
 
 function saveNewBankInfo(id) {
   if (!id) {
-    cy.findByRole('button', { name: /update/i }).click({ force: true });
+    cy.findByRole('button', { name: /save/i }).click({ force: true });
   } else {
     cy.findByTestId(`${id}-bank-info-form`)
-      .findByRole('button', { name: /update/i })
+      .findByRole('button', { name: /save/i })
       .click();
   }
   cy.axeCheck();
 }
 
 function saveErrorExists() {
-  cy.findByText(/we couldn’t update your bank info/i).should('exist');
+  cy.findByText(/We couldn’t update your payment information./i).should(
+    'exist',
+  );
 }
 
 function saveSuccessAlertShown() {
@@ -67,6 +70,7 @@ describe('Direct Deposit', () => {
     cy.login(mockUserInEVSS);
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEnrolled);
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
+    mockFeatureToggles();
     cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
     cy.injectAxe();
   });
@@ -80,7 +84,9 @@ describe('Direct Deposit', () => {
         // register and the bank info form does not open
         force: true,
       });
-      cy.get('#root_CNPRoutingNumber').should('be.focused');
+      cy.get('#disability-compensation-and-pension-benefits').should(
+        'be.focused',
+      );
       fillInBankInfoForm('CNP');
       exitBankInfoForm('CNP');
       dismissUnsavedChangesModal();
@@ -126,7 +132,7 @@ describe('Direct Deposit', () => {
         // register and the bank info form does not open
         force: true,
       });
-      cy.get('#root_EDURoutingNumber').should('be.focused');
+      cy.get('#education-benefits').should('be.focused');
       fillInBankInfoForm('EDU');
       exitBankInfoForm('EDU');
       dismissUnsavedChangesModal();
@@ -184,7 +190,7 @@ describe('Direct Deposit', () => {
       // if LoadingButton.loadingText was not set
       cy.axeCheck();
       // Now wait for the update API calls to resolve to failures...
-      cy.findAllByText(/we couldn’t update your bank info/i).should(
+      cy.findAllByText(/We couldn’t update your payment information./i).should(
         'have.length',
         '2',
       );

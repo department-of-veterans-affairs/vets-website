@@ -11,6 +11,8 @@ import {
 } from '../constants/alerts';
 
 export const ConnectedDevicesContainer = () => {
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const [connectionAvailable, setConnectionAvailable] = useState(false);
   const [connectedDevices, setConnectedDevices] = useState([]);
   const [successAlert, setSuccessAlert] = useState(false);
   const [failureAlert, setFailureAlert] = useState(false);
@@ -36,9 +38,14 @@ export const ConnectedDevicesContainer = () => {
       try {
         const headers = { 'Content-Type': 'application/json' };
         const response = await apiRequest(FETCH_CONNECTED_DEVICES, { headers });
-        setConnectedDevices(response?.devices);
+        if (response?.connectionAvailable) {
+          setConnectedDevices(response.devices);
+          setConnectionAvailable(true);
+        }
       } catch (err) {
         // console.error('getConnectedDevices error:', err);
+      } finally {
+        setHasLoaded(true);
       }
     };
     getConnectedDevices();
@@ -75,14 +82,12 @@ export const ConnectedDevicesContainer = () => {
         />
       </div>
       <h2>Devices you can connect</h2>
-      <div>
-        Choose a device type below to connect. You will be directed to an
-        external website and asked to enter your sign in information for that
-        device. When complete, you will return to this page on VA.gov.
-      </div>
-
       <div data-testid="devices-to-connect-section">
-        <DevicesToConnectSection connectedDevices={connectedDevices} />
+        <DevicesToConnectSection
+          connectedDevices={connectedDevices}
+          connectionAvailable={connectionAvailable}
+          hasLoaded={hasLoaded}
+        />
       </div>
     </>
   );

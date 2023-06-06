@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
@@ -20,11 +21,7 @@ import {
   onCalendarChange,
   startRequestAppointmentFlow,
 } from '../../../../new-appointment/redux/actions';
-import {
-  mockMessagesFetch,
-  mockPreferences,
-  mockRequestSubmit,
-} from '../../../mocks/helpers';
+import { mockMessagesFetch, mockRequestSubmit } from '../../../mocks/helpers';
 import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
 import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
 import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
@@ -150,7 +147,7 @@ describe('VAOS <ReviewPage> VA request', () => {
     expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Call anytime during the day');
 
-    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
+    const editLinks = screen.getAllByTestId('edit-new-appointment');
     const uniqueLinks = new Set();
     editLinks.forEach(link => {
       expect(link).to.have.attribute('aria-label');
@@ -212,8 +209,8 @@ describe('VAOS <ReviewPage> VA request', () => {
     expect(global.window.dataLayer[2]).to.deep.include({
       event: 'vaos-request-submission-failed',
       flow: 'va-request',
-      'health-TypeOfCare': 'Primary care',
-      'health-ReasonForAppointment': 'routine-follow-up',
+      custom_string_1: 'health-TypeOfCare: Primary care',
+      custom_string_2: 'health-ReasonForAppointment: routine-follow-up',
       'vaos-preferred-combination': 'afternoon-evening-morning',
     });
     expect(global.window.dataLayer[3]).to.deep.equal({
@@ -249,7 +246,6 @@ describe('VAOS <ReviewPage> VA request', () => {
     mockRequestSubmit('va', {
       id: 'fake_id',
     });
-    mockPreferences(null);
     mockMessagesFetch('fake_id', {});
 
     const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
@@ -267,8 +263,8 @@ describe('VAOS <ReviewPage> VA request', () => {
     expect(window.dataLayer[1]).to.deep.equal({
       event: 'vaos-request-submission-successful',
       flow: 'va-request',
-      'health-TypeOfCare': 'Primary care',
-      'health-ReasonForAppointment': 'routine-follow-up',
+      custom_string_1: 'health-TypeOfCare: Primary care',
+      custom_string_2: 'health-ReasonForAppointment: routine-follow-up',
       'vaos-preferred-combination': 'afternoon-evening-morning',
       'vaos-number-of-days-from-preference': '1-1-null',
     });
@@ -465,7 +461,6 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
         reasonCode: {},
       },
     });
-    mockPreferences(null);
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,
@@ -483,8 +478,8 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     expect(window.dataLayer[1]).to.deep.equal({
       event: 'vaos-request-submission-successful',
       flow: 'va-request',
-      'health-TypeOfCare': 'Primary care',
-      'health-ReasonForAppointment': 'routine-follow-up',
+      custom_string_1: 'health-TypeOfCare: Primary care',
+      custom_string_2: 'health-ReasonForAppointment: routine-follow-up',
       'vaos-preferred-combination': 'afternoon-evening-morning',
       'vaos-number-of-days-from-preference': '1-1-null',
     });
@@ -536,8 +531,8 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     expect(window.dataLayer[1]).to.deep.include({
       event: 'vaos-request-submission-failed',
       flow: 'va-request',
-      'health-TypeOfCare': 'Primary care',
-      'health-ReasonForAppointment': 'routine-follow-up',
+      custom_string_1: 'health-TypeOfCare: Primary care',
+      custom_string_2: 'health-ReasonForAppointment: routine-follow-up',
       'vaos-preferred-combination': 'afternoon-evening-morning',
     });
   });

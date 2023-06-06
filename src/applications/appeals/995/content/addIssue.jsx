@@ -1,36 +1,38 @@
 import React from 'react';
 
-import { MAX_LENGTH } from '../constants';
-
-export const issueErrorMessages = {
-  missingIssue: 'Please add the name of an issue',
-  uniqueIssue: 'Please enter a unique condition name',
-  maxLength: `Please enter less than ${
-    MAX_LENGTH.ISSUE_NAME
-  } characters for this issue name`,
-
-  invalidDate: 'Please provide a valid date',
-  missingDecisionDate: 'Please enter a decision date',
-  invalidDateRange: (min, max) =>
-    `Please enter a year between ${min} and ${max}`,
-  pastDate: 'Please add a past decision date',
-  newerDate: 'Please add an issue with a decision date less than a year old',
+export const content = {
+  title: {
+    add: 'Add an issue',
+    edit: 'Edit an issue',
+  },
+  description: (
+    <div>
+      If you’re filing a Supplemental Claim within 1 year of receiving a
+      decision from 1 of these courts, provide the date listed on your decision
+      notice and upload a copy of your decision notice as evidence:
+      <ul>
+        <li>The United States Court of Appeals for Veterans Claims</li>
+        <li>The United States Court of Appeals for the Federal Circuit</li>
+        <li>The Supreme Court of the United States</li>
+      </ul>
+    </div>
+  ),
+  button: {
+    cancel: 'Cancel',
+    add: 'Add issue',
+    edit: 'Update issue',
+  },
+  name: {
+    label: 'Name of issue',
+    hint: (
+      <p className="vads-u-font-weight--normal label-description">
+        You can only add an issue that you’ve received a VA decision notice for.
+      </p>
+    ),
+  },
+  date: {
+    label: 'Date of decision',
+    hint:
+      'Enter the date on your decision notice (the letter you received in the mail from us).',
+  },
 };
-
-export const addIssueTitle = 'Add an issue and our decision date on this issue';
-
-export const issueNameLabel = 'Name of issue';
-export const issueNameHintText = (
-  <p className="vads-u-font-weight--normal label-description">
-    You can only add an issue that you’ve already received a VA decision notice
-    for.
-  </p>
-);
-
-export const dateOfDecisionLabel = 'Date of decision';
-export const dateOfDecisionHintText = (
-  <p className="vads-u-font-weight--normal label-description">
-    You can find the decision date on your decision notice (the letter you got
-    in the mail from us).
-  </p>
-);

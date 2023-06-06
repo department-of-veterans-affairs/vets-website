@@ -6,6 +6,7 @@ const NoHonorableDischargeSM = () => {
   recordNotificationEvent('ineligibility - received a dishonorable discharge');
   return (
     <div
+      id={serviceMemberPathPageNames.noHonorableDischargeSM}
       className="feature vads-u-background-color--gray-lightest"
       aria-live="polite"
       aria-atomic="true"

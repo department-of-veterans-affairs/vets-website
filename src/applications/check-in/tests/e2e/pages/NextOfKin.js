@@ -34,7 +34,7 @@ class NextOfKin {
   validateNextOfKinData = (parentSelector = '.confirmable-page ul') => {
     cy.get(parentSelector)
       .find('li:nth-of-type(1)')
-      .should('include.text', 'VETERAN,JONAH')
+      .should('include.text', 'Johnnie Shaye')
       .next()
       .should('include.text', 'BROTHER')
       .next()
@@ -43,6 +43,13 @@ class NextOfKin {
       .should('include.text', '111-222-3333')
       .next()
       .should('include.text', '444-555-6666');
+  };
+
+  validateBackButton = () => {
+    cy.get('a[data-testid="back-button"]')
+      .should('have.text', 'Back to last screen')
+      .should('have.attr', 'href')
+      .and('contain', 'emergency-contact');
   };
 
   attemptToGoToNextPage = (button = 'yes') => {

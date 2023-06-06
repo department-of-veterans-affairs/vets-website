@@ -9,6 +9,8 @@ import { selectProfile } from 'platform/user/selectors';
 
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
+import { FORMAT_YMD } from '../constants';
+
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
 // instead of "number ending with 1,234"
 const mask = value => {
@@ -24,12 +26,13 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
   const { dob, gender, userFullName = {} } = profile;
 
   const { first, middle, last, suffix } = userFullName;
-  const momentDob = moment(dob || null); // called with undefined = today's date
+  const momentDob = moment(dob || null, FORMAT_YMD); // called with undefined = today's date
 
   return (
     <>
-      <p>This is the personal information we have on file for you.</p>
-      <br />
+      <h3 className="vads-u-margin-y--2">
+        Confirm the personal information we have on file for you.
+      </h3>
       <div className="blue-bar-block">
         <strong className="name">
           {`${first || ''} ${middle || ''} ${last || ''}`}
@@ -51,12 +54,17 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
           Gender: <span className="gender">{genderLabels?.[gender] || ''}</span>
         </p>
       </div>
-      <br />
+
+      <br role="presentation" />
+
       <p>
         <strong>Note:</strong> If you need to update your personal information,
-        please call Veterans Benefits Assistance toll free at{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-        8:00 a.m. to 9:00 p.m. ET.
+        you can call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />.
+        We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
+        <dfn>
+          <abbr title="Eastern Time">ET</abbr>
+        </dfn>
+        .
       </p>
     </>
   );

@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { formatDate, statusUrl } from './helpers';
+import { formatDateLong } from 'platform/utilities/date';
+import { statusUrl } from './helpers';
 
-const Denied = ({ origin, referenceNumber, requestDate }) => (
-  <va-alert status="info">
+const Denied = ({ origin, referenceNumber, requestDate, testUrl = '' }) => (
+  <va-alert status="info" class="vads-u-margin-bottom--2">
     <h2 slot="headline">We denied your request for a COE</h2>
     <div>
-      <p>You requested a COE on: {formatDate(requestDate)}</p>
+      <p>You requested a COE on: {formatDateLong(requestDate)}</p>
       <p>
         We reviewed your request. You don’t qualify for a COE.
         {origin === 'form' && (
           <>
             <br />
-            <a href={statusUrl}>
+            <a href={testUrl || statusUrl}>
               Go to your VA home loan COE page to see status details
             </a>
           </>
@@ -27,7 +28,8 @@ const Denied = ({ origin, referenceNumber, requestDate }) => (
 Denied.propTypes = {
   origin: PropTypes.oneOf(['form', 'status']).isRequired,
   referenceNumber: PropTypes.string.isRequired,
-  requestDate: PropTypes.number,
+  requestDate: PropTypes.number.isRequired,
+  testUrl: PropTypes.string,
 };
 
 export default Denied;

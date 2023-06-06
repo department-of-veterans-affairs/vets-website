@@ -71,11 +71,16 @@ export default {
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_FLAGSHIP_MOBILE],
   },
   [EXTERNAL_APPS.VA_OCC_MOBILE]: {
-    allowedSignInProviders: { ...defaultSignInProviders },
-    allowedSignUpProviders: { ...defaultSignUpProviders },
+    allowedSignInProviders: {
+      default: { ...defaultSignInProviders },
+      registeredApps: { dslogon: true },
+    },
+    allowedSignUpProviders: {
+      default: { ...defaultSignUpProviders },
+    },
     isMobile: true,
     queryParams: { ...defaultMobileQueryParams },
-    OAuthEnabled: true,
+    OAuthEnabled: false,
     requiresVerification: true,
     oAuthOptions: defaultMobileOAuthOptions,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_OCC_MOBILE],

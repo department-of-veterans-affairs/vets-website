@@ -9,7 +9,7 @@ ARG userid=504
 RUN groupadd -g $userid vets-website \
   && useradd -u $userid -r -m -d /application -g vets-website vets-website
 
-ENV YARN_VERSION 1.21.1
+ENV YARN_VERSION 1.22.19
 ENV NODE_ENV production
 
 RUN apt-get update
@@ -26,9 +26,12 @@ RUN apt-get install -y --no-install-recommends gconf-service libasound2 libatk1.
                                                                  libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 \
                                                                  libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 \
                                                 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
-                                                fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils \
+                                                fonts-liberation libnss3 lsb-release xdg-utils \
                                                 x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
-                                                xfonts-cyrillic x11-apps xvfb xauth netcat dumb-init libgbm-dev
+                                                xfonts-cyrillic x11-apps xvfb xauth netcat dumb-init libgbm-dev \ 
+                                                && wget http://http.us.debian.org/debian/pool/main/liba/libappindicator/libappindicator1_0.4.92-7_amd64.deb -O /tmp/libappindicator1_0.4.92-7_amd64.deb \
+                                                && wget http://http.us.debian.org/debian/pool/main/libi/libindicator/libindicator7_0.5.0-4_amd64.deb -O /tmp/libindicator7_0.5.0-4_amd64.deb \
+                                                && apt-get install -y  /tmp/libindicator7_0.5.0-4_amd64.deb /tmp/libappindicator1_0.4.92-7_amd64.deb
 
 RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /cc-test-reporter
 RUN chmod +x /cc-test-reporter
@@ -45,6 +48,12 @@ ENV AWS_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
 ADD http://crl.pki.va.gov/PKI/AIA/VA/VA-Internal-S2-RCA1-v1.cer /usr/local/share/ca-certificates/
 RUN openssl x509 -inform DER -in /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.cer -out /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.crt
 RUN update-ca-certificates
+
+# install RVM, Ruby, and Bundler
+# RUN \curl -L https://get.rvm.io | bash -s stable
+# RUN /bin/bash -l -c "rvm requirements"
+# RUN /bin/bash -l -c "rvm install 2.7.6"
+# RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
 
 RUN mkdir -p /application
 WORKDIR /application

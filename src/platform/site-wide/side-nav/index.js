@@ -1,9 +1,9 @@
 // Dependencies
 import React from 'react';
 // Relative
+import widgetTypes from 'applications/static-pages/widgetTypes';
 import startReactApp from '../../startup/react';
 import { normalizeSideNavData } from './helpers';
-import widgetTypes from '~/applications/static-pages/widgetTypes';
 
 // Are you looking for where this is used?
 // Search for `<div data-widget-type="side-nav"></div>` to find all the places

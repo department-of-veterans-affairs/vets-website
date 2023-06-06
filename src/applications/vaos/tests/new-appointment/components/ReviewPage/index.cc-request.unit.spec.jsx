@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
@@ -20,11 +21,7 @@ import {
   onCalendarChange,
   startRequestAppointmentFlow,
 } from '../../../../new-appointment/redux/actions';
-import {
-  mockMessagesFetch,
-  mockPreferences,
-  mockRequestSubmit,
-} from '../../../mocks/helpers';
+import { mockMessagesFetch, mockRequestSubmit } from '../../../mocks/helpers';
 
 import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
 import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
@@ -119,7 +116,6 @@ describe('VAOS <ReviewPage> CC request', () => {
     mockRequestSubmit('cc', {
       id: 'fake_id',
     });
-    mockPreferences(null);
     mockMessagesFetch('fake_id', {});
 
     const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
@@ -180,7 +176,7 @@ describe('VAOS <ReviewPage> CC request', () => {
     expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Call anytime during the day');
 
-    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
+    const editLinks = screen.getAllByTestId('edit-new-appointment');
     const uniqueLinks = new Set();
     editLinks.forEach(link => {
       expect(link).to.have.attribute('aria-label');
@@ -379,7 +375,7 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
     expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Call anytime during the day');
 
-    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
+    const editLinks = screen.getAllByTestId('edit-new-appointment');
     const uniqueLinks = new Set();
     editLinks.forEach(link => {
       expect(link).to.have.attribute('aria-label');
@@ -392,7 +388,6 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
     mockRequestSubmit('cc', {
       id: 'fake_id',
     });
-    mockPreferences(null);
     mockMessagesFetch('fake_id', {});
 
     const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
@@ -421,12 +416,6 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
       state: 'DC',
       zipCode: '20005-3477',
     });
-
-    const messageData = JSON.parse(global.fetch.getCall(1).args[1].body);
-    expect(messageData.messageText).to.equal('I need an appt');
-
-    const preferences = JSON.parse(global.fetch.getCall(3).args[1].body);
-    expect(preferences.emailAddress).to.equal('joeblow@gmail.com');
   });
 
   it('should show error message on failure', async () => {
@@ -564,7 +553,6 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
         reasonCode: {},
       },
     });
-    mockPreferences(null);
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,
@@ -655,7 +643,6 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
         reasonCode: {},
       },
     });
-    mockPreferences(null);
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,
@@ -673,8 +660,8 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
     expect(global.window.dataLayer[1]).to.deep.include({
       event: 'vaos-community-care-submission-successful',
       flow: 'cc-request',
-      'health-TypeOfCare': 'Primary care',
-      'health-ReasonForAppointment': undefined,
+      custom_string_1: 'health-TypeOfCare: Primary care',
+      custom_string_2: 'health-ReasonForAppointment: undefined',
       'vaos-community-care-preferred-language': 'english',
       'vaos-number-of-preferred-providers': 1,
       'vaos-number-of-days-from-preference': '1-1-null',
@@ -732,8 +719,8 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
     expect(global.window.dataLayer[1]).to.deep.include({
       event: 'vaos-community-care-submission-failed',
       flow: 'cc-request',
-      'health-TypeOfCare': 'Primary care',
-      'health-ReasonForAppointment': undefined,
+      custom_string_1: 'health-TypeOfCare: Primary care',
+      custom_string_2: 'health-ReasonForAppointment: undefined',
       'vaos-community-care-preferred-language': 'english',
       'vaos-number-of-preferred-providers': 1,
       'vaos-number-of-days-from-preference': '1-1-null',

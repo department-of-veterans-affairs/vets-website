@@ -1,6 +1,6 @@
 import { isClientError, isServerError } from './util';
 
-const totalDisabilityError = state => {
+export const totalDisabilityError = state => {
   return state.totalRating?.error ?? null;
 };
 

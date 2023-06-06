@@ -1,9 +1,13 @@
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import newAppointmentFlow from '../../newAppointmentFlow';
-import { FLOW_TYPES } from '../../../utils/constants';
+import { FACILITY_TYPES, FLOW_TYPES } from '../../../utils/constants';
+import { selectFeatureAcheronService } from '../../../redux/selectors';
+import { getFlowType, getFormData } from '../../redux/selectors';
 
 function formatBestTimetoCall(bestTime) {
   const times = [];
@@ -31,7 +35,20 @@ function formatBestTimetoCall(bestTime) {
   return output.toLowerCase();
 }
 
-export default function ContactDetailSection({ data, flowType }) {
+function handleClick(history) {
+  return () => {
+    history.push(newAppointmentFlow.contactInfo.url);
+  };
+}
+
+export default function ContactDetailSection({ data }) {
+  const formData = useSelector(getFormData);
+  const featureAcheronService = useSelector(state =>
+    selectFeatureAcheronService(state),
+  );
+  const flowType = useSelector(getFlowType);
+  const history = useHistory();
+
   return (
     <>
       <div className="vads-l-grid-container vads-u-padding--0">
@@ -46,21 +63,30 @@ export default function ContactDetailSection({ data, flowType }) {
                 contact={data.phoneNumber}
                 data-testid="patient-telephone"
               />
-              {flowType !== FLOW_TYPES.DIRECT && (
-                <>
-                  <br />
-                  <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
-                </>
-              )}
+              {featureAcheronService &&
+                formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
+                flowType === FLOW_TYPES.REQUEST && (
+                  <>
+                    <br />
+                    <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
+                  </>
+                )}
+              {!featureAcheronService &&
+                flowType !== FLOW_TYPES.DIRECT && (
+                  <>
+                    <br />
+                    <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
+                  </>
+                )}
             </span>
           </div>
           <div>
-            <Link
-              to={newAppointmentFlow.contactInfo.url}
+            <va-link
               aria-label="Edit call back time"
-            >
-              Edit
-            </Link>
+              text="Edit"
+              data-testid="edit-new-appointment"
+              onClick={handleClick(history)}
+            />
           </div>
         </div>
       </div>

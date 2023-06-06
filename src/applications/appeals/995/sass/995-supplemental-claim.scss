@@ -32,18 +32,28 @@
   display: none;
 }
 
+#root_additionalDocuments_add_label {
+  margin-top: 0;
+}
+
 /* Contested issue cards (contested issue page & review/submit page)
  * This could go in the schemaform css, it's used in form 526 & HLR
  */
-dl.review {
-  /* v2 cards */
-  .widget-wrapper-v2 {
-    display: flex;
+.issues {
 
-    dt.widget-checkbox-wrap {
+  .widget-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    .widget-checkbox-wrap {
       margin: 0;
       width: 5rem;
       min-width: 5rem;
+
+      label {
+        margin-top: 0;
+      }
 
       [type="checkbox"] {
         width: 1.8rem;
@@ -52,26 +62,13 @@ dl.review {
       }
     }
 
-    dt label {
-      margin-top: 0;
-    }
-
-    .widget-title {
-      margin: 0;
-      white-space: nowrap;
-      text-transform: capitalize;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      width: calc(100% - 7rem);
-    }
-
-    dd.widget-content {
+    .widget-content {
       width: 100%;
       margin-inline-start: 0; /* override user agent */
       text-align: left;
       margin: 0;
     }
-    dd.widget-content.widget-edit {
+    .widget-content.widget-edit {
       margin-top: 0;
       margin-right: 0;
       display: flex;
@@ -90,50 +87,20 @@ dl.review {
         align-self: center;
       }
     }
-    .change-issue-link:visited {
+    .edit-issue-link:visited {
       color: inherit;
     }
   }
 
-  .widget-outline {
-    background: transparent;
-    border: solid 4px $color-primary-alt-light;
-    border-radius: 7px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    max-width: auto; /* IE11 */
-    max-width: unset;
-
-    &.selected {
-      border-color: $color-primary;
-    }
-
-    &::before {
-      position: absolute;
-      margin-left: 1.5rem;
-      margin-top: 1.5rem;
-    }
-  }
-
   .checkbox-hidden {
-    dt.widget-checkbox-wrap {
-      width: 0;
-    }
-
-    .widget-title {
-      margin-left: 0;
-      width: 100%;
-      overflow: visible;
-      white-space: normal;
-    }
-
     .widget-content {
       margin: 2rem 0 0 2rem;
     }
   }
+}
+
+.usa-accordion-content .issues .checkbox-hidden .widget-content {
+  margin-left: 0; /* remove card margin on review & submit page */
 }
 
 .usa-input-error #root_additionalIssues_0_decisionDate-label {
@@ -144,6 +111,15 @@ dl.review {
   word-break: break-word;
 }
 
+ul.issues-summary,
+ul.evidence-summary,
+.usa-accordion-bordered ul li ul.evidence-summary,
+ul.issues,
+.usa-accordion-bordered ul li ul.issues {
+  list-style: none;
+  padding: 0;
+}
+
 /* add/update & cancel buttons on edit contact info page */
 @media screen and (min-width: 481px) {
   .va-profile-wrapper button {
@@ -151,6 +127,88 @@ dl.review {
   }
 }
 
+@media screen and (max-width: $small-screen) {
+  dl.review .review-row > dd {
+    text-align: left;
+  }
+}
+
 #root_form5103Acknowledged-label {
   display: none !important;
+}
+
+/* Hide home & mobile phone extension entry, per design */
+article[data-location="edit-mobile-phone"] .schemaform-field-template:not(.schemaform-first-field),
+article[data-location="edit-home-phone"] va-text-input[name="extension"] {
+  display: none;
+}
+
+article[data-location="issue-summary"] {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+article[data-location="review-and-submit"],
+article[data-location="primary-phone-number"],
+article[data-location$="request-va-medical-records"],
+article[data-location$="request-private-medical-records"],
+article[data-location$="upload-evidence"] {
+  va-radio::part(header) {
+    font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+    line-height: 1.3;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  span.schemaform-required-span,
+  va-radio::part(required) {
+    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+}
+
+article[data-location="supporting-evidence/private-medical-records"] {
+  /* Add margin for error messages, otherwise the label + error + input take up
+   * the same space
+   */
+  va-select[error],
+  va-text-input[error] {
+    margin-top: 3rem;
+  }
+}
+
+article[data-location$="va-medical-records"] {
+  /* editing location card */
+  label#root_locations_0_locationAndName-label,
+  .va-growable-expanded h3 {
+    margin-top: 0;
+  }
+  .va-growable-background {
+    border-bottom: solid 1px $color-gray-light;
+  }
+}
+
+article[data-location="review-and-submit"] {
+  /* Add actual phone number to radio option */
+  va-radio-option:after {
+    margin-left: 3rem;
+  }
+
+  .review-fieldset {
+    margin-top: 2rem;
+
+    legend {
+      border-top: 1px solid $color-gray-light;
+      padding-top: 2rem;
+    }
+  }
+}
+
+article[data-location$="private-medical-records-authorization"] {
+  /* hide duplicate single checkbox label; !important needed to override
+     _inputs.scss using !important */
+  label#root_privacyAgreementAccepted-label {
+    display: none !important;
+  }
 }

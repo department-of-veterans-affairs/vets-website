@@ -72,7 +72,7 @@ function createReview(additions) {
   octokit.pulls
     .requestReviewers({
       ...octokitDefaults,
-      team_reviewers: ['platform-release-tools'],
+      team_reviewers: ['va-platform-cop-frontend'],
     })
     .catch(console.error);
 

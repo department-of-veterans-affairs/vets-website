@@ -1,0 +1,28 @@
+/** Applied overrides for components utilized for the application download link **/
+
+.caregiver-application--download {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+
+  .loading-indicator {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    margin: 0 1rem 0 0;
+  }
+
+  .loading-indicator-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin-top: 1.6rem;
+  }
+
+  .loading-indicator-container .loading-indicator::after {
+    align-self: center;
+    height: 1rem;
+    width: 1rem;
+  }
+}

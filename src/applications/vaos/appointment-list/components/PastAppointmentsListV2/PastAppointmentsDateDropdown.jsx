@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import classNames from 'classnames';
 import Select from '../../../components/Select';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 
@@ -49,8 +50,11 @@ export default function PastAppointmentsDateDropdown({
           featureStatusImprovement,
         })}
         id="date-dropdown"
-        value={dateRangeIndex}
+        value={dateRangeIndex.toString()}
         label="Select a date range"
+        className={classNames(
+          'xsmall-screen:vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 ',
+        )}
       />
       {!featureStatusImprovement && (
         <button

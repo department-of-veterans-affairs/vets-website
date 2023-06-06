@@ -22,6 +22,16 @@ const MessageWrapper = ({ children, classes, id, alert }) => {
   );
 };
 
+MessageWrapper.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+  alert: PropTypes.bool,
+  classes: PropTypes.string,
+  id: PropTypes.string,
+};
+
 /**
  * A radio button group with a label.
  *
@@ -71,11 +81,11 @@ const NotificationRadioButtons = ({
   };
 
   let errorSpan = '';
-  let errorSpanId = undefined;
+  let errorSpanId;
   if (errorMessage) {
     errorSpanId = `${id}-error-message`;
     errorSpan = (
-      <MessageWrapper id={errorSpanId} classes={'rb-input-message-error'} alert>
+      <MessageWrapper id={errorSpanId} classes="rb-input-message-error" alert>
         <i
           className="fas fa-exclamation-circle vads-u-margin-right--1"
           aria-hidden="true"
@@ -85,23 +95,8 @@ const NotificationRadioButtons = ({
     );
   }
 
-  let warningSpan = '';
-  let warningSpanId = undefined;
-  if (warningMessage) {
-    warningSpanId = `${id}-warning-message`;
-    warningSpan = (
-      <MessageWrapper id={warningSpanId} classes={'rb-input-message-warning'}>
-        <i
-          className="fas fa-exclamation-triangle vads-u-margin-right--1"
-          aria-hidden="true"
-        />{' '}
-        <span className="sr-only">Warning</span> {warningMessage}
-      </MessageWrapper>
-    );
-  }
-
   let loadingSpan = '';
-  let loadingSpanId = undefined;
+  let loadingSpanId;
   if (loadingMessage) {
     loadingSpanId = `${id}-loading-message`;
     loadingSpan = (
@@ -120,13 +115,13 @@ const NotificationRadioButtons = ({
   }
 
   let successSpan = '';
-  let successSpanId = undefined;
+  let successSpanId;
   if (successMessage) {
     successSpanId = `${id}-success-message`;
     successSpan = (
       <MessageWrapper
         id={successSpanId}
-        classes={'rb-input-message-success'}
+        classes="rb-input-message-success"
         alert
       >
         <i
@@ -198,7 +193,6 @@ const NotificationRadioButtons = ({
     'rb-input',
     {
       'rb-input-error': errorMessage,
-      'rb-input-warning': warningMessage,
       'rb-input-success': successMessage,
     },
     additionalFieldsetClass,
@@ -229,7 +223,6 @@ const NotificationRadioButtons = ({
         </p>
       ) : null}
       {!loadingMessage && !successMessage && !warningMessage && errorSpan}
-      {!loadingMessage && !errorMessage && !successMessage && warningSpan}
       {!loadingMessage && !errorMessage && !warningMessage && successSpan}
       {!errorMessage && !successMessage && !warningMessage && loadingSpan}
       {optionElements}
@@ -239,46 +232,9 @@ const NotificationRadioButtons = ({
 
 NotificationRadioButtons.propTypes = {
   /**
-   * Additional fieldset classes
-   */
-  additionalFieldsetClass: PropTypes.string,
-  /**
-   * Additional legend classes
-   */
-  additionalLegendClass: PropTypes.string,
-  /**
-   * Child elements (content)
-   */
-  children: PropTypes.node,
-  /**
-   * Radio button group error message
-   */
-  errorMessage: PropTypes.string,
-  /**
-   * Radio button group warning message
-   */
-  warningMessage: PropTypes.string,
-  /**
-   * Radio button group success message
-   */
-  successMessage: PropTypes.string,
-  /**
    * Radio button group field label
    */
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-  /**
-   * Name attribute
-   */
-  name: PropTypes.string,
-  id: PropTypes.string,
-  /**
-   * Mouse Down handler
-   */
-  onMouseDown: PropTypes.func,
-  /**
-   * Key Down handler
-   */
-  onKeyDown: PropTypes.func,
   /**
    * Array of options to populate group. Each item is a string or an object
    * representing an Expanding Group.
@@ -319,13 +275,53 @@ NotificationRadioButtons.propTypes = {
    */
   onValueChange: PropTypes.func.isRequired,
   /**
-   * Toggles required field indicator
+   * Additional fieldset classes
    */
-  required: PropTypes.bool,
+  additionalFieldsetClass: PropTypes.string,
+  /**
+   * Additional legend classes
+   */
+  additionalLegendClass: PropTypes.string,
   /**
    * aria-describedby labels array based on the option index
    */
   ariaDescribedby: PropTypes.arrayOf(PropTypes.string),
+  /**
+   * Child elements (content)
+   */
+  children: PropTypes.node,
+  description: PropTypes.string,
+  disabled: PropTypes.bool,
+  /**
+   * Radio button group error message
+   */
+  errorMessage: PropTypes.string,
+  id: PropTypes.string,
+  loadingMessage: PropTypes.string,
+  /**
+   * Name attribute
+   */
+  name: PropTypes.string,
+  /**
+   * Toggles required field indicator
+   */
+  required: PropTypes.bool,
+  /**
+   * Radio button group success message
+   */
+  successMessage: PropTypes.string,
+  /**
+   * Radio button group warning message
+   */
+  warningMessage: PropTypes.string,
+  /**
+   * Mouse Down handler
+   */
+  onMouseDown: PropTypes.func,
+  /**
+   * Key Down handler
+   */
+  onKeyDown: PropTypes.func,
 };
 
 export default NotificationRadioButtons;

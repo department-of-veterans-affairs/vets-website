@@ -28,16 +28,40 @@ const generateMockSlots = require('./var/slots');
 // v2
 const requestsV2 = require('./v2/requests.json');
 const facilitiesV2 = require('./v2/facilities.json');
-const providersV2 = require('./v2/providers.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
 const confirmedV2 = require('./v2/confirmed.json');
 
+// Uncomment to produce backend service errors
+// const meta = require('./v2/meta_failures.json');
+
+// Returns the meta object without any backend service errors
+const meta = require('./v2/meta.json');
+
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 const mockAppts = [];
 let currentMockId = 1;
+
+// key: NPI, value: Provider Name
+const providerMock = {
+  1801312053: 'AJADI, ADEDIWURA',
+  1952935777: 'OH, JANICE',
+  1992228522: 'SMAWLEY, DONNA C',
+  1053355479: 'LYONS, KRISTYN',
+  1396153797: 'STEWART, DARRYL',
+  1154867018: 'GUILD, MICHAELA',
+  1205346533: 'FREEMAN, SHARON',
+  1548796501: 'CHAIB, EMBARKA',
+  1780016782: 'Lawton, Amanda',
+  1558874636: 'MELTON, JOY C',
+  1982005708: 'OLUBUNMI, ABOLANLE A',
+  1649609736: 'REISER, KATRINA',
+  1770999294: 'TUCKER JONES, MICHELLE A',
+  1255962510: 'OYEKAN, ADETOLA O',
+  1770904021: 'Jones, Tillie',
+};
 
 const responses = {
   'GET /vaos/v0/appointments': (req, res) => {
@@ -159,7 +183,6 @@ const responses = {
   'GET /vaos/v0/facilities/:id/cancel_reasons': cancelReasons,
   'GET /vaos/v0/request_eligibility_criteria': requestEligibilityCriteria,
   'GET /vaos/v0/direct_booking_eligibility_criteria': directBookingEligibilityCriteria,
-  'GET /vaos/v0/preferences': { data: { attributes: { emailAllowed: true } } },
   'PUT /vaos/v0/appointments/cancel': {},
   'POST /vaos/v0/appointment_requests': {
     data: {
@@ -189,16 +212,20 @@ const responses = {
       attributes: {},
     },
   },
-  'PUT /vaos/v0/preferences': { data: { attributes: {} } },
   'POST /vaos/v2/appointments': (req, res) => {
+    const {
+      practitioners = [{ identifier: [{ system: null, value: null }] }],
+    } = req.body;
+    const providerNpi = practitioners[0].identifier[0].value;
     const submittedAppt = {
       id: `mock${currentMockId}`,
       attributes: {
         ...req.body,
         start: req.body.slot ? req.body.slot.start : null,
+        preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
       },
     };
-    currentMockId++;
+    currentMockId += 1;
     mockAppts.push(submittedAppt);
     return res.json({ data: submittedAppt });
   },
@@ -235,12 +262,29 @@ const responses = {
     const filteredAppointments = appointments.filter(appointment => {
       return req.query.statuses.some(status => {
         if (appointment.attributes.status === status) {
-          if (appointment.id.startsWith('mock')) return true;
+          // Automatically add appointments with these statuses to the collection
+          if (
+            appointment.id.startsWith('mock') ||
+            appointment.attributes.status === 'cancelled'
+          )
+            return true;
 
-          const date =
-            status === 'proposed'
-              ? moment(appointment.attributes.requestedPeriods[0]?.start)
-              : moment(appointment.attributes.start);
+          const { requestedPeriods } = appointment.attributes;
+          let date = moment.invalid();
+
+          if (status === 'proposed') {
+            // Must check for valid data since creating a moment object with invalid
+            // data defaults to creating a moment object using the current date.
+            if (
+              Array.isArray(requestedPeriods) &&
+              requestedPeriods.length > 0
+            ) {
+              date = moment(requestedPeriods[0].start);
+            }
+          } else if (status === 'booked') {
+            date = moment(appointment.attributes.start);
+          }
+
           if (
             date.isValid() &&
             date.isBetween(req.query.start, req.query.end, 'day', '(]')
@@ -251,7 +295,7 @@ const responses = {
         return false;
       });
     });
-    return res.json({ data: filteredAppointments });
+    return res.json({ data: filteredAppointments, meta });
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
@@ -268,14 +312,18 @@ const responses = {
 
     return res.json(schedulingConfigurations);
   },
+  'GET /vaos/v2/community_care/eligibility/:id': (req, res) => {
+    return res.json({
+      data: {
+        id: req.param.id,
+        type: 'cc_eligibility',
+        attributes: { eligible: true },
+      },
+    });
+  },
   'GET /vaos/v2/facilities/:id': (req, res) => {
     return res.json({
       data: facilitiesV2.data.find(facility => facility.id === req.params.id),
-    });
-  },
-  'GET /vaos/v2/providers/:id': (req, res) => {
-    return res.json({
-      data: providersV2.data.find(provider => provider.id === req.params.id),
     });
   },
   'GET /vaos/v2/facilities': (req, res) => {
@@ -415,6 +463,134 @@ const responses = {
             },
           ],
         },
+        vet360ContactInformation: {
+          email: {
+            createdAt: '2018-04-20T17:24:13.000Z',
+            emailAddress: 'myemail72585885@unattended.com',
+            effectiveEndDate: null,
+            effectiveStartDate: '2019-03-07T22:32:40.000Z',
+            id: 20648,
+            sourceDate: '2019-03-07T22:32:40.000Z',
+            sourceSystemUser: null,
+            transactionId: '44a0858b-3dd1-4de2-903d-38b147981a9c',
+            updatedAt: '2019-03-08T05:09:58.000Z',
+            vet360Id: '1273766',
+          },
+          residentialAddress: {
+            addressLine1: '345 Home Address St.',
+            addressLine2: null,
+            addressLine3: null,
+            addressPou: 'RESIDENCE/CHOICE',
+            addressType: 'DOMESTIC',
+            city: 'San Francisco',
+            countryName: 'United States',
+            countryCodeIso2: 'US',
+            countryCodeIso3: 'USA',
+            countryCodeFips: null,
+            countyCode: null,
+            countyName: null,
+            createdAt: '2022-03-21T21:26:35.000Z',
+            effectiveEndDate: null,
+            effectiveStartDate: '2022-03-23T19:11:51.000Z',
+            geocodeDate: '2022-03-23T19:11:51.000Z',
+            geocodePrecision: null,
+            id: 312003,
+            internationalPostalCode: null,
+            latitude: 37.781,
+            longitude: -122.4605,
+            province: null,
+            sourceDate: '2022-03-23T19:11:51.000Z',
+            sourceSystemUser: null,
+            stateCode: 'CA',
+            transactionId: 'c5adb989-3b87-47b6-afe3-dc18800cedc3',
+            updatedAt: '2022-03-23T19:11:52.000Z',
+            validationKey: null,
+            vet360Id: '1273766',
+            zipCode: '94118',
+            zipCodeSuffix: null,
+            badAddress: null,
+          },
+          mailingAddress: {
+            addressLine1: '123 Mailing Address St.',
+            addressLine2: 'Apt 1',
+            addressLine3: null,
+            addressPou: 'CORRESPONDENCE',
+            addressType: 'DOMESTIC',
+            city: 'Fulton',
+            countryName: 'United States',
+            countryCodeIso2: 'US',
+            countryCodeIso3: 'USA',
+            countryCodeFips: null,
+            countyCode: null,
+            countyName: null,
+            createdAt: '2022-03-21T21:06:15.000Z',
+            effectiveEndDate: null,
+            effectiveStartDate: '2022-03-23T19:14:59.000Z',
+            geocodeDate: '2022-03-23T19:15:00.000Z',
+            geocodePrecision: null,
+            id: 311999,
+            internationalPostalCode: null,
+            latitude: 45.2248,
+            longitude: -121.3595,
+            province: null,
+            sourceDate: '2022-03-23T19:14:59.000Z',
+            sourceSystemUser: null,
+            stateCode: 'NY',
+            transactionId: '3ea3ecf8-3ddf-46d9-8a4b-b5554385b3fb',
+            updatedAt: '2022-03-23T19:15:01.000Z',
+            validationKey: null,
+            vet360Id: '1273766',
+            zipCode: '97063',
+            zipCodeSuffix: null,
+            badAddress: null,
+          },
+          mobilePhone: {
+            areaCode: '619',
+            countryCode: '1',
+            createdAt: '2022-01-12T16:22:03.000Z',
+            extension: null,
+            effectiveEndDate: null,
+            effectiveStartDate: '2022-02-17T20:15:44.000Z',
+            id: 269804,
+            isInternational: false,
+            isTextable: null,
+            isTextPermitted: null,
+            isTty: null,
+            isVoicemailable: null,
+            phoneNumber: '5551234',
+            phoneType: 'MOBILE',
+            sourceDate: '2022-02-17T20:15:44.000Z',
+            sourceSystemUser: null,
+            transactionId: 'fdb13953-f670-4bd3-a3bb-8881eb9165dd',
+            updatedAt: '2022-02-17T20:15:45.000Z',
+            vet360Id: '1273766',
+          },
+          homePhone: {
+            areaCode: '989',
+            countryCode: '1',
+            createdAt: '2018-04-20T17:22:56.000Z',
+            extension: null,
+            effectiveEndDate: null,
+            effectiveStartDate: '2022-03-11T16:31:55.000Z',
+            id: 2272982,
+            isInternational: false,
+            isTextable: null,
+            isTextPermitted: null,
+            isTty: null,
+            isVoicemailable: null,
+            phoneNumber: '8981233',
+            phoneType: 'HOME',
+            sourceDate: '2022-03-11T16:31:55.000Z',
+            sourceSystemUser: null,
+            transactionId: '2814cdf6-7f2c-431b-95f3-d37f3837215d',
+            updatedAt: '2022-03-11T16:31:56.000Z',
+            vet360Id: '1273766',
+          },
+          workPhone: null,
+          temporaryPhone: null,
+          faxNumber: null,
+          textPermission: null,
+        },
       },
     },
     meta: { errors: null },
@@ -438,15 +614,20 @@ const responses = {
         { name: 'vaOnlineSchedulingExpressCare', value: true },
         { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
-        { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
         { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
-        { name: 'vaOnlineSchedulingVariantTesting', value: false },
-        { name: 'vaOnlineSchedulingPocHealthApt', value: true },
         { name: 'vaOnlineSchedulingStatusImprovement', value: true },
-        { name: 'vaOnlineFilter36Vats', value: true },
+        { name: 'vaOnlineSchedulingStatusImprovementCanceled', value: true },
+        { name: 'vaOnlineSchedulingVAOSV2Next', value: true },
+        { name: 'vaOnlineSchedulingAppointmentList', value: true },
+        { name: 'vaOnlineSchedulingClinicFilter', value: true },
+        { name: 'vaOnlineSchedulingAcheronService', value: true },
+        { name: 'vaOnlineSchedulingUseDsot', value: true },
+        { name: 'vaOnlineSchedulingRequestFlowUpdate', value: true },
+        { name: 'vaOnlineSchedulingConvertUtcToLocal', value: false },
+        { name: 'selectFeaturePocTypeOfCare', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },

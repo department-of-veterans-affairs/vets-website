@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import { SELECTED, MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../constants';
-import { replaceSubmittedData } from './replace';
+import { replaceSubmittedData, fixDateFormat } from './replace';
 
 /**
  * @typedef FormData
@@ -72,7 +72,7 @@ export const getEligibleContestableIssues = issues => {
       .join(' ')
       .includes('deferred');
     const date = moment(approxDecisionDate);
-    if (isDeferred || !date.isValid()) {
+    if (isDeferred || !date.isValid() || !ratingIssueSubjectText) {
       return false;
     }
     return date.add(1, 'years').isAfter(today);
@@ -151,7 +151,7 @@ export const getContestableIssues = ({ contestableIssues }) =>
       },
       {
         issue: createIssueName(issue),
-        decisionDate: attr.approxDecisionDate,
+        decisionDate: fixDateFormat(attr.approxDecisionDate),
       },
     );
 
@@ -194,7 +194,7 @@ export const addIncludedIssues = formData => {
           type: 'contestableIssue',
           attributes: {
             issue: replaceSubmittedData(issue.issue),
-            decisionDate: issue.decisionDate,
+            decisionDate: fixDateFormat(issue.decisionDate),
           },
         });
       }

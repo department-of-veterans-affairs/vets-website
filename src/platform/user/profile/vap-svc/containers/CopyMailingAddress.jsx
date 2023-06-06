@@ -4,9 +4,13 @@ import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import mapValues from 'lodash/mapValues';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
-import { areAddressesEqual } from '@@vap-svc/util';
+import { areAddressesEqual } from 'platform/user/profile/vap-svc/util';
 
-import { FIELD_NAMES, USA, ADDRESS_PROPS } from '@@vap-svc/constants';
+import {
+  FIELD_NAMES,
+  USA,
+  ADDRESS_PROPS,
+} from 'platform/user/profile/vap-svc/constants';
 
 import { selectVAPContactInfoField, selectEditedFormField } from '../selectors';
 
@@ -65,7 +69,7 @@ class CopyMailingAddress extends React.Component {
             type="checkbox"
           />
           <label htmlFor="copy-mailing-address-to-residential-address">
-            My home address is the same as my mailing address.
+            Use my mailing address for my home address.
           </label>
         </div>
       </div>

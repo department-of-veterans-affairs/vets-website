@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setPageFocus } from '../../combined/utils/helpers';
 import DebtLettersTable from '../components/DebtLettersTable';
-import { DownloadLettersAlert } from '../components/Alerts';
 
 const DebtLettersDownload = () => {
   const { debtLinks, isError, isVBMSError, hasDependentDebts } = useSelector(
@@ -21,9 +20,9 @@ const DebtLettersDownload = () => {
       <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
         <va-breadcrumbs label="Breadcrumb">
           <a href="/">Home</a>
-          <a href="/manage-va-debt/">Manage your VA debt and bills</a>
-          <a href="/manage-va-debt/summary/">Your debt and bills summary</a>
-          <Link to="/debt-balances/">Benefit debt balances</Link>
+          <a href="/manage-va-debt/">Manage your VA debt</a>
+          <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
+          <Link to="/debt-balances/">Current VA debt</Link>
           <Link to="/debt-balances/letters">Debt letters</Link>
         </va-breadcrumbs>
       </div>
@@ -39,7 +38,6 @@ const DebtLettersDownload = () => {
           Download your debt letters, learn your payment options, or find out
           how to get help with your VA debts.
         </p>
-        <DownloadLettersAlert />
         <h2>Your debt letters</h2>
         <DebtLettersTable
           debtLinks={debtLinks}
@@ -54,11 +52,11 @@ const DebtLettersDownload = () => {
             If you’ve received a letter about a VA debt that isn’t listed here,
             call us at{' '}
             <span className="no-wrap">
-              <va-telephone contact="800-827-0648" />
+              <va-telephone contact="8008270648" />
             </span>{' '}
             (or{' '}
             <span className="no-wrap">
-              <va-telephone contact="1-612-713-6415" international />
+              <va-telephone contact="6127136415" international />
             </span>{' '}
             from overseas). You can also call us to get information about your
             resolved debts.

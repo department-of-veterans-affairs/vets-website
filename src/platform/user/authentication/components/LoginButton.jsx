@@ -1,7 +1,7 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
-import { CSP_CONTENT } from '../constants';
+import { SERVICE_PROVIDERS } from '../constants';
 
 export function loginHandler(loginType, isOAuth) {
   const isOAuthAttempt = isOAuth && '-oauth';
@@ -18,12 +18,12 @@ export default function LoginButton({
   return (
     <button
       type="button"
-      aria-label={`Sign in with ${CSP_CONTENT[csp].COPY}`}
+      aria-label={`Sign in with ${SERVICE_PROVIDERS[csp].label}`}
       className={`usa-button ${csp}-button vads-u-margin-y--1p5 vads-u-padding-y--2`}
       data-csp={csp}
       onClick={() => onClick(csp, useOAuth)}
     >
-      {CSP_CONTENT[csp].LOGO}
+      {SERVICE_PROVIDERS[csp].image}
     </button>
   );
 }

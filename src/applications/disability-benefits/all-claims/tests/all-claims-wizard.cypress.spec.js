@@ -8,10 +8,6 @@ import {
   WIZARD_STATUS,
 } from '../constants';
 
-// Date selects don't include leading zeros
-const mock120 = moment()
-  .add(120, 'days')
-  .format('YYYY-M-D');
 // Date saved to sessionStorage includes leading zeros
 const mockDate = moment()
   .add(120, 'days')
@@ -34,7 +30,6 @@ Cypress.Commands.add(
       const data = win.dataLayer.find(
         obj => obj?.['form-field-value'] === value,
       );
-      // console.log(value, data, win.dataLayer)
       assert.equal(data?.event || '', 'howToWizard-formChange');
       assert.equal(data['form-field-type'], type);
       assert.equal(data['form-field-label'], label);
@@ -81,13 +76,13 @@ describe('526 wizard', () => {
 
   // disagreeing with a decision flow
   it('should show disagreeing with a decision questions & alert', () => {
-    cy.get('[type="radio"][value="appeals"]').check(checkOpt);
+    cy.get('va-radio-option[value="appeals"]').click(checkOpt);
     cy.checkFormChange({
       label: 'Are you on active duty right now?',
       value: 'no-appeals',
     });
 
-    cy.get('[type="radio"][value="disagree-file-claim"]').check(checkOpt);
+    cy.get('va-radio-option[value="disagree-file-claim"]').click(checkOpt);
     cy.checkFormChange({
       label:
         'Are you filing a new claim or are you disagreeing with a VA decision on an earlier claim?',
@@ -99,14 +94,14 @@ describe('526 wizard', () => {
 
   // BDD flow
   it('should show BDD questions & start button', () => {
-    cy.get('[type="radio"][value="bdd"]').check(checkOpt);
+    cy.get('va-radio-option[value="bdd"]').click(checkOpt);
     cy.checkFormChange({
       label: 'Are you on active duty right now?',
       value: 'yes-bdd',
     });
 
     cy.get('va-date').should('exist');
-    cy.fillDate('discharge-date', mock120);
+    cy.fillDate('discharge-date', mockDate);
 
     cy.checkStorage(FORM_STATUS_BDD, 'true');
     cy.checkStorage(SAVED_SEPARATION_DATE, mockDate);
@@ -127,13 +122,13 @@ describe('526 wizard', () => {
     // cy.get('va-breadcrumbs').first().should('have.focus'); // not working?
     cy.get('h1').should('have.text', h1Text);
 
-    cy.get('[type="radio"][value="appeals"]').check(checkOpt);
+    cy.get('va-radio-option[value="appeals"]').click(checkOpt);
     cy.checkFormChange({
       label: 'Are you on active duty right now?',
       value: 'no-appeals',
     });
 
-    cy.get('[type="radio"][value="file-claim"]').check(checkOpt);
+    cy.get('va-radio-option[value="file-claim"]').click(checkOpt);
     cy.checkStorage(FORM_STATUS_BDD, undefined);
     cy.checkStorage(SAVED_SEPARATION_DATE, undefined);
     // learn more link

@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect, useDispatch } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
-
-import '../sass/dashboard.scss';
 
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import PropTypes from 'prop-types';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
 import {
@@ -21,7 +20,8 @@ import {
   hasMPIConnectionError,
   isNotInMPI,
 } from '~/platform/user/selectors';
-import RequiredLoginView, {
+import {
+  RequiredLoginView,
   RequiredLoginLoader,
 } from '~/platform/user/authorization/components/RequiredLoginView';
 import backendServices from '~/platform/user/profile/constants/backendServices';
@@ -29,7 +29,6 @@ import {
   DowntimeNotification,
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
-import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 
 import NameTag from '~/applications/personalization/components/NameTag';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
@@ -37,43 +36,24 @@ import NotInMPIError from '~/applications/personalization/components/NotInMPIErr
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
+import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
 
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
-import HealthCare from './health-care/HealthCare';
+import ClaimsAndAppealsV2 from './claims-and-appeals-v2/ClaimsAndAppealsV2';
+import HealthCareV2 from './health-care-v2/HealthCareV2';
 import CTALink from './CTALink';
-import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
-import DashboardWidgetWrapper from './DashboardWidgetWrapper';
+import BenefitPaymentsV2 from './benefit-payments-v2/BenefitPaymentsV2';
+import DebtsV2 from './debts-v2/DebtsV2';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
+import { canAccess } from '../../common/selectors';
+import { RenderClaimsWidgetDowntimeNotification } from './RenderWidgetDowntimeNotification';
+import SavedApplications from './apply-for-benefits/SavedApplications';
+import EducationAndTraining from './education-and-training/EducationAndTraining';
 
-const renderWidgetDowntimeNotification = (downtime, children) => {
-  if (downtime.status === externalServiceStatus.down) {
-    return (
-      <div className="vads-l-row">
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-          <va-alert status="error">
-            <h2 slot="headline">
-              We can’t access any claims or appeals information right now
-            </h2>
-            <div>
-              <p>
-                We’re sorry. We’re working to fix some problems with the claims
-                or appeals tool right now and cannot display your information on
-                this page. Please check back after{' '}
-                {downtime.endTime.format('MMMM D [at] LT')}
-              </p>
-            </div>
-          </va-alert>
-        </div>
-      </div>
-    );
-  }
-  return children;
-};
-
-const DashboardHeader = ({ showNotifications, paymentsError }) => {
+const DashboardHeader = ({ showNotifications }) => {
   return (
     <div>
       <h1
@@ -96,55 +76,47 @@ const DashboardHeader = ({ showNotifications, paymentsError }) => {
           });
         }}
       />
-      {paymentsError && (
-        <DashboardWidgetWrapper>
-          <div
-            className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-top--2p5"
-            data-testid="payments-error"
-          >
-            <va-alert status="error" show-icon className="vads-u-margin-top--0">
-              We’re sorry. We can’t access some of your financial information
-              right now. We’re working to fix this problem. Please check back
-              later.
-            </va-alert>
-          </div>
-        </DashboardWidgetWrapper>
-      )}
       {showNotifications && <Notifications />}
     </div>
   );
 };
 
 DashboardHeader.propTypes = {
-  paymentsError: PropTypes.bool,
   showNotifications: PropTypes.bool,
 };
 
 const Dashboard = ({
+  canAccessMilitaryHistory,
+  canAccessPaymentHistory,
+  canAccessRatingInfo,
   fetchFullName,
   fetchMilitaryInformation,
   fetchTotalDisabilityRating,
   getPayments,
   isLOA3,
   payments,
-  paymentsError,
+  shouldShowV2Dashboard,
   showLoader,
   showMPIConnectionError,
   showNameTag,
   showNotInMPIError,
-  showBenefitPaymentsAndDebt,
   showNotifications,
+  isVAPatient,
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
+  const dispatch = useDispatch();
 
-  // TODO: remove this after My VA v2 is rolled out to 100% of users and My VA
-  // v1 is retired
   useEffect(() => {
+    // TODO: remove this after My VA v2 is rolled out to 100% of users and My VA
+    // v1 is retired
     recordEvent({
       event: 'phased-roll-out-enabled',
       'product-description': 'My VA v2',
     });
+
+    // use Drupal based Cerner facility data
+    connectDrupalSourceOfTruthCerner(dispatch);
   }, []);
 
   // focus on the name tag or the header when we are done loading
@@ -166,11 +138,17 @@ const Dashboard = ({
     () => {
       if (isLOA3) {
         fetchFullName();
-        fetchMilitaryInformation();
-        fetchTotalDisabilityRating();
+        if (canAccessMilitaryHistory) {
+          fetchMilitaryInformation();
+        }
+        if (canAccessRatingInfo) {
+          fetchTotalDisabilityRating();
+        }
       }
     },
     [
+      canAccessMilitaryHistory,
+      canAccessRatingInfo,
       isLOA3,
       fetchFullName,
       fetchMilitaryInformation,
@@ -181,17 +159,18 @@ const Dashboard = ({
   // fetch data when we determine they are LOA3
   useEffect(
     () => {
-      if (showBenefitPaymentsAndDebt) {
+      if (canAccessPaymentHistory) {
         getPayments();
       }
     },
-    [getPayments, showBenefitPaymentsAndDebt],
+    [canAccessPaymentHistory, getPayments],
   );
 
   return (
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}
       user={props.user}
+      showProfileErrorMessage={shouldShowV2Dashboard}
     >
       <DowntimeNotification
         appTitle="user dashboard"
@@ -217,24 +196,18 @@ const Dashboard = ({
               </div>
             )}
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
-              <DashboardHeader
-                paymentsError={paymentsError}
-                showNotifications={showNotifications}
-              />
+              <DashboardHeader showNotifications={showNotifications} />
 
               {showMPIConnectionError ? (
                 <div className="vads-l-row">
-                  <MPIConnectionError
-                    className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3"
-                    level={2}
-                  />
+                  <MPIConnectionError className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3 vads-u-margin-top--3" />
                 </div>
               ) : null}
 
               {showNotInMPIError ? (
                 <div className="vads-l-row">
                   <NotInMPIError
-                    className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3"
+                    className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3 vads-u-margin-top--3"
                     level={2}
                   />
                 </div>
@@ -243,36 +216,58 @@ const Dashboard = ({
               {props.showValidateIdentityAlert ? (
                 <div className="vads-l-row">
                   <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-                    <IdentityNotVerified
-                      alertHeadline="Verify your identity to access more VA.gov tools and features"
-                      level={2}
-                    />
+                    <IdentityNotVerified headline="Verify your identity to access more VA.gov tools and features" />
                   </div>
                 </div>
               ) : null}
 
-              {props.showClaimsAndAppeals ? (
+              {props.showClaimsAndAppeals && !shouldShowV2Dashboard ? (
                 <DowntimeNotification
                   dependencies={[
                     externalServices.mhv,
                     externalServices.appeals,
                   ]}
-                  render={renderWidgetDowntimeNotification}
+                  render={RenderClaimsWidgetDowntimeNotification}
                 >
                   <ClaimsAndAppeals />
                 </DowntimeNotification>
               ) : null}
 
-              {props.showHealthCare ? <HealthCare /> : null}
-
-              {showBenefitPaymentsAndDebt ? (
-                <BenefitPaymentsAndDebt
-                  payments={payments}
-                  showNotifications={showNotifications}
-                />
+              {props.showClaimsAndAppeals && shouldShowV2Dashboard ? (
+                <DowntimeNotification
+                  dependencies={[
+                    externalServices.mhv,
+                    externalServices.appeals,
+                  ]}
+                  render={RenderClaimsWidgetDowntimeNotification}
+                >
+                  <ClaimsAndAppealsV2 />
+                </DowntimeNotification>
               ) : null}
 
-              <ApplyForBenefits />
+              {isLOA3 && shouldShowV2Dashboard ? (
+                <HealthCareV2 isVAPatient={isVAPatient} />
+              ) : null}
+
+              {isLOA3 &&
+                shouldShowV2Dashboard &&
+                canAccessPaymentHistory && (
+                  <>
+                    <DebtsV2 />
+                    <BenefitPaymentsV2
+                      payments={payments}
+                      showNotifications={showNotifications}
+                    />
+                  </>
+                )}
+              {isLOA3 && shouldShowV2Dashboard ? (
+                <EducationAndTraining />
+              ) : null}
+              {isLOA3 && shouldShowV2Dashboard ? (
+                <SavedApplications />
+              ) : (
+                <ApplyForBenefits />
+              )}
             </div>
           </div>
         )}
@@ -296,10 +291,22 @@ const mapStateToProps = state => {
   const hero = state.vaProfile?.hero;
   const hasClaimsOrAppealsService =
     isAppealsAvailableSelector(state) || isClaimsAvailableSelector(state);
-  const hasLoadedMilitaryInformation = state.vaProfile?.militaryInformation;
+
+  const hasMHVAccount = ['OK', 'MULTIPLE'].includes(
+    state.user?.profile?.mhvAccountState,
+  );
   const hasLoadedFullName = !!hero;
 
-  const hasLoadedDisabilityRating = state.totalRating?.loading === false;
+  const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
+  const canAccessRatingInfo = canAccess(state)[API_NAMES.RATING_INFO];
+  const canAccessMilitaryHistory = canAccess(state)[API_NAMES.MILITARY_HISTORY];
+
+  const hasLoadedDisabilityRating = canAccessRatingInfo
+    ? state.totalRating?.loading === false
+    : true;
+  const hasLoadedMilitaryInformation = canAccessMilitaryHistory
+    ? state.vaProfile?.militaryInformation
+    : true;
 
   const hasLoadedAllData =
     // we do not need to fetch additional data if they are only LOA1
@@ -319,46 +326,52 @@ const mapStateToProps = state => {
     isLOA3 &&
     hasClaimsOrAppealsService;
   const showHealthCare =
-    !showMPIConnectionError && !showNotInMPIError && isLOA3 && isVAPatient;
-  const showBenefitPaymentsAndDebt =
-    !showMPIConnectionError && !showNotInMPIError && isLOA3;
+    hasMHVAccount &&
+    !showMPIConnectionError &&
+    !showNotInMPIError &&
+    isLOA3 &&
+    isVAPatient;
 
-  const hasNotificationFeature = toggleValues(state)[
-    FEATURE_FLAG_NAMES.showDashboardNotifications
+  const shouldShowV2Dashboard = toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMyVADashboardV2
   ];
 
   const showNotifications =
-    !!hasNotificationFeature &&
-    !showMPIConnectionError &&
-    !showNotInMPIError &&
-    isLOA3;
+    !showMPIConnectionError && !showNotInMPIError && isLOA3;
 
   return {
+    canAccessMilitaryHistory,
+    canAccessPaymentHistory,
+    canAccessRatingInfo,
     isLOA3,
     showLoader,
     showValidateIdentityAlert,
     showClaimsAndAppeals,
     showHealthCare,
+    isVAPatient,
     showNameTag,
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
     totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     user: state.user,
+    shouldShowV2Dashboard,
     showMPIConnectionError,
     showNotInMPIError,
-    showBenefitPaymentsAndDebt,
     showNotifications,
-    payments: state.allPayments.payments?.payments || [],
-    paymentsError: state.allPayments.error,
+    payments: state.allPayments.payments || [],
   };
 };
 
 Dashboard.propTypes = {
+  canAccessMilitaryHistory: PropTypes.bool,
+  canAccessPaymentHistory: PropTypes.bool,
+  canAccessRatingInfo: PropTypes.bool,
   fetchFullName: PropTypes.func,
   fetchMilitaryInformation: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
   getPayments: PropTypes.func,
   isLOA3: PropTypes.bool,
+  isVAPatient: PropTypes.bool,
   payments: PropTypes.arrayOf(
     PropTypes.shape({
       payCheckAmount: PropTypes.string.isRequired,
@@ -371,8 +384,7 @@ Dashboard.propTypes = {
       accountNumber: PropTypes.string.isRequired,
     }),
   ),
-  paymentsError: PropTypes.bool,
-  showBenefitPaymentsAndDebt: PropTypes.bool,
+  shouldShowV2Dashboard: PropTypes.bool,
   showClaimsAndAppeals: PropTypes.bool,
   showHealthCare: PropTypes.bool,
   showLoader: PropTypes.bool,

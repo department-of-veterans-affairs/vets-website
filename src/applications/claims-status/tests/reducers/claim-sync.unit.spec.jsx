@@ -2,11 +2,10 @@ import { expect } from 'chai';
 
 import claimSync from '../../reducers/claim-sync';
 import {
-  SET_CLAIMS,
   SET_CLAIM_DETAIL,
   SET_CLAIMS_UNAVAILABLE,
   SET_UNAUTHORIZED,
-} from '../../actions';
+} from '../../actions/types';
 
 describe('Claim sync reducer', () => {
   it('should set unavailable', () => {
@@ -49,44 +48,6 @@ describe('Claim sync reducer', () => {
           updatedAt: 'test',
         },
       },
-      meta: {
-        syncStatus: 'SUCCESS',
-      },
-    });
-
-    expect(state.synced).to.be.true;
-    expect(state.available).to.be.true;
-    expect(state.authorized).to.be.true;
-  });
-  it('should set out of sync on list request', () => {
-    const state = claimSync(undefined, {
-      type: SET_CLAIMS,
-      claims: [
-        {
-          attributes: {
-            updatedAt: 'test',
-          },
-        },
-      ],
-      meta: {
-        syncStatus: 'FAILED',
-      },
-    });
-
-    expect(state.synced).to.be.false;
-    expect(state.available).to.be.true;
-    expect(state.authorized).to.be.true;
-  });
-  it('should set in sync on list request', () => {
-    const state = claimSync(undefined, {
-      type: SET_CLAIMS,
-      claims: [
-        {
-          attributes: {
-            updatedAt: 'test',
-          },
-        },
-      ],
       meta: {
         syncStatus: 'SUCCESS',
       },

@@ -53,14 +53,16 @@ export const mockGETEndpoints = (
   });
 };
 
-export const mockFeatureToggles = () => {
+export const mockFeatureToggles = (featureToggleGenerator = null) => {
   cy.intercept('GET', '/v0/feature_toggles*', {
     statusCode: 200,
-    body: {
-      data: {
-        features: [{}],
-      },
-    },
+    body: featureToggleGenerator
+      ? featureToggleGenerator()
+      : {
+          data: {
+            features: [{}],
+          },
+        },
   });
 };
 
@@ -105,16 +107,19 @@ export function mockNotificationSettingsAPIs() {
   cy.intercept('/v0/profile/service_history', serviceHistory);
   cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
   cy.intercept('/v0/ppiu/payment_information', mockPaymentInfoNotEligible);
+  mockFeatureToggles();
 }
 
 export function registerCypressHelpers() {
   // The main loading indicator is shown and is then removed
   Cypress.Commands.add('loadingIndicatorWorks', () => {
     // should show a loading indicator
-    cy.findByRole('progressbar', { name: /loading/i }).should('exist');
+    cy.findByTestId('loading-indicator', { name: /loading/i }).should('exist');
     cy.injectAxeThenAxeCheck();
 
     // and then the loading indicator should be removed
-    cy.findByRole('progressbar', { name: /loading/i }).should('not.exist');
+    cy.findByRole('loading-indicator', { name: /loading/i }).should(
+      'not.exist',
+    );
   });
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import recordEvent from 'platform/monitoring/record-event';
 import { ACCEPTED } from '../../actions';
 import { clearBotSessionStorage } from './utils';
 
@@ -14,7 +15,8 @@ export const ChatboxDisclaimer = () => {
           <li>
             Our chatbot can’t help you if you’re experiencing a personal,
             medical, or mental health emergency. Go to the nearest emergency
-            room or call 911 to get medical care right away.
+            room, dial 988 and press 1 for mental health support, or call 911 to
+            get medical care right away.
             <br />
             <a href="/health-care/health-needs-conditions/mental-health/">
               Learn more about VA mental health services
@@ -30,6 +32,14 @@ export const ChatboxDisclaimer = () => {
           data-testid="btnAcceptDisclaimer"
           className="usa-button-primary"
           onClick={() => {
+            recordEvent({
+              action: 'click',
+              'button-type': 'default',
+              event: 'cta-button-click',
+              'button-click-label': 'Start Chat',
+              'button-background-color': 'blue',
+              time: new Date(),
+            });
             clearBotSessionStorage(true);
             dispatch({ type: ACCEPTED });
           }}

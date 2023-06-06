@@ -1,17 +1,50 @@
 import moment from 'moment';
 import { intersection, matches, merge, uniq } from 'lodash';
+import shouldUpdate from 'recompose/shouldUpdate';
+import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
 import unset from '../../../utilities/data/unset';
-import shouldUpdate from 'recompose/shouldUpdate';
-import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 export const minYear = 1900;
 // maxYear was previously set to 3000
 export const maxYear = moment()
   .add(100, 'year')
   .year();
+
+// For the DISPLAYED step-count on pages [in progress-bar and step-header], we need to subtract the number of progress-hidden chapters from the total number of chapters
+// Progress-hidden chapters are those that have a hideFormNavProgress prop set to true
+export const getChaptersLengthDisplay = ({ uniqueChapters, formConfig }) => {
+  // Do NOT manipulate or re-assign formConfig param!
+  // It's used elsewhere [in functional logic]
+  const { chapters } = formConfig;
+
+  // some chapters have hideFormNavProgress true, so we need to substract them from the total length
+  let progressHiddenChaptersLength = 0;
+  Object.keys(chapters).forEach(chapter => {
+    if (chapters[chapter].hideFormNavProgress) {
+      progressHiddenChaptersLength += 1;
+    }
+  });
+  return uniqueChapters.length - progressHiddenChaptersLength;
+};
+
+// For the DISPLAYED chapter NUMBER on pages [in step-header], we need to account for any progress-hidden chapters.
+// Progress-hidden chapters are those that have a hideFormNavProgress prop set to true.
+export const getCurrentChapterDisplay = (formConfig, currentChapterIndex) => {
+  // Do NOT manipulate or re-assign params passed in!
+  // formConfig & currentChapterIndex are likely used in elsewhere [in functional logic]
+  const { chapters } = formConfig;
+  let upstreamProgressHiddenChaptersLength = 0;
+  Object.keys(chapters).forEach((chapter, index) => {
+    if (index < currentChapterIndex && chapters[chapter].hideFormNavProgress) {
+      upstreamProgressHiddenChaptersLength += 1;
+    }
+  });
+
+  return currentChapterIndex - upstreamProgressHiddenChaptersLength;
+};
 
 // An active page is one that will be shown to the user.
 // Pages become inactive if they are conditionally shown based
@@ -49,25 +82,23 @@ export function getInactivePages(pages, data) {
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters).reduce((pageList, chapter) => {
     const chapterTitle = formConfig.chapters[chapter].title;
-    const pages = Object.keys(formConfig.chapters[chapter].pages).map(page =>
-      Object.assign({}, formConfig.chapters[chapter].pages[page], {
-        chapterTitle,
-        chapterKey: chapter,
-        pageKey: page,
-      }),
-    );
+    const pages = Object.keys(formConfig.chapters[chapter].pages).map(page => ({
+      ...formConfig.chapters[chapter].pages[page],
+      chapterTitle,
+      chapterKey: chapter,
+      pageKey: page,
+    }));
     return pageList.concat(pages);
   }, []);
 }
 
 export function createPageListByChapter(formConfig) {
   return Object.keys(formConfig.chapters).reduce((chapters, chapter) => {
-    const pages = Object.keys(formConfig.chapters[chapter].pages).map(page =>
-      Object.assign({}, formConfig.chapters[chapter].pages[page], {
-        pageKey: page,
-        chapterKey: chapter,
-      }),
-    );
+    const pages = Object.keys(formConfig.chapters[chapter].pages).map(page => ({
+      ...formConfig.chapters[chapter].pages[page],
+      pageKey: page,
+      chapterKey: chapter,
+    }));
     return set(chapter, pages, chapters);
   }, {});
 }
@@ -106,7 +137,8 @@ function formatDayMonth(val) {
     const dayOrMonth = val.toString();
     if (Number(dayOrMonth) && dayOrMonth.length === 1) {
       return `0${val}`;
-    } else if (Number(dayOrMonth)) {
+    }
+    if (Number(dayOrMonth)) {
       return dayOrMonth;
     }
   }
@@ -155,7 +187,7 @@ export function parseISODate(dateString) {
 
     return {
       month: month === 'XX' ? '' : Number(month).toString(),
-      day: day === 'XX' ? '' : Number(day).toString(),
+      day: day === 'XX' ? null : Number(day).toString(),
       year: year === 'XXXX' ? '' : year,
     };
   }
@@ -374,7 +406,7 @@ export function getNonArraySchema(schema, uiSchema = {}) {
       }
 
       const schemaPropertyKeys = Object.keys(newSchema.properties);
-      const newUiSchema = Object.assign({}, uiSchema);
+      const newUiSchema = { ...uiSchema };
       newUiSchema['ui:order'] = uiSchema['ui:order']?.filter(item => {
         // check item === '*' here?
         return schemaPropertyKeys.includes(item);
@@ -497,12 +529,11 @@ function generateArrayPages(arrayPages, data) {
       .reduce(
         (pages, item, index) =>
           pages.concat(
-            arrayPages.map(page =>
-              Object.assign({}, page, {
-                path: page.path.replace(':index', index),
-                index,
-              }),
-            ),
+            arrayPages.map(page => ({
+              ...page,
+              path: page.path.replace(':index', index),
+              index,
+            })),
           ),
         [],
       )
@@ -531,7 +562,8 @@ export function expandArrayPages(pageList, data) {
         return acc;
         // Now we’ve hit the end of a section of array pages using the same array, so
         // actually generate the pages now
-      } else if (nextPage.arrayPath !== lastArrayPath && !!arrayPages.length) {
+      }
+      if (nextPage.arrayPath !== lastArrayPath && !!arrayPages.length) {
         const newList = currentList.concat(
           generateArrayPages(arrayPages, data),
           nextPage,
@@ -586,7 +618,7 @@ export function getPageKeys(pages, formData) {
   const expandedPageList = getActiveExpandedPages(pages, formData);
 
   return expandedPageList.map(page => {
-    let pageKey = page.pageKey;
+    let { pageKey } = page;
     if (typeof page.index !== 'undefined') {
       pageKey += page.index;
     }

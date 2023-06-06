@@ -1,11 +1,21 @@
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import * as Sentry from '@sentry/browser';
 
 /**
  * @param {string} slug
+ * @param {string} eventType
  */
-const createAnalyticsSlug = slug => {
-  return `check-in-${slug}`;
+const createAnalyticsSlug = (slug, eventType = '', app = '') => {
+  let prefix = '';
+  if (eventType) {
+    prefix = `${eventType}-`;
+  }
+  let context = '';
+  if (app) {
+    context = app === 'preCheckIn' ? `pre-` : '';
+  }
+
+  return `${prefix}${context}check-in-${slug}`;
 };
 
 /**

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import environment from 'platform/utilities/environment';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
 const PreSubmitSignature = ({
   formData,
@@ -24,6 +23,9 @@ const PreSubmitSignature = ({
     dirty: false,
   });
   const isDirty = signature.dirty;
+  const setNewSignature = event => {
+    setSignature({ value: event.target.value, dirty: true });
+  };
 
   const privacyLabel = (
     <span>
@@ -40,6 +42,10 @@ const PreSubmitSignature = ({
   );
 
   const normalize = string => {
+    if (!string) {
+      return '';
+    }
+
     return string
       .split(' ')
       .join('')
@@ -115,10 +121,10 @@ const PreSubmitSignature = ({
   return (
     <>
       <p>
-        Please click on each of the sections above to review the information you
-        entered for this request. Then read and sign the Veteran’s statement of
-        truth. The name you enter will serve as your electronic signature for
-        this request.
+        Select each of the sections above to review the information you entered
+        for this request. Then read and sign the Veteran’s statement of truth.
+        The name you enter will serve as your electronic signature for this
+        request.
       </p>
 
       <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px">
@@ -133,16 +139,18 @@ const PreSubmitSignature = ({
           <li>My bankruptcy history</li>
         </ul>
 
-        <TextInput
-          name="veteran-signature"
-          additionalClass="signature-input"
+        <va-text-input
           label={"Veteran's full name"}
+          class="signature-input"
+          id="veteran-signature"
+          name="veteran-signature"
+          onInput={setNewSignature}
+          type="text"
           required
-          onValueChange={value => setSignature(value)}
-          field={{ value: signature.value, dirty: signature.dirty }}
-          errorMessage={
-            signatureError &&
-            `Please enter your name exactly as it appears on your VA profile: ${first} ${middle} ${last}`
+          error={
+            signatureError
+              ? `Please enter your name exactly as it appears on your VA profile: ${first} ${middle} ${last}`
+              : ''
           }
         />
 

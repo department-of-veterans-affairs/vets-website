@@ -1,5 +1,6 @@
-import environment from 'platform/utilities/environment';
 import * as Sentry from '@sentry/browser';
+import environment from '~/platform/utilities/environment';
+import recordEvent from '~/platform/monitoring/record-event';
 
 const ERROR_SOURCES = Object.freeze({
   API: 'api',
@@ -39,7 +40,8 @@ const captureError = (error, details) => {
         'profile-client-api-error': eventName,
       });
 
-      const message = `profile_client_api_error-${eventName}`;
+      const message = `profile_client_api_error`;
+
       scope.setContext(message, {
         details,
         error,
@@ -63,4 +65,24 @@ const captureError = (error, details) => {
   });
 };
 
-export { createApiEvent, captureError, ERROR_SOURCES };
+const recordCustomProfileEvent = ({
+  event = 'profile_modal',
+  title = 'no title',
+  status = 'none',
+  primaryButtonText = 'none',
+}) => {
+  const payload = {
+    event,
+    'modal-title': title,
+    'modal-status': status,
+    'modal-primaryButtonText': primaryButtonText,
+  };
+  recordEvent(payload);
+};
+
+export {
+  createApiEvent,
+  captureError,
+  ERROR_SOURCES,
+  recordCustomProfileEvent,
+};

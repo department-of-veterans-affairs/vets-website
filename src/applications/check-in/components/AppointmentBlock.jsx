@@ -1,41 +1,70 @@
-// This component should be deleted when the isPhoneAppointmentsEnabled flag is deprecated, since it is redundant with AppointmentBlockWithIcons.
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import AppointmentConfirmationListItem from './AppointmentDisplay/AppointmentConfirmationListItem';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+
+import { createAnalyticsSlug } from '../utils/analytics';
+import AppointmentListItem from './AppointmentDisplay/AppointmentListItem';
+import { makeSelectApp } from '../selectors';
+import { useFormRouting } from '../hooks/useFormRouting';
+import { APP_NAMES } from '../utils/appConstants';
+import {
+  getAppointmentId,
+  sortAppointmentsByStartTime,
+} from '../utils/appointment';
 
 const AppointmentBlock = props => {
-  const { appointments } = props;
+  const { appointments, page, router } = props;
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
   const { t } = useTranslation();
-
   const appointmentsDateTime = new Date(appointments[0].startTime);
-  const appointmentFacility = appointments[0].facility;
+
+  const { jumpToPage } = useFormRouting(router);
+
+  const handleDetailClick = (e, appointment) => {
+    e.preventDefault();
+    recordEvent({
+      event: createAnalyticsSlug('details-link-clicked', 'nav', app),
+    });
+    jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
+  };
+
+  const sortedAppointments = sortAppointmentsByStartTime(appointments);
 
   return (
     <div>
-      <p
-        className="vads-u-font-family--serif"
-        data-testid="appointment-day-location"
-      >
-        {t('your-appointments-on-day-facility', {
-          count: appointments.length,
-          day: appointmentsDateTime,
-          facility: appointmentFacility,
-        })}
-      </p>
+      {app === APP_NAMES.PRE_CHECK_IN ? (
+        <p
+          className="vads-u-font-family--serif"
+          data-testid="appointment-day-location"
+        >
+          {t('your-appointments-on-day', {
+            count: appointments.length,
+            day: appointmentsDateTime,
+          })}
+        </p>
+      ) : (
+        <p className="vads-u-font-family--serif" data-testid="date-text">
+          {t('here-are-your-appointments-for-today', { date: new Date() })}
+        </p>
+      )}
+
       <ol
-        className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
+        className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list appointment-list"
         data-testid="appointment-list"
       >
-        {appointments.map(appointment => {
-          const apptId = `${
-            appointment.stationNo ? appointment.stationNo : ''
-          }${appointment.appointmentIen}`;
+        {sortedAppointments.map(appointment => {
           return (
-            <AppointmentConfirmationListItem
+            <AppointmentListItem
+              key={`${appointment.appointmentIen}-${appointment.stationNo}`}
               appointment={appointment}
-              index={apptId}
-              key={apptId}
+              page={page}
+              goToDetails={handleDetailClick}
+              app={app}
+              router={router}
             />
           );
         })}
@@ -46,6 +75,8 @@ const AppointmentBlock = props => {
 
 AppointmentBlock.propTypes = {
   appointments: PropTypes.array.isRequired,
+  page: PropTypes.string.isRequired,
+  router: PropTypes.object,
 };
 
 export default AppointmentBlock;

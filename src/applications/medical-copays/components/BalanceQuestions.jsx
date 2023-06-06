@@ -1,8 +1,5 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 const BalanceQuestions = () => (
   <article className="vads-u-padding--0" data-testid="balance-questions">
@@ -12,11 +9,10 @@ const BalanceQuestions = () => (
     <h3>Questions about your payment or relief options</h3>
     <p>
       Contact the VA Health Resource Center at
-      <Telephone contact="866-400-1238" className="vads-u-margin-x--0p5" />
-      (TTY:
-      <Telephone
+      <va-telephone contact="8664001238" className="vads-u-margin-x--0p5" />(
+      <va-telephone
         contact={CONTACTS[711]}
-        pattern={PATTERNS['3_DIGIT']}
+        tty
         className="vads-u-margin-left--0p5"
       />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.

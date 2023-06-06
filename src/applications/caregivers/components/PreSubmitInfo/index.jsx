@@ -5,18 +5,18 @@ import { cloneDeep } from 'lodash';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
-  PrivacyPolicy,
   veteranSignatureContent,
   primaryCaregiverContent,
+  secondaryCaregiverContent,
   signatureBoxNoteContent,
   representativeSignatureContent,
-  SecondaryCaregiverCopy,
   veteranLabel,
   primaryLabel,
   representativeLabel,
   secondaryOneLabel,
   secondaryTwoLabel,
-} from 'applications/caregivers/definitions/content';
+} from '../../definitions/content';
+import StatementOfTruth from './StatementOfTruth';
 import SignatureCheckbox from './SignatureCheckbox';
 import SubmitLoadingIndicator from './SubmitLoadingIndicator';
 
@@ -33,15 +33,6 @@ const PreSubmitCheckboxGroup = ({
   const hasSubmittedForm = !!submission.status;
   const showRepresentativeSignatureBox =
     formData.signAsRepresentativeYesNo === 'yes';
-  // we are separating the first paragraph due to each paragraph having unique styling
-  const veteranFirstParagraph = veteranSignatureContent[0];
-  const veteranWithoutFirstParagraph = veteranSignatureContent.slice(1);
-  const primaryFirstParagraph = primaryCaregiverContent[0];
-  const primaryWithoutFirstParagraph = primaryCaregiverContent.slice(1);
-  const representativeFirstParagraph = representativeSignatureContent[0];
-  const representativeWithoutFirstParagraph = representativeSignatureContent.slice(
-    1,
-  );
 
   const [signatures, setSignatures] = useState({
     [showRepresentativeSignatureBox ? representativeLabel : veteranLabel]: '',
@@ -50,6 +41,12 @@ const PreSubmitCheckboxGroup = ({
   const unSignedLength = Object.values(signatures).filter(
     signature => Boolean(signature) === false,
   ).length;
+  // Get the count of unchecked signature checkboxes
+  const signatureCheckboxes = document.querySelectorAll('.signature-checkbox');
+  const uncheckedSignatureCheckboxesLength = [...signatureCheckboxes].filter(
+    checkbox =>
+      !checkbox.shadowRoot?.querySelector('#checkbox-element')?.checked,
+  )?.length;
 
   const transformSignatures = signature => {
     const keys = Object.keys(signature);
@@ -85,36 +82,6 @@ const PreSubmitCheckboxGroup = ({
     return renameObjectKeys(keys, signatures);
   };
 
-  useEffect(
-    () => {
-      // do not clear signatures once form has been submitted
-      if (hasSubmittedForm) return;
-
-      // Add signatures to formData before submission
-      setFormData({
-        ...formData,
-        ...transformSignatures(signatures),
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setFormData, signatures],
-  );
-
-  // when there is no unsigned signatures set AGREED (onSectionComplete) to true
-  // if goes to another page (unmount), set AGREED (onSectionComplete) to false
-  useEffect(
-    () => {
-      onSectionComplete(!unSignedLength);
-
-      return () => {
-        onSectionComplete(false);
-      };
-    },
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [unSignedLength],
-  );
-
   const removePartyIfFalsy = (predicate, label) => {
     if (!predicate) {
       setSignatures(prevState => {
@@ -125,7 +92,37 @@ const PreSubmitCheckboxGroup = ({
     }
   };
 
-  /* Remove party signature box if yes/no question is answered falsy */
+  // add signatures to formData before submission
+  useEffect(
+    () => {
+      // do not clear signatures once form has been submitted
+      if (hasSubmittedForm) return;
+
+      setFormData({
+        ...formData,
+        ...transformSignatures(signatures),
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [setFormData, signatures],
+  );
+
+  // when there is no unsigned signatures or unchecked signature checkboxes set AGREED (onSectionComplete) to true
+  // if goes to another page (unmount), set AGREED (onSectionComplete) to false
+  useEffect(
+    () => {
+      onSectionComplete(!unSignedLength && !uncheckedSignatureCheckboxesLength);
+
+      return () => {
+        onSectionComplete(false);
+      };
+    },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [unSignedLength, uncheckedSignatureCheckboxesLength],
+  );
+
+  // remove party signature box if yes/no question is answered falsy
   useEffect(
     () => {
       removePartyIfFalsy(hasPrimary, primaryLabel);
@@ -149,7 +146,7 @@ const PreSubmitCheckboxGroup = ({
    */
 
   return (
-    <section className="vads-u-display--flex vads-u-flex-direction--column">
+    <div className="vads-u-display--flex vads-u-flex-direction--column">
       <p className="vads-u-margin-bottom--5">
         Please review information entered into this application. The{' '}
         {showRepresentativeSignatureBox ? 'Representative' : 'Veteran'} and each
@@ -167,20 +164,12 @@ const PreSubmitCheckboxGroup = ({
           isRepresentative
           isRequired
         >
-          <h3>Veteran’s statement of truth</h3>
-
-          <h4 className="vads-u-font-size--sm" style={{ fontWeight: 600 }}>
-            {representativeFirstParagraph}
-          </h4>
-
-          {/* currently this array is empty due to it only having one string
-            checking for empty array then mapping it for future compatibility and consistency */}
-          {representativeWithoutFirstParagraph &&
-            representativeWithoutFirstParagraph.map((veteranContent, idx) => (
-              <p key={`representative-signature-${idx}`}>{veteranContent}</p>
-            ))}
-
-          <PrivacyPolicy />
+          <StatementOfTruth
+            content={{
+              label: representativeLabel,
+              text: representativeSignatureContent,
+            }}
+          />
         </SignatureCheckbox>
       ) : (
         <SignatureCheckbox
@@ -192,18 +181,12 @@ const PreSubmitCheckboxGroup = ({
           submission={submission}
           isRequired
         >
-          <h3>Veteran’s statement of truth</h3>
-
-          <p>{veteranFirstParagraph}</p>
-
-          {/* currently this array is empty due to it only having one string
-            checking for empty array then mapping it for future compatibility and consistency */}
-          {veteranWithoutFirstParagraph &&
-            veteranWithoutFirstParagraph.map((veteranContent, idx) => (
-              <p key={`veteran-signature-${idx}`}>{veteranContent}</p>
-            ))}
-
-          <PrivacyPolicy />
+          <StatementOfTruth
+            content={{
+              label: veteranLabel,
+              text: veteranSignatureContent,
+            }}
+          />
         </SignatureCheckbox>
       )}
 
@@ -217,17 +200,12 @@ const PreSubmitCheckboxGroup = ({
           submission={submission}
           isRequired
         >
-          <h3 className="vads-u-margin-top--4">
-            Primary Family Caregiver applicant’s statement of truth
-          </h3>
-
-          <p className="vads-u-margin-y--2">{primaryFirstParagraph}</p>
-
-          {primaryWithoutFirstParagraph.map((primaryContent, idx) => (
-            <p key={`primary-signature-${idx}`}>{primaryContent}</p>
-          ))}
-
-          <PrivacyPolicy />
+          <StatementOfTruth
+            content={{
+              label: primaryLabel,
+              text: primaryCaregiverContent,
+            }}
+          />
         </SignatureCheckbox>
       )}
 
@@ -241,7 +219,12 @@ const PreSubmitCheckboxGroup = ({
           submission={submission}
           isRequired
         >
-          <SecondaryCaregiverCopy label={secondaryOneLabel} />
+          <StatementOfTruth
+            content={{
+              label: secondaryOneLabel,
+              text: secondaryCaregiverContent,
+            }}
+          />
         </SignatureCheckbox>
       )}
 
@@ -255,7 +238,12 @@ const PreSubmitCheckboxGroup = ({
           submission={submission}
           isRequired
         >
-          <SecondaryCaregiverCopy label={secondaryTwoLabel} />
+          <StatementOfTruth
+            content={{
+              label: secondaryTwoLabel,
+              text: secondaryCaregiverContent,
+            }}
+          />
         </SignatureCheckbox>
       )}
 
@@ -266,7 +254,7 @@ const PreSubmitCheckboxGroup = ({
       <div aria-live="polite">
         <SubmitLoadingIndicator submission={submission} />
       </div>
-    </section>
+    </div>
   );
 };
 

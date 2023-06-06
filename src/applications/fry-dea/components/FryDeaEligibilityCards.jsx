@@ -1,10 +1,33 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
-// import { VETERANS_TYPE , VETERAN_NOT_LISTED_VALUE } from '../constants';
+import {
+  formFields,
+  VETERANS_TYPE,
+  VETERAN_NOT_LISTED_VALUE,
+} from '../constants';
 
-function FryDeaEligibilityCards(/* { selectedVeteran, veterans } */) {
+const eligibleMessage = (
+  <p>
+    <i
+      className="fas fa-check-circle fry-dea-benefit-selection-icon"
+      aria-hidden="true"
+    />{' '}
+    You may be eligible for this benefit
+  </p>
+);
+const notEligibleMessage = (
+  <p>
+    <i
+      className="fas fa-exclamation-circle vads-u-margin-right--1"
+      aria-hidden="true"
+    />{' '}
+    You’re not eligible for this benefit
+  </p>
+);
+
+function FryDeaEligibilityCards({ selectedVeteran, veterans }) {
   // if (
   //   !veterans ||
   //   !selectedVeteran ||
@@ -13,7 +36,10 @@ function FryDeaEligibilityCards(/* { selectedVeteran, veterans } */) {
   //   return <></>;
   // }
 
-  // const veteran = veterans.find(v => v.id === selectedVeteran);
+  const veteran =
+    selectedVeteran && selectedVeteran !== VETERAN_NOT_LISTED_VALUE
+      ? veterans.find(v => v.id === selectedVeteran)
+      : null;
 
   return (
     <>
@@ -33,13 +59,8 @@ function FryDeaEligibilityCards(/* { selectedVeteran, veterans } */) {
           Fry Scholarship
         </h4>
 
-        <p>
-          <i
-            className="fas fa-check-circle fry-dea-benefit-selection-icon"
-            aria-hidden="true"
-          />
-          You may be eligible for this benefit
-        </p>
+        {veteran &&
+          (veteran.fryEligibility ? eligibleMessage : notEligibleMessage)}
 
         <h4 className="vads-u-font-size--h5 vads-u-margin-top--0 vads-u-margin-bottom--2">
           Receive up to 36 months of benefits, including:
@@ -92,13 +113,8 @@ function FryDeaEligibilityCards(/* { selectedVeteran, veterans } */) {
           Survivors’ and Dependents’ Educational Assistance
         </h4>
 
-        <p>
-          <i
-            className="fas fa-check-circle vads-u-margin-right--1"
-            aria-hidden="true"
-          />
-          You may be eligible for this benefit
-        </p>
+        {veteran &&
+          (veteran.deaEligibility ? eligibleMessage : notEligibleMessage)}
 
         <h4 className="vads-u-font-size--h5 vads-u-margin-bottom--2">
           Receive up to 36 months of benefits, including:
@@ -125,8 +141,14 @@ function FryDeaEligibilityCards(/* { selectedVeteran, veterans } */) {
 }
 
 FryDeaEligibilityCards.propTypes = {
-  // selectedVeteran: PropTypes.string,
-  // veterans: VETERANS_TYPE,
+  selectedVeteran: PropTypes.string,
+  veterans: VETERANS_TYPE,
 };
 
-export default connect()(FryDeaEligibilityCards);
+const mapStateToProps = state => ({
+  selectedVeteran: state.form?.data[formFields.selectedVeteran],
+  formData: state.form?.data || {},
+  veterans: state.form?.data?.veterans,
+});
+
+export default connect(mapStateToProps)(FryDeaEligibilityCards);

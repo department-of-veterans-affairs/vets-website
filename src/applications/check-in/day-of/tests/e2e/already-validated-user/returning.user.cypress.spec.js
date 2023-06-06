@@ -34,10 +34,10 @@ describe('Check In Experience', () => {
   it('Returning user', () => {
     cy.visitWithUUID();
     Appointments.validatePageLoaded();
-    Appointments.validateAppointmentLength(4);
+    Appointments.validateAppointmentLength(1);
     cy.injectAxe();
     cy.axeCheck();
-    Appointments.attemptCheckIn(3);
+    Appointments.attemptCheckIn(1);
     Confirmation.validatePageLoaded();
     cy.injectAxe();
     cy.axeCheck();

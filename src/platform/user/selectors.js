@@ -136,6 +136,3 @@ export const mhvTransitionEnabled = state =>
 
 export const mhvTransitionModalEnabled = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.mhvToLogingovAccountTransitionModal];
-
-export const shouldRedirectToMyVA = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.myVARedirect];

@@ -36,11 +36,28 @@ export const getQueryParams = () => {
   }, {});
 };
 
-export const reduceAllowedProviders = obj =>
+export const reduceProviders = obj =>
   Object.entries(obj).reduce((acc, [key, value]) => {
     if (value) acc.push(key);
     return acc;
   }, []);
+
+export const reduceAllowedProviders = (obj, type) => {
+  if (!type || type === '') return reduceProviders(obj);
+
+  if (
+    Object.keys(obj).includes('registeredApps') &&
+    type === 'registeredApps'
+  ) {
+    return reduceProviders(obj.registeredApps);
+  }
+
+  if (Object.keys(obj).includes('default') && type === 'default') {
+    return reduceProviders(obj.default);
+  }
+
+  return reduceProviders(obj);
+};
 
 export const isExternalRedirect = () => {
   const { application } = getQueryParams();
@@ -58,17 +75,15 @@ export const sanitizeUrl = (url, path = '') => {
 };
 
 export const sanitizePath = to => {
-  if (!to) {
-    return '';
-  }
+  if (!to) return '';
   return to.startsWith('/') ? to : `/${to}`;
 };
 
-export const generateReturnURL = (returnUrl, redirectToMyVA) => {
+export const generateReturnURL = returnUrl => {
   return [
     `${environment.BASE_URL}/?next=loginModal`,
     `${environment.BASE_URL}`,
-  ].includes(returnUrl) && redirectToMyVA
+  ].includes(returnUrl)
     ? `${environment.BASE_URL}/my-va/`
     : returnUrl;
 };
@@ -149,6 +164,9 @@ export function sessionTypeUrl({
   type = '',
   queryParams = {},
   version = API_VERSION,
+  allowVerification = false,
+  useOauth = false,
+  acr = null,
 }) {
   if (!type) {
     return null;
@@ -173,14 +191,15 @@ export function sessionTypeUrl({
   // We should use OAuth when the following are true:
   // OAuth param is 'true'
   // config.OAuthEnabled is true
-  const useOAuth = config?.OAuthEnabled && OAuth === 'true';
+  const useOAuth = useOauth || (config?.OAuthEnabled && OAuth === 'true');
 
   // Only require verification when all of the following are true:
   // 1. On the USiP (Unified Sign In Page)
   // 2. The outbound application is one of the mobile apps
   // 3. The generated link type is for signup, and login only
   const requireVerification =
-    externalRedirect && (isLogin || isSignup) && config.requiresVerification
+    allowVerification ||
+    (externalRedirect && (isLogin || isSignup) && config.requiresVerification)
       ? '_verified'
       : '';
 
@@ -199,6 +218,7 @@ export function sessionTypeUrl({
 
   if (useOAuth && (isLogin || isSignup)) {
     return createOAuthRequest({
+      acr,
       application,
       clientId,
       type,
@@ -213,7 +233,6 @@ export function sessionTypeUrl({
       },
     });
   }
-
   return appendQuery(
     API_SESSION_URL({
       version,
@@ -238,7 +257,7 @@ export function clearSentryLoginType() {
   Sentry.setTag('loginType', undefined);
 }
 
-export function redirect(redirectUrl, clickedEvent) {
+export function redirect(redirectUrl, clickedEvent, type = '') {
   const { application } = getQueryParams();
   const externalRedirect = isExternalRedirect();
   const existingReturnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL);
@@ -250,7 +269,7 @@ export function redirect(redirectUrl, clickedEvent) {
     createAndStoreReturnUrl();
   }
 
-  recordEvent({ event: clickedEvent });
+  recordEvent({ event: type ? `${clickedEvent}-${type}` : clickedEvent });
 
   // Trigger USiP External Auth Event
   if (
@@ -265,6 +284,23 @@ export function redirect(redirectUrl, clickedEvent) {
   window.location = redirectUrl;
 }
 
+export async function mockLogin({
+  clickedEvent = AUTH_EVENTS.MOCK_LOGIN,
+  type = '',
+}) {
+  if (!type) {
+    throw new Error('Attempted to call mockLogin without a type');
+  }
+  const url = await createOAuthRequest({
+    clientId: 'vamock',
+    type,
+  });
+  if (!isExternalRedirect()) {
+    setLoginAttempted();
+  }
+  return redirect(url, clickedEvent);
+}
+
 export async function login({
   policy,
   version = API_VERSION,
@@ -272,11 +308,9 @@ export async function login({
   clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
 }) {
   const url = await sessionTypeUrl({ type: policy, version, queryParams });
-
   if (!isExternalRedirect()) {
     setLoginAttempted();
   }
-
   return redirect(url, clickedEvent);
 }
 
@@ -287,11 +321,24 @@ export function mfa(version = API_VERSION) {
   );
 }
 
-export function verify(version = API_VERSION) {
-  return redirect(
-    sessionTypeUrl({ type: POLICY_TYPES.VERIFY, version }),
-    AUTH_EVENTS.VERIFY,
-  );
+export async function verify({
+  policy = '',
+  version = API_VERSION,
+  clickedEvent = AUTH_EVENTS.VERIFY,
+  isLink = false,
+  useOAuth = false,
+  acr = null,
+}) {
+  const type = SIGNUP_TYPES[policy];
+  const url = await sessionTypeUrl({
+    type,
+    version,
+    useOauth: useOAuth,
+    ...(!useOAuth && { allowVerification: true }),
+    acr,
+  });
+
+  return isLink ? url : redirect(url, `${type}-${clickedEvent}`);
 }
 
 export function logout(
@@ -306,36 +353,42 @@ export function logout(
   );
 }
 
-export async function signup({
+export async function signupOrVerify({
   version = API_VERSION,
-  csp = CSP_IDS.ID_ME,
-} = {}) {
-  return redirect(
-    await sessionTypeUrl({
-      type: `${csp}_signup`,
-      version,
-      ...(csp === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
+  policy = '',
+  isSignup = true,
+  isLink = false,
+  useOAuth = false,
+  allowVerification = true,
+}) {
+  const type = SIGNUP_TYPES[policy];
+  const url = await sessionTypeUrl({
+    type,
+    version,
+    ...(useOAuth && {
+      // acr determined by signup or verify
+      acr: isSignup
+        ? 'min'
+        : externalApplicationsConfig.default.oAuthOptions.acrVerify[policy],
+      useOauth: useOAuth,
     }),
-    `${csp}-${AUTH_EVENTS.REGISTER}`,
-  );
+    // just verify (<csp>_signup_verified)
+    ...(!isSignup &&
+      !useOAuth && {
+        allowVerification,
+      }),
+    // just signup
+    ...(isSignup &&
+      !useOAuth &&
+      policy === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
+  });
+  const eventBase = isSignup ? AUTH_EVENTS.REGISTER : AUTH_EVENTS.VERIFY;
+  const eventAuthBroker = useOAuth ? 'sis' : 'iam';
+  const eventIsVerified = allowVerification ? '-verified' : '';
+  const event = `${policy}-${eventBase}${eventAuthBroker}${eventIsVerified}`;
+
+  return isLink ? url : redirect(url, event);
 }
-
-export const signupUrl = type => {
-  const signupType = SIGNUP_TYPES[type] ?? SIGNUP_TYPES[CSP_IDS.ID_ME];
-  const queryParams =
-    signupType === SIGNUP_TYPES[CSP_IDS.ID_ME]
-      ? {
-          queryParams: { op: 'signup' },
-        }
-      : {};
-
-  const opts = {
-    type: signupType,
-    ...queryParams,
-  };
-
-  return sessionTypeUrl(opts);
-};
 
 export const logoutUrl = () => {
   return sessionTypeUrl({ type: POLICY_TYPES.SLO, version: API_VERSION });

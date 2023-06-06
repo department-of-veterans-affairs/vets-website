@@ -1,53 +1,137 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import AppointmentLocation from './AppointmentLocation';
 
+import AppointmentMessage from './AppointmentMessage';
 import AppointmentAction from './AppointmentAction';
+import {
+  appointmentIcon,
+  clinicName,
+  getAppointmentId,
+} from '../../utils/appointment';
+import { APP_NAMES } from '../../utils/appConstants';
 
 const AppointmentListItem = props => {
-  const { appointment, token, router } = props;
-  const appointmentDateTime = new Date(appointment.startTime);
+  const { appointment, goToDetails, router, app, page } = props;
   const { t } = useTranslation();
-  const apptId = `${appointment.stationNo ? appointment.stationNo : ''}${
-    appointment.appointmentIen
-  }`;
+
+  const appointmentDateTime = new Date(appointment.startTime);
+  const clinic = clinicName(appointment);
+
+  const pagesToShowDetails = ['details', 'complete', 'confirmation'];
+  const showDetailsLink = pagesToShowDetails.includes(page) && goToDetails;
+
+  const infoBlockMessage = () => {
+    if (appointment?.kind === 'phone') {
+      return (
+        <span data-testid="phone-msg-confirmation">
+          {t('your-provider-will-call-you-at-your-appointment-time')}
+        </span>
+      );
+    }
+    return (
+      <span data-testid="in-person-msg-confirmation">
+        {t('please-bring-your-insurance-cards-with-you-to-your-appointment')}
+      </span>
+    );
+  };
+
   return (
-    <li className="appointment-item vads-u-padding--2">
-      <div className="appointment-summary vads-u-margin--0 vads-u-padding--0">
-        <h2
-          className="appointment-time vads-u-font-family--serif vads-u-font-weight--bold vads-u-margin-bottom--1 vads-u-margin-top--0"
+    <li
+      className="vads-u-border-bottom--1px check-in--appointment-item"
+      data-testid="appointment-list-item"
+    >
+      <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2">
+        <div
           data-testid="appointment-time"
-          aria-describedby={apptId}
+          className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold"
         >
           {t('date-time', { date: appointmentDateTime })}
-        </h2>
-        <div id={apptId}>
-          <p className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-font-family--serif vads-u-font-weight--bold appointment-detail">
-            <span className="item-label">{t('facility')}: </span>
-            <span className="item-value" data-testid="facility-name">
-              {appointment.facility}
-            </span>
-            <span className="item-label">{t('clinic')}: </span>
-            <span className="item-value" data-testid="clinic-name">
-              <AppointmentLocation appointment={appointment} />
-            </span>
-          </p>
         </div>
+        <div
+          data-testid="appointment-type-and-provider"
+          className="vads-u-font-weight--bold"
+        >
+          {appointment.clinicStopCodeName
+            ? appointment.clinicStopCodeName
+            : t('VA-appointment')}
+          {appointment.doctorName
+            ? ` ${t('with')} ${appointment.doctorName}`
+            : ''}
+        </div>
+        <div className="vads-u-display--flex vads-u-align-items--baseline">
+          <div
+            data-testid="appointment-kind-icon"
+            className="vads-u-margin-right--1 check-in--label"
+          >
+            {appointmentIcon(appointment)}
+          </div>
+          <div
+            data-testid="appointment-kind-and-location"
+            className="vads-u-display--inline"
+          >
+            {appointment?.kind === 'phone' ? (
+              t('phone')
+            ) : (
+              <>
+                {`${t('in-person')} at ${appointment.facility}`} <br /> Clinic:{' '}
+                {clinic}
+              </>
+            )}
+          </div>
+        </div>
+        {showDetailsLink && (
+          <div className="vads-u-margin-y--2">
+            <a
+              data-testid="details-link"
+              href={`${
+                router.location.basename
+              }/appointment-details/${getAppointmentId(appointment)}`}
+              onClick={e => goToDetails(e, appointment)}
+              aria-label={t('details-for-appointment', {
+                time: appointmentDateTime,
+                type: appointment.clinicStopCodeName
+                  ? appointment.clinicStopCodeName
+                  : 'VA',
+              })}
+            >
+              {t('details')}
+            </a>
+          </div>
+        )}
+        {app === APP_NAMES.CHECK_IN &&
+          page !== 'confirmation' && (
+            <>
+              <AppointmentMessage appointment={appointment} />
+              <AppointmentAction
+                appointment={appointment}
+                router={router}
+                event="check-in-clicked-VAOS-design"
+              />
+            </>
+          )}
       </div>
-      <AppointmentAction
-        appointment={appointment}
-        router={router}
-        token={token}
-      />
+      {app === APP_NAMES.PRE_CHECK_IN &&
+        page === 'confirmation' && (
+          <va-alert
+            background-only
+            show-icon
+            data-testid="appointment-message"
+            class="vads-u-margin-bottom--2"
+          >
+            <div>{infoBlockMessage()}</div>
+          </va-alert>
+        )}
     </li>
   );
 };
 
 AppointmentListItem.propTypes = {
-  appointment: PropTypes.object,
+  app: PropTypes.string.isRequired,
+  appointment: PropTypes.object.isRequired,
+  page: PropTypes.string.isRequired,
+  goToDetails: PropTypes.func,
   router: PropTypes.object,
-  token: PropTypes.string,
 };
 
 export default AppointmentListItem;

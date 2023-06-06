@@ -1,94 +1,51 @@
-import isAfter from 'date-fns/isAfter';
-import i18next from 'i18next';
 import { api } from '../../api';
-import { extractDateFromVaDateComponent } from '../formatters';
 
 /**
  * Validates auth fields and makes API request and routes.
- * @param {string} [last4Ssn]
  * @param {string} [lastName]
  * @param {object} [dob]
- * @param {boolean} [showValidateError]
- * @param {function} [setLastNameErrorMessage]
- * @param {function} [setLast4ErrorMessage]
- * @param {function} [setDobErrorMessage]
- * @param {function} [setDob]
+ * @param {boolean} [dobError]
+ * @param {boolean} [setLastNameError]
  * @param {function} [setIsLoading]
  * @param {function} [setShowValidateError]
- * @param {boolean} [isLorotaSecurityUpdatesEnabled]
- * @param {function} [goToErrorPage]
  * @param {function} [goToNextPage]
- * @param {function} [incrementValidateAttempts]
- * @param {boolean} [isMaxValidateAttempts]
  * @param {string} [token]
  * @param {function} [setSession]
  * @param {string} [app]
+ * @param {function} [updateError]
  */
 
 const validateLogin = async (
-  last4Ssn,
   lastName,
   dob,
-  showValidateError,
-  setLastNameErrorMessage,
-  setLast4ErrorMessage,
-  setDobErrorMessage,
-  setDob,
+  dobError,
+  setLastNameError,
   setIsLoading,
   setShowValidateError,
-  isLorotaSecurityUpdatesEnabled,
-  goToErrorPage,
   goToNextPage,
-  incrementValidateAttempts,
-  isMaxValidateAttempts,
   token,
   setSession,
   app,
-  resetAttempts,
+  updateError,
 ) => {
-  setLastNameErrorMessage();
-  setLast4ErrorMessage();
-  setDobErrorMessage();
+  setLastNameError();
 
   let valid = true;
-  const { year, month, day } = dob;
-  if (!isLorotaSecurityUpdatesEnabled) {
-    if (!lastName) {
-      setLastNameErrorMessage(i18next.t('please-enter-your-last-name'));
-      valid = false;
-    }
-    if (!last4Ssn) {
-      setLast4ErrorMessage(
-        i18next.t(
-          'please-enter-the-last-4-digits-of-your-social-security-number',
-        ),
-      );
-      valid = false;
-    }
-  } else {
-    if (!lastName) {
-      setLastNameErrorMessage(i18next.t('please-enter-your-last-name'));
-      valid = false;
-    }
-    if (!year.value || !month.value || !day.value) {
-      setDobErrorMessage(i18next.t('please-provide-a-response'));
-      setDob(prevState => ({
-        year: { ...prevState.year, dirty: true },
-        day: { ...prevState.day, dirty: true },
-        month: { ...prevState.month, dirty: true },
-      }));
-      valid = false;
-    } else if (isAfter(new Date(year.value), new Date())) {
-      setDobErrorMessage(
-        i18next.t('your-date-of-birth-can-not-be-in-the-future'),
-      );
-      setDob(prevState => ({
-        year: { ...prevState.year, dirty: true },
-        day: { ...prevState.day, dirty: true },
-        month: { ...prevState.month, dirty: true },
-      }));
-      valid = false;
-    }
+
+  if (!lastName) {
+    setLastNameError(true);
+    valid = false;
+  }
+  if (dobError || dob === '--') {
+    valid = false;
+  }
+  // Use regex here to be able to validate when no error is present
+  // doesnt match the web components validation completely the year can be any 4 digit number
+  const regex = new RegExp(
+    /[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))/,
+  );
+  if (!regex.test(dob)) {
+    valid = false;
   }
 
   if (!valid) {
@@ -99,27 +56,30 @@ const validateLogin = async (
   try {
     const resp = await api.v2.postSession({
       token,
-      last4: last4Ssn,
-      dob: extractDateFromVaDateComponent(dob),
+      dob,
       lastName,
       checkInType: app,
-      isLorotaSecurityUpdatesEnabled,
     });
     if (resp.errors || resp.error) {
       setIsLoading(false);
-      goToErrorPage();
+      updateError('session-error');
     } else {
       setSession(token, resp.permissions);
-      resetAttempts(window, token, true);
       goToNextPage();
     }
   } catch (e) {
     setIsLoading(false);
-    if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
-      goToErrorPage();
+    if (e.errors && e.errors[0]?.status !== '401') {
+      let errorType = 'lorota-fail';
+      if (e.errors && e.errors[0]?.status === '404') {
+        errorType = 'uuid-not-found';
+      }
+      if (e.errors && e.errors[0]?.status === '410') {
+        errorType = 'max-validation';
+      }
+      updateError(errorType);
     } else {
       setShowValidateError(true);
-      incrementValidateAttempts(window);
     }
   }
 };

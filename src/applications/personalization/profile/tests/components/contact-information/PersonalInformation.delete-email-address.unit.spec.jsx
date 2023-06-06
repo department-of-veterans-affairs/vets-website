@@ -7,6 +7,8 @@ import { setupServer } from 'msw/node';
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
 
+import { DEFAULT_ERROR_MESSAGE } from 'platform/user/profile/vap-svc/constants';
+
 import {
   createBasicInitialState,
   renderWithProfileReducers,
@@ -20,7 +22,6 @@ const ui = (
 );
 let view;
 let server;
-const errorText = `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please check back later.`;
 
 function getEditButton() {
   let editButton = view.queryByText(/add.*email address/i, {
@@ -43,7 +44,9 @@ function deleteEmailAddress() {
   const confirmDeleteButton = view.getByText('Yes, remove my information', {
     selector: 'button',
   });
-  const cancelDeleteButton = view.getByText('Cancel', { selector: 'button' });
+  const cancelDeleteButton = view.getByText('No, cancel this change', {
+    selector: 'button',
+  });
   confirmDeleteButton.click();
 
   return { confirmDeleteButton, cancelDeleteButton };
@@ -139,7 +142,7 @@ describe('Deleting email address', () => {
 
     // expect an error to be shown
     const alert = await view.findByTestId('delete-error-alert');
-    expect(alert).to.contain.text(errorText);
+    expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
   });
   it('should show an error if the deletion fails quickly', async () => {
     server.use(...mocks.transactionPending);
@@ -161,7 +164,7 @@ describe('Deleting email address', () => {
 
     // expect an error to be shown
     const alert = await view.findByTestId('delete-error-alert');
-    expect(alert).to.contain.text(errorText);
+    expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
 
     // waiting to make sure it doesn't auto exit
     await wait(75);

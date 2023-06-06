@@ -4,12 +4,11 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 // relative imports
+import recordEvent from 'platform/monitoring/record-event';
 import DownloadPDFModal from './DownloadPDFModal';
 import InvalidFormDownload from './InvalidFormAlert';
-import recordEvent from 'platform/monitoring/record-event';
 import { sentryLogger } from './index';
 import { showPDFModal } from '../../helpers/selectors';
-import { doesCookieExist, setCookie } from '../../helpers';
 
 const removeReactRoot = () => {
   const pdf = document.querySelector('.faf-pdf-alert-modal-root');
@@ -34,11 +33,7 @@ const DownloadPDFGuidance = ({
 
   if (formPdfIsValid && formPdfUrlIsValid && !netWorkRequestError) {
     // feature flag
-    if (
-      reduxStore?.getState &&
-      showPDFModal(reduxStore.getState()) &&
-      !doesCookieExist()
-    ) {
+    if (reduxStore?.getState && showPDFModal(reduxStore.getState())) {
       ReactDOM.render(
         <Provider store={reduxStore}>
           <DownloadPDFModal
@@ -50,7 +45,6 @@ const DownloadPDFGuidance = ({
         div,
       );
       parentEl.insertBefore(div, link); // Insert modal on DOM
-      setCookie(); // SET 24 hr cookie since it did not exist
       recordEvent({
         // Record GA event
         event: 'int-modal-click',

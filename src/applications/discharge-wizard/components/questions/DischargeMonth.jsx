@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Scroll from 'react-scroll';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // Relative Imports
 import { months } from 'platform/static-data/options-for-select.js';
-import Select from '@department-of-veterans-affairs/component-library/Select';
 import { shouldShowQuestion } from '../../helpers';
 
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 const DischargeMonthQuestion = ({
   formValues,
@@ -17,6 +17,20 @@ const DischargeMonthQuestion = ({
 }) => {
   const key = '3_dischargeMonth';
 
+  const monthOptions = months.map(month => {
+    return (
+      <option key={month.value} value={month.value}>
+        {month.label}
+      </option>
+    );
+  });
+
+  monthOptions.unshift(
+    <option key="-1" value="">
+      {' '}
+    </option>,
+  );
+
   if (!formValues) {
     return null;
   }
@@ -24,28 +38,22 @@ const DischargeMonthQuestion = ({
   if (!shouldShowQuestion(key, formValues.questions)) {
     return null;
   }
-
-  const monthLabel = (
-    <legend className="legend-label">
-      <h4 className={`${key}_header`}>What month were you discharged?</h4>
-    </legend>
-  );
-
   return (
     <fieldset className="fieldset-input dischargeMonth" key={key}>
       <Element name={key} />
-      <Select
+      <VaSelect
         autocomplete="false"
-        label={monthLabel}
+        label="What month were you discharged?"
         name={key}
-        onKeyDown={handleKeyDown}
-        options={months}
+        vaKeyDown={handleKeyDown}
         value={{ value: formValues[key] }}
-        onValueChange={update => {
-          updateField(key, update.value);
+        onVaSelect={update => {
+          updateField(key, update.detail.value);
           scrollToLast();
         }}
-      />
+      >
+        {monthOptions}
+      </VaSelect>
     </fieldset>
   );
 };

@@ -3,19 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
-import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/layout/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
 import { makeSelectVeteranData } from '../../selectors';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../../utils/navigation';
 
 const NextOfKin = props => {
-  const { isDayOfDemographicsFlagsEnabled } = props;
   const { router } = props;
   const { t } = useTranslation();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
@@ -25,8 +22,9 @@ const NextOfKin = props => {
     jumpToPage,
     goToNextPage,
     goToPreviousPage,
-    goToErrorPage,
+    getPreviousPageFromRouter,
   } = useFormRouting(router);
+  const { setShouldSendDemographicsFlags } = useSessionStorage(false);
 
   const seeStaffMessage = t(
     'our-staff-can-help-you-update-your-next-of-kin-information',
@@ -41,59 +39,47 @@ const NextOfKin = props => {
 
   const yesClick = useCallback(
     () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'yes-to-next-of-kin-information',
-      });
-      if (isDayOfDemographicsFlagsEnabled) {
-        dispatch(recordAnswer({ nextOfKinUpToDate: 'yes' }));
-      }
+      dispatch(recordAnswer({ nextOfKinUpToDate: 'yes' }));
+      setShouldSendDemographicsFlags(window, true);
       goToNextPage();
     },
-    [dispatch, goToNextPage, isDayOfDemographicsFlagsEnabled],
+    [dispatch, goToNextPage, setShouldSendDemographicsFlags],
   );
 
   const noClick = useCallback(
     () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'no-to-next-of-kin-information',
-      });
-      if (isDayOfDemographicsFlagsEnabled) {
-        dispatch(recordAnswer({ nextOfKinUpToDate: 'no' }));
-      }
+      dispatch(recordAnswer({ nextOfKinUpToDate: 'no' }));
+      setShouldSendDemographicsFlags(window, true);
       updateSeeStaffMessage(seeStaffMessage);
       jumpToPage(URLS.SEE_STAFF);
     },
     [
-      isDayOfDemographicsFlagsEnabled,
       dispatch,
       updateSeeStaffMessage,
       jumpToPage,
       seeStaffMessage,
+      setShouldSendDemographicsFlags,
     ],
   );
 
-  if (!nextOfKin) {
-    goToErrorPage();
-    return <></>;
-  }
   return (
     <>
-      <BackButton router={router} action={goToPreviousPage} />
+      <BackButton
+        router={router}
+        action={goToPreviousPage}
+        prevUrl={getPreviousPageFromRouter()}
+      />
       <NextOfKinDisplay
         nextOfKin={nextOfKin}
         yesAction={yesClick}
         noAction={noClick}
-        Footer={Footer}
+        router={router}
       />
-      <BackToHome />
     </>
   );
 };
 
 NextOfKin.propTypes = {
-  isDayOfDemographicsFlagsEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 

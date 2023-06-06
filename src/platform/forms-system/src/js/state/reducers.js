@@ -12,7 +12,7 @@ import {
   SET_FORM_ERRORS,
 } from '../actions';
 
-import { recalculateSchemaAndData } from '../state/helpers';
+import { recalculateSchemaAndData } from './helpers';
 
 export default {
   [OPEN_REVIEW_CHAPTER]: (state, action) => {

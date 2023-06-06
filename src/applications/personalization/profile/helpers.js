@@ -24,7 +24,7 @@ export const getServiceBranchDisplayName = serviceBranch => {
 /**
  *
  * Transforms a service history object into an object with `title` and `value`
- * keys, which is the format required by a single row in a `ProfileInfoTable`
+ * keys, which is the format required by a single row in a `ProfileInfoCard`
  *
  * @param {Object} entry - a service history object with `branchOfService`,
  * `beginDate`, and `endDate` keys
@@ -60,8 +60,12 @@ export const transformServiceHistoryEntryIntoTableRow = entry => {
 export const getContactInfoDeepLinkURL = (
   fieldName,
   focusOnEditButton = false,
+  useUniqueEditPageURL = false,
 ) => {
   const targetId = FIELD_IDS[fieldName];
   const fragment = focusOnEditButton ? `edit-${targetId}` : targetId;
+  if (useUniqueEditPageURL) {
+    return `${PROFILE_PATHS.EDIT}?fieldName=${fieldName}`;
+  }
   return `${PROFILE_PATHS.CONTACT_INFORMATION}#${fragment}`;
 };

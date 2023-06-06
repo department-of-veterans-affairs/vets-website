@@ -1,6 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -11,31 +12,184 @@ import {
 } from '../../../src/js/utilities/ui';
 import { ReviewCollapsibleChapter } from '../../../src/js/review/ReviewCollapsibleChapter';
 
-describe('focus on element', () => {
-  it('should focus on element based on selector string', () => {
-    const tree = ReactTestUtils.renderIntoDocument(
+describe('focusElement', () => {
+  it('should focus on header element using tabindex -1, and remove it on blur', async () => {
+    const screen = render(
       <div>
-        <button type="button" aria-label="button" />
+        <h2>test</h2>
       </div>,
     );
-    const dom = findDOMNode(tree);
-    global.document = dom;
-    const focused = sinon.stub(dom.querySelector('button'), 'focus');
-    focusElement('button', {});
-    expect(focused.calledOnce).to.be.true;
+    const h2 = screen.getByRole('heading', { levh2: 2 });
+
+    expect(h2.tabIndex).to.eq(-1);
+    expect(h2.getAttribute('tabindex')).to.be.null;
+
+    focusElement(h2);
+
+    await waitFor(() => {
+      expect(document.activeElement).to.eq(h2);
+      expect(h2.tabIndex).to.eq(-1);
+      expect(h2.getAttribute('tabindex')).to.eq('-1');
+    });
+    fireEvent.blur(h2);
+    await waitFor(() => {
+      expect(h2.tabIndex).to.eq(-1);
+      expect(h2.getAttribute('tabindex')).to.be.null;
+    });
+  });
+  it('should focus on header string selector using tabindex -1, and remove it on blur', async () => {
+    const screen = render(
+      <div>
+        <h2>test</h2>
+      </div>,
+    );
+    const h2 = screen.getByRole('heading', { levh2: 2 });
+
+    expect(h2.tabIndex).to.eq(-1);
+    expect(h2.getAttribute('tabindex')).to.be.null;
+
+    focusElement('h2');
+
+    await waitFor(() => {
+      expect(document.activeElement).to.eq(h2);
+      expect(h2.tabIndex).to.eq(-1);
+      expect(h2.getAttribute('tabindex')).to.eq('-1');
+    });
+    fireEvent.blur(h2);
+    await waitFor(() => {
+      expect(h2.tabIndex).to.eq(-1);
+      expect(h2.getAttribute('tabindex')).to.be.null;
+    });
+  });
+  it('should focus on div with tabindex 0, and not remove it on blur', async () => {
+    const screen = render(
+      <div>
+        <div role="button" tabIndex="0">
+          test
+        </div>
+      </div>,
+    );
+    const div = screen.getByRole('button');
+
+    expect(div.tabIndex).to.eq(0);
+    expect(div.getAttribute('tabindex')).to.eq('0');
+
+    focusElement('div[role]');
+
+    await waitFor(() => {
+      expect(document.activeElement).to.eq(div);
+      expect(div.tabIndex).to.eq(0);
+      expect(div.getAttribute('tabindex')).to.eq('0');
+    });
+    fireEvent.blur(div);
+    await waitFor(() => {
+      expect(div.tabIndex).to.eq(0);
+      expect(div.getAttribute('tabindex')).to.eq('0');
+    });
   });
 
-  it('should focus on element passed to the function', () => {
-    const tree = ReactTestUtils.renderIntoDocument(
+  it('should focus on input element', async () => {
+    const screen = render(
       <div>
-        <button type="button" aria-label="button" />
+        <label htmlFor="name">Name</label>
+        <input id="name" type="text" />
       </div>,
     );
-    const dom = findDOMNode(tree);
-    const button = dom.querySelector('button');
-    const focused = sinon.stub(button, 'focus');
-    focusElement(button);
-    expect(focused.calledOnce).to.be.true;
+    const input = screen.getByLabelText('Name');
+
+    expect(input.tabIndex).to.eq(0);
+    expect(input.getAttribute('tabindex')).to.be.null;
+
+    focusElement(input);
+
+    await waitFor(() => {
+      expect(document.activeElement).to.eq(input);
+      expect(input.tabIndex).to.eq(0);
+      expect(input.getAttribute('tabindex')).to.be.null;
+    });
+    fireEvent.blur(input);
+    await waitFor(() => {
+      expect(input.tabIndex).to.eq(0);
+      expect(input.getAttribute('tabindex')).to.be.null;
+    });
+  });
+  it('should focus on input element', async () => {
+    const screen = render(
+      <div>
+        <label htmlFor="name">Name</label>
+        <input id="name" type="text" />
+      </div>,
+    );
+    const input = screen.getByLabelText('Name');
+
+    expect(input.tabIndex).to.eq(0);
+    expect(input.getAttribute('tabindex')).to.be.null;
+
+    focusElement('input');
+
+    await waitFor(() => {
+      expect(document.activeElement).to.eq(input);
+      expect(input.tabIndex).to.eq(0);
+      expect(input.getAttribute('tabindex')).to.be.null;
+    });
+    fireEvent.blur(input);
+    await waitFor(() => {
+      expect(input.tabIndex).to.eq(0);
+      expect(input.getAttribute('tabindex')).to.be.null;
+    });
+  });
+  it('should focus on va-alert element', async () => {
+    const screen = render(
+      <div>
+        <va-alert data-testid="test" status="info">
+          <h2 slot="headline">test</h2>
+        </va-alert>
+      </div>,
+    );
+    const alert = screen.getByTestId('test');
+
+    expect(alert.tabIndex).to.eq(-1);
+    expect(alert.getAttribute('tabindex')).to.be.null;
+
+    focusElement('va-alert');
+
+    await waitFor(() => {
+      expect(document.activeElement).to.eq(alert);
+      expect(alert.tabIndex).to.eq(-1);
+      expect(alert.getAttribute('tabindex')).to.eq('-1');
+    });
+    fireEvent.blur(alert);
+    await waitFor(() => {
+      expect(alert.tabIndex).to.eq(-1);
+      expect(alert.getAttribute('tabindex')).to.be.null;
+    });
+  });
+  it('should focus on button in inside of container', async () => {
+    const screen = render(
+      <div>
+        <div>
+          <button type="button">test-1</button>
+        </div>
+        <div data-testid="container">
+          <button type="button" data-testid="button">
+            test-2
+          </button>
+        </div>
+      </div>,
+    );
+    const container = screen.getByTestId('container');
+    const button = screen.getByTestId('button');
+
+    expect(button.tabIndex).to.eq(0);
+    expect(button.getAttribute('tabindex')).to.be.null;
+
+    focusElement('button', {}, container);
+
+    await waitFor(() => {
+      expect(document.activeElement).to.eq(button);
+      expect(button.tabIndex).to.eq(0);
+      expect(button.getAttribute('tabindex')).to.be.null;
+    });
   });
 });
 

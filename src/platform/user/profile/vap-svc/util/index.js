@@ -15,19 +15,33 @@ import {
   ADDRESS_PROPS,
 } from '../constants';
 
-export const getValidationMessageKey = (
+/**
+ * An address validation object based on data from the address validation api response
+ * @typedef {Object} AddressValidationObject
+ * @property {Array} suggestedAddresses suggested addresses sorted by confidence score
+ * @property {boolean} addressValidationError if address validation endpoint request encounted an error
+ * @property {Array} confirmedSuggestions addresses that have deliveryPointValidation === CONFIRMED or international as their type. See validateAddress in transactions.js actions
+ */
+
+/**
+ * Get the appropriate validation message key for ADDRESS_VALIDATION_MESSAGES
+ *
+ * @param {AddressValidationObject} addressValidationObject
+ *
+ * @returns {string} key for accessing ADDRESS_VALIDATION_MESSAGES[key]
+ */
+export const getValidationMessageKey = ({
   suggestedAddresses,
-  validationKey,
   addressValidationError,
-  confirmedSuggestions,
-) => {
-  const singleSuggestion = suggestedAddresses.length === 1;
-  const multipleSuggestions = suggestedAddresses.length > 1;
+  confirmedSuggestions = [],
+}) => {
+  const singleSuggestion = suggestedAddresses?.length === 1;
+  const multipleSuggestions = suggestedAddresses?.length > 1;
   const containsBadUnitNumber =
-    suggestedAddresses.filter(
+    suggestedAddresses?.filter(
       address =>
         address.addressMetaData?.deliveryPointValidation === BAD_UNIT_NUMBER,
-    ).length > 0;
+    )?.length > 0;
 
   const containsMissingUnitNumber =
     suggestedAddresses.filter(
@@ -41,15 +55,11 @@ export const getValidationMessageKey = (
   }
 
   if (singleSuggestion && containsBadUnitNumber) {
-    return validationKey
-      ? ADDRESS_VALIDATION_TYPES.BAD_UNIT_OVERRIDE
-      : ADDRESS_VALIDATION_TYPES.BAD_UNIT;
+    return ADDRESS_VALIDATION_TYPES.BAD_UNIT_OVERRIDE;
   }
 
   if (singleSuggestion && containsMissingUnitNumber) {
-    return validationKey
-      ? ADDRESS_VALIDATION_TYPES.MISSING_UNIT_OVERRIDE
-      : ADDRESS_VALIDATION_TYPES.MISSING_UNIT;
+    return ADDRESS_VALIDATION_TYPES.MISSING_UNIT_OVERRIDE;
   }
 
   if (
@@ -58,29 +68,20 @@ export const getValidationMessageKey = (
     !containsMissingUnitNumber &&
     !containsBadUnitNumber
   ) {
-    return validationKey
-      ? ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_CONFIRMED_OVERRIDE
-      : ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_CONFIRMED;
+    return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_CONFIRMED_OVERRIDE;
   }
 
   if (
-    confirmedSuggestions.length &&
-    singleSuggestion &&
-    !containsMissingUnitNumber &&
-    !containsBadUnitNumber
+    (confirmedSuggestions.length &&
+      singleSuggestion &&
+      !containsMissingUnitNumber &&
+      !containsBadUnitNumber) ||
+    multipleSuggestions
   ) {
-    return validationKey
-      ? ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_OVERRIDE
-      : ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS;
+    return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_OVERRIDE;
   }
 
-  if (multipleSuggestions) {
-    return validationKey
-      ? ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_OVERRIDE
-      : ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS;
-  }
-
-  return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS; // defaulting here so the modal will show but not allow override
+  return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_CONFIRMED_OVERRIDE;
 };
 
 // Determines if we need to prompt the user to pick from a list of suggested
@@ -105,7 +106,7 @@ export const showAddressValidationModal = (
     addressMetaData: firstSuggestedAddressMetadata,
   } = firstSuggestedAddress;
 
-  if (
+  const hasValidAddress =
     !userInputAddress.addressLine2 &&
     !userInputAddress.addressLine3 &&
     suggestedAddresses.length === 1 &&
@@ -113,12 +114,10 @@ export const showAddressValidationModal = (
     firstSuggestedAddressMetadata.confidenceScore > 90 &&
     (firstSuggestedAddressMetadata.deliveryPointValidation === CONFIRMED ||
       firstSuggestedAddressMetadata.addressType?.toLowerCase() ===
-        'international')
-  ) {
-    return false;
-  }
+        'international');
 
-  return true;
+  // if we have a valid address, we don't need to show the validation ui
+  return !hasValidAddress;
 };
 
 // Infers the address type from the address supplied and returns the address
@@ -134,7 +133,7 @@ export const inferAddressType = address => {
     type = ADDRESS_TYPES_ALTERNATE.military;
   }
 
-  return Object.assign({}, address, { type });
+  return { ...address, type };
 };
 
 export const areAddressesEqual = (mainAddress, testAddress) => {
@@ -148,4 +147,15 @@ export const areAddressesEqual = (mainAddress, testAddress) => {
   );
 
   return isEqual(mainAddressFields, testAddressFields);
+};
+
+export const validateAsciiCharacters = (errors, field) => {
+  // testing specifically that the field entry only has valid ascii characters
+  // eslint-disable-next-line no-control-regex
+  const hasInvalidCharacters = !/^[\x00-\x7F]*$/.test(field);
+  if (field && hasInvalidCharacters) {
+    errors.addError(
+      'Our forms can only accept the letters A to Z, numbers 0 to 9, and certain symbols like dashes and periods',
+    );
+  }
 };

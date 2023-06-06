@@ -24,7 +24,8 @@ export const UPDATE_VERIFICATION_STATUS_FAILURE =
   'UPDATE_VERIFICATION_STATUS_FAILURE';
 
 export const EDIT_MONTH_VERIFICATION = 'EDIT_MONTH_VERIFICATION';
-export const UPDATE_VERIFICATION_STATUS_MONTHS = 'UPDATE_VERIFICATION_STATUS';
+export const UPDATE_VERIFICATION_STATUS_MONTHS =
+  'UPDATE_VERIFICATION_STATUS_MONTHS';
 
 export function fetchPost911GiBillEligibility() {
   const POST_911_GI_BILL_ELIGIBILITY_ENDPOINT = `${
@@ -50,36 +51,32 @@ export function fetchPost911GiBillEligibility() {
   };
 }
 
-export function updateEnrollmentVerifications(vs) {
+export function postEnrollmentVerifications(vs) {
   const VERIFICATION_STATUS_ENDPOINT = `${
     environment.API_URL
   }/meb_api/v0/submit_enrollment_verification`;
 
-  // TODO The following is very much in-progress.
-  // return async dispatch => {
-  //   dispatch({ type: UPDATE_VERIFICATION_STATUS });
-  return apiRequest(VERIFICATION_STATUS_ENDPOINT, {
-    method: 'POST',
-    body: JSON.stringify({
-      enrollmentVerifications: vs,
-    }),
-    headers: { 'Content-Type': 'application/json' },
-  })
-    .then(
-      () => window.console.log(UPDATE_VERIFICATION_STATUS_SUCCESS),
-      // response => window.console.log(UPDATE_VERIFICATION_STATUS_SUCCESS),
-      // dispatch({
-      //   type: UPDATE_VERIFICATION_STATUS_SUCCESS,
-      //   response,
-      // }),
-    )
-    .catch(
-      () => window.console.log(UPDATE_VERIFICATION_STATUS_FAILURE),
-      // errors => window.console.log(UPDATE_VERIFICATION_STATUS_FAILURE),
-      // dispatch({
-      //   type: UPDATE_VERIFICATION_STATUS_FAILURE,
-      //   errors,
-      // }),
-    );
-  // };
+  return async dispatch => {
+    dispatch({ type: UPDATE_VERIFICATION_STATUS });
+
+    return apiRequest(VERIFICATION_STATUS_ENDPOINT, {
+      method: 'POST',
+      body: JSON.stringify({
+        enrollmentVerifications: vs,
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(response =>
+        dispatch({
+          type: UPDATE_VERIFICATION_STATUS_SUCCESS,
+          response,
+        }),
+      )
+      .catch(errors =>
+        dispatch({
+          type: UPDATE_VERIFICATION_STATUS_FAILURE,
+          errors,
+        }),
+      );
+  };
 }

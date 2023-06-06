@@ -1,8 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   readAndCheckFile,
   checkTypeAndExtensionMatches,
@@ -24,7 +25,7 @@ const encryptedMockFile = [
 describe('readAndCheckFile', () => {
   let oldFileReader;
 
-  const setup = (ext = 'pdf', isEncrypted) => {
+  const setup = async (ext = 'pdf', isEncrypted) => {
     oldFileReader = global.FileReader;
     const fileType = fileTypeSignatures[ext] || {};
 
@@ -40,7 +41,7 @@ describe('readAndCheckFile', () => {
       ...(isEncrypted ? encryptedMockFile : []),
     ];
 
-    global.FileReader = function() {
+    global.FileReader = async () => {
       this.readAsArrayBuffer = () => {};
 
       const onloadendEvent = {
@@ -50,9 +51,7 @@ describe('readAndCheckFile', () => {
         },
       };
 
-      setTimeout(() => {
-        this.onloadend(onloadendEvent);
-      }, 100);
+      await this.onloadend(onloadendEvent);
     };
     global.FileReader.DONE = 'done';
 
@@ -67,50 +66,56 @@ describe('readAndCheckFile', () => {
     global.FileReader = oldFileReader;
   });
 
-  it('should resolve if no checks are included', done => {
-    const file = setup('pdf');
-    readAndCheckFile(file, {}).then(result => {
-      expect(result).to.be.empty;
-      done();
+  it('should resolve if no checks are included', async () => {
+    const file = await setup('pdf');
+    await waitFor(() => {
+      readAndCheckFile(file, {}).then(result => {
+        expect(result).to.be.empty;
+      });
     });
   });
 
   describe('checkTypeAndExtensionMatches', () => {
     const checks = { checkTypeAndExtensionMatches };
 
-    it('should return true for string signature checks (pdf)', done => {
-      const file = setup('pdf');
-      readAndCheckFile(file, checks).then(result => {
-        expect(result.checkTypeAndExtensionMatches).to.be.true;
-        done();
+    it('should return true for string signature checks (pdf)', async () => {
+      const file = await setup('pdf');
+      await waitFor(() => {
+        readAndCheckFile(file, checks).then(result => {
+          expect(result.checkTypeAndExtensionMatches).to.be.true;
+        });
       });
     });
-    it('should return true for name with extra periods (pdf)', done => {
-      const file = { name: 'some.file.test.pdf', ...setup('pdf') };
-      readAndCheckFile(file, checks).then(result => {
-        expect(result.checkTypeAndExtensionMatches).to.be.true;
-        done();
+    it('should return true for name with extra periods (pdf)', async () => {
+      const file = await { name: 'some.file.test.pdf', ...setup('pdf') };
+      await waitFor(() => {
+        readAndCheckFile(file, checks).then(result => {
+          expect(result.checkTypeAndExtensionMatches).to.be.true;
+        });
       });
     });
-    it('should return true for string with only an extension (pdf)', done => {
-      const file = { name: '.pdf', ...setup('pdf') };
-      readAndCheckFile(file, checks).then(result => {
-        expect(result.checkTypeAndExtensionMatches).to.be.true;
-        done();
+    it('should return true for string with only an extension (pdf)', async () => {
+      const file = await { name: '.pdf', ...setup('pdf') };
+      await waitFor(() => {
+        readAndCheckFile(file, checks).then(result => {
+          expect(result.checkTypeAndExtensionMatches).to.be.true;
+        });
       });
     });
-    it('should return true for array signature checks (doc)', done => {
-      const file = setup('doc');
-      readAndCheckFile(file, checks).then(result => {
-        expect(result.checkTypeAndExtensionMatches).to.be.true;
-        done();
+    it('should return true for array signature checks (doc)', async () => {
+      const file = await setup('doc');
+      await waitFor(() => {
+        readAndCheckFile(file, checks).then(result => {
+          expect(result.checkTypeAndExtensionMatches).to.be.true;
+        });
       });
     });
-    it('should return true for escaped string signature checks (rtf)', done => {
-      const file = setup('rtf');
-      readAndCheckFile(file, checks).then(result => {
-        expect(result.checkTypeAndExtensionMatches).to.be.true;
-        done();
+    it('should return true for escaped string signature checks (rtf)', async () => {
+      const file = await setup('rtf');
+      await waitFor(() => {
+        readAndCheckFile(file, checks).then(result => {
+          expect(result.checkTypeAndExtensionMatches).to.be.true;
+        });
       });
     });
   });
@@ -118,40 +123,45 @@ describe('readAndCheckFile', () => {
   describe('checkIsEncryptedPdf', () => {
     const checks = { checkIsEncryptedPdf };
 
-    it('should ignore all files with feature flag off', done => {
-      const file = setup('pdf', false);
-      readAndCheckFile(file, checks).then(result => {
-        expect(result.checkIsEncryptedPdf).to.be.false;
-        done();
+    it('should ignore all files with feature flag off', async () => {
+      const file = await setup('pdf', false);
+      await waitFor(() => {
+        readAndCheckFile(file, checks).then(result => {
+          expect(result.checkIsEncryptedPdf).to.be.false;
+        });
       });
     });
-    it('should ignore all files with uiSchema option disabled', done => {
-      const file = setup('pdf', false);
-      readAndCheckFile(file, checks).then(result => {
-        expect(result.checkIsEncryptedPdf).to.be.false;
-        done();
+    it('should ignore all files with uiSchema option disabled', async () => {
+      const file = await setup('pdf', false);
+      await waitFor(() => {
+        readAndCheckFile(file, checks).then(result => {
+          expect(result.checkIsEncryptedPdf).to.be.false;
+        });
       });
     });
-    it('should ignore non-PDf files', done => {
-      const file = setup('png', false);
-      readAndCheckFile(file, checks).then(result => {
-        expect(result.checkIsEncryptedPdf).to.be.false;
-        done();
+    it('should ignore non-PDf files', async () => {
+      const file = await setup('png', false);
+      await waitFor(() => {
+        readAndCheckFile(file, checks).then(result => {
+          expect(result.checkIsEncryptedPdf).to.be.false;
+        });
       });
     });
 
-    it('should resolve with false for unencrypted files', done => {
-      const file = setup('pdf', false);
-      readAndCheckFile(file, checks).then(result => {
-        expect(result.checkIsEncryptedPdf).to.be.false;
-        done();
+    it('should resolve with false for unencrypted files', async () => {
+      const file = await setup('pdf', false);
+      await waitFor(() => {
+        readAndCheckFile(file, checks).then(result => {
+          expect(result.checkIsEncryptedPdf).to.be.false;
+        });
       });
     });
-    it('should resolve with true for encrypted files', done => {
-      const file = setup('pdf', true);
-      readAndCheckFile(file, checks).then(result => {
-        expect(result.checkIsEncryptedPdf).to.be.true;
-        done();
+    it('should resolve with true for encrypted files', async () => {
+      const file = await setup('pdf', true);
+      await waitFor(() => {
+        readAndCheckFile(file, checks).then(result => {
+          expect(result.checkIsEncryptedPdf).to.be.true;
+        });
       });
     });
   });
@@ -195,15 +205,31 @@ describe('checkTypeAndExtensionMatches', () => {
     const file = getFile();
     expect(checkTypeAndExtensionMatches(file)).to.be.true;
   });
+  it('should return true for jpg files with jpg type3 signature', () => {
+    const file = getFile({
+      name: 'foo.jpg',
+      type: fileTypeSignatures.jpeg.mime,
+      result: [...fileTypeSignatures.jpeg.sigs.jpgType3, ...arrayOfZeros],
+    });
+    expect(checkTypeAndExtensionMatches(file)).to.be.true;
+  });
   it('should return true for jpeg files with lots of leading zeros', () => {
     const file = getFile({
       name: 'foo.jpeg',
       type: fileTypeSignatures.jpeg.mime,
       result: [
         ...arrayOfZeros,
-        ...fileTypeSignatures.jpeg.sig, // starts with 3 zeros
+        ...fileTypeSignatures.jpeg.sigs.jpgType2, // starts with 3 zeros
         ...arrayOfZeros,
       ],
+    });
+    expect(checkTypeAndExtensionMatches(file)).to.be.true;
+  });
+  it('should return true for jpeg files with jpg signature', () => {
+    const file = getFile({
+      name: 'foo.jpeg',
+      type: fileTypeSignatures.jpeg.mime,
+      result: [...fileTypeSignatures.jpeg.sigs.jpgType4, ...arrayOfZeros],
     });
     expect(checkTypeAndExtensionMatches(file)).to.be.true;
   });
@@ -271,28 +297,29 @@ describe('ShowPdfPassword', () => {
 
   it('should render', () => {
     const props = getProps();
-    const screen = render(<ShowPdfPassword {...props} />);
+    const { container } = render(<ShowPdfPassword {...props} />);
 
-    expect(screen.getByRole('textbox')).to.exist;
-    expect(screen.getByText(/add password/i)).to.exist;
+    expect($('va-text-input', container)).to.exist;
+    expect($('va-button', container)).to.exist;
   });
   it('should show validation error', () => {
     const props = getProps();
-    const screen = render(<ShowPdfPassword {...props} />);
-    fireEvent.click(screen.getByText('Add password'), buttonClick);
+    const { container } = render(<ShowPdfPassword {...props} />);
+    fireEvent.click($('va-button', container), buttonClick);
 
-    expect(screen.getByText(/provide a password/i)).to.exist;
+    expect($('va-text-input', container)).to.have.attr(
+      'error',
+      'Please provide a password to decrypt this file',
+    );
   });
   it('should call onSubmitPassword', () => {
     const submitSpy = sinon.spy();
     const props = getProps(submitSpy);
-    const screen = render(<ShowPdfPassword {...props} />);
-    fireEvent.change(screen.getByRole('textbox'), {
-      target: { value: '1234' },
-    });
-    fireEvent.click(screen.getByText('Add password'), buttonClick);
+    const { container } = render(<ShowPdfPassword {...props} testVal="1234" />);
 
-    expect(screen.queryByText(/provide a password/i)).to.be.null;
+    fireEvent.click($('va-button', container), buttonClick);
+
+    expect($('va-text-input', container)).to.not.have.attr('error');
     expect(props.onSubmitPassword.calledOnce).to.be.true;
     expect(props.onSubmitPassword.args[0]).to.deep.equal([
       { name: 'foo' },

@@ -1,12 +1,13 @@
 import constants from 'vets-json-schema/dist/constants.json';
 
-export const branchCodeLabels = {
-  A: 'Army',
-  C: 'Coast Guard',
-  F: 'Air Force',
-  N: 'Navy',
-  M: 'Marine Corps',
-};
+export const militaryBranches = [
+  'Air Force',
+  'Army',
+  'Coast Guard',
+  'Marine Corps',
+  'Navy',
+  'Space Force',
+];
 
 export const countryValues = constants.countries.map(country => country.value);
 export const countryLabels = constants.countries.map(country => country.label);

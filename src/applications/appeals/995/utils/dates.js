@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { FORMAT_YMD } from '../constants';
+import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
 /**
  * @typedef DateFns~offset
  * @property {Number} years - positive or negative number
@@ -23,6 +23,20 @@ export const getDate = ({
   date = new Date(),
   pattern = FORMAT_YMD,
 } = {}) => {
-  const dateObj = moment(date);
+  const dateObj = moment(date, FORMAT_YMD);
   return dateObj.isValid() ? dateObj.add(offset).format(pattern) : date;
+};
+
+export const formatDate = (date, format = FORMAT_READABLE) => {
+  const m = moment(date, FORMAT_YMD);
+  return date && m.isValid() ? m.format(format) : 'Unknown';
+};
+
+export const formatDateRange = (dateRange = {}, format = FORMAT_READABLE) => {
+  return dateRange?.from || dateRange?.to
+    ? `${formatDate(dateRange.from, format)} to ${formatDate(
+        dateRange.to,
+        format,
+      )}`
+    : 'Unknown';
 };

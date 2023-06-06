@@ -2,6 +2,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
+import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
 import migrations from '../migrations';
 
@@ -9,115 +10,150 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
 import {
-  EditPhone,
+  EditHomePhone,
+  EditMobilePhone,
   EditEmail,
   EditAddress,
 } from '../components/EditContactInfo';
+import ContactInfo, { customContactFocus } from '../components/ContactInfo';
+import ContactInfoReview from '../components/ContactInfoReview';
 import AddIssue from '../components/AddIssue';
+import PrimaryPhone from '../components/PrimaryPhone';
+import PrimaryPhoneReview from '../components/PrimaryPhoneReview';
+import EvidenceVaRecords from '../components/EvidenceVaRecords';
+import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest';
+import EvidencePrivateRecordsAuthorization from '../components/EvidencePrivateRecordsAuthorization';
+import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
+import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
+import EvidenceSummary from '../components/EvidenceSummary';
+import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
+import Notice5103 from '../components/Notice5103';
+import submissionError from '../content/submissionError';
+import reviewErrors from '../content/reviewErrors';
 
-import addIssue from '../pages/addIssue';
-import benefitType from '../pages/benefitType';
-import certifcationAndSignature from '../pages/certifcationAndSignature';
-// import claimantName from '../pages/claimantName';
-// import claimantType from '../pages/claimantType';
-import contactInfo from '../pages/contactInformation';
-import contestableIssues from '../pages/contestableIssues';
-import evidencePrivateAdd from '../pages/evidencePrivateAdd';
-import evidencePrivateRecords from '../pages/evidencePrivateRecords';
-import evidencePrivateUpload from '../pages/evidencePrivateUpload';
-import evidenceSummary from '../pages/evidenceSummary';
-import evidenceTypes from '../pages/evidenceTypes';
-import evidenceUpload from '../pages/evidenceUpload';
-import evidenceVaRecords from '../pages/evidenceVaRecords';
-import issueSummary from '../pages/issueSummary';
-import noticeOfAcknowledgement from '../pages/noticeOfAcknowledgement';
-import optIn from '../pages/optIn';
 import veteranInfo from '../pages/veteranInfo';
+import contactInfo from '../pages/contactInformation';
+import primaryPhone from '../pages/primaryPhone';
+import contestableIssues from '../pages/contestableIssues';
+import issueSummary from '../pages/issueSummary';
+import optIn from '../pages/optIn';
+import notice5103 from '../pages/notice5103';
+import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
+import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
+import evidencePrivateRequest from '../pages/evidencePrivateRequest';
+import evidenceWillUpload from '../pages/evidenceWillUpload';
+import evidenceUpload from '../pages/evidenceUpload';
+import evidenceSummary from '../pages/evidenceSummary';
 
 import { appStateSelector, mayHaveLegacyAppeals } from '../utils/helpers';
+import {
+  hasVAEvidence,
+  hasPrivateEvidence,
+  hasOtherEvidence,
+} from '../utils/evidence';
+import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
 import manifest from '../manifest.json';
-import { CONTESTABLE_ISSUES_PATH } from '../constants';
+import {
+  CONTACT_INFO_PATH,
+  CONTESTABLE_ISSUES_PATH,
+  ADD_ISSUE_PATH,
+  EVIDENCE_VA_REQUEST,
+  EVIDENCE_VA_PATH,
+  EVIDENCE_PRIVATE_REQUEST,
+  EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_LIMITATION_PATH,
+  EVIDENCE_ADDITIONAL_PATH,
+  EVIDENCE_UPLOAD_PATH,
+  SUBMIT_URL,
+} from '../constants';
+import { saveInProgress, savedFormMessages } from '../content/formMessages';
+
+import prefillTransformer from './prefill-transformer';
+import submitForm from './submitForm';
 
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
+import fullSchema from './form-0995-schema.json';
+
+import {
+  focusRadioH3,
+  focusH3,
+  focusIssue,
+  focusEvidence,
+  focusUploads,
+} from '../utils/focus';
+
 // const { } = fullSchema.properties;
+const blankUiSchema = { 'ui:options': { hideOnReview: true } };
+const blankSchema = { type: 'object', properties: {} };
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
   trackingPrefix: '995-supplemental-claim-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_20_0995,
-  saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your VA Form 20-0995 (Supplemental Claim) application (20-0995) is in progress.',
-    //   expired: 'Your saved VA Form 20-0995 (Supplemental Claim) application (20-0995) has expired. If you want to apply for VA Form 20-0995 (Supplemental Claim), please start a new application.',
-    //   saved: 'Your VA Form 20-0995 (Supplemental Claim) application has been saved.',
-    // },
-  },
   version: migrations.length,
   migrations,
-  // prefillTransformer,
+  prefillTransformer,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
-
-  savedFormMessages: {
-    notFound:
-      'Please start over to apply for VA Form 20-0995 (Supplemental Claim).',
-    noAuth:
-      'Please sign in again to continue your application for VA Form 20-0995 (Supplemental Claim).',
+  downtime: {
+    requiredForPrefill: true,
+    dependencies: [services.vaProfile],
   },
-  title: 'Request a Supplemental Claim',
-  subTitle: 'VA Form 20-0995 (Supplemental Claim)',
-  defaultDefinitions: {},
+  saveInProgress,
+  savedFormMessages,
+  title: 'File a Supplemental Claim',
+  subTitle: 'VA Form 20-0995',
+  defaultDefinitions: fullSchema.definitions,
   preSubmitInfo,
+  submissionError,
+  // showReviewErrors: true,
+  reviewErrors,
+  // when true, initial focus on page to H3s by default, and enable page
+  // scrollAndFocusTarget (selector string or function to scroll & focus)
+  useCustomScrollAndFocus: true,
   chapters: {
     infoPages: {
-      title: 'Veteran Details',
+      title: 'Veteran information',
       pages: {
-        benefitType: {
-          title: 'Benefit Type',
-          path: 'benefit-type',
-          uiSchema: benefitType.uiSchema,
-          schema: benefitType.schema,
-        },
         veteranInfo: {
-          title: 'Veteran Information',
+          title: 'Veteran information',
           path: 'veteran-information',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
         },
-        // claimantType: {
-        //   title: 'Claimant Type',
-        //   path: 'claimant-type',
-        //   uiSchema: claimantType.uiSchema,
-        //   schema: claimantType.schema,
-        // },
-        // claimantName: {
-        //   title: 'Claimant Name',
-        //   path: 'claimant-name',
-        //   uiSchema: claimantName.uiSchema,
-        //   schema: claimantName.schema,
-        //   depends: formData => formData.claimantType !== 'veteran',
-        // },
         confirmContactInformation: {
           title: 'Contact information',
-          path: 'contact-information',
+          path: CONTACT_INFO_PATH,
+          CustomPage: ContactInfo,
+          CustomPageReview: ContactInfoReview,
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
+          // needs useCustomScrollAndFocus: true to work
+          scrollAndFocusTarget: customContactFocus,
         },
-        editMobilePhone: {
-          title: 'Edit mobile phone',
-          path: 'edit-mobile-phone',
-          CustomPage: EditPhone,
-          CustomPageReview: EditPhone,
+        editHomePhone: {
+          title: 'Edit home phone number',
+          path: 'edit-home-phone',
+          CustomPage: EditHomePhone,
+          CustomPageReview: EditHomePhone,
           depends: () => false, // accessed from contact info page
           uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          schema: blankSchema,
+        },
+        editMobilePhone: {
+          title: 'Edit mobile phone number',
+          path: 'edit-mobile-phone',
+          CustomPage: EditMobilePhone,
+          CustomPageReview: EditMobilePhone,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: blankSchema,
         },
         editEmailAddress: {
           title: 'Edit email address',
@@ -126,7 +162,7 @@ const formConfig = {
           CustomPageReview: EditEmail,
           depends: () => false, // accessed from contact info page
           uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          schema: blankSchema,
         },
         editMailingAddress: {
           title: 'Edit mailing address',
@@ -135,39 +171,42 @@ const formConfig = {
           CustomPageReview: EditAddress,
           depends: () => false, // accessed from contact info page
           uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          schema: blankSchema,
+        },
+        choosePrimaryPhone: {
+          title: 'Primary phone number',
+          path: 'primary-phone-number',
+          // only visible if both the home & mobile phone are populated
+          depends: hasHomeAndMobilePhone,
+          CustomPage: PrimaryPhone,
+          CustomPageReview: PrimaryPhoneReview,
+          uiSchema: primaryPhone.uiSchema,
+          schema: primaryPhone.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
       },
     },
 
     issues: {
-      title: 'Issues',
+      title: 'Issues for review',
       pages: {
         contestableIssues: {
-          title: ' ',
+          title: 'Issues',
           path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
+          scrollAndFocusTarget: focusIssue,
         },
         addIssue: {
           title: 'Add issues for review',
-          path: 'add-issue',
-          depends: () => false,
+          path: ADD_ISSUE_PATH,
+          depends: () => false, // accessed from contestable issues
           CustomPage: AddIssue,
           CustomPageReview: null,
-          uiSchema: addIssue.uiSchema,
-          schema: addIssue.schema,
-        },
-        optIn: {
-          title: 'Opt in',
-          path: 'opt-in',
-          uiSchema: optIn.uiSchema,
-          schema: optIn.schema,
-          depends: formData => mayHaveLegacyAppeals(formData),
-          initialData: {
-            socOptIn: false,
-          },
+          uiSchema: {},
+          schema: blankSchema,
+          returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         issueSummary: {
           title: 'Issue summary',
@@ -175,89 +214,108 @@ const formConfig = {
           uiSchema: issueSummary.uiSchema,
           schema: issueSummary.schema,
         },
+        optIn: {
+          title: 'Opt in',
+          path: 'opt-in',
+          depends: mayHaveLegacyAppeals,
+          uiSchema: optIn.uiSchema,
+          schema: optIn.schema,
+        },
       },
     },
 
     evidence: {
-      title: 'Supporting Evidence',
+      title: 'New and relevant evidence',
       pages: {
-        evidenceTypes: {
-          title: 'Supporting evidence types',
-          path: 'supporting-evidence/evidence-types',
-          uiSchema: evidenceTypes.uiSchema,
-          schema: evidenceTypes.schema,
+        notice5103: {
+          title: 'Notice of evidence needed',
+          path: 'notice-of-evidence-needed',
+          CustomPage: Notice5103,
+          CustomPageReview: null, // reviewField renders this!
+          uiSchema: notice5103.uiSchema,
+          schema: notice5103.schema,
+          scrollAndFocusTarget: focusH3,
+          initialData: {
+            form5103Acknowledged: false,
+          },
+        },
+        evidenceVaRecordsRequest: {
+          title: 'Request VA medical records',
+          path: EVIDENCE_VA_REQUEST,
+          uiSchema: evidenceVaRecordsRequest.uiSchema,
+          schema: evidenceVaRecordsRequest.schema,
+          scrollAndFocusTarget: focusH3,
         },
         evidenceVaRecords: {
           title: 'VA medical records',
-          path: 'supporting-evidence/va-medical-records',
-          // depends: formData => hasVAEvidence(formData),
-          uiSchema: evidenceVaRecords.uiSchema,
-          schema: evidenceVaRecords.schema,
+          path: EVIDENCE_VA_PATH,
+          depends: hasVAEvidence,
+          CustomPage: EvidenceVaRecords,
+          CustomPageReview: null,
+          uiSchema: blankUiSchema,
+          schema: blankSchema,
+          hideHeaderRow: true,
+          scrollAndFocusTarget: focusEvidence,
+        },
+        evidencePrivateRecordsRequest: {
+          title: 'Request private medical records',
+          path: EVIDENCE_PRIVATE_REQUEST,
+          CustomPage: EvidencePrivateRequest,
+          CustomPageReview: null,
+          uiSchema: evidencePrivateRequest.uiSchema,
+          schema: evidencePrivateRequest.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        evidencePrivateRecordsAuthorization: {
+          title: 'Private medical record authorization',
+          path: 'supporting-evidence/private-medical-records-authorization',
+          depends: hasPrivateEvidence,
+          CustomPage: EvidencePrivateRecordsAuthorization,
+          CustomPageReview: null,
+          uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
+          schema: evidencePrivateRecordsAuthorization.schema,
         },
         evidencePrivateRecords: {
           title: 'Private medical records',
-          path: 'supporting-evidence/private-medical-records',
-          // depends: hasPrivateEvidence,
-          uiSchema: evidencePrivateRecords.uiSchema,
-          schema: evidencePrivateRecords.schema,
+          path: EVIDENCE_PRIVATE_PATH,
+          depends: hasPrivateEvidence,
+          CustomPage: EvidencePrivateRecords,
+          CustomPageReview: null,
+          uiSchema: blankUiSchema,
+          schema: blankSchema,
+          scrollAndFocusTarget: focusEvidence,
         },
-        evidencePrivateUpload: {
-          title: 'Private medical records',
-          path: 'supporting-evidence/private-medical-records-upload',
-          // depends: formData =>
-          //   hasPrivateEvidence(formData) &&
-          //   !isNotUploadingPrivateMedical(formData),
-          uiSchema: evidencePrivateUpload.uiSchema,
-          schema: evidencePrivateUpload.schema,
+        evidencePrivateLimitation: {
+          title: 'Private medical record limitations',
+          path: EVIDENCE_LIMITATION_PATH,
+          depends: hasPrivateEvidence,
+          CustomPage: EvidencePrivateLimitation,
+          CustomPageReview: null,
+          uiSchema: blankUiSchema,
+          schema: blankSchema,
         },
-        evidencePrivateAdd: {
-          title: 'Private medical records',
-          path: 'supporting-evidence/private-medical-records-release',
-          // depends: formData =>
-          //   hasPrivateEvidence(formData) &&
-          //   isNotUploadingPrivateMedical(formData),
-          uiSchema: evidencePrivateAdd.uiSchema,
-          schema: evidencePrivateAdd.schema,
+        evidenceWillUpload: {
+          title: 'Upload new and relevant evidence',
+          path: EVIDENCE_ADDITIONAL_PATH,
+          uiSchema: evidenceWillUpload.uiSchema,
+          schema: evidenceWillUpload.schema,
+          scrollAndFocusTarget: focusH3,
         },
         evidenceUpload: {
-          title: 'Lay statements and other evidence',
-          path: 'supporting-evidence/additional-evidence',
-          // depends: hasOtherEvidence,
+          title: 'Uploaded evidence',
+          path: EVIDENCE_UPLOAD_PATH,
+          depends: hasOtherEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,
+          scrollAndFocusTarget: focusUploads,
         },
         evidenceSummary: {
           title: 'Summary of evidence',
           path: 'supporting-evidence/summary',
+          CustomPage: EvidenceSummary,
+          CustomPageReview: EvidenceSummaryReview,
           uiSchema: evidenceSummary.uiSchema,
           schema: evidenceSummary.schema,
-        },
-      },
-    },
-
-    acknowledgement: {
-      title: 'Notice of Acknowledgement',
-      pages: {
-        notice5103: {
-          initialData: {
-            form5103Acknowledged: false,
-          },
-          title: 'Notice of Acknowledgement',
-          path: 'notice-of-acknowledgement',
-          uiSchema: noticeOfAcknowledgement.uiSchema,
-          schema: noticeOfAcknowledgement.schema,
-        },
-      },
-    },
-
-    signature: {
-      title: 'Certification & Signature',
-      pages: {
-        sign: {
-          title: 'Certification & Signature',
-          path: 'certification-and-signature',
-          uiSchema: certifcationAndSignature.uiSchema,
-          schema: certifcationAndSignature.schema,
         },
       },
     },

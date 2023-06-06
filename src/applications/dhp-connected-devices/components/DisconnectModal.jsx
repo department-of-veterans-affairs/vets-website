@@ -16,7 +16,7 @@ export const DisconnectModal = ({
         onPrimaryButtonClick={handleDisconnect}
         onSecondaryButtonClick={handleClose}
         primaryButtonText="Disconnect device"
-        secondaryButtonText="Go back"
+        secondaryButtonText="Cancel"
         data-testid="disconnect-modal"
         visible
       >

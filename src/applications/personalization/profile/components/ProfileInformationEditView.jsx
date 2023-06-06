@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import { isEmptyAddress } from 'platform/forms/address/helpers';
-
-import { createPersonalInfoUpdate } from '@@profile/actions/personalInformation';
-
+import {
+  ACTIVE_EDIT_VIEWS,
+  FIELD_NAMES,
+  USA,
+  PERSONAL_INFO_FIELD_NAMES,
+  ANALYTICS_FIELD_MAP,
+  API_ROUTES,
+} from 'platform/user/profile/vap-svc/constants';
 import {
   createTransaction,
   refreshTransaction,
@@ -14,23 +17,15 @@ import {
   openModal,
   updateFormFieldWithSchema,
   validateAddress,
-} from '@@vap-svc/actions';
-
-import * as VAP_SERVICE from '@@vap-svc/constants';
-import {
-  ACTIVE_EDIT_VIEWS,
-  FIELD_NAMES,
-  USA,
-  PERSONAL_INFO_FIELD_NAMES,
-} from '@@vap-svc/constants';
+} from '~/platform/user/profile/vap-svc/actions';
 
 import {
   isFailedTransaction,
   isPendingTransaction,
   isSuccessfulTransaction,
-} from '@@vap-svc/util/transactions';
-import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
-import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
+} from '~/platform/user/profile/vap-svc/util/transactions';
+import VAPServiceEditModalErrorMessage from '~/platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
+import CopyMailingAddress from '~/platform/user/profile/vap-svc/containers/CopyMailingAddress';
 
 import {
   selectCurrentlyOpenEditModal,
@@ -38,48 +33,26 @@ import {
   selectVAPContactInfoField,
   selectVAPServiceTransaction,
   selectEditViewData,
-} from '@@vap-svc/selectors';
+} from '~/platform/user/profile/vap-svc/selectors';
 
-import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
-import { getEditButtonId } from '@@vap-svc/util/id-factory';
+import { getEditButtonId } from '~/platform/user/profile/vap-svc/util/id-factory';
 
 import { focusElement } from '~/platform/utilities/ui';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import recordEvent from '~/platform/monitoring/record-event';
+import { isEmptyAddress } from '~/platform/forms/address/helpers';
+import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
+
+import { createPersonalInfoUpdate } from '../actions/personalInformation';
+import { transformInitialFormValues } from '../util/contact-information/formValues';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
-const propTypes = {
-  analyticsSectionName: PropTypes.oneOf(
-    Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
-  ).isRequired,
-  apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
-  clearTransactionRequest: PropTypes.func.isRequired,
-  convertCleanDataToPayload: PropTypes.func.isRequired,
-  createPersonalInfoUpdate: PropTypes.func.isRequired,
-  createTransaction: PropTypes.func.isRequired,
-  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
-  formSchema: PropTypes.object.isRequired,
-  getInitialFormValues: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired,
-  refreshTransaction: PropTypes.func.isRequired,
-  uiSchema: PropTypes.object.isRequired,
-  updateFormFieldWithSchema: PropTypes.func.isRequired,
-  validateAddress: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  activeEditView: PropTypes.string,
-  data: PropTypes.object,
-  editViewData: PropTypes.object,
-  field: PropTypes.shape({
-    value: PropTypes.object,
-    validations: PropTypes.object,
-    formSchema: PropTypes.object,
-    uiSchema: PropTypes.object,
-  }),
-  title: PropTypes.string,
-  transaction: PropTypes.object,
-  transactionRequest: PropTypes.object,
-};
+import {
+  getErrorsFromDom,
+  handleUpdateButtonClick,
+} from '../util/contact-information/addressUtils';
+import { recordCustomProfileEvent } from '../util/analytics';
 
 export class ProfileInformationEditView extends Component {
   componentDidMount() {
@@ -148,6 +121,16 @@ export class ProfileInformationEditView extends Component {
       focusElement(`#${getEditButtonId(fieldName)}`);
     }
   }
+
+  // 48147 - Temporary click handler that will be removed once the analytics stats have been gathered around
+  // multiple inline validation errors.
+  onClickUpdateHandler = () => {
+    handleUpdateButtonClick(
+      getErrorsFromDom,
+      this.props.fieldName,
+      recordCustomProfileEvent,
+    );
+  };
 
   copyMailingAddress = mailingAddress => {
     const newAddressValue = { ...this.props.field.value, ...mailingAddress };
@@ -271,6 +254,10 @@ export class ProfileInformationEditView extends Component {
   }
 
   focusOnFirstFormElement() {
+    if (this.props.forceEditView) {
+      // Showing the edit view on its own page, so let the app handle focus
+      return;
+    }
     const focusableElement = this.editForm?.querySelector(
       'button, input, select, a, textarea',
     );
@@ -290,7 +277,10 @@ export class ProfileInformationEditView extends Component {
         title,
         transaction,
         transactionRequest,
+        cancelButtonText,
+        saveButtonText,
       },
+      onClickUpdateHandler,
     } = this;
 
     const isLoading =
@@ -351,8 +341,9 @@ export class ProfileInformationEditView extends Component {
                     isLoading={isLoading}
                     loadingText="Saving changes"
                     className="vads-u-margin-top--0"
+                    onClick={onClickUpdateHandler}
                   >
-                    Update
+                    {saveButtonText || 'Save'}
                   </LoadingButton>
 
                   {!isLoading && (
@@ -362,7 +353,7 @@ export class ProfileInformationEditView extends Component {
                       className="usa-button-secondary small-screen:vads-u-margin-top--0"
                       onClick={onCancel}
                     >
-                      Cancel
+                      {cancelButtonText || 'Cancel'}
                     </button>
                   )}
                 </div>
@@ -375,7 +366,40 @@ export class ProfileInformationEditView extends Component {
   }
 }
 
-ProfileInformationEditView.propTypes = propTypes;
+ProfileInformationEditView.propTypes = {
+  analyticsSectionName: PropTypes.oneOf(Object.values(ANALYTICS_FIELD_MAP))
+    .isRequired,
+  apiRoute: PropTypes.oneOf(Object.values(API_ROUTES)).isRequired,
+  clearTransactionRequest: PropTypes.func.isRequired,
+  convertCleanDataToPayload: PropTypes.func.isRequired,
+  createPersonalInfoUpdate: PropTypes.func.isRequired,
+  createTransaction: PropTypes.func.isRequired,
+  fieldName: PropTypes.oneOf(Object.values(FIELD_NAMES)).isRequired,
+  formSchema: PropTypes.object.isRequired,
+  getInitialFormValues: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
+  recordCustomProfileEvent: PropTypes.func.isRequired,
+  refreshTransaction: PropTypes.func.isRequired,
+  uiSchema: PropTypes.object.isRequired,
+  updateFormFieldWithSchema: PropTypes.func.isRequired,
+  validateAddress: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  activeEditView: PropTypes.string,
+  cancelButtonText: PropTypes.string,
+  data: PropTypes.object,
+  editViewData: PropTypes.object,
+  field: PropTypes.shape({
+    value: PropTypes.object,
+    validations: PropTypes.object,
+    formSchema: PropTypes.object,
+    uiSchema: PropTypes.object,
+  }),
+  forceEditView: PropTypes.bool,
+  saveButtonText: PropTypes.string,
+  title: PropTypes.string,
+  transaction: PropTypes.object,
+  transactionRequest: PropTypes.object,
+};
 
 export const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
@@ -406,7 +430,7 @@ export const mapStateToProps = (state, ownProps) => {
         : selectCurrentlyOpenEditModal(state),
     data,
     fieldName,
-    analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
+    analyticsSectionName: ANALYTICS_FIELD_MAP[fieldName],
     field: selectEditedFormField(state, fieldName),
     transaction,
     transactionRequest,

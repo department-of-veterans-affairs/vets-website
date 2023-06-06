@@ -1,37 +1,48 @@
-import React, { useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { makeSelectVeteranData } from '../../../selectors';
-
-const { isEmpty } = require('lodash');
+import { useUpdateError } from '../../../hooks/useUpdateError';
 
 const LoadingPage = props => {
   const { router } = props;
   const { t } = useTranslation();
 
-  const selectVeteranData = useMemo(makeSelectVeteranData, []);
-  const { demographics } = useSelector(selectVeteranData);
-  const { goToErrorPage, goToNextPage } = useFormRouting(router);
+  const { goToNextPage } = useFormRouting(router);
 
-  const { checkInDataError } = useGetCheckInData(true);
+  const { checkInDataError, isComplete } = useGetCheckInData({
+    refreshNeeded: true,
+    isPreCheckIn: false,
+  });
+
+  const { updateError } = useUpdateError();
 
   useEffect(
     () => {
       if (checkInDataError) {
-        goToErrorPage();
+        updateError('cant-retrieve-check-in-data');
       }
-      if (!isEmpty(demographics)) {
+    },
+    [checkInDataError, updateError],
+  );
+
+  useEffect(
+    () => {
+      if (isComplete) {
         goToNextPage();
       }
     },
-    [checkInDataError, demographics, goToErrorPage, goToNextPage],
+    [isComplete, goToNextPage],
   );
+  window.scrollTo(0, 0);
 
   return (
-    <va-loading-indicator message={t('loading-your-appointments-for-today')} />
+    <div>
+      <va-loading-indicator
+        message={t('loading-your-appointments-for-today')}
+      />
+    </div>
   );
 };
 

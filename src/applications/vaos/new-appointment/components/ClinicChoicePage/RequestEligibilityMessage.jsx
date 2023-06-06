@@ -1,6 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
 import InfoAlert from '../../../components/InfoAlert';
@@ -78,9 +78,15 @@ export default function RequestEligibilityMessage({
             <ul>
               <li>
                 Go to{' '}
-                <Link to={featureStatusImprovement ? '/pending' : '/requested'}>
-                  your appointment list{' '}
-                </Link>
+                <va-link
+                  href={
+                    featureStatusImprovement
+                      ? '/health-care/schedule-view-va-appointments/appointments/pending'
+                      : '/health-care/schedule-view-va-appointments/appointments/requested'
+                  }
+                  text="your appointment list"
+                  data-testid="appointment-list-link"
+                />{' '}
                 and cancel open requests, or
               </li>
               {facilityDetails && (
@@ -103,3 +109,10 @@ export default function RequestEligibilityMessage({
 
   return <ErrorMessage />;
 }
+
+RequestEligibilityMessage.propTypes = {
+  eligibility: PropTypes.object.isRequired,
+  facilityDetails: PropTypes.object.isRequired,
+  typeOfCare: PropTypes.object.isRequired,
+  typeOfCareName: PropTypes.string.isRequired,
+};

@@ -3,11 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
+import CTALink from '../CTALink';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import { dismissNotificationById } from '../../actions/notifications';
-import '../../sass/user-profile.scss';
 
 export const DebtNotification = ({ notification, dismissNotification }) => {
   const createdAtFormatted = moment(notification.attributes.createdAt).format(
@@ -36,9 +35,9 @@ export const DebtNotification = ({ notification, dismissNotification }) => {
               href="/manage-va-debt/your-debt"
               onClick={() =>
                 recordEvent({
-                  event: 'profile-navigation',
-                  'profile-action': 'view-link',
-                  'profile-section': 'view-manage-va-debt',
+                  event: 'dashboard-navigation',
+                  'dashboard-action': 'view-link-from-notifications',
+                  'dashboard-product': 'view-manage-va-debt',
                 })
               }
             />

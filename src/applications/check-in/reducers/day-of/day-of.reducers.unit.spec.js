@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import {
-  appointmentWasCheckedIntoHandler,
   receivedDemographicsDataHandler,
   receivedAppointmentDetailsHandler,
   seeStaffMessageUpdatedHandler,
@@ -11,7 +10,6 @@ import {
 import { updateFormHandler } from '../navigation';
 
 import {
-  appointmentWasCheckedInto,
   receivedDemographicsData,
   receivedMultipleAppointmentDetails,
   seeStaffMessageUpdated,
@@ -23,41 +21,6 @@ import appReducer from '../index';
 
 describe('check in', () => {
   describe('day of reducers', () => {
-    describe('appointmentWasCheckedInto', () => {
-      describe('appointmentWasCheckedIntoHandler', () => {
-        it('should create basic structure', () => {
-          const action = appointmentWasCheckedInto({
-            appointmentIen: 'some-ien',
-          });
-          const state = appointmentWasCheckedIntoHandler({}, action);
-          expect(state).haveOwnProperty('context');
-          expect(state.context).haveOwnProperty('appointment');
-        });
-        it('should set context', () => {
-          const action = appointmentWasCheckedInto({
-            appointmentIen: 'some-ien',
-          });
-          const state = appointmentWasCheckedIntoHandler({}, action);
-          expect(state).haveOwnProperty('context');
-          expect(state.context).haveOwnProperty('appointment');
-          expect(state.context.appointment).haveOwnProperty('appointmentIen');
-          expect(state.context.appointment.appointmentIen).to.equal('some-ien');
-        });
-      });
-      describe('reducer is called; finds the correct handler', () => {
-        it('should creat the correct structure', () => {
-          const action = appointmentWasCheckedInto({
-            appointmentIen: 'some-ien',
-          });
-          const state = appReducer.checkInData(undefined, action);
-          expect(state).haveOwnProperty('context');
-          expect(state.context).haveOwnProperty('appointment');
-          expect(state.context.appointment).haveOwnProperty('appointmentIen');
-          expect(state.context.appointment.appointmentIen).to.equal('some-ien');
-        });
-      });
-    });
-
     describe('receivedDemographicsData', () => {
       describe('receivedDemographicsDataHandler', () => {
         it('should create basic structure', () => {

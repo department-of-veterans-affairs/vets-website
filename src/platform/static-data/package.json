@@ -1,0 +1,25 @@
+{
+    "name": "@department-of-veterans-affairs/platform-static-data",
+    "version": "1.0.0",
+    "scripts": {
+      "demo":"echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+    },
+    "exports": {
+      "." :"./exportsFile.js",
+      "./CallHRC": "./CallHRC.jsx",
+      "./CallNCACenter": "./CallNCACenter.jsx",
+      "./CallVBACenter": "./CallVBACenter.jsx",
+      "./EmailVICHelp": "./EmailVICHelp.jsx",
+      "./error-messages": "./error-messages.jsx",
+      "./labels": "./labels.jsx",
+      "./options-for-select": "./options-for-select.js",
+      "./SubmitSignInForm": "./SubmitSignInForm.jsx"
+    },
+    "peerDependencies": {
+      "react": "*",
+      "@department-of-veterans-affairs/component-library": "*"
+    },
+    "license": "MIT",
+    "private": true
+  }
+  

@@ -19,6 +19,7 @@ import {
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
   NULL_CONDITION_STRING,
+  RESERVE_GUARD_TYPES,
 } from './constants';
 
 export const hasMilitaryRetiredPay = data =>
@@ -425,7 +426,7 @@ export const validateAge = (
 
 // partial matches for reserves
 // NOAA & Public Health Service are considered to be active duty
-const reservesList = ['Reserve', 'National Guard'];
+const reservesList = Object.values(RESERVE_GUARD_TYPES);
 
 export const validateSeparationDate = (
   errors,

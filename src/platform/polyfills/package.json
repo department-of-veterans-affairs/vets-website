@@ -1,0 +1,26 @@
+{
+  "name": "@department-of-veterans-affairs/platform-polyfills",
+  "version": "1.0.0",
+  "scripts": {
+    "demo":"echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+  },
+  "exports": {
+    "." :"./exportsFile.js",
+    "./preESModulesPolyfills" :"./preESModulesPolyfills.js"
+  },
+  "dependencies": {
+    "@formatjs/intl-datetimeformat": "^4.2.3",
+    "@formatjs/intl-getcanonicallocales": "^1.7.3",
+    "@formatjs/intl-locale": "^2.4.37",
+    "classlist-polyfill": "^1.2.0",
+    "element-remove": "^1.0.4",
+    "downloadjs": "^1.4.7",
+    "whatwg-fetch": "^3.6.2"
+  },
+  "peerDependencies": {
+    "regenerator-runtime": "*",
+    "core-js": "*"
+  },
+  "license": "MIT",
+  "private": true
+}

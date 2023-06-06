@@ -1,8 +1,8 @@
 import moment from 'moment';
+import Timeouts from 'platform/testing/e2e/timeouts';
 import mockUser from '../fixtures/mocks/mockUser';
 import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
-import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('SIP Finish Later', () => {
   // Skipping test as it is disabled in nightwatch.  Final assertion error message does not show up on the front end.
@@ -24,13 +24,15 @@ describe('SIP Finish Later', () => {
     cy.visit('/mock-sip-form');
     cy.get('body').should('be.visible');
     cy.title().should('contain', 'Mock SIP Form');
-    cy.get('.usa-button-primary', { timeout: Timeouts.slow });
+    cy.get('va-button', { timeout: Timeouts.slow });
 
     cy.injectAxeThenAxeCheck();
 
     // load an in progress form
-    cy.get('.usa-button-primary')
+    cy.get('va-button')
       .first()
+      .shadow()
+      .find('button')
       .click();
 
     cy.url().should('not.contain', '/introduction');
@@ -53,10 +55,13 @@ describe('SIP Finish Later', () => {
 
     cy.axeCheck();
 
-    cy.get('.usa-button-primary').click();
+    cy.get('va-button')
+      .first()
+      .shadow()
+      .find('button')
+      .click();
     cy.get('.schemaform-sip-save-link').should('be.visible');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
-      body: {},
       statusCode: 500,
     });
     cy.get('.schemaform-sip-save-link').click();
@@ -95,9 +100,20 @@ describe('SIP Finish Later', () => {
     cy.url().should('contain', 'form-saved');
 
     // test start over, but all it really does is fetch the form again
-    cy.get('.usa-button-secondary').click();
+    cy.get('va-button[secondary]')
+      .first()
+      .shadow()
+      .find('button')
+      .click();
     cy.get('.va-modal').should('be.visible');
-    cy.get('.va-modal .usa-button-primary').click();
+    cy.get('.va-modal va-button-pair')
+      .first()
+      .shadow()
+      .find('va-button')
+      .first()
+      .shadow()
+      .find('button')
+      .click();
     cy.get('.schemaform-chapter-progress');
 
     cy.url().should('not.contain', 'form-saved');
@@ -107,7 +123,6 @@ describe('SIP Finish Later', () => {
     cy.fill('input[name="root_veteranFullName_first"]', 'Micky');
     cy.fill('input[name="root_veteranFullName_last"]', 'Mouse');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
-      body: {},
       statusCode: 401,
     }).as('401Form');
     cy.get('.schemaform-sip-save-link').click();

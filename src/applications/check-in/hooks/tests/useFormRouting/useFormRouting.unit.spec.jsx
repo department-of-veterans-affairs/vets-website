@@ -133,70 +133,6 @@ describe('check-in', () => {
         expect(push.calledWith(URLS.ERROR)).to.be.true;
       });
     });
-    describe('goToPreviousPage', () => {
-      let store;
-      beforeEach(() => {
-        const middleware = [];
-        const mockStore = configureStore(middleware);
-        const initState = {
-          checkInData: {
-            form: {
-              pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            },
-          },
-        };
-        store = mockStore(initState);
-      });
-      it('should go to the prev page', () => {
-        const push = sinon.spy();
-        const component = render(
-          <Provider store={store}>
-            <TestComponent
-              router={createMockRouter({
-                push,
-                currentPage: 'third-page',
-              })}
-            />
-          </Provider>,
-        );
-
-        const button = component.getByTestId('prev-button');
-        fireEvent.click(button);
-        expect(push.calledWith('second-page')).to.be.true;
-      });
-    });
-    describe('goToPreviousPage', () => {
-      let store;
-      beforeEach(() => {
-        const middleware = [];
-        const mockStore = configureStore(middleware);
-        const initState = {
-          checkInData: {
-            form: {
-              pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            },
-          },
-        };
-        store = mockStore(initState);
-      });
-      it('should go to the prev page - should redirect to error at the end of the array', () => {
-        const push = sinon.spy();
-        const component = render(
-          <Provider store={store}>
-            <TestComponent
-              router={createMockRouter({
-                push,
-                currentPage: 'first-page',
-              })}
-            />
-          </Provider>,
-        );
-
-        const button = component.getByTestId('prev-button');
-        fireEvent.click(button);
-        expect(push.calledWith(URLS.ERROR)).to.be.true;
-      });
-    });
     describe('goToErrorPage', () => {
       let store;
       beforeEach(() => {
@@ -226,7 +162,7 @@ describe('check-in', () => {
 
         const button = component.getByTestId('error-button');
         fireEvent.click(button);
-        expect(push.calledWith(URLS.ERROR)).to.be.true;
+        expect(push.calledWith(`${URLS.ERROR}?error=test-error`)).to.be.true;
       });
     });
     describe('jumpToPage', () => {

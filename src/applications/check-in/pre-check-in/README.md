@@ -91,14 +91,10 @@ Though we have the HOC, its now considered best practice to query redux using th
 
 - `check_in_experience_pre_check_in_enabled` : Enables or disabled the whole app on va.gov
   - when to sunset: never;
-- `check_in_experience_translation_pre_check_in_enabled` : Enables or disables translation
-  - when to sunset: once we have successfully tested this feature in production with users
 - `check_in_experience_translation_disclaimer_spanish_enabled` : Enables or disables the mixed language disclaimer (there may be some untranslated content) for spanish pages of the site
   - when to sunset: when we are in a situation where new content is not added to the site until it is translated into spanish
-- `check_in_experience_lorota_security_updates_enabled` : Enables or disables DOB log in instead of last 4 of SSN
-  - when to sunset: once we have successfully tested this feature in production with users and the backend has fully switched over
-- `check_in_experience_phone_appointments_enabled` : Enables or disables telephone appointments as an alternate type to in-person
-  - when to sunset: once we have successfully tested this feature in production with users
+- `check_in_experience_browser_monitoring`: Enables browser monitoring for check-in applications.
+- `check_in_experience_pre_check_in_action_link_top_placement`: Changes pre-check-in action link placement to the top of the page.
 
 ### How to test this?
 
@@ -116,3 +112,42 @@ For testing in staging, use the instructions at [https://github.com/department-o
 - Check-In - The day of check in applicatipn
 - Pre-Check-In - The forms that a user can fill out before they check in.
 - Pre-registration - This the confirmation that a user needs to do before their appointment, this can be day of, or days before
+
+### Error handling
+
+All errors are stored as strings in Redux state. When an error occurs in a component all that is done in that component is to call the `updateError` method from the `useUpdateError` hook.
+
+```
+try {
+  *something*
+} catch (error) {
+  updateError('error-completing-pre-check-in');
+}
+```
+This architecture separates the error logic from the component that throws the error so that it does not need not be concerned with how to handle the error just with what type of error occured. which results in dryer code if the same error is thrown from different components in the application.
+
+Next, an error type represented by a string is passed to the `updateError` method which dispatches `setError` which stores the error type string in the Redux state.
+```
+const updateError = useCallback(
+  error => {
+    dispatch(setError(error));
+  },
+  [dispatch],
+);
+```
+Later this could include more robust error reporting using GA, Sentry or Datadog. This also give us the flexibility to create other side effects like add more information to the state object for more complicated error messaging based on the error type.
+
+There is a higher order component called `withError` that selects the error and if there is one routes to the Error page using the `goToErrorPage` utility where logic on the error page components display the proper error messaging.
+```
+useEffect(
+  () => {
+    if (error) {
+      goToErrorPage(error);
+    }
+  },
+  [error],
+);
+
+```
+The router utility goToErrorPage will use the error string to add a query string to the url for GA tracking. This gives us more flexibility to get creative with the URL parameters.
+

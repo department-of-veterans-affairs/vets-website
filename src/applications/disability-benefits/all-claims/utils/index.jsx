@@ -29,6 +29,7 @@ import {
   FORM_STATUS_BDD,
   CHAR_LIMITS,
 } from '../constants';
+import { getBranches } from './serviceBranches';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -97,6 +98,7 @@ export const isValidServicePeriod = data => {
   const { serviceBranch, dateRange: { from = '', to = '' } = {} } = data || {};
   return (
     (!isUndefined(serviceBranch) &&
+      getBranches().includes(serviceBranch) &&
       !isUndefined(from) &&
       !isUndefined(to) &&
       isValidFullDate(from) &&
@@ -412,6 +414,7 @@ export const isBDD = formData => {
 };
 
 export const hasNewPtsdDisability = formData =>
+  !isBDD(formData) &&
   isClaimingNew(formData) &&
   _.get('newDisabilities', formData, []).some(disability =>
     isDisabilityPtsd(disability.condition),
@@ -432,6 +435,7 @@ export const skip781 = formData =>
   _.get('skip781ForNonCombatReason', formData) === true;
 
 export const needsToEnter781 = formData =>
+  hasNewPtsdDisability(formData) &&
   (showPtsdCombat(formData) || showPtsdNonCombat(formData)) &&
   !skip781(formData);
 
@@ -706,9 +710,7 @@ export const wrapWithBreadcrumb = (title, component) => (
     <va-breadcrumbs>
       <a href="/">Home</a>
       <a href="/disability">Disability Benefits</a>
-      <span className="vads-u-color--black">
-        <strong>{title}</strong>
-      </span>
+      <a href="/disability/file-disability-claim-form-21-526ez">{title}</a>
     </va-breadcrumbs>
     {component}
   </>

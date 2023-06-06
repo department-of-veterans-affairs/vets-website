@@ -7,7 +7,6 @@ import ENVIRONMENTS from 'site/constants/environments';
 
 import externalServiceStatus from '../config/externalServiceStatus';
 import defaultExternalServices from '../config/externalServices';
-
 /**
  * Derives downtime status based on a time range
  * @param {string|Date|Moment} startTime
@@ -70,6 +69,7 @@ export function createServiceMap(maintenanceWindows = []) {
         externalService,
         startTime: startTimeRaw,
         endTime: endTimeRaw,
+        description,
       },
     } = maintenanceWindow;
 
@@ -82,6 +82,7 @@ export function createServiceMap(maintenanceWindows = []) {
       status,
       startTime,
       endTime,
+      description,
     });
   }
 

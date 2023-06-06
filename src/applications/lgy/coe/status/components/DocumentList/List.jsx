@@ -2,37 +2,37 @@ import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
+import environment from 'platform/utilities/environment';
+import { formatDateLong } from 'platform/utilities/date';
+
 import ListItem from './ListItem';
 
-const formatDate = timestamp => moment(timestamp).format('MMMM DD, YYYY');
-const formatLabelDate = timestamp => moment(timestamp).format('MMDDYYYY');
+export const formatLabelDate = timestamp =>
+  moment(timestamp).format('MM-DD-YYYY');
 
-// ex docType: '.pdf'
-const getDocumentType = docType => docType.slice(1).toUpperCase();
+export const getDownloadLinkLabel = timestamp =>
+  `Download Notification Letter ${formatLabelDate(timestamp)}`;
 
-const getDownloadLinkLabel = (timestamp, documentType) =>
-  `Download Notification Letter ${formatLabelDate(
-    timestamp,
-  )} (${getDocumentType(documentType)})`;
+const List = ({ documents }) =>
+  documents.map((document, i) => {
+    const { createDate, id, documentType, mimeType } = document;
+    const downloadLinkLabel = getDownloadLinkLabel(createDate);
+    const sentDate = formatDateLong(createDate);
 
-const List = ({ documents }) => {
-  return documents.map(({ createDate, description, documentType }, i) => {
-    const downloadLinkLabel = getDownloadLinkLabel(createDate, documentType);
-    // This will come from the document payload in the future
-    const downloadUrl = '∂';
-    const sentDate = formatDate(createDate);
-
+    // `documentType` represents what "kind" of Notification Letter this is
+    // (e.g. "COE Application First Returned Letter").
+    // Strangely, LGY represents a document's filename with `mimeType`.
     return (
       <ListItem
         key={i}
         downloadLinkLabel={downloadLinkLabel}
-        downloadUrl={downloadUrl}
+        downloadUrl={`${environment.API_URL}/v0/coe/document_download/${id}`}
         sentDate={sentDate}
-        title={description}
+        title={documentType}
+        fileName={mimeType}
       />
     );
   });
-};
 
 List.propTypes = {
   documents: PropTypes.array,

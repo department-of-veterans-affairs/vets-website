@@ -3,13 +3,11 @@ import TestRenderer from 'react-test-renderer';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
-import { createMockRouter } from '../../../../tests/unit/mocks/router';
+import { I18nextProvider } from 'react-i18next';
+import i18n from '../../../../utils/i18n/i18n';
 import Confirmation from '../index';
-import {
-  multipleAppointments,
-  singleAppointment,
-} from '../../../../tests/unit/mocks/mock-appointments';
+import { singleAppointment } from '../../../../tests/unit/mocks/mock-appointments';
+import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
 import PreCheckinConfirmation from '../../../../components/PreCheckinConfirmation';
 
 describe('pre-check-in', () => {
@@ -20,7 +18,7 @@ describe('pre-check-in', () => {
           appointments: singleAppointment,
           veteranData: { demographics: {} },
           form: {
-            pages: [],
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
             data: {
               demographicsUpToDate: 'yes',
               nextOfKinUpToDate: 'yes',
@@ -31,16 +29,25 @@ describe('pre-check-in', () => {
             token: 'token',
           },
         },
+        ...scheduledDowntimeState,
       };
       initState.checkInData.appointments[0].clinicFriendlyName = '';
       const middleware = [];
       const mockStore = configureStore(middleware);
       const store = mockStore(initState);
+      const mockRouter = {
+        push: () => {},
+        location: {
+          basename: '/health-care/appointment-pre-check-in',
+        },
+      };
 
       it('passes the correct props to the pre-checkin confirmation component', () => {
         const testRenderer = TestRenderer.create(
           <Provider store={store}>
-            <Confirmation router={createMockRouter()} />
+            <I18nextProvider i18n={i18n}>
+              <Confirmation router={mockRouter} />
+            </I18nextProvider>
           </Provider>,
         );
         const testInstance = testRenderer.root;
@@ -50,39 +57,6 @@ describe('pre-check-in', () => {
         expect(
           testInstance.findByType(PreCheckinConfirmation).props.appointments,
         ).to.equal(initState.checkInData.appointments);
-      });
-    });
-    describe('redux store with friendly name', () => {
-      let initState;
-      let store;
-      beforeEach(() => {
-        initState = {
-          checkInData: {
-            appointments: multipleAppointments,
-            veteranData: { demographics: {} },
-            form: {
-              pages: [],
-              data: {
-                demographicsUpToDate: 'yes',
-                nextOfKinUpToDate: 'yes',
-                emergencyContactUpToDate: 'no',
-              },
-            },
-            context: {
-              token: 'token',
-            },
-          },
-        };
-        const middleware = [];
-        const mockStore = configureStore(middleware);
-        store = mockStore(initState);
-      });
-      it('page passes axeCheck', () => {
-        axeCheck(
-          <Provider store={store}>
-            <Confirmation />
-          </Provider>,
-        );
       });
     });
   });

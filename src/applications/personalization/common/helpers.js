@@ -1,13 +1,28 @@
-import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
+/* eslint-disable camelcase */
 import { CSP_IDS } from 'platform/user/authentication/constants';
+import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 
 export function makeUserObject(options = {}) {
   const services = options.services || ['vet360'];
+  let claims = {
+    ch33_bank_accounts: true,
+    communication_preferences: true,
+    connected_apps: true,
+    military_history: true,
+    payment_history: true,
+    personal_information: true,
+    rating_info: true,
+    appeals: true,
+    medical_copays: true,
+  };
   if (options.rx) {
     services.push('rx');
   }
   if (options.messaging) {
     services.push('messaging');
+  }
+  if (options.claims) {
+    claims = options.claims;
   }
   return {
     data: {
@@ -34,6 +49,7 @@ export function makeUserObject(options = {}) {
             ssoe: true,
           },
           authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+          claims,
         },
         vaProfile: {
           status: 'OK',
@@ -45,7 +61,7 @@ export function makeUserObject(options = {}) {
           facilities:
             options.isPatient && options.facilities ? options.facilities : null,
           vaPatient: options.isPatient ?? false,
-          mhvAccountState: 'NONE',
+          mhvAccountState: options.mhvAccountState ?? 'OK',
         },
         veteranStatus: {
           status: 'OK',
@@ -60,4 +76,25 @@ export function makeUserObject(options = {}) {
     },
     meta: { errors: null },
   };
+}
+
+/**
+ * Formats a full name from the given first, middle, last, and suffix
+ *
+ * @export
+ * @param {*} {
+ *   first = '',
+ *   middle = '',
+ *   last = '',
+ *   suffix = '',
+ * }
+ * @return {string} The full name formatted with spaces
+ */
+export function formatFullName({
+  first = '',
+  middle = '',
+  last = '',
+  suffix = '',
+}) {
+  return [first, middle, last, suffix].filter(name => !!name).join(' ');
 }

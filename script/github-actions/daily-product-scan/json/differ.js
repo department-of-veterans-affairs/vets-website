@@ -53,8 +53,8 @@ class Differ {
         }
       }
 
-      // check if hasUnitTests, hasE2eTests, hasContractTests has changed
-      ['hasUnitTests', 'hasE2eTests', 'hasContractTests'].forEach(attribute => {
+      // check if hasUnitTests, hasE2eTests has changed
+      ['hasUnitTests', 'hasE2eTests'].forEach(attribute => {
         const currentValue = product[productDirectoryProps[attribute]];
         const scannedValue = scannedProduct[attribute];
 
@@ -74,7 +74,7 @@ class Differ {
       // check if packageDependencies, crossProductDependencies has changed
       ['packageDependencies', 'crossProductDependencies'].forEach(attribute => {
         const currentValue = product[productDirectoryProps[attribute]]
-          ? product[productDirectoryProps[attribute]].split(',').sort()
+          ? product[productDirectoryProps[attribute]]
           : [];
         const scannedValue = Array.from(scannedProduct[attribute]).sort();
 
@@ -86,7 +86,7 @@ class Differ {
         ) {
           updatedProductDirectory[productId][
             productDirectoryProps[attribute]
-          ] = scannedValue.join(',');
+          ] = scannedValue;
           this.changeDetected = true;
         }
       });

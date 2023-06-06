@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { useSelector, useDispatch } from 'react-redux';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import PropTypes from 'prop-types';
 import { ErrorAlert } from './Alerts';
 import { fetchDebts } from '../actions';
@@ -15,23 +13,28 @@ const NoDebts = () => (
     </div>
     <p>
       Our records show you don’t have any debt related to VA benefits. If you
-      think this is an error, please contact the Debt Management Center at
-      <Telephone className="vads-u-margin-x--0p5" contact={CONTACTS.DMC} />
+      think this is an error, please contact the Debt Management Center at{' '}
+      <va-telephone contact={CONTACTS.DMC} />
     </p>
   </div>
 );
 
-const AvailableDebts = ({ pendingDebts, debts, getDebts, isError }) => {
-  useEffect(
-    () => {
-      getDebts();
-    },
-    [getDebts],
+const AvailableDebts = () => {
+  const { debts, pending, isError, debtError = false } = useSelector(
+    state => state.fsr,
   );
 
-  if (isError) return <ErrorAlert />;
+  const dispatch = useDispatch();
+  useEffect(
+    () => {
+      fetchDebts(dispatch);
+    },
+    [dispatch],
+  );
 
-  if (pendingDebts) {
+  if (isError || debtError) return <ErrorAlert />;
+
+  if (pending) {
     return (
       <div className="vads-u-margin--5">
         <va-loading-indicator
@@ -43,7 +46,11 @@ const AvailableDebts = ({ pendingDebts, debts, getDebts, isError }) => {
     );
   }
 
-  return debts.length ? (
+  if (!debts.length) {
+    return <NoDebts />;
+  }
+
+  return (
     <>
       <p>
         Select one or more debts below. We’ll help you choose a debt repayment
@@ -58,11 +65,9 @@ const AvailableDebts = ({ pendingDebts, debts, getDebts, isError }) => {
       <h4>What if my debt isn’t listed here?</h4>
       <p className="vads-u-margin-top--2">
         If you received a letter about a VA benefit debt that isn’t listed here,
-        call us at
-        <Telephone contact="8008270648" className="vads-u-margin-x--0p5" /> (or
-        <Telephone contact="16127136415" className="vads-u-margin-x--0p5" />
-        from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m.
-        ET.
+        call us at <va-telephone contact="8008270648" /> (or{' '}
+        <va-telephone contact="6127136415" international /> from overseas).
+        We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </p>
       <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         If you need help with a VA copay debt,
@@ -74,29 +79,17 @@ const AvailableDebts = ({ pendingDebts, debts, getDebts, isError }) => {
         </a>
       </p>
     </>
-  ) : (
-    <NoDebts />
   );
 };
 
 AvailableDebts.propTypes = {
   debts: PropTypes.array,
+  formContext: PropTypes.shape({
+    submitted: PropTypes.bool,
+  }),
   getDebts: PropTypes.func,
   isError: PropTypes.bool,
   pendingDebts: PropTypes.bool,
 };
 
-const mapStateToProps = ({ fsr }) => ({
-  debts: fsr.debts,
-  pendingDebts: fsr.pendingDebts,
-  isError: fsr.isError,
-});
-
-const mapDispatchToProps = {
-  getDebts: fetchDebts,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AvailableDebts);
+export default AvailableDebts;

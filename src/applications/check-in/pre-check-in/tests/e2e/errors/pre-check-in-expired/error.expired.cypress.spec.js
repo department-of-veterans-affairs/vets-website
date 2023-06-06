@@ -3,6 +3,7 @@ import '../../../../../tests/e2e/commands';
 import ApiInitializer from '../../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../../tests/e2e/pages/ValidateVeteran';
 import Error from '../../pages/Error';
+import Confirmation from '../../pages/Confirmation';
 
 describe('Pre-Check In Experience ', () => {
   beforeEach(() => {
@@ -24,7 +25,7 @@ describe('Pre-Check In Experience ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Render Error is caught', () => {
+  it('Expired appointment Error', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
     ValidateVeteran.validatePage.preCheckIn();
@@ -36,5 +37,8 @@ describe('Pre-Check In Experience ', () => {
     Error.validateExpiredPageLoaded();
     Error.validateAccordionBlocks();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Pre-check-in--expired-error--default-accordions');
+    Confirmation.expandAllAccordions();
+    cy.createScreenshots('Pre-check-in--expired-error--expanded-accordions');
   });
 });

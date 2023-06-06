@@ -2,88 +2,28 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
+import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import EmailAddressNotification from '@@profile/components/contact-information/email-addresses/EmailAddressNotification';
 
 describe('EmailAddressNotification', () => {
-  describe('when `signInServiceName` is `dslogon`', () => {
-    const wrapper = shallow(
-      <EmailAddressNotification signInServiceName="dslogon" />,
-    );
-
-    const anchor = wrapper.find('a');
-
-    it('should render the correct button text', () => {
-      expect(anchor.text().includes('DS Logon')).to.be.true;
-    });
-    it('should render the correct link url', () => {
-      expect(anchor.props().href).to.equal(
-        'https://myaccess.dmdc.osd.mil/identitymanagement',
+  Object.values(SERVICE_PROVIDERS).forEach(csp => {
+    describe(`when 'signInServiceName' is '${csp.policy}'`, () => {
+      const { link: expectedLink, label: expectedLabel } = SERVICE_PROVIDERS[
+        csp.policy
+      ];
+      const wrapper = shallow(
+        <EmailAddressNotification signInServiceName={csp.policy} />,
       );
+
+      const anchor = wrapper.find('a');
+
+      it('should render the correct button text', () => {
+        expect(anchor.text().includes(expectedLabel)).to.be.true;
+      });
+      it('should render the correct link url', () => {
+        expect(anchor.props().href).to.equal(expectedLink);
+      });
+      wrapper.unmount();
     });
-    wrapper.unmount();
-  });
-
-  describe('when `signInServiceName` is `idme`', () => {
-    const wrapper = shallow(
-      <EmailAddressNotification signInServiceName="idme" />,
-    );
-
-    const anchor = wrapper.find('a');
-
-    it('should render the correct button text', () => {
-      expect(anchor.text().includes('ID.me')).to.be.true;
-    });
-    it('should render the correct link url', () => {
-      expect(anchor.props().href).to.equal('https://wallet.id.me/settings');
-    });
-    wrapper.unmount();
-  });
-
-  describe('when `signInServiceName` is `mhv`', () => {
-    const wrapper = shallow(
-      <EmailAddressNotification signInServiceName="mhv" />,
-    );
-
-    const anchor = wrapper.find('a');
-
-    it('should render the correct button text', () => {
-      expect(anchor.text().includes('My HealtheVet')).to.be.true;
-    });
-    it('should render the correct link url', () => {
-      expect(anchor.props().href).to.equal('https://www.myhealth.va.gov');
-    });
-    wrapper.unmount();
-  });
-
-  describe('when `signInServiceName` is `myhealthevet`', () => {
-    const wrapper = shallow(
-      <EmailAddressNotification signInServiceName="myhealthevet" />,
-    );
-
-    const anchor = wrapper.find('a');
-
-    it('should render the correct button text', () => {
-      expect(anchor.text().includes('My HealtheVet')).to.be.true;
-    });
-    it('should render the correct link url', () => {
-      expect(anchor.props().href).to.equal('https://www.myhealth.va.gov');
-    });
-    wrapper.unmount();
-  });
-
-  describe('when `signInServiceName` is `logingov`', () => {
-    const wrapper = shallow(
-      <EmailAddressNotification signInServiceName="logingov" />,
-    );
-
-    const anchor = wrapper.find('a');
-
-    it('should render the correct button text', () => {
-      expect(anchor.text().includes('Login.gov')).to.be.true;
-    });
-    it('should render the correct link url', () => {
-      expect(anchor.props().href).to.equal('https://secure.login.gov/account');
-    });
-    wrapper.unmount();
   });
 });

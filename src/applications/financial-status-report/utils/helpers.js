@@ -1,6 +1,9 @@
 import moment from 'moment';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { addDays, format, isValid } from 'date-fns';
+import { get } from 'lodash';
+import { deductionCodes } from '../constants/deduction-codes';
 
 export const fsrWizardFeatureToggle = state => {
   return toggleValues(state)[
@@ -10,6 +13,16 @@ export const fsrWizardFeatureToggle = state => {
 
 export const fsrFeatureToggle = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.showFinancialStatusReport];
+};
+
+export const combinedFSRFeatureToggle = state => {
+  return toggleValues(state)[FEATURE_FLAG_NAMES.combinedFinancialStatusReport];
+};
+
+export const enhancedFSRFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.combinedFinancialStatusReportEnhancements
+  ];
 };
 
 export const fsrConfirmationEmailToggle = state =>
@@ -23,13 +36,27 @@ export const dateFormatter = date => {
   return moment(formatDate, 'YYYY-MM').format('MM/YYYY');
 };
 
+export const formatDate = date => {
+  return format(new Date(date), 'MMMM d, yyyy');
+};
+
+export const endDate = (date, days) => {
+  return isValid(new Date(date))
+    ? formatDate(addDays(new Date(date), days))
+    : '';
+};
+
 export const currency = amount => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2,
   });
-  return formatter.format(parseFloat(amount));
+  const value =
+    typeof amount === 'number'
+      ? amount
+      : parseFloat(amount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
+  return formatter.format(value);
 };
 
 const hasProperty = (arr, key) => {
@@ -37,22 +64,30 @@ const hasProperty = (arr, key) => {
 };
 
 export const sumValues = (arr, key) => {
-  const isValid = Array.isArray(arr) && arr.length && hasProperty(arr, key);
-  if (!isValid) return 0;
-  return arr.reduce((acc, item) => acc + (Number(item[key]) ?? 0), 0);
+  const isArrValid = Array.isArray(arr) && arr.length && hasProperty(arr, key);
+  if (!isArrValid) return 0;
+  return arr.reduce(
+    (acc, item) =>
+      acc + (item[key] ? Number(item[key]?.replaceAll(/[^0-9.-]/g, '')) : 0),
+    0,
+  );
 };
 
-export const filterDeductions = (deductions, filters) => {
-  if (!deductions.length) return 0;
+export const filterReduceByName = (deductions, filters) => {
+  if (!deductions?.length) return 0;
   return deductions
-    .filter(({ name }) => filters.includes(name))
-    .reduce((acc, curr) => acc + Number(curr.amount), 0);
+    .filter(({ name = '' }) => filters.includes(name))
+    .reduce(
+      (acc, curr) =>
+        acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
+      0,
+    );
 };
 
 export const otherDeductionsName = (deductions, filters) => {
   if (!deductions.length) return '';
   return deductions
-    .filter(({ name }) => !filters.includes(name))
+    .filter(({ name = '' }) => !filters.includes(name))
     .map(({ name }) => name)
     .join(', ');
 };
@@ -60,8 +95,12 @@ export const otherDeductionsName = (deductions, filters) => {
 export const otherDeductionsAmt = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
-    .filter(({ name }) => name && !filters.includes(name))
-    .reduce((acc, curr) => acc + Number(curr.amount), 0);
+    .filter(({ name = '' }) => name && !filters.includes(name))
+    .reduce(
+      (acc, curr) =>
+        acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
+      0,
+    );
 };
 
 export const nameStr = (socialSecurity, compensation, education, addlInc) => {
@@ -81,11 +120,60 @@ export const nameStr = (socialSecurity, compensation, education, addlInc) => {
   return otherIncNames?.map(item => item).join(', ') ?? '';
 };
 
-export const getFsrReason = debts => {
-  const reasons = debts.map(({ resolution }) => resolution.resolutionType);
+export const fsrReasonDisplay = resolutionOption => {
+  switch (resolutionOption) {
+    case 'monthly':
+      return 'Extended monthly payments';
+    case 'waiver':
+      return 'Waiver';
+    case 'compromise':
+      return 'Compromise';
+    default:
+      return '';
+  }
+};
+
+export const getFsrReason = (debts, combinedFSR) => {
+  const reasons = combinedFSR
+    ? debts.map(({ resolutionOption }) => fsrReasonDisplay(resolutionOption))
+    : debts.map(({ resolution }) => resolution.resolutionType);
   const uniqReasons = [...new Set(reasons)];
 
   return uniqReasons.join(', ');
+};
+
+export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
+  return combinedFSR
+    ? debts
+        .filter(item => item.resolutionComment !== undefined)
+        .reduce(
+          (acc, debt) =>
+            acc +
+            Number(debt.resolutionComment?.replaceAll(/[^0-9.-]/g, '') ?? 0),
+          0,
+        )
+    : debts
+        .filter(item => item.resolution.offerToPay !== undefined)
+        .reduce(
+          (acc, debt) =>
+            acc +
+            Number(
+              debt.resolution?.offerToPay?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+            ),
+          0,
+        );
+};
+
+export const mergeAdditionalComments = (additionalComments, expenses) => {
+  const individualExpenses = expenses
+    ?.map(expense => `${expense.name} (${currency(expense.amount)})`)
+    .join(', ');
+
+  const individualExpensesStr = `Individual expense amount: ${individualExpenses}`;
+
+  return individualExpenses
+    ? `${additionalComments}\n${individualExpensesStr}`
+    : additionalComments;
 };
 
 export const getMonthlyIncome = ({
@@ -93,11 +181,17 @@ export const getMonthlyIncome = ({
     addlIncRecords,
     spouse: { spAddlIncome },
   },
+  personalData: {
+    employmentHistory: {
+      veteran: { employmentRecords = [] },
+    },
+  },
   socialSecurity,
   benefits,
   currEmployment,
   spCurrEmployment,
   income,
+  'view:enhancedFinancialStatusReport': enhancedFSRActive,
 }) => {
   // deduction filters
   const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
@@ -106,16 +200,25 @@ export const getMonthlyIncome = ({
   const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
 
   // veteran
-  const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
+  const vetGrossSalary = enhancedFSRActive
+    ? sumValues(employmentRecords, 'grossMonthlyIncome')
+    : sumValues(currEmployment, 'veteranGrossSalary');
   const vetAddlInc = sumValues(addlIncRecords, 'amount');
-  const vetSocSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
+  const vetSocSecAmt = !enhancedFSRActive
+    ? Number(socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0)
+    : 0;
   const vetComp = sumValues(income, 'compensationAndPension');
   const vetEdu = sumValues(income, 'education');
   const vetBenefits = vetComp + vetEdu;
-  const vetDeductions = currEmployment?.map(emp => emp.deductions).flat() ?? 0;
-  const vetTaxes = filterDeductions(vetDeductions, taxFilters);
-  const vetRetirement = filterDeductions(vetDeductions, retirementFilters);
-  const vetSocialSec = filterDeductions(vetDeductions, socialSecFilters);
+  const vetDeductions = enhancedFSRActive
+    ? employmentRecords
+        ?.filter(emp => emp.isCurrent)
+        .map(emp => emp.deductions)
+        .flat() ?? 0
+    : currEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const vetTaxes = filterReduceByName(vetDeductions, taxFilters);
+  const vetRetirement = filterReduceByName(vetDeductions, retirementFilters);
+  const vetSocialSec = filterReduceByName(vetDeductions, socialSecFilters);
   const vetOther = otherDeductionsAmt(vetDeductions, allFilters);
   const vetTotDeductions = vetTaxes + vetRetirement + vetSocialSec + vetOther;
   const vetOtherIncome = vetAddlInc + vetBenefits + vetSocSecAmt;
@@ -124,14 +227,25 @@ export const getMonthlyIncome = ({
   // spouse
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
-  const spSocialSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
-  const spComp = Number(benefits.spouseBenefits.compensationAndPension ?? 0);
-  const spEdu = Number(benefits.spouseBenefits.education ?? 0);
+  const spSocialSecAmt = !enhancedFSRActive
+    ? Number(
+        socialSecurity.spouse?.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+      )
+    : 0;
+  const spComp = Number(
+    benefits.spouseBenefits.compensationAndPension?.replaceAll(
+      /[^0-9.-]/g,
+      '',
+    ) ?? 0,
+  );
+  const spEdu = Number(
+    benefits.spouseBenefits.education?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+  );
   const spBenefits = spComp + spEdu;
   const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
-  const spTaxes = filterDeductions(spDeductions, taxFilters);
-  const spRetirement = filterDeductions(spDeductions, retirementFilters);
-  const spSocialSec = filterDeductions(spDeductions, socialSecFilters);
+  const spTaxes = filterReduceByName(spDeductions, taxFilters);
+  const spRetirement = filterReduceByName(spDeductions, retirementFilters);
+  const spSocialSec = filterReduceByName(spDeductions, socialSecFilters);
   const spOtherAmt = otherDeductionsAmt(spDeductions, allFilters);
   const spTotDeductions = spTaxes + spRetirement + spSocialSec + spOtherAmt;
   const spOtherIncome = spAddlInc + spBenefits + spSocialSecAmt;
@@ -145,24 +259,70 @@ export const getMonthlyExpenses = ({
   otherExpenses,
   utilityRecords,
   installmentContracts,
+  'view:enhancedFinancialStatusReport': enhancedFSRActive = false,
 }) => {
-  const utilities = sumValues(utilityRecords, 'monthlyUtilityAmount');
+  const utilities = enhancedFSRActive
+    ? sumValues(utilityRecords, 'amount')
+    : sumValues(utilityRecords, 'monthlyUtilityAmount');
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
-  const expVals = Object.values(expenses).filter(Boolean);
-  const totalExp = expVals.reduce((acc, expense) => acc + Number(expense), 0);
+  const creditCardBills = sumValues(
+    expenses.creditCardBills,
+    'amountDueMonthly',
+  );
 
-  return utilities + installments + otherExp + totalExp;
+  // efsr note: food is included in otherExpenses
+  const food = Number(get(expenses, 'food', 0));
+  // efsr note: Rent & Mortgage is included in expenseRecords
+  const rentOrMortgage = Number(get(expenses, 'rentOrMortgage', 0));
+
+  const calculatedExpenseRecords =
+    expenses?.expenseRecords?.reduce(
+      (acc, expense) =>
+        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
+      0,
+    ) ?? 0;
+
+  return (
+    utilities +
+    installments +
+    otherExp +
+    calculatedExpenseRecords +
+    food +
+    rentOrMortgage +
+    creditCardBills
+  );
 };
 
-export const getTotalAssets = ({ assets, realEstateRecords }) => {
+export const getTotalAssets = ({
+  assets,
+  realEstateRecords,
+  questions,
+  'view:combinedFinancialStatusReport': combinedFSRActive,
+  'view:enhancedFinancialStatusReport': enhancedFSRActive,
+}) => {
+  const formattedREValue = Number(
+    assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+  );
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
-  const totRecVehicles = sumValues(assets.recVehicles, 'recVehicleAmount');
-  const totVehicles = sumValues(assets.automobiles, 'resaleValue');
-  const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
-  const totAssets = Object.values(assets)
-    .filter(item => item && !Array.isArray(item))
-    .reduce((acc, amount) => acc + Number(amount), 0);
+  const totRecVehicles = !combinedFSRActive
+    ? sumValues(assets.recVehicles, 'recVehicleAmount')
+    : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
+  const totVehicles = questions?.hasVehicle
+    ? sumValues(assets.automobiles, 'resaleValue')
+    : 0;
+  const realEstate = !enhancedFSRActive
+    ? sumValues(realEstateRecords, 'realEstateAmount')
+    : formattedREValue;
+  const totAssets = !enhancedFSRActive
+    ? Object.values(assets)
+        .filter(item => item && !Array.isArray(item))
+        .reduce(
+          (acc, amount) =>
+            acc + Number(amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
+          0,
+        )
+    : sumValues(assets.monetaryAssets, 'amount');
 
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
 };
@@ -218,4 +378,26 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
   }
 
   return history;
+};
+
+// receiving formatted date strings in the response
+// so we need to convert back to moment before sorting
+export const sortStatementsByDate = statements => {
+  const dateFormat = 'MM-DD-YYYY';
+  return statements.sort(
+    (a, b) =>
+      moment(b.pSStatementDate, dateFormat) -
+      moment(a.pSStatementDate, dateFormat),
+  );
+};
+
+// Returns name of debt depending on the type
+export const getDebtName = debt => {
+  return debt.debtType === 'COPAY'
+    ? debt.station.facilityName
+    : deductionCodes[debt.deductionCode] || debt.benefitType;
+};
+
+export const getCurrentEmploymentHistoryObject = () => {
+  return null;
 };

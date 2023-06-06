@@ -14,8 +14,7 @@ import { focusElement } from 'platform/utilities/ui';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import {
@@ -245,11 +244,9 @@ class SearchApp extends React.Component {
       page: 1,
       typeaheadUsed: true,
     });
-  };
 
-  handleInputChange = event => {
     this.setState({
-      userInput: event.target.value,
+      userInput: inputValue,
     });
   };
 
@@ -284,6 +281,10 @@ class SearchApp extends React.Component {
       query: suggestions[index],
       page: 1,
       typeaheadUsed: true,
+    });
+
+    this.setState({
+      userInput: inputValue,
     });
   };
 
@@ -414,8 +415,8 @@ class SearchApp extends React.Component {
         <div className="va-flex results-footer">
           {results &&
             results.length > 0 && (
-              <Pagination
-                onPageSelect={this.handlePageChange}
+              <VaPagination
+                onPageSelect={e => this.handlePageChange(e.detail.page)}
                 page={currentPage}
                 pages={totalPages}
                 maxPageListLength={5}
@@ -526,7 +527,7 @@ class SearchApp extends React.Component {
     const { results, loading } = this.props.search;
     const query = this.props.router?.location?.query?.query || '';
     if (loading) {
-      return <LoadingIndicator message="Loading results..." />;
+      return <va-loading-indicator message="Loading results..." />;
     }
 
     if (results && results.length > 0) {
@@ -581,7 +582,8 @@ class SearchApp extends React.Component {
             bestBet: isBestBet,
             title: strippedTitle,
             index,
-            url: result.url,
+            url: replaceWithStagingDomain(result.url),
+            // Trigger a new build
           })}
         >
           <h4

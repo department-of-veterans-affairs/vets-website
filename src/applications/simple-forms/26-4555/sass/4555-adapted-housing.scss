@@ -1,0 +1,35 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+#root_previousSahApplicationDate-label,
+#root_previousSahApplicationAddress__title,
+#root_previousHiApplicationDate-label,
+#root_previousHiApplicationAddress__title,
+#root_careFacilityAddress__title {
+  font-size: 1.6rem;
+}
+
+#root_previousSahApplicationDate-label,
+#root_previousHiApplicationDate-label {
+  margin-bottom: 0.4rem;
+}
+
+#root_previousSahApplicationAddress__title,
+#root_previousHiApplicationAddress__title,
+#root_careFacilityAddress__title {
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
+    "Arial", sans-serif;
+  font-size: 1.6rem;
+  font-weight: normal;
+  margin-bottom: -2.4rem;
+  padding-bottom: 0;
+}
+
+#root_careFacilityAddress__title {
+  padding-top: 1.5rem;
+}

@@ -1,0 +1,22 @@
+h2:focus {
+  outline: none;
+}
+
+.hca-confirmation--print {
+  display: none;
+}
+
+@media print {
+  .schemaform-title, .last-updated, .no-print {
+    display: none;
+  }
+
+  .hca-confirmation--print {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .vagov-logo {
+    width: 300px;
+  }
+}

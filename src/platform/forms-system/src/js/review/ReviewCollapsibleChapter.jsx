@@ -25,8 +25,8 @@ const scrollOffset = -40;
  * Displays all the pages in a chapter on the review page
  */
 class ReviewCollapsibleChapter extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleEdit = this.handleEdit.bind(this);
   }
 
@@ -78,9 +78,19 @@ class ReviewCollapsibleChapter extends React.Component {
   };
 
   getChapterTitle = chapterFormConfig => {
+    const { form } = this.props;
+    const formData = form.data;
+    const formConfig = form;
+    const onReviewPage = true;
+
     let chapterTitle = chapterFormConfig.title;
+
     if (typeof chapterFormConfig.title === 'function') {
-      chapterTitle = chapterFormConfig.title(true);
+      chapterTitle = chapterFormConfig.title({
+        formData,
+        formConfig,
+        onReviewPage,
+      });
     }
     if (chapterFormConfig.reviewTitle) {
       chapterTitle = chapterFormConfig.reviewTitle;
@@ -252,11 +262,13 @@ class ReviewCollapsibleChapter extends React.Component {
     if (editing) {
       return (
         <page.CustomPage
+          key={page.pageKey}
           name={page.pageKey}
           title={page.title}
           trackingPrefix={props.form.trackingPrefix}
           uploadFile={props.uploadFile}
           onReviewPage
+          setFormData={props.setData}
           data={props.form.data}
           updatePage={() => this.handleEdit(page.pageKey, false, page.index)}
           pagePerItemIndex={page.index}
@@ -265,6 +277,7 @@ class ReviewCollapsibleChapter extends React.Component {
     }
     return (
       <page.CustomPageReview
+        key={`${page.pageKey}Review`}
         editPage={() => this.handleEdit(page.pageKey, !editing, page.index)}
         name={page.pageKey}
         title={page.title}
@@ -321,21 +334,22 @@ class ReviewCollapsibleChapter extends React.Component {
    */
   focusOnPage = key => {
     const name = `${key.replace(/:/g, '\\:')}`;
-    const scrollElement = document.querySelector(
-      `[name="${name}ScrollElement"]`,
-    );
 
-    if (scrollElement && scrollElement.parentElement) {
-      // Wait for edit view to render
-      setTimeout(() => {
+    // Wait for edit view to render
+    setTimeout(() => {
+      const scrollElement = document.querySelector(
+        `[name="${name}ScrollElement"]`,
+      );
+
+      if (scrollElement && scrollElement.parentElement) {
         const focusableElements = getFocusableElements(
           scrollElement.parentElement,
         );
 
         // Sets focus on the first focusable element
         focusOnChange(name, `[id="${focusableElements[0].id}"]`);
-      }, 0);
-    }
+      }
+    }, 0);
   };
 
   scrollToPage = key => {
@@ -355,7 +369,7 @@ class ReviewCollapsibleChapter extends React.Component {
     }
 
     const classes = classNames('usa-accordion-bordered', 'form-review-panel', {
-      'schemaform-review-chapter-warning': this.props.hasUnviewedPages,
+      'schemaform-review-chapter-error': this.props.hasUnviewedPages,
     });
 
     const headerClasses = classNames(
@@ -377,6 +391,12 @@ class ReviewCollapsibleChapter extends React.Component {
         <ul className="usa-unstyled-list" role="list">
           <li>
             <h3 className={headerClasses}>
+              {this.props.hasUnviewedPages && (
+                <span
+                  aria-describedby={`collapsibleButton${this.id}`}
+                  className="schemaform-review-chapter-error-icon"
+                />
+              )}
               <button
                 className="usa-button-unstyled"
                 aria-expanded={this.props.open ? 'true' : 'false'}
@@ -387,23 +407,17 @@ class ReviewCollapsibleChapter extends React.Component {
               >
                 {chapterTitle || ''}
               </button>
-              {this.props.hasUnviewedPages && (
-                <span
-                  aria-describedby={`collapsibleButton${this.id}`}
-                  className="schemaform-review-chapter-warning-icon"
-                />
-              )}
             </h3>
             {this.props.hasUnviewedPages && (
-              <span
-                className="vads-u-color--secondary vads-u-border-left--10px vads-u-border-color--secondary vads-u-display--flex vads-u-padding-left--1p5 vads-u-align-items--center vads-u-font-weight--bold"
+              <va-alert
                 role="alert"
-                style={{ minHeight: '50px' }}
+                status="error"
+                background-only
                 aria-describedby={`collapsibleButton${this.id}`}
               >
                 <span className="sr-only">Error</span>
                 {chapterTitle} needs to be updated
-              </span>
+              </va-alert>
             )}
             <div id={`collapsible-${this.id}`}>{pageContent}</div>
           </li>

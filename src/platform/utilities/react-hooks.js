@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 /**
  * While not included with React, this hook is described in the React Hooks
@@ -28,4 +29,32 @@ export const usePrevious = nextValue => {
   // whatever was stored in `previousValue.current` _before_ this function's
   // `useEffect` callback runs
   return previousValue.current;
+};
+
+/**
+ * This hook is meant to be used in non-authenticated parts of the site for staggered release of new features.
+ * As a flipper cannot be used in such environments, this will allow a specified percentage of users the new feature.
+ * It will persist this determination in localStorage for repeat visits.
+ *
+ * @param {number} displayThreshold - the percentage of visitors to offer the new feature to.
+ * @param {string} storageKey - the string name of the localStorage key
+ * @returns {boolean} - Whether to include a visitor in participation in a new feature, based on
+ * percentage of visitors or previously persisted determination
+ * */
+export const useStaggeredFeatureRelease = (displayThreshold, storageKey) => {
+  const [restriction, setRestriction] = useState(null);
+
+  useEffect(
+    () => {
+      let restrictVar = localStorage.getItem(storageKey);
+      if (!restrictVar) {
+        restrictVar = Math.random().toFixed(2) * 100;
+        localStorage.setItem(storageKey, restrictVar.toString());
+      }
+      setRestriction(restrictVar);
+    },
+    [storageKey],
+  );
+
+  return Number.parseInt(restriction, 10) <= displayThreshold;
 };

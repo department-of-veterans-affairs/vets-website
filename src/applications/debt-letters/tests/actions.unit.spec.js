@@ -9,7 +9,7 @@ import {
 describe('fetchDebtLetters', () => {
   it('should render filteredResponse data', () => {
     const dispatch = sinon.spy();
-    return fetchDebtLetters()(dispatch).then(() => {
+    return fetchDebtLetters(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(DEBTS_FETCH_INITIATED);
       expect(dispatch.thirdCall.args[0].type).to.equal(DEBTS_FETCH_SUCCESS);
       expect(dispatch.thirdCall.args[0].debts).to.deep.equal([

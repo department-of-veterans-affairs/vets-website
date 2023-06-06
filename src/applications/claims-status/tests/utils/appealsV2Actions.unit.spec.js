@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
-
+import environment from 'platform/utilities/environment';
 import { getAppealsV2 } from '../../actions';
 
 import {
@@ -12,11 +12,11 @@ import {
   VALIDATION_ERROR,
   BACKEND_SERVICE_ERROR,
   FETCH_APPEALS_ERROR,
-} from '../../utils/appeals-v2-helpers';
+} from '../../actions/types';
 
 const setup = () => {
   const response = {
-    url: 'https://dev-api.va.gov',
+    url: environment.API_URL,
     status: 200,
     headers: { get: () => 'application/json' },
     ok: true,

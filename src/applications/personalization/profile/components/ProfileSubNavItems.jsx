@@ -1,23 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import { NavLink } from 'react-router-dom';
+import { selectIsBlocked } from '../selectors';
 
 function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
-  // Filter out the routes the user cannot access due to not being in MVI/MPI or
-  // not having a high enough LOA
+  const isBlocked = useSelector(selectIsBlocked); // incompetent, fiduciary flag, deceased
+
+  // Filter out the routes the user cannot access due to
+  // not being in MVI/MPI, not having a high enough LOA,
+  // or having isBlocked state selector return true
   const filteredRoutes = routes.filter(route => {
-    let eligibleRoute = true;
-
-    if (route.requiresLOA3 && !isLOA3) {
-      eligibleRoute = false;
+    // loa3 check and isBlocked check
+    if ((route.requiresLOA3 && !isLOA3) || (route.requiresLOA3 && isBlocked)) {
+      return false;
     }
 
-    if (route.requiresMVI && !isInMVI) {
-      eligibleRoute = false;
-    }
-
-    return eligibleRoute;
+    // mvi check
+    return !(route.requiresMVI && !isInMVI);
   });
   return (
     <ul>

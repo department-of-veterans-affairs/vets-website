@@ -7,7 +7,6 @@ class TestTypes {
     this.types = {
       Unit: '**/*unit.spec.js?(x)',
       E2e: '**/*cypress.spec.js?(x)',
-      Contract: '**/*pact.spec.js',
     };
   }
 

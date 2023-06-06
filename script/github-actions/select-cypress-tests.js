@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+
 const core = require('@actions/core');
 const fs = require('fs');
 const path = require('path');
@@ -9,9 +10,16 @@ const {
   e2e: { specPattern },
 } = require('../../config/cypress.config');
 
-const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
+const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
+  ? process.env.CHANGED_FILE_PATHS.split(' ')
+  : [];
+const ALLOW_LIST = process.env.ALLOW_LIST
+  ? JSON.parse(process.env.ALLOW_LIST)
+  : [];
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
+const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
+const IS_STRESS_TEST = Boolean(process.env.IS_STRESS_TEST);
 
 function getImports(filePath) {
   return findImports(filePath, {
@@ -219,18 +227,87 @@ function selectTests(graph, pathsOfChangedFiles) {
 }
 
 function exportVariables(tests) {
+  const numTests = tests.length;
+
+  if (numTests <= 200) {
+    core.exportVariable('NUM_CONTAINERS', 8);
+    core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6, 7]);
+  } else {
+    core.exportVariable('NUM_CONTAINERS', 12);
+    core.exportVariable('CI_NODE_INDEX', [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+    ]);
+  }
   core.exportVariable('TESTS', tests);
 }
 
-function run() {
-  const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
+function main() {
   const graph = dedupeGraph(buildGraph());
-  const tests = selectTests(graph, pathsOfChangedFiles);
-  exportVariables(tests);
-}
 
-if (process.env.CHANGED_FILE_PATHS || RUN_FULL_SUITE) {
-  run();
+  // groups of tests from the allow list
+  const allAllowListTestPaths = ALLOW_LIST.map(spec => spec.spec_path);
+  const allAllowedTestPaths = ALLOW_LIST.filter(
+    spec => spec.allowed === true,
+  ).map(spec => spec.spec_path);
+  const allDisallowedTestPaths = ALLOW_LIST.filter(
+    spec => spec.allowed === false,
+  ).map(spec => spec.spec_path);
+
+  // groups of tests based on test selection and filtering the groups from the allow list
+  const testsSelectedByTestSelection = selectTests(graph, CHANGED_FILE_PATHS);
+  const newTests = testsSelectedByTestSelection.filter(
+    test =>
+      !allAllowListTestPaths.includes(test.substring(test.indexOf('src/'))),
+  );
+  const disallowedTests = testsSelectedByTestSelection.filter(test =>
+    allDisallowedTestPaths.includes(test.substring(test.indexOf('src/'))),
+  );
+  const changedTests = testsSelectedByTestSelection.filter(
+    test =>
+      CHANGED_FILE_PATHS.includes(test.substring(test.indexOf('src/'))) &&
+      !newTests.includes(test),
+  );
+  const testsToRunNormally = testsSelectedByTestSelection.filter(
+    test =>
+      !disallowedTests.includes(test) &&
+      !newTests.includes(test) &&
+      !changedTests.includes(test),
+  );
+  const testsToStressTest = [...newTests, ...changedTests];
+  const testSelectionDisallowedTests = testsSelectedByTestSelection.filter(
+    test => {
+      return allDisallowedTestPaths.includes(
+        test.substring(test.indexOf('src/')),
+      );
+    },
+  );
+
+  exportVariables(testsToRunNormally);
+
+  if (IS_STRESS_TEST) {
+    core.exportVariable('TESTS_TO_STRESS_TEST', allAllowedTestPaths);
+  } else {
+    core.exportVariable('TESTS_TO_STRESS_TEST', testsToStressTest);
+  }
+
+  core.exportVariable(
+    'TEST_SELECTION_DISALLOWED_TESTS',
+    testSelectionDisallowedTests,
+  );
+}
+if (RUN_FULL_SUITE || ALLOW_LIST.length > 0) {
+  main();
 }
 
 module.exports = {

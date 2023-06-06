@@ -9,9 +9,9 @@ import {
   ADDRESS_TYPES,
   ADDRESS_POU,
   USA,
-} from '@@vap-svc/constants';
+} from 'platform/user/profile/vap-svc/constants';
 
-import VAPServiceProfileField from '@@vap-svc/containers/VAPServiceProfileField';
+import VAPServiceProfileField from 'platform/user/profile/vap-svc/containers/VAPServiceProfileField';
 
 import AddressEditModal from './AddressEditModal';
 import AddressValidationModal from '../../containers/AddressValidationModal';

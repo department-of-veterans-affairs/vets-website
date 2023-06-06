@@ -15,10 +15,12 @@ const testConfig = createTestConfig(
     fixtures: { data: path.join(__dirname, 'formDataSets') },
     pageHooks: {
       introduction: ({ afterHook }) => {
-        cy.get('#claimant-relationship-0').click();
-        cy.get('#vre-benefits-1').click();
-        cy.get('#education-benefits-0').click();
-        cy.get('#begin-form-now-0').click();
+        cy.get('va-radio-option[value="isVeteran"]').click();
+        cy.get(
+          'va-radio-option[name="vre-benefits"][value="VAEducationBenefits"]',
+        ).click();
+        cy.get('va-radio-option[value="beginFormNow"]').click();
+        cy.get('va-radio-option[value="startForm"]').click();
         cy.get('.vads-c-action-link--green').click();
 
         // Previous button click fully loads a new page, so we need to

@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
 import moment from '../../../lib/moment-tz';
 import { startAppointmentCancel } from '../../redux/actions';
 import { selectFeatureCancel } from '../../../redux/selectors';
 import { APPOINTMENT_STATUS, GA_PREFIX } from '../../../utils/constants';
-import recordEvent from 'platform/monitoring/record-event';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -18,7 +19,7 @@ export default function CancelLink({ appointment }) {
   const dispatch = useDispatch();
   const showCancelButton = useSelector(selectFeatureCancel);
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const isPastAppointment = appointment.vaos.isPastAppointment;
+  const { isPastAppointment } = appointment.vaos;
   const hideCanceledOrPast = canceled || !showCancelButton || isPastAppointment;
 
   if (hideCanceledOrPast) {
@@ -34,7 +35,8 @@ export default function CancelLink({ appointment }) {
       <button
         onClick={() => {
           recordEvent({
-            event: `${GA_PREFIX}-cancel-booked-clicked`,
+            event: 'interaction',
+            action: `${GA_PREFIX}-cancel-booked-clicked`,
           });
           dispatch(startAppointmentCancel(appointment));
         }}
@@ -42,6 +44,7 @@ export default function CancelLink({ appointment }) {
           moment.parseZone(appointment.start),
         )}`}
         className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+        type="button"
       >
         Cancel appointment
         <span className="sr-only">
@@ -52,3 +55,7 @@ export default function CancelLink({ appointment }) {
     </div>
   );
 }
+
+CancelLink.propTypes = {
+  appointment: PropTypes.object.isRequired,
+};

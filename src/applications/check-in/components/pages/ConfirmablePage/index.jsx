@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useMemo, useLayoutEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+
+import { createAnalyticsSlug } from '../../../utils/analytics';
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useFormRouting } from '../../../hooks/useFormRouting';
+import { makeSelectApp } from '../../../selectors';
+
 import DemographicItem from '../../DemographicItem';
 import Wrapper from '../../layout/Wrapper';
+import { toCamelCase } from '../../../utils/formatters';
+import { URLS } from '../../../utils/navigation';
+import { APP_NAMES } from '../../../utils/appConstants';
 
 const ConfirmablePage = ({
   header,
@@ -11,17 +23,37 @@ const ConfirmablePage = ({
   data = {},
   yesAction = () => {},
   noAction = () => {},
-  isLoading = false,
-  loadingMessageOverride = null,
   withBackButton = false,
-  Footer,
+  pageType,
+  router,
 }) => {
   const { t } = useTranslation();
-  const defaultLoadingMessage = () => (
-    <va-loading-indicator message={t('loading')} />
-  );
-  const LoadingMessage = loadingMessageOverride ?? defaultLoadingMessage;
 
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
+  const { jumpToPage } = useFormRouting(router);
+  const { getCheckinComplete } = useSessionStorage(
+    app === APP_NAMES.PRE_CHECK_IN,
+  );
+  useLayoutEffect(() => {
+    if (getCheckinComplete(window)) {
+      jumpToPage(URLS.DETAILS);
+    }
+  });
+
+  const onYesClick = () => {
+    recordEvent({
+      event: createAnalyticsSlug(`yes-to-${pageType}-clicked`, 'nav'),
+    });
+    yesAction();
+  };
+
+  const onNoClick = () => {
+    recordEvent({
+      event: createAnalyticsSlug(`no-to-${pageType}-clicked`, 'nav'),
+    });
+    noAction();
+  };
   return (
     <Wrapper
       pageTitle={header}
@@ -42,12 +74,12 @@ const ConfirmablePage = ({
             <li key={field.key}>
               <div
                 className="vads-u-font-weight--bold vads-u-border-top--1px vads-u-padding-top--2 vads-u-margin-top--2 vads-u-border-color--gray-light"
-                aria-describedby={field.title}
+                aria-describedby={toCamelCase(field.title)}
               >
                 {field.title}
               </div>
               <div
-                id={field.title}
+                id={toCamelCase(field.title)}
                 className={
                   i + 1 === length
                     ? 'vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-bottom--2'
@@ -64,31 +96,24 @@ const ConfirmablePage = ({
           ))}
         </ul>
       </div>
-      {isLoading ? (
-        <>
-          <LoadingMessage />
-        </>
-      ) : (
-        <>
-          <button
-            onClick={yesAction}
-            className="usa-button-primary usa-button-big"
-            data-testid="yes-button"
-            type="button"
-          >
-            {t('yes')}
-          </button>
-          <button
-            onClick={noAction}
-            className="usa-button-secondary vads-u-margin-top--2 usa-button-big"
-            data-testid="no-button"
-            type="button"
-          >
-            {t('no')}
-          </button>
-        </>
-      )}
-      {Footer && <Footer />}
+      <>
+        <button
+          onClick={onYesClick}
+          className="usa-button-primary usa-button-big"
+          data-testid="yes-button"
+          type="button"
+        >
+          {t('yes')}
+        </button>
+        <button
+          onClick={onNoClick}
+          className="usa-button-secondary vads-u-margin-top--2 usa-button-big"
+          data-testid="no-button"
+          type="button"
+        >
+          {t('no')}
+        </button>
+      </>
     </Wrapper>
   );
 };
@@ -103,9 +128,8 @@ ConfirmablePage.propTypes = {
   header: PropTypes.string.isRequired,
   noAction: PropTypes.func.isRequired,
   yesAction: PropTypes.func.isRequired,
-  Footer: PropTypes.func,
-  isLoading: PropTypes.bool,
-  loadingMessageOverride: PropTypes.func,
+  pageType: PropTypes.string,
+  router: PropTypes.object,
   subtitle: PropTypes.string,
   withBackButton: PropTypes.bool,
 };

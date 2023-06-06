@@ -1,14 +1,13 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-import VaModal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/web-components/react-bindings';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import AppointmentBlock from '../../../components/AppointmentBlock';
-import AppointmentBlockWithIcons from '../../../components/AppointmentBlockWithIcons';
-import Footer from '../../../components/layout/Footer';
-import BackToHome from '../../../components/BackToHome';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -17,6 +16,8 @@ import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggl
 
 import ExternalLink from '../../../components/ExternalLink';
 import Wrapper from '../../../components/layout/Wrapper';
+import { hasPhoneAppointments } from '../../../utils/appointment';
+import { createAnalyticsSlug } from '../../../utils/analytics';
 
 const IntroductionDisplay = props => {
   const { router } = props;
@@ -24,11 +25,26 @@ const IntroductionDisplay = props => {
   const { goToNextPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
+
   const { appointments } = useSelector(selectVeteranData);
+  const { isPreCheckInActionLinkTopPlacementEnabled } = useSelector(
+    selectFeatureToggles,
+  );
 
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
-
+  // Save this useEffect for when we go back to testing action link.
+  useEffect(
+    () => {
+      const position = isPreCheckInActionLinkTopPlacementEnabled
+        ? 'top'
+        : 'bottom';
+      const slug = `pre-check-in-viewed-introduction-${position}-position`;
+      recordEvent({
+        event: createAnalyticsSlug(slug, 'nav'),
+      });
+    },
+    [isPreCheckInActionLinkTopPlacementEnabled],
+  );
   const accordionContent = [
     {
       header: t('will-va-protect-my-personal-health-information'),
@@ -46,7 +62,7 @@ const IntroductionDisplay = props => {
           </p>
           <p>
             {t(
-              'youre-also-responsible-for-protecting-your-personal-health-information-if-you-print-or-download-your-information-or-share-it-electronically-with-others-youll-need-to-take-steps-to-protect-it',
+              'youre-also-responsible-for-protecting-your-personal-health-information',
             )}
           </p>
           <p>
@@ -61,16 +77,30 @@ const IntroductionDisplay = props => {
       ),
     },
   ];
-  const privacyStatement = (
-    <div>
-      <h3>{t('privacy-act-statement')}</h3>
-      <p>
-        {t(
-          'we-ask-you-to-provide-the-information-in-this-questionnaire-to-help-with-your-medical-care-under-law-38-u-s-c-chapter-17-its-your-choice-if-you-want-to-provide-this-information-if-you-choose-not-to-provide-this-information-it-may-make-it-harder-for-us-to-prepare-for-your-visit-but-it-wont-have-any-effect-on-your-eligibility-for-any-va-benefits-or-services-we-may-use-and-share-the-information-you-provide-in-this-questionnaire-in-the-ways-were-allowed-to-by-law-we-may-make-a-routine-use-disclosure-of-the-information-as-outlined-in-the-privacy-act-system-of-records-notice-in-24va10a7-patient-medical-record-va-and-following-the-veterans-health-administration-vha-notice-of-privacy-practices',
-        )}
-      </p>
-    </div>
+  const isPhone = hasPhoneAppointments(appointments);
+
+  const handleStart = useCallback(
+    e => {
+      if (e?.key && e.key !== ' ') {
+        return;
+      }
+      let slug = `pre-check-in-started-${isPhone ? 'phone' : 'in-person'}`;
+
+      const position = isPreCheckInActionLinkTopPlacementEnabled
+        ? 'top'
+        : 'bottom';
+
+      slug += `-${position}-position`;
+
+      recordEvent({
+        event: createAnalyticsSlug(slug, 'nav'),
+      });
+      e.preventDefault();
+      goToNextPage();
+    },
+    [isPhone, goToNextPage, isPreCheckInActionLinkTopPlacementEnabled],
   );
+
   const StartButton = () => (
     <div
       className="vads-u-margin-bottom--4 vads-u-display--block"
@@ -79,36 +109,22 @@ const IntroductionDisplay = props => {
       <a
         className="vads-c-action-link--green"
         href="#answer"
-        onKeyDown={useCallback(e => {
-          if (e.key === ' ') {
-            e.preventDefault();
-            goToNextPage();
-          }
-        }, [])}
-        onClick={useCallback(e => {
-          e.preventDefault();
-          goToNextPage();
-        }, [])}
+        onKeyDown={handleStart}
+        onClick={handleStart}
       >
-        {t('answer-questions')}
+        {isPreCheckInActionLinkTopPlacementEnabled
+          ? t('complete-pre-check-in')
+          : t('answer-questions')}
       </a>
     </div>
   );
-  const additionalFooterInfo = (
-    <>
-      <p>
-        <span className="vads-u-font-weight--bold">
-          {t(
-            'if-you-need-to-talk-to-someone-right-away-or-need-emergency-care',
-          )}
-        </span>{' '}
-        call <va-telephone contact="911" />,{' '}
-        <span className="vads-u-font-weight--bold">or</span>{' '}
-        {t('call-the-veterans-crisis-hotline-at')}{' '}
-        <va-telephone contact="8002738255" /> {t('and-select-1')}
-      </p>
-    </>
-  );
+
+  const getModalUrl = modalState => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('modal', modalState);
+    return `${url.pathname}${url.search}`;
+  };
+
   return (
     <Wrapper
       testID="intro-wrapper"
@@ -117,13 +133,17 @@ const IntroductionDisplay = props => {
       <p className="vads-u-font-family--serif">
         {t('your-answers-will-help-us-better-prepare-for-your-needs')}
       </p>
-      {isPhoneAppointmentsEnabled ? (
-        <AppointmentBlockWithIcons appointments={appointments} page="intro" />
-      ) : (
-        <AppointmentBlock appointments={appointments} />
+      {isPreCheckInActionLinkTopPlacementEnabled && <StartButton />}
+
+      <AppointmentBlock appointments={appointments} page="intro" />
+
+      {!isPreCheckInActionLinkTopPlacementEnabled && (
+        <>
+          <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
+          <StartButton />
+        </>
       )}
-      <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
-      <StartButton />
+
       {accordionContent && accordionContent.length ? (
         <va-accordion
           bordered
@@ -147,10 +167,11 @@ const IntroductionDisplay = props => {
       )}
       <div className="vads-u-margin-top--4">
         <a
-          href="#privacy-modal"
+          href="/health-care/appointment-pre-check-in/introduction?modal=open"
           onClick={useCallback(
             e => {
               e.preventDefault();
+              window.history.replaceState(null, null, getModalUrl('open'));
               setPrivacyActModalOpen(true);
             },
             [setPrivacyActModalOpen],
@@ -159,17 +180,20 @@ const IntroductionDisplay = props => {
           {t('privacy-act-statement')}
         </a>
       </div>
-      <Footer message={additionalFooterInfo} />
-      <BackToHome />
       <VaModal
-        onClose={useCallback(() => setPrivacyActModalOpen(false), [
-          setPrivacyActModalOpen,
-        ])}
+        modalTitle={t('privacy-act-statement')}
+        onCloseEvent={useCallback(
+          () => {
+            setPrivacyActModalOpen(false);
+            window.history.replaceState(null, null, getModalUrl('closed'));
+          },
+          [setPrivacyActModalOpen],
+        )}
         visible={privacyActModalOpen}
-        focusSelector="button"
-        cssClass=""
-        contents={privacyStatement}
-      />
+        initialFocusSelector="button"
+      >
+        <p>{t('privacy-act-statement-text')}</p>
+      </VaModal>
     </Wrapper>
   );
 };

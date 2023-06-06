@@ -15,6 +15,9 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
       return (
         <EnrollmentVerificationMonth
           key={index}
+          lastCertifiedThroughDate={
+            enrollmentVerification.lastCertifiedThroughDate
+          }
           month={month}
           status={status}
         />
@@ -36,6 +39,9 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
     currentPage * MONTHS_PER_PAGE,
     months?.length,
   );
+  const showingPages = months?.length
+    ? `${lowerDisplayedRange} - ${upperDisplayedRange}`
+    : '0';
   const numPages = Math.ceil(months?.length / MONTHS_PER_PAGE);
   const minMonth = (currentPage - 1) * MONTHS_PER_PAGE;
   const maxMonth = currentPage * MONTHS_PER_PAGE;
@@ -44,6 +50,9 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
     <>
       <h2>Your monthly enrollment verifications</h2>
       <va-additional-info trigger="What if I notice an error with my enrollment information?">
+        <p className="vads-u-padding-bottom--2">
+          <strong>You should:</strong>
+        </p>
         <ul>
           <li>
             Work with your School Certifying Official (SCO) to make sure they
@@ -55,27 +64,33 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
             information.
           </li>
         </ul>
-        <p>
+        <p className="vads-u-padding-top--2">
           If you notice a mistake, it’s best if you reach out to your SCO soon.
           The sooner VA knows about changes to your enrollment, the less likely
           you are to be overpaid and incur a debt.
         </p>
       </va-additional-info>
 
-      {enrollmentVerification?.enrollmentVerifications && (
-        <p>
-          Showing {lowerDisplayedRange}-{upperDisplayedRange} of{' '}
-          {months?.length} monthly enrollments listed by most recent
-        </p>
-      )}
+      <p>
+        Showing {showingPages} of {months?.length || '0'} monthly enrollments
+        listed by most recent
+      </p>
 
       {months?.slice(minMonth, maxMonth)}
 
-      <Pagination
-        onPageSelect={onPageSelect}
-        page={currentPage}
-        pages={numPages}
-      />
+      {!months?.length && (
+        <p className="vads-u-margin-bottom--6">
+          <strong>You currently have no enrollments.</strong>
+        </p>
+      )}
+
+      {months?.length > 0 && (
+        <Pagination
+          onPageSelect={onPageSelect}
+          page={currentPage}
+          pages={numPages}
+        />
+      )}
     </>
   );
 }

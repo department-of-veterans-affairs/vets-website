@@ -2,8 +2,12 @@ import React from 'react';
 
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
+import { validateAsciiCharacters } from 'platform/user/profile/vap-svc/util';
 
-import { ADDRESS_FORM_VALUES, USA } from '@@vap-svc/constants';
+import {
+  ADDRESS_FORM_VALUES,
+  USA,
+} from 'platform/user/profile/vap-svc/constants';
 
 // Regex that uses a negative lookahead to check that a string does NOT contain
 // things like `http`, `www.`, or a few common TLDs. Let's cross our fingers and
@@ -137,6 +141,7 @@ const uiSchema = {
       required: 'Street address is required',
       pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
     },
+    'ui:validations': [validateAsciiCharacters],
   },
   addressLine2: {
     'ui:title': `Street address line 2 (${STREET_LINE_MAX_LENGTH} characters maximum)`,
@@ -144,6 +149,7 @@ const uiSchema = {
     'ui:errorMessages': {
       pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
     },
+    'ui:validations': [validateAsciiCharacters],
   },
   addressLine3: {
     'ui:title': `Street address line 3 (${STREET_LINE_MAX_LENGTH} characters maximum)`,
@@ -151,6 +157,7 @@ const uiSchema = {
     'ui:errorMessages': {
       pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
     },
+    'ui:validations': [validateAsciiCharacters],
   },
   city: {
     'ui:autocomplete': 'address-level2',
@@ -158,6 +165,7 @@ const uiSchema = {
       required: 'City is required',
       pattern: `Please enter a valid city under 100 characters`,
     },
+    'ui:validations': [validateAsciiCharacters],
     'ui:options': {
       replaceSchema: formData => {
         if (formData['view:livesOnMilitaryBase'] === true) {
@@ -210,6 +218,7 @@ const uiSchema = {
     'ui:options': {
       hideIf: formData => formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
     },
+    'ui:validations': [validateAsciiCharacters],
   },
   zipCode: {
     'ui:title': 'Zip code',
@@ -237,6 +246,7 @@ const uiSchema = {
       widgetClassNames: 'usa-input-medium',
       hideIf: formData => formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
     },
+    'ui:validations': [validateAsciiCharacters],
   },
 };
 

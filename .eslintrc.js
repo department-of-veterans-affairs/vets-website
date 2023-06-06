@@ -12,24 +12,44 @@ module.exports = {
     __MEGAMENU_CONFIG__: true,
     __REGISTRY__: true,
   },
+  settings: {
+    'import/resolver': {
+      node: {
+        moduleDirectory: ['node_modules', 'src/'],
+      },
+      'babel-module': {},
+    },
+  },
   rules: {
     /* || Eslint main rules || */
     camelcase: [2, { properties: 'always' }], // Override airbnb style.
+    '@department-of-veterans-affairs/no-cross-app-imports': [
+      'warn', // Warn for now, but after cleanup of imports, change to error
+      {
+        // Aliases copied from babel.config.json
+        '~': './src',
+        '@@vap-svc': './src/platform/user/profile/vap-svc',
+        '@@profile': './src/applications/personalization/profile',
+      },
+    ],
     'deprecate/import': [
       'warn',
       {
-        name:
-          '@department-of-veterans-affairs/component-library/CollapsiblePanel',
-        use: '<va-accordion>',
+        name: '@department-of-veterans-affairs/component-library/TextInput',
+        use: '<va-text-input>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/AlertBox',
         use: '<va-alert>',
       },
       {
+        name: '@department-of-veterans-affairs/component-library/CheckboxGroup',
+        use: '<va-checkbox-group>',
+      },
+      {
         name:
-          '@department-of-veterans-affairs/component-library/LoadingIndicator',
-        use: '<va-loading-indicator>',
+          '@department-of-veterans-affairs/component-library/ExpandingGroup',
+        use: 'a custom solution',
       },
       {
         name:
@@ -37,12 +57,41 @@ module.exports = {
         use: '<va-additional-info>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/ProgressBar',
-        use: '<va-progress-bar>',
+        name: '@department-of-veterans-affairs/component-library/Breadcrumbs',
+        use: '<va-breadcrumbs>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/TextArea',
-        use: '<va-textarea>',
+        name:
+          '@department-of-veterans-affairs/component-library/LoadingIndicator',
+        use: '<va-loading-indicator>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/Modal',
+        use: '<va-modal>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/OMBInfo',
+        use: '<va-omb-info>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/Pagination',
+        use: '<va-pagination>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/Table',
+        use: '<va-table>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/Telephone',
+        use: '<va-telephone>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/Select',
+        use: '<va-select>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/FileInput',
+        use: '<va-file-input>',
       },
     ],
     'jsx-a11y/control-has-associated-label': 1, // 2

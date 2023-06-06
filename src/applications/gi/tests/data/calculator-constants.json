@@ -226,7 +226,7 @@
     }
   ],
   "links": {
-    "self": "https://staging-api.va.gov/gids/v0/calculator/constants"
+    "self": "https://staging-platform-api.va.gov/gids/v0/calculator/constants"
   },
   "meta": {
     "version": {

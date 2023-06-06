@@ -21,8 +21,7 @@
         },
         "activeStatus": "A",
         "address": {
-          "mailing": {
-          },
+          "mailing": {},
           "physical": {
             "zip": "27617-2041",
             "city": "Raleigh",
@@ -55,8 +54,7 @@
         ],
         "facilityType": "va_health_facility",
         "feedback": {
-          "health": {
-          },
+          "health": {},
           "effectiveDate": null
         },
         "hours": {
@@ -86,8 +84,7 @@
           "enrollmentCoordinator": "919-286-0411 x176993"
         },
         "services": {
-          "other": [
-          ],
+          "other": [],
           "health": [
             "Audiology",
             "Covid19Vaccine",
@@ -110,10 +107,10 @@
     }
   },
   "links": {
-    "self": "https://staging-api.va.gov/v1/facilities/va?bbox%5B%5D=-79.43&bbox%5B%5D=35.03&bbox%5B%5D=-77.93&bbox%5B%5D=36.53&page=1&per_page=20&services%5B%5D=Covid19Vaccine&type=health",
-    "first": "https://staging-api.va.gov/v1/facilities/va?bbox%5B%5D=-79.43&bbox%5B%5D=35.03&bbox%5B%5D=-77.93&bbox%5B%5D=36.53&page=1&per_page=20&services%5B%5D=Covid19Vaccine&type=health",
+    "self": "https://staging-platform-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-79.43&bbox%5B%5D=35.03&bbox%5B%5D=-77.93&bbox%5B%5D=36.53&page=1&per_page=20&services%5B%5D=Covid19Vaccine&type=health",
+    "first": "https://staging-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-79.43&bbox%5B%5D=35.03&bbox%5B%5D=-77.93&bbox%5B%5D=36.53&page=1&per_page=20&services%5B%5D=Covid19Vaccine&type=health",
     "prev": null,
     "next": null,
-    "last": "https://staging-api.va.gov/v1/facilities/va?bbox%5B%5D=-79.43&bbox%5B%5D=35.03&bbox%5B%5D=-77.93&bbox%5B%5D=36.53&page=1&per_page=20&services%5B%5D=Covid19Vaccine&type=health"
+    "last": "https://staging-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-79.43&bbox%5B%5D=35.03&bbox%5B%5D=-77.93&bbox%5B%5D=36.53&page=1&per_page=20&services%5B%5D=Covid19Vaccine&type=health"
   }
 }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { fetchDebtLetters } from '../../combined-debt-portal/combined/actions/debts';
+import { fetchDebtLetters } from '../actions';
 
 const DebtLettersWrapper = ({
   isPending,

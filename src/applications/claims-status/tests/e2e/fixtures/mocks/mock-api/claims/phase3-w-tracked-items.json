@@ -1,0 +1,330 @@
+{
+    "data": {
+        "id": "phase3-w-tracked-items",
+        "type": "evss_claims",
+        "attributes": {
+            "evssId": 600382810,
+            "dateFiled": "2023-02-08",
+            "minEstDate": "2023-06-25",
+            "maxEstDate": "2023-09-03",
+            "phaseChangeDate": "2023-03-15",
+            "open": true,
+            "waiverSubmitted": false,
+            "documentsNeeded": true,
+            "developmentLetterSent": true,
+            "decisionLetterSent": false,
+            "phase": 3,
+            "everPhaseBack": true,
+            "currentPhaseBack": false,
+            "requestedDecision": false,
+            "claimType": "Compensation",
+            "updatedAt": "2023-04-18T20:57:48.763Z",
+            "contentionList": [
+                "my left knee is broken (New)",
+                " Knee, internal derangement (New)"
+            ],
+            "vaRepresentative": null,
+            "eventsTimeline": [
+                {
+                    "type": "never_received_from_you_list",
+                    "trackedItemId": 395084,
+                    "description": "21-4142 test",
+                    "displayName": "Request 6",
+                    "overdue": false,
+                    "status": "NO_LONGER_REQUIRED",
+                    "uploaded": true,
+                    "uploadsAllowed": false,
+                    "openedDate": null,
+                    "requestedDate": "2023-03-16",
+                    "receivedDate": null,
+                    "closedDate": "2023-04-15",
+                    "suspenseDate": null,
+                    "documents": [
+                        {
+                            "trackedItemId": 395084,
+                            "fileType": "Certificate of Release or Discharge From Active Duty (e.g. DD 214, NOAA 56-16, PHS 1867)",
+                            "documentType": "L029",
+                            "filename": "default.pdf",
+                            "uploadDate": "2023-03-17"
+                        }
+                    ],
+                    "uploadDate": "2023-03-17",
+                    "date": "2023-04-15"
+                },
+                {
+                    "type": "still_need_from_you_list",
+                    "trackedItemId": 397176,
+                    "description": "You may also submit statements from individuals having knowledge of your claimed condition.  These individuals should tell us what they observed of your condition, including the approximate dates, places and circumstances.  They should clearly state whether they actually witnessed the event leading to your condition.  If they were in service with you, they should include name, rank, and unit of assignment.  All statements must have the following certification:  \"I hereby certify that this information is true and correct to the best of my knowledge and belief.\"\r",
+                    "displayName": "Request 1",
+                    "overdue": false,
+                    "status": "NEEDED",
+                    "uploaded": false,
+                    "uploadsAllowed": true,
+                    "openedDate": "2023-03-30",
+                    "requestedDate": null,
+                    "receivedDate": null,
+                    "closedDate": null,
+                    "suspenseDate": "2023-04-29",
+                    "documents": [],
+                    "uploadDate": null,
+                    "date": "2023-03-30"
+                },
+                {
+                    "type": "never_received_from_you_list",
+                    "trackedItemId": 397173,
+                    "description": "Request copy of Vet Center records",
+                    "displayName": "Request 8",
+                    "overdue": false,
+                    "status": "NO_LONGER_REQUIRED",
+                    "uploaded": false,
+                    "uploadsAllowed": false,
+                    "openedDate": null,
+                    "requestedDate": "2023-03-30",
+                    "receivedDate": null,
+                    "closedDate": "2023-03-30",
+                    "suspenseDate": null,
+                    "documents": [],
+                    "uploadDate": null,
+                    "date": "2023-03-30"
+                },
+                {
+                    "type": "received_from_you_list",
+                    "trackedItemId": 397091,
+                    "description": "You may also submit statements from individuals having knowledge of your claimed condition.  These individuals should tell us what they observed of your condition, including the approximate dates, places and circumstances.  They should clearly state whether they actually witnessed the event leading to your condition.  If they were in service with you, they should include name, rank, and unit of assignment.  All statements must have the following certification:  \"I hereby certify that this information is true and correct to the best of my knowledge and belief.\"\r",
+                    "displayName": "Request 2",
+                    "overdue": false,
+                    "status": "INITIAL_REVIEW_COMPLETE",
+                    "uploaded": false,
+                    "uploadsAllowed": true,
+                    "openedDate": "2023-03-29",
+                    "requestedDate": null,
+                    "receivedDate": "2023-03-29",
+                    "closedDate": null,
+                    "suspenseDate": null,
+                    "documents": [],
+                    "uploadDate": null,
+                    "date": "2023-03-29"
+                },
+                {
+                    "type": "never_received_from_you_list",
+                    "trackedItemId": 397120,
+                    "description": "Submit buddy statement(s)",
+                    "displayName": "Request 7",
+                    "overdue": false,
+                    "status": "NO_LONGER_REQUIRED",
+                    "uploaded": false,
+                    "uploadsAllowed": false,
+                    "openedDate": null,
+                    "requestedDate": "2023-03-29",
+                    "receivedDate": null,
+                    "closedDate": "2023-03-29",
+                    "suspenseDate": null,
+                    "documents": [],
+                    "uploadDate": null,
+                    "date": "2023-03-29"
+                },
+                {
+                    "type": "never_received_from_you_list",
+                    "trackedItemId": 394561,
+                    "description": "Submit buddy statement(s)",
+                    "displayName": "Request 5",
+                    "overdue": false,
+                    "status": "NO_LONGER_REQUIRED",
+                    "uploaded": true,
+                    "uploadsAllowed": false,
+                    "openedDate": null,
+                    "requestedDate": "2023-03-15",
+                    "receivedDate": null,
+                    "closedDate": "2023-03-15",
+                    "suspenseDate": null,
+                    "documents": [
+                        {
+                            "trackedItemId": 394561,
+                            "fileType": "STR - Dental - Photocopy",
+                            "documentType": "L450",
+                            "filename": "default.pdf",
+                            "uploadDate": "2023-03-17"
+                        },
+                        {
+                            "trackedItemId": 394561,
+                            "fileType": "Correspondence",
+                            "documentType": "L023",
+                            "filename": "default.pdf",
+                            "uploadDate": "2023-03-15"
+                        }
+                    ],
+                    "uploadDate": "2023-03-17",
+                    "date": "2023-03-15"
+                },
+                {
+                    "type": "phase2",
+                    "date": "2023-03-15"
+                },
+                {
+                    "type": "still_need_from_others_list",
+                    "trackedItemId": 394431,
+                    "description": "&lt;VA Medical Facility&gt;",
+                    "displayName": "Request 9",
+                    "overdue": false,
+                    "status": "NEEDED",
+                    "uploaded": false,
+                    "uploadsAllowed": true,
+                    "openedDate": "2023-03-14",
+                    "requestedDate": null,
+                    "receivedDate": null,
+                    "closedDate": null,
+                    "suspenseDate": "2023-04-13",
+                    "documents": [],
+                    "uploadDate": null,
+                    "date": "2023-03-14"
+                },
+                {
+                    "type": "never_received_from_you_list",
+                    "trackedItemId": 394433,
+                    "description": "Buddy Statement Requested",
+                    "displayName": "Request 4",
+                    "overdue": false,
+                    "status": "NO_LONGER_REQUIRED",
+                    "uploaded": false,
+                    "uploadsAllowed": false,
+                    "openedDate": null,
+                    "requestedDate": "2023-03-14",
+                    "receivedDate": null,
+                    "closedDate": "2023-03-14",
+                    "suspenseDate": null,
+                    "documents": [],
+                    "uploadDate": null,
+                    "date": "2023-03-14"
+                },
+                {
+                    "type": "never_received_from_you_list",
+                    "trackedItemId": 394413,
+                    "description": "18.1 Test Tracked Item 2",
+                    "displayName": "Request 3",
+                    "overdue": false,
+                    "status": "NO_LONGER_REQUIRED",
+                    "uploaded": false,
+                    "uploadsAllowed": false,
+                    "openedDate": null,
+                    "requestedDate": "2023-03-14",
+                    "receivedDate": null,
+                    "closedDate": "2023-03-14",
+                    "suspenseDate": null,
+                    "documents": [],
+                    "uploadDate": null,
+                    "date": "2023-03-14"
+                },
+                {
+                    "trackedItemId": null,
+                    "fileType": "VA 21-526EZ, Fully Developed Claim (Compensation)",
+                    "documentType": "L533",
+                    "filename": "CODY_GARZA_600382810_526.pdf",
+                    "uploadDate": "2023-02-08",
+                    "type": "other_documents_list",
+                    "date": "2023-02-08"
+                },
+                {
+                    "trackedItemId": null,
+                    "fileType": "VA Form 21-4142 Authorization for Release of Information",
+                    "documentType": "L107",
+                    "filename": "Screen Shot 2023-02-07 at 61732 PM.pdf",
+                    "uploadDate": "2023-02-08",
+                    "type": "other_documents_list",
+                    "date": "2023-02-08"
+                },
+                {
+                    "trackedItemId": null,
+                    "fileType": "VA 21-4192 Request for Employment Information in Connection with Claim for Disability",
+                    "documentType": "L115",
+                    "filename": "Screen Shot 2023-02-07 at 61702 PM.pdf",
+                    "uploadDate": "2023-02-08",
+                    "type": "other_documents_list",
+                    "date": "2023-02-08"
+                },
+                {
+                    "type": "phase1",
+                    "date": "2023-02-08"
+                },
+                {
+                    "type": "filed",
+                    "date": "2023-02-08"
+                },
+                {
+                    "trackedItemId": null,
+                    "fileType": "STR - Dental - Photocopy",
+                    "documentType": "L450",
+                    "filename": null,
+                    "uploadDate": null,
+                    "type": "other_documents_list",
+                    "date": null
+                },
+                {
+                    "trackedItemId": null,
+                    "fileType": "STR - Dental - Photocopy",
+                    "documentType": "L450",
+                    "filename": null,
+                    "uploadDate": null,
+                    "type": "other_documents_list",
+                    "date": null
+                },
+                {
+                    "trackedItemId": null,
+                    "fileType": "STR - Dental - Photocopy",
+                    "documentType": "L450",
+                    "filename": null,
+                    "uploadDate": null,
+                    "type": "other_documents_list",
+                    "date": null
+                },
+                {
+                    "trackedItemId": null,
+                    "fileType": "STR - Dental - Photocopy",
+                    "documentType": "L450",
+                    "filename": null,
+                    "uploadDate": null,
+                    "type": "other_documents_list",
+                    "date": null
+                },
+                {
+                    "trackedItemId": null,
+                    "fileType": "STR - Dental - Photocopy",
+                    "documentType": "L450",
+                    "filename": null,
+                    "uploadDate": null,
+                    "type": "other_documents_list",
+                    "date": null
+                },
+                {
+                    "trackedItemId": null,
+                    "fileType": "STR - Dental - Photocopy",
+                    "documentType": "L450",
+                    "filename": null,
+                    "uploadDate": null,
+                    "type": "other_documents_list",
+                    "date": null
+                },
+                {
+                    "trackedItemId": null,
+                    "fileType": "STR - Dental - Photocopy",
+                    "documentType": "L450",
+                    "filename": null,
+                    "uploadDate": null,
+                    "type": "other_documents_list",
+                    "date": null
+                },
+                {
+                    "trackedItemId": null,
+                    "fileType": "STR - Dental - Photocopy",
+                    "documentType": "L450",
+                    "filename": null,
+                    "uploadDate": null,
+                    "type": "other_documents_list",
+                    "date": null
+                }
+            ]
+        }
+    },
+    "meta": {
+        "syncStatus": "SUCCESS"
+    }
+}

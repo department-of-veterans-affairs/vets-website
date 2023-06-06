@@ -1,37 +1,35 @@
-import { selectDrupalStaticData } from 'platform/site-wide/drupal-static-data/selectors';
 import { selectProfile } from 'platform/user/selectors';
+import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 
-export const selectCernerFacilities = state =>
-  selectDrupalStaticData(state)?.cernerFacilities?.data || [];
+export const selectPatientFacilities = state => {
+  const cernerFacilityIds = selectCernerFacilityIds(state);
 
-export const selectCernerFacilityIds = state =>
-  selectCernerFacilities(state)?.map(facility => facility.vhaId) || [];
+  return (
+    selectProfile(state)?.facilities?.map(({ facilityId }) => {
+      let isCernerFacility = false;
 
-export const selectPatientFacilities = state =>
-  selectProfile(state)?.facilities?.map(({ facilityId }) => {
-    let isCernerFacility = false;
+      if (cernerFacilityIds) {
+        isCernerFacility = cernerFacilityIds.includes(facilityId);
+      }
 
-    const cernerFacilityIds = selectCernerFacilityIds(state);
-    if (cernerFacilityIds) {
-      isCernerFacility = cernerFacilityIds.includes(facilityId);
-    }
-
-    if (isCernerFacility) {
+      if (isCernerFacility) {
+        return {
+          facilityId,
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        };
+      }
       return {
         facilityId,
-        isCerner: true,
-        usesCernerAppointments: true,
-        usesCernerMedicalRecords: true,
-        usesCernerMessaging: true,
-        usesCernerRx: true,
-        usesCernerTestResults: true,
+        isCerner: false,
       };
-    }
-    return {
-      facilityId,
-      isCerner: false,
-    };
-  }) || null;
+    }) || null
+  );
+};
 
 export const selectPatientCernerFacilities = state =>
   selectPatientFacilities(state)?.filter(f => f.isCerner) || [];

@@ -9,7 +9,7 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockUser from '@@profile/tests/fixtures/users/user-36.json';
-import { mockUser as mockUserVAPError } from '@@profile/tests/fixtures/users/user-vap-error.js';
+import { mockUser as mockUserVAPError } from '@@profile/tests/fixtures/users/user-vap-error';
 import error500 from '@@profile/tests/fixtures/500.json';
 
 import {
@@ -36,9 +36,7 @@ describe('Notification Settings - Load Errors', () => {
         name: 'Notification settings',
         level: 1,
       }).should('exist');
-      cy.findByText(/We can’t access your.*settings at this time\./i).should(
-        'exist',
-      );
+      cy.findByTestId('service-is-down-banner').should('exist');
       cy.should(() => {
         expect(getCommPrefsStub).not.to.be.called;
       });
@@ -61,9 +59,7 @@ describe('Notification Settings - Load Errors', () => {
 
       cy.loadingIndicatorWorks();
       // and an error message appears
-      cy.findByText(/We can’t access your.*settings at this time\./i).should(
-        'exist',
-      );
+      cy.findByTestId('service-is-down-banner').should('exist');
       cy.findAllByTestId('notification-group').should('not.exist');
       cy.injectAxeThenAxeCheck();
     });

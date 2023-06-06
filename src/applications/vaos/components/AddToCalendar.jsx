@@ -3,6 +3,7 @@
  * @module components
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import guid from 'simple-guid';
 import { ICS_LINE_LIMIT } from '../utils/calendar';
@@ -143,6 +144,7 @@ export default function AddToCalendar({
     return (
       <button
         onClick={onClick}
+        type="button"
         aria-label={`Add ${formattedDate} appointment to your calendar`}
         className="va-button-link vads-u-margin-right--4 vads-u-flex--0"
       >
@@ -152,13 +154,21 @@ export default function AddToCalendar({
   }
 
   return (
-    <a
+    <va-link
+      calendar
       href={`data:text/calendar;charset=utf-8,${encodeURIComponent(text)}`}
-      download={filename}
+      filename={filename}
       aria-label={`Add ${formattedDate} appointment to your calendar`}
-      className="va-button-link vads-u-margin-right--4 vads-u-flex--0"
-    >
-      Add to calendar
-    </a>
+      text="Add to calendar"
+      data-testid="add-to-calendar-link"
+    />
   );
 }
+
+AddToCalendar.propTypes = {
+  description: PropTypes.object,
+  duration: PropTypes.number,
+  location: PropTypes.string,
+  startDateTime: PropTypes.string,
+  summary: PropTypes.string,
+};

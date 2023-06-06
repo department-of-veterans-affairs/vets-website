@@ -1,29 +1,29 @@
 import React, { useCallback } from 'react';
-import { withRouter } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import { useTranslation } from 'react-i18next';
 
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import { createAnalyticsSlug } from '../utils/analytics';
 import { useFormRouting } from '../hooks/useFormRouting';
 
 import { URLS } from '../utils/navigation';
 
-const BackToAppointments = ({ router, triggerRefresh }) => {
+const BackToAppointments = ({ router }) => {
   const { jumpToPage } = useFormRouting(router);
   const { t } = useTranslation();
   const handleClick = useCallback(
     e => {
       e.preventDefault();
       recordEvent({
-        event: createAnalyticsSlug('back-button-clicked'),
+        event: createAnalyticsSlug('go-to-appointments-clicked', 'nav'),
       });
-      triggerRefresh();
       jumpToPage(URLS.DETAILS);
     },
-    [jumpToPage, triggerRefresh],
+    [jumpToPage],
   );
   return (
     <>
@@ -31,13 +31,13 @@ const BackToAppointments = ({ router, triggerRefresh }) => {
         aria-live="polite"
         className="va-nav-breadcrumbs va-nav-breadcrumbs--mobile vads-u-margin-top--2 vads-u-padding-left--0"
       >
-        <a
+        <Link
           onClick={handleClick}
-          href="#appointments"
+          to={URLS.DETAILS}
           data-testid="go-to-appointments-button"
         >
-          {t('go-to-another-appointment')}
-        </a>
+          {t('back-to-todays-appointments')}
+        </Link>
       </nav>
     </>
   );
@@ -45,7 +45,6 @@ const BackToAppointments = ({ router, triggerRefresh }) => {
 
 BackToAppointments.propTypes = {
   router: PropTypes.object,
-  triggerRefresh: PropTypes.func,
 };
 
 export default withRouter(BackToAppointments);

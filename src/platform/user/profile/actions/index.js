@@ -12,6 +12,7 @@ export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
 export const REMOVING_SAVED_FORM = 'REMOVING_SAVED_FORM';
 export const REMOVING_SAVED_FORM_SUCCESS = 'REMOVING_SAVED_FORM_SUCCESS';
 export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
+export const PROFILE_ERROR = 'PROFILE_ERROR';
 
 export * from './mhv';
 
@@ -30,6 +31,16 @@ export function profileLoadingFinished() {
   };
 }
 
+export function profileError() {
+  return {
+    type: PROFILE_ERROR,
+  };
+}
+
+// check for errors from main response body, or from meta object (aka external service errors)
+const hasError = dataPayload =>
+  dataPayload?.errors?.length > 0 || dataPayload?.meta?.errors?.length > 0;
+
 export function refreshProfile(
   forceCacheClear = false,
   localQuery = { local: 'none' },
@@ -40,13 +51,25 @@ export function refreshProfile(
   };
   return async dispatch => {
     const url = forceCacheClear ? appendQuery(baseUrl, query) : baseUrl;
-
     const payload = await apiRequest(url);
-    recordEvent({
+
+    if (!payload.errors) {
+      sessionStorage.setItem(
+        'serviceName',
+        payload.data.attributes.profile?.signIn?.serviceName,
+      );
+    }
+
+    const eventApiStatus = hasError(payload) ? 'failed' : 'successful';
+
+    const eventData = {
       event: 'api_call',
       'api-name': 'GET /v0/user',
-      'api-status': 'successful',
-    });
+      'api-status': eventApiStatus,
+    };
+
+    recordEvent(eventData);
+
     dispatch(updateProfileFields(payload));
     return payload;
   };
@@ -65,6 +88,8 @@ export function initializeProfile() {
       ) {
         dispatch(updateLoggedInStatus(false));
         teardownProfileSession();
+      } else {
+        dispatch(profileError());
       }
     }
   };

@@ -1,6 +1,24 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 
+#loginGovExperimentModal {
+  ul {
+    list-style: unset;
+    margin: unset;
+    margin-top: -1em;
+    padding: unset;
+    margin-inline-start: 2em;
+
+    li {
+      margin-bottom: 0;
+    }
+  }
+
+  .alert-actions {
+    margin: 10px 0 0;
+  }
+}
+
 span.sidelines {
   position: relative;
   z-index: 1;
@@ -150,6 +168,14 @@ span.sidelines {
       }
     }
 
+    &.mauth-button {
+      background: $color-gray;
+
+      &:hover {
+        background: $color-gray-dark;
+      }
+    }
+
     img,
     svg {
       height: 1em;
@@ -199,7 +225,8 @@ span.sidelines {
   }
 }
 
-.login {
+.login,
+.verify {
   background: $color-white;
 
   hr {
@@ -332,6 +359,10 @@ span.sidelines {
   border-bottom: 1px solid $color-gray-light;
   line-height: 100%;
 
+  &:before {
+    top: unset !important;
+  }
+
   &.logingov {
     border-bottom: 0;
   }
@@ -339,6 +370,25 @@ span.sidelines {
 
 #sign-in-wrapper {
   @include media($medium-screen) {
-    max-width: 330px;
+    max-width: 400px;
+  }
+}
+
+.button-styled-as-link {
+  background-color: transparent;
+  color: $color-base;
+  font-weight: normal;
+  padding: unset;
+  margin: unset;
+  display: inline-block;
+  text-align: left;
+  height: 24px;
+  border-radius: 0;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: $color-base;
+    text-decoration: none;
+    border-bottom: 0;
   }
 }

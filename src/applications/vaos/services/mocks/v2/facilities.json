@@ -27,7 +27,7 @@
         "mailingAddress": null,
         "physicalAddress": {
           "type": "physical",
-          "line": ["2360 East Pershing Boulevard"],
+          "line": ["2360 East Pershing Boulevard",null,"Suite 10"],
           "city": "Cheyenne",
           "state": "WY",
           "postalCode": "82001-5356"

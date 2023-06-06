@@ -5,14 +5,15 @@ import Breadcrumbs from '@department-of-veterans-affairs/component-library/Bread
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Balances from '../components/Balances';
 import BalanceQuestions from '../components/BalanceQuestions';
-import { sortStatementsByDate, cdpAccessToggle } from '../utils/helpers';
-import OtherVADebts from '../components/OtherVADebts';
 import {
+  sortStatementsByDate,
+  cdpAccessToggle,
   ALERT_TYPES,
   APP_TYPES,
   API_RESPONSES,
-} from '../../combined-debt-portal/combined/utils/helpers';
-import alertMessage from '../../combined-debt-portal/combined/utils/alert-messages';
+} from '../utils/helpers';
+import OtherVADebts from '../components/OtherVADebts';
+import alertMessage from '../utils/alert-messages';
 import { fetchDebtResponseAsync } from './MedicalCopaysApp';
 
 const OverviewPage = () => {

@@ -9,6 +9,9 @@ import manifest from '../manifest.json';
 import mockUser from './fixtures/mocks/user.json';
 import mockStatus from './fixtures/mocks/status.json';
 import mockUpload from './fixtures/mocks/upload.json';
+import mockPrefill from './fixtures/mocks/prefill.json';
+import mockInProgress from './fixtures/mocks/in-progress-forms.json';
+import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 
 const testConfig = createTestConfig(
   {
@@ -49,9 +52,12 @@ const testConfig = createTestConfig(
       cy.server();
       // Log in if the form requires an authenticated session.
       cy.login(mockUser);
+      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+      cy.intercept('PUT', 'v0/in_progress_forms/26-1880', mockInProgress);
 
       cy.intercept('GET', '/v0/coe/status', mockStatus);
-      cy.intercept('GET', '/v0/in_progress_forms/26-1880', {});
+      cy.intercept('GET', '/v0/in_progress_forms/26-1880', mockPrefill);
+      cy.intercept('PUT', '/v0/in_progress_forms/26-1880', mockInProgress);
       cy.intercept('POST', '/v0/claim_attachments', mockUpload);
 
       cy.route('POST', formConfig.submitUrl, { status: 200 });

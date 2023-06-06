@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
-import { mockContactInformation } from '~/platform/user/profile/vap-svc/util/local-vapsvc';
+// eslint-disable-next-line import/no-unresolved
+import { mockContactInformation } from '@department-of-veterans-affairs/platform-user/local-vapsvc';
 import moment from '../../lib/moment-tz';
 import schedulingConfigurations from '../../services/mocks/v2/scheduling_configurations.json';
 import { getVAOSAppointmentMock } from '../mocks/v2';
@@ -253,11 +254,6 @@ export function mockFeatureToggles() {
           value: true,
         },
         {
-          name: 'vaGlobalDowntimeNotification',
-          value: false,
-        },
-
-        {
           name: 'vaOnlineSchedulingVAOSServiceRequests',
           value: true,
         },
@@ -274,14 +270,6 @@ export function mockFeatureToggles() {
           value: true,
         },
         {
-          name: 'vaOnlineSchedulingVariantTesting',
-          value: false,
-        },
-        {
-          name: 'vaOnlineSchedulingPocHealthApt',
-          value: true,
-        },
-        {
           name: 'vaOnlineSchedulingStatusImprovement',
           value: true,
         },
@@ -295,7 +283,14 @@ export function setupVaos() {
     cy.axeCheck(context, {
       runOnly: {
         type: 'tag',
-        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
+        values: [
+          'section508',
+          'wcag2a',
+          'wcag2aa',
+          'wcag21a',
+          'wcag21aa',
+          'best-practice',
+        ],
       },
     });
   });
@@ -429,10 +424,10 @@ export function mockGetFacilities() {
 }
 
 export function mockGetEligibilityCC(typeOfCare = 'PrimaryCare') {
-  cy.intercept(`/vaos/v0/community_care/eligibility/${typeOfCare}`, req => {
+  cy.intercept(`/vaos/v2/community_care/eligibility/${typeOfCare}`, req => {
     req.reply({
       data: {
-        id: 'PrimaryCare',
+        id: typeOfCare,
         type: 'cc_eligibility',
         attributes: { eligible: true },
       },
@@ -474,6 +469,48 @@ export function mockGetClinics(locations = []) {
       },
     ).as(`clinic-${id}`);
   });
+}
+
+export function mockVamcEhr({ isCerner = false } = {}) {
+  const fieldVamcEhrSystem = isCerner ? 'cerner' : 'vista';
+
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/data/cms/vamc-ehr.json',
+    },
+    req => {
+      req.reply({
+        data: {
+          nodeQuery: {
+            count: 2,
+            entities: [
+              {
+                fieldFacilityLocatorApiId: 'vha_983',
+                title: 'Cheyenne VA Medical Center',
+                fieldRegionPage: {
+                  entity: {
+                    title: 'VA Cheyenne health care',
+                    fieldVamcEhrSystem,
+                  },
+                },
+              },
+              {
+                fieldFacilityLocatorApiId: 'vha_984',
+                title: 'Dayton VA Medical Center',
+                fieldRegionPage: {
+                  entity: {
+                    title: 'VA Dayton health care',
+                    fieldVamcEhrSystem,
+                  },
+                },
+              },
+            ],
+          },
+        },
+      });
+    },
+  ).as('drupal-source-of-truth');
 }
 
 export function mockVAOSAppointmentsApi() {

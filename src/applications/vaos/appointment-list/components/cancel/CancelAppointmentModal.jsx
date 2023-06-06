@@ -1,67 +1,51 @@
-import React from 'react';
-
-import CancelVideoAppointmentModal from './CancelVideoAppointmentModal';
-import CancelCommunityCareAppointmentModal from './CancelCommunityCareAppointmentModal';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
 import CancelAppointmentFailedModal from './CancelAppointmentFailedModal';
 import CancelAppointmentSucceededModal from './CancelAppointmentSucceededModal';
 import CancelAppointmentConfirmationModal from './CancelAppointmentConfirmationModal';
-import CancelCernerAppointmentModal from './CancelCernerAppointmentModal';
-
 import {
-  FETCH_STATUS,
-  APPOINTMENT_TYPES,
-  APPOINTMENT_STATUS,
-} from '../../../utils/constants';
-import CancelCOVIDVaccineModal from './CancelCOVIDVaccineModal';
+  closeCancelAppointment,
+  confirmCancelAppointment,
+} from '../../redux/actions';
+import { FETCH_STATUS, APPOINTMENT_STATUS } from '../../../utils/constants';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 
-export default function CancelAppointmentModal(props) {
+export default function CancelAppointmentModal() {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+
+  const { cancelInfo } = useSelector(
+    state => getConfirmedAppointmentDetailsInfo(state, id),
+    shallowEqual,
+  );
+
   const {
     showCancelModal,
     appointmentToCancel,
     cancelAppointmentStatus,
     cancelAppointmentStatusVaos400,
-    onClose,
-    onConfirm,
     facility,
-    isCerner,
-  } = props;
+  } = cancelInfo;
+
+  const onConfirm = () => dispatch(confirmCancelAppointment());
+  const onClose = () => dispatch(closeCancelAppointment());
+
+  useEffect(
+    () => {
+      if (
+        !showCancelModal &&
+        cancelAppointmentStatus === FETCH_STATUS.succeeded
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [showCancelModal, cancelAppointmentStatus],
+  );
 
   if (!showCancelModal) {
     return null;
-  }
-
-  if (appointmentToCancel.vaos.isCOVIDVaccine) {
-    return <CancelCOVIDVaccineModal onClose={onClose} facility={facility} />;
-  }
-
-  if (
-    appointmentToCancel.vaos?.isVideo &&
-    appointmentToCancel.status === APPOINTMENT_STATUS.booked
-  ) {
-    return (
-      <CancelVideoAppointmentModal onClose={onClose} facility={facility} />
-    );
-  }
-
-  if (
-    appointmentToCancel.vaos?.appointmentType ===
-    APPOINTMENT_TYPES.ccAppointment
-  ) {
-    return (
-      <CancelCommunityCareAppointmentModal
-        onClose={onClose}
-        appointment={appointmentToCancel}
-      />
-    );
-  }
-
-  if (isCerner) {
-    return (
-      <CancelCernerAppointmentModal
-        onClose={onClose}
-        status={cancelAppointmentStatus}
-      />
-    );
   }
 
   if (cancelAppointmentStatus === FETCH_STATUS.failed) {
@@ -93,8 +77,8 @@ export default function CancelAppointmentModal(props) {
     return (
       <CancelAppointmentConfirmationModal
         isConfirmed={appointmentToCancel.status === APPOINTMENT_STATUS.booked}
-        onClose={onClose}
         onConfirm={onConfirm}
+        onClose={onClose}
         status={cancelAppointmentStatus}
       />
     );

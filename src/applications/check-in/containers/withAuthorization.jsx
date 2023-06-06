@@ -9,6 +9,7 @@ import { useFormRouting } from '../hooks/useFormRouting';
 
 import { SCOPES } from '../utils/token-format-validator';
 import { URLS } from '../utils/navigation';
+import { useUpdateError } from '../hooks/useUpdateError';
 
 const withAuthorization = (Component, options) => {
   const WrappedComponent = props => {
@@ -17,16 +18,16 @@ const withAuthorization = (Component, options) => {
     const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
     const { token, permissions } = useSelector(selectCurrentContext);
 
-    const { jumpToPage, goToErrorPage } = useFormRouting(router);
+    const { jumpToPage } = useFormRouting(router);
     const { getCurrentToken } = useSessionStorage(isPreCheckIn);
+    const { updateError } = useUpdateError();
 
     useEffect(
       () => {
         if (!token) {
           const sessionToken = getCurrentToken(window)?.token;
           if (!sessionToken) {
-            // @TODO: Add a friendlier message when the UUID is not found
-            goToErrorPage();
+            updateError('no-token');
           } else {
             jumpToPage(URLS.LANDING, { params: { url: { id: sessionToken } } });
           }
@@ -34,7 +35,7 @@ const withAuthorization = (Component, options) => {
           jumpToPage(URLS.LANDING, { params: { url: { id: token } } });
         }
       },
-      [token, permissions, getCurrentToken, goToErrorPage, jumpToPage],
+      [token, permissions, getCurrentToken, updateError, jumpToPage],
     );
 
     return (

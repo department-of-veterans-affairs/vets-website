@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { VaSearchInput } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
-
-import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
+import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 
 /**
@@ -70,24 +69,37 @@ const HomepageSearch = () => {
 
   const handleSubmit = e => {
     // create a search url
-    const searchUrl = replaceWithStagingDomain(
-      `https://www.va.gov/search/?query=${encodeURIComponent(
-        e.target.value,
-      )}&t=${false}`,
-    );
+    const searchUrl = `https://www.va.gov/search/?query=${encodeURIComponent(
+      e.target.value,
+    )}&t=${false}`;
+
+    // Record the analytic event.
+    recordEvent({
+      event: 'view_search_results',
+      action: 'Homepage - Search',
+      'search-page-path': searchUrl,
+      'search-query': e.target.value,
+      'search-results-total-count': null,
+      'search-results-total-pages': null,
+      'search-selection': 'All VA.gov - In page search',
+      'search-typeahead-enabled': false,
+      'search-location': 'Homepage Search',
+      'sitewide-search-app-used': false,
+      'type-ahead-option-keyword-selected': null,
+      'type-ahead-option-position': null,
+      'type-ahead-options-list': null,
+      'type-ahead-options-count': null,
+    });
 
     // relocate to search results, preserving history
     window.location.assign(searchUrl);
   };
 
   return (
-    <div>
-      <label htmlFor="site-search" className="usa-sr-only">
-        Search the site:
-      </label>
-
+    <div role="search">
       <VaSearchInput
         value={userInput}
+        label="Search VA.gov"
         onInput={handleInputChange}
         onSubmit={handleSubmit}
         suggestions={latestSuggestions}

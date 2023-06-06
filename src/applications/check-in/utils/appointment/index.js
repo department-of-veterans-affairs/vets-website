@@ -1,3 +1,4 @@
+import React from 'react';
 import { parseISO, startOfDay } from 'date-fns';
 import { ELIGIBILITY } from './eligibility';
 import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
@@ -15,6 +16,7 @@ import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
  * @property {Date} checkInWindowStart,
  * @property {Date} checkInWindowEnd,
  * @property {string} checkedInTime,
+ * @property {string} appointmentId,
  */
 
 /**
@@ -32,7 +34,7 @@ const hasMoreAppointmentsToCheckInto = (appointments, currentAppointment) => {
 };
 
 /**
- * Check if any appointment was canceled.
+ * Check if any appointment was canceled but not every.
  *
  * @param {Array<Appointment>} appointments
  *
@@ -42,8 +44,32 @@ const appointmentWasCanceled = appointments => {
   const statusIsCanceled = appointment =>
     appointment.status?.startsWith('CANCELLED');
 
-  return Array.isArray(appointments) && appointments.some(statusIsCanceled);
+  return (
+    Array.isArray(appointments) &&
+    appointments.length > 0 &&
+    appointments.some(statusIsCanceled) &&
+    !appointments.every(statusIsCanceled)
+  );
 };
+
+/**
+ * Check if every appointment was canceled.
+ *
+ * @param {Array<Appointment>} appointments
+ *
+ * @returns {boolean}
+ */
+const allAppointmentsCanceled = appointments => {
+  const statusIsCanceled = appointment =>
+    appointment.status?.startsWith('CANCELLED');
+
+  return (
+    Array.isArray(appointments) &&
+    appointments.length > 0 &&
+    appointments.every(statusIsCanceled)
+  );
+};
+
 /**
  * Return the first cancelled appointment.
  *
@@ -111,6 +137,20 @@ const preCheckinAlreadyCompleted = appointments => {
 };
 
 /**
+ * Determine whether the physical location should be displayed for the given appointment.
+ *
+ * @param {Appointment} appointment
+ * @returns {boolean}
+ */
+const locationShouldBeDisplayed = appointment => {
+  const notEmpty = location => {
+    return typeof location === 'string' && location.length > 0;
+  };
+
+  return appointment.kind === 'clinic' && notEmpty(appointment.clinicLocation);
+};
+
+/**
  * @param {Array<Appointment>} appointments
  */
 const sortAppointmentsByStartTime = appointments => {
@@ -167,14 +207,89 @@ const appointmentStartTimePast15 = appointments => {
   });
 };
 
+const hasPhoneAppointments = appointments => {
+  return Object.values(appointments).some(appt => {
+    return appt?.kind === 'phone';
+  });
+};
+
+/**
+ * Render the appointment type icon
+ *
+ * @param {Appointment} appointment
+ * @returns {Node}
+ */
+
+const appointmentIcon = appointment => {
+  return (
+    <i
+      aria-label="Appointment type"
+      className={`fas ${
+        appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'
+      }`}
+      aria-hidden="true"
+      data-testid="appointment-icon"
+    />
+  );
+};
+
+/**
+ * Return the name to use for appointment clinic.
+ *
+ * @param {Appointment} appointment
+ * @returns {string}
+ */
+
+const clinicName = appointment => {
+  return appointment.clinicFriendlyName
+    ? appointment.clinicFriendlyName
+    : appointment.clinicName;
+};
+
+/**
+ * Return a unique ID of ien and station.
+ *
+ * @param {Appointment} appointment
+ * @returns {string}
+ */
+
+const getAppointmentId = appointment => {
+  return `${appointment.appointmentIen}-${appointment.stationNo}`;
+};
+
+/**
+ * Find appointment by ID.
+ *
+ * @param {appointmentId} appointmentId
+ * @param {Array<Appointment>} appointments
+ * @returns {object}
+ */
+
+const findAppointment = (appointmentId, appointments) => {
+  const appointmentIdParts = appointmentId.split('-');
+  return appointments.find(
+    appointmentItem =>
+      String(appointmentItem.appointmentIen) ===
+        String(appointmentIdParts[0]) &&
+      String(appointmentItem.stationNo) === String(appointmentIdParts[1]),
+  );
+};
+
 export {
   appointmentStartTimePast15,
   appointmentWasCanceled,
+  allAppointmentsCanceled,
   getFirstCanceledAppointment,
   hasMoreAppointmentsToCheckInto,
   intervalUntilNextAppointmentIneligibleForCheckin,
+  locationShouldBeDisplayed,
   sortAppointmentsByStartTime,
   preCheckinAlreadyCompleted,
   removeTimeZone,
   preCheckinExpired,
+  hasPhoneAppointments,
+  appointmentIcon,
+  clinicName,
+  getAppointmentId,
+  findAppointment,
 };

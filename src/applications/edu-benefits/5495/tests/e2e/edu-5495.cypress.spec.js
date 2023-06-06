@@ -33,17 +33,8 @@ const form = createTestConfig(
     },
     pageHooks: {
       introduction: ({ afterHook }) => {
-        cy.findByText(/Find the right application form/i, {
-          selector: 'button',
-        })
-          .first()
-          .click();
-        cy.get('#NewBenefit-1').check();
-        cy.get('#TransferredBenefits-2').check();
-        cy.get('#apply-now-link').click();
-
         afterHook(() => {
-          cy.findAllByText(/Start the education application/i, {
+          cy.contains(/continue/i, {
             selector: 'button',
           })
             .first()
@@ -56,5 +47,4 @@ const form = createTestConfig(
   manifest,
   formConfig,
 );
-
 testForm(form);

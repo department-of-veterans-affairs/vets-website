@@ -1,15 +1,28 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
-import withTranslationEnabled from '../containers/withTranslationEnabled';
+import { createAnalyticsSlug } from '../utils/analytics';
 
 function LanguagePicker(props) {
   const { withTopMargin } = props;
   const { i18n } = useTranslation();
   const { language } = i18n;
+
+  function getUrl(lang) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', lang);
+    return `${url.pathname}${url.search}`;
+  }
+
   function changeLanguage(e) {
     e.preventDefault();
+    window.history.replaceState(null, null, getUrl(e.target.lang));
+    recordEvent({
+      event: createAnalyticsSlug(`language-switch-${e.target.lang}`, 'nav'),
+    });
     i18n.changeLanguage(e.target.getAttribute('lang'));
   }
 
@@ -28,10 +41,10 @@ function LanguagePicker(props) {
           label: 'Español',
           lang: 'es',
         },
-        // {
-        //   label: 'Tagalog',
-        //   lang: 'tl',
-        // },
+        {
+          label: 'Tagalog',
+          lang: 'tl',
+        },
       ].map((link, i, links) => (
         <Fragment key={i}>
           {/* Using starts with to capture all of the sub-lang strings for each language */}
@@ -46,7 +59,7 @@ function LanguagePicker(props) {
             <a
               onClick={changeLanguage}
               data-testid={`translate-button-${link.lang}`}
-              href={`#${link.lang}`}
+              href={getUrl(link.lang)}
               lang={link.lang}
             >
               {link.label}
@@ -68,4 +81,4 @@ LanguagePicker.propTypes = {
   withTopMargin: PropTypes.bool,
 };
 
-export default withTranslationEnabled(LanguagePicker);
+export default LanguagePicker;

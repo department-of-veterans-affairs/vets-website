@@ -1,13 +1,22 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
+
+import App from './containers/App';
+import SubTaskContainer from './subtask/SubTaskContainer';
 import formConfig from './config/form';
-import App from './containers/App.jsx';
 
-const route = {
-  path: '/',
-  component: App,
-  indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
+const onEnter = (nextState, replace) => replace('/introduction');
 
-  childRoutes: createRoutesWithSaveInProgress(formConfig),
-};
+const routes = [
+  {
+    path: '/start',
+    component: SubTaskContainer,
+  },
+  {
+    path: '/',
+    component: App,
+    indexRoute: { onEnter },
+    childRoutes: createRoutesWithSaveInProgress(formConfig),
+  },
+];
 
-export default route;
+export default routes;

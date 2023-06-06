@@ -83,12 +83,13 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
     );
     expect(screen.baseElement).to.contain.text('Main phone:');
     expect(screen.getByTestId('facility-telephone')).to.exist;
+    expect(screen.getByTestId('add-to-calendar-link')).to.exist;
 
-    expect(screen.getByText(/add to calendar/i)).to.have.tagName('a');
-
-    expect(screen.getByText(/Review your appointments/i)).to.have.attribute(
+    expect(
+      screen.getByTestId('review-your-appointments-link'),
+    ).to.have.attribute(
       'href',
-      '/',
+      '/health-care/schedule-view-va-appointments/appointments/',
     );
   });
 
@@ -153,7 +154,7 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
 
     const ics = decodeURIComponent(
       screen
-        .getByRole('link', {
+        .getByTestId('add-to-calendar-link', {
           name: `Add ${start.format(
             'MMMM D, YYYY',
           )} appointment to your calendar`,

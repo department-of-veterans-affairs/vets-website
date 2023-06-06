@@ -1,17 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
 import {
-  updateEnrollmentVerifications,
+  postEnrollmentVerifications,
   UPDATE_VERIFICATION_STATUS_MONTHS,
   VERIFICATION_STATUS_CORRECT,
   VERIFICATION_STATUS_INCORRECT,
   fetchPost911GiBillEligibility,
+  UPDATE_VERIFICATION_STATUS_SUCCESS,
 } from '../actions';
 
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
@@ -19,22 +22,29 @@ import ReviewEnrollmentVerifications from '../components/ReviewEnrollmentVerific
 import MonthReviewCard from '../components/MonthReviewCard';
 import {
   REVIEW_ENROLLMENTS_RELATIVE_URL,
-  VERIFICATION_RESPONSE,
+  STATIC_CONTENT_ENROLLMENT_URL,
+  VERIFY_ENROLLMENTS_ERROR_RELATIVE_URL,
 } from '../constants';
 import {
   ENROLLMENT_VERIFICATION_TYPE,
   mapEnrollmentVerificationsForSubmission,
 } from '../helpers';
-import ReviewSkippedAheadAlert from '../components/ReviewSkippedAheadAlert';
+import { getEVData } from '../selectors';
+
 import ReviewPausedInfo from '../components/ReviewPausedInfo';
 import VerifyEnrollments from '../components/VerifyEnrollments';
+import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 
 export const VerifyEnrollmentsPage = ({
   editMonthVerification,
   enrollmentVerification,
+  enrollmentVerificationFetchFailure,
+  enrollmentVerificationSubmitted,
   getPost911GiBillEligibility,
   hasCheckedKeepAlive,
-  loggedIn,
+  isLoggedIn,
+  submissionResult,
+  updateEnrollmentVerifications,
 }) => {
   const [continueClicked, setContinueClicked] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(0);
@@ -45,43 +55,74 @@ export const VerifyEnrollmentsPage = ({
 
   useEffect(
     () => {
-      if (hasCheckedKeepAlive && !loggedIn) {
-        history.push('/');
+      if (hasCheckedKeepAlive && !isLoggedIn) {
+        window.location.href = STATIC_CONTENT_ENROLLMENT_URL;
       }
+    },
+    [hasCheckedKeepAlive, history, isLoggedIn],
+  );
 
+  useEffect(
+    () => {
+      if (enrollmentVerificationFetchFailure) {
+        history.push(REVIEW_ENROLLMENTS_RELATIVE_URL);
+      }
+    },
+    [
+      enrollmentVerificationFetchFailure,
+      hasCheckedKeepAlive,
+      history,
+      isLoggedIn,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (submissionResult) {
+        history.push(
+          submissionResult === UPDATE_VERIFICATION_STATUS_SUCCESS
+            ? REVIEW_ENROLLMENTS_RELATIVE_URL
+            : VERIFY_ENROLLMENTS_ERROR_RELATIVE_URL,
+        );
+      }
+    },
+    [history, submissionResult],
+  );
+
+  useEffect(
+    () => {
       if (!enrollmentVerification) {
         getPost911GiBillEligibility();
       }
     },
-    [
-      enrollmentVerification,
-      getPost911GiBillEligibility,
-      hasCheckedKeepAlive,
-      history,
-      loggedIn,
-    ],
+    [enrollmentVerification, getPost911GiBillEligibility],
   );
 
   useEffect(() => {
-    focusElement('h1');
+    scrollToTop('h1');
   }, []);
 
-  const unverifiedMonths =
-    enrollmentVerification?.enrollmentVerifications &&
-    enrollmentVerification?.enrollmentVerifications
-      .filter(
-        m => m.verificationResponse === VERIFICATION_RESPONSE.NOT_RESPONDED,
-      )
-      .reverse();
-  const month = unverifiedMonths && unverifiedMonths[currentMonth];
+  // We recieve enrollments in descending order by date and reverse them
+  // after filtering so we can approve the earliest enrollment period
+  // first.
+  const evs = enrollmentVerification?.enrollmentVerifications;
+  const earliestUnverifiedMonthIndex = evs?.findLastIndex(
+    ev =>
+      ev.certifiedEndDate > enrollmentVerification?.lastCertifiedThroughDate,
+  );
+  const unverifiedMonths = useMemo(
+    () =>
+      earliestUnverifiedMonthIndex === -1
+        ? []
+        : evs?.slice(0, earliestUnverifiedMonthIndex + 1).reverse(),
+    [earliestUnverifiedMonthIndex, evs],
+  );
+  const month = unverifiedMonths?.length && unverifiedMonths[currentMonth];
   const informationIncorrectMonth = unverifiedMonths?.find(
     m => m.verificationStatus === VERIFICATION_STATUS_INCORRECT,
   );
 
-  if (
-    editMonthVerification &&
-    enrollmentVerification?.enrollmentVerifications
-  ) {
+  if (editMonthVerification && evs) {
     setCurrentMonth(editMonthVerification);
   }
 
@@ -102,7 +143,7 @@ export const VerifyEnrollmentsPage = ({
   const onEditMonth = useCallback(
     m => {
       editMonth(m);
-      focusElement('h1');
+      scrollToTop('h1');
     },
     [editMonth],
   );
@@ -110,7 +151,7 @@ export const VerifyEnrollmentsPage = ({
   const updateMonthInformationCorrect = useCallback(
     event => {
       setContinueClicked(false);
-      setMonthInformationCorrect(event.value);
+      setMonthInformationCorrect(event?.detail?.value);
     },
     [setContinueClicked, setMonthInformationCorrect],
   );
@@ -119,7 +160,7 @@ export const VerifyEnrollmentsPage = ({
     () => {
       dispatch({
         type: UPDATE_VERIFICATION_STATUS_MONTHS,
-        payload: enrollmentVerification?.enrollmentVerifications.map(m => {
+        payload: evs.map(m => {
           return {
             ...m,
             verificationStatus: undefined,
@@ -127,7 +168,7 @@ export const VerifyEnrollmentsPage = ({
         }),
       });
     },
-    [dispatch, enrollmentVerification?.enrollmentVerifications],
+    [dispatch, evs],
   );
 
   const onBackButtonClick = useCallback(
@@ -151,7 +192,8 @@ export const VerifyEnrollmentsPage = ({
       setMonthInformationCorrect(
         unverifiedMonths[currentMonth - 1].verificationStatus,
       );
-      focusElement('h1');
+      scrollToTop('h1');
+      focusElement('#react-root h2');
     },
     [
       clearVerificationStatuses,
@@ -195,7 +237,7 @@ export const VerifyEnrollmentsPage = ({
 
       dispatch({
         type: UPDATE_VERIFICATION_STATUS_MONTHS,
-        payload: enrollmentVerification?.enrollmentVerifications.map(m => {
+        payload: evs.map(m => {
           if (
             m.certifiedBeginDate ===
               unverifiedMonths[currentMonth].certifiedBeginDate &&
@@ -225,16 +267,18 @@ export const VerifyEnrollmentsPage = ({
           return m;
         }),
       });
-      focusElement('h1');
+      scrollToTop('h1');
+      focusElement('#react-root h2');
     },
     [
       continueClicked,
       currentMonth,
       dispatch,
       editing,
+      enrollmentVerification,
+      evs,
       monthInformationCorrect,
       unverifiedMonths,
-      enrollmentVerification,
     ],
   );
 
@@ -244,7 +288,7 @@ export const VerifyEnrollmentsPage = ({
         mapEnrollmentVerificationsForSubmission(enrollmentVerification),
       );
     },
-    [enrollmentVerification],
+    [enrollmentVerification, updateEnrollmentVerifications],
   );
 
   const onFinishVerifyingLater = useCallback(
@@ -256,6 +300,18 @@ export const VerifyEnrollmentsPage = ({
     [clearVerificationStatuses, history],
   );
 
+  if (!isLoggedIn && !hasCheckedKeepAlive) {
+    return <EnrollmentVerificationLoadingIndicator />;
+  }
+  if (enrollmentVerificationSubmitted) {
+    return (
+      <EnrollmentVerificationPageWrapper>
+        <h1>Verify your enrollments</h1>
+
+        <EnrollmentVerificationLoadingIndicator message="Loading your result..." />
+      </EnrollmentVerificationPageWrapper>
+    );
+  }
   if (!enrollmentVerification || !unverifiedMonths) {
     return <EnrollmentVerificationLoadingIndicator />;
   }
@@ -272,18 +328,18 @@ export const VerifyEnrollmentsPage = ({
         onFinishVerifyingLater={onFinishVerifyingLater}
         onForwardButtonClick={onSubmit}
         progressTitlePostfix="Review verifications"
+        showPrivacyAgreement
         totalProgressBarSegments={unverifiedMonths.length + 1}
       >
-        {informationIncorrectMonth &&
-        currentMonth !== unverifiedMonths.length ? (
-          <ReviewSkippedAheadAlert
-            incorrectMonth={informationIncorrectMonth.verificationMonth}
-          />
-        ) : (
-          <></>
-        )}
         {informationIncorrectMonth ? (
-          <ReviewPausedInfo onFinishVerifyingLater={onFinishVerifyingLater} />
+          <ReviewPausedInfo
+            skippedAheadIncorrectMonth={
+              currentMonth !== unverifiedMonths.length
+                ? informationIncorrectMonth.verificationMonth
+                : null
+            }
+            onFinishVerifyingLater={onFinishVerifyingLater}
+          />
         ) : (
           <></>
         )}
@@ -308,37 +364,32 @@ export const VerifyEnrollmentsPage = ({
     >
       <MonthReviewCard month={month} />
 
-      <RadioButtons
-        errorMessage={continueClicked ? 'Please select an option' : ''}
+      <VaRadio
+        aria-describedby="information-incorrect-warning"
+        class="vads-u-margin-y--4"
+        error={continueClicked ? 'Please select an option' : ''}
         label="To the best of your knowledge, is this enrollment information correct?"
-        onValueChange={updateMonthInformationCorrect}
-        options={[
-          {
-            value: VERIFICATION_STATUS_CORRECT,
-            label: 'Yes, this information is correct',
-          },
-          {
-            value: VERIFICATION_STATUS_INCORRECT,
-            label: 'No, this information isn’t correct',
-          },
-        ]}
+        onVaValueChange={updateMonthInformationCorrect}
         required
-        value={{ value: monthInformationCorrect }}
-      />
-
-      <va-alert
-        class="vads-u-margin-top--2"
-        close-btn-aria-label="Close notification"
-        status="warning"
-        visible
       >
-        If you select “<em>No, this information isn’t correct</em>”{' '}
-        <strong>
-          we will pause your monthly payment until your information is updated
-        </strong>
-        . Work with your School Certifying Official (SCO) to ensure your
-        enrollment information is updated with VA.
-      </va-alert>
+        <va-radio-option
+          aria-describedby="information-incorrect-warning"
+          checked={monthInformationCorrect === VERIFICATION_STATUS_CORRECT}
+          class="vads-u-margin-y--2"
+          label="Yes, this information is correct"
+          name={VERIFICATION_STATUS_CORRECT}
+          value={VERIFICATION_STATUS_CORRECT}
+        />
+        <va-radio-option
+          aria-describedby="information-incorrect-warning"
+          checked={monthInformationCorrect === VERIFICATION_STATUS_INCORRECT}
+          class="vads-u-margin-y--2"
+          description="If you select “No, this information isn’t correct” we will pause your monthly payment until your information is updated. Work with your School Certifying Official (SCO) to ensure your enrollment information is updated with VA."
+          label="No, this information isn’t correct"
+          name={VERIFICATION_STATUS_INCORRECT}
+          value={VERIFICATION_STATUS_INCORRECT}
+        />
+      </VaRadio>
     </VerifyEnrollments>
   );
 };
@@ -346,20 +397,21 @@ export const VerifyEnrollmentsPage = ({
 VerifyEnrollmentsPage.propTypes = {
   editMonthVerification: PropTypes.number,
   enrollmentVerification: ENROLLMENT_VERIFICATION_TYPE,
+  enrollmentVerificationFetchFailure: PropTypes.bool,
+  enrollmentVerificationSubmitted: PropTypes.bool,
   getPost911GiBillEligibility: PropTypes.func,
   hasCheckedKeepAlive: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
   loggedIn: PropTypes.bool,
+  submissionResult: PropTypes.string,
+  updateEnrollmentVerifications: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  editMonthVerification: state?.data?.editMonthVerification,
-  hasCheckedKeepAlive: state?.user?.login?.hasCheckedKeepAlive || false,
-  loggedIn: state?.user?.login?.currentlyLoggedIn || false,
-  enrollmentVerification: state?.data?.enrollmentVerification,
-});
+const mapStateToProps = state => getEVData(state);
 
 const mapDispatchToProps = {
   getPost911GiBillEligibility: fetchPost911GiBillEligibility,
+  updateEnrollmentVerifications: postEnrollmentVerifications,
 };
 
 export default connect(

@@ -1,19 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
-import withTranslationEnabled from '../containers/withTranslationEnabled';
-
-const MixedLanguageDisclaimer = props => {
-  const { spanishDisclaimer } = props; // from feature flag in withTranslationEnabled hook
+const MixedLanguageDisclaimer = () => {
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const {
+    isTranslationDisclaimerSpanishEnabled,
+    isTranslationDisclaimerTagalogEnabled,
+  } = useSelector(selectFeatureToggles);
 
   const { t, i18n } = useTranslation();
   const { language } = i18n;
 
-  const displaySpanish = language === 'es' && spanishDisclaimer;
-  // const displayTagalog = (language === 'tz' || tagalogDisclaimer)
+  const displaySpanish =
+    language === 'es' && isTranslationDisclaimerSpanishEnabled;
+  const displayTagalog =
+    language === 'tl' && isTranslationDisclaimerTagalogEnabled;
 
-  return displaySpanish ? (
+  return displaySpanish || displayTagalog ? (
     <div className="vads-u-margin-bottom--2">
       <va-alert status="info" show-icon data-testid="mixed-language-disclaimer">
         <div className="vads-u-margin-top--0">
@@ -26,8 +31,4 @@ const MixedLanguageDisclaimer = props => {
   );
 };
 
-MixedLanguageDisclaimer.propTypes = {
-  spanishDisclaimer: PropTypes.bool,
-};
-
-export default withTranslationEnabled(MixedLanguageDisclaimer);
+export default MixedLanguageDisclaimer;

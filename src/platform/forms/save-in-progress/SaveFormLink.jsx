@@ -3,12 +3,13 @@ import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { SAVE_STATUSES, saveErrors } from './actions';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
+
+import { SAVE_STATUSES, saveErrors } from './actions';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 import SipsDevModal from './SaveInProgressDevModal';
 
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 class SaveFormLink extends React.Component {
   componentDidMount() {
@@ -20,8 +21,10 @@ class SaveFormLink extends React.Component {
 
   handleSave = event => {
     event.preventDefault();
-    const { formId, version, data, submission } = this.props.form;
-    const returnUrl = this.props.locationPathname;
+    const { route = {}, form, locationPathname } = this.props;
+    const { formId, version, data, submission } = form;
+
+    const returnUrl = route.pageConfig?.returnUrl || locationPathname;
     this.props.saveAndRedirectToReturnUrl(
       formId,
       data,
@@ -57,6 +60,7 @@ class SaveFormLink extends React.Component {
               <span>
                 Sorry, you’re signed out. Please{' '}
                 <button
+                  type="button"
                   className="va-button-link"
                   onClick={this.openLoginModal}
                 >
@@ -86,16 +90,30 @@ class SaveFormLink extends React.Component {
 }
 
 SaveFormLink.propTypes = {
-  locationPathname: PropTypes.string.isRequired,
   form: PropTypes.shape({
     formId: PropTypes.string.isRequired,
     version: PropTypes.number.isRequired,
     data: PropTypes.object.isRequired,
     trackingPrefix: PropTypes.string.isRequired,
     savedStatus: PropTypes.string.isRequired,
+    submission: PropTypes.object.isRequired,
   }).isRequired,
-  user: PropTypes.object.isRequired,
+  locationPathname: PropTypes.string.isRequired,
+  saveAndRedirectToReturnUrl: PropTypes.func.isRequired,
   toggleLoginModal: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  children: PropTypes.any,
+  formConfig: PropTypes.shape({
+    customText: PropTypes.shape({
+      appType: PropTypes.string,
+    }),
+  }),
+  route: PropTypes.shape({
+    pageConfig: PropTypes.shape({
+      returnUrl: PropTypes.string,
+    }),
+  }),
+  savedStatus: PropTypes.string,
 };
 
 export default SaveFormLink;

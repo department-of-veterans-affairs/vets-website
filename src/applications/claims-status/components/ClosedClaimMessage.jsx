@@ -1,19 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router';
-import moment from 'moment';
 import { orderBy } from 'lodash';
-import recordEvent from 'platform/monitoring/record-event';
-import { appealTypes } from '../utils/appeals-v2-helpers';
+import moment from 'moment';
+import PropTypes from 'prop-types';
 
+import recordEvent from 'platform/monitoring/record-event';
+
+import { appealTypes } from '../utils/appeals-v2-helpers';
 import { getClaimType } from '../utils/helpers';
 
-export default function ClosedClaimMessage({ claims, onClose }) {
-  const closedClaims = claims
-    .filter(claim => {
-      if (claim.type === 'education_benefits_claims') {
-        return false;
-      }
+// HELPERS
+const isBenefitsClaimOrAppeal = claim =>
+  claim.type !== 'education_benefits_claims';
 
+// START lighthouse_migration
+const isEVSSClaim = claim => claim.type === 'evss_claims';
+// END lighthouse_migration
+
+const getRecentlyClosedClaims = claims => {
+  return claims
+    .filter(isBenefitsClaimOrAppeal)
+    .filter(claim => {
+      // Check if this is an appeal, if so we want to filter it out
+      // if it was closed more than 60 days ago
       if (appealTypes.includes(claim.type)) {
         const sixtyDaysAgo = moment()
           .add(-60, 'days')
@@ -33,9 +42,18 @@ export default function ClosedClaimMessage({ claims, onClose }) {
         );
       }
 
+      // START lighthouse_migration
+      const { closeDate, open, phaseChangeDate } = claim.attributes;
+
+      const isClosed = isEVSSClaim(claim) ? !open : Boolean(closeDate);
+      const closedDate = isEVSSClaim(claim) ? phaseChangeDate : closeDate;
+      // END lighthouse_migration
+
+      // If the claim is not an appeal, we want to filter it out
+      // if it was closed more than 30 days ago
       return (
-        !claim.attributes.open &&
-        moment(claim.attributes.phaseChangeDate)
+        isClosed &&
+        moment(closedDate)
           .startOf('day')
           .isAfter(
             moment()
@@ -63,6 +81,26 @@ export default function ClosedClaimMessage({ claims, onClose }) {
 
       return c;
     });
+};
+
+// START ligthouse_migration
+const getCloseDate = claim => {
+  const { closeDate, phaseChangeDate } = claim.attributes;
+
+  return isEVSSClaim(claim) ? phaseChangeDate : closeDate;
+};
+
+const getFileDate = claim => {
+  const { claimDate, dateFiled } = claim.attributes;
+
+  return isEVSSClaim(claim) ? dateFiled : claimDate;
+};
+// END lighthouse_migration
+
+const formatDate = date => moment(date).format('MMMM D, YYYY');
+
+export default function ClosedClaimMessage({ claims, onClose }) {
+  const closedClaims = getRecentlyClosedClaims(claims);
 
   if (!closedClaims.length) {
     return null;
@@ -77,6 +115,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
         className="va-alert-close notification-close"
         onClick={onClose}
         aria-label="Close notification"
+        type="button"
       >
         <i
           className="fas fa-times-circle va-alert-close-icon"
@@ -101,14 +140,17 @@ export default function ClosedClaimMessage({ claims, onClose }) {
               {appealTypes.includes(claim.type)
                 ? 'Compensation Appeal'
                 : getClaimType(claim)}{' '}
-              – Received{' '}
-              {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}
+              – Received {formatDate(getFileDate(claim))}
             </Link>{' '}
-            has been closed as of{' '}
-            {moment(claim.attributes.phaseChangeDate).format('MMMM D, YYYY')}
+            has been closed as of {formatDate(getCloseDate(claim))}
           </p>
         ))}
       </div>
     </div>
   );
 }
+
+ClosedClaimMessage.propTypes = {
+  claims: PropTypes.array,
+  onClose: PropTypes.func,
+};

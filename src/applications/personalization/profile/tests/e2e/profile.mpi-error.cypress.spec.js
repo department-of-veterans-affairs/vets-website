@@ -35,13 +35,13 @@ function test(mobile = false) {
   // Should show an error alert about not being able to connect to MPI
   cy.findByText(/We can’t access your records/i)
     .should('exist')
-    .closest('.usa-alert-warning')
+    .closest('va-alert[status="warning"]')
     .should('exist');
   cy.findByText(
     /something went wrong when we tried to connect to your records/i,
   )
     .should('exist')
-    .closest('.usa-alert-warning')
+    .closest('va-alert[status="warning"]')
     .should('exist');
 
   subNavOnlyContainsAccountSecurity(mobile);

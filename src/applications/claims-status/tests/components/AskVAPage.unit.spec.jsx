@@ -2,14 +2,21 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { render } from '@testing-library/react';
 
 import { AskVAPage } from '../../containers/AskVAPage';
 
+const getRouter = () => ({ push: sinon.spy() });
+
+const store = createStore(() => ({
+  featureToggles: {},
+}));
+
 describe('<AskVAPage>', () => {
   it('should render disabled button', () => {
-    const router = {
-      push: sinon.spy(),
-    };
+    const router = getRouter();
 
     const tree = SkinDeep.shallowRender(
       <AskVAPage
@@ -23,9 +30,7 @@ describe('<AskVAPage>', () => {
   });
 
   it('should render enabled button', () => {
-    const router = {
-      push: sinon.spy(),
-    };
+    const router = getRouter();
     const submitRequest = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
@@ -62,9 +67,7 @@ describe('<AskVAPage>', () => {
   });
 
   it('should submit request', () => {
-    const router = {
-      push: sinon.spy(),
-    };
+    const router = getRouter();
     const submitRequest = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
@@ -80,12 +83,11 @@ describe('<AskVAPage>', () => {
     tree.subTree('button').props.onClick();
     expect(submitRequest.called).to.be.true;
   });
+
   it('should update claims and redirect after success', () => {
-    const router = {
-      push: sinon.spy(),
-    };
+    const router = getRouter();
     const submitRequest = sinon.spy();
-    const getClaimDetail = sinon.spy();
+    const getClaimEVSS = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
       <AskVAPage
@@ -96,9 +98,105 @@ describe('<AskVAPage>', () => {
     );
     tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       decisionRequested: true,
-      getClaimDetail,
+      getClaimEVSS,
     });
-    expect(getClaimDetail.calledWith(1)).to.be.true;
+    expect(getClaimEVSS.calledWith(1)).to.be.true;
     expect(router.push.calledWith('your-claims/1')).to.be.true;
   });
+
+  // START lighthouse_migration
+  context('cst_use_lighthouse feature toggle', () => {
+    const params = { id: 1 };
+
+    const props = {
+      decisionRequestError: null,
+      params,
+      router: getRouter(),
+    };
+
+    it('calls getClaimLighthouse when enabled', () => {
+      // Reset sinon spies / set up props
+      props.getClaimEVSS = sinon.spy();
+      props.getClaimLighthouse = sinon.spy();
+      props.useLighthouse = true;
+
+      const { rerender } = render(
+        <Provider store={store}>
+          <AskVAPage {...props} />
+        </Provider>,
+      );
+
+      // We want to trigger the 'UNSAFE_componentWillReceiveProps' method
+      // which requires rerendering
+      rerender(
+        <Provider store={store}>
+          <AskVAPage {...props} decisionRequested />
+        </Provider>,
+      );
+
+      expect(props.getClaimEVSS.called).to.be.false;
+      expect(props.getClaimLighthouse.called).to.be.true;
+    });
+
+    it('calls getClaimEVSS when disabled', () => {
+      // Reset sinon spies / set up props
+      props.getClaimEVSS = sinon.spy();
+      props.getClaimLighthouse = sinon.spy();
+      props.useLighthouse = false;
+
+      const { rerender } = render(
+        <Provider store={store}>
+          <AskVAPage {...props} />
+        </Provider>,
+      );
+
+      // We want to trigger the 'UNSAFE_componentWillReceiveProps' method
+      // which requires rerendering
+      rerender(
+        <Provider store={store}>
+          <AskVAPage {...props} decisionRequested />
+        </Provider>,
+      );
+
+      expect(props.getClaimEVSS.called).to.be.true;
+      expect(props.getClaimLighthouse.called).to.be.false;
+    });
+
+    it('calls submitRequest when disabled', () => {
+      props.submitRequest = sinon.spy();
+      props.submit5103 = sinon.spy();
+      props.useLighthouse = false;
+
+      const screen = render(
+        <Provider store={store}>
+          <AskVAPage {...props} />
+        </Provider>,
+      );
+
+      screen.getByRole('checkbox').click();
+      screen.getByText('Submit').click();
+
+      expect(props.submitRequest.called).to.be.true;
+      expect(props.submit5103.called).to.be.false;
+    });
+
+    it('calls submit5103 when enabled', () => {
+      props.submitRequest = sinon.spy();
+      props.submit5103 = sinon.spy();
+      props.useLighthouse = true;
+
+      const screen = render(
+        <Provider store={store}>
+          <AskVAPage {...props} />
+        </Provider>,
+      );
+
+      screen.getByRole('checkbox').click();
+      screen.getByText('Submit').click();
+
+      expect(props.submitRequest.called).to.be.false;
+      expect(props.submit5103.called).to.be.true;
+    });
+  });
+  // END lighthouse_migration
 });

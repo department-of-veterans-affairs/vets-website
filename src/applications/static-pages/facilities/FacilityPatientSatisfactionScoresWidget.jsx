@@ -1,14 +1,14 @@
 import React from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { formatDateLong } from 'platform/utilities/date';
 import { displayPercent } from 'platform/utilities/ui';
-import FacilityApiAlert from './FacilityApiAlert';
 import { connect } from 'react-redux';
+import FacilityApiAlert from './FacilityApiAlert';
+import FacilityDataLink from './FacilityDataLink';
 
 export function FacilityPatientSatisfactionScoresWidget(props) {
   if (props.loading || !Object.keys(props.facility).length) {
     return (
-      <LoadingIndicator message="Loading facility patient satisfaction scores..." />
+      <va-loading-indicator message="Loading facility patient satisfaction scores..." />
     );
   }
 
@@ -109,9 +109,10 @@ export function FacilityPatientSatisfactionScoresWidget(props) {
         Current as of {formatDateLong(facility.feedback.effectiveDate)}
       </p>
       <p>
-        <a href="https://www.accesstocare.va.gov/">
-          Learn more about Veteran satisfaction with access to care
-        </a>
+        <FacilityDataLink
+          facilityId={facility.uniqueId}
+          text="Learn more about Veteran satisfaction with access to care"
+        />
       </p>
     </div>
   );

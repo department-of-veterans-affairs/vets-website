@@ -10,7 +10,7 @@ beforeEach(() => {
 });
 
 describe('Claim Details Test', () => {
-  it('Shows the correct details', () => {
+  it('Shows the correct details - C30825', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList, mockDetails);
     trackClaimsPage.checkClaimsContent();

@@ -9,19 +9,23 @@ import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Confirmation from '../pages/Confirmation';
 
 describe('Pre-Check In Experience', () => {
-  describe('Next of kin Page', () => {
+  beforeEach(() => {
+    const {
+      initializeFeatureToggle,
+      initializeSessionGet,
+      initializeSessionPost,
+    } = ApiInitializer;
+    initializeFeatureToggle.withCurrentFeatures();
+    initializeSessionGet.withSuccessfulNewSession();
+
+    initializeSessionPost.withSuccess();
+  });
+  describe('Confirmation Pages', () => {
     beforeEach(() => {
       const {
-        initializeFeatureToggle,
-        initializeSessionGet,
-        initializeSessionPost,
         initializePreCheckInDataGet,
         initializePreCheckInDataPost,
       } = ApiInitializer;
-      initializeFeatureToggle.withCurrentFeatures();
-      initializeSessionGet.withSuccessfulNewSession();
-
-      initializeSessionPost.withSuccess();
       initializePreCheckInDataGet.withSuccess();
 
       initializePreCheckInDataPost.withSuccess();
@@ -47,7 +51,7 @@ describe('Pre-Check In Experience', () => {
       Confirmation.validatePageContent();
       cy.injectAxeThenAxeCheck();
     });
-    it('How can I update me information accordion is not visible', () => {
+    it('How can I update my information accordion is not visible', () => {
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
@@ -56,7 +60,7 @@ describe('Pre-Check In Experience', () => {
       Confirmation.validateConfirmNoUpdates();
       cy.injectAxeThenAxeCheck();
     });
-    it('How can I update me information accordion is visible', () => {
+    it('How can I update my information accordion is visible', () => {
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
@@ -99,6 +103,33 @@ describe('Pre-Check In Experience', () => {
       NextOfKin.validatePageLoaded();
       NextOfKin.attemptToGoToNextPage('no');
       Confirmation.validateEmergencyContactAndNextOfKinMessage();
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+  describe('All demographics up to date', () => {
+    beforeEach(() => {
+      const {
+        initializePreCheckInDataGet,
+        initializePreCheckInDataPost,
+      } = ApiInitializer;
+      initializePreCheckInDataGet.withAllDemographicsCurrent();
+
+      initializePreCheckInDataPost.withSuccess();
+
+      cy.visitPreCheckInWithUUID();
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      Introduction.validatePageLoaded();
+      Introduction.attemptToGoToNextPage();
+      Confirmation.validatePageContent();
+    });
+    afterEach(() => {
+      cy.window().then(window => {
+        window.sessionStorage.clear();
+      });
+    });
+    it('How can I update my information accordion is not visible when all pages are skipped', () => {
+      Confirmation.validateConfirmNoUpdates();
       cy.injectAxeThenAxeCheck();
     });
   });

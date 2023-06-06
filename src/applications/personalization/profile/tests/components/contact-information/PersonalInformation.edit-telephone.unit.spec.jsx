@@ -4,7 +4,11 @@ import { waitForElementToBeRemoved } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
-import { FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
+import {
+  FIELD_TITLES,
+  FIELD_NAMES,
+  DEFAULT_ERROR_MESSAGE,
+} from '@@vap-svc/constants';
 
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
@@ -23,7 +27,6 @@ const numbers = [
   FIELD_NAMES.WORK_PHONE,
 ];
 
-const errorText = `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please check back later.`;
 const newAreaCode = '415';
 const newPhoneNumber = '555-0055';
 const ui = (
@@ -58,7 +61,7 @@ function editPhoneNumber(numberName) {
     `${numberName} (U.S. numbers only)`,
     { exact: false },
   );
-  const extensionInput = view.getByLabelText(/Extension/);
+  const extensionInput = view.getByLabelText('Extension (6 digits maximum)');
   expect(phoneNumberInput).to.exist;
 
   // enter a new phone number in the form
@@ -67,7 +70,7 @@ function editPhoneNumber(numberName) {
   user.clear(extensionInput);
 
   // save
-  view.getByText('Update', { selector: 'button' }).click();
+  view.getByText('Save', { selector: 'button' }).click();
 
   return { phoneNumberInput };
 }
@@ -151,7 +154,7 @@ async function testTransactionCreationFails(numberName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.contain.text(errorText);
+  expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
 
   // make sure that edit mode is not automatically exited
   await wait(75);
@@ -168,7 +171,7 @@ async function testQuickFailure(numberName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.contain.text(errorText);
+  expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
 
   // make sure that edit mode is not automatically exited
   await wait(75);

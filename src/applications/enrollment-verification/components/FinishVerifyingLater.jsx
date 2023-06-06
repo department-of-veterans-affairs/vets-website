@@ -2,18 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { REVIEW_ENROLLMENTS_URL } from '../constants';
 
-export default function FinishVerifyingLater({ onFinishVerifyingLater }) {
+export default function FinishVerifyingLater({
+  className,
+  onFinishVerifyingLater,
+}) {
   return (
     <a
-      className="ev-finish-later vads-u-margin-top--4"
+      className={`ev-finish-later ${className}`}
       href={REVIEW_ENROLLMENTS_URL}
       onClick={onFinishVerifyingLater}
     >
-      Finish verifying your enrollments later
+      Cancel verification and exit
     </a>
   );
 }
 
 FinishVerifyingLater.propTypes = {
   onFinishVerifyingLater: PropTypes.func.isRequired,
+  className: PropTypes.string,
 };

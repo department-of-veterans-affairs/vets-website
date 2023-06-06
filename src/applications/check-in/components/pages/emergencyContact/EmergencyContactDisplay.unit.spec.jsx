@@ -2,51 +2,19 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import configureStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import EmergencyContactDisplay from './EmergencyContactDisplay';
 
 describe('pre-check-in experience', () => {
   describe('shared components', () => {
     describe('EmergencyContactDisplay', () => {
-      let store;
-      beforeEach(() => {
-        const middleware = [];
-        const mockStore = configureStore(middleware);
-        const initState = {
-          checkInData: {
-            context: {
-              token: '',
-            },
-            form: {},
-          },
-        };
-        store = mockStore(initState);
-      });
-      it('passes axeCheck', () => {
-        axeCheck(
-          <Provider store={store}>
-            <EmergencyContactDisplay />
-          </Provider>,
-        );
-      });
       it('renders with default values', () => {
         const { getByText } = render(
-          <Provider store={store}>
+          <CheckInProvider>
             <EmergencyContactDisplay />
-          </Provider>,
+          </CheckInProvider>,
         );
         expect(getByText('Is this your current emergency contact?')).to.exist;
-      });
-      it('renders the footer if footer is supplied', () => {
-        const { getByText } = render(
-          <Provider store={store}>
-            {/* eslint-disable-next-line react/jsx-no-bind */}
-            <EmergencyContactDisplay Footer={() => <div>foo</div>} />
-          </Provider>,
-        );
-        expect(getByText('foo')).to.exist;
       });
 
       it('renders emergency contact data', () => {
@@ -65,9 +33,9 @@ describe('pre-check-in experience', () => {
           phone: '5552223333',
         };
         const { getByText } = render(
-          <Provider store={store}>
+          <CheckInProvider>
             <EmergencyContactDisplay emergencyContact={emergencyContact} />
-          </Provider>,
+          </CheckInProvider>,
         );
         expect(getByText('Address')).to.exist;
         expect(getByText('Phone')).to.exist;
@@ -84,9 +52,9 @@ describe('pre-check-in experience', () => {
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
         const screen = render(
-          <Provider store={store}>
+          <CheckInProvider>
             <EmergencyContactDisplay yesAction={yesClick} />
-          </Provider>,
+          </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('yes-button'));
         expect(yesClick.calledOnce).to.be.true;
@@ -94,9 +62,9 @@ describe('pre-check-in experience', () => {
       it('fires the no function', () => {
         const noClick = sinon.spy();
         const screen = render(
-          <Provider store={store}>
+          <CheckInProvider>
             <EmergencyContactDisplay noAction={noClick} />
-          </Provider>,
+          </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('no-button'));
         expect(noClick.calledOnce).to.be.true;

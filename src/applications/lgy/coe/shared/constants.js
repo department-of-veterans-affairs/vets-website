@@ -1,37 +1,29 @@
-export const CALLSTATUS = {
-  pending: 'pending',
-  success: 'success',
-  failed: 'failed',
-  skip: 'skipped',
-  idle: 'idle',
-};
-
-/**
- * LGY API (https://int.services.lgy.va.gov/eligibility-manager/swagger-ui/index.html?configUrl=/eligibility-manager/v3/api-docs/swagger-config)
- * `/api/eligibility/determination` schema only showing:
- * ELIGIBLE, NOT_ELIGIBLE, PENDING, UNABLE_TO_DETERMINE_AUTOMATICALLY
- */
-export const COE_ELIGIBILITY_STATUS = {
-  eligible: 'ELIGIBLE',
-  ineligible: 'NOT_NELIGIBLE',
-  pending: 'PENDING',
-  unableToDetermine: 'UNABLE_TO_DETERMINE_AUTOMATICALLY',
-
-  // not supported?
-  available: 'AVAILABLE',
-  denied: 'DENIED',
-  pendingUpload: 'PENDING-UPLOAD',
-};
-
 export const ACTIONS = {
-  DOC_TYPE: 'DOC_TYPE',
+  DELETE_FILE: 'DELETE_FILE',
   DOC_DESC: 'DOC_DESC',
+  DOC_TYPE: 'DOC_TYPE',
   FILE_DESCRIPTION_REQUIRED: 'FILE_DESCRIPTION_REQUIRED',
-  FILE_UPLOAD_SUCESS: 'FILE_UPLOAD_SUCCESS',
   FILE_UPLOAD_FAIL: 'FILE_UPLOAD_FAIL',
   FILE_UPLOAD_PENDING: 'FILE_UPLOAD_PENDING',
+  FILE_UPLOAD_SUCESS: 'FILE_UPLOAD_SUCCESS',
   FORM_SUBMIT_FAIL: 'FORM_SUBMIT_FAIL',
-  FORM_SUBMIT_SUCCESS: 'FORM_SUBMIT_SUCCESS',
   FORM_SUBMIT_PENDING: 'FORM_SUBMIT_PENDING',
-  DELETE_FILE: 'DELETE_FILE',
+  FORM_SUBMIT_SUCCESS: 'FORM_SUBMIT_SUCCESS',
+};
+
+export const CALLSTATUS = {
+  failed: 'failed',
+  idle: 'idle',
+  pending: 'pending',
+  skip: 'skipped',
+  success: 'success',
+};
+
+export const COE_ELIGIBILITY_STATUS = {
+  available: 'AVAILABLE',
+  denied: 'DENIED',
+  eligible: 'ELIGIBLE',
+  pending: 'PENDING',
+  pendingUpload: 'PENDING_UPLOAD',
+  unableToDetermine: 'UNABLE_TO_DETERMINE_AUTOMATICALLY',
 };

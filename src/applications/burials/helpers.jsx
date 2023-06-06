@@ -154,7 +154,10 @@ export const serviceRecordWarning = (
 );
 
 export const transportationWarning = (
-  <div className="usa-alert usa-alert-warning background-color-only">
+  <div
+    className="usa-alert usa-alert-warning background-color-only"
+    aria-live="polite"
+  >
     <span>
       <strong>Note:</strong> At the end of the application, you will be asked to
       upload documentation for the expenses you incurred for transporting the

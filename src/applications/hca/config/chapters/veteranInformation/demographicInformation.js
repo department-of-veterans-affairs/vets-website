@@ -1,10 +1,11 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
-import DemographicField from '../../../components/DemographicField';
+import DemographicField from '../../../components/FormFields/DemographicViewField';
 import { DemographicInfoDescription } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
+import { isShortFormEligible } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 const {
   isAmericanIndianOrAlaskanNative,
@@ -21,16 +22,14 @@ export default {
     'view:dmShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !(
-            form['view:hcaShortFormEnabled'] &&
-            form['view:totalDisabilityRating'] &&
-            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-          ),
+        hideIf: formData => !isShortFormEligible(formData),
       },
     },
     'view:prefillMessage': {
       'ui:description': PrefillMessage,
+      'ui:options': {
+        hideIf: formData => !formData['view:isLoggedIn'],
+      },
     },
     'view:demographicCategories': {
       'ui:title': ' ',

@@ -7,6 +7,7 @@ import {
   calculateTotalDebts,
   calculateTotalBills,
 } from '../utils/balance-helpers';
+import DisasterAlert from '../components/DisasterAlert';
 
 const OverviewPage = () => {
   const title = 'Your VA debt and bills';
@@ -36,7 +37,7 @@ const OverviewPage = () => {
     <>
       <va-breadcrumbs className="vads-u-font-family--sans" label="Breadcrumb">
         <a href="/">Home</a>
-        <a href="/manage-va-debt">Review and manage VA debt and bills</a>
+        <a href="/manage-va-debt">Manage your VA debt</a>
         <a href="/manage-va-debt/summary">Your VA debt and bills</a>
       </va-breadcrumbs>
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
@@ -47,6 +48,7 @@ const OverviewPage = () => {
           charges from VA health care facilities. Find out how to make payments
           or request financial help.
         </p>
+        <DisasterAlert />
         {bothError || bothZero ? (
           <ComboAlerts
             alertType={bothError ? ALERT_TYPES.ERROR : ALERT_TYPES.ZERO}
@@ -59,15 +61,15 @@ const OverviewPage = () => {
             <h3>Questions about benefit debt</h3>
             <p>
               Call the Debt Management Center (DMC) at{' '}
-              <va-telephone contact="800-827-0648" /> (TTY:{' '}
-              <va-telephone contact="711" />
+              <va-telephone contact="8008270648" /> (
+              <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
             <h3>Questions about medical copayment bills</h3>
             <p>
               Call the VA Health Resource Center at{' '}
-              <va-telephone contact="866-400-1238" /> (TTY:{' '}
-              <va-telephone contact="711" />
+              <va-telephone contact="8664001238" /> (
+              <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
           </>

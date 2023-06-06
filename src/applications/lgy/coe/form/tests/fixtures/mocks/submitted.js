@@ -1,3 +1,7 @@
+/**
+ * Use this file for reference only - this matches the data sent to LGY, this is
+ * not what the frontend submits to vets-api
+ */
 // * = required
 const mockAddress = prefix => ({
   [`${prefix}address1`]: '123 Main St', // *
@@ -29,17 +33,20 @@ export const submitted = () => ({
     disabilityIndicator: true, // *
     relevantPriorLoans: [
       {
-        valoanNumber: '345678',
+        valoanNumber: '345678901234',
         startDate: '2020-06-13T17:47:21.1247', // *
         paidoffDate: '2020-06-13T17:47:21.1247',
         loanAmount: 0, // *
         loanEntitlementCharged: 0,
         propertyOwned: true,
-        oneTimeRestorationRequested: true,
-        irrrlRequested: true,
-        cashoutRefinaceRequested: true,
-        homeSellIndicator: true,
-        noRestorationEntitlementIndicator: true,
+        homeSellIndicator: null, // LGY directed us to set this to null
+
+        // when the FE sends the value of intent: 'REGULAR',
+        // Regular intent will set the 4 following values to false:
+        oneTimeRestorationRequested: false,
+        irrrlRequested: false,
+        cashoutRefinaceRequested: false,
+        noRestorationEntitlementIndicator: false,
         ...mockAddress('property'), // *
       },
     ],

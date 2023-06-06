@@ -1,50 +1,50 @@
 import {
   addIncludedIssues,
   getAddress,
+  getClaimantData,
   getPhone,
+  getEmail,
   getTimeZone,
   getEvidence,
+  getForm4142,
 } from '../utils/submit';
+
+import { EVIDENCE_OTHER, SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
 
 export function transform(formConfig, form) {
   // https://developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   // match supplemental claims schema here
   const mainTransform = formData => {
-    const {
-      veteran,
-      benefitType,
-      claimantType,
-      claimantTypeOtherValue,
-      socOptIn,
-    } = formData;
+    const { benefitType, additionalDocuments } = formData;
 
     const attributes = {
-      benefitType,
-      claimantType,
+      // fall back to compensation; this will fix a few existing submission
+      // with "other" benefit type set that are being rejected
+      benefitType: SUPPORTED_BENEFIT_TYPES_LIST.includes(benefitType)
+        ? benefitType
+        : 'compensation',
+      ...getClaimantData(formData),
 
       veteran: {
         timezone: getTimeZone(),
         address: getAddress(formData),
-        // homeless: formData.homeless,
         phone: getPhone(formData),
-        email: veteran?.email || '',
+        email: getEmail(formData),
       },
-      evidenceSubmission: getEvidence(formData),
-      socOptIn,
+      ...getEvidence(formData),
+      socOptIn: true, // OAR requested no checkbox
     };
-
-    if (claimantType === 'other' && claimantTypeOtherValue) {
-      attributes.claimantTypeOtherValue = claimantTypeOtherValue;
-    }
-
-    const included = addIncludedIssues(formData);
 
     return {
       data: {
         type: 'supplementalClaim',
         attributes,
       },
-      included,
+      included: addIncludedIssues(formData),
+      form4142: getForm4142(formData),
+      additionalDocuments: formData[EVIDENCE_OTHER]
+        ? additionalDocuments
+        : null,
     };
   };
 

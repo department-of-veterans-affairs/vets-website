@@ -3,6 +3,7 @@ import { PROFILE_PATHS } from '@@profile/constants';
 import { mockUser } from '@@profile/tests/fixtures/users/user';
 import transactionCompletedWithNoChanges from '@@profile/tests/fixtures/transactions/no-changes-transaction.json';
 import transactionCompletedWithError from '@@profile/tests/fixtures/transactions/error-transaction.json';
+import { mockFeatureToggles } from '../helpers';
 
 const setup = (mobile = false) => {
   if (mobile) {
@@ -10,6 +11,7 @@ const setup = (mobile = false) => {
   }
 
   cy.login(mockUser);
+  mockFeatureToggles();
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
   // should show a loading indicator
@@ -46,12 +48,15 @@ const checkModals = options => {
   });
 
   // Modal appears
-  cy.get('.va-modal').within(() => {
-    cy.contains(`You’re currently editing your ${sectionName}`).should('exist');
-    cy.findByRole('button', { name: /OK/i }).click({
-      force: true,
-    });
-  });
+  cy.findByTestId('cannot-edit-modal')
+    .shadow()
+    .findByText(`Save or cancel your edits to your ${sectionName}`)
+    .should('exist');
+
+  cy.findByTestId('cannot-edit-modal')
+    .shadow()
+    .findByRole('button', { name: /OK/i })
+    .click();
 
   // Click on cancel in the current section
   cy.findByRole('button', { name: /Cancel/i }).click({
@@ -59,14 +64,16 @@ const checkModals = options => {
   });
 
   // Confirmation modal appears, confirm cancel
-  cy.get('.va-modal').within(() => {
-    cy.contains(`You haven’t finished editing your ${sectionName}.`).should(
-      'exist',
-    );
-    cy.findByRole('button', { name: /Cancel/i }).click({
-      force: true,
-    });
-  });
+
+  cy.findByTestId('confirm-cancel-modal')
+    .shadow()
+    .findByText('Are you sure?')
+    .should('exist');
+
+  cy.findByTestId('confirm-cancel-modal')
+    .shadow()
+    .findByRole('button', { name: /cancel/i })
+    .click();
 };
 
 const checkRemovalWhileEditingModal = options => {
@@ -86,19 +93,17 @@ const checkRemovalWhileEditingModal = options => {
     force: true,
   });
 
-  // Modal appears
-  cy.get('.va-modal').within(() => {
-    cy.contains(`You’re currently editing your ${editSectionName}`).should(
-      'exist',
-    );
-    cy.findByRole('button', { name: /OK/i }).click({
-      force: true,
-    });
-  });
+  cy.findByTestId('cannot-edit-modal')
+    .shadow()
+    .findByText(`Save or cancel your edits to your ${editSectionName}`)
+    .should('exist');
 
-  cy.findByTestId('cancel-edit-button').click({
-    force: true,
-  });
+  cy.findByTestId('cannot-edit-modal')
+    .shadow()
+    .findByRole('button', { name: /OK/i })
+    .click();
+
+  cy.findByTestId('cancel-edit-button').click();
 };
 
 describe('Modals for removal of field', () => {
@@ -267,14 +272,12 @@ describe('when moving to other profile sections', () => {
       name: /military information/i,
     }).click({
       // using force: true since there are times when the click does not
-      // register and the bank info form does not open
+      // register and the form does not open
       force: true,
     });
     cy.findByRole('link', {
       name: /contact.*information/i,
     }).click({
-      // using force: true since there are times when the click does not
-      // register and the bank info form does not open
       force: true,
     });
     cy.findByRole('button', {

@@ -245,6 +245,14 @@ const createDebtsSuccess = () => {
   };
 };
 
+const createNoDebtsSuccess = () => {
+  return {
+    hasDependentDebts: false,
+    debts: [],
+  };
+};
+
 module.exports = {
   createDebtsSuccess,
+  createNoDebtsSuccess,
 };

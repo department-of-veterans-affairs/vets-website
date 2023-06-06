@@ -1,6 +1,9 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 import mockUser from '@@profile/tests/fixtures/users/user-36.json';
-import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
+import {
+  mockFeatureToggles,
+  mockGETEndpoints,
+} from '@@profile/tests/e2e/helpers';
 
 const setup = (mobile = false) => {
   if (mobile) {
@@ -14,9 +17,9 @@ const setup = (mobile = false) => {
     'v0/profile/status',
     'v0/profile/personal_information',
     'v0/profile/service_history',
-    'v0/feature_toggles*',
     'v0/ppiu/payment_information',
   ]);
+  mockFeatureToggles();
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
   // should show a loading indicator
@@ -76,7 +79,8 @@ const confirmWebAddressesAreBlocked = () => {
   cy.findByRole('textbox', { name: /street address.*required/i })
     .clear()
     .type('x.com', { delay: 1 });
-  cy.findByRole('button', { name: 'Update' }).focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
+
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid street address/i);
@@ -88,7 +92,7 @@ const confirmWebAddressesAreBlocked = () => {
   cy.findByLabelText(/^Street address line 2/i)
     .clear()
     .type('www.x.blah', { delay: 1 });
-  cy.findByRole('button', { name: 'Update' }).focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid street address/i);
@@ -100,7 +104,7 @@ const confirmWebAddressesAreBlocked = () => {
   cy.findByLabelText(/^Street address line 3/i)
     .clear()
     .type('x.net', { delay: 1 });
-  cy.findByRole('button', { name: 'Update' }).focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid street address/i);
@@ -110,7 +114,7 @@ const confirmWebAddressesAreBlocked = () => {
   cy.findByRole('textbox', { name: /city/i })
     .clear()
     .type('http://', { delay: 1 });
-  cy.findByRole('button', { name: 'Update' }).focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid city/i);
@@ -122,7 +126,7 @@ const confirmWebAddressesAreBlocked = () => {
   cy.findByRole('textbox', { name: /state/i })
     .clear()
     .type('x.gov', { delay: 1 });
-  cy.findByRole('button', { name: 'Update' }).focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid state/i);
@@ -134,7 +138,7 @@ const confirmWebAddressesAreBlocked = () => {
   cy.findByRole('textbox', { name: /postal code/i })
     .clear()
     .type('x.edu', { delay: 1 });
-  cy.findByRole('button', { name: 'Update' }).focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid postal code/i);
@@ -145,7 +149,9 @@ const confirmWebAddressesAreBlocked = () => {
 
   // cancel out of edit mode and discard unsaved changes
   cy.findByRole('button', { name: /cancel/i }).click();
-  cy.findByRole('alertdialog')
+
+  cy.findByTestId('confirm-cancel-modal')
+    .shadow()
     .findByRole('button', { name: /cancel/i })
     .click();
 };

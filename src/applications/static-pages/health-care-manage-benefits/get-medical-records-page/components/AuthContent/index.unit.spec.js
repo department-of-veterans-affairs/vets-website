@@ -11,31 +11,15 @@ describe('Get Medical Records Page <AuthContent>', () => {
 
     const text = wrapper.text();
     expect(text).to.include('CernerCallToAction');
-    expect(text).to.include('My HealtheVet (VA Blue Button) and My VA Health');
-    expect(text).to.include('My HealtheVet (VA Blue Button) and My VA Health');
     expect(text).to.include(
       'What are My HealtheVet and My VA Health, and which will I use?',
     );
     expect(text).to.include(
-      'How can My HealtheVet’s VA Blue Button tool help me manage my care?',
+      'What you can do in My HealtheVet’s VA Blue Button',
     );
-    expect(text).to.include(
-      'How can My VA Health’s Health Records tool help me manage my care?',
-    );
-    expect(text).to.include('Am I eligible to use these tools?');
-    expect(text).to.include(
-      'Once I’m signed in, how do I access my medical records?',
-    );
-    expect(text).to.include(
-      'Will my personal health information be protected?',
-    );
-    expect(text).to.include('What if I have more questions?');
-    expect(text).to.include(
-      'What’s VHIE, and how can it help me manage my health?',
-    );
-    expect(text).to.include('How do I opt out?');
-    expect(text).to.include('If I opt out, how can I opt back in?');
-    expect(text).to.include('Can I check my sharing preference status?');
+    expect(text).to.include('What you can do in My VA Health’s Health Records');
+    expect(text).to.include('Who can manage VA medical records online');
+    expect(text).to.include('Questions about managing your VA medical records');
 
     wrapper.unmount();
   });

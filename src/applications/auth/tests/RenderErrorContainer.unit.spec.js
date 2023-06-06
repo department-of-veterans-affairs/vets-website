@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
-import { AUTH_ERROR } from 'platform/user/authentication/constants';
+import { AUTH_ERRORS, getAuthError } from 'platform/user/authentication/errors';
 import RenderErrorContainer from '../components/RenderErrorContainer';
 
 describe('RenderErrorContainer', () => {
@@ -19,7 +19,9 @@ describe('RenderErrorContainer', () => {
     const wrapper = shallow(<RenderErrorContainer />);
 
     expect(wrapper.find('h1').exists()).to.be.true;
-    expect(wrapper.find('em').text()).to.include(AUTH_ERROR.DEFAULT);
+    expect(wrapper.find('[data-testid="error-code"]').text()).to.include(
+      AUTH_ERRORS.DEFAULT.errorCode,
+    );
     wrapper.unmount();
   });
 
@@ -34,29 +36,30 @@ describe('RenderErrorContainer', () => {
 
   it('should render generic content if codes dont match', () => {
     const wrapper = shallow(<RenderErrorContainer auth="fail" code="900" />);
-
     expect(wrapper.find('Helpdesk').exists()).to.be.true;
-    expect(wrapper.find('em').text()).to.include('900');
+    expect(wrapper.find('[data-testid="error-code"]').text()).to.include('900');
     wrapper.unmount();
   });
 
   it('should render appropriate content for each error code', () => {
-    Object.keys(AUTH_ERROR).forEach(CODE => {
-      const wrapper = shallow(
-        <RenderErrorContainer auth="fail" code={AUTH_ERROR[CODE]} />,
-      );
+    Object.values(AUTH_ERRORS).forEach(({ errorCode: code }) => {
+      const wrapper = shallow(<RenderErrorContainer auth="fail" code={code} />);
 
-      expect(wrapper.find('em').text()).to.include(AUTH_ERROR[CODE]);
+      expect(wrapper.find('[data-testid="error-code"]').text()).to.include(
+        code,
+      );
       wrapper.unmount();
     });
   });
 
-  it('should trigger the `openModalLogin` on certain error codes `001 | 003 | 004 | 005 | 009`', () => {
-    ['001', '003', '004', '005', '009'].forEach(CODE => {
+  it('should trigger the `openModalLogin` on certain error codes `001 | 003 | 004 | 005 | 009 | 202`', () => {
+    ['001', '003', '004', '005', '009', '202'].forEach(CODE => {
+      const { errorCode } = getAuthError(CODE);
       const wrapper = mount(
         <RenderErrorContainer
           auth="fail"
-          code={CODE}
+          code={errorCode}
+          requestId={`request-${errorCode}`}
           openLoginModal={renderOptions.openLoginModal}
         />,
       );
@@ -65,7 +68,9 @@ describe('RenderErrorContainer', () => {
       button.simulate('click');
 
       expect(renderOptions.openLoginModal.called).to.be.true;
-      expect(wrapper.find('em').text()).to.include(CODE);
+      expect(wrapper.find('[data-testid="error-code"]').text()).to.include(
+        errorCode,
+      );
       wrapper.unmount();
     });
   });

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { useDispatch } from 'react-redux';
 import InfoAlert from '../../components/InfoAlert';
@@ -11,27 +11,23 @@ import {
 } from '../../utils/constants';
 import { startNewAppointmentFlow } from '../redux/actions';
 
-function handleViewClick() {
-  return () => {
-    recordEvent({
-      event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
-    });
-  };
-}
-function handleNewApptClick(dispatch) {
+function handleClick(history, dispatch) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
+    history.push(`/new-appointment`);
   };
 }
 
 export default function RequestedStatusAlert({ appointment, facility }) {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const { search } = useLocation();
+
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
-  const dispatch = useDispatch();
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
 
@@ -59,17 +55,23 @@ export default function RequestedStatusAlert({ appointment, facility }) {
             available appointment.
             <br />
             <div className=" vads-u-margin-top--1">
-              <Link to="/" onClick={handleViewClick}>
-                View your appointments
-              </Link>
+              <va-link
+                href="/health-care/schedule-view-va-appointments/appointments/"
+                onClick={() =>
+                  recordEvent({
+                    event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
+                  })
+                }
+                text="View your appointments"
+                data-testid="view-appointments-link"
+              />
             </div>
             <div className=" vads-u-margin-top--1">
-              <Link
-                to="/new-appointment"
-                onClick={handleNewApptClick(dispatch)}
-              >
-                New appointment
-              </Link>
+              <va-link
+                onClick={handleClick(history, dispatch)}
+                text="New appointment"
+                data-testid="new-appointment-link"
+              />
             </div>
           </>
         )}
@@ -97,5 +99,5 @@ export default function RequestedStatusAlert({ appointment, facility }) {
 
 RequestedStatusAlert.propTypes = {
   appointment: PropTypes.object.isRequired,
-  facility: PropTypes.object.isRequired,
+  facility: PropTypes.object,
 };

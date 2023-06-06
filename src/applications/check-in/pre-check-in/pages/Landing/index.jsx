@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import propTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { api } from '../../../api';
 
@@ -12,8 +11,8 @@ import { createSetSession } from '../../../actions/authentication';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import { useUpdateError } from '../../../hooks/useUpdateError';
 
-import { createAnalyticsSlug } from '../../../utils/analytics';
 import {
   createForm,
   getTokenFromLocation,
@@ -21,14 +20,13 @@ import {
 
 import { URLS } from '../../../utils/navigation';
 import { isUUID, SCOPES } from '../../../utils/token-format-validator';
-import { setApp } from '../../../actions/universal';
 import { APP_NAMES } from '../../../utils/appConstants';
 
 const Index = props => {
   const { router } = props;
   const { t } = useTranslation();
 
-  const { goToErrorPage, jumpToPage } = useFormRouting(router);
+  const { jumpToPage } = useFormRouting(router);
   const {
     clearCurrentSession,
     setPreCheckinComplete,
@@ -36,6 +34,7 @@ const Index = props => {
   } = useSessionStorage();
 
   const [loadMessage] = useState(t('finding-your-appointment-information'));
+  const [sessionCallMade, setSessionCallMade] = useState(false);
 
   const dispatch = useDispatch();
   const initForm = useCallback(
@@ -52,78 +51,76 @@ const Index = props => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      dispatch(setApp(APP_NAMES.PRE_CHECK_IN));
-    },
-    [dispatch],
-  );
+  const { updateError } = useUpdateError();
 
   useEffect(
     () => {
       const token = getTokenFromLocation(router.location);
       if (!token) {
-        recordEvent({
-          event: createAnalyticsSlug('landing-page-launched-no-token'),
-        });
-        goToErrorPage();
+        updateError('no-token');
+      } else if (!isUUID(token)) {
+        updateError('bad-token');
       }
 
-      if (!isUUID(token)) {
-        recordEvent({
-          event: createAnalyticsSlug('malformed-token'),
-        });
-        goToErrorPage();
-      }
       if (token && isUUID(token)) {
         // call the sessions api
         const checkInType = APP_NAMES.PRE_CHECK_IN;
 
-        api.v2
-          .getSession({ token, checkInType })
-          .then(session => {
-            // if successful, dispatch session data  into redux and current window
+        if (token && !sessionCallMade) {
+          setSessionCallMade(true);
+          api.v2
+            .getSession({ token, checkInType })
+            .then(session => {
+              // if successful, dispatch session data  into redux and current window
 
-            if (session.error || session.errors) {
-              clearCurrentSession(window);
-              goToErrorPage();
-            } else {
-              setCurrentToken(window, token);
-              setPreCheckinComplete(window, false);
-              const pages = createForm();
-              const firstPage = pages[0];
-              initForm(pages, firstPage);
-              setSession(token, session.permissions);
-              if (session.permissions === SCOPES.READ_FULL) {
-                // redirect if already full access
-                jumpToPage(URLS.INTRODUCTION);
+              if (session.error || session.errors) {
+                clearCurrentSession(window);
+                updateError('session-error');
               } else {
-                // TODO: dispatch to redux
-                jumpToPage(URLS.VERIFY);
+                setCurrentToken(window, token);
+                setPreCheckinComplete(window, false);
+                const pages = createForm();
+                const firstPage = pages[0];
+                initForm(pages, firstPage);
+                setSession(token, session.permissions);
+                if (session.permissions === SCOPES.READ_FULL) {
+                  // redirect if already full access
+                  jumpToPage(URLS.INTRODUCTION);
+                } else {
+                  // TODO: dispatch to redux
+                  jumpToPage(URLS.VERIFY);
+                }
               }
-            }
-          })
-          .catch(() => {
-            clearCurrentSession(window);
-            goToErrorPage();
-          });
+            })
+            .catch(e => {
+              // @TODO move clear current session to hook or HOC
+              clearCurrentSession(window);
+              if (e?.errors[0]?.status === '404') {
+                updateError('uuid-not-found');
+              } else {
+                updateError('session-error');
+              }
+            });
+        }
       }
     },
     [
       clearCurrentSession,
-      goToErrorPage,
+      dispatch,
       initForm,
       jumpToPage,
       router,
+      sessionCallMade,
       setCurrentToken,
       setPreCheckinComplete,
       setSession,
+      updateError,
     ],
   );
   return (
-    <>
+    <div>
       <va-loading-indicator message={loadMessage} />
-    </>
+    </div>
   );
 };
 

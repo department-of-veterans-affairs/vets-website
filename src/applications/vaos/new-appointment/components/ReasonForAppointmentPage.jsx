@@ -18,7 +18,27 @@ import {
   routeToPreviousAppointmentPage,
   updateReasonForAppointmentData,
 } from '../redux/actions';
-import { selectFeatureVAOSServiceRequests } from '../../redux/selectors';
+import {
+  selectFeatureVAOSServiceRequests,
+  selectFeatureAcheronService,
+} from '../../redux/selectors';
+
+function isValidComment(value) {
+  // exclude the ^ since the caret is a delimiter for MUMPS (Vista)
+  if (value !== null) {
+    return /^[^|^]+$/g.test(value);
+  }
+  return true;
+}
+
+function validComment(errors, input) {
+  if (input && !isValidComment(input)) {
+    errors.addError('following special characters are not allowed: ^ |');
+  }
+  if (input && !/\S/.test(input)) {
+    errors.addError('Please provide a response');
+  }
+}
 
 const initialSchema = {
   default: {
@@ -56,7 +76,7 @@ const uiSchema = {
       'ui:options': {
         rows: 5,
       },
-      'ui:validations': [validateWhiteSpace],
+      'ui:validations': [validComment],
     },
   },
   cc: {
@@ -90,12 +110,19 @@ export default function ReasonForAppointmentPage() {
     ? 'Tell us the reason for this appointment'
     : 'Choose a reason for this appointment';
   const useV2 = useSelector(state => selectFeatureVAOSServiceRequests(state));
+  const useAcheron = useSelector(state => selectFeatureAcheronService(state));
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     dispatch(
-      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema, useV2),
+      openReasonForAppointment(
+        pageKey,
+        pageUISchema,
+        pageInitialSchema,
+        useV2,
+        useAcheron,
+      ),
     );
   }, []);
 
@@ -118,6 +145,7 @@ export default function ReasonForAppointmentPage() {
                 pageUISchema,
                 newData,
                 useV2,
+                useAcheron,
               ),
             )
           }
@@ -138,7 +166,7 @@ export default function ReasonForAppointmentPage() {
                 <li>
                   Call the Veterans Crisis hotline at{' '}
                   <VaTelephone
-                    contact="8002738255"
+                    contact="988"
                     data-testid="crisis-hotline-telephone"
                   />{' '}
                   and select 1,{' '}

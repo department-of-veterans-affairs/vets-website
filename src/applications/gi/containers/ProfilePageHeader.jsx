@@ -3,12 +3,8 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
-import {
-  addCompareInstitution,
-  removeCompareInstitution,
-  showModal,
-} from '../actions';
-
+import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import {
   convertRatingToStars,
   createId,
@@ -16,12 +12,13 @@ import {
   locationInfo,
   schoolSize,
 } from '../utils/helpers';
-
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import recordEvent from 'platform/monitoring/record-event';
+import {
+  addCompareInstitution,
+  removeCompareInstitution,
+  showModal,
+} from '../actions';
 import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
-import RatingsStars from '../components/RatingsStars';
+import RatingsStars from '../components/profile/schoolRatings/RatingsStars';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
 import IconWithInfo from '../components/IconWithInfo';
 import SchoolClassification from '../components/SchoolClassification';
@@ -34,7 +31,6 @@ const ProfilePageHeader = ({
   dispatchRemoveCompareInstitution,
   institution,
   dispatchShowModal,
-  gibctSchoolRatings,
 }) => {
   const [expanded, toggleExpansion] = useState(false);
   const {
@@ -45,8 +41,7 @@ const ProfilePageHeader = ({
     physicalCountry,
     facilityCode,
     facilityMap,
-    ratingCount,
-    ratingAverage,
+    institutionRating,
     cautionFlags,
     highestDegree,
     accreditationType,
@@ -57,14 +52,17 @@ const ProfilePageHeader = ({
     preferredProvider,
     vetTecProvider,
     programs,
+    ownershipName,
   } = institution;
+
+  // environment variable to keep ratings out of production until ready
+  const isProduction = !environment.isProduction();
   const lowerType = type && type.toLowerCase();
   const formattedAddress = locationInfo(
     physicalCity,
     physicalState,
     physicalCountry,
   );
-
   const compareChecked = !!compare.search.institutions[facilityCode];
   const compareLength = compare.search.loaded.length;
 
@@ -99,10 +97,39 @@ const ProfilePageHeader = ({
   };
 
   const main = facilityMap.main.institution;
-
-  const stars = convertRatingToStars(ratingAverage);
-  const displayStars =
-    gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
+  let ratingAvg = -1;
+  let ratingCount = -1;
+  let institutionRatingIsNotNull = false;
+  let institutionCountIsNotNull = false;
+  let institutionOverallAvgIsNotNull = false;
+  /** ***CHECK IF INSTITUTION.INSTITUTIONRATING IS NULL**** */
+  if (institution.institutionRating != null) {
+    institutionRatingIsNotNull = true;
+  }
+  if (
+    institutionRatingIsNotNull &&
+    institution.institutionRating.institutionRatingCount != null
+  ) {
+    institutionCountIsNotNull = true;
+  }
+  if (
+    institutionRatingIsNotNull &&
+    institutionCountIsNotNull &&
+    institution.institutionRating.overallAvg != null
+  ) {
+    institutionOverallAvgIsNotNull = true;
+  }
+  if (
+    institutionRatingIsNotNull &&
+    institutionCountIsNotNull &&
+    institutionOverallAvgIsNotNull
+  ) {
+    ratingAvg = institutionRating.overallAvg;
+    ratingCount = institutionRating.institutionRatingCount;
+  }
+  /** ******************************************************************************* */
+  const stars = ratingAvg === -1 ? false : convertRatingToStars(ratingAvg);
+  const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   const titleClasses = classNames(
     'small-screen-header',
@@ -169,8 +196,12 @@ const ProfilePageHeader = ({
                   dispatchShowModal('typeAccredited');
                 }}
                 ariaLabel={ariaLabels.learnMore.numberOfStudents}
-                buttonId={'typeAccredited-button'}
+                buttonId="typeAccredited-button"
               />
+            </IconWithInfo>
+            <IconWithInfo icon="building" present>
+              {'   '}
+              Institutional Ownership: {ownershipName || 'N/A'}
             </IconWithInfo>
           </div>
         )}
@@ -227,14 +258,7 @@ const ProfilePageHeader = ({
       >
         <div>
           <IconWithInfo icon="phone" present={hasVetTecPhone}>
-            {'   '}{' '}
-            <a
-              href={`tel:${programs[0].phoneAreaCode}${
-                programs[0].phoneNumber
-              }`}
-            >
-              {`${programs[0].phoneAreaCode}-${programs[0].phoneNumber}`}
-            </a>
+            {'   '} <va-telephone contact="" />
           </IconWithInfo>
           {programs[0].schoolLocale && (
             <IconWithInfo
@@ -289,32 +313,36 @@ const ProfilePageHeader = ({
                   dispatchShowModal('preferredProviders');
                 }}
                 ariaLabel={ariaLabels.learnMore.numberOfStudents}
-                buttonId={'preferredProviders-button'}
+                buttonId="preferredProviders-button"
               />
             </span>
           )}
         </div>
-        {displayStars && (
-          <div className={starClasses}>
-            <span className="vads-u-font-size--sm">
-              <RatingsStars rating={ratingAverage} />
-            </span>{' '}
-            <span className="vads-u-padding-left--1 vads-u-padding-right--1">
-              |
-            </span>{' '}
-            <span className="vads-u-font-weight--bold vads-u-padding-right--1">
-              {stars.display} of 5
-            </span>{' '}
-            (
-            <a
-              href="#profile-school-ratings"
-              onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
-            >
-              See {ratingCount} ratings by Veterans
-            </a>
-            )
-          </div>
-        )}
+        {displayStars &&
+          isProduction && (
+            <div className={starClasses}>
+              <span className="vads-u-font-size--sm">
+                <RatingsStars rating={ratingAvg} />
+              </span>{' '}
+              <span className="vads-u-padding-left--1 vads-u-padding-right--1">
+                |
+              </span>{' '}
+              <span className="vads-u-font-weight--bold vads-u-padding-right--1">
+                {stars.display} of 4
+              </span>{' '}
+              (
+              <a
+                href="#veteran-ratings"
+                onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
+              >
+                See {ratingCount} ratings by Veterans
+              </a>
+              )
+            </div>
+          )}
+        {!displayStars &&
+          type.toUpperCase() !== 'OJT' &&
+          isProduction && <span>Not yet rated by Veterans</span>}
         {studentCount > 0 && (
           <p>
             <LearnMoreLabel
@@ -364,9 +392,6 @@ ProfilePageHeader.propTypes = {
 
 const mapStateToProps = state => ({
   compare: state.compare,
-  gibctSchoolRatings: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctSchoolRatings
-  ],
 });
 
 const mapDispatchToProps = {

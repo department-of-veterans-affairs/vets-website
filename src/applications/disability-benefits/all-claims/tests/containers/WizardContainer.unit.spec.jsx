@@ -1,10 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
+
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import WizardContainer from '../../containers/WizardContainer';
-import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-
 import { WIZARD_STATUS } from '../../constants';
 
 describe('Wizard Container', () => {
@@ -16,21 +17,18 @@ describe('Wizard Container', () => {
   });
 
   it('should render', () => {
-    const tree = shallow(<WizardContainer />);
-    expect(tree.find('FormTitle')).to.have.lengthOf(1);
-    expect(tree.find('.wizard-container')).to.have.lengthOf(1);
-    expect(tree.find('FormFooter')).to.have.lengthOf(1);
-    tree.unmount();
+    const { container } = render(<WizardContainer />);
+    expect($('h1', container)).to.exist;
+    expect($('.wizard-container', container)).to.exist;
+    expect($('.skip-wizard-link', container)).to.exist;
+    expect($('.help-footer-box', container)).to.exist;
   });
   it('should update wizard status on bypass click', () => {
-    const tree = shallow(<WizardContainer />);
-    tree.find('.skip-wizard-link').simulate('click', {
-      preventDefault: () => {},
-    });
-    expect(tree.find('.wizard-container')).to.have.lengthOf(1);
+    const { container } = render(<WizardContainer />);
+    fireEvent.click($('.skip-wizard-link', container));
+    expect($('.wizard-container', container)).to.exist;
     expect(sessionStorage.getItem(WIZARD_STATUS)).to.equal(
       WIZARD_STATUS_COMPLETE,
     );
-    tree.unmount();
   });
 });

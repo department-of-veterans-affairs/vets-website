@@ -25,6 +25,7 @@ export const PROFILE_PATHS = Object.freeze({
   NOTIFICATION_SETTINGS: '/profile/notifications',
   CONNECTED_APPLICATIONS: '/profile/connected-applications',
   ACCOUNT_SECURITY: '/profile/account-security',
+  EDIT: '/profile/edit',
 });
 
 export const PROFILE_PATH_NAMES = Object.freeze({
@@ -35,6 +36,7 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   NOTIFICATION_SETTINGS: 'Notification settings',
   CONNECTED_APPLICATIONS: 'Connected apps',
   ACCOUNT_SECURITY: 'Account security',
+  EDIT: 'Edit your information',
 });
 
 export const ACCOUNT_TYPES_OPTIONS = {
@@ -48,6 +50,7 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '520', // Biloxi VAMC
   '539', // Cincinnati
   '540', // Clarksburg - Louis A. Johnson VA Medical Center
+  '546', // MIAMI VAMC
   '548', // West Palm Beach VAMC
   '550', // Illiana HCS
   '554', // VA Eastern Colorado Health Care System(ECHCS) (Denver, CO)
@@ -62,21 +65,22 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '590', // Hampton VAMC
   '598', // Central Arkansas Veterans Healthcare System John L. McClellan Memorial Veterans Hospital (Little Rock, AR)
   '603', // Roblex Rex VAMC
-  '605', // VA Loma Linda Healthcare System
   '607', // William S. Middleton Memorial Veterans Hospital
-  '608', // Manchester VA Medical Center (Manchester, NH)
   '610', // Marion VAMC
   '613', // Martinsburg VA Medical Center (Martinsburg, WV)
   '621', // James H. Quillen VAMC
+  '636', // VA NWIHS, OMAHA DIVISION
   '637', // Asheville VA Medical Center (Asheville, NC)
   '650', // Providence VAMC
   '656', // St. Cloud VA HCS
   '658', // Salem VA Medical Center (Salem, VA)
   '659', // Salisbury - W.G. (Bill) Hefner VA Medical Center (Salisbury, NC)
   '663', // VA Puget Sound Health Care System - Seattle Division (Seattle, WA)
+  '673', // TAMPA FL VAMC
   '675', // Orlando VAMC
   '676', // Tomah VAMC
   '688', // Washington DC VA Medical Center (Washington, DC)
+  '695', // MILWAUKEE VAMC
   '756', // El Paso VA HS
   '983', // test-only facility ID, used by user 36 among others
 ]);
@@ -87,3 +91,37 @@ export const BANK_INFO_UPDATED_ALERT_SETTINGS = {
   FADE_SPEED: window.Cypress ? 1 : 500,
   TIMEOUT: window.Cypress ? 500 : 6000,
 };
+
+export const NOTIFICATION_GROUPS = Object.freeze({
+  APPLICATIONS: 'group1',
+  GENERAL: 'group2',
+  YOUR_HEALTH_CARE: 'group3',
+  PAYMENTS: 'group4',
+  QUICK_SUBMIT: 'group5',
+});
+
+export const NOTIFICATION_CHANNEL_IDS = Object.freeze({
+  TEXT: '1',
+  EMAIL: '2',
+});
+
+/**
+ * These notification item IDs are not currently supported by the VA Profile
+ * they are blocked via feature toggle 'profile_show_mhv_notification_settings'
+ *
+ * 7 - RX refill shipment notification
+ * 8 - VA Appointment reminders
+ * 9 - Securing messaging alert
+ * 10 - Medical images and reports available
+ * 11 - Biweekly MHV newsletter
+ *
+ * These are email notifications and will be added once support for that notification type is added
+ *
+ */
+export const BLOCKED_NOTIFICATION_IDS = [
+  'item7',
+  'item8',
+  'item9',
+  'item10',
+  'item11',
+];

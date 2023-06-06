@@ -17,7 +17,7 @@ const CopyAddressModalFailure = ({ visible, onClose }) => (
       <div data-testid="modal-content">
         <p>
           We’re sorry. We can’t update your information right now. We’re working
-          to fix this problem. Please check back later.
+          to fix this problem. Try again later.
         </p>
       </div>
     </>

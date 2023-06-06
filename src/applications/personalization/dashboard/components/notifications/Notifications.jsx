@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import '../../sass/user-profile.scss';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import environment from '~/platform/utilities/environment';
+import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 import DebtNotification from './DebtNotification';
+import TestNotification from './TestNotification';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import { fetchNotifications } from '../../actions/notifications';
-import environment from '~/platform/utilities/environment';
 
 const debtTemplateId = environment.isProduction()
   ? '7efc2b8b-e59a-4571-a2ff-0fd70253e973'
@@ -28,40 +29,48 @@ export const Notifications = ({
     n => n.attributes.templateId === debtTemplateId,
   );
 
-  if (
-    (!debtNotifications || !debtNotifications.length) &&
-    !notificationsError
-  ) {
+  if (!debtNotifications || !debtNotifications.length || notificationsError) {
     return null;
   }
 
   return (
     <div data-testid="dashboard-notifications">
       <h2>Notifications</h2>
-      {(notificationsError || dismissalError) && (
+      {dismissalError && (
         <DashboardWidgetWrapper>
           <div
             data-testid="dashboard-notifications-error"
             className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
           >
             <VaAlert status="error" show-icon className="vads-u-margin-top--0">
-              {notificationsError
-                ? `We’re sorry. Something went wrong on our end, and we can’t access
-                your debt information. Please try again later or go to the debts
-                tool.`
-                : `We’re sorry. Something went wrong on our end, and we can’t dismiss this notification. Please try again later.`}
+              We’re sorry. Something went wrong on our end, and we can’t dismiss
+              this notification. Please try again later.
             </VaAlert>
           </div>
         </DashboardWidgetWrapper>
       )}
-      {!notificationsError &&
-        debtNotifications.map((n, i) => (
-          <DebtNotification
-            key={i}
-            hasError={notificationsError}
-            notification={n}
-          />
-        ))}
+      {debtNotifications.map(n => (
+        <Toggler
+          toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimental}
+          key={n.id}
+        >
+          <Toggler.Enabled>
+            <TestNotification
+              key={n.id}
+              hasError={notificationsError}
+              notification={n}
+            />
+          </Toggler.Enabled>
+
+          <Toggler.Disabled>
+            <DebtNotification
+              key={n.id}
+              hasError={notificationsError}
+              notification={n}
+            />
+          </Toggler.Disabled>
+        </Toggler>
+      ))}
     </div>
   );
 };

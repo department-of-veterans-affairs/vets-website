@@ -5,6 +5,7 @@ const messages = {
     dayOf: {
       en: 'Check in at VA',
       es: 'Regístrese en VA',
+      tl: 'Mag-check in sa VA',
     },
     preCheckIn: {
       en: 'Start pre-check-in',
@@ -28,37 +29,50 @@ class ValidateVeteran {
     },
   };
 
-  validateVeteran = (lastName = 'Smith', last4 = '1234') => {
+  validateVeteran = (
+    lastName = 'Smith',
+    year = '1935',
+    month = '04',
+    day = '07',
+  ) => {
     this.clearLastName();
     this.typeLastName(lastName);
-    this.clearLast4();
-    this.typeLast4(last4);
+    this.clearYear();
+    this.typeYear(year);
+    this.clearMonth();
+    this.typeMonth(month);
+    this.clearDay();
+    this.typeDay(day);
   };
 
-  validateVeteranDob = (
-    lastName = 'Smith',
-    year = '1989',
-    month = '3',
+  validateVeteranIncorrect = (
+    lastName = 'Sith',
+    year = '1988',
+    month = '03',
     day = '15',
   ) => {
     this.clearLastName();
     this.typeLastName(lastName);
     this.clearYear();
     this.typeYear(year);
-    this.selectMonth(month);
-    this.selectDay(day);
+    this.clearMonth();
+    this.typeMonth(month);
+    this.clearDay();
+    this.typeDay(day);
   };
 
   validateVeteranDobInvalidYear = (
     lastName = 'Smith',
-    year = '2050',
-    month = '1',
+    year = '89',
+    month = '01',
     day = '31',
   ) => {
     this.clearLastName();
     this.typeLastName(lastName);
-    this.selectMonth(month);
-    this.selectDay(day);
+    this.clearMonth();
+    this.typeMonth(month);
+    this.clearDay();
+    this.typeDay(day);
     this.clearYear();
     this.typeYear(year);
   };
@@ -66,13 +80,15 @@ class ValidateVeteran {
   validateVeteranDobWithFailure = (
     lastName = 'Smith',
     year = '1988',
-    month = '1',
+    month = '01',
     day = '31',
   ) => {
     this.clearLastName();
     this.typeLastName(lastName);
-    this.selectMonth(month);
-    this.selectDay(day);
+    this.clearMonth();
+    this.typeMonth(month);
+    this.clearDay();
+    this.typeDay(day);
     this.clearYear();
     this.typeYear(year);
   };
@@ -84,51 +100,59 @@ class ValidateVeteran {
       .find('input');
   };
 
-  getLast4Input = () => {
+  getMonthInput = () => {
     return cy
-      .get('[label="Last 4 digits of your Social Security number"]')
+      .get('[label="Date of birth"]')
       .shadow()
-      .find('input');
+      .find('.input-month')
+      .shadow()
+      .find('[name="date-of-birthMonth"]');
   };
 
-  getMonthSelect = () => {
-    return cy.get('[name="date-of-birthMonth"]');
-  };
-
-  getDaySelect = () => {
-    return cy.get('[name="date-of-birthDay"]');
+  getDayInput = () => {
+    return cy
+      .get('[label="Date of birth"]')
+      .shadow()
+      .find('.input-day')
+      .shadow()
+      .find('[name="date-of-birthDay"]');
   };
 
   getYearInput = () => {
-    return cy.get('[name="date-of-birthYear"]');
+    return cy
+      .get('[label="Date of birth"]')
+      .shadow()
+      .find('.input-year')
+      .shadow()
+      .find('[name="date-of-birthYear"]');
   };
 
   typeLastName = (lastName = 'Smith') => {
     this.getLastNameInput().type(lastName);
   };
 
-  typeLast4 = (last4 = '1234') => {
-    this.getLast4Input().type(last4);
-  };
-
-  typeYear = (year = '1989') => {
+  typeYear = (year = '1935') => {
     this.getYearInput().type(year);
   };
 
-  selectMonth = (month = '3') => {
-    this.getMonthSelect().select(month);
+  typeMonth = (month = '04') => {
+    this.getMonthInput().type(month);
   };
 
-  selectDay = (day = '15') => {
-    this.getDaySelect().select(day);
+  typeDay = (day = '07') => {
+    this.getDayInput().type(day);
   };
 
   clearLastName() {
     this.getLastNameInput().invoke('val', '');
   }
 
-  clearLast4() {
-    this.getLast4Input().invoke('val', '');
+  clearDay() {
+    this.getDayInput().invoke('val', '');
+  }
+
+  clearMonth() {
+    this.getMonthInput().invoke('val', '');
   }
 
   clearYear() {
@@ -137,6 +161,10 @@ class ValidateVeteran {
 
   attemptToGoToNextPage = () => {
     cy.get('[data-testid=check-in-button]').click({ waitForAnimations: true });
+  };
+
+  attemptToGoToNextPageWithEnterKey = () => {
+    cy.get('[data-testid=check-in-button]').type('{enter}');
   };
 
   validateAutocorrectDisabled = () => {
@@ -148,53 +176,19 @@ class ValidateVeteran {
   getLastNameError = () => {
     cy.get('[label="Your last name"]')
       .shadow()
-      .find('#error-message')
+      .find('#input-error-message')
       .contains('Please enter your last name.');
   };
 
-  getLast4Error = () => {
-    cy.get('[label="Last 4 digits of your Social Security number"]')
-      .shadow()
-      .find('#error-message')
-      .contains(
-        'Please enter the last 4 digits of your Social Security number',
-      );
-  };
-
   getDobError = () => {
-    cy.get('[data-testid="dob-input"]')
-      .find('.usa-input-error-message')
-      .contains('Your date of birth can not be in the future');
-  };
-
-  validateTypedLast4 = (typed = '1234') => {
-    cy.get('[label="Last 4 digits of your Social Security number"]')
+    cy.get('[label="Date of birth"]')
       .shadow()
-      .find('input')
-      .should('be.visible')
-      .and('have.value', typed);
+      .find('#error-message');
   };
 
-  validateMax4Text = () => {
-    cy.get('[label="Last 4 digits of your Social Security number"]')
-      .shadow()
-      .find('small')
-      .should('be.visible')
-      .and('have.text', '(Max. 4 characters)');
-  };
-
-  validateLast4InputType = () => {
-    cy.get('[label="Last 4 digits of your Social Security number"]').should(
-      'have.attr',
-      'inputmode',
-      'numeric',
-    );
-  };
-
-  validateErrorAlert = (withLorotaSecurityUpdate = false) => {
-    const messageText = withLorotaSecurityUpdate
-      ? 'Sorry, we couldn’t find an account that matches that last name or date of birth. Please try again.'
-      : 'We’re sorry. We couldn’t match your information to our records. Please try again.';
+  validateErrorAlert = () => {
+    const messageText =
+      'We’re sorry. We couldn’t find an account that matches that last name or date of birth. Please try again.';
     cy.get('[data-testid=validate-error-alert]')
       .should('be.visible')
       .and('have.text', messageText);

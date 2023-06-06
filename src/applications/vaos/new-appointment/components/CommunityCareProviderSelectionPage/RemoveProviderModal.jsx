@@ -36,7 +36,6 @@ export default function RemoveProviderModal({ onClose, provider }) {
       modalTitle={title}
       data-testid="removeProviderModal"
       status="warning"
-      role="alertdialog"
     >
       {content}
     </VaModal>

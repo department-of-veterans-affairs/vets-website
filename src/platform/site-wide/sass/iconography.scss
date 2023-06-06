@@ -173,6 +173,16 @@
   $left-large: 10px
 );
 
+@include make-hub(
+  $hub-name: "va-dept-info",
+  $icon: $fa-var-building,
+  $color: $color-primary-darker,
+  $top-small: 8px,
+  $left-small: 9px,
+  $top-large: 11px,
+  $left-large: 10px
+);
+
 .icon-large {
   font-size: 20px;
   height: 40px;

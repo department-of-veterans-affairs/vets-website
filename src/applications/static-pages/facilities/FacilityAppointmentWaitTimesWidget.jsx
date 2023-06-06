@@ -1,9 +1,9 @@
 import React from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { formatDateLong } from 'platform/utilities/date';
-import FacilityApiAlert from './FacilityApiAlert';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import FacilityApiAlert from './FacilityApiAlert';
+import FacilityDataLink from './FacilityDataLink';
 
 export class FacilityAppointmentWaitTimesWidget extends React.Component {
   appointmentWaitTime(waitTime, service, established = false) {
@@ -27,7 +27,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
   render() {
     if (this.props.loading || !Object.keys(this.props.facility).length) {
       return (
-        <LoadingIndicator
+        <va-loading-indicator
           message={`Loading facility's ${
             this.props.service
           } appointment wait times...`}
@@ -77,9 +77,10 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
                   Current as of {formatDateLong(facility.access.effectiveDate)}
                 </p>
                 <p className="vads-u-margin--0">
-                  <a href="https://www.accesstocare.va.gov/">
-                    Learn more about VA appointment wait times
-                  </a>
+                  <FacilityDataLink
+                    facilityId={facility.uniqueId}
+                    text="Learn more about VA appointment wait times"
+                  />
                 </p>
               </div>
             </div>

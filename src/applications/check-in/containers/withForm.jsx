@@ -6,6 +6,7 @@ import { makeSelectForm } from '../selectors';
 
 import { useSessionStorage } from '../hooks/useSessionStorage';
 import { useFormRouting } from '../hooks/useFormRouting';
+import { useUpdateError } from '../hooks/useUpdateError';
 
 import { URLS } from '../utils/navigation';
 
@@ -15,8 +16,9 @@ const withForm = (Component, options = {}) => {
     const { router } = props;
     const selectForm = useMemo(makeSelectForm, []);
     const form = useSelector(selectForm);
-    const { jumpToPage, goToErrorPage } = useFormRouting(router);
+    const { jumpToPage } = useFormRouting(router);
     const { getCurrentToken } = useSessionStorage(isPreCheckIn);
+    const { updateError } = useUpdateError();
 
     useEffect(
       () => {
@@ -25,11 +27,11 @@ const withForm = (Component, options = {}) => {
           if (token) {
             jumpToPage(URLS.LANDING, { params: { url: { id: token } } });
           } else {
-            goToErrorPage();
+            updateError('no-token');
           }
         }
       },
-      [goToErrorPage, jumpToPage, form, getCurrentToken],
+      [updateError, jumpToPage, form, getCurrentToken],
     );
 
     return (

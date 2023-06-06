@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { recordDashboardClick } from '~/applications/personalization/dashboard/helpers';
 
-import CTALink from '../CTALink';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 
 /**
@@ -48,7 +47,7 @@ const ApplicationInProgress = ({
             <div className="vads-u-display--flex">
               <i
                 aria-hidden="true"
-                className={`fas fa-fw fa-exclamation-circle vads-u-margin-right--1 vads-u-margin-top--0p5`}
+                className="fas fa-fw fa-exclamation-circle vads-u-margin-right--1 vads-u-margin-top--0p5"
               />
               <span className="sr-only">Alert: </span>
               <div>
@@ -59,8 +58,8 @@ const ApplicationInProgress = ({
               </div>
             </div>
           </div>
-          <CTALink
-            ariaLabel={`Continue your ${formTitle}`}
+          <va-link
+            active
             text="Continue your application"
             href={continueUrl}
             onClick={recordDashboardClick(formId, 'continue-button')}

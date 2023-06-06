@@ -14,6 +14,7 @@ export const ELIGIBILITY = {
 
 export const VETERAN_NOT_LISTED_LABEL = 'Someone not listed here';
 export const VETERAN_NOT_LISTED_VALUE = 'VETERAN_NOT_LISTED';
+export const VETERAN_VALUE_PREFIX = 'veteran-';
 
 export const VETERANS_TYPE = PropTypes.arrayOf(
   PropTypes.shape({
@@ -49,7 +50,6 @@ export const formFields = {
   highSchoolDiploma: 'highSchoolDiploma',
   highSchoolDiplomaDate: 'highSchoolDiplomaDate',
   mobilePhoneNumber: 'mobilePhoneNumber',
-  mobilePhoneNumberInternational: 'mobilePhoneNumberInternational',
   phoneNumber: 'phoneNumber',
   phoneNumberInternational: 'phoneNumberInternational',
   relationshipToVeteran: 'relationshipToVeteran',
@@ -61,4 +61,5 @@ export const formFields = {
   userFullName: 'userFullName',
   viewMailingAddress: 'view:mailingAddress',
   viewPhoneNumbers: 'view:phoneNumbers',
+  viewReceiveTextMessages: 'view:receiveTextMessages',
 };

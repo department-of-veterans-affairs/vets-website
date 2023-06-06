@@ -194,6 +194,7 @@ export const addressUISchema = (
       countryName: {
         'ui:required': callback,
         'ui:title': 'Country',
+        'ui:autocomplete': 'country',
         'ui:options': {
           updateSchema: (formData, schema, uiSchema, index) => {
             let militaryBasePath = livesOnMilitaryBasePath;
@@ -229,28 +230,39 @@ export const addressUISchema = (
       addressLine1: {
         'ui:required': callback,
         'ui:title': 'Street address',
+        'ui:autocomplete': 'address-line1',
         'ui:errorMessages': {
           required: 'Street address is required',
-          pattern: 'Street address must be under 100 characters',
+          pattern: 'Street address must be 35 characters or less',
+        },
+        'ui:options': {
+          updateSchema: (formData, schema) => {
+            return Object.assign(schema, {
+              maxLength: 35,
+            });
+          },
         },
       },
       addressLine2: {
         'ui:title': 'Street address line 2',
+        'ui:autocomplete': 'address-line2',
         'ui:options': {
           hideEmptyValueInReview: true,
         },
       },
       addressLine3: {
         'ui:title': 'Street address line 3',
+        'ui:autocomplete': 'address-line3',
         'ui:options': {
           hideEmptyValueInReview: true,
         },
       },
       city: {
         'ui:required': callback,
+        'ui:autocomplete': 'address-level2',
         'ui:errorMessages': {
           required: 'City is required',
-          pattern: 'City must be under 100 characters',
+          pattern: 'City must be 30 characters or less',
         },
         'ui:options': {
           replaceSchema: (formData, schema, uiSchema, index) => {
@@ -274,7 +286,7 @@ export const addressUISchema = (
               type: 'string',
               title: 'City',
               minLength: 1,
-              maxLength: 100,
+              maxLength: 30,
               pattern: '^.*\\S.*',
             };
           },
@@ -293,6 +305,7 @@ export const addressUISchema = (
           );
         },
         'ui:title': 'State',
+        'ui:autocomplete': 'address-level1',
         'ui:errorMessages': {
           required: 'State is required',
         },
@@ -341,6 +354,7 @@ export const addressUISchema = (
       },
       province: {
         'ui:title': 'State/Province/Region',
+        'ui:autocomplete': 'address-level1',
         'ui:options': {
           hideEmptyValueInReview: true,
           hideIf: (formData, index) => {
@@ -363,6 +377,7 @@ export const addressUISchema = (
         },
       },
       zipCode: {
+        'ui:autocomplete': 'postal-code',
         'ui:required': (formData, index) => {
           let militaryBasePath = livesOnMilitaryBasePath;
           let countryNamePath = `${path}.countryName`;

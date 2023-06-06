@@ -1,5 +1,5 @@
 import React from 'react';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { serviceMemberPathPageNames } from '../pageList';
 import { handleChangeAndPageSet } from '../helpers';
 
@@ -8,29 +8,38 @@ const options = [
   { value: serviceMemberPathPageNames.noVaMemorandum, label: 'No' },
 ];
 
-const yesHonorableDischargeSM = ({ setPageState, state = {} }) => (
-  <RadioButtons
-    name={`${serviceMemberPathPageNames.yesHonorableDischargeSM}-option`}
-    label={
-      <p>
-        Do you have a VA memorandum rating of
-        <strong> 20% or higher?</strong>
-      </p>
-    }
-    id={`${serviceMemberPathPageNames.yesHonorableDischargeSM}-option`}
-    options={options}
-    onValueChange={({ value }) =>
-      handleChangeAndPageSet(
-        setPageState,
-        value,
-        options,
-        'Do you have a VA memorandum rating of 20% or higher?',
-      )
-    }
-    value={{ value: state.selected }}
-    additionalFieldsetClass="vads-u-margin-top--0"
-  />
-);
+const yesHonorableDischargeSM = ({ setPageState, state = {} }) => {
+  const handleValueChange = ({ detail } = {}) => {
+    const { value } = detail;
+    handleChangeAndPageSet(
+      setPageState,
+      value,
+      options,
+      'Do you have a VA memorandum rating of 20% or higher?',
+    );
+  };
+  return (
+    <VaRadio
+      id={serviceMemberPathPageNames.yesHonorableDischargeSM}
+      class="vads-u-margin-y--2"
+      label="Do you have a VA memorandum rating of 20% or higher?"
+      onVaValueChange={handleValueChange}
+    >
+      {options.map(option => (
+        <va-radio-option
+          key={option.value}
+          name="memorandum-rating"
+          label={option.label}
+          value={option.value}
+          checked={state.selected === option.value}
+          aria-describedby={
+            state.selected === option.value ? option.value : null
+          }
+        />
+      ))}
+    </VaRadio>
+  );
+};
 
 export default {
   name: serviceMemberPathPageNames.yesHonorableDischargeSM,

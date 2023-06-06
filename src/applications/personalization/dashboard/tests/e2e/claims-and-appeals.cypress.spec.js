@@ -52,8 +52,8 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
     'when there are open claims or appeals but they have not been updated in the past 30 days',
     () => {
       beforeEach(() => {
-        cy.intercept('/v0/evss_claims_async', claimsSuccess(31));
-        cy.intercept('/v0/appeals', appealsSuccess(31));
+        cy.intercept('/v0/evss_claims_async', claimsSuccess(61));
+        cy.intercept('/v0/appeals', appealsSuccess(61));
       });
       it('should show a CTA but not details about the most recently updated claim or appeal ', () => {
         cy.visit(manifest.rootUrl);

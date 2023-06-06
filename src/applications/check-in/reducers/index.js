@@ -9,6 +9,7 @@ const initialState = {
     data: {},
   },
   app: '',
+  error: '',
 };
 
 import {
@@ -19,7 +20,6 @@ import {
 import { recordAnswerHandler, setVeteranDataHandler } from './pre-check-in';
 
 import {
-  APPOINTMENT_WAS_CHECKED_INTO,
   RECEIVED_APPOINTMENT_DETAILS,
   RECEIVED_DEMOGRAPHICS_DATA,
   TRIGGER_REFRESH,
@@ -28,14 +28,13 @@ import {
 } from '../actions/day-of';
 
 import {
-  appointmentWasCheckedIntoHandler,
   receivedAppointmentDetailsHandler,
   receivedDemographicsDataHandler,
   triggerRefreshHandler,
   seeStaffMessageUpdatedHandler,
 } from './day-of';
 
-import { setAppHandler } from './universal';
+import { setAppHandler, setErrorHandler, setFormHandler } from './universal';
 
 import { INIT_FORM } from '../actions/navigation';
 
@@ -45,14 +44,18 @@ import { SET_SESSION } from '../actions/authentication';
 
 import { setSessionHandler } from './authentication';
 
-import { SET_APP, RECORD_ANSWER } from '../actions/universal';
+import {
+  SET_APP,
+  RECORD_ANSWER,
+  SET_ERROR,
+  SET_FORM,
+} from '../actions/universal';
 
 const handler = Object.freeze({
   [INIT_FORM]: initFormHandler,
   [SET_SESSION]: setSessionHandler,
   [RECORD_ANSWER]: recordAnswerHandler,
   [SET_VETERAN_DATA]: setVeteranDataHandler,
-  [APPOINTMENT_WAS_CHECKED_INTO]: appointmentWasCheckedIntoHandler,
   [RECEIVED_APPOINTMENT_DETAILS]: receivedAppointmentDetailsHandler,
   [RECEIVED_DEMOGRAPHICS_DATA]: receivedDemographicsDataHandler,
   [TRIGGER_REFRESH]: triggerRefreshHandler,
@@ -60,6 +63,8 @@ const handler = Object.freeze({
   [UPDATE_PRE_CHECK_IN_FORM]: updateFormHandler,
   [UPDATE_DAY_OF_CHECK_IN_FORM]: updateFormHandler,
   [SET_APP]: setAppHandler,
+  [SET_ERROR]: setErrorHandler,
+  [SET_FORM]: setFormHandler,
 
   default: state => {
     return { ...state };

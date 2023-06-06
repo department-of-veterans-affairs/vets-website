@@ -384,14 +384,15 @@ const mockFacilityData = {
     },
   },
   links: {
-    self:
-      'https://staging-api.va.gov/v1/facilities/va?ids=vha_442&page=1&per_page=10',
-    first:
-      'https://staging-api.va.gov/v1/facilities/va?ids=vha_442&per_page=10',
+    self: `${
+      environment.API_URL
+    }/v1/facilities/va?ids=vha_442&page=1&per_page=10`,
+    first: `${environment.API_URL}/v1/facilities/va?ids=vha_442&per_page=10`,
     prev: null,
     next: null,
-    last:
-      'https://staging-api.va.gov/v1/facilities/va?ids=vha_442&page=1&per_page=10',
+    last: `${
+      environment.API_URL
+    }/v1/facilities/va?ids=vha_442&page=1&per_page=10`,
   },
 };
 

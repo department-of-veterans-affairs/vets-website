@@ -49,7 +49,10 @@ describe('Check In Experience -- ', () => {
       cy.injectAxeThenAxeCheck();
       // refresh the page
       cy.reload();
-      ValidateVeteran.validatePage.dayOf();
+      Appointments.validateAppointmentLength(3);
+      Appointments.validateAppointmentTime();
+      Appointments.validateAppointmentTime(3, '6:00 p.m.');
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

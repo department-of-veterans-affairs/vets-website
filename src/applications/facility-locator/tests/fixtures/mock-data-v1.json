@@ -539,10 +539,10 @@
     }
   },
   "links": {
-    "self": "https://staging-api.va.gov/v1/facilities/va?bbox%5B%5D=-98.4937&bbox%5B%5D=29.5211&bbox%5B%5D=-96.9937&bbox%5B%5D=31.0211&page=1&per_page=20&type=health",
-    "first": "https://staging-api.va.gov/v1/facilities/va?bbox%5B%5D=-98.4937&bbox%5B%5D=29.5211&bbox%5B%5D=-96.9937&bbox%5B%5D=31.0211&page=1&per_page=20&type=health",
+    "self": "https://staging-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-98.4937&bbox%5B%5D=29.5211&bbox%5B%5D=-96.9937&bbox%5B%5D=31.0211&page=1&per_page=20&type=health",
+    "first": "https://staging-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-98.4937&bbox%5B%5D=29.5211&bbox%5B%5D=-96.9937&bbox%5B%5D=31.0211&page=1&per_page=20&type=health",
     "prev": null,
     "next": null,
-    "last": "https://staging-api.va.gov/v1/facilities/va?bbox%5B%5D=-98.4937&bbox%5B%5D=29.5211&bbox%5B%5D=-96.9937&bbox%5B%5D=31.0211&page=1&per_page=20&type=health"
+    "last": "https://staging-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-98.4937&bbox%5B%5D=29.5211&bbox%5B%5D=-96.9937&bbox%5B%5D=31.0211&page=1&per_page=20&type=health"
   }
 }
