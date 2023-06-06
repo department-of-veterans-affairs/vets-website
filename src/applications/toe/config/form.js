@@ -27,6 +27,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 
 import ApplicantIdentityView from '../components/ApplicantIdentityView';
+import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
 import DirectDepositViewField from '../components/DirectDepositViewField';
 import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
@@ -121,6 +122,7 @@ const formConfig = {
           title: 'Your information',
           path: 'applicant-information',
           subTitle: 'Your information',
+          CustomPageReview: ApplicantInformationReviewPage,
           instructions:
             'This is the personal information we have on file for you.',
           uiSchema: {
@@ -150,21 +152,33 @@ const formConfig = {
               },
             },
             'view:applicantInformation': {
+              'ui:options': {
+                hideIf: formData =>
+                  !formData.showMebEnhancements06 || !formData.isLOA3,
+              },
               'ui:description': (
                 <>
                   <ApplicantIdentityView />
                 </>
               ),
-              'ui:options': {
-                hideIf: formData =>
-                  !formData.showMebEnhancements06 || !formData.isLOA3,
-              },
             },
             [formFields.viewUserFullName]: {
+              'ui:options': {
+                hideIf: formData =>
+                  formData.showMebEnhancements06 && formData.isLOA3,
+              },
               [formFields.userFullName]: {
+                'ui:options': {
+                  hideIf: formData => formData.showMebEnhancements06,
+                },
+                'ui:required': formData => !formData?.showMebEnhancements06,
                 ...fullNameUI,
                 first: {
                   ...fullNameUI.first,
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:title': 'Your first name',
                   'ui:validations': [
                     (errors, field) => {
@@ -173,15 +187,13 @@ const formConfig = {
                       }
                     },
                   ],
-                  'ui:options': {
-                    hideIf: formData =>
-                      !formData.showMebEnhancements06 || !formData.isLOA3,
-                  },
-                  'ui:required': formData =>
-                    !formData?.showMebEnhancements06 && !formData.isLOA3,
                 },
                 middle: {
                   ...fullNameUI.middle,
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:title': 'Your middle name',
                   'ui:validations': [
                     (errors, field) => {
@@ -190,15 +202,13 @@ const formConfig = {
                       }
                     },
                   ],
-                  'ui:options': {
-                    hideIf: formData =>
-                      !formData.showMebEnhancements06 || !formData.isLOA3,
-                  },
-                  'ui:required': formData =>
-                    !formData?.showMebEnhancements06 && !formData.isLOA3,
                 },
                 last: {
                   ...fullNameUI.last,
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:title': 'Your last name',
                   'ui:validations': [
                     (errors, field) => {
@@ -207,25 +217,16 @@ const formConfig = {
                       }
                     },
                   ],
-                  'ui:options': {
-                    hideIf: formData =>
-                      !formData.showMebEnhancements06 || !formData.isLOA3,
-                  },
-                  'ui:required': formData =>
-                    !formData?.showMebEnhancements06 && !formData.isLOA3,
                 },
-              },
-              'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
               },
             },
             [formFields.dateOfBirth]: {
-              ...currentOrPastDateUI('Your date of birth'),
               'ui:options': {
                 hideIf: formData =>
                   formData.showMebEnhancements06 && formData.isLOA3,
               },
+              'ui:required': formData => !formData?.showMebEnhancements06,
+              ...currentOrPastDateUI('Your date of birth'),
             },
             'view:dateOfBirthUnder18Alert': {
               'ui:description': (
