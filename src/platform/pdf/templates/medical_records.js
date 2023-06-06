@@ -6,6 +6,8 @@
  */
 /* eslint-disable no-await-in-loop */
 
+import { MissingFieldsException } from '../utils/exceptions/MissingFieldsException';
+
 import {
   createAccessibleDoc,
   createArtifactText,
@@ -116,11 +118,13 @@ const generateResultsContent = async (doc, parent, data) => {
       await doc.addPage();
     } else if (idx > 0) {
       initialBlock = false;
-      results.add(
-        doc.struct('Artifact', () => {
-          addHorizontalRule(doc, 20, 0.5);
-        }),
-      );
+      if (data.results.sectionSeparators !== false) {
+        results.add(
+          doc.struct('Artifact', () => {
+            addHorizontalRule(doc, 20, 0.5);
+          }),
+        );
+      }
     }
 
     const headingOptions = { paragraphGap: 10, x: 30 };
@@ -155,6 +159,9 @@ const generateHeaderBanner = async (doc, header, data) => {
     doc.fontSize(config.text.size);
     width += doc.widthOfString(element.text);
   }
+
+  // This math is based on US Letter page size and will have to be adjusted
+  // if we ever offer document size as a parameter.
   const leftMargin = (612 - 32 - width) / 2 + 20;
 
   for (let i = 0; i < data.headerBanner.length; i += 1) {
@@ -293,7 +300,24 @@ const generateFooterContent = async (doc, parent, data) => {
   }
 };
 
+const validate = data => {
+  const requiredFields = [
+    'title',
+    'headerLeft',
+    'headerRight',
+    'footerLeft',
+    'footerRight',
+  ];
+
+  const missingFields = requiredFields.filter(field => !data[field]);
+  if (missingFields.length) {
+    throw new MissingFieldsException(missingFields);
+  }
+};
+
 const generate = async data => {
+  validate(data);
+
   const doc = createAccessibleDoc(data);
 
   await registerVaGovFonts(doc);

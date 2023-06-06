@@ -82,6 +82,97 @@ describe('Medical records PDF template', () => {
       expect(text).to.equal(data.results.items[0].items[0].value);
     });
 
+    it('Horizontal rules are added between result sections by default', async () => {
+      const data = require('./fixtures/result_sections_with_horizontal_rules.json');
+      const { pdf } = await generateAndParsePdf(data);
+
+      // Fetch the second page
+      const pageNumber = 2;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+
+      let artifactCount = 0;
+      for (const item of content.items) {
+        if (item.tag === 'Artifact') {
+          artifactCount += 1;
+        }
+      }
+
+      expect(artifactCount).to.eq(8);
+    });
+
+    it('Horizontal rules between result sections may be suppressed', async () => {
+      const data = require('./fixtures/result_sections_with_no_horizontal_rules.json');
+      const { pdf } = await generateAndParsePdf(data);
+
+      // Fetch the second page
+      const pageNumber = 2;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+
+      let artifactCount = 0;
+      for (const item of content.items) {
+        if (item.tag === 'Artifact') {
+          artifactCount += 1;
+        }
+      }
+
+      expect(artifactCount).to.eq(4);
+    });
+
+    it('Outputs document sections in the correct order', async () => {
+      const data = require('./fixtures/all_sections.json');
+      const { pdf } = await generateAndParsePdf(data);
+
+      // Fetch the first page
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+
+      let headerPosition = 0;
+      let titlePosition = 0;
+      let detailsPosition = 0;
+      let resultsPosition = 0;
+      let footerPosition = 0;
+
+      for (const [index, item] of content.items.entries()) {
+        if (item.str) {
+          switch (item.str) {
+            case data.headerLeft:
+              headerPosition = index;
+              break;
+            case data.title:
+              titlePosition = index;
+              break;
+            case data.details.header:
+              detailsPosition = index;
+              break;
+            case data.results.header:
+              resultsPosition = index;
+              break;
+            case data.footerLeft:
+              footerPosition = index;
+              break;
+            default:
+              break;
+          }
+        }
+      }
+
+      expect(headerPosition).to.be.gt(0);
+      expect(headerPosition).to.be.lt(titlePosition);
+      expect(titlePosition).to.be.lt(detailsPosition);
+      expect(detailsPosition).to.be.lt(resultsPosition);
+      expect(resultsPosition).to.be.lt(footerPosition);
+    });
+
+    it('Special characters are rendered correctly', async () => {
+      // e.g. apostrophes in people's names, multi-byte characters, etc.
+    });
+
     it('Has a default language (english)', async () => {
       const data = require('./fixtures/single_vital.json');
       const { metadata } = await generateAndParsePdf(data);
