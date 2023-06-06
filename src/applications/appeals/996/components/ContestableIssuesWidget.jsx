@@ -6,15 +6,9 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { focusElement, scrollTo } from 'platform/utilities/ui';
 
-import { IssueCard } from './IssueCardV2';
-import {
-  SELECTED,
-  MAX_LENGTH,
-  LAST_HLR_ITEM,
-  REVIEW_ISSUES,
-} from '../constants';
+import { IssueCard } from './IssueCard';
+import { SELECTED, MAX_LENGTH, LAST_ISSUE, REVIEW_ISSUES } from '../constants';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
@@ -63,22 +57,12 @@ const ContestableIssuesWidget = props => {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
-  const [editState] = useState(window.sessionStorage.getItem(LAST_HLR_ITEM));
+  const [editState] = useState(window.sessionStorage.getItem(LAST_ISSUE));
 
   useEffect(
     () => {
       if (editState) {
-        window.sessionStorage.removeItem(LAST_HLR_ITEM);
-        const [lastEdited, returnState] = editState.split(',');
-        setTimeout(() => {
-          const card = `#issue-${lastEdited}`;
-          const target =
-            returnState === 'cancel'
-              ? `${card} .edit-issue-link`
-              : `${card} input`;
-          scrollTo(card);
-          focusElement(target);
-        }, 100);
+        focusIssue();
       }
     },
     [editState],
@@ -86,6 +70,7 @@ const ContestableIssuesWidget = props => {
 
   const onReviewPage = formContext?.onReviewPage || false;
   window.sessionStorage.setItem(REVIEW_ISSUES, onReviewPage);
+
   // inReviewMode = true (review page view, not in edit mode)
   // inReviewMode = false (in edit mode)
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
@@ -98,7 +83,7 @@ const ContestableIssuesWidget = props => {
       ...item.attributes,
       [SELECTED]: item[SELECTED],
     }))
-    .concat(additionalIssues);
+    .concat((additionalIssues || []).filter(Boolean));
 
   const hasSelected = someSelected(items);
 
@@ -141,6 +126,7 @@ const ContestableIssuesWidget = props => {
       setShowRemoveModal(true);
     },
     onRemoveModalClose: () => {
+      focusIssue(null, null, `${value.length + removeIndex},remove-cancel`);
       setShowRemoveModal(false);
       setRemoveIndex(null);
     },
@@ -148,15 +134,13 @@ const ContestableIssuesWidget = props => {
       const updatedAdditionalIssues = additionalIssues.filter(
         (issue, indx) => removeIndex !== indx,
       );
-      // Focus management: target add a new issue action link
-      window.sessionStorage.setItem(LAST_HLR_ITEM, -1);
       setShowRemoveModal(false);
       setRemoveIndex(null);
       // setTimeout needed to allow rerender
       setTimeout(() => {
         // focusIssue is called by form config scrollAndFocusTarget, but only on
         // page change
-        focusIssue();
+        focusIssue(null, null, -1);
       });
 
       setFormData({
@@ -177,6 +161,7 @@ const ContestableIssuesWidget = props => {
       key: index,
       options,
       showCheckbox,
+      onReviewPage,
       onChange: handlers.onChange,
       onRemove: handlers.onShowRemoveModal,
     };
@@ -232,7 +217,7 @@ const ContestableIssuesWidget = props => {
             className="add-new-issue vads-c-action-link--green"
             to={{
               pathname: '/add-issue',
-              search: `?index=${items.length},new=true`,
+              search: `?index=${items.length}`,
             }}
           >
             Add a new issue

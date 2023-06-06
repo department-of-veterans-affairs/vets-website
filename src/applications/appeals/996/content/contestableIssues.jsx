@@ -151,7 +151,10 @@ export const disabilitiesExplanationAlert = (
 );
 
 export const disabilitiesExplanation = (
-  <va-additional-info trigger="Don’t see the issue you’re looking for?">
+  <va-additional-info
+    trigger="Don’t see the issue you’re looking for?"
+    class="vads-u-margin-top--4"
+  >
     {disabilitiesList}
   </va-additional-info>
 );
@@ -272,17 +275,6 @@ NoneSelectedAlert.propTypes = {
   count: PropTypes.number,
   headerLevel: PropTypes.number,
 };
-
-export const ContestableIssuesAdditionalInfo = (
-  <va-additional-info
-    trigger="Why aren’t all my issues listed here"
-    class="vads-u-margin-top--4"
-  >
-    If you don’t see your issue or decision listed here, it may not be in our
-    system yet. This can happen if it’s a more recent claim decision. If you
-    have a decision date, you can add a new issue now.
-  </va-additional-info>
-);
 
 export const removeModalContent = {
   title: 'Are you sure you want to remove this issue?',

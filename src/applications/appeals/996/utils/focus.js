@@ -7,28 +7,33 @@ import {
   waitForRenderThenFocus,
 } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { LAST_HLR_ITEM } from '../constants';
+import { LAST_ISSUE } from '../constants';
 
-export const focusIssue = (_index, root) => {
-  const item = window.sessionStorage.getItem(LAST_HLR_ITEM);
-  window.sessionStorage.removeItem(LAST_HLR_ITEM);
-
-  if (item < 0) {
-    // focus on add new issue after removing or cancelling adding a new issue
-    scrollTo('.add-new-issue');
-    focusElement('.add-new-issue', null, root);
-  } else if (item) {
-    const [id, type] = item.split(',');
-    scrollTo(`#issue-${id}`);
-    if (type === 'updated') {
-      waitForRenderThenFocus(`#issue-${id} input`, root);
+export const focusIssue = (_index, root, value) => {
+  setTimeout(() => {
+    const item = value || window.sessionStorage.getItem(LAST_ISSUE);
+    window.sessionStorage.removeItem(LAST_ISSUE);
+    const [id, type] = (item || '').toString().split(',');
+    if (id < 0) {
+      // focus on add new issue after removing or cancelling adding a new issue
+      scrollTo('.add-new-issue');
+      focusElement('.add-new-issue', null, root);
+    } else if (id) {
+      const card = $(`#issue-${id}`, root);
+      scrollTo(card);
+      if (type === 'remove-cancel') {
+        const remove = $('.remove-issue', card)?.shadowRoot;
+        waitForRenderThenFocus('button', remove);
+      } else if (type === 'updated') {
+        waitForRenderThenFocus('input', card);
+      } else {
+        focusElement('.edit-issue-link', null, card);
+      }
     } else {
-      focusElement(`#issue-${id} .edit-issue-link`, null, root);
+      scrollToTop();
+      focusElement('h3');
     }
-  } else {
-    scrollToTop();
-    focusElement('h3');
-  }
+  });
 };
 
 export const focusRadioH3 = () => {
