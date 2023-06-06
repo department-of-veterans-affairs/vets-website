@@ -35,7 +35,7 @@ const DashboardSearch = () => {
 
     if (searchFolder && keyword) {
       dispatch(runBasicSearch(searchFolder, keyword.toLowerCase()));
-      history.push('/search/results');
+      history.push('/search/results/');
     }
   };
 

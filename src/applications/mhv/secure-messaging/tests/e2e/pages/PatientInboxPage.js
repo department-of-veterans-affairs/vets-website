@@ -90,7 +90,7 @@ class PatientInboxPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       this.mockRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/inbox', {
+    cy.visit('my-health/secure-messages/inbox/', {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
       },
@@ -261,7 +261,7 @@ class PatientInboxPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockNoRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/inbox');
+    cy.visit('my-health/secure-messages/inbox/');
     if (doAxeCheck) {
       cy.injectAxe();
     }

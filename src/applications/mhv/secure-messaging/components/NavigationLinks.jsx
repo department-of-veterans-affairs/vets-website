@@ -31,11 +31,11 @@ const NavigationLinks = props => {
 
   const handlePrevious = e => {
     e.preventDefault();
-    history.push(`/message/${prevMessageId}`);
+    history.push(`/message/${prevMessageId}/`);
   };
   const handleNext = e => {
     e.preventDefault();
-    history.push(`/message/${nextMessageId}`);
+    history.push(`/message/${nextMessageId}/`);
   };
 
   return (

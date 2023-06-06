@@ -106,12 +106,12 @@ const Navigation = () => {
     if (location.pathname === '/') {
       // Highlight Messages on Lnading page
       isActive = false;
-    } else if (location.pathname === '/folders') {
+    } else if (location.pathname === '/folders/') {
       // To ensure other nav links are not bolded when landed on "/folders"
       isActive = location.pathname === path.path;
     } else if (location.pathname.split('/')[1] === 'folder') {
       // Highlight "My Folders" when landed on "/folders/:id"
-      isActive = path.path === '/folders';
+      isActive = path.path === '/folders/';
     } else if (location.pathname === path.path) {
       isActive = true;
     } else if (path.id !== undefined && activeFolder?.folderId === path.id) {
@@ -155,10 +155,7 @@ const Navigation = () => {
                       <li key={i} data-testid={path.datatestid}>
                         <Link
                           className={handleActiveLinksStyle(path)}
-                          to={path.path}
-                          // onClick={() => {
-                          //   handleOnClick(path);
-                          // }}
+                          to={`${path.path}/`}
                         >
                           <span>{path.label}</span>
                         </Link>

@@ -38,7 +38,7 @@ const MessageDetail = () => {
   useEffect(
     () => {
       if (draftMessage?.messageId && message?.draftDate !== null) {
-        history.push(`/draft/${threadId}`);
+        history.push(`/draft/${threadId}/`);
       }
     },
     [draftMessage, history, message, threadId],

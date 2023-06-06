@@ -19,40 +19,40 @@ const AuthorizedRoutes = () => {
         <Route exact path="/" key="App">
           <LandingPageAuth />
         </Route>
-        <Route exact path="/folders" key="Folders">
+        <Route exact path="/folders/" key="Folders">
           <Folders />
         </Route>
         <Route exact path={Paths.COMPOSE} key="Compose">
           <Compose />
         </Route>
-        <Route exact path="/message/:messageId" key="MessageDetails">
+        <Route exact path="/message/:messageId/" key="MessageDetails">
           <MessageDetails />
         </Route>
-        <Route exact path="/thread/:threadId" key="ThreadDetails">
+        <Route exact path="/thread/:threadId/" key="ThreadDetails">
           <ThreadDetails />
         </Route>
-        <Route exact path="/reply/:replyId" key="MessageReply">
+        <Route exact path="/reply/:replyId/" key="MessageReply">
           <MessageReply />
         </Route>
-        <Route exact path="/search/results" key="SearchResults">
+        <Route exact path="/search/results/" key="SearchResults">
           <SearchResults />
         </Route>
-        <Route path="/draft/:draftId" key="Compose">
+        <Route path="/draft/:draftId/" key="Compose">
           <Compose />
         </Route>
-        <Route path="/sent/:messageId" key="MessageDetails">
+        <Route path="/sent/:messageId/" key="MessageDetails">
           <MessageDetails />
         </Route>
-        <Route path="/trash/:messageId" key="MessageDetails">
+        <Route path="/trash/:messageId/" key="MessageDetails">
           <MessageDetails />
         </Route>
         <Route
           path={[
-            '/inbox',
-            '/sent',
-            '/trash',
-            '/drafts',
-            `${Paths.FOLDERS}:folderId`,
+            '/inbox/',
+            '/sent/',
+            '/trash/',
+            '/drafts/',
+            `${Paths.FOLDERS}:folderId/`,
           ]}
           key="FolderListView"
         >

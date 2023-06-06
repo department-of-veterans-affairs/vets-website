@@ -50,7 +50,7 @@ class PatientKeywordSearchPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages', {
+    cy.visit('my-health/secure-messages/', {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
       },

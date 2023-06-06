@@ -108,16 +108,16 @@ const FolderThreadListView = props => {
         setFolderId(params.folderId);
       } else {
         switch (location.pathname) {
-          case '/inbox':
+          case Paths.INBOX:
             setFolderId(Folders.INBOX.id);
             break;
-          case '/sent':
+          case Paths.SENT:
             setFolderId(Folders.SENT.id);
             break;
-          case '/drafts':
+          case Paths.DRAFTS:
             setFolderId(Folders.DRAFTS.id);
             break;
-          case '/trash':
+          case Paths.DELETED:
             setFolderId(Folders.DELETED.id);
             break;
           default:

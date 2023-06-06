@@ -7,19 +7,19 @@ export const folderPathByFolderId = folderId => {
   if (folderId !== null) {
     switch (parseInt(folderId, 10)) {
       case Folders.INBOX.id:
-        path = '/inbox';
+        path = Paths.INBOX;
         break;
       case Folders.DRAFTS.id:
-        path = '/drafts';
+        path = Paths.DRAFTS;
         break;
       case Folders.SENT.id:
-        path = '/sent';
+        path = Paths.SENT;
         break;
       case Folders.DELETED.id:
-        path = '/trash';
+        path = Paths.DELETED;
         break;
       default:
-        path = `${Paths.FOLDERS}${folderId}`;
+        path = `${Paths.FOLDERS}${folderId}/`;
         break;
     }
   } else {
@@ -39,7 +39,7 @@ export const unreadCountInbox = folders => {
 };
 
 export const navigateToFoldersPage = history => {
-  history.push('/folders');
+  history.push('/folders/');
 };
 
 export const today = new Date();

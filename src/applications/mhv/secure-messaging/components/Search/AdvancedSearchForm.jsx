@@ -125,7 +125,7 @@ const AdvancedSearchForm = props => {
         toDate: relativeToDate || toDateTime,
       }),
     );
-    history.push('/search/results');
+    history.push('/search/results/');
   };
 
   return (

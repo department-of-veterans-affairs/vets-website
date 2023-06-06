@@ -31,7 +31,7 @@ const DashboardUnreadMessages = props => {
       <Link
         className="vads-c-action-link--blue vads-u-margin-top--1"
         text="Go to your inbox"
-        to="/inbox"
+        to="/inbox/"
       >
         Go to your inbox
       </Link>
