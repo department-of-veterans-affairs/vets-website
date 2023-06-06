@@ -43,10 +43,6 @@ module.exports = {
         use: '<va-pagination>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/Table',
-        use: '<va-table>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/Select',
         use: '<va-select>',
       },
