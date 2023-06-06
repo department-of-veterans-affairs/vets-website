@@ -68,7 +68,7 @@ describe('Message thread item', () => {
       `message sent ${dateFormat(
         message.sentDate,
         'MMMM D, YYYY [at] h:mm a z',
-      )}, with attachment from ${message.senderName}. Collapsed."`,
+      )}, with attachment from ${message.senderName}."`,
     );
     expect(
       screen.getByText(
@@ -113,7 +113,7 @@ describe('Message thread item', () => {
       `message received ${dateFormat(
         messageNoAttachment.sentDate,
         'MMMM D, YYYY [at] h:mm a z',
-      )},  from ${messageNoAttachment.senderName}. Collapsed."`,
+      )},  from ${messageNoAttachment.senderName}."`,
     );
     waitFor(fireEvent.click(accordionButton));
     expect(screen.queryByTestId('attachment-icon')).to.not.exist;
@@ -133,7 +133,7 @@ describe('Message thread item', () => {
       `New message received ${dateFormat(
         messageNoAttachment.sentDate,
         'MMMM D, YYYY [at] h:mm a z',
-      )}, with attachment from ${messageNoAttachment.senderName}. Collapsed."`,
+      )}, with attachment from ${messageNoAttachment.senderName}."`,
     );
     waitFor(fireEvent.click(accordionButton));
     const icon = screen.getByTestId('unread-icon');
