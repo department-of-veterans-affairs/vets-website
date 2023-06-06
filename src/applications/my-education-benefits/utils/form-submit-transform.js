@@ -318,9 +318,9 @@ export function getNotificationMethod(notificationMethod) {
 
 export function createMilitaryClaimant(submissionForm) {
   // Define the formField and viewComponent sources for userFullName and dateOfBirth
-  const formFieldUserFullName = submissionForm[formFields.viewUserFullName];
+  const formFieldUserFullName = submissionForm['view:userFullName'];
   const viewComponentUserFullName = submissionForm.userFullName;
-  const formFieldDateOfBirth = submissionForm[formFields.dateOfBirth];
+  const formFieldDateOfBirth = submissionForm.dateOfBirth;
   const viewComponentDateOfBirth = submissionForm.veteranDateOfBirth;
   // Explicitly check if formField sources are not undefined and not empty, otherwise use viewComponent
   const userFullName =
@@ -332,7 +332,6 @@ export function createMilitaryClaimant(submissionForm) {
     formFieldDateOfBirth !== undefined
       ? formFieldDateOfBirth
       : viewComponentDateOfBirth;
-
   // Define the notification method
   const notificationMethod = getNotificationMethod(
     submissionForm[formFields.viewReceiveTextMessages].receiveTextMessages,

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { formFields } from '../constants';
 
 function ordinalSuffix(num) {
   const suffixes = ['th', 'st', 'nd', 'rd'];
@@ -59,14 +58,14 @@ const ApplicantInformationReviewPage = ({
             <div className="review-row">
               <dt>Full Name</dt>
               <dd>
-                {data[formFields.userFullName].first}{' '}
-                {data[formFields.userFullName].middle}{' '}
-                {data[formFields.userFullName].last}{' '}
+                {data['view:userFullName'].userFullName.first}{' '}
+                {data['view:userFullName'].userFullName.middle}{' '}
+                {data['view:userFullName'].userFullName.last}{' '}
               </dd>
             </div>
             <div className="review-row">
               <dt>Date of birth</dt>
-              <dd>{data[formFields.dateOfBirth]}</dd>
+              <dd>{data.dateOfBirth}</dd>
             </div>
           </dl>
         )}
