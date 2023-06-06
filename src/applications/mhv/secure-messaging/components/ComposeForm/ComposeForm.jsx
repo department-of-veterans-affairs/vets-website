@@ -119,7 +119,7 @@ const ComposeForm = props => {
             .catch(setSendMessageFlag(false));
         } else {
           dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
-            history.push(),
+            history.push(Paths.INBOX),
           );
         }
       }
