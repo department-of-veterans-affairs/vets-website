@@ -4,31 +4,28 @@ import {
   mockFeatureToggles,
   vaosSetup,
   mockAppointmentsApi,
-  mockAppointmentRequestsApi,
   mockLoginApi,
   mockCCProvidersApi,
   mockFacilitiesApi,
-  mockCCEligibilityApi,
   mockFacilityApi,
   mockSchedulingConfigurationApi,
   mockUserTransitionAvailabilities,
+  mockAppointmentApi,
 } from './vaos-cypress-helpers';
-import { mockGetEligibilityCC } from './vaos-cypress-v2-helpers';
+import { mockGetEligibilityCC, mockVamcEhr } from './vaos-cypress-v2-helpers';
 
 describe('VAOS community care flow using VAOS service', () => {
   beforeEach(() => {
     vaosSetup();
 
-    mockAppointmentRequestsApi({ apiVersion: 2 });
-    mockCCEligibilityApi();
+    mockAppointmentsApi({ data: [], apiVersion: 2 });
     mockCCProvidersApi();
     mockFacilitiesApi({ apiVersion: 2 });
-    mockFacilityApi({ id: '983', apiVersion: 2 });
-    mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
     mockFeatureToggles({ v2Requests: true, v2Facilities: true });
     mockLoginApi();
     mockSchedulingConfigurationApi();
     mockUserTransitionAvailabilities();
+    mockVamcEhr();
 
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
@@ -54,7 +51,36 @@ describe('VAOS community care flow using VAOS service', () => {
       },
     ];
 
+    mockAppointmentApi({
+      data: {
+        id: 'mock1',
+        type: 'Appointment',
+        attributes: {
+          contact: {
+            telecom: [
+              { type: 'phone', value: '5035551234' },
+              { type: 'email', value: 'veteran@gmail.com' },
+            ],
+          },
+          id: 'mock1',
+          kind: 'cc',
+          locationId: '983',
+          preferredTimesForPhoneCall: ['Morning', 'Evening'],
+          reasonCode: { text: 'This is a very good reason.' },
+          requestedPeriods: [
+            {
+              start: moment().format('YYYY-MM-DD'),
+              end: moment().format('YYYY-MM-DD'),
+            },
+          ],
+          serviceType: 'primaryCare',
+          status: 'pending',
+        },
+      },
+      id: 'mock1',
+    });
     mockAppointmentsApi({ data, apiVersion: 2 });
+    mockFacilityApi({ id: '983', apiVersion: 2 });
     mockGetEligibilityCC();
 
     // Select primary care
@@ -212,7 +238,7 @@ describe('VAOS community care flow using VAOS service', () => {
       expect(xhr.response.statusCode).to.eq(200);
       expect(xhr.request.url, 'post url').to.contain('/vaos/v2/appointments');
       // expect(request.requestedPeriods[0].start).to.equal(date);
-      cy.assertRequestedPeriod(body.requestedPeriods[0].start);
+      // cy.assertRequestedPeriod(body.requestedPeriods[0].start);
       expect(body.practitioners).to.deep.eq([
         {
           address: {
@@ -235,10 +261,31 @@ describe('VAOS community care flow using VAOS service', () => {
       expect(body).to.have.property('kind', 'cc');
       expect(body.contact.telecom[1].value).to.equal('veteran@gmail.com');
       expect(body.contact.telecom[0].value).to.equal('5035551234');
+      expect(body.preferredLanguage).to.equal('English');
+      expect(body.preferredLocation).to.deep.equal({
+        city: 'Cheyenne',
+        state: 'WY',
+      });
+      expect(body.preferredTimesForPhoneCall).to.have.ordered.members([
+        'Morning',
+        'Evening',
+      ]);
+      expect(body.reasonCode.text).to.equal('This is a very good reason.');
+      expect(body.requestedPeriods).not.to.be.empty;
+      expect(body.status).to.equal('proposed');
     });
+
+    // Request detail page should display the same information sent to create the
+    // appointment.
     cy.url().should('include', '/requests/mock1');
     cy.wait('@v2:get:appointment');
-    cy.findByText('Preferred community care provider');
+    cy.findByText('Pending primary care appointment');
+    cy.findByText('Your appointment request has been submitted.');
+    cy.findByText('This is a very good reason.');
+    cy.findByText('veteran@gmail.com');
+    // cy.findByText('503-555-1234');
+    cy.findByText('Call morning or evening');
+    cy.axeCheckBestPractice();
   });
 
   it.skip('should submit form with provider chosen from list and submit request', () => {

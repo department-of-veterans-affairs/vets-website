@@ -1108,6 +1108,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           depends: () => false, // accessed from otherExpensesSummary
+          returnUrl: 'other-expenses-summary',
         },
         // End Other Living Expenses
       },
