@@ -48,16 +48,20 @@ describe('hca <DependentList>', () => {
       const tiles = view.container.querySelectorAll(
         '.hca-dependent-list--tile',
       );
-      const selector = tiles[0].querySelector(
-        '[data-testid="hca-dependent-tile-name"]',
-      );
+      const selectors = {
+        name: tiles[0].querySelector('[data-testid="hca-dependent-tile-name"]'),
+        relationship: tiles[0].querySelector(
+          '[data-testid="hca-dependent-tile-relationship"]',
+        ),
+      };
       const dependent = defaultProps.list[0];
       const normalizedText = `${dependent.fullName.first} ${
         dependent.fullName.last
-      } ${dependent.fullName.suffix || ''}, ${
-        dependent.dependentRelation
-      }`.replace(/ +(?= )/g, '');
-      expect(selector).to.contain.text(normalizedText);
+      } ${dependent.fullName.suffix || ''}`.replace(/ +(?= )/g, '');
+      expect(selectors.name).to.contain.text(normalizedText);
+      expect(selectors.relationship).to.contain.text(
+        dependent.dependentRelation,
+      );
     });
 
     it('should render the last list item with the correct name and relationship', () => {
@@ -65,16 +69,20 @@ describe('hca <DependentList>', () => {
       const tiles = view.container.querySelectorAll(
         '.hca-dependent-list--tile',
       );
-      const selector = tiles[1].querySelector(
-        '[data-testid="hca-dependent-tile-name"]',
-      );
+      const selectors = {
+        name: tiles[1].querySelector('[data-testid="hca-dependent-tile-name"]'),
+        relationship: tiles[1].querySelector(
+          '[data-testid="hca-dependent-tile-relationship"]',
+        ),
+      };
       const dependent = defaultProps.list[1];
       const normalizedText = `${dependent.fullName.first} ${
         dependent.fullName.last
-      } ${dependent.fullName.suffix || ''}, ${
-        dependent.dependentRelation
-      }`.replace(/ +(?= )/g, '');
-      expect(selector).to.contain.text(normalizedText);
+      } ${dependent.fullName.suffix || ''}`.replace(/ +(?= )/g, '');
+      expect(selectors.name).to.contain.text(normalizedText);
+      expect(selectors.relationship).to.contain.text(
+        dependent.dependentRelation,
+      );
     });
   });
 });

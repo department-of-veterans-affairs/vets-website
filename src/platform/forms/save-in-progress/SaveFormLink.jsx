@@ -21,8 +21,10 @@ class SaveFormLink extends React.Component {
 
   handleSave = event => {
     event.preventDefault();
-    const { formId, version, data, submission } = this.props.form;
-    const returnUrl = this.props.locationPathname;
+    const { route = {}, form, locationPathname } = this.props;
+    const { formId, version, data, submission } = form;
+
+    const returnUrl = route.pageConfig?.returnUrl || locationPathname;
     this.props.saveAndRedirectToReturnUrl(
       formId,
       data,
@@ -104,6 +106,11 @@ SaveFormLink.propTypes = {
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       appType: PropTypes.string,
+    }),
+  }),
+  route: PropTypes.shape({
+    pageConfig: PropTypes.shape({
+      returnUrl: PropTypes.string,
     }),
   }),
   savedStatus: PropTypes.string,

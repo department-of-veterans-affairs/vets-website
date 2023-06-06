@@ -60,6 +60,20 @@ const useSessionStorage = (isPreCheckIn = true) => {
     [SESSION_STORAGE_KEYS],
   );
 
+  const setCheckinComplete = useCallback(
+    (window, value) => {
+      setSessionKey(window, SESSION_STORAGE_KEYS.CHECK_IN_COMPLETE, value);
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
+  const getCheckinComplete = useCallback(
+    window => {
+      return getSessionKey(window, SESSION_STORAGE_KEYS.CHECK_IN_COMPLETE);
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
   const setShouldSendDemographicsFlags = useCallback(
     (window, value) => {
       setSessionKey(
@@ -140,6 +154,8 @@ const useSessionStorage = (isPreCheckIn = true) => {
     getCurrentToken,
     setPreCheckinComplete,
     getPreCheckinComplete,
+    setCheckinComplete,
+    getCheckinComplete,
     setShouldSendDemographicsFlags,
     getShouldSendDemographicsFlags,
     setShouldSendTravelPayClaim,
