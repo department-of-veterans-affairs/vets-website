@@ -18,10 +18,7 @@ import vetPersInfo from '../pages/vetPersInfo';
 import vetIdInfo from '../pages/vetIdInfo';
 import vetAddrInfo from '../pages/vetAddrInfo';
 import vetContInfo from '../pages/vetContInfo';
-import statementA from '../pages/statementA';
-import statementB from '../pages/statementB';
-import statementC from '../pages/statementC';
-import statementD from '../pages/statementD';
+import statement from '../pages/statement';
 import transformForSubmit from './submit-transformer';
 
 // "Flows" in comments below map to "Stories" in the mockups:
@@ -180,8 +177,8 @@ const formConfig = {
           path: 'statement-a',
           title:
             'Tell us about the claimed issue that you’re addressing on behalf of the Veteran',
-          uiSchema: statementA.uiSchema,
-          schema: statementA.schema,
+          uiSchema: statement.uiSchema,
+          schema: statement.schema,
         },
       },
     },
@@ -197,8 +194,8 @@ const formConfig = {
           },
           path: 'statement-b',
           title: 'Please indicate the claimed issue that you are addressing',
-          uiSchema: statementB.uiSchema,
-          schema: statementB.schema,
+          uiSchema: statement.uiSchema,
+          schema: statement.schema,
         },
       },
     },
@@ -286,8 +283,8 @@ const formConfig = {
           },
           path: 'statement-c',
           title: 'Tell us about the claimed issue that you’re addressing',
-          uiSchema: statementC.uiSchema,
-          schema: statementC.schema,
+          uiSchema: statement.uiSchema,
+          schema: statement.schema,
         },
       },
     },
@@ -367,8 +364,8 @@ const formConfig = {
           },
           path: 'statement-d',
           title: 'Provide your supporting statement',
-          uiSchema: statementD.uiSchema,
-          schema: statementD.schema,
+          uiSchema: statement.uiSchema,
+          schema: statement.schema,
         },
       },
     },
