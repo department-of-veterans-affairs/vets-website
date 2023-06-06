@@ -8,17 +8,11 @@ import mockSentFolder from './fixtures/folder-sent-metadata.json';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 
 describe('Secure Messaging - Search Special Characters', () => {
-  const basicSearchPage = new PatientBasicSearchPage();
-
-  const landingPage = new PatientInboxPage();
-  const messageDetailsPage = new PatientMessageDetailsPage();
-  const site = new SecureMessagingSite();
-
   it.skip('search for special characters', () => {
-    site.login();
-    mockSpeciaCharMessage.data.attributes.messageId = '2585370';
-    mockSpeciaCharMessage.data.attributes.body = 'special %$#';
-    landingPage.loadInboxMessages(mockSpeciaCharMessage);
+    SecureMessagingSite.login();
+    // mockSpeciaCharMessage.data.attributes.messageId = '2585370';  // declaring reason?
+    // mockSpeciaCharMessage.data.attributes.body = 'special %$#';   // declaring reason?
+    PatientInboxPage.loadInboxMessages(mockSpeciaCharMessage);
     cy.injectAxe();
     cy.axeCheck();
     cy.intercept(
@@ -39,12 +33,12 @@ describe('Secure Messaging - Search Special Characters', () => {
     cy.get('[data-testid="sent-sidebar"]').click();
     cy.reload();
 
-    basicSearchPage.typeSearchInputFieldText('message%$#*');
+    PatientBasicSearchPage.typeSearchInputFieldText('message%$#*');
 
-    basicSearchPage.submitSearch();
+    PatientBasicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestSentFolder');
 
-    messageDetailsPage.loadMessageDetails(
+    PatientMessageDetailsPage.loadMessageDetails(
       mockSpeciaCharMessage,
       defaultMockThread,
     );
