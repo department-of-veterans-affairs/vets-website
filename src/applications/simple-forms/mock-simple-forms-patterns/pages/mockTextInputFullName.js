@@ -115,14 +115,4 @@ export default {
     },
     required: [],
   },
-  // initialData: {
-  //   spouseFullNameOld: {
-  //     first: 'Jane',
-  //     last: 'Doe',
-  //   },
-  //   spouseFullNameNew: {
-  //     first: 'John',
-  //     last: 'Doe',
-  //   },
-  // },
 };
