@@ -40,7 +40,6 @@ export default {
 
           return {
             title: 'Email address',
-            description: 'testing',
           };
         },
       },
