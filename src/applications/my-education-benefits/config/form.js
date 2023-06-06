@@ -26,6 +26,7 @@ import manifest from '../manifest.json';
 import toursOfDutyUI from '../definitions/toursOfDuty';
 
 import AccordionField from '../components/AccordionField';
+import ApplicantIdentityView from '../components/ApplicantIdentityView';
 import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -420,6 +421,10 @@ const formConfig = {
                   </p>
                 </>
               ),
+              'ui:options': {
+                hideIf: formData =>
+                  formData.showMebEnhancements06 && formData.isLOA3,
+              },
             },
             [formFields.formId]: {
               'ui:title': 'Form ID',
@@ -433,6 +438,17 @@ const formConfig = {
               'ui:disabled': true,
               'ui:options': {
                 hideOnReview: true,
+              },
+            },
+            'view:applicantInformation': {
+              'ui:description': (
+                <>
+                  <ApplicantIdentityView />
+                </>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  !formData.showMebEnhancements06 || !formData.isLOA3,
               },
             },
             [formFields.viewUserFullName]: {
@@ -511,11 +527,19 @@ const formConfig = {
                     },
                   ],
                 },
+                'ui:options': {
+                  hideIf: formData =>
+                    formData.showMebEnhancements06 && formData.isLOA3,
+                },
               },
             },
             [formFields.dateOfBirth]: {
               ...currentOrPastDateUI('Your date of birth'),
               'ui:reviewField': CustomReviewDOBField,
+              'ui:options': {
+                hideIf: formData =>
+                  formData.showMebEnhancements06 && formData.isLOA3,
+              },
             },
           },
           schema: {
@@ -557,6 +581,10 @@ const formConfig = {
                 },
               },
               [formFields.dateOfBirth]: date,
+              'view:applicantInformation': {
+                type: 'object',
+                properties: {},
+              },
             },
           },
         },

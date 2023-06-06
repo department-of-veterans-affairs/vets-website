@@ -9,6 +9,7 @@ import {
   validateVaIssues,
   validateVaFromDate,
   validateVaToDate,
+  buildVaLocationString,
   isEmptyVaEntry,
   validateVaUnique,
   validatePrivateName,
@@ -20,6 +21,7 @@ import {
   validatePrivateIssues,
   validatePrivateFromDate,
   validatePrivateToDate,
+  buildPrivateString,
   isEmptyPrivateEntry,
   validatePrivateUnique,
 } from '../../validations/evidence';
@@ -119,6 +121,89 @@ describe('VA evidence', () => {
         evidenceDates: { to: getDate({ offset: { years: 101 } }) },
       });
       expect(errors.addError.args[0][0]).eq(errorMessages.evidence.pastDate);
+    });
+  });
+
+  describe('buildVaLocationString', () => {
+    const getLocation = ({
+      name = 'name',
+      issues = ['1', '2'],
+      from = '2022-01-01',
+      to = '2022-02-02',
+    } = {}) => ({
+      locationAndName: name,
+      issues,
+      evidenceDates: { from, to },
+    });
+    it('should add different joiners', () => {
+      expect(buildVaLocationString(getLocation())).to.eq(
+        'name122022-01-012022-02-02',
+      );
+      expect(buildVaLocationString(getLocation(), ',')).to.eq(
+        'name,1,2,2022-01-01,2022-02-02',
+      );
+      expect(buildVaLocationString(getLocation(), ';')).to.eq(
+        'name;1;2;2022-01-01;2022-02-02',
+      );
+    });
+    it('should return expected strings', () => {
+      expect(buildVaLocationString({})).to.eq('');
+      expect(buildVaLocationString({}, ',')).to.eq(',,');
+      expect(
+        buildVaLocationString(
+          getLocation({ issues: [], from: '', to: '' }),
+          ',',
+        ),
+      ).to.eq('name,,');
+      expect(
+        buildVaLocationString(getLocation({ from: '', to: '' }), ','),
+      ).to.eq('name,1,2,,');
+      expect(buildVaLocationString(getLocation({ to: '' }), ',')).to.eq(
+        'name,1,2,2022-01-01,',
+      );
+      expect(buildVaLocationString(getLocation(), ',')).to.eq(
+        'name,1,2,2022-01-01,2022-02-02',
+      );
+    });
+    it('should remove empty dates', () => {
+      expect(buildVaLocationString(getLocation({ from: '--' }), ',')).to.eq(
+        'name,1,2,,2022-02-02',
+      );
+      expect(buildVaLocationString(getLocation({ from: '-00-00' }), ',')).to.eq(
+        'name,1,2,,2022-02-02',
+      );
+      expect(buildVaLocationString(getLocation({ to: '--' }), ',')).to.eq(
+        'name,1,2,2022-01-01,',
+      );
+      expect(buildVaLocationString(getLocation({ to: '-00-00' }), ',')).to.eq(
+        'name,1,2,2022-01-01,',
+      );
+    });
+    it('should add leading zeros to dates', () => {
+      expect(
+        buildVaLocationString(getLocation({ from: '2021-12-4' }), ','),
+      ).to.eq('name,1,2,2021-12-04,2022-02-02');
+      expect(
+        buildVaLocationString(getLocation({ from: '2022-1-16' }), ','),
+      ).to.eq('name,1,2,2022-01-16,2022-02-02');
+      expect(
+        buildVaLocationString(getLocation({ from: '2022-1-5' }), ','),
+      ).to.eq('name,1,2,2022-01-05,2022-02-02');
+
+      expect(
+        buildVaLocationString(getLocation({ to: '2022-12-3' }), ','),
+      ).to.eq('name,1,2,2022-01-01,2022-12-03');
+      expect(
+        buildVaLocationString(getLocation({ to: '2022-3-17' }), ','),
+      ).to.eq('name,1,2,2022-01-01,2022-03-17');
+      expect(buildVaLocationString(getLocation({ to: '2022-3-3' }), ',')).to.eq(
+        'name,1,2,2022-01-01,2022-03-03',
+      );
+    });
+    it('should not include issues', () => {
+      expect(
+        buildVaLocationString(getLocation(), ',', { includeIssues: false }),
+      ).to.eq('name,2022-01-01,2022-02-02');
     });
   });
 
@@ -404,6 +489,160 @@ describe('Private evidence', () => {
         treatmentDateRange: { to: getDate({ offset: { years: 101 } }) },
       });
       expect(errors.addError.args[0][0]).eq(errorMessages.evidence.pastDate);
+    });
+  });
+
+  describe('buildPrivateString', () => {
+    const getLocation = ({
+      name = 'name',
+      issues = ['1', '2'],
+      country = 'USA',
+      street = '123 Main',
+      city = 'Anywhere',
+      state = 'Confusion',
+      postalCode = '55555',
+      from = '2022-01-01',
+      to = '2022-02-02',
+    } = {}) => ({
+      providerFacilityName: name,
+      issues,
+      providerFacilityAddress: {
+        country,
+        street,
+        city,
+        state,
+        postalCode,
+      },
+      treatmentDateRange: { from, to },
+    });
+    it('should add different joiners', () => {
+      expect(buildPrivateString(getLocation())).to.eq(
+        'nameUSA123 MainAnywhereConfusion55555122022-01-012022-02-02',
+      );
+      expect(buildPrivateString(getLocation(), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,2022-02-02',
+      );
+      expect(buildPrivateString(getLocation(), ';')).to.eq(
+        'name;USA;123 Main;Anywhere;Confusion;55555;1;2;2022-01-01;2022-02-02',
+      );
+    });
+    it('should return expected strings', () => {
+      expect(buildPrivateString({})).to.eq('');
+      expect(buildPrivateString({}, ',')).to.eq(',,');
+      expect(
+        buildPrivateString(
+          getLocation({
+            country: '',
+            street: '',
+            city: '',
+            state: '',
+            postalCode: '',
+            issues: [],
+            from: '',
+            to: '',
+          }),
+          ',',
+        ),
+      ).to.eq('name,,,,,,,');
+      expect(
+        buildPrivateString(
+          getLocation({
+            street: '',
+            city: '',
+            state: '',
+            postalCode: '',
+            issues: [],
+            from: '',
+            to: '',
+          }),
+          ',',
+        ),
+      ).to.eq('name,USA,,,,,,');
+      expect(
+        buildPrivateString(
+          getLocation({
+            city: '',
+            state: '',
+            postalCode: '',
+            issues: [],
+            from: '',
+            to: '',
+          }),
+          ',',
+        ),
+      ).to.eq('name,USA,123 Main,,,,,');
+      expect(
+        buildPrivateString(
+          getLocation({
+            state: '',
+            postalCode: '',
+            issues: [],
+            from: '',
+            to: '',
+          }),
+          ',',
+        ),
+      ).to.eq('name,USA,123 Main,Anywhere,,,,');
+      expect(
+        buildPrivateString(
+          getLocation({ postalCode: '', issues: [], from: '', to: '' }),
+          ',',
+        ),
+      ).to.eq('name,USA,123 Main,Anywhere,Confusion,,,');
+      expect(
+        buildPrivateString(getLocation({ issues: [], from: '', to: '' }), ','),
+      ).to.eq('name,USA,123 Main,Anywhere,Confusion,55555,,');
+      expect(buildPrivateString(getLocation({ from: '', to: '' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,,',
+      );
+      expect(buildPrivateString(getLocation({ to: '' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,',
+      );
+      expect(buildPrivateString(getLocation(), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,2022-02-02',
+      );
+    });
+    it('should remove empty dates', () => {
+      expect(buildPrivateString(getLocation({ from: '--' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,,2022-02-02',
+      );
+      expect(buildPrivateString(getLocation({ from: '-00-00' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,,2022-02-02',
+      );
+      expect(buildPrivateString(getLocation({ to: '--' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,',
+      );
+      expect(buildPrivateString(getLocation({ to: '-00-00' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,',
+      );
+    });
+    it('should add leading zeros to dates', () => {
+      expect(buildPrivateString(getLocation({ from: '2021-12-4' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2021-12-04,2022-02-02',
+      );
+      expect(buildPrivateString(getLocation({ from: '2022-1-16' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-16,2022-02-02',
+      );
+      expect(buildPrivateString(getLocation({ from: '2022-1-5' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-05,2022-02-02',
+      );
+
+      expect(buildPrivateString(getLocation({ to: '2022-12-3' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,2022-12-03',
+      );
+      expect(buildPrivateString(getLocation({ to: '2022-3-17' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,2022-03-17',
+      );
+      expect(buildPrivateString(getLocation({ to: '2022-3-3' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,2022-03-03',
+      );
+    });
+    it('should not include issues', () => {
+      expect(
+        buildPrivateString(getLocation(), ',', { includeIssues: false }),
+      ).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,2022-01-01,2022-02-02',
+      );
     });
   });
 

@@ -26,6 +26,7 @@ import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 
+import ApplicantIdentityView from '../components/ApplicantIdentityView';
 import DirectDepositViewField from '../components/DirectDepositViewField';
 import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
@@ -143,6 +144,21 @@ const formConfig = {
                   </p>
                 </>
               ),
+              'ui:options': {
+                hideIf: formData =>
+                  formData.showMebEnhancements06 && formData.isLOA3,
+              },
+            },
+            'view:applicantInformation': {
+              'ui:description': (
+                <>
+                  <ApplicantIdentityView />
+                </>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  !formData.showMebEnhancements06 || !formData.isLOA3,
+              },
             },
             [formFields.viewUserFullName]: {
               [formFields.userFullName]: {
@@ -181,9 +197,17 @@ const formConfig = {
                   ],
                 },
               },
+              'ui:options': {
+                hideIf: formData =>
+                  formData.showMebEnhancements06 && formData.isLOA3,
+              },
             },
             [formFields.dateOfBirth]: {
               ...currentOrPastDateUI('Your date of birth'),
+              'ui:options': {
+                hideIf: formData =>
+                  formData.showMebEnhancements06 && formData.isLOA3,
+              },
             },
             'view:dateOfBirthUnder18Alert': {
               'ui:description': (
@@ -279,6 +303,10 @@ const formConfig = {
               },
               [formFields.dateOfBirth]: date,
               'view:dateOfBirthUnder18Alert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:applicantInformation': {
                 type: 'object',
                 properties: {},
               },
