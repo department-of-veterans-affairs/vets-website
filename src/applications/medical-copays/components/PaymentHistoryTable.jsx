@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { formatTableData } from '../utils/helpers';
 
 const MAX_ROWS_PER_PAGE = 3;
@@ -78,12 +78,12 @@ const PaymentHistoryTable = () => {
             </va-table-row>
           ))}
         </va-table>
-        <Pagination
+        <VaPagination
           page={page}
           pages={pages}
           showLastPage
           maxPageListLength={MAX_ROWS_PER_PAGE}
-          onPageSelect={onPageSelect}
+          onPageSelect={e => onPageSelect(e.detail.page)}
         />
       </div>
     </article>
