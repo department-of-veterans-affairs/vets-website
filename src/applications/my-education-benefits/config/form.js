@@ -398,7 +398,6 @@ const formConfig = {
           path: 'applicant-information/personal-information',
           subTitle: 'Your information',
           CustomPageReview: ApplicantInformationReviewPage,
-          depends: formData => formData.showMebEnhancements06,
           instructions:
             'This is the personal information we have on file for you.',
           uiSchema: {
@@ -425,8 +424,7 @@ const formConfig = {
                 </>
               ),
               'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
+                hideIf: formData => formData.showMebEnhancements06,
               },
             },
             [formFields.formId]: {
@@ -443,31 +441,39 @@ const formConfig = {
                 hideOnReview: true,
               },
             },
-            applicantInformation: {
-              // 'ui:title': 'Your Personal Information',
+            'view:applicantInformation': {
+              'ui:options': {
+                hideIf: formData => !formData.showMebEnhancements06,
+              },
               'ui:description': (
                 <>
                   <ApplicantIdentityView />
                 </>
               ),
-              'ui:options': {
-                hideIf: formData => !formData.showMebEnhancements06,
-              },
             },
             [formFields.viewUserFullName]: {
+              'ui:options': {
+                hideIf: formData => formData.showMebEnhancements06,
+              },
               'ui:description': (
-                <p className="meb-review-page-only">
-                  If you’d like to update your personal information, please edit
-                  the form fields below.
-                </p>
+                <>
+                  <p className="meb-review-page-only">
+                    If you’d like to update your personal information, please
+                    edit the form fields below.
+                  </p>
+                </>
               ),
               [formFields.userFullName]: {
                 'ui:options': {
                   hideIf: formData => formData.showMebEnhancements06,
                 },
+                'ui:required': formData => !formData?.showMebEnhancements06,
                 ...fullNameUI,
                 first: {
                   ...fullNameUI.first,
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
                   'ui:title': 'Your first name',
                   'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:validations': [
@@ -487,13 +493,13 @@ const formConfig = {
                       }
                     },
                   ],
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
                 },
                 last: {
                   ...fullNameUI.last,
                   'ui:title': 'Your last name',
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
                   'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:validations': [
                     (errors, field) => {
@@ -516,13 +522,13 @@ const formConfig = {
                       }
                     },
                   ],
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
                 },
                 middle: {
                   ...fullNameUI.middle,
                   'ui:title': 'Your middle name',
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
                   'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:validations': [
                     (errors, field) => {
@@ -541,17 +547,14 @@ const formConfig = {
                       }
                     },
                   ],
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
                 },
               },
             },
             [formFields.dateOfBirth]: {
-              'ui:required': formData => !formData?.showMebEnhancements06,
               'ui:options': {
                 hideIf: formData => formData.showMebEnhancements06,
               },
+              'ui:required': formData => !formData?.showMebEnhancements06,
               ...currentOrPastDateUI('Your date of birth'),
               'ui:reviewField': CustomReviewDOBField,
             },
@@ -571,7 +574,7 @@ const formConfig = {
                 properties: {},
               },
               [formFields.viewUserFullName]: {
-                required: [formFields.userFullName],
+                // required: [formFields.userFullName],
                 type: 'object',
                 properties: {
                   [formFields.userFullName]: {
@@ -595,7 +598,7 @@ const formConfig = {
                 },
               },
               [formFields.dateOfBirth]: date,
-              applicantInformation: {
+              'view:applicantInformation': {
                 type: 'object',
                 properties: {},
               },

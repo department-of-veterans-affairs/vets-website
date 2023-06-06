@@ -57,13 +57,15 @@ const ApplicantInformationReviewPage = ({
         ) : (
           <dl className="review">
             <div className="review-row">
-              <dt>Name:</dt>
+              <dt>Full Name</dt>
               <dd>
-                {data[formFields.userFullName].first}
-                {data[formFields.userFullName].middle}
-                {data[formFields.userFullName].last}
+                {data[formFields.userFullName].first}{' '}
+                {data[formFields.userFullName].middle}{' '}
+                {data[formFields.userFullName].last}{' '}
               </dd>
-              <dt>date of birth:</dt>
+            </div>
+            <div className="review-row">
+              <dt>Date of birth</dt>
               <dd>{data[formFields.dateOfBirth]}</dd>
             </div>
           </dl>
