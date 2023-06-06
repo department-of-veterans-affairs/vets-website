@@ -48,15 +48,17 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
         </p>
         <va-table>
           <va-table-row slot="headers">
-            {fields.map(col => (
-              <span key={col.label}>{col.label}</span>
+            {fields.map(field => (
+              <span key={field.value}>{field.label}</span>
             ))}
           </va-table-row>
           {currentData.map((row, index) => {
             return (
-              <va-table-row key={index}>
+              <va-table-row key={`payments-${index}`}>
                 {fields.map(field => (
-                  <span key={field.value}>{row[field.value]}</span>
+                  <span key={`${field.value}-${index}`}>
+                    {row[field.value]}
+                  </span>
                 ))}
               </va-table-row>
             );
