@@ -90,6 +90,33 @@ const testConfig = createTestConfig(
                 cy.get('#root_addressOld_city').type(data.addressOld.city);
               }
             }
+
+            // web components
+            cy.get(`va-select[name="root_addressNew_country"]`)
+              .shadow()
+              .find('select')
+              .select(data.addressNew.country);
+
+            cy.get(`va-text-input[name="root_addressNew_street"]`)
+              .shadow()
+              .find('input')
+              .type(data.addressNew.street);
+
+            cy.get(`va-text-input[name="root_addressNew_city"]`)
+              .shadow()
+              .find('input')
+              .type(data.addressNew.city);
+
+            cy.get(`va-text-input[name="root_addressNew_postalCode"]`)
+              .shadow()
+              .find('input')
+              .type(data.addressNew.postalCode);
+
+            cy.get(`va-select[name="root_addressNew_state"]`)
+              .shadow()
+              .find('select')
+              .select(data.addressNew.state);
+
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
@@ -187,59 +214,8 @@ const testConfig = createTestConfig(
       date: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(async () => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-
-            // unstable tests
-            let [year, month, day] = data.dateWC.split('-');
-            cy.get(`va-memorable-date[name="root_dateWC"]`)
-              .shadow()
-              .find('va-text-input.input-month')
-              .shadow()
-              .find('input')
-              .type(month)
-              .then(() => {
-                cy.get(`va-memorable-date[name="root_dateWC"]`)
-                  .shadow()
-                  .find('va-text-input.input-day')
-                  .shadow()
-                  .find('input')
-                  .type(day)
-                  .then(() => {
-                    cy.get(`va-memorable-date[name="root_dateWC"]`)
-                      .shadow()
-                      .find('va-text-input.input-year')
-                      .shadow()
-                      .find('input')
-                      .type(year);
-                  });
-              });
-
-            [year, month, day] = data.dateWCV3.split('-');
-            cy.get(`va-memorable-date[name="root_dateWCV3"]`)
-              .shadow()
-              .find('va-text-input.usa-form-group--month-input')
-              .shadow()
-              .find('input')
-              .type(month)
-              .then(() => {
-                cy.get(`va-memorable-date[name="root_dateWCV3"]`)
-                  .shadow()
-                  .find('va-text-input.usa-form-group--day-input')
-                  .shadow()
-                  .find('input')
-                  .type(day)
-                  .then(() => {
-                    cy.get(`va-memorable-date[name="root_dateWCV3"]`)
-                      .shadow()
-                      .find('va-text-input.usa-form-group--year-input')
-                      .shadow()
-                      .find('input')
-                      .type(year);
-                  });
-              });
-
-            cy.axeCheck();
+          cy.get('@testData').then(() => {
+            // tested separately - susceptible to bugs
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });

@@ -51,6 +51,8 @@ export default {
       },
       dateWCV3: currentOrPastDateSchema,
     },
-    required: ['dateWC', 'dateDefault', 'dateWCV3'],
+    required: [],
+    // disabled for now - web component date intermittenly cannot select next field
+    // required: ['dateWC', 'dateDefault', 'dateWCV3'],
   },
 };

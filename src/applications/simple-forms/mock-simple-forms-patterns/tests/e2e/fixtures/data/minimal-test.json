@@ -52,6 +52,14 @@
       "state": "AL",
       "postalCode": "34343"
     },
+    "addressNew": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "test",
+      "city": "test",
+      "state": "AL",
+      "postalCode": "34343"
+    },
     "spouseFullNameOld": {
       "first": "test",
       "last": "test"
