@@ -148,8 +148,6 @@ export default Object.freeze({
   subform89404192: 'subform_8940_4192',
   supplementalClaim: 'supplemental_claim',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
-  vaHomePreviewModal:
-    'va_home_preview_modal',
   vaOnlineScheduling: 'va_online_scheduling',
   vaOnlineSchedulingCancel: 'va_online_scheduling_cancel',
   vaOnlineSchedulingCheetah: 'va_online_scheduling_cheetah',
