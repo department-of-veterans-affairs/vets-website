@@ -94,7 +94,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     expect(descHeading).to.have.tagName('h2');
 
     expect(dateHeading).to.contain.text(
-      start.format('dddd, MMMM DD, YYYY [at] h:mm a'),
+      start.format('dddd, MMMM D, YYYY [at] h:mm a'),
     );
     expect(dateHeading).to.have.tagName('h3');
 
@@ -106,7 +106,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     // expect(screen.baseElement).to.contain.text('1234567890');
     // expect(screen.baseElement).to.contain.text('Call anytime during the day');
 
-    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
+    const editLinks = screen.getAllByTestId('edit-contact-information-link');
     const uniqueLinks = new Set();
     editLinks.forEach(link => {
       expect(link).to.have.attribute('aria-label');
@@ -253,7 +253,7 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
                 postalCode: '82001-5356',
                 city: 'Cheyenne',
                 state: 'WY',
-                line: ['2360 East Pershing Boulevard'],
+                line: ['2360 East Pershing Boulevard', null, 'Suite 10'],
               },
             },
           ],
@@ -298,6 +298,7 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
     expect(screen.baseElement).to.contain.text(
       'Make sure the information is correct. Then confirm your appointment.',
     );
+    expect(screen.getByText(/2360 East Pershing Boulevard, Suite 10/i)).to.be;
 
     // When the user confirms their appointment
     userEvent.click(screen.getByText(/Confirm appointment/i));

@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
-import { Link, useHistory, Redirect } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { FETCH_STATUS } from '../../utils/constants';
 import FacilityAddress from '../../components/FacilityAddress';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { getTimezoneAbbrByFacilityId } from '../../utils/timezone';
 import { getRealFacilityId } from '../../utils/appointment';
 import { getReviewPage } from '../redux/selectors';
 import flow from '../flow';
@@ -15,8 +13,15 @@ import State from '../../components/State';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
 import { confirmAppointment } from '../redux/actions';
+import AppointmentDate from '../../new-appointment/components/ReviewPage/AppointmentDate';
 
 const pageTitle = 'Review your appointment details';
+
+function handleClick(history) {
+  return () => {
+    history.push(flow.contactInfo.url);
+  };
+}
 
 export default function ReviewPage() {
   const {
@@ -62,11 +67,7 @@ export default function ReviewPage() {
       <div className="vads-l-grid-container vads-u-padding--0">
         <div className="vads-l-row vads-u-justify-content--space-between">
           <div className="vads-u-flex--1 vads-u-padding-right--1">
-            <h3 className="vaos-appts__block-label">
-              {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
-                'dddd, MMMM DD, YYYY [at] h:mm a ',
-              ) + getTimezoneAbbrByFacilityId(data.vaFacility)}
-            </h3>
+            <AppointmentDate dates={date1} facilityId={data.vaFacility} />
           </div>
         </div>
       </div>
@@ -77,12 +78,9 @@ export default function ReviewPage() {
             <h3 className="vaos-appts__block-label">{facility.name}</h3>
             {clinic.serviceName}
             <br />
-            {facility.address?.line?.map(line => (
-              <React.Fragment key={line}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))}
+            {/* removes falsy value from address array */}
+            {facility.address?.line?.filter(Boolean).join(', ')}
+            <br />
             {facility.address?.city}, <State state={facility.address?.state} />
           </div>
         </div>
@@ -102,9 +100,12 @@ export default function ReviewPage() {
               />
             </div>
           </div>
-          <Link to={flow.contactInfo.url} aria-label="Edit contact information">
-            Edit
-          </Link>
+          <va-link
+            onClick={handleClick(history)}
+            aria-label="Edit contact information"
+            text="Edit"
+            data-testid="edit-contact-information-link"
+          />
         </div>
       </div>
       <hr aria-hidden="true" className="vads-u-margin-y--2" />

@@ -7,7 +7,7 @@ import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 import FormSaveErrorMessage from 'platform/forms/components/review/FormSaveErrorMessage';
 import { Column, Row } from 'platform/forms/components/common/grid';
-// const FormSaveErrorMessage = props => props?.children;
+
 export default function GenericError(props) {
   const { appType, formConfig, onSubmit, testId } = props;
   let submitButton;
@@ -33,7 +33,13 @@ export default function GenericError(props) {
   if (process.env.NODE_ENV !== 'production') {
     submitButton = (
       <Column classNames="small-6 usa-width-one-half medium-6">
-        <a onClick={onSubmit}>Submit again</a>
+        <button
+          type="button"
+          className="usa-button-secondary"
+          onClick={onSubmit}
+        >
+          Submit again
+        </button>
       </Column>
     );
   }
@@ -46,10 +52,10 @@ export default function GenericError(props) {
         </Column>
       </Row>
       <PreSubmitSection formConfig={formConfig} />
-      <Row classNames="form-progress-buttons schemaform-back-buttons">
+      <Row classNames="form-progress-buttons schemaform-back-buttons vads-u-margin-y--2">
         <Column classNames="small-6 usa-width-one-half medium-6">
-          <a href="/">
-            <button className="usa-button-primary">Go Back to VA.gov</button>
+          <a href="/" className="usa-button-primary">
+            Go Back to VA.gov
           </a>
         </Column>
         {submitButton}
@@ -61,5 +67,6 @@ export default function GenericError(props) {
 GenericError.propTypes = {
   appType: PropTypes.string,
   formConfig: PropTypes.object,
+  testId: PropTypes.string,
   onSubmit: PropTypes.func,
 };

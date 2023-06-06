@@ -185,7 +185,7 @@ jobs:
       - name: Get code coverage
         if: ${{ always() }}
         id: code-coverage
-        run: echo ::set-output name=MARKDOWN::$(node ./script/github-actions/code-coverage-format-report.js)
+        run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
 
       - name: Publish test results
         if: ${{ always() }}
@@ -197,106 +197,6 @@ jobs:
           report_paths: 'test-results/unit-tests.xml'
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
           fail_on_failure: 'true'
-
-  contract-tests:
-    name: Contract Tests
-    runs-on: ubuntu-latest
-    outputs:
-      tests: ${{ steps.get-tests.outputs.tests }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-
-      - name: Get Pact Broker password
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /dsva-vagov/pact-broker/utility/PACT_BROKER_BASIC_AUTH_PASSWORD
-          env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
-
-      - name: Get GitHub token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
-
-      - name: Create test results folder
-        run: mkdir -p test-results
-
-      - name: Get changed applications
-        id: get-changed-apps
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          output-type: 'folder'
-
-      - name: Get contract tests
-        id: get-tests
-        run: |
-          if [[ -z "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
-            echo ::set-output name=tests::$(find src -name "*.pact.spec.js")
-          else
-            echo ::set-output name=tests::$(find ${{ steps.get-changed-apps.outputs.folders }} -name "*.pact.spec.js")
-          fi
-
-      - name: Run contract tests
-        if: steps.get-tests.outputs.tests != ''
-        run: yarn test:unit-pact-config ${{ steps.get-tests.outputs.tests }}
-        env:
-          MOCHA_FILE: ./test-results/test-results.xml
-
-      - name: Print Pact failures
-        if: steps.get-tests.outputs.tests != '' && failure()
-        run: cat test-results/test-results.xml
-
-      - name: Run Pact publish
-        if: steps.get-tests.outputs.tests != ''
-        run: yarn pact:publish
-        env:
-          PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
-          PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
-
-      - name: Run Pact verify
-        if: steps.get-tests.outputs.tests != ''
-        run: |
-          curl -v -X POST \
-          -H 'Authorization: token ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' \
-          -H 'Accept: application/vnd.github.v3+json' \
-          https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches \
-          -d '{"ref": "master"}' \
-          --fail
-
-      - name: Archive contract test results
-        if: steps.get-tests.outputs.tests != ''
-        uses: actions/upload-artifact@v3
-        with:
-          name: contract-test-report
-          path: mochawesome-report
-
-      - name: Archive contract test log
-        uses: actions/upload-artifact@v3
-        if: steps.get-tests.outputs.tests != '' && failure()
-        with:
-          name: contract-test-log
-          path: logs/pact.log
 
   security-audit:
     name: Security Audit
@@ -378,6 +278,7 @@ jobs:
 
   testing-reports-prep:
     name: Testing Reports Prep
+    if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     continue-on-error: true
     outputs:
@@ -423,14 +324,58 @@ jobs:
         run: yarn generate-app-list
         working-directory: qa-standards-dashboard-data
 
+  fetch-e2e-allow-list:
+    name: Fetch E2E Allow List
+    runs-on: ubuntu-latest
+    outputs:
+      allow_list: ${{ steps.allow-list-output.outputs.list }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+
+      - name: Set Up BigQuery Creds
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch allow list
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+      # exports app list and assigns to environmental variable at this step
+
+      - name: Set Allow List Output
+        id: allow-list-output
+        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
+
   cypress-tests-prep:
     name: Prep for Cypress Tests
+    needs: [fetch-e2e-allow-list]
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.tests.outputs.selected }}
+      tests-to-stress-test: ${{ steps.tests-to-stress-test.outputs.tests }}
       app_urls: ${{ steps.get-changed-apps.outputs.urls }}
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
+      test_selection_disallowed_tests: ${{ steps.test_selection_disallowed_tests.outputs.test_selection_disallowed_tests }}
 
     steps:
       - name: Checkout
@@ -462,18 +407,27 @@ jobs:
           CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
           APP_ENTRIES: ${{ steps.get-changed-apps.outputs.entry_names }}
+          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
 
       - name: Set output of TESTS
         id: tests
-        run: echo ::set-output name=selected::$TESTS
+        run: echo selected=$TESTS >> $GITHUB_OUTPUT
+
+      - name: Set output of TESTS_TO_STRESS_TEST
+        id: tests-to-stress-test
+        run: echo tests=$TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
+
+      - name: Set output of TEST_SELECTION_DISALLOWED_TESTS
+        id: test_selection_disallowed_tests
+        run: echo test_selection_disallowed_tests=$TEST_SELECTION_DISALLOWED_TESTS >> $GITHUB_OUTPUT
 
       - name: Set output of NUM_CONTAINERS
         id: containers
-        run: echo ::set-output name=num::$NUM_CONTAINERS
+        run: echo num=$NUM_CONTAINERS >> $GITHUB_OUTPUT
 
       - name: Set output of CI_NODE_INDEX
         id: matrix
-        run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
+        run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
 
   cypress-tests:
     name: Cypress E2E Tests
@@ -484,7 +438,7 @@ jobs:
       needs.build.result == 'success' &&
       needs.cypress-tests-prep.result == 'success'
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
+      image: public.ecr.aws/cypress-io/cypress/browsers:node16.14.2-slim-chrome103-ff102
       options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
@@ -496,6 +450,7 @@ jobs:
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
+      CI_NODE_INDEX: ${{ needs.cypress-tests-prep.outputs.ci_node_index }}
 
     steps:
       # The following statement is included in each step because of a bug in
@@ -508,7 +463,7 @@ jobs:
       # the job to always run, and skips each step if no tests are selected.
       # Previously, the above conditional was included in the job's if statement.
       - name: Configure AWS credentials
-        if: needs.cypress-tests-prep.outputs.tests != '[]'
+        if: needs.cypress-tests-prep.outputs.tests != '[]' && github.actor != 'dependabot[bot]'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -580,48 +535,119 @@ jobs:
           path: cypress/results
           retention-days: 1
 
-  testing-reports-contract-tests:
-    name: Testing Reports - Contract Tests
-    runs-on: ubuntu-latest
-    needs: [testing-reports-prep, contract-tests]
+  stress-test-cypress-tests:
+    name: Stress Test Cypress Tests
+    runs-on: self-hosted
+    timeout-minutes: 120
+    needs: [build, cypress-tests-prep]
     if: |
-      always() &&
-      needs.contract-tests.outputs.tests != '' &&
-      (needs.contract-tests.result == 'success' || needs.contract-tests.result == 'failure')
+      needs.build.result == 'success' &&
+      needs.cypress-tests-prep.result == 'success' &&
+      needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' &&
+      github.actor != 'dependabot[bot]'
+    container:
+      image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
+      options: -u 1001:1001 -v /usr/local/share:/share
+
+    env:
+      CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
+      NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
+      CI_NODE_INDEX: ${{ needs.cypress-tests-prep.outputs.ci_node_index }}
+
+    steps:
+      # The following statement is included in each step because of a bug in
+      # GitHub's branch protection:
+      #
+      # if: needs.cypress-tests-prep.outputs.tests != '[]'
+      #
+      # Previously, if no tests were selected, the branch protection check that
+      # requires the cypress-tests job to run was not satisfied. This update forces
+      # the job to always run, and skips each step if no tests are selected.
+      # Previously, the above conditional was included in the job's if statement.
+      - name: Configure AWS credentials
+        if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Checkout vets-website
+        if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
+        uses: actions/checkout@v3
+
+      - name: Download production build artifact
+        if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
+        uses: actions/download-artifact@v3
+        with:
+          name: vagovprod.tar.bz2
+
+      - name: Unpack build
+        if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
+        run: |
+          mkdir -p build/vagovprod
+          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+
+      - name: Install dependencies
+        if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
+        uses: ./.github/workflows/install
+        timeout-minutes: 20
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            /github/home/.cache/Cypress
+            node_modules
+
+      - name: Start server
+        if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+
+      - name: Run Cypress tests
+        if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
+        run: node script/github-actions/run-cypress-tests.js
+        timeout-minutes: 90
+        env:
+          CYPRESS_CI: true
+          STEP: ${{ matrix.ci_node_index }}
+          TESTS: ${{ needs.cypress-tests-prep.outputs.tests-to-stress-test }}
+          APP_URLS: ${{ needs.cypress-tests-prep.outputs.app_urls }}
+          NUM_CONTAINERS: 1
+          IS_STRESS_TEST: true
+
+      - name: Archive test videos
+        if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-stress-test-videos
+          path: cypress/videos
+
+      - name: Archive Mochawesome test results
+        if: ${{ needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' && always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-stress-test-results
+          path: cypress/results
+          retention-days: 1
+
+  update-e2e-allow-list:
+    name: Update E2E Allow List
+    runs-on: ubuntu-latest
+    needs:
+      [
+        testing-reports-prep,
+        cypress-tests-prep,
+        stress-test-cypress-tests,
+        fetch-e2e-allow-list,
+      ]
+    if: ${{ always() && github.actor != 'dependabot[bot]' && needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
-      - name: Set IS_MASTER_BUILD
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-              echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
-          else
-              echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
-          fi
-
       - name: Checkout
         uses: actions/checkout@v3
-
-      # ----------------
-      # | Notify Slack |
-      # ----------------
-
-      - name: Notify Slack about Contract test failures
-        if: ${{ github.ref == 'refs/heads/main' && needs.contract-tests.result == 'failure' }}
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
-        continue-on-error: true
-        env:
-          SSL_CERT_DIR: /etc/ssl/certs
-        with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> Contract tests in `vets-website` have failed on the `main` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
-          channel_id: C026PD47Z19 #gha-test-status
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      # ------------------------
-      # | Upload BigQuery Data |
-      # ------------------------
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -661,46 +687,71 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-      # ------------------------------------------------------
-      # | Publish Contract Test Report and Upload to BigQuery |
-      # ------------------------------------------------------
-
-      - name: Download Contract Test Mochawesome test results
+      - name: Download Cypress E2E Mochawesome test results
         uses: actions/download-artifact@v3
         with:
-          name: contract-test-report
-          path: qa-standards-dashboard-data/src/testing-reports/data
+          name: cypress-stress-test-results
+          path: qa-standards-dashboard-data/src/allow-list/data
 
-      - name: Create Contract Test report and post results to BigQuery
-        run: yarn contract-mochawesome-to-bigquery
+      - name: Copy test results to mochawesome directory
+        run: cp -r qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
+
+      - name: Download Cypress E2E video artifacts
+        if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-stress-test-videos
+          path: qa-standards-dashboard-data/videos/${{ env.UUID }}
+
+      - name: Update E2E Allow List
+        run: yarn update-e2e-allow-list
         working-directory: qa-standards-dashboard-data
         env:
-          TEST_EXECUTIONS_TABLE_NAME: vets_website_contract_test_suite_executions
-          TEST_RESULTS_TABLE_NAME: vets_website_contract_test_results
-          TEST_REPORTS_FOLDER_NAME: vets-website-contract-test-reports
+          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
+          TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
 
-      - name: Upload Contract Test report to s3
-        run: aws s3 cp qa-standards-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-contract-test-reports --acl public-read --region us-gov-west-1 --recursive
+      - name: Create Cypress E2E report
+        run: yarn cypress-mochawesome-to-bigquery
+        working-directory: qa-standards-dashboard-data
+        env:
+          IS_MASTER_BUILD: false
+          TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
+          TEST_RESULTS_TABLE_NAME: cypress_test_results
+          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
+          TEST_RETRIES_TABLE_NAME: cypress_retry_records
+          NUM_CONTAINERS: 1
+          IS_STRESS_TEST: true
 
-      # -------------------------
-      # | Contract Tests Summary |
-      # -------------------------
+      - name: Upload Cypress E2E test videos to s3
+        if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
+        run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
 
-      - name: Publish Contract test results
+      - name: Upload Cypress E2E test report to s3
+        run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
+
+      - name: Publish E2E Stress Test Results
         if: ${{ always() }}
         uses: LouisBrunner/checks-action@v1.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: Contract Tests Summary
-          conclusion: ${{ needs.contract-tests.result }}
+          name: E2E Stress Test Summary
+          conclusion: ${{ needs.stress-test-cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
+      - name: Create GitHub Issues for new flaky tests
+        if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
+        run: yarn create-github-issues-for-flaky-tests
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
+          GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
 
   testing-reports-unit-tests:
     name: Testing Reports - Unit Tests
     runs-on: ubuntu-latest
     needs: [testing-reports-prep, unit-tests]
-    if: ${{ always() }}
+    if: ${{ always() && github.actor != 'dependabot[bot]' }}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
@@ -783,13 +834,21 @@ jobs:
           name: unit-test-report
           path: qa-standards-dashboard-data/src/testing-reports/data
 
-      - name: Create Unit Test report and post results to BigQuery
+      - name: Create Unit Test report
         run: yarn unit-mochawesome-to-bigquery
         working-directory: qa-standards-dashboard-data
         env:
           UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
           UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
           TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-reports
+
+      - name: Upload Test Results to BigQuery
+        continue-on-error: true
+        run: yarn upload-unit-test-results
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
+          TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
 
       - name: Upload Unit Test report to s3
         run: aws s3 cp qa-standards-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
@@ -812,7 +871,7 @@ jobs:
     name: Testing Reports - Unit Tests Coverage
     runs-on: ubuntu-latest
     needs: [testing-reports-prep, unit-tests]
-    if: ${{ always() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
+    if: ${{ always() && github.actor != 'dependabot[bot]' && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
@@ -880,7 +939,7 @@ jobs:
     name: Testing Reports - Cypress E2E Tests
     runs-on: ubuntu-latest
     needs: [testing-reports-prep, cypress-tests-prep, cypress-tests]
-    if: ${{ always() && needs.cypress-tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+    if: ${{ always() && github.actor != 'dependabot[bot]' && needs.cypress-tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     continue-on-error: true
@@ -959,17 +1018,23 @@ jobs:
           name: cypress-video-artifacts
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
-      - name: Create Cypress E2E report and post results to BigQuery
+      - name: Create Cypress E2E Mochawesome report
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: qa-standards-dashboard-data
         env:
           IS_MASTER_BUILD: false
-          TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
-          TEST_RESULTS_TABLE_NAME: cypress_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
           TEST_RETRIES_TABLE_NAME: cypress_retry_records
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
           # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
+
+      - name: Upload Test Results to BigQuery
+        continue-on-error: true
+        working-directory: qa-standards-dashboard-data
+        run: yarn upload-cypress-test-results
+        env:
+          TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
+          TEST_RESULTS_TABLE_NAME: cypress_test_results
 
       - name: Upload Cypress E2E test videos to s3
         if: ${{ needs.cypress-tests.result == 'failure' }}
@@ -1000,32 +1065,19 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
-    needs:
-      [
-        build,
-        cypress-tests,
-        unit-tests,
-        contract-tests,
-        security-audit,
-        linting,
-      ]
+    needs: [build, cypress-tests, unit-tests, security-audit, linting]
 
     env:
       IS_SINGLE_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
 
-    # Archive should still run even when linting is skipped (as in PRs).
-    # This if overrides the dependency on linting success to include skipped.
-    # Because of always(), the rest of the needed jobs have to be checked too.
-    # By doing this, later jobs that need this job require similar overrides
-    # or else they will also be skipped when linting is skipped.
     if: |
       always() &&
       (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'skipped') &&
       needs.build.result == 'success' &&
       needs.unit-tests.result == 'success' &&
-      needs.contract-tests.result == 'success' &&
       needs.security-audit.result == 'success' &&
-      (needs.linting.result == 'success' || needs.linting.result == 'skipped')
+      (needs.linting.result == 'success' || needs.linting.result == 'skipped') &&
+      github.actor != 'dependabot[bot]'
 
     steps:
       - name: Checkout
@@ -1055,6 +1107,7 @@ jobs:
         run: |
           cat > BUILD_ARTIFACT.txt << EOF
           IS_SINGLE_APP_BUILD=${{ env.IS_SINGLE_APP_BUILD }}
+          IS_CONTINUOUS_DEPLOYMENT_ENABLED=${{ needs.build.outputs.continuous_deployment == 'true' }}
           REF=${{ github.sha }}
           EOF
 
@@ -1098,35 +1151,35 @@ jobs:
     outputs:
       environments: ${{ steps.set-environments.outputs.environments }}
     env:
-      DEPLOY_TO_PRODUCTION: false # Enables production deployments for apps on the allowlist when set to true
+      DEPLOY_TO_PRODUCTION: true # Enables production deployments for apps on the allowlist when set to true
       DEV: "{
-          \\\"environment\\\": \\\"vagovdev\\\", 
-          \\\"bucket\\\": \\\"dev.va.gov\\\", 
-          \\\"asset_bucket\\\": \\\"dev-va-gov-assets\\\",
-          \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
+        \\\"environment\\\": \\\"vagovdev\\\",
+        \\\"bucket\\\": \\\"dev.va.gov\\\",
+        \\\"asset_bucket\\\": \\\"dev-va-gov-assets\\\",
+        \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
         }"
       STAGING: "{
-          \\\"environment\\\": \\\"vagovstaging\\\", 
-          \\\"bucket\\\": \\\"staging.va.gov\\\", 
-          \\\"asset_bucket\\\": \\\"staging-va-gov-assets\\\",
-          \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
+        \\\"environment\\\": \\\"vagovstaging\\\",
+        \\\"bucket\\\": \\\"staging.va.gov\\\",
+        \\\"asset_bucket\\\": \\\"staging-va-gov-assets\\\",
+        \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
         }"
       PROD: "{
-          \\\"environment\\\": \\\"vagovprod\\\", 
-          \\\"bucket\\\": \\\"www.va.gov\\\", 
-          \\\"asset_bucket\\\": \\\"prod-va-gov-assets\\\",
-          \\\"iam_role\\\": \\\"AWS_FRONTEND_PROD_ROLE\\\"
+        \\\"environment\\\": \\\"vagovprod\\\",
+        \\\"bucket\\\": \\\"www.va.gov\\\",
+        \\\"asset_bucket\\\": \\\"prod-va-gov-assets\\\",
+        \\\"iam_role\\\": \\\"AWS_FRONTEND_PROD_ROLE\\\"
         }"
     steps:
       - name: Set environments for deploy matrix
         id: set-environments
         run: |
           if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && ${{ needs.build.outputs.continuous_deployment }} == true ]]; then
-            echo ::set-output name=environments::{\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]}
+            echo environments={\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]} >> $GITHUB_OUTPUT
           else
-            echo ::set-output name=environments::{\"include\":[${{env.DEV}},${{env.STAGING}}]}
+            echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
           fi
-  
+
   deploy:
     name: Deploy
     needs: [build, set-deploy-environments]

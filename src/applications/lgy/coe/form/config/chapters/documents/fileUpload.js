@@ -4,7 +4,7 @@ import { validateFileField } from 'platform/forms-system/src/js/validation';
 
 import FileField from './FileField';
 import UploadRequirements from './UploadRequirements';
-import { validateDocumentDescription } from '../../helpers';
+import { validateDocumentDescription } from '../../../validations';
 import { DOCUMENT_TYPES } from '../../../../status/constants';
 
 const DocumentUploadDescription = () => (
@@ -119,8 +119,8 @@ export const uiSchema = {
       showFieldLabel: true,
     },
     'ui:errorMessages': {
-      required: 'Please upload a file',
-      minItems: 'Please upload at least one file',
+      required: 'You must upload a file',
+      minItems: 'You must upload at least one file',
     },
     'ui:validations': [validateFileField, validateDocumentDescription],
   },

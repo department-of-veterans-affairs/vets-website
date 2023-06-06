@@ -1,0 +1,20 @@
+{
+  "data": {
+    "attributes": [
+      {
+        "id": 23215740,
+        "documentType": "COE Application First Returned Letter",
+        "createDate": 1644869501000,
+        "description": "",
+        "mimeType": "IssueCOE1.pdf"
+      },
+      {
+        "id": 23215741,
+        "documentType": "Denial Letter",
+        "createDate": 1646092800000,
+        "description": "Example 2",
+        "mimeType": "IssueCOE2.pdf"
+      }
+    ]
+  }
+}

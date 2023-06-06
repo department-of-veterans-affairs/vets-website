@@ -1,0 +1,17 @@
+.signature-box {
+  .signature-box--representative {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    margin: 10px 0 0 0;
+  }
+
+  .signature-box--legend {
+    color: inherit;
+    float: left;
+  }
+
+  label:first-child {
+    display: flex;
+  }
+}

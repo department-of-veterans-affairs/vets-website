@@ -83,7 +83,7 @@ describe('<ClaimsListItemV2>', () => {
     };
     const tree = shallow(<ClaimsListItemV2 claim={claim} />);
     expect(tree.find('.communications').text()).to.contain(
-      'We sent you a decision letter',
+      'You have a decision letter ready',
     );
     tree.unmount();
   });

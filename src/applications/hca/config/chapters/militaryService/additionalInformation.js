@@ -1,5 +1,6 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import MilitaryPrefillMessage from 'platform/forms/save-in-progress/MilitaryPrefillMessage';
+import { ServiceHistoryTitle } from '../../../components/FormDescriptions';
 
 const {
   campLejeune,
@@ -13,15 +14,10 @@ const {
   vietnamService,
 } = fullSchemaHca.properties;
 
-import { emptyObjectSchema } from '../../../helpers';
-
 export default {
   uiSchema: {
-    'ui:title': 'Service history',
+    'ui:title': ServiceHistoryTitle,
     'ui:description': MilitaryPrefillMessage,
-    'view:textObject': {
-      'ui:description': 'Check all that apply to you.',
-    },
     purpleHeartRecipient: {
       'ui:title': 'Purple Heart award recipient',
     },
@@ -58,7 +54,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:textObject': emptyObjectSchema,
       purpleHeartRecipient,
       isFormerPow,
       postNov111998Combat,

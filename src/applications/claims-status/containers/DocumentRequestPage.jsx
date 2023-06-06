@@ -3,14 +3,17 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 import { withRouter, Link } from 'react-router';
 import { connect } from 'react-redux';
-import DueDate from '../components/DueDate';
-import AskVAQuestions from '../components/AskVAQuestions';
-import AddFilesForm from '../components/AddFilesForm';
-import Notification from '../components/Notification';
-import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import { setPageFocus, setUpPage } from '../utils/page';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import PropTypes from 'prop-types';
+
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+
+import DocumentRequestPageContent from '../components/evss/DocumentRequestPageContent';
+import AddFilesForm from '../components/AddFilesForm';
+import AskVAQuestions from '../components/AskVAQuestions';
+import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
+import DueDate from '../components/DueDate';
+import Notification from '../components/Notification';
 import {
   addFile,
   removeFile,
@@ -18,16 +21,24 @@ import {
   resetUploads,
   updateField,
   cancelUpload,
-  getClaimDetail,
+  // START lighthouse_migration
+  getClaim as getClaimAction,
+  getClaimDetail as getClaimEVSSAction,
+  // END lighthouse_migration
   setFieldsDirty,
   clearNotification,
-} from '../actions/index.jsx';
+} from '../actions';
+import { scrubDescription } from '../utils/helpers';
+import { setPageFocus, setUpPage } from '../utils/page';
+// START lighthouse_migration
+import { cstUseLighthouse } from '../selectors';
+// END lighthouse_migration
 
 const scrollToError = () => {
   const options = _.merge({}, window.VetsGov.scroll, { offset: -25 });
   scrollTo('uploadError', options);
 };
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
@@ -43,6 +54,7 @@ class DocumentRequestPage extends React.Component {
       scrollToTop();
     }
   }
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (!props.loading && !props.trackedItem) {
@@ -52,6 +64,7 @@ class DocumentRequestPage extends React.Component {
       this.goToFilesPage();
     }
   }
+
   componentDidUpdate(prevProps) {
     if (this.props.message && !prevProps.message) {
       document.querySelector('.claims-alert').focus();
@@ -61,19 +74,53 @@ class DocumentRequestPage extends React.Component {
       setPageFocus();
     }
   }
+
   componentWillUnmount() {
     if (!this.props.uploadComplete) {
       this.props.clearNotification();
     }
   }
+
+  getPageContent() {
+    const { trackedItem, useLighthouse } = this.props;
+    if (!useLighthouse) {
+      return <DocumentRequestPageContent trackedItem={trackedItem} />;
+    }
+
+    return (
+      <>
+        <h1 className="claims-header">{trackedItem.displayName}</h1>
+        {trackedItem.status === 'NEEDED_FROM_YOU' ? (
+          <DueDate date={trackedItem.suspenseDate} />
+        ) : null}
+        {trackedItem.status === 'NEEDED_FROM_OTHERS' ? (
+          <div className="optional-upload">
+            <p>
+              <strong>Optional</strong> - We’ve asked others to send this to us,
+              but you may upload it if you have it.
+            </p>
+          </div>
+        ) : null}
+        <p>{scrubDescription(trackedItem.description)}</p>
+      </>
+    );
+  }
+
   goToFilesPage() {
-    this.props.getClaimDetail(this.props.claim.id);
+    // START lighthouse_migration
+    if (this.props.useLighthouse) {
+      this.props.getClaimLighthouse(this.props.claim.id);
+    } else {
+      this.props.getClaimEVSS(this.props.claim.id);
+    }
+    // END lighthouse_migration
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
+
   render() {
     let content;
     const filesPath = `your-claims/${this.props.params.id}/files`;
-    const trackedItem = this.props.trackedItem;
+    const { trackedItem } = this.props;
 
     if (this.props.loading) {
       content = (
@@ -83,7 +130,7 @@ class DocumentRequestPage extends React.Component {
         />
       );
     } else {
-      const message = this.props.message;
+      const { message } = this.props;
 
       content = (
         <>
@@ -97,19 +144,7 @@ class DocumentRequestPage extends React.Component {
               />
             </div>
           )}
-          <h1 className="claims-header">{trackedItem.displayName}</h1>
-          {trackedItem.type.endsWith('you_list') ? (
-            <DueDate date={trackedItem.suspenseDate} />
-          ) : null}
-          {trackedItem.type.endsWith('others_list') ? (
-            <div className="optional-upload">
-              <p>
-                <strong>Optional</strong> - We’ve asked others to send this to
-                us, but you may upload it if you have it.
-              </p>
-            </div>
-          ) : null}
-          <p>{trackedItem.description}</p>
+          {this.getPageContent()}
           <AddFilesForm
             field={this.props.uploadField}
             progress={this.props.progress}
@@ -173,25 +208,42 @@ class DocumentRequestPage extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
+  const { claimDetail, uploads } = claimsState;
+  const useLighthouse = cstUseLighthouse(state);
+
+  let trackedItems = [];
   let trackedItem = null;
-  if (claimsState.claimDetail.detail) {
-    trackedItem = claimsState.claimDetail.detail.attributes.eventsTimeline.filter(
-      event =>
-        event.trackedItemId === parseInt(ownProps.params.trackedItemId, 10),
-    )[0];
+  if (claimDetail.detail) {
+    const { attributes } = claimDetail.detail;
+    const { trackedItemId } = ownProps.params;
+    if (useLighthouse) {
+      trackedItems = attributes.trackedItems;
+      [trackedItem] = trackedItems.filter(
+        event => event.id === parseInt(trackedItemId, 10),
+      );
+    } else {
+      trackedItems = attributes.eventsTimeline;
+      [trackedItem] = trackedItems.filter(
+        event => event.trackedItemId === parseInt(trackedItemId, 10),
+      );
+    }
   }
+
   return {
-    loading: claimsState.claimDetail.loading,
-    claim: claimsState.claimDetail.detail,
+    loading: claimDetail.loading,
+    claim: claimDetail.detail,
     trackedItem,
-    files: claimsState.uploads.files,
-    uploading: claimsState.uploads.uploading,
-    progress: claimsState.uploads.progress,
-    uploadError: claimsState.uploads.uploadError,
-    uploadComplete: claimsState.uploads.uploadComplete,
-    uploadField: claimsState.uploads.uploadField,
+    files: uploads.files,
+    uploading: uploads.uploading,
+    progress: uploads.progress,
+    uploadError: uploads.uploadError,
+    uploadComplete: uploads.uploadComplete,
+    uploadField: uploads.uploadField,
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.message,
+    // START lighthouse_migration
+    useLighthouse,
+    // END lighthouse_migration
   };
 }
 
@@ -201,7 +253,10 @@ const mapDispatchToProps = {
   submitFiles,
   updateField,
   cancelUpload,
-  getClaimDetail,
+  // START lighthouse_migration
+  getClaimEVSS: getClaimEVSSAction,
+  getClaimLighthouse: getClaimAction,
+  // END lighthouse_migration
   setFieldsDirty,
   resetUploads,
   clearNotification,
@@ -213,5 +268,33 @@ export default withRouter(
     mapDispatchToProps,
   )(DocumentRequestPage),
 );
+
+DocumentRequestPage.propTypes = {
+  addFile: PropTypes.func,
+  cancelUpload: PropTypes.func,
+  claim: PropTypes.object,
+  clearNotification: PropTypes.func,
+  files: PropTypes.array,
+  // START lighthouse_migration
+  getClaimEVSS: PropTypes.func,
+  getClaimLighthouse: PropTypes.func,
+  // END lighthouse_migration
+  lastPage: PropTypes.string,
+  loading: PropTypes.bool,
+  message: PropTypes.object,
+  params: PropTypes.object,
+  removeFile: PropTypes.func,
+  resetUploads: PropTypes.func,
+  router: PropTypes.object,
+  setFieldsDirty: PropTypes.func,
+  submitFiles: PropTypes.func,
+  trackedItem: PropTypes.object,
+  updateField: PropTypes.func,
+  uploadComplete: PropTypes.bool,
+  uploading: PropTypes.bool,
+  // START lighthouse_migration
+  useLighthouse: PropTypes.bool,
+  // END lighthouse_migration
+};
 
 export { DocumentRequestPage };

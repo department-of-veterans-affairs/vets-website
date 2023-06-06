@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { BASE_URL } from '../../constants';
 import pageNames from './pageNames';
 
 const content = {
-  groupLabel: 'For what type of claim are you requesting a Supplemental Claim?',
-  errorMessage: 'Please choose a benefit type',
+  groupLabel: 'What type of claim are you filing a Supplemental Claim for?',
+  errorMessage: 'You must choose a claim type.',
 };
 
 const options = [
@@ -22,7 +23,7 @@ const options = [
   },
   {
     value: pageNames.other,
-    label: 'Claim other than disability compensation',
+    label: 'Another type of claim (not a disability claim)',
   },
 ];
 
@@ -43,9 +44,14 @@ const validate = ({ benefitType } = {}) => optionValues.includes(benefitType);
  * @returns {JSX}
  */
 const BenefitType = ({ data = {}, error, setPageData }) => {
+  useEffect(() => {
+    setTimeout(() => {
+      focusElement('#main h2');
+    });
+  }, []);
   const handlers = {
-    setBenefitType: ({ target }) => {
-      const { value } = target;
+    setBenefitType: event => {
+      const { value } = event.detail;
       setPageData({ benefitType: value || null });
 
       recordEvent({
@@ -60,18 +66,43 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--0">
-        Is Supplemental Claim VA Form 20-0995 what I need?
-      </h1>
+      <h1 className="vads-u-margin-bottom--0">File a Supplemental Claim</h1>
+      <div className="schemaform-subtitle vads-u-font-size--lg">
+        VA Form 20-0995
+      </div>
+      <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+        Is this the form I need?
+      </h2>
       <p>
-        Use this form if you disagree with our decision on your claim and have
-        new and relevant evidence to submit.
+        Use this Supplemental Claim form (VA 20-0995) if you disagree with our
+        decision on your claim and you meet at least 1 of these requirements:
       </p>
-      <p>Answer a question to get started.</p>
+      <ul>
+        <li>
+          You have new and relevant evidence to submit, <strong>or</strong>
+        </li>
+        <li>
+          You would like VA to review your claim based on a new law (such as the{' '}
+          <a href="/pact">PACT Act</a>
+          ).
+        </li>
+      </ul>
+      <va-additional-info trigger="What are other decision review options?">
+        <p className="vads-u-padding-bottom--1">
+          If you don’t think this is the right form for you, find out about
+          other decision review options.
+        </p>
+        <a href="/resources/choosing-a-decision-review-option/">
+          Learn about choosing a decision review option
+        </a>
+      </va-additional-info>
+
       <VaRadio
         label={content.groupLabel}
         error={error ? content.errorMessage : null}
-        onRadioOptionSelected={handlers.setBenefitType}
+        onVaValueChange={handlers.setBenefitType}
+        required
+        label-header-level="2"
       >
         {options.map(({ value, label }) => (
           <VaRadioOption

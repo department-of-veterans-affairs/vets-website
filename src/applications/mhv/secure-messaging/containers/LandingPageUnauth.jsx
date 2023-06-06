@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
+import { useDispatch } from 'react-redux';
 
 const LandingPageUnauth = () => {
+  const dispatch = useDispatch();
+  const handleSignIn = () => {
+    dispatch(toggleLoginModal(true, 'mhv-sm-landing-page'));
+  };
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  });
+
   return (
-    <div className="vads-l-grid-container">
+    <div className="main-content vads-u-flex--fill">
       <h1>Messages</h1>
-      <p className="va-introtext">
+      <p className="va-introtext vads-u-margin-top--1">
         Send and receive messages with your care team and get replies within 3
         business days.
       </p>
@@ -19,11 +30,17 @@ const LandingPageUnauth = () => {
         <div>
           <p className="vads-u-margin-top--0">
             Sign in with your
-            <strong>Login.gov</strong>, <strong>ID.me</strong>, or{' '}
+            <strong> Login.gov</strong>, <strong>ID.me</strong>, or{' '}
             <strong>My HealtheVet</strong> account. If you don’t have any of
             these accounts, you can create a free account now.
           </p>
-          <button className="va-button-primary">
+          {/* va-button component from design library has a bug which affects the styling */}
+          {/* However, toggleLoginModal function has appropriate analytic tags */}
+          <button
+            type="button"
+            className="va-button-primary"
+            onClick={handleSignIn}
+          >
             Sign in or create an account
           </button>
         </div>
@@ -38,12 +55,12 @@ const LandingPageUnauth = () => {
         as services like home health and geriatric (elder) care. And VA offers
         family and caregiver health benefits.
       </p>
-      <p>
+      <p className="vads-u-margin-top--3px">
         <a
-          className="vads-c-action-link--blue"
+          className="vads-c-action-link--blue compose-message-link"
           href="/my-health/secure-messages"
         >
-          Compose a new message
+          Start a new message
         </a>
       </p>
       <p>

@@ -34,9 +34,9 @@
         }
       ],
       "vaLoanIndicator": true,
-      "intent": "ONETIMERESTORATION",
       "relevantPriorLoans": [
         {
+          "intent": "ONETIMERESTORATION",
           "dateRange": {
             "from": "2015-01-01T00:00:00.000Z",
             "to": "2020-01-01T00:00:00.000Z"
@@ -48,11 +48,11 @@
             "propertyState": "AK",
             "propertyZip": "85274"
           },
-          "vaLoanNumber": "123-45",
-          "propertyOwned": true,
-          "willRefinance": false
+          "vaLoanNumber": "123456789012",
+          "propertyOwned": true
         },
         {
+          "intent": "REFI",
           "dateRange": {
             "from": "2020-01-01T00:00:00.000Z",
             "to": ""
@@ -64,9 +64,8 @@
             "propertyState": "AK",
             "propertyZip": "85274"
           },
-          "vaLoanNumber": "100 23",
-          "propertyOwned": true,
-          "willRefinance": false
+          "vaLoanNumber": "210987654321",
+          "propertyOwned": true
         }
       ],
       "files": [

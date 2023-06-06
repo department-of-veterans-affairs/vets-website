@@ -59,9 +59,9 @@
       <!-- Mobile Layout -->
       <div
         data-widget-type="header"
-        data-show="{{ !noHeader }}"
-        data-show-nav-login="{{ !noNavOrLogin }}"
-        data-show-mega-menu="{{ !noMegamenu }}"
+        data-show="<%= typeof noHeader !== 'undefined' ? !noHeader : true %>"
+        data-show-nav-login="<%= typeof noNavOrLogin !== 'undefined' ? !noNavOrLogin : true %>"
+        data-show-mega-menu="<%= typeof noMegamenu !== 'undefined' ? !noMegamenu : true %>"
         id="header-v2"
       ></div>
 
@@ -120,7 +120,7 @@
         <div class="row va-flex usa-grid usa-grid-full" id="va-header-logo-menu">
           <div class="va-header-logo-wrapper">
             <a href="/" class="va-header-logo">
-              <img src="/img/header-logo.png" alt="Go to VA.gov"/>
+              <img src="/img/header-logo.png" alt="VA logo and Seal, U.S. Department of Veterans Affairs"/>
             </a>
           </div>
           <div id="va-nav-controls"></div>
@@ -135,16 +135,6 @@
           <div id="mega-menu"></div>
         </div>
 
-        <!-- Hidden for modern browsers. -->
-        <va-banner
-          class="ie-deprecation-warning"
-          headline="You'll need to use a different web browser"
-          show-close
-          type="warning"
-          visible="false"
-        >
-          You're using Internet Explorer right now to access VA.gov. Microsoft stopped supporting all versions of this browser on June 15, 2022. This means that you'll need to switch to another browser, like Microsoft Edge, Google Chrome, Mozilla Firefox, or Apple Safari.
-        </va-banner>
       </div>
     </header>
 
@@ -158,7 +148,7 @@
             <% if (index === breadcrumbs_override.length - 1) { %>
             aria-current="page"
             <% } %>
-            href="<%= path %>">
+            href="/<%= path %>">
             <%= name %>
           </a>
         </li>
@@ -222,7 +212,9 @@
     <!-- Footer -->
     <div id="announcement-root"></div>
     <footer class="footer" role="contentinfo">
-      <div id="footerNav"></div> <!-- let's try this React thing -->
+      <div id="footerNav"
+        data-minimal-footer="<%= typeof minimalFooter !== 'undefined' ? minimalFooter : false %>"
+      ></div>
     </footer>
 
     <!--
@@ -240,14 +232,5 @@
     </script>
     <% } %>
 
-    <!-- Solutioned for: https://github.com/department-of-veterans-affairs/va.gov-cms/issues/9075 -->
-    <script type="text/javascript">
-      const isIE = /Trident\/[0-7]\.[0-9]/i.test(window.navigator.userAgent);
-
-      if (isIE) {
-        const ieMessageEl = document.body.querySelector('.ie-deprecation-warning');
-        ieMessageEl.setAttribute('visible', '');
-      }
-    </script>
   </body>
 </html>

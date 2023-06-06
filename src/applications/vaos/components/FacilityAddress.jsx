@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import FacilityDirectionsLink from '../components/FacilityDirectionsLink';
+import FacilityDirectionsLink from './FacilityDirectionsLink';
 import FacilityPhone from './FacilityPhone';
 import State from './State';
 import { hasValidCovidPhoneNumber } from '../services/appointment';
@@ -37,12 +38,9 @@ export default function FacilityAddress({
       )}
       {!!address && (
         <>
-          {address?.line?.map(line => (
-            <React.Fragment key={line}>
-              {line}
-              <br />
-            </React.Fragment>
-          ))}
+          {/* removes falsy values from address array */}
+          {address?.line.filter(Boolean).join(', ')}
+          <br />
           {address.city}, <State state={address.state} /> {address.postalCode}
           <br />
         </>
@@ -73,3 +71,13 @@ export default function FacilityAddress({
     </>
   );
 }
+
+FacilityAddress.propTypes = {
+  facility: PropTypes.object.isRequired,
+  clinicName: PropTypes.string,
+  level: PropTypes.number,
+  name: PropTypes.string,
+  showCovidPhone: PropTypes.bool,
+  showDirectionsLink: PropTypes.bool,
+  showPhone: PropTypes.bool,
+};

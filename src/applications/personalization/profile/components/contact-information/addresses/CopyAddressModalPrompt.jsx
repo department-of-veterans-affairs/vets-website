@@ -1,10 +1,10 @@
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import { recordCustomProfileEvent } from '../../../util/analytics';
 
 const CopyAddressModalPrompt = ({
   visible,
@@ -16,11 +16,9 @@ const CopyAddressModalPrompt = ({
 }) => {
   const onMountCb = useCallback(() => {
     return () => {
-      recordEvent({
-        event: 'profile_modal',
-        'modal-title': 'Change Mailing Address',
-        'modal-status': 'Prompt Shown',
-        'modal-primaryButtonText': 'none',
+      recordCustomProfileEvent({
+        title: 'Change Mailing Address',
+        status: 'Prompt Shown',
       });
     };
   }, []);
@@ -47,13 +45,11 @@ const CopyAddressModalPrompt = ({
 
   const handleClick = btnStatus => {
     return () => {
-      const eventData = {
-        event: 'profile_modal',
-        'modal-title': 'Change Mailing Address',
-        'modal-status': 'Button Click',
-        'modal-primaryButtonText': btnStatus,
-      };
-      recordEvent(eventData);
+      recordCustomProfileEvent({
+        title: 'Change Mailing Address',
+        status: 'Button Click',
+        primaryButtonText: btnStatus,
+      });
       return btnStatus === 'yes' ? onYes() : onClose();
     };
   };

@@ -2,14 +2,32 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { getEVData } from '../selectors';
 import { STATUS } from '../constants';
 import { STATUS_PROP_TYPE } from '../helpers';
 import { UPDATE_VERIFICATION_STATUS_SUCCESS } from '../actions';
-import VerifyYourEnrollments from './VerifyYourEnrollments';
+
+const fetchFailureAlert = (
+  <va-alert status="error" visible>
+    <h3 slot="headline">
+      There was an error retrieving your enrollment verifications
+    </h3>
+    <p>Please try again later.</p>
+  </va-alert>
+);
 
 const successAlert = submissionResult => (
-  <va-alert status="success" visible>
-    {submissionResult === UPDATE_VERIFICATION_STATUS_SUCCESS
+  <va-alert
+    aria-live={
+      submissionResult !== UPDATE_VERIFICATION_STATUS_SUCCESS
+        ? 'assertive'
+        : 'off'
+    }
+    role="alert"
+    status="success"
+    visible
+  >
+    {submissionResult !== UPDATE_VERIFICATION_STATUS_SUCCESS
       ? 'Congratulations, you’re'
       : 'You’re'}{' '}
     up-to-date with your monthly enrollment verification. You’ll be able to
@@ -18,52 +36,64 @@ const successAlert = submissionResult => (
 );
 const warningAlert = (
   <va-alert status="warning" visible>
-    <h3 slot="headline">
+    <h1
+      className="vads-u-font-size--h3 vads-u-font-weight--bold"
+      slot="headline"
+    >
       We’re missing one or more of your enrollment verifications
-    </h3>
+    </h1>
     <p>
       You’ll need to verify your monthly enrollments to get your scheduled
       payments.
     </p>
-    <VerifyYourEnrollments />
   </va-alert>
 );
 
 const pausedAlert = (
   <va-alert status="error" visible>
-    <h3 slot="headline">We’ve paused your monthly education payments</h3>
+    <h1
+      className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif"
+      slot="headline"
+    >
+      We’ve paused your monthly education payments
+    </h1>
     <p>
-      We had to pause your payments because you haven’t verified your
-      enrollment(s) for <strong>two months in a row</strong>. Please review and
-      verify your monthly enrollment(s) to get the payments you’re entitled to.
+      We’ve paused your payments because it’s been more than 2 months since you
+      verified your enrollment. Please review and verify your monthly
+      enrollment(s) to get the payments you’re entitled to.
     </p>
-    <VerifyYourEnrollments />
   </va-alert>
 );
 
 const pausedScoAlert = (
   <va-alert status="error" visible>
-    <h3 slot="headline">
-      We’ve paused your monthly education payments until you update your
-      enrollment information
-    </h3>
+    <h1
+      className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif"
+      slot="headline"
+    >
+      We’ve paused your monthly education payments until your enrollment
+      information is updated
+    </h1>
     <p>
-      You’ve verified that your monthly enrollment has changed or isn’t correct,
-      but you haven’t updated it yet.
+      We did this because you verified your monthly enrollment has changed or
+      isn’t correct.
     </p>
     <p>
-      To continue getting your monthly education payments, you’ll need to work
-      with your School Certifying Official (SCO) to update your information on
-      file.
-    </p>
-    <p>
-      We encourage you to reach out to your SCO as soon as you can to avoid an
-      overpayment. If we overpay you, you may have a debt to pay back.
+      Work with your School Certifying Official to have your enrollment
+      information updated.
     </p>
   </va-alert>
 );
 
-const EnrollmentVerificationAlert = ({ status, submissionResult }) => {
+const EnrollmentVerificationAlert = ({
+  enrollmentVerificationFetchFailure,
+  status,
+  submissionResult,
+}) => {
+  if (enrollmentVerificationFetchFailure) {
+    return fetchFailureAlert;
+  }
+
   switch (status) {
     case STATUS.ALL_VERIFIED:
       return successAlert(submissionResult);
@@ -80,11 +110,10 @@ const EnrollmentVerificationAlert = ({ status, submissionResult }) => {
 
 EnrollmentVerificationAlert.propTypes = {
   status: STATUS_PROP_TYPE.isRequired,
+  enrollmentVerificationFetchFailure: PropTypes.bool,
   submissionResult: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
-  submissionResult: state?.data?.enrollmentVerificationSubmissionResult,
-});
+const mapStateToProps = state => getEVData(state);
 
 export default connect(mapStateToProps)(EnrollmentVerificationAlert);

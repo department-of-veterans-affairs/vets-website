@@ -6,7 +6,7 @@ const { pciuStates: PCIU_STATES } = constants;
 import {
   VA_FORM_IDS,
   VA_FORM_IDS_IN_PROGRESS_FORMS_API,
-} from 'platform/forms/constants';
+} from '@department-of-veterans-affairs/platform-forms/constants';
 
 import disabilityLabels from './content/disabilityLabels';
 
@@ -34,6 +34,7 @@ export const itfStatuses = {
 
 export const RESERVE_GUARD_TYPES = {
   nationalGuard: 'National Guard',
+  // Not updating to "Reserves"; used in string matching comparisons
   reserve: 'Reserve',
 };
 
@@ -300,6 +301,8 @@ export const FORM_STATUS_BDD = 'formStatusBdd';
 
 export const SHOW_8940_4192 = 'showSubforms';
 
+export const SERVICE_BRANCHES = 'militaryServiceBranches';
+
 // sessionStorage key used for the user entered separation date in the wizard
 // used by the first page of the form to populate the form data
 export const SAVED_SEPARATION_DATE = 'savedSeparationDate';
@@ -309,6 +312,10 @@ export const EBEN_526_PATH =
 
 export const BDD_INFO_URL =
   '/disability/how-to-file-claim/when-to-file/pre-discharge-claim/';
+
+/** Public Disability Benefits Questionnaires (DBQs) page which links to the Separation Helth Assessment Part A */
+export const DBQ_URL =
+  'https://www.benefits.va.gov/compensation/dbq_publicdbqs.asp';
 
 // maxLength from schema
 export const CHAR_LIMITS = [

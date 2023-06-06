@@ -189,7 +189,7 @@ export function CalculateYourBenefits({
 
           <div className="vads-u-padding-bottom--1 small-screen-font">
             <LearnMoreLabel
-              text={'Protection against late VA payments'}
+              text="Protection against late VA payments"
               onClick={() => {
                 dispatchShowModal('section103');
               }}
@@ -206,7 +206,7 @@ export function CalculateYourBenefits({
 
           <div className="vads-u-padding-bottom--1 small-screen-font">
             <LearnMoreLabel
-              text={'Yellow Ribbon Program'}
+              text="Yellow Ribbon Program"
               onClick={() => {
                 dispatchShowModal('yribbon');
               }}
@@ -221,7 +221,7 @@ export function CalculateYourBenefits({
 
           <div className="vads-u-padding-bottom--1 small-screen-font">
             <LearnMoreLabel
-              text={'Veteran Rapid Retraining Assistance Program (VRRAP)'}
+              text="Veteran Rapid Retraining Assistance Program (VRRAP)"
               onClick={() => {
                 dispatchShowModal('vrrap');
               }}

@@ -1,12 +1,13 @@
 import React from 'react';
-import { serviceMemberPathPageNames } from '../pageList';
 import { CAREERS_EMPLOYMENT_ROOT_URL } from 'applications/vre/28-1900/constants';
+import { serviceMemberPathPageNames } from '../pageList';
 import { recordNotificationEvent, fireLinkClickEvent } from '../helpers';
 
 const NoIDES = () => {
   recordNotificationEvent('ineligibility - does not have a disability rating');
   return (
     <div
+      id={serviceMemberPathPageNames.noIDES}
       className="feature vads-u-background-color--gray-lightest"
       aria-live="polite"
       aria-atomic="true"

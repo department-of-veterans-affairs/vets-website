@@ -1,5 +1,5 @@
 import environment from 'platform/utilities/environment';
-import { AUTH_ERROR } from 'platform/user/authentication/constants';
+import { AUTH_ERRORS } from 'platform/user/authentication/errors';
 
 export const ALL_STATE_AND_VERIFIERS = [
   'state',
@@ -26,12 +26,14 @@ export const API_SIGN_IN_SERVICE_URL = ({
     `?type=${type}`}`;
 
 export const CLIENT_IDS = {
-  WEB: 'web',
-  MOBILE: 'mobile',
+  VAWEB: 'vaweb',
+  VAMOBILE: 'vamobile',
+  VAMOCK: 'vamock',
 };
 
 export const COOKIES = {
   INFO_TOKEN: 'vagov_info_token',
+  CI: 'ci',
 };
 
 export const OAUTH_KEYS = {
@@ -88,8 +90,8 @@ export const OAUTH_ERRORS = {
 
 export const OAUTH_EVENTS = {
   ERROR_DEFAULT: 'login-error-oauth-default',
-  OAUTH_ERROR_STATE_MISMATCH: 'login-error-oauth-state-mismatch',
-  OAUTH_ERROR_USER_FETCH: 'login-error-oauth-user-fetch',
+  OAUTH_ERRORS_STATE_MISMATCH: 'login-error-oauth-state-mismatch',
+  OAUTH_ERRORS_USER_FETCH: 'login-error-oauth-user-fetch',
   'Code is not valid': 'login-error-oauth-code-not-valid',
   'Code is not defined': 'login-error-oauth-code-not-defined',
   'State is not defined': 'login-error-oauth-state-not-defined',
@@ -100,21 +102,18 @@ export const OAUTH_EVENTS = {
 
 export const OAUTH_ERROR_RESPONSES = {
   // Callback
-  'Code is not valid': AUTH_ERROR.OAUTH_INVALID_REQUEST,
-  'Code is not defined': AUTH_ERROR.OAUTH_INVALID_REQUEST,
-  'State is not defined': AUTH_ERROR.OAUTH_INVALID_REQUEST,
-  'State mismatches client side': AUTH_ERROR.OAUTH_STATE_MISMATCH,
+  'Code is not valid': AUTH_ERRORS.OAUTH_INVALID_REQUEST.errorCode,
+  'Code is not defined': AUTH_ERRORS.OAUTH_INVALID_REQUEST.errorCode,
+  'State is not defined': AUTH_ERRORS.OAUTH_INVALID_REQUEST.errorCode,
+  'State mismatches client side': AUTH_ERRORS.OAUTH_STATE_MISMATCH.errorCode,
   // Token Exchange
-  'Code Verifier is not defined': AUTH_ERROR.OAUTH_INVALID_REQUEST,
-  'Grant Type is not defined': AUTH_ERROR.OAUTH_INVALID_REQUEST,
+  'Code Verifier is not defined': AUTH_ERRORS.OAUTH_INVALID_REQUEST.errorCode,
+  'Grant Type is not defined': AUTH_ERRORS.OAUTH_INVALID_REQUEST.errorCode,
   // Refresh
-  'Refresh token is not defined': AUTH_ERROR.OAUTH_INVALID_REQUEST,
+  'Refresh token is not defined': AUTH_ERRORS.OAUTH_INVALID_REQUEST.errorCode,
   // Default | Unknown
-  default: AUTH_ERROR.OAUTH_DEFAULT_ERROR,
+  default: AUTH_ERRORS.OAUTH_DEFAULT_ERROR.errorCode,
 };
-
-export const OAUTH_ERROR_REDIRECT = errorCode =>
-  `${environment.BASE_URL}/auth/login/callback?auth=fail&code=${errorCode}`;
 
 export const TOKEN_KEYS = generateOAuthKeysWithout([
   'SCOPE',

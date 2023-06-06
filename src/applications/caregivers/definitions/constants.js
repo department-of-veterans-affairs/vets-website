@@ -13,7 +13,6 @@ export const veteranFields = {
   previousTreatmentFacility: 'veteranLastTreatmentFacility',
   primaryPhoneNumber: 'veteranPrimaryPhoneNumber',
   ssn: 'veteranSsnOrTin',
-  verifyEmail: 'view:veteranEmail',
 };
 
 export const primaryCaregiverFields = {
@@ -27,7 +26,6 @@ export const primaryCaregiverFields = {
   hasSecondaryCaregiverOne: 'view:hasSecondaryCaregiverOne',
   primaryPhoneNumber: 'primaryPrimaryPhoneNumber',
   ssn: 'primarySsnOrTin',
-  verifyEmail: 'view:primaryEmail',
   vetRelationship: 'primaryVetRelationship',
   hasHealthInsurance: 'primaryHasHealthInsurance',
   hasPrimaryCaregiver: 'view:hasPrimaryCaregiver',
@@ -44,7 +42,6 @@ export const secondaryOneFields = {
   hasSecondaryCaregiverTwo: 'view:hasSecondaryCaregiverTwo',
   primaryPhoneNumber: 'secondaryOnePrimaryPhoneNumber',
   ssn: 'secondaryOneSsnOrTin',
-  verifyEmail: 'view:secondaryOneEmail',
   vetRelationship: 'secondaryOneVetRelationship',
 };
 
@@ -58,7 +55,6 @@ export const secondaryTwoFields = {
   gender: 'secondaryTwoGender',
   primaryPhoneNumber: 'secondaryTwoPrimaryPhoneNumber',
   ssn: 'secondaryTwoSsnOrTin',
-  verifyEmail: 'view:secondaryTwoEmail',
   vetRelationship: 'secondaryTwoVetRelationship',
 };
 

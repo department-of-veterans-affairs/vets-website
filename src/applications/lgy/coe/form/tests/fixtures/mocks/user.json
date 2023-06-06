@@ -36,7 +36,10 @@
         "multifactor": true,
         "verified": true,
         "signIn": { "serviceName": "idme", "accountType": "N/A", "ssoe": true },
-        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3"
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
+        "claims": {
+          "coe": true
+        }
       },
       "vaProfile": {
         "status": "OK",

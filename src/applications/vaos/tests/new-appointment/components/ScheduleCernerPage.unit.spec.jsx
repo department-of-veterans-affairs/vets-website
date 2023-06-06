@@ -10,6 +10,19 @@ import {
 
 import { createMockCheyenneFacilityByVersion } from '../../mocks/data';
 import ScheduleCernerPage from '../../../new-appointment/components/ScheduleCernerPage';
+import {
+  mockEligibilityFetchesByVersion,
+  mockFacilityFetchByVersion,
+} from '../../mocks/fetch';
+import {
+  mockSchedulingConfigurations,
+  mockVAOSParentSites,
+} from '../../mocks/helpers.v2';
+import {
+  getSchedulingConfigurationMock,
+  getV2ClinicMock,
+} from '../../mocks/v2';
+import { getRealFacilityId } from '../../../utils/appointment';
 
 const initialState = {
   featureToggles: {
@@ -24,7 +37,7 @@ const initialState = {
 
 describe('VAOS <ScheduleCernerPage>', () => {
   beforeEach(() => mockFetch());
-  it('should show Cerner facility information', async () => {
+  it.skip('should show Cerner facility information', async () => {
     const facilityData = createMockCheyenneFacilityByVersion({ version: 0 });
 
     const store = createTestStore(initialState);
@@ -55,5 +68,108 @@ describe('VAOS <ScheduleCernerPage>', () => {
     expect(screen.getByRole('button', { name: /Continue/ })).to.have.attribute(
       'disabled',
     );
+  });
+
+  describe('when using v2 api', () => {
+    it('should show Cerner facility information', async () => {
+      const store = createTestStore({
+        ...initialState,
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+          vaOnlineSchedulingFacilitiesServiceV2: true,
+        },
+        drupalStaticData: {
+          vamcEhrData: {
+            loading: false,
+            data: {
+              ehrDataByVhaId: {
+                '442': {
+                  vhaId: '442',
+                  vamcFacilityName: 'Cheyenne VA Medical Center',
+                  vamcSystemName: 'VA Cheyenne health care',
+                  ehr: 'cerner',
+                },
+                '552': {
+                  vhaId: '552',
+                  vamcFacilityName: 'Dayton VA Medical Center',
+                  vamcSystemName: 'VA Dayton health care',
+                  ehr: 'cerner',
+                },
+              },
+              cernerFacilities: [
+                {
+                  vhaId: '442',
+                  vamcFacilityName: 'Cheyenne VA Medical Center',
+                  vamcSystemName: 'VA Cheyenne health care',
+                  ehr: 'cerner',
+                },
+                {
+                  vhaId: '552',
+                  vamcFacilityName: 'Dayton VA Medical Center',
+                  vamcSystemName: 'VA Dayton health care',
+                  ehr: 'cerner',
+                },
+              ],
+              vistaFacilities: [],
+            },
+          },
+        },
+        user: {
+          ...initialState.user,
+          profile: {
+            ...initialState.user.profile,
+            vapContactInfo: {
+              residentialAddress: {
+                latitude: 39.1362562,
+                longitude: -84.6804804,
+              },
+            },
+          },
+        },
+      });
+
+      const facility = createMockCheyenneFacilityByVersion({ version: 2 });
+      const realFacilityId = getRealFacilityId('983');
+
+      mockFacilityFetchByVersion({ facility, version: 2 });
+      mockVAOSParentSites(['983'], [facility], true);
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: realFacilityId,
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      ]);
+      mockEligibilityFetchesByVersion({
+        facilityId: realFacilityId,
+        typeOfCareId: 'primaryCare',
+        directPastVisits: false,
+        limit: true,
+        clinics: [
+          getV2ClinicMock({
+            id: '455',
+            stationId: realFacilityId,
+            serviceName: 'Clinic name',
+          }),
+        ],
+        version: 2,
+      });
+
+      // Setup Redux store
+      await setTypeOfCare(store, /primary care/i);
+      await setVAFacility(store, realFacilityId, { facility });
+
+      const screen = renderWithStoreAndRouter(<ScheduleCernerPage />, {
+        store,
+      });
+
+      // Make sure Cerner link shows up
+      expect(
+        screen
+          .getByRole('link', { name: /My VA Health/i })
+          .getAttribute('href'),
+      ).to.contain('pages%2Fscheduling%2Fupcoming');
+    });
   });
 });

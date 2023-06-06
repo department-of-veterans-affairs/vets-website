@@ -1,273 +1,186 @@
-import moment from 'moment';
+import moment from 'moment/moment';
+import Timeouts from 'platform/testing/e2e/timeouts';
 import {
-  initAppointmentListMock,
-  initVARequestMock,
   vaosSetup,
-  mockUser,
   mockFeatureToggles,
+  mockAppointmentsApi,
+  mockFacilitiesApi,
+  mockClinicApi,
+  mockDirectScheduleSlotsApi,
+  mockLoginApi,
+  mockCCEligibilityApi,
+  mockSchedulingConfigurationApi,
+  mockUserTransitionAvailabilities,
+  mockEligibilityApi,
+  mockFacilityApi,
+  mockAppointmentApi,
 } from './vaos-cypress-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
-import facilities from '../../services/mocks/var/facilities.json';
-import facilities983 from '../../services/mocks/var/facilities_983.json';
-import facilityData from '../../services/mocks/var/facility_data.json';
-import requestEligibilityCriteria from '../../services/mocks/var/request_eligibility_criteria.json';
-import directEligibilityCriteria from '../../services/mocks/var/direct_booking_eligibility_criteria.json';
-import requests from '../../services/mocks/v2/requests.json';
+import { mockVamcEhr } from './vaos-cypress-v2-helpers';
 
-// skipped due to failures with date validation
-describe.skip('VAOS VA request flow', () => {
-  function fillOutForm(facilitySelection) {
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
-    cy.injectAxe();
+describe('VAOS VA request flow using VAOS service', () => {
+  beforeEach(() => {
+    vaosSetup();
 
-    // Start flow
-    cy.findByText('Start scheduling').click({ waitForAnimations: true });
-
-    // Choose Type of Care
-    newApptTests.chooseTypeOfCareTest('Social work');
-
-    // Choose VA Facility
-    cy.url().should('include', '/va-facility');
-    cy.axeCheckBestPractice();
-    if (facilitySelection) facilitySelection();
-    cy.findByText(/Continue/).click();
-
-    // Choose date and slot (AM or PM)
-    newApptTests.selectRequestSlotTest();
-
-    // Reason for appointment
-    newApptTests.reasonForAppointmentTest(
-      'cough',
-      /Please provide any additional details/,
-    );
-
-    // Visit type
-    newApptTests.howToBeSeenTest();
-
-    // Contact info
-    newApptTests.contactInfoTest();
-
-    // Review
-    cy.url().should('include', '/review');
-    cy.axeCheckBestPractice();
-    cy.findByText('Request appointment').click();
-
-    // Check form requestBody is as expected
-    cy.wait('@appointmentRequests').should(xhr => {
-      // Add check to see if adding 7 days will result in the next month. If so,
-      // add 2 months (the test clicks the calendar next button to advance to the
-      // next month) and set date to beginning of month, else set the date to the
-      // beginning of the next month
-      const date = moment();
-      if (
-        moment(date)
-          .add(7, 'days')
-          .isSame(moment(date).add(1, 'month'), 'month')
-      ) {
-        date.add(2, 'months').startOf('month');
-      } else {
-        date.add(1, 'months').startOf('month');
-      }
-
-      expect(xhr.status).to.eq(200);
-      expect(xhr.url, 'post url').to.contain(
-        '/vaos/v0/appointment_requests?type=va',
-      );
-      const request = xhr.requestBody;
-      expect(request)
-        .to.have.property('optionDate1')
-        .to.equal(date.format('MM/DD/YYYY'));
-      expect(request)
-        .to.have.property('optionDate2')
-        .to.equal('No Date Selected');
-      expect(request)
-        .to.have.property('optionDate3')
-        .to.equal('No Date Selected');
-
-      expect(request.facility.facilityCode).to.eq('983GB');
-      expect(request.facility.parentSiteCode).to.eq('983');
-      expect(request).to.have.property('typeOfCareId', '125');
-      expect(request).to.have.property('visitType', 'Office Visit');
-      expect(request).to.have.property('optionTime1', 'AM');
-      expect(request).to.have.property('optionTime2', 'No Time Selected');
-      expect(request).to.have.property('optionTime3', 'No Time Selected');
-      expect(request).to.have.property('email', 'veteran@gmail.com');
-      expect(request).to.have.property('phoneNumber', '5035551234');
+    // mockAppointmentsApi({ apiVersion: 0 });
+    mockCCEligibilityApi();
+    mockClinicApi({ locations: ['983HK'], apiVersion: 2 });
+    mockDirectScheduleSlotsApi({ clinicId: '455', apiVersion: 2 });
+    mockFeatureToggles({
+      v2Requests: true,
+      v2Facilities: true,
+      v2DirectSchedule: true,
     });
-
-    // Check messages requestBody is as expected
-    cy.wait('@requestMessages').should(xhr => {
-      const request = xhr.requestBody;
-      expect(request).to.have.property('messageText', 'cough');
-    });
-
-    // Confirmation page
-    cy.url().should('include', '/requests/testing');
-    cy.findByText('VA appointment');
-    cy.findByText(/your appointment request has been submitted/i);
-    cy.axeCheckBestPractice();
-  }
-
-  it('should submit form successfully for a multi system user', () => {
-    initAppointmentListMock();
-    initVARequestMock();
-    fillOutForm(() => {
-      cy.findByLabelText(/Sidney/)
-        .focus()
-        .click();
-    });
-  });
-  it('should submit form successfully for a single system user', () => {
-    initAppointmentListMock();
-    initVARequestMock();
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v0/facilities**',
-      response: {
-        data: facilities.data.slice(0, 1),
-      },
-    });
-    fillOutForm(() => {
-      cy.findByLabelText(/Sidney/)
-        .focus()
-        .click();
-    });
+    mockUserTransitionAvailabilities();
   });
 
   it('should display Cerner how to schedule page if a Cerner facility is chosen', () => {
-    initAppointmentListMock();
-    initVARequestMock({ cernerFacility: '983' });
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v0/facilities**',
-      response: {
-        data: facilities.data.slice(0, 1),
+    const appointments = [
+      {
+        id: '1',
+        type: 'appointment',
+        attributes: {
+          clinic: '308',
+          end: moment()
+            .subtract(1, 'month')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          id: '1',
+          locationId: '983GB',
+          serviceType: 'socialWork',
+          start: moment()
+            .subtract(1, 'month')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          status: 'booked',
+        },
       },
+    ];
+
+    mockAppointmentsApi({ data: appointments, apiVersion: 2 });
+    mockEligibilityApi({ typeOfCare: 'socialWork', isEligible: true });
+    mockLoginApi({ facilityId: '983' });
+    mockSchedulingConfigurationApi({
+      facilityIds: ['983', '984'],
+      typeOfCareId: 'socialWork',
+      isDirect: true,
+      isRequest: true,
     });
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v0/systems/983/direct_scheduling_facilities*',
-      response: {
-        data: facilities983.data.filter(f => f.id === '983GB'),
+    mockVamcEhr({ isCerner: true });
+    const data = [
+      {
+        id: '983',
+        type: 'facilities',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          name: 'Cheyenne VA Medical Center',
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
       },
-    });
+      {
+        id: '984',
+        type: 'facilities',
+        attributes: {
+          id: '984',
+          vistaSite: '984',
+          name: 'Dayton VA Medical Center',
+          physicalAddress: {
+            line: ['4100 West Third Street'],
+            city: 'Dayton',
+            state: 'OH',
+            postalCode: '45428-9000',
+          },
+        },
+      },
+    ];
+
+    mockFacilitiesApi({ data, apiVersion: 2 });
+    mockClinicApi({ locations: ['983'], apiVersion: 2 });
+
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
 
     // Start flow
     cy.findByText('Start scheduling').click({ waitForAnimations: true });
+    cy.wait('@drupal-source-of-truth');
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Social work');
 
     // Choose VA Facility
-    cy.url().should('include', '/va-facility-2');
+    cy.url().should('include', '/va-facility-2', { timeout: Timeouts.slow });
     cy.axeCheckBestPractice();
-    cy.findByLabelText(/Rawlins/)
+    cy.wait(['@v2:get:facilities', '@scheduling-configurations']);
+    cy.findByLabelText(/Cheyenne VA Medical Center/)
       .focus()
       .click();
     cy.findByText(/Continue/).click();
 
     cy.url().should('include', '/how-to-schedule');
-    cy.findByText(/Rawlins VA Clinic/);
+    cy.findByText(/Cheyenne VA Medical Center/i);
     cy.findByText(/To schedule an appointment online at this facility/);
     cy.axeCheckBestPractice();
   });
-});
 
-describe.skip('VAOS VA request flow using VAOS service', () => {
-  beforeEach(() => {
-    vaosSetup();
-    mockFeatureToggles({
-      v2Requests: true,
+  it('should submit form successfully for a multi system user', () => {
+    const data = [
+      {
+        id: '983',
+        type: 'facilities',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          vastParent: '983',
+          name: 'Cheyenne VA Medical Center',
+          classification: 'VA Medical Center (VAMC)',
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard', null, 'Suite 10'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
+      {
+        id: '983GB',
+        type: 'facilities',
+        attributes: {
+          id: '983GB',
+          vistaSite: '983',
+          name: 'Sidney VA Clinic',
+          physicalAddress: {
+            line: ['1116 10th Avenue'],
+            city: 'Sidney',
+            state: 'NE',
+            postalCode: '69162-2001',
+          },
+        },
+      },
+    ];
+
+    mockAppointmentsApi({ apiVersion: 2 });
+    mockClinicApi({ locations: ['983', '983GB'], apiVersion: 2 });
+    mockEligibilityApi({ typeOfCare: 'socialWork', isEligible: true });
+    mockFacilitiesApi({ data, apiVersion: 2 });
+    mockFacilityApi({ id: '983GB', apiVersion: 2 });
+    mockLoginApi({ withoutAddress: false });
+    mockSchedulingConfigurationApi({
+      facilityIds: ['983', '983GB'],
+      typeOfCareId: 'socialWork',
+      isDirect: false,
+      isRequest: true,
     });
-    cy.login(mockUser);
-    cy.route({
-      method: 'GET',
-      url: /.*\/v0\/appointments?.*$/,
-      response: { data: [] },
-    });
+    mockVamcEhr();
+
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
 
     // Start flow
     cy.findByText('Start scheduling').click({ waitForAnimations: true });
-  });
-
-  it('should submit request successfully', () => {
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v0/request_eligibility_criteria*',
-      response: requestEligibilityCriteria,
-    });
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v0/direct_booking_eligibility_criteria*',
-      response: directEligibilityCriteria,
-    });
-    cy.route({
-      method: 'GET',
-      url: '/v1/facilities/va?ids=*',
-      response: facilityData,
-    });
-    cy.route({
-      method: 'GET',
-      url: '/v1/facilities/va/vha_442GC',
-      response: facilityData.data.find(f => f.id === 'vha_442GC'),
-    });
-    cy.route({
-      method: 'GET',
-      url: `/vaos/v0/facilities/limits*`,
-      response: {
-        data: [
-          {
-            id: '983GB',
-            attributes: {
-              requestLimit: 1,
-              numberOfRequests: 0,
-            },
-          },
-        ],
-      },
-    });
-    cy.route({
-      method: 'GET',
-      url: `/vaos/v0/facilities/983GB/visits/*`,
-      response: {
-        data: {
-          id: '05084676-77a1-4754-b4e7-3638cb3124e5',
-          type: 'facility_visit',
-          attributes: {
-            durationInMonths: 24,
-            hasVisitedInPastMonths: true,
-          },
-        },
-      },
-    });
-    cy.route({
-      method: 'POST',
-      url: '/vaos/v2/appointments',
-      response: {
-        data: {
-          id: '25957',
-          attributes: {
-            reasonCode: {},
-          },
-        },
-      },
-    }).as('appointmentRequests');
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v2/appointments/25957*',
-      response: {
-        data: requests.data.find(r => r.id === '25957'),
-      },
-    });
-    cy.route({
-      method: 'GET',
-      url: '/v1/facilities/va/vha_442',
-      response: facilityData.data.find(f => f.id === 'vha_442'),
-    });
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Social work');
@@ -275,9 +188,12 @@ describe.skip('VAOS VA request flow using VAOS service', () => {
     // Choose VA Facility
     cy.url().should('include', '/va-facility');
     cy.axeCheckBestPractice();
+
     cy.findByLabelText(/Sidney/)
       .focus()
       .click();
+
+    cy.wait(['@v2:get:facilities']);
     cy.findByText(/Continue/).click();
 
     // Choose date and slot (AM or PM)
@@ -301,37 +217,136 @@ describe.skip('VAOS VA request flow using VAOS service', () => {
     cy.findByText('Request appointment').click();
 
     // Check form requestBody is as expected
-    cy.wait('@appointmentRequests').should(xhr => {
-      // Add check to see if adding 7 days will result in the next month. If so,
-      // add 2 months (the test clicks the calendar next button to advance to the
-      // next month) and set date to beginning of month, else set the date to the
-      // beginning of the next month
-      const date = moment();
-      if (
-        moment(date)
-          .add(7, 'days')
-          .isSame(moment(date).add(1, 'month'), 'month')
-      ) {
-        date.add(2, 'months').startOf('month');
-      } else {
-        date.add(1, 'months').startOf('month');
-      }
+    cy.wait('@v2:create:appointment').should(xhr => {
+      expect(xhr.response.statusCode).to.eq(200);
+      expect(xhr.request.url, 'post url').to.contain('/vaos/v2/appointments');
 
-      expect(xhr.status).to.eq(200);
-      expect(xhr.url, 'post url').to.contain('/vaos/v2/appointments');
-      const request = xhr.requestBody;
-      expect(request.requestedPeriods[0].start).to.equal(
-        moment.utc(date.format('YYYY-MM-DDTHH:mm:ss')).format(),
-      );
+      const { body } = xhr.request;
+      expect(body.contact).to.have.property('telecom');
+      expect(body.kind).to.eq('clinic');
+      expect(body.locationId).to.eq('983GB');
+      expect(body.preferredTimesForPhoneCall).to.include('Morning');
+      expect(body.reasonCode).to.have.property('text', 'cough');
 
-      expect(request.locationId).to.eq('983GB');
-      expect(request).to.have.property('serviceType', 'socialWork');
-      expect(request).to.have.property('kind', 'clinic');
-      expect(request.contact.telecom[1].value).to.equal('veteran@gmail.com');
-      expect(request.contact.telecom[0].value).to.equal('5035551234');
+      // TODO: Verify timezone
+      expect(body.requestedPeriods).to.have.lengthOf(1);
+      expect(body).to.have.property('serviceType', 'socialWork');
     });
-    cy.url().should('include', '/requests/25957');
-    cy.findByText('VA appointment');
-    cy.findByText(/your appointment request has been submitted/i);
+  });
+
+  it('should submit form successfully for a single system user', () => {
+    const data = [
+      {
+        id: '983GB',
+        type: 'facilities',
+        attributes: {
+          id: '983GB',
+          vistaSite: '983',
+          name: 'Sidney VA Clinic',
+          physicalAddress: {
+            line: ['1116 10th Avenue'],
+            city: 'Sidney',
+            state: 'NE',
+            postalCode: '69162-2001',
+          },
+        },
+      },
+    ];
+
+    mockAppointmentApi({
+      data: {
+        id: 'mock1',
+        type: 'Appointment',
+        attributes: {
+          contact: {
+            telecom: [
+              { type: 'phone', value: '5035551234' },
+              { type: 'email', value: 'veteran@gmail.com' },
+            ],
+          },
+          id: 'mock1',
+          kind: 'clinic',
+          locationId: '983GB',
+          preferredTimesForPhoneCall: ['Morning'],
+          reasonCode: { text: 'cough' },
+          requestedPeriods: [
+            {
+              start: moment().format('YYYY-MM-DD'),
+              end: moment().format('YYYY-MM-DD'),
+            },
+          ],
+          serviceType: 'socialWork',
+          status: 'proposed',
+        },
+      },
+      id: 'mock1',
+    });
+    mockAppointmentsApi({ apiVersion: 2 });
+    mockClinicApi({ locations: ['983', '983GB'], apiVersion: 2 });
+    mockEligibilityApi({ typeOfCare: 'socialWork', isEligible: true });
+    mockFacilitiesApi({ data, apiVersion: 2 });
+    mockFacilityApi({ id: '983GB', apiVersion: 2 });
+    mockLoginApi({ withoutAddress: false });
+    mockSchedulingConfigurationApi({
+      facilityIds: ['983', '983GB'],
+      typeOfCareId: 'socialWork',
+      isDirect: false,
+      isRequest: true,
+    });
+    mockVamcEhr();
+
+    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.injectAxe();
+
+    // Start flow
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
+
+    // Choose Type of Care
+    newApptTests.chooseTypeOfCareTest('Social work');
+
+    // Choose VA Facility
+    cy.url().should('include', '/va-facility');
+    cy.axeCheckBestPractice();
+
+    cy.findByText(/Continue/).click();
+
+    // Choose date and slot (AM or PM)
+    newApptTests.selectRequestSlotTest();
+
+    // Reason for appointment
+    newApptTests.reasonForAppointmentTest(
+      'cough',
+      /Please provide any additional details/,
+    );
+
+    // Visit type
+    newApptTests.howToBeSeenTest();
+
+    // Contact info
+    newApptTests.contactInfoTest();
+
+    // Review
+    cy.url().should('include', '/review');
+    cy.axeCheckBestPractice();
+    cy.findByText('Request appointment').click();
+
+    // Check form requestBody is as expected
+    cy.wait('@v2:create:appointment').should(xhr => {
+      expect(xhr.response.statusCode).to.eq(200);
+      expect(xhr.request.url, 'post url').to.contain('/vaos/v2/appointments');
+
+      const { body } = xhr.request;
+      expect(body.contact).to.have.property('telecom');
+      expect(body.kind).to.eq('clinic');
+      expect(body.locationId).to.eq('983GB');
+      expect(body.preferredTimesForPhoneCall).to.include('Morning');
+      expect(body.reasonCode).to.have.property('text', 'cough');
+
+      // TODO: Verify timezone
+      expect(body.requestedPeriods).to.have.lengthOf(1);
+      expect(body).to.have.property('serviceType', 'socialWork');
+    });
+
+    cy.axeCheckBestPractice();
   });
 });

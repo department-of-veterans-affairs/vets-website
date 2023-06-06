@@ -2,7 +2,8 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 
-import { mockFetch } from 'platform/testing/unit/helpers';
+// eslint-disable-next-line import/no-unresolved
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '../../../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
@@ -18,7 +19,6 @@ import {
   setTypeOfEyeCare,
 } from '../../../mocks/setup';
 import {
-  mockEligibilityFetches,
   mockParentSites,
   mockRequestEligibilityCriteria,
   mockDirectBookingEligibilityCriteria,
@@ -32,7 +32,10 @@ import { getSchedulingConfigurationMock } from '../../../mocks/v2';
 import { NewAppointment } from '../../../../new-appointment';
 import { FETCH_STATUS } from '../../../../utils/constants';
 import { createMockFacilityByVersion } from '../../../mocks/data';
-import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
+import {
+  mockEligibilityFetchesByVersion,
+  mockFacilitiesFetchByVersion,
+} from '../../../mocks/fetch';
 
 describe('VAOS <VAFacilityPage>', () => {
   describe('when there are multiple facilities to choose from', () => {
@@ -127,10 +130,17 @@ describe('VAOS <VAFacilityPage>', () => {
       mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
       mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
       mockFacilitiesFetchByVersion({ facilities, version: 0 });
-      mockEligibilityFetches({
-        siteId: '983',
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
         typeOfCareId: '323',
+        limit: true,
+        requestPastVisits: true,
+      });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       mockGetCurrentPosition({ fail: true });
       const store = createTestStore({
@@ -186,10 +196,17 @@ describe('VAOS <VAFacilityPage>', () => {
         facilities: facilities.slice(0, 5),
         version: 0,
       });
-      mockEligibilityFetches({
-        siteId: '983',
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
         typeOfCareId: '323',
+        limit: true,
+        requestPastVisits: true,
+      });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
@@ -220,10 +237,17 @@ describe('VAOS <VAFacilityPage>', () => {
         facilities,
         version: 0,
       });
-      mockEligibilityFetches({
-        siteId: '983',
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
         typeOfCareId: '323',
+        limit: true,
+        requestPastVisits: true,
+      });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
@@ -476,7 +500,8 @@ describe('VAOS <VAFacilityPage>', () => {
         .exist;
     });
 
-    it('should show additional info link if there are unsupported facilities within 100 miles', async () => {
+    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
+    it.skip('should show additional info link if there are unsupported facilities within 100 miles', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, [
         getDirectBookingEligibilityCriteriaMock({
@@ -575,11 +600,7 @@ describe('VAOS <VAFacilityPage>', () => {
       });
       expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be
         .ok;
-      expect(screen.queryByText(/Facility that is disabled/i)).not.to.be.ok;
-      const additionalInfoButton = screen.getByText(
-        /Why isn.t my facility listed/i,
-      );
-      userEvent.click(additionalInfoButton);
+      expect(screen.getByTestId('facility-not-listed')).to.exist;
       await screen.findByText(/Facility that is disabled/i);
       expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT');
       expect(screen.getByText(/80\.4 miles/i)).to.be.ok;
@@ -588,13 +609,14 @@ describe('VAOS <VAFacilityPage>', () => {
         screen.queryByText(
           /Facility that is over 100 miles away and disabled/i,
         ),
-      ).not.to.be.ok;
+      ).to.be.null;
       expect(
         screen.getByRole('link', { name: /different VA location/i }),
       ).to.have.attribute('href', '/find-locations');
     });
 
-    it('should close additional info and re-sort unsupported facilities when sort method changes', async () => {
+    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
+    it.skip('should close additional info and re-sort unsupported facilities when sort method changes', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, [
         getDirectBookingEligibilityCriteriaMock({
@@ -687,15 +709,12 @@ describe('VAOS <VAFacilityPage>', () => {
       });
       expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be
         .ok;
-      let additionalInfoButton = screen.getByText(
-        /Why isn.t my facility listed/i,
-      );
-      userEvent.click(additionalInfoButton);
+      expect(screen.getByTestId('facility-not-listed')).to.exist;
       expect(
         await screen.findByText(/Disabled facility near residential address/i),
       ).to.be.ok;
-      expect(screen.queryByText(/Disabled facility near current location/i)).not
-        .to.be.ok;
+      expect(screen.queryByText(/Disabled facility near current location/i)).to
+        .be.null;
 
       const facilitiesSelect = await screen.findByTestId('facilitiesSelect');
       // call VaSelect custom event for onChange handling
@@ -706,15 +725,15 @@ describe('VAOS <VAFacilityPage>', () => {
       expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be
         .ok;
 
-      additionalInfoButton = screen.getByText(/Why isn.t my facility listed/i);
-      userEvent.click(additionalInfoButton);
+      expect(screen.getByTestId('facility-not-listed')).to.exist;
       expect(
         await screen.findByText(/Disabled facility near current location/i),
       ).to.be.ok;
       expect(screen.queryByText(/Disabled facility near residential address/i))
-        .not.to.be.ok;
+        .to.be.null;
     });
 
+    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
     it.skip('should display correct facilities after changing type of care', async () => {
       const facilityIdsForTwoTypesOfCare = ['983', '983GC', '983QA', '984'];
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
@@ -761,10 +780,17 @@ describe('VAOS <VAFacilityPage>', () => {
         ),
         version: 0,
       });
-      mockEligibilityFetches({
-        siteId: '983',
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
         typeOfCareId: '323',
+        limit: true,
+        requestPastVisits: true,
+      });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
@@ -786,7 +812,8 @@ describe('VAOS <VAFacilityPage>', () => {
       expect(await screen.findAllByRole('radio')).to.have.length(2);
     });
 
-    it('should display Cerner sites in the facility list ', async () => {
+    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
+    it.skip('should display Cerner sites in the facility list ', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, [
         getDirectBookingEligibilityCriteriaMock({
@@ -886,7 +913,7 @@ describe('VAOS <VAFacilityPage>', () => {
           .getAttribute('href'),
       ).to.contain('pages%2Fscheduling%2Fupcoming');
 
-      userEvent.click(screen.getByText(/Why isn.t my facility listed/i));
+      expect(screen.getByTestId('facility-not-listed')).to.exist;
       await waitFor(() => {
         expect(screen.getByText(/Vista facility/i));
       });
@@ -907,16 +934,20 @@ describe('VAOS <VAFacilityPage>', () => {
       mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
       mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
       mockFacilitiesFetchByVersion({ facilities, version: 0 });
-      mockEligibilityFetches({
-        siteId: '983',
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
         typeOfCareId: '323',
+        limit: true,
+        requestPastVisits: true,
+      });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       const store = createTestStore({
         ...initialState,
-        featureToggles: {
-          vaOnlineSchedulingVariantTesting: true,
-        },
       });
       await setTypeOfCare(store, /primary care/i);
 
@@ -981,16 +1012,20 @@ describe('VAOS <VAFacilityPage>', () => {
       mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
       mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
       mockFacilitiesFetchByVersion({ facilities, version: 0 });
-      mockEligibilityFetches({
-        siteId: '983',
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
         typeOfCareId: '323',
+        limit: true,
+        requestPastVisits: true,
+      });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       const store = createTestStore({
         ...initialState,
-        featureToggles: {
-          vaOnlineSchedulingVariantTesting: true,
-        },
         user: {
           ...initialState.user,
           profile: {
@@ -1045,17 +1080,21 @@ describe('VAOS <VAFacilityPage>', () => {
       mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
       mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
       mockFacilitiesFetchByVersion({ facilities, version: 0 });
-      mockEligibilityFetches({
-        siteId: '983',
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
         typeOfCareId: '323',
+        limit: true,
+        requestPastVisits: true,
+      });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       mockGetCurrentPosition();
       const store = createTestStore({
         ...initialState,
-        featureToggles: {
-          vaOnlineSchedulingVariantTesting: true,
-        },
         user: {
           ...initialState.user,
           profile: {
@@ -1120,17 +1159,21 @@ describe('VAOS <VAFacilityPage>', () => {
       mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
       mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
       mockFacilitiesFetchByVersion({ facilities, version: 0 });
-      mockEligibilityFetches({
-        siteId: '983',
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
         typeOfCareId: '323',
+        limit: true,
+        requestPastVisits: true,
+      });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       mockGetCurrentPosition();
       const store = createTestStore({
         ...initialState,
-        featureToggles: {
-          vaOnlineSchedulingVariantTesting: true,
-        },
         user: {
           ...initialState.user,
           profile: {
@@ -1179,17 +1222,21 @@ describe('VAOS <VAFacilityPage>', () => {
       mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
       mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
       mockFacilitiesFetchByVersion({ facilities, version: 0 });
-      mockEligibilityFetches({
-        siteId: '983',
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
         typeOfCareId: '323',
+        limit: true,
+        requestPastVisits: true,
+      });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       mockGetCurrentPosition();
       const store = createTestStore({
         ...initialState,
-        featureToggles: {
-          vaOnlineSchedulingVariantTesting: true,
-        },
         user: {
           ...initialState.user,
           profile: {
@@ -1210,9 +1257,6 @@ describe('VAOS <VAFacilityPage>', () => {
     it('should fire variant shown and default sort method events when variant shown', async () => {
       const store = createTestStore({
         ...initialState,
-        featureToggles: {
-          vaOnlineSchedulingVariantTesting: true,
-        },
         newAppointment: {
           ...initialState.newAppointment,
           facilityPageSortMethod: 'alphabetical',
@@ -1299,12 +1343,17 @@ describe('VAOS <VAFacilityPage>', () => {
       });
     });
     it('should show facility information without form', async () => {
-      mockEligibilityFetches({
-        siteId: '983',
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
         typeOfCareId: '323',
         limit: true,
         requestPastVisits: true,
+      });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
 
       const store = createTestStore(initialState);
@@ -1360,12 +1409,17 @@ describe('VAOS <VAFacilityPage>', () => {
         ],
         version: 0,
       });
-      mockEligibilityFetches({
-        siteId: '983',
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
-        typeOfCareId: '408',
+        typeOfCareId: 'optometry',
         limit: true,
         requestPastVisits: true,
+      });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'optometry',
+        limit: true,
+        directPastVisits: true,
       });
 
       const store = createTestStore(initialState);
@@ -1377,7 +1431,7 @@ describe('VAOS <VAFacilityPage>', () => {
       });
 
       await screen.findByText(
-        /We found one VA facility for your optometry appointment./i,
+        /We found one facility that accepts online scheduling for this care/i,
       );
 
       expect(screen.baseElement).to.contain.text('Facility 1');
@@ -1447,10 +1501,17 @@ describe('VAOS <VAFacilityPage>', () => {
         ],
         children: true,
       });
-      mockEligibilityFetches({
-        siteId: '983',
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
         typeOfCareId: '323',
+        limit: true,
+        requestPastVisits: true,
+      });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       const store = createTestStore({
         ...initialState,
@@ -1486,6 +1547,147 @@ describe('VAOS <VAFacilityPage>', () => {
       fireEvent.click(screen.getByText(/Continue/));
       expect(await screen.findByRole('alert')).to.contain.text(
         'Please provide a response',
+      );
+    });
+  });
+
+  describe('when using Drupal Source of Truth', () => {
+    beforeEach(() => mockFetch());
+
+    it('should display Cerner sites in the facility list ', async () => {
+      const initialState = {
+        drupalStaticData: {
+          vamcEhrData: {
+            loading: false,
+            data: {
+              ehrDataByVhaId: {
+                '442': {
+                  vhaId: '442',
+                  vamcFacilityName: 'Cheyenne VA Medical Center',
+                  vamcSystemName: 'VA Cheyenne health care',
+                  ehr: 'cerner',
+                },
+                '552': {
+                  vhaId: '552',
+                  vamcFacilityName: 'Dayton VA Medical Center',
+                  vamcSystemName: 'VA Dayton health care',
+                  ehr: 'cerner',
+                },
+              },
+              cernerFacilities: [
+                {
+                  vhaId: '442',
+                  vamcFacilityName: 'Cheyenne VA Medical Center',
+                  vamcSystemName: 'VA Cheyenne health care',
+                  ehr: 'cerner',
+                },
+                {
+                  vhaId: '552',
+                  vamcFacilityName: 'Dayton VA Medical Center',
+                  vamcSystemName: 'VA Dayton health care',
+                  ehr: 'cerner',
+                },
+              ],
+              vistaFacilities: [],
+            },
+          },
+        },
+        featureToggles: {
+          vaOnlineSchedulingDirect: true,
+          vaOnlineSchedulingUseDsot: true,
+          vaOnlineSchedulingFacilitiesServiceV2: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              {
+                facilityId: '442', // Must use real facility id when using DSOT
+                isCerner: false, // Not used when using DSOT
+              },
+              { facilityId: '552', isCerner: false },
+            ],
+          },
+        },
+      };
+
+      mockFacilitiesFetchByVersion({
+        children: true,
+        facilities: [
+          createMockFacilityByVersion({
+            id: '983',
+            name: 'First cerner facility',
+            lat: 39.1362562,
+            long: -83.1804804,
+            version: 2,
+          }),
+          createMockFacilityByVersion({
+            id: '984',
+            name: 'Second Cerner facility',
+            lat: 39.1362562,
+            long: -83.1804804,
+            version: 2,
+          }),
+        ],
+        version: 2,
+      });
+
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+        }),
+      ]);
+
+      const store = createTestStore({
+        ...initialState,
+        user: {
+          ...initialState.user,
+          profile: {
+            ...initialState.user.profile,
+            vapContactInfo: {
+              residentialAddress: {
+                latitude: 39.1362562,
+                longitude: -84.6804804,
+              },
+            },
+          },
+        },
+      });
+
+      await setTypeOfCare(store, /primary care/i);
+
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+        store,
+      });
+
+      // Make sure Cerner facilities show up
+      expect(await screen.findByText(/First Cerner facility/i)).to.be.ok;
+      expect(screen.getByText(/Second Cerner facility/i)).to.be.ok;
+
+      // Make sure Cerner link shows up
+      const cernerSiteLabel = document.querySelector(
+        `label[for="${screen.getByLabelText(/First Cerner facility/i).id}"]`,
+      );
+      expect(
+        within(cernerSiteLabel)
+          .getByRole('link', { name: /My VA Health/ })
+          .getAttribute('href'),
+      ).to.contain('pages%2Fscheduling%2Fupcoming');
+
+      // Make sure Cerner facilities show up only once
+      expect(screen.getAllByText(/Second Cerner facility/i)).to.have.length(1);
+      userEvent.click(screen.getByLabelText(/First cerner facility/i));
+      userEvent.click(screen.getByText(/Continue/));
+      await waitFor(() =>
+        expect(screen.history.push.firstCall.args[0]).to.equal(
+          '/new-appointment/how-to-schedule',
+        ),
       );
     });
   });

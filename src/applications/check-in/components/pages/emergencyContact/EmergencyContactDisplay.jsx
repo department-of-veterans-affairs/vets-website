@@ -7,8 +7,7 @@ export default function EmergencyContactDisplay({
   emergencyContact = {},
   yesAction = () => {},
   noAction = () => {},
-  isLoading,
-  Footer,
+  router,
 }) {
   const { t } = useTranslation();
   const dataFields = [
@@ -41,18 +40,17 @@ export default function EmergencyContactDisplay({
         data={emergencyContact}
         yesAction={yesAction}
         noAction={noAction}
-        Footer={Footer}
-        isLoading={isLoading}
         withBackButton
+        pageType="emergency-contact"
+        router={router}
       />
     </>
   );
 }
 
 EmergencyContactDisplay.propTypes = {
-  Footer: PropTypes.elementType,
   emergencyContact: PropTypes.object,
-  isLoading: PropTypes.bool,
   noAction: PropTypes.func,
+  router: PropTypes.object,
   yesAction: PropTypes.func,
 };

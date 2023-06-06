@@ -6,11 +6,9 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import DirectDepositWrapper from '@@profile/components/direct-deposit/DirectDepositWrapper';
 
-import DirectDepositWrapper from '../../../components/direct-deposit/DirectDepositWrapper';
-
-import { paymentHistory } from '../../../mocks/payment-history';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 
 describe('authenticated experience -- profile -- direct deposit', () => {
   describe('DirectDepositWrapper', () => {
@@ -34,7 +32,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       const initState = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [{ controlInformation }],
+            controlInformation,
           },
         },
         user: {
@@ -128,8 +126,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
           </DirectDepositWrapper>
         </Provider>,
       );
-      expect(getByTestId('direct-deposit-service-down-alert-headline')).to
-        .exist;
+      expect(getByTestId('service-is-down-banner')).to.exist;
       expect(queryByTestId('child')).to.be.null;
 
       expect(setViewingIsRestricted.called).to.be.true;
@@ -144,8 +141,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
           </DirectDepositWrapper>
         </Provider>,
       );
-      expect(getByTestId('direct-deposit-service-down-alert-headline')).to
-        .exist;
+      expect(getByTestId('service-is-down-banner')).to.exist;
       expect(queryByTestId('child')).to.be.null;
 
       expect(setViewingIsRestricted.called).to.be.true;
@@ -155,8 +151,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       const setViewingIsRestricted = spy();
       const store = createStore({
         controlInformation: {
-          ...paymentHistory.isDeceased.data.attributes.responses[0]
-            .controlInformation,
+          notDeceasedIndicator: false,
         },
       });
 
@@ -174,8 +169,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       const setViewingIsRestricted = spy();
       const store = createStore({
         controlInformation: {
-          ...paymentHistory.isFiduciary.data.attributes.responses[0]
-            .controlInformation,
+          noFiduciaryAssignedIndicator: false,
         },
       });
 
@@ -193,8 +187,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       const setViewingIsRestricted = spy();
       const store = createStore({
         controlInformation: {
-          ...paymentHistory.isNotCompetent.data.attributes.responses[0]
-            .controlInformation,
+          isCompetentIndicator: false,
         },
       });
 

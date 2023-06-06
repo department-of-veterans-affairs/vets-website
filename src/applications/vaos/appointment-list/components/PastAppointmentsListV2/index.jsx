@@ -3,13 +3,21 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
+import { focusElement } from 'platform/utilities/ui';
+import { useHistory } from 'react-router-dom';
+import classNames from 'classnames';
 import { getPastAppointmentListInfo } from '../../redux/selectors';
 import {
   FETCH_STATUS,
   GA_PREFIX,
   APPOINTMENT_TYPES,
+  SPACE_BAR,
 } from '../../../utils/constants';
-import { getVAAppointmentLocationId } from '../../../services/appointment';
+import {
+  getLink,
+  getVAAppointmentLocationId,
+  groupAppointmentByDay,
+} from '../../../services/appointment';
 import AppointmentListItem from '../AppointmentsPageV2/AppointmentListItem';
 import NoAppointments from '../NoAppointments';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
@@ -19,6 +27,31 @@ import {
   fetchPastAppointments,
   startNewAppointmentFlow,
 } from '../../redux/actions';
+import {
+  selectFeatureAppointmentList,
+  selectFeatureStatusImprovement,
+} from '../../../redux/selectors';
+import AppointmentCard from '../AppointmentsPageV2/AppointmentCard';
+import UpcomingAppointmentLayout from '../AppointmentsPageV2/UpcomingAppointmentLayout';
+import BackendAppointmentServiceAlert from '../BackendAppointmentServiceAlert';
+
+function handleClick({ history, link, idClickable }) {
+  return () => {
+    if (!window.getSelection().toString()) {
+      focusElement(`#${idClickable}`);
+      history.push(link);
+    }
+  };
+}
+
+function handleKeyDown({ history, link, idClickable }) {
+  return event => {
+    if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
+      focusElement(`#${idClickable}`);
+      history.push(link);
+    }
+  };
+}
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
   const startOfToday = today.clone().startOf('day');
@@ -31,8 +64,11 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
       startDate: startOfToday
         .clone()
         .subtract(3, 'months')
-        .format(),
-      endDate: today.format(),
+        .format('YYYY-MM-DD'),
+      endDate: today
+        .clone()
+        .startOf('hour')
+        .format('YYYY-MM-DD'),
     },
   ];
 
@@ -53,8 +89,8 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
     options.push({
       value: index,
       label: `${start.format('MMM YYYY')} – ${end.format('MMM YYYY')}`,
-      startDate: start.format(),
-      endDate: end.format(),
+      startDate: start.format('YYYY-MM-DD'),
+      endDate: end.format('YYYY-MM-DD'),
     });
 
     monthsToSubtract += 3;
@@ -68,8 +104,8 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
     startDate: startOfToday
       .clone()
       .startOf('year')
-      .format(),
-    endDate: startOfToday.format(),
+      .format('YYYY-MM-DD'),
+    endDate: startOfToday.format('YYYY-MM-DD'),
   });
 
   // All of last year
@@ -78,17 +114,18 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
   options.push({
     value: 5,
     label: `All of ${lastYear.format('YYYY')}`,
-    startDate: lastYear.startOf('year').format(),
+    startDate: lastYear.startOf('year').format('YYYY-MM-DD'),
     endDate: lastYear
       .clone()
       .endOf('year')
-      .format(),
+      .format('YYYY-MM-DD'),
   });
 
   return options;
 }
 
 export default function PastAppointmentsListNew() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [isInitialMount, setInitialMount] = useState(true);
   const dateRangeOptions = getPastAppointmentDateRangeOptions();
@@ -100,6 +137,12 @@ export default function PastAppointmentsListNew() {
     pastSelectedIndex,
     hasTypeChanged,
   } = useSelector(state => getPastAppointmentListInfo(state), shallowEqual);
+  const featureAppointmentList = useSelector(state =>
+    selectFeatureAppointmentList(state),
+  );
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
+  );
 
   useEffect(() => {
     if (pastStatus === FETCH_STATUS.notStarted) {
@@ -194,8 +237,11 @@ export default function PastAppointmentsListNew() {
     );
   }
 
+  const keys = Object.keys(pastAppointmentsByMonth);
+
   return (
     <>
+      <BackendAppointmentServiceAlert />
       {dropdown}
       <div aria-live="assertive" className="sr-only">
         {(hasTypeChanged || !isInitialMount) &&
@@ -203,13 +249,21 @@ export default function PastAppointmentsListNew() {
             dateRangeOptions[pastSelectedIndex]?.label
           }`}
       </div>
-      {pastAppointmentsByMonth?.map((monthBucket, monthIndex) => {
-        const monthDate = moment(monthBucket[0].start);
+
+      {keys.map(key => {
+        const monthDate = moment(key, 'YYYY-MM');
+
+        let hashTable = pastAppointmentsByMonth;
+        if (featureAppointmentList) {
+          hashTable = groupAppointmentByDay(hashTable[key]);
+        }
+
         return (
-          <React.Fragment key={monthIndex}>
+          <React.Fragment key={key}>
             <h3
               id={`appointment_list_${monthDate.format('YYYY-MM')}`}
               data-cy="past-appointment-list-header"
+              className="vads-u-margin-top--0"
             >
               <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}
@@ -219,33 +273,68 @@ export default function PastAppointmentsListNew() {
               aria-labelledby={`appointment_list_${monthDate.format(
                 'YYYY-MM',
               )}`}
-              className="vads-u-padding-left--0"
+              className={classNames(
+                'usa-unstyled-list',
+                'vads-u-padding-left--0',
+                'vads-u-margin-bottom--4',
+                {
+                  'vads-u-border-bottom--1px': featureAppointmentList,
+                  'vads-u-border-color--gray-medium': featureAppointmentList,
+                },
+              )}
               data-cy="past-appointment-list"
               role="list"
             >
-              {monthBucket.map((appt, index) => {
-                const facilityId = getVAAppointmentLocationId(appt);
+              {featureAppointmentList &&
+                UpcomingAppointmentLayout({
+                  featureStatusImprovement,
+                  hashTable,
+                  history,
+                })}
 
-                if (
-                  appt.vaos.appointmentType ===
-                    APPOINTMENT_TYPES.vaAppointment ||
-                  appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment
-                ) {
-                  return (
-                    <AppointmentListItem
-                      key={index}
-                      appointment={appt}
-                      facility={facilityData[facilityId]}
-                    />
-                  );
-                }
-                return null;
-              })}
+              {!featureAppointmentList &&
+                hashTable[key].map((appt, index) => {
+                  const facilityId = getVAAppointmentLocationId(appt);
+                  const idClickable = `id-${appt.id.replace('.', '\\.')}`;
+                  const link = getLink({
+                    featureStatusImprovement,
+                    appointment: appt,
+                  });
+
+                  if (
+                    appt.vaos.appointmentType ===
+                      APPOINTMENT_TYPES.vaAppointment ||
+                    appt.vaos.appointmentType ===
+                      APPOINTMENT_TYPES.ccAppointment
+                  ) {
+                    return (
+                      <AppointmentListItem
+                        key={index}
+                        id={appt.id}
+                        className="vaos-appts__card--clickable vads-u-margin-bottom--3"
+                      >
+                        <AppointmentCard
+                          appointment={appt}
+                          facility={facilityData[facilityId]}
+                          link={link}
+                          handleClick={() =>
+                            handleClick({ history, link, idClickable })
+                          }
+                          handleKeyDown={() =>
+                            handleKeyDown({ history, link, idClickable })
+                          }
+                        />
+                      </AppointmentListItem>
+                    );
+                  }
+                  return null;
+                })}
             </ul>
           </React.Fragment>
         );
       })}
-      {!pastAppointmentsByMonth?.length && (
+
+      {!keys.length && (
         <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
             description="past appointments"

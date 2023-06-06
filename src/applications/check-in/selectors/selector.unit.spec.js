@@ -1,11 +1,9 @@
 import { expect } from 'chai';
-import cloneDeep from 'platform/utilities/data/cloneDeep';
 
 import {
   makeSelectCurrentContext,
   makeSelectForm,
   makeSelectVeteranData,
-  makeSelectConfirmationData,
   makeSelectSeeStaffMessage,
   makeSelectApp,
   makeSelectError,
@@ -78,49 +76,6 @@ describe('check-in', () => {
             },
           ],
         });
-      });
-    });
-    describe('makeSelectConfirmationData', () => {
-      const state = {
-        checkInData: {
-          appointments: [
-            {
-              clinicPhone: '555-867-5309',
-              startTime: '2021-07-19T13:56:31',
-              facilityName: 'Acme VA',
-              clinicName: 'Green Team Clinic1',
-            },
-          ],
-          context: {
-            appointment: {
-              appointmentIen: 'some-ien',
-            },
-            token: 'foo',
-          },
-        },
-      };
-      it('returns appointment confirmation data', () => {
-        const selectConfirmationData = makeSelectConfirmationData();
-        expect(selectConfirmationData(state)).to.eql({
-          appointments: [
-            {
-              clinicName: 'Green Team Clinic1',
-              clinicPhone: '555-867-5309',
-              facilityName: 'Acme VA',
-              startTime: '2021-07-19T13:56:31',
-            },
-          ],
-          selectedAppointment: {
-            appointmentIen: 'some-ien',
-          },
-        });
-      });
-      it('returns empty when appointment data is not available', () => {
-        const partialState = cloneDeep(state);
-        delete partialState.checkInData.appointments;
-        delete partialState.checkInData.context.appointment;
-        const selectConfirmationData = makeSelectConfirmationData();
-        expect(selectConfirmationData(partialState)).to.eql({});
       });
     });
     describe('makeSelectSeeStaffMessage', () => {

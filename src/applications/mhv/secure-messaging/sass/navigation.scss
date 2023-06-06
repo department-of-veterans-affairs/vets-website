@@ -37,59 +37,73 @@
   .usa-sidenav-list {
     border: 0px;
   }
-  a{
+  a {
     font-size: 17px;
     margin: 2px 0px;
-    &:active, &:focus, &:hover {
-      background-color: transparent;
-      font-weight: 700;
+    color: $color-link-default;
+    &:active,
+    &:focus,
+    &:hover {
+      background-color: $color-primary-alt-lightest;
+      border-left: 4px solid $color-link-default;
+      transition: background-color 0.1s ease-in-out,
+        border-color 0.1s ease-in-out, padding 0.1s ease-in-out;
     }
-    &:visited {
-      color: $color-link-default;
-    }
-  }
-  ul{
-    list-style-type: none;
-  }
-  li{
-    border: 0px;
-  }
-  .sidebar-navigation-messages-list{
-    background-color: $color-gray-lightest;
-    .sidebar-navigation-messages-list-header {
-    border-left: 5px solid;
-    font-weight: 700;
-    a{
-      padding-top: 7px;
-      &:active {
-        color: $color-gray-dark;
-        text-decoration: underline;
+    &.is-active {
+      background-color: $color-gray-lightest;
+      border-left: 4px solid $color-base;
+      color: $color-black;
+      font-weight: bold;
+      padding-left: units-px(1.5);
+      span {
+        margin-left: -4px;
       }
     }
+  }
+  ul {
+    list-style-type: none;
+  }
+  li {
+    border: 0px;
+  }
+  .sidebar-navigation-messages-list {
+    .sidebar-navigation-messages-list-header {
+      &.is-active {
+        background-color: $color-gray-lightest;
+        border-left: 4px solid $color-base;
+      }
+      a {
+        padding-top: 7px;
+        color: $color-link-default;
+        &.is-active {
+          color: $color-black;
+        }
+        &:active {
+          color: $color-gray-dark;
+          text-decoration: underline;
+        }
+      }
     }
-    .sidebar-navigation-messages-list-menu{
-      padding-left: 16px;
+    .sidebar-navigation-messages-list-menu {
       ul {
-        li:nth-child(1) {
+        li {
           a {
-            padding-top: 3px;
-            margin-top: 0px;
+            padding-left: 3rem;
           }
         }
       }
     }
   }
 }
-
-@media (max-width: $small-screen) {
-  .va-btn-sidebarnav-trigger{
+@media (max-width: $medium-screen) {
+  .va-btn-sidebarnav-trigger {
     z-index: 0;
     .button-wrapper {
       position: static;
       padding: 0px;
     }
   }
-    .sidebar-navigation {
+  .sidebar-navigation {
     padding: 0px;
     width: 264px;
     height: 1925px;
@@ -100,17 +114,17 @@
     display: flex;
     border: 1px solid $color-gray;
     background-color: $color-white;
-    a{
+    a {
       font-size: 15px;
     }
     .sidebar-navigation-header {
       height: 50px;
-      margin-left: 32px;
+      margin-left: 20rem;
       i.fa-medkit {
         padding-bottom: 4px;
       }
     }
-    button{
+    button {
       background-color: $color-gray-lightest;
       height: 46.64px;
     }
@@ -118,7 +132,7 @@
       width: 14px;
       color: $color-black;
     }
-    ul{
+    ul {
       margin: 0px;
       padding: 0px;
     }
@@ -126,10 +140,8 @@
       padding-left: 15px;
       padding-right: 15px;
       .sidebar-navigation-messages-list-header {
-        border-left: 4px solid $color-black;
-
-        a{
-          color: $color-black;
+        a {
+          color: $color-link-default;
         }
       }
       .usa-sidenav-list {
@@ -137,7 +149,7 @@
         padding-top: 4px;
         li {
           display: none;
-          ul{
+          ul {
             .usa-sidenav-list {
               border: 0px;
             }
@@ -145,13 +157,13 @@
         }
         .sidebar-navigation-messages-list {
           display: contents;
-          ul{
+          ul {
             border: 0px;
           }
           .sidebar-navigation-messages-list-menu {
             background-color: $color-white;
             display: block;
-            li{
+            .sub-list li {
               display: block;
             }
           }

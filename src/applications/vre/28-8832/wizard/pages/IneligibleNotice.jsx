@@ -17,7 +17,10 @@ const IneligibleNotice = () => {
     });
   };
   return (
-    <div className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest">
+    <div
+      id="ineligibleNotice"
+      className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest"
+    >
       <p className="vads-u-margin-top--0 vadsu-margin-bottom--1">
         To be eligible for Chapter 36 career planning and guidance, you must be
         a Veteran or service member, or a dependent of one.

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ClaimPhase from './ClaimPhase';
-import ClaimEstimate from './ClaimEstimate';
+import ClaimPhase from './evss/ClaimPhase';
 import PhaseBackWarning from './PhaseBackWarning';
 import CompleteDetails from './CompleteDetails';
 import { getUserPhase, groupTimelineActivity } from '../utils/helpers';
@@ -10,14 +9,7 @@ import { getUserPhase, groupTimelineActivity } from '../utils/helpers';
 const LAST_EVIDENCE_GATHERING_PHASE = 6;
 
 export default function ClaimsTimeline(props) {
-  const {
-    events,
-    phase,
-    estimatedDate,
-    id,
-    currentPhaseBack,
-    everPhaseBack,
-  } = props;
+  const { events, phase, id, currentPhaseBack, everPhaseBack } = props;
   const userPhase = getUserPhase(phase);
   const activityByPhase = groupTimelineActivity(events);
 
@@ -73,11 +65,7 @@ export default function ClaimsTimeline(props) {
           activity={activityByPhase}
           id={id}
         >
-          {userPhase !== 5 ? (
-            <ClaimEstimate maxDate={estimatedDate} id={id} />
-          ) : (
-            <CompleteDetails />
-          )}
+          {userPhase === 5 && <CompleteDetails />}
         </ClaimPhase>
       </ol>
     </>
@@ -88,7 +76,6 @@ ClaimsTimeline.propTypes = {
   id: PropTypes.string.isRequired,
   phase: PropTypes.number.isRequired,
   currentPhaseBack: PropTypes.bool,
-  estimatedDate: PropTypes.string,
   events: PropTypes.array,
   everPhaseBack: PropTypes.bool,
 };

@@ -1,8 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 import React from 'react';
 
-import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import { getScrollOptions } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import environment from 'platform/utilities/environment';
+import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';
 import JumpLink from './JumpLink';
@@ -10,13 +12,12 @@ import ProfileSection from './ProfileSection';
 import ContactInformation from './ContactInformation';
 import CalculateYourBenefits from '../../containers/CalculateYourBenefits';
 import { convertRatingToStars } from '../../utils/helpers';
-import SchoolRatings from './SchoolRatings';
+import SchoolRatings from './schoolRatings/SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
-import GettingStartedWithBenefits from '../profile/GettingStartedWithBenefits';
+import GettingStartedWithBenefits from './GettingStartedWithBenefits';
 import Academics from './Academics';
 import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export default function InstitutionProfile({
   institution,
@@ -26,7 +27,6 @@ export default function InstitutionProfile({
   calculator,
   eligibility,
   version,
-  gibctSchoolRatings,
   gibctEybBottomSheet,
   compare,
   smallScreen,
@@ -39,12 +39,44 @@ export default function InstitutionProfile({
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
   };
-
-  const stars = convertRatingToStars(institution.ratingAverage);
+  // environment variable to keep ratings out of production until ready
+  const isProduction = !environment.isProduction();
+  let stars = false;
+  let ratingCount = 0;
+  let institutionRatingIsNotNull = false;
+  let institutionCountIsNotNull = false;
+  let institutionOverallAvgIsNotNull = false;
+  /** ***CHECK IF INSTITUTION.INSTITUTIONRATING IS NULL**** */
+  if (institution.institutionRating != null) {
+    institutionRatingIsNotNull = true;
+  }
+  if (
+    institutionRatingIsNotNull &&
+    institution.institutionRating.institutionRatingCount != null
+  ) {
+    institutionCountIsNotNull = true;
+  }
+  if (
+    institutionRatingIsNotNull &&
+    institutionCountIsNotNull &&
+    institution.institutionRating.overallAvg != null
+  ) {
+    institutionOverallAvgIsNotNull = true;
+  }
+  if (
+    institutionRatingIsNotNull &&
+    institutionCountIsNotNull &&
+    institutionOverallAvgIsNotNull
+  ) {
+    stars = convertRatingToStars(institution.institutionRating.overallAvg);
+    ratingCount = institution.institutionRating.institutionRatingCount;
+  }
+  /** ************************************************************************ */
   const displayStars =
-    gibctSchoolRatings &&
+    isProduction &&
     stars &&
-    institution.ratingCount >= MINIMUM_RATING_COUNT;
+    isProduction &&
+    ratingCount >= MINIMUM_RATING_COUNT;
 
   const institutionProfileId = 'institution-profile';
   const profilePageHeaderId = 'profile-page-header';
@@ -71,9 +103,10 @@ export default function InstitutionProfile({
             label="Getting started with benefits"
             jumpToId="getting-started-with-benefits"
           />
-          {displayStars && (
-            <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
-          )}
+          {displayStars &&
+            isProduction && (
+              <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
+            )}
           <JumpLink
             label="Cautionary information"
             jumpToId="cautionary-information"
@@ -110,19 +143,21 @@ export default function InstitutionProfile({
       >
         <GettingStartedWithBenefits />
       </ProfileSection>
-      {displayStars && (
-        <ProfileSection label="Veteran ratings" id="veteran-ratings">
-          <div id="profile-school-ratings">
-            <SchoolRatings
-              ratingAverage={institution.ratingAverage}
-              ratingCount={institution.ratingCount}
-              institutionCategoryRatings={
-                institution.institutionCategoryRatings
-              }
-            />
-          </div>
-        </ProfileSection>
-      )}
+      {displayStars &&
+        isProduction && (
+          <ProfileSection label="Veteran ratings" id="veteran-ratings">
+            <div>
+              <SchoolRatings
+                ratingAverage={institution.institutionRating.overallAvg}
+                ratingCount={
+                  institution.institutionRating.institutionRatingCount
+                }
+                institutionCategoryRatings={institution.institutionRating}
+              />
+            </div>
+          </ProfileSection>
+        )}
+
       <ProfileSection
         label="Cautionary information"
         id="cautionary-information"

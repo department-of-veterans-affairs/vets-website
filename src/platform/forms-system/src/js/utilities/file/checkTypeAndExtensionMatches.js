@@ -36,24 +36,49 @@ export const fileTypeSignatures = {
 
   // images
   jpg: {
-    sig: [0xff, 0xd8, 0xff],
+    sig: null,
+    sigs: {
+      jpgType1: [0xff, 0xd8, 0xff, 0xdb],
+      jpgType2: [
+        0xff,
+        0xd8,
+        0xff,
+        0xe0,
+        0x00,
+        0x10,
+        0x4a,
+        0x46,
+        0x49,
+        0x46,
+        0x00,
+        0x01,
+      ],
+      jpgType3: [0xff, 0xd8, 0xff, 0xee],
+      jpgType4: [0xff, 0xd8, 0xff, 0xe1],
+      jpgType5: [0xff, 0xd8, 0xff, 0xe0], // unique to jpg
+    },
     mime: 'image/jpeg',
   },
   jpeg: {
-    sig: [
-      0x00,
-      0x00,
-      0x00,
-      0x0c,
-      0x6a,
-      0x50,
-      0x20,
-      0x20,
-      0x0d,
-      0x0a,
-      0x87,
-      0x0a,
-    ],
+    sig: null,
+    sigs: {
+      jpgType1: [0xff, 0xd8, 0xff, 0xdb],
+      jpgType2: [
+        0xff,
+        0xd8,
+        0xff,
+        0xe0,
+        0x00,
+        0x10,
+        0x4a,
+        0x46,
+        0x49,
+        0x46,
+        0x00,
+      ],
+      jpgType3: [0xff, 0xd8, 0xff, 0xee],
+      jpgType4: [0xff, 0xd8, 0xff, 0xe1],
+    },
     mime: 'image/jpeg',
   },
   png: {
@@ -90,13 +115,20 @@ export default function checkTypeAndExtensionMatches({ file, result }) {
     .split('.')
     .pop();
   const match = extension && fileTypeSignatures[extension];
-  const signature = match?.sig;
 
   if (match?.mime === file.type) {
     if (extension === 'txt') {
       return true;
     }
-    if (signature) {
+    // jpeg can have multiple signatures, so we need to loop through them
+    if (match?.sigs) {
+      const signatures = match?.sigs;
+      return Object.keys(signatures).some(sig =>
+        arrayIncludesArray(result, signatures[sig]),
+      );
+    }
+    if (match?.sig) {
+      const signature = match?.sig;
       return arrayIncludesArray(
         result,
         Array.isArray(signature)

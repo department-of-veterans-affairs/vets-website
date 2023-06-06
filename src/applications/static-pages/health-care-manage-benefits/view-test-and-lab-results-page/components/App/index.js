@@ -3,7 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 // Relative imports.
-import { selectPatientFacilities } from 'platform/user/selectors';
 import { selectPatientFacilities as selectPatientFacilitiesDsot } from 'platform/user/cerner-dsot/selectors';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
@@ -13,9 +12,15 @@ import {
   authenticatedWithSSOePropType,
   ehrDataByVhaIdPropType,
   facilitiesPropType,
+  useSingleLogoutPropType,
 } from '../../../propTypes';
 
-export const App = ({ authenticatedWithSSOe, ehrDataByVhaId, facilities }) => {
+export const App = ({
+  authenticatedWithSSOe,
+  ehrDataByVhaId,
+  facilities,
+  useSingleLogout,
+}) => {
   const cernerFacilities = facilities?.filter(f => f.usesCernerTestResults);
   const otherFacilities = facilities?.filter(f => !f.usesCernerTestResults);
   if (!isEmpty(cernerFacilities)) {
@@ -25,6 +30,7 @@ export const App = ({ authenticatedWithSSOe, ehrDataByVhaId, facilities }) => {
         otherFacilities={otherFacilities}
         ehrDataByVhaId={ehrDataByVhaId}
         authenticatedWithSSOe={authenticatedWithSSOe}
+        useSingleLogout={useSingleLogout}
       />
     );
   }
@@ -36,14 +42,14 @@ App.propTypes = {
   authenticatedWithSSOe: authenticatedWithSSOePropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,
   facilities: facilitiesPropType,
+  useSingleLogout: useSingleLogoutPropType,
 };
 
 const mapStateToProps = state => ({
   authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   ehrDataByVhaId: selectEhrDataByVhaId(state),
-  facilities: state?.featureToggles?.pwEhrCtaDrupalSourceOfTruth
-    ? selectPatientFacilitiesDsot(state)
-    : selectPatientFacilities(state),
+  facilities: selectPatientFacilitiesDsot(state),
+  useSingleLogout: state?.featureToggles?.pwEhrCtaUseSlo,
 });
 
 export default connect(

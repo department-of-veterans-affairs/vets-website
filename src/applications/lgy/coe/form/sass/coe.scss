@@ -11,6 +11,11 @@
   }
 }
 
+.coe-loan-input,
+.usa-input-error input.coe-loan-input {
+  width: 35%;
+}
+
 .file-input-disabled {
   pointer-events: none;
   opacity: 0.3;

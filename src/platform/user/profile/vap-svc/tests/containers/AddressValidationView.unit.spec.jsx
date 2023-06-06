@@ -24,8 +24,7 @@ describe('<AddressValidationView/>', () => {
             zipCode: '12346',
           },
           isAddressValidationModalVisible: true,
-          addressValidationError: false,
-
+          addressValidationError: '',
           addressValidationType: 'mailingAddress',
           userEnteredAddress: {},
           validationKey: 1234,
@@ -76,7 +75,7 @@ describe('<AddressValidationView/>', () => {
   it('renders alert box', () => {
     const component = enzyme.mount(<AddressValidationView store={fakeStore} />);
 
-    expect(component.exists('AlertBox')).to.equal(true);
+    expect(component.exists('VaAlert')).to.equal(true);
     component.unmount();
   });
 
@@ -84,7 +83,9 @@ describe('<AddressValidationView/>', () => {
     const component = enzyme.mount(<AddressValidationView store={fakeStore} />);
 
     expect(component.find('LoadingButton').text()).to.equal('Use this address');
-    expect(component.find('.usa-button-secondary').text()).to.equal('Cancel');
+    expect(component.find('.usa-button-secondary').text()).to.equal(
+      'Go back to edit',
+    );
     component.unmount();
   });
 
@@ -128,7 +129,9 @@ describe('<AddressValidationView/>', () => {
     expect(component.find('.usa-button-primary').text()).to.equal(
       'Edit Address',
     );
-    expect(component.find('.usa-button-secondary').text()).to.equal('Cancel');
+    expect(component.find('.usa-button-secondary').text()).to.equal(
+      'Go back to edit',
+    );
     component.unmount();
   });
 
@@ -168,7 +171,7 @@ describe('<AddressValidationView/>', () => {
       <AddressValidationView store={newFakeStore} />,
     );
 
-    expect(component.text()).to.not.include('Cancel');
+    expect(component.text()).to.not.include('Go back to edit');
     component.unmount();
   });
 
@@ -268,7 +271,9 @@ describe('<AddressValidationView/>', () => {
     );
 
     expect(component.find('LoadingButton').text()).to.equal('Update');
-    expect(component.find('.usa-button-secondary').text()).to.equal('Cancel');
+    expect(component.find('.usa-button-secondary').text()).to.equal(
+      'Go back to edit',
+    );
     component.unmount();
   });
 
@@ -356,7 +361,9 @@ describe('<AddressValidationView/>', () => {
     expect(component.find('LoadingButton').text()).to.equal(
       'Use suggested address',
     );
-    expect(component.find('.usa-button-secondary').text()).to.equal('Cancel');
+    expect(component.find('.usa-button-secondary').text()).to.equal(
+      'Go back to edit',
+    );
     component.unmount();
   });
 
@@ -451,7 +458,9 @@ describe('<AddressValidationView/>', () => {
         .find('h4')
         .at(0)
         .text(),
-    ).to.equal('Please confirm your address');
+    ).to.equal(
+      `We can’t confirm the address you entered with the U.S. Postal Service.`,
+    );
     component.unmount();
   });
 });

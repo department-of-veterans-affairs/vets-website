@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Scroll from 'react-scroll';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // Relative Imports
 import { shouldShowQuestion } from '../../helpers';
 
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 const FailureToExhaust = ({
   formValues,
@@ -23,14 +23,6 @@ const FailureToExhaust = ({
   if (!shouldShowQuestion(key, formValues.questions)) {
     return null;
   }
-
-  const label = (
-    <h4 className={`${key}_header`}>
-      Was your application denied due to “failure to exhaust other remedies”?
-      Note: “Failure to exhaust other remedies” generally means you applied to
-      the wrong board.
-    </h4>
-  );
 
   let boardLabel = 'BCMR';
   if (['navy', 'marines'].includes(formValues['1_branchOfService'])) {
@@ -50,25 +42,33 @@ const FailureToExhaust = ({
 
   const radioButtonProps = {
     name: key,
-    label,
-    options,
+    label:
+      'Was your application denied due to "failure to exhaust other remedies"? Note: "Failure to exhaust other remedies" generally means you applied to the wrong board.',
     key,
-    onValueChange: v => {
-      if (v.dirty) {
-        updateField(key, v.value);
+    value: formValues[key],
+    onVaValueChange: e => {
+      if (e.returnValue) {
+        updateField(key, e.detail.value);
       }
     },
     onMouseDown: scrollToLast,
     onKeyDown: handleKeyDown,
-    value: {
-      value: formValues[key],
-    },
   };
 
   return (
-    <div>
+    <div className="vads-u-margin-top--6">
       <Element name={key} />
-      <RadioButtons {...radioButtonProps} />
+      <VaRadio {...radioButtonProps}>
+        {options.map((option, index) => (
+          <va-radio-option
+            key={index}
+            label={option.label}
+            name={key}
+            value={option.value}
+            checked={formValues[key] === option.value}
+          />
+        ))}
+      </VaRadio>
     </div>
   );
 };

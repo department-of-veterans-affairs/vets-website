@@ -1,11 +1,10 @@
 import { PROFILE_PATHS } from '@@profile/constants';
+import { DEFAULT_ERROR_MESSAGE } from 'platform/user/profile/vap-svc/constants';
 
 class BadAddressFeature {
   PROFILE_ALERT_TEST_ID = 'bad-address-profile-alert';
 
   FORM_ALERT_TEST_ID = 'bad-address-form-alert';
-
-  CONTACT_INFORMATION_TEST_ID = 'bad-address-contact-alert';
 
   EDIT_MAILING_ADDRESS_BUTTON_ID = '#edit-mailing-address';
 
@@ -28,14 +27,6 @@ class BadAddressFeature {
     cy.findByTestId(this.PROFILE_ALERT_TEST_ID).should('not.exist');
   };
 
-  confirmContactInformationAlertIsShowing = () => {
-    cy.findByTestId(this.CONTACT_INFORMATION_TEST_ID).should('exist');
-  };
-
-  confirmContactInformationAlertIsNotShowing = () => {
-    cy.findByTestId(this.CONTACT_INFORMATION_TEST_ID).should('not.exist');
-  };
-
   confirmAlertInFormExists = () => {
     cy.findByTestId(this.FORM_ALERT_TEST_ID).should('exist');
   };
@@ -45,9 +36,7 @@ class BadAddressFeature {
   };
 
   confirmErrorMessageInFormExists = () => {
-    cy.findByText(
-      `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please check back later.`,
-    ).should('exist');
+    cy.findByText(DEFAULT_ERROR_MESSAGE).should('exist');
   };
 
   startEditingAddress = () => {

@@ -3,67 +3,105 @@ import { connect } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
-import backendServices from 'platform/user/profile/constants/backendServices';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import backendServices from 'platform/user/profile/constants/backendServices';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import {
   getAppealsV2 as getAppealsV2Action,
+  // START lighthouse_migration
+  getClaims as getClaimsAction,
   getClaimsV2 as getClaimsV2Action,
+  // END lighthouse_migration
   getStemClaims as getStemClaimsAction,
-  hide30DayNotice as hide30DayNoticeAction,
-  sortClaims as sortClaimsAction,
-} from '../actions/index';
-import {
-  appealTypes,
-  claimsAvailability,
-  appealsAvailability,
-  sortByLastUpdated,
-  getVisibleRows,
-  getPageRange,
-} from '../utils/appeals-v2-helpers';
-import { setUpPage, setPageFocus } from '../utils/page';
+} from '../actions';
 
-import ClaimsUnavailable from '../components/ClaimsUnavailable';
-import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
+import AppealListItem from '../components/appeals-v2/AppealListItemV2';
 import AppealsUnavailable from '../components/AppealsUnavailable';
 import AskVAQuestions from '../components/AskVAQuestions';
+import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
+import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
+// START lighthouse_migration
+import ClaimsListItemEVSS from '../components/appeals-v2/ClaimsListItemV2';
+import ClaimsListItemLighthouse from '../components/ClaimsListItem';
+// END lighthouse_migration
+import ClaimsUnavailable from '../components/ClaimsUnavailable';
+import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { consolidatedClaimsContent } from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
-import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
-import AppealListItem from '../components/appeals-v2/AppealListItemV2';
-import NoClaims from '../components/NoClaims';
-import ClosedClaimMessage from '../components/ClosedClaimMessage';
-import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import StemClaimListItem from '../components/StemClaimListItem';
 import MobileAppMessage from '../components/MobileAppMessage';
+import NoClaims from '../components/NoClaims';
+import StemClaimListItem from '../components/StemClaimListItem';
 
 import { ITEMS_PER_PAGE } from '../constants';
+
+// START lighthouse_migration
+import { cstUseLighthouse, getBackendServices } from '../selectors';
+// END lighthouse_migration
+
+import {
+  appealsAvailability,
+  appealTypes,
+  claimsAvailability,
+  getVisibleRows,
+  getPageRange,
+  sortByLastUpdated,
+} from '../utils/appeals-v2-helpers';
+import { setPageFocus, setUpPage } from '../utils/page';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
-    this.state = { page: 1 };
+    this.hide30DayNotice = this.hide30DayNotice.bind(this);
+
+    if (!sessionStorage.getItem('show30DayNotice')) {
+      sessionStorage.setItem('show30DayNotice', true);
+    }
+
+    this.state = {
+      page: 1,
+      show30DayNotice: sessionStorage.getItem('show30DayNotice') === 'true',
+    };
   }
 
   componentDidMount() {
     document.title = 'Check your claim or appeal status | Veterans Affairs';
 
     const {
-      canAccessAppeals,
-      canAccessClaims,
-      getAppealsV2,
-      getClaimsV2,
-      getStemClaims,
-      claimsLoading,
       appealsLoading,
+      canAccessAppeals,
+      // START lighthouse_migration
+      canAccessClaimsLighthouse,
+      canAccessClaimsEVSS,
+      // END lighthouse_migration
+      claimsLoading,
+      getAppealsV2,
+      // START lighthouse_migration
+      getClaimsEVSS,
+      getClaimsLighthouse,
+      // END lighthouse_migration
+      getStemClaims,
       stemClaimsLoading,
+      // START lighthouse_migration
+      useLighthouse,
+      // END lighthouse_migration
     } = this.props;
-    if (canAccessClaims) {
-      getClaimsV2();
+
+    // START lighthouse_migration
+    // Only call if we should be using Lighthouse and the current
+    // user has access to Lighthouse claims
+    if (useLighthouse && canAccessClaimsLighthouse) {
+      getClaimsLighthouse();
     }
+
+    // Only call if we should be using EVSS and the current
+    // user has access to EVSS claims
+    if (!useLighthouse && canAccessClaimsEVSS) {
+      getClaimsEVSS();
+    }
+    // END lighthouse_migration
 
     if (canAccessAppeals) {
       getAppealsV2();
@@ -84,6 +122,11 @@ class YourClaimsPageV2 extends React.Component {
     setPageFocus('#pagination-info');
   }
 
+  hide30DayNotice() {
+    this.setState({ show30DayNotice: false });
+    sessionStorage.setItem('show30DayNotice', false);
+  }
+
   renderListItem(claim) {
     if (appealTypes.includes(claim.type)) {
       const { fullName } = this.props;
@@ -91,10 +134,17 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     if (claim.type === 'education_benefits_claims') {
-      return <StemClaimListItem claim={claim} key={claim.id} />;
+      return <StemClaimListItem key={claim.id} claim={claim} />;
     }
 
-    return <ClaimsListItem claim={claim} key={claim.id} />;
+    // START lighthouse_migration
+    const { useLighthouse } = this.props;
+    const ClaimsListItem = useLighthouse
+      ? ClaimsListItemLighthouse
+      : ClaimsListItemEVSS;
+    // END lighthouse_migration
+
+    return <ClaimsListItem key={claim.id} claim={claim} />;
   }
 
   renderErrorMessages() {
@@ -104,7 +154,7 @@ class YourClaimsPageV2 extends React.Component {
       stemClaimsLoading,
       appealsAvailable,
       canAccessAppeals,
-      canAccessClaims,
+      canAccessClaimsEVSS,
       claimsAvailable,
       // claimsAuthorized
     } = this.props;
@@ -115,14 +165,17 @@ class YourClaimsPageV2 extends React.Component {
 
     if (
       canAccessAppeals &&
-      canAccessClaims &&
+      canAccessClaimsEVSS &&
       claimsAvailable !== claimsAvailability.AVAILABLE &&
       appealsAvailable !== appealsAvailability.AVAILABLE
     ) {
       return <ClaimsAppealsUnavailable />;
     }
 
-    if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {
+    if (
+      canAccessClaimsEVSS &&
+      claimsAvailable !== claimsAvailability.AVAILABLE
+    ) {
       return <ClaimsUnavailable />;
     }
 
@@ -140,9 +193,7 @@ class YourClaimsPageV2 extends React.Component {
     const {
       appealsLoading,
       claimsLoading,
-      hide30DayNotice,
       list,
-      show30DayNotice,
       stemClaimsLoading,
     } = this.props;
 
@@ -181,10 +232,10 @@ class YourClaimsPageV2 extends React.Component {
 
         content = (
           <>
-            {show30DayNotice && (
+            {this.state.show30DayNotice && (
               <ClosedClaimMessage
                 claims={pageItems}
-                onClose={hide30DayNotice}
+                onClose={this.hide30DayNotice}
               />
             )}
             {pageInfo}
@@ -255,14 +306,19 @@ YourClaimsPageV2.propTypes = {
   appealsAvailable: PropTypes.string,
   appealsLoading: PropTypes.bool,
   canAccessAppeals: PropTypes.bool,
-  canAccessClaims: PropTypes.bool,
+  // START lighthouse_migration
+  canAccessClaimsEVSS: PropTypes.bool,
+  canAccessClaimsLighthouse: PropTypes.bool,
+  // END lighthouse_migration
   claimsAvailable: PropTypes.string,
   claimsLoading: PropTypes.bool,
   fullName: PropTypes.shape({}),
   getAppealsV2: PropTypes.func,
-  getClaimsV2: PropTypes.func,
+  // START lighthouse_migration
+  getClaimsEVSS: PropTypes.func,
+  getClaimsLighthouse: PropTypes.func,
+  // END lighthouse_migration
   getStemClaims: PropTypes.func,
-  hide30DayNotice: PropTypes.func,
   list: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string,
@@ -270,20 +326,23 @@ YourClaimsPageV2.propTypes = {
       attributes: PropTypes.shape({}),
     }),
   ),
-  show30DayNotice: PropTypes.bool,
   stemClaimsLoading: PropTypes.bool,
+  // START lighthouse_migration
+  useLighthouse: PropTypes.bool,
+  // END lighthouse_migration
 };
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
-  const claimsRoot = claimsState.claims;
   const claimsV2Root = claimsState.claimsV2; // this is where all the meat is for v2
-  const profileState = state.user.profile;
-  const canAccessAppeals = profileState.services.includes(
-    backendServices.APPEALS_STATUS,
-  );
-  const canAccessClaims = profileState.services.includes(
-    backendServices.EVSS_CLAIMS,
+
+  const services = getBackendServices(state);
+  const canAccessAppeals = services.includes(backendServices.APPEALS_STATUS);
+  // START lighthouse_migration
+  const canAccessClaimsEVSS = services.includes(backendServices.EVSS_CLAIMS);
+  // END lighthouse_migration
+  const canAccessClaimsLighthouse = services.includes(
+    backendServices.LIGHTHOUSE,
   );
   const stemAutomatedDecision = toggleValues(state)[
     FEATURE_FLAG_NAMES.stemAutomatedDecision
@@ -300,28 +359,31 @@ function mapStateToProps(state) {
 
   return {
     appealsAvailable: claimsV2Root.v2Availability,
-    claimsAvailable: claimsV2Root.claimsAvailability,
-    // claimsAuthorized: claimsState.claimSync.authorized,
-    claimsLoading: claimsV2Root.claimsLoading,
     appealsLoading: claimsV2Root.appealsLoading,
-    stemClaimsLoading: claimsV2Root.stemClaimsLoading,
-    list: sortedList,
-    sortProperty: claimsRoot.sortProperty,
-    consolidatedModal: claimsRoot.consolidatedModal,
-    show30DayNotice: claimsRoot.show30DayNotice,
-    synced: claimsState.claimSync.synced,
     canAccessAppeals,
-    canAccessClaims,
+    // START lighthouse_migration
+    canAccessClaimsLighthouse,
+    canAccessClaimsEVSS,
+    // END lighthouse_migration
+    claimsAvailable: claimsV2Root.claimsAvailability,
+    claimsLoading: claimsV2Root.claimsLoading,
     fullName: state.user.profile.userFullName,
+    list: sortedList,
+    stemClaimsLoading: claimsV2Root.stemClaimsLoading,
+    synced: claimsState.claimSync.synced,
+    // START lighthouse_migration
+    useLighthouse: cstUseLighthouse(state),
+    // END lighthouse_migration
   };
 }
 
 const mapDispatchToProps = {
   getAppealsV2: getAppealsV2Action,
-  getClaimsV2: getClaimsV2Action,
+  // START lighthouse_migration
+  getClaimsLighthouse: getClaimsAction,
+  getClaimsEVSS: getClaimsV2Action,
+  // END lighthouse_migration
   getStemClaims: getStemClaimsAction,
-  sortClaims: sortClaimsAction,
-  hide30DayNotice: hide30DayNoticeAction,
 };
 
 export default connect(

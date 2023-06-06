@@ -2,16 +2,16 @@
 
 ## Description
 
-Mission: Make it easier for Veterans and Caregivers to apply for, track, and manage care-related benefits.
+Mission: Make it easier for Veterans to apply for enrollment in VA health-related benefits.
 
 ## Slack Channels
 
-- [vsa-caregiver](https://slack.com/app_redirect?channel=CMJ2V70UV)
+- [1010-health-apps](https://slack.com/app_redirect?channel=CMJ2V70UV)
 
 ## Approval Groups
 
-- [VSA BAM 1](https://github.com/orgs/department-of-veterans-affairs/teams/vsa-bam-1-frontend)
-- [VSA Caregiver](https://github.com/orgs/department-of-veterans-affairs/teams/vsa-caregiver-frontend)
+- [Benefits Team 1](https://github.com/orgs/department-of-veterans-affairs/teams/benefits-team-1-frontend)
+- [1010 Health Apps](https://github.com/orgs/department-of-veterans-affairs/teams/1010-health-apps-frontend)
 
 ## Project Documentation
 
@@ -30,7 +30,7 @@ Mission: Make it easier for Veterans and Caregivers to apply for, track, and man
 
 ### How to run locally
 
-Follow the standard directions to run the app. The API needs to be running in order to run the app locally.
+Follow the standard directions to run the app. Vets API needs to be running in order to run the app locally.
 
 ### VA Forms
 
@@ -40,13 +40,12 @@ We are using version 1 of the forms library, Formation. This is a straight forwa
 
 The data ends up in the ESR (Enrollment).
 
-Not sure what Vets-API endpoints are used.
-
 ### Feature toggles
 
-* We have a feature toggle to enable an American Indian question, `hca_american_indian_enabled`, showing a page where we ask if a veteran is recognized as an American Indian or Alaska Native.
-* We have a feature toggle to enable a shortened form, `hca_short_form_enabled`, for users with or self discloser of high disability.
+* We have a feature toggle to enable a Self-Identified Gender Identity question, `caregiver_sigi_enabled`, show a page where we ask users if they would like to provide any gender
+* identity declaration.
 * We have a feature toggle to enable an override of enrollment status, `hca_enrollment_status_override_enabled`, to allow multiple submissions with same user.
+* We have a feature toggle to enable an optimized flow for the household section of the form, `hca_houshold_v2_enabled`.
 
 ### How to test new features?
 
@@ -54,4 +53,4 @@ Each feature should have unit tests and e2e tests. We can use the Review Instanc
 
 ### Useful acronym and terms
 
-- ???
+- SIGI - Self-Identified Gender Identity

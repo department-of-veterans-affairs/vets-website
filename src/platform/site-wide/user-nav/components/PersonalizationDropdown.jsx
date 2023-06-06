@@ -8,8 +8,9 @@ import {
 } from 'platform/user/authentication/selectors';
 import { logoutUrl } from 'platform/user/authentication/utilities';
 import { logoutUrlSiS, logoutEvent } from 'platform/utilities/oauth/utilities';
-import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import recordEvent from 'platform/monitoring/record-event';
+
+import MyHealthLink from './MyHealthLink';
 
 const recordNavUserEvent = section => () => {
   recordEvent({ event: 'nav-user', 'nav-user-section': section });
@@ -26,7 +27,7 @@ export function PersonalizationDropdown(props) {
     () => (
       <a
         href={isSSOe ? logoutUrl() : logoutUrlSiS()}
-        onClick={() => logoutEvent(csp)}
+        onClick={() => logoutEvent(csp, { shouldWait: !isSSOe, duration: 350 })}
       >
         Sign Out
       </a>
@@ -41,11 +42,7 @@ export function PersonalizationDropdown(props) {
           My VA
         </a>
       </li>
-      <li>
-        <a href={mhvUrl(isSSOe, 'home')} onClick={recordMyHealthEvent}>
-          My Health
-        </a>
-      </li>
+      <MyHealthLink onClick={recordMyHealthEvent} isSSOe={isSSOe} />
       <li>
         <a href="/profile" onClick={recordProfileEvent}>
           Profile

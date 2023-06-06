@@ -33,7 +33,7 @@ const combinedFSRRecreationalUIVehicleSchema = {
   assets: {
     recVehicleAmount: {
       'ui:title':
-        'What is the estimated value of your trailers, campers, and boats?',
+        'What is the estimated value of all of your trailers, campers, and boats?',
       'ui:options': {
         classNames: 'schemaform-currency-input',
         widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
@@ -58,9 +58,7 @@ const fSRRecreationalVehicleUISchema = {
       <legend className="schemaform-block-title">
         Your trailers, campers, and boats
       </legend>
-      <p className="vads-u-padding-top--2">
-        Enter each of your trailers, campers, and boats separately below.
-      </p>
+      <p>Enter each of your trailers, campers, and boats separately below.</p>
     </>
   ),
   assets: {

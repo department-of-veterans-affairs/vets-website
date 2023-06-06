@@ -1,5 +1,22 @@
-import { SELECTED, MAX_LENGTH } from '../constants';
-import { replaceSubmittedData } from './replace';
+import {
+  SELECTED,
+  MAX_LENGTH,
+  CLAIMANT_TYPES,
+  PRIMARY_PHONE,
+  EVIDENCE_VA,
+  EVIDENCE_PRIVATE,
+  EVIDENCE_OTHER,
+} from '../constants';
+import {
+  hasHomeAndMobilePhone,
+  hasHomePhone,
+  hasMobilePhone,
+} from './contactInfo';
+import { replaceSubmittedData, fixDateFormat } from './replace';
+import {
+  buildVaLocationString,
+  buildPrivateString,
+} from '../validations/evidence';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -12,20 +29,39 @@ export const removeEmptyEntries = object =>
     Object.entries(object).filter(([_, value]) => value !== ''),
   );
 
-// We require the user to input a 10-digit number; assuming we get a 3-digit
-// area code + 7 digit number. We're not yet supporting international numbers
-export const getPhoneNumber = (phone = '') => ({
-  countryCode: '1',
-  areaCode: phone.substring(0, 3),
-  phoneNumber: phone.substring(3),
-  // Empty string/null are not permitted values
-  // phoneNumberExt: '',
-});
-
 export const getTimeZone = () =>
-  // supports IE11
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
   Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+/**
+ * @typedef ClaimantData
+ * @type {Object}
+ * @property {String} claimantType - Phase 1 only supports "veteran"
+ * @property {String} claimantTypeOtherValue - Populated if ClaimantType is "other"
+ */
+/**
+ * Get claimant type data
+ * @param {String} claimantType
+ * @param {String} claimantTypeOtherValue
+ * @returns ClaimantData
+ */
+export const getClaimantData = ({
+  claimantType = '',
+  claimantTypeOtherValue = '',
+}) => {
+  const result = {
+    // Phase 1: No claimant type question, so we default to "veteran"
+    claimantType: claimantType || CLAIMANT_TYPES[0],
+  };
+
+  if (result.claimantType === 'other' && claimantTypeOtherValue) {
+    result.claimantTypeOtherValue = (claimantTypeOtherValue || '').substring(
+      0,
+      MAX_LENGTH.CLAIMANT_OTHER,
+    );
+  }
+  return result;
+};
 
 /**
  * Combine issues values into one field
@@ -80,7 +116,7 @@ export const getContestedIssues = ({ contestedIssues = [] }) =>
       },
       {
         issue: createIssueName(issue),
-        decisionDate: attr.approxDecisionDate,
+        decisionDate: fixDateFormat(attr.approxDecisionDate),
       },
     );
 
@@ -124,7 +160,7 @@ export const addIncludedIssues = formData => {
           type: 'contestableIssue',
           attributes: {
             issue: replaceSubmittedData(issue.issue),
-            decisionDate: issue.decisionDate,
+            decisionDate: fixDateFormat(issue.decisionDate),
           },
         });
       }
@@ -138,7 +174,6 @@ export const addIncludedIssues = formData => {
  * @property {Address~submittable} address
  * @property {Phone~submittable} phone
  * @property {String} emailAddressText
- * @property {Boolean} homeless
  */
 /**
  * Address~submittableV2
@@ -179,13 +214,17 @@ export const getAddress = formData => {
     MAX_LENGTH.POSTAL_CODE,
   );
   return removeEmptyEntries({
+    // Long addresses will overflow to an attachment page
     addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
     addressLine2: truncate('addressLine2', MAX_LENGTH.ADDRESS_LINE2),
     addressLine3: truncate('addressLine3', MAX_LENGTH.ADDRESS_LINE3),
     city: truncate('city', MAX_LENGTH.CITY),
-    stateCode: veteran.address?.stateCode || '',
-    countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY),
-    // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json#L145
+    // stateCode is from enum
+    stateCode: truncate('stateCode'),
+    // user profile provides "Iso2", whereas Lighthouse wants "ISO2"
+    countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.ADDRESS_COUNTRY),
+    // zipCode5 is always required, set to 00000 for international codes
+    // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200995.json#L28
     zipCode5: internationalPostalCode
       ? '00000'
       : truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
@@ -198,15 +237,59 @@ export const getAddress = formData => {
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
  */
-export const getPhone = ({ veteran = {} } = {}) => {
+export const getPhone = formData => {
+  const data = formData || {};
+  const { veteran = {} } = data;
+  const primary = data[PRIMARY_PHONE] || '';
+  // we shouldn't ever get to this point without a home or mobile phone
+  let phone;
+  if (hasHomeAndMobilePhone(data) && primary) {
+    phone = `${primary}Phone`;
+  } else if (hasMobilePhone(data)) {
+    phone = 'mobilePhone';
+  } else if (hasHomePhone(data)) {
+    phone = 'homePhone';
+  }
+
   const truncate = (value, max) =>
-    replaceSubmittedData(veteran.phone?.[value] || '').substring(0, max);
-  return removeEmptyEntries({
-    countryCode: truncate('countryCode', MAX_LENGTH.COUNTRY_CODE),
-    areaCode: truncate('areaCode', MAX_LENGTH.AREA_CODE),
-    phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
-    phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
+    replaceSubmittedData(veteran[phone]?.[value] || '').substring(0, max);
+  return phone
+    ? removeEmptyEntries({
+        countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
+        areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
+        phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
+        phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
+      })
+    : {};
+};
+
+export const hasDuplicateLocation = (list, currentLocation) =>
+  !!list.find(location => {
+    const { locationAndName, evidenceDates } = location.attributes;
+    return (
+      buildVaLocationString(
+        {
+          locationAndName,
+          evidenceDates: {
+            from: evidenceDates[0].startDate,
+            to: evidenceDates[0].endDate,
+          },
+        },
+        ',',
+        { includeIssues: false },
+      ) ===
+      buildVaLocationString(currentLocation, ',', { includeIssues: false })
+    );
   });
+
+/**
+ * Truncate long email addresses
+ * @param {Veteran} veteran - Veteran formData object
+ * @returns {String} submittable email address
+ */
+export const getEmail = formData => {
+  const { veteran } = formData || {};
+  return (veteran?.email || '').substring(0, MAX_LENGTH.EMAIL);
 };
 
 /**
@@ -218,11 +301,13 @@ export const getPhone = ({ veteran = {} } = {}) => {
  * @typedef EvidenceSubmission~upload - uploaded evidence
  * @type {Object}
  * @property {String} evidenceType - enum: 'upload'
- * @example
- *  [{
-      "evidenceType": "upload",
-      // TO DO - no schema for this?
-    }]
+ * @example [{ "evidenceType": "upload" }]
+ */
+/**
+ * @typedef EvidenceSubmission~none - No evidence
+ * @type {Object}
+ * @property {String} evidenceType - enum: 'none'
+ * @example [{ "evidenceType": "none" }]
  */
 /**
  * @typedef EvidenceSubmission~evidenceDates
@@ -238,7 +323,7 @@ export const getPhone = ({ veteran = {} } = {}) => {
  * @property {EvidenceSubmission~evidenceDates} - date range
  * @example
   "evidenceSubmission": [{
-    "evidenceType": "retrieval",
+    "evidenceType": ["retrieval", "upload"],
     "retrieveFrom": [
       {
         "type": "retrievalEvidence",
@@ -264,7 +349,95 @@ export const getPhone = ({ veteran = {} } = {}) => {
  * Get evidence
  * @param {Object} formData - full form data
  */
-export const getEvidence = (/* formData */) => {
-  // do something here to extract the evidence data
-  return {};
+export const getEvidence = formData => {
+  const evidenceSubmission = {
+    evidenceType: [],
+  };
+  // Add VA evidence data
+  if (formData[EVIDENCE_VA] && formData.locations.length) {
+    evidenceSubmission.evidenceType.push('retrieval');
+    evidenceSubmission.retrieveFrom = formData.locations.reduce(
+      (list, location) => {
+        if (!hasDuplicateLocation(list, location)) {
+          list.push({
+            type: 'retrievalEvidence',
+            attributes: {
+              // we're not including the issues here - it's only in the form to make
+              // the UX consistent with the private records location pages
+              locationAndName: location.locationAndName,
+              // Lighthouse wants between 1 and 4 evidenceDates, but we're only
+              // providing one
+              evidenceDates: [
+                {
+                  startDate: fixDateFormat(location.evidenceDates.from),
+                  endDate: fixDateFormat(location.evidenceDates.to),
+                },
+              ],
+            },
+          });
+        }
+        return list;
+      },
+      [],
+    );
+  }
+  // additionalDocuments added in submit-transformer
+  if (formData[EVIDENCE_OTHER] && formData.additionalDocuments.length) {
+    evidenceSubmission.evidenceType.push('upload');
+  }
+  // Lighthouse wants us pass an evidence type of "none" if we're not submitting
+  // evidence
+  if (evidenceSubmission.evidenceType.length === 0) {
+    evidenceSubmission.evidenceType.push('none');
+  }
+  return {
+    form5103Acknowledged: formData.form5103Acknowledged,
+    evidenceSubmission,
+  };
+};
+
+// Backend still works if we pass along duplicate issues
+export const hasDuplicateFacility = (list, currentFacility) => {
+  const current = buildPrivateString(currentFacility, ',');
+  return !!list.find(
+    facility =>
+      buildPrivateString(
+        { ...facility, treatmentDateRange: facility.treatmentDateRange[0] },
+        ',',
+      ) === current,
+  );
+};
+
+/**
+ * The backend is filling out form 4142/4142a (March 2021) which doesn't include
+ * the conditions (issues) that were treated. These are asked for in the newer
+ * 4142/4142a (July 2021)
+ */
+export const getForm4142 = formData => {
+  const { privacyAgreementAccepted = true, limitedConsent = '' } = formData;
+  const providerFacility = (formData?.providerFacility || []).reduce(
+    (list, facility) => {
+      if (!hasDuplicateFacility(list, facility)) {
+        list.push({
+          ...facility,
+          // 4142 is expecting an array
+          treatmentDateRange: [
+            {
+              from: fixDateFormat(facility.treatmentDateRange?.from),
+              to: fixDateFormat(facility.treatmentDateRange?.to),
+            },
+          ],
+        });
+      }
+      return list;
+    },
+    [],
+  );
+  return formData[EVIDENCE_PRIVATE]
+    ? {
+        privacyAgreementAccepted,
+        limitedConsent,
+        providerFacility,
+      }
+    : null;
 };

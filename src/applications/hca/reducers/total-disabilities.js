@@ -2,7 +2,7 @@ import {
   FETCH_TOTAL_RATING_STARTED,
   FETCH_TOTAL_RATING_SUCCEEDED,
   FETCH_TOTAL_RATING_FAILED,
-} from '../actions';
+} from '../utils/actions';
 
 const initialState = {
   loading: true, // app starts in loading state

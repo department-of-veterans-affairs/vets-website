@@ -289,16 +289,12 @@ describe('ClaimsAndAppeals component', () => {
       beforeEach(() => {
         initialState = {
           user: claimsAppealsUser(),
-          disability: {
-            status: {
-              claimsV2: {
-                appealsLoading: false,
-                claimsLoading: false,
-                appeals: [],
-                claims: [],
-                v2Availability: 'ERROR',
-              },
-            },
+          claims: {
+            appealsLoading: false,
+            claimsLoading: false,
+            appeals: [],
+            claims: [],
+            v2Availability: 'ERROR',
           },
         };
         view = renderInReduxProvider(<ClaimsAndAppeals dataLoadingDisabled />, {
@@ -325,17 +321,13 @@ describe('ClaimsAndAppeals component', () => {
       beforeEach(() => {
         initialState = {
           user: claimsAppealsUser(),
-          disability: {
-            status: {
-              claimsV2: {
-                appealsLoading: false,
-                claimsLoading: false,
-                appeals: [],
-                claims: [],
-                v2Availability: 'AVAILABLE',
-                claimsAvailability: 'UNAVAILABLE',
-              },
-            },
+          claims: {
+            appealsLoading: false,
+            claimsLoading: false,
+            appeals: [],
+            claims: [],
+            v2Availability: 'AVAILABLE',
+            claimsAvailability: 'UNAVAILABLE',
           },
         };
         view = renderInReduxProvider(<ClaimsAndAppeals dataLoadingDisabled />, {
@@ -364,15 +356,11 @@ describe('ClaimsAndAppeals component', () => {
       beforeEach(() => {
         initialState = {
           user: claimsAppealsUser(),
-          disability: {
-            status: {
-              claimsV2: {
-                appealsLoading: false,
-                claimsLoading: false,
-                appeals: [],
-                claims: [],
-              },
-            },
+          claims: {
+            appealsLoading: false,
+            claimsLoading: false,
+            appeals: [],
+            claims: [],
           },
         };
         view = renderInReduxProvider(<ClaimsAndAppeals dataLoadingDisabled />, {
@@ -392,22 +380,18 @@ describe('ClaimsAndAppeals component', () => {
         beforeEach(() => {
           initialState = {
             user: claimsAppealsUser(),
-            disability: {
-              status: {
-                claimsV2: {
-                  appealsLoading: false,
-                  claimsLoading: false,
-                  appeals: [],
-                  claims: [
-                    // claim with recent activity
-                    makeClaimObject({ updateDate: daysAgo(7), phase: 3 }),
-                    // claim with most recent activity
-                    makeClaimObject({ updateDate: daysAgo(1), phase: 7 }),
-                    // claim with recent activity
-                    makeClaimObject({ updateDate: daysAgo(5), phase: 1 }),
-                  ],
-                },
-              },
+            claims: {
+              appealsLoading: false,
+              claimsLoading: false,
+              appeals: [],
+              claims: [
+                // claim with recent activity
+                makeClaimObject({ updateDate: daysAgo(7), phase: 3 }),
+                // claim with most recent activity
+                makeClaimObject({ updateDate: daysAgo(1), phase: 7 }),
+                // claim with recent activity
+                makeClaimObject({ updateDate: daysAgo(5), phase: 1 }),
+              ],
             },
           };
           view = renderInReduxProvider(
@@ -440,25 +424,21 @@ describe('ClaimsAndAppeals component', () => {
         beforeEach(() => {
           initialState = {
             user: claimsAppealsUser(),
-            disability: {
-              status: {
-                claimsV2: {
-                  appealsLoading: false,
-                  claimsLoading: false,
-                  appeals: [
-                    // closed appeal updated 5 days ago
-                    makeAppealObject({ updateDate: daysAgo(5), closed: true }),
-                    // appeal updated one day ago
-                    makeAppealObject({ updateDate: daysAgo(1) }),
-                  ],
-                  claims: [
-                    // closed claim updated 5 days ago
-                    makeClaimObject({ updateDate: daysAgo(5), phase: 8 }),
-                    // open claim updated 10 days ago
-                    makeClaimObject({ updateDate: daysAgo(10), phase: 7 }),
-                  ],
-                },
-              },
+            claims: {
+              appealsLoading: false,
+              claimsLoading: false,
+              appeals: [
+                // closed appeal updated 5 days ago
+                makeAppealObject({ updateDate: daysAgo(5), closed: true }),
+                // appeal updated one day ago
+                makeAppealObject({ updateDate: daysAgo(1) }),
+              ],
+              claims: [
+                // closed claim updated 5 days ago
+                makeClaimObject({ updateDate: daysAgo(5), phase: 8 }),
+                // open claim updated 10 days ago
+                makeClaimObject({ updateDate: daysAgo(10), phase: 7 }),
+              ],
             },
           };
           view = renderInReduxProvider(
@@ -491,25 +471,21 @@ describe('ClaimsAndAppeals component', () => {
         beforeEach(() => {
           initialState = {
             user: claimsAppealsUser(),
-            disability: {
-              status: {
-                claimsV2: {
-                  appealsLoading: false,
-                  claimsLoading: false,
-                  appeals: [
-                    // open appeal that changed 31 days ago
-                    makeAppealObject({ updateDate: daysAgo(31) }),
-                  ],
-                  claims: [
-                    // open claim updated 29 days ago
-                    makeClaimObject({ updateDate: daysAgo(29), phase: 7 }),
-                    // closed claim without recent activity
-                    makeClaimObject({ updateDate: daysAgo(31), phase: 8 }),
-                    // open claim without recent activity
-                    makeClaimObject({ updateDate: daysAgo(100), phase: 1 }),
-                  ],
-                },
-              },
+            claims: {
+              appealsLoading: false,
+              claimsLoading: false,
+              appeals: [
+                // open appeal that changed 31 days ago
+                makeAppealObject({ updateDate: daysAgo(31) }),
+              ],
+              claims: [
+                // open claim updated 29 days ago
+                makeClaimObject({ updateDate: daysAgo(29), phase: 7 }),
+                // closed claim without recent activity
+                makeClaimObject({ updateDate: daysAgo(31), phase: 8 }),
+                // open claim without recent activity
+                makeClaimObject({ updateDate: daysAgo(100), phase: 1 }),
+              ],
             },
           };
           view = renderInReduxProvider(
@@ -542,23 +518,19 @@ describe('ClaimsAndAppeals component', () => {
         beforeEach(() => {
           initialState = {
             user: claimsAppealsUser(),
-            disability: {
-              status: {
-                claimsV2: {
-                  appealsLoading: false,
-                  claimsLoading: false,
-                  appeals: [
-                    // closed appeal that was closed 10 days ago
-                    makeAppealObject({ updateDate: daysAgo(10), closed: true }),
-                  ],
-                  claims: [
-                    // closed claim with no recent activity
-                    makeClaimObject({ updateDate: daysAgo(3000), phase: 8 }),
-                    // closed claim without recent activity
-                    makeClaimObject({ updateDate: daysAgo(31), phase: 8 }),
-                  ],
-                },
-              },
+            claims: {
+              appealsLoading: false,
+              claimsLoading: false,
+              appeals: [
+                // closed appeal that was closed 10 days ago
+                makeAppealObject({ updateDate: daysAgo(10), closed: true }),
+              ],
+              claims: [
+                // closed claim with no recent activity
+                makeClaimObject({ updateDate: daysAgo(3000), phase: 8 }),
+                // closed claim without recent activity
+                makeClaimObject({ updateDate: daysAgo(31), phase: 8 }),
+              ],
             },
           };
           view = renderInReduxProvider(
@@ -589,15 +561,11 @@ describe('ClaimsAndAppeals component', () => {
         beforeEach(() => {
           initialState = {
             user: claimsAppealsUser(),
-            disability: {
-              status: {
-                claimsV2: {
-                  appealsLoading: false,
-                  claimsLoading: false,
-                  appeals: [makeAppealObject({ updateDate: daysAgo(31) })],
-                  claims: [],
-                },
-              },
+            claims: {
+              appealsLoading: false,
+              claimsLoading: false,
+              appeals: [makeAppealObject({ updateDate: daysAgo(31) })],
+              claims: [],
             },
           };
           view = renderInReduxProvider(
@@ -636,24 +604,20 @@ describe('ClaimsAndAppeals component', () => {
         beforeEach(() => {
           initialState = {
             user: claimsAppealsUser(),
-            disability: {
-              status: {
-                claimsV2: {
-                  appealsLoading: false,
-                  claimsLoading: false,
-                  appeals: [
-                    makeAppealObject({
-                      updateDate: daysAgo(1000),
-                      closed: true,
-                    }),
-                  ],
-                  claims: [
-                    makeClaimObject({ updateDate: daysAgo(100), phase: 8 }),
-                    makeClaimObject({ updateDate: daysAgo(35), phase: 8 }),
-                    makeClaimObject({ updateDate: daysAgo(60), phase: 8 }),
-                  ],
-                },
-              },
+            claims: {
+              appealsLoading: false,
+              claimsLoading: false,
+              appeals: [
+                makeAppealObject({
+                  updateDate: daysAgo(1000),
+                  closed: true,
+                }),
+              ],
+              claims: [
+                makeClaimObject({ updateDate: daysAgo(100), phase: 8 }),
+                makeClaimObject({ updateDate: daysAgo(35), phase: 8 }),
+                makeClaimObject({ updateDate: daysAgo(60), phase: 8 }),
+              ],
             },
           };
           view = renderInReduxProvider(
@@ -677,20 +641,16 @@ describe('ClaimsAndAppeals component', () => {
         beforeEach(() => {
           initialState = {
             user: claimsAppealsUser(),
-            disability: {
-              status: {
-                claimsV2: {
-                  appealsLoading: false,
-                  claimsLoading: false,
-                  appeals: [],
-                  v2Availability: 'RECORD_NOT_FOUND_ERROR',
-                  claims: [
-                    makeClaimObject({ updateDate: daysAgo(100), phase: 8 }),
-                    makeClaimObject({ updateDate: daysAgo(35), phase: 8 }),
-                    makeClaimObject({ updateDate: daysAgo(60), phase: 8 }),
-                  ],
-                },
-              },
+            claims: {
+              appealsLoading: false,
+              claimsLoading: false,
+              appeals: [],
+              v2Availability: 'RECORD_NOT_FOUND_ERROR',
+              claims: [
+                makeClaimObject({ updateDate: daysAgo(100), phase: 8 }),
+                makeClaimObject({ updateDate: daysAgo(35), phase: 8 }),
+                makeClaimObject({ updateDate: daysAgo(60), phase: 8 }),
+              ],
             },
           };
           view = renderInReduxProvider(

@@ -1,10 +1,10 @@
-import backendServices from '~/platform/user/profile/constants/backendServices';
-import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   selectAvailableServices,
   selectVAPContactInfo,
-} from '~/platform/user/selectors';
+} from 'platform/user/selectors';
 
 import {
   VAP_SERVICE_INITIALIZATION_STATUS,

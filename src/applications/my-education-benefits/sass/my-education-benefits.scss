@@ -292,6 +292,30 @@ va-accordion-item .service-history-details {
   font-weight: normal;
 }
 
+.meb-definition-list {
+	margin: 0;
+}
+.meb-definition-list:after {
+	clear: both;
+	content: "";
+	display: table;
+}
+.meb-definition-list_term,
+.meb-definition-list_definition {
+	float: left;
+}
+.meb-definition-list_term {
+	clear: left;
+	font-weight: bold;
+	margin-top: 0;
+}
+.meb-definition-list_term--normal {
+	font-weight: normal;
+}
+.meb-definition-list_definition {
+	margin-left: 1em;
+}
+
 // Review Page
 .review {
 	margin-bottom: 0;

@@ -41,15 +41,12 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     const tree = SkinDeep.shallowRender(
       <VeteranBenefitSummaryLetter {...defaultProps} />,
     );
-    const rows = tree
-      .dive(['div', '#benefitInfoTable', 'tbody'])
-      .everySubTree('tr');
-    expect(rows[0].dive(['th', 'input'])).not.to.be.empty;
-    expect(rows[0].dive(['td', '#hasAdaptedHousingLabel'])).not.to.be.empty;
+    const items = tree.dive(['#benefitInfoList']).everySubTree('li');
+    expect(items[0].dive(['input'])).not.to.be.empty;
+    expect(items[0].dive(['label'])).not.to.be.empty;
 
-    expect(rows[1].dive(['th', 'input'])).not.to.be.empty;
-    expect(rows[1].dive(['td', '#hasChapter35EligibilityLabel'])).not.to.be
-      .empty;
+    expect(items[1].dive(['input'])).not.to.be.empty;
+    expect(items[1].dive(['label'])).not.to.be.empty;
   });
 
   it('should show service info options', () => {
@@ -59,7 +56,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     expect(tree.subTree('#militaryService')).not.to.be.empty;
   });
 
-  it('renders error and hides benefit table if options not available', () => {
+  it('renders error and hides benefit list if options not available', () => {
     const props = set('optionsAvailable', false, defaultProps);
     const tree = SkinDeep.shallowRender(
       <VeteranBenefitSummaryLetter {...props} />,
@@ -68,7 +65,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     expect(headerText).to.equal(
       'Your VA Benefit Summary letter is currently unavailable',
     );
-    expect(tree.subTree('#benefitInfoTable')).to.be.false;
+    expect(tree.subTree('#benefitInfoList')).to.be.false;
   });
 
   it('should not render military service information section if no service history', () => {
@@ -175,10 +172,10 @@ describe('<VeteranBenefitSummaryLetter>', () => {
       <VeteranBenefitSummaryLetter {...defaultProps} />,
     );
     const benefitInfoRows = tree
-      .dive(['div', '#benefitInfoTable', 'tbody'])
-      .everySubTree('tr');
-    benefitInfoRows.forEach(row => {
-      expect(() => row.dive(['td', '#hasDeathResultOfDisability'])).to.throw();
+      .dive(['div', '#benefitInfoList'])
+      .everySubTree('li');
+    benefitInfoRows.forEach(item => {
+      expect(() => item.dive(['#hasDeathResultOfDisability'])).to.throw();
     });
   });
 

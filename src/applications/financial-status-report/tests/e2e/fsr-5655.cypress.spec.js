@@ -25,6 +25,11 @@ const testConfig = createTestConfig(
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
+            { name: 'combined_financial_status_report', value: false },
+            {
+              name: 'combined_financial_status_report_enhancements',
+              value: false,
+            },
           ],
         },
       });
@@ -43,7 +48,7 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.findAllByText(/start/i, { selector: 'button' })
+        cy.get('a.vads-c-action-link--green')
           .first()
           .click();
       },
@@ -58,9 +63,11 @@ const testConfig = createTestConfig(
       'employment-records': ({ afterHook }) => {
         afterHook(() => {
           // Employer One - Current Employment
-          cy.findByLabelText(/Type of work/).select('Full time');
-          cy.get(`select[name="fromMonth"]`).select('1');
-          cy.get(`input[name="fromYear"]`).type('2017');
+          cy.get('[data-test-id="employment-type"]')
+            .shadow()
+            .find('select')
+            .select('Full time');
+          cy.fillDate('from', '2017-1');
           cy.get(`input[name="current-employment"]`).check();
           cy.get(`input[name="employerName"]`).type('Employer One');
           cy.findAllByText(/Save/i, { selector: 'button' })
@@ -69,11 +76,12 @@ const testConfig = createTestConfig(
           // Add job link
           cy.get('.add-item-button').click();
           // Employer Two - Previous Employment
-          cy.findByLabelText(/Type of work/).select('Full time');
-          cy.get(`select[name="fromMonth"]`).select('1');
-          cy.get(`input[name="fromYear"]`).type('2015');
-          cy.get(`select[name="toMonth"]`).select('1');
-          cy.get(`input[name="toYear"]`).type('2017');
+          cy.get('[data-test-id="employment-type"]')
+            .shadow()
+            .find('select')
+            .select('Full time');
+          cy.fillDate('from', '2015-1');
+          cy.fillDate('to', '2017-1');
           cy.get(`input[name="employerName"]`).type('Employer Two');
           cy.findAllByText(/Save/i, { selector: 'button' })
             .first()
@@ -85,9 +93,11 @@ const testConfig = createTestConfig(
       'spouse-employment-records': ({ afterHook }) => {
         afterHook(() => {
           // Employer One - Current Employment
-          cy.findByLabelText(/Type of work/).select('Full time');
-          cy.get(`select[name="fromMonth"]`).select('5');
-          cy.get(`input[name="fromYear"]`).type('2015');
+          cy.get('[data-test-id="employment-type"]')
+            .shadow()
+            .find('select')
+            .select('Full time');
+          cy.fillDate('from', '2015-5');
           cy.get(`input[name="current-employment"]`).check();
           cy.get(`input[name="employerName"]`).type('Employer One');
           cy.findAllByText(/Save/i, { selector: 'button' })
@@ -96,11 +106,12 @@ const testConfig = createTestConfig(
           // Add job link
           cy.get('.add-item-button').click();
           // Employer Two - Previous Employment
-          cy.findByLabelText(/Type of work/).select('Full time');
-          cy.get(`select[name="fromMonth"]`).select('2');
-          cy.get(`input[name="fromYear"]`).type('2013');
-          cy.get(`select[name="toMonth"]`).select('3');
-          cy.get(`input[name="toYear"]`).type('2018');
+          cy.get('[data-test-id="employment-type"]')
+            .shadow()
+            .find('select')
+            .select('Full time');
+          cy.fillDate('from', '2013-2');
+          cy.fillDate('to', '2018-3');
           cy.get(`input[name="employerName"]`).type('Employer Two');
           cy.findAllByText(/Save/i, { selector: 'button' })
             .first()
@@ -125,9 +136,40 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'credit-card-bills': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_questions_hasCreditCardBillsYes').check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'your-credit-card-bills': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#unpaidBalance')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('#amountDueMonthly')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('#amountPastDue')
+            .first()
+            .shadow()
+            .find('input')
+            .type('100');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'credit-card-bills-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'resolution-options': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type="radio"][value="Compromise"]').click();
+          cy.get('va-radio-option[value="Compromise"]').click();
           cy.get(`input[name="compromise-resolution-amount"]`).type('100');
           cy.get('.usa-button-primary').click();
         });

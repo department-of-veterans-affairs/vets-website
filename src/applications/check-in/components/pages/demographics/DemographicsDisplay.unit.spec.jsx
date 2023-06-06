@@ -2,41 +2,17 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
-import configureStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
+import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import DemographicsDisplay from './DemographicsDisplay';
 
 describe('pre-check-in experience', () => {
   describe('shared components', () => {
     describe('DemographicsDisplay', () => {
-      let store;
-      beforeEach(() => {
-        const middleware = [];
-        const mockStore = configureStore(middleware);
-        const initState = {
-          checkInData: {
-            context: {
-              token: '',
-            },
-            form: {},
-          },
-        };
-        store = mockStore(initState);
-      });
-
-      it('passes axeCheck', () => {
-        axeCheck(
-          <Provider store={store}>
-            <DemographicsDisplay />
-          </Provider>,
-        );
-      });
       it('renders with default values', () => {
         const { queryByText } = render(
-          <Provider store={store}>
+          <CheckInProvider>
             <DemographicsDisplay />
-          </Provider>,
+          </CheckInProvider>,
         );
         expect(queryByText('Is this your current contact information?')).to
           .exist;
@@ -47,29 +23,20 @@ describe('pre-check-in experience', () => {
           ),
         ).not.to.exist;
       });
-      it('renders the footer if footer is supplied', () => {
-        const { getByText } = render(
-          <Provider store={store}>
-            {/* eslint-disable-next-line react/jsx-no-bind */}
-            <DemographicsDisplay Footer={() => <div>foo</div>} />
-          </Provider>,
-        );
-        expect(getByText('foo')).to.exist;
-      });
       it('renders custom header', () => {
         const { getByText } = render(
-          <Provider store={store}>
+          <CheckInProvider>
             <DemographicsDisplay header="foo" />
-          </Provider>,
+          </CheckInProvider>,
         );
 
         expect(getByText('foo')).to.exist;
       });
       it('renders custom subtitle', () => {
         const { getByText } = render(
-          <Provider store={store}>
+          <CheckInProvider>
             <DemographicsDisplay subtitle="foo" />
-          </Provider>,
+          </CheckInProvider>,
         );
         expect(getByText('foo')).to.exist;
       });
@@ -96,9 +63,9 @@ describe('pre-check-in experience', () => {
           emailAddress: 'kermit.frog@sesameenterprises.us',
         };
         const { getByText } = render(
-          <Provider store={store}>
+          <CheckInProvider>
             <DemographicsDisplay demographics={demographics} />
-          </Provider>,
+          </CheckInProvider>,
         );
         expect(getByText('Mailing address')).to.exist;
         expect(getByText('Home address')).to.exist;
@@ -130,9 +97,9 @@ describe('pre-check-in experience', () => {
           emailAddress: 'kermit.frog@sesameenterprises.us',
         };
         const { getByText } = render(
-          <Provider store={store}>
+          <CheckInProvider>
             <DemographicsDisplay demographics={demographics} />
-          </Provider>,
+          </CheckInProvider>,
         );
         expect(getByText('123 Turtle Trail')).to.exist;
         expect(getByText('Treetopper, Tennessee 10101')).to.exist;
@@ -147,9 +114,9 @@ describe('pre-check-in experience', () => {
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
         const screen = render(
-          <Provider store={store}>
+          <CheckInProvider>
             <DemographicsDisplay yesAction={yesClick} />
-          </Provider>,
+          </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('yes-button'));
         expect(yesClick.calledOnce).to.be.true;
@@ -157,9 +124,9 @@ describe('pre-check-in experience', () => {
       it('fires the no function', () => {
         const noClick = sinon.spy();
         const screen = render(
-          <Provider store={store}>
+          <CheckInProvider>
             <DemographicsDisplay noAction={noClick} />
-          </Provider>,
+          </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('no-button'));
         expect(noClick.calledOnce).to.be.true;

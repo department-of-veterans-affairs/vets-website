@@ -21,13 +21,13 @@ const paymentsReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        payments: action.response,
+        payments: action.payments,
       };
     case PAYMENTS_RECEIVED_FAILED:
       return {
         ...state,
         isLoading: false,
-        error: action.response,
+        error: action.error,
       };
     default:
       return state;

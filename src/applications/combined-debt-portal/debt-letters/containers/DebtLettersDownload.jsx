@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setPageFocus } from '../../combined/utils/helpers';
 import DebtLettersTable from '../components/DebtLettersTable';
-import { DownloadLettersAlert } from '../components/Alerts';
 
 const DebtLettersDownload = () => {
   const { debtLinks, isError, isVBMSError, hasDependentDebts } = useSelector(
@@ -39,7 +38,6 @@ const DebtLettersDownload = () => {
           Download your debt letters, learn your payment options, or find out
           how to get help with your VA debts.
         </p>
-        <DownloadLettersAlert />
         <h2>Your debt letters</h2>
         <DebtLettersTable
           debtLinks={debtLinks}
@@ -54,11 +52,11 @@ const DebtLettersDownload = () => {
             If you’ve received a letter about a VA debt that isn’t listed here,
             call us at{' '}
             <span className="no-wrap">
-              <va-telephone contact="800-827-0648" />
+              <va-telephone contact="8008270648" />
             </span>{' '}
             (or{' '}
             <span className="no-wrap">
-              <va-telephone contact="1-612-713-6415" international />
+              <va-telephone contact="6127136415" international />
             </span>{' '}
             from overseas). You can also call us to get information about your
             resolved debts.

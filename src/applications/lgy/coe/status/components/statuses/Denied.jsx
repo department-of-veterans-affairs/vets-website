@@ -48,7 +48,7 @@ export const Denied = ({ referenceNumber, requestDate }) => {
 
 Denied.propTypes = {
   referenceNumber: PropTypes.string.isRequired,
-  requestDate: PropTypes.number,
+  requestDate: PropTypes.number.isRequired,
 };
 
 export default Denied;

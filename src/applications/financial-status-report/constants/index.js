@@ -15,6 +15,12 @@ export const MILITARY_STATE_LABELS = [
   'Armed Forces Pacific (AP)',
 ];
 
+export const RESOLUTION_OPTION_TYPES = Object.freeze({
+  WAIVER: 'waiver',
+  COMPROMISE: 'compromise',
+  MONTHLY: 'monthly',
+});
+
 export const SCHEMA_DEFINITIONS = {
   address: {
     type: 'string',
@@ -29,3 +35,19 @@ export const SCHEMA_DEFINITIONS = {
     pattern: '^\\d{5}(?:([-\\s]?)\\d{4})?$',
   },
 };
+
+export const CONTACT_INFO_PATH = 'current-contact-information';
+export const CONTACT_EDIT = 'edit-contact-info'; // contact info focusing
+export const REVIEW_CONTACT = 'onReviewPageContact';
+
+export const DEBT_TYPES = Object.freeze({
+  DEBT: 'DEBT',
+  COPAY: 'COPAY',
+});
+
+export const ALERT_TYPES = Object.freeze({
+  ALL_ERROR: 'ALL_ERROR',
+  ALL_ZERO: 'ALL_ZERO',
+  ERROR: 'ERROR',
+  ZERO: 'ZERO',
+});

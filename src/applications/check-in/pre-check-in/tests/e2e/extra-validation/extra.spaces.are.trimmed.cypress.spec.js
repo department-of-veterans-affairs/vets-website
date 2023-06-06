@@ -18,7 +18,6 @@ describe('Pre-Check In Experience', () => {
 
       initializeSessionPost.withSuccess(req => {
         expect(req.body.session.lastName).to.equal('Smith');
-        expect(req.body.session.last4).to.equal('1234');
       });
       initializePreCheckInDataGet.withSuccess();
     });
@@ -31,7 +30,7 @@ describe('Pre-Check In Experience', () => {
       cy.visitPreCheckInWithUUID();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validatePage.preCheckIn();
-      ValidateVeteran.validateVeteran('Smith        ', '1234          ');
+      ValidateVeteran.validateVeteran('Smith           ', '1935', '04', '07');
       ValidateVeteran.attemptToGoToNextPage();
       Introduction.validatePageLoaded();
     });

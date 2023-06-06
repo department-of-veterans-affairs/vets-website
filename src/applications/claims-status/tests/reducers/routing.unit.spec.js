@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import routingReducer from '../../reducers/routing';
-import { SET_LAST_PAGE } from '../../actions';
+import { SET_LAST_PAGE } from '../../actions/types';
 
 describe('routingReducer', () => {
   it('should set the last page to null on first call', () => {

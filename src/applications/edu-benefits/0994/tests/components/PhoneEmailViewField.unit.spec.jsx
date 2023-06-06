@@ -2,11 +2,11 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import { PhoneEmailViewField } from '../../../0994/components/PhoneEmailViewField';
+import { PhoneEmailViewField } from '../../components/PhoneEmailViewField';
 
 const formData = {
-  dayTimePhone: '1234567890',
-  nightTimePhone: '4445551212',
+  homePhone: '1234567890',
+  mobilePhone: '4445551212',
   emailAddress: 'test2@test1.net',
 };
 

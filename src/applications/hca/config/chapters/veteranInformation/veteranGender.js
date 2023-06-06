@@ -1,10 +1,10 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
-import CustomReviewField from '../../../components/ReviewFields/CustomReviewField';
 import { SIGIGenderDescription } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import { emptyObjectSchema, NotHighDisability } from '../../../helpers';
+import { isShortFormEligible } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 const { sigiGenders } = fullSchemaHca.properties;
 
@@ -13,26 +13,31 @@ export default {
     'view:genderShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: NotHighDisability,
+        hideIf: formData => !isShortFormEligible(formData),
       },
     },
     'view:prefillMessage': {
       'ui:description': PrefillMessage,
-    },
-    sigiGenders: {
-      'ui:title': ' ',
-      'ui:description': SIGIGenderDescription,
-      'ui:reviewField': CustomReviewField,
-      'ui:widget': 'radio',
       'ui:options': {
-        labels: {
-          M: 'Man',
-          F: 'Woman',
-          NB: 'Non-binary',
-          TM: 'Transgender Man',
-          TF: 'Transgender Female',
-          O: 'A gender not listed here',
-          NA: 'Prefer not to answer',
+        hideIf: formData => !formData['view:isLoggedIn'],
+      },
+    },
+    'view:genderIdentity': {
+      'ui:title': 'Gender identity',
+      'ui:description': SIGIGenderDescription,
+      sigiGenders: {
+        'ui:title': 'Select your gender identity',
+        'ui:widget': 'radio',
+        'ui:options': {
+          labels: {
+            NB: 'Non-binary',
+            M: 'Man',
+            F: 'Woman',
+            TM: 'Transgender man',
+            TF: 'Transgender woman',
+            O: 'A gender not listed here',
+            NA: 'Prefer not to answer',
+          },
         },
       },
     },
@@ -43,8 +48,12 @@ export default {
     properties: {
       'view:genderShortFormMessage': emptyObjectSchema,
       'view:prefillMessage': emptyObjectSchema,
-      'view:sigiDescription': emptyObjectSchema,
-      sigiGenders,
+      'view:genderIdentity': {
+        type: 'object',
+        properties: {
+          sigiGenders,
+        },
+      },
     },
   },
 };

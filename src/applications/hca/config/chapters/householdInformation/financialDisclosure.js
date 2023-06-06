@@ -2,7 +2,7 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 import { FinancialDisclosureDescription } from '../../../components/FormDescriptions';
 import { FinancialDisclosureAlert } from '../../../components/FormAlerts';
-import { emptyObjectSchema } from '../../../helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 const { discloseFinancialInformation } = fullSchemaHca.properties;
 

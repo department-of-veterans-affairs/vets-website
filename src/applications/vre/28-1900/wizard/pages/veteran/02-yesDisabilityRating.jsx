@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import { veteranPathPageNames } from '../pageList';
 import { WIZARD_STATUS } from 'applications/vre/28-1900/constants';
 import recordEvent from 'platform/monitoring/record-event';
+import { veteranPathPageNames } from '../pageList';
 
 const YesDisabilityRating = props => {
   const { setWizardStatus } = props;
@@ -15,6 +15,7 @@ const YesDisabilityRating = props => {
   );
   return (
     <div
+      id={veteranPathPageNames.yesDisabilityRating}
       className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest"
       aria-live="polite"
       aria-atomic="true"
@@ -37,7 +38,7 @@ const YesDisabilityRating = props => {
           sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
         }}
         to="/"
-        className="vads-c-action-link--green vads-u-padding-left--0"
+        className="vads-c-action-link--green"
       >
         Apply for Veteran Readiness and Employment with VA Form 28-1900
       </Link>

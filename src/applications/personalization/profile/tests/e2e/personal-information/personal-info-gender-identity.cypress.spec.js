@@ -3,7 +3,7 @@ import {
   putBadRequestFailure,
   createPutGenderIdentitySuccess,
   unsetUserPersonalInfo,
-} from '@@profile/mocks/personal-information';
+} from '@@profile/mocks/endpoints/personal-information';
 
 describe('Gender identity field tests on the personal information page', () => {
   it('when api data is available, should render gender identity field and alert when cancel is attempted with unsaved edits', () => {
@@ -32,8 +32,9 @@ describe('Gender identity field tests on the personal information page', () => {
     // should show cancel editing alert
     cy.findByRole('alertdialog').should('exist');
 
-    cy.findByRole('button', { name: 'Cancel' })
-      .should('exist')
+    cy.findByTestId('confirm-cancel-modal')
+      .shadow()
+      .findByRole('button', { name: /cancel/i })
       .click();
 
     cy.findByText(genderEditInputLabel).should('not.exist');

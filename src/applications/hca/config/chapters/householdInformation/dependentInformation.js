@@ -1,6 +1,6 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-import DependentView from '../../../components/DependentView';
+import DependentViewField from '../../../components/FormFields/DependentViewField';
 import { uiSchema as dependentUI } from '../../../definitions/dependent';
 
 const { dependents } = fullSchemaHca.properties;
@@ -27,7 +27,7 @@ export default {
         expandUnder: 'view:reportDependents',
         itemName: 'Dependent',
         hideTitle: true,
-        viewField: DependentView,
+        viewField: DependentViewField,
         itemAriaLabel: ariaLabelfunc,
       },
       'ui:errorMessages': {

@@ -7,7 +7,7 @@ ARG userid=504
 RUN groupadd -g $userid vets-website \
   && useradd -u $userid -r -m -d /application -g vets-website vets-website
 
-ENV YARN_VERSION 1.21.1
+ENV YARN_VERSION 1.19.1
 ENV NODE_ENV production
 
 RUN apt-get update

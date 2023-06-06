@@ -1,0 +1,222 @@
+{
+  "data": [
+    {
+      "id": "7208913",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7208913,
+        "category": "APPOINTMENTS",
+        "subject": "testTest Subject",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-11-22T00:29:17.000Z",
+        "senderId": 6820911,
+        "senderName": "ECSTEN, THOMAS ",
+        "recipientId": 6978854,
+        "recipientName": "***Mohammad_Fort Belovoir TG 200_APPT_SLC4%",
+        "readReceipt": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7208913"
+      }
+    },
+    {
+      "id": "7227073",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7227073,
+        "category": "COVID",
+        "subject": "non,",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-11-16T20:21:32.000Z",
+        "senderId": 6820911,
+        "senderName": "ECSTEN, THOMAS ",
+        "recipientId": 6910405,
+        "recipientName": "***Jeasmitha-Cardio-Clinic***",
+        "readReceipt": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7227073"
+      }
+    },
+    {
+      "id": "7195935",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7195935,
+        "category": "EDUCATION",
+        "subject": "Education Inquiry $$#%",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-11-16T20:11:37.000Z",
+        "senderId": 6820911,
+        "senderName": "ECSTEN, THOMAS ",
+        "recipientId": 7026562,
+        "recipientName": "###ABC_XYZ_TRIAGE_TEAM_PCMM_ASSOCIATION_747###",
+        "readReceipt": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7195935"
+      }
+    },
+    {
+      "id": "7223967",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7223967,
+        "category": "COVID",
+        "subject": "foo",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-11-16T17:48:09.000Z",
+        "senderId": 6820911,
+        "senderName": "ECSTEN, THOMAS ",
+        "recipientId": 6955354,
+        "recipientName": "GP_CLINIC NAME_TEST",
+        "readReceipt": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7223967"
+      }
+    },
+    {
+      "id": "7218990",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7218990,
+        "category": "OTHER",
+        "subject": "Vic - Tests AutoSave 2",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-11-04T15:14:13.000Z",
+        "senderId": 6820911,
+        "senderName": "ECSTEN, THOMAS ",
+        "recipientId": 7148500,
+        "recipientName": "SM-API-AARON-071422",
+        "readReceipt": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7218990"
+      }
+    },
+    {
+      "id": "7217905",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7217905,
+        "category": "OTHER",
+        "subject": "Vic - Test",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-11-03T14:30:28.000Z",
+        "senderId": 6820911,
+        "senderName": "ECSTEN, THOMAS ",
+        "recipientId": 7173861,
+        "recipientName": "AARON-PCMM-09-15-1347",
+        "readReceipt": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7217905"
+      }
+    },
+    {
+      "id": "7195370",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7195370,
+        "category": "EDUCATION",
+        "subject": "Education Inquiry",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-10-11T22:02:16.000Z",
+        "senderId": 6820911,
+        "senderName": "ECSTEN, THOMAS ",
+        "recipientId": 7026562,
+        "recipientName": "###ABC_XYZ_TRIAGE_TEAM_PCMM_ASSOCIATION_747###",
+        "readReceipt": "READ"
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7195370"
+      }
+    },
+    {
+      "id": "7195367",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7195367,
+        "category": "OTHER",
+        "subject": "Sprint demo 3",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-10-11T19:31:09.000Z",
+        "senderId": 6820911,
+        "senderName": "ECSTEN, THOMAS ",
+        "recipientId": 7173858,
+        "recipientName": "AARON-CLINIC-09-14-22-0904",
+        "readReceipt": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7195367"
+      }
+    },
+    {
+      "id": "7195285",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7195285,
+        "category": "OTHER",
+        "subject": "Matt Test UCD 2",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-10-11T17:43:01.000Z",
+        "senderId": 6820911,
+        "senderName": "ECSTEN, THOMAS ",
+        "recipientId": 6978853,
+        "recipientName": "***Mohammad_Fort Belovoir TG 100_SLC4%",
+        "readReceipt": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7195285"
+      }
+    },
+    {
+      "id": "7194457",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7194457,
+        "category": "OTHER",
+        "subject": "draft create update test 6",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-10-08T21:57:55.000Z",
+        "senderId": 6820911,
+        "senderName": "ECSTEN, THOMAS ",
+        "recipientId": 6978853,
+        "recipientName": "***Mohammad_Fort Belovoir TG 100_SLC4%",
+        "readReceipt": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7194457"
+      }
+    }
+  ],
+  "links": {
+    "self": "http://127.0.0.1:3000/my_health/v1/messaging/folders/-2/messages?use_cache=false",
+    "first": "http://127.0.0.1:3000/my_health/v1/messaging/folders/-2/messages?page=1&per_page=10&use_cache=false",
+    "prev": null,
+    "next": "http://127.0.0.1:3000/my_health/v1/messaging/folders/-2/messages?page=2&per_page=10&use_cache=false",
+    "last": "http://127.0.0.1:3000/my_health/v1/messaging/folders/-2/messages?page=4&per_page=10&use_cache=false"
+  },
+  "meta": {
+    "sort": {
+      "sentDate": "DESC"
+    },
+    "pagination": {
+      "currentPage": 1,
+      "perPage": 10,
+      "totalPages": 4,
+      "totalEntries": 31
+    }
+  }
+}

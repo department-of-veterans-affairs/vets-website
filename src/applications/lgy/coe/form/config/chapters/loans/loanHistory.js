@@ -8,11 +8,20 @@ import {
 import monthYearRangeUI from 'platform/forms-system/src/js/definitions/monthYearRange';
 import { states } from 'platform/forms/address';
 
-import { loanHistory } from '../../schemaImports';
+// import { loanHistory } from '../../schemaImports';
+import LoanReviewField from '../../../components/LoanReviewField';
+import text from '../../../content/loanHistory';
+import {
+  validateVALoanNumber,
+  validateUniqueVALoanNumber,
+} from '../../../validations';
+import { LOAN_INTENT_SCHEMA } from '../../../constants';
+import { getLoanIntent } from '../../helpers';
 
 const stateLabels = createUSAStateLabels(states);
 
 const PreviousLoanView = ({ formData }) => {
+  const intent = getLoanIntent(formData.intent);
   const {
     propertyAddress1,
     propertyCity,
@@ -28,19 +37,21 @@ const PreviousLoanView = ({ formData }) => {
   }
 
   return (
-    <div>
+    <>
       <div>
+        <div>{intent ? intent.shortLabel : null}</div>
         <strong>
           {`${propertyAddress1}, ${propertyCity}, ${propertyState}, ${propertyZip}`}
         </strong>
       </div>
       <div>{to ? `${from} - ${to}` : `${from} - present`}</div>
-    </div>
+    </>
   );
 };
 
 PreviousLoanView.propTypes = {
   formData: PropTypes.shape({
+    intent: PropTypes.string,
     dateRange: PropTypes.shape({
       from: PropTypes.string,
       to: PropTypes.string,
@@ -54,16 +65,45 @@ PreviousLoanView.propTypes = {
   }),
 };
 
-export const schema = loanHistory;
+export const schema = {
+  type: 'object',
+  properties: {
+    relevantPriorLoans: {
+      type: 'array',
+      minItems: 1,
+      items: {
+        type: 'object',
+        properties: {
+          dateRange: {
+            $ref: '#/definitions/dateRange',
+          },
+          propertyAddress: {
+            $ref: '#/definitions/loanAddress',
+          },
+          vaLoanNumber: {
+            $ref: '#/definitions/loanNumber',
+          },
+          propertyOwned: {
+            type: 'boolean',
+          },
+          intent: LOAN_INTENT_SCHEMA,
+        },
+      },
+    },
+  },
+};
 
 export const uiSchema = {
+  'ui:objectViewField': LoanReviewField,
   relevantPriorLoans: {
     'ui:description': 'Tell us about all your VA-backed loans',
     'ui:options': {
       itemName: 'VA-backed Loan',
       viewField: PreviousLoanView,
       keepInPageOnReview: true,
+      customTitle: ' ', // Force outer DIV wrap (vs DL wrap, for a11y)
     },
+    'ui:validations': [validateUniqueVALoanNumber],
     items: {
       'ui:title': 'Existing VA loan',
       'ui:options': {
@@ -71,9 +111,9 @@ export const uiSchema = {
         itemName: 'VA-backed loan',
       },
       dateRange: monthYearRangeUI(
-        'Closing date of your loan',
-        'Date you paid off your loan (Leave this blank if it’s not paid off)',
-        'Date loan ended must be after the start of the loan',
+        text.loanClose.title,
+        text.loanPaid.title,
+        text.loanPaid.error,
         true, // allow start & end to be the same month/year
       ),
       propertyAddress: {
@@ -86,55 +126,62 @@ export const uiSchema = {
           'propertyZip',
         ],
         propertyAddress1: {
-          'ui:title': 'Street address',
-          'ui:errorMessages': { required: 'Please enter a street address' },
+          'ui:title': text.address1.title,
+          'ui:errorMessages': { required: text.address1.error },
         },
         propertyAddress2: {
-          'ui:title': 'Street address line 2',
+          'ui:title': text.address2.title,
           'ui:options': {
             hideEmptyValueInReview: true,
           },
         },
         propertyCity: {
-          'ui:title': `City`,
-          'ui:errorMessages': { required: 'Please enter a city' },
+          'ui:title': text.city.title,
+          'ui:errorMessages': { required: text.city.error },
         },
         propertyState: {
-          'ui:title': 'State',
+          'ui:title': text.state.title,
           'ui:options': {
             labels: stateLabels,
           },
-          'ui:errorMessages': { required: 'Please enter a state' },
+          'ui:errorMessages': { required: text.state.error },
         },
         propertyZip: {
-          'ui:title': 'Postal code',
+          'ui:title': text.postal.title,
           'ui:options': { widgetClassNames: 'usa-input-medium' },
           'ui:errorMessages': {
-            required: 'Please enter a postal code',
-            pattern:
-              'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
+            required: text.postal.error,
+            pattern: text.postal.pattern,
           },
         },
       },
       vaLoanNumber: {
-        'ui:title': 'VA loan number',
-        'ui:options': { widgetClassNames: 'usa-input-medium' },
-        'ui:errorMessages': {
-          pattern: 'Please enter numbers only (dashes allowed)',
+        'ui:title': text.loanNumber.title,
+        'ui:description': <div>{text.loanNumber.description}</div>,
+        'ui:options': {
+          widgetClassNames: 'coe-loan-input',
         },
+        'ui:errorMessages': {
+          pattern: text.loanNumber.pattern,
+        },
+        'ui:validations': [validateVALoanNumber],
       },
       propertyOwned: {
-        'ui:title': 'Do you still own this property?',
+        'ui:title': text.owned.title,
         'ui:widget': 'yesNo',
         'ui:options': {
           hideEmptyValueInReview: true,
         },
+        'ui:required': () => true,
       },
-      willRefinance: {
-        'ui:title': 'Do you want to refinance this loan?',
-        'ui:widget': 'yesNo',
+      intent: {
+        'ui:widget': 'radio',
+        'ui:title':
+          'How will you use your Certificate of Eligibility with this VA Home Loan:',
+        'ui:required': (formData, index) =>
+          formData.relevantPriorLoans[index].propertyOwned,
         'ui:options': {
-          hideEmptyValueInReview: true,
+          expandUnder: 'propertyOwned',
         },
       },
     },

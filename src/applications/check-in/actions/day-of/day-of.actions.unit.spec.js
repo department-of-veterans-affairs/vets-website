@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 
 import {
-  appointmentWasCheckedInto,
-  APPOINTMENT_WAS_CHECKED_INTO,
   receivedMultipleAppointmentDetails,
   RECEIVED_APPOINTMENT_DETAILS,
   receivedDemographicsData,
@@ -27,21 +25,6 @@ describe('check in actions', () => {
       });
     });
 
-    describe('appointmentWasCheckedInto', () => {
-      it('should return correct action', () => {
-        const action = appointmentWasCheckedInto({
-          appointmentIen: 'some-ien',
-        });
-        expect(action.type).to.equal(APPOINTMENT_WAS_CHECKED_INTO);
-      });
-      it('should return correct structure', () => {
-        const action = appointmentWasCheckedInto({
-          appointmentIen: 'some-ien',
-        });
-        expect(action.payload).to.haveOwnProperty('appointment');
-        expect(action.payload.appointment.appointmentIen).to.equal('some-ien');
-      });
-    });
     describe('receivedDemographicsData', () => {
       it('should return correct action', () => {
         const action = receivedDemographicsData({});

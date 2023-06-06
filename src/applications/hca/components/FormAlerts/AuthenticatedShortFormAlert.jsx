@@ -1,10 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import recordEvent from 'platform/monitoring/record-event';
 
 const AuthenticatedShortFormAlert = ({ formData }) => {
   const disabilityRating = formData['view:totalDisabilityRating'];
+
+  // use logging to compare number of short forms started vs completed
+  useEffect(() => {
+    return () => {
+      recordEvent({
+        event: 'hca-short-form-flow',
+      });
+    };
+  }, []);
+
   return (
     <va-alert class="vads-u-margin-y--5" status="info">
       <h3 slot="headline">You can fill out a shorter application</h3>

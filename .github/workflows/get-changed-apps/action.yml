@@ -45,16 +45,16 @@ runs:
       shell: bash
       run: |
         if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-            echo ::set-output name=changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+            echo changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }}) >> $GITHUB_OUTPUT
         else
-          echo ::set-output name=changed_files::$(git diff --name-only origin/main...)
+          echo changed_files=$(git diff --name-only origin/main...) >> $GITHUB_OUTPUT
         fi
 
     - name: Get entry names
       id: get-entry-names
       if: contains(inputs.output-type, 'entry_name')
       shell: bash
-      run: echo ::set-output name=entry_names::$(node script/github-actions/get-changed-apps.js --output-type entry -d "${{ inputs.delimiter }}")
+      run: echo entry_names=$(node script/github-actions/get-changed-apps.js --output-type entry -d "${{ inputs.delimiter }}") >> $GITHUB_OUTPUT
       env:
         CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
 
@@ -62,7 +62,7 @@ runs:
       id: get-folders
       if: contains(inputs.output-type, 'folder')
       shell: bash
-      run: echo ::set-output name=folders::$(node script/github-actions/get-changed-apps.js --output-type folder -d "${{ inputs.delimiter }}")
+      run: echo folders=$(node script/github-actions/get-changed-apps.js --output-type folder -d "${{ inputs.delimiter }}") >> $GITHUB_OUTPUT
       env:
         CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
 
@@ -70,7 +70,7 @@ runs:
       id: get-slack-groups
       if: contains(inputs.output-type, 'slack_group')
       shell: bash
-      run: echo ::set-output name=slack_groups::$(node script/github-actions/get-changed-apps.js --output-type slack-group -d "${{ inputs.delimiter }}")
+      run: echo slack_groups=$(node script/github-actions/get-changed-apps.js --output-type slack-group -d "${{ inputs.delimiter }}") >> $GITHUB_OUTPUT
       env:
         CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
 
@@ -78,7 +78,7 @@ runs:
       id: get-urls
       if: contains(inputs.output-type, 'url')
       shell: bash
-      run: echo ::set-output name=urls::$(node script/github-actions/get-changed-apps.js --output-type url -d "${{ inputs.delimiter }}")
+      run: echo urls=$(node script/github-actions/get-changed-apps.js --output-type url -d "${{ inputs.delimiter }}") >> $GITHUB_OUTPUT
       env:
         CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
 
@@ -86,6 +86,6 @@ runs:
       id: check-continuous-deployment
       if: contains(inputs.output-type, 'continuous_deployment')
       shell: bash
-      run: echo ::set-output name=is_enabled::$(node script/github-actions/get-changed-apps.js --continuous-deployment)
+      run: echo is_enabled=$(node script/github-actions/get-changed-apps.js --continuous-deployment) >> $GITHUB_OUTPUT
       env:
         CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}

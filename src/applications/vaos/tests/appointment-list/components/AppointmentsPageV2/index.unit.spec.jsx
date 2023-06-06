@@ -16,14 +16,16 @@ import {
   mockAppointmentInfo,
   mockPastAppointmentInfo,
 } from '../../../mocks/helpers';
-import { getVARequestMock } from '../../../mocks/v0';
 import { createMockAppointmentByVersion } from '../../../mocks/data';
+import { mockVAOSAppointmentsFetch } from '../../../mocks/helpers.v2';
+import { getVAOSRequestMock } from '../../../mocks/v2';
 
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingRequests: true,
     vaOnlineSchedulingPast: true,
+    vaOnlineSchedulingStatusImprovement: false,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
   },
@@ -44,7 +46,6 @@ describe('VAOS <AppointmentsPageV2>', () => {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   };
-
   it('should navigate to list URLs on dropdown change', async () => {
     const defaultState = {
       featureToggles: {
@@ -215,12 +216,12 @@ describe('VAOS <AppointmentsPageV2>', () => {
       expect(
         await screen.findByRole('heading', {
           level: 1,
-          name: 'Your appointments',
+          name: 'Appointments',
         }),
       );
       await waitFor(() => {
         expect(global.document.title).to.equal(
-          `Your appointments | VA online scheduling | Veterans Affairs`,
+          `Appointments | VA online scheduling | Veterans Affairs`,
         );
       });
 
@@ -243,8 +244,9 @@ describe('VAOS <AppointmentsPageV2>', () => {
       expect(
         screen.getByRole('navigation', { name: 'Appointment list navigation' }),
       ).to.be.ok;
-      expect(screen.getByRole('button', { name: /Pending \(\d\)/ })).to.be.ok;
-      expect(screen.getByRole('button', { name: 'Past' })).to.be.ok;
+      expect(screen.getByRole('link', { name: 'Upcoming' })).to.be.ok;
+      expect(screen.getByRole('link', { name: /Pending \(\d\)/ })).to.be.ok;
+      expect(screen.getByRole('link', { name: 'Past' })).to.be.ok;
 
       // and status dropdown should not be displayed
       expect(screen.queryByLabelText('Show by status')).not.to.exists;
@@ -252,28 +254,35 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
     it('should display updated appointment request page', async () => {
       // Given the veteran lands on the VAOS homepage
-      const startDate = moment.utc();
-      const appointment = getVARequestMock();
+      const appointment = getVAOSRequestMock();
+      appointment.id = '1';
       appointment.attributes = {
-        ...appointment.attributes,
-        status: 'Submitted',
-        optionDate1: startDate,
-        optionTime1: 'AM',
-        purposeOfVisit: 'New Issue',
-        bestTimetoCall: ['Morning'],
-        email: 'patient.test@va.gov',
-        phoneNumber: '5555555566',
-        typeOfCareId: '323',
-        reasonForVisit: 'Back pain',
-        friendlyLocationName: 'Some VA medical center',
-        comment: 'loss of smell',
-        facility: {
-          ...appointment.attributes.facility,
-          facilityCode: '983GC',
-        },
+        id: '1',
+        kind: 'clinic',
+        locationId: '983',
+        requestedPeriods: [{}],
+        serviceType: 'primaryCare',
+        status: 'proposed',
       };
-      appointment.id = '1234';
-      mockAppointmentInfo({ requests: [appointment] });
+
+      mockVAOSAppointmentsFetch({
+        start: moment()
+          .subtract(1, 'month')
+          .format('YYYY-MM-DD'),
+        end: moment()
+          .add(395, 'days')
+          .format('YYYY-MM-DD'),
+        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        requests: [appointment],
+      });
+      mockVAOSAppointmentsFetch({
+        start: moment()
+          .subtract(4, 'months')
+          .format('YYYY-MM-DD'),
+        end: moment().format('YYYY-MM-DD'),
+        statuses: ['proposed', 'cancelled'],
+        requests: [appointment],
+      });
 
       // When the page displays
       const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
@@ -281,16 +290,18 @@ describe('VAOS <AppointmentsPageV2>', () => {
       });
 
       // Then it should display upcoming appointments
-      await screen.findByRole('heading', { name: 'Your appointments' });
+      await screen.findByRole('heading', { name: 'Appointments' });
 
       // When the veteran clicks the Pending button
-      let navigation = await screen.findByRole('button', {
+      let navigation = await screen.findByRole('link', {
         name: /^Pending \(1\)/,
       });
       userEvent.click(navigation);
-      await waitFor(() =>
-        expect(screen.history.push.lastCall.args[0]).to.equal('/pending'),
-      );
+      await waitFor(() => {
+        expect(screen.history.push.lastCall.args[0].pathname).to.equal(
+          '/pending',
+        );
+      });
 
       // Then it should display the requested appointments
       await waitFor(() => {
@@ -360,13 +371,13 @@ describe('VAOS <AppointmentsPageV2>', () => {
       });
 
       // Then it should display the upcoming appointments
-      await screen.findByRole('heading', { name: 'Your appointments' });
+      await screen.findByRole('heading', { name: 'Appointments' });
 
       // When the veteran clicks the Past button
-      let navigation = screen.getByRole('button', { name: 'Past' });
+      let navigation = screen.getByRole('link', { name: 'Past' });
       userEvent.click(navigation);
       await waitFor(() =>
-        expect(screen.history.push.lastCall.args[0]).to.equal('/past'),
+        expect(screen.history.push.lastCall.args[0].pathname).to.equal('/past'),
       );
 
       // Then it should display the past appointments

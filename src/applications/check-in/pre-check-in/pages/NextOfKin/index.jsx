@@ -1,15 +1,11 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
-
 import { recordAnswer } from '../../../actions/universal';
 
 import BackButton from '../../../components/BackButton';
-import BackToHome from '../../../components/BackToHome';
-import Footer from '../../../components/layout/Footer';
 import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDisplay';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -20,23 +16,21 @@ const NextOfKin = props => {
   const { router } = props;
   const { t } = useTranslation();
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { nextOfKin1: nextOfKin } = demographics;
 
   const dispatch = useDispatch();
 
-  const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
+  const {
+    goToNextPage,
+    goToPreviousPage,
+    jumpToPage,
+    getPreviousPageFromRouter,
+  } = useFormRouting(router);
 
   const buttonClick = useCallback(
     async answer => {
-      setIsLoading(true);
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': `${answer}-to-next-of-kin`,
-      });
       dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
       goToNextPage();
     },
@@ -62,18 +56,20 @@ const NextOfKin = props => {
 
   return (
     <>
-      <BackButton action={goToPreviousPage} router={router} />
+      <BackButton
+        action={goToPreviousPage}
+        router={router}
+        prevUrl={getPreviousPageFromRouter()}
+      />
       <NextOfKinDisplay
-        Footer={Footer}
         header={header}
         subtitle={subtitle}
         nextOfKin={nextOfKin}
         yesAction={yesClick}
         noAction={noClick}
-        isLoading={isLoading}
         jumpToPage={jumpToPage}
+        router={router}
       />
-      <BackToHome />
     </>
   );
 };

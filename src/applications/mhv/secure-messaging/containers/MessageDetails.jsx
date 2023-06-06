@@ -1,132 +1,127 @@
-import React from 'react';
-import NavigationLinks from '../components/NavigationLinks';
-import MessageActionButtons from '../components/MessageActionsButtons';
-import OlderMessages from '../components/OlderMessages';
-import Breadcrumbs from '../components/shared/Breadcrumbs';
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
+import MessageThread from '../components/MessageThread/MessageThread';
+import { retrieveMessageThread } from '../actions/messages';
+import MessageDetailBlock from '../components/MessageDetailBlock';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import AlertBox from '../components/shared/AlertBox';
+import { closeAlert } from '../actions/alerts';
 
 const MessageDetail = () => {
-  const from = 'Dunwoody, Ann E. (My HealtheVet Questions_PugetSound_ADMIN)';
-  const to = 'Lewis, Jennifer';
-  const messageDate = 'August 15, 2021, 1:32 p.m. ET';
-  const messageId = '8675309';
-  const subject = 'Test: Your lab results';
-  const messageText = () => {
-    return (
-      <>
-        <p>Hello,</p>
-        <br />
-        <p>
-          This is a message that you have received from your helathcare team.
-        </p>
-        <br />
-        <p>
-          These are some details about the topic pertaining to your situation.
-          Here are the actions you should take to progress in your treatment.
-        </p>
-        <br />
-        <p>
-          If you do not achieve the result you hope for, we will perform
-          additional tasks.
-        </p>
-        <br />
-        <p>Dr. Doctor</p>
-      </>
-    );
-  };
+  const { messageId, threadId } = useParams();
+  const dispatch = useDispatch();
+  const alert = useSelector(state => state.sm.alerts.alert);
+  const message = useSelector(state => state.sm.messageDetails.message);
+  const { draftMessage } = useSelector(state => state.sm.draftDetails);
+  const messageHistory = useSelector(
+    state => state.sm.messageDetails.messageHistory,
+  );
+  const isTrash = window.location.pathname.includes('/trash');
+  const isSent = window.location.pathname.includes('/sent');
+  const location = useLocation();
+  const history = useHistory();
+  const [cannotReplyAlert, setcannotReplyAlert] = useState(true);
+  const header = useRef();
+
+  useEffect(
+    () => {
+      if (threadId) {
+        dispatch(closeAlert());
+        dispatch(retrieveMessageThread(threadId));
+      }
+    },
+    [dispatch, threadId],
+  );
+
+  useEffect(
+    () => {
+      if (draftMessage?.messageId && message?.draftDate !== null) {
+        history.push(`/draft/${threadId}`);
+      }
+    },
+    [draftMessage, history, message, threadId],
+  );
+
+  useEffect(
+    () => {
+      if (alert?.header !== null) {
+        setcannotReplyAlert(cannotReplyAlert);
+      }
+    },
+    [cannotReplyAlert, alert?.header],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
+  );
+
+  useEffect(
+    () => {
+      focusElement(header.current);
+    },
+    [header],
+  );
+
+  let pageTitle;
+
+  if (isSent) {
+    pageTitle = 'Sent messages';
+  } else if (isTrash) {
+    pageTitle = 'Trash';
+  } else {
+    pageTitle = 'Message';
+  }
 
   return (
-    <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
-      <nav>
-        <Breadcrumbs
-          pageName="Message"
-          link="http://localhost:3001/my-health/secure-messages/message"
+    <div className="vads-l-grid-container message-detail-container">
+      {/* Only display this type of alert when it contains a header */}
+      {cannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
+      {pageTitle === 'Message' ? null : (
+        <h1 className="vads-u-margin-top--2" ref={header}>
+          {pageTitle}
+        </h1>
+      )}
+
+      {message === undefined && (
+        <va-loading-indicator
+          message="Loading your secure message..."
+          setFocus
         />
-        <button
-          type="button"
-          className="vads-u-margin-top--2 usa-button-secondary section-guide-button medium-screen:vads-u-display--none"
-        >
-          <span>In the Messages section</span>
-          <i className="fas fa-bars" />
-        </button>
-      </nav>
+      )}
 
-      <h1 className="vads-u-margin-top--2">Messages</h1>
-
-      <NavigationLinks />
-
-      <section className="message-detail-block">
-        <header className="vads-u-display--flex vads-u-flex-direction--row message-detail-header">
-          <h2
-            className="vads-u-margin-top--1 vads-u-margin-bottom--2"
-            aria-label={`Message subject. ${subject}`}
-          >
-            {subject}
-          </h2>
-          <button
-            type="button"
-            className="send-button-top medium-screen:vads-u-padding-right--2"
-          >
-            <i className="fas fa-reply" />
-            <span className="reply-button-top-text">Reply</span>
-          </button>
-        </header>
-
-        <main className="message-detail-content">
-          <section className="message-metadata" aria-label="message details.">
+      {message === null ||
+        (message === false && (
+          <va-alert status="error" visible class="vads-u-margin-y--9">
+            <h2 slot="headline">
+              We’re sorry. Something went wrong on our end
+            </h2>
             <p>
-              <strong>From: </strong>
-              {from}
+              You can’t view your secure message because something went wrong on
+              our end. Please check back soon.
             </p>
-            <p>
-              <strong>To: </strong>
-              {to}
-            </p>
-            <p>
-              <strong>Date: </strong>
-              {messageDate}
-            </p>
-            <p>
-              <strong>Message ID: </strong>
-              {messageId}
-            </p>
-          </section>
-          <section className="message-body" aria-label="Message body.">
-            {messageText()}
-          </section>
+          </va-alert>
+        ))}
 
-          <div className="message-attachments">
-            <p>
-              <strong>Attachments</strong>
-            </p>
-
-            <div className="vads-u-display--flex vads-u-justify-content--flex-start">
-              <div className="vads-u-padding-right--1">
-                <i className="fa fa-paperclip attachment-icon" />
-              </div>
-              <div className="">
-                <a href="/message">
-                  {
-                    'This is an attachment that I uploaded from my laptop.pdf (108.7 KB) '
-                  }{' '}
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="message-detail-note vads-u-text-align--center">
-            <p>
-              <i>
-                Note: This message may not be from the person you intially
-                contacted. It may have been reassigned to efficiently address
-                your original message
-              </i>
-            </p>
-          </div>
-
-          <MessageActionButtons />
-        </main>
-      </section>
-      <OlderMessages />
+      {message &&
+        (messageId || threadId) && (
+          <>
+            {/* <NavigationLinks messageId={messageId} /> */}
+            <MessageDetailBlock message={message} />
+            <MessageThread
+              messageHistory={messageHistory}
+              threadId={threadId}
+            />
+          </>
+        )}
     </div>
   );
 };

@@ -1,8 +1,10 @@
 // Dependencies.
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import {
+  VaModal,
+  VaPagination,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 
@@ -14,11 +16,7 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
-import {
-  doesCookieExist,
-  setCookie,
-  deriveDefaultModalState,
-} from '../helpers';
+import { deriveDefaultModalState } from '../helpers';
 import { showPDFModal, getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
@@ -72,15 +70,6 @@ export const SearchResults = ({
     }
   });
 
-  useEffect(() => {
-    if (doesCookieExist()) {
-      setModalState({
-        ...deriveDefaultModalState(),
-        doesCookieExist: doesCookieExist(),
-      });
-    }
-  }, []);
-
   const onPageSelect = p => {
     // Derive the new start index.
     let startIn = p * MAX_PAGE_LIST_LENGTH - MAX_PAGE_LIST_LENGTH;
@@ -120,40 +109,30 @@ export const SearchResults = ({
     pdfLabel,
     closingModal,
   ) => {
-    if (!doesCookieExist() || closingModal) {
-      if (!doesCookieExist()) {
-        setCookie();
-        setModalState({
-          isOpen: !modalState.isOpen,
-          pdfSelected,
-          pdfUrl,
-          pdfLabel,
-        });
-      }
-      if (closingModal) {
-        /**
-         * This is set here due to a race condition where:
-         * 1. the state would be updated to the cookie would exist which would fire the href download
-         * 2. we open the modal because the cookie did not exist at the time of the browser click event
-         */
-        setModalState({
-          ...modalState,
-          isOpen: !modalState.isOpen,
-          doesCookieExist: true,
-        });
-        recordEvent({
-          event: 'int-modal-click',
-          'modal-status': 'closed',
-          'modal-title': 'Download this PDF and open it in Acrobat Reader',
-        });
-      }
+    if (closingModal) {
+      setModalState({
+        ...modalState,
+        isOpen: !modalState.isOpen,
+      });
+      recordEvent({
+        event: 'int-modal-click',
+        'modal-status': 'closed',
+        'modal-title': 'Download this PDF and open it in Acrobat Reader',
+      });
+    } else {
+      setModalState({
+        isOpen: !modalState.isOpen,
+        pdfSelected,
+        pdfUrl,
+        pdfLabel,
+      });
     }
   };
 
   // Show loading indicator if we are fetching.
   if (fetching) {
     return (
-      <va-loading-indicator setFocus message={'Loading search results...'} />
+      <va-loading-indicator setFocus message="Loading search results..." />
     );
   }
 
@@ -229,7 +208,6 @@ export const SearchResults = ({
     .slice(startIndex, lastIndex)
     .map((form, index) => (
       <SearchResult
-        doesCookieExist={modalState.doesCookieExist}
         key={form.id}
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
@@ -277,13 +255,13 @@ export const SearchResults = ({
 
       {/*  */}
       <div className="pdf-alert-modal">
-        <Modal
-          onClose={() => {
+        <VaModal
+          onCloseEvent={() => {
             toggleModalState(pdfSelected, pdfUrl, pdfLabel, true);
             document.getElementById(prevFocusedLink).focus();
           }}
-          title="Download this PDF and open it in Acrobat Reader"
-          initialFocusSelector={'#va-modal-title'}
+          modalTitle="Download this PDF and open it in Acrobat Reader"
+          initialFocusSelector="#va-modal-title"
           visible={isOpen}
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column">
@@ -323,15 +301,15 @@ export const SearchResults = ({
               </span>
             </a>
           </div>
-        </Modal>
+        </VaModal>
       </div>
 
       {/* Pagination Row */}
       {results.length > MAX_PAGE_LIST_LENGTH && (
-        <Pagination
+        <VaPagination
           className="find-va-forms-pagination-override"
           maxPageListLength={MAX_PAGE_LIST_LENGTH}
-          onPageSelect={onPageSelect}
+          onPageSelect={e => onPageSelect(e.detail.page)}
           page={page}
           pages={totalPages}
           showLastPage

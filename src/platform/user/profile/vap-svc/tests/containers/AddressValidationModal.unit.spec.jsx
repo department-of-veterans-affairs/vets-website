@@ -72,7 +72,7 @@ describe('<AddressValidationModal/>', () => {
       <AddressValidationModal store={fakeStore} />,
     );
     expect(component.exists('AddressValidationModal')).to.equal(true);
-    expect(component.exists('Modal')).to.equal(true);
+    expect(component.exists('VaModal')).to.equal(true);
     component.unmount();
   });
 
@@ -81,7 +81,7 @@ describe('<AddressValidationModal/>', () => {
       <AddressValidationModal store={fakeStore} />,
     );
 
-    expect(component.exists('AlertBox')).to.equal(true);
+    expect(component.exists('VaAlert')).to.equal(true);
     component.unmount();
   });
 
@@ -415,18 +415,12 @@ describe('<AddressValidationModal/>', () => {
       <AddressValidationModal store={fakeStore} />,
     );
 
-    expect(
-      component
-        .find('h1')
-        .at(0)
-        .text(),
-    ).to.equal('Edit mailing address');
-    expect(
-      component
-        .find('h3')
-        .at(0)
-        .text(),
-    ).to.equal('Please confirm your address');
+    expect(component.find('VaModal').prop('modalTitle')).to.equal(
+      'Edit mailing address',
+    );
+    expect(component.find('VaAlert').prop('headline')).to.equal(
+      'We can’t confirm the address you entered with the U.S. Postal Service.',
+    );
     component.unmount();
   });
 });

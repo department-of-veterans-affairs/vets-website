@@ -5,11 +5,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Relative imports.
+import { isLandingPageEnabledForUser } from 'applications/mhv/landing-page/utilities/feature-toggles';
 import MY_VA_LINK from '../constants/MY_VA_LINK';
+import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
 import MegaMenu from '../components/MegaMenu';
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users';
 import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
+import { signInServiceEnabled } from '../../../user/authentication/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
 import {
   toggleMobileDisplayHidden,
@@ -67,7 +70,6 @@ export class Main extends Component {
     ).isRequired,
     display: PropTypes.object,
     loggedIn: PropTypes.bool.isRequired,
-    isMegaMenuMobileV2Enabled: PropTypes.bool,
   };
 
   toggleDropDown = currentDropdown => {
@@ -94,16 +96,18 @@ export class Main extends Component {
 
   linkClicked = link => {
     const linkName = link.text || link.title;
+    const { currentSection } = this.props;
     recordEvent({
       event: 'nav-header-link',
-      'nav-header-action': `Navigation - Header - Open Link - ${linkName}`,
+      'nav-header-action': `Header - ${currentSection} - ${linkName}`,
     });
   };
 
   columnThreeLinkClicked = link => {
+    const { currentSection } = this.props;
     recordEvent({
       event: 'nav-hub-containers',
-      'nav-hub-action': link.text,
+      'nav-hub-action': `Header - ${currentSection} - ${link.text}`,
     });
   };
 
@@ -174,16 +178,28 @@ export class Main extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const loggedIn = isLoggedIn(state);
+  const useOAuth = signInServiceEnabled(state) ? '&oauth=true' : '';
 
   // Derive the default mega menu links (both auth + unauth).
   const defaultLinks = ownProps?.megaMenuData ? [...ownProps.megaMenuData] : [];
 
+  // If user is not logged in, open login modal on current page with a redirect param to my-va
+  if (!loggedIn) {
+    MY_VA_LINK.href = `${
+      window.location.href.split('?')[0]
+    }?next=%2Fmy-va%2F${useOAuth}`;
+  }
+
   defaultLinks.push(MY_VA_LINK);
 
-  const data = flagCurrentPageInTopLevelLinks(
-    getAuthorizedLinkData(loggedIn, defaultLinks),
-  );
+  const isLandingPageEnabled = isLandingPageEnabledForUser(state);
+  const authenticatedLinks = isLandingPageEnabled
+    ? [{ ...MY_HEALTH_LINK }]
+    : undefined;
 
+  const data = flagCurrentPageInTopLevelLinks(
+    getAuthorizedLinkData(loggedIn, defaultLinks, authenticatedLinks),
+  );
   return {
     currentDropdown: state.megaMenu?.currentDropdown,
     currentSection: state.megaMenu?.currentSection,

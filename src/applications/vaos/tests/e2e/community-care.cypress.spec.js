@@ -1,29 +1,300 @@
-import moment from 'moment';
-
 import Timeouts from 'platform/testing/e2e/timeouts';
+import moment from 'moment';
 import {
-  initCommunityCareMock,
   mockFeatureToggles,
   vaosSetup,
-  mockUser,
+  mockAppointmentsApi,
+  mockLoginApi,
+  mockCCProvidersApi,
+  mockFacilitiesApi,
+  mockFacilityApi,
+  mockSchedulingConfigurationApi,
+  mockUserTransitionAvailabilities,
+  mockAppointmentApi,
 } from './vaos-cypress-helpers';
-import facilityData from '../../services/mocks/var/facility_data.json';
-import requests from '../../services/mocks/v2/requests.json';
-import facilitiesV2 from '../../services/mocks/v2/facilities.json';
-import configurations from '../../services/mocks/v2/scheduling_configurations_cc.json';
+import { mockGetEligibilityCC, mockVamcEhr } from './vaos-cypress-v2-helpers';
 
-// skipped due to failures with date validation
-describe.skip('VAOS community care flow', () => {
-  it('should fill out community care form and submit request', () => {
-    initCommunityCareMock({ withoutAddress: true });
+describe('VAOS community care flow using VAOS service', () => {
+  beforeEach(() => {
+    vaosSetup();
+
+    mockAppointmentsApi({ data: [], apiVersion: 2 });
+    mockCCProvidersApi();
+    mockFacilitiesApi({ apiVersion: 2 });
+    mockFeatureToggles({ v2Requests: true, v2Facilities: true });
+    mockLoginApi();
+    mockSchedulingConfigurationApi();
+    mockUserTransitionAvailabilities();
+    mockVamcEhr();
+
+    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.injectAxe();
+
+    // Start flow
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
+  });
+
+  it('should submit request successfully', () => {
+    const data = [
+      {
+        id: '1',
+        type: 'Appointment',
+        attributes: {
+          id: 1,
+          kind: 'cc',
+          // locationId: '983QA',
+          start: moment()
+            // .subtract(1, 'day')
+            .format('YYYY-MM-DDTHH:mm:ss'),
+          status: 'booked',
+        },
+      },
+    ];
+
+    mockAppointmentApi({
+      data: {
+        id: 'mock1',
+        type: 'Appointment',
+        attributes: {
+          contact: {
+            telecom: [
+              { type: 'phone', value: '5035551234' },
+              { type: 'email', value: 'veteran@gmail.com' },
+            ],
+          },
+          id: 'mock1',
+          kind: 'cc',
+          locationId: '983',
+          preferredTimesForPhoneCall: ['Morning', 'Evening'],
+          reasonCode: { text: 'This is a very good reason.' },
+          requestedPeriods: [
+            {
+              start: moment().format('YYYY-MM-DD'),
+              end: moment().format('YYYY-MM-DD'),
+            },
+          ],
+          serviceType: 'primaryCare',
+          status: 'pending',
+        },
+      },
+      id: 'mock1',
+    });
+    mockAppointmentsApi({ data, apiVersion: 2 });
+    mockFacilityApi({ id: '983', apiVersion: 2 });
+    mockGetEligibilityCC();
+
+    // Select primary care
+    cy.get('input[value="323"]')
+      .should('exist')
+      .then(checkbox => {
+        cy.wrap(checkbox)
+          .focus()
+          .check();
+      });
+
+    // Verify primary care checked
+    cy.get('input[value="323"]').should('be.checked');
+    // Click continue button
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
+
+    // Choose where you want to receive your care step
+    cy.url().should('contain', 'new-appointment/choose-facility-type');
+    cy.axeCheckBestPractice();
+    // Select community care
+    cy.get('#root_facilityType_1').click();
+    // Verify community care checked
+    cy.get('#root_facilityType_1').should('be.checked');
+    // Click continue button
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
+
+    // Choose an appointment day and time step
+    cy.url().should(
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/request-date',
+    );
+    cy.axeCheckBestPractice();
+    cy.contains('button', 'Next')
+      .focus()
+      .click();
+    // Select first available appointment
+    cy.get('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
+      .first()
+      .click();
+    // Select AM timeslot
+    cy.get(
+      '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
+    ).click();
+    cy.get(
+      '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
+    ).should('be.checked');
+    // Click continue button
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
+
+    // What's the closest city to you step
+    cy.url().should(
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/choose-closest-city',
+    );
+    cy.axeCheckBestPractice();
+
+    // Select city
+    cy.get('#root_communityCareSystemId_0').click();
+    cy.get('#root_communityCareSystemId_0').should('be.checked');
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
+
+    // Tell us your community care preferences step
+    cy.url().should(
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-preferences',
+    );
+    cy.axeCheckBestPractice();
+    cy.findByText(/Choose a provider/).click();
+
+    cy.findByLabelText(/doe, jane/i).click();
+    cy.axeCheckBestPractice();
+    cy.findByText(/Choose provider/i).click();
+    cy.findByText(/remove/i).click();
+    cy.axeCheckBestPractice();
+    cy.findByText(/cancel/i).click();
+    // Click continue button
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
+
+    cy.url().should(
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-language',
+    );
+    cy.axeCheckBestPractice();
+    // Select preferred language
+    cy.get('#root_preferredLanguage').select('english');
+    cy.get('#root_preferredLanguage').should('have.value', 'english');
+    // Click continue button
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
+
+    // Tell us the reason for this appointment step
+    cy.url().should(
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/reason-appointment',
+    );
+    cy.axeCheckBestPractice();
+    // Fill out reason input
+    cy.get('#root_reasonAdditionalInfo')
+      .type('This is a very good reason.')
+      .tab();
+    cy.get('#root_reasonAdditionalInfo').should(
+      'have.value',
+      'This is a very good reason.',
+    );
+    // Click continue button
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
+
+    // Your contact information step
+    cy.url().should(
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/contact-info',
+    );
+    cy.axeCheckBestPractice();
+    // Verify phone number
+    cy.get('#root_phoneNumber').should('have.value', '5035551234');
+    // Select best times for us to call morning & evening
+    cy.get('#root_bestTimeToCall_morning').click();
+    cy.get('#root_bestTimeToCall_morning').should('be.checked');
+    cy.get('#root_bestTimeToCall_evening').click();
+    cy.get('#root_bestTimeToCall_evening').should('be.checked');
+    // Verify email address
+    cy.get('#root_email').should('have.value', 'veteran@gmail.com');
+    cy.get('#root_email').should('have.value', 'veteran@gmail.com');
+    // Click continue button
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
+
+    // Review your appointment details step
+    cy.url().should(
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/review',
+    );
+    cy.axeCheckBestPractice();
+    // Click request appointment button
+    cy.findByText('Request appointment').click();
+
+    // Check form requestBody is as expected
+    cy.wait('@v2:create:appointment').should(xhr => {
+      const { body } = xhr.request;
+
+      expect(xhr.response.statusCode).to.eq(200);
+      expect(xhr.request.url, 'post url').to.contain('/vaos/v2/appointments');
+      // expect(request.requestedPeriods[0].start).to.equal(date);
+      // cy.assertRequestedPeriod(body.requestedPeriods[0].start);
+      expect(body.practitioners).to.deep.eq([
+        {
+          address: {
+            city: 'WASHINGTON',
+            line: ['1012 14TH ST NW STE 700'],
+            postalCode: '20005-3477',
+            state: 'DC',
+          },
+          identifier: [
+            {
+              system: 'http://hl7.org/fhir/sid/us-npi',
+              value: '1497723753',
+            },
+          ],
+        },
+      ]);
+
+      expect(body.locationId).to.eq('983');
+      expect(body).to.have.property('serviceType', 'primaryCare');
+      expect(body).to.have.property('kind', 'cc');
+      expect(body.contact.telecom[1].value).to.equal('veteran@gmail.com');
+      expect(body.contact.telecom[0].value).to.equal('5035551234');
+      expect(body.preferredLanguage).to.equal('English');
+      expect(body.preferredLocation).to.deep.equal({
+        city: 'Cheyenne',
+        state: 'WY',
+      });
+      expect(body.preferredTimesForPhoneCall).to.have.ordered.members([
+        'Morning',
+        'Evening',
+      ]);
+      expect(body.reasonCode.text).to.equal('This is a very good reason.');
+      expect(body.requestedPeriods).not.to.be.empty;
+      expect(body.status).to.equal('proposed');
+    });
+
+    // Request detail page should display the same information sent to create the
+    // appointment.
+    cy.url().should('include', '/requests/mock1');
+    cy.wait('@v2:get:appointment');
+    cy.findByText('Pending primary care appointment');
+    cy.findByText('Your appointment request has been submitted.');
+    cy.findByText('This is a very good reason.');
+    cy.findByText('veteran@gmail.com');
+    // cy.findByText('503-555-1234');
+    cy.findByText('Call morning or evening');
+    cy.axeCheckBestPractice();
+  });
+
+  it.skip('should submit form with provider chosen from list and submit request', () => {
+    mockLoginApi();
+
     cy.visit(
       'health-care/schedule-view-va-appointments/appointments/new-appointment/',
     );
 
-    // Wait until the app has been bootstraped. Could have used 'cy.wait' but
-    // this is considered an 'anti-pattern'. Tried to wait for the loading
-    // indicator but multiple indicators are displayed. So, we are waiting for
-    // the appointment cards to be displayed.
     cy.findAllByRole('link', {
       name: /Details for appointment/,
       timeout: 6000,
@@ -39,7 +310,7 @@ describe.skip('VAOS community care flow', () => {
 
     cy.injectAxe();
     // Select primary care
-    cy.get('input[value="323"]', { timeout: Timeouts.slow })
+    cy.get('input[value="323"]')
       .should('exist')
       .then(checkbox => {
         cy.wrap(checkbox)
@@ -64,7 +335,9 @@ describe.skip('VAOS community care flow', () => {
     // Verify community care checked
     cy.get('#root_facilityType_1').should('be.checked');
     // Click continue button
-    cy.get('.usa-button').click();
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
 
     // Choose an appointment day and time step
     cy.url().should(
@@ -87,224 +360,9 @@ describe.skip('VAOS community care flow', () => {
       '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
     ).should('be.checked');
     // Click continue button
-    cy.get('.usa-button').click();
-
-    // What's the closest city to you step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/choose-closest-city',
-    );
-    cy.axeCheckBestPractice();
-    cy.get('#root_communityCareSystemId_0').click();
-    cy.get('#root_communityCareSystemId_0').should('be.checked');
-    // Click continue button
-    cy.get('.usa-button').click();
-
-    // Tell us your community care preferences step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-preferences',
-    );
-    cy.axeCheckBestPractice();
-    cy.get('[aria-describedby=providerSelectionDescription]').click();
-    // Choose a provider
-    cy.get('#root_communityCareProvider_1').click();
-    cy.get('#root_communityCareProvider_1').should('be.checked');
-    cy.get('.form-radio-buttons > button').click();
-    // Verify selected provider
-    cy.get('#providerPostSelectionHeader').contains(/Selected provider/i);
-    // Click continue button
-    cy.get('.usa-button').click();
-
-    // Tell us the reason for this appointment step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/reason-appointment',
-    );
-    cy.axeCheckBestPractice();
-    // Fill out reason input
-    cy.get('#root_reasonAdditionalInfo')
-      .type('This is a very good reason.')
-      .tab();
-    cy.get('#root_reasonAdditionalInfo').should(
-      'have.value',
-      'This is a very good reason.',
-    );
-    // Click continue button
-    cy.get('.usa-button').click();
-
-    // Your contact information step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/contact-info',
-    );
-    cy.axeCheckBestPractice();
-    // Verify phone number
-    cy.get('#root_phoneNumber').should('have.value', '5035551234');
-    // Select best times for us to call morning & evening
-    cy.get('#root_bestTimeToCall_morning').click();
-    cy.get('#root_bestTimeToCall_morning').should('be.checked');
-    cy.get('#root_bestTimeToCall_evening').click();
-    cy.get('#root_bestTimeToCall_evening').should('be.checked');
-    // Verify email address
-    cy.get('#root_email').should('have.value', 'veteran@gmail.com');
-    cy.get('#root_email').should('have.value', 'veteran@gmail.com');
-    // Click continue button
-    cy.get('.usa-button').click();
-
-    // Review your appointment details step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/review',
-    );
-    cy.axeCheckBestPractice();
-    // Click continue button
-    cy.get('.usa-button').click();
-
-    // Check form requestBody is as expected
-    cy.wait('@appointmentRequests').should(xhr => {
-      // Add check to see if adding 7 days will result in the next month. If so,
-      // add 2 months (the test clicks the calendar next button to advance to the
-      // next month) and set date to beginning of month, else set the date to the
-      // beginning of the next month
-      const date = moment();
-      if (
-        moment(date)
-          .add(7, 'days')
-          .isSame(moment(date).add(1, 'month'), 'month')
-      ) {
-        date.add(2, 'months').startOf('month');
-      } else {
-        date.add(1, 'months').startOf('month');
-      }
-
-      expect(xhr.status).to.eq(200);
-      expect(xhr.url, 'post url').to.contain(
-        '/vaos/v0/appointment_requests?type=cc',
-      );
-      const request = xhr.requestBody;
-      expect(request)
-        .to.have.property('optionDate1')
-        .to.equal(date.format('MM/DD/YYYY'));
-      expect(request)
-        .to.have.property('optionDate2')
-        .to.equal('No Date Selected');
-      expect(request)
-        .to.have.property('optionDate3')
-        .to.equal('No Date Selected');
-      expect(Cypress._.values(request.preferredProviders)).to.deep.eq([
-        {
-          address: {
-            city: 'WASHINGTON',
-            state: 'DC',
-            street: '1012 14TH ST NW STE 700',
-            zipCode: '20005-3477',
-          },
-          practiceName: 'Doe, Jane',
-        },
-      ]);
-      expect(request).to.have.property(
-        'newMessage',
-        'This is a very good reason.',
-      );
-      expect(request.facility.facilityCode).to.eq('983');
-      expect(request.facility.parentSiteCode).to.eq('983');
-      expect(request).to.have.property('typeOfCareId', 'CCPRMYRTNE');
-      expect(request).to.have.property('optionTime1', 'AM');
-      expect(request).to.have.property('optionTime2', 'No Time Selected');
-      expect(request).to.have.property('optionTime3', 'No Time Selected');
-      expect(request).to.have.property('email', 'veteran@gmail.com');
-      expect(request).to.have.property('phoneNumber', '5035551234');
-    });
-
-    // Check messages requestBody is as expected
-    cy.wait('@requestMessages').should(xhr => {
-      const request = xhr.requestBody;
-      expect(request).to.have.property(
-        'messageText',
-        'This is a very good reason.',
-      );
-    });
-
-    // Your appointment request has been submitted step
-    cy.url().should('include', '/requests/testing');
-    cy.findByText('Preferred community care provider');
-    cy.findByText(/your appointment request has been submitted/i);
-    cy.axeCheckBestPractice();
-  });
-
-  it('should submit form with provider chosen from list and submit request', () => {
-    initCommunityCareMock();
-    cy.visit(
-      'health-care/schedule-view-va-appointments/appointments/new-appointment/',
-    );
-
-    // Wait until the app has been bootstraped. Could have used 'cy.wait' but
-    // this is considered an 'anti-pattern'. Tried to wait for the loading
-    // indicator but multiple indicators are displayed. So, we are waiting for
-    // the appointment cards to be displayed.
-    cy.findAllByRole('link', {
-      name: /Details for appointment/,
-      timeout: 6000,
-    }).should('exist');
-
-    // we should re-direct to home page
-    cy.get('h2', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('contain', 'Your appointments');
-
-    // Start flow
-    cy.findByText('Start scheduling').click({ waitForAnimations: true });
-
-    cy.injectAxe();
-    // Select primary care
-    cy.get('input[value="323"]')
-      .should('exist')
-      .then(checkbox => {
-        cy.wrap(checkbox)
-          .focus()
-          .check();
-      });
-    // Verify primary care checked
-    cy.get('input[value="323"]').should('be.checked');
-    // Click continue button
-    cy.get('.usa-button').click();
-
-    // Choose where you want to receive your care step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/choose-facility-type',
-    );
-    cy.axeCheckBestPractice();
-    // Select community care
-    cy.get('#root_facilityType_1').click();
-    // Verify community care checked
-    cy.get('#root_facilityType_1').should('be.checked');
-    // Click continue button
-    cy.get('.usa-button').click();
-
-    // Choose an appointment day and time step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/request-date',
-    );
-    cy.axeCheckBestPractice();
-    cy.contains('button', 'Next')
-      .focus()
+    cy.get('.usa-button')
+      .contains('Continue')
       .click();
-    // Select first available appointment
-    cy.get('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
-      .first()
-      .click();
-    // Select AM timeslot
-    cy.get(
-      '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
-    ).click();
-    cy.get(
-      '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
-    ).should('be.checked');
-    // Click continue button
-    cy.get('.usa-button').click();
 
     // What's the closest city to you step
     cy.url().should(
@@ -316,7 +374,9 @@ describe.skip('VAOS community care flow', () => {
     // Select city
     cy.get('#root_communityCareSystemId_0').click();
     cy.get('#root_communityCareSystemId_0').should('be.checked');
-    cy.get('.usa-button').click();
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
 
     // Tell us your community care preferences step
     cy.url().should(
@@ -331,9 +391,11 @@ describe.skip('VAOS community care flow', () => {
     cy.findByText(/Choose provider/i).click();
     cy.findByText(/remove/i).click();
     cy.axeCheckBestPractice();
-    cy.findByText(/cancel/i).click({ force: true });
+    cy.findByText(/cancel/i).click();
     // Click continue button
-    cy.get('.usa-button').click();
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
 
     cy.url().should(
       'contain',
@@ -344,7 +406,9 @@ describe.skip('VAOS community care flow', () => {
     cy.get('#root_preferredLanguage').select('english');
     cy.get('#root_preferredLanguage').should('have.value', 'english');
     // Click continue button
-    cy.get('.usa-button').click();
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
 
     // Tell us the reason for this appointment step
     cy.url().should(
@@ -361,7 +425,9 @@ describe.skip('VAOS community care flow', () => {
       'This is a very good reason.',
     );
     // Click continue button
-    cy.get('.usa-button').click();
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
 
     // Your contact information step
     cy.url().should(
@@ -380,7 +446,9 @@ describe.skip('VAOS community care flow', () => {
     cy.get('#root_email').should('have.value', 'veteran@gmail.com');
     cy.get('#root_email').should('have.value', 'veteran@gmail.com');
     // Click continue button
-    cy.get('.usa-button').click();
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
 
     // Review your appointment details step
     cy.url().should(
@@ -388,41 +456,25 @@ describe.skip('VAOS community care flow', () => {
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/review',
     );
     cy.axeCheckBestPractice();
-    // Click continue button
-    cy.get('.usa-button').click();
+    // Click request appointment button
+    cy.findByText('Request appointment').click();
 
     // Check form requestBody is as expected
-    cy.wait('@appointmentRequests').should(xhr => {
-      // Add check to see if adding 7 days will result in the next month. If so,
-      // add 2 months (the test clicks the calendar next button to advance to the
-      // next month) and set date to beginning of month, else set the date to the
-      // beginning of the next month
-      const date = moment();
-      if (
-        moment(date)
-          .add(7, 'days')
-          .isSame(moment(date).add(1, 'month'), 'month')
-      ) {
-        date.add(2, 'months').startOf('month');
-      } else {
-        date.add(1, 'months').startOf('month');
-      }
+    cy.wait('@v0:create:appointment:request').should(xhr => {
+      const { body } = xhr.request;
 
-      expect(xhr.status).to.eq(200);
-      expect(xhr.url, 'post url').to.contain(
+      expect(xhr.response.statusCode).to.eq(200);
+      expect(xhr.request.url, 'post url').to.contain(
         '/vaos/v0/appointment_requests?type=cc',
       );
-      const request = xhr.requestBody;
-      expect(request)
-        .to.have.property('optionDate1')
-        .to.equal(date.format('MM/DD/YYYY'));
-      expect(request)
+      cy.assertRequestedPeriod(body.optionDate1);
+      expect(body)
         .to.have.property('optionDate2')
         .to.equal('No Date Selected');
-      expect(request)
+      expect(body)
         .to.have.property('optionDate3')
         .to.equal('No Date Selected');
-      expect(Cypress._.values(request.preferredProviders)).to.deep.eq([
+      expect(Cypress._.values(body.preferredProviders)).to.deep.eq([
         {
           address: {
             city: 'WASHINGTON',
@@ -433,27 +485,18 @@ describe.skip('VAOS community care flow', () => {
           practiceName: 'Doe, Jane',
         },
       ]);
-      expect(request).to.have.property(
+      expect(body).to.have.property(
         'newMessage',
         'This is a very good reason.',
       );
-      expect(request.facility.facilityCode).to.eq('983');
-      expect(request.facility.parentSiteCode).to.eq('983');
-      expect(request).to.have.property('typeOfCareId', 'CCPRMYRTNE');
-      expect(request).to.have.property('optionTime1', 'AM');
-      expect(request).to.have.property('optionTime2', 'No Time Selected');
-      expect(request).to.have.property('optionTime3', 'No Time Selected');
-      expect(request).to.have.property('email', 'veteran@gmail.com');
-      expect(request).to.have.property('phoneNumber', '5035551234');
-    });
-
-    // Check messages requestBody is as expected
-    cy.wait('@requestMessages').should(xhr => {
-      const request = xhr.requestBody;
-      expect(request).to.have.property(
-        'messageText',
-        'This is a very good reason.',
-      );
+      expect(body.facility.facilityCode).to.eq('983');
+      expect(body.facility.parentSiteCode).to.eq('983');
+      expect(body).to.have.property('typeOfCareId', 'CCPRMYRTNE');
+      expect(body).to.have.property('optionTime1', 'AM');
+      expect(body).to.have.property('optionTime2', 'No Time Selected');
+      expect(body).to.have.property('optionTime3', 'No Time Selected');
+      expect(body).to.have.property('email', 'veteran@gmail.com');
+      expect(body).to.have.property('phoneNumber', '5035551234');
     });
 
     // Your appointment request has been submitted step
@@ -461,290 +504,5 @@ describe.skip('VAOS community care flow', () => {
     cy.findByText('Preferred community care provider');
     cy.findByText(/your appointment request has been submitted/i);
     cy.axeCheckBestPractice();
-  });
-});
-
-describe('VAOS community care flow using VAOS service', () => {
-  beforeEach(() => {
-    vaosSetup();
-    mockFeatureToggles({
-      v2Requests: true,
-      v2Facilities: true,
-    });
-    cy.login(mockUser);
-    cy.route({
-      method: 'GET',
-      url: /.*\/v0\/appointments?.*$/,
-      response: { data: [] },
-    });
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
-    cy.injectAxe();
-
-    // Start flow
-    cy.findByText('Start scheduling').click({ waitForAnimations: true });
-  });
-
-  it('should submit request successfully', () => {
-    const provider = {
-      id: '1497723753',
-      type: 'provider',
-      attributes: {
-        address: {
-          street: '1012 14TH ST NW STE 700',
-          city: 'WASHINGTON',
-          state: 'DC',
-          zip: '20005-3477',
-        },
-        caresitePhone: '202-638-0750',
-        lat: 38.903195,
-        long: -77.032382,
-        name: 'Doe, Jane',
-        phone: null,
-        uniqueId: '1497723753',
-      },
-    };
-    cy.route({
-      method: 'GET',
-      url: '/facilities_api/v1/ccp/provider?*',
-      response: {
-        data: [provider],
-      },
-    });
-    cy.route({
-      method: 'GET',
-      url: '/v1/facilities/ccp/*',
-      response: {
-        data: provider,
-      },
-    });
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v2/facilities*',
-      response: facilitiesV2,
-    });
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v2/scheduling/configurations*',
-      response: configurations,
-    });
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v0/community_care/eligibility/PrimaryCare',
-      response: {
-        data: {
-          id: 'PrimaryCare',
-          type: 'cc_eligibility',
-          attributes: { eligible: true },
-        },
-      },
-    });
-    cy.route({
-      method: 'POST',
-      url: '/vaos/v2/appointments',
-      response: {
-        data: {
-          id: '25956',
-          attributes: {
-            reasonCode: {},
-          },
-        },
-      },
-    }).as('appointmentRequests');
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v2/appointments/25956*',
-      response: {
-        data: requests.data.find(r => r.id === '25956'),
-      },
-    });
-    cy.route({
-      method: 'GET',
-      url: '/v1/facilities/va/vha_442',
-      response: facilityData.data.find(f => f.id === 'vha_442'),
-    });
-
-    // Select primary care
-    cy.get('input[value="323"]')
-      .should('exist')
-      .then(checkbox => {
-        cy.wrap(checkbox)
-          .focus()
-          .check();
-      });
-
-    // Verify primary care checked
-    cy.get('input[value="323"]').should('be.checked');
-    // Click continue button
-    cy.get('.usa-button').click();
-
-    // Choose where you want to receive your care step
-    cy.url().should('contain', 'new-appointment/choose-facility-type');
-    cy.axeCheckBestPractice();
-    // Select community care
-    cy.get('#root_facilityType_1').click();
-    // Verify community care checked
-    cy.get('#root_facilityType_1').should('be.checked');
-    // Click continue button
-    cy.get('.usa-button').click();
-
-    // Choose an appointment day and time step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/request-date',
-    );
-    cy.axeCheckBestPractice();
-    cy.contains('button', 'Next')
-      .focus()
-      .click();
-    // Select first available appointment
-    cy.get('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
-      .first()
-      .click();
-    // Select AM timeslot
-    cy.get(
-      '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
-    ).click();
-    cy.get(
-      '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
-    ).should('be.checked');
-    // Click continue button
-    cy.get('.usa-button').click();
-
-    // What's the closest city to you step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/choose-closest-city',
-    );
-    cy.axeCheckBestPractice();
-
-    // Select city
-    cy.get('#root_communityCareSystemId_0').click();
-    cy.get('#root_communityCareSystemId_0').should('be.checked');
-    cy.get('.usa-button').click();
-
-    // Tell us your community care preferences step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-preferences',
-    );
-    cy.axeCheckBestPractice();
-    cy.findByText(/Choose a provider/).click();
-
-    cy.findByLabelText(/doe, jane/i).click();
-    cy.axeCheckBestPractice();
-    cy.findByText(/Choose provider/i).click();
-    cy.findByText(/remove/i).click();
-    cy.axeCheckBestPractice();
-    cy.findByText(/cancel/i).click({ force: true });
-    // Click continue button
-    cy.get('.usa-button').click();
-
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-language',
-    );
-    cy.axeCheckBestPractice();
-    // Select preferred language
-    cy.get('#root_preferredLanguage').select('english');
-    cy.get('#root_preferredLanguage').should('have.value', 'english');
-    // Click continue button
-    cy.get('.usa-button').click();
-
-    // Tell us the reason for this appointment step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/reason-appointment',
-    );
-    cy.axeCheckBestPractice();
-    // Fill out reason input
-    cy.get('#root_reasonAdditionalInfo')
-      .type('This is a very good reason.')
-      .tab();
-    cy.get('#root_reasonAdditionalInfo').should(
-      'have.value',
-      'This is a very good reason.',
-    );
-    // Click continue button
-    cy.get('.usa-button').click();
-
-    // Your contact information step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/contact-info',
-    );
-    cy.axeCheckBestPractice();
-    // Verify phone number
-    cy.get('#root_phoneNumber').should('have.value', '5035551234');
-    // Select best times for us to call morning & evening
-    cy.get('#root_bestTimeToCall_morning').click();
-    cy.get('#root_bestTimeToCall_morning').should('be.checked');
-    cy.get('#root_bestTimeToCall_evening').click();
-    cy.get('#root_bestTimeToCall_evening').should('be.checked');
-    // Verify email address
-    cy.get('#root_email').should('have.value', 'veteran@gmail.com');
-    cy.get('#root_email').should('have.value', 'veteran@gmail.com');
-    // Click continue button
-    cy.get('.usa-button').click();
-
-    // Review your appointment details step
-    cy.url().should(
-      'contain',
-      '/health-care/schedule-view-va-appointments/appointments/new-appointment/review',
-    );
-    cy.axeCheckBestPractice();
-    // Click continue button
-    cy.get('.usa-button').click();
-
-    // Check form requestBody is as expected
-    cy.wait('@appointmentRequests').should(xhr => {
-      // Add check to see if adding 7 days will result in the next month. If so,
-      // add 2 months (the test clicks the calendar next button to advance to the
-      // next month) and set date to beginning of month, else set the date to the
-      // beginning of the next month
-      let date = moment();
-      if (
-        moment(date)
-          .add(7, 'days')
-          .isSame(moment(date).add(1, 'month'), 'month')
-      ) {
-        date.add(2, 'months').startOf('month');
-      } else {
-        date.add(1, 'months').startOf('month');
-      }
-
-      // Convert date timezone to that of the facility for scheduled appointment
-      date = moment
-        .tz(date.format('YYYY-MM-DDTHH:mm:ss'), 'America/Denver')
-        .utc()
-        .format();
-      expect(xhr.status).to.eq(200);
-      expect(xhr.url, 'post url').to.contain('/vaos/v2/appointments');
-      const request = xhr.requestBody;
-      // expect(request.requestedPeriods[0].start).to.equal(date);
-      expect(request.practitioners).to.deep.eq([
-        {
-          address: {
-            city: 'WASHINGTON',
-            line: ['1012 14TH ST NW STE 700'],
-            postalCode: '20005-3477',
-            state: 'DC',
-          },
-          identifier: [
-            {
-              system: 'http://hl7.org/fhir/sid/us-npi',
-              value: '1497723753',
-            },
-          ],
-        },
-      ]);
-
-      expect(request.locationId).to.eq('983');
-      expect(request).to.have.property('serviceType', 'primaryCare');
-      expect(request).to.have.property('kind', 'cc');
-      expect(request.contact.telecom[1].value).to.equal('veteran@gmail.com');
-      expect(request.contact.telecom[0].value).to.equal('5035551234');
-    });
-    cy.url().should('include', '/requests/25956');
-    cy.findByText('Preferred community care provider');
   });
 });

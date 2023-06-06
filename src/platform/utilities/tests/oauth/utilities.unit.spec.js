@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import sinon from 'sinon';
 import { expect } from 'chai';
 
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -10,6 +11,8 @@ import {
 
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import environment from 'platform/utilities/environment';
+import { signupOrVerify } from 'platform/user/authentication/utilities';
+import * as profileUtils from 'platform/user/profile/utilities';
 import {
   AUTHORIZE_KEYS_WEB,
   AUTHORIZE_KEYS_MOBILE,
@@ -66,7 +69,7 @@ describe('OAuth - Utilities', () => {
   describe('saveStateAndVerifier', () => {
     it('should check to see if state is included in window.location', () => {
       window.location = new URL('https://va.gov/?state=some_random_state');
-      expect(oAuthUtils.saveStateAndVerifier()).to.be.null;
+      expect(oAuthUtils.saveStateAndVerifier()).to.not.be.null;
       window.location.search = '';
     });
     it('should set sessionStorage', () => {
@@ -88,7 +91,7 @@ describe('OAuth - Utilities', () => {
         const { oAuthOptions } = externalApplicationsConfig.default;
         expect(url).to.include(`type=${csp}`);
         expect(url).to.include(`acr=${oAuthOptions.acr[csp]}`);
-        expect(url).to.include(`client_id=web`);
+        expect(url).to.include(`client_id=vaweb`);
       });
 
       it('should generate the proper signin url based on `csp` for mobile', async () => {
@@ -99,7 +102,7 @@ describe('OAuth - Utilities', () => {
         const { oAuthOptions } = externalApplicationsConfig.vamobile;
         expect(url).to.include(`type=${csp}`);
         expect(url).to.include(`acr=${oAuthOptions.acr[csp]}`);
-        expect(url).to.include(`client_id=mobile`);
+        expect(url).to.include(`client_id=vamobile`);
       });
     });
     it('should append additional params', async () => {
@@ -170,7 +173,7 @@ describe('OAuth - Utilities', () => {
       storage.setItem('code_verifier', cvValue);
       const tokenPath = `${
         environment.API_URL
-      }/v0/sign_in/token?grant_type=authorization_code&client_id=web&redirect_uri=https%253A%252F%252Fdev.va.gov&code=hello&code_verifier=${cvValue}`;
+      }/v0/sign_in/token?grant_type=authorization_code&client_id=vaweb&redirect_uri=https%253A%252F%252Fdev.va.gov&code=hello&code_verifier=${cvValue}`;
       const btr = await oAuthUtils.buildTokenRequest({ code: 'hello' });
       expect(btr.href).to.eql(tokenPath);
       expect(btr.href).includes('code=');
@@ -269,7 +272,9 @@ describe('OAuth - Utilities', () => {
 
   describe('formatInfoCookie', () => {
     it('should return an object with a valid date', () => {
-      const unformattedCookie = `%7B%3Aaccess_token_expiration%3D%3EWed%2C+29+Jun+2022+16%3A41%3A35.553488744+UTC+%2B00%3A00%2C+%3Arefresh_token_expiration%3D%3EWed%2C+29+Jun+2022+17%3A06%3A35.504965627+UTC+%2B00%3A00%7D`;
+      const unformattedCookie = decodeURIComponent(
+        '%7B%22access_token_expiration%22%3A%222023-03-17T19%3A38%3A06.654Z%22%2C%22refresh_token_expiration%22%3A%222023-03-17T20%3A03%3A06.631Z%22%7D',
+      );
       expect(typeof oAuthUtils.formatInfoCookie(unformattedCookie)).to.eql(
         'object',
       );
@@ -283,9 +288,8 @@ describe('OAuth - Utilities', () => {
   describe('getInfoToken', () => {
     it('should return a formatted object of the access & refresh tokens', () => {
       const unformattedCookie = decodeURIComponent(
-        `%7B%3Aaccess_token_expiration%3D%3EWed%2C+29+Jun+2022+16%3A41%3A35.553488744+UTC+%2B00%3A00%2C+%3Arefresh_token_expiration%3D%3EWed%2C+29+Jun+2022+17%3A06%3A35.504965627+UTC+%2B00%3A00%7D`,
+        '%7B%22access_token_expiration%22%3A%222023-03-17T19%3A38%3A06.654Z%22%2C%22refresh_token_expiration%22%3A%222023-03-17T20%3A03%3A06.631Z%22%7D',
       );
-
       const keys = Object.keys(oAuthUtils.formatInfoCookie(unformattedCookie));
       expect(keys).to.include('access_token_expiration');
       expect(keys).to.include('refresh_token_expiration');
@@ -296,9 +300,10 @@ describe('OAuth - Utilities', () => {
     it('should create a POST request to the /refresh endpoint', async () => {
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), []);
-      await oAuthUtils.refresh();
+      await oAuthUtils.refresh({ type: 'logingov' });
       expect(global.fetch.calledOnce).to.be.true;
       expect(global.fetch.firstCall.args[1].method).to.equal('POST');
+      expect(global.fetch.firstCall.args[0]).to.include('type=logingov');
       expect(global.fetch.firstCall.args[0].includes('/refresh')).to.be.true;
     });
   });
@@ -370,12 +375,93 @@ describe('OAuth - Utilities', () => {
     });
   });
 
-  describe('logout', () => {
-    it('should redirect to backend for logout', () => {
-      window.location = new URL('https://va.gov/?state=some_random_state');
+  describe('logoutUrlSiS', () => {
+    it('should set client_id=vaweb by default', () => {
       const url = oAuthUtils.logoutUrlSiS();
-      window.location = url;
-      expect(window.location).to.eql(url);
+      expect(url).to.include('logout');
+      expect(url).to.include('client_id=vaweb');
+    });
+    it('should set client_id to value of sessionStorage', () => {
+      const mockedClientId = 'vamock';
+      const storage = sessionStorage;
+      storage.clear();
+      storage.setItem('ci', mockedClientId);
+      const url = oAuthUtils.logoutUrlSiS();
+      expect(url).to.include('logout');
+      expect(url).to.include(`client_id=${mockedClientId}`);
+      storage.clear();
+    });
+    it('should set client_id=vaweb when clientId is not of approved clientId list', () => {
+      const badClientId = 'bad_actor_client_id';
+      const storage = sessionStorage;
+      storage.clear();
+      storage.setItem('ci', badClientId);
+      const url = oAuthUtils.logoutUrlSiS();
+      expect(url).to.include('logout');
+      expect(url).to.include(`client_id=vaweb`);
+      storage.clear();
+    });
+  });
+
+  describe('signupOrVerify (OAuth)', () => {
+    ['idme', 'logingov'].forEach(policy => {
+      it(`should generate the default URL for signup 'type=${policy}&acr=min' OAuth`, async () => {
+        const url = await signupOrVerify({
+          policy,
+          isLink: true,
+          useOAuth: true,
+        });
+        expect(url).to.include(`type=${policy}`);
+        expect(url).to.include(`acr=min`);
+        expect(url).to.include(`client_id=vaweb`);
+        expect(url).to.include('/authorize');
+        expect(url).to.include('response_type=code');
+        expect(url).to.include('code_challenge=');
+        expect(url).to.include('state=');
+      });
+
+      it(`should generate a verified URL for signup 'type=${policy}&acr=<loa3|ial2>' OAuth`, async () => {
+        const url = await signupOrVerify({
+          policy,
+          isLink: true,
+          isSignup: false,
+          useOAuth: true,
+        });
+        const expectedAcr =
+          externalApplicationsConfig.default.oAuthOptions.acrVerify[policy];
+        expect(url).to.include(`type=${policy}`);
+        expect(url).to.include(`acr=${expectedAcr}`);
+        expect(url).to.include(`client_id=vaweb`);
+        expect(url).to.include('/authorize');
+        expect(url).to.include('response_type=code');
+        expect(url).to.include('code_challenge=');
+        expect(url).to.include('state=');
+      });
+    });
+  });
+
+  describe('logoutEvent', () => {
+    it('should teardown profile', async () => {
+      localStorage.setItem('hasSession', true);
+      const teardownSpy = sinon.spy(profileUtils, 'teardownProfileSession');
+      oAuthUtils.logoutEvent('logingov');
+
+      expect(teardownSpy.called).to.be.true;
+      expect(localStorage.getItem('hasSession')).to.be.null;
+      teardownSpy.restore();
+    });
+    it('should teardown profile after a certain duration', async () => {
+      localStorage.setItem('hasSession', true);
+      const teardownSpy = sinon.spy(profileUtils, 'teardownProfileSession');
+      await oAuthUtils.logoutEvent('logingov', {
+        shouldWait: true,
+        duration: 300,
+      });
+
+      expect(teardownSpy.called).to.be.true;
+      expect(localStorage.getItem('hasSession')).to.be.null;
+
+      teardownSpy.restore();
     });
   });
 });

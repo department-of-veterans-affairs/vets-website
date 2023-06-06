@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 
 import { api } from '../../../api';
 import PreCheckinConfirmation from '../../../components/PreCheckinConfirmation';
-import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useUpdateError } from '../../../hooks/useUpdateError';
 
 import { isUUID } from '../../../utils/token-format-validator';
 
@@ -19,9 +19,10 @@ import {
 
 const Confirmation = props => {
   const { router } = props;
-  const [isLoading, setIsLoading] = useState(false);
-  const { goToErrorPage } = useFormRouting(router);
+  const [isLoading, setIsLoading] = useState(true);
   const { getPreCheckinComplete, setPreCheckinComplete } = useSessionStorage();
+
+  const { updateError } = useUpdateError();
 
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
@@ -37,9 +38,6 @@ const Confirmation = props => {
   useEffect(
     () => {
       async function sendPreCheckInData() {
-        // show loading screen
-        setIsLoading(true);
-
         // Set pre-checkin complete and send demographics flags.
         const preCheckInData = { uuid: token };
 
@@ -57,7 +55,7 @@ const Confirmation = props => {
         try {
           const resp = await api.v2.postPreCheckInData({ ...preCheckInData });
           if (resp.data.error || resp.data.errors) {
-            goToErrorPage('?error=pre-check-in-post-error');
+            updateError('pre-check-in-post-error');
           } else {
             setPreCheckinComplete(window, true);
             // hide loading screen
@@ -65,12 +63,15 @@ const Confirmation = props => {
             focusElement('h1');
           }
         } catch (error) {
-          goToErrorPage('?error=error-completing-pre-check-in');
+          updateError('error-completing-pre-check-in');
         }
       }
 
       if (!getPreCheckinComplete(window)?.complete && isUUID(token)) {
         sendPreCheckInData();
+      } else {
+        // hide loading screen
+        setIsLoading(false);
       }
 
       focusElement('h1');
@@ -79,7 +80,7 @@ const Confirmation = props => {
       demographicsUpToDate,
       emergencyContactUpToDate,
       getPreCheckinComplete,
-      goToErrorPage,
+      updateError,
       nextOfKinUpToDate,
       setPreCheckinComplete,
       token,
@@ -95,6 +96,7 @@ const Confirmation = props => {
       appointments={appointments}
       isLoading={isLoading}
       formData={formData}
+      router={router}
     />
   );
 };

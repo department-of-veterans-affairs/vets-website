@@ -6,6 +6,9 @@ import {
   FETCH_PERSONAL_INFORMATION_FAILED,
   FETCH_CLAIM_STATUS_SUCCESS,
   FETCH_CLAIM_STATUS_FAILURE,
+  FETCH_DIRECT_DEPOSIT,
+  FETCH_DIRECT_DEPOSIT_FAILED,
+  FETCH_DIRECT_DEPOSIT_SUCCESS,
   FETCH_ELIGIBILITY_SUCCESS,
   FETCH_ELIGIBILITY_FAILURE,
   ELIGIBILITY,
@@ -17,6 +20,22 @@ const initialState = {
   form: {
     data: {},
   },
+};
+
+const handleDirectDepositApi = action => {
+  if (action?.response?.data?.attributes) {
+    return {
+      ...action?.response?.data?.attributes,
+      routingNumber:
+        action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
+    };
+  }
+  return {
+    // accountType: 'Checking',
+    // accountNumber: '1234569891',
+    // routingNumber: '031000503',
+    // financialInstitutionName: 'Wells Fargo',
+  };
 };
 
 export default {
@@ -32,6 +51,7 @@ export default {
       case FETCH_PERSONAL_INFORMATION_FAILED:
         return {
           ...state,
+          personalInfoFetchComplete: true,
           personalInfoFetchInProgress: false,
           formData: action?.response || {},
         };
@@ -41,10 +61,23 @@ export default {
           ...state,
           claimStatus: action?.response?.attributes || {},
         };
+      case FETCH_DIRECT_DEPOSIT:
+        return {
+          ...state,
+          fetchDirectDepositInProgress: true,
+        };
+      case FETCH_DIRECT_DEPOSIT_SUCCESS:
+      case FETCH_DIRECT_DEPOSIT_FAILED:
+        return {
+          ...state,
+          fetchDirectDepositInProgress: false,
+          bankInformation: handleDirectDepositApi(action),
+        };
       case FETCH_ELIGIBILITY_SUCCESS:
       case FETCH_ELIGIBILITY_FAILURE:
         return {
           ...state,
+          eligibilityFetchComplete: true,
           eligibility:
             action?.response?.data?.attributes?.eligibility
               ?.filter(

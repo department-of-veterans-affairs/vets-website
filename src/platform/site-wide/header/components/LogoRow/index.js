@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
-import { loginAppUrlRE } from 'platform/user/authentication/utilities';
 import Logo from '../Logo';
 import UserNav from '../../../user-nav/containers/Main';
 import { updateExpandedMenuIDAction } from '../../containers/Menu/actions';
@@ -12,6 +11,7 @@ import { updateExpandedMenuIDAction } from '../../containers/Menu/actions';
 export const LogoRow = ({
   isMenuOpen,
   setIsMenuOpen,
+  showNavLogin = true,
   updateExpandedMenuID,
 }) => {
   const onMenuToggle = () => {
@@ -22,8 +22,6 @@ export const LogoRow = ({
     updateExpandedMenuID();
     setIsMenuOpen(!isMenuOpen);
   };
-
-  const isUnifiedSignInPage = loginAppUrlRE.test(window.location.pathname);
 
   return (
     <div className="header-logo-row vads-u-background-color--primary-darkest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--1p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
@@ -39,10 +37,10 @@ export const LogoRow = ({
 
       <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center">
         {/* Sign in button */}
-        <UserNav isHeaderV2 />
+        <UserNav isHeaderV2 showNavLogin={showNavLogin} />
 
         {/* Mobile menu button */}
-        {!isUnifiedSignInPage && (
+        {showNavLogin && (
           <button
             aria-controls="header-nav-items"
             aria-expanded={isMenuOpen ? 'true' : 'false'}
@@ -80,6 +78,8 @@ export const LogoRow = ({
 LogoRow.propTypes = {
   isMenuOpen: PropTypes.bool.isRequired,
   setIsMenuOpen: PropTypes.func.isRequired,
+  showNavLogin: PropTypes.bool,
+  updateExpandedMenuID: PropTypes.func,
 };
 
 const mapDispatchToProps = dispatch => ({

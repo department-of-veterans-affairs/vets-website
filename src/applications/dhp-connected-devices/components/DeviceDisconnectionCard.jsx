@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import environment from 'platform/utilities/environment';
 import { DisconnectModal } from './DisconnectModal';
+import { TermsAndConditions } from './TermsAndConditions';
 
 export const DeviceDisconnectionCard = ({ device }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,13 +32,13 @@ export const DeviceDisconnectionCard = ({ device }) => {
           {device.name}{' '}
           <span className="connected-header-text"> - Connected</span>{' '}
         </h3>
+        <TermsAndConditions device={device} />
         <p className="vads-u-margin-y--0">
           <button
             type="button"
             onClick={() => setModalVisible(true)}
             data-testid={`${device.key}-disconnect-link`}
             id={`${device.key}-disconnect-link`}
-            onKeyDown={() => setModalVisible(true)}
             className="usa-button-secondary"
             aria-label={`Disconnect ${device.name}`}
           >

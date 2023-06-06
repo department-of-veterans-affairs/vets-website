@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Scroll from 'react-scroll';
-import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 import PropTypes from 'prop-types';
 import {
   readAndCheckFile,
@@ -9,6 +8,7 @@ import {
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
 import { getScrollOptions } from 'platform/utilities/ui';
+import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   isValidFile,
   isValidFileSize,
@@ -18,7 +18,7 @@ import {
   FILE_TYPES,
 } from '../utils/fileValidation';
 
-const FileUploader = ({ files, requestLockedPdfPassword, onAddFile }) => {
+const FileUploader = ({ files, onAddFile }) => {
   const acceptedFileTypes = FILE_TYPES.map(type => `${type}`).join(', ');
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -27,8 +27,8 @@ const FileUploader = ({ files, requestLockedPdfPassword, onAddFile }) => {
     Scroll.scroller.scrollTo(`documentScroll${position}`, options);
   };
 
-  const handleChange = async uploadedFile => {
-    const file = uploadedFile[0];
+  const handleChange = async event => {
+    const file = event?.detail?.files[0];
     const extraData = {};
 
     const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
@@ -38,10 +38,7 @@ const FileUploader = ({ files, requestLockedPdfPassword, onAddFile }) => {
       setErrorMessage(FILE_TYPE_MISMATCH_ERROR);
     } else if (isValidFile(file)) {
       // Check if the file is an encrypted PDF
-      if (
-        requestLockedPdfPassword && // feature flag
-        file.name?.endsWith('pdf')
-      ) {
+      if (file.name?.endsWith('pdf')) {
         extraData.isEncrypted = checkResults.checkIsEncryptedPdf;
       }
 
@@ -81,12 +78,12 @@ const FileUploader = ({ files, requestLockedPdfPassword, onAddFile }) => {
         <strong>Maximum file size: </strong>
       </div>
       <div>50MB</div>
-      <FileInput
-        errorMessage={errorMessage}
-        onChange={handleChange}
-        buttonText="Add files"
-        name="fileUpload"
+      <VaFileInput
         accept={acceptedFileTypes}
+        button-text="Add files"
+        error={errorMessage}
+        name="fileUpload"
+        onVaChange={handleChange}
       />
     </>
   );
@@ -94,7 +91,6 @@ const FileUploader = ({ files, requestLockedPdfPassword, onAddFile }) => {
 
 FileUploader.propTypes = {
   files: PropTypes.object,
-  requestLockedPdfPassword: PropTypes.object,
   onAddFile: PropTypes.object,
 };
 

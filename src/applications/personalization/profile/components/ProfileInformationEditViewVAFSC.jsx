@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import * as VAP_SERVICE from '@@vap-svc/constants';
+import * as VAP_SERVICE from 'platform/user/profile/vap-svc/constants';
 
 import ProfileFormContainerVAFSC from './ProfileFormContainerVAFSC';
 import PhoneWithExtension from './contact-information/phone-numbers/vafsc/PhoneWithExtension';
@@ -23,10 +23,14 @@ const renderActiveField = (fieldName, props) => {
 export const ProfileInformationEditViewVAFSC = props => {
   const formRef = useRef();
 
-  const { fieldName } = props;
+  const { fieldName, forceEditView } = props;
 
   const focusOnFirstFormElement = useCallback(
     () => {
+      if (forceEditView) {
+        // Showing the edit view on its own page, so let the app handle focus
+        return;
+      }
       // TODO: is there a better way to ensure focus inside a web comp on render?
       // setting timeout for event so that input in web component can get focus,
       // otherwise web component will not render by time querySelector is fired
@@ -68,6 +72,7 @@ ProfileInformationEditViewVAFSC.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   getInitialFormValues: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  forceEditView: PropTypes.bool,
   title: PropTypes.string,
 };
 

@@ -9,12 +9,14 @@ import {
   cernerFacilitiesPropType,
   ehrDataByVhaIdPropType,
   otherFacilitiesPropType,
+  useSingleLogoutPropType,
 } from '../../../propTypes';
 
 export const AuthContent = ({
   cernerFacilities,
   otherFacilities,
   ehrDataByVhaId,
+  useSingleLogout,
 }) => (
   <>
     <CernerCallToAction
@@ -23,7 +25,10 @@ export const AuthContent = ({
       ehrDataByVhaId={ehrDataByVhaId}
       linksHeaderText="Manage appointments at:"
       myHealtheVetLink={appointmentsToolLink}
-      myVAHealthLink={getCernerURL('/pages/scheduling/upcoming')}
+      myVAHealthLink={getCernerURL(
+        '/pages/scheduling/upcoming',
+        useSingleLogout,
+      )}
     />
     <p data-testid="cerner-content">
       <strong>Note:</strong> If you can’t keep an existing appointment, please
@@ -157,34 +162,19 @@ export const AuthContent = ({
     </p>
     <h3>For questions about the VA appointments tool</h3>
     <p>
-      Please call{' '}
-      <a href="tel: 18774705947" aria-label="8 7 7. 4 7 0. 5 9 4 7.">
-        877-470-5947
-      </a>{' '}
-      (
-      <a href="tel:711" aria-label="TTY. 7 1 1.">
-        TTY: 711
-      </a>
+      Please call <va-telephone contact="8774705947" /> (
+      <va-telephone contact="711" />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
     <h3>For questions about My VA Health</h3>
     <p>
-      Call My VA Health support anytime at{' '}
-      <a href="tel:18009621024" aria-label="8 0 0. 9 6 2. 1 0 2 4.">
-        800-962-1024
-      </a>
+      Call My VA Health support anytime at <va-telephone contact="8009621024" />
       .
     </p>
     <h3>For questions about joining a VA Video Connect appointment</h3>
     <p>
-      Please call{' '}
-      <a href="tel: 18666513180" aria-label="8 6 6. 6 5 1. 3 1 8 0.">
-        866-651-3180
-      </a>{' '}
-      (
-      <a href="tel:711" aria-label="TTY. 7 1 1.">
-        TTY: 711
-      </a>
+      Please call <va-telephone contact="8666513180" /> (
+      <va-telephone contact="711" />
       ). We’re here 24/7.
     </p>
     <MoreInfoAboutBenefits />
@@ -195,6 +185,7 @@ AuthContent.propTypes = {
   cernerFacilities: cernerFacilitiesPropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,
   otherFacilities: otherFacilitiesPropType,
+  useSingleLogout: useSingleLogoutPropType,
 };
 
 export default AuthContent;

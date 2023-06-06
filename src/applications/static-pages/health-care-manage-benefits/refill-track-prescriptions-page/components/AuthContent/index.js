@@ -1,8 +1,6 @@
 // Node modules.
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 // Relative imports.
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
@@ -13,6 +11,7 @@ import {
   cernerFacilitiesPropType,
   ehrDataByVhaIdPropType,
   otherFacilitiesPropType,
+  useSingleLogoutPropType,
 } from '../../../propTypes';
 
 export const AuthContent = ({
@@ -20,6 +19,7 @@ export const AuthContent = ({
   cernerFacilities,
   otherFacilities,
   ehrDataByVhaId,
+  useSingleLogout,
 }) => (
   <>
     <CernerCallToAction
@@ -31,7 +31,10 @@ export const AuthContent = ({
         authenticatedWithSSOe,
         'web/myhealthevet/refill-prescriptions',
       )}
-      myVAHealthLink={getCernerURL('/pages/medications/current')}
+      myVAHealthLink={getCernerURL(
+        '/pages/medications/current',
+        useSingleLogout,
+      )}
     />
     <div>
       <div itemScope itemType="http://schema.org/Question">
@@ -361,10 +364,8 @@ export const AuthContent = ({
                 </li>
                 <li>
                   Call the My HealtheVet help desk at{' '}
-                  <a href="tel:18773270022" aria-label="8 7 7. 3 2 7. 0 0 2 2.">
-                    877-327-0022
-                  </a>{' '}
-                  (TTY: <Telephone contact={CONTACTS.HELP_TTY} />
+                  <va-telephone contact="8773270022" /> (TTY:{' '}
+                  <va-telephone contact={CONTACTS.HELP_TTY} />
                   ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
                   ET.
                 </li>
@@ -381,11 +382,7 @@ export const AuthContent = ({
               <h3>For My VA Health questions</h3>
               <p>
                 Call My VA Health support anytime at{' '}
-                <a href="tel:18009621024" aria-label="8 0 0. 9 6 2. 1 0 2 4.">
-                  {' '}
-                  800-962-1024
-                </a>
-                .
+                <va-telephone contact="8009621024" />.
               </p>
             </div>
           </div>
@@ -400,6 +397,7 @@ AuthContent.propTypes = {
   cernerFacilities: cernerFacilitiesPropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,
   otherFacilities: otherFacilitiesPropType,
+  useSingleLogout: useSingleLogoutPropType,
 };
 
 export default AuthContent;

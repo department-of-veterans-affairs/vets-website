@@ -9,17 +9,38 @@ env:
   PR_NUMBER: ${{ github.event.number }}
 
 jobs:
+  check-cross-app-imports:
+    name: Check Cross App Imports
+    if: github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Check for cross app imports in allowlist apps
+        run: yarn check-app-imports --check-allowlist --fail-on-cross-app-import
+
   eslint-disable-check:
     name: ESLint Disable Check
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.draft == false }}
+    if: ${{ github.event.pull_request.draft == false && github.actor != 'dependabot[bot]'}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Get Node version
         id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -68,14 +89,14 @@ jobs:
   icon-check:
     name: Icon Check
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.draft == false }}
+    if: ${{ github.event.pull_request.draft == false && github.actor != 'dependabot[bot]'}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Get Node version
         id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -125,14 +146,14 @@ jobs:
   sentry-check:
     name: Sentry Check
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.draft == false }}
+    if: ${{ github.event.pull_request.draft == false && github.actor != 'dependabot[bot]'}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Get Node version
         id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -181,6 +202,7 @@ jobs:
 
   linting:
     name: Linting (Files Changed)
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -188,7 +210,7 @@ jobs:
 
       - name: Get Node version
         id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
 
       - name: Setup Node
         uses: actions/setup-node@v3

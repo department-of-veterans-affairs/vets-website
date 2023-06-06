@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -24,13 +24,7 @@ import { selectRequestedAppointmentDetails } from '../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
-import {
-  startAppointmentCancel,
-  closeCancelAppointment,
-  confirmCancelAppointment,
-  fetchRequestDetails,
-  getProviderInfoV2,
-} from '../redux/actions';
+import { startAppointmentCancel, fetchRequestDetails } from '../redux/actions';
 import RequestedStatusAlert from './RequestedStatusAlert';
 import { getTypeOfCareById } from '../../utils/appointment';
 
@@ -60,18 +54,19 @@ export default function RequestedAppointmentDetailsPage() {
   const {
     appointmentDetailsStatus,
     facilityData,
-    cancelInfo,
     appointment,
     message,
     useV2,
-    providerData,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
   );
-  useEffect(() => {
-    dispatch(fetchRequestDetails(id));
-  }, []);
+  useEffect(
+    () => {
+      dispatch(fetchRequestDetails(id));
+    },
+    [dispatch, id],
+  );
   useEffect(
     () => {
       if (appointment) {
@@ -85,24 +80,10 @@ export default function RequestedAppointmentDetailsPage() {
         } ${typeOfCareText} appointment`;
 
         document.title = title;
-
-        dispatch(getProviderInfoV2(appointment));
       }
       scrollAndFocus();
     },
-    [appointment],
-  );
-
-  useEffect(
-    () => {
-      if (
-        !cancelInfo.showCancelModal &&
-        cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded
-      ) {
-        scrollAndFocus();
-      }
-    },
-    [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
+    [appointment, dispatch],
   );
 
   useEffect(
@@ -114,7 +95,8 @@ export default function RequestedAppointmentDetailsPage() {
         scrollAndFocus();
       }
     },
-    [appointmentDetailsStatus],
+
+    [appointmentDetailsStatus, appointment],
   );
 
   if (
@@ -127,13 +109,7 @@ export default function RequestedAppointmentDetailsPage() {
       </FullWidthLayout>
     );
   }
-
-  const hasProviderData = useV2 && appointment?.practitioners?.length > 0;
-  if (
-    !appointment ||
-    appointmentDetailsStatus === FETCH_STATUS.loading ||
-    (hasProviderData && !providerData)
-  ) {
+  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <FullWidthLayout>
         <va-loading-indicator
@@ -153,14 +129,18 @@ export default function RequestedAppointmentDetailsPage() {
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
   const provider = useV2
-    ? providerData
+    ? appointment.preferredProviderName
     : appointment.preferredCommunityCareProviders?.[0];
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
 
   return (
     <PageLayout>
       <Breadcrumbs>
-        <Link to={`/requests/${id}`}>Request detail</Link>
+        <NavLink
+          to={`/health-care/schedule-view-va-appointments/appointments/requests/${id}`}
+        >
+          Request detail
+        </NavLink>
       </Breadcrumbs>
 
       <h1>
@@ -281,11 +261,7 @@ export default function RequestedAppointmentDetailsPage() {
           </>
         )}
       </div>
-      <CancelAppointmentModal
-        {...cancelInfo}
-        onConfirm={() => dispatch(confirmCancelAppointment())}
-        onClose={() => dispatch(closeCancelAppointment())}
-      />
+      <CancelAppointmentModal />
     </PageLayout>
   );
 }

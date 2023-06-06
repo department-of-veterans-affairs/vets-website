@@ -9,10 +9,10 @@ export const uiSchema = {
       <legend className="schemaform-block-title">
         Your spouse’s employment information
       </legend>
-      <p className="vads-u-padding-top--2">
-        Tell us about the jobs your spouse has had in the past two years for
-        which they received paychecks. You’ll need to provide their income
-        information for any current job.
+      <p>
+        Tell us about the jobs your spouse has had in the past 2 years for which
+        they received paychecks. You’ll need to provide their income information
+        for any current job.
       </p>
     </>
   ),

@@ -1,4 +1,4 @@
-import { signup } from 'platform/user/authentication/utilities';
+import { signupOrVerify } from 'platform/user/authentication/utilities';
 import {
   CSP_IDS,
   MHV_TRANSITION_TIME,
@@ -26,10 +26,10 @@ export const ACCOUNT_TRANSITION = {
       'You can create either a verified Login.gov or ID.me account.  Both accounts are free.  Login.gov is an account created, maintained, and secured by the U.S. government.',
   },
   signUpLoginGov() {
-    signup({ policy: CSP_IDS.LOGIN_GOV });
+    signupOrVerify({ policy: CSP_IDS.LOGIN_GOV });
   },
   signUpIDme() {
-    signup({ policy: CSP_IDS.ID_ME });
+    signupOrVerify({ policy: CSP_IDS.ID_ME });
   },
   startTransition() {
     const redirect = () => {

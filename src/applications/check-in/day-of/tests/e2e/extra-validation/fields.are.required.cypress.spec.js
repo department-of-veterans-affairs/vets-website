@@ -36,15 +36,8 @@ describe('Check In Experience', () => {
 
       cy.get('[label="Your last name"]')
         .shadow()
-        .find('#error-message')
+        .find('#input-error-message')
         .contains('Please enter your last name.');
-
-      cy.get('[label="Last 4 digits of your Social Security number"]')
-        .shadow()
-        .find('#error-message')
-        .contains(
-          'Please enter the last 4 digits of your Social Security number',
-        );
 
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();

@@ -8,14 +8,22 @@ class Introduction {
       .and('have.text', 'Answer pre-check-in questions');
   };
 
+  validateStartLinkStyling = () => {
+    cy.get('[data-testid="start-button"] a').then($elements => {
+      // Cypress can't access pseudo-elements, so we need get the window
+      // object and assert against the element that way.
+      const window = $elements[0].ownerDocument.defaultView;
+      const before = window.getComputedStyle($elements[0], 'before');
+      const elementColor = before.getPropertyValue('color');
+      expect(elementColor).to.eq('rgb(46, 133, 64)');
+    });
+  };
+
   validateMultipleAppointmentIntroText = (
     appointmentDate = new Date().setDate(new Date().getDate() + 1),
   ) => {
     cy.get('p[data-testid="appointment-day-location"]').contains(
-      `Your appointments are on ${format(
-        appointmentDate,
-        'MMMM dd, Y',
-      )} at LOMA LINDA VA CLINIC.`,
+      `Your appointments are on ${format(appointmentDate, 'MMMM dd, Y')}`,
     );
   };
 
@@ -26,6 +34,24 @@ class Introduction {
         'MMMM dd, Y',
       )} at LOMA LINDA VA CLINIC.`,
     );
+  };
+
+  validateStartButtonBottomPlacement = () => {
+    cy.get('div[data-testid="start-button"]')
+      .contains('Answer questions')
+      .parent()
+      .prev()
+      .contains('Start here')
+      .prev()
+      .contains('Your appointments are on');
+  };
+
+  validateStartButtonTopPlacement = () => {
+    cy.get('div[data-testid="start-button"]')
+      .contains('Complete pre-check-in')
+      .parent()
+      .prev()
+      .contains('Your answers will');
   };
 
   countAppointmentList = expectedLength => {
@@ -84,15 +110,12 @@ class Introduction {
 
   validateAppointmentType = type => {
     if (type === 'phone') {
-      cy.get('[data-testid="appointment-type-label"]').each(item => {
-        expect(Cypress.$(item).text()).to.eq('Phone call');
-      });
-      cy.get('[data-testid="appointment-message"]').each(item => {
-        expect(Cypress.$(item).text()).to.eq('Your provider will call you. ');
+      cy.get('[data-testid="appointment-kind-and-location"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq('Phone');
       });
     } else if (type === 'in-person') {
-      cy.get('[data-testid="appointment-type-label"]').each(item => {
-        expect(Cypress.$(item).text()).to.eq('In person');
+      cy.get('[data-testid="appointment-kind-and-location"]').each(item => {
+        expect(Cypress.$(item).text()).to.contain('In person');
       });
     }
   };

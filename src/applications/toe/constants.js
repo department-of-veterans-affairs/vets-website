@@ -5,6 +5,8 @@ export const LETTER_URL = `${
   environment.API_URL
 }/education/download-letters/letters`;
 
+export const LETTER_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_letter`;
+
 export const SPONSOR_RELATIONSHIP = {
   CHILD: 'Child',
   SPOUSE: 'Spouse',
@@ -24,7 +26,12 @@ export const SPONSORS_TYPE = PropTypes.shape({
   someoneNotListed: PropTypes.bool,
 });
 
+export const START_APPLICATION_TEXT = 'Start your benefit application';
+
 export const YOUR_PROFILE_URL = '/profile';
+
+export const CHANGE_YOUR_NAME =
+  'https://www.va.gov/resources/how-to-change-your-legal-name-on-file-with-va/';
 
 export const formFields = {
   accountNumber: 'accountNumber',
@@ -40,9 +47,12 @@ export const formFields = {
   highSchoolDiplomaDate: 'highSchoolDiplomaDate',
   mobilePhoneNumber: 'mobilePhoneNumber',
   mobilePhoneNumberInternational: 'mobilePhoneNumberInternational',
+  originalAccountNumber: 'originalAccountNumber',
+  originalRoutingNumber: 'originalRoutingNumber',
   parentGuardianSponsor: 'parentGuardianSponsor',
   phoneNumber: 'phoneNumber',
   phoneNumberInternational: 'phoneNumberInternational',
+  preferredContactMethod: 'preferredContactMethod',
   relationshipToServiceMember: 'relationshipToServiceMember',
   receiveTextMessages: 'receiveTextMessages',
   routingNumber: 'routingNumber',
@@ -52,4 +62,6 @@ export const formFields = {
   userFullName: 'userFullName',
   viewPhoneNumbers: 'view:phoneNumbers',
   viewReceiveTextMessages: 'view:receiveTextMessages',
+  viewUserFullName: 'view:userFullName',
+  viewMailingAddress: 'view:mailingAddress',
 };

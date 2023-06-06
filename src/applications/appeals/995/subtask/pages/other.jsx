@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 import pageNames from './pageNames';
@@ -6,6 +8,12 @@ import DownloadLink from '../../content/DownloadLink';
 import { BENEFIT_OFFICES_URL } from '../../constants';
 
 const DecisionReviewPage = () => {
+  useEffect(() => {
+    setTimeout(() => {
+      focusElement('#main h2');
+    });
+  }, []);
+
   recordEvent({
     event: 'howToWizard-alert-displayed',
     'reason-for-alert': 'veteran wants to submit an unsupported claim type',
@@ -22,20 +30,35 @@ const DecisionReviewPage = () => {
 
   return (
     <div id={pageNames.other}>
-      <h1 className="vads-u-margin-bottom--0">
-        Filing non-disability Supplemental Claims
-      </h1>
+      <h1 className="vads-u-margin-bottom--0">File a Supplemental Claim</h1>
+      <div className="schemaform-subtitle vads-u-font-size--lg">
+        VA Form 20-0995
+      </div>
+      <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+        Filing if your Supplemental Claim isn’t for a disability
+      </h2>
       <p>
-        We don’t support claims other than disability online at this time.
-        You’ll need to fill out and submit VA Form 20-0995 by mail or in person.
+        We can accept online Supplemental Claims only for disability claims at
+        this time. For other types of claims, you’ll need to fill out and submit
+        VA Form 20-0995 by mail or in person.
+      </p>
+      <p>
+        Send the completed form to the benefit office that matches the benefit
+        type you select on the form.
       </p>
       <a href={BENEFIT_OFFICES_URL} onClick={handlers.officeLinkClick}>
-        Send the completed form to the benefit office
+        Find the address for mailing your form
       </a>{' '}
-      that matches the benefit type you select on the form.
       <p className="vads-u-margin-bottom--0">
         <DownloadLink content="Download VA Form 20-0995" />
       </p>
+      <p>
+        If you don’t think this is the right form for you, find out about other
+        decision review options.
+      </p>
+      <a href="/resources/choosing-a-decision-review-option/">
+        Learn about choosing a decision review option
+      </a>
     </div>
   );
 };

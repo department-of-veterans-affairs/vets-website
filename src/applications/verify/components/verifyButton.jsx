@@ -3,20 +3,23 @@ import PropTypes from 'prop-types';
 
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
 
-import { defaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
-import { verify } from 'platform/user/authentication/utilities';
+import { signupOrVerify } from 'platform/user/authentication/utilities';
 
 export const VerifyButton = ({ className, label, image, policy, useOAuth }) => {
-  const verifyHandler = () => {
-    verify({
+  const verifyHandler = async () => {
+    const url = await signupOrVerify({
       policy,
+      allowVerification: true,
+      isSignup: false,
+      isLink: true,
       useOAuth,
-      acr: defaultWebOAuthOptions.acrVerify[policy],
     });
 
     if (useOAuth) {
       updateStateAndVerifier(policy);
     }
+
+    window.location = url;
   };
 
   return (

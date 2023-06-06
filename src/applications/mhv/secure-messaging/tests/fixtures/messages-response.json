@@ -3,16 +3,21 @@
     {
       "attributes": {
         "attachment": true,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
+        "attachments": [
+          { "id": 7169749, "name": "test.pdf", "attachmentSize": 25632 },
+          { "id": 7169748, "name": "test2.pdf", "attachmentSize": 25632 }
+        ],
         "category": "COVID",
-        "message_id": 2339331,
+        "message_id": 1339331,
         "read_receipt": null,
         "recipient_id": 701354,
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
-        "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:31:54.000Z",
-        "subject": "Message with attachment"
+        "sender_name": "Vinograd, Patrick A",
+        "sent_date": "2022-09-13T17:31:54.000Z",
+        "subject": "Message with attachment",
+        "triageGroupName": "MyHealtheVet_Questions_PugetSound_ADMIN"
       },
       "id": "2339331",
       "link": {
@@ -22,8 +27,15 @@
     },
     {
       "attributes": {
-        "attachment": false,
-        "body": null,
+        "attachment": true,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
+        "attachments": [
+          {
+            "id": 7169749,
+            "name": "test.pdf",
+            "attachmentSize": 25632
+          }
+        ],
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -43,15 +55,15 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
-        "message_id": 2339331,
+        "message_id": 3339309,
         "read_receipt": null,
         "recipient_id": 701354,
         "recipient_name": "SACAMANO, BOB",
         "sender_id": 1771041,
         "sender_name": "SACAMANO, BOB",
-        "sent_date": "2022-05-13T17:31:54.000Z",
+        "sent_date": "2022-05-13T17:33:54.000Z",
         "subject": "Message with attachment"
       },
       "id": "2339331",
@@ -63,15 +75,15 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
-        "message_id": 2339309,
+        "message_id": 4339309,
         "read_receipt": true,
         "recipient_id": 701354,
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "SEINFELD, JERRY",
-        "sent_date": "2022-05-13T17:29:46.000Z",
+        "sent_date": "2022-05-13T17:24:46.000Z",
         "subject": "General Inquiry"
       },
       "id": "2339309",
@@ -83,15 +95,15 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
-        "message_id": 2339331,
+        "message_id": 5339331,
         "read_receipt": null,
         "recipient_id": 701354,
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "KRAMER, KOSMO",
-        "sent_date": "2022-05-13T17:31:54.000Z",
+        "sent_date": "2022-05-13T17:35:54.000Z",
         "subject": "Message with attachment"
       },
       "id": "2339331",
@@ -103,15 +115,15 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
-        "message_id": 2339309,
+        "message_id": 6339309,
         "read_receipt": true,
         "recipient_id": 701354,
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "COSTANZA, GEORGE",
-        "sent_date": "2022-05-13T17:29:46.000Z",
+        "sent_date": "2022-05-13T17:36:46.000Z",
         "subject": "General Inquiry"
       },
       "id": "2339309",
@@ -123,15 +135,15 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
-        "message_id": 2339331,
+        "message_id": 7155731,
         "read_receipt": null,
         "recipient_id": 701354,
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "BENES, ELAINE",
-        "sent_date": "2022-05-13T17:31:54.000Z",
+        "sent_date": "2022-05-13T17:37:54.000Z",
         "subject": "Message with attachment"
       },
       "id": "2339331",
@@ -143,15 +155,15 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
-        "message_id": 2339309,
+        "message_id": 8339309,
         "read_receipt": true,
         "recipient_id": 701354,
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:29:46.000Z",
+        "sent_date": "2022-05-13T17:38:46.000Z",
         "subject": "General Inquiry"
       },
       "id": "2339309",
@@ -163,15 +175,15 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
-        "message_id": 2339331,
+        "message_id": 9339331,
         "read_receipt": null,
         "recipient_id": 701354,
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "PENNYPACKER, H.E.",
-        "sent_date": "2022-05-13T17:31:54.000Z",
+        "sent_date": "2022-05-13T17:39:54.000Z",
         "subject": "Message with attachment"
       },
       "id": "2339331",
@@ -183,7 +195,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -191,7 +203,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VAN NOSTRAND, DR MARTIN",
-        "sent_date": "2022-05-13T17:29:46.000Z",
+        "sent_date": "2022-05-13T17:40:46.000Z",
         "subject": "General Inquiry"
       },
       "id": "2339309",
@@ -203,7 +215,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -211,7 +223,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:31:54.000Z",
+        "sent_date": "2022-05-13T17:41:54.000Z",
         "subject": "Message with attachment"
       },
       "id": "2339331",
@@ -223,7 +235,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -231,7 +243,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:29:46.000Z",
+        "sent_date": "2022-05-13T17:42:46.000Z",
         "subject": "General Inquiry"
       },
       "id": "2339309",
@@ -243,7 +255,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -251,7 +263,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:31:54.000Z",
+        "sent_date": "2022-05-13T17:43:54.000Z",
         "subject": "Message with attachment"
       },
       "id": "2339331",
@@ -263,7 +275,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -271,7 +283,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:29:46.000Z",
+        "sent_date": "2022-05-13T17:44:46.000Z",
         "subject": "General Inquiry"
       },
       "id": "2339309",
@@ -283,7 +295,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -291,7 +303,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:31:54.000Z",
+        "sent_date": "2022-05-13T17:45:54.000Z",
         "subject": "Message with attachment"
       },
       "id": "2339331",
@@ -303,7 +315,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -311,7 +323,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:29:46.000Z",
+        "sent_date": "2022-05-13T17:46:46.000Z",
         "subject": "General Inquiry"
       },
       "id": "2339309",
@@ -323,7 +335,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -331,7 +343,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:31:54.000Z",
+        "sent_date": "2022-05-13T17:47:54.000Z",
         "subject": "Message with attachment"
       },
       "id": "2339331",
@@ -343,7 +355,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -351,7 +363,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:29:46.000Z",
+        "sent_date": "2022-05-13T17:48:46.000Z",
         "subject": "General Inquiry"
       },
       "id": "2339309",
@@ -363,7 +375,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -371,7 +383,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:31:54.000Z",
+        "sent_date": "2022-05-13T17:49:54.000Z",
         "subject": "Message with attachment"
       },
       "id": "2339331",
@@ -383,7 +395,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -391,7 +403,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:29:46.000Z",
+        "sent_date": "2022-05-13T17:50:46.000Z",
         "subject": "General Inquiry"
       },
       "id": "2339309",
@@ -403,7 +415,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -411,7 +423,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:31:54.000Z",
+        "sent_date": "2022-05-13T17:51:54.000Z",
         "subject": "Message with attachment"
       },
       "id": "2339331",
@@ -423,7 +435,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -431,7 +443,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:29:46.000Z",
+        "sent_date": "2022-05-13T17:52:46.000Z",
         "subject": "General Inquiry"
       },
       "id": "2339309",
@@ -443,7 +455,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -451,7 +463,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:31:54.000Z",
+        "sent_date": "2022-05-13T17:53:54.000Z",
         "subject": "Message with attachment"
       },
       "id": "2339331",
@@ -463,7 +475,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -471,7 +483,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:29:46.000Z",
+        "sent_date": "2022-05-13T17:54:46.000Z",
         "subject": "General Inquiry"
       },
       "id": "2339309",
@@ -483,7 +495,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -491,7 +503,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:31:54.000Z",
+        "sent_date": "2022-05-13T17:55:54.000Z",
         "subject": "Message with attachment"
       },
       "id": "2339331",
@@ -503,7 +515,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -511,7 +523,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:29:46.000Z",
+        "sent_date": "2022-05-13T17:56:46.000Z",
         "subject": "General Inquiry"
       },
       "id": "2339309",
@@ -523,15 +535,15 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
-        "message_id": 2339331,
+        "message_id": 7155731,
         "read_receipt": null,
         "recipient_id": 701354,
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:31:54.000Z",
+        "sent_date": "2022-05-13T17:57:54.000Z",
         "subject": "Message with attachment"
       },
       "id": "2339331",
@@ -543,7 +555,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -551,7 +563,7 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:29:46.000Z",
+        "sent_date": "2022-05-13T17:58:46.000Z",
         "subject": "General Inquiry"
       },
       "id": "2339309",

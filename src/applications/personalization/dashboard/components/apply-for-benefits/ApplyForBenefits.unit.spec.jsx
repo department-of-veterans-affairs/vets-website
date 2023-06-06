@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 
+import { wait } from '@@profile/tests/unit-test-helpers';
 import { mockFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '~/applications/personalization/dashboard/reducers';
-import { wait } from '@@profile/tests/unit-test-helpers';
 import ApplyForBenefits from './ApplyForBenefits';
 
 const oneDayInMS = 24 * 60 * 60 * 1000;
@@ -32,7 +32,16 @@ function oneYearFromNow() {
   return Date.now() + oneYearInMS;
 }
 
-function noApplicationsInProgressShown(view, shown = true) {
+function noApplicationsInProgressShownLOA3(view, shown = true) {
+  const regex = /you have no benefit application drafts to show/i;
+  if (shown) {
+    view.getByText(regex);
+  } else {
+    expect(view.queryByText(regex)).not.to.exist;
+  }
+}
+
+function noApplicationsInProgressShownLOA1(view, shown = true) {
   const regex = /you have no applications in progress/i;
   if (shown) {
     view.getByText(regex);
@@ -42,7 +51,8 @@ function noApplicationsInProgressShown(view, shown = true) {
 }
 
 function noApplicationsInProgressHidden(view) {
-  noApplicationsInProgressShown(view, false);
+  noApplicationsInProgressShownLOA1(view, false);
+  noApplicationsInProgressShownLOA3(view, false);
 }
 
 function healthCareInfoIsShown(view, shown = true) {
@@ -98,7 +108,7 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      noApplicationsInProgressShown(view);
+      noApplicationsInProgressShownLOA1(view);
     });
 
     it('does not render unknown applications that are in progress', () => {
@@ -127,7 +137,7 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      noApplicationsInProgressShown(view);
+      noApplicationsInProgressShownLOA1(view);
     });
 
     it('does not render applications-in-progress that have expired', () => {
@@ -167,7 +177,7 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      noApplicationsInProgressShown(view);
+      noApplicationsInProgressShownLOA1(view);
     });
 
     it('sorts the in-progress applications, listing the soonest-to-expire applications first', () => {

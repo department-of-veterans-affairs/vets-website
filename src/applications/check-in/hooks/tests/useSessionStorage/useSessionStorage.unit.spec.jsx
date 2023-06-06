@@ -119,26 +119,5 @@ describe('check-in', () => {
         ).to.be.true;
       });
     });
-    describe('reset validation attempts', () => {
-      it('calls removeItem on reset', () => {
-        const removeItem = sinon.spy();
-        const window = {
-          sessionStorage: {
-            removeItem,
-          },
-        };
-
-        const testToken = 'testToken';
-        const component = render(
-          <TestComponent window={window} token={testToken} />,
-        );
-        const button = component.getByTestId('reset-button');
-        fireEvent.click(button);
-        expect(removeItem.called).to.be.true;
-        expect(
-          removeItem.calledWith('health.care.pre.check.in.validate.attempts'),
-        ).to.be.true;
-      });
-    });
   });
 });

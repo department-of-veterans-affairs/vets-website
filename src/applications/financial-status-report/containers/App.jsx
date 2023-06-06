@@ -3,24 +3,29 @@ import PropTypes from 'prop-types';
 import MetaTags from 'react-meta-tags';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { connect } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { selectProfile } from 'platform/user/selectors';
+import environment from 'platform/utilities/environment';
 
+import { setData } from 'platform/forms-system/src/js/actions';
 import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
   WIZARD_STATUS_RESTARTED,
   restartShouldRedirect,
 } from 'platform/site-wide/wizard';
+
 import formConfig from '../config/form';
+import { fetchFormStatus } from '../actions';
 import { ErrorAlert } from '../components/Alerts';
 import WizardContainer from '../wizard/WizardContainer';
-import { fetchFormStatus } from '../actions/index';
 import { WIZARD_STATUS } from '../wizard/constants';
 import {
   fsrWizardFeatureToggle,
   fsrFeatureToggle,
   combinedFSRFeatureToggle,
+  enhancedFSRFeatureToggle,
 } from '../utils/helpers';
+import user from '../mocks/user.json';
 
 const App = ({
   children,
@@ -28,14 +33,24 @@ const App = ({
   getFormStatus,
   isError,
   isLoggedIn,
+  isStartingOver,
   location,
   pending,
+  profile,
   router,
   setFormData,
   showFSR,
   showCombinedFSR,
+  showEnhancedFSR,
   showWizard,
 }) => {
+  // vapContactInfo is an empty object locally, so mock it
+  const contactData = environment.isLocalhost()
+    ? user.data.attributes.vet360ContactInformation
+    : profile?.vapContactInfo || {};
+
+  const { email = {}, mobilePhone = {}, mailingAddress = {} } = contactData;
+
   const [wizardState, setWizardState] = useState(
     sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
   );
@@ -50,6 +65,44 @@ const App = ({
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_RESTARTED);
     router.push('/');
   };
+
+  // Contact information data
+  useEffect(
+    () => {
+      if (isLoggedIn && showEnhancedFSR) {
+        const { personalData = {} } = formData || {};
+        const { veteranContactInformation = {} } = personalData;
+        if (
+          email?.emailAddress !== veteranContactInformation.email ||
+          mobilePhone?.updatedAt !==
+            veteranContactInformation.mobilePhone?.updatedAt ||
+          mailingAddress?.updatedAt !==
+            veteranContactInformation.address?.updatedAt
+        ) {
+          setFormData({
+            ...formData,
+            personalData: {
+              ...personalData,
+              veteranContactInformation: {
+                email: email?.emailAddress,
+                mobilePhone,
+                address: mailingAddress,
+              },
+            },
+          });
+        }
+      }
+    },
+    [
+      email,
+      formData,
+      isLoggedIn,
+      mobilePhone,
+      mailingAddress,
+      setFormData,
+      showEnhancedFSR,
+    ],
+  );
 
   useEffect(() => {
     if (restartShouldRedirect(WIZARD_STATUS)) {
@@ -78,11 +131,12 @@ const App = ({
       setFormData({
         ...formData,
         'view:combinedFinancialStatusReport': showCombinedFSR,
+        'view:enhancedFinancialStatusReport': showEnhancedFSR,
       });
     },
     // Do not add formData to the dependency array, as it will cause an infinite loop. Linter warning will go away when feature flag is deprecated.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [showCombinedFSR, setFormData],
+    [showCombinedFSR, showEnhancedFSR, setFormData, isStartingOver],
   );
 
   if (pending) {
@@ -127,11 +181,16 @@ App.propTypes = {
   getFormStatus: PropTypes.func,
   isError: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
+  isStartingOver: PropTypes.bool,
   location: PropTypes.object,
   pending: PropTypes.bool,
+  profile: PropTypes.shape({
+    vapContactInfo: PropTypes.shape({}),
+  }),
   router: PropTypes.object,
   setFormData: PropTypes.func,
   showCombinedFSR: PropTypes.bool,
+  showEnhancedFSR: PropTypes.bool,
   showFSR: PropTypes.bool,
   showWizard: PropTypes.bool,
 };
@@ -141,9 +200,12 @@ const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.fsr.isError,
   pending: state.fsr.pending,
+  profile: selectProfile(state) || {},
   showWizard: fsrWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
   showCombinedFSR: combinedFSRFeatureToggle(state),
+  showEnhancedFSR: enhancedFSRFeatureToggle(state),
+  isStartingOver: state.form.isStartingOver,
 });
 
 const mapDispatchToProps = dispatch => ({

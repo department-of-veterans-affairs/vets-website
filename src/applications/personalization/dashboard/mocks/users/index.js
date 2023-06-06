@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const simpleUser = {
   data: {
     id: '',
@@ -16,6 +17,7 @@ const simpleUser = {
         'id-card',
         'identity-proofed',
         'vet360',
+        'messaging',
       ],
       account: {
         accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -233,6 +235,17 @@ const cernerUser = {
         signIn: { serviceName: 'idme', accountType: 'N/A' },
         authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
         inheritedProofVerified: false,
+        claims: {
+          ch33_bank_accounts: true,
+          communication_preferences: true,
+          connected_apps: true,
+          military_history: true,
+          payment_history: true,
+          personal_information: true,
+          rating_info: true,
+          appeals: true,
+          medical_copays: true,
+        },
       },
       vaProfile: {
         status: 'OK',

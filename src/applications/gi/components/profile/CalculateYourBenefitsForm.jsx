@@ -3,14 +3,12 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
-import RadioButtons from '../RadioButtons';
 import {
   createId,
   formatCurrency,
@@ -25,6 +23,13 @@ import { ariaLabels } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
 import LearnMoreLabel from '../LearnMoreLabel';
+import VARadioButton from '../VARadioButton';
+
+export const issueZipCodeHintText = (
+  <p className="vads-u-font-weight--normal label-description">
+    Postal code must be a 5-digit number
+  </p>
+);
 
 function CalculateYourBenefitsForm({
   calculatorInputChange,
@@ -40,6 +45,13 @@ function CalculateYourBenefitsForm({
   focusHandler,
 }) {
   const [invalidZip, setInvalidZip] = useState('');
+  const [zipDirty, setZipDirty] = useState(false);
+  const handlers = {
+    onZipBlur: () => {
+      setZipDirty(true);
+    },
+  };
+
   const [expanded, setExpanded] = useState({
     yourBenefits: true,
     aboutYourSchool: false,
@@ -134,25 +146,30 @@ function CalculateYourBenefitsForm({
   };
 
   const handleBeneficiaryZIPCodeChanged = event => {
-    if (!event.dirty) {
-      onBeneficiaryZIPCodeChanged(event.value);
-      if (event.value.length === 5) {
+    const { value } = event.target;
+    if (!zipDirty || value.length <= 5) {
+      onBeneficiaryZIPCodeChanged(value);
+      if (value.length === 5) {
         recordEvent({
           event: 'gibct-form-change',
           'gibct-form-field': 'gibctExtensionSearchZipCode',
-          'gibct-form-value': event.value,
+          'gibct-form-value': value,
         });
       }
       setInvalidZip('');
 
       recalculateBenefits();
-    } else if (inputs.beneficiaryZIP.length < 5) {
+    }
+
+    if (value.length < 5) {
       setInvalidZip('Postal code must be a 5-digit number');
     }
+    setZipDirty(false);
   };
 
-  const handleInputChange = event => {
-    const { name: field, value } = event.target;
+  const handleInputChange = (event, target, name) => {
+    const { value } = event ? event.target : target.detail;
+    const field = event ? event.target.name : name;
     calculatorInputChange({ field, value });
 
     if (field === 'beneficiaryLocationQuestion' || field === 'extension') {
@@ -191,9 +208,29 @@ function CalculateYourBenefitsForm({
     recalculateBenefits();
   };
 
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabled] = useState(false);
 
-  const updateEligibility = e => {
+  const updateEligibility = (e, name, number) => {
+    if (number === 2) {
+      const { value } = e.detail;
+      recordEvent({
+        event: 'gibct-form-change',
+        'gibct-form-field': name,
+        'gibct-form-value': value,
+      });
+      eligibilityChange({ [name]: value });
+
+      if (name === 'militaryStatus') {
+        /*
+        setIsDisabled(true);
+        if (value === 'spouse' || value === 'child') {
+          setIsDisabled(false);
+        } */
+        // eligibilityChange({ giBillChapter: '33a' });
+      }
+      recalculateBenefits();
+    }
+
     const field = e.target.name;
     const { value } = e.target;
     recordEvent({
@@ -202,12 +239,14 @@ function CalculateYourBenefitsForm({
       'gibct-form-value': value,
     });
     eligibilityChange({ [field]: value });
+
     if (field === 'militaryStatus') {
+      /*
       setIsDisabled(true);
       if (value === 'spouse' || value === 'child') {
         setIsDisabled(false);
-      }
-      eligibilityChange({ giBillChapter: '33a' });
+      } */
+      // eligibilityChange({ giBillChapter: '33a' });
     }
     recalculateBenefits();
   };
@@ -242,7 +281,8 @@ function CalculateYourBenefitsForm({
   };
 
   const handleHasClassesOutsideUSChange = e => {
-    handleBeneficiaryZIPCodeChanged({ value: '' });
+    handleBeneficiaryZIPCodeChanged({ target: { value: '' } });
+    // handleBeneficiaryZIPCodeChanged({ value: '' });
     handleCheckboxChange(e);
 
     recordEvent({
@@ -336,34 +376,38 @@ function CalculateYourBenefitsForm({
   const renderInState = () => {
     if (!displayedInputs.inState) return null;
     const { inStateTuitionInformation } = profile.attributes;
+    const radioButtonsLabelText = 'Are you an in-state student?';
+    const options = [
+      { value: 'yes', label: 'Yes' },
+      { value: 'no', label: 'No' },
+    ];
+    const modal =
+      isURL(inStateTuitionInformation) &&
+      inStateTuitionInformation !==
+        'Contact the School Certifying Official (SCO) for requirements'
+        ? 'inStateWithLink'
+        : 'inStateWithoutLink';
 
-    const label = learnMoreLabel({
-      text: 'Are you an in-state student?',
-      modal:
-        isURL(inStateTuitionInformation) &&
-        inStateTuitionInformation !==
-          'Contact the School Certifying Official (SCO) for requirements'
-          ? 'inStateWithLink'
-          : 'inStateWithoutLink',
-      ariaLabel: ariaLabels.learnMore.inState,
-      buttonId: 'in-state-student-learn-more',
-    });
     return (
-      <ExpandingGroup open={displayedInputs.tuition && inputs.inState === 'no'}>
-        <RadioButtons
-          label={label}
-          name="inState"
-          options={[
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' },
-          ]}
-          value={inputs.inState}
-          onChange={handleInputChange}
-          onBlur={handleInputBlur}
-          onFocus={handleEYBInputFocus}
-        />
-        {renderInStateTuition()}
-      </ExpandingGroup>
+      <>
+        <>
+          <LearnMoreLabel
+            text={radioButtonsLabelText}
+            onClick={() => showModal(modal)}
+            ariaLabel={ariaLabels.learnMore.inState}
+          />
+          <VARadioButton
+            radioLabel=""
+            name="inState"
+            initialValue={inputs.inState}
+            options={options}
+            onVaValueChange={(target, name) =>
+              handleInputChange(null, target, name)
+            }
+          />
+        </>
+        {inputs.inState === 'no' && <>{renderInStateTuition()}</>}
+      </>
     );
   };
 
@@ -443,24 +487,26 @@ function CalculateYourBenefitsForm({
     const yellowRibbonFieldId = 'yellowRibbonField';
 
     return (
-      <ExpandingGroup open={inputs.yellowRibbonRecipient === 'yes'}>
-        <RadioButtons
-          label={learnMoreLabel({
-            text: 'Will you be a Yellow Ribbon recipient?',
-            modal: 'calcYr',
-            ariaLabel: ariaLabels.learnMore.yellowRibbonProgram,
-            buttonId: 'yellow-ribbon-recipient-learn-more',
-          })}
-          name="yellowRibbonRecipient"
-          options={[
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' },
-          ]}
-          value={inputs.yellowRibbonRecipient}
-          onChange={handleInputChange}
-          onBlur={handleInputBlur}
-          onFocus={handleEYBInputFocus}
-        />
+      <>
+        <>
+          <LearnMoreLabel
+            text="Will you be a Yellow Ribbon recipient?"
+            onClick={() => showModal('calcYr')}
+            ariaLabel={ariaLabels.learnMore.yellowRibbonProgram}
+          />
+          <VARadioButton
+            radioLabel=""
+            name="yellowRibbonRecipient"
+            initialValue={inputs.yellowRibbonRecipient}
+            options={[
+              { value: 'yes', label: 'Yes' },
+              { value: 'no', label: 'No' },
+            ]}
+            onVaValueChange={(target, name) =>
+              handleInputChange(null, target, name)
+            }
+          />
+        </>
 
         <div>
           <Dropdown
@@ -521,7 +567,7 @@ function CalculateYourBenefitsForm({
             </div>
           </AlertBox>
         </div>
-      </ExpandingGroup>
+      </>
     );
   };
 
@@ -686,7 +732,7 @@ function CalculateYourBenefitsForm({
 
     return (
       <div>
-        <ExpandingGroup open={inputs.calendar === 'nontraditional'}>
+        <>
           <Dropdown
             label={learnMoreLabel({
               text: 'School Calendar',
@@ -708,18 +754,21 @@ function CalculateYourBenefitsForm({
             onBlur={handleInputBlur}
             onFocus={handleEYBInputFocus}
           />
-
-          {dependentDropdowns}
-        </ExpandingGroup>
+          {inputs.calendar === 'nontraditional' && <>{dependentDropdowns}</>}
+        </>
       </div>
     );
   };
 
   const renderKicker = () => {
     if (!displayedInputs.kicker) return null;
-
+    const radioButtonsLabelText = 'Eligible for kicker bonus?';
     const kickerAmountId = 'kickerAmount';
     const kickerFieldId = `${kickerAmountId}-field`;
+    const options = [
+      { value: 'yes', label: 'Yes' },
+      { value: 'no', label: 'No' },
+    ];
     const amountInput = (
       <div id={kickerFieldId}>
         <label htmlFor={kickerAmountId}>How much is your kicker?</label>
@@ -738,26 +787,25 @@ function CalculateYourBenefitsForm({
     );
 
     return (
-      <ExpandingGroup open={inputs.kickerEligible === 'yes'}>
-        <RadioButtons
-          label={learnMoreLabel({
-            text: 'Eligible for kicker bonus?',
-            modal: 'calcKicker',
-            ariaLabel: ariaLabels.learnMore.kickerEligible,
-            buttonId: 'eligible-kicker-learn-more',
-          })}
-          name="kickerEligible"
-          options={[
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' },
-          ]}
-          value={inputs.kickerEligible}
-          onChange={handleInputChange}
-          onBlur={handleInputBlur}
-          onFocus={handleEYBInputFocus}
-        />
-        {amountInput}
-      </ExpandingGroup>
+      <>
+        <>
+          <LearnMoreLabel
+            text={radioButtonsLabelText}
+            onClick={() => showModal('calcKicker')}
+            ariaLabel={ariaLabels.learnMore.kickerEligible}
+          />
+          <VARadioButton
+            radioLabel=""
+            name="kickerEligible"
+            initialValue={inputs.kickerEligible}
+            options={options}
+            onVaValueChange={(target, name) => {
+              handleInputChange(null, target, name);
+            }}
+          />
+        </>
+        {inputs.kickerEligible === 'yes' && <>{amountInput}</>}
+      </>
     );
   };
 
@@ -830,14 +878,17 @@ function CalculateYourBenefitsForm({
 
         zipcodeInput = (
           <div name="beneficiary-zip-question">
-            <TextInput
-              autoFocus
-              errorMessage={errorMessageCheck}
-              label={label}
+            <VaTextInput
+              id="beneficiaryZIPCode"
               name="beneficiaryZIPCode"
-              field={{ value: inputs.beneficiaryZIP }}
-              onValueChange={handleBeneficiaryZIPCodeChanged}
-              charMax={5}
+              type="text"
+              label={label}
+              required
+              value={inputs.beneficiaryZIP}
+              onInput={handleBeneficiaryZIPCodeChanged}
+              onBlur={handlers.onZipBlur}
+              maxlength="5"
+              error={errorMessageCheck}
             />
           </div>
         );
@@ -861,38 +912,39 @@ function CalculateYourBenefitsForm({
         />
       );
     }
+    const radioButtonsLabelText =
+      'Where will you take the majority of your classes?';
     const selectedBeneficiaryLocationQuestion = inputs.beneficiaryLocationQuestion
       ? inputs.beneficiaryLocationQuestion
       : profile.attributes.name;
 
     return (
-      <ExpandingGroup
-        open={
-          displayExtensionSelector ||
-          displayExtensionBeneficiaryInternationalCheckbox()
-        }
-      >
-        <RadioButtons
-          label={learnMoreLabel({
-            text: 'Where will you take the majority of your classes?',
-            modal: 'calcBeneficiaryLocationQuestion',
-            ariaLabel: ariaLabels.learnMore.majorityOfClasses,
-            buttonId: 'majority-of-classes-learn-more',
-          })}
-          name="beneficiaryLocationQuestion"
-          options={beneficiaryLocationQuestionOptions}
-          value={selectedBeneficiaryLocationQuestion}
-          onChange={handleInputChange}
-          onBlur={handleInputBlur}
-          onFocus={handleEYBInputFocus}
-        />
+      <>
+        {displayExtensionSelector ||
+          displayExtensionBeneficiaryInternationalCheckbox()}
+        <>
+          <LearnMoreLabel
+            text={radioButtonsLabelText}
+            onClick={() => showModal('calcBeneficiaryLocationQuestion')}
+            ariaLabel={ariaLabels.learnMore.majorityOfClasses}
+          />
+          <VARadioButton
+            radioLabel=""
+            name="beneficiaryLocationQuestion"
+            initialValue={selectedBeneficiaryLocationQuestion}
+            options={beneficiaryLocationQuestionOptions}
+            onVaValueChange={(target, name) =>
+              handleInputChange(null, target, name)
+            }
+          />
+        </>
         <div>
           {extensionSelector}
           {zipcodeInput}
           {zipcodeLocation}
           {internationalCheckbox}
         </div>
-      </ExpandingGroup>
+      </>
     );
   };
 
@@ -921,20 +973,21 @@ function CalculateYourBenefitsForm({
     );
 
     return (
-      <ExpandingGroup open={inputs.buyUp === 'yes'}>
-        <RadioButtons
-          label="Participate in buy-up program?"
+      <>
+        <VARadioButton
+          radioLabel="Participate in buy-up program?"
           name="buyUp"
+          initialValue={inputs.buyUp}
           options={[
             { value: 'yes', label: 'Yes' },
             { value: 'no', label: 'No' },
           ]}
-          value={inputs.buyUp}
-          onChange={handleInputChange}
-          onBlur={handleInputBlur}
+          onVaValueChange={(target, name) =>
+            handleInputChange(null, target, name)
+          }
         />
         {amountInput}
-      </ExpandingGroup>
+      </>
     );
   };
 
@@ -985,27 +1038,33 @@ function CalculateYourBenefitsForm({
     />
   );
 
+  const radioButtonsLabelText =
+    'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?';
   const renderGbBenefit = () => {
     if (!displayedInputs?.giBillBenefit) {
       return null;
     }
 
     return (
-      <RadioButtons
-        label={learnMoreLabel({
-          text:
-            'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
-          modal: 'whenUsedGiBill',
-          ariaLabel: ariaLabels.learnMore.whenUsedGiBill,
-          buttonId: 'used-gi-bill-learn-more',
-        })}
-        name="giBillBenefit"
-        options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]}
-        value={inputs.giBillBenefit}
-        onChange={handleInputChange}
-        onBlur={handleInputBlur}
-        onFocus={handleEYBInputFocus}
-      />
+      <>
+        <LearnMoreLabel
+          text={radioButtonsLabelText}
+          onClick={() => showModal('onlineOnlyDistanceLearning')}
+          ariaLabel={ariaLabels.learnMore.onlineOnlyDistanceLearning}
+        />
+        <VARadioButton
+          radioLabel=""
+          name="giBillBenefit"
+          initialValue={inputs.giBillBenefit}
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' },
+          ]}
+          onVaValueChange={(target, name) => {
+            handleInputChange(null, target, name);
+          }}
+        />
+      </>
     );
   };
 
@@ -1040,6 +1099,7 @@ function CalculateYourBenefitsForm({
         <div>
           <BenefitsForm
             eligibilityChange={updateEligibility}
+            eligibilityChangeRedux={eligibilityChange}
             {...eligibility}
             hideModal={hideModal}
             showModal={showModal}

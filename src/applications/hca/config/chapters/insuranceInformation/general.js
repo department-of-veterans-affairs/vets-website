@@ -1,9 +1,9 @@
 import merge from 'lodash/merge';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-import CustomYesNoReviewField from '../../../components/ReviewFields/CustomYesNoReviewField';
-import CustomReviewField from '../../../components/ReviewFields/CustomReviewField';
-import InsuranceProviderView from '../../../components/InsuranceProviderView';
+import CustomYesNoReviewField from '../../../components/FormReview/CustomYesNoReviewField';
+import CustomReviewField from '../../../components/FormReview/CustomReviewField';
+import InsuranceProviderViewField from '../../../components/FormFields/InsuranceProviderViewField';
 import {
   GroupCodeDescription,
   HealthInsuranceDescription,
@@ -15,25 +15,20 @@ import {
 } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
 import {
-  emptyObjectSchema,
-  NotHighDisabilityOrNotCompensationTypeHigh,
-} from '../../../helpers';
+  getInsuranceAriaLabel,
+  isShortFormEligible,
+} from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 const { provider } = fullSchemaHca.definitions;
 const { isCoveredByHealthInsurance } = fullSchemaHca.properties;
-
-const ariaLabelfunc = data => {
-  const INSURANCE_TITLE = `${data.insuranceName} ${data.insurancePolicyNumber ??
-    data.insuranceGroupCode}`;
-  return data.insuranceName ? INSURANCE_TITLE : 'insurance policy';
-};
 
 export default {
   uiSchema: {
     'view:generalShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: NotHighDisabilityOrNotCompensationTypeHigh,
+        hideIf: formData => !isShortFormEligible(formData),
       },
     },
     'view:healthInsuranceDescription': {
@@ -50,15 +45,15 @@ export default {
         expandUnder: 'isCoveredByHealthInsurance',
         itemName: 'insurance policy',
         hideTitle: true,
-        viewField: InsuranceProviderView,
-        itemAriaLabel: ariaLabelfunc,
+        viewField: InsuranceProviderViewField,
+        itemAriaLabel: formData => getInsuranceAriaLabel(formData),
       },
       'ui:errorMessages': {
         minItems: 'You need to at least one provider.',
       },
       items: {
         'ui:options': {
-          itemAriaLabel: ariaLabelfunc,
+          itemAriaLabel: formData => getInsuranceAriaLabel(formData),
         },
         insuranceName: {
           'ui:title': 'Name of insurance provider',

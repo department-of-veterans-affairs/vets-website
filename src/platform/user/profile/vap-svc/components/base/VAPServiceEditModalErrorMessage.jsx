@@ -7,7 +7,9 @@ import {
   INVALID_EMAIL_ADDRESS_ERROR_CODES,
   LOW_CONFIDENCE_ADDRESS_ERROR_CODES,
   INVALID_PHONE_ERROR_CODES,
-} from '@@vap-svc/util/transactions';
+} from 'platform/user/profile/vap-svc/util/transactions';
+
+import { DEFAULT_ERROR_MESSAGE } from '../../constants';
 
 function hasError(codes, errors) {
   return errors.some(error => codes.has(error.code));
@@ -63,8 +65,7 @@ export default function VAPServiceEditModalErrorMessage({
     default:
       content = (
         <p id="error-message-details" className="vads-u-margin-y--0">
-          We’re sorry. We can’t update your information right now. We’re working
-          to fix this problem. Please check back later.
+          {DEFAULT_ERROR_MESSAGE}
         </p>
       );
   }

@@ -7,3 +7,8 @@
 .email-address-symbol::after {
   content: "\200B";
 }
+
+#root_inputPhoneNumber {
+  speak-as: spell-out;
+  speak: spell-out;
+}

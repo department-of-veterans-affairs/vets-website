@@ -12,7 +12,7 @@ import {
   VALIDATION_ERROR,
   BACKEND_SERVICE_ERROR,
   FETCH_APPEALS_ERROR,
-} from '../../utils/appeals-v2-helpers';
+} from '../../actions/types';
 
 const setup = () => {
   const response = {

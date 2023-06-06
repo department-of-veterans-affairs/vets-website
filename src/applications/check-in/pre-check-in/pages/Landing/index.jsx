@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import propTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { api } from '../../../api';
 
@@ -12,9 +11,8 @@ import { createSetSession } from '../../../actions/authentication';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import { useUpdateError } from '../../../hooks/useUpdateError';
 
-import { createAnalyticsSlug } from '../../../utils/analytics';
-import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import {
   createForm,
   getTokenFromLocation,
@@ -22,17 +20,13 @@ import {
 
 import { URLS } from '../../../utils/navigation';
 import { isUUID, SCOPES } from '../../../utils/token-format-validator';
-import { setApp } from '../../../actions/universal';
 import { APP_NAMES } from '../../../utils/appConstants';
 
 const Index = props => {
   const { router } = props;
   const { t } = useTranslation();
 
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
-
-  const { goToErrorPage, jumpToPage } = useFormRouting(router);
+  const { jumpToPage } = useFormRouting(router);
   const {
     clearCurrentSession,
     setPreCheckinComplete,
@@ -57,29 +51,17 @@ const Index = props => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      dispatch(setApp(APP_NAMES.PRE_CHECK_IN));
-    },
-    [dispatch],
-  );
+  const { updateError } = useUpdateError();
 
   useEffect(
     () => {
       const token = getTokenFromLocation(router.location);
       if (!token) {
-        recordEvent({
-          event: createAnalyticsSlug('landing-page-launched-no-token'),
-        });
-        goToErrorPage('?error=no-token');
+        updateError('no-token');
+      } else if (!isUUID(token)) {
+        updateError('bad-token');
       }
 
-      if (!isUUID(token)) {
-        recordEvent({
-          event: createAnalyticsSlug('malformed-token'),
-        });
-        goToErrorPage('?error=bad-token');
-      }
       if (token && isUUID(token)) {
         // call the sessions api
         const checkInType = APP_NAMES.PRE_CHECK_IN;
@@ -87,13 +69,13 @@ const Index = props => {
         if (token && !sessionCallMade) {
           setSessionCallMade(true);
           api.v2
-            .getSession({ token, checkInType, isLorotaSecurityUpdatesEnabled })
+            .getSession({ token, checkInType })
             .then(session => {
               // if successful, dispatch session data  into redux and current window
 
               if (session.error || session.errors) {
                 clearCurrentSession(window);
-                goToErrorPage('?error=session-error');
+                updateError('session-error');
               } else {
                 setCurrentToken(window, token);
                 setPreCheckinComplete(window, false);
@@ -110,30 +92,35 @@ const Index = props => {
                 }
               }
             })
-            .catch(() => {
+            .catch(e => {
+              // @TODO move clear current session to hook or HOC
               clearCurrentSession(window);
-              goToErrorPage();
+              if (e?.errors[0]?.status === '404') {
+                updateError('uuid-not-found');
+              } else {
+                updateError('session-error');
+              }
             });
         }
       }
     },
     [
       clearCurrentSession,
-      goToErrorPage,
+      dispatch,
       initForm,
-      isLorotaSecurityUpdatesEnabled,
       jumpToPage,
       router,
       sessionCallMade,
       setCurrentToken,
       setPreCheckinComplete,
       setSession,
+      updateError,
     ],
   );
   return (
-    <>
+    <div>
       <va-loading-indicator message={loadMessage} />
-    </>
+    </div>
   );
 };
 

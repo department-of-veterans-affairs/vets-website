@@ -3,16 +3,14 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
 import { isSmallScreen, useQueryParams } from '../utils/helpers';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
 const { Element: ScrollElement } = Scroll;
 
@@ -75,7 +73,12 @@ export function ProfilePage({
 
   const loadingProfile = profile.inProgress || _.isEmpty(profile.attributes);
   if (loadingProfile) {
-    content = <LoadingIndicator message="Loading your profile..." />;
+    content = (
+      <VaLoadingIndicator
+        data-testid="loading-indicator"
+        message="Loading your profile..."
+      />
+    );
   } else {
     const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
 
@@ -135,12 +138,6 @@ const mapStateToProps = state => {
     profile,
     calculator,
     eligibility,
-    gibctEybBottomSheet: toggleValues(state)[
-      FEATURE_FLAG_NAMES.gibctEybBottomSheet
-    ],
-    gibctSchoolRatings: toggleValues(state)[
-      FEATURE_FLAG_NAMES.gibctSchoolRatings
-    ],
   };
 };
 

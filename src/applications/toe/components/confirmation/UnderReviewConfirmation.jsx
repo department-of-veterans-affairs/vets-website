@@ -31,11 +31,7 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
             >
               Application for VA education benefits (Form 22-1990e)
             </h3>
-            For {user?.fullName}
-            <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-y--4">
-              <strong>Confirmation number</strong>
-              {user?.confirmationNumber}
-            </div>
+            For {user}
             <div className="vads-u-display--flex vads-u-flex-direction--column">
               <strong>Date received</strong>
               {dateReceived}
@@ -62,11 +58,16 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
             <h2 className="vads-u-margin-y--0">In 1 month</h2>
             <hr className="meb-hr" />
             If more than a month has passed since you gave us your application
-            and you haven’t heard back, please don’t apply again. Call our
-            toll-free Education Call Center at{' '}
-            <a href="tel:888-442-4551">1-888-442-4551</a> or{' '}
-            <a href="tel:001-918-781-5678">001-918-781-5678</a> if you are
-            outside the U.S.
+            and you haven’t heard back, please don’t apply again. Contact us
+            through{' '}
+            <a
+              href="https://ask.va.gov"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ask VA
+            </a>
+            .
           </div>
         </va-alert>
       </div>
@@ -81,7 +82,7 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
           <li>
             We’ll notify you if you’re eligible for other VA education benefits.
           </li>
-          <li>There is no further action required by you at this time.</li>
+          <li>We don’t require further action from you at this time.</li>
         </ul>
       </div>
       <div className="vads-u-margin-bottom--4">
@@ -90,33 +91,45 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
           <li>
             If you need to submit documentation to VA, such as service records,
             please send this through our{' '}
-            <a href="https://ask.va.gov/">Ask VA feature</a>.
+            <a
+              href="https://ask.va.gov/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ask VA feature
+            </a>
+            .
           </li>
           <li>
-            <a href="/profile">
+            <a
+              href="/profile/direct-deposit"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Review and/or update your direct deposit information on your
               VA.gov profile
             </a>
             .
           </li>
           <li>
-            <a href="/education/gi-bill-comparison-tool/">
-              Use our GI Bill Comparison Tool to help you decide which education
-              program and school is best for you
+            <a
+              href="/education/gi-bill-comparison-tool/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Use our GI Bill Comparison Tool to help you decide which schools
+              are best for you
             </a>
             .
           </li>
           <li>
-            <a href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/">
+            <a
+              href="https://benefits.va.gov/GIBILL/docs/GIBguideseries/ChooseYourEducationPathway.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Learn more about VA benefits and programs through the Building
               Your Future with the GI Bill Series
-            </a>
-            .
-          </li>
-          <li>
-            <a href="https://www.benefits.va.gov/gibill/careerscope.asp">
-              Measure your interests and skill levels and help figure out your
-              career path with CareerScope®
             </a>
             .
           </li>

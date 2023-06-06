@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import recordEvent from 'platform/monitoring/record-event';
 import SearchAccordion from '../components/SearchAccordion';
 import SearchBenefits from '../components/SearchBenefits';
-import RadioButtons from '../components/RadioButtons';
+import VARadioButton from '../components/VARadioButton';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import { showModal, eligibilityChange } from '../actions';
-import { connect } from 'react-redux';
 import { createId } from '../utils/helpers';
-import recordEvent from 'platform/monitoring/record-event';
 
 export function TuitionAndHousingEstimates({
   eligibility,
@@ -64,6 +64,18 @@ export function TuitionAndHousingEstimates({
     modalClose();
   };
 
+  const handlers = {
+    onSelection: target => {
+      const { value } = target.detail;
+      recordEvent({
+        event: 'gibct-form-change',
+        'gibct-form-field': 'Will you be taking any classes in person ?',
+        'gibct-form-value': value,
+      });
+      setOnlineClasses(value);
+    },
+  };
+
   const controls = (
     <div>
       <SearchBenefits
@@ -83,29 +95,22 @@ export function TuitionAndHousingEstimates({
         setMilitaryStatus={setMilitaryStatus}
         setSpouseActiveDuty={setSpouseActiveDuty}
       />
-      <RadioButtons
-        label={
-          <LearnMoreLabel
-            text="Will you be taking any classes in person?"
-            onClick={() => {
-              dispatchShowModal('onlineOnlyDistanceLearning');
-            }}
-            ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
-            butttonId="classes-in-person-learn-more"
-          />
-        }
-        name="inPersonClasses"
-        options={[{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }]}
-        value={onlineClasses}
-        onChange={e => {
-          recordEvent({
-            event: 'gibct-form-change',
-            'gibct-form-field': 'Will you be taking any classes in person ?',
-            'gibct-form-value': e.target.value,
-          });
-          setOnlineClasses(e.target.value);
+      <LearnMoreLabel
+        text="Will you be taking any classes in person?"
+        onClick={() => {
+          dispatchShowModal('onlineOnlyDistanceLearning');
         }}
+        ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
+        butttonId="classes-in-person-learn-more"
       />
+      <VARadioButton
+        radioLabel=""
+        name="inPersonClasses"
+        initialValue={onlineClasses}
+        options={[{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }]}
+        onVaValueChange={handlers.onSelection}
+      />
+
       <div id="note" className="vads-u-padding-top--2">
         <b>Note:</b> Changing these settings modifies the tuition and housing
         benefits shown on the search cards.
@@ -135,14 +140,12 @@ export function TuitionAndHousingEstimates({
             {controls}
           </div>
           <div className="modal-button-wrapper">
-            <button
-              type="button"
+            <va-button
               id={`update-${createId(title)}-button`}
               className="update-results-button"
+              text="Update estimates"
               onClick={closeAndUpdate}
-            >
-              Update estimates
-            </button>
+            />
           </div>
         </div>
       )}

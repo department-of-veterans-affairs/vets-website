@@ -42,7 +42,7 @@ class Confirmation {
       .contains(
         "[header='How can I update my information?']",
         'A staff member will help you on the day of your appointment.',
-        'Or you can sign in to your VA account to update your contact information online.',
+        'Or you can sign in to your VA.gov profile to update your contact information online.',
       );
   };
 
@@ -88,16 +88,16 @@ class Confirmation {
 
   validateAppointmentType = type => {
     if (type === 'phone') {
-      cy.get('[data-testid="appointment-type-label"]').each(item => {
-        expect(Cypress.$(item).text()).to.eq('Phone call');
+      cy.get('[data-testid="appointment-kind-and-location"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq('Phone');
       });
       cy.get('[data-testid="appointment-message"]').each(item => {
         expect(Cypress.$(item).text()).to.eq(
-          'Your provider will call you. You may need to wait about 15 minutes for their call. Thanks for your patience.',
+          'Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.',
         );
       });
     } else if (type === 'in-person') {
-      cy.get('[data-testid="appointment-type-label"]').each(item => {
+      cy.get('[data-testid="appointment-kind-and-location"]').each(item => {
         expect(Cypress.$(item).text()).to.eq('In person');
       });
       cy.get('[data-testid="appointment-message"]').each(item => {
@@ -106,6 +106,12 @@ class Confirmation {
         );
       });
     }
+  };
+
+  clickDetails = (appointment = 1) => {
+    cy.get(`li:nth-child(${appointment}) [data-testid="details-link"]`).click({
+      waitForAnimations: true,
+    });
   };
 }
 

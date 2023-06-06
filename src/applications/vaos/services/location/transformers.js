@@ -3,48 +3,9 @@
  */
 
 import moment from 'moment';
-import environment from 'platform/utilities/environment';
+import { getTestFacilityId } from '../../utils/appointment';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { arrayToObject, dedupeArray } from '../../utils/data';
-
-/**
- * Transforms /vaos/systems/983/direct_scheduling_facilities?type_of_care_id=323&parent_code=983GB to
- * /Location?organization=Organization/983
- *
- * @export
- * @param {Array<VARFacility>} facilities A list of facilities from var-resources
- * @returns {Array<Location>} A FHIR searchset of Location resources
- */
-export function transformDSFacilities(facilities) {
-  return facilities.map(facility => ({
-    resourceType: 'Location',
-    id: facility.id,
-    vistaId: facility.rootStationCode,
-    identifier: [
-      {
-        system: VHA_FHIR_ID,
-        value: facility.institutionCode,
-      },
-      {
-        system: 'http://med.va.gov/fhir/urn',
-        value: `urn:va:division:${facility.rootStationCode}:${facility.id}`,
-      },
-    ],
-    name: facility.authoritativeName,
-    telecom: [],
-    address: {
-      line: [],
-      city: facility.city,
-      state: facility.stateAbbrev,
-      postalCode: null,
-    },
-    legacyVAR: {
-      institutionTimezone: facility.institutionTimezone,
-      requestSupported: facility.requestSupported,
-      directSchedulingSupported: facility.directSchedulingSupported,
-    },
-  }));
-}
 
 function isFacilityOpenAllDay(hours) {
   if (!hours) return false;
@@ -53,14 +14,10 @@ function isFacilityOpenAllDay(hours) {
   const sanitizedOperatingHours = hours.replace(/\s/g, '');
 
   // Escape early if it is 'Sunrise - Sunset'.
-  if (
+  return (
     sanitizedOperatingHours.toLowerCase() === 'sunrise-sunset' ||
     sanitizedOperatingHours === '24/7'
-  ) {
-    return true;
-  }
-
-  return false;
+  );
 }
 
 function isFacilityClosed(hours) {
@@ -142,21 +99,6 @@ function transformOperatingHours(facilityHours) {
         closingTime,
       };
     });
-}
-
-/**
- * Converts back from a real facility id to our test facility ids
- * in lower environments
- *
- * @param {String} facilityId - facility id to convert
- * @returns A facility id with either 442 or 552 replaced with 983 or 984
- */
-function getTestFacilityId(facilityId) {
-  if (facilityId && (!environment.isProduction() || window.Cypress)) {
-    return facilityId.replace('442', '983').replace('552', '984');
-  }
-
-  return facilityId;
 }
 
 /**
@@ -299,7 +241,7 @@ export function setSupportedSchedulingMethods({ location, settings } = {}) {
     identifier,
     legacyVAR: {
       ...location.legacyVAR,
-      settings: arrayToObject(facilitySettings.services),
+      settings: arrayToObject(facilitySettings?.services),
     },
   };
 }

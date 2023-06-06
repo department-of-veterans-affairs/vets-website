@@ -54,11 +54,11 @@ jobs:
 
       - name: List changed files
         id: changed-files
-        run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ needs.set-commit-sha.outputs.COMMIT_SHA }})
+        run: echo all_changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}) >> $GITHUB_OUTPUT
 
       - name: Get app entries for changed files
         id: get-changed-apps
-        run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
+        run: echo app_entries=$(node script/github-actions/get-changed-apps.js) >> $GITHUB_OUTPUT
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
@@ -152,7 +152,7 @@ jobs:
 
       - name: Set output of TESTS
         id: tests
-        run: echo ::set-output name=selected::$TESTS
+        run: echo selected=$TESTS >> $GITHUB_OUTPUT
 
   cypress-tests:
     name: Cypress E2E Tests
@@ -162,7 +162,7 @@ jobs:
       needs.build.result == 'success' &&
       needs.cypress-tests-prep.result == 'success'
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
+      image: public.ecr.aws/cypress-io/cypress/browsers:node16.14.2-slim-chrome103-ff102
       options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:

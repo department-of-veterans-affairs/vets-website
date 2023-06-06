@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FLOW_TYPES } from '../../../utils/constants';
 import ReasonForAppointmentSection from './ReasonForAppointmentSection';
 import ContactDetailSection from './ContactDetailSection';
@@ -30,7 +31,14 @@ export default function ReviewDirectScheduleInfo({
       {facility.address?.city}, <State state={facility.address?.state} />
       <ReasonForAppointmentSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
-      <ContactDetailSection data={data} flowType={FLOW_TYPES.DIRECT} />
+      <ContactDetailSection data={data} />
     </div>
   );
 }
+
+ReviewDirectScheduleInfo.propTypes = {
+  clinic: PropTypes.object,
+  data: PropTypes.object,
+  facility: PropTypes.object,
+  pageTitle: PropTypes.string,
+};

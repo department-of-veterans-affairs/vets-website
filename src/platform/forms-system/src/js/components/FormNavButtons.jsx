@@ -12,7 +12,7 @@ import ProgressButton from './ProgressButton';
  * navigate the user to the next page only if validation is successful.
  */
 const FormNavButtons = ({ goBack, goForward, submitToContinue }) => (
-  <div className="row form-progress-buttons schemaform-buttons">
+  <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
     <div className="small-6 medium-5 columns">
       {goBack && (
         <ProgressButton
@@ -20,8 +20,6 @@ const FormNavButtons = ({ goBack, goForward, submitToContinue }) => (
           buttonText="Back"
           buttonClass="usa-button-secondary"
           beforeText="«"
-          // This button is described by the current form's header ID
-          ariaDescribedBy="nav-form-header"
         />
       )}
     </div>
@@ -32,8 +30,6 @@ const FormNavButtons = ({ goBack, goForward, submitToContinue }) => (
         buttonText="Continue"
         buttonClass="usa-button-primary"
         afterText="»"
-        // This button is described by the current form's header ID
-        ariaDescribedBy="nav-form-header"
       />
     </div>
   </div>

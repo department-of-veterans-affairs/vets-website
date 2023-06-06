@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AUTH_ERROR, AUTH_LEVEL } from 'platform/user/authentication/constants';
+import { AUTH_ERRORS, AUTH_LEVEL } from 'platform/user/authentication/errors';
 import Helpdesk from './HelpdeskContact';
 
 export default function RenderErrorContainer({
-  code = AUTH_ERROR.DEFAULT,
+  code = AUTH_ERRORS.DEFAULT.errorCode,
   auth = AUTH_LEVEL.FAIL,
   requestId = '',
   recordEvent = () => ({}),
@@ -21,7 +21,7 @@ export default function RenderErrorContainer({
 
   switch (code) {
     // User denied Authorization (ID Proofing)
-    case AUTH_ERROR.USER_DENIED:
+    case AUTH_ERRORS.USER_DENIED.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re sorry. We couldn’t complete the identity verification process.
@@ -49,7 +49,7 @@ export default function RenderErrorContainer({
       break;
 
     // User's system time mismatch
-    case AUTH_ERROR.USER_CLOCK_MISMATCH:
+    case AUTH_ERRORS.USER_CLOCK_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re sorry. It looks like your computer’s clock isn’t showing the
@@ -69,8 +69,8 @@ export default function RenderErrorContainer({
       break;
 
     // Server time mismatch
-    case AUTH_ERROR.SERVER_CLOCK_MISMATCH:
-    case AUTH_ERROR.MVI_MISMATCH:
+    case AUTH_ERRORS.SERVER_CLOCK_MISMATCH.errorCode:
+    case AUTH_ERRORS.MVI_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re sorry. Something went wrong on our end, and we couldn’t sign you
@@ -89,7 +89,7 @@ export default function RenderErrorContainer({
       break;
 
     // Session expired
-    case AUTH_ERROR.SESSION_EXPIRED:
+    case AUTH_ERRORS.SESSION_EXPIRED.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We take your privacy very seriously. You didn’t take any action on
@@ -109,7 +109,7 @@ export default function RenderErrorContainer({
       break;
 
     // Failure to Proof (Login.gov)
-    case AUTH_ERROR.LOGINGOV_PROOFING_FAIL:
+    case AUTH_ERRORS.LOGINGOV_PROOFING_FAIL.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re sorry. You were unable to create an account at Login.gov or
@@ -149,7 +149,7 @@ export default function RenderErrorContainer({
       break;
 
     // Multiple MHV IDs (IENs) error
-    case AUTH_ERROR.MULTIPLE_MHVIDS:
+    case AUTH_ERRORS.MULTIPLE_MHVIDS.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re having trouble signing you in to VA.gov right now because we
@@ -204,7 +204,7 @@ export default function RenderErrorContainer({
       break;
 
     // Multiple EDIPIs
-    case AUTH_ERROR.MULTIPLE_EDIPIS:
+    case AUTH_ERRORS.MULTIPLE_EDIPIS.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re having trouble signing you in to VA.gov right now because we
@@ -220,7 +220,7 @@ export default function RenderErrorContainer({
       break;
 
     // ICN Mismatch
-    case AUTH_ERROR.ICN_MISMATCH:
+    case AUTH_ERRORS.ICN_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re having trouble signing you in right now because your My
@@ -237,7 +237,7 @@ export default function RenderErrorContainer({
       break;
 
     // UUID Missing (Login.gov or ID.me)
-    case AUTH_ERROR.UUID_MISSING:
+    case AUTH_ERRORS.UUID_MISSING.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re having trouble signing you in right now because one of your
@@ -253,7 +253,7 @@ export default function RenderErrorContainer({
       break;
 
     // Multiple Corp IDs
-    case AUTH_ERROR.MULTIPLE_CORPIDS:
+    case AUTH_ERRORS.MULTIPLE_CORPIDS.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re having trouble signing you in to VA.gov right now because we
@@ -268,43 +268,153 @@ export default function RenderErrorContainer({
       );
       break;
 
-    case AUTH_ERROR.OAUTH_STATE_MISMATCH:
+    case AUTH_ERRORS.MHV_VERIFICATION_ERROR.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
-          We’re having trouble signing you in to VA.gov right now because your
-          browser information is different from the initial sign in.
+          We’re having trouble signing you in with your My Healthevet account
+          right now because the services you are requesting require you to have
+          a Premium <strong>My Healthevet</strong> account.
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h2>How can I fix this issue?</h2>
+          <p className="va-introtext">
+            Read below to learn how to upgrade to a Premium{' '}
+            <strong>My HealtheVet</strong> account online or in person if you’re
+            a VA patient.
+          </p>
+          <div>
+            <h3>Sign up for a Premium account online</h3>
+            <p>
+              Follow these 2 steps to get a Premium{' '}
+              <strong>My HealtheVet</strong> account online.
+            </p>
+            <ol
+              className="vads-u-padding--0 vads-u-margin--0"
+              style={{ listStylePosition: 'inside' }}
+            >
+              <li>
+                <strong>
+                  Sign up for an account on the My HealtheVet website.
+                </strong>{' '}
+                You'll need to have your Social Security number on hand. Be sure
+                to choose <strong>VA Patient</strong> on the registration form.
+                <br />
+                <a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">
+                  Sign up for a My HealtheVet account
+                </a>
+                <br />
+                <p>
+                  <strong>Note:</strong> If you have a{' '}
+                  <strong>Login.gov</strong>, <strong>ID.me</strong>, or Premium{' '}
+                  <strong>DS Logon</strong> account, you can skip step 1 above
+                  and go right to step 2 to sign in to{' '}
+                  <strong>My HealtheVet</strong> with either of these accounts.
+                </p>
+              </li>
+              <li>
+                <strong>Upgrade to a Premium account.</strong> To do this, sign
+                in to <strong>My HealtheVet</strong> using your{' '}
+                <strong>Login.gov</strong>, <strong>ID.me</strong>, or Premium{' '}
+                <strong>DS Logon</strong> account credentials.
+                <br />
+                <p>
+                  Once signed in, select the <strong>Upgrade Now</strong> button
+                  at the top left side of the screen. Then, on the account
+                  upgrade page, check the box certifying that you're the owner
+                  of the account and approve the request, and click{' '}
+                  <strong>Continue</strong>
+                </p>
+                <p>
+                  The system will upgrade you to a Premium account.
+                  <a
+                    className="vads-u-display--inline-block"
+                    href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/user-login?redirect=/mhv-portal-web/user-registration/user-login"
+                  >
+                    Sign in to My HealtheVet
+                  </a>
+                </p>
+              </li>
+            </ol>
+          </div>
+          <div>
+            <h3>Sign up for a Premium account in person</h3>
+            <p>
+              You can get a Premium <strong>My HealtheVet</strong> account in
+              person at a VA health facility if you’re a VA patient. You’ll need
+              to bring this form and ID with you:
+            </p>
+            <ul>
+              <li>
+                <strong>
+                  A completed and signed Individuals’ Request for a Copy of
+                  Their Own Health Information (VA Form 10-5345a).
+                </strong>{' '}
+                This “VA release of information” form gives us permission to
+                share an electronic copy of your health record with your online
+                account. You can download a PDF copy of the form now, call ahead
+                to ask the staff to mail you a form, or ask for a form when you
+                get there.
+                <a
+                  className="vads-u-display--inline-block"
+                  href="/find-forms/about-form-10-5345a"
+                >
+                  Get VA Form 10-5345a to download
+                </a>
+                <a
+                  className="vads-u-display--inline-block"
+                  href="/find-locations/"
+                >
+                  Find the phone number for your nearest VA health care facility
+                </a>
+              </li>
+              <li>
+                <strong>A government-issued photo ID.</strong> This can be
+                either your Veteran Health Identification Card or a valid
+                driver’s license.
+              </li>
+            </ul>
+            <p>
+              A VA staff member will verify your identity. Then they’ll record
+              your information in the <strong>My HealtheVet</strong> system and
+              confirm you’re eligible for a Premium account. A copy of your VA
+              Form 10-5345a-MHV will be added to your VA medical record, and the
+              original paper copy will be shredded to protect your privacy.
+            </p>
+            <p>
+              <strong>Note:</strong> When you open or download a PDF file, you
+              create a temporary file on your computer. Other people may be able
+              to see this file—and any personal health information you fill
+              in—especially if you’re using a public or shared computer.
+            </p>
+          </div>
+          <Helpdesk>
+            If you’ve taken the steps above and still can’t sign in,
+          </Helpdesk>
+        </>
+      );
+      break;
+
+    case AUTH_ERRORS.OAUTH_STATE_MISMATCH.errorCode:
+      alertContent = (
+        <p className="vads-u-margin-top--0">
+          We’re having trouble signing you in to VA.gov right now because of a
+          network error.
         </p>
       );
       troubleshootingContent = (
         <>
           <h2>What you can do:</h2>
-          <p>
-            <strong>Try taking these steps to fix the problem:</strong>
-          </p>
-          <ul>
-            <li>
-              Clear your Internet browser’s cookies and cache. Depending on
-              which browser you’re using, you’ll usually find this information
-              referred to as “Browsing Data,”, “Browsing History,” or “Website
-              Data.”
-            </li>
-            <li>
-              Make sure you have cookies enabled in your browser settings.
-              Depending on which browser you’re using, you’ll usually find this
-              information in the “Tools,” “Settings,” or “Preferences” menu.
-            </li>
-          </ul>
-          <Helpdesk>
-            If you’ve taken the steps above and still can’t sign in,
-          </Helpdesk>
+          <p>Please sign in again.</p>
           <button type="button" onClick={openLoginModal}>
-            Try signing in again
+            Sign in
           </button>
         </>
       );
       break;
 
-    case AUTH_ERROR.OAUTH_INVALID_REQUEST:
+    case AUTH_ERRORS.OAUTH_INVALID_REQUEST.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re having trouble signing you in to VA.gov because there was an
@@ -426,8 +536,10 @@ export default function RenderErrorContainer({
 }
 
 RenderErrorContainer.propTypes = {
-  auth: PropTypes.oneOf(Object.keys(AUTH_LEVEL)),
-  code: PropTypes.oneOf(Object.keys(AUTH_ERROR)),
+  auth: PropTypes.oneOf(Object.values(AUTH_LEVEL)),
+  code: PropTypes.oneOf(
+    Object.values(AUTH_ERRORS).map(({ errorCode }) => errorCode),
+  ),
   openLoginModal: PropTypes.func,
   recordEvent: PropTypes.func,
   requestId: PropTypes.string,

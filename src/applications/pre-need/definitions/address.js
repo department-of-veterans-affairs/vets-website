@@ -231,21 +231,6 @@ export function uiSchema(
           withEnum,
         );
       }
-
-      // Hide the state field for non US and CAN addresses
-      if (!stateList && !schemaUpdate.properties.state['ui:hidden']) {
-        schemaUpdate.properties = set(
-          'state.ui:hidden',
-          true,
-          schemaUpdate.properties,
-        );
-      } else if (stateList && schemaUpdate.properties.state['ui:hidden']) {
-        schemaUpdate.properties = unset(
-          'state.ui:hidden',
-          schemaUpdate.properties,
-        );
-      }
-
       return schemaUpdate;
     },
   );
@@ -256,6 +241,38 @@ export function uiSchema(
     'ui:options': {
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
         let currentSchema = addressSchema;
+
+        const modifiedData = { ...formData };
+
+        if (
+          modifiedData.application &&
+          modifiedData.application.claimant &&
+          modifiedData.application.claimant.address &&
+          (modifiedData.application.claimant.address.country !== 'USA' ||
+            modifiedData.application.claimant.address.country !== 'CAN') &&
+          !modifiedData.application.claimant.address.state
+        ) {
+          modifiedData.application.claimant.address.state = '';
+        }
+
+        if (
+          modifiedData.application &&
+          modifiedData.application.applicant &&
+          modifiedData.application.applicant['view:applicantInfo'] &&
+          modifiedData.application.applicant['view:applicantInfo']
+            .mailingAddress &&
+          (modifiedData.application.applicant['view:applicantInfo']
+            .mailingAddress.country !== 'USA' ||
+            modifiedData.application.applicant['view:applicantInfo']
+              .mailingAddress.country !== 'CAN') &&
+          !modifiedData.application.applicant['view:applicantInfo']
+            .mailingAddress.state
+        ) {
+          modifiedData.application.applicant[
+            'view:applicantInfo'
+          ].mailingAddress.state = '';
+        }
+
         if (isRequired) {
           const required = isRequired(formData, index);
           if (required && currentSchema.required.length === 0) {

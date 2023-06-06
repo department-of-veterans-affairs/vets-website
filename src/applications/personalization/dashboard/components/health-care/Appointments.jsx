@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import CTALink from '../CTALink';
+import { getAppointmentTimezone } from '../../utils/timezone';
 
 export const Appointments = ({ appointments, hasError }) => {
   const nextAppointment = appointments?.[0];
   const start = moment.parseZone(nextAppointment?.startsAt);
   let locationName;
+  const timeZone = getAppointmentTimezone(nextAppointment);
 
   if (nextAppointment?.isVideo) {
     locationName = 'VA Video Connect';
@@ -49,7 +51,7 @@ export const Appointments = ({ appointments, hasError }) => {
           {start.format('dddd, MMMM Do, YYYY')}
         </p>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
-          {`Time: ${start.format('h:mm a')} ${nextAppointment?.timeZone}`}
+          {`Time: ${start.format('h:mm a')} ${timeZone.abbreviation}`}
         </p>
         {locationName && <p className="vads-u-margin-top--1">{locationName}</p>}
         <CTALink

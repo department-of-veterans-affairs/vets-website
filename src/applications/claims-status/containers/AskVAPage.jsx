@@ -3,10 +3,20 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router';
 import PropTypes from 'prop-types';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import { submitRequest, getClaimDetail } from '../actions';
-import { setUpPage } from '../utils/page';
+import {
+  // START ligthouse_migration
+  submit5103 as submit5103Action,
+  submitRequest as submitRequestAction,
+  getClaim as getClaimAction,
+  getClaimDetail as getClaimEVSSAction,
+  // END lighthouse_migration
+} from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
+// START lighthouse_migration
+import { cstUseLighthouse } from '../selectors';
+// END lighthouse_migration
+import { setUpPage } from '../utils/page';
 
 class AskVAPage extends React.Component {
   constructor() {
@@ -24,7 +34,13 @@ class AskVAPage extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (props.decisionRequested) {
-      props.getClaimDetail(this.props.params.id);
+      // START lighthouse_migration
+      if (this.props.useLighthouse) {
+        props.getClaimLighthouse(this.props.params.id);
+      } else {
+        props.getClaimEVSS(this.props.params.id);
+      }
+      // END lighthouse_migration
       this.goToStatusPage();
     }
   }
@@ -38,7 +54,15 @@ class AskVAPage extends React.Component {
   }
 
   render() {
-    const { loadingDecisionRequest, decisionRequestError } = this.props;
+    const {
+      loadingDecisionRequest,
+      decisionRequestError,
+      submit5103,
+      submitRequest,
+      useLighthouse,
+    } = this.props;
+
+    const submitFunc = useLighthouse ? submit5103 : submitRequest;
     const submitDisabled =
       !this.state.submittedDocs ||
       loadingDecisionRequest ||
@@ -101,7 +125,7 @@ class AskVAPage extends React.Component {
                     ? 'usa-button-primary usa-button-disabled'
                     : 'usa-button-primary'
                 }
-                onClick={() => this.props.submitRequest(this.props.params.id)}
+                onClick={() => submitFunc(this.props.params.id)}
               >
                 {buttonMsg}
               </button>
@@ -131,12 +155,19 @@ function mapStateToProps(state) {
     loadingDecisionRequest: claimsState.claimAsk.loadingDecisionRequest,
     decisionRequested: claimsState.claimAsk.decisionRequested,
     decisionRequestError: claimsState.claimAsk.decisionRequestError,
+    // START lighthouse_migration
+    useLighthouse: cstUseLighthouse(state),
+    // END lighthouse_migration
   };
 }
 
 const mapDispatchToProps = {
-  submitRequest,
-  getClaimDetail,
+  // START lighthouse_migration
+  submit5103: submit5103Action,
+  submitRequest: submitRequestAction,
+  getClaimEVSS: getClaimEVSSAction,
+  getClaimLighthouse: getClaimAction,
+  // END lighthouse_migration
 };
 
 export default withRouter(
@@ -149,11 +180,18 @@ export default withRouter(
 AskVAPage.propTypes = {
   decisionRequestError: PropTypes.string,
   decisionRequested: PropTypes.bool,
-  getClaimDetail: PropTypes.func,
+  // START lighthouse_migration
+  getClaimEVSS: PropTypes.func,
+  getClaimLighthouse: PropTypes.func,
+  // END lighthouse_migration
   loadingDecisionRequest: PropTypes.bool,
   params: PropTypes.object,
   router: PropTypes.object,
+  // START lighthouse_migration
+  submit5103: PropTypes.func,
   submitRequest: PropTypes.func,
+  useLighthouse: PropTypes.bool,
+  // END lighthouse_migration
 };
 
 export { AskVAPage };

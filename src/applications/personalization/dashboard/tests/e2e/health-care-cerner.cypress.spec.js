@@ -1,4 +1,6 @@
 import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system/enrolled.json';
+import vamcErc from '../fixtures/vamc-ehr.json';
+import { generateFeatureToggles } from '../../mocks/feature-toggles';
 
 import {
   makeUserObject,
@@ -23,6 +25,8 @@ describe('MyVA Dashboard - Cerner Widget', () => {
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
       );
+      // cy.intercept('https://localhost:3001/protected-endpoint', )
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcErc);
     });
     it('should not show the Cerner alert', () => {
       cy.visit('my-va/');
@@ -51,6 +55,11 @@ describe('MyVA Dashboard - Cerner Widget', () => {
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
       );
+      cy.intercept(
+        '/v0/feature_toggles*',
+        generateFeatureToggles({ showMyVADashboardV2: true }),
+      );
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcErc);
     });
     it('should show the Cerner alert', () => {
       cy.visit('my-va/');

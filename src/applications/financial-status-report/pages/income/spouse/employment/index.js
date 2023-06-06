@@ -22,7 +22,7 @@ export const uiSchema = {
   },
   questions: {
     spouseIsEmployed: {
-      'ui:title': 'Has your spouse had any jobs in the past two years?',
+      'ui:title': 'Has your spouse had any jobs in the past 2 years?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
       'ui:errorMessages': {

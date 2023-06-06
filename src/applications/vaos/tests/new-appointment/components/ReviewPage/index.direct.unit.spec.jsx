@@ -18,7 +18,7 @@ import {
   onCalendarChange,
   startDirectScheduleFlow,
 } from '../../../../new-appointment/redux/actions';
-import { mockAppointmentSubmit, mockPreferences } from '../../../mocks/helpers';
+import { mockAppointmentSubmit } from '../../../mocks/helpers';
 import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
 import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
 import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
@@ -143,7 +143,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     expect(screen.baseElement).to.contain.text('VA Appointment');
 
     expect(dateHeading).to.contain.text(
-      start.format('dddd, MMMM DD, YYYY [at] h:mm a'),
+      start.format('dddd, MMMM D, YYYY [at] h:mm a'),
     );
 
     expect(clinicHeading).to.contain.text('Some VA clinic');
@@ -159,7 +159,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
       'Call anytime during the day',
     );
 
-    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
+    const editLinks = screen.getAllByTestId('edit-new-appointment');
     const uniqueLinks = new Set();
     editLinks.forEach(link => {
       expect(link).to.have.attribute('aria-label');
@@ -170,7 +170,6 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
 
   it('should submit successfully', async () => {
     mockAppointmentSubmit({});
-    mockPreferences('test@va.gov');
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,
@@ -433,7 +432,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
     expect(screen.baseElement).to.contain.text('VA Appointment');
 
     expect(dateHeading).to.contain.text(
-      start.tz('America/Denver').format('dddd, MMMM DD, YYYY [at] h:mm a'),
+      start.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm a'),
     );
 
     expect(clinicHeading).to.contain.text('Some VA clinic');
@@ -449,7 +448,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
       'Call anytime during the day',
     );
 
-    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
+    const editLinks = screen.getAllByTestId('edit-new-appointment');
     const uniqueLinks = new Set();
     editLinks.forEach(link => {
       expect(link).to.have.attribute('aria-label');

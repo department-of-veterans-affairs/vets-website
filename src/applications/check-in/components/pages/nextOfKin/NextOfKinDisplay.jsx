@@ -10,8 +10,7 @@ export default function NextOfKinDisplay({
   nextOfKin = {},
   yesAction = () => {},
   noAction = () => {},
-  isLoading = false,
-  Footer,
+  router,
 }) {
   const { t } = useTranslation();
   const nextOfKinFields = [
@@ -39,12 +38,12 @@ export default function NextOfKinDisplay({
   const loadingMessage = useCallback(
     () => {
       return (
-        <>
+        <div>
           <va-loading-indicator
             data-testid="loading-message"
             message={t('saving-your-responses')}
           />
-        </>
+        </div>
       );
     },
     [t],
@@ -58,21 +57,20 @@ export default function NextOfKinDisplay({
         data={nextOfKin}
         yesAction={yesAction}
         noAction={noAction}
-        isLoading={isLoading}
         loadingMessageOverride={loadingMessage}
-        Footer={Footer}
         withBackButton
+        pageType="next-of-kin"
+        router={router}
       />
     </>
   );
 }
 
 NextOfKinDisplay.propTypes = {
-  Footer: propTypes.elementType,
   header: propTypes.string,
-  isLoading: propTypes.bool,
   nextOfKin: propTypes.object,
   noAction: propTypes.func,
+  router: propTypes.object,
   subtitle: propTypes.string,
   yesAction: propTypes.func,
 };

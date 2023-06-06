@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { SET_NOTIFICATION, CLEAR_NOTIFICATION } from '../../actions';
+import { SET_NOTIFICATION, CLEAR_NOTIFICATION } from '../../actions/types';
 import notificationsReducer from '../../reducers/notifications';
 
 describe('notificationsReducer', () => {

@@ -5,13 +5,12 @@ import { useSelector, connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
-import ServiceProvidersText, {
-  ServiceProvidersTextCreateAcct,
-} from 'platform/user/authentication/components/ServiceProvidersText';
+import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import GetFormHelp from '../components/GetFormHelp';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import { deductionCodes } from '../constants/deduction-codes';
 import DownloadFormPDF from '../components/DownloadFormPDF';
-import { fsrConfirmationEmailToggle } from '../utils/helpers';
+import { fsrConfirmationEmailToggle, fsrReasonDisplay } from '../utils/helpers';
+import { DEBT_TYPES } from '../constants';
 
 const { scroller } = Scroll;
 const scrollToTop = () => {
@@ -24,9 +23,39 @@ const scrollToTop = () => {
 
 const RequestDetailsCard = ({ data, response }) => {
   const name = data.personalData?.veteranFullName;
+  const combinedFSR = data['view:combinedFinancialStatusReport'];
   const windowPrint = useCallback(() => {
     window.print();
   }, []);
+
+  const debtListItem = (debt, index) => {
+    const debtFor =
+      debt.debtType === DEBT_TYPES.DEBT
+        ? deductionCodes[debt.deductionCode]
+        : debt.station.facilityName ||
+          getMedicalCenterNameByID(debt.station.facilitYNum);
+    const resolution = fsrReasonDisplay(debt.resolutionOption);
+
+    return (
+      <li key={index}>
+        {resolution}
+        <span className="vads-u-margin--0p5">for</span>
+        {debtFor}
+      </li>
+    );
+  };
+
+  const reliefList = combinedFSR
+    ? data.selectedDebtsAndCopays?.map((debt, index) =>
+        debtListItem(debt, index),
+      )
+    : data.selectedDebts?.map((debt, index) => (
+        <li key={index}>
+          {debt.resolution?.resolutionType}
+          <span className="vads-u-margin--0p5">for</span>
+          {deductionCodes[debt.deductionCode]}
+        </li>
+      ));
 
   return (
     <div className="inset">
@@ -42,15 +71,7 @@ const RequestDetailsCard = ({ data, response }) => {
         <p>
           <strong>Requested repayment or relief options</strong>
         </p>
-        <ul>
-          {data.selectedDebts?.map((debt, index) => (
-            <li key={index}>
-              {debt.resolution?.resolutionType}
-              <span className="vads-u-margin--0p5">for</span>
-              {deductionCodes[debt.deductionCode]}
-            </li>
-          ))}
-        </ul>
+        <ul>{reliefList}</ul>
         <p className="vads-u-margin-bottom--0">
           <strong>Date submitted</strong>
         </p>
@@ -64,7 +85,10 @@ const RequestDetailsCard = ({ data, response }) => {
         <p className="vads-u-margin-y--0">P.O. Box 11930</p>
         <p className="vads-u-margin-y--0">St. Paul, MN 55111-0930</p>
         <p>
-          <DownloadFormPDF />
+          <DownloadFormPDF
+            pdfContent={response.content}
+            useContent={combinedFSR}
+          />
           <button
             className="usa-button-secondary button vads-u-background-color--white"
             onClick={windowPrint}
@@ -92,6 +116,7 @@ const ConfirmationPage = ({ form, download }) => {
 
   useEffect(() => {
     focusElement('.schemaform-title > h1');
+
     scrollToTop();
   }, []);
 
@@ -112,11 +137,12 @@ const ConfirmationPage = ({ form, download }) => {
           </p>
         </va-alert>
       )}
-
       <p>
-        We’ll send you a letter with our decision and any next steps. If you
-        experience changes that may affect our decision (like a job loss or a
-        new job), you’ll need to submit a new request.
+        We’ll send you a letter with our decision and any next steps.{' '}
+        <strong>
+          If you experience changes that may affect our decision (like a loss or
+          new job), you’ll need to submit a new request.
+        </strong>
       </p>
 
       {response && (
@@ -133,8 +159,8 @@ const ConfirmationPage = ({ form, download }) => {
           <li className="process-step list-one">
             <h4>Sign in to VA.gov</h4>
             <p>
-              You can sign in with your existing <ServiceProvidersText />
-              account. <ServiceProvidersTextCreateAcct />
+              You can sign in with your Login.gov, ID.me, DS Logon, or My
+              HealtheVet
             </p>
           </li>
           <li className="process-step list-two">
@@ -151,7 +177,7 @@ const ConfirmationPage = ({ form, download }) => {
           <li className="process-step list-three">
             <h4>Go to your debt management portal</h4>
             <p>
-              Once you’re signed in, you can go to
+              After you sign in, you can go to
               <a href="/manage-va-debt" className="vads-u-margin--0p5">
                 Manage my VA debt
               </a>
@@ -174,7 +200,7 @@ const ConfirmationPage = ({ form, download }) => {
         </p>
 
         <a
-          className="usa-button-primary va-button-primary vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
+          className="vads-c-action-link--green vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
           href={`${environment.BASE_URL}`}
         >
           Go back to VA.gov

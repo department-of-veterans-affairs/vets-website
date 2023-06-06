@@ -179,8 +179,9 @@ describe('Form 526 Wizard', () => {
     wrapper.unmount();
   });
 
-  // new claim flow
-  it('should allow disability form start when filing a new claim', () => {
+  // new claim flow - skipping since wizard is depreacted and 526 subtask will
+  // be implemented soon
+  it.skip('should allow disability form start when filing a new claim', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
     expect(getPageHistory(wrapper, 0)).to.equal('start');
 
@@ -201,8 +202,9 @@ describe('Form 526 Wizard', () => {
     wrapper.unmount();
   });
 
-  // disagreeing flow
-  it('should allow disability form start when filing a new claim', () => {
+  // disagreeing flow - skipping since wizard is depreacted and 526 subtask will
+  // be implemented soon
+  it.skip('should allow disability form start when filing a new claim', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
     expect(getPageHistory(wrapper, 0)).to.equal('start');
 

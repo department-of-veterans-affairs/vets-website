@@ -4,10 +4,13 @@ import {
   selectVAPHomePhoneString,
   selectVAPMobilePhoneString,
 } from 'platform/user/selectors';
+import moment from 'moment';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   selectFeatureFacilitiesServiceV2,
   selectFeatureVAOSServiceVAAppointments,
   selectSystemIds,
+  selectFeatureAcheronService,
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
@@ -32,12 +35,13 @@ import {
   selectCovid19VaccineNewBooking,
   selectCovid19VaccineFormData,
 } from './selectors';
-import moment from 'moment';
 import { getSlots } from '../../services/slot';
-import recordEvent from 'platform/monitoring/record-event';
 import { transformFormToAppointment } from './helpers/formSubmitTransformers';
 import { submitAppointment } from '../../services/var';
-import { VACCINE_FORM_SUBMIT_SUCCEEDED } from '../../redux/sitewide';
+import {
+  VACCINE_FORM_SUBMIT_SUCCEEDED,
+  STARTED_NEW_APPOINTMENT_FLOW,
+} from '../../redux/sitewide';
 import { createAppointment } from '../../services/appointment';
 import { transformFormToVAOSAppointment } from './helpers/formSubmitTransformers.v2';
 
@@ -93,6 +97,12 @@ export const FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED =
 export const GA_FLOWS = {
   DIRECT: 'direct',
 };
+
+export function startNewAppointmentFlow() {
+  return {
+    type: STARTED_NEW_APPOINTMENT_FLOW,
+  };
+}
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -154,7 +164,7 @@ export function openFacilityPage() {
         initialState,
       );
       const siteIds = selectSystemIds(initialState);
-      let facilities = newBooking.facilities;
+      let { facilities } = newBooking;
       let facilityId = newBooking.data.vaFacility;
 
       dispatch({
@@ -209,7 +219,7 @@ export function openFacilityPage() {
 export function updateFacilitySortMethod(sortMethod, uiSchema) {
   return async (dispatch, getState) => {
     let location = null;
-    const facilities = selectCovid19VaccineNewBooking(getState()).facilities;
+    const { facilities } = selectCovid19VaccineNewBooking(getState());
     const calculatedDistanceFromCurrentLocation = facilities.some(
       f => !!f.legacyVAR?.distanceFromCurrentLocation,
     );
@@ -389,6 +399,9 @@ export function confirmAppointment(history) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       getState(),
     );
+    const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
+      getState(),
+    );
     dispatch({
       type: FORM_SUBMIT,
     });
@@ -407,6 +420,7 @@ export function confirmAppointment(history) {
       if (featureVAOSServiceVAAppointments) {
         await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
+          useAcheron: featureAcheronVAOSServiceRequests,
         });
       } else {
         const appointmentBody = transformFormToAppointment(getState());
@@ -506,7 +520,7 @@ export function openContactFacilitiesPage() {
         initialState,
       );
       const siteIds = selectSystemIds(initialState);
-      let facilities = newBooking.facilities;
+      let { facilities } = newBooking;
 
       dispatch({
         type: FORM_PAGE_CONTACT_FACILITIES_OPEN,

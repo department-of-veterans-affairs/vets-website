@@ -3,6 +3,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import Decision from '../components/appeals-v2/Decision';
 import { ITEMS_PER_PAGE } from '../constants';
@@ -154,23 +155,6 @@ export const ISSUE_STATUS = {
   remand: 'remand',
   cavcRemand: 'cavc_remand',
 };
-
-// Action Types & Availability statuses
-// TO-DO: Separate action types and availability statuses
-// Note: excludes FETCH_APPEALS_SUCCESS because there are defined in actions
-// and used in v1 as well
-export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
-export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
-export const USER_FORBIDDEN_ERROR = 'USER_FORBIDDEN_ERROR';
-export const RECORD_NOT_FOUND_ERROR = 'RECORD_NOT_FOUND_ERROR';
-export const VALIDATION_ERROR = 'VALIDATION_ERROR';
-export const BACKEND_SERVICE_ERROR = 'BACKEND_SERVICE_ERROR';
-export const FETCH_APPEALS_ERROR = 'FETCH_APPEALS_ERROR';
-export const AVAILABLE = 'AVAILABLE';
-export const FETCH_CLAIMS_PENDING = 'FETCH_CLAIMS_PENDING';
-export const FETCH_CLAIMS_SUCCESS = 'FETCH_CLAIMS_SUCCESS';
-export const FETCH_CLAIMS_ERROR = 'FETCH_CLAIMS_ERROR';
-export const CHANGE_INDEX_PAGE = 'CHANGE_INDEX_PAGE';
 
 export const claimsAvailability = {
   AVAILABLE: 'AVAILABLE',
@@ -519,6 +503,20 @@ export function getStatusContents(appeal, name = {}) {
             ama={appealType === APPEAL_TYPES.appeal}
             boardDecision
           />
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstIncludeDdlBoaLetters}>
+            <Toggler.Enabled>
+              <p>
+                You can download your decision letter online now. You can also
+                get other letters related to your claims and appeals.
+                <Link
+                  className="ddl-link vads-c-action-link--blue"
+                  to="your-claim-letters"
+                >
+                  Get your decision letters
+                </Link>
+              </p>
+            </Toggler.Enabled>
+          </Toggler>
         </div>
       );
       break;
@@ -680,6 +678,20 @@ export function getStatusContents(appeal, name = {}) {
             overview:
           </p>
           <Decision issues={details.issues} aoj={aoj} />
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstIncludeDdlBoaLetters}>
+            <Toggler.Enabled>
+              <p>
+                You can download your decision letter online now. You can also
+                get other letters related to your claims and appeals.
+                <Link
+                  className="ddl-link vads-c-action-link--blue"
+                  to="your-claim-letters"
+                >
+                  Get your decision letters
+                </Link>
+              </p>
+            </Toggler.Enabled>
+          </Toggler>
           <p>
             If you disagree with either the Board decision or the{' '}
             {aojDescription} decision, you can request another review. The
@@ -763,14 +775,15 @@ export function getStatusContents(appeal, name = {}) {
       );
       break;
     case STATUS_TYPES.hlrReceived:
-      contents.title = 'A senior reviewer is taking a new look at your case';
+      contents.title =
+        'A higher-level reviewer is taking a new look at your case';
       contents.description = (
         <div>
           <p>
-            By requesting a Higher-Level Review, you asked for a senior reviewer
-            at the {aojDescription} to look at your case and determine whether
-            they can change the decision based on a difference of opinion or
-            because VA made an error.
+            By requesting a Higher-Level Review, you asked for a higher-level
+            reviewer at the {aojDescription} to look at your case and determine
+            whether they can change the decision based on a difference of
+            opinion or because VA made an error.
           </p>
           {details.informalConference && (
             <p>
@@ -816,9 +829,10 @@ export function getStatusContents(appeal, name = {}) {
       contents.title = `The ${aojDescription} is correcting an error`;
       contents.description = (
         <p>
-          During their review, the senior reviewer identified an error that must
-          be corrected before deciding your case. If needed, VA may contact you
-          to ask for more evidence or to schedule a new medical exam.
+          During their review, the higher-level reviewer identified an error
+          that must be corrected before deciding your case. If needed, VA may
+          contact you to ask for more evidence or to schedule a new medical
+          exam.
         </p>
       );
       break;
@@ -1687,7 +1701,7 @@ export function getNextEvents(appeal) {
         header: '', // intentionally empty
         events: [
           {
-            title: 'The senior reviewer will make a new decision',
+            title: 'The higher-level reviewer will make a new decision',
             description: (
               <p>
                 The {getAojDescription(appeal.attributes.aoj)} will send you a
@@ -2021,9 +2035,9 @@ export function getAlertContent(alert, appealIsActive) {
                 DECISION_REVIEW_OPTIONS.higherLevelReview,
               ) && (
                 <li className="next-event">
-                  <h3>Ask for a new look from a senior reviewer</h3>
+                  <h3>Ask for a new look from a higher-level reviewer</h3>
                   <p>
-                    A senior reviewer will look at your case and determine
+                    A higher-level reviewer will look at your case and determine
                     whether the decision can be changed based on a difference of
                     opinion or because VA made an error. This option is called a
                     <a href="/decision-reviews/higher-level-review">
@@ -2071,7 +2085,7 @@ export function getAlertContent(alert, appealIsActive) {
                 DECISION_REVIEW_OPTIONS.higherLevelReview,
               ) && (
                 <li>
-                  Ask for a new look from a senior reviewer (Higher-Level
+                  Ask for a new look from a higher-level reviewer (Higher-Level
                   Review)
                 </li>
               )}
@@ -2145,8 +2159,10 @@ const getAppealDate = appeal => {
  * @returns {string}
  */
 const getClaimDate = claim => {
-  const { phaseChangeDate } = claim.attributes;
-  return phaseChangeDate || '0';
+  // START lighthouse_migration
+  const { claimPhaseDates, phaseChangeDate } = claim.attributes;
+  return phaseChangeDate || claimPhaseDates?.phaseChangeDate || '0';
+  // END lighthouse_migration
 };
 
 /**

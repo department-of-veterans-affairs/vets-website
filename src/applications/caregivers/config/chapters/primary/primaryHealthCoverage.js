@@ -1,14 +1,14 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { PrimaryHealthCoverage } from 'applications/caregivers/components/AdditionalInfo/PrimaryHealthCoverage';
-import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import { hasHealthInsurance } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+import { primaryCaregiverFields } from '../../../definitions/constants';
+import { hasHealthInsurance } from '../../../definitions/UIDefinitions/caregiverUI';
+import PrimaryHealthCoverageDescription from '../../../components/FormDescriptions/PrimaryHealthCoverageDescription';
 
 const { primaryCaregiver } = fullSchema.properties;
 const primaryCaregiverProps = primaryCaregiver.properties;
 
 const primaryMedicalPage = {
   uiSchema: {
-    'ui:description': PrimaryHealthCoverage({
+    'ui:description': PrimaryHealthCoverageDescription({
       pageTitle: 'Health care coverage',
     }),
     [primaryCaregiverFields.hasHealthInsurance]: hasHealthInsurance,

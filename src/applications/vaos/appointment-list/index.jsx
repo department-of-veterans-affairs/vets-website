@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import AppointmentsPageV2 from './components/AppointmentsPageV2/index';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
-import CommunityCareAppointmentDetailsPage from './components/CommunityCareAppointmentDetailsPage';
+// import CommunityCareAppointmentDetailsPage from './components/CommunityCareAppointmentDetailsPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 
 function AppointmentListSection() {
@@ -12,7 +12,7 @@ function AppointmentListSection() {
     <Switch>
       <Route
         path="/:pastOrPending?/cc/:id"
-        component={CommunityCareAppointmentDetailsPage}
+        component={ConfirmedAppointmentDetailsPage}
       />
       <Route
         path="/:pastOrPending?/va/:id"

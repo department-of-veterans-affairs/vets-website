@@ -8,7 +8,7 @@ import { isVAPatient, isLOA3, selectProfile } from '~/platform/user/selectors';
 
 import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
 
-import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/actions';
+import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/utils/actions';
 
 import ApplicationsInProgress from './ApplicationsInProgress';
 import BenefitOfInterest from './BenefitOfInterest';
@@ -136,7 +136,7 @@ const ApplyForBenefits = ({ getESREnrollmentStatus, shouldGetESRStatus }) => {
               });
             }}
           >
-            <p>
+            <p data-testid="benefit-of-interest-education-text">
               With VA education benefits, you and your qualified family members
               can get help finding a college or training program and paying for
               tuition or test fees.

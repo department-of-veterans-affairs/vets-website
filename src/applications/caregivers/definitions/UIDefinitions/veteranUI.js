@@ -8,16 +8,13 @@ import {
   medicalCenterLabels,
   medicalCentersByState,
   facilityNameMaxLength,
-} from '../../helpers';
+} from '../../utils/helpers';
 import {
-  FacilityInfo,
-  PleaseSelectVAFacility,
-} from '../../components/AdditionalInfo';
-import {
+  FacilityInfoDescription,
   LastTreatmentFacilityDescription,
   PreferredFacilityDescription,
 } from '../../components/FormDescriptions';
-import VaMedicalCenter from '../../components/FormFieldsets/VaMedicalCenter';
+import VaMedicalCenter from '../../components/FormFields/VaMedicalCenter';
 import { veteranFields } from '../constants';
 
 const emptyFacilityList = [];
@@ -65,7 +62,7 @@ export const previousTreatmentFacilityUI = {
 
 // TODO: naming super confusing need to update
 export const preferredFacilityView = {
-  'ui:description': PleaseSelectVAFacility(),
+  'ui:description': PreferredFacilityDescription,
   veteranFacilityState: {
     'ui:title': 'State',
 
@@ -101,7 +98,7 @@ export const preferredFacilityView = {
 // TODO: naming super confusing need to update
 export const veteranPreferredFacility = {
   'ui:title': ' ',
-  'ui:widget': FacilityInfo,
+  'ui:widget': FacilityInfoDescription,
 };
 
 /**

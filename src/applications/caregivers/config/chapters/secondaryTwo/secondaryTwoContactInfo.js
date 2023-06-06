@@ -1,12 +1,9 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
-import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo/SecondaryCaregiverInfo';
 import {
   secondaryTwoFields,
   emptyObjectSchema,
-} from 'applications/caregivers/definitions/constants';
-import { secondaryTwoContactIntro } from 'applications/caregivers/definitions/content';
-import { secondaryTwoInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+} from '../../../definitions/constants';
+import { secondaryTwoContactIntro } from '../../../definitions/content';
 import {
   emailUI,
   vetRelationshipUI,
@@ -14,17 +11,18 @@ import {
   primaryPhoneNumberUI,
   addressWithAutofillUI,
   emailEncouragementUI,
-} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
-
-const { secondaryCaregiverTwo } = fullSchema.properties;
-const secondaryCaregiverTwoProps = secondaryCaregiverTwo.properties;
+} from '../../../definitions/UIDefinitions/sharedUI';
+import { secondaryTwoInputLabel } from '../../../definitions/UIDefinitions/caregiverUI';
+import SecondaryCaregiverDescription from '../../../components/FormDescriptions/SecondaryCaregiverDescription';
 
 const { address } = fullSchema.definitions;
+const { secondaryCaregiverTwo } = fullSchema.properties;
+const secondaryCaregiverTwoProps = secondaryCaregiverTwo.properties;
 
 const secondaryTwoContactPage = {
   uiSchema: {
     'ui:description': formContext =>
-      SecondaryCaregiverInfo({
+      SecondaryCaregiverDescription({
         formContext,
         pageTitle: 'Secondary Family Caregiver contact information',
         introText: secondaryTwoContactIntro,
@@ -39,10 +37,6 @@ const secondaryTwoContactPage = {
     ),
     [secondaryTwoFields.emailEncouragementMessage]: emailEncouragementUI(),
     [secondaryTwoFields.email]: emailUI(secondaryTwoInputLabel),
-    [secondaryTwoFields.verifyEmail]: confirmationEmailUI(
-      secondaryTwoInputLabel,
-      secondaryTwoFields.email,
-    ),
     [secondaryTwoFields.vetRelationship]: vetRelationshipUI(
       secondaryTwoInputLabel,
     ),
@@ -68,7 +62,6 @@ const secondaryTwoContactPage = {
         secondaryCaregiverTwoProps.alternativePhoneNumber,
       [secondaryTwoFields.emailEncouragementMessage]: emptyObjectSchema,
       [secondaryTwoFields.email]: secondaryCaregiverTwoProps.email,
-      [secondaryTwoFields.verifyEmail]: secondaryCaregiverTwoProps.email,
       [secondaryTwoFields.vetRelationship]:
         secondaryCaregiverTwoProps.vetRelationship,
     },

@@ -5,6 +5,7 @@ import { apiRequest } from '~/platform/utilities/api';
 import environment from '~/platform/utilities/environment';
 import { debtMockResponse, debtMockResponseVBMS } from '../utils/mockResponses';
 import { deductionCodes } from '../const/deduction-codes';
+import { debtLettersShowLettersVBMS } from '../utils/helpers';
 
 export const DEBTS_FETCH_INITIATED = 'DEBTS_FETCH_INITIATED';
 export const DEBTS_FETCH_SUCCESS = 'DEBTS_FETCH_SUCCESS';
@@ -125,7 +126,7 @@ export const fetchDebtLetters = async dispatch => {
       });
     }
     // if a veteran has dependent debt do NOT fetch debt letters
-    if (!hasDependentDebts) {
+    if (!hasDependentDebts && debtLettersShowLettersVBMS) {
       dispatch(fetchDebtLettersVBMS());
     }
     return dispatch(

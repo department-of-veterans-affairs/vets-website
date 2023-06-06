@@ -1,45 +1,15 @@
 import 'platform/polyfills';
+import startApp from 'platform/startup';
 
 import './sass/claims-status.scss';
 
-import React from 'react';
-import { createHistory } from 'history';
-import { IndexRedirect, Route, Router, useRouterHistory } from 'react-router';
-import { Provider } from 'react-redux';
-
-import startReactApp from 'platform/startup/react';
-import createCommonStore from 'platform/startup/store';
-import startSitewideComponents from 'platform/site-wide';
-
-import ClaimsStatusApp from './containers/ClaimsStatusApp.jsx';
-import routes from './routes.jsx';
-import reducer from './reducers';
 import manifest from './manifest.json';
+import routes from './routes';
+import reducer from './reducers';
 
-import { setLastPage } from './actions/index.jsx';
-
-window.appName = manifest.entryName;
-
-const store = createCommonStore(reducer);
-
-/* eslint-disable react-hooks/rules-of-hooks */
-const history = useRouterHistory(createHistory)({
-  basename: manifest.rootUrl,
+startApp({
+  entryName: manifest.entryName,
+  url: manifest.rootUrl,
+  reducer,
+  routes,
 });
-
-history.listen(location => {
-  store.dispatch(setLastPage(location.pathname));
-});
-
-startSitewideComponents(store);
-
-startReactApp(
-  <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={ClaimsStatusApp}>
-        <IndexRedirect to="/your-claims" />
-        {routes}
-      </Route>
-    </Router>
-  </Provider>,
-);

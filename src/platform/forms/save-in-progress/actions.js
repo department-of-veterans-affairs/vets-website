@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../monitoring/record-event';
 import { logOut } from '../../user/authentication/actions';
-import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
+import { apiRequest } from '../../utilities/api';
 import { inProgressApi } from '../helpers';
 import { removeFormApi, saveFormApi } from './api';
 import { REMOVING_SAVED_FORM_SUCCESS } from '../../user/profile/actions';
@@ -56,6 +56,58 @@ export const PREFILL_STATUSES = {
   pending: 'pending',
   success: 'success',
   unfilled: 'unfilled',
+};
+
+const validateFetchInProgressFormsErrors = status => {
+  // check if typeof status is a string, return that string
+  if (
+    typeof status === 'string' &&
+    Object.values(LOAD_STATUSES).includes(status)
+  ) {
+    return status;
+  }
+
+  // check errors
+  if (status instanceof Error) {
+    Sentry.captureException(status);
+    Sentry.captureMessage('vets_sip_error_fetch');
+    return LOAD_STATUSES.failure;
+  }
+
+  // check the response
+  switch (status?.status) {
+    case 401:
+      return LOAD_STATUSES.noAuth;
+    case 403:
+      return LOAD_STATUSES.forbidden;
+    case 404:
+      return LOAD_STATUSES.notFound;
+    default:
+      return LOAD_STATUSES.failure;
+  }
+};
+
+const validateSaveInProgressErrors = (status, trackingPrefix) => {
+  if ([401].includes(status?.status)) {
+    recordEvent({ event: `${trackingPrefix}sip-form-save-signed-out` });
+    return SAVE_STATUSES.noAuth;
+  }
+
+  if (status instanceof Error) {
+    Sentry.captureException(status);
+    Sentry.captureMessage('vets_sip_error_save');
+    recordEvent({ event: `${trackingPrefix}sip-form-save-failed` });
+    return SAVE_STATUSES.clientFailure;
+  }
+
+  Sentry.captureException(status);
+  Sentry.withScope(() => {
+    Sentry.captureMessage('vets_sip_error_save');
+  });
+  recordEvent({
+    event: `${trackingPrefix}sip-form-save-failed-client`,
+  });
+  return SAVE_STATUSES.failure;
 };
 
 export function setSaveFormStatus(
@@ -153,8 +205,8 @@ export function migrateFormData(savedData, migrations) {
     return savedData;
   }
 
-  let savedDataCopy = Object.assign({}, savedData);
-  let savedVersion = savedData.metadata.version;
+  let savedDataCopy = { ...savedData };
+  let savedVersion = savedData.metadata?.version;
   while (typeof migrations[savedVersion] === 'function') {
     savedDataCopy = migrations[savedVersion](savedDataCopy);
     savedVersion++;
@@ -198,7 +250,7 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
   const savedAt = Date.now();
 
   return (dispatch, getState) => {
-    const trackingPrefix = getState().form.trackingPrefix;
+    const { trackingPrefix } = getState().form;
 
     dispatch(setSaveFormStatus(saveType, SAVE_STATUSES.pending));
 
@@ -208,10 +260,11 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
       version,
       returnUrl,
       savedAt,
-      trackingPrefix,
       submission,
     )
       .then(json => {
+        recordEvent({ event: `${trackingPrefix}sip-form-saved` });
+
         dispatch(
           setSaveFormStatus(
             saveType,
@@ -225,14 +278,13 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
         return Promise.resolve(json);
       })
       .catch(resOrError => {
-        let errorStatus;
-        if (resOrError.status === 401) {
+        const errorStatus = validateSaveInProgressErrors(
+          resOrError,
+          trackingPrefix,
+        );
+
+        if (errorStatus === SAVE_STATUSES.noAuth) {
           dispatch(logOut());
-          errorStatus = SAVE_STATUSES.noAuth;
-        } else if (resOrError instanceof Response) {
-          errorStatus = SAVE_STATUSES.failure;
-        } else {
-          errorStatus = SAVE_STATUSES.clientFailure;
         }
         dispatch(setSaveFormStatus(saveType, errorStatus));
       });
@@ -265,53 +317,32 @@ export function fetchInProgressForm(
   // TODO: Migrations currently aren’t sent; they’re taken from `form` in the
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
-    const trackingPrefix = getState().form.trackingPrefix;
+    const { trackingPrefix } = getState().form;
     const apiUrl = inProgressApi(formId);
 
     // Update UI while we’re waiting for the API
     dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
-    return fetch(apiUrl, {
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel',
-        'Source-App-Name': window.appName,
-      },
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // Make me a switch?
-        let status = LOAD_STATUSES.failure;
-        if (res.status === 401) {
-          dispatch(logOut());
-          status = LOAD_STATUSES.noAuth;
-        } else if (res.status === 403) {
-          status = LOAD_STATUSES.forbidden;
-        } else if (res.status === 404) {
-          status = LOAD_STATUSES.notFound;
-        }
-        return Promise.reject(status);
-      })
+    return apiRequest(apiUrl, { method: 'GET' })
       .then(resBody => {
-        // Just in case something funny happens where the json returned isn’t an object as expected
-        // Unfortunately, JavaScript is quite fiddly here, so there has to be additional checks
-        if (typeof resBody !== 'object' || Array.isArray(resBody) || !resBody) {
+        // Return not-found if empty object
+        if (
+          typeof resBody === 'object' &&
+          Object.keys(resBody).length < 1 &&
+          !Array.isArray(resBody)
+        ) {
+          return Promise.reject(LOAD_STATUSES.notFound);
+        }
+        // Return invalid-data if api doesn't return JSON
+        if (
+          (typeof resBody === 'object' && Array.isArray(resBody)) ||
+          !resBody
+        ) {
           return Promise.reject(LOAD_STATUSES.invalidData);
         }
 
-        // If an empty object is returned, throw a not-found
-        // TODO: When / if we return a 404 for applications that don’t exist, remove this
-        if (Object.keys(resBody).length === 0) {
-          return Promise.reject(LOAD_STATUSES.notFound);
-        }
-
         // If we’ve made it this far, we’ve got valid form
-
         let formData;
         let metadata;
         try {
@@ -323,8 +354,8 @@ export function fetchInProgressForm(
 
           ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
 
-          let pages = getState().form.pages;
-          if (metadata.prefill && prefillTransformer) {
+          let { pages } = getState().form;
+          if (metadata?.prefill && prefillTransformer) {
             ({ formData, pages, metadata } = prefillTransformer(
               pages,
               formData,
@@ -339,6 +370,8 @@ export function fetchInProgressForm(
             event: `${trackingPrefix}sip-form-loaded`,
           });
 
+          dispatch(setFetchFormStatus(LOAD_STATUSES.success));
+
           return Promise.resolve();
         } catch (e) {
           // We don’t want to lose the stacktrace, but want to be able to search for migration errors
@@ -352,20 +385,7 @@ export function fetchInProgressForm(
         }
       })
       .catch(status => {
-        let loadedStatus = status;
-        if (status instanceof SyntaxError) {
-          // if res.json() has a parsing error, it’ll reject with a SyntaxError
-          Sentry.captureException(
-            new Error(`vets_sip_error_server_json: ${status.message}`),
-          );
-          loadedStatus = LOAD_STATUSES.invalidData;
-        } else if (status instanceof Error) {
-          // If we’ve got an error that isn’t a SyntaxError, it’s probably a network error
-          Sentry.captureException(status);
-          Sentry.captureMessage('vets_sip_error_fetch');
-          loadedStatus = LOAD_STATUSES.clientFailure;
-        }
-
+        const loadedStatus = validateFetchInProgressFormsErrors(status);
         // If prefilling went wrong for a non-auth reason, it probably means that
         // they didn’t have info to use and we can continue on as usual
         if (
@@ -385,6 +405,7 @@ export function fetchInProgressForm(
             recordEvent({
               event: `${trackingPrefix}sip-form-load-signed-out`,
             });
+            dispatch(logOut());
           } else {
             Sentry.captureMessage(`vets_sip_error_load: ${loadedStatus}`);
             recordEvent({
@@ -399,22 +420,15 @@ export function fetchInProgressForm(
 
 export function removeInProgressForm(formId, migrations, prefillTransformer) {
   return (dispatch, getState) => {
-    const trackingPrefix = getState().form.trackingPrefix;
+    const { trackingPrefix } = getState().form;
 
     // Update UI while we’re waiting for the API
     dispatch(setStartOver());
 
     return removeFormApi(formId)
-      .catch(res => {
-        // If there’s some error when deleting, there’s not much we can
-        // do aside from not stop the user from continuing on
-        if (res instanceof Error || res.status !== 401) {
-          return Promise.resolve();
-        }
-
-        return Promise.reject(res);
-      })
       .then(() => {
+        recordEvent({ event: `sip-form-delete-success` });
+
         recordEvent({
           event: `${trackingPrefix}sip-form-start-over`,
         });

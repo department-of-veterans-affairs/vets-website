@@ -15,6 +15,7 @@ export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
   `${environment.API_URL}/${version}/sessions/${type}/new`;
 
 export const AUTH_EVENTS = {
+  MOCK_LOGIN: 'mock-login-link-clicked-modal',
   MODAL_LOGIN: 'login-link-clicked-modal',
   LOGIN: 'login-link-clicked',
   SSO_LOGIN: 'sso-automatic-login',
@@ -38,6 +39,7 @@ export const CSP_IDS = {
   ID_ME: 'idme',
   DS_LOGON: 'dslogon',
   LOGIN_GOV: 'logingov',
+  VAMOCK: 'vamock',
 };
 
 export const SERVICE_PROVIDERS = {
@@ -129,34 +131,12 @@ export const POLICY_TYPES = {
   SLO: 'slo',
   CUSTOM: 'custom',
   SIGNUP: 'signup',
+  MHV_VERIFIED: 'mhv_verified',
 };
 
 export const SIGNUP_TYPES = {
   [CSP_IDS.ID_ME]: 'idme_signup',
   [CSP_IDS.LOGIN_GOV]: 'logingov_signup',
-};
-
-export const AUTH_LEVEL = { FAIL: 'fail', SUCCESS: 'success' };
-export const AUTH_ERROR = {
-  USER_DENIED: '001', // User clicked 'Deny' in Authorization
-  USER_CLOCK_MISMATCH: '002', // User clock is incorrect
-  SERVER_CLOCK_MISMATCH: '003', // Server timing error
-  MVI_MISMATCH: '004', // MVI Mismatch
-  SESSION_EXPIRED: '005', // Session Expiration
-  DEFAULT: '007', // Catch all (generic/unknown error)
-  LOGINGOV_PROOFING_FAIL: '009', // Login.gov Failure to Proof
-
-  MULTIPLE_MHVIDS: '101', // Multiple MHV IDs/IENs
-  MULTIPLE_EDIPIS: '102', // Multiple EDIPIS
-  ICN_MISMATCH: '103', // ICN Mismatch
-  UUID_MISSING: '104', // UUID Missing (Login.gov or ID.me)
-  MULTIPLE_CORPIDS: '106', // Multiple Corp IDs
-
-  OAUTH_DEFAULT_ERROR: '201',
-  OAUTH_STATE_MISMATCH: '202',
-  OAUTH_INVALID_REQUEST: '203',
-
-  GENERIC: '400',
 };
 
 export const MHV_TRANSITION_DATE = null;
@@ -176,7 +156,25 @@ export const AUTH_PARAMS = {
   codeChallengeMethod: 'code_challenge_method',
   clientId: 'client_id',
   to: 'to',
+  redirectUri: 'redirect_uri',
 };
+
+export const OCC_MOBILE = {
+  REGISTERED_APPS: 'registeredApps',
+  DEFAULT: 'default',
+};
+
+export const OCC_MOBILE_DSLOGON_ONLY = [
+  'ahburnpitregistry',
+  '/ahburnpitregistry/',
+  '%2Fahburnpitregistry%2F',
+  'AHburnpitregistry',
+  '/AHburnpitregistry/',
+  '%2FAHburnpitregistry%2F',
+  'AHBurnPitRegistry',
+  '/AHBurnPitRegistry/',
+  '%2FAHBurnPitRegistry%2F',
+];
 
 export const AUTH_DEPENDENCIES = [
   EXTERNAL_SERVICES.idme,

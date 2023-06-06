@@ -19,10 +19,13 @@ export const radioOptions = [
   },
 ];
 
-export const radioOptionsAriaLabels = [
-  'Option 1: P D F Document (best for printing)',
-  'Option 2: Text File (best for screen readers, screen enlargers, and refreshable Braille displays)',
-];
+// VA content time formatting - should be lowercase with periods
+export const formatTimeString = string => {
+  if (string.includes('AM')) {
+    return string.replace('AM', 'a.m.');
+  }
+  return string.replace('PM', 'p.m.');
+};
 
 export const phoneComponent = number => {
   return (
@@ -33,22 +36,25 @@ export const phoneComponent = number => {
   );
 };
 
-export const radioLabel = (
-  <div>
-    <h3>Choose your file format and download your document</h3>
+export const LastUpdatedComponent = props => {
+  return (
     <p>
-      We offer two file format options for this form. Choose the option that
-      best meets your needs.
+      <span className="vads-u-line-height--3 vads-u-display--block">
+        <strong>Related to:</strong> Health care
+      </span>
+      <span className="vads-u-line-height--3 vads-u-display--block">
+        <strong>Document last updated:</strong> {props.lastUpdated}
+      </span>
     </p>
-  </div>
-);
+  );
+};
 
 export const notFoundComponent = () => {
   return (
     <va-alert close-btn-aria-label="Close notification" status="info" visible>
-      <h3 slot="headline">
+      <h2 slot="headline">
         You don’t have a 1095-B tax form available right now
-      </h3>
+      </h2>
       <div>
         <p>
           If you recently enrolled in VA health care, you may not have a 1095-B
@@ -67,16 +73,13 @@ export const notFoundComponent = () => {
 
 export const unavailableComponent = () => {
   return (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="warning"
-      visible
-    >
-      <h3 slot="headline">1095-B download unavailable at this time</h3>
+    <va-alert close-btn-aria-label="Close notification" status="info" visible>
+      <h2 slot="headline">
+        Your 1095-B form isn’t available to download right now
+      </h2>
       <div>
         <p>
-          Please check back later or if you need immediate assistance with this
-          tax form, call the Enrollment Center at{' '}
+          Check back later. Or, if you need help with this form now, call us at{' '}
           {phoneComponent(CONTACTS['222_VETS'])}. We’re here Monday through
           Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>

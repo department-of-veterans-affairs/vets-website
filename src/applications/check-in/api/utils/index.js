@@ -1,4 +1,5 @@
-import recordEvent from 'platform/monitoring/record-event';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   createApiEvent,
   captureError,
@@ -15,7 +16,13 @@ const captureErrorToSentry = (error, details) => {
  * @param {string} [token]
  * @param {function} [logEvent] used to log failed api calls
  */
-const makeApiCall = async (request, eventName, token, logEvent = () => {}) => {
+const makeApiCall = async (
+  request,
+  eventName,
+  token,
+  logEvent = () => {},
+  sendCode,
+) => {
   // log call started
   // console.trace('not sure');
   recordEvent(createApiEvent(eventName, 'started'));
@@ -31,7 +38,9 @@ const makeApiCall = async (request, eventName, token, logEvent = () => {}) => {
 
     const { data } = json;
     const error = data?.error || data?.errors;
-    const status = error ? FAILED : SUCCESS;
+    const code = sendCode ? ` - ${data?.code}` : '';
+    const status = error ? `${FAILED}${code}` : SUCCESS;
+
     const event = createApiEvent(eventName, status, timeDiff, token, error);
     if (status === FAILED) {
       logEvent(
@@ -56,7 +65,12 @@ const makeApiCall = async (request, eventName, token, logEvent = () => {}) => {
   }
 };
 
-const makeApiCallWithSentry = async (request, eventName, token) => {
-  return makeApiCall(request, eventName, token, captureErrorToSentry);
+const makeApiCallWithSentry = async (
+  request,
+  eventName,
+  token,
+  sendCode = false,
+) => {
+  return makeApiCall(request, eventName, token, captureErrorToSentry, sendCode);
 };
 export { makeApiCall, makeApiCallWithSentry };

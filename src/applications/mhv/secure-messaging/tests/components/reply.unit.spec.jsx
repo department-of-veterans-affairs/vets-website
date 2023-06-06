@@ -1,30 +1,19 @@
 import { render } from '@testing-library/react';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import React from 'react';
-import ReplyBox from '../../components/ReplyBox';
+import messageResponse from '../fixtures/message-response.json';
+import reducers from '~/applications/mhv/secure-messaging/reducers';
 import ReplyHeader from '../../components/ReplyHeader';
 import BeforeMessageAddlInfo from '../../components/BeforeMessageAddlInfo';
-import NavigationLinks from '../../components/NavigationLinks';
-import OlderMessages from '../../components/OlderMessages';
-import Breadcrumbs from '../../components/shared/Breadcrumbs';
-
-describe('Breadcrumbs', () => {
-  it('renders without errors', () => {
-    const screen = render(
-      <Breadcrumbs
-        pageName="Reply"
-        link="http://localhost:3001/my-health/secure-messages/reply/"
-      />,
-    );
-
-    screen.getByText('reply', { exact: false });
-  });
-});
+import MessageThread from '../../components/MessageThread/MessageThread';
 
 describe('Reply Header', () => {
   it('renders without errors', () => {
     const screen = render(<ReplyHeader />);
 
-    screen.getByText('call', { exact: false });
+    screen.getByText('If you think your life or health is in danger,', {
+      exact: false,
+    });
   });
 });
 
@@ -34,23 +23,11 @@ describe('Additional Info', () => {
   });
 });
 
-describe('Navigation Links', () => {
-  it('renders without errors', () => {
-    const screen = render(<NavigationLinks />);
-
-    screen.getByText('next', { exact: false });
-    screen.getByText('previous', { exact: false });
-  });
-});
-
-describe('Reply Box', () => {
-  it('renders without errors', () => {
-    render(<ReplyBox />);
-  });
-});
-
 describe('Older Messages', () => {
   it('renders without errors', () => {
-    render(<OlderMessages />);
+    const initialState = {
+      message: { message: { messageResponse }, messages: null },
+    };
+    renderInReduxProvider(<MessageThread />, { initialState, reducers });
   });
 });

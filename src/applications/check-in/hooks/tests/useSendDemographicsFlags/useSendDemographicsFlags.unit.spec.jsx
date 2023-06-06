@@ -14,10 +14,6 @@ describe('check-in', () => {
       const middleware = [];
       const mockStore = configureStore(middleware);
       const initState = {
-        featureToggles: {
-          /* eslint-disable-next-line camelcase */
-          check_in_experience_day_of_demographics_flags_enabled: true,
-        },
         checkInData: {
           context: {
             token: 'some-token',
@@ -28,6 +24,7 @@ describe('check-in', () => {
               emergencyContactUpToDate: 'yes',
               nextOfKinUpToDate: 'yes',
             },
+            pages: [],
           },
           appointments: [],
           veteranData: {},

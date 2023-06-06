@@ -6,9 +6,9 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
-import initialData from '../initialData.js';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import formConfig from '../../config/form';
+import initialData from '../initialData';
 
 describe('Income Details Questions', () => {
   const {

@@ -8,22 +8,6 @@ import {
 } from 'applications/static-pages/wizard';
 
 describe('the Edu-Benefit 1990 Introduction Page', () => {
-  it('should show the wizard if showWizard is set to true', () => {
-    const fakeStore = {
-      getState: () => ({
-        showWizard: true,
-        route: { formConfig: {} },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
-
-    const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
-    expect(wrapper.exists('WizardContainer')).to.equal(true);
-    expect(wrapper.exists('.subway-map')).to.equal(false);
-    wrapper.unmount();
-  });
-
   it('should show the subway map if showWizard is set to false', () => {
     const fakeStore = {
       getState: () => ({

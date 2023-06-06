@@ -15,7 +15,7 @@ describe('Pre-Check In Experience ', () => {
   });
   it('No Token present', () => {
     cy.visit(`/health-care/appointment-pre-check-in`);
-    Error.validatePageLoaded();
+    Error.validateUUIDErrorPageLoaded();
     cy.injectAxeThenAxeCheck();
   });
 });

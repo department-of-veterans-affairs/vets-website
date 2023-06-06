@@ -2,16 +2,9 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import PropTypes from 'prop-types';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { uniqBy } from 'lodash';
 import { ErrorAlert } from './Alerts';
 import { fetchDebts } from '../actions';
 import DebtCard from './DebtCard';
-import { getStatements } from '../actions/copays';
-import DebtCheckBox from './DebtCheckBox';
-import CopayCheckBox from './CopayCheckBox';
-import { sortStatementsByDate } from '../utils/helpers';
 
 const NoDebts = () => (
   <div className="usa-alert background-color-only">
@@ -27,33 +20,21 @@ const NoDebts = () => (
 );
 
 const AvailableDebts = () => {
-  const { debts, statements, pending, isError, pendingCopays } = useSelector(
+  const { debts, pending, isError, debtError = false } = useSelector(
     state => state.fsr,
   );
-
-  const isCFSRActive = useSelector(
-    state =>
-      toggleValues(state)[FEATURE_FLAG_NAMES.combinedFinancialStatusReport],
-  );
-
-  // copays
-  const sortedStatements = sortStatementsByDate(statements ?? []);
-  const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
 
   const dispatch = useDispatch();
   useEffect(
     () => {
       fetchDebts(dispatch);
-      if (isCFSRActive) {
-        getStatements(dispatch);
-      }
     },
-    [dispatch, isCFSRActive],
+    [dispatch],
   );
 
-  if (isError) return <ErrorAlert />;
+  if (isError || debtError) return <ErrorAlert />;
 
-  if (pending || (isCFSRActive && pendingCopays)) {
+  if (pending) {
     return (
       <div className="vads-u-margin--5">
         <va-loading-indicator
@@ -65,29 +46,11 @@ const AvailableDebts = () => {
     );
   }
 
-  if (!debts.length && (!isCFSRActive || !statementsByUniqueFacility.length)) {
+  if (!debts.length) {
     return <NoDebts />;
   }
 
-  return isCFSRActive ? (
-    <>
-      <p className="vads-u-margin-bottom--3">
-        Select one or more debts you want to request relief for
-      </p>
-      {debts.map((debt, index) => (
-        <DebtCheckBox debt={debt} key={`${index}-${debt.currentAr}`} />
-      ))}
-      {statementsByUniqueFacility.map(copay => (
-        <CopayCheckBox copay={copay} key={copay.id} />
-      ))}
-      <va-additional-info trigger="What if my debt isn’t listed here?">
-        If you received a letter about a VA benefit debt that isn’t listed here,
-        call us at <va-telephone contact="800-827-0648" /> (or{' '}
-        <va-telephone contact="612-713-6415" international /> from overseas).
-        We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-      </va-additional-info>
-    </>
-  ) : (
+  return (
     <>
       <p>
         Select one or more debts below. We’ll help you choose a debt repayment
@@ -103,7 +66,7 @@ const AvailableDebts = () => {
       <p className="vads-u-margin-top--2">
         If you received a letter about a VA benefit debt that isn’t listed here,
         call us at <va-telephone contact="8008270648" /> (or{' '}
-        <va-telephone contact="16127136415" international /> from overseas).
+        <va-telephone contact="6127136415" international /> from overseas).
         We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </p>
       <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
@@ -121,6 +84,9 @@ const AvailableDebts = () => {
 
 AvailableDebts.propTypes = {
   debts: PropTypes.array,
+  formContext: PropTypes.shape({
+    submitted: PropTypes.bool,
+  }),
   getDebts: PropTypes.func,
   isError: PropTypes.bool,
   pendingDebts: PropTypes.bool,

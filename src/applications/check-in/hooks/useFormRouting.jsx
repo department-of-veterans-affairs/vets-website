@@ -4,22 +4,27 @@ import URLSearchParams from 'url-search-params';
 
 import { makeSelectForm } from '../selectors';
 
+import { useUpdateError } from './useUpdateError';
+
 import { URLS } from '../utils/navigation';
 
 const useFormRouting = (router = {}) => {
   const selectForm = useMemo(makeSelectForm, []);
   const { pages } = useSelector(selectForm);
 
+  const { updateError } = useUpdateError();
+
   const goToErrorPage = useCallback(
-    (params = '') => {
-      router.push(URLS.ERROR + params);
+    (errorType = '') => {
+      router.push(`${URLS.ERROR}?error=${errorType}`);
     },
     [router],
   );
 
   const jumpToPage = useCallback(
     (page, options = {}) => {
-      if (Object.values(URLS).includes(page)) {
+      const pagePart = page.split('/');
+      if (Object.values(URLS).includes(pagePart[0])) {
         const nextPage = page;
         // check for params
         const query = {
@@ -36,16 +41,16 @@ const useFormRouting = (router = {}) => {
         }
         router.push(query);
       } else {
-        goToErrorPage('?error=routing-error');
+        updateError('routing-error');
       }
     },
-    [goToErrorPage, router],
+    [updateError, router],
   );
 
   const getCurrentPageFromRouter = useCallback(
     () => {
       // substring to remove the leading /
-      return router.location.pathname.substring(1);
+      return router?.location?.pathname.substring(1) || null;
     },
     [router],
   );
@@ -68,15 +73,10 @@ const useFormRouting = (router = {}) => {
     },
     [getCurrentPageFromRouter, pages, router],
   );
-  const goToPreviousPage = useCallback(
-    () => {
-      const here = getCurrentPageFromRouter();
-      const currentPageIndex = pages.findIndex(page => page === here);
-      const nextPage = pages[currentPageIndex - 1] ?? URLS.ERROR;
-      router.push(nextPage);
-    },
-    [getCurrentPageFromRouter, pages, router],
-  );
+  const goToPreviousPage = () => {
+    const { history } = window;
+    history.back();
+  };
 
   return {
     getCurrentPageFromRouter,

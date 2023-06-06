@@ -8,18 +8,22 @@ import {
 
 import { HomeAddressDescription } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import { emptyObjectSchema, NotHighDisability } from '../../../helpers';
+import { isShortFormEligible } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 export default {
   uiSchema: {
     'view:homeAddressShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: NotHighDisability,
+        hideIf: formData => !isShortFormEligible(formData),
       },
     },
     'view:prefillMessage': {
       'ui:description': PrefillMessage,
+      'ui:options': {
+        hideIf: formData => !formData['view:isLoggedIn'],
+      },
     },
     veteranHomeAddress: merge({}, addressUI('Home address', true), {
       'ui:description': HomeAddressDescription,

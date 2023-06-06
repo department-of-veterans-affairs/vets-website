@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { setData } from 'platform/forms-system/src/js/actions';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+// Importing from @department... is causing Cypress tests to fail.
+// import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { setData } from '~/platform/forms-system/src/js/actions';
 
 import {
   formFields,
   VETERANS_TYPE,
   VETERAN_NOT_LISTED_LABEL,
   VETERAN_NOT_LISTED_VALUE,
+  VETERAN_VALUE_PREFIX,
 } from '../constants';
 
 function VeteransRadioGroup({
@@ -18,15 +21,19 @@ function VeteransRadioGroup({
   setFormData,
   veterans,
 }) {
-  const VETERAN_VALUE_PREFIX = 'veteran-';
-
-  const onValueChange = ({ value }) => {
-    setFormData({
-      ...formData,
-      [formFields.benefitSelection]: undefined,
-      [formFields.selectedVeteran]: value.replace(VETERAN_VALUE_PREFIX, ''),
-    });
-  };
+  const setSelectedVeteran = useCallback(
+    event => {
+      setFormData({
+        ...formData,
+        [formFields.benefitSelection]: undefined,
+        [formFields.selectedVeteran]: event?.detail?.value?.replace(
+          VETERAN_VALUE_PREFIX,
+          '',
+        ),
+      });
+    },
+    [formData, setFormData],
+  );
 
   const options = veterans?.length
     ? veterans?.map((veteran, index) => ({
@@ -39,14 +46,21 @@ function VeteransRadioGroup({
     value: VETERAN_VALUE_PREFIX + VETERAN_NOT_LISTED_VALUE,
   });
 
+  const VaRadioOptions = options.map((option, index) => {
+    return (
+      <va-radio-option
+        checked={option.value === VETERAN_VALUE_PREFIX + selectedVeteran}
+        class="vads-u-margin-y--2"
+        key={index}
+        label={option.label}
+        name={option.label}
+        value={option.value}
+      />
+    );
+  });
+
   return (
-    <RadioButtons
-      additionalFieldsetClass="vads-u-margin-top--0"
-      additionalLegendClass="fry-dea-veterans-checkboxes_legend vads-u-margin-top--0"
-      onValueChange={onValueChange}
-      options={options}
-      value={{ value: VETERAN_VALUE_PREFIX + selectedVeteran }}
-    />
+    <VaRadio onVaValueChange={setSelectedVeteran}>{VaRadioOptions}</VaRadio>
   );
 }
 

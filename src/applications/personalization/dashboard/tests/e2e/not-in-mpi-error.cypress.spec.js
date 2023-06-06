@@ -1,12 +1,7 @@
+import { checkForLegacyLoadingIndicator } from 'applications/personalization/common/e2eHelpers';
 import { mockLocalStorage } from './dashboard-e2e-helpers';
 import mockNotInMPIUser from '~/applications/personalization/profile/tests/fixtures/users/user-not-in-mpi.json';
 import { mockGETEndpoints } from '~/applications/personalization/profile/tests/e2e/helpers';
-
-import {
-  disabilityCompensationExists,
-  educationBenefitExists,
-  healthCareInfoExists,
-} from './helpers';
 
 describe('MyVA Dashboard', () => {
   describe('when the user does not exist in MPI', () => {
@@ -27,20 +22,16 @@ describe('MyVA Dashboard', () => {
     it('should show a "not in MPI" error in place of the claims/appeals and health care sections', () => {
       cy.visit('my-va/');
 
+      checkForLegacyLoadingIndicator('loading your information');
+
       cy.findByRole('heading', {
-        name: /We’re having trouble verifying your identity/i,
+        name: /We can’t match your information with our Veteran records/i,
       }).should('exist');
-      cy.findByText(/we can’t give you access to VA.gov tools/i).should(
-        'exist',
-      );
+      cy.findByText(/Try again soon/i).should('exist');
       cy.findByTestId('dashboard-section-health-care').should('not.exist');
       cy.findByTestId('dashboard-section-claims-and-appeals').should(
         'not.exist',
       );
-
-      healthCareInfoExists(true);
-      disabilityCompensationExists(true);
-      educationBenefitExists(true);
 
       cy.injectAxe();
       cy.axeCheck();

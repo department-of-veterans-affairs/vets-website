@@ -11,7 +11,7 @@ export default {
     type: 'object',
     required: ['veteranSocialSecurityNumber'],
     properties: {
-      veteranSocialSecurityNumber: ssn.oneOf[0],
+      veteranSocialSecurityNumber: ssn,
     },
   },
 };

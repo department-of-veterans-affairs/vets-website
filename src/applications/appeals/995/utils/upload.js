@@ -5,9 +5,13 @@ import _ from 'platform/utilities/data';
 
 import fullSchema from '../config/form-0995-schema.json';
 
-import { MAX_FILE_SIZE_BYTES, SUPPORTED_UPLOAD_TYPES } from '../constants';
+import {
+  EVIDENCE_UPLOAD_API,
+  MAX_FILE_SIZE_BYTES,
+  SUPPORTED_UPLOAD_TYPES,
+} from '../constants';
 
-export const ancillaryFormUploadUi = content => {
+export const fileUploadUi = content => {
   // a11y focus management. Move focus to select after upload
   // see va.gov-team/issues/19688
   const findAndFocusLastSelect = () => {
@@ -17,23 +21,25 @@ export const ancillaryFormUploadUi = content => {
       focusElement(lastSelect[0]);
     }
   };
-  const addAnotherLabel = 'Add another document';
+  const addAnotherLabel = 'Upload another file';
 
   return fileUploadUI(content.label, {
     itemDescription: content.description,
     hideLabelText: !content.label,
-    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
+    fileUploadUrl: `${environment.API_URL}${EVIDENCE_UPLOAD_API}`,
     addAnotherLabel,
+    buttonText: 'Upload file',
     fileTypes: SUPPORTED_UPLOAD_TYPES,
-    // not sure what to do here... we need to differentiate pdf vs everything
-    // else; the check is in the actions.js > uploadFile function
     maxSize: MAX_FILE_SIZE_BYTES,
     minSize: 1,
     createPayload: (file, _formId, password) => {
       const payload = new FormData();
-      payload.append('supporting_evidence_attachment[file_data]', file);
+      payload.append('decision_review_evidence_attachment[file_data]', file);
       if (password) {
-        payload.append('supporting_evidence_attachment[password]', password);
+        payload.append(
+          'decision_review_evidence_attachment[password]',
+          password,
+        );
       }
       return payload;
     },
@@ -57,6 +63,7 @@ export const ancillaryFormUploadUi = content => {
         },
       },
     }),
+    hideOnReview: true,
     attachmentName: false,
   });
 };

@@ -1,21 +1,22 @@
-import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
+import appendQuery from 'append-query';
+// eslint-disable-next-line import/no-unresolved
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { makeApiCallWithSentry } from '../utils';
 
 const v2 = {
-  getSession: async ({
-    token,
-    checkInType,
-    isLorotaSecurityUpdatesEnabled = false,
-  }) => {
-    const url = `/check_in/v2/sessions/`;
-    const checkInTypeSlug = checkInType ? `?checkInType=${checkInType}` : '';
-    const eventLabel = `${checkInType || 'day-of'}-get-current-session-${
-      isLorotaSecurityUpdatesEnabled ? 'dob' : 'ssn4'
-    }`;
+  getSession: async ({ token, checkInType }) => {
+    const url = '/check_in/v2/sessions/';
+    let requestUrl = `${environment.API_URL}${url}${token}`;
+    if (checkInType) {
+      requestUrl = appendQuery(requestUrl, {
+        checkInType,
+      });
+    }
+    const eventLabel = `${checkInType || 'day-of'}-get-current-session-dob`;
 
     const json = await makeApiCallWithSentry(
-      apiRequest(`${environment.API_URL}${url}${token}${checkInTypeSlug}`),
+      apiRequest(requestUrl),
       eventLabel,
       token,
     );
@@ -23,35 +24,17 @@ const v2 = {
       ...json,
     };
   },
-  postSession: async ({
-    lastName,
-    last4,
-    dob,
-    token,
-    checkInType = '',
-    isLorotaSecurityUpdatesEnabled = false,
-  }) => {
+  postSession: async ({ lastName, dob, token, checkInType = '' }) => {
     const url = '/check_in/v2/sessions/';
     const headers = { 'Content-Type': 'application/json' };
-    let data = {
+    const data = {
       session: {
         uuid: token,
-        last4: last4.trim(),
+        dob,
         lastName: lastName.trim(),
         checkInType,
       },
     };
-    if (isLorotaSecurityUpdatesEnabled) {
-      data = {
-        session: {
-          uuid: token,
-          dob,
-          lastName: lastName.trim(),
-          checkInType,
-        },
-      };
-    }
-
     const body = JSON.stringify(data);
     const settings = {
       headers,
@@ -60,9 +43,7 @@ const v2 = {
       mode: 'cors',
     };
 
-    const eventLabel = `${checkInType || 'day-of'}-validating-user-${
-      isLorotaSecurityUpdatesEnabled ? 'dob' : 'ssn4'
-    }`;
+    const eventLabel = `${checkInType || 'day-of'}-validating-user-dob`;
 
     const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}`, settings),
@@ -76,8 +57,9 @@ const v2 = {
 
   getCheckInData: async token => {
     const url = '/check_in/v2/patient_check_ins/';
+    const requestUrl = `${environment.API_URL}${url}${token}`;
     const json = await makeApiCallWithSentry(
-      apiRequest(`${environment.API_URL}${url}${token}`),
+      apiRequest(requestUrl),
       'get-lorota-data',
       token,
     );
@@ -114,8 +96,12 @@ const v2 = {
   },
   getPreCheckInData: async token => {
     const url = '/check_in/v2/pre_check_ins/';
+    const requestUrl = appendQuery(`${environment.API_URL}${url}${token}`, {
+      checkInType: 'preCheckIn',
+    });
+
     const json = await makeApiCallWithSentry(
-      apiRequest(`${environment.API_URL}${url}${token}?checkInType=preCheckIn`),
+      apiRequest(requestUrl),
       'get-lorota-data',
       token,
     );
@@ -188,6 +174,37 @@ const v2 = {
       apiRequest(`${environment.API_URL}${url}${uuid}`, settings),
       'patch-demographics-update-flags',
       uuid,
+    );
+    return {
+      ...json,
+    };
+  },
+
+  postDayOfTravelPayClaim: async data => {
+    const url = '/check_in/v0/travel_claims/';
+    const headers = { 'Content-Type': 'application/json' };
+
+    const travelClaimData = {
+      travelClaims: {
+        uuid: data.uuid,
+        appointmentDate: data.appointmentDate,
+      },
+    };
+
+    const body = JSON.stringify(travelClaimData);
+
+    const settings = {
+      headers,
+      body,
+      method: 'POST',
+      mode: 'cors',
+    };
+
+    const json = await makeApiCallWithSentry(
+      apiRequest(`${environment.API_URL}${url}`, settings),
+      'submit-travel-pay-claim',
+      data.uuid,
+      true,
     );
     return {
       ...json,

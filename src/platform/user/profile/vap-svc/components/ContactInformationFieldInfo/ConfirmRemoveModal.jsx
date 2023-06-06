@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-import { FIELD_NAMES } from '@@vap-svc/constants';
-import VAPServiceEditModalErrorMessage from '~/platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
+import { VaModal } from '@department-of-veterans-affairs/web-components/react-bindings';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
+import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
 
 const ConfirmRemoveModal = ({
   cancelAction,
@@ -16,13 +16,16 @@ const ConfirmRemoveModal = ({
   onHide,
   error,
 }) => {
+  if (!isVisible) {
+    return null;
+  }
   return (
-    <Modal
-      title={`Are you sure?`}
-      cssClass="overflow-auto"
+    <VaModal
+      modalTitle="Are you sure?"
+      className="overflow-auto"
       status="warning"
       visible={isVisible}
-      onClose={onHide}
+      onCloseEvent={onHide}
     >
       <div>
         This will remove your {title.toLowerCase()} across these VA benefits and
@@ -80,22 +83,22 @@ const ConfirmRemoveModal = ({
             className="usa-button-secondary"
             onClick={cancelAction}
           >
-            Cancel
+            No, cancel this change
           </button>
         )}
       </div>
-    </Modal>
+    </VaModal>
   );
 };
 
 ConfirmRemoveModal.propTypes = {
   cancelAction: PropTypes.func.isRequired,
   deleteAction: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
   fieldName: PropTypes.string.isRequired,
   isEnrolledInVAHealthCare: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isVisible: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
   onHide: PropTypes.func.isRequired,
   error: PropTypes.string,
 };

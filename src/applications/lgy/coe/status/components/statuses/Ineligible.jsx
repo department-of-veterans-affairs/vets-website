@@ -4,7 +4,6 @@ import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import StatusAlert from '../../../shared/components/StatusAlert';
 import { MoreQuestions } from '../MoreQuestions';
-import DownloadLink from '../../../shared/components/DownloadLink';
 
 const coeUrl = getAppUrl('coe');
 const introUrl = `${coeUrl}/introduction`;
@@ -46,7 +45,12 @@ const Ineligible = () => (
         form. Please keep in mind that this may take longer than requesting a
         COE online or through our WebLGY system.
       </p>
-      <DownloadLink href={downloadUrl} label={downloadLinkLabel} />
+      <va-link
+        download
+        filetype="PDF"
+        href={downloadUrl}
+        text={downloadLinkLabel}
+      />
       <MoreQuestions />
     </div>
   </div>

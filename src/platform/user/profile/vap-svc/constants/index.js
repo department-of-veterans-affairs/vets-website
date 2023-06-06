@@ -2,6 +2,8 @@ import constants from 'vets-json-schema/dist/constants.json';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import countries from './countries.json';
 
+export const DEFAULT_ERROR_MESSAGE = `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Try again later.`;
+
 export const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);
 
 export const ADDRESS_FORM_VALUES = {

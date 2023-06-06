@@ -8,9 +8,10 @@ function TravelPayReimbursementLink() {
   return (
     <div className="vads-u-margin-top--3" data-testid="btsss-link">
       <ExternalLink
-        href="/health-care/get-reimbursed-for-travel-pay/"
+        href="/resources/how-to-file-a-va-travel-reimbursement-claim-online/"
         hrefLang="en"
         eventId="request-travel-pay-reimbursement--link-clicked"
+        eventPrefix="nav"
       >
         {t('find-out-how-to-request-travel-pay-reimbursement')}
       </ExternalLink>

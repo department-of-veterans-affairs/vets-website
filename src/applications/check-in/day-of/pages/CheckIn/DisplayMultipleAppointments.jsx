@@ -1,41 +1,51 @@
 import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { useTranslation, Trans } from 'react-i18next';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 
-import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
-import BackToHome from '../../../components/BackToHome';
-import Footer from '../../../components/layout/Footer';
+import AppointmentBlock from '../../../components/AppointmentBlock';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import { useUpdateError } from '../../../hooks/useUpdateError';
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import {
-  intervalUntilNextAppointmentIneligibleForCheckin,
-  sortAppointmentsByStartTime,
-} from '../../../utils/appointment';
+import { intervalUntilNextAppointmentIneligibleForCheckin } from '../../../utils/appointment';
 
 import { makeSelectCurrentContext } from '../../../selectors';
+
 import Wrapper from '../../../components/layout/Wrapper';
 
 const DisplayMultipleAppointments = props => {
-  const { appointments, router, token } = props;
+  const { appointments, router } = props;
   const { t } = useTranslation();
-  const { goToErrorPage } = useFormRouting(router);
+
+  const { getCheckinComplete } = useSessionStorage(false);
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);
   const { shouldRefresh } = context;
-
   const { isLoading, checkInDataError, refreshCheckInData } = useGetCheckInData(
-    shouldRefresh,
-    true,
+    {
+      refreshNeeded: shouldRefresh,
+      appointmentsOnly: true,
+      isPreCheckIn: false,
+    },
   );
 
   const refreshTimer = useRef(null);
+  const { updateError } = useUpdateError();
+
+  useEffect(() => {
+    const slug = `check-in-viewed-appointment-list-VAOS-design`;
+    recordEvent({
+      event: createAnalyticsSlug(slug, 'nav'),
+    });
+  }, []);
 
   useEffect(
     () => {
@@ -56,16 +66,19 @@ const DisplayMultipleAppointments = props => {
       }
 
       if (checkInDataError) {
-        goToErrorPage('?error=cant-retrieve-check-in-data');
+        updateError('cant-retrieve-check-in-data');
       }
     },
-    [appointments, checkInDataError, goToErrorPage, refreshCheckInData],
+    [appointments, checkInDataError, updateError, refreshCheckInData],
   );
 
   const handleClick = useCallback(
     () => {
       recordEvent({
-        event: createAnalyticsSlug('refresh-appointments-button-clicked'),
+        event: createAnalyticsSlug(
+          'refresh-appointments-button-clicked',
+          'nav',
+        ),
       });
 
       refreshCheckInData();
@@ -76,39 +89,34 @@ const DisplayMultipleAppointments = props => {
 
   const { goToPreviousPage } = useFormRouting(router);
 
-  const sortedAppointments = sortAppointmentsByStartTime(appointments);
-
   if (isLoading) window.scrollTo(0, 0);
 
   return isLoading ? (
-    <va-loading-indicator message={t('loading-your-appointments-for-today')} />
+    <div>
+      <va-loading-indicator
+        message={t('loading-your-appointments-for-today')}
+      />
+    </div>
   ) : (
     <>
-      <BackButton router={router} action={goToPreviousPage} />
+      {!getCheckinComplete(window) && (
+        <BackButton
+          router={router}
+          action={goToPreviousPage}
+          // @TODO make this a valid url somehow
+          prevUrl="#back"
+        />
+      )}
       <Wrapper
         pageTitle={t('your-appointments')}
         classNames="appointment-check-in"
         withBackButton
       >
-        <p data-testid="date-text">
-          {t('here-are-your-appointments-for-today', { date: new Date() })}
-        </p>
-        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-        <ol
-          className="appointment-list vads-u-padding--0 vads-u-margin--0 vads-u-margin-bottom--2"
-          role="list"
-        >
-          {sortedAppointments.map((appointment, index) => {
-            return (
-              <AppointmentListItem
-                appointment={appointment}
-                key={index}
-                router={router}
-                token={token}
-              />
-            );
-          })}
-        </ol>
+        <AppointmentBlock
+          router={router}
+          appointments={appointments}
+          page="details"
+        />
         <p data-testid="update-text">
           <Trans
             i18nKey="latest-update"
@@ -126,8 +134,6 @@ const DisplayMultipleAppointments = props => {
             {t('refresh')}
           </button>
         </p>
-        <Footer />
-        <BackToHome />
       </Wrapper>
     </>
   );

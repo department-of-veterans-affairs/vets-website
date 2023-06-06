@@ -1,7 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import moment from '../../../lib/moment-tz.js';
-import recordEvent from 'platform/monitoring/record-event.js';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import moment from '../../../lib/moment-tz';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import AddToCalendar from '../../../components/AddToCalendar';
 import InfoAlert from '../../../components/InfoAlert';
@@ -15,6 +18,17 @@ import {
 } from '../../../utils/timezone';
 import { GA_PREFIX, PURPOSE_TEXT } from '../../../utils/constants';
 import { getTypeOfCareById } from '../../../utils/appointment';
+import { startNewAppointmentFlow } from '../../redux/actions';
+
+function handleClick(history, dispatch) {
+  return () => {
+    recordEvent({
+      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+    });
+    dispatch(startNewAppointmentFlow());
+    history.push(`/new-appointment`);
+  };
+}
 
 export default function ConfirmationDirectScheduleInfoV2({
   data,
@@ -22,6 +36,9 @@ export default function ConfirmationDirectScheduleInfoV2({
   clinic,
   slot,
 }) {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const timezone = getTimezoneByFacilityId(data.vaFacility);
   const momentDate = timezone
     ? moment(slot.start).tz(timezone, true)
@@ -38,19 +55,23 @@ export default function ConfirmationDirectScheduleInfoV2({
         <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
         <div className="vads-u-margin-y--1">
-          <Link
-            to="/"
+          <va-link
+            href="/health-care/schedule-view-va-appointments/appointments/"
             onClick={() => {
               recordEvent({
                 event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
               });
             }}
-          >
-            Review your appointments
-          </Link>
+            text="Review your appointments"
+            data-testid="review-appointments-link"
+          />
         </div>
         <div>
-          <Link to="/new-appointment">Schedule a new appointment</Link>
+          <va-link
+            text="Schedule a new appointment"
+            onClick={handleClick(history, dispatch)}
+            data-testid="schedule-new-appointment-link"
+          />
         </div>
       </InfoAlert>
       {typeOfCare && (
@@ -92,10 +113,6 @@ export default function ConfirmationDirectScheduleInfoV2({
       </div>
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-        <i
-          aria-hidden="true"
-          className="far fa-calendar vads-u-margin-right--1"
-        />
         <AddToCalendar
           summary={`Appointment at ${clinic.serviceName}`}
           description={{
@@ -113,10 +130,20 @@ export default function ConfirmationDirectScheduleInfoV2({
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
         <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
-        <button className="va-button-link" onClick={() => window.print()}>
-          Print
-        </button>
+        <va-button
+          className="va-button-link"
+          onClick={() => window.print()}
+          text="Print"
+          data-testid="print-button"
+        />
       </div>
     </>
   );
 }
+
+ConfirmationDirectScheduleInfoV2.propTypes = {
+  clinic: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+  facilityDetails: PropTypes.object.isRequired,
+  slot: PropTypes.object.isRequired,
+};

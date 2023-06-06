@@ -4,11 +4,7 @@ import { useLastLocation } from 'react-router-last-location';
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '@@vap-svc/actions';
 
-import {
-  showBadAddressIndicator,
-  hasBadAddress,
-  forceBadAddressIndicator,
-} from '@@profile/selectors';
+import { hasBadAddress } from '@@profile/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
   externalServices,
@@ -22,8 +18,6 @@ import Headline from '../ProfileSectionHeadline';
 import ContactInformationContent from './ContactInformationContent';
 
 import { PROFILE_PATHS } from '../../constants';
-
-import BadAddressAlert from '../alerts/bad-address/ContactAlert';
 
 // drops the leading `edit` from the hash and looks for that element
 const getScrollTarget = hash => {
@@ -40,19 +34,13 @@ const ContactInformation = () => {
   const hasVAPServiceError = useSelector(state =>
     hasVAPServiceConnectionError(state),
   );
-  const badAddressIndicatorEnabled = useSelector(showBadAddressIndicator);
 
   const userHasBadAddress = useSelector(hasBadAddress);
-
-  const shouldForceBadAddressIndicator = useSelector(
-    state =>
-      forceBadAddressIndicator(state) &&
-      !sessionStorage.getItem('profile-has-cleared-bad-address-indicator'),
-  );
 
   const addressValidationModalIsShowing = useSelector(
     state => state?.vapService?.modal === 'addressValidation',
   );
+
   const addressSavedDidError = useSelector(
     state => state.vapService.addressValidation.addressValidationError,
   );
@@ -133,14 +121,8 @@ const ContactInformation = () => {
     [openEditModal],
   );
 
-  const showHeroBadAddressAlert =
-    badAddressIndicatorEnabled &&
-    (userHasBadAddress || shouldForceBadAddressIndicator) &&
-    !addressValidationModalIsShowing;
-
   const showFormBadAddressAlert =
-    badAddressIndicatorEnabled &&
-    (userHasBadAddress || shouldForceBadAddressIndicator) &&
+    userHasBadAddress &&
     !addressSavedDidError &&
     !addressValidationModalIsShowing;
 
@@ -151,11 +133,6 @@ const ContactInformation = () => {
         when={hasUnsavedEdits}
       />
       <Headline>Contact information</Headline>
-      {showHeroBadAddressAlert && (
-        <>
-          <BadAddressAlert />
-        </>
-      )}
       <DowntimeNotification
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}

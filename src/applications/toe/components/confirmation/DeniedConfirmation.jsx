@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LETTER_URL } from '../../constants';
+import { LETTER_URL, LETTER_ENDPOINT } from '../../constants';
 
 export default function DeniedConfirmation({ user, dateReceived }) {
   return (
@@ -29,14 +29,15 @@ export default function DeniedConfirmation({ user, dateReceived }) {
             <a
               className="vads-u-font-weight--bold vads-u-flex--1 vads-u-margin-bottom--6"
               download
-              href="/demo"
+              href={LETTER_ENDPOINT}
             >
               <i
                 className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
                 aria-hidden="true"
               />
-              Download your decision letter (PDF).
+              Download your decision letter (PDF)
             </a>
+            .
           </div>
         </va-alert>
       </div>
@@ -51,7 +52,7 @@ export default function DeniedConfirmation({ user, dateReceived }) {
             <h3 slot="headline" style={{ marginTop: '1rem' }}>
               Application for VA education benefits (Form 22-1990e)
             </h3>
-            For {user?.fullName}
+            For {user}
             <div className="vads-u-display--flex vads-u-flex-direction--column">
               <strong>Date received</strong>
               {dateReceived}
@@ -71,13 +72,12 @@ export default function DeniedConfirmation({ user, dateReceived }) {
         <ul>
           <li>
             Download a copy of your decision letter. This can also be found at{' '}
-            <a href={LETTER_URL}>Download your VA education letters.</a>
+            <a href={LETTER_URL}>Download your VA education letters</a>.
           </li>
           <li>
-            You will be notified if you are eligible for other VA education
-            benefits.
+            We'll notify you if you're eligible for other VA education benefits.
           </li>
-          <li>There is no further action required by you at this time.</li>
+          <li>We don't require further action by you at this time.</li>
         </ul>
       </div>
     </>
@@ -86,5 +86,5 @@ export default function DeniedConfirmation({ user, dateReceived }) {
 
 DeniedConfirmation.propTypes = {
   dateReceived: PropTypes.string,
-  user: PropTypes.object,
+  user: PropTypes.string,
 };

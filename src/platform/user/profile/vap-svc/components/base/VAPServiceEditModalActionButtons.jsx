@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { toLower } from 'lodash';
 
-import recordEvent from '~/platform/monitoring/record-event';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import recordEvent from 'platform/monitoring/record-event';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 class VAPServiceEditModalActionButtons extends React.Component {
   constructor(props) {

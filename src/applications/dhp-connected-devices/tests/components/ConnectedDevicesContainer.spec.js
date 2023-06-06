@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
-import environment from 'platform/utilities/environment';
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { ConnectedDevicesContainer } from '../../components/ConnectedDevicesContainer';
 import {
   CONNECTION_FAILED_STATUS,
@@ -12,7 +12,8 @@ import {
   DISCONNECTION_SUCCESSFUL_STATUS,
 } from '../../constants/alerts';
 
-const noDevicesConnectedState = {
+const noDevicesConnectedResponse = {
+  connectionAvailable: true,
   devices: [
     {
       name: 'Vendor 1',
@@ -31,7 +32,8 @@ const noDevicesConnectedState = {
   ],
 };
 
-const oneDeviceConnectedState = {
+const oneDeviceConnectedResponse = {
+  connectionAvailable: true,
   devices: [
     {
       name: 'Vendor 1',
@@ -50,7 +52,8 @@ const oneDeviceConnectedState = {
   ],
 };
 
-const twoDevicesConnectedState = {
+const twoDevicesConnectedResponse = {
+  connectionAvailable: true,
   devices: [
     {
       name: 'Vendor 1',
@@ -69,9 +72,13 @@ const twoDevicesConnectedState = {
   ],
 };
 
-describe('Connect Devices Container', () => {
+const connectionUnavailableResponse = {
+  connectionAvailable: false,
+};
+
+describe('Connect Devices Container When Connections Available', () => {
   it('should render DeviceConnectionSection and DeviceConnectionCards when devices are not connected', async () => {
-    mockApiRequest(noDevicesConnectedState);
+    mockApiRequest(noDevicesConnectedResponse);
 
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
@@ -90,13 +97,13 @@ describe('Connect Devices Container', () => {
   });
 
   it('should render Vendor 1 in connected devices section when connected', async () => {
-    mockApiRequest(oneDeviceConnectedState);
+    mockApiRequest(oneDeviceConnectedResponse);
 
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
     );
 
-    const vendorKey = oneDeviceConnectedState.devices[0].key;
+    const vendorKey = oneDeviceConnectedResponse.devices[0].key;
 
     expect(
       await connectedDevicesContainer.findByTestId(
@@ -106,7 +113,7 @@ describe('Connect Devices Container', () => {
   });
 
   it('should render "You do not have any devices connected" when no devices are connected', () => {
-    mockApiRequest(noDevicesConnectedState);
+    mockApiRequest(noDevicesConnectedResponse);
 
     const noConnectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
@@ -120,7 +127,7 @@ describe('Connect Devices Container', () => {
   });
 
   it('should render "You have connected all supported devices" when all supported devices are connected', () => {
-    mockApiRequest(twoDevicesConnectedState);
+    mockApiRequest(twoDevicesConnectedResponse);
     const twoDevicesConnectedContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
     );
@@ -131,7 +138,7 @@ describe('Connect Devices Container', () => {
   });
 
   it('should render success alert when successAlert is set to true', () => {
-    mockApiRequest(twoDevicesConnectedState);
+    mockApiRequest(twoDevicesConnectedResponse);
     const initialState = {
       successAlert: true,
     };
@@ -145,7 +152,7 @@ describe('Connect Devices Container', () => {
   });
 
   it('should render failure alert when failureAlert is set to true', () => {
-    mockApiRequest(twoDevicesConnectedState);
+    mockApiRequest(twoDevicesConnectedResponse);
 
     const initialState = {
       failureAlert: true,
@@ -157,6 +164,46 @@ describe('Connect Devices Container', () => {
       },
     );
     expect(connectedDevicesContainer.findByTestId('failure-alert')).to.exist;
+  });
+});
+
+describe('Connect Devices Container When Connections Unavailable', () => {
+  it('should render connection unavailable alert when device connection is unavailable', async () => {
+    mockApiRequest(connectionUnavailableResponse);
+
+    const connectionUnavailableContainer = renderInReduxProvider(
+      <ConnectedDevicesContainer />,
+    );
+
+    expect(
+      await connectionUnavailableContainer.findByTestId(
+        'connection-unavailable-alert',
+      ),
+    ).to.exist;
+  });
+
+  it('should render connection unavailable alert when error response is returned', async () => {
+    const err = {
+      errors: [
+        {
+          title: 'Not authorized',
+          detail: 'Not authorized',
+          code: '401',
+          status: '401',
+        },
+      ],
+    };
+    mockApiRequest(err, false);
+
+    const connectionUnavailableContainer = renderInReduxProvider(
+      <ConnectedDevicesContainer />,
+    );
+
+    expect(
+      await connectionUnavailableContainer.findByTestId(
+        'connection-unavailable-alert',
+      ),
+    ).to.exist;
   });
 });
 
@@ -184,7 +231,7 @@ describe('Device connection url parameters', () => {
   });
 
   it('should render success alert when url params contain a success message', async () => {
-    mockApiRequest(oneDeviceConnectedState);
+    mockApiRequest(oneDeviceConnectedResponse);
     window.location = Object.assign(new URL(successUrl), {
       ancestorOrigins: '',
       assign: sinon.spy(),
@@ -210,7 +257,7 @@ describe('Device connection url parameters', () => {
     ).to.exist;
   });
   it('should render successful disconnection alert when url params contain a disconnect success message', async () => {
-    await mockApiRequest(oneDeviceConnectedState);
+    await mockApiRequest(oneDeviceConnectedResponse);
     window.location = Object.assign(new URL(successfulDisconnectUrl), {
       ancestorOrigins: '',
       assign: sinon.spy(),
@@ -219,7 +266,7 @@ describe('Device connection url parameters', () => {
     expect(screen.findByTestId('disconnection-success-alert')).to.exist;
   });
   it('should render failed disconnection alert when url params contain a disconnect failure message', async () => {
-    await mockApiRequest(oneDeviceConnectedState);
+    await mockApiRequest(oneDeviceConnectedResponse);
     window.location = Object.assign(new URL(failedDisconnectUrl), {
       ancestorOrigins: '',
       assign: sinon.spy(),

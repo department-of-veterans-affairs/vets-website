@@ -7,7 +7,6 @@
   "dateOfBirth": "1950-10-04",
   "applicantAddress": {
     "country": "USA",
-    "view:militaryBaseDescription": {},
     "street": "123 Faker Street",
     "city": "Bogusville",
     "state": "GA",
@@ -33,9 +32,9 @@
     }
   ],
   "vaLoanIndicator": true,
-  "intent": "ONETIMERESTORATION",
   "relevantPriorLoans": [
     {
+      "intent": "ONETIMERESTORATION",
       "dateRange": {
         "from": "2015-01-XX",
         "to": "2020-01-XX"
@@ -47,11 +46,11 @@
         "propertyState": "AK",
         "propertyZip": "85274"
       },
-      "vaLoanNumber": "123-45",
-      "propertyOwned": true,
-      "willRefinance": false
+      "vaLoanNumber": "12-34-5-6789012",
+      "propertyOwned": true
     },
     {
+      "intent": "REFI",
       "dateRange": {
         "from": "2020-01-XX"
       },
@@ -62,9 +61,8 @@
         "propertyState": "AK",
         "propertyZip": "85274"
       },
-      "vaLoanNumber": "100 23",
-      "propertyOwned": true,
-      "willRefinance": false
+      "vaLoanNumber": "21 09 8 7654321",
+      "propertyOwned": true
     }
   ],
   "files": [

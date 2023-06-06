@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { LETTER_URL, LETTER_ENDPOINT } from '../../constants';
 
 export default function ApprovedConfirmation({ user, dateReceived }) {
   return (
@@ -25,7 +26,7 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
             <a
               className="vads-u-font-weight--bold vads-u-flex--1 vads-u-margin-bottom--6"
               download
-              href="/demo"
+              href={LETTER_ENDPOINT}
             >
               <i
                 className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
@@ -47,7 +48,7 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
             <h3 slot="headline" style={{ marginTop: '1rem' }}>
               Application for VA education benefits (Form 22-1990e)
             </h3>
-            For {user?.fullName}
+            For {user}
             <div className="vads-u-display--flex vads-u-flex-direction--column">
               <strong>Date received</strong>
               {dateReceived}
@@ -65,10 +66,23 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
       <div className="vads-u-margin-bottom--4">
         <h2>What happens next?</h2>
         <ul>
-          <li>Download a copy of your decision letter.</li>
           <li>
-            Use our <a href="/demo">GI Bill Comparison Tool</a> to help you
-            decide which education program and school is best for you.
+            Download a copy of your decision letter. This can also be found at{' '}
+            <a href={LETTER_URL} target="_blank" rel="noopener noreferrer">
+              Download VA education letter
+            </a>
+            .
+          </li>
+          <li>
+            <a
+              href="/education/gi-bill-comparison-tool/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Use our GI Bill Comparison Tool to help you decide which schools
+              are best for you
+            </a>
+            .
           </li>
           <li>
             Once you’ve selected a school or program, you may bring your
@@ -76,16 +90,26 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
             of eligibility.
           </li>
           <li>
-            Review and/or update your direct deposit information on your VA.gov
-            profile.
+            <a
+              href="/profile/direct-deposit"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Review and/or update your direct deposit information on your
+              VA.gov profile
+            </a>
+            .
           </li>
           <li>
-            Learn more about VA benefits and programs through the Building Your
-            Future with the GI Bill Series.
-          </li>
-          <li>
-            If you have more than one sponsor, you can{' '}
-            <a href="/">submit another application for education benefits.</a>
+            <a
+              href="https://benefits.va.gov/GIBILL/docs/GIBguideseries/ChooseYourEducationPathway.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Learn more about VA benefits and programs through the Building
+              Your Future with the GI Bill Series
+            </a>
+            .
           </li>
         </ul>
       </div>
@@ -100,16 +124,11 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
           </div>
         </va-additional-info>
       </div>
-      <div className="vads-u-margin-bottom--3">
-        <a className="vads-c-action-link--green " href="/?next=%2Fprofile">
-          Go to your My VA dashboard
-        </a>
-      </div>
     </>
   );
 }
 
 ApprovedConfirmation.propTypes = {
   dateReceived: PropTypes.string,
-  user: PropTypes.object,
+  user: PropTypes.string,
 };

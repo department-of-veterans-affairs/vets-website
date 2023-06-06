@@ -35,21 +35,24 @@ export const submitToAPI = (state, setState) => {
     .then(res => res.json())
     .then(body => {
       if (body?.errors) {
-        setState({
-          ...state,
-          files: [],
-          errorMessage:
-            "We're sorry, we had a connection problem. Please try again later.",
-          submissionPending: false,
-        });
+        throw new Error('error');
       } else {
         setState({
           ...state,
           files: [],
+          submitted: (state.submitted || []).concat(state.files),
           errorMessage: null,
           successMessage: true,
           submissionPending: false,
         });
       }
+    })
+    .catch(() => {
+      setState({
+        ...state,
+        errorMessage:
+          'We’re sorry, we had a connection problem. Please try again later.',
+        submissionPending: false,
+      });
     });
 };

@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import EnrollmentVerificationMonthInfo from './EnrollmentVerificationMonthInfo';
 import VerifyYourEnrollments from './VerifyYourEnrollments';
-import { STATUS, VERIFICATION_RESPONSE } from '../constants';
+import { STATUS } from '../constants';
 import { MONTH_PROP_TYPE, STATUS_PROP_TYPE } from '../helpers';
 
 const verifiedMonthStatusMessage = (
@@ -50,8 +51,8 @@ const contactScoMonthStatusMessage = (
   </p>
 );
 
-function getMonthStatusMessage(month, status) {
-  if (month.verificationResponse === VERIFICATION_RESPONSE.CORRECT) {
+function getMonthStatusMessage(month, status, lastCertifiedThroughDate) {
+  if (month.certifiedEndDate <= lastCertifiedThroughDate) {
     return verifiedMonthStatusMessage;
   }
 
@@ -67,15 +68,27 @@ function getMonthStatusMessage(month, status) {
   }
 }
 
-export default function EnrollmentVerificationMonth({ month, status }) {
-  const monthStatusMessage = getMonthStatusMessage(month, status);
+export default function EnrollmentVerificationMonth({
+  lastCertifiedThroughDate,
+  month,
+  status,
+}) {
+  const monthStatusMessage = getMonthStatusMessage(
+    month,
+    status,
+    lastCertifiedThroughDate,
+  );
 
   return (
     <div className="ev-enrollment-month vads-u-margin-y--3">
-      <h4>{month.verificationMonth}</h4>
+      <h1 className="vads-u-font-size--h4 vads-u-font-weight--bold vads-u-margin-top--3">
+        {month.verificationMonth}
+      </h1>
       {monthStatusMessage}
 
-      <va-additional-info trigger="More information">
+      <va-additional-info
+        trigger={`More information for ${month.verificationMonth}`}
+      >
         <EnrollmentVerificationMonthInfo month={month} />
       </va-additional-info>
     </div>
@@ -83,6 +96,7 @@ export default function EnrollmentVerificationMonth({ month, status }) {
 }
 
 EnrollmentVerificationMonth.propTypes = {
+  lastCertifiedThroughDate: PropTypes.string.isRequired,
   month: MONTH_PROP_TYPE.isRequired,
   status: STATUS_PROP_TYPE.isRequired,
 };

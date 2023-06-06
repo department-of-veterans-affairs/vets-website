@@ -53,7 +53,7 @@ const form = createTestConfig(
         });
       },
     },
-    skip: false,
+    skip: true, // skip allowed while removing the secondary wizard. will turn to false after secondary wizard has been removed
   },
   manifest,
   formConfig,

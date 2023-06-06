@@ -8,6 +8,8 @@ import {
   SPONSOR_RELATIONSHIP,
 } from './constants';
 
+import { getSchemaCountryCode } from './utils/form-submit-transform';
+
 export function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
@@ -19,6 +21,21 @@ export function isAlphaNumeric(str) {
 
 export function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+
+export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
+  if (!str) {
+    return '';
+  }
+
+  if (str.length <= numVisibleChars) {
+    return str;
+  }
+
+  return (
+    obfuscateChar.repeat(str.length - numVisibleChars) +
+    str.substring(str.length - numVisibleChars, str.length)
+  );
 }
 
 /**
@@ -95,39 +112,139 @@ export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
   }
 };
 
+function mapNotificationMethod({ notificationMethod }) {
+  if (notificationMethod === 'EMAIL') {
+    return 'No, just send me email notifications';
+  }
+  if (notificationMethod === 'TEXT') {
+    return 'Yes, send me text message notifications';
+  }
+
+  return notificationMethod;
+}
+
+export const transformAlphaOnlyLowercase = str =>
+  str.toLowerCase().replace(/[^a-z]/g, '');
+
+export const equalsAlphaOnlyIgnoreCase = (a, b) => {
+  return transformAlphaOnlyLowercase(a) === transformAlphaOnlyLowercase(b);
+};
+
 export function prefillTransformer(pages, formData, metadata, state) {
+  const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
+  const stateUser = state.user;
+  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
+  const profile = stateUser?.profile;
+
+  let firstName;
+  let middleName;
+  let lastName;
+  let suffix;
+
+  if (profile?.userFullName?.first && profile?.userFullName?.last) {
+    firstName = profile.userFullName.first;
+    middleName = profile.userFullName.middle;
+    lastName = profile.userFullName.last;
+    // suffix = ???
+  } else {
+    firstName = claimant.firstName;
+    middleName = claimant.middleName;
+    lastName = claimant?.lastName;
+    suffix = claimant.suffix;
+  }
+
+  const emailAddress =
+    vapContactInfo.email?.emailAddress ||
+    profile?.email ||
+    contactInfo.emailAddress ||
+    undefined;
+
+  let mobilePhoneNumber;
+  let mobilePhoneIsInternational;
+  const vapMobilePhone = vapContactInfo.mobilePhone || {};
+  if (vapMobilePhone.areaCode && vapMobilePhone.phoneNumber) {
+    mobilePhoneNumber = [
+      vapMobilePhone.areaCode,
+      vapMobilePhone.phoneNumber,
+    ].join();
+    mobilePhoneIsInternational = vapMobilePhone.isInternational;
+  } else {
+    mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
+  }
+
+  let homePhoneNumber;
+  let homePhoneIsInternational;
+  const vapHomePhone = vapContactInfo.homePhone || {};
+  if (vapHomePhone.areaCode && vapHomePhone.phoneNumber) {
+    homePhoneNumber = [vapHomePhone.areaCode, vapHomePhone.phoneNumber].join();
+    homePhoneIsInternational = vapHomePhone.isInternational;
+  } else {
+    homePhoneNumber = contactInfo?.homePhoneNumber;
+  }
+
+  const address = vapContactInfo.mailingAddress?.addressLine1
+    ? vapContactInfo.mailingAddress
+    : contactInfo;
+
   const newData = {
     ...formData,
     sponsors,
     formId: state.data?.formData?.data?.id,
     claimantId: claimant.claimantId,
-    'view:userFullName': {
-      userFullName: {
-        first: claimant.firstName || undefined,
-        middle: claimant.middleName || undefined,
-        last: claimant.lastName || undefined,
+    [formFields.viewUserFullName]: {
+      [formFields.userFullName]: {
+        first: firstName || undefined,
+        middle: middleName || undefined,
+        last: lastName || undefined,
       },
     },
-    dateOfBirth: claimant.dateOfBirth,
-    email: {
-      email: contactInfo.emailAddress,
-      confirmEmail: contactInfo.emailAddress,
+    dateOfBirth: profile?.dob || claimant?.dateOfBirth,
+    [formFields.email]: {
+      email: emailAddress,
+      confirmEmail: emailAddress,
     },
-    'view:phoneNumbers': {
-      mobilePhoneNumber: {
-        phone: contactInfo?.mobilePhoneNumber || undefined,
+    [formFields.viewPhoneNumbers]: {
+      [formFields.mobilePhoneNumber]: {
+        phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: mobilePhoneIsInternational,
       },
-      phoneNumber: {
-        phone: contactInfo?.homePhoneNumber || undefined,
+      [formFields.phoneNumber]: {
+        phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: homePhoneIsInternational,
       },
+    },
+    [formFields.bankAccount]: {
+      ...bankInformation,
+      accountType: bankInformation?.accountType?.toLowerCase(),
+    },
+    [formFields.viewMailingAddress]: {
+      [formFields.address]: {
+        street: address?.addressLine1,
+        street2: address?.addressLine2 || undefined,
+        city: address?.city,
+        state: address?.stateCode,
+        postalCode: address?.zipCode || address?.zipcode,
+        country: getSchemaCountryCode(address?.countryCode),
+      },
+      livesOnMilitaryBase:
+        contactInfo?.countryCode !== 'US' &&
+        contactInfo?.addressType === 'MILITARY_OVERSEAS',
+    },
+    [formFields.viewReceiveTextMessages]: {
+      [formFields.receiveTextMessages]: mapNotificationMethod(claimant),
     },
   };
 
-  if (claimant?.suffix) {
-    newData['view:userFullName'].userFullName.suffix = claimant?.suffix;
+  if (suffix) {
+    newData[formFields.viewUserFullName].userFullName.suffix =
+      state?.form?.pages?.applicantInformation?.schema?.properties[
+        formFields.viewUserFullName
+      ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
+        equalsAlphaOnlyIgnoreCase(e, suffix),
+      ) || undefined;
   }
 
   return {
@@ -245,61 +362,3 @@ export const applicantIsChildOfSponsor = formData => {
 
   return sponsor?.relationship === SPONSOR_RELATIONSHIP.CHILD;
 };
-
-const trimObjectValuesWhiteSpace = (key, value) => {
-  if (typeof value === 'string') {
-    return value.trim();
-  }
-
-  return value;
-};
-
-export function transformTOEForm(_formConfig, form) {
-  const payload = {
-    claimant: {
-      claimantId: 0,
-      suffix: form?.data?.userFullName?.suffix,
-      dateOfBirth: form?.data?.dateOfBirth,
-      firstName: form?.data?.userFullName?.first,
-      lastName: form?.data?.userFullName?.last,
-      middleName: form?.data?.userFullName?.middle,
-      notificationMethod: form?.data?.contactMethod,
-      contactInfo: {
-        addressLine1: form?.data['view:mailingAddress']?.address?.street,
-        addressLine2: form?.data['view:mailingAddress']?.address?.street2,
-        city: form?.data['view:mailingAddress']?.address?.city,
-        zipcode: form?.data['view:mailingAddress']?.address?.postalCode,
-        emailAddress: form?.data?.email?.email,
-        addressType: form?.data['view:mailingAddress']?.livesOnMilitaryBase
-          ? 'MILITARY_OVERSEAS'
-          : 'DOMESTIC',
-        mobilePhoneNumber:
-          form?.data['view:phoneNumbers']?.mobilePhoneNumber?.phone,
-        homePhoneNumber: form?.data['view:phoneNumbers']?.phoneNumber?.phone,
-        countryCode: form?.data['view:mailingAddress']?.address?.country,
-        stateCode: form?.data['view:mailingAddress']?.address?.state,
-      },
-      preferredContact: form?.data?.contactMethod,
-    },
-    sponsors: [
-      {
-        firstName: form?.data?.sponsorFullName?.first,
-        middleName: form?.data?.sponsorFullName?.middle,
-        lastName: form?.data?.sponsorFullName?.last,
-        dob: form?.data?.sponsorDateOfBirth,
-        relationship: form?.data?.relationshipToServiceMember,
-      },
-    ],
-    additionalInformation: {
-      highSchoolDiplomaOrCertificate: form?.data?.highSchoolDiploma,
-    },
-    directDeposit: {
-      directDepositAccountType: form?.data?.bankAccount?.accountType,
-      directDepositAccountNumber: form?.data?.bankAccount?.accountNumber,
-      directDepositRoutingNumber: form?.data?.bankAccount?.routingNumber,
-    },
-  };
-
-  // return JSON.stringify(payload);
-  return JSON.stringify(payload, trimObjectValuesWhiteSpace, 4);
-}

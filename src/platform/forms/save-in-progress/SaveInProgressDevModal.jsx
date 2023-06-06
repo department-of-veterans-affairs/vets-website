@@ -161,7 +161,7 @@ const SipsDevModal = props => {
       <button
         key={showLink}
         type="button"
-        className="va-button-link vads-u-margin-left--1"
+        className="va-button-link vads-u-margin-left--2"
         onClick={handlers.openSipsModal}
       >
         <i aria-hidden="true" className="fas fa-cog" role="img" /> Open

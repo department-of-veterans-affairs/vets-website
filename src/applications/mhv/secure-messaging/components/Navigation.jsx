@@ -1,8 +1,66 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { getFolders } from '../actions/folders';
+import { folder } from '../selectors';
+import SectionGuideButton from './SectionGuideButton';
+import { DefaultFolders } from '../util/constants';
 
 const Navigation = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const dispatch = useDispatch();
+  const [isMobile, setIsMobile] = useState(true);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+  const location = useLocation();
+  const activeFolder = useSelector(folder);
+
+  useEffect(
+    () => {
+      dispatch(getFolders());
+    },
+    [dispatch],
+  );
+
+  const paths = () => {
+    return [
+      {
+        path: '/inbox',
+        label: 'Inbox',
+        id: DefaultFolders.INBOX.id,
+        datatestid: 'inbox-sidebar',
+      },
+      {
+        path: '/drafts',
+        label: 'Drafts',
+        id: DefaultFolders.DRAFTS.id,
+        datatestid: 'drafts-sidebar',
+      },
+      {
+        path: '/sent',
+        label: 'Sent',
+        id: DefaultFolders.SENT.id,
+        datatestid: 'sent-sidebar',
+      },
+      {
+        path: '/trash',
+        label: 'Trash',
+        id: DefaultFolders.DELETED.id,
+        datatestid: 'trash-sidebar',
+      },
+      {
+        path: '/folders',
+        label: 'My folders',
+        datatestid: 'my-folders-sidebar',
+      },
+
+      /* Hidden from sidenav view; will implement in SM Home later */
+      // {
+      //   path: '/faq',
+      //   label: 'Messages FAQ',
+      //   datatestid: 'messages-faq-sidebar',
+      // },
+    ];
+  };
+
   function openNavigation() {
     setIsNavigationOpen(true);
   }
@@ -12,7 +70,7 @@ const Navigation = () => {
   }
 
   function checkScreenSize() {
-    if (window.innerWidth <= 481 && setIsMobile !== false) {
+    if (window.innerWidth <= 768 && setIsMobile !== false) {
       setIsMobile(true);
     } else {
       setIsMobile(false);
@@ -21,28 +79,14 @@ const Navigation = () => {
   }
 
   function openNavigationBurgerButton() {
-    return isMobile ? (
-      <div className="va-btn-sidebarnav-trigger">
-        <div className="button-background" />
-        <div className="button-wrapper">
-          <button
-            aria-controls="va-detailpage-sidebar"
-            onClick={openNavigation}
-          >
-            <strong>In the Messages section</strong>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="16"
-              viewBox="0 0 448 512"
-            >
-              <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    ) : (
-      <></>
+    return (
+      isMobile && (
+        <SectionGuideButton
+          onMenuClick={() => {
+            openNavigation();
+          }}
+        />
+      )
     );
   }
 
@@ -55,75 +99,73 @@ const Navigation = () => {
 
   window.addEventListener('resize', checkScreenSize);
 
+  const headerStyle = location.pathname === '/' ? 'is-active' : null;
+
+  const handleActiveLinksStyle = path => {
+    let isActive = false;
+    if (location.pathname === '/') {
+      // Highlight Messages on Lnading page
+      isActive = false;
+    } else if (location.pathname === '/folders') {
+      // To ensure other nav links are not bolded when landed on "/folders"
+      isActive = location.pathname === path.path;
+    } else if (location.pathname.split('/')[1] === 'folder') {
+      // Highlight "My Folders" when landed on "/folder/:id"
+      isActive = path.path === '/folders';
+    } else if (location.pathname === path.path) {
+      isActive = true;
+    } else if (path.id !== undefined && activeFolder?.folderId === path.id) {
+      // To highlight a corresponding folder when landed on "/message/:id"
+      isActive = true;
+    }
+
+    return isActive ? 'is-active' : '';
+  };
+
   return (
-    <>
+    <div className="secure-messaging-navigation vads-u-flex--auto vads-u-padding-bottom--7 medium-screen:vads-u-padding-bottom--0">
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div className="sidebar-navigation">
-          <div className="sidebar-navigation-header">
-            <i className="medkit-icon fas fa-medkit" />
-            <h4>My Health</h4>
-            <button
-              className={
-                isMobile === true ? 'va-btn-close-icon' : 'no-close-btn'
-              }
-              aria-label="Close-this-menu"
-              aria-expanded="true"
-              aria-controls="a1"
-              onClick={closeNavigation}
-            />
-          </div>
-          <div id="a1" className="sidebar-navigation-list" aria-hidden="false">
+          {isMobile && (
+            <div className="sidebar-navigation-header">
+              <button
+                className="va-btn-close-icon"
+                aria-label="Close-this-menu"
+                aria-expanded="true"
+                aria-controls="a1"
+                onClick={closeNavigation}
+                type="button"
+              />
+            </div>
+          )}
+          <div id="a1" className="sidebar-navigation-list">
             <ul className="usa-sidenav-list">
-              <li>
-                <a href="/my-health/secure-messages">Pharmacy</a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">Appointments</a>
-              </li>
               <li className="sidebar-navigation-messages-list">
                 <div className="sidebar-navigation-messages-list-header">
-                  <a href="/my-health/secure-messages">Messages</a>
+                  {/* Message Link will navigate to the new SM Home page in the future */}
+                  <Link className={headerStyle} to="/">
+                    <span>Messages</span>
+                  </Link>
                 </div>
+
                 <div className="sidebar-navigation-messages-list-menu">
-                  <ul className="usa-sidenav-list">
-                    <li>
-                      <a href="/my-health/secure-messages">Compose</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Drafts</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Folders</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Sent</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Deleted</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Search messages</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Messages FAQ</a>
-                    </li>
+                  <ul className="usa-sidenav-list sub-list">
+                    {paths().map((path, i) => (
+                      <li key={i} data-testid={path.datatestid}>
+                        <Link
+                          className={handleActiveLinksStyle(path)}
+                          to={path.path}
+                          // onClick={() => {
+                          //   handleOnClick(path);
+                          // }}
+                        >
+                          <span>{path.label}</span>
+                        </Link>
+                      </li>
+                    ))}
                   </ul>
                 </div>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">Medical records</a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">VA health care benefits</a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">
-                  Copay bills and travel pay
-                </a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">Health resources</a>
               </li>
             </ul>
           </div>
@@ -131,7 +173,7 @@ const Navigation = () => {
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 };
 

@@ -8,7 +8,8 @@ import {
   selectHideDirectDepositCompAndPen,
 } from '@@profile/selectors';
 import { Prompt } from 'react-router-dom';
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
@@ -16,7 +17,10 @@ import {
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled,
 } from '~/platform/user/selectors';
-import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
+import {
+  signInServiceName as signInServiceNameSelector,
+  isAuthenticatedWithOAuth,
+} from '~/platform/user/authentication/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
@@ -35,11 +39,14 @@ import TemporaryOutage from './alerts/TemporaryOutage';
 
 import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
 
+import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+
 const DirectDeposit = ({
   cnpUiState,
   eduUiState,
   isVerifiedUser,
   hideDirectDepositCompAndPen,
+  useOAuth,
 }) => {
   const [showCNPSuccessMessage, setShowCNPSuccessMessage] = useState(false);
   const [showEDUSuccessMessage, setShowEDUSuccessMessage] = useState(false);
@@ -160,7 +167,7 @@ const DirectDeposit = ({
             )}
           </DowntimeNotification>
         ) : (
-          <VerifyIdentity />
+          <VerifyIdentity useOAuth={useOAuth} />
         )}
         <FraudVictimAlert />
         {showBankInformation ? (
@@ -191,6 +198,7 @@ DirectDeposit.propTypes = {
   }).isRequired,
   hideDirectDepositCompAndPen: PropTypes.bool.isRequired,
   isVerifiedUser: PropTypes.bool.isRequired,
+  useOAuth: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -205,7 +213,10 @@ const mapStateToProps = state => {
     isVerifiedUser: isLOA3 && isUsingEligibleSignInService && is2faEnabled,
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
-    hideDirectDepositCompAndPen: selectHideDirectDepositCompAndPen(state),
+    hideDirectDepositCompAndPen:
+      toggleValues(state)?.[TOGGLE_NAMES.profileUseExperimental] ||
+      selectHideDirectDepositCompAndPen(state),
+    useOAuth: isAuthenticatedWithOAuth(state),
   };
 };
 

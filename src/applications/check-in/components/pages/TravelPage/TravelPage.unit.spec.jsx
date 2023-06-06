@@ -1,0 +1,36 @@
+/* eslint-disable camelcase */
+import React from 'react';
+import { expect } from 'chai';
+import { render } from '@testing-library/react';
+import TravelPage from './index';
+import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
+
+describe('Check-in experience', () => {
+  describe('shared components', () => {
+    describe('TravelPage', () => {
+      it('renders custom header, body, and helptext', () => {
+        const { getByText } = render(
+          <CheckInProvider>
+            <TravelPage
+              header="test header"
+              bodyText="test body"
+              helpText="test help text"
+            />
+          </CheckInProvider>,
+        );
+        expect(getByText('test header')).to.exist;
+        expect(getByText('test body')).to.exist;
+        expect(getByText('test help text')).to.exist;
+      });
+      it('renders buttons', () => {
+        const { getByTestId } = render(
+          <CheckInProvider>
+            <TravelPage header="test header" />
+          </CheckInProvider>,
+        );
+        expect(getByTestId('yes-button')).to.exist;
+        expect(getByTestId('no-button')).to.exist;
+      });
+    });
+  });
+});
