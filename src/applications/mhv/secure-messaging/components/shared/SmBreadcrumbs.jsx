@@ -1,10 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-// temporarily using deprecated Breadcrumbs React component due to issues with VaBreadcrumbs that are pending resolution
-// import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-// import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 import { retrieveFolder } from '../../actions/folders';
@@ -15,7 +11,6 @@ const SmBreadcrumbs = () => {
   const history = useHistory();
   const messageDetails = useSelector(state => state.sm.messageDetails.message);
   const activeFolder = useSelector(state => state.sm.folders.folder);
-  const breadcrumbsRef = useRef();
   const crumbs = useSelector(state => state.sm.breadcrumbs.list);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -56,7 +51,6 @@ const SmBreadcrumbs = () => {
   );
 
   window.addEventListener('resize', checkScreenSize);
-
   useEffect(
     () => {
       const arr = [];
@@ -72,7 +66,6 @@ const SmBreadcrumbs = () => {
         Constants.Breadcrumbs.TRASH,
         Constants.Breadcrumbs.FAQ,
       ];
-
       const handleBreadCrumbs = () => {
         // arr.push({
         //   path: replaceWithStagingDomain('https://www.va.gov'),
@@ -150,52 +143,45 @@ const SmBreadcrumbs = () => {
     [messageDetails, activeFolder, dispatch],
   );
 
+  const breadcrumbSize = () => {
+    if (isMobile) {
+      return Constants.BreadcrumbViews.MOBILE_VIEW;
+    }
+    return Constants.BreadcrumbViews.DESKTOP_VIEW;
+  };
+
   return (
-    <div className="vads-l-row breadcrumbs">
-      {crumbs.length > 0 && (
-        // per exisiting issue found here https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/1296
-        // eslint-disable-next-line @department-of-veterans-affairs/prefer-web-component-library
-        <Breadcrumbs ref={breadcrumbsRef}>
-          {isMobile ? (
-            crumbs?.map((crumb, i) => {
-              if (crumb.path.includes('https://')) {
-                return (
-                  <a key={i} href={crumb.path}>
-                    Back to {crumbs[crumbs.length - 2]?.label.toLowerCase()}
-                  </a>
-                );
-              }
-              return (
-                <Link key={i} to={crumb.path}>
-                  Back to {crumbs[crumbs.length - 2]?.label.toLowerCase()}
-                </Link>
-              );
-            })
-          ) : (
+    <div className="breadcrumbs vads-1-row">
+      {crumbs.length > 0 &&
+        (crumbs.length === 1 ? (
+          <>
+            <va-breadcrumbs className="sm-breadcrumb">
+              <div className={breadcrumbSize()}>
+                <span className="breadcrumb-angle vads-u-padding-right--1">
+                  {'\u2039'}{' '}
+                </span>
+                <Link to="/"> Back to messages</Link>
+              </div>
+            </va-breadcrumbs>
+          </>
+        ) : (
+          crumbs.length > 1 && (
             <>
-              {crumbs.length > 1 && (
-                <>
-                  <span className="breadcrumb-angle">{'\u2039'} </span>
+              <va-breadcrumbs>
+                <div className={breadcrumbSize()}>
+                  <span className="breadcrumb-angle vads-u-padding-right--1">
+                    {'\u2039'}{' '}
+                  </span>
                   <Link
-                    className="desktop-view-crumb"
-                    key={1}
-                    to={crumbs[crumbs.length - 2]?.path}
+                    to={`${crumbs[crumbs.length - 2]?.path?.toLowerCase()}`}
                   >
-                    {location.pathname === '/search/results' ? (
-                      <>{crumbs[crumbs.length - 2]?.label}</>
-                    ) : (
-                      <>
-                        Back to{' '}
-                        {crumbs[crumbs.length - 2]?.label?.toLowerCase()}
-                      </>
-                    )}
+                    Back to {crumbs[crumbs.length - 2]?.label?.toLowerCase()}
                   </Link>
-                </>
-              )}
+                </div>
+              </va-breadcrumbs>
             </>
-          )}
-        </Breadcrumbs>
-      )}
+          )
+        ))}
     </div>
   );
 };

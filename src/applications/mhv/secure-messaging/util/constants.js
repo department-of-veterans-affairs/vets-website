@@ -236,3 +236,8 @@ export const PrintMessageOptions = {
   PRINT_MAIN: 'PRINT_MAIN',
   PRINT_THREAD: 'PRINT_THREAD',
 };
+
+export const BreadcrumbViews = {
+  DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
+  MOBILE_VIEW: 'mobile-view',
+};
