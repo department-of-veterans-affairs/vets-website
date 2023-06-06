@@ -16,8 +16,8 @@ export const uiSchema = {
       <ul>
         <li>
           <strong>Waiver: </strong>
-          If we approve your request, we’ll stop collection on and forgive (or
-          “waive”) the debt.
+          If we approve your request, we’ll stop collection on and waive the
+          debt.
         </li>
         <li>
           <strong>Extended monthly payments: </strong>
@@ -47,6 +47,7 @@ export const uiSchema = {
       resolution: {
         agreeToWaiver: {
           'ui:required': (formData, index) => {
+            if (formData['view:enhancedFinancialStatusReport']) return false;
             const { resolution, deductionCode } = formData.selectedDebts[index];
             const isCompAndPenDebt = deductionCode === '30';
             return (

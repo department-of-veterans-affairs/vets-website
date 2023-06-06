@@ -10,12 +10,13 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [veteranFields.fullName, veteranFields.dateOfBirth];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
       'ui:title': (
         <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-          Name and date of birth
+          Tell us about the Veteran connected to this authorization
         </h3>
       ),
       [veteranFields.fullName]: fullNameUI,

@@ -14,6 +14,7 @@ const DeleteDraft = props => {
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
   const handleDeleteDraftConfirm = () => {
+    props.setNavigationError(null);
     setIsModalVisible(false);
     if (props.draftId) {
       dispatch(deleteDraft(props.draftId));
@@ -32,9 +33,10 @@ const DeleteDraft = props => {
       <button
         type="button"
         data-testid="delete-draft-button"
-        className="usa-button-secondary delete-draft-button vads-u-flex--1 vads-u-margin-right--0 vads-u-margin-y--1"
-        onClick={() => {
+        className="usa-button-secondary delete-draft-button vads-u-flex--1 vads-u-margin-y--1"
+        onClick={e => {
           setIsModalVisible(true);
+          props.setLastFocusableElement(e.target);
         }}
       >
         Delete draft
@@ -53,6 +55,7 @@ const DeleteDraft = props => {
 DeleteDraft.propTypes = {
   draft: PropType.object,
   draftId: PropType.number,
+  setLastFocusableElement: PropType.func,
 };
 
 export default DeleteDraft;

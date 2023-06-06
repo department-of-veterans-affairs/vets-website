@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 import AppointmentColumn from './AppointmentColumn';
 import AppointmentRow from './AppointmentRow';
 import {
@@ -32,6 +33,7 @@ export default function AppointmentColumnLayout({
   const modalityText = useSelector(() => selectModalityText(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
   const startDate = useSelector(() => selectStartDate(data));
+  const parsedDate = moment.parseZone(startDate);
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
 
   const detailAriaLabel = useSelector(() => selectApptDetailAriaText(data));
@@ -41,79 +43,128 @@ export default function AppointmentColumnLayout({
 
   return (
     <>
+      {/* Column 1 */}
       <AppointmentColumn
         size="1"
-        className="vaos-appts__column--1 vads-u-flex--auto vads-u-padding-y--2"
-      >
-        <span className="sr-only">{dateAriaLabel}</span>
-        {first && (
-          <AppointmentRow className="xsmall-screen:vads-u-text-align--center small-screen:vads-u-flex-direction--row">
-            <AppointmentColumn
-              size="1"
-              className="small-screen:vads-u-flex--auto small-screen:vads-u-order--first small-screen:vads-u-padding-top--0"
-              style={{ minWidth: '25px', maxWidth: '25px' }}
-            >
-              <h3 className="vads-u-display--inline-block vads-u-text-align--center vads-u-margin-top--0 vads-u-margin-bottom--0">
-                <span aria-hidden="true">{startDate.format('D')}</span>
-              </h3>
-            </AppointmentColumn>
-            <AppointmentColumn
-              className="vads-u-text-align--left xsmall-screen:vads-u-order--first small-screen:vads-u-margin-left--1"
-              size="1"
-              style={{ minWidth: '25px', maxWidth: '25px' }}
-            >
-              <span aria-hidden="true">{startDate.format('ddd')}</span>
-            </AppointmentColumn>
-          </AppointmentRow>
+        className={classNames(
+          'vads-u-flex--auto',
+          'xsmall-screen:vads-u-padding-top--1',
+          'medium-screen:vads-u-padding-y--0',
         )}
+        aria-label={dateAriaLabel}
+      >
+        <AppointmentRow
+          className={classNames(
+            'vaos-appts__column--alignItems',
+            'vaos-appts__column-gap--1',
+            'xsmall-screen:vads-u-text-align--center',
+            'small-screen:vads-u-flex-direction--row',
+            'medium-screen:vads-u-padding-y--2',
+            'small-desktop-screen:vads-u-padding-y--0',
+          )}
+        >
+          <AppointmentColumn
+            size="1"
+            className={classNames(
+              'small-screen:vads-u-flex--auto',
+              'small-screen:vads-u-order--first',
+              'small-screen:vads-u-padding-top--0',
+              'medium-screen:vaos-appts__minWidth',
+              'medium-screen:vaos-appts__maxWidth',
+            )}
+          >
+            <h3
+              className={classNames(
+                'vads-u-text-align--center',
+                'vads-u-margin-top--0',
+                'vads-u-margin-bottom--0',
+                { 'vads-u-display--none': !first },
+              )}
+            >
+              <span aria-hidden="true">{parsedDate.format('D')}</span>
+            </h3>
+          </AppointmentColumn>
+          <AppointmentColumn
+            className={classNames(
+              'vads-u-text-align--left',
+              'xsmall-screen:vads-u-order--first',
+              'xsmall-screen:margin-top--1',
+            )}
+            size="1"
+            style={{ minWidth: '30px', maxWidth: '30px', alignSelf: 'center' }}
+          >
+            <span
+              className={classNames({ 'vads-u-display--none': !first })}
+              aria-hidden="true"
+            >
+              {parsedDate.format('ddd')}
+            </span>
+          </AppointmentColumn>
+        </AppointmentRow>
       </AppointmentColumn>
 
+      {/* Column 2 */}
       <AppointmentColumn
         className={classNames(
-          'vaos-appts__column--2',
+          'vads-u-padding-right--1',
           'vads-u-border-color--gray-medium',
-          'vads-u-margin-left--2',
-          'vads-u-padding-y--2',
-          'small-screen:vads-u-margin-left--4',
+          'xsmall-screen:vads-u-padding-top--1',
+          'medium-screen:vads-u-padding-top--0',
           {
             'vads-u-border-top--1px': grouped && !first,
           },
         )}
         size="1"
       >
-        <AppointmentRow className="small-screen:vads-u-flex-direction--row">
+        <AppointmentRow
+          className={classNames(
+            'vaos-appts__column--alignItems',
+            'small-screen:vads-u-flex-direction--row',
+            'small-screen:vaos-appts__column-gap--3',
+            'medium-screen:vads-u-padding-y--2',
+            'small-desktop-screen:vads-u-padding-y--0',
+          )}
+        >
           <AppointmentColumn
             size="1"
             canceled={isCanceled}
-            style={{ minWidth: '108px', maxWidth: '108px' }}
+            style={{ minWidth: '95px', maxWidth: '95px' }}
           >
             <span aria-hidden="true">
-              {`${startDate.format('h:mm')} ${startDate.format(
+              {`${parsedDate.format('h:mm')} ${parsedDate.format(
                 'a',
               )} ${timezoneAbbr}`}{' '}
             </span>
           </AppointmentColumn>
 
           <AppointmentColumn size="1" className="vads-u-flex--4">
-            <AppointmentRow className="medium-screen:vads-u-flex-direction--column small-desktop-screen:vads-u-flex-direction--row">
+            <AppointmentRow
+              className={classNames(
+                'vaos-appts__column-gap--3',
+                'small-screen:vads-u-flex-direction--column',
+                'small-desktop-screen:vads-u-flex-direction--row',
+              )}
+            >
               <AppointmentColumn
                 padding="0"
-                size="1"
-                className="vads-u-font-weight--bold vaos-appts__text--truncate"
+                size="2"
+                className="vads-u-font-weight--bold vaos-appts__display--table vaos-appts__text--truncate"
                 canceled={isCanceled}
                 aria-label={typeOfCareAriaLabel}
               >
-                <span aria-hidden="true">{appointmentLocality}</span>
+                <span className={classNames('vaos-appts__display--table-cell')}>
+                  {appointmentLocality}
+                </span>
               </AppointmentColumn>
 
               <AppointmentColumn
                 padding="0"
-                size="1"
-                className="vaos-appts__text--truncate small-desktop-screen:vads-u-margin-left--5"
+                size="3"
+                className="vaos-appts__display--table vaos-appts__text--truncate"
                 canceled={isCanceled}
                 aria-label={modalityAriaLabel}
               >
-                <>
+                <span className="vaos-appts__display--table-cell">
                   <i
                     aria-hidden="true"
                     className={classNames(
@@ -127,8 +178,8 @@ export default function AppointmentColumnLayout({
                       },
                     )}
                   />
-                  <span aria-hidden="true">{`${modalityText}`}</span>
-                </>
+                  {`${modalityText}`}
+                </span>
               </AppointmentColumn>
             </AppointmentRow>
           </AppointmentColumn>
@@ -136,18 +187,17 @@ export default function AppointmentColumnLayout({
           <AppointmentColumn
             id={`vaos-appts__detail-${data.id}`}
             className="vaos-hide-for-print"
-            // className="vads-u-display--flex vads-u-flex--auto vads-u-justify-content--right vads-u-align-items--center vads-u-text-align--right vaos-hide-for-print"
             padding="0"
             size="1"
           >
-            <va-link
+            <a
               className="vaos-appts__focus--hide-outline"
               aria-label={detailAriaLabel}
               href={link}
               onClick={e => e.preventDefault()}
-              text="Details"
-              role="link"
-            />
+            >
+              Details
+            </a>
           </AppointmentColumn>
         </AppointmentRow>
       </AppointmentColumn>

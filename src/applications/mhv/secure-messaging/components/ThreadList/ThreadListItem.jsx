@@ -90,11 +90,13 @@ const ThreadListItem = props => {
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
         <div className={getClassNames()}>
-          {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
+          {location.pathname !== '/sent' ? (
             <>
               <span>
                 {unsentDrafts && (
-                  <span className="thread-list-draft">(Draft)</span>
+                  <>
+                    <span className="thread-list-draft">(Draft)</span> -{' '}
+                  </>
                 )}
               </span>{' '}
               <span>
@@ -117,11 +119,7 @@ const ThreadListItem = props => {
         </div>
         <Link
           className="message-subject-link vads-u-margin-y--0p5"
-          to={`/${
-            activeFolder?.folderId === DefaultFolders.DRAFTS.id
-              ? 'draft'
-              : 'thread'
-          }/${messageId}`}
+          to={`/thread/${messageId}`}
         >
           {categoryLabel}: {getHighlightedText(subject)}
         </Link>

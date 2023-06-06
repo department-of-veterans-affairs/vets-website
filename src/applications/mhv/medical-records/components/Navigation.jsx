@@ -151,6 +151,7 @@ const Navigation = () => {
                     <Link
                       className={handleActiveLinksStyle(path.path)}
                       to={path.path}
+                      data-testid={path.datatestid}
                     >
                       <span>{path.label}</span>
                     </Link>

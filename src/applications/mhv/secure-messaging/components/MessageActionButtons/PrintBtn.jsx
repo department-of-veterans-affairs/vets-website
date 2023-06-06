@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaModal,
@@ -6,21 +6,18 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
+import { PrintMessageOptions } from '../../util/constants';
 
 const PrintBtn = props => {
   const [printOption, setPrintOption] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [printSelectError, setPrintSelectError] = useState(null);
   const messageThread = useSelector(
     state => state.sm.messageDetails.messageHistory,
   );
-  const messageThreadCount = useRef(1);
-  useEffect(
+  const messageThreadCount = useMemo(
     () => {
-      if (messageThread?.length > 0) {
-        messageThread.forEach(() => {
-          messageThreadCount.current += 1;
-        });
-      }
+      return messageThread?.length + 1; // +1 for the original message
     },
     [messageThread],
   );
@@ -39,12 +36,19 @@ const PrintBtn = props => {
 
   const handleOnChangePrintOption = ({ target }) => {
     setPrintOption(target.value);
+    setPrintSelectError(
+      target.value ? null : 'Please select an option to print.',
+    );
   };
 
   const handleConfirmPrint = () => {
-    props.handlePrint(printOption);
-    setPrintOption(null);
-    closeModal();
+    if (printOption === null) {
+      setPrintSelectError('Please select an option to print.');
+    } else {
+      setPrintOption(null);
+      closeModal();
+      props.handlePrint(printOption);
+    }
   };
 
   const printModal = () => {
@@ -66,14 +70,14 @@ const PrintBtn = props => {
             <VaRadio
               className="form-radio-buttons"
               enable-analytics
-              // error={ // TODO: add error state}
+              error={printSelectError}
               onRadioOptionSelected={handleOnChangePrintOption}
             >
               <VaRadioOption
                 data-testid="radio-print-one-message"
                 label="Print only this message"
-                name="defaultName"
-                value="this message"
+                value={PrintMessageOptions.PRINT_MAIN}
+                name="this-message"
               />
 
               <VaRadioOption
@@ -83,12 +87,12 @@ const PrintBtn = props => {
                   messageThreadCount.current
                 } messages)`}
                 label="Print all messages in this conversation"
-                name="defaultName"
-                value="all messages"
+                value={PrintMessageOptions.PRINT_THREAD}
+                name="all-messages"
               />
             </VaRadio>
             <p>
-              <strong>{`(${messageThreadCount.current} messages)`}</strong>
+              <strong>{`(${messageThreadCount} messages)`}</strong>
             </p>
           </div>
         </VaModal>

@@ -28,6 +28,7 @@ There are several different mock UUIDs that can be used as a value for the `id` 
   - pacificTimezoneUUID: `6c72b801-74ac-47fe-82af-cfe59744b45f`
   - allAppointmentTypesUUID: `bb48c558-7b35-44ec-8ab7-32b7d49364fc`
   - missingUUID: `a5895713-ca42-4244-9f38-f8b5db020d04`
+  - noFacilityAddressUUID: `5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3`
 
 ### Pre-check-in
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
@@ -38,6 +39,7 @@ There are several different mock UUIDs that can be used as a value for the `id` 
   - expiredUUID: `354d5b3a-b7b7-4e5c-99e4-8d563f15c521`
   - expiredPhoneUUID: `08ba56a7-68b7-4b9f-b779-53ba609140ef`
   - missingUUID: `a5895713-ca42-4244-9f38-f8b5db020d04`
+  - noFacilityAddressUUID: `5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3`
   - allDemographicsCurrentUUID: `e544c217-6fe8-44c5-915f-6c3d9908a678`
   - onlyDemographicsCurrentUUID: `7397abc0-fb4d-4238-a3e2-32b0e47a1527` (NoK and Emergency Contact not current)
 
@@ -104,7 +106,11 @@ Current features day-of only: `yarn cy:run --env with_screenshots=true --spec sr
 
 Phone appointments PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-phone.pci.cypress.spec.js`
 
-Travel Pay PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-pay.day-of.cypress.spec.js`
+Travel Pay day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-pay.day-of.cypress.spec.js`
+
+Errors only day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-errors.day-of.cypress.spec.js`
+
+Errors only PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-errors.pci.cypress.spec.js`
 
 ### Adding additional screenshots
 There is a cypress command that gets imported in our local commands named `createScreenshots`. It is best used after an axe check on the page you wish to capture. Add cy.createScreenshots([filename]) and also make sure that the test is imported in one of the screenshot scripts listed above. Filename syntax should be `application--page-name` example: `Pre-check-in--Validate-with-DOB`. The command will automatically get screenshots for translated versions of the page.

@@ -2,6 +2,7 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import React, { useEffect, useState } from 'react';
 import { Prompt } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { ErrorMessages } from '../../util/constants';
 
 export const RouteLeavingGuard = ({
   navigate,
@@ -12,6 +13,7 @@ export const RouteLeavingGuard = ({
   p2,
   confirmButtonText,
   cancelButtonText,
+  saveDraftHandler,
 }) => {
   const [modalVisible, updateModalVisible] = useState(false);
   const [lastLocation, updateLastLocation] = useState();
@@ -37,6 +39,12 @@ export const RouteLeavingGuard = ({
     return true;
   };
   const handleConfirmNavigationClick = () => {
+    if (
+      cancelButtonText ===
+      ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft
+    ) {
+      saveDraftHandler('manual');
+    }
     closeModal(() => {
       if (lastLocation) {
         updateConfirmedNavigation(true);
@@ -67,7 +75,11 @@ export const RouteLeavingGuard = ({
         status="warning"
         visible={modalVisible}
       >
-        <p>{p1}</p>
+        <p>
+          {cancelButtonText !==
+            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+              .saveDraft && p1}
+        </p>
         {p2 && <p>{p2}</p>}
       </VaModal>
     </>
@@ -80,6 +92,7 @@ RouteLeavingGuard.propTypes = {
   navigate: PropTypes.func,
   p1: PropTypes.string,
   p2: PropTypes.any,
+  saveDraftHandler: PropTypes.func,
   shouldBlockNavigation: PropTypes.func,
   title: PropTypes.string,
   when: PropTypes.bool,

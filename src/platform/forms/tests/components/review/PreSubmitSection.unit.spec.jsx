@@ -213,4 +213,43 @@ describe('Review PreSubmitSection component', () => {
         .getAttribute('show-error'),
     ).to.equal('You must accept the agreement before submitting.');
   });
+
+  it('should render statement of truth', () => {
+    const form = createForm({
+      data: {
+        veteran: {
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
+        },
+      },
+    });
+    const formConfig = getFormConfig({
+      preSubmitInfo: {
+        statementOfTruth: {
+          body: 'Test',
+        },
+      },
+    });
+
+    const formReducer = createformReducer({
+      formConfig: form,
+    });
+
+    const store = createStore();
+    store.injectReducer('form', formReducer);
+
+    const tree = render(
+      <Provider store={store}>
+        <PreSubmitSection formConfig={formConfig} />
+      </Provider>,
+    );
+
+    expect(tree.container.querySelector('h3').innerHTML).to.equal(
+      'Statement of truth',
+    );
+
+    tree.unmount();
+  });
 });

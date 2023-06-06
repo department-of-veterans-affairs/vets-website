@@ -10,6 +10,7 @@ export default function NextOfKinDisplay({
   nextOfKin = {},
   yesAction = () => {},
   noAction = () => {},
+  router,
 }) {
   const { t } = useTranslation();
   const nextOfKinFields = [
@@ -59,6 +60,7 @@ export default function NextOfKinDisplay({
         loadingMessageOverride={loadingMessage}
         withBackButton
         pageType="next-of-kin"
+        router={router}
       />
     </>
   );
@@ -68,6 +70,7 @@ NextOfKinDisplay.propTypes = {
   header: propTypes.string,
   nextOfKin: propTypes.object,
   noAction: propTypes.func,
+  router: propTypes.object,
   subtitle: propTypes.string,
   yesAction: propTypes.func,
 };

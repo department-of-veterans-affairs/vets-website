@@ -24,7 +24,7 @@ import schedulingConfigurations from '../../services/mocks/v2/scheduling_configu
 import clinicsV2 from '../../services/mocks/v2/clinics.json';
 import confirmedV2 from '../../services/mocks/v2/confirmed.json';
 import requestsV2 from '../../services/mocks/v2/requests.json';
-import { getRealFacilityId } from '../../utils/appointment';
+import { getStagingId } from '../../services/var';
 
 const mockUser = {
   data: {
@@ -261,6 +261,12 @@ export function mockFeatureToggles({
               name: 'vaOnlineSchedulingFacilitiesServiceV2',
               value: v2Facilities,
             },
+            { name: 'vaOnlineSchedulingStatusImprovement', value: false },
+            { name: 'vaOnlineSchedulingClinicFilter', value: true },
+            {
+              name: 'vaOnlineSchedulingVAOSServiceCCAppointments',
+              value: true,
+            },
           ],
         },
       });
@@ -463,6 +469,18 @@ export function mockCCProvidersApi() {
   ).as('v1:get:provider');
 }
 
+export function mockAppointmentApi({ data, id } = {}) {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `/vaos/v2/appointments/${id}`,
+    },
+    req => {
+      req.reply({ data });
+    },
+  ).as('v2:get:appointment');
+}
+
 export function mockAppointmentsApi({
   data,
   status = APPOINTMENT_STATUS.booked,
@@ -515,8 +533,6 @@ export function mockAppointmentsApi({
       req => req.reply({ data: '' }),
     ).as('v0:cancel:appointment');
   } else if (apiVersion === 2) {
-    const db = [];
-
     cy.intercept(
       {
         method: 'GET',
@@ -542,6 +558,14 @@ export function mockAppointmentsApi({
 
     cy.intercept(
       {
+        method: 'PUT',
+        url: '/vaos/v2/appointments/1',
+      },
+      req => req.reply({ data: '' }),
+    ).as('v2:cancel:appointment');
+
+    cy.intercept(
+      {
         method: 'POST',
         pathname: '/vaos/v2/appointments',
       },
@@ -560,25 +584,9 @@ export function mockAppointmentsApi({
           },
         };
 
-        db.push(newAppointment.data);
         req.reply(newAppointment);
       },
     ).as('v2:create:appointment');
-
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: '/vaos/v2/appointments/mock1',
-        query: {
-          _include: '*',
-        },
-      },
-      req => {
-        req.reply({
-          data: db[0],
-        });
-      },
-    ).as('v2:get:appointment');
   }
 }
 
@@ -619,34 +627,6 @@ export function mockAppointmentRequestsApi({ id = 'testing' } = {}) {
   ).as('v0:create:appointment:request');
 }
 
-export function mockAppointmentRequestMessagesApi({ id = 'testing' } = {}) {
-  cy.intercept(
-    {
-      method: 'GET',
-      pathname: `/vaos/v0/appointment_requests/${id}/messages`,
-    },
-    req =>
-      req.reply({
-        data: {
-          messageText: 'This is a very good reason.',
-        },
-      }),
-  ).as('v0:get:messages');
-
-  cy.intercept(
-    {
-      method: 'POST',
-      pathname: `/vaos/v0/appointment_requests/${id}/messages`,
-    },
-    req =>
-      req.reply({
-        data: {
-          messageText: 'This is a very good reason.',
-        },
-      }),
-  ).as('v0:create:messages');
-}
-
 export function mockCancelReasonsApi({ facilityId }) {
   if (facilityId) {
     const id = Array.isArray(facilityId) ? facilityId[0] : facilityId;
@@ -669,10 +649,17 @@ export function mockFacilityApi({ id, apiVersion = 1 } = {}) {
       cy.intercept(
         {
           method: 'GET',
-          pathname: `/v1/facilities/va/${facilityId}`,
+          pathname: `/v1/facilities/va/vha_${getStagingId(facilityId)}`,
         },
         req => {
-          req.reply({ data: facilityData.data.find(f => f.id === facilityId) });
+          req.reply({
+            data: facilityData.data.find(f => {
+              return f.id
+                .replace('442', '983')
+                .replace('552', '984')
+                .includes(facilityId);
+            }),
+          });
         },
       ).as('v1:get:facility');
     }
@@ -712,9 +699,6 @@ export function mockFacilitiesApi({ count, data, apiVersion = 0 }) {
       {
         method: 'GET',
         pathname: '/v1/facilities/va',
-        query: {
-          ids: '*',
-        },
       },
       req => {
         const tokens = req.query.ids.split(',');
@@ -774,7 +758,8 @@ export function mockSchedulingConfigurationApi({
         data = schedulingConfigurations.data
           .filter(facility =>
             facilityIds.some(id => {
-              return id === getRealFacilityId(facility.id);
+              return id === facility.id;
+              // return id === getRealFacilityId(facility.id);
             }),
           )
           .map(facility => {
@@ -794,10 +779,13 @@ export function mockSchedulingConfigurationApi({
 
             return {
               ...facility,
-              id: getRealFacilityId(facility.id),
+              id: facility.id,
+              // id: getRealFacilityId(facility.id),
               attributes: {
+                communityCare: true,
                 ...facility.attributes,
-                facililtyId: getRealFacilityId(facility.id),
+                facilityId: facility.id,
+                // facililtyId: getRealFacilityId(facility.id),
                 services,
               },
             };
@@ -1012,7 +1000,10 @@ export function mockDirectScheduleSlotsApi({
   }
 }
 
-export function mockLoginApi({ facilityId, withoutAddress = false } = {}) {
+export function mockLoginApi({
+  facilityId = '983',
+  withoutAddress = false,
+} = {}) {
   if (facilityId) {
     const user = {
       ...mockUser,
@@ -1039,6 +1030,25 @@ export function mockLoginApi({ facilityId, withoutAddress = false } = {}) {
     cy.login(mockUserWithoutAddress);
   } else {
     cy.login(mockUser);
+  }
+}
+
+export function mockUserTransitionAvailabilities({ version = 0 } = {}) {
+  if (version === 0) {
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: `/v0/user_transition_availabilities`,
+      },
+      req => {
+        req.reply({
+          data: {
+            organicModal: false,
+            credentialType: 'idme',
+          },
+        });
+      },
+    ).as('v0:get:user_transition');
   }
 }
 

@@ -7,8 +7,9 @@ const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
 const { createClaimsSuccess } = require('./evss-claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
 const { createUnreadMessagesSuccess } = require('./messaging');
+const notifications = require('./notifications');
 const { user81Copays } = require('./medical-copays');
-const { v0, v2 } = require('./appointments');
+const { v2 } = require('./appointments');
 
 // set to true to simulate a user with debts for /v0/debts endpoint
 const hasDebts = false;
@@ -16,9 +17,8 @@ const hasDebts = false;
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
-    profileUseVaosV2Api: true,
+    myVaUseExperimental: true,
     showMyVADashboardV2: true,
-    showPaymentAndDebtSection: true,
   }),
   'GET /v0/user': user.cernerUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
@@ -40,6 +40,23 @@ const responses = {
     },
   },
   'GET /v0/debts': hasDebts ? createDebtsSuccess() : createNoDebtsSuccess(),
+  'GET /v0/onsite_notifications': notifications.hasMultiple,
+  // TODO: put id into a constant file when we get more notification types
+  'PATCH /v0/onsite_notifications/:id': (req, res) => {
+    const { id } = req.params;
+
+    if (
+      id === 'e4213b12-eb44-4b2f-bac5-3384fbde0b7a' ||
+      id === 'f9947b27-df3b-4b09-875c-7f76594d766d'
+    ) {
+      return res.json(notifications.createDismissalSuccessResponse(id));
+    }
+    if (!id) {
+      return notifications.hasError;
+    }
+
+    return res.json({ data: [] });
+  },
   'GET /v0/profile/service_history': {
     data: {
       id: '',
@@ -57,16 +74,6 @@ const responses = {
         userPercentOfDisability: 40,
       },
     },
-  },
-  'GET /vaos/v0/appointments': (req, res) => {
-    const { query } = req;
-    const { type } = query;
-
-    if (type === 'va' || type === 'cc') {
-      const rv = v0.createAppointmentSuccess(type);
-      return res.status(200).json(rv);
-    }
-    return res.status(400).json({ bad: 'type' });
   },
   'GET /vaos/v2/appointments': (_req, res) => {
     const rv = v2.createAppointmentSuccess({ startsInDays: [31] });

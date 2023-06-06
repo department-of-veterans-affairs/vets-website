@@ -52,10 +52,8 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.get('va-button[text*="start"]')
+        cy.get('.vads-c-action-link--green')
           .first()
-          .shadow()
-          .find('button')
           .click();
       },
       'all-available-debts': ({ afterHook }) => {
@@ -110,12 +108,12 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('100');
-          cy.get('#minMonthlyPayment')
+          cy.get('#amountDueMonthly')
             .first()
             .shadow()
             .find('input')
             .type('100');
-          cy.get('#amountOverdue')
+          cy.get('#amountPastDue')
             .first()
             .shadow()
             .find('input')
@@ -136,14 +134,23 @@ const testConfig = createTestConfig(
       },
       'resolution-comment/0': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`#root_resolutionComment`).type('10.00');
+          cy.get('[data-testid="resolution-amount"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('10.00');
           cy.get('.usa-button-primary').click();
         });
       },
       'resolution-option/1': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type="radio"][value="waiver"]').click();
-          cy.get('[type="checkbox"]').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'resolution-waiver-agreement/1': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type=checkbox]').check();
           cy.get('.usa-button-primary').click();
         });
       },

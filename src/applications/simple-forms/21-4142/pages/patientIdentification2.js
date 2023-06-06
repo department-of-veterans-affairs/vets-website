@@ -14,12 +14,14 @@ const pageFields = [
   patientIdentificationFields.patientVaFileNumber,
 ];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [patientIdentificationFields.parentObject]: {
       'ui:title': (
         <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-          Whose records are you granting authorization to release?
+          Tell us about the person whose records you're authorizing the release
+          of
         </h3>
       ),
       [patientIdentificationFields.patientFullName]: fullNameUI,
@@ -30,8 +32,15 @@ export default {
       [patientIdentificationFields.patientVaFileNumber]: {
         'ui:title': 'VA file number (if applicable)',
         'ui:errorMessages': {
-          pattern:
-            'Please input a valid VA file number: 7 to 9 numeric digits, & may start with a letter "C" or "c".',
+          pattern: 'Your VA file number must be 8 or 9 digits',
+        },
+        'ui:options': {
+          replaceSchema: () => {
+            return {
+              type: 'string',
+              pattern: '^\\d{8,9}$',
+            };
+          },
         },
       },
     },
@@ -41,7 +50,10 @@ export default {
     properties: {
       [patientIdentificationFields.parentObject]: {
         type: 'object',
-        required: intersection(required, pageFields),
+        required: [
+          ...intersection(required, pageFields),
+          [patientIdentificationFields.patientSsn],
+        ],
         properties: pick(properties, pageFields),
       },
     },

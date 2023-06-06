@@ -66,7 +66,12 @@ export default Object.freeze({
     return VSP_ENVIRONMENTS[environment.BUILDTYPE];
   },
 
-  /** Determines whether the current environment is a production environment. */
+  /**
+   * Determines whether the current environment is a production environment.
+   *
+   * NB: this returns true in e2e (Cypress) tests, as they are run on
+   *     a production build.
+   */
   isProduction() {
     return environment.BUILDTYPE === ENVIRONMENTS.VAGOVPROD;
   },
@@ -81,8 +86,18 @@ export default Object.freeze({
     return environment.BUILDTYPE === ENVIRONMENTS.VAGOVDEV;
   },
 
-  /** Determines whether the current environment is a local environment. */
+  /**
+   * Determines whether the current environment is a local environment.
+   *
+   * NB: this returns false in e2e (Cypress) tests, as they are run on
+   *     a production build.
+   */
   isLocalhost() {
     return environment.BUILDTYPE === ENVIRONMENTS.LOCALHOST;
+  },
+
+  /** Workaround for testing/using components accross different enviroments */
+  getRawBuildtype() {
+    return __BUILDTYPE__;
   },
 });

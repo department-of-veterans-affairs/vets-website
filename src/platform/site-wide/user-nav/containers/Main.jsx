@@ -7,7 +7,6 @@ import URLSearchParams from 'url-search-params';
 // Relative imports.
 import localStorage from 'platform/utilities/storage/localStorage';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
-import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import AccountTransitionModal from 'platform/user/authentication/components/account-transition/TransitionModal';
 import AccountTransitionSuccessModal from 'platform/user/authentication/components/account-transition/TransitionSuccessModal';
@@ -68,7 +67,6 @@ export class Main extends Component {
     if (currentlyLoggedIn) {
       this.executeRedirect();
       this.closeModals();
-
       if (
         this.props.signInServiceName === 'mhv' &&
         mhvTransitionEligible &&
@@ -104,13 +102,24 @@ export class Main extends Component {
     return null;
   }
 
-  appendOrRemoveParameter({ url = 'loginModal', pageTitle = '' } = {}) {
+  appendOrRemoveParameter({
+    url = 'loginModal',
+    pageTitle = '',
+    useSiS = true,
+  } = {}) {
     if (url === 'loginModal' && this.getNextParameter()) {
       return null;
     }
     const location = window.location.toString();
-    const nextQuery = { next: url };
-    const nextPath = appendQuery(location, nextQuery);
+    const nextQuery = {
+      next: url,
+      ...(useSiS &&
+        this.props.useSignInService && {
+          oauth: true,
+        }),
+    };
+    const path = useSiS ? location : location.replace('&oauth=true', '');
+    const nextPath = appendQuery(path, nextQuery);
     history.pushState({}, pageTitle, nextPath);
 
     return nextQuery;
@@ -177,6 +186,7 @@ export class Main extends Component {
 
   closeLoginModal = () => {
     this.props.toggleLoginModal(false);
+    this.appendOrRemoveParameter({ useSiS: false });
   };
 
   closeAccountTransitionModal = () => {
@@ -195,6 +205,7 @@ export class Main extends Component {
 
   openLoginModal = () => {
     this.props.toggleLoginModal(true);
+    this.appendOrRemoveParameter({});
   };
 
   signInSignUp = () => {
@@ -212,14 +223,6 @@ export class Main extends Component {
 
   render() {
     const { mhvTransition, mhvTransitionModal } = this.props;
-
-    // Check if displaying login is disabled.
-    if (
-      typeof this.props.showNavLogin !== 'undefined' &&
-      !this.props.showNavLogin
-    ) {
-      return null;
-    }
 
     return (
       <div className="profile-nav-container">
@@ -256,12 +259,6 @@ export class Main extends Component {
           onClose={this.closeAccountTransitionSuccessModal}
           visible={this.props.showAccountTransitionSuccessModal}
         />
-        <SessionTimeoutModal
-          isLoggedIn={this.props.currentlyLoggedIn}
-          onExtendSession={this.props.initializeProfile}
-          authenticatedWithOAuth={this.props.authenticatedWithOAuth}
-          serviceName={this.props.signInServiceName}
-        />
         <AutoSSO />
       </div>
     );
@@ -272,6 +269,7 @@ export const mapStateToProps = state => {
   let formAutoSavedStatus;
   let additionalRoutes;
   let additionalSafePaths;
+
   const { form } = state;
   if (typeof form === 'object') {
     formAutoSavedStatus = form.autoSavedStatus;

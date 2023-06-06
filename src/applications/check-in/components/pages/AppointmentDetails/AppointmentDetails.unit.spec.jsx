@@ -33,7 +33,10 @@ describe('check-in experience', () => {
       kind: 'clinic',
       appointmentIen: 3333,
       startTime: now,
-      checkInWindowEnd: add(now, { minutes: 30 }),
+      checkInWindowEnd: format(
+        add(new Date(), { minutes: 30 }),
+        "yyyy-LL-dd'T'HH:mm:ss",
+      ),
       stationNo: '230',
       clinicStopCodeName: '',
     };
@@ -45,7 +48,8 @@ describe('check-in experience', () => {
       stationNo: '230',
     };
     delete initAppointments[0].clinicPhoneNumber;
-
+    delete initAppointments[0].doctorName;
+    delete initAppointments[0].clinicStopCodeName;
     const preCheckInStore = {
       app: 'preCheckIn',
       appointments: initAppointments,
@@ -124,7 +128,7 @@ describe('check-in experience', () => {
               <AppointmentDetails />
             </CheckInProvider>,
           );
-          expect(getByTestId('header')).to.have.text('In person appointment');
+          expect(getByTestId('header')).to.have.text('In-person appointment');
         });
         it('renders correct subtitle', () => {
           const { getByTestId } = render(

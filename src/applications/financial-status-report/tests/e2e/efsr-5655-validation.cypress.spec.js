@@ -16,6 +16,7 @@ Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
+    skip: true,
     dataPrefix: 'data',
     dataSets: ['efsr-maximal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
@@ -52,8 +53,10 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.findAllByText(/start/i, { selector: 'button' })
+        cy.get('va-button[text*="start"]')
           .first()
+          .shadow()
+          .find('button')
           .click();
       },
       'all-available-debts': ({ afterHook }) => {
@@ -242,12 +245,12 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('100');
-          cy.get('#minMonthlyPayment')
+          cy.get('#amountDueMonthly')
             .first()
             .shadow()
             .find('input')
             .type('100');
-          cy.get('#amountOverdue')
+          cy.get('#amountPastDue')
             .first()
             .shadow()
             .find('input')

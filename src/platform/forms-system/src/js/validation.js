@@ -543,7 +543,7 @@ export function getFileError(file) {
     return null; // still awaiting password entry
   }
   if (!file.confirmationCode) {
-    return 'Something went wrong...';
+    return 'We couldn’t upload your file';
   }
 
   return null;

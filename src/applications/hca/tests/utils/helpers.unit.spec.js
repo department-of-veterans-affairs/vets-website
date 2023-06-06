@@ -5,9 +5,15 @@ import {
   expensesLessThanIncome,
   transformAttachments,
   prefillTransformer,
+  isShortFormEligible,
+  includeSpousalInformation,
+  getInsuranceAriaLabel,
+  isOfCollegeAge,
 } from '../../utils/helpers';
+import { HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
 
-describe('HCA helpers', () => {
+describe('hca helpers', () => {
+  // NOTE: for household v1 only -- remove when v2 is fully-adopted
   describe('expensesLessThanIncome', () => {
     it('should return true if expenses less than income', () => {
       const formData = {
@@ -164,6 +170,121 @@ describe('HCA helpers', () => {
       prevProps = { ...defaultProps };
       newProps = { ...defaultProps, shouldRedirect: true };
       expect(didEnrollmentStatusChange(prevProps, newProps)).to.equal(true);
+    });
+  });
+
+  describe('isShortFormEligible', () => {
+    const formData = {
+      vaCompensationType: 'none',
+      'view:totalDisabilityRating': 0,
+    };
+    it('returns `false` if disability rating is too low, and compensation type is not `highDisability`', () => {
+      expect(isShortFormEligible(formData)).to.equal(false);
+    });
+    it('returns `true` if disability rating is too low, but compensation type is `highDisability`', () => {
+      expect(
+        isShortFormEligible({
+          ...formData,
+          vaCompensationType: 'highDisability',
+        }),
+      ).to.equal(true);
+    });
+    it('returns `true` if disability rating is greater or equal to the high disability minimum', () => {
+      expect(
+        isShortFormEligible({
+          ...formData,
+          'view:totalDisabilityRating': HIGH_DISABILITY_MINIMUM,
+        }),
+      ).to.equal(true);
+    });
+  });
+
+  describe('includeSpousalInformation', () => {
+    const formData = {
+      discloseFinancialInformation: false,
+      maritalStatus: 'never married',
+    };
+    it('returns `false` if user chooses not to disclose their financial information', () => {
+      expect(includeSpousalInformation(formData)).to.equal(false);
+    });
+    it('returns `false` if user chooses to disclose their financial information, but is not married', () => {
+      expect(
+        includeSpousalInformation({
+          ...formData,
+          discloseFinancialInformation: true,
+        }),
+      ).to.equal(false);
+    });
+    it('returns `true` if user chooses to disclose their financial information and is legally married', () => {
+      expect(
+        includeSpousalInformation({
+          ...formData,
+          discloseFinancialInformation: true,
+          maritalStatus: 'married',
+        }),
+      ).to.equal(true);
+    });
+    it('returns `true` if user chooses to disclose their financial information and is legally married, but separated', () => {
+      expect(
+        includeSpousalInformation({
+          ...formData,
+          discloseFinancialInformation: true,
+          maritalStatus: 'separated',
+        }),
+      ).to.equal(true);
+    });
+  });
+
+  describe('getInsuranceAriaLabel', () => {
+    it('returns a generic label if the provider name is not provided', () => {
+      const formData = {};
+      expect(getInsuranceAriaLabel(formData)).to.equal('insurance policy');
+    });
+    it('returns the provider name with the policy number when provided', () => {
+      const formData = {
+        insuranceName: 'Aetna',
+        insurancePolicyNumber: '005588',
+      };
+      expect(getInsuranceAriaLabel(formData)).to.equal(
+        'Aetna, Policy number 005588',
+      );
+    });
+    it('returns the provider name with the group code when provided', () => {
+      const formData = {
+        insuranceName: 'Aetna',
+        insuranceGroupCode: '005588',
+      };
+      expect(getInsuranceAriaLabel(formData)).to.equal(
+        'Aetna, Group code 005588',
+      );
+    });
+  });
+
+  describe('isOfCollegeAge', () => {
+    it('returns `false` if birthdate is greater than 23 years from testdate', () => {
+      const birthdate = '1986-06-01';
+      const testdate = '2023-06-01';
+      expect(isOfCollegeAge(birthdate, testdate)).to.equal(false);
+    });
+    it('returns `false` if birthdate is less than 18 years from testdate', () => {
+      const birthdate = '2005-06-02';
+      const testdate = '2023-06-01';
+      expect(isOfCollegeAge(birthdate, testdate)).to.equal(false);
+    });
+    it('returns `true` if birthdate is exactly 18 years from testdate', () => {
+      const birthdate = '2005-06-01';
+      const testdate = '2023-06-01';
+      expect(isOfCollegeAge(birthdate, testdate)).to.equal(true);
+    });
+    it('returns `true` if birthdate is exactly 23 years from testdate', () => {
+      const birthdate = '2000-06-01';
+      const testdate = '2023-06-01';
+      expect(isOfCollegeAge(birthdate, testdate)).to.equal(true);
+    });
+    it('returns `true` if birthdate is between 18 and 23 years from testdate', () => {
+      const birthdate = '2003-06-01';
+      const testdate = '2023-06-01';
+      expect(isOfCollegeAge(birthdate, testdate)).to.equal(true);
     });
   });
 

@@ -9,7 +9,7 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockUser from '@@profile/tests/fixtures/users/user-36.json';
-import { mockUser as mockUserVAPError } from '@@profile/tests/fixtures/users/user-vap-error.js';
+import { mockUser as mockUserVAPError } from '@@profile/tests/fixtures/users/user-vap-error';
 import error500 from '@@profile/tests/fixtures/500.json';
 
 import {

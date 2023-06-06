@@ -1,6 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render, waitFor } from '@testing-library/react';
+
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { ContactInfoDescription } from '../../components/ContactInformation';
 
@@ -10,23 +12,21 @@ const getData = ({
   address = true,
   submitted = false,
   homeless = false,
-  loopPages = false,
 } = {}) => {
-  const data = {};
+  const veteran = {};
   if (email) {
-    data.email = {
-      emailAddress: 'someone@famous.com',
-    };
+    veteran.email = 'someone@famous.com';
   }
   if (mobile) {
-    data.mobilePhone = {
+    veteran.phone = {
       areaCode: '555',
       phoneNumber: '8001212',
       extension: '1234',
     };
   }
   if (address) {
-    data.mailingAddress = {
+    veteran.address = {
+      addressType: 'DOMESTIC',
       countryName: 'United States',
       countryCodeIso3: 'USA',
       addressLine1: '123 Main Blvd',
@@ -39,134 +39,121 @@ const getData = ({
   }
   return {
     formContext: { submitted },
-    profile: { vapContactInfo: data },
+    formData: { veteran },
     homeless,
-    loopPages,
   };
 };
 
 describe('Veteran information review content', () => {
   it('should render inline contact information', () => {
     const data = getData();
-    const tree = shallow(<ContactInfoDescription {...data} />);
+    const { container } = render(<ContactInfoDescription {...data} />);
+    const wrapper = $('.va-profile-wrapper', container);
 
-    expect(tree.find('PhoneField')).to.exist;
-    expect(tree.find('EmailField')).to.exist;
-    expect(tree.find('MailingAddress')).to.exist;
-    tree.unmount();
+    expect($('va-telephone', container).getAttribute('contact')).to.eq(
+      '5558001212',
+    );
+    expect(wrapper.textContent).to.include('someone@famous.com');
+    expect(wrapper.textContent).to.include('123 Main Blvd, Floor 33, Suite 55');
+    expect(wrapper.textContent).to.include('Hollywood, CA 90210');
   });
 
   it('should not throw JS error when contact info value is null', () => {
     const data = getData();
-    data.profile.vapContactInfo = {
+    data.formData.veteran = {
       mobilePhone: null,
       mailingAddress: null,
       email: null,
     };
 
-    const tree = shallow(<ContactInfoDescription {...data} />);
+    const { container } = render(<ContactInfoDescription {...data} />);
 
-    expect(tree.find('PhoneField')).to.exist;
-    expect(tree.find('EmailField')).to.exist;
-    expect(tree.find('MailingAddress')).to.exist;
-    tree.unmount();
-  });
-
-  it('should render contact information main loop', () => {
-    const data = getData({ loopPages: true });
-    const tree = shallow(<ContactInfoDescription {...data} />);
-
-    expect(tree.find('va-telephone')).to.exist;
-    expect(tree.find('AddressView')).to.exist;
-    expect(tree.find('Link').length).to.eq(3);
-
-    expect(tree.find('PhoneField').length).to.eq(0);
-    expect(tree.find('EmailField').length).to.eq(0);
-    expect(tree.find('MailingAddress').length).to.eq(0);
-    tree.unmount();
+    expect($$('a[aria-label^="Edit "]', container).length).to.eq(3);
   });
 
   it('should render note about missing phone', () => {
     const data = getData({ mobile: false });
-    const tree = shallow(<ContactInfoDescription {...data} />);
-    const text = tree.find('va-alert').text();
+    const { container } = render(<ContactInfoDescription {...data} />);
 
-    expect(text).to.contain('Your phone is missing');
-    tree.unmount();
+    expect($('va-alert', container).innerHTML).to.include(
+      'Your phone is missing',
+    );
   });
   it('should render note about missing email & phone', () => {
     const data = getData({ mobile: false, email: false });
-    const tree = shallow(<ContactInfoDescription {...data} />);
-    const text = tree.find('va-alert').text();
+    const { container } = render(<ContactInfoDescription {...data} />);
 
-    expect(text).to.contain('Your email and phone are missing');
-    tree.unmount();
+    expect($('va-alert', container).innerHTML).to.include(
+      'Your email and phone are missing',
+    );
   });
   it('should render note about missing email, phone & address', () => {
     const data = getData({ mobile: false, email: false, address: false });
-    const tree = shallow(<ContactInfoDescription {...data} />);
-    const text = tree.find('va-alert').text();
+    const { container } = render(<ContactInfoDescription {...data} />);
 
-    expect(text).to.contain('Your email, phone and address are missing');
-    tree.unmount();
+    expect($('va-alert', container).innerHTML).to.include(
+      'Your email, phone and address are missing',
+    );
   });
   it('should render note about missing address if not homeless', () => {
     const data = getData({ email: false, address: false, homeless: false });
-    const tree = shallow(<ContactInfoDescription {...data} />);
-    const text = tree.find('va-alert').text();
+    const { container } = render(<ContactInfoDescription {...data} />);
 
-    expect(text).to.contain('Your email and address are missing');
-    tree.unmount();
+    expect($('va-alert', container).innerHTML).to.include(
+      'Your email and address are missing',
+    );
   });
   it('should should not include missing address if homeless', () => {
     const data = getData({ email: false, address: false, homeless: true });
-    const tree = shallow(<ContactInfoDescription {...data} />);
-    const text = tree.find('va-alert').text();
+    const { container } = render(<ContactInfoDescription {...data} />);
 
-    expect(text).to.contain('Your email is missing');
-    tree.unmount();
+    expect($('va-alert', container).innerHTML).to.include(
+      'Your email is missing',
+    );
   });
 
-  it('should render an error if info is not actually updated', () => {
+  it('should render an error if info is not actually updated', async () => {
     const data = getData({
       submitted: false,
       email: false,
     });
-    const tree = shallow(<ContactInfoDescription {...data} />);
-    const alert = tree.find('va-alert');
+    const { container, rerender } = render(
+      <ContactInfoDescription {...data} />,
+    );
+    const alert = $('va-alert', container);
 
-    expect(alert.props().status).to.eq('warning');
-    expect(alert.text()).to.contain('Your email is missing');
+    expect(alert.getAttribute('status')).to.eq('warning');
+    expect(alert.innerHTML).to.include('Your email is missing');
 
     data.formContext.submitted = true;
-    tree.setProps(data);
+    await rerender(<ContactInfoDescription {...data} />);
 
-    const alerts = tree.find('va-alert');
-    expect(alerts.length).to.eq(2);
-    expect(alerts.at(0).props().status).to.eq('error');
-    expect(alerts.at(1).props().status).to.eq('warning');
-
-    tree.unmount();
+    await waitFor(() => {
+      const alerts = $$('va-alert', container);
+      expect(alerts.length).to.eq(2);
+      expect(alerts[0].getAttribute('status')).to.eq('error');
+      expect(alerts[1].getAttribute('status')).to.eq('warning');
+    });
   });
-  // enzyme shallow doesn't call useEffect
-  it.skip('should render note about missing address & show success after updating', () => {
+
+  it('should render note about missing address & show success after updating', async () => {
     const data = getData({
       submitted: false,
       email: false,
     });
-    const tree = shallow(<ContactInfoDescription {...data} />);
-    const alert = tree.find('va-alert');
+    const { container, rerender } = render(
+      <ContactInfoDescription {...data} />,
+    );
+    const alert = $('va-alert', container);
 
-    expect(alert.props().status).to.eq('warning');
-    expect(alert.text()).to.contain('Your email is missing');
+    expect(alert.getAttribute('status')).to.eq('warning');
+    expect(alert.innerHTML).to.include('Your email is missing');
 
-    tree.setProps(getData());
+    await rerender(<ContactInfoDescription {...getData()} />);
     // should update & call useEffect here
 
-    const success = tree.find('va-alert');
+    const success = $$('va-alert', container);
     expect(success.length).to.eq(1);
-    expect(success.props().status).to.eq('success');
-
-    tree.unmount();
+    expect(success[0].getAttribute('status')).to.eq('success');
   });
 });

@@ -62,10 +62,8 @@ describe('NOD contact info loop', () => {
 
   const getToContactPage = () => {
     // start form
-    cy.get('va-button[text*="start the board"]')
+    cy.get('.vads-c-action-link--green')
       .first()
-      .shadow()
-      .find('button')
       .click();
 
     // Veteran info (DOB, SSN, etc)
@@ -93,7 +91,10 @@ describe('NOD contact info loop', () => {
 
     // Mobile phone loops *****
     cy.get('a[href$="phone"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-mobile-phone`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -116,7 +117,10 @@ describe('NOD contact info loop', () => {
 
     // Email loops *****
     cy.get('a[href$="email-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-email-address`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-email-address`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -139,7 +143,10 @@ describe('NOD contact info loop', () => {
 
     // Mailing address loops *****
     cy.get('a[href$="mailing-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mailing-address`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-mailing-address`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 

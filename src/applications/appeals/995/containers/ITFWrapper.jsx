@@ -26,6 +26,8 @@ const ITFWrapper = ({
   children,
   mockDispatch,
   router,
+  accountUuid,
+  inProgressFormId,
 }) => {
   const allowITF = loggedIn && isSupportedBenefitType(benefitType);
   const [isFetching, setIsFetching] = useState(false);
@@ -49,7 +51,7 @@ const ITFWrapper = ({
         itf.fetchCallState === requestStates.notCalled
       ) {
         setIsFetching(true);
-        fetchITF()(mockDispatch || dispatch);
+        fetchITF({ accountUuid, inProgressFormId })(mockDispatch || dispatch);
       } else if (
         allowITF &&
         !isCreating &&
@@ -61,13 +63,17 @@ const ITFWrapper = ({
           itf.fetchCallState === requestStates.failed)
       ) {
         setIsCreating(true);
-        createITF(benefitType)(mockDispatch || dispatch);
+        createITF({ accountUuid, benefitType, inProgressFormId })(
+          mockDispatch || dispatch,
+        );
       }
     },
     [
+      accountUuid,
       allowITF,
       benefitType,
       dispatch,
+      inProgressFormId,
       isCreating,
       isFetching,
       itf,
@@ -167,6 +173,8 @@ ITFWrapper.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  accountUuid: PropTypes.string,
+  inProgressFormId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   itf: PropTypes.shape({
     fetchCallState: PropTypes.oneOf(requestStateEnum).isRequired,
     creationCallState: PropTypes.oneOf(requestStateEnum).isRequired,
