@@ -13,6 +13,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
 import AddIssue from '../components/AddIssue';
+import reviewErrors from '../content/reviewErrors';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -93,6 +94,9 @@ const formConfig = {
   subTitle: 'VA Form 20-0996 (Higher-Level Review)',
   defaultDefinitions: {},
   preSubmitInfo,
+  // showReviewErrors: true,
+  reviewErrors,
+
   chapters: {
     infoPages: {
       title: 'Veteran information',
