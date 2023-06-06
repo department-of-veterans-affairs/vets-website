@@ -317,10 +317,11 @@ export function getNotificationMethod(notificationMethod) {
 }
 
 export function createMilitaryClaimant(submissionForm) {
-  // Define the formField and viewComponent sources for userFullName and dateOfBirth
-  const formFieldUserFullName = submissionForm['view:userFullName'];
+  // Access formField and viewComponent sources for userFullName and dateOfBirth
+  const formFieldUserFullName =
+    submissionForm['view:userFullName']?.userFullName;
   const viewComponentUserFullName = submissionForm.userFullName;
-  const formFieldDateOfBirth = submissionForm.dateOfBirth;
+  const formFieldDateOfBirth = submissionForm['view:dateOfBirth'];
   const viewComponentDateOfBirth = submissionForm.veteranDateOfBirth;
   // Explicitly check if formField sources are not undefined and not empty, otherwise use viewComponent
   const userFullName =
