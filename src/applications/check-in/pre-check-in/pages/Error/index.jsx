@@ -532,97 +532,74 @@ const getSingleVitalPdf = e => {
 const getProgressNotePdf = e => {
   e.preventDefault();
 
-  const noteValue = `LOCAL TITLE: PRIMARY CARE PROGRESS NOTE
-
-STANDARD TITLE: PRIMARY CARE NOTE
-
-DATE OF NOTE: JUL 19, 2022@21:36 ENTRY DATE: JUL 19, 2022@21:36:45
-
- AUTHOR: MONK,ADRIAN EXP COSIGNER:
-
-URGENCY: STATUS: COMPLETED
-
-PRIMARY CARE PROGRESS NOTE
-
-Face-to-Face
-
+  const noteValue = `Face-to-Face
 MHVZZVISNTWENTY,TEST PATIENTR is a 21 year old veteran who presents for a
-
 face-to-face follow-up visit.
-
 CHIEF COMPLAINT/HISTORY OF PRESENT ILLNESS: Testing to see if after visit
-
 summary viewable in JLV
 
 EXAM
-
 NO VITALS FOUND SpO2 ---
-
 General:
-
 Chest:
-
 Cardiovascular:
+Abdomen:
+Extremities:
+Other:
 
+ASSESSMENT/PLAN
+Written After Visit Summary instructions reviewed with patient. Patient
 provided copy of updated medication list.
-
 RETURN TO CLINIC: Per RTC order, or sooner PRN
 
 Total time spent in clinical care related to this visit: 5 minutes
 
 MEDICATION RECONCILIATION:
-
-Medication Reconciliation was not performed at this visit as patient
-
-and/or caregiver is not able to confirm medications he/she is taking. The
-
-importance of managing medication information was explained to the
-
-patient.
-
+    Medication Reconciliation was not performed at this visit as patient
+    and/or caregiver is not able to confirm medications he/she is taking. The
+    importance of managing medication information was explained to the
+    patient.
 PAST MEDICAL HISTORY
-
 Enter Problems:
 
 No active problems in computerized problem list as of 7/19/22@21:36
 
 SERVICE CONNECTED CONDITIONS
-
-LUNG CONDITION 60% S/C
-
+LUNG CONDITION                 60% S/C
 MEDICATIONS
-
 Local:
-
 Active Outpatient Medications (excluding Supplies):
 
 No Medications Found
 
 Remote: No Active Remote Medications for this patient
-
 ALLERGIES
-
 Local: Allergy Assessment Not Done
-
 Remote:
+FACILITY                                ALLERGY/ADR
+--------                                -----------
+363^ANCHORAGE VA MEDICAL CENTER^463     TETANUS TOXOID
+648^PORTLAND VA MEDICAL CENTER^648      ADHESIVE TAPE
+648^PORTLAND VA MEDICAL CENTER^648      ALUMINUM HYDROXIDE/MAGNESIUM HYDROXIDE
+648^PORTLAND VA MEDICAL CENTER^648      EGGS
+648^PORTLAND VA MEDICAL CENTER^648      LISINOPRIL
+648^PORTLAND VA MEDICAL CENTER^648      PENICILLIN
+648^PORTLAND VA MEDICAL CENTER^648      PRAZOSIN
+648^PORTLAND VA MEDICAL CENTER^648      SULFA DRUGS
+648^PORTLAND VA MEDICAL CENTER^648      TETRACYCLINE
+668^MANN-GRANDSTAFF VAMC^668            CLINDAMYCIN
+687^JONATHAN M. WAINWRIGHT VAMC^687     PENICILLIN
+LABS:
+  No data available HEMOGLOBIN A1c,INTEGRA - NONE FOUND
+No data available for: CHOLESTEROL
+TRIGLYCERIDES
+HDL CHOLESTEROL
+LDL, CALCULATED
+LDL, DIRECT No CBC Panel Found
 
-FACILITY ALLERGY/ADR
-
--------------------
-
-363^ANCHORAGE VA MEDICAL CENTER^463 TETANUS TOXOID
-
-648^PORTLAND VA MEDICAL CENTER^648 ADHESIVE TAPE
-
-648^PORTLAND VA MEDICAL CENTER^648 ALUMINUM HYDROXIDE/MAGNESIUM HYDROXIDE
-
-MHVZZVISNTWENTY, TEST PATIENTR CONFIDENTIAL Page 46 of 2094
-
-648^PORTLAND VA MEDICAL CENTER^648 EGGS
-
-648^PORTLAND VA MEDICAL CENTER^648 LISINOPRIL
-
-648^PORTLAND VA MEDICAL CENTER^648 PENICILLIN`;
+/es/ , DNP, ARNP, FNP-BC
+Nurse Practitioner - Women's Health Clinic
+Signed: 07/19/2022 21:42`;
 
   generatePdf('medical_records', 'progress_note', {
     headerLeft: 'Roberts, Jesse',
