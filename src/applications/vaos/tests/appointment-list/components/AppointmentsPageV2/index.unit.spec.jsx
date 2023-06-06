@@ -16,8 +16,9 @@ import {
   mockAppointmentInfo,
   mockPastAppointmentInfo,
 } from '../../../mocks/helpers';
-import { getVARequestMock } from '../../../mocks/v0';
 import { createMockAppointmentByVersion } from '../../../mocks/data';
+import { mockVAOSAppointmentsFetch } from '../../../mocks/helpers.v2';
+import { getVAOSRequestMock } from '../../../mocks/v2';
 
 const initialState = {
   featureToggles: {
@@ -253,28 +254,35 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
     it('should display updated appointment request page', async () => {
       // Given the veteran lands on the VAOS homepage
-      const startDate = moment.utc();
-      const appointment = getVARequestMock();
+      const appointment = getVAOSRequestMock();
+      appointment.id = '1';
       appointment.attributes = {
-        ...appointment.attributes,
-        status: 'Submitted',
-        optionDate1: startDate,
-        optionTime1: 'AM',
-        purposeOfVisit: 'New Issue',
-        bestTimetoCall: ['Morning'],
-        email: 'patient.test@va.gov',
-        phoneNumber: '5555555566',
-        typeOfCareId: '323',
-        reasonForVisit: 'Back pain',
-        friendlyLocationName: 'Some VA medical center',
-        comment: 'loss of smell',
-        facility: {
-          ...appointment.attributes.facility,
-          facilityCode: '983GC',
-        },
+        id: '1',
+        kind: 'clinic',
+        locationId: '983',
+        requestedPeriods: [{}],
+        serviceType: 'primaryCare',
+        status: 'proposed',
       };
-      appointment.id = '1234';
-      mockAppointmentInfo({ requests: [appointment] });
+
+      mockVAOSAppointmentsFetch({
+        start: moment()
+          .subtract(1, 'month')
+          .format('YYYY-MM-DD'),
+        end: moment()
+          .add(395, 'days')
+          .format('YYYY-MM-DD'),
+        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        requests: [appointment],
+      });
+      mockVAOSAppointmentsFetch({
+        start: moment()
+          .subtract(4, 'months')
+          .format('YYYY-MM-DD'),
+        end: moment().format('YYYY-MM-DD'),
+        statuses: ['proposed', 'cancelled'],
+        requests: [appointment],
+      });
 
       // When the page displays
       const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {

@@ -25,7 +25,7 @@ describe('EKG details component', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<EkgDetails results={mockEkg} />, {
+    return renderWithStoreAndRouter(<EkgDetails record={mockEkg} />, {
       initialState: state,
       reducers: reducer,
       path: '/labs-and-tests/123',

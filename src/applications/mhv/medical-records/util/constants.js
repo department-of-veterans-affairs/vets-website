@@ -6,3 +6,14 @@ export const RecordType = {
   VITALS: 'vitals',
   ALLERGIES: 'allergies',
 };
+
+export const labTypes = {
+  CHEM_HEM: 'chemistry_hematology',
+  EKG: 'electrocardiogram',
+  MICRO: 'microbiology',
+  PATH: 'pathology',
+  RAD: 'radiology',
+  OTHER: 'other',
+};
+
+export const testing = false;

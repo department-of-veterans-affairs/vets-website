@@ -472,6 +472,7 @@ const formConfig = {
           depends: formData =>
             !isShortFormEligible(formData) &&
             includeSpousalInformation(formData) &&
+            !formData.cohabitedLastYear &&
             formData['view:isHouseholdV2Enabled'],
           uiSchema: v2SpouseFinancialSupport.uiSchema,
           schema: v2SpouseFinancialSupport.schema,

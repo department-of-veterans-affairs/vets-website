@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import * as VAP_SERVICE from '@@vap-svc/constants';
+import * as VAP_SERVICE from 'platform/user/profile/vap-svc/constants';
 
 import ProfileFormContainerVAFSC from './ProfileFormContainerVAFSC';
 import PhoneWithExtension from './contact-information/phone-numbers/vafsc/PhoneWithExtension';
