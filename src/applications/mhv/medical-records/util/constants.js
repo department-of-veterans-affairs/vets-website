@@ -9,10 +9,10 @@ export const RecordType = {
 
 export const labTypes = {
   CHEM_HEM: 'chemistry_hematology',
+  MICROBIOLOGY: 'microbiology',
+  PATHOLOGY: 'pathology',
   EKG: 'electrocardiogram',
-  MICRO: 'microbiology',
-  PATH: 'pathology',
-  RAD: 'radiology',
+  RADIOLOGY: 'radiology',
   OTHER: 'other',
 };
 
