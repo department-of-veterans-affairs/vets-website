@@ -1,6 +1,24 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 
+#loginGovExperimentModal {
+  ul {
+    list-style: unset;
+    margin: unset;
+    margin-top: -1em;
+    padding: unset;
+    margin-inline-start: 2em;
+
+    li {
+      margin-bottom: 0;
+    }
+  }
+
+  .alert-actions {
+    margin: 10px 0 0;
+  }
+}
+
 span.sidelines {
   position: relative;
   z-index: 1;
@@ -342,7 +360,7 @@ span.sidelines {
   line-height: 100%;
 
   &:before {
-    transform: translateY(0);
+    top: unset !important;
   }
 
   &.logingov {

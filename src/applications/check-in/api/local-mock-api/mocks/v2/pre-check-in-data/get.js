@@ -19,6 +19,8 @@ const expiredPhoneUUID = '08ba56a7-68b7-4b9f-b779-53ba609140ef';
 const allDemographicsCurrentUUID = 'e544c217-6fe8-44c5-915f-6c3d9908a678';
 const onlyDemographicsCurrentUUID = '7397abc0-fb4d-4238-a3e2-32b0e47a1527';
 
+const noFacilityAddressUUID = '5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3';
+
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
 
 const createMockSuccessResponse = (
@@ -46,6 +48,14 @@ const createMockSuccessResponse = (
   let location = null;
   let checkInSteps = [];
   let status = '';
+  let facilityAddress = {
+    zip: '92357-1000',
+    street1: '11201 Benton Street',
+    state: 'CA',
+    street2: null,
+    street3: null,
+    city: 'Loma Linda',
+  };
 
   let demographicsNeedsUpdateValue = demographicsNeedsUpdate;
   let demographicsConfirmedAtValue = demographicsConfirmedAt;
@@ -105,6 +115,9 @@ const createMockSuccessResponse = (
     apptKind = 'phone';
     location = '';
   }
+  if (token === noFacilityAddressUUID) {
+    facilityAddress = {};
+  }
   return {
     id: token || defaultUUID,
     payload: {
@@ -118,6 +131,7 @@ const createMockSuccessResponse = (
           checkInSteps,
           preCheckInValid: true,
           appointmentIen: 1111,
+          facilityAddress,
         }),
         createAppointment({
           clinicLocation: location ?? 'SECOND FLOOR ROOM 2',
@@ -126,6 +140,7 @@ const createMockSuccessResponse = (
           startTime: mockTime,
           checkInSteps,
           preCheckInValid: true,
+          facilityAddress,
         }),
       ],
       patientDemographicsStatus: {

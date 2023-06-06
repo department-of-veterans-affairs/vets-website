@@ -4,6 +4,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
 import vaccines from '../fixtures/vaccines.json';
+import { RecordType } from '../../util/constants';
 
 describe('Vaccine list item component', () => {
   const initialState = {
@@ -17,7 +18,7 @@ describe('Vaccine list item component', () => {
 
   const setup = (state = initialState) => {
     return renderWithStoreAndRouter(
-      <RecordListItem record={vaccines[0]} type="vaccine" />,
+      <RecordListItem record={vaccines[0]} type={RecordType.VACCINES} />,
       {
         initialState: state,
         reducers: reducer,

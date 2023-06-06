@@ -6,6 +6,8 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import { getAllVaccinesPdf } from '../api/MrApi';
 import { downloadFile } from '../util/helpers';
+import { RecordType } from '../util/constants';
+import PrintDownload from '../components/shared/PrintDownload';
 
 const Vaccines = () => {
   const dispatch = useDispatch();
@@ -42,7 +44,7 @@ const Vaccines = () => {
 
   const content = () => {
     if (vaccines?.length) {
-      return <RecordList records={vaccines} type="vaccine" />;
+      return <RecordList records={vaccines} type={RecordType.VACCINES} />;
     }
     return (
       <va-loading-indicator
@@ -54,7 +56,7 @@ const Vaccines = () => {
   };
 
   return (
-    <div className="vaccines" id="vaccines">
+    <div id="vaccines">
       <PrintHeader />
       <h1 className="page-title">Vaccines</h1>
       <p>
@@ -65,27 +67,7 @@ const Vaccines = () => {
         about your information, visit the FAQs or contact your VA Health care
         team.
       </p>
-      <div className="vads-u-display--flex vads-u-margin-y--3 no-print">
-        <button
-          className="link-button vads-u-margin-right--3"
-          type="button"
-          data-testid="print-records-button"
-          onClick={window.print}
-        >
-          <i
-            aria-hidden="true"
-            className="fas fa-print vads-u-margin-right--1"
-          />
-          Print page
-        </button>
-        <button className="link-button" type="button" onClick={download}>
-          <i
-            aria-hidden="true"
-            className="fas fa-download vads-u-margin-right--1"
-          />
-          Download page
-        </button>
-      </div>
+      <PrintDownload list download={download} />
 
       {content()}
     </div>

@@ -1,0 +1,23 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "caregiverSigiEnabled",
+        "value": false
+      },
+      {
+        "name": "hcaBrowserMonitoringEnabled",
+        "value": false
+      },
+      {
+        "name": "hcaUseFacilitiesApi",
+        "value": false
+      },
+      {
+        "name": "hcaHouseholdV2Enabled",
+        "value": true
+      }
+    ]
+  }
+}

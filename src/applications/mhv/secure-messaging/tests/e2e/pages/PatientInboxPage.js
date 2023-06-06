@@ -77,7 +77,7 @@ class PatientInboxPage {
     }
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/threads*',
+      '/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
       this.mockInboxMessages,
     ).as('inboxMessages');
     cy.intercept(
@@ -100,6 +100,7 @@ class PatientInboxPage {
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     cy.wait('@inboxMessages');
+    if (this.mockInboxMessages.length) cy.get('.thread-list').should('exist');
   };
 
   setInboxTestMessageDetails = mockMessage => {
@@ -252,6 +253,11 @@ class PatientInboxPage {
     ).as('inboxFolderMetaData');
     cy.intercept(
       'GET',
+      '/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
+      this.mockInboxMessages,
+    ).as('inboxMessages');
+    cy.intercept(
+      'GET',
       '/my_health/v1/messaging/recipients?useCache=false',
       mockNoRecipients,
     ).as('recipients');
@@ -297,9 +303,9 @@ class PatientInboxPage {
   };
 
   loadComposeMessagePage = () => {
-    cy.get('[data-testid="compose-message-link"]').click();
+    cy.get('[data-testid="compose-message-link"]').click({ force: true });
     const interstitialPage = new PatientInterstitialPage();
-    interstitialPage.getContinueButton().click();
+    interstitialPage.getContinueButton().click({ force: true });
   };
 
   navigatePrintCancelButton = () => {
@@ -329,6 +335,40 @@ class PatientInboxPage {
   navigateReply = () => {
     cy.tabToElement('[data-testid="reply-button-top"]');
     cy.realPress(['Enter']);
+  };
+
+  verifyDeleteConfirmMessage = () => {
+    cy.contains('successfully deleted')
+      .focused()
+      .should('have.text', 'Draft was successfully deleted.');
+  };
+
+  loadLandingPagebyTabbingandEnterKey = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
+      mockFolders,
+    ).as('folders');
+  };
+
+  openAdvancedSearch = () => {
+    cy.get('#first').click();
+  };
+
+  selectAdvancedSearchCategory = () => {
+    cy.get('#category-dropdown')
+      .find('#select')
+      .select('COVID');
+  };
+
+  selectAdvancedSearchCategoryCustomFolder = () => {
+    cy.get('#category-dropdown')
+      .find('#select')
+      .select('Medication');
+  };
+
+  submitSearchButton = () => {
+    cy.get('[data-testid="filter-messages-button"]').click();
   };
 }
 export default PatientInboxPage;

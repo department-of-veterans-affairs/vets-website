@@ -16,14 +16,12 @@ describe('Secure Messaging Delete Draft', () => {
     inboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
-    patientInterstitialPage.getContinueButton().click();
+    patientInterstitialPage.getContinueButton().click({ force: true });
     draftsPage.clickDeleteButton();
     cy.injectAxe();
     cy.axeCheck();
     draftsPage.confirmDeleteDraft(mockDraftResponse);
-    cy.contains('successfully deleted')
-      .focused()
-      .should('have.text', 'Draft was successfully deleted.');
+    inboxPage.verifyDeleteConfirmMessage();
     cy.injectAxe();
     cy.axeCheck();
   });

@@ -8,6 +8,9 @@
     background-color: $color-white;
 
     .message-detail-header {
+      @media print {
+        display: block;
+      }
       padding-right: 6px;
       padding-bottom: none !important;
       h3 {
@@ -41,10 +44,6 @@
       margin-top: 1em;
     }
 
-    .message-detail-note {
-      margin-top: 3em;
-      margin-bottom: 3em;
-    }
     .message-body-attachments-label {
       margin-bottom: 7px;
     }
@@ -61,6 +60,12 @@
   }
 
   .message-action-buttons {
+    @media (max-width: $xsmall-screen) {
+      flex-direction: column;
+      button {
+        margin: 0;
+      }
+    }
     list-style-type: none;
     display: flex;
     flex-direction: row;
@@ -103,10 +108,6 @@
   }
 }
 
-.message-thread-list {
-  display: none;
-}
-
 @media print {
   body {
     a,
@@ -129,14 +130,6 @@
     .nav-links {
       display: none;
     }
-    .older-messages {
-      display: none;
-    }
-    .print-thread {
-      .message-thread-list {
-        display: contents;
-      }
-    }
   }
   .message-detail-block {
     left: 0;
@@ -144,5 +137,9 @@
     .message-action-buttons {
       display: none;
     }
+  }
+
+  .message-thread-meta {
+    display: block;
   }
 }

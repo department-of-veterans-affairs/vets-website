@@ -166,7 +166,7 @@ const ContactInfo = ({
       </p>
 
       <Headers className={headerClassNames}>Email address</Headers>
-      {showSuccessAlert('email', 'Email')}
+      {showSuccessAlert('email', 'Email address')}
       <span>{email || ''}</span>
       <p className="vads-u-margin-top--0p5">
         <Link

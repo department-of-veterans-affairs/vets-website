@@ -1,37 +1,48 @@
-import React from 'react';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
-import { intersection, pick } from 'lodash';
+import { pick } from 'lodash';
 import { veteranFields } from '../definitions/constants';
 
-const { required, properties } = fullSchema.properties[
-  veteranFields.parentObject
+const { properties } = fullSchema.properties[veteranFields.parentObject];
+const pageFields = [
+  veteranFields.ssn,
+  veteranFields.vaFileNumber,
+  veteranFields.veteranServiceNumber,
 ];
-const pageFields = [veteranFields.ssn, veteranFields.vaFileNumber];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
-      'ui:title': (
-        <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-          Identification numbers
-        </h3>
-      ),
-      'ui:description': (
-        <div className="vads-u-margin-bottom--4">
-          Enter at least 1 of these identification numbers.
-        </div>
-      ),
       [veteranFields.ssn]: ssnUI,
       [veteranFields.vaFileNumber]: {
-        'ui:title': 'VA file number',
+        'ui:title': 'VA file number (if applicable)',
         'ui:errorMessages': {
-          pattern:
-            'Please input a valid VA file number: 7 to 9 numeric digits, & may start with a letter "C" or "c".',
+          pattern: 'Your VA file number must be 8 or 9 digits',
+        },
+        'ui:options': {
+          replaceSchema: () => {
+            return {
+              type: 'string',
+              pattern: '^\\d{8,9}$',
+            };
+          },
         },
       },
       [veteranFields.veteranServiceNumber]: {
-        'ui:title': 'Veteran Service Number',
+        'ui:title': 'Veteran service number (if applicable)',
+        'ui:errorMessages': {
+          pattern:
+            'Your Veteran service number must start with 0, 1, or 2 letters followed by 5 to 8 digits',
+        },
+        'ui:options': {
+          replaceSchema: () => {
+            return {
+              type: 'string',
+              pattern: '^[a-zA-Z]{0,2}\\d{5,8}$',
+            };
+          },
+        },
       },
     },
   },
@@ -40,7 +51,7 @@ export default {
     properties: {
       [veteranFields.parentObject]: {
         type: 'object',
-        required: intersection(required, pageFields),
+        required: [veteranFields.ssn],
         properties: pick(properties, pageFields),
       },
     },

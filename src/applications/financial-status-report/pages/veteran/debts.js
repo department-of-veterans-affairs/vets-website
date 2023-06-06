@@ -1,16 +1,8 @@
-import React from 'react';
 import AvailableDebts from '../../components/AvailableDebts';
 
 export const uiSchema = {
   availableDebts: {
-    'ui:title': (
-      <span
-        className="vads-u-font-size--h4 vads-u-font-weight--bold vads-u-font-family--sans"
-        data-testid="debt-title"
-      >
-        What debt do you need help with?
-      </span>
-    ),
+    'ui:title': 'What debt do you need help with?',
     'ui:widget': AvailableDebts,
     'ui:required': formData => {
       const { selectedDebts } = formData;

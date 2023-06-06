@@ -5,3 +5,81 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+.schemaform-sip-alert .usa-alert-text > ul > li:first-child {
+  // we needed to set form.js prefillEnabled to true just to get
+  // SIP-alert content to display, even though we're not implementing
+  // prefill in this form.
+  // BUT, with prefillEnabled true, the 1st bullet-point mentions
+  // the pre-fill benefit, so we're hiding it via styling here.
+  display: none;
+}
+
+#root_claimOwnership-label,
+#root_claimantType-label {
+  font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+  font-size: 2rem;
+  font-weight: 700;
+
+  .schemaform-required-span {
+    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
+      Arial, sans-serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+}
+
+#root_witnessRelationshipToClaimant-label {
+  margin-bottom: -1.5rem;
+  &.usa-input-error-label {
+    font-weight: bold;
+  }
+
+  // & + .schemaform-widget-wrapper va-checkbox-group,
+  // & + .usa-input-error-message + .schemaform-widget-wrapper va-checkbox-group {
+  //   clip-path: inset(30px 0 0 -3px);
+  //   margin-top: -30px;
+  // }
+}
+#root_witnessOtherRelationshipToVeteran-label.schemaform-label.usa-input-error-label {
+  font-weight: 400 !important;
+}
+#root_witnessOtherRelationshipToVeteran-label .schemaform-required-span {
+  display: none;
+}
+#root_witnessOtherRelationshipToClaimant-error-message {
+  display: none;
+}
+
+.schemaform-label[for="root_witnessRelationshipToClaimant_family-or-friend"] {
+  margin-top: 0.8rem;
+}
+.schemaform-label[for="root_witnessRelationshipToClaimant_coworker-or-supervisor"] {
+  margin-top: 0;
+}
+
+#root_veteranEmailConsent-label,
+#root_witnessEmailConsent-label,
+#root_claimantEmailConsent-label {
+  display: none !important;
+
+  & + .schemaform-widget-wrapper {
+    margin-top: 3rem;
+  }
+}
+
+.schemaform-label[for="root_witnessRelationshipToVeteran_served-with"] {
+  margin-top: 1.2rem !important;
+}
+
+.schemaform-label[for="root_witnessRelationshipToVeteran_family-or-friend"],
+.schemaform-label[for="root_witnessRelationshipToVeteran_coworker-or-supervisor"] {
+  margin-top: 1.5rem !important;
+}
+
+.form-review-panel[data-chapter="statementInfoChapter"] .review-row dt > span {
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", Arial,
+    sans-serif !important;
+  font-size: 1.6rem !important;
+  font-weight: 400 !important;
+}

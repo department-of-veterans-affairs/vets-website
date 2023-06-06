@@ -5,6 +5,7 @@ import {
   mockEligibilityFetches,
 } from '../../../mocks/helpers';
 import { getAppointmentSlotMock, getClinicMock } from '../../../mocks/v0';
+import { mockEligibilityFetchesByVersion } from '../../../mocks/fetch';
 
 export function setDateTimeSelectMockFetches({
   preferredDate = moment(),
@@ -35,6 +36,8 @@ export function setDateTimeSelectMockFetches({
     },
   ];
 
+  // TODO: Remove this when the following API call has been migrated (mocks/helpers.js:511):
+  // ../vaos/v0/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${siteId}`,
   mockEligibilityFetches({
     siteId: '983',
     facilityId: '983',
@@ -45,6 +48,24 @@ export function setDateTimeSelectMockFetches({
     clinics: clinicIds.length === 2 ? clinics : [clinics[0]],
     pastClinics: true,
   });
+
+  mockEligibilityFetchesByVersion({
+    facilityId: '983',
+    typeOfCareId: 'primaryCare',
+    limit: true,
+    requestPastVisits: true,
+    clinics: clinicIds.length === 2 ? clinics : [clinics[0]],
+    pastClinics: true,
+  });
+  mockEligibilityFetchesByVersion({
+    facilityId: '983',
+    typeOfCareId: 'primaryCare',
+    limit: true,
+    directPastVisits: true,
+    clinics: clinicIds.length === 2 ? clinics : [clinics[0]],
+    pastClinics: true,
+  });
+
   if (!slotError) {
     clinicIds.forEach(id => {
       const slots = slotDatesByClinicId[id].map(date => {

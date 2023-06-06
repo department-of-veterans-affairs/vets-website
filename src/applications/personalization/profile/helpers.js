@@ -24,7 +24,7 @@ export const getServiceBranchDisplayName = serviceBranch => {
 /**
  *
  * Transforms a service history object into an object with `title` and `value`
- * keys, which is the format required by a single row in a `ProfileInfoTable`
+ * keys, which is the format required by a single row in a `ProfileInfoCard`
  *
  * @param {Object} entry - a service history object with `branchOfService`,
  * `beginDate`, and `endDate` keys

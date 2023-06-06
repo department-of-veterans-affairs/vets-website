@@ -16,7 +16,7 @@ const TemporaryOutage = () => (
         available right now. We’re doing some maintenance work on this system.
       </p>
       <p className="vads-u-margin-bottom--0">
-        Check back on Monday, August 15, 2022, to review your information.
+        Refresh this page or try again later.
       </p>
     </va-alert>
   </div>

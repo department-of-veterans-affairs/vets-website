@@ -84,6 +84,11 @@ const maximalSetOfPreferences = {
                     allowed: false,
                   },
                 },
+                {
+                  id: 2,
+                  name: 'Email',
+                  description: 'Email Notification',
+                },
               ],
             },
             // new communication items https://github.com/department-of-veterans-affairs/va.gov-team/issues/53616
@@ -167,6 +172,25 @@ const maximalSetOfPreferences = {
                     id: 8362,
                     allowed: true,
                   },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 5,
+          name: 'QuickSubmit',
+          description: 'QuickSubmit Notifications',
+          communicationItems: [
+            {
+              id: 12,
+              name: 'QuickSubmit Upload Status',
+              communicationChannels: [
+                {
+                  id: 1,
+                  name: 'Text',
+                  description: 'SMS Notification',
+                  defaultSendIndicator: true,
                 },
               ],
             },

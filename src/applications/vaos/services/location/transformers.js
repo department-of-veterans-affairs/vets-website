@@ -7,45 +7,6 @@ import { getTestFacilityId } from '../../utils/appointment';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { arrayToObject, dedupeArray } from '../../utils/data';
 
-/**
- * Transforms /vaos/systems/983/direct_scheduling_facilities?type_of_care_id=323&parent_code=983GB to
- * /Location?organization=Organization/983
- *
- * @export
- * @param {Array<VARFacility>} facilities A list of facilities from var-resources
- * @returns {Array<Location>} A FHIR searchset of Location resources
- */
-export function transformDSFacilities(facilities) {
-  return facilities.map(facility => ({
-    resourceType: 'Location',
-    id: facility.id,
-    vistaId: facility.rootStationCode,
-    identifier: [
-      {
-        system: VHA_FHIR_ID,
-        value: facility.institutionCode,
-      },
-      {
-        system: 'http://med.va.gov/fhir/urn',
-        value: `urn:va:division:${facility.rootStationCode}:${facility.id}`,
-      },
-    ],
-    name: facility.authoritativeName,
-    telecom: [],
-    address: {
-      line: [],
-      city: facility.city,
-      state: facility.stateAbbrev,
-      postalCode: null,
-    },
-    legacyVAR: {
-      institutionTimezone: facility.institutionTimezone,
-      requestSupported: facility.requestSupported,
-      directSchedulingSupported: facility.directSchedulingSupported,
-    },
-  }));
-}
-
 function isFacilityOpenAllDay(hours) {
   if (!hours) return false;
 

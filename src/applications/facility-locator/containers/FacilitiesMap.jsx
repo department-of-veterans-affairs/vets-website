@@ -45,7 +45,7 @@ import {
 import { distBetween } from '../utils/facilityDistance';
 import SearchResult from '../components/SearchResult';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
-import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
+import { otherToolsLink } from '../utils/mapLinks';
 import SearchAreaControl from '../components/SearchAreaControl';
 import Covid19Result from '../components/search-results-items/Covid19Result';
 import Alert from '../components/Alert';
@@ -214,7 +214,9 @@ const FacilitiesMap = props => {
     });
   };
 
-  const handlePageSelect = page => {
+  const handlePageSelect = e => {
+    const { page } = e.detail;
+
     resetMapElements();
     const { currentQuery } = props;
     const coords = currentQuery.position;
@@ -438,11 +440,8 @@ const FacilitiesMap = props => {
           <div id="search-result-emergency-care-info">
             <p className="search-result-emergency-care-subheader">
               <strong>Note:</strong> If you think your life or health is in
-              danger, call{' '}
-              <a aria-label="9 1 1" href="tel:911">
-                911
-              </a>{' '}
-              or go to the nearest emergency department right away.
+              danger, call <va-telephone contact="911" /> or go to the nearest
+              emergency department right away.
             </p>
           </div>
         )}
@@ -650,9 +649,6 @@ const FacilitiesMap = props => {
             Find a VA location or in-network community care provider. For
             same-day care for minor illnesses or injuries, select Urgent care
             for facility type.
-          </p>
-          <p>
-            <strong>Coronavirus update:</strong> {coronavirusUpdate}
           </p>
         </div>
         {renderView()}

@@ -1,9 +1,12 @@
+import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
+import { WIZARD_STATUS } from '../../wizard/constants';
 // import { deductionCodes } from '../../../debt-letters/const/deduction-codes';
 
 describe('Fetch Debts Unsuccessfully', () => {
   before(() => {
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         features: [
@@ -58,15 +61,8 @@ describe('Fetch Debts Unsuccessfully', () => {
     });
   });
   it('Unsuccessful API Response', () => {
-    cy.get('#start-option-0').click();
-    cy.get('#reconsider-option-2').click();
-    cy.get('#recipients-option-1').click();
-    cy.get('[data-testid="start-button"]').click();
-
-    cy.get('va-button[text*="start"]')
+    cy.get('.vads-c-action-link--green')
       .first()
-      .shadow()
-      .find('button')
       .click();
 
     cy.findAllByText(/continue/i, { selector: 'button' })

@@ -43,10 +43,10 @@ CTALink.propTypes = {
   className: PropTypes.string,
   href: PropTypes.string,
   newTab: PropTypes.bool,
+  showArrow: PropTypes.bool,
   testId: PropTypes.string,
   text: PropTypes.string,
   onClick: PropTypes.func,
-  showArrow: PropTypes.bool,
 };
 
 export default CTALink;

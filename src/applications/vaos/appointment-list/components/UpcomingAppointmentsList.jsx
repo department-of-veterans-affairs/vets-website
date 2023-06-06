@@ -32,6 +32,7 @@ import {
 } from '../../redux/selectors';
 import AppointmentCard from './AppointmentsPageV2/AppointmentCard';
 import UpcomingAppointmentLayout from './AppointmentsPageV2/UpcomingAppointmentLayout';
+import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
 
 function handleClick({ history, link, idClickable }) {
   return () => {
@@ -67,6 +68,18 @@ export default function UpcomingAppointmentsList() {
   const featureAppointmentList = useSelector(state =>
     selectFeatureAppointmentList(state),
   );
+
+  useEffect(
+    () => {
+      if (featureAppointmentList) {
+        recordEvent({
+          event: `${GA_PREFIX}-new-appointment-list`,
+        });
+      }
+    },
+    [featureAppointmentList],
+  );
+
   useEffect(
     () => {
       if (futureStatus === FETCH_STATUS.notStarted) {
@@ -115,6 +128,7 @@ export default function UpcomingAppointmentsList() {
 
   return (
     <>
+      <BackendAppointmentServiceAlert />
       <div aria-live="assertive" className="sr-only">
         {hasTypeChanged && 'Showing upcoming appointments'}
       </div>

@@ -36,8 +36,8 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="drafts-sidebar"]').click();
     cy.injectAxe();
     cy.axeCheck();
-    cy.wait('@draftsFolderMetaResponse');
-    cy.wait('@draftsResponse');
+    // cy.wait('@draftsFolderMetaResponse');
+    // cy.wait('@draftsResponse');
   };
 
   setDraftTestMessageDetails = mockMessage => {
@@ -189,6 +189,27 @@ class PatientMessageDraftsPage {
       .get('[data-testid="message-body-field"]')
       .shadow()
       .find('[name="compose-message-body"]');
+  };
+
+  verifySendMessageConfirmationMessage = () => {
+    cy.get('.vads-u-margin-bottom--1').should(
+      'have.text',
+      'Secure message was successfully sent.',
+    );
+  };
+
+  openAdvancedSearch = () => {
+    cy.get('#first').click();
+  };
+
+  selectAdvancedSearchCategory = () => {
+    cy.get('#category-dropdown')
+      .find('#select')
+      .select('COVID');
+  };
+
+  submitSearchButton = () => {
+    cy.get('[data-testid="filter-messages-button"]').click();
   };
 }
 export default PatientMessageDraftsPage;

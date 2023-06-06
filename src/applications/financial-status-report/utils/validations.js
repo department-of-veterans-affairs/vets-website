@@ -4,6 +4,12 @@ import { MILITARY_CITY_CODES, MILITARY_STATE_CODES } from '../constants';
 
 export const pathWithIndex = (path, index) => path.replace(':index', index);
 
+export const isValidCurrency = currencyAmount => {
+  const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
+
+  return regex.test(currencyAmount) || !Number(currencyAmount) < 0;
+};
+
 export const isValidZIP = value => {
   if (value !== null) {
     return /^\d{5}(?:(?:[-\s])?\d{4})?$/.test(value);
@@ -100,17 +106,21 @@ export const validateResolutionOption = (errors, fieldData) => {
   }
 };
 
-export const validateResolutionAmount = (errors, fieldData, formData) => {
-  const { debtType, resolutionOption } = formData;
+export const validateResolutionAmount = (errors, fieldData) => {
+  // fieldData is each individual debt object
+  const { debtType, resolutionComment, resolutionOption } = fieldData;
 
-  if (resolutionOption !== 'waiver' && !fieldData) {
+  // not required for waiver
+  if (resolutionOption === 'waiver') return;
+
+  if (!resolutionComment) {
     errors.addError('Please enter a valid dollar amount.');
   }
 
   // Checking compromise/monthly resolution amount against remaining debt amount
   if (
-    (debtType === 'DEBT' && formData?.currentAr <= fieldData) ||
-    (debtType === 'COPAY' && formData?.pHAmtDue <= fieldData)
+    (debtType === 'DEBT' && fieldData?.currentAr <= resolutionComment) ||
+    (debtType === 'COPAY' && fieldData?.pHAmtDue <= resolutionComment)
   ) {
     errors.addError('Please enter a value less than the current balance.');
   }
@@ -124,12 +134,6 @@ export const validateWaiverCheckbox = (errors, fieldData) => {
   ) {
     errors.addError('You must agree by checking the box.');
   }
-};
-
-export const isValidCurrency = currencyAmount => {
-  const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
-
-  return regex.test(currencyAmount) || !Number(currencyAmount) < 0;
 };
 
 export const validateAddlIncomeValues = (errors, addlIncome) => {

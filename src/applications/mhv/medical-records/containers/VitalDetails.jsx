@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { dateFormat } from '../util/helpers';
+import { dateFormat, downloadFile } from '../util/helpers';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
+import PrintDownload from '../components/shared/PrintDownload';
+import { getVaccinePdf } from '../api/MrApi';
 
 const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = () => {
@@ -80,32 +82,18 @@ const VitalDetails = () => {
     [vitalType],
   );
 
+  const download = () => {
+    getVaccinePdf(1).then(res =>
+      downloadFile('AdmissionDischarge.pdf', res.pdf),
+    );
+  };
+
   const content = () => {
     if (filteredVitals?.length) {
       return (
         <>
           <h1>{filteredVitals[0].name}</h1>
-          <div className="vads-u-display--flex vads-u-margin-y--3 no-print">
-            <button
-              className="link-button vads-u-margin-right--3"
-              type="button"
-              data-testid="print-records-button"
-              onClick={window.print}
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-print vads-u-margin-right--1"
-              />
-              Print list
-            </button>
-            <button className="link-button" type="button">
-              <i
-                aria-hidden="true"
-                className="fas fa-download vads-u-margin-right--1"
-              />
-              Download list
-            </button>
-          </div>
+          <PrintDownload list download={download} />
           <div className="vads-u-padding-y--1 vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
             Displaying {displayNums[0]}
             &#8211;
@@ -115,19 +103,19 @@ const VitalDetails = () => {
             {currentVitals?.length > 0 &&
               currentVitals?.map((vital, idx) => (
                 <li key={idx}>
-                  <strong>Measurement:</strong>
+                  <h2>Measurement:</h2>
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                     {vital.measurement}
                   </p>
-                  <strong>{idx === 0 ? 'Most recent date:' : 'Date:'}</strong>
+                  <h2>{idx === 0 ? 'Most recent date:' : 'Date:'}</h2>
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                     {dateFormat(vital.date, 'MMMM D, YYYY')}
                   </p>
-                  <strong>Location:</strong>
+                  <h2>Location:</h2>
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                     {vital.facility}
                   </p>
-                  <strong>Provider comments:</strong>
+                  <h2>Provider comments:</h2>
                   {vital?.comments?.length > 0 ? (
                     <ul className="comment-list">
                       {vital.comments.map((comment, commentIdx) => (
@@ -144,13 +132,13 @@ const VitalDetails = () => {
             {filteredVitals?.length > 0 &&
               filteredVitals?.map((vital, idx) => (
                 <li key={idx}>
-                  <strong>Measurement:</strong>
+                  <h2>Measurement:</h2>
                   <p>{vital.measurement}</p>
-                  <strong>{idx === 0 ? 'Most recent date:' : 'Date:'}</strong>
+                  <h2>{idx === 0 ? 'Most recent date:' : 'Date:'}</h2>
                   <p>{dateFormat(vital.date, 'MMMM D, YYYY')}</p>
-                  <strong>Location:</strong>
+                  <h2>Location:</h2>
                   <p>{vital.facility}</p>
-                  <strong>Provider comments:</strong>
+                  <h2>Provider comments:</h2>
                   {vital?.comments?.length > 0 ? (
                     <ul className="comment-list">
                       {vital.comments.map((comment, commentIdx) => (

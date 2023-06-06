@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import isValid from 'date-fns/isValid';
@@ -21,6 +21,7 @@ import Wrapper from '../../layout/Wrapper';
 import BackButton from '../../BackButton';
 import AppointmentAction from '../../AppointmentDisplay/AppointmentAction';
 import AppointmentMessage from '../../AppointmentDisplay/AppointmentMessage';
+import AddressBlock from '../../AddressBlock';
 
 const AppointmentDetails = props => {
   const { router } = props;
@@ -35,7 +36,9 @@ const AppointmentDetails = props => {
   const appointmentDay = new Date(appointment?.startTime);
   const isPhoneAppointment = appointment?.kind === 'phone';
   const { appointmentId } = router.params;
-  useEffect(
+  const isPreCheckIn = app === 'preCheckIn';
+
+  useLayoutEffect(
     () => {
       if (appointmentId) {
         const activeAppointmentDetails = findAppointment(
@@ -76,7 +79,7 @@ const AppointmentDetails = props => {
 
   return (
     <>
-      {appointment ? (
+      {Object.keys(appointment).length && (
         <>
           <BackButton
             router={router}
@@ -94,9 +97,11 @@ const AppointmentDetails = props => {
                 data-testid="header"
                 className="vads-u-font-size--h3"
               >
-                {`${isPhoneAppointment ? t('phone') : t('in-person')} ${t(
-                  'appointment',
-                )}`}
+                {`${
+                  isPhoneAppointment
+                    ? `${t('phone')} ${t('appointment')}`
+                    : t('in-person-appointment')
+                }`}
               </h1>
               {app === APP_NAMES.PRE_CHECK_IN ? (
                 preCheckInSubTitle
@@ -135,6 +140,16 @@ const AppointmentDetails = props => {
                 {!isPhoneAppointment && (
                   <div data-testid="appointment-details--facility-value">
                     {appointment.facility}
+                    <br />
+                    {appointment.facilityAddress?.street1 && (
+                      <div className="vads-u-margin-bottom--2">
+                        <AddressBlock
+                          address={appointment.facilityAddress}
+                          placeName={appointment.facility}
+                          showDirections={isPreCheckIn}
+                        />
+                      </div>
+                    )}
                   </div>
                 )}
                 <div data-testid="appointment-details--clinic-value">
@@ -174,8 +189,6 @@ const AppointmentDetails = props => {
             </div>
           </Wrapper>
         </>
-      ) : (
-        <va-loading-indicator message={t('loading')} />
       )}
     </>
   );

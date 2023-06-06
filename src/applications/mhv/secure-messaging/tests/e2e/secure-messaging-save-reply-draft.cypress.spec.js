@@ -21,7 +21,7 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.loadReplyPageDetails(messageDetails);
     patientInterstitialPage.getContinueButton().click();
     const testMessageBody = 'Test message body';
-    replyPage.getMessageBodyField().type(testMessageBody);
+    replyPage.getMessageBodyField().type(testMessageBody, { force: true });
     cy.injectAxe();
     cy.axeCheck();
 
@@ -47,13 +47,13 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.ReplyToMessageId(messageDetails);
 
     messageDetails.data.attributes.body = messageDetailsBody;
-    messageDetailsPage.ReplyToMessagebody(messageDetailsBody);
+    messageDetailsPage.ReplyToMessagebody(testMessageBody);
 
     replyPage.sendReplyDraft(
-      landingPage.getNewMessage().attributes.messageId,
-      landingPage.getNewMessage().attributes.senderId,
-      landingPage.getNewMessage().attributes.category,
-      landingPage.getNewMessage().attributes.subject,
+      messageDetails.data.attributes.messageId,
+      messageDetails.data.attributes.senderId,
+      messageDetails.data.attributes.category,
+      messageDetails.data.attributes.subject,
       testMessageBody,
     );
     cy.injectAxe();

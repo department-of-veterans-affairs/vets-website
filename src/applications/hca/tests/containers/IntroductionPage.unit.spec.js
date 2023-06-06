@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
 
-describe('HCA IntroductionPage', () => {
+describe('hca IntroductionPage', () => {
   const getData = ({
     showLoader,
     loaState,
@@ -161,8 +161,8 @@ describe('HCA IntroductionPage', () => {
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect(view.container.querySelector('va-button').text).to.contain(
-      'Start the health care application',
-    );
+    expect(
+      view.container.querySelector('a.vads-c-action-link--green').text,
+    ).to.contain('Start the health care application');
   });
 });

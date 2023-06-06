@@ -1,0 +1,154 @@
+{
+  "description": "JSON Schema for Contact information within VA Form 5655",
+  "definitions": {
+    "address": {
+      "type": "object",
+      "properties": {
+        "addressLine1": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "addressLine2": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "addressLine3": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10
+        },
+        "city": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "stateCode": {
+          "type": "string",
+          "enum": [
+            "AL",
+            "AK",
+            "AS",
+            "AZ",
+            "AR",
+            "AA",
+            "AE",
+            "AP",
+            "CA",
+            "CO",
+            "CT",
+            "DE",
+            "DC",
+            "FM",
+            "FL",
+            "GA",
+            "GU",
+            "HI",
+            "ID",
+            "IL",
+            "IN",
+            "IA",
+            "KS",
+            "KY",
+            "LA",
+            "ME",
+            "MH",
+            "MD",
+            "MA",
+            "MI",
+            "MN",
+            "MS",
+            "MO",
+            "MT",
+            "NE",
+            "NV",
+            "NH",
+            "NJ",
+            "NM",
+            "NY",
+            "NC",
+            "ND",
+            "MP",
+            "OH",
+            "OK",
+            "OR",
+            "PW",
+            "PA",
+            "PR",
+            "RI",
+            "SC",
+            "SD",
+            "TN",
+            "TX",
+            "UT",
+            "VT",
+            "VI",
+            "VA",
+            "WA",
+            "WV",
+            "WI",
+            "WY"
+          ]
+        },
+        "countryCodeISO2": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "minLength": 2,
+          "maxLength": 2
+        },
+        "zipCode5": {
+          "type": "string",
+          "description": "5-digit zipcode. Use \"00000\" if address is outside the United States",
+          "pattern": "^[0-9]{5}$",
+          "minLength": 5,
+          "maxLength": 5
+        },
+        "internationalPostalCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16
+        }
+      },
+      "required": [
+        "addressLine1",
+        "city",
+        "countryCodeISO2",
+        "zipCode5"
+      ]
+    },
+    "phone": {
+      "type": "object",
+      "properties": {
+        "countryCode": {
+          "type": "string",
+          "pattern": "^[0-9]+$",
+          "minLength": 1,
+          "maxLength": 3
+        },
+        "areaCode": {
+          "type": "string",
+          "pattern": "^[0-9]{1,4}$",
+          "minLength": 1,
+          "maxLength": 4
+        },
+        "phoneNumber": {
+          "type": "string",
+          "pattern": "^[0-9]{1,14}$",
+          "minLength": 1,
+          "maxLength": 14
+        },
+        "phoneNumberExt": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9]{1,10}$",
+          "minLength": 1,
+          "maxLength": 10
+        }
+      },
+      "required": [
+        "areaCode",
+        "phoneNumber"
+      ]
+    }
+  }
+}

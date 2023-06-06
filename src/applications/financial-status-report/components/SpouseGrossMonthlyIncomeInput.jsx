@@ -124,21 +124,23 @@ const SpouseGrossMonthlyIncomeInput = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <div>
-        <h3 className="vads-u-margin-top--neg1p5">
-          Your spouse’s job at {employerName}
-        </h3>{' '}
-      </div>
-      <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        What’s your spouse’s gross <strong>monthly</strong> income at this job?
-      </span>
+      <h3 className="schemaform-block-title vads-u-margin-top--6">
+        Your spouse’s job at {employerName}
+      </h3>
+      <p className="vads-u-margin-bottom--0">
+        What’s your spouse’s gross <strong>monthly</strong> income at this job?{' '}
+        <span className="required vads-u-color--secondary-dark">
+          (*Required)
+        </span>
+      </p>
       <p className="formfield-subtitle">
         You’ll find this in your spouse’s pay stub. It’s the amount of your
         spouse’s pay before taxes and deductions.
       </p>
-      <div className="input">
+      <div className="input input-size-3">
         <va-number-input
           inputmode="numeric"
+          currency
           id="gross-monthly-income"
           data-testid="gross-monthly-income"
           name="gross-monthly-income"
@@ -153,7 +155,6 @@ const SpouseGrossMonthlyIncomeInput = props => {
           }
         />
       </div>
-
       {onReviewPage ? updateButton : navButtons}
     </form>
   );

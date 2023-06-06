@@ -8,7 +8,13 @@ import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
-import { makeAuthRequest, roundToNearest } from '../utils/helpers';
+import {
+  // START lighthouse_migration
+  getTrackedItemId,
+  // END lighthouse_migration
+  makeAuthRequest,
+  roundToNearest,
+} from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 
 import {
@@ -51,7 +57,7 @@ import {
 } from './types';
 
 // This should make it a bit easier to turn mocks on and off manually
-const SHOULD_USE_MOCKS = true;
+const SHOULD_USE_MOCKS = false;
 // NOTE: This should only be TRUE when developing locally
 const CAN_USE_MOCKS = environment.isLocalhost() && !window.Cypress;
 const USE_MOCKS = CAN_USE_MOCKS && SHOULD_USE_MOCKS;
@@ -280,7 +286,7 @@ export function getClaimsV2(options = {}) {
   };
 }
 
-export function getClaims() {
+export const getClaims = () => {
   return dispatch => {
     const startTimeMillis = Date.now();
     dispatch({ type: FETCH_CLAIMS_PENDING });
@@ -318,7 +324,7 @@ export function getClaims() {
         return dispatch({ type: FETCH_CLAIMS_ERROR });
       });
   };
-}
+};
 // END lighthouse_migration
 
 // START lighthouse_migration
@@ -360,8 +366,30 @@ export function getClaimDetail(id, router, poll = pollRequest) {
   };
 }
 
-export const getClaim = getClaimDetail;
-// END lighthouse_migration
+export const getClaim = (id, router) => {
+  return dispatch => {
+    dispatch({ type: GET_CLAIM_DETAIL });
+
+    return apiRequest(`/benefits_claims/${id}`)
+      .then(res => {
+        dispatch({
+          type: SET_CLAIM_DETAIL,
+          claim: res.data,
+          meta: { syncStatus: 'SUCCESS' },
+        });
+      })
+      .catch(error => {
+        if (error.status !== 404 || !router) {
+          return dispatch({
+            type: SET_CLAIMS_UNAVAILABLE,
+            error: error.message,
+          });
+        }
+
+        return router.replace('your-claims');
+      });
+  };
+};
 
 export function submitRequest(id) {
   return dispatch => {
@@ -401,6 +429,34 @@ export function submitRequest(id) {
     );
   };
 }
+
+export const submit5103 = id => {
+  return dispatch => {
+    dispatch({
+      type: SUBMIT_DECISION_REQUEST,
+    });
+
+    makeAuthRequest(
+      `/v0/benefits_claims/${id}/submit5103`,
+      { method: 'POST' },
+      dispatch,
+      () => {
+        dispatch({ type: SET_DECISION_REQUESTED });
+        dispatch(
+          setNotification({
+            title: 'Request received',
+            body:
+              'Thank you. We have your claim request and will make a decision.',
+          }),
+        );
+      },
+      error => {
+        dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
+      },
+    );
+  };
+};
+// END lighthouse_migration
 
 export function resetUploads() {
   return {
@@ -450,7 +506,9 @@ export function submitFiles(claimId, trackedItem, files) {
   let hasError = false;
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
-  const trackedItemId = trackedItem ? trackedItem.trackedItemId : null;
+  // START lighthouse_migration
+  const trackedItemId = trackedItem ? getTrackedItemId(trackedItem) : null;
+  // END lighthouse_migration
   recordEvent({
     event: 'claims-upload-start',
   });

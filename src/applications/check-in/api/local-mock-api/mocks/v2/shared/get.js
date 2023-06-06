@@ -1,5 +1,8 @@
 const dateFns = require('date-fns');
 const { utcToZonedTime, format } = require('date-fns-tz');
+const {
+  singleAppointment,
+} = require('../../../../../tests/unit/mocks/mock-appointments');
 
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
 const isoDateWithOffsetFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx";
@@ -90,22 +93,26 @@ const getAppointmentStartTime = (
 };
 
 const createAppointment = ({
-  eligibility = 'ELIGIBLE',
-  facilityId = 'some-facility',
+  facility = singleAppointment[0].facility,
+  eligibility = singleAppointment[0].eligibility,
+  facilityId = singleAppointment[0].facilityId,
   appointmentIen = Math.floor(Math.random() * 100000),
   clinicFriendlyName = 'HEART CLINIC 1',
+  clinicName = singleAppointment[0].clinicName,
   preCheckInValid = false,
   uuid = defaultUUID,
   timezone = 'browser',
-  stationNo = '0001',
-  clinicLocation = 'SECOND FLOOR ROOM 2',
-  kind = 'clinic',
-  status = '',
+  stationNo = singleAppointment[0].stationNo,
+  clinicLocation = singleAppointment[0].clinicLocation,
+  kind = singleAppointment[0].kind,
+  status = singleAppointment[0].status,
   startTime = getAppointmentStartTime(eligibility, preCheckInValid, uuid),
-  checkInSteps = [],
-  clinicStopCodeName = 'Mental health',
-  doctorName = 'Dr. Jones',
-  clinicIen = '0001',
+  checkInSteps = singleAppointment[0].checkInSteps,
+  clinicStopCodeName = singleAppointment[0].clinicStopCodeName,
+  doctorName = singleAppointment[0].doctorName,
+  clinicIen = singleAppointment[0].clinicIen,
+  facilityAddress = singleAppointment[0].facilityAddress,
+  clinicPhoneNumber = singleAppointment[0].clinicPhoneNumber,
 } = {}) => {
   const formattedStartTime = dateFns.format(
     startTime,
@@ -150,12 +157,12 @@ const createAppointment = ({
   }
 
   return {
-    facility: 'LOMA LINDA VA CLINIC',
+    facility,
     kind,
     checkInSteps,
-    clinicPhoneNumber: '5551234567',
+    clinicPhoneNumber,
     clinicFriendlyName,
-    clinicName: 'LOM ACC CLINIC TEST',
+    clinicName,
     appointmentIen,
     startTime: formattedStartTime,
     eligibility,
@@ -169,6 +176,7 @@ const createAppointment = ({
     clinicStopCodeName,
     doctorName,
     clinicIen,
+    facilityAddress,
   };
 };
 
@@ -180,6 +188,7 @@ const createAppointments = (
   nextOfKinConfirmedAt = null,
   emergencyContactNeedsUpdate = false,
   emergencyContactConfirmedAt = null,
+  number = 3,
 ) => {
   const timezone =
     token === pacificTimezoneUUID ? 'America/Los_Angeles' : 'browser';
@@ -206,7 +215,7 @@ const createAppointments = (
         clinicFriendlyName: `HEART CLINIC-1`,
       }),
     ];
-    for (let i = 0; i < 3; i += 1) {
+    for (let i = 0; i < number; i += 1) {
       appointments.push(
         createAppointment({
           eligibility: 'ELIGIBLE',

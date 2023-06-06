@@ -8,6 +8,7 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [patientIdentificationFields.isRequestingOwnMedicalRecords];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [patientIdentificationFields.parentObject]: {
@@ -17,8 +18,15 @@ export default {
         </h3>
       ),
       [patientIdentificationFields.isRequestingOwnMedicalRecords]: {
-        'ui:title': 'Are you authoring the release your own medical records?',
+        'ui:title':
+          'Whose medical records or information are you authorizing the release of?',
         'ui:widget': 'yesNo',
+        'ui:options': {
+          labels: {
+            Y: 'The Veteran',
+            N: 'Someone else connected to the Veteran',
+          },
+        },
       },
     },
   },

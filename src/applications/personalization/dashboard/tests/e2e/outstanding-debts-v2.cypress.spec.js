@@ -30,6 +30,17 @@ describe('The My VA Dashboard - Outstanding Debts', () => {
   beforeEach(() => {
     mockLocalStorage();
     cy.login(mockUser);
+    cy.intercept('/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: featureFlagNames.showMyVADashboardV2,
+            value: true,
+          },
+        ],
+      },
+    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/evss_claims_async', claimsSuccess());
@@ -42,38 +53,8 @@ describe('The My VA Dashboard - Outstanding Debts', () => {
     cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
   });
 
-  describe('when the feature is hidden', () => {
+  describe('when the section renders correctly', () => {
     beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          type: 'feature_toggles',
-          features: [],
-        },
-      }).as('featuresA');
-    });
-    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('the v2 dashboard does not show up - C20877', () => {
-      cy.visit('my-va/');
-      // make sure that the Outstanding Debts section is not shown
-      cy.findByTestId('dashboard-section-debts-v2').should('not.exist');
-
-      // not checking A11y -- feature is hidden.
-    });
-  });
-
-  describe('when the feature is not hidden', () => {
-    beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: featureFlagNames.showPaymentAndDebtSection,
-              value: true,
-            },
-          ],
-        },
-      }).as('featuresB');
       cy.intercept('/v0/profile/payment_history', paymentsSuccessEmpty()).as(
         'noPaymentsB',
       );
@@ -91,12 +72,7 @@ describe('The My VA Dashboard - Outstanding Debts', () => {
           );
 
           cy.visit('my-va/');
-          cy.wait([
-            '@featuresB',
-            '@noPaymentsB',
-            '@noDebts1',
-            '@recentCopays1',
-          ]);
+          cy.wait(['@noPaymentsB', '@noDebts1', '@recentCopays1']);
           cy.findByTestId('dashboard-section-debts-v2').should('exist');
 
           cy.findByTestId('copay-card-v2').should('exist');
@@ -117,7 +93,7 @@ describe('The My VA Dashboard - Outstanding Debts', () => {
             'emptyCopays1',
           );
           cy.visit('my-va/');
-          cy.wait(['@featuresB', '@noPaymentsB', '@noDebts1', '@emptyCopays1']);
+          cy.wait(['@noPaymentsB', '@noDebts1', '@emptyCopays1']);
           cy.findByTestId('dashboard-section-debts-v2').should('exist');
 
           cy.findByTestId('copay-card-v2').should('not.exist');
@@ -145,12 +121,7 @@ describe('The My VA Dashboard - Outstanding Debts', () => {
             'recentCopays1',
           );
           cy.visit('my-va/');
-          cy.wait([
-            '@featuresB',
-            '@noPaymentsB',
-            '@recentDebts1',
-            '@recentCopays1',
-          ]);
+          cy.wait(['@noPaymentsB', '@recentDebts1', '@recentCopays1']);
           cy.findByTestId('dashboard-section-debts-v2').should('exist');
 
           cy.findByTestId('copay-card-v2').should('exist');
@@ -172,12 +143,7 @@ describe('The My VA Dashboard - Outstanding Debts', () => {
             'emptyCopays1',
           );
           cy.visit('my-va/');
-          cy.wait([
-            '@featuresB',
-            '@noPaymentsB',
-            '@recentDebts1',
-            '@emptyCopays1',
-          ]);
+          cy.wait(['@noPaymentsB', '@recentDebts1', '@emptyCopays1']);
           cy.findByTestId('dashboard-section-debts-v2').should('exist');
 
           cy.findByTestId('copay-card-v2').should('not.exist');
