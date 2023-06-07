@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, connect, useDispatch } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { Link } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearJobIndex } from '../../../utils/session';
@@ -140,6 +141,7 @@ const InstallmentContractSummary = ({
 
 const mapStateToProps = ({ form }) => {
   return {
+    setFormData: setData,
     formData: form.data,
     employmentHistory: form.data.personalData.employmentHistory,
   };
