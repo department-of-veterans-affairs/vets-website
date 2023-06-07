@@ -27,6 +27,9 @@ class IntroductionPage extends React.Component {
         </p>
         <SaveInProgressIntro
           headingLevel={2}
+          verifyRequiredPrefill={
+            this.props.route.formConfig.verifyRequiredPrefill
+          }
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
