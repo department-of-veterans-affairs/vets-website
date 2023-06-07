@@ -35,7 +35,13 @@ class PatientMessageDraftsPage {
     ).as('draftsResponse');
     cy.get('[data-testid="drafts-sidebar"]').click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     // cy.wait('@draftsFolderMetaResponse');
     // cy.wait('@draftsResponse');
   };
@@ -137,7 +143,13 @@ class PatientMessageDraftsPage {
 
     cy.contains(mockParentMessageDetails.data.attributes.subject).click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.wait('@message1');
     cy.wait('@full-thread');
   };

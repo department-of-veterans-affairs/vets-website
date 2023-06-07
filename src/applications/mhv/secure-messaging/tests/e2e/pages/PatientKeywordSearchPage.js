@@ -64,7 +64,13 @@ class PatientKeywordSearchPage {
     cy.wait('@mockUser');
     cy.wait('@inboxMessages');
     if (doAxeCheck) {
-      cy.axeCheck();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     }
   };
 

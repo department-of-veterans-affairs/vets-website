@@ -6,13 +6,17 @@ import vaccines from '../tests/fixtures/vaccines.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import allergies from '../tests/fixtures/allergies.json';
+import { testing } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
 export const getLabsAndTests = () => {
-  if (environment.BUILDTYPE === 'localhost') {
+  if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(
-      `${apiBasePath}/medical_records/labs_and_tests?patient_id=258974`,
+      // `${apiBasePath}/medical_records/labs_and_tests?patient_id=258974`, // labs (chem/hem)
+      // `${apiBasePath}/medical_records/labs_and_tests?patient_id=1865867`, // micro
+      // `${apiBasePath}/medical_records/labs_and_tests?patient_id=1861684`, // micro
+      `${apiBasePath}/medical_records/labs_and_tests?patient_id=646151`, // micro
       {
         headers: {
           'Content-Type': 'application/json',
@@ -28,7 +32,7 @@ export const getLabsAndTests = () => {
 };
 
 export const getLabOrTest = id => {
-  if (environment.BUILDTYPE === 'localhost') {
+  if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(`${apiBasePath}/medical_records/labs_and_tests/${id}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +48,7 @@ export const getLabOrTest = id => {
 };
 
 export const getNotes = () => {
-  if (environment.BUILDTYPE === 'localhost') {
+  if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(
       `${apiBasePath}/medical_records/clinical_notes?patient_id=1174378`,
       {
@@ -62,7 +66,7 @@ export const getNotes = () => {
 };
 
 export const getNote = id => {
-  if (environment.BUILDTYPE === 'localhost') {
+  if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(`${apiBasePath}/medical_records/clinical_notes/${id}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -103,7 +107,7 @@ export const mockGetCondition = id => {
 };
 
 export const getAllergies = () => {
-  if (environment.BUILDTYPE === 'localhost') {
+  if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(
       `${apiBasePath}/medical_records/allergies?patient_id=30163`,
       {
@@ -121,7 +125,7 @@ export const getAllergies = () => {
 };
 
 export const getAllergy = id => {
-  if (environment.BUILDTYPE === 'localhost') {
+  if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(`${apiBasePath}/medical_records/allergies/${id}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -141,7 +145,7 @@ export const getAllergy = id => {
  * @returns list of patient's vaccines in FHIR format
  */
 export const getVaccineList = () => {
-  if (environment.BUILDTYPE === 'localhost') {
+  if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(
       // Temporarily hard-coding a patient ID for development.
       `${apiBasePath}/medical_records/vaccines?patient_id=49006`,
@@ -165,7 +169,7 @@ export const getVaccineList = () => {
  * @returns vaccine details in FHIR format
  */
 export const getVaccine = id => {
-  if (environment.BUILDTYPE === 'localhost') {
+  if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
       headers: {
         'Content-Type': 'application/json',

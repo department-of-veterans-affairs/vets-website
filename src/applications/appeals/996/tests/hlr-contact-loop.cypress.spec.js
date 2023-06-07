@@ -87,7 +87,10 @@ describe('HLR contact info loop', () => {
 
     // Mobile phone
     cy.get('a[href$="phone"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-mobile-phone`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -96,7 +99,10 @@ describe('HLR contact info loop', () => {
 
     // Email
     cy.get('a[href$="email-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-email-address`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-email-address`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -105,7 +111,10 @@ describe('HLR contact info loop', () => {
 
     // Mailing address
     cy.get('a[href$="mailing-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mailing-address`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-mailing-address`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -121,7 +130,10 @@ describe('HLR contact info loop', () => {
     // Mobile phone
     cy.get('a[href$="mobile-phone"]').click();
     cy.contains('Edit mobile phone').should('be.visible');
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-mobile-phone`,
+    );
 
     cy.findByLabelText(/mobile phone/i)
       .clear()

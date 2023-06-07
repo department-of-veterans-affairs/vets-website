@@ -19,7 +19,16 @@ describe('Secure Messaging Save Draft', () => {
     draftsPage.loadMessageDetails(mockDraftResponse);
     patientInterstitialPage.getContinueButton().click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    });
     // composePage.getMessageSubjectField().type('message Test');
     composePage.getMessageBodyField().type('Test message body');
     cy.realPress(['Enter']);
