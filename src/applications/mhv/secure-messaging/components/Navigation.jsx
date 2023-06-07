@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -14,17 +14,20 @@ const Navigation = () => {
   const location = useLocation();
   const activeFolder = useSelector(folder);
   const sideBarNavRef = useRef();
-  const sideBarNavHeaderRef = useRef();
+  const closeMenuButtonRef = useRef();
   const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
 
   function openNavigation() {
     setIsNavigationOpen(true);
   }
 
-  function closeNavigation() {
-    setIsNavigationOpen(false);
-    focusElement(navMenuButtonRef);
-  }
+  const closeNavigation = useCallback(
+    () => {
+      setIsNavigationOpen(false);
+      focusElement(navMenuButtonRef);
+    },
+    [navMenuButtonRef],
+  );
 
   useEffect(
     () => {
@@ -36,9 +39,9 @@ const Navigation = () => {
   useEffect(
     () => {
       if (isNavigationOpen) {
-        focusElement(sideBarNavHeaderRef.current);
+        focusElement(closeMenuButtonRef.current);
         const focusableEls = sideBarNavRef.current.querySelectorAll(
-          'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])',
+          `a[href]:not([disabled]), button:not([disabled])`,
         );
         const firstFocusableEl = focusableEls[0];
         const lastFocusableEl = focusableEls[focusableEls.length - 1];
@@ -69,7 +72,7 @@ const Navigation = () => {
         });
       }
     },
-    [isNavigationOpen],
+    [isNavigationOpen, closeMenuButtonRef, sideBarNavRef, closeNavigation],
   );
 
   const paths = () => {
@@ -172,12 +175,13 @@ const Navigation = () => {
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div ref={sideBarNavRef} className="sidebar-navigation">
-          <div ref={sideBarNavHeaderRef} className="sr-only">
+          <div className="sr-only" aria-live="polite">
             Navigation menu is open
           </div>
           {isMobile && (
             <div className="sidebar-navigation-header">
               <button
+                ref={closeMenuButtonRef}
                 className="va-btn-close-icon"
                 aria-label="Close-this-menu"
                 aria-expanded="true"
