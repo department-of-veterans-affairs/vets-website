@@ -70,7 +70,7 @@ const CreditCardBillSummary = ({
           <strong>{currencyFormatter(bill.amountDueMonthly)}</strong>
           <br />
           Amount overdue:{' '}
-          <strong>{currencyFormatter(bill.amountPastDue)}</strong>
+          <strong>{currencyFormatter(bill.amountPastDue || 0.0)}</strong>
         </p>
       </>
     );

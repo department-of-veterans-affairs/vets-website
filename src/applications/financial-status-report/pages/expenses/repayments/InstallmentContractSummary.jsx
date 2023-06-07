@@ -56,30 +56,65 @@ const InstallmentContractSummary = ({
   const emptyPrompt = `Select the 'add additional installment contract link to add another installment contract or other debt. Select the continue button to move on to the next question.`;
 
   const billBody = bill => {
+    const {
+      creditorName,
+      originalAmount,
+      unpaidBalance,
+      amountDueMonthly,
+      dateStarted,
+      amountPastDue,
+    } = bill;
+
+    const originalAmountFormatted =
+      originalAmount && currencyFormatter(originalAmount);
+    const unpaidBalanceFormatted =
+      unpaidBalance && currencyFormatter(unpaidBalance);
+    const amountDueMonthlyFormatted =
+      amountDueMonthly && currencyFormatter(amountDueMonthly);
+    const amountPastDueFormatted = amountPastDue
+      ? currencyFormatter(amountPastDue)
+      : currencyFormatter(0.0);
+
     return (
-      <>
-        <p>
-          {bill.creditorName.length > 0 ? (
-            <>
-              Creditor: <strong>{bill.creditorName} </strong>
-              <br />
-            </>
-          ) : null}
-          Original Loan Amount:{' '}
-          <strong>{currencyFormatter(bill.originalAmount)}</strong>
-          <br />
-          Unpaid balance:{' '}
-          <strong>{currencyFormatter(bill.unpaidBalance)}</strong>
-          <br />
-          Minimum monthly payment amount:{' '}
-          <strong>{currencyFormatter(bill.amountDueMonthly)}</strong>
-          <br />
-          Date received: <strong>{bill.dateStarted}</strong>
-          <br />
-          Amount overdue:{' '}
-          <strong>{currencyFormatter(bill.amountPastDue)}</strong>
-        </p>
-      </>
+      <p>
+        {creditorName && (
+          <>
+            <strong>Creditor:</strong> {creditorName}
+            <br />
+          </>
+        )}
+        {originalAmountFormatted && (
+          <>
+            <strong>Original Loan Amount:</strong> {originalAmountFormatted}
+            <br />
+          </>
+        )}
+        {unpaidBalanceFormatted && (
+          <>
+            <strong>Unpaid balance:</strong> {unpaidBalanceFormatted}
+            <br />
+          </>
+        )}
+        {amountDueMonthlyFormatted && (
+          <>
+            <strong>Minimum monthly payment amount:</strong>{' '}
+            {amountDueMonthlyFormatted}
+            <br />
+          </>
+        )}
+        {dateStarted && (
+          <>
+            <strong>Date started:</strong> {dateStarted}
+            <br />
+          </>
+        )}
+        {amountPastDueFormatted && (
+          <>
+            <strong>Amount overdue:</strong> {amountPastDueFormatted}
+            <br />
+          </>
+        )}
+      </p>
     );
   };
 
