@@ -124,12 +124,12 @@ const SipsDevModal = props => {
               value={sipsUrl}
               onVaSelect={event => setSipsUrl(event.target.value)}
             >
-              <option value=""> </option>
-              {availablePaths.map(path => (
-                <option key={path.value} value={path.value}>
-                  {path.label}
-                </option>
-              ))}
+              {availablePaths &&
+                availablePaths.map(path => (
+                  <option key={path.value} value={path.value}>
+                    {path.label}
+                  </option>
+                ))}
             </VaSelect>
             <p />
             <a href={docsPage}>
