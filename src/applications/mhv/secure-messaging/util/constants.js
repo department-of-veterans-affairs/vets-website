@@ -241,5 +241,5 @@ export const PrintMessageOptions = {
 
 export const BreadcrumbViews = {
   DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
-  MOBILE_VIEW: 'mobile-view',
+  MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3',
 };

@@ -155,29 +155,33 @@ const SmBreadcrumbs = () => {
       {crumbs.length > 0 &&
         (crumbs.length === 1 ? (
           <>
-            <va-breadcrumbs className="sm-breadcrumb">
-              <div className={breadcrumbSize()}>
-                <span className="breadcrumb-angle vads-u-padding-right--1">
-                  {'\u2039'}{' '}
-                </span>
-                <Link to="/"> Back to messages</Link>
-              </div>
+            <va-breadcrumbs label="Breadcrumb" className="sm-breadcrumb">
+              <ul className={breadcrumbSize()}>
+                <li>
+                  <span className="breadcrumb-angle vads-u-padding-right--1">
+                    {'\u2039'}{' '}
+                  </span>
+                  <Link to="/"> Back to messages</Link>
+                </li>
+              </ul>
             </va-breadcrumbs>
           </>
         ) : (
           crumbs.length > 1 && (
             <>
-              <va-breadcrumbs>
-                <div className={breadcrumbSize()}>
-                  <span className="breadcrumb-angle vads-u-padding-right--1">
-                    {'\u2039'}{' '}
-                  </span>
-                  <Link
-                    to={`${crumbs[crumbs.length - 2]?.path?.toLowerCase()}`}
-                  >
-                    Back to {crumbs[crumbs.length - 2]?.label?.toLowerCase()}
-                  </Link>
-                </div>
+              <va-breadcrumbs label="Breadcrumb">
+                <ul className={breadcrumbSize()}>
+                  <li>
+                    <span className="breadcrumb-angle vads-u-padding-right--1">
+                      {'\u2039'}{' '}
+                    </span>
+                    <Link
+                      to={`${crumbs[crumbs.length - 2]?.path?.toLowerCase()}`}
+                    >
+                      Back to {crumbs[crumbs.length - 2]?.label?.toLowerCase()}
+                    </Link>
+                  </li>
+                </ul>
               </va-breadcrumbs>
             </>
           )
