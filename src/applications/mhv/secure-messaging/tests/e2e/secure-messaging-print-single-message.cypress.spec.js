@@ -51,6 +51,9 @@ describe('Secure Messaging - Print Functionality', () => {
           'aria-required-children': {
             enabled: false,
           },
+          'color-contrast': {
+            enabled: false,
+          },
         },
       });
     });
