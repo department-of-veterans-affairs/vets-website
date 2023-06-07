@@ -14,6 +14,7 @@ import testData from '../tests/fixtures/data/test-data.json';
 
 // pages
 import authType from '../pages/authType';
+import vetPersInfo from '../pages/vetPersInfo';
 
 // const { } = fullSchema.properties;
 
@@ -71,6 +72,17 @@ const formConfig = {
             !!mockData && environment.isLocalhost() ? mockData : undefined,
           uiSchema: authType.uiSchema,
           schema: authType.schema,
+        },
+      },
+    },
+    veteranPersonalInfoChapter: {
+      title: 'Your personal information',
+      pages: {
+        vetPersInfoPage: {
+          path: 'veteran-personal-information',
+          title: 'Your personal information',
+          uiSchema: vetPersInfo.uiSchema,
+          schema: vetPersInfo.schema,
         },
       },
     },

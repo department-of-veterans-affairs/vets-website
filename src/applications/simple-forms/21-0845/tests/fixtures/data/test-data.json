@@ -1,5 +1,10 @@
 {
   "data": {
-    "authorizerType": "veteran"
+    "authorizerType": "veteran",
+    "veteranFullName": {
+      "first": "John",
+      "middle": "",
+      "last": "Veteran"
+    }
   }
 }
