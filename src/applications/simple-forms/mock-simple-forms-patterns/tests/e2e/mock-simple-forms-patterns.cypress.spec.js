@@ -23,17 +23,21 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.fillPage();
-            let dataName = 'requiredNew';
-            cy.get(`va-text-input[name="root_${dataName}"]`)
-              .shadow()
-              .find('input')
-              .type(data?.[dataName]);
 
-            dataName = 'requiredNewV3';
-            cy.get(`va-text-input[name="root_${dataName}"]`)
+            cy.get(`va-text-input[name="root_requiredNew"]`)
               .shadow()
               .find('input')
-              .type(data?.[dataName]);
+              .type(data?.requiredNew);
+
+            cy.get(`va-text-input[name="root_requiredNewV3"]`)
+              .shadow()
+              .find('input')
+              .type(data?.requiredNewV3);
+
+            cy.get(`va-textarea[name="root_textAreaNewV3"]`)
+              .shadow()
+              .find('textarea')
+              .type(data?.textAreaNewV3);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
