@@ -13,6 +13,7 @@ import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
 
 import { CheckInButton } from './CheckInButton';
 import { useUpdateError } from '../../hooks/useUpdateError';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { getAppointmentId } from '../../utils/appointment';
 
 const AppointmentAction = props => {
@@ -20,6 +21,8 @@ const AppointmentAction = props => {
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
+
+  const { setCheckinComplete } = useSessionStorage(false);
 
   const { updateError } = useUpdateError();
 
@@ -39,6 +42,7 @@ const AppointmentAction = props => {
         });
         const { status } = json;
         if (status === 200) {
+          setCheckinComplete(window, true);
           jumpToPage(`complete/${getAppointmentId(appointment)}`);
         } else {
           updateError('check-in-post-error');
@@ -47,7 +51,7 @@ const AppointmentAction = props => {
         updateError('error-completing-check-in');
       }
     },
-    [appointment, updateError, jumpToPage, token, event],
+    [appointment, updateError, jumpToPage, token, event, setCheckinComplete],
   );
   if (
     appointment.eligibility &&

@@ -4,7 +4,7 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import { shallow } from 'enzyme';
 import { DhpAppContainer } from '../../containers/DhpAppContainer';
 
-describe('Digital Health Platform root page', () => {
+describe('Digital Health Pathway root page', () => {
   it('renders the not found page when feature is turned off', () => {
     const dhpContainer = renderInReduxProvider(
       <DhpAppContainer

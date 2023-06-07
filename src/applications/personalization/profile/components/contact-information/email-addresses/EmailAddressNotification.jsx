@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
+import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
 
 const EmailAddressNotification = ({ signInServiceName }) => {
   const { link, label } = SERVICE_PROVIDERS[signInServiceName];
@@ -14,7 +14,7 @@ const EmailAddressNotification = ({ signInServiceName }) => {
       </p>
       <p className="vads-u-margin-bottom--0">
         <a href={link} target="_blank" rel="noopener noreferrer">
-          Update sign-in email address on {label}
+          Update sign-in information on {label}
         </a>
       </p>
     </>

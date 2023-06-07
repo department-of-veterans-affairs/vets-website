@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useMemo, useLayoutEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useFormRouting } from '../../../hooks/useFormRouting';
+import { makeSelectApp } from '../../../selectors';
 
 import DemographicItem from '../../DemographicItem';
 import Wrapper from '../../layout/Wrapper';
 import { toCamelCase } from '../../../utils/formatters';
+import { URLS } from '../../../utils/navigation';
+import { APP_NAMES } from '../../../utils/appConstants';
 
 const ConfirmablePage = ({
   header,
@@ -19,8 +25,21 @@ const ConfirmablePage = ({
   noAction = () => {},
   withBackButton = false,
   pageType,
+  router,
 }) => {
   const { t } = useTranslation();
+
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
+  const { jumpToPage } = useFormRouting(router);
+  const { getCheckinComplete } = useSessionStorage(
+    app === APP_NAMES.PRE_CHECK_IN,
+  );
+  useLayoutEffect(() => {
+    if (getCheckinComplete(window)) {
+      jumpToPage(URLS.DETAILS);
+    }
+  });
 
   const onYesClick = () => {
     recordEvent({
@@ -110,6 +129,7 @@ ConfirmablePage.propTypes = {
   noAction: PropTypes.func.isRequired,
   yesAction: PropTypes.func.isRequired,
   pageType: PropTypes.string,
+  router: PropTypes.object,
   subtitle: PropTypes.string,
   withBackButton: PropTypes.bool,
 };
