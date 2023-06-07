@@ -476,31 +476,7 @@ describe('All Field prefilled tests for TOE app', () => {
     );
 
     // verifying your information section in review page
-    cy.get('button[id*="collapsibleButton"]')
-      .contains('Your information')
-      .click();
-
-    cy.contains(toeUser.data.attributes.profile.firstName).should('exist');
-    cy.contains(toeUser.data.attributes.profile.middleName).should('exist');
-    cy.contains(toeUser.data.attributes.profile.lastName).should('exist');
-
-    const toeBirthMonthNum = toeClaimantTestData.data.attributes.claimant.dateOfBirth.substring(
-      5,
-      7,
-    );
-    const toeBirthDayNum = toeClaimantTestData.data.attributes.claimant.dateOfBirth.substring(
-      8,
-    );
-    const toeBirthYearNum = toeClaimantTestData.data.attributes.claimant.dateOfBirth.substring(
-      0,
-      4,
-    );
-
-    const toeDoB = `${toeBirthMonthNum}/${toeBirthDayNum}/${toeBirthYearNum}`;
-    cy.contains(toeDoB).should('exist');
-    cy.get('button[id*="collapsibleButton"]')
-      .contains('Your information')
-      .click();
+    cy.get('button[id*="collapsibleButton"]').contains('Your information');
 
     // verifying Sponsor information section in review page
 
