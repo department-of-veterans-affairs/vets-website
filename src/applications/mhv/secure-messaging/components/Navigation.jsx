@@ -156,9 +156,9 @@ const Navigation = () => {
                         <Link
                           className={handleActiveLinksStyle(path)}
                           to={path.path}
-                          // onClick={() => {
-                          //   handleOnClick(path);
-                          // }}
+                          onClick={() => {
+                            closeNavigation();
+                          }}
                         >
                           <span>{path.label}</span>
                         </Link>
