@@ -90,7 +90,7 @@ const convertChemHemDetails = bundle => {
 
 // const getType = record => {
 //   if (record.category === 'LAB') return labTypes.CHEM_HEM;
-//   if (record.code === '79381-0') return labTypes.MICRO;
+//   if (record.code === '79381-0') return labTypes.MICROBIOLOGY;
 //   return labTypes.OTHER;
 // };
 
