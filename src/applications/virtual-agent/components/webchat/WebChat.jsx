@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import environment from 'platform/utilities/environment';
 import { useSelector, connect } from 'react-redux';
-// import PropTypes from 'prop-types';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import axios from 'axios';
@@ -14,6 +13,7 @@ import {
   CONVERSATION_ID_KEY,
   TOKEN_KEY,
   clearBotSessionStorage,
+  IS_SIGNIN_SKILL,
 } from '../chatbox/utils';
 
 const JWT_TOKEN = 'JWT_TOKEN';
@@ -32,7 +32,9 @@ const WebChat = ({ token, WebChatFramework, apiSession, fetchJwtToken }) => {
     try {
       const JwtResponse = await axios.get(
         'https://sqa.eauth.va.gov/MAP/users/v2/session/jwt',
-        { withCredentials: true },
+        {
+          withCredentials: true,
+        },
       );
       sessionStorage.setItem(JWT_TOKEN, JwtResponse.data);
     } catch (error) {
@@ -97,9 +99,9 @@ const WebChat = ({ token, WebChatFramework, apiSession, fetchJwtToken }) => {
   const BUTTONS = 49.2;
   const styleOptions = {
     hideUploadButton: true,
-    botAvatarBackgroundColor: '#003e73', // color-primary-darker
+    botAvatarBackgroundColor: '#003e73',
     botAvatarInitials: 'VA',
-    userAvatarBackgroundColor: '#003e73', // color-primary-darker
+    userAvatarBackgroundColor: '#003e73',
     userAvatarInitials: 'You',
     primaryFont: 'Source Sans Pro, sans-serif',
     bubbleBorderRadius: 5,
@@ -119,7 +121,7 @@ const WebChat = ({ token, WebChatFramework, apiSession, fetchJwtToken }) => {
     suggestedActionTextColor: 'white',
     suggestedActionBorderRadius: 5,
     suggestedActionBorderWidth: 0,
-  };
+  }; // color-primary-darker // color-primary-darker
 
   const handleTelemetry = event => {
     const { name } = event;
@@ -157,7 +159,6 @@ const WebChat = ({ token, WebChatFramework, apiSession, fetchJwtToken }) => {
     });
   }
 
-  // Add useState for botPonyfill
   const [speechPonyfill, setBotPonyfill] = useState();
 
   useEffect(() => {
@@ -166,6 +167,32 @@ const WebChat = ({ token, WebChatFramework, apiSession, fetchJwtToken }) => {
     });
   }, []);
 
+  const [isSignin, setIsSignin] = useState();
+  useEffect(
+    () => {
+      const doSomething = () =>
+        setIsSignin(() => sessionStorage.getItem(IS_SIGNIN_SKILL));
+
+      window.addEventListener('signinSkill', doSomething);
+      return () => window.removeEventListener('signinSkill', doSomething);
+    },
+    [isSignin],
+  );
+
+  if (isSignin === 'true') {
+    return (
+      <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
+        <ReactWebChat
+          styleOptions={styleOptions}
+          directLine={directLine}
+          store={store}
+          renderMarkdown={renderMarkdown}
+          onTelemetry={handleTelemetry}
+          webSpeechPonyfillFactory={speechPonyfill}
+        />
+      </div>
+    );
+  }
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
@@ -174,20 +201,13 @@ const WebChat = ({ token, WebChatFramework, apiSession, fetchJwtToken }) => {
         store={store}
         renderMarkdown={renderMarkdown}
         onTelemetry={handleTelemetry}
-        webSpeechPonyfillFactory={speechPonyfill} // pass botPonyfill to ReactWebChat
       />
     </div>
   );
 };
 
-// useVirtualAgentToken.propTypes = {
-//   virtualAgentFetchJwtToken: PropTypes.bool,
-// };
-
 const fetchVirtualAgentJwtToken = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.virtualAgentFetchJwtToken];
-
-// const virtualAgentFetchJwtToken = () => true;
 
 const mapStateToProps = state => ({
   fetchJwtToken: fetchVirtualAgentJwtToken(state),

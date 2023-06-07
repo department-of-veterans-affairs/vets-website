@@ -9,6 +9,7 @@ import {
   IS_TRACKING_UTTERANCES,
   RECENT_UTTERANCES,
   CONVERSATION_ID_KEY,
+  IS_SIGNIN_SKILL,
 } from '../../chatbox/utils';
 
 // define thunks for actions
@@ -98,5 +99,25 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   }
   if (JSON.parse(sessionStorage.getItem(IS_TRACKING_UTTERANCES))) {
     sendWindowEvent('webchat-message-activity');
+  }
+
+  const payload = action.payload || {};
+  const dataorEmpty = payload.activity || {};
+  const text = dataorEmpty.text || '';
+  const signinSkillWasTriggered = text.includes(
+    'Which login service provider do you need help with or want to learn more about?',
+  );
+  const signinSkillWasClosed = text.includes(
+    'You can type your question in the "Type your message" section below.',
+  );
+
+  if (signinSkillWasTriggered) {
+    setSessionStorageAsString(IS_SIGNIN_SKILL, true);
+    window.dispatchEvent(new Event('signinSkill'));
+  }
+  if (signinSkillWasClosed) {
+    setSessionStorageAsString(IS_SIGNIN_SKILL, false);
+
+    window.dispatchEvent(new Event('signinSkill'));
   }
 };
