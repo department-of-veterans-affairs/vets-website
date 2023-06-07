@@ -1,7 +1,8 @@
 const babbleConfig = require('./babel.config.json');
 
 const moduleResolverAlias =
-  babbleConfig.plugins.find(plug => plug[0] === 'module-resolver')?.alias || {};
+  babbleConfig.plugins.find(plug => plug[0] === 'module-resolver')[1].alias ||
+  {};
 const aliasMap = Object.keys(moduleResolverAlias).map(alias => [
   alias,
   moduleResolverAlias[alias],
@@ -27,7 +28,7 @@ module.exports = {
         moduleDirectory: ['node_modules', 'src/'],
       },
       alias: {
-        map: [aliasMap],
+        map: aliasMap,
         extensions: ['.js', '.ts', '.tsx', '.jsx', '.json'],
       },
       'babel-module': {},
