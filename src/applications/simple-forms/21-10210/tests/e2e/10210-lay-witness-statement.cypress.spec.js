@@ -23,7 +23,6 @@ const testConfig = createTestConfig(
 
     dataDir: path.join(__dirname, 'fixtures', 'data'),
 
-    // Rename and modify the test data as needed.
     dataSets: ['flow1', 'flow2', 'flow3', 'flow4'],
 
     pageHooks: {
@@ -45,7 +44,7 @@ const testConfig = createTestConfig(
               .get('#inputField')
               .type(signerFullName);
             cy.get(`input[name="veteran-certify"]`).check();
-            cy.findAllByText(/Submit application/i, {
+            cy.findAllByText(/Submit statement/i, {
               selector: 'button',
             }).click();
           });

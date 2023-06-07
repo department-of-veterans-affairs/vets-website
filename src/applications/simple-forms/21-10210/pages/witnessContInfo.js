@@ -14,9 +14,7 @@ export default {
     witnessEmail: emailUI(
       <span>
         Email address
-        <br />
-        By providing an email address, I agree to receive electronic
-        correspondence from VA regarding my application
+        <br />I agree to receive emails from VA about my claim.
       </span>,
     ),
   },
