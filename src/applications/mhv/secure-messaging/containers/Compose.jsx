@@ -45,7 +45,7 @@ const Compose = () => {
   useEffect(
     () => {
       if (draftMessage?.messageId && draftMessage.draftDate === null) {
-        history.push('/inbox/');
+        history.push(Paths.INBOX);
       }
       return () => {
         if (isDraftPage) {

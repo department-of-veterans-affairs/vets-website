@@ -39,7 +39,7 @@ export const unreadCountInbox = folders => {
 };
 
 export const navigateToFoldersPage = history => {
-  history.push('/folders/');
+  history.push(Paths.FOLDERS);
 };
 
 export const today = new Date();
