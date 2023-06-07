@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getFolders } from '../actions/folders';
 import { folder } from '../selectors';
 import SectionGuideButton from './SectionGuideButton';
@@ -12,12 +13,63 @@ const Navigation = () => {
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const location = useLocation();
   const activeFolder = useSelector(folder);
+  const sideBarNavRef = useRef();
+  const sideBarNavHeaderRef = useRef();
+  const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
+
+  function openNavigation() {
+    setIsNavigationOpen(true);
+  }
+
+  function closeNavigation() {
+    setIsNavigationOpen(false);
+    focusElement(navMenuButtonRef);
+  }
 
   useEffect(
     () => {
       dispatch(getFolders());
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (isNavigationOpen) {
+        focusElement(sideBarNavHeaderRef.current);
+        const focusableEls = sideBarNavRef.current.querySelectorAll(
+          'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])',
+        );
+        const firstFocusableEl = focusableEls[0];
+        const lastFocusableEl = focusableEls[focusableEls.length - 1];
+        const KEYCODE_TAB = 9;
+
+        sideBarNavRef.current.addEventListener('keydown', e => {
+          const isTabPressed = e.key === 'Tab' || e.keyCode === KEYCODE_TAB;
+          const isEscPressed = e.key === 'Escape' || e.keyCode === 27;
+
+          if (isEscPressed) {
+            closeNavigation();
+            return;
+          }
+
+          if (!isTabPressed) {
+            return;
+          }
+
+          if (e.shiftKey) {
+            /* shift + tab */ if (document.activeElement === firstFocusableEl) {
+              lastFocusableEl.focus();
+              e.preventDefault();
+            }
+          } /* tab */ else if (document.activeElement === lastFocusableEl) {
+            firstFocusableEl.focus();
+            e.preventDefault();
+          }
+        });
+      }
+    },
+    [isNavigationOpen],
   );
 
   const paths = () => {
@@ -61,14 +113,6 @@ const Navigation = () => {
     ];
   };
 
-  function openNavigation() {
-    setIsNavigationOpen(true);
-  }
-
-  function closeNavigation() {
-    setIsNavigationOpen(false);
-  }
-
   function checkScreenSize() {
     if (window.innerWidth <= 768 && setIsMobile !== false) {
       setIsMobile(true);
@@ -82,6 +126,7 @@ const Navigation = () => {
     return (
       isMobile && (
         <SectionGuideButton
+          setNavMenuButtonRef={setNavMenuButtonRef}
           onMenuClick={() => {
             openNavigation();
           }}
@@ -126,7 +171,10 @@ const Navigation = () => {
     <div className="secure-messaging-navigation vads-u-flex--auto vads-u-padding-bottom--7 medium-screen:vads-u-padding-bottom--0">
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
-        <div className="sidebar-navigation">
+        <div ref={sideBarNavRef} className="sidebar-navigation">
+          <div ref={sideBarNavHeaderRef} className="sr-only">
+            Navigation menu is open
+          </div>
           {isMobile && (
             <div className="sidebar-navigation-header">
               <button
