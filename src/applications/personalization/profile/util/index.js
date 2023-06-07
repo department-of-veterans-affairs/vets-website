@@ -51,27 +51,44 @@ export async function getData(apiRoute, options) {
   }
 }
 
+// used for legacy, remove once moved to lighthouse endpoint
+const hasPPIUErrorText = (errors, errorKey, errorText) => {
+  return errors.some(err =>
+    err.meta?.messages?.some(
+      message =>
+        message.key === errorKey &&
+        message.text?.toLowerCase().includes(errorText.toLowerCase()),
+    ),
+  );
+};
+
+// used for legacy, remove once moved to lighthouse endpoint
+const hasPPIUErrorKey = (errors, errorKey) => {
+  return errors.some(err =>
+    err.meta?.messages?.some(message => message.key === errorKey),
+  );
+};
+
+const hasLighthouseErrorText = (errors, errorKey, errorText) => {
+  errors.some(
+    err =>
+      err?.code === errorKey &&
+      err?.detail?.toLowerCase().includes(errorText.toLowerCase()),
+  );
+};
+
+const hasLighthouseErrorKey = (errors, errorKey) =>
+  errors.some(err => err?.code === errorKey);
+
 const hasErrorMessage = (errors, errorKey, errorText) => {
   if (errorText) {
     return (
-      errors.some(err =>
-        err.meta?.messages?.some(
-          message =>
-            message.key === errorKey &&
-            message.text?.toLowerCase().includes(errorText.toLowerCase()),
-        ),
-      ) ||
-      errors.some(
-        err =>
-          err?.code === errorKey &&
-          err?.detail?.toLowerCase().includes(errorText.toLowerCase()),
-      )
+      hasPPIUErrorText(errors, errorKey, errorText) ||
+      hasLighthouseErrorText(errors, errorKey, errorText)
     );
   }
   return (
-    errors.some(err =>
-      err.meta?.messages?.some(message => message.key === errorKey),
-    ) || errors.some(err => err?.code === errorKey)
+    hasPPIUErrorKey(errors, errorKey) || hasLighthouseErrorKey(errors, errorKey)
   );
 };
 
