@@ -7,41 +7,119 @@ import sinon from 'sinon';
 
 import ReviewPage from '../containers/ReviewPage';
 
-describe('Review Page', () => {
-  const pushSpy = sinon.spy();
+const pushSpyStandard = sinon.spy();
+const pushSpyPast = sinon.spy();
 
-  const mockStore = {
-    getState: () => ({
-      incomeLimits: {
-        editMode: false,
-        form: {
-          dependents: '2',
-          zipCode: '10108',
-        },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
-  };
-
-  it('should correctly render the review page', () => {
-    const props = {
-      dependentsInput: '2',
+const mockStoreStandard = {
+  getState: () => ({
+    incomeLimits: {
       editMode: false,
-      router: {
-        push: pushSpy,
+      pastMode: false,
+      form: {
+        dependents: '2',
+        zipCode: '10108',
       },
-      toggleEditMode: () => {},
-      zipCodeInput: '10108',
-    };
+    },
+  }),
+  subscribe: () => {},
+  dispatch: () => {},
+};
 
+const propsStandard = {
+  dependentsInput: '2',
+  editMode: false,
+  pastMode: false,
+  router: {
+    push: pushSpyStandard,
+  },
+  toggleEditMode: () => {},
+  zipCodeInput: '10108',
+};
+
+const mockStorePast = {
+  getState: () => ({
+    incomeLimits: {
+      editMode: false,
+      pastMode: true,
+      form: {
+        dependents: '3',
+        year: '2016',
+        zipCode: '60507',
+      },
+    },
+  }),
+  subscribe: () => {},
+  dispatch: () => {},
+};
+
+const propsPast = {
+  dependentsInput: '3',
+  editMode: false,
+  pastMode: true,
+  router: {
+    push: pushSpyPast,
+  },
+  toggleEditMode: () => {},
+  yearInput: '2016',
+  zipCodeInput: '60507',
+};
+
+describe('Review Page', () => {
+  it('should correctly load the review page in the standard flow', () => {
     const screen = render(
-      <Provider store={mockStore}>
-        <ReviewPage {...props} />
+      <Provider store={mockStoreStandard}>
+        <ReviewPage {...propsStandard} />
+      </Provider>,
+    );
+
+    expect(screen.getByTestId('review-zip').textContent).to.equal(
+      'Nisci orci: 10108',
+    );
+
+    expect(screen.getByTestId('review-dependents').textContent).to.equal(
+      'Malesuada felis ultrices: 2',
+    );
+  });
+
+  it('should correctly load the review page in the past flow', () => {
+    const screen = render(
+      <Provider store={mockStorePast}>
+        <ReviewPage {...propsPast} />
+      </Provider>,
+    );
+
+    expect(screen.getByTestId('review-year').textContent).to.equal(
+      'Vitae: 2016',
+    );
+
+    expect(screen.getByTestId('review-zip').textContent).to.equal(
+      'Nisci orci: 60507',
+    );
+
+    expect(screen.getByTestId('review-dependents').textContent).to.equal(
+      'Malesuada felis ultrices: 3',
+    );
+  });
+
+  it('should call the correct function when the Edit link is used in the standard flow', () => {
+    const screen = render(
+      <Provider store={mockStoreStandard}>
+        <ReviewPage {...propsStandard} />
+      </Provider>,
+    );
+
+    userEvent.click(screen.getAllByText('Edit')[1]);
+    expect(pushSpyStandard.withArgs('dependents').calledOnce).to.be.true;
+  });
+
+  it('should call the correct function when the Edit link is used in the past flow', () => {
+    const screen = render(
+      <Provider store={mockStorePast}>
+        <ReviewPage {...propsPast} />
       </Provider>,
     );
 
     userEvent.click(screen.getAllByText('Edit')[0]);
-    expect(pushSpy.called).to.be.true;
+    expect(pushSpyPast.withArgs('year').calledOnce).to.be.true;
   });
 });

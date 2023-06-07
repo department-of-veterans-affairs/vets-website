@@ -1,3 +1,7 @@
+export const YEAR = '2017';
+export const NEWYEAR = '2015';
+export const YEARINPUT = 'il-year';
+
 export const ZIP = '10108';
 export const NEWZIP = '90210';
 export const ZIPINPUT = 'il-zipCode';
@@ -34,6 +38,7 @@ export const typeInInput = (selector, value) =>
     .shadow()
     .get('input')
     .first()
+    .click()
     .type(value, { force: true });
 
 export const clearInput = selector =>
@@ -43,6 +48,14 @@ export const clearInput = selector =>
     .get('input')
     .first()
     .clear();
+
+export const selectFromDropdown = (selector, value) =>
+  cy
+    .findByTestId(selector)
+    .shadow()
+    .get('select')
+    .first()
+    .select(value);
 
 export const checkInputText = (selector, expectedValue) =>
   cy.findByTestId(selector).should('have.value', expectedValue);

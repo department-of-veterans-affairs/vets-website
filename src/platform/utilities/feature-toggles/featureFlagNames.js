@@ -101,7 +101,6 @@ export default Object.freeze({
   profileUseExperimental: 'profile_use_experimental',
   profileUseInfoCard: 'profile_use_info_card',
   profileUseFieldEditingPage: 'profile_use_field_editing_page',
-  profileUseVaosV2Api: 'profile_use_vaos_v2_api',
   profileUseVAFSC: 'profile_use_vafsc',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
@@ -149,8 +148,6 @@ export default Object.freeze({
   subform89404192: 'subform_8940_4192',
   supplementalClaim: 'supplemental_claim',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
-  vaHomePreviewModal:
-    'va_home_preview_modal',
   vaOnlineScheduling: 'va_online_scheduling',
   vaOnlineSchedulingCancel: 'va_online_scheduling_cancel',
   vaOnlineSchedulingCheetah: 'va_online_scheduling_cheetah',
