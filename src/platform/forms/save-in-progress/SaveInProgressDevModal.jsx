@@ -124,7 +124,7 @@ const SipsDevModal = props => {
               options={availablePaths}
               value={{ value: sipsUrl }}
               includeBlankOption={false}
-              onVaSelect={value => setSipsUrl(value.value)}
+              onVaSelect={event => setSipsUrl(event.target.value)}
               additionalClass="additional-class"
             />
             <p />
