@@ -44,7 +44,6 @@ export const App = ({ megaMenuData, show, showMegaMenu, showNavLogin }) => {
   }
 
   hideLegacyHeader();
-
   return (
     <Header
       megaMenuData={megaMenuData}

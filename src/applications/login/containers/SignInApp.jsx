@@ -52,34 +52,19 @@ export function UnifiedSigninPage({ router, location }) {
   );
 
   const css = `
-  #legacy-header > div:nth-child(3) > div.menu-rule.usa-one-whole {
+  #legacy-header > div:nth-child(3) > div.menu-rule.usa-one-whole,   div .profile-nav-container, .menu-rule.usa-one-whole,  .hidden-header {
     visibility:hidden;
   }
-
-      .hidden-header {
-    visibility:hidden;
-  }
-
-  .menu-rule.usa-one-whole { 
-    visibility: hidden;
-  }
-
-  div .profile-nav-container {
-    visibility: hidden;
-  }
-
 `;
 
   return (
     <>
       <style>{css}</style>
-      <div>
-        <LoginContainer
-          isUnifiedSignIn
-          externalApplication={externalApplication}
-          loggedOut={loggedOut}
-        />
-      </div>
+      <LoginContainer
+        isUnifiedSignIn
+        externalApplication={externalApplication}
+        loggedOut={loggedOut}
+      />
     </>
   );
 }
