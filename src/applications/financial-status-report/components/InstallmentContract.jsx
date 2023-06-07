@@ -262,7 +262,7 @@ const InstallmentContract = props => {
               handlers.handleDateChange('dateStarted', e.target.value)
             }
             onDateBlur={e => validateLoanBegan(e.target.value)}
-            required={!contractRecord.amountDueMonthly}
+            required={!!contractRecord.amountDueMonthly}
             error={(submitted && fromDateError) || null}
           />
         </div>
