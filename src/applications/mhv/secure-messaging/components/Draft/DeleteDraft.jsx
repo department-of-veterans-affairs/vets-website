@@ -14,6 +14,7 @@ const DeleteDraft = props => {
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
   const handleDeleteDraftConfirm = () => {
+    props.setNavigationError(null);
     setIsModalVisible(false);
     if (props.draftId) {
       dispatch(deleteDraft(props.draftId));

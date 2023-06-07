@@ -9,6 +9,7 @@ describe('check in', () => {
         expect(keys).to.deep.equal({
           CURRENT_UUID: 'health.care.pre.check.in.current.uuid',
           COMPLETE: 'health.care.pre.check.in.complete',
+          CHECK_IN_COMPLETE: 'health.care.pre.check.in.check.in.complete',
           SHOULD_SEND_DEMOGRAPHICS_FLAGS:
             'health.care.pre.check.in.should.send.demographics.flags',
           PERMISSIONS: 'health.care.pre.check.in.permissions',
@@ -20,6 +21,7 @@ describe('check in', () => {
         expect(keys).to.deep.equal({
           CURRENT_UUID: 'health.care.check-in.current.uuid',
           COMPLETE: 'health.care.check-in.complete',
+          CHECK_IN_COMPLETE: 'health.care.check-in.check.in.complete',
           SHOULD_SEND_DEMOGRAPHICS_FLAGS:
             'health.care.check-in.should.send.demographics.flags',
           SHOULD_SEND_TRAVEL_PAY_CLAIM:

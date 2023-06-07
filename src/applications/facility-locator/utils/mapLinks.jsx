@@ -10,14 +10,3 @@ export const otherToolsLink = () => (
     </a>
   </div>
 );
-
-export const coronavirusUpdate = (
-  <>
-    Please call first to confirm services or ask about getting help by phone or
-    video. We follow CDC{' '}
-    <a href="/coronavirus-veteran-frequently-asked-questions/#more-coronavirus-specific-conc">
-      guidelines for wearing masks at our facilities
-    </a>
-    .
-  </>
-);

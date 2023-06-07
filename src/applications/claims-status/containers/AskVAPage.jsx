@@ -4,8 +4,9 @@ import { withRouter, Link } from 'react-router';
 import PropTypes from 'prop-types';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import {
-  submitRequest,
   // START ligthouse_migration
+  submit5103 as submit5103Action,
+  submitRequest as submitRequestAction,
   getClaim as getClaimAction,
   getClaimDetail as getClaimEVSSAction,
   // END lighthouse_migration
@@ -53,7 +54,15 @@ class AskVAPage extends React.Component {
   }
 
   render() {
-    const { loadingDecisionRequest, decisionRequestError } = this.props;
+    const {
+      loadingDecisionRequest,
+      decisionRequestError,
+      submit5103,
+      submitRequest,
+      useLighthouse,
+    } = this.props;
+
+    const submitFunc = useLighthouse ? submit5103 : submitRequest;
     const submitDisabled =
       !this.state.submittedDocs ||
       loadingDecisionRequest ||
@@ -116,7 +125,7 @@ class AskVAPage extends React.Component {
                     ? 'usa-button-primary usa-button-disabled'
                     : 'usa-button-primary'
                 }
-                onClick={() => this.props.submitRequest(this.props.params.id)}
+                onClick={() => submitFunc(this.props.params.id)}
               >
                 {buttonMsg}
               </button>
@@ -153,8 +162,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  submitRequest,
   // START lighthouse_migration
+  submit5103: submit5103Action,
+  submitRequest: submitRequestAction,
   getClaimEVSS: getClaimEVSSAction,
   getClaimLighthouse: getClaimAction,
   // END lighthouse_migration
@@ -177,8 +187,9 @@ AskVAPage.propTypes = {
   loadingDecisionRequest: PropTypes.bool,
   params: PropTypes.object,
   router: PropTypes.object,
-  submitRequest: PropTypes.func,
   // START lighthouse_migration
+  submit5103: PropTypes.func,
+  submitRequest: PropTypes.func,
   useLighthouse: PropTypes.bool,
   // END lighthouse_migration
 };

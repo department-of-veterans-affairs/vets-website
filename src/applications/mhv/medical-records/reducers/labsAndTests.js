@@ -1,6 +1,7 @@
 import environment from 'platform/utilities/environment';
 import { Actions } from '../util/actionTypes';
 import { getNames } from '../util/helpers';
+import { /* labTypes, */ testing } from '../util/constants';
 
 const initialState = {
   /**
@@ -69,13 +70,37 @@ const convertChemHemDetails = bundle => {
   };
 };
 
+// const convertMicrobiologyRecord = record => {
+//   return {
+//     // name: 'Microbiology',
+//     // category: '',
+//     // orderedBy: 'Beth M. Smith',
+//     // requestedBy: 'John J. Lydon',
+//     // id: 124,
+//     date: record.effectiveDateTime,
+//     // sampleFrom: 'Blood',
+//     sampleTested: record.specimen,
+//     // vaccineId: '000003',
+//     // orderingLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
+//     collectingLocation: record.performer,
+//     // labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
+//     results: record.conclusion || record.result,
+//   };
+// };
+
+// const getType = record => {
+//   if (record.category === 'LAB') return labTypes.CHEM_HEM;
+//   if (record.code === '79381-0') return labTypes.MICROBIOLOGY;
+//   return labTypes.OTHER;
+// };
+
 export const labsAndTestsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.LabsAndTests.GET: {
       return {
         ...state,
         labsAndTestsDetails:
-          environment.BUILDTYPE === 'localhost'
+          environment.BUILDTYPE === 'localhost' && testing
             ? convertChemHemDetails(action.response)
             : action.response,
       };
@@ -84,7 +109,7 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         labsAndTestsList:
-          environment.BUILDTYPE === 'localhost'
+          environment.BUILDTYPE === 'localhost' && testing
             ? convertChemHemList(action.response)
             : action.response.map(labsAndTests => {
                 return { ...labsAndTests };
