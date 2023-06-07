@@ -568,19 +568,11 @@ export default function V1V3Page() {
                   <p>This is an alert that cannot be closed</p>
                 </div>
               </VaAlert>
-              <br />
               <h4>Background Only with Icon</h4>
               <VaAlert status="continue" showIcon="true" backgroundOnly="true">
                 <h2 slot="headline">Alert - Background Only With Icon</h2>
                 <div>
                   <p>This is an alert with only a background and icon</p>
-                </div>
-              </VaAlert>
-              <br />
-              <h4>No Background</h4>
-              <VaAlert status="continue" backgroundOnly="true">
-                <div>
-                  <p>This is an alert with only a background</p>
                 </div>
               </VaAlert>
             </div>
@@ -666,19 +658,13 @@ export default function V1V3Page() {
                 backgroundOnly="true"
                 uswds="true"
               >
-                <h2 slot="headline">Alert - Baground Only With Icon</h2>
+                <h2 slot="headline">Alert - Background Only With Icon</h2>
                 <div>
                   <p>This is an alert with only a background and icon</p>
                 </div>
               </VaAlert>
               <br />
-              <h4>No Background</h4>
-              <VaAlert status="continue" backgroundOnly="true" uswds="true">
-                <div>
-                  <p>This is an alert with only a background</p>
-                </div>
-              </VaAlert>
-              <br />
+              <h4>Slim Alerts</h4>
               <VaAlert status="info" slim="true" uswds="true">
                 <p className="vads-u-margin-y--0">This is a slim info alert</p>
               </VaAlert>
@@ -729,7 +715,7 @@ export default function V1V3Page() {
                     id="nav-form-header"
                     tabIndex="-1"
                   >
-                    Step 2 of 6: VA Benefits
+                    Step 2 of 5: VA Benefits
                   </h2>
                 </div>
               </div>
