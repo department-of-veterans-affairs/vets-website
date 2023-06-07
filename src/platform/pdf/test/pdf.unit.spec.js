@@ -85,7 +85,8 @@ describe('PDF generation API', () => {
       const content = await page.getTextContent({ includeMarkedContent: true });
       const { tag } = content.items[7];
       expect(tag).to.equal('H1');
-      const text = content.items[8].str;
+      const text = content.items[9].str;
+      expect(text.length).to.be.gt(0);
       expect(text).to.equal(data.title.substring(0, text.length));
     });
   });

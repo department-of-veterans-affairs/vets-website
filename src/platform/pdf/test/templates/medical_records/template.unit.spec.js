@@ -42,7 +42,8 @@ describe('Medical records PDF template', () => {
       const content = await page.getTextContent({ includeMarkedContent: true });
       const { tag } = content.items[7];
       expect(tag).to.equal('H1');
-      const text = content.items[8].str;
+      const text = content.items[9].str;
+      expect(text.length).to.be.gt(0);
       expect(text).to.equal(data.title.substring(0, text.length));
     });
 
@@ -170,7 +171,26 @@ describe('Medical records PDF template', () => {
     });
 
     it('Special characters are rendered correctly', async () => {
-      // e.g. apostrophes in people's names, multi-byte characters, etc.
+      const data = require('./fixtures/special_characters.json');
+      const { pdf } = await generateAndParsePdf(data);
+
+      // Fetch the first page
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+
+      // This confirms the undesirable behavior that characters without glyphs
+      // in the selected font are converted to non-printing characters, validating
+      // the next assertions.
+      const h1Text = content.items[9].str;
+      expect(h1Text.length).to.be.gt(0);
+      expect(h1Text).to.contain('Complete \u0000 count on');
+
+      // This confirms that characters like ', É, and ã are shown in the PDF.
+      const headerText = content.items[1].str;
+      expect(headerText.length).to.be.gt(0);
+      expect(headerText).to.eq(data.headerLeft);
     });
 
     it('Has a default language (english)', async () => {
