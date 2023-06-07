@@ -14,6 +14,22 @@ const PAYMENT_RESTRICTIONS_PRESENT_KEY =
 const ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY =
   'cnp.payment.routing.number.fraud.message';
 
+// error keys for profile/direct_deposits/disability_compensations endpoint
+// easier to export and use than importing one by one constants
+export const LighthouseErrorKeys = {
+  LH_RATE_LIMIT_ERROR_KEY: 'cnp.payment.api.rate.limit.exceeded',
+  LH_ACCOUNT_FLAGGED_FOR_FRAUD_KEY: 'cnp.payment.accounting.number.fraud',
+  LH_ACCOUNT_NUMBER_INVALID_KEY: 'cnp.payment.account.number.invalid',
+  LH_ACCOUNT_TYPE_INVALID_KEY: 'cnp.payment.account.type.invalid',
+  LH_PAYMENT_RESTRICTIONS_PRESENT_KEY:
+    'cnp.payment.restriction.indicators.present',
+  LH_ROUTING_NUMBER_INVALID_KEY: 'cnp.payment.routing.number.invalid',
+  LH_ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY: 'cnp.payment.routing.number.fraud',
+  LH_ROUTING_NUMBER_INVALID_CHECKSUM_KEY:
+    'cnp.payment.routing.number.invalid.checksum',
+  LH_UNSPECIFIED_ERROR_KEY: 'cnp.payment.unspecified.error',
+};
+
 const GA_ERROR_KEY_BAD_ADDRESS = 'mailing-address-error';
 const GA_ERROR_KEY_BAD_HOME_PHONE = 'home-phone-error';
 const GA_ERROR_KEY_BAD_WORK_PHONE = 'work-phone-error';
@@ -60,13 +76,23 @@ const hasErrorMessage = (errors, errorKey, errorText) => {
 };
 
 export const hasAccountFlaggedError = errors =>
-  hasErrorMessage(errors, ACCOUNT_FLAGGED_FOR_FRAUD_KEY);
+  hasErrorMessage(errors, ACCOUNT_FLAGGED_FOR_FRAUD_KEY) ||
+  hasErrorMessage(errors, LighthouseErrorKeys.LH_ACCOUNT_FLAGGED_FOR_FRAUD_KEY);
 
 export const hasRoutingNumberFlaggedError = errors =>
-  hasErrorMessage(errors, ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY);
+  hasErrorMessage(errors, ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY) ||
+  hasErrorMessage(
+    errors,
+    LighthouseErrorKeys.LH_ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY,
+  );
 
 export const hasInvalidRoutingNumberError = errors =>
   hasErrorMessage(errors, INVALID_ROUTING_NUMBER_KEY) ||
+  hasErrorMessage(errors, LighthouseErrorKeys.LH_ROUTING_NUMBER_INVALID_KEY) ||
+  hasErrorMessage(
+    errors,
+    LighthouseErrorKeys.LH_ROUTING_NUMBER_INVALID_CHECKSUM_KEY,
+  ) ||
   hasErrorMessage(errors, GENERIC_ERROR_KEY, 'Invalid Routing Number');
 
 export const hasInvalidAddressError = errors =>
@@ -81,7 +107,11 @@ export const hasInvalidWorkPhoneNumberError = errors =>
   hasErrorMessage(errors, GENERIC_ERROR_KEY, 'day area number');
 
 export const hasPaymentRestrictionIndicatorsError = errors =>
-  hasErrorMessage(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY);
+  hasErrorMessage(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY) ||
+  hasErrorMessage(
+    errors,
+    LighthouseErrorKeys.LH_PAYMENT_RESTRICTIONS_PRESENT_KEY,
+  );
 
 export const cnpDirectDepositBankInfo = apiData => {
   return apiData?.paymentAccount;
