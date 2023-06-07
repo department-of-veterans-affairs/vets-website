@@ -147,6 +147,7 @@
  * @property {(formData: any) => void} [onContinue]
  * @property {(data: any) => boolean} [itemFilter]
  * @property {string} [path]
+ * @property {string} [returnUrl]
  * @property {SchemaOptions} [schema]
  * @property {string | Function} [scrollAndFocusTarget]
  * @property {boolean} [showPagePerItem]
@@ -220,13 +221,15 @@
  * @property {string} [hint]
  * @property {boolean} [includeRequiredLabelInTitle]
  * @property {Array<(input) => string>} [inputTransformers]
+ * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType]
  * @property {(item: any) => string} [itemAriaLabel]
  * @property {string} [itemName]
  * @property {boolean} [keepInPageOnReview]
  * @property {Record<string, string>} [labels]
- * @property {(formData: any) => any} [replaceSchema]
- * @property {(formData, schema, uiSchema, index, path) => any} [updateSchema]
+ * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [replaceSchema]
+ * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [updateSchema]
  * @property {boolean} [useDlWrap]
+ * @property {boolean} [uswds]
  * @property {React.ReactNode} [viewComponent]
  * @property {React.ReactNode} [viewField]
  * @property {string} [widgetClassNames]
@@ -254,4 +257,23 @@
  * } & {
  *   [key: string]: SchemaOptions | {}
  * }} SchemaOptions
+ */
+
+/**
+ * @typedef {Object} WebComponentFieldProps
+ * @property {string | JSX.Element | Function} description
+ * @property {string} textDescription
+ * @property {string | JSX.Element} label
+ * @property {boolean} required
+ * @property {string} error
+ * @property {UIOptions} uiOptions
+ * @property {number} index
+ * @property {{
+ *  schema: SchemaOptions,
+ *  uiSchema: UISchemaOptions,
+ *  formData: any,
+ * } | {
+ *  [key: string]: any
+ * }} childrenProps
+ * @property {any} DescriptionField
  */

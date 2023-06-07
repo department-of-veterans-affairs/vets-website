@@ -100,10 +100,9 @@
     "path": "path-browserify"
   },
   "devDependencies": {
-    "@actions/core": "^1.8.0",
+    "@actions/core": "^1.9.1",
     "@axe-core/react": "^4.4.3",
     "@babel/core": "^7.17.7",
-    "@babel/eslint-parser": "^7.21.8",
     "@babel/parser": "^7.17.7",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/plugin-proposal-export-namespace-from": "^7.16.7",
@@ -134,6 +133,7 @@
     "autoprefixer": "^10.3.5",
     "axe-core": "^4.4.3",
     "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-istanbul": "^6.0.0",
@@ -225,7 +225,7 @@
     "svg-url-loader": "^7.1.1",
     "terser-webpack-plugin": "^5.3.1",
     "url-loader": "^4.1.1",
-    "webpack": "^5.70.0",
+    "webpack": "^5.76.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4",
@@ -367,6 +367,7 @@
       "src/platform/forms",
       "src/platform/forms-system",
       "src/platform/monitoring",
+
       "src/applications/check-in",
       "src/applications/vaos"
     ],
@@ -375,6 +376,7 @@
       "**/applications-check-in/react-i18next",
       "**/applications-vaos/simple-guid",
       "**/applications-vaos/mocker-api",
+
       "**/platform-polyfills/@formatjs/intl-datetimeformat",
       "**/platform-polyfills/@formatjs/intl-getcanonicallocales",
       "**/platform-polyfills/@formatjs/intl-locale",

@@ -17,7 +17,7 @@ class IntroductionPage extends React.Component {
       <article className="schemaform-intro">
         <FormTitle
           title="Authorize the release of non-VA medical information to VA"
-          subTitle="Authorization to disclose information to the Department of Veterans Affairs (VA Form 21-4142 and 21-4142a)"
+          subTitle="Authorization to disclose information to the Department of Veterans Affairs (VA Forms 21-4142 and 21-4142a)"
         />
         <p>
           Complete this form if you want to give us permission to request your
@@ -26,7 +26,8 @@ class IntroductionPage extends React.Component {
           information on behalf of a Veteran you support.
         </p>
         <h2 className="vads-u-font-size--h3">
-          Non-VA sources we may request your records and information from
+          Non-VA sources we may request your medical records and information
+          from
         </h2>
         <ul className="vads-u-margin-bottom--4">
           <li>
@@ -45,7 +46,7 @@ class IntroductionPage extends React.Component {
         </ul>
 
         <h2 className="vads-u-font-size--h3">
-          What to know before you submit this form
+          What to know before you fill out this form
         </h2>
         <ul className="vads-u-margin-bottom--4">
           <li>

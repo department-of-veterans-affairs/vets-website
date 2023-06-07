@@ -4,14 +4,8 @@ import PropTypes from 'prop-types';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import HealthCareContent from './HealthCareContent';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
-import {
-  selectUnreadCount,
-  selectUseVaosV2APi,
-} from '~/applications/personalization/dashboard/selectors';
-import {
-  fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction,
-  fetchConfirmedFutureAppointmentsV2 as fetchConfirmedFutureAppointmentsV2Action,
-} from '~/applications/personalization/appointments/actions';
+import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
+import { fetchConfirmedFutureAppointmentsV2 as fetchConfirmedFutureAppointmentsV2Action } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 import { selectAvailableServices } from '~/platform/user/selectors';
@@ -84,13 +78,11 @@ const mapStateToProps = state => {
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
     shouldShowPrescriptions,
     unreadMessagesCount: selectUnreadCount(state).count || 0,
-    useVaosV2Api: selectUseVaosV2APi(state),
   };
 };
 
 const mapDispatchToProps = {
   fetchUnreadMessages: fetchUnreadMessageCountAction,
-  fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
   fetchConfirmedFutureAppointmentsV2: fetchConfirmedFutureAppointmentsV2Action,
 };
 
@@ -110,7 +102,6 @@ HealthCare.propTypes = {
     }),
   ),
   dataLoadingDisabled: PropTypes.bool,
-  fetchConfirmedFutureAppointments: PropTypes.func,
   fetchConfirmedFutureAppointmentsV2: PropTypes.func,
   fetchUnreadMessages: PropTypes.bool,
   hasAppointmentsError: PropTypes.bool,
@@ -120,7 +111,6 @@ HealthCare.propTypes = {
   shouldShowLoadingIndicator: PropTypes.bool,
   shouldShowPrescriptions: PropTypes.bool,
   unreadMessagesCount: PropTypes.number,
-  useVaosV2Api: PropTypes.bool,
 };
 
 export default connect(
