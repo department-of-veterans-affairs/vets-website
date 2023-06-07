@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useSelector, connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router';
@@ -124,6 +125,16 @@ const mapStateToProps = ({ form }) => {
     formData: form.data,
     employmentHistory: form.data.personalData.employmentHistory,
   };
+};
+
+CreditCardBillSummary.propTypes = {
+  goToPath: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  contentAfterButtons: PropTypes.node,
+  contentBeforeButtons: PropTypes.node,
+  data: PropTypes.shape({
+    questions: PropTypes.object,
+  }),
 };
 
 export default connect(mapStateToProps)(CreditCardBillSummary);

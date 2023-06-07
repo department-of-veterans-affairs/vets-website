@@ -238,4 +238,7 @@ CreditCardBill.propTypes = {
   setFormData: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreditCardBill);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CreditCardBill);
