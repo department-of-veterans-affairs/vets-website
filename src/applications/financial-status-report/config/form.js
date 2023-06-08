@@ -758,6 +758,7 @@ const formConfig = {
           editModeOnReviewPage: true,
           CustomPage: EnhancedVehicleRecord,
           CustomPageReview: null,
+          returnUrl: '/vehicles-summary',
         },
         vehiclesSummary: {
           path: 'vehicles-summary',

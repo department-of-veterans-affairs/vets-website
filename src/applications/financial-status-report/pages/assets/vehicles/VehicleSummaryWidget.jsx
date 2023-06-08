@@ -18,7 +18,7 @@ const VehicleSummaryWidget = ({
   contentAfterButtons,
 }) => {
   const { assets } = data;
-  const { automobiles } = assets || [];
+  const { automobiles = [] } = assets;
 
   useEffect(() => {
     clearJobIndex();
@@ -38,10 +38,6 @@ const VehicleSummaryWidget = ({
   const onDelete = deleteIndex => {
     setFormData({
       ...data,
-      questions: {
-        ...data.questions,
-        hasVehicle: deleteIndex !== 0,
-      },
       assets: {
         ...assets,
         automobiles: automobiles.filter(
@@ -109,7 +105,16 @@ VehicleSummaryWidget.propTypes = {
   contentAfterButtons: PropTypes.object,
   contentBeforeButtons: PropTypes.object,
   data: PropTypes.shape({
-    assets: PropTypes.array,
+    assets: PropTypes.shape({
+      automobiles: PropTypes.arrayOf(
+        PropTypes.shape({
+          make: PropTypes.string,
+          model: PropTypes.string,
+          year: PropTypes.string,
+          resaleValue: PropTypes.string,
+        }),
+      ),
+    }),
     questions: PropTypes.shape({
       hasVehicle: PropTypes.bool,
     }),
