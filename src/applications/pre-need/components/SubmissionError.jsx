@@ -1,4 +1,5 @@
 import React from 'react';
+import DownloadLink from './DownloadLink';
 
 const SubmissionError = ({ user, saveLink }) => {
   return (
@@ -37,9 +38,7 @@ const SubmissionError = ({ user, saveLink }) => {
           (VA Form 40-10007).
         </p>
         <p>
-          <a href="https://www.va.gov/vaforms/va/pdf/va40-10007.pdf">
-            Find a VA national cemetery
-          </a>
+          <DownloadLink content="Download VA Form 40-10007" />
         </p>
         <p>
           Please mail it to the NCA Intake Center, P.O. Box 5237, Janesville, WI
