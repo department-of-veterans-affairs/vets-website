@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 import { retrieveFolder } from '../../actions/folders';
+import { navigateToFolderByFolderId } from '../../util/helpers';
 
 const SmBreadcrumbs = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,14 @@ const SmBreadcrumbs = () => {
       setIsMobile(false);
     }
   }
+
+  const [, locationBasePath, locationChildPath] = useMemo(
+    () => {
+      return location.pathname.split('/');
+    },
+    [location],
+  );
+
   useEffect(
     () => {
       checkScreenSize();
@@ -30,33 +39,20 @@ const SmBreadcrumbs = () => {
 
   useEffect(
     () => {
-      switch (location.pathname) {
-        case '/folders/0':
-          history.push(Constants.Paths.INBOX);
-          break;
-        case '/folders/-1':
-          history.push(Constants.Paths.SENT);
-          break;
-        case '/folders/-2':
-          history.push(Constants.Paths.DRAFTS);
-          break;
-        case '/folders/-3':
-          history.push(Constants.Paths.DELETED);
-          break;
-        default:
-          break;
+      if (
+        `/${locationBasePath}/` === Constants.Paths.FOLDERS &&
+        parseInt(locationChildPath, 10) < 1
+      ) {
+        navigateToFolderByFolderId(locationChildPath, history);
       }
     },
-    [location.pathname, history],
+    [locationBasePath, locationChildPath, history],
   );
 
   window.addEventListener('resize', checkScreenSize);
 
   useEffect(
     () => {
-      const [, locationBasePath, locationChildPath] = location.pathname.split(
-        '/',
-      );
       if (!locationBasePath) {
         dispatch(setBreadcrumbs({}, location));
         return;
@@ -100,7 +96,14 @@ const SmBreadcrumbs = () => {
         );
       }
     },
-    [activeFolder, dispatch, location, messageDetails?.subject],
+    [
+      activeFolder,
+      dispatch,
+      location,
+      locationBasePath,
+      locationChildPath,
+      messageDetails?.subject,
+    ],
   );
 
   useEffect(
