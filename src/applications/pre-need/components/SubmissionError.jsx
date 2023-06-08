@@ -16,7 +16,8 @@ const SubmissionError = ({ user, saveLink }) => {
               but it may take us a while. Please save your application and try
               again later.
             </p>
-            {saveLink}.<br />
+            {saveLink}
+            <br />
           </>
         )}
         {!user.login.currentlyLoggedIn && (
