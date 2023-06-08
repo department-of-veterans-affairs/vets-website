@@ -27,7 +27,15 @@ module.exports = {
   [ENVIRONMENTS.VAGOVPROD]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVPROD,
     BASE_URL: 'https://www.va.gov',
-    API_URL: 'https://api.va.gov',
+    // API_URL: 'https://api.va.gov',
+    API_URL:
+      location.hostname &&
+      isHostnameAllowed(location.hostname, ['*.preview.va.gov', '*.vfs.va.gov'])
+        ? `http://${location.hostname.split('.')[0]}-api.${location.hostname
+            .split('.')
+            .slice(1)
+            .join('.')}:3000`
+        : 'https://api.va.gov',
   },
 
   [ENVIRONMENTS.VAGOVSTAGING]: {
