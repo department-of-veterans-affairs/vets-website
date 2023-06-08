@@ -159,7 +159,7 @@
   float: right;
 }
 
-/* Very specific selectors to move 'do not inclide PII'helper text before the textarea */
+/* Very specific selectors to move 'do not include PII' helper text before the textarea */
 #liveForm>div>div>div>div>div>div>.neb-component.neb-web-component.neb-textArea.kplFormHolder {
   display: flex;
   flex-direction: column;
@@ -227,7 +227,6 @@ a {
 }
 
 //welcome & footer text
-
 .modal-live-form .ng-scope>div>div>div.neb-content.neb-wcag.ng-scope.wcag-link-contrast>p.ng-binding>p>{
   line-height: 1.5;
   margin-bottom: 1em;
