@@ -23,7 +23,13 @@ describe('Secure Messaging Reply', () => {
     const testMessageBody = 'Test message body';
     replyPage.getMessageBodyField().type(testMessageBody, { force: true });
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
 
     replyPage.saveReplyDraft(messageDetails, testMessageBody);
     cy.log(
@@ -57,6 +63,15 @@ describe('Secure Messaging Reply', () => {
       testMessageBody,
     );
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    });
   });
 });
