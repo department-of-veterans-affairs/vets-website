@@ -104,7 +104,7 @@ const InstallmentContractSummary = ({
         )}
         {dateStarted && (
           <>
-            <strong>Date started:</strong> {dateStarted}
+            <strong>Date received:</strong> {dateStarted}
             <br />
           </>
         )}
@@ -179,7 +179,6 @@ const mapStateToProps = ({ form }) => {
   return {
     setFormData: setData,
     formData: form.data,
-    employmentHistory: form.data.personalData.employmentHistory,
   };
 };
 

@@ -453,7 +453,7 @@ const testConfig = createTestConfig(
             .and('contain', 'Original Loan Amount: $10,000.00')
             .and('contain', 'Unpaid balance: $1,000.00')
             .and('contain', 'Minimum monthly payment amount: $100.00')
-            .and('contain', 'Date started: 2010-01-XX')
+            .and('contain', 'Date received: 2010-01-XX')
             .and('contain', 'Amount overdue: $10.00');
           cy.get('.usa-button-primary').click();
         });
