@@ -1010,7 +1010,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
           depends: formData =>
             formData.questions.hasRepayments &&
-            !formData.expenses?.installmentContracts?.length &&
+            !formData?.installmentContracts?.length &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: InstallmentContract,
