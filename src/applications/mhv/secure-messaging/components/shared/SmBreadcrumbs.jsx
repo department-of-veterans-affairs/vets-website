@@ -23,9 +23,11 @@ const SmBreadcrumbs = () => {
     }
   }
 
-  const [, locationBasePath, locationChildPath] = useMemo(
+  const [locationBasePath, locationChildPath] = useMemo(
     () => {
-      return location.pathname.split('/');
+      const pathElements = location.pathname.split('/');
+      if (pathElements[0] === '') pathElements.shift();
+      return pathElements;
     },
     [location],
   );
