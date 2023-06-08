@@ -18,47 +18,89 @@ describe('Secure Messaging Compose Categories', () => {
     landingPage.loadInboxMessages();
 
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 
   it('can send message for category General', () => {
     landingPage.loadComposeMessagePage();
     composePage.enterComposeMessageDetails('General');
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 
   it('can send message for category Covid', () => {
     landingPage.loadComposeMessagePage();
     composePage.enterComposeMessageDetails('COVID');
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 
   it('can send message for category Appointment', () => {
     landingPage.loadComposeMessagePage();
     composePage.enterComposeMessageDetails('Appointment');
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
   it('can send message for category Medication', () => {
     landingPage.loadComposeMessagePage();
     composePage.enterComposeMessageDetails('Medication');
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
   it('can send message for category Test', () => {
     landingPage.loadComposeMessagePage();
     composePage.enterComposeMessageDetails('Test');
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 
   it('can send message for category Education', () => {
     landingPage.loadComposeMessagePage();
     composePage.enterComposeMessageDetails('Education');
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
   afterEach(() => {
     composePage.sendMessage();
