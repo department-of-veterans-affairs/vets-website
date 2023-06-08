@@ -19,8 +19,6 @@ const BUILDTYPE = __BUILDTYPE__;
 
 const environment = ENVIRONMENT_CONFIGURATIONS[BUILDTYPE];
 
-/* eslint-disable no-restricted-globals */
-
 // allowedHostnames is an array of hostnames that are eligible
 function isHostnameAllowed(hostname, allowedHostnames) {
   let hostnameAllowed = false;
@@ -33,11 +31,12 @@ function isHostnameAllowed(hostname, allowedHostnames) {
   }
   return hostnameAllowed;
 }
-/* eslint-enable no-restricted-globals */
+/* eslint-disable no-restricted-globals */
 
 const isPort80 =
   (location.port === '' || location.port === 80) &&
   !isHostnameAllowed(location.hostname, ['*.preview.va.gov', '*.vfs.va.gov']);
+/* eslint-enable no-restricted-globals */
 
 if (!isPort80) {
   // It's possible that we're executing a certain build-type under a hostname
