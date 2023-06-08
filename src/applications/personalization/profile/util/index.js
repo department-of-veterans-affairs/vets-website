@@ -1,4 +1,5 @@
 import { FIELD_NAMES } from '@@vap-svc/constants';
+import cloneDeep from 'lodash/cloneDeep';
 import { apiRequest } from '~/platform/utilities/api';
 
 export * from './analytics';
@@ -16,18 +17,12 @@ const ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY =
 
 // error keys for profile/direct_deposits/disability_compensations endpoint
 // easier to export and use than importing one by one constants
-export const LighthouseErrorKeys = {
-  LH_RATE_LIMIT_ERROR_KEY: 'cnp.payment.api.rate.limit.exceeded',
-  LH_ACCOUNT_FLAGGED_FOR_FRAUD_KEY: 'cnp.payment.accounting.number.fraud',
-  LH_ACCOUNT_NUMBER_INVALID_KEY: 'cnp.payment.account.number.invalid',
-  LH_ACCOUNT_TYPE_INVALID_KEY: 'cnp.payment.account.type.invalid',
-  LH_PAYMENT_RESTRICTIONS_PRESENT_KEY:
-    'cnp.payment.restriction.indicators.present',
-  LH_ROUTING_NUMBER_INVALID_KEY: 'cnp.payment.routing.number.invalid',
-  LH_ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY: 'cnp.payment.routing.number.fraud',
-  LH_ROUTING_NUMBER_INVALID_CHECKSUM_KEY:
-    'cnp.payment.routing.number.invalid.checksum',
-  LH_UNSPECIFIED_ERROR_KEY: 'cnp.payment.unspecified.error',
+export const LIGHTHOUSE_ERROR_KEYS = {
+  ACCOUNT_FLAGGED_FOR_FRAUD: 'cnp.payment.accounting.number.fraud',
+  PAYMENT_RESTRICTIONS_PRESENT: 'cnp.payment.restriction.indicators.present',
+  ROUTING_NUMBER_FLAGGED_FOR_FRAUD: 'cnp.payment.routing.number.fraud',
+  ROUTING_NUMBER_INVALID: 'cnp.payment.routing.number.invalid.checksum',
+  UNSPECIFIED_ERROR: 'cnp.payment.unspecified.error',
 };
 
 const GA_ERROR_KEY_BAD_ADDRESS = 'mailing-address-error';
@@ -94,22 +89,21 @@ const hasErrorMessage = (errors, errorKey, errorText) => {
 
 export const hasAccountFlaggedError = errors =>
   hasErrorMessage(errors, ACCOUNT_FLAGGED_FOR_FRAUD_KEY) ||
-  hasErrorMessage(errors, LighthouseErrorKeys.LH_ACCOUNT_FLAGGED_FOR_FRAUD_KEY);
+  hasErrorMessage(
+    errors,
+    LIGHTHOUSE_ERROR_KEYS.LH_ACCOUNT_FLAGGED_FOR_FRAUD_KEY,
+  );
 
 export const hasRoutingNumberFlaggedError = errors =>
   hasErrorMessage(errors, ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY) ||
   hasErrorMessage(
     errors,
-    LighthouseErrorKeys.LH_ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY,
+    LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_FLAGGED_FOR_FRAUD,
   );
 
 export const hasInvalidRoutingNumberError = errors =>
   hasErrorMessage(errors, INVALID_ROUTING_NUMBER_KEY) ||
-  hasErrorMessage(errors, LighthouseErrorKeys.LH_ROUTING_NUMBER_INVALID_KEY) ||
-  hasErrorMessage(
-    errors,
-    LighthouseErrorKeys.LH_ROUTING_NUMBER_INVALID_CHECKSUM_KEY,
-  ) ||
+  hasErrorMessage(errors, LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_INVALID) ||
   hasErrorMessage(errors, GENERIC_ERROR_KEY, 'Invalid Routing Number');
 
 export const hasInvalidAddressError = errors =>
@@ -127,7 +121,7 @@ export const hasPaymentRestrictionIndicatorsError = errors =>
   hasErrorMessage(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY) ||
   hasErrorMessage(
     errors,
-    LighthouseErrorKeys.LH_PAYMENT_RESTRICTIONS_PRESENT_KEY,
+    LIGHTHOUSE_ERROR_KEYS.LH_PAYMENT_RESTRICTIONS_PRESENT_KEY,
   );
 
 export const cnpDirectDepositBankInfo = apiData => {
@@ -157,39 +151,63 @@ export const isSignedUpForCNPDirectDeposit = apiData =>
 export const isSignedUpForEDUDirectDeposit = apiData =>
   !!eduDirectDepositAccountNumber(apiData);
 
+const getLighthouseErrorCode = (errors = []) => {
+  // there should only be one error code in the errors array, but just in case
+  const error = errors.find(err => err?.code);
+  return `${error?.code || GA_ERROR_KEY_DEFAULT} ${error?.detail || ''}`;
+};
+
+const getPPIUErrorCode = (errors = []) => {
+  if (hasAccountFlaggedError(errors)) {
+    return GA_ERROR_KEY_ACCOUNT_FLAGGED_FOR_FRAUD;
+  }
+
+  if (hasRoutingNumberFlaggedError(errors)) {
+    return GA_ERROR_KEY_ROUTING_NUMBER_FLAGGED_FOR_FRAUD;
+  }
+
+  if (hasInvalidRoutingNumberError(errors)) {
+    return GA_ERROR_KEY_INVALID_ROUTING_NUMBER;
+  }
+
+  if (hasInvalidAddressError(errors)) {
+    return GA_ERROR_KEY_BAD_ADDRESS;
+  }
+
+  if (hasInvalidHomePhoneNumberError(errors)) {
+    return GA_ERROR_KEY_BAD_HOME_PHONE;
+  }
+
+  if (hasInvalidWorkPhoneNumberError(errors)) {
+    return GA_ERROR_KEY_BAD_WORK_PHONE;
+  }
+
+  if (hasPaymentRestrictionIndicatorsError(errors)) {
+    return GA_ERROR_KEY_PAYMENT_RESTRICTIONS;
+  }
+
+  return GA_ERROR_KEY_DEFAULT;
+};
+
 // Helper that creates and returns an object to pass to the recordEvent()
 // function when an error occurs while trying to save/update a user's direct
 // deposit for compensation and pension payment information. The value of the
 // `error-key` prop will change depending on the content of the `errors` array.
-export const createCNPDirectDepositAnalyticsDataObject = (
+export const createCNPDirectDepositAnalyticsDataObject = ({
   errors = [],
   isEnrolling = false,
-) => {
-  const key = 'error-key';
-  let errorCode = GA_ERROR_KEY_DEFAULT;
-  if (hasAccountFlaggedError(errors)) {
-    errorCode = GA_ERROR_KEY_ACCOUNT_FLAGGED_FOR_FRAUD;
-  } else if (hasRoutingNumberFlaggedError(errors)) {
-    errorCode = GA_ERROR_KEY_ROUTING_NUMBER_FLAGGED_FOR_FRAUD;
-  } else if (hasInvalidRoutingNumberError(errors)) {
-    errorCode = GA_ERROR_KEY_INVALID_ROUTING_NUMBER;
-  } else if (hasInvalidAddressError(errors)) {
-    errorCode = GA_ERROR_KEY_BAD_ADDRESS;
-  } else if (hasInvalidHomePhoneNumberError(errors)) {
-    errorCode = GA_ERROR_KEY_BAD_HOME_PHONE;
-  } else if (hasInvalidWorkPhoneNumberError(errors)) {
-    errorCode = GA_ERROR_KEY_BAD_WORK_PHONE;
-  } else if (hasPaymentRestrictionIndicatorsError(errors)) {
-    errorCode = GA_ERROR_KEY_PAYMENT_RESTRICTIONS;
-  }
-  // append to the end of the errorCode
-  errorCode = `${errorCode}${isEnrolling ? '-enroll' : '-update'}`;
-  return {
+  useLighthouseDirectDepositEndpoint = false,
+} = {}) => {
+  const errorCode = useLighthouseDirectDepositEndpoint
+    ? getLighthouseErrorCode(errors)
+    : getPPIUErrorCode(errors);
+
+  return cloneDeep({
     event: 'profile-edit-failure',
     'profile-action': 'save-failure',
     'profile-section': `cnp-direct-deposit-information`,
-    [key]: errorCode,
-  };
+    'error-key': `${errorCode}${isEnrolling ? '-enroll' : '-update'}`,
+  });
 };
 
 // checks for basic field data or data for nested object like gender identity

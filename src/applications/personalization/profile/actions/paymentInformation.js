@@ -170,10 +170,11 @@ export function saveCNPPaymentInformation({
 
     if (response.error || response.errors) {
       const errors = response.error?.errors || [];
-      const analyticsData = createCNPDirectDepositAnalyticsDataObject(
+      const analyticsData = createCNPDirectDepositAnalyticsDataObject({
         errors,
-        isEnrollingInDirectDeposit,
-      );
+        isEnrolling: isEnrollingInDirectDeposit,
+        useLighthouseDirectDepositEndpoint,
+      });
 
       client.recordCNPEvent({
         status: API_STATUS.FAILED,
