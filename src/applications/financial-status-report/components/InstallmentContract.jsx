@@ -306,7 +306,6 @@ const InstallmentContract = props => {
 const mapStateToProps = ({ form }) => {
   return {
     formData: form.data,
-    employmentHistory: form.data.personalData.employmentHistory,
   };
 };
 
