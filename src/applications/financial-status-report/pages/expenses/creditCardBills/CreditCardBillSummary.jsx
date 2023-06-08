@@ -86,6 +86,7 @@ const CreditCardBillSummary = ({
           ) : (
             creditCardBills.map((bill, index) => (
               <MiniSummaryCard
+                ariaLabel={`Credit card bill ${index + 1}`}
                 editDestination={{
                   pathname: '/your-credit-card-bills',
                   search: `?index=${index}`,
