@@ -46,7 +46,7 @@ const SubmissionError = ({ user, saveLink }) => {
         </p>
         <p>
           Please mail it to the NCA Intake Center, P.O. Box 5237, Janesville, WI
-          53547 or fax it to the National Cemetery Scheduling Office:
+          53547 or fax it to the National Cemetery Scheduling Office:{' '}
           <va-telephone contact="8558408299" />.
         </p>
       </div>
