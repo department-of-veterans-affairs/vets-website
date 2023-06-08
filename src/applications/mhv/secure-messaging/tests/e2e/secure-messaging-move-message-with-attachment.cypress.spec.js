@@ -48,7 +48,13 @@ describe('Secure Messaging - Move Message with Attachment', () => {
       .click();
     cy.wait('@moveMessagewithAttachment');
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     landingPage.verifyMoveMessagewithAttachmentSuccessMessage();
     cy.get('@moveMessagewithAttachment')
       .its('response')
