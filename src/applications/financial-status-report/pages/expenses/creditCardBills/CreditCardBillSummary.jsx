@@ -13,14 +13,12 @@ import {
 import { currency as currencyFormatter } from '../../../utils/helpers';
 
 const CreditCardBillSummary = ({
-  data,
   goToPath,
-  setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
   const dispatch = useDispatch();
-
+  const setFormData = newData => dispatch(setData(newData));
   const formData = useSelector(state => state.form.data);
   const { expenses } = formData;
   const { creditCardBills } = expenses || [];
@@ -41,22 +39,21 @@ const CreditCardBillSummary = ({
   };
 
   const onDelete = deleteIndex => {
-    dispatch(
-      setFormData({
-        ...formData,
-        questions: {
-          ...data.questions,
-          hasCreditCardBills: deleteIndex !== 0,
-        },
-        expenses: {
-          ...expenses,
-          creditCardBills: creditCardBills.filter(
-            (source, index) => index !== deleteIndex,
-          ),
-        },
-      }),
-    );
+    setFormData({
+      ...formData,
+      // questions: {
+      //   ...data.questions,
+      //   hasCreditCardBills: deleteIndex !== 0,
+      // },
+      expenses: {
+        ...expenses,
+        creditCardBills: creditCardBills.filter(
+          (_, index) => index !== deleteIndex,
+        ),
+      },
+    });
   };
+
   const emptyPrompt = `Select the 'add additional credit card bill' link to add another bill. Select the continue button to move on to the next question.`;
 
   const billBody = bill => {
@@ -121,9 +118,7 @@ const CreditCardBillSummary = ({
 
 const mapStateToProps = ({ form }) => {
   return {
-    setFormData: setData,
     formData: form.data,
-    employmentHistory: form.data.personalData.employmentHistory,
   };
 };
 
@@ -132,9 +127,6 @@ CreditCardBillSummary.propTypes = {
   setFormData: PropTypes.func.isRequired,
   contentAfterButtons: PropTypes.node,
   contentBeforeButtons: PropTypes.node,
-  data: PropTypes.shape({
-    questions: PropTypes.object,
-  }),
 };
 
 export default connect(mapStateToProps)(CreditCardBillSummary);

@@ -13,14 +13,12 @@ import {
 import { currency as currencyFormatter } from '../../../utils/helpers';
 
 const InstallmentContractSummary = ({
-  data,
   goToPath,
-  setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
   const dispatch = useDispatch();
-
+  const setFormData = newData => dispatch(setData(newData));
   const formData = useSelector(state => state.form.data);
   const { installmentContracts = [] } = formData;
 
@@ -40,19 +38,14 @@ const InstallmentContractSummary = ({
   };
 
   const onDelete = deleteIndex => {
-    dispatch(
-      setFormData({
-        ...formData,
-        questions: {
-          ...data.questions,
-          hasRepayments: deleteIndex !== 0,
-        },
-        installmentContracts: installmentContracts.filter(
-          (source, index) => index !== deleteIndex,
-        ),
-      }),
-    );
+    setFormData({
+      ...formData,
+      installmentContracts: installmentContracts.filter(
+        (source, index) => index !== deleteIndex,
+      ),
+    });
   };
+
   const emptyPrompt = `Select the 'add additional installment contract link to add another installment contract or other debt. Select the continue button to move on to the next question.`;
 
   const billBody = bill => {
@@ -177,7 +170,6 @@ const InstallmentContractSummary = ({
 
 const mapStateToProps = ({ form }) => {
   return {
-    setFormData: setData,
     formData: form.data,
   };
 };
@@ -187,9 +179,6 @@ InstallmentContractSummary.propTypes = {
   setFormData: PropTypes.func.isRequired,
   contentAfterButtons: PropTypes.node,
   contentBeforeButtons: PropTypes.node,
-  data: PropTypes.shape({
-    questions: PropTypes.object,
-  }),
 };
 
 export default connect(mapStateToProps)(InstallmentContractSummary);
