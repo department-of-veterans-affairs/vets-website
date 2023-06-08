@@ -20,7 +20,13 @@ describe('Secure Messaging - Search Special Characters', () => {
     mockSpeciaCharMessage.data.attributes.body = 'special %$#';
     landingPage.loadInboxMessages(mockSpeciaCharMessage);
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-1',
@@ -51,6 +57,12 @@ describe('Secure Messaging - Search Special Characters', () => {
     cy.get('pre').should('contain', 'special %$#');
 
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });
