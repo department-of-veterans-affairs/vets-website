@@ -93,12 +93,13 @@ const InstallmentContractSummary = ({
           ) : (
             installmentContracts.map((bill, index) => (
               <MiniSummaryCard
+                ariaLabel={`Installment contract ${index + 1} ${bill.purpose}`}
                 editDestination={{
                   pathname: '/your-installment-contracts',
                   search: `?index=${index}`,
                 }}
                 heading={bill.purpose}
-                key={bill.minPaymentAmount + bill.unpaidBalance}
+                key={index + bill.minPaymentAmount + bill.unpaidBalance}
                 onDelete={() => onDelete(index)}
                 showDelete
                 body={billBody(bill)}
