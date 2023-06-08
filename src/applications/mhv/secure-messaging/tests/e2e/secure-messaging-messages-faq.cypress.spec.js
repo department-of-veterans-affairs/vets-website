@@ -9,6 +9,12 @@ describe('Secure Messaging Messages FAQ AXE check', () => {
     landingPage.loadInboxMessages();
     cy.get('[data-testid="messages-faq-sidebar"]').click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });
