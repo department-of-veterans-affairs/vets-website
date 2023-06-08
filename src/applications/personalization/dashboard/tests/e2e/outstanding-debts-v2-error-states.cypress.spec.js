@@ -36,12 +36,12 @@ describe('My VA - Outstanding debts error-states', () => {
         type: 'feature_toggles',
         features: [
           {
-            name: featureFlagNames.showPaymentAndDebtSection,
+            name: featureFlagNames.showMyVADashboardV2,
             value: true,
           },
         ],
       },
-    }).as('features');
+    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/evss_claims_async', claimsSuccess());
@@ -64,20 +64,20 @@ describe('My VA - Outstanding debts error-states', () => {
     });
 
     it('shows error - user has copays - C30235', () => {
-      cy.intercept('/v0/medical_copays', copaysSuccess(true)).as(
+      cy.intercept('GET', '/v0/medical_copays', copaysSuccess(true)).as(
         'recentCopays1',
       );
 
       cy.visit('my-va/');
-      cy.wait(['@features', '@debtsErrorA', '@recentCopays1']);
+      cy.wait(['@debtsErrorA', '@recentCopays1']);
       cy.findByTestId('dashboard-section-debts-v2').should('exist');
 
-      cy.findByTestId('outstanding-debts-error').should('exist');
+      cy.findAllByTestId('outstanding-debts-error').should('exist');
       cy.findByTestId('debt-card-v2').should('not.exist');
       cy.findByTestId('copay-card-v2').should('exist');
       cy.findByTestId('copay-due-header-v2').should('exist');
       cy.findByTestId('manage-va-copays-link-v2').should('exist');
-      cy.findByTestId('learn-va-debt-link-v2').should('exist');
+      cy.findAllByTestId('learn-va-debt-link-v2').should('exist');
 
       // make the a11y check
       cy.injectAxeThenAxeCheck('[data-testid="dashboard-section-debts-v2"]');
@@ -88,7 +88,7 @@ describe('My VA - Outstanding debts error-states', () => {
       cy.intercept('/v0/medical_copays', copaysSuccessEmpty()).as('noCopays1');
 
       cy.visit('my-va/');
-      cy.wait(['@features', '@debtsErrorA', '@noCopays1']);
+      cy.wait(['@debtsErrorA', '@noCopays1']);
       cy.findByTestId('dashboard-section-debts-v2').should('exist');
 
       cy.findByTestId('outstanding-debts-error').should('exist');
@@ -111,7 +111,7 @@ describe('My VA - Outstanding debts error-states', () => {
       cy.intercept('/v0/debts', debtsSuccess(true)).as('recentDebts1');
 
       cy.visit('my-va/');
-      cy.wait(['@features', '@copaysErrorA', '@recentDebts1']);
+      cy.wait(['@copaysErrorA', '@recentDebts1']);
       cy.findByTestId('dashboard-section-debts-v2').should('exist');
 
       cy.findByTestId('outstanding-debts-error').should('exist');
@@ -130,7 +130,7 @@ describe('My VA - Outstanding debts error-states', () => {
       cy.intercept('/v0/debts', debtsSuccessEmpty(true)).as('noDebts1');
 
       cy.visit('my-va/');
-      cy.wait(['@features', '@copaysErrorA', '@noDebts1']);
+      cy.wait(['@copaysErrorA', '@noDebts1']);
       cy.findByTestId('dashboard-section-debts-v2').should('exist');
 
       cy.findByTestId('outstanding-debts-error').should('exist');
@@ -153,7 +153,7 @@ describe('My VA - Outstanding debts error-states', () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('shows error - C30324', () => {
       cy.visit('my-va/');
-      cy.wait(['@features', '@debtsErrorB', '@copaysErrorB']);
+      cy.wait(['@debtsErrorB', '@copaysErrorB']);
       cy.findByTestId('dashboard-section-debts-v2').should('exist');
 
       cy.findByTestId('outstanding-debts-error').should('exist');

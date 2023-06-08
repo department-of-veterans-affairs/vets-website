@@ -427,16 +427,16 @@ describe('Disability benefits helpers: ', () => {
     it('should return number of needed items from vet', () => {
       const itemsNeeded = itemsNeedingAttentionFromVet([
         {
-          type: 'still_need_from_you_list',
-          status: 'NEEDED',
+          id: 1,
+          status: 'NEEDED_FROM_YOU',
         },
         {
-          type: 'still_need_from_you_list',
+          id: 2,
           status: 'SUBMITTED_AWAITING_REVIEW',
         },
         {
-          type: 'still_need_from_others_list',
-          status: 'NEEDED',
+          id: 3,
+          status: 'NEEDED_FROM_OTHERS',
         },
       ]);
 

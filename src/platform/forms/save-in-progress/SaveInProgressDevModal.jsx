@@ -119,14 +119,18 @@ const SipsDevModal = props => {
               onInput={e => handlers.onChange(e.target.value)}
             />
             <VaSelect
-              label="Return url"
               name="sips_url"
-              options={availablePaths}
-              value={{ value: sipsUrl }}
-              includeBlankOption={false}
-              onVaSelect={value => setSipsUrl(value.value)}
-              additionalClass="additional-class"
-            />
+              label="Return url"
+              value={sipsUrl}
+              onVaSelect={event => setSipsUrl(event.target.value)}
+            >
+              {availablePaths &&
+                availablePaths.map(path => (
+                  <option key={path.value} value={path.value}>
+                    {path.label}
+                  </option>
+                ))}
+            </VaSelect>
             <p />
             <a href={docsPage}>
               <i aria-hidden="true" className="fas fa-info-circle" role="img" />{' '}

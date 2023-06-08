@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { selectEditedFormField } from '@@vap-svc/selectors';
-import { updateFormFieldWithSchema } from '@@vap-svc/actions';
 import { useField } from 'formik';
-import { phoneConvertNextValueToCleanData } from '@@profile/util/contact-information/phoneUtils';
-import { FIELD_TITLES } from '@@vap-svc/constants';
+
+import { FIELD_TITLES } from 'platform/user/profile/vap-svc/constants';
+import { selectEditedFormField } from '~/platform/user/profile/vap-svc/selectors';
+import { updateFormFieldWithSchema } from '~/platform/user/profile/vap-svc/actions';
+
+import { phoneConvertNextValueToCleanData } from '../../../../util/contact-information/phoneUtils';
 
 const PhoneField = props => {
   const { handleChange, label, name, required = false, dataTestId } = props;
