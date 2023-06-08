@@ -2545,10 +2545,10 @@
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@^7.0.7":
-  version "7.0.7"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.7.tgz#145db27b1d258ad62ef4aeddc65b79516e552da0"
-  integrity sha512-VivETxz+xEFPDYZ3r7WXGZCgPbeJOgrfTbfAIUWtueM67xZBpSfJ7onbL/I/AKjbbWY9FOEJ/UkZyoVZa2pGeA==
+"@department-of-veterans-affairs/formation@^7.0.8":
+  version "7.0.8"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.8.tgz#685612acc82b80ba6fe283d283fd9e0c848cf60a"
+  integrity sha512-PzDg0S/X0fhFw+gPnPv/bytZ2n02o6q2nXeLI45uq75ob2UGbFpkYRlqJQXpUgmObpyjXpv2HoIO7nj/8NLiQw==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
