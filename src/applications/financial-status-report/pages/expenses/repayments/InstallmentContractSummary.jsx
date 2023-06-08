@@ -48,64 +48,36 @@ const InstallmentContractSummary = ({
 
   const emptyPrompt = `Select the 'add additional installment contract link to add another installment contract or other debt. Select the continue button to move on to the next question.`;
 
-  const billBody = bill => {
-    const {
-      creditorName,
-      originalAmount,
-      unpaidBalance,
-      amountDueMonthly,
-      dateStarted,
-      amountPastDue,
-    } = bill;
-
-    const originalAmountFormatted =
-      originalAmount && currencyFormatter(originalAmount);
-    const unpaidBalanceFormatted =
-      unpaidBalance && currencyFormatter(unpaidBalance);
-    const amountDueMonthlyFormatted =
-      amountDueMonthly && currencyFormatter(amountDueMonthly);
-    const amountPastDueFormatted = amountPastDue
-      ? currencyFormatter(amountPastDue)
-      : currencyFormatter(0.0);
-
+  const billBody = ({
+    creditorName,
+    originalAmount,
+    unpaidBalance,
+    amountDueMonthly,
+    dateStarted,
+    amountPastDue,
+  }) => {
+    const formattedFields = {
+      Creditor: creditorName,
+      'Original Loan Amount':
+        originalAmount && currencyFormatter(originalAmount),
+      'Unpaid balance': unpaidBalance && currencyFormatter(unpaidBalance),
+      'Minimum monthly payment amount':
+        amountDueMonthly && currencyFormatter(amountDueMonthly),
+      'Date received': dateStarted,
+      'Amount overdue': amountPastDue
+        ? currencyFormatter(amountPastDue)
+        : currencyFormatter(0.0),
+    };
     return (
       <p>
-        {creditorName && (
-          <>
-            <strong>Creditor:</strong> {creditorName}
-            <br />
-          </>
-        )}
-        {originalAmountFormatted && (
-          <>
-            <strong>Original Loan Amount:</strong> {originalAmountFormatted}
-            <br />
-          </>
-        )}
-        {unpaidBalanceFormatted && (
-          <>
-            <strong>Unpaid balance:</strong> {unpaidBalanceFormatted}
-            <br />
-          </>
-        )}
-        {amountDueMonthlyFormatted && (
-          <>
-            <strong>Minimum monthly payment amount:</strong>{' '}
-            {amountDueMonthlyFormatted}
-            <br />
-          </>
-        )}
-        {dateStarted && (
-          <>
-            <strong>Date received:</strong> {dateStarted}
-            <br />
-          </>
-        )}
-        {amountPastDueFormatted && (
-          <>
-            <strong>Amount overdue:</strong> {amountPastDueFormatted}
-            <br />
-          </>
+        {Object.entries(formattedFields).map(
+          ([key, value]) =>
+            value && (
+              <React.Fragment key={key}>
+                <strong>{key}:</strong> {value}
+                <br />
+              </React.Fragment>
+            ),
         )}
       </p>
     );
