@@ -73,6 +73,7 @@ const NextOfKin = props => {
         nextOfKin={nextOfKin}
         yesAction={yesClick}
         noAction={noClick}
+        router={router}
       />
     </>
   );

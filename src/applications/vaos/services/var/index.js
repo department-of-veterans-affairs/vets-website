@@ -19,18 +19,6 @@ export function getStagingId(facilityId) {
   return facilityId;
 }
 
-export function getPendingAppointments(startDate, endDate) {
-  return apiRequestWithUrl(
-    `/vaos/v0/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
-  ).then(parseApiList);
-}
-
-export function getPendingAppointment(id) {
-  return apiRequestWithUrl(`/vaos/v0/appointment_requests/${id}`).then(
-    parseApiObject,
-  );
-}
-
 export function getConfirmedAppointment(id, type) {
   return apiRequestWithUrl(`/vaos/v0/appointments/${type}/${id}`).then(
     parseApiObject,
@@ -41,16 +29,6 @@ export function getParentFacilities(systemIds) {
   const idList = systemIds.map(id => `facility_codes[]=${id}`).join('&');
 
   return apiRequestWithUrl(`/vaos/v0/facilities?${idList}`).then(parseApiList);
-}
-
-export function getFacilitiesBySystemAndTypeOfCare(
-  systemId,
-  parentId,
-  typeOfCareId,
-) {
-  return apiRequestWithUrl(
-    `/vaos/v0/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${parentId}`,
-  ).then(parseApiList);
 }
 
 export function getCommunityCare(typeOfCare) {

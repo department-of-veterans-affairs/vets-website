@@ -107,6 +107,7 @@ const ResolutionAmount = ({ formContext }) => {
       </div>
       <VaNumberInput
         className="no-wrap input-size-3"
+        data-testid="resolution-amount"
         error={errorMessage}
         id={currentDebt.id}
         inputmode="decimal"
@@ -119,6 +120,7 @@ const ResolutionAmount = ({ formContext }) => {
         name="resolution-amount"
         onInput={onAmountChange}
         required
+        currency
         type="text"
         value={resolutionAmount || ''}
       />

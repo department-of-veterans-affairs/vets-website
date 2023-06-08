@@ -132,7 +132,7 @@ const CreditCardBill = props => {
           } a credit card bill`}
         </legend>
         <p>Enter your credit card bill’s information.</p>
-        <div className="input-size-3">
+        <div className="input-size-3 no-wrap">
           <va-number-input
             error={(submitted && unpaidBalanceError) || null}
             hint={null}
@@ -146,7 +146,7 @@ const CreditCardBill = props => {
             value={creditCardBillRecord.unpaidBalance}
           />
         </div>
-        <div className="input-size-3">
+        <div className="input-size-3 no-wrap">
           <va-number-input
             error={(submitted && minMonthlyPaymentError) || null}
             hint={null}
@@ -160,7 +160,7 @@ const CreditCardBill = props => {
             value={creditCardBillRecord.amountDueMonthly}
           />
         </div>
-        <div className="input-size-3">
+        <div className="input-size-3 no-wrap">
           <va-number-input
             error={(submitted && amountOverdueError) || null}
             hint={null}

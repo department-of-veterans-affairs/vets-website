@@ -16,9 +16,10 @@ import RecordField from '../components/RecordField';
 export default {
   uiSchema: {
     'ui:description': (
-      <div className="vads-u-margin-bottom--4">
+      <div className="vads-u-margin-bottom--2">
         Let us know where the person you're requesting medical records for
-        received treatment.
+        received treatment. You may add up to 5 medical record or information
+        requests.
       </div>
     ),
     'ui:options': {
@@ -40,13 +41,16 @@ export default {
     },
     [providerFacilityFields.parentObject]: {
       'ui:options': {
-        itemName: 'Treatment record',
+        itemName: 'treatment record',
         viewField: RecordField,
         keepInPageOnReview: true,
         useDlWrap: true,
         customTitle: ' ',
       },
       items: {
+        'ui:options': {
+          classNames: 'vads-u-margin-left--1p5',
+        },
         'ui:order': [
           providerFacilityFields.providerFacilityName,
           providerFacilityFields.providerFacilityAddress,

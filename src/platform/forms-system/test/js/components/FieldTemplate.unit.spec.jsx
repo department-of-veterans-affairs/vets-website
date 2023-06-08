@@ -400,4 +400,31 @@ describe('Schemaform <FieldTemplate>', () => {
     expect(tree.subTree('label')).not.to.be.empty;
     expect(tree.everySubTree('.schemaform-required-span')).not.to.be.empty;
   });
+  it('should render a web-component when ui:webComponentField is provided', () => {
+    const WebComponentField = () => {
+      return <></>;
+    };
+
+    const schema = {
+      type: 'string',
+    };
+    const uiSchema = {
+      'ui:webComponentField': WebComponentField,
+    };
+    const formContext = {
+      touched: {},
+    };
+    const tree = SkinDeep.shallowRender(
+      <FieldTemplate
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        formContext={formContext}
+      >
+        children
+      </FieldTemplate>,
+    );
+
+    expect(tree.text()).to.equal('<WebComponentField />');
+  });
 });
