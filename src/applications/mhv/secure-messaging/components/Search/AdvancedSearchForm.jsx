@@ -15,7 +15,11 @@ import {
 } from '../../util/inputContants';
 import { runAdvancedSearch } from '../../actions/search';
 import { dateFormat } from '../../util/helpers';
-import { ErrorMessages, DefaultFolders as Folders } from '../../util/constants';
+import {
+  ErrorMessages,
+  DefaultFolders as Folders,
+  Paths,
+} from '../../util/constants';
 
 const AdvancedSearchForm = props => {
   const {
@@ -125,7 +129,7 @@ const AdvancedSearchForm = props => {
         toDate: relativeToDate || toDateTime,
       }),
     );
-    history.push('/search/results');
+    history.push(Paths.SEARCH_RESULTS);
   };
 
   return (
