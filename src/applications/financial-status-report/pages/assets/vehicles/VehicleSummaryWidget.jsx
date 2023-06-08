@@ -69,6 +69,9 @@ const VehicleSummaryWidget = ({
           ) : (
             automobiles.map((vehicle, index) => (
               <MiniSummaryCard
+                ariaLabel={`Vehicle ${index + 1} ${vehicle.year || ''} ${
+                  vehicle.make
+                } ${vehicle.model}`}
                 editDestination={{
                   pathname: '/your-vehicle-records',
                   search: `?index=${index}`,
@@ -76,7 +79,7 @@ const VehicleSummaryWidget = ({
                 heading={`${vehicle.year || ''} ${vehicle.make} ${
                   vehicle.model
                 }`}
-                key={vehicle.make + vehicle.model + vehicle.year}
+                key={index + vehicle.make + vehicle.model + vehicle.year}
                 onDelete={() => onDelete(index)}
                 showDelete
                 body={cardBody(vehicle.resaleValue)}
