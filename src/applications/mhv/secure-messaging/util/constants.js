@@ -187,20 +187,17 @@ export const Prompts = {
   },
 };
 export const Breadcrumbs = {
+  MESSAGES: { path: '/', label: 'Back to messages' },
   COMPOSE: {
     path: Paths.COMPOSE,
     label: 'Start a new message',
   },
-  INBOX: { path: '/inbox', label: 'Inbox' },
-  DRAFTS: { path: '/drafts', label: 'Drafts' },
-  DRAFT: { path: '/draft', label: 'Drafts' },
-  FOLDERS: { path: '/folders', label: 'My folders' },
-  SENT: { path: '/sent', label: 'Sent messages' },
-  TRASH: { path: '/trash', label: 'Trash' },
-  SEARCH: { path: '/search', label: 'Search messages' },
-  SEARCH_ADVANCED: { path: '/advanced', label: 'Advanced search' },
-  SEARCH_RESULTS: { path: '/results', label: 'Search results' },
-  FAQ: { path: '/faq', label: 'Messages FAQs' },
+  INBOX: { path: Paths.INBOX, label: 'Back to inbox' },
+  DRAFTS: { path: Paths.DRAFTS, label: 'Drafts' },
+  DRAFT: { path: Paths.DRAFT, label: 'Drafts' },
+  FOLDERS: { path: Paths.FOLDERS, label: 'Back to my folders' },
+  SENT: { path: Paths.SENT, label: 'Sent messages' },
+  TRASH: { path: Paths.DELETED, label: 'Trash' },
 };
 
 export const ALERT_TYPE_ERROR = 'error';
