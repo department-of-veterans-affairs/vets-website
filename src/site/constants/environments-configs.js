@@ -9,14 +9,18 @@ let isNode = false;
 if (typeof window === 'undefined') {
   isNode = true;
 }
+/* eslint-disable no-console */
 
 // allowedHostnames is an array of hostnames that are eligible
 function isHostnameAllowed(hostname, allowedHostnames) {
   let hostnameAllowed = false;
   for (const name of allowedHostnames) {
     const pattern = name.replace(/\*/g, '[a-z0-9]+(-[a-z0-9]+)*');
+    console.log('pattern: ', pattern);
     const regex = new RegExp(`^${pattern}$`, 'i');
+    console.log('regex: ', regex);
     if (regex.test(hostname)) {
+      console.log('test: ', regex.test(hostname));
       hostnameAllowed = true;
     }
   }
