@@ -279,7 +279,6 @@ describe('526EZ keyboard only navigation', () => {
       // 1. Can indicate non-RNG service branch
       idRoot = '#root_serviceInformation_servicePeriods_';
       cy.tabToElement(`${idRoot}0_serviceBranch`);
-      // cy.wait(20000);
       // NOTE: can we test by arrowing down?
       cy.chooseSelectOptionByTyping('Marine Corps');
 
@@ -299,7 +298,7 @@ describe('526EZ keyboard only navigation', () => {
       // 3. Can provide second service period
       cy.tabToElementAndPressSpace('.va-growable-add-btn');
       cy.tabToElement(`${idRoot}1_serviceBranch`);
-      cy.chooseSelectOptionByTyping('Marine Corps Reserve');
+      cy.chooseSelectOptionByTyping('Space Force');
       cy.tabToElement(`${idRoot}1_dateRange_fromMonth`);
       cy.chooseSelectOptionByTyping('April');
       cy.tabToElement(`${idRoot}1_dateRange_fromDay`);
