@@ -46,6 +46,8 @@ const formConfig = {
       'Please sign in again to continue your application for substitute claimant.',
   },
   title: 'Request to be a substitute claimant',
+  subTitle:
+    'Request for substitution of claimant upon death of claimant (VA Form 21P-0847)',
   defaultDefinitions: {},
   chapters: {
     preparerPersonalInformationChapter: {
