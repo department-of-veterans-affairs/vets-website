@@ -1,5 +1,8 @@
 import sharedTransformForSubmit from '../../shared/config/submit-transformer';
 import {
+  SERVED_WITH_VETERAN,
+  FAMILY_OR_FRIEND_OF_VETERAN,
+  COWORKER_OR_SUPERVISOR_OF_VETERAN,
   SERVED_WITH_CLAIMANT,
   FAMILY_OR_FRIEND_OF_CLAIMANT,
   COWORKER_OR_SUPERVISOR_OF_CLAIMANT,
@@ -13,15 +16,23 @@ export default function transformForSubmit(formConfig, form) {
 
   if (witnessRelationshipToClaimantAnswers) {
     const booleanWitnessRelationshipToClaimant = {
-      'served-with': witnessRelationshipToClaimantAnswers.includes(
-        SERVED_WITH_CLAIMANT,
-      ),
-      'family-or-friend': witnessRelationshipToClaimantAnswers.includes(
-        FAMILY_OR_FRIEND_OF_CLAIMANT,
-      ),
-      'coworker-or-supervisor': witnessRelationshipToClaimantAnswers.includes(
-        COWORKER_OR_SUPERVISOR_OF_CLAIMANT,
-      ),
+      'served-with':
+        witnessRelationshipToClaimantAnswers.includes(SERVED_WITH_CLAIMANT) ||
+        witnessRelationshipToClaimantAnswers.includes(SERVED_WITH_VETERAN),
+      'family-or-friend':
+        witnessRelationshipToClaimantAnswers.includes(
+          FAMILY_OR_FRIEND_OF_CLAIMANT,
+        ) ||
+        witnessRelationshipToClaimantAnswers.includes(
+          FAMILY_OR_FRIEND_OF_VETERAN,
+        ),
+      'coworker-or-supervisor':
+        witnessRelationshipToClaimantAnswers.includes(
+          COWORKER_OR_SUPERVISOR_OF_CLAIMANT,
+        ) ||
+        witnessRelationshipToClaimantAnswers.includes(
+          COWORKER_OR_SUPERVISOR_OF_VETERAN,
+        ),
     };
 
     transformedData = {

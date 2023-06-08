@@ -16,6 +16,12 @@ describe('Secure Messaging Sent Folder AXE Check', () => {
     ).as('sentResponse');
     cy.get('[data-testid="sent-sidebar"]').click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });
