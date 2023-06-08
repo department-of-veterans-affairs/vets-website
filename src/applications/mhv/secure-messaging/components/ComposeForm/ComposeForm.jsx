@@ -452,6 +452,7 @@ const ComposeForm = props => {
             categoryError={categoryError}
             setCategory={setCategory}
             setCategoryError={setCategoryError}
+            setUnsavedNavigationError={setUnsavedNavigationError}
           />
         </div>
         <div className="compose-form-div">
