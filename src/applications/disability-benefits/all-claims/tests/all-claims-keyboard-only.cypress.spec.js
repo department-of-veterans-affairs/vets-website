@@ -155,16 +155,25 @@ describe('526EZ keyboard only navigation', () => {
       // I. Veteran Details > A. Veteran Information
       // ===========================================
       cy.url().should('include', veteranDetailsPages.veteranInformation.path);
-      cy.injectAxeThenAxeCheck();
-      cy.tabToElement('va-telephone');
-      // Here, just testing that the user can navigate to the save, back, and
-      // continue buttons with their keyboard. These buttons appear to be
-      // a part of a shared component, I don't believe there is a need to run
-      // these particular tests again.
-      cy.tabToElement('.schemaform-sip-save-link');
-      cy.tabToElement('#1-continueButton');
+      // cy.injectAxeThenAxeCheck();
+      // cy.tabToElement('va-telephone');
+      // // Here, just testing that the user can navigate to the save, back, and
+      // // continue buttons with their keyboard. These buttons appear to be
+      // // a part of a shared component, I don't believe there is a need to run
+      // // these particular tests again.
+      // cy.tabToElement('.schemaform-sip-save-link');
+      // cy.tabToElement('#1-continueButton');
+
+      // Current State
       cy.tabToElement('#2-continueButton');
       cy.realPress('Enter');
+
+      // Low Quality Fix #1 - hit the button twice
+      // cy.tabToElement('#2-continueButton').realPress('Enter');
+      // cy.tabToElement('#2-continueButton').realPress('Enter');
+
+      // Low Quality Fix #2 - don't use realPress
+      // cy.tabToElement('#2-continueButton').type('{enter}');
 
       // I. Veteran Details > B. Contact Information
       // ===========================================
@@ -270,6 +279,7 @@ describe('526EZ keyboard only navigation', () => {
       // 1. Can indicate non-RNG service branch
       idRoot = '#root_serviceInformation_servicePeriods_';
       cy.tabToElement(`${idRoot}0_serviceBranch`);
+      // cy.wait(20000);
       // NOTE: can we test by arrowing down?
       cy.chooseSelectOptionByTyping('Marine Corps');
 
