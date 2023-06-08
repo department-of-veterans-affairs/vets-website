@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 import { retrieveFolder } from '../../actions/folders';
+import { navigateToFolderByFolderId } from '../../util/helpers';
 
 const SmBreadcrumbs = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,16 @@ const SmBreadcrumbs = () => {
       setIsMobile(false);
     }
   }
+
+  const [locationBasePath, locationChildPath] = useMemo(
+    () => {
+      const pathElements = location.pathname.split('/');
+      if (pathElements[0] === '') pathElements.shift();
+      return pathElements;
+    },
+    [location],
+  );
+
   useEffect(
     () => {
       checkScreenSize();
@@ -30,108 +41,71 @@ const SmBreadcrumbs = () => {
 
   useEffect(
     () => {
-      switch (location.pathname) {
-        case '/folder/0':
-          history.push(Constants.Breadcrumbs.INBOX.path);
-          break;
-        case '/folder/-1':
-          history.push(Constants.Breadcrumbs.SENT.path);
-          break;
-        case '/folder/-2':
-          history.push(Constants.Breadcrumbs.DRAFTS.path);
-          break;
-        case '/folder/-3':
-          history.push(Constants.Breadcrumbs.TRASH.path);
-          break;
-        default:
-          break;
+      if (
+        `/${locationBasePath}/` === Constants.Paths.FOLDERS &&
+        parseInt(locationChildPath, 10) < 1
+      ) {
+        navigateToFolderByFolderId(locationChildPath, history);
       }
     },
-    [location.pathname, history],
+    [locationBasePath, locationChildPath, history],
   );
 
   window.addEventListener('resize', checkScreenSize);
+
   useEffect(
     () => {
-      const arr = [];
-      const paths = [
-        { path: `/message`, label: messageDetails?.subject },
-        { path: '/reply', label: messageDetails?.subject },
-        Constants.Breadcrumbs.COMPOSE,
-        Constants.Breadcrumbs.DRAFT,
-        Constants.Breadcrumbs.DRAFTS,
-        Constants.Breadcrumbs.INBOX,
-        Constants.Breadcrumbs.FOLDERS,
-        Constants.Breadcrumbs.SENT,
-        Constants.Breadcrumbs.TRASH,
-        Constants.Breadcrumbs.FAQ,
-      ];
-      const handleBreadCrumbs = () => {
-        // arr.push({
-        //   path: replaceWithStagingDomain('https://www.va.gov'),
-        //   label: 'VA.gov home',
-        // });
-        // arr.push({
-        //   path: replaceWithStagingDomain('https://www.va.gov/health-care/'),
-        //   label: 'My Health',
-        // });
+      if (!locationBasePath) {
+        dispatch(setBreadcrumbs({}, location));
+        return;
+      }
 
-        paths.forEach(path => {
-          const [
-            ,
-            locationBasePath,
-            locationChildPath,
-          ] = location.pathname.split('/');
+      const path = `/${locationBasePath}/`;
 
-          if (path.path.substring(1) === locationBasePath) {
-            arr.push(path);
-            if (locationChildPath && path.children) {
-              const child = path.children.find(
-                item => item.path.substring(1) === locationChildPath,
-              );
-              if (child) {
-                arr.push(child);
-              }
-            }
-          } else if (locationBasePath === 'folder') {
-            arr.push({
-              path: Constants.Breadcrumbs.FOLDERS.path,
-              label: Constants.Breadcrumbs.FOLDERS.label,
-            });
-          } else if (locationBasePath === 'search') {
-            arr.push({
-              path: `/folder/${activeFolder.folderId}`,
-              label: 'Back',
-            });
-          } else if (
-            locationBasePath === 'reply' &&
-            activeFolder?.folderId === 0
-          ) {
-            arr.push(Constants.Breadcrumbs.INBOX);
-          } else if (
-            (locationBasePath === 'thread' ||
-              locationBasePath === 'reply' ||
-              locationBasePath === 'compose') &&
-            activeFolder
-          ) {
-            if (activeFolder.folderId === 0) {
-              arr.push({
-                path: `${Constants.Breadcrumbs.INBOX.path}`,
-                label: activeFolder.name,
-              });
-            } else {
-              arr.push({
-                path: `/folder/${activeFolder.folderId}`,
-                label: activeFolder.name,
-              });
-            }
-          }
-        });
-        dispatch(setBreadcrumbs(arr, location));
-      };
-      handleBreadCrumbs();
+      if (
+        [
+          Constants.Paths.INBOX,
+          Constants.Paths.SENT,
+          Constants.Paths.DELETED,
+          Constants.Paths.DRAFTS,
+        ].includes(path) ||
+        (path === Constants.Paths.FOLDERS && !locationChildPath)
+      ) {
+        dispatch(setBreadcrumbs(Constants.Breadcrumbs.MESSAGES, location));
+      } else if (path === Constants.Paths.FOLDERS && locationChildPath) {
+        dispatch(setBreadcrumbs(Constants.Breadcrumbs.FOLDERS, location));
+      } else if (path === Constants.Paths.COMPOSE) {
+        dispatch(setBreadcrumbs(Constants.Breadcrumbs.INBOX, location));
+      } else if (
+        path ===
+          (Constants.Paths.MESSAGE_THREAD ||
+            Constants.Paths.REPLY ||
+            Constants.Paths.COMPOSE) &&
+        activeFolder
+      ) {
+        dispatch(
+          setBreadcrumbs(
+            {
+              path: `${Constants.Paths.FOLDERS}${activeFolder.folderId}`,
+              label: `Back to ${
+                activeFolder.folderId < 1
+                  ? activeFolder.name.toLowerCase()
+                  : activeFolder.name
+              }`,
+            },
+            location,
+          ),
+        );
+      }
     },
-    [activeFolder, dispatch, location, messageDetails?.subject],
+    [
+      activeFolder,
+      dispatch,
+      location,
+      locationBasePath,
+      locationChildPath,
+      messageDetails?.subject,
+    ],
   );
 
   useEffect(
@@ -151,41 +125,23 @@ const SmBreadcrumbs = () => {
   };
 
   return (
-    <div className="breadcrumbs vads-1-row">
-      {crumbs.length > 0 &&
-        (crumbs.length === 1 ? (
-          <>
-            <va-breadcrumbs label="Breadcrumb" className="sm-breadcrumb">
-              <ul className={breadcrumbSize()}>
-                <li>
-                  <span className="breadcrumb-angle vads-u-padding-right--1">
-                    {'\u2039'}{' '}
-                  </span>
-                  <Link to="/"> Back to messages</Link>
-                </li>
-              </ul>
-            </va-breadcrumbs>
-          </>
-        ) : (
-          crumbs.length > 1 && (
-            <>
-              <va-breadcrumbs label="Breadcrumb">
-                <ul className={breadcrumbSize()}>
-                  <li>
-                    <span className="breadcrumb-angle vads-u-padding-right--1">
-                      {'\u2039'}{' '}
-                    </span>
-                    <Link
-                      to={`${crumbs[crumbs.length - 2]?.path?.toLowerCase()}`}
-                    >
-                      Back to {crumbs[crumbs.length - 2]?.label?.toLowerCase()}
-                    </Link>
-                  </li>
-                </ul>
-              </va-breadcrumbs>
-            </>
-          )
-        ))}
+    <div
+      className={`breadcrumbs vads-1-row ${
+        !crumbs?.label ? 'breadcrumbs--hidden' : ''
+      }`}
+    >
+      <va-breadcrumbs label="Breadcrumb">
+        {crumbs && (
+          <ul className={breadcrumbSize()}>
+            <li>
+              <span className="breadcrumb-angle vads-u-padding-right--1">
+                {'\u2039'}{' '}
+              </span>
+              <Link to={crumbs.path?.toLowerCase()}>{crumbs.label}</Link>
+            </li>
+          </ul>
+        )}
+      </va-breadcrumbs>
     </div>
   );
 };
