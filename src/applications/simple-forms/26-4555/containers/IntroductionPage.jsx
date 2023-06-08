@@ -7,7 +7,7 @@ const content = {
   formTitle: 'Apply for an adapted housing grant',
   formSubTitle:
     'Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555)',
-  startFormText: 'Start the housing grant application',
+  authStartFormText: 'Start the housing grant application',
   saveInProgressText:
     'Please complete the 26-4555 form to apply for adapted housing.',
 };

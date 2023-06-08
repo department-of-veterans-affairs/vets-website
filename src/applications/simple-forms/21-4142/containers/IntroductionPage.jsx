@@ -7,7 +7,7 @@ const content = {
   formTitle: 'Authorize the release of non-VA medical information to VA',
   formSubTitle:
     'Authorization to disclose information to the Department of Veterans Affairs (VA Forms 21-4142 and 21-4142a)',
-  startFormText: 'Start the medical records authorization',
+  authStartFormText: 'Start the medical records authorization',
   saveInProgressText:
     'Please complete the 21-4142 form to authorize the release of non-VA medical records to VA.',
   displayNonVeteranMessaging: true,

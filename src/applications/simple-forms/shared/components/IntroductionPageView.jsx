@@ -15,7 +15,7 @@ export const IntroductionPageView = ({
   const {
     formTitle,
     formSubTitle,
-    startFormText,
+    authStartFormText,
     saveInProgressText,
     unauthStartText,
     displayNonVeteranMessaging = false,
@@ -35,7 +35,7 @@ export const IntroductionPageView = ({
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
         pageList={pageList}
-        startText={startFormText}
+        startText={authStartFormText}
         unauthStartText={unauthStartText}
         displayNonVeteranMessaging={displayNonVeteranMessaging}
       >

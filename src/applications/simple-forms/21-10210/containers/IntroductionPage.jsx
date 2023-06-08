@@ -6,7 +6,7 @@ import { IntroductionPageView } from '../../shared/components/IntroductionPageVi
 const content = {
   formTitle: 'Submit a lay witness statement to support a VA claim',
   formSubTitle: 'Lay/Witness Statement (VA Form 21-10210)',
-  startFormText: 'Start your statement',
+  authStartFormText: 'Start your statement',
   unauthStartText: 'Sign in to start your statement',
   saveInProgressText: 'Please complete the 21-10210 form to apply for claims.',
   displayNonVeteranMessaging: true,
