@@ -2,10 +2,7 @@ import React from 'react';
 
 const SubmissionError = ({ user, saveLink }) => {
   return (
-    <div
-      className="usa-alert usa-alert-error schemaform-failure-alert"
-      // data-testid={testId}
-    >
+    <div className="usa-alert usa-alert-error schemaform-failure-alert">
       <div className="usa-alert-body">
         {user.login.currentlyLoggedIn && (
           <>
