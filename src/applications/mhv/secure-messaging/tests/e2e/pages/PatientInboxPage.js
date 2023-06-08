@@ -381,5 +381,53 @@ class PatientInboxPage {
   submitSearchButton = () => {
     cy.get('[data-testid="filter-messages-button"]').click();
   };
+
+  composeDraft = () => {
+    cy.get('#recipient-dropdown')
+      .shadow()
+      .find('#select')
+      .select(1);
+    cy.get('[data-testid="compose-category-radio-button"]')
+      .first()
+      .click();
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('#inputField')
+      .type('testSubject');
+    cy.get('#compose-message-body')
+      .shadow()
+      .find('#textarea')
+      .type('testMessage');
+  };
+
+  saveDraft = () => {
+    cy.intercept('POST', '/my_health/v1/messaging/message_drafts', {
+      data: {
+        id: '2844458',
+        type: 'message_drafts',
+        attributes: {
+          messageId: 2844458,
+          category: 'OTHER',
+          subject: 'test',
+          body: 'test',
+          attachment: false,
+          sentDate: null,
+          senderId: 406227,
+          senderName: 'MHVTP, SAFARI ',
+          recipientId: 2298160,
+          recipientName: "Dimitar's TG",
+          readReceipt: null,
+          triageGroupName: null,
+          proxySenderName: null,
+        },
+        relationships: { attachments: { data: [] } },
+        links: {
+          self:
+            'https://staging-api.va.gov/my_health/v1/messaging/messages/2844458',
+        },
+      },
+    }).as('savedDraft');
+  };
 }
+
 export default PatientInboxPage;
