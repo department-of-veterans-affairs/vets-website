@@ -10,13 +10,7 @@ import { RadioCategories } from '../../util/inputContants';
 
 const CategoryInput = props => {
   const dispatch = useDispatch();
-  const {
-    category,
-    categoryError,
-    setCategory,
-    setCategoryError,
-    setUnsavedNavigationError,
-  } = props;
+  const { category, categoryError, setCategory, setCategoryError } = props;
   const categories = useSelector(state => state.sm.categories.categories);
 
   useEffect(
@@ -29,7 +23,6 @@ const CategoryInput = props => {
   const categoryChangeHandler = e => {
     setCategory(e.detail.value || e.target.value);
     if (e.detail.value || e.target.value) setCategoryError(null);
-    setUnsavedNavigationError();
   };
 
   return (

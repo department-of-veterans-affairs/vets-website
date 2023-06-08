@@ -75,7 +75,7 @@ const ComposeForm = props => {
   } = Categories;
 
   const setUnsavedNavigationError = typeOfError => {
-    if (typeOfError === 'attachment') {
+    if (typeOfError === 'attachment' || attachments.length > 0) {
       setNavigationError({
         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
         confirmButtonText:
@@ -96,6 +96,12 @@ const ComposeForm = props => {
     () => {
       if (attachments.length > 0) {
         setUnsavedNavigationError('attachment');
+      } else if (
+        attachments.length === 0 &&
+        navigationError?.saveDraft ===
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft
+      ) {
+        setNavigationError(null);
       }
     },
     [attachments],
@@ -260,7 +266,13 @@ const ComposeForm = props => {
       }
       if (attachments.length) {
         setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT);
-        setNavigationError(null);
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+          confirmButtonText:
+            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
+          cancelButtonText:
+            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
+        });
       }
     }
 
@@ -276,7 +288,6 @@ const ComposeForm = props => {
     if (checkMessageValidity() === true) {
       dispatch(saveDraft(formData, type, draftId));
     }
-    if (!attachments.length) setNavigationError(null);
   };
 
   const sendMessageHandler = async e => {
@@ -315,7 +326,7 @@ const ComposeForm = props => {
 
   const recipientHandler = e => {
     setSelectedRecipient(e.detail.value);
-    if (e.detail.value !== '0') {
+    if (e.detail.value !== '0' && e.detail.value) {
       if (e.detail.value) setRecipientError('');
       setUnsavedNavigationError();
     }
@@ -339,11 +350,20 @@ const ComposeForm = props => {
         <VaModal
           modalTitle={saveError.title}
           onPrimaryButtonClick={() => setSaveError(null)}
+          onSecondaryButtonClick={() => {
+            setSaveError(null);
+          }}
           onCloseEvent={() => {
             setSaveError(null);
             focusElement(lastFocusableElement);
           }}
           primaryButtonText="Continue editing"
+          secondaryButtonText={
+            attachments
+              ? ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+                  .saveDraft
+              : null
+          }
           status="warning"
           data-testid="quit-compose-double-dare"
           visible
@@ -428,7 +448,6 @@ const ComposeForm = props => {
             categoryError={categoryError}
             setCategory={setCategory}
             setCategoryError={setCategoryError}
-            setUnsavedNavigationError={setUnsavedNavigationError}
           />
         </div>
         <div className="compose-form-div">
