@@ -7,6 +7,7 @@ import mockSpecialCharsMessage from '../fixtures/message-response-specialchars.j
 import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
+import mockSaveDraft from '../fixtures/message-save-draft-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 
 class PatientInboxPage {
@@ -402,30 +403,7 @@ class PatientInboxPage {
 
   saveDraft = () => {
     cy.intercept('POST', '/my_health/v1/messaging/message_drafts', {
-      data: {
-        id: '2844458',
-        type: 'message_drafts',
-        attributes: {
-          messageId: 2844458,
-          category: 'OTHER',
-          subject: 'test',
-          body: 'test',
-          attachment: false,
-          sentDate: null,
-          senderId: 406227,
-          senderName: 'MHVTP, SAFARI ',
-          recipientId: 2298160,
-          recipientName: "Dimitar's TG",
-          readReceipt: null,
-          triageGroupName: null,
-          proxySenderName: null,
-        },
-        relationships: { attachments: { data: [] } },
-        links: {
-          self:
-            'https://staging-api.va.gov/my_health/v1/messaging/messages/2844458',
-        },
-      },
+      mockSaveDraft,
     }).as('savedDraft');
   };
 }
