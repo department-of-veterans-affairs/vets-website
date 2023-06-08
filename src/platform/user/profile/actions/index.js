@@ -127,7 +127,7 @@ export function removeSavedForm(formId) {
   };
 }
 
-// Code in this segment is a patch
+// Code in this segment is a patch //
 
 export const FETCHING_LATEST_MHV_TERMS = 'FETCHING_LATEST_MHV_TERMS';
 export const FETCHING_LATEST_MHV_TERMS_SUCCESS =
