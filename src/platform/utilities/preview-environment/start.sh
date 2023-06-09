@@ -52,12 +52,12 @@ yarn config set "strict-ssl" false
 echo "Install, build, and watch vets-website"
 cd vets-website
 yarn install
-yarn build:webpack:prod
+yarn build:webpack:local
 
 # Serve the content-build
 echo "Install and serve content-build"
 cd ../content-build
 yarn install
 yarn build
-ln -s /app/website/vets-website/build/localhost/generated /app/website/content-build/build/localhost/generated
+# ln -s /app/website/vets-website/build/localhost/generated /app/website/content-build/build/localhost/generated
 yarn serve
