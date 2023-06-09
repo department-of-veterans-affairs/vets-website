@@ -130,6 +130,8 @@ HealthCareV2.propTypes = {
   unreadMessagesCount: PropTypes.number,
 };
 
+export const UnconnectedHealthCareV2 = HealthCareV2;
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
