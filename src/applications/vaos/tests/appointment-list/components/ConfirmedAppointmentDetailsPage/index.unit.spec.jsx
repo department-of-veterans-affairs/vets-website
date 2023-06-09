@@ -308,6 +308,24 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       start: futureDate.format(),
       status: 'cancelled',
       cancelationReason: { coding: [{ code: 'pat' }] },
+      location: {
+        id: '983GC',
+        type: 'appointments',
+        attributes: {
+          id: '983GC',
+          vistaSite: '983GC',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
     };
 
     mockSingleClinicFetchByVersion({
@@ -317,22 +335,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       version: 2,
     });
     mockSingleVAOSAppointmentFetch({ appointment });
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '442GC',
-        name: 'Cheyenne VA Medical Center',
-        phone: '970-224-1550',
-        address: {
-          postalCode: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          line: ['2360 East Pershing Boulevard'],
-        },
-        version: 0,
-      }),
-      version: 0,
-    });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: myInitialState,
@@ -371,9 +373,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       screen.queryByText(
         /Someone from your VA facility will call you at your phone number/i,
       ),
-    ).to.not.to.exist;
+    ).to.be.null;
 
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
+
     expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
     expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
     expect(screen.getByTestId('facility-telephone')).to.exist;

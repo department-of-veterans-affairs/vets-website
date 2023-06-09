@@ -5,7 +5,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { getFolders } from '../actions/folders';
 import { folder } from '../selectors';
 import SectionGuideButton from './SectionGuideButton';
-import { DefaultFolders } from '../util/constants';
+import { DefaultFolders, Paths } from '../util/constants';
 import { trapFocus } from '../../shared/util/ui';
 
 const Navigation = () => {
@@ -54,31 +54,31 @@ const Navigation = () => {
   const paths = () => {
     return [
       {
-        path: '/inbox',
+        path: Paths.INBOX,
         label: 'Inbox',
         id: DefaultFolders.INBOX.id,
         datatestid: 'inbox-sidebar',
       },
       {
-        path: '/drafts',
+        path: Paths.DRAFTS,
         label: 'Drafts',
         id: DefaultFolders.DRAFTS.id,
         datatestid: 'drafts-sidebar',
       },
       {
-        path: '/sent',
+        path: Paths.SENT,
         label: 'Sent',
         id: DefaultFolders.SENT.id,
         datatestid: 'sent-sidebar',
       },
       {
-        path: '/trash',
+        path: Paths.DELETED,
         label: 'Trash',
         id: DefaultFolders.DELETED.id,
         datatestid: 'trash-sidebar',
       },
       {
-        path: '/folders',
+        path: Paths.FOLDERS,
         label: 'My folders',
         datatestid: 'my-folders-sidebar',
       },
@@ -130,12 +130,12 @@ const Navigation = () => {
     if (location.pathname === '/') {
       // Highlight Messages on Lnading page
       isActive = false;
-    } else if (location.pathname === '/folders') {
+    } else if (location.pathname === Paths.FOLDERS) {
       // To ensure other nav links are not bolded when landed on "/folders"
       isActive = location.pathname === path.path;
     } else if (location.pathname.split('/')[1] === 'folder') {
-      // Highlight "My Folders" when landed on "/folder/:id"
-      isActive = path.path === '/folders';
+      // Highlight "My Folders" when landed on "/folders/:id"
+      isActive = path.path === Paths.FOLDERS;
     } else if (location.pathname === path.path) {
       isActive = true;
     } else if (path.id !== undefined && activeFolder?.folderId === path.id) {
