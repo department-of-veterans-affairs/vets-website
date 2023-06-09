@@ -64,18 +64,9 @@ const childContent = (
 export const ConfirmationPage = () => {
   const form = useSelector(state => state.form || {});
   const { submission, data } = form;
-  const { fullName } = data.preparerName;
+  const fullName = data.preparerName;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
-  // for testing:
-  // const fullName = {
-  //   first: 'first',
-  //   middle: 'middle',
-  //   last: 'last',
-  //   suffix: 'other',
-  // };
-  // const submitDate = 'a nice date';
-  // const confirmationNumber = 'a nice number';
 
   return (
     <ConfirmationPageView
