@@ -86,7 +86,7 @@ jobs:
           ref: ${{ github.ref_name }}
 
       - name: Get most recent cache file url
-        run: echo "MOST_RECENT_CONTENT=$(echo $(aws s3 ls vetsgov-website-builds-s3-upload/content-build --recursive | sort | tail -n 1 | awk '{print $4}'))" >> $GITHUB_ENV
+        run: echo "MOST_RECENT_CONTENT=$(echo $(aws s3 ls vetsgov-website-builds-s3-upload/content/ --recursive | sort | tail -n 1 | awk '{print $4}'))" >> $GITHUB_ENV
 
       - name: Trim Most Recent File path
         run: node ./script/github-actions/pe-get-content.js
