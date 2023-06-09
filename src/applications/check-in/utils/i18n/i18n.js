@@ -1,4 +1,5 @@
 import i18n from 'i18next';
+import '@department-of-veterans-affairs/component-library/i18n-setup';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { format as formatDate, isDate } from 'date-fns';
