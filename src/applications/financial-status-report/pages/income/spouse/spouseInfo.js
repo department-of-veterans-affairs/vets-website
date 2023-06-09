@@ -5,11 +5,13 @@ const MaritalStatusInfo = (
     <p>
       We want to make sure we understand your household’s financial situation.
     </p>
+    <br />
     <p>
       If you’re married, we also need to understand your spouse’s financial
       situation. This allows us to make a more informed decision on your
       request.
     </p>
+    <br />
   </va-additional-info>
 );
 
