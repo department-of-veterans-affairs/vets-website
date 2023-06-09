@@ -448,7 +448,7 @@ const analyticsEvents = {
         custom_string_1: 'component-library',
         /* Component to GA4 parameters */
         mapping: {
-          'search-input-value': 'custom_string_2',
+          'search-input-value': 'value',
           version: 'component_version',
         },
       },
@@ -463,7 +463,7 @@ const analyticsEvents = {
         custom_string_1: 'component-library',
         /* Component to GA4 parameters */
         mapping: {
-          'search-input-value': 'custom_string_2',
+          'search-input-value': 'value',
           version: 'component_version',
         },
       },
