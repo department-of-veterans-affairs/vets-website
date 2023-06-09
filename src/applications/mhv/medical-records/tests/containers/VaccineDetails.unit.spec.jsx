@@ -12,7 +12,6 @@ describe('Vaccines details container', () => {
           name: 'COVID-19 vaccine',
           id: '123',
           date: '2022-06-14T17:42:46.000Z',
-          vaccineId: '000000',
           type: 'COVID-19 booster',
           dosage: '1st booster',
           series: 'Phizer',
