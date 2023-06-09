@@ -3,7 +3,6 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import moment from 'moment';
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { IntroductionPage } from '../../components/IntroductionPage';
 import formConfig from '../../config/form';
 import {
@@ -131,11 +130,10 @@ describe('<IntroductionPage/>', () => {
       <IntroductionPage {...defaultProps} showWizard isBDDForm />,
     );
 
-    if (!environment.isProduction()) {
-      expect(
-        wrapper.find('[data-testid="process-step1-prepare"]').text(),
-      ).contains('When you file a BDD claim online');
-    }
+    expect(
+      wrapper.find('[data-testid="process-step1-prepare"]').text(),
+    ).contains('When you file a BDD claim online');
+
     wrapper.unmount();
   });
 });
