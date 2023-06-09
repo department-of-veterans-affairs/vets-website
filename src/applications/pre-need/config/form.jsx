@@ -85,21 +85,6 @@ function currentlyBuriedPersonsMinItem() {
   return set('items.properties.cemeteryNumber', autosuggest.schema, copy);
 }
 
-const stateRequired = environment.isProduction()
-  ? {
-      country: { 'ui:required': isAuthorizedAgent },
-      street: { 'ui:required': isAuthorizedAgent },
-      city: { 'ui:required': isAuthorizedAgent },
-      state: { 'ui:required': isAuthorizedAgent },
-      postalCode: { 'ui:required': isAuthorizedAgent },
-    }
-  : {
-      country: { 'ui:required': isAuthorizedAgent },
-      street: { 'ui:required': isAuthorizedAgent },
-      city: { 'ui:required': isAuthorizedAgent },
-      postalCode: { 'ui:required': isAuthorizedAgent },
-    };
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -217,7 +202,7 @@ const formConfig = {
         },
         veteranInformation: {
           path: 'veteran-applicant-information',
-          title: 'Veteran Information',
+          title: 'Veteran information',
           depends: isVeteran,
           uiSchema: {
             application: {
@@ -836,7 +821,12 @@ const formConfig = {
                   mailingAddress: merge(
                     {},
                     address.uiSchema('Mailing address'),
-                    stateRequired,
+                    {
+                      country: { 'ui:required': isAuthorizedAgent },
+                      street: { 'ui:required': isAuthorizedAgent },
+                      city: { 'ui:required': isAuthorizedAgent },
+                      postalCode: { 'ui:required': isAuthorizedAgent },
+                    },
                   ),
                   'view:contactInfo': {
                     'ui:title': 'Contact information',

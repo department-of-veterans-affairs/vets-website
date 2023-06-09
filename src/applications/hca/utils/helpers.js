@@ -148,13 +148,12 @@ export function transform(formConfig, form) {
 
   // add back & double check compensation type because it could have been removed in filterInactivePages
   if (!withoutViewFields.vaCompensationType) {
-    const highDisabilityRating = 50;
     const userDisabilityRating = parseInt(
       form.data['view:totalDisabilityRating'],
       10,
     );
     const compensationType =
-      userDisabilityRating >= highDisabilityRating
+      userDisabilityRating >= HIGH_DISABILITY_MINIMUM
         ? 'highDisability'
         : form.data.vaCompensationType;
     withoutViewFields = set(
@@ -171,6 +170,7 @@ export function transform(formConfig, form) {
       grossIncome: item.grossIncome || 0,
       netIncome: item.netIncome || 0,
       otherIncome: item.otherIncome || 0,
+      dependentEducationExpenses: item.dependentEducationExpenses || 0,
     }));
     withoutViewFields = set('dependents', listToSet, withoutViewFields);
   } else {
@@ -367,4 +367,37 @@ export function includeSpousalInformation(formData) {
     maritalStatus?.toLowerCase() === 'married' ||
     maritalStatus?.toLowerCase() === 'separated';
   return discloseFinancialInformation && hasSpouseToDeclare;
+}
+
+/**
+ * Helper that returns a descriptive aria label for the edit buttons on the
+ * health insurance information page
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {String} - the name of the provider and either the policy number
+ * or group code.
+ */
+export function getInsuranceAriaLabel(formData) {
+  const { insuranceName, insurancePolicyNumber, insuranceGroupCode } = formData;
+  const labels = {
+    policy: insurancePolicyNumber
+      ? `Policy number ${insurancePolicyNumber}`
+      : null,
+    group: insuranceGroupCode ? `Group code ${insuranceGroupCode}` : null,
+  };
+  return insuranceName
+    ? `${insuranceName}, ${labels.policy ?? labels.group}`
+    : 'insurance policy';
+}
+
+/**
+ * Helper that determines if the a dependent is of the declared college
+ * age of 18-23
+ * @param {String} birthdate - the dependents date of birth
+ * @param {String} testdate - an optional date to pass for testing purposes
+ * @returns {Boolean} - true if the provided date puts the dependent of an
+ * age between 18 and 23.
+ */
+export function isOfCollegeAge(birthdate, testdate = new Date()) {
+  const age = Math.abs(moment(birthdate).diff(moment(testdate), 'years'));
+  return age >= 18 && age <= 23;
 }

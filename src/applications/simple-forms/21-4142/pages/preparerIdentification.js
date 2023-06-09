@@ -16,7 +16,7 @@ export default {
       [preparerIdentificationFields.relationshipToVeteran]: {
         'ui:title': (
           <p className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-            Relationship to Veteran
+            Select your relationship to the Veteran
           </p>
         ),
         'ui:widget': 'radio',
@@ -24,10 +24,13 @@ export default {
       other: {
         'ui:title': (
           <p className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-            If your relationship with the Veteran is not listed, you can write
-            it here
+            If your relationship with the Veteran isn't listed, describe your
+            relationship here
           </p>
         ),
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
       },
     },
   },

@@ -14,7 +14,6 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import get from 'platform/utilities/data/get';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import constants from 'vets-json-schema/dist/constants.json';
@@ -27,6 +26,8 @@ import manifest from '../manifest.json';
 import toursOfDutyUI from '../definitions/toursOfDuty';
 
 import AccordionField from '../components/AccordionField';
+import ApplicantIdentityView from '../components/ApplicantIdentityView';
+import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
 import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -42,6 +43,7 @@ import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilit
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import PhoneViewField from '../components/PhoneViewField';
+import CustomPreSubmitInfo from '../components/PreSubmitInfo';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
 import TextNotificationsDisclaimer from '../components/TextNotificationsDisclaimer';
 import YesNoReviewField from '../components/YesNoReviewField';
@@ -390,8 +392,12 @@ const formConfig = {
     usaPhone,
   },
   footerContent: FormFooter,
-  getHelp: () => <GetFormHelp />, // Wrapping in a funciton to skirt failing platform unit test
-  preSubmitInfo,
+  getHelp: () => <GetFormHelp />, // Wrapping in a function to skirt failing platform unit test
+  preSubmitInfo: {
+    CustomComponent: CustomPreSubmitInfo,
+    required: false,
+    field: 'privacyAgreementAccepted',
+  },
   chapters: {
     applicantInformationChapter: {
       title: 'Your information',
@@ -400,6 +406,7 @@ const formConfig = {
           title: 'Your information',
           path: 'applicant-information/personal-information',
           subTitle: 'Your information',
+          CustomPageReview: ApplicantInformationReviewPage,
           instructions:
             'This is the personal information we have on file for you.',
           uiSchema: {
@@ -425,6 +432,9 @@ const formConfig = {
                   </p>
                 </>
               ),
+              'ui:options': {
+                hideIf: formData => formData.showMebEnhancements06,
+              },
             },
             [formFields.formId]: {
               'ui:title': 'Form ID',
@@ -440,18 +450,41 @@ const formConfig = {
                 hideOnReview: true,
               },
             },
-            [formFields.viewUserFullName]: {
+            'view:applicantInformation': {
+              'ui:options': {
+                hideIf: formData => !formData.showMebEnhancements06,
+              },
               'ui:description': (
-                <p className="meb-review-page-only">
-                  If you’d like to update your personal information, please edit
-                  the form fields below.
-                </p>
+                <>
+                  <ApplicantIdentityView />
+                </>
+              ),
+            },
+            [formFields.viewUserFullName]: {
+              'ui:options': {
+                hideIf: formData => formData.showMebEnhancements06,
+              },
+              'ui:description': (
+                <>
+                  <p className="meb-review-page-only">
+                    If you’d like to update your personal information, please
+                    edit the form fields below.
+                  </p>
+                </>
               ),
               [formFields.userFullName]: {
+                'ui:options': {
+                  hideIf: formData => formData.showMebEnhancements06,
+                },
+                'ui:required': formData => !formData?.showMebEnhancements06,
                 ...fullNameUI,
                 first: {
                   ...fullNameUI.first,
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
                   'ui:title': 'Your first name',
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidName(field)) {
@@ -473,6 +506,10 @@ const formConfig = {
                 last: {
                   ...fullNameUI.last,
                   'ui:title': 'Your last name',
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidLastName(field)) {
@@ -498,6 +535,10 @@ const formConfig = {
                 middle: {
                   ...fullNameUI.middle,
                   'ui:title': 'Your middle name',
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidName(field)) {
@@ -519,6 +560,10 @@ const formConfig = {
               },
             },
             [formFields.dateOfBirth]: {
+              'ui:options': {
+                hideIf: formData => formData.showMebEnhancements06,
+              },
+              'ui:required': formData => !formData?.showMebEnhancements06,
               ...currentOrPastDateUI('Your date of birth'),
               'ui:reviewField': CustomReviewDOBField,
             },
@@ -538,7 +583,7 @@ const formConfig = {
                 properties: {},
               },
               [formFields.viewUserFullName]: {
-                required: [formFields.userFullName],
+                // required: [formFields.userFullName],
                 type: 'object',
                 properties: {
                   [formFields.userFullName]: {
@@ -562,6 +607,10 @@ const formConfig = {
                 },
               },
               [formFields.dateOfBirth]: date,
+              'view:applicantInformation': {
+                type: 'object',
+                properties: {},
+              },
             },
           },
         },

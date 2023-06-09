@@ -6,7 +6,7 @@ import { format, addDays } from 'date-fns';
 import { useDispatch } from 'react-redux';
 import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
-import { Categories } from '../util/constants';
+import { Categories, Paths } from '../util/constants';
 import { dateFormat } from '../util/helpers';
 import MessageThreadBody from './MessageThread/MessageThreadBody';
 import { closeAlert } from '../actions/alerts';
@@ -36,7 +36,7 @@ const MessageDetailBlock = props => {
 
   const handleReplyButton = useCallback(
     () => {
-      history.push(`/reply/${messageId}`);
+      history.push(`${Paths.REPLY}${messageId}/`);
     },
     [history, messageId],
   );
@@ -61,21 +61,24 @@ const MessageDetailBlock = props => {
     [location.pathname, dispatch],
   );
 
-  useEffect(() => {
-    focusElement(document.querySelector('h2'));
-  });
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+    },
+    [message],
+  );
 
   const categoryLabel = Categories[category];
 
   return (
     <section className="message-detail-block">
       <header className="message-detail-header">
-        <h2
+        <h1
           className="vads-u-margin-bottom--2"
           aria-label={`Message subject. ${categoryLabel}: ${subject}`}
         >
           {categoryLabel}: {subject}
-        </h2>
+        </h1>
       </header>
       <MessageActionButtons
         id={messageId}
@@ -125,16 +128,6 @@ const MessageDetailBlock = props => {
               <AttachmentsList attachments={attachments} />
             </>
           )}
-
-        <div className="message-detail-note vads-u-text-align--center">
-          <p>
-            <i>
-              Note: This message may not be from the person you intially
-              contacted. It may have been reassigned to efficiently address your
-              original message
-            </i>
-          </p>
-        </div>
       </main>
     </section>
   );

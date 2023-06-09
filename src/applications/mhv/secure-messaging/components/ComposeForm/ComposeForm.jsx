@@ -6,6 +6,7 @@ import {
   VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -23,6 +24,7 @@ import {
   Categories,
   Prompts,
   ErrorMessages,
+  Paths,
 } from '../../util/constants';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -46,15 +48,16 @@ const ComposeForm = props => {
   const [messageBody, setMessageBody] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [formPopulated, setFormPopulated] = useState(false);
-  const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [messageInvalid, setMessageInvalid] = useState(false);
   const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
   const [editListModal, setEditListModal] = useState(false);
+  const [lastFocusableElement, setLastFocusableElement] = useState(null);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
+  const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const fullState = useSelector(state => state);
 
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
@@ -71,6 +74,33 @@ const ComposeForm = props => {
     TEST_RESULTS,
     EDUCATION,
   } = Categories;
+
+  const setUnsavedNavigationError = typeOfError => {
+    if (typeOfError === 'attachment') {
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+        confirmButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
+        cancelButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
+      });
+    } else {
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+        confirmButtonText: 'Continue editing',
+        cancelButtonText: 'Delete draft',
+      });
+    }
+  };
+
+  useEffect(
+    () => {
+      if (attachments.length > 0) {
+        setUnsavedNavigationError('attachment');
+      }
+    },
+    [attachments],
+  );
 
   useEffect(
     () => {
@@ -112,11 +142,11 @@ const ComposeForm = props => {
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
           dispatch(sendMessage(sendData, true))
-            .then(() => history.push('/inbox'))
+            .then(() => history.push(Paths.INBOX))
             .catch(setSendMessageFlag(false));
         } else {
           dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
-            history.push('/inbox'),
+            history.push(Paths.INBOX),
           );
         }
       }
@@ -131,6 +161,15 @@ const ComposeForm = props => {
       }
     },
     [messageInvalid],
+  );
+
+  useEffect(
+    () => {
+      if (alertStatus) {
+        focusElement(lastFocusableElement);
+      }
+    },
+    [alertStatus],
   );
 
   const recipientExists = recipientId => {
@@ -157,14 +196,6 @@ const ComposeForm = props => {
       setAttachments(draft.attachments);
     }
     setFormPopulated(true);
-    setFieldsString(
-      JSON.stringify({
-        rec: draft.recipientId,
-        cat: draft.category,
-        sub: draft.subject,
-        bod: draft.body,
-      }),
-    );
   };
 
   if (draft && recipients && !formPopulated) populateForm();
@@ -220,10 +251,10 @@ const ComposeForm = props => {
     return messageValid;
   };
 
-  const saveDraftHandler = async type => {
+  const saveDraftHandler = async (type, e) => {
     if (type === 'manual') {
       setUserSaved(true);
-
+      setLastFocusableElement(e.target.shadowRoot.querySelector('button'));
       await setMessageInvalid(false);
       if (checkMessageValidity()) {
         setNavigationError(null);
@@ -235,18 +266,6 @@ const ComposeForm = props => {
     }
 
     const draftId = draft && draft.messageId;
-    const newFieldsString = JSON.stringify({
-      rec: selectedRecipient,
-      cat: category,
-      sub: subject,
-      bod: messageBody,
-    });
-
-    if (newFieldsString === fieldsString) {
-      return;
-    }
-
-    setFieldsString(newFieldsString);
 
     const formData = {
       recipientId: selectedRecipient,
@@ -255,16 +274,22 @@ const ComposeForm = props => {
       body: messageBody,
     };
 
-    dispatch(saveDraft(formData, type, draftId));
+    if (checkMessageValidity() === true) {
+      dispatch(saveDraft(formData, type, draftId));
+    }
     if (!attachments.length) setNavigationError(null);
   };
 
-  const sendMessageHandler = async () => {
+  const sendMessageHandler = async e => {
     // TODO add GA event
     await setMessageInvalid(false);
+    await setSendMessageFlag(false);
     if (checkMessageValidity()) {
       setSendMessageFlag(true);
       setNavigationError(null);
+      setLastFocusableElement(e.target);
+    } else {
+      setSendMessageFlag(false);
     }
   };
 
@@ -288,14 +313,6 @@ const ComposeForm = props => {
       selectedRecipient,
     ],
   );
-
-  const setUnsavedNavigationError = () => {
-    setNavigationError({
-      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-      confirmButtonText: 'Continue editing',
-      cancelButtonText: 'Delete draft',
-    });
-  };
 
   const recipientHandler = e => {
     setSelectedRecipient(e.detail.value);
@@ -323,7 +340,10 @@ const ComposeForm = props => {
         <VaModal
           modalTitle={saveError.title}
           onPrimaryButtonClick={() => setSaveError(null)}
-          onCloseEvent={() => setSaveError(null)}
+          onCloseEvent={() => {
+            setSaveError(null);
+            focusElement(lastFocusableElement);
+          }}
           primaryButtonText="Continue editing"
           status="warning"
           data-testid="quit-compose-double-dare"
@@ -346,6 +366,7 @@ const ComposeForm = props => {
         p2={navigationError?.p2}
         confirmButtonText={navigationError?.confirmButtonText}
         cancelButtonText={navigationError?.cancelButtonText}
+        saveDraftHandler={saveDraftHandler}
       />
       <div className="compose-form-header" data-testid="compose-form-header">
         <h3>{setMessageTitle()}</h3>
@@ -467,10 +488,16 @@ const ComposeForm = props => {
             secondary
             class="vads-u-flex--1 save-draft-button"
             data-testid="Save-Draft-Button"
-            onClick={() => saveDraftHandler('manual')}
+            onClick={e => saveDraftHandler('manual', e)}
           />
           <div className="vads-u-flex--1">
-            {draft && <DeleteDraft draft={draft} />}
+            {draft && (
+              <DeleteDraft
+                draft={draft}
+                setLastFocusableElement={setLastFocusableElement}
+                setNavigationError={setNavigationError}
+              />
+            )}
           </div>
         </div>
       </div>

@@ -7,9 +7,10 @@ import { retrieveMessageThread } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import EmergencyNote from '../components/EmergencyNote';
-import AlertBox from '../components/shared/AlertBox';
 import InterstitialPage from './InterstitialPage';
 import { closeAlert } from '../actions/alerts';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import { Paths } from '../util/constants';
 
 const Compose = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const Compose = () => {
     () => {
       dispatch(getTriageTeams());
 
-      if (location.pathname === '/compose') {
+      if (location.pathname === Paths.COMPOSE) {
         dispatch(clearDraft());
         setDraftType('compose');
       } else {
@@ -44,7 +45,7 @@ const Compose = () => {
   useEffect(
     () => {
       if (draftMessage?.messageId && draftMessage.draftDate === null) {
-        history.push('/inbox');
+        history.push(Paths.INBOX);
       }
       return () => {
         if (isDraftPage) {
@@ -63,9 +64,12 @@ const Compose = () => {
     pageTitle = 'Start a new message';
   }
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-  });
+  useEffect(
+    () => {
+      if (acknowledged && header) focusElement(document.querySelector('h1'));
+    },
+    [header, acknowledged],
+  );
 
   const content = () => {
     if (!isDraftPage && triageTeams) {
@@ -124,7 +128,7 @@ const Compose = () => {
         <>
           {draftType && (
             <div className="vads-l-grid-container compose-container">
-              <AlertBox />
+              <AlertBackgroundBox closeable />
 
               {content()}
             </div>

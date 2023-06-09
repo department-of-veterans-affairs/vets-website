@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaAccordionItem } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -12,11 +12,11 @@ import { dateFormat } from '../../util/helpers';
 const MessageThreadItem = props => {
   const dispatch = useDispatch();
   const accordionItemRef = useRef();
-  const [isExpanded, setIsExpanded] = useState(false);
   const { message, isDraftThread } = props;
   const {
     attachment,
     attachments,
+    hasAttachments,
     body,
     messageId,
     preloaded,
@@ -31,77 +31,54 @@ const MessageThreadItem = props => {
   const fromMe = recipientName === triageGroupName;
   const from = fromMe ? 'Me' : `${senderName}`;
 
-  useEffect(
-    () => {
-      if (props.printView) {
-        setIsExpanded(true);
-      }
-    },
-    [props.printView],
-  );
-
   const handleExpand = isPreloaded => {
     if (!isPreloaded) {
       dispatch(markMessageAsReadInThread(messageId, isDraftThread));
     }
-    setIsExpanded(!isExpanded);
   };
-
-  // const header = () => {
-  //   return (
-  //     <>
-  //       <i
-  //         className="unread-icon fas fa-circle"
-  //         aria-hidden
-  //         style={{ visibility: isRead === true ? 'hidden' : '' }}
-  //       />
-  //       {dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
-  //     </>
-  //   );
-  // };
-
-  // const subheader = () => {
-  //   return (
-  //     <>
-  //       <i
-  //         className="fas fa-paperclip"
-  //         aria-hidden
-  //         style={{ visibility: attachments !== true ? 'hidden' : '' }}
-  //       />
-  //       {from}
-  //     </>
-  //   );
-  // };
 
   const accordionAriaLabel = useMemo(
     () => {
-      return `${!isRead ? 'New' : ''} message ${
+      return `${!isRead ? 'New ' : ''}message ${
+        fromMe ? 'sent' : 'received'
+      } ${dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}, ${
         attachment ? 'with attachment' : ''
-      } from ${senderName}, ${dateFormat(
-        sentDate,
-        'MMMM D, YYYY [at] h:mm a z',
-      )}. ${isExpanded ? 'Collapse message' : 'Expand message'}`;
+      } from ${senderName}."`;
     },
-    [attachment, isExpanded, isRead, senderName, sentDate],
+    [attachment, fromMe, isRead, senderName, sentDate],
   );
 
   return (
     <VaAccordionItem
       aria-label={accordionAriaLabel}
-      className="older-message"
+      className={`older-message ${
+        !isRead ? 'accordion-unread' : 'accordion-read'
+      }`}
       ref={accordionItemRef}
-      header={`${!isRead ? '[UNREAD] ' : ''}${dateFormat(
-        sentDate,
-        'MMMM D, YYYY [at] h:mm a z',
-      )}`}
       subheader={from}
-      // header={header()}
-      // subheader={subheader()}
       onAccordionItemToggled={() => {
         handleExpand(preloaded);
       }}
       data-testid={`expand-message-button-${messageId}`}
     >
+      <h3 slot="headline">{dateFormat(sentDate, 'MMMM D [at] h:mm a z')}</h3>
+      {!isRead && (
+        <i
+          data-testid="unread-icon"
+          className="vads-u-color--primary vads-u-padding--0p25 vads-u-margin-right--1 fas fa-solid fa-circle fa-xs"
+          slot="icon"
+          aria-hidden
+        />
+      )}
+      {(hasAttachments || attachment) && (
+        <i
+          data-testid="attachment-icon"
+          className="vads-u-margin-right--1p5 fas fa-paperclip vads-u-color--base"
+          slot="subheader-icon"
+          aria-hidden
+        />
+      )}
+
       <div>
         <MessageThreadMeta message={message} fromMe={fromMe} />
         <HorizontalRule />

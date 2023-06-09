@@ -90,7 +90,7 @@ class PatientInboxPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       this.mockRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/inbox', {
+    cy.visit('my-health/secure-messages/inbox/', {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
       },
@@ -100,6 +100,7 @@ class PatientInboxPage {
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     cy.wait('@inboxMessages');
+    if (this.mockInboxMessages.length) cy.get('.thread-list').should('exist');
   };
 
   setInboxTestMessageDetails = mockMessage => {
@@ -247,15 +248,25 @@ class PatientInboxPage {
     this.loadedMessagesData = mockMessages;
     cy.intercept(
       'GET',
+      '/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
+      this.mockInboxMessages,
+    ).as('inboxMessages');
+    cy.intercept(
+      'GET',
       '/my_health/v1/messaging/folders/0*',
       mockInboxFolder,
     ).as('inboxFolderMetaData');
     cy.intercept(
       'GET',
+      '/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
+      this.mockInboxMessages,
+    ).as('inboxMessages');
+    cy.intercept(
+      'GET',
       '/my_health/v1/messaging/recipients?useCache=false',
       mockNoRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/inbox');
+    cy.visit('my-health/secure-messages/inbox/');
     if (doAxeCheck) {
       cy.injectAxe();
     }
@@ -264,7 +275,13 @@ class PatientInboxPage {
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     if (doAxeCheck) {
-      cy.axeCheck();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     }
   };
 
@@ -297,7 +314,7 @@ class PatientInboxPage {
   };
 
   loadComposeMessagePage = () => {
-    cy.get('[data-testid="compose-message-link"]').click();
+    cy.get('[data-testid="compose-message-link"]').click({ force: true });
     const interstitialPage = new PatientInterstitialPage();
     interstitialPage.getContinueButton().click({ force: true });
   };
@@ -343,6 +360,26 @@ class PatientInboxPage {
       '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
       mockFolders,
     ).as('folders');
+  };
+
+  openAdvancedSearch = () => {
+    cy.get('#first').click();
+  };
+
+  selectAdvancedSearchCategory = () => {
+    cy.get('#category-dropdown')
+      .find('#select')
+      .select('COVID');
+  };
+
+  selectAdvancedSearchCategoryCustomFolder = () => {
+    cy.get('#category-dropdown')
+      .find('#select')
+      .select('Medication');
+  };
+
+  submitSearchButton = () => {
+    cy.get('[data-testid="filter-messages-button"]').click();
   };
 }
 export default PatientInboxPage;

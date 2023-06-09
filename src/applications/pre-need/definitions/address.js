@@ -1,7 +1,6 @@
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import unset from 'platform/utilities/data/unset';
-import environment from 'platform/utilities/environment';
 import { createSelector } from 'reselect';
 
 import {
@@ -232,28 +231,6 @@ export function uiSchema(
           withEnum,
         );
       }
-      // Hide the state field for non US and CAN addresses
-      if (
-        environment.isProduction() &&
-        !stateList &&
-        !schemaUpdate.properties.state['ui:hidden']
-      ) {
-        schemaUpdate.properties = set(
-          'state.ui:hidden',
-          true,
-          schemaUpdate.properties,
-        );
-      } else if (
-        environment.isProduction() &&
-        stateList &&
-        schemaUpdate.properties.state['ui:hidden']
-      ) {
-        schemaUpdate.properties = unset(
-          'state.ui:hidden',
-          schemaUpdate.properties,
-        );
-      }
-
       return schemaUpdate;
     },
   );
@@ -268,7 +245,6 @@ export function uiSchema(
         const modifiedData = { ...formData };
 
         if (
-          !environment.isProduction() &&
           modifiedData.application &&
           modifiedData.application.claimant &&
           modifiedData.application.claimant.address &&
@@ -280,7 +256,6 @@ export function uiSchema(
         }
 
         if (
-          !environment.isProduction() &&
           modifiedData.application &&
           modifiedData.application.applicant &&
           modifiedData.application.applicant['view:applicantInfo'] &&

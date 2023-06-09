@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import PropTypes from 'prop-types';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
 const defaultRecord = {
   make: '',
@@ -13,9 +11,7 @@ const defaultRecord = {
 
 const MAX_VEHICLE_MAKE_LENGTH = 32;
 
-const EnhancedVehicleRecord = props => {
-  const { data, goToPath, onReviewPage, setFormData } = props;
-
+const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
   const { assets } = data;
   const { automobiles = [] } = assets;
 
@@ -80,11 +76,7 @@ const EnhancedVehicleRecord = props => {
 
   const handleBack = event => {
     event.preventDefault();
-    if (automobiles.length > 0) {
-      goToPath('/vehicles-summary');
-    } else {
-      goToPath('/vehicles');
-    }
+    goToPath('/vehicles-summary');
   };
 
   const updateFormData = e => {
@@ -111,16 +103,12 @@ const EnhancedVehicleRecord = props => {
           automobiles: newVehicleArray,
         },
       });
-
       goToPath('/vehicles-summary');
     }
   };
 
-  const navButtons = <FormNavButtons goBack={handleBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
-
   return (
-    <form onSubmit={updateFormData}>
+    <form>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           Your car or other vehicle
@@ -128,7 +116,7 @@ const EnhancedVehicleRecord = props => {
         <p>Enter your vehicle’s information below.</p>
         <div className="input-size-5">
           <VaTextInput
-            className="no-wrap input-size-3"
+            className="no-wrap input-size-5"
             error={(vehicleRecordIsDirty && makeIsDirty && makeError) || null}
             id="add-make-name"
             label="Vehicle make"
@@ -140,10 +128,9 @@ const EnhancedVehicleRecord = props => {
             value={vehicleRecord.make || ''}
           />
         </div>
-
         <div className="input-size-5">
           <VaTextInput
-            className="no-wrap input-size-3"
+            className="no-wrap input-size-5"
             error={(vehicleRecordIsDirty && modelIsDirty && modelError) || null}
             id="add-model-name"
             label="Vehicle Model"
@@ -155,8 +142,7 @@ const EnhancedVehicleRecord = props => {
             value={vehicleRecord.model || ''}
           />
         </div>
-
-        <div className="input-size-1">
+        <div className="input-size-2">
           <va-number-input
             error={(vehicleRecordIsDirty && yearIsDirty && yearError) || null}
             hint={null}
@@ -168,8 +154,7 @@ const EnhancedVehicleRecord = props => {
             value={vehicleRecord.year || ''}
           />
         </div>
-
-        <div className="input-size-5">
+        <div className="input-size-2 no-wrap">
           <va-number-input
             error={
               (vehicleRecordIsDirty &&
@@ -188,7 +173,6 @@ const EnhancedVehicleRecord = props => {
             value={vehicleRecord.resaleValue}
           />
         </div>
-
         <va-additional-info
           class="vads-u-margin-top--4"
           trigger="Why do I need to provide this information?"
@@ -210,24 +194,44 @@ const EnhancedVehicleRecord = props => {
             <li>Websites or forums that appraise the value of vehicles</li>
           </ul>
         </va-additional-info>
+        <p>
+          <button
+            type="button"
+            id="cancel"
+            className="usa-button-secondary vads-u-width--auto"
+            onClick={handleBack}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            id="submit"
+            className="vads-u-width--auto"
+            onClick={updateFormData}
+          >
+            {`${automobiles.length === editIndex ? 'Add' : 'Update'} vehicle`}
+          </button>
+        </p>
       </fieldset>
-      {onReviewPage ? updateButton : navButtons}
     </form>
   );
 };
 
-const mapStateToProps = ({ form }) => {
-  return {
-    formData: form.data,
-    employmentHistory: form.data.personalData.employmentHistory,
-  };
+EnhancedVehicleRecord.propTypes = {
+  data: PropTypes.shape({
+    assets: PropTypes.shape({
+      automobiles: PropTypes.arrayOf(
+        PropTypes.shape({
+          make: PropTypes.string,
+          model: PropTypes.string,
+          resaleValue: PropTypes.string,
+          year: PropTypes.string,
+        }),
+      ),
+    }),
+  }),
+  goToPath: PropTypes.func,
+  setFormData: PropTypes.func,
 };
 
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EnhancedVehicleRecord);
+export default EnhancedVehicleRecord;

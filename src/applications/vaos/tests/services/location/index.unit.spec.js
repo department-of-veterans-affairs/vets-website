@@ -11,9 +11,7 @@ import {
   getLocation,
   getLocations,
   getLocationsByTypeOfCareAndSiteIds,
-  getSupportedLocationsByTypeOfCare,
 } from '../../../services/location';
-import facilities983 from '../../../services/mocks/var/facilities_983.json';
 import facilityDetails from '../../../services/mocks/var/facility_data.json';
 import requestEligbilityCriteria from '../../../services/mocks/var/request_eligibility_criteria.json';
 import directBookingEligbilityCriteria from '../../../services/mocks/var/direct_booking_eligibility_criteria.json';
@@ -21,64 +19,6 @@ import ccProviders from '../../../services/mocks/var/cc_providers.json';
 import { VHA_FHIR_ID } from '../../../utils/constants';
 
 describe('VAOS Location service', () => {
-  describe('getSupportedLocationsByTypeOfCare', () => {
-    let data;
-
-    it('should make successful request', async () => {
-      mockFetch();
-      setFetchJSONResponse(global.fetch, facilities983);
-      data = await getSupportedLocationsByTypeOfCare({
-        siteId: '983',
-        parentId: '983A6',
-        typeOfCareId: '123',
-      });
-
-      expect(global.fetch.firstCall.args[0]).to.contain(
-        'vaos/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
-      );
-      expect(data[0].identifier[1].value).to.equal('urn:va:division:983:983');
-    });
-
-    it('should sort by name', async () => {
-      mockFetch();
-      setFetchJSONResponse(global.fetch, facilities983);
-      data = await getSupportedLocationsByTypeOfCare({
-        siteId: '983',
-        parentId: '983A6',
-        typeOfCareId: '123',
-      });
-
-      expect(data[0].name).to.equal('CHYSHR-Cheyenne VA Medical Center');
-      expect(data[1].name).to.equal('CHYSHR-Fort Collins VA Clinic');
-      expect(data[2].name).to.equal('CHYSHR-Loveland VA Clinic');
-      expect(data[3].name).to.equal('CHYSHR-Sidney VA Clinic');
-      expect(data[4].name).to.equal('CHYSHR-Wheatland VA Mobile Clinic');
-    });
-
-    it('should return OperationOutcome error', async () => {
-      mockFetch();
-      setFetchJSONFailure(global.fetch, {
-        errors: [],
-      });
-
-      let error;
-      try {
-        data = await getSupportedLocationsByTypeOfCare({
-          siteId: '983',
-          parentId: '983A6',
-          typeOfCareId: '123',
-        });
-      } catch (e) {
-        error = e;
-      }
-
-      expect(global.fetch.firstCall.args[0]).to.contain(
-        '/vaos/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
-      );
-      expect(error?.resourceType).to.equal('OperationOutcome');
-    });
-  });
-
   describe('getLocations', () => {
     let data;
 

@@ -18,6 +18,8 @@ import ScrollToTop from './components/shared/ScrollToTop';
 import AllergyDetails from './containers/AllergyDetails';
 import CareSummariesDetails from './containers/CareSummariesDetails';
 import ShareRecordsPage from './containers/ShareRecordsPage';
+import RadiologyImagesList from './containers/RadiologyImagesList';
+import RadiologySingleImage from './containers/RadiologySingleImage';
 
 const routes = (
   <div className="vads-l-grid-container">
@@ -33,8 +35,22 @@ const routes = (
           <Route exact path="/labs-and-tests" key="LabsAndTests">
             <LabsAndTests />
           </Route>
-          <Route path="/labs-and-tests/:labId" key="LabAndTestDetails">
+          <Route exact path="/labs-and-tests/:labId" key="LabAndTestDetails">
             <LabAndTestDetails />
+          </Route>
+          <Route
+            exact
+            path="/labs-and-tests/radiology-images/:labId"
+            key="RadiologyImagesList"
+          >
+            <RadiologyImagesList />
+          </Route>
+          <Route
+            exact
+            path="/labs-and-tests/radiology-images/:labId/:imageId"
+            key="RadiologySingleImage"
+          >
+            <RadiologySingleImage />
           </Route>
           <Route path="/share-your-medical-record" key="ShareRecords">
             <ShareRecordsPage />

@@ -73,6 +73,15 @@ describe('VAOS Backend Service Alert', () => {
     });
 
     mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(4, 'months')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      requests: [appointment],
+      statuses: ['proposed', 'cancelled'],
+    });
+
+    mockVAOSAppointmentsFetch({
       start,
       end,
       requests: [appointment],
@@ -138,6 +147,14 @@ describe('VAOS Backend Service Alert', () => {
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(4, 'months')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
+    });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
@@ -190,8 +207,8 @@ describe('VAOS Backend Service Alert', () => {
     };
 
     mockVAOSAppointmentsFetch({
-      start: start.format('YYYY-MM-DDTHH:mm:ssZ'),
-      end: end.format('YYYY-MM-DDTHH:mm:ssZ'),
+      start: start.format('YYYY-MM-DD'),
+      end: end.format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       backendServiceFailures: true,
@@ -248,8 +265,8 @@ describe('VAOS Backend Service Alert', () => {
     };
 
     mockVAOSAppointmentsFetch({
-      start: start.format('YYYY-MM-DDTHH:mm:ssZ'),
-      end: end.format('YYYY-MM-DDTHH:mm:ssZ'),
+      start: start.format('YYYY-MM-DD'),
+      end: end.format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       backendServiceFailures: false,
@@ -313,12 +330,12 @@ describe('VAOS Backend Service Alert', () => {
         {
           start: moment(startDate)
             .add(3, 'days')
-            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+            .format('YYYY-MM-DD'),
         },
         {
           start: moment(startDate)
             .add(4, 'days')
-            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+            .format('YYYY-MM-DD'),
         },
       ],
       serviceType: '323',
@@ -406,12 +423,12 @@ describe('VAOS Backend Service Alert', () => {
         {
           start: moment(startDate)
             .add(3, 'days')
-            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+            .format('YYYY-MM-DD'),
         },
         {
           start: moment(startDate)
             .add(4, 'days')
-            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+            .format('YYYY-MM-DD'),
         },
       ],
       serviceType: '323',

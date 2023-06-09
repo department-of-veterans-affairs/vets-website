@@ -1,7 +1,3 @@
-import React from 'react';
-
-import cloanDeep from 'lodash/cloneDeep';
-
 import { CLAIMANT_TYPES, CLAIM_OWNERSHIPS } from '../definitions/constants';
 
 export default {
@@ -12,42 +8,35 @@ export default {
         hideIf: formData => formData.claimOwnership === undefined,
         updateSchema: (formData, schema, uiSchema) => {
           const { claimOwnership } = formData;
-          const uiSchemaCopy = cloanDeep(uiSchema);
+          let labels = { veteran: 'Veteran', 'non-veteran': 'Non-Veteran' };
           let title;
+
           switch (claimOwnership) {
             case CLAIM_OWNERSHIPS.SELF:
-              title = (
-                <span className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
-                  Which of these descriptions best describes you?
-                </span>
-              );
-              uiSchemaCopy['ui:options'].labels = {
-                veteran: 'I’m a Veteran',
-                'non-veteran': 'I’m a non-Veteran claimant',
+              title = 'Are you a Veteran?';
+              labels = {
+                veteran: 'Yes',
+                'non-veteran': 'No',
               };
               break;
             case CLAIM_OWNERSHIPS.THIRD_PARTY:
-              title = (
-                <span className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
-                  Which of these individuals are you submitting a statement for?
-                </span>
-              );
-              uiSchemaCopy['ui:options'].labels = {
-                veteran: 'A Veteran',
-                'non-veteran': 'A non-Veteran claimant',
+              title =
+                'Is the person you’re submitting this statement for a Veteran?';
+              labels = {
+                veteran: 'Yes',
+                'non-veteran': 'No',
               };
               break;
             default:
-              title = (
-                <span className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
-                  Claimant type:
-                </span>
-              );
+              title = 'Claimant type:';
           }
+
+          // eslint-disable-next-line no-param-reassign
+          uiSchema['ui:options'].labels = labels;
 
           return {
             title,
-            uiSchemaCopy,
+            uiSchema,
           };
         },
         labels: {

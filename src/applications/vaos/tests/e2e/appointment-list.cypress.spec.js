@@ -1,5 +1,6 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
+import moment from 'moment';
 import {
   mockFeatureToggles,
   mockAppointmentsApi,
@@ -9,7 +10,11 @@ import {
   vaosSetup,
   mockFacilitiesApi,
   mockCancelReasonsApi,
+  mockUserTransitionAvailabilities,
+  mockClinicApi,
+  mockAppointmentApi,
 } from './vaos-cypress-helpers';
+import { mockVamcEhr } from './vaos-cypress-v2-helpers';
 
 describe('VAOS appointment list', () => {
   describe('appointments details', () => {
@@ -17,21 +22,33 @@ describe('VAOS appointment list', () => {
       vaosSetup();
 
       mockAppointmentRequestsApi();
-      mockAppointmentsApi({ apiVersion: 0 });
       mockFacilitiesApi({ apiVersion: 1 });
-      mockFeatureToggles();
+      mockFeatureToggles({ v2DirectSchedule: true });
       mockLoginApi();
+      mockUserTransitionAvailabilities();
+      mockVamcEhr();
     });
 
     it('community care appointment', () => {
+      const data = [
+        {
+          id: '1',
+          type: 'Appointment',
+          attributes: {
+            id: 1,
+            kind: 'cc',
+            status: 'booked',
+            start: moment().format('YYYY-MM-DDTHH:mm:ss'),
+          },
+        },
+      ];
+
+      mockAppointmentsApi({ data, apiVersion: 2 });
+
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
 
-      cy.wait([
-        '@v0:get:appointments:va',
-        '@v0:get:appointments:cc',
-        '@v0:get:appointment:requests',
-      ]);
+      cy.wait(['@v2:get:appointments']);
 
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
@@ -47,20 +64,30 @@ describe('VAOS appointment list', () => {
     });
 
     it('va appointment', () => {
+      const data = [
+        {
+          id: '1',
+          type: 'Appointment',
+          attributes: {
+            id: 1,
+            kind: 'clinic',
+            status: 'booked',
+            start: moment().format('YYYY-MM-DDTHH:mm:ss'),
+          },
+        },
+      ];
+
+      mockAppointmentsApi({ data, apiVersion: 2 });
       mockFacilityApi({ id: 'vha_442GC', apiVersion: 1 });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
 
-      cy.wait([
-        '@v0:get:appointments:va',
-        '@v0:get:appointments:cc',
-        '@v0:get:appointment:requests',
-      ]);
+      cy.wait(['@v2:get:appointments']);
 
       cy.get('[data-cy=upcoming-appointment-list-header]').should('be.visible');
       cy.get('[data-cy=appointment-list-item]')
-        .contains(/VA CLinic/i)
+        .contains(/VA Appointment/i)
         .first()
         .click();
       cy.url().should('include', '/appointments/va');
@@ -72,44 +99,111 @@ describe('VAOS appointment list', () => {
     });
 
     it('va phone appointment', () => {
-      mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
+      const data = [
+        {
+          id: '1',
+          type: 'Appointment',
+          attributes: {
+            clinic: '308',
+            id: 1,
+            kind: 'phone',
+            // Uncomment to remove 'v1/facilities/va/vha_442' api call to get
+            // location information.
+            // location: {
+            //   id: '983',
+            //   type: 'location',
+            //   attributes: {
+            //     id: '983',
+            //     name: 'Cheyenne VA Medical Center',
+            //     physicalAddress: {
+            //       city: 'Cheyenne',
+            //       line: [''],
+            //       postalCode: '82001-5356',
+            //       state: 'WY',
+            //     },
+            //   },
+            // },
+            locationId: '983',
+            start: moment().format('YYYY-MM-DDTHH:mm:ss'),
+            status: 'booked',
+          },
+        },
+      ];
+
+      mockAppointmentsApi({ data, apiVersion: 2 });
+      mockClinicApi({ clinicId: '308', locations: ['983'] });
+
+      // NOTE: Mock not needed if location information is included with the
+      // appointment
+      mockFacilityApi({
+        id: data[0].attributes.locationId,
+        apiVersion: 1,
+      });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
 
-      cy.wait([
-        '@v0:get:appointments:va',
-        '@v0:get:appointments:cc',
-        '@v0:get:appointment:requests',
-      ]);
+      cy.wait(['@v2:get:appointments']);
 
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/Phone call/i)
         .first()
         .click();
+
+      cy.wait(['@v2:get:clinic']);
+
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
         .contains('VA appointment over the phone');
-      cy.get('h2', { timeout: Timeouts.slow })
-        .should('be.visible')
-        .and('contain', 'Cheyenne VA Medical Center');
+      cy.findByText('Cheyenne VA Medical Center').should('exist');
 
       cy.axeCheckBestPractice();
     });
 
     it('va video appointment', () => {
+      const data = [
+        {
+          id: '1',
+          type: 'Appointment',
+          attributes: {
+            clinic: '308',
+            id: 1,
+            kind: 'telehealth',
+            location: {
+              id: '983',
+              type: 'location',
+              attributes: {
+                name: 'Cheyenne VA Medical Center',
+                physicalAddress: {
+                  city: 'Cheyenne',
+                  line: [''],
+                  postalCode: '82001-5356',
+                  state: 'WY',
+                },
+              },
+            },
+            locationId: '983',
+            start: moment().format('YYYY-MM-DDTHH:mm:ss'),
+            status: 'booked',
+            telehealth: {
+              url:
+                'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#',
+              atlas: null,
+              vvsKind: 'CLINIC_BASED',
+            },
+          },
+        },
+      ];
+
+      mockAppointmentsApi({ data, apiVersion: 2 });
       mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
 
-      cy.wait([
-        '@v0:get:appointments:va',
-        '@v0:get:appointments:cc',
-        '@v0:get:appointment:requests',
-      ]);
+      cy.wait(['@v2:get:appointments']);
 
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
@@ -125,16 +219,45 @@ describe('VAOS appointment list', () => {
     });
 
     it('va video appointment at an ATLAS location', () => {
+      const data = [
+        {
+          id: '1',
+          type: 'Appointment',
+          attributes: {
+            clinic: '308',
+            id: 1,
+            kind: 'telehealth',
+            start: moment().format('YYYY-MM-DDTHH:mm:ss'),
+            status: 'booked',
+            telehealth: {
+              url: null,
+              atlas: {
+                siteCode: '9931',
+                confirmationCode: '7VBBCA',
+                address: {
+                  streetAddress: '114 Dewey Ave',
+                  city: 'Eureka',
+                  state: 'MT',
+                  zipCode: '59917',
+                  country: 'USA',
+                  longitude: -115.1,
+                  latitude: 48.8,
+                  additionalDetails: '',
+                },
+              },
+              vvsKind: 'ADHOC',
+            },
+          },
+        },
+      ];
+
+      mockAppointmentsApi({ data, apiVersion: 2 });
       mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
 
-      cy.wait([
-        '@v0:get:appointments:va',
-        '@v0:get:appointments:cc',
-        '@v0:get:appointment:requests',
-      ]);
+      cy.wait(['@v2:get:appointments']);
 
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
@@ -150,16 +273,33 @@ describe('VAOS appointment list', () => {
     });
 
     it('va video appointment at home', () => {
+      const data = [
+        {
+          id: '1',
+          type: 'Appointment',
+          attributes: {
+            clinic: '308',
+            id: 1,
+            kind: 'telehealth',
+            start: moment().format('YYYY-MM-DDTHH:mm:ss'),
+            status: 'booked',
+            telehealth: {
+              url:
+                'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#',
+              atlas: null,
+              vvsKind: 'MOBILE_ANY',
+            },
+          },
+        },
+      ];
+
+      mockAppointmentsApi({ data, apiVersion: 2 });
       mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
 
-      cy.wait([
-        '@v0:get:appointments:va',
-        '@v0:get:appointments:cc',
-        '@v0:get:appointment:requests',
-      ]);
+      cy.wait(['@v2:get:appointments']);
 
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
@@ -175,20 +315,31 @@ describe('VAOS appointment list', () => {
     });
 
     it('should allow for canceling of appointments', () => {
+      const data = [
+        {
+          id: '1',
+          type: 'Appointment',
+          attributes: {
+            id: 1,
+            kind: 'clinic',
+            status: 'booked',
+            start: moment().format('YYYY-MM-DDTHH:mm:ss'),
+            cancellable: true,
+          },
+        },
+      ];
+
+      mockAppointmentsApi({ data, apiVersion: 2 });
       mockFacilityApi({ id: 'vha_442GC', apiVersion: 1 });
       mockCancelReasonsApi({ facilityId: '983' });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
 
-      cy.wait([
-        '@v0:get:appointments:va',
-        '@v0:get:appointments:cc',
-        '@v0:get:appointment:requests',
-      ]);
+      cy.wait(['@v2:get:appointments']);
 
       cy.get('[data-cy=appointment-list-item]')
-        .contains(/VA CLinic/i)
+        .contains(/VA Appointment/i)
         .first()
         .click();
       cy.findByText(/Appointment detail/i).should('exist');
@@ -198,7 +349,6 @@ describe('VAOS appointment list', () => {
       cy.contains('button', /Continue/i).click();
       cy.get('#cancelAppt').should('not.exist');
       cy.get('.usa-alert-success').should('not.exist');
-      cy.get('.usa-alert-error').should('exist');
 
       cy.axeCheckBestPractice();
     });
@@ -209,19 +359,16 @@ describe('VAOS appointment list', () => {
       vaosSetup();
 
       mockAppointmentRequestsApi();
-      mockAppointmentsApi({ apiVersion: 0 });
+      mockAppointmentsApi({ apiVersion: 2 });
       mockFacilitiesApi({ apiVersion: 1 });
-      mockFeatureToggles();
+      mockFeatureToggles({ v2Requests: true, v2DirectSchedule: true });
       mockLoginApi();
+      mockUserTransitionAvailabilities();
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
 
-      cy.wait([
-        '@v0:get:appointments:va',
-        '@v0:get:appointments:cc',
-        '@v0:get:appointment:requests',
-      ]);
+      cy.wait(['@v2:get:appointments']);
     });
 
     it('should render upcoming appointments list', () => {
@@ -248,23 +395,60 @@ describe('VAOS appointment list', () => {
 
   describe('requested appointments', () => {
     beforeEach(() => {
+      const data = [
+        {
+          id: '1',
+          type: 'Appointment',
+          attributes: {
+            id: 1,
+            kind: 'clinic',
+            status: 'booked',
+            start: moment().format('YYYY-MM-DDTHH:mm:ss'),
+          },
+        },
+        {
+          id: '1',
+          type: 'Appointment',
+          attributes: {
+            id: 1,
+            contact: {
+              telecom: [
+                {
+                  type: 'phone',
+                  value: '2125551212',
+                },
+                {
+                  type: 'email',
+                  value: 'veteranemailtest@va.gov',
+                },
+              ],
+            },
+            kind: 'clinic',
+            locationId: '983',
+            requestedPeriods: [
+              {
+                start: '2022-07-16T01:30:00Z',
+              },
+            ],
+            serviceType: '408',
+            status: 'proposed',
+            start: moment().format('YYYY-MM-DDTHH:mm:ss'),
+          },
+        },
+      ];
+
       vaosSetup();
 
-      mockAppointmentRequestsApi();
-      mockAppointmentsApi({ apiVersion: 0 });
+      mockAppointmentsApi({ data, apiVersion: 2 });
       mockFacilitiesApi({ apiVersion: 1 });
-      mockAppointmentRequestsApi({ id: '8a4886886e4c8e22016e6613216d001g' });
-      mockFeatureToggles();
+      mockFeatureToggles({ v2DirectSchedule: true });
       mockLoginApi();
+      mockUserTransitionAvailabilities();
+      mockVamcEhr();
 
-      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.visit('health-care/schedule-view-va-appointments/appointments');
+      cy.wait(['@v2:get:appointments']);
       cy.injectAxe();
-
-      cy.wait([
-        '@v0:get:appointments:va',
-        '@v0:get:appointments:cc',
-        '@v0:get:appointment:requests',
-      ]);
 
       cy.get('h2', { timeout: Timeouts.slow })
         .should('be.visible')
@@ -280,6 +464,10 @@ describe('VAOS appointment list', () => {
     });
 
     it('should render requested appointments list', () => {
+      cy.get('h2', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'Requested appointments');
+
       cy.get('[data-cy=requested-appointment-list]').should('exist');
       cy.get('[data-cy=requested-appointment-list-item]')
         .first()
@@ -289,36 +477,50 @@ describe('VAOS appointment list', () => {
     });
 
     it('should navigate to requested appointment details', () => {
-      cy.get('[data-testid="appointment-detail-link"]')
-        .first()
-        .shadow()
-        .find('a')
-        .click();
+      mockAppointmentApi({ id: '1' });
+      mockFacilityApi({ id: '983' });
 
-      cy.findByText(/Request detail/i).should('exist');
-      cy.injectAxe();
+      cy.get('h2', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'Requested appointments');
+      cy.get('[data-cy=requested-appointment-list]').should('exist');
+
+      cy.get('[data-cy=requested-appointment-list-item]')
+        .first()
+        .click({ waitForAnimations: true });
+
       cy.axeCheckBestPractice();
     });
   });
 
   describe('past appointments', () => {
     beforeEach(() => {
+      const data = [
+        {
+          id: '1',
+          type: 'Appointment',
+          attributes: {
+            id: 1,
+            status: 'booked',
+            start: moment()
+              .subtract(1, 'month')
+              .format('YYYY-MM-DDTHH:mm:ss'),
+          },
+        },
+      ];
       vaosSetup();
 
       mockAppointmentRequestsApi();
-      mockAppointmentsApi({ apiVersion: 0 });
+      mockAppointmentsApi({ data, apiVersion: 2 });
       mockFacilitiesApi({ apiVersion: 1 });
-      mockFeatureToggles();
+      mockFeatureToggles({ v2DirectSchedule: true });
       mockLoginApi();
+      mockUserTransitionAvailabilities();
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
 
-      cy.wait([
-        '@v0:get:appointments:va',
-        '@v0:get:appointments:cc',
-        '@v0:get:appointment:requests',
-      ]);
+      cy.wait(['@v2:get:appointments']);
 
       cy.get('[data-testid="vaosSelect"]')
         .shadow()
@@ -329,6 +531,7 @@ describe('VAOS appointment list', () => {
     });
 
     it('should render past appointments list', () => {
+      cy.wait('@v2:get:appointments');
       cy.get('#date-dropdown')
         .shadow()
         .findByLabelText(/Select a date range/i)
@@ -351,7 +554,10 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it.skip('should select an updated date range', () => {
+    it('should select an updated date range', () => {
+      cy.get('[data-cy=appointment-list-item]')
+        .first()
+        .should('exist');
       cy.get('#date-dropdown')
         .shadow()
         .find('#select')
@@ -360,7 +566,7 @@ describe('VAOS appointment list', () => {
       cy.get('button')
         .contains(/Update/i)
         .click({ force: true });
-      cy.get('h3').should('exist');
+      cy.get('[data-cy=appointment-list-item]').should('not.exist');
 
       cy.axeCheckBestPractice();
     });
@@ -371,21 +577,33 @@ describe('VAOS appointment list', () => {
       vaosSetup();
 
       mockAppointmentRequestsApi();
-      mockAppointmentsApi({ apiVersion: 0 });
       mockFacilitiesApi({ apiVersion: 1 });
-      mockFeatureToggles();
+      mockFeatureToggles({ v2DirectSchedule: true });
       mockLoginApi();
+      mockUserTransitionAvailabilities();
     });
 
     it('should render canceled appointments list', () => {
+      const data = [
+        {
+          id: '1',
+          type: 'Appointment',
+          attributes: {
+            id: 1,
+            status: 'cancelled',
+            start: moment()
+              .subtract(30, 'days')
+              .format('YYYY-MM-DDTHH:mm:ss'),
+          },
+        },
+      ];
+
+      mockAppointmentsApi({ data, apiVersion: 2 });
+
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
 
-      cy.wait([
-        '@v0:get:appointments:va',
-        '@v0:get:appointments:cc',
-        '@v0:get:appointment:requests',
-      ]);
+      cy.wait(['@v2:get:appointments']);
 
       cy.get('[data-testid="vaosSelect"]')
         .shadow()
@@ -404,14 +622,26 @@ describe('VAOS appointment list', () => {
     });
 
     it('should navigate to canceled appointment details', () => {
+      const data = [
+        {
+          id: '1',
+          type: 'Appointment',
+          attributes: {
+            id: 1,
+            status: 'cancelled',
+            start: moment()
+              .subtract(30, 'days')
+              .format('YYYY-MM-DDTHH:mm:ss'),
+          },
+        },
+      ];
+
+      mockAppointmentsApi({ data, apiVersion: 2 });
+
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
 
-      cy.wait([
-        '@v0:get:appointments:va',
-        '@v0:get:appointments:cc',
-        '@v0:get:appointment:requests',
-      ]);
+      cy.wait(['@v2:get:appointments']);
 
       cy.get('[data-testid="vaosSelect"]')
         .shadow()

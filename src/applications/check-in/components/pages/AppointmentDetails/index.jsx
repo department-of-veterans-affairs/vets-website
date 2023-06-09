@@ -21,7 +21,7 @@ import Wrapper from '../../layout/Wrapper';
 import BackButton from '../../BackButton';
 import AppointmentAction from '../../AppointmentDisplay/AppointmentAction';
 import AppointmentMessage from '../../AppointmentDisplay/AppointmentMessage';
-// import AddressBlock from '../../AddressBlock';
+import AddressBlock from '../../AddressBlock';
 
 const AppointmentDetails = props => {
   const { router } = props;
@@ -36,7 +36,7 @@ const AppointmentDetails = props => {
   const appointmentDay = new Date(appointment?.startTime);
   const isPhoneAppointment = appointment?.kind === 'phone';
   const { appointmentId } = router.params;
-  // const isPreCheckIn = app === 'preCheckIn';
+  const isPreCheckIn = app === 'preCheckIn';
 
   useLayoutEffect(
     () => {
@@ -97,9 +97,11 @@ const AppointmentDetails = props => {
                 data-testid="header"
                 className="vads-u-font-size--h3"
               >
-                {`${isPhoneAppointment ? t('phone') : t('in-person')} ${t(
-                  'appointment',
-                )}`}
+                {`${
+                  isPhoneAppointment
+                    ? `${t('phone')} ${t('appointment')}`
+                    : t('in-person-appointment')
+                }`}
               </h1>
               {app === APP_NAMES.PRE_CHECK_IN ? (
                 preCheckInSubTitle
@@ -138,7 +140,7 @@ const AppointmentDetails = props => {
                 {!isPhoneAppointment && (
                   <div data-testid="appointment-details--facility-value">
                     {appointment.facility}
-                    {/* <br />
+                    <br />
                     {appointment.facilityAddress?.street1 && (
                       <div className="vads-u-margin-bottom--2">
                         <AddressBlock
@@ -147,7 +149,7 @@ const AppointmentDetails = props => {
                           showDirections={isPreCheckIn}
                         />
                       </div>
-                    )} */}
+                    )}
                   </div>
                 )}
                 <div data-testid="appointment-details--clinic-value">

@@ -36,6 +36,7 @@ export const App = ({
   showMebDgi42Features,
   showMebCh33SelfForm,
   showMebEnhancements,
+  showMebEnhancements06,
   email,
   mobilePhone,
   duplicateEmail,
@@ -170,14 +171,28 @@ export const App = ({
           showMebEnhancements,
         });
       }
+      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
+        setFormData({
+          ...formData,
+          showMebEnhancements06,
+        });
+      }
+      if (isLOA3 !== formData.isLOA3) {
+        setFormData({
+          ...formData,
+          isLOA3, // ES6 Syntax
+        });
+      }
     },
     [
       formData,
+      isLOA3,
       setFormData,
       showMebDgi40Features,
       showMebDgi42Features,
       showMebCh33SelfForm,
       showMebEnhancements,
+      showMebEnhancements06,
       email,
     ],
   );
@@ -228,6 +243,7 @@ App.propTypes = {
   email: PropTypes.string,
   mobilePhone: PropTypes.string,
   showMebEnhancements: PropTypes.bool,
+  showMebEnhancements06: PropTypes.bool,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
 };

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducers from '../../../reducers';
 import ThreadListSort from '../../../components/ThreadList/ThreadListSort';
-import { threadSortingOptions } from '../../../util/constants';
+import { Paths, threadSortingOptions } from '../../../util/constants';
 
 describe('Thread List Sort component', () => {
   const props = {
@@ -27,7 +27,9 @@ describe('Thread List Sort component', () => {
     const sortSelectDropdown = document.querySelector('va-select');
     const sortButton = document.querySelector('va-button');
 
-    expect(sortSelectDropdown.label).to.equal('Sort by');
+    expect(sortSelectDropdown.label).to.equal(
+      'Show conversations in this order',
+    );
     expect(sortSelectDropdown.value).to.equal('DESC');
     expect(sortButton.getAttribute('label')).to.equal('Sort');
 
@@ -48,7 +50,9 @@ describe('Thread List Sort component', () => {
     const sortSelectDropdown = document.querySelector('va-select');
     const sortButton = document.querySelector('va-button');
 
-    expect(sortSelectDropdown.label).to.equal('Sort by');
+    expect(sortSelectDropdown.label).to.equal(
+      'Show conversations in this order',
+    );
     expect(sortSelectDropdown.value).to.equal('DESC');
     expect(sortButton.getAttribute('label')).to.equal('Sort');
 
@@ -69,7 +73,9 @@ describe('Thread List Sort component', () => {
     const sortSelectDropdown = document.querySelector('va-select');
     const sortButton = document.querySelector('va-button');
 
-    expect(sortSelectDropdown.label).to.equal('Sort by');
+    expect(sortSelectDropdown.label).to.equal(
+      'Show conversations in this order',
+    );
     expect(sortSelectDropdown.value).to.equal('DESC');
     expect(sortButton.getAttribute('label')).to.equal('Sort');
 
@@ -90,7 +96,9 @@ describe('Thread List Sort component', () => {
     const sortSelectDropdown = document.querySelector('va-select');
     const sortButton = document.querySelector('va-button');
 
-    expect(sortSelectDropdown.label).to.equal('Sort by');
+    expect(sortSelectDropdown.label).to.equal(
+      'Show conversations in this order',
+    );
     expect(sortSelectDropdown.value).to.equal('DESC');
     expect(sortButton.getAttribute('label')).to.equal('Sort');
 
@@ -105,13 +113,15 @@ describe('Thread List Sort component', () => {
   });
 
   it('renders properly on custom folder', () => {
-    const screen = setup('/folder/759063');
+    const screen = setup(`${Paths.FOLDERS}759063`);
     expect(screen).to.exist;
 
     const sortSelectDropdown = document.querySelector('va-select');
     const sortButton = document.querySelector('va-button');
 
-    expect(sortSelectDropdown.label).to.equal('Sort by');
+    expect(sortSelectDropdown.label).to.equal(
+      'Show conversations in this order',
+    );
     expect(sortSelectDropdown.value).to.equal('DESC');
     expect(sortButton.getAttribute('label')).to.equal('Sort');
 

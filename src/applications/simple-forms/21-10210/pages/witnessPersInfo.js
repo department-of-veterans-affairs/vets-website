@@ -1,51 +1,60 @@
-import React from 'react';
-
-import definitions from 'vets-json-schema/dist/definitions.json';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import {
+  RELATIONSHIP_TO_VETERAN_OPTIONS,
+  RELATIONSHIP_TO_CLAIMANT_OPTIONS,
+} from '../definitions/constants';
+import formDefinitions from '../definitions/form-definitions';
+import GroupCheckboxWidget from '../components/GroupCheckboxWidget';
 
+/** @type {PageSchema} */
+const commonUiSchema = {
+  witnessFullName: fullNameUI,
+  witnessRelationshipToClaimant: {
+    // different ui:title between uiSchemaA & uiSchemaB
+    'ui:description': 'Check all that apply',
+    'ui:widget': GroupCheckboxWidget,
+    'ui:errorMessages': {
+      required: 'Please select at least one option',
+    },
+    'ui:options': {
+      forceDivWrapper: true,
+      showFieldLabel: true,
+      // different labels between uiSchemaA & uiSchemaB
+    },
+  },
+};
 export default {
-  uiSchema: {
-    witnessFullName: fullNameUI,
-    witnessRelationshipToVeteran: {
-      'ui:description': (
-        <p className="vads-u-margin-bottom--0 vads-u-margin-top--4">
-          What is your relationship to the Veteran?
-          <br />
-          Check all that apply.
-        </p>
-      ),
-      'ui:help': 'Check all the apply',
-      'served-with': {
-        'ui:title': 'Served with Veteran',
-      },
-      'family-or-friend': {
-        'ui:title': 'Family/Friend of Veteran',
-      },
-      'coworker-or-supervisor': {
-        'ui:title': 'Coworker/Supervisor of Veteran',
+  uiSchemaA: {
+    // Flow 2: vet claimant
+    ...commonUiSchema,
+    witnessRelationshipToClaimant: {
+      ...commonUiSchema.witnessRelationshipToClaimant,
+      'ui:title': 'What is your relationship to the Veteran?',
+      'ui:options': {
+        ...commonUiSchema.witnessRelationshipToClaimant['ui:options'],
+        labels: RELATIONSHIP_TO_VETERAN_OPTIONS,
       },
     },
-    withnessOtherRelationshipToVeteran: {
-      'ui:title':
-        'If your relationship with the Veteran is not listed, you can write it here (255 characters maximum)',
+  },
+  uiSchemaB: {
+    // Flow 4: non-vet claimant
+    ...commonUiSchema,
+    witnessRelationshipToClaimant: {
+      ...commonUiSchema.witnessRelationshipToClaimant,
+      'ui:title': 'What is your relationship to the Claimant?',
+      'ui:options': {
+        ...commonUiSchema.witnessRelationshipToClaimant['ui:options'],
+        labels: RELATIONSHIP_TO_CLAIMANT_OPTIONS,
+      },
     },
   },
   schema: {
     type: 'object',
-    required: ['witnessFullName'],
+    required: ['witnessFullName', 'witnessRelationshipToClaimant'],
     properties: {
-      witnessFullName: definitions.fullNameNoSuffix,
-      witnessRelationshipToVeteran: {
-        type: 'object',
-        properties: {
-          'served-with': { type: 'boolean' },
-          'family-or-friend': { type: 'boolean' },
-          'coworker-or-supervisor': { type: 'boolean' },
-        },
-      },
-      withnessOtherRelationshipToVeteran: {
+      witnessFullName: formDefinitions.pdfFullNameNoSuffix,
+      witnessRelationshipToClaimant: {
         type: 'string',
-        maxLength: 255,
       },
     },
   },

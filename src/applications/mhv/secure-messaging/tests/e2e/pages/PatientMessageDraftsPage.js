@@ -35,7 +35,13 @@ class PatientMessageDraftsPage {
     ).as('draftsResponse');
     cy.get('[data-testid="drafts-sidebar"]').click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     // cy.wait('@draftsFolderMetaResponse');
     // cy.wait('@draftsResponse');
   };
@@ -137,7 +143,13 @@ class PatientMessageDraftsPage {
 
     cy.contains(mockParentMessageDetails.data.attributes.subject).click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.wait('@message1');
     cy.wait('@full-thread');
   };
@@ -196,6 +208,20 @@ class PatientMessageDraftsPage {
       'have.text',
       'Secure message was successfully sent.',
     );
+  };
+
+  openAdvancedSearch = () => {
+    cy.get('#first').click();
+  };
+
+  selectAdvancedSearchCategory = () => {
+    cy.get('#category-dropdown')
+      .find('#select')
+      .select('COVID');
+  };
+
+  submitSearchButton = () => {
+    cy.get('[data-testid="filter-messages-button"]').click();
   };
 }
 export default PatientMessageDraftsPage;

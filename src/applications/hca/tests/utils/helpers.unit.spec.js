@@ -7,6 +7,8 @@ import {
   prefillTransformer,
   isShortFormEligible,
   includeSpousalInformation,
+  getInsuranceAriaLabel,
+  isOfCollegeAge,
 } from '../../utils/helpers';
 import { HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
 
@@ -230,6 +232,59 @@ describe('hca helpers', () => {
           maritalStatus: 'separated',
         }),
       ).to.equal(true);
+    });
+  });
+
+  describe('getInsuranceAriaLabel', () => {
+    it('returns a generic label if the provider name is not provided', () => {
+      const formData = {};
+      expect(getInsuranceAriaLabel(formData)).to.equal('insurance policy');
+    });
+    it('returns the provider name with the policy number when provided', () => {
+      const formData = {
+        insuranceName: 'Aetna',
+        insurancePolicyNumber: '005588',
+      };
+      expect(getInsuranceAriaLabel(formData)).to.equal(
+        'Aetna, Policy number 005588',
+      );
+    });
+    it('returns the provider name with the group code when provided', () => {
+      const formData = {
+        insuranceName: 'Aetna',
+        insuranceGroupCode: '005588',
+      };
+      expect(getInsuranceAriaLabel(formData)).to.equal(
+        'Aetna, Group code 005588',
+      );
+    });
+  });
+
+  describe('isOfCollegeAge', () => {
+    it('returns `false` if birthdate is greater than 23 years from testdate', () => {
+      const birthdate = '1986-06-01';
+      const testdate = '2023-06-01';
+      expect(isOfCollegeAge(birthdate, testdate)).to.equal(false);
+    });
+    it('returns `false` if birthdate is less than 18 years from testdate', () => {
+      const birthdate = '2005-06-02';
+      const testdate = '2023-06-01';
+      expect(isOfCollegeAge(birthdate, testdate)).to.equal(false);
+    });
+    it('returns `true` if birthdate is exactly 18 years from testdate', () => {
+      const birthdate = '2005-06-01';
+      const testdate = '2023-06-01';
+      expect(isOfCollegeAge(birthdate, testdate)).to.equal(true);
+    });
+    it('returns `true` if birthdate is exactly 23 years from testdate', () => {
+      const birthdate = '2000-06-01';
+      const testdate = '2023-06-01';
+      expect(isOfCollegeAge(birthdate, testdate)).to.equal(true);
+    });
+    it('returns `true` if birthdate is between 18 and 23 years from testdate', () => {
+      const birthdate = '2003-06-01';
+      const testdate = '2023-06-01';
+      expect(isOfCollegeAge(birthdate, testdate)).to.equal(true);
     });
   });
 
