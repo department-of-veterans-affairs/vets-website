@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { trapFocus } from 'platform/utilities/ui/focus';
 import { getFolders } from '../actions/folders';
 import { folder } from '../selectors';
 import SectionGuideButton from './SectionGuideButton';
@@ -40,36 +41,11 @@ const Navigation = () => {
     () => {
       if (isNavigationOpen) {
         focusElement(closeMenuButtonRef.current);
-        const focusableEls = sideBarNavRef.current.querySelectorAll(
+        trapFocus(
+          sideBarNavRef.current,
           `a[href]:not([disabled]), button:not([disabled])`,
+          closeNavigation,
         );
-        const firstFocusableEl = focusableEls[0];
-        const lastFocusableEl = focusableEls[focusableEls.length - 1];
-        const KEYCODE_TAB = 9;
-
-        sideBarNavRef.current.addEventListener('keydown', e => {
-          const isTabPressed = e.key === 'Tab' || e.keyCode === KEYCODE_TAB;
-          const isEscPressed = e.key === 'Escape' || e.keyCode === 27;
-
-          if (isEscPressed) {
-            closeNavigation();
-            return;
-          }
-
-          if (!isTabPressed) {
-            return;
-          }
-
-          if (e.shiftKey) {
-            /* shift + tab */ if (document.activeElement === firstFocusableEl) {
-              lastFocusableEl.focus();
-              e.preventDefault();
-            }
-          } /* tab */ else if (document.activeElement === lastFocusableEl) {
-            firstFocusableEl.focus();
-            e.preventDefault();
-          }
-        });
       }
     },
     [isNavigationOpen, closeMenuButtonRef, sideBarNavRef, closeNavigation],
