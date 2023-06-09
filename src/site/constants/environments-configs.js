@@ -9,18 +9,14 @@ let isNode = false;
 if (typeof window === 'undefined') {
   isNode = true;
 }
-/* eslint-disable no-console */
 
 // allowedHostnames is an array of hostnames that are eligible
 function isHostnameAllowed(hostname, allowedHostnames) {
   let hostnameAllowed = false;
   for (const name of allowedHostnames) {
     const pattern = name.replace(/\*/g, '[a-z0-9]+(-[a-z0-9]+)*');
-    console.log('pattern: ', pattern);
     const regex = new RegExp(`^${pattern}$`, 'i');
-    console.log('regex: ', regex);
     if (regex.test(hostname)) {
-      console.log('test: ', regex.test(hostname));
       hostnameAllowed = true;
     }
   }
@@ -31,15 +27,7 @@ module.exports = {
   [ENVIRONMENTS.VAGOVPROD]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVPROD,
     BASE_URL: 'https://www.va.gov',
-    // API_URL: 'https://api.va.gov',
-    API_URL:
-      location.hostname &&
-      isHostnameAllowed(location.hostname, ['*.preview.va.gov', '*.vfs.va.gov'])
-        ? `http://${location.hostname.split('.')[0]}-apis.${location.hostname
-            .split('.')
-            .slice(1)
-            .join('.')}:3000`
-        : 'https://api.va.gov',
+    API_URL: 'https://api.va.gov',
   },
 
   [ENVIRONMENTS.VAGOVSTAGING]: {
