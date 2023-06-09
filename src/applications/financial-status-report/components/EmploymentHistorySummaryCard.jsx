@@ -114,7 +114,7 @@ const EmploymentHistorySummaryCard = ({
     ]),
   };
   const emptyPrompt = `Select the ‘add additional job link to add another job. Select the continue button to move on to the next question.`;
-  const ariaLabel = `Job ${index} ${employmentCardHeading}`;
+  const ariaLabel = `Job ${index + 1} ${employmentCardHeading}`;
 
   return (
     (!job && <EmptyMiniSummaryCard content={emptyPrompt} />) || (
