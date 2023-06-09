@@ -81,7 +81,7 @@ describe('Schemaform <SipsDevModal>', () => {
     expect(dom.querySelector('va-modal')).to.exist;
   });
 
-  it.skip('should replace the form data & include return url', () => {
+  it('should replace the form data & include return url', () => {
     setLoc();
     const data = cloneDeep(props);
     const newData = {
@@ -114,7 +114,7 @@ describe('Schemaform <SipsDevModal>', () => {
     // Modal closed
     expect(dom.querySelector('va-modal')).to.be.null;
   });
-  it.skip('should replace the form data from maximal-test.json & include return url', () => {
+  it('should replace the form data from maximal-test.json & include return url', () => {
     setLoc();
     const data = cloneDeep(props);
     const newData = {
@@ -150,7 +150,7 @@ describe('Schemaform <SipsDevModal>', () => {
     expect(dom.querySelector('va-modal')).to.be.null;
   });
 
-  it.skip('should merge partial data into the form data & include return url', () => {
+  it('should merge partial data into the form data & include return url', () => {
     setLoc();
     const data = cloneDeep(props);
     data.form.data = {
@@ -185,7 +185,7 @@ describe('Schemaform <SipsDevModal>', () => {
     // Modal closed
     expect(dom.querySelector('va-modal')).to.be.null;
   });
-  it.skip('should unwrap "data" & merge partial data into the form data & include return url', () => {
+  it('should unwrap "data" & merge partial data into the form data & include return url', () => {
     setLoc();
     const data = cloneDeep(props);
     data.form.data = {
