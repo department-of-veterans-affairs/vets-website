@@ -128,7 +128,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
   return (
     <form onSubmit={updateFormData}>
       <h3 className="schemaform-block-title vads-u-margin-top--5">
-        Spouse’s gross monthly income at {employerName}
+        Spouse’s monthly income at {employerName}
       </h3>
       <va-number-input
         label="What’s your spouse’s gross monthly income at this job?"
