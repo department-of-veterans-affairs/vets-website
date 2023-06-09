@@ -105,6 +105,7 @@ jobs:
         with:
           build-args: |
             "AWS_URL=${{ env.AWS_URL }}"
+            "AWS_FILENAME=${{ env.AWS_FILENAME }}"
             "SOURCE_REF=${{ env.SOURCE_REF}}"
           context: .
           file: src/platform/utilities/preview-environment/Dockerfile

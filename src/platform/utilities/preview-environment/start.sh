@@ -27,17 +27,17 @@ fi
 
 # echo "Download dev content-build to website dir"
 
-# # if AWS_URL then use it
-# # else use default cache URL
-# # To-do -- change the fallback cache to something that is not hardcoded to a file that will eventually be cleaned up
-# if [ -z ${AWS_URL} ] ;
-# then
-#     echo "AWS_URL is NULL; using default" ;
-#     curl -LO https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content-build/0008051ce15e731cc01289933dfb060d6f0d4df6/vagovprod.tar.bz2 ;
-# else
-#     echo "AWS_URL is not NULL; using workflow env var" ;
-#     curl -LO ${AWS_URL} ;
-# fi
+# if AWS_URL then use it
+# else use default cache URL
+# To-do -- change the fallback cache to something that is not hardcoded to a file that will eventually be cleaned up
+if [ -z ${AWS_URL} ] ;
+then
+    echo "AWS_URL is NULL; using default" ;
+    curl -LO https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content/vagovdev_dd03cdd3eb98417b247b1a61d54651a1.tar.bz2 ;
+else
+    echo "AWS_URL is not NULL; using workflow env var" ;
+    curl -LO ${AWS_URL} ;
+fi
 
 # echo "Setup content-build and extract pre-built content into content-build/build/localhost"
 # echo "make the build folder"
@@ -51,13 +51,22 @@ yarn config set "strict-ssl" false
 # Build and watch vets-website
 echo "Install, build, and watch vets-website"
 cd vets-website
-yarn install
+yarn install --production=false
 yarn build:webpack:local
 
+wait
+cd ..
+
 # Serve the content-build
+
+mkdir -p content-build/.cache/localhost/drupal
+echo "untar the build into content-build/.cache/localhost/drupal"
+tar -xf ${AWS_FILENAME} -C content-build/.cache/localhost/drupal
+
+
+
 echo "Install and serve content-build"
-cd ../content-build
+cd content-build
 yarn install
-yarn build
-# ln -s /app/website/vets-website/build/localhost/generated /app/website/content-build/build/localhost/generated
+yarn build --use-cached-assets
 yarn serve
