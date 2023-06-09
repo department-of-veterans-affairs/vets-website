@@ -39,7 +39,6 @@ const convertChemHemList = recordList => {
       orderedBy: 'Beth M. Smith',
       requestedBy: 'John J. Lydon',
       date: '2012-04-05T17:42:46.000Z',
-      vaccineId: '000007',
       orderingLocation:
         '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
       collectingLocation:
@@ -62,7 +61,6 @@ const convertChemHemRecord = bundle => {
     orderedBy: 'Beth M. Smith',
     requestedBy: 'John J. Lydon',
     date: '2012-04-05T17:42:46.000Z',
-    vaccineId: '000007',
     orderingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     collectingLocation:
@@ -82,7 +80,6 @@ const convertMicrobiologyRecord = record => {
     date: record.effectiveDateTime,
     sampleFrom: 'Blood',
     sampleTested: record.specimen,
-    vaccineId: '000003',
     orderingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     collectingLocation: record.performer,
@@ -100,7 +97,6 @@ const convertPathologyRecord = record => {
     requestedBy: 'John J. Lydon',
     id: 125,
     date: record.effectiveDateTime,
-    vaccineId: '000004',
     sampleTested: record.specimen,
     labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     collectingLocation: record.performer,
@@ -108,10 +104,24 @@ const convertPathologyRecord = record => {
   };
 };
 
+const convertEkgRecord = record => {
+  return {
+    name: 'Electrocardiogram (EKG)',
+    type: labTypes.EKG,
+    category: '',
+    orderedBy: 'Beth M. Smith',
+    requestedBy: 'John J. Lydon',
+    id: 123,
+    date: record.date,
+    facility: 'school parking lot',
+  };
+};
+
 const getType = record => {
   if (record.category === 'LAB') return labTypes.CHEM_HEM;
   if (record.code === '79381-0') return labTypes.MICROBIOLOGY;
   if (record.code === '60567-5') return labTypes.PATHOLOGY;
+  if (record.code === '11524-6') return labTypes.EKG;
   return labTypes.OTHER;
 };
 
@@ -128,6 +138,8 @@ export const labsAndTestsReducer = (state = initialState, action) => {
           labsAndTestsDetails = convertMicrobiologyRecord(record);
         if (type === labTypes.PATHOLOGY)
           labsAndTestsDetails = convertPathologyRecord(record);
+        if (type === labTypes.EKG)
+          labsAndTestsDetails = convertEkgRecord(record);
       } else {
         labsAndTestsDetails = record;
       }
