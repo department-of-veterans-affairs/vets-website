@@ -1,6 +1,7 @@
 import footerContent from 'platform/forms/components/FormFooter';
-import manifest from '../manifest.json';
+import environment from 'platform/utilities/environment';
 
+import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
@@ -17,6 +18,11 @@ import veteranIdentificationInformation from '../pages/veteranIdentificationInfo
 import relationshipToDeceasedClaimant from '../pages/relationshipToDeceasedClaimant';
 import otherRelationshipToDeceasedClaimant from '../pages/otherRelationshipToDeceasedClaimant';
 import additionalInformation from '../pages/additionalInformation';
+
+// mock-data import for local development
+import testData from '../tests/e2e/fixtures/data/test-data.json';
+
+const mockData = testData;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -56,6 +62,10 @@ const formConfig = {
         preparerPersonalInformation: {
           path: 'preparer-information-1',
           title: 'Your personal information',
+          // we want req'd fields prefilled for LOCAL testing/previewing
+          // one single initialData prop here will suffice for entire form
+          initialData:
+            !!mockData && environment.isLocalhost() ? mockData : undefined,
           uiSchema: preparerPersonalInformation.uiSchema,
           schema: preparerPersonalInformation.schema,
         },
@@ -111,6 +121,8 @@ const formConfig = {
         deceasedClaimantPersonalInformation: {
           path: 'deceased-claimaint-personal-information',
           title: 'Deceased substitute claimant’s personal information',
+          depends: formData =>
+            formData.substituteStatus === 'substituteClaimant',
           uiSchema: deceasedClaimantPersonalInformation.uiSchema,
           schema: deceasedClaimantPersonalInformation.schema,
         },
@@ -122,6 +134,8 @@ const formConfig = {
         deceasedClaimantIdentificationInformation: {
           path: 'deceased-claimaint-identification-information',
           title: 'Deceased substitute claimant’s identification information',
+          depends: formData =>
+            formData.substituteStatus === 'substituteClaimant',
           uiSchema: deceasedClaimantIdentificationInformation.uiSchema,
           schema: deceasedClaimantIdentificationInformation.schema,
         },
@@ -166,6 +180,8 @@ const formConfig = {
         otherRelationshipToDeceasedClaimant: {
           path: 'other-relationship-to-deceased-claimant',
           title: 'Your relationship',
+          depends: formData =>
+            formData.relationshipToDeceasedClaimant === 'other',
           uiSchema: otherRelationshipToDeceasedClaimant.uiSchema,
           schema: otherRelationshipToDeceasedClaimant.schema,
         },
