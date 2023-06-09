@@ -6,6 +6,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
+div:has(.schemaform-sip-alert) {
+  margin-top: 4rem;
+}
+
 .form-review-panel[data-chapter="authorizerTypeChapter"] .review-row dt > span {
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", Arial,
     sans-serif !important;

@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="Authorize VA to disclose personal information to a third party"
+          title="Authorize VA to release your information to a third-party source"
           subtitle="Authorization To Disclose Personal Information To a Third Party (VA Form 21-0845)"
         />
         <h2>Here’s how to apply online</h2>
@@ -51,10 +51,10 @@ class IntroductionPage extends React.Component {
         <p>
           If you change your mind and do not want VA to give out your personal
           benefit or claim information, you may notify us in writing, or by
-          telephone at 1-800-827-1000 or online through Ask VA. Upon
-          notification from you VA will no longer give out benefit or claim
-          information (except for the information VA has already given out based
-          on your permission).
+          telephone at <va-telephone contact="8008271000" /> or online through{' '}
+          <a href="https://ask.va.gov/">Ask VA</a>. Upon notification from you
+          VA will no longer give out benefit or claim information (except for
+          the information VA has already given out based on your permission).
         </p>
         <SaveInProgressIntro
           headingLevel={2}
