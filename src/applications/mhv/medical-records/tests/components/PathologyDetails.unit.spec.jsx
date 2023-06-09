@@ -12,7 +12,6 @@ describe('Pathology details component', () => {
     requestedBy: 'John J. Lydon',
     id: 125,
     date: '2016-04-28T17:42:46.000Z',
-    vaccineId: '000004',
     sampleTested: 'LEFT FINGER',
     labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     results:
