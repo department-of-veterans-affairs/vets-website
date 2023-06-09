@@ -155,10 +155,10 @@ const Navigation = () => {
             Navigation menu is open
           </div>
           {isMobile && (
-            <div className="sidebar-navigation-header">
+            <div className="sidebar-navigation-header vads-u-justify-content--flex-end">
               <button
                 ref={closeMenuButtonRef}
-                className="va-btn-close-icon"
+                className="va-btn-close-icon vads-u-margin--0p5 vads-u-padding--2p5 vads-u-margin-right--2"
                 aria-label="Close-this-menu"
                 aria-expanded="true"
                 aria-controls="a1"

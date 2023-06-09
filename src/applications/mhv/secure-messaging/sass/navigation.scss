@@ -14,7 +14,6 @@
   .sidebar-navigation-header {
     display: flex;
     flex-direction: row;
-    margin-left: 75%;
     height: 54px;
     i.fa-medkit {
       color: $color-white;
@@ -124,14 +123,12 @@
     }
     .sidebar-navigation-header {
       height: 50px;
-      margin-left: 20rem;
       i.fa-medkit {
         padding-bottom: 4px;
       }
     }
     button {
       background-color: $color-gray-lightest;
-      height: 46.64px;
     }
     .fa-times {
       width: 14px;
