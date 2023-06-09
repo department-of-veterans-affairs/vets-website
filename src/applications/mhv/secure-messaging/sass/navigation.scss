@@ -7,6 +7,10 @@
   list-style-type: none;
   margin: 0px;
   padding: 0px;
+  @media (min-width: $medium-screen) {
+    min-width: 230px;
+  }
+
   .sidebar-navigation-header {
     display: flex;
     flex-direction: row;
