@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { trapFocus } from 'platform/utilities/ui/focus';
 import { getFolders } from '../actions/folders';
 import { folder } from '../selectors';
 import SectionGuideButton from './SectionGuideButton';
 import { DefaultFolders } from '../util/constants';
+import { trapFocus } from '../../shared/util/ui';
 
 const Navigation = () => {
   const dispatch = useDispatch();
