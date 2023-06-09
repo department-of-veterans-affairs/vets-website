@@ -46,6 +46,9 @@ export default {
         keepInPageOnReview: true,
         useDlWrap: true,
         customTitle: ' ',
+        confirmRemove: true,
+        confirmRemoveDescription:
+          'This will remove the facility and all of the treatment records associated from your authorization request.',
       },
       items: {
         'ui:options': {
