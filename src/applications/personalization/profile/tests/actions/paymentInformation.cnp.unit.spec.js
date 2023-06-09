@@ -15,11 +15,6 @@ import { LIGHTHOUSE_ERROR_KEYS, PPIU_ERROR_MAP } from '../../util';
 
 const setup = () => {
   mockFetch();
-  setFetchJSONResponse(global.fetch.onFirstCall(), {
-    data: {
-      attributes: {},
-    },
-  });
 };
 
 const testLighthouseFailure = ({ errorKey, isEnrolling = false }) => {
@@ -150,32 +145,93 @@ const testPPIUFailure = ({ errorKey, gaKey, isEnrolling = false } = {}) => {
   });
 };
 
-describe('saveCNPPaymentInformation FAILURE', () => {
-  // testing for -update
-  Object.values(PPIU_ERROR_MAP).forEach(({ RESPONSE_KEY, GA_KEY }) => {
-    if (RESPONSE_KEY) {
-      testPPIUFailure({ errorKey: RESPONSE_KEY, gaKey: GA_KEY });
-    }
+describe('saveCNPPaymentInformation', () => {
+  context('Failures', () => {
+    // testing for -update
+    Object.values(PPIU_ERROR_MAP).forEach(({ RESPONSE_KEY, GA_KEY }) => {
+      if (RESPONSE_KEY) {
+        testPPIUFailure({ errorKey: RESPONSE_KEY, gaKey: GA_KEY });
+      }
+    });
+
+    // testing for -enroll
+    Object.values(PPIU_ERROR_MAP).forEach(({ RESPONSE_KEY, GA_KEY }) => {
+      if (RESPONSE_KEY) {
+        testPPIUFailure({
+          errorKey: RESPONSE_KEY,
+          gaKey: GA_KEY,
+          isEnrolling: true,
+        });
+      }
+    });
+
+    // testing for -update
+    Object.values(LIGHTHOUSE_ERROR_KEYS).forEach(errorKey => {
+      testLighthouseFailure({ errorKey });
+    });
+
+    // testing for -enroll
+    Object.values(LIGHTHOUSE_ERROR_KEYS).forEach(errorKey => {
+      testLighthouseFailure({ errorKey, isEnrolling: true });
+    });
   });
 
-  // testing for -enroll
-  Object.values(PPIU_ERROR_MAP).forEach(({ RESPONSE_KEY, GA_KEY }) => {
-    if (RESPONSE_KEY) {
-      testPPIUFailure({
-        errorKey: RESPONSE_KEY,
-        gaKey: GA_KEY,
-        isEnrolling: true,
+  context('Success', () => {
+    context('using Lighthouse endpoint', () => {
+      it('should dispatch correct actions', async () => {
+        setup();
+
+        const recordEvent = sinon.spy();
+        const captureCNPError = sinon.spy();
+
+        setFetchJSONResponse(global.fetch.onFirstCall(), {
+          data: {
+            id: 'testId',
+            type: 'CHECKING',
+            attributes: {
+              controlInformation: {
+                canUpdateDirectDeposit: true,
+              },
+              paymentAccount: {
+                name: 'WELLS FARGO BANK',
+                accountType: 'Checking',
+                accountNumber: '******7890',
+                routingNumber: '*****0503',
+              },
+            },
+          },
+        });
+
+        const actionCreator = paymentInformationActions.saveCNPPaymentInformation(
+          {
+            fields: { value: 'test' },
+            isEnrollingInDirectDeposit: false,
+            useLighthouseDirectDepositEndpoint: true,
+            recordEvent,
+            captureCNPError,
+          },
+        );
+
+        const dispatch = sinon.spy();
+
+        await actionCreator(dispatch);
+
+        expect(global.fetch.called).to.be.true;
+        expect(dispatch.calledTwice).to.be.true;
+
+        // expect GA events to be called
+        expect(recordEvent.firstCall.args[0]).to.be.deep.equal({
+          event: 'api_call',
+          'api-name': 'PUT /profile/direct_deposits/disability_compensations',
+          'api-status': 'started',
+        });
+
+        expect(recordEvent.secondCall.args[0]).to.be.deep.equal({
+          event: 'api_call',
+          'api-name': 'PUT /profile/direct_deposits/disability_compensations',
+          'api-status': 'successful',
+        });
       });
-    }
-  });
-
-  // testing for -update
-  Object.values(LIGHTHOUSE_ERROR_KEYS).forEach(errorKey => {
-    testLighthouseFailure({ errorKey });
-  });
-
-  // testing for -enroll
-  Object.values(LIGHTHOUSE_ERROR_KEYS).forEach(errorKey => {
-    testLighthouseFailure({ errorKey, isEnrolling: true });
+    });
   });
 });

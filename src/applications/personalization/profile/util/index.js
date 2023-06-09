@@ -7,7 +7,7 @@ export * from './analytics';
 // error keys for profile/direct_deposits/disability_compensations endpoint
 // easier to export and use than importing one by one constants
 export const LIGHTHOUSE_ERROR_KEYS = {
-  ACCOUNT_FLAGGED_FOR_FRAUD: 'cnp.payment.accounting.number.fraud',
+  ACCOUNT_FLAGGED_FOR_FRAUD: 'cnp.payment.account.number.fraud',
   PAYMENT_RESTRICTIONS_PRESENT: 'cnp.payment.restriction.indicators.present',
   ROUTING_NUMBER_FLAGGED_FOR_FRAUD: 'cnp.payment.routing.number.fraud',
   ROUTING_NUMBER_INVALID: 'cnp.payment.routing.number.invalid.checksum',
