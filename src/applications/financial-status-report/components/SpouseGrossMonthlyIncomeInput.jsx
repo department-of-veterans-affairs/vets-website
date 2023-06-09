@@ -69,6 +69,13 @@ const SpouseGrossMonthlyIncomeInput = props => {
 
   const updateFormData = e => {
     e.preventDefault();
+
+    if (!grossMonthlyIncome.value) {
+      setIncomeError(true);
+      setNewGrossMonthlyIncome(e);
+      return;
+    }
+
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
       const updatedRecords = employmentRecords.map((item, arrayIndex) => {
@@ -122,9 +129,6 @@ const SpouseGrossMonthlyIncomeInput = props => {
       </h3>
       <p className="vads-u-margin-bottom--0">
         What’s your spouse’s gross <strong>monthly</strong> income at this job?{' '}
-        <span className="required vads-u-color--secondary-dark">
-          (*Required)
-        </span>
       </p>
       <p className="formfield-subtitle">
         You’ll find this in your spouse’s pay stub. It’s the amount of your

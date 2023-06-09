@@ -70,6 +70,16 @@ const EmploymentRecord = props => {
     },
     onCancel: event => {
       event.preventDefault();
+      setFormData({
+        ...data,
+        personalData: {
+          ...data.personalData,
+          employmentHistory: {
+            ...data.personalData.employmentHistory,
+            newRecord: { ...defaultRecord },
+          },
+        },
+      });
       if (editIndex === null) {
         goToPath('/enhanced-spouse-employment-question');
         return;

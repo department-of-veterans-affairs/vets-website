@@ -70,9 +70,9 @@ const EmploymentRecord = props => {
 
     if (!employmentRecord.employerName) {
       setEmployerNameError(true);
-    } else {
-      setEmployerNameError(false);
+      return;
     }
+    setEmployerNameError(false);
 
     if (
       !employmentRecord.type ||
@@ -125,7 +125,17 @@ const EmploymentRecord = props => {
     },
     onCancel: event => {
       event.preventDefault();
-      if (editIndex === null) {
+      setFormData({
+        ...data,
+        personalData: {
+          ...data.personalData,
+          employmentHistory: {
+            ...data.personalData.employmentHistory,
+            newRecord: { ...defaultRecord },
+          },
+        },
+      });
+      if (editIndex === null && employmentRecords.length === 0) {
         goToPath('/employment-question');
         return;
       }

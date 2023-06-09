@@ -21,7 +21,7 @@ const GrossMonthlyIncomeInput = props => {
     personalData: {
       employmentHistory: {
         newRecord = {},
-        spouse: { employmentRecords = [] },
+        veteran: { employmentRecords = [] },
       },
     },
   } = formData;
@@ -70,6 +70,12 @@ const GrossMonthlyIncomeInput = props => {
 
   const updateFormData = e => {
     e.preventDefault();
+    if (!grossMonthlyIncome.value) {
+      setIncomeError(true);
+      setNewGrossMonthlyIncome(e);
+      return;
+    }
+
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
       const updatedRecords = employmentRecords.map((item, arrayIndex) => {
@@ -131,6 +137,7 @@ const GrossMonthlyIncomeInput = props => {
         You’ll find this in your pay stub. It’s the amount of your pay before
         taxes and deductions.
       </p>
+      <br />
       <div className="input-size-2 input vads-u-margin-top--neg3">
         <va-number-input
           inputmode="numeric"
