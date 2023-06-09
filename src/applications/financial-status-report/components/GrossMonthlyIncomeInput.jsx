@@ -142,6 +142,7 @@ const GrossMonthlyIncomeInput = props => {
         onInput={setNewGrossMonthlyIncome}
         type="text"
         value={grossMonthlyIncome.value}
+        required
         width="md"
         error={
           incomeError && grossMonthlyIncome.dirty
