@@ -5,20 +5,27 @@ import { connect, useSelector } from 'react-redux';
 import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
 
 const content = {
-  headlineText: 'You’ve successfully submitted your application',
-  nextStepsText:
-    'Once we’ve reviewed your submission, a coordinator will contact you to discuss next steps.',
+  headlineText: 'Thank you for submitting your authorization',
+  nextStepsText: (
+    <span>
+      If you change your mind and want to cancel your authorization, tell us
+      online through <a href="https://ask.va.gov/">Ask VA</a>. Or call us at{' '}
+      <va-telephone contact="8008271000" />.
+    </span>
+  ),
 };
 
 export const ConfirmationPage = () => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
-  const fullName = { first: 'John', middle: 'M', last: 'Doe', suffix: 'Jr.' };
+  const fullName = form.data?.veteranFullName;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
   return (
     <ConfirmationPageView
+      formType="authorization"
+      submitterHeader="Submitter"
       submitterName={fullName}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
