@@ -58,6 +58,7 @@ const ConfirmablePage = ({
     <Wrapper
       pageTitle={header}
       classNames="confirmable-page"
+      eyebrow={t('check-in')}
       withBackButton={withBackButton}
     >
       {subtitle && (
@@ -128,6 +129,7 @@ ConfirmablePage.propTypes = {
   header: PropTypes.string.isRequired,
   noAction: PropTypes.func.isRequired,
   yesAction: PropTypes.func.isRequired,
+  eyebrow: PropTypes.string,
   pageType: PropTypes.string,
   router: PropTypes.object,
   subtitle: PropTypes.string,

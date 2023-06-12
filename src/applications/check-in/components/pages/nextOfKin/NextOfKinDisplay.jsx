@@ -52,6 +52,7 @@ export default function NextOfKinDisplay({
     <>
       <ConfirmablePage
         header={header || t('is-this-your-current-next-of-kin-information')}
+        eyebrow={t('check-in')}
         subtitle={subtitle}
         dataFields={nextOfKinFields}
         data={nextOfKin}

@@ -16,6 +16,15 @@ describe('pre-check-in experience', () => {
         );
         expect(getByText('Is this your current emergency contact?')).to.exist;
       });
+      it('renders custom header with eyebrow', () => {
+        const { getByTestId } = render(
+          <CheckInProvider>
+            <EmergencyContactDisplay header="foo" eyebrow="Check-In" />
+          </CheckInProvider>,
+        );
+
+        expect(getByTestId('header')).to.contain.text('Check-In foo');
+      });
 
       it('renders emergency contact data', () => {
         const emergencyContact = {

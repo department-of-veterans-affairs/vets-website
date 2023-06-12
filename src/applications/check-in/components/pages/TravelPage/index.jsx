@@ -48,7 +48,12 @@ const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
         action={goToPreviousPage}
         prevUrl={getPreviousPageFromRouter()}
       />
-      <Wrapper pageTitle={header} classNames="travel-page" withBackButton>
+      <Wrapper
+        pageTitle={header}
+        classNames="travel-page"
+        eyebrow={t('check-in')}
+        withBackButton
+      >
         {bodyText && (
           <div
             data-testid="body-text"

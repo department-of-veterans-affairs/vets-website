@@ -36,6 +36,7 @@ export default function EmergencyContactDisplay({
     <>
       <ConfirmablePage
         header={t('is-this-your-current-emergency-contact')}
+        eyebrow={t('check-in')}
         dataFields={dataFields}
         data={emergencyContact}
         yesAction={yesAction}

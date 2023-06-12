@@ -44,6 +44,7 @@ export default function DemographicsDisplay({
     <>
       <ConfirmablePage
         header={header || t('is-this-your-current-contact-information')}
+        eyebrow={t('check-in')}
         subtitle={subtitle}
         dataFields={demographicFields}
         data={demographics}
