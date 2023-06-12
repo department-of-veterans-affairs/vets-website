@@ -93,10 +93,11 @@ const AttachmentsList = props => {
                     }}
                   >
                     <i
+                      role="img"
                       aria-labelledby="has-attachment"
                       className="fas fa-paperclip"
                       aria-hidden="true"
-                      alt="Has attachment"
+                      alt="Attachment icon"
                     />
                     <span id="has-attachment" ref={attachmentReference}>
                       {file.name}

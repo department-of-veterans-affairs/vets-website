@@ -83,6 +83,7 @@ const ThreadListItem = props => {
           (unreadMessages && (
             <span>
               <i
+                role="img"
                 className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
                 data-testid="thread-list-unread-icon"
                 alt="Unread message"
@@ -146,12 +147,12 @@ const ThreadListItem = props => {
 
         <p className="received-date vads-u-margin-y--0p5">
           {hasAttachment && (
-            <span
+            <i
               role="img"
               aria-labelledby={`message-link-has-attachment-${messageId}`}
-            >
-              <i className={attachmentClasses} alt="Has attachment" />
-            </span>
+              className={attachmentClasses}
+              alt="Attachment icon"
+            />
           )}
           <span>{formattedDate()}</span>
         </p>
