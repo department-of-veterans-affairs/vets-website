@@ -146,7 +146,10 @@ const ThreadListItem = props => {
 
         <p className="received-date vads-u-margin-y--0p5">
           {hasAttachment && (
-            <span aria-labelledby={`message-link-has-attachment-${messageId}`}>
+            <span
+              role="img"
+              aria-labelledby={`message-link-has-attachment-${messageId}`}
+            >
               <i className={attachmentClasses} alt="Has attachment" />
             </span>
           )}
