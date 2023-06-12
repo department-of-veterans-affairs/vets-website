@@ -17,7 +17,7 @@ import { getFirstCanceledAppointment } from '../../../utils/appointment';
 const getPdf = e => {
   e.preventDefault();
 
-  generatePdf('medical_records', 'lab_and_test_results', {
+  generatePdf('medicalRecords', 'lab_and_test_results', {
     headerLeft: 'Roberts, Jesse',
     headerRight: 'Date of birth: March 15, 1982',
     headerBanner: [
@@ -319,7 +319,7 @@ const getPdf = e => {
 const getVaccinePdf = e => {
   e.preventDefault();
 
-  generatePdf('medical_records', 'vaccines', {
+  generatePdf('medicalRecords', 'vaccines', {
     headerLeft: 'Roberts, Jesse',
     headerRight: 'Date of birth: March 15, 1982',
     headerBanner: [
@@ -369,7 +369,7 @@ const getVaccinePdf = e => {
 const getVitalsPdf = e => {
   e.preventDefault();
 
-  generatePdf('medical_records', 'vitals', {
+  generatePdf('medicalRecords', 'vitals', {
     headerLeft: 'Roberts, Jesse',
     headerRight: 'Date of birth: March 15, 1982',
     headerBanner: [
@@ -483,7 +483,7 @@ const getVitalsPdf = e => {
 const getSingleVitalPdf = e => {
   e.preventDefault();
 
-  generatePdf('medical_records', 'single_vital', {
+  generatePdf('medicalRecords', 'single_vital', {
     headerLeft: 'Roberts, Jesse',
     headerRight: 'Date of birth: March 15, 1982',
     headerBanner: [
@@ -601,7 +601,7 @@ LDL, DIRECT No CBC Panel Found
 Nurse Practitioner - Women's Health Clinic
 Signed: 07/19/2022 21:42`;
 
-  generatePdf('medical_records', 'progress_note', {
+  generatePdf('medicalRecords', 'progress_note', {
     headerLeft: 'Roberts, Jesse',
     headerRight: 'Date of birth: March 15, 1982',
     headerBanner: [
