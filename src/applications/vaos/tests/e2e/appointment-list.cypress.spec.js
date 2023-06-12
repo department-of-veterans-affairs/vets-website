@@ -583,6 +583,8 @@ describe('VAOS appointment list', () => {
       mockUserTransitionAvailabilities();
     });
 
+    // TODO: Verify business rule: Should 30 days or 1 month (which could be 31 days)
+    // be subtracted from the current date.
     it('should render canceled appointments list', () => {
       const data = [
         {

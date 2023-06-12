@@ -58,12 +58,6 @@ export function getRequestLimits(facilityIds, typeOfCareId) {
   return apiRequestWithUrl(url).then(parseApiList);
 }
 
-export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
-  return apiRequestWithUrl(
-    `/vaos/v0/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${systemId}`,
-  ).then(parseApiList);
-}
-
 export function getFacilityInfo(facilityId) {
   return apiRequestWithUrl(
     `/v1/facilities/va/vha_${getStagingId(facilityId)}`,
