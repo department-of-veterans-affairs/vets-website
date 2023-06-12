@@ -84,7 +84,7 @@ const BenefitsForm = ({
     if (field === 'giBillChapter' && value === '33a') {
       setWhatsYourMilitaryStatusDropDown(POST_911_ARRAY);
       eligibilityChangeRedux({ militaryStatus: VETERAN });
-      setWhatsYourStatusLabel(WHAT_IS_YOUR_DEPENDENT_STATUS);
+      setWhatsYourStatusLabel(WHAT_IS_YOUR_MILITARY_STATUS);
     } else if (field === 'giBillChapter' && value === '33b') {
       setWhatsYourMilitaryStatusDropDown(FRY_SCHOLARSHIP_ARRAY);
       eligibilityChangeRedux({ militaryStatus: SPOUSE });
