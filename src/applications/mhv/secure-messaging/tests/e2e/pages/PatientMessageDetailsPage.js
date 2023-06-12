@@ -428,6 +428,41 @@ class PatientMessageDetailsPage {
         expect($mbody.text()).to.contain(messageBody);
       });
   };
+
+  MoveMessageWithAttachement = (
+    mockMessagewithAttachment,
+    mockThreadwithAttachment,
+  ) => {
+    cy.intercept(
+      'PATCH',
+      `/my_health/v1/messaging/threads/${
+        mockThreadwithAttachment.data.at(0).attributes.threadId
+      }/move?folder_id=-3`,
+      mockMessagewithAttachment,
+    ).as('moveMessagewithAttachment');
+    cy.tabToElement('[data-testid="move-to-modal"]')
+      .shadow()
+      .find('button')
+      .contains('Confirm')
+      .should('have.focus')
+      .realPress(['Enter']);
+  };
+
+  MoveToMessagesFolder = mockMessages => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
+      mockMessages,
+    ).as('messagesFolder');
+    cy.get('[data-testid="move-button-text"]').click({ force: true });
+    cy.tabToElement('[data-testid="move-to-modal"]')
+      .should('have.focus')
+      .find('[class = "form-radio-buttons hydrated"]', {
+        includeShadowDom: true,
+      })
+      .find('[id = "radiobutton-Deleted"]', { includeShadowDom: true })
+      .type('{enter}');
+  };
 }
 
 export default PatientMessageDetailsPage;

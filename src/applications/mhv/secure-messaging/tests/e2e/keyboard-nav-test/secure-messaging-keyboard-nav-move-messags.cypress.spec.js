@@ -16,37 +16,16 @@ describe('keyboard nav Move Message ', () => {
     mockMessagewithAttachment.data.attributes.attachment = true;
     mockMessagewithAttachment.data.attributes.body = 'attachment';
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
-      mockMessages,
-    ).as('messagesFolder');
-    cy.intercept(
-      'PATCH',
-      `/my_health/v1/messaging/threads/${
-        mockThreadwithAttachment.data.at(0).attributes.threadId
-      }/move?folder_id=-3`,
-      mockMessagewithAttachment,
-    ).as('moveMessagewithAttachment');
     cy.get('[data-testid="inbox-sidebar"] > a').type('{enter}');
     messageDetailsPage.loadMessageDetails(
       mockMessagewithAttachment,
       mockThreadwithAttachment,
     );
-    cy.get('[data-testid="move-button-text"]').click({ force: true });
-    cy.tabToElement('[data-testid="move-to-modal"]')
-      .should('have.focus')
-      .find('[class = "form-radio-buttons hydrated"]', {
-        includeShadowDom: true,
-      })
-      .find('[id = "radiobutton-Deleted"]', { includeShadowDom: true })
-      .type('{enter}');
-    cy.tabToElement('[data-testid="move-to-modal"]')
-      .shadow()
-      .find('button')
-      .contains('Confirm')
-      .should('have.focus')
-      .realPress(['Enter']);
+    messageDetailsPage.MoveToMessagesFolder(mockMessages);
+    messageDetailsPage.MoveMessageWithAttachement(
+      mockMessagewithAttachment,
+      mockThreadwithAttachment,
+    );
     cy.wait('@moveMessagewithAttachment');
     cy.injectAxe();
     cy.axeCheck();
