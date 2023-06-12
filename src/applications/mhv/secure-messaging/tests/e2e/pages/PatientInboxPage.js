@@ -401,13 +401,14 @@ class PatientInboxPage {
       .type('testMessage');
   };
 
-  saveDraft = () => {
+  saveDraftByKeyboard = () => {
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/message_drafts',
       mockDraftResponse,
     ).as('draft_message');
-    cy.get('[data-testid="Save-Draft-Button"]').click();
+    cy.tabToElement('[data-testid="Save-Draft-Button"]');
+    cy.realPress('Enter');
     cy.wait('@draft_message').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });

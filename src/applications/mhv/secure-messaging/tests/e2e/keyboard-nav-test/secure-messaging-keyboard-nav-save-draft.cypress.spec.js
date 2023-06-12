@@ -11,7 +11,7 @@ describe('Check confirmation message after save draft', () => {
     inboxPage.composeDraft();
     // cy.axeCheck;
     cy.injectAxe();
-    inboxPage.saveDraft();
+    inboxPage.saveDraftByKeyboard();
     cy.get('.last-save-time').should('be.visible');
     cy.get('.last-save-time').should('be.focused');
   });
