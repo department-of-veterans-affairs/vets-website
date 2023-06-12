@@ -364,8 +364,8 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
   }
 
   if (questions.spouseIsEmployed) {
-    const { employmentRecords } = employmentHistory.spouse;
-    const spouseEmploymentHistory = employmentRecords.map(employment => ({
+    const { spEmploymentRecords } = employmentHistory.spouse;
+    const spouseEmploymentHistory = spEmploymentRecords.map(employment => ({
       ...defaultObj,
       veteranOrSpouse: 'SPOUSE',
       occupationName: employment.type,
