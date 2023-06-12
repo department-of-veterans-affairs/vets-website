@@ -95,7 +95,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
             ...formData.personalData.employmentHistory,
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
-              employmentRecords: updatedRecords,
+              spEmploymentRecords: updatedRecords,
             },
           },
         },
