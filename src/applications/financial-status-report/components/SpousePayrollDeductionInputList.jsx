@@ -3,14 +3,7 @@ import { useSelector, connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
-
-const defaultRecord = {
-  type: '',
-  from: '',
-  to: '',
-  isCurrent: false,
-  employerName: '',
-};
+import { BASE_EMPLOYMENT_RECORD } from '../constants/index';
 
 const SpousePayrollDeductionInputList = props => {
   const { goToPath, goBack, onReviewPage, setFormData } = props;
@@ -93,7 +86,7 @@ const SpousePayrollDeductionInputList = props => {
           ...formData.personalData,
           employmentHistory: {
             ...formData.personalData.employmentHistory,
-            newRecord: { ...defaultRecord },
+            newRecord: { ...BASE_EMPLOYMENT_RECORD },
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
               employmentRecords: [

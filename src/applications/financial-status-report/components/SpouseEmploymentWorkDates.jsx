@@ -5,14 +5,7 @@ import { VaDate } from '@department-of-veterans-affairs/component-library/dist/r
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
-
-const defaultRecord = {
-  type: '',
-  from: '',
-  to: '',
-  isCurrent: false,
-  employerName: '',
-};
+import { BASE_EMPLOYMENT_RECORD } from '../constants/index';
 
 const SpouseEmploymentWorkDates = props => {
   const { goToPath, onReviewPage, setFormData, data } = props;
@@ -99,7 +92,7 @@ const SpouseEmploymentWorkDates = props => {
           ...data.personalData,
           employmentHistory: {
             ...data.personalData.employmentHistory,
-            newRecord: { ...defaultRecord },
+            newRecord: { ...BASE_EMPLOYMENT_RECORD },
             [`${userType}`]: {
               ...data.personalData.employmentHistory[`${userType}`],
               employmentRecords: [

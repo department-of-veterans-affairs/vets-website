@@ -7,14 +7,7 @@ import {
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getJobIndex } from '../utils/session';
-
-const defaultRecord = {
-  type: '',
-  from: '',
-  to: '',
-  isCurrent: false,
-  employerName: '',
-};
+import { BASE_EMPLOYMENT_RECORD } from '../constants/index';
 
 const RETURN_PATH = '/employment-history';
 
@@ -31,7 +24,7 @@ const EmploymentRecord = props => {
     personalData: {
       employmentHistory: {
         veteran: { employmentRecords = [] },
-        newRecord = { ...defaultRecord },
+        newRecord = { ...BASE_EMPLOYMENT_RECORD },
       },
     },
   } = data;
@@ -131,7 +124,7 @@ const EmploymentRecord = props => {
           ...data.personalData,
           employmentHistory: {
             ...data.personalData.employmentHistory,
-            newRecord: { ...defaultRecord },
+            newRecord: { ...BASE_EMPLOYMENT_RECORD },
           },
         },
       });

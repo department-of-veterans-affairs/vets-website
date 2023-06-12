@@ -5,14 +5,7 @@ import { payrollDeductionOptions } from '../constants/checkboxSelections';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
 import Checklist from './shared/CheckList';
-
-const defaultRecord = {
-  type: '',
-  from: '',
-  to: '',
-  isCurrent: false,
-  employerName: '',
-};
+import { BASE_EMPLOYMENT_RECORD } from '../constants/index';
 
 const PayrollDeductionChecklist = props => {
   const { goToPath, goBack, onReviewPage, setFormData } = props;
@@ -104,7 +97,7 @@ const PayrollDeductionChecklist = props => {
           ...formData.personalData,
           employmentHistory: {
             ...formData.personalData.employmentHistory,
-            newRecord: { ...defaultRecord },
+            newRecord: { ...BASE_EMPLOYMENT_RECORD },
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
               employmentRecords: [
