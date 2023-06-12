@@ -15,15 +15,26 @@ export default {
           Who is submitting this authorization?
         </span>
       ),
+      'ui:description': 'Select the description that fits you.',
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
-          [AUTHORIZER_TYPES.VETERAN]:
-            'I’m a Veteran authorizing the VA submitting on my own behalf',
+          [AUTHORIZER_TYPES.VETERAN]: 'I’m a Veteran with an existing claim',
           [AUTHORIZER_TYPES.NON_VETERAN]:
-            'I’m a non-Veteran beneficiary or claimant submitting on behalf of a Veteran',
+            'I’m the spouse, dependent, survivor, or caregiver of a Veteran, and I have an existing claim',
         },
       },
+    },
+    'view:note': {
+      'ui:description': () => (
+        <p>
+          <strong>Note: </strong>
+          You can authorize the release of only your own information with this
+          online form. If you're a court-ordered or VA-appointed fiduciary
+          representing a beneficiary, you'll need to download the PDF version of
+          this form. Then submit it in person or by mail.
+        </p>
+      ),
     },
   },
   schema: {
@@ -33,6 +44,10 @@ export default {
       authorizerType: {
         type: 'string',
         enum: [AUTHORIZER_TYPES.VETERAN, AUTHORIZER_TYPES.NON_VETERAN],
+      },
+      'view:note': {
+        type: 'object',
+        properties: {},
       },
     },
   },
