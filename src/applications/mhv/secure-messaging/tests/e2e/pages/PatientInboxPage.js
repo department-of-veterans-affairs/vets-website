@@ -7,8 +7,8 @@ import mockSpecialCharsMessage from '../fixtures/message-response-specialchars.j
 import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
-import mockSaveDraft from '../fixtures/message-save-draft-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
+import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -402,9 +402,15 @@ class PatientInboxPage {
   };
 
   saveDraft = () => {
-    cy.intercept('POST', '/my_health/v1/messaging/message_drafts', {
-      mockSaveDraft,
-    }).as('savedDraft');
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/message_drafts',
+      mockDraftResponse,
+    ).as('draft_message');
+    cy.get('[data-testid="Save-Draft-Button"]').click();
+    cy.wait('@draft_message').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
   };
 }
 
