@@ -236,7 +236,7 @@ const mapStateToProps = state => {
     // to showing the loading indicator _after_ the useEffect hooks have run and
     // API requests have started.
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
-    unreadMessagesCount: selectUnreadCount(state).count || 0,
+    unreadMessagesCount: selectUnreadCount(state)?.count || 0,
     facilityNames: selectUserCernerFacilityNames(state),
   };
 };
