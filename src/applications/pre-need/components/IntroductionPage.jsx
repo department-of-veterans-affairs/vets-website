@@ -45,16 +45,6 @@ class IntroductionPage extends React.Component {
             startText="Start the pre-need eligibility application"
           />
         )}
-        <SaveInProgressIntro
-          headingLevel={2}
-          verifyRequiredPrefill={
-            this.props.route.formConfig.verifyRequiredPrefill
-          }
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Start the pre-need eligibility application"
-        />
         <h2 className="vads-u-font-size--h3">
           Follow the steps below to apply for a pre-need eligibility
           determination
