@@ -105,12 +105,10 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     );
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442',
+        id: '983',
         lat: 38.5615,
         long: 122.9988,
-        version: 0,
       }),
-      version: 0,
     });
     mockSchedulingConfigurations(
       [

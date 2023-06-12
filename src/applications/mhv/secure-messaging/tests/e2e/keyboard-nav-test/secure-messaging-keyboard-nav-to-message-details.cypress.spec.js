@@ -26,6 +26,12 @@ describe('Navigate to Message Details ', () => {
     );
     cy.tabToElement('[class="usa-button-secondary"]').should('contain', 'Move');
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

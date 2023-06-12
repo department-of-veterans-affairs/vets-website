@@ -64,23 +64,6 @@ export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
   ).then(parseApiList);
 }
 
-export function getFacilityInfo(facilityId) {
-  return apiRequestWithUrl(
-    `/v1/facilities/va/vha_${getStagingId(facilityId)}`,
-  ).then(parseApiObject);
-}
-
-export function getFacilitiesInfo(facilityIds) {
-  const idList = facilityIds
-    .map(getStagingId)
-    .map(id => `vha_${id}`)
-    .join(',');
-
-  return apiRequestWithUrl(
-    `/v1/facilities/va?ids=${idList}&per_page=${facilityIds.length}`,
-  ).then(parseApiList);
-}
-
 export function getCommunityCareFacilities({
   latitude,
   longitude,

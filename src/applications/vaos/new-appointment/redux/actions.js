@@ -234,18 +234,14 @@ export function startRequestAppointmentFlow(isCommunityCare) {
 export function fetchFacilityDetails(facilityId) {
   let facilityDetails;
 
-  return async (dispatch, getState) => {
+  return async dispatch => {
     dispatch({
       type: FORM_FETCH_FACILITY_DETAILS,
     });
-    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-      getState(),
-    );
 
     try {
       facilityDetails = await getLocation({
         facilityId,
-        useV2: featureFacilitiesServiceV2,
       });
     } catch (error) {
       facilityDetails = null;
