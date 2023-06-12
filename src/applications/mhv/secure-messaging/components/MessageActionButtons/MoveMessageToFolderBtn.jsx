@@ -43,8 +43,8 @@ const MoveMessageToFolderBtn = props => {
     setFolderInputError(null);
   };
 
-  const handleOnChangeFolder = ({ target }) => {
-    setSelectedFolder(target.value);
+  const handleOnChangeFolder = ({ detail }) => {
+    setSelectedFolder(detail.value);
   };
 
   const handleConfirmMoveFolderTo = () => {
@@ -117,7 +117,7 @@ const MoveMessageToFolderBtn = props => {
             required
             enable-analytics
             error={folderInputError}
-            onRadioOptionSelected={handleOnChangeFolder}
+            onVaValueChange={handleOnChangeFolder}
           >
             {updatedFoldersList &&
               updatedFoldersList.map((folder, i) => (

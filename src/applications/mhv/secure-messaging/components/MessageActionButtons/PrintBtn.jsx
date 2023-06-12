@@ -34,10 +34,10 @@ const PrintBtn = props => {
     setIsModalVisible(false);
   };
 
-  const handleOnChangePrintOption = ({ target }) => {
-    setPrintOption(target.value);
+  const handleOnChangePrintOption = ({ detail }) => {
+    setPrintOption(detail.value);
     setPrintSelectError(
-      target.value ? null : 'Please select an option to print.',
+      detail.value ? null : 'Please select an option to print.',
     );
   };
 
@@ -71,7 +71,7 @@ const PrintBtn = props => {
               className="form-radio-buttons"
               enable-analytics
               error={printSelectError}
-              onRadioOptionSelected={handleOnChangePrintOption}
+              onVaValueChange={handleOnChangePrintOption}
             >
               <VaRadioOption
                 data-testid="radio-print-one-message"
