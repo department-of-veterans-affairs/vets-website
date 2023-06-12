@@ -8,11 +8,14 @@ describe('Check confirmation message after save draft', () => {
     site.login();
     inboxPage.loadInboxMessages();
     inboxPage.loadComposeMessagePage();
-    inboxPage.composeDraft();
-    // cy.axeCheck;
+    inboxPage.composeDraftByKeyboard();
+    // cy.axeCheck();
     cy.injectAxe();
     inboxPage.saveDraftByKeyboard();
-    cy.get('.last-save-time').should('be.visible');
+    // next line is for checking if assertion works properly
+    cy.get('#save-draft-button')
+      .should('exist')
+      .and('be.focused');
     cy.get('.last-save-time').should('be.focused');
   });
 });
