@@ -138,6 +138,9 @@ describe('getContestableIssues', () => {
     };
     expect(getContestableIssues(formData)).to.deep.equal([issue2.result]);
   });
+  it('should return empty array', () => {
+    expect(getContestableIssues()).to.deep.equal([]);
+  });
 });
 
 describe('addIncludedIssues', () => {
