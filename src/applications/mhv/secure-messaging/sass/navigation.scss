@@ -100,13 +100,11 @@
   }
 }
 @media (max-width: $medium-screen) {
-  .va-btn-sidebarnav-trigger {
+  .button-wrapper {
+    position: static !important;
     z-index: 0;
-    .button-wrapper {
-      position: static;
-      padding: 0px;
-    }
   }
+
   .sidebar-navigation {
     padding: 0px;
     width: 264px;

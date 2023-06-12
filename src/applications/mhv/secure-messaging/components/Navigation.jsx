@@ -82,13 +82,6 @@ const Navigation = () => {
         label: 'My folders',
         datatestid: 'my-folders-sidebar',
       },
-
-      /* Hidden from sidenav view; will implement in SM Home later */
-      // {
-      //   path: '/faq',
-      //   label: 'Messages FAQ',
-      //   datatestid: 'messages-faq-sidebar',
-      // },
     ];
   };
 
@@ -159,7 +152,7 @@ const Navigation = () => {
               <button
                 ref={closeMenuButtonRef}
                 className="va-btn-close-icon vads-u-margin--0p5 vads-u-padding--2p5 vads-u-margin-right--2"
-                aria-label="Close-this-menu"
+                aria-label="Close navigation menu"
                 aria-expanded="true"
                 aria-controls="a1"
                 onClick={closeNavigation}
