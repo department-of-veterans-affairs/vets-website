@@ -77,6 +77,7 @@ const MessageThreadItem = props => {
       {!isRead && (
         <i
           role="img"
+          aria-label="Unread message"
           data-testid="unread-icon"
           className="vads-u-color--primary vads-u-padding--0p25 vads-u-margin-right--1 fas fa-solid fa-circle fa-xs"
           slot="icon"
