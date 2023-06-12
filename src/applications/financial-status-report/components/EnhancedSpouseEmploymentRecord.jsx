@@ -80,7 +80,7 @@ const EmploymentRecord = props => {
           },
         },
       });
-      if (editIndex === null) {
+      if (editIndex === null && employmentRecords.length === 0) {
         goToPath('/enhanced-spouse-employment-question');
         return;
       }
