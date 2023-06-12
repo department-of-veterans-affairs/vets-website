@@ -9,7 +9,7 @@ const content = {
   formTitle: 'Request to be a substitute claimant',
   formSubTitle:
     'Request for substitution of claimant upon death of claimant (VA Form 21P-0847)',
-  authStartFormText: 'Start the request',
+  authStartFormText: 'Start your request to be a substitute claimant',
   unauthStartText: 'Sign in to start your request',
   saveInProgressText:
     'Please complete the 21P-0847 form to apply for substitute claimant.',
@@ -76,7 +76,7 @@ export const IntroductionPage = ({ route }) => {
         prefillEnabled={route.formConfig.prefillEnabled}
         messages={route.formConfig.savedFormMessages}
         pageList={route.pageList}
-        startText="Start the request"
+        startText="Start your request to be a substitute claimant"
       />
     </>
   );
