@@ -4,7 +4,7 @@ import moment from 'moment';
 import { first, includes, last, split, toLower } from 'lodash';
 import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../constants';
 import UrgentCareAlert from '../containers/UrgentCareAlert';
-import { recordMarkerEvents } from '../utils/analytics';
+import { recordMarkerEvents } from './analytics';
 
 // https://stackoverflow.com/a/50171440/1000622
 export const setFocus = (selector, tabIndexInclude = true) => {
@@ -175,6 +175,11 @@ export const formatOperatingHours = operatingHours => {
     sanitizedOperatingHours.search(/Sunrise-Sunset/i) === 0 ||
     sanitizedOperatingHours.search(/Sunrise-Sundown/i) === 0
   ) {
+    return operatingHours;
+  }
+
+  // If there are multiple time ranges, such as for lunch hours
+  if (split(sanitizedOperatingHours, '-').length >= 3) {
     return operatingHours;
   }
 
