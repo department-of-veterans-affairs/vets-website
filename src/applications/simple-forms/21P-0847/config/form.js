@@ -38,11 +38,13 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '21P-0847',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your substitute claimant application (21P-0847) is in progress.',
-    //   expired: 'Your saved substitute claimant application (21P-0847) has expired. If you want to apply for substitute claimant, please start a new application.',
-    //   saved: 'Your substitute claimant application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your substitute claimant application (21P-0847) is in progress.',
+      expired:
+        'Your saved substitute claimant application (21P-0847) has expired. If you want to apply for substitute claimant, please start a new application.',
+      saved: 'Your substitute claimant application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
