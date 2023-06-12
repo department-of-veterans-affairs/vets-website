@@ -429,7 +429,7 @@ class PatientMessageDetailsPage {
       });
   };
 
-  MoveMessageWithAttachement = (
+  KeyboardMoveMessage = (
     mockMessagewithAttachment,
     mockThreadwithAttachment,
   ) => {
@@ -446,22 +446,13 @@ class PatientMessageDetailsPage {
       .contains('Confirm')
       .should('have.focus')
       .realPress(['Enter']);
-  };
-
-  MoveToMessagesFolder = mockMessages => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
-      mockMessages,
-    ).as('messagesFolder');
-    cy.get('[data-testid="move-button-text"]').click({ force: true });
-    cy.tabToElement('[data-testid="move-to-modal"]')
-      .should('have.focus')
-      .find('[class = "form-radio-buttons hydrated"]', {
-        includeShadowDom: true,
-      })
-      .find('[id = "radiobutton-Deleted"]', { includeShadowDom: true })
-      .type('{enter}');
+    cy.wait('@moveMessagewithAttachment')
+      .its('response')
+      .then(response => {
+        cy.log(JSON.stringify(response));
+        expect(response.body.data.id).to.include('7192838');
+        expect(response.statusCode).to.eq(200);
+      });
   };
 }
 

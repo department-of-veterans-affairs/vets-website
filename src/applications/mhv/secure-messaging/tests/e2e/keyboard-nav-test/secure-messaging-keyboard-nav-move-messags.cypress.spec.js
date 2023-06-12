@@ -21,21 +21,25 @@ describe('keyboard nav Move Message ', () => {
       mockMessagewithAttachment,
       mockThreadwithAttachment,
     );
-    messageDetailsPage.MoveToMessagesFolder(mockMessages);
-    messageDetailsPage.MoveMessageWithAttachement(
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
+      mockMessages,
+    ).as('messagesFolder');
+    cy.get('[data-testid="move-button-text"]').click({ force: true });
+    cy.tabToElement('[data-testid="move-to-modal"]')
+      .should('have.focus')
+      .find('[class = "form-radio-buttons hydrated"]', {
+        includeShadowDom: true,
+      })
+      .find('[id = "radiobutton-Deleted"]', { includeShadowDom: true })
+      .type('{enter}');
+    messageDetailsPage.KeyboardMoveMessage(
       mockMessagewithAttachment,
       mockThreadwithAttachment,
     );
-    cy.wait('@moveMessagewithAttachment');
     cy.injectAxe();
     cy.axeCheck();
     landingPage.verifyMoveMessagewithAttachmentSuccessMessage();
-    cy.get('@moveMessagewithAttachment')
-      .its('response')
-      .then(response => {
-        cy.log(JSON.stringify(response));
-        expect(response.body.data.id).to.include('7192838');
-        expect(response.statusCode).to.eq(200);
-      });
   });
 });
