@@ -25,6 +25,26 @@ class IntroductionPage extends React.Component {
           Equal to VA Form 40-10007 (Application for Pre-Need Determination of
           Eligibility for Burial in a VA National Cemetery).
         </p>
+        {environment.isProduction() ? (
+          <SaveInProgressIntro
+            headingLevel={2}
+            prefillEnabled={this.props.route.formConfig.prefillEnabled}
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+            startText="Start the pre-need eligibility application"
+          />
+        ) : (
+          <SaveInProgressIntro
+            headingLevel={2}
+            verifyRequiredPrefill={
+              this.props.route.formConfig.verifyRequiredPrefill
+            }
+            prefillEnabled={this.props.route.formConfig.prefillEnabled}
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+            startText="Start the pre-need eligibility application"
+          />
+        )}
         <SaveInProgressIntro
           headingLevel={2}
           verifyRequiredPrefill={
