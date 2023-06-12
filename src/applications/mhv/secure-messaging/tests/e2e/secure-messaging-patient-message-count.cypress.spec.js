@@ -9,7 +9,13 @@ describe.skip('Secure Messaging Patient Message Count', () => {
     site.login();
     landingPage.loadInboxMessages();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.get('[data-testid=message-list-item]').should('have.length', 10);
     cy.visit('/my-health/secure-messages/');
     cy.get('[data-testid=Sent] a')

@@ -96,8 +96,8 @@ export const createIssueName = ({ attributes } = {}) => {
   }
 }]
 */
-export const getContestedIssues = ({ contestedIssues = [] }) =>
-  contestedIssues.filter(issue => issue[SELECTED]).map(issue => {
+export const getContestedIssues = ({ contestedIssues } = {}) =>
+  (contestedIssues || []).filter(issue => issue[SELECTED]).map(issue => {
     const attr = issue.attributes;
     const attributes = [
       'decisionIssueId',

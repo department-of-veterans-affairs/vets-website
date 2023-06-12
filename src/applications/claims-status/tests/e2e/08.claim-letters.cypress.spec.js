@@ -81,10 +81,10 @@ describe('Claim Letters Page', () => {
       cy.axeCheck();
     });
 
-    it('Displays a "No letters to show" message if there are no letters', () => {
+    it('Displays a "No claim letters" message if there are no letters', () => {
       cy.intercept('GET', '/v0/claim_letters', []);
 
-      cy.findByText(/No letters to show/i).should('exist');
+      cy.findByText(/No claim letters/i).should('exist');
 
       // List shouldn't show
       cy.get('ol').should('not.exist');

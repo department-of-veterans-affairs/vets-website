@@ -103,9 +103,8 @@ class FilesPage extends React.Component {
 
     documentsTurnedIn.push(...supportingDocuments);
     documentsTurnedIn.sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      return dateB - dateA; // Compare the dates in reverse order
+      if (a.date === b.date) return -1;
+      return a.date > b.date ? -1 : 1;
     });
 
     return (

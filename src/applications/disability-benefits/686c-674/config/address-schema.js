@@ -233,7 +233,14 @@ export const addressUISchema = (
         'ui:autocomplete': 'address-line1',
         'ui:errorMessages': {
           required: 'Street address is required',
-          pattern: 'Street address must be under 100 characters',
+          pattern: 'Street address must be 35 characters or less',
+        },
+        'ui:options': {
+          updateSchema: (formData, schema) => {
+            return Object.assign(schema, {
+              maxLength: 35,
+            });
+          },
         },
       },
       addressLine2: {
@@ -255,7 +262,7 @@ export const addressUISchema = (
         'ui:autocomplete': 'address-level2',
         'ui:errorMessages': {
           required: 'City is required',
-          pattern: 'City must be under 100 characters',
+          pattern: 'City must be 30 characters or less',
         },
         'ui:options': {
           replaceSchema: (formData, schema, uiSchema, index) => {
@@ -279,7 +286,7 @@ export const addressUISchema = (
               type: 'string',
               title: 'City',
               minLength: 1,
-              maxLength: 100,
+              maxLength: 30,
               pattern: '^.*\\S.*',
             };
           },

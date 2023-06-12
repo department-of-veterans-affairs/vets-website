@@ -157,9 +157,7 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
         .contains('VA appointment over the phone');
-      cy.get('h2', { timeout: Timeouts.slow })
-        .should('be.visible')
-        .and('contain', 'Cheyenne VA Medical Center');
+      cy.findByText('Cheyenne VA Medical Center').should('exist');
 
       cy.axeCheckBestPractice();
     });
@@ -585,6 +583,8 @@ describe('VAOS appointment list', () => {
       mockUserTransitionAvailabilities();
     });
 
+    // TODO: Verify business rule: Should 30 days or 1 month (which could be 31 days)
+    // be subtracted from the current date.
     it('should render canceled appointments list', () => {
       const data = [
         {

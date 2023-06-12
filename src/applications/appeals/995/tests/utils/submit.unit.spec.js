@@ -118,6 +118,9 @@ describe('getContestedIssues', () => {
     };
     expect(getContestedIssues(formData)).to.deep.equal([issue2.result]);
   });
+  it('should return empty array', () => {
+    expect(getContestedIssues()).to.deep.equal([]);
+  });
 });
 
 describe('removeEmptyEntries', () => {
