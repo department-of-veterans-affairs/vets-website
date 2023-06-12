@@ -217,7 +217,7 @@ const BenefitsForm = ({
                 </>
               )}
 
-              {giBillChapter === '33a' && (
+              {giBillChapter === '33b' && (
                 <>
                   <Dropdown
                     label="Are you currently an active duty service member?"
