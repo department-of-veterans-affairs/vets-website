@@ -7,8 +7,6 @@
  */
 
 import {
-  getFacilityInfo,
-  getFacilitiesInfo,
   getDirectBookingEligibilityCriteria,
   getRequestEligibilityCriteria,
   getCommunityCareFacilities,
@@ -18,8 +16,6 @@ import {
 } from '../var';
 import { mapToFHIRErrors } from '../utils';
 import {
-  transformFacilities,
-  transformFacility,
   setSupportedSchedulingMethods,
   transformCommunityProvider,
   transformCommunityProviders,
@@ -51,21 +47,11 @@ import { getRealFacilityId } from '../../utils/appointment';
  * @param {boolean} params.useV2 Use the VAOS v2 endpoints to get locations
  * @returns {Array<Location>} A FHIR searchset of Location resources
  */
-export async function getLocations({
-  facilityIds,
-  children = false,
-  useV2 = false,
-}) {
+export async function getLocations({ facilityIds, children = false }) {
   try {
-    if (useV2) {
-      const facilities = await getFacilities(facilityIds, children);
+    const facilities = await getFacilities(facilityIds, children);
 
-      return transformFacilitiesV2(facilities);
-    }
-
-    const facilities = await getFacilitiesInfo(facilityIds);
-
-    return transformFacilities(facilities);
+    return transformFacilitiesV2(facilities);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -85,17 +71,11 @@ export async function getLocations({
  * @param {boolean} locationParams.useV2 Use the VAOS v2 endpoints to get locations
  * @returns {Location} A FHIR Location resource
  */
-export async function getLocation({ facilityId, useV2 = false }) {
+export async function getLocation({ facilityId }) {
   try {
-    if (useV2) {
-      const facility = await getFacilityById(facilityId);
+    const facility = await getFacilityById(facilityId);
 
-      return transformFacilityV2(facility);
-    }
-
-    const facility = await getFacilityInfo(facilityId);
-
-    return transformFacility(facility);
+    return transformFacilityV2(facility);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -159,7 +139,6 @@ export async function getLocationsByTypeOfCareAndSiteIds({
     if (useV2) {
       locations = await getLocations({
         facilityIds: siteIds,
-        useV2,
         children: true,
       });
 

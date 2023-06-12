@@ -22,7 +22,7 @@ describe('VAOS appointment list', () => {
       vaosSetup();
 
       mockAppointmentRequestsApi();
-      mockFacilitiesApi({ apiVersion: 1 });
+      mockFacilitiesApi({ apiVersion: 2 });
       mockFeatureToggles({ v2DirectSchedule: true });
       mockLoginApi();
       mockUserTransitionAvailabilities();
@@ -137,7 +137,7 @@ describe('VAOS appointment list', () => {
       // appointment
       mockFacilityApi({
         id: data[0].attributes.locationId,
-        apiVersion: 1,
+        apiVersion: 2,
       });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
@@ -360,7 +360,7 @@ describe('VAOS appointment list', () => {
 
       mockAppointmentRequestsApi();
       mockAppointmentsApi({ apiVersion: 2 });
-      mockFacilitiesApi({ apiVersion: 1 });
+      mockFacilitiesApi({ apiVersion: 2 });
       mockFeatureToggles({ v2Requests: true, v2DirectSchedule: true });
       mockLoginApi();
       mockUserTransitionAvailabilities();
@@ -440,7 +440,7 @@ describe('VAOS appointment list', () => {
       vaosSetup();
 
       mockAppointmentsApi({ data, apiVersion: 2 });
-      mockFacilitiesApi({ apiVersion: 1 });
+      mockFacilitiesApi({ apiVersion: 2 });
       mockFeatureToggles({ v2DirectSchedule: true });
       mockLoginApi();
       mockUserTransitionAvailabilities();
@@ -512,7 +512,7 @@ describe('VAOS appointment list', () => {
 
       mockAppointmentRequestsApi();
       mockAppointmentsApi({ data, apiVersion: 2 });
-      mockFacilitiesApi({ apiVersion: 1 });
+      mockFacilitiesApi({ apiVersion: 2 });
       mockFeatureToggles({ v2DirectSchedule: true });
       mockLoginApi();
       mockUserTransitionAvailabilities();
@@ -577,7 +577,7 @@ describe('VAOS appointment list', () => {
       vaosSetup();
 
       mockAppointmentRequestsApi();
-      mockFacilitiesApi({ apiVersion: 1 });
+      mockFacilitiesApi({ apiVersion: 2 });
       mockFeatureToggles({ v2DirectSchedule: true });
       mockLoginApi();
       mockUserTransitionAvailabilities();
