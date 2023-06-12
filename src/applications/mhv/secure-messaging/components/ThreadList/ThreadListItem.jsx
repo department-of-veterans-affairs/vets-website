@@ -86,7 +86,7 @@ const ThreadListItem = props => {
                 role="img"
                 className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
                 data-testid="thread-list-unread-icon"
-                alt="Unread message"
+                alt="Unread message icon"
               />
               <span className="sr-only">Unread message</span>
             </span>
