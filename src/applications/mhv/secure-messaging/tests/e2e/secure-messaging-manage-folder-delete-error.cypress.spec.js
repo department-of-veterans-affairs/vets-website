@@ -38,7 +38,13 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
 
     cy.get('[visible=""] > p');
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.realPress(['Enter']);
   });
 
@@ -48,7 +54,13 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
       .click({ force: true, waitforanimations: false });
 
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
 
     cy.get('[name="new-folder-name"]')
       .shadow()

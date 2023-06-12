@@ -12,7 +12,7 @@ To update dependent packages:
 
 ### Creating new templates
 
-To add a new PDF template, create a new file under the `templates` directory. The filename is used as the key when generating PDF content. First consider if an existing template can meet your project's needs. PDFKit is powerful but tricky to work with, so it's worth following existing templates and making small iterations. Various utility methods are available in the `utils.js` file. Once a new template has been completed, sample output files must be reviewed by the Platform Accessibility team to ensure that they are fully compliant.
+To add a new PDF template, create a new file under the `templates` directory and add it to `templates/index.js` so that it can be used. The filename is used as the key when generating PDF content. First consider if an existing template can meet your project's needs. PDFKit is powerful but tricky to work with, so it's worth following existing templates and making small iterations. Various utility methods are available in the `utils.js` file. Once a new template has been completed, sample output files must be reviewed by the Platform Accessibility team to ensure that they are fully compliant.
 
 #### Validation / Error handling
 
@@ -75,7 +75,7 @@ const generateVitals = async () => {
   };
 
   try {
-    await generatePdf('medical_records', 'vitals_report', pdfData);
+    await generatePdf('medicalRecords', 'vitals_report', pdfData);
   } catch (error) {
     // Error logging/presentation goes here...
   }

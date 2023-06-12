@@ -44,14 +44,16 @@ describe('PDF generation API', () => {
     it('Existing template can be used', async () => {
       const data = require('./templates/medical_records/fixtures/lab_test_blood_count.json');
 
-      await expect(generatePdf('medical_records', 'file_name', data)).to.be
+      await expect(generatePdf('medicalRecords', 'file_name', data)).to.be
         .fulfilled;
     });
 
     it('An error is thrown for a non-existent template', async () => {
-      await expect(
-        generatePdf('some_name_that_will_never_exist', 'file_name', {}),
-      ).to.be.rejectedWith(Error, /^Cannot find module/);
+      const templateId = 'some_name_that_will_never_exist';
+      await expect(generatePdf(templateId, 'file_name', {})).to.be.rejectedWith(
+        Error,
+        `No template was found for id ${templateId}.`,
+      );
     });
   });
 
@@ -68,7 +70,7 @@ describe('PDF generation API', () => {
     it('Valid PDFs are generated', async () => {
       const data = require('./templates/medical_records/fixtures/lab_test_blood_count.json');
 
-      await generatePdf('medical_records', 'file_name', data);
+      await generatePdf('medicalRecords', 'file_name', data);
       await waitFor(() => expect(fileSaverMock.called).to.be.true);
 
       const pdfBlob = fileSaverMock.firstCall.args[0];

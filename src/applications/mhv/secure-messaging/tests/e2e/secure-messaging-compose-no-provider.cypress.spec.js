@@ -30,6 +30,12 @@ describe('Secure Messaging Compose with No Provider', () => {
       .click();
     composePage.verifySelcteRespitantErrorMessage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

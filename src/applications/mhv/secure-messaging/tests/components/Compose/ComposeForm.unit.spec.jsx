@@ -7,7 +7,7 @@ import categories from '../../fixtures/categories-response.json';
 import draftMessage from '../../fixtures/message-draft-response.json';
 import reducer from '../../../reducers';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
-import { Prompts } from '../../../util/constants';
+import { Paths, Prompts } from '../../../util/constants';
 
 describe('Compose form component', () => {
   const initialState = {
@@ -33,19 +33,19 @@ describe('Compose form component', () => {
       {
         initialState,
         reducers: reducer,
-        path: `/compose`,
+        path: Paths.COMPOSE,
       },
     );
     expect(screen);
   });
 
-  it('displays compose fields if path is /compose', async () => {
+  it('displays compose fields if path is /new-message', async () => {
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={triageTeams} />,
       {
         initialState,
         reducers: reducer,
-        path: `/compose`,
+        path: Paths.COMPOSE,
       },
     );
 
@@ -62,13 +62,13 @@ describe('Compose form component', () => {
     expect(body).to.exist;
   });
 
-  it('displays Edit List modal if path is /compose', async () => {
+  it('displays Edit List modal if path is /new-message', async () => {
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={triageTeams} />,
       {
         initialState,
         reducers: reducer,
-        path: `/compose`,
+        path: Paths.COMPOSE,
       },
     );
 
@@ -94,13 +94,13 @@ describe('Compose form component', () => {
     expect(modalContent).to.exist;
   });
 
-  it('displays compose action buttons if path is /compose', async () => {
+  it('displays compose action buttons if path is /new-message', async () => {
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={triageTeams} />,
       {
         initialState,
         reducers: reducer,
-        path: `/compose`,
+        path: Paths.COMPOSE,
       },
     );
 
@@ -117,7 +117,7 @@ describe('Compose form component', () => {
       {
         initialState,
         reducers: reducer,
-        path: `/compose`,
+        path: Paths.COMPOSE,
       },
     );
 

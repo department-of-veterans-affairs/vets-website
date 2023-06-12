@@ -3,13 +3,20 @@
  * @name platform/pdf
  */
 import './registerStaticFiles';
+import { templates } from './templates/index';
+import { UnknownTemplateException } from './utils/exceptions/UnknownTemplateException';
 
 const blobStream = require('blob-stream');
 const fileSaver = require('file-saver');
 
 export default async function generatePdf(templateId, fileName, data) {
-  // eslint-disable-next-line import/no-dynamic-require
-  const template = require(`./templates/${templateId}`);
+  let template;
+
+  try {
+    template = templates[templateId]();
+  } catch (e) {
+    throw new UnknownTemplateException(templateId);
+  }
 
   const doc = await template.generate(data);
   const stream = doc.pipe(blobStream());
