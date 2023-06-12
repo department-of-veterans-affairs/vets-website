@@ -18,7 +18,7 @@ const SpouseEmploymentHistoryWidget = props => {
 
   const formData = useSelector(state => state.form.data);
   const employmentHistory =
-    formData.personalData.employmentHistory.spouse.employmentRecords || [];
+    formData.personalData.employmentHistory.spouse.spEmploymentRecords || [];
   const efsrFeatureFlag = formData['view:enhancedFinancialStatusReport'];
   useEffect(() => {
     clearJobIndex();
