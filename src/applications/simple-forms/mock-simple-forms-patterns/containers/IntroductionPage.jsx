@@ -24,6 +24,51 @@ class IntroductionPage extends React.Component {
           Complete this form. After you submit the form, you&rsquo;ll get a
           confirmation message. You can print this page for your records.
         </p>
+        <div>
+          <h3>Pages</h3>
+          <ul>
+            <li>
+              <a href="/mock-simple-forms-patterns/text-input">Text input</a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/text-input-widgets1">
+                Text input widgets 1
+              </a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/text-input-full-name">
+                Text input full name
+              </a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/text-input-address">
+                Text input address
+              </a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/ssn-pattern">Ssn pattern</a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/checkbox-and-text-input">
+                Checkbox and text input
+              </a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/checkbox-group">
+                Checkbox group
+              </a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/select">Select</a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/radio">Radio</a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/date">Date</a>
+            </li>
+          </ul>
+        </div>
         <SaveInProgressIntro
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}

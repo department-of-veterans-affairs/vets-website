@@ -6,7 +6,7 @@ import { format, addDays } from 'date-fns';
 import { useDispatch } from 'react-redux';
 import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
-import { Categories } from '../util/constants';
+import { Categories, Paths } from '../util/constants';
 import { dateFormat } from '../util/helpers';
 import MessageThreadBody from './MessageThread/MessageThreadBody';
 import { closeAlert } from '../actions/alerts';
@@ -36,7 +36,7 @@ const MessageDetailBlock = props => {
 
   const handleReplyButton = useCallback(
     () => {
-      history.push(`/reply/${messageId}`);
+      history.push(`${Paths.REPLY}${messageId}/`);
     },
     [history, messageId],
   );

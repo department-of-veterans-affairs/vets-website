@@ -102,6 +102,10 @@ class FilesPage extends React.Component {
     );
 
     documentsTurnedIn.push(...supportingDocuments);
+    documentsTurnedIn.sort((a, b) => {
+      if (a.date === b.date) return -1;
+      return a.date > b.date ? -1 : 1;
+    });
 
     return (
       <div>

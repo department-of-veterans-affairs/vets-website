@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
-import { DefaultFolders, Categories } from '../../util/constants';
+import { DefaultFolders, Categories, Paths } from '../../util/constants';
 import { dateFormat } from '../../util/helpers';
 
 const unreadMessageClassList = 'vads-u-margin-y--0p5 vads-u-font-weight--bold';
@@ -118,8 +118,11 @@ const ThreadListItem = props => {
           )}
         </div>
         <Link
+          aria-label={`${
+            unreadMessages ? 'Unread message.' : ''
+          } Message subject: ${categoryLabel}: ${subject}, ${formattedDate()}.`}
           className="message-subject-link vads-u-margin-y--0p5"
-          to={`/thread/${messageId}`}
+          to={`${Paths.MESSAGE_THREAD}${messageId}/`}
         >
           {categoryLabel}: {getHighlightedText(subject)}
         </Link>

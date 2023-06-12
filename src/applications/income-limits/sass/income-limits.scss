@@ -1,5 +1,11 @@
-.usa-table-borderless {
-  .income-limits-edit {
-    width: 54px;
+.income-limits-app {
+  .usa-table-borderless {
+    .income-limits-edit {
+      width: 54px;
+    }
+  }
+
+  h1:focus {
+    outline: none;
   }
 }

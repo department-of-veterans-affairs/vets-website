@@ -19,7 +19,6 @@ const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
     myVaUseExperimental: true,
     showMyVADashboardV2: true,
-    showPaymentAndDebtSection: true,
   }),
   'GET /v0/user': user.cernerUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
