@@ -705,7 +705,6 @@ export function checkCommunityCareEligibility() {
       });
       const ccEnabledSystems = await fetchCommunityCareSupportedSites({
         locations: parentFacilities,
-        useV2: featureFacilitiesServiceV2,
       });
 
       dispatch({
