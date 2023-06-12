@@ -74,7 +74,7 @@ const BenefitsForm = ({
   ] = useState(POST_911_ARRAY);
 
   const [whatsYourStatusLabel, setWhatsYourStatusLabel] = useState(
-    WHAT_IS_YOUR_DEPENDENT_STATUS,
+    WHAT_IS_YOUR_MILITARY_STATUS,
   );
 
   const preEligibilityChange = (e, name, number) => {
