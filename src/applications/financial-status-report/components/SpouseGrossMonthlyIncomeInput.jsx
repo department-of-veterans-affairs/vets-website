@@ -21,12 +21,12 @@ const SpouseGrossMonthlyIncomeInput = props => {
     personalData: {
       employmentHistory: {
         newRecord = {},
-        spouse: { employmentRecords = [] },
+        spouse: { spEmploymentRecords = [] },
       },
     },
   } = formData;
 
-  const employmentRecord = isEditing ? employmentRecords[index] : newRecord;
+  const employmentRecord = isEditing ? spEmploymentRecords[index] : newRecord;
 
   const {
     employerName = '',
@@ -78,7 +78,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
 
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
-      const updatedRecords = employmentRecords.map((item, arrayIndex) => {
+      const updatedRecords = spEmploymentRecords.map((item, arrayIndex) => {
         return arrayIndex === index
           ? {
               ...employmentRecord,

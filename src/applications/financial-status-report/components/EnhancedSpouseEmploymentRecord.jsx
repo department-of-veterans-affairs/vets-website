@@ -24,14 +24,14 @@ const EmploymentRecord = props => {
   const {
     personalData: {
       employmentHistory: {
-        spouse: { employmentRecords = [] },
+        spouse: { spEmploymentRecords = [] },
         newRecord = { ...BASE_EMPLOYMENT_RECORD },
       },
     },
   } = data;
 
   const [employmentRecord, setEmploymentRecord] = useState({
-    ...(isEditing ? employmentRecords[index] : newRecord),
+    ...(isEditing ? spEmploymentRecords[index] : newRecord),
   });
   const [employerName, setEmployerName] = useState(
     employmentRecord.employerName || null,
@@ -73,7 +73,7 @@ const EmploymentRecord = props => {
           },
         },
       });
-      if (editIndex === null && employmentRecords.length === 0) {
+      if (editIndex === null && spEmploymentRecords.length === 0) {
         goToPath('/enhanced-spouse-employment-question');
         return;
       }
@@ -118,7 +118,7 @@ const EmploymentRecord = props => {
 
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
-      const updatedRecords = employmentRecords.map((item, arrayIndex) => {
+      const updatedRecords = spEmploymentRecords.map((item, arrayIndex) => {
         return arrayIndex === index ? employmentRecord : item;
       });
       // update form data
@@ -130,7 +130,7 @@ const EmploymentRecord = props => {
             ...data.personalData.employmentHistory,
             [`${userType}`]: {
               ...data.personalData.employmentHistory[`${userType}`],
-              employmentRecords: updatedRecords,
+              spEmploymentRecords: updatedRecords,
             },
           },
         },

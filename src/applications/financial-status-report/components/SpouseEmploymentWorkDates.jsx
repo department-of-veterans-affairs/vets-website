@@ -24,13 +24,13 @@ const SpouseEmploymentWorkDates = props => {
     personalData: {
       employmentHistory: {
         newRecord = {},
-        spouse: { employmentRecords = [] },
+        spouse: { spEmploymentRecords = [] },
       },
     },
   } = data;
 
   const [employmentRecord, setEmploymentRecord] = useState({
-    ...(isEditing ? employmentRecords[index] : newRecord),
+    ...(isEditing ? spEmploymentRecords[index] : newRecord),
   });
 
   const { employerName = '', from, to } = employmentRecord;
@@ -48,7 +48,7 @@ const SpouseEmploymentWorkDates = props => {
     if (from) {
       if (isEditing) {
         // find the one we are editing in the employeeRecords array
-        const updatedRecords = employmentRecords.map((item, arrayIndex) => {
+        const updatedRecords = spEmploymentRecords.map((item, arrayIndex) => {
           return arrayIndex === index ? employmentRecord : item;
         });
         // update form data
@@ -60,7 +60,7 @@ const SpouseEmploymentWorkDates = props => {
               ...data.personalData.employmentHistory,
               [`${userType}`]: {
                 ...data.personalData.employmentHistory[`${userType}`],
-                employmentRecords: updatedRecords,
+                spEmploymentRecords: updatedRecords,
               },
             },
           },
@@ -95,9 +95,9 @@ const SpouseEmploymentWorkDates = props => {
             newRecord: { ...BASE_EMPLOYMENT_RECORD },
             [`${userType}`]: {
               ...data.personalData.employmentHistory[`${userType}`],
-              employmentRecords: [
+              spEmploymentRecords: [
                 { ...employmentRecord },
-                ...employmentRecords,
+                ...spEmploymentRecords,
               ],
             },
           },

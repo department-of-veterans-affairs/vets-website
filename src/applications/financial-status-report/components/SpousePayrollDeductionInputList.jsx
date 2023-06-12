@@ -22,12 +22,12 @@ const SpousePayrollDeductionInputList = props => {
     personalData: {
       employmentHistory: {
         newRecord = {},
-        spouse: { employmentRecords = [] },
+        spouse: { spEmploymentRecords = [] },
       },
     },
   } = formData;
 
-  const employmentRecord = isEditing ? employmentRecords[index] : newRecord;
+  const employmentRecord = isEditing ? spEmploymentRecords[index] : newRecord;
 
   const { employerName, deductions } = employmentRecord;
 
@@ -55,7 +55,7 @@ const SpousePayrollDeductionInputList = props => {
     e.preventDefault();
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
-      const updatedRecords = formData.personalData.employmentHistory.spouse.employmentRecords.map(
+      const updatedRecords = formData.personalData.employmentHistory.spouse.spEmploymentRecords.map(
         (item, arrayIndex) => {
           return arrayIndex === index
             ? {
@@ -74,7 +74,7 @@ const SpousePayrollDeductionInputList = props => {
             ...formData.personalData.employmentHistory,
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
-              employmentRecords: updatedRecords,
+              spEmploymentRecords: updatedRecords,
             },
           },
         },
@@ -89,9 +89,9 @@ const SpousePayrollDeductionInputList = props => {
             newRecord: { ...BASE_EMPLOYMENT_RECORD },
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
-              employmentRecords: [
+              spEmploymentRecords: [
                 { ...employmentRecord, deductions: selectedDeductions },
-                ...employmentRecords,
+                ...spEmploymentRecords,
               ],
             },
           },

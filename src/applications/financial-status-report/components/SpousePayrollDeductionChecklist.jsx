@@ -24,12 +24,12 @@ const SpousePayrollDeductionChecklist = props => {
     personalData: {
       employmentHistory: {
         newRecord = {},
-        spouse: { employmentRecords = [] },
+        spouse: { spEmploymentRecords = [] },
       },
     },
   } = formData;
 
-  const employmentRecord = isEditing ? employmentRecords[index] : newRecord;
+  const employmentRecord = isEditing ? spEmploymentRecords[index] : newRecord;
 
   const { employerName } = employmentRecord;
 
@@ -57,7 +57,7 @@ const SpousePayrollDeductionChecklist = props => {
     e.preventDefault();
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
-      const updatedRecords = employmentRecords.map((item, arrayIndex) => {
+      const updatedRecords = spEmploymentRecords.map((item, arrayIndex) => {
         return arrayIndex === index
           ? {
               ...employmentRecord,
@@ -75,7 +75,7 @@ const SpousePayrollDeductionChecklist = props => {
             ...formData.personalData.employmentHistory,
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
-              employmentRecords: updatedRecords,
+              spEmploymentRecords: updatedRecords,
             },
           },
         },
@@ -101,9 +101,9 @@ const SpousePayrollDeductionChecklist = props => {
             newRecord: { ...BASE_EMPLOYMENT_RECORD },
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
-              employmentRecords: [
+              spEmploymentRecords: [
                 { ...employmentRecord },
-                ...employmentRecords,
+                ...spEmploymentRecords,
               ],
             },
           },
