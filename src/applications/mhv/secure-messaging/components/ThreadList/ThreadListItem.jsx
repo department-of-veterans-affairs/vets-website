@@ -81,11 +81,14 @@ const ThreadListItem = props => {
       <div className="unread-column vads-l-col">
         {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
           (unreadMessages && (
-            <i
-              aria-hidden="true"
-              className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
-              data-testid="thread-list-unread-icon"
-            />
+            <span>
+              <i
+                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
+                data-testid="thread-list-unread-icon"
+                alt="Unread message"
+              />
+              <span className="sr-only">Unread message</span>
+            </span>
           ))}
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
@@ -99,9 +102,17 @@ const ThreadListItem = props => {
                   </>
                 )}
               </span>{' '}
-              <span>
-                {getHighlightedText(senderName)} (Team: {triageGroupName})
-              </span>{' '}
+              {unreadMessages ? (
+                <span>
+                  {getHighlightedText(senderName)} (Team: {triageGroupName})
+                  <span className="sr-only">Unread message</span>
+                </span>
+              ) : (
+                <>
+                  {getHighlightedText(senderName)} (Team: {triageGroupName})
+                </>
+              )}
+              <span />{' '}
               {messageCount > 1 && (
                 <span className="message-count">({messageCount} messages)</span>
               )}
@@ -121,10 +132,24 @@ const ThreadListItem = props => {
           className="message-subject-link vads-u-margin-y--0p5"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
         >
-          {categoryLabel}: {getHighlightedText(subject)}
+          {hasAttachment ? (
+            <span id={`message-link-has-attachment-${messageId}`}>
+              {categoryLabel}: {getHighlightedText(subject)}
+              <span className="sr-only">Has attachment</span>
+            </span>
+          ) : (
+            <span id={`message-link-${messageId}`}>
+              {categoryLabel}: {getHighlightedText(subject)}
+            </span>
+          )}
         </Link>
+
         <p className="received-date vads-u-margin-y--0p5">
-          {hasAttachment && <i className={attachmentClasses} aria-hidden />}
+          {hasAttachment && (
+            <span aria-labelledby={`message-link-has-attachment-${messageId}`}>
+              <i className={attachmentClasses} alt="Has attachment" />
+            </span>
+          )}
           <span>{formattedDate()}</span>
         </p>
       </div>

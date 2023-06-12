@@ -92,9 +92,17 @@ const AttachmentsList = props => {
                       });
                     }}
                   >
-                    <i className="fas fa-paperclip" aria-hidden="true" />
-                    <span ref={attachmentReference}>{file.name} </span>(
-                    {getSize(file.size || file.attachmentSize)})
+                    <i
+                      aria-labelledby="has-attachment"
+                      className="fas fa-paperclip"
+                      aria-hidden="true"
+                      alt="Has attachment"
+                    />
+                    <span id="has-attachment" ref={attachmentReference}>
+                      {file.name}
+                    </span>
+                    ({getSize(file.size || file.attachmentSize)})
+                    <span className="sr-only">Has attachment</span>
                   </a>
                 </>
               )}
