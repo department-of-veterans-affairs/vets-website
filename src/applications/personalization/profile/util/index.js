@@ -79,15 +79,16 @@ const hasPPIUErrorKey = (errors, errorKey) => {
 };
 
 const hasLighthouseErrorText = (errors, errorKey, errorText) => {
-  errors.some(
+  return errors.some(
     err =>
       err?.code === errorKey &&
       err?.detail?.toLowerCase().includes(errorText.toLowerCase()),
   );
 };
 
-const hasLighthouseErrorKey = (errors, errorKey) =>
-  errors.some(err => err?.code === errorKey);
+const hasLighthouseErrorKey = (errors, errorKey) => {
+  return errors.some(err => err?.code === errorKey);
+};
 
 const hasErrorMessage = (errors, errorKey, errorText) => {
   if (errorText) {
@@ -105,11 +106,7 @@ export const hasAccountFlaggedError = errors =>
   hasErrorMessage(
     errors,
     PPIU_ERROR_MAP.ACCOUNT_FLAGGED_FOR_FRAUD.RESPONSE_KEY,
-  ) ||
-  hasErrorMessage(
-    errors,
-    LIGHTHOUSE_ERROR_KEYS.LH_ACCOUNT_FLAGGED_FOR_FRAUD_KEY,
-  );
+  ) || hasErrorMessage(errors, LIGHTHOUSE_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD);
 
 export const hasRoutingNumberFlaggedError = errors =>
   hasErrorMessage(
@@ -196,10 +193,7 @@ export const hasPaymentRestrictionIndicatorsError = errors =>
     errors,
     PPIU_ERROR_MAP.PAYMENT_RESTRICTIONS_PRESENT.RESPONSE_KEY,
   ) ||
-  hasErrorMessage(
-    errors,
-    LIGHTHOUSE_ERROR_KEYS.LH_PAYMENT_RESTRICTIONS_PRESENT_KEY,
-  );
+  hasErrorMessage(errors, LIGHTHOUSE_ERROR_KEYS.PAYMENT_RESTRICTIONS_PRESENT);
 
 export const cnpDirectDepositBankInfo = apiData => {
   return apiData?.paymentAccount;
