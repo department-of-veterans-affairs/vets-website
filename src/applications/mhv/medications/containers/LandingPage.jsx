@@ -1,23 +1,25 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPrescriptionsList } from '../actions/prescriptions';
 import MedicationsListSort from './MedicationsListSort';
 
 const LandingPage = () => {
   const prescription = useSelector(
     state => state.rx.prescriptions.prescriptionsList,
   );
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // useEffect(
-  //   () => {
-  //   },
-  //   [],
-  // );
+  useEffect(
+    () => {
+      dispatch(getPrescriptionsList());
+    },
+    [dispatch],
+  );
 
   const content = () => {
     if (prescription) {
       return (
-        <>
+        <div className="landing-page">
           <h1 className="vads-u-margin-bottom--1p5">Medications</h1>
           <div>
             Review your prescription medicaitons from VA, and providers outside
@@ -70,8 +72,12 @@ const LandingPage = () => {
               </ul>
             </va-additional-info>
             <MedicationsListSort />
+            <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter vads-u-padding--0p5">
+              Showing 1 - 20 of 51 medications
+            </div>
+            dgsdg
           </div>
-        </>
+        </div>
       );
     }
     return (

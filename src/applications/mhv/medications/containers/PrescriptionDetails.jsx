@@ -13,7 +13,7 @@ const PrescriptionDetails = () => {
 
   useEffect(
     () => {
-      if (prescriptionId) dispatch(getPrescriptionDetails(prescriptionId));
+      if (prescriptionId) dispatch(getPrescriptionDetails());
     },
     [prescriptionId, dispatch],
   );
