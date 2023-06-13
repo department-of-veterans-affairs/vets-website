@@ -11,7 +11,7 @@ const Checklist = ({
   return (
     <fieldset className="checkbox-list vads-u-margin-y--2">
       {title && <legend className="schemaform-block-title">{title}</legend>}
-      {prompt && <p className="vads-u-margin-bottom--3">{prompt}</p>}
+      {prompt && <p className="vads-u-margin-bottom--4">{prompt}</p>}
       {options?.map((option, key) => (
         <div key={option + key} className="checkbox-list-item">
           <input
