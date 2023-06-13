@@ -43,7 +43,10 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(6);
+    // checking for treatmentCenterName, treatmentDateRange_fromYear, treatmentCenterAddress_city
+    expect(form.find('input').length).to.equal(3);
+
+    // checking for treatmentDateRange_fromMonth, treatmentCenterAddress_country, treatmentCenterAddress_state
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
@@ -74,33 +77,6 @@ describe('VA Medical Records', () => {
     // Required fields: Facility name and related disability
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
-    form.unmount();
-  });
-
-  it('should not submit without all required info', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          ratedDisabilities,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasVaMedicalRecords': true,
-            },
-          },
-          vaTreatmentFacilities: [],
-        }}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    // Required fields: Facility name and related disability
-    expect(form.find('.usa-input-error-message').length).to.equal(2);
-    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 

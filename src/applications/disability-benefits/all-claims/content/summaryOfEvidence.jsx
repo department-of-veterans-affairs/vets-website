@@ -68,8 +68,10 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
   );
 
   if (vaEvidence.length && vaEvidenceSelected) {
-    const facilitiesList = vaEvidence.map(facility => (
-      <li key={facility.treatmentCenterName}>{facility.treatmentCenterName}</li>
+    const facilitiesList = vaEvidence.map((facility, index) => (
+      <li key={index}>
+        {facility.treatmentCenterName || 'Facility name not provided'}
+      </li>
     ));
     vaContent = (
       <div>
@@ -122,7 +124,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     );
     serviceTreatmentRecordsContent = (
       <div>
-        <p>We'll submit the below service treatment records you uploaded:</p>
+        <p>We’ll submit the below service treatment records you uploaded:</p>
         <ul>{serviceTreatmentRecordsUploadsList}</ul>
       </div>
     );
