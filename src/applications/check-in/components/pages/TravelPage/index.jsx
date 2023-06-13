@@ -14,7 +14,14 @@ import { URLS } from '../../../utils/navigation';
 import BackButton from '../../BackButton';
 import Wrapper from '../../layout/Wrapper';
 
-const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
+const TravelPage = ({
+  header,
+  eyebrow,
+  bodyText,
+  helpText,
+  pageType,
+  router,
+}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const {
@@ -51,7 +58,7 @@ const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
       <Wrapper
         pageTitle={header}
         classNames="travel-page"
-        eyebrow={t('check-in')}
+        eyebrow={eyebrow}
         withBackButton
       >
         {bodyText && (
@@ -103,6 +110,7 @@ TravelPage.propTypes = {
   pageType: PropTypes.string.isRequired,
   router: PropTypes.object.isRequired,
   bodyText: PropTypes.node,
+  eyebrow: PropTypes.string,
   helpText: PropTypes.node,
 };
 export default TravelPage;

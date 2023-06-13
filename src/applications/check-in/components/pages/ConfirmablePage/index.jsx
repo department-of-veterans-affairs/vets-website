@@ -18,6 +18,7 @@ import { APP_NAMES } from '../../../utils/appConstants';
 
 const ConfirmablePage = ({
   header,
+  eyebrow = '',
   subtitle,
   dataFields = [],
   data = {},
@@ -58,7 +59,7 @@ const ConfirmablePage = ({
     <Wrapper
       pageTitle={header}
       classNames="confirmable-page"
-      eyebrow={t('check-in')}
+      eyebrow={eyebrow}
       withBackButton={withBackButton}
     >
       {subtitle && (

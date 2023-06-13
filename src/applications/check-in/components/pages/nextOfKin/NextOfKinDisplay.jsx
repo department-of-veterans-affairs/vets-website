@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
 
 export default function NextOfKinDisplay({
   header = '',
+  eyebrow = '',
   subtitle = '',
   nextOfKin = {},
   yesAction = () => {},
@@ -52,7 +53,7 @@ export default function NextOfKinDisplay({
     <>
       <ConfirmablePage
         header={header || t('is-this-your-current-next-of-kin-information')}
-        eyebrow={t('check-in')}
+        eyebrow={eyebrow}
         subtitle={subtitle}
         dataFields={nextOfKinFields}
         data={nextOfKin}
@@ -68,10 +69,11 @@ export default function NextOfKinDisplay({
 }
 
 NextOfKinDisplay.propTypes = {
-  header: propTypes.string,
-  nextOfKin: propTypes.object,
-  noAction: propTypes.func,
-  router: propTypes.object,
-  subtitle: propTypes.string,
-  yesAction: propTypes.func,
+  eyebrow: PropTypes.string,
+  header: PropTypes.string,
+  nextOfKin: PropTypes.object,
+  noAction: PropTypes.func,
+  router: PropTypes.object,
+  subtitle: PropTypes.string,
+  yesAction: PropTypes.func,
 };
