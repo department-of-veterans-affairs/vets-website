@@ -1,6 +1,6 @@
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import { DefaultFolders } from '../util/constants';
+import { DefaultFolders, threadSortingOptions } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -319,9 +319,10 @@ export const getThreadList = (
   folderId = 0,
   pageSize = 10,
   pageNumber = 1,
-  sortField = 'SENDER_NAME',
-  sortOrder = 'ASC',
+  threadSort = threadSortingOptions.SENT_DATE_DESCENDING.value,
 ) => {
+  const { sortField, sortOrder } = threadSortingOptions[threadSort];
+
   return apiRequest(
     `${apiBasePath}/messaging/folders/${folderId}/threads?pageSize=${pageSize}&pageNumber=${pageNumber}&sortField=${sortField}&sortOrder=${sortOrder}`,
     {
