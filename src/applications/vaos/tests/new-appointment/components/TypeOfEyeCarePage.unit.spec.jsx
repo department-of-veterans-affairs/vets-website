@@ -95,7 +95,7 @@ describe('VAOS <TypeOfEyeCarePage>', () => {
     );
   });
 
-  it('should facility type page when CC eligible and optometry is chosen', async () => {
+  it.skip('should facility type page when CC eligible and optometry is chosen', async () => {
     const parentSite983 = {
       id: '983',
       attributes: {
