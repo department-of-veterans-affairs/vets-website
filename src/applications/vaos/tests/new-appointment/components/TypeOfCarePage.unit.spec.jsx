@@ -316,7 +316,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     ).to.exist;
   });
 
-  it('should save adress modal dismissal after page change', async () => {
+  it('should save address modal dismissal after page change', async () => {
     const stateWithoutAddress = set(
       'user.profile.vapContactInfo.residentialAddress',
       null,
