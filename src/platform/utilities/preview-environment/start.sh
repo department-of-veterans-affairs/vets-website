@@ -48,23 +48,21 @@ fi
 echo "set yarn to allow self-signed cert for install"
 yarn config set "strict-ssl" false
 
-# Build and watch vets-website
+# Install, build and watch vets-website
 echo "Install, build, and watch vets-website"
 cd vets-website
 yarn install --production=false
 yarn build:webpack:local
+yarn watch --env.buildtype=localhost --env.api="http://vets-api-web:3004" &
 
-wait
 cd ..
 
-# Serve the content-build
-
+# Untar the content-build into content-build/.cache/localhost/drupal
 mkdir -p content-build/.cache/localhost/drupal
 echo "untar the build into content-build/.cache/localhost/drupal"
 tar -xf ${AWS_FILENAME} -C content-build/.cache/localhost/drupal
 
-
-
+# Install, build and serve content-build
 echo "Install and serve content-build"
 cd content-build
 yarn install
