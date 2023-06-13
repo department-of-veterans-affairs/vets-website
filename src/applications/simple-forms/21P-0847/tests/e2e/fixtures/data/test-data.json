@@ -20,12 +20,5 @@
   },
   "veteranDateOfBirth": "1929-10-21",
   "veteranSsn": "999442222",
-  "deceasedClaimantName": {
-    "first": "Philip",
-    "middle": "K",
-    "last": "Deceased"
-  },
-  "deceasedClaimantDateOfBirth": "1928-12-16",
-  "deceasedClaimantSsn": "666117777",
   "otherRelationshipToDeceasedClaimant": "friend"
 }
