@@ -28,14 +28,26 @@ const PrintDownload = props => {
         <i className={menuIconClasses} aria-hidden="true" />
       </button>
       <div className={menuOptionsClasses}>
-        <button type="button" onClick={window.print}>
+        <button
+          type="button"
+          onClick={window.print}
+          aria-label={`Print ${list && 'list'}. Menu item 1 of 3`}
+        >
           Print {list && 'list'}
         </button>
-        <button type="button" onClick={download}>
+        <button
+          type="button"
+          onClick={download}
+          aria-label={`Download ${list && 'list'} as PDF. Menu item 2 of 3`}
+        >
           Download {list && 'list '}
           as PDF
         </button>
-        <button type="button">
+        <button
+          type="button"
+          aria-label={`Download ${list &&
+            'list'} as a text file. Menu item 3 of 3`}
+        >
           Download {list && 'list '}
           as a text file
         </button>

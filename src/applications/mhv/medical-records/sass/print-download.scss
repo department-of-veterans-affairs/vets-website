@@ -37,17 +37,22 @@
     border-radius: 5px;
     border: 2px solid var(--color-primary);
   }
-  .toggle-menu-button-open {
-    border-radius: 5px 5px 0 0;
-    border-bottom: 1px solid var(--color-primary);
-  }
 
   .menu-options {
     display: none;
     flex-direction: column;
+    button:first-child {
+      margin-top: 4px;
+      border-radius: 5px 5px 0px 0px;
+      border-top: 2px solid var(--color-primary);
+      border-right: 2px solid var(--color-primary);
+      border-bottom: 2px solid var(--color-primary);
+      border-left: 2px solid var(--color-primary);
+    }
     button {
       margin: 0px;
       padding: 1rem 2rem;
+      text-align: left;
       border-top: none;
       border-right: 2px solid var(--color-primary);
       border-bottom: 1px solid var(--color-primary);
