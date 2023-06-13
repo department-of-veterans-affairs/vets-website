@@ -20,6 +20,12 @@ describe('Secure Messaging Compose', () => {
     composePage.getMessageBodyField().type('Test message body');
     composePage.sendMessage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

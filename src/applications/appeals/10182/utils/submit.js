@@ -134,8 +134,8 @@ export const createIssueName = ({ attributes } = {}) => {
  * @param {ContestableIssues}
  * @returns {ContestableIssue~Submittable}
  */
-export const getContestableIssues = ({ contestableIssues }) =>
-  contestableIssues.filter(issue => issue[SELECTED]).map(issue => {
+export const getContestableIssues = ({ contestableIssues } = {}) =>
+  (contestableIssues || []).filter(issue => issue[SELECTED]).map(issue => {
     const attr = issue.attributes;
     const attributes = [
       'decisionIssueId',

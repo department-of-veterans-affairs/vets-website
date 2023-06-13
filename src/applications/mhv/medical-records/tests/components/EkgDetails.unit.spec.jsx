@@ -12,7 +12,6 @@ describe('EKG details component', () => {
     requestedBy: 'John J. Lydon',
     id: 123,
     date: '2022-04-13T17:42:46.000Z',
-    vaccineId: '000002',
     facility: 'school parking lot',
   };
 
@@ -25,7 +24,7 @@ describe('EKG details component', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<EkgDetails results={mockEkg} />, {
+    return renderWithStoreAndRouter(<EkgDetails record={mockEkg} />, {
       initialState: state,
       reducers: reducer,
       path: '/labs-and-tests/123',

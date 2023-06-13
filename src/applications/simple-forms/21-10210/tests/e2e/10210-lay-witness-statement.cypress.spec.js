@@ -23,7 +23,6 @@ const testConfig = createTestConfig(
 
     dataDir: path.join(__dirname, 'fixtures', 'data'),
 
-    // Rename and modify the test data as needed.
     dataSets: ['flow1', 'flow2', 'flow3', 'flow4'],
 
     pageHooks: {
@@ -32,6 +31,40 @@ const testConfig = createTestConfig(
           cy.findByText(/start/i, { selector: 'button' });
           cy.get('.usa-alert-text .schemaform-start-button').click({
             force: true,
+          });
+        });
+      },
+      'witness-personal-information-a': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const label = data.witnessRelationshipToClaimant;
+            cy.get(`va-checkbox[label="${label}"]`)
+              .shadow()
+              .get('#checkbox-element')
+              .first()
+              .click()
+              .then(() => {
+                cy.findByText('Continue')
+                  .first()
+                  .click();
+              });
+          });
+        });
+      },
+      'witness-personal-information-b': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const label = data.witnessRelationshipToClaimant;
+            cy.get(`va-checkbox[label="${label}"]`)
+              .shadow()
+              .get('#checkbox-element')
+              .first()
+              .click()
+              .then(() => {
+                cy.findByText('Continue')
+                  .first()
+                  .click();
+              });
           });
         });
       },
@@ -45,7 +78,7 @@ const testConfig = createTestConfig(
               .get('#inputField')
               .type(signerFullName);
             cy.get(`input[name="veteran-certify"]`).check();
-            cy.findAllByText(/Submit application/i, {
+            cy.findAllByText(/Submit statement/i, {
               selector: 'button',
             }).click();
           });

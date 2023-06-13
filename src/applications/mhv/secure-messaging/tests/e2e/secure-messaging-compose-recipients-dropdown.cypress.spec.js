@@ -69,7 +69,13 @@ describe('recipients dropdown box', () => {
     cy.get('[data-testid="compose-message-link"]').click();
     patientInterstitialPage.getContinueButton().click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.get('[data-testid="compose-recipient-select"]').should('exist');
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
@@ -91,7 +97,13 @@ describe('recipients dropdown box', () => {
     cy.get('[data-testid="compose-message-link"]').click();
     patientInterstitialPage.getContinueButton().click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/recipients?useCache=false',

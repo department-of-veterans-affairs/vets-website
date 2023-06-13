@@ -125,3 +125,9 @@ export const BLOCKED_NOTIFICATION_IDS = [
   'item10',
   'item11',
 ];
+
+export const API_STATUS = Object.freeze({
+  STARTED: 'started',
+  SUCCESSFUL: 'successful',
+  FAILED: 'failed',
+});

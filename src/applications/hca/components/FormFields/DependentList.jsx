@@ -92,17 +92,23 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
         key={index}
         id={`hca-dependent-item--${index}`}
         ref={el => listItemsRef.current.push(el)}
-        className="hca-dependent-list--tile vads-u-display--flex vads-u-align-items--center vads-u-border--2px vads-u-border-color--gray-light"
+        className="hca-dependent-list--tile vads-u-border--2px vads-u-border-color--gray-light"
       >
         <span
-          className="vads-u-flex--1 vads-u-padding-right--2"
+          className="vads-u-display--block vads-u-line-height--2 vads-u-font-weight--bold"
           data-testid="hca-dependent-tile-name"
         >
-          <strong>{normalizedFullName}</strong>, {dependentRelation}
+          {normalizedFullName}
         </span>
-        <span className="vads-u-flex--auto">
+        <span
+          className="vads-u-display--block vads-u-line-height--2"
+          data-testid="hca-dependent-tile-relationship"
+        >
+          {dependentRelation}
+        </span>
+        <span className="vads-l-row vads-u-justify-content--space-between vads-u-margin-top--2">
           <Link
-            className="va-button-link hca-button-link vads-u-margin-left--2p5 vads-u-font-weight--bold"
+            className="va-button-link hca-button-link vads-u-font-weight--bold"
             to={{
               pathname: DEPENDENT_PATHS.info,
               search: `?index=${index}&action=${mode}`,
@@ -116,7 +122,7 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
           </Link>
           <button
             type="button"
-            className="va-button-link hca-button-action vads-u-color--secondary-dark vads-u-margin-left--2p5 vads-u-font-weight--bold"
+            className="va-button-link hca-button-action vads-u-color--secondary-dark vads-u-font-weight--bold"
             onClick={() =>
               handlers.showConfirm({ index, name: normalizedFullName })
             }

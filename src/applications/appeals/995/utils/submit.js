@@ -13,6 +13,10 @@ import {
   hasMobilePhone,
 } from './contactInfo';
 import { replaceSubmittedData, fixDateFormat } from './replace';
+import {
+  buildVaLocationString,
+  buildPrivateString,
+} from '../validations/evidence';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -94,8 +98,8 @@ export const createIssueName = ({ attributes } = {}) => {
   }
 }]
 */
-export const getContestedIssues = ({ contestedIssues = [] }) =>
-  contestedIssues.filter(issue => issue[SELECTED]).map(issue => {
+export const getContestedIssues = ({ contestedIssues } = {}) =>
+  (contestedIssues || []).filter(issue => issue[SELECTED]).map(issue => {
     const attr = issue.attributes;
     const attributes = [
       'decisionIssueId',
@@ -259,13 +263,24 @@ export const getPhone = formData => {
     : {};
 };
 
-export const hasDuplicateLocation = (list, locationAndName, evidenceDates) =>
-  !!list.find(
-    ({ attributes }) =>
-      attributes.locationAndName === locationAndName &&
-      attributes.evidenceDates[0].startDate === evidenceDates.from &&
-      attributes.evidenceDates[0].endDate === evidenceDates.to,
-  );
+export const hasDuplicateLocation = (list, currentLocation) =>
+  !!list.find(location => {
+    const { locationAndName, evidenceDates } = location.attributes;
+    return (
+      buildVaLocationString(
+        {
+          locationAndName,
+          evidenceDates: {
+            from: evidenceDates[0].startDate,
+            to: evidenceDates[0].endDate,
+          },
+        },
+        ',',
+        { includeIssues: false },
+      ) ===
+      buildVaLocationString(currentLocation, ',', { includeIssues: false })
+    );
+  });
 
 /**
  * Truncate long email addresses
@@ -342,20 +357,20 @@ export const getEvidence = formData => {
   if (formData[EVIDENCE_VA] && formData.locations.length) {
     evidenceSubmission.evidenceType.push('retrieval');
     evidenceSubmission.retrieveFrom = formData.locations.reduce(
-      (list, { locationAndName, evidenceDates }) => {
-        if (!hasDuplicateLocation(list, locationAndName, evidenceDates)) {
+      (list, location) => {
+        if (!hasDuplicateLocation(list, location)) {
           list.push({
             type: 'retrievalEvidence',
             attributes: {
               // we're not including the issues here - it's only in the form to make
               // the UX consistent with the private records location pages
-              locationAndName,
+              locationAndName: location.locationAndName,
               // Lighthouse wants between 1 and 4 evidenceDates, but we're only
               // providing one
               evidenceDates: [
                 {
-                  startDate: fixDateFormat(evidenceDates.from),
-                  endDate: fixDateFormat(evidenceDates.to),
+                  startDate: fixDateFormat(location.evidenceDates.from),
+                  endDate: fixDateFormat(location.evidenceDates.to),
                 },
               ],
             },
@@ -381,6 +396,18 @@ export const getEvidence = formData => {
   };
 };
 
+// Backend still works if we pass along duplicate issues
+export const hasDuplicateFacility = (list, currentFacility) => {
+  const current = buildPrivateString(currentFacility, ',');
+  return !!list.find(
+    facility =>
+      buildPrivateString(
+        { ...facility, treatmentDateRange: facility.treatmentDateRange[0] },
+        ',',
+      ) === current,
+  );
+};
+
 /**
  * The backend is filling out form 4142/4142a (March 2021) which doesn't include
  * the conditions (issues) that were treated. These are asked for in the newer
@@ -388,16 +415,24 @@ export const getEvidence = formData => {
  */
 export const getForm4142 = formData => {
   const { privacyAgreementAccepted = true, limitedConsent = '' } = formData;
-  const providerFacility = (formData?.providerFacility || []).map(facility => ({
-    ...facility,
-    // 4142 is expecting an array
-    treatmentDateRange: [
-      {
-        from: fixDateFormat(facility.treatmentDateRange?.from),
-        to: fixDateFormat(facility.treatmentDateRange?.to),
-      },
-    ],
-  }));
+  const providerFacility = (formData?.providerFacility || []).reduce(
+    (list, facility) => {
+      if (!hasDuplicateFacility(list, facility)) {
+        list.push({
+          ...facility,
+          // 4142 is expecting an array
+          treatmentDateRange: [
+            {
+              from: fixDateFormat(facility.treatmentDateRange?.from),
+              to: fixDateFormat(facility.treatmentDateRange?.to),
+            },
+          ],
+        });
+      }
+      return list;
+    },
+    [],
+  );
   return formData[EVIDENCE_PRIVATE]
     ? {
         privacyAgreementAccepted,

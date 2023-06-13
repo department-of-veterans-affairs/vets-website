@@ -1,6 +1,7 @@
 [
   {
     "name": "Complete blood count",
+    "type": "chemistry_hematology",
     "category": "Chemistry and hematology",
     "sampleTested": "Blood",
     "orderedBy": "Beth M. Smith",
@@ -12,7 +13,7 @@
     "comments": [
       "Jesse Roberts' blood panel is standard"
     ],
-    "labResults": [
+    "results": [
       {
         "name": "WBC",
         "result": "5.0 K/ccm",
@@ -81,6 +82,7 @@
   },
   {
     "name": "ANKLE LEFT 3 VIEWS",
+    "type": "radiology",
     "category": "Radiology",
     "orderedBy": "Beth M. Smith",
     "orderingLocation": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
@@ -89,24 +91,24 @@
     "imagingProvider": "John J. Lydon",
     "id": 122,
     "date": "2022-04-13T17:42:46.000Z",
-    "vaccineId": "000001",
     "imagingLocation": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
     "reactions": ["Just this one"],
-    "labResults": "This exam was performed at 673RD MED GRP, Elmendorf AFB. The report is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************",
+    "results": "This exam was performed at 673RD MED GRP, Elmendorf AFB. The report is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************",
     "images": ["image", "image", "image", "image", "image", "image", "image", "image", "image", "image"]
   },
   {
     "name": "Electrocardiogram (EKG)",
+    "type": "electrocardiogram",
     "category": "",
     "orderedBy": "Beth M. Smith",
     "requestedBy": "John J. Lydon",
     "id": 123,
     "date": "2022-04-13T17:42:46.000Z",
-    "vaccineId": "000002",
     "facility": "school parking lot"
   },
   {
     "name": "Microbiology",
+    "type": "microbiology",
     "category": "",
     "orderedBy": "Beth M. Smith",
     "requestedBy": "John J. Lydon",
@@ -114,61 +116,60 @@
     "date": "2018-05-04T17:42:46.000Z",
     "sampleFrom": "Blood",
     "sampleTested": "Blood",
-    "vaccineId": "000003",
     "orderingLocation": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
     "collectingLocation": "school parking lot",
     "labLocation": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
-    "labResults": "Accession [UID]: MI 16 3065 [1216003065] Received: Jul 08, 2016@11:29\nCollection sample: VENOUS BLOOD Collection date: Jul 08, 2016 11:29\nSite/Specimen: BLOOD VENOUS\nProvider: MCNALLY,PEGGY A\n\n\n* BACTERIOLOGY FINAL REPORT => Jul 09, 2016 09:56 TECH CODE: 205931\nCULTURE RESULTS: ESCHERICHIA COLI - Quantity: 2+\nANTIBIOTIC SUSCEPTIBILITY TEST RESULTS:\nESCHERICHIA COLI\n:\nAMPICILLIN.................... S\nAMPICILLIN/SULBACTAM.......... S\nCEFAZOLIN..................... S\nTOBRMCN....................... S\nGENTMCN....................... S\nCEFTRIAXONE................... S\nCIPROFLOXACIN................. S\nAMOXICILLIN/CLAVULANATE....... S\nTRIMETH/SULF.................. S\nLEVOFLOXACIN.................. S\n\n=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--\nPerforming Laboratory:\nBacteriology Report Performed By:\nROSEBURG VA MEDICAL CENTER [CLIA# 38D0988132]\nMHVZZVISNTWENTY, TEST PATIENTR CONFIDENTIAL Page 40 of 98\n913 NW GARDEN VALLEY BLVD. ROSEBURG, OR 97471-6523\n-----------------------------------------------------------------------------\nResult Key:\nSUSC = Susceptibility Result S = Susceptible\nINTP = Interpretation I = Intermediate\nMIC = Minimum Inhibitory Concentration R = Resistant"
+    "results": "Accession [UID]: MI 16 3065 [1216003065] Received: Jul 08, 2016@11:29\nCollection sample: VENOUS BLOOD Collection date: Jul 08, 2016 11:29\nSite/Specimen: BLOOD VENOUS\nProvider: MCNALLY,PEGGY A\n\n\n* BACTERIOLOGY FINAL REPORT => Jul 09, 2016 09:56 TECH CODE: 205931\nCULTURE RESULTS: ESCHERICHIA COLI - Quantity: 2+\nANTIBIOTIC SUSCEPTIBILITY TEST RESULTS:\nESCHERICHIA COLI\n:\nAMPICILLIN.................... S\nAMPICILLIN/SULBACTAM.......... S\nCEFAZOLIN..................... S\nTOBRMCN....................... S\nGENTMCN....................... S\nCEFTRIAXONE................... S\nCIPROFLOXACIN................. S\nAMOXICILLIN/CLAVULANATE....... S\nTRIMETH/SULF.................. S\nLEVOFLOXACIN.................. S\n\n=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--\nPerforming Laboratory:\nBacteriology Report Performed By:\nROSEBURG VA MEDICAL CENTER [CLIA# 38D0988132]\nMHVZZVISNTWENTY, TEST PATIENTR CONFIDENTIAL Page 40 of 98\n913 NW GARDEN VALLEY BLVD. ROSEBURG, OR 97471-6523\n-----------------------------------------------------------------------------\nResult Key:\nSUSC = Susceptibility Result S = Susceptible\nINTP = Interpretation I = Intermediate\nMIC = Minimum Inhibitory Concentration R = Resistant"
   },
   {
     "name": "Surgical pathology",
+    "type": "pathology",
     "category": "",
     "orderedBy": "Beth M. Smith",
     "requestedBy": "John J. Lydon",
     "id": 125,
     "date": "2016-04-28T17:42:46.000Z",
-    "vaccineId": "000004",
     "sampleTested": "LEFT FINGER",
     "labLocation": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
-    "labResults": "LOCAL TITLE: LR SURGICAL PATHOLOGY REPORT\nDATE OF NOTE: MAR 02, 2020@10:03:38 ENTRY DATE: MAR 02, 2020@10:03:38\nAUTHOR: DANILOVA,OLGA V EXP COSIGNER:\nURGENCY: STATUS: COMPLETED\n$APHDR\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMEDICAL RECORD | SURGICAL PATHOLOGY\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPATHOLOGY REPORT Accession No. SP 20 999999\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n$TEXT\nSubmitted by: Date obtained: Jan 21, 2020\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nSpecimen (Received Jan 21, 2020 16:21):\nTEST SPECIMEN\n*+* SUPPLEMENTARY REPORT HAS BEEN ADDED *+*\n*+* REFER TO BOTTOM OF REPORT *+*\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nBRIEF CLINICAL HISTORY:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPREOPERATIVE DIAGNOSIS:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nOPERATIVE FINDINGS:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPOSTOPERATIVE DIAGNOSIS:\nSurgeon/physician: LISA M WINTERBOTTOM MD\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPATHOLOGY REPORT Accession No. SP 20 999999\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMICROSCOPIC EXAM:\nDIAGNOSIS AFTER MICROSCOPIC EXAM:\n\nTEST SPECIMEN, CHEST:\n- TEST SPECIMEN.\n\nOLGA V. DANILOVA, M.D.\nSTAF PATHOLOGIST\nPATHOLOGY AND LAB MED\n\nSUPPLEMENTARY REPORT(S):\nSupplementary Report Date: MAR 02, 2020\n*+* SUPPLEMENTARY REPORT HAS BEEN ADDED/MODIFIED *+*\n(Added/Last released: Mar 02, 2020 10:03 Signed by DANILOVA,OLGA V)\nADDENDUM: This addendum is issued to report test addendum report.\n\nAddendum rendered by:\n\nOLGA V. DANILOVA, M.D.\nSTAFF PATHOLOGIST\nPATHOLOGY AND LAB MED\n\n/es/ Olga V DANILOVA, MD\nStaff Pathologist\nSigned Mar 02, 2020@10:03\nPerforming Laboratory:\nSurgical Pathology Report Performed By:\nPORTLAND VA MEDICAL CENTER [CLIA# 38D0988131]\n3710 SW US VETERANS HOSPTL RD PORTLAND, OR 97239-2964\n$FTR\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n(End of report)\nOlga V DANILOVA ovd| Date Jan 21, 2020\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMHVZZVISNTWENTY,TEST PATIENTR STANDARD FORM 515\nID:666-66-2000 SEX:M DOB:01/01/2001 AGE: 19 LOC:AAALAB\nPCP:\n/es/ Olga V DANILOVA, MD\nStaff Pathologist\nSigned: 03/02/2020 10:03"
+    "results": "LOCAL TITLE: LR SURGICAL PATHOLOGY REPORT\nDATE OF NOTE: MAR 02, 2020@10:03:38 ENTRY DATE: MAR 02, 2020@10:03:38\nAUTHOR: DANILOVA,OLGA V EXP COSIGNER:\nURGENCY: STATUS: COMPLETED\n$APHDR\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMEDICAL RECORD | SURGICAL PATHOLOGY\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPATHOLOGY REPORT Accession No. SP 20 999999\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n$TEXT\nSubmitted by: Date obtained: Jan 21, 2020\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nSpecimen (Received Jan 21, 2020 16:21):\nTEST SPECIMEN\n*+* SUPPLEMENTARY REPORT HAS BEEN ADDED *+*\n*+* REFER TO BOTTOM OF REPORT *+*\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nBRIEF CLINICAL HISTORY:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPREOPERATIVE DIAGNOSIS:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nOPERATIVE FINDINGS:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPOSTOPERATIVE DIAGNOSIS:\nSurgeon/physician: LISA M WINTERBOTTOM MD\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPATHOLOGY REPORT Accession No. SP 20 999999\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMICROSCOPIC EXAM:\nDIAGNOSIS AFTER MICROSCOPIC EXAM:\n\nTEST SPECIMEN, CHEST:\n- TEST SPECIMEN.\n\nOLGA V. DANILOVA, M.D.\nSTAF PATHOLOGIST\nPATHOLOGY AND LAB MED\n\nSUPPLEMENTARY REPORT(S):\nSupplementary Report Date: MAR 02, 2020\n*+* SUPPLEMENTARY REPORT HAS BEEN ADDED/MODIFIED *+*\n(Added/Last released: Mar 02, 2020 10:03 Signed by DANILOVA,OLGA V)\nADDENDUM: This addendum is issued to report test addendum report.\n\nAddendum rendered by:\n\nOLGA V. DANILOVA, M.D.\nSTAFF PATHOLOGIST\nPATHOLOGY AND LAB MED\n\n/es/ Olga V DANILOVA, MD\nStaff Pathologist\nSigned Mar 02, 2020@10:03\nPerforming Laboratory:\nSurgical Pathology Report Performed By:\nPORTLAND VA MEDICAL CENTER [CLIA# 38D0988131]\n3710 SW US VETERANS HOSPTL RD PORTLAND, OR 97239-2964\n$FTR\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n(End of report)\nOlga V DANILOVA ovd| Date Jan 21, 2020\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMHVZZVISNTWENTY,TEST PATIENTR STANDARD FORM 515\nID:666-66-2000 SEX:M DOB:01/01/2001 AGE: 19 LOC:AAALAB\nPCP:\n/es/ Olga V DANILOVA, MD\nStaff Pathologist\nSigned: 03/02/2020 10:03"
   },
   {
     "name": "Cytology",
+    "type": "pathology",
     "category": "",
     "orderedBy": "Beth M. Smith",
     "requestedBy": "John J. Lydon",
     "id": 126,
     "date": "2016-04-28T17:42:46.000Z",
-    "vaccineId": "000005",
     "sampleTested": "LEFT FINGER",
     "labLocation": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
-    "labResults": "LOCAL TITLE: LR SURGICAL PATHOLOGY REPORT\nDATE OF NOTE: MAR 02, 2020@10:03:38 ENTRY DATE: MAR 02, 2020@10:03:38\nAUTHOR: DANILOVA,OLGA V EXP COSIGNER:\nURGENCY: STATUS: COMPLETED\n$APHDR\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMEDICAL RECORD | SURGICAL PATHOLOGY\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPATHOLOGY REPORT Accession No. SP 20 999999\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n$TEXT\nSubmitted by: Date obtained: Jan 21, 2020\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nSpecimen (Received Jan 21, 2020 16:21):\nTEST SPECIMEN\n*+* SUPPLEMENTARY REPORT HAS BEEN ADDED *+*\n*+* REFER TO BOTTOM OF REPORT *+*\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nBRIEF CLINICAL HISTORY:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPREOPERATIVE DIAGNOSIS:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nOPERATIVE FINDINGS:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPOSTOPERATIVE DIAGNOSIS:\nSurgeon/physician: LISA M WINTERBOTTOM MD\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPATHOLOGY REPORT Accession No. SP 20 999999\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMICROSCOPIC EXAM:\nDIAGNOSIS AFTER MICROSCOPIC EXAM:\n\nTEST SPECIMEN, CHEST:\n- TEST SPECIMEN.\n\nOLGA V. DANILOVA, M.D.\nSTAF PATHOLOGIST\nPATHOLOGY AND LAB MED\n\nSUPPLEMENTARY REPORT(S):\nSupplementary Report Date: MAR 02, 2020\n*+* SUPPLEMENTARY REPORT HAS BEEN ADDED/MODIFIED *+*\n(Added/Last released: Mar 02, 2020 10:03 Signed by DANILOVA,OLGA V)\nADDENDUM: This addendum is issued to report test addendum report.\n\nAddendum rendered by:\n\nOLGA V. DANILOVA, M.D.\nSTAFF PATHOLOGIST\nPATHOLOGY AND LAB MED\n\n/es/ Olga V DANILOVA, MD\nStaff Pathologist\nSigned Mar 02, 2020@10:03\nPerforming Laboratory:\nSurgical Pathology Report Performed By:\nPORTLAND VA MEDICAL CENTER [CLIA# 38D0988131]\n3710 SW US VETERANS HOSPTL RD PORTLAND, OR 97239-2964\n$FTR\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n(End of report)\nOlga V DANILOVA ovd| Date Jan 21, 2020\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMHVZZVISNTWENTY,TEST PATIENTR STANDARD FORM 515\nID:666-66-2000 SEX:M DOB:01/01/2001 AGE: 19 LOC:AAALAB\nPCP:\n/es/ Olga V DANILOVA, MD\nStaff Pathologist\nSigned: 03/02/2020 10:03"
+    "results": "LOCAL TITLE: LR SURGICAL PATHOLOGY REPORT\nDATE OF NOTE: MAR 02, 2020@10:03:38 ENTRY DATE: MAR 02, 2020@10:03:38\nAUTHOR: DANILOVA,OLGA V EXP COSIGNER:\nURGENCY: STATUS: COMPLETED\n$APHDR\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMEDICAL RECORD | SURGICAL PATHOLOGY\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPATHOLOGY REPORT Accession No. SP 20 999999\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n$TEXT\nSubmitted by: Date obtained: Jan 21, 2020\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nSpecimen (Received Jan 21, 2020 16:21):\nTEST SPECIMEN\n*+* SUPPLEMENTARY REPORT HAS BEEN ADDED *+*\n*+* REFER TO BOTTOM OF REPORT *+*\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nBRIEF CLINICAL HISTORY:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPREOPERATIVE DIAGNOSIS:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nOPERATIVE FINDINGS:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPOSTOPERATIVE DIAGNOSIS:\nSurgeon/physician: LISA M WINTERBOTTOM MD\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPATHOLOGY REPORT Accession No. SP 20 999999\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMICROSCOPIC EXAM:\nDIAGNOSIS AFTER MICROSCOPIC EXAM:\n\nTEST SPECIMEN, CHEST:\n- TEST SPECIMEN.\n\nOLGA V. DANILOVA, M.D.\nSTAF PATHOLOGIST\nPATHOLOGY AND LAB MED\n\nSUPPLEMENTARY REPORT(S):\nSupplementary Report Date: MAR 02, 2020\n*+* SUPPLEMENTARY REPORT HAS BEEN ADDED/MODIFIED *+*\n(Added/Last released: Mar 02, 2020 10:03 Signed by DANILOVA,OLGA V)\nADDENDUM: This addendum is issued to report test addendum report.\n\nAddendum rendered by:\n\nOLGA V. DANILOVA, M.D.\nSTAFF PATHOLOGIST\nPATHOLOGY AND LAB MED\n\n/es/ Olga V DANILOVA, MD\nStaff Pathologist\nSigned Mar 02, 2020@10:03\nPerforming Laboratory:\nSurgical Pathology Report Performed By:\nPORTLAND VA MEDICAL CENTER [CLIA# 38D0988131]\n3710 SW US VETERANS HOSPTL RD PORTLAND, OR 97239-2964\n$FTR\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n(End of report)\nOlga V DANILOVA ovd| Date Jan 21, 2020\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMHVZZVISNTWENTY,TEST PATIENTR STANDARD FORM 515\nID:666-66-2000 SEX:M DOB:01/01/2001 AGE: 19 LOC:AAALAB\nPCP:\n/es/ Olga V DANILOVA, MD\nStaff Pathologist\nSigned: 03/02/2020 10:03"
   },
   {
     "name": "Electron microscopy",
+    "type": "pathology",
     "category": "",
     "orderedBy": "Gregory House, M.D.",
     "requestedBy": "John J. Lydon",
     "id": 127,
     "date": "2015-04-05T17:42:46.000Z",
-    "vaccineId": "000006",
     "sampleTested": "LEFT FINGER",
     "labLocation": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
-    "labResults": "LOCAL TITLE: LR SURGICAL PATHOLOGY REPORT\nDATE OF NOTE: MAR 02, 2020@10:03:38 ENTRY DATE: MAR 02, 2020@10:03:38\nAUTHOR: DANILOVA,OLGA V EXP COSIGNER:\nURGENCY: STATUS: COMPLETED\n$APHDR\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMEDICAL RECORD | SURGICAL PATHOLOGY\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPATHOLOGY REPORT Accession No. SP 20 999999\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n$TEXT\nSubmitted by: Date obtained: Jan 21, 2020\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nSpecimen (Received Jan 21, 2020 16:21):\nTEST SPECIMEN\n*+* SUPPLEMENTARY REPORT HAS BEEN ADDED *+*\n*+* REFER TO BOTTOM OF REPORT *+*\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nBRIEF CLINICAL HISTORY:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPREOPERATIVE DIAGNOSIS:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nOPERATIVE FINDINGS:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPOSTOPERATIVE DIAGNOSIS:\nSurgeon/physician: LISA M WINTERBOTTOM MD\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPATHOLOGY REPORT Accession No. SP 20 999999\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMICROSCOPIC EXAM:\nDIAGNOSIS AFTER MICROSCOPIC EXAM:\n\nTEST SPECIMEN, CHEST:\n- TEST SPECIMEN.\n\nOLGA V. DANILOVA, M.D.\nSTAF PATHOLOGIST\nPATHOLOGY AND LAB MED\n\nSUPPLEMENTARY REPORT(S):\nSupplementary Report Date: MAR 02, 2020\n*+* SUPPLEMENTARY REPORT HAS BEEN ADDED/MODIFIED *+*\n(Added/Last released: Mar 02, 2020 10:03 Signed by DANILOVA,OLGA V)\nADDENDUM: This addendum is issued to report test addendum report.\n\nAddendum rendered by:\n\nOLGA V. DANILOVA, M.D.\nSTAFF PATHOLOGIST\nPATHOLOGY AND LAB MED\n\n/es/ Olga V DANILOVA, MD\nStaff Pathologist\nSigned Mar 02, 2020@10:03\nPerforming Laboratory:\nSurgical Pathology Report Performed By:\nPORTLAND VA MEDICAL CENTER [CLIA# 38D0988131]\n3710 SW US VETERANS HOSPTL RD PORTLAND, OR 97239-2964\n$FTR\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n(End of report)\nOlga V DANILOVA ovd| Date Jan 21, 2020\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMHVZZVISNTWENTY,TEST PATIENTR STANDARD FORM 515\nID:666-66-2000 SEX:M DOB:01/01/2001 AGE: 19 LOC:AAALAB\nPCP:\n/es/ Olga V DANILOVA, MD\nStaff Pathologist\nSigned: 03/02/2020 10:03"
+    "results": "LOCAL TITLE: LR SURGICAL PATHOLOGY REPORT\nDATE OF NOTE: MAR 02, 2020@10:03:38 ENTRY DATE: MAR 02, 2020@10:03:38\nAUTHOR: DANILOVA,OLGA V EXP COSIGNER:\nURGENCY: STATUS: COMPLETED\n$APHDR\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMEDICAL RECORD | SURGICAL PATHOLOGY\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPATHOLOGY REPORT Accession No. SP 20 999999\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n$TEXT\nSubmitted by: Date obtained: Jan 21, 2020\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nSpecimen (Received Jan 21, 2020 16:21):\nTEST SPECIMEN\n*+* SUPPLEMENTARY REPORT HAS BEEN ADDED *+*\n*+* REFER TO BOTTOM OF REPORT *+*\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nBRIEF CLINICAL HISTORY:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPREOPERATIVE DIAGNOSIS:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nOPERATIVE FINDINGS:\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPOSTOPERATIVE DIAGNOSIS:\nSurgeon/physician: LISA M WINTERBOTTOM MD\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nPATHOLOGY REPORT Accession No. SP 20 999999\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMICROSCOPIC EXAM:\nDIAGNOSIS AFTER MICROSCOPIC EXAM:\n\nTEST SPECIMEN, CHEST:\n- TEST SPECIMEN.\n\nOLGA V. DANILOVA, M.D.\nSTAF PATHOLOGIST\nPATHOLOGY AND LAB MED\n\nSUPPLEMENTARY REPORT(S):\nSupplementary Report Date: MAR 02, 2020\n*+* SUPPLEMENTARY REPORT HAS BEEN ADDED/MODIFIED *+*\n(Added/Last released: Mar 02, 2020 10:03 Signed by DANILOVA,OLGA V)\nADDENDUM: This addendum is issued to report test addendum report.\n\nAddendum rendered by:\n\nOLGA V. DANILOVA, M.D.\nSTAFF PATHOLOGIST\nPATHOLOGY AND LAB MED\n\n/es/ Olga V DANILOVA, MD\nStaff Pathologist\nSigned Mar 02, 2020@10:03\nPerforming Laboratory:\nSurgical Pathology Report Performed By:\nPORTLAND VA MEDICAL CENTER [CLIA# 38D0988131]\n3710 SW US VETERANS HOSPTL RD PORTLAND, OR 97239-2964\n$FTR\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n(End of report)\nOlga V DANILOVA ovd| Date Jan 21, 2020\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\nMHVZZVISNTWENTY,TEST PATIENTR STANDARD FORM 515\nID:666-66-2000 SEX:M DOB:01/01/2001 AGE: 19 LOC:AAALAB\nPCP:\n/es/ Olga V DANILOVA, MD\nStaff Pathologist\nSigned: 03/02/2020 10:03"
 
   },
   {
     "name": "Chemistry and hemotology",
+    "type": "chemistry_hematology",
     "category": "Chemistry and hematology",
     "orderedBy": "Beth M. Smith",
     "requestedBy": "John J. Lydon",
     "id": 128,
     "date": "2012-04-05T17:42:46.000Z",
-    "vaccineId": "000007",
     "orderingLocation": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
     "collectingLocation": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
     "comments": [],
-    "labResults": [
+    "results": [
       {
         "name": "WBC",
         "result": "5.0 K/ccm",
@@ -237,16 +238,16 @@
   },
   {
     "name": "Human Coronavirus RNA QI PCR-AUTO MOLECULAR INST 1",
+    "type": "chemistry_hematology",
     "category": "Chemistry and hematology",
     "orderedBy": "Beth M. Smith",
     "requestedBy": "John J. Lydon",
     "id": 129,
     "date": "2012-04-03T17:42:46.000Z",
-    "vaccineId": "000008",
     "orderingLocation": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
     "collectingLocation": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
     "comments": [],
-    "labResults": [
+    "results": [
       {
         "name": "WBC",
         "result": "5.0 K/ccm",
@@ -315,16 +316,16 @@
   },
   {
     "name": "Complete blood count",
+    "type": "chemistry_hematology",
     "category": "Chemistry and hematology",
     "orderedBy": "Beth M. Smith",
     "requestedBy": "John J. Lydon",
     "id": 130,
     "date": "2011-04-01T17:42:46.000Z",
-    "vaccineId": "000009",
     "orderingLocation": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
     "collectingLocation": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
     "comments": [],
-    "labResults": [
+    "results": [
       {
         "name": "WBC",
         "result": "5.0 K/ccm",

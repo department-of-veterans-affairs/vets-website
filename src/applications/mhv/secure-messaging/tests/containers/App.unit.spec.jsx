@@ -15,6 +15,11 @@ describe('App', () => {
         services: [backendServices.MESSAGING],
       },
     },
+    sm: {
+      breadcrumbs: {
+        list: [],
+      },
+    },
   };
 
   it('user is not logged in', () => {
@@ -27,6 +32,7 @@ describe('App', () => {
         },
       },
       path: `/`,
+      reducers: reducer,
     });
     expect(
       screen.getByText('Loading your information...', {
@@ -46,6 +52,7 @@ describe('App', () => {
         ...initialState,
       },
       path: `/`,
+      reducers: reducer,
     });
     expect(screen.getByTestId('feature-flag-loading-indicator'));
   });
@@ -60,6 +67,7 @@ describe('App', () => {
         ...initialState,
       },
       path: `/`,
+      reducers: reducer,
     });
     expect(
       screen.queryByText(

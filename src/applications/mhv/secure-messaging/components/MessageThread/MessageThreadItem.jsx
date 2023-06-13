@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaAccordionItem } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -12,7 +12,6 @@ import { dateFormat } from '../../util/helpers';
 const MessageThreadItem = props => {
   const dispatch = useDispatch();
   const accordionItemRef = useRef();
-  const [isExpanded, setIsExpanded] = useState(false);
   const { message, isDraftThread } = props;
   const {
     attachment,
@@ -32,32 +31,21 @@ const MessageThreadItem = props => {
   const fromMe = recipientName === triageGroupName;
   const from = fromMe ? 'Me' : `${senderName}`;
 
-  useEffect(
-    () => {
-      if (props.printView) {
-        setIsExpanded(true);
-      }
-    },
-    [props.printView],
-  );
-
   const handleExpand = isPreloaded => {
     if (!isPreloaded) {
       dispatch(markMessageAsReadInThread(messageId, isDraftThread));
     }
-    setIsExpanded(!isExpanded);
   };
 
   const accordionAriaLabel = useMemo(
     () => {
-      return `${!isRead ? 'New' : ''} message ${
+      return `${!isRead ? 'New ' : ''}message ${
+        fromMe ? 'sent' : 'received'
+      } ${dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}, ${
         attachment ? 'with attachment' : ''
-      } from ${senderName}, ${dateFormat(
-        sentDate,
-        'MMMM D, YYYY [at] h:mm a z',
-      )}. ${isExpanded ? 'Collapse message' : 'Expand message'}`;
+      } from ${senderName}."`;
     },
-    [attachment, isExpanded, isRead, senderName, sentDate],
+    [attachment, fromMe, isRead, senderName, sentDate],
   );
 
   return (

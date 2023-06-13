@@ -5,7 +5,7 @@ import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { NewBookingSection } from '../../../covid-19-vaccine';
-import { getDirectBookingEligibilityCriteriaMock } from '../../../tests/mocks/v0';
+import { getDirectBookingEligibilityCriteriaMock } from '../../mocks/v0';
 import {
   mockDirectBookingEligibilityCriteria,
   mockRequestEligibilityCriteria,
@@ -76,10 +76,8 @@ describe('VAOS vaccine flow', () => {
             state: 'MT',
           },
           phone: '5555555555x1234',
-          version: 0,
         }),
       ],
-      version: 0,
     });
     mockRequestEligibilityCriteria(['983', '984'], []);
     mockDirectBookingEligibilityCriteria(

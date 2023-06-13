@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   VaButtonPair,
   VaNumberInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 
 import { ROUTES } from '../constants';
-import { updateDependents } from '../actions';
+import { updateDependents, updateEditMode } from '../actions';
 
-const DependentsPage = ({ dependents, router, updateDependentsField }) => {
+const DependentsPage = ({
+  dependents,
+  editMode,
+  router,
+  toggleEditMode,
+  updateDependentsField,
+}) => {
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -19,14 +26,21 @@ const DependentsPage = ({ dependents, router, updateDependentsField }) => {
 
   const validDependents = dependents?.length > 0 && dependentsValid(dependents);
 
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
+
   const onContinueClick = () => {
     setSubmitted(true);
 
     if (!validDependents) {
       setError(true);
+    } else if (editMode) {
+      setError(false);
+      toggleEditMode(false);
+      router.push(ROUTES.REVIEW);
     } else {
       setError(false);
-      updateDependentsField(dependents);
       router.push(ROUTES.REVIEW);
     }
   };
@@ -42,6 +56,10 @@ const DependentsPage = ({ dependents, router, updateDependentsField }) => {
   };
 
   const onBackClick = () => {
+    if (editMode) {
+      toggleEditMode(false);
+    }
+
     router.push(ROUTES.ZIPCODE);
   };
 
@@ -80,18 +98,22 @@ const DependentsPage = ({ dependents, router, updateDependentsField }) => {
 
 const mapStateToProps = state => ({
   dependents: state?.incomeLimits?.form?.dependents,
+  editMode: state?.incomeLimits?.editMode,
 });
 
 const mapDispatchToProps = {
+  toggleEditMode: updateEditMode,
   updateDependentsField: updateDependents,
 };
 
 DependentsPage.propTypes = {
-  updateDependentsField: PropTypes.func.isRequired,
-  dependents: PropTypes.string,
+  editMode: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
-  }),
+  }).isRequired,
+  toggleEditMode: PropTypes.func.isRequired,
+  updateDependentsField: PropTypes.func.isRequired,
+  dependents: PropTypes.string,
 };
 
 export default connect(

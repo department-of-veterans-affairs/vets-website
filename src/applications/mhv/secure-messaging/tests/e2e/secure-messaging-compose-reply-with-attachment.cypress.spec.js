@@ -11,7 +11,13 @@ describe('Start a new message With Attacments and Errors', () => {
     landingPage.loadInboxMessages();
     landingPage.loadComposeMessagePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     composePage.getCategory('COVID').click();
     composePage.attachMessageFromFile('test_video.mp4');

@@ -14,12 +14,11 @@ describe('Microbiology details component', () => {
     date: '2018-05-04T17:42:46.000Z',
     sampleFrom: 'Blood',
     sampleTested: 'Blood',
-    vaccineId: '000003',
     orderingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     collectingLocation: 'school parking lot',
     labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    labResults:
+    results:
       'Accession [UID]: MI 16 3065 [1216003065] Received: Jul 08, 2016@11:29\nCollection sample: VENOUS BLOOD Collection date: Jul 08, 2016 11:29\nSite/Specimen: BLOOD VENOUS\nProvider: MCNALLY,PEGGY A\n\n\n* BACTERIOLOGY FINAL REPORT => Jul 09, 2016 09:56 TECH CODE: 205931\nCULTURE RESULTS: ESCHERICHIA COLI - Quantity: 2+\nANTIBIOTIC SUSCEPTIBILITY TEST RESULTS:\nESCHERICHIA COLI\n:\nAMPICILLIN.................... S\nAMPICILLIN/SULBACTAM.......... S\nCEFAZOLIN..................... S\nTOBRMCN....................... S\nGENTMCN....................... S\nCEFTRIAXONE................... S\nCIPROFLOXACIN................. S\nAMOXICILLIN/CLAVULANATE....... S\nTRIMETH/SULF.................. S\nLEVOFLOXACIN.................. S\n\n=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--\nPerforming Laboratory:\nBacteriology Report Performed By:\nROSEBURG VA MEDICAL CENTER [CLIA# 38D0988132]\nMHVZZVISNTWENTY, TEST PATIENTR CONFIDENTIAL Page 40 of 98\n913 NW GARDEN VALLEY BLVD. ROSEBURG, OR 97471-6523\n-----------------------------------------------------------------------------\nResult Key:\nSUSC = Susceptibility Result S = Susceptible\nINTP = Interpretation I = Intermediate\nMIC = Minimum Inhibitory Concentration R = Resistant',
   };
 
@@ -33,7 +32,7 @@ describe('Microbiology details component', () => {
 
   const setup = (state = initialState) => {
     return renderWithStoreAndRouter(
-      <MicroDetails results={mockMicro} fullState={state} />,
+      <MicroDetails record={mockMicro} fullState={state} />,
       {
         initialState: state,
         reducers: reducer,
@@ -69,10 +68,10 @@ describe('Microbiology details component', () => {
   it('should display the lab results', () => {
     const screen = setup();
 
-    const labResults = screen.getByText(mockMicro.labResults.split('\n')[0], {
+    const results = screen.getByText(mockMicro.results.split('\n')[0], {
       exact: false,
       selector: 'p',
     });
-    expect(labResults).to.exist;
+    expect(results).to.exist;
   });
 });
