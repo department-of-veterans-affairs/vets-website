@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AUTHORIZER_TYPES } from '../config/constants';
+import { AUTHORIZER_TYPES } from '../definitions/constants';
 
 /** @type {PageSchema} */
 export default {
