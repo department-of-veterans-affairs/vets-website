@@ -13,7 +13,7 @@ const App = ({ formEnabled }) => {
   if (formEnabled) {
     return (
       <>
-        <p>You can submit the form online or by mail.</p>
+        <p>You can submit this form online or by mail.</p>
         <a
           className="vads-c-action-link--blue"
           href="/supporting-forms-for-claims/lay-witness-statement-form-21-10210"
