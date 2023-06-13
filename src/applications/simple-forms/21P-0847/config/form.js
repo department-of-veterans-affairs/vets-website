@@ -11,9 +11,6 @@ import preparerPersonalInformation from '../pages/preparerPersonalInformation';
 import preparerIdentificationInformation from '../pages/preparerIdentificationInformation';
 import preparerAddress from '../pages/preparerAddress';
 import preparerContactInformation from '../pages/preparerContactInformation';
-import substitutionStatus from '../pages/substitutionStatus';
-import deceasedClaimantPersonalInformation from '../pages/deceasedClaimantPersonalInformation';
-import deceasedClaimantIdentificationInformation from '../pages/deceasedClaimantIdentificationInformation';
 import veteranPersonalInformation from '../pages/veteranPersonalInformation';
 import veteranIdentificationInformation from '../pages/veteranIdentificationInformation';
 import relationshipToDeceasedClaimant from '../pages/relationshipToDeceasedClaimant';
@@ -38,11 +35,13 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '21P-0847',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your substitute claimant application (21P-0847) is in progress.',
-    //   expired: 'Your saved substitute claimant application (21P-0847) has expired. If you want to apply for substitute claimant, please start a new application.',
-    //   saved: 'Your substitute claimant application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your substitute claimant application (21P-0847) is in progress.',
+      expired:
+        'Your saved substitute claimant application (21P-0847) has expired. If you want to apply for substitute claimant, please start a new application.',
+      saved: 'Your substitute claimant application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
@@ -60,7 +59,7 @@ const formConfig = {
       title: 'Your personal information',
       pages: {
         preparerPersonalInformation: {
-          path: 'preparer-information-1',
+          path: 'preparer-personal-information',
           title: 'Your personal information',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
@@ -71,11 +70,30 @@ const formConfig = {
         },
       },
     },
+    relationshipToDeceasedClaimantChapter: {
+      title: 'Your relationship',
+      pages: {
+        relationshipToDeceasedClaimant: {
+          path: 'relationship-to-deceased-claimant',
+          title: 'Your relationship',
+          uiSchema: relationshipToDeceasedClaimant.uiSchema,
+          schema: relationshipToDeceasedClaimant.schema,
+        },
+        otherRelationshipToDeceasedClaimant: {
+          path: 'other-relationship-to-deceased-claimant',
+          title: 'Your relationship',
+          depends: formData =>
+            formData.relationshipToDeceasedClaimant === 'other',
+          uiSchema: otherRelationshipToDeceasedClaimant.uiSchema,
+          schema: otherRelationshipToDeceasedClaimant.schema,
+        },
+      },
+    },
     preparerIdentificationInformationChapter: {
       title: 'Your identification information',
       pages: {
         preparerIdentificationInformation: {
-          path: 'preparer-information-2',
+          path: 'preparer-identification-information',
           title: 'Your identification information',
           uiSchema: preparerIdentificationInformation.uiSchema,
           schema: preparerIdentificationInformation.schema,
@@ -104,43 +122,6 @@ const formConfig = {
         },
       },
     },
-    substitutionStatusChapter: {
-      title: 'Substitution status',
-      pages: {
-        substitutionStatus: {
-          path: 'substitution-status',
-          title: 'Substitution status',
-          uiSchema: substitutionStatus.uiSchema,
-          schema: substitutionStatus.schema,
-        },
-      },
-    },
-    deceasedClaimantPersonalInformationChapter: {
-      title: 'Deceased substitute claimant’s personal information',
-      pages: {
-        deceasedClaimantPersonalInformation: {
-          path: 'deceased-claimaint-personal-information',
-          title: 'Deceased substitute claimant’s personal information',
-          depends: formData =>
-            formData.substituteStatus === 'substituteClaimant',
-          uiSchema: deceasedClaimantPersonalInformation.uiSchema,
-          schema: deceasedClaimantPersonalInformation.schema,
-        },
-      },
-    },
-    deceasedClaimantIdentificationInformationChapter: {
-      title: 'Deceased substitute claimant’s identification information',
-      pages: {
-        deceasedClaimantIdentificationInformation: {
-          path: 'deceased-claimaint-identification-information',
-          title: 'Deceased substitute claimant’s identification information',
-          depends: formData =>
-            formData.substituteStatus === 'substituteClaimant',
-          uiSchema: deceasedClaimantIdentificationInformation.uiSchema,
-          schema: deceasedClaimantIdentificationInformation.schema,
-        },
-      },
-    },
     veteranPersonalInformationChapter: {
       title: 'Veteran’s personal information',
       pages: {
@@ -160,30 +141,6 @@ const formConfig = {
           title: 'Veteran’s identification information',
           uiSchema: veteranIdentificationInformation.uiSchema,
           schema: veteranIdentificationInformation.schema,
-        },
-      },
-    },
-    relationshipToDeceasedClaimantChapter: {
-      title: 'Your relationship',
-      pages: {
-        relationshipToDeceasedClaimant: {
-          path: 'relationship-to-deceased-claimant',
-          title: 'Your relationship',
-          uiSchema: relationshipToDeceasedClaimant.uiSchema,
-          schema: relationshipToDeceasedClaimant.schema,
-        },
-      },
-    },
-    otherRelationshipToDeceasedClaimantChapter: {
-      title: 'Your relationship',
-      pages: {
-        otherRelationshipToDeceasedClaimant: {
-          path: 'other-relationship-to-deceased-claimant',
-          title: 'Your relationship',
-          depends: formData =>
-            formData.relationshipToDeceasedClaimant === 'other',
-          uiSchema: otherRelationshipToDeceasedClaimant.uiSchema,
-          schema: otherRelationshipToDeceasedClaimant.schema,
         },
       },
     },
