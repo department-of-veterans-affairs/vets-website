@@ -90,7 +90,7 @@ export class DirectDepositClient {
     this.recordAnalyticsEvent(payload);
   }
 
-  recordCNPEvent({ status, method, extraProperties = {} }) {
+  recordCNPEvent({ status, method = 'GET', extraProperties = {} }) {
     if (this.useLighthouseEndpoint) {
       this.recordLighthouseEvent({
         method,

@@ -59,7 +59,7 @@ export function fetchCNPPaymentInformation({
 
     dispatch({ type: CNP_PAYMENT_INFORMATION_FETCH_STARTED });
 
-    client.recordCNPEvent({ status: API_STATUS.STARTED, method: 'GET' });
+    client.recordCNPEvent({ status: API_STATUS.STARTED });
 
     const response = await getData(client.endpoint);
 
@@ -77,7 +77,7 @@ export function fetchCNPPaymentInformation({
     // };
 
     if (response.error) {
-      client.recordCNPEvent({ status: API_STATUS.FAILED, method: 'GET' });
+      client.recordCNPEvent({ status: API_STATUS.FAILED });
 
       captureCNPError(response, {
         eventName: 'cnp-get-direct-deposit-failed',
@@ -95,7 +95,6 @@ export function fetchCNPPaymentInformation({
 
       client.recordCNPEvent({
         status: API_STATUS.SUCCESSFUL,
-        method: 'GET',
         extraProperties: {
           // The API might report an empty payment address for some folks who are
           // already enrolled in direct deposit. But we want to make sure we
@@ -169,11 +168,13 @@ export function saveCNPPaymentInformation({
     // };
 
     if (response.error || response.errors) {
+      // TODO: if there is a response.errors shouldn't we be using that instead of []?
       const errors = response.error?.errors || [];
-      const analyticsData = createCNPDirectDepositAnalyticsDataObject(
+      const analyticsData = createCNPDirectDepositAnalyticsDataObject({
         errors,
-        isEnrollingInDirectDeposit,
-      );
+        isEnrolling: isEnrollingInDirectDeposit,
+        useLighthouseDirectDepositEndpoint,
+      });
 
       client.recordCNPEvent({
         status: API_STATUS.FAILED,
