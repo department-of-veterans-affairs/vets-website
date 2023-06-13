@@ -2,12 +2,12 @@ import HouseholdExpensesChecklist from '../../components/HouseholdExpensesCheckl
 
 export const uiSchema = {
   'ui:title': 'Monthly housing expenses',
+  'ui:field': HouseholdExpensesChecklist,
+  'ui:options': {
+    hideOnReview: true,
+  },
   householdExpensesChecklist: {
-    'ui:title': 'Which of these expenses do you pay for?',
-    'ui:widget': HouseholdExpensesChecklist,
-    'ui:options': {
-      hideOnReview: true,
-    },
+    'ui:title': 'householdExpensesChecklist',
   },
 };
 
