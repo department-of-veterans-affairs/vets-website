@@ -816,7 +816,7 @@ const formConfig = {
           depends: formData =>
             formData.questions.hasRecreationalVehicle &&
             formData['view:combinedFinancialStatusReport'],
-          editModeOnReviewPage: true,
+          editModeOnReviewPage: false,
         },
         recreationalVehicleRecordsListLoop: {
           path: 'recreational-vehicle-records',

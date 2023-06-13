@@ -27,6 +27,8 @@ import { CC_PROVIDERS_DATA } from './cc_providers_data';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../../utils/constants';
 import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
 import { createMockFacilityByVersion } from '../../../mocks/data';
+import { getSchedulingConfigurationMock } from '../../../mocks/v2';
+import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
 
 const initialState = {
   featureToggles: {
@@ -102,6 +104,26 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
         60,
       ),
       CC_PROVIDERS_DATA,
+    );
+    mockSchedulingConfigurations(
+      [
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983GJ',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983GC',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      ],
+      true,
     );
   });
   it.skip('should display closest city question when user has multiple supported sites', async () => {
@@ -326,13 +348,11 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GJ',
+        id: '983GJ',
         name: 'Facility that is enabled',
         lat: 39.1362562,
         long: -83.1804804,
-        version: 0,
       }),
-      version: 0,
     });
 
     await setTypeOfCare(store, /primary care/i);
@@ -781,7 +801,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     // And the CC iterations toggle is on
     // And type of care is selected
     const store = await setCommunityCareFlow({
-      toggles: {},
+      toggles: {
+        vaOnlineSchedulingFacilitiesServiceV2: true,
+      },
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },
         { id: '984', address: { city: 'Belgrade', state: 'MT' } },

@@ -5,6 +5,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
+import transformForSubmit from '../../shared/config/submit-transformer';
 
 import preparerPersonalInformation from '../pages/preparerPersonalInformation';
 import preparerIdentificationInformation from '../pages/preparerIdentificationInformation';
@@ -27,9 +28,8 @@ const mockData = testData;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
+  transformForSubmit,
   trackingPrefix: '21P-0847-substitute-claimant-',
   dev: {
     showNavLinks: true,
@@ -38,11 +38,13 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '21P-0847',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your substitute claimant application (21P-0847) is in progress.',
-    //   expired: 'Your saved substitute claimant application (21P-0847) has expired. If you want to apply for substitute claimant, please start a new application.',
-    //   saved: 'Your substitute claimant application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your substitute claimant application (21P-0847) is in progress.',
+      expired:
+        'Your saved substitute claimant application (21P-0847) has expired. If you want to apply for substitute claimant, please start a new application.',
+      saved: 'Your substitute claimant application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
