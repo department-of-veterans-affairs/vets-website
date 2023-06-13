@@ -3,12 +3,17 @@ import footerContent from 'platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 
 import getHelp from '../../shared/components/GetFormHelp';
-import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
+import {
+  CLAIM_OWNERSHIPS,
+  CLAIMANT_TYPES,
+  OTHER_RELATIONSHIP,
+} from '../definitions/constants';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import claimOwnership from '../pages/claimOwnership';
+import claimOwnershipPg from '../pages/claimOwnership';
 import claimantType from '../pages/claimantType';
 import witnessPersInfo from '../pages/witnessPersInfo';
+import witnessOtherRelationship from '../pages/witnessOtherRelationship';
 import witnessContInfo from '../pages/witnessContInfo';
 import claimantPersInfo from '../pages/claimantPersInfo';
 import claimantIdInfo from '../pages/claimantIdInfo';
@@ -31,6 +36,20 @@ import transformForSubmit from './submit-transformer';
 import testData from '../tests/e2e/fixtures/data/noStmtInfo.json';
 
 const mockData = testData.data;
+
+const witnessHasOtherRelationship = formData => {
+  const { claimOwnership, witnessRelationshipToClaimant } = formData;
+
+  if (!!claimOwnership && !!witnessRelationshipToClaimant) {
+    return (
+      claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY &&
+      witnessRelationshipToClaimant.includes(OTHER_RELATIONSHIP)
+    );
+  }
+
+  return false;
+};
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -110,8 +129,8 @@ const formConfig = {
           // one single initialData prop here will suffice for entire form
           initialData:
             !!mockData && environment.isLocalhost() ? mockData : undefined,
-          uiSchema: claimOwnership.uiSchema,
-          schema: claimOwnership.schema,
+          uiSchema: claimOwnershipPg.uiSchema,
+          schema: claimOwnershipPg.schema,
         },
         claimantTypePage: {
           path: 'claimant-type',
@@ -127,8 +146,8 @@ const formConfig = {
       pages: {
         witnessPersInfoPageA: {
           // for Flow 2: 3rd-party claim, vet claimant
-          path: 'witness-personal-information',
-          title: 'Your personal information-a',
+          path: 'witness-personal-information-a',
+          title: 'Your personal information',
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
             claimantType: CLAIMANT_TYPES.VETERAN,
@@ -146,6 +165,13 @@ const formConfig = {
           },
           uiSchema: witnessPersInfo.uiSchemaB,
           schema: witnessPersInfo.schema,
+        },
+        witnessOtherRelationshipPage: {
+          path: 'witness-other-relationship',
+          title: 'Your other relationship',
+          depends: witnessHasOtherRelationship,
+          uiSchema: witnessOtherRelationship.uiSchema,
+          schema: witnessOtherRelationship.schema,
         },
       },
     },

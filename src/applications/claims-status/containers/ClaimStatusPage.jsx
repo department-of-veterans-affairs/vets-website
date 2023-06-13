@@ -33,6 +33,7 @@ const getStatusMap = () => {
   map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
   map.set('UNDER_REVIEW', 'UNDER_REVIEW');
   map.set('GATHERING_OF_EVIDENCE', 'GATHERING_OF_EVIDENCE');
+  map.set('REVIEW_OF_EVIDENCE', 'REVIEW_OF_EVIDENCE');
   map.set('PREPARATION_FOR_DECISION', 'PREPARATION_FOR_DECISION');
   map.set('PENDING_DECISION_APPROVAL', 'PENDING_DECISION_APPROVAL');
   map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
@@ -57,12 +58,8 @@ const generatePhases = claim => {
   const { previousPhases } = claim.attributes.claimPhaseDates;
   const phases = [];
 
-  // Add 'phase1' event (this is equivalent to the filed event,
-  // but activity is group by 'phase_entered' events so we need this
-  // one as well)
   phases.push({
-    type: 'phase_entered',
-    phase: 1,
+    type: 'filed',
     date: claim.attributes.claimDate,
   });
 
@@ -123,8 +120,13 @@ const generateEventTimeline = claim => {
   // Sort events from least to most recent
   events.sort((a, b) => {
     if (a.date === b.date) {
+      // Phases should be flipped
       if (a.phase && b.phase) {
         return b.phase - a.phase;
+      }
+      // Tracked items should be flipped as well
+      if (a.type === 'tracked_item' && b.type === 'tracked_item') {
+        return b.id - a.id;
       }
       return 0;
     }

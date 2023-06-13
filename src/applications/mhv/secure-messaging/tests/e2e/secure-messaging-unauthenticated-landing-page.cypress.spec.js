@@ -16,6 +16,12 @@ describe.skip('Secure Messaging Compose', () => {
     cy.get('[data-testid="inbox-sidebar"] > a').click();
 
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

@@ -25,6 +25,8 @@ import { CC_PROVIDERS_DATA } from './cc_providers_data';
 import { FACILITY_SORT_METHODS } from '../../../../utils/constants';
 import { createMockFacilityByVersion } from '../../../mocks/data';
 import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
+import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
+import { getSchedulingConfigurationMock } from '../../../mocks/v2';
 
 const initialState = {
   featureToggles: {
@@ -103,13 +105,31 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     );
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442',
+        id: '983',
         lat: 38.5615,
         long: 122.9988,
-        version: 0,
       }),
-      version: 0,
     });
+    mockSchedulingConfigurations(
+      [
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983GJ',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983GC',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      ],
+      true,
+    );
   });
 
   it('should display list of providers when choose a provider clicked', async () => {

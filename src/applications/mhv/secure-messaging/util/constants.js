@@ -1,6 +1,21 @@
 /** time to wait (in ms) after the user stops typing before initiating draft auto-save */
 export const draftAutoSaveTimeout = 5000;
 
+export const Paths = {
+  INBOX: '/inbox/',
+  SENT: '/sent/',
+  DRAFTS: '/drafts/',
+  DRAFT: '/draft/',
+  DELETED: '/trash/',
+  COMPOSE: '/new-message/',
+  MESSAGE: '/message/',
+  MESSAGE_THREAD: '/thread/',
+  FOLDERS: '/folders/',
+  SEARCH: '/search/',
+  SEARCH_RESULTS: '/search/results/',
+  REPLY: '/reply/',
+};
+
 export const DefaultFolders = {
   INBOX: {
     id: 0,
@@ -148,7 +163,7 @@ export const Links = {
     CANNOT_REPLY: {
       CLASSNAME: 'fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1',
       TITLE: 'Start a new message',
-      TO: '/compose',
+      TO: Paths.COMPOSE,
     },
   },
 };
@@ -172,20 +187,17 @@ export const Prompts = {
   },
 };
 export const Breadcrumbs = {
+  MESSAGES: { path: '/', label: 'Back to messages' },
   COMPOSE: {
-    path: '/compose',
+    path: Paths.COMPOSE,
     label: 'Start a new message',
   },
-  INBOX: { path: '/inbox', label: 'Inbox' },
-  DRAFTS: { path: '/drafts', label: 'Drafts' },
-  DRAFT: { path: '/draft', label: 'Drafts' },
-  FOLDERS: { path: '/folders', label: 'My folders' },
-  SENT: { path: '/sent', label: 'Sent messages' },
-  TRASH: { path: '/trash', label: 'Trash' },
-  SEARCH: { path: '/search', label: 'Search messages' },
-  SEARCH_ADVANCED: { path: '/advanced', label: 'Advanced search' },
-  SEARCH_RESULTS: { path: '/results', label: 'Search results' },
-  FAQ: { path: '/faq', label: 'Messages FAQs' },
+  INBOX: { path: Paths.INBOX, label: 'Back to inbox' },
+  DRAFTS: { path: Paths.DRAFTS, label: 'Drafts' },
+  DRAFT: { path: Paths.DRAFT, label: 'Drafts' },
+  FOLDERS: { path: Paths.FOLDERS, label: 'Back to my folders' },
+  SENT: { path: Paths.SENT, label: 'Sent messages' },
+  TRASH: { path: Paths.DELETED, label: 'Trash' },
 };
 
 export const ALERT_TYPE_ERROR = 'error';
@@ -237,4 +249,9 @@ export const threadSortingOptions = {
 export const PrintMessageOptions = {
   PRINT_MAIN: 'PRINT_MAIN',
   PRINT_THREAD: 'PRINT_THREAD',
+};
+
+export const BreadcrumbViews = {
+  DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
+  MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3',
 };
