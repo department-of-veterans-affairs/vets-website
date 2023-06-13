@@ -20,6 +20,7 @@ import {
   VaTextInput,
   VaAlert,
   VaSegmentedProgressBar,
+  VaAdditionalInfo,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V1V3Page() {
@@ -732,6 +733,36 @@ export default function V1V3Page() {
                 total={5}
                 uswds
               />
+            </div>
+          </div>
+        </div>
+
+        {/* Additional Info Comparison */}
+        <div className="vads-l-row">
+          <h3>Additional Info</h3>
+          <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
+              <VaAdditionalInfo trigger="Expand Additional Information">
+                <div>Here are some items</div>
+                <ul>
+                  <li>Item 1</li>
+                  <li>Item 2</li>
+                  <li>Item 3</li>
+                  <li>Item 4</li>
+                </ul>
+              </VaAdditionalInfo>
+            </div>
+
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
+              <VaAdditionalInfo trigger="Expand Additional Information" uswds>
+                <div>Here are some items</div>
+                <ul>
+                  <li>Item 1</li>
+                  <li>Item 2</li>
+                  <li>Item 3</li>
+                  <li>Item 4</li>
+                </ul>
+              </VaAdditionalInfo>
             </div>
           </div>
         </div>
