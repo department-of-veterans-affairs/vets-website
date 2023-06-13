@@ -117,6 +117,21 @@ const PreSubmitSignature = ({
       </div>
     );
   }
+  const statementOfTruth = (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+    <div tabIndex={0}>
+      <h3>Veteran’s statement of truth</h3>
+      <p>
+        I’ve reviewed the information I provided in this request, including:
+      </p>
+      <ul>
+        <li>My marital status and number of dependents</li>
+        <li>My income (and my spouse’s income if included)</li>
+        <li>My household assets and expenses</li>
+        <li>My bankruptcy history</li>
+      </ul>
+    </div>
+  );
 
   return (
     <>
@@ -128,16 +143,7 @@ const PreSubmitSignature = ({
       </p>
 
       <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px">
-        <h3>Veteran’s statement of truth</h3>
-        <p>
-          I’ve reviewed the information I provided in this request, including:
-        </p>
-        <ul>
-          <li>My marital status and number of dependents</li>
-          <li>My income (and my spouse’s income if included)</li>
-          <li>My household assets and expenses</li>
-          <li>My bankruptcy history</li>
-        </ul>
+        {statementOfTruth}
 
         <va-text-input
           label={"Veteran's full name"}
