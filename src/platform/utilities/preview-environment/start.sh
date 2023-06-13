@@ -13,7 +13,8 @@ git clone --depth 1 https://github.com/department-of-veterans-affairs/vets-json-
 git clone --depth 1 https://github.com/department-of-veterans-affairs/veteran-facing-services-tools
 
 # Clone content-build
-git clone --depth 1 https://github.com/department-of-veterans-affairs/content-build.git
+git clone -b hh-pi-hardcode-api_url https://github.com/department-of-veterans-affairs/content-build.git
+# git clone --depth 1 https://github.com/department-of-veterans-affairs/content-build.git
 
 # Clone vets-website
 if [ -z ${SOURCE_REF} ] ;
