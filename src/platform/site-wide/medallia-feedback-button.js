@@ -10,6 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
         // Check if the target element has been added to the DOM
         const targetElement = document.getElementById('kampyleFormModal');
         if (targetElement) {
+          console.log('kampleFormModal is here');
           // Once the target element is present, create a new MutationObserver to watch for changes in its attributes
           const attributeObserver = new MutationObserver(
             attributeMutationsList => {
@@ -22,12 +23,17 @@ window.addEventListener('DOMContentLoaded', () => {
                   const ariaLabel = targetElement.getAttribute('aria-label');
                   if (ariaLabel === 'Feedback Survey') {
                     console.log('feedback survey is here');
-                    setTimeout(() => {
-                      const vclNumber = document.querySelector(
-                        '#liveForm > div > div.live-form-content > div.modal-live-form.ng-scope > div > div > div:nth-child(1) > div > div > p > ul > li:nth-child(1) > span > strong:nth-child(2) > a',
-                      );
-                      addAriaLabel(vclNumber, '9 9 8');
-                    }, 3000);
+                    const iframe = document.getElementById('kampyleForm29');
+                    if (iframe) {
+                      console.log('kampyIframe is here');
+                      const iframeContentWindow = iframe.contentWindow;
+                      setTimeout(() => {
+                        const vclNumber = iframeContentWindow.document.querySelector(
+                          '#liveForm > div > div.live-form-content > div.modal-live-form.ng-scope > div > div > div:nth-child(1) > div > div > p > ul > li:nth-child(1) > span > strong:nth-child(2) > a',
+                        );
+                        addAriaLabel(vclNumber, '9 9 8');
+                      }, 3000);
+                    }
                   }
                 }
               }
