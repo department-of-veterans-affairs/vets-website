@@ -1,7 +1,11 @@
-// import { combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 
-// const rootReducer = {
-//   rx: combineReducers({}),
-// };
+import { prescriptionsReducer } from './prescriptions';
 
-// export default rootReducer;
+const rootReducer = {
+  rx: combineReducers({
+    prescriptions: prescriptionsReducer,
+  }),
+};
+
+export default rootReducer;

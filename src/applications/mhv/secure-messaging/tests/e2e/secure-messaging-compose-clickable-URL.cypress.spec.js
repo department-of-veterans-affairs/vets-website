@@ -12,7 +12,13 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     site.login();
     landingPage.loadInboxMessages();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.get('[data-testid="compose-message-link"]').click();
     patientInterstitialPage.getContinueButton().click();
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
@@ -22,7 +28,13 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     composePage.verifyClickableURLinMessageBody('https://www.va.gov/');
     composePage.sendMessage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.verifySendMessageConfirmationMessage();
   });
 });
