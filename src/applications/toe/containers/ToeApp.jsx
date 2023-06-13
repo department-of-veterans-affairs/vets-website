@@ -26,6 +26,7 @@ function ToeApp({
   user,
   showMebEnhancements,
   showMebEnhancements06,
+  showMebEnhancements08,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -95,6 +96,18 @@ function ToeApp({
       }
     },
     [formData, setFormData, showMebEnhancements06],
+  );
+
+  useEffect(
+    () => {
+      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
+        setFormData({
+          ...formData,
+          showMebEnhancements08,
+        });
+      }
+    },
+    [formData, setFormData, showMebEnhancements08],
   );
 
   useEffect(
