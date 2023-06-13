@@ -11,9 +11,6 @@ import preparerPersonalInformation from '../pages/preparerPersonalInformation';
 import preparerIdentificationInformation from '../pages/preparerIdentificationInformation';
 import preparerAddress from '../pages/preparerAddress';
 import preparerContactInformation from '../pages/preparerContactInformation';
-import substitutionStatus from '../pages/substitutionStatus';
-import deceasedClaimantPersonalInformation from '../pages/deceasedClaimantPersonalInformation';
-import deceasedClaimantIdentificationInformation from '../pages/deceasedClaimantIdentificationInformation';
 import veteranPersonalInformation from '../pages/veteranPersonalInformation';
 import veteranIdentificationInformation from '../pages/veteranIdentificationInformation';
 import relationshipToDeceasedClaimant from '../pages/relationshipToDeceasedClaimant';
@@ -73,6 +70,30 @@ const formConfig = {
         },
       },
     },
+    relationshipToDeceasedClaimantChapter: {
+      title: 'Your relationship',
+      pages: {
+        relationshipToDeceasedClaimant: {
+          path: 'relationship-to-deceased-claimant',
+          title: 'Your relationship',
+          uiSchema: relationshipToDeceasedClaimant.uiSchema,
+          schema: relationshipToDeceasedClaimant.schema,
+        },
+      },
+    },
+    otherRelationshipToDeceasedClaimantChapter: {
+      title: 'Your relationship',
+      pages: {
+        otherRelationshipToDeceasedClaimant: {
+          path: 'other-relationship-to-deceased-claimant',
+          title: 'Your relationship',
+          depends: formData =>
+            formData.relationshipToDeceasedClaimant === 'other',
+          uiSchema: otherRelationshipToDeceasedClaimant.uiSchema,
+          schema: otherRelationshipToDeceasedClaimant.schema,
+        },
+      },
+    },
     preparerIdentificationInformationChapter: {
       title: 'Your identification information',
       pages: {
@@ -106,43 +127,6 @@ const formConfig = {
         },
       },
     },
-    substitutionStatusChapter: {
-      title: 'Substitution status',
-      pages: {
-        substitutionStatus: {
-          path: 'substitution-status',
-          title: 'Substitution status',
-          uiSchema: substitutionStatus.uiSchema,
-          schema: substitutionStatus.schema,
-        },
-      },
-    },
-    deceasedClaimantPersonalInformationChapter: {
-      title: 'Deceased substitute claimant’s personal information',
-      pages: {
-        deceasedClaimantPersonalInformation: {
-          path: 'deceased-claimaint-personal-information',
-          title: 'Deceased substitute claimant’s personal information',
-          depends: formData =>
-            formData.substituteStatus === 'substituteClaimant',
-          uiSchema: deceasedClaimantPersonalInformation.uiSchema,
-          schema: deceasedClaimantPersonalInformation.schema,
-        },
-      },
-    },
-    deceasedClaimantIdentificationInformationChapter: {
-      title: 'Deceased substitute claimant’s identification information',
-      pages: {
-        deceasedClaimantIdentificationInformation: {
-          path: 'deceased-claimaint-identification-information',
-          title: 'Deceased substitute claimant’s identification information',
-          depends: formData =>
-            formData.substituteStatus === 'substituteClaimant',
-          uiSchema: deceasedClaimantIdentificationInformation.uiSchema,
-          schema: deceasedClaimantIdentificationInformation.schema,
-        },
-      },
-    },
     veteranPersonalInformationChapter: {
       title: 'Veteran’s personal information',
       pages: {
@@ -162,30 +146,6 @@ const formConfig = {
           title: 'Veteran’s identification information',
           uiSchema: veteranIdentificationInformation.uiSchema,
           schema: veteranIdentificationInformation.schema,
-        },
-      },
-    },
-    relationshipToDeceasedClaimantChapter: {
-      title: 'Your relationship',
-      pages: {
-        relationshipToDeceasedClaimant: {
-          path: 'relationship-to-deceased-claimant',
-          title: 'Your relationship',
-          uiSchema: relationshipToDeceasedClaimant.uiSchema,
-          schema: relationshipToDeceasedClaimant.schema,
-        },
-      },
-    },
-    otherRelationshipToDeceasedClaimantChapter: {
-      title: 'Your relationship',
-      pages: {
-        otherRelationshipToDeceasedClaimant: {
-          path: 'other-relationship-to-deceased-claimant',
-          title: 'Your relationship',
-          depends: formData =>
-            formData.relationshipToDeceasedClaimant === 'other',
-          uiSchema: otherRelationshipToDeceasedClaimant.uiSchema,
-          schema: otherRelationshipToDeceasedClaimant.schema,
         },
       },
     },
