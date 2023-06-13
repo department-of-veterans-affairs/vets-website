@@ -10,6 +10,8 @@ import { AUTHORIZER_TYPES } from '../definitions/constants';
 // pages
 import authTypePg from '../pages/authType';
 import vetPersInfoPg from '../pages/vetPersInfo';
+import vetIdInfoPg from '../pages/vetIdInfo';
+import thirdPartyTypePg from '../pages/thirdPartyType';
 
 // mock-data import for local development
 // import the appropriate file [flow?.json] for the flow you're working on, or
@@ -86,6 +88,31 @@ const formConfig = {
           title: 'Your personal information',
           uiSchema: vetPersInfoPg.uiSchema,
           schema: vetPersInfoPg.schema,
+        },
+      },
+    },
+    veteranIdentificationInfoChapter: {
+      title: ({ formData }) =>
+        formData?.authorizerType === AUTHORIZER_TYPES.VETERAN
+          ? 'Your identification information'
+          : 'Veteran’s identification information',
+      pages: {
+        vetIdInfoPage: {
+          path: 'veteran-identification-information',
+          title: 'Your identification information',
+          uiSchema: vetIdInfoPg.uiSchema,
+          schema: vetIdInfoPg.schema,
+        },
+      },
+    },
+    disclosureInfoChapter: {
+      title: 'Disclosure information',
+      pages: {
+        sourceTypePage: {
+          path: 'disclosure-information-third-party-type',
+          title: 'Third-party type',
+          uiSchema: thirdPartyTypePg.uiSchema,
+          schema: thirdPartyTypePg.schema,
         },
       },
     },

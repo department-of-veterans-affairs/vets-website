@@ -5,6 +5,8 @@
       "first": "John",
       "middle": "",
       "last": "Veteran"
-    }
+    },
+    "veteranSSN": "111223333",
+    "thirdPartyType": "person"
   }
 }

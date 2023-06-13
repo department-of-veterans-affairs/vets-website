@@ -16,3 +16,10 @@ div:has(.schemaform-sip-alert) {
   font-size: 1.6rem !important;
   font-weight: 400 !important;
 }
+
+.form-review-panel[data-chapter="disclosureInfoChapter"] .review-row dt > span {
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", Arial,
+    sans-serif !important;
+  font-size: 1.6rem !important;
+  font-weight: 400 !important;
+}
