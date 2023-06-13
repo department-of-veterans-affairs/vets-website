@@ -39,6 +39,12 @@ else
     curl -LO ${AWS_URL} ;
 fi
 
+echo "Setup content-build and extract pre-built content into content-build/build/localhost"
+echo "make the build folder"
+mkdir -p content-build/build/localhost
+echo "untar the build into content-build/build/localhost/"
+tar -xf vagovprod.tar.bz2 -C content-build/build/localhost/
+
 echo "set yarn to allow self-signed cert for install"
 yarn config set "strict-ssl" false
 
@@ -52,17 +58,11 @@ yarn watch --env.buildtype=localhost &
 
 cd ..
 
-# NOTE: The following block is commented we're using the drupal cache for now
-# echo "Setup content-build and extract pre-built content into content-build/build/localhost"
-# echo "make the build folder"
-# mkdir -p content-build/build/localhost
-# echo "untar the build into content-build/build/localhost/"
-# tar -xf vagovprod.tar.bz2 -C content-build/build/localhost/
-
+# NOTE: THE FOLLOWING IS COMMENTED OUT BECAUSE WE'RE SETTING UP THE CONTENT-BUILD ABOVE
 # Untar the content-build into content-build/.cache/localhost/drupal
-mkdir -p content-build/.cache/localhost/drupal
-echo "untar the build into content-build/.cache/localhost/drupal"
-tar -xf ${AWS_FILENAME} -C content-build/.cache/localhost/drupal
+# mkdir -p content-build/.cache/localhost/drupal
+# echo "untar the build into content-build/.cache/localhost/drupal"
+# tar -xf ${AWS_FILENAME} -C content-build/.cache/localhost/drupal
 
 # Install, build and serve content-build
 echo "Install and serve content-build"
