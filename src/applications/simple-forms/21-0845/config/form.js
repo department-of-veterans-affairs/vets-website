@@ -6,15 +6,15 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
+import { AUTHORIZER_TYPES } from '../definitions/constants';
+// pages
+import authTypePg from '../pages/authType';
+import vetPersInfoPg from '../pages/vetPersInfo';
 
 // mock-data import for local development
 // import the appropriate file [flow?.json] for the flow you're working on, or
 // noStmtInfo.json for all flows [select claimOwnership & claimantType via UI]
 import testData from '../tests/fixtures/data/test-data.json';
-
-// pages
-import authType from '../pages/authType';
-import vetPersInfo from '../pages/vetPersInfo';
 
 // const { } = fullSchema.properties;
 
@@ -70,19 +70,22 @@ const formConfig = {
           // one single initialData prop here will suffice for entire form
           initialData:
             !!mockData && environment.isLocalhost() ? mockData : undefined,
-          uiSchema: authType.uiSchema,
-          schema: authType.schema,
+          uiSchema: authTypePg.uiSchema,
+          schema: authTypePg.schema,
         },
       },
     },
     veteranPersonalInfoChapter: {
-      title: 'Your personal information',
+      title: ({ formData }) =>
+        formData?.authorizerType === AUTHORIZER_TYPES.VETERAN
+          ? 'Your personal information'
+          : 'Veteran’s personal information',
       pages: {
         vetPersInfoPage: {
           path: 'veteran-personal-information',
           title: 'Your personal information',
-          uiSchema: vetPersInfo.uiSchema,
-          schema: vetPersInfo.schema,
+          uiSchema: vetPersInfoPg.uiSchema,
+          schema: vetPersInfoPg.schema,
         },
       },
     },
