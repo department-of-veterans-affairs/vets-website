@@ -54,7 +54,7 @@ module.exports = {
         }`,
     API_URL: isNode
       ? `http://${process.env.API_HOST}:3000`
-      : '`http://vets-api-web:3004',
+      : 'http://vets-api-web:3004',
   },
 
   /* eslint-enable no-restricted-globals */
