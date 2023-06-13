@@ -1,6 +1,6 @@
 import {
-  testNumberOfErrorsOnSubmitWebComponents,
-  testNumberOfFieldsWebComponents,
+  testNumberOfErrorsOnSubmit,
+  testNumberOfFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 
@@ -12,7 +12,7 @@ const {
 const pageTitle = 'veteran identification information';
 
 const expectedNumberOfFields = 2;
-testNumberOfFieldsWebComponents(
+testNumberOfFields(
   formConfig,
   schema,
   uiSchema,
@@ -21,7 +21,7 @@ testNumberOfFieldsWebComponents(
 );
 
 const expectedNumberOfErrors = 1;
-testNumberOfErrorsOnSubmitWebComponents(
+testNumberOfErrorsOnSubmit(
   formConfig,
   schema,
   uiSchema,

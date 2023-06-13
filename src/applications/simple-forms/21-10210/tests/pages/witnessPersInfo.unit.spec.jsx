@@ -24,10 +24,7 @@ const mockData = {
   witnessRelationshipToClaimant: SERVED_WITH_VETERAN,
 };
 
-// Expect 4 fields instead of 7 fields.
-// witnessRelationshipToClaimant GroupCheckboxWidget's 3 fields are
-// in shadow-DOM and thus unselectable by test.
-const expectedNumberOfFields = 3;
+const expectedNumberOfFields = 7;
 testNumberOfFields(
   formConfig,
   schema,
