@@ -71,7 +71,7 @@ export const testNumberOfWebComponentFields = (
   data = {},
 ) => {
   describe(`${pageTitle} page`, () => {
-    it('should have appropriate number of fields', () => {
+    it('should have appropriate number of web components', () => {
       const { container } = render(
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
@@ -98,7 +98,7 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
   data = {},
 ) => {
   describe(`${pageTitle} page`, () => {
-    it('should show the correct number of errors on submit', () => {
+    it('should show the correct number of errors on submit for web components', () => {
       const { container, getByRole } = render(
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
