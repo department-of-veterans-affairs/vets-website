@@ -8,7 +8,7 @@ const MedicationsList = props => {
   return (
     <div className="vads-l-row vads-u-flex-direction--column">
       {rxList?.length > 0 &&
-        rxList.map(idx => <MedicationsListCard key={idx} />)}
+        rxList.map((rx, idx) => <MedicationsListCard key={idx} rx={rx} />)}
     </div>
   );
 };

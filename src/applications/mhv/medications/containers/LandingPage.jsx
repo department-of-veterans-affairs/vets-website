@@ -1,3 +1,4 @@
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPrescriptionsList } from '../actions/prescriptions';
@@ -17,14 +18,20 @@ const LandingPage = () => {
     [dispatch],
   );
 
+  const listPaginationInfo = () => {
+    return (
+      <div className="rx-page-total-info">Showing 1 - 20 of 51 medications</div>
+    );
+  };
+
   const content = () => {
     if (prescriptions) {
       return (
         <div className="landing-page">
-          <h1 className="vads-u-margin-bottom--1p5">Medications</h1>
-          <div>
+          <h1>Medications</h1>
+          <div className="vads-u-margin-bottom--2">
             Review your prescription medicaitons from VA, and providers outside
-            of our network
+            of our network.
           </div>
           <div>
             <button
@@ -73,10 +80,34 @@ const LandingPage = () => {
               </ul>
             </va-additional-info>
             <MedicationsListSort />
-            <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter vads-u-padding--0p5">
-              Showing 1 - 20 of 51 medications
-            </div>
+            {listPaginationInfo()}
+            <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
             <MedicationsList rxList={prescriptions} />
+            <VaPagination
+              id="pagination"
+              className="pagination"
+              onPageSelect={function noRefCheck() {}}
+              page={1}
+              pages={3}
+              showLastPage
+            />
+          </div>
+          <div className="rx-landing-page-footer">
+            <div className="footer-header vads-u-font-size--h2 vads-u-font-weight--bold vads-u-padding-y--1 vads-u-border-bottom--1px vads-u-border-color--gray-light">
+              Resources related to medications
+            </div>
+            <div className="footer-links">
+              <a href="/medications">Allergies and Adverse Reactions</a>
+              <p>
+                This is a description of why the user may need to navigate to
+                medical records to see their allergies.
+              </p>
+              <a href="/medications">Resources and Support</a>
+              <p>
+                This is a description of what the user might find in resources
+                and support.
+              </p>
+            </div>
           </div>
         </div>
       );

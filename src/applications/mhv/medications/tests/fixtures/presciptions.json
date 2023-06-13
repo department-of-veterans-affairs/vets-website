@@ -13,27 +13,11 @@
         "phoneNumber": "3333333333",
         "category": "Rx medication",
         "source": "VA",
-        "history": [
-            {
-                "requestDate": "2023-03-10T17:42:46.000Z",
-                "dispenseDate": "2023-03-14T17:42:46.000Z",
-                "shippedDate": "2023-03-14T17:42:46.000Z"
-            },
-            {
-                "requestDate": "2022-02-10T17:42:46.000Z",
-                "dispenseDate": "2022-02-14T17:42:46.000Z",
-                "shippedDate": "2022-02-14T17:42:46.000Z"
-            },
-            {
-                "requestDate": "2021-01-10T17:42:46.000Z",
-                "dispenseDate": "2021-01-14T17:42:46.000Z",
-                "shippedDate": "2021-01-14T17:42:46.000Z"
-            }
-        ]
+        "history": []
     },
     {
         "id": 1234567891,
-        "name": "Dramamine",
+        "name": "BUSPIRONE HCL 10MG TAB",
         "instructions": "TAKE 1 DAILY AS NEEDED FOR PAIN",
         "status": "Active",
         "refillsLeft": 3,
@@ -49,7 +33,7 @@
     },
     {
         "id": 12345678910,
-        "name": "IBUPROFEN 100MG TAB",
+        "name": "FOLIC ACID 1MG TAB",
         "instructions": "TAKE 1 DAILY AS NEEDED FOR PAIN",
         "status": "Active",
         "refillsLeft": 3,
@@ -61,23 +45,7 @@
         "phoneNumber": "3333333333",
         "category": "Rx medication",
         "source": "VA",
-        "history": [
-            {
-                "requestDate": "2023-03-10T17:42:46.000Z",
-                "dispenseDate": "2023-03-14T17:42:46.000Z",
-                "shippedDate": "2023-03-14T17:42:46.000Z"
-            },
-            {
-                "requestDate": "2022-02-10T17:42:46.000Z",
-                "dispenseDate": "2022-02-14T17:42:46.000Z",
-                "shippedDate": "2022-02-14T17:42:46.000Z"
-            },
-            {
-                "requestDate": "2021-01-10T17:42:46.000Z",
-                "dispenseDate": "2021-01-14T17:42:46.000Z",
-                "shippedDate": "2021-01-14T17:42:46.000Z"
-            }
-        ]
+        "history": []
     },
     {
         "id": 1234567891,
