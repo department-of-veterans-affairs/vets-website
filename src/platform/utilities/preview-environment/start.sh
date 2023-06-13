@@ -68,5 +68,5 @@ cd ..
 echo "Install and serve content-build"
 cd content-build
 yarn install
-yarn build --use-cached-assets
+# yarn build --use-cached-assets
 yarn serve
