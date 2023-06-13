@@ -112,7 +112,7 @@ const formConfig = {
     date: {
       title: 'Date',
       pages: {
-        checkbox: {
+        date: {
           path: 'date',
           title: 'Date',
           uiSchema: date.uiSchema,
