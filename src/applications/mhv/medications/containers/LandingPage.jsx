@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPrescriptionsList } from '../actions/prescriptions';
+import MedicationsList from './MedicaitonsList';
 import MedicationsListSort from './MedicationsListSort';
 
 const LandingPage = () => {
-  const prescription = useSelector(
+  const prescriptions = useSelector(
     state => state.rx.prescriptions.prescriptionsList,
   );
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const LandingPage = () => {
   );
 
   const content = () => {
-    if (prescription) {
+    if (prescriptions) {
       return (
         <div className="landing-page">
           <h1 className="vads-u-margin-bottom--1p5">Medications</h1>
@@ -75,7 +76,7 @@ const LandingPage = () => {
             <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter vads-u-padding--0p5">
               Showing 1 - 20 of 51 medications
             </div>
-            dgsdg
+            <MedicationsList rxList={prescriptions} />
           </div>
         </div>
       );

@@ -19,7 +19,9 @@
 }
 
 .main-content {
-  @media screen {
+  max-width: 700px;
+
+  @media (max-width: $small-screen) {
     max-width: 480px;
   }
 }

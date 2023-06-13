@@ -1,7 +1,7 @@
 import React from 'react';
 
-const MedicationsListSort = () => {
+const MedicationsListCard = () => {
   return <div className="medications-card">CARD</div>;
 };
 
-export default MedicationsListSort;
+export default MedicationsListCard;
