@@ -28,7 +28,7 @@ const InputList = ({
             onInput={onChange}
             required
             value={input.amount}
-            class="input-size-3 no-wrap"
+            width="md"
             currency
           />
         </div>
