@@ -224,31 +224,31 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="filter-messages-button"]').click();
   };
 
-  selectRecipient = () => {
+  selectRecipient = index => {
     cy.get('#recipient-dropdown')
       .shadow()
       .find('#select')
-      .select(1, { force: true });
+      .select(index, { force: true });
   };
 
-  selectCategory = () => {
+  selectCategory = index => {
     cy.get('[data-testid="compose-category-radio-button"]')
-      .first()
+      .eq(index)
       .click();
   };
 
-  addMessageSubject = () => {
+  addMessageSubject = subject => {
     cy.get('[data-testid="message-subject-field"]')
       .shadow()
       .find('#inputField')
-      .type('testSubject');
+      .type(subject);
   };
 
-  addMessageBody = () => {
+  addMessageBody = text => {
     cy.get('#compose-message-body')
       .shadow()
       .find('#textarea')
-      .type('testMessage');
+      .type(text);
   };
 
   saveDraftByKeyboard = () => {

@@ -10,10 +10,10 @@ describe('Check confirmation message after save draft', () => {
     site.login();
     inboxPage.loadInboxMessages();
     inboxPage.loadComposeMessagePage();
-    draftPage.selectRecipient();
-    draftPage.selectCategory();
-    draftPage.addMessageSubject();
-    draftPage.addMessageBody();
+    draftPage.selectRecipient(1);
+    draftPage.selectCategory(0);
+    draftPage.addMessageSubject('testSubject');
+    draftPage.addMessageBody('testMessage');
     // cy.axeCheck();
     cy.injectAxe();
     draftPage.saveDraftByKeyboard();
