@@ -315,7 +315,7 @@ const analyticsEvents = {
   'va-maintenance-banner': [
     {
       action: 'close',
-      event: 'maintenance-banner-dismissed',
+      event: 'int-maintenance-banner-close',
       prefix: 'maintenance-banner',
       ga4: {
         event: 'interaction',
@@ -323,10 +323,9 @@ const analyticsEvents = {
         custom_string_1: 'component-library',
         /* Component to GA4 parameters */
         mapping: {
-          'maintenance-banner-header': 'header',
-          'maintenance-banner-warn-starts-at': 'custom_date',
-          'maintenance-banner-starts-at': 'custom_date',
-          'maintenance-banner-expires-at': 'custom_date',
+          'maintenance-banner-header': 'heading_1',
+          'maintenance-banner-warn-starts-at': 'custom_number_1',
+          'maintenance-banner-expires-at': 'custom_number_2',
           'maintenance-banner-displayed-content': 'custom_string_2',
           version: 'component_version',
         },
