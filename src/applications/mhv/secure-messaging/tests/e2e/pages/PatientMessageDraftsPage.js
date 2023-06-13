@@ -224,7 +224,7 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="filter-messages-button"]').click();
   };
 
-  selectRecipient = recipient => {
+  selectRecipientName = recipient => {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('select')

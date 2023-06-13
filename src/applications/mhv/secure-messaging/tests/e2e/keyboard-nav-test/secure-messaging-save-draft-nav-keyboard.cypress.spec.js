@@ -10,7 +10,7 @@ describe('Check confirmation message after save draft', () => {
     site.login();
     inboxPage.loadInboxMessages();
     inboxPage.loadComposeMessagePage();
-    draftPage.selectRecipient(`6910405`);
+    draftPage.selectRecipientName(`6910405`);
     draftPage.selectCategory('General');
     draftPage.addMessageSubject('testSubject');
     draftPage.addMessageBody('testMessage');
