@@ -62,7 +62,7 @@ const formConfig = {
       title: 'Your personal information',
       pages: {
         preparerPersonalInformation: {
-          path: 'preparer-information-1',
+          path: 'preparer-personal-information',
           title: 'Your personal information',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
@@ -77,7 +77,7 @@ const formConfig = {
       title: 'Your identification information',
       pages: {
         preparerIdentificationInformation: {
-          path: 'preparer-information-2',
+          path: 'preparer-identification-information',
           title: 'Your identification information',
           uiSchema: preparerIdentificationInformation.uiSchema,
           schema: preparerIdentificationInformation.schema,
