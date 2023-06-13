@@ -6,9 +6,9 @@ import {
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 
-const { schema, uiSchema } = formConfig.chapters.textInput.pages.textInputSsn;
+const { schema, uiSchema } = formConfig.chapters.select.pages.select;
 
-const pageTitle = 'mock ssn inputs';
+const pageTitle = 'mock select inputs';
 
 const expectedNumberOfWebComponentFields = 6;
 testNumberOfWebComponentFields(
@@ -19,7 +19,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 2;
+const expectedNumberOfWebComponentErrors = 3;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
@@ -28,7 +28,7 @@ testNumberOfErrorsOnSubmitForWebComponents(
   pageTitle,
 );
 
-const expectedNumberOfFields = 3;
+const expectedNumberOfFields = 2;
 testNumberOfFields(
   formConfig,
   schema,
