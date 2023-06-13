@@ -12,13 +12,6 @@ export default function vaMemorableDateFieldMapping(props) {
     childrenProps,
   } = props;
 
-  let inputType = uiOptions?.inputType;
-  if (!inputType) {
-    inputType = ['number', 'integer'].includes(childrenProps.schema.type)
-      ? 'number'
-      : 'text';
-  }
-
   return {
     ...commonFieldMapping(props),
     value:
@@ -26,12 +19,6 @@ export default function vaMemorableDateFieldMapping(props) {
         ? ''
         : childrenProps.formData,
     'month-select': uiOptions?.monthSelect ?? true,
-    type: inputType,
-    onDateChange: (event, value) => {
-      const newVal = value ?? event.target.value ?? undefined;
-      childrenProps.onChange(newVal);
-    },
-    onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
     children: (
       <>
         {textDescription && <p>{textDescription}</p>}

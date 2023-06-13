@@ -1,6 +1,6 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaMemorableDateField from '../web-component-fields/VaMemorableDateField';
-import { validateCurrentOrPastDate } from '../validation';
+import { validateCurrentOrPastMemorableDate } from '../validation';
 
 /**
  * Web component uiSchema for current or past dates
@@ -18,7 +18,7 @@ const currentOrPastDateUI = title => {
   return {
     'ui:title': title ?? 'Date',
     'ui:webComponentField': VaMemorableDateField,
-    'ui:validations': [validateCurrentOrPastDate],
+    'ui:validations': [validateCurrentOrPastMemorableDate],
     'ui:errorMessages': {
       pattern: 'Please enter a valid current or past date',
       required: 'Please enter a date',
