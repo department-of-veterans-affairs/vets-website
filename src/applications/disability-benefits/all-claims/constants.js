@@ -337,3 +337,5 @@ export const CHAR_LIMITS = [
 
 // migration max string length
 export const MAX_HOUSING_STRING_LENGTH = 500;
+
+export const NO_FACILITY = 'Facility name not provided';

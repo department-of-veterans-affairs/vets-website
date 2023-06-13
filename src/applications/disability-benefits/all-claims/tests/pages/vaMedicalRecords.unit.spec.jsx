@@ -26,7 +26,7 @@ describe('VA Medical Records', () => {
     },
   ];
 
-  it('should render ', () => {
+  it('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -43,10 +43,7 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    // checking for treatmentCenterName, treatmentDateRange_fromYear, treatmentCenterAddress_city
-    expect(form.find('input').length).to.equal(3);
-
-    // checking for treatmentDateRange_fromMonth, treatmentCenterAddress_country, treatmentCenterAddress_state
+    expect(form.find('input').length).to.equal(6);
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
@@ -74,7 +71,7 @@ describe('VA Medical Records', () => {
     );
 
     form.find('form').simulate('submit');
-    // Required fields: Facility name and related disability
+
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
     form.unmount();
@@ -185,6 +182,40 @@ describe('VA Medical Records', () => {
               treatmentCenterAddress: {
                 country: 'USA',
                 city: 'Sommerset',
+                state: 'VA',
+              },
+            },
+          ],
+        }}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.calledOnce).to.be.true;
+    form.unmount();
+  });
+
+  it('should submit with sparse facility info', () => {
+    // Treatment facility is missing a name, date, and city (they are optional). VSRs look at all VAMCs in the
+    // system to assess if it’s relevant to the claim.
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ratedDisabilities,
+          vaTreatmentFacilities: [
+            {
+              treatedDisabilityNames: {
+                diabetesmelitus: true,
+              },
+
+              treatmentCenterAddress: {
+                country: 'USA',
                 state: 'VA',
               },
             },

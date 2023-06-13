@@ -1,6 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateUI from 'platform/forms-system/src/js/definitions/monthYear';
 import { treatmentView } from '../content/vaMedicalRecords';
+import { hasVAEvidence } from '../utils';
 import { makeSchemaForAllDisabilities } from '../utils/schemas';
 
 import {
@@ -8,7 +9,7 @@ import {
   validateMilitaryTreatmentState,
   startedAfterServicePeriod,
 } from '../validations';
-import { USA } from '../constants';
+import { NO_FACILITY, USA } from '../constants';
 
 const { vaTreatmentFacilities } = fullSchema.properties;
 
@@ -23,10 +24,13 @@ export const uiSchema = {
   vaTreatmentFacilities: {
     'ui:options': {
       itemName: 'Facility',
-      itemAriaLabel: data =>
-        data.treatmentCenterName || 'Facility name not provided',
+      itemAriaLabel: data => data.treatmentCenterName || NO_FACILITY,
       viewField: treatmentView,
       showSave: true,
+      updateSchema: (formData, schema) => ({
+        ...schema,
+        minItems: hasVAEvidence(formData) ? 1 : 0,
+      }),
     },
     items: {
       'ui:order': [
