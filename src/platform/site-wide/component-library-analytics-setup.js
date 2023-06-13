@@ -312,6 +312,27 @@ const analyticsEvents = {
       prefix: 'loading-indicator',
     },
   ],
+  'va-maintenance-banner': [
+    {
+      action: 'close',
+      event: 'maintenance-banner-dismissed',
+      prefix: 'maintenance-banner',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-maintenance-banner',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'maintenance-banner-header': 'header',
+          'maintenance-banner-warn-starts-at': 'custom_date',
+          'maintenance-banner-starts-at': 'custom_date',
+          'maintenance-banner-expires-at': 'custom_date',
+          'maintenance-banner-displayed-content': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
+    },
+  ],
   'va-memorable-date': [
     {
       action: 'blur',
