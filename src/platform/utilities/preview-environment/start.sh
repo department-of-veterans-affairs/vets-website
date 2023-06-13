@@ -53,7 +53,8 @@ echo "Install, build, and watch vets-website"
 cd vets-website
 yarn install --production=false
 yarn build:webpack:local
-yarn watch --env.buildtype=localhost --env.api="http://vets-api-web:3004" &
+# yarn watch --env.buildtype=localhost --env.api="http://vets-api-web:3004" &
+yarn watch --env.buildtype=localhost &
 
 cd ..
 
