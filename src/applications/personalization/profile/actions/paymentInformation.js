@@ -168,6 +168,7 @@ export function saveCNPPaymentInformation({
     // };
 
     if (response.error || response.errors) {
+      // TODO: if there is a response.errors shouldn't we be using that instead of []?
       const errors = response.error?.errors || [];
       const analyticsData = createCNPDirectDepositAnalyticsDataObject({
         errors,
