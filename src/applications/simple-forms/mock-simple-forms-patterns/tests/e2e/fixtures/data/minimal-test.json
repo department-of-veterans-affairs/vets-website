@@ -74,6 +74,7 @@
     },
     "requiredOld": "test",
     "requiredNew": "test",
-    "requiredNewV3": "test"
+    "requiredNewV3": "test",
+    "textAreaNewV3": "test paragraph, items and punctuation # and tags. new line - one - 2 - 3"
   }
 }

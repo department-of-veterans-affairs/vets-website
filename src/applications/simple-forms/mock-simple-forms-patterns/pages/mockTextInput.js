@@ -4,6 +4,7 @@ import {
   titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
 
 /** @type {PageSchema} */
 export default {
@@ -124,6 +125,11 @@ export default {
         inputmode: 'decimal',
       },
     },
+    textAreaNewV3: {
+      'ui:title': 'VaTextareaField',
+      'ui:description': 'Text description',
+      'ui:webComponentField': VaTextareaField,
+    },
     disabledNewV3: {
       'ui:title': 'VaTextInputField - disabled',
       'ui:webComponentField': VaTextInputField,
@@ -173,10 +179,13 @@ export default {
       inputmodeDecimalNewV3: {
         type: 'string',
       },
+      textAreaNewV3: {
+        type: 'string',
+      },
       disabledNewV3: {
         type: 'string',
       },
     },
-    required: ['requiredOld', 'requiredNew', 'requiredNewV3'],
+    required: ['requiredOld', 'requiredNew', 'requiredNewV3', 'textAreaNewV3'],
   },
 };
