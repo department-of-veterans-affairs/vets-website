@@ -1,8 +1,9 @@
-import React from 'react';
-import { expect } from 'chai';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { mount } from 'enzyme';
-import Sinon from 'sinon';
+import {
+  testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFields,
+  testNumberOfWebComponentFields,
+} from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 
 const {
@@ -10,52 +11,40 @@ const {
   uiSchema,
 } = formConfig.chapters.textInput.pages.textInputWidgets1;
 
-describe('web component vs regular text inputs for widgets 1', () => {
-  it('should have appropriate number of fields', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-      />,
-    );
+const pageTitle = 'mock text input widgets';
 
-    expect(form.find('va-text-input').length).to.equal(6);
-    expect(form.find('input').length).to.equal(3);
+const expectedNumberOfWebComponentFields = 6;
+testNumberOfWebComponentFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentFields,
+  pageTitle,
+);
 
-    form.unmount();
-  });
+const expectedNumberOfWebComponentErrors = 0;
+testNumberOfErrorsOnSubmitForWebComponents(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentErrors,
+  pageTitle,
+);
 
-  it('should show the correct number of errors on submit', async () => {
-    const onSubmit = Sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
+const expectedNumberOfFields = 3;
+testNumberOfFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfFields,
+  pageTitle,
+);
 
-    const button = form.find('form');
-    button.simulate('submit');
-
-    // web component errors
-    expect(
-      form.findWhere(node => {
-        return node.is('va-text-input') && node.prop('error');
-      }).length,
-    ).to.equal(0);
-
-    // regular input errors
-    expect(form.find('.usa-input-error').length).to.equal(0);
-
-    expect(onSubmit.called).to.be.true;
-
-    form.unmount();
-  });
-});
+const expectedNumberOfErrors = 0;
+testNumberOfErrorsOnSubmit(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfErrors,
+  pageTitle,
+);
