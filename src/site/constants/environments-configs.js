@@ -11,17 +11,17 @@ if (typeof window === 'undefined') {
 }
 
 // allowedHostnames is an array of hostnames that are eligible
-function isHostnameAllowed(hostname, allowedHostnames) {
-  let hostnameAllowed = false;
-  for (const name of allowedHostnames) {
-    const pattern = name.replace(/\*/g, '[a-z0-9]+(-[a-z0-9]+)*');
-    const regex = new RegExp(`^${pattern}$`, 'i');
-    if (regex.test(hostname)) {
-      hostnameAllowed = true;
-    }
-  }
-  return hostnameAllowed;
-}
+// function isHostnameAllowed(hostname, allowedHostnames) {
+//   let hostnameAllowed = false;
+//   for (const name of allowedHostnames) {
+//     const pattern = name.replace(/\*/g, '[a-z0-9]+(-[a-z0-9]+)*');
+//     const regex = new RegExp(`^${pattern}$`, 'i');
+//     if (regex.test(hostname)) {
+//       hostnameAllowed = true;
+//     }
+//   }
+//   return hostnameAllowed;
+// }
 
 module.exports = {
   [ENVIRONMENTS.VAGOVPROD]: {
@@ -54,16 +54,7 @@ module.exports = {
         }`,
     API_URL: isNode
       ? `http://${process.env.API_HOST}:3000`
-      : location.hostname &&
-        isHostnameAllowed(location.hostname, [
-          '*.preview.va.gov',
-          '*.vfs.va.gov',
-        ])
-        ? `http://${location.hostname.split('.')[0]}-api.${location.hostname
-            .split('.')
-            .slice(1)
-            .join('.')}:3000`
-        : `http://${location.hostname || 'localhost'}:3000`,
+      : '`http://vets-api-web:3004',
   },
 
   /* eslint-enable no-restricted-globals */
