@@ -249,6 +249,13 @@ describe('addAreaOfDisagreement', () => {
       'service connection,effective date,disability evaluation,this is an other entry',
     );
   });
+  it('should not throw a JS error with no disagreement options', () => {
+    const formData = {
+      areaOfDisagreement: [],
+    };
+    const result = addAreaOfDisagreement([issue1.result], formData);
+    expect(result[0].attributes.disagreementArea).to.equal('');
+  });
 });
 
 describe('addUploads', () => {
