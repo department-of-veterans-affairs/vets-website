@@ -257,7 +257,8 @@ class PatientMessageDraftsPage {
       '/my_health/v1/messaging/message_drafts',
       mockDraftResponse,
     ).as('draft_message');
-    cy.get('[data-testid="Save-Draft-Button"]').click();
+    cy.tabToElement('#save-draft-button');
+    cy.realPress('Enter');
     cy.wait('@draft_message').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });
