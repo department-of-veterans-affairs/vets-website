@@ -1,7 +1,6 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockUserInEVSS from '@@profile/tests/fixtures/users/user-36.json';
-import mockDD4CNPEnrolled from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-set-up.json';
 import mockDD4EDUEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-enrolled.json';
 import mockDisabilityCompensation from '@@profile/mocks/endpoints/disability-compensations';
 import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
@@ -50,12 +49,6 @@ function saveNewBankInfo(id) {
   cy.axeCheck();
 }
 
-function saveErrorExists() {
-  cy.findByText(/We couldn’t update your payment information./i).should(
-    'exist',
-  );
-}
-
 function saveSuccessAlertShown() {
   cy.axeCheck();
   cy.findByTestId('bankInfoUpdateSuccessAlert').contains(
@@ -69,12 +62,47 @@ function saveSuccessAlertRemoved() {
 
 function mockSaveError({
   error = mockDisabilityCompensation.updates.errors.unspecified,
+  alias = 'unspecifiedSaveError',
 } = {}) {
-  cy.intercept('PUT', 'v0/profile/ch33_bank_accounts', {
+  cy.intercept('PUT', 'v0/profile/direct_deposits/disability_compensations', {
     statusCode: 400,
     body: error,
-  });
+  }).as(alias);
+  return alias;
 }
+
+function mockSaveSuccess() {
+  cy.intercept(
+    'PUT',
+    'v0/profile/direct_deposits/disability_compensations',
+    mockDisabilityCompensation.updates.success,
+  ).as('saveSuccess');
+}
+
+const testFailure = (failureName, error) => {
+  it(`shows error messaging for ${failureName}`, () => {
+    const failAlias = mockSaveError({
+      error,
+      alias: failureName,
+    });
+
+    cy.findByRole('button', {
+      name: /edit.*disability.*bank information/i,
+    }).click({
+      force: true,
+    });
+
+    fillInBankInfoForm('CNP');
+
+    saveNewBankInfo();
+
+    cy.wait(`@${failAlias}`);
+
+    cy.findByTestId(failureName).should('exist');
+
+    cy.axeCheck();
+  });
+};
 
 describe('Direct Deposit - CNP using Lighthouse endpoint', () => {
   beforeEach(() => {
@@ -104,80 +132,62 @@ describe('Direct Deposit - CNP using Lighthouse endpoint', () => {
       }),
     );
     cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
-    cy.injectAxe();
+    cy.wait(['@getCNPFromLighthouse']);
+    cy.injectAxeThenAxeCheck();
   });
-  describe('for CNP', () => {
-    it('should allow bank info updates, show WIP warning modals, show "update successful" banners, etc.', () => {
-      cy.axeCheck();
-      cy.wait(['@getCNPFromLighthouse']);
+  describe('happy path', () => {
+    it('should allow bank info updates, show WIP warning modals, show "success" banner', () => {
+      mockSaveSuccess();
+
       cy.findByRole('button', {
         name: /edit.*disability.*bank information/i,
       }).click({
-        // using force: true since there are times when the click does not
-        // register and the bank info form does not open
         force: true,
       });
+
       cy.get('#disability-compensation-and-pension-benefits').should(
         'be.focused',
       );
+
       fillInBankInfoForm('CNP');
+
       exitBankInfoForm('CNP');
+
       dismissUnsavedChangesModal();
+
       saveNewBankInfo();
-      // the save will fail since we didn't mock the update endpoint yet
-      saveErrorExists();
-      cy.intercept('PUT', 'v0/ppiu/payment_information', req => {
-        // only return a successful response if the API payload includes data
-        // that was entered into the edit form
-        const {
-          accountNumber,
-          financialInstitutionRoutingNumber,
-          accountType,
-        } = req.body;
-        const { NUMBER, ROUTING, TYPE } = TEST_ACCOUNT;
-        if (
-          accountNumber === NUMBER &&
-          financialInstitutionRoutingNumber === ROUTING &&
-          accountType === TYPE
-        ) {
-          req.reply(mockDD4CNPEnrolled);
-        }
-      });
-      saveNewBankInfo();
+
       cy.findByRole('button', {
         name: /edit.*disability.*pension.*bank info/i,
       }).should('exist');
-      cy.findByRole('button', { name: /edit.*bank information/i }).should(
-        'not.exist',
-      );
+
       saveSuccessAlertShown();
+
       saveSuccessAlertRemoved();
+
       cy.axeCheck();
     });
+  });
 
-    it('should show an error if the save fails for unspecified error', () => {
-      cy.axeCheck();
-      cy.wait(['@getCNPFromLighthouse']);
-      cy.findByRole('button', {
-        name: /edit.*disability.*bank information/i,
-      }).click({
-        // using force: true since there are times when the click does not
-        // register and the bank info form does not open
-        force: true,
-      });
-      cy.get('#disability-compensation-and-pension-benefits').should(
-        'be.focused',
-      );
-      fillInBankInfoForm('CNP');
-      saveNewBankInfo();
+  describe('sad update paths for error responses', () => {
+    testFailure(
+      'generic-error',
+      mockDisabilityCompensation.updates.errors.unspecified,
+    );
 
-      mockSaveError();
+    testFailure(
+      'flagged-account-error',
+      mockDisabilityCompensation.updates.errors.accoundNumberFlagged,
+    );
 
-      saveErrorExists();
-      mockSaveError();
-      saveNewBankInfo();
-      saveErrorExists();
-      cy.axeCheck();
-    });
+    testFailure(
+      'flagged-routing-number-error',
+      mockDisabilityCompensation.updates.errors.routingNumberFlagged,
+    );
+
+    testFailure(
+      'invalid-routing-number-error',
+      mockDisabilityCompensation.updates.errors.invalidRoutingNumber,
+    );
   });
 });
