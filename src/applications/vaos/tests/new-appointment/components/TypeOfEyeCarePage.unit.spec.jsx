@@ -18,6 +18,8 @@ import {
 } from '../../mocks/helpers';
 
 import TypeOfEyeCarePage from '../../../new-appointment/components/TypeOfEyeCarePage';
+import { mockSchedulingConfigurations } from '../../mocks/helpers.v2';
+import { getSchedulingConfigurationMock } from '../../mocks/v2';
 
 const initialState = {
   featureToggles: {
@@ -31,7 +33,19 @@ const initialState = {
 };
 
 describe('VAOS <TypeOfEyeCarePage>', () => {
-  beforeEach(() => mockFetch());
+  beforeEach(() => {
+    mockFetch();
+    mockSchedulingConfigurations(
+      [
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      ],
+      true,
+    );
+  });
   it('should show page and validation', async () => {
     const store = createTestStore(initialState);
     const nextPage = await setTypeOfCare(store, /eye care/i);

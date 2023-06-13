@@ -758,6 +758,7 @@ const formConfig = {
           editModeOnReviewPage: true,
           CustomPage: EnhancedVehicleRecord,
           CustomPageReview: null,
+          returnUrl: '/vehicles-summary',
         },
         vehiclesSummary: {
           path: 'vehicles-summary',
@@ -789,7 +790,7 @@ const formConfig = {
           depends: formData =>
             formData.questions.hasRecreationalVehicle &&
             formData['view:combinedFinancialStatusReport'],
-          editModeOnReviewPage: true,
+          editModeOnReviewPage: false,
         },
         recreationalVehicleRecordsListLoop: {
           path: 'recreational-vehicle-records',
