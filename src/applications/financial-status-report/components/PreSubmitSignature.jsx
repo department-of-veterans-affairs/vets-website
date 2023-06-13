@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import environment from 'platform/utilities/environment';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+const statement =
+  'Veteran’s statement of truth: I’ve reviewed the information I provided in this request, including: my marital status and number of dependents, my income (and my spouse’s income if included), my household assets and expenses, my bankruptcy history.';
 
 const PreSubmitSignature = ({
   formData,
@@ -145,13 +149,14 @@ const PreSubmitSignature = ({
       <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px">
         {statementOfTruth}
 
-        <va-text-input
-          label={"Veteran's full name"}
+        <VaTextInput
+          label="Veteran's full name"
           class="signature-input"
           id="veteran-signature"
           name="veteran-signature"
           onInput={setNewSignature}
           type="text"
+          message-aria-describedby={statement}
           required
           error={
             signatureError
