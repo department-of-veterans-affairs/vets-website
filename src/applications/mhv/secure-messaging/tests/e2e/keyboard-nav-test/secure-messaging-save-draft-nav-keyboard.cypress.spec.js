@@ -10,8 +10,8 @@ describe('Check confirmation message after save draft', () => {
     site.login();
     inboxPage.loadInboxMessages();
     inboxPage.loadComposeMessagePage();
-    draftPage.selectRecipient(1);
-    draftPage.selectCategory(0);
+    draftPage.selectRecipient(`6910405`);
+    draftPage.selectCategory('General');
     draftPage.addMessageSubject('testSubject');
     draftPage.addMessageBody('testMessage');
     // cy.axeCheck();

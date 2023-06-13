@@ -224,16 +224,17 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="filter-messages-button"]').click();
   };
 
-  selectRecipient = index => {
-    cy.get('#recipient-dropdown')
+  selectRecipient = recipient => {
+    cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
-      .find('#select')
-      .select(index, { force: true });
+      .find('select')
+      .select(recipient);
   };
 
-  selectCategory = index => {
+  selectCategory = category => {
     cy.get('[data-testid="compose-category-radio-button"]')
-      .eq(index)
+      .shadow()
+      .contains(category)
       .click();
   };
 
