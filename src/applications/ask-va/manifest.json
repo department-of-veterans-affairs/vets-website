@@ -1,0 +1,6 @@
+{
+    "appName": "Ask VA Integration Project",
+    "entryFile": "./app-entry.jsx",
+    "entryName": "ask-va-too",
+    "rootUrl": "/contact-us/ask-va-too"
+}
