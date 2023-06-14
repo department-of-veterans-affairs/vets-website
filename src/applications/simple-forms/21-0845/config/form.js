@@ -17,6 +17,7 @@ import persAddrPg from '../pages/persAddr';
 import orgNamePg from '../pages/orgName';
 import orgRepsPg from '../pages/orgReps';
 import orgAddrPg from '../pages/orgAddr';
+import infoScopePg from '../pages/infoScope';
 
 // mock-data import for local development
 // import the appropriate file [flow?.json] for the flow you're working on, or
@@ -168,6 +169,12 @@ const formConfig = {
           },
           uiSchema: orgAddrPg.uiSchema,
           schema: orgAddrPg.schema,
+        },
+        informationScopePage: {
+          path: 'disclosure-information-scope',
+          title: 'Information scope',
+          uiSchema: infoScopePg.uiSchema,
+          schema: infoScopePg.schema,
         },
       },
     },
