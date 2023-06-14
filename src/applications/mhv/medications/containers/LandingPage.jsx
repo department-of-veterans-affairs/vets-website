@@ -2,8 +2,8 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPrescriptionsList } from '../actions/prescriptions';
-import MedicationsList from '../MedicationsList/MedicaitonsList';
-import MedicationsListSort from '../MedicationsList/MedicationsListSort';
+import MedicationsList from '../components/MedicationsList/MedicaitonsList';
+import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 
 const LandingPage = () => {
   const prescriptions = useSelector(
