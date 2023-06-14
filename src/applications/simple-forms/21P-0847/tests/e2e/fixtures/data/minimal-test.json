@@ -1,0 +1,22 @@
+{
+  "preparerName": {
+    "first": "Arthur",
+    "last": "Preparer"
+  },
+  "preparerSsn": "222668888",
+  "preparerHomePhone": "1234567890",
+  "preparerAddress": {
+    "street": "124 Main St",
+    "city": "Anytown",
+    "state": "CA",
+    "country": "USA",
+    "postalCode": "12345"
+  },
+  "veteranFullName": {
+    "first": "Ursula",
+    "last": "Veteran"
+  },
+  "veteranDateOfBirth": "1929-10-21",
+  "veteranSsn": "999442222",
+  "relationshipToDeceasedClaimant": "executor"
+}
