@@ -518,6 +518,7 @@ const formConfig = {
           }),
           {
             path: 'school-selection/school-information',
+            depends: () => environment.isProduction(),
           },
         ),
       },
