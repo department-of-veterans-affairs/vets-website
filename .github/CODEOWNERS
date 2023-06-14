@@ -49,7 +49,7 @@ src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-
 # Claims & appeals (Benefits Team 1)
 
 src/applications/letters @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/disability-benefits @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/disability-benefits @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/DBEX-TREX
 src/applications/claims-status @department-of-veterans-affairs/benefits-team-1-frontend
 src/applications/appeals @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/vre @department-of-veterans-affairs/benefits-team-1-frontend
