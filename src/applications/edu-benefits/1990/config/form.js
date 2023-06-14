@@ -13,12 +13,12 @@ import {
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import yearUI from 'platform/forms-system/src/js/definitions/year';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
+import PreSubmitInfo from '../pages/PreSubmitInfo';
 import contactInformationPage from '../../pages/contactInformation';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
@@ -121,7 +121,12 @@ const formConfig = {
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
-  preSubmitInfo,
+  // preSubmitInfo,
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    required: true,
+    field: 'privacyAgreementAccepted',
+  },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
