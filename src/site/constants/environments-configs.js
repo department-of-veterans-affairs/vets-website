@@ -10,19 +10,6 @@ if (typeof window === 'undefined') {
   isNode = true;
 }
 
-// allowedHostnames is an array of hostnames that are eligible
-// function isHostnameAllowed(hostname, allowedHostnames) {
-//   let hostnameAllowed = false;
-//   for (const name of allowedHostnames) {
-//     const pattern = name.replace(/\*/g, '[a-z0-9]+(-[a-z0-9]+)*');
-//     const regex = new RegExp(`^${pattern}$`, 'i');
-//     if (regex.test(hostname)) {
-//       hostnameAllowed = true;
-//     }
-//   }
-//   return hostnameAllowed;
-// }
-
 module.exports = {
   [ENVIRONMENTS.VAGOVPROD]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVPROD,
@@ -43,7 +30,6 @@ module.exports = {
   },
 
   /* eslint-disable no-restricted-globals */
-  /* eslint-disable no-nested-ternary */
 
   [ENVIRONMENTS.LOCALHOST]: {
     BUILDTYPE: ENVIRONMENTS.LOCALHOST,
@@ -53,10 +39,9 @@ module.exports = {
           location.port ? location.port : '3001'
         }`,
     API_URL: isNode
-      ? `http://${process.env.API_HOST}`
-      : 'http://vets-api-web:3004',
+      ? `http://${process.env.API_HOST}:3000`
+      : `http://${location.hostname || 'localhost'}:3000`,
   },
 
   /* eslint-enable no-restricted-globals */
-  /* eslint-enable no-nested-ternary */
 };
