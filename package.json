@@ -376,8 +376,8 @@
       "**/applications-check-in/react-i18next",
       "**/applications-vaos/simple-guid",
       "**/applications-vaos/mocker-api",
+
       "**/platform-polyfills/@formatjs/intl-datetimeformat",
-      
       "**/platform-polyfills/@formatjs/intl-getcanonicallocales",
       "**/platform-polyfills/@formatjs/intl-locale",
       "**/platform-polyfills/classlist-polyfill",
