@@ -224,11 +224,11 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="filter-messages-button"]').click();
   };
 
-  selectRecipientName = recipient => {
+  selectRecipientName = recipientName => {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('select')
-      .select(recipient);
+      .select(recipientName);
   };
 
   selectCategory = category => {
