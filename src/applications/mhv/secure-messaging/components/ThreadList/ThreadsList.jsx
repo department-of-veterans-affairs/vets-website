@@ -1,9 +1,17 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ThreadListItem from './ThreadListItem';
+import { threadSortingOptions } from '../../util/constants';
 
 const ThreadsList = props => {
-  const { folder, threadList, keyword, pageNum, threadsPerPage } = props;
+  const {
+    folder,
+    threadList,
+    keyword,
+    pageNum,
+    sortOrder,
+    threadsPerPage,
+  } = props;
 
   const [displayNums, setDisplayNums] = useState({
     from: 0,
@@ -37,7 +45,9 @@ const ThreadsList = props => {
   return (
     <div className="thread-list vads-l-row vads-u-flex-direction--column">
       <div
-        aria-label={displayNums.label.replace('-', 'to')}
+        aria-label={`${displayNums.label.replace('-', 'to')} sorted by ${
+          threadSortingOptions[sortOrder].label
+        }`}
         data-testid="displaying-number-of-threads"
         className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
       >
@@ -62,6 +72,7 @@ ThreadsList.propTypes = {
   folder: PropTypes.object,
   keyword: PropTypes.string,
   pageNum: PropTypes.number,
+  sortOrder: PropTypes.string,
   threadList: PropTypes.array,
   threadsPerPage: PropTypes.number,
 };

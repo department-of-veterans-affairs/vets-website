@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  focusElement,
+  waitForRenderThenFocus,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 import { DefaultFolders as Folders, Alerts, Paths } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import FolderHeader from '../components/MessageList/FolderHeader';
@@ -38,22 +41,21 @@ const FolderThreadListView = props => {
   // const { sortOrder, sortBy } = threadSort;
 
   const MAX_PAGE_LIST_LENGTH = 5;
+  const displayingNumberOfThreadsSelector =
+    "[data-testid='displaying-number-of-threads']";
 
   const handleSortCallback = sortOrderValue => {
     dispatch(setThreadSortOrder(sortOrderValue));
     setPageNum(1);
     dispatch(getListOfThreads(folderId, threadsPerPage, 1, sortOrderValue));
+    waitForRenderThenFocus(displayingNumberOfThreadsSelector, document, 500);
   };
 
   const handlePagination = page => {
     setPageNum(page);
     dispatch(getListOfThreads(folderId, threadsPerPage, page, threadSort)).then(
       () => {
-        focusElement(
-          document.querySelector(
-            "[data-testid='displaying-number-of-threads']",
-          ),
-        );
+        focusElement(document.querySelector(displayingNumberOfThreadsSelector));
       },
     );
   };
@@ -214,6 +216,7 @@ const FolderThreadListView = props => {
             folder={folder}
             pageNum={pageNum}
             threadsPerPage={threadsPerPage}
+            sortOrder={threadSort}
           />
           {threadList?.length > 1 && (
             <VaPagination

@@ -39,7 +39,9 @@ const ThreadListSort = props => {
               : threadSortingOptions.SENT_DATE_DESCENDING.value
           }
         >
-          Newest to oldest
+          {location.pathname === '/drafts'
+            ? threadSortingOptions.DRAFT_DATE_DESCENDING.label
+            : threadSortingOptions.SENT_DATE_DESCENDING.label}
         </option>
 
         <option
@@ -49,7 +51,9 @@ const ThreadListSort = props => {
               : threadSortingOptions.SENT_DATE_ASCENDING.value
           }
         >
-          Oldest to newest
+          {location.pathname === '/drafts'
+            ? threadSortingOptions.DRAFT_DATE_ASCENDING.label
+            : threadSortingOptions.SENT_DATE_ASCENDING.label}
         </option>
 
         {location.pathname === '/sent' || location.pathname === '/drafts' ? (
@@ -57,12 +61,12 @@ const ThreadListSort = props => {
             <option
               value={threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.value}
             >
-              A to Z - Recipient’s name
+              {threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.label}
             </option>
             <option
               value={threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.value}
             >
-              Z to A - Recipient’s name
+              {threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.label}
             </option>
           </>
         ) : (
