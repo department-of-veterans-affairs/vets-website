@@ -38,9 +38,12 @@ module.exports = {
       : `http://${location.hostname || 'localhost'}:${
           location.port ? location.port : '3001'
         }`,
+    // API_URL: isNode
+    //   ? `http://${process.env.API_HOST}:3000`
+    //   : `http://${location.hostname || 'localhost'}:3000`,
     API_URL: isNode
-      ? `http://${process.env.API_HOST}:3000`
-      : `http://${location.hostname || 'localhost'}:3000`,
+      ? `http://${process.env.API_HOST}`
+      : `http://${location.hostname || 'localhost'}`,
   },
 
   /* eslint-enable no-restricted-globals */
