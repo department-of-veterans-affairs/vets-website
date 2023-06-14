@@ -116,6 +116,15 @@ class FormSaved extends React.Component {
 }
 
 FormSaved.propTypes = {
+  expirationMessage: PropTypes.node,
+  fetchInProgressForm: PropTypes.func,
+  formId: PropTypes.string,
+  lastSavedDate: PropTypes.number,
+  location: PropTypes.object,
+  migrations: PropTypes.array,
+  prefillTransformer: PropTypes.func,
+  removeInProgressForm: PropTypes.func,
+  returnUrl: PropTypes.string,
   route: PropTypes.shape({
     pageList: PropTypes.arrayOf(
       PropTypes.shape({
@@ -124,10 +133,8 @@ FormSaved.propTypes = {
     ),
     formConfig: PropTypes.object.isRequired,
   }),
-  location: PropTypes.object,
+  router: PropTypes.shape({}),
   scrollParams: PropTypes.object,
-  lastSavedDate: PropTypes.number.isRequired,
-  expirationMessage: PropTypes.node,
 };
 
 function mapStateToProps(state) {
