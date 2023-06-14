@@ -33,7 +33,7 @@ const LandingPage = () => {
             Review your prescription medicaitons from VA, and providers outside
             of our network.
           </div>
-          <div>
+          <div className="landing-page-content">
             <button
               type="button"
               className="link-button vads-u-display--block vads-u-margin-bottom--2"
@@ -97,12 +97,12 @@ const LandingPage = () => {
               Resources related to medications
             </div>
             <div className="footer-links">
-              <a href="/medications">Allergies and Adverse Reactions</a>
+              <a href="nolink">Allergies and Adverse Reactions</a>
               <p>
                 This is a description of why the user may need to navigate to
                 medical records to see their allergies.
               </p>
-              <a href="/medications">Resources and Support</a>
+              <a href="nolink">Resources and Support</a>
               <p>
                 This is a description of what the user might find in resources
                 and support.

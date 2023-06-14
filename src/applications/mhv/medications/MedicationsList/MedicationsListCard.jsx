@@ -11,7 +11,7 @@ const MedicationsListCard = props => {
         <div>Prescription number: {rx.id}</div>
         <div>Refills left: {rx.refillsLeft}</div>
         <div>
-          <va-link active href="/" text="Medication history and details" />
+          <va-link active href="nolink" text="Medication history and details" />
         </div>
         {rx.history.length > 0 && (
           <div className="shipping-info vads-u-background-color--gray-light">

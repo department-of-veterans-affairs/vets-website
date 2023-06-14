@@ -19,7 +19,7 @@
 }
 
 .main-content {
-  max-width: 700px;
+  max-width: 650px;
 
   @media (max-width: $small-screen) {
     max-width: 480px;
@@ -39,11 +39,14 @@
   .rx-page-total-info {
     margin-top: 15px;
     margin-bottom: 15px;
-    width: 300px;
+    max-width: 500px;
   }
   .pagination {
     max-width: 500px;
     border-top: 0px;
+  }
+  .landing-page-content {
+    max-width: 500px;
   }
   .rx-card-container{
     max-width: 500px;
