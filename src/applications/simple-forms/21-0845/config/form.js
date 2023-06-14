@@ -12,6 +12,11 @@ import authTypePg from '../pages/authType';
 import vetPersInfoPg from '../pages/vetPersInfo';
 import vetIdInfoPg from '../pages/vetIdInfo';
 import thirdPartyTypePg from '../pages/thirdPartyType';
+import persNamePg from '../pages/persName';
+import persAddrPg from '../pages/persAddr';
+import orgNamePg from '../pages/orgName';
+import orgRepsPg from '../pages/orgReps';
+import orgAddrPg from '../pages/orgAddr';
 
 // mock-data import for local development
 // import the appropriate file [flow?.json] for the flow you're working on, or
@@ -34,9 +39,9 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21-0845',
-  // dev: {
-  //   showNavLinks: true,
-  // },
+  dev: {
+    showNavLinks: true,
+  },
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your disclosure authorization application (21-0845) is in progress.',
@@ -108,11 +113,61 @@ const formConfig = {
     disclosureInfoChapter: {
       title: 'Disclosure information',
       pages: {
-        sourceTypePage: {
+        thirdPartyTypePage: {
           path: 'disclosure-information-third-party-type',
           title: 'Third-party type',
           uiSchema: thirdPartyTypePg.uiSchema,
           schema: thirdPartyTypePg.schema,
+        },
+        personNamePage: {
+          // person third-party
+          path: 'disclosure-information-person-name',
+          title: 'Person’s name',
+          depends: {
+            thirdPartyType: 'person',
+          },
+          uiSchema: persNamePg.uiSchema,
+          schema: persNamePg.schema,
+        },
+        personAddressPage: {
+          // person third-party
+          path: 'disclosure-information-person-address',
+          title: 'Person’s address',
+          depends: {
+            thirdPartyType: 'person',
+          },
+          uiSchema: persAddrPg.uiSchema,
+          schema: persAddrPg.schema,
+        },
+        organizationNamePage: {
+          // organization third-party
+          path: 'disclosure-information-organization-name',
+          title: 'Organization’s name',
+          depends: {
+            thirdPartyType: 'organization',
+          },
+          uiSchema: orgNamePg.uiSchema,
+          schema: orgNamePg.schema,
+        },
+        organizationRepresentativesPage: {
+          // organization third-party
+          path: 'disclosure-information-organization-representatives',
+          title: 'Organization’s representatives',
+          depends: {
+            thirdPartyType: 'organization',
+          },
+          uiSchema: orgRepsPg.uiSchema,
+          schema: orgRepsPg.schema,
+        },
+        organizationAddressPage: {
+          // organization third-party
+          path: 'disclosure-information-organization-address',
+          title: 'Organization’s address',
+          depends: {
+            thirdPartyType: 'organization',
+          },
+          uiSchema: orgAddrPg.uiSchema,
+          schema: orgAddrPg.schema,
         },
       },
     },

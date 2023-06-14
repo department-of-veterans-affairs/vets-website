@@ -10,6 +10,11 @@ div:has(.schemaform-sip-alert) {
   margin-top: 4rem;
 }
 
+.row div[id^="root_organizationRepresentatives_"] > .row.small-collapse,
+.row div[id^="organizationRepresentatives_"] > .row.small-collapse {
+  margin: 0 0 !important;
+}
+
 .form-review-panel[data-chapter="authorizerTypeChapter"] .review-row dt > span {
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", Arial,
     sans-serif !important;
