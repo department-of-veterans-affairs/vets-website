@@ -178,11 +178,6 @@ export const formatOperatingHours = operatingHours => {
     return operatingHours;
   }
 
-  // If there are multiple time ranges, such as for lunch hours
-  if (split(sanitizedOperatingHours, '-').length >= 3) {
-    return operatingHours;
-  }
-
   if (sanitizedOperatingHours.search(/24\/7/i) === 0) {
     return sanitizedOperatingHours;
   }
@@ -215,10 +210,15 @@ export const formatOperatingHours = operatingHours => {
 
   // Derive the opening and closing hours.
   const hours = split(sanitizedOperatingHours, '-');
-  const openingHour = first(hours);
-  const closingHour = last(hours);
+
+  // If there are multiple time ranges, such as for lunch hours, return original hours
+  if (hours.length >= 3) {
+    return operatingHours;
+  }
 
   // Format the hours based on 'hmmA' format.
+  const openingHour = first(hours);
+  const closingHour = last(hours);
   let formattedOpeningHour = moment(openingHour, 'hmmA').format('h:mm a');
   let formattedClosingHour = moment(closingHour, 'hmmA').format('h:mm a');
 
