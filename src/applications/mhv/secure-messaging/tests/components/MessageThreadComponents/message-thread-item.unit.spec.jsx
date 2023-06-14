@@ -64,10 +64,16 @@ describe('Message thread item', () => {
     };
     const screen = setup(message);
     const accordion = document.querySelector('va-accordion-item');
+    expect(accordion.getAttribute('aria-label')).to.equal(
+      `message sent ${dateFormat(
+        message.sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}, with attachment from ${message.senderName}."`,
+    );
     expect(
-      screen.findByText(
+      screen.getByText(
         dateFormat(messageResponse.sentDate, 'MMMM D [at] h:mm a z'),
-        { selector: 'h6' },
+        { selector: 'h3' },
       ),
     ).to.exist;
 
@@ -100,13 +106,16 @@ describe('Message thread item', () => {
     };
     const screen = setup(messageNoAttachment);
     expect(screen.queryByTestId('attachment-icon')).to.not.exist;
-    waitFor(
-      fireEvent.click(
-        screen.getByTestId(
-          `expand-message-button-${messageResponse.messageId}`,
-        ),
-      ),
+    const accordionButton = screen.getByTestId(
+      `expand-message-button-${messageResponse.messageId}`,
     );
+    expect(accordionButton.getAttribute('aria-label')).to.equal(
+      `message received ${dateFormat(
+        messageNoAttachment.sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )},  from ${messageNoAttachment.senderName}."`,
+    );
+    waitFor(fireEvent.click(accordionButton));
     expect(screen.queryByTestId('attachment-icon')).to.not.exist;
   });
 
@@ -117,13 +126,16 @@ describe('Message thread item', () => {
     };
     const screen = setup(messageNoAttachment);
     expect(screen.getByTestId('unread-icon')).to.exist;
-    waitFor(
-      fireEvent.click(
-        screen.getByTestId(
-          `expand-message-button-${messageResponse.messageId}`,
-        ),
-      ),
+    const accordionButton = screen.getByTestId(
+      `expand-message-button-${messageResponse.messageId}`,
     );
+    expect(accordionButton.getAttribute('aria-label')).to.equal(
+      `New message received ${dateFormat(
+        messageNoAttachment.sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}, with attachment from ${messageNoAttachment.senderName}."`,
+    );
+    waitFor(fireEvent.click(accordionButton));
     const icon = screen.getByTestId('unread-icon');
     expect(icon).to.exist;
     expect(icon.getAttribute('slot')).to.equal('icon');

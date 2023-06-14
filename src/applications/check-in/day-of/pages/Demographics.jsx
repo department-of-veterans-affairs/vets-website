@@ -60,6 +60,7 @@ const Demographics = props => {
         demographics={demographics}
         yesAction={yesClick}
         noAction={noClick}
+        eyebrow={t('check-in')}
         subtitle={t(
           'we-can-better-follow-up-with-when-we-have-your-current-information',
         )}

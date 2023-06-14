@@ -2,19 +2,13 @@ import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
 } from '../../../shared/tests/pages/pageTests.spec';
-import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../../definitions/constants';
 import formConfig from '../../config/form';
 
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.statementChapterD.pages.statementPageD;
-const pageTitle = 'Your statement';
-const mockData = {
-  claimOwnership: CLAIM_OWNERSHIPS.SELF,
-  claimantType: CLAIMANT_TYPES.VETERAN,
-  statement: 'It was a dark and stormy night...',
-};
+} = formConfig.chapters.witnessPersonalInfoChapter.pages.witnessOtherRelationshipPage;
+const pageTitle = 'Witness other relationship';
 
 const expectedNumberOfFields = 1;
 testNumberOfFields(
@@ -23,7 +17,7 @@ testNumberOfFields(
   uiSchema,
   expectedNumberOfFields,
   pageTitle,
-  mockData,
+  { witnessOtherRelationshipToClaimant: 'Met at a bar.' },
 );
 
 const expectedNumberOfErrors = 1;
@@ -33,8 +27,4 @@ testNumberOfErrorsOnSubmit(
   uiSchema,
   expectedNumberOfErrors,
   pageTitle,
-  {
-    claimOwnership: CLAIM_OWNERSHIPS.SELF,
-    claimantType: CLAIMANT_TYPES.VETERAN,
-  },
 );

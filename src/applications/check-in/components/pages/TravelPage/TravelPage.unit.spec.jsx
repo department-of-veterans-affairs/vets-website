@@ -8,17 +8,18 @@ import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 describe('Check-in experience', () => {
   describe('shared components', () => {
     describe('TravelPage', () => {
-      it('renders custom header, body, and helptext', () => {
-        const { getByText } = render(
+      it('renders custom header, eyebrow, body, and helptext', () => {
+        const { getByText, getByTestId } = render(
           <CheckInProvider>
             <TravelPage
               header="test header"
+              eyebrow="Check-In"
               bodyText="test body"
               helpText="test help text"
             />
           </CheckInProvider>,
         );
-        expect(getByText('test header')).to.exist;
+        expect(getByTestId('header')).to.contain.text('Check-In test header');
         expect(getByText('test body')).to.exist;
         expect(getByText('test help text')).to.exist;
       });

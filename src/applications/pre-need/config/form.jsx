@@ -204,9 +204,7 @@ const formConfig = {
         },
         veteranInformation: {
           path: 'veteran-applicant-information',
-          title: environment.isProduction()
-            ? 'Veteran Information'
-            : 'Veteran information',
+          title: 'Veteran information',
           depends: isVeteran,
           uiSchema: {
             application: {

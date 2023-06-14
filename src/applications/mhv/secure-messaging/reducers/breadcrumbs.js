@@ -1,7 +1,7 @@
 import { Actions } from '../util/actionTypes';
 
 const initialState = {
-  list: [],
+  list: {},
   location: '',
 };
 

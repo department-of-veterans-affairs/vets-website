@@ -5,7 +5,7 @@ import Breadcrumbs from './Breadcrumbs';
 
 const IncomeLimitsApp = ({ children }) => {
   return (
-    <div className="row vads-u-padding-top--4 vads-u-padding-bottom--8">
+    <div className="income-limits-app row vads-u-padding-top--4 vads-u-padding-bottom--8">
       <Breadcrumbs />
       <div className="usa-width-two-thirds medium-8 columns">{children}</div>
     </div>

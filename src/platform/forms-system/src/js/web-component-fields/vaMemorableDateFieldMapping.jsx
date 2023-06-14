@@ -25,6 +25,7 @@ export default function vaMemorableDateFieldMapping(props) {
       typeof childrenProps.formData === 'undefined'
         ? ''
         : childrenProps.formData,
+    'month-select': uiOptions?.monthSelect ?? true,
     type: inputType,
     onDateChange: (event, value) => {
       const newVal = value ?? event.target.value ?? undefined;
