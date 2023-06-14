@@ -6,8 +6,9 @@ import particularFolderResponse from '../fixtures/drafts-response.json';
 import mockSearchMessages from '../fixtures/search-COVID-results.json';
 
 describe(manifest.appName, () => {
-  describe('Advanced search in Drafts keyboard nav', () => {
+  describe('Advanced search in Drafts and Inbox keyboard nav', () => {
     const site = new SecureMessagingSite();
+    const landingPage = new PatientInboxPage();
     afterEach(() => {
       cy.get('[data-testid="message-list-item"]')
         .should('contain', 'COVID')
@@ -20,7 +21,6 @@ describe(manifest.appName, () => {
     });
 
     it('check draft message advance search', () => {
-      const landingPage = new PatientInboxPage();
       site.login();
       landingPage.loadInboxMessages();
       cy.intercept(
@@ -45,22 +45,7 @@ describe(manifest.appName, () => {
       cy.injectAxe();
       cy.axeCheck();
     });
-  });
-  describe('Advanced search in Inbox keyboard nav', () => {
-    const site = new SecureMessagingSite();
-    afterEach(() => {
-      cy.get('[data-testid="message-list-item"]')
-        .should('contain', 'COVID')
-        .and('have.length', mockSearchMessages.data.length);
-      cy.get('[data-testid="search-message-folder-input-label"]')
-        .should('contain', '4')
-        .and('contain', 'Category: "covid"');
-      cy.injectAxe();
-      cy.axeCheck();
-    });
-
     it('check Inbox message advance search', () => {
-      const landingPage = new PatientInboxPage();
       site.login();
       landingPage.loadInboxMessages();
       cy.intercept(
