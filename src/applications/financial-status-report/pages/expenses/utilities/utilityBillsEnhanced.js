@@ -9,7 +9,7 @@ export const utilityBillChecklist = {
     'ui:options': {
       hideOnReview: true,
     },
-    otherAssets: {
+    utilityBills: {
       'ui:title': 'utilityBillChecklist',
     },
   },
