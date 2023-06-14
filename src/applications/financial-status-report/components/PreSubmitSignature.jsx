@@ -12,7 +12,7 @@ const statementOfTruthItems = [
   'My bankruptcy history',
 ];
 
-const statement = `Veteran’s statement of truth: I’ve reviewed the information I provided in this request, including: ${statementOfTruthItems.join(
+const veteranStatement = `Veteran’s statement of truth: I’ve reviewed the information I provided in this request, including: ${statementOfTruthItems.join(
   ', ',
 )}`;
 
@@ -129,20 +129,6 @@ const PreSubmitSignature = ({
       </div>
     );
   }
-  const statementOfTruth = (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-    <div tabIndex={0}>
-      <h3>Veteran’s statement of truth</h3>
-      <p>
-        I’ve reviewed the information I provided in this request, including:
-      </p>
-      <ul>
-        {statementOfTruthItems.map((item, index) => {
-          return <li key={index}>{item}</li>;
-        })}
-      </ul>
-    </div>
-  );
 
   return (
     <>
@@ -154,7 +140,15 @@ const PreSubmitSignature = ({
       </p>
 
       <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px">
-        {statementOfTruth}
+        <h3>Veteran’s statement of truth</h3>
+        <p>
+          I’ve reviewed the information I provided in this request, including:
+        </p>
+        <ul>
+          {statementOfTruthItems.map((item, index) => {
+            return <li key={index}>{item}</li>;
+          })}
+        </ul>
 
         <VaTextInput
           label="Veteran's full name"
@@ -163,7 +157,7 @@ const PreSubmitSignature = ({
           name="veteran-signature"
           onInput={setNewSignature}
           type="text"
-          message-aria-describedby={statement}
+          messageAriaDescribedby={veteranStatement}
           required
           error={
             signatureError
