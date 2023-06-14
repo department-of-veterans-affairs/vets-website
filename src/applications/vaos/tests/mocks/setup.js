@@ -1,7 +1,6 @@
 /** @module testing/mocks/setup */
 
 import React from 'react';
-import moment from '../../lib/moment-tz';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history-v4';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
@@ -13,13 +12,14 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import { commonReducer } from 'platform/startup/store';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
+import { cleanup } from '@testing-library/react';
 import reducers from '../../redux/reducer';
 import newAppointmentReducer from '../../new-appointment/redux/reducer';
 import covid19VaccineReducer from '../../covid-19-vaccine/redux/reducer';
 import unenrolledVaccineReducer from '../../unenrolled-vaccine/redux/reducer';
 
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
-import { cleanup } from '@testing-library/react';
+import moment from '../../lib/moment-tz';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
 import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
 import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
@@ -292,7 +292,7 @@ export async function setVAFacility(
   { facilityData = null, directCriteria = {}, requestCriteria = {} } = {},
 ) {
   const siteCode = facilityId.substring(0, 3);
-  const typeOfCareId = store.getState().newAppointment.data.typeOfCareId;
+  const { typeOfCareId } = store.getState().newAppointment.data;
   const parentSite = {
     id: siteCode,
     attributes: {
@@ -319,20 +319,20 @@ export async function setVAFacility(
     }),
   ];
 
-  const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
+  // TODO: Make sure this works in staging before removal
+  // const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
 
   const facilities = [
     facilityData ||
       createMockFacilityByVersion({
-        id: realFacilityID,
-        version: 0,
+        id: facilityId,
       }),
   ];
 
   mockParentSites([siteCode], [parentSite]);
   mockDirectBookingEligibilityCriteria([siteCode], directFacilities);
   mockRequestEligibilityCriteria([siteCode], requestFacilities);
-  mockFacilitiesFetchByVersion({ facilities, version: 0 });
+  mockFacilitiesFetchByVersion({ facilities });
 
   const { findByText, history } = renderWithStoreAndRouter(
     <VAFacilityPageV2 />,
@@ -366,19 +366,19 @@ export async function setVaccineFacility(store, facilityId, facilityData = {}) {
     }),
   ];
 
-  const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
+  // TODO: Make sure this works in staging before removal
+  // const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
 
   const facilities = [
     createMockFacilityByVersion({
-      id: realFacilityID,
-      version: 0,
+      id: facilityId,
       ...facilityData,
     }),
   ];
 
   mockDirectBookingEligibilityCriteria([siteCode], directFacilities);
   mockRequestEligibilityCriteria([siteCode], []);
-  mockFacilitiesFetchByVersion({ facilities, version: 0 });
+  mockFacilitiesFetchByVersion({ facilities, version: 2 });
 
   const { findByText, history } = renderWithStoreAndRouter(
     <VaccineFacilityPage />,

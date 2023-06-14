@@ -1,5 +1,7 @@
+import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useSelector, connect, useDispatch } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { Link } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearJobIndex } from '../../../utils/session';
@@ -11,14 +13,12 @@ import {
 import { currency as currencyFormatter } from '../../../utils/helpers';
 
 const InstallmentContractSummary = ({
-  data,
   goToPath,
-  setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
   const dispatch = useDispatch();
-
+  const setFormData = newData => dispatch(setData(newData));
   const formData = useSelector(state => state.form.data);
   const { installmentContracts = [] } = formData;
 
@@ -38,46 +38,48 @@ const InstallmentContractSummary = ({
   };
 
   const onDelete = deleteIndex => {
-    dispatch(
-      setFormData({
-        ...formData,
-        questions: {
-          ...data.questions,
-          hasRepayments: deleteIndex !== 0,
-        },
-        installmentContracts: installmentContracts.filter(
-          (source, index) => index !== deleteIndex,
-        ),
-      }),
-    );
+    setFormData({
+      ...formData,
+      installmentContracts: installmentContracts.filter(
+        (source, index) => index !== deleteIndex,
+      ),
+    });
   };
+
   const emptyPrompt = `Select the 'add additional installment contract link to add another installment contract or other debt. Select the continue button to move on to the next question.`;
 
-  const billBody = bill => {
+  const billBody = ({
+    creditorName,
+    originalAmount,
+    unpaidBalance,
+    amountDueMonthly,
+    dateStarted,
+    amountPastDue,
+  }) => {
+    const formattedFields = {
+      Creditor: creditorName,
+      'Original Loan Amount':
+        originalAmount && currencyFormatter(originalAmount),
+      'Unpaid balance': unpaidBalance && currencyFormatter(unpaidBalance),
+      'Minimum monthly payment amount':
+        amountDueMonthly && currencyFormatter(amountDueMonthly),
+      'Date received': dateStarted,
+      'Amount overdue': amountPastDue
+        ? currencyFormatter(amountPastDue)
+        : currencyFormatter(0.0),
+    };
     return (
-      <>
-        <p>
-          {bill.creditorName.length > 0 ? (
-            <>
-              Creditor: <strong>{bill.creditorName} </strong>
-              <br />
-            </>
-          ) : null}
-          Original Loan Amount:{' '}
-          <strong>{currencyFormatter(bill.originalAmount)}</strong>
-          <br />
-          Unpaid balance:{' '}
-          <strong>{currencyFormatter(bill.unpaidBalance)}</strong>
-          <br />
-          Minimum monthly payment amount:{' '}
-          <strong>{currencyFormatter(bill.amountDueMonthly)}</strong>
-          <br />
-          Date received: <strong>{bill.dateStarted}</strong>
-          <br />
-          Amount overdue:{' '}
-          <strong>{currencyFormatter(bill.amountPastDue)}</strong>
-        </p>
-      </>
+      <p>
+        {Object.entries(formattedFields).map(
+          ([key, value]) =>
+            value && (
+              <React.Fragment key={key}>
+                <strong>{key}:</strong> {value}
+                <br />
+              </React.Fragment>
+            ),
+        )}
+      </p>
     );
   };
 
@@ -93,12 +95,13 @@ const InstallmentContractSummary = ({
           ) : (
             installmentContracts.map((bill, index) => (
               <MiniSummaryCard
+                ariaLabel={`Installment contract ${index + 1} ${bill.purpose}`}
                 editDestination={{
                   pathname: '/your-installment-contracts',
                   search: `?index=${index}`,
                 }}
                 heading={bill.purpose}
-                key={bill.minPaymentAmount + bill.unpaidBalance}
+                key={index + bill.minPaymentAmount + bill.unpaidBalance}
                 onDelete={() => onDelete(index)}
                 showDelete
                 body={billBody(bill)}
@@ -141,8 +144,14 @@ const InstallmentContractSummary = ({
 const mapStateToProps = ({ form }) => {
   return {
     formData: form.data,
-    employmentHistory: form.data.personalData.employmentHistory,
   };
+};
+
+InstallmentContractSummary.propTypes = {
+  goToPath: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  contentAfterButtons: PropTypes.node,
+  contentBeforeButtons: PropTypes.node,
 };
 
 export default connect(mapStateToProps)(InstallmentContractSummary);

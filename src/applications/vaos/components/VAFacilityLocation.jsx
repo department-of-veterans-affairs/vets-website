@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { getRealFacilityId } from '../utils/appointment';
 import FacilityAddress from './FacilityAddress';
 import NewTabAnchor from './NewTabAnchor';
@@ -10,7 +11,6 @@ export default function VAFacilityLocation({
   facilityId,
   clinicFriendlyName,
   showCovidPhone,
-  isPhone,
 }) {
   let content = null;
 
@@ -50,17 +50,6 @@ export default function VAFacilityLocation({
 
   const name = clinicName || facilityName || facility?.name;
 
-  if (isPhone) {
-    return (
-      <>
-        <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-          {name}
-        </h2>
-        <div>{content}</div>
-      </>
-    );
-  }
-
   return (
     <>
       {name}
@@ -68,3 +57,12 @@ export default function VAFacilityLocation({
     </>
   );
 }
+
+VAFacilityLocation.propTypes = {
+  clinicFriendlyName: PropTypes.string,
+  clinicName: PropTypes.string,
+  facility: PropTypes.object,
+  facilityId: PropTypes.string,
+  facilityName: PropTypes.string,
+  showCovidPhone: PropTypes.bool,
+};

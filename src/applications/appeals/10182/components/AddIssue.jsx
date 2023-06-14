@@ -6,12 +6,20 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 // updatePage isn't available for CustomPage on non-review pages, see
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33797
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { getSelected, calculateIndexOffset } from '../utils/helpers';
-import { SELECTED, MAX_LENGTH, LAST_NOD_ITEM } from '../constants';
+import {
+  SELECTED,
+  MAX_LENGTH,
+  LAST_ISSUE,
+  CONTESTABLE_ISSUES_PATH,
+  REVIEW_ISSUES,
+} from '../constants';
 
 import { validateDate } from '../validations/date';
 import {
@@ -20,19 +28,13 @@ import {
   maxNameLength,
   checkValidations,
 } from '../validations/issues';
-import {
-  addIssueTitle,
-  issueNameLabel,
-  issueNameHintText,
-  dateOfDecisionLabel,
-  dateOfDecisionHintText,
-} from '../content/addIssue';
+import { content } from '../content/addIssue';
 
-const ISSUES_PAGE = '/contestable-issues';
+const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
 const REVIEW_AND_SUBMIT = '/review-and-submit';
 
 const AddIssue = props => {
-  const { data, goToPath, onReviewPage, setFormData, testingIndex } = props;
+  const { data, goToPath, setFormData, testingIndex } = props;
   const { contestableIssues = [], additionalIssues = [] } = data || {};
 
   const allIssues = contestableIssues.concat(additionalIssues);
@@ -43,13 +45,19 @@ const AddIssue = props => {
   if (Number.isNaN(index) || index < contestableIssues.length) {
     index = allIssues.length;
   }
+  const setStorage = (type, value = '') => {
+    // set session storage of edited item. This enables focusing on the item
+    // upon return to the eligible issues page (a11y); when -1 is set, the add
+    // a new issue action link will be focused
+    window.sessionStorage.setItem(LAST_ISSUE, value || `${index},${type}`);
+    window.sessionStorage.removeItem(REVIEW_ISSUES);
+  };
   const offsetIndex = calculateIndexOffset(index, contestableIssues.length);
   const currentData = allIssues[index] || {};
 
-  // set session storage of edited item. This enables focusing on the item
-  // upon return to the eligible issues page (a11y)
-  window.sessionStorage.setItem(LAST_NOD_ITEM, index);
+  const addOrEdit = currentData.issue ? 'edit' : 'add';
 
+  const onReviewPage = window.sessionStorage.getItem(REVIEW_ISSUES) === 'true';
   const returnPath = onReviewPage ? REVIEW_AND_SUBMIT : ISSUES_PAGE;
 
   const nameValidations = [missingIssueName, maxNameLength, uniqueIssue];
@@ -67,7 +75,11 @@ const AddIssue = props => {
   // check name
   const nameErrorMessage = checkValidations(nameValidations, issueName, data);
   // check dates
-  const dateErrorMessage = checkValidations(dateValidations, issueDate, data);
+  const dateErrorMessage = checkValidations(
+    dateValidations,
+    issueDate || '',
+    data,
+  );
   // check name & date combo uniqueness
   const uniqueErrorMessage = checkValidations(uniqueValidations, '', {
     contestableIssues,
@@ -117,10 +129,24 @@ const AddIssue = props => {
     },
     onCancel: event => {
       event.preventDefault();
+      recordEvent({
+        event: 'cta-button-click',
+        'button-type': 'secondary',
+        'button-click-label': 'Cancel',
+        'button-background-color': 'white',
+      });
+      setStorage('cancel', addOrEdit === 'add' ? -1 : '');
       goToPath(returnPath);
     },
     onUpdate: event => {
       event.preventDefault();
+      recordEvent({
+        event: 'cta-button-click',
+        'button-type': 'primary',
+        'button-click-label': 'Add issue',
+        'button-background-color': 'blue',
+      });
+      setStorage('updated');
       addOrUpdateIssue();
     },
   };
@@ -133,34 +159,33 @@ const AddIssue = props => {
           className="vads-u-font-family--serif"
           name="addIssue"
         >
-          {addIssueTitle}
+          <h3 className="vads-u-margin--0">{content.title[addOrEdit]}</h3>
         </legend>
         <VaTextInput
           id="add-nod-issue"
           name="add-nod-issue"
           type="text"
-          label={issueNameLabel}
+          label={content.name.label}
           required
           value={issueName}
           onInput={handlers.onIssueNameChange}
           onBlur={handlers.onInputBlur}
           error={((submitted || inputDirty) && showError) || null}
         >
-          {issueNameHintText}
+          {content.name.hint}
         </VaTextInput>
         <br />
         <VaMemorableDate
           name="decision-date"
-          label={dateOfDecisionLabel}
+          label={content.date.label}
+          hint={content.date.hint}
           required
           onDateChange={handlers.onDateChange}
           onDateBlur={handlers.onDateBlur}
           value={issueDate}
           error={((submitted || dateDirty) && dateErrorMessage[0]) || null}
           aria-describedby="decision-date-description"
-        >
-          {dateOfDecisionHintText}
-        </VaMemorableDate>
+        />
         <p>
           <va-button
             id="cancel"
@@ -173,7 +198,7 @@ const AddIssue = props => {
             id="submit"
             class="vads-u-width--auto"
             onClick={handlers.onUpdate}
-            text={`${currentData.issue ? 'Update' : 'Add'} issue`}
+            text={`${addOrEdit === 'add' ? 'Add' : 'Update'} issue`}
           />
         </p>
       </fieldset>
