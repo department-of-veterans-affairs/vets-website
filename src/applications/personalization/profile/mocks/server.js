@@ -71,7 +71,6 @@ const responses = {
           generateFeatureToggles({
             profileUseInfoCard: true,
             profileUseFieldEditingPage: true,
-            profileShowMhvNotificationSettings: false,
             profileLighthouseDirectDeposit: true,
           }),
         ),
