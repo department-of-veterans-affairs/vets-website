@@ -34,9 +34,10 @@ const SubmissionError = ({ user, saveLink }) => {
         )}
         <h4>What you can do</h4>
         <p>
-          If you’re unable to submit or save your application online, you can
-          mail or fax your application for Pre-Need Eligibility Determination
-          (VA Form 40-10007).
+          If you’re unable to submit{' '}
+          {user.login.currentlyLoggedIn && 'or save '}
+          your application online, you can mail or fax your application for
+          Pre-Need Eligibility Determination (VA Form 40-10007).
         </p>
         <p>
           <DownloadLink content="Download VA Form 40-10007" />
