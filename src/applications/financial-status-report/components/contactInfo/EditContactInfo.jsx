@@ -64,7 +64,7 @@ const BuildPage = ({ title, field, id, goToPath }) => {
 
 BuildPage.propTypes = {
   field: PropTypes.string,
-  goToPath: PropTypes.string,
+  goToPath: PropTypes.func,
   id: PropTypes.string,
   title: PropTypes.string,
 };
