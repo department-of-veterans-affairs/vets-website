@@ -7,6 +7,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import { PrintMessageOptions } from '../../util/constants';
+import { focusOnErrorField } from '../../util/formHelpers';
 
 const PrintBtn = props => {
   const [printOption, setPrintOption] = useState(null);
@@ -32,6 +33,7 @@ const PrintBtn = props => {
 
   const closeModal = () => {
     setIsModalVisible(false);
+    setPrintSelectError(null);
   };
 
   const handleOnChangePrintOption = ({ detail }) => {
@@ -44,6 +46,7 @@ const PrintBtn = props => {
   const handleConfirmPrint = () => {
     if (printOption === null) {
       setPrintSelectError('Please select an option to print.');
+      focusOnErrorField();
     } else {
       setPrintOption(null);
       closeModal();

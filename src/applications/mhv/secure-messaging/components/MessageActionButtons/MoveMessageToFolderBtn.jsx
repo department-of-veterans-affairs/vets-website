@@ -13,6 +13,7 @@ import { navigateToFolderByFolderId } from '../../util/helpers';
 import * as Constants from '../../util/constants';
 import { addAlert } from '../../actions/alerts';
 import CreateFolderModal from '../Modals/CreateFolderModal';
+import { focusOnErrorField } from '../../util/formHelpers';
 
 const MoveMessageToFolderBtn = props => {
   const { threadId, allFolders, isVisible, activeFolder } = props;
@@ -45,6 +46,9 @@ const MoveMessageToFolderBtn = props => {
 
   const handleOnChangeFolder = ({ detail }) => {
     setSelectedFolder(detail.value);
+    if (detail.value !== null) {
+      setFolderInputError(null);
+    }
   };
 
   const handleConfirmMoveFolderTo = () => {
@@ -52,6 +56,7 @@ const MoveMessageToFolderBtn = props => {
       setFolderInputError(
         Constants.ErrorMessages.MoveConversation.FOLDER_REQUIRED,
       );
+      focusOnErrorField();
     } else {
       if (selectedFolder === 'newFolder') {
         setIsNewModalVisible(true);
