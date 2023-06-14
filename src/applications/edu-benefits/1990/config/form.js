@@ -17,6 +17,8 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import yearUI from 'platform/forms-system/src/js/definitions/year';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
 import contactInformationPage from '../../pages/contactInformation';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
@@ -35,9 +37,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import BenefitsRelinquishmentField from '../BenefitsRelinquishmentField';
-
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
 
 import {
   transform,
@@ -472,6 +471,7 @@ const formConfig = {
           // There’s only one page in this chapter (right?), so this url seems a
           //  bit heavy-handed.
           path: 'education-history/education-information',
+          depends: () => environment.isProduction(),
           uiSchema: {
             highSchoolOrGedCompletionDate: currentOrPastMonthYearUI(
               'When did you earn your high school diploma or equivalency certificate?',
