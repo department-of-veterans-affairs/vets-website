@@ -88,8 +88,6 @@ const MessageDetailBlock = props => {
       />
       <main
         className="message-detail-content"
-        role="heading"
-        aria-level="2"
         aria-label="Most recent message in this conversation"
       >
         <section
