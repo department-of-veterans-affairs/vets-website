@@ -5,7 +5,7 @@ import {
   mockFetch,
   setFetchJSONFailure,
   setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+} from '~/platform/testing/unit/helpers';
 
 import * as paymentInformationActions from '../../actions/paymentInformation';
 
@@ -716,7 +716,7 @@ describe('actions/paymentInformation', () => {
       it('still calls fetch and dispatches the correct actions', async () => {
         const actionCreator = paymentInformationActions.saveCNPPaymentInformation(
           {
-            data: 'value',
+            fields: { test: 'value' },
           },
         );
         const dispatch = sinon.spy();
