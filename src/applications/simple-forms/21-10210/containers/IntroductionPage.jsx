@@ -29,7 +29,7 @@ const childContent = (
     <ul>
       <li>
         You can submit a statement to support your own VA claim or someone
-        else’s VA claim
+        else’s VA claim.
       </li>
       <li>
         To submit a statement to support someone else’s claim, you’ll need to
