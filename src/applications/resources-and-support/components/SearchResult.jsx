@@ -44,11 +44,14 @@ export const SearchResult = ({
 
   return (
     <div className="vads-u-padding-y--4 vads-u-border-top--1px vads-u-border-color--gray-lighter">
-      <div className="vads-u-margin-bottom--1p5">
+      <div id={article.entityUrl.path} className="vads-u-margin-bottom--1p5">
         <dfn className="sr-only">Article type: </dfn>
         {articleTypes[article.entityBundle]}
       </div>
-      <h3 className="vads-u-margin-top--0 vads-u-font-size--md">
+      <h3
+        aria-describedby={article.entityUrl.path}
+        className="vads-u-margin-top--0 vads-u-font-size--md"
+      >
         <a onClick={onSearchResultClick} href={article.entityUrl.path}>
           {article.title}
         </a>
