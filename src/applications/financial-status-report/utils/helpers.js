@@ -184,6 +184,7 @@ export const getMonthlyIncome = ({
   personalData: {
     employmentHistory: {
       veteran: { employmentRecords = [] },
+      spouse: { spEmploymentRecords = [] },
     },
   },
   socialSecurity,
@@ -225,7 +226,10 @@ export const getMonthlyIncome = ({
   const vetNetIncome = vetGrossSalary - vetTotDeductions;
 
   // spouse
-  const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
+  const spGrossSalary = enhancedFSRActive
+    ? sumValues(spEmploymentRecords, 'grossMonthlyIncome')
+    : sumValues(spCurrEmployment, 'spouseGrossSalary');
+
   const spAddlInc = sumValues(spAddlIncome, 'amount');
   const spSocialSecAmt = !enhancedFSRActive
     ? Number(
@@ -242,7 +246,13 @@ export const getMonthlyIncome = ({
     benefits.spouseBenefits.education?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const spBenefits = spComp + spEdu;
-  const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const spDeductions = enhancedFSRActive
+    ? spEmploymentRecords
+        ?.filter(emp => emp.isCurrent)
+        .map(emp => emp.deductions)
+        .flat() ?? 0
+    : spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
+
   const spTaxes = filterReduceByName(spDeductions, taxFilters);
   const spRetirement = filterReduceByName(spDeductions, retirementFilters);
   const spSocialSec = filterReduceByName(spDeductions, socialSecFilters);
