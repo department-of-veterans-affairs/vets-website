@@ -57,10 +57,9 @@ export default function ClaimsListItem({ claim }) {
   const inProgress = !isClaimComplete(claim);
   const formattedReceiptDate = formatDate(claimDate);
   const humanStatus = getStatusDescription(status);
-  // lighthouse_migration: Remove `vads-u-border-left--7px` and `vads-u-border-color--primary`
-  // CSS classes from `claim-list-item-container` element
+
   return (
-    <div className="claim-list-item-container vads-u-border-left--7px vads-u-border-color--primary">
+    <div className="claim-list-item-container">
       <h3 className="claim-list-item-header-v2">{getTitle(claim)}</h3>
       {humanStatus && (
         <div className="card-status">

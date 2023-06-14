@@ -6,9 +6,7 @@ import { fireEvent, waitFor } from '@testing-library/react';
 import { mockFetch } from 'platform/testing/unit/helpers';
 
 import {
-  mockMessagesFetch,
   mockAppointmentInfo,
-  mockRequestCancelFetch,
   mockCCSingleProviderFetch,
   mockSingleRequestFetch,
 } from '../../mocks/helpers';
@@ -42,564 +40,6 @@ const initialStateVAOSService = {
     vaOnlineSchedulingVAOSServiceCCAppointments: false,
   },
 };
-
-describe('VAOS <RequestedAppointmentDetailsPage>', () => {
-  beforeEach(() => {
-    mockFetch();
-    MockDate.set(testDate);
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({ version: 0 }),
-      version: 0,
-    });
-    mockMessagesFetch();
-  });
-
-  afterEach(() => {
-    MockDate.reset();
-  });
-
-  it('should render VA request details', async () => {
-    const appointment = getVARequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      typeOfCareId: '323',
-      status: 'Submitted',
-      optionDate1: moment(testDate)
-        .add(3, 'days')
-        .format('MM/DD/YYYY'),
-      optionTime1: 'AM',
-      optionDate2: moment(testDate)
-        .add(4, 'days')
-        .format('MM/DD/YYYY'),
-      optionTime2: 'AM',
-      optionDate3: moment(testDate)
-        .add(5, 'days')
-        .format('MM/DD/YYYY'),
-      optionTime3: 'PM',
-      visitType: 'Office Visit',
-      facility: {
-        ...getVARequestMock().attributes.facility,
-        facilityCode: '983GC',
-      },
-      bestTimetoCall: ['Morning'],
-      purposeOfVisit: 'New Issue',
-      email: 'patient.test@va.gov',
-      phoneNumber: '(703) 652-0000',
-    };
-
-    mockSingleRequestFetch({ request: appointment });
-
-    const facility = createMockFacilityByVersion({
-      id: '442GC',
-      name: 'Cheyenne VA Medical Center',
-      address: {
-        postalCode: '82001-5356',
-        city: 'Cheyenne',
-        state: 'WY',
-        line: ['2360 East Pershing Boulevard'],
-      },
-      phone: '307-778-7550',
-      version: 0,
-    });
-
-    mockFacilityFetchByVersion({ facility, version: 0 });
-
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: `/requests/${appointment.id}`,
-    });
-
-    // Verify page content...
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    expect(
-      screen.getByRole('heading', {
-        level: 1,
-        name: 'Pending primary care appointment',
-      }),
-    );
-    // show alert message
-    expect(screen.baseElement).to.contain('.usa-alert-info');
-    expect(screen.baseElement).to.contain.text(
-      'The time and date of this appointment are still to be determined.',
-    );
-
-    expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.be.ok;
-    expect(screen.baseElement).to.contain.text(
-      'Pending primary care appointment',
-    );
-    expect(screen.baseElement).to.contain.text('VA appointment');
-    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-    expect(screen.baseElement).to.contain.text('2360 East Pershing Boulevard');
-    expect(screen.baseElement).to.contain.text(
-      'Cheyenne, WyomingWY 82001-5356',
-    );
-    expect(screen.baseElement).to.contain.text('Main phone:');
-    expect(screen.getByTestId('facility-telephone')).to.exist;
-    expect(screen.baseElement).to.contain.text('Preferred date and time');
-    expect(screen.baseElement).to.contain.text(
-      `${moment(appointment.attributes.optionDate1).format(
-        'ddd, MMMM D, YYYY',
-      )} in the morning`,
-    );
-    expect(screen.baseElement).to.contain.text(
-      `${moment(appointment.attributes.optionDate2).format(
-        'ddd, MMMM D, YYYY',
-      )} in the morning`,
-    );
-    expect(screen.baseElement).to.contain.text(
-      `${moment(appointment.attributes.optionDate3).format(
-        'ddd, MMMM D, YYYY',
-      )} in the afternoon`,
-    );
-
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Preferred type of appointment',
-      }),
-    ).to.be.ok;
-
-    expect(screen.baseElement).to.contain.text('Office visit');
-
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'You shared these details about your concern',
-      }),
-    ).to.be.ok;
-
-    expect(screen.baseElement).to.contain.text('New issue');
-    expect(screen.baseElement).to.contain.text('patient.test@va.gov');
-    expect(screen.getByTestId('patient-telephone')).to.exist;
-    expect(screen.baseElement).to.contain.text('Call morning');
-  });
-
-  it('should go back to requests page when clicking top link', async () => {
-    const appointment = getVARequestMock();
-
-    appointment.attributes = {
-      ...appointment.attributes,
-      typeOfCareId: '323',
-      optionDate1: moment(testDate)
-        .add(3, 'days')
-        .format('MM/DD/YYYY'),
-      optionTime1: 'AM',
-    };
-
-    mockAppointmentInfo({ requests: [appointment] });
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: '/requested',
-    });
-
-    const detailLinks = await screen.findAllByTestId('appointment-detail-link');
-
-    fireEvent.click(detailLinks[0]);
-
-    expect(await screen.findByText('Pending primary care appointment')).to.be
-      .ok;
-    expect(
-      screen.getByText('VA online scheduling').getAttribute('href'),
-    ).to.equal('/');
-  });
-
-  it('should render CC request details', async () => {
-    const ccAppointmentRequest = getCCRequestMock();
-    ccAppointmentRequest.attributes = {
-      ...ccAppointmentRequest.attributes,
-      appointmentType: 'Audiology (hearing aid support)',
-      bestTimetoCall: ['Morning'],
-
-      ccAppointmentRequest: {
-        preferredProviders: [
-          {
-            practiceName: 'Atlantic Medical Care',
-          },
-        ],
-      },
-
-      email: 'joe.blow@va.gov',
-      optionDate1: '02/21/2020',
-      optionTime1: 'AM',
-      typeOfCareId: 'CCAUDHEAR',
-    };
-
-    ccAppointmentRequest.id = '1234';
-
-    mockAppointmentInfo({
-      requests: [ccAppointmentRequest],
-    });
-
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: '/requested',
-    });
-
-    const detailLinks = await screen.findAllByTestId('appointment-detail-link');
-
-    fireEvent.click(detailLinks[0]);
-
-    // Verify page content...
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    expect(
-      screen.getByRole('heading', {
-        level: 1,
-        name: 'Pending hearing aid support appointment',
-      }),
-    ).to.be.ok;
-
-    // show alert message
-    expect(screen.baseElement).to.contain('.usa-alert-info');
-    expect(screen.baseElement).to.contain.text(
-      'The time and date of this appointment are still to be determined.',
-    );
-
-    // Should be able to cancel appointment
-    expect(screen.getByRole('button', { name: /Cancel request/ })).to.be.ok;
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Preferred community care provider',
-      }),
-    ).to.be.ok;
-    expect(screen.getByText('Atlantic Medical Care')).to.be.ok;
-
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Preferred date and time',
-      }),
-    ).to.be.ok;
-    expect(screen.getByText('Fri, February 21, 2020 in the morning')).to.be.ok;
-
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'You shared these details about your concern',
-      }),
-    ).to.be.ok;
-
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Your contact details',
-      }),
-    ).to.be.ok;
-    expect(screen.getByText('joe.blow@va.gov')).to.be.ok;
-    expect(screen.getByText('Call morning')).to.be.ok;
-
-    expect(screen.queryByText('Community Care')).not.to.exist;
-    expect(screen.queryByText('Reason for appointment')).not.to.exist;
-  });
-
-  it('should allow cancellation', async () => {
-    // Given a veteran have VA request
-    const appointment = getVARequestMock();
-    const alertText =
-      'The time and date of this appointment are still to be determined.';
-
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      typeOfCareId: '323',
-      optionDate1: moment(testDate)
-        .add(3, 'days')
-        .format('MM/DD/YYYY'),
-      optionTime1: 'AM',
-    };
-
-    mockAppointmentInfo({
-      requests: [appointment],
-    });
-    mockRequestCancelFetch(appointment);
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: '/requested',
-    });
-
-    const detailLinks = await screen.findAllByTestId('appointment-detail-link');
-
-    fireEvent.click(detailLinks[0]);
-
-    expect(await screen.findByText('Pending primary care appointment')).to.be
-      .ok;
-
-    expect(screen.baseElement).to.contain.text(alertText);
-
-    expect(screen.baseElement).not.to.contain.text('Canceled');
-
-    // When user clicks on the cancel request link
-    fireEvent.click(screen.getByText(/cancel request/i));
-
-    await screen.findByRole('alertdialog');
-    expect(window.dataLayer[1]).to.deep.include({
-      event: 'vaos-cancel-request-clicked',
-    });
-
-    // And clicks on 'yes, cancel this request' to confirm
-    fireEvent.click(screen.getByText(/yes, cancel this request/i));
-
-    // Then it should display request is canceled
-    await screen.findByTestId('cancel-request-SuccessModal');
-
-    const cancelData = JSON.parse(
-      global.fetch
-        .getCalls()
-        .find(call => call.args[0].endsWith('appointment_requests/1234'))
-        .args[1].body,
-    );
-
-    expect(cancelData).to.deep.equal({
-      ...appointment.attributes,
-      id: '1234',
-      appointmentRequestDetailCode: ['DETCODE8'],
-      status: 'Cancelled',
-    });
-
-    fireEvent.click(screen.getByText(/continue/i));
-
-    expect(screen.queryByRole('alertdialog')).to.not.be.ok;
-    expect(screen.baseElement).to.contain.text('You canceled this request');
-    expect(screen.baseElement).not.to.contain.text(alertText);
-  });
-
-  it('should show error message when single fetch errors', async () => {
-    const appointment = getVARequestMock();
-
-    mockSingleRequestFetch({
-      request: appointment,
-      type: 'va',
-      error: true,
-    });
-
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: `/requests/${appointment.id}`,
-    });
-
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    expect(
-      screen.getByRole('heading', {
-        level: 1,
-        name: 'We’re sorry. We’ve run into a problem',
-      }),
-    ).to.be.ok;
-  });
-
-  it('should display pending document title', async () => {
-    const appointment = getVARequestMock();
-
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      typeOfCareId: '323',
-      optionDate1: moment(testDate)
-        .add(3, 'days')
-        .format('MM/DD/YYYY'),
-      optionTime1: 'AM',
-    };
-
-    const ccAppointmentRequest = getCCRequestMock();
-
-    ccAppointmentRequest.id = '1234';
-    ccAppointmentRequest.attributes = {
-      ...ccAppointmentRequest.attributes,
-      appointmentType: 'Audiology (hearing aid support)',
-      typeOfCareId: 'CCAUDHEAR',
-    };
-
-    // Verify VA pending
-    mockSingleRequestFetch({
-      request: appointment,
-      type: 'va',
-    });
-
-    renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: `/requests/${appointment.id}`,
-    });
-
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Pending VA primary care appointment`,
-      );
-    });
-
-    // Verify CC pending appointment
-    mockSingleRequestFetch({
-      request: ccAppointmentRequest,
-      type: 'cc',
-    });
-
-    renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: `/requests/${appointment.id}`,
-    });
-
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Pending Community care hearing aid support appointment`,
-      );
-    });
-  });
-
-  it('should display cancel document title', async () => {
-    const appointment = getVARequestMock();
-
-    appointment.attributes = {
-      ...appointment.attributes,
-      typeOfCareId: '323',
-      optionDate1: moment(testDate)
-        .add(3, 'days')
-        .format('MM/DD/YYYY'),
-      optionTime1: 'AM',
-    };
-
-    // Verify cancel VA appt
-    const canceledAppointment = { ...appointment };
-    canceledAppointment.attributes = {
-      ...canceledAppointment.attributes,
-      status: 'Cancelled',
-    };
-    mockSingleRequestFetch({
-      request: canceledAppointment,
-      type: 'va',
-    });
-    renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: `/requests/${appointment.id}`,
-    });
-
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Canceled VA primary care appointment`,
-      );
-    });
-  });
-
-  it('should display new appointment confirmation alert for VA request', async () => {
-    const appointment = getVARequestMock();
-
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      typeOfCareId: '323',
-      optionDate1: moment(testDate)
-        .add(3, 'days')
-        .format('MM/DD/YYYY'),
-      optionTime1: 'AM',
-    };
-
-    // Verify VA pending
-    mockSingleRequestFetch({
-      request: appointment,
-      type: 'va',
-    });
-
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: `/requests/${appointment.id}?confirmMsg=true`,
-    });
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Pending VA primary care appointment`,
-      );
-    });
-    expect(screen.baseElement).to.contain('.usa-alert-success');
-    expect(screen.baseElement).to.contain.text(
-      'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
-    );
-
-    expect(screen.queryByTestId('view-appointments-link')).to.exist;
-    expect(screen.queryByTestId('new-appointment-link')).to.exist;
-  });
-
-  it('should display new appointment confirmation alert for CC request', async () => {
-    const appointment = getCCRequestMock();
-
-    appointment.id = '1234';
-    appointment.attributes = {
-      typeOfCareId: 'CCAUDHEAR',
-      appointmentType: 'Audiology (hearing aid support)',
-      optionDate1: moment(testDate)
-        .add(3, 'days')
-        .format('MM/DD/YYYY'),
-      optionTime1: 'AM',
-    };
-
-    // Verify CC pending appointment
-    mockSingleRequestFetch({
-      request: appointment,
-      type: 'cc',
-    });
-
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: `/requests/${appointment.id}?confirmMsg=true`,
-    });
-
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Pending Community care hearing aid support appointment`,
-      );
-    });
-    expect(screen.baseElement).to.contain('.usa-alert-success');
-    expect(screen.baseElement).to.contain.text(
-      'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
-    );
-    expect(screen.queryByTestId('view-appointments-link')).to.exist;
-    expect(screen.queryByTestId('new-appointment-link')).to.exist;
-  });
-
-  it('should handle error when cancelling', async () => {
-    const appointment = getVARequestMock();
-
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      typeOfCareId: '323',
-      optionDate1: moment(testDate)
-        .add(3, 'days')
-        .format('MM/DD/YYYY'),
-      optionTime1: 'AM',
-    };
-
-    mockAppointmentInfo({ requests: [appointment] });
-    // missing cancel request mock
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: '/requested',
-    });
-
-    const detailLinks = await screen.findAllByTestId('appointment-detail-link');
-
-    fireEvent.click(detailLinks[0]);
-
-    expect(await screen.findByText('Pending primary care appointment')).to.be
-      .ok;
-
-    expect(screen.baseElement).not.to.contain.text('Canceled');
-
-    fireEvent.click(screen.getByText(/cancel request/i));
-
-    await screen.findByRole('alertdialog');
-
-    fireEvent.click(screen.getByText(/yes, cancel this request/i));
-
-    await screen.findByRole('alertdialog');
-    expect(screen.baseElement).not.to.contain.text('Canceled');
-  });
-});
 
 describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
   beforeEach(() => {
@@ -650,7 +90,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     mockSingleVAOSRequestFetch({ request: appointment });
 
     const facility = createMockFacilityByVersion({
-      id: '442GC',
+      id: '983GC',
       name: 'Cheyenne VA Medical Center',
       address: {
         postalCode: '82001-5356',
@@ -659,10 +99,9 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
         line: ['2360 East Pershing Boulevard'],
       },
       phone: '307-778-7550',
-      version: 0,
     });
 
-    mockFacilityFetchByVersion({ facility, version: 0 });
+    mockFacilityFetchByVersion({ facility });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: initialStateVAOSService,
@@ -921,11 +360,9 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     };
 
     mockSingleVAOSRequestFetch({ request: ccAppointmentRequest });
-    const facility = {
-      ...createMockFacilityByVersion({ version: 0 }),
-      id: 'vha_442GC',
-    };
-    mockFacilityFetchByVersion({ facility, version: 1 });
+    const facility = createMockFacilityByVersion({ id: '983GC' });
+
+    mockFacilityFetchByVersion({ facility });
     const store = createTestStore({
       featureToggles: {
         vaOnlineSchedulingVAOSServiceRequests: true,
@@ -1054,8 +491,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     mockSingleVAOSRequestFetch({ request: appointment });
     mockAppointmentCancelFetch({ appointment });
     mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({ id: '442GC', version: 0 }),
-      version: 0,
+      facility: createMockFacilityByVersion({ id: '983GC' }),
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1129,7 +565,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
 
     mockSingleVAOSRequestFetch({ request: appointment });
     mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({ id: '442GC', version: 0 }),
+      facility: createMockFacilityByVersion({ id: '983GC' }),
       version: 0,
     });
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1252,5 +688,226 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
         ).format('ddd, MMMM D, YYYY')} in the afternoon`,
       ),
     ).to.be.ok;
+  });
+
+  // ---------------------
+  it.skip('should go back to requests page when clicking top link', async () => {
+    const appointment = getVARequestMock();
+
+    appointment.attributes = {
+      ...appointment.attributes,
+      typeOfCareId: '323',
+      optionDate1: moment(testDate)
+        .add(3, 'days')
+        .format('MM/DD/YYYY'),
+      optionTime1: 'AM',
+    };
+
+    mockAppointmentInfo({ requests: [appointment] });
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: '/requested',
+    });
+
+    const detailLinks = await screen.findAllByTestId('appointment-detail-link');
+
+    fireEvent.click(detailLinks[0]);
+
+    expect(await screen.findByText('Pending primary care appointment')).to.be
+      .ok;
+    expect(
+      screen.getByText('VA online scheduling').getAttribute('href'),
+    ).to.equal('/');
+  });
+
+  it.skip('should show error message when single fetch errors', async () => {
+    const appointment = getVARequestMock();
+
+    mockSingleRequestFetch({
+      request: appointment,
+      type: 'va',
+      error: true,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/requests/${appointment.id}`,
+    });
+
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: 'We’re sorry. We’ve run into a problem',
+      }),
+    ).to.be.ok;
+  });
+
+  it.skip('should display pending document title', async () => {
+    const appointment = getVARequestMock();
+
+    appointment.id = '1234';
+    appointment.attributes = {
+      ...appointment.attributes,
+      typeOfCareId: '323',
+      optionDate1: moment(testDate)
+        .add(3, 'days')
+        .format('MM/DD/YYYY'),
+      optionTime1: 'AM',
+    };
+
+    const ccAppointmentRequest = getCCRequestMock();
+
+    ccAppointmentRequest.id = '1234';
+    ccAppointmentRequest.attributes = {
+      ...ccAppointmentRequest.attributes,
+      appointmentType: 'Audiology (hearing aid support)',
+      typeOfCareId: 'CCAUDHEAR',
+    };
+
+    // Verify VA pending
+    mockSingleRequestFetch({
+      request: appointment,
+      type: 'va',
+    });
+
+    renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/requests/${appointment.id}`,
+    });
+
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Pending VA primary care appointment`,
+      );
+    });
+
+    // Verify CC pending appointment
+    mockSingleRequestFetch({
+      request: ccAppointmentRequest,
+      type: 'cc',
+    });
+
+    renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/requests/${appointment.id}`,
+    });
+
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Pending Community care hearing aid support appointment`,
+      );
+    });
+  });
+
+  it.skip('should display cancel document title', async () => {
+    const appointment = getVARequestMock();
+
+    appointment.attributes = {
+      ...appointment.attributes,
+      typeOfCareId: '323',
+      optionDate1: moment(testDate)
+        .add(3, 'days')
+        .format('MM/DD/YYYY'),
+      optionTime1: 'AM',
+    };
+
+    // Verify cancel VA appt
+    const canceledAppointment = { ...appointment };
+    canceledAppointment.attributes = {
+      ...canceledAppointment.attributes,
+      status: 'Cancelled',
+    };
+    mockSingleRequestFetch({
+      request: canceledAppointment,
+      type: 'va',
+    });
+    renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/requests/${appointment.id}`,
+    });
+
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Canceled VA primary care appointment`,
+      );
+    });
+  });
+
+  it.skip('should display new appointment confirmation alert for VA request', async () => {
+    const appointment = getVARequestMock();
+
+    appointment.id = '1234';
+    appointment.attributes = {
+      ...appointment.attributes,
+      typeOfCareId: '323',
+      optionDate1: moment(testDate)
+        .add(3, 'days')
+        .format('MM/DD/YYYY'),
+      optionTime1: 'AM',
+    };
+
+    // Verify VA pending
+    mockSingleRequestFetch({
+      request: appointment,
+      type: 'va',
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/requests/${appointment.id}?confirmMsg=true`,
+    });
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Pending VA primary care appointment`,
+      );
+    });
+    expect(screen.baseElement).to.contain('.usa-alert-success');
+    expect(screen.baseElement).to.contain.text(
+      'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
+    );
+
+    expect(screen.queryByTestId('view-appointments-link')).to.exist;
+    expect(screen.queryByTestId('new-appointment-link')).to.exist;
+  });
+
+  it.skip('should display new appointment confirmation alert for CC request', async () => {
+    const appointment = getCCRequestMock();
+
+    appointment.id = '1234';
+    appointment.attributes = {
+      typeOfCareId: 'CCAUDHEAR',
+      appointmentType: 'Audiology (hearing aid support)',
+      optionDate1: moment(testDate)
+        .add(3, 'days')
+        .format('MM/DD/YYYY'),
+      optionTime1: 'AM',
+    };
+
+    // Verify CC pending appointment
+    mockSingleRequestFetch({
+      request: appointment,
+      type: 'cc',
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/requests/${appointment.id}?confirmMsg=true`,
+    });
+
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Pending Community care hearing aid support appointment`,
+      );
+    });
+    expect(screen.baseElement).to.contain('.usa-alert-success');
+    expect(screen.baseElement).to.contain.text(
+      'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
+    );
+    expect(screen.queryByTestId('view-appointments-link')).to.exist;
+    expect(screen.queryByTestId('new-appointment-link')).to.exist;
   });
 });

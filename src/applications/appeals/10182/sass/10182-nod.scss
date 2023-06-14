@@ -18,15 +18,24 @@
   }
 }
 
-/* Contestable issue cards (contestable issue page & review/submit page) */
-dl.review {
+/* Contested issue cards (contested issue page & review/submit page)
+ * This could go in the schemaform css, it's used in form 526 & HLR
+ */
+ .issues {
+
   .widget-wrapper {
     display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 
-    dt.widget-checkbox-wrap {
+    .widget-checkbox-wrap {
       margin: 0;
-      width: 5rem;
-      min-width: 5rem;
+      width: 4rem;
+      min-width: 4rem;
+
+      label {
+        margin-top: 0;
+      }
 
       [type="checkbox"] {
         width: 1.8rem;
@@ -35,26 +44,13 @@ dl.review {
       }
     }
 
-    dt label {
-      margin-top: 0;
-    }
-
-    .widget-title {
-      margin: 0;
-      white-space: nowrap;
-      text-transform: capitalize;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      width: calc(100% - 7rem);
-    }
-
-    dd.widget-content {
+    .widget-content {
       width: 100%;
       margin-inline-start: 0; /* override user agent */
       text-align: left;
       margin: 0;
     }
-    dd.widget-content.widget-edit {
+    .widget-content.widget-edit {
       margin-top: 0;
       margin-right: 0;
       display: flex;
@@ -73,27 +69,23 @@ dl.review {
         align-self: center;
       }
     }
-    .change-issue-link:visited {
+    .edit-issue-link:visited {
       color: inherit;
     }
   }
 
   .checkbox-hidden {
-    dt.widget-checkbox-wrap {
-      width: 0;
-    }
-
-    .widget-title {
-      margin-left: 0;
-      width: 100%;
-      overflow: visible;
-      white-space: normal;
-    }
-
     .widget-content {
       margin: 2rem 0 0 2rem;
     }
   }
+}
+
+ul.issues-summary,
+ul.issues,
+.usa-accordion-bordered ul li ul.issues {
+  list-style: none;
+  padding: 0;
 }
 
 @media screen and (min-width: 481px) {

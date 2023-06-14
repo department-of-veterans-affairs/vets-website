@@ -71,10 +71,11 @@ const testConfig = createTestConfig(
             testData.contestedIssues.forEach(issue => {
               if (issue[SELECTED]) {
                 cy.get(
-                  `label:contains("${
-                    issue.attributes.ratingIssueSubjectText
-                  }")`,
-                ).click();
+                  `h4:contains("${issue.attributes.ratingIssueSubjectText}")`,
+                )
+                  .closest('li')
+                  .find('input[type="checkbox"]')
+                  .click();
               }
             });
             cy.findByText('Continue', { selector: 'button' }).click();

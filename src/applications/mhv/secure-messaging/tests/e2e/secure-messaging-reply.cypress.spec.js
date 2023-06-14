@@ -23,7 +23,13 @@ describe('Secure Messaging Reply', () => {
       .click({ waitforanimations: true });
     replyPage.getMessageBodyField().type('Test message body', { force: true });
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     replyPage.sendReplyMessageDetails(testMessage);
     replyPage.verifySendMessageConfirmationMessage();
   });

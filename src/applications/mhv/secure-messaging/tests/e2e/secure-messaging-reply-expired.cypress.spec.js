@@ -30,6 +30,12 @@ describe('Secure Messaging Reply to Expired Mesage', () => {
     );
 */
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

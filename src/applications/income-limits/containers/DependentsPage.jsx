@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   VaButtonPair,
   VaNumberInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 
 import { ROUTES } from '../constants';
 import { updateDependents, updateEditMode } from '../actions';
@@ -24,6 +25,10 @@ const DependentsPage = ({
   };
 
   const validDependents = dependents?.length > 0 && dependentsValid(dependents);
+
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
 
   const onContinueClick = () => {
     setSubmitted(true);
@@ -103,12 +108,12 @@ const mapDispatchToProps = {
 
 DependentsPage.propTypes = {
   editMode: PropTypes.bool.isRequired,
-  updateDependentsField: PropTypes.func.isRequired,
-  dependents: PropTypes.string,
   router: PropTypes.shape({
     push: PropTypes.func,
-  }),
-  toggleEditMode: PropTypes.func,
+  }).isRequired,
+  toggleEditMode: PropTypes.func.isRequired,
+  updateDependentsField: PropTypes.func.isRequired,
+  dependents: PropTypes.string,
 };
 
 export default connect(

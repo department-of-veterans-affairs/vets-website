@@ -390,7 +390,6 @@ export const getClaim = (id, router) => {
       });
   };
 };
-// END lighthouse_migration
 
 export function submitRequest(id) {
   return dispatch => {
@@ -430,6 +429,37 @@ export function submitRequest(id) {
     );
   };
 }
+
+export const submit5103 = submitRequest;
+
+// id => {
+//   return submitRequest(id);
+//   return dispatch => {
+//     dispatch({
+//       type: SUBMIT_DECISION_REQUEST,
+//     });
+
+//     makeAuthRequest(
+//       `/v0/benefits_claims/${id}/submit5103`,
+//       { method: 'POST' },
+//       dispatch,
+//       () => {
+//         dispatch({ type: SET_DECISION_REQUESTED });
+//         dispatch(
+//           setNotification({
+//             title: 'Request received',
+//             body:
+//               'Thank you. We have your claim request and will make a decision.',
+//           }),
+//         );
+//       },
+//       error => {
+//         dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
+//       },
+//     );
+//   };
+// };
+// END lighthouse_migration
 
 export function resetUploads() {
   return {
