@@ -233,7 +233,10 @@ describe('VAOS direct schedule flow using VAOS service', () => {
         `${start.format('YYYY-MM-DD')}T00:00:00+00:00`,
       );
       // expect(body.reasonCode.coding).to.include({ code: 'Routine Follow-up' });
-      expect(body.reasonCode).to.have.property('text', 'insomnia');
+      expect(body.reasonCode).to.have.property(
+        'text',
+        'reasonCode:ROUTINEVISIT|comments:insomnia',
+      );
       expect(body.slot).to.have.property('id', '123');
     });
 
@@ -318,7 +321,10 @@ describe('VAOS direct schedule flow using VAOS service', () => {
         'desiredDate',
         `${start.format('YYYY-MM-DD')}T00:00:00+00:00`,
       );
-      expect(body.reasonCode).to.have.property('text', 'insomnia');
+      expect(body.reasonCode).to.have.property(
+        'text',
+        'reasonCode:ROUTINEVISIT|comments:insomnia',
+      );
     });
 
     // Confirmation page

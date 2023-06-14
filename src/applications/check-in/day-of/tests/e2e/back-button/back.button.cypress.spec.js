@@ -46,7 +46,7 @@ describe('Check In Experience', () => {
       EmergencyContact.attemptToGoToNextPage();
 
       NextOfKin.validatePageLoaded(
-        'Is this your current next of kin information?',
+        'Check-In Is this your current next of kin information?',
       );
     });
     afterEach(() => {
@@ -61,7 +61,7 @@ describe('Check In Experience', () => {
 
       cy.get('[data-testid="back-button"]').click();
       NextOfKin.validatePageLoaded(
-        'Is this your current next of kin information?',
+        'Check-In Is this your current next of kin information?',
       );
 
       cy.get('[data-testid="back-button"]').click();
@@ -69,7 +69,7 @@ describe('Check In Experience', () => {
       EmergencyContact.attemptToGoToNextPage();
 
       NextOfKin.validatePageLoaded(
-        'Is this your current next of kin information?',
+        'Check-In Is this your current next of kin information?',
       );
     });
     it('removes back button from appointment list when check in is complete', () => {
