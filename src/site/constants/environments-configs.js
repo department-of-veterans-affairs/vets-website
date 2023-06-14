@@ -53,7 +53,7 @@ module.exports = {
           location.port ? location.port : '3001'
         }`,
     API_URL: isNode
-      ? `http://${process.env.API_HOST}:3000`
+      ? `http://${process.env.API_HOST}`
       : 'http://vets-api-web:3004',
   },
 
