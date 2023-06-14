@@ -206,6 +206,9 @@ const formConfig = {
               },
               chapter32: {
                 'ui:title': benefitsLabels.chapter32,
+                'ui:options': {
+                  hideIf: () => !environment.isProduction(),
+                },
               },
             },
           },
