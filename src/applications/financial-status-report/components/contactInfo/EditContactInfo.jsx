@@ -43,7 +43,11 @@ const BuildPage = ({ title, field, id, goToPath }) => {
   };
 
   return (
-    <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
+    <div
+      className="va-profile-wrapper"
+      onSubmit={handlers.onSubmit}
+      id={`edit-${FIELD_NAMES[field]}`}
+    >
       <InitializeVAPServiceID>
         <h3 ref={headerRef}>{title}</h3>
         <ProfileInformationFieldController
