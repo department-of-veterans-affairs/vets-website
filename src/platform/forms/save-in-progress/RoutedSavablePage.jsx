@@ -127,7 +127,7 @@ RoutedSavablePage.propTypes = {
   }),
   saveAndRedirectToReturnUrl: PropTypes.func,
   setData: PropTypes.func,
-  showLoginModal: PropTypes.func,
+  showLoginModal: PropTypes.bool,
   toggleLoginModal: PropTypes.func,
   user: PropTypes.object,
 };
