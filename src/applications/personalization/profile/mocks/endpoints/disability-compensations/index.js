@@ -99,6 +99,9 @@ const errors = {
     code: 'cnp.payment.routing.number.fraud',
   }),
   invalidRoutingNumber: createError({
+    code: 'cnp.payment.routing.number.invalid',
+  }),
+  invalidChecksumRoutingNumber: createError({
     code: 'cnp.payment.routing.number.invalid.checksum',
   }),
   invalidRoutingNumberUnspecified: createError({
@@ -109,6 +112,24 @@ const errors = {
   }),
   paymentRestrictionsPresent: createError({
     code: 'cnp.payment.restriction.indicators.present',
+  }),
+  invalidDayPhone: createError({
+    detail:
+      'Generic CnP payment update error. Update response: Update Failed: Day phone number is invalid, must be 7 digits',
+  }),
+  invalidDayArea: createError({
+    detail:
+      'Generic CnP payment update error. Update response: Update Failed: Day area number is invalid, must be 3 digits',
+  }),
+  invalidDayPhoneGeneral: createError({
+    code: 'cnp.payment.generic.error',
+    detail:
+      'Generic CnP payment update error. Update response: Update Failed: Day phone number is invalid, must be 7 digits',
+  }),
+  invalidDayAreaGeneral: createError({
+    code: 'cnp.payment.generic.error',
+    detail:
+      'Generic CnP payment update error. Update response: Update Failed: Day area number is invalid, must be 3 digits',
   }),
 };
 
