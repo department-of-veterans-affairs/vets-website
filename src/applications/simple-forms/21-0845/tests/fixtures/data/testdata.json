@@ -26,6 +26,8 @@
       "city": "Anycity",
       "state": "CA",
       "postalCode": "54321"
-    }
+    },
+    "informationScope": "limited",
+    "limitedInformationItems": "Status of pending claim or appeal"
   }
 }

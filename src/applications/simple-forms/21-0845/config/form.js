@@ -18,6 +18,7 @@ import orgNamePg from '../pages/orgName';
 import orgRepsPg from '../pages/orgReps';
 import orgAddrPg from '../pages/orgAddr';
 import infoScopePg from '../pages/infoScope';
+import limitedInfoPg from '../pages/limitedInfo';
 
 // mock-data import for local development
 // import the appropriate file [flow?.json] for the flow you're working on, or
@@ -175,6 +176,16 @@ const formConfig = {
           title: 'Information scope',
           uiSchema: infoScopePg.uiSchema,
           schema: infoScopePg.schema,
+        },
+        limitedInformationPage: {
+          // limited info-scope
+          path: 'disclosure-information-limited-information',
+          title: 'Limited information',
+          depends: {
+            informationScope: 'limited',
+          },
+          uiSchema: limitedInfoPg.uiSchema,
+          schema: limitedInfoPg.schema,
         },
       },
     },
