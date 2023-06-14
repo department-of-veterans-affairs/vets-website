@@ -3,7 +3,6 @@ import React from 'react';
 export default function HealthcareModalContent({ resBurden, ombNumber }) {
   return (
     <>
-      <h3>Privacy Act Statement</h3>
       <p>
         <strong>Respondent Burden:</strong> This information is collected in
         accordance with section 3507 of the Paperwork Reduction Act of 1995.
