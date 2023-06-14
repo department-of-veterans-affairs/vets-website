@@ -71,8 +71,10 @@ const MessageListItem = props => {
         {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
           (readReceipt !== 'READ' && (
             <i
-              aria-hidden="true"
+              role="img"
+              aria-label="Unread message"
               className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
+              alt="Unread message icon"
             />
           ))}
       </div>

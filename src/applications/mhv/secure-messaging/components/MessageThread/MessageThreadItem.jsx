@@ -64,18 +64,22 @@ const MessageThreadItem = props => {
       <h3 slot="headline">{dateFormat(sentDate, 'MMMM D [at] h:mm a z')}</h3>
       {!isRead && (
         <i
+          role="img"
+          aria-label="Unread message"
           data-testid="unread-icon"
           className="vads-u-color--primary vads-u-padding--0p25 vads-u-margin-right--1 fas fa-solid fa-circle fa-xs"
           slot="icon"
-          aria-hidden
+          alt="Unread message icon"
         />
       )}
       {(hasAttachments || attachment) && (
         <i
+          role="img"
           data-testid="attachment-icon"
           className="vads-u-margin-right--1p5 fas fa-paperclip vads-u-color--base"
           slot="subheader-icon"
           aria-hidden
+          alt="Attachment icon"
         />
       )}
 
