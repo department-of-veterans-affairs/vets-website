@@ -18,9 +18,9 @@ import otherRelationshipToDeceasedClaimant from '../pages/otherRelationshipToDec
 import additionalInformation from '../pages/additionalInformation';
 
 // mock-data import for local development
-// import testData from '../tests/e2e/fixtures/data/minimal-test.json';
+import testData from '../tests/e2e/fixtures/data/minimal-test.json';
 
-// const mockData = testData;
+const mockData = testData;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -28,11 +28,20 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
   transformForSubmit,
   trackingPrefix: '21P-0847-substitute-claimant-',
-  // dev: {
-  //   showNavLinks: true,
-  // },
+  dev: {
+    showNavLinks: true,
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'preparerName',
+    },
+  },
   formId: '21P-0847',
   saveInProgress: {
     messages: {
@@ -63,8 +72,8 @@ const formConfig = {
           title: 'Your personal information',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          // initialData:
-          //   !!mockData && environment.isLocalhost() ? mockData : undefined,
+          initialData:
+            !!mockData && environment.isLocalhost() ? mockData : undefined,
           uiSchema: preparerPersonalInformation.uiSchema,
           schema: preparerPersonalInformation.schema,
         },
