@@ -5,8 +5,16 @@ import environment from 'platform/utilities/environment';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const statement =
-  'Veteran’s statement of truth: I’ve reviewed the information I provided in this request, including: my marital status and number of dependents, my income (and my spouse’s income if included), my household assets and expenses, my bankruptcy history.';
+const statementOfTruthItems = [
+  'My marital status and number of dependents',
+  'My income (and my spouse’s income if included)',
+  'My household assets and expenses',
+  'My bankruptcy history',
+];
+
+const statement = `Veteran’s statement of truth: I’ve reviewed the information I provided in this request, including: ${statementOfTruthItems.join(
+  ', ',
+)}`;
 
 const PreSubmitSignature = ({
   formData,
@@ -129,10 +137,9 @@ const PreSubmitSignature = ({
         I’ve reviewed the information I provided in this request, including:
       </p>
       <ul>
-        <li>My marital status and number of dependents</li>
-        <li>My income (and my spouse’s income if included)</li>
-        <li>My household assets and expenses</li>
-        <li>My bankruptcy history</li>
+        {statementOfTruthItems.map((item, index) => {
+          return <li key={index}>{item}</li>;
+        })}
       </ul>
     </div>
   );
