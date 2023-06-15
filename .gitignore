@@ -55,3 +55,7 @@ script/cypress-testrail-helper/my-config.json
 
 # Ignore mochawesome report directory
 mochawesome-report/
+
+# Ignore VIM config file for the silver searcher
+# https://github.com/mileszs/ack.vim/issues/210#issuecomment-290890545
+.ignore
