@@ -1,6 +1,7 @@
 import React from 'react';
 
-export default function HealthcareModalContent() {
+// eslint-disable-next-line no-unused-vars
+export default function HealthcareModalContent({ resBurden, ombNumber }) {
   return (
     <>
       <p>
