@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { LIMITED_INFORMATION_ITEMS } from '../definitions/constants';
 import GroupCheckboxWidget from '../components/GroupCheckboxWidget';
 
@@ -5,7 +7,11 @@ import GroupCheckboxWidget from '../components/GroupCheckboxWidget';
 export default {
   uiSchema: {
     limitedInformationItems: {
-      'ui:title': 'Which specific information do you authorize us to release?',
+      'ui:title': (
+        <span className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
+          Which specific information do you authorize us to release?
+        </span>
+      ),
       'ui:description':
         'Select the items we can share with your third-party source. You can select more than one.',
       'ui:widget': GroupCheckboxWidget,
