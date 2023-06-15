@@ -5,7 +5,7 @@ import reducer from '../../reducers';
 import prescriptions from '../fixtures/presciptions.json';
 import LandingPage from '../../containers/LandingPage';
 
-describe('Prescription details container', () => {
+describe('Medicaitons Landing page container', () => {
   const initialState = {
     rx: {
       prescriptions: {
