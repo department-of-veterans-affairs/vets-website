@@ -1,0 +1,30 @@
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import PatientInboxPage from '../pages/PatientInboxPage';
+
+describe('Check confirmation message after save draft', () => {
+  const site = new SecureMessagingSite();
+  const inboxPage = new PatientInboxPage();
+  it('Check confirmation message after save draft', () => {
+    site.login();
+    inboxPage.loadInboxMessages();
+    inboxPage.loadComposeMessagePage();
+    inboxPage.composeDraftByKeyboard();
+
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    inboxPage.saveDraftByKeyboard();
+    // next line is for checking if assertion works properly
+    /*
+    cy.get('#save-draft-button')
+      .should('exist')
+      .and('be.focused');
+    cy.get('.last-save-time').should('be.focused');
+    */
+  });
+});

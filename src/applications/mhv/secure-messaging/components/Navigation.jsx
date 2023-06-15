@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getFolders } from '../actions/folders';
 import { folder } from '../selectors';
 import SectionGuideButton from './SectionGuideButton';
 import { DefaultFolders, Paths } from '../util/constants';
+import { trapFocus } from '../../shared/util/ui';
 
 const Navigation = () => {
   const dispatch = useDispatch();
@@ -12,12 +14,41 @@ const Navigation = () => {
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const location = useLocation();
   const activeFolder = useSelector(folder);
+  const sideBarNavRef = useRef();
+  const closeMenuButtonRef = useRef();
+  const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
+
+  function openNavigation() {
+    setIsNavigationOpen(true);
+  }
+
+  const closeNavigation = useCallback(
+    () => {
+      setIsNavigationOpen(false);
+      focusElement(navMenuButtonRef);
+    },
+    [navMenuButtonRef],
+  );
 
   useEffect(
     () => {
       dispatch(getFolders());
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (isNavigationOpen) {
+        focusElement(closeMenuButtonRef.current);
+        trapFocus(
+          sideBarNavRef.current,
+          `a[href]:not([disabled]), button:not([disabled])`,
+          closeNavigation,
+        );
+      }
+    },
+    [isNavigationOpen, closeMenuButtonRef, sideBarNavRef, closeNavigation],
   );
 
   const paths = () => {
@@ -51,23 +82,8 @@ const Navigation = () => {
         label: 'My folders',
         datatestid: 'my-folders-sidebar',
       },
-
-      /* Hidden from sidenav view; will implement in SM Home later */
-      // {
-      //   path: '/faq',
-      //   label: 'Messages FAQ',
-      //   datatestid: 'messages-faq-sidebar',
-      // },
     ];
   };
-
-  function openNavigation() {
-    setIsNavigationOpen(true);
-  }
-
-  function closeNavigation() {
-    setIsNavigationOpen(false);
-  }
 
   function checkScreenSize() {
     if (window.innerWidth <= 768 && setIsMobile !== false) {
@@ -82,9 +98,11 @@ const Navigation = () => {
     return (
       isMobile && (
         <SectionGuideButton
+          setNavMenuButtonRef={setNavMenuButtonRef}
           onMenuClick={() => {
             openNavigation();
           }}
+          isExpanded={isNavigationOpen}
         />
       )
     );
@@ -126,12 +144,20 @@ const Navigation = () => {
     <div className="secure-messaging-navigation vads-u-flex--auto vads-u-padding-bottom--7 medium-screen:vads-u-padding-bottom--0">
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
-        <div className="sidebar-navigation">
+        <div
+          ref={sideBarNavRef}
+          className="sidebar-navigation"
+          id="sidebar-navigation"
+        >
+          <div className="sr-only" aria-live="polite">
+            Navigation menu is open
+          </div>
           {isMobile && (
-            <div className="sidebar-navigation-header">
+            <div className="sidebar-navigation-header vads-u-justify-content--flex-end">
               <button
-                className="va-btn-close-icon"
-                aria-label="Close-this-menu"
+                ref={closeMenuButtonRef}
+                className="va-btn-close-icon vads-u-margin--0p5 vads-u-padding--2p5 vads-u-margin-right--2"
+                aria-label="Close navigation menu"
                 aria-expanded="true"
                 aria-controls="a1"
                 onClick={closeNavigation}
@@ -156,6 +182,9 @@ const Navigation = () => {
                         <Link
                           className={handleActiveLinksStyle(path)}
                           to={path.path}
+                          onClick={() => {
+                            closeNavigation();
+                          }}
                         >
                           <span>{path.label}</span>
                         </Link>

@@ -110,6 +110,7 @@ const DisplayMultipleAppointments = props => {
       <Wrapper
         pageTitle={t('your-appointments')}
         classNames="appointment-check-in"
+        eyebrow={t('check-in')}
         withBackButton
       >
         <AppointmentBlock
