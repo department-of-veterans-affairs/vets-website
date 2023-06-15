@@ -12,7 +12,7 @@ const defaultToggleValues = {
   profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
-  profileUseNotificationSettingsCheckboxes: true,
+  profileUseNotificationSettingsCheckboxes: false,
 };
 
 const generateFeatureToggles = (values = defaultToggleValues) => {

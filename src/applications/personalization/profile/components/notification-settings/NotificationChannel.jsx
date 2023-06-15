@@ -16,29 +16,32 @@ import { getContactInfoSelectorByChannelType } from '@@profile/util/notification
 
 import recordEvent from '~/platform/monitoring/record-event';
 import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { LOADING_STATES } from '../../../common/constants';
 
 import NotificationChannelUnavailable from './NotificationChannelUnavailable';
 import NotificationRadioButtons from './NotificationRadioButtons';
+import { NotificationCheckboxes } from './NotificationCheckboxes';
 
 const channelTypes = {
   1: 'text',
   2: 'email',
 };
 
-const NotificationChannel = ({
-  apiStatus,
-  channelId,
-  channelType,
-  isMissingContactInfo,
-  isOptedIn,
-  itemName,
-  itemId,
-  permissionId,
-  radioButtonDescription,
-  saveSetting,
-}) => {
+const NotificationChannel = props => {
+  const {
+    apiStatus,
+    channelId,
+    channelType,
+    isMissingContactInfo,
+    isOptedIn,
+    itemName,
+    itemId,
+    permissionId,
+    radioButtonDescription,
+    saveSetting,
+  } = props;
   // when itemId = "item2", itemIdNumber will be 2
   const itemIdNumber = React.useMemo(
     () => {
@@ -71,72 +74,84 @@ const NotificationChannel = ({
   }
   return (
     <>
-      <NotificationRadioButtons
-        id={channelId}
-        value={{ value: currentValue }}
-        label={itemName}
-        name={`${itemName}-${channelType}`}
-        description={radioButtonDescription}
-        options={[
-          {
-            label: `Notify me by ${channelTypes[channelType]}`,
-            value: 'true',
-            ariaLabel: `Notify me of ${itemName} by ${
-              channelTypes[channelType]
-            }`,
-          },
-          {
-            label: `Don’t notify me`,
-            value: 'false',
-            ariaLabel: `Do not notify me of ${itemName} by ${
-              channelTypes[channelType]
-            }`,
-          },
-        ]}
-        onValueChange={e => {
-          const newValue = e.value;
-          // Escape early if no change was made. If an API call fails, it's
-          // possible to then click on a "checked" radio button to fire off
-          // another API call. This check avoids that problem
-          if (newValue === currentValue) {
-            return;
-          }
-          const model = new CommunicationChannelModel({
-            type: channelType,
-            parentItemId: itemIdNumber,
-            permissionId,
-            isAllowed: newValue === 'true',
-            wasAllowed: currentValue,
-          });
-          recordEvent({
-            event: 'int-radio-button-option-click',
-            'radio-button-label': itemName,
-            'radio-button-optionLabel': `${
-              channelTypes[channelType]
-            } - ${newValue}`,
-            'radio-button-required': false,
-          });
+      <Toggler
+        toggleName={
+          Toggler.TOGGLE_NAMES.profileUseNotificationSettingsCheckboxes
+        }
+      >
+        <Toggler.Enabled>
+          <NotificationCheckboxes {...props} />
+        </Toggler.Enabled>
 
-          saveSetting(channelId, model.getApiCallObject());
-        }}
-        warningMessage={
-          !permissionId && apiStatus === LOADING_STATES.idle
-            ? 'Select an option.'
-            : null
-        }
-        loadingMessage={
-          apiStatus === LOADING_STATES.pending ? 'Saving...' : null
-        }
-        successMessage={
-          apiStatus === LOADING_STATES.loaded ? 'Update saved.' : null
-        }
-        errorMessage={
-          apiStatus === LOADING_STATES.error
-            ? 'We’re sorry. We had a problem saving your update. Try again.'
-            : null
-        }
-        disabled={apiStatus === LOADING_STATES.pending}
-      />
+        <Toggler.Disabled>
+          <NotificationRadioButtons
+            id={channelId}
+            value={{ value: currentValue }}
+            label={itemName}
+            name={`${itemName}-${channelType}`}
+            description={radioButtonDescription}
+            options={[
+              {
+                label: `Notify me by ${channelTypes[channelType]}`,
+                value: 'true',
+                ariaLabel: `Notify me of ${itemName} by ${
+                  channelTypes[channelType]
+                }`,
+              },
+              {
+                label: `Don’t notify me`,
+                value: 'false',
+                ariaLabel: `Do not notify me of ${itemName} by ${
+                  channelTypes[channelType]
+                }`,
+              },
+            ]}
+            onValueChange={e => {
+              const newValue = e.value;
+              // Escape early if no change was made. If an API call fails, it's
+              // possible to then click on a "checked" radio button to fire off
+              // another API call. This check avoids that problem
+              if (newValue === currentValue) {
+                return;
+              }
+              const model = new CommunicationChannelModel({
+                type: channelType,
+                parentItemId: itemIdNumber,
+                permissionId,
+                isAllowed: newValue === 'true',
+                wasAllowed: currentValue,
+              });
+              recordEvent({
+                event: 'int-radio-button-option-click',
+                'radio-button-label': itemName,
+                'radio-button-optionLabel': `${
+                  channelTypes[channelType]
+                } - ${newValue}`,
+                'radio-button-required': false,
+              });
+
+              saveSetting(channelId, model.getApiCallObject());
+            }}
+            warningMessage={
+              !permissionId && apiStatus === LOADING_STATES.idle
+                ? 'Select an option.'
+                : null
+            }
+            loadingMessage={
+              apiStatus === LOADING_STATES.pending ? 'Saving...' : null
+            }
+            successMessage={
+              apiStatus === LOADING_STATES.loaded ? 'Update saved.' : null
+            }
+            errorMessage={
+              apiStatus === LOADING_STATES.error
+                ? 'We’re sorry. We had a problem saving your update. Try again.'
+                : null
+            }
+            disabled={apiStatus === LOADING_STATES.pending}
+          />
+        </Toggler.Disabled>
+      </Toggler>
     </>
   );
 };

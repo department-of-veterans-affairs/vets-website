@@ -69,14 +69,16 @@ const maximalSetOfPreferences = {
                     allowed: true,
                   },
                 },
-                // this is not currently supported, but for testing we want to see what a notification with 2 channels would look like
+                // this is not currently present from VAProfile, but for testing we want a notification with 2 channels
+                // also including the default send indicator for this channel
                 {
                   id: 2,
                   name: 'Email',
                   description: 'Email Notification',
+                  defaultSendIndicator: true,
                   communicationPermission: {
                     id: 1234,
-                    allowed: true,
+                    allowed: false,
                   },
                 },
               ],
@@ -127,7 +129,7 @@ const maximalSetOfPreferences = {
                   description: 'Email Notification',
                   communicationPermission: {
                     id: 8362,
-                    allowed: true,
+                    allowed: false,
                   },
                 },
               ],
