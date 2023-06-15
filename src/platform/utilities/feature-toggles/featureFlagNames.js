@@ -79,7 +79,6 @@ export default Object.freeze({
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
   hcaHouseholdV2Enabled: 'hca_household_v2_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
-  hlrDisableSubmit: 'hlr_disable_submit',
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
   medicalCopaysHtmlMedicalStatementsViewEnabled: 'medical_copays_html_medical_statements_view_enabled',
