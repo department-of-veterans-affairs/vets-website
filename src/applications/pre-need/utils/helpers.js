@@ -394,7 +394,7 @@ export const serviceRecordsUI = {
   'ui:options': {
     viewField: ServicePeriodView,
     itemName: 'service period',
-    keepInPageOnReview: true,
+    keepInPageOnReview: !environment.isProduction(),
   },
   items: {
     'ui:order': [
