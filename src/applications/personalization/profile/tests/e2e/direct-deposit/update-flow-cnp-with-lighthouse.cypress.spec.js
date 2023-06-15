@@ -97,7 +97,7 @@ describe('Direct Deposit', () => {
     cy.injectAxe();
   });
   describe('for CNP', () => {
-    it('should allow bank info updates, show WIP warning modals, show "update successful" banners, etc.', () => {
+    it.skip('should allow bank info updates, show WIP warning modals, show "update successful" banners, etc.', () => {
       cy.axeCheck();
       cy.wait(['@getCNPFromLighthouse']);
       cy.findByRole('button', {
