@@ -3,11 +3,11 @@ import AdditionalIncomeCheckList from '../../../components/AdditionalIncomeCheck
 export const uiSchema = {
   'ui:title': '',
   'ui:field': AdditionalIncomeCheckList,
-  'ui:options': {
-    hideOnReview: true,
-  },
   additionalIncomeCheckList: {
     'ui:title': 'additionalIncomeCheckList',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
 

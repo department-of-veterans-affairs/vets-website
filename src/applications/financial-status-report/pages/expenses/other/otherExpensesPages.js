@@ -6,11 +6,11 @@ export const otherExpensesChecklist = {
   uiSchema: {
     'ui:title': '',
     'ui:field': OtherExpensesChecklist,
-    'ui:options': {
-      hideOnReview: true,
-    },
     otherLivingExpenses: {
       'ui:title': 'otherExpensesChecklist',
+      'ui:options': {
+        hideOnReview: true,
+      },
     },
   },
   schema: {

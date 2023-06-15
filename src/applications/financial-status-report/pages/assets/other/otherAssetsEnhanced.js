@@ -6,11 +6,11 @@ export const otherAssetsChecklist = {
   uiSchema: {
     'ui:title': '',
     'ui:field': OtherAssetsChecklist,
-    'ui:options': {
-      hideOnReview: true,
-    },
     otherAssets: {
       'ui:title': 'otherAssetsChecklist',
+      'ui:options': {
+        hideOnReview: true,
+      },
     },
   },
   schema: {

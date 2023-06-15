@@ -3,11 +3,11 @@ import SpouseAdditionalIncomeCheckList from '../../../../components/SpouseAdditi
 export const uiSchema = {
   'ui:title': 'Monthly housing expenses',
   'ui:field': SpouseAdditionalIncomeCheckList,
-  'ui:options': {
-    hideOnReview: true,
-  },
   spouseAdditionalIncomeCheckList: {
     'ui:title': 'spouseAdditionalIncomeCheckList',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
 

@@ -6,11 +6,11 @@ export const utilityBillChecklist = {
   uiSchema: {
     'ui:title': '',
     'ui:field': UtilityBillChecklist,
-    'ui:options': {
-      hideOnReview: true,
-    },
     utilityBills: {
       'ui:title': 'utilityBillChecklist',
+      'ui:options': {
+        hideOnReview: true,
+      },
     },
   },
   schema: {
