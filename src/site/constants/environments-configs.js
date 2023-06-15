@@ -10,6 +10,19 @@ if (typeof window === 'undefined') {
   isNode = true;
 }
 
+// allowedHostnames is an array of hostnames that are eligible
+function isHostnameAllowed(hostname, allowedHostnames) {
+  let hostnameAllowed = false;
+  for (const name of allowedHostnames) {
+    const pattern = name.replace(/\*/g, '[a-z0-9]+(-[a-z0-9]+)*');
+    const regex = new RegExp(`^${pattern}$`, 'i');
+    if (regex.test(hostname)) {
+      hostnameAllowed = true;
+    }
+  }
+  return hostnameAllowed;
+}
+
 module.exports = {
   [ENVIRONMENTS.VAGOVPROD]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVPROD,
@@ -30,6 +43,7 @@ module.exports = {
   },
 
   /* eslint-disable no-restricted-globals */
+  /* eslint-disable no-nested-ternary */
 
   [ENVIRONMENTS.LOCALHOST]: {
     BUILDTYPE: ENVIRONMENTS.LOCALHOST,
@@ -38,13 +52,20 @@ module.exports = {
       : `http://${location.hostname || 'localhost'}:${
           location.port ? location.port : '3001'
         }`,
-    // API_URL: isNode
-    //   ? `http://${process.env.API_HOST}:3000`
-    //   : `http://${location.hostname || 'localhost'}:3000`,
     API_URL: isNode
-      ? `http://${process.env.API_HOST}`
-      : `http://${location.hostname || 'localhost'}`,
+      ? `http://${process.env.API_HOST}:3000`
+      : location.hostname &&
+        isHostnameAllowed(location.hostname, [
+          '*.preview.va.gov',
+          '*.vfs.va.gov',
+        ])
+        ? `http://${location.hostname.split('.')[0]}-api.${location.hostname
+            .split('.')
+            .slice(1)
+            .join('.')}:3000`
+        : `http://${location.hostname || 'localhost'}:3000`,
   },
 
   /* eslint-enable no-restricted-globals */
+  /* eslint-enable no-nested-ternary */
 };
