@@ -248,7 +248,7 @@ export const isSignedUpForEDUDirectDeposit = apiData =>
 const getLighthouseErrorCode = (errors = []) => {
   // there should only be one error code in the errors array, but just in case
   const error = errors.find(err => err?.code);
-  return `${error?.code || OTHER_ERROR_GA_KEY} ${error?.detail || ''}`;
+  return `${error?.code || OTHER_ERROR_GA_KEY} | ${error?.detail || ''}`;
 };
 
 const getPPIUErrorCode = (errors = []) => {
