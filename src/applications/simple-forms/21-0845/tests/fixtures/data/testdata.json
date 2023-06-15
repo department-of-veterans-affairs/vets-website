@@ -28,6 +28,8 @@
       "postalCode": "54321"
     },
     "informationScope": "limited",
-    "limitedInformationItems": "Status of pending claim or appeal"
+    "limitedInformationItems": "Status of pending claim or appeal",
+    "releaseDuration": "untilDate",
+    "releaseEndDate": "2033-06-16"
   }
 }

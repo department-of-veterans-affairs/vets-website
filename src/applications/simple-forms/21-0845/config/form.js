@@ -20,6 +20,7 @@ import orgAddrPg from '../pages/orgAddr';
 import infoScopePg from '../pages/infoScope';
 import limitedInfoPg from '../pages/limitedInfo';
 import relDurationPg from '../pages/relDuration';
+import relEndDatePg from '../pages/relEndDate';
 
 // mock-data import for local development
 // import the appropriate file [flow?.json] for the flow you're working on, or
@@ -172,6 +173,11 @@ const formConfig = {
           uiSchema: orgAddrPg.uiSchema,
           schema: orgAddrPg.schema,
         },
+      },
+    },
+    infoReleaseChapter: {
+      title: 'Information to release',
+      pages: {
         informationScopePage: {
           path: 'disclosure-information-scope',
           title: 'Information scope',
@@ -193,6 +199,16 @@ const formConfig = {
           title: 'Release duration',
           uiSchema: relDurationPg.uiSchema,
           schema: relDurationPg.schema,
+        },
+        releaseEndDatePage: {
+          // untilDate release-duration
+          path: 'disclosure-information-release-end-date',
+          title: 'Release end date',
+          depends: {
+            releaseDuration: 'untilDate',
+          },
+          uiSchema: relEndDatePg.uiSchema,
+          schema: relEndDatePg.schema,
         },
       },
     },

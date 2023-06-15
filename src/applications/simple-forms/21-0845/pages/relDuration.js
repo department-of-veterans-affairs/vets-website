@@ -18,7 +18,7 @@ export default {
     releaseDuration: {
       'ui:widget': 'radio',
       'ui:errorMessages': {
-        required: 'Please select a duration.',
+        required: 'Please select a release duration.',
       },
       'ui:options': {
         // dynamically update title based on form data
