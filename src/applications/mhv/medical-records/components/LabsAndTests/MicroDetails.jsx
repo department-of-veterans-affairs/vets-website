@@ -106,7 +106,6 @@ const MicroDetails = props => {
             <p className="vads-u-font-size--base make-monospace">
               {record.results}
             </p>{' '}
-            {/* Change this to monospaced for all browsers */}
           </div>
         </>
       );
