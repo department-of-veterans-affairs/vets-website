@@ -49,6 +49,8 @@
           "~": "./src",
           "@@vap-svc": "./src/platform/user/profile/vap-svc",
           "@@profile": "./src/applications/personalization/profile",
+          "@department-of-veterans-affairs/virtual-agent/sass/virtual-agent":"./src/applications/virtual-agent/sass/virtual-agent.scss",
+
           "@department-of-veterans-affairs/component-library/LoadingIndicator": "@department-of-veterans-affairs/react-components/LoadingIndicator",
           "@department-of-veterans-affairs/component-library/AlertBox": "@department-of-veterans-affairs/react-components/AlertBox",
           "@department-of-veterans-affairs/component-library/ProgressButton": "@department-of-veterans-affairs/react-components/ProgressButton",
@@ -95,17 +97,17 @@
           "@department-of-veterans-affairs/platform-landing-pages/facility-sidebar" : "./src/platform/landing-pages/facility-sidebar.json",
           "@department-of-veterans-affairs/platform-landing-pages/header-footer-data" : "./src/platform/landing-pages/header-footer-data.json",
 
-          "@department-of-veterans-affairs/platform-static-data/exports": "./src/platform/forms/static-data/exportsFile.js",
-          "@department-of-veterans-affairs/platform-static-data/CallHRC": "./src/platform/forms/static-data/CallHRC.jsx",
-          "@department-of-veterans-affairs/platform-static-data/CallNCACenter": "./src/platform/forms/static-data/CallNCACenter.jsx",
-          "@department-of-veterans-affairs/platform-static-data/CallVBACenter": "./src/platform/forms/static-data/CallVBACenter.jsx",
-          "@department-of-veterans-affairs/platform-static-data/EmailVICHelp": "./src/platform/forms/static-data/EmailVICHelp.jsx",
-          "@department-of-veterans-affairs/platform-static-data/error-messages": "./src/platform/forms/static-data/error-messages.jsx",
+          "@department-of-veterans-affairs/platform-static-data/exports": "./src/platform/static-data/exportsFile.js",
+          "@department-of-veterans-affairs/platform-static-data/CallHRC": "./src/platform/static-data/CallHRC.jsx",
+          "@department-of-veterans-affairs/platform-static-data/CallNCACenter": "./src/platform/static-data/CallNCACenter.jsx",
+          "@department-of-veterans-affairs/platform-static-data/CallVBACenter": "./src/platform/static-data/CallVBACenter.jsx",
+          "@department-of-veterans-affairs/platform-static-data/EmailVICHelp": "./src/platform/static-data/EmailVICHelp.jsx",
+          "@department-of-veterans-affairs/platform-static-data/error-messages": "./src/platform/static-data/error-messages.jsx",
           "@department-of-veterans-affairs/platform-static-data/labels": "./src/platform/forms/static-data/labels.jsx",
-          "@department-of-veterans-affairs/platform-static-data/options-for-select": "./src/platform/forms/static-data/options-for-select.js",
-          "@department-of-veterans-affairs/platform-static-data/SubmitSignInForm": "./src/platform/forms/static-data/SubmitSignInForm.jsx",
+          "@department-of-veterans-affairs/platform-static-data/options-for-select": "./src/platform/static-data/options-for-select.js",
+          "@department-of-veterans-affairs/platform-static-data/SubmitSignInForm": "./src/platform/static-data/SubmitSignInForm.jsx",
 
-          "@department-of-veterans-affairs/platform-polyfills/exports": "./src/platform/polyfills/exportFiles.js",
+          "@department-of-veterans-affairs/platform-polyfills/exports": "./src/platform/polyfills/exportsFile.js",
 
           "@department-of-veterans-affairs/platform-user/exports": "./src/platform/user/exportsFile.js",
           "@department-of-veterans-affairs/platform-user/selectors": "./src/platform/user/selectors.js",
@@ -152,8 +154,7 @@
           "@department-of-veterans-affairs/platform-testing/react-testing-library-helpers": "./src/platform/testing/unit/react-testing-library-helpers.js",
           "@department-of-veterans-affairs/platform-testing/schemaform-utils": "./src/platform/testing/unit/schemaform-utils.jsx",
           "@department-of-veterans-affairs/platform-testing/sentry": "./src/platform/testing/unit/sentry.js",
-          "@department-of-veterans-affairs/platform-testing/unit/react-testing-library-helpers": "./src/platform/testing/unit/react-testing-library-helpers",
-
+ 
           "@department-of-veterans-affairs/platform-site-wide/exports": "./src/platform/site-wide/exportsFile.js",
           "@department-of-veterans-affairs/platform-site-wide/showVaAlertExpandable": "./src/platform/site-wide/alerts/showVaAlertExpandable.js",
           "@department-of-veterans-affairs/platform-site-wide/EbenefitsLink": "./src/platform/site-wide/ebenefits/containers/EbenefitsLink.jsx",
@@ -182,7 +183,6 @@
           "@department-of-veterans-affairs/platform-site-wide/AutoSSO": "./src/platform/site-wide/user-nav/containers/AutoSSO.jsx",
           "@department-of-veterans-affairs/platform-site-wide/user-nav": "./src/platform/site-wide/user-nav/index.js",
           "@department-of-veterans-affairs/platform-site-wide/sass/user-nav": "./src/platform/site-wide/user-nav/sass/user-nav.scss",
-          "@department-of-veterans-affairs/virtual-agent/sass/virtual-agent":"./src/applications/virtual-agent/sass/virtual-agent.scss",
           "@department-of-veterans-affairs/platform-site-wide/user-nav/reducers": "./src/platform/site-wide/user-nav/reducers/index.js",
           "@department-of-veterans-affairs/platform-site-wide/va-footer": "./src/platform/site-wide/va-footer/index.js",
           "@department-of-veterans-affairs/platform-site-wide/wizard": "./src/platform/site-wide/wizard/index.js",
