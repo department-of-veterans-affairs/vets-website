@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 import { subDays } from 'date-fns';
-import generatePdf from '@department-of-veterans-affairs/platform-pdf';
+import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 
 import { phoneNumbers } from '../../../utils/appConstants';
 import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
