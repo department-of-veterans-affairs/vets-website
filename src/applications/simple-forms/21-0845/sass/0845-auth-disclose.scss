@@ -15,6 +15,10 @@ div:has(.schemaform-sip-alert) {
   margin: 0 0 !important;
 }
 
+#root_releaseDuration-label > .schemaform-required-span {
+  display: none !important;
+}
+
 .form-review-panel[data-chapter="authorizerTypeChapter"] .review-row dt > span {
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", Arial,
     sans-serif !important;

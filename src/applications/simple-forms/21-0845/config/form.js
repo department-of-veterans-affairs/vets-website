@@ -19,6 +19,7 @@ import orgRepsPg from '../pages/orgReps';
 import orgAddrPg from '../pages/orgAddr';
 import infoScopePg from '../pages/infoScope';
 import limitedInfoPg from '../pages/limitedInfo';
+import relDurationPg from '../pages/relDuration';
 
 // mock-data import for local development
 // import the appropriate file [flow?.json] for the flow you're working on, or
@@ -186,6 +187,12 @@ const formConfig = {
           },
           uiSchema: limitedInfoPg.uiSchema,
           schema: limitedInfoPg.schema,
+        },
+        releaseDurationPage: {
+          path: 'disclosure-information-release-duration',
+          title: 'Release duration',
+          uiSchema: relDurationPg.uiSchema,
+          schema: relDurationPg.schema,
         },
       },
     },

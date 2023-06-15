@@ -21,3 +21,9 @@ export const LIMITED_INFORMATION_ITEMS = {
   PAYMENT_LETTER: 'Request a benefit payment letter',
   ADDRESS_CHANGE: 'Change of address or direct deposit',
 };
+
+export const RELEASE_DURATIONS = {
+  ONCE_ONLY: 'Only release my information this 1 time',
+  UNTIL_DATE: 'Release my information until a specific date that I’ll choose',
+  UNTIL_NOTICE: 'Release my information until I send written notice to stop',
+};
