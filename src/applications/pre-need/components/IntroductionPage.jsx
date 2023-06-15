@@ -181,7 +181,7 @@ class IntroductionPage extends React.Component {
             omb-number="2900-0784"
             exp-date="03/31/2026"
           >
-            <BurialModalContent />
+            <BurialModalContent resBurden={20} ombNumber="2900-0784" />
           </va-omb-info>
         </div>
       </div>
