@@ -26,10 +26,10 @@ export const selectRadioWebComponent = (fieldName, value) => {
 };
 
 export const selectYesNoWebComponent = (fieldName, value) => {
-  const selection = value.yes ? 'Y' : 'N';
+  const selection = value ? 'Y' : 'N';
   if (typeof value !== 'undefined') {
     cy.get(
-      `va-radio-option[name="root_${fieldName}_yes"][value="${selection}"]`,
+      `va-radio-option[name="root_${fieldName}"][value="${selection}"]`,
     ).click();
   }
 };

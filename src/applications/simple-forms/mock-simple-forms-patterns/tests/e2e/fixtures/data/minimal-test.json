@@ -15,7 +15,8 @@
     "wcVaTileCompensationType": "none",
     "wcCurrentlyActiveDuty_yes": false,
     "wcCurrentlyActiveDuty": {
-      "yes": false
+      "yes": true,
+      "onTerminalLeave": false
     },
     "wcv3VaCompensationType": "lowDisability",
     "wcv3VaTileCompensationType": "highDisability",

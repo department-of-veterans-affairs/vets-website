@@ -184,9 +184,10 @@ const testConfig = createTestConfig(
               'wcVaCompensationType',
               data.wcVaCompensationType,
             );
+            // use underscores to separate sub-property names
             selectYesNoWebComponent(
-              'wcCurrentlyActiveDuty',
-              data.wcCurrentlyActiveDuty,
+              'wcCurrentlyActiveDuty_yes',
+              data.wcCurrentlyActiveDuty.yes,
             );
             selectRadioWebComponent(
               'wcVaTileCompensationType',
