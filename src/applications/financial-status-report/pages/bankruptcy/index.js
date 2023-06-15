@@ -1,5 +1,13 @@
+import React from 'react';
+
 export const uiSchema = {
-  'ui:title': 'Your bankruptcy details',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Your bankruptcy details</h3>
+      </legend>
+    </>
+  ),
   questions: {
     hasBeenAdjudicatedBankrupt: {
       'ui:title': 'Have you ever declared bankruptcy?',

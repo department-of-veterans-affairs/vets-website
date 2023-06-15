@@ -1,7 +1,6 @@
 import React from 'react';
 
 export const uiSchema = {
-  // 'ui:title': 'Your spouse information',
   'ui:title': () => (
     <>
       <legend className="schemaform-block-title">
