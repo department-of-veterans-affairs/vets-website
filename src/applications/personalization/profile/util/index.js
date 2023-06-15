@@ -13,6 +13,11 @@ export const LIGHTHOUSE_ERROR_KEYS = {
   ROUTING_NUMBER_INVALID_CHECKSUM:
     'cnp.payment.routing.number.invalid.checksum',
   ROUTING_NUMBER_INVALID: 'cnp.payment.routing.number.invalid',
+  DAY_PHONE_NUMBER_INVALID: 'cnp.payment.day.phone.number.invalid',
+  DAY_PHONE_AREA_INVALID: 'cnp.payment.day.area.number.invalid',
+  NIGHT_PHONE_NUMBER_INVALID: 'cnp.payment.night.phone.number.invalid',
+  NIGHT_PHONE_AREA_INVALID: 'cnp.payment.night.area.number.invalid',
+  MAILING_ADDRESS_INVALID: 'cnp.payment.mailing.address.invalid',
   UNSPECIFIED_ERROR: 'cnp.payment.unspecified.error',
   GENERIC_ERROR: 'cnp.payment.generic.error',
 };
@@ -166,7 +171,7 @@ export const hasInvalidAddressError = errors =>
       LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
     ],
     errorTexts: ['address update'],
-  });
+  }) || hasErrorMessage(errors, LIGHTHOUSE_ERROR_KEYS.MAILING_ADDRESS_INVALID);
 
 export const hasInvalidHomePhoneNumberError = errors =>
   hasErrorCombos({
@@ -177,6 +182,13 @@ export const hasInvalidHomePhoneNumberError = errors =>
       LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
     ],
     errorTexts: ['night phone number', 'night area number'],
+  }) ||
+  hasErrorCombos({
+    errors,
+    errorKeys: [
+      LIGHTHOUSE_ERROR_KEYS.NIGHT_PHONE_NUMBER_INVALID,
+      LIGHTHOUSE_ERROR_KEYS.NIGHT_PHONE_AREA_INVALID,
+    ],
   });
 
 export const hasInvalidWorkPhoneNumberError = errors =>
@@ -188,6 +200,13 @@ export const hasInvalidWorkPhoneNumberError = errors =>
       LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
     ],
     errorTexts: ['day phone number', 'day area number'],
+  }) ||
+  hasErrorCombos({
+    errors,
+    errorKeys: [
+      LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_NUMBER_INVALID,
+      LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_AREA_INVALID,
+    ],
   });
 
 export const hasPaymentRestrictionIndicatorsError = errors =>

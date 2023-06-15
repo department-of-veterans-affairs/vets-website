@@ -92,6 +92,9 @@ const createError = ({ code = '', detail = '' } = {}) => {
 
 const errors = {
   unspecified: unspecifiedError,
+  generic: createError({
+    code: 'cnp.payment.generic.error',
+  }),
   accoundNumberFlagged: createError({
     code: 'cnp.payment.account.number.fraud',
   }),
@@ -114,22 +117,19 @@ const errors = {
     code: 'cnp.payment.restriction.indicators.present',
   }),
   invalidDayPhone: createError({
-    detail:
-      'Generic CnP payment update error. Update response: Update Failed: Day phone number is invalid, must be 7 digits',
+    code: 'cnp.payment.day.phone.number.invalid',
   }),
-  invalidDayArea: createError({
-    detail:
-      'Generic CnP payment update error. Update response: Update Failed: Day area number is invalid, must be 3 digits',
+  invalidDayPhoneArea: createError({
+    detail: 'cnp.payment.day.area.number.invalid',
   }),
-  invalidDayPhoneGeneral: createError({
-    code: 'cnp.payment.generic.error',
-    detail:
-      'Generic CnP payment update error. Update response: Update Failed: Day phone number is invalid, must be 7 digits',
+  invalidNightPhone: createError({
+    code: 'cnp.payment.night.phone.number.invalid',
   }),
-  invalidDayAreaGeneral: createError({
-    code: 'cnp.payment.generic.error',
-    detail:
-      'Generic CnP payment update error. Update response: Update Failed: Day area number is invalid, must be 3 digits',
+  invalidNightPhoneArea: createError({
+    code: 'cnp.payment.night.area.number.invalid',
+  }),
+  invalidMailingAddress: createError({
+    code: 'cnp.payment.mailing.address.invalid',
   }),
 };
 
