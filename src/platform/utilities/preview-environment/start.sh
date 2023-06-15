@@ -46,7 +46,7 @@ echo "Setup content-build and extract pre-built content into content-build/build
 echo "make the build folder"
 mkdir -p content-build/build/localhost
 echo "untar the build into content-build/build/localhost/"
-tar -xf vagovprod.tar.bz2 -C content-build/build/localhost/
+tar -xf ${AWS_URL##*/} -C content-build/build/localhost/
 
 echo "set yarn to allow self-signed cert for install"
 yarn config set "strict-ssl" false
