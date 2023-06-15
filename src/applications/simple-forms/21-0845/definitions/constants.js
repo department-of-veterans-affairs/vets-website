@@ -27,3 +27,11 @@ export const RELEASE_DURATIONS = {
   UNTIL_DATE: 'Release my information until a specific date that I’ll choose',
   UNTIL_NOTICE: 'Release my information until I send written notice to stop',
 };
+
+export const SECURITY_QUESTIONS = {
+  MOTHER_BIRTHPLACE: 'What’s the city and state your mother was born in?',
+  HIGH_SCHOOL_NAME: 'What’s the name of the high school you attended?',
+  FIRST_PET_NAME: 'What’s the name of your first pet?',
+  FAVORITE_TEACHER_NAME: 'What’s the name of your favorite teacher?',
+  FATHER_MIDDLE_NAME: 'What’s your father’s middle name?',
+};

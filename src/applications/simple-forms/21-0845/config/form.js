@@ -21,6 +21,8 @@ import infoScopePg from '../pages/infoScope';
 import limitedInfoPg from '../pages/limitedInfo';
 import relDurationPg from '../pages/relDuration';
 import relEndDatePg from '../pages/relEndDate';
+import secQuestionPg from '../pages/secQuestion';
+import secAnswerPg from '../pages/secAnswer';
 
 // mock-data import for local development
 // import the appropriate file [flow?.json] for the flow you're working on, or
@@ -209,6 +211,23 @@ const formConfig = {
           },
           uiSchema: relEndDatePg.uiSchema,
           schema: relEndDatePg.schema,
+        },
+      },
+    },
+    securityInfoChapter: {
+      title: 'Security information',
+      pages: {
+        secQuestionPage: {
+          path: 'security-information-question',
+          title: 'Security question',
+          uiSchema: secQuestionPg.uiSchema,
+          schema: secQuestionPg.schema,
+        },
+        secAnswerPage: {
+          path: 'security-information-answer',
+          title: 'Security answer',
+          uiSchema: secAnswerPg.uiSchema,
+          schema: secAnswerPg.schema,
         },
       },
     },

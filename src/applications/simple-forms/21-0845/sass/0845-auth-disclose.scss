@@ -19,14 +19,13 @@ div:has(.schemaform-sip-alert) {
   display: none !important;
 }
 
-.form-review-panel[data-chapter="authorizerTypeChapter"] .review-row dt > span {
-  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", Arial,
-    sans-serif !important;
-  font-size: 1.6rem !important;
-  font-weight: 400 !important;
-}
-
-.form-review-panel[data-chapter="disclosureInfoChapter"] .review-row dt > span {
+.form-review-panel[data-chapter="authorizerTypeChapter"] .review-row dt > span,
+.form-review-panel[data-chapter="disclosureInfoChapter"] .review-row dt > span,
+.form-review-panel[data-chapter="securityInfoChapter"]
+  .form-review-panel-page:first-child
+  .review-row
+  dt
+  > span {
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", Arial,
     sans-serif !important;
   font-size: 1.6rem !important;

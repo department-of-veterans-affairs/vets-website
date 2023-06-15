@@ -19,7 +19,7 @@
       "state": "CA",
       "postalCode": "12345"
     },
-    "organizationName": "Big Organization",
+    "organizationName": "ACME Org",
     "organizationRepresentatives": [{ "representativeName": "Joe Rep" }],
     "organizationAddress": {
       "street": "124 Any Ave",
@@ -30,6 +30,8 @@
     "informationScope": "limited",
     "limitedInformationItems": "Status of pending claim or appeal",
     "releaseDuration": "untilDate",
-    "releaseEndDate": "2033-06-16"
+    "releaseEndDate": "2033-06-16",
+    "securityQuestion": "motherBirthplace",
+    "securityAnswer": "Las Vegas, NV"
   }
 }
