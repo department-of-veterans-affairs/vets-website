@@ -20,27 +20,21 @@ const ombInfo = {
 
 const childContent = (
   <>
-    <h2>Here’s how to apply online</h2>
     <p>
       Use this form to submit a formal statement to support your VA claim—or the
       claim of another Veteran or eligible family member. People also sometimes
       call this statement a “buddy statement.”
     </p>
-    <p>
-      A Veteran or a claimant may submit a lay/witness statement on their own
-      behalf. Alternatively, a witness may submit on behalf of a Veteran or
-      claimant.
-    </p>
     <h2>What to know before you complete this form</h2>
     <ul>
       <li>
-        You can submit a statement to support your own or someone else’s VA
-        claim.
+        You can submit a statement to support your own VA claim or someone
+        else’s VA claim.
       </li>
       <li>
         To submit a statement to support someone else’s claim, you’ll need to
-        give us information like their birth date, Social Security number, VA
-        file number (if you have it), and contact information.{' '}
+        give us information like their date of birth, Social Security number, VA
+        file number (if available), and contact information.
       </li>
       <li>
         Each statement needs its own form. If you want to submit more than one

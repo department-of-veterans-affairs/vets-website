@@ -8,6 +8,7 @@ import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
+import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -381,5 +382,37 @@ class PatientInboxPage {
   submitSearchButton = () => {
     cy.get('[data-testid="filter-messages-button"]').click();
   };
+
+  composeDraftByKeyboard = () => {
+    cy.tabToElement('#recipient-dropdown')
+      .shadow()
+      .find('#select')
+      .select(1, { force: true });
+    cy.tabToElement('[data-testid="compose-category-radio-button"]')
+      .first()
+      .click();
+    cy.tabToElement('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('#inputField')
+      .type('testSubject');
+    cy.tabToElement('#compose-message-body')
+      .shadow()
+      .find('#textarea')
+      .type('testMessage');
+  };
+
+  saveDraftByKeyboard = () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/message_drafts',
+      mockDraftResponse,
+    ).as('draft_message');
+    cy.tabToElement('[data-testid="Save-Draft-Button"]');
+    cy.realPress('Enter');
+    cy.wait('@draft_message').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
+  };
 }
+
 export default PatientInboxPage;
