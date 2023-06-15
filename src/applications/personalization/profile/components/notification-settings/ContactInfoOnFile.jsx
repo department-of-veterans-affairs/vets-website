@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { getContactInfoDeepLinkURL } from '@@profile/helpers';
@@ -53,6 +54,14 @@ const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
       <hr aria-hidden="true" />
     </>
   );
+};
+
+ContactInfoOnFile.propTypes = {
+  emailAddress: PropTypes.string,
+  mobilePhoneNumber: PropTypes.shape({
+    areaCode: PropTypes.string,
+    phoneNumber: PropTypes.string,
+  }),
 };
 
 export default ContactInfoOnFile;
