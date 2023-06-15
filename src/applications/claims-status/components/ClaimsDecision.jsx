@@ -20,7 +20,10 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
           this letter.
         </p>
       ) : (
-        <p>We finished reviewing your claim and a decision has been made.</p>
+        <p>
+          We mailed you a decision letter. It should arrive within 10 days after
+          the date we decided your claim. It can sometimes take longer.
+        </p>
       )}
 
       {showClaimLettersLink && (

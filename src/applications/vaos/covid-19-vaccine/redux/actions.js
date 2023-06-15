@@ -123,10 +123,7 @@ export function updateFormData(page, uiSchema, data) {
 }
 
 export function getClinics({ facilityId, showModal = false }) {
-  return async (dispatch, getState) => {
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      getState(),
-    );
+  return async dispatch => {
     let clinics;
     try {
       dispatch({ type: FORM_FETCH_CLINICS });
@@ -135,8 +132,6 @@ export function getClinics({ facilityId, showModal = false }) {
         typeOfCare: TYPES_OF_CARE.find(
           typeOfCare => typeOfCare.id === TYPE_OF_CARE_ID,
         ),
-        systemId: getSiteIdFromFacilityId(facilityId),
-        useV2: featureVAOSServiceVAAppointments,
       });
       dispatch({
         type: FORM_FETCH_CLINICS_SUCCEEDED,

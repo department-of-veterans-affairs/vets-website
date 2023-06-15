@@ -16,7 +16,7 @@ import {
 import { getClinicId } from '../../../services/healthcare-service';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
 
-function getReasonCode({ data, isCC, isAcheron }) {
+function getReasonCode({ data, isCC, isAcheron, isDS }) {
   const apptReasonCode = PURPOSE_TEXT_V2.find(
     purpose => purpose.id === data.reasonForAppointment,
   )?.commentShort;
@@ -53,6 +53,10 @@ function getReasonCode({ data, isCC, isAcheron }) {
     // appointmentInfo string in this order: [0]station id, [1]preferred modality, [2]phone number,
     // [3]email, [4]preferred Date, [5]reason Code
     appointmentInfo = `${facility}|${modality}|${phone}|${email}|${preferredDates}|${reasonCode}`;
+  }
+  if (isDS) {
+    appointmentInfo = `reasonCode:${apptReasonCode}`;
+    reasonText = `comments:${data.reasonAdditionalInfo.slice(0, 250)}`;
   }
   const reasonCodeBody = {
     text:
@@ -123,7 +127,7 @@ export function transformFormToVAOSCCRequest(state) {
     locationId: data.communityCareSystemId,
     serviceType: typeOfCare.idV2 || typeOfCare.ccId,
     // comment: data.reasonAdditionalInfo,
-    reasonCode: getReasonCode({ data, isCC: true }),
+    reasonCode: getReasonCode({ data, isCC: true, isDS: false }),
     contact: {
       telecom: [
         {
@@ -177,6 +181,7 @@ export function transformFormToVAOSVARequest(
       data,
       isCC: false,
       isAcheron: featureAcheronVAOSServiceRequests,
+      isDS: false,
     }),
     // comment: data.reasonAdditionalInfo,
     requestedPeriods: featureAcheronVAOSServiceRequests
@@ -244,6 +249,11 @@ export function transformFormToVAOSAppointment(state) {
     locationId: data.vaFacility,
     // removing this for now, it's preventing QA from testing, will re-introduce when the team figures out how we're handling the comment field
     // comment: getUserMessage(data),
-    reasonCode: getReasonCode({ data, isCC: false }),
+    reasonCode: getReasonCode({
+      data,
+      isCC: false,
+      isDS: true,
+      isAcheron: true,
+    }),
   };
 }

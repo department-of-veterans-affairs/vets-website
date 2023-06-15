@@ -8,6 +8,7 @@ import {
   getDefaultFormState,
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import set from 'platform/utilities/data/set';
@@ -47,6 +48,7 @@ export default class ArrayField extends React.Component {
             (item, index) => !errorSchemaIsValid(props.errorSchema[index]),
           )
         : [true],
+      removing: props.formData ? props.formData.map(() => false) : [false],
     };
 
     this.onItemChange = this.onItemChange.bind(this);
@@ -54,6 +56,8 @@ export default class ArrayField extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.handleRemoveModal = this.handleRemoveModal.bind(this);
+    this.closeRemoveModal = this.closeRemoveModal.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
     this.focusOnFirstFocusableElement = this.focusOnFirstFocusableElement.bind(
@@ -158,14 +162,44 @@ export default class ArrayField extends React.Component {
   /**
    * Clicking Remove on an item in edit mode
    * @param {number} indexToRemove - The index of the item to remove
+   * @param {boolean} confirmRemove - If true, will open a modal to confirm remove
    */
-  handleRemove(indexToRemove) {
+  handleRemove(indexToRemove, confirmRemove) {
+    if (confirmRemove) {
+      this.setState(set(['removing', indexToRemove], true, this.state));
+    } else {
+      const newItems = this.props.formData.filter(
+        (val, index) => index !== indexToRemove,
+      );
+      const newState = {
+        ...this.state,
+        editing: this.state.editing.filter(
+          (val, index) => index !== indexToRemove,
+        ),
+      };
+      this.props.onChange(newItems);
+      this.setState(newState, () => {
+        this.scrollToTop();
+        // Focus on "Add Another xyz" button after removing
+        focusElement('.va-growable-add-btn');
+      });
+    }
+  }
+
+  /**
+   * Clicking Yes in the remove item modal
+   * @param {number} indexToRemove - The index of the item to remove
+   */
+  handleRemoveModal(indexToRemove) {
     const newItems = this.props.formData.filter(
       (val, index) => index !== indexToRemove,
     );
     const newState = {
       ...this.state,
       editing: this.state.editing.filter(
+        (val, index) => index !== indexToRemove,
+      ),
+      removing: this.state.removing.filter(
         (val, index) => index !== indexToRemove,
       ),
     };
@@ -175,6 +209,20 @@ export default class ArrayField extends React.Component {
       // Focus on "Add Another xyz" button after removing
       focusElement('.va-growable-add-btn');
     });
+  }
+
+  /**
+   * Clicking No or outside the modal in the remove item modal
+   * @param {number} indexToRemove - Close the remove modal for this item index
+   */
+  closeRemoveModal(indexToRemove) {
+    const newState = {
+      ...this.state,
+      removing: this.state.removing.filter(
+        (val, index) => index !== indexToRemove,
+      ),
+    };
+    this.setState(newState);
   }
 
   /**
@@ -320,6 +368,7 @@ export default class ArrayField extends React.Component {
             const updateText = showSave && index === 0 ? 'Save' : 'Update';
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
+            const isRemoving = this.state.removing[index];
             const ariaLabel = uiOptions.itemAriaLabel;
             const itemName =
               (typeof ariaLabel === 'function' && ariaLabel(item || {})) ||
@@ -342,7 +391,7 @@ export default class ArrayField extends React.Component {
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && items.length > 1 ? (
                         <h3 className="vads-u-font-size--h5">
-                          New {uiOptions.itemName}
+                          New {uiOptions.itemName || 'item'}
                         </h3>
                       ) : null}
                       <div className="input-section">
@@ -383,7 +432,12 @@ export default class ArrayField extends React.Component {
                                 type="button"
                                 className="usa-button-secondary float-right"
                                 aria-label={`Remove ${itemName}`}
-                                onClick={() => this.handleRemove(index)}
+                                onClick={() =>
+                                  this.handleRemove(
+                                    index,
+                                    uiOptions.confirmRemove,
+                                  )
+                                }
                               >
                                 Remove
                               </button>
@@ -393,6 +447,27 @@ export default class ArrayField extends React.Component {
                       )}
                     </div>
                   </div>
+                  {uiOptions.confirmRemove && (
+                    <VaModal
+                      clickToClose
+                      status="warning"
+                      modalTitle={`Are you sure you want to remove this ${uiOptions.itemName ||
+                        'item'}?`}
+                      primaryButtonText={`Yes, remove this ${uiOptions.itemName ||
+                        'item'}`}
+                      secondaryButtonText="No, cancel"
+                      onCloseEvent={() => this.closeRemoveModal(index)}
+                      onPrimaryButtonClick={() => this.handleRemoveModal(index)}
+                      onSecondaryButtonClick={() =>
+                        this.closeRemoveModal(index)
+                      }
+                      visible={isRemoving}
+                    >
+                      {uiOptions.confirmRemoveDescription && (
+                        <p>{uiOptions.confirmRemoveDescription}</p>
+                      )}
+                    </VaModal>
+                  )}
                 </div>
               );
             }

@@ -1,16 +1,8 @@
 import React from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
-export const EVIDENCE_LABEL = {
-  default:
-    'Is there any evidence that you’d like us to review as part of your claim?',
-  bddSha: 'Do you want to upload any other documents or evidence at this time?',
-};
 
 export const HasEvidenceLabel = () => {
-  const content = environment.isProduction()
-    ? EVIDENCE_LABEL.default
-    : EVIDENCE_LABEL.bddSha;
+  const content =
+    'Do you want to upload any other documents or evidence at this time?';
 
   return (
     <>
@@ -50,18 +42,13 @@ export const evidenceTypeError =
 export const evidenceTypeHelp = (
   <va-additional-info trigger="Which evidence type should I choose?">
     <h4>Types of evidence</h4>
-
-    {!environment.isProduction() && (
-      <>
-        <h5 className="vads-u-padding-top--1p5">
-          Required Separation Health Assessment - Part A Self-Assessment
-        </h5>
-        <p>
-          You’ll need to submit your completed Separation Health Assessment -
-          Part A Self-Assessment so we can request your VA exams.
-        </p>
-      </>
-    )}
+    <h5 className="vads-u-padding-top--1p5">
+      Required Separation Health Assessment - Part A Self-Assessment
+    </h5>
+    <p>
+      You’ll need to submit your completed Separation Health Assessment - Part A
+      Self-Assessment so we can request your VA exams.
+    </p>
     <h5 className="vads-u-padding-top--1p5">Private medical records</h5>
     <p>
       If you were treated by a private doctor, including a Veteran’s Choice

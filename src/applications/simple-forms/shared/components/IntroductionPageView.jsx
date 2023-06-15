@@ -9,6 +9,7 @@ export const IntroductionPageView = ({
   content,
   ombInfo,
   childContent,
+  additionalChildContent = null,
 }) => {
   const breadcrumbsRef = useRef('.va-nav-breadcrumbs-list');
   const { formConfig, pageList } = route;
@@ -41,7 +42,7 @@ export const IntroductionPageView = ({
       >
         {saveInProgressText}
       </SaveInProgressIntro>
-
+      {additionalChildContent || null}
       <p />
       <va-omb-info
         res-burden={resBurden}

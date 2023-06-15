@@ -387,10 +387,32 @@ module.exports = async (env = {}) => {
             brfs: {},
           },
         },
+        { test: /\.afm$/, type: 'asset/source' },
+        // convert to base64 and include inline file system binary files used by fontkit and linebreak
+        {
+          enforce: 'post',
+          test: /fontkit[/\\]index.js$/,
+          loader: 'transform-loader',
+          options: {
+            brfs: {},
+          },
+        },
+        {
+          enforce: 'post',
+          test: /linebreak[/\\]src[/\\]linebreaker.js/,
+          loader: 'transform-loader',
+          options: {
+            brfs: {},
+          },
+        },
       ],
       noParse: [/mapbox\/vendor\/promise.js$/],
     },
     resolve: {
+      alias: {
+        fs: 'pdfkit/js/virtual-fs.js',
+        'iconv-lite': false,
+      },
       alias: {
         fs: 'pdfkit/js/virtual-fs.js',
         'iconv-lite': false,
@@ -447,6 +469,11 @@ module.exports = async (env = {}) => {
         'process.env.VIRTUAL_AGENT_BACKEND_URL': JSON.stringify(
           process.env.VIRTUAL_AGENT_BACKEND_URL || '',
         ),
+      }),
+
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
+        process: 'process/browser',
       }),
 
       new webpack.ProvidePlugin({

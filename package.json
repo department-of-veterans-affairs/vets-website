@@ -168,6 +168,7 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-babel-module": "^5.3.1",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-deprecate": "^0.7.0",
@@ -369,7 +370,6 @@
       "src/platform/forms",
       "src/platform/forms-system",
       "src/platform/monitoring",
-
       "src/applications/check-in",
       "src/applications/vaos"
     ],
@@ -378,7 +378,6 @@
       "**/applications-check-in/react-i18next",
       "**/applications-vaos/simple-guid",
       "**/applications-vaos/mocker-api",
-
       "**/platform-pdf/blob-stream",
       "**/platform-pdf/pdfkit",
       "**/platform-pdf/crypto-js",
