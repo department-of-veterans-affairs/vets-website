@@ -5,9 +5,9 @@ import {
   SECURITY_QUESTIONS,
 } from '../definitions/constants';
 import {
+  getEnumsFromConstants,
   getFullNameString,
   getLabelsFromConstants,
-  snakeAllCapsToCamelCase,
 } from '../utils';
 
 /** @type {PageSchema} */
@@ -55,9 +55,7 @@ export default {
     properties: {
       securityQuestion: {
         type: 'string',
-        enum: Object.keys(SECURITY_QUESTIONS).map(key =>
-          snakeAllCapsToCamelCase(key),
-        ),
+        enum: getEnumsFromConstants(SECURITY_QUESTIONS),
       },
     },
   },

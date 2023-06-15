@@ -16,9 +16,6 @@ export default {
         'Select the items we can share with your third-party source. You can select more than one.',
       'ui:widget': GroupCheckboxWidget,
       'ui:required': formData => !formData.limitedInformationOther,
-      'ui:errorMessages': {
-        required: 'Please select at least one option',
-      },
       'ui:options': {
         forceDivWrapper: true,
         labels: Object.values(LIMITED_INFORMATION_ITEMS),
@@ -35,7 +32,7 @@ export default {
           !fields.limitedInformationOther
         ) {
           errors.limitedInformationItems.addError(
-            'Please select at least one option here, or enter unlisted item(s) in “Other” text-field below.',
+            'Please select at least one item here, or enter unlisted item(s) in “Other” text-field below.',
           );
         }
       },

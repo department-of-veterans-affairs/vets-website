@@ -1,7 +1,11 @@
 import React from 'react';
 
 import { THIRD_PARTY_TYPES, RELEASE_DURATIONS } from '../definitions/constants';
-import { getFullNameString } from '../utils';
+import {
+  getEnumsFromConstants,
+  getFullNameString,
+  getLabelsFromConstants,
+} from '../utils';
 
 /** @type {PageSchema} */
 export default {
@@ -45,11 +49,7 @@ export default {
             title: `Tell us when, and how long, we should release your information to ${thirdPartyName}.`,
           };
         },
-        labels: {
-          onceOnly: RELEASE_DURATIONS.ONCE_ONLY,
-          untilDate: RELEASE_DURATIONS.UNTIL_DATE,
-          untilNotice: RELEASE_DURATIONS.UNTIL_NOTICE,
-        },
+        labels: getLabelsFromConstants(RELEASE_DURATIONS),
       },
     },
   },
@@ -59,7 +59,7 @@ export default {
     properties: {
       releaseDuration: {
         type: 'string',
-        enum: ['onceOnly', 'untilDate', 'untilNotice'],
+        enum: getEnumsFromConstants(RELEASE_DURATIONS),
       },
     },
   },

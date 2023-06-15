@@ -25,8 +25,6 @@ import secQuestionPg from '../pages/secQuestion';
 import secAnswerPg from '../pages/secAnswer';
 
 // mock-data import for local development
-// import the appropriate file [flow?.json] for the flow you're working on, or
-// noStmtInfo.json for all flows [select claimOwnership & claimantType via UI]
 import testData from '../tests/fixtures/data/testdata.json';
 
 // const { } = fullSchema.properties;

@@ -31,7 +31,7 @@ export default {
     properties: {
       thirdPartyType: {
         type: 'string',
-        enum: [THIRD_PARTY_TYPES.PERSON, THIRD_PARTY_TYPES.ORGANIZATION],
+        enum: Object.values(THIRD_PARTY_TYPES),
       },
     },
   },

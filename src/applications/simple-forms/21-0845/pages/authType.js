@@ -43,7 +43,7 @@ export default {
     properties: {
       authorizerType: {
         type: 'string',
-        enum: [AUTHORIZER_TYPES.VETERAN, AUTHORIZER_TYPES.NON_VETERAN],
+        enum: Object.values(AUTHORIZER_TYPES),
       },
       'view:note': {
         type: 'object',

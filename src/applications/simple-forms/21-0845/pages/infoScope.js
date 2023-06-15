@@ -46,7 +46,7 @@ export default {
     properties: {
       informationScope: {
         type: 'string',
-        enum: [INFORMATION_SCOPES.LIMITED, INFORMATION_SCOPES.ANY],
+        enum: Object.values(INFORMATION_SCOPES),
       },
     },
   },
