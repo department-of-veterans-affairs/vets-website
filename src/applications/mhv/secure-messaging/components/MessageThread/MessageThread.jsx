@@ -17,7 +17,6 @@ import { useDispatch } from 'react-redux';
 import PropType from 'prop-types';
 import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import HorizontalRule from '../shared/HorizontalRule';
 import MessageThreadItem from './MessageThreadItem';
 import {
   clearMessageHistory,
@@ -64,7 +63,7 @@ const MessageThread = props => {
         });
       }
     },
-    [messageHistoryRef.current, viewCountRef.current, dispatch],
+    [messageHistoryRef, viewCountRef, dispatch, isDraftThread],
   );
 
   // shadow dom is not available on the first render, so we need to wait for it to be available
@@ -102,7 +101,7 @@ const MessageThread = props => {
         );
       }
     },
-    [viewCount],
+    [viewCount, messageHistory],
   );
 
   const setViewCount = count => {
@@ -134,10 +133,9 @@ const MessageThread = props => {
               isForPrint ? 'print' : 'do-not-print'
             }`}
           >
-            <h2 className="vads-u-font-weight--bold">
+            <h2 className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
               Messages in this conversation
             </h2>
-            <HorizontalRule />
 
             <VaAccordion ref={accordionRef} bordered>
               {messageHistory.map((m, i) => {

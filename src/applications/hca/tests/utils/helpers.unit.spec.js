@@ -9,6 +9,7 @@ import {
   includeSpousalInformation,
   getInsuranceAriaLabel,
   isOfCollegeAge,
+  getDependentPageList,
 } from '../../utils/helpers';
 import { HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
 
@@ -285,6 +286,32 @@ describe('hca helpers', () => {
       const birthdate = '2003-06-01';
       const testdate = '2023-06-01';
       expect(isOfCollegeAge(birthdate, testdate)).to.equal(true);
+    });
+  });
+
+  describe('getDependentPageList', () => {
+    const subpages = [
+      { id: 'page1', title: 'Page 1' },
+      { id: 'page2', title: 'Page 2', depends: { key: 'key1', value: false } },
+      { id: 'page3', title: 'Page 3' },
+      { id: 'page4', title: 'Page 4', depends: { key: 'key2', value: true } },
+      { id: 'page5', title: 'Page 5', depends: { key: 'key3', value: false } },
+    ];
+    it('returns a list of the two (2) pages that do not have a conditional dependency', () => {
+      const formData = {};
+      expect(getDependentPageList(subpages, formData)).to.have.lengthOf(2);
+    });
+    it('returns a list of four (3) pages when one conditional dependency does not match', () => {
+      const formData = { key1: true, key2: true, key3: true };
+      expect(getDependentPageList(subpages, formData)).to.have.lengthOf(3);
+    });
+    it('returns a list of four (4) pages when one conditional dependency does not match', () => {
+      const formData = { key1: false, key2: true, key3: true };
+      expect(getDependentPageList(subpages, formData)).to.have.lengthOf(4);
+    });
+    it('returns a list of all pages when the conditional dependencies match', () => {
+      const formData = { key1: false, key2: true, key3: false };
+      expect(getDependentPageList(subpages, formData)).to.have.lengthOf(5);
     });
   });
 

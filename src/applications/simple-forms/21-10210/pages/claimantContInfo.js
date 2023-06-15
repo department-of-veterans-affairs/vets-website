@@ -33,8 +33,8 @@ export default {
                 <span>
                   Email address
                   <br />
-                  By providing an email address, I agree to receive electronic
-                  correspondence from VA regarding my application
+                  When you enter your email address, you agree to receive emails
+                  from us about your claim.
                 </span>
               ),
             };

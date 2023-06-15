@@ -119,6 +119,79 @@ export const ariaLabels = Object.freeze({
   },
 });
 
+export const complaintData = [
+  {
+    key: 'financial',
+    definition: 'The school is charging you a higher tuition or extra fees.',
+    type: 'Financial Concern',
+  },
+  {
+    key: 'quality',
+    definition: 'The school doesn’t have qualified teachers.',
+    type: 'Quality of Education',
+  },
+  {
+    key: 'refund',
+    definition: 'The school won’t refund your GI Bill payment.',
+    type: 'Refund Issues',
+  },
+  {
+    key: 'marketing',
+    definition:
+      'The school made inaccurate claims about the quality of its education or its school requirements.',
+    type: 'Recruiting/Marketing Practices',
+  },
+  {
+    key: 'accreditation',
+    definition: 'The school is unable to get or keep accreditation.',
+    type: 'Accreditation',
+  },
+  {
+    key: 'degreeRequirements',
+    definition:
+      'The school added new hour or course requirements after you enrolled.',
+    type: 'Change in degree plan/requirements',
+  },
+  {
+    key: 'studentLoans',
+    definition:
+      'The school didn’t provide you total a cost of your school loan.',
+    type: 'Student Loans',
+  },
+  {
+    key: 'grades',
+    definition:
+      'The school didn’t give you a copy of its grade policy or it changed its grade policy in the middle of the year.',
+    type: 'Grade Policy',
+  },
+  {
+    key: 'creditTransfer',
+    definition: 'The school isn’t accredited for transfer of credits.',
+    type: 'Transfer of Credits',
+  },
+  {
+    key: 'job',
+    definition:
+      'The school made promises to you about job placement or salary after graduation.',
+    type: 'Post-Graduation Job Opportunities',
+    totalKey: 'jobs',
+  },
+  {
+    key: 'transcript',
+    definition: 'The school won’t release your transcripts.',
+    type: 'Release of Transcripts',
+  },
+  {
+    key: 'other',
+    definition: '',
+    type: 'Other',
+  },
+  {
+    type: 'Total Complaints',
+    totals: ['facilityCode', 'mainCampusRollUp'],
+  },
+];
+
 const CTRatingsHeaders = {
   m1: 'Learning Experience',
   m2: 'GI Bill Support',

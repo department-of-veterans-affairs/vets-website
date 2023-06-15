@@ -37,10 +37,14 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title="Apply for VA health care" />
-      <p className="vads-u-margin-top--neg2">
-        Enrollment Application for Health Benefits (VA Form 10-10EZ)
-      </p>
+      {!showLoader && (
+        <>
+          <FormTitle title="Apply for VA health care" />
+          <p className="vads-u-margin-top--neg2">
+            Enrollment Application for Health Benefits (VA Form 10-10EZ)
+          </p>
+        </>
+      )}
 
       <DowntimeNotification
         appTitle="Application for VA health care"

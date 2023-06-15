@@ -1,4 +1,5 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "./secure-messaging-breadcrumb";
 @import "./navigation";
 @import "./folders-list";
 @import "./folder-thread-list-view";
@@ -7,6 +8,7 @@
 .secure-messaging-container {
   display: flex;
   flex-direction: row;
+
   .main-content {
     display: flex;
     flex-direction: column;

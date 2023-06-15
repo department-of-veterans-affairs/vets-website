@@ -42,7 +42,7 @@ const GroupCheckboxWidget = props => {
   };
 
   return isOnReviewPage && inReviewMode ? (
-    <span>{value.split(',').join(', ')}</span>
+    <span>{(value || '').split(',').join(', ')}</span>
   ) : (
     <VaCheckboxGroup
       label=""

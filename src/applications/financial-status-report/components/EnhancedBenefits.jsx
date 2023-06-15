@@ -42,7 +42,7 @@ const NoBenefits = React.memo(() => {
   );
 });
 
-const EnhancedBenefits = ({ pending, income }) => {
+const EnhancedBenefits = ({ income, pending }) => {
   const eduReceived = income?.reduce((a, b) => a + Number(b.education), 0);
   const compReceived = income?.reduce(
     (a, b) => a + Number(b.compensationAndPension),
@@ -52,7 +52,7 @@ const EnhancedBenefits = ({ pending, income }) => {
   return !pending && (eduReceived || compReceived) ? (
     <>
       <p>This is the VA benefit information we have on file for you.</p>
-      {compReceived && (
+      {compReceived ? (
         <MiniSummaryCard
           heading="Disability compensation and pension benefits"
           showDelete={false}
@@ -63,8 +63,8 @@ const EnhancedBenefits = ({ pending, income }) => {
           body={<BenefitCard received={compReceived} />}
           index={0}
         />
-      )}
-      {eduReceived && (
+      ) : null}
+      {eduReceived ? (
         <MiniSummaryCard
           heading="Education benefits"
           editDestination={{
@@ -75,7 +75,7 @@ const EnhancedBenefits = ({ pending, income }) => {
           body={<BenefitCard received={eduReceived} />}
           index={1}
         />
-      )}
+      ) : null}
       <HotlineInfo />
     </>
   ) : (

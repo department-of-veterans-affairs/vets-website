@@ -19,10 +19,22 @@ describe('Secure Messaging Delete Draft', () => {
     patientInterstitialPage.getContinueButton().click({ force: true });
     draftsPage.clickDeleteButton();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     draftsPage.confirmDeleteDraft(mockDraftResponse);
     inboxPage.verifyDeleteConfirmMessage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

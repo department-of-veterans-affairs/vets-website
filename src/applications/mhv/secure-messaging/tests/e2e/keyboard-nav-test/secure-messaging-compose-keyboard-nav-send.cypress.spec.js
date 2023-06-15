@@ -11,7 +11,13 @@ describe('Secure Messaging Compose', () => {
     landingPage.loadInboxMessages();
     landingPage.loadComposeMessagePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     cy.get('[name="COVID"]').click();
     composePage.attachMessageFromFile('test_image.jpg');

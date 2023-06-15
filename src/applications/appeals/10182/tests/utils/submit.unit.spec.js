@@ -138,6 +138,9 @@ describe('getContestableIssues', () => {
     };
     expect(getContestableIssues(formData)).to.deep.equal([issue2.result]);
   });
+  it('should return empty array', () => {
+    expect(getContestableIssues()).to.deep.equal([]);
+  });
 });
 
 describe('addIncludedIssues', () => {
@@ -245,6 +248,13 @@ describe('addAreaOfDisagreement', () => {
     expect(result[0].attributes.disagreementArea).to.equal(
       'service connection,effective date,disability evaluation,this is an other entry',
     );
+  });
+  it('should not throw a JS error with no disagreement options', () => {
+    const formData = {
+      areaOfDisagreement: [],
+    };
+    const result = addAreaOfDisagreement([issue1.result], formData);
+    expect(result[0].attributes.disagreementArea).to.equal('');
   });
 });
 

@@ -1,10 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { Toggler } from '~/platform/utilities/feature-toggles';
-import recordEvent from '~/platform/monitoring/record-event';
+import recordAnalyticsEvent from '~/platform/monitoring/record-event';
+
 import ProfileInfoTable from '../ProfileInfoTable';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 
-function PaymentHistory() {
+function PaymentHistory({ recordEvent = recordAnalyticsEvent } = {}) {
   const tableData = [
     {
       value: (
@@ -55,5 +58,9 @@ function PaymentHistory() {
     </>
   );
 }
+
+PaymentHistory.propTypes = {
+  recordEvent: PropTypes.func,
+};
 
 export default PaymentHistory;
