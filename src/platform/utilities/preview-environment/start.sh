@@ -20,6 +20,7 @@ git clone -b hh-pi-hardcode-api_url https://github.com/department-of-veterans-af
 if [ -z ${SOURCE_REF} ] ;
 then
     echo "SOURCE_REF is NULL; using main" ;
+    echo 
     git clone --depth 1 https://github.com/department-of-veterans-affairs/vets-website.git ;
 else
     echo "SOURCE_REF is not NULL; using workflow env var" ;
@@ -34,10 +35,10 @@ fi
 if [ -z ${AWS_URL} ] ;
 then
     echo "AWS_URL is NULL; using default" ;
-    curl -LO https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content/vagovdev_dd03cdd3eb98417b247b1a61d54651a1.tar.bz2 ;
+    curl -LOk https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content/vagovdev_dd03cdd3eb98417b247b1a61d54651a1.tar.bz2 ;
 else
     echo "AWS_URL is not NULL; using workflow env var" ;
-    curl -LO ${AWS_URL} ;
+    curl -LOk ${AWS_URL} ;
 fi
 
 echo "Setup content-build and extract pre-built content into content-build/build/localhost"
@@ -54,7 +55,7 @@ echo "Install, build, and watch vets-website"
 cd vets-website
 yarn install --production=false
 yarn build:webpack:local
-yarn watch --env.buildtype=localhost &
+yarn watch &
 
 cd ..
 
