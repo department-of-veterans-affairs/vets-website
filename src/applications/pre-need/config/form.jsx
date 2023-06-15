@@ -122,7 +122,7 @@ const formConfig = {
   ),
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  submissionError: SubmissionError,
+  submissionError: !environment.isProduction() ? SubmissionError : undefined,
   defaultDefinitions: {
     fullName,
     ssn,
