@@ -63,6 +63,7 @@
           "@department-of-veterans-affairs/component-library/Checkbox": "@department-of-veterans-affairs/react-components/Checkbox",
           "@department-of-veterans-affairs/component-library/DropDownPanel": "@department-of-veterans-affairs/react-components/DropDownPanel",
           "@department-of-veterans-affairs/component-library/AdditionalInfo": "@department-of-veterans-affairs/react-components/AdditionalInfo",
+          "@department-of-veterans-affairs/platform-pdf/exports": "./src/platform/pdf/exportsFile.js",
           "@department-of-veterans-affairs/platform-startup/exports": "./src/platform/startup/exportsFile.js",
           "@department-of-veterans-affairs/platform-startup/index" : "./src/platform/startup/index.js",
           "@department-of-veterans-affairs/platform-startup/store" : "./src/platform/startup/store.js",
@@ -154,7 +155,7 @@
           "@department-of-veterans-affairs/platform-testing/react-testing-library-helpers": "./src/platform/testing/unit/react-testing-library-helpers.js",
           "@department-of-veterans-affairs/platform-testing/schemaform-utils": "./src/platform/testing/unit/schemaform-utils.jsx",
           "@department-of-veterans-affairs/platform-testing/sentry": "./src/platform/testing/unit/sentry.js",
- 
+
           "@department-of-veterans-affairs/platform-site-wide/exports": "./src/platform/site-wide/exportsFile.js",
           "@department-of-veterans-affairs/platform-site-wide/showVaAlertExpandable": "./src/platform/site-wide/alerts/showVaAlertExpandable.js",
           "@department-of-veterans-affairs/platform-site-wide/EbenefitsLink": "./src/platform/site-wide/ebenefits/containers/EbenefitsLink.jsx",
