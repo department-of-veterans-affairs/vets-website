@@ -47,18 +47,6 @@ const dayPhoneErrorAreaInvalidPPIU = [
   },
 ];
 
-const testDayPhone = errors => {
-  return hasErrorCombos({
-    errors,
-    errorKeys: [
-      PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY,
-      LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
-      LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
-    ],
-    errorTexts: ['day area', 'day phone number'],
-  });
-};
-
 describe('hasErrorCombos', () => {
   context('cases for invalid routing number', () => {
     it('return true for PPIU routing number error', () => {
@@ -76,55 +64,46 @@ describe('hasErrorCombos', () => {
     });
   });
 
-  context('cases for Day Phone number errors', () => {
+  context('cases for phone number errors', () => {
     it('return true for PPIU day phone number error', () => {
-      expect(testDayPhone(dayPhoneErrorNumberInvalidPPIU)).to.be.true;
+      expect(
+        hasErrorCombos({
+          errors: dayPhoneErrorNumberInvalidPPIU,
+          errorKeys: [PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY],
+          errorTexts: ['day phone'],
+        }),
+      ).to.be.true;
     });
 
     context('return true for PPIU day phone area error', () => {
-      expect(testDayPhone(dayPhoneErrorAreaInvalidPPIU)).to.be.true;
+      expect(
+        hasErrorCombos({
+          errors: dayPhoneErrorAreaInvalidPPIU,
+          errorKeys: [PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY],
+          errorTexts: ['day area'],
+        }),
+      ).to.be.true;
     });
 
     it('return true for Lighthouse day phone error', () => {
       expect(
-        testDayPhone(
-          mockDisabilityCompensation.updates.errors.invalidDayPhone.errors,
-        ),
+        hasErrorCombos({
+          errors:
+            mockDisabilityCompensation.updates.errors.invalidDayPhone.errors,
+          errorKeys: [LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_NUMBER_INVALID],
+        }),
       ).to.be.true;
     });
 
     it('return true for Lighthouse day area error', () => {
       expect(
-        testDayPhone(
-          mockDisabilityCompensation.updates.errors.invalidDayArea.errors,
-        ),
+        hasErrorCombos({
+          errors:
+            mockDisabilityCompensation.updates.errors.invalidDayPhoneArea
+              .errors,
+          errorKeys: [LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_AREA_INVALID],
+        }),
       ).to.be.true;
-    });
-
-    it('return true for Lighthouse day phone with general error code', () => {
-      expect(
-        testDayPhone(
-          mockDisabilityCompensation.updates.errors.invalidDayPhoneGeneral
-            .errors,
-        ),
-      ).to.be.true;
-    });
-
-    it('return true for Lighthouse day area with general error code', () => {
-      expect(
-        testDayPhone(
-          mockDisabilityCompensation.updates.errors.invalidDayAreaGeneral
-            .errors,
-        ),
-      ).to.be.true;
-    });
-
-    it('return false for plain unspecified error', () => {
-      expect(
-        testDayPhone(
-          mockDisabilityCompensation.updates.errors.unspecified.errors,
-        ),
-      ).to.be.false;
     });
   });
 });

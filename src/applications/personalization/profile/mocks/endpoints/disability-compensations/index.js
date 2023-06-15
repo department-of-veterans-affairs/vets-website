@@ -120,7 +120,7 @@ const errors = {
     code: 'cnp.payment.day.phone.number.invalid',
   }),
   invalidDayPhoneArea: createError({
-    detail: 'cnp.payment.day.area.number.invalid',
+    code: 'cnp.payment.day.area.number.invalid',
   }),
   invalidNightPhone: createError({
     code: 'cnp.payment.night.phone.number.invalid',
