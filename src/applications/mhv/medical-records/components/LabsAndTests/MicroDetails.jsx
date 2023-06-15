@@ -103,7 +103,10 @@ const MicroDetails = props => {
                 </a>
               </p>
             </va-additional-info>
-            <p>{record.results}</p>
+            <p className="vads-u-font-size--base make-monospace">
+              {record.results}
+            </p>{' '}
+            {/* Change this to monospaced for all browsers */}
           </div>
         </>
       );
