@@ -23,35 +23,30 @@ const PrintDownload = props => {
         className={toggleMenuButtonClasses}
         onClick={() => setMenuOpen(!menuOpen)}
         data-testid="print-records-button"
+        aria-expanded={menuOpen}
       >
         <span>Print or download this {list ? 'list' : 'record'}</span>
         <i className={menuIconClasses} aria-hidden="true" />
       </button>
-      <div className={menuOptionsClasses}>
-        <button
-          type="button"
-          onClick={window.print}
-          aria-label={`Print ${list && 'list'}. Menu item 1 of 3`}
-        >
-          Print {list && 'list'}
-        </button>
-        <button
-          type="button"
-          onClick={download}
-          aria-label={`Download ${list && 'list'} as PDF. Menu item 2 of 3`}
-        >
-          Download {list && 'list '}
-          as PDF
-        </button>
-        <button
-          type="button"
-          aria-label={`Download ${list &&
-            'list'} as a text file. Menu item 3 of 3`}
-        >
-          Download {list && 'list '}
-          as a text file
-        </button>
-      </div>
+      <ul className={menuOptionsClasses}>
+        <li>
+          <button type="button" onClick={window.print}>
+            Print {list && 'list'}
+          </button>
+        </li>
+        <li>
+          <button type="button" onClick={download}>
+            Download {list && 'list '}
+            as PDF
+          </button>
+        </li>
+        <li>
+          <button type="button">
+            Download {list && 'list '}
+            as a text file
+          </button>
+        </li>
+      </ul>
     </div>
   );
 };
