@@ -59,7 +59,9 @@ const SpouseOtherIncomeSummary = ({
           className="schemaform-block-title"
           name="addedIncomeSummary"
         >
-          You have added these other sources of income
+          <h3 className="vads-u-margin--0">
+            You have added your spouse’s other income
+          </h3>
         </legend>
         <div className="vads-l-grid-container--full">
           {!spAddlIncome.length ? (

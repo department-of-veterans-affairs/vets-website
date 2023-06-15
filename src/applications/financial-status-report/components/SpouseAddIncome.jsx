@@ -98,7 +98,9 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             className="schemaform-block-title"
             name="addOrUpdateIncome"
           >
-            Add your spouse’s additional sources of income
+            <h3 className="vads-u-margin--0">
+              Add your spouse’s additional sources of income
+            </h3>
           </legend>
           <VaTextInput
             className="no-wrap input-size-3"
