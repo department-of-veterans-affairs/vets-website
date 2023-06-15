@@ -14,42 +14,43 @@ Outstanding work:
 to display message details. Another react route would need to be set up to handle this view, 
 probably needing to accept a URL parameter
 */
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+} from 'react';
 import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
-import {
-  VaPagination,
-  VaSelect,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useLocation } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { useDispatch } from 'react-redux';
 import { handleHeader } from '../../util/helpers';
 import MessageListItem from './MessageListItem';
-
-const DESCENDING = 'desc';
-const ASCENDING = 'asc';
-const SENDER_ALPHA_ASCENDING = 'sender-alpha-asc';
-const SENDER_ALPHA_DESCENDING = 'sender-alpha-desc';
-const RECEPIENT_ALPHA_ASCENDING = 'recepient-alpha-asc';
-const RECEPIENT_ALPHA_DESCENDING = 'recepient-alpha-desc';
-const SORT_MESSAGES_LABEL = 'Show messages in this order';
+import ThreadListSort from '../ThreadList/ThreadListSort';
+import { setSearchSort } from '../../actions/search';
+import { threadSortingOptions } from '../../util/constants';
 
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
-let sortOrderSelection;
 const MessageList = props => {
-  const location = useLocation();
-  const { folder, messages, keyword, isSearch } = props;
-  // const perPage = messages.meta.pagination.per_page;
+  const dispatch = useDispatch();
+  const { folder, messages, keyword, isSearch, sortOrder } = props;
   const perPage = 10;
-  // const totalEntries = messages.meta.pagination.total_entries;
   const totalEntries = messages?.length;
 
   const [currentMessages, setCurrentMessages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortOrder, setSortOrder] = useState('desc');
+  const [displayNums, setDisplayNums] = useState({
+    from: 0,
+    to: 0,
+    label: '',
+  }); // [from, to]
   const paginatedMessages = useRef([]);
+  const displayingNumberOfMesssagesRef = useRef();
 
   // split messages into pages
   const paginateData = useCallback(
@@ -59,39 +60,48 @@ const MessageList = props => {
     [perPage],
   );
 
-  // get display numbers
-  const fromToNums = (page, total) => {
-    const from = (page - 1) * perPage + 1;
-    const to = Math.min(page * perPage, total);
-
-    return [from, to];
-  };
+  const fromToNums = useMemo(
+    () => {
+      const from = (currentPage - 1) * perPage + 1;
+      const to = Math.min(currentPage * perPage, messages?.length);
+      return { from, to };
+    },
+    [currentPage, perPage, messages?.length],
+  );
 
   // sort messages
   const sortMessages = useCallback(
     data => {
       let sorted;
-      if (sortOrder === DESCENDING) {
+      if (sortOrder === threadSortingOptions.SENT_DATE_DESCENDING.value) {
         sorted = data.sort((a, b) => {
           return b.sentDate > a.sentDate ? 1 : -1;
         });
-      } else if (sortOrder === ASCENDING) {
+      } else if (sortOrder === threadSortingOptions.SENT_DATE_ASCENDING.value) {
         sorted = data.sort((a, b) => {
           return a.sentDate > b.sentDate ? 1 : -1;
         });
-      } else if (sortOrder === SENDER_ALPHA_ASCENDING) {
+      } else if (
+        sortOrder === threadSortingOptions.SENDER_ALPHA_ASCENDING.value
+      ) {
         sorted = data.sort((a, b) => {
           return a.senderName > b.senderName ? 1 : -1;
         });
-      } else if (sortOrder === SENDER_ALPHA_DESCENDING) {
+      } else if (
+        sortOrder === threadSortingOptions.SENDER_ALPHA_DESCENDING.value
+      ) {
         sorted = data.sort((a, b) => {
           return a.senderName < b.senderName ? 1 : -1;
         });
-      } else if (sortOrder === RECEPIENT_ALPHA_ASCENDING) {
+      } else if (
+        sortOrder === threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.value
+      ) {
         sorted = data.sort((a, b) => {
           return a.recipientName > b.recipientName ? 1 : -1;
         });
-      } else if (sortOrder === RECEPIENT_ALPHA_DESCENDING) {
+      } else if (
+        sortOrder === threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.value
+      ) {
         sorted = data.sort((a, b) => {
           return a.recipientName < b.recipientName ? 1 : -1;
         });
@@ -117,21 +127,40 @@ const MessageList = props => {
   const onPageChange = page => {
     setCurrentMessages(paginatedMessages.current[page - 1]);
     setCurrentPage(page);
+    focusElement(displayingNumberOfMesssagesRef.current);
   };
 
-  // handle message sorting on sort button click
-  const handleMessageSort = () => {
-    paginatedMessages.current = paginateData(sortMessages(messages));
-    setCurrentMessages(paginatedMessages.current[0]);
-    setCurrentPage(1);
-    setSortOrder(sortOrderSelection);
-  };
+  useEffect(
+    () => {
+      paginatedMessages.current = paginateData(sortMessages(messages));
+      setCurrentMessages(paginatedMessages.current[0]);
+      setCurrentPage(1);
+    },
+    [sortOrder],
+  );
 
-  const handleOnSelect = e => {
-    sortOrderSelection = e.detail.value;
-  };
+  useEffect(
+    () => {
+      // get display numbers
+      if (fromToNums && messages.length) {
+        const label = `Showing ${fromToNums.from} - ${fromToNums.to} of ${
+          messages.length
+        } found messages`;
+        setDisplayNums({ ...fromToNums, label });
+      }
+    },
+    [fromToNums, messages.length],
+  );
 
-  const displayNums = fromToNums(currentPage, messages?.length);
+  const sortCallback = sortOrderValue => {
+    dispatch(setSearchSort(sortOrderValue));
+    recordEvent({
+      event: 'cta-button-click',
+      'button-type': 'primary',
+      'button-click-label': 'Sort filtered messages',
+    });
+    focusElement(displayingNumberOfMesssagesRef.current);
+  };
 
   return (
     <div
@@ -145,58 +174,18 @@ const MessageList = props => {
         displayNums[1]
       } of ${totalEntries} conversations`}
     >
-      <div className="message-list-sort">
-        <VaSelect
-          id="sort-order-dropdown"
-          label={SORT_MESSAGES_LABEL}
-          name="sort-order"
-          value={sortOrderSelection}
-          onVaSelect={e => {
-            handleOnSelect(e);
-          }}
-        >
-          <option value={DESCENDING}>Newest to oldest</option>
-          <option value={ASCENDING}>Oldest to newest</option>
-          {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
-            <>
-              <option value={SENDER_ALPHA_ASCENDING}>
-                A to Z - Sender’s name
-              </option>
-              <option value={SENDER_ALPHA_DESCENDING}>
-                Z to A - Sender’s name
-              </option>
-            </>
-          ) : (
-            <>
-              <option value={RECEPIENT_ALPHA_ASCENDING}>
-                A to Z - Recipient’s name
-              </option>
-              <option value={RECEPIENT_ALPHA_DESCENDING}>
-                Z to A - Recipient’s name
-              </option>
-            </>
-          )}
-        </VaSelect>
+      <ThreadListSort sortOrder={sortOrder} sortCallback={sortCallback} />
 
-        <va-button
-          type="button"
-          text="Sort"
-          label="Sort"
-          data-testid="sort-button"
-          onClick={() => {
-            handleMessageSort();
-            recordEvent({
-              event: 'cta-button-click',
-              'button-type': 'primary',
-              'button-click-label': 'Sort messages',
-            });
-          }}
-        />
-      </div>
-      <div className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
-        Displaying {displayNums[0]}
+      <div
+        ref={displayingNumberOfMesssagesRef}
+        aria-label={`${displayNums.label.replace('-', 'to')} sorted by ${
+          threadSortingOptions[sortOrder].label
+        }`}
+        className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
+      >
+        Showing {displayNums.from}
         &#8211;
-        {displayNums[1]} of {totalEntries} messages
+        {displayNums.to} of {totalEntries} messages
       </div>
       {currentMessages?.length > 0 &&
         currentMessages.map((message, idx) => (
@@ -240,4 +229,5 @@ MessageList.propTypes = {
   isSearch: PropTypes.bool,
   keyword: PropTypes.string,
   messages: PropTypes.array,
+  sortOrder: PropTypes.string,
 };
