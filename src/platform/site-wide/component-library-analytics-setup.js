@@ -296,6 +296,16 @@ const analyticsEvents = {
       action: 'change',
       event: 'int-file-input-change',
       prefix: 'file-input',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-file-input',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'file-input-label': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-link': [
@@ -432,11 +442,31 @@ const analyticsEvents = {
       action: 'click',
       event: 'int-search-input-click',
       prefix: 'search-input',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-search-input',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'search-input-value': 'value',
+          version: 'component_version',
+        },
+      },
     },
     {
       action: 'blur',
       event: 'int-search-input-blur',
       prefix: 'search-input',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-search-input',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'search-input-value': 'value',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-select': [
@@ -485,7 +515,22 @@ const analyticsEvents = {
     },
   ],
   'va-text-input': [
-    { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
+    {
+      action: 'blur',
+      event: 'int-text-input-blur',
+      prefix: 'text-input',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-text-input',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'text-input-label': 'custom_string_2',
+          'text-input-value': 'value',
+          version: 'component_version',
+        },
+      },
+    },
   ],
   'va-textarea': [
     { action: 'blur', event: 'int-textarea-blur', prefix: 'textarea' },

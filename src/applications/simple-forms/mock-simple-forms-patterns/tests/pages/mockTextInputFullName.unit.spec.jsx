@@ -1,8 +1,9 @@
-import React from 'react';
-import { expect } from 'chai';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { mount } from 'enzyme';
-import Sinon from 'sinon';
+import {
+  testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFields,
+  testNumberOfWebComponentFields,
+} from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 
 const {
@@ -10,54 +11,40 @@ const {
   uiSchema,
 } = formConfig.chapters.textInput.pages.textInputFullName;
 
-describe('web component vs regular text inputs for full name', () => {
-  it('should have appropriate number of fields', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-      />,
-    );
+const pageTitle = 'mock full name inputs';
 
-    expect(form.find('va-text-input').length).to.equal(6);
-    expect(form.find('va-select').length).to.equal(2);
-    expect(form.find('input').length).to.equal(3);
-    expect(form.find('select').length).to.equal(1);
+const expectedNumberOfWebComponentFields = 8;
+testNumberOfWebComponentFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentFields,
+  pageTitle,
+);
 
-    form.unmount();
-  });
+const expectedNumberOfWebComponentErrors = 4;
+testNumberOfErrorsOnSubmitForWebComponents(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentErrors,
+  pageTitle,
+);
 
-  it('should show the correct number of errors on submit', async () => {
-    const onSubmit = Sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
+const expectedNumberOfFields = 4;
+testNumberOfFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfFields,
+  pageTitle,
+);
 
-    const button = form.find('form');
-    button.simulate('submit');
-
-    // web component errors
-    expect(
-      form.findWhere(node => {
-        return node.is('va-text-input') && node.prop('error');
-      }).length,
-    ).to.equal(4);
-
-    // regular input errors
-    expect(form.find('.usa-input-error').length).to.equal(2);
-
-    expect(onSubmit.called).to.be.false;
-
-    form.unmount();
-  });
-});
+const expectedNumberOfErrors = 2;
+testNumberOfErrorsOnSubmit(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfErrors,
+  pageTitle,
+);

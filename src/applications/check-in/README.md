@@ -55,9 +55,13 @@ The check-in and pre-check-in apps are very similar, so when possible use and ad
 Internal page routing is defined in `utils\navigation`. Within this directory there are sub-directories for `day-of` and `pre-check-in`. The index file in each sub-directory contains an object that determines the order of the pages. Within the hooks there is a `useFormRouting` hook that is used to route to the next page, previous page, error page, or any specific page in the app.
 
 ## Running tests
-Unit tests for both check-in and pre-check-in can be run using this command: `yarn test:unit --app-folder check-in`. To get detailed errors, run this command with `--log-level=error`
+Unit tests for both check-in and pre-check-in can be run using this command: `yarn test:unit --app-folder check-in`. To get detailed errors, run this command with `--log-level=error`. To get coverage reports run this command `yarn test:unit --app-folder check-in --coverage --coverage-html`. View the report at `/coverage/index.html`
 
 Cypress tests can be run with the GUI using this command: `yarn cy:open`. From there you can filter by `check-in` to run just check-in and pre-check-in end to end tests.
+
+Run Cypress from command line:
+- Run all `yarn cy:run --spec "src/applications/check-in/**/**/*"`
+- Specify browser `-b electron`
 
 ## Writing tests
 ### Unit tests
