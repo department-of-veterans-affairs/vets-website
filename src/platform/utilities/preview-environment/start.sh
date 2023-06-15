@@ -20,9 +20,9 @@ git clone -b hh-pi-hardcode-api_url https://github.com/department-of-veterans-af
 if [ -z ${SOURCE_REF} ] ;
 then
     echo "SOURCE_REF is NULL; using main" ;
-    echo 
     git clone --depth 1 https://github.com/department-of-veterans-affairs/vets-website.git ;
 else
+    echo $SOURCE_REF ;
     echo "SOURCE_REF is not NULL; using workflow env var" ;
     git clone -b ${SOURCE_REF} --single-branch https://github.com/department-of-veterans-affairs/vets-website.git
 fi
@@ -37,6 +37,7 @@ then
     echo "AWS_URL is NULL; using default" ;
     curl -LOk https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content/vagovdev_dd03cdd3eb98417b247b1a61d54651a1.tar.bz2 ;
 else
+    echo $AWS_URL ;
     echo "AWS_URL is not NULL; using workflow env var" ;
     curl -LOk ${AWS_URL} ;
 fi
