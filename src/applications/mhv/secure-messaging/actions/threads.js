@@ -20,23 +20,7 @@ export const getListOfThreads = (
       pageNumber,
       threadSort,
     );
-    if (response.errors) {
-      if (response.errors[0].detail === 'No messages in the requested folder') {
-        const noThreads = [];
-        dispatch({
-          type: Actions.Thread.GET_EMPTY_LIST,
-          response: noThreads,
-        });
-      } else {
-        dispatch(
-          addAlert(
-            Constants.ALERT_TYPE_ERROR,
-            '',
-            Constants.Alerts.Thread.GET_THREAD_ERROR,
-          ),
-        );
-      }
-    } else if (response.length === 0) {
+    if (response.length === 0) {
       dispatch({
         type: Actions.Thread.GET_EMPTY_LIST,
         response,
@@ -48,28 +32,28 @@ export const getListOfThreads = (
       });
     }
   } catch (e) {
-    // if (e.errors[0].detail === 'No messages in the requested folder') {
-    //   const noThreads = [];
-    //   dispatch({
-    //     type: Actions.Thread.GET_EMPTY_LIST,
-    //     response: noThreads,
-    //   });
-    // } else {
-    //   dispatch(
-    //     addAlert(
-    //       Constants.ALERT_TYPE_ERROR,
-    //       '',
-    //       Constants.Alerts.Thread.GET_THREAD_ERROR,
-    //     ),
-    //   );
-    // }
+    if (e.errors[0].detail === 'No messages in the requested folder') {
+      const noThreads = [];
+      dispatch({
+        type: Actions.Thread.GET_EMPTY_LIST,
+        response: noThreads,
+      });
+    } else {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          `${Constants.Alerts.Thread.GET_THREAD_ERROR}. ${e.errors[0].detail}`,
+        ),
+      );
+    }
   }
 };
 
-export const setThreadSortOrder = sortObject => async dispatch => {
+export const setThreadSortOrder = (sortValue, folderId) => async dispatch => {
   dispatch({
     type: Actions.Thread.SET_SORT_ORDER,
-    payload: sortObject,
+    payload: { value: sortValue, folderId },
   });
 };
 

@@ -8,7 +8,10 @@ const initialState = {
    */
   threadList: undefined,
   threadListTotalCount: undefined,
-  threadSort: threadSortingOptions.SENT_DATE_DESCENDING.value,
+  threadSort: {
+    value: threadSortingOptions.SENT_DATE_DESCENDING.value,
+    folderId: undefined,
+  },
 };
 
 export const threadsReducer = (state = initialState, action) => {

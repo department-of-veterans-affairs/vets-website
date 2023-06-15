@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   focusElement,
   waitForRenderThenFocus,
@@ -24,9 +23,8 @@ import {
   setThreadSortOrder,
   // resetThreadSortOrder,
 } from '../actions/threads';
-import ThreadListSort from '../components/ThreadList/ThreadListSort';
 import SearchResults from './SearchResults';
-// import { clearSearchResults } from '../actions/search';
+import { clearSearchResults } from '../actions/search';
 
 const FolderThreadListView = props => {
   const { testing } = props;
@@ -37,15 +35,19 @@ const FolderThreadListView = props => {
   const { threadList, threadSort } = useSelector(state => state.sm.threads);
   const folder = useSelector(state => state.sm.folders?.folder);
   // const threads = useSelector(state => state.sm.threads?.threadList);
-  const { searchResults, awaitingResults, keyword, query } = useSelector(
-    state => state.sm.search,
-  );
+  const {
+    searchFolder,
+    searchResults,
+    awaitingResults,
+    keyword,
+    query,
+  } = useSelector(state => state.sm.search);
   const location = useLocation();
   const params = useParams();
   const [pageNum, setPageNum] = useState(1);
   // const { sortOrder, sortBy } = threadSort;
 
-  const MAX_PAGE_LIST_LENGTH = 5;
+  // const MAX_PAGE_LIST_LENGTH = 5;
   const displayingNumberOfThreadsSelector =
     "[data-testid='displaying-number-of-threads']";
 
@@ -145,6 +147,10 @@ const FolderThreadListView = props => {
         } else {
           dispatch(setThreadSortOrder(threadSort.value, folder.folderId));
         }
+
+        if (folder.folderId !== searchFolder?.folderId) {
+          dispatch(clearSearchResults());
+        }
       }
     },
     [folder?.folderId, dispatch],
@@ -214,7 +220,7 @@ const FolderThreadListView = props => {
       return (
         <>
           <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
-            Displaying 0 of 0 conversations
+            Showing 0 of 0 conversations
           </div>
           <div className="vads-u-margin-top--3">
             <va-alert
@@ -243,36 +249,21 @@ const FolderThreadListView = props => {
     }
 
     if (searchResults !== undefined) {
-      return (
-        <>
-          <SearchResults />
-        </>
-      );
+      return <SearchResults />;
     }
 
     if (threadList.length > 0) {
       return (
         <>
-          <ThreadListSort
-            sortOrder={threadSort.value}
-            sortCallback={handleSortCallback}
-          />
           <ThreadsList
             threadList={threadList}
             folder={folder}
             pageNum={pageNum}
+            paginationCallback={handlePagination}
             threadsPerPage={threadsPerPage}
             sortOrder={threadSort.value}
+            sortCallback={handleSortCallback}
           />
-          {threadList?.length > 1 && (
-            <VaPagination
-              onPageSelect={e => handlePagination(e.detail.page)}
-              page={pageNum}
-              pages={Math.ceil(threadList[0]?.threadPageSize / threadsPerPage)}
-              maxPageListLength={MAX_PAGE_LIST_LENGTH}
-              showLastPage
-            />
-          )}
         </>
       );
     }
