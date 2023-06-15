@@ -1,14 +1,3 @@
-/**
- * Creates a reasonCode text, based on the appointment data and booleans
- *
- * @export
- * @param {Object} appointment parameters needed to create the comment text
- * @param {boolean} params.isCC whether the appointment is Community Care
- * @param {boolean} params.isAcheron whether Acheron Service is used
- * @param {boolean} params.isDS whether the appointment is direct schedule
- * @returns {string} The created reason text
- */
-
 import titleCase from 'platform/utilities/data/titleCase';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import moment from '../../../lib/moment-tz';

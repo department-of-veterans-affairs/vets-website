@@ -1,3 +1,14 @@
+/**
+ * Transforms the reason text based on the appointment data and booleans
+ *
+ * @export
+ * @param {Object} appointment parameters needed to create the comment text
+ * @param {boolean} params.isCC whether the appointment is Community Care
+ * @param {boolean} params.isAcheron whether Acheron Service is used
+ * @param {boolean} params.isDS whether the appointment is direct schedule
+ * @returns {string} The created reason text
+ */
+
 import moment from '../../../lib/moment-tz';
 import { PURPOSE_TEXT_V2, TYPE_OF_VISIT } from '../../../utils/constants';
 
