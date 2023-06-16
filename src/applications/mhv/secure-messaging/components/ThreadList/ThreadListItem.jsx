@@ -116,7 +116,9 @@ const ThreadListItem = props => {
               )}
               <span />{' '}
               {messageCount > 1 && (
-                <span className="message-count">({messageCount} messages)</span>
+                <span className="message-count" data-testid="message-count">
+                  ({messageCount} messages)
+                </span>
               )}
             </>
           ) : (
