@@ -1,7 +1,15 @@
 import React from 'react';
 
 export const uiSchema = {
-  'ui:title': 'Your installment contracts and other debts',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">
+          Your installment contracts and other debts
+        </h3>
+      </legend>
+    </>
+  ),
   'ui:options': {
     classNames: 'repayments',
   },
@@ -25,6 +33,9 @@ export const uiSchema = {
         </>
       ),
       'ui:widget': 'yesNo',
+      'ui:options': {
+        showFieldLabel: 'label',
+      },
       'ui:errorMessages': {
         required:
           'Please provide your installment contracts or other debts information.',

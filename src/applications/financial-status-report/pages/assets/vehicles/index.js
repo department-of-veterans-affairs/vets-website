@@ -4,6 +4,9 @@ export const uiSchema = {
     hasVehicle: {
       'ui:title': 'Do you own any cars or other vehicles?',
       'ui:widget': 'yesNo',
+      'ui:options': {
+        showFieldLabel: 'label',
+      },
       'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Please enter your vehicle information.',

@@ -15,7 +15,6 @@ const MaritalStatusInfo = (
 );
 
 export const uiSchema = {
-  // 'ui:title': 'Your spouse information',
   'ui:title': () => (
     <>
       <legend className="schemaform-block-title">
@@ -27,6 +26,9 @@ export const uiSchema = {
     isMarried: {
       'ui:title': 'Are you married?',
       'ui:widget': 'yesNo',
+      'ui:options': {
+        showFieldLabel: 'label',
+      },
       'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Please select your marital status.',
