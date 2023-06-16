@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { runAdvancedSearch } from '../../actions/search';
+import { clearSearchResults, runAdvancedSearch } from '../../actions/search';
 import FilterBox from './FilterBox';
 import { ErrorMessages } from '../../util/constants';
 import { DateRangeValues } from '../../util/inputContants';
@@ -22,7 +22,10 @@ const SearchForm = props => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [customFilter, setCustomFilter] = useState(false);
+  const [filtersCleared, setFiltersCleared] = useState(false);
   const resultsCountRef = useRef();
+  const filterBoxRef = useRef();
+  const filterInputRef = useRef();
 
   useEffect(
     () => {
@@ -63,6 +66,9 @@ const SearchForm = props => {
   };
 
   const handleSearch = () => {
+    setFiltersCleared(false);
+    if (filterBoxRef.current.checkFormValidity()) return;
+
     const todayDateTime = moment(new Date()).format();
     const offset = todayDateTime.substring(todayDateTime.length - 6);
     let relativeToDate;
@@ -100,6 +106,15 @@ const SearchForm = props => {
         searchTerm.toLowerCase(),
       ),
     );
+  };
+
+  const handleFilterClear = e => {
+    e.preventDefault();
+    dispatch(clearSearchResults());
+    focusElement(filterInputRef.current.shadowRoot.querySelector('input'));
+    setFiltersCleared(true);
+    setCategory('');
+    setDateRange('any');
   };
 
   const queryItem = (key, value) => {
@@ -186,7 +201,12 @@ const SearchForm = props => {
 
   return (
     <>
-      <div className="search-form">
+      <form
+        className="search-form"
+        onSubmit={() => {
+          handleSearch();
+        }}
+      >
         <h2>{filterLabelHeading}</h2>
         <>
           {searchTermError && (
@@ -198,27 +218,19 @@ const SearchForm = props => {
           <div className="filter-input-box-container">
             <div className="filter-text-input">
               <va-text-input
+                ref={filterInputRef}
                 id="filter-input"
                 label={filterLabelBody}
-                className="filter-input-box"
+                class="filter-input-box"
                 message-aria-describedby="filter text input"
                 value={searchTerm}
                 onInput={e => setSearchTerm(e.target.value)}
                 aria-label={filterLabelHeading + filterLabelBody}
                 data-testid="keyword-search-input"
-              />
-            </div>
-            <div className="basic-filter-button">
-              <button
-                type="button"
-                className="usa-button-primary filter-button"
-                onClick={e => {
-                  e.preventDefault();
-                  handleSearch();
+                onKeyPress={e => {
+                  if (e.key === 'Enter') handleSearch();
                 }}
-              >
-                Filter
-              </button>
+              />
             </div>
           </div>
         </>
@@ -235,6 +247,7 @@ const SearchForm = props => {
         {folders && (
           <div>
             <FilterBox
+              ref={filterBoxRef}
               folders={folders}
               keyword={keyword}
               handleSearch={handleSearch}
@@ -249,7 +262,31 @@ const SearchForm = props => {
             />
           </div>
         )}
-      </div>
+        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+          <va-button
+            text="Filter"
+            primary
+            class="filter-button vads-u-margin-left--0"
+            onClick={e => {
+              e.preventDefault();
+              handleSearch();
+            }}
+          />
+          {resultsCount !== undefined && (
+            <va-button
+              text="Clear Filters"
+              secondary
+              class="clear-filter-button"
+              onClick={handleFilterClear}
+            />
+          )}
+          {filtersCleared && (
+            <span className="sr-only" aria-live="polite">
+              Filters succesfully cleared
+            </span>
+          )}
+        </div>
+      </form>
       <FilterResults />
     </>
   );

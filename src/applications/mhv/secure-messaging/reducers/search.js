@@ -11,6 +11,7 @@ const initialState = {
   keyword: '',
   searchFolder: undefined,
   searchSort: threadSortingOptions.SENT_DATE_DESCENDING.value,
+  query: undefined,
 };
 
 export const searchReducer = (state = initialState, action) => {

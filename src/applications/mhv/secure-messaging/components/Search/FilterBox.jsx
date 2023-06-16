@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaDate,
@@ -9,7 +9,7 @@ import moment from 'moment';
 import { DateRangeOptions, SelectCategories } from '../../util/inputContants';
 import { ErrorMessages } from '../../util/constants';
 
-const FilterBox = props => {
+const FilterBox = forwardRef((props, ref) => {
   const {
     handleSearch,
     category,
@@ -50,17 +50,20 @@ const FilterBox = props => {
           ErrorMessages.SearchForm.END_YEAR_GREATER_THAN_CURRENT_YEAR,
         );
       }
+      if (fromDate && toDate && moment(fromDate).isBefore(toDate)) {
+        formInvalid = false;
+        setFromDateError('');
+        setToDateError('');
+      }
     }
     return formInvalid;
   };
 
-  const handleFilterMessages = e => {
-    e.preventDefault();
-    const formInvalid = checkFormValidity();
-    if (formInvalid) return;
-
-    handleSearch(true);
-  };
+  useImperativeHandle(ref, () => ({
+    checkFormValidity() {
+      return checkFormValidity();
+    },
+  }));
 
   return (
     <form className="advanced-search-form filter-box" onSubmit={handleSearch}>
@@ -84,9 +87,9 @@ const FilterBox = props => {
       )}
 
       <va-accordion open-single>
-        <va-accordion-item id="first">
+        <va-accordion-item id="additional-filter-accordion">
           <h3 slot="headline" className="headline-text">
-            Additional filters
+            Add filters
           </h3>
           <div className="filter-content">
             <VaSelect
@@ -147,31 +150,24 @@ const FilterBox = props => {
                 </div>
               </div>
             )}
-
-            <va-button
-              class="custom-filter-button"
-              data-testid="filter-messages-button"
-              text="Filter"
-              onClick={handleFilterMessages}
-            />
           </div>
         </va-accordion-item>
       </va-accordion>
     </form>
   );
-};
+});
 
 FilterBox.propTypes = {
-  folders: PropTypes.any,
-  handleSearch: PropTypes.func,
   category: PropTypes.any,
-  setCategory: PropTypes.func,
   dateRange: PropTypes.any,
-  setDateRange: PropTypes.func,
+  folders: PropTypes.any,
   fromDate: PropTypes.any,
+  handleSearch: PropTypes.func,
+  setCategory: PropTypes.func,
+  setDateRange: PropTypes.func,
   setFromDate: PropTypes.func,
-  toDate: PropTypes.any,
   setToDate: PropTypes.func,
+  toDate: PropTypes.any,
 };
 
 export default FilterBox;
