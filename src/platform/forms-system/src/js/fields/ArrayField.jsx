@@ -370,12 +370,13 @@ export default class ArrayField extends React.Component {
             const isEditing = this.state.editing[index];
             const isRemoving = this.state.removing[index];
             const ariaLabel = uiOptions.itemAriaLabel;
-            const itemName =
+            const itemName = (
               (typeof ariaLabel === 'function' && ariaLabel(item || {})) ||
               uiOptions.itemName ||
-              'Item';
-            const notLastOrMultipleRows =
-              showSave || !isLast || items.length > 1;
+              'item'
+            ).toLowerCase();
+            const multipleRows = items.length > 1;
+            const notLastOrMultipleRows = showSave || !isLast || multipleRows;
 
             if (isReviewMode ? isEditing : isLast || isEditing) {
               return (
@@ -389,9 +390,9 @@ export default class ArrayField extends React.Component {
                   <Element name={`table_${itemIdPrefix}`} />
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
-                      {isLast && items.length > 1 ? (
+                      {isLast && multipleRows ? (
                         <h3 className="vads-u-font-size--h5">
-                          New {uiOptions.itemName || 'item'}
+                          New {itemName || 'item'}
                         </h3>
                       ) : null}
                       <div className="input-section">
@@ -419,7 +420,8 @@ export default class ArrayField extends React.Component {
                               <button
                                 type="button"
                                 className="float-left"
-                                aria-label={`${updateText} ${itemName}`}
+                                aria-label={`${updateText} ${itemName} ${index +
+                                  1}`}
                                 onClick={() => this.handleUpdate(index)}
                               >
                                 {updateText}
@@ -427,11 +429,11 @@ export default class ArrayField extends React.Component {
                             )}
                           </div>
                           <div className="small-6 right columns">
-                            {!notLastOrMultipleRows !== 0 && (
+                            {multipleRows && (
                               <button
                                 type="button"
                                 className="usa-button-secondary float-right"
-                                aria-label={`Remove ${itemName}`}
+                                aria-label={`Remove ${itemName} ${index + 1}`}
                                 onClick={() =>
                                   this.handleRemove(
                                     index,
@@ -451,9 +453,9 @@ export default class ArrayField extends React.Component {
                     <VaModal
                       clickToClose
                       status="warning"
-                      modalTitle={`Are you sure you want to remove this ${uiOptions.itemName ||
+                      modalTitle={`Are you sure you want to remove this ${itemName ||
                         'item'}?`}
-                      primaryButtonText={`Yes, remove this ${uiOptions.itemName ||
+                      primaryButtonText={`Yes, remove this ${itemName ||
                         'item'}`}
                       secondaryButtonText="No, cancel"
                       onCloseEvent={() => this.closeRemoveModal(index)}
@@ -509,7 +511,7 @@ export default class ArrayField extends React.Component {
             disabled={!this.props.formData || addAnotherDisabled}
             onClick={this.handleAdd}
           >
-            Add another {uiOptions.itemName}
+            Add another {(uiOptions.itemName || 'item').toLowerCase()}
           </button>
           <p>
             {addAnotherDisabled &&
