@@ -1,6 +1,12 @@
 export const AUTHORIZER_TYPES = {
   VETERAN: 'veteran',
-  NON_VETERAN: 'non-veteran',
+  NON_VETERAN: 'nonVeteran',
+};
+
+export const AUTHORIZER_TYPE_ITEMS = {
+  VETERAN: 'I’m a Veteran with an existing claim',
+  NON_VETERAN:
+    'I’m the spouse, dependent, survivor, or caregiver of a Veteran, and I have an existing claim',
 };
 
 export const THIRD_PARTY_TYPES = {

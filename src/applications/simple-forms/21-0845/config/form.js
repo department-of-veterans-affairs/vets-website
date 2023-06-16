@@ -23,6 +23,8 @@ import relDurationPg from '../pages/relDuration';
 import relEndDatePg from '../pages/relEndDate';
 import secQuestionPg from '../pages/secQuestion';
 import secAnswerPg from '../pages/secAnswer';
+import authPersInfoPg from '../pages/authPersInfo';
+import authAddrPg from '../pages/authAddr';
 
 // mock-data import for local development
 import testData from '../tests/fixtures/data/testdata.json';
@@ -83,6 +85,35 @@ const formConfig = {
             !!mockData && environment.isLocalhost() ? mockData : undefined,
           uiSchema: authTypePg.uiSchema,
           schema: authTypePg.schema,
+        },
+      },
+    },
+    authorizerPersonalInfoChapter: {
+      title: 'Your personal information',
+      pages: {
+        authPersInfoPage: {
+          // nonVet authorizer
+          path: 'authorizer-personal-information',
+          title: 'Your personal information',
+          depends: {
+            authorizerType: AUTHORIZER_TYPES.NON_VETERAN,
+          },
+          uiSchema: authPersInfoPg.uiSchema,
+          schema: authPersInfoPg.schema,
+        },
+      },
+    },
+    authorizerAddressChapter: {
+      title: 'Your address',
+      pages: {
+        authAddrPage: {
+          path: 'authorizer-address',
+          title: 'Your address',
+          depends: {
+            authorizerType: AUTHORIZER_TYPES.NON_VETERAN,
+          },
+          uiSchema: authAddrPg.uiSchema,
+          schema: authAddrPg.schema,
         },
       },
     },

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { AUTHORIZER_TYPES } from '../definitions/constants';
+import { AUTHORIZER_TYPE_ITEMS } from '../definitions/constants';
+import { getEnumsFromConstants, getLabelsFromConstants } from '../utils';
 
 /** @type {PageSchema} */
 export default {
@@ -18,11 +19,7 @@ export default {
       'ui:description': 'Select the description that fits you.',
       'ui:widget': 'radio',
       'ui:options': {
-        labels: {
-          [AUTHORIZER_TYPES.VETERAN]: 'I’m a Veteran with an existing claim',
-          [AUTHORIZER_TYPES.NON_VETERAN]:
-            'I’m the spouse, dependent, survivor, or caregiver of a Veteran, and I have an existing claim',
-        },
+        labels: getLabelsFromConstants(AUTHORIZER_TYPE_ITEMS),
       },
     },
     'view:note': {
@@ -43,7 +40,7 @@ export default {
     properties: {
       authorizerType: {
         type: 'string',
-        enum: Object.values(AUTHORIZER_TYPES),
+        enum: getEnumsFromConstants(AUTHORIZER_TYPE_ITEMS),
       },
       'view:note': {
         type: 'object',

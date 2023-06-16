@@ -1,6 +1,17 @@
 {
   "data": {
     "authorizerType": "veteran",
+    "authorizerFullName": {
+      "first": "Jack",
+      "middle": "",
+      "last": "Authorizer"
+    },
+    "authorizerAddress": {
+      "street": "123 Any St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12345"
+    },
     "veteranFullName": {
       "first": "John",
       "middle": "",
@@ -9,23 +20,23 @@
     "veteranSSN": "111223333",
     "thirdPartyType": "organization",
     "personFullName": {
-      "first": "Jack",
+      "first": "Joe",
       "middle": "",
       "last": "Person"
     },
     "personAddress": {
-      "street": "123 Any St",
+      "street": "124 Any St",
       "city": "Anytown",
       "state": "CA",
-      "postalCode": "12345"
+      "postalCode": "12346"
     },
     "organizationName": "ACME Org",
     "organizationRepresentatives": [{ "representativeName": "Joe Rep" }],
     "organizationAddress": {
-      "street": "124 Any Ave",
+      "street": "125 Any St",
       "city": "Anycity",
       "state": "CA",
-      "postalCode": "54321"
+      "postalCode": "12347"
     },
     "informationScope": "limited",
     "limitedInformationItems": "Status of pending claim or appeal",
