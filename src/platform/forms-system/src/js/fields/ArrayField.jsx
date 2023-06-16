@@ -427,7 +427,7 @@ export default class ArrayField extends React.Component {
                             )}
                           </div>
                           <div className="small-6 right columns">
-                            {index !== 0 && (
+                            {!notLastOrMultipleRows !== 0 && (
                               <button
                                 type="button"
                                 className="usa-button-secondary float-right"
@@ -487,7 +487,7 @@ export default class ArrayField extends React.Component {
                   <button
                     type="button"
                     className="usa-button-secondary edit vads-u-flex--auto"
-                    aria-label={`Edit ${itemName}`}
+                    aria-label={`Edit ${itemName}_${index + 1}`}
                     onClick={() => this.handleEdit(index)}
                   >
                     Edit
