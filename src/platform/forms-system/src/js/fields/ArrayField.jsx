@@ -392,9 +392,7 @@ export default class ArrayField extends React.Component {
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && multipleRows ? (
-                        <h3 className="vads-u-font-size--h5">
-                          New {itemName || 'item'}
-                        </h3>
+                        <h3 className="vads-u-font-size--h5">New {itemName}</h3>
                       ) : null}
                       <div className="input-section">
                         <SchemaField
