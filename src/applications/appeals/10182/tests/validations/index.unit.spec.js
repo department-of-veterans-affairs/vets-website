@@ -63,6 +63,14 @@ describe('contactInfoValidation', () => {
     );
     expect(addError.called).to.be.false;
   });
+  it('should not throw an error when addError function is missing', () => {
+    try {
+      contactInfoValidation();
+      expect(true).to.be.true;
+    } catch (error) {
+      expect(error).to.be.null;
+    }
+  });
 });
 
 describe('areaOfDisagreementRequired', () => {

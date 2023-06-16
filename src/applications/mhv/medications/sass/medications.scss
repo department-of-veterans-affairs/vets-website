@@ -19,8 +19,76 @@
 }
 
 .main-content {
-  @media screen {
+  max-width: 650px;
+
+  @media (max-width: $small-screen) {
     max-width: 480px;
+  }
+}
+
+.landing-page {
+  h1 {
+    color: $color-gray-dark;
+    margin: 0;
+  }
+  .medications-list-sort {
+    margin-top: -25px;
+    width: 272;
+  }
+
+  .rx-page-total-info {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    max-width: 500px;
+  }
+  .pagination {
+    max-width: 500px;
+    border-top: 0px;
+  }
+  .landing-page-content {
+    max-width: 500px;
+  }
+  .rx-card-container{
+    max-width: 500px;
+    padding-bottom: 5px;
+    color: $color-gray-dark;
+    .rx-card-detials{
+      margin-left: 5px;
+      h4 {
+        margin: 8px 0;
+      }
+      .shipping-info {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        padding: 15px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .shipping-icon {
+          margin: 10px;
+          width: 20px;
+          height: 20px;
+          border: 1px solid $color-base;
+        }
+      }
+    }
+  }
+  .rx-landing-page-footer {
+    max-width: 500px;
+    .footer-header {
+      color: $color-gray-dark;
+    }
+    .footer-links {
+      margin: 10px 0;
+      a {
+        font-weight: bold;
+      }
+      p {
+        margin-top: 5px;
+        margin-bottom: 15px;
+      }
+    }
+
   }
 }
 

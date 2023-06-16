@@ -171,10 +171,11 @@ export {
   default as RequiredLoginView,
   RequiredLoginLoader,
 } from './authorization/components/RequiredLoginView';
-export { MHVApp } from './authorization/containers/MHVApp';
-export {
-  RequiredTermsAcceptanceView,
-} from './authorization/containers/RequiredTermsAcceptanceView';
+// TO DO: resolve missing nested import
+// export { MHVApp } from './authorization/containers/MHVApp';
+// export {
+//   RequiredTermsAcceptanceView,
+// } from './authorization/containers/RequiredTermsAcceptanceView';
 
 /* profile */
 
