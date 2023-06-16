@@ -78,7 +78,49 @@ const NotificationChannel = props => {
         }
       >
         <Toggler.Enabled>
-          <NotificationCheckbox {...props} />
+          <NotificationCheckbox
+            {...props}
+            onValueChange={e => {
+              const newValue = e.target.checked;
+
+              // Escape early if no change was made. If an API call fails, it's
+              // possible to then click on a "checked" radio button to fire off
+              // another API call. This check avoids that problem
+              if (newValue === isOptedIn) {
+                return;
+              }
+
+              const model = new CommunicationChannelModel({
+                type: channelType,
+                parentItemId: itemIdNumber,
+                permissionId,
+                isAllowed: newValue,
+                wasAllowed: isOptedIn,
+              });
+              recordEvent({
+                event: 'int-radio-button-option-click',
+                'radio-button-label': itemName,
+                'radio-button-optionLabel': `${
+                  channelTypes[channelType]
+                } - ${newValue}`,
+                'radio-button-required': false,
+              });
+
+              saveSetting(channelId, model.getApiCallObject());
+            }}
+            loadingMessage={
+              apiStatus === LOADING_STATES.pending ? 'Saving...' : null
+            }
+            successMessage={
+              apiStatus === LOADING_STATES.loaded ? 'Update saved.' : null
+            }
+            errorMessage={
+              apiStatus === LOADING_STATES.error
+                ? 'We’re sorry. We had a problem saving your update. Try again.'
+                : null
+            }
+            disabled={apiStatus === LOADING_STATES.pending}
+          />
         </Toggler.Enabled>
 
         <Toggler.Disabled>

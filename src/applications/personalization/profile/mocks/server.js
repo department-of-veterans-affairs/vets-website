@@ -72,7 +72,7 @@ const responses = {
             profileUseInfoCard: true,
             profileUseFieldEditingPage: true,
             profileLighthouseDirectDeposit: true,
-            profileUseNotificationSettingsCheckboxes: false,
+            profileUseNotificationSettingsCheckboxes: true,
           }),
         ),
       0,
@@ -222,7 +222,7 @@ const responses = {
       },
     });
 
-    return res.json(mockedRes);
+    delaySingleResponse(() => res.json(mockedRes), 1);
   },
 
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
