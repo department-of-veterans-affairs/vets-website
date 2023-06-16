@@ -8,23 +8,22 @@ import {
   validateMilitaryTreatmentCity,
   validateMilitaryTreatmentState,
   startedAfterServicePeriod,
+  validateBooleanGroup,
 } from '../validations';
-import { NO_FACILITY, USA } from '../constants';
+import { USA } from '../constants';
 
 const { vaTreatmentFacilities } = fullSchema.properties;
 
 export const uiSchema = {
-  'ui:description':
-    'First we’ll ask you about your VA medical records for your claimed disability.',
   'view:vaMedicalRecordsIntro': {
     'ui:title': 'VA medical records',
     'ui:description':
-      "Tell us where VA has treated you for your disability. We'll use the information you provide to search for your records",
+      'Tell us where VA has treated you for your disability. We’ll use the information you provide to help us locate your records and make decisions on your claim.',
   },
   vaTreatmentFacilities: {
     'ui:options': {
       itemName: 'Facility',
-      itemAriaLabel: data => data.treatmentCenterName || NO_FACILITY,
+      itemAriaLabel: data => data.treatmentCenterName,
       viewField: treatmentView,
       showSave: true,
       updateSchema: (formData, schema) => ({
@@ -52,6 +51,11 @@ export const uiSchema = {
           updateSchema: makeSchemaForAllDisabilities,
           itemAriaLabel: data => data.treatmentCenterName,
           showFieldLabel: true,
+        },
+        'ui:validations': [validateBooleanGroup],
+        'ui:errorMessages': {
+          atLeastOne: 'Please select at least one condition',
+          required: 'Please select at least one condition',
         },
       },
       treatmentDateRange: {
@@ -99,6 +103,7 @@ export const schema = {
       minItems: 0, // fixes validation issue
       items: {
         type: 'object',
+        required: ['treatmentCenterName', 'treatedDisabilityNames'],
         properties: {
           treatmentCenterName:
             vaTreatmentFacilities.items.properties.treatmentCenterName,

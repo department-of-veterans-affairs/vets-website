@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'platform/utilities/data';
-import { DATA_PATHS, NO_FACILITY } from '../constants';
+import { DATA_PATHS } from '../constants';
 
 export const summaryOfEvidenceDescription = ({ formData }) => {
   const vaEvidence = _.get('vaTreatmentFacilities', formData, []);
@@ -69,7 +69,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
 
   if (vaEvidence.length && vaEvidenceSelected) {
     const facilitiesList = vaEvidence.map((facility, index) => (
-      <li key={index}>{facility.treatmentCenterName || NO_FACILITY}</li>
+      <li key={index}>{facility.treatmentCenterName}</li>
     ));
     vaContent = (
       <div>

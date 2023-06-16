@@ -77,6 +77,33 @@ describe('VA Medical Records', () => {
     form.unmount();
   });
 
+  it('should not submit without all required info', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ratedDisabilities,
+          'view:hasEvidenceFollowUp': {
+            'view:selectableEvidenceTypes': {
+              'view:hasVaMedicalRecords': true,
+            },
+          },
+          vaTreatmentFacilities: [],
+        }}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    // Required fields: Facility name and related disability
+    expect(form.find('.usa-input-error-message').length).to.equal(2);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
   it('should not submit when treatment start date precedes service start date', () => {
     const onSubmit = sinon.spy();
     const form = mount(
@@ -172,7 +199,7 @@ describe('VA Medical Records', () => {
           ratedDisabilities,
           vaTreatmentFacilities: [
             {
-              treatmentCenterName: 'Sommerset VA Clinic',
+              treatmentCenterName: 'Test clinic',
               treatedDisabilityNames: {
                 diabetesmelitus: true,
               },
@@ -182,40 +209,6 @@ describe('VA Medical Records', () => {
               treatmentCenterAddress: {
                 country: 'USA',
                 city: 'Sommerset',
-                state: 'VA',
-              },
-            },
-          ],
-        }}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
-    form.unmount();
-  });
-
-  it('should submit with sparse facility info', () => {
-    // Treatment facility is missing a name, date, and city (they are optional). VSRs look at all VAMCs in the
-    // system to assess if it’s relevant to the claim.
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          ratedDisabilities,
-          vaTreatmentFacilities: [
-            {
-              treatedDisabilityNames: {
-                diabetesmelitus: true,
-              },
-
-              treatmentCenterAddress: {
-                country: 'USA',
                 state: 'VA',
               },
             },
