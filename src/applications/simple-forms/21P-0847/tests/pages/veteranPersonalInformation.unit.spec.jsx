@@ -11,7 +11,7 @@ const {
 
 const pageTitle = 'veteran personal information';
 
-const expectedNumberOfFields = 3;
+const expectedNumberOfFields = 5;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
