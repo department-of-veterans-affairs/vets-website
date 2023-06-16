@@ -52,7 +52,7 @@ const AppointmentBlock = props => {
         </p>
       )}
 
-      <ol
+      <ul
         className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list appointment-list"
         data-testid="appointment-list"
       >
@@ -68,7 +68,7 @@ const AppointmentBlock = props => {
             />
           );
         })}
-      </ol>
+      </ul>
     </div>
   );
 };
