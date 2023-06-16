@@ -15,7 +15,7 @@
   font-weight: inherit;
 }
 
-.schemaform-review-page-warning {
+.schemaform-review-page-error {
   margin: 0;
 }
 
@@ -338,6 +338,8 @@
 }
 
 /* Hide mobile phone extension entry, per design */
-form[name="Contact Info Form"] .schemaform-field-template:not(.schemaform-first-field) {
-  display: none;
+#edit-mobilePhone {
+  form[name="Contact Info Form"] .schemaform-field-template:not(.schemaform-first-field) {
+    display: none;
+  }
 }

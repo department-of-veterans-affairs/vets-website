@@ -25,7 +25,6 @@ const convertNote = note => {
     // admittingPhysician: note.asdf,
     // dischargePhysician: note.asdf,
     // facility: note.asdf,
-    // vaccineId: note.asdf,
     // reactions: note.asdf,
   };
 };

@@ -5,6 +5,7 @@ import { fireEvent } from '@testing-library/dom';
 import reducers from '../../../reducers';
 import inbox from '../../fixtures/folder-inbox-response.json';
 import MessageList from '../../../components/MessageList/MessageList';
+import { Paths } from '../../../util/constants';
 
 const mockMessages = {
   data: [
@@ -145,7 +146,7 @@ describe('Message List component', () => {
     screen = renderWithStoreAndRouter(
       <MessageList messages={mockMessages} folder={inbox} />,
       {
-        path: '/folder/12345',
+        path: `${Paths.FOLDERS}12345`,
         initialState,
         reducers,
       },

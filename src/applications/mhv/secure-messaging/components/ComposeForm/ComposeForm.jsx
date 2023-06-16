@@ -24,6 +24,7 @@ import {
   Categories,
   Prompts,
   ErrorMessages,
+  Paths,
 } from '../../util/constants';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -141,11 +142,11 @@ const ComposeForm = props => {
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
           dispatch(sendMessage(sendData, true))
-            .then(() => history.push('/inbox'))
+            .then(() => history.push(Paths.INBOX))
             .catch(setSendMessageFlag(false));
         } else {
           dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
-            history.push('/inbox'),
+            history.push(Paths.INBOX),
           );
         }
       }

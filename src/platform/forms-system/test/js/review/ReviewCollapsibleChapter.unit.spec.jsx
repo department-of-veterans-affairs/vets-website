@@ -412,7 +412,7 @@ describe('<ReviewCollapsibleChapter>', () => {
     );
 
     expect(wrapper.find('.schemaform-review-chapter-error').length).to.equal(1);
-    expect(wrapper.find('.schemaform-review-page-warning').length).to.equal(1);
+    expect(wrapper.find('.schemaform-review-page-error').length).to.equal(1);
     wrapper.unmount();
   });
   it('should handle submitting array page', () => {

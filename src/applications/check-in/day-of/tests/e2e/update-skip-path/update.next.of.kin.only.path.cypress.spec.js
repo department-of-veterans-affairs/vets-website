@@ -43,7 +43,7 @@ describe('Check In Experience -- ', () => {
     });
     it('update next of kin only path', () => {
       NextOfKin.validatePageLoaded(
-        'Is this your current next of kin information?',
+        'Check-In Is this your current next of kin information?',
       );
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();

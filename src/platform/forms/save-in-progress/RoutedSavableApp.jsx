@@ -4,7 +4,10 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import FormApp from 'platform/forms-system/src/js/containers/FormApp';
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import {
+  getNextPagePath,
+  checkValidPagePath,
+} from 'platform/forms-system/src/js/routing';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import environment from 'platform/utilities/environment';
@@ -97,7 +100,18 @@ class RoutedSavableApp extends React.Component {
         // The onFormLoaded callback should handle navigating to the start of the form
         newProps.formConfig.onFormLoaded(newProps);
       } else {
-        newProps.router.push(newProps.returnUrl);
+        // Check that returnUrl is an active page. If not, return to first page
+        // after intro page
+        const isValidReturnUrl = checkValidPagePath(
+          newProps.routes[newProps.routes.length - 1].pageList,
+          newProps.formData,
+          newProps.returnUrl,
+        );
+        newProps.router.push(
+          isValidReturnUrl
+            ? newProps.returnUrl
+            : this.getFirstNonIntroPagePath(newProps),
+        );
       }
       // Set loadedStatus in redux to not-attempted to not show the loading page
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);

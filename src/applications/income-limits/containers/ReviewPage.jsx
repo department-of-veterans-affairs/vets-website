@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 
 import { ROUTES } from '../constants';
 import { updateEditMode } from '../actions';
@@ -20,6 +21,10 @@ const ReviewPage = ({
       updateEditMode(false);
     }
   });
+
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
 
   const onContinueClick = () => {
     router.push(ROUTES.RESULTS);

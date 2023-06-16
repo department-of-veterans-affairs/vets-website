@@ -3,20 +3,20 @@ import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import DependentListLoopForm from '../FormFields/DependentListLoopForm';
 
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
-import { createLiteralMap, isOfCollegeAge } from '../../utils/helpers';
+import {
+  createLiteralMap,
+  isOfCollegeAge,
+  getDependentPageList,
+} from '../../utils/helpers';
 import {
   DEPENDENT_VIEW_FIELDS,
   SESSION_ITEM_NAME,
   SHARED_PATHS,
 } from '../../utils/constants';
-import {
-  dependentSchema as schema,
-  dependentUISchema as uiSchema,
-} from '../../definitions/dependent';
 
 // declare shared data & route attrs from the form
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
@@ -120,7 +120,6 @@ const DependentInformation = props => {
   const handlers = {
     onCancel: () => {
       showModal(false);
-      // When the modal is closed, redirect focus back to the cancel confirmation modal trigger button
       document
         .getElementById('hca-modal-cancel')
         .shadowRoot.children[0].focus();
@@ -157,21 +156,6 @@ const DependentInformation = props => {
       showModal(true);
     },
   };
-
-  // append a title attribute to the uiSchema based on the current `page` -- use dependents full name, if available
-  const currentUISchema = useMemo(
-    () => {
-      const name =
-        currentPage.id !== 'basic' && localData
-          ? `${localData.fullName.first} ${localData.fullName.last}`
-          : 'Dependent';
-      return {
-        ...uiSchema[currentPage.id],
-        'ui:title': `${name} - ${currentPage.title}`,
-      };
-    },
-    [currentPage, localData],
-  );
 
   // construct cancel description for modal based on page mode and form data
   const cancelDescription = useMemo(
@@ -238,38 +222,27 @@ const DependentInformation = props => {
   useEffect(
     () => {
       if (localData) {
-        const pagesToSet = SUB_PAGES.reduce((acc, page) => {
-          if ('depends' in page) {
-            const { key, value } = page.depends;
-            if (value instanceof Function) {
-              if (value(localData[key])) {
-                acc.push(page);
-              }
-            } else if (localData[key] === value) {
-              acc.push(page);
-            }
-          } else {
-            acc.push(page);
-          }
-          return acc;
-        }, []);
+        const pagesToSet = getDependentPageList(SUB_PAGES, localData);
         setActivePages(pagesToSet);
       }
     },
     [localData],
   );
 
-  return (
-    <>
-      {currentPage ? (
-        <SchemaForm
-          name="Dependent"
-          title="Dependent"
+  /**
+   * build list of forms, with display conditional, based on current page id
+   *
+   * NOTE: This is a bit of a hack, as we cannot reset the submitted state of the
+   * SchemaForm component
+   */
+  const FormList = SUB_PAGES.map(({ id, title }) => {
+    return currentPage.id === id ? (
+      <>
+        <DependentListLoopForm
           data={localData}
-          uiSchema={currentUISchema}
-          schema={schema[currentPage.id]}
-          onSubmit={handlers.onSubmit}
+          page={{ id, title }}
           onChange={handlers.onChange}
+          onSubmit={handlers.onSubmit}
         >
           {/** Cancel confirmation modal trigger */}
           <div className="vads-u-margin-y--2">
@@ -285,8 +258,14 @@ const DependentInformation = props => {
           {contentBeforeButtons}
           <FormNavButtons goBack={handlers.onGoBack} submitToContinue />
           {contentAfterButtons}
-        </SchemaForm>
-      ) : null}
+        </DependentListLoopForm>
+      </>
+    ) : null;
+  });
+
+  return (
+    <>
+      {FormList}
 
       <VaModal
         modalTitle={`Cancel ${action.label} this dependent`}

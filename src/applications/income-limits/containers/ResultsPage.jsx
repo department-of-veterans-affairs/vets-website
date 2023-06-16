@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { focusElement } from 'platform/utilities/ui';
 
 import {
   getFirstAccordionHeader,
@@ -25,6 +26,10 @@ const Results = ({ limits, yearInput }) => {
 
   const isStandard = gmt > national;
   const currentYear = new Date().getFullYear();
+
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
 
   return (
     <>

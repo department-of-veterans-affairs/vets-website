@@ -34,6 +34,40 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'witness-personal-information-a': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const label = data.witnessRelationshipToClaimant;
+            cy.get(`va-checkbox[label="${label}"]`)
+              .shadow()
+              .get('#checkbox-element')
+              .first()
+              .click()
+              .then(() => {
+                cy.findByText('Continue')
+                  .first()
+                  .click();
+              });
+          });
+        });
+      },
+      'witness-personal-information-b': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const label = data.witnessRelationshipToClaimant;
+            cy.get(`va-checkbox[label="${label}"]`)
+              .shadow()
+              .get('#checkbox-element')
+              .first()
+              .click()
+              .then(() => {
+                cy.findByText('Continue')
+                  .first()
+                  .click();
+              });
+          });
+        });
+      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {

@@ -58,17 +58,17 @@ const LabAndTestDetails = () => {
         );
       case labTypes.MICROBIOLOGY:
         return (
-          <MicroDetails results={labAndTestDetails} fullState={fullState} />
+          <MicroDetails record={labAndTestDetails} fullState={fullState} />
         );
       case labTypes.PATHOLOGY:
         return (
-          <PathologyDetails results={labAndTestDetails} fullState={fullState} />
+          <PathologyDetails record={labAndTestDetails} fullState={fullState} />
         );
       case labTypes.EKG:
-        return <EkgDetails results={labAndTestDetails} />;
+        return <EkgDetails record={labAndTestDetails} />;
       case labTypes.RADIOLOGY:
         return (
-          <RadiologyDetails results={labAndTestDetails} fullState={fullState} />
+          <RadiologyDetails record={labAndTestDetails} fullState={fullState} />
         );
       default:
         return <p>something else</p>;
