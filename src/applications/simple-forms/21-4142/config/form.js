@@ -29,6 +29,10 @@ import {
   veteranIsSelfText,
 } from '../definitions/constants';
 
+import testData from '../tests/e2e/fixtures/data/maximal-test.json';
+
+const mockData = testData.data;
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -37,6 +41,9 @@ const formConfig = {
   trackingPrefix: 'medical-release-4142-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  dev: {
+    showNavLinks: true,
+  },
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -83,6 +90,10 @@ const formConfig = {
         personalInformation1: {
           path: 'personal-information-1',
           title: 'Personal Information',
+          // we want req'd fields prefilled for LOCAL testing/previewing
+          // one single initialData prop here will suffice for entire form
+          initialData:
+            !!mockData && environment.isLocalhost() ? mockData : undefined,
           uiSchema: personalInformation1.uiSchema,
           schema: personalInformation1.schema,
         },

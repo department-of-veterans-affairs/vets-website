@@ -324,6 +324,7 @@ export default class ArrayField extends React.Component {
       : null;
     const isReviewMode = uiOptions.reviewMode;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
+    const uiItemName = (uiOptions.itemName || 'item').toLowerCase();
 
     // if we have form data, use that, otherwise use an array with a single default object
     const items =
@@ -370,12 +371,9 @@ export default class ArrayField extends React.Component {
             const isEditing = this.state.editing[index];
             const isRemoving = this.state.removing[index];
             const ariaLabel = uiOptions.itemAriaLabel;
-            const itemName = (
+            const ariaItemName =
               (typeof ariaLabel === 'function' && ariaLabel(item || {})) ||
-              uiOptions.itemName ||
-              'item'
-            ).toLowerCase();
-            const itemNumber = index + 1;
+              uiItemName;
             const multipleRows = items.length > 1;
             const notLastOrMultipleRows = showSave || !isLast || multipleRows;
 
@@ -392,7 +390,9 @@ export default class ArrayField extends React.Component {
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && multipleRows ? (
-                        <h3 className="vads-u-font-size--h5">New {itemName}</h3>
+                        <h3 className="vads-u-font-size--h5">
+                          New {uiItemName}
+                        </h3>
                       ) : null}
                       <div className="input-section">
                         <SchemaField
@@ -419,7 +419,7 @@ export default class ArrayField extends React.Component {
                               <button
                                 type="button"
                                 className="float-left"
-                                aria-label={`${updateText} ${itemName} ${itemNumber}`}
+                                aria-label={`${updateText} ${ariaItemName}`}
                                 onClick={() => this.handleUpdate(index)}
                               >
                                 {updateText}
@@ -431,7 +431,7 @@ export default class ArrayField extends React.Component {
                               <button
                                 type="button"
                                 className="usa-button-secondary float-right"
-                                aria-label={`Remove ${itemName} ${itemNumber}`}
+                                aria-label={`Remove ${ariaItemName}`}
                                 onClick={() =>
                                   this.handleRemove(
                                     index,
@@ -451,8 +451,8 @@ export default class ArrayField extends React.Component {
                     <VaModal
                       clickToClose
                       status="warning"
-                      modalTitle={`Are you sure you want to remove this ${itemName}?`}
-                      primaryButtonText={`Yes, remove this ${itemName}`}
+                      modalTitle={`Are you sure you want to remove this ${uiItemName}?`}
+                      primaryButtonText={`Yes, remove this ${uiItemName}`}
                       secondaryButtonText="No, cancel"
                       onCloseEvent={() => this.closeRemoveModal(index)}
                       onPrimaryButtonClick={() => this.handleRemoveModal(index)}
@@ -485,7 +485,7 @@ export default class ArrayField extends React.Component {
                   <button
                     type="button"
                     className="usa-button-secondary edit vads-u-flex--auto"
-                    aria-label={`Edit ${itemName} ${itemNumber}`}
+                    aria-label={`Edit ${ariaItemName}`}
                     onClick={() => this.handleEdit(index)}
                   >
                     Edit
@@ -507,7 +507,7 @@ export default class ArrayField extends React.Component {
             disabled={!this.props.formData || addAnotherDisabled}
             onClick={this.handleAdd}
           >
-            Add another {(uiOptions.itemName || 'item').toLowerCase()}
+            Add another {uiItemName}
           </button>
           <p>
             {addAnotherDisabled &&

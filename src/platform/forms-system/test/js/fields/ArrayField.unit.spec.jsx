@@ -261,11 +261,11 @@ describe('Schemaform <ArrayField>', () => {
     const button = tree.everySubTree('button');
     expect(button.length).to.equal(4);
     expect(button[0].text()).to.equal('Edit');
-    expect(button[0].props['aria-label']).to.equal('Edit foo 1');
+    expect(button[0].props['aria-label']).to.equal('Edit foo');
     expect(button[1].text()).to.equal('Update');
-    expect(button[1].props['aria-label']).to.equal('Update bar 2');
+    expect(button[1].props['aria-label']).to.equal('Update bar');
     expect(button[2].text()).to.equal('Remove');
-    expect(button[2].props['aria-label']).to.equal('Remove bar 2');
+    expect(button[2].props['aria-label']).to.equal('Remove bar');
     expect(button[3].text()).to.contain('Add another');
   });
 
