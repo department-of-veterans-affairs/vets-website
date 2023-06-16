@@ -37,20 +37,6 @@
   va-button {
     min-width: 90px;
     min-height: 40px;
-    // margin-left: 11px;
-
-    //   position: absolute;
-    //   bottom: 0;
-    //   width: 109px;
-    //   @media (max-width: $small-screen) {
-    //     width: 100px;
-    //   }
-    //   padding: 13px;
-    //   padding-left: 20px;
-    //   padding-right: 20px;
-    //   margin-left: 0;
-    //   margin-bottom: 3.2px;
-    //   border-radius: 0 5px 5px 0;
   }
 
   @media (max-width: $small-screen) {
@@ -60,7 +46,6 @@
   }
 
   .filter-text-input {
-    // width: 70%;
     margin: 0px;
   }
 

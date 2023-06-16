@@ -286,13 +286,6 @@ export const threadSortingOptions = {
     value: 'RECEPIENT_ALPHA_ASCENDING',
     label: 'Z to A - Recipient’s name',
   },
-
-  // DESCENDING: 'DESC',
-  // ASCENDING: 'ASC',
-  // SORT_BY_SENDER: 'SENDER_NAME',
-  // SORT_BY_RECEPIENT: 'RECIPIENT_NAME',
-  // SORT_BY_SENT_DATE: 'SENT_DATE',
-  // SORT_BY_DRAFT_DATE: 'DRAFT_DATE',
 };
 
 export const PrintMessageOptions = {

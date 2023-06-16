@@ -250,7 +250,6 @@ const SearchForm = props => {
               ref={filterBoxRef}
               folders={folders}
               keyword={keyword}
-              handleSearch={handleSearch}
               category={category}
               setCategory={setCategory}
               dateRange={dateRange}

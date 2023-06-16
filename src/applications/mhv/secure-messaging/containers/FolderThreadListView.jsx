@@ -18,23 +18,17 @@ import { clearFolder, retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 import ThreadsList from '../components/ThreadList/ThreadsList';
-import {
-  getListOfThreads,
-  setThreadSortOrder,
-  // resetThreadSortOrder,
-} from '../actions/threads';
+import { getListOfThreads, setThreadSortOrder } from '../actions/threads';
 import SearchResults from './SearchResults';
 import { clearSearchResults } from '../actions/search';
 
 const FolderThreadListView = props => {
   const { testing } = props;
   const dispatch = useDispatch();
-  // const [folderId, setFolderId] = useState(null);
   const error = null;
   const threadsPerPage = 10;
   const { threadList, threadSort } = useSelector(state => state.sm.threads);
   const folder = useSelector(state => state.sm.folders?.folder);
-  // const threads = useSelector(state => state.sm.threads?.threadList);
   const {
     searchFolder,
     searchResults,
@@ -45,16 +39,13 @@ const FolderThreadListView = props => {
   const location = useLocation();
   const params = useParams();
   const [pageNum, setPageNum] = useState(1);
-  // const { sortOrder, sortBy } = threadSort;
 
-  // const MAX_PAGE_LIST_LENGTH = 5;
   const displayingNumberOfThreadsSelector =
     "[data-testid='displaying-number-of-threads']";
 
   const handleSortCallback = sortOrderValue => {
     dispatch(setThreadSortOrder(sortOrderValue, folder.folderId));
     setPageNum(1);
-    // dispatch(getListOfThreads(folderId, threadsPerPage, 1, sortOrderValue));
     waitForRenderThenFocus(displayingNumberOfThreadsSelector, document, 500);
   };
 
@@ -101,38 +92,11 @@ const FolderThreadListView = props => {
         // clear out alerts if user navigates away from this component
         if (location.pathname) {
           dispatch(closeAlert());
-          // dispatch(resetThreadSortOrder());
         }
       };
     },
     [dispatch, location.pathname, params.folderId],
   );
-
-  // useEffect(
-  //   () => {
-  // code below is to be used if we decide to preserve search results when
-  // navigating between messages in the same folder
-  // searchFolder comes from  state.sm.search
-  // if (folderId !== null && folderId !== searchFolder?.folderId) {
-  //   dispatch(clearSearchResults());
-  // }
-  //   },
-  //   [folder.folderId, dispatch],
-  // );
-
-  // useEffect(
-  //   () => {
-  //     if (threadSort.folderId === undefined && folder?.folderId !== undefined) {
-  //       dispatch(
-  //         setThreadSortOrder(
-  //           threadSortingOptions.SENT_DATE_DESCENDING.value,
-  //           folder.folderId,
-  //         ),
-  //       );
-  //     }
-  //   },
-  //   [threadSort.folder, folder],
-  // );
 
   useEffect(
     () => {

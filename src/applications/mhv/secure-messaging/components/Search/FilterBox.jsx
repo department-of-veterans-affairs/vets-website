@@ -11,7 +11,6 @@ import { ErrorMessages } from '../../util/constants';
 
 const FilterBox = forwardRef((props, ref) => {
   const {
-    handleSearch,
     category,
     setCategory,
     dateRange,
@@ -66,7 +65,7 @@ const FilterBox = forwardRef((props, ref) => {
   }));
 
   return (
-    <form className="advanced-search-form filter-box" onSubmit={handleSearch}>
+    <div className="advanced-search-form filter-box">
       {formError && (
         <VaModal
           modalTitle="Invalid search"
@@ -153,7 +152,7 @@ const FilterBox = forwardRef((props, ref) => {
           </div>
         </va-accordion-item>
       </va-accordion>
-    </form>
+    </div>
   );
 });
 
@@ -162,7 +161,6 @@ FilterBox.propTypes = {
   dateRange: PropTypes.any,
   folders: PropTypes.any,
   fromDate: PropTypes.any,
-  handleSearch: PropTypes.func,
   setCategory: PropTypes.func,
   setDateRange: PropTypes.func,
   setFromDate: PropTypes.func,
