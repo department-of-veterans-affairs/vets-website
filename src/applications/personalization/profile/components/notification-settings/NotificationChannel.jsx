@@ -22,7 +22,7 @@ import { LOADING_STATES } from '../../../common/constants';
 
 import NotificationChannelUnavailable from './NotificationChannelUnavailable';
 import NotificationRadioButtons from './NotificationRadioButtons';
-import { NotificationCheckboxes } from './NotificationCheckboxes';
+import { NotificationCheckbox } from './NotificationCheckbox';
 
 const channelTypes = {
   1: 'text',
@@ -80,7 +80,7 @@ const NotificationChannel = props => {
         }
       >
         <Toggler.Enabled>
-          <NotificationCheckboxes {...props} />
+          <NotificationCheckbox {...props} />
         </Toggler.Enabled>
 
         <Toggler.Disabled>
