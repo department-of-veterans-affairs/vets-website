@@ -72,7 +72,7 @@ const responses = {
             profileUseInfoCard: true,
             profileUseFieldEditingPage: true,
             profileLighthouseDirectDeposit: true,
-            profileUseNotificationSettingsCheckboxes: true,
+            profileUseNotificationSettingsCheckboxes: false,
           }),
         ),
       0,
