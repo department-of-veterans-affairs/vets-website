@@ -6,7 +6,7 @@ import { format, addDays } from 'date-fns';
 import { useDispatch } from 'react-redux';
 import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
-import { Categories } from '../util/constants';
+import { Categories, Paths } from '../util/constants';
 import { dateFormat } from '../util/helpers';
 import MessageThreadBody from './MessageThread/MessageThreadBody';
 import { closeAlert } from '../actions/alerts';
@@ -36,7 +36,7 @@ const MessageDetailBlock = props => {
 
   const handleReplyButton = useCallback(
     () => {
-      history.push(`/reply/${messageId}`);
+      history.push(`${Paths.REPLY}${messageId}/`);
     },
     [history, messageId],
   );
@@ -88,8 +88,6 @@ const MessageDetailBlock = props => {
       />
       <main
         className="message-detail-content"
-        role="heading"
-        aria-level="2"
         aria-label="Most recent message in this conversation"
       >
         <section
@@ -128,16 +126,6 @@ const MessageDetailBlock = props => {
               <AttachmentsList attachments={attachments} />
             </>
           )}
-
-        <div className="message-detail-note vads-u-text-align--center">
-          <p>
-            <i>
-              Note: This message may not be from the person you intially
-              contacted. It may have been reassigned to efficiently address your
-              original message
-            </i>
-          </p>
-        </div>
       </main>
     </section>
   );

@@ -10,7 +10,7 @@ import { draftDetails } from '../fixtures/threads/reply-draft-thread-reducer.jso
 import folders from '../fixtures/folder-inbox-response.json';
 import reducer from '../../reducers';
 import Compose from '../../containers/Compose';
-import { Alerts, Links } from '../../util/constants';
+import { Alerts, Links, Paths } from '../../util/constants';
 import AuthorizedRoutes from '../../containers/AuthorizedRoutes';
 
 describe('Compose container', () => {
@@ -21,7 +21,7 @@ describe('Compose container', () => {
     },
   };
 
-  const setup = (state = initialState, path = '/compose') => {
+  const setup = (state = initialState, path = Paths.COMPOSE) => {
     return renderWithStoreAndRouter(<AuthorizedRoutes />, {
       initialState: state,
       reducers: reducer,
@@ -33,7 +33,7 @@ describe('Compose container', () => {
     const screen = renderWithStoreAndRouter(<Compose />, {
       initialState,
       reducers: reducer,
-      path: `/compose`,
+      path: Paths.COMPOSE,
     });
     expect(screen);
   });
@@ -49,7 +49,7 @@ describe('Compose container', () => {
     const screen = renderWithStoreAndRouter(<Compose />, {
       state,
       reducers: reducer,
-      path: `/compose`,
+      path: Paths.COMPOSE,
     });
     const note = waitFor(() => {
       screen.getByText(
@@ -79,11 +79,11 @@ describe('Compose container', () => {
     expect(loadingIndicator).to.exist;
   });
 
-  it('displays compose heading if path is /compose', () => {
+  it(`displays compose heading if path is ${Paths.COMPOSE}`, () => {
     const screen = renderWithStoreAndRouter(<Compose />, {
       initialState,
       reducers: reducer,
-      path: `/compose`,
+      path: Paths.COMPOSE,
     });
     const headingText = waitFor(() => {
       screen.getByRole('heading', {
@@ -94,7 +94,7 @@ describe('Compose container', () => {
     expect(headingText).to.exist;
   });
 
-  it('displays compose fields if path is /compose', async () => {
+  it('displays compose fields if path is /new-message', async () => {
     const state = {
       sm: {
         triageTeams: { triageTeams },
@@ -124,11 +124,11 @@ describe('Compose container', () => {
     expect(body).to.exist;
   });
 
-  it('displays compose action buttons if path is /compose', () => {
+  it(`displays compose action buttons if path is ${Paths.COMPOSE}`, () => {
     const screen = renderWithStoreAndRouter(<Compose />, {
       initialState,
       reducers: reducer,
-      path: `/compose`,
+      path: Paths.COMPOSE,
     });
 
     const sendButton = waitFor(() => {
@@ -244,7 +244,7 @@ describe('Compose container', () => {
                 "The last message in this conversation is more than 45 days old. If you want to continue this conversation, you'll need to start a new message.",
               className:
                 'fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1',
-              link: '/compose',
+              link: Paths.COMPOSE,
               title: 'Start a new message',
             },
           ],

@@ -1,18 +1,11 @@
 import { expect } from 'chai';
 
-import facilities983 from '../../../services/mocks/var/facilities_983.json';
 import facilityDetails from '../../../services/mocks/var/facility_data.json';
 import {
-  transformDSFacilities,
   transformFacility,
   transformFacilities,
   transformATLASLocation,
 } from '../../../services/location/transformers';
-
-const facilitiesParsed = facilities983.data.map(f => ({
-  ...f.attributes,
-  id: f.id,
-}));
 
 const facilityDetailsParsed = facilityDetails.data.map(f => ({
   ...f.attributes,
@@ -20,25 +13,6 @@ const facilityDetailsParsed = facilityDetails.data.map(f => ({
 }));
 
 describe('VAOS Location transformer', () => {
-  describe('transformDSFacilities', () => {
-    it('should map id', () => {
-      const data = transformDSFacilities(facilitiesParsed);
-      expect(data[0].identifier[0].value).to.equal('983');
-      expect(data[0].identifier[1].value).to.equal('urn:va:division:983:983');
-    });
-
-    it('should map name', () => {
-      const data = transformDSFacilities(facilitiesParsed);
-      expect(data[0].name).to.equal(facilitiesParsed[0].authoritativeName);
-    });
-
-    it('should map address', () => {
-      const data = transformDSFacilities(facilitiesParsed);
-      expect(data[1].address.city).to.equal(facilitiesParsed[1].city);
-      expect(data[1].address.state).to.equal(facilitiesParsed[1].stateAbbrev);
-    });
-  });
-
   describe('transformFacility', () => {
     it('should map id', () => {
       const data = transformFacility(facilityDetailsParsed[0]);

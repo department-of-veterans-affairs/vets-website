@@ -4,7 +4,7 @@ class AppointmentDetails {
   validatePageLoadedInPerson = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('include.text', 'In person appointment');
+      .and('include.text', 'In-person appointment');
   };
 
   validatePageLoadedPhone = () => {

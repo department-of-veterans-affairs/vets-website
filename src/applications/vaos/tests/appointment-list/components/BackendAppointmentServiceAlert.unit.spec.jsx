@@ -74,7 +74,7 @@ describe('VAOS Backend Service Alert', () => {
 
     mockVAOSAppointmentsFetch({
       start: moment()
-        .startOf('year')
+        .subtract(4, 'months')
         .format('YYYY-MM-DD'),
       end: moment().format('YYYY-MM-DD'),
       requests: [appointment],
@@ -146,6 +146,14 @@ describe('VAOS Backend Service Alert', () => {
       end,
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(4, 'months')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {

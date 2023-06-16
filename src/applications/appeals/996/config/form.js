@@ -12,18 +12,13 @@ import submitForm from './submitForm';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
-import ReviewDescription from '../components/ReviewDescription';
-import {
-  EditPhone,
-  EditEmail,
-  EditAddress,
-} from '../components/EditContactInfo';
 import AddIssue from '../components/AddIssue';
+import reviewErrors from '../content/reviewErrors';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
-import contactInfo from '../pages/contactInformation';
 import homeless from '../pages/homeless';
+import contactInfo from '../pages/contactInformation';
 import contestableIssuesPage from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
@@ -37,7 +32,6 @@ import {
   errorMessages,
   WIZARD_STATUS,
   CONTESTABLE_ISSUES_PATH,
-  CONTACT_INFO_PATH,
   ADD_ISSUE_PATH,
 } from '../constants';
 import { appStateSelector, mayHaveLegacyAppeals } from '../utils/helpers';
@@ -100,10 +94,12 @@ const formConfig = {
   subTitle: 'VA Form 20-0996 (Higher-Level Review)',
   defaultDefinitions: {},
   preSubmitInfo,
+  // showReviewErrors: true,
+  reviewErrors,
+
   chapters: {
     infoPages: {
       title: 'Veteran information',
-      reviewDescription: ReviewDescription,
       pages: {
         veteranInformation: {
           title: 'Veteran information',
@@ -118,39 +114,7 @@ const formConfig = {
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
         },
-        confirmContactInformation: {
-          title: 'Contact information',
-          path: CONTACT_INFO_PATH,
-          uiSchema: contactInfo.uiSchema,
-          schema: contactInfo.schema,
-        },
-        editMobilePhone: {
-          title: 'Edit mobile phone',
-          path: 'edit-mobile-phone',
-          CustomPage: EditPhone,
-          CustomPageReview: EditPhone,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-        editEmailAddress: {
-          title: 'Edit email address',
-          path: 'edit-email-address',
-          CustomPage: EditEmail,
-          CustomPageReview: EditEmail,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-        editMailingAddress: {
-          title: 'Edit mailing address',
-          path: 'edit-mailing-address',
-          CustomPage: EditAddress,
-          CustomPageReview: EditAddress,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
+        ...contactInfo,
       },
     },
     conditions: {
@@ -174,6 +138,7 @@ const formConfig = {
           CustomPage: AddIssue,
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
+          returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         areaOfDisagreementFollowUp: {
           title: getIssueTitle,

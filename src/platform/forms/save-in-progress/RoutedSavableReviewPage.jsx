@@ -5,9 +5,9 @@ import { withRouter } from 'react-router';
 
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
-
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
+
 import DowntimeNotification, {
   externalServiceStatus,
 } from '../../monitoring/DowntimeNotification';
@@ -33,11 +33,12 @@ class RoutedSavableReviewPage extends React.Component {
   }
 
   autoSave = () => {
-    const { form, user } = this.props;
+    const { form, user, route } = this.props;
     if (user.login.currentlyLoggedIn) {
       const { data } = form;
       const { formId, version, submission } = form;
-      const returnUrl = this.props.location.pathname;
+      const returnUrl =
+        route.pageConfig?.returnUrl || this.props.location.pathname;
 
       this.props.autoSaveForm(formId, data, version, returnUrl, submission);
     }
@@ -122,17 +123,37 @@ const mapDispatchToProps = {
 RoutedSavableReviewPage.propTypes = {
   autoSaveForm: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
+  formConfig: PropTypes.shape({
+    customText: PropTypes.shape({
+      finishAppLaterMessage: PropTypes.string,
+      appType: PropTypes.string,
+    }),
+    downtime: PropTypes.shape({
+      message: PropTypes.string,
+    }),
+  }).isRequired,
+  formContext: PropTypes.object.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }).isRequired,
+  pageList: PropTypes.array.isRequired,
+  path: PropTypes.string.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
       customText: PropTypes.shape({
         finishAppLaterMessage: PropTypes.string,
         appType: PropTypes.string,
       }),
+      downtime: PropTypes.shape({
+        message: PropTypes.string,
+      }),
+    }),
+    pageConfig: PropTypes.shape({
+      returnUrl: PropTypes.string,
     }),
   }).isRequired,
-  formContext: PropTypes.object.isRequired,
-  pageList: PropTypes.array.isRequired,
-  path: PropTypes.string.isRequired,
+  showLoginModal: PropTypes.bool.isRequired,
+  toggleLoginModal: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
 };
 

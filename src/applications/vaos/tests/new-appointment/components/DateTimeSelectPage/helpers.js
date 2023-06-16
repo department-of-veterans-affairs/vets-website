@@ -1,10 +1,9 @@
 import moment from 'moment';
 
-import {
-  mockAppointmentSlotFetch,
-  mockEligibilityFetches,
-} from '../../../mocks/helpers';
-import { getAppointmentSlotMock, getClinicMock } from '../../../mocks/v0';
+import { mockAppointmentSlotFetch } from '../../../mocks/helpers';
+import { getAppointmentSlotMock } from '../../../mocks/v0';
+import { mockEligibilityFetchesByVersion } from '../../../mocks/fetch';
+import { createMockClinicByVersion } from '../../../mocks/data';
 
 export function setDateTimeSelectMockFetches({
   preferredDate = moment(),
@@ -12,39 +11,35 @@ export function setDateTimeSelectMockFetches({
   slotDatesByClinicId = {},
 } = {}) {
   const clinicIds = Object.keys(slotDatesByClinicId);
-  const clinics = [
-    {
-      id: clinicIds[0],
-      attributes: {
-        ...getClinicMock(),
-        siteCode: '983',
-        clinicId: clinicIds[0],
-        institutionCode: '983',
-        clinicFriendlyLocationName: 'Green team clinic',
-      },
-    },
-    {
-      id: clinicIds[1],
-      attributes: {
-        ...getClinicMock(),
-        siteCode: '983',
-        clinicId: clinicIds[1],
-        institutionCode: '983',
-        clinicFriendlyLocationName: 'Red team clinic',
-      },
-    },
-  ];
+  const clinic1 = createMockClinicByVersion({
+    id: '308',
+    stationId: '983',
+    friendlyName: 'Green team clinic',
+  });
+  const clinic2 = createMockClinicByVersion({
+    id: '309',
+    stationId: '983',
+    friendlyName: 'Red team clinic',
+  });
+  const clinics = [clinic1, clinic2];
 
-  mockEligibilityFetches({
-    siteId: '983',
+  mockEligibilityFetchesByVersion({
     facilityId: '983',
-    typeOfCareId: '323',
+    typeOfCareId: 'primaryCare',
     limit: true,
     requestPastVisits: true,
+    clinics: clinicIds.length === 2 ? clinics : [clinics[0]],
+    pastClinics: true,
+  });
+  mockEligibilityFetchesByVersion({
+    facilityId: '983',
+    typeOfCareId: 'primaryCare',
+    limit: true,
     directPastVisits: true,
     clinics: clinicIds.length === 2 ? clinics : [clinics[0]],
     pastClinics: true,
   });
+
   if (!slotError) {
     clinicIds.forEach(id => {
       const slots = slotDatesByClinicId[id].map(date => {

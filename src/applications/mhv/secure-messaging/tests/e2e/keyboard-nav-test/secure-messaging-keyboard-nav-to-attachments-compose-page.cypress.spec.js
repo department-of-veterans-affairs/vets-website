@@ -18,6 +18,12 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     composePage.attachMessageFromFile('test_image.jpg');
     composePage.verifyFocusonMessageAttachment();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

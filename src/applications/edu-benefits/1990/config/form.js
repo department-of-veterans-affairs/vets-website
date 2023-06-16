@@ -4,11 +4,7 @@ import unset from 'platform/utilities/data/unset';
 import moment from 'moment';
 
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
-import contactInformationPage from '../../pages/contactInformation';
 import applicantInformation from 'platform/forms/pages/applicantInformation';
-import GetFormHelp from '../../components/GetFormHelp';
-import ErrorText from '../../components/ErrorText';
-import createSchoolSelectionPage from '../../pages/schoolSelection';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import {
   schema as addressSchema,
@@ -19,16 +15,20 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
+import yearUI from 'platform/forms-system/src/js/definitions/year';
+import contactInformationPage from '../../pages/contactInformation';
+import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
+import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import manifest from '../manifest.json';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
-import createDirectDepositPage from '../../pages/directDeposit';
+import createDirectDepositPage1990 from '../pages/DirectDeposit';
 
 import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
-import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
-import yearUI from 'platform/forms-system/src/js/definitions/year';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -45,7 +45,6 @@ import {
   benefitsRelinquishmentWarning,
   benefitsRelinquishmentLabels,
   benefitsRelinquishedDescription,
-  directDepositDescription,
   prefillTransformer,
   reserveKickerWarning,
 } from '../helpers';
@@ -594,11 +593,7 @@ const formConfig = {
             },
           },
         },
-        directDeposit: merge({}, createDirectDepositPage(fullSchema1990), {
-          uiSchema: {
-            'ui:description': directDepositDescription,
-          },
-        }),
+        directDeposit: createDirectDepositPage1990(),
       },
     },
   },

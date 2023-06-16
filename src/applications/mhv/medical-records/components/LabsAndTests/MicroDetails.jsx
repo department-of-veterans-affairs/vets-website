@@ -8,20 +8,20 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import PrintDownload from '../shared/PrintDownload';
 
 const MicroDetails = props => {
-  const { results, fullState } = props;
+  const { record, fullState } = props;
 
-  const formattedDate = dateFormat(results?.date, 'MMMM D, YYYY');
+  const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
 
   const download = () => {
     getVaccinePdf(1).then(res => downloadFile('microbiology.pdf', res.pdf));
   };
 
   const content = () => {
-    if (results) {
+    if (record) {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">{results.name}</h1>
+          <h1 className="vads-u-margin-bottom--0">{record.name}</h1>
           <div className="time-header">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Date:{' '}
@@ -52,27 +52,27 @@ const MicroDetails = props => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Sample tested
             </h3>
-            <p>{results.sampleTested}</p>
+            <p>{record.sampleTested}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Sample from
             </h3>
-            <p>{results.sampleFrom}</p>
+            <p>{record.sampleFrom}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Ordered by
             </h3>
-            <p>{results.orderedBy}</p>
+            <p>{record.orderedBy}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Ordering location
             </h3>
-            <p>{results.orderingLocation}</p>
+            <p>{record.orderingLocation}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Collecting location
             </h3>
-            <p>{results.collectingLocation}</p>
+            <p>{record.collectingLocation}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Lab location
             </h3>
-            <p>{results.labLocation}</p>
+            <p>{record.labLocation}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Date completed
             </h3>
@@ -103,7 +103,9 @@ const MicroDetails = props => {
                 </a>
               </p>
             </va-additional-info>
-            <p>{results.labResults}</p>
+            <p className="vads-u-font-size--base make-monospace">
+              {record.results}
+            </p>{' '}
           </div>
         </>
       );
@@ -121,5 +123,6 @@ const MicroDetails = props => {
 export default MicroDetails;
 
 MicroDetails.propTypes = {
-  results: PropTypes.object,
+  fullState: PropTypes.object,
+  record: PropTypes.object,
 };

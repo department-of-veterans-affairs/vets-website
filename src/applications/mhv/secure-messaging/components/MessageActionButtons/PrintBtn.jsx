@@ -7,6 +7,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import { PrintMessageOptions } from '../../util/constants';
+import { focusOnErrorField } from '../../util/formHelpers';
 
 const PrintBtn = props => {
   const [printOption, setPrintOption] = useState(null);
@@ -32,18 +33,20 @@ const PrintBtn = props => {
 
   const closeModal = () => {
     setIsModalVisible(false);
+    setPrintSelectError(null);
   };
 
-  const handleOnChangePrintOption = ({ target }) => {
-    setPrintOption(target.value);
+  const handleOnChangePrintOption = ({ detail }) => {
+    setPrintOption(detail.value);
     setPrintSelectError(
-      target.value ? null : 'Please select an option to print.',
+      detail.value ? null : 'Please select an option to print.',
     );
   };
 
   const handleConfirmPrint = () => {
     if (printOption === null) {
       setPrintSelectError('Please select an option to print.');
+      focusOnErrorField();
     } else {
       setPrintOption(null);
       closeModal();
@@ -71,7 +74,7 @@ const PrintBtn = props => {
               className="form-radio-buttons"
               enable-analytics
               error={printSelectError}
-              onRadioOptionSelected={handleOnChangePrintOption}
+              onVaValueChange={handleOnChangePrintOption}
             >
               <VaRadioOption
                 data-testid="radio-print-one-message"

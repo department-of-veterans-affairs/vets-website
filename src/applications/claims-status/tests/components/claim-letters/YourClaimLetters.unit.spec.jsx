@@ -47,7 +47,7 @@ describe('<YourClaimLetters>', () => {
         </Provider>,
       );
 
-      await findByText('No letters to show');
+      await findByText('No claim letters');
     });
 
     it('should render a rollout message if the showLetters feature flag is false', async () => {
@@ -116,7 +116,7 @@ describe('<YourClaimLetters>', () => {
         </Provider>,
       );
 
-      await findByText('letter dated', { exact: false });
+      await findByText('2023 letter', { exact: false });
     });
   });
 });

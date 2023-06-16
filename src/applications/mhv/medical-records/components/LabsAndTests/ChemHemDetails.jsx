@@ -10,9 +10,9 @@ import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
 
 const ChemHemDetails = props => {
-  const { results, fullState } = props;
+  const { record, fullState } = props;
 
-  const formattedDate = dateFormat(results?.date, 'MMMM D, YYYY');
+  const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
 
   const download = () => {
     getVaccinePdf(1).then(res =>
@@ -21,11 +21,11 @@ const ChemHemDetails = props => {
   };
 
   const content = () => {
-    if (results) {
+    if (record) {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--1">{results.name}</h1>
+          <h1 className="vads-u-margin-bottom--1">{record.name}</h1>
           <div className="time-header">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Date:{' '}
@@ -56,28 +56,28 @@ const ChemHemDetails = props => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Type of test
             </h3>
-            <p>{results.category}</p>
+            <p>{record.category}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Sample tested
             </h3>
-            <p>{results.sampleTested}</p>
+            <p>{record.sampleTested}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Ordered by
             </h3>
-            <p>{results.orderedBy}</p>
+            <p>{record.orderedBy}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Ordering location
             </h3>
-            <p>{results.orderingLocation}</p>
+            <p>{record.orderingLocation}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Collecting location
             </h3>
-            <p>{results.collectingLocation}</p>
+            <p>{record.collectingLocation}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider notes
             </h3>
             <ItemList
-              list={results.comments}
+              list={record.comments}
               emptyMessage="No notes reported at this time"
             />
           </div>
@@ -122,7 +122,7 @@ const ChemHemDetails = props => {
                 provider will explain what your results mean for your health.
               </p>
             </div>
-            <ChemHemResults results={results.labResults} />
+            <ChemHemResults results={record.results} />
             <va-back-to-top class="no-print" />
           </div>
         </>
@@ -142,5 +142,5 @@ export default ChemHemDetails;
 
 ChemHemDetails.propTypes = {
   fullState: PropTypes.object,
-  results: PropTypes.object,
+  record: PropTypes.object,
 };

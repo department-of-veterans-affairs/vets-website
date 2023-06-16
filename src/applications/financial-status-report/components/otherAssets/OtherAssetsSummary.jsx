@@ -10,7 +10,6 @@ import { currency as currencyFormatter } from '../../utils/helpers';
 
 const OtherAssetsSummary = ({
   data,
-  goBack,
   goToPath,
   setFormData,
   contentBeforeButtons,
@@ -33,6 +32,13 @@ const OtherAssetsSummary = ({
 
   const goForward = () => {
     return goToPath('/expenses-explainer');
+  };
+
+  const goBack = () => {
+    if (otherAssets.length === 0) {
+      return goToPath('/other-assets-checklist');
+    }
+    return goToPath('/other-assets-values');
   };
 
   const cardBody = text => (

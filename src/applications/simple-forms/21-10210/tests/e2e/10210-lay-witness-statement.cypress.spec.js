@@ -1,4 +1,5 @@
 import path from 'path';
+import cloneDeep from 'lodash/cloneDeep';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
@@ -9,13 +10,19 @@ import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-tog
 import { getSignerFullName } from './helpers';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 
+// Disable formConfig props that were meant for local-dev only.
+const testFormConfig = cloneDeep(formConfig);
+testFormConfig.dev = {};
+testFormConfig.chapters.statementInfoChapter.pages.claimOwnershipPage.initialData = {
+  data: {},
+};
+
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
     dataDir: path.join(__dirname, 'fixtures', 'data'),
 
-    // Rename and modify the test data as needed.
     dataSets: ['flow1', 'flow2', 'flow3', 'flow4'],
 
     pageHooks: {
@@ -27,6 +34,40 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'witness-personal-information-a': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const label = data.witnessRelationshipToClaimant;
+            cy.get(`va-checkbox[label="${label}"]`)
+              .shadow()
+              .get('#checkbox-element')
+              .first()
+              .click()
+              .then(() => {
+                cy.findByText('Continue')
+                  .first()
+                  .click();
+              });
+          });
+        });
+      },
+      'witness-personal-information-b': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const label = data.witnessRelationshipToClaimant;
+            cy.get(`va-checkbox[label="${label}"]`)
+              .shadow()
+              .get('#checkbox-element')
+              .first()
+              .click()
+              .then(() => {
+                cy.findByText('Continue')
+                  .first()
+                  .click();
+              });
+          });
+        });
+      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -34,11 +75,10 @@ const testConfig = createTestConfig(
 
             cy.get('#veteran-signature')
               .shadow()
-              .find('input')
-              .first()
+              .get('#inputField')
               .type(signerFullName);
             cy.get(`input[name="veteran-certify"]`).check();
-            cy.findAllByText(/Submit application/i, {
+            cy.findAllByText(/Submit statement/i, {
               selector: 'button',
             }).click();
           });
@@ -48,7 +88,7 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-      cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+      cy.intercept('POST', testFormConfig.submitUrl, mockSubmit);
     },
 
     // Skip tests in CI until the form is released.
@@ -56,7 +96,7 @@ const testConfig = createTestConfig(
     skip: Cypress.env('CI'),
   },
   manifest,
-  formConfig,
+  testFormConfig,
 );
 
 testForm(testConfig);

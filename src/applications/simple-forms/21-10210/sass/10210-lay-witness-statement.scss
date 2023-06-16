@@ -29,10 +29,28 @@
   }
 }
 
-.schemaform-label[for*="root_witnessRelationship"] > .form-required-span,
-#root_witnessOtherRelationshipToVeteran-label > .schemaform-required-span {
+#root_witnessRelationshipToClaimant-label {
+  margin-bottom: -1.5rem;
+  &.usa-input-error-label {
+    font-weight: bold;
+  }
+
+  // & + .schemaform-widget-wrapper va-checkbox-group,
+  // & + .usa-input-error-message + .schemaform-widget-wrapper va-checkbox-group {
+  //   clip-path: inset(30px 0 0 -3px);
+  //   margin-top: -30px;
+  // }
+}
+#root_witnessOtherRelationshipToVeteran-label.schemaform-label.usa-input-error-label {
+  font-weight: 400 !important;
+}
+#root_witnessOtherRelationshipToVeteran-label .schemaform-required-span {
   display: none;
 }
+#root_witnessOtherRelationshipToClaimant-error-message {
+  display: none;
+}
+
 .schemaform-label[for="root_witnessRelationshipToClaimant_family-or-friend"] {
   margin-top: 0.8rem;
 }

@@ -55,11 +55,11 @@ const formConfig = {
   saveInProgress: {
     messages: {
       inProgress:
-        'Your authorization to release non-VA medical records to the VA (21-4142) is in progress.',
+        'Your authorization to release non-VA medical information to VA (21-4142) is in progress.',
       expired:
-        'Your saved authorization to release non-VA medical records to the VA (21-4142) has expired. If you want to authorize release of non-VA medical records to the VA, please start a new authorization.',
+        'Your saved authorization to release non-VA medical information to VA (21-4142) has expired. If you want to authorize release of non-VA medical information to VA, please start a new authorization.',
       saved:
-        'Your authorization to release of non-VA medical records to the VA has been saved.',
+        'Your authorization to release of non-VA medical information to VA has been saved.',
     },
   },
   version: 0,
@@ -68,13 +68,13 @@ const formConfig = {
   transformForSubmit,
   savedFormMessages: {
     notFound:
-      'Please start over to authorize the release of non-VA medical records to the VA.',
+      'Please start over to authorize the release of non-VA medical information to VA.',
     noAuth:
-      'Please sign in again to continue your authorization to release non-VA medical records to the VA.',
+      'Please sign in again to continue your authorization to release non-VA medical information to VA.',
   },
-  title: 'Authorize the release of non-VA medical records to the VA',
+  title: 'Authorize the release of non-VA medical information to VA',
   subTitle:
-    'Authorization to disclose information to the Department of Veterans Affairs (VA) (VA Form 21-4142 and 21-4142a)',
+    'Authorization to disclose information to the Department of Veterans Affairs (VA Forms 21-4142 and 21-4142a)',
   defaultDefinitions: fullSchema.definitions,
   chapters: {
     personalInformation1Chapter: {
@@ -126,7 +126,7 @@ const formConfig = {
       pages: {
         patientIdentification1: {
           path: 'patient-identification-1',
-          title: 'Are you requesting year own medical records?',
+          title: 'Are you requesting your own medical records?',
           uiSchema: patientIdentification1.uiSchema,
           schema: patientIdentification1.schema,
         },

@@ -19,18 +19,6 @@ export function getStagingId(facilityId) {
   return facilityId;
 }
 
-export function getPendingAppointments(startDate, endDate) {
-  return apiRequestWithUrl(
-    `/vaos/v0/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
-  ).then(parseApiList);
-}
-
-export function getPendingAppointment(id) {
-  return apiRequestWithUrl(`/vaos/v0/appointment_requests/${id}`).then(
-    parseApiObject,
-  );
-}
-
 export function getConfirmedAppointment(id, type) {
   return apiRequestWithUrl(`/vaos/v0/appointments/${type}/${id}`).then(
     parseApiObject,
@@ -41,16 +29,6 @@ export function getParentFacilities(systemIds) {
   const idList = systemIds.map(id => `facility_codes[]=${id}`).join('&');
 
   return apiRequestWithUrl(`/vaos/v0/facilities?${idList}`).then(parseApiList);
-}
-
-export function getFacilitiesBySystemAndTypeOfCare(
-  systemId,
-  parentId,
-  typeOfCareId,
-) {
-  return apiRequestWithUrl(
-    `/vaos/v0/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${parentId}`,
-  ).then(parseApiList);
 }
 
 export function getCommunityCare(typeOfCare) {
@@ -86,23 +64,6 @@ export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
   ).then(parseApiList);
 }
 
-export function getFacilityInfo(facilityId) {
-  return apiRequestWithUrl(
-    `/v1/facilities/va/vha_${getStagingId(facilityId)}`,
-  ).then(parseApiObject);
-}
-
-export function getFacilitiesInfo(facilityIds) {
-  const idList = facilityIds
-    .map(getStagingId)
-    .map(id => `vha_${id}`)
-    .join(',');
-
-  return apiRequestWithUrl(
-    `/v1/facilities/va?ids=${idList}&per_page=${facilityIds.length}`,
-  ).then(parseApiList);
-}
-
 export function getCommunityCareFacilities({
   latitude,
   longitude,
@@ -124,14 +85,6 @@ export function getCommunityCareFacility(id) {
   return apiRequestWithUrl(`/v1/facilities/ccp/${id}`, {
     method: 'GET',
   }).then(parseApiObject);
-}
-
-export function getSitesSupportingVAR(systemIds) {
-  return apiRequestWithUrl(
-    `/vaos/v0/community_care/supported_sites?${systemIds
-      .map(id => `site_codes[]=${id}`)
-      .join('&')}`,
-  ).then(parseApiList);
 }
 
 export function getAvailableSlots(

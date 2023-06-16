@@ -97,9 +97,11 @@ const AppointmentDetails = props => {
                 data-testid="header"
                 className="vads-u-font-size--h3"
               >
-                {`${isPhoneAppointment ? t('phone') : t('in-person')} ${t(
-                  'appointment',
-                )}`}
+                {`${
+                  isPhoneAppointment
+                    ? `${t('phone')} ${t('appointment')}`
+                    : t('in-person-appointment')
+                }`}
               </h1>
               {app === APP_NAMES.PRE_CHECK_IN ? (
                 preCheckInSubTitle

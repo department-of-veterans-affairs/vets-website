@@ -325,15 +325,32 @@ const getSponsorInformation = form => {
 };
 
 export function transformTOEForm(_formConfig, form) {
+  const formFieldUserFullName = form?.data['view:userFullName']?.userFullName;
+  const viewComponentUserFullName =
+    form?.loadedData?.formData['view:userFullName'].userFullName;
+  const formFieldDateOfBirth = form?.data?.dateOfBirth;
+  const viewComponentDateOfBirth = form?.loadedData?.formData.dateOfBirth;
+
+  // Explicitly check if formField sources are not undefined and not empty, otherwise use viewComponent
+  const userFullName =
+    formFieldUserFullName !== undefined &&
+    Object.keys(formFieldUserFullName).length > 0
+      ? formFieldUserFullName
+      : viewComponentUserFullName;
+  const dateOfBirth =
+    formFieldDateOfBirth !== undefined
+      ? formFieldDateOfBirth
+      : viewComponentDateOfBirth;
+
   const payload = {
     formId: form?.formId,
     '@type': 'ToeSubmission',
     toeClaimant: {
-      suffix: form?.data['view:userFullName']?.userFullName?.suffix,
-      dateOfBirth: form?.data?.dateOfBirth,
-      firstName: form?.data['view:userFullName']?.userFullName?.first,
-      lastName: form?.data['view:userFullName']?.userFullName?.last,
-      middleName: form?.data['view:userFullName']?.userFullName?.middle,
+      suffix: userFullName?.suffix,
+      dateOfBirth,
+      firstName: userFullName?.first,
+      lastName: userFullName?.last,
+      middleName: userFullName?.middle,
       notificationMethod: getNotificationMethod(
         form?.data['view:receiveTextMessages']?.receiveTextMessages,
       ),

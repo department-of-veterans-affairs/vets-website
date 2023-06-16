@@ -134,8 +134,8 @@ export const createIssueName = ({ attributes } = {}) => {
  * @param {ContestableIssues}
  * @returns {ContestableIssue~Submittable}
  */
-export const getContestableIssues = ({ contestableIssues }) =>
-  contestableIssues.filter(issue => issue[SELECTED]).map(issue => {
+export const getContestableIssues = ({ contestableIssues } = {}) =>
+  (contestableIssues || []).filter(issue => issue[SELECTED]).map(issue => {
     const attr = issue.attributes;
     const attributes = [
       'decisionIssueId',
@@ -217,7 +217,7 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
   };
   return issues.map((issue, index) => {
     const entry = areaOfDisagreement[index];
-    const reasons = Object.entries(entry.disagreementOptions)
+    const reasons = Object.entries(entry?.disagreementOptions || {})
       .map(([key, value]) => value && keywords[key](entry))
       .concat((entry?.otherEntry || '').trim())
       .filter(Boolean);

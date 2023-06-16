@@ -29,12 +29,12 @@ describe('My VA - Benefit payments - error-states', () => {
         type: 'feature_toggles',
         features: [
           {
-            name: featureFlagNames.showPaymentAndDebtSection,
+            name: featureFlagNames.showMyVADashboardV2,
             value: true,
           },
         ],
       },
-    }).as('features');
+    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/evss_claims_async', claimsSuccess());
@@ -59,7 +59,7 @@ describe('My VA - Benefit payments - error-states', () => {
 
     it('shows error - C30358', () => {
       cy.visit('my-va/');
-      cy.wait(['@features', '@noDebts', '@noCopays', '@paymentsErrorA']);
+      cy.wait(['@noDebts', '@noCopays', '@paymentsErrorA']);
       cy.findByTestId('dashboard-section-debts-v2').should('exist');
 
       cy.findByTestId('dashboard-section-payment-v2').should('exist');

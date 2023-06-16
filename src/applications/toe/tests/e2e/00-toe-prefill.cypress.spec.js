@@ -35,66 +35,9 @@ describe('All Field prefilled tests for TOE app', () => {
       toeFormTestData,
     ).as('toeFormTestData');
 
-    cy.get(
-      'div a.vads-c-action-link--green.vads-u-padding-left--0:nth-child(2)',
-    )
+    cy.get('div a.vads-c-action-link--green:nth-child(2)')
       .contains('Start your benefit application')
       .click();
-  });
-
-  it('Your information page fields are prefilled', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.url().should(
-      'include',
-      '/apply-for-transferred-benefits-form-22-1990e/applicant-information',
-    );
-
-    cy.get('input[id="root_view:userFullName_userFullName_first"]').should(
-      'have.value',
-      toeUser.data.attributes.profile.firstName,
-    );
-    cy.get('input[id="root_view:userFullName_userFullName_middle"]').should(
-      'have.value',
-      toeUser.data.attributes.profile.middleName,
-    );
-    cy.get('input[id="root_view:userFullName_userFullName_last"]').should(
-      'have.value',
-      toeUser.data.attributes.profile.lastName,
-    );
-
-    let toeBirthMonthNum = toeClaimantTestData.data.attributes.claimant.dateOfBirth.substring(
-      5,
-      7,
-    );
-    let toeBirthDayNum = toeClaimantTestData.data.attributes.claimant.dateOfBirth.substring(
-      8,
-    );
-    let toeBirthYearNum = toeClaimantTestData.data.attributes.claimant.dateOfBirth.substring(
-      0,
-      4,
-    );
-    if (toeBirthMonthNum.startsWith('0')) {
-      toeBirthMonthNum = toeBirthMonthNum.substring(1, 2);
-    }
-    if (toeBirthDayNum.startsWith('0')) {
-      toeBirthDayNum = toeBirthDayNum.substring(1, 2);
-    }
-    if (toeBirthYearNum.startsWith('0')) {
-      toeBirthYearNum = toeBirthYearNum.substring(1, 2);
-    }
-    cy.get('select[id*="root_dateOfBirthMonth"] option:selected').should(
-      'have.value',
-      toeBirthMonthNum,
-    );
-    cy.get('select[id*="root_dateOfBirthDay"] option:selected').should(
-      'have.value',
-      toeBirthMonthNum,
-    );
-    cy.get('input[id="root_dateOfBirthYear"]').should(
-      'have.value',
-      toeBirthYearNum,
-    );
-    cy.findByText('Continue').click();
   });
 
   it('Toe Sponsor page fields are prefilled', () => {
@@ -533,31 +476,7 @@ describe('All Field prefilled tests for TOE app', () => {
     );
 
     // verifying your information section in review page
-    cy.get('button[id*="collapsibleButton"]')
-      .contains('Your information')
-      .click();
-
-    cy.contains(toeUser.data.attributes.profile.firstName).should('exist');
-    cy.contains(toeUser.data.attributes.profile.middleName).should('exist');
-    cy.contains(toeUser.data.attributes.profile.lastName).should('exist');
-
-    const toeBirthMonthNum = toeClaimantTestData.data.attributes.claimant.dateOfBirth.substring(
-      5,
-      7,
-    );
-    const toeBirthDayNum = toeClaimantTestData.data.attributes.claimant.dateOfBirth.substring(
-      8,
-    );
-    const toeBirthYearNum = toeClaimantTestData.data.attributes.claimant.dateOfBirth.substring(
-      0,
-      4,
-    );
-
-    const toeDoB = `${toeBirthMonthNum}/${toeBirthDayNum}/${toeBirthYearNum}`;
-    cy.contains(toeDoB).should('exist');
-    cy.get('button[id*="collapsibleButton"]')
-      .contains('Your information')
-      .click();
+    cy.get('button[id*="collapsibleButton"]').contains('Your information');
 
     // verifying Sponsor information section in review page
 

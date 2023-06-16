@@ -217,24 +217,27 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
   const spotlightLinks = resolveLinkCollection(
     [
       {
-        text: 'Track your cholesterol in My HealtheVet',
-        href: null,
-        oldHref: mhvUrl(false, 'ss20220106-track-cholesterol-in-myhealthevet'),
-        toggle: null,
-      },
-      {
-        text: 'Get the new toxic exposure screening',
+        text: 'PACT Act Special Enrollment Period',
         href: null,
         oldHref: mhvUrl(
-          false,
-          'ss20221110-get-the-new-toxic-exposure-screening',
+          authdWithSSOe,
+          'ss20230428-pact-act-special-enrollment',
         ),
         toggle: null,
       },
       {
-        text: 'Five exercises for people over 50',
+        text: 'My HealtheVet on VA.gov',
         href: null,
-        oldHref: mhvUrl(false, 'ss20161101-five-exercises-for-people-over-50'),
+        oldHref: mhvUrl(authdWithSSOe, 'ss20230412-my-healthevet-on-va-gov'),
+        toggle: null,
+      },
+      {
+        text: 'Get the New Toxic Exposure Screening',
+        href: null,
+        oldHref: mhvUrl(
+          authdWithSSOe,
+          'ss20221110-get-the-new-toxic-exposure-screening',
+        ),
         toggle: null,
       },
     ],

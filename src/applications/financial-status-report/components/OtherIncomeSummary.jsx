@@ -43,7 +43,7 @@ const OtherIncomeSummary = ({
 
   const cardBody = text => (
     <p>
-      Value: <b>{currencyFormatter(text)}</b>
+      Monthly amount: <b>{currencyFormatter(text)}</b>
     </p>
   );
   const emptyPrompt = `Select the ‘add other income’ link to add other income. Select the continue button to move on to the next question.`;

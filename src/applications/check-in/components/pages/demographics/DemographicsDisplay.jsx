@@ -6,10 +6,12 @@ import ConfirmablePage from '../ConfirmablePage';
 
 export default function DemographicsDisplay({
   header = '',
+  eyebrow = '',
   subtitle = '',
   demographics = {},
   yesAction = () => {},
   noAction = () => {},
+  router,
 }) {
   const { t } = useTranslation();
 
@@ -43,12 +45,14 @@ export default function DemographicsDisplay({
     <>
       <ConfirmablePage
         header={header || t('is-this-your-current-contact-information')}
+        eyebrow={eyebrow}
         subtitle={subtitle}
         dataFields={demographicFields}
         data={demographics}
         yesAction={yesAction}
         noAction={noAction}
         pageType="demographic-information"
+        router={router}
       />
     </>
   );
@@ -56,8 +60,10 @@ export default function DemographicsDisplay({
 
 DemographicsDisplay.propTypes = {
   demographics: PropTypes.object,
+  eyebrow: PropTypes.string,
   header: PropTypes.string,
   noAction: PropTypes.func,
+  router: PropTypes.object,
   subtitle: PropTypes.string,
   yesAction: PropTypes.func,
 };

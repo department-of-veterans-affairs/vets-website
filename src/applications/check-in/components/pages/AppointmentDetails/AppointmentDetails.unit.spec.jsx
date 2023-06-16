@@ -128,7 +128,7 @@ describe('check-in experience', () => {
               <AppointmentDetails />
             </CheckInProvider>,
           );
-          expect(getByTestId('header')).to.have.text('In person appointment');
+          expect(getByTestId('header')).to.have.text('In-person appointment');
         });
         it('renders correct subtitle', () => {
           const { getByTestId } = render(

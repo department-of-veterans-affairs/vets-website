@@ -5,16 +5,13 @@ import {
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
 
-import {
-  getAvailableHealthcareServices,
-  getSupportedHealthcareServicesAndLocations,
-} from '../../../services/healthcare-service';
-import clinicList983 from '../../../services/mocks/var/clinicList983.json';
+import { getAvailableHealthcareServices } from '../../../services/healthcare-service';
+import mockClinics from '../../../services/mocks/v2/clinics.json';
 
 describe('VAOS Healthcare service', () => {
   beforeEach(() => {
     mockFetch();
-    setFetchJSONResponse(global.fetch, clinicList983);
+    setFetchJSONResponse(global.fetch, mockClinics);
   });
 
   describe('getAvailableHealthcareServices', () => {
@@ -22,11 +19,10 @@ describe('VAOS Healthcare service', () => {
       await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCare: { id: '123' },
-        systemId: '456',
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/v0/facilities/983/clinics?type_of_care_id=123&system_id=456',
+        '/vaos/v2/locations/983/clinics',
       );
     });
 
@@ -34,7 +30,6 @@ describe('VAOS Healthcare service', () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCare: { id: '123' },
-        systemId: '456',
       });
 
       expect(data[0].serviceName).to.equal('CHY PC CASSIDY');
@@ -47,7 +42,6 @@ describe('VAOS Healthcare service', () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCare: { id: '123' },
-        systemId: '456',
       });
 
       expect(data[0].id).to.equal('983_455');
@@ -57,7 +51,6 @@ describe('VAOS Healthcare service', () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCare: { id: '123' },
-        systemId: '456',
       });
 
       expect(data[0].stationId).to.equal('983');
@@ -67,7 +60,6 @@ describe('VAOS Healthcare service', () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCare: { id: '123' },
-        systemId: '456',
       });
 
       expect(data[0].stationName).to.equal('CHYSHR-Cheyenne VA Medical Center');
@@ -77,7 +69,6 @@ describe('VAOS Healthcare service', () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCare: { id: '123' },
-        systemId: '456',
       });
 
       expect(data[1].serviceName).to.equal('CHY PC VAR2');
@@ -87,7 +78,6 @@ describe('VAOS Healthcare service', () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCare: { id: '123' },
-        systemId: '456',
       });
 
       expect(data[0].serviceName).to.equal('CHY PC CASSIDY');
@@ -103,50 +93,13 @@ describe('VAOS Healthcare service', () => {
         await getAvailableHealthcareServices({
           facilityId: '983',
           typeOfCare: { id: '123' },
-          systemId: '456',
         });
       } catch (e) {
         error = e;
       }
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        `/vaos/v0/facilities/983/clinics?type_of_care_id=123&system_id=456`,
-      );
-      expect(error?.resourceType).to.equal('OperationOutcome');
-    });
-  });
-
-  describe('getSupportedHealthcareServicesAndLocations', () => {
-    it('should make successful request', async () => {
-      await getSupportedHealthcareServicesAndLocations({
-        siteId: '983',
-        parentId: '983GC',
-        typeOfCareId: '123',
-      });
-
-      expect(global.fetch.firstCall.args[0]).to.contain(
-        '/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983GC',
-      );
-    });
-
-    it('should return OperationOutcome error', async () => {
-      setFetchJSONFailure(global.fetch, {
-        errors: [],
-      });
-
-      let error;
-      try {
-        await getSupportedHealthcareServicesAndLocations({
-          siteId: '983',
-          parentId: '983GC',
-          typeOfCareId: '123',
-        });
-      } catch (e) {
-        error = e;
-      }
-
-      expect(global.fetch.firstCall.args[0]).to.contain(
-        '/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983GC',
+        `/vaos/v2/locations/983/clinics`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });

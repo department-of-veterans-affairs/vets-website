@@ -8,20 +8,20 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import PrintDownload from '../shared/PrintDownload';
 
 const RadiologyDetails = props => {
-  const { results, fullState } = props;
+  const { record, fullState } = props;
 
-  const formattedDate = dateFormat(results?.date, 'MMMM D, YYYY');
+  const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
 
   const download = () => {
     getVaccinePdf(1).then(res => downloadFile('radiology.pdf', res.pdf));
   };
 
   const content = () => {
-    if (results) {
+    if (record) {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">{results.name}</h1>
+          <h1 className="vads-u-margin-bottom--0">{record.name}</h1>
           <div className="time-header">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Date:{' '}
@@ -56,35 +56,35 @@ const RadiologyDetails = props => {
               <va-link
                 active
                 href={`/my-health/medical-records/labs-and-tests/radiology-images/${
-                  results.id
+                  record.id
                 }`}
-                text={`See all ${results.images.length} images`}
+                text={`See all ${record.images.length} images`}
               />
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Reason for test
             </h3>
-            <p>{results.reason}</p>
+            <p>{record.reason}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Clinical history
             </h3>
-            <p>{results.clinicalHistory}</p>
+            <p>{record.clinicalHistory}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Ordered by
             </h3>
-            <p>{results.orderedBy}</p>
+            <p>{record.orderedBy}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Ordering location
             </h3>
-            <p>{results.orderingLocation}</p>
+            <p>{record.orderingLocation}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Imaging location
             </h3>
-            <p>{results.imagingLocation}</p>
+            <p>{record.imagingLocation}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Imaging provider
             </h3>
-            <p>{results.imagingProvider}</p>
+            <p>{record.imagingProvider}</p>
           </div>
 
           <div className="test-results-container">
@@ -111,7 +111,7 @@ const RadiologyDetails = props => {
                 </a>
               </p>
             </va-additional-info>
-            <p>{results.labResults}</p>
+            <p>{record.results}</p>
           </div>
         </>
       );
@@ -129,5 +129,6 @@ const RadiologyDetails = props => {
 export default RadiologyDetails;
 
 RadiologyDetails.propTypes = {
-  results: PropTypes.object,
+  fullState: PropTypes.object,
+  record: PropTypes.object,
 };

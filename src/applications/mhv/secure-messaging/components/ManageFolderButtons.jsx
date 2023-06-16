@@ -14,7 +14,7 @@ import {
   retrieveFolder,
 } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
-import { Alerts, ErrorMessages } from '../util/constants';
+import { Alerts, ErrorMessages, Paths } from '../util/constants';
 
 const ManageFolderButtons = () => {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const ManageFolderButtons = () => {
 
   useEffect(
     () => {
-      if (location.pathname.includes('/folder')) {
+      if (location.pathname.includes(Paths.FOLDERS)) {
         setFolderId(params.folderId);
       }
     },

@@ -163,6 +163,14 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
     </div>
   );
 
+  const HeaderTag = isReviewMode && !isEditing ? 'h4' : 'h3';
+  const className =
+    isReviewMode && !isEditing
+      ? 'form-review-panel-page-header vads-u-font-size--h5'
+      : 'schemablock-title vads-u-margin-top--5';
+  const text =
+    isReviewMode && !isEditing ? 'Review Dependants ages' : 'Dependents ages';
+
   let dependentAgeInputs = stateDependents.map(
     (dependent, i) =>
       isEditing ? renderAgeInput(dependent, i) : renderAgeText(dependent, i),
@@ -179,15 +187,7 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
       <div
         className={`${isReviewMode ? 'form-review-panel-page-header-row' : ''}`}
       >
-        <h4
-          className={`${
-            isReviewMode
-              ? 'form-review-panel-page-header vads-u-font-size--h5'
-              : ''
-          }`}
-        >
-          Your dependents
-        </h4>
+        <HeaderTag className={className}>{text}</HeaderTag>
         {isReviewMode &&
           !isEditing && (
             <ReviewControl

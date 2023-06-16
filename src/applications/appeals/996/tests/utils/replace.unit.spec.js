@@ -50,6 +50,10 @@ describe('replaceSubmittedData', () => {
 });
 
 describe('fixDateFormat', () => {
+  it('should return invalid dates strings', () => {
+    expect(fixDateFormat()).to.eq('-00-00');
+    expect(fixDateFormat('200')).to.eq('200-00-00');
+  });
   it('should return already properly formatted date string', () => {
     expect(fixDateFormat('2020-01-02')).to.eq('2020-01-02');
     expect(fixDateFormat('2023-12-31')).to.eq('2023-12-31');
@@ -59,5 +63,12 @@ describe('fixDateFormat', () => {
     expect(fixDateFormat('2020-1-2')).to.eq('2020-01-02');
     expect(fixDateFormat('2023-10-1')).to.eq('2023-10-01');
     expect(fixDateFormat('2000-6-30')).to.eq('2000-06-30');
+  });
+  it('should return properly formatted date string when passed dates with weird spacing', () => {
+    expect(fixDateFormat('2020--')).to.eq('2020-00-00');
+    expect(fixDateFormat('2020-1-')).to.eq('2020-01-00');
+    expect(fixDateFormat('2020- 1 - 2 ')).to.eq('2020-01-02');
+    expect(fixDateFormat('2023 - 10 - 1')).to.eq('2023-10-01');
+    expect(fixDateFormat('2000-6 - 30')).to.eq('2000-06-30');
   });
 });

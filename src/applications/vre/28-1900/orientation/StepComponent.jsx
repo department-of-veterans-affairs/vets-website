@@ -67,7 +67,7 @@ const StepComponent = props => {
       <div className="vads-u-margin-bottom--3">
         <Link
           to="/"
-          className="vads-c-action-link--green vads-u-padding-left--0"
+          className="vads-c-action-link--green"
           onClick={() => {
             recordEvent({
               event: 'howToWizard-complete-orientation',

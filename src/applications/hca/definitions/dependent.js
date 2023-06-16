@@ -31,7 +31,6 @@ export const createDependentSchema = hcaSchema => {
       'socialSecurityNumber',
       'dateOfBirth',
       'becameDependent',
-      'dependentEducationExpenses',
       'disabledBefore18',
       'cohabitedLastYear',
     ],
@@ -103,9 +102,12 @@ export const uiSchema = {
       'If your dependent is between 18 and 23 years of age, did they attend school during the last calendar year?',
     'ui:widget': 'yesNo',
   },
-  dependentEducationExpenses: currencyUI(
-    'Expenses your dependent paid for college, vocational rehabilitation, or training (e.g., tuition, books, materials)',
-  ),
+  dependentEducationExpenses: {
+    ...currencyUI(
+      'Expenses your dependent paid for college, vocational rehabilitation, or training (e.g., tuition, books, materials)',
+    ),
+    'ui:required': () => true,
+  },
   cohabitedLastYear: {
     'ui:title': 'Did your dependent live with you last year?',
     'ui:widget': 'yesNo',
