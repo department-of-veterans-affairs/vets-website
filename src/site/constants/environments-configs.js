@@ -30,19 +30,19 @@ module.exports = {
   [ENVIRONMENTS.VAGOVPROD]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVPROD,
     BASE_URL: 'https://www.va.gov',
-    API_URL: 'https://api-bumfuzzle.va.gov',
+    API_URL: 'https://api.va.gov',
   },
 
   [ENVIRONMENTS.VAGOVSTAGING]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVSTAGING,
     BASE_URL: 'https://staging.va.gov',
-    API_URL: 'https://staging-api-bumfuzzle.va.gov',
+    API_URL: 'https://staging-api.va.gov',
   },
 
   [ENVIRONMENTS.VAGOVDEV]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVDEV,
     BASE_URL: 'https://dev.va.gov',
-    API_URL: 'https://dev-api-bumfuzzle.va.gov',
+    API_URL: 'https://dev-api.va.gov',
   },
 
   /* eslint-disable no-restricted-globals */
@@ -62,9 +62,7 @@ module.exports = {
           '*.preview.va.gov',
           '*.vfs.va.gov',
         ])
-        ? `http://${
-            location.hostname.split('.')[0]
-          }-api-bumfuzzle.${location.hostname
+        ? `http://${location.hostname.split('.')[0]}-api.${location.hostname
             .split('.')
             .slice(1)
             .join('.')}`
