@@ -48,6 +48,11 @@ const createEvent = (start, end, title, eventData = {}) => {
   return Object.assign(event, eventData);
 };
 
+/**
+ * Creates recurring events.
+ *
+ * @returns {Array<Object>} An array of event objects.
+ */
 const createRecurringEvents = () => {
   const recurEventData = { id: 'upcoming' };
   const eventA = createEvent(
@@ -100,6 +105,11 @@ const createRecurringEvents = () => {
   return [eventA, eventB];
 };
 
+/**
+ * Creates past events.
+ *
+ * @returns {Array<Object>} An array of event objects.
+ */
 const createPastEvents = () => {
   const lastYear = now
     .clone()
@@ -125,6 +135,11 @@ const createPastEvents = () => {
   ];
 };
 
+/**
+ * Creates future events.
+ *
+ * @returns {Array<Object>} An array of event objects.
+ */
 const createFutureEvents = () => {
   // Types: upcoming, next-month, next-week
   return [
@@ -178,6 +193,11 @@ const createFutureEvents = () => {
   ];
 };
 
+/**
+ * Creates duplicate events.
+ *
+ * @returns {Array<Object>} An array of event objects.
+ */
 const createDuplicateEvents = () => {
   const eventA = createEvent(
     now
@@ -213,6 +233,11 @@ const createDuplicateEvents = () => {
   return [eventA, eventB];
 };
 
+/**
+ * Creates events in various locations.
+ *
+ * @returns {Array<Object>} An array of event objects.
+ */
 const createLocationEvents = () => {
   const facilityEventData = {
     fieldEventCost: 'Free',
@@ -310,6 +335,11 @@ const createLocationEvents = () => {
   ];
 };
 
+/**
+ * Creates events that are occurring actively.
+ *
+ * @returns {Array<Object>} An array of event objects.
+ */
 const createActiveEvents = () => {
   return [
     createEvent(
