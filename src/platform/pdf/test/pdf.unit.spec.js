@@ -1,8 +1,8 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import generatePdf from '@department-of-veterans-affairs/platform-pdf';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
+import { generatePdf } from '../index';
 
 chai.use(chaiAsPromised);
 const fileSaver = require('file-saver');
