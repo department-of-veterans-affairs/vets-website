@@ -140,11 +140,9 @@ const ThreadListItem = props => {
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
         >
           {hasAttachment ? (
-            <span>
-              <span id={`message-link-has-attachment-${messageId}`}>
-                {categoryLabel}: {getHighlightedText(subject)}
-                <span className="sr-only">Has attachment</span>
-              </span>
+            <span id={`message-link-has-attachment-${messageId}`}>
+              {categoryLabel}: {getHighlightedText(subject)}
+              <span className="sr-only">Has attachment</span>
             </span>
           ) : (
             <span id={`message-link-${messageId}`}>

@@ -42,7 +42,7 @@ const MessageThreadItem = props => {
       return `${!isRead ? 'New ' : ''}message ${
         fromMe ? 'sent' : 'received'
       } ${dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}, ${
-        hasAttachments ? 'with attachment' : ''
+        hasAttachments || attachment ? 'with attachment' : ''
       } from ${senderName}."`;
     },
     [fromMe, hasAttachments, isRead, senderName, sentDate],
