@@ -182,6 +182,7 @@
           "@department-of-veterans-affairs/platform-site-wide/AutoSSO": "./src/platform/site-wide/user-nav/containers/AutoSSO.jsx",
           "@department-of-veterans-affairs/platform-site-wide/user-nav": "./src/platform/site-wide/user-nav/index.js",
           "@department-of-veterans-affairs/platform-site-wide/sass/user-nav": "./src/platform/site-wide/user-nav/sass/user-nav.scss",
+          "@department-of-veterans-affairs/ask-va-too/sass/main":"./src/applications/ask-va/sass/main.scss",
           "@department-of-veterans-affairs/virtual-agent/sass/virtual-agent":"./src/applications/virtual-agent/sass/virtual-agent.scss",
           "@department-of-veterans-affairs/platform-site-wide/user-nav/reducers": "./src/platform/site-wide/user-nav/reducers/index.js",
           "@department-of-veterans-affairs/platform-site-wide/va-footer": "./src/platform/site-wide/va-footer/index.js",

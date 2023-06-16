@@ -1,6 +1,6 @@
 import 'platform/polyfills';
 // import '@department-of-veterans-affairs/platform-polyfills';
-// import '@department-of-veterans-affairs/virtual-agent/sass/virtual-agent';
+import '@department-of-veterans-affairs/ask-va-too/sass/main';
 
 // import './sass/my-new-application.scss';
 
