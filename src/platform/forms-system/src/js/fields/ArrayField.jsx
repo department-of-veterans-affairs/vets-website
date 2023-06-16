@@ -487,7 +487,7 @@ export default class ArrayField extends React.Component {
                   <button
                     type="button"
                     className="usa-button-secondary edit vads-u-flex--auto"
-                    aria-label={`Edit ${itemName}_${index + 1}`}
+                    aria-label={`Edit ${itemName} ${index + 1}`}
                     onClick={() => this.handleEdit(index)}
                   >
                     Edit
