@@ -9,6 +9,7 @@ import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { setup, pageHooks } from './cypress.helpers';
 
+// [wipn8923] the test
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
