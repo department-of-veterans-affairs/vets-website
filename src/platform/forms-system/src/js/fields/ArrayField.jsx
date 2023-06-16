@@ -375,6 +375,7 @@ export default class ArrayField extends React.Component {
               uiOptions.itemName ||
               'item'
             ).toLowerCase();
+            const itemNumber = index + 1;
             const multipleRows = items.length > 1;
             const notLastOrMultipleRows = showSave || !isLast || multipleRows;
 
@@ -420,8 +421,7 @@ export default class ArrayField extends React.Component {
                               <button
                                 type="button"
                                 className="float-left"
-                                aria-label={`${updateText} ${itemName} ${index +
-                                  1}`}
+                                aria-label={`${updateText} ${itemName} ${itemNumber}`}
                                 onClick={() => this.handleUpdate(index)}
                               >
                                 {updateText}
@@ -433,7 +433,7 @@ export default class ArrayField extends React.Component {
                               <button
                                 type="button"
                                 className="usa-button-secondary float-right"
-                                aria-label={`Remove ${itemName} ${index + 1}`}
+                                aria-label={`Remove ${itemName} ${itemNumber}`}
                                 onClick={() =>
                                   this.handleRemove(
                                     index,
@@ -453,10 +453,8 @@ export default class ArrayField extends React.Component {
                     <VaModal
                       clickToClose
                       status="warning"
-                      modalTitle={`Are you sure you want to remove this ${itemName ||
-                        'item'}?`}
-                      primaryButtonText={`Yes, remove this ${itemName ||
-                        'item'}`}
+                      modalTitle={`Are you sure you want to remove this ${itemName}?`}
+                      primaryButtonText={`Yes, remove this ${itemName}`}
                       secondaryButtonText="No, cancel"
                       onCloseEvent={() => this.closeRemoveModal(index)}
                       onPrimaryButtonClick={() => this.handleRemoveModal(index)}
@@ -489,7 +487,7 @@ export default class ArrayField extends React.Component {
                   <button
                     type="button"
                     className="usa-button-secondary edit vads-u-flex--auto"
-                    aria-label={`Edit ${itemName} ${index + 1}`}
+                    aria-label={`Edit ${itemName} ${itemNumber}`}
                     onClick={() => this.handleEdit(index)}
                   >
                     Edit
