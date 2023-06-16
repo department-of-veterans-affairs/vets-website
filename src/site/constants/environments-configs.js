@@ -13,13 +13,16 @@ if (typeof window === 'undefined') {
 // allowedHostnames is an array of hostnames that are eligible
 function isHostnameAllowed(hostname, allowedHostnames) {
   let hostnameAllowed = false;
+
   for (const name of allowedHostnames) {
     const pattern = name.replace(/\*/g, '[a-z0-9]+(-[a-z0-9]+)*');
     const regex = new RegExp(`^${pattern}$`, 'i');
+
     if (regex.test(hostname)) {
       hostnameAllowed = true;
     }
   }
+
   return hostnameAllowed;
 }
 
@@ -27,19 +30,19 @@ module.exports = {
   [ENVIRONMENTS.VAGOVPROD]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVPROD,
     BASE_URL: 'https://www.va.gov',
-    API_URL: 'https://api.va.gov',
+    API_URL: 'https://api-bumfuzzle.va.gov',
   },
 
   [ENVIRONMENTS.VAGOVSTAGING]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVSTAGING,
     BASE_URL: 'https://staging.va.gov',
-    API_URL: 'https://staging-api.va.gov',
+    API_URL: 'https://staging-api-bumfuzzle.va.gov',
   },
 
   [ENVIRONMENTS.VAGOVDEV]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVDEV,
     BASE_URL: 'https://dev.va.gov',
-    API_URL: 'https://dev-api.va.gov',
+    API_URL: 'https://dev-api-bumfuzzle.va.gov',
   },
 
   /* eslint-disable no-restricted-globals */
@@ -59,7 +62,9 @@ module.exports = {
           '*.preview.va.gov',
           '*.vfs.va.gov',
         ])
-        ? `http://${location.hostname.split('.')[0]}-api.${location.hostname
+        ? `http://${
+            location.hostname.split('.')[0]
+          }-api-bumfuzzle.${location.hostname
             .split('.')
             .slice(1)
             .join('.')}`
