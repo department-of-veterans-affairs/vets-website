@@ -29,6 +29,8 @@ import {
 } from 'platform/forms/selectors/review';
 import { isReactComponent } from 'platform/utilities/ui';
 
+import environment from 'platform/utilities/environment';
+
 function FormSaveErrorMessage(props) {
   const { route, formConfig, user, form, location, showLoginModal } = props;
 
@@ -90,13 +92,21 @@ function FormSaveErrorMessage(props) {
     );
   };
 
+  if (!environment.isProduction()) {
+    return CustomSubmissionError ? (
+      <CustomSubmissionError
+        location={location}
+        form={form}
+        user={user}
+        saveLink={saveLink}
+      />
+    ) : (
+      <DefaultErrorMessage />
+    );
+  }
+
   return CustomSubmissionError ? (
-    <CustomSubmissionError
-      location={location}
-      form={form}
-      user={user}
-      saveLink={saveLink}
-    />
+    <CustomSubmissionError location={location} form={form} user={user} />
   ) : (
     <DefaultErrorMessage />
   );
