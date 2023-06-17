@@ -221,7 +221,7 @@ describe('filterEvents', () => {
     );
 
     // next-month results can also include next-week results, depending on
-    // timing of the test run. If there are 2 resutls, check for the both,
+    // timing of the test run. If there are 2 results, check for the both,
     // otherwise, assert that only next-month exits.
     if (filteredEvents.length === 2) {
       const titles = [];
