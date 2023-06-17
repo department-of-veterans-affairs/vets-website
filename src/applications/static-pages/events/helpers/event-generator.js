@@ -227,8 +227,7 @@ const createDuplicateEvents = () => {
     { id: 'upcoming' },
   );
   // Duplicate events have the same "entityId".
-  eventA.entityId = 20000;
-  eventB.entityId = 20000;
+  eventB.entityId = eventA.entityId;
 
   return [eventA, eventB];
 };
