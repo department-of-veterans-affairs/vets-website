@@ -8,7 +8,6 @@ const entityIds = [];
 /**
  * Creates a unique number between 1 and 10000.
  *
- * @export
  * @returns {Number}
  *   A unique id.
  */
@@ -21,6 +20,7 @@ const uniqueEntityId = () => {
 /**
  * Creates a new event object.
  *
+ * @export
  * @param {Moment} start Start of the event
  * @param {Moment} end End of the event
  * @param {String} title The title of the event
@@ -51,6 +51,7 @@ const createEvent = (start, end, title, eventData = {}) => {
 /**
  * Creates recurring events.
  *
+ * @export
  * @returns {Array<Object>} An array of event objects.
  */
 const createRecurringEvents = () => {
@@ -108,6 +109,7 @@ const createRecurringEvents = () => {
 /**
  * Creates past events.
  *
+ * @export
  * @returns {Array<Object>} An array of event objects.
  */
 const createPastEvents = () => {
@@ -138,6 +140,7 @@ const createPastEvents = () => {
 /**
  * Creates future events.
  *
+ * @export
  * @returns {Array<Object>} An array of event objects.
  */
 const createFutureEvents = () => {
@@ -196,6 +199,7 @@ const createFutureEvents = () => {
 /**
  * Creates duplicate events.
  *
+ * @export
  * @returns {Array<Object>} An array of event objects.
  */
 const createDuplicateEvents = () => {
@@ -235,6 +239,7 @@ const createDuplicateEvents = () => {
 /**
  * Creates events in various locations.
  *
+ * @export
  * @returns {Array<Object>} An array of event objects.
  */
 const createLocationEvents = () => {
@@ -337,6 +342,7 @@ const createLocationEvents = () => {
 /**
  * Creates events that are occurring actively.
  *
+ * @export
  * @returns {Array<Object>} An array of event objects.
  */
 const createActiveEvents = () => {
