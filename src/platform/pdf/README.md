@@ -37,7 +37,7 @@ generatePdf('template_name', 'generated_file_name', jsonData);
 Example usage in a VA.gov React application:
 
 ```js
-import generatePdf from '@department-of-veterans-affairs/platform-pdf';
+import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 
 const generateVitals = async () => {
   // This data would usually be dynamically generated.

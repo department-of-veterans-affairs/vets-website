@@ -179,6 +179,5 @@ export default Object.freeze({
   vaOnlineSchedulingConvertUtcToLocal: 'va_online_scheduling_convert_utc_to_local',
   vaViewDependentsAccess: 'va_view_dependents_access',
   virtualAgentShowFloatingChatbot: 'virtual_agent_show_floating_chatbot',
-  virtualAgentFetchJwtToken: 'virtual_agent_fetch_jwt_token',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
 });
