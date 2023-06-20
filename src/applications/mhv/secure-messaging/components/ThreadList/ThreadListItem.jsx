@@ -133,7 +133,9 @@ const ThreadListItem = props => {
         <Link
           aria-label={`${
             unreadMessages ? 'Unread message.' : ''
-          } Message subject: ${categoryLabel}: ${subject}, ${formattedDate()}.`}
+          } Message subject: ${categoryLabel}: ${subject}, ${formattedDate()}. ${
+            hasAttachment ? ' Has attachment.' : ''
+          }`}
           className="message-subject-link vads-u-margin-y--0p5"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
         >
