@@ -79,7 +79,9 @@ const NotificationChannel = props => {
       >
         <Toggler.Enabled>
           <NotificationCheckbox
-            {...props}
+            channelType={channelType}
+            isOptedIn={isOptedIn}
+            channelId={channelId}
             onValueChange={e => {
               const newValue = e.target.checked;
 
@@ -119,7 +121,6 @@ const NotificationChannel = props => {
                 ? 'We’re sorry. We had a problem saving your update. Try again.'
                 : null
             }
-            disabled={apiStatus === LOADING_STATES.pending}
           />
         </Toggler.Enabled>
 

@@ -6,10 +6,6 @@ export const NotificationChannelCheckboxesFieldset = ({
   itemName,
   description,
 }) => {
-  const disabled = true;
-
-  const id = 'notification-channel-fieldset-test';
-
   const legendClasses = classNames(
     'vads-u-font-family--sans',
     'vads-u-font-weight--bold',
@@ -20,7 +16,7 @@ export const NotificationChannelCheckboxesFieldset = ({
   );
 
   return (
-    <fieldset disabled={disabled} id={id}>
+    <fieldset>
       <div className="clearfix">
         <legend className="rb-legend vads-u-padding--0">
           <h3 className={legendClasses}>{itemName}</h3>

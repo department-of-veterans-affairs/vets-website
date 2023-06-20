@@ -6,13 +6,13 @@ import { NOTIFICATION_CHANNEL_LABELS } from '../../constants';
 import { NotificationStatusMessage } from './NotificationStatusMessage';
 
 export const NotificationCheckbox = ({
-  errorMessage,
-  loadingMessage,
-  successMessage,
+  channelId,
   channelType,
   isOptedIn,
   onValueChange,
-  warningMessage,
+  loadingMessage,
+  successMessage,
+  errorMessage,
 }) => {
   const id = uniqueId('notification-checkbox-');
   const label = `Notify me by ${NOTIFICATION_CHANNEL_LABELS[channelType]}`;
@@ -82,17 +82,27 @@ export const NotificationCheckbox = ({
 
   return (
     <div>
-      {!loadingMessage && !successMessage && !warningMessage && errorSpan}
-      {!loadingMessage && !errorMessage && !warningMessage && successSpan}
-      {!errorMessage && !successMessage && !warningMessage && loadingSpan}
+      {!loadingMessage && !successMessage && errorSpan}
+      {!loadingMessage && !errorMessage && successSpan}
+      {!errorMessage && !successMessage && loadingSpan}
       {!loadingMessage && (
-        <VaCheckbox checked={checked} label={label} onVaChange={handleChange} />
+        <VaCheckbox
+          checked={checked}
+          label={label}
+          onVaChange={handleChange}
+          data-testid={`checkbox-${channelId}`}
+        />
       )}
     </div>
   );
 };
 
 NotificationCheckbox.propTypes = {
+  channelId: PropTypes.string.isRequired,
   channelType: PropTypes.number.isRequired,
+  onValueChange: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
   isOptedIn: PropTypes.bool,
+  loadingMessage: PropTypes.string,
+  successMessage: PropTypes.string,
 };
