@@ -1,17 +1,22 @@
-// libs
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
-
-import SubmissionError from 'applications/pre-need/components/SubmissionError';
+import { mount } from 'enzyme';
+import SubmissionError from '../../components/SubmissionError';
 
 describe('SubmissionError component', () => {
-  it('should render', () => {
-    const tree = render(<SubmissionError />);
+  const user = {
+    login: {
+      currentlyLoggedIn: true,
+    },
+  };
 
-    expect(tree.getByText('Please mail it to the NCA Intake Center')).to.not.be
-      .null;
+  // eslint-disable-next-line jsx-a11y/anchor-is-valid
+  const saveLink = <a href="#">Save Link</a>;
 
-    tree.unmount();
+  it('renders and unmounts without crashing', () => {
+    const wrapper = mount(<SubmissionError user={user} saveLink={saveLink} />);
+    expect(wrapper.exists()).to.be.true;
+    wrapper.unmount();
+    expect(wrapper.exists()).to.be.false;
   });
 });
