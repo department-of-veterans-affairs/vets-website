@@ -3,18 +3,17 @@ import { fleshOutRecurringEvents, removeDuplicateEvents } from '.';
 
 moment.tz.setDefault('America/New_York');
 const now = moment().clone();
-const entityIds = [];
+let lastEntityId = 0;
 
 /**
- * Creates a unique number between 1 and 10000.
+ * Creates a unique entity id (number).
  *
  * @returns {Number}
  *   A unique id.
  */
 const uniqueEntityId = () => {
-  const rndInt = Math.floor(Math.random() * 10000) + 1;
-  if (entityIds[rndInt]) return uniqueEntityId();
-  return rndInt;
+  lastEntityId += 1;
+  return lastEntityId;
 };
 
 /**
