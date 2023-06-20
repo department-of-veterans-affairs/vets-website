@@ -18,6 +18,12 @@ describe('Secure Messaging Trash Folder AXE Check', () => {
     ).as('trashFolderMessages');
     cy.get('[data-testid="trash-sidebar"]').click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

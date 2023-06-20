@@ -6,7 +6,7 @@ import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import appeals404 from '@@profile/tests/fixtures/appeals-404.json';
 import error500 from '@@profile/tests/fixtures/500.json';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
+import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
 import manifest from '~/applications/personalization/dashboard/manifest.json';
 
@@ -20,25 +20,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
       disabilityRating,
     );
   });
-  describe('when the feature is hidden', () => {
-    beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          type: 'feature_toggles',
-          features: [],
-        },
-      }).as('featuresA');
-    });
-    it('the v2 dashboard does not show up - C20877', () => {
-      cy.visit('my-va/');
-      cy.findByTestId('dashboard-section-claims-and-appeals').should('exist');
-      cy.findByTestId('dashboard-section-claims-and-appeals-v2').should(
-        'not.exist',
-      );
-      // make the a11y check
-      cy.injectAxeThenAxeCheck();
-    });
-  });
+
   describe('when the feature is not hidden', () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles*', {

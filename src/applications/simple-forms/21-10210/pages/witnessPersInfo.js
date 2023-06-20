@@ -1,52 +1,61 @@
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import { RELATIONSHIP_TO_CLAIMANT_OPTIONS } from '../definitions/constants';
+import {
+  RELATIONSHIP_TO_VETERAN_OPTIONS,
+  RELATIONSHIP_TO_CLAIMANT_OPTIONS,
+} from '../definitions/constants';
 import formDefinitions from '../definitions/form-definitions';
 import GroupCheckboxWidget from '../components/GroupCheckboxWidget';
 
 /** @type {PageSchema} */
+const commonUiSchema = {
+  witnessFullName: fullNameUI,
+  witnessRelationshipToClaimant: {
+    // different ui:title between uiSchemaA & uiSchemaB
+    'ui:widget': GroupCheckboxWidget,
+    'ui:errorMessages': {
+      required: 'Please select at least one option',
+    },
+    'ui:options': {
+      forceDivWrapper: true,
+      showFieldLabel: true,
+      // different labels between uiSchemaA & uiSchemaB
+    },
+  },
+};
 export default {
-  uiSchema: {
-    witnessFullName: fullNameUI,
+  uiSchemaA: {
+    // Flow 2: vet claimant
+    ...commonUiSchema,
     witnessRelationshipToClaimant: {
-      'ui:title': 'What is your relationship to the Claimant?',
-      'ui:description': 'Check all that apply',
-      'ui:widget': GroupCheckboxWidget,
-      'ui:required': formData => !formData.witnessOtherRelationshipToClaimant,
+      ...commonUiSchema.witnessRelationshipToClaimant,
+      'ui:title':
+        'What is your relationship to the Veteran? You can select more than one.',
       'ui:options': {
-        showFieldLabel: true,
-        forceDivWrapper: true,
+        ...commonUiSchema.witnessRelationshipToClaimant['ui:options'],
+        labels: RELATIONSHIP_TO_VETERAN_OPTIONS,
+      },
+    },
+  },
+  uiSchemaB: {
+    // Flow 4: non-vet claimant
+    ...commonUiSchema,
+    witnessRelationshipToClaimant: {
+      ...commonUiSchema.witnessRelationshipToClaimant,
+      'ui:title':
+        'What’s your relationship to the person with the existing VA claim (also called the claimant)? You can select more than one.',
+      'ui:options': {
+        ...commonUiSchema.witnessRelationshipToClaimant['ui:options'],
         labels: RELATIONSHIP_TO_CLAIMANT_OPTIONS,
       },
     },
-    witnessOtherRelationshipToClaimant: {
-      'ui:title':
-        'If your relationship with the Claimant is not listed, you can write it here (30 characters maximum)',
-      'ui:autocomplete': 'off',
-    },
-    'ui:validations': [
-      (errors, fields) => {
-        if (
-          (fields.witnessRelationshipToClaimant || '').trim() === '' &&
-          (fields.witnessOtherRelationshipToClaimant || '').trim() === ''
-        ) {
-          errors.witnessRelationshipToClaimant.addError(
-            'Please select at least one option here, or input a relationship in text-box below',
-          );
-        }
-      },
-    ],
   },
   schema: {
     type: 'object',
-    required: ['witnessFullName'],
+    required: ['witnessFullName', 'witnessRelationshipToClaimant'],
     properties: {
       witnessFullName: formDefinitions.pdfFullNameNoSuffix,
       witnessRelationshipToClaimant: {
         type: 'string',
-      },
-      witnessOtherRelationshipToClaimant: {
-        type: 'string',
-        maxLength: 30,
       },
     },
   },

@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
 import { Actions } from '../util/actionTypes';
+import { testing } from '../util/constants';
 
 const initialState = {
   /**
@@ -40,7 +41,7 @@ export const vaccineReducer = (state = initialState, action) => {
       // The server returns a bundle which includes ancillary data. Filter to
       // isolate the vaccine. There will only ever be one.
       let vaccine;
-      if (environment.BUILDTYPE === 'localhost') {
+      if (environment.BUILDTYPE === 'localhost' && testing) {
         vaccine = action.response?.entry
           ? action.response.entry.filter(
               entry => entry.resource.resourceType === 'Immunization',
@@ -52,20 +53,20 @@ export const vaccineReducer = (state = initialState, action) => {
       return {
         ...state,
         vaccineDetails:
-          environment.BUILDTYPE === 'localhost'
+          environment.BUILDTYPE === 'localhost' && testing
             ? convertVaccine(vaccine)
             : vaccine,
       };
     }
     case Actions.Vaccines.GET_LIST: {
       const vaccineList =
-        environment.BUILDTYPE === 'localhost'
+        environment.BUILDTYPE === 'localhost' && testing
           ? action.response.entry
           : action.response;
       return {
         ...state,
         vaccinesList:
-          environment.BUILDTYPE === 'localhost'
+          environment.BUILDTYPE === 'localhost' && testing
             ? vaccineList.map(record => {
                 const vaccine = record.resource;
                 return convertVaccine(vaccine);

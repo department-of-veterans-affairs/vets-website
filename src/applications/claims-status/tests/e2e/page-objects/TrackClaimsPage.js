@@ -111,7 +111,7 @@ class TrackClaimsPage {
     cy.get('.main va-alert')
       .should('be.visible')
       .then(alertElem => {
-        cy.wrap(alertElem).should('contain', 'We closed your claim on');
+        cy.wrap(alertElem).should('contain', 'We decided your claim on');
       });
 
     cy.get('.disability-benefits-timeline').should('not.exist');

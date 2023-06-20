@@ -48,7 +48,7 @@ describe('<IssueCard>', () => {
     expect($('.widget-content', container).textContent).to.contain(
       'Decision date: January 10, 2021',
     );
-    expect($$('a.change-issue-link').length).to.equal(0);
+    expect($$('a.edit-issue-link').length).to.equal(0);
   });
   it('should render an Additional issue', () => {
     const props = getProps({ onEdit: () => {} });
@@ -59,7 +59,7 @@ describe('<IssueCard>', () => {
     expect($('.widget-content', container).textContent).to.contain(
       'Decision date: February 22, 2021',
     );
-    expect($$('a.change-issue-link').length).to.equal(1);
+    expect($$('a.edit-issue-link').length).to.equal(1);
   });
   it('should render a selected issue with appendId included', () => {
     const props = getProps();
@@ -76,7 +76,7 @@ describe('<IssueCard>', () => {
     const issue = getAdditionalIssue('03', true);
     const { container } = render(<IssueCard {...props} item={issue} />);
     expect($$('input[type="checkbox"]', container).length).to.equal(0);
-    expect($$('.change-issue-link', container).length).to.equal(0);
+    expect($$('.edit-issue-link', container).length).to.equal(0);
   });
 
   it('should call onChange when the checkbox is toggled', () => {
@@ -109,7 +109,7 @@ describe('<IssueCardContent>', () => {
     expect($('.widget-content-wrap', container).textContent).to.contain(
       'Decision date: January 20, 2021',
     );
-    expect($$('a.change-issue-link').length).to.equal(0);
+    expect($$('a.edit-issue-link').length).to.equal(0);
   });
   it('should render AdditionalIssue content', () => {
     const issue = getAdditionalIssue('21');

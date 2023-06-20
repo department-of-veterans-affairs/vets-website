@@ -1,0 +1,24 @@
+.breadcrumbs {
+  a {
+    color: $color-link-default;
+  }
+
+  .desktop-view {
+    list-style-type: none;
+  }
+  .desktop-view li::marker {
+    display: none;
+  }
+
+  .mobile-view {
+    list-style-type: none;
+  }
+  .mobile-view li::marker {
+    display: none;
+  }
+}
+
+.breadcrumbs--hidden {
+  visibility: hidden;
+  margin-bottom: 4px;
+}

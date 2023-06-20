@@ -1,6 +1,7 @@
 import environment from 'platform/utilities/environment';
 import { Actions } from '../util/actionTypes';
 import { dateFormat, getNames, getReactions } from '../util/helpers';
+import { testing } from '../util/constants';
 
 const initialState = {
   /**
@@ -34,7 +35,7 @@ export const allergyReducer = (state = initialState, action) => {
       return {
         ...state,
         allergyDetails:
-          environment.BUILDTYPE === 'localhost'
+          environment.BUILDTYPE === 'localhost' && testing
             ? convertAllergy(action.response)
             : action.response,
       };
@@ -43,7 +44,7 @@ export const allergyReducer = (state = initialState, action) => {
       return {
         ...state,
         allergiesList:
-          environment.BUILDTYPE === 'localhost'
+          environment.BUILDTYPE === 'localhost' && testing
             ? action.response.entry.map(allergy => {
                 return convertAllergy(allergy.resource);
               })

@@ -1,0 +1,80 @@
+{
+  "data": {
+    "rjsf": {},
+    "dateDefault": "1999-01-01",
+    "wc": {},
+    "dateWC": "1999-12-12",
+    "wcv3": {},
+    "dateWCV3": "1999-12-12",
+    "vaCompensationType": "highDisability",
+    "currentlyActiveDuty": {
+      "yes": true,
+      "onTerminalLeave": false
+    },
+    "wcVaCompensationType": "highDisability",
+    "wcVaTileCompensationType": "none",
+    "wcCurrentlyActiveDuty_yes": false,
+    "wcCurrentlyActiveDuty": {
+      "yes": true,
+      "onTerminalLeave": false
+    },
+    "wcv3VaCompensationType": "lowDisability",
+    "wcv3VaTileCompensationType": "highDisability",
+    "wcv3CurrentlyActiveDuty": {
+      "yes": true,
+      "onTerminalLeave": false
+    },
+    "selectDefault": "option1",
+    "selectWC": "option2",
+    "selectWC2": "option2",
+    "selectWC2V3": "option1",
+    "rjsfSimpleTextInput": "test",
+    "rjsfRequiredCheckbox": true,
+    "rjsfSsn": "343434343",
+    "rjsfCheckboxWithBackground": {},
+    "wcSimpleText": "test",
+    "wcRequiredCheckbox": true,
+    "wcSsn": "343434343",
+    "wcCheckboxWithBackground": {},
+    "wcV3": {},
+    "wcV3SimpleText": "test",
+    "wcV3RequiredCheckbox": true,
+    "wcV3Ssn": "343434343",
+    "wcV3CheckboxWithBackground": {},
+    "ssn": "343434343",
+    "ssnNew": "343434343",
+    "ssnNewV3": "343433434",
+    "addressOld": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "test",
+      "city": "test",
+      "state": "AL",
+      "postalCode": "34343"
+    },
+    "addressNew": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "test",
+      "city": "test",
+      "state": "AL",
+      "postalCode": "34343"
+    },
+    "spouseFullNameOld": {
+      "first": "test",
+      "last": "test"
+    },
+    "spouseFullNameNew": {
+      "first": "test",
+      "last": "test"
+    },
+    "spouseFullNameNewV3": {
+      "first": "test",
+      "last": "test"
+    },
+    "requiredOld": "test",
+    "requiredNew": "test",
+    "requiredNewV3": "test",
+    "textAreaNewV3": "test paragraph, items and punctuation # and tags. new line - one - 2 - 3"
+  }
+}

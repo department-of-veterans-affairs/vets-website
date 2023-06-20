@@ -3,11 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import AdditionalEvidencePage from '../containers/AdditionalEvidencePage';
-import {
-  getTrackedItemId,
-  truncateDescription,
-  stripHtml,
-} from '../utils/helpers';
+import { getTrackedItemId, truncateDescription } from '../utils/helpers';
 import DueDate from './DueDate';
 
 export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
@@ -30,7 +26,7 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
             <div className="item-container">
               <h3 className="file-request-title">{item.displayName}</h3>
               <p className="submission-description">
-                {truncateDescription(stripHtml(item.description))}
+                {truncateDescription(item.description)}
               </p>
               <DueDate date={item.suspenseDate} />
             </div>
@@ -57,7 +53,7 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
             <div className="item-container">
               <h3 className="file-request-title">{item.displayName}</h3>
               <p className="submission-description">
-                {truncateDescription(stripHtml(item.description))}
+                {truncateDescription(item.description)}
               </p>
               <div className="vads-u-margin-top--0p5 vads-u-font-size--sm">
                 <strong>Optional</strong> - We requested this from others, but

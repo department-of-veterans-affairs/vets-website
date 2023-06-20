@@ -204,6 +204,32 @@ function getPatientContact(appt) {
   };
 }
 
+/**
+ * Gets the reasonCode from reasonCode.text field for DS
+ *
+ * @param {Object} appt VAOS Service appointment object
+ * @param {Object} key key of reasonCode info you want returned
+ * @returns {String} returns format data
+ */
+function getReasonCodeDS(appt, key) {
+  let data;
+  const reasonCode = appt.reasonCode?.text?.split('|');
+  if (reasonCode) {
+    if (key === 'code') {
+      data = reasonCode
+        .filter(item => item.includes('reasonCode:'))[0]
+        ?.split(':')[1]
+        ?.trim();
+    }
+    if (key === 'comments') {
+      data = reasonCode
+        .filter(item => item.includes('comments:'))[0]
+        ?.split(':')[1]
+        ?.trim();
+    }
+  }
+  return data;
+}
 export function transformVAOSAppointment(appt) {
   const appointmentType = getAppointmentType(appt);
   const isCC = appt.kind === 'cc';
@@ -309,19 +335,24 @@ export function transformVAOSAppointment(appt) {
   if (appt.location && appt.location.attributes) {
     facilityData = transformFacilityV2(appt.location.attributes);
   }
+  // get appt reason code from reasonCode.text field for DS
+  const reasonCode = appt.reasonCode?.coding
+    ? appt.reasonCode?.coding
+    : getReasonCodeDS(appt, 'code');
   let comment = null;
   const coding =
-    commentsReasonCode.length > 0
-      ? commentsReasonCode
-      : appt.reasonCode?.coding;
+    commentsReasonCode.length > 0 ? commentsReasonCode : reasonCode;
   const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
     purpose =>
-      purpose.serviceName === coding?.[0]?.code ||
-      purpose.commentShort === coding?.[0]?.code,
+      purpose.serviceName === (coding?.[0]?.code || coding) ||
+      purpose.commentShort === (coding?.[0]?.code || coding),
   )?.serviceName;
   const comments =
     appointmentComments.length > 0 ? appointmentComments[0] : appt.reasonCode;
-  const text = appt.reasonCode ? comments.text : null;
+  const reasonCodeText = getReasonCodeDS(appt, 'comments')
+    ? getReasonCodeDS(appt, 'comments')
+    : comments?.text;
+  const text = appt.reasonCode ? reasonCodeText : null;
   if (coding && code && text) {
     comment = `${code}: ${text}`;
   } else if (coding && code) {

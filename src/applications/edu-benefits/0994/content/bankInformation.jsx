@@ -1,5 +1,4 @@
 import React from 'react';
-import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export const bankInfoNote = (
   <div>
@@ -21,14 +20,14 @@ const gaBankInfoHelpText = () => {
 };
 
 export const bankInfoHelpText = (
-  <VaAdditionalInfo
+  <va-additional-info
     trigger="What if I don’t have a bank account?"
     onClick={gaBankInfoHelpText}
   >
     <span>
       <p>
         The{' '}
-        <a href="https://www.usdirectexpress.com/">
+        <a href="https://veteransbenefitsbanking.org/">
           Veterans Benefits Banking Program (VBBP)
         </a>{' '}
         provides a list of Veteran-friendly banks and credit unions. They’ll
@@ -38,13 +37,10 @@ export const bankInfoHelpText = (
         to mention the Veterans Benefits Banking Program.
       </p>
       <p>
-        Note: The Department of the Treasury requires us to make electronic
-        payments. If you don’t want to use direct deposit, you’ll need to call
-        the Department of the Treasury at{' '}
-        <va-telephone className="help-phone-number-link" contact="8882242950" />{' '}
-        . Ask to talk with a representative who handles waiver requests. They
-        can answer any questions or concerns you may have.
+        Note: Federal regulation, found in 31 C.F.R. § 208.3 provides that,
+        subject to section 208.4, “all Federal payments made by an agency shall
+        be made by electronic funds transfer” (EFT).
       </p>
     </span>
-  </VaAdditionalInfo>
+  </va-additional-info>
 );

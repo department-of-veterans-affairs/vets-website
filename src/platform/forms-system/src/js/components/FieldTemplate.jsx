@@ -43,6 +43,7 @@ export default function FieldTemplate(props) {
     isDateField ||
     uiSchema['ui:widget'] === 'yesNo' ||
     uiSchema['ui:widget'] === 'radio';
+  const WebComponentField = uiSchema['ui:webComponentField'];
 
   let errorSpanId;
   let errorSpan;
@@ -75,6 +76,7 @@ export default function FieldTemplate(props) {
 
   const noWrapperContent =
     !showFieldLabel &&
+    !WebComponentField &&
     (schema.type === 'object' ||
       schema.type === 'array' ||
       (schema.type === 'boolean' && !uiSchema['ui:widget']));
@@ -106,6 +108,22 @@ export default function FieldTemplate(props) {
   const showLabel =
     !uiSchema['ui:options']?.hideLabelText &&
     (typeof label !== 'string' || (requiredSpan || label.trim()));
+
+  if (typeof WebComponentField === 'function') {
+    return (
+      <WebComponentField
+        description={description}
+        textDescription={textDescription}
+        DescriptionField={DescriptionField}
+        label={showLabel ? label : null}
+        required={required}
+        error={hasErrors ? rawErrors[0] : null}
+        uiOptions={uiSchema['ui:options']}
+        index={formContext?.pagePerItemIndex}
+        childrenProps={children.props}
+      />
+    );
+  }
 
   const content = (
     <>

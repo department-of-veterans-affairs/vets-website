@@ -17,8 +17,8 @@ import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
 import {
   getClaimType,
-  getCompletedDate,
   getItemDate,
+  getTrackedItemDate,
   getUserPhase,
   itemsNeedingAttentionFromVet,
 } from '../utils/helpers';
@@ -32,6 +32,7 @@ const getStatusMap = () => {
   map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
   map.set('UNDER_REVIEW', 'UNDER_REVIEW');
   map.set('GATHERING_OF_EVIDENCE', 'GATHERING_OF_EVIDENCE');
+  map.set('REVIEW_OF_EVIDENCE', 'REVIEW_OF_EVIDENCE');
   map.set('PREPARATION_FOR_DECISION', 'PREPARATION_FOR_DECISION');
   map.set('PENDING_DECISION_APPROVAL', 'PENDING_DECISION_APPROVAL');
   map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
@@ -56,19 +57,8 @@ const generatePhases = claim => {
   const { previousPhases } = claim.attributes.claimPhaseDates;
   const phases = [];
 
-  // Add 'filed' event
   phases.push({
     type: 'filed',
-    phase: 1,
-    date: claim.attributes.claimDate,
-  });
-
-  // Add 'phase1' event (this is equivalent to the filed event,
-  // but activity is group by 'phase_entered' events so we need this
-  // one as well)
-  phases.push({
-    type: 'phase_entered',
-    phase: 1,
     date: claim.attributes.claimDate,
   });
 
@@ -109,10 +99,6 @@ const generateSupportingDocuments = claim => {
     .filter(isEventOrPrimaryPhase);
 };
 
-const getTrackedItemDate = item => {
-  return item.closedDate || item.receivedDate || item.requestedDate;
-};
-
 const generateTrackedItems = claim => {
   const { trackedItems } = claim.attributes;
 
@@ -128,13 +114,23 @@ const generateEventTimeline = claim => {
   const supportingDocuments = generateSupportingDocuments(claim);
   const trackedItems = generateTrackedItems(claim);
 
-  const events = [...phases, ...supportingDocuments, ...trackedItems];
+  const events = [...trackedItems, ...supportingDocuments, ...phases];
 
-  // Sort events from most recent to least recent
+  // Sort events from least to most recent
   events.sort((a, b) => {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-    return dateB - dateA; // Compare the dates in reverse order
+    if (a.date === b.date) {
+      // Phases should be flipped
+      if (a.phase && b.phase) {
+        return b.phase - a.phase;
+      }
+      // Tracked items should be flipped as well
+      if (a.type === 'tracked_item' && b.type === 'tracked_item') {
+        return b.id - a.id;
+      }
+      return 0;
+    }
+
+    return b.date > a.date ? 1 : -1;
   });
 
   let activity = [];
@@ -206,14 +202,14 @@ class ClaimStatusPage extends React.Component {
 
     const {
       claimPhaseDates,
+      closeDate,
       decisionLetterSent,
       documentsNeeded,
       status,
     } = attributes;
 
-    const isOpen =
-      status !== STATUSES.COMPLETE && attributes.closeDate === null;
-    const filesNeeded = itemsNeedingAttentionFromVet(attributes.eventsTimeline);
+    const isOpen = status !== STATUSES.COMPLETE && closeDate === null;
+    const filesNeeded = itemsNeedingAttentionFromVet(attributes.trackedItems);
     const showDocsNeeded =
       !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
 
@@ -224,12 +220,12 @@ class ClaimStatusPage extends React.Component {
         ) : null}
         {decisionLetterSent && !isOpen ? (
           <ClaimsDecision
-            completedDate={getCompletedDate(claim)}
+            completedDate={closeDate}
             showClaimLettersLink={showClaimLettersLink}
           />
         ) : null}
         {!decisionLetterSent && !isOpen ? (
-          <ClaimComplete completedDate={getCompletedDate(claim)} />
+          <ClaimComplete completedDate={closeDate} />
         ) : null}
         {status && isOpen ? (
           <ClaimTimeline

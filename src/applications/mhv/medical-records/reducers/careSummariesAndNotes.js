@@ -1,6 +1,7 @@
 import environment from 'platform/utilities/environment';
 import { Actions } from '../util/actionTypes';
 import { dateFormat } from '../util/helpers';
+import { testing } from '../util/constants';
 
 const initialState = {
   /**
@@ -24,7 +25,6 @@ const convertNote = note => {
     // admittingPhysician: note.asdf,
     // dischargePhysician: note.asdf,
     // facility: note.asdf,
-    // vaccineId: note.asdf,
     // reactions: note.asdf,
   };
 };
@@ -35,7 +35,7 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
       return {
         ...state,
         careSummariesAndNotesDetails:
-          environment.BUILDTYPE === 'localhost'
+          environment.BUILDTYPE === 'localhost' && testing
             ? convertNote(action.response)
             : action.response,
       };
@@ -44,7 +44,7 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
       return {
         ...state,
         careSummariesAndNotesList:
-          environment.BUILDTYPE === 'localhost'
+          environment.BUILDTYPE === 'localhost' && testing
             ? action.response.entry.map(note => {
                 return convertNote(note.resource);
               })

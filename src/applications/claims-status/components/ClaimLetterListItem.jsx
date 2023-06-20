@@ -48,7 +48,7 @@ const downloadHandler = () => {
 
 const ClaimLetterListItem = ({ letter }) => {
   const formattedDate = formatDate(letter.receivedAt);
-  const heading = `Letter dated ${formattedDate}`;
+  const heading = `${formattedDate} letter`;
 
   return (
     <li className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-padding-bottom--2">

@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   VaButtonPair,
   VaNumberInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 
 import { ROUTES } from '../constants';
-import { updateZipCode } from '../actions';
+import { updateEditMode, updateZipCode } from '../actions';
 
-const ZipCodePage = ({ router, updateZipCodeField, zipCode }) => {
+const ZipCodePage = ({
+  editMode,
+  pastMode,
+  router,
+  toggleEditMode,
+  updateZipCodeField,
+  zipCode,
+}) => {
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -19,11 +27,19 @@ const ZipCodePage = ({ router, updateZipCodeField, zipCode }) => {
 
   const validZip = zipCode && zipCodeValid(zipCode);
 
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
+
   const onContinueClick = () => {
     setSubmitted(true);
 
     if (!validZip) {
       setError(true);
+    } else if (editMode) {
+      setError(false);
+      toggleEditMode(false);
+      router.push(ROUTES.REVIEW);
     } else {
       setError(false);
       router.push(ROUTES.DEPENDENTS);
@@ -41,7 +57,15 @@ const ZipCodePage = ({ router, updateZipCodeField, zipCode }) => {
   };
 
   const onBackClick = () => {
-    router.push('/');
+    if (editMode) {
+      toggleEditMode(false);
+    }
+
+    if (pastMode) {
+      router.push(ROUTES.YEAR);
+    } else {
+      router.push(ROUTES.HOME);
+    }
   };
 
   return (
@@ -78,18 +102,24 @@ const ZipCodePage = ({ router, updateZipCodeField, zipCode }) => {
 };
 
 const mapStateToProps = state => ({
+  editMode: state?.incomeLimits?.editMode,
+  pastMode: state?.incomeLimits?.pastMode,
   zipCode: state?.incomeLimits?.form?.zipCode,
 });
 
 const mapDispatchToProps = {
+  toggleEditMode: updateEditMode,
   updateZipCodeField: updateZipCode,
 };
 
 ZipCodePage.propTypes = {
+  editMode: PropTypes.bool.isRequired,
+  pastMode: PropTypes.bool.isRequired,
   updateZipCodeField: PropTypes.func.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
+  toggleEditMode: PropTypes.func,
   zipCode: PropTypes.string,
 };
 

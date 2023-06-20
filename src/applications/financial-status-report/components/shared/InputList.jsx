@@ -14,9 +14,8 @@ const InputList = ({
       {title && <legend className="schemaform-block-title">{title}</legend>}
       {prompt && <p>{prompt}</p>}
       {inputs?.map((input, key) => (
-        <div key={input.name + key} className="input-size-3">
+        <div key={input.name + key}>
           <va-number-input
-            className="no-wrap input-size-3"
             error={
               submitted && errorList.includes(input.name)
                 ? 'Enter valid dollar amount'
@@ -29,6 +28,7 @@ const InputList = ({
             onInput={onChange}
             required
             value={input.amount}
+            class="input-size-3 no-wrap"
             currency
           />
         </div>

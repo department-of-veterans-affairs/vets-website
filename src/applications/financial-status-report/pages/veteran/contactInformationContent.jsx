@@ -6,7 +6,7 @@ export const content = {
     <>
       <p>
         This is the contact information we have on file for you. We’ll send any
-        updates or information about your Supplemental Claim to this address.
+        important information about your debt to this address.
       </p>
       <p>
         <strong>Note:</strong> Any updates you make here will be reflected in

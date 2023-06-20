@@ -1,74 +1,196 @@
-// These tests work locally, but they will not succeed in the CI
-// until the content-build changes have been merged in to register the application
-xdescribe('Income Limits', () => {
-  const clickBack = () =>
-    cy
-      .findByTestId('il-buttonPair')
-      .shadow()
-      .get('button')
-      .first()
-      .click();
+import {
+  DEPINPUT,
+  DEPENDENTS,
+  NEWDEPS,
+  NEWYEAR,
+  NEWZIP,
+  RESULTSPAGE,
+  REVIEWPAGE,
+  YEAR,
+  YEARINPUT,
+  ZIP,
+  ZIPINPUT,
+  checkInputText,
+  clearInput,
+  clickBack,
+  clickContinue,
+  getEditLink,
+  getTdCell,
+  selectFromDropdown,
+  typeInInput,
+  verifyElement,
+} from './helpers';
 
-  const clickContinue = () =>
-    cy
-      .findByTestId('il-buttonPair')
-      .shadow()
-      .get('button')
-      .eq(1)
-      .click();
-
-  const typeZip = () =>
-    cy
-      .findByTestId('il-zipCode')
-      .shadow()
-      .get('input')
-      .first()
-      .type('10108');
-
-  const typeDependents = () =>
-    cy
-      .findByTestId('il-dependents')
-      .shadow()
-      .get('input')
-      .first()
-      .type('2');
-
-  const verifyElement = selector => cy.findByTestId(selector).should('exist');
-
+describe('Income Limits', () => {
   it('navigates through the flow successfully forward and backward', () => {
     cy.visit('/health-care/income-limits-temp');
 
-    // Zip code
-    verifyElement('il-zipCode');
-    typeZip();
+    // Temporarily adding year for all flows because we're defaulting to past flow
+    // until we have a URL governing where we're coming from
+    // Year
+    verifyElement(YEARINPUT);
     cy.injectAxeThenAxeCheck();
+    selectFromDropdown(YEARINPUT, YEAR);
+    clickContinue();
+
+    // Zip code
+    verifyElement(ZIPINPUT);
+    cy.injectAxeThenAxeCheck();
+    typeInInput(ZIPINPUT, ZIP);
     clickContinue();
 
     // Dependents
-    verifyElement('il-dependents');
-    typeDependents();
+    verifyElement(DEPINPUT);
     cy.injectAxeThenAxeCheck();
+    typeInInput(DEPINPUT, DEPENDENTS);
     clickContinue();
 
     // Review
-    verifyElement('il-review');
+    verifyElement(REVIEWPAGE);
     cy.injectAxeThenAxeCheck();
     clickContinue();
 
     // Results
-    verifyElement('il-results');
+    verifyElement(RESULTSPAGE);
     cy.injectAxeThenAxeCheck();
 
     // Review
     cy.go('back');
-    verifyElement('il-review');
+    verifyElement(REVIEWPAGE);
     clickBack();
 
     // Dependents
-    verifyElement('il-dependents');
+    verifyElement(DEPINPUT);
+    checkInputText(DEPINPUT, DEPENDENTS);
     clickBack();
 
     // Zip code
-    verifyElement('il-zipCode');
+    verifyElement(ZIPINPUT);
+    checkInputText(ZIPINPUT, ZIP);
+    clickBack();
+
+    // Year
+    verifyElement(YEARINPUT);
+    checkInputText(YEARINPUT, YEAR);
+  });
+
+  it('navigates correctly through editing year', () => {
+    cy.visit('/health-care/income-limits-temp');
+
+    // Temporarily adding year for all flows because we're defaulting to past flow
+    // until we have a URL governing where we're coming from
+    // Year
+    verifyElement(YEARINPUT);
+    cy.injectAxeThenAxeCheck();
+    selectFromDropdown(YEARINPUT, YEAR);
+    clickContinue();
+
+    // Zip code
+    verifyElement(ZIPINPUT);
+    typeInInput(ZIPINPUT, ZIP);
+    clickContinue();
+
+    // Dependents
+    verifyElement(DEPINPUT);
+    typeInInput(DEPINPUT, DEPENDENTS);
+    clickContinue();
+
+    // Review
+    verifyElement(REVIEWPAGE);
+    getTdCell(0).contains(YEAR);
+    getTdCell(2).contains(ZIP);
+    getTdCell(4).contains(DEPENDENTS);
+    getEditLink(0).click();
+
+    // Dependents
+    verifyElement(YEARINPUT);
+    selectFromDropdown(YEARINPUT, NEWYEAR);
+    clickContinue();
+
+    // Review
+    verifyElement(REVIEWPAGE);
+    getTdCell(0).contains(NEWYEAR);
+    getTdCell(2).contains(ZIP);
+    getTdCell(4).contains(DEPENDENTS);
+  });
+
+  it('navigates correctly through editing zip code', () => {
+    cy.visit('/health-care/income-limits-temp');
+
+    // Temporarily adding year for all flows because we're defaulting to past flow
+    // until we have a URL governing where we're coming from
+    // Year
+    verifyElement(YEARINPUT);
+    cy.injectAxeThenAxeCheck();
+    selectFromDropdown(YEARINPUT, YEAR);
+    clickContinue();
+
+    // Zip code
+    verifyElement(ZIPINPUT);
+    typeInInput(ZIPINPUT, ZIP);
+    clickContinue();
+
+    // Dependents
+    verifyElement(DEPINPUT);
+    typeInInput(DEPINPUT, DEPENDENTS);
+    clickContinue();
+
+    // Review
+    verifyElement(REVIEWPAGE);
+    getTdCell(2).contains(ZIP);
+    getTdCell(4).contains(DEPENDENTS);
+    getEditLink(1).click();
+
+    // Zip code
+    verifyElement(ZIPINPUT);
+    clearInput(ZIPINPUT);
+    typeInInput(ZIPINPUT, NEWZIP, { force: true });
+    clickContinue();
+
+    // Review
+    verifyElement(REVIEWPAGE);
+    getTdCell(0).contains(YEAR);
+    getTdCell(2).contains(NEWZIP);
+    getTdCell(4).contains(DEPENDENTS);
+  });
+
+  it('navigates correctly through editing dependents', () => {
+    cy.visit('/health-care/income-limits-temp');
+
+    // Temporarily adding year for all flows because we're defaulting to past flow
+    // until we have a URL governing where we're coming from
+    // Year
+    verifyElement(YEARINPUT);
+    cy.injectAxeThenAxeCheck();
+    selectFromDropdown(YEARINPUT, YEAR);
+    clickContinue();
+
+    // Zip code
+    verifyElement(ZIPINPUT);
+    typeInInput(ZIPINPUT, ZIP);
+    clickContinue();
+
+    // Dependents
+    verifyElement(DEPINPUT);
+    typeInInput(DEPINPUT, DEPENDENTS);
+    clickContinue();
+
+    // Review
+    verifyElement(REVIEWPAGE);
+    getTdCell(2).contains(ZIP);
+    getTdCell(4).contains(DEPENDENTS);
+    getEditLink(2).click();
+
+    // Dependents
+    verifyElement(DEPINPUT);
+    clearInput(DEPINPUT);
+    typeInInput(DEPINPUT, NEWDEPS);
+    clickContinue();
+
+    // Review
+    verifyElement(REVIEWPAGE);
+    getTdCell(0).contains(YEAR);
+    getTdCell(2).contains(ZIP);
+    getTdCell(4).contains(NEWDEPS);
   });
 });

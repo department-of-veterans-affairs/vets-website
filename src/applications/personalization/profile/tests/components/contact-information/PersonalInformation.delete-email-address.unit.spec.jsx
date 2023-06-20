@@ -7,7 +7,7 @@ import { setupServer } from 'msw/node';
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
 
-import { DEFAULT_ERROR_MESSAGE } from '~/platform/user/profile/vap-svc/constants';
+import { DEFAULT_ERROR_MESSAGE } from 'platform/user/profile/vap-svc/constants';
 
 import {
   createBasicInitialState,

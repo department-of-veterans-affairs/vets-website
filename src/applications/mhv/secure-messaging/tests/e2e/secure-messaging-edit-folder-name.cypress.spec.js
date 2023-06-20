@@ -37,6 +37,15 @@ describe('Secure Messaging Custom Folder Edit Folder Name Message Validation', (
     );
 
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

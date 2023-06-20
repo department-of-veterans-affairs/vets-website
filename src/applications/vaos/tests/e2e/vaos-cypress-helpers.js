@@ -469,6 +469,18 @@ export function mockCCProvidersApi() {
   ).as('v1:get:provider');
 }
 
+export function mockAppointmentApi({ data, id } = {}) {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `/vaos/v2/appointments/${id}`,
+    },
+    req => {
+      req.reply({ data });
+    },
+  ).as('v2:get:appointment');
+}
+
 export function mockAppointmentsApi({
   data,
   status = APPOINTMENT_STATUS.booked,
@@ -521,8 +533,6 @@ export function mockAppointmentsApi({
       req => req.reply({ data: '' }),
     ).as('v0:cancel:appointment');
   } else if (apiVersion === 2) {
-    const db = [];
-
     cy.intercept(
       {
         method: 'GET',
@@ -574,25 +584,9 @@ export function mockAppointmentsApi({
           },
         };
 
-        db.push(newAppointment.data);
         req.reply(newAppointment);
       },
     ).as('v2:create:appointment');
-
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: '/vaos/v2/appointments/mock1',
-        query: {
-          _include: '*',
-        },
-      },
-      req => {
-        req.reply({
-          data: db[0],
-        });
-      },
-    ).as('v2:get:appointment');
   }
 }
 
@@ -705,9 +699,6 @@ export function mockFacilitiesApi({ count, data, apiVersion = 0 }) {
       {
         method: 'GET',
         pathname: '/v1/facilities/va',
-        query: {
-          ids: '*',
-        },
       },
       req => {
         const tokens = req.query.ids.split(',');

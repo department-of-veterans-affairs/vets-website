@@ -1,6 +1,11 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 [data-widget-type="find-va-forms"] {
+  .usa-input-error {
+    margin-top: inherit;
+    position: inherit;
+  }
+
   i {
     pointer-events: none;
   }

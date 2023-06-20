@@ -5,6 +5,7 @@ const createSessionStorageKeys = ({ isPreCheckIn = true }) => {
   const sessionStorageKeys = {
     CURRENT_UUID: `${namespace}.current.uuid`,
     COMPLETE: `${namespace}.complete`,
+    CHECK_IN_COMPLETE: `${namespace}.check.in.complete`,
     SHOULD_SEND_DEMOGRAPHICS_FLAGS: `${namespace}.should.send.demographics.flags`,
     PROGRESS_STATE: `${namespace}.progress`,
     PERMISSIONS: `${namespace}.permissions`,
