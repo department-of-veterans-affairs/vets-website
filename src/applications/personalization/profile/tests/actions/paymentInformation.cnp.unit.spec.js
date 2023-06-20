@@ -64,7 +64,7 @@ const testLighthouseFailure = ({ errorKey, isEnrolling = false }) => {
         event: 'api_call',
         'api-name': 'PUT /profile/direct_deposits/disability_compensations',
         'api-status': 'failed',
-        'error-key': `${errorKey} test detail${
+        'error-key': `${errorKey} | test detail${
           isEnrolling ? '-enroll' : '-update'
         }`,
       });
