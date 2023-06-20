@@ -45,7 +45,7 @@ const MessageThreadItem = props => {
         hasAttachments || attachment ? 'with attachment' : ''
       } from ${senderName}."`;
     },
-    [fromMe, hasAttachments, isRead, senderName, sentDate],
+    [attachment, fromMe, hasAttachments, isRead, senderName, sentDate],
   );
 
   return (
