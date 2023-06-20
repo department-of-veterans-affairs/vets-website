@@ -53,8 +53,6 @@ const SpouseGrossMonthlyIncomeInput = props => {
           Number(grossMonthlyIncome.value) < 0)
       ) {
         setIncomeError(true);
-      } else {
-        setIncomeError(false);
       }
     },
     [grossMonthlyIncome],
@@ -124,34 +122,29 @@ const SpouseGrossMonthlyIncomeInput = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <h3 className="schemaform-block-title vads-u-margin-top--6">
-        Your spouse’s job at {employerName}
+      <h3 className="schemaform-block-title vads-u-margin-top--5">
+        Monthly income for {employerName}
       </h3>
-      <p className="vads-u-margin-bottom--0">
-        What’s your spouse’s gross <strong>monthly</strong> income at this job?{' '}
-      </p>
-      <p className="formfield-subtitle">
-        You’ll find this in your spouse’s pay stub. It’s the amount of your
-        spouse’s pay before taxes and deductions.
-      </p>
-      <div className="input input-size-3">
-        <va-number-input
-          inputmode="numeric"
-          currency
-          id="gross-monthly-income"
-          data-testid="gross-monthly-income"
-          name="gross-monthly-income"
-          onInput={setNewGrossMonthlyIncome}
-          type="text"
-          value={grossMonthlyIncome.value}
-          required
-          error={
-            incomeError && grossMonthlyIncome.dirty
-              ? `Please enter a valid number.`
-              : ''
-          }
-        />
-      </div>
+      <va-number-input
+        label="What’s your spouse's gross monthly income at this job?"
+        hint="You’ll find this in your spouse's pay stub. It’s the amount of your spouse's pay before
+        taxes and deductions."
+        inputmode="numeric"
+        id="gross-monthly-income"
+        currency
+        data-testid="gross-monthly-income"
+        name="gross-monthly-income"
+        onInput={setNewGrossMonthlyIncome}
+        type="text"
+        value={grossMonthlyIncome.value}
+        required
+        width="md"
+        error={
+          incomeError && grossMonthlyIncome.dirty
+            ? `Please enter a valid number.`
+            : ''
+        }
+      />
       {onReviewPage ? updateButton : navButtons}
     </form>
   );
