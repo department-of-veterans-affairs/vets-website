@@ -8,7 +8,7 @@ import getHelp from '../../shared/components/GetFormHelp';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
+  // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '21-0972-alternate-signer-',

@@ -38,7 +38,7 @@ describe('Prescription details container', () => {
     const screen = setup();
 
     const prescriptionName = screen.getByText(
-      initialState.rx.prescriptions.prescriptionDetails.name,
+      initialState.rx.prescriptions.prescriptionDetails.prescriptionName,
       {
         exact: true,
         selector: 'h1',
@@ -51,7 +51,7 @@ describe('Prescription details container', () => {
     const screen = setup();
     const formattedDate = screen.getAllByText(
       dateFormat(
-        initialState.rx.prescriptions.prescriptionDetails?.dateOrdered,
+        initialState.rx.prescriptions.prescriptionDetails?.orderedDate,
         'MMMM D, YYYY',
       ),
       {
@@ -65,7 +65,7 @@ describe('Prescription details container', () => {
   it('displays the facility', () => {
     const screen = setup();
     const location = screen.getAllByText(
-      initialState.rx.prescriptions.prescriptionDetails.facility,
+      initialState.rx.prescriptions.prescriptionDetails.facilityName,
       {
         exact: true,
         selector: 'p',

@@ -878,10 +878,7 @@ export function submitAppointmentOrRequest(history) {
           requestBody = transformFormToVAOSCCRequest(getState());
           requestData = await createAppointment({ appointment: requestBody });
         } else if (featureVAOSServiceRequests) {
-          requestBody = transformFormToVAOSVARequest(
-            getState(),
-            featureAcheronVAOSServiceRequests,
-          );
+          requestBody = transformFormToVAOSVARequest(getState());
           requestData = await createAppointment({
             appointment: requestBody,
             useAcheron: featureAcheronVAOSServiceRequests,
