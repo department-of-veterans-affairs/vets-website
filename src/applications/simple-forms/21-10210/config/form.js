@@ -54,7 +54,7 @@ const witnessHasOtherRelationship = formData => {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'lay-witness-10210-',
   dev: {
     showNavLinks: true,
