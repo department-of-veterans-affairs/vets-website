@@ -55,7 +55,7 @@ class Introduction {
   };
 
   countAppointmentList = expectedLength => {
-    cy.get('ol[data-testid="appointment-list"] li').should(
+    cy.get('ul[data-testid="appointment-list"] li').should(
       'have.length',
       expectedLength,
     );

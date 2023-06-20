@@ -114,7 +114,7 @@ const responses = {
     return res.json(disabilityComps.base);
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
-    return res.status(400).json(disabilityComps.errors.invalidRoutingNumber);
+    return res.status(200).json(disabilityComps.updates.success);
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount.needsPatient,

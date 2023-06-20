@@ -225,5 +225,6 @@
   "were-sorry-this-link-has-expired": "We’re sorry. This link has expired.",
   "trying-to-check-in-for-an-appointment--info-message": "Trying to check in for an appointment? Text <0>check in</0> to <1></1>.",
   "were-sorry-cant-file-travel-file-later--info-message": "We’re sorry. We can’t file a travel reimbursement claim for you now. But you can still file within <0>30 days</0> of the appointment.",
-  "processing-travel-claim": "<0>We’re processing your travel reimbursement claim.</0> We’ll send you a text to let you know the status of your claim."
+  "processing-travel-claim": "<0>We’re processing your travel reimbursement claim.</0> We’ll send you a text to let you know the status of your claim.",
+  "check-in": "Check-In"
 }

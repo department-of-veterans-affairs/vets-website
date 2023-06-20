@@ -3,7 +3,9 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 class NextOfKin {
   validatePage = {
     dayOf: () => {
-      this.validatePageLoaded('Is this your current next of kin information?');
+      this.validatePageLoaded(
+        'Check-In Is this your current next of kin information?',
+      );
     },
     preCheckIn: () => {
       this.validatePageLoaded('Is this your current next of kin?');

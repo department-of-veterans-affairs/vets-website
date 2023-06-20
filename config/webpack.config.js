@@ -397,6 +397,7 @@ module.exports = async (env = {}) => {
       },
       extensions: ['.js', '.jsx'],
       fallback: {
+        fs: false,
         assert: require.resolve('assert/'),
         buffer: require.resolve('buffer/'),
         crypto: false,
