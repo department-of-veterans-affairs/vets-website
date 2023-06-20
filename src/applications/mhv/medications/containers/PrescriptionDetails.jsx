@@ -24,7 +24,7 @@ const PrescriptionDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="page-title">{prescription.name}</h1>
+          <h1 className="page-title">{prescription.prescriptionName}</h1>
 
           <div className="no-print">
             <button
@@ -83,16 +83,26 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescription number
             </h3>
-            <p>{prescription.id}</p>
+            <p>{prescription.prescriptionId}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Instructions
             </h3>
-            <p>{prescription.instructions}</p>
+            <p>
+              {prescription?.sig ||
+                "No instructions specified, please refer to the medication's label."}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Status
             </h3>
             <div className="no-print">
-              <va-additional-info trigger={prescription.status}>
+              <va-additional-info
+                trigger={
+                  prescription.refillStatus === 'refillinprocess'
+                    ? 'Refill in process'
+                    : prescription.refillStatus.charAt(0).toUpperCase() +
+                      prescription.refillStatus.slice(1)
+                }
+              >
                 <ul>
                   <li>
                     An active medication is a prescription still in use and
@@ -106,11 +116,15 @@ const PrescriptionDetails = () => {
                 </ul>
               </va-additional-info>
             </div>
-            <div className="print-only">{prescription.status}</div>
+            <div className="print-only">
+              {prescription.refillStatus === 'refillinprocess'
+                ? 'refill in process'
+                : prescription.refillStatus}
+            </div>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Refills left
             </h3>
-            <p>{prescription.refillsLeft}</p>
+            <p>{prescription.refillRemaining}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Quantity
             </h3>
@@ -118,7 +132,7 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Ordered on date
             </h3>
-            <p>{dateFormat(prescription.dateOrdered, 'MMMM D, YYYY')}</p>
+            <p>{dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}</p>
             <div className="no-print">
               <va-additional-info trigger="What does this mean?">
                 <p>
@@ -132,7 +146,7 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Expiration date
             </h3>
-            <p>{dateFormat(prescription.expDate, 'MMMM D, YYYY')}</p>
+            <p>{dateFormat(prescription.expirationDate, 'MMMM D, YYYY')}</p>
             <div className="no-print">
               <va-additional-info trigger="What does this mean?">
                 <p>
@@ -146,32 +160,38 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescriber name
             </h3>
-            <p>{prescription.prescriberName}</p>
+            <p>{prescription?.presciberName || 'No provider specified'}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
             </h3>
-            <p>{prescription.facility}</p>
+            <p>{prescription.facilityName}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Phone number
             </h3>
             <div className="no-print">
-              <va-telephone contact={prescription.phoneNumber} />
+              {prescription?.phoneNumber ? (
+                <va-telephone contact={prescription.phoneNumber} />
+              ) : (
+                'No phone number provided'
+              )}
             </div>
-            <div className="print-only">{prescription.phoneNumber}</div>
+            <div className="print-only">
+              {prescription?.phoneNumber || 'No phone number provided'}
+            </div>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Category
             </h3>
-            <p>{prescription.category}</p>
+            <p>{prescription?.category || 'No category specified'}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Source
             </h3>
-            <p>{prescription.source}</p>
+            <p>{prescription?.source || 'No source specified'}</p>
           </div>
           <div className="vads-u-margin-bottom--8">
             <h2 className="vads-u-margin-top--3">
               Refill history and medication images
             </h2>
-            {prescription.history.length > 0 ? (
+            {prescription.history && prescription.history.length > 0 ? (
               prescription.history.map(entry => (
                 <div key={entry.requestDate}>
                   <h3 className="vads-u-font-size--lg vads-u-font-family--sans">
