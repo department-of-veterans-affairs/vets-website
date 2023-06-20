@@ -190,7 +190,7 @@ describe('The My VA Dashboard - Notifications', () => {
       cy.wait(['@nameB', '@serviceB', '@notifications6']);
       cy.findByTestId('dashboard-notifications').should('exist');
       cy.findAllByTestId('onsite-notification-card').should('have.length', 1);
-      cy.get('button.onsite-notification-close').click();
+      cy.get('button.va-notification-close').click();
       cy.wait('@patch');
       cy.findByTestId('onsite-notification-card').should('not.exist');
       cy.findByTestId('dashboard-notifications').should('not.exist');
