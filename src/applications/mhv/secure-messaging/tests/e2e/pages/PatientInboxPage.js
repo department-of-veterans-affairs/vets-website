@@ -320,7 +320,7 @@ class PatientInboxPage {
     interstitialPage.getContinueButton().click({ force: true });
   };
 
-  // doesn't works - pressing Enter doesn't trigger anything
+  // doesn't work - realPress on line 328 doesn't trigger anything
   loadComposeMessagePageByKeyboardNavigation = () => {
     cy.tabToElement('[data-testid="compose-message-link"]');
     cy.realPress(['Enter']);
