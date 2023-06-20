@@ -12,6 +12,7 @@ const hearingType = {
       'ui:required': needsHearingType,
       'ui:options': {
         labels: hearingTypeContent,
+        enableAnalytics: true,
       },
       'ui:errorMessages': {
         required: missingHearingTypeErrorMessage,
