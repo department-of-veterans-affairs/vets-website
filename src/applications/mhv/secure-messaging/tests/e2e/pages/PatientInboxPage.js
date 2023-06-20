@@ -314,14 +314,13 @@ class PatientInboxPage {
       .contains(`Continue to ${!type ? 'start message' : type} `);
   };
 
-  loadComposeMessagePage = () => {
+  navigateToComposePage = () => {
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
     const interstitialPage = new PatientInterstitialPage();
     interstitialPage.getContinueButton().click({ force: true });
   };
 
-  // doesn't work - realPress on line 328 doesn't trigger anything
-  navigateToMessageComposePageByKeyboard = () => {
+  navigateToComposePageByKeyboard = () => {
     cy.tabToElement('[data-testid="compose-message-link"]');
     cy.realPress(['Enter']);
     cy.tabToElement('[data-testid="continue-button"]');

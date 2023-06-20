@@ -9,7 +9,7 @@ describe('Secure Messaging Compose', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.navigateToMessageComposePageByKeyboard();
+    landingPage.navigateToComposePageByKeyboard();
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     composePage.getCategory('COVID').click();
     composePage.attachMessageFromFile('test_image.jpg');
