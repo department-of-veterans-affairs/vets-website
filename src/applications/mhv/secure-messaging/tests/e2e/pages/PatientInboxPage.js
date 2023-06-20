@@ -363,7 +363,12 @@ class PatientInboxPage {
   };
 
   openAdvancedSearch = () => {
-    cy.get('#first').click();
+    cy.get('#additional-filter-accordion')
+      .shadow()
+      .contains('Add filters')
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   selectAdvancedSearchCategory = () => {
@@ -379,7 +384,9 @@ class PatientInboxPage {
   };
 
   submitSearchButton = () => {
-    cy.get('[data-testid="filter-messages-button"]').click();
+    cy.get('[data-testid="filter-messages-button"]').click({
+      waitForAnimations: true,
+    });
   };
 }
 export default PatientInboxPage;

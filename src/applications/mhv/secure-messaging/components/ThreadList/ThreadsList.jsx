@@ -53,6 +53,7 @@ const ThreadsList = props => {
       <ThreadListSort sortOrder={sortOrder} sortCallback={sortCallback} />
       <div className="thread-list vads-l-row vads-u-flex-direction--column">
         <div
+          role="status"
           aria-label={`${displayNums.label.replace('-', 'to')} sorted by ${
             threadSortingOptions[sortOrder].label
           }`}

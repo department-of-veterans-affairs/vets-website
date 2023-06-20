@@ -266,6 +266,7 @@ const SearchForm = props => {
             text="Filter"
             primary
             class="filter-button vads-u-margin-left--0"
+            data-testid="filter-messages-button"
             onClick={e => {
               e.preventDefault();
               handleSearch();
