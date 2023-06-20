@@ -74,7 +74,6 @@ export const InformalConferenceTimesDescriptionV2 = (
   </>
 );
 
-export const informalConferenceTimeSelectTitles = {
-  first: <>Choose the best time for us to call {contacts}</>,
-  second: 'Choose another time for us to call',
-};
+export const informalConferenceTimeSelectTitle = (
+  <>Choose the best time for us to call {contacts}</>
+);
