@@ -87,15 +87,11 @@ export function getCommunityCareFacility(id) {
   }).then(parseApiObject);
 }
 
-export function getAvailableSlots(
-  facilityId,
-  typeOfCareId,
-  clinicId,
-  startDate,
-  endDate,
-) {
+export function getSitesSupportingVAR(systemIds) {
   return apiRequestWithUrl(
-    `/vaos/v0/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
+    `/vaos/v0/community_care/supported_sites?${systemIds
+      .map(id => `site_codes[]=${id}`)
+      .join('&')}`,
   ).then(parseApiList);
 }
 
