@@ -5,15 +5,17 @@ const PrintDownload = props => {
   const { download, list } = props;
   const [menuOpen, setMenuOpen] = useState(false);
 
-  let toggleMenuButtonClasses = 'toggle-menu-button';
+  let toggleMenuButtonClasses =
+    'toggle-menu-button vads-u-justify-content--space-between';
   let menuOptionsClasses = 'menu-options';
   let menuIconClasses =
-    'fas fa-angle-down vads-u-color--primary vads-u-margin-left--5';
+    'fas fa-angle-down vads-u-color--primary vads-u-margin-left--0p5';
   if (menuOpen) {
-    toggleMenuButtonClasses += ' toggle-menu-button-open';
+    toggleMenuButtonClasses +=
+      'toggle-menu-button-open vads-u-justify-content--space-between';
     menuOptionsClasses += ' menu-options-open';
     menuIconClasses =
-      'fas fa-angle-up vads-u-color--primary vads-u-margin-left--5';
+      'fas fa-angle-up vads-u-color--primary vads-u-margin-left--0p5';
   }
 
   return (
