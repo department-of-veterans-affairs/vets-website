@@ -28,7 +28,7 @@ RUN apt-get install -y --no-install-recommends gconf-service libasound2 libatk1.
                                                 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
                                                 fonts-liberation libnss3 lsb-release xdg-utils \
                                                 x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
-                                                xfonts-cyrillic x11-apps xvfb xauth netcat dumb-init libgbm-dev \ 
+                                                xfonts-cyrillic x11-apps xvfb xauth netcat dumb-init libgbm-dev \
                                                 && wget http://http.us.debian.org/debian/pool/main/liba/libappindicator/libappindicator1_0.4.92-7_amd64.deb -O /tmp/libappindicator1_0.4.92-7_amd64.deb \
                                                 && wget http://http.us.debian.org/debian/pool/main/libi/libindicator/libindicator7_0.5.0-4_amd64.deb -O /tmp/libindicator7_0.5.0-4_amd64.deb \
                                                 && apt-get install -y  /tmp/libindicator7_0.5.0-4_amd64.deb /tmp/libappindicator1_0.4.92-7_amd64.deb
@@ -46,8 +46,10 @@ ENV AWS_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
 
 # Add VA Root CA to Docker Certificate Authority (CA) Store so that NODE can use it for requests.
 ADD http://crl.pki.va.gov/PKI/AIA/VA/VA-Internal-S2-RCA1-v1.cer /usr/local/share/ca-certificates/
-RUN openssl x509 -inform DER -in /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.cer -out /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.crt
+RUN mv /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.cer /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 RUN update-ca-certificates
+# Display VA Internal certificates that are now trusted
+RUN awk -v cmd='openssl x509 -noout -subject' '/BEGIN/{close(cmd)};{print | cmd}' < /etc/ssl/certs/ca-certificates.crt | grep -i 'VA-Internal'
 
 # install RVM, Ruby, and Bundler
 # RUN \curl -L https://get.rvm.io | bash -s stable

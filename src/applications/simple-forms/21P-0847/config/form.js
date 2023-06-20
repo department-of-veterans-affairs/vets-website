@@ -18,7 +18,7 @@ import otherRelationshipToDeceasedClaimant from '../pages/otherRelationshipToDec
 import additionalInformation from '../pages/additionalInformation';
 
 // mock-data import for local development
-import testData from '../tests/e2e/fixtures/data/test-data.json';
+import testData from '../tests/e2e/fixtures/data/minimal-test.json';
 
 const mockData = testData;
 
@@ -33,6 +33,15 @@ const formConfig = {
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'preparerName',
+    },
+  },
   formId: '21P-0847',
   saveInProgress: {
     messages: {

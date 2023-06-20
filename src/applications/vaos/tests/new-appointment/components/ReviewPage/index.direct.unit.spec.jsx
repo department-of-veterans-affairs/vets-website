@@ -338,6 +338,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
       featureToggles: {
         vaOnlineSchedulingFacilitiesServiceV2: true,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
+        vaOnlineSchedulingAcheronService: true,
       },
       newAppointment: {
         pages: {},
@@ -486,8 +487,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
       locationId: '983',
       clinic: '455',
       reasonCode: {
-        coding: [{ code: 'Routine Follow-up' }],
-        text: 'I need an appt',
+        text: 'reasonCode:ROUTINEVISIT|comments:I need an appt',
       },
       extension: {
         desiredDate: '2021-05-06T00:00:00+00:00',
