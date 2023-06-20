@@ -279,7 +279,9 @@ describe('526 v2 migrations', () => {
 
   it('should change returnUrl to terminally-ill when user could potentially skip it', () => {
     const savedData = {
-      formData: {},
+      formData: {
+        homelessOrAtRisk: 'homeless',
+      },
       metadata: {
         returnUrl: '/payment-information',
       },
@@ -291,9 +293,12 @@ describe('526 v2 migrations', () => {
     expect(migratedData.metadata.returnUrl).to.equal('/terminally-ill-1');
   });
 
-  it('should change returnUrl review and submit if on the fdc page', () => {
+  it('should change returnUrl to review and submit if on the fdc page', () => {
     const savedData = {
-      formData: {},
+      formData: {
+        isTerminallyIll: false,
+        homelessOrAtRisk: 'no',
+      },
       metadata: {
         returnUrl: '/fully-developed-claim',
       },
