@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import MockDate from 'mockdate';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
@@ -19,11 +18,10 @@ import {
 
 import DateTimeSelectPage from '../../../../new-appointment/components/DateTimeSelectPage';
 import { FETCH_STATUS } from '../../../../utils/constants';
-import { mockAppointmentSlotFetch } from '../../../mocks/helpers';
-import { getAppointmentSlotMock } from '../../../mocks/v0';
 import { setDateTimeSelectMockFetches } from './helpers';
 import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
 import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
+import { mockAppointmentSlotFetch } from '../../../mocks/helpers.v2';
 
 const initialState = {
   featureToggles: {
@@ -45,11 +43,8 @@ describe('VAOS <DateTimeSelectPage>', () => {
       }),
       version: 0,
     });
-    MockDate.set(moment('2020-01-26T14:00:00'));
   });
-  afterEach(() => {
-    MockDate.reset();
-  });
+
   it('should not submit form with validation error', async () => {
     const slot308Date = moment()
       .day(9)
@@ -66,6 +61,12 @@ describe('VAOS <DateTimeSelectPage>', () => {
         308: [slot308Date],
         309: [slot309Date],
       },
+    });
+    mockAppointmentSlotFetch({
+      clinicId: '308',
+      facilityId: '983',
+      preferredDate: moment(),
+      response: [],
     });
     const preferredDate = moment();
 
@@ -196,6 +197,21 @@ describe('VAOS <DateTimeSelectPage>', () => {
       .minute(0)
       .second(0);
     const preferredDate = moment();
+    mockAppointmentSlotFetch({
+      clinicId: '308',
+      facilityId: '983',
+      preferredDate,
+      response: [
+        {
+          id: '308',
+          type: 'slots',
+          attributes: {
+            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
+        },
+      ],
+    });
 
     setDateTimeSelectMockFetches({
       slotDatesByClinicId: {
@@ -254,6 +270,22 @@ describe('VAOS <DateTimeSelectPage>', () => {
     await cleanup();
 
     // Second pass make sure the slots associated with red team are displayed
+    mockAppointmentSlotFetch({
+      clinicId: '309',
+      facilityId: '983',
+      preferredDate,
+      response: [
+        {
+          id: '309',
+          type: 'slots',
+          attributes: {
+            start: slot309Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot309Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
+        },
+      ],
+    });
+
     await setClinic(store, /red team/i);
     screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
       store,
@@ -310,6 +342,54 @@ describe('VAOS <DateTimeSelectPage>', () => {
       slotDatesByClinicId: {
         308: [slot308Date, slot308Date, slot308Date, slot308Date, slot308Date],
       },
+    });
+
+    mockAppointmentSlotFetch({
+      clinicId: '308',
+      facilityId: '983',
+      preferredDate,
+      response: [
+        {
+          id: '308',
+          type: 'slots',
+          attributes: {
+            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
+        },
+        {
+          id: '308',
+          type: 'slots',
+          attributes: {
+            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
+        },
+        {
+          id: '308',
+          type: 'slots',
+          attributes: {
+            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
+        },
+        {
+          id: '308',
+          type: 'slots',
+          attributes: {
+            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
+        },
+        {
+          id: '308',
+          type: 'slots',
+          attributes: {
+            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
+        },
+      ],
     });
 
     const store = createTestStore(initialState);
@@ -420,6 +500,22 @@ describe('VAOS <DateTimeSelectPage>', () => {
       },
     });
 
+    mockAppointmentSlotFetch({
+      clinicId: '308',
+      facilityId: '983',
+      preferredDate,
+      response: [
+        {
+          id: '308',
+          type: 'slots',
+          attributes: {
+            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
+        },
+      ],
+    });
+
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /primary care/i);
@@ -462,6 +558,30 @@ describe('VAOS <DateTimeSelectPage>', () => {
       slotDatesByClinicId: {
         308: [slot308Date, slot308TomorrowDate],
       },
+    });
+
+    mockAppointmentSlotFetch({
+      clinicId: '308',
+      facilityId: '983',
+      preferredDate,
+      response: [
+        {
+          id: '308',
+          type: 'slots',
+          attributes: {
+            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
+        },
+        {
+          id: '308',
+          type: 'slots',
+          attributes: {
+            start: slot308TomorrowDate.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot308TomorrowDate.format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
+        },
+      ],
     });
 
     await setTypeOfCare(store, /primary care/i);
@@ -621,6 +741,22 @@ describe('VAOS <DateTimeSelectPage>', () => {
       },
     });
 
+    mockAppointmentSlotFetch({
+      clinicId: '308',
+      facilityId: '983',
+      preferredDate,
+      response: [
+        {
+          id: '308',
+          type: 'slots',
+          attributes: {
+            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
+        },
+      ],
+    });
+
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /primary care/i);
@@ -688,27 +824,43 @@ describe('VAOS <DateTimeSelectPage>', () => {
     });
 
     mockAppointmentSlotFetch({
-      siteId: '983',
+      facilityId: '983',
       clinicId: '308',
-      typeOfCareId: '323',
-      slots: [
+      response: [
         {
-          ...getAppointmentSlotMock(),
-          startDateTime: secondSlotDate.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-          endDateTime: secondSlotDate
-            .clone()
-            .minute(20)
-            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          id: '308',
+          type: 'slots',
+          attributes: {
+            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
         },
       ],
-      startDate: preferredDate
-        .clone()
-        .add('2', 'months')
-        .startOf('month'),
+      startDate: preferredDate.clone().startOf('month'),
       endDate: preferredDate
         .clone()
-        .add('2', 'months')
-        .endOf('month'),
+        .add('1', 'months')
+        .endOf('month')
+        .startOf('day'),
+    });
+    mockAppointmentSlotFetch({
+      facilityId: '983',
+      clinicId: '308',
+      response: [
+        {
+          id: '308',
+          type: 'slots',
+          attributes: {
+            start: secondSlotDate.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: secondSlotDate.format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
+        },
+      ],
+      startDate: secondSlotDate.clone().startOf('month'),
+      endDate: secondSlotDate
+        .clone()
+        .endOf('month')
+        .startOf('day'),
     });
 
     const store = createTestStore(initialState);

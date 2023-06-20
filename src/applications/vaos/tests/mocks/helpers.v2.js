@@ -247,6 +247,8 @@ export function mockAppointmentSlotFetch({
   startDate,
   endDate,
   clinicId,
+  withError = false,
+  response: data = [],
 }) {
   const start = startDate || preferredDate.clone().startOf('month');
   const end =
@@ -254,29 +256,36 @@ export function mockAppointmentSlotFetch({
     preferredDate
       .clone()
       .add(1, 'month')
-      .endOf('month');
+      .endOf('month')
+      .startOf('day');
 
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${
-        environment.API_URL
-      }/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?` +
-        `&start_date=${start.format()}` +
-        `&end_date=${end.format()}`,
-    ),
-    {
-      data: [
-        {
-          id: clinicId,
-          type: 'slots',
-          attributes: {
-            startDate,
-            endDate,
-          },
-        },
-      ],
-    },
-  );
+  if (withError) {
+    setFetchJSONFailure(
+      global.fetch.withArgs(
+        `${
+          environment.API_URL
+        }/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?` +
+          `start=${start.format()}` +
+          `&end=${end.format()}`,
+      ),
+      {
+        errors: [],
+      },
+    );
+  } else {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${
+          environment.API_URL
+        }/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?` +
+          `start=${start.format()}` +
+          `&end=${end.format()}`,
+      ),
+      {
+        data,
+      },
+    );
+  }
 }
 
 /**
