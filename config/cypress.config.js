@@ -190,7 +190,7 @@ const cypressConfig = {
       );
     },
     baseUrl: 'http://localhost:3001',
-    specPattern: 'src/**/tests/**/long-ptsd.cypress.spec.js?(x)', // wipn8923 - run our flakey test in CI isolation
+    specPattern: 'src/**/tests/**/*.cypress.spec.js?(x)',
     supportFile: 'src/platform/testing/e2e/cypress/support/index.js',
     experimentalSessionAndOrigin: true,
     includeShadowDom: true,
