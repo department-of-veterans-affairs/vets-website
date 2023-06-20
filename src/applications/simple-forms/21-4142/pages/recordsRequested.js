@@ -41,7 +41,7 @@ export default {
     },
     [providerFacilityFields.parentObject]: {
       'ui:options': {
-        itemName: 'treatment record',
+        itemName: 'Treatment record',
         viewField: RecordField,
         keepInPageOnReview: true,
         useDlWrap: true,

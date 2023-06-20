@@ -10,6 +10,7 @@ const boardReview = {
       'ui:widget': 'radio',
       'ui:options': {
         labels: boardReviewContent,
+        enableAnalytics: true,
       },
       'ui:errorMessages': {
         required: boardReviewErrorMessage,

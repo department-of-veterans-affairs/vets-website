@@ -256,12 +256,17 @@ FormPage.propTypes = {
     pathname: PropTypes.string,
   }),
   params: PropTypes.shape({
-    index: PropTypes.number, // for testing only?
+    // for testing only?
+    index: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   }),
   route: PropTypes.shape({
     pageConfig: PropTypes.shape({
       arrayPath: PropTypes.string,
-      CustomPage: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+      CustomPage: PropTypes.oneOfType([
+        PropTypes.element,
+        PropTypes.elementType,
+        PropTypes.func,
+      ]),
       onContinue: PropTypes.func,
       pageClass: PropTypes.string,
       pageKey: PropTypes.string.isRequired,
@@ -271,7 +276,7 @@ FormPage.propTypes = {
         PropTypes.func,
       ]),
       showPagePerItem: PropTypes.bool,
-      title: PropTypes.string,
+      title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
       uiSchema: PropTypes.object.isRequired,
       updateFormData: PropTypes.func,
     }),

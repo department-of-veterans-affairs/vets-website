@@ -98,7 +98,6 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
             state: 'MT',
           },
           phone: '5555555555x1234',
-          version: 0,
         }),
         createMockFacilityByVersion({
           id: '983GC',
@@ -110,7 +109,6 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
             state: 'MT',
           },
           phone: '5555555556x1234',
-          version: 0,
         }),
         createMockFacilityByVersion({
           id: '984',
@@ -122,10 +120,8 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
             state: 'MT',
           },
           phone: '5555555555x1234',
-          version: 0,
         }),
       ],
-      version: 0,
     });
     const store = createTestStore({
       ...initialState,
@@ -243,35 +239,28 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
         createMockFacilityByVersion({
           id: '983',
           name: 'F facility',
-          version: 0,
         }),
         createMockFacilityByVersion({
           id: '983GC',
           name: 'A facility',
-          version: 0,
         }),
         createMockFacilityByVersion({
           id: '984',
           name: 'B facility',
-          version: 0,
         }),
         createMockFacilityByVersion({
           id: '984GC',
           name: 'C facility',
-          version: 0,
         }),
         createMockFacilityByVersion({
           id: '984GD',
           name: 'D facility',
-          version: 0,
         }),
         createMockFacilityByVersion({
           id: '984GA',
           name: 'E facility',
-          version: 0,
         }),
       ],
-      version: 0,
     });
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ContactFacilitiesPage />, {
@@ -318,10 +307,8 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
           name: 'Facility that is enabled',
           lat: 39.1362562,
           long: -83.1804804,
-          version: 0,
         }),
       ],
-      version: 0,
     });
     const store = createTestStore({
       ...initialState,

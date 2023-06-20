@@ -75,7 +75,11 @@ const AddIssue = props => {
   // check name
   const nameErrorMessage = checkValidations(nameValidations, issueName, data);
   // check dates
-  const dateErrorMessage = checkValidations(dateValidations, issueDate, data);
+  const dateErrorMessage = checkValidations(
+    dateValidations,
+    issueDate || '',
+    data,
+  );
   // check name & date combo uniqueness
   const uniqueErrorMessage = checkValidations(uniqueValidations, '', {
     contestedIssues,

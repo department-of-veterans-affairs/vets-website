@@ -131,7 +131,7 @@ export default class MegaMenu extends React.Component {
     const hasOpenSubMenu = currentSection !== '';
 
     return (
-      <div className="login-container" {...display}>
+      <div className="hidden-header login-container" {...display}>
         <div
           className="row va-flex"
           ref={el => {

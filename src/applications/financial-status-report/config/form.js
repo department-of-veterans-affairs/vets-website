@@ -338,6 +338,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           depends: () => false, // only accessible from benefits page
+          returnUrl: 'your-benefits',
         },
         socialSecurity: {
           path: 'social-security',
@@ -790,7 +791,7 @@ const formConfig = {
           depends: formData =>
             formData.questions.hasRecreationalVehicle &&
             formData['view:combinedFinancialStatusReport'],
-          editModeOnReviewPage: true,
+          editModeOnReviewPage: false,
         },
         recreationalVehicleRecordsListLoop: {
           path: 'recreational-vehicle-records',
