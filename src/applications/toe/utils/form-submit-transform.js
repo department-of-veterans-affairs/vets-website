@@ -289,7 +289,6 @@ const getNotificationMethod = notificationMethod => {
 
 const getSponsorInformation = form => {
   let firstSponsor;
-
   if (!form?.data?.firstSponsor && form?.data?.selectedSponsors?.length === 1) {
     firstSponsor = form?.data?.selectedSponsors[0];
   } else {
@@ -310,6 +309,15 @@ const getSponsorInformation = form => {
       manualSponsor: null,
     };
   }
+  // check if august feature flag is on and if so ensure manual entry is disabled
+  if (form.data.showMebEnhancements08) {
+    return {
+      notSureAboutSponsor: true,
+      firstSponsorVaId: null,
+      manualSponsor: null, // return null for manualSponsor when the feature is disabled
+    };
+  }
+
   return {
     notSureAboutSponsor: false,
     firstSponsorVaId: null,
