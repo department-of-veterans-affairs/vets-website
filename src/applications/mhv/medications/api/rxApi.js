@@ -1,6 +1,7 @@
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
-import prescriptions from '../tests/fixtures/presciptions.json';
+import {
+  apiRequest,
+  environment,
+} from '@department-of-veterans-affairs/platform-utilities/exports';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -17,22 +18,5 @@ export const getPrescription = id => {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
-};
-
-export const mockGetPrescriptionList = () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(prescriptions);
-    }, 1000);
-  });
-};
-
-export const mockGetPrescription = id => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      const prescription = prescriptions.find(rx => rx.id === +id);
-      resolve(prescription);
-    }, 1000);
   });
 };
