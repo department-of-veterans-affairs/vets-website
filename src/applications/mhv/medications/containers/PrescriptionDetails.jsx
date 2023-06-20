@@ -7,7 +7,7 @@ import PrintHeader from './PrintHeader';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
-    state => state.rx.prescriptions.prescriptionDetails?.data.attributes,
+    state => state.rx.prescriptions.prescriptionDetails,
   );
   const { prescriptionId } = useParams();
   const dispatch = useDispatch();
@@ -87,12 +87,22 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Instructions
             </h3>
-            <p>THIS IS NOT IN THE CURRENT API</p>
+            <p>
+              {prescription?.sig ||
+                "No instructions specified, please refer to the medication's label."}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Status
             </h3>
             <div className="no-print">
-              <va-additional-info trigger={prescription.refillStatus}>
+              <va-additional-info
+                trigger={
+                  prescription.refillStatus === 'refillinprocess'
+                    ? 'Refill in process'
+                    : prescription.refillStatus.charAt(0).toUpperCase() +
+                      prescription.refillStatus.slice(1)
+                }
+              >
                 <ul>
                   <li>
                     An active medication is a prescription still in use and
@@ -106,7 +116,11 @@ const PrescriptionDetails = () => {
                 </ul>
               </va-additional-info>
             </div>
-            <div className="print-only">{prescription.refillStatus}</div>
+            <div className="print-only">
+              {prescription.refillStatus === 'refillinprocess'
+                ? 'refill in process'
+                : prescription.refillStatus}
+            </div>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Refills left
             </h3>
@@ -146,7 +160,7 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescriber name
             </h3>
-            <p>NOT IN CURRENT API</p>
+            <p>{prescription?.presciberName || 'No provider specified'}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
             </h3>
@@ -155,18 +169,23 @@ const PrescriptionDetails = () => {
               Phone number
             </h3>
             <div className="no-print">
-              NOT IN CURRENT API
-              {/* <va-telephone contact={prescription.phoneNumber} /> */}
+              {prescription?.phoneNumber ? (
+                <va-telephone contact={prescription.phoneNumber} />
+              ) : (
+                'No phone number provided'
+              )}
             </div>
-            <div className="print-only">NOT IN CURRENT API</div>
+            <div className="print-only">
+              {prescription?.phoneNumber || 'No phone number provided'}
+            </div>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Category
             </h3>
-            <p>NOT IN CURRENT API</p>
+            <p>{prescription?.category || 'No category specified'}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Source
             </h3>
-            <p>NOT IN CURRENT API</p>
+            <p>{prescription?.source || 'No source specified'}</p>
           </div>
           <div className="vads-u-margin-bottom--8">
             <h2 className="vads-u-margin-top--3">
