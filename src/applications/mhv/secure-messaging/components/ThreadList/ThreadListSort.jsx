@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import { threadSortingOptions } from '../../util/constants';
+import { Paths, threadSortingOptions } from '../../util/constants';
 
 const SORT_CONVERSATIONS_LABEL = 'Show conversations in this order';
 
@@ -34,29 +34,30 @@ const ThreadListSort = props => {
       >
         <option
           value={
-            location.pathname === '/drafts'
+            location.pathname === Paths.DRAFTS
               ? threadSortingOptions.DRAFT_DATE_DESCENDING.value
               : threadSortingOptions.SENT_DATE_DESCENDING.value
           }
         >
-          {location.pathname === '/drafts'
+          {location.pathname === Paths.DRAFTS
             ? threadSortingOptions.DRAFT_DATE_DESCENDING.label
             : threadSortingOptions.SENT_DATE_DESCENDING.label}
         </option>
 
         <option
           value={
-            location.pathname === '/drafts'
+            location.pathname === Paths.DRAFTS
               ? threadSortingOptions.DRAFT_DATE_ASCENDING.value
               : threadSortingOptions.SENT_DATE_ASCENDING.value
           }
         >
-          {location.pathname === '/drafts'
+          {location.pathname === Paths.DRAFTS
             ? threadSortingOptions.DRAFT_DATE_ASCENDING.label
             : threadSortingOptions.SENT_DATE_ASCENDING.label}
         </option>
 
-        {location.pathname === '/sent' || location.pathname === '/drafts' ? (
+        {location.pathname === Paths.SENT ||
+        location.pathname === Paths.DRAFTS ? (
           <>
             <option
               value={threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.value}

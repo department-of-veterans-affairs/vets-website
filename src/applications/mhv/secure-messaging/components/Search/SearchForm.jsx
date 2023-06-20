@@ -6,7 +6,7 @@ import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearSearchResults, runAdvancedSearch } from '../../actions/search';
 import FilterBox from './FilterBox';
-import { ErrorMessages } from '../../util/constants';
+import { ErrorMessages, Paths } from '../../util/constants';
 import { DateRangeValues } from '../../util/inputContants';
 import { dateFormat } from '../../util/helpers';
 
@@ -234,7 +234,7 @@ const SearchForm = props => {
             </div>
           </div>
         </>
-        {!location.pathname.includes('/drafts') && (
+        {!location.pathname.includes(Paths.DRAFTS) && (
           <va-additional-info
             trigger="What's a message ID?"
             class="message-id-info"

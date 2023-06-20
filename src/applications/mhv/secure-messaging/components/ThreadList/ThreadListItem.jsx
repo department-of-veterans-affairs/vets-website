@@ -90,7 +90,7 @@ const ThreadListItem = props => {
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
         <div className={getClassNames()}>
-          {location.pathname !== '/sent' ? (
+          {location.pathname !== Paths.SENT ? (
             <>
               <span>
                 {unsentDrafts && (

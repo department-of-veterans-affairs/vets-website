@@ -278,13 +278,13 @@ export const threadSortingOptions = {
     sortField: 'RECIPIENT_NAME',
     sortOrder: 'DESC',
     value: 'RECEPIENT_ALPHA_DESCENDING',
-    label: 'A to Z - Recipient’s name',
+    label: 'Z to A - Recipient’s name',
   },
   RECEPIENT_ALPHA_ASCENDING: {
     sortField: 'RECIPIENT_NAME',
     sortOrder: 'ASC',
     value: 'RECEPIENT_ALPHA_ASCENDING',
-    label: 'Z to A - Recipient’s name',
+    label: 'A to Z - Recipient’s name',
   },
 };
 

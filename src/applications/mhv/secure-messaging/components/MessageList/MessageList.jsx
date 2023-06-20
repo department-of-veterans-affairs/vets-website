@@ -72,41 +72,50 @@ const MessageList = props => {
   // sort messages
   const sortMessages = useCallback(
     data => {
-      let sorted;
-      if (sortOrder === threadSortingOptions.SENT_DATE_DESCENDING.value) {
-        sorted = data.sort((a, b) => {
+      return data.sort((a, b) => {
+        if (
+          sortOrder === threadSortingOptions.SENT_DATE_DESCENDING.value ||
+          (sortOrder === threadSortingOptions.SENDER_ALPHA_ASCENDING.value &&
+            a.sentDate === b.sentDate) ||
+          (sortOrder === threadSortingOptions.SENDER_ALPHA_DESCENDING.value &&
+            a.sentDate === b.sentDate) ||
+          (sortOrder ===
+            threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.value &&
+            a.recipientName === b.recipientName)
+        ) {
           return b.sentDate > a.sentDate ? 1 : -1;
-        });
-      } else if (sortOrder === threadSortingOptions.SENT_DATE_ASCENDING.value) {
-        sorted = data.sort((a, b) => {
+        }
+        if (sortOrder === threadSortingOptions.SENT_DATE_ASCENDING.value) {
           return a.sentDate > b.sentDate ? 1 : -1;
-        });
-      } else if (
-        sortOrder === threadSortingOptions.SENDER_ALPHA_ASCENDING.value
-      ) {
-        sorted = data.sort((a, b) => {
-          return a.senderName > b.senderName ? 1 : -1;
-        });
-      } else if (
-        sortOrder === threadSortingOptions.SENDER_ALPHA_DESCENDING.value
-      ) {
-        sorted = data.sort((a, b) => {
-          return a.senderName < b.senderName ? 1 : -1;
-        });
-      } else if (
-        sortOrder === threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.value
-      ) {
-        sorted = data.sort((a, b) => {
-          return a.recipientName > b.recipientName ? 1 : -1;
-        });
-      } else if (
-        sortOrder === threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.value
-      ) {
-        sorted = data.sort((a, b) => {
-          return a.recipientName < b.recipientName ? 1 : -1;
-        });
-      }
-      return sorted;
+        }
+
+        if (sortOrder === threadSortingOptions.SENDER_ALPHA_ASCENDING.value) {
+          return a.senderName.toLowerCase() > b.senderName.toLowerCase()
+            ? 1
+            : -1;
+        }
+        if (sortOrder === threadSortingOptions.SENDER_ALPHA_DESCENDING.value) {
+          return a.senderName.toLowerCase() < b.senderName.toLowerCase()
+            ? 1
+            : -1;
+        }
+        if (
+          sortOrder === threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.value
+        ) {
+          return a.recipientName.toLowerCase() > b.recipientName.toLowerCase()
+            ? 1
+            : -1;
+        }
+
+        if (
+          sortOrder === threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.value
+        ) {
+          return a.recipientName.toLowerCase() < b.recipientName.toLowerCase()
+            ? 1
+            : -1;
+        }
+        return 0;
+      });
     },
     [sortOrder],
   );
