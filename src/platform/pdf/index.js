@@ -9,7 +9,7 @@ import { UnknownTemplateException } from './utils/exceptions/UnknownTemplateExce
 const blobStream = require('blob-stream');
 const fileSaver = require('file-saver');
 
-export default async function generatePdf(templateId, fileName, data) {
+const generatePdf = async (templateId, fileName, data) => {
   let template;
 
   try {
@@ -27,4 +27,6 @@ export default async function generatePdf(templateId, fileName, data) {
     const pdf = stream.toBlob('application/pdf');
     fileSaver.saveAs(pdf, `${fileName}.pdf`);
   });
-}
+};
+
+export { generatePdf };

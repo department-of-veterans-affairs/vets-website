@@ -119,7 +119,7 @@ const CheckInConfirmation = props => {
     return (
       <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
         <p className="vads-u-font-family--serif">{t('your-appointment')}</p>
-        <ol
+        <ul
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
           data-testid="appointment-list"
         >
@@ -132,7 +132,7 @@ const CheckInConfirmation = props => {
             page="confirmation"
             app={APP_NAMES.CHECK_IN}
           />
-        </ol>
+        </ul>
 
         <va-alert
           background-only
