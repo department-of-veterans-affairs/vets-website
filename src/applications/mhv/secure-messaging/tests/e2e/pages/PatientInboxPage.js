@@ -323,9 +323,9 @@ class PatientInboxPage {
   // doesn't works - pressing Enter doesn't trigger anything
   loadComposeMessagePageByKeyboardNavigation = () => {
     cy.tabToElement('[data-testid="compose-message-link"]');
-    cy.realPress('Enter');
+    cy.realPress(['Enter']);
     const interstitialPage = new PatientInterstitialPage();
-    interstitialPage.getContinueButton().realPress('Enter');
+    interstitialPage.getContinueButton().realPress(['Enter']);
   };
 
   navigatePrintCancelButton = () => {
