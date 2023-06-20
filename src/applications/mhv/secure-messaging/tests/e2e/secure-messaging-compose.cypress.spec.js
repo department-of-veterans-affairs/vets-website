@@ -13,7 +13,7 @@ describe('Secure Messaging Compose', () => {
     landingPage.loadInboxMessages();
     // cy.get('[data-testid="compose-message-link"]').click();
     // patientInterstitialPage.getContinueButton().click();
-    landingPage.loadComposeMessagePageByKeyboardNavigation();
+    landingPage.navigateToMessageComposePageByKeyboard();
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     composePage.getCategory('COVID').click();
     composePage.attachMessageFromFile('test_image.jpg');

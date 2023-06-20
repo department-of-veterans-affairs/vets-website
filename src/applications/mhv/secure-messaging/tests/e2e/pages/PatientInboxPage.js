@@ -321,11 +321,11 @@ class PatientInboxPage {
   };
 
   // doesn't work - realPress on line 328 doesn't trigger anything
-  loadComposeMessagePageByKeyboardNavigation = () => {
+  navigateToMessageComposePageByKeyboard = () => {
     cy.tabToElement('[data-testid="compose-message-link"]');
     cy.realPress(['Enter']);
-    const interstitialPage = new PatientInterstitialPage();
-    interstitialPage.getContinueButton().realPress(['Enter']);
+    cy.tabToElement('[data-testid="continue-button"]');
+    cy.realPress(['Enter']);
   };
 
   navigatePrintCancelButton = () => {
