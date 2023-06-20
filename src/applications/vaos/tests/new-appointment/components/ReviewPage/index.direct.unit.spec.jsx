@@ -338,6 +338,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
       featureToggles: {
         vaOnlineSchedulingFacilitiesServiceV2: true,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
+        vaOnlineSchedulingAcheronService: true,
       },
       newAppointment: {
         pages: {},

@@ -25,6 +25,11 @@ export const selectRadioWebComponent = (fieldName, value) => {
   }
 };
 
+export const selectYesNoWebComponent = (fieldName, value) => {
+  const selection = value ? 'Y' : 'N';
+  selectRadioWebComponent(fieldName, selection);
+};
+
 export const selectDropdownWebComponent = (fieldName, value) => {
   if (typeof value !== 'undefined') {
     cy.get(`va-select[name="root_${fieldName}"]`)
@@ -56,11 +61,18 @@ export const fillAddressWebComponentPattern = (fieldName, addressObject) => {
     `${fieldName}_isMilitary`,
     addressObject.isMilitary,
   );
+  if (addressObject.city) {
+    if (addressObject.isMilitary) {
+      // there is a select dropdown instead when military is checked
+      selectDropdownWebComponent(`${fieldName}_city`, addressObject.city);
+    } else {
+      fillTextWebComponent(`${fieldName}_city`, addressObject.city);
+    }
+  }
   selectDropdownWebComponent(`${fieldName}_country`, addressObject.country);
   fillTextWebComponent(`${fieldName}_street`, addressObject.street);
   fillTextWebComponent(`${fieldName}_street2`, addressObject.street2);
   fillTextWebComponent(`${fieldName}_street3`, addressObject.street3);
-  fillTextWebComponent(`${fieldName}_city`, addressObject.city);
   selectDropdownWebComponent(`${fieldName}_state`, addressObject.state);
   fillTextWebComponent(`${fieldName}_postalCode`, addressObject.postalCode);
 };

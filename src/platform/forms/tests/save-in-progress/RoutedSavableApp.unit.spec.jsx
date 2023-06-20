@@ -37,6 +37,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
       search: '',
     };
     const routes = [
+      { path: '/' },
       {
         pageList: [{ path: currentLocation.pathname }],
       },
@@ -67,6 +68,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
       search: '',
     };
     const routes = [
+      { path: '/' },
       {
         pageList: [{ path: currentLocation.pathname }],
       },
@@ -95,6 +97,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
       search: '',
     };
     const routes = [
+      { path: '/' },
       {
         pageList: [
           {
@@ -148,6 +151,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
       search: '',
     };
     const routes = [
+      { path: '/' },
       {
         pageList: [
           {
@@ -194,10 +198,11 @@ describe('Schemaform <RoutedSavableApp>', () => {
       title: 'Testing',
     };
     const currentLocation = {
-      pathname: 'test',
+      pathname: '/test-path',
       search: '',
     };
     const routes = [
+      { path: '/' },
       {
         pageList: [{ path: currentLocation.pathname }],
       },
@@ -205,7 +210,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
     const router = {
       push: sinon.spy(),
     };
-    const returnUrl = 'test-path';
+    const returnUrl = '/test-path';
     const setFetchFormStatus = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
@@ -223,6 +228,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
     tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       formConfig,
       router,
+      routes,
       returnUrl,
       loadedStatus: LOAD_STATUSES.success,
       setFetchFormStatus,
@@ -241,6 +247,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
       search: '',
     };
     const routes = [
+      { path: '/' },
       {
         pageList: [{ path: currentLocation.pathname }],
       },
@@ -278,6 +285,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
       search: '',
     };
     const routes = [
+      { path: '/' },
       {
         pageList: [
           { path: '/introduction' },
@@ -307,6 +315,49 @@ describe('Schemaform <RoutedSavableApp>', () => {
 
     expect(router.replace.calledWith('/introduction')).to.be.true;
   });
+  it('should route to the first page if returnUrl is not to an active page', () => {
+    const formConfig = {
+      title: 'Testing',
+    };
+    const currentLocation = {
+      pathname: '/test-path',
+      search: '',
+    };
+    const routes = [
+      { path: '/' },
+      {
+        pageList: [{ path: currentLocation.pathname }],
+      },
+    ];
+    const router = {
+      push: sinon.spy(),
+    };
+    const returnUrl = '/test-99';
+    const setFetchFormStatus = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <RoutedSavableApp
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.pending}
+        updateLogInUrl={() => {}}
+      >
+        <div className="child" />
+      </RoutedSavableApp>,
+    );
+
+    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
+      formConfig,
+      router,
+      routes,
+      returnUrl,
+      loadedStatus: LOAD_STATUSES.success,
+      setFetchFormStatus,
+    });
+
+    expect(router.push.calledWith(currentLocation.pathname)).to.be.true;
+  });
   it('should load a saved form when starting in the middle of a form and logged in', () => {
     const formConfig = {
       title: 'Testing',
@@ -317,6 +368,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
       search: '',
     };
     const routes = [
+      { path: '/' },
       {
         pageList: [
           { path: '/introduction' },
@@ -376,6 +428,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
       search: '',
     };
     const routes = [
+      { path: '/' },
       {
         pageList: [
           { path: '/introduction' },
@@ -435,6 +488,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
       search: '',
     };
     const routes = [
+      { path: '/' },
       {
         pageList: [
           { path: '/introduction' },
