@@ -301,9 +301,6 @@ label[for^="root_disagreementOptions"] {
 }
 
 /* page specific */
-article[data-contact-choice] .contact-choice {
-  display: none;
-}
 
 article[data-location^="area-of-disagreement"],
 article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0ScrollElement"] + form {
@@ -333,21 +330,10 @@ article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0
   }
 }
 
-article[data-contact-choice="rep"] .contact-choice.selected-rep,
-article[data-contact-choice="me"] .contact-choice.selected-me {
-  display: inline-block;
-}
-
 article[data-location="informal-conference/representative-info"],
 article[data-location="informal-conference/representative-information"] {
   .schemaform-field-container {
     margin-top: 0;
-  }
-}
-
-article[data-location="informal-conference/availability"] {
-  #root_informalConferenceTimes_time2-label {
-    margin-top: 2rem;
   }
 }
 

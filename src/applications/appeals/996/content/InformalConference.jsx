@@ -38,42 +38,43 @@ export const RepresentativePhoneExtensionTitle =
 
 export const RepresentativeEmailTitle = 'Representative’s email address';
 
-// Using CSS to use article[data-contact-choice] attribute to set visibility
-const contacts = (
-  <>
-    <span className="contact-choice selected-rep">your representative</span>
-    <span className="contact-choice selected-me">you</span>
-  </>
-);
+export const InformalConferenceTimesTitle = 'Please indicate your availability';
+export const InformalConferenceTimesTitleRep =
+  'Please indicate your representative’s availability';
 
-export const InformalConferenceTimesTitle = (
-  <>
-    <span className="contact-choice selected-rep vads-u-font-size--sm">
-      Please indicate your representative’s availability
-    </span>
-    <span className="contact-choice selected-me vads-u-font-size--sm">
-      Please indicate your availability
-    </span>
-  </>
-);
-
-export const InformalConferenceTimesDescriptionV2 = (
+export const InformalConferenceTimesDescription = (
   <>
     <p>
-      First we’ll call {contacts} to schedule the informal conference. Please
-      indicate <span className="contact-choice selected-me">your</span>
-      <span className="contact-choice selected-rep">their</span> availability by
-      providing a preferred time for a call.
+      First we’ll call you to schedule the informal conference. Please indicate
+      your availability by providing a preferred time for a call.
     </p>
     <p>
-      <strong>We’ll make two attempts to call {contacts}.</strong> If no one
-      answers, we’ll leave a voice mail and a number for {contacts} to return
-      the call. If we aren’t able to get in touch with {contacts} after 2
-      attempts, we’ll proceed with the Higher-Level Review.
+      <strong>We’ll make two attempts to call you.</strong> If no one answers,
+      we’ll leave a voice mail and a number for you to return the call. If we
+      aren’t able to get in touch with you after 2 attempts, we’ll proceed with
+      the Higher-Level Review.
     </p>
   </>
 );
 
-export const informalConferenceTimeSelectTitle = (
-  <>Choose the best time for us to call {contacts}</>
+export const InformalConferenceTimesDescriptionRep = (
+  <>
+    <p>
+      First we’ll call your representative to schedule the informal conference.
+      Please indicate their availability by providing a preferred time for a
+      call.
+    </p>
+    <p>
+      <strong>We’ll make two attempts to call your representative.</strong> If
+      no one answers, we’ll leave a voice mail and a number for your
+      representative to return the call. If we aren’t able to get in touch with
+      your representative after 2 attempts, we’ll proceed with the Higher-Level
+      Review.
+    </p>
+  </>
 );
+
+export const informalConferenceTimeSelectTitle =
+  'Choose the best time for us to call you';
+export const informalConferenceTimeSelectTitleRep =
+  'Choose the best time for us to call your representative';
