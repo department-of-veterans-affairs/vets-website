@@ -154,7 +154,7 @@ export const Alerts = {
 
 export const Errors = {
   Code: {
-    BLOCKED_USER: 'SM151',
+    BLOCKED_USER: 'SM119',
   },
 };
 
