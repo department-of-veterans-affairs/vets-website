@@ -34,20 +34,39 @@ describe('<PrimaryPhone>', () => {
     );
   };
 
+  const veteran = {
+    homePhone: { areaCode: '123', phoneNumber: '4567890' },
+    mobilePhone: { areaCode: '123', phoneNumber: '4567891' },
+  };
+
   it('should render', () => {
     const { container } = render(setup());
     expect($$('va-radio-option', container).length).to.eq(2);
   });
+
+  it('should capture google analytics', async () => {
+    global.window.dataLayer = [];
+    const { container } = render(setup({ data: { veteran } }));
+
+    const changeEvent = new CustomEvent('selected', {
+      detail: { value: 'home' },
+    });
+    $('va-radio', container).__events.vaValueChange(changeEvent);
+
+    const event = global.window.dataLayer.slice(-1)[0];
+    expect(event).to.deep.equal({
+      event: 'int-radio-button-option-click',
+      'radio-button-label': 'What is your primary phone number?',
+      'radio-button-optionLabel': 'Home phone number',
+      'radio-button-required': false,
+    });
+  });
+
   it('should prevent submission when empty', () => {
     const goForwardSpy = sinon.spy();
     const data = setup({
       goForward: goForwardSpy,
-      data: {
-        veteran: {
-          homePhone: { areaCode: '123', phoneNumber: '4567890' },
-          mobilePhone: { areaCode: '123', phoneNumber: '4567891' },
-        },
-      },
+      data: { veteran },
     });
     const { container } = render(data);
     fireEvent.click($('button[type="submit"]', container));

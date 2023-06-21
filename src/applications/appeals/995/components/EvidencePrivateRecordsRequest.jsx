@@ -5,6 +5,7 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 
 import {
   EVIDENCE_VA_PATH,
@@ -35,11 +36,18 @@ const EvidencePrivateRequest = ({
 
   const handlers = {
     onSelected: event => {
+      const val = event.detail.value === 'y';
       setFormData({
         ...data,
-        [EVIDENCE_PRIVATE]: event.detail.value === 'y',
+        [EVIDENCE_PRIVATE]: val,
       });
       setError(null);
+      recordEvent({
+        event: 'int-radio-button-option-click',
+        'radio-button-label': privateRecordsRequestTitle,
+        'radio-button-optionLabel': val ? 'Yes' : 'No',
+        'radio-button-required': true,
+      });
     },
     onGoBack: () => {
       if (data[EVIDENCE_VA]) {
