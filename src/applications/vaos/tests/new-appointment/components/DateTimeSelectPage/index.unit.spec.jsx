@@ -7,6 +7,7 @@ import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import userEvent from '@testing-library/user-event';
+import MockDate from 'mockdate';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -14,6 +15,7 @@ import {
   setVAFacility,
   setClinic,
   setPreferredDate,
+  getTimezoneTestDate,
 } from '../../../mocks/setup';
 
 import DateTimeSelectPage from '../../../../new-appointment/components/DateTimeSelectPage';
@@ -37,12 +39,17 @@ const initialState = {
 describe('VAOS <DateTimeSelectPage>', () => {
   beforeEach(() => {
     mockFetch();
+    MockDate.set(getTimezoneTestDate());
     mockFacilityFetchByVersion({
       facility: createMockCheyenneFacilityByVersion({
         version: 0,
       }),
       version: 0,
     });
+  });
+
+  afterEach(() => {
+    MockDate.reset();
   });
 
   it('should not submit form with validation error', async () => {
@@ -551,9 +558,12 @@ describe('VAOS <DateTimeSelectPage>', () => {
     await setPreferredDate(store, preferredDate);
 
     // And there are slots available today and tomorrow
-    const slot308Date = moment().add(1, 'hour');
-    const slot308TomorrowDate = moment().add(1, 'day');
-
+    const slot308Date = moment()
+      .tz('America/Denver')
+      .add(1, 'hour');
+    const slot308TomorrowDate = moment()
+      .tz('America/Denver')
+      .add(1, 'day');
     setDateTimeSelectMockFetches({
       slotDatesByClinicId: {
         308: [slot308Date, slot308TomorrowDate],
