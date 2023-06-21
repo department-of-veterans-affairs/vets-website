@@ -9,7 +9,6 @@ class Products {
 
   addProducts({ manifestPaths }) {
     /* eslint-disable no-console */
-    console.log(manifestPaths);
     manifestPaths.forEach(path => {
       const manifest = JSON.parse(fs.readFileSync(path));
       const { productId } = manifest;
@@ -17,6 +16,7 @@ class Products {
       if (productId) {
         const pathToCode = path.slice(0, path.lastIndexOf('/'));
         this.all[productId] = new Product({ pathToCode });
+        console.log(this.all);
       }
     });
   }
