@@ -26,21 +26,21 @@ const statementOfTruthBody = (
         Social Security Number (SSN) or Taxpayer Identification Number (TIN);
       </li>
       <li>
-        a certificate or order from a court with competent jurisdiction showing
+        A certificate or order from a court with competent jurisdiction showing
         my authority to act for the veteran/claimant with a judge’s signature
         and date/time stamp;
       </li>
-      <li>copy of documentation showing appointment of fiduciary;</li>
+      <li>Copy of documentation showing appointment of fiduciary;</li>
       <li>
-        durable power of attorney showing the name and signature of the
+        Durable power of attorney showing the name and signature of the
         veteran/claimant and my authority as attorney in fact or agent;
       </li>
       <li>
-        health care power of attorney, affidavit or notarized statement from an
+        Health care power of attorney, affidavit or notarized statement from an
         institution or person responsible for the care of the veteran/claimant
         indicating the capacity or responsibility of care provided;
       </li>
-      <li>or any other documentation showing such authorization.</li>
+      <li>Or any other documentation showing such authorization.</li>
     </ul>
     <p>
       I certify that the identifying information in this form has been correctly
