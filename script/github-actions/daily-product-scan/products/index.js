@@ -10,7 +10,7 @@ class Products {
   addProducts({ productPaths }) {
     /* eslint-disable no-console */
     productPaths.forEach(path => {
-      const productId = path.id;
+      const productId = path.product_id;
 
       if (productId) {
         const pathToCode = path.path_to_code;
