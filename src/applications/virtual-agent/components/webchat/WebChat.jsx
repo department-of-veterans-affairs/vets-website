@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import environment from 'platform/utilities/environment';
 import { useSelector } from 'react-redux';
 // import PropTypes from 'prop-types';
@@ -11,7 +11,6 @@ import {
   CONVERSATION_ID_KEY,
   TOKEN_KEY,
   clearBotSessionStorage,
-  IS_SIGNIN_SKILL,
 } from '../chatbox/utils';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
@@ -118,62 +117,62 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     }
   };
 
-  async function createPonyFill(webchat) {
-    const res = await axios.post(
-      process.env.SPEECH_URL,
-      {},
-      {
-        headers: {
-          'Ocp-Apim-Subscription-Key': process.env.SPEECH_KEY,
-        },
-      },
-    );
-    if (res.status !== 200) {
-      throw new Error('Failed to fetch authorization token and region.');
-    }
+  // async function createPonyFill(webchat) {
+  //   const res = await axios.post(
+  //     process.env.SPEECH_URL,
+  //     {},
+  //     {
+  //       headers: {
+  //         'Ocp-Apim-Subscription-Key': process.env.SPEECH_KEY,
+  //       },
+  //     },
+  //   );
+  //   if (res.status !== 200) {
+  //     throw new Error('Failed to fetch authorization token and region.');
+  //   }
 
-    return webchat.createCognitiveServicesSpeechServicesPonyfillFactory({
-      credentials: {
-        region: 'eastus',
-        authorizationToken: res.data,
-      },
-    });
-  }
+  //   return webchat.createCognitiveServicesSpeechServicesPonyfillFactory({
+  //     credentials: {
+  //       region: 'eastus',
+  //       authorizationToken: res.data,
+  //     },
+  //   });
+  // }
 
-  const [speechPonyfill, setBotPonyfill] = useState();
+  // const [speechPonyfill, setBotPonyfill] = useState();
 
-  useEffect(() => {
-    createPonyFill(window.WebChat).then(res => {
-      setBotPonyfill(() => res);
-    });
-  }, []);
+  // useEffect(() => {
+  //   createPonyFill(window.WebChat).then(res => {
+  //     setBotPonyfill(() => res);
+  //   });
+  // }, []);
 
-  const [isSignin, setIsSignin] = useState();
-  useEffect(
-    () => {
-      const doSomething = () =>
-        setIsSignin(() => sessionStorage.getItem(IS_SIGNIN_SKILL));
+  // const [isSignin, setIsSignin] = useState();
+  // useEffect(
+  //   () => {
+  //     const doSomething = () =>
+  //       setIsSignin(() => sessionStorage.getItem(IS_SIGNIN_SKILL));
 
-      window.addEventListener('signinSkill', doSomething);
-      return () => window.removeEventListener('signinSkill', doSomething);
-    },
-    [isSignin],
-  );
+  //     window.addEventListener('signinSkill', doSomething);
+  //     return () => window.removeEventListener('signinSkill', doSomething);
+  //   },
+  //   [isSignin],
+  // );
 
-  if (isSignin === 'true') {
-    return (
-      <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
-        <ReactWebChat
-          styleOptions={styleOptions}
-          directLine={directLine}
-          store={store}
-          renderMarkdown={renderMarkdown}
-          onTelemetry={handleTelemetry}
-          webSpeechPonyfillFactory={speechPonyfill}
-        />
-      </div>
-    );
-  }
+  // if (isSignin === 'true') {
+  //   return (
+  //     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
+  //       <ReactWebChat
+  //         styleOptions={styleOptions}
+  //         directLine={directLine}
+  //         store={store}
+  //         renderMarkdown={renderMarkdown}
+  //         onTelemetry={handleTelemetry}
+  //         webSpeechPonyfillFactory={speechPonyfill}
+  //       />
+  //     </div>
+  //   );
+  // }
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat

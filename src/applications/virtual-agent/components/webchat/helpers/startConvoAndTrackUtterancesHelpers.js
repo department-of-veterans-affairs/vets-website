@@ -9,8 +9,22 @@ import {
   IS_TRACKING_UTTERANCES,
   RECENT_UTTERANCES,
   CONVERSATION_ID_KEY,
-  IS_SIGNIN_SKILL,
+  IS_RX_SKILL,
 } from '../../chatbox/utils';
+
+const RX_UTTERANCES = [
+  'refill prescription',
+  'rx',
+  'prescription status',
+  'prescription',
+  'Can I refill my prescription?',
+  'rxrefill',
+  'sandbox 3',
+];
+
+function isStringInArray(text, utterances) {
+  return utterances.includes(text);
+}
 
 // define thunks for actions
 export const processActionConnectFulfilled = ({
@@ -104,20 +118,17 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   const payload = action.payload || {};
   const dataorEmpty = payload.activity || {};
   const text = dataorEmpty.text || '';
-  const signinSkillWasTriggered = text.includes(
-    'Which login service provider do you need help with or want to learn more about?',
-  );
-  const signinSkillWasClosed = text.includes(
-    'You can type your question in the "Type your message" section below.',
-  );
+  const rxSkillWasTriggered = isStringInArray(text, RX_UTTERANCES);
 
-  if (signinSkillWasTriggered) {
-    setSessionStorageAsString(IS_SIGNIN_SKILL, true);
-    window.dispatchEvent(new Event('signinSkill'));
-  }
-  if (signinSkillWasClosed) {
-    setSessionStorageAsString(IS_SIGNIN_SKILL, false);
+  // const signinSkillWasClosed = text.includes(
+  //   'You can type your question in the "Type your message" section below.',
+  // );
 
-    window.dispatchEvent(new Event('signinSkill'));
+  if (rxSkillWasTriggered) {
+    setSessionStorageAsString(IS_RX_SKILL, true);
   }
+
+  // if (rxSkillWasClosed) {
+  //   setSessionStorageAsString(IS_RX_SKILL, false);
+  // }
 };

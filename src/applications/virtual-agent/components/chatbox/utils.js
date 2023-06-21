@@ -4,7 +4,7 @@ export const IN_AUTH_EXP = `${BOT_SESSION_PREFIX}inAuthExperience`;
 export const RECENT_UTTERANCES = `${BOT_SESSION_PREFIX}recentUtterances`;
 export const CONVERSATION_ID_KEY = `${BOT_SESSION_PREFIX}conversationId`;
 export const IS_TRACKING_UTTERANCES = `${BOT_SESSION_PREFIX}isTrackingUtterances`;
-export const IS_SIGNIN_SKILL = `${BOT_SESSION_PREFIX}isSigninSkill`;
+export const IS_RX_SKILL = `${BOT_SESSION_PREFIX}isRxSkill`;
 export const TOKEN_KEY = `${BOT_SESSION_PREFIX}token`;
 
 export function clearBotSessionStorage(forceClear) {
