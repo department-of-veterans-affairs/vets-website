@@ -16,6 +16,8 @@ export default function AvaFormPage() {
           </p>
         </div>
 
+        <p>This is a placeholder for the real form page.</p>
+
         <h2>We’re Currently in Devlopment Mode</h2>
 
         <p>Some MORE amazing text goes here.</p>

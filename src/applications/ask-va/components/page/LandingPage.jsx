@@ -19,6 +19,8 @@ export default function LandingPage() {
             <a href="/contact-us/ask-va-too/inquiry">CLICK ME!</a>
           </p>
 
+          <p>This is a placeholder for the real landing page.</p>
+
           <p>
             AVA on the modernized VA.gov platform will be a digital support
             channel that works with other tools and features on VA.gov and VA
@@ -53,13 +55,14 @@ export default function LandingPage() {
           away"
         >
           <p>
-            If you’re a Veteran in crisis or concerned about one, connect with our
-            caring, qualified Veterans Crisis Line responders for confidential
-            help. Many of them are Veterans themselves. This service is private,
-            free, and available 24/7.
+            If you’re a Veteran in crisis or concerned about one, connect with
+            our caring, qualified Veterans Crisis Line responders for
+            confidential help. Many of them are Veterans themselves. This
+            service is private, free, and available 24/7.
           </p>
           <p>
-            To connect with a Veterans Crisis Line responder anytime day or night:
+            To connect with a Veterans Crisis Line responder anytime day or
+            night:
             <ul>
               <li>
                 Dialing <va-telephone contact="988" /> and press 1.
