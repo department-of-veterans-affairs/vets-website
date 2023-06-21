@@ -6,7 +6,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 const expectedFieldTypes = 'input, select, textarea';
 
 const expectedFieldTypesWebComponents =
-  'va-text-input, va-select, va-textarea, va-radio, va-checkbox';
+  'va-text-input, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date';
 
 export const testNumberOfFields = (
   formConfig,

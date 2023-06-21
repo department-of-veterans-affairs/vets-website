@@ -31,6 +31,7 @@ const informalConference = {
           me: { 'aria-describedby': 'choose-conference-notice' },
           rep: { 'aria-describedby': 'choose-conference-notice' },
         },
+        enableAnalytics: true,
       },
       'ui:errorMessages': {
         required: errorMessages.informalConferenceContactChoice,

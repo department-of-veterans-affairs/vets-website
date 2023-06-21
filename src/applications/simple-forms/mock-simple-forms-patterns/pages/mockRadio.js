@@ -1,4 +1,6 @@
 import {
+  inlineTitleSchema,
+  inlineTitleUI,
   titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
@@ -37,9 +39,7 @@ export default {
         },
       },
     },
-    wc: titleUI('Web component', {
-      classNames: 'vads-u-margin-top--4',
-    }),
+    wc: inlineTitleUI('Web component'),
     wcVaCompensationType: {
       'ui:title': 'Do you receive VA disability compensation?',
       'ui:description': CompensationTypeDescription,
@@ -86,9 +86,7 @@ export default {
         },
       },
     },
-    wcv3: titleUI('Web component v3', {
-      classNames: 'vads-u-margin-top--4',
-    }),
+    wcv3: inlineTitleUI('Web component v3'),
     wcv3VaCompensationType: {
       'ui:title': 'Do you receive VA disability compensation?',
       'ui:description': CompensationTypeDescription,
@@ -149,7 +147,7 @@ export default {
           },
         },
       },
-      wc: titleSchema,
+      wc: inlineTitleSchema,
       wcVaCompensationType: {
         type: 'string',
         enum: ['lowDisability', 'highDisability', 'none'],
@@ -169,7 +167,7 @@ export default {
           },
         },
       },
-      wcv3: titleSchema,
+      wcv3: inlineTitleSchema,
       wcv3VaCompensationType: {
         type: 'string',
         enum: ['lowDisability', 'highDisability', 'none'],
