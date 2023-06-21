@@ -338,7 +338,20 @@ const responses = {
       ),
     });
   },
-  'GET /vaos/v2/locations/:facility_id/clinics/:clinic_id/slots': appointmentSlotsV2,
+  'GET /vaos/v2/locations/:facility_id/clinics/:clinic_id/slots': (
+    req,
+    res,
+  ) => {
+    const start = moment(req.query.start);
+    const end = moment(req.query.end);
+    const slots = appointmentSlotsV2.data.filter(slot => {
+      const slotStartDate = moment(slot.attributes.start);
+      return slotStartDate.isBetween(start, end, '[]');
+    });
+    return res.json({
+      data: slots,
+    });
+  },
   'GET /vaos/v2/patients': (req, res) => {
     return res.json({
       data: {
