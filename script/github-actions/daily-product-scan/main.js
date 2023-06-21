@@ -49,6 +49,7 @@ async function main({ octokit }) {
     product_id: product.product_id,
     path_to_code: product.path_to_code,
   }));
+  console.log(productPaths);
   // const manifestGlobPathForTests =
   //   'script/github-actions/daily-product-scan/tests/mocks/applications/**/*manifest.json';
   // const manifestGlobPath =
