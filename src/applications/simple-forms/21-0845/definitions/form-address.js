@@ -144,7 +144,13 @@ export function schema(
  *   customizations
  */
 export function uiSchema(
-  label = 'Address',
+  labels = {
+    root: 'Address',
+    country: 'Country',
+    street: 'Street',
+    street2: 'Street address line 2',
+    street3: 'Street address line 3',
+  },
   useStreet3 = false,
   isRequired = null,
   ignoreRequired = false,
@@ -226,7 +232,7 @@ export function uiSchema(
       ) {
         schemaUpdate.properties = set(
           'state.title',
-          'Province',
+          labels.state.replace('State', 'Province'),
           schemaUpdate.properties,
         );
       } else if (
@@ -235,7 +241,7 @@ export function uiSchema(
       ) {
         schemaUpdate.properties = set(
           'state.title',
-          'State',
+          labels.state,
           schemaUpdate.properties,
         );
       }
@@ -263,7 +269,7 @@ export function uiSchema(
   );
 
   return {
-    'ui:title': label,
+    'ui:title': labels.root,
     'ui:validations': [validateAddress],
     'ui:options': {
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
@@ -285,22 +291,22 @@ export function uiSchema(
     },
     'ui:order': fieldOrder,
     country: {
-      'ui:title': 'Country',
+      'ui:title': labels.country || 'Country',
       'ui:autocomplete': 'country',
     },
     street: {
-      'ui:title': 'Street',
+      'ui:title': labels.street || 'Street',
       'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
         required: 'Please enter a street address',
       },
     },
     street2: {
-      'ui:title': 'Street address line 2',
+      'ui:title': labels.street2 || 'Street address line 2',
       'ui:autocomplete': 'address-line2',
     },
     street3: {
-      'ui:title': 'Street address line 3',
+      'ui:title': labels.street3 || 'Street address line 3',
       'ui:autocomplete': 'address-line3',
     },
     city: {

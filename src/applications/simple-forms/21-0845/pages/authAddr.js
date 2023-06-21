@@ -4,8 +4,7 @@ import { uiSchema, schema } from '../definitions/form-address';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Your address',
-    authorizerAddress: uiSchema(''),
+    authorizerAddress: uiSchema({ root: '' }),
   },
   schema: {
     type: 'object',

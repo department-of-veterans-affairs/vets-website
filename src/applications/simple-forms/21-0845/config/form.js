@@ -27,7 +27,7 @@ import authPersInfoPg from '../pages/authPersInfo';
 import authAddrPg from '../pages/authAddr';
 
 // mock-data import for local development
-import testData from '../tests/fixtures/data/testdata.json';
+import testData from '../tests/fixtures/data/noAuthType.json';
 
 // const { } = fullSchema.properties;
 
@@ -62,7 +62,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for disclosure authorization.',
   },
-  title: 'Authorize VA to disclose personal information to a third party',
+  title: 'Authorize VA to release your information to a third party source',
   subTitle:
     'Authorization To Disclose Personal Information To a Third Party (VA Form 21-0845)',
   defaultDefinitions: {
@@ -121,7 +121,7 @@ const formConfig = {
       title: ({ formData }) =>
         formData?.authorizerType === AUTHORIZER_TYPES.VETERAN
           ? 'Your personal information'
-          : 'Veteran’s personal information',
+          : 'Veteran’s information',
       pages: {
         vetPersInfoPage: {
           path: 'veteran-personal-information',
@@ -244,7 +244,10 @@ const formConfig = {
       },
     },
     securityInfoChapter: {
-      title: 'Security information',
+      title: ({ formData }) =>
+        formData.authorizerType === AUTHORIZER_TYPES.VETERAN
+          ? 'Security information'
+          : 'Security question',
       pages: {
         secQuestionPage: {
           path: 'security-information-question',

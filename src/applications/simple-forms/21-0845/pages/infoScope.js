@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  AUTHORIZER_TYPES,
   THIRD_PARTY_TYPES,
   INFORMATION_SCOPES,
 } from '../definitions/constants';
@@ -17,22 +18,25 @@ export default {
           [INFORMATION_SCOPES.ANY]: 'Any information',
         },
         updateSchema: formData => {
-          const { thirdPartyType, personFullName, organizationName } = formData;
-          let titleString =
-            'How much information from your VA record do you authorize us to release to ';
-
-          if (thirdPartyType === THIRD_PARTY_TYPES.PERSON) {
-            titleString += personFullName.first
+          const {
+            authorizerType,
+            thirdPartyType,
+            personFullName,
+            organizationName,
+          } = formData;
+          const titleString =
+            authorizerType === AUTHORIZER_TYPES.VETERAN
+              ? 'How much information from your VA record do you authorize us to release to [third-party-name]?'
+              : 'I authorize VA to provide [third-party-name] the following information from my VA record:';
+          const thirdPartyName =
+            thirdPartyType === THIRD_PARTY_TYPES.PERSON
               ? getFullNameString(personFullName)
-              : '[Person’s name]';
-          } else {
-            titleString += organizationName || '[Organization’s name]';
-          }
+              : organizationName;
 
           return {
             title: (
               <span className="vads-u-font-family--serif vads-u-font-size--h4 vads-u-font-weight--bold">
-                {titleString}?
+                {titleString.replace('[third-party-name]', thirdPartyName)}
               </span>
             ),
           };

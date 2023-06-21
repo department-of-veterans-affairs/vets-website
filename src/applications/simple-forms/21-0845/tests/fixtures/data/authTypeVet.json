@@ -1,17 +1,6 @@
 {
   "data": {
     "authorizerType": "veteran",
-    "authorizerFullName": {
-      "first": "Jack",
-      "middle": "",
-      "last": "Authorizer"
-    },
-    "authorizerAddress": {
-      "street": "123 Any St",
-      "city": "Anytown",
-      "state": "CA",
-      "postalCode": "12345"
-    },
     "veteranFullName": {
       "first": "John",
       "middle": "",

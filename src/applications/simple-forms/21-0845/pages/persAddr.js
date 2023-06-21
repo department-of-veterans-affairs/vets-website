@@ -5,7 +5,7 @@ import { uiSchema, schema } from '../definitions/form-address';
 export default {
   uiSchema: {
     'ui:title': 'Person’s address',
-    personAddress: uiSchema(''),
+    personAddress: uiSchema({ root: '' }),
   },
   schema: {
     type: 'object',
