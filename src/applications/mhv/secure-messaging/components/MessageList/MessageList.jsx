@@ -36,6 +36,16 @@ import { threadSortingOptions } from '../../util/constants';
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
+const {
+  SENT_DATE_ASCENDING,
+  SENT_DATE_DESCENDING,
+  DRAFT_DATE_ASCENDING,
+  DRAFT_DATE_DESCENDING,
+  RECEPIENT_ALPHA_ASCENDING,
+  RECEPIENT_ALPHA_DESCENDING,
+  SENDER_ALPHA_ASCENDING,
+  SENDER_ALPHA_DESCENDING,
+} = threadSortingOptions;
 const MessageList = props => {
   const dispatch = useDispatch();
   const { folder, messages, keyword, isSearch, sortOrder } = props;
@@ -74,42 +84,43 @@ const MessageList = props => {
     data => {
       return data.sort((a, b) => {
         if (
-          sortOrder === threadSortingOptions.SENT_DATE_DESCENDING.value ||
-          (sortOrder === threadSortingOptions.SENDER_ALPHA_ASCENDING.value &&
-            a.sentDate === b.sentDate) ||
-          (sortOrder === threadSortingOptions.SENDER_ALPHA_DESCENDING.value &&
-            a.sentDate === b.sentDate) ||
-          (sortOrder ===
-            threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.value &&
+          [SENT_DATE_DESCENDING.value, DRAFT_DATE_DESCENDING.value].includes(
+            sortOrder,
+          ) ||
+          (sortOrder === SENDER_ALPHA_ASCENDING.value &&
+            a.senderName === b.senderName) ||
+          (sortOrder === SENDER_ALPHA_DESCENDING.value &&
+            a.senderName === b.senderName) ||
+          (sortOrder === RECEPIENT_ALPHA_DESCENDING.value &&
             a.recipientName === b.recipientName)
         ) {
           return b.sentDate > a.sentDate ? 1 : -1;
         }
-        if (sortOrder === threadSortingOptions.SENT_DATE_ASCENDING.value) {
+        if (
+          [SENT_DATE_ASCENDING.value, DRAFT_DATE_ASCENDING.value].includes(
+            sortOrder,
+          )
+        ) {
           return a.sentDate > b.sentDate ? 1 : -1;
         }
 
-        if (sortOrder === threadSortingOptions.SENDER_ALPHA_ASCENDING.value) {
+        if (sortOrder === SENDER_ALPHA_ASCENDING.value) {
           return a.senderName.toLowerCase() > b.senderName.toLowerCase()
             ? 1
             : -1;
         }
-        if (sortOrder === threadSortingOptions.SENDER_ALPHA_DESCENDING.value) {
+        if (sortOrder === SENDER_ALPHA_DESCENDING.value) {
           return a.senderName.toLowerCase() < b.senderName.toLowerCase()
             ? 1
             : -1;
         }
-        if (
-          sortOrder === threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.value
-        ) {
+        if (sortOrder === RECEPIENT_ALPHA_ASCENDING.value) {
           return a.recipientName.toLowerCase() > b.recipientName.toLowerCase()
             ? 1
             : -1;
         }
 
-        if (
-          sortOrder === threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.value
-        ) {
+        if (sortOrder === RECEPIENT_ALPHA_DESCENDING.value) {
           return a.recipientName.toLowerCase() < b.recipientName.toLowerCase()
             ? 1
             : -1;
