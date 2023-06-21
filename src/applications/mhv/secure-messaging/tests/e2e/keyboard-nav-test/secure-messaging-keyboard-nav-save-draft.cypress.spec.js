@@ -7,7 +7,7 @@ describe('Check confirmation message after save draft', () => {
   it('Check confirmation message after save draft', () => {
     site.login();
     inboxPage.loadInboxMessages();
-    inboxPage.loadComposeMessagePage();
+    inboxPage.navigateToComposePage();
     inboxPage.composeDraftByKeyboard();
 
     cy.injectAxe();
