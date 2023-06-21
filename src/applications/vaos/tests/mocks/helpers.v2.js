@@ -231,15 +231,14 @@ export function mockSchedulingConfigurations(configs, isCCEnabled = false) {
  *
  * @export
  * @param {Object} params
- * @param {string} siteId The VistA site id where slots are from
- * @param {string} typeOfCareId The type of care id of the slots being requested
+ * @param {string} facilityId The VistA facility id where slots are from
  * @param {string} preferredDate The preferred date chosen by the user, which determines the date range fetched,
  *    if startDate and endDate are not provided
  * @param {MomentDate} startDate The start date for the appointment slots
  * @param {MomentDate} endDate The end date for the appointment slots
- * @param {string} [length=20] The length of the appointment slots
  * @param {string} clinicId The VistA clinic id the slots are in
- * @param {Array<VARSlot>} slots The list of slots to return from the mock
+ * @param {boolean} withError Flag to determin if the response should fail.
+ * @param {Array<VARSlot>} response The list of slots to return from the mock
  */
 export function mockAppointmentSlotFetch({
   facilityId,
