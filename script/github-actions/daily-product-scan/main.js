@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+/* eslint-disable camelcase */
 // const glob = require('glob');
 const core = require('@actions/core');
 const fs = require('fs');
@@ -44,15 +45,17 @@ async function main({ octokit }) {
   }
   const productDirectory = JSON.parse(response.data);
 
-  console.log(productDirectory);
-  process.exit(1);
+  const productPaths = productDirectory.map(product => ({
+    product_id: product.product_id,
+    path_to_code: product.path_to_code,
+  }));
   // const manifestGlobPathForTests =
   //   'script/github-actions/daily-product-scan/tests/mocks/applications/**/*manifest.json';
   // const manifestGlobPath =
   //   process.env.MANIFEST_GLOB_PATH || manifestGlobPathForTests;
-  // products.addProducts({
-  //   manifestPaths: glob.sync(manifestGlobPath),
-  // });
+  products.addProducts({
+    productPaths,
+  });
 
   new PackageDependencies({
     products: products.all,

@@ -1,4 +1,4 @@
-const fs = require('fs');
+// const fs = require('fs');
 
 const Product = require('./product');
 
@@ -7,14 +7,13 @@ class Products {
     this.all = {};
   }
 
-  addProducts({ manifestPaths }) {
+  addProducts({ productPaths }) {
     /* eslint-disable no-console */
-    manifestPaths.forEach(path => {
-      const manifest = JSON.parse(fs.readFileSync(path));
-      const { productId } = manifest;
+    productPaths.forEach(path => {
+      const productId = path.id;
 
       if (productId) {
-        const pathToCode = path.slice(0, path.lastIndexOf('/'));
+        const pathToCode = path.path_to_code;
         this.all[productId] = new Product({ pathToCode });
         console.log(this.all);
       }
