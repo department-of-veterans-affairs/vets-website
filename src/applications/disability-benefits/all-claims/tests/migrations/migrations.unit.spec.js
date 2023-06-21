@@ -249,7 +249,9 @@ describe('526 v2 migrations', () => {
         },
       };
       const migratedData = reorderHousingIllnessRemoveFdc(savedData);
-      expect(migratedData.metadata.returnUrl).to.equal('/veteran-information');
+      expect(migratedData.metadata.returnUrl).to.deep.equal(
+        '/veteran-information',
+      );
     });
 
     it('should not change returnUrl if user left off on the contact info page', () => {
@@ -261,7 +263,9 @@ describe('526 v2 migrations', () => {
         },
       };
       const migratedData = reorderHousingIllnessRemoveFdc(savedData);
-      expect(migratedData.metadata.returnUrl).to.deep.equal('/contact-information');
+      expect(migratedData.metadata.returnUrl).to.deep.equal(
+        '/contact-information',
+      );
     });
 
     it('should change returnUrl to housing-situation when user could potentially skip it', () => {
@@ -295,7 +299,9 @@ describe('526 v2 migrations', () => {
       const migratedData = reorderHousingIllnessRemoveFdc(savedData);
 
       // TODO: #59003 Rename for prod launch
-      expect(migratedData.metadata.returnUrl).to.equal('/terminally-ill-1');
+      expect(migratedData.metadata.returnUrl).to.deep.equal(
+        '/terminally-ill-1',
+      );
     });
 
     it('should change returnUrl to review and submit if on the fdc page', () => {
@@ -312,7 +318,9 @@ describe('526 v2 migrations', () => {
 
       const migratedData = reorderHousingIllnessRemoveFdc(savedData);
 
-      expect(migratedData.metadata.returnUrl).to.equal('/review-and-submit');
+      expect(migratedData.metadata.returnUrl).to.deep.equal(
+        '/review-and-submit',
+      );
     });
   });
 });
