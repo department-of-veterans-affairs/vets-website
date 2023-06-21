@@ -7,62 +7,64 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
-import informalConference from '../../pages/informalConference';
-import { InformalConferenceTitle } from '../../content/InformalConference';
+import { informalConferenceTimeSelectTitle } from '../../content/InformalConference';
 
-const { schema, uiSchema } = informalConference;
+describe('HLR conference times page', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.informalConference.pages.conferenceTime;
 
-describe('Higher-Level Review 0996 informal conference', () => {
-  it('should render informal conference form', () => {
+  it('should render', () => {
     const { container } = render(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={{}}
         schema={schema}
+        uiSchema={uiSchema}
         data={{}}
         formData={{}}
-        uiSchema={uiSchema}
       />,
     );
 
-    expect($$('input[type="radio"]', container).length).to.equal(3);
+    expect($$('input[type="radio"]', container).length).to.equal(2);
   });
 
-  /* Successful submits */
-  it('successfully submits when no informal conference is selected', () => {
+  it('should allow submit', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
+        definitions={{}}
         schema={schema}
-        data={{ informalConference: 'no' }}
-        formData={{}}
         uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
       />,
     );
 
+    fireEvent.click($('input[value="time0800to1200"]', container));
     fireEvent.submit($('form', container));
-    expect($$('.usa-input-error', container).length).to.equal(0);
+    expect($('.usa-input-error-message', container)).to.not.exist;
     expect(onSubmit.called).to.be.true;
   });
 
-  /* Unsuccessful submits */
-  it('prevents submit when informal conference is not selected', () => {
+  // board option is required
+  it('should prevent continuing', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
+        definitions={{}}
         schema={schema}
+        uiSchema={uiSchema}
         data={{}}
         formData={{}}
-        uiSchema={uiSchema}
+        onSubmit={onSubmit}
       />,
     );
 
     fireEvent.submit($('form', container));
-    expect($$('.usa-input-error', container).length).to.equal(1);
-    expect(onSubmit.called).not.to.be.true;
+    expect($$('.usa-input-error-message', container).length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
   });
 
   it('should capture google analytics', () => {
@@ -78,13 +80,13 @@ describe('Higher-Level Review 0996 informal conference', () => {
       />,
     );
 
-    fireEvent.click($('input[value="me"]', container));
+    fireEvent.click($('input[value="time0800to1200"]', container));
 
     const event = global.window.dataLayer.slice(-1)[0];
     expect(event).to.deep.equal({
       event: 'int-radio-button-option-click',
-      'radio-button-label': InformalConferenceTitle,
-      'radio-button-optionLabel': 'me',
+      'radio-button-label': informalConferenceTimeSelectTitle,
+      'radio-button-optionLabel': '8:00 a.m. to noon ET',
       'radio-button-required': true,
     });
   });
