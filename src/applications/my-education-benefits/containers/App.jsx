@@ -14,6 +14,7 @@ import {
 import { formFields } from '../constants';
 import { prefillTransformer } from '../helpers';
 import { getAppData } from '../selectors/selectors';
+import { duplicateArrays } from '../utils/validation';
 
 export const App = ({
   children,
@@ -85,6 +86,28 @@ export const App = ({
         setFormData({
           ...formData,
           eligibility,
+        });
+      }
+
+      const { toursOfDuty } = formData;
+
+      const updatedToursOfDuty = toursOfDuty?.map(tour => {
+        const tourToCheck = tour;
+        if (
+          tourToCheck?.dateRange?.to === '' ||
+          tourToCheck?.dateRange?.to === null ||
+          tourToCheck.dateRange.to === 'Invalid date'
+        ) {
+          tourToCheck.serviceCharacter = 'Not Applicable';
+          tourToCheck.separationReason = 'Not Applicable';
+        }
+        return tourToCheck;
+      });
+
+      if (!duplicateArrays(updatedToursOfDuty, toursOfDuty)) {
+        setFormData({
+          ...formData,
+          toursOfDuty: updatedToursOfDuty,
         });
       }
     },
