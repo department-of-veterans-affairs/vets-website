@@ -8,6 +8,8 @@ import {
   ssnOrVaFileNumberOrServiceNumberUI,
   titleSchema,
   titleUI,
+  inlineTitleUI,
+  inlineTitleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { ssnUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
@@ -30,9 +32,7 @@ export default {
     serviceNumber: {
       'ui:title': 'Service number',
     },
-    wc: titleUI('Web component', {
-      classNames: 'vads-u-margin-top--4',
-    }),
+    wc: inlineTitleUI('Web component'),
     ssnNew: {
       ...ssnNewUI(),
       'ui:options': {
@@ -51,9 +51,7 @@ export default {
         uswds: false,
       },
     },
-    wcv3: titleUI('Web component v3', {
-      classNames: 'vads-u-margin-top--4',
-    }),
+    wcv3: inlineTitleUI('Web component v3'),
     ssnNewV3: v3WCUI.socialSecurityNumber,
     vaFileNumberNewV3: v3WCUI.vaFileNumber,
     serviceNumberNewV3: v3WCUI.serviceNumber,
@@ -71,11 +69,11 @@ export default {
       serviceNumber: {
         $ref: '#/definitions/veteranServiceNumber',
       },
-      wc: titleSchema,
+      wc: inlineTitleSchema,
       ssnNew: ssnNewSchema,
       vaFileNumberNew: vaFileNumberNewSchema,
       serviceNumberNew: serviceNumberNewSchema,
-      wcv3: titleSchema,
+      wcv3: inlineTitleSchema,
       ssnNewV3: ssnNewSchema,
       vaFileNumberNewV3: vaFileNumberNewSchema,
       serviceNumberNewV3: serviceNumberNewSchema,
