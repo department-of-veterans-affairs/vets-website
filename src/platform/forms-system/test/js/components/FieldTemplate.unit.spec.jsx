@@ -2,7 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import FieldTemplate from '../../../src/js/components/FieldTemplate';
+import FieldTemplate, {
+  checkIsTouched,
+} from '../../../src/js/components/FieldTemplate';
 
 describe('Schemaform <FieldTemplate>', () => {
   it('should render', () => {
@@ -426,5 +428,62 @@ describe('Schemaform <FieldTemplate>', () => {
     );
 
     expect(tree.text()).to.equal('<WebComponentField />');
+  });
+});
+
+describe('Element touched states', () => {
+  it('should be touched if current field is touched', () => {
+    const formContext = {
+      touched: {
+        // eslint-disable-next-line camelcase
+        root_field: true,
+      },
+    };
+    expect(checkIsTouched(formContext, 'root_field')).to.be.true;
+    expect(checkIsTouched(formContext, 'root_fiel')).to.be.false;
+    expect(checkIsTouched(formContext, 'root_fielde')).to.be.false;
+    expect(checkIsTouched(formContext, 'root')).to.be.false;
+  });
+
+  it('should be touched if parent field is touched', () => {
+    // Assuming this is what we want. Because previous logic
+    // checked for startsWith, but now we are using a RegExp
+    const formContext = {
+      touched: {
+        // eslint-disable-next-line camelcase
+        root_field: true,
+      },
+    };
+    expect(checkIsTouched(formContext, 'root_field_one')).to.be.true;
+    expect(checkIsTouched(formContext, 'root_field-one')).to.be.true;
+    expect(checkIsTouched(formContext, 'root_field:one')).to.be.true;
+    expect(checkIsTouched(formContext, 'root_field_0')).to.be.true;
+  });
+
+  it('should be touched if parent parent field is touched', () => {
+    // Assuming this is what we want. Because previous logic
+    // checked for startsWith, but now we are using a RegExp
+    const formContext = {
+      touched: {
+        // eslint-disable-next-line camelcase
+        root_field: true,
+      },
+    };
+    expect(checkIsTouched(formContext, 'root_field_one_child')).to.be.true;
+    expect(checkIsTouched(formContext, 'root_field_one:child')).to.be.true;
+    expect(checkIsTouched(formContext, 'root_field_one-child')).to.be.true;
+    expect(checkIsTouched(formContext, 'root_field-one-child')).to.be.true;
+    expect(checkIsTouched(formContext, 'root_field_0_child')).to.be.true;
+  });
+
+  it('should not be touched if field with same start name is touched', () => {
+    const formContext = {
+      touched: {
+        // eslint-disable-next-line camelcase
+        root_field: true,
+      },
+    };
+    expect(checkIsTouched(formContext, 'root_fieldOne')).to.be.false;
+    expect(checkIsTouched(formContext, 'root_field2')).to.be.false;
   });
 });

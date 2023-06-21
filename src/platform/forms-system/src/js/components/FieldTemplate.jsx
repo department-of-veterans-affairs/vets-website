@@ -2,12 +2,22 @@ import React from 'react';
 import classNames from 'classnames';
 import get from '../../../../utilities/data/get';
 import { isReactComponent } from '../../../../utilities/ui';
-// import environment from 'platform/utilities/environment';
+
+export function checkIsTouched(formContext, currentFieldId) {
+  return (
+    formContext.touched[currentFieldId] ||
+    Object.keys(formContext.touched).some(touchedFieldId =>
+      // if "root_field" is touched, then we consider
+      // "root_field_child" as also touched, but
+      // "root_fieldSibling" should not be.
+      currentFieldId.match(new RegExp(`^${touchedFieldId}(?=$|[^a-zA-Z0-9])`)),
+    )
+  );
+}
 
 /*
  * This is the template for each field (which in the schema library means label + widget)
  */
-
 export default function FieldTemplate(props) {
   const {
     id,
@@ -20,9 +30,7 @@ export default function FieldTemplate(props) {
     uiSchema,
   } = props;
 
-  const isTouched =
-    formContext.touched[id] ||
-    Object.keys(formContext.touched).some(touched => id.startsWith(touched));
+  const isTouched = checkIsTouched(formContext, id);
   const hasErrors =
     (formContext.submitted || isTouched) && rawErrors && rawErrors.length;
   const requiredSpan = required ? (
