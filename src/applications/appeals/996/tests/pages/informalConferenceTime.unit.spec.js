@@ -7,6 +7,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
+import { informalConferenceTimeSelectTitle } from '../../content/InformalConference';
 
 describe('HLR conference times page', () => {
   const {
@@ -84,9 +85,7 @@ describe('HLR conference times page', () => {
     const event = global.window.dataLayer.slice(-1)[0];
     expect(event).to.deep.equal({
       event: 'int-radio-button-option-click',
-      // dumb work-around - label is set with JSX sub-sub children; the radio
-      // widget only expects JSX one level deep
-      'radio-button-label': event['radio-button-label'],
+      'radio-button-label': informalConferenceTimeSelectTitle,
       'radio-button-optionLabel': '8:00 a.m. to noon ET',
       'radio-button-required': true,
     });
