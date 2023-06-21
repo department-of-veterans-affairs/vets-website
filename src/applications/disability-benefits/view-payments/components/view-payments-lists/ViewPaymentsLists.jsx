@@ -147,7 +147,7 @@ class ViewPaymentsLists extends Component {
               VA Help Desk at <va-telephone contact={CONTACTS.VA_BENEFITS} />
             </p>
             {paymentsReturnedTable}
-            <h3>What if I find a check that I reported missing?</h3>
+            <h2>What if I find a check that I reported missing?</h2>
             <p className="vads-u-margin-bottom--3">
               If you find a missing check, you must return it to the U.S.
               Department of the Treasury and wait to receive your replacement
@@ -155,9 +155,9 @@ class ViewPaymentsLists extends Component {
               you'll get a double payment. If this happens, VA Debt Management
               Center will contact you about collection.
             </p>
-            <h3 className="vads-u-font-size--h2">
+            <h2>
               What if I need to change my direct deposit or contact information?
-            </h3>
+            </h2>
             <p className="vads-u-margin-bottom--3">
               Any changes you make in your profile will update across your
               disability compensation, pension, claims and appeal, VR&E, and VA
@@ -169,9 +169,7 @@ class ViewPaymentsLists extends Component {
                 deposit information.
               </a>
             </p>
-            <h3 className="vads-u-font-size--h2">
-              What if I’m missing a payment?
-            </h3>
+            <h2>What if I’m missing a payment?</h2>
             <p className="vads-u-margin-bottom--3">
               Please wait 3 business days (Monday through Friday) before
               contacting us to report that you haven’t received a payment. We
@@ -186,9 +184,9 @@ class ViewPaymentsLists extends Component {
               through direct deposit, you’ll need your bank account information
               too.
             </p>
-            <h3 className="vads-u-margin-top--0 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
+            <h2 className="vads-u-margin-top--0 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
               Need help?
-            </h3>
+            </h2>
             <p>
               Need help enrolling or have questions about enrollment or
               eligibility? Call our toll free number:

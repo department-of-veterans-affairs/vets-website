@@ -11,6 +11,7 @@ export const ConfirmationPageView = ({
   submitDate,
   confirmationNumber,
   content,
+  childContent = null,
 }) => {
   const alertRef = useRef(null);
 
@@ -78,6 +79,7 @@ export const ConfirmationPageView = ({
           Print this page
         </button>
       </div>
+      {childContent || null}
       <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">
         Go back to VA.gov
       </a>

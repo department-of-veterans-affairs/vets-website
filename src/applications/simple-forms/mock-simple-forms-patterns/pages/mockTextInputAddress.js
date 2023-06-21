@@ -2,6 +2,8 @@ import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAdd
 import {
   addressSchema,
   addressUI,
+  inlineTitleSchema,
+  inlineTitleUI,
   titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -14,9 +16,7 @@ export default {
     addressOld: {
       ...addressUiSchema('addressOld', undefined, () => true),
     },
-    wc: titleUI('Web component', {
-      classNames: 'vads-u-margin-top--4',
-    }),
+    wc: inlineTitleUI('Web component'),
     addressNew: addressUI(),
   },
   schema: {
@@ -24,7 +24,7 @@ export default {
     properties: {
       rjsf: titleSchema,
       addressOld: fullSchema.properties.veteran.properties.address,
-      wc: titleSchema,
+      wc: inlineTitleSchema,
       addressNew: addressSchema(),
     },
     required: [],

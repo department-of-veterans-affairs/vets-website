@@ -10,6 +10,7 @@ import {
 
 import { captureError } from '../util/analytics';
 import { DirectDepositClient } from '../util/direct-deposit';
+import { API_STATUS } from '../constants';
 
 export const CNP_PAYMENT_INFORMATION_FETCH_STARTED =
   'CNP_PAYMENT_INFORMATION_FETCH_STARTED';
@@ -51,13 +52,14 @@ export function fetchCNPPaymentInformation({
   captureCNPError = captureError,
 }) {
   return async dispatch => {
-    dispatch({ type: CNP_PAYMENT_INFORMATION_FETCH_STARTED });
-
-    recordEvent({ event: `profile-get-cnp-direct-deposit-started` });
-
     const client = new DirectDepositClient({
       useLighthouseDirectDepositEndpoint,
+      recordEvent,
     });
+
+    dispatch({ type: CNP_PAYMENT_INFORMATION_FETCH_STARTED });
+
+    client.recordCNPEvent({ status: API_STATUS.STARTED });
 
     const response = await getData(client.endpoint);
 
@@ -75,7 +77,7 @@ export function fetchCNPPaymentInformation({
     // };
 
     if (response.error) {
-      recordEvent({ event: `profile-get-cnp-direct-deposit-failed` });
+      client.recordCNPEvent({ status: API_STATUS.FAILED });
 
       captureCNPError(response, {
         eventName: 'cnp-get-direct-deposit-failed',
@@ -91,19 +93,21 @@ export function fetchCNPPaymentInformation({
         ? client.formatDirectDepositResponseFromLighthouse(response)
         : response?.responses[0];
 
-      recordEvent({
-        event: `profile-get-cnp-direct-deposit-retrieved`,
-        // The API might report an empty payment address for some folks who are
-        // already enrolled in direct deposit. But we want to make sure we
-        // always treat those who are signed up as being eligible. Therefore
-        // we'll check to see if they either have a payment address _or_ are
-        // already signed up for direct deposit here:
-        'direct-deposit-setup-eligible':
-          isEligibleForCNPDirectDeposit(formattedResponse) ||
-          isSignedUpForCNPDirectDeposit(formattedResponse),
-        'direct-deposit-setup-complete': isSignedUpForCNPDirectDeposit(
-          formattedResponse,
-        ),
+      client.recordCNPEvent({
+        status: API_STATUS.SUCCESSFUL,
+        extraProperties: {
+          // The API might report an empty payment address for some folks who are
+          // already enrolled in direct deposit. But we want to make sure we
+          // always treat those who are signed up as being eligible. Therefore
+          // we'll check to see if they either have a payment address _or_ are
+          // already signed up for direct deposit here:
+          'direct-deposit-setup-eligible':
+            isEligibleForCNPDirectDeposit(formattedResponse) ||
+            isSignedUpForCNPDirectDeposit(formattedResponse),
+          'direct-deposit-setup-complete': isSignedUpForCNPDirectDeposit(
+            formattedResponse,
+          ),
+        },
       });
 
       dispatch({
@@ -124,11 +128,17 @@ export function saveCNPPaymentInformation({
   return async dispatch => {
     const client = new DirectDepositClient({
       useLighthouseDirectDepositEndpoint,
+      recordEvent,
     });
+
+    dispatch({ type: CNP_PAYMENT_INFORMATION_SAVE_STARTED });
 
     const apiRequestOptions = client.generateApiRequestOptions(fields);
 
-    dispatch({ type: CNP_PAYMENT_INFORMATION_SAVE_STARTED });
+    client.recordCNPEvent({
+      status: API_STATUS.STARTED,
+      method: apiRequestOptions.method,
+    });
 
     const response = await getData(client.endpoint, apiRequestOptions);
 
@@ -158,13 +168,19 @@ export function saveCNPPaymentInformation({
     // };
 
     if (response.error || response.errors) {
+      // TODO: if there is a response.errors shouldn't we be using that instead of []?
       const errors = response.error?.errors || [];
-      const analyticsData = createCNPDirectDepositAnalyticsDataObject(
+      const analyticsData = createCNPDirectDepositAnalyticsDataObject({
         errors,
-        isEnrollingInDirectDeposit,
-      );
+        isEnrolling: isEnrollingInDirectDeposit,
+        useLighthouseDirectDepositEndpoint,
+      });
 
-      recordEvent(analyticsData);
+      client.recordCNPEvent({
+        status: API_STATUS.FAILED,
+        method: apiRequestOptions.method,
+        extraProperties: analyticsData,
+      });
 
       captureCNPError(response, {
         eventName: 'cnp-put-direct-deposit-failed',
@@ -176,9 +192,13 @@ export function saveCNPPaymentInformation({
         response,
       });
     } else {
-      recordEvent({
-        event: 'profile-transaction',
-        'profile-section': `cnp-direct-deposit-information`,
+      client.recordCNPEvent({
+        status: API_STATUS.SUCCESSFUL,
+        method: apiRequestOptions.method,
+        extraProperties: {
+          event: 'profile-transaction',
+          'profile-section': `cnp-direct-deposit-information`,
+        },
       });
 
       const formattedResponse = useLighthouseDirectDepositEndpoint

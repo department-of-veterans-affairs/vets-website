@@ -317,19 +317,36 @@ export function getNotificationMethod(notificationMethod) {
 }
 
 export function createMilitaryClaimant(submissionForm) {
-  const { userFullName } = submissionForm[formFields.viewUserFullName];
-
+  // Access formField and viewComponent sources for userFullName and dateOfBirth
+  const formFieldUserFullName =
+    submissionForm['view:userFullName']?.userFullName;
+  const viewComponentUserFullName = submissionForm.userFullName;
+  const formFieldDateOfBirth = submissionForm['view:dateOfBirth'];
+  const viewComponentDateOfBirth = submissionForm.veteranDateOfBirth;
+  // Explicitly check if formField sources are not undefined and not empty, otherwise use viewComponent
+  const userFullName =
+    formFieldUserFullName !== undefined &&
+    Object.keys(formFieldUserFullName).length > 0
+      ? formFieldUserFullName
+      : viewComponentUserFullName;
+  const dateOfBirth =
+    formFieldDateOfBirth !== undefined
+      ? formFieldDateOfBirth
+      : viewComponentDateOfBirth;
+  // Define the notification method
+  const notificationMethod = getNotificationMethod(
+    submissionForm[formFields.viewReceiveTextMessages].receiveTextMessages,
+  );
+  // Construct And Return the claimant object
   return {
     claimantId: submissionForm[formFields.claimantId],
     firstName: userFullName?.first,
     middleName: userFullName?.middle,
     lastName: userFullName?.last,
     suffix: userFullName?.suffix,
-    dateOfBirth: submissionForm[formFields.dateOfBirth],
+    dateOfBirth,
     contactInfo: createContactInfo(submissionForm),
-    notificationMethod: getNotificationMethod(
-      submissionForm[formFields.viewReceiveTextMessages].receiveTextMessages,
-    ),
+    notificationMethod,
     preferredContact: submissionForm?.contactMethod,
   };
 }

@@ -5,7 +5,7 @@ import {
   mockFetch,
   setFetchJSONFailure,
   setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+} from '~/platform/testing/unit/helpers';
 
 import * as paymentInformationActions from '../../actions/paymentInformation';
 
@@ -420,9 +420,12 @@ describe('actions/paymentInformation', () => {
 
         it('reports the correct data to Google Analytics', () => {
           expect(recordEventSpy.firstCall.args[0].event).to.equal(
+            'profile-put-cnp-direct-deposit-started',
+          );
+          expect(recordEventSpy.secondCall.args[0].event).to.equal(
             'profile-transaction',
           );
-          expect(recordEventSpy.firstCall.args[0]['profile-section']).to.equal(
+          expect(recordEventSpy.secondCall.args[0]['profile-section']).to.equal(
             'cnp-direct-deposit-information',
           );
         });
@@ -461,6 +464,10 @@ describe('actions/paymentInformation', () => {
 
         it('reports the correct data to Google Analytics', () => {
           expect(recordEventSpy.firstCall.args[0]).to.deep.equal({
+            event: 'profile-put-cnp-direct-deposit-started',
+          });
+
+          expect(recordEventSpy.secondCall.args[0]).to.deep.equal({
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
             'profile-section': 'cnp-direct-deposit-information',
@@ -709,7 +716,7 @@ describe('actions/paymentInformation', () => {
       it('still calls fetch and dispatches the correct actions', async () => {
         const actionCreator = paymentInformationActions.saveCNPPaymentInformation(
           {
-            data: 'value',
+            fields: { test: 'value' },
           },
         );
         const dispatch = sinon.spy();

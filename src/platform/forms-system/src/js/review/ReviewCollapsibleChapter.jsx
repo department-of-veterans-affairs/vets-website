@@ -140,7 +140,7 @@ class ReviewCollapsibleChapter extends React.Component {
     }
 
     const classes = classNames('form-review-panel-page', {
-      'schemaform-review-page-warning': !viewedPages.has(fullPageKey),
+      'schemaform-review-page-error': !viewedPages.has(fullPageKey),
       // Remove bottom margin when the div content is empty
       'vads-u-margin-bottom--0': !pageSchema && arrayFields.length === 0,
     });

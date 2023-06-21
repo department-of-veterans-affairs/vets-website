@@ -351,25 +351,6 @@ export function mockParentSites(ids, data) {
 }
 
 /**
- * Mocks the api call to check if the given sites allow community care requests
- *
- * @export
- * @param {Array<string>} ids List of VistA parent site ids to check for CC support
- * @param {Array<VARSupportedSite>} data List of community care enabled VA parent site data to return
- *   from mock call
- */
-export function mockSupportedCCSites(ids, data) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/community_care/supported_sites?${ids
-        .map(id => `site_codes[]=${id}`)
-        .join('&')}`,
-    ),
-    { data },
-  );
-}
-
-/**
  * Mock the api call to get supported facilities for a parent site through var-resources.
  * Used on old two step facility page.
  *

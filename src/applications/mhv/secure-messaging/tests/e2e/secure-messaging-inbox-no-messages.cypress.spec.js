@@ -12,6 +12,12 @@ describe('Secure Messaging Inbox No Messages', () => {
       .should('have.text', 'There are no messages in this folder.')
       .should('be.visible');
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

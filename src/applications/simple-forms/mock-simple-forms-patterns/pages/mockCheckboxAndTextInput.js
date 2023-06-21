@@ -1,7 +1,11 @@
 import React from 'react';
 import {
+  inlineTitleSchema,
+  inlineTitleUI,
   ssnUI as newSsnUI,
   ssnSchema,
+  titleSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { ssnUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
@@ -10,13 +14,7 @@ import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/V
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: {
-      'ui:title': (
-        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
-          rjsf / widget
-        </h3>
-      ),
-    },
+    rjsf: titleUI('RJSF / Widget'),
     rjsfSimpleTextInput: {
       'ui:title': 'text input',
     },
@@ -47,13 +45,7 @@ export default {
         </div>
       ),
     },
-    wc: {
-      'ui:title': (
-        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
-          web component
-        </h3>
-      ),
-    },
+    wc: inlineTitleUI('web component'),
     wcSimpleText: {
       'ui:title': 'text input',
       'ui:webComponentField': VaTextInputField,
@@ -86,13 +78,7 @@ export default {
         </div>
       ),
     },
-    wcV3: {
-      'ui:title': (
-        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
-          v3 web component
-        </h3>
-      ),
-    },
+    wcV3: inlineTitleUI('web component v3'),
     wcV3SimpleText: {
       'ui:title': 'text input',
       'ui:webComponentField': VaTextInputField,
@@ -118,10 +104,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsf: {
-        type: 'object',
-        properties: {},
-      },
+      rjsf: titleSchema,
       rjsfSimpleTextInput: {
         type: 'string',
       },
@@ -136,10 +119,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      wc: {
-        type: 'object',
-        properties: {},
-      },
+      wc: inlineTitleSchema,
       wcSimpleText: {
         type: 'string',
       },
@@ -152,10 +132,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      wcV3: {
-        type: 'object',
-        properties: {},
-      },
+      wcV3: inlineTitleSchema,
       wcV3SimpleText: {
         type: 'string',
       },

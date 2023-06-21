@@ -170,7 +170,10 @@ export function PreSubmitSection(props) {
             <Checkbox
               id="veteran-certify"
               name="veteran-certify"
-              label="I certify the information above is correct and true to the best of my knowledge and belief."
+              label={
+                statementOfTruth.checkboxLabel ||
+                'I certify the information above is correct and true to the best of my knowledge and belief.'
+              }
               checked={form?.data.statementOfTruthCertified}
               onValueChange={value =>
                 setPreSubmit('statementOfTruthCertified', value)

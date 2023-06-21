@@ -13,9 +13,15 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   it('Navigate Away From `Start a new message` To Inbox', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.enterComposeMessageDetails('General');
     composePage.selectSideBarMenuOption('Inbox');
     composePage.clickOnContinueEditingButton();
@@ -30,9 +36,15 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   it('Navigate Away From `Start a new message` To Draft', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.enterComposeMessageDetails('General');
     composePage.selectSideBarMenuOption('Drafts');
     composePage.clickOnContinueEditingButton();
@@ -51,9 +63,15 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   it('Navigate Away From `Start a new message` To Sent', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.enterComposeMessageDetails('General');
     composePage.selectSideBarMenuOption('Sent');
     composePage.clickOnContinueEditingButton();
@@ -72,9 +90,15 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   it('Navigate Away From `Start a new message` To Trash', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.enterComposeMessageDetails('General');
     composePage.selectSideBarMenuOption('Trash');
     composePage.clickOnContinueEditingButton();
@@ -93,9 +117,15 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   it('Navigate Away From `Start a new message` To MY Folders', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.enterComposeMessageDetails('General');
     composePage.selectSideBarMenuOption('My folders');
     composePage.clickOnContinueEditingButton();

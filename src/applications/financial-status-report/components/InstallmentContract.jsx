@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
@@ -19,6 +20,9 @@ const defaultRecord = [
     amountPastDue: '',
   },
 ];
+
+export const SUMMARY_PATH = '/installment-contracts-summary';
+export const START_PATH = '/installment-contracts';
 
 const InstallmentContract = props => {
   const { data, goToPath, setFormData } = props;
@@ -82,10 +86,10 @@ const InstallmentContract = props => {
   const typeError = !purpose ? 'Please enter the contract type' : null;
 
   const handleChange = (key, value) => {
-    setContractRecord({
-      ...contractRecord,
+    setContractRecord(prevRecord => ({
+      ...prevRecord,
       [key]: value,
-    });
+    }));
   };
 
   const handlePurposeChange = event => {
@@ -114,8 +118,6 @@ const InstallmentContract = props => {
     handleChange('amountPastDue', event.target.value);
   };
 
-  const RETURN_PATH = '/installment-contracts-summary';
-
   const updateFormData = e => {
     setSubmitted(true);
     e.preventDefault();
@@ -125,21 +127,21 @@ const InstallmentContract = props => {
     }
 
     if (contractRecord.purpose && contractRecord.amountDueMonthly) {
-      // if amountPastDue is NaN, set it to 0 in order to satisfy va-number-input
-      if (!isValidCurrency(contractRecord.amountPastDue)) {
-        contractRecord.amountPastDue = 0;
-      }
-
-      if (!isValidCurrency(contractRecord.originalAmount)) {
-        contractRecord.originalAmount = 0;
-      }
-
-      if (!isValidCurrency(contractRecord.unpaidBalance)) {
-        contractRecord.unpaidBalance = 0;
-      }
+      const updatedContractRecord = {
+        ...contractRecord,
+        amountPastDue: isValidCurrency(contractRecord.amountPastDue)
+          ? contractRecord.amountPastDue
+          : 0,
+        originalAmount: isValidCurrency(contractRecord.originalAmount)
+          ? contractRecord.originalAmount
+          : 0,
+        unpaidBalance: isValidCurrency(contractRecord.unpaidBalance)
+          ? contractRecord.unpaidBalance
+          : 0,
+      };
 
       const newInstallmentContractArray = [...installmentContracts];
-      newInstallmentContractArray[index] = contractRecord;
+      newInstallmentContractArray[index] = updatedContractRecord;
 
       // update form data
       setFormData({
@@ -147,7 +149,7 @@ const InstallmentContract = props => {
         installmentContracts: newInstallmentContractArray,
       });
 
-      goToPath(RETURN_PATH);
+      goToPath(SUMMARY_PATH);
     }
   };
 
@@ -155,7 +157,11 @@ const InstallmentContract = props => {
     onSubmit: event => event.preventDefault(),
     onCancel: event => {
       event.preventDefault();
-      goToPath(RETURN_PATH);
+      if (installmentContracts.length === 0) {
+        goToPath(START_PATH);
+      } else {
+        goToPath(SUMMARY_PATH);
+      }
     },
     onUpdate: event => {
       event.preventDefault();
@@ -163,7 +169,7 @@ const InstallmentContract = props => {
     },
     onBack: event => {
       event.preventDefault();
-      goToPath(RETURN_PATH);
+      goToPath(SUMMARY_PATH);
     },
     handleDateChange: (key, monthYear) => {
       const dateString = `${monthYear}-XX`;
@@ -256,7 +262,7 @@ const InstallmentContract = props => {
               handlers.handleDateChange('dateStarted', e.target.value)
             }
             onDateBlur={e => validateLoanBegan(e.target.value)}
-            required={!contractRecord.amountDueMonthly}
+            required={!!contractRecord.amountDueMonthly}
             error={(submitted && fromDateError) || null}
           />
         </div>
@@ -300,12 +306,19 @@ const InstallmentContract = props => {
 const mapStateToProps = ({ form }) => {
   return {
     formData: form.data,
-    employmentHistory: form.data.personalData.employmentHistory,
   };
 };
 
 const mapDispatchToProps = {
   setFormData: setData,
+};
+
+InstallmentContract.propTypes = {
+  data: PropTypes.shape({
+    installmentContracts: PropTypes.array,
+  }).isRequired,
+  goToPath: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
 };
 
 export default connect(

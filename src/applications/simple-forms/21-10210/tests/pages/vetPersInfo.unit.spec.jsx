@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.veteranPersonalInfo.pages.veteranPersonalInfo1;
+} = formConfig.chapters.veteranPersonalInfoChapter.pages.vetPersInfoPage;
 const pageTitle = 'Veteran’s personal information';
 const mockData = {
   claimOwnership: CLAIM_OWNERSHIPS.SELF,

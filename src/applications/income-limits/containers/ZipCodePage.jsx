@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   VaButtonPair,
   VaNumberInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 
 import { ROUTES } from '../constants';
 import { updateEditMode, updateZipCode } from '../actions';
@@ -25,6 +26,10 @@ const ZipCodePage = ({
   };
 
   const validZip = zipCode && zipCodeValid(zipCode);
+
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
 
   const onContinueClick = () => {
     setSubmitted(true);

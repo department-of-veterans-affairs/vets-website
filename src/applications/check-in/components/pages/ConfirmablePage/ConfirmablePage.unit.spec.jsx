@@ -10,12 +10,12 @@ describe('pre-check-in experience', () => {
   describe('shared components', () => {
     describe('ConfirmablePage', () => {
       it('renders custom header', () => {
-        const { getByText } = render(
+        const { getByTestId } = render(
           <CheckInProvider>
-            <ConfirmablePage header="foo" />
+            <ConfirmablePage header="foo" eyebrow="Check-In" />
           </CheckInProvider>,
         );
-        expect(getByText('foo')).to.exist;
+        expect(getByTestId('header')).to.contain.text('Check-In foo');
       });
       it('renders custom subtitle', () => {
         const { getByText } = render(

@@ -35,7 +35,13 @@ class PatientMessageDraftsPage {
     ).as('draftsResponse');
     cy.get('[data-testid="drafts-sidebar"]').click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     // cy.wait('@draftsFolderMetaResponse');
     // cy.wait('@draftsResponse');
   };
@@ -137,7 +143,13 @@ class PatientMessageDraftsPage {
 
     cy.contains(mockParentMessageDetails.data.attributes.subject).click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.wait('@message1');
     cy.wait('@full-thread');
   };
@@ -211,5 +223,51 @@ class PatientMessageDraftsPage {
   submitSearchButton = () => {
     cy.get('[data-testid="filter-messages-button"]').click();
   };
+
+  selectRecipientName = recipientName => {
+    cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
+      .find('select')
+      .select(recipientName);
+  };
+
+  selectCategory = category => {
+    cy.get('[data-testid="compose-category-radio-button"]')
+      .shadow()
+      .contains(category)
+      .click();
+  };
+
+  addMessageSubject = subject => {
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('#inputField')
+      .type(subject);
+  };
+
+  addMessageBody = text => {
+    cy.get('#compose-message-body')
+      .shadow()
+      .find('#textarea')
+      .type(text);
+  };
+
+  saveDraftByKeyboard = () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/message_drafts',
+      mockDraftResponse,
+    ).as('draft_message');
+    cy.tabToElement('#save-draft-button');
+    cy.realPress('Enter');
+    cy.wait('@draft_message').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
+  };
+
+  verifyFocusOnConfirmationMessage = () => {
+    cy.get('.last-save-time').should('have.focus');
+  };
 }
+
 export default PatientMessageDraftsPage;

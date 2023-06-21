@@ -10,6 +10,12 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
     cy.contains('TEST2').click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

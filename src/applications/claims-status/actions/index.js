@@ -57,7 +57,7 @@ import {
 } from './types';
 
 // This should make it a bit easier to turn mocks on and off manually
-const SHOULD_USE_MOCKS = false;
+const SHOULD_USE_MOCKS = true;
 // NOTE: This should only be TRUE when developing locally
 const CAN_USE_MOCKS = environment.isLocalhost() && !window.Cypress;
 const USE_MOCKS = CAN_USE_MOCKS && SHOULD_USE_MOCKS;
@@ -430,32 +430,35 @@ export function submitRequest(id) {
   };
 }
 
-export const submit5103 = id => {
-  return dispatch => {
-    dispatch({
-      type: SUBMIT_DECISION_REQUEST,
-    });
+export const submit5103 = submitRequest;
 
-    makeAuthRequest(
-      `/v0/benefits_claims/${id}/submit5103`,
-      { method: 'POST' },
-      dispatch,
-      () => {
-        dispatch({ type: SET_DECISION_REQUESTED });
-        dispatch(
-          setNotification({
-            title: 'Request received',
-            body:
-              'Thank you. We have your claim request and will make a decision.',
-          }),
-        );
-      },
-      error => {
-        dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
-      },
-    );
-  };
-};
+// id => {
+//   return submitRequest(id);
+//   return dispatch => {
+//     dispatch({
+//       type: SUBMIT_DECISION_REQUEST,
+//     });
+
+//     makeAuthRequest(
+//       `/v0/benefits_claims/${id}/submit5103`,
+//       { method: 'POST' },
+//       dispatch,
+//       () => {
+//         dispatch({ type: SET_DECISION_REQUESTED });
+//         dispatch(
+//           setNotification({
+//             title: 'Request received',
+//             body:
+//               'Thank you. We have your claim request and will make a decision.',
+//           }),
+//         );
+//       },
+//       error => {
+//         dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
+//       },
+//     );
+//   };
+// };
 // END lighthouse_migration
 
 export function resetUploads() {

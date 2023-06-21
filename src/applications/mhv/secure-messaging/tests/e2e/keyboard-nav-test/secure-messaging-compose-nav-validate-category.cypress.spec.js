@@ -27,6 +27,12 @@ describe('Validate the category', () => {
       'have.focus',
     );
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

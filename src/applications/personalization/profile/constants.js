@@ -125,3 +125,10 @@ export const BLOCKED_NOTIFICATION_IDS = [
   'item10',
   'item11',
 ];
+
+// used for api status GA events
+export const API_STATUS = Object.freeze({
+  STARTED: 'started',
+  SUCCESSFUL: 'successful',
+  FAILED: 'failed',
+});

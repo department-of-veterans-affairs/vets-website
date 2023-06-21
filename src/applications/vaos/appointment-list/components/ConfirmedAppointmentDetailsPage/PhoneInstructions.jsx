@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
 export default function PhoneInstructions({ appointment }) {
@@ -10,9 +11,13 @@ export default function PhoneInstructions({ appointment }) {
   }
 
   return (
-    <div className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+    <div className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--3">
       Someone from your VA facility will call you at your phone number on file
       at the appointment time.
     </div>
   );
 }
+
+PhoneInstructions.propTypes = {
+  appointment: PropTypes.object.isRequired,
+};

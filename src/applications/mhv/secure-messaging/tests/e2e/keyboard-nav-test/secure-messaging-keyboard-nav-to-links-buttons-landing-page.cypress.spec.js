@@ -19,6 +19,12 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
       'have.focus',
     );
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

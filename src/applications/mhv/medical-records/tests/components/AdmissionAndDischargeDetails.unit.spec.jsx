@@ -12,7 +12,6 @@ describe('Admission and discharge summary details component', () => {
     id: 122,
     startDate: '2022-04-13T17:42:46.000Z',
     endDate: '2022-04-15T17:42:46.000Z',
-    vaccineId: '000001',
     facility: 'Dayton VA Medical Center',
     reactions: ['Just this one'],
     summary:

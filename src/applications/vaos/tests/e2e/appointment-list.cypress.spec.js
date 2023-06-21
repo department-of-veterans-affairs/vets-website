@@ -22,7 +22,7 @@ describe('VAOS appointment list', () => {
       vaosSetup();
 
       mockAppointmentRequestsApi();
-      mockFacilitiesApi({ apiVersion: 1 });
+      mockFacilitiesApi({ apiVersion: 2 });
       mockFeatureToggles({ v2DirectSchedule: true });
       mockLoginApi();
       mockUserTransitionAvailabilities();
@@ -137,7 +137,7 @@ describe('VAOS appointment list', () => {
       // appointment
       mockFacilityApi({
         id: data[0].attributes.locationId,
-        apiVersion: 1,
+        apiVersion: 2,
       });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
@@ -157,9 +157,7 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
         .contains('VA appointment over the phone');
-      cy.get('h2', { timeout: Timeouts.slow })
-        .should('be.visible')
-        .and('contain', 'Cheyenne VA Medical Center');
+      cy.findByText('Cheyenne VA Medical Center').should('exist');
 
       cy.axeCheckBestPractice();
     });
@@ -362,7 +360,7 @@ describe('VAOS appointment list', () => {
 
       mockAppointmentRequestsApi();
       mockAppointmentsApi({ apiVersion: 2 });
-      mockFacilitiesApi({ apiVersion: 1 });
+      mockFacilitiesApi({ apiVersion: 2 });
       mockFeatureToggles({ v2Requests: true, v2DirectSchedule: true });
       mockLoginApi();
       mockUserTransitionAvailabilities();
@@ -442,7 +440,7 @@ describe('VAOS appointment list', () => {
       vaosSetup();
 
       mockAppointmentsApi({ data, apiVersion: 2 });
-      mockFacilitiesApi({ apiVersion: 1 });
+      mockFacilitiesApi({ apiVersion: 2 });
       mockFeatureToggles({ v2DirectSchedule: true });
       mockLoginApi();
       mockUserTransitionAvailabilities();
@@ -514,7 +512,7 @@ describe('VAOS appointment list', () => {
 
       mockAppointmentRequestsApi();
       mockAppointmentsApi({ data, apiVersion: 2 });
-      mockFacilitiesApi({ apiVersion: 1 });
+      mockFacilitiesApi({ apiVersion: 2 });
       mockFeatureToggles({ v2DirectSchedule: true });
       mockLoginApi();
       mockUserTransitionAvailabilities();
@@ -579,12 +577,14 @@ describe('VAOS appointment list', () => {
       vaosSetup();
 
       mockAppointmentRequestsApi();
-      mockFacilitiesApi({ apiVersion: 1 });
+      mockFacilitiesApi({ apiVersion: 2 });
       mockFeatureToggles({ v2DirectSchedule: true });
       mockLoginApi();
       mockUserTransitionAvailabilities();
     });
 
+    // TODO: Verify business rule: Should 30 days or 1 month (which could be 31 days)
+    // be subtracted from the current date.
     it('should render canceled appointments list', () => {
       const data = [
         {

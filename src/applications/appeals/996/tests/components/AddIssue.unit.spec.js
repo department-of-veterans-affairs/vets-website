@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import { AddIssue } from '../../components/AddIssue';
 import { issueErrorMessages } from '../../content/addIssue';
-import { MAX_LENGTH, LAST_HLR_ITEM } from '../../constants';
+import { MAX_LENGTH, LAST_ISSUE } from '../../constants';
 import { getDate } from '../../utils/dates';
 import { $, $$ } from '../../utils/ui';
 
@@ -28,9 +28,9 @@ describe('<AddIssue>', () => {
     onReviewPage = false,
   } = {}) => {
     if (index !== null) {
-      window.sessionStorage.setItem(LAST_HLR_ITEM, index);
+      window.sessionStorage.setItem(LAST_ISSUE, index);
     } else {
-      window.sessionStorage.removeItem(LAST_HLR_ITEM);
+      window.sessionStorage.removeItem(LAST_ISSUE);
     }
     return (
       <div>
@@ -47,7 +47,7 @@ describe('<AddIssue>', () => {
   };
 
   afterEach(() => {
-    window.sessionStorage.removeItem(LAST_HLR_ITEM);
+    window.sessionStorage.removeItem(LAST_ISSUE);
   });
 
   it('should render', () => {

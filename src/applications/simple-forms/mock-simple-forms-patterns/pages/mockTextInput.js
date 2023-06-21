@@ -1,9 +1,12 @@
 import React from 'react';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
+  inlineTitleSchema,
+  inlineTitleUI,
   titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
 
 /** @type {PageSchema} */
 export default {
@@ -30,9 +33,7 @@ export default {
       'ui:title': 'TextWidget - disabled',
       'ui:disabled': true,
     },
-    wc: titleUI('Web component', {
-      classNames: 'vads-u-margin-top--4',
-    }),
+    wc: inlineTitleUI('Web component'),
     simpleNew: {
       'ui:title': 'VaTextInputField - with string description',
       'ui:webComponentField': VaTextInputField,
@@ -84,9 +85,7 @@ export default {
         uswds: false,
       },
     },
-    wcv3: titleUI('Web component v3', {
-      classNames: 'vads-u-margin-top--4',
-    }),
+    wcv3: inlineTitleUI('Web component v3'),
     simpleNewV3: {
       'ui:title': 'VaTextInputField - with string description',
       'ui:webComponentField': VaTextInputField,
@@ -124,6 +123,11 @@ export default {
         inputmode: 'decimal',
       },
     },
+    textAreaNewV3: {
+      'ui:title': 'VaTextareaField',
+      'ui:description': 'Text description',
+      'ui:webComponentField': VaTextareaField,
+    },
     disabledNewV3: {
       'ui:title': 'VaTextInputField - disabled',
       'ui:webComponentField': VaTextInputField,
@@ -143,7 +147,7 @@ export default {
       disabledOld: {
         type: 'string',
       },
-      wc: titleSchema,
+      wc: inlineTitleSchema,
       simpleNew: {
         type: 'string',
       },
@@ -160,7 +164,7 @@ export default {
       disabledNew: {
         type: 'string',
       },
-      wcv3: titleSchema,
+      wcv3: inlineTitleSchema,
       simpleNewV3: {
         type: 'string',
       },
@@ -173,10 +177,13 @@ export default {
       inputmodeDecimalNewV3: {
         type: 'string',
       },
+      textAreaNewV3: {
+        type: 'string',
+      },
       disabledNewV3: {
         type: 'string',
       },
     },
-    required: ['requiredOld', 'requiredNew', 'requiredNewV3'],
+    required: ['requiredOld', 'requiredNew', 'requiredNewV3', 'textAreaNewV3'],
   },
 };
