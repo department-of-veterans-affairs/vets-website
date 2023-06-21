@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 export const NotificationChannelCheckboxesFieldset = ({
   children,
@@ -27,10 +28,13 @@ export const NotificationChannelCheckboxesFieldset = ({
           {description}
         </p>
       ) : null}
-      {/* {!loadingMessage && !successMessage && !warningMessage && errorSpan}
-      {!loadingMessage && !errorMessage && !warningMessage && successSpan}
-      {!errorMessage && !successMessage && !warningMessage && loadingSpan} */}
       {children}
     </fieldset>
   );
+};
+
+NotificationChannelCheckboxesFieldset.propTypes = {
+  children: PropTypes.node.isRequired,
+  itemName: PropTypes.string.isRequired,
+  description: PropTypes.string,
 };
