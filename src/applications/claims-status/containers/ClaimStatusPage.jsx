@@ -17,7 +17,6 @@ import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
 import {
   getClaimType,
-  getCompletedDate,
   getItemDate,
   getTrackedItemDate,
   getUserPhase,
@@ -203,13 +202,13 @@ class ClaimStatusPage extends React.Component {
 
     const {
       claimPhaseDates,
+      closeDate,
       decisionLetterSent,
       documentsNeeded,
       status,
     } = attributes;
 
-    const isOpen =
-      status !== STATUSES.COMPLETE && attributes.closeDate === null;
+    const isOpen = status !== STATUSES.COMPLETE && closeDate === null;
     const filesNeeded = itemsNeedingAttentionFromVet(attributes.trackedItems);
     const showDocsNeeded =
       !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
@@ -221,12 +220,12 @@ class ClaimStatusPage extends React.Component {
         ) : null}
         {decisionLetterSent && !isOpen ? (
           <ClaimsDecision
-            completedDate={getCompletedDate(claim)}
+            completedDate={closeDate}
             showClaimLettersLink={showClaimLettersLink}
           />
         ) : null}
         {!decisionLetterSent && !isOpen ? (
-          <ClaimComplete completedDate={getCompletedDate(claim)} />
+          <ClaimComplete completedDate={closeDate} />
         ) : null}
         {status && isOpen ? (
           <ClaimTimeline

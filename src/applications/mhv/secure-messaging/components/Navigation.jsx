@@ -102,6 +102,7 @@ const Navigation = () => {
           onMenuClick={() => {
             openNavigation();
           }}
+          isExpanded={isNavigationOpen}
         />
       )
     );
@@ -143,7 +144,11 @@ const Navigation = () => {
     <div className="secure-messaging-navigation vads-u-flex--auto vads-u-padding-bottom--7 medium-screen:vads-u-padding-bottom--0">
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
-        <div ref={sideBarNavRef} className="sidebar-navigation">
+        <div
+          ref={sideBarNavRef}
+          className="sidebar-navigation"
+          id="sidebar-navigation"
+        >
           <div className="sr-only" aria-live="polite">
             Navigation menu is open
           </div>

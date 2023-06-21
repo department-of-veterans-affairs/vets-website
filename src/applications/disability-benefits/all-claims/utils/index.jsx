@@ -2,7 +2,6 @@
 import React from 'react';
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-// import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
 import fastLevenshtein from 'fast-levenshtein';
 
@@ -211,41 +210,6 @@ export const hasForwardingAddress = formData =>
 
 export const forwardingCountryIsUSA = formData =>
   _.get('forwardingAddress.country', formData, '') === USA;
-
-export function queryForFacilities(input = '') {
-  // Only search if the input has a length >= 3, otherwise, return an empty array
-  if (input.length < 3) {
-    return Promise.resolve([]);
-  }
-
-  /**
-   * Facilities endpoint removed for now, but we may be able to use EVSS's
-   * endpoint /referencedata/v1/treatmentcenter
-   * See https://github.com/department-of-veterans-affairs/va.gov-team/issues/14028#issuecomment-765717797
-   * /
-  const url = appendQuery('/facilities/suggested', {
-    type: ['health', 'dod_health'],
-    name_part: input, // eslint-disable-line camelcase
-  });
-
-  return apiRequest(url)
-    .then(response =>
-      response.data.map(facility => ({
-        id: facility.id,
-        label: facility.attributes.name,
-      })),
-    )
-    .catch(error => {
-      Sentry.withScope(scope => {
-        scope.setExtra('input', input);
-        scope.setExtra('error', error);
-        Sentry.captureMessage('Error querying for facilities');
-      });
-      return [];
-    });
-    /* */
-  return Promise.resolve([]);
-}
 
 export function getSeparationLocations() {
   return apiRequest('/disability_compensation_form/separation_locations')

@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 const SectionGuideButton = props => {
-  const { onMenuClick, setNavMenuButtonRef } = props;
+  const { onMenuClick, setNavMenuButtonRef, isExpanded } = props;
   const navMenuButtonRef = useRef(null);
 
   useEffect(
@@ -15,7 +15,8 @@ const SectionGuideButton = props => {
     <div className="va-btn-sidebarnav-trigger button-wrapper vads-u-padding--0">
       <button
         ref={navMenuButtonRef}
-        aria-controls="va-detailpage-sidebar"
+        aria-controls="sidebar-navigation"
+        aria-expanded={isExpanded}
         onClick={() => {
           onMenuClick();
         }}
@@ -29,6 +30,7 @@ const SectionGuideButton = props => {
 };
 
 SectionGuideButton.propTypes = {
+  isExpanded: PropTypes.bool,
   sectionName: PropTypes.string,
   setNavMenuButtonRef: PropTypes.func,
   onMenuClick: PropTypes.func,
