@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import { Provider } from 'react-redux';
 
-export default function createHomepageHeroRandomizer(store, widgetType) {
+export default function create2110210Access(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    import('./index').then(module => {
-      const HeroRandom = module.default;
+    import(/* webpackChunkName: "form-21-10210" */ './App.js').then(module => {
+      const App = module.default;
       ReactDOM.render(
         <Provider store={store}>
-          <HeroRandom />
+          <App />
         </Provider>,
         root,
       );

@@ -23,7 +23,7 @@ const getPreparerFullName = formData => {
 };
 
 const content = {
-  headlineText: 'You’ve successfully submitted your Lay/Witness Statement',
+  headlineText: 'You’ve submitted your lay witness request.',
   nextStepsText:
     'Once we’ve reviewed your submission, a coordinator will contact you to discuss next steps.',
 };

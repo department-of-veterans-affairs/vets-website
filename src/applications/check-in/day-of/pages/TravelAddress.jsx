@@ -28,6 +28,7 @@ const TravelAddress = props => {
   return (
     <TravelPage
       header={t('did-you-travel-from-your-home-address')}
+      eyebrow={t('check-in')}
       bodyText={bodyText}
       helpText={t('if-you-traveled-from-a-different-address--helptext')}
       pageType="travel-address"

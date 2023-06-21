@@ -4,7 +4,7 @@ import { errorMessages, CONFERENCE_TIMES_V2 } from '../constants';
 import {
   InformalConferenceTimesTitle,
   InformalConferenceTimesDescriptionV2,
-  informalConferenceTimeSelectTitles,
+  informalConferenceTimeSelectTitle,
 } from '../content/InformalConference';
 
 // HLR version 2
@@ -13,12 +13,15 @@ export default {
     'ui:title': InformalConferenceTimesTitle,
     'ui:description': InformalConferenceTimesDescriptionV2,
     informalConferenceTime: {
-      'ui:title': informalConferenceTimeSelectTitles.first,
+      'ui:title': informalConferenceTimeSelectTitle,
       'ui:widget': 'radio',
       'ui:required': formData => formData?.informalConference !== 'no',
       'ui:validations': [checkConferenceTimes],
       'ui:errorMessages': {
         required: errorMessages.informalConferenceTimes,
+      },
+      'ui:options': {
+        enableAnalytics: true,
       },
     },
   },

@@ -296,6 +296,16 @@ const analyticsEvents = {
       action: 'change',
       event: 'int-file-input-change',
       prefix: 'file-input',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-file-input',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'file-input-label': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-link': [
@@ -383,6 +393,15 @@ const analyticsEvents = {
       action: 'click',
       event: 'nav-privacy-agreement-checkbox-click',
       prefix: 'privacy-agreement',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-privacy-agreement',
+        custom_string_1: 'component-library',
+        mapping: {
+          'privacy-agreement-checked': 'value',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-promo-banner': [
@@ -432,11 +451,31 @@ const analyticsEvents = {
       action: 'click',
       event: 'int-search-input-click',
       prefix: 'search-input',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-search-input',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'search-input-value': 'value',
+          version: 'component_version',
+        },
+      },
     },
     {
       action: 'blur',
       event: 'int-search-input-blur',
       prefix: 'search-input',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-search-input',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'search-input-value': 'value',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-select': [
@@ -482,13 +521,52 @@ const analyticsEvents = {
       action: 'click',
       event: 'int-telephone-link-click',
       prefix: 'telephone',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-telephone',
+        custom_string_1: 'component-library',
+        mapping: {
+          'telephone-contact': 'custom_string_2',
+          'telephone-extension': 'custom_number_1',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-text-input': [
-    { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
+    {
+      action: 'blur',
+      event: 'int-text-input-blur',
+      prefix: 'text-input',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-text-input',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'text-input-label': 'custom_string_2',
+          'text-input-value': 'value',
+          version: 'component_version',
+        },
+      },
+    },
   ],
   'va-textarea': [
-    { action: 'blur', event: 'int-textarea-blur', prefix: 'textarea' },
+    {
+      action: 'blur',
+      event: 'int-textarea-blur',
+      prefix: 'textarea',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-textarea',
+        custom_string_1: 'component-library',
+        mapping: {
+          'textarea-label': 'custom_string_2',
+          'textarea-value': 'value',
+          version: 'component_version',
+        },
+      },
+    },
   ],
 };
 

@@ -9,7 +9,7 @@ describe('Start a new message With Attacments and Errors', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

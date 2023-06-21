@@ -211,6 +211,7 @@ export function mockFeatureToggles({
   v2Requests = false,
   v2Facilities = false,
   v2DirectSchedule = false,
+  acheron = false,
 } = {}) {
   cy.intercept(
     {
@@ -266,6 +267,10 @@ export function mockFeatureToggles({
             {
               name: 'vaOnlineSchedulingVAOSServiceCCAppointments',
               value: true,
+            },
+            {
+              name: 'vaOnlineSchedulingAcheronService',
+              value: acheron,
             },
           ],
         },

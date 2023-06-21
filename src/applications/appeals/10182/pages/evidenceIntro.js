@@ -15,6 +15,7 @@ const contactInfo = {
         labels: {
           N: 'No, I’ll submit it later.',
         },
+        enableAnalytics: true,
       },
     },
   },
