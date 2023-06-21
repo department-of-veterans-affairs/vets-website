@@ -1,11 +1,33 @@
 import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 
+import {
+  claimantAddressTitle,
+  claimantContactInformationTitle,
+  claimantPersonalInformationTitle,
+  claimantSsnTitle,
+} from './helpers';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 import transformForSubmit from '../../shared/config/submit-transformer';
+
+import preparerPersonalInformation from '../pages/preparerPersonalInformation';
+import preparerAddress from '../pages/preparerAddress';
+import preparerContactInformation from '../pages/preparerContactInformation';
+import claimantIdentification from '../pages/claimantIdentification';
+import claimantPersonalInformation from '../pages/claimantPersonalInformation';
+import claimantSsn from '../pages/claimantSsn';
+import claimantAddress from '../pages/claimantAddress';
+import claimantContactInformation from '../pages/claimantContactInformation';
+import preparerQualifications from '../pages/preparerQualifications';
+
+// mock-data import for local development
+import testData from '../tests/e2e/fixtures/data/minimal-test.json';
+
+const mockData = testData;
 
 const statementOfTruthBody = (
   <>
@@ -90,17 +112,106 @@ const formConfig = {
   subTitle: 'Alternate signer certification (VA Form 21-0972)',
   defaultDefinitions: {},
   chapters: {
-    chapter1: {
-      title: 'Chapter 1',
+    preparerPersonalInformationChapter: {
+      title: 'Your personal information',
       pages: {
-        page1: {
-          path: 'first-page',
-          title: 'First Page',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+        preparerPersonalInformation: {
+          path: 'preparer-personal-information',
+          title: 'Your personal information',
+          // we want req'd fields prefilled for LOCAL testing/previewing
+          // one single initialData prop here will suffice for entire form
+          initialData:
+            !!mockData && environment.isLocalhost() ? mockData : undefined,
+          uiSchema: preparerPersonalInformation.uiSchema,
+          schema: preparerPersonalInformation.schema,
+        },
+      },
+    },
+    preparerAddressChapter: {
+      title: 'Your mailing address',
+      pages: {
+        preparerAddress: {
+          path: 'preparer-address',
+          title: 'Your mailing address',
+          uiSchema: preparerAddress.uiSchema,
+          schema: preparerAddress.schema,
+        },
+      },
+    },
+    preparerContactInformationChapter: {
+      title: 'Your contact information',
+      pages: {
+        preparerContactInformation: {
+          path: 'preparer-contact-information',
+          title: 'Your contact information',
+          uiSchema: preparerContactInformation.uiSchema,
+          schema: preparerContactInformation.schema,
+        },
+      },
+    },
+    claimantIdentificationChapter: {
+      title: 'Who you’ll be signing for',
+      pages: {
+        claimantIdentification: {
+          path: 'claimant-identification',
+          title: 'Who you’ll be signing for',
+          uiSchema: claimantIdentification.uiSchema,
+          schema: claimantIdentification.schema,
+        },
+      },
+    },
+    claimantPersonalInformationChapter: {
+      title: formData => claimantPersonalInformationTitle(formData),
+      pages: {
+        claimantPersonalInformation: {
+          path: 'claimant-personal-information',
+          title: formData => claimantPersonalInformationTitle(formData),
+          uiSchema: claimantPersonalInformation.uiSchema,
+          schema: claimantPersonalInformation.schema,
+        },
+      },
+    },
+    claimantSsnChapter: {
+      title: formData => claimantSsnTitle(formData),
+      pages: {
+        claimantSsn: {
+          path: 'claimant-identification-information',
+          title: formData => claimantSsnTitle(formData),
+          uiSchema: claimantSsn.uiSchema,
+          schema: claimantSsn.schema,
+        },
+      },
+    },
+    claimantAddressChapter: {
+      title: formData => claimantAddressTitle(formData),
+      pages: {
+        claimantAddress: {
+          path: 'claimant-address',
+          title: formData => claimantAddressTitle(formData),
+          uiSchema: claimantAddress.uiSchema,
+          schema: claimantAddress.schema,
+        },
+      },
+    },
+    claimantContactInformationChapter: {
+      title: formData => claimantContactInformationTitle(formData),
+      pages: {
+        claimantContactInformation: {
+          path: 'claimant-contact-information',
+          title: formData => claimantContactInformationTitle(formData),
+          uiSchema: claimantContactInformation.uiSchema,
+          schema: claimantContactInformation.schema,
+        },
+      },
+    },
+    preparerQualificationsChapter: {
+      title: 'Qualifications',
+      pages: {
+        preparerQualifications: {
+          path: 'preparer-qualifications',
+          title: 'Qualifications',
+          uiSchema: preparerQualifications.uiSchema,
+          schema: preparerQualifications.schema,
         },
       },
     },

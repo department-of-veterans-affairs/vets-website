@@ -1,0 +1,14 @@
+{
+  "preparerFullName": {
+    "first": "Arthur",
+    "last": "Preparer"
+  },
+  "preparerAddress": {
+    "street": "124 Main St",
+    "city": "Anytown",
+    "state": "CA",
+    "country": "USA",
+    "postalCode": "12345"
+  },
+  "preparerPhone": "9876543210"
+}
