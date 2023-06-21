@@ -2,18 +2,9 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import recordEvent from '~/platform/monitoring/record-event';
-import CTALink from '../CTALink';
+import { VaNotification } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import { dismissNotificationById } from '../../actions/notifications';
-
-function handleNotification() {
-  recordEvent({
-    event: 'dashboard-navigation',
-    'dashboard-action': 'view-link-from-notifications',
-    'dashboard-product': 'view-manage-va-debt',
-  });
-}
 
 export const TestNotification = ({ notification, dismissNotification }) => {
   const [visible, setVisible] = useState(true);
@@ -24,53 +15,36 @@ export const TestNotification = ({ notification, dismissNotification }) => {
 
   const closeNotification = () => {
     dismissNotification(notification.id);
-    setVisible(open => !open);
+    setVisible(false);
   };
 
   return (
     <DashboardWidgetWrapper>
       {visible && (
-        <div
+        <VaNotification
           data-testid="onsite-notification-card"
-          className="onsite-notification vads-u-background-color--white vads-u-padding--2 vads-u-margin-bottom--2p5"
-          role="alert"
+          closeBtnAriaLabel="Close notification"
+          closeable
+          onCloseEvent={closeNotification}
+          has-border
+          has-close-text
+          headline="You have new debt."
+          headline-level="3"
+          href="/manage-va-debt/your-debt"
+          symbol="action-required"
+          text="Manage your VA debt"
+          visible
+          class="vads-u-margin-bottom--1p5"
         >
-          <div className="vads-u-margin-top--0 vads-u-display--flex">
-            <i
-              aria-hidden="true"
-              className="fas fa-exclamation-circle vads-u-color--secondary-darkest vads-u-font-size--xl
-            vads-u-margin-right--1"
-            />
-            <div className="body" role="presentation">
-              <h3 className="vads-u-margin-y--0 vads-u-font-size--md">
-                You have new debt.
-              </h3>
-              <div className="">{createdAtFormatted}</div>
-
-              <CTALink
-                ariaLabel=""
-                className="vads-u-margin-top--1 vads-u-font-weight--bold"
-                text="Manage your VA debt"
-                href="/manage-va-debt/your-debt"
-                onClick={handleNotification}
-                showArrow
-              />
-            </div>
-            <button
-              className="onsite-notification-close"
-              aria-label="Close notification"
-              type="button"
-              onClick={closeNotification}
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-times-circle vads-u-margin-right--1"
-                role="presentation"
-              />
-              <span>CLOSE</span>
-            </button>
-          </div>
-        </div>
+          <time
+            slot="date"
+            dateTime={moment(notification.attributes.createdAt).format(
+              'YYYY-MM-DD HH:mm:ss',
+            )}
+          >
+            {createdAtFormatted}
+          </time>
+        </VaNotification>
       )}
     </DashboardWidgetWrapper>
   );

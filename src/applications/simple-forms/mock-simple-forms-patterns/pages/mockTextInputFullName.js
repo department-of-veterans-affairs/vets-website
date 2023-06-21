@@ -6,6 +6,8 @@ import {
   titleUI,
   fullNameUI,
   fullNameSchema,
+  inlineTitleUI,
+  inlineTitleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 
@@ -58,9 +60,7 @@ export default {
         'ui:title': 'Select - Spouse\u2019s suffix',
       },
     },
-    wc: titleUI('Web component', {
-      classNames: 'vads-u-margin-top--4',
-    }),
+    wc: inlineTitleUI('Web component'),
     spouseFullNameNew: {
       ...fullNameOldUI,
       first: {
@@ -98,9 +98,7 @@ export default {
         },
       },
     },
-    wcv3: titleUI('Web component v3', {
-      classNames: 'vads-u-margin-top--4',
-    }),
+    wcv3: inlineTitleUI('Web component v3'),
     spouseFullNameNewV3: fullNameUI(),
   },
   schema: {
@@ -108,9 +106,9 @@ export default {
     properties: {
       rjsf: titleSchema,
       spouseFullNameOld: fullNameDef,
-      wc: titleSchema,
+      wc: inlineTitleSchema,
       spouseFullNameNew: fullNameSchema,
-      wcv3: titleSchema,
+      wcv3: inlineTitleSchema,
       spouseFullNameNewV3: fullNameSchema,
     },
     required: [],
