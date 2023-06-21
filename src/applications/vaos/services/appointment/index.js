@@ -555,7 +555,15 @@ export async function createAppointment({ appointment, useAcheron = false }) {
 
 const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
 
-async function cancelV2Appointment(appointment, useAcheron) {
+/**
+ * Cancels an appointment or request
+ *
+ * @export
+ * @param {Object} params
+ * @param {Appointment} params.appointment The appointment to cancel
+ * @returns {?Appointment} Returns either null or the updated appointment data
+ */
+export async function cancelAppointment({ appointment, useAcheron = false }) {
   const additionalEventData = {
     custom_string_1:
       appointment.status === APPOINTMENT_STATUS.proposed
@@ -598,18 +606,6 @@ async function cancelV2Appointment(appointment, useAcheron) {
 
     throw e;
   }
-}
-
-/**
- * Cancels an appointment or request
- *
- * @export
- * @param {Object} params
- * @param {Appointment} params.appointment The appointment to cancel
- * @returns {?Appointment} Returns either null or the updated appointment data
- */
-export async function cancelAppointment({ appointment, useAcheron = false }) {
-  return cancelV2Appointment(appointment, useAcheron);
 }
 
 export function isInPersonVAAppointment(appointment) {
