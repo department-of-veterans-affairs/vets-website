@@ -8,6 +8,8 @@ class Products {
   }
 
   addProducts({ manifestPaths }) {
+    /* eslint-disable no-console */
+    console.log(manifestPaths);
     manifestPaths.forEach(path => {
       const manifest = JSON.parse(fs.readFileSync(path));
       const { productId } = manifest;

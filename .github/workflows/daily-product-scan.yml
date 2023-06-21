@@ -1,7 +1,7 @@
 on:
-  schedule:
-    - cron: '0 12 * * 1-5'
-
+  # schedule:
+  #   - cron: '0 12 * * 1-5'
+  push
 name: Daily Product Scan
 
 jobs:
