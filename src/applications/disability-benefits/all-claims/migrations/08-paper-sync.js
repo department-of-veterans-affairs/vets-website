@@ -11,25 +11,40 @@ export default function reorderHousingIllnessRemoveFdc(savedData) {
   if (
     returnUrl === '/veteran-information' ||
     returnUrl === '/contact-information'
-  )
+  ) {
     return savedData;
+  }
 
   const { formData } = savedData;
   if (formData.homelessOrAtRisk === undefined) {
-    return Object.assign({}, savedData, {
-      metadata: { returnUrl: '/housing-situation-1' },
-    });
+    return {
+      ...savedData,
+      metadata: {
+        ...savedData.metadata,
+        returnUrl: '/housing-situation-1', // TODO: #59003 Rename for prod launch
+      },
+    };
   }
 
   if (formData.isTerminallyIll === undefined) {
-    return Object.assign({}, savedData, {
-      metadata: { returnUrl: '/terminally-ill-1' },
-    });
+    return {
+      ...savedData,
+      metadata: {
+        ...savedData.metadata,
+        returnUrl: '/terminally-ill-1', // TODO: #59003 Rename for prod launch
+      },
+    };
   }
 
-  if (returnUrl === '/fully-developed-claim')
-    return Object.assign({}, savedData, {
-      metadata: { returnUrl: '/review-and-submit' },
-    });
+  if (returnUrl === '/fully-developed-claim') {
+    return {
+      ...savedData,
+      metadata: {
+        ...savedData.metadata,
+        returnUrl: '/review-and-submit',
+      },
+    };
+  }
+
   return savedData;
 }

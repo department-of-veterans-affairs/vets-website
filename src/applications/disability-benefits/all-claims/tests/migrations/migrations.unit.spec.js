@@ -244,69 +244,75 @@ describe('526 v2 migrations', () => {
       const savedData = {
         formData: {},
         metadata: {
+          version: 8,
           returnUrl: '/veteran-information',
         },
       };
       const migratedData = reorderHousingIllnessRemoveFdc(savedData);
       expect(migratedData.metadata.returnUrl).to.equal('/veteran-information');
     });
-  });
 
-  it('should not change returnUrl if user left off on the contact info page', () => {
-    const savedData = {
-      formData: {},
-      metadata: {
-        returnUrl: '/contact-information',
-      },
-    };
-    const migratedData = reorderHousingIllnessRemoveFdc(savedData);
-    expect(migratedData.metadata.returnUrl).to.equal('/contact-information');
-  });
+    it('should not change returnUrl if user left off on the contact info page', () => {
+      const savedData = {
+        formData: {},
+        metadata: {
+          version: 8,
+          returnUrl: '/contact-information',
+        },
+      };
+      const migratedData = reorderHousingIllnessRemoveFdc(savedData);
+      expect(migratedData.metadata.returnUrl).to.deep.equal('/contact-information');
+    });
 
-  it('should change returnUrl to housing-situation when user could potentially skip it', () => {
-    const savedData = {
-      formData: {},
-      metadata: {
-        returnUrl: '/claim-type',
-      },
-    };
+    it('should change returnUrl to housing-situation when user could potentially skip it', () => {
+      const savedData = {
+        formData: {},
+        metadata: {
+          version: 8,
+          returnUrl: '/claim-type',
+        },
+      };
 
-    const migratedData = reorderHousingIllnessRemoveFdc(savedData);
+      const migratedData = reorderHousingIllnessRemoveFdc(savedData);
 
-    // TODO: #59003 Rename for prod launch
-    expect(migratedData.metadata.returnUrl).to.equal('/housing-situation-1');
-  });
+      // TODO: #59003 Rename for prod launch
+      expect(migratedData.metadata.returnUrl).to.deep.equal(
+        '/housing-situation-1',
+      );
+    });
 
-  it('should change returnUrl to terminally-ill when user could potentially skip it', () => {
-    const savedData = {
-      formData: {
-        homelessOrAtRisk: 'homeless',
-      },
-      metadata: {
-        returnUrl: '/payment-information',
-      },
-    };
+    it('should change returnUrl to terminally-ill when user could potentially skip it', () => {
+      const savedData = {
+        formData: {
+          homelessOrAtRisk: 'homeless',
+        },
+        metadata: {
+          version: 8,
+          returnUrl: '/housing-situation',
+        },
+      };
 
-    const migratedData = reorderHousingIllnessRemoveFdc(savedData);
+      const migratedData = reorderHousingIllnessRemoveFdc(savedData);
 
-    // TODO: #59003 Rename for prod launch
-    expect(migratedData.metadata.returnUrl).to.equal('/terminally-ill-1');
-  });
+      // TODO: #59003 Rename for prod launch
+      expect(migratedData.metadata.returnUrl).to.equal('/terminally-ill-1');
+    });
 
-  it('should change returnUrl to review and submit if on the fdc page', () => {
-    const savedData = {
-      formData: {
-        isTerminallyIll: false,
-        homelessOrAtRisk: 'no',
-      },
-      metadata: {
-        returnUrl: '/fully-developed-claim',
-      },
-    };
+    it('should change returnUrl to review and submit if on the fdc page', () => {
+      const savedData = {
+        formData: {
+          isTerminallyIll: false,
+          homelessOrAtRisk: 'no',
+        },
+        metadata: {
+          version: 8,
+          returnUrl: '/fully-developed-claim',
+        },
+      };
 
-    const migratedData = reorderHousingIllnessRemoveFdc(savedData);
+      const migratedData = reorderHousingIllnessRemoveFdc(savedData);
 
-    // TODO: #59003 Rename for prod launch
-    expect(migratedData.metadata.returnUrl).to.equal('/review-and-submit');
+      expect(migratedData.metadata.returnUrl).to.equal('/review-and-submit');
+    });
   });
 });
