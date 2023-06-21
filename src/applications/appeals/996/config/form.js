@@ -189,18 +189,14 @@ const formConfig = {
         conferenceTime: {
           path: 'informal-conference/conference-availability',
           title: 'Scheduling availability',
-          depends: formData =>
-            formData?.informalConference !== 'no' &&
-            formData?.informalConference === 'me',
+          depends: formData => formData?.informalConference === 'me',
           uiSchema: informalConferenceTime.uiSchema,
           schema: informalConferenceTime.schema,
         },
         conferenceTimeRep: {
           path: 'informal-conference/conference-rep-availability',
           title: 'Scheduling availability',
-          depends: formData =>
-            formData?.informalConference !== 'no' &&
-            formData?.informalConference === 'rep',
+          depends: formData => formData?.informalConference === 'rep',
           uiSchema: informalConferenceTimeRep.uiSchema,
           schema: informalConferenceTimeRep.schema,
         },
