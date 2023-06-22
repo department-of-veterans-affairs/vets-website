@@ -20,6 +20,7 @@ export const IntroductionPageView = ({
     saveInProgressText,
     unauthStartText,
     displayNonVeteranMessaging = false,
+    verifiedPrefillAlert = null,
   } = content;
   const { resBurden, ombNumber, expDate } = ombInfo;
 
@@ -39,6 +40,7 @@ export const IntroductionPageView = ({
         startText={authStartFormText}
         unauthStartText={unauthStartText}
         displayNonVeteranMessaging={displayNonVeteranMessaging}
+        verifiedPrefillAlert={verifiedPrefillAlert}
       >
         {saveInProgressText}
       </SaveInProgressIntro>

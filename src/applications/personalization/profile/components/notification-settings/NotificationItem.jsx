@@ -4,12 +4,21 @@ import { connect } from 'react-redux';
 
 import { selectItemById } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
+import {
+  RX_TRACKING_SUPPORTING_FACILITIES,
+  NOTIFICATION_CHANNEL_IDS,
+} from '@@profile/constants';
 
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
+import {
+  useFeatureToggle,
+  Toggler,
+} from '~/platform/utilities/feature-toggles';
+
 import NotificationChannel from './NotificationChannel';
-import { NOTIFICATION_CHANNEL_IDS } from '../../constants';
+import { NotificationChannelCheckboxesFieldset } from './NotificationChannelCheckboxesFieldset';
 
-const NotificationItem = ({ channelIds }) => {
+const NotificationItem = ({ channelIds, itemName, description }) => {
   // using the Mhv Notification Settings feature toggle to determine if we should show the email channel,
   // since the email channel is not yet supported and all Mhv notifications are email based for now
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -28,31 +37,67 @@ const NotificationItem = ({ channelIds }) => {
     },
     [channelIds, allEnabled],
   );
+
   return (
     <>
-      {/* Leaving this here for future reference since we might need to bring the item name back to this component. Note that to re-enable the h3, we need to add itemName to the destructured props up on line 9 */}
-      {/* <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-top--2">
-        {itemName}
-      </h3> */}
+      <Toggler
+        toggleName={
+          Toggler.TOGGLE_NAMES.profileUseNotificationSettingsCheckboxes
+        }
+      >
+        <Toggler.Enabled>
+          <NotificationChannelCheckboxesFieldset
+            itemName={itemName}
+            description={description}
+          >
+            {filteredChannels.map(channelId => (
+              <NotificationChannel channelId={channelId} key={channelId} />
+            ))}
+          </NotificationChannelCheckboxesFieldset>
+        </Toggler.Enabled>
 
-      {filteredChannels.map(channelId => (
-        <NotificationChannel channelId={channelId} key={channelId} />
-      ))}
+        <Toggler.Disabled>
+          {filteredChannels.map(channelId => (
+            <NotificationChannel
+              channelId={channelId}
+              key={channelId}
+              description={description}
+            />
+          ))}
+        </Toggler.Disabled>
+      </Toggler>
     </>
   );
 };
 
 NotificationItem.propTypes = {
   channelIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  description: PropTypes.string,
   itemName: PropTypes.string,
 };
 
 const mapStateToProps = (state, ownProps) => {
   const communicationPreferencesState = selectCommunicationPreferences(state);
+
   const item = selectItemById(communicationPreferencesState, ownProps.itemId);
+
+  const allFacilitiesSupportRxTracking = selectPatientFacilities(
+    state,
+  )?.every?.(facility => {
+    return RX_TRACKING_SUPPORTING_FACILITIES.has(facility.facilityId);
+  });
+
+  const description =
+    item.channels.some(channel => channel.includes('channel4')) &&
+    !allFacilitiesSupportRxTracking
+      ? 'Only available at some VA health facilities. Check with your VA pharmacy first.'
+      : null;
+
   return {
+    item,
     itemName: item.name,
     channelIds: item.channels,
+    description,
   };
 };
 

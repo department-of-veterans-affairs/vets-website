@@ -1,3 +1,4 @@
+// schema no longer used
 import SpouseEmploymentHistoryWidget from './SpouseEmploymentHistoryWidget';
 
 export const uiSchema = {
