@@ -11,7 +11,7 @@ function PreSubmitNotice({
   const activeDutyNote = () => {
     if (
       formData.currentlyActiveDuty.yes === true &&
-      environment.isProduction()
+      !environment.isProduction()
     ) {
       return (
         <div>
