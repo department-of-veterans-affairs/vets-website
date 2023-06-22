@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
+import PropTypes from 'prop-types';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
+import { isValidCurrency } from '../utils/validations';
 
 const GrossMonthlyIncomeInput = props => {
-  const { goToPath, goBack, onReviewPage, setFormData } = props;
+  const { goToPath, goBack, onReviewPage = false, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -16,6 +18,8 @@ const GrossMonthlyIncomeInput = props => {
   const userType = 'veteran';
 
   const formData = useSelector(state => state.form.data);
+
+  const [submitted, setSubmitted] = useState(false);
 
   const {
     personalData: {
@@ -40,6 +44,7 @@ const GrossMonthlyIncomeInput = props => {
   });
 
   const setNewGrossMonthlyIncome = event => {
+    setIncomeError(!isValidCurrency(event.target.value));
     setGrossMonthlyIncome({ value: event.target.value, dirty: true });
   };
 
@@ -68,9 +73,10 @@ const GrossMonthlyIncomeInput = props => {
 
   const updateFormData = e => {
     e.preventDefault();
-    if (!grossMonthlyIncome.value) {
+    setSubmitted(true);
+
+    if (!isValidCurrency(grossMonthlyIncome.value)) {
       setIncomeError(true);
-      setNewGrossMonthlyIncome(e);
       return;
     }
 
@@ -140,7 +146,7 @@ const GrossMonthlyIncomeInput = props => {
         required
         width="md"
         error={
-          incomeError && grossMonthlyIncome.dirty
+          incomeError && (submitted || grossMonthlyIncome.dirty)
             ? `Please enter a valid number.`
             : ''
         }
@@ -165,3 +171,10 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(GrossMonthlyIncomeInput);
+
+GrossMonthlyIncomeInput.propTypes = {
+  goBack: PropTypes.func.isRequired,
+  goToPath: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  onReviewPage: PropTypes.bool,
+};
