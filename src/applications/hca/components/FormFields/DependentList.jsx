@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import { SESSION_ITEM_NAME, SHARED_PATHS } from '../../utils/constants';
+import { normalizeFullName } from '../../utils/helpers';
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
 
 // declare shared routes from the form & default states
@@ -83,9 +84,7 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
   // create dependent list items
   const listItems = dependents.map((item, index) => {
     const { fullName, dependentRelation } = item;
-    const normalizedFullName = `${fullName.first} ${
-      fullName.last
-    } ${fullName.suffix || ''}`.replace(/ +(?= )/g, '');
+    const dependentName = normalizeFullName(fullName);
 
     return (
       <li
@@ -98,7 +97,7 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
           className="vads-u-display--block vads-u-line-height--2 vads-u-font-weight--bold"
           data-testid="hca-dependent-tile-name"
         >
-          {normalizedFullName}
+          {dependentName}
         </span>
         <span
           className="vads-u-display--block vads-u-line-height--2"
@@ -114,7 +113,7 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
               search: `?index=${index}&action=${mode}`,
             }}
           >
-            Edit <span className="sr-only">{normalizedFullName}</span>{' '}
+            Edit <span className="sr-only">{dependentName}</span>{' '}
             <i
               role="presentation"
               className="fas fa-chevron-right vads-u-margin-left--0p5"
@@ -123,15 +122,13 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
           <button
             type="button"
             className="va-button-link hca-button-action vads-u-color--secondary-dark vads-u-font-weight--bold"
-            onClick={() =>
-              handlers.showConfirm({ index, name: normalizedFullName })
-            }
+            onClick={() => handlers.showConfirm({ index, name: dependentName })}
           >
             <i
               role="presentation"
               className="fas fa-times vads-u-margin-right--0p5"
             />{' '}
-            Remove <span className="sr-only">{normalizedFullName}</span>
+            Remove <span className="sr-only">{dependentName}</span>
           </button>
         </span>
       </li>
