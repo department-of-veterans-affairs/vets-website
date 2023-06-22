@@ -7,7 +7,7 @@ import AvaFormPage from './components/page/AvaFormPage';
 const routes = (
   <Routes>
     <Route path="/" component={LandingPage} />
-    <Route path="/inquiry" component={AvaFormPage} />
+    <Route path="/ask-a-question" component={AvaFormPage} />
   </Routes>
 );
 
