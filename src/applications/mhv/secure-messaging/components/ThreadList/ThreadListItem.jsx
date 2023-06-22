@@ -116,7 +116,9 @@ const ThreadListItem = props => {
               )}
               <span />{' '}
               {messageCount > 1 && (
-                <span className="message-count">({messageCount} messages)</span>
+                <span className="message-count" data-testid="message-count">
+                  ({messageCount} messages)
+                </span>
               )}
             </>
           ) : (
@@ -133,7 +135,9 @@ const ThreadListItem = props => {
         <Link
           aria-label={`${
             unreadMessages ? 'Unread message.' : ''
-          } Message subject: ${categoryLabel}: ${subject}, ${formattedDate()}.`}
+          } Message subject: ${categoryLabel}: ${subject}, ${formattedDate()}. ${
+            hasAttachment ? ' Has attachment.' : ''
+          }`}
           className="message-subject-link vads-u-margin-y--0p5"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
         >

@@ -10,7 +10,7 @@ describe('Check confirmation message after save draft', () => {
   it('Check confirmation message after save draft', () => {
     site.login();
     inboxPage.loadInboxMessages();
-    inboxPage.loadComposeMessagePage();
+    inboxPage.navigateToComposePage();
     draftPage.selectRecipientName(
       recipientsList.data[0].attributes.triageTeamId.toString(),
     );

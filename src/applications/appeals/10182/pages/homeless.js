@@ -7,6 +7,9 @@ export default {
     homeless: {
       'ui:title': 'Are you experiencing homelessness?',
       'ui:widget': 'yesNo',
+      'ui:options': {
+        enableAnalytics: true,
+      },
     },
   },
   schema: {

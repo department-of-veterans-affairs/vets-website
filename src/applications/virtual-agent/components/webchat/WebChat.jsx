@@ -1,10 +1,7 @@
 import React, { useMemo } from 'react';
 import environment from 'platform/utilities/environment';
-import { useSelector, connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 // import PropTypes from 'prop-types';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import axios from 'axios';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import StartConvoAndTrackUtterances from './startConvoAndTrackUtterances';
@@ -16,10 +13,9 @@ import {
   clearBotSessionStorage,
 } from '../chatbox/utils';
 
-const JWT_TOKEN = 'JWT_TOKEN';
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
-const WebChat = ({ token, WebChatFramework, apiSession, fetchJwtToken }) => {
+const WebChat = ({ token, WebChatFramework, apiSession }) => {
   const { ReactWebChat, createDirectLine, createStore } = WebChatFramework;
   const csrfToken = localStorage.getItem('csrfToken');
   const userFirstName = useSelector(state =>
@@ -28,20 +24,6 @@ const WebChat = ({ token, WebChatFramework, apiSession, fetchJwtToken }) => {
   const userUuid = useSelector(state => state.user.profile.accountUuid);
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
 
-  const fetchJwtTokenAndSaveToSessionStorage = async () => {
-    try {
-      const JwtResponse = await axios.get(
-        'https://sqa.eauth.va.gov/MAP/users/v2/session/jwt',
-        { withCredentials: true },
-      );
-      sessionStorage.setItem(JWT_TOKEN, JwtResponse.data);
-    } catch (error) {
-      sessionStorage.setItem(JWT_TOKEN, error.message);
-    }
-  };
-  if (fetchJwtToken) {
-    fetchJwtTokenAndSaveToSessionStorage();
-  }
   const store = useMemo(
     () =>
       createStore(
@@ -148,17 +130,4 @@ const WebChat = ({ token, WebChatFramework, apiSession, fetchJwtToken }) => {
   );
 };
 
-// useVirtualAgentToken.propTypes = {
-//   virtualAgentFetchJwtToken: PropTypes.bool,
-// };
-
-const fetchVirtualAgentJwtToken = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.virtualAgentFetchJwtToken];
-
-// const virtualAgentFetchJwtToken = () => true;
-
-const mapStateToProps = state => ({
-  fetchJwtToken: fetchVirtualAgentJwtToken(state),
-});
-
-export default connect(mapStateToProps)(WebChat);
+export default WebChat;
