@@ -169,6 +169,11 @@ export const Links = {
 };
 
 export const Prompts = {
+  Attachment: {
+    REMOVE_ATTACHMENT_TITLE: 'Are you sure you want to remove this attachment?',
+    REMOVE_ATTACHMENT_CONTENT:
+      'If you remove an attachment, you will have to attach it again.',
+  },
   Compose: {
     EDIT_LIST_TITLE: 'Edit your contact list',
     EDIT_LIST_CONTENT:
