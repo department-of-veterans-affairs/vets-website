@@ -402,6 +402,9 @@ const formConfig = {
             civilianBenefitsAssistance: {
               'ui:title':
                 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.',
+              'ui:options': {
+                hideIf: () => !environment.isProduction(),
+              },
             },
             additionalContributions: {
               'ui:title':
@@ -504,7 +507,7 @@ const formConfig = {
     },
     employmentHistory: {
       title: 'Employment history',
-      depends: () => environment.production(),
+      depends: () => environment.isProduction(),
       pages: {
         employmentHistory: merge({}, employmentHistoryPage(fullSchema1990), {
           path: 'employment-history/employment-information',
