@@ -1,5 +1,6 @@
-// copy of src/platform/forms/definitions/address.js,
-// with PDF-specific overrides.
+// pdf-address.js
+// customized version of src/platform/forms/definitions/address.js,
+// with support added for PDF-specific maxLengths [street, street2, & city].
 import { createSelector } from 'reselect';
 import {
   countries,
@@ -94,6 +95,11 @@ export function schema(
   currentSchema,
   isRequired = false,
   addressProperty = 'address',
+  pdfMaxLengths = {
+    street: 30,
+    street2: 30,
+    city: 18,
+  },
 ) {
   const addressSchema = currentSchema.definitions[addressProperty];
 
@@ -110,24 +116,22 @@ export function schema(
       },
       street: {
         ...addressSchema.properties.street,
-        maxLength: 30, // PDF-specific override
+        maxLength: pdfMaxLengths.street,
       },
       street2: {
         ...addressSchema.properties.street2,
-        minLength: 0,
+        maxLength: pdfMaxLengths.street2,
       },
       city: {
         ...addressSchema.properties.city,
-        maxLength: 18, // PDF-specific override
+        maxLength: pdfMaxLengths.city,
       },
       state: {
         title: 'State',
         type: 'string',
-        maxLength: 2, // PDF-specific override
       },
       postalCode: {
         type: 'string',
-        maxLength: 10,
       },
     },
   };
