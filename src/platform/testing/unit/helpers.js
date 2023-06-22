@@ -6,7 +6,7 @@ import { createMemoryHistory } from 'history-v4';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
-import environment from 'platform/utilities/environment';
+import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 
 chai.use(chaiAsPromised);
 
@@ -108,7 +108,11 @@ export function changeDropdown(form, selector, value) {
  * @param {boolean} [shouldResolve=true] Returns a rejected promise if this is false
  */
 export function mockFetch(returnVal, shouldResolve = true) {
-  const fetchStub = sinon.stub(global, 'fetch');
+  let fetchStub = fetch;
+  if (!fetch.isSinonProxy) {
+    fetchStub = sinon.stub(global, 'fetch');
+  }
+
   fetchStub.callsFake(url => {
     let response = returnVal;
     if (!response) {

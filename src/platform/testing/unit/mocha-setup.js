@@ -12,10 +12,10 @@ import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
-import chaiAxe from './axe-plugin';
-
-import { sentryTransport } from './sentry';
 import { configure } from '@testing-library/dom';
+import sinon from 'sinon';
+import chaiAxe from './axe-plugin';
+import { sentryTransport } from './sentry';
 
 Sentry.init({
   autoSessionTracking: false,
@@ -29,6 +29,8 @@ global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
 global.__API__ = null;
 global.__MEGAMENU_CONFIG__ = null;
 global.__REGISTRY__ = [];
+
+let fetchStub;
 
 chai.use(chaiAsPromised);
 chai.use(chaiDOM);
@@ -171,12 +173,36 @@ setupJSDom();
 // axe has strange issues with globals not being set up
 chai.use(chaiAxe);
 
+const interceptNetworkCalls = () => {
+  fetchStub = sinon.stub(global, 'fetch');
+  fetchStub.callsFake(() => {
+    return Promise.resolve(200, {});
+  });
+};
+
+const checkForNetworkCalls = mochaContext => {
+  try {
+    const networkCall = fetchStub.getCall(0);
+    if (networkCall && networkCall.args[0]) {
+      throw new Error(
+        `Network call made to ${
+          networkCall.args[0]
+        }. Please mock this call with mockFetch.`,
+      );
+    }
+  } catch (err) {
+    mochaContext.test.error(err);
+  }
+};
+
 export const mochaHooks = {
   beforeEach() {
     setupJSDom();
     resetFetch();
+    interceptNetworkCalls();
   },
   afterEach() {
+    checkForNetworkCalls(this);
     localStorage.clear();
   },
 };
