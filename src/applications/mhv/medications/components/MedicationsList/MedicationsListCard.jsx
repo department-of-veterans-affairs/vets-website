@@ -51,7 +51,11 @@ const MedicationsListCard = props => {
           <>Dispensed on {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}</>
         )}
         <div>
-          <va-link active href="nolink" text="Medication history and details" />
+          <va-link
+            active
+            href={`prescriptions/${rx.prescriptionId}`}
+            text="Medication history and details"
+          />
         </div>
         {history === true && extraDetails()}
         {!isExpired && fillRefillButton()}
