@@ -1,6 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable camelcase */
-// const glob = require('glob');
 const core = require('@actions/core');
 const fs = require('fs');
 
@@ -46,7 +44,9 @@ async function main({ octokit }) {
   const productDirectory = JSON.parse(response.data);
 
   const productPaths = productDirectory.map(product => ({
+    // eslint-disable-next-line camelcase
     product_id: product.product_id,
+    // eslint-disable-next-line camelcase
     path_to_code: product.path_to_code,
   }));
 
