@@ -26,7 +26,6 @@ export default {
       spouseGrossIncome: {
         ...currencyUI(`Enter your spouse\u2019s gross income from ${lastYear}`),
         'ui:validations': [validateCurrency],
-        'ui:required': () => true,
       },
     },
     'view:spouseNetIncome': {
@@ -38,7 +37,6 @@ export default {
           `Enter your spouse\u2019s net income from a farm, ranch, property or business from ${lastYear}`,
         ),
         'ui:validations': [validateCurrency],
-        'ui:required': () => true,
       },
     },
     'view:spouseOtherIncome': {
@@ -47,7 +45,6 @@ export default {
       spouseOtherIncome: {
         ...currencyUI(`Enter your spouse\u2019s other income from ${lastYear}`),
         'ui:validations': [validateCurrency],
-        'ui:required': () => true,
       },
     },
   },

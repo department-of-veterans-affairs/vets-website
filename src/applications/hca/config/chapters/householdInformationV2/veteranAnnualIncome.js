@@ -26,7 +26,6 @@ export default {
       veteranGrossIncome: {
         ...currencyUI(`Enter your gross annual income from ${lastYear}`),
         'ui:validations': [validateCurrency],
-        'ui:required': () => true,
       },
     },
     'view:veteranNetIncome': {
@@ -37,7 +36,6 @@ export default {
           `Enter your net annual income from a farm, property, or business from ${lastYear}`,
         ),
         'ui:validations': [validateCurrency],
-        'ui:required': () => true,
       },
     },
     'view:veteranOtherIncome': {
@@ -46,7 +44,6 @@ export default {
       veteranOtherIncome: {
         ...currencyUI(`Enter your other income from ${lastYear}`),
         'ui:validations': [validateCurrency],
-        'ui:required': () => true,
       },
     },
   },
