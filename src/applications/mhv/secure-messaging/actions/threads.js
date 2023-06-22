@@ -50,10 +50,17 @@ export const getListOfThreads = (
   }
 };
 
-export const setThreadSortOrder = (sortValue, folderId) => async dispatch => {
+export const setThreadSortOrder = (value, folderId, page) => async dispatch => {
   dispatch({
     type: Actions.Thread.SET_SORT_ORDER,
-    payload: { value: sortValue, folderId },
+    payload: { value, folderId, page },
+  });
+};
+
+export const setThreadPage = page => async dispatch => {
+  dispatch({
+    type: Actions.Thread.SET_PAGE,
+    payload: page,
   });
 };
 

@@ -8,12 +8,8 @@ Assumptions that may need to be addressed:
 - This component assumes it receives a payload containing ALL messages. Of the provided
 pagination metadata, per_page and total_entries is used. If each page change requires another 
 api call to fetch the next set of messages, this logic will need to be refactored, but shouldn't be difficult.
-
-Outstanding work:
-- individual message links go nowhere. Another component would need to be made 
-to display message details. Another react route would need to be set up to handle this view, 
-probably needing to accept a URL parameter
 */
+
 import React, {
   useEffect,
   useState,
@@ -30,7 +26,7 @@ import { useDispatch } from 'react-redux';
 import { handleHeader } from '../../util/helpers';
 import MessageListItem from './MessageListItem';
 import ThreadListSort from '../ThreadList/ThreadListSort';
-import { setSearchSort } from '../../actions/search';
+import { setSearchPage, setSearchSort } from '../../actions/search';
 import { threadSortingOptions } from '../../util/constants';
 
 // Arbitrarily set because the VaPagination component has a required prop for this.
@@ -48,12 +44,11 @@ const {
 } = threadSortingOptions;
 const MessageList = props => {
   const dispatch = useDispatch();
-  const { folder, messages, keyword, isSearch, sortOrder } = props;
+  const { folder, messages, keyword, isSearch, sortOrder, page } = props;
   const perPage = 10;
   const totalEntries = messages?.length;
 
   const [currentMessages, setCurrentMessages] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [displayNums, setDisplayNums] = useState({
     from: 0,
     to: 0,
@@ -72,11 +67,11 @@ const MessageList = props => {
 
   const fromToNums = useMemo(
     () => {
-      const from = (currentPage - 1) * perPage + 1;
-      const to = Math.min(currentPage * perPage, messages?.length);
+      const from = (page - 1) * perPage + 1;
+      const to = Math.min(page * perPage, messages?.length);
       return { from, to };
     },
-    [currentPage, perPage, messages?.length],
+    [page, perPage, messages?.length],
   );
 
   // sort messages
@@ -137,27 +132,18 @@ const MessageList = props => {
       if (messages?.length) {
         paginatedMessages.current = paginateData(sortMessages(messages));
 
-        setCurrentMessages(paginatedMessages.current[currentPage - 1]);
+        setCurrentMessages(paginatedMessages.current[page - 1]);
       }
     },
-    [currentPage, messages, paginateData, sortMessages],
+    [page, messages, paginateData, sortMessages],
   );
 
   // update pagination values on...page change
-  const onPageChange = page => {
-    setCurrentMessages(paginatedMessages.current[page - 1]);
-    setCurrentPage(page);
+  const onPageChange = pageValue => {
+    setCurrentMessages(paginatedMessages.current[pageValue - 1]);
+    dispatch(setSearchPage(pageValue));
     focusElement(displayingNumberOfMesssagesRef.current);
   };
-
-  useEffect(
-    () => {
-      paginatedMessages.current = paginateData(sortMessages(messages));
-      setCurrentMessages(paginatedMessages.current[0]);
-      setCurrentPage(1);
-    },
-    [sortOrder],
-  );
 
   useEffect(
     () => {
@@ -174,6 +160,7 @@ const MessageList = props => {
 
   const sortCallback = sortOrderValue => {
     dispatch(setSearchSort(sortOrderValue));
+    dispatch(setSearchPage(1));
     recordEvent({
       event: 'cta-button-click',
       'button-type': 'primary',
@@ -225,7 +212,7 @@ const MessageList = props => {
             activeFolder={folder}
           />
         ))}
-      {currentPage === paginatedMessages.current.length && (
+      {page === paginatedMessages.current.length && (
         <p className="vads-u-margin-y--3 vads-u-color--gray-medium">
           End of {!isSearch ? 'messages in this folder' : 'search results'}
         </p>
@@ -234,7 +221,7 @@ const MessageList = props => {
         paginatedMessages.current.length > 1 && (
           <VaPagination
             onPageSelect={e => onPageChange(e.detail.page)}
-            page={currentPage}
+            page={page}
             pages={paginatedMessages.current.length}
             maxPageListLength={MAX_PAGE_LIST_LENGTH}
             showLastPage

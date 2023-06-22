@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -18,7 +18,11 @@ import { clearFolder, retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 import ThreadsList from '../components/ThreadList/ThreadsList';
-import { getListOfThreads, setThreadSortOrder } from '../actions/threads';
+import {
+  getListOfThreads,
+  setThreadPage,
+  setThreadSortOrder,
+} from '../actions/threads';
 import SearchResults from './SearchResults';
 import { clearSearchResults } from '../actions/search';
 
@@ -38,24 +42,18 @@ const FolderThreadListView = props => {
   } = useSelector(state => state.sm.search);
   const location = useLocation();
   const params = useParams();
-  const [pageNum, setPageNum] = useState(1);
 
   const displayingNumberOfThreadsSelector =
     "[data-testid='displaying-number-of-threads']";
 
   const handleSortCallback = sortOrderValue => {
-    dispatch(setThreadSortOrder(sortOrderValue, folder.folderId));
-    setPageNum(1);
+    dispatch(setThreadSortOrder(sortOrderValue, folder.folderId, 1));
     waitForRenderThenFocus(displayingNumberOfThreadsSelector, document, 500);
   };
 
   const handlePagination = page => {
-    setPageNum(page);
-    dispatch(
-      getListOfThreads(folder.folderId, threadsPerPage, page, threadSort.value),
-    ).then(() => {
-      focusElement(document.querySelector(displayingNumberOfThreadsSelector));
-    });
+    dispatch(setThreadPage(page));
+    waitForRenderThenFocus(displayingNumberOfThreadsSelector, document, 500);
   };
 
   useEffect(
@@ -63,7 +61,6 @@ const FolderThreadListView = props => {
       // clear out folder reducer to prevent from previous folder data flashing
       // when navigating between folders
       if (!testing) dispatch(clearFolder());
-      setPageNum(1);
 
       let id = null;
       if (params?.folderId) {
@@ -106,10 +103,17 @@ const FolderThreadListView = props => {
             setThreadSortOrder(
               threadSortingOptions.SENT_DATE_DESCENDING.value,
               folder.folderId,
+              1,
             ),
           );
         } else {
-          dispatch(setThreadSortOrder(threadSort.value, folder.folderId));
+          dispatch(
+            setThreadSortOrder(
+              threadSort.value,
+              folder.folderId,
+              threadSort.page,
+            ),
+          );
         }
 
         if (folder.folderId !== searchFolder?.folderId) {
@@ -130,13 +134,13 @@ const FolderThreadListView = props => {
           getListOfThreads(
             folder.folderId,
             threadsPerPage,
-            1,
+            threadSort.page,
             threadSort.value,
           ),
         );
       }
     },
-    [dispatch, threadSort.value, threadSort.folderId],
+    [dispatch, threadSort.value, threadSort.folderId, threadSort.page],
   );
 
   useEffect(
@@ -154,7 +158,7 @@ const FolderThreadListView = props => {
         getListOfThreads(
           folder.folderId,
           threadsPerPage,
-          pageNum,
+          threadSort.page,
           threadSort.value,
           true,
         ),
@@ -222,7 +226,7 @@ const FolderThreadListView = props => {
           <ThreadsList
             threadList={threadList}
             folder={folder}
-            pageNum={pageNum}
+            pageNum={threadSort.page}
             paginationCallback={handlePagination}
             threadsPerPage={threadsPerPage}
             sortOrder={threadSort.value}

@@ -11,6 +11,7 @@ const initialState = {
   threadSort: {
     value: threadSortingOptions.SENT_DATE_DESCENDING.value,
     folderId: undefined,
+    page: 1,
   },
 };
 
@@ -38,6 +39,14 @@ export const threadsReducer = (state = initialState, action) => {
       return {
         ...state,
         threadSort: action.payload,
+      };
+    case Actions.Thread.SET_PAGE:
+      return {
+        ...state,
+        threadSort: {
+          ...state.threadSort,
+          page: action.payload,
+        },
       };
     case Actions.Thread.RESET_SORT_ORDER:
       return {

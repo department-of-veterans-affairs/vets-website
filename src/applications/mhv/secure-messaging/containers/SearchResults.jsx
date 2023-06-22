@@ -11,6 +11,7 @@ const SearchResults = () => {
     searchFolder,
     keyword,
     searchSort,
+    page,
   } = useSelector(state => state.sm.search);
   const history = useHistory();
 
@@ -52,6 +53,7 @@ const SearchResults = () => {
             keyword={keyword}
             isSearch
             sortOrder={searchSort}
+            page={page}
           />
         )}
     </div>

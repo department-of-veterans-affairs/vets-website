@@ -18,6 +18,7 @@ describe('Search results', () => {
         keyword: 'covid',
         query: {},
         searchSort: threadSortingOptions.SENT_DATE_DESCENDING.value,
+        page: 1,
       },
     },
   };
