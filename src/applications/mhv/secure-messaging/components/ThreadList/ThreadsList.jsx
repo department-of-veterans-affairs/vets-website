@@ -57,7 +57,7 @@ const ThreadsList = props => {
           data-testid="displaying-number-of-threads"
           className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
         >
-          {displayNums.label} {` `}
+          {displayNums.label}
           <span className="sr-only">
             {` sorted by ${threadSortingOptions[sortOrder].label}`}
           </span>

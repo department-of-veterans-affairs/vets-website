@@ -96,7 +96,7 @@ class SecureMessagingSite {
   ) => {
     cy.get('[data-testid="displaying-number-of-threads"]').should(
       'have.text',
-      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} conversations`,
+      `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${threadLength} conversations sorted by Newest to oldest`,
     );
   };
 }
