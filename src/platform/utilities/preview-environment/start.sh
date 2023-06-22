@@ -36,13 +36,17 @@ yarn config set "strict-ssl" false
 echo "Install, build, and watch vets-website"
 cd vets-website
 yarn install
-yarn watch --env api="http://vets-api-web" &
+yarn watch --env api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs.va.gov/" &
 
 # Serve the content-build
 echo "Install and serve content-build"
 cd ../content-build
 yarn install
+echo "Copy environment file template into place"
 cp .env.example .env
+echo "Fetch drupal cache as a discrete task so as to avoid SOCKS issues"
 yarn fetch-drupal-cache
+echo "Build using previously cached assets"
 yarn build --use-cached-assets
+echo "Serve up content-build"
 yarn serve
