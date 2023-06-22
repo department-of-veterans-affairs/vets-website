@@ -109,6 +109,7 @@
           "@department-of-veterans-affairs/platform-static-data/SubmitSignInForm": "./src/platform/static-data/SubmitSignInForm.jsx",
 
           "@department-of-veterans-affairs/platform-polyfills/exports": "./src/platform/polyfills/exportsFile.js",
+          "@department-of-veterans-affairs/platform-polyfills/index": "./src/platform/polyfills/index.js",
 
           "@department-of-veterans-affairs/platform-user/exports": "./src/platform/user/exportsFile.js",
           "@department-of-veterans-affairs/platform-user/selectors": "./src/platform/user/selectors.js",
