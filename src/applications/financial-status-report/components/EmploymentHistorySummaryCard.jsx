@@ -41,9 +41,13 @@ const EmploymentHistorySummaryCard = ({
         ...formData.personalData.employmentHistory[
           isSpouse ? 'spouse' : 'veteran'
         ],
-        employmentRecords: formData.personalData.employmentHistory[
-          isSpouse ? 'spouse' : 'veteran'
-        ].employmentRecords.filter((_, i) => i !== deleteIndex),
+        [isSpouse ? 'spEmploymentRecords' : 'employmentRecords']: isSpouse
+          ? formData.personalData.employmentHistory.spouse.spEmploymentRecords.filter(
+              (_, i) => i !== deleteIndex,
+            )
+          : formData.personalData.employmentHistory.veteran.employmentRecords.filter(
+              (_, i) => i !== deleteIndex,
+            ),
       },
     };
 
