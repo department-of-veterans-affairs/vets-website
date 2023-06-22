@@ -197,15 +197,17 @@ const MessageList = props => {
       <ThreadListSort sortOrder={sortOrder} sortCallback={sortCallback} />
 
       <div
+        role="status"
         ref={displayingNumberOfMesssagesRef}
-        aria-label={`${displayNums.label.replace('-', 'to')} sorted by ${
-          threadSortingOptions[sortOrder].label
-        }`}
         className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
       >
-        Showing {displayNums.from}
-        &#8211;
-        {displayNums.to} of {totalEntries} messages
+        {`Showing ${displayNums.from} to ${
+          displayNums.to
+        } of ${totalEntries} messages `}
+
+        <span className="sr-only">
+          {` sorted by ${threadSortingOptions[sortOrder].label}`}
+        </span>
       </div>
       {currentMessages?.length > 0 &&
         currentMessages.map((message, idx) => (

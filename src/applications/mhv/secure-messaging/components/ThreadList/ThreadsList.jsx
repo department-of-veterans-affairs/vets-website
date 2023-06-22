@@ -39,7 +39,7 @@ const ThreadsList = props => {
     () => {
       // get display numbers
       if (fromToNums && totalThreads) {
-        const label = `Displaying ${fromToNums.from} - ${
+        const label = `Showing ${fromToNums.from} to ${
           fromToNums.to
         } of ${totalThreads} conversations`;
         setDisplayNums({ ...fromToNums, label });
@@ -54,13 +54,13 @@ const ThreadsList = props => {
       <div className="thread-list vads-l-row vads-u-flex-direction--column">
         <div
           role="status"
-          aria-label={`${displayNums.label.replace('-', 'to')} sorted by ${
-            threadSortingOptions[sortOrder].label
-          }`}
           data-testid="displaying-number-of-threads"
           className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
         >
-          {displayNums.label}
+          {displayNums.label} {` `}
+          <span className="sr-only">
+            {` sorted by ${threadSortingOptions[sortOrder].label}`}
+          </span>
         </div>
         {threadList?.length > 0 &&
           threadList.map((thread, idx) => (
