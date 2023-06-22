@@ -40,7 +40,7 @@ module.exports = {
         }`,
     API_URL: isNode
       ? `http://${process.env.API_HOST}:3000`
-      : location.hostname && location.hostname.endsWith('preview.va.gov')
+      : location.hostname && location.hostname.includes('preview.va.gov')
         ? `http://${location.hostname.split('.')[0]}-api.${location.hostname
             .split('.')
             .slice(1)
