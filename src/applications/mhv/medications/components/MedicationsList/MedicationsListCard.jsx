@@ -5,6 +5,10 @@ import { dateFormat } from '../../util/helpers';
 const MedicationsListCard = props => {
   const { rx } = props;
   let history = false;
+  let isExpired = false;
+  if (rx.refillStatus === 'expired' || rx.refillStatus === 'discontinued') {
+    isExpired = true;
+  }
   if (rx.refillStatus === 'refillinprocess') {
     history = true;
   }
@@ -13,12 +17,14 @@ const MedicationsListCard = props => {
       <div className="shipping-info vads-u-background-color--gray-light">
         <div className="shipping-icon" />
         <div className="shipping-body">
-          <div>Your refill has shipped</div>
+          {/* TODO: dont have a way to diferentiate if a refill has been submitted vs is in process vs shipped. change logic once that has been sorted out by backend */}
+          <div>Refill in process.</div>
           <div>
-            Expected delivery date is{' '}
+            {/* TODO: dont have an 'expected' value coming in from backend, add expected date once that value starts coming in.  */}
+            {/* Expected delivery date is{' '}
             <span className="vads-u-font-weight--bold">
               {dateFormat(rx.orderedDate, 'MMMM D, YYYY')}
-            </span>
+            </span> */}
           </div>
         </div>
       </div>
@@ -41,11 +47,20 @@ const MedicationsListCard = props => {
         <h4 className="vads-u-font-weight--bold">{rx.prescriptionName}</h4>
         <div>Prescription number: {rx.prescriptionId}</div>
         <div>Refills left: {rx.refillRemaining}</div>
+        {rx.dispensedDate && (
+          <>Dispensed on {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}</>
+        )}
         <div>
           <va-link active href="nolink" text="Medication history and details" />
         </div>
         {history === true && extraDetails()}
-        {fillRefillButton()}
+        {!isExpired && fillRefillButton()}
+        {isExpired && (
+          <>
+            <p className="vads-u-margin-y--0">this medication is expired.</p>
+            <va-link href="/" text="Learn how to renew medications." />
+          </>
+        )}
       </div>
     </div>
   );
