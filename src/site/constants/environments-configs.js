@@ -4,7 +4,6 @@
  */
 const ENVIRONMENTS = require('./environments');
 
-const hostname = encodeURIComponent(location.hostname);
 let isNode = false;
 
 if (typeof window === 'undefined') {
@@ -41,7 +40,8 @@ module.exports = {
         }`,
     API_URL: isNode
       ? `http://${process.env.API_HOST}:3000`
-      : hostname && hostname.endsWith('preview.va.gov')
+      : location.hostname &&
+        encodeURIComponent(location.hostname).includes('preview.va.gov')
         ? `http://${location.hostname.split('.')[0]}-api.${location.hostname
             .split('.')
             .slice(1)
