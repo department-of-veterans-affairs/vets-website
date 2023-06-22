@@ -19,9 +19,6 @@ const BUILDTYPE = __BUILDTYPE__;
 
 const environment = ENVIRONMENT_CONFIGURATIONS[BUILDTYPE];
 
-/* eslint-disable no-restricted-globals */
-
-// allowedHostnames is an array of hostnames that are eligible
 function isHostnameAllowed(hostname, allowedHostnames) {
   let hostnameAllowed = false;
   for (const name of allowedHostnames) {
@@ -33,7 +30,6 @@ function isHostnameAllowed(hostname, allowedHostnames) {
   }
   return hostnameAllowed;
 }
-/* eslint-enable no-restricted-globals */
 
 const isPort80 =
   (location.port === '' || location.port === 80) &&
