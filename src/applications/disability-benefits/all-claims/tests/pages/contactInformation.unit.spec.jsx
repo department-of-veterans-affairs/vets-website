@@ -508,7 +508,6 @@ describe('Disability benefits 526EZ contact information', () => {
           schema={schema}
           data={{
             phoneAndEmail: {
-              primaryPhone: '1231231231',
               emailAddress: 'a@b.co',
             },
             mailingAddress: {
