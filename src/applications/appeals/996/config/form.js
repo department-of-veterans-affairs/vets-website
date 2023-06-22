@@ -25,8 +25,9 @@ import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
 import optIn from '../pages/optIn';
 import issueSummary from '../pages/issueSummary';
 import informalConference from '../pages/informalConference';
-import informalConferenceRepV2 from '../pages/informalConferenceRepV2';
-import informalConferenceTime from '../pages/informalConferenceTimeV2';
+import informalConferenceRepV2 from '../pages/informalConferenceRep';
+import informalConferenceTime from '../pages/informalConferenceTime';
+import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
 import {
   errorMessages,
@@ -188,9 +189,16 @@ const formConfig = {
         conferenceTime: {
           path: 'informal-conference/conference-availability',
           title: 'Scheduling availability',
-          depends: formData => formData?.informalConference !== 'no',
+          depends: formData => formData?.informalConference === 'me',
           uiSchema: informalConferenceTime.uiSchema,
           schema: informalConferenceTime.schema,
+        },
+        conferenceTimeRep: {
+          path: 'informal-conference/conference-rep-availability',
+          title: 'Scheduling availability',
+          depends: formData => formData?.informalConference === 'rep',
+          uiSchema: informalConferenceTimeRep.uiSchema,
+          schema: informalConferenceTimeRep.schema,
         },
       },
     },

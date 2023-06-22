@@ -5,52 +5,76 @@ import {
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
 
+import moment from 'moment';
 import { getSlots } from '../../../services/slot';
-import slots from '../../../services/mocks/var/slots.json';
 
 describe('VAOS Slot service', () => {
   describe('getSlots', () => {
-    let data;
+    beforeEach(() => {
+      mockFetch();
+    });
 
     it('should make successful request', async () => {
-      mockFetch();
-      setFetchJSONResponse(global.fetch, slots);
+      const startDate = moment().add(1, 'day');
+      const endDate = moment().add(1, 'month');
+      const slots = [
+        {
+          id: '1',
+          type: 'slots',
+          attributes: {
+            start: startDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
+            end: startDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          },
+        },
+      ];
 
-      data = await getSlots({
+      setFetchJSONResponse(global.fetch, { data: slots });
+
+      const data = await getSlots({
         siteId: '983',
-        typeOfCareId: '323',
         clinicId: '983_308',
-        startDate: '2020-05-01',
-        endDate: '2020-06-30',
+        startDate: startDate.format('YYYY-MM-DD'),
+        endDate: endDate.format('YYYY-MM-DD'),
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/vaos/v0/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=308&start_date=2020-05-01&end_date=2020-06-30',
+        `/vaos/v2/locations/983/clinics/308/slots?start=${moment(startDate)
+          .startOf('day')
+          .format('YYYY-MM-DDTHH:mm:ssZ')}&end=${moment(endDate)
+          .startOf('day')
+          .format('YYYY-MM-DDTHH:mm:ssZ')}`,
       );
-      expect(data[0].start).to.equal('2020-02-06T14:00:00.000');
+      expect(data[0].start).to.equal(
+        startDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
+      );
     });
 
     it('should return OperationOutcome error', async () => {
-      mockFetch();
+      const startDate = moment().add(1, 'day');
+      const endDate = moment().add(1, 'month');
+
       setFetchJSONFailure(global.fetch, {
         errors: [],
       });
 
       let error;
       try {
-        data = await getSlots({
+        await getSlots({
           siteId: '983',
-          typeOfCareId: '323',
           clinicId: '983_308',
-          startDate: '2020-05-01',
-          endDate: '2020-06-30',
+          startDate: startDate.format('YYYY-MM-DD'),
+          endDate: endDate.format('YYYY-MM-DD'),
         });
       } catch (e) {
         error = e;
       }
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/vaos/v0/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=308&start_date=2020-05-01&end_date=2020-06-30',
+        `/vaos/v2/locations/983/clinics/308/slots?start=${moment(startDate)
+          .startOf('day')
+          .format('YYYY-MM-DDTHH:mm:ssZ')}&end=${moment(endDate)
+          .startOf('day')
+          .format('YYYY-MM-DDTHH:mm:ssZ')}`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });

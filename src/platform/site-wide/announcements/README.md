@@ -44,7 +44,7 @@ The `show` perperty can be set to one of 3 values defined in the AnnouncementBeh
 
 ## Architecture
 
-The Announcement entry point uses React to bind to an element above the footer of the website. It was designed this way because announcement will always render as fixed elements or as modal dialogs. If no announcement matches the current path, or if the matching announcement has been dismissed, it will render as an empty div.
+The Announcement entry point uses React to bind to an element inside an announcement-root div at the top of the page body. It renders an empty div in its place when there is no announcement to show. Placing the Announcement div at the top of the html body allows focus to be directed to the skip-link element of the page on modal close, allowing for an accessible user experience.
 
 ## E2E Tests
 

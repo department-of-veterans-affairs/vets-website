@@ -19,6 +19,7 @@ export default {
       },
       'ui:options': {
         hideOnReview: true,
+        enableAnalytics: true,
       },
     },
     'view:otherEvidenceInfo': {
