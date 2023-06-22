@@ -542,7 +542,7 @@ const formConfig = {
         }),
         secondaryContact: {
           title: 'Secondary contact',
-          depends: () => environment.production(),
+          depends: () => environment.isProduction(),
           path: 'personal-information/secondary-contact',
           uiSchema: {
             'ui:title': 'Secondary contact',

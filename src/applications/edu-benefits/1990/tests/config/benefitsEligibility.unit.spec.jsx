@@ -6,7 +6,7 @@ import {
   DefinitionTester,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../1990/config/form.js';
+import formConfig from '../../config/form.js';
 
 describe('Edu 1990 benefitsEligibility', () => {
   const {
@@ -19,7 +19,7 @@ describe('Edu 1990 benefitsEligibility', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(4);
+    expect(formDOM.querySelectorAll('input').length).to.equal(3);
   });
 
   it('should not submit form without information', () => {
