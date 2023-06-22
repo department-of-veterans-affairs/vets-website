@@ -8,23 +8,23 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 import { AUTHORIZER_TYPES } from '../definitions/constants';
 // pages
-import authTypePg from '../pages/authType';
-import vetPersInfoPg from '../pages/vetPersInfo';
-import vetIdInfoPg from '../pages/vetIdInfo';
+import authorizerTypePg from '../pages/authorizerType';
+import veteranPersonalInfoPg from '../pages/veteranPersonalInfo';
+import veteranIdInfoPg from '../pages/veteranIdInfo';
 import thirdPartyTypePg from '../pages/thirdPartyType';
-import persNamePg from '../pages/persName';
-import persAddrPg from '../pages/persAddr';
-import orgNamePg from '../pages/orgName';
-import orgRepsPg from '../pages/orgReps';
-import orgAddrPg from '../pages/orgAddr';
+import personNamePg from '../pages/personName';
+import personAddressPg from '../pages/personAddress';
+import organizationNamePg from '../pages/organizationName';
+import organizationRepsPg from '../pages/organizationReps';
+import organizationAddressPg from '../pages/organizationAddress';
 import infoScopePg from '../pages/infoScope';
 import limitedInfoPg from '../pages/limitedInfo';
-import relDurationPg from '../pages/relDuration';
-import relEndDatePg from '../pages/relEndDate';
-import secQuestionPg from '../pages/secQuestion';
-import secAnswerPg from '../pages/secAnswer';
-import authPersInfoPg from '../pages/authPersInfo';
-import authAddrPg from '../pages/authAddr';
+import releaseDurationPg from '../pages/releaseDuration';
+import releaseEndDatePg from '../pages/releaseEndDate';
+import securityQuestionPg from '../pages/securityQuestion';
+import securityAnswerPg from '../pages/securityAnswer';
+import authorizerPersonalInfoPg from '../pages/authorizerPersonalInfo';
+import authorizerAddressPg from '../pages/authorizerAddress';
 
 // mock-data import for local development
 import testData from '../tests/fixtures/data/noAuthType.json';
@@ -83,8 +83,8 @@ const formConfig = {
           // one single initialData prop here will suffice for entire form
           initialData:
             !!mockData && environment.isLocalhost() ? mockData : undefined,
-          uiSchema: authTypePg.uiSchema,
-          schema: authTypePg.schema,
+          uiSchema: authorizerTypePg.uiSchema,
+          schema: authorizerTypePg.schema,
         },
       },
     },
@@ -98,8 +98,8 @@ const formConfig = {
           depends: {
             authorizerType: AUTHORIZER_TYPES.NON_VETERAN,
           },
-          uiSchema: authPersInfoPg.uiSchema,
-          schema: authPersInfoPg.schema,
+          uiSchema: authorizerPersonalInfoPg.uiSchema,
+          schema: authorizerPersonalInfoPg.schema,
         },
       },
     },
@@ -112,8 +112,8 @@ const formConfig = {
           depends: {
             authorizerType: AUTHORIZER_TYPES.NON_VETERAN,
           },
-          uiSchema: authAddrPg.uiSchema,
-          schema: authAddrPg.schema,
+          uiSchema: authorizerAddressPg.uiSchema,
+          schema: authorizerAddressPg.schema,
         },
       },
     },
@@ -126,8 +126,8 @@ const formConfig = {
         vetPersInfoPage: {
           path: 'veteran-personal-information',
           title: 'Your personal information',
-          uiSchema: vetPersInfoPg.uiSchema,
-          schema: vetPersInfoPg.schema,
+          uiSchema: veteranPersonalInfoPg.uiSchema,
+          schema: veteranPersonalInfoPg.schema,
         },
       },
     },
@@ -140,8 +140,8 @@ const formConfig = {
         vetIdInfoPage: {
           path: 'veteran-identification-information',
           title: 'Your identification information',
-          uiSchema: vetIdInfoPg.uiSchema,
-          schema: vetIdInfoPg.schema,
+          uiSchema: veteranIdInfoPg.uiSchema,
+          schema: veteranIdInfoPg.schema,
         },
       },
     },
@@ -161,8 +161,8 @@ const formConfig = {
           depends: {
             thirdPartyType: 'person',
           },
-          uiSchema: persNamePg.uiSchema,
-          schema: persNamePg.schema,
+          uiSchema: personNamePg.uiSchema,
+          schema: personNamePg.schema,
         },
         personAddressPage: {
           // person third-party
@@ -171,8 +171,8 @@ const formConfig = {
           depends: {
             thirdPartyType: 'person',
           },
-          uiSchema: persAddrPg.uiSchema,
-          schema: persAddrPg.schema,
+          uiSchema: personAddressPg.uiSchema,
+          schema: personAddressPg.schema,
         },
         organizationNamePage: {
           // organization third-party
@@ -181,8 +181,8 @@ const formConfig = {
           depends: {
             thirdPartyType: 'organization',
           },
-          uiSchema: orgNamePg.uiSchema,
-          schema: orgNamePg.schema,
+          uiSchema: organizationNamePg.uiSchema,
+          schema: organizationNamePg.schema,
         },
         organizationRepresentativesPage: {
           // organization third-party
@@ -191,8 +191,8 @@ const formConfig = {
           depends: {
             thirdPartyType: 'organization',
           },
-          uiSchema: orgRepsPg.uiSchema,
-          schema: orgRepsPg.schema,
+          uiSchema: organizationRepsPg.uiSchema,
+          schema: organizationRepsPg.schema,
         },
         organizationAddressPage: {
           // organization third-party
@@ -201,8 +201,8 @@ const formConfig = {
           depends: {
             thirdPartyType: 'organization',
           },
-          uiSchema: orgAddrPg.uiSchema,
-          schema: orgAddrPg.schema,
+          uiSchema: organizationAddressPg.uiSchema,
+          schema: organizationAddressPg.schema,
         },
       },
     },
@@ -228,8 +228,8 @@ const formConfig = {
         releaseDurationPage: {
           path: 'disclosure-information-release-duration',
           title: 'Release duration',
-          uiSchema: relDurationPg.uiSchema,
-          schema: relDurationPg.schema,
+          uiSchema: releaseDurationPg.uiSchema,
+          schema: releaseDurationPg.schema,
         },
         releaseEndDatePage: {
           // untilDate release-duration
@@ -238,8 +238,8 @@ const formConfig = {
           depends: {
             releaseDuration: 'untilDate',
           },
-          uiSchema: relEndDatePg.uiSchema,
-          schema: relEndDatePg.schema,
+          uiSchema: releaseEndDatePg.uiSchema,
+          schema: releaseEndDatePg.schema,
         },
       },
     },
@@ -252,14 +252,14 @@ const formConfig = {
         secQuestionPage: {
           path: 'security-information-question',
           title: 'Security question',
-          uiSchema: secQuestionPg.uiSchema,
-          schema: secQuestionPg.schema,
+          uiSchema: securityQuestionPg.uiSchema,
+          schema: securityQuestionPg.schema,
         },
         secAnswerPage: {
           path: 'security-information-answer',
           title: 'Security answer',
-          uiSchema: secAnswerPg.uiSchema,
-          schema: secAnswerPg.schema,
+          uiSchema: securityAnswerPg.uiSchema,
+          schema: securityAnswerPg.schema,
         },
       },
     },
