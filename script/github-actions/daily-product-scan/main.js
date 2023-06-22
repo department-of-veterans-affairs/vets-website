@@ -49,11 +49,7 @@ async function main({ octokit }) {
     product_id: product.product_id,
     path_to_code: product.path_to_code,
   }));
-  console.log(productPaths);
-  // const manifestGlobPathForTests =
-  //   'script/github-actions/daily-product-scan/tests/mocks/applications/**/*manifest.json';
-  // const manifestGlobPath =
-  //   process.env.MANIFEST_GLOB_PATH || manifestGlobPathForTests;
+
   products.addProducts({
     productPaths,
   });
@@ -74,26 +70,6 @@ async function main({ octokit }) {
     const lastUpdated = new LastUpdated({ products: products.all });
     lastUpdated.setLastUpdated();
   }
-
-  // // Check for any products that have been added and are not present in GitHub, then add them to the directory.
-
-  // const manifestIds = Object.keys(products.all);
-  // const productListIds = productDirectory.map(product => product.product_id);
-
-  // manifestIds.forEach(id => {
-  //   if (id.length === 36 && productListIds.indexOf(id) === -1) {
-  //     const manifest = JSON.parse(
-  //       fs.readFileSync(`${products.all[id].pathToCode}/manifest.json`),
-  //     );
-  //     const product = {
-  //       // eslint-disable-next-line camelcase
-  //       product_id: manifest.productId,
-  //       // eslint-disable-next-line camelcase
-  //       product_name: manifest.appName,
-  //     };
-  //     productDirectory.push(product);
-  //   }
-  // });
 
   // Check for automatically updated field values
   const differ = new Differ();

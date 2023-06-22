@@ -8,14 +8,12 @@ class Products {
   }
 
   addProducts({ productPaths }) {
-    /* eslint-disable no-console */
     productPaths.forEach(path => {
       const productId = path.product_id;
 
       if (productId) {
         const pathToCode = path.path_to_code;
         this.all[productId] = new Product({ pathToCode });
-        console.log(this.all);
       }
     });
   }
