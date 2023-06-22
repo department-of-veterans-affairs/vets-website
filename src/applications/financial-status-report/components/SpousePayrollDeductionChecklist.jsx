@@ -45,7 +45,7 @@ const SpousePayrollDeductionChecklist = props => {
     const { name, checked } = target;
 
     if (checked) {
-      setSelectedDeductions([...selectedDeductions, { name }]);
+      setSelectedDeductions([...selectedDeductions, { name, amount: '' }]);
     } else {
       setSelectedDeductions(
         selectedDeductions.filter(incomeValue => incomeValue.name !== name),
@@ -102,7 +102,10 @@ const SpousePayrollDeductionChecklist = props => {
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
               spEmploymentRecords: [
-                { ...employmentRecord },
+                {
+                  ...employmentRecord,
+                  deductions: selectedDeductions,
+                },
                 ...spEmploymentRecords,
               ],
             },
