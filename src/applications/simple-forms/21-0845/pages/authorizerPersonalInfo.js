@@ -1,5 +1,5 @@
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import formDefinitions from '../definitions/form-definitions';
+import { schema } from '../../shared/definitions/pdfFullNameNoSuffix';
 
 /** @type {PageSchema} */
 export default {
@@ -10,7 +10,7 @@ export default {
     type: 'object',
     required: ['authorizerFullName'],
     properties: {
-      authorizerFullName: formDefinitions.pdfFullNameNoSuffix,
+      authorizerFullName: schema(),
     },
   },
 };
