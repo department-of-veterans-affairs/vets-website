@@ -21,7 +21,6 @@ export default {
       veteranDateOfBirth: dateOfBirthSchema,
       veteranDateOfDeath: currentOrPastDateSchema,
     },
-    // TODO: UNCOMMENT ONCE DATE IS FIXED
-    // required: ['veteranDateOfBirth'],
+    required: ['veteranDateOfBirth'],
   },
 };

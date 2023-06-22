@@ -1,12 +1,10 @@
 /**
  * @module services/Slot
  */
-import { getAvailableSlots } from '../var';
+import moment from 'moment';
 import { getAvailableV2Slots } from '../vaos';
 import { mapToFHIRErrors } from '../utils';
-import { transformSlots } from './transformers';
 import { transformV2Slots } from './transformers.v2';
-import moment from 'moment';
 
 /**
  * @summary
@@ -33,34 +31,15 @@ import moment from 'moment';
  * @param {Boolean} useV2 Toggle fetching appointments via VAOS api services version 2
  * @returns {Array<Slot>} A list of Slot resources
  */
-export async function getSlots({
-  siteId,
-  typeOfCareId,
-  clinicId,
-  startDate,
-  endDate,
-  useV2 = false,
-}) {
+export async function getSlots({ siteId, clinicId, startDate, endDate }) {
   try {
-    let data;
-    if (useV2) {
-      data = await getAvailableV2Slots(
-        siteId,
-        clinicId.split('_')[1],
-        moment(startDate).format(),
-        moment(endDate).format(),
-      );
-      return transformV2Slots(data || []);
-    } else {
-      data = await getAvailableSlots(
-        siteId,
-        typeOfCareId,
-        clinicId.split('_')[1],
-        startDate,
-        endDate,
-      );
-      return transformSlots(data[0]?.appointmentTimeSlot || []);
-    }
+    const data = await getAvailableV2Slots(
+      siteId,
+      clinicId.split('_')[1],
+      moment(startDate).format(),
+      moment(endDate).format(),
+    );
+    return transformV2Slots(data || []);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
