@@ -28,7 +28,6 @@ module.exports = {
     BASE_URL: 'https://dev.va.gov',
     API_URL: 'https://dev-api.va.gov',
   },
-  /* eslint-disable no-nested-ternary */
 
   [ENVIRONMENTS.LOCALHOST]: {
     BUILDTYPE: ENVIRONMENTS.LOCALHOST,
@@ -39,11 +38,6 @@ module.exports = {
         }`,
     API_URL: isNode
       ? `http://${process.env.API_HOST}:3000`
-      : location.hostname && location.hostname.includes('preview.va.gov')
-        ? `http://${location.hostname.split('.')[0]}-api.${location.hostname
-            .split('.')
-            .slice(1)
-            .join('.')}:3000`
-        : `http://${location.hostname || 'localhost'}:3000`,
+      : `http://${location.hostname || 'localhost'}:3000`,
   },
 };
