@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import recordEvent from 'platform/monitoring/record-event';
 
 import { getFormattedPhone } from '../utils/contactInfo';
 import { checkValidations, missingPrimaryPhone } from '../validations';
@@ -49,6 +50,12 @@ export const PrimaryPhone = ({
         setFormData(formData);
         // setFormData lags a little, so check updated data
         checkErrors(formData);
+        recordEvent({
+          event: 'int-radio-button-option-click',
+          'radio-button-label': content.label,
+          'radio-button-optionLabel': content[`${value}Label`],
+          'radio-button-required': false,
+        });
       }
     },
   };
@@ -71,7 +78,7 @@ export const PrimaryPhone = ({
         <div name="topScrollElement" />
         <VaRadio
           class="vads-u-margin-y--2"
-          label="What is your primary phone number?"
+          label={content.label}
           label-header-level="3"
           hint="We may need to contact you if we have questions about your Supplemental Claim."
           error={hasError && errorMessages.missingPrimaryPhone}

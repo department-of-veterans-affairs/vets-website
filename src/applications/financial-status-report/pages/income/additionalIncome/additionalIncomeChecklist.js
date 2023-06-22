@@ -1,10 +1,10 @@
 import AdditionalIncomeCheckList from '../../../components/AdditionalIncomeCheckList';
 
 export const uiSchema = {
-  'ui:title': 'Your other income',
-  additionalIncomeChecklist: {
-    'ui:title': 'Select any additional income you receive:',
-    'ui:widget': AdditionalIncomeCheckList,
+  'ui:title': '',
+  'ui:field': AdditionalIncomeCheckList,
+  additionalIncomeCheckList: {
+    'ui:title': 'additionalIncomeCheckList',
     'ui:options': {
       hideOnReview: true,
     },
@@ -14,7 +14,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    additionalIncomeChecklist: {
+    additionalIncomeCheckList: {
       type: 'boolean',
     },
   },

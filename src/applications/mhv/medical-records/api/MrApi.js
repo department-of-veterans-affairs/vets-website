@@ -82,6 +82,16 @@ export const getNote = id => {
 };
 
 export const mockGetVitalsList = () => {
+  if (environment.BUILDTYPE === 'localhost' && testing) {
+    return apiRequest(
+      `${apiBasePath}/medical_records/vitals?patient_id=30163`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  }
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(vitals);

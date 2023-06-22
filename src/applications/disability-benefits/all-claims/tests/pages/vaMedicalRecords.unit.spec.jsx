@@ -26,7 +26,7 @@ describe('VA Medical Records', () => {
     },
   ];
 
-  it('should render ', () => {
+  it('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -71,7 +71,7 @@ describe('VA Medical Records', () => {
     );
 
     form.find('form').simulate('submit');
-    // Required fields: Facility name and related disability
+
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
     form.unmount();
@@ -199,7 +199,7 @@ describe('VA Medical Records', () => {
           ratedDisabilities,
           vaTreatmentFacilities: [
             {
-              treatmentCenterName: 'Sommerset VA Clinic',
+              treatmentCenterName: 'Test clinic',
               treatedDisabilityNames: {
                 diabetesmelitus: true,
               },

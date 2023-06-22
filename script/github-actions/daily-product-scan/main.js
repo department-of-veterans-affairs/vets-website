@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-const glob = require('glob');
 const core = require('@actions/core');
 const fs = require('fs');
 
@@ -37,12 +36,22 @@ function handleSuccess({ changeDetected, message, data }) {
 
 async function main({ octokit }) {
   const products = new Products();
-  const manifestGlobPathForTests =
-    'script/github-actions/daily-product-scan/tests/mocks/applications/**/*manifest.json';
-  const manifestGlobPath =
-    process.env.MANIFEST_GLOB_PATH || manifestGlobPathForTests;
+  const response = await octokit.getProductJson();
+
+  if (response?.status !== 200) {
+    return handleFailure({ response });
+  }
+  const productDirectory = JSON.parse(response.data);
+
+  const productPaths = productDirectory.map(product => ({
+    // eslint-disable-next-line camelcase
+    product_id: product.product_id,
+    // eslint-disable-next-line camelcase
+    path_to_code: product.path_to_code,
+  }));
+
   products.addProducts({
-    manifestPaths: glob.sync(manifestGlobPath),
+    productPaths,
   });
 
   new PackageDependencies({
@@ -61,34 +70,6 @@ async function main({ octokit }) {
     const lastUpdated = new LastUpdated({ products: products.all });
     lastUpdated.setLastUpdated();
   }
-
-  const response = await octokit.getProductJson();
-
-  if (response?.status !== 200) {
-    return handleFailure({ response });
-  }
-
-  const productDirectory = JSON.parse(response.data);
-
-  // Check for any products that have been added and are not present in GitHub, then add them to the directory.
-
-  const manifestIds = Object.keys(products.all);
-  const productListIds = productDirectory.map(product => product.product_id);
-
-  manifestIds.forEach(id => {
-    if (id.length === 36 && productListIds.indexOf(id) === -1) {
-      const manifest = JSON.parse(
-        fs.readFileSync(`${products.all[id].pathToCode}/manifest.json`),
-      );
-      const product = {
-        // eslint-disable-next-line camelcase
-        product_id: manifest.productId,
-        // eslint-disable-next-line camelcase
-        product_name: manifest.appName,
-      };
-      productDirectory.push(product);
-    }
-  });
 
   // Check for automatically updated field values
   const differ = new Differ();

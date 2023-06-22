@@ -101,7 +101,7 @@ const PayrollDeductionInputList = props => {
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          Your job at {employerName}
+          <h3 className="vads-u-margin--0">Your job at {employerName}</h3>
         </legend>
         <p>How much do you pay monthly for each of your payroll deductions?</p>
         {selectedDeductions?.map((deduction, key) => (

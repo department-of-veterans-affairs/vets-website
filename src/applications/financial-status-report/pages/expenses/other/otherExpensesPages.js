@@ -4,10 +4,10 @@ import { validateCurrencyArray } from '../../../utils/validations';
 
 export const otherExpensesChecklist = {
   uiSchema: {
-    'ui:title': 'Your other living expenses',
+    'ui:title': '',
+    'ui:field': OtherExpensesChecklist,
     otherLivingExpenses: {
-      'ui:title': 'What other living expenses do you have?',
-      'ui:widget': OtherExpensesChecklist,
+      'ui:title': 'otherExpensesChecklist',
       'ui:options': {
         hideOnReview: true,
       },
@@ -25,7 +25,7 @@ export const otherExpensesChecklist = {
 
 export const otherExpensesValues = {
   uiSchema: {
-    'ui:title': 'Your added living expenses',
+    'ui:title': '',
     'ui:field': OtherExpensesInputList,
     'ui:options': {
       hideOnReview: true,

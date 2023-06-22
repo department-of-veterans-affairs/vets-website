@@ -11,7 +11,7 @@ const {
 
 const pageTitle = 'veteran personal information';
 
-const expectedNumberOfFields = 3;
+const expectedNumberOfFields = 5;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -20,7 +20,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfErrors = 2;
+const expectedNumberOfErrors = 3;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
