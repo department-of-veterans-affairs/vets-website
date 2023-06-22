@@ -14,12 +14,12 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import fullNameUI from 'platform/forms/definitions/fullName';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import phoneUI from '../components/phone';
 import * as address from '../definitions/address';
 import Footer from '../components/Footer';
 
