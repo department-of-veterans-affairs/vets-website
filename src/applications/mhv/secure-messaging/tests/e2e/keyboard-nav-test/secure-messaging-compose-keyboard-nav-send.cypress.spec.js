@@ -9,7 +9,7 @@ describe('Secure Messaging Compose', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

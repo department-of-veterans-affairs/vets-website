@@ -5,11 +5,13 @@ import {
   transformFormToVAOSVARequest,
 } from '../../../../new-appointment/redux/helpers/formSubmitTransformers.v2';
 import { FLOW_TYPES, VHA_FHIR_ID } from '../../../../utils/constants';
+import { getReasonCode } from '../../../../new-appointment/redux/helpers/getReasonCode';
 
 describe('VAOS V2 data transformation', () => {
-  describe('VA booked', () => {
+  describe('VA booked and Acheron feature toggle is on', () => {
     it('remove slot.start and slot.end from new appointment object', () => {
       const state = {
+        featureToggles: { vaOnlineSchedulingAcheronService: true },
         user: {
           profile: {
             vapContactInfo: {},
@@ -89,8 +91,15 @@ describe('VAOS V2 data transformation', () => {
             ],
           },
         },
-        featureToggles: {},
       };
+
+      // when the reason text is combined with appointment information
+      const reasonTextTransformed = getReasonCode({
+        data: state.newAppointment.data,
+        isCC: false,
+        isAcheron: true,
+        isDS: true,
+      });
 
       const stateWithSlotId = {
         ...state,
@@ -113,16 +122,15 @@ describe('VAOS V2 data transformation', () => {
         },
         extension: { desiredDate: '2019-12-02T00:00:00+00:00' },
         locationId: '983',
-        reasonCode: {
-          text: 'reasonCode:ROUTINEVISIT|comments:asdfasdf',
-        },
+        reasonCode: reasonTextTransformed,
       });
     });
   });
 
   describe('VA request', () => {
-    it('request body is valid', () => {
+    it('request body is valid when Acheron is off', () => {
       const state = {
+        featureToggles: { vaOnlineSchedulingAcheronService: false },
         newAppointment: {
           data: {
             phoneNumber: '5035551234',
@@ -174,7 +182,6 @@ describe('VAOS V2 data transformation', () => {
           },
           flowType: FLOW_TYPES.REQUEST,
         },
-        featureToggles: {},
       };
 
       const data = transformFormToVAOSVARequest(state);
@@ -200,12 +207,12 @@ describe('VAOS V2 data transformation', () => {
       });
     });
 
-    it('reasonCode text is 100 characters and less when My reason isn/`t listed is chosen', () => {
-      // Given a user has entered 250 max characters for additional information
-      const reasonAdditionalInfo =
-        'The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.';
-      // When the VA request is submitted
+    it('request body is valid when Acheron is on', () => {
+      const superLongText =
+        'The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.';
+      // Given the VA request is submitted and Acheron service toggle is on
       const state = {
+        featureToggles: { vaOnlineSchedulingAcheronService: true },
         newAppointment: {
           data: {
             phoneNumber: '5035551234',
@@ -215,7 +222,7 @@ describe('VAOS V2 data transformation', () => {
             email: 'test@va.gov',
             visitType: 'clinic',
             reasonForAppointment: 'other',
-            reasonAdditionalInfo,
+            reasonAdditionalInfo: superLongText,
             selectedDates: ['2019-11-20T12:00:00.000'],
             vaParent: '983',
             vaFacility: '983GB',
@@ -257,26 +264,23 @@ describe('VAOS V2 data transformation', () => {
           },
           flowType: FLOW_TYPES.REQUEST,
         },
-        featureToggles: {},
       };
+      // when the reason text is combined with appointment information
+      const reasonTextTransformed = getReasonCode({
+        data: state.newAppointment.data,
+        isCC: false,
+        isAcheron: true,
+        isDS: false,
+      });
 
       const data = transformFormToVAOSVARequest(state);
-      // Then the reasonCode text will submit the first 100 characters
+      // Then the request body will transform
       expect(data).to.deep.equal({
         kind: 'clinic',
         status: 'proposed',
         locationId: '983GB',
         serviceType: 'cpap',
-        reasonCode: {
-          coding: undefined,
-          text: reasonAdditionalInfo.slice(0, 100),
-        },
-        contact: {
-          telecom: [
-            { type: 'phone', value: '5035551234' },
-            { type: 'email', value: 'test@va.gov' },
-          ],
-        },
+        reasonCode: reasonTextTransformed,
         requestedPeriods: [
           { start: '2019-11-20T12:00:00Z', end: '2019-11-20T23:59:00Z' },
         ],

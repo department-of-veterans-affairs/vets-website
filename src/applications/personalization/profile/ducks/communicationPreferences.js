@@ -248,6 +248,7 @@ function communicationChannelsReducer(accumulator, item) {
       parentItem: itemId,
       isAllowed: channel.communicationPermission?.allowed ?? null,
       permissionId: channel.communicationPermission?.id ?? null,
+      defaultSendIndicator: channel?.defaultSendIndicator ?? null,
       ui: {
         updateStatus: LOADING_STATES.idle,
         errors: null,

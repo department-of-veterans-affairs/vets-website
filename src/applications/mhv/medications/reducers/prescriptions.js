@@ -17,7 +17,7 @@ export const prescriptionsReducer = (state = initialState, action) => {
     case Actions.Prescriptions.GET: {
       return {
         ...state,
-        prescriptionDetails: action.response,
+        prescriptionDetails: action.response.data.attributes,
       };
     }
     case Actions.Prescriptions.GET_LIST: {

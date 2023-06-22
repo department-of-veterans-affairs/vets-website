@@ -1,5 +1,5 @@
 import { Actions } from '../util/actionTypes';
-import { getPrescriptionList, mockGetPrescription } from '../api/medApi';
+import { getPrescription, getPrescriptionList } from '../api/rxApi';
 
 export const getPrescriptionsList = () => async dispatch => {
   const response = await getPrescriptionList();
@@ -7,6 +7,6 @@ export const getPrescriptionsList = () => async dispatch => {
 };
 
 export const getPrescriptionDetails = prescriptionId => async dispatch => {
-  const response = await mockGetPrescription(prescriptionId);
+  const response = await getPrescription(prescriptionId);
   dispatch({ type: Actions.Prescriptions.GET, response });
 };

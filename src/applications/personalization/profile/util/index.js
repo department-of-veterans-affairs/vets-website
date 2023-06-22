@@ -10,8 +10,16 @@ export const LIGHTHOUSE_ERROR_KEYS = {
   ACCOUNT_FLAGGED_FOR_FRAUD: 'cnp.payment.account.number.fraud',
   PAYMENT_RESTRICTIONS_PRESENT: 'cnp.payment.restriction.indicators.present',
   ROUTING_NUMBER_FLAGGED_FOR_FRAUD: 'cnp.payment.routing.number.fraud',
-  ROUTING_NUMBER_INVALID: 'cnp.payment.routing.number.invalid.checksum',
+  ROUTING_NUMBER_INVALID_CHECKSUM:
+    'cnp.payment.routing.number.invalid.checksum',
+  ROUTING_NUMBER_INVALID: 'cnp.payment.routing.number.invalid',
+  DAY_PHONE_NUMBER_INVALID: 'cnp.payment.day.phone.number.invalid',
+  DAY_PHONE_AREA_INVALID: 'cnp.payment.day.area.number.invalid',
+  NIGHT_PHONE_NUMBER_INVALID: 'cnp.payment.night.phone.number.invalid',
+  NIGHT_PHONE_AREA_INVALID: 'cnp.payment.night.area.number.invalid',
+  MAILING_ADDRESS_INVALID: 'cnp.payment.mailing.address.invalid',
   UNSPECIFIED_ERROR: 'cnp.payment.unspecified.error',
+  GENERIC_ERROR: 'cnp.payment.generic.error',
 };
 
 const OTHER_ERROR_GA_KEY = 'other-error';
@@ -102,98 +110,113 @@ const hasErrorMessage = (errors, errorKey, errorText) => {
   );
 };
 
+export const hasErrorCombos = ({
+  errors,
+  errorKeys = [],
+  errorTexts = [],
+} = {}) => {
+  return errorKeys.some(errorKey => {
+    if (errorTexts.length > 0) {
+      return errorTexts.some(errorText =>
+        hasErrorMessage(errors, errorKey, errorText),
+      );
+    }
+    return hasErrorMessage(errors, errorKey);
+  });
+};
+
 export const hasAccountFlaggedError = errors =>
-  hasErrorMessage(
+  hasErrorCombos({
     errors,
-    PPIU_ERROR_MAP.ACCOUNT_FLAGGED_FOR_FRAUD.RESPONSE_KEY,
-  ) || hasErrorMessage(errors, LIGHTHOUSE_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD);
+    errorKeys: [
+      PPIU_ERROR_MAP.ACCOUNT_FLAGGED_FOR_FRAUD.RESPONSE_KEY,
+      LIGHTHOUSE_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD,
+    ],
+  });
 
 export const hasRoutingNumberFlaggedError = errors =>
-  hasErrorMessage(
+  hasErrorCombos({
     errors,
-    PPIU_ERROR_MAP.ROUTING_NUMBER_FLAGGED_FOR_FRAUD.RESPONSE_KEY,
-  ) ||
-  hasErrorMessage(
-    errors,
-    LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_FLAGGED_FOR_FRAUD,
-  );
+    errorKeys: [
+      PPIU_ERROR_MAP.ROUTING_NUMBER_FLAGGED_FOR_FRAUD.RESPONSE_KEY,
+      LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_FLAGGED_FOR_FRAUD,
+    ],
+  });
 
 export const hasInvalidRoutingNumberError = errors =>
-  hasErrorMessage(errors, PPIU_ERROR_MAP.INVALID_ROUTING_NUMBER.RESPONSE_KEY) ||
-  hasErrorMessage(
+  hasErrorCombos({
     errors,
-    PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY,
-    'Invalid Routing Number',
-  ) ||
-  hasErrorMessage(
+    errorKeys: [
+      PPIU_ERROR_MAP.INVALID_ROUTING_NUMBER.RESPONSE_KEY,
+      LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_INVALID_CHECKSUM,
+      LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_INVALID,
+    ],
+  }) ||
+  hasErrorCombos({
     errors,
-    LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
-    'Invalid Routing Number',
-  ) ||
-  hasErrorMessage(errors, LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_INVALID);
+    errorKeys: [
+      PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY,
+      LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
+      LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
+    ],
+    errorTexts: ['Invalid Routing Number'],
+  });
 
 export const hasInvalidAddressError = errors =>
-  hasErrorMessage(
+  hasErrorCombos({
     errors,
-    PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY,
-    'address update',
-  ) ||
-  hasErrorMessage(
-    errors,
-    LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
-    'address update',
-  );
+    errorKeys: [
+      PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY,
+      LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
+      LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
+    ],
+    errorTexts: ['address update'],
+  }) || hasErrorMessage(errors, LIGHTHOUSE_ERROR_KEYS.MAILING_ADDRESS_INVALID);
 
 export const hasInvalidHomePhoneNumberError = errors =>
-  hasErrorMessage(
+  hasErrorCombos({
     errors,
-    PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY,
-    'night phone number',
-  ) ||
-  hasErrorMessage(
+    errorKeys: [
+      PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY,
+      LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
+      LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
+    ],
+    errorTexts: ['night phone number', 'night area number'],
+  }) ||
+  hasErrorCombos({
     errors,
-    PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY,
-    'night area number',
-  ) ||
-  hasErrorMessage(
-    errors,
-    LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
-    'night phone number',
-  ) ||
-  hasErrorMessage(
-    errors,
-    LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
-    'night area number',
-  );
+    errorKeys: [
+      LIGHTHOUSE_ERROR_KEYS.NIGHT_PHONE_NUMBER_INVALID,
+      LIGHTHOUSE_ERROR_KEYS.NIGHT_PHONE_AREA_INVALID,
+    ],
+  });
 
 export const hasInvalidWorkPhoneNumberError = errors =>
-  hasErrorMessage(
+  hasErrorCombos({
     errors,
-    PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY,
-    'day phone number',
-  ) ||
-  hasErrorMessage(
+    errorKeys: [
+      PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY,
+      LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
+      LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
+    ],
+    errorTexts: ['day phone number', 'day area number'],
+  }) ||
+  hasErrorCombos({
     errors,
-    PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY,
-    'day area number',
-  ) ||
-  hasErrorMessage(
-    errors,
-    LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
-    'day phone number',
-  ) ||
-  hasErrorMessage(
-    errors,
-    LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
-    'day area number',
-  );
+    errorKeys: [
+      LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_NUMBER_INVALID,
+      LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_AREA_INVALID,
+    ],
+  });
 
 export const hasPaymentRestrictionIndicatorsError = errors =>
-  hasErrorMessage(
+  hasErrorCombos({
     errors,
-    PPIU_ERROR_MAP.PAYMENT_RESTRICTIONS_PRESENT.RESPONSE_KEY,
-  ) ||
-  hasErrorMessage(errors, LIGHTHOUSE_ERROR_KEYS.PAYMENT_RESTRICTIONS_PRESENT);
+    errorKeys: [
+      PPIU_ERROR_MAP.PAYMENT_RESTRICTIONS_PRESENT.RESPONSE_KEY,
+      LIGHTHOUSE_ERROR_KEYS.PAYMENT_RESTRICTIONS_PRESENT,
+    ],
+  });
 
 export const cnpDirectDepositBankInfo = apiData => {
   return apiData?.paymentAccount;
@@ -225,7 +248,7 @@ export const isSignedUpForEDUDirectDeposit = apiData =>
 const getLighthouseErrorCode = (errors = []) => {
   // there should only be one error code in the errors array, but just in case
   const error = errors.find(err => err?.code);
-  return `${error?.code || OTHER_ERROR_GA_KEY} ${error?.detail || ''}`;
+  return `${error?.code || OTHER_ERROR_GA_KEY} | ${error?.detail || ''}`;
 };
 
 const getPPIUErrorCode = (errors = []) => {

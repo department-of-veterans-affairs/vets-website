@@ -18,7 +18,7 @@ const App = ({ formEnabled }) => {
           className="vads-c-action-link--blue"
           href="/supporting-forms-for-claims/release-information-to-va-form-21-4142"
         >
-          Submit an authorization to release medical records online
+          Submit an authorization to release medical information online
         </a>
         <a
           className="vads-c-action-link--green"

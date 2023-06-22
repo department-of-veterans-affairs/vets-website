@@ -12,6 +12,8 @@ import {
   emailSchema,
   phoneSchema,
   phoneUI,
+  inlineTitleUI,
+  inlineTitleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
@@ -27,9 +29,7 @@ export default {
       ...ssnUI(),
       'ui:title': 'TextWidget - ssnUI',
     },
-    wc: titleUI('Web component', {
-      classNames: 'vads-u-margin-top--4',
-    }),
+    wc: inlineTitleUI('Web component'),
     emailNew: {
       ...emailUI('VaTextInputField - emailUI'),
       'ui:options': {
@@ -48,9 +48,7 @@ export default {
         uswds: false,
       },
     },
-    wcv3: titleUI('Web component v3', {
-      classNames: 'vads-u-margin-top--4',
-    }),
+    wcv3: inlineTitleUI('Web component v3'),
     emailNewV3: emailUI(null, true),
     phoneNewV3: phoneUI('VaTextInputField - phoneUI'),
     ssnNewV3: ssnNewUI(),
@@ -71,11 +69,11 @@ export default {
         type: 'string',
         pattern: '^[0-9]{9}$',
       },
-      wc: titleSchema,
+      wc: inlineTitleSchema,
       emailNew: emailSchema,
       phoneNew: phoneSchema,
       ssnNew: ssnNewSchema,
-      wcv3: titleSchema,
+      wcv3: inlineTitleSchema,
       emailNewV3: emailSchema,
       phoneNewV3: phoneSchema,
       ssnNewV3: ssnNewSchema,

@@ -27,7 +27,7 @@ ul.check-in--definition-list {
   padding: 0;
 }
 
-ol.check-in--appointment-list {
+ul.check-in--appointment-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -57,7 +57,7 @@ ol.check-in--appointment-list {
   }
 }
 
-ol.appointment-list{
+ul.appointment-list{
   list-style: none;
 }// DS removes label margin now, this maintains it.
 va-text-input[error]:not([error=""])::part(label) ,

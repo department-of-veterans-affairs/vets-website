@@ -68,6 +68,7 @@ describe('VAOS direct schedule flow using VAOS service', () => {
       v2Requests: true,
       v2Facilities: true,
       v2DirectSchedule: true,
+      acheron: true,
     });
     mockUserTransitionAvailabilities();
   });

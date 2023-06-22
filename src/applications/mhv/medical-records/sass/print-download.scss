@@ -1,5 +1,5 @@
 .print-download {
-  width: fit-content;
+  width: 275px;
   button {
     background-color: var(--color-white);
     color: var(--color-primary);
@@ -37,24 +37,36 @@
     border-radius: 5px;
     border: 2px solid var(--color-primary);
   }
-  .toggle-menu-button-open {
-    border-radius: 5px 5px 0 0;
-    border-bottom: 1px solid var(--color-primary);
-  }
 
   .menu-options {
+    margin: 0px;
+    padding: 0px;
     display: none;
     flex-direction: column;
-    button {
+
+    li:first-child {
+      margin-top: 4px;
+      border-radius: 5px 5px 0px 0px;
+      border-top: 2px solid var(--color-primary);
+      border-right: 2px solid var(--color-primary);
+      border-bottom: 2px solid var(--color-primary);
+      border-left: 2px solid var(--color-primary);
+    }
+    li {
       margin: 0px;
-      padding: 1rem 2rem;
+      padding: 0px;
       border-top: none;
       border-right: 2px solid var(--color-primary);
-      border-bottom: 1px solid var(--color-primary);
+      border-bottom: 2px solid var(--color-primary);
       border-left: 2px solid var(--color-primary);
       border-radius: 0px;
+
+      button {
+        margin: 0px;
+        text-align: left;
+      }
     }
-    button:last-child {
+    li:last-child {
       border-radius: 0px 0px 5px 5px;
       border-top: none;
       border-right: 2px solid var(--color-primary);
@@ -64,6 +76,7 @@
   }
 
   .menu-options-open {
+    list-style: none;
     display: flex;
   }
 }
