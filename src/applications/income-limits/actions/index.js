@@ -2,6 +2,7 @@ import {
   IL_EDIT_MODE,
   IL_PAST_MODE,
   IL_UPDATE_DEPENDENTS,
+  IL_UPDATE_RESULTS,
   IL_UPDATE_YEAR,
   IL_UPDATE_ZIP,
 } from '../constants';
@@ -37,6 +38,13 @@ export const updatePastMode = value => {
 export const updateEditMode = value => {
   return {
     type: IL_EDIT_MODE,
+    payload: value,
+  };
+};
+
+export const updateResults = value => {
+  return {
+    type: IL_UPDATE_RESULTS,
     payload: value,
   };
 };
