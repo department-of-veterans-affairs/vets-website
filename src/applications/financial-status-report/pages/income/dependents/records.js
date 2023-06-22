@@ -62,7 +62,9 @@ export const schema = {
 export const uiSchemaEnhanced = {
   'ui:title': () => (
     <>
-      <legend className="schemaform-block-title">Your dependents</legend>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Your dependents</h3>
+      </legend>
       <p>Enter each dependent’s age separately.</p>
     </>
   ),

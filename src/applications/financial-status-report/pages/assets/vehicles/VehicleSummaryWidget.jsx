@@ -57,7 +57,7 @@ const VehicleSummaryWidget = ({
     <form onSubmit={handlers.onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          Your cars or other vehicles
+          <h3 className="vads-u-margin--0">Your cars or other vehicles</h3>
         </legend>
         <div className="vads-u-margin-top--3" data-testid="debt-list">
           {!automobiles.length ? (
