@@ -7,10 +7,8 @@ class Products {
 
   addProducts({ productPaths }) {
     productPaths.forEach(path => {
-      const productId = path.product_id;
-
+      const { productId, pathToCode } = path;
       if (productId) {
-        const pathToCode = path.path_to_code;
         this.all[productId] = new Product({ pathToCode });
       }
     });
