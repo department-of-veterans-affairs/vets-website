@@ -37,7 +37,9 @@ const EmploymentHistoryWidget = props => {
   return (
     <form onSubmit={handlers.onSubmit}>
       <fieldset className="vads-u-margin-y--2">
-        <legend className="schemaform-block-title">Your work history</legend>
+        <legend className="schemaform-block-title">
+          <h3 className="vads-u-margin--0">Your work history</h3>
+        </legend>
         <div className="vads-u-margin-top--3" data-testid="debt-list">
           {employmentHistory.length === 0 ? (
             <EmptyMiniSummaryCard content="No employment history provided" />

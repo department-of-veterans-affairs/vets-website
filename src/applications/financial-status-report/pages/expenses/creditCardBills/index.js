@@ -1,5 +1,13 @@
+import React from 'react';
+
 export const uiSchema = {
-  'ui:title': 'Credit card bills',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Credit card bills</h3>
+      </legend>
+    </>
+  ),
   questions: {
     hasCreditCardBills: {
       'ui:title': 'Do you have any past-due credit card bills?',

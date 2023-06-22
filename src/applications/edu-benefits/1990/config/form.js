@@ -13,12 +13,12 @@ import {
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import yearUI from 'platform/forms-system/src/js/definitions/year';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
+import PreSubmitInfo from '../pages/PreSubmitInfo';
 import contactInformationPage from '../../pages/contactInformation';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
@@ -121,7 +121,12 @@ const formConfig = {
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
-  preSubmitInfo,
+  // preSubmitInfo,
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    required: true,
+    field: 'privacyAgreementAccepted',
+  },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
@@ -206,6 +211,9 @@ const formConfig = {
               },
               chapter32: {
                 'ui:title': benefitsLabels.chapter32,
+                'ui:options': {
+                  hideIf: () => !environment.isProduction(),
+                },
               },
             },
           },
@@ -394,6 +402,9 @@ const formConfig = {
             civilianBenefitsAssistance: {
               'ui:title':
                 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.',
+              'ui:options': {
+                hideIf: () => !environment.isProduction(),
+              },
             },
             additionalContributions: {
               'ui:title':
@@ -471,6 +482,7 @@ const formConfig = {
           // There’s only one page in this chapter (right?), so this url seems a
           //  bit heavy-handed.
           path: 'education-history/education-information',
+          depends: () => environment.isProduction(),
           uiSchema: {
             highSchoolOrGedCompletionDate: currentOrPastMonthYearUI(
               'When did you earn your high school diploma or equivalency certificate?',
@@ -495,6 +507,7 @@ const formConfig = {
     },
     employmentHistory: {
       title: 'Employment history',
+      depends: () => environment.isProduction(),
       pages: {
         employmentHistory: merge({}, employmentHistoryPage(fullSchema1990), {
           path: 'employment-history/employment-information',
@@ -517,6 +530,7 @@ const formConfig = {
           }),
           {
             path: 'school-selection/school-information',
+            depends: () => environment.isProduction(),
           },
         ),
       },
@@ -531,6 +545,7 @@ const formConfig = {
         }),
         secondaryContact: {
           title: 'Secondary contact',
+          depends: () => environment.isProduction(),
           path: 'personal-information/secondary-contact',
           uiSchema: {
             'ui:title': 'Secondary contact',

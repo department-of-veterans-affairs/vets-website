@@ -33,10 +33,15 @@ const OtherExpensesChecklist = () => {
     return otherExpenses.some(expense => expense.name === option);
   };
 
+  const title = 'Your other living expenses';
+  const prompt = 'What other living expenses do you have?';
+
   return (
     <Checklist
       options={otherLivingExpensesOptions}
       onChange={onChange}
+      title={title}
+      prompt={prompt}
       isBoxChecked={isBoxChecked}
     />
   );
