@@ -30,7 +30,7 @@ export const MiniSummaryCard = ({
       aria-label={ariaLabel}
     >
       <div className="vads-u-padding-x--2 vads-u-padding-top--2 vads-u-display--flex vads-u-flex-direction--column">
-        <h3 className="vads-u-margin-y--0 vads-u-font-size--h4">{heading}</h3>
+        <h4 className="vads-u-margin-y--0">{heading}</h4>
         {body}
       </div>
       <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-padding-x--2 vads-u-padding-bottom--1">

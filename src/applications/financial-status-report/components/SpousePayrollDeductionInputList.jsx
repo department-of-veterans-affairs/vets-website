@@ -108,7 +108,9 @@ const SpousePayrollDeductionInputList = props => {
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          Your spouse’s job at {employerName}
+          <h3 className="vads-u-margin--0">
+            Your spouse’s job at {employerName}
+          </h3>
         </legend>
         <p>
           How much does your spouse pay monthly for each of their payroll

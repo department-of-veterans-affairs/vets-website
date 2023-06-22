@@ -48,9 +48,10 @@ const SpouseGrossMonthlyIncomeInput = props => {
       const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
 
       if (
-        grossMonthlyIncome.value &&
-        (!regex.test(grossMonthlyIncome.value) ||
-          Number(grossMonthlyIncome.value) < 0)
+        !grossMonthlyIncome.value ||
+        (grossMonthlyIncome.value &&
+          (!regex.test(grossMonthlyIncome.value) ||
+            Number(grossMonthlyIncome.value) < 0))
       ) {
         setIncomeError(true);
       }

@@ -61,7 +61,7 @@ const SpouseEmploymentQuestion = props => {
     <form onSubmit={handlers.nextPage}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          Your spouse’s work history
+          <h3 className="vads-u-margin--0">Your spouse’s work history</h3>
         </legend>
         <VaRadio
           class="vads-u-margin-y--2"
