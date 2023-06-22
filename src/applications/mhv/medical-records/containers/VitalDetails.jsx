@@ -93,72 +93,74 @@ const VitalDetails = () => {
       return (
         <>
           <h1>{filteredVitals[0].name}</h1>
-          <PrintDownload list download={download} />
-          <div className="vads-u-padding-y--1 vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
-            Displaying {displayNums[0]}
-            &#8211;
-            {displayNums[1]} of {filteredVitals.length} vitals
-          </div>
-          <ul className="vital-details no-print">
-            {currentVitals?.length > 0 &&
-              currentVitals?.map((vital, idx) => (
-                <li key={idx}>
-                  <h2>Measurement:</h2>
-                  <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-                    {vital.measurement}
-                  </p>
-                  <h2>{idx === 0 ? 'Most recent date:' : 'Date:'}</h2>
-                  <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-                    {dateFormat(vital.date, 'MMMM D, YYYY')}
-                  </p>
-                  <h2>Location:</h2>
-                  <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-                    {vital.facility}
-                  </p>
-                  <h2>Provider comments:</h2>
-                  {vital?.comments?.length > 0 ? (
-                    <ul className="comment-list">
-                      {vital.comments.map((comment, commentIdx) => (
-                        <li key={commentIdx}>{comment}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="vads-u-margin--0">None noted</p>
-                  )}
-                </li>
-              ))}
-          </ul>
-          <ul className="vital-details print-only">
-            {filteredVitals?.length > 0 &&
-              filteredVitals?.map((vital, idx) => (
-                <li key={idx}>
-                  <h2>Measurement:</h2>
-                  <p>{vital.measurement}</p>
-                  <h2>{idx === 0 ? 'Most recent date:' : 'Date:'}</h2>
-                  <p>{dateFormat(vital.date, 'MMMM D, YYYY')}</p>
-                  <h2>Location:</h2>
-                  <p>{vital.facility}</p>
-                  <h2>Provider comments:</h2>
-                  {vital?.comments?.length > 0 ? (
-                    <ul className="comment-list">
-                      {vital.comments.map((comment, commentIdx) => (
-                        <li key={commentIdx}>{comment}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <span className="vads-u-margin--0">None noted</span>
-                  )}
-                </li>
-              ))}
-          </ul>
-          <div className="vads-u-margin-bottom--2 no-print">
-            <VaPagination
-              onPageSelect={e => onPageChange(e.detail.page)}
-              page={currentPage}
-              pages={paginatedVitals.current.length}
-              maxPageListLength={MAX_PAGE_LIST_LENGTH}
-              showLastPage
-            />
+          <div className="set-width">
+            <PrintDownload list download={download} />
+            <div className="vads-u-padding-y--1 vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
+              Displaying {displayNums[0]}
+              &#8211;
+              {displayNums[1]} of {filteredVitals.length} vitals
+            </div>
+            <ul className="vital-details no-print">
+              {currentVitals?.length > 0 &&
+                currentVitals?.map((vital, idx) => (
+                  <li key={idx}>
+                    <h2>Measurement:</h2>
+                    <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                      {vital.measurement}
+                    </p>
+                    <h2>{idx === 0 ? 'Most recent date:' : 'Date:'}</h2>
+                    <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                      {dateFormat(vital.date, 'MMMM D, YYYY')}
+                    </p>
+                    <h2>Location:</h2>
+                    <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                      {vital.facility}
+                    </p>
+                    <h2>Provider comments:</h2>
+                    {vital?.comments?.length > 0 ? (
+                      <ul className="comment-list">
+                        {vital.comments.map((comment, commentIdx) => (
+                          <li key={commentIdx}>{comment}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="vads-u-margin--0">None noted</p>
+                    )}
+                  </li>
+                ))}
+            </ul>
+            <ul className="vital-details print-only">
+              {filteredVitals?.length > 0 &&
+                filteredVitals?.map((vital, idx) => (
+                  <li key={idx}>
+                    <h2>Measurement:</h2>
+                    <p>{vital.measurement}</p>
+                    <h2>{idx === 0 ? 'Most recent date:' : 'Date:'}</h2>
+                    <p>{dateFormat(vital.date, 'MMMM D, YYYY')}</p>
+                    <h2>Location:</h2>
+                    <p>{vital.facility}</p>
+                    <h2>Provider comments:</h2>
+                    {vital?.comments?.length > 0 ? (
+                      <ul className="comment-list">
+                        {vital.comments.map((comment, commentIdx) => (
+                          <li key={commentIdx}>{comment}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <span className="vads-u-margin--0">None noted</span>
+                    )}
+                  </li>
+                ))}
+            </ul>
+            <div className="vads-u-margin-bottom--2 no-print">
+              <VaPagination
+                onPageSelect={e => onPageChange(e.detail.page)}
+                page={currentPage}
+                pages={paginatedVitals.current.length}
+                maxPageListLength={MAX_PAGE_LIST_LENGTH}
+                showLastPage
+              />
+            </div>
           </div>
         </>
       );

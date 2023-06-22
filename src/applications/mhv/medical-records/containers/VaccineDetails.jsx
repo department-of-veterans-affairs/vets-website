@@ -59,33 +59,35 @@ const VaccineDetails = () => {
           <PrintHeader />
           <h1 className="vaccine-header">{vaccineDetails.name}</h1>
           <PrintDownload list download={download} />
-          <div className="detail-block max-80">
-            <h2 className="vads-u-margin-top--0">Date received</h2>
-            <p>{formattedDate}</p>
-            <h2>Type and dosage</h2>
-            <p>{typeAndDose(vaccineDetails.type, vaccineDetails.dosage)}</p>
-            <h2>Series</h2>
-            <p>
-              {vaccineDetails.series ||
-                'There is no series reported at this time'}
-            </p>
-            <h2>Location</h2>
-            <p>
-              {vaccineDetails.facility ||
-                'There is no facility reported at this time'}
-            </p>
-            <h2 className="vads-u-margin-bottom--0">
-              Reactions recorded by provider
-            </h2>
-            <ItemList
-              list={vaccineDetails.reactions}
-              emptyMessage="None reported"
-            />
-            <h2 className="vads-u-margin-bottom--0">Provider comments</h2>
-            <ItemList
-              list={vaccineDetails.comments}
-              emptyMessage="No comments at this time"
-            />
+          <div className="set-width">
+            <div className="detail-block max-80">
+              <h2 className="vads-u-margin-top--0">Date received</h2>
+              <p>{formattedDate}</p>
+              <h2>Type and dosage</h2>
+              <p>{typeAndDose(vaccineDetails.type, vaccineDetails.dosage)}</p>
+              <h2>Series</h2>
+              <p>
+                {vaccineDetails.series ||
+                  'There is no series reported at this time'}
+              </p>
+              <h2>Location</h2>
+              <p>
+                {vaccineDetails.facility ||
+                  'There is no facility reported at this time'}
+              </p>
+              <h2 className="vads-u-margin-bottom--0">
+                Reactions recorded by provider
+              </h2>
+              <ItemList
+                list={vaccineDetails.reactions}
+                emptyMessage="None reported"
+              />
+              <h2 className="vads-u-margin-bottom--0">Provider comments</h2>
+              <ItemList
+                list={vaccineDetails.comments}
+                emptyMessage="No comments at this time"
+              />
+            </div>
           </div>
         </>
       );

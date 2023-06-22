@@ -58,13 +58,16 @@ const CareSummariesAndNotes = () => {
   return (
     <div id="care-summaries-and-notes">
       <h1 className="page-title">Care summaries and notes</h1>
-      <p>Review care summaries and notes in your VA medical records.</p>
-      <va-additional-info trigger="What to know about your care summaries and notes">
-        This is some additional info about your care summaries and notes, though
-        we are waiting on the Content Team to tell us what should be here...
-      </va-additional-info>
+      <div className="set-width">
+        <p>Review care summaries and notes in your VA medical records.</p>
+        <va-additional-info trigger="What to know about your care summaries and notes">
+          This is some additional info about your care summaries and notes,
+          though we are waiting on the Content Team to tell us what should be
+          here...
+        </va-additional-info>
 
-      {content()}
+        {content()}
+      </div>
     </div>
   );
 };

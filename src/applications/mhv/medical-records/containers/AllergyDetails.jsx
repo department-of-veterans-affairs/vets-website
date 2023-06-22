@@ -59,62 +59,64 @@ const AllergyDetails = () => {
         <>
           <PrintHeader />
           <h1 className="vads-u-margin-bottom--0p5">Allergy: {allergy.name}</h1>
-          <div className="condition-subheader vads-u-margin-bottom--3">
-            <div className="time-header">
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Date entered:{' '}
-              </h2>
-              <p>{allergy.date}</p>
+          <div className="set-width">
+            <div className="condition-subheader vads-u-margin-bottom--3">
+              <div className="time-header">
+                <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                  Date entered:{' '}
+                </h2>
+                <p>{allergy.date}</p>
+              </div>
+              <PrintDownload list download={download} />
+              <va-additional-info
+                trigger="What to know about downloading records"
+                class="no-print"
+              >
+                <ul>
+                  <li>
+                    <strong>If you’re on a public or shared computer,</strong>{' '}
+                    print your records instead of downloading. Downloading will
+                    save a copy of your records to the public computer.
+                  </li>
+                  <li>
+                    <strong>If you use assistive technology,</strong> a Text
+                    file (.txt) may work better for technology such as screen
+                    reader, screen enlargers, or Braille displays.
+                  </li>
+                </ul>
+              </va-additional-info>
             </div>
-            <PrintDownload list download={download} />
-            <va-additional-info
-              trigger="What to know about downloading records"
-              class="no-print"
-            >
-              <ul>
-                <li>
-                  <strong>If you’re on a public or shared computer,</strong>{' '}
-                  print your records instead of downloading. Downloading will
-                  save a copy of your records to the public computer.
-                </li>
-                <li>
-                  <strong>If you use assistive technology,</strong> a Text file
-                  (.txt) may work better for technology such as screen reader,
-                  screen enlargers, or Braille displays.
-                </li>
-              </ul>
-            </va-additional-info>
-          </div>
 
-          <div className="condition-details max-80">
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Reaction
-            </h2>
-            <ItemList list={allergy.reaction} emptyMessage="None noted" />
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Type of allergy
-            </h2>
-            <p>{allergy.type || 'None noted'}</p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              VA drug class
-            </h2>
-            <p>{allergy.drugClass || 'None noted'}</p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Location
-            </h2>
-            <p>{allergy.location || 'None noted'}</p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Observed or reported
-            </h2>
-            <p>
-              {allergy.observed
-                ? 'Observed (your provider observed the reaction in person)'
-                : 'Reported (you told your provider about the reaction)'}
-            </p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Provider notes
-            </h2>
-            <ItemList list={allergy.notes} emptyMessage="None noted" />
+            <div className="condition-details max-80">
+              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                Reaction
+              </h2>
+              <ItemList list={allergy.reaction} emptyMessage="None noted" />
+              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                Type of allergy
+              </h2>
+              <p>{allergy.type || 'None noted'}</p>
+              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                VA drug class
+              </h2>
+              <p>{allergy.drugClass || 'None noted'}</p>
+              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                Location
+              </h2>
+              <p>{allergy.location || 'None noted'}</p>
+              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                Observed or reported
+              </h2>
+              <p>
+                {allergy.observed
+                  ? 'Observed (your provider observed the reaction in person)'
+                  : 'Reported (you told your provider about the reaction)'}
+              </p>
+              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                Provider notes
+              </h2>
+              <ItemList list={allergy.notes} emptyMessage="None noted" />
+            </div>
           </div>
         </>
       );
