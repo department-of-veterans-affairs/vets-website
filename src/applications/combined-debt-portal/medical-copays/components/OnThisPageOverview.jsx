@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const OnThisPageOverview = ({ multiple }) => (
+export const OnThisPageOverview = () => (
   <>
     <h2>On this page</h2>
     <div className="vads-u-font-family--sans vads-u-display--flex vads-u-flex-direction--column">
@@ -14,7 +14,7 @@ export const OnThisPageOverview = ({ multiple }) => (
           role="img"
           className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm vads-u-margin-top--0p5"
         />
-        What you owe to your {multiple ? 'facilities' : 'facility'}
+        Your most recent statement balances for the last six months
       </a>
       <a
         href="#how-to-pay"
