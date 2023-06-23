@@ -507,10 +507,10 @@ const formConfig = {
     },
     employmentHistory: {
       title: 'Employment history',
-      depends: () => environment.isProduction(),
       pages: {
         employmentHistory: merge({}, employmentHistoryPage(fullSchema1990), {
           path: 'employment-history/employment-information',
+          depends: () => environment.isProduction(),
         }),
       },
     },
