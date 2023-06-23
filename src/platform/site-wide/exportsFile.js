@@ -24,20 +24,6 @@ import { mhvUrl, mhvBaseUrl } from './mhv/utilities';
 
 import startMobileMenuButton from './mobile-menu-button';
 
-// import { default as style } from './sass/style.scss';
-
-// import { default as vaMedalliaStyle } from './sass/va-medallia-style.scss';
-
-// import { default as mOverrides } from './sass/modules/_m-overrides.scss';
-// import { default as mHeader } from './sass/modules/_m-header.scss';
-// import { default as mFooter } from './sass/modules/_m-footer.scss';
-// import { default as mCrisisLine } from './sass/modules/_m-crisis-line.scss';
-// import {
-//   default as mDowntimeNotification,
-// } from './sass/modules/_m-downtime-notification.scss';
-// import { default as mLayers } from './sass/modules/_m-layers.scss';
-// import { default as iconography } from './sass/iconography.scss';
-
 import { sitemapURLs } from './tests/sitemap/sitemap-helpers';
 
 import {
@@ -55,13 +41,17 @@ import {
 
 import AutoSSO from './user-nav/containers/AutoSSO';
 
-// import { default as userNavScss } from './user-nav/sass/user-nav.scss';
-
 import userNavReducer from './user-nav/reducers';
 
 import { restartShouldRedirect } from './wizard';
 
 import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
+
+const userNavScss = require('./user-nav/sass/user-nav.scss');
+const mCrisisLine = require('./sass/modules/_m-crisis-line.scss');
+const mDowntimeNotification = require('./sass/modules/_m-downtime-notification.scss');
+const vaMedalliaStyle = require('./sass/va-medallia-style.scss');
+const style = require('./sass/style.scss');
 
 const { exports: startSitewideComponents } = require('./index');
 const { exports: startHeader } = require('./header');
@@ -105,4 +95,9 @@ export {
   startVAFooter,
   footerElemementId,
   startUserNavWidget,
+  vaMedalliaStyle,
+  style,
+  userNavScss,
+  mDowntimeNotification,
+  mCrisisLine,
 };
