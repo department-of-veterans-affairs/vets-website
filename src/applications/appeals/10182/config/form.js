@@ -91,12 +91,16 @@ const formConfig = {
   confirmation: ConfirmationPage,
 
   defaultDefinitions: {},
+  // when true, initial focus on page to H3s by default, and enable page
+  // scrollAndFocusTarget (selector string or function to scroll & focus)
+  useCustomScrollAndFocus: true,
+
   chapters: {
     infoPages: {
-      title: 'Veteran details',
+      title: 'Veteran Information',
       pages: {
         veteranInformation: {
-          title: 'Veteran details',
+          title: 'Veteran information',
           path: 'veteran-details',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
