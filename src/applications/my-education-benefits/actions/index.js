@@ -193,11 +193,17 @@ export function fetchDirectDeposit() {
   };
 }
 
-export function fetchDuplicateContactInfo() {
+export function fetchDuplicateContactInfo(email, phoneNumber) {
   return async dispatch => {
     dispatch({ type: FETCH_DUPLICATE_CONTACT });
-
-    return apiRequest(DUPLICATE_CONTACT_INFO_ENDPOINT)
+    return apiRequest(DUPLICATE_CONTACT_INFO_ENDPOINT, {
+      method: 'POST',
+      body: JSON.stringify({
+        emails: email,
+        phones: phoneNumber,
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    })
       .then(response =>
         dispatch({
           type: FETCH_DUPLICATE_CONTACT_INFO_SUCCESS,

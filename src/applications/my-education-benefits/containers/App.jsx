@@ -27,7 +27,6 @@ export const App = ({
   // getDirectDeposit,
   getEligibility,
   getPersonalInfo,
-  getDuplicateContactInfo,
   isLOA3,
   isLoggedIn,
   location,
@@ -59,7 +58,6 @@ export const App = ({
         setFetchedPersonalInfo(true);
         setFetchedContactInfo(true);
         getPersonalInfo(showMebCh33SelfForm);
-        getDuplicateContactInfo(claimantInfo?.claimantId);
       } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
@@ -73,7 +71,6 @@ export const App = ({
       fetchedPersonalInfo,
       formData,
       getPersonalInfo,
-      getDuplicateContactInfo,
       isLOA3,
       isLoggedIn,
       setFormData,

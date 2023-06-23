@@ -7,8 +7,10 @@ import { fetchDuplicateContactInfo, updateGlobalPhoneNumber } from '../actions';
 
 function CustomPhoneNumberField(props) {
   function handleChange(event) {
-    props.fetchDuplicateContactInfo(event);
     props.updateGlobalPhoneNumber(event);
+    props.fetchDuplicateContactInfo(props.duplicateEmail, [
+      { value: event, isDupe: '' },
+    ]);
   }
 
   return (
@@ -31,6 +33,8 @@ CustomPhoneNumberField.propTypes = {
 const mapStateToProps = state => ({
   phoneNumber: state?.form?.data?.mobilePhone,
   duplicatePhone: state?.data?.duplicatePhone,
+  email: state?.form?.data?.email?.email,
+  duplicateEmail: state?.data?.duplicateEmail,
 });
 
 const mapDispatchToProps = {
