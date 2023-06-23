@@ -20,8 +20,10 @@ export const claimExamsDescription = (
       </p>
       <p>
         You can go to your{' '}
-        <a href="https://www.va.gov/profile">VA.gov profile</a> to confirm your
-        phone number.
+        <a href="https://www.va.gov/profile" target="_blank" rel="noreferrer">
+          VA.gov profile
+        </a>
+        to confirm your phone number.
       </p>
     </va-alert>
 
@@ -54,9 +56,13 @@ export const claimExamsFAQ = (
         </p>
         <p>
           If you’re a Veteran who lives overseas, you may{' '}
-          <a href="https://www.benefits.va.gov/persona/veteran-abroad.asp">
+          <a
+            href="https://www.benefits.va.gov/persona/veteran-abroad.asp"
+            target="_blank"
+            rel="noreferrer"
+          >
             contact an Overseas Military Services Coordinator
-          </a>{' '}
+          </a>
           for help scheduling a claim exam.
         </p>
       </va-accordion-item>
