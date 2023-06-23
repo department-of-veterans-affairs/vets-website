@@ -157,7 +157,6 @@ export const Errors = {
     BLOCKED_USER: 'SM119',
   },
 };
-
 export const Links = {
   Link: {
     CANNOT_REPLY: {
