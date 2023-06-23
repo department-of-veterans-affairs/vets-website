@@ -36,6 +36,7 @@ yarn config set "strict-ssl" false
 echo "Install, build, and watch vets-website"
 cd vets-website
 yarn install
+yarn build #adding this line to see if it is going to fix container issue
 yarn watch --env api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs.va.gov" &
 
 # Serve the content-build
