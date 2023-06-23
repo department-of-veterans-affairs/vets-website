@@ -18,7 +18,7 @@ import {
 import NotificationChannel from './NotificationChannel';
 import { NotificationChannelCheckboxesFieldset } from './NotificationChannelCheckboxesFieldset';
 
-const NotificationItem = ({ channelIds, itemName, description }) => {
+const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
   // using the Mhv Notification Settings feature toggle to determine if we should show the email channel,
   // since the email channel is not yet supported and all Mhv notifications are email based for now
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -49,6 +49,8 @@ const NotificationItem = ({ channelIds, itemName, description }) => {
           <NotificationChannelCheckboxesFieldset
             itemName={itemName}
             description={description}
+            channels={filteredChannels}
+            itemId={itemId}
           >
             {filteredChannels.map(channelId => (
               <NotificationChannel channelId={channelId} key={channelId} />
@@ -73,6 +75,7 @@ const NotificationItem = ({ channelIds, itemName, description }) => {
 NotificationItem.propTypes = {
   channelIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   description: PropTypes.string,
+  itemId: PropTypes.string.isRequired,
   itemName: PropTypes.string,
 };
 

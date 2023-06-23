@@ -71,10 +71,7 @@ export const NotificationCheckbox = ({
         classes="rb-input-message-success"
         alert
       >
-        <i
-          className="fas fa-check-circle vads-u-margin-right--1"
-          aria-hidden="true"
-        />{' '}
+        <i className="fas fa-check vads-u-margin-right--1" aria-hidden="true" />{' '}
         <span className="sr-only">Success</span> {successMessage}
       </NotificationStatusMessage>
     );

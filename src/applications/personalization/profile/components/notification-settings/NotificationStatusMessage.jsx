@@ -3,20 +3,25 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 export const NotificationStatusMessage = ({ children, classes, id, alert }) => {
+  const computedClasses = classNames(
+    'vads-u-font-family--sans',
+    'vads-u-font-size--base',
+    'vads-u-font-weight--normal',
+    'vads-u-margin-top--1',
+    'vads-u-display--block',
+    'vads-u-padding--2',
+    'vads-u-margin-left--neg1p5',
+    classes,
+  );
   return (
-    <span
+    <div
       id={id}
-      className={classNames(
-        'vads-u-margin-top--0p5',
-        'rb-input-message',
-        'vads-u-font-weight--bold',
-        classes,
-      )}
       role={alert ? 'alert' : undefined}
       aria-live={alert ? 'polite' : undefined}
+      className="vads-u-display--flex"
     >
-      {children}
-    </span>
+      <span className={computedClasses}>{children}</span>
+    </div>
   );
 };
 
