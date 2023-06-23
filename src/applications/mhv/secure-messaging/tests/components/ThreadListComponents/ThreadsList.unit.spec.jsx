@@ -5,6 +5,7 @@ import ThreadsList from '../../../components/ThreadList/ThreadsList';
 import inbox from '../../fixtures/folder-inbox-response.json';
 import listOfThreads from '../../fixtures/thread-list-response.json';
 import reducers from '../../../reducers';
+import { Paths, threadSortingOptions } from '../../../util/constants';
 
 describe('Thread List component', () => {
   const initialState = {
@@ -16,14 +17,10 @@ describe('Thread List component', () => {
     },
   };
 
-  const setPageNum = () => 1;
-  const setSortOrder = () => 'ASC';
-  const setSortBy = () => 'SENDER_NAME';
   const handleThreadApiCall = () => {
     return listOfThreads;
   };
   const threadsPerPage = 10;
-  const folderId = 0;
   const pageNum = 1;
   let screen;
 
@@ -32,16 +29,13 @@ describe('Thread List component', () => {
       <ThreadsList
         threadList={threads}
         folder={inbox}
-        folderId={folderId}
-        setPageNum={setPageNum}
         pageNum={pageNum}
-        setSortOrder={setSortOrder}
-        setSortBy={setSortBy}
-        handleThreadApiCall={handleThreadApiCall}
+        sortOrder={threadSortingOptions.SENT_DATE_DESCENDING.value}
+        paginationCallback={handleThreadApiCall}
         threadsPerPage={threadsPerPage}
       />,
       {
-        path: `/inbox`,
+        path: Paths.INBOX,
         state: initialState,
         reducers,
       },
