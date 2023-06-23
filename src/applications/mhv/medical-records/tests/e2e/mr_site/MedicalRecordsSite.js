@@ -1,4 +1,4 @@
-import mockUser from '../../fixtures/user.json';
+import mockUser from '../fixtures/user.json';
 
 class MedicalRecordsSite {
   login = (isMRUser = true) => {
