@@ -34,16 +34,9 @@ export const uiSchema = {
       'ui:widget': 'radio',
       'ui:options': {
         updateSchema: formData => {
-          let title;
-          if (isVeteran(formData)) {
-            /* eslint-disable no-param-reassign */
-            title =
-              'Is there anyone currently buried in a VA national cemetery under your eligibility?';
-          } else {
-            title =
-              'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
-            /* eslint-enable no-param-reassign */
-          }
+          const title = isVeteran(formData)
+            ? 'Is there anyone currently buried in a VA national cemetery under your eligibility?'
+            : 'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
           return { title };
         },
         labels: {
