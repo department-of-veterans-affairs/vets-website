@@ -48,7 +48,6 @@ import { restartShouldRedirect } from './wizard';
 import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
 
 const userNavScss = require('./user-nav/sass/user-nav.scss');
-const mCrisisLine = require('./sass/modules/_m-crisis-line.scss');
 const mDowntimeNotification = require('./sass/modules/_m-downtime-notification.scss');
 const vaMedalliaStyle = require('./sass/va-medallia-style.scss');
 const style = require('./sass/style.scss');
@@ -99,5 +98,4 @@ export {
   style,
   userNavScss,
   mDowntimeNotification,
-  mCrisisLine,
 };
