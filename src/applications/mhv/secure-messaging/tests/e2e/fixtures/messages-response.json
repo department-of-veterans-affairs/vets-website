@@ -47,7 +47,7 @@
         "recipientId": 406227,
         "proxySenderName": null,
         "hasAttachment": false,
-        "unsentDrafts": true,
+        "unsentDrafts": false,
         "unreadMessages": false
       },
       "links": {
@@ -101,7 +101,7 @@
         "recipientId": 406227,
         "proxySenderName": null,
         "hasAttachment": false,
-        "unsentDrafts": true,
+        "unsentDrafts": false,
         "unreadMessages": false
       },
       "links": {
