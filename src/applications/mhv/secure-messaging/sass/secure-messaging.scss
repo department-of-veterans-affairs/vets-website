@@ -236,7 +236,32 @@ va-alert button {
       border-bottom: 1px solid $color-gray-medium;
     }
   }
+  .remove-attachment-icon {
+    width: 1rem;
+    height: 1rem;
+    position: relative;
+    cursor: pointer;
+    font-weight: 400;
+  }
+  .remove-attachment-icon:before,
+  .remove-attachment-icon:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 3.5px;
+    background-color: $color-red-dark;
+}
+.remove-attachment-icon:before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.remove-attachment-icon:after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
   .remove-attachment-button {
+    color: $color-red-dark;
+    background-color: $color-white;
     padding: 0;
     margin: 0;
     width: fit-content;
@@ -251,6 +276,7 @@ va-alert button {
       left: 3px;
     }
   }
+  // Below is currently not in use... may use later
   .remove-attachment-button::part(button) {
     box-shadow: none !important;
     color: $color-secondary-dark;
@@ -269,6 +295,7 @@ va-alert button {
     margin-right: 6px;
     content: "\f00d";
   }
+  ////
 }
 
 pre {
