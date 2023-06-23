@@ -241,6 +241,7 @@ const travelAllowList = {
   '693B4': {},
   '693GA': {},
   '693GB': {},
+  '693': {},
 };
 
 const isInAllowList = appointment => {
