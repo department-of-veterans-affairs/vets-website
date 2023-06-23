@@ -33,3 +33,10 @@ div:has(.schemaform-sip-alert) {
   font-size: 1.6rem !important;
   font-weight: 400 !important;
 }
+
+.form-review-panel[data-chapter="disclosureInfoChapter"]
+  .review
+  .va-growable
+  button {
+  display: none;
+}
