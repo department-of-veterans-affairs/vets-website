@@ -186,6 +186,7 @@ export const Prompts = {
       "Drafts are permanently deleted and this action can't be undone. \n\n Deleting a draft won't affect other messages in this conversation.",
   },
 };
+
 export const Breadcrumbs = {
   MESSAGES: { path: '/', label: 'Back to messages' },
   COMPOSE: {
