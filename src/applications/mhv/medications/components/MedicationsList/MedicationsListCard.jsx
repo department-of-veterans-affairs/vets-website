@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { dateFormat } from '../../util/helpers';
 
 const MedicationsListCard = props => {
@@ -50,12 +51,17 @@ const MedicationsListCard = props => {
         {rx.dispensedDate && (
           <>Dispensed on {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}</>
         )}
-        <div>
-          <va-link
-            active
-            href={`prescriptions/${rx.prescriptionId}`}
-            text="Medication history and details"
-          />
+        <div className="link-to-details vads-u-font-weight--bold">
+          <Link
+            className="vads-u-margin-y--0p5"
+            to={`/prescriptions/${rx.prescriptionId}`}
+          >
+            Medication history and details
+            <span className="righ-angle">
+              {' '}
+              <i aria-hidden="true" className="fas fa-angle-right" />
+            </span>
+          </Link>
         </div>
         {history === true && extraDetails()}
         {!isExpired && fillRefillButton()}
