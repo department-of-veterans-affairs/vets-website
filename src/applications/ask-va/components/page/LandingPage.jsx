@@ -30,8 +30,6 @@ export default function LandingPage() {
       </div>
 
       <h2>We’re Currently in Devlopment Mode</h2>
-
-      <p>Some amazing text goes here.</p>
     </div>
   );
 }
