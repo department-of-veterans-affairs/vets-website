@@ -78,6 +78,14 @@ export const runAdvancedSearch = (folder, query, keyword) => async dispatch => {
   }
 };
 
-export const clearSearchResults = () => {
-  return { type: Actions.Search.CLEAR };
+export const setSearchSort = sort => async dispatch => {
+  dispatch({ type: Actions.Search.SET_SORT, payload: sort });
+};
+
+export const setSearchPage = page => async dispatch => {
+  dispatch({ type: Actions.Search.SET_PAGE, payload: page });
+};
+
+export const clearSearchResults = () => async dispatch => {
+  dispatch({ type: Actions.Search.CLEAR });
 };
