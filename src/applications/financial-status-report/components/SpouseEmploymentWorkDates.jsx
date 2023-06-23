@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import PropTypes from 'prop-types';
 import { getJobIndex } from '../utils/session';
 import { BASE_EMPLOYMENT_RECORD } from '../constants/index';
+import { isValidPastDate } from '../utils/helpers';
 
 const SpouseEmploymentWorkDates = props => {
-  const { goToPath, onReviewPage, setFormData, data } = props;
+  const { goToPath, setFormData, data } = props;
 
   const RETURN_PATH = '/enhanced-spouse-employment-records';
 
@@ -38,74 +39,75 @@ const SpouseEmploymentWorkDates = props => {
   const { month: fromMonth, year: fromYear } = parseISODate(from);
   const { month: toMonth, year: toYear } = parseISODate(to);
 
+  const fromError = "Please enter your spouse's employment start date.";
+  const toError = "Please enter your spouse's employment end date.";
+
   const [toDateError, setToDateError] = useState();
   const [fromDateError, setFromDateError] = useState();
 
-  const startError = "Please enter your spouse's employment start date.";
-
   const updateFormData = e => {
     e.preventDefault();
-    if (from) {
-      if (isEditing) {
-        // find the one we are editing in the employeeRecords array
-        const updatedRecords = spEmploymentRecords.map((item, arrayIndex) => {
-          return arrayIndex === index ? employmentRecord : item;
-        });
-        // update form data
-        setFormData({
-          ...data,
-          personalData: {
-            ...data.personalData,
-            employmentHistory: {
-              ...data.personalData.employmentHistory,
-              [`${userType}`]: {
-                ...data.personalData.employmentHistory[`${userType}`],
-                spEmploymentRecords: updatedRecords,
-              },
-            },
-          },
-        });
-        if (employmentRecord.isCurrent) {
-          return goToPath(`/spouse-gross-monthly-income`);
-        }
-        return goToPath(`/spouse-employment-history`);
-      }
+    if (fromDateError || (toDateError && !employmentRecord.isCurrent))
+      return null;
 
-      // we are not editing a record, so we are adding a new one
-      if (employmentRecord.isCurrent) {
-        setFormData({
-          ...data,
-          personalData: {
-            ...data.personalData,
-            employmentHistory: {
-              ...data.personalData.employmentHistory,
-              newRecord: { ...employmentRecord },
-            },
-          },
-        });
-        return goToPath(`/spouse-gross-monthly-income`);
-      }
-
+    if (isEditing) {
+      // find the one we are editing in the employeeRecords array
+      const updatedRecords = spEmploymentRecords.map((item, arrayIndex) => {
+        return arrayIndex === index ? employmentRecord : item;
+      });
+      // update form data
       setFormData({
         ...data,
         personalData: {
           ...data.personalData,
           employmentHistory: {
             ...data.personalData.employmentHistory,
-            newRecord: { ...BASE_EMPLOYMENT_RECORD },
             [`${userType}`]: {
               ...data.personalData.employmentHistory[`${userType}`],
-              spEmploymentRecords: [
-                { ...employmentRecord },
-                ...spEmploymentRecords,
-              ],
+              spEmploymentRecords: updatedRecords,
             },
           },
         },
       });
+      if (employmentRecord.isCurrent) {
+        return goToPath(`/spouse-gross-monthly-income`);
+      }
       return goToPath(`/spouse-employment-history`);
     }
-    return setFromDateError(startError);
+
+    // we are not editing a record, so we are adding a new one
+    if (employmentRecord.isCurrent) {
+      setFormData({
+        ...data,
+        personalData: {
+          ...data.personalData,
+          employmentHistory: {
+            ...data.personalData.employmentHistory,
+            newRecord: { ...employmentRecord },
+          },
+        },
+      });
+      return goToPath(`/spouse-gross-monthly-income`);
+    }
+
+    setFormData({
+      ...data,
+      personalData: {
+        ...data.personalData,
+        employmentHistory: {
+          ...data.personalData.employmentHistory,
+          newRecord: { ...BASE_EMPLOYMENT_RECORD },
+          [`${userType}`]: {
+            ...data.personalData.employmentHistory[`${userType}`],
+            spEmploymentRecords: [
+              { ...employmentRecord },
+              ...spEmploymentRecords,
+            ],
+          },
+        },
+      },
+    });
+    return goToPath(`/spouse-employment-history`);
   };
 
   const handleChange = (key, value) => {
@@ -116,13 +118,6 @@ const SpouseEmploymentWorkDates = props => {
   };
 
   const handlers = {
-    onChange: event => {
-      const { target = {} } = event;
-      const fieldName = target.name;
-      // detail.value from va-select & target.value from va-text-input
-      const value = event.detail?.value || target.value;
-      handleChange(fieldName, value);
-    },
     onCancel: event => {
       event.preventDefault();
       goToPath(RETURN_PATH);
@@ -135,89 +130,45 @@ const SpouseEmploymentWorkDates = props => {
       event.preventDefault();
       goToPath(RETURN_PATH);
     },
-  };
+    onSubmitted: event => {
+      event.preventDefault();
+      updateFormData();
+    },
+    onUpdate: () => {
+      setFromDateError(
+        isValidPastDate(employmentRecord.from) ? null : fromError,
+      );
 
-  const validateYear = (monthYear, errorSetter, requiredMessage) => {
-    const [year] = monthYear.split('-');
-    const todayYear = new Date().getFullYear();
-    const isComplete = /\d{4}-\d{1,2}/.test(monthYear);
-    if (!isComplete) {
-      // This allows a custom required error message to be used
-      errorSetter(requiredMessage);
-    } else if (
-      !!year &&
-      (parseInt(year, 10) > todayYear || parseInt(year, 10) < 1900)
-    ) {
-      errorSetter(`Please enter a year between 1900 and ${todayYear}`);
-    } else {
-      errorSetter(null);
-    }
+      setToDateError(isValidPastDate(employmentRecord.to) ? null : toError);
+    },
   };
 
   const ShowWorkDates = () => {
-    return employmentRecord.isCurrent ? (
-      <div>
-        <div className="vads-u-margin-top--3">
-          <VaDate
-            monthYearOnly
-            value={`${fromYear}-${fromMonth}`}
-            label="Date your spouse started work at this job?"
-            name="from"
-            onDateChange={e =>
-              handlers.handleDateChange('from', e.target.value)
-            }
-            onDateBlur={e =>
-              validateYear(e.target.value || '', setFromDateError, startError)
-            }
-            required
-            error={fromDateError}
-          />
-        </div>
-      </div>
-    ) : (
-      <div>
-        <div className="vads-u-margin-top--3">
-          <VaDate
-            monthYearOnly
-            value={`${fromYear}-${fromMonth}`}
-            label="Date your spouse started work at this job?"
-            name="from"
-            onDateChange={e =>
-              handlers.handleDateChange('from', e.target.value)
-            }
-            onDateBlur={e =>
-              validateYear(e.target.value || '', setFromDateError, startError)
-            }
-            required
-            error={fromDateError}
-          />
-        </div>
-        <div>
+    return (
+      <div className="vads-u-margin-top--3">
+        <VaDate
+          monthYearOnly
+          value={`${fromYear}-${fromMonth}`}
+          label="Date your spouse started work at this job?"
+          name="from"
+          onDateChange={e => handlers.handleDateChange('from', e.target.value)}
+          required
+          error={fromDateError}
+        />
+        {!employmentRecord.isCurrent ? (
           <VaDate
             monthYearOnly
             value={`${toYear}-${toMonth}`}
             label="Date your spouse stopped work at this job?"
             name="to"
             onDateChange={e => handlers.handleDateChange('to', e.target.value)}
-            onDateBlur={e =>
-              validateYear(
-                e.target.value || '',
-                setToDateError,
-                "Please enter your spouse's employment end date.",
-              )
-            }
-            required={employmentRecord.doesNotCurrentlyWorkHere}
+            required
             error={toDateError}
           />
-        </div>
+        ) : null}
       </div>
     );
   };
-
-  const navButtons = (
-    <FormNavButtons goBack={handlers.handleBack} submitToContinue />
-  );
-  const updateButton = <button type="submit">Review update button</button>;
 
   return (
     <form onSubmit={updateFormData}>
@@ -227,7 +178,26 @@ const SpouseEmploymentWorkDates = props => {
         </legend>
         <div>{ShowWorkDates()}</div>
       </fieldset>
-      {onReviewPage ? updateButton : navButtons}
+      <p>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handlers.onCancel}
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          id="submit"
+          className="vads-u-width--auto"
+          onClick={handlers.onUpdate}
+        >
+          {`${
+            spEmploymentRecords.length === index ? 'Update' : 'Add'
+          } employment record`}
+        </button>
+      </p>
     </form>
   );
 };
@@ -247,3 +217,10 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(SpouseEmploymentWorkDates);
+
+SpouseEmploymentWorkDates.propTypes = {
+  employmentHistory: PropTypes.object.isRequired,
+  formData: PropTypes.object.isRequired,
+  goToPath: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+};
