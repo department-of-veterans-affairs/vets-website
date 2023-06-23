@@ -1,4 +1,8 @@
 #!/bin/sh
+#echo "Wipe out previous builds"
+#cd /app/website/container
+
+
 echo "Creating 'website' directory to hold front end sibling directories"
 mkdir -p website/slow
 cd website/slow
@@ -29,6 +33,9 @@ else
     git clone -b ${SOURCE_REF} --single-branch https://github.com/department-of-veterans-affairs/vets-website.git ;
 fi
 
+echo "Listing contents website staging folder"
+ls -l
+
 echo "set yarn to allow self-signed cert for install"
 yarn config set "strict-ssl" false
 
@@ -36,7 +43,6 @@ yarn config set "strict-ssl" false
 echo "Install, build, and watch vets-website"
 cd vets-website
 yarn install
-yarn build #adding this line to see if it is going to fix container issue
 yarn watch --env api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs.va.gov" &
 
 # Serve the content-build
