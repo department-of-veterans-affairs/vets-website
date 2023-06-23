@@ -1,20 +1,21 @@
-import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
+import { preparerSigningReasonOptions } from '../definitions/constants';
+import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
+import { preparerSigningReasonQuestionTitle } from '../config/helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    // TODO: use groupcheckbox once shared one is available
     preparerSigningReason: {
-      'ui:title': 'stuff',
-      'ui:webComponentField': VaRadioField,
-      'ui:widget': 'radio',
+      'ui:widget': GroupCheckboxWidget,
       'ui:options': {
-        labels: {
-          under18: 'They’re under 18 years old.',
-          mentallyIncapable:
-            'They don’t have the mental capacity to provide all the information needed for the form or to certify that the statements on the form are true and complete.',
-          physicallyIncapable: 'They can’t physically sign the forms.',
+        updateSchema: formData => {
+          return {
+            title: preparerSigningReasonQuestionTitle(formData),
+          };
         },
+        forceDivWrapper: true,
+        labels: Object.values(preparerSigningReasonOptions),
+        showFieldLabel: true,
       },
     },
   },
@@ -23,7 +24,6 @@ export default {
     properties: {
       preparerSigningReason: {
         type: 'string',
-        enum: ['under18', 'mentallyIncapable', 'physicallyIncapable'],
       },
     },
     required: ['preparerSigningReason'],

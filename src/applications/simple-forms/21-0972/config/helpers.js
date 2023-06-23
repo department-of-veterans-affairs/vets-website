@@ -2,7 +2,8 @@ import { claimantIdentificationOptions } from '../definitions/constants';
 
 const getClaimantIdentificationText = formData => {
   return (
-    claimantIdentificationOptions[formData.claimantIdentification] || 'Claimant'
+    claimantIdentificationOptions[(formData?.claimantIdentification)] ||
+    'Claimant'
   );
 };
 
@@ -26,8 +27,14 @@ export const claimantContactInformationTitle = ({ formData } = {}) => {
   return `${claimantIdentificationText} contact information`;
 };
 
-export const preparerQualificationsRelationshipQuestionTitle = props => {
-  const { formData } = props;
+export const preparerQualificationsRelationshipQuestionTitle = ({
+  formData,
+} = {}) => {
   const claimantIdentificationText = getClaimantIdentificationText(formData);
   return `What is your relationship to the ${claimantIdentificationText}? (Check all that apply)`;
+};
+
+export const preparerSigningReasonQuestionTitle = ({ formData } = {}) => {
+  const claimantIdentificationText = getClaimantIdentificationText(formData);
+  return `Why does the ${claimantIdentificationText} need you to sign on their behalf? (Check all that apply)`;
 };

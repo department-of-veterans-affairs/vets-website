@@ -1,6 +1,4 @@
 import {
-  titleSchema,
-  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -8,14 +6,20 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI('', 'Has the Veteran ever filed a VA claim?'),
     // TODO: customize labels
-    veteranHasFiledClaim: yesNoUI(),
+    veteranHasFiledClaim: {
+      ...yesNoUI('Has the Veteran ever filed a VA claim?'),
+      'ui:options': {
+        labels: {
+          Y: 'Yes, the Veteran has filed a VA claim before',
+          N: 'No, the Veteran has never filed a VA claim',
+        },
+      },
+    },
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
       veteranHasFiledClaim: yesNoSchema,
     },
     required: ['veteranHasFiledClaim'],

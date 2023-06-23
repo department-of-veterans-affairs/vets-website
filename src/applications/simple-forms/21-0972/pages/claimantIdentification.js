@@ -21,6 +21,7 @@ export default {
     properties: {
       claimantIdentification: {
         type: 'string',
+        // maybe use Object.keys, Object.values instead?
         enum: claimantIdentificationKeys,
       },
     },

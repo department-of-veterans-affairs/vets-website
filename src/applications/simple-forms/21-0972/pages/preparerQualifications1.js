@@ -1,20 +1,21 @@
-import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
+import { preparerQualificationsRelationshipQuestionTitle } from '../config/helpers';
+import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
+import { preparerQualificationsOptions } from '../definitions/constants';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    // TODO: use groupcheckbox once shared one is available
     preparerQualifications: {
-      'ui:title': 'stuff',
-      'ui:webComponentField': VaRadioField,
-      'ui:widget': 'radio',
+      'ui:widget': GroupCheckboxWidget,
       'ui:options': {
-        labels: {
-          courtAppointedRep: 'Court-appointed representative',
-          attorney: 'Attorney in fact or agent',
-          caregiver: 'Caregiver',
-          manager: 'Manager or Principal Officer',
+        updateSchema: formData => {
+          return {
+            title: preparerQualificationsRelationshipQuestionTitle(formData),
+          };
         },
+        forceDivWrapper: true,
+        labels: Object.values(preparerQualificationsOptions),
+        showFieldLabel: true,
       },
     },
   },
@@ -23,7 +24,6 @@ export default {
     properties: {
       preparerQualifications: {
         type: 'string',
-        enum: ['courtAppointedRep', 'attorney', 'caregiver', 'manager'],
       },
     },
     required: ['preparerQualifications'],
