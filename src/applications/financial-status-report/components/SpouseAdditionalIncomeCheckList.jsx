@@ -43,9 +43,13 @@ const SpouseAdditionalIncomeCheckList = () => {
   const isBoxChecked = option => {
     return spAddlIncome.some(incomeValue => incomeValue.name === option);
   };
+  const title = 'Your spouse’s other income';
+  const prompt = 'Select any additional income your spouse receives:';
 
   return (
     <Checklist
+      title={title}
+      prompt={prompt}
       options={otherIncome}
       onChange={event => onChange(event)}
       isBoxChecked={isBoxChecked}

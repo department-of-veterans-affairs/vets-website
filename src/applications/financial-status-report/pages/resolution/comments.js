@@ -1,7 +1,13 @@
 import React from 'react';
 
 export const uiSchema = {
-  'ui:title': 'Supporting personal statement',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Supporting personal statement</h3>
+      </legend>
+    </>
+  ),
   additionalData: {
     'ui:options': {
       customTitle: ' ',

@@ -3,7 +3,13 @@ import date from 'platform/forms-system/src/js/definitions/date';
 import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation';
 
 export const uiSchema = {
-  'ui:title': 'Your bankruptcy details',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Your bankruptcy details</h3>
+      </legend>
+    </>
+  ),
   additionalData: {
     bankruptcy: {
       dateDischarged: {

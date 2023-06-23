@@ -3,7 +3,10 @@ import { cloneDeep, set } from 'lodash';
 import { expect } from 'chai';
 import NotificationGroup from '~/applications/personalization/profile/components/notification-settings/NotificationGroup';
 
-import { renderWithProfileReducersAndRouter } from '~/applications/personalization/profile/tests/unit-test-helpers';
+import {
+  createBasicInitialState,
+  renderWithProfileReducersAndRouter,
+} from '~/applications/personalization/profile/tests/unit-test-helpers';
 import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 
 const mockCommunicationPreferencesState = {
@@ -246,6 +249,7 @@ const mockCommunicationPreferencesState = {
 };
 
 const baseState = {
+  ...createBasicInitialState(),
   featureToggles: {
     [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: true,
     [TOGGLE_NAMES.profileShowMhvNotificationSettings]: true,
@@ -325,5 +329,30 @@ describe('NotificationGroup component', () => {
     expect(
       await view.queryByText('Disability and pension deposit notifications'),
     ).to.not.exist;
+  });
+
+  it('should render checkbox for when profileUseNotificationSettingsCheckboxes is true', async () => {
+    const initialState = cloneDeep(baseState);
+
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileUseNotificationSettingsCheckboxes
+      }]`,
+      true,
+    );
+
+    const view = renderWithProfileReducersAndRouter(
+      <NotificationGroup groupId="group4" />,
+      {
+        initialState,
+      },
+    );
+
+    expect(
+      await view.queryByText('Disability and pension deposit notifications'),
+    ).to.exist;
+
+    expect(await view.queryByTestId('checkbox-channel5-1')).to.exist;
   });
 });

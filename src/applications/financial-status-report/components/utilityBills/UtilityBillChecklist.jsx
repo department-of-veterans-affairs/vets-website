@@ -32,9 +32,13 @@ const UtilityBillChecklist = () => {
   const isBoxChecked = option => {
     return utilityRecords.some(utility => utility.name === option);
   };
+  const title = 'Your monthly utility bills';
+  const prompt = 'Which of the following utilities do you pay for?';
 
   return (
     <Checklist
+      title={title}
+      prompt={prompt}
       options={utilityBillOptions}
       onChange={onChange}
       isBoxChecked={isBoxChecked}
