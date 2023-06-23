@@ -52,9 +52,9 @@ const AttachmentsList = props => {
   };
   return (
     <div>
-      {!!attachments.length &&
-        attachments.map(file => (
-          <ul key={file} className="attachments-list">
+      <ul className="attachments-list">
+        {!!attachments.length &&
+          attachments.map(file => (
             <li key={file.name + file.size}>
               {editingEnabled && (
                 <div className="editable-attachment vads-u-display--flex vads-u-flex-direction--row">
@@ -124,8 +124,9 @@ const AttachmentsList = props => {
                 </>
               )}
             </li>
-          </ul>
-        ))}
+          ))}
+      </ul>
+
       {isAttachmentRemoved && (
         <div
           ref={attachmentReference}
