@@ -211,7 +211,7 @@ class PatientMessageDraftsPage {
   };
 
   openAdvancedSearch = () => {
-    cy.get('#first').click();
+    cy.get('#additional-filter-accordion').click();
   };
 
   selectAdvancedSearchCategory = () => {
