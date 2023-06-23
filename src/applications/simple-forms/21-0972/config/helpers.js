@@ -25,3 +25,9 @@ export const claimantContactInformationTitle = ({ formData } = {}) => {
   const claimantIdentificationText = getClaimantIdentificationText(formData);
   return `${claimantIdentificationText} contact information`;
 };
+
+export const preparerQualificationsRelationshipQuestionTitle = props => {
+  const { formData } = props;
+  const claimantIdentificationText = getClaimantIdentificationText(formData);
+  return `What is your relationship to the ${claimantIdentificationText}? (Check all that apply)`;
+};

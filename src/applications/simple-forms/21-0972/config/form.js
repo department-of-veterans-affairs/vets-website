@@ -22,7 +22,12 @@ import claimantPersonalInformation from '../pages/claimantPersonalInformation';
 import claimantSsn from '../pages/claimantSsn';
 import claimantAddress from '../pages/claimantAddress';
 import claimantContactInformation from '../pages/claimantContactInformation';
-import preparerQualifications from '../pages/preparerQualifications';
+import preparerQualifications1 from '../pages/preparerQualifications1';
+import preparerQualifications2 from '../pages/preparerQualifications2';
+import veteranPersonalInformation from '../pages/veteranPersonalInformation';
+import veteranIdentificationInformation1 from '../pages/veteranIdentificationInformation1';
+import veteranIdentificationInformation2 from '../pages/veteranIdentificationInformation2';
+import additionalInformation from '../pages/additionalInformation';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/minimal-test.json';
@@ -207,11 +212,56 @@ const formConfig = {
     preparerQualificationsChapter: {
       title: 'Qualifications',
       pages: {
-        preparerQualifications: {
-          path: 'preparer-qualifications',
+        preparerQualifications1: {
+          path: 'preparer-qualifications-1',
           title: 'Qualifications',
-          uiSchema: preparerQualifications.uiSchema,
-          schema: preparerQualifications.schema,
+          uiSchema: preparerQualifications1.uiSchema,
+          schema: preparerQualifications1.schema,
+        },
+        preparerQualifications2: {
+          path: 'preparer-qualifications-2',
+          title: 'Qualifications',
+          uiSchema: preparerQualifications2.uiSchema,
+          schema: preparerQualifications2.schema,
+        },
+      },
+    },
+    veteranPersonalInformationChapter: {
+      title: 'Veteran’s personal information',
+      pages: {
+        veteranPersonalInformation: {
+          path: 'veteran-personal-information',
+          title: 'Veteran’s personal information',
+          uiSchema: veteranPersonalInformation.uiSchema,
+          schema: veteranPersonalInformation.schema,
+        },
+      },
+    },
+    veteranIdentificationInformationChapter: {
+      title: 'Veteran’s identification information',
+      pages: {
+        veteranIdentificationInformation1: {
+          path: 'veteran-identification-information-1',
+          title: 'Veteran’s identification information',
+          uiSchema: veteranIdentificationInformation1.uiSchema,
+          schema: veteranIdentificationInformation1.schema,
+        },
+        veteranIdentificationInformation2: {
+          path: 'veteran-identification-information-2',
+          title: 'Veteran’s identification information',
+          uiSchema: veteranIdentificationInformation2.uiSchema,
+          schema: veteranIdentificationInformation2.schema,
+        },
+      },
+    },
+    additionalInformationChapter: {
+      title: 'Additional information',
+      pages: {
+        additionalInformation: {
+          path: 'additional-information',
+          title: 'Additional information',
+          uiSchema: additionalInformation.uiSchema,
+          schema: additionalInformation.schema,
         },
       },
     },
