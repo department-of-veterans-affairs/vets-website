@@ -42,8 +42,11 @@ yarn config set "strict-ssl" false
 # Build and watch vets-website
 echo "Install, build, and watch vets-website"
 cd vets-website
+echo "Installing"
 yarn install
+echo "Building"
 yarn build:webpack --env buildtype=localhost
+echo "Watch"
 yarn watch --env api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs.va.gov" &
 
 # Serve the content-build
