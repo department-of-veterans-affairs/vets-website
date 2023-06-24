@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
+import { defaultFocusSelector, focusElement } from 'platform/utilities/ui';
 import manifest from '../manifest.json';
 
 import getHelp from '../../shared/components/GetFormHelp';
@@ -36,6 +37,26 @@ import transformForSubmit from './submit-transformer';
 import testData from '../tests/e2e/fixtures/data/noStmtInfo.json';
 
 const mockData = testData.data;
+
+const pageFocus = () => {
+  return () => {
+    const { pathname } = document.location;
+    let focusSelector = '';
+
+    if (pathname.includes('claim-ownership')) {
+      focusSelector = '#main h1[data-testid="form-title"]';
+    } else if (pathname.includes('claimant-type')) {
+      focusSelector = '#main .schemaform-first-field legend';
+    } else if (!pathname.includes('review-and-submit')) {
+      // since form-level useCustomScrollAndFocus is true,
+      // this fn fires on every page change, so we need to
+      // provide default focusSelector for all other pages
+      focusSelector = defaultFocusSelector;
+    }
+
+    focusElement(focusSelector);
+  };
+};
 
 const witnessHasOtherRelationship = formData => {
   const { claimOwnership, witnessRelationshipToClaimant } = formData;
@@ -109,6 +130,7 @@ const formConfig = {
   },
   title: 'Submit a lay witness statement to support a VA claim',
   subTitle: 'Lay/Witness Statement (VA Form 21-10210)',
+  useCustomScrollAndFocus: true,
   defaultDefinitions: {
     privacyAgreementAccepted: {
       type: 'boolean',
@@ -125,6 +147,11 @@ const formConfig = {
         claimOwnershipPage: {
           path: 'claim-ownership',
           title: 'Who is submitting this statement?',
+          // needs form-level useCustomScrollAndFocus: true to work.
+          // chapter's hideFormNavProgress interferes with scrollAndFocusTarget
+          // so using a function here to ensure correct focusSelector is used
+          // regardless of which page FormNav thinks current page is.
+          scrollAndFocusTarget: pageFocus(),
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
@@ -135,6 +162,8 @@ const formConfig = {
         claimantTypePage: {
           path: 'claimant-type',
           title: 'Who is submitting this statement?',
+          // see comment for scrollAndFocusTarget in claimOwnershipPage above
+          scrollAndFocusTarget: pageFocus(),
           uiSchema: claimantType.uiSchema,
           schema: claimantType.schema,
         },
