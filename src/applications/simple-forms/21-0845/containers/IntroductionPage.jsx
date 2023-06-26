@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
@@ -17,72 +16,63 @@ class IntroductionPage extends React.Component {
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="Authorize VA to Disclose Personal Information to a Third Party"
-          subtitle="Equal to VA Form 21-0845 (21-0845 Authorization to Disclose Personal Information to a Third Party)"
+          title="Authorize VA to release your information to a third-party source"
+          subtitle="Authorization To Disclose Personal Information To a Third Party (VA Form 21-0845)"
         />
+        <h2>Here’s how to apply online</h2>
+        <p>
+          Complete this form. After you submit the form, you’ll get a
+          confirmation message. You can print this page for your records.
+        </p>
+        <p>
+          A Veteran may submit an Authorization to Disclose Personal Information
+          to a third party on their own. Alternatively, a claimant or witness
+          may submit on behalf of a Veteran.
+        </p>
+        <h2>Who is eligible to use this form?</h2>
+        <ul>
+          <li>A Veteran or claimant submitting on their own behalf</li>
+          <li>
+            A non-Veteran beneficiary or claimant submitting on behalf of a
+            Veteran
+          </li>
+        </ul>
+        <h2>How do I prepare before starting this form?</h2>
+        <p>
+          Gather the required information listed below that you’ll need to
+          submit this form:
+        </p>
+        <ul>
+          <li>Veteran’s Full Name</li>
+          <li>Veteran’s Social Security number</li>
+          <li>Veteran's Date of Birth</li>
+        </ul>
+        <h2>What if I change my mind?</h2>
+        <p>
+          If you change your mind and do not want VA to give out your personal
+          benefit or claim information, you may notify us in writing, or by
+          telephone at <va-telephone contact="8008271000" /> or online through{' '}
+          <a href="https://ask.va.gov/">Ask VA</a>. Upon notification from you
+          VA will no longer give out benefit or claim information (except for
+          the information VA has already given out based on your permission).
+        </p>
         <SaveInProgressIntro
           headingLevel={2}
+          alertTitle="Save time and save your work in progress by signing in"
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the Application"
+          displayNonVeteranMessaging
         >
           Please complete the 21-0845 form to apply for disclosure
           authorization.
         </SaveInProgressIntro>
-        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow the steps below to apply for disclosure authorization.
-        </h2>
-        <va-process-list>
-          <li>
-            <h3>Prepare</h3>
-            <h4>To fill out this application, you’ll need your:</h4>
-            <ul>
-              <li>Social Security number (required)</li>
-            </ul>
-            <p>
-              <strong>What if I need help filling out my application?</strong>{' '}
-              An accredited representative, like a Veterans Service Officer
-              (VSO), can help you fill out your claim.{' '}
-              <a href="/disability-benefits/apply/help/index.html">
-                Get help filing your claim
-              </a>
-            </p>
-          </li>
-          <li>
-            <h3>Apply</h3>
-            <p>Complete this disclosure authorization form.</p>
-            <p>
-              After submitting the form, you’ll get a confirmation message. You
-              can print this for your records.
-            </p>
-          </li>
-          <li>
-            <h3>VA Review</h3>
-            <p>
-              We process claims within a week. If more than a week has passed
-              since you submitted your application and you haven’t heard back,
-              please don’t apply again. Call us at.
-            </p>
-          </li>
-          <li>
-            <h3>Decision</h3>
-            <p>
-              Once we’ve processed your claim, you’ll get a notice in the mail
-              with our decision.
-            </p>
-          </li>
-        </va-process-list>
-        <SaveInProgressIntro
-          buttonOnly
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
+        <va-omb-info
+          res-burden={5}
+          omb-number="2900-0736"
+          exp-date="02/28/2026"
         />
-        <p />
-        <OMBInfo resBurden={5} ombNumber="2900-0736" expDate="02/28/2026" />
       </article>
     );
   }
