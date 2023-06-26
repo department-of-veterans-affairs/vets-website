@@ -109,14 +109,6 @@ export function updateRequest(req) {
   }).then(parseApiObject);
 }
 
-export function submitRequest(type, request) {
-  return apiRequestWithUrl(`/vaos/v0/appointment_requests?type=${type}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(request),
-  }).then(parseApiObject);
-}
-
 export function submitAppointment(appointment) {
   return apiRequestWithUrl('/vaos/v0/appointments', {
     method: 'POST',
