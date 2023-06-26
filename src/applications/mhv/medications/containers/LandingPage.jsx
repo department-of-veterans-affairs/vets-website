@@ -1,4 +1,3 @@
-import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPrescriptionsList } from '../actions/prescriptions';
@@ -17,12 +16,6 @@ const LandingPage = () => {
     },
     [dispatch],
   );
-
-  const listPaginationInfo = () => {
-    return (
-      <div className="rx-page-total-info">Showing 1 - 20 of 51 medications</div>
-    );
-  };
 
   const content = () => {
     if (prescriptions) {
@@ -80,17 +73,8 @@ const LandingPage = () => {
               </ul>
             </va-additional-info>
             <MedicationsListSort />
-            {listPaginationInfo()}
             <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
             <MedicationsList rxList={prescriptions} />
-            <VaPagination
-              id="pagination"
-              className="pagination"
-              onPageSelect={function noRefCheck() {}}
-              page={1}
-              pages={3}
-              showLastPage
-            />
           </div>
           <div className="rx-landing-page-footer">
             <div className="footer-header vads-u-font-size--h2 vads-u-font-weight--bold vads-u-padding-y--1 vads-u-border-bottom--1px vads-u-border-color--gray-light">
