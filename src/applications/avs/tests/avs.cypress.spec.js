@@ -8,8 +8,8 @@ describe(manifest.appName, () => {
   });
 
   it('is accessible', () => {
-    cy.visit(manifest.rootUrl)
-      .injectAxe()
-      .axeCheck();
+    cy.visit(manifest.rootUrl);
+    cy.get('h1').contains('AVS');
+    cy.injectAxeThenAxeCheck();
   });
 });
