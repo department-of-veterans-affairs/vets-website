@@ -12,7 +12,9 @@ export default {
   uiSchema: {
     veteranSsn: ssnUI(),
     veteranVaFileNumber: vaFileNumberUI(),
-    veteranServiceNumber: serviceNumberUI(),
+    veteranServiceNumber: serviceNumberUI(
+      'Veteran’s service number (if applicable)',
+    ),
   },
   schema: {
     type: 'object',

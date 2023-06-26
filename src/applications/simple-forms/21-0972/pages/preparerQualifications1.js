@@ -1,4 +1,4 @@
-import { preparerQualificationsRelationshipQuestionTitle } from '../config/helpers';
+import { preparerQualificationsQuestionTitle } from '../config/helpers';
 import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
 import { preparerQualificationsOptions } from '../definitions/constants';
 
@@ -9,11 +9,13 @@ export default {
       'ui:widget': GroupCheckboxWidget,
       'ui:options': {
         updateSchema: formData => {
+          // TODO: figure out why this isn't populating correctly
           return {
-            title: preparerQualificationsRelationshipQuestionTitle(formData),
+            title: preparerQualificationsQuestionTitle(formData),
           };
         },
         forceDivWrapper: true,
+        // TODO: build out detailed info for each option
         labels: Object.values(preparerQualificationsOptions),
         showFieldLabel: true,
       },

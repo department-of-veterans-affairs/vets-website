@@ -1,8 +1,8 @@
-import { claimantIdentificationOptions } from '../definitions/constants';
+import { claimantIdentificationDisplayOptions } from '../definitions/constants';
 
 const getClaimantIdentificationText = formData => {
   return (
-    claimantIdentificationOptions[(formData?.claimantIdentification)] ||
+    claimantIdentificationDisplayOptions[(formData?.claimantIdentification)] ||
     'Claimant'
   );
 };
@@ -27,9 +27,7 @@ export const claimantContactInformationTitle = ({ formData } = {}) => {
   return `${claimantIdentificationText} contact information`;
 };
 
-export const preparerQualificationsRelationshipQuestionTitle = ({
-  formData,
-} = {}) => {
+export const preparerQualificationsQuestionTitle = ({ formData } = {}) => {
   const claimantIdentificationText = getClaimantIdentificationText(formData);
   return `What is your relationship to the ${claimantIdentificationText}? (Check all that apply)`;
 };
@@ -37,4 +35,9 @@ export const preparerQualificationsRelationshipQuestionTitle = ({
 export const preparerSigningReasonQuestionTitle = ({ formData } = {}) => {
   const claimantIdentificationText = getClaimantIdentificationText(formData);
   return `Why does the ${claimantIdentificationText} need you to sign on their behalf? (Check all that apply)`;
+};
+
+export const claimantExpectedInformationDescription = ({ formData } = {}) => {
+  const claimantIdentificationText = getClaimantIdentificationText(formData);
+  return `Now, we’ll ask you about the ${claimantIdentificationText} you’ll be certifing to sign for`;
 };

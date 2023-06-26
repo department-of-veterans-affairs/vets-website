@@ -1,8 +1,8 @@
 export const claimantIdentificationKeys = [
   'veteran',
   'spouse',
-  'child',
   'parent',
+  'child',
 ];
 
 export const claimantIdentificationOptions = {
@@ -10,6 +10,13 @@ export const claimantIdentificationOptions = {
   [claimantIdentificationKeys[1]]: 'Spouse of a Veteran',
   [claimantIdentificationKeys[2]]: 'Parent of a Veteran',
   [claimantIdentificationKeys[3]]: 'Child of a Veteran',
+};
+
+export const claimantIdentificationDisplayOptions = {
+  [claimantIdentificationKeys[0]]: 'Veteran',
+  [claimantIdentificationKeys[1]]: 'Veteran’s spouse',
+  [claimantIdentificationKeys[2]]: 'Veteran’s parent',
+  [claimantIdentificationKeys[3]]: 'Veteran’s child',
 };
 
 export const preparerQualificationsOptions = {
