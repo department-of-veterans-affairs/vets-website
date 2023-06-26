@@ -1,4 +1,5 @@
 import { Actions } from '../util/actionTypes';
+import { threadSortingOptions } from '../util/constants';
 
 const initialState = {
   /**
@@ -7,6 +8,11 @@ const initialState = {
    */
   threadList: undefined,
   threadListTotalCount: undefined,
+  threadSort: {
+    value: threadSortingOptions.SENT_DATE_DESCENDING.value,
+    folderId: undefined,
+    page: 1,
+  },
 };
 
 export const threadsReducer = (state = initialState, action) => {
@@ -28,6 +34,24 @@ export const threadsReducer = (state = initialState, action) => {
       return {
         ...state,
         threadList: initialState.threadList,
+      };
+    case Actions.Thread.SET_SORT_ORDER:
+      return {
+        ...state,
+        threadSort: action.payload,
+      };
+    case Actions.Thread.SET_PAGE:
+      return {
+        ...state,
+        threadSort: {
+          ...state.threadSort,
+          page: action.payload,
+        },
+      };
+    case Actions.Thread.RESET_SORT_ORDER:
+      return {
+        ...state,
+        threadSort: initialState.threadSort,
       };
     default:
       return state;

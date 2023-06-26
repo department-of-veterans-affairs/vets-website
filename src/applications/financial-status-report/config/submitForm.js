@@ -3,10 +3,18 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { DEBT_TYPES } from '../constants';
 
 // Analytics event
-export const buildEventData = ({ selectedDebtsAndCopays }) => {
+export const buildEventData = ({
+  selectedDebtsAndCopays,
+  'view:enhancedFinancialStatusReport': enhancedFlag,
+}) => {
+  const eventData = {
+    'enhanced-submission': enhancedFlag,
+  };
+
   // temp - Handling empty selectedDebtsAndCopays
   if (!selectedDebtsAndCopays.length) {
     return {
+      ...eventData,
       'submission-type': 'debt-submission',
     };
   }
@@ -21,24 +29,28 @@ export const buildEventData = ({ selectedDebtsAndCopays }) => {
 
   if (hasDebts && hasCopays) {
     return {
+      ...eventData,
       'submission-type': 'combo-submission',
     };
   }
 
   if (hasDebts && !hasCopays) {
     return {
+      ...eventData,
       'submission-type': 'debt-submission',
     };
   }
 
   if (!hasDebts && hasCopays) {
     return {
+      ...eventData,
       'submission-type': 'copay-submission',
     };
   }
 
   // This should never happen
   return {
+    ...eventData,
     'submission-type': 'err-submission',
   };
 };

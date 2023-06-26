@@ -111,7 +111,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
     <form>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          Your car or other vehicle
+          <h3 className="vads-u-margin--0">Your car or other vehicle</h3>
         </legend>
         <p>Enter your vehicle’s information below.</p>
         <div className="input-size-5">

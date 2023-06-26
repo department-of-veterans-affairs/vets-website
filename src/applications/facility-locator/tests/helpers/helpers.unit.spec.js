@@ -199,6 +199,15 @@ describe('Validate ID Strings for Breadcrumb', () => {
     expect(result).to.eq(expected);
   });
 
+  it('formatOperatingHours should return the original operating hours if there are multiple time ranges', () => {
+    const operatingHours = '8:30 a.m. - 12:00 p.m., 1:00 p.m - 4:00 p.m.';
+    const expected = operatingHours;
+
+    const result = formatOperatingHours(operatingHours);
+
+    expect(result).to.eq(expected);
+  });
+
   it('formatOperatingHours should return "Closed" if format is "-"', () => {
     const operatingHours = '-';
     const expected = 'Closed';

@@ -22,7 +22,7 @@ const formConfig = {
   dev: {
     showNavLinks: true,
   },
-  submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'mock-simple-forms-patterns-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -112,7 +112,7 @@ const formConfig = {
     date: {
       title: 'Date',
       pages: {
-        checkbox: {
+        date: {
           path: 'date',
           title: 'Date',
           uiSchema: date.uiSchema,

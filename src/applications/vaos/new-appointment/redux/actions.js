@@ -597,11 +597,9 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
         const fetchedSlots = await getSlots({
           siteId,
-          typeOfCareId: data?.typeOfCareId,
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
-          useV2: featureVAOSServiceVAAppointments,
         });
         const tomorrow = moment()
           .add(1, 'day')
@@ -880,10 +878,7 @@ export function submitAppointmentOrRequest(history) {
           requestBody = transformFormToVAOSCCRequest(getState());
           requestData = await createAppointment({ appointment: requestBody });
         } else if (featureVAOSServiceRequests) {
-          requestBody = transformFormToVAOSVARequest(
-            getState(),
-            featureAcheronVAOSServiceRequests,
-          );
+          requestBody = transformFormToVAOSVARequest(getState());
           requestData = await createAppointment({
             appointment: requestBody,
             useAcheron: featureAcheronVAOSServiceRequests,

@@ -34,7 +34,7 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'adapted-housing-4555-',
   transformForSubmit,
   introduction: IntroductionPage,

@@ -59,7 +59,7 @@
   "how-can-i-update-my-information": "How can I update my information?",
   "husband": "Husband",
   "i-live-on-a-united-states-military-base-outside-of-the-united-states": "I live on a United States military base outside of the United States.",
-  "if-you-have-hearing-loss-call": "If you have hearing loss, call TTY:",
+  "if-you-have-hearing-loss-call": "If you have hearing loss, call",
   "if-you-have-questions-please-call-us-were-here-24-7": "If you have questions, please call us at <0></0> (<1></1>). We’re here 24/7.",
   "if-you-need-to-make-changes-please-talk-to-a-staff-member-when-you-check-in": "If you need to make changes, please talk to a staff member when you check in.",
   "if-you-need-to-submit-receipts-for-other-expenses--helptext": "If you need to submit receipts for other expenses like tolls, meals, or lodging, you can’t file a claim now. But you can file your claim online 24/7 through the Beneficiary Travel Self Service System (BTSSS). Or you can use VA Form 10-3542 to submit a claim by mail, fax, email, or in person.",
@@ -225,5 +225,6 @@
   "were-sorry-this-link-has-expired": "We’re sorry. This link has expired.",
   "trying-to-check-in-for-an-appointment--info-message": "Trying to check in for an appointment? Text <0>check in</0> to <1></1>.",
   "were-sorry-cant-file-travel-file-later--info-message": "We’re sorry. We can’t file a travel reimbursement claim for you now. But you can still file within <0>30 days</0> of the appointment.",
-  "processing-travel-claim": "<0>We’re processing your travel reimbursement claim.</0> We’ll send you a text to let you know the status of your claim."
+  "processing-travel-claim": "<0>We’re processing your travel reimbursement claim.</0> We’ll send you a text to let you know the status of your claim.",
+  "check-in": "Check-In"
 }

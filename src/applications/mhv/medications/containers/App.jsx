@@ -1,9 +1,10 @@
 import React from 'react';
+import LandingPage from './LandingPage';
 
 const App = () => {
   return (
     <div>
-      <h1 className="vads-u-margin-bottom--1p5">Medications</h1>
+      <LandingPage />
     </div>
   );
 };

@@ -9,7 +9,7 @@ import FormTitle from '../components/FormTitle';
 import { isInProgress } from '../helpers';
 import { setGlobalScroll } from '../utilities/ui';
 
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 /*
  * Primary component for a schema generated form app.
@@ -86,6 +86,7 @@ class FormApp extends React.Component {
             <Element name="topScrollElement" />
             {formTitle}
             {formNav}
+            <Element name="topContentElement" />
             {renderedChildren}
           </div>
         </div>

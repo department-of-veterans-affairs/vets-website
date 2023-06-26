@@ -9,7 +9,6 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { WIZARD_STATUS_NOT_STARTED } from 'platform/site-wide/wizard';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 
@@ -80,7 +79,6 @@ export class IntroductionPage extends React.Component {
   };
 
   restartWizard = () => {
-    this.setWizardStatus(WIZARD_STATUS_NOT_STARTED);
     recordEvent({ event: 'howToWizard-start-over' });
   };
 

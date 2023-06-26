@@ -26,7 +26,7 @@ const combinedFSRRecreationalUIVehicleSchema = {
   'ui:title': () => (
     <>
       <legend className="schemaform-block-title">
-        Your trailers, campers, and boats
+        <h3 className="vads-u-margin--0">Your trailers, campers, and boats</h3>
       </legend>
     </>
   ),
