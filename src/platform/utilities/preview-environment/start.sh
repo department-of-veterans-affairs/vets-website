@@ -51,7 +51,8 @@ yarn install --production=false
 echo "Waiting for yarn install to finish before proceeding"
 wait
 echo "Building"
-yarn build:webpack --env api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs.va.gov"
+yarn build --env api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs.va.gov"
+wait
 #echo "Watch"
 #yarn watch --env api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs.va.gov" &
 
@@ -59,11 +60,14 @@ yarn build:webpack --env api="http://vets-website-rework-pe-fronten-dev-platform
 echo "Install and serve content-build"
 cd ../content-build
 yarn install
+wait
 echo "Copy environment file template into place"
 cp .env.example .env
 echo "Fetch drupal cache as a discrete task so as to avoid SOCKS issues"
 yarn fetch-drupal-cache
+wait
 echo "Build using previously cached assets"
 yarn build --use-cached-assets
+wait
 echo "Serve up content-build"
 yarn serve
