@@ -27,11 +27,6 @@ else
     git clone -b ${SOURCE_REF} --single-branch https://github.com/department-of-veterans-affairs/vets-website.git
 fi
 
-# echo "Download dev content-build to website dir"
-
-# if AWS_URL then use it
-# else use default cache URL
-# To-do -- change the fallback cache to something that is not hardcoded to a file that will eventually be cleaned up
 if [ -z ${AWS_URL} ] ;
 then
     echo "AWS_URL is NULL; using default" ;
@@ -55,16 +50,11 @@ yarn config set "strict-ssl" false
 echo "Install, build, and watch vets-website"
 cd vets-website
 yarn install --production=false
+wait
 yarn build:webpack:local
 yarn watch &
 
 cd ..
-
-# NOTE: THE FOLLOWING IS COMMENTED OUT BECAUSE WE'RE SETTING UP THE CONTENT-BUILD ABOVE
-# Untar the content-build into content-build/.cache/localhost/drupal
-# mkdir -p content-build/.cache/localhost/drupal
-# echo "untar the build into content-build/.cache/localhost/drupal"
-# tar -xf ${AWS_FILENAME} -C content-build/.cache/localhost/drupal
 
 # Install, build and serve content-build
 echo "Install and serve content-build"
