@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPrescriptionsList } from '../actions/prescriptions';
-import MedicationsList from '../components/MedicationsList/MedicaitonsList';
+import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 
 const LandingPage = () => {
