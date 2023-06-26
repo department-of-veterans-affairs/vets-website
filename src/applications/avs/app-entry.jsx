@@ -1,13 +1,14 @@
-import 'platform/polyfills';
+import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/avs.scss';
 
-import startApp from 'platform/startup';
+import { startAppFromIndex } from '@department-of-veterans-affairs/platform-startup/exports';
 
 import routes from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
 
-startApp({
+// preESModulesPolyfills();
+startAppFromIndex({
   url: manifest.rootUrl,
   reducer,
   routes,
