@@ -5,15 +5,12 @@ import moment from 'moment';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { normalizeFullName } from '../../utils/helpers';
 
 const VeteranProfileInformation = ({ goBack, goForward, user }) => {
   const { userFullName, dob } = user;
-  const normalizedDOB = dob && moment(dob).format('MMMM DD, YYYY');
-  const normalizedFullName = `${userFullName?.first} ${userFullName?.middle ||
-    ''} ${userFullName?.last} ${userFullName?.suffix || ''}`.replace(
-    / +(?= )/g,
-    '',
-  );
+  const veteranDOB = dob && moment(dob).format('MMMM DD, YYYY');
+  const veteranName = normalizeFullName(userFullName, true);
 
   return (
     <>
@@ -29,12 +26,12 @@ const VeteranProfileInformation = ({ goBack, goForward, user }) => {
               className="vads-u-font-weight--bold vads-u-margin--1px"
               data-testid="hca-veteran-fullname"
             >
-              {normalizedFullName}
+              {veteranName}
             </p>
 
             {dob ? (
               <p className="vads-u-margin--1px" data-testid="hca-veteran-dob">
-                Date of birth: {normalizedDOB}
+                Date of birth: {veteranDOB}
               </p>
             ) : null}
           </div>

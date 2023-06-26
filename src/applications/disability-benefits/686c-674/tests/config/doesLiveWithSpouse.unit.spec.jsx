@@ -134,4 +134,100 @@ describe('686 current marriage co-habitation status', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
+
+  it('should display an error if the veteran lists APO, FPO, or DPO as their city, but does not check the military base checkbox', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
+        updateFormData={updateFormData}
+      />,
+    );
+    selectRadio(form, 'root_doesLiveWithSpouse_spouseDoesLiveWithVeteran', 'N');
+    changeDropdown(
+      form,
+      'select#root_doesLiveWithSpouse_currentSpouseReasonForSeparation',
+      'Other',
+    );
+    selectCheckbox(
+      form,
+      'root_doesLiveWithSpouse_address_view:livesOnMilitaryBase',
+      false,
+    );
+    changeDropdown(
+      form,
+      'select#root_doesLiveWithSpouse_address_countryName',
+      'USA',
+    );
+    fillData(
+      form,
+      'input#root_doesLiveWithSpouse_address_addressLine1',
+      '123 Back St',
+    );
+    fillData(form, 'input#root_doesLiveWithSpouse_address_city', 'DPO');
+    changeDropdown(
+      form,
+      'select#root_doesLiveWithSpouse_address_stateCode',
+      'AL',
+    );
+    fillData(form, 'input#root_doesLiveWithSpouse_address_zipCode', '12345');
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').text()).to.include(
+      'For DPO addresses, you must check the “They live on a United States military base outside of the U.S.” checkbox above',
+    );
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should not display an error if the veteran lists APO, FPO, or DPO as their city and checks the military base checkbox', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
+        updateFormData={updateFormData}
+      />,
+    );
+    selectRadio(form, 'root_doesLiveWithSpouse_spouseDoesLiveWithVeteran', 'N');
+    changeDropdown(
+      form,
+      'select#root_doesLiveWithSpouse_currentSpouseReasonForSeparation',
+      'Other',
+    );
+    selectCheckbox(
+      form,
+      'root_doesLiveWithSpouse_address_view:livesOnMilitaryBase',
+      true,
+    );
+    changeDropdown(
+      form,
+      'select#root_doesLiveWithSpouse_address_countryName',
+      'USA',
+    );
+    fillData(
+      form,
+      'input#root_doesLiveWithSpouse_address_addressLine1',
+      '123 Back St',
+    );
+    changeDropdown(form, 'select#root_doesLiveWithSpouse_address_city', 'DPO');
+    changeDropdown(
+      form,
+      'select#root_doesLiveWithSpouse_address_stateCode',
+      'AA',
+    );
+    fillData(form, 'input#root_doesLiveWithSpouse_address_zipCode', '12345');
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
 });
