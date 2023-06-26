@@ -123,7 +123,7 @@ describe('efsr-fsr transform helper functions', () => {
   // Depends on sumValues, filterReduceByName, otherDeductionsAmt
   describe('efsr-getMonthlyIncome helper', () => {
     it('should return monthy income based on veterans net and other income, and spouses net and other income', () => {
-      expect(getMonthlyIncome(inputObject.data)).to.equal(20597.85);
+      expect(getMonthlyIncome(inputObject.data)).to.equal(21388.36);
     });
   });
 
@@ -227,7 +227,7 @@ describe('efsr-fsr transform helper functions', () => {
         personalData: {
           employmentHistory: {
             spouse: {
-              employmentRecords: [
+              spEmploymentRecords: [
                 {
                   type: 'Full time',
                   from: '2018-6-XX',
@@ -838,7 +838,7 @@ describe('efsr-fsr transform information', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(
         submissionObj.discretionaryIncome.netMonthlyIncomeLessExpenses,
-      ).to.equal('14699.54');
+      ).to.equal('15490.05');
       expect(
         submissionObj.discretionaryIncome.amountCanBePaidTowardDebt,
       ).to.equal('61.02');

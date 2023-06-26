@@ -217,7 +217,7 @@ describe('fsr transform helper functions', () => {
         personalData: {
           employmentHistory: {
             spouse: {
-              employmentRecords: [
+              spEmploymentRecords: [
                 {
                   type: 'Full time',
                   from: '2018-6-XX',
