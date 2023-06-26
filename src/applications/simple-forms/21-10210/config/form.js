@@ -47,9 +47,9 @@ const pageFocus = () => {
       focusSelector = '#main h1[data-testid="form-title"]';
     } else if (pathname.includes('claimant-type')) {
       focusSelector = '#main .schemaform-first-field legend';
-    } else if (!pathname.includes('review-and-submit')) {
+    } else {
       // since form-level useCustomScrollAndFocus is true,
-      // this fn fires on every page change, so we need to
+      // this fn fires on every chapter change, so we need to
       // provide default focusSelector for all other pages
       focusSelector = defaultFocusSelector;
     }
@@ -77,9 +77,9 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'lay-witness-10210-',
-  dev: {
-    showNavLinks: true,
-  },
+  // dev: {
+  //   showNavLinks: true,
+  // },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: {
