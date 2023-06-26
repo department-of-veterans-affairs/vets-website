@@ -106,15 +106,7 @@ export const IdentityVerificationAlert = () => (
 );
 
 /** CHAPTER 4: Household Information */
-export const DeductableExpensesAlert = () => (
-  <va-alert status="info" class="vads-u-margin-y--3">
-    <strong>Note:</strong> We understand in some cases your expenses might be
-    higher than your income. If your expenses exceed your income, we’ll adjust
-    them to be equal to your income. This won’t affect your application or
-    benefits.
-  </va-alert>
-);
-
+// NOTE: for household v1 only -- remove when v2 is fully-adopted
 export const ExpensesWarning = () => (
   <va-alert status="warning" class="vads-u-margin-top--4">
     <h2 slot="headline">
