@@ -32,6 +32,13 @@
           "state": "ME",
           "postalCode": "02040"
         },
+        "phoneNumber": "8435555555",
+        "email": "testing@test.com",
+        "desiredCemetery": {
+          "id": "804",
+          "widget": "autosuggest",
+          "label": "BEVERLY NATIONAL CEMETERY"
+        },
         "view:hasServiceName": true,
         "serviceName": {
           "first": "Alex",
@@ -84,7 +91,8 @@
         "maritalStatus": "Married",
         "militaryStatus": "A",
         "isDeceased": "yes",
-        "dateOfDeath": "1989-01-01"
+        "dateOfDeath": "1989-01-01",
+        "relationshipToVet": "1"
       },
       "claimant": {
         "address": {
