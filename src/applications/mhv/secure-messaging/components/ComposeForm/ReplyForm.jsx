@@ -403,7 +403,11 @@ const ReplyForm = props => {
                   Save draft
                 </button>
                 {/* UCD requested to keep button even when not saved as draft */}
-                <DeleteDraft draftId={newDraftId} />
+                <DeleteDraft
+                  draftId={newDraftId}
+                  setLastFocusableElement={setLastFocusableElement}
+                  setNavigationError={setNavigationError}
+                />
               </div>
             </div>
             <DraftSavedInfo userSaved={userSaved} />

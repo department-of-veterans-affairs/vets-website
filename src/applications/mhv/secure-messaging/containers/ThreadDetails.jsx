@@ -128,7 +128,7 @@ const ThreadDetails = props => {
         />
       );
     }
-    if (isReply) {
+    if (isReply && draftMessageHistory) {
       return (
         <div className="compose-container">
           <CannotReplyAlert visible={cannotReply} />

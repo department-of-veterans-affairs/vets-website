@@ -486,19 +486,18 @@ const ComposeForm = props => {
             id="save-draft-button"
             text="Save draft"
             secondary
-            class="vads-u-flex--1 save-draft-button"
+            class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1"
             data-testid="Save-Draft-Button"
             onClick={e => saveDraftHandler('manual', e)}
           />
-          <div className="vads-u-flex--1">
-            {draft && (
-              <DeleteDraft
-                draft={draft}
-                setLastFocusableElement={setLastFocusableElement}
-                setNavigationError={setNavigationError}
-              />
-            )}
-          </div>
+
+          {draft && (
+            <DeleteDraft
+              draft={draft}
+              setLastFocusableElement={setLastFocusableElement}
+              setNavigationError={setNavigationError}
+            />
+          )}
         </div>
       </div>
     </form>
