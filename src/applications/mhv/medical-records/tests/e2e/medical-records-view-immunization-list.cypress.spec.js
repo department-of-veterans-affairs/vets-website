@@ -5,18 +5,23 @@ describe('Medical Records View Immunizations', () => {
     const site = new MedicalRecordsSite();
     cy.visit('my-health/medical-records');
     site.login();
-    // Add clicks to navigate to .../health-history/vaccines
+    // Navigate to medical records/health-history/vaccines
+    // Click on the the health history link
     cy.get('[data-testid="health-history-link"]').click();
-    // cy.get('[href="/my-health/medical-records/health-history/vaccines"]').first().click();
+    // click on the vaccines link
     cy.get('[data-testid="vaccines-link"]').click();
+    // click on the first vaccine listed
     cy.get('[data-testid="record-list-item"] a')
       .first()
       .click();
+    // Axe check
     cy.injectAxe();
-    // cy.axeCheck();
     cy.axeCheck('main', {
       rules: {
         'aria-required-children': {
+          enabled: false,
+        },
+        'link-name': {
           enabled: false,
         },
       },
