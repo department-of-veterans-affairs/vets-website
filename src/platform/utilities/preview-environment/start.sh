@@ -1,11 +1,12 @@
 #!/bin/sh
-#echo "Wipe out previous builds"
-#cd /app/website/container
-
-
-echo "Creating 'website' directory to hold front end sibling directories"
-mkdir -p website/slow
+echo "Navigate into /app/website/slow"
 cd website/slow
+echo "Removing contents of: " $SOURCE_REF " and removing directory"
+rm -rf $SOURCE_REF
+echo "Creating directory: " $SOURCE_REF
+mkdir $SOURCE_REF
+echo "Navigate into: " $SOURCE_REF
+cd $SOURCE_REF
 
 # Clone vagov-content
 echo "Starting vagov-content"
@@ -40,6 +41,7 @@ echo "set yarn to allow self-signed cert for install"
 yarn config set "strict-ssl" false
 
 # Build and watch vets-website
+echo "Writing out NODE_EXTRA_CA_CERTS"
 echo $NODE_EXTRA_CA_CERTS
 
 echo "Install, build, and watch vets-website"
@@ -49,7 +51,7 @@ yarn install --production=false
 echo "Waiting for yarn install to finish before proceeding"
 wait
 echo "Building"
-yarn build:webpack --env buildtype=localhost api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs.va.gov"
+yarn build:webpack --env api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs.va.gov"
 #echo "Watch"
 #yarn watch --env api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs.va.gov" &
 
