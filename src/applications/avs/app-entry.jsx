@@ -7,7 +7,6 @@ import routes from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
 
-// preESModulesPolyfills();
 startAppFromIndex({
   url: manifest.rootUrl,
   reducer,
