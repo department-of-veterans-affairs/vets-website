@@ -44,6 +44,8 @@ echo "Install, build, and watch vets-website"
 cd vets-website
 echo "Installing"
 yarn install
+echo "Waiting for yarn install to finish before proceeding"
+wait
 echo "Building"
 yarn build:webpack --env buildtype=localhost
 echo "Watch"
