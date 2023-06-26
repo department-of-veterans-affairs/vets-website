@@ -459,7 +459,7 @@ export const ERROR_CODES = [
   },
   {
     code: 6000,
-    detail: 'There were errors fetching appointments from VSP',
+    detail: 'There were errors fetching appointments/requests from VSP',
   },
 ];
 export const SERVICE_CATEGORY = [

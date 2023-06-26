@@ -74,7 +74,7 @@
             "id": "80030aea-0c2c-44c8-a629-3483afb14ffe",
             "status": "500",
             "code": 6000,
-            "message": "There were errors fetching appointments from VSP: Resource types: [requests]: Failed to fetch appt requests for patient 984/552161050; Failed to fetch appt requests for patient 983/7216691"
+            "message": "There were errors fetching appointments from VSP: Resource types: [appointments/requests]: Failed to fetch appointments and/or requests"
         }
     ]
 }
