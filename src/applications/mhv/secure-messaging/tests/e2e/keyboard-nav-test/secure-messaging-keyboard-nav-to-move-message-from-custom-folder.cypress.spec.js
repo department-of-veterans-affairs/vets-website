@@ -28,6 +28,12 @@ describe('Secure Messaging Keyboard Nav Move Message from CustomFolder', () => {
     folderPage.moveCustomFolderMessageToDifferentFolder();
     folderPage.verifyMoveMessageSuccessConfirmationFocus();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

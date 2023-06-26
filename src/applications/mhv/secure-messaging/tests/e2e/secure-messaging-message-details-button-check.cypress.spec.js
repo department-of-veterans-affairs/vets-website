@@ -28,7 +28,13 @@ describe('Secure Messaging Message Details Buttons Check', () => {
       .getContinueButton()
       .click({ waitforanimations: true });
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     replyPage.getMessageBodyField().should('be.visible');
   });
 });

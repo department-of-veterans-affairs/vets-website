@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
@@ -19,6 +20,9 @@ const defaultRecord = [
     amountPastDue: '',
   },
 ];
+
+export const SUMMARY_PATH = '/installment-contracts-summary';
+export const START_PATH = '/installment-contracts';
 
 const InstallmentContract = props => {
   const { data, goToPath, setFormData } = props;
@@ -82,10 +86,10 @@ const InstallmentContract = props => {
   const typeError = !purpose ? 'Please enter the contract type' : null;
 
   const handleChange = (key, value) => {
-    setContractRecord({
-      ...contractRecord,
+    setContractRecord(prevRecord => ({
+      ...prevRecord,
       [key]: value,
-    });
+    }));
   };
 
   const handlePurposeChange = event => {
@@ -114,8 +118,6 @@ const InstallmentContract = props => {
     handleChange('amountPastDue', event.target.value);
   };
 
-  const RETURN_PATH = '/installment-contracts-summary';
-
   const updateFormData = e => {
     setSubmitted(true);
     e.preventDefault();
@@ -125,21 +127,21 @@ const InstallmentContract = props => {
     }
 
     if (contractRecord.purpose && contractRecord.amountDueMonthly) {
-      // if amountPastDue is NaN, set it to 0 in order to satisfy va-number-input
-      if (!isValidCurrency(contractRecord.amountPastDue)) {
-        contractRecord.amountPastDue = 0;
-      }
-
-      if (!isValidCurrency(contractRecord.originalAmount)) {
-        contractRecord.originalAmount = 0;
-      }
-
-      if (!isValidCurrency(contractRecord.unpaidBalance)) {
-        contractRecord.unpaidBalance = 0;
-      }
+      const updatedContractRecord = {
+        ...contractRecord,
+        amountPastDue: isValidCurrency(contractRecord.amountPastDue)
+          ? contractRecord.amountPastDue
+          : 0,
+        originalAmount: isValidCurrency(contractRecord.originalAmount)
+          ? contractRecord.originalAmount
+          : 0,
+        unpaidBalance: isValidCurrency(contractRecord.unpaidBalance)
+          ? contractRecord.unpaidBalance
+          : 0,
+      };
 
       const newInstallmentContractArray = [...installmentContracts];
-      newInstallmentContractArray[index] = contractRecord;
+      newInstallmentContractArray[index] = updatedContractRecord;
 
       // update form data
       setFormData({
@@ -147,7 +149,7 @@ const InstallmentContract = props => {
         installmentContracts: newInstallmentContractArray,
       });
 
-      goToPath(RETURN_PATH);
+      goToPath(SUMMARY_PATH);
     }
   };
 
@@ -155,7 +157,11 @@ const InstallmentContract = props => {
     onSubmit: event => event.preventDefault(),
     onCancel: event => {
       event.preventDefault();
-      goToPath(RETURN_PATH);
+      if (installmentContracts.length === 0) {
+        goToPath(START_PATH);
+      } else {
+        goToPath(SUMMARY_PATH);
+      }
     },
     onUpdate: event => {
       event.preventDefault();
@@ -163,7 +169,7 @@ const InstallmentContract = props => {
     },
     onBack: event => {
       event.preventDefault();
-      goToPath(RETURN_PATH);
+      goToPath(SUMMARY_PATH);
     },
     handleDateChange: (key, monthYear) => {
       const dateString = `${monthYear}-XX`;
@@ -173,105 +179,109 @@ const InstallmentContract = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <legend className="schemaform-block-title">
-        {`${
-          installmentContracts.length === index ? 'Add' : 'Update'
-        } an installment contract or other debt`}
-      </legend>
-      <p>
-        If you have more than one installment contract or other debt, enter the
-        information for one contract or debt below.
-      </p>
-      <div className="input-size-6">
-        <VaTextInput
-          className="no-wrap input-size-6"
-          id="contractType"
-          error={(submitted && typeError) || null}
-          label="Type of contract or debt"
-          name="contract-type"
-          onInput={handlePurposeChange}
-          required
-          type="text"
-          value={purpose || ''}
-        />
-      </div>
-      <div className="input-size-6">
-        <VaTextInput
-          className="no-wrap input-size-6"
-          id="creditorName"
-          label="Name of creditor who holds the contract or debt"
-          name="creditor-name"
-          onInput={handleCreditorNameChange}
-          type="text"
-          value={creditorName || ''}
-        />
-      </div>
-      <div className="input-size-4">
-        <va-number-input
-          hint={null}
-          currency
-          inputmode="numeric"
-          label="Original loan amount"
-          name="originalAmount"
-          id="originalAmount"
-          onInput={handleOriginalLoanAmountChange}
-          value={contractRecord.originalAmount}
-        />
-      </div>
-      <div className="input-size-4">
-        <va-number-input
-          hint={null}
-          currency
-          inputmode="numeric"
-          label="Unpaid balance"
-          name="unpaidBalance"
-          id="unpaidBalance"
-          onInput={handleUnpaidBalanceChange}
-          value={contractRecord.unpaidBalance}
-        />
-      </div>
-      <div className="input-size-4">
-        <va-number-input
-          error={(submitted && amountDueMonthlyError) || null}
-          hint={null}
-          currency
-          required
-          inputmode="numeric"
-          label="Minimum monthly payment amount"
-          name="amountDueMonthly"
-          id="amountDueMonthly"
-          onInput={handleAmountDueMonthlyChange}
-          value={contractRecord.amountDueMonthly}
-        />
-      </div>
+      <fieldset className="vads-u-margin-y--2">
+        <legend className="schemaform-block-title">
+          <h3 className="vads-u-margin--0">
+            {`${
+              installmentContracts.length === index ? 'Add' : 'Update'
+            } an installment contract or other debt`}
+          </h3>
+        </legend>
+        <p>
+          If you have more than one installment contract or other debt, enter
+          the information for one contract or debt below.
+        </p>
+        <div className="input-size-6">
+          <VaTextInput
+            className="no-wrap input-size-6"
+            id="contractType"
+            error={(submitted && typeError) || null}
+            label="Type of contract or debt"
+            name="contract-type"
+            onInput={handlePurposeChange}
+            required
+            type="text"
+            value={purpose || ''}
+          />
+        </div>
+        <div className="input-size-6">
+          <VaTextInput
+            className="no-wrap input-size-6"
+            id="creditorName"
+            label="Name of creditor who holds the contract or debt"
+            name="creditor-name"
+            onInput={handleCreditorNameChange}
+            type="text"
+            value={creditorName || ''}
+          />
+        </div>
+        <div className="input-size-4">
+          <va-number-input
+            hint={null}
+            currency
+            inputmode="numeric"
+            label="Original loan amount"
+            name="originalAmount"
+            id="originalAmount"
+            onInput={handleOriginalLoanAmountChange}
+            value={contractRecord.originalAmount}
+          />
+        </div>
+        <div className="input-size-4">
+          <va-number-input
+            hint={null}
+            currency
+            inputmode="numeric"
+            label="Unpaid balance"
+            name="unpaidBalance"
+            id="unpaidBalance"
+            onInput={handleUnpaidBalanceChange}
+            value={contractRecord.unpaidBalance}
+          />
+        </div>
+        <div className="input-size-4">
+          <va-number-input
+            error={(submitted && amountDueMonthlyError) || null}
+            hint={null}
+            currency
+            required
+            inputmode="numeric"
+            label="Minimum monthly payment amount"
+            name="amountDueMonthly"
+            id="amountDueMonthly"
+            onInput={handleAmountDueMonthlyChange}
+            value={contractRecord.amountDueMonthly}
+          />
+        </div>
+        <div>
+          <VaDate
+            monthYearOnly
+            data-testid="loanBegan"
+            value={`${fromYear}-${fromMonth}`}
+            label="Date the loan began"
+            name="loanBegan"
+            onDateChange={e =>
+              handlers.handleDateChange('dateStarted', e.target.value)
+            }
+            onDateBlur={e => validateLoanBegan(e.target.value)}
+            required={!!contractRecord.amountDueMonthly}
+            error={(submitted && fromDateError) || null}
+          />
+        </div>
+        <div className="input-size-4">
+          <va-number-input
+            hint={null}
+            currency
+            inputmode="numeric"
+            label="Amount overdue"
+            name="amountPastDue"
+            id="amountPastDue"
+            onInput={handleAmountOverdueChange}
+            value={contractRecord.amountPastDue}
+          />
+        </div>
+      </fieldset>
       <div>
-        <VaDate
-          monthYearOnly
-          data-testid="loanBegan"
-          value={`${fromYear}-${fromMonth}`}
-          label="Date the loan began"
-          name="loanBegan"
-          onDateChange={e =>
-            handlers.handleDateChange('dateStarted', e.target.value)
-          }
-          onDateBlur={e => validateLoanBegan(e.target.value)}
-          required={!contractRecord.amountDueMonthly}
-          error={(submitted && fromDateError) || null}
-        />
-      </div>
-      <div className="input-size-4">
-        <va-number-input
-          hint={null}
-          currency
-          inputmode="numeric"
-          label="Amount overdue"
-          name="amountPastDue"
-          id="amountPastDue"
-          onInput={handleAmountOverdueChange}
-          value={contractRecord.amountPastDue}
-        />
-      </div>
-      <p>
         <button
           type="button"
           id="cancel"
@@ -290,7 +300,7 @@ const InstallmentContract = props => {
             installmentContracts.length === index ? 'Add' : 'Update'
           } an installment contract`}
         </button>
-      </p>
+      </div>
     </form>
   );
 };
@@ -298,12 +308,19 @@ const InstallmentContract = props => {
 const mapStateToProps = ({ form }) => {
   return {
     formData: form.data,
-    employmentHistory: form.data.personalData.employmentHistory,
   };
 };
 
 const mapDispatchToProps = {
   setFormData: setData,
+};
+
+InstallmentContract.propTypes = {
+  data: PropTypes.shape({
+    installmentContracts: PropTypes.array,
+  }).isRequired,
+  goToPath: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
 };
 
 export default connect(

@@ -173,7 +173,7 @@ const analyticsEvents = {
       prefix: 'alert-expandable',
       ga4: {
         event: 'interaction',
-        component_name: 'alert-expandable',
+        component_name: 'va-alert-expandable',
         custom_string_1: 'component-library',
         /* Component to GA4 parameters */
         mapping: {
@@ -203,6 +203,18 @@ const analyticsEvents = {
       action: 'linkClick',
       event: 'nav-breadcrumb-link-click',
       prefix: 'breadcrumbs',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-breadcrumbs',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'breadcrumbs-clickLabel': 'custom_string_2',
+          'breadcrumbs-clickLevel': 'custom_number_1',
+          'breadcrumbs-totalLevels': 'custom_number_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-banner': [
@@ -210,6 +222,16 @@ const analyticsEvents = {
       action: 'close',
       event: 'int-banner-close',
       prefix: 'banner',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-banner',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'banner-headline': 'heading_1',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-button': [
@@ -217,6 +239,17 @@ const analyticsEvents = {
       action: 'click',
       event: 'cta-button-click',
       prefix: 'button',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-button',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'button-type': 'type',
+          'button-label': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-button-pair': [
@@ -224,6 +257,17 @@ const analyticsEvents = {
       action: 'click',
       event: 'int-button-pair-click',
       prefix: 'button-pair',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-button-pair',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'button-pair-type': 'type',
+          'button-pair-label': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-checkbox': [
@@ -252,6 +296,16 @@ const analyticsEvents = {
       action: 'change',
       event: 'int-file-input-change',
       prefix: 'file-input',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-file-input',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'file-input-label': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-link': [
@@ -266,6 +320,26 @@ const analyticsEvents = {
       action: 'displayed',
       event: 'loading-indicator-displayed',
       prefix: 'loading-indicator',
+    },
+  ],
+  'va-maintenance-banner': [
+    {
+      action: 'close',
+      event: 'int-maintenance-banner-close',
+      prefix: 'maintenance-banner',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-maintenance-banner',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'maintenance-banner-header': 'heading_1',
+          'maintenance-banner-warn-starts-at': 'custom_number_1',
+          'maintenance-banner-expires-at': 'custom_number_2',
+          'maintenance-banner-displayed-content': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-memorable-date': [
@@ -294,11 +368,29 @@ const analyticsEvents = {
       action: 'expand',
       event: 'int-official-gov-banner-expand',
       prefix: 'official-gov-banner',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-official-gov-banner',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          version: 'component_version',
+        },
+      },
     },
     {
       action: 'collapse',
       event: 'int-official-gov-banner-collapse',
       prefix: 'official-gov-banner',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-official-gov-banner',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-on-this-page': [
@@ -321,6 +413,15 @@ const analyticsEvents = {
       action: 'click',
       event: 'nav-privacy-agreement-checkbox-click',
       prefix: 'privacy-agreement',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-privacy-agreement',
+        custom_string_1: 'component-library',
+        mapping: {
+          'privacy-agreement-checked': 'value',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-promo-banner': [
@@ -336,7 +437,7 @@ const analyticsEvents = {
         mapping: {
           'promo-banner-type': 'type',
           'promo-banner-href': 'href',
-          'promo-banner-text': 'text',
+          'promo-banner-text': 'custom_string_2',
           version: 'component_version',
         },
       },
@@ -345,6 +446,17 @@ const analyticsEvents = {
       action: 'close',
       event: 'int-promo-banner-close',
       prefix: 'promo-banner',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-promo-banner',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'promo-banner-type': 'type',
+          'promo-banner-text': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-radio': [
@@ -359,11 +471,31 @@ const analyticsEvents = {
       action: 'click',
       event: 'int-search-input-click',
       prefix: 'search-input',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-search-input',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'search-input-value': 'value',
+          version: 'component_version',
+        },
+      },
     },
     {
       action: 'blur',
       event: 'int-search-input-blur',
       prefix: 'search-input',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-search-input',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'search-input-value': 'value',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-select': [
@@ -409,13 +541,52 @@ const analyticsEvents = {
       action: 'click',
       event: 'int-telephone-link-click',
       prefix: 'telephone',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-telephone',
+        custom_string_1: 'component-library',
+        mapping: {
+          'telephone-contact': 'custom_string_2',
+          'telephone-extension': 'custom_number_1',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-text-input': [
-    { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
+    {
+      action: 'blur',
+      event: 'int-text-input-blur',
+      prefix: 'text-input',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-text-input',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'text-input-label': 'custom_string_2',
+          'text-input-value': 'value',
+          version: 'component_version',
+        },
+      },
+    },
   ],
   'va-textarea': [
-    { action: 'blur', event: 'int-textarea-blur', prefix: 'textarea' },
+    {
+      action: 'blur',
+      event: 'int-textarea-blur',
+      prefix: 'textarea',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-textarea',
+        custom_string_1: 'component-library',
+        mapping: {
+          'textarea-label': 'custom_string_2',
+          'textarea-value': 'value',
+          version: 'component_version',
+        },
+      },
+    },
   ],
 };
 

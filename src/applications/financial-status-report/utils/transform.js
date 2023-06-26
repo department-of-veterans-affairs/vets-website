@@ -223,7 +223,7 @@ export const transform = (formConfig, form) => {
   // Contact Information
   const submitAddress = {
     addresslineOne: enhancedFSRActive ? address.addressLine1 : street,
-    addresslineTwo: enhancedFSRActive ? address.addressLine2 : street2,
+    addresslineTwo: enhancedFSRActive ? address.addressLine2 || '' : street2,
     addresslineThree: enhancedFSRActive ? address.addressLine3 || '' : street3,
     city: enhancedFSRActive ? address.city : city,
     stateOrProvince: enhancedFSRActive ? address.stateCode : state,

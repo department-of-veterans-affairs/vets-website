@@ -11,74 +11,14 @@ import {
   getLocation,
   getLocations,
   getLocationsByTypeOfCareAndSiteIds,
-  getSupportedLocationsByTypeOfCare,
 } from '../../../services/location';
-import facilities983 from '../../../services/mocks/var/facilities_983.json';
-import facilityDetails from '../../../services/mocks/var/facility_data.json';
+import facilityDetails from '../../../services/mocks/v2/facilities.json';
 import requestEligbilityCriteria from '../../../services/mocks/var/request_eligibility_criteria.json';
 import directBookingEligbilityCriteria from '../../../services/mocks/var/direct_booking_eligibility_criteria.json';
 import ccProviders from '../../../services/mocks/var/cc_providers.json';
 import { VHA_FHIR_ID } from '../../../utils/constants';
 
 describe('VAOS Location service', () => {
-  describe('getSupportedLocationsByTypeOfCare', () => {
-    let data;
-
-    it('should make successful request', async () => {
-      mockFetch();
-      setFetchJSONResponse(global.fetch, facilities983);
-      data = await getSupportedLocationsByTypeOfCare({
-        siteId: '983',
-        parentId: '983A6',
-        typeOfCareId: '123',
-      });
-
-      expect(global.fetch.firstCall.args[0]).to.contain(
-        'vaos/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
-      );
-      expect(data[0].identifier[1].value).to.equal('urn:va:division:983:983');
-    });
-
-    it('should sort by name', async () => {
-      mockFetch();
-      setFetchJSONResponse(global.fetch, facilities983);
-      data = await getSupportedLocationsByTypeOfCare({
-        siteId: '983',
-        parentId: '983A6',
-        typeOfCareId: '123',
-      });
-
-      expect(data[0].name).to.equal('CHYSHR-Cheyenne VA Medical Center');
-      expect(data[1].name).to.equal('CHYSHR-Fort Collins VA Clinic');
-      expect(data[2].name).to.equal('CHYSHR-Loveland VA Clinic');
-      expect(data[3].name).to.equal('CHYSHR-Sidney VA Clinic');
-      expect(data[4].name).to.equal('CHYSHR-Wheatland VA Mobile Clinic');
-    });
-
-    it('should return OperationOutcome error', async () => {
-      mockFetch();
-      setFetchJSONFailure(global.fetch, {
-        errors: [],
-      });
-
-      let error;
-      try {
-        data = await getSupportedLocationsByTypeOfCare({
-          siteId: '983',
-          parentId: '983A6',
-          typeOfCareId: '123',
-        });
-      } catch (e) {
-        error = e;
-      }
-
-      expect(global.fetch.firstCall.args[0]).to.contain(
-        '/vaos/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
-      );
-      expect(error?.resourceType).to.equal('OperationOutcome');
-    });
-  });
-
   describe('getLocations', () => {
     let data;
 
@@ -90,7 +30,7 @@ describe('VAOS Location service', () => {
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/facilities/va?ids=vha_442A6',
+        '/vaos/v2/facilities?children=false&ids[]=983A6',
       );
       expect(data[0].identifier[0].value).to.equal('urn:va:division:983:983');
     });
@@ -110,7 +50,7 @@ describe('VAOS Location service', () => {
       }
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/facilities/va?ids=vha_442',
+        'vaos/v2/facilities?children=false&ids[]=983',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });
@@ -127,7 +67,7 @@ describe('VAOS Location service', () => {
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/facilities/va/vha_442A6',
+        '/vaos/v2/facilities/983A6',
       );
       expect(data.identifier[0].value).to.equal('urn:va:division:983:983');
     });
@@ -148,7 +88,7 @@ describe('VAOS Location service', () => {
       }
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/facilities/va/vha_442',
+        '/vaos/v2/facilities/983',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });
@@ -178,7 +118,7 @@ describe('VAOS Location service', () => {
         '/direct_booking_eligibility_criteria?parent_sites[]=983&parent_sites[]=984',
       );
       expect(global.fetch.thirdCall.args[0]).to.contain(
-        '/v1/facilities/va?ids=vha_442GD,vha_442GC,vha_442GB,vha_442HK,vha_442,vha_442QA,vha_552GD,vha_552GB,vha_552,vha_552GC,vha_552GA,vha_442QE,vha_552GF',
+        '/vaos/v2/facilities?children=false&ids[]=983GD&ids[]=983GC&ids[]=983GB&ids[]=983HK&ids[]=983&ids[]=983QA&ids[]=984GD&ids[]=984GB&ids[]=984&ids[]=984GC&ids[]=984GA&ids[]=983QE&ids[]=984GF',
       );
       expect(data[0].resourceType).to.equal('Location');
       expect(data[0].name).to.equal('Cheyenne VA Medical Center');

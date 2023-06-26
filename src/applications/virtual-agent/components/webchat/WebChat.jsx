@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import environment from 'platform/utilities/environment';
 import { useSelector } from 'react-redux';
+// import PropTypes from 'prop-types';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import StartConvoAndTrackUtterances from './startConvoAndTrackUtterances';

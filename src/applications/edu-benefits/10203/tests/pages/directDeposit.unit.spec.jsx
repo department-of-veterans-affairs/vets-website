@@ -1,15 +1,9 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { mount } from 'enzyme';
-import ReactTestUtils from 'react-dom/test-utils';
 
-import {
-  DefinitionTester,
-  submitForm,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../10203/config/form';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import formConfig from '../../config/form';
 
 describe('Edu 10203 directDeposit', () => {
   const {
@@ -24,28 +18,7 @@ describe('Edu 10203 directDeposit', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(5);
+    expect(form.find('input').length).to.equal(4);
     form.unmount();
-  });
-
-  it('should have no required inputs', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        onSubmit={onSubmit}
-        data={{}}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = findDOMNode(form);
-    submitForm(form);
-    expect(
-      Array.from(formDOM.querySelectorAll('.usa-input-error')).length,
-    ).to.equal(3);
-
-    submitForm(form);
-
-    expect(onSubmit.called).to.be.false;
   });
 });

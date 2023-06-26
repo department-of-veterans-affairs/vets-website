@@ -276,6 +276,7 @@ export default function PastAppointmentsListNew() {
               className={classNames(
                 'usa-unstyled-list',
                 'vads-u-padding-left--0',
+                'vads-u-margin-bottom--4',
                 {
                   'vads-u-border-bottom--1px': featureAppointmentList,
                   'vads-u-border-color--gray-medium': featureAppointmentList,

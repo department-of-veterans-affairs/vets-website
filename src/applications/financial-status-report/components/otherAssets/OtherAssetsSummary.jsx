@@ -10,7 +10,6 @@ import { currency as currencyFormatter } from '../../utils/helpers';
 
 const OtherAssetsSummary = ({
   data,
-  goBack,
   goToPath,
   setFormData,
   contentBeforeButtons,
@@ -35,6 +34,13 @@ const OtherAssetsSummary = ({
     return goToPath('/expenses-explainer');
   };
 
+  const goBack = () => {
+    if (otherAssets.length === 0) {
+      return goToPath('/other-assets-checklist');
+    }
+    return goToPath('/other-assets-values');
+  };
+
   const cardBody = text => (
     <p>
       Value: <b>{currencyFormatter(text)}</b>
@@ -50,7 +56,7 @@ const OtherAssetsSummary = ({
           className="schemaform-block-title"
           name="addedAssetsSummary"
         >
-          You have added these assets
+          <h3 className="vads-u-margin--0">You have added these assets</h3>
         </legend>
         <div className="vads-l-grid-container--full">
           {!otherAssets.length ? (

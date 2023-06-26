@@ -338,6 +338,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           depends: () => false, // only accessible from benefits page
+          returnUrl: 'your-benefits',
         },
         socialSecurity: {
           path: 'social-security',
@@ -758,6 +759,7 @@ const formConfig = {
           editModeOnReviewPage: true,
           CustomPage: EnhancedVehicleRecord,
           CustomPageReview: null,
+          returnUrl: '/vehicles-summary',
         },
         vehiclesSummary: {
           path: 'vehicles-summary',
@@ -789,7 +791,7 @@ const formConfig = {
           depends: formData =>
             formData.questions.hasRecreationalVehicle &&
             formData['view:combinedFinancialStatusReport'],
-          editModeOnReviewPage: true,
+          editModeOnReviewPage: false,
         },
         recreationalVehicleRecordsListLoop: {
           path: 'recreational-vehicle-records',
@@ -1010,7 +1012,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
           depends: formData =>
             formData.questions.hasRepayments &&
-            !formData.expenses?.installmentContracts?.length &&
+            !formData?.installmentContracts?.length &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: InstallmentContract,
@@ -1082,6 +1084,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           depends: () => false, // accessed from otherExpensesSummary
+          returnUrl: 'other-expenses-summary',
         },
         // End Other Living Expenses
       },

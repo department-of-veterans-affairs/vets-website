@@ -36,7 +36,7 @@ describe('Check In Experience', () => {
     });
     it('next of kin display', () => {
       NextOfKin.validatePageLoaded(
-        'Is this your current next of kin information?',
+        'Check-In Is this your current next of kin information?',
       );
       NextOfKin.validateNextOfKinFields();
       NextOfKin.validateNextOfKinData();

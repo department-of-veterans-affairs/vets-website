@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaAccordionItem } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -12,7 +12,6 @@ import { dateFormat } from '../../util/helpers';
 const MessageThreadItem = props => {
   const dispatch = useDispatch();
   const accordionItemRef = useRef();
-  const [isExpanded, setIsExpanded] = useState(false);
   const { message, isDraftThread } = props;
   const {
     attachment,
@@ -32,32 +31,21 @@ const MessageThreadItem = props => {
   const fromMe = recipientName === triageGroupName;
   const from = fromMe ? 'Me' : `${senderName}`;
 
-  useEffect(
-    () => {
-      if (props.printView) {
-        setIsExpanded(true);
-      }
-    },
-    [props.printView],
-  );
-
   const handleExpand = isPreloaded => {
     if (!isPreloaded) {
       dispatch(markMessageAsReadInThread(messageId, isDraftThread));
     }
-    setIsExpanded(!isExpanded);
   };
 
   const accordionAriaLabel = useMemo(
     () => {
-      return `${!isRead ? 'New' : ''} message ${
-        attachment ? 'with attachment' : ''
-      } from ${senderName}, ${dateFormat(
-        sentDate,
-        'MMMM D, YYYY [at] h:mm a z',
-      )}. ${isExpanded ? 'Collapse message' : 'Expand message'}`;
+      return `${!isRead ? 'New ' : ''}message ${
+        fromMe ? 'sent' : 'received'
+      } ${dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}, ${
+        hasAttachments || attachment ? 'with attachment' : ''
+      } from ${senderName}."`;
     },
-    [attachment, isExpanded, isRead, senderName, sentDate],
+    [attachment, fromMe, hasAttachments, isRead, senderName, sentDate],
   );
 
   return (
@@ -76,18 +64,22 @@ const MessageThreadItem = props => {
       <h3 slot="headline">{dateFormat(sentDate, 'MMMM D [at] h:mm a z')}</h3>
       {!isRead && (
         <i
+          role="img"
+          aria-hidden
           data-testid="unread-icon"
           className="vads-u-color--primary vads-u-padding--0p25 vads-u-margin-right--1 fas fa-solid fa-circle fa-xs"
           slot="icon"
-          aria-hidden
+          alt="Unread message icon"
         />
       )}
       {(hasAttachments || attachment) && (
         <i
+          role="img"
           data-testid="attachment-icon"
           className="vads-u-margin-right--1p5 fas fa-paperclip vads-u-color--base"
           slot="subheader-icon"
           aria-hidden
+          alt="Attachment icon"
         />
       )}
 

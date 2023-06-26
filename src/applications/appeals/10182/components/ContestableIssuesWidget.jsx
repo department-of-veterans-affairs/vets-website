@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { IssueCard } from './IssueCard';
-import { SELECTED, MAX_LENGTH, LAST_NOD_ITEM } from '../constants';
+import { SELECTED, MAX_LENGTH, LAST_ISSUE, REVIEW_ISSUES } from '../constants';
 import {
+  ContestableIssuesLegend,
+  NoIssuesLoadedAlert,
   NoneSelectedAlert,
   MaxSelectionsAlert,
+  removeModalContent,
 } from '../content/contestableIssues';
 import {
   getSelected,
@@ -18,6 +22,7 @@ import {
   isEmptyObject,
   calculateIndexOffset,
 } from '../utils/helpers';
+import { focusIssue } from '../utils/focus';
 
 /**
  * ContestableIssuesWidget
@@ -44,40 +49,46 @@ const ContestableIssuesWidget = props => {
     id,
     options,
     formContext = {},
+    additionalIssues,
     setFormData,
     formData,
-    additionalIssues: addIssuesProp,
-    onChange: onChangeProp,
   } = props;
 
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [removeIndex, setRemoveIndex] = useState(null);
+  const [editState] = useState(window.sessionStorage.getItem(LAST_ISSUE));
+
+  useEffect(
+    () => {
+      if (editState) {
+        focusIssue();
+      }
+    },
+    [editState],
+  );
 
   const onReviewPage = formContext?.onReviewPage || false;
+  window.sessionStorage.setItem(REVIEW_ISSUES, onReviewPage);
+
   // inReviewMode = true (review page view, not in edit mode)
   // inReviewMode = false (in edit mode)
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
   const showCheckbox = !onReviewPage || (onReviewPage && !inReviewMode);
+  const { submitted } = formContext;
 
-  const additionalIssues = (addIssuesProp || []).filter(Boolean);
   // combine all issues for viewing
   const items = value
     .map(item => ({
       ...item.attributes,
       [SELECTED]: item[SELECTED],
     }))
-    .concat(additionalIssues);
+    .concat((additionalIssues || []).filter(Boolean));
 
   const hasSelected = someSelected(items);
 
   if (onReviewPage && inReviewMode && items.length && !hasSelected) {
-    return (
-      <>
-        <dt>
-          <NoneSelectedAlert count={items.length} />
-        </dt>
-        <dd />
-      </>
-    );
+    return <NoneSelectedAlert count={items.length} headerLevel={5} />;
   }
 
   const handlers = {
@@ -96,7 +107,7 @@ const ContestableIssuesWidget = props => {
           checked,
           props.value,
         );
-        onChangeProp(changedItems);
+        props.onChange(changedItems);
       } else {
         // additional issue check toggle
         const adjustedIndex = calculateIndexOffset(index, value.length);
@@ -111,17 +122,28 @@ const ContestableIssuesWidget = props => {
       }
     },
 
-    onRemoveIssue: index => {
-      const adjustedIndex = calculateIndexOffset(index, value.length);
+    onShowRemoveModal: cardIndex => {
+      const adjustedIndex = calculateIndexOffset(cardIndex, value.length);
+      setRemoveIndex(adjustedIndex);
+      setShowRemoveModal(true);
+    },
+    onRemoveModalClose: () => {
+      focusIssue(null, null, `${value.length + removeIndex},remove-cancel`);
+      setShowRemoveModal(false);
+      setRemoveIndex(null);
+    },
+    onRemoveIssue: () => {
       const updatedAdditionalIssues = additionalIssues.filter(
-        (issue, indx) => adjustedIndex !== indx,
+        (issue, indx) => removeIndex !== indx,
       );
-
-      // Focus management: target the previous issue if the last one was removed
-      // Done internally within the issue card component
-      const focusIndex =
-        index + (adjustedIndex >= updatedAdditionalIssues.length ? -1 : 0);
-      window.sessionStorage.setItem(LAST_NOD_ITEM, focusIndex);
+      setShowRemoveModal(false);
+      setRemoveIndex(null);
+      // setTimeout needed to allow rerender
+      setTimeout(() => {
+        // focusIssue is called by form config scrollAndFocusTarget, but only on
+        // page change
+        focusIssue(null, null, -1);
+      });
 
       setFormData({
         ...formData,
@@ -141,37 +163,72 @@ const ContestableIssuesWidget = props => {
       key: index,
       options,
       showCheckbox,
+      onReviewPage,
       onChange: handlers.onChange,
-      // Don't allow editing or removing API-loaded issues
-      onRemove: item.ratingIssueSubjectText
-        ? null
-        : () => handlers.onRemoveIssue(index),
+      onRemove: handlers.onShowRemoveModal,
     };
 
     // Don't show un-selected ratings in review mode
     return hideCard ? null : <IssueCard {...cardProps} />;
   });
 
+  const showNoIssues =
+    items.length === 0 && (!onReviewPage || (onReviewPage && inReviewMode));
+
   return (
     <>
-      {formContext.submitted &&
-        !hasSelected && <NoneSelectedAlert count={value.length} />}
-      {onReviewPage && inReviewMode ? (
-        content
-      ) : (
-        <>
-          <dl className="review vads-u-border-bottom--1px">{content}</dl>
+      <div name="eligibleScrollElement" />
+      {showNoIssues && <NoIssuesLoadedAlert submitted={submitted} />}
+      {!showNoIssues &&
+        submitted &&
+        !hasSelected && (
+          <NoneSelectedAlert
+            count={value.length}
+            headerLevel={onReviewPage ? 4 : 3}
+          />
+        )}
+      <fieldset className="review-fieldset">
+        <ContestableIssuesLegend
+          onReviewPage={onReviewPage}
+          inReviewMode={inReviewMode}
+        />
+        <VaModal
+          clickToClose
+          status="warning"
+          modalTitle={removeModalContent.title}
+          primaryButtonText={removeModalContent.yesButton}
+          secondaryButtonText={removeModalContent.noButton}
+          onCloseEvent={handlers.onRemoveModalClose}
+          onPrimaryButtonClick={handlers.onRemoveIssue}
+          onSecondaryButtonClick={handlers.onRemoveModalClose}
+          visible={showRemoveModal}
+        >
+          <p>
+            {removeIndex !== null
+              ? removeModalContent.description(
+                  additionalIssues[removeIndex].issue,
+                )
+              : null}
+          </p>
+        </VaModal>
+        <ul className="issues vads-u-border-top--1px vads-u-border-color--gray-light">
+          {content}
+        </ul>
+        {onReviewPage && inReviewMode ? null : (
           <Link
             className="add-new-issue vads-c-action-link--green"
-            to={{ pathname: '/add-issue', search: `?index=${items.length}` }}
+            to={{
+              pathname: '/add-issue',
+              search: `?index=${items.length}`,
+            }}
           >
             Add a new issue
           </Link>
-        </>
-      )}
-      {showErrorModal && (
-        <MaxSelectionsAlert showModal closeModal={handlers.onCloseModal} />
-      )}
+        )}
+        {showErrorModal && (
+          <MaxSelectionsAlert showModal closeModal={handlers.closeModal} />
+        )}
+      </fieldset>
     </>
   );
 };

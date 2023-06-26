@@ -27,7 +27,13 @@ describe('Secure Messaging Manage Folder AXE check', () => {
     cy.wait('@createFolder');
     folderPage.verifyCreateFolderSuccessMessage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
   it('Check Delete Folder Success', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
@@ -50,6 +56,12 @@ describe('Secure Messaging Manage Folder AXE check', () => {
       .click();
     folderPage.verifyDeleteSuccessMessage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

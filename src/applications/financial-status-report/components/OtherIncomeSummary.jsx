@@ -43,7 +43,7 @@ const OtherIncomeSummary = ({
 
   const cardBody = text => (
     <p>
-      Value: <b>{currencyFormatter(text)}</b>
+      Monthly amount: <b>{currencyFormatter(text)}</b>
     </p>
   );
   const emptyPrompt = `Select the ‘add other income’ link to add other income. Select the continue button to move on to the next question.`;
@@ -56,7 +56,9 @@ const OtherIncomeSummary = ({
           className="schemaform-block-title"
           name="addedIncomeSummary"
         >
-          You have added these other sources of income
+          <h3 className="vads-u-margin--0">
+            You have added these other sources of income
+          </h3>
         </legend>
         <div className="vads-l-grid-container--full">
           {!addlIncRecords.length ? (

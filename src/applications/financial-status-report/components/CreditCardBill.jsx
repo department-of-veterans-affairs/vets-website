@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { isValidCurrency } from '../utils/validations';
@@ -14,6 +15,8 @@ const defaultRecord = [
     amountPastDue: '',
   },
 ];
+export const SUMMARY_PATH = '/credit-card-bills-summary';
+export const START_PATH = '/credit-card-bills';
 
 const CreditCardBill = props => {
   const { data, goToPath, setFormData } = props;
@@ -78,20 +81,22 @@ const CreditCardBill = props => {
     handleChange('amountPastDue', event.target.value);
   };
 
-  const RETURN_PATH = '/credit-card-bills-summary';
-
   const updateFormData = e => {
     setSubmitted(true);
     e.preventDefault();
     const newCreditCardBillArray = [...creditCardBills];
     newCreditCardBillArray[index] = creditCardBillRecord;
+
     if (
       creditCardBillRecord.amountDueMonthly &&
       creditCardBillRecord.unpaidBalance
     ) {
       // if amountPastDue is NaN, set it to 0 in order to satisfy va-number-input
       if (!isValidCurrency(creditCardBillRecord.amountPastDue)) {
-        creditCardBillRecord.amountPastDue = 0;
+        setCreditCardBillRecord(prevRecord => ({
+          ...prevRecord,
+          amountPastDue: 0,
+        }));
       }
 
       // update form data
@@ -103,7 +108,7 @@ const CreditCardBill = props => {
         },
       });
 
-      goToPath(RETURN_PATH);
+      goToPath(SUMMARY_PATH);
     }
   };
 
@@ -111,7 +116,11 @@ const CreditCardBill = props => {
     onSubmit: event => event.preventDefault(),
     onCancel: event => {
       event.preventDefault();
-      goToPath(RETURN_PATH);
+      if (creditCardBills.length === 0) {
+        goToPath(START_PATH);
+      } else {
+        goToPath(SUMMARY_PATH);
+      }
     },
     onUpdate: event => {
       event.preventDefault();
@@ -119,7 +128,7 @@ const CreditCardBill = props => {
     },
     onBack: event => {
       event.preventDefault();
-      goToPath(RETURN_PATH);
+      goToPath(SUMMARY_PATH);
     },
   };
 
@@ -127,12 +136,14 @@ const CreditCardBill = props => {
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          {`${
-            creditCardBills.length === index ? 'Add' : 'Update'
-          } a credit card bill`}
+          <h3 className="vads-u-margin--0">
+            {`${
+              creditCardBills.length === index ? 'Add' : 'Update'
+            } a credit card bill`}
+          </h3>
         </legend>
         <p>Enter your credit card bill’s information.</p>
-        <div className="input-size-3">
+        <div className="input-size-3 no-wrap">
           <va-number-input
             error={(submitted && unpaidBalanceError) || null}
             hint={null}
@@ -146,7 +157,7 @@ const CreditCardBill = props => {
             value={creditCardBillRecord.unpaidBalance}
           />
         </div>
-        <div className="input-size-3">
+        <div className="input-size-3 no-wrap">
           <va-number-input
             error={(submitted && minMonthlyPaymentError) || null}
             hint={null}
@@ -160,7 +171,7 @@ const CreditCardBill = props => {
             value={creditCardBillRecord.amountDueMonthly}
           />
         </div>
-        <div className="input-size-3">
+        <div className="input-size-3 no-wrap">
           <va-number-input
             error={(submitted && amountOverdueError) || null}
             hint={null}
@@ -207,6 +218,26 @@ const mapStateToProps = ({ form }) => {
 
 const mapDispatchToProps = {
   setFormData: setData,
+};
+
+CreditCardBill.propTypes = {
+  data: PropTypes.shape({
+    expenses: PropTypes.shape({
+      creditCardBills: PropTypes.arrayOf(
+        PropTypes.shape({
+          purpose: PropTypes.string,
+          creditorName: PropTypes.string,
+          originalAmount: PropTypes.string,
+          unpaidBalance: PropTypes.string,
+          amountDueMonthly: PropTypes.string,
+          dateStarted: PropTypes.string,
+          amountPastDue: PropTypes.string,
+        }),
+      ),
+    }),
+  }).isRequired,
+  goToPath: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
 };
 
 export default connect(

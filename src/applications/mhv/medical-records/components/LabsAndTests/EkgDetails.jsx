@@ -6,9 +6,9 @@ import { getVaccinePdf } from '../../api/MrApi';
 import PrintDownload from '../shared/PrintDownload';
 
 const EkgDetails = props => {
-  const { results } = props;
+  const { record } = props;
 
-  const formattedDate = dateFormat(results?.date, 'MMMM D, YYYY');
+  const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
 
   const download = () => {
     getVaccinePdf(1).then(res =>
@@ -17,11 +17,11 @@ const EkgDetails = props => {
   };
 
   const content = () => {
-    if (results) {
+    if (record) {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">{results.name}</h1>
+          <h1 className="vads-u-margin-bottom--0">{record.name}</h1>
           <div className="time-header">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Date:{' '}
@@ -50,7 +50,7 @@ const EkgDetails = props => {
               Ordering location
             </h2>
             <p>
-              {results.facility || 'There is no facility reported at this time'}
+              {record.facility || 'There is no facility reported at this time'}
             </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Results
@@ -86,5 +86,5 @@ const EkgDetails = props => {
 export default EkgDetails;
 
 EkgDetails.propTypes = {
-  results: PropTypes.object,
+  record: PropTypes.object,
 };

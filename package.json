@@ -100,7 +100,7 @@
     "path": "path-browserify"
   },
   "devDependencies": {
-    "@actions/core": "^1.8.0",
+    "@actions/core": "^1.9.1",
     "@axe-core/react": "^4.4.3",
     "@babel/core": "^7.17.7",
     "@babel/parser": "^7.17.7",
@@ -142,6 +142,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "babel-polyfill": "^6.26.0",
+    "browserify-zlib": "^0.2.0",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "chai-dom": "^1.9.0",
@@ -167,6 +168,7 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-babel-module": "^5.3.1",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-deprecate": "^0.7.0",
@@ -225,7 +227,7 @@
     "svg-url-loader": "^7.1.1",
     "terser-webpack-plugin": "^5.3.1",
     "url-loader": "^4.1.1",
-    "webpack": "^5.70.0",
+    "webpack": "^5.76.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4",
@@ -242,8 +244,8 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@department-of-veterans-affairs/component-library": "^16.2.0",
-    "@department-of-veterans-affairs/formation": "^7.0.7",
+    "@department-of-veterans-affairs/component-library": "^16.4.0",
+    "@department-of-veterans-affairs/formation": "^7.0.8",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
@@ -308,7 +310,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#5f1a5943ac7771e21469e2fd14c0d0b72e5c5cab"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#bf2d2740c696fbc58269c2e0b64cc480d053af4b"
   },
   "resolutions": {
     "**/lodash": "4.17.21",
@@ -359,6 +361,7 @@
       "src/platform/startup",
       "src/platform/landing-pages",
       "src/platform/utilities",
+      "src/platform/pdf",
       "src/platform/polyfills",
       "src/platform/static-data",
       "src/platform/user",
@@ -367,7 +370,6 @@
       "src/platform/forms",
       "src/platform/forms-system",
       "src/platform/monitoring",
-
       "src/applications/check-in",
       "src/applications/vaos"
     ],
@@ -376,7 +378,12 @@
       "**/applications-check-in/react-i18next",
       "**/applications-vaos/simple-guid",
       "**/applications-vaos/mocker-api",
-
+      "**/platform-pdf/blob-stream",
+      "**/platform-pdf/pdfkit",
+      "**/platform-pdf/crypto-js",
+      "**/platform-pdf/fontkit",
+      "**/platform-pdf/linebreak",
+      "**/platform-pdf/png-js",
       "**/platform-polyfills/@formatjs/intl-datetimeformat",
       "**/platform-polyfills/@formatjs/intl-getcanonicallocales",
       "**/platform-polyfills/@formatjs/intl-locale",

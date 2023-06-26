@@ -39,9 +39,10 @@ const SpouseGrossMonthlyIncomeInput = props => {
       const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
 
       if (
-        grossMonthlyIncome.value &&
-        (!regex.test(grossMonthlyIncome.value) ||
-          Number(grossMonthlyIncome.value) < 0)
+        !grossMonthlyIncome.value ||
+        (grossMonthlyIncome.value &&
+          (!regex.test(grossMonthlyIncome.value) ||
+            Number(grossMonthlyIncome.value) < 0))
       ) {
         setIncomeError(true);
       } else {
@@ -60,6 +61,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
 
   const updateFormData = e => {
     e.preventDefault();
+    setGrossMonthlyIncome({ ...grossMonthlyIncome, dirty: true });
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
       const updatedRecords = formData.personalData.employmentHistory.spouse.employmentRecords.map(
@@ -111,11 +113,12 @@ const SpouseGrossMonthlyIncomeInput = props => {
         },
       });
     }
-
-    if (employmentRecord.isCurrent) {
-      goToPath(`/spouse-deduction-checklist`);
-    } else {
-      goToPath(`/spouse-employment-history`);
+    if (grossMonthlyIncome.value) {
+      if (employmentRecord.isCurrent) {
+        goToPath(`/spouse-deduction-checklist`);
+      } else {
+        goToPath(`/spouse-employment-history`);
+      }
     }
   };
 
@@ -124,40 +127,29 @@ const SpouseGrossMonthlyIncomeInput = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <fieldset className="vads-u-margin-y--2">
-        <legend className="schemaform-block-title">
-          Your spouse’s job at {employerName}
-        </legend>
-        <p className="vads-u-margin-bottom--0">
-          What’s your spouse’s gross <strong>monthly</strong> income at this
-          job?{' '}
-          <span className="required vads-u-color--secondary-dark">
-            (*Required)
-          </span>
-        </p>
-        <p className="formfield-subtitle">
-          You’ll find this in your spouse’s pay stub. It’s the amount of your
-          spouse’s pay before taxes and deductions.
-        </p>
-        <div className="input input-size-3">
-          <va-number-input
-            inputmode="numeric"
-            currency
-            id="gross-monthly-income"
-            data-testid="gross-monthly-income"
-            name="gross-monthly-income"
-            onInput={setNewGrossMonthlyIncome}
-            type="text"
-            value={grossMonthlyIncome.value}
-            required
-            error={
-              incomeError && grossMonthlyIncome.dirty
-                ? `Please enter a valid number.`
-                : ''
-            }
-          />
-        </div>
-      </fieldset>
+      <h3 className="schemaform-block-title vads-u-margin-top--5">
+        Spouse’s monthly income at {employerName}
+      </h3>
+      <va-number-input
+        label="What’s your spouse’s gross monthly income at this job?"
+        hint="You’ll find this in your spouse’s pay stub. It’s the amount of your
+        spouse’s pay before taxes and deductions."
+        inputmode="numeric"
+        currency
+        id="gross-monthly-income"
+        data-testid="gross-monthly-income"
+        name="gross-monthly-income"
+        onInput={setNewGrossMonthlyIncome}
+        type="text"
+        value={grossMonthlyIncome.value}
+        required
+        width="md"
+        error={
+          incomeError && grossMonthlyIncome.dirty
+            ? `Please enter a valid number.`
+            : ''
+        }
+      />
       {onReviewPage ? updateButton : navButtons}
     </form>
   );

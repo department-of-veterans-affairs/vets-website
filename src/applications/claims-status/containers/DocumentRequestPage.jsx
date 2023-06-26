@@ -28,6 +28,7 @@ import {
   setFieldsDirty,
   clearNotification,
 } from '../actions';
+import { scrubDescription } from '../utils/helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 // START lighthouse_migration
 import { cstUseLighthouse } from '../selectors';
@@ -100,7 +101,7 @@ class DocumentRequestPage extends React.Component {
             </p>
           </div>
         ) : null}
-        <p>{trackedItem.description}</p>
+        <p>{scrubDescription(trackedItem.description)}</p>
       </>
     );
   }

@@ -11,6 +11,7 @@ import BackButton from '../../../components/BackButton';
 import AppointmentBlock from '../../../components/AppointmentBlock';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useUpdateError } from '../../../hooks/useUpdateError';
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { intervalUntilNextAppointmentIneligibleForCheckin } from '../../../utils/appointment';
@@ -22,6 +23,8 @@ import Wrapper from '../../../components/layout/Wrapper';
 const DisplayMultipleAppointments = props => {
   const { appointments, router } = props;
   const { t } = useTranslation();
+
+  const { getCheckinComplete } = useSessionStorage(false);
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);
@@ -96,15 +99,18 @@ const DisplayMultipleAppointments = props => {
     </div>
   ) : (
     <>
-      <BackButton
-        router={router}
-        action={goToPreviousPage}
-        // @TODO make this a valid url somehow
-        prevUrl="#back"
-      />
+      {!getCheckinComplete(window) && (
+        <BackButton
+          router={router}
+          action={goToPreviousPage}
+          // @TODO make this a valid url somehow
+          prevUrl="#back"
+        />
+      )}
       <Wrapper
         pageTitle={t('your-appointments')}
         classNames="appointment-check-in"
+        eyebrow={t('check-in')}
         withBackButton
       >
         <AppointmentBlock

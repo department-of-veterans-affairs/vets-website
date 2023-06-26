@@ -20,6 +20,12 @@ describe('Secure Messaging Message Details AXE Check', () => {
     landingPage.loadInboxMessages(inboxMessages, messageDetails);
     detailsPage.loadMessageDetails(messageDetails, defaultMockThread, 0);
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

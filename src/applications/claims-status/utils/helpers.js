@@ -54,6 +54,10 @@ export function getUserPhase(phase) {
 // START lighthouse_migration
 export const getTrackedItemId = trackedItem =>
   trackedItem.trackedItemId || trackedItem.id;
+
+export const getTrackedItemDate = item => {
+  return item.closedDate || item.receivedDate || item.requestedDate;
+};
 // END lighthouse_migration
 
 export function getItemDate(item) {
@@ -237,28 +241,33 @@ export function getTopPosition(elem) {
   return Math.round(box.top + scrollTop - clientTop);
 }
 
+export function stripEscapedChars(text) {
+  return text && text.replace(/\\(n|r|t)/gm, '');
+}
+
+// strip escaped html entities that have made its way into the desc
+export function stripHtml(text) {
+  return text && text.replace(/[<>]|&\w+;/g, '');
+}
+
+export function scrubDescription(text) {
+  return stripEscapedChars(stripHtml(text));
+}
+
 export function truncateDescription(text) {
   const maxLength = 120;
   if (text && text.length > maxLength) {
     return `${text.substr(0, maxLength)}…`;
   }
-  return text;
-}
-
-// strip escaped html entities that have made its way into the desc
-export function stripHtml(text) {
-  return text && text.replace(/&\w+;/g, '');
+  return scrubDescription(text);
 }
 
 export function isClaimComplete(claim) {
   return claim.attributes.decisionLetterSent || claim.attributes.phase === 8;
 }
 
-export function itemsNeedingAttentionFromVet(events) {
-  return events?.filter(
-    event =>
-      event.status === 'NEEDED' && event.type === 'still_need_from_you_list',
-  ).length;
+export function itemsNeedingAttentionFromVet(items) {
+  return items?.filter(item => item.status === 'NEEDED_FROM_YOU').length;
 }
 
 export function makeAuthRequest(

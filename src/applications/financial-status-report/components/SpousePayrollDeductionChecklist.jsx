@@ -103,20 +103,18 @@ const SpousePayrollDeductionChecklist = props => {
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
   const updateButton = <button type="submit">Review update button</button>;
+  const title = `Your spouse’s job at ${employerName}`;
+  const prompt = 'Which of these payroll deductions does your spouse pay for?';
 
   return (
     <form onSubmit={updateFormData}>
-      <fieldset className="vads-u-margin-y--2">
-        <legend className="schemaform-block-title">
-          Your spouse’s job at {employerName}
-        </legend>
-        <p>Which of these payroll deductions does your spouse pay for?</p>
-        <Checklist
-          options={payrollDeductionOptions}
-          onChange={event => onChange(event)}
-          isBoxChecked={isBoxChecked}
-        />
-      </fieldset>
+      <Checklist
+        title={title}
+        prompt={prompt}
+        options={payrollDeductionOptions}
+        onChange={event => onChange(event)}
+        isBoxChecked={isBoxChecked}
+      />
       {onReviewPage ? updateButton : navButtons}
     </form>
   );

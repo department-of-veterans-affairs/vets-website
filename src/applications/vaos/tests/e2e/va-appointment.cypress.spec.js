@@ -12,6 +12,7 @@ import {
   vaosSetup,
   mockFacilitiesApi,
   mockUserTransitionAvailabilities,
+  mockAppointmentApi,
   mockGetEligibilityCC,
 } from './vaos-cypress-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
@@ -67,11 +68,28 @@ describe('VAOS direct schedule flow using VAOS service', () => {
       v2Requests: true,
       v2Facilities: true,
       v2DirectSchedule: true,
+      acheron: true,
     });
     mockUserTransitionAvailabilities();
   });
 
   it('should submit form', () => {
+    mockAppointmentApi({
+      data: {
+        id: 'mock1',
+        type: 'Appointment',
+        attributes: {
+          id: 'mock1',
+          kind: 'clinic',
+          locationId: '983',
+          serviceType: 'primaryCare',
+          start,
+          status: 'booked',
+        },
+      },
+      id: 'mock1',
+    });
+
     mockEligibilityApi({ isEligible: true });
     mockGetEligibilityCC();
     mockLoginApi();
@@ -135,6 +153,22 @@ describe('VAOS direct schedule flow using VAOS service', () => {
   });
 
   it('should submit form with an eye care type of care', () => {
+    mockAppointmentApi({
+      data: {
+        id: 'mock1',
+        type: 'Appointment',
+        attributes: {
+          id: 'mock1',
+          kind: 'clinic',
+          locationId: '983',
+          serviceType: 'optometry',
+          start,
+          status: 'booked',
+        },
+      },
+      id: 'mock1',
+    });
+
     mockEligibilityApi({ typeOfCare: 'optometry', isEligible: true });
     mockGetEligibilityCC('Optometry');
     mockLoginApi();
@@ -200,7 +234,10 @@ describe('VAOS direct schedule flow using VAOS service', () => {
         `${start.format('YYYY-MM-DD')}T00:00:00+00:00`,
       );
       // expect(body.reasonCode.coding).to.include({ code: 'Routine Follow-up' });
-      expect(body.reasonCode).to.have.property('text', 'insomnia');
+      expect(body.reasonCode).to.have.property(
+        'text',
+        'reasonCode:ROUTINEVISIT|comments:insomnia',
+      );
       expect(body.slot).to.have.property('id', '123');
     });
 
@@ -209,6 +246,22 @@ describe('VAOS direct schedule flow using VAOS service', () => {
   });
 
   it('should submit form with a sleep care type of care', () => {
+    mockAppointmentApi({
+      data: {
+        id: 'mock1',
+        type: 'Appointment',
+        attributes: {
+          id: 'mock1',
+          kind: 'clinic',
+          locationId: '983',
+          serviceType: 'homeSleepTesting',
+          start,
+          status: 'booked',
+        },
+      },
+      id: 'mock1',
+    });
+
     mockEligibilityApi({ typeOfCare: 'homeSleepTesting', isEligible: true });
     mockGetEligibilityCC('homeSleepTesting');
     mockLoginApi();
@@ -269,7 +322,10 @@ describe('VAOS direct schedule flow using VAOS service', () => {
         'desiredDate',
         `${start.format('YYYY-MM-DD')}T00:00:00+00:00`,
       );
-      expect(body.reasonCode).to.have.property('text', 'insomnia');
+      expect(body.reasonCode).to.have.property(
+        'text',
+        'reasonCode:ROUTINEVISIT|comments:insomnia',
+      );
     });
 
     // Confirmation page

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { ariaLabels } from '../../constants';
@@ -8,6 +8,8 @@ import LearnMoreLabel from '../LearnMoreLabel';
 const VETERAN = 'veteran';
 const SPOUSE = 'spouse';
 const NATIONAL_GUARD_RESERVES = 'national guard / reserves';
+const WHAT_IS_YOUR_MILITARY_STATUS = "What's your military status?";
+const WHAT_IS_YOUR_DEPENDENT_STATUS = "What's your dependent status?";
 
 const POST_911_ARRAY = [
   { optionValue: VETERAN, optionLabel: 'Veteran' },
@@ -71,29 +73,39 @@ const BenefitsForm = ({
     setWhatsYourMilitaryStatusDropDown,
   ] = useState(POST_911_ARRAY);
 
+  const [whatsYourStatusLabel, setWhatsYourStatusLabel] = useState(
+    WHAT_IS_YOUR_MILITARY_STATUS,
+  );
+
   const preEligibilityChange = (e, name, number) => {
     const field = e.target.name;
     const { value } = e.target;
-    //
+
     if (field === 'giBillChapter' && value === '33a') {
       setWhatsYourMilitaryStatusDropDown(POST_911_ARRAY);
       eligibilityChangeRedux({ militaryStatus: VETERAN });
+      setWhatsYourStatusLabel(WHAT_IS_YOUR_MILITARY_STATUS);
     } else if (field === 'giBillChapter' && value === '33b') {
       setWhatsYourMilitaryStatusDropDown(FRY_SCHOLARSHIP_ARRAY);
       eligibilityChangeRedux({ militaryStatus: SPOUSE });
+      setWhatsYourStatusLabel(WHAT_IS_YOUR_DEPENDENT_STATUS);
     } else if (field === 'giBillChapter' && value === '30') {
       setWhatsYourMilitaryStatusDropDown(MONTGOMERY_GI_BILL_ARRAY);
       eligibilityChangeRedux({ militaryStatus: VETERAN });
+      setWhatsYourStatusLabel(WHAT_IS_YOUR_MILITARY_STATUS);
     } else if (field === 'giBillChapter' && value === '1606') {
       setWhatsYourMilitaryStatusDropDown(SELECT_RESERVE_GI_BILL_ARRAY);
       eligibilityChangeRedux({ militaryStatus: NATIONAL_GUARD_RESERVES });
+      setWhatsYourStatusLabel(WHAT_IS_YOUR_MILITARY_STATUS);
     } else if (field === 'giBillChapter' && value === '31') {
       setWhatsYourMilitaryStatusDropDown(VETERAN_READINESS_ARRAY);
       eligibilityChangeRedux({ militaryStatus: VETERAN });
+      setWhatsYourStatusLabel(WHAT_IS_YOUR_MILITARY_STATUS);
     } else if (field === 'giBillChapter' && value === '35') {
       // Investigate
       setWhatsYourMilitaryStatusDropDown(SURVIVOR_AND_DEPENDENT_ARRAY);
       eligibilityChangeRedux({ militaryStatus: SPOUSE });
+      setWhatsYourStatusLabel(WHAT_IS_YOUR_DEPENDENT_STATUS);
     }
     eligibilityChange(e, name, number);
   };
@@ -177,11 +189,11 @@ const BenefitsForm = ({
           {giBillChapter !== '' && (
             <div className="military-status-info info form-group">
               <Dropdown
-                label="What's your military status?"
+                label={whatsYourStatusLabel}
                 name="militaryStatus"
                 options={whatsYourMilitaryStatusDropDown}
                 value={militaryStatus}
-                alt="What's your military status?"
+                alt={whatsYourStatusLabel}
                 visible
                 onChange={eligibilityChange}
                 onFocus={handleInputFocus}
@@ -259,8 +271,8 @@ const BenefitsForm = ({
             })}
             name="enlistmentService"
             options={[
-              { optionValue: '3', optionLabel: '3 or more years' },
-              { optionValue: '2', optionLabel: '2 or more years' },
+              { optionValue: '3', optionLabel: '3+ years of enlistment' },
+              { optionValue: '2', optionLabel: '2 years of enlistment' },
             ]}
             value={enlistmentService}
             alt="Completed an enlistment of:"

@@ -1,5 +1,7 @@
+import environment from 'platform/utilities/environment';
 import { Actions } from '../util/actionTypes';
 import { dateFormat, getNames, getReactions } from '../util/helpers';
+import { testing } from '../util/constants';
 
 const initialState = {
   /**
@@ -32,15 +34,23 @@ export const allergyReducer = (state = initialState, action) => {
     case Actions.Allergies.GET: {
       return {
         ...state,
-        allergyDetails: convertAllergy(action.response),
+        allergyDetails:
+          environment.BUILDTYPE === 'localhost' && testing
+            ? convertAllergy(action.response)
+            : action.response,
       };
     }
     case Actions.Allergies.GET_LIST: {
       return {
         ...state,
-        allergiesList: action.response.entry.map(allergy => {
-          return convertAllergy(allergy.resource);
-        }),
+        allergiesList:
+          environment.BUILDTYPE === 'localhost' && testing
+            ? action.response.entry.map(allergy => {
+                return convertAllergy(allergy.resource);
+              })
+            : action.response.map(allergy => {
+                return { ...allergy };
+              }),
       };
     }
     default:

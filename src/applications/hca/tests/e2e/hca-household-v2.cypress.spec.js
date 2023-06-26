@@ -16,10 +16,6 @@ import {
 const { data: testData } = maxTestData;
 
 describe('HCA-Household-V2-Non-Disclosure', () => {
-  before(function skipInCI() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -167,10 +163,6 @@ describe('HCA-Household-V2-Non-Disclosure', () => {
 });
 
 describe('HCA-Household-V2-Spousal-Disclosure', () => {
-  before(function skipInCI() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -227,7 +219,6 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
     cy.get('[name="root_cohabitedLastYear"]').check('Y');
     cy.get('[name="root_sameAddress"]').check('Y');
 
-    goToNextPage('/household-information-v2/spouse-financial-support');
     goToNextPage('/household-information-v2/dependents');
     cy.get('[type="radio"]')
       .last()
@@ -384,10 +375,6 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
 });
 
 describe('HCA-Household-V2-Dependent-Disclosure', () => {
-  before(function skipInCI() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -420,7 +407,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
     }).as('mockSubmit');
   });
 
-  it('works with dependent who lived with Veteran and did not earn income', () => {
+  it('works with dependent who is of college age, lived with Veteran and did not earn income', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
 
@@ -497,7 +484,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
     cy.axeCheck();
   });
 
-  it('works with dependent who lived with Veteran and earned income', () => {
+  it('works with dependent who is of college age, lived with Veteran and earned income', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
 
@@ -579,7 +566,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
     cy.axeCheck();
   });
 
-  it('works with dependent who did not live with Veteran and did not earn income', () => {
+  it('works with dependent who is of college age, did not live with Veteran and did not earn income', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
 
@@ -659,7 +646,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
     cy.axeCheck();
   });
 
-  it('works with dependent who did not live with Veteran and earned income', () => {
+  it('works with dependent who is of college age, did not live with Veteran and earned income', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
 
@@ -687,6 +674,318 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
     cy.get('#root_dependentEducationExpenses').type(
       testData.dependents[0].dependentEducationExpenses,
     );
+
+    goToNextPage();
+    cy.get('[name="root_disabledBefore18"]').check('N');
+    cy.get('[name="root_cohabitedLastYear"]').check('N');
+    cy.get('[name="root_view:dependentIncome"]').check('Y');
+
+    goToNextPage();
+    cy.get('[name="root_receivedSupportLastYear"]').check('Y');
+
+    goToNextPage();
+    cy.get('#root_grossIncome').type(22500);
+    cy.get('#root_netIncome').type(17100);
+    cy.get('#root_otherIncome').type(0);
+
+    goToNextPage('/household-information-v2/dependents');
+    cy.get('[name="root_view:reportDependents"]').check('N');
+
+    goToNextPage('/household-information-v2/veteran-annual-income');
+    cy.get('#root_veteranGrossIncome').type(testData.veteranGrossIncome);
+    cy.get('#root_veteranNetIncome').type(testData.veteranNetIncome);
+    cy.get('#root_veteranOtherIncome').type(testData.veteranOtherIncome);
+
+    goToNextPage('/household-information-v2/deductible-expenses');
+    cy.get('#root_deductibleMedicalExpenses').type(
+      testData.deductibleMedicalExpenses,
+    );
+    cy.get('#root_deductibleFuneralExpenses').type(
+      testData.deductibleFuneralExpenses,
+    );
+    cy.get('#root_deductibleEducationExpenses').type(
+      testData.deductibleEducationExpenses,
+    );
+
+    advanceFromHouseholdV2ToReview();
+
+    // accept the privacy agreement
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
+
+    // submit form
+    cy.findByText(/submit/i, { selector: 'button' }).click();
+
+    // check for correct disclosure value
+    cy.wait('@mockSubmit').then(interception => {
+      cy.wrap(JSON.parse(interception.request.body.form))
+        .its('discloseFinancialInformation')
+        .should('be.true');
+    });
+    cy.location('pathname').should('include', '/confirmation');
+
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+
+  it('works with dependent who is not of college age, lived with Veteran and did not earn income', () => {
+    cy.visit(manifest.rootUrl);
+    cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+
+    cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
+      .first()
+      .should('exist');
+
+    advanceToHouseholdV2();
+
+    goToNextPage('/household-information-v2/financial-disclosure');
+    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+
+    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/marital-status');
+    cy.get('#root_maritalStatus').select('Never Married');
+
+    goToNextPage('/household-information-v2/dependents');
+    cy.get('[name="root_view:reportDependents"]').check('Y');
+
+    goToNextPage('/household-information-v2/dependent-information');
+    fillDependentBasicInformation({
+      ...testData.dependents[0],
+      dateOfBirth: '1990-01-01',
+    });
+
+    goToNextPage();
+    cy.get('[name="root_disabledBefore18"]').check('N');
+    cy.get('[name="root_cohabitedLastYear"]').check('Y');
+    cy.get('[name="root_view:dependentIncome"]').check('N');
+
+    goToNextPage('/household-information-v2/dependents');
+    cy.get('[name="root_view:reportDependents"]').check('N');
+
+    goToNextPage('/household-information-v2/veteran-annual-income');
+    cy.get('#root_veteranGrossIncome').type(testData.veteranGrossIncome);
+    cy.get('#root_veteranNetIncome').type(testData.veteranNetIncome);
+    cy.get('#root_veteranOtherIncome').type(testData.veteranOtherIncome);
+
+    goToNextPage('/household-information-v2/deductible-expenses');
+    cy.get('#root_deductibleMedicalExpenses').type(
+      testData.deductibleMedicalExpenses,
+    );
+    cy.get('#root_deductibleFuneralExpenses').type(
+      testData.deductibleFuneralExpenses,
+    );
+    cy.get('#root_deductibleEducationExpenses').type(
+      testData.deductibleEducationExpenses,
+    );
+
+    advanceFromHouseholdV2ToReview();
+
+    // accept the privacy agreement
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
+
+    // submit form
+    cy.findByText(/submit/i, { selector: 'button' }).click();
+
+    // check for correct disclosure value
+    cy.wait('@mockSubmit').then(interception => {
+      cy.wrap(JSON.parse(interception.request.body.form))
+        .its('discloseFinancialInformation')
+        .should('be.true');
+    });
+    cy.location('pathname').should('include', '/confirmation');
+
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+
+  it('works with dependent who is not of college age, lived with Veteran and earned income', () => {
+    cy.visit(manifest.rootUrl);
+    cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+
+    cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
+      .first()
+      .should('exist');
+
+    advanceToHouseholdV2();
+
+    goToNextPage('/household-information-v2/financial-disclosure');
+    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+
+    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/marital-status');
+    cy.get('#root_maritalStatus').select('Never Married');
+
+    goToNextPage('/household-information-v2/dependents');
+    cy.get('[name="root_view:reportDependents"]').check('Y');
+
+    goToNextPage('/household-information-v2/dependent-information');
+    fillDependentBasicInformation({
+      ...testData.dependents[0],
+      dateOfBirth: '1990-01-01',
+    });
+
+    goToNextPage();
+    cy.get('[name="root_disabledBefore18"]').check('N');
+    cy.get('[name="root_cohabitedLastYear"]').check('Y');
+    cy.get('[name="root_view:dependentIncome"]').check('Y');
+
+    goToNextPage();
+    cy.get('#root_grossIncome').type(22500);
+    cy.get('#root_netIncome').type(17100);
+    cy.get('#root_otherIncome').type(0);
+
+    goToNextPage('/household-information-v2/dependents');
+    cy.get('[name="root_view:reportDependents"]').check('N');
+
+    goToNextPage('/household-information-v2/veteran-annual-income');
+    cy.get('#root_veteranGrossIncome').type(testData.veteranGrossIncome);
+    cy.get('#root_veteranNetIncome').type(testData.veteranNetIncome);
+    cy.get('#root_veteranOtherIncome').type(testData.veteranOtherIncome);
+
+    goToNextPage('/household-information-v2/deductible-expenses');
+    cy.get('#root_deductibleMedicalExpenses').type(
+      testData.deductibleMedicalExpenses,
+    );
+    cy.get('#root_deductibleFuneralExpenses').type(
+      testData.deductibleFuneralExpenses,
+    );
+    cy.get('#root_deductibleEducationExpenses').type(
+      testData.deductibleEducationExpenses,
+    );
+
+    advanceFromHouseholdV2ToReview();
+
+    // accept the privacy agreement
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
+
+    // submit form
+    cy.findByText(/submit/i, { selector: 'button' }).click();
+
+    // check for correct disclosure value
+    cy.wait('@mockSubmit').then(interception => {
+      cy.wrap(JSON.parse(interception.request.body.form))
+        .its('discloseFinancialInformation')
+        .should('be.true');
+    });
+    cy.location('pathname').should('include', '/confirmation');
+
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+
+  it('works with dependent who is not of college age, did not live with Veteran and did not earn income', () => {
+    cy.visit(manifest.rootUrl);
+    cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+
+    cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
+      .first()
+      .should('exist');
+
+    advanceToHouseholdV2();
+
+    goToNextPage('/household-information-v2/financial-disclosure');
+    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+
+    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/marital-status');
+    cy.get('#root_maritalStatus').select('Never Married');
+
+    goToNextPage('/household-information-v2/dependents');
+    cy.get('[name="root_view:reportDependents"]').check('Y');
+
+    goToNextPage('/household-information-v2/dependent-information');
+    fillDependentBasicInformation({
+      ...testData.dependents[0],
+      dateOfBirth: '1990-01-01',
+    });
+
+    goToNextPage();
+    cy.get('[name="root_disabledBefore18"]').check('N');
+    cy.get('[name="root_cohabitedLastYear"]').check('N');
+    cy.get('[name="root_view:dependentIncome"]').check('N');
+
+    goToNextPage();
+    cy.get('[name="root_receivedSupportLastYear"]').check('Y');
+
+    goToNextPage('/household-information-v2/dependents');
+    cy.get('[name="root_view:reportDependents"]').check('N');
+
+    goToNextPage('/household-information-v2/veteran-annual-income');
+    cy.get('#root_veteranGrossIncome').type(testData.veteranGrossIncome);
+    cy.get('#root_veteranNetIncome').type(testData.veteranNetIncome);
+    cy.get('#root_veteranOtherIncome').type(testData.veteranOtherIncome);
+
+    goToNextPage('/household-information-v2/deductible-expenses');
+    cy.get('#root_deductibleMedicalExpenses').type(
+      testData.deductibleMedicalExpenses,
+    );
+    cy.get('#root_deductibleFuneralExpenses').type(
+      testData.deductibleFuneralExpenses,
+    );
+    cy.get('#root_deductibleEducationExpenses').type(
+      testData.deductibleEducationExpenses,
+    );
+
+    advanceFromHouseholdV2ToReview();
+
+    // accept the privacy agreement
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
+
+    // submit form
+    cy.findByText(/submit/i, { selector: 'button' }).click();
+
+    // check for correct disclosure value
+    cy.wait('@mockSubmit').then(interception => {
+      cy.wrap(JSON.parse(interception.request.body.form))
+        .its('discloseFinancialInformation')
+        .should('be.true');
+    });
+    cy.location('pathname').should('include', '/confirmation');
+
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+
+  it('works with dependent who is not of college age, did not live with Veteran and earned income', () => {
+    cy.visit(manifest.rootUrl);
+    cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+
+    cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
+      .first()
+      .should('exist');
+
+    advanceToHouseholdV2();
+
+    goToNextPage('/household-information-v2/financial-disclosure');
+    cy.get('[name="root_discloseFinancialInformation"]').check('Y');
+
+    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/marital-status');
+    cy.get('#root_maritalStatus').select('Never Married');
+
+    goToNextPage('/household-information-v2/dependents');
+    cy.get('[name="root_view:reportDependents"]').check('Y');
+
+    goToNextPage('/household-information-v2/dependent-information');
+    fillDependentBasicInformation({
+      ...testData.dependents[0],
+      dateOfBirth: '1990-01-01',
+    });
 
     goToNextPage();
     cy.get('[name="root_disabledBefore18"]').check('N');
@@ -746,10 +1045,6 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
 });
 
 describe('HCA-Household-V2-Full-Disclosure', () => {
-  before(function skipInCI() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -805,8 +1100,6 @@ describe('HCA-Household-V2-Full-Disclosure', () => {
     goToNextPage('/household-information-v2/spouse-additional-information');
     cy.get('[name="root_cohabitedLastYear"]').check('Y');
     cy.get('[name="root_sameAddress"]').check('Y');
-
-    goToNextPage('/household-information-v2/spouse-financial-support');
 
     goToNextPage('/household-information-v2/dependents');
     cy.get('[name="root_view:reportDependents"]').check('Y');

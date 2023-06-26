@@ -62,10 +62,14 @@ export const validateVaToDate = (errors, data) => {
   }
 };
 
-const buildVaLocationString = (data, joiner = '') =>
+export const buildVaLocationString = (
+  data,
+  joiner = '',
+  { includeIssues = true } = {},
+) =>
   [
     data.locationAndName || '',
-    ...sortIssues(data.issues || []),
+    ...sortIssues(includeIssues ? data.issues || [] : []),
     fixDateFormat(data.evidenceDates?.from || '').replace(REGEX_EMPTY_DATE, ''),
     fixDateFormat(data.evidenceDates?.to || '').replace(REGEX_EMPTY_DATE, ''),
   ].join(joiner);
@@ -180,11 +184,15 @@ export const validatePrivateToDate = (errors, data) => {
   }
 };
 
-const buildPrivateString = (data, joiner = '') =>
+export const buildPrivateString = (
+  data,
+  joiner = '',
+  { includeIssues = true } = {},
+) =>
   [
     data.providerFacilityName || '',
     ...Object.values(data.providerFacilityAddress || {}),
-    ...sortIssues(data.issues || []),
+    ...sortIssues(includeIssues ? data.issues || [] : []),
     fixDateFormat(data.treatmentDateRange?.from || '').replace(
       REGEX_EMPTY_DATE,
       '',

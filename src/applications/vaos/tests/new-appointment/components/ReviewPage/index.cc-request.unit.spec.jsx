@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
@@ -659,8 +660,8 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
     expect(global.window.dataLayer[1]).to.deep.include({
       event: 'vaos-community-care-submission-successful',
       flow: 'cc-request',
-      'health-TypeOfCare': 'Primary care',
-      'health-ReasonForAppointment': undefined,
+      custom_string_1: 'health-TypeOfCare: Primary care',
+      custom_string_2: 'health-ReasonForAppointment: undefined',
       'vaos-community-care-preferred-language': 'english',
       'vaos-number-of-preferred-providers': 1,
       'vaos-number-of-days-from-preference': '1-1-null',
@@ -718,8 +719,8 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
     expect(global.window.dataLayer[1]).to.deep.include({
       event: 'vaos-community-care-submission-failed',
       flow: 'cc-request',
-      'health-TypeOfCare': 'Primary care',
-      'health-ReasonForAppointment': undefined,
+      custom_string_1: 'health-TypeOfCare: Primary care',
+      custom_string_2: 'health-ReasonForAppointment: undefined',
       'vaos-community-care-preferred-language': 'english',
       'vaos-number-of-preferred-providers': 1,
       'vaos-number-of-days-from-preference': '1-1-null',

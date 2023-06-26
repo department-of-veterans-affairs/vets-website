@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 
@@ -233,18 +234,14 @@ export function startRequestAppointmentFlow(isCommunityCare) {
 export function fetchFacilityDetails(facilityId) {
   let facilityDetails;
 
-  return async (dispatch, getState) => {
+  return async dispatch => {
     dispatch({
       type: FORM_FETCH_FACILITY_DETAILS,
     });
-    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-      getState(),
-    );
 
     try {
       facilityDetails = await getLocation({
         facilityId,
-        useV2: featureFacilitiesServiceV2,
       });
     } catch (error) {
       facilityDetails = null;
@@ -600,11 +597,9 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
         const fetchedSlots = await getSlots({
           siteId,
-          typeOfCareId: data?.typeOfCareId,
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
-          useV2: featureVAOSServiceVAAppointments,
         });
         const tomorrow = moment()
           .add(1, 'day')
@@ -708,7 +703,6 @@ export function checkCommunityCareEligibility() {
       });
       const ccEnabledSystems = await fetchCommunityCareSupportedSites({
         locations: parentFacilities,
-        useV2: featureFacilitiesServiceV2,
       });
 
       dispatch({
@@ -770,8 +764,10 @@ export function submitAppointmentOrRequest(history) {
     });
 
     let additionalEventData = {
-      'health-TypeOfCare': typeOfCare,
-      'health-ReasonForAppointment': data?.reasonForAppointment,
+      custom_string_1: `health-TypeOfCare: ${typeOfCare}`,
+      custom_string_2: `health-ReasonForAppointment: ${
+        data?.reasonForAppointment
+      }`,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
@@ -882,10 +878,7 @@ export function submitAppointmentOrRequest(history) {
           requestBody = transformFormToVAOSCCRequest(getState());
           requestData = await createAppointment({ appointment: requestBody });
         } else if (featureVAOSServiceRequests) {
-          requestBody = transformFormToVAOSVARequest(
-            getState(),
-            featureAcheronVAOSServiceRequests,
-          );
+          requestBody = transformFormToVAOSVARequest(getState());
           requestData = await createAppointment({
             appointment: requestBody,
             useAcheron: featureAcheronVAOSServiceRequests,

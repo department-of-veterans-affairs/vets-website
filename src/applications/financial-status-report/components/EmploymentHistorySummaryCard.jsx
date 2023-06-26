@@ -123,6 +123,7 @@ const EmploymentHistorySummaryCard = ({
   return (
     (!job && <EmptyMiniSummaryCard content={emptyPrompt} />) || (
       <MiniSummaryCard
+        ariaLabel={`Job ${index + 1} ${employmentCardHeading}`}
         editDestination={handleClick(index)}
         heading={employmentCardHeading}
         body={cardBody}

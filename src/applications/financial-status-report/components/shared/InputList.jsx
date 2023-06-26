@@ -11,12 +11,15 @@ const InputList = ({
 }) => {
   return (
     <fieldset className="vads-u-margin-y--2">
-      {title && <legend className="schemaform-block-title">{title}</legend>}
+      {title && (
+        <legend className="schemaform-block-title">
+          <h3 className="vads-u-margin--0">{title}</h3>
+        </legend>
+      )}
       {prompt && <p>{prompt}</p>}
       {inputs?.map((input, key) => (
-        <div key={input.name + key} className="input-size-3">
+        <div key={input.name + key}>
           <va-number-input
-            className="no-wrap input-size-3"
             error={
               submitted && errorList.includes(input.name)
                 ? 'Enter valid dollar amount'
@@ -29,6 +32,7 @@ const InputList = ({
             onInput={onChange}
             required
             value={input.amount}
+            width="md"
             currency
           />
         </div>

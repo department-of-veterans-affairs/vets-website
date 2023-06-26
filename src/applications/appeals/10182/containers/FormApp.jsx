@@ -5,14 +5,6 @@ import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
-import environment from 'platform/utilities/environment';
-
-// **** temporary code ****
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-// **** end temporary code ****
-
-import user from '../tests/fixtures/mocks/user.json';
 
 import formConfig from '../config/form';
 import {
@@ -35,54 +27,19 @@ export const FormApp = ({
   showNod,
   location,
   children,
-  profile,
   formData,
   setFormData,
   getContestableIssues,
   contestableIssues = {},
-  // **** temporary code ****
-  disableSubmit,
-  // **** end temporary code ****
 }) => {
-  // vapContactInfo is an empty object locally, so mock it
-  const data = environment.isLocalhost()
-    ? user.data.attributes.vet360ContactInformation
-    : profile?.vapContactInfo || {};
-
-  const { email = {}, mobilePhone = {}, mailingAddress = {} } = data;
-
-  // **** temporary code ****
-  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/58229
-  useEffect(
-    () => {
-      if (loggedIn && location?.pathname === '/review-and-submit') {
-        const timer = setInterval(() => {
-          const submit = document.querySelector(
-            '.form-progress-buttons .usa-button-primary',
-          );
-          if (submit) {
-            submit.disabled = true;
-            clearInterval(timer);
-          }
-        }, 50);
-      }
-    },
-    [loggedIn, disableSubmit, location?.pathname],
-  );
-  // **** end temporary code ****
-
   // Update profile data changes in the form data dynamically
   useEffect(
     () => {
       if (showNod && loggedIn) {
-        const { veteran = {} } = formData || {};
         const areaOfDisagreement = getSelected(formData);
         if (!contestableIssues?.status) {
           getContestableIssues();
         } else if (
-          email?.emailAddress !== veteran.email ||
-          mobilePhone?.updatedAt !== veteran.phone?.updatedAt ||
-          mailingAddress?.updatedAt !== veteran.address?.updatedAt ||
           issuesNeedUpdating(
             contestableIssues?.issues,
             formData.contestableIssues,
@@ -90,12 +47,6 @@ export const FormApp = ({
         ) {
           setFormData({
             ...formData,
-            veteran: {
-              ...veteran,
-              address: mailingAddress,
-              phone: mobilePhone,
-              email: email?.emailAddress,
-            },
             contestableIssues: processContestableIssues(
               contestableIssues?.issues,
             ),
@@ -122,9 +73,6 @@ export const FormApp = ({
     [
       showNod,
       loggedIn,
-      email,
-      mobilePhone,
-      mailingAddress,
       formData,
       setFormData,
       contestableIssues,
@@ -134,10 +82,7 @@ export const FormApp = ({
 
   let content = isLoading ? (
     <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-      <va-loading-indicator
-        set-focus
-        message="Loading your previous decisions..."
-      />
+      <va-loading-indicator set-focus message="Loading application..." />
     </h1>
   ) : (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -162,9 +107,6 @@ FormApp.propTypes = {
     issues: PropTypes.array,
     status: PropTypes.string,
   }),
-  // **** temporary code ****
-  disableSubmit: PropTypes.bool,
-  // **** end temporary code ****
   formData: PropTypes.shape({
     areaOfDisagreement: PropTypes.array,
     contestableIssues: PropTypes.array,
@@ -189,21 +131,7 @@ const mapStateToProps = state => {
   const isLoading = state.featureToggles?.loading;
   const loggedIn = isLoggedIn(state);
   const { contestableIssues } = state;
-  // **** temporary code ****
-  // accidently named the feature flag with HLR instead of NOD
-  const disableSubmit =
-    toggleValues(state)[FEATURE_FLAG_NAMES.hlrDisableSubmit] || false;
-  return {
-    disableSubmit,
-    profile,
-    formData,
-    showNod,
-    contestableIssues,
-    isLoading,
-    loggedIn,
-  };
-  // **** end temporary code ****
-  // return { profile, formData, showNod, contestableIssues, isLoading, loggedIn };
+  return { profile, formData, showNod, contestableIssues, isLoading, loggedIn };
 };
 
 const mapDispatchToProps = {
