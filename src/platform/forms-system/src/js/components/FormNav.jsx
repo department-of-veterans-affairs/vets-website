@@ -118,7 +118,6 @@ export default function FormNav(props) {
         // function to be called inadvertently
         if (
           formConfig.useCustomScrollAndFocus &&
-          page.scrollAndFocusTarget &&
           !(
             page.chapterKey === 'review' ||
             window.location.pathname.endsWith('review-and-submit')
