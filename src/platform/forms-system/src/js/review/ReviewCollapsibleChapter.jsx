@@ -260,6 +260,8 @@ class ReviewCollapsibleChapter extends React.Component {
 
   getCustomPageContent = (page, props, editing) => {
     if (editing) {
+      // noop defined as a function for unit tests
+      const noop = function noop() {};
       return (
         <page.CustomPage
           key={page.pageKey}
@@ -272,6 +274,10 @@ class ReviewCollapsibleChapter extends React.Component {
           data={props.form.data}
           updatePage={() => this.handleEdit(page.pageKey, false, page.index)}
           pagePerItemIndex={page.index}
+          // noop for navigation to prevent JS error
+          goBack={noop}
+          goForward={noop}
+          goToPath={noop}
         />
       );
     }
