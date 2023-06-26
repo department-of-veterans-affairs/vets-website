@@ -4,8 +4,10 @@ import { VaButtonPair } from '@department-of-veterans-affairs/component-library/
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
+import { scrollToTop } from '../utilities/scroll-to-top';
+import { getData } from '../api';
 import { ROUTES } from '../constants';
-import { updateEditMode } from '../actions';
+import { updateEditMode, updateResults } from '../actions';
 
 const ReviewPage = ({
   dependentsInput,
@@ -13,6 +15,7 @@ const ReviewPage = ({
   pastMode,
   router,
   toggleEditMode,
+  updateLimitsResults,
   yearInput,
   zipCodeInput,
 }) => {
@@ -24,10 +27,24 @@ const ReviewPage = ({
 
   useEffect(() => {
     focusElement('h1');
+    scrollToTop();
   }, []);
 
-  const onContinueClick = () => {
-    router.push(ROUTES.RESULTS);
+  const onContinueClick = async () => {
+    const year = yearInput || new Date().getFullYear();
+
+    if (dependentsInput && year && zipCodeInput) {
+      const response = await getData({
+        dependents: dependentsInput,
+        year,
+        zipCode: zipCodeInput,
+      });
+
+      if (response) {
+        updateLimitsResults(response?.data);
+        router.push(ROUTES.RESULTS);
+      }
+    }
   };
 
   const onBackClick = () => {
@@ -123,6 +140,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   toggleEditMode: updateEditMode,
+  updateLimitsResults: updateResults,
 };
 
 ReviewPage.propTypes = {
@@ -133,6 +151,7 @@ ReviewPage.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   toggleEditMode: PropTypes.func.isRequired,
+  updateLimitsResults: PropTypes.func.isRequired,
   zipCodeInput: PropTypes.string.isRequired,
   yearInput: PropTypes.string,
 };
