@@ -15,9 +15,9 @@ const SpouseEmploymentWorkDates = props => {
 
   const editIndex = getJobIndex();
 
-  const index = Number(editIndex) ?? 0;
-
   const isEditing = editIndex && !Number.isNaN(editIndex);
+
+  const index = isEditing ? Number(editIndex) : 0;
 
   const userType = 'spouse';
 
@@ -42,11 +42,10 @@ const SpouseEmploymentWorkDates = props => {
   const fromError = "Please enter your spouse's employment start date.";
   const toError = "Please enter your spouse's employment end date.";
 
-  const [toDateError, setToDateError] = useState();
-  const [fromDateError, setFromDateError] = useState();
+  const [toDateError, setToDateError] = useState(null);
+  const [fromDateError, setFromDateError] = useState(null);
 
-  const updateFormData = e => {
-    e.preventDefault();
+  const updateFormData = () => {
     if (fromDateError || (toDateError && !employmentRecord.isCurrent))
       return null;
 
@@ -171,7 +170,7 @@ const SpouseEmploymentWorkDates = props => {
   };
 
   return (
-    <form onSubmit={updateFormData}>
+    <form onSubmit={handlers.onSubmitted}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           Your spouse’s job at {employerName}
@@ -219,8 +218,34 @@ export default connect(
 )(SpouseEmploymentWorkDates);
 
 SpouseEmploymentWorkDates.propTypes = {
-  employmentHistory: PropTypes.object.isRequired,
-  formData: PropTypes.object.isRequired,
+  data: PropTypes.shape({
+    personalData: PropTypes.shape({
+      employmentHistory: PropTypes.shape({
+        newRecord: PropTypes.shape({
+          employerName: PropTypes.string,
+          from: PropTypes.string,
+          to: PropTypes.string,
+          type: PropTypes.string,
+          grossMonthlyIncome: PropTypes.string,
+          deductions: PropTypes.array,
+          isCurrent: PropTypes.bool,
+        }),
+        spouse: PropTypes.shape({
+          spEmploymentRecords: PropTypes.arrayOf(
+            PropTypes.shape({
+              employerName: PropTypes.string,
+              from: PropTypes.string,
+              to: PropTypes.string,
+              type: PropTypes.string,
+              grossMonthlyIncome: PropTypes.string,
+              deductions: PropTypes.array,
+              isCurrent: PropTypes.bool,
+            }),
+          ),
+        }),
+      }),
+    }),
+  }).isRequired,
   goToPath: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
 };

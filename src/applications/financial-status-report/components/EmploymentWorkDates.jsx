@@ -215,7 +215,34 @@ export default connect(
 )(EmploymentWorkDates);
 
 EmploymentWorkDates.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.shape({
+    personalData: PropTypes.shape({
+      employmentHistory: PropTypes.shape({
+        newRecord: PropTypes.shape({
+          employerName: PropTypes.string,
+          from: PropTypes.string,
+          to: PropTypes.string,
+          type: PropTypes.string,
+          grossMonthlyIncome: PropTypes.string,
+          deductions: PropTypes.array,
+          isCurrent: PropTypes.bool,
+        }),
+        veteran: PropTypes.shape({
+          employmentRecords: PropTypes.arrayOf(
+            PropTypes.shape({
+              employerName: PropTypes.string,
+              from: PropTypes.string,
+              to: PropTypes.string,
+              type: PropTypes.string,
+              grossMonthlyIncome: PropTypes.string,
+              deductions: PropTypes.array,
+              isCurrent: PropTypes.bool,
+            }),
+          ),
+        }),
+      }),
+    }),
+  }).isRequired,
   goToPath: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
 };
