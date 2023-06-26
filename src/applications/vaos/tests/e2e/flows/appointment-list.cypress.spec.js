@@ -14,7 +14,7 @@ import {
   mockClinicApi,
   mockAppointmentApi,
   mockVamcEhr,
-} from './vaos-cypress-helpers';
+} from '../vaos-cypress-helpers';
 
 describe('VAOS appointment list', () => {
   describe('appointments details', () => {

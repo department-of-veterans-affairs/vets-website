@@ -1,4 +1,4 @@
-import moment from '../../utils/business-days';
+import moment from '../../../utils/business-days';
 import {
   mockCCEligibilityApi,
   mockClinicApi,
@@ -14,8 +14,8 @@ import {
   mockUserTransitionAvailabilities,
   mockAppointmentApi,
   mockGetEligibilityCC,
-} from './vaos-cypress-helpers';
-import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
+} from '../vaos-cypress-helpers';
+import * as newApptTests from '../vaos-cypress-schedule-appointment-helpers';
 
 describe('VAOS direct schedule flow using VAOS service', () => {
   const start = moment()

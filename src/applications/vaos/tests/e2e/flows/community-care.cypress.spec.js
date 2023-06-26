@@ -13,7 +13,7 @@ import {
   mockAppointmentApi,
   mockVamcEhr,
   mockGetEligibilityCC,
-} from './vaos-cypress-helpers';
+} from '../vaos-cypress-helpers';
 
 describe('VAOS community care flow using VAOS service', () => {
   beforeEach(() => {

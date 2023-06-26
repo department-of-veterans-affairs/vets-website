@@ -15,8 +15,8 @@ import {
   mockVamcEhr,
   mockFacilityApi,
   mockAppointmentApi,
-} from './vaos-cypress-helpers';
-import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
+} from '../vaos-cypress-helpers';
+import * as newApptTests from '../vaos-cypress-schedule-appointment-helpers';
 
 describe('VAOS VA request flow using VAOS service', () => {
   beforeEach(() => {
@@ -162,6 +162,18 @@ describe('VAOS VA request flow using VAOS service', () => {
       },
     ];
 
+    mockAppointmentApi({
+      id: 'mock1',
+      data: {
+        id: 'mock1',
+        type: 'appointment',
+        attributes: {
+          id: 'mock1',
+          status: 'pending',
+          requestedPeriods: [{ start: moment().format('YYYY-MM-DDTHH:mm:ss') }],
+        },
+      },
+    });
     mockAppointmentsApi({ apiVersion: 2 });
     mockClinicApi({ locations: ['983', '983GB'], apiVersion: 2 });
     mockEligibilityApi({ typeOfCare: 'socialWork', isEligible: true });
