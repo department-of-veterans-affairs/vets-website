@@ -40,6 +40,8 @@ echo "set yarn to allow self-signed cert for install"
 yarn config set "strict-ssl" false
 
 # Build and watch vets-website
+echo $NODE_EXTRA_CA_CERTS
+
 echo "Install, build, and watch vets-website"
 cd vets-website
 echo "Installing"
