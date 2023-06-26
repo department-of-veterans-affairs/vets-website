@@ -10,5 +10,11 @@
     "country": "USA",
     "postalCode": "12345"
   },
-  "preparerPhone": "9876543210"
+  "preparerPhone": "9876543210",
+  "veteranFullName": {
+    "first": "Alex",
+    "last": "Veteran"
+  },
+  "veteranDateOfBirth": "1950-10-25",
+  "veteranSsn": "999442222"
 }
