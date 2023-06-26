@@ -457,6 +457,10 @@ export const ERROR_CODES = [
     code: 10006,
     detail: 'Failure to fetch Requests',
   },
+  {
+    code: 6000,
+    detail: 'There were errors fetching appointments from VSP',
+  },
 ];
 export const SERVICE_CATEGORY = [
   {

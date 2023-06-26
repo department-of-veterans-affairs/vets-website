@@ -68,6 +68,13 @@
             "code": 10006,
             "message": "Could not fetch appointment requests from Vista Scheduling Provider",
             "detail": "icn=500104V500104 startDate=2016-01-25T00:00Z endDate=2025-12-26T00:00Z"
+        },
+        {
+            "system": "VSP",
+            "id": "80030aea-0c2c-44c8-a629-3483afb14ffe",
+            "status": "500",
+            "code": 6000,
+            "message": "There were errors fetching appointments from VSP: Resource types: [requests]: Failed to fetch appt requests for patient 984/552161050; Failed to fetch appt requests for patient 983/7216691"
         }
     ]
 }

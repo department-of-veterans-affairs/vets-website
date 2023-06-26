@@ -27,6 +27,7 @@ function displayType(errorCodes, location) {
       code =>
         code === 10000 ||
         code === 10005 ||
+        code === 6000 ||
         code === 9006 ||
         code === 9007 ||
         code === 9008,
