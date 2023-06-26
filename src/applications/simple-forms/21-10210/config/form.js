@@ -1,6 +1,9 @@
 import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
-import { defaultFocusSelector, focusElement } from 'platform/utilities/ui';
+import {
+  defaultFocusSelector,
+  waitForRenderThenFocus,
+} from 'platform/utilities/ui';
 import manifest from '../manifest.json';
 
 import getHelp from '../../shared/components/GetFormHelp';
@@ -54,7 +57,7 @@ const pageFocus = () => {
       focusSelector = defaultFocusSelector;
     }
 
-    focusElement(focusSelector);
+    waitForRenderThenFocus(focusSelector);
   };
 };
 
