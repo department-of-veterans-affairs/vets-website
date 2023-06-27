@@ -250,7 +250,7 @@ export const DependentDescription = () => {
             must be true:
           </strong>
         </p>
-        <ul>
+        <ul className="vads-u-margin-bottom--0">
           <li>
             They’re under 18 years old, <strong>or</strong>
           </li>
@@ -271,16 +271,45 @@ export const DependentDescription = () => {
 };
 
 export const DependentSupportDescription = (
-  <p className="vads-u-color--gray-medium vads-u-margin-top--1 vads-u-margin-bottom--3">
-    Please count all support contributions even if they weren’t paid in regular
-    and set amounts. Support can include tuition or medical bill payments
-  </p>
+  <va-additional-info
+    trigger="What we consider financial support"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        We consider any payments, even if they aren’t regular or the same
+        amount, to be financial support.
+      </p>
+      <p className="vads-u-font-weight--bold">
+        Financial Support includes payments for these types of expenses:
+      </p>
+      <ul className="vads-u-margin-bottom--0">
+        <li>Tuition or medical bills</li>
+        <li>Monthly child or spousal support</li>
+        <li>One-time payment financial support</li>
+      </ul>
+    </div>
+  </va-additional-info>
 );
 
 export const EducationalExpensesDescription = (
-  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-    This includes tuition, books, fees, and course materials.
-  </div>
+  <va-additional-info
+    trigger="What we consider college or vocational expenses"
+    class="vads-u-margin-y--1"
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        College and vocational expenses include payments for these expenses
+        related to your own education:
+      </p>
+      <ul className="vads-u-margin-bottom--0">
+        <li>Tuition</li>
+        <li>Books</li>
+        <li>Fees</li>
+        <li>Course materials</li>
+      </ul>
+    </div>
+  </va-additional-info>
 );
 
 // NOTE: for household v1 only -- remove when v2 is fully-adopted
@@ -347,13 +376,37 @@ export const FinancialDisclosureDescription = (
   </>
 );
 
-export const GrossIncomeDescription = (
+export const FuneralExpensesDescription = (
   <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-    Gross income is your income before any taxes, and other deductions are
-    subtracted. This includes any employment wages, bonuses, severance pay, and
-    tips. Include your dependent’s income if it could have been used to pay
-    household expenses.
+    Funeral and burial expenses are any payments made by you, like prepaid
+    expenses.
   </div>
+);
+
+export const GrossIncomeDescription = (
+  <>
+    <div className="vads-u-color--gray-medium vads-u-margin-y--1">
+      Gross income is your income before taxes and any other deductions are
+      subtracted.
+    </div>
+
+    <va-additional-info
+      trigger="What we consider gross annual income"
+      class="vads-u-margin-y--1"
+    >
+      <div>
+        <p className="vads-u-font-weight--bold vads-u-margin-top--0">
+          Gross income includes these types of income from a job:
+        </p>
+        <ul className="vads-u-margin-bottom--0">
+          <li>Wages</li>
+          <li>Bonuses</li>
+          <li>Tips</li>
+          <li>Severance pay</li>
+        </ul>
+      </div>
+    </va-additional-info>
+  </>
 );
 
 export const IncomeDescription = (
@@ -423,6 +476,61 @@ export const MaritalStatusV2Description = (
   </va-additional-info>
 );
 
+export const MedicalExpensesDescription = (
+  <va-additional-info
+    trigger="What we consider non-reimbursable medical expenses"
+    class="vads-u-margin-y--1"
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        Non-reimbursable medical expenses include costs you or your spouse paid
+        for these types of health care for yourselves, your dependents, or other
+        you have the moral obligation to support:
+      </p>
+      <ul className="vads-u-margin-bottom--0">
+        <li>Doctor or dentist appointments</li>
+        <li>Medications</li>
+        <li>Medicare or health insurance</li>
+        <li>Inpatient hospital care</li>
+        <li>Nursing home care</li>
+      </ul>
+    </div>
+  </va-additional-info>
+);
+
+export const NetIncomeDescription = (
+  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
+    Net income is your income after any taxes and other deductions are
+    subtracted.
+  </div>
+);
+
+export const OtherIncomeDescription = (
+  <>
+    <div className="vads-u-color--gray-medium vads-u-margin-y--1">
+      Other income is your additional income that does not come from a job.
+    </div>
+
+    <va-additional-info
+      trigger="What we consider other income"
+      class="vads-u-margin-y--1"
+    >
+      <div>
+        <p className="vads-u-font-weight--bold vads-u-margin-top--0">
+          Other income includes things like:
+        </p>
+        <ul className="vads-u-margin-bottom--0">
+          <li>Retirement benefits</li>
+          <li>Unemployment</li>
+          <li>VA benefit compensation</li>
+          <li>Money from the sale of a house</li>
+          <li>Interest from investments</li>
+        </ul>
+      </div>
+    </va-additional-info>
+  </>
+);
+
 export const SpouseAdditionalInformation = () => {
   const date = new Date();
   return (
@@ -446,22 +554,6 @@ export const SpouseAdditionalInformation = () => {
     </>
   );
 };
-
-export const NetIncomeDescription = (
-  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-    Net income is your income after any taxes and other deductions are
-    subtracted.
-  </div>
-);
-
-export const OtherIncomeDescription = (
-  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-    This includes any income from Social Security, unemployment, retirement and
-    pension, compensation benefits such as VA disability, and any interest or
-    dividends including, tax-exempt earnings from Individual Retirement Accounts
-    (IRAs) or annuities.
-  </div>
-);
 
 /** CHAPTER 5: Insurance Information */
 export const EssentialCoverageDescription = (

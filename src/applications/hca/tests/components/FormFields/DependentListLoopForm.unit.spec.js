@@ -8,7 +8,7 @@ import DependentListLoopForm from '../../../components/FormFields/DependentListL
 describe('hca <DependentListLoopForm>', () => {
   const defaultProps = {
     data: {},
-    page: { id: 'basic', title: 'basic information' },
+    page: { id: 'basic', title: '%s\u2019s basic information' },
     onChange: sinon.spy(),
     onSubmit: sinon.spy(),
   };
@@ -18,23 +18,19 @@ describe('hca <DependentListLoopForm>', () => {
     const form = view.container.querySelector('.rjsf');
     const title = view.container.querySelector('#root__title');
     expect(form).to.exist;
-    expect(title).to.contain.text(`Dependent - ${defaultProps.page.title}`);
+    expect(title).to.contain.text('Dependent\u2019s basic information');
   });
 
   it('should render the additional info form with a title specific to the dependent name', () => {
     const props = {
       ...defaultProps,
       data: { fullName: { first: 'Mary', last: 'Smith' } },
-      page: { id: 'additional', title: 'additional information' },
+      page: { id: 'additional', title: '%s\u2019s additional information' },
     };
     const view = render(<DependentListLoopForm {...props} />);
     const form = view.container.querySelector('.rjsf');
     const title = view.container.querySelector('#root__title');
     expect(form).to.exist;
-    expect(title).to.contain.text(
-      `${props.data.fullName.first} ${props.data.fullName.last} - ${
-        props.page.title
-      }`,
-    );
+    expect(title).to.contain.text('Mary Smith\u2019s additional information');
   });
 });

@@ -5,18 +5,18 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import { focusElement } from 'platform/utilities/ui';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import DependentListLoopForm from '../FormFields/DependentListLoopForm';
+import CancelDependentActionDescription from '../FormDescriptions/CancelDependentActionDescription';
 
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
-import {
-  createLiteralMap,
-  isOfCollegeAge,
-  getDependentPageList,
-} from '../../utils/helpers';
+import { isOfCollegeAge, getDependentPageList } from '../../utils/helpers';
 import {
   DEPENDENT_VIEW_FIELDS,
   SESSION_ITEM_NAME,
   SHARED_PATHS,
 } from '../../utils/constants';
+
+const date = new Date();
+const lastYear = date.getFullYear() - 1;
 
 // declare shared data & route attrs from the form
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
@@ -25,25 +25,25 @@ const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
 const SUB_PAGES = [
   {
     id: 'basic',
-    title: 'basic information',
+    title: '%s\u2019s basic information',
   },
   {
     id: 'education',
-    title: 'educational expenses',
+    title: '%s\u2019s educational expenses',
     depends: { key: 'dateOfBirth', value: isOfCollegeAge },
   },
   {
     id: 'additional',
-    title: 'additional information',
+    title: '%s\u2019s additional information',
   },
   {
     id: 'support',
-    title: 'additional information',
+    title: 'Financial support for %s',
     depends: { key: 'cohabitedLastYear', value: false },
   },
   {
     id: 'income',
-    title: 'annual income',
+    title: `%s\u2019s annual income from ${lastYear}`,
     depends: { key: 'view:dependentIncome', value: true },
   },
 ];
@@ -157,29 +157,6 @@ const DependentInformation = props => {
     },
   };
 
-  // construct cancel description for modal based on page mode and form data
-  const cancelDescription = useMemo(
-    () => {
-      const { fullName = {} } = localData || {};
-      const normalizedFullName = `${fullName.first} ${
-        fullName.last
-      } ${fullName.suffix || ''}`.replace(/ +(?= )/g, '');
-
-      const contentMap = createLiteralMap([
-        [
-          'This will stop adding the dependent. You’ll return to a list of any previously added dependents and this dependent will not be added.',
-          ['add'],
-        ],
-        [
-          `This will stop editing ${normalizedFullName}. You will return to a list of any previously added dependents and your edits will not be applied.`,
-          ['edit', 'update'],
-        ],
-      ]);
-      return contentMap[mode];
-    },
-    [localData, mode],
-  );
-
   // apply focus to the `page` title on change -- runs only after first render
   useAfterRenderEffect(
     () => {
@@ -189,9 +166,7 @@ const DependentInformation = props => {
     [currentPage],
   );
 
-  /**
-   * set form data on each change to the localData object state
-   */
+  // set form data on each change to the localData object state
   useEffect(
     () => {
       const slices = {
@@ -278,7 +253,7 @@ const DependentInformation = props => {
         status="warning"
         clickToClose
       >
-        <p className="vads-u-margin--0">{cancelDescription}</p>
+        <CancelDependentActionDescription formData={localData} mode={mode} />
       </VaModal>
     </>
   );

@@ -5,7 +5,7 @@ import { getIssueName, getIssueDate } from '../utils/helpers';
 import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
 
 export const missingAreaOfDisagreementErrorMessage =
-  'Please choose or enter a reason for disagreement';
+  'Choose or enter a reason for disagreement';
 
 // formContext.pagePerItemIndex is undefined here? Use index added to data :(
 export const issueName = ({ formData, formContext } = {}) => {
@@ -72,7 +72,7 @@ export const otherDescription = ({ index }) => (
     id={`other_hint_text_${index}`}
     className="vads-u-color--gray hide-on-review"
   >
-    Please explain in a few words
+    Explain in a few words
   </div>
 );
 

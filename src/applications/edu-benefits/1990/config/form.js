@@ -511,6 +511,7 @@ const formConfig = {
       pages: {
         employmentHistory: merge({}, employmentHistoryPage(fullSchema1990), {
           path: 'employment-history/employment-information',
+          depends: () => environment.isProduction(),
         }),
       },
     },
