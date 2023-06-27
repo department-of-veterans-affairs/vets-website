@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropType from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import DeleteDraftModal from '../Modals/DeleteDraftModal';
 import * as Constants from '../../util/constants';
 import { navigateToFolderByFolderId } from '../../util/helpers';
@@ -12,16 +13,13 @@ const DeleteDraft = props => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const deleteDraftButtonRef = useRef();
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
   const handleDeleteDraftConfirm = () => {
     props.setNavigationError(null);
     setIsModalVisible(false);
-    dispatch(
-      props.draftId
-        ? deleteDraft(props.draftId)
-        : deleteDraft(props.draft.messageId),
-    ).then(() => {
+    dispatch(deleteDraft(props.draftId)).then(() => {
       dispatch(clearMessageHistory());
       navigateToFolderByFolderId(
         activeFolder
@@ -32,10 +30,18 @@ const DeleteDraft = props => {
     });
   };
 
+  const handleDeleteModalClose = () => {
+    setIsModalVisible(false);
+    focusElement(
+      deleteDraftButtonRef.current.shadowRoot.querySelector('button'),
+    );
+  };
+
   return (
     <>
       {/* TODO add GA event */}
       <va-button
+        ref={deleteDraftButtonRef}
         text="Delete draft"
         secondary
         data-testid="delete-draft-button"
@@ -47,9 +53,7 @@ const DeleteDraft = props => {
       />
       <DeleteDraftModal
         visible={isModalVisible}
-        onClose={() => {
-          setIsModalVisible(false);
-        }}
+        onClose={handleDeleteModalClose}
         onDelete={handleDeleteDraftConfirm}
       />
     </>

@@ -493,7 +493,7 @@ const ComposeForm = props => {
 
           {draft && (
             <DeleteDraft
-              draft={draft}
+              draftId={draft.messageId}
               setLastFocusableElement={setLastFocusableElement}
               setNavigationError={setNavigationError}
             />
