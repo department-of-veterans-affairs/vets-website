@@ -88,10 +88,13 @@ const ChemHemDetails = props => {
               trigger="Need help understanding your results?"
               class="no-print"
             >
+              <p className="vads-u-margin-bottom--1">
+                If your results are outside the standard range, this doesn’t
+                automatically mean you have a health problem. Your provider will
+                review your results and explain what they mean for your health.
+              </p>
               <p>
-                Your provider will review your results and explain what they
-                mean for your health. To ask a question now, send a secure
-                message to your care team.
+                To ask a question now, send a secure message to your care team.
               </p>
               <p>
                 <a
@@ -102,7 +105,7 @@ const ChemHemDetails = props => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Start a new message
+                  Compose a message.
                 </a>
               </p>
             </va-additional-info>

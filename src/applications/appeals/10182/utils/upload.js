@@ -1,9 +1,9 @@
 import environment from 'platform/utilities/environment';
 import fileUiSchema from 'platform/forms-system/src/js/definitions/file';
 import { focusElement } from 'platform/utilities/ui';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { SUPPORTED_UPLOAD_TYPES, MAX_FILE_SIZE_BYTES } from '../constants';
-import { $$ } from './ui';
 
 import {
   EvidenceUploadLabel,

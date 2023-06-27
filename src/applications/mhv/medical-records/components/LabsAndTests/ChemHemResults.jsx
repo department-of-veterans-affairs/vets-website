@@ -19,15 +19,6 @@ const ChemHemResults = props => {
                 Standard range
               </h4>
               <p className="range">{result.standardRange}</p>
-              <va-additional-info
-                trigger="What's the standard range?"
-                class="no-print"
-              >
-                The standard range is one tool your providers use to understand
-                your results. If your results are outside the standard range,
-                this doesn’t automatically mean you have a health problem. Your
-                provider will explain what your results mean for your health.
-              </va-additional-info>
               <h4 className="vads-u-font-size--base vads-u-font-family--sans">
                 Status
               </h4>
