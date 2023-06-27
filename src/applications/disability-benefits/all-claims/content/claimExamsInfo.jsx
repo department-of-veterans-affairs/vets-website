@@ -20,9 +20,9 @@ export const claimExamsDescription = (
       </p>
       <p>
         You can go to your{' '}
-        <a href="https://www.va.gov/profile" target="_blank" rel="noreferrer">
+        <a href="/profile" target="_blank" rel="noreferrer">
           VA.gov profile
-        </a>
+        </a>{' '}
         to confirm your phone number.
       </p>
     </va-alert>
@@ -61,6 +61,7 @@ export const claimExamsFAQ = (
             target="_blank"
             rel="noreferrer"
           >
+            {' '}
             contact an Overseas Military Services Coordinator
           </a>
           for help scheduling a claim exam.
