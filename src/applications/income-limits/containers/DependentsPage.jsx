@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
+import { scrollToTop } from '../utilities/scroll-to-top';
 import { ROUTES } from '../constants';
 import { updateDependents, updateEditMode } from '../actions';
 
@@ -28,6 +29,7 @@ const DependentsPage = ({
 
   useEffect(() => {
     focusElement('h1');
+    scrollToTop();
   }, []);
 
   const onContinueClick = () => {

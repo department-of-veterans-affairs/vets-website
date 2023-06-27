@@ -8,14 +8,15 @@ import {
   DefinitionTester,
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../../config/form';
-import { simulateInputChange } from '../../helpers';
 
-describe('hca VeteranAnnualIncome config', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.householdInformationV2.pages.v2VeteranAnnualIncome;
+import formConfig from '../../config/form';
+import { simulateInputChange } from '../helpers';
+import {
+  idFormSchema as schema,
+  idFormUiSchema as uiSchema,
+} from '../../definitions/idForm';
+
+describe('hca IDForm config', () => {
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
@@ -27,7 +28,7 @@ describe('hca VeteranAnnualIncome config', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(6);
   });
 
   it('should not submit empty form', () => {
@@ -43,7 +44,7 @@ describe('hca VeteranAnnualIncome config', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -59,21 +60,12 @@ describe('hca VeteranAnnualIncome config', () => {
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(
-      formDOM,
-      '#root_view\\3A veteranGrossIncome_veteranGrossIncome',
-      '100000',
-    );
-    simulateInputChange(
-      formDOM,
-      '#root_view\\3A veteranNetIncome_veteranNetIncome',
-      '76000',
-    );
-    simulateInputChange(
-      formDOM,
-      '#root_view\\3A veteranOtherIncome_veteranOtherIncome',
-      '0',
-    );
+    simulateInputChange(formDOM, '#root_firstName', 'Jane');
+    simulateInputChange(formDOM, '#root_lastName', 'Smith');
+    simulateInputChange(formDOM, '#root_dobMonth', '1');
+    simulateInputChange(formDOM, '#root_dobDay', '1');
+    simulateInputChange(formDOM, '#root_dobYear', '1990');
+    simulateInputChange(formDOM, '#root_ssn', '234243444');
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
