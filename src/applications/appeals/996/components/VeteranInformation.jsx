@@ -28,8 +28,9 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
 
   return (
     <>
-      <p>This is the personal information we have on file for you.</p>
-      <br />
+      <h3 className="vads-u-margin-y--2">
+        Confirm the personal information we have on file for you.
+      </h3>
       <div className="blue-bar-block">
         <strong className="name">
           {`${first || ''} ${middle || ''} ${last || ''}`}

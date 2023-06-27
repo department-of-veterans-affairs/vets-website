@@ -283,6 +283,11 @@ label[for^="root_disagreementOptions"] {
   margin-top: 0;
 }
 
+/* opt-in label (not bold in review & submit accordion */
+label > .opt-in-title {
+  font-weight: 700;
+}
+
 /* Step 3 */
 /* Informal conference */
 /* global */
@@ -351,7 +356,7 @@ article[data-location="review-and-submit"] {
     }
   }
   dd {
-    word-break: break-all;
+    word-break: break-word;
   }
 }
 

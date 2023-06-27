@@ -7,7 +7,7 @@ import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
 export const missingAreaOfDisagreementErrorMessage =
   'Please choose or enter a reason for disagreement';
 
-const titlePrefix = 'What do you disagree with regarding';
+const titlePrefix = 'Tell us why you disagree with our decision about your';
 
 /**
  * Title for review & submit page, text string returned
@@ -33,7 +33,7 @@ export const issueName = ({ formData, formContext } = {}) => {
       aria-describedby={`area-of-disagreement-label-${index}`}
     >
       <Header className="vads-u-margin-top--0">
-        {`${titlePrefix} ${getIssueName(formData)}?`}
+        {`${titlePrefix} ${getIssueName(formData)} claim`}
       </Header>
       {date && (
         <span className="decision-date vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
