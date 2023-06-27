@@ -95,11 +95,13 @@ article[data-location="contact-information"] {
 
     .widget-title {
       margin: 0;
-      white-space: nowrap;
       text-transform: capitalize;
+      /*
+      white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
       width: calc(100% - 7rem);
+      */
     }
 
     .widget-content {
@@ -358,6 +360,13 @@ article[data-location="review-and-submit"] {
   dd {
     word-break: break-word;
   }
+  .form-review-panel-page-header {
+    padding-right: 1rem;
+    line-height: 2.5rem;
+  }
+  .form-review-panel-page-header-row {
+    align-items: flex-start;
+}
 }
 
 @media (max-width: $small-screen) {
